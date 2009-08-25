@@ -1,0 +1,180 @@
+<link href="../theme/stylesheet.css" rel="stylesheet" type="text/css" />
+
+{assign var='requiredFields' value=$Upload->loadRequiredFields($data)}
+{assign var='optionFields' value=$Upload->loadOptionFields($data)}
+{assign var='locationFields' value=$Upload->loadLocationFields($data)}
+
+{assign var='custom_fields' value=$Upload->load_custom_upload_fields($data,TRUE)}
+{assign var='custom_form_fields' value=$Upload->load_custom_form_fields($data,TRUE)}
+
+
+{if $data.title neq ""}
+<div class="setting_title">Edit Video </div>
+<form action="" method="post" name="Edit Member" id="Edit Member">
+<input name="admin" type="hidden" id="admin" value="true" />
+<input name="videoid" type="hidden"  value="{$data.videoid}" />
+
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="2">
+  <tr>
+    <td height="20" align="left" bgcolor="#3399FF" class="pagination"><a href="{$baseurl}/watch_video.php?v={$data.videokey}" target="_blank">Watch Video</a> | <a href="javascript:Confirm_Delete('video_manager.php?delete_video={$data.videoid}')">Delete</a></td>
+    <td height="20" align="right" bgcolor="#3399FF" class="pagination"><a href="video_manager.php">&laquo; Back</a></td>
+  </tr>
+  <tr>
+    <td colspan="2" class="tr_head">Uploader Information</td>
+  </tr>
+  <tr>
+    <td class="td_body">Useid</td>
+    <td class="td_body"><a href="view_user.php?uid={$data.userid}">{$data.userid}</a></td>
+  </tr>
+  <tr>
+    <td colspan="2" class="tr_head">Important Details</td>
+  </tr>
+  <tr>
+    <td class="td_body">Video Id</td>
+    <td class="td_body"><input disabled="disabled" name="videokey" type="text" id="videokey" value="{$data.videoid}" size="45" /></td>
+  </tr>
+  <tr>
+    <td class="td_body">Video Key</td>
+    <td class="td_body"><input disabled="disabled" name="flvname2" type="text" id="flvname2" value="{$data.videokey}" size="45" /></td>
+  </tr>
+  <tr>
+    <td class="td_body" valign="top">File Name</td>
+    <td class="td_body"><input disabled="disabled" name="flvname" type="text" id="flvname" value="{$data.file_name}" size="45" /></td>
+  </tr>
+  <tr>
+    <td class="td_body" valign="top">Total Video Files</td>
+    <td class="td_body">{get_all_video_files vdetails=$data count_only=true}</td>
+  </tr>
+  <tr>
+    <td class="td_body" valign="top">Total Thumbnails</td>
+    <td class="td_body">{get_thumb vdetails=$data count_only=true}</td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top" class="td_body"><a href="view_conversion_log.php?file_name={$data.file_name}"><strong>View File Details and Converion Log</strong></a></td>
+    </tr>
+  <tr>
+    <td class="td_body" valign="top">Thumbnails<BR>
+{if $data.embeded !=yes}<a href="upload_thumbs.php?video={$data.videoid}&amp;gen_more=true">Regenerate  Thumbs</a>{/if}<br />
+    <a href="upload_thumbs.php?video={$data.videoid}">Manage Thumbs</a></td>
+    <td class="td_body">
+
+    {assign var=vidthumbs value=func->get_thumb($data,1,TRUE)}
+
+    {foreach from=$vidthumbs item=vid_thumb}
+    	<div style="width:140px; float:left" align="center">
+    	<label for="{$vid_thumb|getname}"><img src="{$vid_thumb}" border="1" style="margin:4px" /><br />
+        <input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $data.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />Default</label><br />
+  {if $vid_thumb|getname!='processing'}
+  <a href="?video={$data.videoid}&delete={$vid_thumb|getname}.{$vid_thumb|getext}">Delete</a>
+  {/if}
+  </div>
+    {/foreach}
+    
+    </td>
+  </tr>
+  {foreach from=$requiredFields item=field}
+  <tr>
+    <td valign="top" class="td_body">{$field.title}* :</td>
+    <td valign="top" class="td_body">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)} 
+{$field.hint_2}</td>
+  </tr>
+  {/foreach}
+  <tr>
+    <td colspan="2" class="tr_head">Important Details </td>
+  </tr>
+  <tr>
+    <td valign="top" class="td_body">Duration (seconds) </td>
+    <td class="td_body"><label>
+      <input name="duration" type="text" id="duration" value="{$data.duration}" size="5" />
+      </label>
+      seconds</td>
+  </tr>
+  <tr>
+    <td valign="top" class="td_body">Status</td>
+    <td class="td_body"><label>
+      <select name="status">
+        <option value="Successful" {if $data.status=='Successful'} selected {/if}>Successfull</option>
+        <option value="processing" {if $data.status=='processing'} selected {/if}>Processing</option>
+        <option value="Failed" 	{if $data.status=='Failed'} selected {/if}>Failed</option>
+      </select>
+    </label></td>
+  </tr>
+  <tr>
+    <td colspan="2" class="tr_head">Recording Details</td>
+    </tr>
+                  
+                  {foreach from=$locationFields item=field}
+                  <tr>
+                    <td width="20%" align="left" valign="top" class="td_body">{$field.title}* :</td>
+                    <td width="80%" align="left" class="td_body">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)} 
+{$field.hint_2}</td>
+                  </tr>
+                {/foreach}
+                  <tr>
+                    <td colspan="2" class="tr_head">Video Stats </td>
+                  </tr>
+                  <tr>
+                    <td class="td_body">Views</td>
+                    <td class="td_body"><input name="views" type="text" id="views" value="{$data.views}" size="45" /></td>
+                  </tr>
+                  <tr>
+                    <td class="td_body">Rating</td>
+                    <td class="td_body"><input name="Totalrating" type="text" id="Totalrating" value="{$data.rating}" size="5" /> 
+                    of 10 </td>
+                  </tr>
+                  <tr>
+                    <td class="td_body">RatedBy</td>
+                    <td class="td_body"><input name="rated_by" type="text" id="rated_by" value="{$data.rated_by}" size="45" /></td>
+                  </tr>
+                  <tr>
+                    <td class="td_body">&nbsp;</td>
+                    <td class="td_body">&nbsp;</td>
+                  </tr>
+    <tr>
+    <td colspan="2" class="tr_head">Sharing</td>
+  </tr>
+  
+  {foreach from=$optionFields item=field}
+  <tr>
+    <td align="left" valign="top" class="td_body">{$field.title}* :</td>
+    <td align="left" class="td_body">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    <br>
+                    {$field.hint_2}</td>
+  </tr>
+  {/foreach}
+   <tr>
+    <td colspan="2" class="tr_head">Custom Form Fields</td>
+  </tr>
+  {foreach from=$custom_form_fields item=field}
+          <tr>
+            <td align="left" valign="top" class="td_body">{$field.title}* :</td>
+            <td align="left" class="td_body">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    <br>
+                    {$field.hint_2}</td>
+          </tr>
+          {/foreach}
+          <tr>
+            <td align="left" valign="top" class="td_body">&nbsp;</td>
+            <td align="left" class="td_body">&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="2" align="left" valign="top" class="tr_head">Customg Uploading Fields</td>
+          </tr>
+          {foreach from=$custom_fields item=field}
+    
+          <tr>
+            <td align="left" valign="top" class="td_body">{$field.title}</td>
+            <td align="left" class="td_body">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                            <br>
+                            {$field.hint_2}</td>
+          </tr>
+    {/foreach}
+
+  
+  <tr>
+    <td colspan="2" align="right" class="tr_head"><label>
+      <input type="submit" name="update" id="button" value="Update" />
+      </label></td>
+  </tr>
+</table>
+</form>{/if}

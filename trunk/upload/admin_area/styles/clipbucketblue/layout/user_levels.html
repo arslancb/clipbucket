@@ -1,0 +1,104 @@
+<link href="../theme/stylesheet.css" rel="stylesheet" type="text/css">
+<div class="setting_title">User Levels</div>
+
+
+{if $view=='view'}
+
+<a href="?mode=add">Add New Level</a>
+
+<table width="99%" border="0" cellspacing="2" cellpadding="2">
+  <tr class="tr_head">
+    <td width="20">ID</td>
+    <td width="200">Name</td>
+    <td width="50">Active</td>
+    <td width="50">Users</td>
+    <td>Actions</td>
+  </tr>
+  {assign var=levels value=$userquery->get_levels()}
+  {section name=l loop=$levels}
+  <tr class="td_body">
+    <td>{$levels[l].user_level_id}</td>
+    <td>{$levels[l].user_level_name}</td>
+    <td>{$levels[l].user_level_active}</td>
+    <td>{$userquery->get_level_users($levels[l].user_level_id,true)}</td>
+    <td><a href="?mode=edit&lid={$levels[l].user_level_id}">Edit</a>{if $levels[l].user_level_is_default !=yes} | <a href="?action=delete&lid={$levels[l].user_level_id}">Remove</a>{/if}</td>
+  </tr>
+  {sectionelse}
+  <tr class="td_body">
+    <td colspan="5" align="center">No Levels Were Found</td>
+  </tr>
+  {/section}
+</table>
+
+{elseif $view=='edit'}
+<form action="" method="post">
+<table width="99%" border="0" cellspacing="2" cellpadding="2">
+  <tr class="tr_head">
+    <td>Edit Level</td>
+  </tr>
+</table>
+<table width="99%" border="0" cellspacing="2" cellpadding="2">
+<tr class="td_body">
+    <td width="13%">Level Name</td>
+    <td width="87%"><label for="level_name"></label>
+      <input name="level_name" type="text" id="level_name" value="{$level_details.user_level_name}" /></td>
+  </tr>
+{foreach from=$userquery->access_type_list key=access item=name}
+  <tr class="td_body">
+    <td width="13%">{$name}</td>
+    <td width="87%">  
+        <label>
+          <input type="radio" name="{$access}" value="yes"{if $level_perms.$access==yes} checked="checked"{/if}/>
+          Yes</label>
+        <label>
+          <input type="radio" name="{$access}" value="no"{if $level_perms.$access==no} checked="checked"{/if}/>
+        No</label>
+        </td>
+  </tr>
+{/foreach}
+</table>
+<table width="99%" border="0" cellspacing="2" cellpadding="2">
+<tr>
+	<td><label for="button"></label>
+	  <input type="submit" name="update_level_perms" id="button" value="Update" /></td>
+</tr>
+</table>
+</form>
+{elseif $view=='add'}
+<form action="" method="post">
+<table width="99%" border="0" cellspacing="2" cellpadding="2">
+  <tr class="tr_head">
+    <td>ADD Level</td>
+  </tr>
+</table>
+<table width="99%" border="0" cellspacing="2" cellpadding="2">
+<tr class="td_body">
+    <td width="13%">Level Name</td>
+    <td width="87%"><label for="level_name"></label>
+      <span class="tips">
+      <label for="level_name"></label>
+      <input name="level_name" type="text" id="level_name" value="{$smarty.post.level_name|form_val}" />
+      </span></td>
+  </tr>
+{foreach from=$userquery->access_type_list key=access item=name}
+  <tr class="td_body">
+    <td width="13%">{$name}</td>
+    <td width="87%">  
+        <label>
+          <input type="radio" name="{$access}" value="yes" checked="checked" {if $smarty.post.$access==yes} checked="checked"{/if} />
+          Yes</label>
+        <label>
+          <input type="radio" name="{$access}" value="no"{if $smarty.post.$access==no} checked="checked"{/if}/>
+        No</label>
+        </td>
+  </tr>
+{/foreach}
+</table>
+<table width="99%" border="0" cellspacing="2" cellpadding="2">
+<tr>
+	<td><label for="button"></label>
+	  <input type="submit" name="add_new_level" id="button" value="Add Level" /></td>
+</tr>
+</table>
+</form>
+{/if}

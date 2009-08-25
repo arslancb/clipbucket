@@ -1,0 +1,116 @@
+@import url("slidemenu.css");
+@import url("pagination.css");
+@import url("cbtab.css");
+
+@charset "utf-8";
+/* CSS Document */
+
+BODY
+{
+	margin:0px;
+	padding:0px;
+	font-size:12px;
+	color:#333;
+	font-family:Arial, Helvetica, sans-serif;
+	background:#FFF;
+	min-width:800px
+}
+
+a{font-size:12px; font-weight:bold; text-decoration:none; color:#147dc3; font-family:Arial, Helvetica, sans-serif}
+
+.clear{clear:both}
+#body{background-image:url(../images/bgs/gr_bg.png); background-repeat:repeat-x; min-height:500px; }
+.container{margin-left:230px}
+
+#admin_menu{width:212px; height:25px; background-image:url(../images/bgs/admin_menu_bg.png); background-repeat:no-repeat;color:#FFF; padding-left:5px; padding-top:4px; cursor:pointer}
+#admin_menu_bar{ width:212px;background-repeat:no-repeat; float:right; margin-right:10px;  }
+#menu{margin-top:2px; background-image:url(../images/bgs/menu_bg.png); width:209px; height:209px; position:absolute}
+
+.admin_logo{background-image:url(../images/logo.png); width:221px; height:29px; margin:5px}
+
+.page_title{font-size:20px; font-weight:bold; color:#333}
+
+/**
+ * Page Table Tops
+ */
+.head_title,.left_head,.head,.right_head,.head_sep_left,.head_sep_right,.left_head a,.head a,.right_head a,.head_sep_left a,.head_sep_right a{line-height:26px; color:#FFF; font-size:12px; font-family:Arial, Helvetica, sans-serif; font-weight:bold}
+.left_head{background-image:url(../images/bgs/round_bg.png); background-position:0px 0px; height:26px}
+.head_title,.head{background-image:url(../images/bgs/round_bg.png); background-position:right -52px; height:26px}
+.right_head{background-image:url(../images/bgs/round_bg.png); background-position:right -26px; height:26px}
+.head_sep_left{background-image:url(../images/bgs/round_bg.png); background-position:left -130px; height:26px; text-indent:10px;}
+.head_sep_right{background-image:url(../images/bgs/round_bg.png); background-position:right -156px; height:26px}
+
+
+.admin_td,.video_opt_td{color:#333; font-size:12px;}
+.video_opt_td{height:45px; border-bottom:1px solid #ccc; padding-top:5px}
+.video_opt_td a{font-size:13px; font-weight:bold; color:#0c4469; text-decoration:none}
+.vid_opts{border:1px solid #ccc; padding:2px; display:inline;-moz-border-radius: 5px;
+-webkit-border-radius: 5px; border:0px solid #EAEEFF;} .vdo_sets{font-size:11px; text-transform:uppercase; font-family: Consolas, Monaco, Courier, monospace;}
+
+
+/**
+ * Forms
+ */
+.button{background-image:url(../images/button_bg.png); height:22px; color:#FFF; font-weight:bold; border:1px; line-height:22px; -moz-border-radius: 8px;
+-webkit-border-radius: 8px; border:1px solid #146194; cursor:pointer}
+
+.button:focus{background-position:-0 -22px}
+
+.fieldset{-moz-border-radius: 5px;
+-webkit-border-radius: 5px; border:2px solid #EAEEFF; width:98%; margin:0px; padding:0px; margin:auto; margin-top:15px}
+
+.fieldset select,.fieldset input,.fieldset textarea{border:1px solid #CCC; font-size:11px; margin:2px; padding:2px}
+
+.fieldset .block{margin:5px}
+.fieldset legend{margin:2px; font-size:13px; font-weight:bold; color:#147dc3}
+
+
+/**
+ * Forms End
+ */
+.block tr td{padding:2px; border-bottom:1px dotted #eee; }
+.block tr:hover{background-color:#f8f8f8}
+
+.head_title{text-indent:5px; padding:0px}
+
+
+#menu, #menu a{color:#FFF; font-size:11px; font-family:Arial, Helvetica, sans-serif; text-decoration:none}
+#menu a{font-weight:bold}
+#menu ul, #menu ul li{padding:0px; margin:0px; list-style-type:none}
+#menu ul{margin:8px}
+
+.hint{font-size:11px;}
+
+#login_box{
+	height:250px;
+	width:400px;
+	background-image:url(../images/login.png);
+	background-repeat:no-repeat;
+	margin:auto;
+	background-position:center;
+	padding-top: 150px;
+}
+
+#login_box .textfield{
+	height:30px;
+	width: 280px;
+	margin-bottom: 10px;
+	-moz-border-radius: 5px;
+-webkit-border-radius: 5px; border:1px solid #ccc;
+line-height:30px; 
+padding-left:5px; font-size:16px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; padding-top:5px; color:#6E6E6E
+}
+#login_box label{
+	font-size:18px;
+	color: #494949;
+}
+
+
+.row_white{border-bottom:1px dotted #646464; width:98%; margin:auto}
+.row_white:hover{background-color:#F3F3F3}
+
+
+
+.search_box{margin:5px; padding:5px; border:1px solid #146194; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; background:#eff9ff} 
+
+.video_search .input{border:1px solid #666}

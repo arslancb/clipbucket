@@ -1,0 +1,46 @@
+<table width="950" border="0" align="center" cellpadding="6" cellspacing="0">
+  <tr>
+    <td colspan="2" align="left" class="tips"><a href="?order=fr">{$LANG.featured}</a> | <a href="?order=mv">{$LANG.mostly_viewed}</a> | <a href="?order=vd">{$LANG.most_videos}</a> | <a href="?order=ra">{$LANG.recently_added}</a>
+    <hr width="100%" size="1" noshade></td>
+  </tr>
+  <tr>
+    <td width="658" align="left" class="tips"><span class="header1">{$show_order}</span></td>
+    <td width="268" class="tips">{$LANG.viewing} {math equation=$limit*$cur_page assign=viewing} {if $prepage == 0 } {math equation=$prepage+1} {else} {math equation = $prepage*$limit+1 }{/if} - {if $viewing > $grand_total}{$grand_total}{else}{$viewing}{/if} {$LANG.of} {$grand_total}</td>
+  </tr>
+</table>
+<table width="950" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="left" valign="top">
+    {if $grand_total ==""}
+    <table width="95%" border="0" align="center" cellpadding="3" cellspacing="0" bgcolor="#dcdcdc" style="border:solid 1px #333333;">
+      <tr>
+        <td ><table width="98%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="5%"><img src="{$imageurl}/alert.png" /></td>
+              <td width="95%" class="header2">{$LANG.no_user_exists}<a href="{$baseurl}/activation.php"></a></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table>
+    {/if}
+    <div id="VDO_CONTAINER01">
+ {section name=u_list loop=$users}
+     {include file="$style_dir/block/users_block_common.html"}
+    {/section}     </div></td>
+    <td width="160" rowspan="2" align="center" valign="top">{AD place=ad_160x600}</td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+    <table width="93%" border="0" align="left" cellpadding="0" cellspacing="0" bgcolor="#f6f6f6">
+      <tr>
+        <td width="10" align="left" valign="middle" bgcolor="#F3F3F3" ><img src="{$imageurl}/left_round.png" /></td>
+        <td width="50" align="left" valign="middle" bgcolor="#F3F3F3" class="pagination" > {if $prepage neq 0}<a href="{$link}&amp;page={$prepage}">{$LANG.previous}</a>{/if}</td>
+        <td align="center" valign="middle" bgcolor="#F3F3F3" class="pagination" >{$show_pages}</td>
+
+        <td width="50" align="right" valign="middle" bgcolor="#F3F3F3" class="pagination">{if $pages!=1 && $cur_page < $pages && $nextpage <=$pages}<a href="{$link}&amp;page={$nextpage}">{$LANG.next}</a>{/if}</td>
+        <td width="10" align="right" valign="middle" bgcolor="#F3F3F3" ><img src="{$imageurl}/right_round.png" /></td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+</table>

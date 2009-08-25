@@ -1,0 +1,29 @@
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="136" rowspan="4">
+        
+        <div id="VDOthumb02">
+          <a href="{videoLink key=$videos[v_list].videokey title=$videos[v_list].title}"><img src="{getThumb flv=$videos[v_list].flv}" width="120" height="90" border="0" />
+          <div id="icon_play01"></div></a>    </div>
+       </td>
+        <td height="20" colspan="2" valign="top" class="header2" style="padding-top:5px"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="448"><span class="header2" style="padding-top:5px"><a href="{$videos[v_list].url}"> {$videos[v_list].title|truncate:55}</a> </span></td>
+              <td align="left"><span class="tips" style="padding-top:5px">{$LANG.by}:<a href="{$view_channel_link}{$videos[v_list].username}">{$videos[v_list].username|truncate:55} </a></span></td>
+            </tr>
+          </table>
+          </td>
+      </tr>
+      <tr>
+        <td width="448" valign="top" class="tips" >{$videos[v_list].description|truncate:120}<br></td>
+        <td rowspan="2" valign="top" class="tips" style="padding-top:5px">{$LANG.views} : <span class="Tags">{$videos[v_list].views|number_format}</span><br />
+          {$LANG.comments} :<span class="Tags">{$videos[v_list].comments|number_format}</span><br>
+          {$videos[v_list].show_rating}</td>
+      </tr>
+      <tr>
+        <td width="448" rowspan="2" valign="bottom" class="tips" ><span class="tips" style="padding-left:5px">{$LANG.time}:<span class="header3" style="padding-top:5px">{$videos[v_list].duration}</span></span></td>
+        </tr>
+      <tr>
+        <td valign="top" class="header2" style="padding-top:5px">&nbsp;</td>
+      </tr>
+    </table> 

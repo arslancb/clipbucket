@@ -1,0 +1,21 @@
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="12" bgcolor="#F0F0F0"><img src="{$imageurl}/round01.png" width="12" height="27"></td>
+    <td width="353" bgcolor="#F0F0F0" class="header2">{$text}</td>
+    <td width="353" align="right" bgcolor="#F0F0F0" class="tips"><a href="{$link}">{$LANG.show_all} {$text}</a></td>
+    <td width="12" bgcolor="#F0F0F0"><img src="{$imageurl}/round02.png" width="12" height="27"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td class="header2">&nbsp;</td>
+    <td align="right" class="tips">&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="4">
+    {section name =v_list loop=$videos}
+    {include file="$style_dir/block/video_block_index.html"} 
+    <hr size="1" noshade>
+    {/section}</td>
+  </tr>
+</table>

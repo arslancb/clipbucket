@@ -1,0 +1,42 @@
+body { font-size: 0.7em; }
+h3   { font-size: 1.6em; margin: 0px; }
+
+a.sample_attach, a.sample_attach:visited, div.sample_attach
+{
+  display: block;
+  width:   100px;
+
+  border:  1px solid black;
+  padding: 2px 5px;
+
+  background: #FFFFEE;
+
+  text-decoration: none;
+  font-family: Verdana, Sans-Sherif;
+  font-weight: 900;
+  font-size: 1.0em;
+  color:   #008000;
+}
+
+a.sample_attach, a.sample_attach:visited { border-bottom: none; }
+div#sample_attach_menu_child             { border-bottom: 1px solid black; }
+
+form.sample_attach
+{
+  position: absolute;
+  visibility: hidden;
+
+  border:  1px solid black;
+  padding: 0px 5px 2px 5px;
+
+  background: #FFFFEE;
+}
+
+form.sample_attach b
+{
+  font-family: Verdana, Sans-Sherif;
+  font-weight: 900;
+  font-size: 1.1em;
+}
+
+input.sample_attach { margin: 1px 0px; width: 170px; }

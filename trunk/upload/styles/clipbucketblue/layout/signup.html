@@ -1,0 +1,98 @@
+{assign var='required_fields' value=$signup->load_signup_fields()}
+
+<table width="940" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="left" class="header1">{$LANG.members} {$LANG.login}</td>
+    <td align="left" class="header1">{$LANG.user_create_your}{$title} {$LANG.account}</td>
+  </tr>
+  <tr>
+    <td width="50%" align="center" valign="top">
+      <table width="98%" border="0" cellspacing="4" cellpadding="4">
+      <tr>
+        <td>{$LANG.user_already_have} {$title}</td>
+      </tr>
+      <tr>
+        <td align="left" bgcolor="#F0F0F0">
+        <form name="login_form" action="{$signup_link}" method="post">
+          <table width="98%" border="0" cellspacing="1" cellpadding="3">
+            <tr>
+              <td width="33%" align="right" valign="top" class="header3">{$LANG.username}:</td>
+              <td width="67%"><label>
+                <input name="username" type="text" id="username" size="30">
+              </label></td>
+            </tr>
+            <tr>
+              <td align="right" valign="top" class="header3">{$LANG.password}:</td>
+              <td><label>
+                <input name="password" type="password" id="password" size="30">
+              </label></td>
+            </tr>
+            <tr>
+              <td align="right" valign="top" class="header3">&nbsp;</td>
+              <td bgcolor="#F0F0F0"><input type="submit" name="login" id="button" value="{$LANG.login}" ></td>
+            </tr>
+            <tr>
+              <td colspan="2" align="center"><a href="{$baseurl}/forgot.php">{$LANG.user_forgot_password}</a> | <a href="{$baseurl}/forgot.php">{$LANG.user_forgot_username}</a></td>
+              </tr>
+          </table> </form>      </td>
+      </tr>
+      <tr>
+        <td align="left"><hr width="95%" size="1" noshade="noshade" /></td>
+      </tr>
+      <tr>
+        <td align="left" class="header1">{$LANG.what_is} {$title}?</td>
+      </tr>
+      <tr>
+        <td align="left"><p>{$title} is the home for video online:</p>
+          
+            <ul><li><strong>Watch</strong> millions  of videos</li><li><strong>Share favorites</strong> with friends and family</li><li><strong>Connect with other users</strong> who share your {$LANG.interests}</li><li><strong>Upload your videos</strong> to a worldwide audience</li></ul>
+<h3>{$LANG.reg_now_join} {$title} {$LANG.community}!</h3></td>      </tr>
+    </table>
+    </form></td>
+    <td width="50%" align="center" valign="top"><form id="form2" name="form2" method="post" action="">
+    <table width="98%" border="0" cellspacing="4" cellpadding="4">
+      <tr>
+        <td>{$LANG.user_reg_msg_0}{$title} {$LANG.user_reg_msg_1}</td>
+      </tr>
+      <tr>
+        <td align="left" bgcolor="#F0F0F0"><table width="98%" border="0" cellspacing="1" cellpadding="3">
+            <tr>
+              <td height="30" colspan="2" align="right" class="tips">{$LANG.user_all_fields_req}</td>
+              </tr>
+            {foreach from=$required_fields item=field}
+            <tr>
+              <td width="33%" align="right" valign="top" class="header3">{$field.title}* :</td>
+              <td width="67%">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_before}<br />
+                {$field.hint_2}</td>
+            </tr>
+            {/foreach}
+			{if $captcha_type != 0 }
+            <tr>
+              <td align="right" valign="top" class="header3">{$LANG.verification}: </td>
+              <td class="tips"><input name="verification" type="text" id="verification" size="30" />
+                <br />
+                {$LANG.user_enter_text_as_img}<br /></td>
+            </tr>
+            <tr>
+              <td align="right" valign="top" class="header3">&nbsp;</td>
+              <td class="tips"><img src="{$captcha}" border=1 name="captcha" id="captcha"><br />
+               <a href="javascript:void(0)" onclick="javascript:reloadImage('{$captcha}');"> {$LANG.user_refresh_img}</a></td>{/if}
+            </tr>
+            <tr>
+              <td colspan="2" align="center" valign="top" class="header3"><input name="agree" type="checkbox" id="agree" value="yes" checked="checked" />
+                - {$LANG.user_i_agree_to_the} <a href="{$termsofuse_link}" target="_blank" style="text-decoration:underline">{$LANG.tos_title}</a> and <a href="{$privacy_link}" target="_blank" style="text-decoration:underline">{$LANG.privacy_policy}</a>
+                  <label></label></td>
+              </tr>
+            <tr>
+              <td colspan="2" align="center" valign="top" class="header3"><label>
+                <input type="submit" name="signup" id="button" value="{$LANG.signup}" />
+              </label></td>
+            </tr>
+        </table></td>
+      </tr>
+
+    </table>
+    </form>
+    </td>
+  </tr>
+</table>

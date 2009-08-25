@@ -1,0 +1,175 @@
+<script language="javascript">
+SetId('Featured');
+</script>
+<table width="950" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="628" rowspan="5" align="center" valign="top"><table width="98%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td align="center">{$flash_recent_videos}<br />
+              {AD place=ad_468x60}<br />
+              <br />
+              <img src="{$imageurl}/seperator_2.png" width="407" height="11" /></td>
+            </tr>
+          </table>
+            <table width="98%" border="0" cellspacing="0" cellpadding="0" style="margin-top:30px">
+              <tr>
+                <td>
+<div id="navcontainer2">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" background="{$imageurl}/index_tab_bg_bg.png">
+  <tr>
+    <td><ul>
+          <li><a href="javascript:void(0)" id="Featured" onClick="GetPageResults('{$baseurl}/tabs03.php?show=featured&link=link01', 'indexajax');SetId('Featured');" style="padding-top: 6px;" class="">{$LANG.featured}</a></li>
+          <li><a href="javascript:void(0)" id="MostViewed"  onClick="GetPageResults('{$baseurl}/tabs03.php?show=most_viewed&link=link03', 'indexajax');SetId('MostViewed');" style="padding-top: 6px;" class="">{$LANG.most_viewed}</a></li>
+          <li><a href="javascript:void(0)" id="LatestAdded"  onClick="GetPageResults('{$baseurl}/tabs03.php?show=latest&link=link02', 'indexajax');SetId('LatestAdded');"  style="padding-top: 6px;" class="">{$LANG.recently_added}</a></li>
+          <li><a href="javascript:void(0)" id="MostDiscussed"  onClick="GetPageResults('{$baseurl}/tabs03.php?show=most_discussed&link=link04', 'indexajax');SetId('MostDiscussed');" style="padding-top: 6px;" class="">{$LANG.most_discussed}</a></li>
+          <li><a href="javascript:void(0)" id="HighestRated"  onClick="GetPageResults('{$baseurl}/tabs03.php?show=highest_rated&link=link05', 'indexajax');SetId('HighestRated');" style="padding-top: 6px;" class="">{$LANG.highest_rated}</a></li>
+        </ul></td>
+  </tr>
+</table>    
+  </div>
+ 
+				</td>
+              </tr>
+              <tr>
+                <td>
+                <div id="indexajax">
+                
+                <table width="600" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="12" bgcolor="#F0F0F0"><img src="{$imageurl}/round01.png" width="12" height="27"></td>
+    <td width="353" bgcolor="#F0F0F0" class="header2">{$text}</td>
+    <td width="353" align="right" bgcolor="#F0F0F0" class="tips"><a href="{$link}">{$LANG.show_all} {$text}</a></td>
+    <td width="12" bgcolor="#F0F0F0"><img src="{$imageurl}/round02.png" width="12" height="27"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td class="header2">&nbsp;</td>
+    <td align="right" class="tips">&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="4">
+    {section name =v_list loop=$videos}
+    {include file="$style_dir/block/video_block_index.html"}
+    <hr size="1" noshade>
+    {/section}</td>
+  </tr>
+</table>
+                </div>                </td>
+              </tr>
+            </table>
+            {AD place=ad_468x60}<br />
+            <br />
+          <img src="{$imageurl}/seperator_2.png" width="407" height="11" /></td>
+          <td align="right" valign="top" height="10">{$editors_pick} </td>
+  </tr>
+  <tr valign="top">
+    <td align="center" valign="top"><table width="320" border="0" align="right" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="left" bgcolor="#F0F0F0"><img src="{$imageurl}/uploader_tl.gif" width="19" height="20" /></td>
+        </tr>
+      <tr>
+        <td align="center" bgcolor="#F0F0F0">{if $logged_user == ""}
+          <form id="form1" name="form1" method="post" action="{$signup_link}">
+            <table width="280" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="108" rowspan="5" align="center" class="header3"><img src="{$imageurl}/{$langf}/unknown.png" width="90" height="90" border="1" /></td> <td width="172" class="header3">{$LANG.username}</td>
+              </tr>
+              <tr>
+                <td><label>
+                  <input name="username" type="text" id="username" size="25" />
+                </label></td>
+              </tr>
+              <tr>
+                <td class="header3">{$LANG.password}</td>
+              </tr>
+              <tr>
+                <td><label>
+                  <input name="password" type="password" id="password" size="25" />
+                </label></td>
+              </tr>
+              <tr>
+                <td><label>
+                  <input type="submit" name="login" id="button" value="{$LANG.login}" />
+                </label></td>
+              </tr>
+              <tr>
+                <td align="left" class="tips">&nbsp;</td>
+                <td align="left" class="tips"><hr size="1" noshade="noshade" /></td>
+              </tr>
+              <tr>
+                <td align="right" class="tips" style="padding-right:5px">&raquo;</td>
+                <td align="left" class="tips"><a href="{$baseurl}/forgot.php" class="header3">{$LANG.com_forgot_username}</a><br />
+                  </td>
+              </tr>
+              <tr>
+                <td align="right" class="tips" style="padding-right:5px">&raquo;</td>
+                <td align="left" class="tips"><a href="{$signup_link}" class="header3">{$LANG.com_join_now}</a></td>
+              </tr>
+            </table>
+            </form> 
+          {else}
+          <table width="305" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td colspan="3" class="header1">{$LANG.welcome} {$logged_user},</td>
+              </tr>
+            <tr>
+              <td width="123" rowspan="6" align="center" valign="top" class="tips"><img src="{$userquery->getUserThumb($data.avatar)}" border="1" style="margin-top:5px"></td>
+              <td width="26" class="tips"><img src="{$imageurl}/bullet.png" width="10" height="10" /></td>
+              <td width="156" height="20" class="header3"><a href="{$myaccount_link}">{$LANG.com_my_account}</a></td>
+            </tr>
+            <tr>
+              <td class="tips"><img src="{$imageurl}/bullet.png" width="10" height="10" /></td>
+              <td height="20" class="header3"><a href="{$manage_videos}">{$LANG.grp_manage_vdos}</a></td>
+            </tr>
+            <tr>
+              <td class="tips"><img src="{$imageurl}/bullet.png" width="10" height="10" /></td>
+              <td height="20" class="header3"><a href="{$view_channel_link}{$logged_user}">{$LANG.com_view_channel}</a></td>
+            </tr>
+            <tr>
+              <td class="tips"><img src="{$imageurl}/bullet.png" width="10" height="10" /></td>
+              <td height="20" class="header3"><a href="{$inbox_link}">{$LANG.com_my_inbox}</a></td>
+            </tr>
+          </table>
+          <hr width="90%" size="1" noshade="noshade" />
+          {/if}</td>
+      </tr>
+      <tr>
+        <td align="center" bgcolor="#F0F0F0">{AD place=ad_300x250}</td>
+      </tr>
+      <tr>
+        <td align="left" bgcolor="#F0F0F0">
+        <table width="300" border="0" align="center" cellpadding="2" cellspacing="1" bgcolor="#FFFFFF" class="Watch_Video_Colum" style="margin-top:10px">
+          <tr>
+            <td align="center" bgcolor="#F7F7F7" class="header1">{$LANG.top} {$LANG.members}
+              <hr width="100%" size="1" noshade="noshade" /></td>
+            </tr>
+          <tr>
+            <td class="header2"><table width="300" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="30" class="header2">#</td>
+    <td width="200" class="header2">{$LANG.username}</td>
+    <td width="70" class="header2">{$LANG.videos}</td>
+  </tr>
+</table></td>
+            </tr>
+          {section name =u_list loop=$top_user}
+          <tr>
+            <td class="header2">
+<table width="300" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="30" class="header3">{$smarty.section.u_list.iteration}</td>
+    <td width="200" class="header3"><a href="{$view_channel_link}{$top_user[u_list].username}">{$top_user[u_list].username}</a></td>
+    <td width="70" class="header3">{$top_user[u_list].total_videos}</td>
+  </tr>
+</table>           </td>
+            </tr>
+          {/section}
+        </table></td>
+      </tr>
+      <tr>
+        <td height="20" align="left" valign="bottom" bgcolor="#F0F0F0"><div id="bottom_index"></div></td>
+      </tr>
+    </table>      </td>
+  </tr>
+</table>

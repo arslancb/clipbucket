@@ -1,0 +1,102 @@
+<br>
+{if $msg neq""}<table width="812" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F0F0F0">
+  <tr>
+    <td width="20" height="20"><img src="{$imageurl}/uploader_tl.gif" width="20" height="20"></td>
+    <td>&nbsp;</td>
+    <td width="20" height="20"><img src="{$imageurl}/uploader_tr.gif" width="20" height="20"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td align="center"><span class="Tags">{$msg} </span></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><img src="{$imageurl}/uploader_bl.gif" width="20" height="20"></td>
+    <td align="center"><label></label></td>
+    <td><img src="{$imageurl}/uploader_br.gif" width="20" height="20"></td>
+  </tr>
+</table>
+{/if}<br>
+
+{if $show_form neq 0 }
+<form action="" method="post" name="Actvation Code" id="Actvation Code">
+  <table width="812" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F0F0F0">
+    <tr>
+      <td width="20" height="20"><img src="{$imageurl}/uploader_tl.gif" width="20" height="20"></td>
+      <td colspan="2">&nbsp;</td>
+      <td width="20" height="20"><img src="{$imageurl}/uploader_tr.gif" width="20" height="20"></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td colspan="2" class="header1">{$LANG.usr_activation_title}</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td colspan="2" align="left" class="tips">{$LANG.usr_actiavation_msg}</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td width="96" align="right" class="tips">{$LANG.username}</td>
+      <td width="676" height="30" align="left" style="padding-left:5px"><label>
+        <input type="text" name="username" id="username">
+      </label></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td align="right" class="tips">{$LANG.usr_activation_code_tl}</td>
+      <td height="30" style="padding-left:5px"><label>
+        <input type="text" name="avcode" id="avcode">
+      </label></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td align="left">&nbsp;</td>
+      <td align="left"><input type="submit" name="activate" id="button" value="{$LANG.activate}"></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><img src="{$imageurl}/uploader_bl.gif" width="20" height="20"></td>
+      <td colspan="2" align="center"><label></label></td>
+      <td><img src="{$imageurl}/uploader_br.gif" width="20" height="20"></td>
+    </tr>
+  </table>
+</form>
+<form action="" method="post" name="Actvation Code" id="Actvation Code2">
+  <table width="812" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F0F0F0">
+    <tr>
+      <td width="20" height="20"><img src="{$imageurl}/uploader_tl.gif" width="20" height="20"></td>
+      <td colspan="2">&nbsp;</td>
+      <td width="20" height="20"><img src="{$imageurl}/uploader_tr.gif" width="20" height="20"></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td colspan="2" class="header1">{$LANG.usr_actiavation_msg1}</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td width="96" align="right" class="tips">{$LANG.email}</td>
+      <td width="676" height="30" align="left" style="padding-left:5px"><label>
+        <input type="text" name="email" id="email">
+      </label></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td align="left">&nbsp;</td>
+      <td align="left"><input type="submit" name="request" id="button" value="{$LANG.request}"></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><img src="{$imageurl}/uploader_bl.gif" width="20" height="20"></td>
+      <td colspan="2" align="center"><label></label></td>
+      <td><img src="{$imageurl}/uploader_br.gif" width="20" height="20"></td>
+    </tr>
+  </table>
+</form>
+{/if}
+

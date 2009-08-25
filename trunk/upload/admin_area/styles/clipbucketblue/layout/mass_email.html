@@ -1,0 +1,100 @@
+
+<div class="setting_title">Mass Email <br>
+</div>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="left"><form name="upload_01" method="post" action="">
+      <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+              <td height="30" align="left" valign="middle" class="tr_head" >Multi User Email </td>
+            </tr>
+            <tr>
+              <td align="left" valign="middle" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="center" class="header2"><table width="99%" border="0" align="center" cellpadding="2" cellspacing="1">
+                    <tr>
+                      <td width="176" align="right" valign="top" class="td_body">From </td>
+                      <td width="1210" class="td_body"><label></label>
+                        <label>
+                        <input name="from" type="text" id="from" size="45">
+                        </label></td>
+                    </tr>
+
+                    <tr>
+                      <td align="right" valign="top" class="td_body">Subject </td>
+                      <td class="td_body"><input name="subj" type="text" id="subj" size="45"></td>
+                    </tr>
+                    <tr>
+                      <td height="80" align="right" valign="top" class="td_body">Message </td>
+                      <td height="80" align="left" valign="top" class="td_body"><label>
+                        <textarea name="msg" cols="45" rows="6" id="msg"></textarea>
+                        <br>
+                      Keywords<br>
+                      [username]  [firstname] [lastname] [email] [datejoined]<br>
+                      eg Hello [username]
+</label></td>
+                    </tr>
+                  </table>
+                  <label></label></td>
+                </tr>
+              </table></td>
+            </tr>
+            <tr>
+              <td height="30" align="center" valign="middle">
+                <input type="submit" name="send_mail" id="button" value="Send Email" onClick="return validate_upload_form(upload_01)">              </td>
+            </tr>
+        </table>
+      </form>
+    </td>
+  </tr>
+  <tr>
+    <td align="left">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td height="30" align="left" valign="middle" class="tr_head" >Individual</td>
+      </tr>
+      <tr>
+        <td align="left" valign="middle" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td align="center" class="header2"><form name="form1" method="post" action="">
+                <table width="99%" border="0" align="center" cellpadding="2" cellspacing="1">
+                  <tr>
+                    <td width="176" align="right" valign="top" class="td_body">From </td>
+                    <td width="1210" class="td_body"><label></label>
+                        <label>
+                        <input name="from" type="text" id="from" size="45">
+                      </label></td>
+                  </tr>
+                  <tr>
+                    <td align="right" valign="top" class="td_body">Subject </td>
+                    <td class="td_body"><input name="subj" type="text" id="subj" size="45"></td>
+                  </tr>
+                  <tr>
+                    <td align="right" valign="top" class="td_body">Send To </td>
+                    <td align="left" valign="top" class="td_body"><input name="to" type="text" id="to" value="{$email}" size="45">
+                        <br>
+                      Seperate Emails With Commas </td>
+                  </tr>
+                  <tr>
+                    <td height="80" align="right" valign="top" class="td_body">Message </td>
+                    <td height="80" align="left" valign="top" class="td_body"><label>
+                      <textarea name="msg" cols="45" rows="6" id="msg"></textarea>
+                    </label></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="center" valign="top" class="td_body"><input type="submit" name="email" id="button" value="Send Email" onClick="return validate_upload_form(upload_01)"></td>
+                    </tr>
+                </table>
+                            </form>
+                <label></label></td>
+            </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="30" align="center" valign="middle">&nbsp;</td>
+      </tr>
+    </table></td>
+  </tr>
+</table>

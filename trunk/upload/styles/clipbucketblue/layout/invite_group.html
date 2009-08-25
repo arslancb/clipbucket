@@ -1,0 +1,66 @@
+
+
+
+
+{if $show_group !="No"}
+<table width="935" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      
+      <tr>
+        <td width="100%" align="left"><hr size="1" noshade></td>
+        </tr>
+      <tr>
+        <td align="center">&nbsp;</td>
+      </tr>
+      <tr>
+        <td height="35" align="left" class="header2">{$LANG.grp_invite_msg} </td>
+      </tr>
+      <tr>
+        <td align="left"> 
+          <form name="form1" method="post" action="" id="forma">
+            <table width="98%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="26%" valign="top"><table width="94%" border="0" cellspacing="2" cellpadding="0">
+                  <tr>
+                    <td width="6%"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+                    <td width="94%" class="tips"><strong>{$LANG.check_all} </strong></td>
+                  </tr>
+                  {section name=c_list loop=$contacts}
+  <tr>
+    <td><input name="{$contacts[c_list].friend_username}" type="checkbox" value="yes"></td>
+    <td class="tips">{$contacts[c_list].friend_username}</td>
+  </tr>
+                  {/section}
+                </table></td>
+                <td width="74%" valign="top"><table width="98%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="header2">{$LANG.subject} : {$logged_user} {$LANG.grp_invite_msg1} {$groups.group_name}</td>
+                  </tr>
+                  <tr>
+                    <td><label> <span class="tips">{$LANG.grp_invite_msg2} </span><br>
+                      <textarea name="users" cols="60" id="users"></textarea>
+                    </label></td>
+                  </tr>
+                  <tr>
+                    <td height="30" valign="bottom" class="header2"> {$LANG.message} </td>
+                  </tr>
+                  <tr>
+                    <td><textarea name="msg" cols="60" rows="5" id="msg"></textarea>
+                      <br />
+                      <span class="header2">{$LANG.grp_url_title1} : {$view_group_link}{$groups.group_url} </span></td>
+                  </tr>
+                  <tr>
+                    <td><label>
+                      <input type="submit" name="send" value="{$LANG.grp_invite_msg3}" id="button">
+                    </label></td>
+                  </tr>
+                </table></td>
+              </tr>
+            </table>
+          </form>          </td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+{/if}

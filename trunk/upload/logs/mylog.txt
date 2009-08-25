@@ -1,0 +1,1 @@
+UPDATE video SET status='Successful' WHERE  file_name='1246827347' 

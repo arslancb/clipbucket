@@ -1,0 +1,19 @@
+{if $show == 'random'}
+{section name=r_list loop=$random}
+  <div id="somebox">
+  <div id="VDOthumb01">
+  <a href="{$random[r_list].url}"><img src="{$video_thumbs}/{$random[r_list].thumb}" border="0" /></a>
+  <div id="icon_play"></div></div>
+  <span class="tabs_01">{$random[r_list].title|truncate:30}</span></div>
+{/section}
+{/if}
+
+{if $show == 'latest'}
+{section name=r_list loop=$latest}
+  <div id="somebox">
+  <div id="VDOthumb01">
+  <a href="{$latest[r_list].url}"><img src="{$video_thumbs}/{$latest[r_list].thumb}" border="0" /></a>
+  <div id="icon_play"></div></div>
+  <span class="tabs_01">{$latest[r_list].title|truncate:30}</span></div>
+{/section}
+{/if}

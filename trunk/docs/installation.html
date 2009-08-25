@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Installation</title>
+</head>
+
+<body style="font:Tahoma; font-size:13px" >
+<div align="center">
+  <h1><font face="Arial, Helvetica, sans-serif">Installation</font></h1>
+</div>
+<div align="left" >After Confirming the server is ready for ClipBucket , our next step is to Upload All Files to the Server </div>
+<h4>Uploading And Chmod</h4>
+<ul>
+  <li>Upload All Files From Public_html Folder to your  Root dir ie( www , public_html)</li>
+  <li>Chmod Following to 777</li>
+  <ul>
+    <li>&lsquo;<strong>Files</strong>&rsquo; directory and all files and folders under it (Important) </li>
+    <li>&lsquo;<strong>Images</strong>&rsquo; directory and all files and folders under it (Important)</li>
+    <li>&lsquo;<strong>Styles</strong>&rsquo; directory and all files and folders under it</li>
+    <li>&lsquo;<strong>Includes/email_templates</strong>&rsquo; and files under it</li>
+    <li>&lsquo;<strong>player&rsquo;</strong> and files under it (Important)</li>
+    <li>&lsquo;<strong>Cache</strong>&rsquo; directory (Important) </li>
+    <li>&lsquo;<strong>logs</strong>&rsquo; directory and logs.txt (Important) </li>
+  </ul>
+</ul>
+<h4>Sql Dumping &amp; Database Settings</h4>
+<ul>
+  <li>Create a database and Import the '<strong>clipbucket_lite.sql</strong>' from <strong>Sql</strong> folder </li>
+  <li>Now edit values in 'config' table as
+    <ul>
+      <li>'base_dir' to relative path to directory where clipbucket is installed  ie /home/username/public_html <strong>(without trailing slash &quot;/&quot; at the end )</strong></li>
+      <li>'base_url' to direct url to website where clipbucket is installed ie http://www.clip-bucket.com <strong>(without trailing slash &quot;/&quot; at the end )</strong></li>
+    </ul>
+  </li>
+  <li>Now Edit '<strong>includes/dbconnect.php</strong>' as
+    <ul>
+      <li> $BDTYPE = 'mysql';</li>
+      <li>        $DBHOST = '<strong>localhost</strong>' ; Change the Host (Default Host is localhost so you may not need to change this) </li>
+      <li>        $DBNAME = '<strong>dbname</strong>'; Change	this	to	the	name	of	the	database	you	created	for clipbucket	</li>
+      <li>        $DBUSER = '<strong>dbuser</strong>'; Change	this	to	the	username	of	the	databse	you assigned to the clipbucket	</li>
+      <li>        $DBPASS = '<strong>password</strong>'; Change it to the password of the database</li>
+    </ul>
+  </li>
+</ul>
+<p>now your website is almost ready to go, but you have to change some settings from the Administrator Panel</p>
+<h4>Settings In Admin Panel </h4>
+<p>First You have to access to the admin panel and by using this url http://yourwebsites.com/admin_area</p>
+<ul>
+  <li>Enter username and password to login as Super Admin
+    <ul>
+      <li>username : admin</li>
+      <li>password : admin</li>
+    </ul>
+  </li>
+  <li>After Logging in go to  Super Admin Settings
+    <ul>
+      <li>Change the username and pass  to whatever you want, but make is so complicate so that no one able to guess it</li>
+    </ul>
+  </li>
+  <li>Now Create an Admin by clicking 'Add Member' found under User Management Menu</li>
+  <li>Fill The Form and Set its User Access Level to Admin and Submit it, and use this user as Admin<br />
+    NOTE : <strong>DO NOT</strong> PERFORM ANY ACTION OTHER THAN USERMANAGMENT USING <strong>SUPERADMIN</strong></li>
+  <li>Now logout and Login as Your newly created admin</li>
+</ul>
+<h4>Setting Website Configurations </h4>
+<ul>
+  <li><strong>Website Settings
+    </strong>
+    <ul>
+      <li>Website Title &quot;Your Website Title&quot; ie &quot;Best Website&quot;</li>
+      <li>Website Slogan ie &quot;We Are The Best&quot;; </li>
+      <li>Website Closed (If You Are Editing or Doing Maintenance) Yes/No</li>
+      <li>Website Closed Message is Displayed When You Have Closed Your Website</li>
+      <li>Set Meta Description according to your website content</li>
+      <li>Set Meta Keywords According to your website Content</li>
+      <li>Turn on/of SEO Url </li>
+    </ul>
+  </li>
+  <li><strong>Paths
+    </strong>
+    <ul>
+      <li>FFMPEG Binary Path (Set FFMPEG path, where FFMPEG is installed)</li>
+      <li>FLVTool2 Path (Set Flv Tool 2 Path)</li>
+      <li>Mencoder Path (Set Mencoder Path)</li>
+      <li>Mplayer Path (Set Mplayer Path)</li>
+      <li>PHP Path ( Set PHP Path)</li>
+    </ul>
+  </li>
+  <li><strong>Video, Uploading and Conversion Settings
+    </strong>
+    <ul>
+      <li>Max Upload Size (Set the Maximum Size of the File you want to be uploaded )</li>
+      <li>Video Comments (Turn on or off Video Comments) Yes/No</li>
+      <li>Video Embedding  (Turn on or off Video Embedding) Yes/No</li>
+      <li>Video Rating (Turn on or off Video Rating) Yes/No</li>
+      <li>Video Comments Rating (Turn on or off Video Comments Rating ) Yes/No</li>
+      <li>Resize The Uploaded Video or Not
+        <ul>
+          <li>if yes the Set Resize Height and Resized Width  </li>
+        </ul>
+      </li>
+      <li>Set Other Video Settings Accordingly </li>
+      <li>Keep Original File for Download (Turn on or off ) Yes/No</li>
+      <li>Video Activation Required (Turn on or off ) Yes/No </li>
+    </ul>
+  </li>
+  <li><strong>Display Settings
+    </strong>
+    <ul>
+      <li>Template Name ( Select Available Template From The list)</li>
+      <li>Flash Player ( Select Available Flash Player From The list)</li>
+      <li>Video List Per Page ( Number Of Videos List Per Page )</li>
+      <li>Video List Per Box ( Number Of VIdeo List in a Box, Tab or other than Main or Videos Page)</li>
+      <li>Channel List Per Page ( Number Of Channels List Per Page)</li>
+      <li>Channels List Per Box ( Number OF Channels List Per Box , Tab or Other than main or Channels Page)</li>
+      <li>Set Number Of Search Results Display </li>
+      <li>  Set Number of Recently Viewed Videos in a Flash Widget</li>
+    </ul>
+  </li>
+  <li><strong>User Registration
+    </strong>
+    <ul>
+      <li>Turn On/Off User Registrations</li>
+      <li>Set on/Off Email Verification</li>
+    </ul>
+  </li>
+</ul>
+<p>&nbsp;</p>
+<p>Your Basic Installation is Done and Your website is ready to Launch </p>
+</body>
+</html>

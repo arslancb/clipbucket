@@ -1,0 +1,116 @@
+<script type="text/javascript" src="{$js}/popup_image.js"></script>
+{if $edit_category != "show"}
+<form action="" method="post" enctype="multipart/form-data" name="add_category" id="Add Category">
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="2">
+    <tr>
+      <td colspan="2" class="tr_head">Add Category</td>
+    </tr>
+    <tr>
+      <td class="td_body">&nbsp;</td>
+      <td align="right" class="td_body">* are required fields</td>
+    </tr>
+    <tr>
+      <td valign="top" class="td_body">Category Name*</td>
+      <td class="td_body"><label>
+        <input name="title" type="text" id="title" value="{$default_name}" size="45" />
+      </label></td>
+    </tr>
+    <tr>
+      <td valign="top" class="td_body">Category Description*</td>
+      <td class="td_body"><textarea name="description" id="description" cols="33" rows="5">{$default_name}</textarea></td>
+    </tr>
+    <tr>
+      <td valign="top" class="td_body">Category Thumb</td>
+      <td class="td_body"><label>
+        <input name="category_thumb" type="file" id="category_thumb" size="45">
+      </label></td>
+    </tr>
+    <tr>
+      <td class="td_body">&nbsp;</td>
+      <td class="td_body"><label></label></td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right" class="tr_head"><label>
+        <input type="submit" name="add_cateogry" id="button" value="Add Category" onClick="return validate_category_form(add_category)"/>
+      </label></td>
+    </tr>
+  </table>
+</form>
+{/if}
+{if $edit_category == "show"}
+{section name=list loop=$category_data}
+<form action="" method="post" enctype="multipart/form-data" name="edit_category" id="Edit Category">
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="2">
+    <tr>
+      <td colspan="2" class="tr_head">Edit Category</td>
+    </tr>
+    <tr>
+      <td class="td_body">&nbsp;</td>
+      <td align="right" class="td_body">* are required fields</td>
+    </tr>
+    <tr>
+      <td valign="top" class="td_body">Category Name*</td>
+      <td class="td_body"><label>
+        <input name="title" type="text" id="title" value="{$category_data[list].category_name}" size="45" />
+      </label></td>
+    </tr>
+    <tr>
+      <td valign="top" class="td_body">Category Description*</td>
+      <td class="td_body"><textarea name="description" id="description" cols="33" rows="5">{$category_data[list].category_description}</textarea></td>
+    </tr>
+    <tr>
+      <td valign="top" class="td_body">Category Thumb</td>
+      <td class="td_body"><label>
+        <img src="{$category_thumbs}/{$category_data[list].category_thumb}" /> <br /><input name="category_thumb" type="file" id="category_thumb" size="45" />
+        <input type="hidden" name="thumb" id="thumb" value="{$category_data[list].category_thumb}" />
+      </label></td>
+    </tr>
+    <tr>
+      <td class="td_body">&nbsp;</td>
+      <td class="td_body"><label></label></td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right" class="tr_head"><label>
+        <input type="submit" name="update_category" id="button" value="Update Category" onclick="return validate_category_form(edit_category)"/>
+      </label></td>
+    </tr>
+  </table>
+</form>
+{/section}
+{/if}
+<br />
+<div class="setting_title">Video &raquo; Categories</div>
+{if $total != 0}
+<table width="67%" border="0" align="left" cellpadding="0" cellspacing="1">
+  <tr>
+    <td width="22%" class="tr_head">Category Name</td>
+    <td width="9%" class="tr_head">Thumb</td>
+    <td width="34%" class="tr_head">Description</td>
+    <td width="28%" class="tr_head">Date Added</td>
+    <td width="7%" align="left" class="tr_head">Action</td>
+  </tr>
+ {assign var = bgcolor value = ""}
+{section name=list loop=$category}
+  <tr bgcolor="{$bgcolor}">
+    <td>{$category[list].category_name}</td>
+    <td><a href="#" onMouseover="fixedtooltip('<img src={$category_thumbs}/{$category[list].category_thumb} border=1/>', this, event, '0px')" onMouseout="delayhidetip()">View Thumb</a></td>
+    <td>{$category[list].category_description}</td>
+    <td>{$category[list].date_added|date_format}</td>
+    <td>
+      <li><a href="?category={$category[list].categoryid}">Edit</a></li>
+      <li><a href="javascript:Confirm_Delete('?delete_category={$category[list].categoryid}')">Delete</a></li>
+    </td>
+  </tr>
+ {if $bgcolor == ""}
+ 	 {assign var = bgcolor value = "#EEEEEE"}
+ {else}
+	 {assign var = bgcolor value = ""}
+ {/if}
+ 
+{/section}
+</table>
+{else}
+No Category Has Been Created Yet
+{/if}
+<br />
+<br />

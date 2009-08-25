@@ -1,0 +1,80 @@
+{if $edit_lang != 'yes'}
+<span class="page_title">Language Settings</span>
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="20" class="left_head" style="padding-left:5px">ID</td>
+    <td width="100" align="left" class="head"><div class="head_sep_left">Default</div></td>
+    <td class="head"><div class="head_sep_left" style="width:100px">Language</div></td>
+    <td width="100" align="left" class="head"><div class="head_sep_left">Language Code</div></td>
+    <td width="150" align="left" class="head"><div  class="head_sep_left">Regular Expression</div></td>
+    <td width="200" class="right_head"><div  class="head_sep_left">Actions</div></td>
+  </tr>
+</table>
+
+<form name="default_lang" method="post">
+{section name=l_list loop=$language_list}
+<div class="row_white">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="20" valign="top" style="padding-left:5px">{$language_list[l_list].language_id}</td>
+    <td width="100" align="left" valign="top"><label>
+      <input type="radio" name="make_default" id="radio" value="{$language_list[l_list].language_id}" {if $language_list[l_list].language_default =='yes'}checked="checked"{/if} onclick="document.default_lang.submit()"/>
+    </label></td>
+    <td valign="top" style="padding-left:10px">{$language_list[l_list].language_name}</td>
+    <td width="100" align="left" valign="top"><span style="margin-left:10px;">{$language_list[l_list].language_code}</span></td>
+    <td width="150" align="left" valign="top"><span style="margin-left:10px;">{$language_list[l_list].language_regex}</span></td>
+    <td width="200" align="left" valign="top">
+    <a href="?edit_language={$language_list[l_list].language_id}" style="margin-left:10px">Edit Phrases</a></td>
+  </tr>
+</table>
+</div>
+{/section}  
+</form>
+{else}
+<span class="page_title">Editing {$lang_details.language_name} Phrases</span>
+
+<div style="height:10px">
+
+</div>
+
+
+<div class="search_box">  <form id="form1" name="form1" method="post" action="">
+    <label>Phrase Code - Name<br />
+<input name="varname" type="text" id="varname" value="{$smarty.post.varname|form_val}" />
+    </label>
+    <br />
+    <label>Phrase Text<br />
+<input name="text" type="text" id="text" value="{$smarty.post.text|form_val}" />
+    </label>
+    <br />
+    <label>
+      <input type="submit" name="search_phrase" class="button" value="Submit"  style="margin-top:10px" id="search_phrase"/>
+    </label>
+  </form></div>
+
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="40" class="left_head" style="padding-left:5px">ID</td>
+    <td width="200" class="head"><div class="head_sep_left" >Phrase Code</div></td>
+    <td align="left" class="head"><div class="head_sep_left" style="width:100px">Phrase</div></td>
+    <td width="200"  class="right_head"></td>
+  </tr>
+</table>
+
+{section name=p_list loop=$lang_phrases}
+<div class="row_white">
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="40"  style="padding-left:5px">{$lang_phrases[p_list].id}</td>
+    <td width="200" >{$lang_phrases[p_list].varname}</td>
+    <td align="left"><div class="edit" id="{$lang_phrases[p_list].id}">{$lang_phrases[p_list].text}</div></td>
+    <td width="200" ></td>
+  </tr>
+</table>
+</div>
+{/section}
+
+<!-- DIsplaying Videos Ends-->
+{include file="$style_dir/blocks/pagination.html" }
+
+{/if}

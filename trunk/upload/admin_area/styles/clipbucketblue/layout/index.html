@@ -1,0 +1,91 @@
+{literal}
+<style>
+#Container{
+width:95%;
+padding-left:10px;
+}
+</style>
+{/literal}
+<div class="setting_title">General Statistics </div>
+<div id='Container'>
+<table width="800" border="0" cellspacing="2" cellpadding="3">
+  <tr>
+    <td colspan="3" bgcolor="#3399FF" class="pagination">ClipBucket</td>
+  </tr>
+  <tr>
+    <td><strong>ClipBucket Version</strong> : {$stats.cb_ver} </td>
+    <td bgcolor="#F0F0F0"><strong>Date Updated</strong> : {$stats.date_updated} </td>
+    <td><strong>Stability</strong> :  {$stats.stability}</td>
+  </tr>
+  <tr>
+    <td colspan="3" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3" bgcolor="#3399FF" class="pagination">Disk Space </td>
+  </tr>
+  <tr>
+    <td><strong>Total Space </strong> : {$server.disk_space} </td>
+    <td bgcolor="#F0F0F0"><strong>Used</strong> : {$server.space_used} </td>
+    <td><strong>Free </strong>: {$server.space_free} </td>
+  </tr>
+  <tr>
+    <td colspan="3" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3" bgcolor="#3399FF" class="pagination">PHP & Database</td>
+  </tr>
+  <tr>
+    <td><strong>PHP </strong>:  {$server.php_ver} </td>
+    <td bgcolor="#F0F0F0"><strong>Mysql</strong> :  {$server.mysql_ver} </td>
+    <td><strong>Database Size</strong> :  {$server.db_size} </td>
+  </tr>
+  <tr>
+    <td colspan="3">&nbsp;</td>
+  </tr>
+</table>
+</div>
+<div class="setting_title">Website Statistics</div>
+<div id='Container'>
+<table width="800" border="0" cellspacing="2" cellpadding="3">
+  <tr>
+    <td bgcolor="#3399FF" class="pagination">User Stats </td>
+    <td bgcolor="#3399FF" class="pagination">Video Stats </td>
+    <td bgcolor="#3399FF" class="pagination">Group Stats </td>
+    </tr>
+  <tr>
+    <td><strong>Total Users</strong> : {$stats.total_users} </td>
+    <td><strong>Total Videos</strong>:{$stats.total_videos}</td>
+    <td><strong>Total Groups</strong> : {$stats.total_groups}</td>
+    </tr>
+  <tr>
+    <td bgcolor="#F0F0F0"><span><strong>Active Users</strong> : {$stats.total_active_users} </span></td>
+    <td bgcolor="#F0F0F0"><strong>Flagged Videos</strong>:{$stats.total_flagged_videos}</td>
+    <td bgcolor="#F0F0F0"><strong>Total Topics</strong>  : {$stats.total_topics}</td>
+    </tr>
+  <tr>
+    <td><strong>Todays Signups</strong>: {$stats.today_signups} </td>
+    <td><strong>Added Today</strong> : {$stats.videos_added_today}</td>
+    <td><strong>Total Posts</strong>   : {$stats.total_posts}</td>
+    </tr>
+  <tr>
+    <td bgcolor="#F0F0F0"><strong>Todays Logins</strong>: {$stats.todays_logins} </td>
+    <td bgcolor="#F0F0F0"><strong>Added This Month  </strong>: {$stats.videos_added_this_month}</td>
+    <td bgcolor="#F0F0F0"><strong>Added Today</strong> :  {$stats.groups_added_today}</td>
+    </tr>
+  <tr>
+    <td><strong>Active This Month</strong>: {$stats.months_logins} </td>
+    <td><strong>Total Watched </strong>: {$stats.total_watched_videos}</td>
+    <td><strong>Total Invitations</strong> :  {$stats.group_invitations}</td>
+    </tr>
+  <tr>
+    <td colspan="3" align="center"><a href="?mode=force_update">Click Here To Force Update Stats </a></td>
+    </tr>
+</table>
+
+</div>
+<div class="setting_title">Last Conversion Log </div>
+<div id='Container'>
+<div style="overflow:auto; border:1px solid #EAEAEA; width:800px; padding:2px">
+<div style="background-color:#F3F3F3; border:none; width:100%; min-height:300px;">{$con_log}</div>
+</div>
+</div>

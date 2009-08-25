@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<div class="setting_title">Templates &raquo; {$CurTemplate}</div>
+
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="2">
+    <tr>
+      <td colspan="2" class="tr_head">Select Template </td>
+    </tr>
+    <tr>
+      <form action="" method="get"><td width="12%" class="td_body">Template</td>
+      <td width="88%" align="left" class="td_body"><select name="temp">
+	  <option value="">----------</option>
+	  {section name=t_list loop=$Temps}
+	  <option value="{$Temps[t_list].template_dir}" {if $CurDir==$Temps[t_list].template_dir} selected="selected" {/if}>{$Temps[t_list].template_name}</option>
+	  {/section}
+      </select>
+        <label>
+        <input type="submit" name="Submit" value="Select" />
+        </label>      </td>
+      </form>
+    </tr>
+    <tr>
+      <td colspan="2" valign="top" >&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="2" valign="top" class="tr_head">Select File From The List To Edit</td>
+    </tr><form id="form2" name="form2" method="post" action="">
+    <tr>
+      <td colspan="2" valign="top" class="td_body"><select name="file" size="5" id="file" style="width:300px">
+        
+        {foreach from =$files  item=list}
+      
+        
+      
+        <option value = "{$list}" {if $file==$list} selected="selected"{/if}>{$list}</option>
+        
+        
+        
+        {/foreach}
+
+      
+      </select></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="td_body"><label></label></td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right" class="tr_head"><label>
+        <input type="submit" name="submit" id="button" value="      Select      " />
+      </label></td>
+    </tr></form>
+  </table>
+
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+<tr>
+  <td colspan="2" align="center" class="tr_head">Editing {$file}</td>
+</tr>
+<tr>
+    <td colspan="2" align="center" class="tr_head"><form id="form1" name="form1" method="post" action="">
+
+        <textarea name="data" id="data" cols="80" rows="20">{$data}</textarea>
+		<input type="hidden" name="file" value="{$file}" />
+        <br />
+ <br />
+      <input type="submit" name="save" id="button" value="Save File" />
+
+    </form>    </td>
+  </tr>
+</table>
+</body>
+</html>

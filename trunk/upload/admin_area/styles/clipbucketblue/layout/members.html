@@ -1,0 +1,401 @@
+<script type="text/javascript" src="{$js}/popup_image.js"></script>
+<div class="setting_title">Users &raquo; {$property.name}</div>
+{if $property.value neq addmember }
+<form id="Search Member" name="Search Member" method="get" action="">
+<input name="view" type="hidden" value="search" />
+  <table width="98%" height="186" border="0" align="center" cellpadding="3" cellspacing="1">
+    <tr>
+      <td colspan="4" class="tr_head">Member Search</td>
+    </tr>
+    <tr>
+      <td width="6%" class="td_body">Username</td>
+      <td width="41%" class="td_body"><label>
+        <input name="username" type="text" id="username" value="{$search_uname}" size="45" />
+        </label>
+      </td>
+      <td width="6%" class="td_body">Email</td>
+      <td width="47%" class="td_body"><input name="email" type="text" id="email" value="{$search_email}" size="45" /></td>
+    </tr>
+    <tr>
+      <td class="td_body">First Name</td>
+      <td class="td_body"><input name="fname" type="text" id="fname" value="{$search_fname}" size="45" /></td>
+      <td class="td_body">Last Name</td>
+      <td class="td_body"><input name="lname" type="text" id="lname" value="{$search_lname}" size="45" /></td>
+      <blockquote>&nbsp; </blockquote>
+    </tr>
+    <tr>
+      <td class="td_body">Country</td>
+      <td class="td_body"><select name="country" id="country">
+      <option value="">------</option> 
+      {foreach from=$country key=ccode item=cname}
+        
+        
+        <option value="{$cname}" 
+       {if $search_country == $cname}
+       selected="selected"
+       {/if}
+       >{$cname}</option>
+        
+      {/foreach}
+      
+      
+      </select>
+      </td>
+      <td class="td_body">Status</td>
+      <td class="td_body">
+        <select name="status" id="status">
+          <option value="">------</option>
+          <option value="ok" {if $search_status == ok} selected="selected" {/if}>Active</option>
+          <option value="ToActivate" {if $search_status == ToActivate} selected="selected" {/if}>Inactive</option>
+          <option value="locked" {if $search_status == locked} selected="selected" {/if}>Banned</option>
+        </select>
+    </td>
+    </tr>
+    <tr>
+      <td height="30" class="td_body">Sort By</td>
+      <td>
+        <select name="sort" id="sort">
+         <option value="">------</option>
+          <option value="username" {if $search_sort == username} selected="selected" {/if}>Username</option>
+          <option value="doj" {if $search_sort == doj} selected="selected" {/if}>Date Joined</option>
+          <option value="fname" {if $search_sort == fname} selected="selected" {/if}>First Name</option>
+          <option value="lname" {if $search_sort == lname} selected="selected" {/if}>Last Name</option>
+          <option value="country" {if $search_sort == country} selected="selected" {/if}>Country</option>
+        </select>
+</td>
+      <td class="td_body">Order</td>
+      <td class="td_body">
+        <select name="order" id="order">
+          <option value="ASC" {if $search_order == ASC} selected="selected" {/if} >Ascending</option>
+          <option value="DESC" {if $search_order == DESC} selected="selected" {/if} >Decending</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td height="35" colspan="4" align="right" valign="bottom" class="td_body"><label>
+        <input type="submit" name="search" id="button" value="Search" />
+      </label></td>
+    </tr>
+  </table>
+</form>
+{/if}
+<div align="left">
+  <div align="left"><br>
+{if $property.value == showall || $property.value == inactive || $property.value == active ||  $property.value == search}
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+<tr>
+        <td width="225" align="left"><label></label>
+          <form id="form1" name="form1" method="post" action="members.php">
+            Show #Result
+            <label>
+            <input name="number" type="text" id="number" value="{$admin_pages}" size="7" maxlength="5" />
+            <input name="set_number" type="submit" id="set_number" value="Show" />
+            </label>
+          </form>        </td>
+        <td align="left"><form id="form2" name="form2" method="post" action="">
+          Jump To Page
+          <label>
+          <select name="page_number">
+            
+		  {section name=allpages start=1 loop=$pages}
+		  
+            <option value="?view={$property.value}{$link}&amp;page={$smarty.section.allpages.index}" {if $cur_page == $smarty.section.allpages.index} selected="selected"{/if}>{$smarty.section.allpages.index}</option>
+            
+		  {/section}
+          
+          </select>
+          </label>
+                <label>
+                <input name="display_page" type="submit" id="display_page" value="Display" />
+                </label>
+        </form>
+        </td>
+      </tr>
+    <tr>
+      <td align="left" valign="middle" class="pagination" style="color:#FFFFFF; padding:3px">&nbsp;</td>
+      <td colspan="2" align="right" valign="middle" style="padding:3px">Viewing {math equation=$limit*$cur_page assign=viewing} {if $prepage == 0 } {math equation=$prepage+1} {else} {math equation = $prepage*$limit+1 }{/if} - {if $viewing > $grand_total}{$grand_total}{else}{$viewing}{/if} of {$grand_total}</td>
+      </tr>
+    <tr>
+      <td width="56" align="left" valign="middle" bgcolor="#3399FF" class="pagination" style="color:#FFFFFF; padding:3px">
+      {if $prepage neq 0}<a href="?view={$property.value}{$link}&amp;page={$prepage}">Previous</a>{/if}</td>
+      <td align="center" valign="middle" bgcolor="#3399FF" class="pagination" style="color:#FFFFFF; padding:3px">{section name=allpages start=1 loop=$pages}
+        {if $cur_page == $smarty.section.allpages.index }
+        {$smarty.section.allpages.index}
+        {else} <a href="?view={$property.value}{$link}&amp;page={$smarty.section.allpages.index}">{$smarty.section.allpages.index}</a> {/if}
+        {/section} </td>
+      <td width="32" align="right" valign="middle" bgcolor="#3399FF" class="pagination" style="color:#FFFFFF; padding:3px">{if $nextpage neq $smarty.section.allpages.index && $pages!=1}<a href="?view={$property.value}{$link}&amp;page={$nextpage}">Next</a>{/if}</td>
+    </tr>
+   </table>
+  </div>
+</div>
+ <form action="" method="post">
+      <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td height="50">
+            
+            <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);" id="checkall"/>
+			<label for="checkall">Select ALL</label>
+            
+            <input type="submit" name="activate_selected" value="Activate"  id="button"/>
+            <input type="submit" name="deactivate_selected" value="Dectivate" id="button" />
+            <input type="submit" name="make_featured_selected" value="Mark As Featured"  id="button"/>
+            <input type="submit" name="make_unfeatured_selected" value="Mark As Unfeatured"  id="button"/>
+            <input type="submit" name="ban_selected" value="Ban"  id="button" />
+			<input type="submit" name="unban_selected" value="Unban"  id="button" />
+            <input type="submit" name="delete_selected" value="Delete"  id="button" onclick="Confirm_Delete('')"/>
+          </td>
+        </tr>
+      </table>
+{section name=list loop=$user}
+<table width="98%" height="184" border="0" align="center" cellpadding="0" cellspacing="1">
+    <tr>
+      <td height="20" colspan="3" valign="middle" class="tr_head">Account Info</td>
+      <td colspan="2" valign="middle" class="tr_head">Primary Info</td>
+      <td colspan="2" valign="middle" class="tr_head">Site Info</td>
+      <td width="135" valign="middle" class="tr_head">Status</td>
+      <td width="217" valign="middle" class="tr_head">Action</td>
+  </tr>
+  <tr>
+    <td height="22" colspan="3" class="td_body"><strong><input name="check_user[]" type="checkbox" id="check_user" value="{$user[list].userid}" />{$user[list].username}</strong></td>
+    <td width="80" class="td_body">Userid</td>
+    <td width="149" class="td_body">{$user[list].userid}</td>
+    <td width="135" class="td_body">Friends</td>
+    <td width="162" class="td_body">{$user[list].total_friends}</td>
+    <td valign="top" class="td_body">Active : {$user[list].usr_status}</td>
+    <td class="td_body"><a href="edit_member.php?userid={$user[list].userid}">Edit</a></td>
+  </tr>
+  <tr>
+    <td width="208" rowspan="4" align="center" class="td_body"><img src="{$avatardir}/{$user[list].avatar}" /></td>
+    <td height="22" class="td_body">Full Name<br />
+    Last Name</td>
+    <td class="td_body">{$user[list].first_name} <br />
+    {$user[list].last_name}</td>
+    <td class="td_body">Email</td>
+    <td class="td_body">{$user[list].email}</td>
+    <td class="td_body">&nbsp;</td>
+    <td class="td_body">&nbsp;</td>
+    <td valign="top" class="td_body">&nbsp;</td>
+    <td class="td_body">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="106" height="22" class="td_body">Age</td>
+    <td width="164" class="td_body">{$user[list].age}</td>
+    <td class="td_body">Country</td>
+    <td class="td_body">{$user[list].country}</td>
+    <td class="td_body">Videos</td>
+    <td class="td_body">{$user[list].total_videos}</td>
+    <td valign="top" class="td_body">Banned : {$user[list].ban_status}</td>
+    <td class="td_body">
+    {if $user[list].usr_status == Ok}
+    <a href="?view={$property.value}{$link}&amp;page={$cur_page}&amp;deactivate={$user[list].userid}">De-Activate</a>
+    {elseif $user[list].usr_status == ToActivate}
+    <a href="?view={$property.value}{$link}&amp;page={$cur_page}&amp;activate={$user[list].userid}">Activate</a>
+    {/if}    </td>
+  </tr>
+  <tr>
+    <td height="22" class="td_body">Date Joined</td>
+    <td class="td_body">{$user[list].doj|date_format}</td>
+    <td class="td_body">Singup Ip </td>
+    <td class="td_body">{$user[list].signup_ip}</td>
+    <td class="td_body">Groups</td>
+    <td class="td_body">{$user[list].total_groups}</td>
+    <td valign="top" class="td_body">Featured : {$user[list].featured}</td>
+    <td class="td_body"><a href="{$baseurl}/view_channel.php?user={$user[list].username}" target="_blank">View</a></td>
+  </tr>
+  <tr>
+    <td height="20" valign="top" class="td_body">Last Visit</td>
+    <td valign="top" class="td_body">{$user[list].last_logged}</td>
+    <td valign="top" class="td_body">&nbsp;</td>
+    <td valign="top" class="td_body">&nbsp;</td>
+    <td valign="top" class="td_body">Videos Watch</td>
+    <td valign="top" class="td_body">{$user[list].total_watched}</td>
+    <td valign="top" class="td_body">&nbsp;</td>
+    <td class="td_body"><a href="javascript:Confirm_Delete('?view={$property.value}{$link}&deleteuser={$user[list].userid}')">Delete</a><br>
+
+      
+      {if $user[list].featured == Yes} 
+      <a href="?view={$property.value}{$link}&amp;page={$cur_page}&amp;unfeatured={$user[list].userid}">Unfeatured Member</a> 
+      {/if} 
+      {if $user[list].featured == No}       
+      <a href="?view={$property.value}{$link}&amp;page={$cur_page}&amp;featured={$user[list].userid}">Featured Member</a> 
+      {/if} 
+      
+      
+      <br>
+      {if $user[list].ban_status == yes} 
+      <a href="?view={$property.value}{$link}&amp;page={$cur_page}&amp;unban={$user[list].userid}">Unban Member</a> 
+      {/if} 
+      {if $user[list].ban_status == no}       
+      <a href="?view={$property.value}{$link}&amp;page={$cur_page}&amp;ban={$user[list].userid}">Ban Member</a> 
+      {/if}      </td>
+  </tr>
+</table>
+{/section}
+</form>
+<div align="left">{if $total ==0}<em> No User Exists In This Category</em>{else} </div>
+{/if} 
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="56" align="left" valign="middle" bgcolor="#3399FF" class="pagination" style="color:#FFFFFF; padding:3px">{if $prepage neq 0}<a href="?view={$property.value}{$link}&amp;page={$prepage}">Previous</a>{/if}</td>
+    <td align="center" valign="middle" bgcolor="#3399FF" class="pagination" style="color:#FFFFFF; padding:3px">{section name=allpages start=1 loop=$pages}
+      {if $cur_page == $smarty.section.allpages.index }
+      {$smarty.section.allpages.index}
+      {else} <a href="?view={$property.value}{$link}&amp;page={$smarty.section.allpages.index}">{$smarty.section.allpages.index}</a> {/if}
+      {/section} </td>
+    <td width="32" align="right" valign="middle" bgcolor="#3399FF" class="pagination" style="color:#FFFFFF; padding:3px">{if $nextpage neq $smarty.section.allpages.index  && $pages!=1}<a href="?view={$property.value}{$link}&amp;page={$nextpage}">Next</a>{/if}</td>
+  </tr>
+</table>
+{/if} {if $property.value == addmember }
+
+<form id="Add Member" name="Add Member" method="post" action="">
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="2">
+  <tr>
+    <td colspan="2" class="tr_head">Account Information</td>
+  </tr>
+  <tr>
+    <td class="td_body">&nbsp;</td>
+    <td align="right" class="td_body">* are required fields</td>
+  </tr>
+  <tr>
+    <td class="td_body">Username*</td>
+    <td class="td_body"><label>
+      <input name="username" type="text" id="username" value="{$default_uname}" size="45" />
+    </label></td>
+  </tr>
+  <tr>
+    <td class="td_body">Email*</td>
+    <td class="td_body"><input name="email" type="text" id="email" value="{$default_email}" size="45" /></td>
+  </tr>
+  <tr>
+    <td class="td_body">Password*</td>
+    <td class="td_body"><input name="password" type="password" id="password" size="45" /></td>
+  </tr>
+  <tr>
+    <td class="td_body">User Access Level</td>
+    <td class="td_body"><label>
+      <select name="level" id="level">
+        <option value="User" selected="selected">User</option>
+        <option value="Admin">Admin</option>
+      </select>
+    </label></td>
+  </tr>
+  <tr>
+    <td>Active</td>
+    <td>
+      
+        <input name="active" type="radio" value="Ok" checked="checked" />
+        Yes
+      <input type="radio" name="active" value="ToActivate" />
+No</td>
+  </tr>
+  <tr>
+    <td colspan="2" class="tr_head">Personal Information</td>
+  </tr>
+  <tr>
+    <td class="td_body">First Name*</td>
+    <td class="td_body"><input name="fname" type="text" id="fname" value="{$default_fname}" size="45" /></td>
+  </tr>
+  <tr>
+    <td class="td_body">Last Name*</td>
+    <td class="td_body"><input name="lname" type="text" id="lname" value="{$default_lname}" size="45" /></td>
+  </tr>
+  <tr>
+    <td class="td_body">Gender</td>
+    <td class="td_body"><p>
+      <label>
+        <input name="gender" type="radio" id="gender_0" value="Male" 
+        {if $default_gender == Male}
+        checked="checked"
+        {/if}
+         />
+        Male</label>
+      <label>
+      <input type="radio" name="gender" value="Female" id="gender_1" {if $default_gender == Female}
+        checked="checked"
+        {/if}
+        />
+Female</label>
+<br />
+      <label></label>
+      </p></td>
+  </tr>
+  <tr>
+    <td class="td_body">Date of Birth</td>
+    <td class="td_body">
+      <select name="month" id="month">
+        
+      {section name=months start=01 loop=13}
+        <option value='{$smarty.section.months.index}'
+        {if $default_m == $smarty.section.months.index}
+        {/if}
+        >{$smarty.section.months.index}</option>
+      {/section}
+      
+      
+      </select>
+    /
+    <select name="day" id="day">
+      {section name=days start=01 loop=32}
+      <option value='{$smarty.section.days.index}'
+      {if $default_d == $smarty.section.days.index}
+         selected="selected"
+        {/if}
+        >{$smarty.section.days.index}</option>
+      {/section}
+    
+    </select>
+    /
+    <select name="year" id="year">
+      {section name=year start=1920 loop=2007}
+      <option value='{$smarty.section.year.index}' 
+      {if $default_y == $smarty.section.year.index}
+         selected="selected"
+        {/if}>{$smarty.section.year.index}</option>
+      {/section}
+      
+    
+    </select> 
+    format MM / DD / YYYY    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="tr_head">Location Information</td>
+  </tr>
+  <tr>
+    <td class="td_body">Hometown</td>
+    <td class="td_body"><input name="hometown" type="text" id="hometown" value="{$default_ht}" size="45" /></td>
+  </tr>
+  <tr>
+    <td class="td_body">City</td>
+    <td class="td_body"><input name="city" type="text" id="city" value="{$default_city}" size="45" /></td>
+  </tr>
+  <tr>
+    <td class="td_body">Country</td>
+    <td class="td_body"><label>
+      <select name="country" id="country">
+      {foreach from=$country key=ccode item=cname}
+        <option value="{$cname}" 
+       {if $default_country == $ccode}
+       selected="selected"
+       {/if}
+       >{$cname}</option>
+      {/foreach}
+      
+      </select>
+    </label></td>
+  </tr>
+  <tr>
+    <td class="td_body">Postal Code</td>
+    <td class="td_body"><input name="zip" type="text" id="zip" value="{$default_zip}" size="45" /></td>
+  </tr>
+  <tr>
+    <td class="td_body">&nbsp;</td>
+    <td class="td_body">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="right" class="tr_head"><label>
+      <input type="submit" name="button" id="button" value="Add Member" />
+    </label></td>
+    </tr>
+</table>
+</form>
+{/if}

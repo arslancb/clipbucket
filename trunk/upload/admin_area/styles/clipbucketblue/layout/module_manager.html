@@ -1,0 +1,78 @@
+
+<form action="" method="post" enctype="multipart/form-data" name="add_category" id="Add Category">
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="2">
+    <tr>
+      <td colspan="2" class="tr_head">Add Module</td>
+    </tr>
+    <tr>
+      <td class="td_body">&nbsp;</td>
+      <td align="right" class="td_body">* are required fields</td>
+    </tr>
+    <tr>
+      <td valign="top" class="td_body">File</td>
+      <td class="td_body"><label>
+        <select name="module_file" id="module_file">
+        {foreach from =$files  item=list}
+        
+        <option value = "{$list}">{$list}</option>
+        {/foreach}
+        </select>
+      </label></td>
+    </tr>
+    <tr>
+      <td valign="top" class="td_body">Active</td>
+      <td class="td_body"><label>
+      <select name="active" id="active">
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+      </label></td>
+    </tr>
+    <tr>
+      <td class="td_body">&nbsp;</td>
+      <td class="td_body"><label></label></td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right" class="tr_head"><label>
+        <input type="submit" name="add_module" id="button" value="Add Module" onClick="return validate_category_form(add_category)"/>
+      </label></td>
+    </tr>
+  </table>
+</form>
+
+
+<br />
+{if $total != 0}
+<table width="67%" border="0" align="left" cellpadding="0" cellspacing="1">
+  <tr>
+    <td width="22%" class="tr_head">Module Name</td>
+    <td width="9%" class="tr_head">File</td>
+    <td width="34%" class="tr_head">Active</td>
+    <td width="7%" align="left" class="tr_head">Action</td>
+  </tr>
+ {assign var = bgcolor value = ""}
+{section name=list loop=$modules}
+  <tr bgcolor="{$bgcolor}">
+    <td>{$modules[list].module_name}</td>
+    <td>{$modules[list].module_file}</td>
+    <td>{$modules[list].active}</td>
+    <td>
+      {if $modules[list].active == yes} 
+      <li> <a href="?deactivate={$modules[list].module_name}">Deactivate</a> </li>
+      {/if} 
+      {if $modules[list].active == no}       
+      <li> <a href="?activate={$modules[list].module_name}">Activate</a> </li>
+      {/if}
+      <li><a href="javascript:Confirm_Delete('?delete_module={$modules[list].module_name}')">Delete</a></li>    </td>
+  </tr>
+ {if $bgcolor == ""}
+ 	 {assign var = bgcolor value = "#EEEEEE"}
+ {else}
+	 {assign var = bgcolor value = ""}
+ {/if}
+ 
+{/section}
+</table>
+{else}
+No Category Has Been Created Yet
+{/if}

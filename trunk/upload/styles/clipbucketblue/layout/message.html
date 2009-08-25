@@ -1,0 +1,53 @@
+<br />
+
+{assign var=msg value=$eh->message_list}
+{assign var=err value=$eh->error_list}
+{if $err.0 neq ''}
+<table width="910" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="11"><img src="{$imageurl}/message_tl.png" width="11" height="12" /></td>
+    <td width="888" background="{$imageurl}/message_t.png"></td>
+    <td width="11"><img src="{$imageurl}/message_tr.png" width="11" height="12" /></td>
+  </tr>
+  <tr>
+    <td background="{$imageurl}/message_l.png">&nbsp;</td>
+    <td bgcolor="#FFEAEB"><ul>
+      {foreach from=$err item=show_msg}
+      <li> {$show_msg} </li>
+      {/foreach}
+    </ul></td>
+    <td background="{$imageurl}/message_r.png">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><img src="{$imageurl}/message_bl.png" width="11" height="12" /></td>
+    <td background="{$imageurl}/message_b.png"></td>
+    <td><img src="{$imageurl}/message_br.png" width="11" height="12" /></td>
+  </tr>
+</table>
+<br />
+{/if}
+
+{if $msg.0 neq ''}
+<table width="910" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="11"><img src="{$imageurl}/message_tl.png" width="11" height="12" /></td>
+    <td width="888" background="{$imageurl}/message_t.png"></td>
+    <td width="11"><img src="{$imageurl}/message_tr.png" width="11" height="12" /></td>
+  </tr>
+  <tr>
+    <td background="{$imageurl}/message_l.png">&nbsp;</td>
+    <td bgcolor="#B9E3FF"><ul>
+      {foreach from=$msg item=show_msg}
+      <li> {$show_msg} </li>
+      {/foreach}
+    </ul></td>
+    <td background="{$imageurl}/message_r.png">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><img src="{$imageurl}/message_bl.png" width="11" height="12" /></td>
+    <td background="{$imageurl}/message_b.png"></td>
+    <td><img src="{$imageurl}/message_br.png" width="11" height="12" /></td>
+  </tr>
+</table>
+<br />
+{/if}

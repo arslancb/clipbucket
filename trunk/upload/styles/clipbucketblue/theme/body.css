@@ -1,0 +1,216 @@
+@charset "utf-8";
+/* CSS Document */
+
+.upload_input{border:1px solid #CCC; margin-right:10px; margin-left:2px}
+.textarea {width:300px}
+.filefield{ width:300px}
+
+html, body {
+margin:0px;
+padding:0px;
+text-align:center;
+	background-image:url(../images/body_background.png);
+	background-position:center;
+	background-repeat:repeat-y;
+}
+#login_button {
+	background-image: url(../images/login_button.gif);
+	background-repeat: no-repeat;
+	background-position: right;
+	padding-right: 18px;
+	margin-right: 0px;
+	padding-left: 0px;
+	font-family: Calibri;
+	font-size: 12px;
+	font-weight: bold;
+	color: #333333;
+	background-color: #FFFFFF;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	height: 20px;
+}
+
+#logout_button {
+	background-image: url(../images/logout_button.gif);
+	background-repeat: no-repeat;
+	background-position: right;
+	padding-right: 18px;
+	margin-right: 0px;
+	padding-left: 0px;
+	font-family: Calibri;
+	font-size: 12px;
+	font-weight: bold;
+	color: #333333;
+	background-color: #FFFFFF;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	height: 20px;
+}
+
+
+
+body,td,th {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	border-right-color: #666666;
+	border-bottom-color: #666666;
+	border-left-color: #666666;
+}
+a{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color:#333333
+}
+a:link {
+text-decoration:none;
+}
+a:visited {
+text-decoration:none;
+}
+a:hover {
+text-decoration:underline;
+}
+
+.container {
+	background-image:url(../images/body_background.png);
+	background-position:center;
+	background-repeat:repeat-y;
+	min-height:410px
+}
+
+.footer {
+	background-image:url(../images/footer_background.png);
+	background-position:center;
+	background-repeat:no-repeat;
+	
+}
+
+/* Style for general input fields */
+#input, #select, #text , #textfield_header{
+	font-family: Helvetica,Tahoma,Verdana,Arial;
+	font-size: 11px;
+	font-weight: normal;
+	color: #666666;
+	height:18px;
+	background-color: #FFFFFF;
+	border-top-width: 2px;
+	border-left-width: 2px;
+	border-top-style: solid;
+	border-left-style: solid;
+	border-top-color:#F0F0F0;
+	border-left-color:#F0F0F0;
+	padding-left: 2px;
+}
+
+.video_title{
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #333333;
+	text-decoration: none;
+	padding-left: 6px;
+	padding-top: 5px;
+	background-image:url(../images/video_title_bg.png);
+	background-repeat:no-repeat;
+	background-position: 0px top;
+}
+
+.video_rating{
+	font-size:12px;
+	font-family:Calibri;
+}
+.header1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: #53baff;
+	padding: 5px;
+}
+.header2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #000000;
+}
+.header3 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #000000;
+}
+hr {
+	border-top-width: 1px;
+	border-top-style: dotted;
+	border-top-color: #333333;
+}
+.tips {
+	font-family: Tahoma;
+	font-size: 11px;
+	color: #333333;
+	font-weight: normal;
+}
+
+#error
+{
+	margin:0 auto;
+	height:20px;
+	background-color:#FFDFE0;
+	border:#FF822F 1px solid;
+}
+
+
+.handcursor{
+cursor:hand;
+cursor:pointer;
+}
+
+.comment_td{
+	background-image: url(../images/comments_bg.png);
+	background-repeat: no-repeat;
+
+}
+
+.Watch_Video_Colum{
+background: url("../images/video_second_column.png");
+background-repeat:repeat-y;
+}
+
+#query {
+	font-family: Tahoma;
+	font-size: 10px;
+	color: #BEBEBE;
+	width: 230px;
+	border: 0px solid #d3d3d3;
+	height: 15px;
+	padding-left:6px;
+	padding-top:4px;
+	background-image: url("../images/search_bar_bg01.png");
+	background-repeat: no-repeat;
+	background-color:#53baff;
+	margin:0px;
+}
+*html #query {
+	font-family: Tahoma;
+	font-size: 10px;
+	color: #BEBEBE;
+	width: 230px;
+	border: 0px solid #d3d3d3;
+	height: 20px;
+	padding-left:6px;
+	padding-top:4px;
+	background-image: url("../images/search_bar_bg01.png");
+	background-repeat: no-repeat;
+	margin:0px;
+}
+#bottom_index {
+	background-color: #F0F0F0;
+	background-image: url("../images/uploader_bl.gif");
+	background-repeat: no-repeat;
+	background-position: left;
+	height: 20px;
+	width: 19px;
+}

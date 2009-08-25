@@ -1,0 +1,353 @@
+{if $show_video neq "no"}
+<script src="{$js}/switch_content.js"></script>
+<script src="{$js}/ajaxtabs.js"></script>
+<table width="945" border="0" align="center" cellpadding="0" cellspacing="0" id="WatchVideo">
+  <tr>
+    <td colspan="3"><p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top"><table width="99%" border="0" cellpadding="0" cellspacing="0" id="Videos">
+      <tr>
+        <td width="396" height="30" align="left" valign="top" class="video_title">{$videos.title}
+        {$light_off_module}
+            {if $is_admin == "1"}
+            <BR>
+            <font size="1">(<a href="javascript:Confirm_DelVid('?delete_video={$videos.videoid}')">Delete Video</a>
+            / <a href="{$edit_video_watch}?videoid={$videos.videoid}">Edit Video</a>)</font>
+            {/if}
+        </td>
+<td align="right" valign="top" class="video_rating">
+                   {$show_rating}          </td>
+        </tr>
+      <tr>
+        <td height="30" colspan="2" class="Tags" style="padding:5px">{$LANG.tags} : {section name=t loop=$tags}<a href="{$search_result}?query={$tags[t]}"> {$tags[t]}</a> {/section}</td>
+        </tr>
+      <tr>
+        <td height="30" colspan="2" align="center" class="Tags">
+        
+			<div id="{$player_div_id}">
+				This content requires JavaScript and Macromedia Flash Player 7 or higher. <a href=http://www.macromedia.com/go/getflash/>Get Flash</a><br/><br/>
+			</div>
+<script language="javascript">
+	{FlashPlayer vdetails = $videos}
+</script>
+</td>
+      </tr>
+      <tr>
+        <td height="30" colspan="2" align="center" valign="middle" ><form method="post">
+        <a id="share_form-title"><img class="handcursor" src="{$imageurl}/{$langf}/share_icon.png" alt="Share Video" title="Share This Video" border="0" /></a>
+          <input name="add_to_fav" type="image" value="add_video" src="{$imageurl}/{$langf}/fav_icon.png" 	alt="Add This Video To favourites" title="Add This Video To favourites"/>
+          <input name="flag_video" type="image" value="share_video" src="{$imageurl}/{$langf}/flag_icon.png" 	alt="Flag This Video as Inappropriate" title="Flag This Video as Inappropriate"/>
+        </form>      </tr>
+      <tr>
+        <td colspan="2" align="center" valign="middle" >
+        <div id="share_form" class="show_form" style="padding-bottom:4px">
+         <form id="form3" name="form3" method="post" action="">
+          <table width="95%" border="0" align="center" cellpadding="3" cellspacing="0" bgcolor="#dcdcdc" style="border:solid 1px #333333;">
+            <tr>
+              <td ><table width="98%" border="0" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td width="5%"><span class="header2">{$LANG.to}</span> <span class="tips">({$LANG.vdo_sperate_emails_by})</span></td>
+                    </tr>
+                  <tr>
+                    <td><label>
+                      <input name="emails" type="text" id="emails" size="60" />
+                    </label></td>
+                  </tr>
+                  <tr>
+                    <td><span class="header2">{$LANG.vdo_personal_msg}</span> <span class="tips">({$LANG.optional})</span></td>
+                  </tr>
+                  <tr>
+                    <td><label>
+                      <textarea name="message" id="message" cols="45" rows="5"></textarea>
+                    </label></td>
+                  </tr>
+              </table></td>
+            </tr>
+          </table>
+         
+          <label>
+          <input type="submit" name="share_video" id="button" value="{$LANG.send}" />
+          </label>
+         </form>
+          </div>      </tr>
+      <tr>
+        <td height="30" colspan="2" align="center" valign="middle" class="Tags"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="2">
+          <tr>
+            <td height="20" bgcolor="#F6F6F6" class="header3">{$videos.title}</td>
+            <td width="150" rowspan="6" valign="top" bgcolor="#F6F6F6" class="watchDetails"><table width="80" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="60" height="60" align="center" style="padding-top:3px"><a href="{$view_channel_link}{$videos.username}"><div style="overflow:hidden; border:1px #000000 solid"><img src="{avatar details=$udetails}" border="0"  /></div>
+                </a></td>
+              </tr>
+            </table>              
+              <a href="{$view_channel_link}{$videos.username}">{$videos.username}</a>{$LANG.vdo_s_details}<br />
+            {$LANG.joined}:{$user_data.doj|date_format}<br />
+              {$LANG.videos}:{$user_videos}<br />
+             {$LANG.friends}:{$user_friends}<br /></td>
+          </tr>
+          <tr>
+            <td width="307" bgcolor="#F6F6F6" class="watchDetails">{$LANG.by} : <a href="{$view_channel_link}{$videos.username}">{$videos.username}</a> on  {$videos.date_added|date_format}</td>
+          </tr>
+          <tr>
+            <td bgcolor="#F6F6F6" class="watchDetails">{$LANG.categories}: {section name=c loop=$categories}<a href="{$videos_link}?ct={$categories[c].categoryid}">{$categories[c].category_name}</a>&nbsp;{/section}</td>
+          </tr>
+          <tr>
+            <td bgcolor="#F6F6F6" class="watchDetails">{$LANG.views} : {$videos.views}</td>
+          </tr>
+          <tr>
+            <td bgcolor="#F6F6F6" class="watchDetails">{$LANG.comments} :{$total_comments}</td>
+          </tr>
+          <tr>
+            <td bgcolor="#F6F6F6" class="watchDetails">{$LANG.duration}: {$details.duration}</td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="30" colspan="2" align="left" valign="middle" class="Tags">
+		<br />
+		<h3 id="bobcontent1-title" class="handcursor">{$videos.title}{$LANG.vdo_s_description}</h3>
+		<div id="bobcontent1" class="show_descript">
+        <table width="98%" border="0" align="center" cellpadding="5" cellspacing="0" bgcolor="#F6F6F6">
+          <tr>
+            <td ><img src="{$imageurl}/quote_1.gif"  style="padding-right:5px;padding-top:5px" /><span class="watchDetails">{$videos.description|description}</span><img src="{$imageurl}/quote_2.gif" style="padding-left:5px;padding-bottom:5px" /></td>
+          </tr>
+        </table>
+  		</div>
+        
+        <h4 id="tags-title" class="handcursor">{$LANG.vdo_related_tags}</h4>
+		<div id="tags" class="show_descript">
+        <table width="98%" border="0" align="center" cellpadding="5" cellspacing="0" bgcolor="#F6F6F6">
+          <tr>
+            <td ><div style="text-align: justify; PADDING: 10px; BORDER: 1px dashed #CCCCCC; background: #FDFDFD;"align="center">
+              {$TagClouds}
+            </div></td>
+          </tr>
+        </table>
+  		</div>     </td>
+      </tr>
+      {if $videos.allow_comments=='no'}
+      <tr>
+      <td colspan="2" style="padding-left:5px;">
+      <span class="module_title">{$LANG.vdo_commentary}</span>
+      <BR>
+      <BR>
+      <b>Comments are disabled for this video.</b>
+      </td>
+      </tr>
+      {/if}
+      {if $videos.allow_comments==yes && $video_comment=="1"}
+      <tr>
+        <td height="30" colspan="2" align="left" valign="middle" class="header1" style="padding-left:5px"> {$LANG.comments}</td>
+      </tr>
+      <tr>
+        <td colspan="2" align="right" valign="middle" style="padding:0px 8px 0px 8px"><span id="bobcontent2-title" class="header3" onmouseover="this.style.cursor='pointer'">{$LANG.grp_add_comment}</span>
+       		<div id="bobcontent2" class="show_descript" style="padding-top:5px">
+			  <table width="100%" border="0" align="center" cellpadding="5" cellspacing="0" bgcolor="#F6F6F6">
+  <tr>
+    <td align="center">
+    
+     {ANCHOR place='before_compose_box'}
+  	  <form id="form1" name="form1" method="post" action="">
+      <textarea name="comment" id="comment_box" cols="45" rows="5"></textarea>
+      <input name="reply_to" type="hidden" value="0" />
+      <input type="submit" name="add_comment" id="button" value="{$LANG.grp_add_comment}" style="background-color:#F6F6F6" />
+      </form>    </td>
+  </tr>
+</table>
+            </div>        </td>
+      </tr>
+      <tr>
+        <td height="30" colspan="2" align="right" valign="middle" style="padding-left:5px">{section name=comment_list loop=$comments}
+        	{if $comments[comment_list].parent_id == 0}
+          <table width="98%" border="0" cellpadding="0" cellspacing="10" class="comment_td" >
+            <tr >
+              <td width="11%" rowspan="2" valign="top" ><img src="{avatar uid=$comments[comment_list].userid size=small }" border="1" /></td>
+              <td valign="top" width="89%" align="left"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="400" align="left"><span class="watchDetails"><a href="{$view_channel_link}{$comments[comment_list].username}">{$comments[comment_list].username}</a>              on 
+                {$comments[comment_list].date_added|date_format}</span>{if $logged_user == $videos.username} | <a href="{$videos.url}{if $seo==yes}?{else}&{/if}delete_comment={$comments[comment_list].comment_id}">{$LANG.delete}</a>{/if}</td>
+                <!--Comments Rating-->
+                 {if $videos.comment_voting==yes && $comment_rating=="1"}
+                    <td width="20" align="right" valign="Top">{$comments[comment_list].score} </td>
+                    <td width="33" align="right">
+                    <form id="form2" name="form2" method="post" action="">
+                    <input name="comment_id" type="hidden" value="{$comments[comment_list].comment_id}" />
+                    <input type="image" name="thumb_down" value="thumb_down" id="imageField" src="{$imageurl}/CommentThumbDown.jpg" onmouseover="this.style.cursor='pointer'"/>
+                    <input type="image" name="thumb_up" value="thumb_up" id="imageField" src="{$imageurl}/CommentThumbpup.jpg" onmouseover="this.style.cursor='pointer'"/>
+                    </form>
+                    </td>
+                   {/if}
+                <!--Comments Rating-->
+                  </tr>
+                </table>
+                <hr width="100%" size="1" noshade="noshade" />                </td>
+            </tr>
+            <tr>
+              <td valign="top" align="left"><div class="watchDetails" id="comment_div">{$comments[comment_list].comment|comment:'this is something'}</div></td>
+            </tr>
+            <tr>
+              <td colspan="2" align="right" valign="top">
+     <span id="reply_to{$smarty.section.comment_list.index}-title" class="watchDetails" onmouseover="this.style.cursor='pointer'">{$LANG.vdo_reply_to_this}</span>
+     <div id="reply_to{$smarty.section.comment_list.index}" class="show_descript" style="padding-top:5px">
+  	  <form id="form1" name="form1" method="post" action="">
+      {ANCHOR place='before_reply_compose_box'}
+      <textarea name="comment" id="comment_box-reply" cols="45" rows="5"></textarea>
+   	  <input name="reply_to" type="hidden" value="{$comments[comment_list].comment_id}" />
+      <input type="submit" name="add_comment" id="button" value="{$LANG.vdo_add_reply}" style="background-color:#F6F6F6" />
+      </form>
+	</div>              </td>
+              </tr>
+          </table>
+          {/if}
+      	    {section name=reply_list loop=$comments}
+         	 {if $comments[reply_list].parent_id == $comments[comment_list].comment_id}
+          	<table width="90%" border="0" cellpadding="0" cellspacing="10" class="comment_td" >
+            <tr>
+              <td width="11%" rowspan="2" valign="top"><img src="{$avatardir}/{$comments[reply_list].small_thumb}" border="1" /></td>
+              <td valign="top" width="89%" align="left"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="400" align="left"><span class="watchDetails"><a href="{$view_channel_link}{$comments[comment_list].username}">{$comments[reply_list].username}</a>              on 
+                {$comments[reply_list].date_added|date_format}</span>{if $logged_user == $videos.username} | <a href="{$videos.url}{if $seo==yes}?{else}&{/if}delete_comment={$comments[reply_list].comment_id}">{$LANG.delete}</a>{/if}</td>
+                {if $videos.comment_voting==yes && $comment_rating=="1"}
+                    <td width="20" align="right" valign="Top">{$comments[reply_list].score}</td>
+                    <td width="33" align="right">
+                    <form id="form2" name="form2" method="post" action="">
+                    <input name="comment_id" type="hidden" value="{$comments[reply_list].comment_id}" />
+                    <input type="image" name="thumb_down" value="thumb_down" id="imageField" src="{$imageurl}/CommentThumbDown.jpg" onmouseover="this.style.cursor='pointer'"/>
+                    <input type="image" name="thumb_up" value="thumb_up" id="imageField" src="{$imageurl}/CommentThumbpup.jpg" onmouseover="this.style.cursor='pointer'"/>
+                    </form>
+                    </td>
+                 {/if}
+                  </tr>
+                </table>
+                <hr width="100%" size="1" noshade="noshade" />                </td>
+            </tr>
+            <tr>
+              <td valign="top" align="left"><div class="watchDetails" id="comment_div">{$comments[reply_list].comment}</div></td>
+            </tr>
+          </table>
+          {/if}
+          {/section}
+          {/section}</td>
+      </tr>
+      {/if}
+    </table></td>
+    <td width="320" align="center" valign="top" class="Watch_Video_Colum"><table width="100%" border="0" cellpadding="0" cellspacing="0" id="Middle Column">
+      <tr>
+        <td height="200" colspan="2" align="center" style="padding-top:5px">{AD place="ad_300x250"}<br />
+          <img src="{$imageurl}/seperator_big.jpg" /><br /></td>
+      </tr>
+      <tr>
+        <td colspan="2" align="left" valign="middle" class="video_rating" style="padding:5px 5px"><div id="subscribe">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="13%" rowspan="2"><a href="{$view_channel_link}{$videos.username}"><img src="{$userquery->getUserThumb($user_data.avatar,small)}" border="1" style="margin-right:5px"/></a></td>
+              <td width="87%" class="header2">{$LANG.com_subscribe_to} <a href="{$view_channel_link}{$videos.username}">{$videos.username}</a></td>
+            </tr>
+            <form name="subscribe" method="post" action="">
+            <input type="hidden" name="subscribe" value="true" />
+            </form>
+            <tr>
+              <td align="right" class="header2">
+             <a href="#" onclick="document.subscribe.submit();return false"> <img src="{$imageurl}/{$langf}/subscribe_button.png" border="0" Title="{$LANG.com_subscribe_to} {$videos.username}"/></a></td>
+            </tr>
+          </table>
+        </div></td>
+        </tr>
+      <tr>
+        <td width="19%" align="right" valign="middle" class="video_rating" style="padding-top:5px">{$LANG.url}</td>
+        <td width="81%" align="left" valign="middle" class="video_rating" style="padding-top:5px">
+          <input name="textarea" type="text" id="textarea" style="font:tahoma; font-size:10px;color:#999999; height:18px; padding:0px; background-color:#FFFFFF;" onclick="select()" readonly="readonly" value="{$THIS_URL}" size="40" /></td>
+      </tr>
+        <!--Embedding Video-->
+        {if $videos.allow_embedding==yes && $video_embed==1}
+      <tr>
+        <td width="19%" align="right" valign="middle" class="video_rating" style="padding-top:5px">{$LANG.embed} :          </td>
+        <td width="81%" align="left" valign="middle" class="video_rating" style="padding-top:5px">
+                    <input name="textarea" type="text" id="textarea" style="font:tahoma; font-size:10px;color:#999999; height:18px; padding:0px; background-color:#FFFFFF;" onclick="select()" value="{if $videos.embeded=='no'}&lt;object width=&quot;425&quot; height=&quot;344&quot;&gt;&lt;param name=&quot;movie&quot; value=&quot;{$baseurl}/player/embed_player.swf&quot;&gt;&lt;/param&gt;&lt;param name=&quot;allowFullScreen&quot; value=&quot;false&quot;&gt;&lt;/param&gt;&lt;embed src=&quot;{$baseurl}/player/embed_player.swf&quot; width=&quot;425&quot; height=&quot;344&quot; type=&quot;application/x-shockwave-flash&quot; pluginspage=&quot;http://www.macromedia.com/go/getflashplayer&quot; flashvars=&quot;file={$baseurl}/files/videos/{$videos.flv}&amp;displayheight=344&amp;logo={$baseurl}/player/mini_logo.png&amp;lightcolor=0xCC0000&amp;title={$videos.title}&amp;usefullscreen=false&quot;  allowfullscreen=&quot;false&quot; width=&quot;425&quot; height=&quot;344&quot;/&gt;&lt;/object&gt;{else}{$videos.embed_code_encoded}{/if}" size="40" readonly="readonly" /></td>
+      </tr>
+     	{/if}
+      <!--Embedding Video-->
+      <tr>
+        <td colspan="2" align="center" valign="middle" class="video_rating" style="padding-top:5px">
+        {if $video_download == 1}
+        <a href="{$baseurl}/download.php?v={$videos.videokey}"><img src="{$imageurl}/{$langf}/download_button.png" width="147" height="42" border="0" title="Download This Video!"/></a>
+        {/if}
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" align="center" valign="middle" class="video_rating" style="padding-top:5px">
+        <a href="http://blinklist.com/index.php?Action=Blink/addblink.php&url={$videos.url}&Title={$videos.title|replace:' ':'+'}" target="_blank"><img src="{$baseurl}/modules/bookmarks/blinklist.gif" alt="Add To Blinklist"  border="0"  style="margin:0px 5px 0px 5px"/></a>
+        
+       <a href="http://technorati.com/cosmos/search.html?url={$videos.url}" target="_blank"><img src="{$baseurl}/modules/bookmarks/technorati.gif" alt="Add To Technorati" border="0"  style="margin:0px 5px 0px 5px"/></a>
+        
+        <a href="http://del.icio.us/post?url={$videos.url}&title={$videos.title|replace:' ':'+'}" target="_blank"><img src="{$baseurl}/modules/bookmarks/delicious.gif" alt="Add To Del.icio.us" border="0"  style="margin:0px 5px 0px 5px"/></a>
+        
+        <a href="http://digg.com/submit?phase=2&url={$videos.url}" target="_blank"><img src="{$baseurl}/modules/bookmarks/digg.gif" alt="Digg This Video" border="0"  style="margin:0px 5px 0px 5px"/></a>
+        
+        <a href="http://reddit.com/submit?url={$videos.url}&title={$videos.title|replace:' ':'+'}" target="_blank"><img src="{$baseurl}/modules/bookmarks/reddit.gif" alt="Add To Reddit" border="0"  style="margin:0px 5px 0px 5px"/></a>
+        
+       <a href="http://www.stumbleupon.com/submit?url={$videos.url}&title={$videos.title|replace:' ':'+'}" target="_blank"><img src="{$baseurl}/modules/bookmarks/stumbleit.gif" alt="Stubmle This Video" border="0"  style="margin:0px 5px 0px 5px"/><br />
+       </a><img src="{$imageurl}/seperator_big.jpg" border="0" /></td>
+      </tr>
+      <tr>
+        <td colspan="2" align="center" valign="middle" class="video_rating" style="padding-top:5px">
+
+<ul id="maintab" class="shadetabs">
+<li class="selected"><a href="#default" rel="ajaxcontentarea">{$LANG.related}</a></li>
+<li><a href="{$baseurl}/tabs01.php?show=random" rel="ajaxcontentarea">{$LANG.random}</a></li>
+<li><a href="{$baseurl}/tabs01.php?show=latest" rel="ajaxcontentarea">{$LANG.latest}</a></li>
+</ul>
+
+
+<div id="ajaxcontentarea" class="contentstyle">
+
+{section name=r_list loop=$related}
+	{if $related[r_list].title neq $videos.title && $related[r_list].title neq ""}
+  <div id="somebox">
+  <div id="VDOthumb01">
+  <a href="{$related[r_list].url}"><img src="{$video_thumbs}/{$related[r_list].thumb}" border="0" /></a>
+  <div id="icon_play"></div></div>
+  <span class="tabs_01">{$related[r_list].title|truncate:30}</span></div>
+	{/if}       
+{/section}</div>
+
+<script type="text/javascript">
+startajaxtabs("maintab")
+</script></td>
+      </tr>
+    </table>
+    </td>
+    <td width="100"  align="center" valign="top"><img src="{$imageurl}/{$langf}/featured.png" />
+    {section name=f_list loop=$featured}
+
+         <a href="{$featured[f_list].url}">
+         <div id="Watch_Featured">
+           <div id="VDOthumb01"><img src="{$video_thumbs}/{$featured[f_list].thumb}" />
+            <div id="icon_play"></div>
+            </div>
+      {$featured[f_list].title|truncate:30}</div></a>
+
+    {/section}
+    <img src="{$imageurl}/seperator.jpg" /></td>
+  </tr>
+</table>
+<script type="text/javascript">
+var Decription=new switchcontent("show_descript", "div") //Limit scanning of switch contents to just "div" elements
+Decription.setStatus('<img src="{$imageurl}/down.png" /> ', '<img src="{$imageurl}/up.png" /> ')
+Decription.setColor('#333333', '#333333')
+Decription.setPersist(1)
+Decription.collapsePrevious(false) //Only one contruetent open at any given time
+Decription.init()
+</script>
+<script type="text/javascript">
+var Decription=new switchcontent("show_form", "div") //Limit scanning of switch contents to just "div" elements
+Decription.setStatus('', '')
+Decription.setColor('#333333', '#333333')
+Decription.setPersist(0)
+Decription.collapsePrevious(true) //Only one content open at any given time
+Decription.init()
+</script>
+{/if}

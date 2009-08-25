@@ -1,0 +1,81 @@
+.left_menu
+{
+	width: 230px;
+	padding-left: 5px;
+	float:left;
+}  
+
+.mainDiv
+{
+	margin-top:5px;
+	width:211px;
+}
+
+.topItem,.topItemOver,.topItemClose,.topItemCloseOver
+{
+	letter-spacing: 0;
+	background-position:center center;
+	background-repeat:no-repeat;
+	border: none;
+	width: 211px;
+	height: 26px;
+	color: #FFFFFF;
+	cursor:pointer;
+	text-indent:10px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	line-height:26px;
+}
+.topItem{background: url("../images/bgs/left_menu_head.png") no-repeat 0 -26px;}
+.topItemOver{background: url("../images/bgs/left_menu_head.png") no-repeat 0 -52px;}
+.topItemClose{background: url("../images/bgs/left_menu_head.png") no-repeat 0 0;}
+.topItemCloseOver{background: url("../images/bgs/left_menu_head.png") no-repeat 0 -26px;}
+
+
+
+.dropMenu
+{
+	font: bold 11px tahoma,verdana,sans-serif;
+	color: #000;
+	filter:alpha(opacity=100);
+	background-image:url(../images/bgs/left_menu_foot.png);
+	background-position:bottom;
+	background-repeat:no-repeat;
+	padding-bottom:15px
+}
+
+.subMenu
+{
+   display:block;
+}
+
+.subItem,.subItemOver
+{
+   font: 11px tahoma,verdana,sans-serif;	
+   text-decoration:none;
+   color: #215dc6;
+   
+}
+
+.subItem a,.subItemOver  a
+{
+	font-size:12px;
+	font-weight:bold;
+	color:#333;
+	display:block;
+	padding-left:10px;
+	text-decoration:none;
+	font-family:Arial, Helvetica, sans-serif;
+	margin:2px 0px 2px 0px;
+}
+.subItem a:hover,.subItemOver  a:hover{
+background-color:#e9f6ff;
+color:#2b495d;
+}
+
+.drop
+{
+   border-left:1px solid black;
+   border-right:1px solid black;	
+}

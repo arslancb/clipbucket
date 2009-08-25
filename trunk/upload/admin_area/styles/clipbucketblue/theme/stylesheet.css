@@ -1,0 +1,240 @@
+@import url("slidemenu.css");
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	margin: 0px;
+	min-width:950px;
+}
+h3 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #0537AB;
+	margin: 0px;
+	padding: 0px;
+}
+
+h2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #0537AB;
+}
+
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	color: #0537AB;
+}
+a {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight:bold;
+	color:#041B55;
+	text-decoration:none;
+}
+a:hover{text-decoration:underline;}
+
+.top_links{
+	height: 35px;
+	width: 300px;
+	min-height:inherit;
+	right: 0px;
+	background-image: url(../images/top_links_bg.png);
+	background-repeat:no-repeat;
+	background-position:right;
+	top: 10px;
+	color: #FFFFFF;
+}
+.top_links a{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.top_links a:link{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.top_links a:visited{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.top_links a:hover{
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+
+.tr_head {
+	font-family: Calibri;
+	font-size: 12px;
+	color: #3399FF;
+	font-weight: bold;
+	background-color: #F2F2F2;
+	height: 10px;
+	vertical-align: middle;
+	padding: 5px;
+}
+.td_body {
+	border: 1px solid #F2F2F2;
+	padding: 3px;
+}
+
+
+.setting_title{
+	font-family: Calibri;
+	font-size: 18px;
+	font-weight: bold;
+	color: #3399FF;
+	text-decoration: none;
+	height: 39px;
+	width: 500px;
+	padding-left: 10px;
+	padding-top: 7px;
+	background-image: url(../images/menu_bg.png);
+	background-repeat: no-repeat;
+	margin-left: 4px;
+}
+.title{
+	font-family: Arial, Helvetica, sans-serif;
+	color: #3399FF;
+	font-size: 12px;
+	font-weight: bold;
+}
+#button {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #3399FF;
+	border: 1px solid #333333;
+	height: 20px;
+}
+hr {
+	border-top-width: 1px;
+	border-top-style: none;
+	border-top-color: #C0C0C0;
+	height: 1px;
+}
+.pagination{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+.pagination a{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #FFFFFF;
+	text-decoration:none;
+}
+.pagination a:link{
+text-decoration:none;
+}
+.pagination a:visited{
+text-decoration:none;
+}
+.pagination a:hover{
+text-decoration:none;
+}
+
+
+
+#fixedtipdiv{
+position:absolute;
+padding: 0px;
+border:0px;
+font:normal 12px Verdana;
+line-height:18px;
+z-index:100;
+}
+
+.des_table{
+	border: 1px solid #999999;
+}
+
+.tborder {
+background:#D1D1E1 none repeat scroll 0%;
+border:1px solid #000000;
+color:#000000;
+}
+
+.tcat {
+background:#53bafe url("../images/navbar_bg.png") repeat-x scroll right top;
+color:#FFFFFF;
+font-family:verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif;
+font-size:10pt;
+font-size-adjust:none;
+font-stretch:normal;
+font-style:normal;
+font-variant:normal;
+font-weight:bold;
+line-height:normal;
+}
+.tcat a:link, .tcat_alink {
+color:#FFFFFF;
+text-decoration:none;
+}
+.tcat a:visited, .tcat_avisited {
+color:#FFFFFF;
+text-decoration:none;
+}
+.tcat a:hover, .tcat a:active, .tcat_ahover {
+color:#FFFFFF;
+text-decoration:underline;
+}
+
+.panelsurround {
+background:#FAFAF8 none repeat scroll 0%;
+color:#000000;
+}
+
+.panel {
+background:#FAFAF8 none repeat scroll 0%;
+border:1px solid #D1D1E1;
+color:#000000;
+padding:10px;
+}
+
+.fieldset, .fieldset td, .fieldset p, .fieldset li {
+font-size:11px;
+}
+.fieldset {
+margin-bottom:6px;
+}
+
+.smallfont, .smallfont a:link, .smallfont a:visited, .smallfont a:hover  {
+font-size-adjust:none;
+font-stretch:normal;
+font-style:normal;
+font-variant:normal;
+font-weight:normal;
+line-height:normal;
+color: #000000;
+white-space:nowrap;
+}
+
+.smallfontfoot, .smallfontfoot a:link, .smallfontfoot a:visited, .smallfontfoot a:hover {
+font-size-adjust:none;
+font-stretch:normal;
+font-style:normal;
+font-variant:normal;
+font-weight:normal;
+line-height:normal;
+color: #000000;
+white-space:nowrap;
+}
+
+form {
+margin:0px;
+}
+
+
+.td_body:hover{background-color:#DFF3FF}.head_title {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #53baff;
+	padding: 2px;
+}
