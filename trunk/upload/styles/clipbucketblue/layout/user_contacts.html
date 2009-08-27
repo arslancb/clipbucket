@@ -1,0 +1,87 @@
+
+{if $user.username == ""}
+<table width="800" border="0" align="center" cellpadding="3" cellspacing="0" bgcolor="#dcdcdc" style="border:solid 1px #333333;">
+<tr>
+          <td ><table width="98%" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td align="center" class="header2">{$LANG.user_doesnt_exist}</td>
+              </tr>
+          </table></td>
+        </tr>
+      </table>
+{else}
+<table width="940" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td colspan="2" valign="top" class="header1"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td class="header1">{$user.username}
+    's Contacts </td>
+          <td width="200" align="right" class="tips">{$LANG.viewing} {math equation=$limit*$cur_page assign=viewing} {if $prepage == 0 } {math equation=$prepage+1} {else} {math equation = $prepage*$limit+1 }{/if} - {if $viewing > $grand_total}{$grand_total}{else}{$viewing}{/if} {$LANG.of} {$grand_total}</td>
+        </tr>
+      </table>
+    <hr size="1" noshade></td>
+  </tr>
+  <tr>
+    <td width="780" valign="top">
+    {if $grand_total ==0}
+      <table width="95%" border="0" align="center" cellpadding="3" cellspacing="0" bgcolor="#dcdcdc" style="border:solid 1px #333333;">
+        <tr>
+          <td ><table width="98%" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td align="center" class="header2">{$LANG.user_do_not_have_contact}</td>
+              </tr>
+          </table></td>
+        </tr>
+      </table>
+    {/if}
+    {section name=u_list loop=$contacts}
+    {if $contacts[u_list].friend_username != ""}
+    <div style="width:150; height:180x; border:1px #F5F5F5 solid; float:left; margin:3px">
+       <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="145" align="center" class="watchDetails" style="padding-top:4px">
+        <div id="UserThumb">
+        <table width="118" border="0" cellpadding="0" cellspacing="0" height="90">
+        <tr>
+        <td align="center" valign="middle" bgcolor="#999999">
+       <a href="{$view_channel_link}{$contacts[u_list].username}"> <img src="{$userquery->getUserThumb($contacts[u_list].avatar)}" align="middle" border="0"/></a>  <div id="icon_user"></div>       </td>
+        </tr>
+        </table>      
+        </div>        </td>
+      </tr>
+  </table>
+       <table width="80%" border="0" cellspacing="0" cellpadding="0">
+         <tr>
+           <td align="left"><a href="{$view_channel_link}{$contacts[u_list].username}" class="tabs_01"> {$contacts[u_list].friend_username}</a></td>
+         </tr>
+         <tr>
+           <td align="left" class="tips">{$LANG.views} : {$contacts[u_list].views}</td>
+         </tr>
+         <tr>
+           <td align="left" class="tips">{$LANG.comments} :{$contacts[u_list].Comments}</td>
+         </tr>
+         <tr>
+           <td align="left" class="tips">{$LANG.videos}:{$contacts[u_list].videos}</td>
+         </tr>
+         <tr>
+           <td align="left" class="tips">{$LANG.date_joined}<span class="tabs_01">{$contacts[u_list].doj|date_format}</span></td>
+         </tr>
+       </table>
+    </div>{/if}{/section}</td>
+    <td width="200" rowspan="2" align="center" valign="top">{AD place=ad_160x600}</td>
+  </tr>
+  <tr>
+    <td valign="top"><table width="93%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#f6f6f6">
+      <tr>
+        <td width="10" align="left" valign="middle" bgcolor="#F3F3F3" ><img src="{$imageurl}/left_round.png" /></td>
+        <td width="50" align="left" valign="middle" bgcolor="#F3F3F3" class="pagination" > {if $prepage neq 0}<a href="{$link}&amp;page={$prepage}">{$LANG.previous}</a>{/if}</td>
+        <td align="center" valign="middle" bgcolor="#F3F3F3" class="pagination" >{$show_pages}</td>
+
+        <td width="50" align="right" valign="middle" bgcolor="#F3F3F3" class="pagination">{if $pages!=1 && $cur_page < $pages && $nextpage <=$pages}<a href="{$link}&amp;page={$nextpage}">{$LANG.next}</a>{/if}</td>
+        <td width="10" align="right" valign="middle" bgcolor="#F3F3F3" ><img src="{$imageurl}/right_round.png" /></td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+</table>
+{/if}

@@ -1,0 +1,13 @@
+{if $watchactive !=""}
+<!-- Light Off Mod Js Files -->
+	{if $LIGHT_OFF_MOD == TRUE}
+		{foreach from=$light_off_js_files item=file}
+		<script src="{$js}/{$file}" type="text/javascript"></script>
+		{/foreach}
+		<script language="javascript">
+		{foreach from=$light_off_js_code item=code}
+		{$code}
+		{/foreach}</script>
+	{/if}
+<!-- Light Off Mod Js Files -->
+{/if}

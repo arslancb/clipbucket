@@ -1,0 +1,233 @@
+<script src="{$js}/switch_content.js"></script>
+
+<table width="950" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td colspan="2" style="padding-left:5px"><span class="header1">{$LANG.com_search_results}</span><span class="tips"  id="Advance_search-title"  onmouseover="this.style.cursor='pointer'" >({$LANG.com_advance_results})</span></td>
+  </tr>
+  <tr>
+    <td colspan="2" style="padding-left:5px">
+	<div id="Advance_search"  class="show_form" style="padding-top:5px"> <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F3F3F3">
+          <tr>
+            <td width="2%" align="left" valign="top"><span style="padding-left:0"><img src="{$imageurl}/uploader_tl.gif" /></span></td>
+            <td width="95%" class="header1">{$LANG.com_advance_results} </td>
+            <td width="3%" align="right" valign="top"><img src="{$imageurl}/uploader_tr.gif" /></td>
+          </tr>
+          <tr>
+            <td align="left">&nbsp;</td>
+            <td><form id="form1" name="form1" method="get" action="">
+      <table width="100%" border="0" cellspacing="2" cellpadding="0">
+        <tr>
+          <td width="25%" class="tips">{$LANG.category}:<br />
+            <label>
+            <select name="ct" id="category"  style="width:200px">
+			<option value="">--------------</option>
+			{section name=c_list loop=$category}
+              <option value="{$category[c_list].categoryid}"
+                    {if $cur_cat == $category[c_list].categoryid}
+					 selected="selected"
+                    {/if}
+                    >{$category[c_list].category_name}</option>
+              {/section}
+            </select>
+            </label></td>
+          <td width="25%" class="tips">{$LANG.filter}<br />
+            <select name="order" id="order" style="width:200px">
+              <option value="mr">{$LANG.most_recent}</option>
+              <option value="mv">{$LANG.mostly_viewed}</option>
+              <option value="fr" {if $default_order==fr} selected="selected"{/if}>{$LANG.featured}</option>
+              </select></td>
+          <td width="50%" class="tips">{$LANG.sort_by}<br />
+            <label>
+            <select name="sort" id="sort">
+              <option value="asc" selected="selected">Ascending</option>
+              <option value="desc">Descending</option>
+            </select>
+            </label></td>
+        </tr>
+        
+        <tr>
+          <td height="25" valign="bottom" class="tips">{$LANG.keywords}
+            <br />
+            <input name="query" type="text" id="search_bar"  value="{$query}" size="30"  style="width:200px"/></td>
+          <td height="25" align="left" valign="bottom" class="tips">{$LANG.type}<br />
+            <select name="type" id="type"  style="width:200px">
+              <option value="videos" selected="selected">{$LANG.videos}</option>
+              <option value="channels"{if $default_type==channels}
+                    selected="selected"
+                    {/if}>Channels</option>
+              <option value="groups"{if $default_type==groups}
+                    selected="selected"
+                    {/if}>{$LANG.groups}</option>
+                        </select></td>
+          <td align="left" valign="bottom" class="tips">&nbsp;</td>
+        </tr>
+        <tr>
+          <td height="25" valign="bottom">&nbsp;</td>
+          <td height="25" align="center" valign="bottom">&nbsp;</td>
+          <td align="center" valign="bottom">&nbsp;</td>
+        </tr>
+        <tr>
+          <td height="25" colspan="3" align="center" valign="bottom"><input type="submit" name="Submit" value="{$LANG.com_advance_results}" id="button" /></td>
+          </tr>
+      </table>
+        
+	</form> </td>
+            <td align="right">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left"><span style="padding-left:0"><img src="{$imageurl}/uploader_bl.gif" /></span></td>
+            <td>&nbsp;</td>
+            <td align="right"><img src="{$imageurl}/uploader_br.gif" /></td>
+          </tr>
+        </table></div></td>
+  </tr>
+  <tr>
+    <td colspan="2" style="padding-left:5px">&quot;<strong>{$query}</strong> &quot;
+    {$type} {$LANG.results} <strong>{math equation=$limit*$cur_page assign=viewing}</strong> {if $prepage == 0 } <strong>{math equation=$prepage+1}</strong> {else}<strong> {math equation = $prepage*$limit+1 }</strong>{/if} - {if $viewing > $grand_total}<strong>{$grand_total}</strong>{else}{$viewing}{/if} {$LANG.of} {$grand_total}<strong></strong>
+    <hr size="1" noshade></td>
+  </tr>
+  <tr>
+    <td colspan="2" bgcolor="#F6F6F6" class="tips" style="padding:5px">{$LANG.com_search_results_in} : <a href="?query={$query}&amp;type=videos"><strong>{$LANG.videos}</strong></a> | <a href="?query={$query}&amp;type=channels"><strong>{$LANG.channels}</strong></a> | <a href="?query={$query}&amp;type=groups"><strong>{$LANG.groups}</strong></a> </td>
+  </tr>
+  <tr>
+    <td width="663" >&nbsp;</td>
+    <td width="287" align="center" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top" >
+	{if $type == 'videos'}
+    {section name=v_list loop=$videos}
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="21%">
+          <a href="{$videos[v_list].url}"> 
+        	<div id="VDOthumb02">
+         	 <img src="{getThumb flv=$videos[v_list].flv}" width="120" height="90" border="0" />
+          		<div id="icon_play01"></div>
+   			</div>
+    	</a>        </td>
+          <td width="48%" valign="top" style="padding-top:5px"><span class="header2"><a href="{$videos[v_list].url}">{$videos[v_list].title}</a></span><br>
+          {$videos[v_list].description|truncate:180}</td>
+          <td width="31%" align="center"><table width="100%" border="0" cellspacing="0" cellpadding="2" style="border-left:1px dotted #000000">
+            <tr>
+              <td width="27%" class="tips">{$LANG.added}:</td>
+              <td width="73%" class="tips">{$videos[v_list].date_added|date_format}</td>
+            </tr>
+            <tr>
+              <td class="tips">{$LANG.from}:</td>
+              <td class="tips"><a href="{$view_channel_link}{$videos[v_list].username}">{$videos[v_list].username}</a></td>
+            </tr>
+            <tr>
+              <td class="tips">{$LANG.views} : </td>
+              <td class="tips">{$videos[v_list].views|number_format}</td>
+            </tr>
+            <tr>
+              <td colspan="2" class="tips">{$videos[v_list].show_rating}</td>
+              </tr>
+            <tr>
+              <td colspan="2" class="header3">{$videos[v_list].duration}</td>
+              </tr>
+            <tr>
+              <td class="tips">&nbsp;</td>
+              <td class="tips">&nbsp;</td>
+            </tr>
+          </table></td>
+        </tr>
+      </table>
+      <hr size="1" noshade>
+    {/section}{/if}    
+	
+	<!--Starting Channels Search-->
+	
+	
+	{if $type == 'channels'}
+ 	{section name=u_list loop=$users}
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" valign="top">
+          <a href="{$view_channel_link}{$users[u_list].username}"> <img src="{$userquery->getUserThumb($users[u_list].avatar)}" width="100" height="75" border="0" align="middle"/></a></td>
+          <td width="48%" valign="top" style="padding-top:5px"><span class="header2"><a href="{$view_channel_link}{$users[u_list].username}" class="tabs_01"> {$users[u_list].channel_title}</a></span><br>
+          {$users[u_list].channel_des|truncate:180}</td>
+          <td width="31%" align="center"><table width="100%" border="0" cellspacing="0" cellpadding="2" style="border-left:1px dotted #000000">
+            <tr>
+              <td colspan="2" class="tips"><strong><a href="{$view_channel_link}{$users[u_list].username}">{$users[u_list].username}</a></strong></td>
+              </tr>
+            <tr>
+              <td width="27%" class="tips">{$LANG.joined}:</td>
+              <td width="73%" class="tips">{$users[u_list].doj|date_format}</td>
+            </tr>
+            <tr>
+              <td class="tips">{$LANG.views} : </td>
+              <td class="tips">{$users[u_list].profile_hits}</td>
+            </tr>
+            <tr>
+              <td class="tips">{$LANG.videos}:</td>
+              <td class="tips">{$users[u_list].total_videos}</td>
+            </tr>
+            <tr>
+              <td class="tips">{$LANG.subscribers}:</td>
+              <td class="tips">{$users[u_list].subscribers}</td>
+            </tr>
+          </table></td>
+        </tr>
+      </table>
+      <hr size="1" noshade>
+    {/section}{/if}   
+	
+	
+	<!--Ending Channels Search-->
+	
+	<!--Starting {$LANG.groups} Search-->
+	
+	{if $type == 'groups'}
+ 	{section name=g_list loop=$groups}
+	  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="10%" align="center" valign="top" style="padding:2px"><a href="{$view_group_link}{$groups[g_list].group_url}"><img src="{$group_thumb}/{$groups[g_list].group_thumb}" border="1" /></a></td>
+          <td width="90%" valign="top" style="padding-left:5px">
+		  <table width="100%" height="21%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td colspan="4" class="header2"><a href="{$view_group_link}{$groups[g_list].group_url}">{$groups[g_list].group_name|truncate:80}</a></td>
+            </tr>
+            <tr>
+              <td colspan="4" valign="top" class="tips" style="padding-bottom:10px">{$groups[g_list].group_description|truncate:350}</td>
+            </tr>
+            <tr>
+              <td width="25%" align="left" class="tips">{$LANG.videos}:<strong class="Tags">{$groups[g_list].total_videos}</strong></td>
+              <td width="25%" align="left" class="tips">{$LANG.members}:<strong class="Tags">{$groups[g_list].total_members}</strong></td>
+              <td width="25%" align="left" class="tips">{$LANG.created}:<strong class="Tags">{$groups[g_list].date_added|date_format}</strong></td>
+              <td width="25%" align="center" class="tips">{$LANG.owner}:<strong><a href="{$view_channel_link}{$groups[g_list].username}">{$groups[g_list].username}</a></strong></td>
+            </tr>
+          </table>		  </td>
+        </tr>
+      </table>
+	  <hr align="center" width="95%" size="1" noshade="noshade" />
+      {/section}{/if}   
+	
+	
+	<!--Ending {$LANG.groups} Search-->    </td>
+    <td width="180" align="right" valign="top"  style="padding-right:10px">{AD place=ad_160x600}</td>
+  </tr>
+  <tr>
+    <td align="center" ><table width="93%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#f6f6f6">
+      <tr>
+        <td width="10" align="left" valign="middle" bgcolor="#F3F3F3" ><img src="{$imageurl}/left_round.png" /></td>
+        <td width="50" align="left" valign="middle" bgcolor="#F3F3F3" class="pagination" > {if $prepage neq 0}<a href="{$link}&amp;page={$prepage}">{$LANG.previous}</a>{/if}</td>
+        <td align="center" valign="middle" bgcolor="#F3F3F3" class="pagination" >{$show_pages}</td>
+
+        <td width="50" align="right" valign="middle" bgcolor="#F3F3F3" class="pagination">{if $pages!=1 && $cur_page < $pages && $nextpage <=$pages}<a href="{$link}&amp;page={$nextpage}">{$LANG.next}</a>{/if}</td>
+        <td width="10" align="right" valign="middle" bgcolor="#F3F3F3" ><img src="{$imageurl}/right_round.png" /></td>
+      </tr>
+    </table></td>
+    <td align="center" >&nbsp;</td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+var Decription=new switchcontent("show_form", "div") //Limit scanning of switch contents to just "div" elements
+Decription.setStatus('', '')
+Decription.setColor('#000000', '#000000')
+Decription.setPersist(true)
+Decription.collapsePrevious(false) //Only one content open at any given time
+Decription.init()
+</script> 

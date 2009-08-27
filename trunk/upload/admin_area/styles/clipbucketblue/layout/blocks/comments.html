@@ -1,0 +1,56 @@
+<link href="../../theme/stylesheet.css" rel="stylesheet" type="text/css" />
+{assign var=bgcolor value =F2F2F2}
+{if $myquery->get_comments($id,$type)}
+<table width="99%" border="0" cellpadding="2" cellspacing="1">
+  <tr class="head_title">
+    <td width="35">CID</td>
+    <td width="35">UID</td>
+    <td>Comment</td>
+    <td width="70">Date</td>
+    <td width="70">Votes</td>
+    <td width="100">&nbsp;</td>
+  </tr>
+</table>
+<table width="99%" border="0" cellpadding="2" cellspacing="1">
+
+{foreach from=$myquery->get_comments($id,$type) item=comment}
+	
+	{if $comment.parent_id == 0}
+        
+          <tr style="background-color:#{$bgcolor}">
+            <td width="35">{$comment.comment_id}</td>
+            <td width="35">{$comment.userid}</td>
+            <td >{$comment.comment}</td>
+            <td width="70" >{$comment.date_added|date_format}</td>
+            <td width="70" >{$comment.vote}</td>
+            <td width="100" ><a href="?{$link}&amp;delete_comment={$comment.comment_id}">Delete</a></td>
+          </tr>
+        
+        
+        {foreach from=$myquery->get_comments($id,$type,false,$comment.comment_id,TRUE) item=reply}
+        	{if $reply.comment !=''}
+			<tr style="background-color:#{$bgcolor}">
+            <td width="35">{$reply.comment_id}</td>
+            <td width="35">{$reply.userid}</td>
+            <td >{$comment.comment_id} &hArr; {$reply.comment}</td>
+            <td width="70" >{$reply.date_added|date_format}</td>
+            <td width="70" >{$reply.vote}</td>
+            <td width="100" ><a href="?{$link}&amp;delete_comment={$reply.comment_id}">Delete</a></td>
+         	</tr>
+          	{/if}
+		{/foreach}
+        
+    	{if $bgcolor == 'F2F2F2'}
+        	{assign var=bgcolor value =FFF}
+       	{elseif $bgcolor == 'FFF'}
+        	{assign var=bgcolor value =F2F2F2}
+        {/if}
+        	
+	{/if}
+{/foreach}
+{else}
+<tr style="background-color:#FFF">
+<td colspan="6" align="center"><em>No User Comments For This Video</em></td>
+</tr>
+{/if}
+</table>

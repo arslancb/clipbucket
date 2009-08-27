@@ -1,0 +1,41 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		  {if $compose != 'selected'}
+          <tr>
+            <td width="7%" height="27">&nbsp;</td>
+            <td width="17%" height="27"><a href="{$compose_msg_link}"><img src="{$imageurl}/composse_icon.png" border="0" title="Compose New Message" /></a></td>
+            <td width="76%" height="27" class="header3"><a href="{$compose_msg_link}">{$LANG.usr_compose_msg}</a></td>
+          </tr>
+          {else}
+          <tr>
+            <td height="27" bgcolor="#F0F0F0"><img src="{$imageurl}/round01.png"  /></td>
+            <td height="27" bgcolor="#F0F0F0"><a href="{$compose_msg_link}"><img src="{$imageurl}/composse_icon_f0f0f0bg.png" border="0" title="Compose New Message" /></a><a href="{$sent_link}"></a></td>
+            <td height="27" bgcolor="#F0F0F0" class="header3"><a href="{$compose_msg_link}">{$LANG.usr_compose_msg}</a></td>
+          </tr>
+          {/if}
+          {if $inbox != 'selected'}
+          <tr>
+            <td height="27">&nbsp;</td>
+            <td width="30" height="27"><a href="{$inbox_link}"><img src="{$imageurl}/inbox_icon.png"  border="0" title="Go To InBox" /></a></td>
+            <td height="27" class="header3"><a href="{$inbox_link}" class="header3">{$LANG.usr_inbox_title}</a></td>
+          </tr>
+          {else}
+          <tr>
+            <td height="27" bgcolor="#F0F0F0"><img src="{$imageurl}/round01.png"  /></td>
+            <td height="27" bgcolor="#F0F0F0"><a href="{$inbox_link}"><img src="{$imageurl}/inbox_icon_f0f0f0bg.png"  border="0" title="Go To InBox" /></a><a href="{$sent_link}"></a></td>
+            <td height="27" bgcolor="#F0F0F0" class="header3"><a href="{$inbox_link}" class="header3">{$LANG.usr_inbox_title}</a></td>
+          </tr>
+          {/if}
+          {if $sent != 'selected'}
+           <tr>
+            <td height="27">&nbsp;</td>
+            <td width="30" height="27"><a href="{$sent_link}"><img src="{$imageurl}/outbox_icon.png" alt="{$outbox_link}"  border="0" title="Go To Sent Folder" /></a><a href="{$inbox_link}"></a></td>
+            <td height="27" class="header3"><a href="{$sent_link}">{$LANG.usr_sent_title}</a></td>
+          </tr>
+          {else}
+          <tr>
+            <td height="27" bgcolor="#F0F0F0"><img src="{$imageurl}/round01.png"  /></td>
+            <td height="27" bgcolor="#F0F0F0"><a href="{$sent_link}"><img src="{$imageurl}/outbox_icon_f0f0f0bg.png" alt="{$outbox_link}"  border="0" title="Go To Sent Folder" /></a></td>
+            <td height="27" bgcolor="#F0F0F0" class="header3"><a href="{$sent_link}">{$LANG.usr_sent_title}</a></td>
+          </tr>
+          {/if}
+        </table>

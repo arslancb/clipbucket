@@ -1,0 +1,32 @@
+<div style="width:150px; height:180x; border:1px #F5F5F5 solid; float:left; margin:3px">
+       <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="145" align="center" class="watchDetails" style="padding-top:4px">
+        <div id="UserThumb">
+        <table width="118" border="0" cellpadding="0" cellspacing="0" height="90">
+        <tr>
+        <td align="center" valign="middle" bgcolor="#F8F8F8">
+       <a href="{$view_channel_link}{$users[u_list].username}"> <img src="{$userquery->getUserThumb($users[u_list].avatar)}" align="middle" border="0"/></a> <div id="icon_user"></div>       </td>
+        </tr>
+        </table>      
+        </div>        </td>
+      </tr>
+  </table>
+       <table width="100%" border="0" cellspacing="0" cellpadding="0">
+         <tr>
+           <td align="left"><a href="{$view_channel_link}{$users[u_list].username}" class="tabs_01"> {$users[u_list].username}</a></td>
+         </tr>
+         <tr>
+           <td align="left" class="tips"><BR>{$LANG.views}: {$users[u_list].profile_hits}</td>
+         </tr>
+         <tr>
+           <td align="left" class="tips">{$LANG.comments}: {$users[u_list].total_comments}</td>
+         </tr>
+         <tr>
+           <td align="left" class="tips">{$LANG.videos}: {$users[u_list].total_videos}</td>
+         </tr>
+         <tr>
+           <td align="left" class="tips">{$LANG.date_joined}: <NOBR>{$users[u_list].doj|date_format}</NOBR></td>
+         </tr>
+       </table>
+     </div>

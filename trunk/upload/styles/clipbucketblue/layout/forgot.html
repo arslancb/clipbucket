@@ -1,0 +1,121 @@
+
+<table width="940" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td class="header1">{$LANG.user_forgot_message} <span class="header2">{$LANG.user_forgot_message_2}</span></td>
+  </tr>
+  <tr>
+    <td><form name="form1" method="post" action="">
+      <table width="812" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F0F0F0">
+        <tr>
+          <td width="20" height="20"><img src="{$imageurl}/uploader_tl.gif" width="20" height="20"></td>
+          <td colspan="2">&nbsp;</td>
+          <td width="20" height="20"><img src="{$imageurl}/uploader_tr.gif" width="20" height="20"></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="2" class="header1">{$LANG.user_pass_reset_msg}</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="2" align="left" class="tips">{$LANG.user_pass_forgot_msg}</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td width="96" align="right" class="tips">{$LANG.username}</td>
+          <td width="676" height="30" align="left" style="padding-left:5px"><label>
+            <input type="text" name="username" id="username">
+          </label></td>
+          <td>&nbsp;</td>
+        </tr>
+		{if $captcha_type != 0 }
+        <tr>
+          <td>&nbsp;</td>
+          <td align="right" class="tips">{$LANG.user_veri_code}</td>
+          <td height="30" style="padding-left:5px"><label>
+            <input type="text" name="vcode" id="vcode">
+          </label></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td align="left">&nbsp;</td>
+          <td align="left" style="padding-left:5px"><img src="{$captcha}" border=1 name="captcha" id="captcha"><br /></td>
+          <td>&nbsp;</td>
+        </tr>
+		{/if}
+        <tr>
+          <td>&nbsp;</td>
+          <td align="left">&nbsp;</td>
+          <td align="left"><input type="submit" name="reset" id="button" value="{$LANG.user_reset}"></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td><img src="{$imageurl}/uploader_bl.gif" width="20" height="20"></td>
+          <td colspan="2" align="center"><label></label></td>
+          <td><img src="{$imageurl}/uploader_br.gif" width="20" height="20"></td>
+        </tr>
+      </table>
+        </form>    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><form action="" method="post" name="form1" id="form1">
+      <table width="812" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F0F0F0">
+        <tr>
+          <td width="20" height="20"><img src="{$imageurl}/uploader_tl.gif" width="20" height="20" /></td>
+          <td colspan="2">&nbsp;</td>
+          <td width="20" height="20"><img src="{$imageurl}/uploader_tr.gif" width="20" height="20" /></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="2" class="header1">{$LANG.user_reocover_user}</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td colspan="2" align="left" class="tips">{$LANG.user_user_forgot_msg}</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td width="96" align="right" class="tips">{$LANG.email}</td>
+          <td width="676" height="30" align="left" style="padding-left:5px"><label>
+            <input type="text" name="email" id="email" />
+          </label></td>
+          <td>&nbsp;</td>
+        </tr>
+		{if $captcha_type != 0 }
+        <tr>
+          <td>&nbsp;</td>
+          <td align="right" class="tips">{$LANG.user_veri_code}</td>
+          <td height="30" style="padding-left:5px"><label>
+            <input type="text" name="vcode" id="vcode" />
+          </label></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td align="left">&nbsp;</td>
+          <td align="left" style="padding-left:5px"><img src="{$captcha}" border="1" name="captcha" id="captcha2" /><br /></td>
+          <td>&nbsp;</td>
+        </tr>
+		{/if}
+        <tr>
+          <td>&nbsp;</td>
+          <td align="left">&nbsp;</td>
+          <td align="left"><input type="submit" name="recover" id="button" value="{$LANG.user_recover}" /></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td><img src="{$imageurl}/uploader_bl.gif" width="20" height="20" /></td>
+          <td colspan="2" align="center"><label></label></td>
+          <td><img src="{$imageurl}/uploader_br.gif" width="20" height="20" /></td>
+        </tr>
+      </table>
+    </form></td>
+  </tr>
+</table>

@@ -1,0 +1,130 @@
+
+<script src="{$js}/ajaxtabs.js"></script>
+<table width="950" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="169" align="right" valign="top" style="padding:0px; margin:0px"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="right" bgcolor="#f0f0f0"><img src="{$imageurl}/uploader_tr.gif" /></td>
+        </tr>
+        <tr>
+          <td align="center" bgcolor="#f0f0f0"><img src="{$userquery->getUserThumb($data.avatar)}" border="1"></td>
+        </tr>
+        <tr>
+          <td align="right" bgcolor="#f0f0f0"><img src="{$imageurl}/uploader_br.gif" /></td>
+        </tr>
+        </table></td>
+    <td width="781" valign="top" style="padding:3px 0px 0px 6px"><span class="header1">{$LANG.welcome} {$data.username},
+    <hr align="left" width="98%" size="1" noshade>
+    </span>{if $data.usr_status != Ok} 
+    <table width="95%" border="0" align="center" cellpadding="3" cellspacing="0" bgcolor="#B9E3FF" style="border:solid 1px #0099CC;">
+      <tr>
+        <td ><table width="98%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="5%"><img src="{$imageurl}/alert.png" /></td>
+              <td width="95%"><span class="tips">{$LANG.user_inactive_msg}</span> <a href="{$baseurl}/activation.php">{$LANG.vdo_click_here}</a></td>
+            </tr>
+          </table></td>
+      </tr>
+    </table> 
+    {/if}    <br />
+    <span class="header3">{$LANG.user_dashboard}</span>
+    <hr align="left" width="98%" size="0" noshade="noshade" />
+    <table width="95%" border="0" align="left" cellpadding="3" cellspacing="3">
+      <tr>
+        <td class="tips"><a href="{$manage_videos}">{$LANG.com_manage_vids}</a> | <a href="{$inbox_link}">{$LANG.messages}</a> |<a href="{$manage_subscriptions}"> {$LANG.com_manage_subs}</a> | <a href="{$user_account_link}" >{$LANG.user_manage_prof_chnnl}</a> | <a href="{$manage_contacts_link}">{$LANG.user_manage_friends}</a> | <a href="{$manage_groups_link}">{$LANG.grp_groups_title}</a> | <a href="{$create_group_link}">{$LANG.grp_crt_grp}</a> </td>
+      </tr>
+    </table>
+    <p>&nbsp;</p>
+    <p><br />
+    </p></td>
+  </tr>
+  
+  <tr>
+    <td colspan="2" align="center" bgcolor="#F9f9f9" style="padding:0px; margin:0px">
+<ul id="maintab" class="shadetabs2">
+<li class="selected"><a href="#default" rel="ajaxcontentarea">{$LANG.account}</a></li>
+<li><a href="{$manage_videos}?show=videos" rel="ajaxcontentarea">{$LANG.videos}</a></li>
+<li><a href="{$subscriptions_link}?show=subscriptions" rel="ajaxcontentarea">{$LANG.subscriptions}</a></li>
+<li><a href="{$manage_favourites_link}?show=favourites" rel="ajaxcontentarea">{$LANG.favourites}</a></li>
+<li><a href="{$user_account_link}?show=profile" rel="ajaxcontentarea">{$LANG.user_prof_channel}</a></li>
+</ul>
+
+<div id="ajaxcontentarea" class="contentstyle2">
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+  <tr>
+    <td width="50%">
+   <fieldset><legend class="header3">{$LANG.user_message_box}</legend>
+    <ul class="Account">
+      <li><a href="{$inbox_link}">({$new_msgs}) {$LANG.user_new_messages}</a></li>
+      <li><a href="{$inbox_link}">{$LANG.user_goto_inbox}</a></li>
+      <li><a href="{$sent_link}">{$LANG.user_goto_sentbox}</a></li>
+      <li><a href="{$compose_msg_link}">{$LANG.user_compose_new}</a></li>
+    </ul>
+   </fieldset></td>
+    <td width="50%"><fieldset>
+      <legend class="header3">{$LANG.videos} </legend>
+      <ul class="Account">
+        <li>{$LANG.com_total_vids} ({$data.total_videos|number_format})</li>
+        <li>{$LANG.user_your_vids_watched}({$data.uploaded_watched|number_format}) {$LANG.user_times}</li>
+        <li>{$LANG.user_you_have_watched}({$data.total_watched|number_format}) {$LANG.videos}</li>
+        <li><a href="{$manage_videos_link}">{$LANG.grp_manage_vdos}        </a></li>
+      </ul>
+    </fieldset>    </td>
+  </tr>
+  <tr>
+    <td width="50%"><fieldset>
+      <legend class="header3">{$LANG.subscriptions}</legend>
+      <ul class="Account">
+        <li>{$LANG.user_total_subs_users}({$data.subscribed_user})</li>
+        <li>{$LANG.user_you_have} ({$data.user_subscriptions}) Subscriptions</li>
+        <li><a href="{$manage_subscriptions}">{$LANG.com_manage_subs}<br />
+            <br />
+        </a></li>
+        </ul>
+    </fieldset>    </td>
+    <td width="50%"><fieldset>
+    <legend class="header3">{$LANG.user_channel_profiles}</legend>
+    <ul class="Account">
+      <li>{$LANG.user_channel_views} ({$data.profile_hits})</li>
+      <li>{$LANG.user_channel_comm} ({$data.total_channel_comments})</li>
+      <li><a href="{$user_account_link}">{$LANG.user_manage_prof}<br />
+            <br />
+      </a></li>
+    </ul>
+    </fieldset></td>
+  </tr>
+  <tr>
+    <td><fieldset>
+    <legend class="header3">{$LANG.favourites}</legend>
+    <ul class="Account">
+      <li>{$LANG.user_you_have}({$data.total_favourites}) {$LANG.favourite}{$LANG.videos} </li>
+      <li><a href="{$manage_favourites_link}">{$LANG.com_manage_fav}<br />
+          <br />
+            <br />
+            <br />
+      </a></li>
+    </ul>
+    </fieldset></td>
+    <td valign="top"><fieldset>
+    <legend class="header3">{$LANG.groups}</legend>
+    <ul class="Account">
+      <li>{$LANG.user_you_created} ({$data.create_groups})  {$LANG.groups} </li>
+      <li>{$LANG.user_you_joined} ({$data.joined_groups})  {$LANG.groups}</li>
+      <li><a href="{$create_group_link}">{$LANG.user_create_group}</a></li>
+      <li><a href="{$manage_groups_link}">{$LANG.grp_groups_title}</a>  <br />
+          <br />
+      </li>
+      </ul>
+    </fieldset></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+{AD place=ad_728x90}</td>
+    </tr>
+</table>
+</div>
+    <script type="text/javascript">
+	startajaxtabs("maintab")
+      </script>    </td>
+  </tr>
+</table>

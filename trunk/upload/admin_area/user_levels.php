@@ -1,0 +1,75 @@
+<?php
+/**
+ * @author : Arslan Hassan
+ * @software : ClipBucket
+ * @since : June 20 2009
+ * @license : CBLA
+ * @URI : http://clip-bucket.com
+ */
+
+#Including Maing file and checking user level
+require'../includes/admin_config.php';
+$pages->page_redir();
+$userquery->login_check('admin_access');
+
+$mode = $_GET['mode'];
+$lid = mysql_clean($_GET['lid']);
+$action = mysql_clean($_GET['action']);
+
+//Deleteing Level
+if($action=='delete')
+	$userquery->delete_user_level($lid);
+	
+switch($mode)
+{
+	case 'view':
+	default:
+	{
+		Assign('view','view');
+	}
+	break;
+	
+	case 'edit':
+	{
+		//Updating Level permissions
+		if(isset($_POST['update_level_perms']))
+		{
+			$perm_array = $_POST;
+			$userquery->update_user_level($lid,$perm_array);
+		}
+		
+		
+		//Getting Details of $level
+		$levelDetails = $userquery->get_level_details($lid);
+		Assign('level_details',$levelDetails);
+		
+		//GettinG Level Permission
+		$level_perms = $userquery->get_level_permissions($lid);
+		Assign('level_perms',$level_perms);
+		
+		Assign('view','edit');
+	}	
+	break;
+	
+	case 'add':
+	{
+		if(isset($_POST['add_new_level']))
+		{
+			$array = $_POST;
+			if($userquery->add_user_level($array));
+				redirect_to('user_levels.php');
+		}
+		Assign('view','add');
+	}
+}
+
+
+
+Assign('msg', @$msg);	
+Template('header.html');
+Template('leftmenu.html');
+Template('message.html');
+Template('user_levels.html');
+Template('footer.html');
+
+?>

@@ -1,0 +1,24 @@
+
+<br>
+{if $show_delete !=No}
+<table width="940" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="center" class="header2"><span class="header1">{$LANG.delete} {$groups.group_name}</span> <br>
+      <br>
+      {$LANG.grp_del_confirm}<br>
+      <form name="form1" method="post" action="">
+        <label>
+          <input type="hidden" name="group_id" value="{$groups.group_id}">
+          <input type="submit" name="delete_group" value="{$LANG.yes}" id="button">
+        </label>
+      </form>    </td>
+  </tr>
+</table>
+{/if}{if $show_succes == yes}
+<table width="940" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="center"><span class="header1">{$LANG.grp_del_success} {$groups.group_name}</span><br>
+        <span class="header2"><strong><a href="{$groups_link}">{$LANG.grp_click_go_grps}</a> </strong></span></td>
+  </tr>
+</table>
+{/if}{AD place=ad_728x90}

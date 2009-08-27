@@ -1,0 +1,52 @@
+<table width="941" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td class="header1">{$LANG.groups}</td>
+    <td class="header1">{if $cur_cat.category_name == ''} {$LANG.all} {else}{$cur_cat.category_name}{/if}</td>
+    <td align="right" class="tips">{$LANG.viewing} {math equation=$limit*$cur_page assign=viewing} {if $prepage == 0 } {math equation=$prepage+1} {else} {math equation = $prepage*$limit+1 }{/if} - {if $viewing > $grand_total}{$grand_total}{else}{$viewing}{/if} {$LANG.of} {$grand_total}</td>
+  </tr>
+  <tr>
+    <td height="10" colspan="3" class="header1" style="color:#53baff"><hr size="1" noshade /></td>
+  </tr>
+  <tr>
+    <td width="160" rowspan="2" align="left" valign="top" ><span class="header2"><a href="{$create_group_link}">{$LANG.grp_create_grp_title}</a><br /> 
+      <br />
+      {$LANG.browse} {$LANG.groups} </span>
+      <div id="list_01" style="padding-bottom:10px">
+        <ul>   
+          <li><a href="?ct=all">{$LANG.all}</a></li>
+	{section name=c_list loop=$category}  
+	<li><a href="?ct={$category[c_list].categoryid}">{$category[c_list].category_name}</a></li>{/section}</ul>
+    </div>
+   <span class="header2">{$LANG.browse}</span>
+    <div id="list_01" style="margin-bottom:8px">	
+    	<ul>
+          	<li><a href="?order=mr{$ct}">{$LANG.most_recent}</a></li>
+            <li><a href="?order=mv{$ct}">{$LANG.most_videos} </a></li>
+            <li><a href="?order=mm{$ct}">{$LANG.grp_most_members}</a></li>
+          	<li><a href="?order=fr{$ct}">{$LANG.featured}</a></li>        
+            <li><a href="?order=mt{$ct}">{$LANG.grp_most_discussed} </a></li>
+            <li><a href="?order=ra{$ct}">{$LANG.random}</a></li>
+        </ul>
+    </div>
+    {$ads.ad_unit_120x90}</td>
+    <td height="50" align="left" valign="top">
+	{section name=g_list loop=$groups}
+	  {include file="$style_dir/block/group_common_block.html"}
+	  <hr align="center" width="95%" size="1" noshade="noshade" />
+      <div align="center">{/section} {if $grand_total==0}<span class="header1">{$LANG.grp_none} </span>{/if}  </div></td>
+    <td width="160" rowspan="2" align="center" valign="top">{AD place=ad_160x600}</td>
+  </tr>
+  <tr>
+    <td valign="top"><table width="93%" border="0" align="left" cellpadding="0" cellspacing="0" bgcolor="#f6f6f6">
+      <tr>
+        <td width="10" align="left" valign="middle" bgcolor="#F3F3F3" ><img src="{$imageurl}/left_round.png" /></td>
+        <td width="50" align="left" valign="middle" bgcolor="#F3F3F3" class="pagination" > {if $prepage neq 0}<a href="{$link}&amp;page={$prepage}">{$LANG.previous}</a>{/if}</td>
+        <td align="center" valign="middle" bgcolor="#F3F3F3" class="pagination" >{$show_pages}</td>
+
+        <td width="50" align="right" valign="middle" bgcolor="#F3F3F3" class="pagination">{if $pages!=1 && $cur_page < $pages && $nextpage <=$pages}<a href="{$link}&amp;page={$nextpage}">{$LANG.next}</a>{/if}</td>
+        <td width="10" align="right" valign="middle" bgcolor="#F3F3F3" ><img src="{$imageurl}/right_round.png" /></td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,40 @@
+
+<table width="940" border="0" align="center" cellpadding="0" cellspacing="0">
+{if $full_view != no}
+  <tr>
+    <td colspan="5" class="header1">{$LANG.com_manage_fav}
+      <hr size="1" noshade="noshade" /></td>
+  </tr>
+{/if}  <tr>
+    <td colspan="5">&nbsp;</td>
+  </tr>
+
+
+<tr>
+<td>
+{assign var=bgcolor value="#F7F7F7"}
+{section name=f_list loop=$fav}
+<div style="width:400px; float:left; margin-right:10px;margin-left:10px">
+<table width="400" border="0" cellpadding="0" cellspacing="0" bgcolor="{$bgcolor}">
+<tr bgcolor="">
+<td width="170" class="tips" style="padding:5px"><a href="{$fav[f_list].url}">{$fav[f_list].title}</a></td>
+<td class="tips" style="padding:5px">{$fav[f_list].date_added|date_format}</td>
+<td class="tips" style="padding:5px">
+<form name="remove-{$fav[f_list].fav_id}" method="post" action="{$manage_favourites_link}">
+<input type="hidden" name="fav_video" value="{$fav[f_list].fav_id}"  />
+<input name="remove" type="image" value="{$fav[f_list].fav_id}" src="{$imageurl}/{$langf}/remove_small_button.png" alt="Unsubscribe"/>
+</form></td>
+</tr>
+</table>
+
+</div>
+{if $bgcolor == "#F3F3F3"}
+{assign var=bgcolor value="#E9E9E9"}
+{elseif $bgcolor == "#F7F7F7"}
+{assign var=bgcolor value="#F3F3F3"}
+{elseif $bgcolor == "#E9E9E9"}
+{assign var=bgcolor value="#F7F7F7"}
+{/if}
+{/section}</td>
+</tr>
+</table>

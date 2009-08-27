@@ -1,0 +1,88 @@
+
+<form>
+</form>
+<form name="form1" method="post" action="">
+            <table width="930" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td class="header1">{$LANG.message} &raquo; {$LANG.usr_compose_msg}</td>
+  </tr>
+  <tr>
+    <td class="header1"><table width="91%" border="0" align="left" cellpadding="0" cellspacing="0">
+      <tr>
+        <td colspan="3" valign="top">
+        {include file="$template_dir/layout/block/pm_left_block.html" compose="selected"}</td>
+        <td width="625" valign="top" bordercolor="#FFFFFF" bgcolor="#F0F0F0"><br>
+
+            
+            <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td class="header3">{$LANG.usr_to_title}<br>
+           
+              <input name="username" type="text" id="username" value="{$default_username}" size="60">
+              <input type="hidden"  name="reply_to"  value="{$reply_to}" />      </td>
+          </tr>
+          <tr>
+            <td height="20" class="tips">{$LANG.usr_or_select_frm_list}</td>
+          </tr>
+          <tr>
+            <td height="20" class="header3">
+            <select name="user_list" id="user_list" style="width:385px">
+            <option selected="selected" value="">Select From the List</option>
+            <option selected="selected" value="">------------------</option>
+            {section name=c_list loop=$contacts}
+            <option value="{$contacts[c_list].friend_username}"} {if $default_user_list ==$contacts[c_list].friend_username} selected="selected"{/if}  >{$contacts[c_list].friend_username}</option>
+            {/section}
+          
+          </select></td>
+          </tr>
+          <tr>
+            <td height="20" class="header3">{$LANG.subject}</td>
+          </tr>
+          <tr>
+            <td height="20"><input name="subj" type="text" id="subj" value="{$default_subj}" size="60"></td>
+          </tr>
+          <tr>
+            <td height="20" class="header3">{$LANG.usr_attach_video}</td>
+          </tr>
+          <tr>
+            <td height="20" class="header3">
+            <select name="video" id="video" style="width:385px">
+            <option selected="selected" value="">Select From the List</option>
+             <option selected="selected" value="">------------------</option>
+            {section name=v_list loop=$videos}
+            <option value="{$videos[v_list].videokey}" {if $default_video==$videos[v_list].videokey} selected="selected" {/if}>{$videos[v_list].title}</option>
+            {/section}
+          
+          </select></td>
+          </tr>
+          <tr>
+            <td height="20" class="header3">{$LANG.message}</td>
+          </tr>
+          <tr>
+            <td height="20">
+              <textarea name="message" id="message" cols="60" rows="10">{$default_message|regex_replace:"/[\n]/":"\n"}</textarea>            </td>
+          </tr>
+        </table>            </td>
+        <td width="27" align="right" valign="top" bordercolor="#FFFFFF" bgcolor="#F0F0F0"><img src="{$imageurl}/uploader_tr.gif" width="19" height="20"></td>
+      </tr>
+      
+      <tr>
+        <td>&nbsp;</td>
+        <td bgcolor="#FFFFFF" class="header2">&nbsp;</td>
+        <td bgcolor="#FFFFFF" class="header2">&nbsp;</td>
+        <td align="left" valign="top" bordercolor="#FFFFFF" bgcolor="#F0F0F0"><img src="{$imageurl}/uploader_bl.gif" width="19" height="20"></td>
+        <td align="right" valign="top" bordercolor="#FFFFFF" bgcolor="#F0F0F0"><img src="{$imageurl}/uploader_br.gif" width="19" height="20"></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td bgcolor="#FFFFFF" class="header2">&nbsp;</td>
+        <td bgcolor="#FFFFFF" class="header2">&nbsp;</td>
+        <td align="center" valign="top" bordercolor="#FFFFFF"><label>
+          <input type="submit" name="send_msg" id="button" value="{$LANG.usr_send_message}">
+        </label></td>
+        <td align="right" valign="top">&nbsp;</td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+ </form> 

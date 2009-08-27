@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link href="{$theme}/stylesheet.css" rel="stylesheet" type="text/css" />
+{if $THIS_PAGE == "ADMIN_LOGIN"}
+<link href="{$theme}/login.css" rel="stylesheet" type="text/css" />
+{/if}
+<script type="text/javascript" src="{$js}/flashobject.js"></script>
+<script type="text/javascript" src="{$js}/functions.js"></script>
+<script type="text/javascript" src="{$js}/admin_functions.js"></script>
+<script type="text/javascript" src="{$js}/checkall.js"></script>
+<script type="text/javascript" src="{$js}/jquery.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title} {$subtitle}</title>
+
+</head>
+
+<body>
+{if $THIS_PAGE != "ADMIN_LOGIN"}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="15" bgcolor="#53BAFE" style="color:#FFFFFF; padding:2px" >Welcome<strong> {$logged_user}</strong> {if $smarty.session.superadmin != ''}(Super Admin){/if} <br />
+    {$smarty.now|date_format:"%A, %B %e, %Y %H:%M:%S"}</td>
+    <td width="160" align="left" bgcolor="#53BAFE" style="color:#FFFFFF"><h1 style="padding:0; margin:0; color:#FFFFFF; font-size:20px">&nbsp;</h1></td>
+  </tr>
+  <tr>
+    <td height="10" colspan="2" align="right">  <table width="100%" border="0" align="right" cellpadding="0" cellspacing="0" class="top_links">
+    <tr>
+      <td height="35" align="center">
+<a href="{$baseurl}/{$admindir}">Admin Home</a> | <a href="{$baseurl}" target="_blank">Site Home</a> | <a href="{$baseurl}/{$admindir}/logout.php">Logout</a></td>
+    </tr>
+  </table></td>
+  </tr>
+</table>
+{/if}

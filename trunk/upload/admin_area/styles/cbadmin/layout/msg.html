@@ -1,0 +1,32 @@
+
+
+{assign var=msg value=$eh->message_list}
+{assign var=err value=$eh->error_list}
+{if $err.0 neq ''}
+<table width="98%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td bgcolor="#FFF0FA">
+    <ul>
+    
+      {foreach from=$err item=show_msg}
+       <li> {$show_msg} </li>
+      {/foreach}
+      </ul></td>
+  </tr>
+</table><br>
+
+{/if}
+
+{if $msg.0 neq ''}
+<table width="98%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td bgcolor="#F1F1F1">
+    <ul>
+    
+      {foreach from=$msg item=show_msg}
+       <li> {$show_msg} </li>
+      {/foreach}
+      </ul></td>
+  </tr>
+</table><br>
+{/if}

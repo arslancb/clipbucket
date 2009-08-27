@@ -1,0 +1,41 @@
+
+<table width="940" border="0" align="center" cellpadding="0" cellspacing="0">
+{if $full_view != no}
+  <tr>
+    <td colspan="5" class="header1">{$LANG.com_manage_subs}
+    <hr size="1" noshade="noshade" /></td>
+  </tr>
+{/if}   <tr>
+    <td colspan="5">&nbsp;</td>
+  </tr>
+
+<tr>
+<td class="header2" style="padding:5px">{$LANG.com_subscribe_to}</td>
+<td class="header2" style="padding:5px">{$LANG.com_total_subs}</td>
+<td class="header2" style="padding:5px">{$LANG.com_total_vids}</td>
+<td class="header2" style="padding:5px">{$LANG.com_date_subscribed}</td>
+<td class="header2" style="padding:5px">&nbsp;</td>
+</tr>
+{assign var=bgcolor value="#F7F7F7"}
+{section name=s_list loop=$subs}
+
+<tr bgcolor="{$bgcolor}">
+<td class="tips" style="padding:5px"><a href="{$view_channel_link}{$subs[s_list].subscribed_to}">{$subs[s_list].subscribed_to}</a></td>
+<td class="tips" style="padding:5px">{$subs[s_list].subscribers}</td>
+<td class="tips" style="padding:5px">{$subs[s_list].videos}</td>
+<td class="tips" style="padding:5px">{$subs[s_list].date_added|date_format}</td>
+<td class="tips" style="padding:5px">
+<form name="unsubscribe-{$subs[s_list].subscription_id}" method="post" action="{$subscriptions_link}" onsubmit="return confirm('Are You Sure You Want To Unsubscribe?')">
+<input type="hidden" name="un_sub" value="{$subs[s_list].subscription_id}"  />
+<input name="unsubscribe" type="image" value="{$subs[s_list].subscription_id}" src="{$imageurl}/unen/subscribe_button.png" alt="Unsubscribe" title="Un{$LANG.com_subscribe_to} {$subs[s_list].subscribed_to}"/>
+</form>
+</td>
+</tr>
+  
+{if $bgcolor == "#F7F7F7"}
+{assign var=bgcolor value="#F3F3F3"}
+{else}
+{assign var=bgcolor value="#F7F7F7"}
+{/if}
+{/section}
+</table>

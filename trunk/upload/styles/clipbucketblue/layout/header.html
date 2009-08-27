@@ -1,0 +1,310 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="content-style-type" content="text/css" />
+<meta http-equiv="content-language" content="en-us" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta name="resource-type" content="document" />
+<meta name="distribution" content="global" />
+<meta name="copyright" content="ClipBucket - PHPBucket ClipBucket 2007 - {$smarty.now|date_format:"%Y"}" />
+<meta name="keywords" content="{$meta_keywords}" />
+<meta name="description" content="{$meta_description}" />
+<link rel="alternate" type="application/rss+xml" title="{$LANG.rss_feed_latest_title}" href="{$rss_link}latest" />
+<link rel="alternate" type="application/rss+xml" title="{$LANG.rss_feed_featured_title}" href="{$rss_link}featured" />
+<link rel="alternate" type="application/rss+xml" title="{$LANG.rss_feed_most_viewed_title}" href="{$rss_link}most_viewed" /><title>{$title} - {$subtitle}</title>
+<!--[if lt IE 7.]>
+<script defer type="text/javascript" src="{$js}/pngfix.js"></script>
+<![endif]-->
+
+
+<script language="javascript">
+var baseurl = '{$baseurl}';
+var imageurl = '{$imageurl}';
+{if $upload_form_name !=''}
+	var upload_form_name = '{$upload_form_name}';
+	function submit_upload_form()
+	{literal}
+	{
+	{/literal}
+		document.{$upload_form_name}.submit();
+	{literal}
+	}
+	{/literal}
+{/if}
+</script>
+<!-- Including JS Files-->
+{foreach from=$Cbucket->JSArray key=file item=type}
+{if $curActive == $type ||  $type=='global' }
+<script src="{$js}/{$file}"></script>
+{/if}
+{/foreach}
+<!-- Including JS Files-->
+
+
+<!-- Including Headers -->
+{foreach from=$Cbucket->header_files key=type item=file}
+    {if $curActive == $type ||  $type=='global' }
+		{include file="$file"}
+    {/if}
+{/foreach}
+<!-- Ending Headers -->
+
+
+
+{if $page == 'upload_video'}
+
+<script type="text/javascript">
+		var swfu;
+		var file_name = {$file_name};
+{literal}
+		window.onload = function() {
+			var settings = {
+				{/literal}
+				flash_url : "{$js}/swfupload/swfupload.swf",
+				upload_url: "{$baseurl}/actions/file_uploader.php",
+				button_image_url: "{$baseurl}/images/icons/XPButton.png",
+				post_params: 
+				{literal}
+				{
+				{/literal}
+				"file_name" : file_name,
+				{literal}
+				}
+				{/literal},
+				
+				
+				file_size_limit : "{$Clipbucket->configs.max_upload_size} MB",
+				{literal}
+				file_types : "*.*",
+				file_types_description : "All Files",
+				file_upload_limit : 2,
+				file_queue_limit : 0,
+				custom_settings : {
+					progressTarget : "fsUploadProgress",
+					cancelButtonId : "btnCancel"
+				},
+				debug: false,
+
+				// Button settings
+				
+				button_placeholder_id: "spanButtonPlaceHolder",
+				button_width: 61,
+				button_height: 22,
+				
+				// The event handler functions are defined in handlers.js
+				file_queued_handler 			: fileQueued,
+				file_queue_error_handler 		: fileQueueError,
+				file_dialog_complete_handler 	: fileDialogComplete,
+				upload_start_handler 			: uploadStart,
+				upload_progress_handler 		: uploadProgress,
+				upload_error_handler 			: uploadError,
+				upload_success_handler 			: uploadSuccess,
+				upload_complete_handler 		: uploadComplete,
+				queue_complete_handler 			: queueComplete	// Queue plugin event
+				
+
+			}
+
+			swfu = new SWFUpload(settings);
+	     };
+{/literal}
+</script>
+
+{/if}
+<!-- Including Plugin Headers -->
+{php}
+global $plugin_list;
+if(!empty($plugin_list) && is_array($plugin_list))
+{
+    foreach($plugin_list as $plugin)
+    {
+        if(!empty($plugin['plugin_header_file']))
+        {
+        if( !empty($plugin['plugin_folder']) && 
+         file_exists(PLUG_DIR.'/'.$plugin['plugin_folder'].'/'.$plugin['plugin_header_file'])
+            )
+         {
+            template(PLUG_DIR.'/'.$plugin['plugin_folder'].'/'.$plugin['plugin_header_file'],false);
+         }else{
+            if(file_exists(PLUG_DIR.'/'.$plugin['plugin_header_file']))
+            template(PLUG_DIR.'/'.$plugin['plugin_header_file'],false);
+         }}
+    }
+}
+{/php}
+
+<!-- Including Plugin Headers -->
+
+<!-- Including Module Headers -->
+{php}
+global $Cbucket;
+$modlist = $Cbucket->moduleList;
+if(!empty($modlist) && is_array($modlist))
+{
+    foreach($modlist as $mod)
+    {
+        if(!empty($mod['module_include_file']) &&
+         file_exists(MODULEDIR.'/'.$mod['module_include_file']))
+            template(MODULEDIR.'/'.$mod['module_include_file'],false);
+    }
+}
+{/php}
+<!-- Including Module Headers -->
+
+{if $view_channel_active == ''}
+<link href="{$theme}/main.css" rel="stylesheet" type="text/css" />
+{literal}
+<style>
+*html #button{
+width:154px;
+height:40px;
+background: transparent;
+filter: progid:DXImageTransform.Microsoft.AlphaImageLoader (src='{/literal}{$imageurl}/button.png{literal}',sizingMethod='crop');
+background-repeat:no-repeat;
+border:none;
+font-family:Arial, Helvetica, sans-serif;
+size:12px;
+color:#FFFFFF;
+font-weight:bold;
+margin-top: 0px;
+}
+</style>
+{/literal}
+</head>
+<body {if $homeactive !=""} onLoad="SetId('Featured');"{/if} >
+{if DEBUG_LEVEL == 1}
+<div align="center" style="border: 1px solid #C0C0C0; padding: 2px; color: black; background-color: #FFAEAE;"><b>Alert:</b>&nbsp;&nbsp;The site is in debug mode - all errors will display.</div>
+{/if}
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td bgcolor="#FFFFFF"><table width="950" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="39"><a href="{$baseurl}"><img src="{$imageurl}/logo.gif" alt="{$title}" border="0" style="margin-top:5px" /></a></td>
+            <td width="181" align="left" class="Tags">{$slogan}</td>
+            <td align="right" valign="top">&nbsp;</td>
+            <td width="202" height="80" align="right" valign="top" class="header_link"><label>            </label>
+            
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-image:url({$imageurl}/header_links_bg.png); background-repeat:no-repeat; background-position:bottom; padding:10px; padding-top:0px">
+                <tr>
+                  <td valign="top">
+                  
+                  {if !$userquery->login_check('',true)}
+                  <form action="{$signup_link}" method="post" name="login" id="login">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="47%" height="15" valign="top" class="header_link">{$LANG.username} </td>
+                        <td width="53%" valign="top" class="header_link">{$LANG.password}</td>
+                      </tr>
+                      <tr>
+                        <td><label>
+                          <input name="username" type="text" id="textfield_header" size="10">
+                        </label></td>
+                        <td><label>
+                          <input name="password" type="password" id="textfield_header" size="10">
+                        </label> </td>
+                    </tr>
+                  </table><span class="header_link"><a href="{$baseurl}/forgot.php">{$LANG.user_forgot_message}</a></span>
+                  </td>
+                </tr>
+              </table>
+              <input name="login" type="submit" value="{$LANG.login}" id="login_button">
+            </form>
+            {else}
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="header_link">
+  <tr>
+    <td>{$LANG.hello} {$userquery->username},</td><td> <a href="{$inbox_link}">{if $new_msgs !=0}<img src="{$imageurl}/new_message_icon.png" border="0"></a>{else}<img src="{$imageurl}/message_icon.png" border="0">{/if}</td><td><a href="{$inbox_link}">({$userquery->GetNewMsgs(admin)})</a></td>
+  </tr>
+  <tr>
+    <td><a href="{$baseurl}">{$LANG.Home}</a> | <a href="{$myaccount_link}">{$LANG.menu_account}</a> | <a href="{$inbox_link}">{$LANG.menu_inbox}</a></td>
+  </tr>
+</table>
+{/if}
+      </td>
+          </tr>
+        </table>
+        {if $userquery->login_check('',true)}
+        <input name="login" type="submit" value="{$LANG.logout}" id="logout_button" onClick="window.location = '{$logout_link}'">
+        {/if}</td>
+      </tr>
+    </table>
+    <div id="headnav">
+
+<div id="navbar">
+ 	  <div id="navcontainer">
+        <ul>
+          <li><a href="{$baseurl}/index.php" {$homeactive}>{$LANG.menu_home}</a></li>
+<li><a href="{$upload_link}" {$uploadactive}>{$LANG.menu_upload}</a></li>
+<li><a href="{$videos_link}" {$watchactive}>{$LANG.menu_videos}</a></li>
+{if $logged_user ==""}
+<li><a href="{$signup_link}" {$signupactive}>{$LANG.menu_signup}</a></li>
+{else}
+<li><a href="{$myaccount_link}" {$accountactive}>{$LANG.menu_account}</a></li>
+{/if}
+<li><a href="{$channels_link}" {$channelactive}>{$LANG.menu_channels}</a></li>
+<li><a href="{$groups_link}" {$groupactive}>{$LANG.menu_groups}</a></li>
+<li>
+   <table border="0" cellspacing="3" cellpadding="0"><form action="{$search_result}" method="get" name="search" id="search">
+<tr>
+                 <td width="380" align="right"><input name="query" type="text" id="query" style="height:20px" value="{$query}" class="query"></td>
+              <td width="32" align="right"><input type="image" name="search" src="{$imageurl}/{$langf}/search_button01.png" value="{$LANG.search}" title="Search"></td>
+            </tr>
+             </form> </table>
+          </li>
+        </ul>
+  </div>
+</div>
+{else}
+	{if $data.background != ""}
+	
+	
+	<link href="{$theme}/view_channel.css" rel="stylesheet" type="text/css" />
+	{literal}
+	<style>
+	body{
+	
+	{/literal}
+	background-image:url({$baseurl}/images/backgrounds/{$data.background});
+	{literal}
+	}
+	</style>
+	{/literal}
+	{else}
+	<link href="{$theme}/main.css" rel="stylesheet" type="text/css" />
+	{/if}
+<table width="950" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td colspan="3" bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="3" cellpadding="0">
+        <tr>
+          <td width="34" valign="top"><a href="{$baseurl}"><img src="{$imageurl}/logo.gif" alt="{$title}" border="0" style="margin-top:5px" /></a></td>
+          <td width="364" valign="top">&nbsp;</td>
+          <td width="283" align="right" valign="top" >{if $logged_user == ""}<strong><a href="{$signup_link}">{$LANG.signup}</a></strong> | {else} {$LANG.hi}, <a href="{$myaccount_link}">{$logged_user}</a>! | </td>
+          <td width="10" align="center" valign="top"><a href="{$inbox_link}">{if $new_msgs !=0}<img src="{$imageurl}/new_message_icon_2.png" border="0"></a>{else}<img src="{$imageurl}/message_icon_2.png" border="0">{/if}</td>
+          <td width="176" align="left" valign="top" ><a href="{$inbox_link}">({$new_msgs})</a> |{/if} <a href="{$myaccount_link}">{$LANG.menu_account}</a> | <a href="{$help_link}">{$LANG.help}</a> | {if $logged_user == ""}<a href="{$signup_link}">{$LANG.login}</a>{else}<a href="{$logout_link}">{$LANG.logout}</a>{/if} </td>
+        </tr>
+        <tr>
+          <td colspan="2" valign="top"><a href="{$videos_link}">{$LANG.videos}</a> | <a href="{$channels_link}">{$LANG.menu_channels}</a> | <a href="{$groups_link}">{$LANG.groups}</a> | <a href="{$upload_link}">{$LANG.menu_upload}</a></td>
+          <td colspan="3" align="right" valign="top" ><form action="{$search_result}" method="get" name="search" id="search">
+            <table width="362" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="right"><label>
+                  <input name="query2" type="text" id="search" value="{$query}" size="30">
+                </label></td>
+                <td><label>
+                  <input type="submit" name="search2" id="search" value="{$LANG.search}" />
+                </label></td>
+              </tr>
+            </table>
+                    </form>          </td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td width="5" align="left"><img src="{$imageurl}/bl_view_channel.gif" width="5" height="4"></td>
+    <td width="940" align="left" bgcolor="#FFFFFF"> </td>
+    <td width="5" align="right"><img src="{$imageurl}/br_view_channel.gif" width="5" height="4"></td>
+  </tr>
+</table>
+
+{/if}
+<div class="container">
+{ANCHOR place=global}

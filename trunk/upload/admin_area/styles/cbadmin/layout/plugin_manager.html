@@ -1,0 +1,69 @@
+<script type="text/javascript" src="{$js}/popup_image.js"></script>
+
+<div class="setting_title">Installed Plugins</div>
+
+<table width="98%"   border="0" align="center" cellpadding="0" cellspacing="1" style="margin-bottom:25px">
+  <tr >
+    <td width="30" height="20" valign="middle" class="tr_head"> #</td>
+    <td valign="middle" class="tr_head">Pluin Details</td>
+    <td width="100" valign="middle" class="tr_head">Actions</td>
+  </tr>
+{assign var = bgcolor value = ""}
+{foreach from=$installed_plugin_list item=plug name=item}
+  <tr bgcolor="{$bgcolor}">
+    <td valign="top" class="td_body">{$smarty.foreach.item.iteration}</td>
+    <td  valign="top" class="td_body"><strong>{$plug.name} by <em><a href="{$plug.website}">{$plug.author}</a></em></strong><br>
+    {$plug.description} - <em>
+<a href="{$plug.website}">{$plug.website}</a></em><br>
+Version : {$plug.version}
+</td>
+    <td height="100" valign="top" class="td_body">{if $plug.plugin_active == 'yes'}<a href="?deactivate={$plug.plugin_file}{if $plug.folder!=''}&f={$plug.folder}{/if}">Deactivate</a>{else}<a href="?activate={$plug.plugin_file}{if $plug.folder!=''}&f={$plug.folder}{/if}">Activate</a>{/if}<br>
+      <a href="javascript:Confirm_Uninstall('?uninstall={$plug.plugin_file}{if $plug.folder!=''}&f={$plug.folder}{/if}')">Uninstall</a></td>
+  </tr>
+  {if $bgcolor == ""}
+ 	 {assign var = bgcolor value = "#EEEEEE"}
+ {else}
+	 {assign var = bgcolor value = ""}
+ {/if}
+  {foreachelse}
+      <tr bgcolor="{$bgcolor}">
+        <td valign="top" class="td_body">&nbsp;</td>
+        <td align="center"  valign="middle" class="td_body">No Installed Plugin Found</td>
+        <td height="100" valign="top" class="td_body">&nbsp;</td>
+      </tr>
+  {/foreach}
+</table>
+
+{* Listing New Plugins *}
+<div class="setting_title">Available Plugins </div>
+
+<table width="98%"   border="0" align="center" cellpadding="0" cellspacing="1">
+  <tr >
+    <td width="30" height="20" valign="middle" class="tr_head"> #</td>
+    <td valign="middle" class="tr_head">Pluin Details</td>
+    <td width="100" valign="middle" class="tr_head">Actions</td>
+  </tr>
+{assign var = bgcolor value = ""}
+{foreach from=$new_plugin_list item=plug name=item}
+  <tr bgcolor="{$bgcolor}">
+    <td valign="top" class="td_body">{$smarty.foreach.item.iteration}</td>
+    <td  valign="top" class="td_body"><strong>{$plug.name} by <em><a href="{$plug.website}">{$plug.author}</a></em></strong><br>
+    {$plug.description} - <em>
+<a href="{$plug.website}">{$plug.website}</a></em><br>
+Version : {$plug.version}
+</td>
+    <td height="100" valign="top" class="td_body"><a href="?install_plugin={$plug.file}{if $plug.folder!=''}&f={$plug.folder}{/if}">Install Plugin</a></td>
+  </tr>
+  {if $bgcolor == ""}
+ 	 {assign var = bgcolor value = "#EEEEEE"}
+ {else}
+	 {assign var = bgcolor value = ""}
+ {/if}
+ {foreachelse}
+      <tr bgcolor="{$bgcolor}">
+        <td valign="top" class="td_body">&nbsp;</td>
+        <td align="center"  valign="middle" class="td_body">No New Plugin Found</td>
+        <td height="100" valign="top" class="td_body">&nbsp;</td>
+      </tr>
+  {/foreach}
+</table>

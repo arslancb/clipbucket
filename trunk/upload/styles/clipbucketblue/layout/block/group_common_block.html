@@ -1,0 +1,34 @@
+<table width="98%" border="0" align="center" cellpadding="2" cellspacing="2">
+        <tr>
+          <td width="10%" align="center" valign="top"><a href="{$view_group_link}{$groups[g_list].group_url}"><img src="{$groupsObj->getThumb($groups[g_list].group_thumb)}" border="1" /></a></td>
+          <td width="90%" valign="top"><table width="100%" height="21%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="header2"><a href="{$view_group_link}{$groups[g_list].group_url}">{$groups[g_list].group_name|truncate:80}</a></td>
+              <td width="25%" rowspan="3" align="center" valign="top" class="header2"><table width="150" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td><span class="tips">{$LANG.videos}:</span></td>
+                  <td><strong class="Tags">{$groups[g_list].total_videos}</strong></td>
+                </tr>
+                <tr>
+                  <td><span class="tips">{$LANG.members}:</span></td>
+                  <td><span class="tips"><strong class="Tags">{$groups[g_list].total_members}</strong></span></td>
+                </tr>
+                <tr>
+                  <td><span class="tips">{$LANG.created}:</span></td>
+                  <td><span class="tips"><strong class="Tags">{$groups[g_list].date_added|date_format}</strong></span></td>
+                </tr>
+                <tr>
+                  <td><span class="tips">{$LANG.owner}:</span></td>
+                  <td><span class="tips"><strong><a href="{$view_channel_link}{$groups[g_list].username}">{$groups[g_list].username}</a></strong></span></td>
+                </tr>
+              </table></td>
+            </tr>
+            <tr>
+              <td valign="top" class="tips" style="padding-bottom:10px">{$groups[g_list].group_description|truncate:350}</td>
+              </tr>
+            <tr>
+              <td width="25%" align="left" class="tips">&nbsp;</td>
+              </tr>
+          </table></td>
+        </tr>
+      </table>

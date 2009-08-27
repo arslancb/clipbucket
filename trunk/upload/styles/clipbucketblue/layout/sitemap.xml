@@ -1,0 +1,17 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.0">
+<!-- Murat Esgin (lavinya http://www.videoizlepaylas.com )  -->
+      {section name =v_list loop=$videos}
+      <url>
+   <loc>{$videos[v_list].url}</loc>
+   <video:video>
+   <video:content_loc>{$baseurl}/files/videos/{$videos[v_list].flv}</video:content_loc>
+   <video:player_loc allow_embed="yes">{$baseurl}/player/embed_player.swf?file={$baseurl}/files/videos/{$videos[v_list].flv}</video:player_loc>
+   <video:thumbnail_loc>{$video_thumbs}/{$videos[v_list].thumb}</video:thumbnail_loc>
+   <video:title><![CDATA[{$videos[v_list].title|truncate:55}]]></video:title>
+   <video:description><![CDATA[{$videos[v_list].description|truncate:120}]]></video:description>
+   <video:family_friendly>Yes</video:family_friendly>
+   <video:duration>{$videos[v_list].duration}</video:duration>
+   </video:video>
+</url>
+         {/section}
+</urlset>

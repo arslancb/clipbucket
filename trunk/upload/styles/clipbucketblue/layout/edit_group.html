@@ -1,0 +1,133 @@
+{if $show_group !=No}
+<table width="940" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="66%" valign="top"><form action="{$edit_group_link}{$groups.group_url}" method="post" enctype="multipart/form-data" >
+	<input name="group_url" type="hidden" value="{$groups.group_url}">
+	<input name="group_id" type="hidden" value="{$groups.group_id}">
+	<input name="thumb_exist" type="hidden" value="{$groups.group_thumb}">
+      <table width="90%" border="0" cellspacing="0" cellpadding="5">
+        <tr>
+          <td align="right" valign="top" class="header2">&nbsp;</td>
+          <td><fieldset>
+          <legend class="header2"> {$LANG.grp_thumb_title} </legend>
+          <table width="98%" border="0" align="center" cellpadding="3" cellspacing="1">
+            <tr>
+              <td align="center" valign="top" class="header3"><a href="{$view_group_link}{$groups.group_url}"><img src="{$group_thumb}/{$groups.group_thumb}" border="1" /></a></td>
+              <td align="left" valign="top" class="header3"><span class="header2">{$LANG.grp_upl_thumb} <br />
+                    <br />
+                </span>
+                  <li class="tips">{$LANG.grp_must_be} JPG | GIF | PNG</li>
+                <li class="tips">{$LANG.grp_90x90}</li>
+                <li class="tips">{$LANG.grp_thumb_warn}</li></td>
+            </tr>
+            <tr>
+              <td colspan="2" align="center" valign="top" class="header3"><label>
+                <input type="hidden" name="thumb" value="" />
+                <input name="thumb_upload" type="file" id="thumb_upload" size="45" />
+              </label></td>
+            </tr>
+          </table>
+          </fieldset></td>
+        </tr>
+        <tr>
+          <td width="26%" align="right" valign="top" class="header2">{$LANG.grp_name_title} </td>
+          <td width="74%"><label>
+            <input name="name" type="text" id="name" value="{$groups.group_name}" size="45" /><input name="name_exist" type="hidden" value="{$groups.group_name}" />
+          </label></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" class="header2">{$LANG.tag_title}</td>
+          <td><input name="tags" type="text" id="tags" value="{$groups.group_tags}" size="45" /></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" class="header2">&nbsp;</td>
+          <td height="70" valign="top"><span class="header3">{$LANG.grp_tags_msg}<br />
+          </span><span class="tips">{$LANG.grp_tags_msg1}</span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" class="header2">{$LANG.des_title}</td>
+          <td><label>
+            <textarea name="description" cols="35" rows="6" id="description">{$groups.group_description}</textarea>
+          </label></td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center" valign="top"><span class="header2"><strong>{$LANG.grp_url_title}</strong><br />
+            </span>{$view_group_link}<span class="header2">
+              <input name="url" type="text" id="{$LANG.grp_url_title1}input" value="{$groups.group_url}" maxlength="60" />
+              <input name="url_exist" type="hidden" value="{$groups.group_url}" />
+            </span></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" class="header2">&nbsp;</td>
+          <td class="tips">{$LANG.grp_url_msg}</td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" class="header2">{$LANG.grp_cat_tile} </td>
+          <td> {section name=c_list loop=$category}
+            <input name="category" type="radio" value="{$category[c_list].categoryid}" {if $groups.group_category==$category[c_list].categoryid} checked="checked"{/if} />
+            {$category[c_list].category_name}<br />
+            {/section} </td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" class="header2">Privacy:</td>
+          <td><p>
+            <label>
+              <input name="group_type" type="radio" value="0" checked="checked" />
+              {$LANG.grp_join_opt1}</label>
+            <br />
+            <label>
+              <input type="radio" name="group_type" value="1" {if $groups.group_type=='1'} checked="checked"{/if} />
+              {$LANG.grp_join_opt2}</label>
+            <br />
+            <label>
+              <input type="radio" name="group_type" value="2" {if $groups.group_type=="2"} checked="checked"{/if} />
+              {$LANG.grp_join_opt3}</label>
+            <br />
+          </p></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" class="header2">{$LANG.grp_vdo_uploads} </td>
+          <td><p>
+            <label>
+              <input name="video_type" type="radio" value="0" checked="checked" />
+              {$LANG.grp_vdo_opt1}</label>
+            <br />
+            <label>
+              <input type="radio" name="video_type" value="1" {if $groups.video_type=="1"} checked="checked"{/if} />
+              {$LANG.grp_vdo_opt2}</label>
+            <br />
+            <label>
+              <input type="radio" name="video_type" value="2" {if $groups.video_type=="2"} checked="checked"{/if} />
+              {$LANG.grp_vdo_opt3}</label>
+            <br />
+          </p></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" class="header2">{$LANG.grp_forum_posting} </td>
+          <td><p>
+            <label>
+              <input type="radio" name="post_type" value="0" checked="checked" />
+              {$LANG.grp_post_opt1}</label>
+            <br />
+            <label>
+              <input type="radio" name="post_type" value="1" {if $groups.post_type=="1"} checked="checked"{/if} />
+              {$LANG.grp_post_opt2}</label>
+            <br />
+            <label>
+              <input type="radio" name="post_type" value="2" {if $groups.post_type=="2"} checked="checked"{/if} />
+              {$LANG.grp_post_opt3}</label>
+            <br />
+          </p></td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" class="header2">&nbsp;</td>
+          <td><label>
+            <input type="submit" name="update" value="{$LANG.grp_update_msg}" id="button" />
+          </label></td>
+        </tr>
+      </table>
+    </form></td>
+    <td width="34%" align="center" valign="top">{$ads.ad_336x280}</td>
+  </tr>
+</table>
+{/if}

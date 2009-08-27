@@ -1,0 +1,18 @@
+/*  ClipBucket 'ClipBucketBlue' Template Theme
+    --------------------------------------------------------------
+	Style name:		ClipBucketBlue 
+	Based on style:	ClipBucketBlue (this is the default ClipBucket style)
+	Original author:	ArslanHassan
+	Main Color : #53baff
+    --------------------------------------------------------------
+*/
+
+@import url("body.css");
+@import url("container.css");
+@import url("links.css");
+@import url("ajaxtabs.css");
+@import url("rating_style.css");
+@import url("pagination.css");
+@import url("ui.tabs.css");
+@import url("date_picker.css");
+@import url("uploader.css");

@@ -1,0 +1,64 @@
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+<channel>
+<title>{$title} - {$text}</title>
+<link>{$baseurl}</link>
+		<image> 
+			<url>{$imageurl}/logo.gif</url>
+			<link>{$baseurl}</link>
+			<title>{$title} - {$text}</title>
+			<height>63</height>
+			<width>123</width>
+		</image>
+		<description>{$meta_description}</description>
+		{section name =v_list loop=$videos}
+		<item>
+			<author>{$WebsiteEmail} ({$videos[v_list].username|truncate:55})</author>
+			<title>{$videos[v_list].title|truncate:55}</title>
+			<link>{$videos[v_list].url}</link>
+			<description>
+				<![CDATA[
+    <table width="600" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="136" rowspan="4">
+       
+        <div id="VDOthumb02">
+          <a href="{$videos[v_list].url}"> <img src="{$video_thumbs}/{$videos[v_list].thumb}" width="120" height="90" border="0">
+          <div id="icon_play01"></div> </a>
+    </div>
+      </td>
+        <td height="20" colspan="2" valign="top" class="header2" style="padding-top:5px"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="448"><span class="header2" style="padding-top:5px"><a href="{$videos[v_list].url}"> {$videos[v_list].title|truncate:55}</a> </span></td>
+              <td align="left"><span class="tips" style="padding-top:5px">by:<a href="{$view_channel_link}{$videos[v_list].username}">{$videos[v_list].username|truncate:55} </a></span></td>
+            </tr>
+          </table>
+          </td>
+      </tr>
+      <tr>
+        <td width="448" valign="top" class="tips" >{$videos[v_list].description|truncate:120}<br></td>
+        <td rowspan="2" valign="top" class="tips" style="padding-top:5px">Views:<span class="Tags">{$videos[v_list].views|number_format}</span><br>
+          Comments:<span class="Tags">{$videos[v_list].comments|number_format}</span></td>
+      </tr>
+      <tr>
+        <td width="448" rowspan="2" valign="bottom" class="tips" ><span class="tips" style="padding-left:5px">Duration:<span class="header3" style="padding-top:5px">{$videos[v_list].time}</span></span></td>
+        </tr>
+      <tr>
+        <td valign="top" class="header2" style="padding-top:5px">&nbsp;</td>
+      </tr>
+    </table> 
+    <hr size="1" noshade>
+				]]>
+			</description>
+			<category>{$videos[v_list].category1.category_name}</category>
+			<guid isPermaLink="true">{$videos[v_list].url}</guid>
+			<pubDate>{$videos[v_list].date_added}</pubDate>
+			<media:player url="{$videos[v_list].url}" />
+			<media:thumbnail url="{$video_thumbs}/{$videos[v_list].thumb}" width="120" height="90" />
+			<media:title>{$videos[v_list].title|truncate:55}</media:title>
+			<media:category label="Tags">{$videos[v_list].tags|replace:" ":", "}</media:category>
+			<media:credit>{$videos[v_list].username|truncate:55}</media:credit>
+			<enclosure url="{$baseurl}/player/embed_player.swf?file={$baseurl}/files/videos/{$videos[v_list].flv}" length="{$videos[v_list].duration}" type="application/x-shockwave-flash" />
+		</item>
+			{/section}
+</channel>
+</rss>

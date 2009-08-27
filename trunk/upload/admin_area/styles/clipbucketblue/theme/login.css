@@ -1,0 +1,14 @@
+top_head {
+  background-color: #ffffff;
+  background-image:  url(../images/top_bg.jpg);
+  background-position: left bottom;
+  background-repeat: repeat-x;
+}
+
+.top_head {
+  background-image:  url(../images/top_body_bg.jpg);
+  background-position: top right;
+  background-repeat: no-repeat;
+  margin: 0;
+  border-bottom: 2px solid #53bafe;
+}

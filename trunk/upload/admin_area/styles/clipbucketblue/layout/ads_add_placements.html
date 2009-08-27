@@ -1,0 +1,73 @@
+{if $Cbucket->show_page == true}
+<script type="text/javascript" src="{$js}/popup_image.js"></script>
+
+<!-- Adding Placement Form -->
+<form name="AddPlacement" id="AddPlacement" method="post" action="">
+<table width="700" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="tr_head">Add Placement </td>
+  </tr>
+  <tr>
+    <td class="td_body">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="td_body">Placement Name </td>
+  </tr>
+  <tr>
+    <td class="td_body"><input name="placement_name" id="placement_name" value="" /></td>
+  </tr>
+  <tr>
+    <td class="td_body">Placement Code     </td>
+  </tr>
+  <tr>
+    <td class="td_body"><input name="placement_code" value="" />
+      <a href="#" onmouseover="fixedtooltip2('Placement Code is used to Display Ads on the Website, If you want to display ads of any of the placement, simple copy the AdCode and paste it in the templates any where you want to display ads of Particular Placement', this, event, '0px')" onmouseout="delayhidetip()"><img src="{$imageurl}/question_mark.png" width="13" height="14" border="0"/></a></td>
+  </tr>
+  <tr>
+    <td class="td_body">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="td_body">
+      <label>
+      <input type="submit" name="AddPlacement" value="Submit" id="button"/>
+    </label></td>
+  </tr>
+</table>
+</form><br />
+<br />
+
+<!-- Adding Placement Form -->
+ <span class="tr_head">Note: If You Delete Any Placement, All Ads Under It, Will Be Deleted</span>
+<!-- Listing Placements Stars -->
+<br />
+<br />
+
+<table width="700" border="0" cellspacing="1">
+  <tr>
+    <td width="5%" class="tr_head">ID # </td>
+    <td width="45%" class="tr_head" >PlacementName</td>
+    <td width="20%" class="tr_head">PlacementCode</td>
+    <td width="15%" class="tr_head">TotalAds </td>
+    <td width="15%" class="tr_head" >Action</td>
+  </tr>
+</table>
+{section name=a_list loop=$ads_placements}
+{if $ads_placements[a_list].placement_name !=''}
+            <table width="700" border="0" cellspacing="1" cellpadding="0" bgcolor="{$bgcolor}">
+              <tr>
+                <td width="5%">{$ads_placements[a_list].placement_id}</td>
+                <td width="45%">{$ads_placements[a_list].placement_name}</td>
+                <td width="20%"><strong>{literal}{AD place={/literal}{$ads_placements[a_list].placement}{literal}}{/literal}</strong></td>
+                <td width="15%">{$ads_placements[a_list].total_ads}</td>
+                <td width="15%">{if $ads_placements[a_list].disable == no}<a href="?remove={$ads_placements[a_list].placement}">Remove</a>{else}Default Placement{/if}</td>
+              </tr>
+</table>
+            {if $bgcolor == ""}
+ 	 {assign var = bgcolor value = "#EEEEEE"}
+ {else}
+	 {assign var = bgcolor value = ""}
+ {/if}
+{/if}
+{/section}
+<!-- Listing Placements End -->   
+{/if}

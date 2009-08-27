@@ -1,0 +1,28 @@
+<table width="812" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#F0F0F0">
+  <tr>
+    <td width="20" height="20"><img src="{$imageurl}/uploader_tl.gif" width="20" height="20" /></td>
+    <td width="772">&nbsp;</td>
+    <td width="20" height="20"><img src="{$imageurl}/uploader_tr.gif" width="20" height="20" /></td>
+  </tr>
+  {if $captcha_type != 0 }
+  {/if}
+  <tr>
+    <td>&nbsp;</td>
+    <td align="left"><span class="header2">{$title}&nbsp;{$LANG.message}:&nbsp;&nbsp;Video Inactive</span></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td align="left"> This video is inactive. 
+      <ul>
+        <li>Please contact the system administrator.</li>
+      <li><a href="{$baseurl}">Go to the main page</a>.</li>
+    </ul></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><img src="{$imageurl}/uploader_bl.gif" width="20" height="20" /></td>
+    <td align="center"><label></label></td>
+    <td><img src="{$imageurl}/uploader_br.gif" width="20" height="20" /></td>
+  </tr>
+</table>

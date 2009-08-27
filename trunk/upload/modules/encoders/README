@@ -1,0 +1,4 @@
+for static encoding, download the encoder from:
+http://clipbucket.org/frs/?group_id=504&release_id=102
+
+CHMOD 777 /modules/encoders/*.*

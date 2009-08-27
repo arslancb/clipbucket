@@ -1,0 +1,42 @@
+{if $show_group !="No"}
+<table width="935" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      
+      <tr>
+        <td width="100%" align="left"><hr size="1" noshade></td>
+        </tr>
+      <tr>
+        <td align="left">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="left" class="header1">{$LANG.grp_add_vdo_msg}</td>
+      </tr>
+      <tr>
+        <td align="center">{if $total_vids != 0}<form name="form1" method="post" action=""><table width="85%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="center">{section name=v_list loop=$videos}<div id="video_container"><img src="{getThumb flv=$videos[v_list].flv}" border="1"><br>
+      <span class="tips">{$videos[v_list].title}<br>
+          <strong>{$LANG.grp_add_to}</strong> </span>
+          <br>
+          <input type="checkbox" name="{$videos[v_list].videokey}" value="yes" {$videos[v_list].checked} >
+        </div>
+          {/section}</td>
+  </tr>
+  <tr>
+    <td align="center">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center"><label>
+      <input type="submit" name="add_videos" value="{$LANG.grp_add_vdos}" id="button">
+    </label>
+      {else}<span class="header2">{$LANG.grp_no_vdo_msg}{/if}</td>
+  </tr>
+</table>
+          
+          </form>          </td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+{/if}

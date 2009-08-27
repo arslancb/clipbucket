@@ -1,0 +1,153 @@
+#<IfModule mod_security.c>
+#    secfilterengine off
+#    secfilterscanPOST off
+#</IfModule>
+#Options +Indexes
+
+php_flag safe_mode off
+php_value max_execution_time 1000
+php_value session.gc_maxlifetime 14000
+php_value output_buffering on
+php_value upload_max_filesize 2147483648
+php_value post_max_size 2147483648
+#php_flag display_errors off
+
+Options All -Indexes
+FileETag MTime Size
+Options +FollowSymlinks
+RewriteEngine on
+
+<FilesMatch "\.(db|inc|html|tmpl|h|ihtml|sql|ini|configuration|config|class|bin|spd|theme|module|cfg|cpl|tmp|log|err|inc.php|class.php)$">
+order allow,deny
+satisfy all
+</FilesMatch>
+
+########## Begin - Rewrite rules to block out some common exploits
+#                              
+# Block out any script trying to set a mosConfig value through the URL
+RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
+# Block out any script trying to base64_encode crap to send via URL
+RewriteCond %{QUERY_STRING} base64_encode.*\(.*\) [OR]
+# Block out any script that includes a <script> tag in URL
+RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
+# Block out any script trying to set a PHP GLOBALS variable via URL
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+# Block out any script trying to modify a _REQUEST variable via URL
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+# Send all blocked request to homepage with 403 Forbidden error!
+#RewriteRule ^(.*)$ index.php [L]
+RewriteRule ^([^.]*)/?$ index.php [L]
+# 
+########## End - Rewrite rules to block out some common exploits
+
+
+########## Begin - Rewrite rules For SEO urls ######################
+#
+#Options +FollowSymlinks
+#RewriteEngine on
+#
+#
+#
+#URL Rewriting for Videos
+RewriteRule ^videos 										videos.php [nc]
+RewriteRule ^video/(.*)/(.*)$								watch_video.php?v=$1&%{QUERY_STRING} [nc]
+RewriteRule ^user/videos/(.*)$                       		user_videos.php?user=$1&%{QUERY_STRING}
+#
+#
+#
+#Signup Login & Logout URL Rewriting
+RewriteRule ^login$                      signup.php [nc]
+RewriteRule ^login/success                login_success.php [nc]
+RewriteRule ^logout/success                logout_success.php [nc]
+RewriteRule ^signup/success                   signup_success.php [nc]
+RewriteRule ^signup$                      signup.php [nc]
+RewriteRule ^logout$                     logout.php [nc]
+#
+#
+#
+#Messages
+RewriteRule ^message/sent 							sent.php [nc]
+RewriteRule ^message/inbox 							inbox.php [nc]
+RewriteRule ^message/compose 							compose.php [nc]
+RewriteRule ^message$ 								inbox.php [nc]
+#
+#
+#
+#Users, Channel & Management
+#
+RewriteRule ^members/								channels.php [nc]
+RewriteRule ^users/								channels.php [nc]
+RewriteRule ^channels/								channels.php [nc]
+#
+RewriteRule ^user/								channels.php [nc]
+RewriteRule ^user/channel/(.*)						view_channel.php?user=$1 [nc]
+RewriteRule ^channel/(.*)					view_channel.php?user=$1 [nc]
+RewriteRule ^user/contacts/(.*)				user_contacts.php?user=$1 [nc]
+RewriteRule ^user/videos/(.*)					user_videos.php?user=$1 [nc]
+RewriteRule ^user/favourites/(.*)				user_fav_videos.php?user=$1 [nc]
+#
+RewriteRule ^myaccount								myaccount.php [nc]
+RewriteRule ^manage/videos/							manage_videos.php [nc]
+RewriteRule ^manage/favourites/						manage_favourites.php [nc]
+RewriteRule ^manage/contacts/							manage_contacts.php [nc]
+RewriteRule ^manage/subscriptions/						manage_subscriptions.php [nc]
+RewriteRule ^manage/account							user_account.php [nc]
+RewriteRule ^manage/video/edit						edit_video.php [nc]
+#
+#
+#
+#Pages
+RewriteRule ^pages/help								help.php [nc]
+RewriteRule ^pages/privacy							privacy.php [nc]
+RewriteRule ^pages/termsofuse							termsofuse.php [nc]
+RewriteRule ^pages/contactus							contactus.php [nc]
+RewriteRule ^pages/aboutus							aboutus.php [nc]
+#
+#
+#
+#Miscellenous
+RewriteRule ^subscriptions							manage_subscriptions.php [nc]
+RewriteRule ^search/result							search_result.php [nc]
+RewriteRule ^upload									upload.php [nc]
+RewriteRule ^External/Upload						external_upload.php [nc]
+
+#
+#
+#Group Section
+RewriteRule ^group/leave/([a-zA-Z0-9].+)$			leave_group.php?url=$1 [nc]
+RewriteRule ^manage/group/videos/([a-zA-Z0-9].+)$	manage_group_videos.php?url=$1 [nc]
+RewriteRule ^manage/group/videos/([a-zA-Z0-9].+)$	manage_group_videos.php?url=$1 [nc]
+RewriteRule ^manage/group/addvideos/([a-zA-Z0-9].+)$	add_group_videos.php?url=$1 [nc]
+RewriteRule ^manage/group/members/([a-zA-Z0-9].+)$	manage_group_members.php?url=$1 [nc]
+RewriteRule ^manage/group							manage_groups.php 
+
+RewriteRule ^group/view/([a-zA-Z0-9].+)				view_group.php?url=$1&%{QUERY_STRING} [nc]
+RewriteRule ^group/videos/([a-zA-Z0-9].+)			view_group_videos.php?url=$1 [nc]
+RewriteRule ^group/members/([a-zA-Z0-9].+)			view_group_members.php?url=$1 [nc]
+RewriteRule ^group/invite/([a-zA-Z0-9].+)			invite_group.php?url=$1 [nc]
+RewriteRule ^manage/group/edit/([a-zA-Z0-9])$		edit_group.php?url=$1 [nc]
+RewriteRule ^group/create/							create_group.php [nc]
+RewriteRule ^group/join/([a-zA-Z0-9].+)				join_group.php?url=$1 [nc]
+RewriteRule ^community								groups.php [nc]
+RewriteRule ^groups$								groups.php [nc]
+RewriteRule ^group/delete							delete_group.php [nc]
+RewriteRule ^group/topic/(.*)$						view_topic.php?tid=$1 [nc]
+
+RewriteRule ^sitemap.xml$ sitemap.php
+
+#Error Pages
+ErrorDocument 404 /error_pages/404.php
+ErrorDocument 403 /error_pages/403.php
+
+########## End - Rewrite rules For SEO urls ######################
+RewriteRule ^rss$                           rss.php [nc]
+RewriteRule ^rss/([a-zA-Z0-9].+)$          rss.php?show=$1 [nc]
+
+########## End - Rewrite rules For SEO urls ######################
+
+<IfModule mod_expires.c>
+   ExpiresActive on
+   ExpiresByType image/gif "access plus 1 months"
+   ExpiresByType image/jpeg "access plus 1 months"
+   ExpiresByType image/png "access plus 1 months"   
+</IfModule>

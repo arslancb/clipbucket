@@ -1,0 +1,57 @@
+{assign var=bgcolor value =F2F2F2}
+{if $myquery->get_comments($id,$type)}
+<table width="99%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="35" align="center" class="left_head">CID</td>
+    <td width="35" class="head_sep_left">UID</td>
+    <td class="head"><div class="head_sep_left" style="width:200px">Comment</div></td>
+    <td width="200" class="head_sep_left">Date</td>
+    <td width="70" class="head_sep_left">Votes</td>
+    <td width="100" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+<div>
+<table width="99%" border="0" cellpadding="0" cellspacing="0" class="block" style="text-indent:15px">
+
+{foreach from=$myquery->get_comments($id,$type) item=comment}
+	
+	{if $comment.parent_id == 0}
+        
+          <tr style="background-color:#{$bgcolor}">
+            <td width="35" align="left">{$comment.comment_id}</td>
+            <td width="35" align="left">{$comment.userid}</td>
+            <td >{$comment.comment}</td>
+            <td width="200" align="left" >{$comment.date_added|date_format}</td>
+            <td width="70" align="left" >{$comment.vote}</td>
+            <td width="100" ><a href="?{$link}&amp;delete_comment={$comment.comment_id}">Delete</a></td>
+    </tr>
+        
+        
+        {foreach from=$myquery->get_comments($id,$type,false,$comment.comment_id,TRUE) item=reply}
+        	{if $reply.comment !=''}
+			<tr style="background-color:#{$bgcolor}">
+            <td width="35" align="left">{$reply.comment_id}</td>
+            <td width="35" align="left">{$reply.userid}</td>
+            <td >{$comment.comment_id} &hArr; {$reply.comment}</td>
+            <td width="200" align="left" >{$reply.date_added|date_format}</td>
+            <td width="70" align="left" >{$reply.vote}</td>
+            <td width="100" ><a href="?{$link}&amp;delete_comment={$reply.comment_id}">Delete</a></td>
+   	</tr>
+          	{/if}
+		{/foreach}
+        
+    	{if $bgcolor == 'F2F2F2'}
+        	{assign var=bgcolor value =FFF}
+       	{elseif $bgcolor == 'FFF'}
+        	{assign var=bgcolor value =F2F2F2}
+        {/if}
+        	
+	{/if}
+{/foreach}
+{else}
+<tr style="background-color:#FFF">
+<td colspan="6" align="center"><em>No User Comments For This Video</em></td>
+</tr>
+{/if}
+</table>
+</div>
