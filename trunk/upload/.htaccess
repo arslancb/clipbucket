@@ -4,12 +4,12 @@
 #</IfModule>
 #Options +Indexes
 
-php_flag safe_mode off
-php_value max_execution_time 1000
-php_value session.gc_maxlifetime 14000
-php_value output_buffering on
-php_value upload_max_filesize 2147483648
-php_value post_max_size 2147483648
+#php_flag safe_mode off
+#php_value max_execution_time 1000
+#php_value session.gc_maxlifetime 14000
+#php_value output_buffering on
+#php_value upload_max_filesize 2147483648
+#php_value post_max_size 2147483648
 #php_flag display_errors off
 
 Options All -Indexes
