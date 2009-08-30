@@ -88,6 +88,16 @@ class ADODB_mysql extends ADOConnection {
 		return dbselect($tbl,$fields,$cond,$limit,$order);
 	}
 	
+	
+	/**
+	 * Function used to count tables
+	 */
+	function count($tbl,$fields='*',$cond=false)
+	{
+		return dbcount($tbl,$fields,$cond);
+	}
+	
+	
 	function ADODB_mysql() 
 	{			
 		if (defined('ADODB_EXTENSION')) $this->rsPrefix .= 'ext_';

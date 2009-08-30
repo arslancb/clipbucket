@@ -231,6 +231,7 @@ if(!function_exists('validate_embed_code'))
 	register_custom_upload_field($embed_field_array);
 	$Cbucket->add_header(PLUG_DIR.'/embed_video_mod/header.html');
 	register_actions_play_video('play_embed_video');
+	
 }
 	
 ?>

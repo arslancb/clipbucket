@@ -108,164 +108,64 @@ if(isset($_POST['delete_selected'])){
 				}
 			$msg = $LANG['vdo_del_selected'];
 }
-			
-//Assigning Default Values
-@$values_search= array(
-	'search_uname' 		=> mysql_clean($_GET['username']),
-	'search_flagged'	=> mysql_clean($_GET['flagged']),
-	'search_tags'		=> mysql_clean($_GET['tags']),
-	'search_category'	=> mysql_clean($_GET['category']),
-	'search_title' 		=> mysql_clean($_GET['title']),
-	'search_active'		=> mysql_clean($_GET['active']),
-	'search_featured'	=> mysql_clean($_GET['featured']),
-	'search_sort'		=> mysql_clean($_GET['sort']),
-	'search_order'		=> mysql_clean($_GET['order'])
-	);
-	while(list($name,$value) = each($values_search)){
-	DoTemplate::assign($name,$value);
+	
+	//Jump To The page
+	if(isset($_POST['display_page'])){
+		redirect_to($_POST['page_number']);
 	}
 	
-
-//Jump To The page
-if(isset($_POST['display_page'])){
-	redirect_to($_POST['page_number']);
-}
-	
-//Pagination
-
-	$limit  = RESULTS;	
-	Assign('limit',$limit);
-	$page   = clean(@$_GET['page']);
-	Assign('limit',$limit);
-	if(empty($page) || $page == 0){
-	$page   = 1;
+	//Using Form
+	$cond = '';
+	$cond_array = array();
+	if(isset($_GET['search']))
+	{
+		//Valid Search Fields
+		$valid_search_fields = array
+		('videoid'	=> array('LIKE','%{VAR}%','AND'),
+		 'title'	=> array('LIKE','%{VAR}%','AND'),
+		 'videokey'	=> array('LIKE','%{VAR}%','AND'),
+		 'tags'		=> array('LIKE','%{VAR}%','AND'),
+		 );
+		
+		foreach($valid_search_fields as $field => $field_props)
+		{
+			if(!empty($_GET[$field]))
+			{
+				if(empty($field_props[0]))
+					$field_props[0] = '=';
+				if(empty($field_props[1]))
+					$field_props[1] = '{VAR}';
+				if(empty($field_props[2]))
+					$field_props[2] = 'OR';
+					
+				$query_val = $field_props[1];
+				$query_val = preg_replace('/{VAR}/',mysql_clean($_GET[$field]),$query_val);
+				$cond_array[] = $field_props[2]." $field ".$field_props[0]." '".$query_val."' ";
+			}
+		}
+		
+		//Creating Condition
+		$count = 0;
+		$cond = " videoid<>'0' ";
+		foreach($cond_array as $qcond)
+		{
+			$cond .= $qcond;
+		}
 	}
-	$from 	= $page-1;
-	$from 	= $from*$limit;
 	
-	$query_limit  = "limit $from,$limit";
-	$order 	= "ORDER BY date_added DESC";
-	$sql 	= "SELECT * from video $order $query_limit";
-	$sql_p	= "SELECT * from video";
-	
-//Search
-if(isset($_GET['search'])){
-	$username	= mysql_clean($_GET['username']);
-	$title		= mysql_clean($_GET['title']);
-	$flagged	= mysql_clean($_GET['flagged']);
-	$featured	= mysql_clean($_GET['featured']);
-	$active		= mysql_clean($_GET['active']);
-	$featured	= mysql_clean($_GET['featured']);
-	$tags		= mysql_clean($_GET['tags']);
-	$category	= mysql_clean($_GET['category']);
-	$sort		= mysql_clean($_GET['sort']);
-	$order		= mysql_clean($_GET['order']);	
-	
-	if($order == 'ASC'){
-		if($sort == 'username'){	$orderby 	= 'ORDER BY username ASC';}
-		if($sort == 'title'){		$orderby 	= 'ORDER BY title ASC';}
-		if($sort == 'date_added'){	$orderby 	= 'ORDER BY date_added ASC';}
-		if($sort == 'views'){		$orderby 	= 'ORDER BY views ASC';}
-		if($sort == 'rating'){		$orderby 	= 'ORDER BY rating ASC';}
-	}else{
-		if($sort == 'username'){	$orderby 	= 'ORDER BY username DESC';}
-		if($sort == 'title'){		$orderby 	= 'ORDER BY title DESC';}
-		if($sort == 'date_added'){	$orderby 	= 'ORDER BY date_added DESC';}
-		if($sort == 'views'){		$orderby 	= 'ORDER BY views DESC';}
-		if($sort == 'rating'){		$orderby 	= 'ORDER BY rating DESC';}
-	}
+	//Getting Video List
+	$page = $_GET['page'];
+	$get_limit = create_query_limit($page,RESULTS);
+	$videos = $db->select("video",'*',$cond,$get_limit,"date_added DESC");
+	Assign('videos', $videos);	
 
-	$category = "AND
-	(
-	category01 = '".$category."' OR
-	category02 = '".$category."' OR
-	category03 = '".$category."'
-	)
-	";
-	
-	if(!empty($flagged)){
-		$query_flagged = "AND flagged = '".$flagged."'";
-		}
-	if(!empty($featured)){
-		$query_featured = "AND featured = '".$featured."'";
-		}
-	if(!empty($active)){
-		$query_active = "AND active = '".$active."'";
-		}
-	
-	
-	$sql	 = "SELECT * from video ";
-	$sql	.= "WHERE 
-	username 	like '%$username%' AND 
-	title 		like '%$title%'
-	$query_flagged
-	$query_featured
-	$query_active AND
-	tags 		like '%$tags%' 
-	$category $orderby $query_limit
-	";
-	
-	$sql_p = "SELECT * from video WHERE 
-	username 	like '%$username%' AND 
-	title 		like '%$title%'
-	$query_flagged
-	$query_featured
-	$query_active
-	AND tags like '%$tags%'
-	$category ";
-}
-		
-	//Assing User Data Values
-		$rs = $db->Execute($sql);
-		$total = $rs->recordcount() + 0;
-		$videos = $rs->getrows();
-		
-		for($id=0;$id<$total;$id++){
-		$videos[$id]['thumb'] = substr($videos[$id]['flv'], 0, strrpos($videos[$id]['flv'], '.'));
-        $videos[$id]['description'] = nl2br($videos[$id]['description']);
-        $videos[$id]['category1'] = $myquery->GetCategory($videos[$id]['category01'],'category_name');
-		$videos[$id]['category2'] = $myquery->GetCategory($videos[$id]['category02'],'category_name');
-		$videos[$id]['category3'] = $myquery->GetCategory($videos[$id]['category03'],'category_name');
-		}
-		
-		Assign('total', $total + 0);
-		Assign('videos', $videos);
-
-//Pagination #A Tough Job#
-$view = clean(@$_GET['view']);
-if($view == 'search'){
-$link = '&amp;username=' .mysql_clean($_GET['username']). '&amp;title=' .mysql_clean($_GET['title']).'&amp;flagged=' .mysql_clean($_GET['flagged']).'&amp;featured=' .mysql_clean($_GET['featured']).'&amp;active='.mysql_clean($_GET['active']).'&amp;tags='.mysql_clean($_GET['tags']).'&amp;category01='.mysql_clean($_GET['category01']).'&amp;category02='.mysql_clean($_GET['category02']).'&amp;category03='.mysql_clean($_GET['category03']).'&amp;sort='.mysql_clean($_GET['sort']).'&amp;order='.mysql_clean($_GET['order']).'&amp;search='.mysql_clean($_GET['search']);
-Assign('link',$link);
-}	
-
-	$query = mysql_query($sql_p);
-	Assign('grand_total',mysql_num_rows($query));
-	$total_rows = mysql_num_rows($query);
-	$page_id=1;
-	$id = 1;
-	//$all_pages[0]['page'] = $page_id;
-	$records = $total_rows/$limit;
+	//Collecting Data for Pagination
+	$total_rows = $db->count('video','*',$cond);
+	$records = $total_rows/RESULTS;
 	$total_pages = round($records+0.49,0);
-if(empty($link)){
-$link = "?view=Videos";
-}
-
-$pages->paginate($total_pages,$page,$link);
-
-
-//Assigning Category List
-	$sql = "SELECT * from category";
-	$rs = $db->Execute($sql);
-	$total_categories = $rs->recordcount() + 0;
-	$category = $rs->getrows();
-	Assign('category', $category);
 	
-Assign('msg', @$msg);	
-/*Template('header.html');
-Template('leftmenu.html');
-Template('message.html');
-Template('video_manager.html');
-Template('footer.html');*/
+	//Pagination
+	$pages->paginate($total_pages,$page);
 
 template_files('video_manager.html');
 display_it();

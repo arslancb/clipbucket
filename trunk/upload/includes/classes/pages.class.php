@@ -153,15 +153,22 @@ class pages{
 	/**
 	 * Function used to create link
 	 */
-	function create_link($page,$link,$extra_params=NULL,$tag,$return_param=false)
+	function create_link($page,$link=NULL,$extra_params=NULL,$tag,$return_param=false)
 	{
+		if($link==NULL or $link == 'auto')
+		{
+			if($_SERVER['QUERY_STRING'])
+				$link = '?'.$_SERVER['QUERY_STRING'];
+		}
+			
 		$page_pattern = '#page#';
 		$param_pattern = '#params#';
 		$page_url_param = $this->url_page_var;
 		$page_link_pattern = $page_url_param.'='.$page_pattern;
-		
+		$link = preg_replace(array('/(\?page=[0-9+])+/','/(&page=[0-9+])+/','/(page=[0-9+])+/'),'',$link);
+
 		preg_match('/\?/',$link,$matches);
-		
+
 		if(!empty($matches[0]))
 		{
 			$page_link = '&'.$page_link_pattern;
@@ -191,9 +198,12 @@ class pages{
 	 * @param : extra paraments in the tag ie <a other_params_go_here
 	 * @param : tag used for pagination
 	 */
-	function pagination($total,$page,$link,$extra_params=NULL,$tag='<a #params#>#page#</a>')
+	function pagination($total,$page,$link=NULL,$extra_params=NULL,$tag='<a #params#>#page#</a>')
 	{
-		
+		if($total==0)
+			return false;
+		if($page<=0||$page==''||!is_numeric($page))
+			$page = 1;
 		$total_pages = $total;
 		$pagination_start = 10;
 		$display_page = 7;
@@ -289,6 +299,20 @@ class pages{
 					$pagination_smart .=$this->create_link($i,$link,$extra_params,$tag);
 			}
 			
+			
+			//Previous Page
+			if($selected-1 > 1)
+				$this->pre_link = $this->create_link($selected-1,$link,$extra_params,$tag,true);
+			//Next Page
+			if($selected+1 < $total)
+				$this->next_link = $this->create_link($selected+1,$link,$extra_params,$tag,true);
+			//First Page
+			if($selected!=1)
+				$this->first_link = $this->create_link(1,$link,$extra_params,$tag,true);
+			//First Page
+			if($selected!=$total)
+				$this->last_link = $this->create_link($total,$link,$extra_params,$tag,true);
+				
 			return $pagination_smart;
 		}
 	}
@@ -297,8 +321,9 @@ class pages{
 	/**
 	 * Function used to create pagination and assign values that can bee used in template
 	 */
-	function paginate($total,$page,$link,$extra_params=NULL,$tag='<a #params#>#page#</a>')
+	function paginate($total,$page,$link=NULL,$extra_params=NULL,$tag='<a #params#>#page#</a>')
 	{
+		
 		$this->pagination = $this->pagination($total,$page,$link,$extra_params,$tag);
 		//Assigning Varaiable that can be used in templates
 		assign('pagination',$this->pagination);

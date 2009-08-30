@@ -66,6 +66,7 @@
 			$req = $field['required'];
 			$invalid_err =  $field['invalid_err'];
 			$function_error_msg = $field['function_error_msg'];
+			if(is_string($val))
 			$length = strlen($val);
 			$min_len = $field['min_length'];
 			$min_len = $min_len ? $min_len : 0;
@@ -194,7 +195,8 @@
 					}
 					$val = $new_val;
 				}
-				if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
+				
+				if(!$field['clean_func'] || (!apply_func($field['clean_func'],$val) && !is_array($field['clean_func'])))
 					$val = mysql_clean($val);
 				else
 					$val = apply_func($field['clean_func'],$val);

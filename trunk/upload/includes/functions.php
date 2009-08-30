@@ -1109,6 +1109,21 @@ function SetTime($sec, $padHours = true) {
 	}
 	
 	
+	/**
+	 * Function used to count fields in mysql
+	 * @param TABLE NAME
+	 * @param Fields
+	 * @param condition
+	 */
+	function dbcount($tbl,$fields='*',$cond=false)
+	{
+		global $db;
+		if($cond)
+			$condition = " Where $cond ";
+		$query = "Select Count($fields) From $tbl $condition";
+		$result = $db->Execute($query);
+		return $result->fields[0];
+	}
 	
 	/**
 	 * An easy function for erorrs and messages (e is basically short form of exception)
@@ -1993,5 +2008,22 @@ function SetTime($sec, $padHours = true) {
 	{
 		global $cbplugin;
 		
+	}
+	
+	
+	
+	/**
+	 * Function used to create limit functoin from current page & results
+	 */
+	function create_query_limit($page,$result)
+	{
+		$limit  = $result;	
+		if(empty($page) || $page == 0 || !is_numeric($page)){
+		$page   = 1;
+		}
+		$from 	= $page-1;
+		$from 	= $from*$limit;
+		
+		return $from.','.$result;
 	}
 ?>

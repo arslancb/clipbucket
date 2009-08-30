@@ -2,66 +2,29 @@
 <span class="page_title">Video Manager</span>
 
 
-<div class="search_box">  <form id="form1" name="form1" method="post" action="" class="video_search">
- 
-  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td> <label>Video Title
-        <br />
-        <input type="text" name="title" id="title" class="input" />
-      <br />
-      </label>
-          From Date<br />
-<label>
-  <input type="text" name="textfield" id="textfield"  class="input" />
-</label>
-      <br />
-      Date To<br />
-<label>
-  <input type="text" name="textfield2" id="textfield2"  class="input" />
-</label>
-      <br />
-      <br />      <br /></td>
-    <td valign="top"><label>Video Tags<br />
-<input type="text" name="tags" id="tags" class="input" />
-      </label>      <br /></td>
-  </tr>
-  <tr>
-    <td>Featured Only 
-      <label>
-        <input type="checkbox" name="checkbox" id="checkbox" />
-      </label>
-      <br />
-      Boradcast Type <label>
-        <input name="broadcast" type="radio" id="radio" value="radio" checked="checked" />
-        Public
-      </label>
-      <input type="radio" name="broadcast" id="radio2" value="radio" />
-      Private<br />
-      Comment Option
-      <input name="comments" type="radio" id="radio3" value="radio" checked="checked" />
-      Allowed
-      <input type="radio" name="comments" id="radio4" value="radio" />
-Not Allowed<br />
-      Embedding Option
-      <input name="embedding" type="radio" id="radio5" value="radio" checked="checked" />
-      Allowed
-      <input type="radio" name="embedding" id="radio6" value="radio" />
-      Not Allowed</td>
-    <td valign="top">Rating From Rating To<br />
-      Views From Views To<br />
-      Comments From Comments To<br />
-      Favorites From Favorites To</td>
-  </tr>
-  <tr>
-    <td>Creation Date<br />
-      Location<br />
-      Country<br /></td>
-    <td valign="top">Category</td>
-  </tr>
+<div class="search_box">  <form id="video_search" name="video_search" method="get" action="video_manager.php" class="video_search">
+  <table width="400" border="0" cellpadding="2" cellspacing="2">
+    <tr>
+      <td width="106" align="right"><label for="title">Video Title</label></td>
+      <td width="280"><input name="title" type="text" class="input" id="title" value="{$smarty.get.title|form_val}" //></td>
+    </tr>
+    <tr>
+      <td align="right"><label for="videokey">Video Key</label></td>
+      <td><input name="videokey" type="text" class="input" id="videokey" value="{$smarty.get.videokey|form_val}" //></td>
+    </tr>
+    <tr>
+      <td align="right"><label for="videoid">Video Id</label></td>
+      <td><input name="videoid" type="text" class="input" id="videoid" value="{$smarty.get.videoid|form_val}" //></td>
+    </tr>
+    <tr>
+      <td align="right"><label for="tags">Video Tags</label></td>
+      <td><input name="tags" type="text" class="input" id="tags" value="{$smarty.get.tags|form_val}" //></td>
+    </tr>
   </table>
-
-</form></div>
+  <br />
+  <input type="submit" name="search" id="search" value="Search Form" class="button"/>
+</form>
+</div>
   
   
 <!-- DIsplaying Videos -->
