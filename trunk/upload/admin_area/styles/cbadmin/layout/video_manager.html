@@ -5,20 +5,20 @@
 <div class="search_box">  <form id="video_search" name="video_search" method="get" action="video_manager.php" class="video_search">
   <table width="400" border="0" cellpadding="2" cellspacing="2">
     <tr>
-      <td width="106" align="right"><label for="title">Video Title</label></td>
-      <td width="280"><input name="title" type="text" class="input" id="title" value="{$smarty.get.title|form_val}" //></td>
+      <td width="106" align="right"><label for="title">Video title</label></td>
+      <td width="280"><input name="title" type="text" class="input" id="title" value="{'title'|get_form_val:true}" //></td>
     </tr>
     <tr>
-      <td align="right"><label for="videokey">Video Key</label></td>
-      <td><input name="videokey" type="text" class="input" id="videokey" value="{$smarty.get.videokey|form_val}" //></td>
+      <td align="right"><label for="videokey">Video key</label></td>
+      <td><input name="videokey" type="text" class="input" id="videokey" value="{'videokey'|get_form_val:true}" //></td>
     </tr>
     <tr>
-      <td align="right"><label for="videoid">Video Id</label></td>
-      <td><input name="videoid" type="text" class="input" id="videoid" value="{$smarty.get.videoid|form_val}" //></td>
+      <td align="right"><label for="videoid">Video id</label></td>
+      <td><input name="videoid" type="text" class="input" id="videoid" value="{'videoid'|get_form_val:true}" //></td>
     </tr>
     <tr>
-      <td align="right"><label for="tags">Video Tags</label></td>
-      <td><input name="tags" type="text" class="input" id="tags" value="{$smarty.get.tags|form_val}" //></td>
+      <td align="right"><label for="tags">Video tags</label></td>
+      <td><input name="tags" type="text" class="input" id="tags" value="{'tags'|get_form_val:true}" /></td>
     </tr>
   </table>
   <br />
@@ -82,7 +82,7 @@
    	 
       <a href="view_video.php?video={$videos[list].videoid}">View</a> | 
       <a href="edit_video.php?video={$videos[list].videoid}">Edit</a> {if $videos[list].featured == yes} | 
-       <a href="javascript:Confirm_Delete('?delete_video={$videos[list].videoid}')">Delete</a> | 
+      <a href="javascript:Confirm_Delete('?delete_video={$videos[list].videoid}')">Delete</a> | 
       <a href="?make_unfeature={$videos[list].videoid}">Make Unfeatured</a> {/if} 
       {if $videos[list].featured == no} | 
       <a href="?make_feature={$videos[list].videoid}">Make Featured</a> {/if}

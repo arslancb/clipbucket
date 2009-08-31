@@ -60,6 +60,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/log.class.php');
 	require_once('classes/swfObj.class.php');
 	require_once('classes/image.class.php');
+	require_once('classes/video.class.php');
 	require_once 'languages.php';
 			
 	$pages 		= new pages();	
@@ -78,11 +79,11 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	$cbplugin	= new CBPlugin();
 	$eh			= new EH();
 	$lang_obj	= new language;
-	$sess	= new Session();
+	$sess		= new Session();
 	$cblog		= new CBLogs();
 	$swfobj		= new SWFObject();
 	$imgObj		= new ResizeImage();
-	
+	$cbvid		= new CBvideo();
 
 //Initializng Userquery class
 $userquery->init();
@@ -389,19 +390,21 @@ $Smarty->register_function('videoLink','videoSmartyLink');
 $Smarty->register_function('pullRating','pullSmartyRating');
 $Smarty->register_function('ANCHOR','ANCHOR');
 $Smarty->register_function('FUNC','FUNC');
-$Smarty->register_modifier('SetTime','SetTime');
-$Smarty->register_modifier('getname','getname');
-$Smarty->register_modifier('getext','getext');
-$Smarty->register_modifier('form_val','form_val');
 $Smarty->register_function('avatar','avatar');
 $Smarty->register_function('load_form','load_form');
 $Smarty->register_function('get_all_video_files',get_all_video_files_smarty);
 $Smarty->register_function('input_value','input_value');
-
 $Smarty->register_function('userid','userid');
 $Smarty->register_function('FlashPlayer','flashPlayer');
 
 
+$Smarty->register_modifier('SetTime','SetTime');
+$Smarty->register_modifier('getname','getname');
+$Smarty->register_modifier('getext','getext');
+$Smarty->register_modifier('form_val','form_val');
+$Smarty->register_modifier('get_from_val','get_from_val');
+$Smarty->register_modifier('post_form_val','post_form_val');
+$Smarty->register_modifier('request_form_val','request_form_val');
 $Smarty->register_modifier('get_thumb_num','get_thumb_num');
 
 

@@ -246,12 +246,8 @@ class myquery {
 		return $this->VideoExists($videoid);
 	}
 	function VideoExists($videoid){
-	$query = mysql_query("SELECT videoid FROM video WHERE videoid ='".$videoid."'");
-	if(mysql_num_rows($query)>0){
-		return true;
-		}else{
-		return false;
-		}
+		global $cbvid;
+		return $cbvid->exists($videoid);
 	}
 	
 	//Function Used to Delete Video Files
@@ -291,39 +287,29 @@ class myquery {
 	//Function Used to Make Video Featured
 	
 	function MakeFeaturedVideo($videoid){
-	global $LANG;
-	mysql_query("UPDATE video SET featured = 'yes' WHERE videoid='".$videoid."'");
-	$msg = e($LANG['class_vdo_fr_msg'],m);
-	return $msg;
+		global $cbvid;
+		return $cbvid->action('feature',$videoid);
 	}
 	
 	//Function Used to Make Video UnFeatured
 	
 	function MakeUnFeaturedVideo($videoid){
-	global $LANG;
-	mysql_query("UPDATE video SET featured = 'no' WHERE videoid='".$videoid."'");
-	$msg = e($LANG['class_fr_msg1'],m);
-	return $msg;
+		global $cbvid;
+		return $cbvid->action('unfeature',$videoid);
 	}
 	
 	//Function Used to Activate Vide
 	
 	function ActivateVideo($videoid){
-	global $LANG,$stats;
-	mysql_query("UPDATE video SET active = 'yes' WHERE videoid='".$videoid."'");
-	$msg = e($LANG['class_vdo_act_msg'],m);
-	$stats->UpdateVideoRecord(11);
-	return $msg;
+		global $cbvid;
+		return $cbvid->action('activate',$videoid);
 	}
 	
 	//Function Used to Deactivate Video
 	
 	function DeActivateVideo($videoid){
-	global $LANG,$stats;
-	mysql_query("UPDATE video SET active = 'no' WHERE videoid='".$videoid."'");
-	$msg = e($LANG['class_vdo_act_msg1'],m);
-	$stats->UpdateVideoRecord(12);
-	return $msg;
+		global $cbvid;
+		return $cbvid->action('deactivate',$videoid);
 	}
 	
 	
@@ -334,12 +320,11 @@ class myquery {
 	 */
 	function get_video_details($vid)
 	{
-		global $db;
-		$results = $db->select("video","*"," videoid='$vid' OR videokey='$vid'");
-		return $results[0];
+		global $cbvid;
+		return $cbvid->get_video($vid);
 	}	
 	function GetVideoDetails($video){
-		return $this->get_video_details;
+		return $this->get_video_details($video);
 	}
 	
 	
@@ -1366,87 +1351,8 @@ class myquery {
 	 */
 	function update_video()
 	{
-		global $eh,$Cbucket,$db,$Upload;
-
-		$Upload->validate_video_upload_form(NULL,TRUE);
-		
-		if(empty($eh->error_list))
-		{
-			$required_fields = $Upload->loadRequiredFields($array);
-			$location_fields = $Upload->loadLocationFields($array);
-			$option_fields = $Upload->loadOptionFields($array);
-			
-			$upload_fields = array_merge($required_fields,$location_fields,$option_fields);
-			
-			//Adding Custom Upload Fields
-			if(count($Upload->custom_upload_fields)>0)
-				$upload_fields = array_merge($upload_fields,$Upload->custom_upload_fields);
-			//Adding Custom Form Fields
-			if(count($Upload->custom_form_fields)>0)
-				$upload_fields = array_merge($upload_fields,$Upload->custom_form_fields);
-			
-			$array = $_POST;
-			$vid = $array['videoid'];
-
-			if(is_array($_FILES))
-			$array = array_merge($array,$_FILES);
-		
-			foreach($upload_fields as $field)
-			{
-				$name = formObj::rmBrackets($field['name']);
-				$val = $array[$name];
-				
-				if($field['use_func_val'])
-					$val = $field['validate_function']($val);
-				
-				
-				if(!empty($field['db_field']))
-				$query_field[] = $field['db_field'];
-				
-				if(is_array($val))
-				{
-					$new_val = '';
-					foreach($val as $v)
-					{
-						$new_val .= "#".$v."# ";
-					}
-					$val = $new_val;
-				}
-				if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
-					$val = mysql_clean($val);
-				else
-					$val = apply_func($field['clean_func'],$val);
-				
-				if(!empty($field['db_field']))
-				$query_val[] = $val;
-				
-			}		
-			
-			#$query = "INSERT INTO video (";
-			$total_fields = count($query_field);
-			
-			//Adding Fields to query
-			$i = 0;
-			
-			/*for($key=0;$key<$total_fields;$key++)
-			{
-				$query .= query_field[$key]." = '".$query_val[$key]."'" ;
-				if($key<$total_fields-1)
-				$query .= ',';
-			}*/
-			
-			
-			if(!userid())
-			{
-				e("You are not logged in");
-			}elseif(!$this->video_exists($vid)){
-				e("Video deos not exist");
-			}else{
-				$db->update('video',$query_field,$query_val," videoid='$vid'");
-				e("Video details have been updated",m);
-			}
-			
-		}				
+		global $cbvid;
+		return $cbvid->update_video();
 	}
 	
 	

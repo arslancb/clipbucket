@@ -1383,8 +1383,7 @@ function SetTime($sec, $padHours = true) {
 	{
 		global $myquery;
 		if(!$vid)
-			global $vid;
-		
+			global $vid;	
 		return $myquery->get_video_details($vid);
 	}
 	
@@ -2026,4 +2025,49 @@ function SetTime($sec, $padHours = true) {
 		
 		return $from.','.$result;
 	}
+	
+	
+	/**
+	 * Function used to get value from $_GET
+	 */
+	function get_form_val($val,$filter=false)
+	{
+		if($filter)
+			return form_val($_GET[$val]);
+		else
+			$_GET[$val];
+	}
+	
+	/**
+	 * Function used to get value form $_POST
+	 */
+	function post_form_val($val,$filter=false)
+	{
+		if($filter)
+			return form_val($_POST[$val]);
+		else
+			$_POST[$val];
+	}
+	
+	/**
+	 * Function used to get value from $_REQUEST
+	 */
+	function request_form_val($val,$filter=false)
+	{
+		if($filter)
+			return form_val($_REQUEST[$val]);
+		else
+			$_REQUEST[$val];
+	}
+	
+	
+	/**
+	 * Function used to return LANG variable
+	 */
+	function lang($var)
+	{
+		global $LANG;
+		return $LANG[$var];
+	}
+	
 ?>

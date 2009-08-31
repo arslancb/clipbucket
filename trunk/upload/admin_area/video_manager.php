@@ -88,26 +88,26 @@ if(isset($_GET['deactivate'])){
 			$msg = "Selected Videos Have Been Dectivated";
 			}
 
-
-//Delete Video
-if(isset($_GET['delete_video'])){
-	$video = mysql_clean($_GET['delete_video']);
-	if($myquery->VideoExists($video)){
-		$msg[] = $myquery->DeleteVideo($video);
-	}else{
-		$msg[] = $LANG['class_vdo_del_err'];
+	
+	//Delete Video
+	if(isset($_GET['delete_video'])){
+		$video = mysql_clean($_GET['delete_video']);
+		if($myquery->VideoExists($video)){
+			$msg[] = $myquery->DeleteVideo($video);
+		}else{
+			$msg[] = $LANG['class_vdo_del_err'];
+		}
 	}
-}
-
-//Deleting Multiple Videos
-if(isset($_POST['delete_selected'])){
-				for($id=0;$id<=RESULTS;$id++){
-					if($myquery->VideoExists($_POST['check_video'][$id])){
-						$msg[] = $myquery->DeleteVideo($_POST['check_video'][$id]);
+	
+	//Deleting Multiple Videos
+	if(isset($_POST['delete_selected'])){
+					for($id=0;$id<=RESULTS;$id++){
+						if($myquery->VideoExists($_POST['check_video'][$id])){
+							$msg[] = $myquery->DeleteVideo($_POST['check_video'][$id]);
+						}
 					}
-				}
-			$msg = $LANG['vdo_del_selected'];
-}
+				$msg = $LANG['vdo_del_selected'];
+	}
 	
 	//Jump To The page
 	if(isset($_POST['display_page'])){
@@ -154,7 +154,7 @@ if(isset($_POST['delete_selected'])){
 	}
 	
 	//Getting Video List
-	$page = $_GET['page'];
+	$page = mysql_clean($_GET['page']);
 	$get_limit = create_query_limit($page,RESULTS);
 	$videos = $db->select("video",'*',$cond,$get_limit,"date_added DESC");
 	Assign('videos', $videos);	

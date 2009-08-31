@@ -70,9 +70,9 @@ if(!function_exists('validate_embed_code'))
 	{
 		global $LANG;
 	
-		if(empty($val))
+		if(empty($val) || $val=='none')
 		{
-			return ' ';		
+			return 'none';		
 		}else{
 			//Removing spaces and non required code
 			$val = preg_replace(array("/\r+/","/\n+/","/\t+/"),"",$val);
