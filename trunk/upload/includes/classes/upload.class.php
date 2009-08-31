@@ -495,7 +495,7 @@
 							 'hint_1'=>  $LANG['vdo_cat_msg'].'<br>',
 							 'db_field'=>'category',
 							 'required'=>'yes',
-							 'validate_function'=>'validate_category',
+							 'validate_function'=>'validate_vid_category',
 							 'invalid_err'=>$LANG['vdo_cat_err3'],
 							 'display_function' => 'convert_to_categories'
 

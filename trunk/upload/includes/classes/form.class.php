@@ -121,11 +121,12 @@ class formObj
 		{
 			$values_array = $field['value'][1][0];
 			$field['value'] = '';
-			//Generate Category list	
+			//Generate Category list
+			$type = $field['type'] ? $field['type'] : 'video';
 			$catArray = getCategoryList();
 			foreach ($catArray as $cat)
 			{
-				$field['value'][$cat['categoryid']] = $cat['category_name'];
+				$field['value'][$cat['category_id']] = $cat['category_name'];
 			}
 		}
 		$arrayName = $this->rmBrackets($field['name']);

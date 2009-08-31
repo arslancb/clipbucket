@@ -12,7 +12,7 @@
 
 
 {if $edit_category != "show"}
-<form action="" method="post" enctype="multipart/form-data" name="add_category" id="Add Category">
+<form action="category.php" method="post" enctype="multipart/form-data" name="add_category" id="Add Category">
 
 <table width="98%" border="0" cellpadding="0" cellspacing="0" class="block">
   <tr>
@@ -22,12 +22,24 @@
     <tr>
       <td valign="top" class="td_body">Category Name*</td>
       <td class="td_body"><label>
-        <input name="title" type="text" id="title" value="{$default_name}" size="45" />
+        <input name="name" type="text" id="name" value="{'name'|post_form_val}" size="45" />
       </label></td>
     </tr>
     <tr>
       <td valign="top" class="td_body">Category Description*</td>
-      <td class="td_body"><textarea name="description" id="description" cols="33" rows="5">{$default_name}</textarea></td>
+      <td class="td_body"><textarea name="desc" id="desc" cols="33" rows="5">{'desc'|post_form_val}</textarea></td>
+    </tr>
+    <tr>
+      <td valign="top" class="td_body">Make Default Category</td>
+      <td class="td_body"><p>
+        <label>
+          <input type="radio" name="default" value="yes" id="default_0" />
+          Yes</label>
+        <label>
+          <input name="default" type="radio" id="default_1" value="no" checked="checked" />
+          No</label>
+        <br />
+      </p></td>
     </tr>
     <tr>
       <td valign="top" class="td_body">Category Thumb</td>
@@ -93,7 +105,7 @@
     <td width="22%" class="left_head">Category Name</td>
     <td width="9%" class="head_sep_left">Thumb</td>
     <td width="34%" class="head_sep_left">Description</td>
-    <td width="28%" class="head_sep_left">Date Added</td>
+    <td width="28%" class="head_sep_left">Defaul</td>
     <td width="7%" align="center" class="right_head">Action</td>
   </tr>
  {assign var = bgcolor value = ""}
@@ -101,11 +113,11 @@
   <tr bgcolor="{$bgcolor}">
     <td style="text-indent:10px">{$category[list].category_name}</td>
     <td style="text-indent:10px"><a href="#" onMouseover="fixedtooltip('<img src={$category_thumbs}/{$category[list].category_thumb} border=1/>', this, event, '0px')" onMouseout="delayhidetip()">View Thumb</a></td>
-    <td style="text-indent:10px">{$category[list].category_description}</td>
-    <td style="text-indent:10px">{$category[list].date_added|date_format}</td>
+    <td style="text-indent:10px">{$category[list].category_desc}</td>
+    <td style="text-indent:10px">{$category[list].isdefault}</td>
     <td style="text-indent:10px">
       <li><a href="?category={$category[list].categoryid}">Edit</a></li>
-      <li><a href="javascript:Confirm_Delete('?delete_category={$category[list].categoryid}')">Delete</a></li>
+      <li><a href="javascript:Confirm_Delete('?delete_category={$category[list].category_id}')">Delete</a></li>
     </td>
   </tr>
  {if $bgcolor == ""}

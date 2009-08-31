@@ -15,11 +15,7 @@ $pages->page_redir();
 //Form Processing
 
 if(isset($_POST['add_cateogry'])){
-	if($myquery->AddCategory()){
-	$msg[] = $LANG['cat_add_msg'];
-	}else{
-	$msg[] = $LANG['cat_img_error'];
-	}
+	$cbvid->add_category($_POST);
 }
 	
 //Edit Categoty
@@ -44,23 +40,12 @@ if(isset($_GET['category'])){
 
 //Delete Category
 if(isset($_GET['delete_category'])){
-$category = mysql_clean($_GET['delete_category']);
-	if($myquery->CategoryExists($category)){
-	$msg[] = $myquery->DeleteCategory($category);
-	}else{
-	$msg[] = $LANG['cat_exist_error'];
-	}
+	$cbvid->delete_category($_GET['delete_category']);
 }
 	
 //Assing Category Values
-
-		$sql = "SELECT * from category";
-		$rs = $db->Execute($sql);
-		$total = $rs->recordcount() + 0;
-		$category = $rs->getrows();
-		
-		Assign('total', $total + 0);
-		Assign('category', $category);	
+assign('category',$cbvid->get_categories());
+assign('total',$cbvid->total_categories());
 
 Assign('msg',@$msg);	
 /*Template('header.html');
@@ -68,6 +53,7 @@ Template('leftmenu.html');
 Template('message.html');
 Template('category.html');
 Template('footer.html');*/
+$cbvid->get_default_category();
 
 template_files('category.html');
 display_it();

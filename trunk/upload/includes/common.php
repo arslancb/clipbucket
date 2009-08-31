@@ -60,6 +60,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/log.class.php');
 	require_once('classes/swfObj.class.php');
 	require_once('classes/image.class.php');
+	require_once('classes/category.class.php');
 	require_once('classes/video.class.php');
 	require_once 'languages.php';
 			
@@ -83,7 +84,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	$cblog		= new CBLogs();
 	$swfobj		= new SWFObject();
 	$imgObj		= new ResizeImage();
-	$cbvid		= new CBvideo();
+	$cbvideo	= $cbvid = new CBvideo();
 
 //Initializng Userquery class
 $userquery->init();

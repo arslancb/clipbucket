@@ -779,11 +779,17 @@ function SetTime($sec, $padHours = true) {
 	/**
 	* FUNCTION USED TO GET CATEGORY LIST
 	*/
-	function getCategoryList()
+	function getCategoryList($type='video')
 	{
-		global $db;
-		$sql = "SELECT * FROM category";
-		return $db->GetArray($sql);
+		switch ($type)
+		{
+			case "video":
+			{
+				global $cbvid;
+				return $cbvid->get_categories();
+			}
+			break;
+		}
 	}
 	
 	
@@ -859,6 +865,7 @@ function SetTime($sec, $padHours = true) {
 		//if(!mysql_query($query)) die(mysql_error());
 		$db->Execute($query);
 		if(mysql_error()) die ($db->db_query.'<br>'.mysql_error());
+		return $db->insert_id();
 	}
 	
 	/**
@@ -1089,7 +1096,6 @@ function SetTime($sec, $padHours = true) {
 		}
 		
 		
-		
 		if($order)
 			$query_params .= " ORDER BY $order ";
 		if($limit)
@@ -1304,9 +1310,9 @@ function SetTime($sec, $padHours = true) {
 	 * Function used to validate category
 	 * INPUT $cat array
 	 */
-	function validate_category($array=NULL)
+	function validate_vid_category($array=NULL)
 	{
-		global $myquery,$LANG;
+		global $myquery,$LANG,$cbvid;
 		if($array==NULL)
 			$array = $_POST['category'];
 		if(count($array)==0)
@@ -1316,7 +1322,7 @@ function SetTime($sec, $padHours = true) {
 			
 			foreach($array as $arr)
 			{
-				if($myquery->CategoryExists($arr))
+				if($cbvid->category_exists($arr))
 					$new_array[] = $arr;
 			}
 		}

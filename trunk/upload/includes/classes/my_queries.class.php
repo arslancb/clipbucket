@@ -148,7 +148,7 @@ class myquery {
 		
 	//This Function Is Used to Check Category Exits or Not
 	
-	function CategoryExists($category){
+	/*function CategoryExists($category){
 	$query = mysql_query("SELECT categoryid FROM category WHERE categoryid ='".$category."'");
 		if(mysql_num_rows($query)>0){
 			return true;
@@ -156,6 +156,8 @@ class myquery {
 			return false;
 			}
 	}
+	*/
+	
 	
 	//This Function Is Used to Update Category
 	
