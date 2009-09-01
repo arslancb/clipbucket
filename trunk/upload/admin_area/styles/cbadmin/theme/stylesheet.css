@@ -1,3 +1,7 @@
+/*
+Link Color : #0c4469
+*/
+
 @import url("slidemenu.css");
 @import url("pagination.css");
 @import url("cbtab.css");
@@ -111,3 +115,9 @@ padding-left:5px; font-size:16px; font-weight:bold; font-family:Arial, Helvetica
 .search_box{margin:5px; padding:5px; border:1px solid #146194; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; background:#eff9ff} 
 
 .video_search .input{border:1px solid #666}
+
+
+.item_listing td{border-bottom:1px solid #ccc}
+
+.item_listing li{list-style:none}
+.item_listing a{color:#0c4469; font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-style:italic}

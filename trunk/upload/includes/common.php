@@ -257,8 +257,14 @@ error_reporting(E_ALL ^ E_NOTICE);
 	define('MAX_COMMENT_CHR',$Cbucket->configs['max_comment_chr']);
 	define('USER_COMMENT_OWN',$Cbucket->configs['user_comment_own']);
 	
+	
+	//Defining Category Thumbs directory
+	define('CAT_THUMB_DIR',BASEDIR.'/images/category_thumbs');
+	define('CAT_THUMB_URL',BASEURL.'/images/category_thumbs');
+	
  	//Assigning Smarty Tags & Values
 	include 'functions.php';
+	include 'plugin.functions.php';
 	include 'plugins_functions.php';
 	require BASEDIR.'/includes/templatelib/Template.class.php';
 	require BASEDIR.'/includes/classes/template.class.php';
@@ -288,7 +294,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 	Assign('flvplayer',FLVPLAYER);
 	Assign('avatardir',BASEURL.'/images/avatars');
 	Assign('whatis',$row['whatis']);
-	Assign('category_thumbs',BASEURL.'/images/category_thumbs');
+	Assign('category_thumbs',CAT_THUMB_URL);
 	Assign('video_thumbs',THUMBS_URL);
 	//Assign('ads',$ads);
 	Assign('meta_keywords',$row['keywords']);
@@ -377,7 +383,7 @@ $Smarty->assign_by_ref('formObj', $formObj);
 $Smarty->assign_by_ref('Cbucket', $Cbucket);$Smarty->assign_by_ref('ClipBucket', $Cbucket);
 $Smarty->assign_by_ref('eh', $eh);
 $Smarty->assign_by_ref('lang_obj', $lang_obj);
-
+$Smarty->assign_by_ref('cbvid', $cbvid);
 
 /*
 REGISERTING FUNCTION FOR SMARTY TEMPLATES

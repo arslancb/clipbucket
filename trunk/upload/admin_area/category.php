@@ -1,10 +1,10 @@
 <?php
 /* 
- ****************************************************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.											|
- | @ Author : ArslanHassan																			|
- | @ Software : ClipBucket , © PHPBucket.com														|
- ****************************************************************************************************
+ *******************************************
+ | Copyright (c) 2007-2009 Clip-Bucket.com & (Arslan Hassan). All rights reserved.
+ | @ Author : ArslanHassan
+ | @ Software : ClipBucket , © PHPBucket.com
+ *******************************************
 */
 
 require_once '../includes/admin_config.php';
@@ -13,30 +13,26 @@ $pages->page_redir();
 
 
 //Form Processing
-
 if(isset($_POST['add_cateogry'])){
 	$cbvid->add_category($_POST);
 }
-	
+
+//Making Categoyr as Default
+if(isset($_GET['make_default']))
+{
+	$cid = mysql_clean($_GET['make_default']);
+	$cbvid->make_default_category($cid);
+}
+
 //Edit Categoty
 if(isset($_GET['category'])){
-	$category = clean($_GET['category']);
-		if($myquery->CategoryExists($category)){
-				if(isset($_POST['update_category'])){
-						if($myquery->UpdateCategory($_GET['category'])){
-							$msg[] = "Category Has Been Updated";
-						}
-					}		
-						
-			$sql = "SELECT * from category WHERE categoryid = '".$category."'";
-			$rs = $db->Execute($sql);
-			$category_data = $rs->getrows();;
-			Assign('category_data',$category_data);
-			Assign('edit_category','show');			
-			}else{
-		$msg[] = $LANG['cat_exist_error'];
-		}
+	assign("edit_category","show");
+	if(isset($_POST['update_category']))
+	{
+		$cbvid->update_category($_POST);
 	}
+	assign('cat_details',$cbvid->get_category($_GET['category']));
+}
 
 //Delete Category
 if(isset($_GET['delete_category'])){
@@ -48,13 +44,6 @@ assign('category',$cbvid->get_categories());
 assign('total',$cbvid->total_categories());
 
 Assign('msg',@$msg);	
-/*Template('header.html');
-Template('leftmenu.html');
-Template('message.html');
-Template('category.html');
-Template('footer.html');*/
-$cbvid->get_default_category();
-
 template_files('category.html');
 display_it();
 

@@ -2,7 +2,7 @@
 <span class="page_title">Video Categories</span>
 
 
-<table width="99%" border="0" cellpadding="0" cellspacing="0">
+<table width="98%" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td width="200" align="left" valign="middle" class="left_head" style="text-indent:10px">Manage Video Categories</td>
     <td class="head">&nbsp;</td>
@@ -42,10 +42,9 @@
       </p></td>
     </tr>
     <tr>
-      <td valign="top" class="td_body">Category Thumb</td>
-      <td class="td_body"><label>
-        <input name="category_thumb" type="file" id="category_thumb" size="45">
-      </label></td>
+      <td class="td_body">Category Thumb</td>
+      <td align="left" class="td_body"><label for="cat_thumb"></label>
+      <input type="file" name="cat_thumb" id="cat_thumb" /></td>
     </tr>
     <tr>
       <td class="td_body">&nbsp;</td>
@@ -55,9 +54,10 @@
 </form>
 {/if}
 {if $edit_category == "show"}
-{section name=list loop=$category_data}
 <form action="" method="post" enctype="multipart/form-data" name="edit_category" id="Edit Category">
-  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="2" class="block">
+<input name="cid" value="{$cat_details.category_id}" type="hidden" />
+<input name="cur_name" value="{$cat_details.category_name}" type="hidden" />
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
     
     <tr>
       <td class="td_body">&nbsp;</td>
@@ -66,23 +66,30 @@
     <tr>
       <td valign="top" class="td_body">Category Name*</td>
       <td class="td_body"><label>
-        <input name="title" type="text" id="title" value="{$category_data[list].category_name}" size="45" />
+        <input name="name" type="text" id="name" value="{$cat_details.category_name}" size="45" />
       </label></td>
     </tr>
     <tr>
       <td valign="top" class="td_body">Category Description*</td>
-      <td class="td_body"><textarea name="description" id="description" cols="33" rows="5">{$category_data[list].category_description}</textarea></td>
+      <td class="td_body"><textarea name="desc" id="desc" cols="33" rows="5">{$cat_details.category_desc}</textarea></td>
+    </tr>
+     <tr>
+      <td valign="top" class="td_body">Make Default Category</td>
+      <td class="td_body"><p>
+        <label>
+          <input type="radio" name="default" value="yes" id="default_0" {if $cat_details.isdefault=='yes'} checked="checked"{/if} />
+          Yes</label>
+        <label>
+          <input name="default" type="radio" id="default_1" value="no" {if $cat_details.isdefault=='no'} checked="checked"{/if} />
+          No</label>
+        <br />
+      </p></td>
     </tr>
     <tr>
-      <td valign="top" class="td_body">Category Thumb</td>
+      <td class="td_body">Category Thumb</td>
       <td class="td_body"><label>
-        <img src="{$category_thumbs}/{$category_data[list].category_thumb}" /> <br /><input name="category_thumb" type="file" id="category_thumb" size="45" />
-        <input type="hidden" name="thumb" id="thumb" value="{$category_data[list].category_thumb}" />
+        <input type="file" name="cat_thumb" id="cat_thumb" />
       </label></td>
-    </tr>
-    <tr>
-      <td class="td_body">&nbsp;</td>
-      <td class="td_body"><label></label></td>
     </tr>
     <tr>
       <td colspan="2" align="right" class="tr_head"><label>
@@ -91,7 +98,6 @@
     </tr>
   </table>
 </form>
-{/section}
 {/if}
 
 
@@ -100,25 +106,38 @@
 </div>
 
 {if $total != 0}
-<table width="67%" border="0" align="left" cellpadding="0" cellspacing="0">
+<table width="98%" border="0" align="left" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="22%" class="left_head">Category Name</td>
+    <td width="22%" class="left_head" style="text-indent:10px">Category Name</td>
     <td width="9%" class="head_sep_left">Thumb</td>
     <td width="34%" class="head_sep_left">Description</td>
-    <td width="28%" class="head_sep_left">Defaul</td>
-    <td width="7%" align="center" class="right_head">Action</td>
+    <td width="28%" class="head_sep_left">Default</td>
+    <td width="7%" class="head_sep_left">Action</td>
+    <td width="20" align="left" class="right_head">&nbsp;</td>
   </tr>
- {assign var = bgcolor value = ""}
+{assign var = bgcolor value = ""}
 {section name=list loop=$category}
-  <tr bgcolor="{$bgcolor}">
+<script type="text/javascript">
+cat_div = "#thumbs_{$category[list].category_id}";
+{literal}
+   $(function() { {/literal}
+		$("#thumbs_{$category[list].category_id}").tooltip({literal}{showURL: false});
+	});
+  {/literal}
+</script>
+  <tr bgcolor="{$bgcolor}" class="item_listing">
     <td style="text-indent:10px">{$category[list].category_name}</td>
-    <td style="text-indent:10px"><a href="#" onMouseover="fixedtooltip('<img src={$category_thumbs}/{$category[list].category_thumb} border=1/>', this, event, '0px')" onMouseout="delayhidetip()">View Thumb</a></td>
-    <td style="text-indent:10px">{$category[list].category_desc}</td>
+    <td style="text-indent:10px"><a id="thumbs_{$category[list].category_id}"  title="<img src='{$cbvid->get_category_thumb($category[list])}'  />" href="javascript:void(0)">View Thumb</a>
+   </td>
+  
+    <td style="text-indent:10px">{if $category[list].category_desc}{$category[list].category_desc}{else}<em>N/A</em>{/if}</td>
     <td style="text-indent:10px">{$category[list].isdefault}</td>
     <td style="text-indent:10px">
-      <li><a href="?category={$category[list].categoryid}">Edit</a></li>
+      <li><a href="?category={$category[list].category_id}">Edit</a></li>
       <li><a href="javascript:Confirm_Delete('?delete_category={$category[list].category_id}')">Delete</a></li>
+     {if $category[list].isdefault!="yes"}<li><a href="?make_default={$category[list].category_id}">Make Default</a></li>{/if}
     </td>
+    <td style="text-indent:10px">&nbsp;</td>
   </tr>
  {if $bgcolor == ""}
  	 {assign var = bgcolor value = "#EEEEEE"}

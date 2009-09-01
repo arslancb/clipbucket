@@ -32,6 +32,13 @@
  --- in_header
  
  
+ You can additionally add admin area options
+ such as if you want to add new option in admin panel
+ you can add links at following places
+ 
+ -- in_video_manage_links
+ -- in_video_manage_buttons
+ 
  function 
  -- get_plugin_details 
  reads the file and parse plugin details
