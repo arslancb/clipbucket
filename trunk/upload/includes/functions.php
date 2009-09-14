@@ -502,7 +502,7 @@ function SetTime($sec, $padHours = true) {
 	 * @param ARRAY video_details, or videoid will also work
 	 */
 	 
-	function get_thumb($vdetails,$num='default',$multi=false,$count=false){
+	function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_full_path=true){
 		global $db,$Cbucket,$myquery;
 		$num = $num ? $num : 'default';
 		#checking what kind of input we have
@@ -569,7 +569,11 @@ function SetTime($sec, $padHours = true) {
 		{
 			$thumb_parts = explode('/',$thumb);
 			$thumb_file = $thumb_parts[count($thumb_parts)-1];
+			
+			if($return_full_path)
 			$thumbs[] = THUMBS_URL.'/'.$thumb_file;
+			else
+			$thumbs[] = $thumb_file;
 		}
 		
 		if(count($thumbs)==0)
@@ -614,6 +618,17 @@ function SetTime($sec, $padHours = true) {
 	 {
 		return BASEURL.'/files/thumbs/processing.jpg';
 	 }
+	 
+	/** 
+	 * Function used to check weather give thumb is deafult or not
+	 */
+	function is_default_thumb($i)
+	{
+		if(getname($i)=='processing.jpg')
+			return true;
+		else
+			return false;
+	}
 	 
 	 
 	//TEST EXCEC FUNCTION 
@@ -876,7 +891,7 @@ function SetTime($sec, $padHours = true) {
 		}
 		//Complete Query
 		$query = "UPDATE $tbl SET $fields_query WHERE $cond $ep";
-		//if(!mysql_query($query)) die(mysql_error());
+		//if(!mysql_query($query)) die($query.'<br>'.mysql_error());
 		$db->Execute($query);
 		if(mysql_error()) die ($db->db_query.'<br>'.mysql_error());
 		return $query;
@@ -1059,6 +1074,15 @@ function SetTime($sec, $padHours = true) {
 		return $userquery->user_name;
 	}
 	function username(){return user_name();}
+	
+	/**
+	 * Function used to check weather user access or not
+	 */
+	function has_access($acces,$check_only=FALSE)
+	{
+		global $userquery;
+		return $userquery->login_check($access,$check_only);
+	}
 	
 	/**
 	 * Function used to return mysql time
@@ -1855,6 +1879,35 @@ function SetTime($sec, $padHours = true) {
 	{
 		global $LANG;
 		return $LANG[$var];
+	}
+	
+	
+	
+	/**
+	 * function used to remove video thumbs
+	 */
+	function remove_video_thumbs($vdetails)
+	{
+		global $cbvid;
+		return $cbvid->remove_thumbs($vdetails);
+	}
+	
+	/**
+	 * function used to remove video log
+	 */
+	function remove_video_log($vdetails)
+	{
+		global $cbvid;
+		return $cbvid->remove_log($vdetails);
+	}
+	
+	/**
+	 * function used to remove video files
+	 */
+	function remove_video_files($vdetails)
+	{
+		global $cbvid;
+		return $cbvid->remove_files($vdetails);
 	}
 	
 ?>

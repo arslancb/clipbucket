@@ -67,8 +67,7 @@ class AdsManager
 	global $LANG;
 		$placement 	= mysql_clean($_POST['type']);
 		$name	= mysql_clean($_POST['name']);
-		//Replacing Single Quotes With Double Codes
-		$code	= addslashes($_POST['code']);
+		$code	= htmlspecialchars($_POST['code']);
 		$category = mysql_clean(@$_POST['category']);	
 				if(empty($name)){
 					$msg = e($LANG['ad_name_error']);

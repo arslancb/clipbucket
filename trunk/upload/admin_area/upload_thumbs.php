@@ -58,12 +58,6 @@ if($myquery->VideoExists($video)){
 
 
 		
-//Assing Template
-Assign('msg',@$msg);	
-Template('header.html');
-Template('leftmenu.html');
-Template('message.html');
-Template('upload_thumbs.html');
-Template('footer.html');
-
+template_files('upload_thumbs.html');
+display_it();
 ?>

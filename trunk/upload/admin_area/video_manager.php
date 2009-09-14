@@ -14,34 +14,26 @@ $pages->page_redir();
 //Feature / UnFeature Video
 if(isset($_GET['make_feature'])){
 	$video = mysql_clean($_GET['make_feature']);
-	if($myquery->VideoExists($video)){
-	$msg[] = $myquery->MakeFeaturedVideo($video);
-	}else{
-	$msg[] = $LANG['class_vdo_del_err'];
-	}
+	$cbvid->action('feature',$video);
 }
 if(isset($_GET['make_unfeature'])){
 	$video = mysql_clean($_GET['make_unfeature']);
-	if($myquery->VideoExists($video)){
-	$msg[] = $myquery->MakeUnFeaturedVideo($video);
-	}else{
-	$msg[] = $LANG['class_vdo_del_err'];
-	}
+	$cbvid->action('unfeature',$video);
 }
 
 //Using Multple Action
-			if(isset($_POST['make_featured_selected'])){
-				for($id=0;$id<=RESULTS;$id++){
-					$myquery->MakeFeaturedVideo($_POST['check_video'][$id]);
-				}
-			$msg = "Selected Videos Have Been Set As Featured";
-			}
-			if(isset($_POST['make_unfeatured_selected'])){
-				for($id=0;$id<=RESULTS;$id++){
-					$myquery->MakeUnFeaturedVideo($_POST['check_video'][$id]);
-				}
-			$msg = "Selected Videos Have Been Removed From The Featured Video List";
-			}
+if(isset($_POST['make_featured_selected'])){
+	for($id=0;$id<=RESULTS;$id++){
+		$cbvid->action('feature',$_POST['check_video'][$id]);
+	}
+	e("Selected videos have been set as featured",m);
+}
+if(isset($_POST['make_unfeatured_selected'])){
+	for($id=0;$id<=RESULTS;$id++){
+		$cbvid->action('unfeature',$_POST['check_video'][$id]);
+	}
+	e("Selected videos have been removed from featured list",m);
+}
 
 
 
@@ -59,55 +51,44 @@ if(isset($_GET['editor_pick'])){
 
 if(isset($_GET['activate'])){
 	$video = mysql_clean($_GET['activate']);
-	if($myquery->VideoExists($video)){
-	$msg[] = $myquery->ActivateVideo($video);
-	}else{
-	$msg[] = $LANG['class_vdo_del_err'];
-	}
+	$cbvid->action('activate',$video);
 }
 if(isset($_GET['deactivate'])){
 	$video = mysql_clean($_GET['deactivate']);
-	if($myquery->DeActivateVideo($video)){
-	$msg[] = $myquery->DeActivateVideo($video);
-	}else{
-	$msg[] = $LANG['class_vdo_del_err'];
-	}
+	$cbvid->action('deactivate',$video);
 }
 
-		//Using Multple Action
-			if(isset($_POST['activate_selected'])){
-				for($id=0;$id<=RESULTS;$id++){
-					$myquery->ActivateVideo($_POST['check_video'][$id]);
-				}
-			$msg = "Selected Videos Have Been Activated";
-			}
-			if(isset($_POST['deactivate_selected'])){
-				for($id=0;$id<=RESULTS;$id++){
-					$myquery->DeActivateVideo($_POST['check_video'][$id]);
-				}
-			$msg = "Selected Videos Have Been Dectivated";
-			}
+//Using Multple Action
+if(isset($_POST['activate_selected'])){
+	for($id=0;$id<=RESULTS;$id++){
+		$cbvid->action('activate',$_POST['check_video'][$id]);
+	}
+	e("Selected Videos Have Been Activated");
+}
+if(isset($_POST['deactivate_selected'])){
+	for($id=0;$id<=RESULTS;$id++){
+		$cbvid->action('deactivate',$_POST['check_video'][$id]);
+	}
+	e("Selected Videos Have Been Dectivated");
+}
 
 	
-	//Delete Video
-	if(isset($_GET['delete_video'])){
-		$video = mysql_clean($_GET['delete_video']);
-		if($myquery->VideoExists($video)){
-			$msg[] = $myquery->DeleteVideo($video);
-		}else{
-			$msg[] = $LANG['class_vdo_del_err'];
-		}
+//Delete Video
+if(isset($_GET['delete_video'])){
+	$video = mysql_clean($_GET['delete_video']);
+	$cbvideo->delete_video($video);
+}
+
+//Deleting Multiple Videos
+if(isset($_POST['delete_selected']))
+{
+	for($id=0;$id<=RESULTS;$id++)
+	{
+		$cbvideo->delete_video($_POST['check_video'][$id]);
 	}
-	
-	//Deleting Multiple Videos
-	if(isset($_POST['delete_selected'])){
-					for($id=0;$id<=RESULTS;$id++){
-						if($myquery->VideoExists($_POST['check_video'][$id])){
-							$msg[] = $myquery->DeleteVideo($_POST['check_video'][$id]);
-						}
-					}
-				$msg = $LANG['vdo_del_selected'];
-	}
+	$eh->flush();
+	e(lang("vdo_multi_del_erro"),m);
+}
 	
 	//Jump To The page
 	if(isset($_POST['display_page'])){

@@ -102,7 +102,7 @@ if(DEBUG_LEVEL == 1)
 }
 elseif(DEBUG_LEVEL == 2)
 {
-	error_reporting(E_ALL ^ E_NOTICE);
+	error_reporting(E_ALL ^ E_NOTICE ^E_DEPRECATED);
     ini_set('display_errors', '1');
 }
 else
@@ -111,7 +111,7 @@ else
  ini_set('display_errors', '0');
 }
 
-error_reporting(E_ALL ^ E_NOTICE);
+error_reporting(E_ALL ^ E_NOTICE ^E_DEPRECATED);
     ini_set('display_errors', '1');
 
 //Website Details
@@ -415,4 +415,10 @@ $Smarty->register_modifier('request_form_val','request_form_val');
 $Smarty->register_modifier('get_thumb_num','get_thumb_num');
 
 
+/*
+ * 
+ */
+register_action_remove_video('remove_video_thumbs');
+register_action_remove_video('remove_video_log');
+register_action_remove_video('remove_video_files');
 ?>

@@ -250,4 +250,14 @@
 		 $link = $array['link'];
 	 }
 	 
+	 
+	 /**
+	  * function use to register function that will be 
+	  * called while deleting a video
+	  */
+	 function register_action_remove_video($func)
+	 {
+		 global $cbvid;
+		 $cbvid->video_delete_functions[] = $func;
+	 }
 ?>

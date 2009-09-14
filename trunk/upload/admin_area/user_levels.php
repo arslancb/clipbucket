@@ -64,12 +64,6 @@ switch($mode)
 }
 
 
-
-Assign('msg', @$msg);	
-Template('header.html');
-Template('leftmenu.html');
-Template('message.html');
-Template('user_levels.html');
-Template('footer.html');
-
+template_files('user_levels.html');
+display_it();
 ?>

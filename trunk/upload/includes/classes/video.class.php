@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Author : Arslan Hassan
  * Script : ClipBucket v2
@@ -192,6 +191,13 @@ class CBvideo extends CBCategory
 				$query .= ',';
 			}*/
 			
+			if(has_access('admin_access'))
+			{
+				$query_field[] = 'status';
+				$query_field[] = 'duration';
+				$query_val[] = $array['status'];
+				$query_val[] = $array['duration'];
+			}
 			
 			if(!userid())
 			{
@@ -206,7 +212,99 @@ class CBvideo extends CBCategory
 		}
 	}
 	
+	
+	/**
+	 * Function used to delete a video
+	 */
+	function delete_video($vid)
+	{
+		global $db;
+		
+		if($this->video_exists($vid))
+		{
+			$vdetails = $this->get_video($vid);
+			//list of functions to perform while deleting a video
+			$del_vid_funcs = $this->video_delete_functions;
+			if(is_array($del_vid_funcs))
+			{
+				foreach($del_vid_funcs as $func)
+				{
+					if(function_exists($func))
+					{
+						$func($vdetails);
+					}
+				}
+			}
+			//Finally Removing Database entry of video
+			$db->execute("DELETE FROM video WHERE videoid='$vid'");
+			e(lang("class_vdo_del_msg"),m);
+		}else{
+			e(lang("class_vdo_del_err"));
+		}
+		
+	}
+	
+	/**
+	 * Function used to remove video thumbs
+	 */
+	function remove_thumbs($vdetails)
+	{
+		//First lets get list of all thumbs
+		$thumbs = get_thumb($vdetails,1,true,false,false);
+		if(!is_default_thumb($thumbs))
+		{
+			if(is_array($thumbs))
+			{
+				foreach($thumbs as $thumb)
+				{
+					$file = THUMBS_DIR.'/'.$thumb;
+					if(file_exists($file) && is_file($file))
+						unlink($file);
+				}
+			}else{
+				$file = THUMBS_DIR.'/'.$thumbs;
+					if(file_exists($file) && is_file($file))
+						unlink($file);
+			}
+			
+			e(lang("vid_thumb_removed_msg"),m);
+		}
+	}
+	
+	
+	
+	/**
+	 * Function used to remove video log
+	 */
+	function remove_log($vdetails)
+	{
+		global $db;
+		$src = $vdetails['videoid'];
+		$db->execute("DELETE FROM video_file WHERE src_name = '$src'");
+		e(lang("vid_log_delete_msg"),m);
+	}
+	
+	/**
+	 * Function used to remove video files
+	 */
+	function remove_files($vdetails)
+	{
+		//Getting list of files
+		$files = get_video_file($vdetails,false,false,true);
+		if(is_array($files))
+		{
+			foreach($files as $file)
+			{
+				if(file_exists(VIDEOS_DIR.'/'.$file) && is_file(VIDEOS_DIR.'/'.$file))
+					unlink(VIDEOS_DIR.'/'.$file);
+			}
+		}else{
+			if(file_exists(VIDEOS_DIR.'/'.$files) && is_file(VIDEOS_DIR.'/'.$files))
+					unlink(VIDEOS_DIR.'/'.$files);
+		}
+		e(lang("vid_files_removed_msg"),m);
+	}
+
+	
 }
-
-
 ?>

@@ -46,7 +46,6 @@ class ClipBucket
 					 'checkall.js'		=> 'global',
 					 'redir.js'			=> 'global',
 					 'functions.js'		=> 'global',
-					 'jquery_plugs/date_picker.js'		=> 'global',
 					  ));
 		
 		//This is used to create Admin Menu

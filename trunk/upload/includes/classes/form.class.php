@@ -6,8 +6,8 @@
 * @LINK : http://arslan.labguru.com/ - http://clip-bucket.com/
 * @LICENSE : CBLA
 * @DATE : Feb 21 2009
-* @Version : 1.0
-* @CB Version : 1.7.2
+* @Version : 1.2
+* @CB Version : v2
 * @Class : formObj
 */
 

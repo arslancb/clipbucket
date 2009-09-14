@@ -75,23 +75,6 @@ class myquery {
 	return $data;
 	}
 	
-	function Get_Advertisments(){
-	$query = mysql_query("SELECT * FROM ads_data
-	WHERE ad_id >= FLOOR( RAND( ) * ( SELECT MAX( ad_id ) FROM ads_data ) ) AND ad_status='1'
-	ORDER BY ad_id ASC
-	");
-	while($row = mysql_fetch_array($query)){
-		$id = $row['ad_id'];
-		$imp = $row['ad_impressions']+1;
-		$name = $row['ad_placement'];
-		$data[$name] = stripslashes($row['ad_code']);	
-		//Update IMpressions
-		mysql_query("UPDATE ads_data SET ad_impressions ='".$imp."' WHERE ad_id='".$id."' ");
-		
-	}
-	return $data;
-	}
-	
 	function check_user($username){
 		$query = mysql_query("SELECT * FROM users WHERE username ='".$username."'");
 		if(mysql_num_rows($query) > 0){
@@ -109,95 +92,6 @@ class myquery {
 	return false;
 	}
 	
-	}
-	
-	function fetch($query){
-		$fetch = mysql_fetch_array($query);
-		return $fetch;
-		}
-	
-	//This Function is used to Add Categories
-	
-	function AddCategory(){
-	global $LANG;
-		$title = mysql_clean($_POST['title']);
-		$description = mysql_clean($_POST['description']);
-		$file = $_FILES['category_thumb']['name'];
-		$ext = substr($file, strrpos($file, '.') + 1);
-		$thumb = 'no_thumb.jpg';
-				if(!empty($file)){
-				$image = new ResizeImage();	
-				if($image->ValidateImage($_FILES['category_thumb']['tmp_name'],$ext)){
-					$newfilename = RandomString(10).'.'.$ext;
-					$category_thumb = '../images/category_thumbs/'.$newfilename;
-					copy($_FILES['category_thumb']['tmp_name'],$category_thumb);	
-					$image->CreateThumb($category_thumb,$category_thumb,120,$ext);
-					$thumb = $newfilename;
-						}else{
-						$msg[] = e($LANG['class_error_occured']);
-						$add = false;
-						}
-					}
-			if(empty($msg)){
-				mysql_query("INSERT INTO category(category_name,category_description,category_thumb,date_added)
-										   VALUES('".$title."','".$description."','".$thumb."',now())");
-				$add = true;
-				}
-			return $add;
-		}
-		
-	//This Function Is Used to Check Category Exits or Not
-	
-	/*function CategoryExists($category){
-	$query = mysql_query("SELECT categoryid FROM category WHERE categoryid ='".$category."'");
-		if(mysql_num_rows($query)>0){
-			return true;
-			}else{
-			return false;
-			}
-	}
-	*/
-	
-	
-	//This Function Is Used to Update Category
-	
-	function UpdateCategory($category){
-	global $LANG;
-		$title = mysql_clean($_POST['title']);
-		$description = mysql_clean($_POST['description']);
-		$file = $_FILES['category_thumb']['name'];
-		$ext = substr($file, strrpos($file, '.') + 1);
-		$thumb = $_POST['thumb'];
-				if(!empty($file)){
-					$image = new ResizeImage();	
-					if($image->ValidateImage($_FILES['category_thumb']['tmp_name'],$ext)){
-						if($thumb != 'no_thumb.jpg'){
-						unlink('../images/category_thumbs/'.$thumb);
-						}
-						$newfilename = RandomString(10).'.'.$ext;
-						$category_thumb = '../images/category_thumbs/'.$newfilename;
-						copy($_FILES['category_thumb']['tmp_name'],$category_thumb);	
-						$image->CreateThumb($category_thumb,$category_thumb,120,$ext);
-						$thumb = $newfilename;
-						}
-					}
-			if(empty($msg)){
-				mysql_query("UPDATE category SET
-				category_name 	 		='".$title."',
-				category_description	='".$description."',
-				category_thumb			='".$thumb."'
-				WHERE categoryid = '".$category."'");
-				$update = true;
-				}
-			return $update;
-	}
-	
-	//Function Delete Category
-	function DeleteCategory($category){
-	global $LANG;
-	mysql_query("DELETE FROM category WHERE categoryid='".$category."'");
-	$msg=e($LANG['class_cat_del_msg'],m);
-	return $msg;
 	}
 	
 	//Function Used to Delete Flv File

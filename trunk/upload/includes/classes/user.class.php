@@ -329,11 +329,11 @@ class userquery {
 	 * Function used to check user is admin or not
 	 * @param BOOLEAN if true, after checcking user will be redirected to login page if needed
 	 */
-	function admin_login_check($is_login_page=false)
+	function admin_login_check($check_only=false)
 	{
 		if(!$this->login_check('admin_access'))
 		{
-			if($is_login_page==FALSE)
+			if($check_only==FALSE)
 				redirect_to('login.php');
 			return false;
 		}else{

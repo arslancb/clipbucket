@@ -17,13 +17,6 @@ subtitle('videos');
 
 $myquery->getVideoList(array('limit'=>'nolimit','featured'=>'yes','order'=>'date_added DESC'));
 
-//Getting List Of Categories
-	$sql = "SELECT * FROM category ORDER BY category_name";
-	$data = $db->Execute($sql);
-	$total_data = $data->recordcount() + 0;
-	$category = $data->getrows();
-	Assign('category',$category);
-
 //Listing Videos
 	$limit  = VLISTPP;
 	Assign('limit',$limit);
@@ -68,13 +61,11 @@ $myquery->getVideoList(array('limit'=>'nolimit','featured'=>'yes','order'=>'date
 	//$sql = "SELECT * FROM video WHERE $cat_query  AND $query_param $orderby $query_limit";
 	//$sql_p = "SELECT * FROM video WHERE $cat_query  AND $query_param $orderby";
 	$sql = $myquery->getVideoList(array(
-										'category'=>$cat_id,
 										'feature'=>$featured,
 										'order'=>$orderby,
 										'limit'=>$query_limit
 										),true,'query');
 	$sql_p = $myquery->getVideoList(array(
-										'category'=>$cat_id,
 										'feature'=>$featured,
 										'order'=>$orderby,
 										'limit'=>'nolimit'

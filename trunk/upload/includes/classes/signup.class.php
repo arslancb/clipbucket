@@ -122,7 +122,7 @@ class signup {
 							'id' => 'gender',
 							'value' => array('Male'=>$LANG['male'],'Female'=>$LANG['female']),
 							'sep'=> '&nbsp;',
-							'checked'=>'female',
+							'checked'=>'Male',
 							'db_field'=>'sex',
 							'required'=>'yes',
 							),
