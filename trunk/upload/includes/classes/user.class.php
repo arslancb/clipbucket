@@ -27,7 +27,7 @@ class userquery {
 		$this->userid = $sess->get('userid');
 		$this->username = $sess->get('username');
 		$this->level = $sess->get('level');
-	
+		
 		
 		//Setting Access
 		$this->add_access_type('admin_access','Admin Access');
@@ -1121,9 +1121,9 @@ class userquery {
 		$ext = GetExt($thumb_file);
 		$file = getName($thumb_file);
 		if(!empty($size))
-			$thumb = $file.'-'.$size.'.'.$ext;
+			$thumb = BASEURL.'/images/avatars/'.$file.'-'.$size.'.'.$ext;
 		else
-			$thumb = $file.'.'.$ext;
+			$thumb = BASEURL.'/images/avatars/'.$file.'.'.$ext;
 		return $thumb;
 	}
 	function avatar($udetails,$size='',$uid=NULL)

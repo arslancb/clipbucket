@@ -28,30 +28,33 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 //rcopy($temp_file,$orig_file);
 rename($temp_file,$orig_file);
 
-	
-	$configs = array
-	(
-		'use_video_rate' => true,
-		'use_video_bit_rate' => true,
-		'use_audio_rate' => true,
-		'use_audio_bit_rate' => true,
-		'format' => 'flv',
-		'video_codec'=>'flv',
-		'audio_rate'=>22050,
-		'audio_bitrate'=>64000,
-		'video_bitrate'=>500000,
-		'video_width'=>400,
-		'video_height'=>300,
-		'resize'=>'max'
-	);
+		$configs = array
+		(
+			'use_video_rate' => true,
+			'use_video_bit_rate' => true,
+			'use_audio_rate' => true,
+			'use_audio_bit_rate' => true,
+			'format' => 'flv',
+			'video_codec'=>'flv',
+			'audio_rate'=>22050,
+			'audio_bitrate'=>128000,
+			'video_bitrate'=>512000,
+			'video_width'=>400,
+			'video_height'=>300,
+			'resize'=>'max'
+		);
+
 
 	$ffmpeg = new ffmpeg($orig_file);
 	$ffmpeg->configs = $configs;
 	$ffmpeg->gen_thumbs = TRUE;
 	$ffmpeg->gen_big_thumb = TRUE;
 	$ffmpeg->output_file = VIDEOS_DIR.'/'.$tmp_file.'.flv';
+	$ffmpeg->two_pass = FALSE;
+	$ffmpeg->remove_input=FALSE;
 	$ffmpeg->ClipBucket();
 	
+	exit();
 	$db->update("conversion_queue",
 				array("cqueue_conversion"),
 				array("yes")," cqueue_id = '".$queue_details['cqueue_id']."'");

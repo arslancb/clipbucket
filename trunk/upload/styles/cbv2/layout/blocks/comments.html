@@ -1,0 +1,12 @@
+{assign var='comments' value=$myquery->get_comments($id,$type)}
+{foreach from=$comments item=comment}
+	<div id="comment_{$comment_id}" class="comment">
+    	{if $comment.userid !='' && $comment.userid!=0}
+        	<a href="#">{assign var=name value=$userquery->get_user_field($comment.userid,username)}{$name.username}</a>
+        {else}
+        	<a href='#comment_{$comment_id}'>{$comment.anonym_name}</a>
+        {/if}
+		 wrote on {$comment.date_added|date_format}<br />
+         {$comment.comment}
+    </div>
+{/foreach}

@@ -1,0 +1,9 @@
+<div class="category_list">
+<span class="heading">Categories</span>
+{assign var='category_list' value=func->getCategoryList(video)}
+<ul>
+    {foreach from=$category_list item=cat}
+        <li><a href="#">{$cat.category_name}</a></li>
+    {/foreach}
+</ul>
+</div>

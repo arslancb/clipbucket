@@ -29,19 +29,19 @@ $user = mysql_clean(@$_GET['userid']);
 	}
 	//Get User Details
 	$data = $userquery->GetUserData($user);	
-	DoTemplate::assign('data',$data);
+	CBTemplate::assign('data',$data);
 			
 	}else{
 	$msg[] = "User Doesn't Exist";
 	}
 	
 //Assing Template
-DoTemplate::assign('country',$signup->country());
-DoTemplate::assign('msg',@$msg);	
-DoTemplate::display(LAYOUT.'/header.html');
-DoTemplate::display(LAYOUT.'/leftmenu.html');
-DoTemplate::display(LAYOUT.'/message.html');
-DoTemplate::display(LAYOUT.'/edit_member.html');
-DoTemplate::display(LAYOUT.'/footer.html');
+CBTemplate::assign('country',$signup->country());
+CBTemplate::assign('msg',@$msg);	
+CBTemplate::display(LAYOUT.'/header.html');
+CBTemplate::display(LAYOUT.'/leftmenu.html');
+CBTemplate::display(LAYOUT.'/message.html');
+CBTemplate::display(LAYOUT.'/edit_member.html');
+CBTemplate::display(LAYOUT.'/footer.html');
 
 ?>

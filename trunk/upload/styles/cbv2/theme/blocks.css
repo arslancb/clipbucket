@@ -1,0 +1,9 @@
+@charset "utf-8";
+/* CSS Document */
+.video_block{width:130px; margin:5px; float:left}
+
+/* Category List */
+.category_list{width:160px; float:left; margin-right:10px;}
+.category_list ul, .category_list ul li{margin:0px; padding:0px; list-style:none}
+.category_list a{display:block; border-bottom:dashed 1px #EEE; font-size:13px; font-weight:bold; color:#09c; padding:3px; margin-bottom:3px;} 
+.category_list a:hover{background-color:#F9F9F9}

@@ -31,7 +31,7 @@ $view = clean(@$_GET['view']);
 if(empty($view)){ $view = 'showall'; }
 while(list($property['value'],$property['name']) = each($property_values)){
 	if($property['value'] == $view){
-	DoTemplate::assign("property",$property);
+	CBTemplate::assign("property",$property);
 	}
 }
 
@@ -179,7 +179,7 @@ if(isset($_GET['unban'])){
 	'default_zip'		=> mysql_clean($_POST['zip'])
 	);
 	while(list($name,$value) = each($values)){
-	DoTemplate::assign($name,$value);
+	CBTemplate::assign($name,$value);
 	}
 	
 	@$values_search= array(
@@ -193,7 +193,7 @@ if(isset($_GET['unban'])){
 	'search_order'		=> mysql_clean($_GET['order'])
 	);
 	while(list($name,$value) = each($values_search)){
-	DoTemplate::assign($name,$value);
+	CBTemplate::assign($name,$value);
 	}
 
 //Jump To The page

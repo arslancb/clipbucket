@@ -105,6 +105,7 @@
 		echo '<script type="text/javascript">
 		window.location = "'.$url.'"
 		</script>';
+		exit("Javascript is turned off, <a href='$url'>click here to go to requested page</a>");
 		}
 		
 	//Simple Template Displaying Function
@@ -112,20 +113,20 @@
 	function Template($template,$layout=true){
 	global $admin_area;
 		if($layout)
-		DoTemplate::display(LAYOUT.'/'.$template);
+		CBTemplate::display(LAYOUT.'/'.$template);
 		else
-		DoTemplate::display($template);
+		CBTemplate::display($template);
 		
 		if($template == 'footer.html' && $admin_area !=TRUE){
-			DoTemplate::display(BASEDIR.'/includes/templatelib/'.$template);
+			CBTemplate::display(BASEDIR.'/includes/templatelib/'.$template);
 		}
 		if($template == 'header.html'){
-			DoTemplate::display(BASEDIR.'/includes/templatelib/'.$template);
+			CBTemplate::display(BASEDIR.'/includes/templatelib/'.$template);
 		}        	
 	}
 	
 	function Assign($name,$value){
-	DoTemplate::assign($name,$value);
+	CBTemplate::assign($name,$value);
 	}
 	
 	//Funtion of Random String
@@ -806,7 +807,10 @@ function SetTime($sec, $padHours = true) {
 			break;
 		}
 	}
-	
+	function getSmartyCategoryList($params,&$Smarty)
+	{
+		return getCategoryList($params['type']);
+	}
 	
 	
 	//Function used to register function as multiple modifiers
@@ -1332,6 +1336,8 @@ function SetTime($sec, $padHours = true) {
 					return VIDEOS_URL.'/no_video.flv';
 				else
 					return 'no_video.flv';
+			}else{
+				return false;
 			}
 		}else{
 			if($multi)
@@ -1910,4 +1916,103 @@ function SetTime($sec, $padHours = true) {
 		return $cbvid->remove_files($vdetails);
 	}
 	
+	
+	/**
+	 * Function used to get player logo
+	 */
+	function get_player_logo()
+	{
+		return PLAYER_URL.'/logo.png';
+	}
+	
+	/**
+	 * Function used to assign link
+	 */
+	function cblink($params,&$Smarty)
+	{
+		global $ClipBucket;
+		$name = $params['name'];
+		$ref = $param['ref'];
+
+		return BASEURL.'/'.$ClipBucket->links[$name][0];
+	}
+	
+	/**
+	 * Function used to check video is playlable or not
+	 * @param vkey,vid
+	 */
+	function video_playable($id)
+	{
+		global $cbvideo;
+		$vdo = $cbvideo->get_video($id);
+		if(!$vdo)
+		{
+			e("Video does not exist");
+			return false;
+		}elseif($vdo['status']!='Successful')
+		{
+			e("This video is not working properly");
+			if(!has_access('admin_access',TRUE))
+				return false;
+			else
+				return true;
+		}else{
+			return true;
+		}
+	}
+	
+	
+	/**
+	 * Function used to turn tags into links
+	 */
+	function tags($input,$type)
+	{
+		//Exploding using comma
+		$tags = explode(',',$input);
+		$count = 1;
+		$total = count($tags);
+		$new_tags = '';
+		foreach($tags as $tag)
+		{
+			$new_tags .= $tag;
+			if($count<$total)
+				$new_tags .= ',';
+			$count++;
+		}
+		
+		return $new_tags;
+	}
+	
+	
+	/**
+	 * Function used to turn db category into links
+	 */
+	function categories($input,$type)
+	{
+		global $cbvideo;
+		switch($type)
+		{
+			case 'video':
+			default:
+			$obj = $cbvideo;
+		}
+		
+		preg_match_all('/#([0-9]+)#/',$input,$m);
+		$cat_array = array($m[1]);
+		$cat_array = $cat_array[0];
+
+		$count = 1;
+		$total = count($cat_array);
+		$cats = '';
+		foreach($cat_array as $cat)
+		{
+			$cat_details = $obj->get_category($cat);
+			$cats .= $cat_details['category_name'];
+			if($count<$total)
+				$cats .= ',';
+			$count++;
+		}
+		
+		return $cats;
+	}
 ?>

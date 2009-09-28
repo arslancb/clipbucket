@@ -65,7 +65,7 @@ if(isset($_POST['upload_01'])){
 			'default_date'				=> $_POST['year'].'-'.$_POST['month'].'-'.$_POST['day']
 			);
 			while(list($name,$value) = each($values)){
-			DoTemplate::assign($name,$value);
+			CBTemplate::assign($name,$value);
 			}
 			
 			for($id=0;$id<=3;$id++){

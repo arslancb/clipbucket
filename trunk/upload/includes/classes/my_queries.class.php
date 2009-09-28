@@ -20,8 +20,9 @@ class myquery {
 
 	function Set_Website_Details($name,$value){
 		//mysql_query("UPDATE config SET value = '".$value."' WHERE name ='".$name."'");
-		global $db;
+		global $db,$Cbucket;
 		$db->update("config",array('value'),array($value)," name = '".$name."'");
+		$Cbucket->configs = $Cbucket->get_configs();
 	}
 	
 	//Updating Plugin Details
@@ -1164,7 +1165,7 @@ class myquery {
 	 */
 	function add_comment($comment,$obj_id,$reply_to=NULL,$type='v')
 	{
-		global $userquery,$eh,$db;
+		global $userquery,$eh,$db,$Cbucket;
 		//Checking maximum comments characters allowed
 		if(defined("MAX_COMMENT_CHR"))
 		{
@@ -1187,15 +1188,27 @@ class myquery {
 			}
 		}
 		
-		if(!userid())
+		if(!userid() && $Cbucket->configs['anonym_comments']!='yes')
 			e("You are not logged in");
+		
+		if(!userid() && $Cbucket->configs['anonym_comments']=='yes')
+		{
+			//Checking for input name and email
+			if(empty($_POST['name']))
+				e("Please enter your name");
+			if(empty($_POST['email']))
+				e("Please enter your email");
+			
+			$name = mysql_clean($_POST['name']);
+			$email = mysql_clean($_POST['email']);
+		}
 		
 		if(empty($eh->error_list))
 		{
 			$db->insert("comments",array
-						 ('type,comment,type_id,userid,date_added,parent_id'),
+						 ('type,comment,type_id,userid,date_added,parent_id,anonym_name,anonym_email'),
 						 array
-						 ($type,$comment,$obj_id,userid(),NOW(),$reply_to));
+						 ($type,$comment,$obj_id,userid(),NOW(),$reply_to,$name,$email));
 			e("Comment has been added",m);
 			return $db->insert_id();
 		}
@@ -1324,5 +1337,29 @@ class myquery {
 		return $results[0];
 	}
 	
+	/**
+	 * Function used to set website template
+	 */
+	function set_template($template)
+	{
+		global $myquery;
+		if(is_dir(STYLES_DIR.'/'.$template) &&template)
+		{
+			$myquery->Set_Website_Details('template_dir',$template);
+			e("Template has been activated",m);
+		}else
+			e("An error occured while changing the template");
+			
+	}
+	
+	
+	/**
+	 * Function used to update comment
+	 */
+	function update_comment($cid,$text)
+	{
+		global $db;
+		$db->Execute("UPDATE comments SET comment='$text' WHERE comment_id='$cid'");
+	}
 }
 ?>

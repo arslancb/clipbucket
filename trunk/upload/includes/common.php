@@ -63,7 +63,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/category.class.php');
 	require_once('classes/video.class.php');
 	require_once 'languages.php';
-			
+	
 	$pages 		= new pages();	
 	$myquery 	= new myquery();
 	$userquery 	= new userquery();
@@ -89,6 +89,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 //Initializng Userquery class
 $userquery->init();
 
+require 'defined_links.php';
 
 //Holds Advertisment IDS that are being Viewed
 	$ads_array = array();
@@ -182,22 +183,8 @@ error_reporting(E_ALL ^ E_NOTICE ^E_DEPRECATED);
 	
 	
 	define('TEMPLATEFOLDER','styles');							//Template Folder Name, usually STYLES
+	define('STYLES_DIR',BASEDIR.'/'.TEMPLATEFOLDER);
 	
-	if($row['allow_template_change'] == 1){
-		$sitestyle = @$_COOKIE['sitestyle'];
-		if (!$sitestyle || !$myquery->IsTemplate($sitestyle))
-		{
-		define('TEMPLATE',$row['template_dir']);
-		setcookie('sitestyle', $row['template_dir'], time()+315360000, '/');
-		}
-		else
-		{
-		define('TEMPLATE',$sitestyle);
-		}
-	}else{
-		define('TEMPLATE',$row['template_dir']);
-	}
-
 // Define Lang Select & Style Select
 
     define('ALLOW_LANG_SELECT',$row['allow_language_change']);
@@ -223,6 +210,9 @@ error_reporting(E_ALL ^ E_NOTICE ^E_DEPRECATED);
 	define('THUMBS_URL',FILES_URL.'/thumbs');
 	define('ORIGINAL_URL',FILES_URL.'/original');
 	define('TEMP_URL',FILES_URL.'/temp');
+	define("PLAYER_DIR",BASEDIR.'/player');
+	define("PLAYER_URL",BASEURL.'/player');
+	
 	
  //Required Settings For Video Converion
  
@@ -262,17 +252,21 @@ error_reporting(E_ALL ^ E_NOTICE ^E_DEPRECATED);
 	define('CAT_THUMB_DIR',BASEDIR.'/images/category_thumbs');
 	define('CAT_THUMB_URL',BASEURL.'/images/category_thumbs');
 	
- 	//Assigning Smarty Tags & Values
+
 	include 'functions.php';
 	include 'plugin.functions.php';
 	include 'plugins_functions.php';
 	require BASEDIR.'/includes/templatelib/Template.class.php';
 	require BASEDIR.'/includes/classes/template.class.php';
+	require BASEDIR.'/includes/classes/objects.class.php';
+	
 	require BASEDIR.'/includes/active.php';
-	require BASEDIR.'/includes/defined_links.php';
 	require_once('email_templates/template_writer.php');
 	include(BASEDIR.'/lang/'.LANG.'/lang.php');
-
+	
+	$cbtpl = new CBTemplate();
+	$cbobjects = new CBObjects();
+	
     $is_admin = $userquery->admin_check();
     if ($is_admin == 1)
     {
@@ -282,6 +276,7 @@ error_reporting(E_ALL ^ E_NOTICE ^E_DEPRECATED);
     $thisurl = curPageURL();
     Assign('THIS_URL', $thisurl);
 
+ 	//Assigning Smarty Tags & Values
     Assign('CB_VERSION',CB_VERSION);
     Assign('FFMPEG_FLVTOOLS_BINARY',FFMPEG_FLVTOOLS_BINARY);
     Assign('FFMPEG_MPLAYER_BINARY',FFMPEG_MPLAYER_BINARY);
@@ -328,27 +323,7 @@ error_reporting(E_ALL ^ E_NOTICE ^E_DEPRECATED);
 	Assign('LANG',$LANG);
 	Assign('langf',LANG);
     Assign('lang_count',count($languages));
-
-//Assign Footer
 	
-	Assign('lang_changer',		$row['allow_language_change']);
-	Assign('template_changer',	$row['allow_template_change']);
-	Assign('current_template',	TEMPLATE);
-
-//Getting Template List (admin area)
-	$sql = "SELECT * from template";
-	$rs = $db->Execute($sql);
-	$templates = $rs->getrows();
-
-    // sort user template list (fwhite / February 05, 2009)
-    foreach ($templates as $key => $temp_row) {
-    $temp_name[$key]  = $temp_row[1];
-    }
-
-    // Sort the data with name ascending
-    // Add data as the last parameter, to sort by the common key
-    array_multisort($temp_name, SORT_ASC, $templates);
-	Assign('templates', $templates);
 
 //Assign Player Div Id
 	Assign('player_div_id',$row['player_div_id']);
@@ -365,6 +340,9 @@ if(user_id())
 {
 	$userquery->permission = $userquery->get_user_level(userid());
 }	
+
+//Checking Website Template
+$Cbucket->set_the_template();
 
 /*
 REGISTER OBJECTS FOR SMARTY
@@ -384,6 +362,8 @@ $Smarty->assign_by_ref('Cbucket', $Cbucket);$Smarty->assign_by_ref('ClipBucket',
 $Smarty->assign_by_ref('eh', $eh);
 $Smarty->assign_by_ref('lang_obj', $lang_obj);
 $Smarty->assign_by_ref('cbvid', $cbvid);
+$Smarty->assign_by_ref('cbtpl',$cbtpl);
+$Smarty->assign_by_ref('cbobjects',$cbobjects);
 
 /*
 REGISERTING FUNCTION FOR SMARTY TEMPLATES
@@ -403,7 +383,7 @@ $Smarty->register_function('get_all_video_files',get_all_video_files_smarty);
 $Smarty->register_function('input_value','input_value');
 $Smarty->register_function('userid','userid');
 $Smarty->register_function('FlashPlayer','flashPlayer');
-
+$Smarty->register_function('link','cblink');
 
 $Smarty->register_modifier('SetTime','SetTime');
 $Smarty->register_modifier('getname','getname');
@@ -421,4 +401,12 @@ $Smarty->register_modifier('get_thumb_num','get_thumb_num');
 register_action_remove_video('remove_video_thumbs');
 register_action_remove_video('remove_video_log');
 register_action_remove_video('remove_video_files');
+
+
+/**
+ * Include ClipBucket's Default Player
+ */
+include(PLAYER_DIR.'/cbplayer/cbplayer.plug.php');
+
+include('admin.functions.php');
 ?>

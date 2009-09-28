@@ -26,6 +26,7 @@ class ffmpeg
 	var $gen_thumbs; //If set to TRUE , it will generate thumbnails also
 	var $remove_input = TRUE;
 	var $gen_big_thumb = FALSE;
+	var $two_pass = FALSE;
 	
 	
 	
@@ -168,11 +169,36 @@ class ffmpeg
 		
 		$opt_av .= " -map_meta_data ".$this->output_file.":".$this->input_file;
 		
-		$command = $this->ffmpeg." -i ".$this->input_file." $opt_av ".$this->output_file."  2> ".TEMP_DIR."/output.tmp ";
+		if(!$this->two_pass)
+			$command = $this->ffmpeg." -i ".$this->input_file." $opt_av ".$this->output_file."  2> ".TEMP_DIR."/output.tmp ";
+		else
+		{
+			
+			$options = "-vcodec libx264 -b 512k -flags +loop+mv4 -cmp 256 
+			-partitions +parti4x4+parti8x8+partp4x4+partp8x8+partb8x8 
+			-me_method hex -subq 7 -trellis 1 -refs 5 -bf 3 
+			-flags2 +bpyramid+wpred+mixed_refs+dct8x8 -coder 1 -me_range 16 
+			-g 250 -keyint_min 25 -sc_threshold 40 -i_qfactor 0.71 -qmin 10
+			-qmax 51 -qdiff 4";
+			
+			$command = $this->ffmpeg." -i ".$this->input_file."  -an -pass 1 -threads 2 $options ".$this->output_file."  2> ".TEMP_DIR."/output.tmp ";
+			$output = $this->exec($command);
+			if(file_exists(TEMP_DIR.'/output.tmp'))
+			{
+				$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
+				unlink(TEMP_DIR.'/output.tmp');
+			}
+			
+			$command = $this->ffmpeg."  -y -i ".$this->input_file." -acodec libfaac -ar 44100 -ab 96k -pass 2 -threads 2 $options ".$this->output_file."  2> ".TEMP_DIR."/output.tmp ";
+		}
+		
 		$output = $this->exec($command);
-		$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
 		if(file_exists(TEMP_DIR.'/output.tmp'))
+		{
+			$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
 			unlink(TEMP_DIR.'/output.tmp');
+		}
+		
 		$this->log('Conversion Command',$command);
 		$this->log .="\r\n\r\nConversion Details\r\n\r\n";
 		$this->log .=$output;
@@ -207,7 +233,7 @@ class ffmpeg
 		$info['path']			= $path_source;
 		
 		# get the file size
-		$stats = stat( $path_source );
+		$stats = @stat( $path_source );
 		if( $stats === false )
 			$this->log .= "Failed to stat file $path_source!\n";
 		$info['size'] = (integer)$stats['size'];

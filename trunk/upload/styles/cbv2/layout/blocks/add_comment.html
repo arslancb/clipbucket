@@ -1,0 +1,26 @@
+<div class="add_comment_box">
+<div class="a_comment"><a href="javascript:void(0)"><span class="add_comment_icon">&nbsp;</span> Add Comment</a>
+
+{if $userquery->login_check('',true) || $Cbucket->configs.anonym_comments == 'yes'}
+<form name="form1" method="post" action="">
+	{if !$userquery->login_check('',true) && $Cbucket->configs.anonym_comments == 'yes'}
+    <label for="name" class="label">Name</label>
+    <br>
+    <input type="text" name="name" id="name" class="input"><br>
+    <label for="email" class="label">Email (Wont display)</label>
+    <br>
+    <input type="text" name="email" id="email"  class="input"><br>
+    {else}
+    Name : {$userquery->username}<br>
+    {/if}
+    <label for="comment_box" class="label">Comment</label>
+    <br>
+    {ANCHOR place='before_compose_box'}
+    <textarea name="comment" id="comment_box" cols="45" rows="5"  class="input" ></textarea>
+    <br>
+    <input type="submit" name="add_comment" id="add_comment" value="Add Comment">
+</form>
+{else}
+	Please login to comment
+{/if}
+</div>

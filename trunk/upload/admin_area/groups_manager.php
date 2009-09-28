@@ -109,7 +109,7 @@ if(isset($_POST['delete_selected'])){
 	'search_order'		=> mysql_clean($_GET['order'])
 	);
 	while(list($name,$value) = each($values_search)){
-	DoTemplate::assign($name,$value);
+	CBTemplate::assign($name,$value);
 	}
 	
 	

@@ -54,7 +54,16 @@ var baseurl = "{$baseurl}";
 		}
 		
 		$(document).ready(function() {
-			 $('.edit').editable(baseurl+'/actions/update_phrase.php', { 
+			 $('.edit_lang').editable(baseurl+'/actions/update_phrase.php', { 
+			// cancel    : 'Cancel',
+			// submit    : 'OK',
+			 indicator : '<img src="'+baseurl+'/images/icons/progIndicator.gif">',
+			 tooltip   : 'Click to edit...',
+     		});
+		});
+		
+		$(document).ready(function() {
+			 $('.edit_comment').editable(baseurl+'/actions/edit_comment.php', { 
 			// cancel    : 'Cancel',
 			// submit    : 'OK',
 			 indicator : '<img src="'+baseurl+'/images/icons/progIndicator.gif">',

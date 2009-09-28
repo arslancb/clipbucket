@@ -304,6 +304,52 @@ class CBvideo extends CBCategory
 		}
 		e(lang("vid_files_removed_msg"),m);
 	}
+	
+	
+	/**
+	 * Function used to get videos
+	 * this function has all options
+	 * that you need to fetch videos
+	 * please see docs.clip-bucket.com for more details
+	 */
+	function get_videos($params)
+	{
+		$cond_array = array();
+		
+		//Setting Category Condition
+		if($params['category'])
+		{
+			if(is_array($params['category']))
+			{
+				foreach($params['category'] as $cat_params)
+				{
+					$cond_array[] = " category ='$cat_params' ";
+				}
+			}else{
+				$cond_array[] = " category ='".$params['category']."' ";
+			}
+		}
+		
+		//date span
+		switch($param['date_span'])
+		{
+			case 'today';
+			{
+				
+			}
+		}
+		
+	}
+	
+	
+	/**
+	 * Function used to add video comment
+	 */
+	function add_comment($comment,$obj_id,$reply_to=NULL)
+	{
+		global $myquery;
+		return $myquery->add_comment($comment,$obj_id,$reply_to,'v');
+	}
 
 	
 }

@@ -25,6 +25,8 @@ class ClipBucket
 	var $temp_exts = array(); //Temp extensions
 	var $actions_play_video = array(); 
 	var $template_files = array();
+	var $cur_template = 'clipbucketblue';
+	var $links = array();
 	
 	function ClipBucket ()
 	{
@@ -46,6 +48,7 @@ class ClipBucket
 					 'checkall.js'		=> 'global',
 					 'redir.js'			=> 'global',
 					 'functions.js'		=> 'global',
+					 'swfobject.js'		=> 'global',
 					  ));
 		
 		//This is used to create Admin Menu
@@ -66,7 +69,8 @@ class ClipBucket
 								  )
 		 );
 		
-		$this->temp_exts = array('ahz','jhz','abc','xyz','cb2','tmp','olo'); 
+		$this->temp_exts = array('ahz','jhz','abc','xyz','cb2','tmp','olo','oar','oz','luffy','zoro','nami','chopper','ussop','sanji');
+		$this->template = $this->configs['template_dir'];
 	}
 	
 	
@@ -289,6 +293,39 @@ class ClipBucket
 	function show_page($val=true)
 	{
 		$this->show_page = $val;
+	}
+	
+	
+	/**
+	 * Function used to set template (Frontend)
+	 */
+	function set_the_template()
+	{
+		global $cbtpl,$myquery;
+		$template = $this->template;
+		
+		if($_GET['template'])
+		{
+			if(is_dir(STYLES_DIR.'/'.$_GET['template']) && $_GET['template'])
+				$template = $_GET['template'];
+		}
+		if(!is_dir(STYLES_DIR.'/'.$template) || !$template)
+			$template = 'clipbucketblue';
+		if(!is_dir(STYLES_DIR.'/'.$template) || !$template)
+		{
+			$template = $cbtpl->get_any_template();		 
+		}
+		 
+		if(!is_dir(STYLES_DIR.'/'.$template) || !$template)
+			exit("Unable to find any template, please goto <a href='http://clip-bucket.com/no-template-found'><strong>ClipBucket Support!</strong></a>");
+		
+		
+		if($_GET['set_template'])
+		{
+			$myquery->set_template($template);
+		}
+		
+		define('TEMPLATE',$template);
 	}
 }
 
