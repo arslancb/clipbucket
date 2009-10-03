@@ -51,11 +51,9 @@ $Cbucket->add_js(array('swfupload/plugins/handlers.js'=>'uploadactive'));
 $Cbucket->add_js(array('swfupload/plugins/fileprogress.js'=>'uploadactive'));
 
 Assign('step',$step);
-@Assign('msg',$msg);
-Template('header.html');
-Template('message.html');
-if($Cbucket->show_page)
-Template('upload.html');
-Template('footer.html');
+
+//Displaying The Template
+template_files('upload.html');
+display_it();
 
 ?>

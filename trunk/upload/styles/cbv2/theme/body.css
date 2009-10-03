@@ -37,19 +37,21 @@ a{text-decoration:none; font-family:Arial, Helvetica, sans-serif;color:#333; }
 
 .video_options { width:100%; margin:10px 0px 10px 0px}
 .video_options a{display:inline-block; height:37px; line-height:37px; width:180px; color:#333; font-size:16px; font-weight:bold}
-.share_video,.flag_video,.add_favorite,.add_comment_icon,.tags_icon{background-image:url(../images/icons.png); height:37px; width:37px; background-repeat:no-repeat; display:inline-block}
+.share_video,.flag_video,.add_favorite,.add_comment_icon,.tags_icon,.vdo_duration{background-image:url(../images/icons.png); height:36px; width:37px; background-repeat:no-repeat; display:inline-block}
 .share_video{background-position:-37px 0px;}
 .flag_video{background-position:-74px -0px}
 .add_comment_icon{background-position:-111px -0px}
+
+
+
 .tags_icon{background-position:-0px -36px; width:15px; height:15px}
 
 
+.player_container{width:620px;}
+.video_left{width:620px; float:left}
 
 
-.player_container{width:620px; float:left}
-.video_right{width:600px;}
-
-
+.add_comment_box{width:600px}
 .add_comment_box .a_comment a{display:inline-block; height:37px; line-height:37px; width:300px;color:#333; font-size:16px; font-weight:bold}
 
 
@@ -62,7 +64,14 @@ a{text-decoration:none; font-family:Arial, Helvetica, sans-serif;color:#333; }
 .mid_user_thumb{max-width:60px; max-height:60px; display:inline-block; margin-right:5px}
 .vd_desc{ border-bottom:1px solid #999; margin-bottom:5px }
 	
-	
+.vdo_thumb_container{border:1px solid #333; padding:1px; position:relative; display:inline-block}
+.vdo_duration{background-image:url(../images/icons.png); background-position:left -51px; height:12px; width:27px; position:absolute; bottom:0px; right:0px; font-size:9px; color:#fff; margin:0px 2px 2px 0px}
+.video_block a{color:#09c; font-weight:bold;}
+.video_block {font-size:11px;}
+
+.blank_screen{width:580px; padding:10px; height:50px; color:#fff; font-size:16px; font-weight:bold; margin:10px 0px 10px 0px; background-color:#333; text-align:center;}
+.video_right{width:300px; float:left}
+
 /* FORM */
 .input{border:1px solid #666; background-image:url(../images/field_bg.png); background-repeat:no-repeat; width:500px; min-height:20px; font-size:11px; color:#666; padding:5px}
 .label{font-size:13px; font-weight:bold}

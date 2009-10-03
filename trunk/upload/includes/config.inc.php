@@ -2,6 +2,9 @@
 /*
 Config.Inc.php
 */
+define("FRONT_END",TRUE);
+define("BACK_END",FALSE);
+
 include('common.php');
 
 define('TEMPLATEDIR',BASEDIR.'/'.TEMPLATEFOLDER.'/'.TEMPLATE);
@@ -40,7 +43,7 @@ if($row['closed'] == 1){
 		exit();
 	}
 }
-$AdminArea = false;
+
 include('plugins.php');
 
 //Assigning JS Files

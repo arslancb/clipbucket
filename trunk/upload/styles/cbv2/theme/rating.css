@@ -1,0 +1,8 @@
+.small_stars
+{
+	width:75px;
+	height:15px;
+}
+
+.small_stars .stars_blank{background-image:url(../images/small_stars.png); background-repeat:repeat-x; background-position:bottom left; width:100%}
+.small_stars .stars_filled{background-image:url(../images/small_stars.png); background-repeat:repeat-x; background-position:top left; float:left}

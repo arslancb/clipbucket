@@ -7,7 +7,6 @@
  * @ Version : v1.8
  */
 
-
 class ClipBucket 
 {
 	var $BASEDIR;
@@ -27,6 +26,15 @@ class ClipBucket
 	var $template_files = array();
 	var $cur_template = 'clipbucketblue';
 	var $links = array();
+	
+	/**
+	 * All Functions that are called
+	 * before after converting a video
+	 * are saved in these arrays
+	 */
+	 
+	 var $before_convert_functions = array();
+	 var $after_convert_functions = array();
 	
 	function ClipBucket ()
 	{
@@ -69,8 +77,9 @@ class ClipBucket
 								  )
 		 );
 		
-		$this->temp_exts = array('ahz','jhz','abc','xyz','cb2','tmp','olo','oar','oz','luffy','zoro','nami','chopper','ussop','sanji');
+		$this->temp_exts = array('ahz','jhz','abc','xyz','cb2','tmp','olo','oar','ozz');
 		$this->template = $this->configs['template_dir'];
+
 	}
 	
 	
@@ -234,7 +243,14 @@ class ClipBucket
 				 'View Encoding Status'=>'',
 				),
 		   
+		   //Playes
+		   'Manage Players'=>
+		   array
+		   		(
+				 'Manage Players' => 'manage_players.php'
+				 )		   
 		   );
+		  
 		  
 		  return $menu_array;
 	  }	 
@@ -327,6 +343,7 @@ class ClipBucket
 		
 		define('TEMPLATE',$template);
 	}
+
 }
 
 ?>

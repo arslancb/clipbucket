@@ -1,5 +1,7 @@
 <?php
 
+	define("BACK_END",TRUE);
+	define("FRONT_END",FALSE);
 	//Admin Area
 	$admin_area	=	TRUE;
 	

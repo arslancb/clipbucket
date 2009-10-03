@@ -73,7 +73,12 @@
 				foreach($funcs as $func)
 				{
 					if(function_exists($func))
-					$func();
+					{
+						if($params['data'])
+							$func($params['data']);
+						else
+							$func();
+					}
 				}
 			}else{
 				$funcs();

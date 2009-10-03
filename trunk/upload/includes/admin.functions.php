@@ -11,7 +11,12 @@
 
 if(has_access('admin_access',TRUE))
 {
-	register_anchor('my_func','watch_admin_options');
+	function show_video_admin_link($data)
+	{
+		echo '<a href="'.ADMIN_BASEURL.'/edit_video.php?video='.$data['videoid'].'">Edit Video</a>';
+	}
+	
+	register_anchor_function('show_video_admin_link','watch_admin_options');
 }
 
 ?>

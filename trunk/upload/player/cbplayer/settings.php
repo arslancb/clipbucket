@@ -4,7 +4,11 @@
  */
  
 include('../../includes/common.php');
-$vid = $_GET['vid'];
+$vid = $_GET['vid'] ;
+$vid = $vid ? $vid : $_GET['hqid'];
+if($_GET['hqid'])
+	$hd = 'yes';
+	
 $v = $cbvideo->get_video($vid);
 header ("content-type: text/xml");
 echo '<?xml version="1.0" encoding="UTF-8"?>';
@@ -52,7 +56,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 	
     
 	<video>
-		<videoPath value="<?=get_video_file($v,true,true);?>"/>
+		<videoPath value="<?php if($hd=='yes') echo get_hq_video_file($v); else echo get_video_file($v,true,true); ?>"/>
 		<stafImage value="images/ratatouilleStaf.jpg"/>
 		<aspectRatio value="4:3"/>
 		<totalTime value="<?=$v['duration']?>"/>

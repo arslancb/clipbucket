@@ -213,7 +213,7 @@ class CBPlugin extends ClipBucket
 			preg_match( '/Author:(.*)$/mi', $plugin_data, $author );
 			preg_match( '/Author Website:(.*)$/mi', $plugin_data, $author_page );
 			preg_match( '/ClpBucket Version:(.*)$/mi', $plugin_data, $cbversion );
-			preg_match( '/Plugint Type:(.*)$/mi', $plugin_data, $type );
+			preg_match( '/Plugin Type:(.*)$/mi', $plugin_data, $type );
 			
 			$details_array = array
 			(
@@ -224,6 +224,7 @@ class CBPlugin extends ClipBucket
 			 'author',
 			 'cbversion',
 			 'code',
+			 'author_page',
 			 'type',
 			 
 			 );

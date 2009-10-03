@@ -1,0 +1,92 @@
+<link href="../theme/main.css" rel="stylesheet" type="text/css" />
+{assign var='requiredFields' value=$Upload->loadRequiredFields()}
+{assign var='optionFields' value=$Upload->loadOptionFields()}
+{assign var='locationFields' value=$Upload->loadLocationFields()}
+{assign var='cust_fields'  value=$Upload->custom_form_fields}
+
+<div>
+<form name="upload_form" method="post" action="">
+	<table width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
+      <tr>
+        <td colspan="2" align="left" class="heading">{$LANG.vdo_video_details}</td>
+      </tr>
+      {foreach from=$requiredFields item=field}
+      <tr>
+        <td width="117" align="right" valign="top"><label for="">{$field.title}* :</label></td>
+        <td class="tips"{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+        <br>
+        {$field.hint_2}</td>
+      </tr>
+      {/foreach}
+      <tr>
+        <td height="130" colspan="2" align="right" style="display:none"><table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
+            <tr>
+              <td colspan="2" align="left" class="heading">{$LANG.vdo_date_loc}</td>
+            </tr>
+      {foreach from=$locationFields item=field}
+      <tr>
+        <td width="117" align="right" valign="top">{$field.title}* :</td>
+        <td class="tips">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)} 
+          <br>
+          {$field.hint_2}</td>
+      </tr>
+      {/foreach}
+        </table><table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
+            <tr>
+              <td colspan="2" align="left" class="heading">{$LANG.vdo_share_opt}</td>
+            </tr>
+      {foreach from=$optionFields item=field}
+      <tr>
+        <td width="117" align="right" valign="top">{$field.title}* :</td>
+        <td class="tips">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+        <br>
+        {$field.hint_2}</td>
+      </tr>
+      {/foreach}
+      {foreach from=$cust_fields item=field}
+      <tr>
+        <td width="117" align="right" valign="top">{$field.title}* :</td>
+        <td class="tips">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+        <br>
+        {$field.hint_2}</td>
+      </tr>
+      {/foreach}
+        </table></td>
+      </tr>
+  </table>
+  
+  <input type="submit" name="submit_data" id="button" value="{$LANG.vdo_continue_upload}" onClick="return validate_upload_form(upload_01)">
+</form>
+
+{if $step==3}
+<table width="445" border="0" align="center" cellspacing="0">
+<tr>
+<td width="50%" class="header1" style="padding-left:5px">{$LANG.vdo_video_upload_complete}</td>
+</tr>
+<tr>
+<td width="50%" align="right" bgcolor="#F0F0F0" style="padding:0px; margin:0px"><img src="{$imageurl}/uploader_tr.gif" width="20" height="20"></td>
+</tr>
+<tr>
+<td width="50%" bgcolor="#F0F0F0" style="padding:5px"><span class="header1">{$LANG.vdo_thanks_you_upload_complete_1}.</span><br>
+<span class="tips">{$LANG.vdo_thanks_you_upload_complete_2} <a href="{$manage_videos}"><strong>{$LANG.com_my_videos}</strong></a> {$LANG.vdo_after_it_has_process}    </span><span class="header1"><br>
+</span></td>
+</tr>
+<tr>
+<td width="50%" align="right" bgcolor="#F0F0F0" style="padding:0px; margin:0px"><img src="{$imageurl}/uploader_br.gif" width="20" height="20"></td>
+</tr>
+<tr>
+<td width="50%" align="right" style="padding:0px; margin:0px">&nbsp;</td>
+</tr>
+<tr>
+<td align="center"  style="padding:0px; margin:0px">
+<div id="link_button" align="center">
+<ul>
+  <li><a href="{$upload_link}" >{$LANG.vdo_upload_another_video}</a></li>
+  <li><a href="{$manage_videos}" >{$LANG.vdo_goto_my_videos}</a></li>
+ </ul>
+</div></td>
+</tr>
+</table>
+
+{/if}
+</div>

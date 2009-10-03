@@ -40,8 +40,6 @@ Template('footer.html');
 */
 
 
-pr($cbvid->category_exists(27));
-
 template_files('index.html');
 display_it();
 ?>

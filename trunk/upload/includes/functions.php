@@ -179,161 +179,6 @@
 			}
 		}
 		
- // -------------RATING FUNCTION---------------- //
- 
-function getRating($id){
-
-	$total = 0;
-	$rows = 0;
-	
-	$sel = mysql_query("SELECT * FROM video WHERE videoid = '$id'");
-	if(mysql_num_rows($sel) > 0){
-	$data = mysql_fetch_assoc($sel);
-		
-		//$newPerc = round($perc/5)*5;
-		//return $newPerc.'%';
-		
-		$newPerc = round($data['rating']*10,2);
-		return $newPerc.'%';
-	
-	} else {
-	
-		return '0%';
-	
-	}
-}
-
-function outOfFive($id){
-
-	$total = 0;
-	$rows = 0;
-	
-	$sel = mysql_query("SELECT * FROM video WHERE videoid = '$id'");
-	if(mysql_num_rows($sel) > 0){
-		$data = mysql_fetch_assoc($sel);
-		
-		return round($data['rating']/2,2);
-		//return round(($perc*2), 0)/2; // 3.5
-	
-	} else {
-	
-		return '0';
-	
-	}
-	
-	
-}
-
-function getVotes($id){
-
-		$sel = mysql_query("SELECT * FROM video WHERE videoid = '$id'");
-		$data = mysql_fetch_assoc($sel);
-		return $data['rated_by'];
-	
-}
-
-function pullRating($id,$show5 = false, $showPerc = false, $showVotes = false, $static = NULL){
-	global $row;
-	// Check if they have already voted...
-	$text = '';
-	
-	$sel = mysql_query("SELECT * FROM video WHERE videoid = '$id'");
-		$data = mysql_fetch_array($sel);
-		$voter_id = $data['voter_ids'];
-		@$userid = $_SESSION['userid'];
-				$niddle = "|";
-				$niddle .= $userid;
-				$niddle .= "|";
-				$flag = strstr($voter_id, $niddle);
-	if($row['user_rate_opt1'] !='yes'){
-		if($data['username'] == $_SESSION['username']){
-			$static = 'novote';
-		}
-	}
-	if(!empty($flag) || $static == 'novote' || !isset($_SESSION['userid']) || isset($_COOKIE['has_voted_'.$id]) ){
-	
-		
-		
-		if($show5 || $showPerc || $showVotes){
-
-			$text .= '<div class="rated_text">';
-			
-		}
-			
-			if($show5){
-				$text .= 'Rated <span id="outOfFive_'.$id.'" class="out5Class">'.outOfFive($id).'</span>/5';
-			} 
-			if($showPerc){
-				$text .= ' (<span id="percentage_'.$id.'" class="percentClass">'.getRating($id).'</span>)';
-			}
-			if($showVotes){
-				$text .= ' (<span id="showvotes_'.$id.'" class="votesClass">'.getVotes($id).'</span>)';
-			}
-			
-		if($show5 || $showPerc || $showVotes){	
-			
-			$text .= '</div>';
-		
-		}
-		
-		
-		return $text.'
-			<ul class="star-rating2" id="rater_'.$id.'">
-				<li class="current-rating" style="width:'.getRating($id).';" id="ul_'.$id.'"></li>
-				<li><a onclick="return false;" href="#" title="1 star out of 5" class="one-star" > </a></li>
-				<li><a onclick="return false;" href="#" title="2 stars out of 5" class="two-stars"> </a></li>
-				<li><a onclick="return false;" href="#" title="3 stars out of 5" class="three-stars"> </a></li>
-				<li><a onclick="return false;" href="#" title="4 stars out of 5" class="four-stars"> </a></li>
-				<li><a onclick="return false;" href="#" title="5 stars out of 5" class="five-stars"> </a></li>
-			</ul>
-			<div id="loading_'.$id.'"></div>';
-
-		
-	} else {
-		
-		if($show5 || $showPerc || $showVotes){
-			
-			$text .= '<div class="rated_text">';
-			
-		}
-			if($show5){
-				$show5bool = 'true';
-				$text .= 'Rated <span id="outOfFive_'.$id.'" class="out5Class">'.outOfFive($id).'</span>/5';
-			} else {
-				$show5bool = 'false';
-			}
-			if($showPerc){
-				$showPercbool = 'true';
-				$text .= ' (<span id="percentage_'.$id.'" class="percentClass">'.getRating($id).'</span>)';
-			} else {
-				$showPercbool = 'false';
-			}
-			if($showVotes){
-				$showVotesbool = 'true';
-				$text .= ' (<span id="showvotes_'.$id.'" class="votesClass">'.getVotes($id).'</span>)';
-			} else {
-				$showVotesbool = 'false';	
-			}
-			
-		if($show5 || $showPerc || $showVotes){	
-		
-			$text .= '</div>';
-			
-		}
-		
-		return $text.'
-			<ul class="star-rating" id="rater_'.$id.'">
-				<li class="current-rating" style="width:'.getRating($id).';" id="ul_'.$id.'"></li>
-				<li><a href="javascript:void(0)" onclick="rate(\'1\',\''.$id.'\','.$show5bool.','.$showPercbool.','.$showVotesbool.'); return false;" href="rating_process.php?id='.$id.'&rating=1" title="1 star out of 5" class="one-star" > </a></li>
-				<li><a href="javascript:void(0)" onclick="rate(\'2\',\''.$id.'\','.$show5bool.','.$showPercbool.','.$showVotesbool.'); return false;" href="rating_process.php?id='.$id.'&rating=2" title="2 stars out of 5" class="two-stars"> </a></li>
-				<li><a href="javascript:void(0)" onclick="rate(\'3\',\''.$id.'\','.$show5bool.','.$showPercbool.','.$showVotesbool.'); return false;" href="rating_process.php?id='.$id.'&rating=3" title="3 stars out of 5" class="three-stars"> </a></li>
-				<li><a href="javascript:void(0)" onclick="rate(\'4\',\''.$id.'\','.$show5bool.','.$showPercbool.','.$showVotesbool.'); return false;" href="rating_process.php?id='.$id.'&rating=4" title="4 stars out of 5" class="four-stars"> </a></li>
-				<li><a href="javascript:void(0)" onclick="rate(\'5\',\''.$id.'\','.$show5bool.','.$showPercbool.','.$showVotesbool.'); return false;" href="rating_process.php?id='.$id.'&rating=5" title="5 stars out of 5" class="five-stars"> </a></li>
-			</ul>
-			<div id="loading_'.$id.'"></div>';
-	
-	}
-}	
 
 			
 	//Function Send Email
@@ -389,38 +234,53 @@ function pullRating($id,$show5 = false, $showPerc = false, $showVotes = false, $
 			return substr($file, strrpos($file,'.') + 1);
 			}
 
-function SetTime($sec, $padHours = true) {
-
-    $hms = "";
-
-    // there are 3600 seconds in an hour, so if we
-    // divide total seconds by 3600 and throw away
-    // the remainder, we've got the number of hours
-    $hours = intval(intval($sec) / 3600);
-
-    // add to $hms, with a leading 0 if asked for
-    $hms .= ($padHours)
-          ? str_pad($hours, 2, "0", STR_PAD_LEFT). ':'
-          : $hours. ':';
-
-    // dividing the total seconds by 60 will give us
-    // the number of minutes, but we're interested in
-    // minutes past the hour: to get that, we need to
-    // divide by 60 again and keep the remainder
-    $minutes = intval(($sec / 60) % 60);
-
-    // then add to $hms (with a leading 0 if needed)
-    $hms .= str_pad($minutes, 2, "0", STR_PAD_LEFT). ':';
-
-    // seconds are simple - just divide the total
-    // seconds by 60 and keep the remainder
-    $seconds = intval($sec % 60);
-
-    // add to $hms, again with a leading 0 if needed
-    $hms .= str_pad($seconds, 2, "0", STR_PAD_LEFT);
-
-    return $hms;
-}
+	function old_set_time($temps)
+	{
+			round($temps);
+			$heures = floor($temps / 3600);
+			$minutes = round(floor(($temps - ($heures * 3600)) / 60));
+			if ($minutes < 10)
+					$minutes = "0" . round($minutes);
+			$secondes = round($temps - ($heures * 3600) - ($minutes * 60));
+			if ($secondes < 10)
+					$secondes = "0" .  round($secondes);
+			return $minutes . ':' . $secondes;
+	}
+	function SetTime($sec, $padHours = true) {
+	
+		if($sec < 3600)
+			return old_set_time($sec);
+			
+		$hms = "";
+	
+		// there are 3600 seconds in an hour, so if we
+		// divide total seconds by 3600 and throw away
+		// the remainder, we've got the number of hours
+		$hours = intval(intval($sec) / 3600);
+	
+		// add to $hms, with a leading 0 if asked for
+		$hms .= ($padHours)
+			  ? str_pad($hours, 2, "0", STR_PAD_LEFT). ':'
+			  : $hours. ':';
+	
+		// dividing the total seconds by 60 will give us
+		// the number of minutes, but we're interested in
+		// minutes past the hour: to get that, we need to
+		// divide by 60 again and keep the remainder
+		$minutes = intval(($sec / 60) % 60);
+	
+		// then add to $hms (with a leading 0 if needed)
+		$hms .= str_pad($minutes, 2, "0", STR_PAD_LEFT). ':';
+	
+		// seconds are simple - just divide the total
+		// seconds by 60 and keep the remainder
+		$seconds = intval($sec % 60);
+	
+		// add to $hms, again with a leading 0 if needed
+		$hms .= str_pad($seconds, 2, "0", STR_PAD_LEFT);
+	
+		return $hms;
+	}
 	
 	//Simple Validation
 	function isValidText($text){
@@ -708,7 +568,12 @@ function SetTime($sec, $padHours = true) {
 	function getAd($params,&$Smarty)
 	{
 		global $adsObj;
-		$data = $adsObj->getAd($params['place']);
+		$data = '';
+		if($params['style'] || $params['class'] || $params['align'])
+			$data .= '<div style="'.$params['style'].'" class="'.$params['class'].'" align="'.$params['align'].'">';
+		$data .= ad($adsObj->getAd($params['place']));
+		if($params['style'] || $params['class'] || $params['align'])
+			$data .= '</div>';
 		return $data;
 	}
 	
@@ -1304,7 +1169,7 @@ function SetTime($sec, $padHours = true) {
 	/**
 	 * Function use to get video files
 	 */
-	function get_video_file($vdetails,$return_default=true,$with_path=true,$multi=false,$count_only=false)
+	function get_video_file($vdetails,$return_default=true,$with_path=true,$multi=false,$count_only=false,$hq=false)
 	{
 		# checking if there is any other functions
 		# available
@@ -1344,8 +1209,31 @@ function SetTime($sec, $padHours = true) {
 				return $files;
 			if($count_only)
 				return count($files);
+			
+			foreach($files as $file)
+			{
+				if($hq)
+				{
+					if(getext($file)=='mp4')
+					{
+	 					return $file;
+						break;
+					}
+				}else{
+					return $file;
+					break;
+				}
+			}
 			return $files[0];
 		}
+	}
+	
+	/**
+	 * FUnction used to get HQ ie mp4 video
+	 */
+	function get_hq_video_file($vdetails)
+	{
+		return get_video_file($vdetails,true,true,false,false,true);
 	}
 	
 	
@@ -1355,6 +1243,8 @@ function SetTime($sec, $padHours = true) {
 	function flashPlayer($param,&$Smarty)
 	{
 		global $Cbucket,$swfobj;
+		
+		$param['player_div'] = $param['player_div'] ? $param['player_div'] : 'videoPlayer';
 		
 		$key 		= $param['key'];
 		$flv 		= $param['flv'].'.flv';
@@ -1371,37 +1261,27 @@ function SetTime($sec, $padHours = true) {
 			{
 				if(function_exists($funcs))
 				{
-					$func_data = $funcs($param['vdetails']);
+					$func_data = $funcs($param);
 				}
 				if($func_data)
 					return $func_data;
 			}
 		}
 		
-		#checking video file
-		$file = get_video_file($param['vdetails']);
-		
-		
-		
-		//Getting Player
-		$player = get_player();
-		$swfobj->playerFile = BASEURL.'/player/'.FLVPLAYER;
-		$swfobj->FlashObj();
-		//Writing Param
-		$swfobj->addParam('allowfullscreen','true');
-		$swfobj->addParam('allowscriptaccess','always');
-		$swfobj->addParam('quality','high');
-		$swfobj->addVar('baseurl',BASEURL);
-		$swfobj->addVar('video',get_video_file($param['vdetails'],false,true));
-
-		if(!empty($flv_url) && GetExt($flv_url)=='flv'){
-			$swfobj->addVar('file_url',urldecode($flv_url));
-		}else{
-			$swfobj->addVar('file_url',$file );
-		}
-		$swfobj->CreatePlayer();
-		return $swfobj->code;
+		if(function_exists('cbplayer'))
+			return cbplayer($param,true);
+		return blank_screen($param);
 	}
+	
+	
+	/**
+	 * FUnctiuon used to plya HQ videos
+	 */
+	function HQflashPlayer($param,&$Smarty)
+	{
+		return flashPlayer($param,&$Smarty);
+	}
+	
 	
 	/**
 	 * Function used to get player from website settings
@@ -1635,17 +1515,17 @@ function SetTime($sec, $padHours = true) {
 			}
 		}
 		
-			$count = 1;
-			if(is_array($cat_array))
+		$count = 1;
+		if(is_array($cat_array))
+		{
+			foreach($cat_array as $cat)
 			{
-				foreach($cat_array as $cat)
-				{
-					echo '<a href="'.$cat[0].'">'.$cat[1].'</a>';
-					if($count!=count($cat_array))
-					echo ', ';
-					$count++;
-				}
+				echo '<a href="'.$cat[0].'">'.$cat[1].'</a>';
+				if($count!=count($cat_array))
+				echo ', ';
+				$count++;
 			}
+		}
 	}
 	
 	
@@ -2015,4 +1895,130 @@ function SetTime($sec, $padHours = true) {
 		
 		return $cats;
 	}
+	
+	
+	/**
+	 * Function used to show rating
+	 * @inputs
+	 * class : class used to show rating usually rating_stars
+	 * rating : rating of video or something
+	 * ratings : number of rating
+	 * total : total rating or out of
+	 */
+	function show_rating($params,&$Smarty)
+	{
+		$class 		= $params['class'] ? $params['class'] : 'rating_stars';
+		$rating 	= $params['rating'];
+		$ratings 	= $params['ratings'];
+		$total 		= $params['total'];
+		
+		//Checking Percent
+		if($rating<=0)
+			$perc = '0';
+		else
+		{
+			if($total<=1)
+				$total = 1;
+			$perc = $rating*100/$total;
+		}
+				
+		$perc = $perc.'%';
+		
+		$rating = '<div class="'.$class.'">
+					<div class="stars_blank">
+						<div class="stars_filled" style="width:'.$perc.'">&nbsp;</div>
+						<div class="clear"></div>
+					</div>
+				  </div>';
+		return $rating;
+	}
+	
+	
+	/**
+	 * Function used to display
+	 * Blank Screen
+	 * if there is nothing to play or to show
+	 * then who a blank screen
+	 */
+	function blank_screen($data)
+	{
+		global $swfobj;
+		$code = '<div class="blank_screen" align="center">No Player or Video File Found - Unable to Play Any Video</div>';
+		$swfobj->EmbedCode(unhtmlentities($code),$data['player_div']);
+		return $swfobj->code;
+	}
+	
+	
+	/**
+	 * Function used to check weather video has Mp4 file or not
+	 */
+	function has_hq($vdetails)
+	{
+		$file = get_hq_video_file($vdetails);
+		if(getext($file)=='mp4')
+			return $file;
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to display an ad
+	 */
+	function ad($in)
+	{
+		return stripslashes(htmlspecialchars_decode($in));
+	}
+	
+	
+	/**
+	 * Function used to get
+	 * available function list
+	 * for special place , read docs.clip-bucket.com
+	 */
+	function get_functions($name)
+	{
+		global $Cbucket;
+		$funcs = $CBucket->get_functions;
+		if(is_array($funcs) && count($funcs)>0)
+			return $funcs;
+		else
+			return false;
+	}
+	
+	
+	/**
+	 * Function used to add js in ClipBuckets JSArray
+	 * see docs.clip-bucket.com
+	 */
+	function add_js($files)
+	{
+		global $Cbucket;
+		return $Cbucket->addJS($files);
+	}
+	
+	/**
+	 * Function add_header()
+	 * this will be used to add new files in header array
+	 * this is basically for plugins
+	 * for specific page array('page'=>'file') 
+	 * ie array('uploadactive'=>'datepicker.js')
+	 */
+	function add_header($files)
+	{
+		global $Cbucket;
+		return $Cbucket->add_header($files);
+	}
+	
+	
+	/**
+	 * Function used to get config value
+	 * of ClipBucket
+	 */
+	function config($input)
+	{
+		global $Cbucket;
+		return $Cbucket->configs[$input];
+	}
+	function get_config($input){ return config($input); }
+	
 ?>

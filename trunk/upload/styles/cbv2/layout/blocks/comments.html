@@ -7,6 +7,6 @@
         	<a href='#comment_{$comment_id}'>{$comment.anonym_name}</a>
         {/if}
 		 wrote on {$comment.date_added|date_format}<br />
-         {$comment.comment}
+         {$comment.comment|comment}
     </div>
 {/foreach}

@@ -259,3 +259,19 @@
 		if(progress<100)
 			refresh_interval();
 	}
+	
+	
+	function go_hq(vid)
+	{
+		 var flashvars = {
+		 htmlPage: document.location,
+		settingsFile: "http://localhost/clipbucket/2.x/2/upload/player/cbplayer/settings.php?hqid="+vid
+		};
+		var params = {
+		  allowFullScreen: "true"
+		};
+		swfobject.embedSWF("http://localhost/clipbucket/2.x/2/upload/player/cbplayer/videoPlayer.swf", 
+										   "videoPlayer", "600", "350", "9.0.115",
+										   "swfobject/expressInstall.swf", flashvars
+										   , params);
+	}

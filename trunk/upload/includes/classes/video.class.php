@@ -18,6 +18,8 @@
 
 class CBvideo extends CBCategory
 {
+	var $embed_func_list = array(); //Function list that are applied while asking for video embed code
+	
 	/**
 	 * __Constructor of CBVideo
 	 */	
@@ -349,6 +351,43 @@ class CBvideo extends CBCategory
 	{
 		global $myquery;
 		return $myquery->add_comment($comment,$obj_id,$reply_to,'v');
+	}
+	
+	
+	/**
+	 * Function used to generate Embed Code
+	 */
+	function embed_code($vdetails)
+	{
+		//Checking for video details
+		if(!is_array($vdetails))
+		{
+			$vdetails = $this->get_video($vdetails);
+		}
+		
+		$embed_code = false;
+		
+		$funcs = $this->embed_func_listl;
+		if(is_array($funcs))
+		{
+			foreach($funcs as $func)
+			{
+				if(@function_exists($func))
+				$embed_code = $func($vdetails);
+			}
+		}
+		
+		if(!$embed_code)
+		{
+			//Default ClipBucket Embed Code
+			if(function_exists('default_embed_code'))
+			{
+				$embed_code = default_embed_code($vdetails);
+			}
+		}
+		
+		return $embed_code;
+		
 	}
 
 	

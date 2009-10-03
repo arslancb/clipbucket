@@ -62,6 +62,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/image.class.php');
 	require_once('classes/category.class.php');
 	require_once('classes/video.class.php');
+	require_once('classes/player.class.php');
 	require_once 'languages.php';
 	
 	$pages 		= new pages();	
@@ -82,9 +83,9 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	$lang_obj	= new language;
 	$sess		= new Session();
 	$cblog		= new CBLogs();
-	$swfobj		= new SWFObject();
 	$imgObj		= new ResizeImage();
 	$cbvideo	= $cbvid = new CBvideo();
+	$cbplayer	= new CBPlayer();
 
 //Initializng Userquery class
 $userquery->init();
@@ -194,6 +195,7 @@ error_reporting(E_ALL ^ E_NOTICE ^E_DEPRECATED);
     define('SUBTITLE',$row['code_dev']);
     define('JSDIR','js');										//Javascript Directory Name
 	define('ADMINDIR','admin_area');							//Admin Accissble Folder
+	define('ADMIN_BASEURL',BASEURL.'/'.ADMINDIR);
 	define('MODULEDIR',BASEDIR.'/modules');						//Modules Directory
 	
 //DIRECT PATHS OF VIDEO FILES
@@ -266,8 +268,9 @@ error_reporting(E_ALL ^ E_NOTICE ^E_DEPRECATED);
 	
 	$cbtpl = new CBTemplate();
 	$cbobjects = new CBObjects();
-	
-    $is_admin = $userquery->admin_check();
+	$swfobj		= new SWFObject();
+
+	$is_admin = $userquery->admin_check();
     if ($is_admin == 1)
     {
     Assign('is_admin',$is_admin);
@@ -364,6 +367,7 @@ $Smarty->assign_by_ref('lang_obj', $lang_obj);
 $Smarty->assign_by_ref('cbvid', $cbvid);
 $Smarty->assign_by_ref('cbtpl',$cbtpl);
 $Smarty->assign_by_ref('cbobjects',$cbobjects);
+$Smarty->assign_by_ref('cbplayer',$cbplayer);
 
 /*
 REGISERTING FUNCTION FOR SMARTY TEMPLATES
@@ -374,7 +378,7 @@ $Smarty->register_function('AD','getAd');
 $Smarty->register_function('get_thumb','getSmartyThumb');
 $Smarty->register_function('getThumb','getSmartyThumb');
 $Smarty->register_function('videoLink','videoSmartyLink');
-$Smarty->register_function('pullRating','pullSmartyRating');
+$Smarty->register_function('show_rating','show_rating');
 $Smarty->register_function('ANCHOR','ANCHOR');
 $Smarty->register_function('FUNC','FUNC');
 $Smarty->register_function('avatar','avatar');
@@ -383,6 +387,7 @@ $Smarty->register_function('get_all_video_files',get_all_video_files_smarty);
 $Smarty->register_function('input_value','input_value');
 $Smarty->register_function('userid','userid');
 $Smarty->register_function('FlashPlayer','flashPlayer');
+$Smarty->register_function('HQFlashPlayer','HQflashPlayer');
 $Smarty->register_function('link','cblink');
 
 $Smarty->register_modifier('SetTime','SetTime');
@@ -393,6 +398,7 @@ $Smarty->register_modifier('get_from_val','get_from_val');
 $Smarty->register_modifier('post_form_val','post_form_val');
 $Smarty->register_modifier('request_form_val','request_form_val');
 $Smarty->register_modifier('get_thumb_num','get_thumb_num');
+$Smarty->register_modifier('ad','ad');
 
 
 /*
@@ -402,11 +408,6 @@ register_action_remove_video('remove_video_thumbs');
 register_action_remove_video('remove_video_log');
 register_action_remove_video('remove_video_files');
 
-
-/**
- * Include ClipBucket's Default Player
- */
-include(PLAYER_DIR.'/cbplayer/cbplayer.plug.php');
 
 include('admin.functions.php');
 ?>

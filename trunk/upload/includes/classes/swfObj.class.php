@@ -11,16 +11,21 @@ class SWFObject
 {
 
 //var Code 
-var $objName = 'FlashObject';
-var $DivId = 'videoplayer';
+var $objName = 'SWFObject';
+var $DivId = 'videoPlayer';
 var $code = '';
 var $playerFile = '';
-var $width = '450';
-var $height = '378';
+
 var $PlayerVer = '7';
 var $bgcolor = '#FFFFFF';
 var $playerVar = 'player';
 
+	function SWFObject()
+	{
+		$this->width = config('player_width');
+		$this->height = config('player_height');
+	}
+	
 	//Function Used TO Create Player
 	function CreatePlayer(){
 		$this->SelectPlayer();
@@ -88,9 +93,9 @@ var $playerVar = 'player';
 	}
 	
 	//function for Embed Code
-	function EmbedCode($code){
+	function EmbedCode($code,$div){
 		$this->code = 'var EmbedCode="'.addslashes($code).'";'."\r\n";
-		$this->code .= "innerHtmlDiv('".$this->DivId."',EmbedCode)";
+		$this->code .= "innerHtmlDiv('".$div."',EmbedCode)";
 	}
 	
 }

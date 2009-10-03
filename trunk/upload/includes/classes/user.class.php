@@ -1170,6 +1170,16 @@ class userquery {
 	
 	
 	/**
+	 * This function will return
+	 * user field without array
+	 */
+	function get_user_field_only($uid,$field)
+	{
+		$fields = $this->get_user_field($uid,$field);
+		return $fields[$field];
+	}
+	
+	/**
 	 * Function used to get user level and its details
 	 * @param INT userid
 	 */
@@ -1429,6 +1439,16 @@ class userquery {
 	function get_logged_username()
 	{
 		return $this->get_user_fields(user_id(),'username');
+	}
+	
+	/**
+	 * Function used to create profile link
+	 */
+	function profile_link($udetails)
+	{
+		if(!is_array($udetails) && is_numeric($udetails))
+			$udetails = $this->get_user_details($udetails);
+		return BASEURL.'/view_profile.php?uid='.$udetails['userid'];
 	}
 }
 ?>

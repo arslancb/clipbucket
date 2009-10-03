@@ -18,8 +18,8 @@ class AdsManager
 		global $LANG;
 	
 		$name		= mysql_clean($_POST['name']);
-		$code		= mysql_clean(htmlspecialchars($_POST['code']));
-		$placement 	= mysql_clean($_POST['type']);
+		$code		= mysql_real_escape_string(htmlspecialchars($_POST['code']));
+		$placement 	= mysql_clean($_POST['placement']);
 		$category  	= $_POST['category'];
 		$status		= $_POST['status'];
 		
@@ -65,9 +65,9 @@ class AdsManager
 	
 	function EditAd($id){
 	global $LANG;
-		$placement 	= mysql_clean($_POST['type']);
+		$placement 	= mysql_clean($_POST['placement']);
 		$name	= mysql_clean($_POST['name']);
-		$code	= htmlspecialchars($_POST['code']);
+		$code	= mysql_real_escape_string(htmlspecialchars($_POST['code']));
 		$category = mysql_clean(@$_POST['category']);	
 				if(empty($name)){
 					$msg = e($LANG['ad_name_error']);
@@ -193,5 +193,73 @@ class AdsManager
 		$db->Execute($query);
 	}
 	
+	
+	/** 
+	 * Function usd to get all placemetns
+	 */
+	function get_placements()
+	{
+		global $db;
+		
+		$result = $db->select("ads_placements");
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to get all advertisments
+	 */
+	function get_advertisements()
+	{
+		global $db;
+		
+		$result = $db->select("ads_data");
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;
+
+	}
+	
+	/**
+	 * Function used to get placement
+	 */
+	function get_placement($place)
+	{
+		global $db;
+		$result = $db->select("ads_placements","*"," placement='$place' OR placement_id='$place' ");
+		if($db->num_rows>0)
+			return $result[0];
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to create placement name
+	 */
+	function get_placement_name($place)
+	{
+		$details = $this->get_placement($place);
+		if($details)
+			return $details['placement_name'];
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to get advertismetn
+	 */
+	function get_ad_details($id)
+	{
+		global $db;
+		$result = $db->select("ads_data","*"," 	ad_placement='$id' OR ad_id='$id'");
+		if($db->num_rows>0)
+			return $result[0];
+		else
+			return false;
+	}
+
 }
 ?>

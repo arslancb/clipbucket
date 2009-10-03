@@ -206,20 +206,21 @@ if(!function_exists('validate_embed_code'))
 	 * Function used to play embed code
 	 * @param Video details
 	 */
-	function play_embed_video($vdetails)
+	function play_embed_video($data)
 	{
 		global $swfobj;
-		$file = get_video_file($vdetails,false);
-		if(!$file)
+		$vdetails = $data['vdetails'];
+		$file = get_video_file($vdetails,false,false);
+		if(!$file || $file=='no_video.flv')
 		{
-			if(!empty($vdetails['embed_code']))
+			if(!empty($vdetails['embed_code']) && $vdetails['embed_code']!='none')
 			{
 				$embed_code = $vdetails['embed_code'];
 				//Replacing Height And Width
 				$h_w_p = array("{Width}","{Height}");
-				$h_w_r = array("400","350");	
+				$h_w_r = array(config('player_width'),config('player_height'));	
 				$embed_code = str_replace($h_w_p,$h_w_r,$embed_code);
-				$swfobj->EmbedCode(unhtmlentities($embed_code));
+				$swfobj->EmbedCode(unhtmlentities($embed_code),$data['player_div']);
 				return $swfobj->code;
 			}
 		}else{

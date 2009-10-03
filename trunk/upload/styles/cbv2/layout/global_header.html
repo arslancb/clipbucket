@@ -43,7 +43,7 @@ var imageurl = '{$imageurl}';
 
 
 <!-- Including Headers -->
-{foreach from=$Cbucket->header_files key=type item=file}
+{foreach from=$Cbucket->header_files key=file item=type}
     {if $curActive == $type ||  $type=='global' }
 		{include file="$file"}
     {/if}

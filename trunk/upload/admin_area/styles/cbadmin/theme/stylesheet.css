@@ -49,6 +49,8 @@ a{font-size:12px; font-weight:bold; text-decoration:none; color:#147dc3; font-fa
 -webkit-border-radius: 5px; border:0px solid #EAEEFF;} .vdo_sets{font-size:11px; text-transform:uppercase; font-family: Consolas, Monaco, Courier, monospace;}
 
 
+
+.setting_title{font-size:18px; margin-bottom:5px 0px 5px 0px;}
 /**
  * Forms
  */
@@ -68,7 +70,8 @@ a{font-size:12px; font-weight:bold; text-decoration:none; color:#147dc3; font-fa
 
 /**
  * Forms End
- */
+*/
+.block_head tr td{padding:0px 2px 0px 2px}
 .block tr td{padding:2px; border-bottom:1px dotted #eee; }
 .block tr:hover{background-color:#f8f8f8}
 
@@ -129,3 +132,6 @@ padding-left:5px; font-size:16px; font-weight:bold; font-family:Arial, Helvetica
 .templates_container .tpl_title{width:80%; margin:auto; font-size:12px;}
 .templates_container .template_box{width:200px; float:left; margin:10px; padding:10px}
 .templates_container .template_box:hover{background-color:#F3E8FF}
+
+
+.preview_thumb{max-width:175px; max-height:175px}

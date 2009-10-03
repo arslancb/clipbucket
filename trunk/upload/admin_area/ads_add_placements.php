@@ -38,11 +38,7 @@ $total_placements = $ads_exec->recordcount() + 0;
 				
 Assign('ads_placements',$ads_placements);
 		
-Assign('msg',@$msg);	
-Template('header.html');
-Template('leftmenu.html');
-Template('message.html');
-Template('ads_add_placements.html');
-Template('footer.html');
+template_files('ads_add_placements.html');
+display_it();
 
 ?>
