@@ -181,18 +181,85 @@
 		
 
 			
-	//Function Send Email
-		function send_email($from,$to,$subj,$msg){
-				$header = "From: ".$from." \r\n";
-				$header .= "Content-Type: text/html; charset=utf-8  \r\n";
-				$retval = mail ($to,$subj,$msg,$header);
-				   if( $retval == true ){
-					 return true;
-				   }else{
-					 return false;
-				   }
+	/**
+	 * Function used to send emails
+	 * this is a very basic email function 
+	 * you can extend or replace this function easily
+	 * read our docs.clip-bucket.com
+	 */
+	function cbmail($array)
+	{
+		$func_array = get_functions('email_functions');
+		if(is_array($func_array))
+		{
+			foreach($func_array as $func)
+			{
+				if(function_exists($func))
+				{
+					return $func($array);
+				}
+			}
 		}
-
+		
+		$content = $array['content'];
+		$subject = $array['subject'];
+		$to		 = $array['to'];
+		$from	 = $array['from'];
+		
+		//Setting Boundary
+		$mime_boundary = "----ClipBucket Emailer----".md5(time());
+		
+		$headers  = "From: ".$from." \r\n";
+		$headers .= "Content-Type: text/html; charset=UTF-8\n";
+		$headers .= "Content-Transfer-Encoding: 7bit  \r\n";
+		$headers .= "MIME-Version: 1.0\r\n";
+		//Checking if has CC 
+		if($array['cc'])
+		$headers .= "cc: ".$array['cc']." \r\n";
+		//Checking if has BCC 
+		if($array['bcc'])
+		$headers .= "Bcc: ".$array['bcc']." \r\n";
+		//Setting Mailer
+		$headers .= "X-Mailer: ClipBucket v2 \r\n";
+  		
+		//Starting Message
+		$message  = "--$mime_boundary--\n";
+		$message .= "Content-Type: text/html; charset=UTF-8\n";
+		$message .= "Content-Transfer-Encoding: 8bit\n\n";
+		
+		# CHecking Content
+		if(preg_match('/<html>/',$content,$matches))
+		{
+			if(empty($matches[0]))
+			{
+				$content = wrap_email_content($content);
+			}
+		}
+		$message .= $content;
+		//Ending Message
+		$message .= "--$mime_boundary--\n\n";
+		
+		$email = mail ($to,$subject,$message,$headers);
+		if( $email == true ){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	function send_email($from,$to,$subj,$message)
+	{
+		return cbmail(array('from'=>$from,'to'=>$to,'subject'=>$subj,'content'=>$message));
+	}
+	
+	/**
+	 * Function used to wrap email content in 
+	 * HTML AND BODY TAGS
+	 */
+	function wrap_email_content($content)
+	{
+		return '<html><body>'.$content.'</body></html>';
+	}
+	
 	/**
 	 * Function used to get file name
 	 */
@@ -300,7 +367,7 @@
          return true;
       }
       else {
-         return false;
+         return true;
       }   
    }
 
@@ -940,7 +1007,10 @@
 	function user_name()
 	{
 		global $userquery;
-		return $userquery->user_name;
+		if($userquery->user_name)
+			return $userquery->user_name;
+		else
+			return $userquery->get_logged_username();
 	}
 	function username(){return user_name();}
 	
@@ -1952,9 +2022,13 @@
 	/**
 	 * Function used to check weather video has Mp4 file or not
 	 */
-	function has_hq($vdetails)
+	function has_hq($vdetails,$is_file=false)
 	{
-		$file = get_hq_video_file($vdetails);
+		if(!$is_file)
+			$file = get_hq_video_file($vdetails);
+		else
+			$file = $vdetails;
+			
 		if(getext($file)=='mp4')
 			return $file;
 		else
@@ -1978,7 +2052,7 @@
 	function get_functions($name)
 	{
 		global $Cbucket;
-		$funcs = $CBucket->get_functions;
+		$funcs = $CBucket->$name;
 		if(is_array($funcs) && count($funcs)>0)
 			return $funcs;
 		else
@@ -2021,4 +2095,90 @@
 	}
 	function get_config($input){ return config($input); }
 	
+	
+	/**
+	 * Funcion used to call functions
+	 * when video is going to watched
+	 * ie in watch_video.php
+	 */
+	function call_watch_video_function($vdo)
+	{
+		$funcs = get_functions('watch_video_functions');
+		if(is_array($funcs) && count($funcs)>0)
+		{
+			foreach($funcs as $func)
+			{
+				if(!function_exists($func))
+				{
+					$func($vdo);
+				}
+			}
+		}
+		
+		increment_views($vdo['videoid']);
+	}
+	
+	
+	/**
+	 * Function used to incream number of view
+	 * in object
+	 */
+	function increment_views($id,$type=NULL)
+	{
+		global $db;
+		switch($type)
+		{
+			case 'v':
+			case 'video':
+			default:
+			{
+				if(!isset($_COOKIE['video_'.$id])){
+					$db->update("video",array("views","last_viewed"),array("|f|views+1",NOW())," videoid='$id' OR videokey='$vkey'");
+					setcookie('video_'.$id,'watched',time()+3600);
+				}
+			}
+		}
+		
+	}
+	
+	
+	/**
+	 * Function used to get post var
+	 */
+	function post($var)
+	{
+		return $_POST[$var];
+	}
+	
+	
+	/**
+	 * Function used to show sharing form
+	 */
+	function show_share_form($array,&$Smarty)
+	{
+		$array['button_value'] = $array['button_value']?$array['button_value']  :  'Email';
+		$form .='<form id="form1" name="form1" method="post" action="'.$array['link'].'" class="'.$array['class'].'">';
+		$form .='<label for="users" class="label">Usernames or Emails</label><br />';
+		$form .='<input type="text" name="users" id="users"><br>';
+		$form .='<label for="message" class="label">Message</label>';
+		$form .='<br>';
+		$form .='<textarea name="message" id="message" cols="45" rows="5" ></textarea><br>';
+		$form .='<input type="submit" name="send_content" value="'.$array['button_value'].'" />';
+		$form .='</form>';
+		return $form;
+	}
+	
+	function cbdate($format=NULL,$timestamp=NULL)
+	{
+		if(!$format)
+		{
+			$format = "d-m-Y";
+		}
+		if(!$timestamp)
+			return date($format);
+		else
+			return date($format,$timestamp);
+	}
+
+
 ?>

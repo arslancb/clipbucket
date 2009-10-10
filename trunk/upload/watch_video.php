@@ -19,6 +19,17 @@ if(video_playable($vkey))
 {
 	$vdo = $cbvid->get_video($vkey);
 	assign('vdo',$vdo);
+	
+	if(post('send_content'))
+	{
+		//Sending Video
+		$cbvid->set_share_email($vdo);
+		$cbvid->action->share_content($vdo['videoid']);
+	}
+	
+	//Calling Functions When Video Is Called
+	call_watch_video_function($vdo);
+	
 	//Addming Comment
 	if(isset($_POST['add_comment']))
 	{

@@ -42,6 +42,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 
 	require_once('dbconnect.php');
 	require_once('classes/pages.class.php');
+	require_once('classes/actions.class.php');
 	require_once('classes/my_queries.class.php');
 	require_once('classes/user.class.php');
 	require_once('classes/calcdate.class.php');
@@ -63,6 +64,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/category.class.php');
 	require_once('classes/video.class.php');
 	require_once('classes/player.class.php');
+	require_once('classes/cbemail.class.php');
 	require_once 'languages.php';
 	
 	$pages 		= new pages();	
@@ -86,7 +88,8 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	$imgObj		= new ResizeImage();
 	$cbvideo	= $cbvid = new CBvideo();
 	$cbplayer	= new CBPlayer();
-
+	$cbemail	= new CBEmail();
+	
 //Initializng Userquery class
 $userquery->init();
 
@@ -156,6 +159,7 @@ error_reporting(E_ALL ^ E_NOTICE ^E_DEPRECATED);
 	define('WELCOME_EMAIL',$email_data['welcome_email']);
 	@define('VIDEO_REQUIRE_LOGIN',$row['video_require_login']);
 	define('ACTIVATION',$row['activation']);
+	define('DATE_FORMAT',"d-m-Y");
 	
  //Listing Of Videos , Channels
  
@@ -389,6 +393,7 @@ $Smarty->register_function('userid','userid');
 $Smarty->register_function('FlashPlayer','flashPlayer');
 $Smarty->register_function('HQFlashPlayer','HQflashPlayer');
 $Smarty->register_function('link','cblink');
+$Smarty->register_function('show_share_form','show_share_form');
 
 $Smarty->register_modifier('SetTime','SetTime');
 $Smarty->register_modifier('getname','getname');

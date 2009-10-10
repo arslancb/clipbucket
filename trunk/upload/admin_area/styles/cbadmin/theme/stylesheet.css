@@ -51,6 +51,7 @@ a{font-size:12px; font-weight:bold; text-decoration:none; color:#147dc3; font-fa
 
 
 .setting_title{font-size:18px; margin-bottom:5px 0px 5px 0px;}
+.setting_title a{font-size:18px; }
 /**
  * Forms
  */

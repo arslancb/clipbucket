@@ -21,8 +21,10 @@
         <a href="#"><span class="flag_video">&nbsp;</span> Report this video</a>
     </div>
     
+    <!-- Displaying Sharing Form-->
+    {show_share_form}
     
-    <!-- Video Comments Options -->
+<!-- Video Comments Options -->
     {include file="$style_dir/blocks/add_comment.html"}
     
     <!-- Displaying Comments -->
@@ -40,7 +42,7 @@
         {assign var='udetails' value=$userquery->get_user_details($vdo.userid)}
             <a class="vd_thumb" href="#"><img src="{$userquery->getUserThumb($udetails)}" class="mid_user_thumb" /></a>
             {$udetails.username} uploaded on {$vdo.date_added|date_format}<br />
-            {$vdo.views|number_format} times viewed<br />
+            viewed {$vdo.views|number_format} times<br />
             <div class="clear"></div>
             
         </div>

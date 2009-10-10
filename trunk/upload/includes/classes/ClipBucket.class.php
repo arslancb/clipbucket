@@ -36,6 +36,21 @@ class ClipBucket
 	 var $before_convert_functions = array();
 	 var $after_convert_functions = array();
 	
+	
+	/**
+	 * This array contains
+	 * all functions that are called
+	 * when we call video to play on watch_video page
+	 */
+	 var $watch_video_functions = array();
+	 
+	 
+	 /**
+	  * Email Function list
+	  */
+	 var $email_functions = array();
+	 
+	 
 	function ClipBucket ()
 	{
 		global $pages;
@@ -57,6 +72,7 @@ class ClipBucket
 					 'redir.js'			=> 'global',
 					 'functions.js'		=> 'global',
 					 'swfobject.js'		=> 'global',
+					 'swfobject.obj.js'		=> 'global',
 					  ));
 		
 		//This is used to create Admin Menu
@@ -343,7 +359,7 @@ class ClipBucket
 		
 		define('TEMPLATE',$template);
 	}
-
+	
 }
 
 ?>

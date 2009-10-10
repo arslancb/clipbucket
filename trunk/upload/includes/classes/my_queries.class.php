@@ -14,6 +14,22 @@
  **************************************************************************************************
  Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.
  **************************************************************************************************
+ 
+ DEPRECATED
+ check_user
+ check_email
+ DeleteFlv
+ DeleteOriginal
+ DeleteThumbs
+ DeleteVideoFiles
+ UpdateVideo
+ GetCategory
+ RateVideo
+ AddComment
+ AddToFavourite
+ FlagAsInappropriate
+ DeleteFlag
+ 
  **/
  
 class myquery {
@@ -27,187 +43,75 @@ class myquery {
 	
 	//Updating Plugin Details
 	function Set_Plugin_Details($name,$value){
-	mysql_query("UPDATE plugin_config SET plugin_config_value = '".$value."' WHERE plugin_config_name ='".$name."'");
+		mysql_query("UPDATE plugin_config SET plugin_config_value = '".$value."' WHERE plugin_config_name ='".$name."'");
 	}
 	
 	function Set_Email_Settings($name,$value){
-	mysql_query("UPDATE email_settings config SET email_settings_value = '".$value."' WHERE email_settings_name ='".$name."'");
+		mysql_query("UPDATE email_settings config SET email_settings_value = '".$value."' WHERE email_settings_name ='".$name."'");
 	}
 	function Set_Email_Settings_Headers($name,$header){
-	mysql_query("UPDATE email_settings config SET email_settings_headers = '".$header."' WHERE email_settings_name ='".$name."'");
+		mysql_query("UPDATE email_settings config SET email_settings_headers = '".$header."' WHERE email_settings_name ='".$name."'");
 	}	
 	
 	function Get_Website_Details(){
-	$query = mysql_query("SELECT * FROM config");
-	while($row = mysql_fetch_array($query)){
-	$name = $row['name'];
-	$data[$name] = $row['value'];
-	}
-	return $data;
+		$query = mysql_query("SELECT * FROM config");
+		while($row = mysql_fetch_array($query))
+		{
+			$name = $row['name'];
+			$data[$name] = $row['value'];
+		}
+		return $data;
 	}
 	
 	function Get_Plugin_Details(){
-	$query = mysql_query("SELECT * FROM plugin_config");
-    if(mysql_num_rows($query) > 0)
-    {
-	while($row = mysql_fetch_array($query)){
-	$name = $row['plugin_config_name'];
-	$data[$name] = $row['plugin_config_value'];
-	}
-	return $data;
-    }
+		$query = mysql_query("SELECT * FROM plugin_config");
+		if(mysql_num_rows($query) > 0)
+		{
+			while($row = mysql_fetch_array($query)){
+				$name = $row['plugin_config_name'];
+				$data[$name] = $row['plugin_config_value'];
+			}
+			return $data;
+		}
 	}
 	
 	function Get_Email_Settings(){
-	$query = mysql_query("SELECT * FROM email_settings");
-	while($row = mysql_fetch_array($query)){
-	$name = $row['email_settings_name'];
-	$data[$name] = $row['email_settings_value'];
-	}
-	return $data;
+		$query = mysql_query("SELECT * FROM email_settings");
+		while($row = mysql_fetch_array($query)){
+			$name = $row['email_settings_name'];
+			$data[$name] = $row['email_settings_value'];
+		}
+		return $data;
 	}
 	
 	function Get_Email_Settings_Headers(){
-	$query = mysql_query("SELECT * FROM email_settings");
-	while($row = mysql_fetch_array($query)){
-	$name = $row['email_settings_name'];
-	$data[$name] = $row['email_settings_headers'];
-	}
-	return $data;
-	}
-	
-	function check_user($username){
-		$query = mysql_query("SELECT * FROM users WHERE username ='".$username."'");
-		if(mysql_num_rows($query) > 0){
-			return true;
-		}else{
-			return false;
+		$query = mysql_query("SELECT * FROM email_settings");
+		while($row = mysql_fetch_array($query)){
+			$name = $row['email_settings_name'];
+			$data[$name] = $row['email_settings_headers'];
 		}
+		return $data;
 	}
 	
-	function check_email($email){
-	$query = mysql_query("SELECT * FROM users WHERE email ='".$email."'");
-	if(mysql_num_rows($query) > 0){
-	return true;
-	}else{
-	return false;
-	}
 	
-	}
-	
-	//Function Used to Delete Flv File
-	
-	function DeleteFlv($flv){
-		$file = BASEDIR.'/files/videos/'.$flv;
-		if(file_exists($file) && !empty($flv)){
-			unlink($file);
-			}
-		}
-		
-	//Function Used To Delete the Original Video
-	
-	function DeleteOriginal($file){
-		$file_path = BASEDIR.'/files/original/'.$file;
-		if(file_exists($file_path) && !empty($file)){
-			unlink($file_path);
-			}
-		}
-		
-	//Function Used to Delete Video Thumbs
-	
-	function DeleteThumbs($flv){
-		$thumb  = substr($flv, 0, strrpos($flv, '.'));
-		$thumb1 = BASEDIR."/files/thumbs/".$thumb."-1.jpg";
-		$thumb2 = BASEDIR."/files/thumbs/".$thumb."-2.jpg";
-		$thumb3 = BASEDIR."/files/thumbs/".$thumb."-3.jpg";
-		$thumb4 = BASEDIR."/files/thumbs/".$thumb."-big.jpg";
-		
-		if(file_exists($thumb1)){
-		unlink($thumb1);
-		}
-		if(file_exists($thumb2)){
-		unlink($thumb2);
-		}
-		if(file_exists($thumb3)){
-		unlink($thumb3);
-		}
-		if(file_exists($thumb4)){
-		unlink($thumb4);
-		}
-		
-	}
 	
 	//Function Used to Check Weather Video Exists or not
-	function video_exists($videoid)
-	{
-		return $this->VideoExists($videoid);
-	}
-	function VideoExists($videoid){
-		global $cbvid;
-		return $cbvid->exists($videoid);
-	}
+	function VideoExists($videoid){global $cbvid;return $cbvid->exists($videoid);}
+	function video_exists($videoid){return $this->VideoExists($videoid);}
+	function CheckVideoExists($videokey){return $this->VideoExists($videokey);}
 	
-	//Function Used to Delete Video Files
-	
-	function DeleteVideoFiles($videoid){
-		$query 	= mysql_query("SELECT * FROM video WHERE videoid ='".$videoid."'");
-		$data 	= mysql_fetch_array($query);
-		$flv 	= $data['flv'];
-		$query 	= mysql_query("SELECT * FROM video_detail WHERE flv ='".$data['flv']."'");
-		$data 	= mysql_fetch_array($query);
-		
-		//Updating Users Number Of  Videos Added By User
-		$videos_query 	= mysql_query("SELECT * FROM video WHERE username='".@$data['username']."'");
-		
-		$this->DeleteOriginal($data['original']);
-		$this->DeleteFlv($data['flv']);
-		$this->DeleteThumbs($data['flv']);
-		mysql_query("DELETE FROM video_detail WHERE flv='".$data['flv']."'");
-		
-		$videoscount	= mysql_num_rows($videos_query);
-		$updatequery 	= mysql_query("UPDATE users SET total_videos='".$videoscount."' WHERE username = '".@$username."'");
-	}
-
-	//Function Delete Video
+	//Function used to Delete Video
 	
 	function DeleteVideo($videoid){
-	global $LANG,$stats;
-	$this->DeleteVideoFiles($videoid);
-	$this->DeleteFlag($videoid);
-	$this->RemoveFavourite($videoid,NULL,2);
-	mysql_query("DELETE FROM video WHERE videoid='".$videoid ."'");
-	$msg = e($LANG['class_vdo_del_msg'],m);
-	$stats->UpdateVideoRecord(2);
-	return $msg;
-	}
-	
-	//Function Used to Make Video Featured
-	
-	function MakeFeaturedVideo($videoid){
 		global $cbvid;
-		return $cbvid->action('feature',$videoid);
+		return $cbvid->delete_video($videoid);
 	}
-	
-	//Function Used to Make Video UnFeatured
-	
-	function MakeUnFeaturedVideo($videoid){
-		global $cbvid;
-		return $cbvid->action('unfeature',$videoid);
-	}
-	
-	//Function Used to Activate Vide
-	
-	function ActivateVideo($videoid){
-		global $cbvid;
-		return $cbvid->action('activate',$videoid);
-	}
-	
-	//Function Used to Deactivate Video
-	
-	function DeActivateVideo($videoid){
-		global $cbvid;
-		return $cbvid->action('deactivate',$videoid);
-	}
+
+	//Video Actions - All Moved to video.class.php	
+	function MakeFeaturedVideo($videoid){global $cbvid;return $cbvid->action('feature',$videoid);}
+	function MakeUnFeaturedVideo($videoid){global $cbvid;return $cbvid->action('unfeature',$videoid);}
+	function ActivateVideo($videoid){global $cbvid;return $cbvid->action('activate',$videoid);}
+	function DeActivateVideo($videoid){global $cbvid;return $cbvid->action('deactivate',$videoid);}
 	
 	
 	/**
@@ -215,228 +119,13 @@ class myquery {
 	 * from video table
 	 * @param INPUT vid or videokey
 	 */
-	function get_video_details($vid)
-	{
-		global $cbvid;
-		return $cbvid->get_video($vid);
-	}	
-	function GetVideoDetails($video){
-		return $this->get_video_details($video);
-	}
-	
-	
-	//Function Used To Update Video Details
-	
-	function UpdateVideo($video){
-	global $LANG,$Upload;
+	function get_video_details($vid){global $cbvid;return $cbvid->get_video($vid);}	
+	function GetVideoDetails($video){return $this->get_video_details($video);}
+	function GetVideDetails($video){return $this->get_video_details($video);}
 
-				$title 			= mysql_clean($_POST['title']);
-				$description 	= mysql_clean($_POST['description']);
-				$tags 			= mysql_clean($_POST['tags']);
-				$broadcast 		= $_POST['broadcast'];
-				$comments		= $_POST['comments'];
-				$comment_voting	= $_POST['comment_voting'];
-				$rating			= $_POST['rating'];
-				$embedding		= $_POST['embedding'];
-				$country		= mysql_clean($_POST['country']);
-				$location		= mysql_clean($_POST['location']);
-				
-				if(!empty($_POST['year']) && !empty($_POST['day']) && !empty($_POST['month'])){
-				$date			= $_POST['year'].'-'.$_POST['month'].'-'.$_POST['day'];
-				}
-				
-				$sql = mysql_query("SELECT * from category");
-				$total_categories = mysql_num_rows($sql);
-		
-				for($id=0;$id<=$total_categories;$id++){
-				@$category = $_POST['category'][$id];
-					if(!empty($category)){
-					$selected[] = $category ;
-					}
-				}
-				$category01		= $selected[0];
-				@$category02		= $selected[1];
-				@$category03		= $selected[2];
-				
-				//If Video Is Updated via Admin Panel
-				if($_POST['admin']=='true'){
-					if(!empty($_POST['duration'])){
-					$add_query = ",duration='".$_POST['duration']."'";
-					}
-					if(!empty($_POST['embed_code'])){
-					$embedCode = $Upload->CleanEmbedCode($_POST['embed_code']);
-					$add_query .= ",embed_code='".$embedCode."'";
-					}
-					if(!empty($_POST['flv_file_url'])){
-					$file_url = mysql_clean($_POST['flv_file_url']);
-					$add_query .= ",flv_file_url='".$file_url."'";
-					}
-					if(!empty($_POST['embeded'])){
-					$add_query .= ",embeded='".$_POST['embeded']."'";
-					}
-					$add_query .= ",status='".$_POST['status']."'";
-					
-					//Stats Update
-					//Views
-					$views = $_POST['views'];
-					if(is_numeric($views) && $views > 0)
-						$add_query .= ",views='".$views."'";
-					//Rating
-					$Totalrating = $_POST['Totalrating'];
-					if(is_numeric($Totalrating)){
-						$Totalrating = $Totalrating <=10 ? $Totalrating : '10';
-						$Totalrating = $Totalrating >=0 ? $Totalrating : '0';
-						$add_query .= ",rating='".$Totalrating."'";
-					}
-					//RatedBy
-					$rated_by = $_POST['rated_by'];
-					if(is_numeric($rated_by) && $rated_by> 0)
-						$add_query .= ",rated_by='".$rated_by."'";
-				}
-				
-				mysql_query("UPDATE video SET
-				title 				= '".$title."',
-				description 		= '".$description."',
-				tags 				= '".$tags."',
-				broadcast 			= '".$broadcast."',
-				allow_comments 		= '".$comments."',
-				comment_voting 		= '".$comment_voting."',
-				allow_rating 		= '".$rating."',
-				allow_embedding 	= '".$embedding."',
-				country				= '".$country."',
-				location			= '".$location."',
-				category01			= '".$category01."',
-				category02			= '".$category02."',
-				category03			= '".$category03."',
-				datecreated			= '".@$date."'
-				$add_query
-				WHERE videoid = '".$video."'") or die(mysql_error());
-			
-				$msg = e($LANG['class_vdo_update_msg'],m);
-				return $msg;
-		}
-		
-	//Function Used To Check Video Exists or No
-	
-	function CheckVideoExists($videokey){
-	global $LANG;
-	$query = mysql_query("SELECT * FROM video WHERE videokey ='".$videokey."'");
-	if(mysql_num_rows($query)>0){
-		return true;
-		}else{
-		return false;
-		}
-	}
-	
-	//Function Used To Get Video Details VIA video Key
-	
-	function GetVideDetails($vkey){
-	global $LANG,$Cbucket;
-		$query = mysql_query("SELECT * FROM video WHERE videokey = '".$vkey."' ");
-		$data = mysql_fetch_array($query);
-		return $data;
-		}
 	
 	//Function Used To Update Videos Views
-	
-	function UpdateVideoViews($vkey){
-	global $LANG,$stats;
-		$data=$this->GetVideDetails($vkey);
-		if(!isset($_COOKIE['video_'.$vkey])){
-			$views = $data['views'] + 1;
-			mysql_query("UPDATE video SET views = '".$views."',last_viewed=now() WHERE videokey = '".$vkey."'");
-			$stats->UpdateVideoRecord(5);
-			setcookie('video_'.$vkey,'watched',time()+3600);
-		 	}
-		}
-		
-	//Function Used To Get Category Details
-	
-	function GetCategory($category,$attr=NULL){
-	global $LANG;
-		$query = mysql_query("SELECT * FROM category WHERE categoryid='".$category."'");
-		$data = mysql_fetch_array($query);
-		if(empty($attr)){
-		return $data;
-		}else{
-		return $data[$attr];
-		}
-	}
-	
-	//Function Used To Get Duration
-	
-	function GetVideoDetail($flv){
-	global $LANG;
-		$query = mysql_query("SELECT * FROM video_detail WHERE flv='".$flv."'");
-		$data = mysql_fetch_array($query);
-		return $data;
-	}
-	
-	//Function Used To Rate Video
-	
-	function RateVideo($videoid,$userid,$rating){
-	global $LANG;
-	
-		$query = mysql_query("select rated_by,rating,voter_ids from video where videoid='".$videoid."'");
-		$data = mysql_fetch_array($query);
-		$voter_id = $data['voter_ids'];
-		
-				$niddle = "|";
-				$niddle .= $userid;
-				$niddle .= "|";
-				$flag = strstr($voter_id, $niddle);
-				
-				if(empty($flag)){
-					if ($voter_id == "")
-					{
-							$voter_id .= "|";
-					}
-					$voter_id .= $userid;
-					$voter_id .= "|";
-					$t = $data['rated_by'] * $data['rating'];
-					$newrby = ($data['rated_by'] + 1);
-					$newrate = ($t + $rating) / $newrby;
-					mysql_query("UPDATE  video set
-									rated_by='".$newrby."',
-									rating='".$newrate."',
-									voter_ids='".$voter_id."' 
-									WHERE videoid='".$videoid."'");
-					$details=$this->GetVideoDetails($videoid);
-					
-					$msg = round(($details['rating']/2)*20,2);
-					}else{
-					$msg = "already_voted";
-					}
-			return $msg;
-		}
-	
-	//Function Used To Add Comment
-	
-	function AddComment($videoid,$comment,$replyto=0){
-	global $row,$LANG,$stats;
-    if($row['user_comment_opt1'] == 'yes')
-    {
-			if(empty($_SESSION['username'])){
-				$msg[] = e($LANG['class_comment_err']);
-			}else{
-			if(empty($comment)){
-				$msg[] = e($LANG['class_comment_err1']);
-				}
-			}
-			if(empty($msg)){
-				mysql_query("INSERT into video_comments(comment,username,videoid,date_added,reply_to,scorer_ids)VALUES('".$comment."','".$_SESSION['username']."','".$videoid."',now(),'".$replyto."','|".$_SESSION['userid']."|')");
-                mysql_query("UPDATE video SET comments_count=comments_count+1 WHERE videoid = '".$videoid."'") or die(mysql_error());
-				$msg[] = e($LANG['class_comment_msg'],m);
-				$stats->UpdateVideoRecord(3);
-			}
-     }
-     else
-     {
-     $msg[] = "Comments Disabled";
-     }
-		return $msg;
-		}
-	
+	function UpdateVideoViews($vkey){increment_views($vkey,'video');}
 	
 	
 	/**
@@ -482,15 +171,8 @@ class myquery {
 			e($LANG['no_comment_del_perm']);
 		}
 	}
+	function DeleteComment($id,$videoid){return $this->delete_comment($videoid);}
 	
-	
-	//function used to delete comment
-	function DeleteComment($id,$videoid){
-	global $LANG,$stats;
-		mysql_query("DELETE FROM video_comments WHERE comment_id = '".$id."' OR reply_to='".$id."'");
-        mysql_query("UPDATE video SET comments_count=comments_count-1 WHERE videoid = '".$videoid."'") or die(mysql_error());
-		$stats->UpdateVideoRecord(4);
-	}
 	//Function Used To Rate Comments
 	function RateComment($rate,$commentid){
 	global $LANG;
@@ -520,43 +202,7 @@ class myquery {
 			}
 		return $msg;
 		}
-				
-	//Function Used To Add Video To Favourites
-	function AddToFavourite($userid,$videoid){
-	global $LANG,$stats;
-		$query = mysql_query("SELECT * FROM video_favourites WHERE userid='".$userid."' AND videoid='".$videoid."'");
-		if(mysql_num_rows($query)>0){
-		$msg = e($LANG['class_vdo_fav_err']);
-		}else{
-		if($userid !=0){
-		mysql_query("INSERT INTO video_favourites(videoid,userid)VALUES('".$videoid."','".$userid."')");
-		$msg = e($LANG['class_vdo_fav_msg'],m);
-		$stats->UpdateVideoRecord(6);
-		}
-		}
-	return $msg;
-	}
 	
-	//Function Used To Flagg Video
-	function FlagAsInappropriate($username,$videoid){
-	global $LANG;
-		$query = mysql_query("SELECT * FROM flagged_videos WHERE username='".$username."' AND videoid='".$videoid."'");
-		if(mysql_num_rows($query)>0){
-		$msg = e($LANG['class_vdo_flag_err']);
-		}else{
-		mysql_query("INSERT INTO flagged_videos(videoid,username)VALUES('".$videoid."','".$username."')");
-		$msg = e($LANG['class_vdo_flag_msg'],m);
-		}
-	return $msg;
-	}
-	
-	//Function Delete Flag
-	function DeleteFlag($videoid){
-	global $LANG;
-		mysql_query("DELETE FROM flagged_videos where videoid='".$videoid."'");
-		return e($LANG['class_vdo_flag_rm'],m);
-	}
-		
 	//Function Used To Share Videos
 	function ShareVideo($username,$videoid,$message,$emails){
 	global $LANG;

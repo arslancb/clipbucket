@@ -380,13 +380,7 @@ class signup {
 	//Validate Email
 	
 	function isValidEmail($email){
-      $pattern = "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$";
-      if (eregi($pattern, $email)){
-         return true;
-      }
-      else {
-         return false;
-      }   
+      return isValidEmail($email);
    }
 	
 	//Validate Username

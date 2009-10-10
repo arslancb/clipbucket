@@ -24,17 +24,20 @@ if(!function_exists('hdflvplayer'))
 		$vdata = $data['vdetails'];
 		global $swfobj;
 		
+		
 		$vid_file = get_video_file($vdata,$no_video,false);
 		if($vid_file)
 		{
 			$swfobj->playerFile = PLAYER_URL.'/hd_flv_player/hdplayer.swf';
 			$swfobj->FlashObj();
 			//Writing Param
-			$swfobj->addParam('allowfullscreen','true');
-			$swfobj->addParam('allowscriptaccess','always');	
-			$swfobj->addParam('flashvars','playlistXML=http://localhost/clipbucket/2.x/2/upload/player/hd_flv_player/xml/playlist.xml');
 			
-			$swfobj->addVar('file',BASEURL.'/files/videos/'.$vid_file);
+			$swfobj->addParam('allowfullscreen','true');
+			$swfobj->addParam('allowscriptaccess','always');
+			if($data['hq'])
+				$swfobj->addParam('flashvars',"playlistXML=http://clipbucket.net/v2/player/hd_flv_player/settings.php?hqid=".$vdata['videoid']);
+			else
+				$swfobj->addParam('flashvars',"playlistXML=http://clipbucket.net/v2/player/hd_flv_player/settings.php?vid=".$vdata['videoid']);
 
 			$swfobj->CreatePlayer();
 			return $swfobj->code;

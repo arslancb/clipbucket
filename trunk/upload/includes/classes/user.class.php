@@ -1158,7 +1158,7 @@ class userquery {
 	function get_user_field($uid,$field)
 	{
 		global $db;
-		$results = $db->select('users',$field,"userid='$uid'");
+		$results = $db->select('users',$field,"userid='$uid' OR username='$uid'");
 		
 		if($db->num_rows>0)
 		{
@@ -1438,7 +1438,7 @@ class userquery {
 	 */
 	function get_logged_username()
 	{
-		return $this->get_user_fields(user_id(),'username');
+		return $this->get_user_field_only(user_id(),'username');
 	}
 	
 	/**

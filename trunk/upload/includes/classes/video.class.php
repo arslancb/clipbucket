@@ -19,6 +19,8 @@
 class CBvideo extends CBCategory
 {
 	var $embed_func_list = array(); //Function list that are applied while asking for video embed code
+	var $action = ''; // variable used to call action class
+	var $email_template_vars = array();
 	
 	/**
 	 * __Constructor of CBVideo
@@ -27,6 +29,7 @@ class CBvideo extends CBCategory
 	{
 		$this->cat_tbl = 'video_categories';
 		$this->section_tbl = 'video';
+		$this->init_actions();
 	}
 	
 	
@@ -389,7 +392,42 @@ class CBvideo extends CBCategory
 		return $embed_code;
 		
 	}
-
+	
+	
+	/**
+	 * Function used to initialize action class
+	 * in order to call actions.class.php to
+	 * work with Video section, this function will be called first
+	 */
+	function init_actions()
+	{
+		$this->action = new cbactions();
+		$this->action->type = 'v';
+		$this->action->name = 'video';
+		$this->action->obj_class = 'cbvideo';
+		$this->actions->check_func = 'video_exists';
+	}
+	
+	
+		
+	/**
+	 * Function used to create value array for email templates
+	 * @param video_details ARRAY
+	 */
+	function set_share_email($details)
+	{
+		$this->email_template_vars = array
+		('{video_title}' => $details['title'],
+		 '{video_description}' => $details['tags'],
+		 '{video_tags}' => $details['description'],
+		 '{video_date}' => cbdate(DATE_FORMAT,strtotime($details['date_added'])),
+		 '{video_link}' => video_link($details),
+		 '{video_thumb}'=> GetThumb($details)
+		 );
+		
+		$this->action->share_template_name = 'share_video_template';
+		$this->action->val_array = $this->email_template_vars;
+	}
 	
 }
 ?>
