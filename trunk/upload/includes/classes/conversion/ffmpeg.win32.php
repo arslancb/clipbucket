@@ -94,7 +94,6 @@ class ffmpeg
 		$p = $this->configs;
 		$i = $this->input_details;
 		
-		echo test;
 		
 		# Prepare the ffmpeg command to execute
 		if(isset($p['extra_options']))
@@ -175,30 +174,11 @@ class ffmpeg
 		}
 		
 		$opt_av .= " -map_meta_data ".$this->output_file.":".$this->input_file;
-		
-		if($this->h264_single_pass)
-		{
-			//Before Converting video to HQ , we must check weather
-			// ITS Hq Or Not
-			
-			$command = $this->ffmpeg." -i ".$this->input_file." -acodec libfaac -ab 96k -vcodec libx264 -vpre hq -crf 22 -threads 0 ".$this->hq_output_file."  2> ".TEMP_DIR."/output.tmp ";	
-			$output = $this->exec($command);
-			if(file_exists(TEMP_DIR.'/output.tmp'))
-			{
-				$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
-				unlink(TEMP_DIR.'/output.tmp');
-			}
-			
-			$this->log('HQ Video -- Conversion Command',$command);
-			$this->log .="\r\n\r\nConversion Details\r\n\r\n";
-			$this->log .=$output;
-			$this->log .= "\r\n\r\n\n=========ENDING HQ CONVERSION==============\n\n";
-		}
 	
 		$command = $this->ffmpeg." -i ".$this->input_file." $opt_av ".$this->output_file."  2> ".TEMP_DIR."/output.tmp ";
 		
 		//Updating DB
-		$db->update($this->tbl,array('command_used'),array($command)," id = '".$this->row_id."'");
+		//$db->update($this->tbl,array('command_used'),array($command)," id = '".$this->row_id."'");
 		
 		$output = $this->exec($command);
 		if(file_exists(TEMP_DIR.'/output.tmp'))
@@ -385,11 +365,11 @@ class ffmpeg
 	/**
 	 * Function used to update data of
 	 */
-	function update_data()
+	function update_data($conv_only=false)
 	{
 		global $db;
 		//Insert Info into database
-		if(is_array($this->output_details))
+		if(is_array($this->output_details) && !$conv_only)
 		{
 			foreach($this->output_details as $field=>$value)
 			{
@@ -399,7 +379,10 @@ class ffmpeg
 			$fields[] = 'file_conversion_log';
 			$values[] = $this->log;
 			$db->update($this->tbl,$fields,$values," id = '".$this->row_id."'");	
-		}
+		}else
+			$fields[] = 'file_conversion_log';
+			$values[] = $this->log;
+			$db->update($this->tbl,$fields,$values," id = '".$this->row_id."'");	
 	}
 	
 	
@@ -609,7 +592,7 @@ class ffmpeg
 		$this->output_details = $this->get_file_info($this->output_file);
 		$this->log .= "\n\Time Took : ";
 		$this->log .= $this->total_time.' seconds';
-		$this->update_data();
+		//$this->update_data();
 		//Generating Thumb
 		if($this->gen_thumbs)
 			$this->generate_thumbs($this->input_file,$this->input_details['duration']);
@@ -692,6 +675,145 @@ class ffmpeg
 			}
 			return $time;
 		}
+	}
+	
+	
+	/**
+	 * Function used to convert video in HD format
+	 */
+	function convert_to_hd($input=NULL,$output=NULL,$p=NULL,$i=NULL)
+	{
+		global $db;
+		if(!$input)
+			$input = $this->input_file;
+		if(!$output)
+			$output = $this->hq_output_file;
+		if(!$p)
+			$p = $this->configs;
+		if(!$i)
+			$i = $this->input_details;
+		$convert  = false;
+		//Checkinf for HD or Not
+		$opt_av = '';
+		pr($i);
+		if(substr($i['video_wh_ratio'],0,5) == '1.777' && $i['video_width'] > '500')
+		{
+			
+			//All Possible Hd Dimensions
+			$widths = 
+			array(
+			1280,
+			1216,
+			1152,
+			1088,
+			1024,
+			960,
+			896,
+			832,
+			768,
+			704,
+			640,
+			576,
+			512,
+			);
+			$heights = 
+			array(
+			720,
+			684,
+			648,
+			612,
+			576,
+			540,
+			504,
+			468,
+			432,
+			396,
+			360,
+			324,
+			288,
+			);		
+			
+			$convert = true;
+			$type = 'HD';
+			//Checking if video is HQ then convert it in Mp4
+		}elseif($i['video_width'] > '500' && substr($i['video_wh_ratio'],0,5) != '1.777')
+		{
+			$widths = array(
+			640 ,
+			624 ,
+			608 ,
+			592 ,
+			576 ,
+			560 ,
+			544 ,
+			528 ,
+			512 ,
+			);
+			 
+			$heights = array(
+			 480,
+			 468,
+			 456,
+			 444,
+			 432,
+			 420,
+			 408,
+			 396,
+			);
+			
+			$convert = true;
+			$type = 'HQ';
+		}
+		
+		if($convert)
+		{
+			$total_dims = count($widths);
+			
+			//Checking wich dimension is suitable for the video
+			for($id=0;$id<=$total_dims;$i++)
+			{
+				$cur_dim = $widths[$id];
+				$next_dim = $widths[$id+1];
+				$iwidth  = $i['video_width'];
+				
+				if($iwidth==$cur_dim || ($iwidth>$cur_dim && $iwidth<$next_dim))
+				{
+					$key = $id;
+					$out_width = $widths[$id];
+					$out_height = $heights[$id];
+					break;
+				}
+			}
+			$out_width = $out_width ? $out_width : $widths[0];
+			$out_height = $out_height ? $out_height : $heights[0];
+			$p['video_width'   ] = $out_width ;
+			$p['video_height'  ] = $out_height;
+			$p['resize']		 = 'WxH';
+						
+			//Calculation Size Padding
+			$this->calculate_size_padding( $p, $i, $width, $height, $ratio, $pad_top, $pad_bottom, $pad_left, $pad_right );
+			$opt_av .= "-s {$width}x{$height} -aspect  $ratio -padcolor 000000 -padtop $pad_top -padbottom $pad_bottom -padleft $pad_left -padright $pad_right";
+
+			$command = $this->ffmpeg." -i ".$this->input_file." $opt_av -acodec libfaac -ab 96k -vcodec libx264 -vpre hq -crf 22 -threads 0 ".$this->hq_output_file."  2> ".TEMP_DIR."/output.tmp ";	
+			
+			$output = $this->exec($command);
+			if(file_exists(TEMP_DIR.'/output.tmp'))
+			{
+				$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
+				unlink(TEMP_DIR.'/output.tmp');
+			}
+			
+			$this->log("$type Video -- Conversion Command",$command);
+			$this->log .="\r\n\r\nConversion Details\r\n\r\n";
+			$this->log .=$output;
+			$this->log .= "\r\n\r\n\n=========ENDING $type CONVERSION==============\n\n";
+			
+			$fields = array('file_conversion_log',strtolower($type));
+			$values = array($this->log,'yes');
+			$db->update($this->tbl,$fields,$values," id = '".$this->row_id."'");
+			return true;
+		}else
+			return false;
 	}
 }
 ?>
