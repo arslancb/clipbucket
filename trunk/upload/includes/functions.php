@@ -1,17 +1,17 @@
 <?php
 
 /**
-#########################################################################################################
-# Copyright (c) 2008 - 2009 ClipBucket / PHPBucket. All Rights Reserved.
+###################################################################
+# Copyright (c) 2008 - 2009 ClipBucket / PHPBucket
 # [url]http://clip-bucket.com[/url]
 # Function:         Various
 # Author:           Arslan Hassan
 # Language:         PHP
 # License:          CBLA @ [url]http://cbla.cbdev.org/[/url]
-# Version:          1.7.x SVN
+# Version:          2
 # Last Modified:    Monday, March 23, 2009 / 01:08 AM GMT+1 (fwhite)
 # Notice:           Please maintain this section
-#########################################################################################################
+####################################################################
 */
 
  require 'define_php_links.php';
@@ -850,9 +850,17 @@
 		for($i=0;$i<$total_fields;$i++)
 		{
 			$count++;
-			$fields_query .= $flds[$i].'='.mysql_clean($vls[$i]);
+			$val = mysql_clean($vls[$i]);
+			$needle = substr($val,0,3);
+			if($needle != '|f|')
+				$fields_query .= $flds[$i]."='".$val."'";
+			else
+			{
+				$val = substr($val,3,strlen($val));
+				$fields_query .= $flds[$i]."=".$val."";
+			}
 			if($total_fields!=$count)
-				$fields_query .= ' AND ';
+				$fields_query .= ',';
 		}
 		//Complete Query
 		$query = "DELETE FROM $tbl WHERE $fields_query $ep";
@@ -902,7 +910,6 @@
 		{
 			$query_params .= $cond;
 		}
-		
 		
 		if($order)
 			$query_params .= " ORDER BY $order ";
@@ -2178,6 +2185,19 @@
 			return date($format);
 		else
 			return date($format,$timestamp);
+	}
+	
+	
+	/**
+	 * Function used to count pages
+	 * @param TOTAL RESULTS NUM
+	 * @param NUMBER OF RESULTS to DISPLAY NUM
+	 */
+	function count_pages($total,$count)
+	{
+		if($count<1) $count = 1;
+		$records = $total/$count;
+		return $total_pages = round($records+0.49,0);
 	}
 
 

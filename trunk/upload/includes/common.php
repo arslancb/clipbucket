@@ -43,6 +43,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('dbconnect.php');
 	require_once('classes/pages.class.php');
 	require_once('classes/actions.class.php');
+	require_once('classes/search.class.php');
 	require_once('classes/my_queries.class.php');
 	require_once('classes/user.class.php');
 	require_once('classes/calcdate.class.php');
@@ -65,6 +66,8 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/video.class.php');
 	require_once('classes/player.class.php');
 	require_once('classes/cbemail.class.php');
+	
+	
 	require_once 'languages.php';
 	
 	$pages 		= new pages();	
@@ -89,9 +92,9 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	$cbvideo	= $cbvid = new CBvideo();
 	$cbplayer	= new CBPlayer();
 	$cbemail	= new CBEmail();
+	$cbsearch	= new CBSearch();
 	
-//Initializng Userquery class
-$userquery->init();
+
 
 require 'defined_links.php';
 
@@ -99,7 +102,7 @@ require 'defined_links.php';
 	$ads_array = array();
 // Report all errors
 
-define('DEBUG_LEVEL', $row['debug_level']);
+/*define('DEBUG_LEVEL', $row['debug_level']);
 if(DEBUG_LEVEL == 1)
 {
     error_reporting(E_ALL);
@@ -114,10 +117,10 @@ else
 {
  error_reporting(0);
  ini_set('display_errors', '0');
-}
+}*/
 
-error_reporting(E_ALL ^ E_NOTICE ^E_DEPRECATED);
-    ini_set('display_errors', '1');
+error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
+    //ini_set('display_errors', '1');
 
 //Website Details
 
@@ -273,7 +276,9 @@ error_reporting(E_ALL ^ E_NOTICE ^E_DEPRECATED);
 	$cbtpl = new CBTemplate();
 	$cbobjects = new CBObjects();
 	$swfobj		= new SWFObject();
-
+	//Initializng Userquery class
+	$userquery->init();
+	
 	$is_admin = $userquery->admin_check();
     if ($is_admin == 1)
     {
@@ -372,6 +377,7 @@ $Smarty->assign_by_ref('cbvid', $cbvid);
 $Smarty->assign_by_ref('cbtpl',$cbtpl);
 $Smarty->assign_by_ref('cbobjects',$cbobjects);
 $Smarty->assign_by_ref('cbplayer',$cbplayer);
+$Smarty->assign_by_ref('cbsearch',$cbsearch);
 
 /*
 REGISERTING FUNCTION FOR SMARTY TEMPLATES
@@ -406,8 +412,13 @@ $Smarty->register_modifier('get_thumb_num','get_thumb_num');
 $Smarty->register_modifier('ad','ad');
 
 
+/**
+ * Initializing Search
+ */
+		$cbvideo->init_search();
+
 /*
- * 
+ * 123465798
  */
 register_action_remove_video('remove_video_thumbs');
 register_action_remove_video('remove_video_log');

@@ -405,7 +405,7 @@ class CBvideo extends CBCategory
 		$this->action->type = 'v';
 		$this->action->name = 'video';
 		$this->action->obj_class = 'cbvideo';
-		$this->actions->check_func = 'video_exists';
+		$this->action->check_func = 'video_exists';
 	}
 	
 	
@@ -427,6 +427,86 @@ class CBvideo extends CBCategory
 		
 		$this->action->share_template_name = 'share_video_template';
 		$this->action->val_array = $this->email_template_vars;
+	}
+	
+	
+	/**
+	 * Function used to use to initialize search object for video section
+	 * op=>operator (AND OR)
+	 */
+	function init_search()
+	{
+		$this->search = new cbsearch;
+		$this->search->db_tbl = "video";
+		$this->search->columns =array(
+			array('field'=>'title','type'=>'LIKE','var'=>'%{KEY}%'),
+			array('field'=>'tags','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR')
+		);
+		$this->search->cat_tbl = $this->cat_tbl;
+		
+		/**
+		 * Setting up the sorting thing
+		 */
+		
+		$sorting	= 	array(
+						'date_added'=> lang("date_added"),
+						'views'		=> lang("views"),
+						'comments'  => lang("comments"),
+						'rating' 	=> lang("rating"),
+						'favorites'	=> lang("favorites")
+						);
+		
+		$this->search->sorting	= array(
+						'date_added'=> " date_added DESC",
+						'views'		=> " views DESC",
+						'comments'  => " comments_count DESC ",
+						'rating' 	=> " rating DESC",
+						'favorites'	=> " favorites DeSC"
+						);
+		/**
+		 * Setting Up The Search Fields
+		 */
+		 
+		$default = $_GET;
+		if(is_array($default['category']))
+			$cat_array = array($default['category']);		
+		$uploaded = $default['datemargin'];
+		$sort = $default['sort'];
+		
+		$this->search->search_type['video'] = array('title'=>'Video');
+		$fields = array(
+		'keyword'	=> array(
+						'title'=> lang('keywords'),
+						'type'=> 'textfield',
+						'name'=> 'keywords',
+						'id'=> 'keywords',
+						'value'=>cleanForm($default['keywords'])
+						),
+		'category'	=>  array(
+						'title'		=> lang('vdo_cat'),
+						'type'		=> 'checkbox',
+						'name'		=> 'category[]',
+						'id'		=> 'category',
+						'value'		=> array('category',$cat_array),
+						),
+		'uploaded'	=>  array(
+						'title'		=> lang('uploaded'),
+						'type'		=> 'dropdown',
+						'name'		=> 'datemargin',
+						'id'		=> 'datemargin',
+						'value'		=> $this->search->date_margins(),
+						'checked'	=> $uploaded,
+						),
+		'sort'		=> array(
+						'title'		=> lang('sort_by'),
+						'type'		=> 'dropdown',
+						'name'		=> 'sort',
+						'value'		=> $sorting,
+						'checked'	=> $sort
+							)
+		);
+
+		$this->search->search_type['video']['fields'] = $fields;
 	}
 	
 }

@@ -29,16 +29,6 @@ if(isset($_POST['login'])){
 	$username = $_POST['username'];
 	$username = mysql_clean(clean($username));
 	$password = mysql_clean(clean($_POST['password']));
-	/*if($userquery->userlogin($username,$password)=='loggedin'){
-	redirect_to(BASEURL.login_success);
-	}else{
-		$error = $userquery->userlogin($username,$password);
-			if($error == 'banned'){
-				$msg = $LANG['usr_ban_err'];
-			}else{
-			$msg= $LANG['usr_login_err'];
-			}
-	}*/
 	if($userquery->login_user($username,$password))
 		redirect_to(BASEURL.login_success);
 	
@@ -51,11 +41,8 @@ if(!isset($_POST['login']) && !isset($_POST['signup'])){
 	}
 }
 
-
-@Assign('msg',$msg);
-Template('header.html');
-Template('message.html');
-if($signup->Registration())
-Template('signup.html');
-Template('footer.html');
+if($signup->Registration());
+//Displaying The Template
+template_files('signup.html');
+display_it()
 ?>

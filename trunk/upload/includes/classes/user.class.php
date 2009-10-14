@@ -21,6 +21,12 @@ class userquery {
 	var $permissions = '';
 	var $access_type_list = array(); //Access list
 	
+	var $dbtbl = array(
+					   'user_permission_type'	=> 'user_permission_types',
+					   'user_permissions'		=> 'user_permissions',
+					   'user_level_permission'	=> 'user_levels_permissions',
+					   );
+	
 	function init()
 	{
 		global $sess;
@@ -29,11 +35,18 @@ class userquery {
 		$this->level = $sess->get('level');
 		
 		
+		
 		//Setting Access
-		$this->add_access_type('admin_access','Admin Access');
+		//Get list Of permission
+		$perms = $this->get_permissions();
+		foreach($perms as $perm)
+		{
+			$this->add_access_type($perm['permission_code'],$perm['permission_name']);
+		}
+		/*$this->add_access_type('admin_access','Admin Access');
 		$this->add_access_type('upload_access','Upload Access');
 		$this->add_access_type('channel_access','Channel Access');
-		$this->add_access_type('mod_access','Moderator Access');
+		$this->add_access_type('mod_access','Moderator Access');*/
 	
 	}
 	
@@ -92,6 +105,9 @@ class userquery {
 			$log_array['success'] = 1;
 			
 			$log_array['level'] = $level  = $udetails['level'];
+			
+			//Adding Sessing In Database 
+			//$sess->add_session($userid,'logged_in');
 			
 			$sess->set('username',$username);
 			$sess->set('level',$level);
@@ -372,14 +388,14 @@ class userquery {
 		
 	//This Function Is Used to Logout
 	function logout($page='login.php'){
-	setcookie('username','',time()-3600,'/');
-	setcookie('userid','',time()-3600,'/');
-	setcookie('session','',time()-3600,'/');
-	session_unregister('username');
-	session_unregister('superadmin');
-	session_unregister('userid');
-    session_destroy();
-	redirect_to($page);
+		global $sess;
+
+		$sess->un_set('username');
+		$sess->un_set('level');
+		$sess->un_set('userid');
+		$sess->un_set('user_session_key');
+		$sess->un_set('user_session_code');
+		//$sess->remove_session(userid());
 	}
 	
 	//List All Users
@@ -1449,6 +1465,109 @@ class userquery {
 		if(!is_array($udetails) && is_numeric($udetails))
 			$udetails = $this->get_user_details($udetails);
 		return BASEURL.'/view_profile.php?uid='.$udetails['userid'];
+	}
+	
+	
+	/**
+	 * Function used to get permission types
+	 */
+	function get_level_types()
+	{
+		global $db;
+		return $db->select($this->dbtbl['user_permission_type'],"*");
+	}
+	
+	/**
+	 * Function used to check weather level type exists or not
+	 */
+	function level_type_exists($id)
+	{
+		global $db;
+		$result = $db->select($this->dbtbl['user_permission_type'],"*"," user_permission_type_id='".$id."' OR user_permission_type_name='$id'");
+		if($db->num_rows>0)
+			return $result[0];
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to add new permission
+	 */
+	function add_new_permission($array)
+	{
+		global $db;
+		if(empty($array['code']))
+			e("Permission code is empty");
+		elseif(empty($array['name']))
+			e("Permission name is empty");
+		elseif($this->permission_exists($array['code']))
+			e("Permission already exists");
+		elseif(!$this->level_type_exists($array['type']))
+			e("Permission type is not valid");
+		else
+		{
+			$type = $this->level_type_exists($array['type']);
+			$typeid = $type['user_permission_type_id'];
+			$code = mysql_clean($array['code']);
+			$name = mysql_clean($array['name']);
+			$desc = mysql_clean($array['desc']);
+			$default = mysql_clean($array['default']);
+			$default = $default ? $default : "yes";
+			$db->insert($this->dbtbl['user_permissions'],
+						array('permission_type','permission_code','permission_name','permission_desc','permission_default'),
+						array($typeid,$code,$name,$desc,$default));
+			$db->execute("ALTER TABLE `".$this->dbtbl['user_level_permission']."` ADD `".$code."` ENUM( 'yes', 'no' ) NOT NULL DEFAULT '".$default."'");
+			e("New Permission has been added","m");
+		}
+	}
+	
+	/**
+	 * Function used to check permission exists or not
+	 * @Param permission code
+	 */
+	function permission_exists($code)
+	{
+		global $db;
+		$result = $db->select($this->dbtbl['user_permissions'],"*"," permission_code='".$code."' OR permission_id='".$code."'");
+		if($db->num_rows>0)
+			return $result[0];
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to get permissions
+	 */
+	function get_permissions($type=NULL)
+	{
+		global $db;
+		if($type)
+			$cond = " permission_type ='$type'";
+		$result = $db->select($this->dbtbl['user_permissions'],"*",$cond);
+		if($db->num_rows>0)
+		{
+			return $result;
+		}else
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * Function used to remove Permission
+	 */
+	function remove_permission($id)
+	{
+		global $db;
+		$permission = $this->permission_exists($id);
+		if($permission)
+		{
+			$field = $permission['permission_code'];
+			$db->delete($this->dbtbl['user_permissions'],array("permission_id"),array($id));
+			$db->execute("ALTER TABLE `".$this->dbtbl['user_level_permission']."` DROP `".$field."` ");
+			e("Permission has been delete","m");
+		}else
+			e("Permission does not exist");
 	}
 }
 ?>

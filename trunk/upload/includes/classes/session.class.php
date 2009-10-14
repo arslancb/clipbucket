@@ -21,48 +21,48 @@ class Session
 	
 	/**
 	 * Function used to add session
-	 
+	 */
 	
 	function add_session($user,$name,$value=false)
 	{
 		global $db;
 		if(!$value)
-			$value = $this->session;
+			$value = $this->id;
 		$this->get_user_session($user,$name);
 		if($db->num_rows>0)
-		$db->delete($this->tbl,'session_string',$name);
-		$db->insert($this->tbl,'session_user,session_string,session_value',"$user,$name,$value");
+		$db->delete($this->tbl,array('session_string'),array($name));
+		$db->insert($this->tbl,array('session_user','session_string','session_value'),array($user,$name,$value));
 		//Finally Registering session
 		$this->session_register($name);
 		$this->session_val($name,$value);
 	}
-	*/
+	
 	
 	
 	/**
 	 * Function is used to get session
-	
+	 */
 	function get_user_session($user,$session_name=false)
 	{
 		global $db;
 		if($session_name)
-			$session_cond = " session_string='".mysql_val($session_name)."'";
+			$session_cond = " session_string='".mysql_clean($session_name)."'";
 		$results = $db->select($this->tbl,'*',$session_cond);
 		return $results;
 	}
-	 */
+	
 	 
 	 
 	/**
 	 * Function used to get current user session, if any
-	 
+	 */
 	function get_current_session($session_string)
 	{
 		global $db;
 		$results = $db->select($this->tbl,'*'," session_string='logged_in' AND session_value='".$this->session."'");
 		return $results[0];
 	}
-	*/
+	
 	
 	
 	/**
@@ -97,7 +97,7 @@ class Session
 	function remove_session($user,$name)
 	{
 		global $db;
-		$db->delete('sessions'," session_user,session_string","$user,$name");
+		$db->delete('sessions',array("session_user","session_string"),array($user,$name));
 		$_SESSION[$name] = '';
 		$this->session_unregister($name);
 	}
@@ -113,6 +113,18 @@ class Session
 	function set($name,$val)
 	{
 		$this->set_session($name,$val);
+	}
+	
+	/**
+	 * Function used to remove session value
+	 */
+	function unset_session($name)
+	{
+		unset($_SESSION[$name]);
+	}
+	function un_set($name)
+	{
+		return $this->unset_session($name);
 	}
 	
 	/**
