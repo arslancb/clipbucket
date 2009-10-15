@@ -16,5 +16,5 @@ $value = $_POST['value'];
 
 $lang_obj->update_phrase($phrase_id,$value);
 
-echo mysql_clean($value);
+echo ($value);
 ?>

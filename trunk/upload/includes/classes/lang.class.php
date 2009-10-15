@@ -87,7 +87,7 @@ class language
 		global $db;
 		//First checking if phrase already exists or not
 		if($this->get_phrase($id,$lang_code))
-			$db->update("phrases",array('text'),array($text)," id = '".mysql_clean($id)."' ");
+			$db->update("phrases",array('text'),array(mysql_real_escape_string($text))," id = '".mysql_real_escape_string($id)."' ");
 	}
 	
 	/**

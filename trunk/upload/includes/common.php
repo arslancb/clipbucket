@@ -351,7 +351,8 @@ require('modules.php');
 if(user_id())
 {
 	$userquery->permission = $userquery->get_user_level(userid());
-}	
+}else
+	$userquery->permission = $userquery->get_user_level(4,TRUE);
 
 //Checking Website Template
 $Cbucket->set_the_template();

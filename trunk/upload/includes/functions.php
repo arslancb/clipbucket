@@ -813,7 +813,8 @@
 		for($i=0;$i<$total_fields;$i++)
 		{
 			$count++;
-			$val = mysql_clean($vls[$i]);
+			//$val = mysql_clean($vls[$i]);
+			$val = ($vls[$i]);
 			$needle = substr($val,0,3);
 			if($needle != '|f|')
 				$fields_query .= $flds[$i]."='".$val."'";
@@ -1672,7 +1673,8 @@
 		{
 			if(file_exists(LAYOUT.'/'.$file))
 			{
-				$new_list[] = $file;
+				if($ClipBucket->show_page)
+					$new_list[] = $file;
 			}
 		}
 		
@@ -1885,7 +1887,7 @@
 	/**
 	 * Function used to assign link
 	 */
-	function cblink($params,&$Smarty)
+	function cblink($params,&$Smarty=NULL)
 	{
 		global $ClipBucket;
 		$name = $params['name'];

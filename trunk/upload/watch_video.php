@@ -9,6 +9,7 @@
 
 define("THIS_PAGE",'watch_video');
 require 'includes/config.inc.php';
+$userquery->perm_check('view_video',true);
 
 $pages->page_redir();
 

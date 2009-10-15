@@ -57,7 +57,7 @@ switch($mode)
 		{
 			$array = $_POST;
 			if($userquery->add_user_level($array))
-				redirect_to('user_levels.php');
+				redirect_to('user_levels.php?added=true');
 		}
 		Assign('view','add');
 	}

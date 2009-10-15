@@ -188,10 +188,10 @@ class userquery {
 		//Now user have passed all the stages, now checking if user has level access or not
 		elseif($access)
 		{
-			$access_details = $this->get_user_level(userid());
+			//$access_details = $this->get_user_level(userid());
+			$access_details = $this->permission;
 			if(is_numeric($access))
 			{
-				$access_details = $this->get_user_level(userid());
 				if($access_details['level_id'] == $access)
 				{
 					return true;
@@ -1199,12 +1199,18 @@ class userquery {
 	 * Function used to get user level and its details
 	 * @param INT userid
 	 */
-	function get_user_level($uid)
+	function get_user_level($uid,$is_level=false)
 	{
 		global $db;
-		if(!$uid)
-			$uid = userid();
-		$level = $this->get_user_field($uid,'level');
+		if($is_level)
+			$level['level'] = $uid;
+		else
+		{
+			if(!$uid)
+				$uid = userid();
+			$level = $this->get_user_field($uid,'level');
+		}
+		
 		$results = $db->select('user_levels','*'," user_level_id='".$level['level']."'");
 		if($db->num_rows == 0)
 		 //incase user level is not valid, it will consider it as registered user
@@ -1231,7 +1237,7 @@ class userquery {
 	function get_levels($filter=NULL)
 	{
 		global $db;
-		$results = $db->select("user_levels","*");
+		$results = $db->select("user_levels","*",NULL,NULL," user_level_id ASC" );
 		if($db->num_rows > 0)
 		{
 			return $results;
@@ -1302,7 +1308,8 @@ class userquery {
 				$fields_array[] = $access;
 				$value_array[] = $array[$access] ? $array[$access] : 'no';
 			}
-			$db->insert("user_levels_permissions",$fields_array,$value_array);						
+			$db->insert("user_levels_permissions",$fields_array,$value_array);		
+			return true;
 		}
 	}
 	
@@ -1398,8 +1405,8 @@ class userquery {
 			//CHeck if leve is deleteable or not
 			if($level_details['user_level_is_default']=='no')
 			{
-				$db->delete("user_levels",array("user_level_id"),$id);
-				$db->delete("user_levels_permissions",array("user_level_id"),$id);
+				$db->delete("user_levels",array("user_level_id"),array($id));
+				$db->delete("user_levels_permissions",array("user_level_id"),array($id));
 				e("User level has been deleted, 
 				  all users of this level has been transfered to '".$de_level['user_level_name']."' ");
 				
@@ -1568,6 +1575,56 @@ class userquery {
 			e("Permission has been delete","m");
 		}else
 			e("Permission does not exist");
+	}
+	
+	
+	/**
+	 * Function used to check weather current user has permission
+	 * to view page or not
+	 * it will also check weather current page requires login 
+	 * if login is required, user will be redirected to signup page
+	 */
+	function perm_check($access='',$check_login=FALSE)
+	{
+		global $Cbucket;
+		/*if($check_login)
+		{
+			return $this->login_check($access);
+		}else
+		{*/
+			$access_details = $this->permission;
+			if(is_numeric($access))
+			{
+				if($access_details['level_id'] == $access)
+				{
+					return true;
+				}else{
+					if(!$check_only)
+					e($LANG['insufficient_privileges']);
+					$Cbucket->show_page(false);
+					return false;
+				}
+			}else
+			{
+				if($access_details[$access] == 'yes')
+				{
+					return true;
+				}
+				else
+				{
+					if(!$check_login)
+						e(lang('insufficient_privileges'));
+					else
+					{	if(userid())
+							e(lang('insufficient_privileges'));
+						else
+							e(sprintf(lang('insufficient_privileges_loggin'),cblink(array('name'=>'signup')),cblink(array('name'=>'signup'))));
+					}
+					$Cbucket->show_page(false);
+					return false;
+				}
+			}
+		//}
 	}
 }
 ?>
