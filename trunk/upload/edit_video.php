@@ -1,60 +1,41 @@
 <?php
 /* 
  ****************************************************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.											|
- | @ Author : ArslanHassan																			|
- | @ Software : ClipBucket , © PHPBucket.com														|
+ | Copyright (c) 2007-2009 Clip-Bucket.com. All rights reserved.											|
+ | @ Author	   : ArslanHassan																		|
+ | @ Software  : ClipBucket , © PHPBucket.com														|
  ****************************************************************************************************
 */
-require_once('includes/config.inc.php');
+require 'includes/config.inc.php';
 $userquery->logincheck();
-$pages->page_redir();
-$user	= $_SESSION['username'];
+$udetails = $userquery->get_user_details(userid());
+assign('user',$udetails);
+assign('p',$userquery->get_user_profile($udetails['userid']));
 
-$videoid = $_REQUEST['videoid'];
+$vid = mysql_clean($_GET['vid']);
+//get video details
+$vdetails = $cbvid->get_video_details($vid);
 
-if($userquery->CheckVideoOwner($videoid,$user) == 1 || $is_admin == 1)
+if($vdetails['userid'] != userid())
 {
-//Getting Video Id
-
-		if($myquery->VideoExists($videoid)){
-			//Updating Video
-			if(isset($_POST['update'])){
-					$msg = $Upload->ValidateUploadForm();
-					if(empty($msg)){
-					$msg = $myquery->UpdateVideo($videoid);
-					}
-			}
-				
-		$data = $myquery->GetVideoDetails($videoid);
-		//Assigning Thumbs 
-		$data['thumb1'] = GetThumb($data['flv'],1);
-		$data['thumb2'] = GetThumb($data['flv'],2);
-		$data['thumb3'] = GetThumb($data['flv'],3);
-		$data['url'] 	= VideoLink($data['videokey'],$data['title']);
-		Assign('data',$data);
-		Assign('country',$signup->country());
-		}else{
-		$msg = $LANG['class_vdo_del_err'];
-		Assign('show_form','no');
-		}
-
-	//Assigning Category List
-	$sql = "SELECT * from category";
-	$rs = $db->Execute($sql);
-	$total_categories = $rs->recordcount() + 0;
-	$category = $rs->getrows();
-	Assign('category', $category);	
+	e(lang('no_edit_video'));
+	$Cbucket->show_page = false;
+}else{
 	
-Assign('subtitle',$LANG['title_edit_video'].$data['title']);
-@Assign('msg',$msg);
-Template('header.html');
-Template('message.html');
-Template('edit_video.html');
-Template('footer.html');
+	//Updating Video Details
+	if(isset($_POST['update_video'])){
+		$Upload->validate_video_upload_form();
+		if(empty($eh->error_list))
+		{
+			$_POST['videoid'] = $vid;
+			$cbvid->update_video();
+			$cbvid->set_default_thumb($vid,mysql_clean(post('default_thumb')));
+		}
+	}
+	
+	assign('v',$vdetails);
 }
-else
-{
-header( 'Location: '.videos_link.'' ) ;
-}
+
+template_files('edit_video.html');
+display_it();
 ?>

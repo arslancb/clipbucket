@@ -28,13 +28,19 @@ if(video_playable($vkey))
 		$cbvid->action->share_content($vdo['videoid']);
 	}
 	
-	//Calling Functions When Video Is Called
+	//Calling Functions When Video Is going to play
 	call_watch_video_function($vdo);
 	
-	//Addming Comment
+	//adding Comment
 	if(isset($_POST['add_comment']))
 	{
 		$cbvideo->add_comment($_POST['comment'],$vdo['videoid']);
+	}
+	
+	//Adding Video To Favorites
+	if(isset($_REQUEST['favorite']))
+	{
+		$cbvideo->action->add_to_fav($vdo['videoid']);
 	}
 }
 

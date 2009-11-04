@@ -12,6 +12,10 @@
 Notice : Maintain this section
 */
  
+define('NO_AVATAR','no_avatar.jpg'); //if there is no avatar or profile pic, this file will be used
+define('AVATAR_SIZE',250);
+define('AVATAR_SMALL_SIZE',30);
+define('BG_SIZE',1200);
 
 class userquery {
 	
@@ -20,11 +24,16 @@ class userquery {
 	var $level = '';
 	var $permissions = '';
 	var $access_type_list = array(); //Access list
+	var $usr_levels = array();
 	
 	var $dbtbl = array(
 					   'user_permission_type'	=> 'user_permission_types',
 					   'user_permissions'		=> 'user_permissions',
 					   'user_level_permission'	=> 'user_levels_permissions',
+					   'user_profile'			=> 'user_profile',
+					   'users'					=> 'users',
+					   'action_log'				=> 'action_log',
+					   'subtbl'					=> 'subscriptions',
 					   );
 	
 	function init()
@@ -47,7 +56,21 @@ class userquery {
 		$this->add_access_type('upload_access','Upload Access');
 		$this->add_access_type('channel_access','Channel Access');
 		$this->add_access_type('mod_access','Moderator Access');*/
-	
+		
+		//Fetching List Of User Levels
+		$levels = $this->get_levels();
+		foreach($levels as $level)
+		{
+			$this->usr_levels[$level['user_level_id']]=$level["user_level_name"];
+		}
+		
+		if(user_id())
+		{
+			$this->permission = $this->get_user_level(userid());
+			$this->UpdateLastActive(userid());
+		}else
+			$this->permission = $this->get_user_level(4,TRUE);
+
 	}
 	
 	/**
@@ -122,13 +145,13 @@ class userquery {
 			$this->username = $sess->get('username');
 			$this->level = $sess->get('level');
 			
-			//Updating User last login and num of visist
+			//Updating User last login , num of visist and ip
 			$db->update('users',
 						array(
-							  'num_visits','last_logged'
+							  'num_visits','last_logged','ip'
 							  ),
 						array(
-							  '|f|num_visits+1',NOW()
+							  '|f|num_visits+1',NOW(),$_SERVER['HTTP_HOST']
 							  ),
 						"userid='".$userid."'"
 						);
@@ -266,7 +289,7 @@ class userquery {
 		global $db;
 		$results = $db->select("users",
 							   "userid,email,level,usr_status,user_session_key,user_session_code",
-							   "username='$username' AND password='$pass'");
+							   "username='$username' OR userid='$username' AND password='$pass'");
 		if($db->num_rows > 0)
 		{
 			return $results[0];
@@ -323,23 +346,8 @@ class userquery {
 			}
 	*/
 	function admin_check(){
-		$admin = 'Admin';
-        if(isset($_SESSION['userid']) && isset($_SESSION['username']) && isset($_SESSION['session']))
-        {
-		$userid = @$_SESSION['userid'];
-		$username = @$_SESSION['username'];
-		$session = @$_SESSION['session'];
-
-					$query = mysql_query("SELECT * FROM users WHERE level='".$admin."' AND username ='".$username."' AND userid = '".$userid."' AND session='".$session."'");
-					if(mysql_num_rows($query)>0){
-					$answer = 1;
-                    return $answer;
-					}else{
-					$answer = 0;
-                    return $answer;
-					}
-        }
-		}
+		return $this->login_check('admin_access');
+	}
 
 	/**
 	 * Function used to check user is admin or not
@@ -357,35 +365,6 @@ class userquery {
 		}
 	}
 		
-					/*//This Fucntion Is Used To Check Weather User as Admin has Been Lggen in or Not FOR LOGIN PAGE
-					function admin_login_check_2(){
-						$admin = 'Admin';
-						$userid = @$_SESSION['userid'];
-						$username = @$_SESSION['username'];
-						$session = @$_COOKIE['PHPSESSID'];
-									$query = mysql_query("SELECT * FROM users WHERE level='".$admin."' AND username ='".$username."' AND userid = '".$userid."' AND session='".$session."'");
-									if(mysql_num_rows($query)>0){
-									$login = true;
-									}else{
-									
-									}
-
-						return @$login;
-							
-						}*/
-	
-	/*//Function Used To Check if SuperAdmin is loggged in or no
-	function SuperAdminCheck(){
-		$username = $_SESSION['username'];
-		$session = $_COOKIE['PHPSESSID'];
-		$query = mysql_query("SELECT * FROM admin WHERE username = '".$username."' AND session = '".$session."'");
-		if(mysql_num_rows($query)>0){
-			$login = true;
-		}else{
-		 	redirect_to('main.php?msg=Please%20Loggin%20As%20SuperAdmin');
-		}
-	}*/
-		
 	//This Function Is Used to Logout
 	function logout($page='login.php'){
 		global $sess;
@@ -398,48 +377,6 @@ class userquery {
 		//$sess->remove_session(userid());
 	}
 	
-	//List All Users
-	
-	function Get_All_Users($orderby,$order){
-	$myquery = new myquery();
-	$query = mysql_query("SELECT * FROM users ORDER BY '".$orderby."' '".$order."'");
-	while($data=$myquery->fetch($query)){
-	}
-	return $data;
-	}
-
- //Updating Super Admin
- 	function UpdateSuperAdmin(){
-	global $LANG;
-	$query = mysql_query("SELECT * FROM admin WHERE admin_id = '1' ");
-	$data = mysql_fetch_array($query);
-	
-	$pass = $data['password'];
-	
-		$uname = clean($_POST['uname']);
-			if(empty($uname)){
-				$msg = e($LANG['usr_sadmin_err']);
-			}
-		$op = pass_code($_POST['opass']);
-		$np = pass_code($_POST['npass']);
-		$cp = pass_code($_POST['cnpass']);
-		
-		if(!empty($_POST['npass'])){
-			if($np != $cp){
-				$msg = e($LANG['usr_cpass_err']);
-			}elseif($op != $pass){
-				$msg = e($LANG['usr_pass_err']);
-			}else{
-			$pass_query = " , password = '".$np."'";
-			}
-		}
-		if(empty($msg)){
-			mysql_query("UPDATE admin SET username = '".$uname."' $pass_query WHERE username = '".$data['username']."'");
-			$msg = e($LANG['usr_sadmin_msg'],m);
-		}
-		return $msg;
-	}
- //--------ADMIN ACTIONS START ---------//
  
 	//Delete User
 	
@@ -462,8 +399,10 @@ class userquery {
 		
 	//Check User Exists or Not
 	function Check_User_Exists($id){
-		$query = mysql_query("SELECT * FROM users WHERE userid='".$id."' OR username='".$id."'");
-		if(mysql_num_rows($query)>0){
+		global $db;
+		$result = $db->count($this->dbtbl['users'],"userid"," userid='".$id."' OR username='".$id."'");
+		if($result>0)
+		{
 			return true;
 		}else{
 			return false;
@@ -481,10 +420,10 @@ class userquery {
 	function get_user_details($id=NULL)
 	{
 		global $db;
-		if(!$id)
-			$id = userid();
+		/*if(!$id)
+			$id = userid();*/
 			
-		$results = $db->select('users','*'," userid='$id' ");
+		$results = $db->select('users','*'," userid='$id' OR username='".$id."'");
 		return $results[0];		
 	}function GetUserData($id=NULL){ return $this->get_user_details($id); }
 	
@@ -511,118 +450,7 @@ class userquery {
 	return $response;
 	}
 	
-	//Activate User
-	function Activate($user){
-	$avcode = RandomString(10);
-	mysql_query("UPDATE users SET usr_status ='Ok',avcode='".$avcode."' WHERE userid='".$user."'");
-	return true;
-	}
 	
-	//DeActivate User
-	function DeActivate($user){
-	$avcode = RandomString(10);
-	mysql_query("UPDATE users SET usr_status ='ToActivate',avcode='".$avcode."' WHERE userid='".$user."'");
-	return true;
-	}
-	
-	//Featured User
-	function MakeFeatured($user){
-	mysql_query("UPDATE users SET featured ='Yes' WHERE userid='".$user."'");
-	return true;
-	}
-	
-	//UnFeatured User
-	function MakeUnFeatured($user){
-	mysql_query("UPDATE users SET featured ='No' WHERE userid='".$user."'");
-	return true;
-	}
-	
-	//Ban User
-	function ban($user){
-	mysql_query("UPDATE users SET ban_status ='yes' WHERE userid='".$user."'");
-	return true;
-	}
-	
-	//UnBan User
-	function unban($user){
-	mysql_query("UPDATE users SET ban_status ='no' WHERE userid='".$user."'");
-	return true;
-	}
-	
-	
- //--------ADMIN ACTIONS END ---------//
- 
- 	//User Login
-	
-	function userlogin($username,$password){
-	//FUNCTION PENDING DUE TO FAILED IMPLEMENTATION -- ARSLAN
-/*	if(LOGIN_BRIDGE==1){
-		require('login_bridge.php');
-		$bridgeid = LOGIN_BRIDGE_ID;
-		$param = $this->GetBridgeParams($bridgeid);
-		$param['username'] = $username;
-		$param['password'] = $password;
-		$brige_results = BridgePHPBB($param);	
-	}else{*/
-
-			$query 	= mysql_query("Select * FROM users WHERE username = '".$username."' and password = '".$password."'");
-			$user_query 	= mysql_query("Select num_visits FROM users WHERE username = '".$username."'");
-			$user_data 		= mysql_fetch_array($user_query);
-			$videos_query 	= mysql_query("SELECT * FROM video WHERE username='".$username."'");
-			$videoscount	= mysql_num_rows($videos_query);
-			$comments_query = mysql_query("SELECT * FROM channel_comments WHERE channel_user='".$username."'");
-			$commentscount	= mysql_num_rows($comments_query);
-			$num_visits = $user_data['num_visits']+1;
-			$updatequery = "UPDATE users SET session='".$_COOKIE['PHPSESSID']."' , last_logged =now(), num_visits='".$num_visits."',total_videos='".$videoscount."',total_comments='".$commentscount."',ip='".$_SERVER['REMOTE_ADDR']."' WHERE username = '".$username."'";
-		//}
-				//if(mysql_num_rows($query) >0 || $brige_results==true){ -- In case we turn LoginBrigge on
-				if(mysql_num_rows($query) >0){
-						$data = mysql_fetch_array($query);
-						if($data['ban_status'] != 'yes'){
-						setcookie('username',$data['username'],time()+7200,'/');
-						setcookie('userid',$data['userid'],time()+7200,'/');
-						setcookie('session',$_COOKIE['PHPSESSID'],time()+7200,'/');
-						session_register('username');
-						session_register('userid');
-						session_register('session');
-						session_register('admin');
-						$_SESSION['username'] = $data['username'];
-						$_SESSION['userid'] = $data['userid'];
-						$_SESSION['session'] = $_COOKIE['PHPSESSID'];
-						if(!empty($admin) || $data['level'] == 'Admin'){
-							$_SESSION['admin'] = $data['username'];
-						}
-						if($data['userid'==1]){
-						$_SESSION['superadmin'] = $data['username'];
-						}
-						mysql_query($updatequery);
-						$login = 'loggedin';
-						}else{
-						$login = 'banned';
-						}
-				}else{
-				$login = 'failed';
-				}
-				return $login;
-			}
-	
-	
-	
-		
-	function logincheck2(){
-		@$userid = $_SESSION['userid'];
-		@$username = $_SESSION['username'];
-		@$session = $_COOKIE['PHPSESSID'];
-					$query = mysql_query("SELECT * FROM users WHERE username ='".$username."' AND userid = '".$userid."' AND session='".$session."'");
-					if(mysql_num_rows($query)>0){
-					$login = true;
-					}else{
-					$login = false;
-					}
-			return $login;
-		}
-		
-		
 	//Function Used to Count Number of Videos Uploaded By User
 	
 	function TotalVideos($username){
@@ -811,27 +639,36 @@ class userquery {
 			return $msg;
 		}
 	
-	//Function Used To Change Password
+	/**
+	 * Function used to change user password
+	 */
+	function ChangeUserPassword($array){
+		global $db;
+		
+		$old_pass 	= $array['old_pass'];
+		$new_pass 	= $array['new_pass'];
+		$c_new_pass	= $array['c_new_pass'];
+		
+		$uid = $array['userid'];
+		
+		if(!$this->get_user_with_pass($uid,pass_code($old_pass)))
+			e(lang('usr_pass_err'));
+		elseif(empty($new_pass))
+			e(lang('usr_pass_err2'));
+		elseif($new_pass != $c_new_pass)
+			e(lang('usr_cpass_err1'));
+		else
+		{
+			$db->update($this->dbtbl['users'],array('password'),array(pass_code($array['new_pass']))," userid='".$uid."'");
+			e(lang("usr_pass_email_msg"),"m");
+
+		}
+		
+		return $msg;
+	}
+	function change_user_pass($array){ return $this->ChangeUserPassword($array); }
+	function change_password($array){ return $this->ChangeUserPassword($array); }
 	
-		function ChangeUserPassword($userid){
-			global $LANG;
-			$old_pass 	= pass_code($_POST['old_pass']);
-			$new_pass 	= pass_code($_POST['new_pass']);
-			$c_new_pass	= pass_code($_POST['c_new_pass']);
-				$query = mysql_query("SELECT * FROM users WHERE userid = '".$userid."' AND password = '".$old_pass."'");
-					if(mysql_num_rows($query)>0){
-						if($new_pass == $c_new_pass){
-						mysql_query("UPDATE users Set password='".$new_pass."' WHERE userid='".$userid."'");
-						$msg = e($LANG['usr_pass_msg'],m);
-						}else{
-						$msg = e($LANG['usr_cpass_err1']);
-						}
-					}else{
-					$msg = e($LANG['usr_pass_err1']);
-					}
-				return $msg;
-			}
-			
 	//Function Used to update number of channel / profile views of user
 	
 		function UpdateChannelViews($user){
@@ -966,21 +803,90 @@ class userquery {
 			mysql_query("UPDATE users SET subscribers = '".$subs."' WHERE username='".$user."'");
 		}
 		
-		//Function Used To Subscribe to User
-		function SubscribeUser($sub_user,$sub_to){
-		global $LANG;
-			if(!empty($sub_user) || !empty($sub_to)){
-				$query=mysql_query("SELECT * FROM subscriptions WHERE subscribed_user='".$sub_user."' AND subscribed_to='".$sub_to."'");
-					if(mysql_num_rows($query)==0){
-						mysql_query("INSERT INTO subscriptions(subscribed_user,subscribed_to)VALUES('".$sub_user."','".$sub_to."')");
-						$this->UpdateSubscribers($sub_to);
-						$msg = e($LANG['usr_sub_msg'].$sub_to,m);
-						}else{
-						$msg = e($LANG['usr_sub_err'].$sub_to);
-						}
-				}
-			return $msg;
-		}
+		
+		
+	/**
+	 * Function used to subscribe user
+	 */
+	function subscribe_user($to,$user=NULL)
+	{
+		if(!$user)
+			$user = userid();
+		global $db;
+		
+		$to_user = $this->get_user_details($to);
+		
+		if(!$this->user_exists($to))
+			e(lang('usr_exist_err'));
+		elseif(!$user)
+			e(sprintf(lang('please_login_subscribe'),$to_user['username']));
+		elseif($this->is_subscribed($to,$user))
+			e(sprintf(lang("usr_sub_err"),$to_user['username']));
+		else
+		{
+			$db->insert($this->dbtbl['subtbl'],array('userid','subscribed_to','date_added'),
+											   array($user,$to,NOW()));
+			e(sprintf(lang('usr_sub_msg'),$to_user['username']),'m');
+		}			
+	}
+	function SubscribeUser($sub_user,$sub_to){return $this->subscribe_user($sub_to,$sub_user);}
+		
+	/**
+	 * Function used to check weather user is already subscribed or not
+	 */
+	function is_subscribed($to,$user=NULL)
+	{
+		if(!$user)
+			$user = userid();
+		global $db;
+		$result = $db->select($this->dbtbl['subtbl'],"*"," subscribed_to='$to' AND userid='$user'");
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;			
+	}
+	
+	
+	/**
+	 * Function used to get user subscibers
+	 * @param userid
+	 */
+	function get_user_subscribers($id)
+	{
+		global $id;
+		$result = $db->select($this->dbtbl['subtbl'],"*"," subscribed_to='$to' ");
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;	
+	}
+	
+	/**
+	 * function used to get user subscribers with details
+	 */
+	function get_user_subscribers_detail($id)
+	{
+		global $db;
+		$result = $db->select("users,".$this->dbtbl['subtbl'],"*"," subscriptions.subscribed_to = '$id' AND subscriptions.userid=users.userid");
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to get user subscriptions
+	 */
+	function get_user_subscriptions($id)
+	{	
+		global $db;
+		$result = $db->select("users,".$this->dbtbl['subtbl'],"*"," subscriptions.userid = '$id' AND subscriptions.subscribed_to=users.userid");
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;
+	}
+	
 		
 		//Function Used To Reset Passoword
 			function ResetPassword($step){
@@ -1097,7 +1003,7 @@ class userquery {
 	function UpdateLastActive($username)
 	{
 		global $db;
-		$sql = "UPDATE users SET last_active = now() WHERE username='".$username."'";
+		$sql = "UPDATE users SET last_active = '".NOW()."' WHERE username='".$username."' OR userid='".$username."' ";
 		$db->Execute($sql);
 	}
 	
@@ -1124,22 +1030,38 @@ class userquery {
 	 * @param : thumb file
 	 * @param : size (NULL,small)
 	 */
-	function getUserThumb($udetails,$size='',$uid=NULL)
+	function getUserThumb($udetails,$size='',$uid=NULL,$just_file=false)
 	{
+		
+		$remote = false;
 		if(empty($udetails['userid']))
 			$udetails = $this->get_user_details($uid);
-		$thumbnail = $udetails['avatar'] ? $udetails['avatar'] : 'noavatar.png';
+		//$thumbnail = $udetails['avatar'] ? $udetails['avatar'] : NO_AVATAR;
+		$thumbnail = $udetails['avatar'];
 		$thumb_file = BASEDIR.'/images/avatars/'.$thumbnail;
-		if(file_exists($thumb_file))
+		if(file_exists($thumb_file) && $thumbnail!='')
 			$thumb_file = BASEURL.'/images/avatars/'.$thumbnail;
-		else
-			$thumb_file = BASEURL.'/images/avatars/no_avatar.jpg';
+		elseif(!empty($udetails['avatar_url']))
+		{
+			$thumb_file = $udetails['avatar_url'];
+			$remote  = true;
+		}else
+			$thumb_file = BASEURL.'/images/avatars/'.NO_AVATAR;
 		$ext = GetExt($thumb_file);
 		$file = getName($thumb_file);
-		if(!empty($size))
-			$thumb = BASEURL.'/images/avatars/'.$file.'-'.$size.'.'.$ext;
-		else
-			$thumb = BASEURL.'/images/avatars/'.$file.'.'.$ext;
+		
+		if(!$remote)
+		{
+			if(!empty($size))
+				$thumb = BASEURL.'/images/avatars/'.$file.'-'.$size.'.'.$ext;
+			else
+				$thumb = BASEURL.'/images/avatars/'.$file.'.'.$ext;
+		}else
+			$thumb = $thumb_file;
+		
+		if($just_file)
+			return $file.'.'.$ext;
+			
 		return $thumb;
 	}
 	function avatar($udetails,$size='',$uid=NULL)
@@ -1147,6 +1069,29 @@ class userquery {
 		return $this->getUserThumb($udetails,$size,$uid);
 	}
 	
+	/**
+	 * Function used to get user Background
+	 * @param : bg file
+	 */
+	function getUserBg($udetails)
+	{
+		$remote = false;
+		if(empty($udetails['userid']))
+			$udetails = $this->get_user_details($uid);
+		//$thumbnail = $udetails['avatar'] ? $udetails['avatar'] : 'no_avatar.jpg';
+		$file = $udetails['background'];
+		$bgfile = BASEDIR.'/images/backgrounds/'.$file;
+		if(file_exists($bgfile) && $file)
+			$thumb_file = BASEURL.'/images/backgrounds/'.$file;
+		elseif(!empty($udetails['background_url']))
+		{
+			$thumb_file = $udetails['background_url'];
+			$remote  = true;
+		}else
+			return false;
+
+		return $thumb_file;
+	}	
 	
 	
 
@@ -1471,7 +1416,11 @@ class userquery {
 	{
 		if(!is_array($udetails) && is_numeric($udetails))
 			$udetails = $this->get_user_details($udetails);
-		return BASEURL.'/view_profile.php?uid='.$udetails['userid'];
+		return BASEURL.'/view_channel.php?user='.$udetails['username'];
+	}
+	function get_user_link($u)
+	{
+		return $this->profile_link($u);
 	}
 	
 	
@@ -1584,7 +1533,7 @@ class userquery {
 	 * it will also check weather current page requires login 
 	 * if login is required, user will be redirected to signup page
 	 */
-	function perm_check($access='',$check_login=FALSE)
+	function perm_check($access='',$check_login=FALSE,$control_page=true)
 	{
 		global $Cbucket;
 		/*if($check_login)
@@ -1601,6 +1550,8 @@ class userquery {
 				}else{
 					if(!$check_only)
 					e($LANG['insufficient_privileges']);
+					
+					if($control_page)
 					$Cbucket->show_page(false);
 					return false;
 				}
@@ -1620,11 +1571,812 @@ class userquery {
 						else
 							e(sprintf(lang('insufficient_privileges_loggin'),cblink(array('name'=>'signup')),cblink(array('name'=>'signup'))));
 					}
+					
+					if($control_page)
 					$Cbucket->show_page(false);
 					return false;
 				}
 			}
 		//}
+	}
+	
+	
+	/** 
+	 * Function used to get user profile details
+	 */
+	function get_user_profile($uid)
+	{
+		global $db;
+		$result = $db->select($this->dbtbl['user_profile'],"*"," userid='$uid'");
+		if($db->num_rows>0)
+		{
+			return $result[0];
+		}else
+			return false;
+	}
+	
+	
+	
+	/**
+	 * FUnction loading personal details
+	 */
+	function load_personal_details($default)
+	{
+		
+		$user_vids = get_videos(array('user'=>$default['userid']));
+		if(is_array($user_vids))
+		foreach($user_vids as $user_vid)
+		{
+			$usr_vids[$user_vid['videoid']] =  $user_vid['title'];
+			
+		}
+		
+		if(!$default)
+			$default = $_POST;
+		$profile_fields = array
+		(
+		'first_name' => array(
+						  'title'=> lang("user_fname"),
+						  'type'=> "textfield",
+						  'name'=> "first_name",
+						  'id'=> "first_name",
+						  'value'=> $default['first_name'],
+						  'db_field'=>'first_name',
+						  'required'=>'yes',
+						  'syntax_type'=> 'name',
+						  'auto_view'=>'yes'
+						  ),
+		'last_name' => array(
+						  'title'=> lang("user_lname"),
+						  'type'=> "textfield",
+						  'name'=> "last_name",
+						  'id'=> "last_name",
+						  'value'=> $default['last_name'],
+						  'db_field'=>'last_name',
+						  'syntax_type'=> 'name',
+						  'auto_view'=>'yes'
+						  ),
+		'profile_title' => array(
+						  'title'=>  lang("profile_title"),
+						  'type'=> "textfield",
+						  'name'=> "profile_title",
+						  'id'=> "last_name",
+						  'value'=> $default['profile_title'],
+						  'db_field'=>'profile_title',
+						  'auto_view'=>'no'
+		
+						  ),
+		'profile_desc' => array(
+						  'title'=>  lang("profile_desc"),
+						  'type'=> "textarea",
+						  'name'=> "profile_desc",
+						  'id'=> "last_name",
+						  'value'=> $default['profile_desc'],
+						  'db_field'=>'profile_desc',
+						  'auto_view'=>'no'
+		
+						  ),
+		'relation_status' => array(
+						  'title'=>  lang("user_relat_status"),
+						  'type'=> "dropdown",
+						  'name'=> "relation_status",
+						  'id'=> "last_name",
+						  'value'=> array(lang('usr_arr_single')=>lang('usr_arr_single'),
+										  lang('usr_arr_married')=>lang('usr_arr_married'),
+										  lang('usr_arr_comitted')=>lang('usr_arr_comitted'),
+										  lang('usr_arr_open_relate')=>lang('usr_arr_open_relate')),
+						  'checked'=> $default['relation_status'],
+						  'db_field'=>'relation_status',
+						  'auto_view'=>'yes',
+						  'return_checked'	=> true,
+		
+						  ),
+		'show_dob' => array(
+						  'title'=>  lang("show_dob"),
+						  'type'=> "radiobutton",
+						  'name'=> "show_dob",
+						  'id'=> "show_dob",
+						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
+						  'checked'	=> $default['show_dob'],
+						  'db_field'=>'show_dob',
+						  'syntax_type'=> 'name',
+						  'auto_view'=>'no'
+						  ),
+		'about_me' => array(
+						  'title'=>  lang("user_about_me"),
+						  'type'=> "textarea",
+						  'name'=> "about_me",
+						  'id'=> "about_me",
+						  'value'=> $default['about_me'],
+						  'db_field'=>'about_me',
+						  'auto_view'=>'yes',
+						  ),
+		'profile_tags' => array(
+						  'title'=>  lang("profile_tags"),
+						  'type'=> "textfield",
+						  'name'=> "profile_tags",
+						  'id'=> "profile_tags",
+						  'value'=> $default['profile_tags'],
+						  'db_field'=>'profile_tags',
+						  'auto_view'=>'no'
+						  ),
+		'web_url' => array(
+						  'title'=>  lang("website"),
+						  'type'=> "textfield",
+						  'name'=> "web_url",
+						  'id'=> "web_url",
+						  'value'=> $default['web_url'],
+						  'db_field'=>'web_url',
+						  'auto_view'=>'yes',
+						  'display_function'=>'outgoing_link'
+						  ),
+		'profile_video' => array(
+						  'title' => lang('Profile Video'),
+						  'type' => 'dropdown',
+						  'name' => 'profile_video',
+						  'id' => 'profile_video',
+						  'value' => $usr_vids,
+						  'checked' => $default['profile_video'],
+						  'db_field' => 'profile_video',
+						  'auto_view' => 'no',
+
+						  )
+		
+		);
+		
+		return $profile_fields;
+	}
+	
+	
+	/**
+	 * function used to load location fields
+	 */
+	function load_location_fields($default)
+	{
+		if(!$default)
+			$default = $_POST;
+		$other_details = array
+		(
+		'postal_code' => array(
+						  'title'=>  lang("postal_code"),
+						  'type'=> "textfield",
+						  'name'=> "postal_code",
+						  'id'=> "postal_code",
+						  'value'=> $default['postal_code'],
+						  'db_field'=>'postal_code',
+						  ),
+		'hometown' => array(
+						  'title'=>  lang("hometown"),
+						  'type'=> "textfield",
+						  'name'=> "hometown",
+						  'id'=> "hometown",
+						  'value'=> $default['hometown'],
+						  'db_field'=>'hometown',
+						  ),
+		'city' => array(
+						  'title'=>  lang("city"),
+						  'type'=> "textfield",
+						  'name'=> "city",
+						  'id'=> "city",
+						  'value'=> $default['city'],
+						  'db_field'=>'city',
+						  ),
+		);
+		return $other_details;
+	}
+	
+	
+	/**
+	 * Function used to load experice fields
+	 */
+	function load_other_fields($default)
+	{
+		if(!$default)
+			$default = $_POST;
+		$more_details = array
+		(
+		'education' => array(
+						  'title'=>  lang("education"),
+						  'type'=> "dropdown",
+						  'name'=> "education",
+						  'id'=> "education",
+						  'value'=> array(lang('usr_arr_no_ans')=>lang('usr_arr_no_ans'),
+										  lang('usr_arr_elementary')=>lang('usr_arr_elementary'),
+										  lang('usr_arr_hi_school')=>lang('usr_arr_hi_school'),
+										  lang('usr_arr_some_colg')=>lang('usr_arr_some_colg'),
+										  lang('usr_arr_assoc_deg')=>lang('usr_arr_assoc_deg'),
+										  lang('usr_arr_bach_deg')=>lang('usr_arr_bach_deg'),
+										  lang('usr_arr_mast_deg')=>lang('usr_arr_mast_deg'),
+										  lang('usr_arr_phd')=>lang('usr_arr_phd'),
+										  lang('usr_arr_post_doc')=>lang('usr_arr_post_doc'),
+										  ),
+						  'checked'=>$default['education'],
+						  'db_field'=>'education',
+						  ),
+		'schools' => array(
+						  'title'=>  lang("schools"),
+						  'type'=> "textarea",
+						  'name'=> "schools",
+						  'id'=> "schools",
+						  'value'=> $default['schools'],
+						  'db_field'=>'schools',
+						  ),
+		'occupation' => array(
+						  'title'=>  lang("occupation"),
+						  'type'=> "textarea",
+						  'name'=> "occupation",
+						  'id'=> "occupation",
+						  'value'=> $default['occupation'],
+						  'db_field'=>'occupation',
+						  ),
+		'companies' => array(
+						  'title'=>  lang("companies"),
+						  'type'=> "textarea",
+						  'name'=> "companies",
+						  'id'=> "companies",
+						  'value'=> $default['companies'],
+						  'db_field'=>'companies',
+						  ),
+		'hobbies' => array(
+						  'title'=>  lang("hobbies"),
+						  'type'=> "textarea",
+						  'name'=> "hobbies",
+						  'id'=> "hobbies",
+						  'value'=> $default['hobbies'],
+						  'db_field'=>'hobbies',
+						  ),
+		'fav_movies' => array(
+						  'title'=>  lang("user_fav_movs_shows"),
+						  'type'=> "textarea",
+						  'name'=> "fav_movies",
+						  'id'=> "fav_movies",
+						  'value'=> $default['fav_movies'],
+						  'db_field'=>'fav_movies',
+						  ),
+		'fav_music' => array(
+						  'title'=>  lang("user_fav_music"),
+						  'type'=> "textarea",
+						  'name'=> "fav_music",
+						  'id'=> "fav_music",
+						  'value'=> $default['fav_music'],
+						  'db_field'=>'fav_music',
+						  ),
+		'fav_books' => array(
+						  'title'=>  lang("user_fav_books"),
+						  'type'=> "textarea",
+						  'name'=> "fav_books",
+						  'id'=> "fav_books",
+						  'value'=> $default['fav_books'],
+						  'db_field'=>'fav_books',
+						  ),
+		
+		);
+		return $more_details;
+	}
+	
+	
+	/**
+	 * Function used to load privacy fields
+	 */
+	function load_privacy_field($default)
+	{
+		if(!$default)
+			$default = $_POST;
+			
+		$privacy = array
+		(
+		'online_status' => array(
+						  'title'=>  lang("online_status"),
+						  'type'=> "dropdown",
+						  'name'=> "privacy",
+						  'id'=> "privacy",
+						  'value'=> array('online'=>lang('online'),'offline'=>lang('offline'),'custom'=>lang('custom')),
+						  'checked'=>$default['online_status'],
+						  'db_field'=>'online_status',
+						  ),
+		'show_profile' => array(
+						  'title'=>  lang("show_profile"),
+						  'type'=> "dropdown",
+						  'name'=> "show_profile",
+						  'id'=> "show_profile",
+						  'value'=> array('all'=>lang('all'),'members'=>lang('members'),'friends'=>lang('friends')),
+						  'checked'=>$default['show_profile'],
+						  'db_field'=>'show_profile',
+						  ),
+		'allow_comments'=>array(
+						  'title'=>  lang("vdo_allow_comm"),
+						  'type'=> "radiobutton",
+						  'name'=> "allow_comments",
+						  'id'=> "allow_comments",
+						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
+						  'checked' => strtolower($default['allow_comments']),
+						  'db_field'=>'allow_comments',
+						  ),
+		'allow_ratings'=>array(
+						  'title'=>  lang("allow_ratings"),
+						  'type'=> "radiobutton",
+						  'name'=> "allow_ratings",
+						  'id'=> "allow_ratings",
+						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
+						  'checked' => strtolower($default['allow_ratings']),
+						  'db_field'=>'allow_ratings',
+						  ),
+		);
+		
+		return $privacy;
+	}
+	
+	/**
+	 * User Profile Fields
+	 */
+	function load_profile_fields($default)
+	{
+		if(!$default)
+			$default = $_POST;
+		
+		$profile_fields = $this->load_personal_details($default);
+		$other_details = $this->load_location_fields($default);
+		$more_details = $this->load_other_fields($default);
+		$privacy = $this->load_privacy_field($default);		
+		return array_merge($profile_fields,$other_details,$more_details,$privacy);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Function used to update use details
+	 */
+	function update_user($array)
+	{
+		global $LANG,$db,$signup,$Upload;
+		if($array==NULL)
+			$array = $_POST;
+		
+		if(is_array($_FILES))
+			$array = array_merge($array,$_FILES);
+
+		$userfields = $this->load_profile_fields($array);
+		
+		validate_cb_form($userfields,$array);
+		
+		foreach($userfields as $field)
+		{
+			$name = formObj::rmBrackets($field['name']);
+			$val = $array[$name];
+			
+			if($field['use_func_val'])
+				$val = $field['validate_function']($val);
+			
+			
+			if(!empty($field['db_field']))
+			$query_field[] = $field['db_field'];
+			
+			if(is_array($val))
+			{
+				$new_val = '';
+				foreach($val as $v)
+				{
+					$new_val .= "#".$v."# ";
+				}
+				$val = $new_val;
+			}
+			if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
+				$val = mysql_clean($val);
+			else
+				$val = apply_func($field['clean_func'],$val);
+			
+			if(!empty($field['db_field']))
+			$query_val[] = $val;
+		}
+		
+		//updating user detail
+		if(has_access('admin_access',TRUE) && isset($array['admin_manager']))
+		{
+			//Checking Username
+			if(empty($array['username']))
+				e(lang('usr_uname_err'));
+			elseif($array['dusername'] != $array['username'] && $this->username_exists($array['username']))
+				e(lang('usr_uname_err2'));
+			elseif(!username_check($array['username']))
+				e(lang('usr_uname_err3'));
+			else
+				$username = $array['username'];
+			
+			//Checking Email
+			if(empty($array['email']))
+				e(lang('usr_email_err1'));
+			elseif(!is_valid_syntax('email',$array['email']))
+				e(lang('usr_email_err2'));
+			elseif(email_exists($array['email']) && $array['email'] != $array['demail'])
+				e(lang('usr_email_err3'));
+			else
+				$email = $array['email'];
+				
+			$uquery_field[] = 'username';
+			$uquery_val[]	= $username;
+			
+			$uquery_field[] = 'email';
+			$uquery_val[]	= $email;
+			
+			//Changing User Level
+			$uquery_field[] = 'level';
+			$uquery_val[] = $array['level'];
+			
+			//Checking for user stats
+			$uquery_field[] = 'profile_hits';
+			$uquery_val[] = $array['profile_hits'];
+			$uquery_field[] = 'total_watched';
+			$uquery_val[] = $array['total_watched'];
+			$uquery_field[] = 'total_videos';
+			$uquery_val[] = $array['total_videos'];
+			$uquery_field[] = 'total_comments';
+			$uquery_val[] = $array['total_comments'];
+			$uquery_field[] = 'subscribers';
+			$uquery_val[] = $array['subscribers'];
+			$uquery_field[] = 'rating';
+			
+			$rating = $array['rating'];
+			if($rating<1 || $rating>10)
+				$rating = 1;
+			$uquery_val[] = $rating ;
+			$uquery_field[] = 'rated_by';
+			$uquery_val[] = $array['rated_by'];
+			
+		}
+		
+		//Changing Gender
+		if($array['sex'])
+		{
+			$uquery_field[] = 'sex';
+			$uquery_val[] = mysql_clean($array['sex']);
+		}
+		
+		//Changing Country
+		if($array['country'])
+		{
+			$uquery_field[] = 'country';
+			$uquery_val[] = mysql_clean($array['country']);
+		}
+		
+		//Updating User Avatar
+		if($array['avatar_url'])
+		{
+			$uquery_field[] = 'avatar_url';
+			$uquery_val[] = $array['avatar_url'];
+		}
+		
+		//Deleting User Avatar
+		if($array['delete_avatar']=='yes')
+		{
+			$file = BASEDIR.'/images/avatars/'.$array['avatar_file_name'];
+			if(file_exists($file) && $array['avatar_file_name'] !='')
+				unlink($file);
+		}
+		
+		//Deleting User Bg
+		if($array['delete_bg']=='yes')
+		{
+			$file = BASEDIR.'/images/backgrounds/'.$array['bg_file_name'];
+			if(file_exists($file) && $array['bg_file_name'] !='')
+				unlink($file);
+		}
+		
+		
+		if(isset($_FILES['avatar_file']['name']))
+		{
+			$file = $Upload->upload_user_file('a',$_FILES['avatar_file'],$array['userid']);
+			if($file)
+			{
+				$uquery_field[] = 'avatar';
+				$uquery_val[] = $file;
+			}
+		}
+		
+		
+		//Updating User Background
+		if($array['background_url'])
+		{
+			$uquery_field[] = 'background_url';
+			$uquery_val[] = $array['background_url'];
+		}
+		
+		if($array['background_color'])
+		{
+			$uquery_field[] = 'background_color';
+			$uquery_val[] = $array['background_color'];
+		}
+		
+		if($array['background_repeat'])
+		{
+			$uquery_field[] = 'background_repeat';
+			$uquery_val[] = $array['background_repeat'];
+		}
+		
+		
+		if(isset($_FILES['background_file']['name']))
+		{
+			$file = $Upload->upload_user_file('b',$_FILES['background_file'],$array['userid']);
+			if($file)
+			{
+				$uquery_field[] = 'background';
+				$uquery_val[] = $file;
+			}
+		}
+		
+		if(!error() && is_array($uquery_field))
+		{
+			$db->update($this->dbtbl['users'],$uquery_field,$uquery_val," userid='".mysql_clean($array['userid'])."'");
+			e(lang("usr_upd_succ_msg"),'m');
+		}
+		
+		
+		
+		//updating user profile
+		if(!error())
+		{
+			$db->update($this->dbtbl['user_profile'],$query_field,$query_val," userid='".mysql_clean($array['userid'])."'");
+			e(lang("usr_pof_upd_msg"),'m');
+		}
+	}
+	
+	
+	/**
+	 * Function used to update user avatar and background only
+	 */
+	function update_user_avatar_bg($array)
+	{
+		global $db,$signup,$Upload;
+		//Updating User Avatar
+		if($array['avatar_url'])
+		{
+			$uquery_field[] = 'avatar_url';
+			$uquery_val[] = mysql_clean($array['avatar_url']);
+		}
+		
+		//Deleting User Avatar
+		if($array['delete_avatar']=='yes')
+		{
+			$file = BASEDIR.'/images/avatars/'.$array['avatar_file_name'];
+			if(file_exists($file) && $array['avatar_file_name'] !='')
+				unlink($file);
+		}
+		
+		//Deleting User Bg
+		if($array['delete_bg']=='yes')
+		{
+			$file = BASEDIR.'/images/backgrounds/'.$array['bg_file_name'];
+			if(file_exists($file) && $array['bg_file_name'] !='')
+				unlink($file);
+		}
+		
+		
+		if(isset($_FILES['avatar_file']['name']))
+		{
+			$file = $Upload->upload_user_file('a',$_FILES['avatar_file'],$array['userid']);
+			if($file)
+			{
+				$uquery_field[] = 'avatar';
+				$uquery_val[] = $file;
+			}
+		}
+		
+		
+		//Updating User Background
+		if($array['background_url'])
+		{
+			$uquery_field[] = 'background_url';
+			$uquery_val[] = mysql_clean($array['background_url']);
+		}
+		
+		if($array['background_color'])
+		{
+			$uquery_field[] = 'background_color';
+			$uquery_val[] = mysql_clean($array['background_color']);
+		}
+		
+		if($array['background_repeat'])
+		{
+			$uquery_field[] = 'background_repeat';
+			$uquery_val[] = mysql_clean($array['background_repeat']);
+		}
+		
+		
+		if(isset($_FILES['background_file']['name']))
+		{
+			
+			$file = $Upload->upload_user_file('b',$_FILES['background_file'],$array['userid']);
+			if($file)
+			{
+				$uquery_field[] = 'background';
+				$uquery_val[] = mysql_clean($file);
+			}
+		}
+		
+		$db->update($this->dbtbl['users'],$uquery_field,$uquery_val," userid='".mysql_clean($array['userid'])."'");
+		e(lang("usr_avatar_bg_update"),'m');
+
+	}
+	
+	
+	/**
+	 * Function used to check weather username exists or not
+	 */
+	function username_exists($i)
+	{
+		global $db;
+		$db->select($this->dbtbl['users'],"username"," username='$i'");
+		if($db->num_rows>0)
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * function used to check weather email exists or not
+	 */
+	 function email_exists($i)
+	{
+		global $db;
+		$db->select($this->dbtbl['users'],"email"," email='$i'");
+		if($db->num_rows>0)
+			return true;
+		else
+			return false;
+	}
+	
+	
+	/**
+	 * Function used to get user access log
+	 */
+	function get_user_action_log($uid,$limit=NULL)
+	{
+		global $db;
+		$result = $db->select($this->dbtbl['action_log'],"*"," action_userid='$uid'",$limit," date_added DESC");
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;
+	}
+	
+	/**
+	 * Load Custom Profile Field
+	 */
+	function load_custom_profile_fields($array)
+	{
+		return false;
+	}
+	
+	/**
+	 * Load Custom Signup Field
+	 */
+	function load_custom_signup_fields($array)
+	{
+		return false;
+	}
+	
+	
+	/**
+	 * Function used to get channel links
+	 * ie Playlist, favorites etc etc
+	 */
+	function get_inner_channel_top_links($u)
+	{
+		return array(lang('uploads')=>'uploads',lang('favorites')=>'favorites',lang('contacts')=>'contacts');
+	}
+	
+	/**
+	 * Function used to get user channel action links
+	 * ie Add to friends, send message etc etc
+	 */
+	function get_channel_action_links($u)
+	{
+		return array(lang('Send Message')=>'sm',lang('Add as friend')=>'aaf',lang('Block user')=>'bu');
+	}
+	
+	
+	
+	/**
+	 * Function used to get user channel video
+	 */
+	function get_user_profile_video($u)
+	{
+		global $db,$cbvid;
+		if(empty($u['profile_video'])&&!$cbvid->video_exists($u))
+		{
+			$u = $this->get_user_profile($u);
+		}
+		
+		if($cbvid->video_exists($u['profile_video']))
+			return $cbvid->get_video_details($u['profile_video']);
+		else
+			return false;
+	}
+	
+	
+	/**
+	 * My Account links
+	 */
+	function my_account_links()
+	{
+		$array = array
+		(
+		 'Account'	=>array
+		 			('My Account'	=> 'myaccount.php',
+					 'Ban users'	=> 'edit_account.php?mode=ban_users',
+					 'Change Password'	=>'edit_account.php?mode=change_password',
+					 'Change Email' 	=>'edit_account.php?mode=change_email',
+					 ),
+		 'Profile'	=>array
+		 			('Profile Settings'	=>'edit_account.php',
+					 'Change Avatar' 	=> 'edit_account.php?mode=avatar_bg',
+					 'Change Background' => 'edit_account.php?mode=avatar_bg',
+					 ),
+		'Videos' =>array
+					(
+					 'Uploaded Videos'=>'manage_videos.php',
+					 'Favorite Videos'=>'manage_videos.php?mode=favorites',
+					 ),
+		'Messages' => array
+					(
+					 'Inbox'	=> 'private_message.php?mode=inbox',
+					 'Notifications' => 'private_message.php?mode=notification',
+					 'Sent'	=> 'private_message.php?mode=sent',
+					 'Compose New'=> 'private_message.php?mode=new_msg',
+					 )
+		);
+		
+		return $array;
+	}
+	
+	
+	/**
+	 * Function used to change email
+	 */
+	function change_email($array)
+	{
+		global $db;
+		//function used to change user email
+		if(!isValidEmail($array['new_email']) || $array['new_email']=='')
+			e(lang("usr_email_err2"));
+		elseif($array['new_email']!=$array['cnew_email'])
+			e(lang('user_email_confirm_email_err'));
+		elseif(!$this->user_exists($array['userid']))	
+			e(lang('usr_exist_err'));
+		else
+		{
+			$db->update($this->dbtbl['users'],array('email'),array($array['new_email'])," userid='".$array['userid']."'");
+			e(lang("email_change_msg"),"m");
+		}
+	}
+	
+	/**
+	 * Function used to ban users
+	 */
+	function ban_users($users,$uid=NULL)
+	{
+		global $db;
+		if(!$uid)
+			$uid  = userid();
+		$users_array = explode(',',$users);
+		$new_users = array();
+		foreach($users_array as $user)
+		{
+			if($user!=username() && !is_numeric($user) && $this->user_exists($user))
+			{
+				$new_users[] = $user;
+			}
+		}	
+		if(count($new_users)>0)
+		{
+			$new_users = array_unique($new_users);
+			$banned_users = implode(',',$new_users);
+			$db->update($this->dbtbl['users'],array('banned_users'),array($banned_users)," userid='$uid'");
+			e(lang("user_ban_msg"),"m");
+		}else{
+			e(lang("no_user_ban_msg"),"m");
+		}
 	}
 }
 ?>

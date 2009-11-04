@@ -1,39 +1,15 @@
 <?php
 /* 
  ****************************************************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.											|
+ | Copyright (c) 2007-2009 Clip-Bucket.com. All rights reserved.											|
  | @ Author 	: ArslanHassan																		|
  | @ Software 	: ClipBucket , © PHPBucket.com														|
  ****************************************************************************************************
 */
 
 require'../includes/admin_config.php';
-$userquery->admin_login_check();
+$userquery->login_check('member_moderation');
 $pages->page_redir();
-
-$page = $pages->show_admin_page(clean(@$_GET['settings']));
-if(!empty($page)){
-$pages->redirect($page);
-}
-if(@$_GET['msg']){
-$msg = clean(@$_GET['msg']);
-}
-//Show Requested Options
-$property_values = array(	'showall' 		=> 'Show All',
-							'inactive'		=> 'Inactive Only',
-							'active'		=> 'Active Only',
-							'addmember'		=> 'Add Member',
-							'search'		=> 'Search Members'
-						);
-				  
-$view = clean(@$_GET['view']);
-
-if(empty($view)){ $view = 'showall'; }
-while(list($property['value'],$property['name']) = each($property_values)){
-	if($property['value'] == $view){
-	CBTemplate::assign("property",$property);
-	}
-}
 
 //-------TIME TO DO SOME ACTION-------//
 
@@ -154,151 +130,20 @@ if(isset($_GET['unban'])){
 			
 //-------TIME END TO DO SOME ACTION-------//
 
-//Form Processing And Validation
 
-	//User Registration Form Processing and Validation
-		if(isset($_POST['button'])){
-			$msg = $signup->Admin_Add_User();
-			}
-			
-//Assigning Default Values in Form
-@$values= array(
-	'default_uname' 	=> mysql_clean($_POST['username']),
-	'default_email'		=> mysql_clean($_POST['email']),
-	'default_pass' 		=> pass_code(mysql_clean($_POST['password'])),
-	'default_fname'		=> mysql_clean($_POST['fname']),
-	'default_lname'		=> mysql_clean($_POST['lname']),
-	'default_gender'	=> mysql_clean($_POST['gender']),
-	'default_level'		=> mysql_clean($_POST['level']),
-	'default_m'			=> $_POST['month'],
-	'default_d'			=> $_POST['day'],
-	'default_y'			=> $_POST['year'],
-	'default_ht'		=> mysql_clean($_POST['hometown']),
-	'default_city'		=> mysql_clean($_POST['city']),
-	'default_country' 	=> $_POST['country'],
-	'default_zip'		=> mysql_clean($_POST['zip'])
-	);
-	while(list($name,$value) = each($values)){
-	CBTemplate::assign($name,$value);
-	}
+//Getting Member List
+$page = mysql_clean($_GET['page']);
+$get_limit = create_query_limit($page,RESULTS);
+$users = $db->select("users",'*',$cond,$get_limit,"doj DESC");
+Assign('users', $users);	
+
+//Collecting Data for Pagination
+$total_rows  = $db->count('users','*',$cond);
+$total_pages = count_pages($total_rows,VLISTPP);
+
+//Pagination
+$pages->paginate($total_pages,$page);
 	
-	@$values_search= array(
-	'search_uname' 		=> mysql_clean($_GET['username']),
-	'search_email'		=> mysql_clean($_GET['email']),
-	'search_fname'		=> mysql_clean($_GET['fname']),
-	'search_lname'		=> mysql_clean($_GET['lname']),
-	'search_country' 	=> mysql_clean($_GET['country']),
-	'search_status'		=> mysql_clean($_GET['status']),
-	'search_sort'		=> mysql_clean($_GET['sort']),
-	'search_order'		=> mysql_clean($_GET['order'])
-	);
-	while(list($name,$value) = each($values_search)){
-	CBTemplate::assign($name,$value);
-	}
-
-//Jump To The page
-if(isset($_POST['display_page'])){
-	redirect_to($_POST['page_number']);
-}
-
-//Users Array
-	$limit  = RESULTS;	
-	Assign('limit',$limit);
-	$page   = clean(@$_GET['page']);
-	if(empty($page) || $page == 0){
-	$page   = 1;
-	}
-	$from 	= $page-1;
-	$from 	= $from*$limit;
-
-	$query_limit  = "limit $from,$limit";
-	$order 	= "ORDER BY doj DESC";
-
-		$sql 	= "SELECT * from users $order $query_limit";
-		$sql_p	= "SELECT * from users";
-		if(empty($view) || $view == 'showall'){
-		$sql = "SELECT * from users $order $query_limit";
-		}
-		if($view == 'inactive'){
-		$sql = "SELECT * from users WHERE usr_status='ToActivate' $order $query_limit";
-		$sql_p	= "SELECT * from users WHERE usr_status='ToActivate'";
-		}
-		if($view == 'active'){
-		$sql = "SELECT * from users WHERE usr_status='OK' $order $query_limit";
-		$sql_p	= "SELECT * from users WHERE usr_status='OK'";
-		}
-		
-//Search
-if(isset($_GET['search'])){
-	$username	= mysql_clean($_GET['username']);
-	$email		= mysql_clean($_GET['email']);
-	$fname		= mysql_clean($_GET['fname']);
-	$lname		= mysql_clean($_GET['lname']);
-	$country	= mysql_clean($_GET['country']);
-	$status		= mysql_clean($_GET['status']);
-	$sort		= mysql_clean($_GET['sort']);
-	$order		= mysql_clean($_GET['order']);	
-	
-	if($order == 'ASC'){
-		if($sort == 'username'){$orderby 	= 'ORDER BY username ASC';}
-		if($sort == 'doj'){		$orderby 	= 'ORDER BY doj ASC';}
-		if($sort == 'country'){	$orderby 	= 'ORDER BY country ASC';}
-		if($sort == 'lname'){	$orderby 	= 'ORDER BY last_name ASC';}
-		if($sort == 'fname'){	$orderby 	= 'ORDER BY first_name ASC';}
-	}else{
-		if($sort == 'username'){$orderby 	= 'ORDER BY username DESC';}
-		if($sort == 'doj'){		$orderby 	= 'ORDER BY doj DESC';}
-		if($sort == 'country'){	$orderby 	= 'ORDER BY country DESC';}
-		if($sort == 'lname'){	$orderby 	= 'ORDER BY last_name DESC';}
-		if($sort == 'fname'){	$orderby 	= 'ORDER BY first_name DESC';
-}
-	}
-	
-	
-	$sql	 = "SELECT * from users ";
-	$sql	.= "WHERE username 	like '%$username%' AND 
-	email 		like '%$email%' AND
-	first_name  like '%$fname%' AND
-	last_name   like '%$lname%' AND
-	country 	like '%$country%' AND
-	usr_status  like '%$status%' 
-	$orderby $query_limit
-	";
-	$sql_p = "SELECT * from users WHERE username 	like '%$username%' AND 
-	email 		like '%$email%' AND
-	first_name  like '%$fname%' AND
-	last_name   like '%$lname%' AND
-	country 	like '%$country%' AND
-	usr_status  like '%$status%' 
-	$orderby ";
-	}
-
-//Assing User Data Values
-
-		$rs = $db->Execute($sql);
-		$total = $rs->recordcount() + 0;
-		$users = $rs->getrows();
-		
-		for($id=0;$id<$total;$id++){
-		$users[$id]['age'] = $calcdate->age($users[$id]['dob']);
-		$users[$id]['total_videos'] = $userquery->TotalVideos($users[$id]['username']);
-		$users[$id]['total_friends'] = $userquery->TotalFriends($users[$id]['username']);
-		$users[$id]['total_groups'] = $userquery->TotalGroups($users[$id]['username']);
-		}
-		Assign('total', $total + 0);
-		Assign('user', $users);
-	
-//Pagination #A Tough Job#
-if($view == 'search'){
-@$link = '&amp;username=' .mysql_clean($_GET['username']). '&amp;email=' .mysql_clean($_GET['email']).'&amp;fname=' .mysql_clean($_GET['fname']).'&amp;lname=' .mysql_clean($_GET['lname']).'&amp;country='.mysql_clean($_GET['country']).'&amp;status='.mysql_clean($_GET['status']).'&amp;sort='.mysql_clean($_GET['sort']).'&amp;order='.mysql_clean($_GET['order']).'&amp;search='.mysql_clean($_GET['search']);
-Assign('link',$link);
-}	
-	
-Assign('msg',@$msg);
-Template('header.html');
-Template('leftmenu.html');
-Template('message.html');
-Template('members.html');
-Template('footer.html');
-
+template_files('members.html');
+display_it();
 ?>

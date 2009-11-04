@@ -31,8 +31,6 @@
     $db->debug = false;
     $db->charpage = 'cp_utf8';
     $db->charset = 'utf8';
-    $db->Execute("set names 'utf8'");
-    $db->Execute("set COLLATION_CONNECTION = 'utf8_general_ci'");
     if(!$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME))
     {
     exit($db->ErrorMsg());

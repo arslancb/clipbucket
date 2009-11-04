@@ -1,12 +1,16 @@
 {assign var='comments' value=$myquery->get_comments($id,$type)}
-{foreach from=$comments item=comment}
+{section loop=$comments name=comment}
 	<div id="comment_{$comment_id}" class="comment">
-    	{if $comment.userid !='' && $comment.userid!=0}
-        	<a href="#">{assign var=name value=$userquery->get_user_field($comment.userid,username)}{$name.username}</a>
+    	{if $comments[comment].userid !='' && $comments[comment].userid!=0}
+        	<a href="#">{assign var=name value=$userquery->get_user_field($comments[comment].userid,username)}{$name.username}</a>
         {else}
-        	<a href='#comment_{$comment_id}'>{$comment.anonym_name}</a>
+        	<a href='#comment_{$comments[comment].comment_id}'>{$comments[comment].anonym_name}</a>
         {/if}
-		 wrote on {$comment.date_added|date_format}<br />
-         {$comment.comment|comment}
+		 wrote on {$comments[comment].date_added|date_format}<br />
+         {$comments[comment].comment|comment}
     </div>
-{/foreach}
+{sectionelse}
+	<div align="center" class="no_comments">
+    	<em>No Comments</em>
+    </div>
+{/section}

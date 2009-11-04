@@ -127,6 +127,21 @@ class myquery {
 	//Function Used To Update Videos Views
 	function UpdateVideoViews($vkey){increment_views($vkey,'video');}
 	
+	/**
+	 * Function used to check weather username exists not
+	 */
+	function check_user($username){
+		global $userquery;
+		return $userquery->username_exists($username);
+	}
+	
+	/**
+	 * Function used to check weather email exists not
+	 */
+	function check_email($email){
+		global $userquery;
+		return $userquery->email_exists($email);
+	}
 	
 	/**
 	 * Function used to delete comments
@@ -317,21 +332,7 @@ class myquery {
 		return $msg;
 	}
 				
-	//Function Used to Get Subscriber List
 	
-	function GetSubscribers($user){
-	global $LANG;
-		$query = mysql_query("SELECT * FROM subscriptions  WHERE subscribed_to ='".$user."'");
-		$data  = mysql_num_rows($query);
-		return $data;
-	}
-	
-		function GetSubscriptions($user){
-	global $LANG;
-		$query = mysql_query("SELECT * FROM subscriptions  WHERE subscribed_user ='".$user."'");
-		$data  = mysql_num_rows($query);
-		return $data;
-	}
 	
 	//Function Used To Get Number Of Favourite Videos of user
 			
@@ -886,16 +887,8 @@ class myquery {
 	 */
 	function set_default_thumb($vid,$thumb)
 	{
-		global $db,$LANG;
-		$num = get_thumb_num($thumb);
-		$file = THUMBS_DIR.'/'.$thumb;
-		if(file_exists($file))
-		{
-			$db->update("video",array("default_thumb"),array($num)," videoid='$vid'");
-			e($LANG['vid_thumb_changed'],m);
-		}else{
-			e($LANG['vid_thumb_change_err']);
-		}		
+		global $cbvid;
+		return $cbvid->set_default_thumb($vid,$thumb);
 	}
 	
 	

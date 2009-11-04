@@ -152,6 +152,18 @@ if(!empty($modlist) && is_array($modlist))
 {/php}
 <!-- Including Module Headers -->
 
+
+{if $smarty.const.THIS_PAGE =='private_message' && $smarty.get.mid}
+<script type="text/javascript">
+var mid  = {$smarty.get.mid};
+{literal}
+		window.onload = function() {
+		$('#messages_container').scrollTo( '#message-'+mid, 800 );
+		}
+{/literal}
+</script>
+{/if}
+
 </head>
 
 <!-- Global Header Ends Here -->

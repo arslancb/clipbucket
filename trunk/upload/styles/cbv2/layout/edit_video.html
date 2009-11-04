@@ -1,0 +1,131 @@
+<div>
+ {include file="$style_dir/blocks/manage/account_left.html"}
+ 
+ <div class="account_box">
+ {include file="$style_dir/blocks/manage/account_head.html" user=$user}
+ 
+ 
+ <!-- EDITING {$v.title} -->
+ <h2>Edit Video</h2>
+ 
+ {* Loading Form Fields *}
+ {assign var='requiredFields' value=$Upload->loadRequiredFields($v)}
+ {assign var='optionFields' value=$Upload->loadOptionFields($v)}
+ {assign var='locationFields' value=$Upload->loadLocationFields($v)}
+
+ {assign var='custom_form_fields' value=$Upload->load_custom_form_fields($v,TRUE)}
+ 
+ 
+ 
+ <div class="account_form">
+ <form method="post" name="edit_video">
+ {* GETTING THUMBS INFO *}
+ 
+ <fieldset class="fieldset">
+    <legend>Thumbs</legend>
+ {assign var=vidthumbs value=func->get_thumb($v,1,TRUE,false,true,false)}
+ {foreach from=$vidthumbs item=vid_thumb}
+    	<div style="width:140px; float:left" align="center">
+    	<label for="{$vid_thumb|getname}"><img src="{$vid_thumb}" border="1" style="margin:4px" /><br />
+        <input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $v.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />Default</label><br />
+ </div>
+ {/foreach}
+ </fieldset>
+
+ 
+ {* VIDEO THUMB ENDS *} 
+
+ {* Video Information Starts *}
+    <fieldset class="fieldset">
+    <legend>Video Information - All fields are required</legend>
+    {foreach from=$requiredFields item=field}
+    <div class="account_field_block">
+    <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
+    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+    <br>
+    {$field.hint_2}</div>
+    <div class="clear"></div>
+    </div>
+    
+    {/foreach}
+    
+    </fieldset>
+
+
+ 
+ {* Video Information Ends *}
+ 
+ 
+ {* Sharig Information Starts *}
+
+    <fieldset class="fieldset">
+    <legend>Sharing Options</legend>
+    {foreach from=$optionFields item=field}
+    <div class="account_field_block">
+    <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
+    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+    <br>
+    {$field.hint_2}</div>
+    <div class="clear"></div>
+    </div>
+    
+    {/foreach}
+    
+    </fieldset>
+    
+ {* Sharing Information Ends *}
+ 
+ 
+ {* Location Fields *}
+
+    <fieldset class="fieldset">
+    <legend>Date recorded &amp; Location</legend>
+    {foreach from=$locationFields item=field}
+    <div class="account_field_block">
+    <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
+    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+    <br>
+    {$field.hint_2}</div>
+    <div class="clear"></div>
+    </div>
+    
+    {/foreach}
+    
+    </fieldset>
+    
+ {* Location Fields Ends *}
+ 
+ 
+ {* Loading Custom Fields *}
+ {if $custom_form_fields.0.title !=''}
+ 	<fieldset class="fieldset">
+    <legend>More Options</legend>
+    {foreach from=$custom_form_fields item=field}
+    <div class="account_field_block">
+    <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
+    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+    <br>
+    {$field.hint_2}</div>
+    <div class="clear"></div>
+    </div>
+    
+    {/foreach}
+    
+    </fieldset>
+ {/if}
+ {* Custom Fields ENDS *}
+ 
+ <div align="right"><button name="update_video" id="button" value="submit" class="cb_button">Update Video</button></div>
+
+ </form> 
+ </div>
+ 
+ 
+ 
+ 
+ <!-- ENDING EDITING {$v.title} -->
+ 
+ 
+ </div>
+ <div class="clear"></div>
+</div>

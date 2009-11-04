@@ -21,10 +21,6 @@ Assign('admtheme',BASEURL.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.TEMPLATE.'/theme')
 Assign('template_dir',TEMPLATEDIR);
 Assign('style_dir',LAYOUT);
 
-if($userquery->logincheck2()){
-Assign('logged_user',$_SESSION['username']);
-Assign('new_msgs',$userquery->GetNewMsgs($_SESSION['username']));
-}
 
 //Checking Website is closed or not
 if($row['closed'] == 1){

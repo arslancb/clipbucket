@@ -10,7 +10,8 @@
 
 define("PAGE","upload_video");
 require 'includes/config.inc.php';
-$userquery->login_check('upload_access');
+$userquery->logincheck();
+$userquery->login_check('allow_video_upload');
 
 $pages->page_redir();
 subtitle('upload');

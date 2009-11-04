@@ -6,7 +6,7 @@
     {if !$userquery->login_check('',true)}	
    		Welcome Guest, Click here to <a href="{link name='login' }">Login</a> or <a href="{link name='signup' }">Register</a>
     {else}
-    	Hello {$userquery->username} | <a href="#">Inbox (0) </a>| <a href="#">Comments (0)</a> | <a href="#">Account</a> | <a href="#">Videos</a> 
+    	Hello {$userquery->username} | <a href="#">Inbox ({$cbpm->get_new_messages()}) </a>| <a href="#">Notifications ({$cbpm->get_new_messages('','notification')})</a> | <a href="#">Account</a> | <a href="#">Videos</a> 
     {/if}
     </div>
 <div class="clear"></div>

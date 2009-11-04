@@ -165,7 +165,7 @@
 	 
 	 
 	 
-	 /**
+	/**
 	 * Function used to add custom upload fields
 	 * In this you will provide an array that has a complete
 	 * details of the field such as 'name',validate_func etc

@@ -1,4 +1,4 @@
-<div class="video_block" align="center">
+<div class="video_block" align="center" {if $only_once} style="float:none" {/if}>
 	<div class="vdo_thumb_container" id="video_{$video.videoid}">
     	<a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" width="120" height="90" border="0" {ANCHOR place="video_thumb"} /></a>
         {ANCHOR place="video_thumb_div" data=$video}
@@ -6,3 +6,7 @@
     </div>
   <a href="{videoLink vdetails=$video}">{$video.title|truncate:20}</a><br />
     by <a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a> {show_rating class='small_stars' rating='$videos.rating' ratings='$videos.rated_by' total='10'} </div>
+    
+{if $only_once}
+<div class="clear"></div>
+{/if}

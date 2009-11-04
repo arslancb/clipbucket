@@ -275,3 +275,16 @@
 										   "swfobject/expressInstall.swf", flashvars
 										   , params);
 	}
+	
+	
+	/**
+	 * Function used to delete video
+	 */
+	function delete_video(obj,vid,msg,url)
+	{
+		$("#"+obj+'-'+vid).click(function () {
+			if (confirm(msg)) {
+				document.location = url;
+			}				
+		});
+	}

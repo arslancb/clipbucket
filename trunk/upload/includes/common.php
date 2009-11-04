@@ -66,7 +66,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/video.class.php');
 	require_once('classes/player.class.php');
 	require_once('classes/cbemail.class.php');
-	
+	require_once('classes/pm.class.php');
 	
 	require_once 'languages.php';
 	
@@ -93,7 +93,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	$cbplayer	= new CBPlayer();
 	$cbemail	= new CBEmail();
 	$cbsearch	= new CBSearch();
-	
+	$cbpm		= new cb_pm();
 
 
 require 'defined_links.php';
@@ -278,13 +278,7 @@ error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
 	$swfobj		= new SWFObject();
 	//Initializng Userquery class
 	$userquery->init();
-	
-	$is_admin = $userquery->admin_check();
-    if ($is_admin == 1)
-    {
-    Assign('is_admin',$is_admin);
-    }
-
+	$cbpm->init();
     $thisurl = curPageURL();
     Assign('THIS_URL', $thisurl);
 
@@ -347,13 +341,6 @@ error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
 require('modules.php');	
 
 
-//Checking what permissions do logged in user have
-if(user_id())
-{
-	$userquery->permission = $userquery->get_user_level(userid());
-}else
-	$userquery->permission = $userquery->get_user_level(4,TRUE);
-
 //Checking Website Template
 $Cbucket->set_the_template();
 
@@ -379,6 +366,7 @@ $Smarty->assign_by_ref('cbtpl',$cbtpl);
 $Smarty->assign_by_ref('cbobjects',$cbobjects);
 $Smarty->assign_by_ref('cbplayer',$cbplayer);
 $Smarty->assign_by_ref('cbsearch',$cbsearch);
+$Smarty->assign_by_ref('cbpm',$cbpm);
 
 /*
 REGISERTING FUNCTION FOR SMARTY TEMPLATES
@@ -401,6 +389,9 @@ $Smarty->register_function('FlashPlayer','flashPlayer');
 $Smarty->register_function('HQFlashPlayer','HQflashPlayer');
 $Smarty->register_function('link','cblink');
 $Smarty->register_function('show_share_form','show_share_form');
+$Smarty->register_function('lang','smarty_lang');
+$Smarty->register_function('get_videos','get_videos');
+$Smarty->register_function('private_message','private_message');
 
 $Smarty->register_modifier('SetTime','SetTime');
 $Smarty->register_modifier('getname','getname');
@@ -411,12 +402,20 @@ $Smarty->register_modifier('post_form_val','post_form_val');
 $Smarty->register_modifier('request_form_val','request_form_val');
 $Smarty->register_modifier('get_thumb_num','get_thumb_num');
 $Smarty->register_modifier('ad','ad');
+$Smarty->register_modifier('get_user_level','get_user_level');
+$Smarty->register_modifier('is_online','is_online');
+$Smarty->register_modifier('get_age','get_age');
+$Smarty->register_modifier('outgoing_link','outgoing_link');
+$Smarty->register_modifier('nicetime','nicetime');
+$Smarty->register_modifier('country','get_country');
+
 
 
 /**
  * Initializing Search
  */
 		$cbvideo->init_search();
+
 
 /*
  * 123465798

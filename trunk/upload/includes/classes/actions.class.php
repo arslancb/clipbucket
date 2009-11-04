@@ -34,6 +34,9 @@ class cbactions
 	var $fav_tbl = 'favorites';
 	var $flag_tbl = 'flags';
 	
+	var $type_tbl = 'videos';
+	var $type_id_field = 'videoid';
+	
 	/**
 	 * Class variable ie $somevar = SomeClass;
 	 * $obj_class = 'somevar';
@@ -107,10 +110,12 @@ class cbactions
 	/**
 	 * Function used to check weather object already added to favorites or not
 	 */
-	function fav_check($id)
+	function fav_check($id,$uid=NULL)
 	{
 		global $db;
-		$results = $db->select($this->fav_tbl,"favorite_id"," id='".$id."' AND userid='".userid()."'");
+		if(!$uid)
+			$uid =userid();
+		$results = $db->select($this->fav_tbl,"favorite_id"," id='".$id."' AND userid='".$uid."' AND type='".$this->type."'");
 		if($db->num_rows>0)
 			return true;
 		else
@@ -222,7 +227,7 @@ class cbactions
 						//Setting Emails
 						$emails = implode(',',$emails_array);
 						//Now Finally Sending Email
-						cbmail(array('to'=>$emails,'from'=>username(),'subject'=>$subj,'content'=>$msg));
+						cbmail(array('to'=>$emails,'from'=>username(),'subject'=>$subj,'content'=>$msg,'use_boundary'=>true));
 					}
 				}else{
 					e(sprintf(lang("share_video_no_user_err"),$this->name));
@@ -234,6 +239,43 @@ class cbactions
 		}else{
 		 e(sprintf(lang("obj_not_exists"),$this->name));
 		}
+	}
+	
+	
+	/**
+	 * Get Used Favorites
+	 */
+	function get_favorites($uid=NULL,$limit=NULL,$cond=NULL,$order=NULL)
+	{
+		global $db;
+		if(!$uid)
+			$uid=userid();
+		if($cond)
+			$cond = " AND ".$cond;
+		$results = $db->select($this->fav_tbl.",".$this->type_tbl,"*"," ".$this->fav_tbl.".type='".$this->type."' 
+							   AND ".$this->fav_tbl.".userid='".$uid."' 
+							   AND ".$this->type_tbl.".".$this->type_id_field." = ".$this->fav_tbl.".id".$cond,$limit,$order);
+		if($db->num_rows>0)
+			return $results;
+		else
+			return false;
+	}
+	
+	
+	/**
+	 * Function used remove video from favorites
+	 */
+	function remove_favorite($fav_id,$uid=NULL)
+	{
+		global $db;
+		if(!$uid)
+			$uid=userid();
+		if($this->fav_check($fav_id,$uid))
+		{
+			$db->delete($this->fav_tbl,array('userid','type','id'),array($uid,$this->type,$fav_id));
+			e(sprintf(lang('fav_remove_msg'),$this->name),m);
+		}else
+			e(sprintf(lang('unknown_favorite'),$this->name));
 	}
 }
 

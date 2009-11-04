@@ -1,0 +1,29 @@
+<!-- Channel Top -->
+<div class="channel_box">
+    <div class="channel_inner_box channel_top">
+        <div class="usr_small_thumb"><img src="{$userquery->getUserThumb($u,'small')}" class="user_small_thumb" alt="{$u.username}"></div>
+        <div class="usr_channel">{lang code='user_s_channel' assign='usr_s'}{$usr_s|sprintf:$u.username} <a href="#" class="cb_button">{lang code='subscribe'}</a></div>
+       
+        {assign var='channel_links' value=$userquery->get_inner_channel_top_links($u)}
+        <ul class="top_channel_links">
+        {foreach from=$channel_links item=link key=link_title}
+            <li><a href="{$link}">{$link_title}</a></li>
+        {/foreach}
+        </ul>
+        <div class="clear"></div>
+    </div>
+</div>
+<!-- Channel Top End-->
+
+<div style="width:600px; float:left" >
+    <div class="heading">Videos</div>
+    {section name=v_list loop=$videos}
+        {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
+    {/section}
+    <div class="clear"></div>
+</div>
+
+<div class="verticle_ad" align="center">{AD place='ad_160x600'}</div>
+<div class="clear"></div>
+
+{include file="$style_dir/blocks/pagination.html"}

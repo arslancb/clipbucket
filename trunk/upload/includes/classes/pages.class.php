@@ -98,48 +98,28 @@ class pages{
 			redirect_to($newPage);
 	}
 	
-	function createUrl($url,$params_array,$remove_param=false,$urlencode=false)
+	function create_url($params_array,$url=NULL,$remove_param=false,$urlencode=false)
 	{
-		//Cleaning Url and Create Existing Params as Array
-		$list1 = explode('&',$url);
-		$semi_clean_url = preg_replace('/&(.*)/','',$url);
-		$list2= explode('?',$semi_clean_url);
-		$clean_url = preg_replace('/\?(.*)/','',$semi_clean_url);
-		$lists=array_merge($list1,$list2);
-		foreach($lists as $list)
+		if($url==NULL or $url == 'auto')
 		{
-			preg_match('/http:\/\//',$list,$matches);
-			if(empty($matches[0]))
-			{
-				if($remove_param!=true)
-				{
-					list($param,$value) = explode('=',$list);
-					if(empty($params_array[$param]))
-					$params_array[$param] = $value;
-					else
-					$params_array[$param] = $params_array[$param];
-				}
-			}
+			if($_SERVER['QUERY_STRING'])
+				$url = '?'.$_SERVER['QUERY_STRING'];
 		}
-		$count = 0;
-		$total = count($params_array);
-		if($total>0 && !empty($params_array))
+		
+		$new_link = '';
+		$new_link .= $url;
+		if(is_array($params_array))
 		{
-			foreach($params_array as $param => $value)
+			foreach($params_array as $name => $value)
 			{
-				$count++;
-				if($count==1)
-					$url_param .= '?';
-				$url_param .=$param.'='.$value;
-				if($count != $total)
-					$url_param .='&';
+				if($url)
+					$new_link .='&'.$name.'='.$value;
+				else
+					$new_link .='?'.$name.'='.$value;
 			}
 		}
 		
-		$finalUrl = $clean_url.$url_param ;
-		if($urlencode ==true)
-			$finalUrl = urlencode($finalUrl);
-		return $finalUrl;
+		return $new_link;
 	}
 	
 	//This Fucntion is used to Redirect to respective URL
@@ -153,7 +133,7 @@ class pages{
 	/**
 	 * Function used to create link
 	 */
-	function create_link($page,$link=NULL,$extra_params=NULL,$tag,$return_param=false)
+	function create_link($page,$link=NULL,$extra_params=NULL,$tag='<a #params#>#page#</a>',$return_param=false)
 	{
 		if($link==NULL or $link == 'auto')
 		{

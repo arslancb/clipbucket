@@ -2,7 +2,7 @@
 
 {assign var=msg value=$eh->message_list}
 {assign var=err value=$eh->error_list}
-{if $err.0 neq ''}
+{if $err.0 neq '' || $err.1 neq ''}
 <table width="98%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td bgcolor="#FFF0FA">

@@ -1,5 +1,5 @@
 <div class="video_title">{$vdo.title}</div>
-{if has_access('admin_access')}<div>{ANCHOR place=watch_admin_options data=$vdo}</div>{/if}
+{if $userquery->perm_check('admin_access')=='yes'}<div>{ANCHOR place=watch_admin_options data=$vdo}</div>{/if}
 
 <!-- Video Left -->
 <div class="video_left" align="left">

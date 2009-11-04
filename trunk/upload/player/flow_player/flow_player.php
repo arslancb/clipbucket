@@ -37,7 +37,7 @@ if(!function_exists('flowplayer'))
 		$code = '';
 		if($vid_file)
 		{
-			$code .= "swfobject.embedSWF(\"".PLAYER_URL.'/flow_player/flowplayer.swf'."\", \"videoPlayer\", \"500\", \"320\", \"9.0.0\", null, {  \n";
+			$code .= "swfobject.embedSWF(\"".PLAYER_URL.'/flow_player/flowplayer.swf'."\", \"videoPlayer\", \"".$vdata['width']."\", \"".$vdata['height']."\", \"9.0.0\", null, {  \n";
 			$code .= "config: \"{'clip': '".BASEURL.'/files/videos/'.$vid_file."' }}\"\n" ;
 			$code .= "} \n";
 			$code .= ");  \n"; 

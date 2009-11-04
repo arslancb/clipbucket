@@ -9,7 +9,7 @@
 define("THIS_PAGE",'videos');
 require 'includes/config.inc.php';
 $pages->page_redir();
-
+$userquery->perm_check('view_videos',true);
 
 //Getting Video List
 $page = mysql_clean($_GET['page']);

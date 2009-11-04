@@ -14,6 +14,7 @@
 ####################################################################
 */
 
+ define("SHOW_COUNTRY_FLAG",TRUE);
  require 'define_php_links.php';
  include_once 'upload_forms.php';
  
@@ -126,7 +127,7 @@
 	}
 	
 	function Assign($name,$value){
-	CBTemplate::assign($name,$value);
+		CBTemplate::assign($name,$value);
 	}
 	
 	//Funtion of Random String
@@ -206,6 +207,9 @@
 		$to		 = $array['to'];
 		$from	 = $array['from'];
 		
+		if($array['nl2br'])
+			$content = nl2br($content);
+			
 		//Setting Boundary
 		$mime_boundary = "----ClipBucket Emailer----".md5(time());
 		
@@ -223,22 +227,29 @@
 		$headers .= "X-Mailer: ClipBucket v2 \r\n";
   		
 		//Starting Message
-		$message  = "--$mime_boundary--\n";
-		$message .= "Content-Type: text/html; charset=UTF-8\n";
-		$message .= "Content-Transfer-Encoding: 8bit\n\n";
+		if($array['user_boundary'])
+		{
+			$message  = "--$mime_boundary--\n";
+			$message .= "Content-Type: text/html; charset=UTF-8\n";
+			$message .= "Content-Transfer-Encoding: 8bit\n\n";
+		}
+			
 		
 		# CHecking Content
 		if(preg_match('/<html>/',$content,$matches))
 		{
-			if(empty($matches[0]))
+			if(empty($matches[1]))
 			{
 				$content = wrap_email_content($content);
 			}
 		}
 		$message .= $content;
-		//Ending Message
-		$message .= "--$mime_boundary--\n\n";
-		
+		if($array['user_boundary'])
+		{
+			//Ending Message
+			$message .= "--$mime_boundary--\n";
+		}
+			
 		$email = mail ($to,$subject,$message,$headers);
 		if( $email == true ){
 			return true;
@@ -362,12 +373,13 @@
    //Function Used To Validate Email
 	
 	function isValidEmail($email){
-      $pattern = "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$";
-      if (eregi($pattern, $email)){
+      $pattern = "/[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/";
+	  preg_match($pattern, $email,$matches);
+      if ($matches[0]!=''){
          return true;
       }
       else {
-         return true;
+         return false;
       }   
    }
 
@@ -430,7 +442,7 @@
 	 * @param ARRAY video_details, or videoid will also work
 	 */
 	 
-	function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_full_path=true){
+	function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_full_path=true,$return_big=true){
 		global $db,$Cbucket,$myquery;
 		$num = $num ? $num : 'default';
 		#checking what kind of input we have
@@ -498,10 +510,13 @@
 			$thumb_parts = explode('/',$thumb);
 			$thumb_file = $thumb_parts[count($thumb_parts)-1];
 			
-			if($return_full_path)
-			$thumbs[] = THUMBS_URL.'/'.$thumb_file;
-			else
-			$thumbs[] = $thumb_file;
+			if(!is_big($thumb_file) || $return_big)
+			{
+				if($return_full_path)
+					$thumbs[] = THUMBS_URL.'/'.$thumb_file;
+				else
+					$thumbs[] = $thumb_file;
+			}
 		}
 		
 		if(count($thumbs)==0)
@@ -532,6 +547,19 @@
 			return $thumbs[0];
 		}
 		
+	}
+	
+	/**
+	 * Function used to check weaether given thumb is big or not
+	 */
+	function is_big($thumb_file)
+	{
+		$total = strlen($thumb_file);
+		$name = substr($thumb_file,$strlen-7,3);
+		if($name=='big')
+			return true;
+		else
+			return false;
 	}
 	function GetThumb($vdetails,$num='default',$multi=false,$count=false)
 	{
@@ -861,7 +889,7 @@
 				$fields_query .= $flds[$i]."=".$val."";
 			}
 			if($total_fields!=$count)
-				$fields_query .= ',';
+				$fields_query .= ' AND ';
 		}
 		//Complete Query
 		$query = "DELETE FROM $tbl WHERE $fields_query $ep";
@@ -958,6 +986,7 @@
 	function e($msg=NULL,$type='e',$id=NULL)
 	{
 		global $eh;
+		if(!empty($msg))
 		return $eh->e($msg,$type,$id);
 	}
 	
@@ -1330,8 +1359,8 @@
 		$flv_url 	= $file;
 		$embed 		= $param['embed'];
 		$code 		= $param['code'];
-		$height 	= $param['height'] = $param['height'] ? $param['height'] : 360;
-		$width 		= $param['width'] = $param['width'] ? $param['width'] : 450;
+		$height 	= $param['height'] = $param['height'] ? $param['height'] : config('player_height');
+		$width 		= $param['width'] = $param['width'] ? $param['width'] : config('player_width');
 		
 		if(count($Cbucket->actions_play_video)>0)
 		{
@@ -1545,9 +1574,13 @@
 	function input_value($params,&$Smarty)
 	{
 		$input = $params['input'];
-
+		$value = $input['value'];
+		if($input['value_field']=='checked')
+			$value = $input['checked'];
+		if($input['return_checked'])
+			return $input['checked'];
 		if(function_exists($input['display_function']))
-			return $input['display_function']($input['value']);
+			return $input['display_function']($value);
 		else
 			return $input['value'];
 	}
@@ -1661,6 +1694,7 @@
 		global $ClipBucket;
 		$ClipBucket->template_files[] = $file;
 	}
+	
 	
 	/** 
 	 * Function used to call display
@@ -1811,8 +1845,8 @@
 		if($filter)
 			return form_val($_GET[$val]);
 		else
-			$_GET[$val];
-	}
+			return $_GET[$val];
+	}function get($val){ return get_form_val($val); }
 	
 	/**
 	 * Function used to get value form $_POST
@@ -1824,6 +1858,7 @@
 		else
 			$_POST[$val];
 	}
+	
 	
 	/**
 	 * Function used to get value from $_REQUEST
@@ -1843,7 +1878,17 @@
 	function lang($var)
 	{
 		global $LANG;
+		if($LANG[$var])
 		return $LANG[$var];
+		else
+		return $var;
+	}
+	function smarty_lang($param)
+	{
+		if($param['assign']=='')
+			return lang($param['code']);
+		else
+			assign($param['assign'],lang($param['code']));
 	}
 	
 	
@@ -2201,6 +2246,252 @@
 		$records = $total/$count;
 		return $total_pages = round($records+0.49,0);
 	}
+	
+	/**
+	 * Function used to return level name 
+	 * @param levelid
+	 */
+	function get_user_level($id)
+	{
+		global $userquery;
+		return $userquery->usr_levels[$id];
+	}
+	
+	
+	
+	/**
+	 * This function used to check
+	 * weather user is online or not
+	 * @param : last_active time
+	 * @param : time margin
+	 */
+	function is_online($time,$margin='5')
+	{
+		$margin = $margin*60;
+		$active = strtotime($time);
+		$curr = time();
+		$diff = $curr - $active;
+		if($diff > $margin)
+			return 'offline';
+		else
+			return 'online';
+	}
+	
+	
+	/**
+	 * ClipBucket Form Validator
+	 * this function controls the whole logic of how to operate input
+	 * validate it, generate proper error
+	 */
+	function validate_cb_form($input,$array)
+	{
+		
+		if(is_array($input))
+		foreach($input as $field)
+		{
+			$field['name'] = formObj::rmBrackets($field['name']);
+			
+			//pr($field);
+			$title = $field['title'];
+			$val = $array[$field['name']];
+			$req = $field['required'];
+			$invalid_err =  $field['invalid_err'];
+			$function_error_msg = $field['function_error_msg'];
+			if(is_string($val))
+			$length = strlen($val);
+			$min_len = $field['min_length'];
+			$min_len = $min_len ? $min_len : 0;
+			$max_len = $field['max_length'] ;
+			$rel_val = $array[$field['relative_to']];
+			
+			if(empty($invalid_err))
+				$invalid_err =  sprintf("Invalid '%s'",$title);
+			if(is_array($array[$field['name']]))
+				$invalid_err = '';
+				
+			//Checking if its required or not
+			if($req == 'yes')
+			{
+				if(empty($val) && !is_array($array[$field['name']]))
+				{
+					e($invalid_err);
+					$block = true;
+				}else{
+					$block = false;
+				}
+			}
+			$funct_err = is_valid_value($field['validate_function'],$val);
+			if($block!=true)
+			{
+				//Checking Syntax
+				if(!$funct_err)
+				{
+					if(!empty($function_error_msg))
+						e($function_error_msg);
+					elseif(!empty($invalid_err))
+						e($invalid_err);
+				}elseif(!is_valid_syntax($field['syntax_type'],$val))
+				{
+					if(!empty($invalid_err))
+						e($invalid_err);
+				}
+				elseif(isset($max_len))
+				{
+					if($length > $max_len || $length < $min_len)
+					e(sprintf(" please enter '%s' value between '%s' and '%s'",
+							  $title,$field['min_length'],$field['max_length']));
+				}elseif(function_exists($field['db_value_check_func']))
+				{
+					$db_val_result = $field['db_value_check_func']($val);
+					if($db_val_result != $field['db_value_exists'])
+						if(!empty($field['db_value_err']))
+							e($field['db_value_err']);
+						elseif(!empty($invalid_err))
+							e($invalid_err);
+				}elseif($field['relative_type']!='')
+				{
+					switch($field['relative_type'])
+					{
+						case 'exact':
+						{
+							if($rel_val != $val)
+							{
+								if(!empty($field['relative_err']))
+									e($field['relative_err']);
+								elseif(!empty($invalid_err))
+									e($invalid_err);
+							}
+						}
+						break;
+					}
+				}
+			}	
+		}
+	}
 
 
+	/**
+	 * Function used to check weather tempalte file exists or not
+	 * input path to file
+	 */
+	function template_file_exists($file,$dir)
+	{
+		if(!file_exists($dir.'/'.$file) && !empty($file))
+		{
+			echo sprintf(lang("temp_file_load_err"),$file,$dir);
+			return false;
+		}else
+			return true;
+	}
+	
+	/** 
+	 * Function used to count age from date
+	 */
+	function get_age($input)
+	{ 
+		$time = strtotime($input);
+		$iMonth = date("m",$time);
+		$iDay = date("d",$time);
+		$iYear = date("Y",$time);
+		
+		$iTimeStamp = (mktime() - 86400) - mktime(0, 0, 0, $iMonth, $iDay, $iYear); 
+		$iDays = $iTimeStamp / 86400;  
+		$iYears = floor($iDays / 365 );  
+		return $iYears; 
+	}
+	
+	
+	
+	
+	/**
+	 * Function used to check time span
+	 * A time difference function that outputs the 
+	 * time passed in facebook's style: 1 day ago, 
+	 * or 4 months ago. I took andrew dot
+	 * macrobert at gmail dot com function 
+	 * and tweaked it a bit. On a strict enviroment 
+	 * it was throwing errors, plus I needed it to 
+	 * calculate the difference in time between 
+	 * a past date and a future date. 
+	 * thanks to yasmary at gmail dot com
+	 */
+	function nicetime($date)
+	{
+		if(empty($date)) {
+			return lang('no_date_provided');
+		}
+	   
+		$periods         = array(lang("second"), lang("minute"), lang("hour"), lang("day"), lang("week"), lang("month"), lang("year"), lang("decade"));
+		$lengths         = array(lang("60"),lang("60"),lang("24"),lang("7"),lang("4.35"),lang("12"),lang("10"));
+	   
+		$now             = time();
+		$unix_date         = strtotime($date);
+	   
+		   // check validity of date
+		if(empty($unix_date)) {   
+			return lang("bad_date");
+		}
+	
+		// is it future date or past date
+		if($now > $unix_date) {   
+			$difference     = $now - $unix_date;
+			$tense         = "ago";
+		   
+		} else {
+			$difference     = $unix_date - $now;
+			$tense         = "from now";
+		}
+	   
+		for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
+			$difference /= $lengths[$j];
+		}
+	   
+		$difference = round($difference);
+	   
+		if($difference != 1) {
+			$periods[$j].= "s";
+		}
+	   
+		return "$difference $periods[$j] {$tense}";
+	}
+	
+	
+	/**
+	 * Function used to format outgoing link
+	 */
+	function outgoing_link($out)
+	{
+		preg_match("/http/",$out,$matches);
+		if(empty($matches[0]))
+			$out = "http://".$out;
+		return '<a href="'.$out.'" target="_blank">'.$out.'</a>';
+	}
+	
+	/**
+	 * Function used to get country via country code
+	 */
+	function get_country($code)
+	{
+		global $db;
+		$result = $db->select("countries","name_en,iso2"," iso2='$code' OR iso3='$code'");
+		if($db->num_rows>0)
+		{
+			$flag = '';
+			$result = $result[0];
+			if(SHOW_COUNTRY_FLAG)
+				$flag = '<img src="'.BASEURL.'/images/icons/country/'.$result['iso2'].'.png" alt="" border="0">&nbsp;';
+			return $flag.$result['name_en'];
+		}else
+			return false;
+	}
+	
+	
+	/**
+	 * function used to get vidos
+	 */
+	function get_videos($param)
+	{
+		global $cbvideo;
+		return $cbvideo->get_videos($param);
+	}
 ?>

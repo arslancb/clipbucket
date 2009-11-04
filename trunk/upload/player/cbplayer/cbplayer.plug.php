@@ -46,7 +46,7 @@ if(!function_exists('cbplayer'))
 				$code	.= "  allowFullScreen: \"true\"\n";
 				$code	.= "};\n";
 				$code	.= "swfobject.embedSWF(\"".PLAYER_URL."/cbplayer/videoPlayer.swf\", 
-								   \"".$data['player_div']."\", \"".config('player_width')."\", \"".config('player_height')."\", \"9.0.115\",
+								   \"".$data['player_div']."\", \"".$data['width']."\", \"".$data['height']."\", \"9.0.115\",
 								   \"swfobject/expressInstall.swf\", flashvars
 								   , params)";
 				return $code;

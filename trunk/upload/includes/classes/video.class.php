@@ -22,6 +22,7 @@ class CBvideo extends CBCategory
 	var $action = ''; // variable used to call action class
 	var $email_template_vars = array();
 	
+	var $dbtbl = array('video'=>'video');
 	/**
 	 * __Constructor of CBVideo
 	 */	
@@ -125,10 +126,12 @@ class CBvideo extends CBCategory
 	/**
 	 * Function used to update video
 	 */
-	function update_video()
+	function update_video($array=NULL)
 	{
 		global $eh,$Cbucket,$db,$Upload;
 
+		
+			 
 		$Upload->validate_video_upload_form(NULL,TRUE);
 		
 		if(empty($eh->error_list))
@@ -146,7 +149,9 @@ class CBvideo extends CBCategory
 			if(count($Upload->custom_form_fields)>0)
 				$upload_fields = array_merge($upload_fields,$Upload->custom_form_fields);
 			
-			$array = $_POST;
+			if(!$array)
+			 $array = $_POST;
+			 
 			$vid = $array['videoid'];
 
 			if(is_array($_FILES))
@@ -196,11 +201,14 @@ class CBvideo extends CBCategory
 				$query .= ',';
 			}*/
 			
-			if(has_access('admin_access'))
+			if(has_access('admin_access') && !empty($array['status']))
 			{
 				$query_field[] = 'status';
-				$query_field[] = 'duration';
 				$query_val[] = $array['status'];
+			}
+			if(has_access('admin_access') && !empty($array['duration']))
+			{
+				$query_field[] = 'duration';
 				$query_val[] = $array['duration'];
 			}
 			
@@ -209,6 +217,9 @@ class CBvideo extends CBCategory
 				e("You are not logged in");
 			}elseif(!$this->video_exists($vid)){
 				e("Video deos not exist");
+			}elseif(!$this->is_video_owner($vid,userid()) && !has_access('admin_access'))
+			{
+				e("You cannot edit this video");
 			}else{
 				$db->update('video',$query_field,$query_val," videoid='$vid'");
 				e("Video details have been updated",m);
@@ -227,22 +238,29 @@ class CBvideo extends CBCategory
 		
 		if($this->video_exists($vid))
 		{
+			
 			$vdetails = $this->get_video($vid);
-			//list of functions to perform while deleting a video
-			$del_vid_funcs = $this->video_delete_functions;
-			if(is_array($del_vid_funcs))
+
+			if($this->is_video_owner($vid,userid()) || has_access('admin_access'))
 			{
-				foreach($del_vid_funcs as $func)
+				//list of functions to perform while deleting a video
+				$del_vid_funcs = $this->video_delete_functions;
+				if(is_array($del_vid_funcs))
 				{
-					if(function_exists($func))
+					foreach($del_vid_funcs as $func)
 					{
-						$func($vdetails);
+						if(function_exists($func))
+						{
+							$func($vdetails);
+						}
 					}
 				}
+				//Finally Removing Database entry of video
+				$db->execute("DELETE FROM video WHERE videoid='$vid'");
+				e(lang("class_vdo_del_msg"),m);
+			}else{
+				e(lang("You cannot delete this video"));
 			}
-			//Finally Removing Database entry of video
-			$db->execute("DELETE FROM video WHERE videoid='$vid'");
-			e(lang("class_vdo_del_msg"),m);
 		}else{
 			e(lang("class_vdo_del_err"));
 		}
@@ -319,31 +337,85 @@ class CBvideo extends CBCategory
 	 */
 	function get_videos($params)
 	{
-		$cond_array = array();
+		global $db;
+		$limit = $params['limit'];
+		$order = $params['order'];
+		
+		$cond = "";
 		
 		//Setting Category Condition
 		if($params['category'])
 		{
-			if(is_array($params['category']))
+			if($cond!='')
+				$cond .= ' AND ';
+				
+			$cond .= " (";
+			if(!is_array($params['category']))
 			{
-				foreach($params['category'] as $cat_params)
-				{
-					$cond_array[] = " category ='$cat_params' ";
-				}
-			}else{
-				$cond_array[] = " category ='".$params['category']."' ";
+				$cats = explode(',',$params['categgory']);
+			}else
+				$cats = $params['category'];
+			
+			$count = 0;
+			foreach($cats as $cat_params)
+			{
+				$count ++;
+				if($count>1)
+				$cond .=" OR ";
+				$cond .= " category LIKE '%#$cat_params#%' ";
 			}
+			
+			$cond .= ")";
 		}
 		
 		//date span
-		switch($param['date_span'])
+		if($params['date_span'])
 		{
-			case 'today';
-			{
-				
-			}
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " ".cbsearch::date_margin("date_added",$params['date_span']);
 		}
 		
+		//uid 
+		if($params['user'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " userid='".$params['user']."'";
+		}
+		
+		$tag_n_title='';
+		//Tags
+		if($params['tags'])
+		{
+			if($tag_n_title!='')
+				$tag_n_title .= ' OR ';
+			$tag_n_title .= " tags LIKE '%".$params['tags']."%'";
+		}
+		//TITLE
+		if($params['title'])
+		{
+			if($tag_n_title!='')
+				$tag_n_title .= ' OR ';
+			$tag_n_title .= " title LIKE '%".$params['tags']."%'";
+		}
+		
+		if($tag_n_title)
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " ($tag_n_title) ";
+		}
+		
+		$result = $db->select('video','*',$cond,$limit,$order);
+		
+		
+		if($params['count_only'])
+			return $result = $db->count('video','*',$cond);
+		if($params['assign'])
+			assign($params['assign'],$result);
+		else
+			return $result;
 	}
 	
 	
@@ -406,6 +478,8 @@ class CBvideo extends CBCategory
 		$this->action->name = 'video';
 		$this->action->obj_class = 'cbvideo';
 		$this->action->check_func = 'video_exists';
+		$this->action->type_tbl = $this->dbtbl['video'];
+		$this->action->type_id_field = 'videoid';
 	}
 	
 	
@@ -508,6 +582,42 @@ class CBvideo extends CBCategory
 
 		$this->search->search_type['video']['fields'] = $fields;
 	}
+	
+	
+	/**
+	 * Function used to update video and set a thumb as default
+	 * @param VID
+	 * @param THUMB NUM
+	 */
+	function set_default_thumb($vid,$thumb)
+	{
+		global $db,$LANG;
+		$num = get_thumb_num($thumb);
+		$file = THUMBS_DIR.'/'.$thumb;
+		if(file_exists($file))
+		{
+			$db->update("video",array("default_thumb"),array($num)," videoid='$vid'");
+			e($LANG['vid_thumb_changed'],m);
+		}else{
+			e($LANG['vid_thumb_change_err']);
+		}
+	}	
+	
+	
+	/**
+	 * Function used to check weather current user is video owner or not
+	 */
+	function is_video_owner($vid,$uid)
+	{
+		global $db;
+		
+		$result = $db->count($this->dbtbl['video'],'videoid',"videoid='$vid' AND userid='$uid' ");
+		if($result>0)
+			return true;
+		else
+			return false;
+	}
+	
 	
 }
 ?>

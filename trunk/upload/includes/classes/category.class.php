@@ -5,8 +5,8 @@
  * This class is used to create 
  * and manage categories
  * its an abstract class
- * it will be used in custom plugins or built-in plugins
- * sections also use category system like videos, groups , channels etc
+ * it will be used in custom plugins or built-in sections
+ * sections like videos, groups , channels etc use this category system
  *
  * this abstract class has some rules
  * each section's category column should be named as "category"

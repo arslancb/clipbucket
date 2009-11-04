@@ -1,0 +1,24 @@
+<div class="account_head_container">
+  <div class="account_thumb_container" align="center">
+	<img src="{$userquery->getUserThumb($user)}" alt="{$user.username}" class="account_thumb"><br />
+    <a href="{$userquery->profile_link($user)}">View Profile / Channel </a></div>
+    <div class="stats">
+    	<span class="account_stat">username : <strong>{$user.username}</strong></span>
+        <span class="account_stat">joined : <strong>{$user.doj|date_format}</strong></span>
+        <span class="account_stat">last logged in : <strong>{$user.last_logged|nicetime}</strong></span>
+        <span class="account_stat">last active : <strong>{$user.last_active|nicetime}</strong></span>
+        <span class="account_stat">total logins : <strong>{$user.num_visits|number_format}</strong></span>
+        <span class="account_stat">profile views: <strong>{$user.profile_hits|number_format}</strong></span>
+        <span class="account_stat">total videos: <strong>{$user.total_videos|number_format}</strong></span>
+        <span class="account_stat">total videos watched: <strong>{$user.total_watched|number_format}</strong></span>
+        <span class="account_stat">subscribers: <strong>{$user.subscribers|number_format}</strong></span>
+        <span class="account_stat">country: <strong>{$user.country|country}</strong></span>
+    </div>
+    <div class="account_head_right">
+    	<div class="pm_box">
+         <span class="messages">messages</span>
+         {$cbpm->get_new_messages()}
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>

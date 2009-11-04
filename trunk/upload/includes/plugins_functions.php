@@ -72,6 +72,17 @@
 		return $title;
 	}
 	
+	
+	/**
+	 * Function used to display Private Message
+	 */
+	function private_message($array)
+	{
+		global $cbpm;
+		$array = $array['pm'];
+		echo $array['message_content'];
+		$cbpm->parse_attachments($array['message_attachments']);
+	}
 
 
 ?>

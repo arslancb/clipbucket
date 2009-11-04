@@ -56,7 +56,7 @@
 				$upload_fields = array_merge($upload_fields,$this->custom_form_fields);
 				
 		//Now Validating Each Field 1 by 1
-		foreach($upload_fields as $field)
+		/*foreach($upload_fields as $field)
 		{
 			$field['name'] = formObj::rmBrackets($field['name']);
 			
@@ -137,7 +137,8 @@
 					}
 				}
 			}	
-		}
+		}*/
+		validate_cb_form($upload_fields,$array);
 		
 	}
 	function ValidateUploadForm()
@@ -888,6 +889,75 @@
 		}
 		
 		return $new_array;
+	}
+	
+	
+	/**
+	 * function used to upload user avatar and or background
+	 */
+	function upload_user_file($type='a',$file,$uid)
+	{
+		global $db,$userquery,$imgObj;
+		$avatar_dir = BASEDIR.'/images/avatars/';
+		$bg_dir		= BASEDIR.'/images/backgrounds/';
+		
+		if($userquery->user_exists($uid))
+		{
+			switch($type)
+			{
+				case 'a':
+				case 'avatar':
+				{
+					if(file_exists($file['tmp_name']))
+					{
+						$ext = getext($file['name']);
+						$file_name = $uid.'.'.$ext;
+						$file_path = $avatar_dir.$file_name;
+						if(move_uploaded_file($file['tmp_name'],$file_path))
+						{
+							if(!$imgObj->ValidateImage($file_path,$ext))
+							{
+								e(lang("Invalid file type"));
+								@unlink($file_path);
+							}else{
+								$small_size = $avatar_dir.$uid.'-small.'.$ext;
+								$imgObj->CreateThumb($file_path,$file_path,AVATAR_SIZE,$ext);
+								$imgObj->CreateThumb($file_path,$small_size,AVATAR_SMALL_SIZE,$ext);
+							}
+						}else{
+							e(lang("An error occured "));
+						}
+					}
+				}
+				break;
+				case 'b':
+				case 'bg':
+				case 'background':
+				{
+					if(file_exists($file['tmp_name']))
+					{
+						$ext = getext($file['name']);
+						$file_name = $uid.'.'.$ext;
+						$file_path = $bg_dir.$file_name;
+						if(move_uploaded_file($file['tmp_name'],$file_path))
+						{
+							if(!$imgObj->ValidateImage($file_path,$ext))
+							{
+								e(lang("Invalid file type"));
+								@unlink($file_path);
+							}else{
+								$imgObj->CreateThumb($file_path,$file_path,BG_SIZE,$ext);
+							}
+						}else{
+							e(lang("An error occured While Uploading File!"));
+						}
+					}
+				}
+				break;
+			}
+			return $file_name;
+		}else
+			e(lang('user_doesnt_exist'));
 	}
 
 }	

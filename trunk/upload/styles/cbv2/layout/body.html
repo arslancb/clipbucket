@@ -1,19 +1,23 @@
 {* Including Global Header *}
 {include file="$style_dir/global_header.html"}
-<html>
 <body>
 <div id="body">
+
     <!-- Including Commong header -->
     {include file="$style_dir/header.html" }
     {include file="$style_dir/message.html"}
     <div id="content_container">
     <div id="content">
         {foreach from=$template_files item=file}
-            {include file="$style_dir/$file" }
+        	{if template_file_exists($file,$style_dir)}
+            	{include file="$style_dir/$file" }
+            {else}
+            	<div class="error" align="center">Unable to load template file "{$file}"</div>
+            {/if}
         {/foreach}
     </div>
     </div>
-    
+    <div class="clear"></div>
     <div id="footer">
     	<div class="footer">
         	&copy; {$title} {$smarty.now|date_format:"%Y"}

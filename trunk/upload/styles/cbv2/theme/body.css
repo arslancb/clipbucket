@@ -30,7 +30,7 @@ a{text-decoration:none; font-family:Arial, Helvetica, sans-serif;color:#333; }
 
 .verticle_ad{width:160px; float:left}
 
-#footer{ background-image:url(../images/gradients.png); height:29px;}
+#footer{ background-image:url(../images/gradients.png); height:29px; margin-top:15px}
 .footer{width:980px; margin:auto; color:#fff; line-height:29px}
 
 .video_title{font-size:18px; font-weight:bold; color:#09c; text-transform:uppercase; padding:5px 0px 10px 0px}
@@ -72,6 +72,36 @@ a{text-decoration:none; font-family:Arial, Helvetica, sans-serif;color:#333; }
 .blank_screen{width:580px; padding:10px; height:50px; color:#fff; font-size:16px; font-weight:bold; margin:10px 0px 10px 0px; background-color:#333; text-align:center;}
 .video_right{width:300px; float:left}
 
+.user_small_thumb{max-height:30px; max-width:30px}
+
 /* FORM */
 .input{border:1px solid #666; background-image:url(../images/field_bg.png); background-repeat:no-repeat; width:500px; min-height:20px; font-size:11px; color:#666; padding:5px}
 .label{font-size:13px; font-weight:bold}
+
+
+
+/**
+ my account
+ */
+.account_table{border:1px solid #c2c2c2; border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px; background-image:url(../images/gradients.png); background-position:0px -36px; height:19px}
+.account_table tr td{border-right:1px solid #c2c2c2; text-indent:10px; font-family:Tahoma; font-size:11px; text-transform:uppercase; font-weight:bold}
+.account_table .last_td{border-right:0px}
+
+.account_vid_list{ margin:5px 0px 5px 0px;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px; }
+.account_vid_list tr td{text-indent:10px; font-family:Tahoma; font-size:11px; text-transform:uppercase; font-weight:bold}
+.account_vid_list .last_td{border-right:0px}
+.acc_usr_video_thumb{border:1px solid #999; margin:1px; padding:1px; display:block; float:left; width:50px;}
+
+.search_field{background-image:url(../images/blocks.png); width:150px; height:22px; border:none; padding-left:8px; padding-top:6px; font-size:11px; font:tahoma; margin:0px; float:left;}
+.search_field_button{background-image:url(../images/blocks.png); width:25px; height:22px; border:0px; background-position:-160px -0px; padding:0px; margin:0px; text-indent:-50000000px; float:left; cursor:pointer; outline:none}
+
+/**
+ * icons */
+.arrow_pointing,.edit_icon,.delete_icon,.reply_icon{background-image:url(../images/icons.png); background-repeat:no-repeat; }
+.reply_icon,.edit_icon,.delete_icon{height:15px; width:15px; }
+.delete_icon{background-position:-0px -63px }
+.edit_icon{background-position:-15px -63px }
+.reply_icon{background-position:-30px -63px }
+
+.video_control{font-weight:normal; margin-left:10px; font-size:10px}
+.arrow_pointing{background-position:-0px -78px; width:24px; height:14px;}

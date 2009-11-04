@@ -1,8 +1,7 @@
-<br />
-
 {assign var=msg value=$eh->message_list}
 {assign var=err value=$eh->error_list}
-{if $err.0 neq ''}
+{if $err.0 neq '' || $err.1 != ''}<br />
+
 <table width="910" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="11"><img src="{$imageurl}/message_tl.png" width="11" height="12" /></td>

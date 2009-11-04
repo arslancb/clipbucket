@@ -36,7 +36,7 @@ class signup {
 		 *       extra_params
 		 *       hint_1 [hint before field]
 		 *       hint_2 [hint after field]
-		 *       anchor_before [before after field]
+		 *       anchor_before [anchor before field]
 		 *       anchor_after [anchor after field]
 		 *      )
 		 */
@@ -47,7 +47,7 @@ class signup {
 			
 		$username = $default['username'];
 		$email = $default['email'];
-		$dcountry = $default['country'];
+		$dcountry = $default['country'] ? $default['country'] : $Cbucket->configs['default_country_iso2'];
 		$dob = $default['dob'];
 
 		 $dob =  $dob ? date("d-m-Y",strtotime($dob)) : '14-14-1989';
@@ -148,6 +148,7 @@ class signup {
 	 */
 	function validate_form_fields($array=NULL)
 	{
+		global $userquery;
 		$fields = $this->load_signup_fields($array);
 
 		if($array==NULL)
@@ -159,7 +160,7 @@ class signup {
 		//Mergin Array
 		$signup_fields = array_merge($fields,$this->custom_signup_fields);
 				
-		//Now Validating Each Field 1 by 1
+		/*//Now Validating Each Field 1 by 1
 		foreach($signup_fields as $field)
 		{
 			$field['name'] = formObj::rmBrackets($field['name']);
@@ -238,7 +239,8 @@ class signup {
 					}
 				}
 			}	
-		}
+		}*/
+		validate_cb_form($signup_fields,$array);
 		
 	}
 	
@@ -248,7 +250,7 @@ class signup {
 	 */
 	function signup_user($array=NULL)
 	{
-		global $LANG,$db;
+		global $LANG,$db,$userquery;
 		if($array==NULL)
 			$array = $_POST;
 		
@@ -259,6 +261,8 @@ class signup {
 		//checking terms and policy agreement
 		if($_POST['agree']!='yes')
 			e($LANG['usr_ament_err']);
+		
+		
 		if(!error())
 		{
 			$signup_fields = $this->load_signup_fields($array);
@@ -352,6 +356,26 @@ class signup {
 			
 			$db->Execute($query);
 			$insert_id = $db->insert_id();
+			$db->insert($userquery->dbtbl['user_profile'],array("userid"),array($insert_id));
+			
+			if(!$userquery->perm_check('admin_add_user',true))
+			{
+				global $cbemail;
+				$tpl = $cbemail->get_template('email_verify_template');
+				$more_var = array
+				('{username}'	=> post('username'),
+				 '{password}'	=> post('password'),
+				 '{email}'		=> post('email'),
+				 '{avcode}'		=> $avcode,
+				);
+				$var = array_merge($more_var,$var);
+				$subj = $cbemail->replace($tpl['email_template_subject'],$var);
+				$msg = $cbemail->replace($tpl['email_template'],$var);
+				
+				//Now Finally Sending Email
+				cbmail(array('to'=>post('email'),'from'=>'webmaster@localhost','subject'=>$subj,'content'=>$msg));
+			}
+			
 			
 			return $insert_id;
 		}
