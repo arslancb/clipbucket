@@ -2378,5 +2378,22 @@ class userquery {
 			e(lang("no_user_ban_msg"),"m");
 		}
 	}
+	
+	
+	
+	/**
+	 * Function used to check weather user is banned or not
+	 */
+	function is_user_banned($ban,$user=NULL)
+	{
+		global $db;
+		if(!$user)
+			$user = userid();
+		$result = $db->count($this->dbtbl['users'],"userid"," banned_users LIKE '%$ban%' AND (username='$user' OR userid='$user') ");
+		if($result)
+			return true;
+		else
+			return false;
+	}
 }
 ?>
