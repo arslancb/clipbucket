@@ -3,14 +3,14 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 31, 2009 at 10:06 PM
+-- Generation Time: Nov 04, 2009 at 12:03 PM
 -- Server version: 5.1.36
 -- PHP Version: 5.3.0
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Database: `clipbucket_svn`
+-- Database: `svn_clean`
 --
 
 -- --------------------------------------------------------
@@ -31,7 +31,12 @@ CREATE TABLE IF NOT EXISTS `action_log` (
   `action_success` enum('yes','no') CHARACTER SET latin1 NOT NULL,
   `action_details` text CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`action_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `action_log`
+--
+
 
 -- --------------------------------------------------------
 
@@ -49,7 +54,22 @@ CREATE TABLE IF NOT EXISTS `ads_data` (
   `ad_impressions` bigint(255) NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`ad_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+
+--
+-- Dumping data for table `ads_data`
+--
+
+INSERT INTO `ads_data` (`ad_id`, `ad_name`, `ad_code`, `ad_placement`, `ad_category`, `ad_status`, `ad_impressions`, `date_added`) VALUES
+(1, 'Ad Box of 300 x 250', '&lt;img src=&quot;http://www.lipsum.com/images/banners/black_300x250.gif&quot;&gt;', 'ad_300x250', 0, '1', 1056, '0000-00-00 00:00:00'),
+(9, '336x280', '&lt;img src=&quot;http://www.lipsum.com/images/banners/black_336x280.gif&quot;&gt;', '336x280', 0, '1', 33, '0000-00-00 00:00:00'),
+(2, 'Adbox 160x600', '<div style="border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:160px; height:600px; vertical-align:middle" align="center">\r\n	Ad Box 160 x 600\r\n</div>', 'ad_160x600', 0, '1', 571, '0000-00-00 00:00:00'),
+(3, 'Adbox 468x60', '&lt;div style=''border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:468px; height:60px; line-height:60px;'' align=&quot;center&quot;&gt;\r\n	Ad Box 468 x 60\r\n&lt;/div&gt;', '', 0, '1', 1956, '0000-00-00 00:00:00'),
+(4, 'Adbox 728x90', '<div style="border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:728px; height:90px; line-height:90px;" align="center">\r\n	Ad Box 728 x 90\r\n</div>', 'ad_728x90', 0, '1', 694, '0000-00-00 00:00:00'),
+(5, 'Adbox 120x600', '&lt;div style=&quot;border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:120px; height:600px; line-height:600px;&quot; align=&quot;center&quot;&gt;\r\n	Ad Box 120 x 600\r\n&lt;/div&gt;', 'ad_468x60', 0, '1', 684, '0000-00-00 00:00:00'),
+(6, 'Test', '<div style="border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:300px; height:250px; line-height:250px;" align="center">\r\n	Ad Box 11 x 11\r\n</div>', 'ad_160x600', 0, '1', 570, '0000-00-00 00:00:00'),
+(7, 'Rasd', 'asd', 'ad_120x600', 0, '1', 711, '0000-00-00 00:00:00'),
+(8, 'Tesdt', 'test', '', 0, '1', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -63,7 +83,20 @@ CREATE TABLE IF NOT EXISTS `ads_placements` (
   `placement_name` varchar(50) NOT NULL,
   `disable` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`placement_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+
+--
+-- Dumping data for table `ads_placements`
+--
+
+INSERT INTO `ads_placements` (`placement_id`, `placement`, `placement_name`, `disable`) VALUES
+(1, 'ad_160x600', 'Wide Skyscrapper 160 x 600', 'yes'),
+(2, 'ad_468x60', 'Banner 468 x 60', 'yes'),
+(3, 'ad_300x250', 'Medium Rectangle 300 x 250', 'yes'),
+(4, 'ad_728x90', 'Leader Board 728 x 90', 'yes'),
+(7, 'ad_120x600', 'Skyscrapper 120 x 600', 'yes'),
+(10, 'ad_300x300', 'AD 300x300', 'no'),
+(11, '336x280', '336 x280 ad', 'no');
 
 -- --------------------------------------------------------
 
@@ -74,6 +107,11 @@ CREATE TABLE IF NOT EXISTS `ads_placements` (
 CREATE TABLE IF NOT EXISTS `cb_global_announcement` (
   `announcement` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cb_global_announcement`
+--
+
 
 -- --------------------------------------------------------
 
@@ -86,13 +124,20 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `type` varchar(3) NOT NULL,
   `comment` text NOT NULL,
   `userid` int(60) NOT NULL,
+  `anonym_name` varchar(255) NOT NULL,
+  `anonym_email` varchar(255) NOT NULL,
   `parent_id` int(60) NOT NULL,
   `type_id` int(225) NOT NULL,
   `vote` bigint(225) NOT NULL,
   `voters` text NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`comment_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `comments`
+--
+
 
 -- --------------------------------------------------------
 
@@ -105,681 +150,11 @@ CREATE TABLE IF NOT EXISTS `config` (
   `name` varchar(100) NOT NULL DEFAULT '',
   `value` mediumtext NOT NULL,
   PRIMARY KEY (`configid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=77 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=84 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `contacts`
---
-
-CREATE TABLE IF NOT EXISTS `contacts` (
-  `contactid` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(20) NOT NULL,
-  `friend_username` varchar(20) NOT NULL,
-  `type` int(20) NOT NULL DEFAULT '1',
-  `status` enum('1','0') NOT NULL DEFAULT '0',
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`contactid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `conversion_queue`
---
-
-CREATE TABLE IF NOT EXISTS `conversion_queue` (
-  `cqueue_id` int(11) NOT NULL AUTO_INCREMENT,
-  `cqueue_name` varchar(32) NOT NULL,
-  `cqueue_ext` varchar(5) NOT NULL,
-  `cqueue_tmp_ext` varchar(3) NOT NULL,
-  `cqueue_conversion` enum('yes','no','p') NOT NULL DEFAULT 'no',
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`cqueue_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `countries`
---
-
-CREATE TABLE IF NOT EXISTS `countries` (
-  `id` int(11) NOT NULL,
-  `iso2` char(2) CHARACTER SET latin1 DEFAULT NULL,
-  `iso3` char(3) CHARACTER SET latin1 DEFAULT NULL,
-  `name_en` varchar(64) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `custom_fields`
---
-
-CREATE TABLE IF NOT EXISTS `custom_fields` (
-  `custom_field_list_id` int(11) NOT NULL AUTO_INCREMENT,
-  `custom_field_title` text NOT NULL,
-  `custom_field_type` text NOT NULL,
-  `custom_field_name` text NOT NULL,
-  `custom_field_id` text NOT NULL,
-  `custom_field_value` text NOT NULL,
-  `custom_field_hint_1` text NOT NULL,
-  `custom_field_db_field` text NOT NULL,
-  `custom_field_required` enum('yes','no') NOT NULL DEFAULT 'no',
-  `custom_field_validate_function` text NOT NULL,
-  `custom_field_invalid_err` text NOT NULL,
-  `custom_field_display_function` text NOT NULL,
-  `custom_field_anchor_before` text NOT NULL,
-  `custom_field_anchor_after` text NOT NULL,
-  `custom_field_hint_2` text NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`custom_field_list_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `editors_picks`
---
-
-CREATE TABLE IF NOT EXISTS `editors_picks` (
-  `pick_id` int(225) NOT NULL AUTO_INCREMENT,
-  `videokey` mediumtext NOT NULL,
-  `sort` bigint(5) NOT NULL DEFAULT '1',
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` enum('0','1') NOT NULL DEFAULT '1',
-  PRIMARY KEY (`pick_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `email_settings`
---
-
-CREATE TABLE IF NOT EXISTS `email_settings` (
-  `email_settings_id` int(25) NOT NULL AUTO_INCREMENT,
-  `email_settings_name` varchar(60) NOT NULL,
-  `email_settings_value` mediumtext NOT NULL,
-  `email_settings_headers` mediumtext NOT NULL,
-  PRIMARY KEY (`email_settings_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `flagged_videos`
---
-
-CREATE TABLE IF NOT EXISTS `flagged_videos` (
-  `flagged_id` int(11) NOT NULL AUTO_INCREMENT,
-  `videoid` int(11) NOT NULL,
-  `username` varchar(20) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`flagged_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `groups`
---
-
-CREATE TABLE IF NOT EXISTS `groups` (
-  `group_id` int(225) NOT NULL AUTO_INCREMENT,
-  `group_name` mediumtext NOT NULL,
-  `group_description` mediumtext NOT NULL,
-  `group_tags` mediumtext NOT NULL,
-  `group_url` mediumtext NOT NULL,
-  `group_category` int(20) NOT NULL,
-  `group_type` enum('0','1','2') NOT NULL DEFAULT '0',
-  `video_type` enum('0','1','2') NOT NULL DEFAULT '0',
-  `post_type` enum('0','1','2') NOT NULL DEFAULT '0',
-  `active` enum('yes','no') NOT NULL DEFAULT 'yes',
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `username` varchar(26) NOT NULL,
-  `userid` int(11) NOT NULL,
-  `featured` enum('yes','no') NOT NULL DEFAULT 'no',
-  `group_thumb` mediumtext NOT NULL,
-  `total_videos` int(225) NOT NULL,
-  `total_members` int(225) NOT NULL,
-  `total_topics` int(225) NOT NULL,
-  PRIMARY KEY (`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `group_invitations`
---
-
-CREATE TABLE IF NOT EXISTS `group_invitations` (
-  `invitation_id` int(225) NOT NULL AUTO_INCREMENT,
-  `group_id` int(225) NOT NULL,
-  `invited_user` varchar(16) NOT NULL,
-  `invited_by` varchar(16) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`invitation_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `group_members`
---
-
-CREATE TABLE IF NOT EXISTS `group_members` (
-  `group_mid` int(225) NOT NULL AUTO_INCREMENT,
-  `group_id` int(225) NOT NULL,
-  `username` varchar(26) NOT NULL,
-  `userid` int(11) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `active` enum('yes','no') NOT NULL DEFAULT 'yes',
-  PRIMARY KEY (`group_mid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `group_posts`
---
-
-CREATE TABLE IF NOT EXISTS `group_posts` (
-  `post_id` int(225) NOT NULL AUTO_INCREMENT,
-  `topic_id` int(225) NOT NULL,
-  `post` mediumtext NOT NULL,
-  `username` varchar(26) NOT NULL,
-  `userid` int(11) NOT NULL,
-  `reply_to` int(225) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`post_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `group_topics`
---
-
-CREATE TABLE IF NOT EXISTS `group_topics` (
-  `topic_id` int(225) NOT NULL AUTO_INCREMENT,
-  `topic_title` mediumtext NOT NULL,
-  `group_id` int(225) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_reply` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `username` varchar(26) NOT NULL,
-  `userid` int(11) NOT NULL,
-  `videokey` mediumtext NOT NULL,
-  `approved` enum('yes','no') NOT NULL DEFAULT 'yes',
-  PRIMARY KEY (`topic_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `group_videos`
---
-
-CREATE TABLE IF NOT EXISTS `group_videos` (
-  `group_vid` int(225) NOT NULL AUTO_INCREMENT,
-  `videokey` mediumtext NOT NULL,
-  `group_id` int(225) NOT NULL,
-  `username` varchar(26) NOT NULL,
-  `userid` int(11) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `approved` enum('yes','no') NOT NULL,
-  PRIMARY KEY (`group_vid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `languages`
---
-
-CREATE TABLE IF NOT EXISTS `languages` (
-  `language_id` int(9) NOT NULL AUTO_INCREMENT,
-  `language_code` varchar(8) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `language_name` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
-  `language_regex` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `language_default` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `messages`
---
-
-CREATE TABLE IF NOT EXISTS `messages` (
-  `message_id` int(225) NOT NULL AUTO_INCREMENT,
-  `inbox_user` varchar(20) NOT NULL,
-  `outbox_user` varchar(20) NOT NULL,
-  `message` mediumtext NOT NULL,
-  `type` enum('1') NOT NULL DEFAULT '1',
-  `attachment_type` enum('1') NOT NULL DEFAULT '1',
-  `attachment` mediumtext NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `subject` varchar(70) NOT NULL,
-  `status` enum('0','1') NOT NULL DEFAULT '0',
-  `reply_to` int(225) NOT NULL DEFAULT '0',
-  `reciever` varchar(20) NOT NULL,
-  `sender` varchar(20) NOT NULL,
-  `inbox_user_id` int(11) NOT NULL,
-  `outbox_user_id` int(11) NOT NULL,
-  `sender_id` int(11) NOT NULL,
-  `reciever_id` int(11) NOT NULL,
-  PRIMARY KEY (`message_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `modules`
---
-
-CREATE TABLE IF NOT EXISTS `modules` (
-  `module_id` int(25) NOT NULL AUTO_INCREMENT,
-  `module_name` varchar(25) NOT NULL,
-  `module_file` varchar(60) NOT NULL,
-  `active` varchar(5) NOT NULL,
-  `module_include_file` text NOT NULL,
-  PRIMARY KEY (`module_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `phrases`
---
-
-CREATE TABLE IF NOT EXISTS `phrases` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `lang_iso` varchar(2) CHARACTER SET utf8 NOT NULL DEFAULT 'en',
-  `varname` varchar(250) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `text` text COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=773 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `players`
---
-
-CREATE TABLE IF NOT EXISTS `players` (
-  `player_id` int(10) NOT NULL AUTO_INCREMENT,
-  `player_name` varchar(25) NOT NULL,
-  `player_file` varchar(30) NOT NULL,
-  `template_id` varchar(15) NOT NULL,
-  PRIMARY KEY (`player_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `player_skins`
---
-
-CREATE TABLE IF NOT EXISTS `player_skins` (
-  `player_skins_id` int(20) NOT NULL AUTO_INCREMENT,
-  `player_id` int(20) NOT NULL,
-  `player_skin_name` varchar(60) CHARACTER SET latin1 NOT NULL,
-  `player_skin_file` text CHARACTER SET latin1 NOT NULL,
-  `player_skin_type` enum('name','file') CHARACTER SET latin1 NOT NULL DEFAULT 'file',
-  PRIMARY KEY (`player_skins_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `plugins`
---
-
-CREATE TABLE IF NOT EXISTS `plugins` (
-  `plugin_id` int(255) NOT NULL AUTO_INCREMENT,
-  `plugin_file` text NOT NULL,
-  `plugin_folder` text NOT NULL,
-  `plugin_version` float NOT NULL,
-  `plugin_license_type` varchar(10) NOT NULL DEFAULT 'GPL',
-  `plugin_license_key` varchar(5) NOT NULL,
-  `plugin_license_code` text NOT NULL,
-  `plugin_active` enum('yes','no') NOT NULL,
-  PRIMARY KEY (`plugin_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `plugin_config`
---
-
-CREATE TABLE IF NOT EXISTS `plugin_config` (
-  `plugin_config_id` int(223) NOT NULL AUTO_INCREMENT,
-  `plugin_id_code` varchar(25) CHARACTER SET latin1 NOT NULL,
-  `plugin_config_name` text CHARACTER SET latin1 NOT NULL,
-  `plugin_config_value` text CHARACTER SET latin1 NOT NULL,
-  `player_type` enum('built-in','plugin') CHARACTER SET latin1 NOT NULL DEFAULT 'built-in',
-  `player_admin_file` text CHARACTER SET latin1 NOT NULL,
-  `player_include_file` text CHARACTER SET latin1 NOT NULL,
-  PRIMARY KEY (`plugin_config_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `stats`
---
-
-CREATE TABLE IF NOT EXISTS `stats` (
-  `stat_id` int(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(60) NOT NULL,
-  `value` varchar(60) NOT NULL,
-  PRIMARY KEY (`stat_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `subscriptions`
---
-
-CREATE TABLE IF NOT EXISTS `subscriptions` (
-  `subscription_id` int(225) NOT NULL AUTO_INCREMENT,
-  `subscribed_user` varchar(20) NOT NULL,
-  `subscriber_id` int(11) NOT NULL,
-  `userid` int(11) NOT NULL,
-  `subscribed_to` mediumtext NOT NULL,
-  `subscription_type` enum('0','1') NOT NULL DEFAULT '0',
-  `notification_type` enum('0','1') NOT NULL DEFAULT '0',
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`subscription_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `template`
---
-
-CREATE TABLE IF NOT EXISTS `template` (
-  `template_id` int(20) NOT NULL AUTO_INCREMENT,
-  `template_name` varchar(25) NOT NULL,
-  `template_dir` varchar(30) NOT NULL,
-  PRIMARY KEY (`template_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE IF NOT EXISTS `users` (
-  `userid` bigint(20) NOT NULL AUTO_INCREMENT,
-  `channel_title` mediumtext NOT NULL,
-  `channel_des` mediumtext NOT NULL,
-  `featured_video` mediumtext NOT NULL,
-  `username` text NOT NULL,
-  `user_session_key` varchar(32) NOT NULL,
-  `user_session_code` int(5) NOT NULL,
-  `password` varchar(40) NOT NULL DEFAULT '',
-  `email` varchar(80) NOT NULL DEFAULT '',
-  `msg_notify` enum('yes','no') NOT NULL DEFAULT 'yes',
-  `first_name` varchar(100) NOT NULL DEFAULT '',
-  `last_name` varchar(100) NOT NULL DEFAULT '',
-  `avatar` varchar(225) NOT NULL DEFAULT 'no_avatar.jpg',
-  `sex` enum('male','female') NOT NULL DEFAULT 'male',
-  `dob` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `show_dob` enum('0','1') DEFAULT '0',
-  `country` varchar(20) NOT NULL DEFAULT '',
-  `level` int(6) NOT NULL DEFAULT '4',
-  `usr_status` enum('Ok','ToActivate','Locked','Deleted') NOT NULL DEFAULT 'ToActivate',
-  `avcode` mediumtext NOT NULL,
-  `postal_code` varchar(20) NOT NULL DEFAULT '',
-  `doj` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_logged` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `num_visits` bigint(20) NOT NULL DEFAULT '0',
-  `session` varchar(32) NOT NULL DEFAULT '',
-  `ip` varchar(15) NOT NULL DEFAULT '',
-  `signup_ip` varchar(15) NOT NULL DEFAULT '',
-  `time_zone` tinyint(4) NOT NULL DEFAULT '0',
-  `profile_tags` mediumtext,
-  `web_url` varchar(200) NOT NULL DEFAULT '',
-  `hometown` varchar(100) NOT NULL DEFAULT '',
-  `city` varchar(100) NOT NULL DEFAULT '',
-  `zip` varchar(15) NOT NULL DEFAULT '',
-  `privacy` enum('Online','Offline','Custom') NOT NULL DEFAULT 'Online',
-  `show_profile` enum('All','Members','Friends') NOT NULL DEFAULT 'All',
-  `allow_comment` enum('Yes','No') NOT NULL DEFAULT 'Yes',
-  `allow_rating` enum('Yes','No') NOT NULL DEFAULT 'Yes',
-  `content_filter` enum('Nothing','On','Off') NOT NULL DEFAULT 'Nothing',
-  `featured` enum('No','Yes') NOT NULL DEFAULT 'No',
-  `profile_hits` bigint(20) DEFAULT '0',
-  `total_watched` bigint(20) NOT NULL DEFAULT '0',
-  `total_videos` bigint(20) NOT NULL,
-  `total_comments` bigint(20) NOT NULL,
-  `icon_id` bigint(20) NOT NULL DEFAULT '0',
-  `browse_criteria` mediumtext,
-  `icon_use_last_uploaded` enum('No','Photo','Video','Both') NOT NULL DEFAULT 'No',
-  `about_me` mediumtext NOT NULL,
-  `education` varchar(3) DEFAULT NULL,
-  `schools` mediumtext NOT NULL,
-  `occupation` mediumtext NOT NULL,
-  `companies` mediumtext NOT NULL,
-  `relation_status` char(3) DEFAULT NULL,
-  `ban_status` enum('yes','no') NOT NULL DEFAULT 'no',
-  `hobbies` mediumtext NOT NULL,
-  `fav_movies` mediumtext NOT NULL,
-  `fav_music` mediumtext NOT NULL,
-  `fav_books` mediumtext NOT NULL,
-  `upload` varchar(20) NOT NULL DEFAULT '1',
-  `subscribers` varchar(25) NOT NULL DEFAULT '0',
-  `background` mediumtext NOT NULL,
-  `total_groups` bigint(20) NOT NULL,
-  `last_active` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`userid`),
-  KEY `ind_status_doj` (`usr_status`,`doj`),
-  KEY `ind_status_id` (`usr_status`,`userid`),
-  KEY `ind_hits_doj` (`profile_hits`,`doj`),
-  FULLTEXT KEY `profile_tags` (`profile_tags`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
-
--- --------------------------------------------------------
-
 --
--- Table structure for table `user_levels`
+-- Dumping data for table `config`
 --
-
-CREATE TABLE IF NOT EXISTS `user_levels` (
-  `user_level_id` int(20) NOT NULL AUTO_INCREMENT,
-  `user_level_active` enum('yes','no') CHARACTER SET latin1 NOT NULL DEFAULT 'yes',
-  `user_level_name` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `user_level_is_default` enum('yes','no') NOT NULL DEFAULT 'no',
-  PRIMARY KEY (`user_level_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_levels_permissions`
---
-
-CREATE TABLE IF NOT EXISTS `user_levels_permissions` (
-  `user_level_permission_id` int(22) NOT NULL AUTO_INCREMENT,
-  `user_level_id` int(22) NOT NULL,
-  `admin_access` enum('yes','no') CHARACTER SET latin1 NOT NULL DEFAULT 'no',
-  `upload_access` enum('yes','no') CHARACTER SET latin1 NOT NULL DEFAULT 'no',
-  `channel_access` enum('yes','no') NOT NULL DEFAULT 'yes',
-  `mod_access` enum('yes','no') NOT NULL DEFAULT 'no',
-  PRIMARY KEY (`user_level_permission_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `validation_re`
---
-
-CREATE TABLE IF NOT EXISTS `validation_re` (
-  `re_id` int(25) NOT NULL AUTO_INCREMENT,
-  `re_name` varchar(60) CHARACTER SET utf8 NOT NULL,
-  `re_code` varchar(60) CHARACTER SET utf8 NOT NULL,
-  `re_syntax` text CHARACTER SET utf8 NOT NULL,
-  PRIMARY KEY (`re_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `video`
---
-
-CREATE TABLE IF NOT EXISTS `video` (
-  `videoid` bigint(20) NOT NULL AUTO_INCREMENT,
-  `videokey` mediumtext NOT NULL,
-  `username` text NOT NULL,
-  `userid` int(11) NOT NULL,
-  `title` mediumtext NOT NULL,
-  `flv` mediumtext NOT NULL,
-  `file_name` varchar(32) NOT NULL,
-  `description` mediumtext NOT NULL,
-  `tags` mediumtext NOT NULL,
-  `category` varchar(20) NOT NULL DEFAULT '0',
-  `broadcast` varchar(10) NOT NULL DEFAULT '',
-  `location` mediumtext,
-  `datecreated` date DEFAULT NULL,
-  `country` mediumtext,
-  `allow_embedding` char(3) NOT NULL DEFAULT '',
-  `rating` int(15) NOT NULL DEFAULT '0',
-  `rated_by` varchar(20) NOT NULL DEFAULT '0',
-  `voter_ids` mediumtext NOT NULL,
-  `allow_comments` char(3) NOT NULL DEFAULT '',
-  `comment_voting` char(3) NOT NULL DEFAULT '',
-  `comments_count` int(15) NOT NULL DEFAULT '0',
-  `featured` char(3) NOT NULL DEFAULT 'no',
-  `featured_description` mediumtext NOT NULL,
-  `allow_rating` char(3) NOT NULL DEFAULT '',
-  `active` char(3) NOT NULL DEFAULT '0',
-  `favourite_count` varchar(15) NOT NULL DEFAULT '0',
-  `playlist_count` varchar(15) NOT NULL DEFAULT '0',
-  `views` bigint(22) NOT NULL DEFAULT '0',
-  `last_viewed` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `flagged` varchar(3) NOT NULL DEFAULT 'no',
-  `duration` varchar(20) NOT NULL DEFAULT '00',
-  `status` enum('Successful','Processing') NOT NULL DEFAULT 'Processing',
-  `flv_file_url` text,
-  `default_thumb` int(3) NOT NULL DEFAULT '1',
-  `embed_code` text NOT NULL,
-  PRIMARY KEY (`videoid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `video_categories`
---
-
-CREATE TABLE IF NOT EXISTS `video_categories` (
-  `category_id` int(225) NOT NULL AUTO_INCREMENT,
-  `category_name` varchar(30) NOT NULL DEFAULT '',
-  `category_desc` text NOT NULL,
-  `date_added` mediumtext NOT NULL,
-  `category_thumb` mediumtext NOT NULL,
-  `isdefault` enum('yes','no') NOT NULL DEFAULT 'no',
-  PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `video_detail`
---
-
-CREATE TABLE IF NOT EXISTS `video_detail` (
-  `detail_id` int(11) NOT NULL AUTO_INCREMENT,
-  `flv` mediumtext NOT NULL,
-  `original` mediumtext NOT NULL,
-  `duration` varchar(25) NOT NULL,
-  `status` varchar(15) NOT NULL DEFAULT 'Processing',
-  PRIMARY KEY (`detail_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `video_favourites`
---
-
-CREATE TABLE IF NOT EXISTS `video_favourites` (
-  `fav_id` int(11) NOT NULL AUTO_INCREMENT,
-  `videoid` int(11) NOT NULL,
-  `userid` int(11) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`fav_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `video_files`
---
-
-CREATE TABLE IF NOT EXISTS `video_files` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `status` int(2) NOT NULL,
-  `file_conversion_log` text NOT NULL,
-  `encoder` char(16) NOT NULL,
-  `src_path` text NOT NULL,
-  `src_name` char(64) NOT NULL,
-  `src_ext` char(8) NOT NULL,
-  `src_format` char(32) NOT NULL,
-  `src_duration` char(10) NOT NULL,
-  `src_size` char(10) NOT NULL,
-  `src_bitrate` char(6) NOT NULL,
-  `src_video_width` char(5) NOT NULL,
-  `src_video_height` char(5) NOT NULL,
-  `src_video_wh_ratio` char(10) NOT NULL,
-  `src_video_codec` char(16) NOT NULL,
-  `src_video_rate` char(10) NOT NULL,
-  `src_video_bitrate` char(10) NOT NULL,
-  `src_video_color` char(16) NOT NULL,
-  `src_audio_codec` char(16) NOT NULL,
-  `src_audio_bitrate` char(10) NOT NULL,
-  `src_audio_rate` char(10) NOT NULL,
-  `src_audio_channels` char(16) NOT NULL,
-  `output_path` text NOT NULL,
-  `output_format` char(32) NOT NULL,
-  `output_duration` char(10) NOT NULL,
-  `output_size` char(10) NOT NULL,
-  `output_bitrate` char(6) NOT NULL,
-  `output_video_width` char(5) NOT NULL,
-  `output_video_height` char(5) NOT NULL,
-  `output_video_wh_ratio` char(10) NOT NULL,
-  `output_video_codec` char(16) NOT NULL,
-  `output_video_rate` char(10) NOT NULL,
-  `output_video_bitrate` char(10) NOT NULL,
-  `output_video_color` char(16) NOT NULL,
-  `output_audio_codec` char(16) NOT NULL,
-  `output_audio_bitrate` char(10) NOT NULL,
-  `output_audio_rate` char(10) NOT NULL,
-  `output_audio_channels` char(16) NOT NULL,
-  PRIMARY KEY (`id`),
-  FULLTEXT KEY `src_bitrate` (`src_bitrate`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
-
-
-
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-
-
 
 INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (45, 'user_comment_opt1', ''),
@@ -789,14 +164,14 @@ INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (15, 'srate', '22050'),
 (14, 'vbrate', '500000'),
 (10, 'keywords', 'clip bucket video sharing website script'),
-(11, 'ffmpegpath', 'F:/wamp/bin/ffmpeg/ffmpeg.exe'),
+(11, 'ffmpegpath', 'E:/wamp/bin/ffmpeg/ffmpeg.exe'),
 (12, 'flvpath', ''),
 (13, 'whatis', '<p>ClipBucket is the home for video online:</p>\r\n          \r\n            <ul><li><strong>Watch</strong> millions  of videos</li><li><strong>Share favorites</strong> with friends and family</li><li><strong>Connect with other users</strong> who share your interests</li><li><strong>Upload your videos</strong> to a worldwide audience</li></ul>\r\n<h3>Sign up now to join the ClipBucket community!</h3>'),
 (9, 'description', 'Clip Bucket is an ultimate Video Sharing script'),
 (8, 'closed_msg', 'We Are Updating Our Website, Please Visit us after few hours.'),
 (7, 'closed', '0'),
-(6, 'player_file', ''),
-(5, 'template_dir', 'clipbucketblue'),
+(6, 'player_file', 'cbplayer.plug.php'),
+(5, 'template_dir', 'cbv2'),
 (4, 'basedir', 'e:\\wamp\\www\\clipbucket\\2.x\\2\\upload'),
 (2, 'site_slogan', 'A way to broadcast yourself'),
 (1, 'site_title', 'ClipBucket v2'),
@@ -822,10 +197,10 @@ INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (29, 'channels_list_per_tab', '13'),
 (28, 'videos_list_per_tab', '12'),
 (27, 'channels_list_per_page', '25'),
-(26, 'videos_list_per_page', '24'),
+(26, 'videos_list_per_page', '15'),
 (51, 'allow_upload', 'yes'),
 (3, 'baseurl', 'http://localhost/clipbucket/2.x/2/upload'),
-(25, 'php_path', 'F:/wamp/bin/php/php5.2.9-1/php-win.exe'),
+(25, 'php_path', 'E:/wamp/bin/php/php5.3.0/php-win.exe'),
 (24, 'allow_registeration', '1'),
 (19, 'mencoderpath', ''),
 (23, 'email_verification', '1'),
@@ -856,9 +231,72 @@ INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (72, 'user_max_chr', '15'),
 (73, 'disallowed_usernames', 'shit, asshole, fucker'),
 (74, 'min_age_reg', '0'),
-(75, 'max_comment_chr', '15'),
-(76, 'user_comment_own', '1');
+(75, 'max_comment_chr', '350'),
+(76, 'user_comment_own', '1'),
+(77, 'anonym_comments', 'yes'),
+(78, 'player_dir', 'cbplayer'),
+(79, 'player_width', '548'),
+(80, 'player_height', '275'),
+(81, 'default_country_iso2', 'PK'),
+(82, 'channel_player_width', '600'),
+(83, 'channel_player_height', '281');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contacts`
+--
+
+CREATE TABLE IF NOT EXISTS `contacts` (
+  `contact_id` int(225) NOT NULL AUTO_INCREMENT,
+  `userid` int(225) NOT NULL,
+  `contact_userid` int(225) NOT NULL,
+  PRIMARY KEY (`contact_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `contacts`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `conversion_queue`
+--
+
+CREATE TABLE IF NOT EXISTS `conversion_queue` (
+  `cqueue_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cqueue_name` varchar(32) NOT NULL,
+  `cqueue_ext` varchar(5) NOT NULL,
+  `cqueue_tmp_ext` varchar(3) NOT NULL,
+  `cqueue_conversion` enum('yes','no','p') NOT NULL DEFAULT 'no',
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`cqueue_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `conversion_queue`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `countries`
+--
+
+CREATE TABLE IF NOT EXISTS `countries` (
+  `id` int(11) NOT NULL,
+  `iso2` char(2) CHARACTER SET latin1 DEFAULT NULL,
+  `iso3` char(3) CHARACTER SET latin1 DEFAULT NULL,
+  `name_en` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `countries`
+--
 
 INSERT INTO `countries` (`id`, `iso2`, `iso3`, `name_en`) VALUES
 (1, 'AF', 'AFG', 'Afghanistan'),
@@ -1092,6 +530,74 @@ INSERT INTO `countries` (`id`, `iso2`, `iso3`, `name_en`) VALUES
 (240, 'ZM', 'ZMB', 'Zambia'),
 (241, 'ZW', 'ZWE', 'Zimbabwe');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `custom_fields`
+--
+
+CREATE TABLE IF NOT EXISTS `custom_fields` (
+  `custom_field_list_id` int(11) NOT NULL AUTO_INCREMENT,
+  `custom_field_title` text NOT NULL,
+  `custom_field_type` text NOT NULL,
+  `custom_field_name` text NOT NULL,
+  `custom_field_id` text NOT NULL,
+  `custom_field_value` text NOT NULL,
+  `custom_field_hint_1` text NOT NULL,
+  `custom_field_db_field` text NOT NULL,
+  `custom_field_required` enum('yes','no') NOT NULL DEFAULT 'no',
+  `custom_field_validate_function` text NOT NULL,
+  `custom_field_invalid_err` text NOT NULL,
+  `custom_field_display_function` text NOT NULL,
+  `custom_field_anchor_before` text NOT NULL,
+  `custom_field_anchor_after` text NOT NULL,
+  `custom_field_hint_2` text NOT NULL,
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`custom_field_list_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `custom_fields`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `editors_picks`
+--
+
+CREATE TABLE IF NOT EXISTS `editors_picks` (
+  `pick_id` int(225) NOT NULL AUTO_INCREMENT,
+  `videokey` mediumtext NOT NULL,
+  `sort` bigint(5) NOT NULL DEFAULT '1',
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` enum('0','1') NOT NULL DEFAULT '1',
+  PRIMARY KEY (`pick_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `editors_picks`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `email_settings`
+--
+
+CREATE TABLE IF NOT EXISTS `email_settings` (
+  `email_settings_id` int(25) NOT NULL AUTO_INCREMENT,
+  `email_settings_name` varchar(60) NOT NULL,
+  `email_settings_value` mediumtext NOT NULL,
+  `email_settings_headers` mediumtext NOT NULL,
+  PRIMARY KEY (`email_settings_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `email_settings`
+--
 
 INSERT INTO `email_settings` (`email_settings_id`, `email_settings_name`, `email_settings_value`, `email_settings_headers`) VALUES
 (1, 'website_email', 'email@example.com', ''),
@@ -1103,17 +609,319 @@ INSERT INTO `email_settings` (`email_settings_id`, `email_settings_name`, `email
 (7, 'share_video_template', '<html>\r\n<head>\r\n<style type="text/css">\r\n<!--\r\n.title {\r\n	font-family: Arial, Helvetica, sans-serif;\r\n	padding: 5px;\r\n	font-weight:bold;\r\n	color: #FFFFFF;\r\n	font-size: 16px;\r\n}\r\n.title2 {\r\n	font-family: Arial, Helvetica, sans-serif;\r\n	padding: 5px;\r\n	font-weight:bold;\r\n	color: #000000;\r\n	font-size: 14px;\r\n}\r\n.messege {\r\n	font-family: Arial, Helvetica, sans-serif;\r\n	padding: 5px;\r\n	font-weight:bold;\r\n	color: #000000;\r\n	font-size: 12px;\r\n}\r\n#videoThumb{\r\n	width: 120px;\r\n	padding: 2px;\r\n	margin: 3px;\r\n	border: 1px solid #F0F0F0;\r\n	text-align: center;\r\n	vertical-align: middle;\r\n}\r\nbody,td,th {\r\n	font-family: tahoma;\r\n	font-size: 11px;\r\n	color: #FFFFFF;\r\n}\r\n.text {\r\n	font-family: tahoma;\r\n	font-size: 11px;\r\n	color: #000000;\r\n	padding: 5px;\r\n}\r\n-->\r\n</style>\r\n</head>\r\n<body>\r\n<table width="100%" border="0" cellspacing="0" cellpadding="5">\r\n  <tr>\r\n    <td bgcolor="#53baff" ><span class="title">$title</span>share video</td>\r\n  </tr>\r\n  <tr>\r\n    <td height="20" class="messege">$username wants to share Video With You<div id="videoThumb"><a href="$baseurl/watch_video.php?v=$videokey">$videothumb<br>\r\n    watch video</a></div></td>\r\n  </tr>\r\n  <tr>\r\n    <td class="text" ><span class="title2">Video Description</span><br>\r\n      <span class="text">$videodes</span></td>\r\n  </tr>\r\n  <tr>\r\n    <td><span class="title2">Personal Messege</span><br>\r\n      <span class="text">$messege\r\n      </span><br>\r\n      <br>\r\n<span class="text">Thanks,</span><br> \r\n<span class="text">$username</span></td>\r\n  </tr>\r\n  <tr>\r\n    <td bgcolor="#53baff">copyrights 2007 $title</td>\r\n  </tr>\r\n</table>\r\n</body>\r\n</html>', '$username Want To Share A Video With You'),
 (8, 'share_picture_template', '<html>\r\n<head>\r\n<style type="text/css">\r\n<!--\r\n.title {\r\n	font-family: Arial, Helvetica, sans-serif;\r\n	padding: 5px;\r\n	font-weight:bold;\r\n	color: #FFFFFF;\r\n	font-size: 16px;\r\n}\r\n.title2 {\r\n	font-family: Arial, Helvetica, sans-serif;\r\n	padding: 5px;\r\n	font-weight:bold;\r\n	color: #000000;\r\n	font-size: 14px;\r\n}\r\n.messege {\r\n	font-family: Arial, Helvetica, sans-serif;\r\n	padding: 5px;\r\n	font-weight:bold;\r\n	color: #000000;\r\n	font-size: 12px;\r\n}\r\n#videoThumb{\r\n	padding: 2px;\r\n	margin: 3px;\r\n	border: 1px solid #F0F0F0;\r\n	text-align: center;\r\n	vertical-align: middle;\r\n}\r\nbody,td,th {\r\n	font-family: tahoma;\r\n	font-size: 11px;\r\n	color: #FFFFFF;\r\n}\r\n.text {\r\n	font-family: tahoma;\r\n	font-size: 11px;\r\n	color: #000000;\r\n	padding: 5px;\r\n}\r\n-->\r\n</style>\r\n</head>\r\n<body>\r\n<table width="100%" border="0" cellspacing="0" cellpadding="5">\r\n  <tr>\r\n    <td bgcolor="#53baff" ><span class="title">$title</span>share Picture </td>\r\n  </tr>\r\n  <tr>\r\n    <td height="20" class="messege">$username wants to share Picture With You\r\n      <div id="videoThumb"><a href="$baseurl/view_picture.php?picid=$picid">$picture<br>\r\n    View Picture</a></div></td>\r\n  </tr>\r\n  <tr>\r\n    <td class="text" ><span class="title2">Picture Description</span><br>\r\n      <span class="text">$picdes</span></td>\r\n  </tr>\r\n  <tr>\r\n    <td><span class="title2">Personal Messege</span><br>\r\n      <span class="text">$messege\r\n      </span><br>\r\n      <br>\r\n<span class="text">Thanks,</span><br> \r\n<span class="text">$username</span></td>\r\n  </tr>\r\n  <tr>\r\n    <td bgcolor="#53baff">copyrights 2007 $title</td>\r\n  </tr>\r\n</table>\r\n</body>\r\n</html>', '$username Want To Share A  Picture With You');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `email_templates`
+--
+
+CREATE TABLE IF NOT EXISTS `email_templates` (
+  `email_template_id` int(11) NOT NULL AUTO_INCREMENT,
+  `email_template_name` varchar(225) NOT NULL,
+  `email_template_code` varchar(225) NOT NULL,
+  `email_template_subject` mediumtext NOT NULL,
+  `email_template` text NOT NULL,
+  `email_template_allowed_tags` mediumtext NOT NULL,
+  PRIMARY KEY (`email_template_id`),
+  UNIQUE KEY `email_template_code` (`email_template_code`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `email_templates`
+--
+
+INSERT INTO `email_templates` (`email_template_id`, `email_template_name`, `email_template_code`, `email_template_subject`, `email_template`, `email_template_allowed_tags`) VALUES
+(1, 'Share Video Template', 'share_video_template', '[{website_title}] - {username} wants to share a video with you', '<html>\r\n<head>\r\n<style type="text/css">\r\n<!--\r\n.title {\r\n	font-family: Arial, Helvetica, sans-serif;\r\n	padding: 5px;\r\n	font-weight:bold;\r\n	color: #FFFFFF;\r\n	font-size: 16px;\r\n}\r\n.title2 {\r\n	font-family: Arial, Helvetica, sans-serif;\r\n	padding: 5px;\r\n	font-weight:bold;\r\n	color: #000000;\r\n	font-size: 14px;\r\n}\r\n.messege {\r\n	font-family: Arial, Helvetica, sans-serif;\r\n	padding: 5px;\r\n	font-weight:bold;\r\n	color: #000000;\r\n	font-size: 12px;\r\n}\r\n#videoThumb{\r\n	width: 120px;\r\n	padding: 2px;\r\n	margin: 3px;\r\n	border: 1px solid #F0F0F0;\r\n	text-align: center;\r\n	vertical-align: middle;\r\n}\r\n#videoThumb img{border:0px}\r\nbody,td,th {\r\n	font-family: tahoma;\r\n	font-size: 11px;\r\n	color: #FFFFFF;\r\n}\r\n.text {\r\n	font-family: tahoma;\r\n	font-size: 11px;\r\n	color: #000000;\r\n	padding: 5px;\r\n}\r\n-->\r\n</style>\r\n</head>\r\n<body>\r\n<table width="100%" border="0" cellspacing="0" cellpadding="5">\r\n  <tr>\r\n    <td bgcolor="#53baff" ><span class="title">{website_title}</span>share video</td>\r\n  </tr>\r\n  <tr>\r\n    <td height="20" class="messege">{username} wants to share Video With You\r\n      <div id="videoThumb"><a href="{video_link}"><img src="{video_thumb}"><br>\r\n    watch video</a></div></td>\r\n  </tr>\r\n  <tr>\r\n    <td class="text" ><span class="title2">Video Description</span><br>\r\n      <span class="text">{video_description}</span></td>\r\n  </tr>\r\n  <tr>\r\n    <td><span class="title2">Personal Message</span><br>\r\n      <span class="text">{user_message}\r\n      </span><br>\r\n      <br>\r\n<span class="text">Thanks,</span><br> \r\n<span class="text">{username}</span></td>\r\n  </tr>\r\n  <tr>\r\n    <td bgcolor="#53baff">copyrights {date_year} {website_title}</td>\r\n  </tr>\r\n</table>\r\n</body>\r\n</html>', '{website_title},{'),
+(2, 'Email Verification Template', 'email_verify_template', '[{website_title}] - Account activation email', 'Hello {username},\r\nThank you for joining us, your account details are\r\n\r\nUsername     : {username}\r\nPassword     : {password}\r\nEmail        : {email}\r\nDate Joined  : {date}\r\n\r\nYour account is not activated yet, please activate it by using following link\r\n\r\n<a href={baseurl}/activation.php?username={username}&avcode={avcode}>Click Here</a>\r\n\r\n{baseurl}/activation.php?username={username}&avcode={avcode}\r\n\r\nAVCODE : {avcode}\r\n\r\n====================\r\nRegards\r\n{website_title}', ''),
+(3, 'Private Message Notification', 'pm_email_message', '[{website_title}] - {sender} has sent you a private message', '{sender} has sent you a private message, \r\n\r\n{subject}\r\n"{content}"\r\n\r\nclick here to view your inbox <a href="{baseurl}/private_message.php?mode=inbox&mid={msg_id}">{baseurl}/private_message.php?mode=inbox&mid={msg_id}</a>\r\n\r\n{website_title}', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `favorites`
+--
+
+CREATE TABLE IF NOT EXISTS `favorites` (
+  `favorite_id` int(225) NOT NULL AUTO_INCREMENT,
+  `type` varchar(4) NOT NULL,
+  `id` int(225) NOT NULL,
+  `userid` int(225) NOT NULL,
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`favorite_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `favorites`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `flagged_videos`
+--
+
+CREATE TABLE IF NOT EXISTS `flagged_videos` (
+  `flagged_id` int(11) NOT NULL AUTO_INCREMENT,
+  `videoid` int(11) NOT NULL,
+  `username` varchar(20) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`flagged_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `flagged_videos`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `flags`
+--
+
+CREATE TABLE IF NOT EXISTS `flags` (
+  `flag_id` int(225) NOT NULL AUTO_INCREMENT,
+  `type` varchar(4) NOT NULL,
+  `id` int(225) NOT NULL,
+  `userid` int(225) NOT NULL,
+  `flag_type` bigint(25) NOT NULL,
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`flag_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `flags`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `groups`
+--
+
+CREATE TABLE IF NOT EXISTS `groups` (
+  `group_id` int(225) NOT NULL AUTO_INCREMENT,
+  `group_name` mediumtext NOT NULL,
+  `group_description` mediumtext NOT NULL,
+  `group_tags` mediumtext NOT NULL,
+  `group_url` mediumtext NOT NULL,
+  `group_category` int(20) NOT NULL,
+  `group_type` enum('0','1','2') NOT NULL DEFAULT '0',
+  `video_type` enum('0','1','2') NOT NULL DEFAULT '0',
+  `post_type` enum('0','1','2') NOT NULL DEFAULT '0',
+  `active` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `username` varchar(26) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `featured` enum('yes','no') NOT NULL DEFAULT 'no',
+  `group_thumb` mediumtext NOT NULL,
+  `total_videos` int(225) NOT NULL,
+  `total_members` int(225) NOT NULL,
+  `total_topics` int(225) NOT NULL,
+  PRIMARY KEY (`group_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `groups`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_invitations`
+--
+
+CREATE TABLE IF NOT EXISTS `group_invitations` (
+  `invitation_id` int(225) NOT NULL AUTO_INCREMENT,
+  `group_id` int(225) NOT NULL,
+  `invited_user` varchar(16) NOT NULL,
+  `invited_by` varchar(16) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`invitation_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `group_invitations`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_members`
+--
+
+CREATE TABLE IF NOT EXISTS `group_members` (
+  `group_mid` int(225) NOT NULL AUTO_INCREMENT,
+  `group_id` int(225) NOT NULL,
+  `username` varchar(26) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `active` enum('yes','no') NOT NULL DEFAULT 'yes',
+  PRIMARY KEY (`group_mid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `group_members`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_posts`
+--
+
+CREATE TABLE IF NOT EXISTS `group_posts` (
+  `post_id` int(225) NOT NULL AUTO_INCREMENT,
+  `topic_id` int(225) NOT NULL,
+  `post` mediumtext NOT NULL,
+  `username` varchar(26) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `reply_to` int(225) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`post_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `group_posts`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_topics`
+--
+
+CREATE TABLE IF NOT EXISTS `group_topics` (
+  `topic_id` int(225) NOT NULL AUTO_INCREMENT,
+  `topic_title` mediumtext NOT NULL,
+  `group_id` int(225) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_reply` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `username` varchar(26) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `videokey` mediumtext NOT NULL,
+  `approved` enum('yes','no') NOT NULL DEFAULT 'yes',
+  PRIMARY KEY (`topic_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `group_topics`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_videos`
+--
+
+CREATE TABLE IF NOT EXISTS `group_videos` (
+  `group_vid` int(225) NOT NULL AUTO_INCREMENT,
+  `videokey` mediumtext NOT NULL,
+  `group_id` int(225) NOT NULL,
+  `username` varchar(26) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `approved` enum('yes','no') NOT NULL,
+  PRIMARY KEY (`group_vid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `group_videos`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `languages`
+--
+
+CREATE TABLE IF NOT EXISTS `languages` (
+  `language_id` int(9) NOT NULL AUTO_INCREMENT,
+  `language_code` varchar(8) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `language_name` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `language_regex` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `language_default` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`language_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `languages`
+--
 
 INSERT INTO `languages` (`language_id`, `language_code`, `language_name`, `language_regex`, `language_default`) VALUES
 (2, 'en', 'English', '/^en/i', 'yes');
 
+-- --------------------------------------------------------
 
-INSERT INTO `modules` (`module_id`, `module_name`, `module_file`, `active`, `module_include_file`) VALUES
-(7, 'flash_recent_videos', 'flash_recent_videos.instructions.php', 'yes', ''),
-(8, 'editors_pick_player', 'editors_pick_player.instructions.php', 'yes', ''),
-(9, 'recently_viewd_2', 'recently_viewd_2.instructions.php', 'yes', ''),
-(10, 'lightoff', 'lightoff.instructions.php', 'yes', 'lightoff/lightoff.html');
+--
+-- Table structure for table `messages`
+--
 
+CREATE TABLE IF NOT EXISTS `messages` (
+  `message_id` int(225) NOT NULL AUTO_INCREMENT,
+  `message_from` int(20) NOT NULL,
+  `message_to` varchar(200) NOT NULL,
+  `message_content` mediumtext NOT NULL,
+  `message_type` enum('pm','notification') NOT NULL DEFAULT 'pm',
+  `message_attachments` mediumtext NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `message_subject` mediumtext NOT NULL,
+  `message_status` enum('unread','read') NOT NULL DEFAULT 'unread',
+  `reply_to` int(225) NOT NULL DEFAULT '0',
+  `message_box` enum('in','out') NOT NULL DEFAULT 'in',
+  PRIMARY KEY (`message_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `messages`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `modules`
+--
+
+CREATE TABLE IF NOT EXISTS `modules` (
+  `module_id` int(25) NOT NULL AUTO_INCREMENT,
+  `module_name` varchar(25) NOT NULL,
+  `module_file` varchar(60) NOT NULL,
+  `active` varchar(5) NOT NULL,
+  `module_include_file` text NOT NULL,
+  PRIMARY KEY (`module_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `modules`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `phrases`
+--
+
+CREATE TABLE IF NOT EXISTS `phrases` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `lang_iso` varchar(2) CHARACTER SET utf8 NOT NULL DEFAULT 'en',
+  `varname` varchar(250) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `text` text COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=839 ;
+
+--
+-- Dumping data for table `phrases`
+--
 
 INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (507, 'en', 'grp_add_vdo_msg', 'Add Videos To Group '),
@@ -1135,7 +943,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (17, 'en', 'cat_img_error', 'Please Upload JPEG, GIF or PNG image only'),
 (18, 'en', 'cat_exist_error', 'Category doesn&#8217;t exist'),
 (19, 'en', 'cat_add_msg', 'Category has been added successfully'),
-(20, 'en', 'cat_update_msg', 'Category Has Been Updated'),
+(20, 'en', 'cat_update_msg', 'Category has been updated'),
 (21, 'en', 'grp_err', 'Group Doesn&#8217;t Exist'),
 (22, 'en', 'grp_fr_msg', 'Group Has Been Set to Featured'),
 (23, 'en', 'grp_fr_msg1', 'Selected Groups Have Been Removed From The Featured List'),
@@ -1157,7 +965,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (39, 'en', 'grp_url_error1', 'Please enter Valid URL name'),
 (40, 'en', 'grp_url_error2', 'Group URL Already Exists, Please Choose a Different URL'),
 (41, 'en', 'grp_tpc_error', 'Please enter a topic to add'),
-(42, 'en', 'grp_comment_error', 'You Must Enter A Comment'),
+(42, 'en', 'grp_comment_error', 'You must enter a comment'),
 (43, 'en', 'grp_join_error', 'You Have Already Joined This Group'),
 (44, 'en', 'grp_prvt_error', 'This Group Is Private, Please Login to View this Group'),
 (45, 'en', 'grp_inact_error', 'This Group Is Inactive, Please Contact Administrator for the problem'),
@@ -1193,9 +1001,9 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (75, 'en', 'grp_add_title', '- Add Video'),
 (76, 'en', 'usr_sadmin_err', 'You Cannot Set SuperAdmin Username as Blank'),
 (77, 'en', 'usr_cpass_err', 'Confirm Password Doesn&#8217;t Match'),
-(78, 'en', 'usr_pass_err', 'Old Password Is Incorrect'),
+(78, 'en', 'usr_pass_err', 'Old password is incorrect'),
 (79, 'en', 'usr_email_err', 'Please Provide A Valid Email Address'),
-(80, 'en', 'usr_cpass_err1', 'Confirm Password Is Incorrect'),
+(80, 'en', 'usr_cpass_err1', 'Confirm password is incorrect'),
 (81, 'en', 'usr_pass_err1', 'Password is Incorrect'),
 (82, 'en', 'usr_cmt_err', 'You Must Login First To Comment'),
 (83, 'en', 'usr_cmt_err1', 'Please Type Something In Comment Box'),
@@ -1206,12 +1014,12 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (88, 'en', 'usr_cmt_del_err', 'An Error Occured While deleting a Comment'),
 (89, 'en', 'usr_cnt_err', 'You Cannot Add Yourself as a Contact'),
 (90, 'en', 'usr_cnt_err1', 'You Have Already Added This User To Your Contact List'),
-(91, 'en', 'usr_sub_err', 'You Have Already Subscribed To '),
+(91, 'en', 'usr_sub_err', 'You are already subsctibed to %s'),
 (92, 'en', 'usr_exist_err', 'User Doesnt Exist'),
 (93, 'en', 'usr_ccode_err', 'You Have Entered Wrong Confirmation Code'),
 (94, 'en', 'usr_exist_err1', 'Sorry, No User Exists With This Email'),
 (95, 'en', 'usr_exist_err2', 'Sorry , User Doesnt Exists'),
-(96, 'en', 'usr_uname_err', 'Username is Empty'),
+(96, 'en', 'usr_uname_err', 'Username is empty'),
 (97, 'en', 'usr_uname_err2', 'Username already exists'),
 (98, 'en', 'usr_pass_err2', 'Password Is Empty'),
 (99, 'en', 'usr_email_err1', 'Email is Empty'),
@@ -1230,10 +1038,10 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (112, 'en', 'usr_sadmin_msg', 'Super Admin Has Been Updated'),
 (113, 'en', 'usr_pass_msg', 'Your Password Has Been Changed'),
 (114, 'en', 'usr_cnt_msg', 'This User Has Been Added To Your Contact List'),
-(115, 'en', 'usr_sub_msg', 'You Have Subscribed To '),
+(115, 'en', 'usr_sub_msg', 'You are now subsribed to %s'),
 (116, 'en', 'usr_uname_email_msg', 'We Have Sent you an Email containing Your Usename, Please Check It'),
 (117, 'en', 'usr_rpass_email_msg', 'Email Has Sent To You Please Follow the Instructions to Reset Your Password'),
-(118, 'en', 'usr_pass_email_msg', 'Your Password Has Been Changed, Please Check You Inbox For Your New Password'),
+(118, 'en', 'usr_pass_email_msg', 'Password has been changed successfully'),
 (119, 'en', 'usr_email_msg', 'Email Settings Has Been Updated'),
 (120, 'en', 'usr_del_msg', 'User Has Been Deleted Successfully'),
 (121, 'en', 'usr_dels_msg', 'Selected Users Have Been Deleted'),
@@ -1257,14 +1065,14 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (139, 'en', 'usr_uname_req_msg', 'You Requested to Recover Your Username, Here is you username: '),
 (140, 'en', 'usr_uname_recovery', 'Username Recovery Email'),
 (141, 'en', 'usr_add_succ_msg', 'User Has Been Added, Successfully'),
-(142, 'en', 'usr_upd_succ_msg', 'User Has Been Updated, Successfully'),
+(142, 'en', 'usr_upd_succ_msg', 'User has been updated'),
 (143, 'en', 'usr_activation_msg', 'your account has been activated, Now you can login to your account and upload videos'),
 (144, 'en', 'usr_activation_err', 'Sorry This User either has been already Activated or Username and activation code is WRONG'),
 (145, 'en', 'usr_activation_em_msg', 'Activation Code Has Been Sent To Your Mail Box, Please Check It'),
 (146, 'en', 'usr_activation_em_err', 'Email Doesn&#8217;t Exist or User With This Email already Acitvated'),
 (147, 'en', 'usr_no_msg_del_err', 'No Message Was Selected To Delete'),
 (148, 'en', 'usr_sel_msg_del_msg', 'Selected Messages Have Been Deleted'),
-(149, 'en', 'usr_pof_upd_msg', 'Profile Has Been Updated'),
+(149, 'en', 'usr_pof_upd_msg', 'Profile has been updated'),
 (150, 'en', 'usr_arr_no_ans', 'no answer'),
 (151, 'en', 'usr_arr_elementary', 'Elementary'),
 (152, 'en', 'usr_arr_hi_school', 'High School'),
@@ -1277,8 +1085,8 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (159, 'en', 'usr_arr_single', 'Single'),
 (160, 'en', 'usr_arr_married', 'Married'),
 (161, 'en', 'usr_arr_comitted', 'Comitted'),
-(162, 'en', 'usr_arr_open_marriage', 'open marriage'),
-(163, 'en', 'usr_arr_open_relate', 'open relationship'),
+(162, 'en', 'usr_arr_open_marriage', 'Open Marriage'),
+(163, 'en', 'usr_arr_open_relate', 'Open Relationship'),
 (164, 'en', 'title_crt_new_msg', ' - Create New Message'),
 (165, 'en', 'title_forgot', 'Forgot Something? Find it now !'),
 (166, 'en', 'title_inbox', ' - Inbox'),
@@ -1309,7 +1117,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (191, 'en', 'vdo_thumb_up_err', 'Error In Uploading Thumb'),
 (192, 'en', 'class_error_occured', 'Sorry, An Error Occured'),
 (193, 'en', 'class_cat_del_msg', 'Category has been deleted'),
-(194, 'en', 'class_vdo_del_msg', 'Video Has Been Deleted'),
+(194, 'en', 'class_vdo_del_msg', 'Video has been deleted'),
 (195, 'en', 'class_vdo_fr_msg', 'Video has been to &#8220;Featured Video&#8221;'),
 (196, 'en', 'class_fr_msg1', 'Video has been removed from &#8220;Featured Videos&#8221;'),
 (197, 'en', 'class_vdo_act_msg', 'Video has been activated'),
@@ -1331,7 +1139,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (213, 'en', 'class_vdo_flag_rm', 'Flag(s) Has/Have Been Removed'),
 (214, 'en', 'class_send_msg_err', 'Please Enter a Username or Select any User to Send Message'),
 (215, 'en', 'class_invalid_user', 'Invalid Username'),
-(216, 'en', 'class_subj_err', 'Please Type Something In Subject Field'),
+(216, 'en', 'class_subj_err', 'Message subject was empty'),
 (217, 'en', 'class_msg_err', 'Please Type Something In Message Box'),
 (218, 'en', 'class_sent_you_msg', 'Sent You A Message'),
 (219, 'en', 'class_sent_prvt_msg', 'Sent You A Private Message on '),
@@ -1342,7 +1150,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (224, 'en', 'class_inbox_del_msg', 'Message Has Been Delete From Inbox '),
 (225, 'en', 'class_sent_del_msg', 'Message Has Been Delete From Sent Folder'),
 (226, 'en', 'class_msg_exist_err', 'Message Doesnt Exist'),
-(227, 'en', 'class_vdo_del_err', 'Video Doesn&#8217;t Not Exist'),
+(227, 'en', 'class_vdo_del_err', 'Video does not exist'),
 (228, 'en', 'class_unsub_msg', 'You Have Unsubscribed'),
 (229, 'en', 'class_sub_exist_err', 'Subscription Does Not Exist'),
 (230, 'en', 'class_vdo_rm_fav_msg', 'Video Has Been Removed From Favourites'),
@@ -1384,7 +1192,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (266, 'en', 'com_send_message', 'Send Message'),
 (267, 'en', 'com_manage_fav', 'Manage Favourites '),
 (268, 'en', 'com_manage_subs', 'Manage Subscriptions'),
-(269, 'en', 'com_subscribe_to', 'Subscribe To'),
+(269, 'en', 'com_subscribe_to', 'Subscribe to %s''s channel'),
 (270, 'en', 'com_total_subs', 'Total Subscribtions'),
 (271, 'en', 'com_total_vids', 'Total Videos'),
 (272, 'en', 'com_date_subscribed', 'Date Subscribed'),
@@ -1564,7 +1372,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (446, 'en', 'vdo_desc', 'Description'),
 (447, 'en', 'vdo_cat', 'Video Category'),
 (448, 'en', 'vdo_cat_msg', 'You May Select Upto 3 Categories'),
-(449, 'en', 'vdo_tags_msg', 'Tags are seperated by space , ie home user smile'),
+(449, 'en', 'vdo_tags_msg', 'Tags are separated by commas ie Arslan Hassan, Awsome, ClipBucket'),
 (450, 'en', 'vdo_br_opt', 'Broadcast Options'),
 (451, 'en', 'vdo_br_opt1', 'Public Share your video with the Everyone! (Recommended)'),
 (452, 'en', 'vdo_br_opt2', 'Private Viewable by you and your friends only.'),
@@ -1809,9 +1617,9 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (692, 'en', 'user_companies', 'Companies'),
 (693, 'en', 'user_sperate_by_commas', 'seperate with commas'),
 (694, 'en', 'user_interests_hobbies', 'Interests and Hobbies'),
-(695, 'en', 'user_fav_movs_shows', 'Favourite Movies And Shows:'),
-(696, 'en', 'user_fav_music', 'Favourite Music'),
-(697, 'en', 'user_fav_books', 'Favourite Books'),
+(695, 'en', 'user_fav_movs_shows', 'Favorite movies & shows'),
+(696, 'en', 'user_fav_music', 'Favorite music'),
+(697, 'en', 'user_fav_books', 'Favorite books'),
 (698, 'en', 'user_user_avatar', 'User Avatar'),
 (699, 'en', 'user_upload_avatar', 'Upload Avatar'),
 (700, 'en', 'user_channel_info', 'Channel Info'),
@@ -1839,8 +1647,8 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (722, 'en', 'user_doesnt_exist', 'User Doesn&#8217;t Exist'),
 (723, 'en', 'user_do_not_have_contact', 'User Does Not Have Any Contact'),
 (724, 'en', 'user_no_fav_video_exist', 'User Does Not Have Favourite Video'),
-(725, 'en', 'user_have_no_vide', 'User Does Not Have Any Video'),
-(726, 'en', 'user_s_channel', '&#8217;s Channel '),
+(725, 'en', 'user_have_no_vide', 'User has no videos'),
+(726, 'en', 'user_s_channel', '%s’s Channel '),
 (727, 'en', 'user_last_login', 'Last Login'),
 (728, 'en', 'user_send_message', 'Send Message'),
 (729, 'en', 'user_add_contact', 'Add Contact'),
@@ -1882,39 +1690,630 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (769, 'en', 'cust_field_err', 'Invalid ''%s'' field value'),
 (770, 'en', 'add_cat_erro', 'Category already exists'),
 (771, 'en', 'add_cat_no_name_err', 'Please enter name for category'),
-(772, 'en', 'cat_default_err', 'Default cannot be deleted, please choose other category as &#8220;default&#8221; and then delete this');
+(772, 'en', 'cat_default_err', 'Default cannot be deleted, please choose other category as &#8220;default&#8221; and then delete this'),
+(773, 'en', 'pic_upload_vali_err', 'Please upload valid JPG, GIF or PNG image'),
+(774, 'en', 'cat_dir_make_err', 'Unable to make category thumb directory'),
+(775, 'en', 'cat_set_default_ok', 'Category has been set as default'),
+(776, 'en', 'vid_thumb_removed_msg', 'Video thumbs have been removed'),
+(777, 'en', 'vid_files_removed_msg', 'Video files have been removed'),
+(778, 'en', 'vid_log_delete_msg', 'Video log has been deleted'),
+(779, 'en', 'vdo_multi_del_erro', 'Videos has have been deleted'),
+(780, 'en', 'add_fav_message', 'This %s has been added to your favorites'),
+(781, 'en', 'obj_not_exists', '%s does not exist'),
+(782, 'en', 'already_fav_message', 'This %s is already added to your favorites'),
+(783, 'en', 'obj_report_msg', 'this %s has been reported'),
+(784, 'en', 'obj_report_err', 'You have already reported this %s'),
+(785, 'en', 'user_no_exist_wid_username', '&#8216;%s&#8217; does not exist'),
+(786, 'en', 'share_video_no_user_err', 'Please enter usernames or emails to send this %s'),
+(787, 'en', 'uploaded', 'Uploaded'),
+(788, 'en', 'today', 'Today'),
+(789, 'en', 'yesterday', 'Yesterday'),
+(790, 'en', 'thisweek', 'This Week'),
+(791, 'en', 'lastweek', 'Last Week'),
+(792, 'en', 'thismonth', 'This Month'),
+(793, 'en', 'lastmonth', 'Last Month'),
+(794, 'en', 'thisyear', 'This Year'),
+(795, 'en', 'lastyear', 'Last Year'),
+(796, 'en', 'favorites', 'Favorites'),
+(797, 'en', 'alltime', 'All Time'),
+(798, 'en', 'insufficient_privileges_loggin', 'You cannot access this page Click Here to <a href="%s">Login</a> or <a href="%s">Register</a>'),
+(799, 'en', 'profile_title', 'Profile Title'),
+(800, 'en', 'show_dob', 'Show Date of birth'),
+(801, 'en', 'profile_tags', 'Profile Tags'),
+(802, 'en', 'profile_desc', 'Profile description'),
+(803, 'en', 'online_status', 'User status'),
+(804, 'en', 'show_profile', 'Show profile'),
+(805, 'en', 'allow_ratings', 'Allow ratings on profile'),
+(806, 'en', 'postal_code', 'Postal code'),
+(807, 'en', 'temp_file_load_err', 'Unable to load tempalte file &#8216;%s&#8217; in directory &#8216;%s&#8217;'),
+(808, 'en', 'no_date_provided', 'No date provided'),
+(809, 'en', 'second', 'second'),
+(810, 'en', 'minute', 'minute'),
+(811, 'en', 'bad_date', 'Bad date'),
+(812, 'en', 'users_videos', '%s&#8217;s videos'),
+(813, 'en', 'please_login_subscribe', 'Please login to subsribe %s'),
+(814, 'en', 'users_subscribers', '%s&#8217;s subscribers'),
+(815, 'en', 'user_no_subscribers', '%s has no subsribers'),
+(816, 'en', 'user_subscriptions', '%s&#8217;s subscriptions'),
+(817, 'en', 'user_no_subscriptions', '%s has no subscriptions'),
+(818, 'en', 'usr_avatar_bg_update', 'User avatar and background have been updated'),
+(819, 'en', 'user_email_confirm_email_err', 'Confirm email mismatched'),
+(820, 'en', 'email_change_msg', 'Email has been changed successfullyrnrn'),
+(821, 'en', 'no_edit_video', 'You cannot edit this video'),
+(822, 'en', 'confirm_del_video', 'Are you sure you want to delete this video ?'),
+(823, 'en', 'remove_fav_video_confirm', 'Are you sure you want to remove this video from your favorites ?'),
+(824, 'en', 'fav_remove_msg', '%s has been removed from your favorites'),
+(825, 'en', 'unknown_favorite', 'Unknown favorite %s'),
+(826, 'en', 'vdo_multi_del_fav_msg', 'Videos have been removed from your favorites'),
+(827, 'en', 'unknown_sender', 'Unknown Sender'),
+(828, 'en', 'please_enter_message', 'Please enter something for message'),
+(829, 'en', 'unknown_reciever', 'Unknown reciever'),
+(830, 'en', 'no_pm_exist', 'Private message does not exist'),
+(831, 'en', 'pm_sent_success', 'Private message has been sent successfully'),
+(832, 'en', 'msg_delete_inbox', 'Message has been deleted from inbox'),
+(833, 'en', 'msg_delete_outbox', 'Message has been deleted from your outbox'),
+(834, 'en', 'private_messags_deleted', 'Private messages have been deleted'),
+(835, 'en', 'ban_users', 'Ban users'),
+(836, 'en', 'spe_users_by_comma', 'separate usernames by comma'),
+(837, 'en', 'user_ban_msg', 'Users have been banned successfully'),
+(838, 'en', 'no_user_ban_msg', 'No user is banned from your account!');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `players`
+--
+
+CREATE TABLE IF NOT EXISTS `players` (
+  `player_id` int(10) NOT NULL AUTO_INCREMENT,
+  `player_name` varchar(25) NOT NULL,
+  `player_file` varchar(30) NOT NULL,
+  `template_id` varchar(15) NOT NULL,
+  PRIMARY KEY (`player_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `players`
+--
 
 
-INSERT INTO `players` (`player_id`, `player_name`, `player_file`, `template_id`) VALUES
-(1, 'ClipBucket Blue', 'clipbucketblue.swf', '1'),
-(4, 'YouTube Player', 'youtube.swf', '1'),
-(6, 'YouTube Glossy Player', 'youtube_glossy.swf', '1');
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `player_skins`
+--
+
+CREATE TABLE IF NOT EXISTS `player_skins` (
+  `player_skins_id` int(20) NOT NULL AUTO_INCREMENT,
+  `player_id` int(20) NOT NULL,
+  `player_skin_name` varchar(60) CHARACTER SET latin1 NOT NULL,
+  `player_skin_file` text CHARACTER SET latin1 NOT NULL,
+  `player_skin_type` enum('name','file') CHARACTER SET latin1 NOT NULL DEFAULT 'file',
+  PRIMARY KEY (`player_skins_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `player_skins`
+--
 
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `plugins`
+--
+
+CREATE TABLE IF NOT EXISTS `plugins` (
+  `plugin_id` int(255) NOT NULL AUTO_INCREMENT,
+  `plugin_file` text NOT NULL,
+  `plugin_folder` text NOT NULL,
+  `plugin_version` float NOT NULL,
+  `plugin_license_type` varchar(10) NOT NULL DEFAULT 'GPL',
+  `plugin_license_key` varchar(5) NOT NULL,
+  `plugin_license_code` text NOT NULL,
+  `plugin_active` enum('yes','no') NOT NULL,
+  PRIMARY KEY (`plugin_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `plugins`
+--
 
 
-INSERT INTO `users` (`userid`, `channel_title`, `channel_des`, `featured_video`, `username`, `user_session_key`, `user_session_code`, `password`, `email`, `msg_notify`, `first_name`, `last_name`, `avatar`, `sex`, `dob`, `show_dob`, `country`, `level`, `usr_status`, `avcode`, `postal_code`, `doj`, `last_logged`, `num_visits`, `session`, `ip`, `signup_ip`, `time_zone`, `profile_tags`, `web_url`, `hometown`, `city`, `zip`, `privacy`, `show_profile`, `allow_comment`, `allow_rating`, `content_filter`, `featured`, `profile_hits`, `total_watched`, `total_videos`, `total_comments`, `icon_id`, `browse_criteria`, `icon_use_last_uploaded`, `about_me`, `education`, `schools`, `occupation`, `companies`, `relation_status`, `ban_status`, `hobbies`, `fav_movies`, `fav_music`, `fav_books`, `upload`, `subscribers`, `background`, `total_groups`, `last_active`) VALUES
-(1, '', '', '', 'admin', '777750fea4d3bd585bf47dc1873619fc', 10192, '38d8e594a1ddbd29fdba0de385d4fefa', '', 'yes', '', '', '1.jpg', 'male', '0000-00-00 00:00:00', '0', '', 1, 'Ok', '', '', '2008-11-23 16:12:43', '2009-08-30 10:03:51', 84, 'pub6e7fq5oj76vakuov2j03hm1', '127.0.0.1', '', 0, NULL, '', '', '', '', 'Online', 'All', 'Yes', 'Yes', 'Nothing', 'No', 7, 191, 5, 1, 0, NULL, 'No', '', '', '', '', '', '0', 'no', '', '', '', '', '1', '1', 'cf6cc2b886.jpg', 3, '2009-06-14 03:00:36'),
-(4, '', '', '', 'arslan', '2de50e2ee0c8c8251eda1fa9b9e002a6', 33925, '767a075ceec94a7c6de64d622520644e', 'arslan@localhost.com', 'yes', 'asd', 'asd', 'no_avatar.jpg', 'male', '1962-02-18 00:00:00', '0', 'Afghanistan', 2, 'Ok', 'e799bbc05a', '', '2009-02-01 17:52:35', '2009-06-14 21:02:37', 3, 'kvs4dioh81p5tau5p7214qjvo6', '127.0.0.1', '127.0.0.1', 0, NULL, '', '', '', '', 'Online', 'All', 'Yes', 'Yes', 'Nothing', 'No', 2, 0, 0, 0, 0, NULL, 'No', '', NULL, '', '', '', NULL, 'no', '', '', '', '', '1', '1', '', 0, '2009-06-15 03:22:59'),
-(5, '', '', '', 'thisisatestuser', '2de50e2ee0c8c8251eda1fa9b9e002a6', 65689, 'cdc1c35aada927beae13f8b1e42e9a3e', 'test@testtesttest.com', 'yes', '', '', 'no_avatar.jpg', 'male', '1989-05-14 00:00:00', '0', 'PK', 3, 'Ok', 'fe1022cba8', '', '2009-05-30 20:53:09', '2009-06-14 20:42:55', 1, '', '', '127.0.0.1', 0, NULL, '', '', '', '', 'Online', 'All', 'Yes', 'Yes', 'Nothing', 'No', 1, 0, 0, 0, 0, NULL, 'No', '', NULL, '', '', '', NULL, 'no', '', '', '', '', '1', '0', '', 0, '0000-00-00 00:00:00'),
-(6, '', '', '', 'iamtesttingit', '96207e6fd7ea376e8a5e4af0b819720d', 55958, 'bc7e2dbd6c83734bb99e2afbbfab370f', 'ahzulasdfi@yahoo.com', 'yes', '', '', 'no_avatar.jpg', 'male', '1989-06-14 00:00:00', '0', 'AD', 3, 'ToActivate', 'e6c9c98653', '', '2009-06-06 04:07:37', '0000-00-00 00:00:00', 0, '', '', '127.0.0.1', 0, NULL, '', '', '', '', 'Online', 'All', 'Yes', 'Yes', 'Nothing', 'No', 0, 0, 0, 0, 0, NULL, 'No', '', NULL, '', '', '', NULL, 'no', '', '', '', '', '1', '0', '', 0, '0000-00-00 00:00:00'),
-(7, '', '', '', 'arslanhassan', '', 0, 'bc7e2dbd6c83734bb99e2afbbfab370f', 'arslanhzulfi@hotmail.com', 'yes', '', '', 'no_avatar.jpg', 'male', '0000-00-00 00:00:00', '0', 'PK', 4, 'Ok', '583cabb66e', '', '2009-08-27 19:07:06', '2009-08-27 19:10:20', 2, '', '', '127.0.0.1', 0, NULL, '', '', '', '', 'Online', 'All', 'Yes', 'Yes', 'Nothing', 'No', 0, 0, 0, 0, 0, NULL, 'No', '', NULL, '', '', '', NULL, 'no', '', '', '', '', '1', '0', '', 0, '0000-00-00 00:00:00');
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `plugin_config`
+--
+
+CREATE TABLE IF NOT EXISTS `plugin_config` (
+  `plugin_config_id` int(223) NOT NULL AUTO_INCREMENT,
+  `plugin_id_code` varchar(25) CHARACTER SET latin1 NOT NULL,
+  `plugin_config_name` text CHARACTER SET latin1 NOT NULL,
+  `plugin_config_value` text CHARACTER SET latin1 NOT NULL,
+  `player_type` enum('built-in','plugin') CHARACTER SET latin1 NOT NULL DEFAULT 'built-in',
+  `player_admin_file` text CHARACTER SET latin1 NOT NULL,
+  `player_include_file` text CHARACTER SET latin1 NOT NULL,
+  PRIMARY KEY (`plugin_config_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `plugin_config`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `session_id` int(11) NOT NULL AUTO_INCREMENT,
+  `session_user` int(11) NOT NULL,
+  `session_string` varchar(60) NOT NULL,
+  `session_value` varchar(32) NOT NULL,
+  `session_date` datetime NOT NULL,
+  PRIMARY KEY (`session_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `sessions`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stats`
+--
+
+CREATE TABLE IF NOT EXISTS `stats` (
+  `stat_id` int(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(60) NOT NULL,
+  `value` varchar(60) NOT NULL,
+  PRIMARY KEY (`stat_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `stats`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subscriptions`
+--
+
+CREATE TABLE IF NOT EXISTS `subscriptions` (
+  `subscription_id` int(225) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) NOT NULL,
+  `subscribed_to` mediumtext NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`subscription_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `subscriptions`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `template`
+--
+
+CREATE TABLE IF NOT EXISTS `template` (
+  `template_id` int(20) NOT NULL AUTO_INCREMENT,
+  `template_name` varchar(25) NOT NULL,
+  `template_dir` varchar(30) NOT NULL,
+  PRIMARY KEY (`template_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `template`
+--
+
+INSERT INTO `template` (`template_id`, `template_name`, `template_dir`) VALUES
+(1, 'ClipBucket Blue', 'clipbucketblue'),
+(4, 'YouTube', 'youtube'),
+(5, 'ClipBucket Black', 'clipbucketblack');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `userid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `featured_video` mediumtext NOT NULL,
+  `username` text NOT NULL,
+  `user_session_key` varchar(32) NOT NULL,
+  `user_session_code` int(5) NOT NULL,
+  `password` varchar(40) NOT NULL DEFAULT '',
+  `email` varchar(80) NOT NULL DEFAULT '',
+  `usr_status` enum('Ok','ToActivate','Locked','Deleted') NOT NULL DEFAULT 'ToActivate',
+  `msg_notify` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `avatar` varchar(225) NOT NULL DEFAULT 'no_avatar.jpg',
+  `avatar_url` text NOT NULL,
+  `sex` enum('male','female') NOT NULL DEFAULT 'male',
+  `dob` date NOT NULL DEFAULT '0000-00-00',
+  `country` varchar(20) NOT NULL DEFAULT 'PK',
+  `level` int(6) NOT NULL DEFAULT '4',
+  `avcode` mediumtext NOT NULL,
+  `doj` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_logged` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `num_visits` bigint(20) NOT NULL DEFAULT '0',
+  `session` varchar(32) NOT NULL DEFAULT '',
+  `ip` varchar(15) NOT NULL DEFAULT '',
+  `signup_ip` varchar(15) NOT NULL DEFAULT '',
+  `time_zone` tinyint(4) NOT NULL DEFAULT '0',
+  `featured` enum('No','Yes') NOT NULL DEFAULT 'No',
+  `profile_hits` bigint(20) DEFAULT '0',
+  `total_watched` bigint(20) NOT NULL DEFAULT '0',
+  `total_videos` bigint(20) NOT NULL,
+  `total_comments` bigint(20) NOT NULL,
+  `ban_status` enum('yes','no') NOT NULL DEFAULT 'no',
+  `upload` varchar(20) NOT NULL DEFAULT '1',
+  `subscribers` varchar(25) NOT NULL DEFAULT '0',
+  `background` mediumtext NOT NULL,
+  `background_color` varchar(25) NOT NULL,
+  `background_url` text NOT NULL,
+  `background_repeat` enum('no-repeat','repeat','repeat-x','repeat-y') NOT NULL DEFAULT 'repeat',
+  `total_groups` bigint(20) NOT NULL,
+  `last_active` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `rating` bigint(25) NOT NULL,
+  `rated_by` text NOT NULL,
+  `banned_users` text NOT NULL,
+  PRIMARY KEY (`userid`),
+  KEY `ind_status_doj` (`doj`),
+  KEY `ind_status_id` (`userid`),
+  KEY `ind_hits_doj` (`profile_hits`,`doj`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`userid`, `featured_video`, `username`, `user_session_key`, `user_session_code`, `password`, `email`, `usr_status`, `msg_notify`, `avatar`, `avatar_url`, `sex`, `dob`, `country`, `level`, `avcode`, `doj`, `last_logged`, `num_visits`, `session`, `ip`, `signup_ip`, `time_zone`, `featured`, `profile_hits`, `total_watched`, `total_videos`, `total_comments`, `ban_status`, `upload`, `subscribers`, `background`, `background_color`, `background_url`, `background_repeat`, `total_groups`, `last_active`, `rating`, `rated_by`, `banned_users`) VALUES
+(1, '', 'admin', '777750fea4d3bd585bf47dc1873619fc', 10192, '38d8e594a1ddbd29fdba0de385d4fefa', 'arslan@clipbucket.com', 'Ok', 'yes', '1.jpg', 'http://t0.gstatic.com/images?q=tbn:2sYo4Cap-Hct-M:http://math1.unice.fr/~sb/SpringSchool2009/p38.jpg', 'male', '1989-10-14', 'PK', 1, '', '2008-11-23 16:12:43', '2009-10-28 11:12:42', 95, 'pub6e7fq5oj76vakuov2j03hm1', 'localhost', '', 0, 'No', 723132, 248, 52121, 1122, 'no', '1', '121', '1.jpg', '#53baff', '', 'repeat', 3, '2009-11-04 09:11:22', 10, '212', 'test'),
+(10, '', 'test', '', 0, 'cdc1c35aada927beae13f8b1e42e9a3e', 'webmaster@localhost', 'Ok', 'yes', 'no_avatar.jpg', '', 'male', '0000-00-00', 'PK', 2, '62fd374056', '2009-10-24 10:48:41', '2009-11-02 20:53:08', 3, '', 'localhost', '127.0.0.1', 0, 'No', 0, 0, 0, 0, 'no', '1', '0', '', '', '', 'repeat', 0, '2009-11-03 09:01:02', 1, '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_levels`
+--
+
+CREATE TABLE IF NOT EXISTS `user_levels` (
+  `user_level_id` int(20) NOT NULL AUTO_INCREMENT,
+  `user_level_active` enum('yes','no') CHARACTER SET latin1 NOT NULL DEFAULT 'yes',
+  `user_level_name` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `user_level_is_default` enum('yes','no') NOT NULL DEFAULT 'no',
+  PRIMARY KEY (`user_level_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+
+--
+-- Dumping data for table `user_levels`
+--
 
 INSERT INTO `user_levels` (`user_level_id`, `user_level_active`, `user_level_name`, `user_level_is_default`) VALUES
-(1, 'yes', 'Super Admin', 'yes'),
-(2, 'yes', 'Admin', 'yes'),
-(3, 'yes', 'Registered Users', 'yes'),
-(4, 'yes', 'Inactive Users', 'yes');
+(4, 'yes', 'Guest', 'yes'),
+(2, 'yes', 'Registered User', 'yes'),
+(3, 'yes', 'Inactive User', 'yes'),
+(1, 'yes', 'Administrator', 'yes'),
+(5, 'yes', 'Global Moderator', 'yes');
 
+-- --------------------------------------------------------
 
-INSERT INTO `user_levels_permissions` (`user_level_permission_id`, `user_level_id`, `admin_access`, `upload_access`, `channel_access`, `mod_access`) VALUES
-(1, 1, 'yes', 'yes', 'yes', 'no'),
-(2, 2, 'yes', 'yes', 'yes', 'yes'),
-(3, 3, 'no', 'yes', 'yes', 'no'),
-(4, 4, 'no', 'no', 'no', 'no');
+--
+-- Table structure for table `user_levels_permissions`
+--
 
+CREATE TABLE IF NOT EXISTS `user_levels_permissions` (
+  `user_level_permission_id` int(22) NOT NULL AUTO_INCREMENT,
+  `user_level_id` int(22) NOT NULL,
+  `admin_access` enum('yes','no') NOT NULL DEFAULT 'no',
+  `allow_video_upload` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `view_video` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `view_channel` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `view_group` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `view_videos` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `avatar_upload` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `video_moderation` enum('yes','no') NOT NULL DEFAULT 'no',
+  `member_moderation` enum('yes','no') NOT NULL DEFAULT 'no',
+  PRIMARY KEY (`user_level_permission_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+
+--
+-- Dumping data for table `user_levels_permissions`
+--
+
+INSERT INTO `user_levels_permissions` (`user_level_permission_id`, `user_level_id`, `admin_access`, `allow_video_upload`, `view_video`, `view_channel`, `view_group`, `view_videos`, `avatar_upload`, `video_moderation`, `member_moderation`) VALUES
+(5, 5, 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no', 'no'),
+(2, 2, 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no', 'no'),
+(3, 3, 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no'),
+(1, 1, 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes'),
+(4, 4, 'no', 'no', 'no', 'no', 'yes', 'yes', 'no', 'no', 'no');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_permissions`
+--
+
+CREATE TABLE IF NOT EXISTS `user_permissions` (
+  `permission_id` int(225) NOT NULL AUTO_INCREMENT,
+  `permission_type` int(225) NOT NULL,
+  `permission_name` varchar(225) NOT NULL,
+  `permission_code` varchar(225) NOT NULL,
+  `permission_desc` mediumtext NOT NULL,
+  `permission_default` enum('yes','no') NOT NULL DEFAULT 'yes',
+  PRIMARY KEY (`permission_id`),
+  UNIQUE KEY `permission_code` (`permission_code`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+
+--
+-- Dumping data for table `user_permissions`
+--
+
+INSERT INTO `user_permissions` (`permission_id`, `permission_type`, `permission_name`, `permission_code`, `permission_desc`, `permission_default`) VALUES
+(12, 3, 'Admin Access', 'admin_access', 'User can access admin panel', 'no'),
+(13, 1, 'View Video', 'view_video', 'User can view videos', 'yes'),
+(11, 2, 'Allow Video Upload', 'allow_video_upload', 'Allow user to upload videos', 'yes'),
+(14, 1, 'View Channel', 'view_channel', 'User Can View Channels', 'yes'),
+(15, 1, 'View Group', 'view_group', 'User Can View Groups', 'yes'),
+(16, 1, 'View Videos Page', 'view_videos', 'User Can view videos page', 'yes'),
+(17, 2, 'Allow Avatar Upload', 'avatar_upload', 'User can upload video', 'yes'),
+(19, 3, 'Video Moderation', 'video_moderation', 'User Can Moderate Videos', 'no'),
+(20, 3, 'Member Moderation', 'member_moderation', 'User Can Moderate Members', 'no');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_permission_types`
+--
+
+CREATE TABLE IF NOT EXISTS `user_permission_types` (
+  `user_permission_type_id` int(225) NOT NULL AUTO_INCREMENT,
+  `user_permission_type_name` varchar(225) NOT NULL,
+  `user_permission_type_desc` mediumtext NOT NULL,
+  PRIMARY KEY (`user_permission_type_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `user_permission_types`
+--
+
+INSERT INTO `user_permission_types` (`user_permission_type_id`, `user_permission_type_name`, `user_permission_type_desc`) VALUES
+(1, 'Viewing Permission', ''),
+(2, 'Uploading Permission', ''),
+(3, 'Administrator Permission', ''),
+(4, 'General Permission', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_profile`
+--
+
+CREATE TABLE IF NOT EXISTS `user_profile` (
+  `user_profile_id` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` bigint(20) NOT NULL,
+  `profile_title` mediumtext NOT NULL,
+  `profile_desc` mediumtext NOT NULL,
+  `featured_video` mediumtext NOT NULL,
+  `first_name` varchar(100) NOT NULL DEFAULT '',
+  `last_name` varchar(100) NOT NULL DEFAULT '',
+  `avatar` varchar(225) NOT NULL DEFAULT 'no_avatar.jpg',
+  `show_dob` enum('no','yes') DEFAULT 'no',
+  `postal_code` varchar(20) NOT NULL DEFAULT '',
+  `time_zone` tinyint(4) NOT NULL DEFAULT '0',
+  `profile_tags` mediumtext,
+  `web_url` varchar(200) NOT NULL DEFAULT '',
+  `hometown` varchar(100) NOT NULL DEFAULT '',
+  `city` varchar(100) NOT NULL DEFAULT '',
+  `online_status` enum('online','offline','custom') NOT NULL DEFAULT 'online',
+  `show_profile` enum('all','members','friends') NOT NULL DEFAULT 'all',
+  `allow_comments` enum('Yes','No') NOT NULL DEFAULT 'Yes',
+  `allow_ratings` enum('Yes','No') NOT NULL DEFAULT 'Yes',
+  `content_filter` enum('Nothing','On','Off') NOT NULL DEFAULT 'Nothing',
+  `icon_id` bigint(20) NOT NULL DEFAULT '0',
+  `browse_criteria` mediumtext,
+  `about_me` mediumtext NOT NULL,
+  `education` varchar(3) DEFAULT NULL,
+  `schools` mediumtext NOT NULL,
+  `occupation` mediumtext NOT NULL,
+  `companies` mediumtext NOT NULL,
+  `relation_status` varchar(15) DEFAULT NULL,
+  `hobbies` mediumtext NOT NULL,
+  `fav_movies` mediumtext NOT NULL,
+  `fav_music` mediumtext NOT NULL,
+  `fav_books` mediumtext NOT NULL,
+  `background` mediumtext NOT NULL,
+  `profile_video` int(255) NOT NULL,
+  PRIMARY KEY (`user_profile_id`),
+  KEY `ind_status_id` (`userid`),
+  FULLTEXT KEY `profile_tags` (`profile_tags`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+
+--
+-- Dumping data for table `user_profile`
+--
+
+INSERT INTO `user_profile` (`user_profile_id`, `userid`, `profile_title`, `profile_desc`, `featured_video`, `first_name`, `last_name`, `avatar`, `show_dob`, `postal_code`, `time_zone`, `profile_tags`, `web_url`, `hometown`, `city`, `online_status`, `show_profile`, `allow_comments`, `allow_ratings`, `content_filter`, `icon_id`, `browse_criteria`, `about_me`, `education`, `schools`, `occupation`, `companies`, `relation_status`, `hobbies`, `fav_movies`, `fav_music`, `fav_books`, `background`, `profile_video`) VALUES
+(8, 1, 'This is my profile title', 'test\r\n\r\n', '', 'Arslan Hassan', 'Hassan', 'no_avatar.jpg', 'yes', '51310', 0, 'arslan, hassan, great, developer', 'clip-bucket.com', 'Sialkot', 'Sialkot', 'offline', 'members', 'Yes', 'Yes', 'Nothing', 0, NULL, '', 'no ', 'AIPS, ma own school and no more', 'occupation', 'PHPBUcket, Webex etc etc', 'Single', 'Nothing special...', 'One piece', 'any thing , depends on my mood', 'Holy Quran and ebooks', '', 27),
+(9, 10, '', '', '', 'test', 'asdasd', 'no_avatar.jpg', 'no', '', 0, '', '', '', '', 'online', 'all', 'Yes', 'Yes', 'Nothing', 0, NULL, '', 'no ', '', '', '', 'Single', '', '', '', '', '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `validation_re`
+--
+
+CREATE TABLE IF NOT EXISTS `validation_re` (
+  `re_id` int(25) NOT NULL AUTO_INCREMENT,
+  `re_name` varchar(60) CHARACTER SET utf8 NOT NULL,
+  `re_code` varchar(60) CHARACTER SET utf8 NOT NULL,
+  `re_syntax` text CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`re_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `validation_re`
+--
 
 INSERT INTO `validation_re` (`re_id`, `re_name`, `re_code`, `re_syntax`) VALUES
 (1, 'Username', 'username', '^^[a-zA-Z0-9_]+$'),
-(2, 'Email', 'email', '^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,10})$');
+(2, 'Email', 'email', '^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,10})$'),
+(3, 'Username', 'username', '^^[a-zA-Z0-9 ]+$');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `video`
+--
+
+CREATE TABLE IF NOT EXISTS `video` (
+  `videoid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `videokey` mediumtext NOT NULL,
+  `username` text NOT NULL,
+  `userid` int(11) NOT NULL,
+  `title` mediumtext NOT NULL,
+  `flv` mediumtext NOT NULL,
+  `file_name` varchar(32) NOT NULL,
+  `description` mediumtext NOT NULL,
+  `tags` mediumtext NOT NULL,
+  `category` varchar(20) NOT NULL DEFAULT '0',
+  `broadcast` varchar(10) NOT NULL DEFAULT '',
+  `location` mediumtext,
+  `datecreated` date DEFAULT NULL,
+  `country` mediumtext,
+  `allow_embedding` char(3) NOT NULL DEFAULT '',
+  `rating` int(15) NOT NULL DEFAULT '0',
+  `rated_by` varchar(20) NOT NULL DEFAULT '0',
+  `voter_ids` mediumtext NOT NULL,
+  `allow_comments` char(3) NOT NULL DEFAULT '',
+  `comment_voting` char(3) NOT NULL DEFAULT '',
+  `comments_count` int(15) NOT NULL DEFAULT '0',
+  `featured` char(3) NOT NULL DEFAULT 'no',
+  `featured_description` mediumtext NOT NULL,
+  `allow_rating` char(3) NOT NULL DEFAULT '',
+  `active` char(3) NOT NULL DEFAULT '0',
+  `favourite_count` varchar(15) NOT NULL DEFAULT '0',
+  `playlist_count` varchar(15) NOT NULL DEFAULT '0',
+  `views` bigint(22) NOT NULL DEFAULT '0',
+  `last_viewed` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `flagged` varchar(3) NOT NULL DEFAULT 'no',
+  `duration` varchar(20) NOT NULL DEFAULT '00',
+  `status` enum('Successful','Processing') NOT NULL DEFAULT 'Processing',
+  `flv_file_url` text,
+  `default_thumb` int(3) NOT NULL DEFAULT '1',
+  `embed_code` text NOT NULL,
+  PRIMARY KEY (`videoid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `video`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `video_categories`
+--
+
+CREATE TABLE IF NOT EXISTS `video_categories` (
+  `category_id` int(225) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(30) NOT NULL DEFAULT '',
+  `category_desc` text NOT NULL,
+  `date_added` mediumtext NOT NULL,
+  `category_thumb` mediumtext NOT NULL,
+  `isdefault` enum('yes','no') NOT NULL DEFAULT 'no',
+  PRIMARY KEY (`category_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `video_categories`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `video_favourites`
+--
+
+CREATE TABLE IF NOT EXISTS `video_favourites` (
+  `fav_id` int(11) NOT NULL AUTO_INCREMENT,
+  `videoid` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`fav_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `video_favourites`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `video_files`
+--
+
+CREATE TABLE IF NOT EXISTS `video_files` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `status` int(2) NOT NULL,
+  `file_conversion_log` text NOT NULL,
+  `encoder` char(16) NOT NULL,
+  `command_used` text NOT NULL,
+  `src_path` text NOT NULL,
+  `src_name` char(64) NOT NULL,
+  `src_ext` char(8) NOT NULL,
+  `src_format` char(32) NOT NULL,
+  `src_duration` char(10) NOT NULL,
+  `src_size` char(10) NOT NULL,
+  `src_bitrate` char(6) NOT NULL,
+  `src_video_width` char(5) NOT NULL,
+  `src_video_height` char(5) NOT NULL,
+  `src_video_wh_ratio` char(10) NOT NULL,
+  `src_video_codec` char(16) NOT NULL,
+  `src_video_rate` char(10) NOT NULL,
+  `src_video_bitrate` char(10) NOT NULL,
+  `src_video_color` char(16) NOT NULL,
+  `src_audio_codec` char(16) NOT NULL,
+  `src_audio_bitrate` char(10) NOT NULL,
+  `src_audio_rate` char(10) NOT NULL,
+  `src_audio_channels` char(16) NOT NULL,
+  `output_path` text NOT NULL,
+  `output_format` char(32) NOT NULL,
+  `output_duration` char(10) NOT NULL,
+  `output_size` char(10) NOT NULL,
+  `output_bitrate` char(6) NOT NULL,
+  `output_video_width` char(5) NOT NULL,
+  `output_video_height` char(5) NOT NULL,
+  `output_video_wh_ratio` char(10) NOT NULL,
+  `output_video_codec` char(16) NOT NULL,
+  `output_video_rate` char(10) NOT NULL,
+  `output_video_bitrate` char(10) NOT NULL,
+  `output_video_color` char(16) NOT NULL,
+  `output_audio_codec` char(16) NOT NULL,
+  `output_audio_bitrate` char(10) NOT NULL,
+  `output_audio_rate` char(10) NOT NULL,
+  `output_audio_channels` char(16) NOT NULL,
+  `hd` enum('yes','no') NOT NULL DEFAULT 'no',
+  `hq` enum('yes','no') NOT NULL DEFAULT 'no',
+  PRIMARY KEY (`id`),
+  FULLTEXT KEY `src_bitrate` (`src_bitrate`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `video_files`
+--
