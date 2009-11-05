@@ -12,41 +12,27 @@ $userquery->admin_login_check();
 $pages->page_redir();
 
 //Move Video Up
-if(isset($_GET['up'])){
-	$id = mysql_clean($_GET['up']);
-	$msg = $myquery->MovePickUp($id);
+if(isset($_GET['move_up'])){
+	$id = mysql_clean($_GET['move_up']);
+	move_pick_up($id);
 }
 
 //Move Down Up
-if(isset($_GET['down'])){
-	$id = mysql_clean($_GET['down']);
-	$msg = $myquery->MovePickDown($id);
+if(isset($_GET['move_down'])){
+	$id = mysql_clean($_GET['move_down']);
+	move_pick_down($id);
 }
 
-//Removing From Editor's List
+//Removing
 if(isset($_GET['remove'])){
 	$id = mysql_clean($_GET['remove']);
-	$msg = $myquery->DeleteEditorPick($id);
+	remove_vid_editors_pick($id);
 }
-//Geting List Of Videos From Editor PIcks table
-$query 			= "SELECT * FROM editors_picks ORDER BY sort ASC";
-$data 			= $db->Execute($query);
-$videos 		= $data->getrows();
-$total_videos	= $data->recordcount()+0;
 
-	for($id=0;$id<=$total_videos;$id++){
-	$details 				= @$myquery->GetVideDetails($videos[$id]['videokey']);
-	$videos[$id]['title']	= $details['title'];
-	$videos[$id]['views']	= $details['views'];
-	$videos[$id]['rating']	= pullRating($details['views'],true,false,true,'novote');
-	}
-Assign('total_videos',$total_videos);	
-Assign('videos',$videos);
+assign('videos',get_ep_videos());
+assign('max',get_highest_sort_number());
+assign('min',get_lowest_sort_number());
 	
-Assign('msg', @$msg);	
-Template('header.html');
-Template('leftmenu.html');
-Template('message.html');
-Template('editor_pick.html');
-Template('footer.html');
+template_files('editor_pick.html');
+display_it();
 ?>

@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 .video_block{width:130px; margin:5px; float:left}
-
+.video_block_verticle{width:250px; margin:5px; float:left}
 /* Category List */
 .category_list{width:160px; float:left; margin-right:10px;}
 .category_list ul, .category_list ul li{margin:0px; padding:0px; list-style:none}

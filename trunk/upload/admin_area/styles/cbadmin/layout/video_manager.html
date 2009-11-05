@@ -89,9 +89,11 @@
       {if $videos[list].active == yes}  | 
       <a href="?deactivate={$videos[list].videoid}">Deactivate</a> {else} | 
       <a href="?activate={$videos[list].videoid}">Activate</a> {/if}  | 
-      <a href="?editor_pick={$videos[list].videoid}">Add To Editor's Pick</a> | 
       <a href="view_conversion_log.php?file_name={$videos[list].file_name}">File conversion details</a> | 
       <a href="?delete_video={$videos[list].videoid}">Delete</a>
+      {foreach from=$cbvid->video_manager_links item=links}
+      	{$cbvid->video_manager_link($links,$videos[list])}
+      {/foreach}
     </div>
     </td>
     <td width="50" valign="top" class="video_opt_td">&nbsp;</td>

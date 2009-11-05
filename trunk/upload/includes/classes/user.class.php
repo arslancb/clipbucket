@@ -289,7 +289,7 @@ class userquery {
 		global $db;
 		$results = $db->select("users",
 							   "userid,email,level,usr_status,user_session_key,user_session_code",
-							   "username='$username' OR userid='$username' AND password='$pass'");
+							   "(username='$username' OR userid='$username') AND password='$pass'");
 		if($db->num_rows > 0)
 		{
 			return $results[0];
@@ -2394,6 +2394,18 @@ class userquery {
 			return true;
 		else
 			return false;
+	}
+	
+	/**
+	 * function used to get user details with profile
+	 */
+	function get_user_details_with_profile($uid=NULL)
+	{
+		global $db;
+		if(!$uid)
+			$uid = userid();
+		$result = $db->select($this->dbtbl['users'].",".$this->dbtbl['user_profile'],"*",$this->dbtbl['users'].".userid ='$uid' AND ".$this->dbtbl['users'].".userid = ".$this->dbtbl['user_profile'].".userid");
+		return $result[0];
 	}
 }
 ?>

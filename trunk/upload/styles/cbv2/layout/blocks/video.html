@@ -1,3 +1,6 @@
+
+<!-- Video Box -->
+{if $display_type =='normal' || $display_type==''}
 <div class="video_block" align="center" {if $only_once} style="float:none" {/if}>
 	<div class="vdo_thumb_container" id="video_{$video.videoid}">
     	<a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" width="120" height="90" border="0" {ANCHOR place="video_thumb"} /></a>
@@ -10,3 +13,31 @@
 {if $only_once}
 <div class="clear"></div>
 {/if}
+
+{/if}
+<!-- Video Box -->
+
+
+
+
+<!-- Video Box verticle-->
+{if $display_type =='verticle'}
+<div class="video_block_verticle" align="center" {if $only_once} style="float:none" {/if}>
+	<div class="vdo_thumb_container" id="video_{$video.videoid}" style="float:left;" >
+    	<a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" width="120" height="90" border="0" {ANCHOR place="video_thumb"} /></a>
+        {ANCHOR place="video_thumb_div" data=$video}
+        <span class="vdo_duration">{$video.duration|SetTime:false}</span>
+    </div>
+  <div style="float:right; width:120px" align="left">
+  <div style="height:33px">
+  <a href="{videoLink vdetails=$video}">{$video.title|truncate:40}</a></div>
+  <div style="height:30px; font-size:10px; color:#666">{$video.views|number_format} {lang code='views'}<br />
+{$video.comments_count|number_format} {lang code='comments'}</div>
+    by <a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a> {show_rating class='small_stars' rating='$videos.rating' ratings='$videos.rated_by' total='10'}</div></div>
+    
+{if $only_once}
+<div class="clear"></div>
+{/if}
+
+{/if}
+<!-- Video Box verticle-->

@@ -2494,4 +2494,30 @@
 		global $cbvideo;
 		return $cbvideo->get_videos($param);
 	}
+	
+	/**
+	 * Function used to call functions
+	 */
+	function call_functions($in,$params=NULL)
+	{
+		if(is_array($in))
+		{
+			foreach($in as $i)
+			{
+				if(function_exists($i))
+					if(!$params)
+						$i();
+					else
+						$i($params);
+			}
+		}else
+		{
+			if(function_exists($in))
+					if(!$params)
+						$in();
+					else
+						$in($params);
+		}
+		
+	}
 ?>

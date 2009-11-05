@@ -1,0 +1,46 @@
+<span class="page_title">Editor's Pick</span>
+
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="50" class="head_sep_left">Num</td>
+    <td width="100" class="head_sep_left">Sort</td>
+    <td class="head"><div class="head_sep_left" style="width:250px">Details</div></td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+{assign var = bgcolor value = ""}
+{section name=list loop=$videos}
+<tr class="video_opt_td"  bgcolor="{$bgcolor}">
+    <td width="30" align="center" valign="top" class="video_opt_td">    <input name="check_video[]" type="checkbox" id="check_video" value="{$videos[list].videoid}" /></td>
+    <td width="50" align="center" valign="top" class="video_opt_td">{$videos[list].sort}</td>
+    <td width="100" align="center" valign="top" class="video_opt_td">{if $videos[list].sort > $min}<a href="?move_up={$videos[list].pick_id}">Up</a>{/if} &#8211; {if $videos[list].sort < $max}<a href="?move_down={$videos[list].pick_id}">Down</a>{/if}</td>
+    <td valign="top"  class="video_opt_td" style="padding-left:15px">
+    <a href="{$baseurl}/watch_video.php?v={$videos[list].videokey}" target="_blank" style="text-indent:10px">
+    {$videos[list].title}
+    </a> &#8211;<a href="?remove={$videos[list].videoid}"> Remove from editor's pick</a>&#8212;
+    <span class="vdo_sets">
+    Featured:<strong>{$videos[list].featured} </strong> &#8226;
+    Active:<strong>{$videos[list].active}</strong> &#8226;
+    Status:<strong>{$videos[list].status}</strong> 
+    </span>
+    
+    <br />
+    </td>
+    <td width="50" valign="top" class="video_opt_td">&nbsp;</td>
+  </tr>
+    {if $bgcolor == ""}
+    {assign var = bgcolor value = "#EEEEEE"}
+    {else}
+    {assign var = bgcolor value = ""}
+    {/if}
+        
+{/section}
+</table>
+
+
+

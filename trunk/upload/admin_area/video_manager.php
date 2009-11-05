@@ -8,7 +8,7 @@
 */
 
 require_once '../includes/admin_config.php';
-$userquery->admin_login_check();
+$userquery->login_check('video_moderation');
 $pages->page_redir();
 
 //Feature / UnFeature Video
@@ -33,18 +33,6 @@ if(isset($_POST['make_unfeatured_selected'])){
 		$cbvid->action('unfeature',$_POST['check_video'][$id]);
 	}
 	e("Selected videos have been removed from featured list",m);
-}
-
-
-
-//Add To Editor's Pick
-if(isset($_GET['editor_pick'])){
-	$video = mysql_clean($_GET['editor_pick']);
-	if($myquery->VideoExists($video)){
-	$msg[] = $myquery->AddToEditorPick($video);
-	}else{
-	$msg[] = $LANG['class_vdo_del_err'];
-	}
 }
 
 //Activate / Deactivate
@@ -89,6 +77,10 @@ if(isset($_POST['delete_selected']))
 	$eh->flush();
 	e(lang("vdo_multi_del_erro"),m);
 }
+
+
+//Calling Video Manager Functions
+call_functions($cbvid->video_manager_funcs);
 	
 	//Jump To The page
 	if(isset($_POST['display_page'])){

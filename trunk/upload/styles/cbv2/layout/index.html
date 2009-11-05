@@ -1,4 +1,104 @@
-asdasd
-asd
-asd
-as
+<div class="index_left_column">
+	
+    <!-- Videos Beign Watched -->
+    <div class="index_box">
+    	<div class="heading">Videos Being Watched</div>
+        <div class="content">
+        	{section name=vlist loop=$being_watched}
+            	{include file="$style_dir/blocks/video.html" video=$being_watched[vlist] display_type="verticle"}
+            {sectionelse}
+            	No Videos
+            {/section}
+            <div class="clear"></div>
+        </div>
+    </div>
+    
+    
+    <!-- Featured Videos -->
+    <div class="index_box">
+    	<div class="heading">Featured Video</div>
+        <div class="content">
+        	{section name=vlist loop=$featured_videos}
+            	{include file="$style_dir/blocks/video.html" video=$featured_videos[vlist] display_type="normal"}
+            {sectionelse}
+            	No Featured Videos
+            {/section}
+            <div class="clear"></div>
+        </div>
+    </div>
+    
+    
+    <!-- Recently Added Videos -->
+    <div class="index_box">
+    	<div class="heading">Recently Added Video</div>
+        <div class="content">
+        	{section name=vlist loop=$recently_added}
+            	{include file="$style_dir/blocks/video.html" video=$recently_added[vlist] display_type="normal"}
+            {sectionelse}
+            	No Featured Videos
+            {/section}
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+
+<div class="index_right_column">
+
+	<!-- Editor's Pick, Top Place-->
+    <div class="index_box">
+    	<div class="heading">Editor's Picks</div>
+        <div class="content">
+        	{ANCHOR place='index_right_top'}
+        </div>
+    </div>
+    
+    <!-- Login Box -->
+    {if !$userquery->login_check('',true)}
+    	<div class="index_box">
+    	<div class="heading">Login Now</div>
+        <div class="content">
+      <form id="login_form" name="login" method="post" action="{link name='login'}" class="index_login">
+        	<label for="username">Username</label><br />
+        	<input type="text" name="username" id="username" />
+       	  <label for="password"><br />
+   	      Password</label><br />
+        	<input type="password" name="password" id="password" /><br />
+        <button type="submit" class="cb_button" value="Login" name="login">Login</button> or<a href="{link name='signup'}"> Signup Here</a>
+        </form>
+        </div>
+    </div>
+    {else}
+    <!-- User Box -->
+    <div class="index_box">
+    	<div class="heading">My Account</div>
+        <div class="content">
+        {assign var=user value=$userquery->get_user_details($userquery->userid)}
+            <div class="account_thumb_container" align="center">
+            <a href="{$userquery->profile_link($user)}"><img src="{$userquery->getUserThumb($user)}" alt="{$user.username}" class="account_thumb" style="max-width:100px"><br />
+            View Profile / Channel </a><br />
+            <a href="{link name='my_account'}">My Account</a><br />
+
+</div>
+            <div class="stats" style="width:200px">
+            <span class="account_stat">username : <strong>{$user.username}</strong></span>
+            <span class="account_stat">joined : <strong>{$user.doj|date_format}</strong></span>
+            <span class="account_stat">last logged in : <strong>{$user.last_logged|nicetime}</strong></span>
+            <span class="account_stat">last active : <strong>{$user.last_active|nicetime}</strong></span>
+            <span class="account_stat">total logins : <strong>{$user.num_visits|number_format}</strong></span>
+            <span class="account_stat">profile views: <strong>{$user.profile_hits|number_format}</strong></span>
+            <span class="account_stat">total videos: <strong>{$user.total_videos|number_format}</strong></span>
+            <span class="account_stat">total videos watched: <strong>{$user.total_watched|number_format}</strong></span>
+            <span class="account_stat">subscribers: <strong>{$user.subscribers|number_format}</strong></span>
+            <span class="account_stat">country: <strong>{$user.country|country}</strong></span>
+            </div>
+            <div class="clear"></div>
+      	</div>
+    </div>       
+    
+    {/if}
+    
+    
+	<!-- Ad Box --> 
+    <div align="center">{AD place=336x280}</div>
+    <!-- Ad Box End -->
+</div>

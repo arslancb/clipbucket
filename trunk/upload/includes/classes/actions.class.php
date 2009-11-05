@@ -277,6 +277,39 @@ class cbactions
 		}else
 			e(sprintf(lang('unknown_favorite'),$this->name));
 	}
+	
+	
+	/**
+	 * Function used to get object flags
+	 */
+	function get_flagged_objects($limit=NULL)
+	{
+		global $db;
+		$type = $this->type;
+		$results = $db->select($this->flag_tbl.",".$this->type_tbl,"*,
+							   count(*) AS total_flags",$this->flag_tbl.".id = ".$this->type_tbl.".".$this->type_id_field." 
+							   AND type='".$this->type."' GROUP BY ".$this->flag_tbl.".id ,".$this->flag_tbl.".type ",$limit);
+		if($db->num_rows>0)
+			return $results;
+		else
+			return false;
+	}
+	
+	
+	/**
+	 * Function used to count object flags
+	 */
+	function count_flagged_objects()
+	{
+		global $db;
+		$type = $this->type;
+		$results = $db->select($this->flag_tbl.",".$this->type_tbl,"id",$this->flag_tbl.".id = ".$this->type_tbl.".".$this->type_id_field." 
+							   AND type='".$this->type."' GROUP BY ".$this->flag_tbl.".id ,".$this->flag_tbl.".type ");
+		if($db->num_rows>0)
+			return count($results);
+		else
+			return false;
+	}
 }
 
 ?>

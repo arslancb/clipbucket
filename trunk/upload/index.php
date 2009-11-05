@@ -10,12 +10,29 @@ define('THIS_PAGE','index');
 require 'includes/config.inc.php';
 $pages->page_redir();
 
-pr($userquery);
+//Get Videos Beign Watched 
+$being_watched = array
+('limit' => 6,
+ 'order' => 'last_viewed DESC',
+ );
 
-if(isset($_GET['cb_ver']) && $is_admin)
-{
-$msg = "ClipBucket&nbsp;".CB_VERSION."";
-}
+assign('being_watched',$cbvid->get_videos($being_watched));
+
+//GettinG list Of Featured Videos
+$featured = array
+('limit' => 4,
+ 'featured' => 'yes',
+ 'order'	=> ' featured_date DESC ',
+ );
+assign('featured_videos',$cbvid->get_videos($featured));
+
+
+//GettinG list Of recently added Videos
+$recently_added = array
+('limit' => 12,
+ 'order'	=> ' date_added DESC ',
+ );
+assign('recently_added',$cbvid->get_videos($recently_added));
 
 
 //Displaying The Template

@@ -23,6 +23,10 @@ class CBvideo extends CBCategory
 	var $email_template_vars = array();
 	
 	var $dbtbl = array('video'=>'video');
+	
+	var $video_manager_links = array();
+	var $video_manager_funcs = array();
+	
 	/**
 	 * __Constructor of CBVideo
 	 */	
@@ -103,7 +107,7 @@ class CBvideo extends CBCategory
 			case "featured":
 			case "f":
 			{
-				$db->update("video",array('featured'),array('yes')," videoid='$vid' OR videokey = '$vid' ");
+				$db->update("video",array('featured','featured_date'),array('yes',now())," videoid='$vid' OR videokey = '$vid' ");
 				e(lang("class_vdo_fr_msg"),m);
 			}
 			break;
@@ -407,6 +411,15 @@ class CBvideo extends CBCategory
 			$cond .= " ($tag_n_title) ";
 		}
 		
+		//FEATURED
+		if($params['featured'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$featured .= " featured = 'yes' ";
+		}
+		
+		
 		$result = $db->select('video','*',$cond,$limit,$order);
 		
 		
@@ -584,7 +597,7 @@ class CBvideo extends CBCategory
 	}
 	
 	
-	/**
+	/*
 	 * Function used to update video and set a thumb as default
 	 * @param VID
 	 * @param THUMB NUM
@@ -618,6 +631,22 @@ class CBvideo extends CBCategory
 			return false;
 	}
 	
+	/**
+	 * Function used to display video manger link
+	 */
+	function video_manager_link($link,$vid)
+	{
+		if(function_exists($link) && !is_array($link))
+		{
+			return $link($vid);
+		}else
+		{
+			if(!empty($link['title']) && !empty($link['link']))
+			{
+				return ' | <a href="'.$link['link'].'">'.$link['title'].'</a>';
+			}
+		}
+	}
 	
 }
 ?>

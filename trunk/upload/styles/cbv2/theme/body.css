@@ -105,3 +105,17 @@ a{text-decoration:none; font-family:Arial, Helvetica, sans-serif;color:#333; }
 
 .video_control{font-weight:normal; margin-left:10px; font-size:10px}
 .arrow_pointing{background-position:-0px -78px; width:24px; height:14px;}
+
+
+/**
+ index
+ */
+.index_left_column{width:600px; float:left}
+.index_box{}
+.index_box .heading{ display:block; border-radius-topleft:5px; -webkit-border-radius-topleft:5px; -moz-border-radius-topleft:5px; border:1px solid #CCC; font-size:15px; font-weight:bold;border-radius-topright:5px; -webkit-border-radius-topright:5px; -moz-border-radius-topright:5px; padding:5px ; border-bottom:0px;}
+.index_box .content{ display:block; border-radius-bottomleft:5px; -webkit-border-radius-bottomleft:5px; -moz-border-radius-bottomleft:5px; border:1px solid #CCC; font-size:12px; font-weight:bold;border-radius-bottomright:5px; -webkit-border-radius-bottomright:5px; -moz-border-radius-bottomright:5px; padding:5px ; border-top:0px; margin-bottom:15px}
+.index_right_column{float:right; width:350px; margin-right:5px}
+
+.index_login{padding:10px}
+.index_login,.index_login a{font-size:16px; font-weight:bold}
+.index_login input{border:1px solid #999; width:300px; padding:5px; margin-bottom:10px}
