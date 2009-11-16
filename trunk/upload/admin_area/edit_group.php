@@ -7,46 +7,64 @@
  ****************************************************************************************************
 */
 
-require'../includes/admin_config.php';
-$userquery->login_check('admin_access');
-$pages->page_redir();
+require_once '../includes/admin_config.php';
+$gpid = mysql_clean($_GET['group_id']);
 
-$group = mysql_clean($_GET['group']);
-//Updating Group
-if(isset($_POST['update'])){
-	$msg = $groups->UpdateGroup(2);
-}
-if(!$groups->GroupExists($group) || $group == 'Array'){
-	$msg = $LANG['grp_exist_error'];
-	$show_group = 'No';
-}else{
+	// Collecting Users List
+	$userdata = $db->select("users","*");
 
-		$details = $groups->GetDetailsid($group);
-		$group 	= 	$details['group_id'];
-		$user 	= 	$_SESSION['username'];
+	if(isset($_POST['update_group'])) {
+		$groups->edit_group($_POST);	
+	}
+	
+	//Assign Varialbes
+	assign('users',$userdata);
+	assign('category',$groups->get_categories());
+	assign('group_details',$groups->group_details($gpid));
 
-Assign('groups',$details);
-}
+template_files('edit_group.html');
+display_it();
 
-//Assigning Category List
-	$sql = "SELECT * from category";
-	$rs = $db->Execute($sql);
-	$total_categories = $rs->recordcount() + 0;
-	$category = $rs->getrows();
-	Assign('category', $category);	
-
-//If Update is true
-$update = mysql_clean($_GET['update']);
-if($update==true){
-	$msg = $LANG['grp_update_msg'];
-}
-		
-//Assing Template
-Assign('country',$signup->country());
-Assign('msg',$msg);	
-Template('header.html');
-Template('leftmenu.html');
-Template('message.html');
-Template('edit_group.html');
-Template('footer.html');
+//require'../includes/admin_config.php';
+//$userquery->login_check('admin_access');
+//$pages->page_redir();
+//
+//$gpid = mysql_clean($_GET['group_id']);
+////Updating Group
+//if(isset($_POST['update'])){
+//	$msg = $groups->UpdateGroup(2);
+//}
+//if(!$groups->GroupExists($group) || $group == 'Array'){
+//	$msg = $LANG['grp_exist_error'];
+//	$show_group = 'No';
+//}else{
+//
+//		$details = $groups->GetDetailsid($group);
+//		$group 	= 	$details['group_id'];
+//		$user 	= 	$_SESSION['username'];
+//
+//Assign('groups',$details);
+//}
+//
+////Assigning Category List
+//	$sql = "SELECT * from category";
+//	$rs = $db->Execute($sql);
+//	$total_categories = $rs->recordcount() + 0;
+//	$category = $rs->getrows();
+//	Assign('category', $category);	
+//
+////If Update is true
+//$update = mysql_clean($_GET['update']);
+//if($update==true){
+//	$msg = $LANG['grp_update_msg'];
+//}
+//		
+////Assing Template
+//Assign('country',$signup->country());
+//Assign('msg',$msg);	
+//Template('header.html');
+//Template('leftmenu.html');
+//Template('message.html');
+//Template('edit_group.html');
+//Template('footer.html');
 ?>

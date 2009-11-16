@@ -34,6 +34,18 @@ $recently_added = array
  );
 assign('recently_added',$cbvid->get_videos($recently_added));
 
+//Get Categories
+$cats = $db->select("video_categories",'*',NULL,'6');
+assign('cat',$cats);
+
+//Top users
+$users = $db->select("users",'*',NULL,'10',"total_videos DESC");
+assign('topusers',$users);
+
+//Getting Video List
+$videos = $db->select("video",'*',NULL,'15',"date_added DESC");
+Assign('videos', $videos);	
+
 
 //Displaying The Template
 template_files('index.html');

@@ -1,0 +1,116 @@
+<script language="javascript">
+SetId('Featured');
+</script>
+<div class="content_con clearfix">
+	<div class="feature_con clearfix">
+    	<div class="feature_left">
+        	<div class="feature_head">
+				<div class="left_side"></div>
+                <div class="right_side"></div>
+            	<h2>Featured Video</h2>
+            </div> <!--FEATURE_HEAD END-->
+            <div class="feature_vid">
+            	<img src="{$imageurl}/player.png" width="350" height="280"  />
+            </div> <!--FEATURE_VID END-->
+        </div> <!--FEATURE_LEFT END-->
+        
+        <div class="feature_right clearfix">
+        	<div class="video_thumb">
+            	<div style="width:120px; height:90px; background:#f3f3f3"></div>
+            </div> <!--VIDEO_THUMB END-->
+            <div class="details_block">
+            	<ul>
+                	<li>Views of Video</li>
+                    <li><a href="OWNER LINK">Owner of Video</a></li>
+                    <li>Length of Video</li>
+                </ul>
+            </div> <!--DETAILS_BLOCK END-->
+            <div class="title"><a href="#">Here Goes Video Title</a></div>
+            <div class="sp"></div>
+        </div> <!--FEATURE_RIGHT END-->
+    </div> <!--FEATURE_CON END-->
+    <div class="feature_shadow"></div>
+    
+    <div class="ad">468X60 AD</div>
+    
+    <div class="tabs">
+        <ul>
+            <li class="selected"><a href="javascript:void(0)" id="watched">Being Watched</a></li>
+            <li><a href="javascript:void(0)" id="most_watched">Most Watched</a></li>
+            <li><a href="javascript:void(0)" id="recently_watched">Recently Added</a></li>
+       </ul>    	
+    </div> <!--TABS END-->
+    <div class="main_vids clearfix">
+    	<div id="style_change">Change Style of Listing 
+        	<div id="grid" title="Change To Grid Style"></div> 
+            <div id="list" title="Change to List Style"></div>
+		</div> <!--STYLE_CHANGE END-->
+        {section name=v_list loop=$videos}
+        	<div class="horizantal clearfix">
+            	<div class="video_thumb">
+                	<a href="{videoLink vdetails=$videos[v_list]}"><img src="{getThumb vdetails=$videos[v_list]}" width="120" height="90" border="0" {ANCHOR place="video_thumb"} /></a>
+                </div> <!--VIDEO_THUMB END-->
+                <div class="details_block">
+                	<div class="lvl1 clearfix">
+                    	<div class="title"><a href="videos.php?v={$videos[v_list].videokey}">{$videos[v_list].title|truncate:40}</a></div>
+                        
+                        {show_rating class='rating' rating='$videos.rating' ratings='$videos.rated_by' total='10'}
+                       
+                    </div> <!--LVL1 END-->
+                    
+                    <div class="lvl2 clearfix">
+                    	<div class="desc">{$videos[v_list].description}</div>
+                        <div class="length">Time: <span>{$videos[v_list].duration|SetTime:false}</span></div>
+                    </div> <!--LVL2 END-->
+                    
+                    <div class="lvl3 clearfix">
+                    	<div class="views"><span>{$videos[v_list].views}</span> view(<strong>s</strong>)</div>
+                        <div class="comments"><a href="#"><img src="{$imageurl}/dot.gif" width="16" height="12" class="com_img" /> {$videos[v_list].comments_count} Comment(<strong>s</strong>)</a></div>
+                    </div> <!--LVL3 END-->
+                    
+                    <div class="lvl4 clearfix">
+                    	<div class="uploaded"><a href="{$userquery->profile_link($videos[v_list].userid)}">{$userquery->get_user_field_only($videos[v_list].userid,'username')}</a></div>
+                    </div> <!--LVL4 END-->
+                </div> <!--DETAILS_BLOCK END-->
+                <div class="vid_sp"></div>
+                
+            </div> <!--HORIZANTAL END-->
+        {/section}
+        
+
+    </div> <!--MAIN_VIDS END-->
+    <div class="main_vid_shadow"></div>
+</div> <!--CONTENT_CON END-->
+
+<div class="side_con">
+	<div class="box">
+    	<div class="ads">300x250 AD</div>
+    </div> <!--BOX END-->
+    
+	<div class="box">
+    	<div class="ads">Another 300x250 AD</div>
+    </div> <!--BOX END-->
+    
+	<div class="box">
+    	<div class="login">
+        	<img src="{$imageurl}/dot.gif" class="happyface" alt="{$title}" />
+        	<div class="reg"><a href="signup.php">Click Here to Register</a></div>
+            <div class="log"><a href="#user_login">Click Here to Login</a></div>        	
+        </div>
+    </div> <!--BOX END-->
+    
+	<div class="box">
+    	<div class="top_bg">
+        	<h2>Top 10 Users</h2>
+            {section name=tusers loop=$topusers}
+            <div class="top_user">
+                <div class="avatar"><img src="{$avatardir}/{$topusers[tusers].avatar}" width="30" height="30" border="0"  /></div>
+                <span style="float:left"><a href="#">{ $topusers[tusers].username }</a></span>
+                <span style="float:right">Videos: <a href="#">{ $topusers[tusers].total_videos }</a></span>
+                <div class="user_no">{$smarty.section.tusers.iteration}</div>
+            </div>
+            {/section}            
+        </div>
+    </div> <!--BOX END-->
+    
+</div> <!--SIDE_CON END-->

@@ -1,629 +1,420 @@
 <?php
-/*
- * @Author  : Arslan Hassan
+
+/**
+ * @Author  : Fawaz Tahir
+ * @Software : Community Bucket
  * @License : CBLA
- * @Updated : March 12 2009
- * @Version : 1.8
-*/
+ * @Since : 31 OCT 2009
+ */
 
-class groups
-{
-		//Function Used To Check Weather ENTERED URL exists or not
-		function ExistsURL($url){
-			$query = mysql_query("SELECT * FROM groups WHERE group_url = '".$url."'");
-			if(mysql_num_rows($query)>0){
-				return true;
-			}else{
-				return false;
-			}
+class Groups extends CBCategory {
+	var $gp_thumb_width = '120';
+	var $gp_thumb_height = '90';
+	var $gp_tbl = '';
+
+	/**
+	 * Constructor function to set values of tables
+	 */
+	function Groups() {
+		$this->cat_tbl = 'group_categories';
+		$this->gp_tbl =  'groups';
+	}
+	
+	/**
+	 * Function used to check if the provided URL is taken or not
+	 * @param = $url { URL of group provided by user }
+	 */		
+	function GroupUrl($url) {
+		global $db;
+		$result = $db->select($this->gp_tbl,"*"," group_url='$url'");
+		if($db->num_rows>0) {
+			return $result[0];	
+		} else{
+			return false;	
 		}
+	}
+	
 
-		//Function Used TO CHeck Weather Entered Name already Exists or not
-		function ExistsName($name){
-			$query = mysql_query("SELECT * FROM groups WHERE group_name = '".$name."'");
-			if(mysql_num_rows($query)>0){
-				return true;
-			}else{
-				return false;
-			}
-		}
-
-		//Function Used To Get Groups Details
-		function GetDetails($url){
-			$query = mysql_query("SELECT * FROM groups WHERE group_url='".$url."'");
-			$data = mysql_fetch_array($query);
-		return $data;
-		}
-
-		//Function Used To Get Groups Details
-		function GetDetailsId($id){
-			$query = mysql_query("SELECT * FROM groups WHERE group_id='".$id."'");
-			$data = mysql_fetch_array($query);
-		return $data;
-		}
-
-
-		//Check Group Owner
-		function GetGroupOwner($group,$type=1){
-			if($type == 1){
-				$data = $this->GetDetailsId($group);
-			}else{
-				$data = $this->GetDetails($group);
-			}
-			return $data['username'];
-		}
-
-			//Function Used TO Join Group
-
-			function JoinGroup($username,$group,$active='yes'){
-			global $LANG;
-			if($this->is_joined($username,$group)){
-				$msg = e($LANG['grp_join_error']);
-			}else{
-				if(!mysql_query("INSERT INTO group_members(group_id,username,active)VALUES('".$group."','".$username."','".$active."')")) die(mysql_error());
-				$total_users = $this->CountMembers($group);
-				mysql_query("UPDATE groups SET total_members='".$total_users."' WHERE group_id='".$group."'");
-			}
-			return @$msg;
-			}
-
-		//Function Used to Validate Group Form
-		function CreateGroup(){
-		global $LANG;
-			$name 			= mysql_clean($_POST['name']);
-			$description	= mysql_clean($_POST['description']);
-			$tags			= mysql_clean($_POST['tags']);
-			$url			= mysql_clean($_POST['url']);
-			@$category		= mysql_clean($_POST['category']);
-			$group_type		= mysql_clean($_POST['group_type']);
-			$video_type		= mysql_clean($_POST['video_type']);
-			$post_type		= mysql_clean($_POST['post_type']);
-			if(@GROUP_ACTIVATION == 'yes'){
-			$active 		= 'no';
-			}else{
-			$active			= 'yes';
-			}
-			$username		= $_SESSION['username'];
-
-			//Validation Starts Here
-
-				// If Users Session Ends
-				if(empty($_SESSION['username'])){
-					redirect_to(BASEURL.signup_link);
-				}
-
-				//If Group Title isnt set
-				if(empty($name)){
-					$msg[] = e($LANG['grp_name_error']);
-				}elseif($this->ExistsName($name)){
-					$msg[] = e($LANG['grp_name_error1']);
-				}
-				//if description is not entered
-				if(empty($description)){
-					$msg[] = e($LANG['grp_des_error']);
-				}
-				//if tags is not entered
-				if(empty($tags)){
-					$msg[] = e($LANG['grp_tags_error']);
-				}
-				//if url is not entered or url already exists
-				if(empty($url)){
-					$msg[] = e($LANG['grp_url_error']);
-				}elseif(!isValidText($url)){
-					$msg[] = e($LANG['grp_url_error1']);
-				}elseif($this->ExistsURL($url)){
-					$msg[] = e($LANG['grp_url_error2']);
-				}
-
-				//Check If category is not selected
-				if(empty($category)){
-					$msg[] = e($LANG['grp_cat_error']);
-				}
-
-			//Data Entering
+	/**
+	 * Function used to get all the data of groups 
+	 */
+	function get_groups() {
+		global $db;
+		$getgp = $db->select($this->gp_tbl,"*");
+		return $getgp;
+	}
+	
+	/**
+	 * Function used to list groups 
+	 */
+	function list_groups() {
+		global $db;
+		$getgp = $db->select($this->gp_tbl,"*","active='yes' AND (group_type='0' OR group_type='1')");
+		return $getgp;
+	}
+	
+	/**
+	 * Function used to make user a member of group 
+	 * @param = $userid { ID of user who is going to Join Group }
+	 * @param = $username { Username of user who is going to Join Group }
+	 * @param = $gpid { ID of group which is being joined }
+	 */
+	function join_group($gpid,$ownerid=NULL,$userid=NULL) {
+		global $db;
+		
+		//Check if user is already a member
+		if($this->joined_group($userid,$gpid)) {
+			e(lang('You are already a member of this group'));	
+		} else {
+			$db->insert("group_members",
+						array("group_id","ownerid","userid","date_added"),
+						array($gpid,$ownerid,$userid,now()));
 			
-				if(empty($msg)){
-					if(!mysql_query("INSERT INTO groups(group_name,group_description,group_tags,group_url,group_category,group_type,video_type,post_type,active,username,group_thumb)VALUES
-								('".$name."','".$description."','".$tags."','".$url."','".$category."','".$group_type."','".$video_type."','".$post_type."','".$active."','".$username."','no_thumb.png')")) die(mysql_error());
-				$ID = mysql_insert_id();	
-				//Updating Users Number Of  Videos Added By User
-				$groups_query 	= mysql_query("SELECT * FROM groups WHERE username='".$username."'");
-				$groupscount	= mysql_num_rows($groups_query);
-				$updatequery = mysql_query("UPDATE users SET total_groups='".$groupscount."' WHERE username = '".$username."'");
-				//Auto Joining Group Owner
-				$this->JoinGroup($username,$ID);
-				
-				redirect_to(BASEURL.view_group_link.$url);
-				}
-			return $msg;
-
+			//Count total members
+			$total_members = $this->total_members($gpid);
+			
+			//Update Stats
+			$db->update("group_stats",
+						array("total_members"),
+						array($total_members),
+						"group_id='$gpid'");
+			
+			e(lang('You have successfully joined group.'),'m');
 		}
+	}
 
+	/**
+	 * Function used to check whether user is already a member or not 
+	 * @param = $user { User to check }
+	 * @param = $gpid { ID of group in which we will check }
+	 */
+	function joined_group($user,$gpid) {
+		global $db;
+		$data = $db->select("group_members","*","group_id='$gpid' AND userid='$user'");
+		if($db->num_rows>0) {
+			return true;	
+		} else {
+			return false;	
+		}
+	}
 
-			//Function Used To add Topics ion the groups
+	/**
+	 * Function used to get all the data of specific group by ID
+	 * @param = $gpid { ID of the group we want to edit }
+	 */	
+	function group_details($gpid) {
+		global $db;
+		$gp_details = $db->select($this->gp_tbl,"*","group_id='$gpid'");
+		if($db->num_rows>0) {
+			return $gp_details[0];
+		} else{
+			return false;	
+		}
+	}
+	
+	/**
+	 * Function used to get all the data of specific group by URL
+	 * @param = $gpurl { URL of the group we want to edit }
+	 */	
+	function group_details_url($gpurl) {
+		global $db;
+		$gp_details = $db->select($this->gp_tbl,"*","group_url='$gpurl'");
+		if($db->num_rows>0) {
+			return $gp_details[0];
+		} else{
+			return false;	
+		}
+	}
+	
+	/**
+	 * Function used to check if group is active or unactive 
+	 * @param = $gpid { ID of the group we want to check }
+	 */
+	function gp_chk_act($gpid) {
+		global $db;
+		$data = $db->select($this->gp_tbl,"*","group_id='$gpid' AND active='yes'");
+		if($db->num_rows>0) {
+			return true;	
+		} else {
+			return false;	
+		}
+	}
 
-			function AddTopic($topic,$group,$video=0,$approved='yes'){
-			global $LANG;
-				if(empty($topic)){
-					if(empty($_SESSION['username'])){
-					redirect_to(BASEURL.signup_link);
-					}
-					$msg = e($LANG['grp_tpc_error2']);
-					}else{
-					if(!mysql_query("INSERT into group_topics(topic_title,group_id,username,videokey,approved,last_reply)
-					VALUES('".$topic."','".$group."','".$_SESSION['username']."','".$video."','".$approved."',now())")) die(mysql_error());
-					$total_topics = $this->CountTopics($group);
-					mysql_query("UPDATE groups SET total_topics='".$total_topics."' WHERE group_id='".$group."'");
-					$msg[] = e($LANG['grp_tpc_msg'],m);
-					if($approved=='no'){
-					$msg[] = e($LANG['grp_tpc_error3']);
-					}
-					}
-			return $msg;
+	
+	/**
+	 * Function used to count total number of groups.
+	 */
+	function total_groups() {
+		global $db;
+		$totalgp = $db->count($this->gp_tbl,"*");
+		return $totalgp;
+	}
+	
+	/**
+	 * Function used to count total number of members in a group.
+	 * @param = $gpid { ID of group whose members are going to be counted }
+	 */
+	function total_members($gpid) {
+		global $db;
+		$totalmem = $db->count("group_members","*","group_id='$gpid'");
+		return $totalmem[0];
+	}
+	
+	/**
+	 * Function used to get group stats
+	 * @param = $gpid { ID of group whose members are going to be counted }
+	 */
+	function group_stats($gpid) {
+		global $db;
+		$stats = $db->select("group_stats","*","group_id='$gpid'");
+		return $stats[0];
+	}
+	
+	/**
+	 * Function used to get default image for group.
+	 */
+	function get_default_thumb() {
+		$this->get_default_thumb = 'no_thumb.png';
+		return $this->get_default_thumb;
+	}
+	
+	/**
+	 * Function used to get group thumb.
+	 */
+	function get_gp_thumb($gp_img) {
+		
+		if(empty($gp_img)) {
+			return $this->get_default_thumb();
+		} else{
+			return $gp_img;
+		}
+	}
+	
+	/**
+	 * Function used to create new groups
+	 */
+	function createGroups($array,$user=false) {
+		global $db;
+		if($user) {
+			$owner = $user;
+		} else {
+			$owner = $array['users'];
+		}
+		$title = $array['title'];
+		$description = $array['description'];
+		$category = $array['category'];
+		$gptype = $array['gptype'];
+		$tags = $array['tags'];
+		$gpurl = $array['gp_url'];
+		
+		// Validating all the fields
+		
+		if(empty($title)) {
+			e(lang('We need your group title. Enter Group Title'));	
+		} elseif(empty($description)) {
+			e(lang("We need Description for a group. Please Enter Description."));	
+		} elseif(empty($tags)) {
+			e(lang("Please Enter Tags, so other can find your group."));	
+		} elseif(empty($category)) {
+			e(lang("Please Select a category."));	
+		} elseif(empty($owner) && $user == false) {
+			e(lang("Please select the Owner of Group."));	
+		} elseif(empty($gpurl)) {
+			e(lang('Please enter a URL for your Group.'));
+		} elseif($this->GroupUrl($gpurl)) {
+			e(lang("This url is already taken."));
+		} elseif(!preg_match("/^([a-z0-9-_\.]*?)$/",$gpurl)) {
+			e(lang("Invalid Format of your Group URL."));
+		}else{
+			$gpin = $db->insert($this->gp_tbl,
+						array('group_name,group_description,group_category,group_tags,group_url,group_owner,group_type,date_created'),
+						array($title,$description,$category,$tags,$gpurl,$owner,$gptype,now())
+						);
+			$gpid = $db->insert_id(); // used to get ID freshly inserted data.
+			
+			//Insert stats in group_stats table.
+			$db->insert("group_stats",array("group_id,total_members,total_topics"),array($gpid,"0","0"));
+			
+			//Owner will join his group automaically
+				$this->join_group($gpid,$owner);
+			
+			// Creating group thumbnail, if provided
+			if(!empty($_FILES['gpThumb']['tmp_name'])) {
+				$this->create_group_image($gpid,$_FILES['gpThumb']);
 			}
-
-			//Function Used To Get Topic List
-
-			function GetTopics($group){
-				$sql = "Select * FROM group_topics WHERE group_id = ''".$group."' AND approved='yes'";
-				$data = $db->Execute($sql);
-				$details = $data->getrows;
-				return $details;
+			
+			e(lang('Group Created'),'m');
+		}
+			
+	}
+	
+	/**
+	 * Function used to delete the old group image, if provided new one.
+	 */
+	function update_gp_image($gpid) {
+		$path = GP_THUMB_DIR."/".$gpid;
+		$extents = array('png','jpg','gif');
+		$img = array();
+		$i = 0;
+		foreach ($extents as $ext) {
+			$img[] = $path.".".$ext;
+		}
+		while($i < count($img)) {
+			 if(file_exists($img[$i])) {
+				unlink($img[$i]); 
+			 }
+			$i++;
+		}
+	}
+	
+	/**
+	 * Function used to edit/update group
+	 */
+	function edit_group($array) {
+		global $db;
+		$nowner = mysql_clean($array['users']);
+		$owner = mysql_clean($array['owner']);
+		$title = mysql_clean($array['title']);
+		$description = mysql_clean($array['description']);
+		$tags = mysql_clean($array['tags']);
+		$category = mysql_clean($array['category']);
+		$ngpurl = mysql_clean($array['gp_url']);
+		$gpurl = mysql_clean($array['gp_url']);
+		$gpid = mysql_clean($array['gpid']);
+		$gptype = mysql_clean($array['gptype']);
+		
+		// Validating all the fields
+		
+		if(empty($title)) {
+			e(lang('We need your group title. Enter Group Title'));	
+		} elseif(empty($description)) {
+			e(lang("We need description for your group. Please Enter Description."));	
+		} elseif(empty($tags)) {
+			e(lang("Please Enter Tags, so other can find your group."));	
+		} elseif(empty($category)) {
+			e(lang("Please Select a category."));	
+		} elseif(empty($gpurl)) {
+			e(lang('Please enter a URL for your Group.'));
+		} elseif($this->GroupUrl($ngpurl) && $ngpurl != $gpurl) {
+			e(lang("This url is already taken."));
+		} else {
+			
+			//Change owner of group if admin changed them
+			if($nowner != $owner) {
+				$this->change_owner($gpid,$owner,$nowner);	
 			}
-
-			//Function used to check Topic exists or not
-
-			function is_topic($topic){
-			$query = mysql_query("SELECT * FROM group_topics WHERE topic_id ='".$topic."'");
-				if(mysql_num_rows($query) >0){
-					return true;
-				}else{
-				return false;
-				}
+			
+			$db->update($this->gp_tbl,
+						array("group_name","group_description","group_category","group_tags","group_url","group_type","group_owner"),
+						array($title,$description,$category,$tags,$ngpurl,$gptype,$nowner),
+						" group_id='$gpid'");
+			
+			// Updating group thumbnail, if provided
+			if(!empty($_FILES['gpThumb']['tmp_name'])) {
+				// Used to delete previous image of groups. Saving Space.
+				$this->update_gp_image($gpid);
+				$this->create_group_image($gpid,$_FILES['gpThumb']);
 			}
-
-			//Function Used to get Topic
-
-			function GetTopic($topic){
-				$query = mysql_query("SELECT * FROM group_topics WHERE topic_id ='".$topic."'");
-				return mysql_fetch_array($query);
-			}
-
-			//Function Used To Add Comments
-
-			function AddComment($comment,$topic,$reply_to=NULL){
-			global $LANG;
-				if(empty($comment)){
-				$msg = e($LANG['grp_comment_error']);
-				}else{
-				if(!mysql_query("INSERT INTO group_posts(post,topic_id,username,reply_to)VALUES('".$comment."','".$topic."','".$_SESSION['username']."','".$reply_to."')")) die(mysql_error());
-				if(!mysql_query("UPDATE group_topics  SET last_reply=now() WHERE topic_id='".$topic."'")) die(mysql_error());
-				$msg = e($LANG['grp_comment_msg'],m);
-				}
-			return $msg;
-			}
-
-			//Function Used To Check User is invited or not to join this group
-
-			function is_userinvite($user,$owner,$group){
-				$query = mysql_query("SELECT * FROM group_invitations WHERE invited_user='".$user."' AND invited_by ='".$owner."' AND group_id='".$group."'");
-				if(mysql_num_rows($query) > 0){
-					$query = mysql_query("SELECT * FROM groups WHERE username = '".$owner."' AND group_id ='".$group."'");
-						if(mysql_num_rows($query) > 0){
-							return true;
-						}else{
-							return false;
-						}
-				}else{
-					return false;
-				}
-			}
-
-			//Function Used To CHeck User Is Joined or not
-
-			function is_joined($username,$group){
-				$query = mysql_query("SELECT * FROM group_members WHERE username = '".$username."' AND group_id ='".$group."'");
-				if(mysql_num_rows($query)>0){
-					return true;
-				}else{
-					return false;
-				}
-			}
-
-			//Function Used To CHeck User Is Active or not
-
-			function is_active($username,$group){
-				$query = mysql_query("SELECT * FROM group_members WHERE username = '".$username."' AND group_id ='".$group."' AND active='yes'");
-				if(mysql_num_rows($query)>0){
-					return true;
-				}else{
-					return false;
-				}
-			}
-
-			//Function Used To update group
-
-			function UpdateGroup($redirect=1){
-			global $LANG;
-				$name_exist 	= $_POST['name_exist'];
-				$url_exist 		= $_POST['url_exist'];
-				$name 			= mysql_clean($_POST['name']);
-				$description	= mysql_clean($_POST['description']);
-				$tags			= mysql_clean($_POST['tags']);
-				$url			= mysql_clean($_POST['url']);
-				$category		= mysql_clean($_POST['category']);
-				$group_type		= mysql_clean($_POST['group_type']);
-				$video_type		= mysql_clean($_POST['video_type']);
-				$post_type		= mysql_clean($_POST['post_type']);
-				//If Group Title isnt set
-				if(empty($name)){
-					$msg[] = e($LANG['grp_name_error']);
-				}elseif($this->ExistsName($name) && $name_exist !== $name ){
-					$msg[] = e($LANG['grp_name_error1']);
-				}
-				//if description is not entered
-				if(empty($description)){
-					$msg[] = e($LANG['grp_des_error']);
-				}
-				//if tags is not entered
-				if(empty($tags)){
-					$msg[] = e($LANG['grp_tags_error']);
-				}
-				//if url is not entered or url already exists
-				if(empty($url)){
-					$msg[] = e($LANG['grp_url_error']);
-				}elseif(!isValidText($url)){
-					$msg[] = e($LANG['grp_url_error1']);
-				}elseif($this->ExistsURL($url) && $url_exist !== $url){
-					$msg[] = e($LANG['grp_url_error2']);
-				}
-
-				//Getting Thumb
-				$file 		= $_FILES['thumb_upload']['name'];
-				$thumb		= $_POST['thumb_exist'];
-				$ext 		= substr($file, strrpos($file, '.') + 1);
-
-				if(empty($msg)){
-
-					if(!empty($file)){
-					$image = new ResizeImage();
-					if($image->ValidateImage($_FILES['thumb_upload']['tmp_name'],$ext)){
-						if($thumb != 'no_thumb.png'){
-						unlink(BASEDIR.'/images/groups_thumbs/'.$thumb);
-						}
-						$newname			= RandomString(10);
-						$newthumb			= $newname.'.'.$ext;
-						$new_thumb			= BASEDIR.'/images/groups_thumbs/'.$newthumb;
-						copy($_FILES['thumb_upload']['tmp_name'],$new_thumb);
-						$image->CreateThumb($new_thumb,$new_thumb,120,$ext);
-						$thumb = $newthumb;
-						}
-					}
-
-				if(!mysql_query("UPDATE groups SET
-				group_name 			= '".$name."',
-				group_tags 			= '".$tags."',
-				group_description	= '".$description."',
-				group_url			= '".$url."',
-				group_category		= '".$category."',
-				group_type			= '".$group_type."',
-				video_type			= '".$video_type."',
-				post_type			= '".$post_type."',
-				group_thumb			= '".$thumb."'
-				WHERE group_id = '".$_POST['group_id']."'"))  die(mysql_error());
-				$msg = e($LANG['grp_update_msg'],m);
-				if($redirect == 1){
-				redirect_to(BASEURL.edit_group_link.$url.'&update=true');
-				}
-				}
-			return $msg;
-			}
-
-		//Function Used To Count Number Of Member in a group
-		function CountMembers($group){
-			$query = mysql_query("SELECT * FROM group_members WHERE group_id='".$group."' AND active='yes'");
-			return mysql_num_rows($query);
+			
+			e(lang('Group is updated.','m'));
 		}
 
-		//Function Used to Count Number of Video In A Group
-		function CountVideos($group){
-			$query = mysql_query("SELECT * FROM group_videos WHERE group_id='".$group."' AND approved='yes'");
-			return mysql_num_rows($query);
+	}
+	
+	/**
+	 * Function used to delete group
+	 * @param = $gpid {ID of group which you want to delete }
+	 */
+	function delete_group($gpid) {
+		global $db;
+		if($this->group_details($gpid)) {
+			$db->execute("DELETE FROM ".$this->gp_tbl." WHERE group_id='$gpid'");
+			e(lang('Group is deleted.','m'));	
+		} else {
+			e(lang('Group does not exist.'));	
 		}
+	}
+	
+	/**
+	 * Function used to change group owner in group_members table if change from Admin Area.
+	 * @param = $gpid { ID of group which will become deactive }
+	 */
+	function change_owner($gpid,$owner,$nowner) {
+			global $db;
+			$db->update("group_members",array("ownerid"),array($nowner)," group_id='$gpid'");
+	}
 
-		//Function Used To Count Nmber of topics
-		function CountTopics($group){
-			$query = mysql_query("SELECT * FROM group_topics WHERE group_id='".$group."' AND approved='yes'");
-			return mysql_num_rows($query);
+	/**
+	 * Function used to make group Deactive.
+	 * @param = $gpid { ID of group which will become deactive }
+	 * @param = $multi { false means your are deactivating single group, true means deactivating multiple groups }
+	 */
+	function unactive_gp($gpid,$multi=false) {
+		global $db;		
+		//Check if group exists
+		if(!$this->group_details($gpid)) {
+			e(lang("Either this group has been deleted or never existed from the start."));	
 		}
-
-		//Function Used TO check Number of posts in a group
-		function CountGroupPosts($group){
-			$query = mysql_query("SELECT * FROM group_topics WHERE group_id='".$group."' AND approved='yes'");
-			$topics = 0;
-				while($data = mysql_fetch_array($query)){
-					$topic_query = mysql_query("SELECT * FROM group_posts WHERE topic_id ='".$data['topic_id']."'");
-					$topics = $topics + mysql_num_rows($topic_query);
-					}
-			return $topics;
-		}
-
-		//Function Used To Get Number Of Replies in a post
-
-		function CountReplies($topic){
-		$query = mysql_query("SELECT * FROM group_posts WHERE topic_id ='".$topic."'");
-		return  mysql_num_rows($query);
-		}
-
-		//Function Used TO check Video exist in the group or not
-
-		function is_video($group,$video){
-			$query = mysql_query("SELECT * FROM group_videos WHERE videokey = '".$video."' AND group_id = '".$group."'");
-			if(mysql_num_rows($query)>0){
-				return true;
-			}else{
-				return false;
-			}
-		}
-
-		//Function Used To Add Videos To Groups
-
-		function AddVideos($group,$approved='yes'){
-		global $LANG;
-			if(!empty($_SESSION['username'])){
-			$msg = e($LANG['grp_vdo_msg1'],m);
-				$query = mysql_query("SELECT * FROM video WHERE username = '".$_SESSION['username']."' ");
-					while($data = mysql_fetch_array($query)){
-						if($_POST[$data['videokey']] == 'yes'){
-							if(!$this->is_video($group,$data['videokey'])){
-								if(!mysql_query("INSERT INTO group_videos(videokey,group_id,username,approved)VALUES('".$data['videokey']."','".$group."','".$_SESSION['username']."','".$approved."') ")) die(mysql_error());
-								$total_videos = $this->CountVideos($group);
-								mysql_query("UPDATE groups SET total_videos='".$total_videos."' WHERE group_id='".$group."'");
-								}
-						}
-					}
-			}
-		return $msg;
-		}
-
-
-		//Function Used To Delete Videos
-
-		function RemoveVideos($group){
-		global $LANG;
-			$query = mysql_query("SELECT * FROM group_videos WHERE group_id = '".$group."'");
-			while($data = mysql_fetch_array($query)){
-				if($_POST[$data['videokey']] == 'yes'){
-						mysql_query("DELETE FROM group_videos WHERE videokey = '".$data['videokey']."'");
-						$total_videos = $this->CountVideos($group);
-						mysql_query("UPDATE groups SET total_videos='".$total_videos."' WHERE group_id='".$group."'");
-					}
-				}
-			$msg = e($LANG['grp_vdo_msg'],m);
-		return $msg;
-		}
-
-		//Function Used To Approve Movies
-
-		function ApproveVideos($group){
-		global $LANG;
-			$query = mysql_query("SELECT * FROM group_videos WHERE group_id = '".$group."'");
-			while($data = mysql_fetch_array($query)){
-				if($_POST[$data['videokey']] == 'yes'){
-						mysql_query("UPDATE group_videos SET  approved='yes' WHERE videokey = '".$data['videokey']."'");
-						$total_videos = $this->CountVideos($group);
-						mysql_query("UPDATE groups SET total_videos='".$total_videos."' WHERE group_id='".$group."'");
-					}
-				}
-			$msg = e($LANG['grp_vdo_msg2'],m);
-		return $msg;
-		}
-
-		//Function Used To Delete Members
-
-		function RemoveMembers($group){
-		global $LANG;
-			$query = mysql_query("SELECT * FROM group_members WHERE group_id = '".$group."'");
-			while($data = mysql_fetch_array($query)){
-				if($_POST[$data['username']] == 'yes'){
-						mysql_query("DELETE FROM group_members WHERE username = '".$data['username']."'");
-						$total_users = $this->CountMembers($group);
-						mysql_query("UPDATE groups SET total_members='".$total_users."' WHERE group_id='".$group."'");
-					}
-				}
-			$msg = e($LANG['grp_mem_msg'],m);
-		return $msg;
-		}
-
-		//Function Used To Approve Members
-
-		function ApproveMembers($group){
-		global $LANG;
-			$query = mysql_query("SELECT * FROM group_members WHERE group_id = '".$group."'");
-			while($data = mysql_fetch_array($query)){
-				if($_POST[$data['username']] == 'yes'){
-						mysql_query("UPDATE group_members SET  active='yes' WHERE username = '".$data['username']."'");
-						$total_users = $this->CountMembers($group);
-						mysql_query("UPDATE
-						 groups SET total_members='".$total_users."' WHERE group_id='".$group."'");
-					}
-				}
-			$msg = e($LANG['grp_mem_msg1'],m);
-		return $msg;
-		}
-
-		//Function Used To Send Invitations
-
-		function SendInvitation($user,$group,$subj,$url){
-		global $LANG;
-				$video = "";
-				//Sending Message to Website Users
-				$query = mysql_query("SELECT * FROM contacts WHERE username='".$user."'");
-				while($data=mysql_fetch_array($query)){
-					if($_POST[$data['friend_username']] == 'yes'){
-						//Send Message To $data['friend_username']
-						$myquery 	= new myquery();
-						$to 		= $data['friend_username'];
-						$from 		= $_SESSION['username'];
-						$message	= nl2br(mysql_clean($_POST['msg']))."<BR>Groupurl: <a href=".$url.">".$url."</a>";
-						$redirect   = 0;
-						$myquery->SendMessage($to,$from,$subj,$message,$video,$redirect);
-						mysql_query("INSERT INTO group_invitations(group_id,invited_user,invited_by)VALUES('".$group."','".$to ."','".$from."')");
-						}
-				}
-
-				//Sending Message Getting User From Boxes
-				$users = $_POST['users'];
-				$new_users = explode(',',$users);
-				foreach($new_users as $user){
-					$query = mysql_query("SELECT * FROM users WHERE username='".$user."' OR email='".$user."'");
-						if(mysql_num_rows($query) > 0){
-							$data = mysql_fetch_array($query);
-							$myquery 	= new myquery();
-							$to 		= $data['username'];
-							$from 		= $_SESSION['username'];
-							$message	= nl2br(mysql_clean($_POST['msg']))."<BR>Groupurl: <a href=".$url.">".$url."</a>";
-							$redirect   = 0;
-							$myquery->SendMessage($to,$from,$subj,$message,$video,$redirect);
-							mysql_query("INSERT INTO group_invitations(group_id,invited_user,invited_by)VALUES('".$group."','".$to ."','".$from."')");
-						}elseif(isValidEmail($user)){
-							$to 		= $data['friend_username'];
-							$from 		= $_SESSION['username'];
-							$message	= nl2br(mysql_clean($_POST['msg']))."<BR>Groupurl: <a href=".$url.">".$url."</a>";;
-							$redirect   = 0;
-							send_email($from,$to,$subj,$message);
-						}
-				}
-			$msg = e($LANG['grp_inv_msg'],m);
-		return $msg;
-		}
-
-
-	 	//Function Used TO Delete Post
-		function DeletePost($post){
-		global $LANG;
-			mysql_query("DELETE FROM group_posts WHERE post_id='".$post."'");
-			$msg = e($LANG['grp_post_msg'],m);
-			return $msg;
-		}
-
-		//Function Used To  Leave Group
-		function LeaveGroup($user,$group){
-		global $LANG;
-			//CHecking if user is Group Owner or not
-			$owner = $this->GetGroupOwner($group);
-			if($owner == $user){
-				return false;
-			}else{
-				mysql_query("DELETE FROM group_members WHERE group_id='".$group."' AND username='".$user."' ");
-				$total_users = $this->CountMembers($group);
-				mysql_query("UPDATE groups SET total_members='".$total_users."' WHERE group_id='".$group."'");
-				return true;
-			}
-		}
-
-		//Function Used To Delete Topic
-		function DeleteTopic($topic){
-		global $LANG;
-			mysql_query("DELETE FROM group_topics WHERE topic_id='".$topic."'");
-			mysql_query("DELETE FROM group_posts WHERE  topic_id='".$topic."'");
-			$total_topics = $this->CountTopics($group);
-			mysql_query("UPDATE groups SET total_topics='".$total_topics."' WHERE group_id='".$group."'");
-			$msg = e($LANG['grp_tpc_msg'],m);
-			return $msg;
-		}
-
-
-		//Function Used To Delete Group
-		function DeleteGroup($group){
-		global $LANG;
-		$__groupsquery 	= mysql_query("SELECT * FROM groups WHERE group_id='".$group."'");
-		$__Data = mysql_fetch_array($__groupsquery);
-		mysql_query("DELETE FROM group_members WHERE group_id='".$group."'");
-		mysql_query("DELETE FROM group_videos WHERE group_id='".$group."'");
-		mysql_query("DELETE FROM group_invitations WHERE group_id='".$group."'");
-		$query = mysql_query("SELECT * FROM group_topics WHERE group_id='".$group."'");
-		while($data=mysql_fetch_array($query)){
-			$this->DeleteTopic($data['topic_id']);
-		}
-		mysql_query("DELETE FROM groups WHERE group_id='".$group."'");
-		//Updating Users Number Of  Videos Added By User
-				$groups_query 	= mysql_query("SELECT * FROM groups WHERE username='".$__Data['username']."'");
-				$groupscount	= mysql_num_rows($groups_query);
-				$updatequery =  mysql_query("UPDATE users SET total_groups='".$groupscount."' WHERE username = '".@$username."'");
-		$msg = e($LANG['grp_del_msg']);
-		return $msg;
-		}
-
-		//Function Used To Approve Topics
-		function ApproveTopic($topic){
-			mysql_query("UPDATE group_topics SET approved='yes' WHERE topic_id='".$topic."'");
-			$msg = e($LANG['grp_tpc_msg2'],m);
-		return $msg;
-		}
-
-		//Functoin USed To Check weather group exist or not
-
-		function GroupExists($group){
-			$query = mysql_query("SELECT * FROM groups WHERE group_id = '".$group."'");
-			if(mysql_num_rows($query)>0){
-				return true;
-			}else{
-				return false;
-			}
-		}
-
-		//Function Used To Feature Group
-
-		function MakeFeatured($group){
-		global $LANG;
-			mysql_query("UPDATE groups SET featured='yes' WHERE group_id='".$group."'");
-			return e($LANG['grp_fr_msg'],m);
-		}
-
-		//Function Used To UngFeatured Group
-
-		function MakeUnFeatured($group){
-		global $LANG;
-			mysql_query("UPDATE groups SET featured='no' WHERE group_id='".$group."'");
-			return e($LANG['grp_fr_msg2'],m);
-		}
-
-		//Function Used To Activate Group
-
-		function Activate($group){
-		global $LANG;
-			mysql_query("UPDATE groups SET active='yes' WHERE group_id='".$group."'");
-			return e($LANG['grp_av_msg'],m);
-		}
-
-		//Function Used To DeActivate Group
-
-		function DeActivate($group){
-		global $LANG;
-			mysql_query("UPDATE groups SET active='no' WHERE group_id='".$group."'");
-			return e($LANG['grp_inv_msg1'],m);
+		// If Multiple Groups are getting active, don't display message here.
+		if($multi==true) {
+				$db->update($this->gp_tbl,array('active'),array('no'),"group_id='$gpid'");
 		}
 		
-		/**
-		 * FUNCTION USED TO GET GROUP THUMB
-		 * @param : group thumb
-		 */
-		 function getThumb($groupThumb)
-		 {
-			 //Path to thumbs directory
-			 $dir = BASEDIR.'/images/groups_thumbs/';
-			 $url = BASEURL.'/images/groups_thumbs/';
-			 $thumb = $dir.$groupThumb;
-			 $thumb_url = $url.$groupThumb;
-			 $default = $url.'no_thumb.png';
-			 //Checking if thumb exists or not
-			 if(file_exists($thumb))
-			 {
-			 	return $thumb_url;
-			 }else{
-				return $default;
-			 }
-		 }
+		// If $multi == false, display message here
+		if($multi==false) {
+			if($this->gp_chk_act($gpid)) {
+				$db->update($this->gp_tbl,array('active'),array('no'),"group_id='$gpid'");
+				e(lang("Group is deactivate now.",'m'));
+			}
+		}
+	}
+	
+	/**
+	 * Function used to make group Active.
+	 * @param = $gpid { ID of group which will become active }
+	 * @param = $multi { false means your are activating single group, true means activating multiple groups }
+	 */
+	function active_gp($gpid,$multi=false) {
+		global $db;		
+		//Check if group exists
+		if(!$this->group_details($gpid)) {
+			e(lang("Either this group has been deleted or never existed from the start."));	
+		}
+		// If Multiple Groups are getting active, don't display message here.
+		if($multi==true) {
+				$db->update($this->gp_tbl,array('active'),array('yes'),"group_id='$gpid'");
+		}
+		
+		// If $multi == false, display message here
+		if($multi==false) {
+			if(!$this->gp_chk_act($gpid)) {
+				$db->update($this->gp_tbl,array('active'),array('yes'),"group_id='$gpid'");
+				e(lang("Group is Activate now.",'m'));
+			}
+		}
+	}
+	
+	/**
+	 * Function used to create group thumbnail
+	 * @param = $gpid {ID of group for which thumbnail is being created }
+	 * @param = $file { Source of image file $_FILES }
+	 */
+	function create_group_image($gpid,$file) {
+			global $imgObj,$db;
+			$ext = strtolower(getext($file['name']));
+			if($ext == "jpg" || $ext == "jpeg" || $ext == "png" || $ext == "gif") {
+				$thumb_name = $gpid.'.'.$ext;
+				$path = GP_THUMB_DIR.'/'.$thumb_name;
+				move_uploaded_file($file['tmp_name'],$path);
+				
+				if(!$imgObj->ValidateImage($path,$ext)) 
+					e(lang('Please Upload a valid with JPG OR GIF OR PNG Image.'));	
+				else
+				{
+					$imgObj->CreateThumb($path,$path,$this->gp_thumb_width,$ext,$this->gp_thumb_width,true);
+					$db->update($this->gp_tbl,array('group_image'),array($thumb_name),"group_id='$gpid'");
+				}
+			}
+	}
 }
 ?>

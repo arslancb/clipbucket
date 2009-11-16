@@ -1,0 +1,62 @@
+<div id="header">
+	<div class="logo">
+    	<img src="{$imageurl}/dot.gif" id="logo_icon" alt="{$title} Logo" title="{$title}" >
+    </div> <!--LOGO END-->
+    <div class="login_con clearfix">
+        <div class="user_login clearfix">
+        {if !$userquery->login_check('',true)}
+        	<a href="{$baseurl}/forgot.php" class="forget" title="Forget Username/Password, Click Here"></a>
+            <form action="" method="post" name="login">
+                <input type="text" value="Username" id="username" name="username"  />
+                <input type="password" value="Password" id="password" name="password"  />                
+                <input type="submit" value="Login" id="login" name="login"  />
+                <input type="checkbox" name="rememberme" id="rememberme"  /> <span class="remember">Remember Me</span>
+			</form> 
+        {else}
+        	<div class="avatar">
+            	<div style="width:40px; height:40px; background:#EEE; margin:0px; padding:0px;"></div>
+            </div>
+            <div class="txt">Hello {$userquery->username} | <a href="{link name='logout'}">Logout</a></div>
+            <div class="links"><a href="#">Inbox ({$cbpm->get_new_messages()})</a> | <a href="#">Messages ({$cbpm->get_new_messages('','notification')})</a> | <a href="{link name='my_account'}">Account</a> | <a href="#">Videos</a></div>
+        {/if} 
+        </div> <!--USER_LOGIN CLASS END-->
+      
+         <div id="user_login">
+            <a href="#">
+            {if !$userquery->login_check('',true)}
+            	Login
+            {else}
+            	My Info
+            {/if}    
+            </a>
+        </div> <!--USER_LOGIN ID END-->
+    </div> <!--LOGIN_CON END-->    
+</div> <!--HEADER ID END-->
+
+<div class="top_tabs clearfix">
+    <ul>
+        <li><a href="{$baseurl}" class="selected">Home</a></li>
+        <li><a href="{link name='videos'}">Videos</a></li>
+        <li><a href="groups.php">Groups</a></li>
+    </ul>
+</div> <!--TOP_TABS END-->
+
+<div id="navi_con">
+    <div class="navi">
+        <ul>
+        {section name=c_list loop=$cat}
+            <li><a href="videos.php?cat={$cat[c_list].category_id}">{$cat[c_list].category_name}</a></li>
+         {/section}   
+         </ul>
+                     
+            <div class="search_con">
+            	<form action="{$search_result}" method="get" name="search" id="search" style="margin:0px; padding:0px;">
+                	<input name="query" id="query" type="text" class="searchbar" value="{$query}" />
+                    <input name="submit" type="submit" class="searchbutton" value="Search" />
+                </form>
+            </div> <!--SEARCH_CON END-->
+    </div> <!--NAVI END-->
+</div> <!--NAVI_CON END-->
+
+<div class="nav_shadow"></div>
+<div class="clear"></div>

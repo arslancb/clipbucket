@@ -50,8 +50,9 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/signup.class.php');
 	require_once('classes/image.class.php');
 	require_once('classes/upload.class.php');
-	require_once('classes/groups.class.php');
-	require_once('classes/stats.class.php');
+	
+	require_once('classes/stats.class.php');error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
+	
 	require_once('classes/ads.class.php');
 	require_once('classes/form.class.php');
 	require_once('classes/ClipBucket.class.php');
@@ -63,6 +64,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/swfObj.class.php');
 	require_once('classes/image.class.php');
 	require_once('classes/category.class.php');
+	require_once('classes/groups.class.php');
 	require_once('classes/video.class.php');
 	require_once('classes/player.class.php');
 	require_once('classes/cbemail.class.php');
@@ -76,7 +78,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	$calcdate	= new CalcDate();
 	$signup 	= new signup();	
 	$Upload 	= new Upload();
-	$groups 	= new groups();
+	$groups 	= new Groups();
 	$stats 		= new stats();
 	$adsObj		= new AdsManager();
 	$formObj	= new formObj();
@@ -119,8 +121,8 @@ else
  ini_set('display_errors', '0');
 }*/
 
-error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
     //ini_set('display_errors', '1');
+error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
 
 //Website Details
 
@@ -261,6 +263,9 @@ error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
 	define('CAT_THUMB_DIR',BASEDIR.'/images/category_thumbs');
 	define('CAT_THUMB_URL',BASEURL.'/images/category_thumbs');
 	
+	//Defining Group Thumbs directory
+	define('GP_THUMB_DIR',BASEDIR.'/images/groups_thumbs');
+	define('GP_THUMB_URL',BASEURL.'/images/groups_thumbs');	
 
 	include 'functions.php';
 	include 'plugin.functions.php';
@@ -296,6 +301,7 @@ error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
 	Assign('avatardir',BASEURL.'/images/avatars');
 	Assign('whatis',$row['whatis']);
 	Assign('category_thumbs',CAT_THUMB_URL);
+	Assign('gp_thumbs_url',GP_THUMB_URL);
 	Assign('video_thumbs',THUMBS_URL);
 	//Assign('ads',$ads);
 	Assign('meta_keywords',$row['keywords']);
@@ -353,7 +359,7 @@ $Smarty->assign_by_ref('myquery', $myquery);
 $Smarty->assign_by_ref('userquery', $userquery);
 $Smarty->assign_by_ref('signup', $signup);
 $Smarty->assign_by_ref('Upload', $Upload);
-$Smarty->assign_by_ref('groupsObj', new groups());
+$Smarty->assign_by_ref('groups', new groups());
 $Smarty->assign_by_ref('Stats', $stats);
 $Smarty->assign_by_ref('db', $db);
 $Smarty->assign_by_ref('adsObj', $adsObj);
@@ -426,4 +432,7 @@ register_action_remove_video('remove_video_files');
 
 
 include('admin.functions.php');
+error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
+
+
 ?>

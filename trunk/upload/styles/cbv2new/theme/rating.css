@@ -1,0 +1,5 @@
+.big_stars { width:75px; height:16px; }
+
+.big_stars .stars_blank{background-image:url(../images/stars.png); background-repeat:repeat-x; background-position:bottom; width:100%}
+
+.big_stars .stars_filled{background-image:url(../images/stars.png); background-repeat:repeat-x; background-position:top; float:left}

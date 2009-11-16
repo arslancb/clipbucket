@@ -223,8 +223,9 @@ class ClipBucket
 		   //Groups
 		   'Groups'				=> 
 		   array(
+				 'Add Group'=>'add_group.php',
 				 'Manage Groups'=>'groups_manager.php',
-				 'Manage Categories'=>'category.php?view=show_category'
+				 'Manage Categories'=>'group_category.php?view=show_category'
 				),
 		   
 		   //Advertisments
