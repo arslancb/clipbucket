@@ -265,4 +265,17 @@
 		 global $cbvid;
 		 $cbvid->video_delete_functions[] = $func;
 	 }
+	 
+	/**
+	 * Function used to display comment rating
+	*/
+	function comment_rating($input)
+	{
+		if($input<0)
+			return '<font color="#ed0000">'.$input.'</font>';
+		elseif($input>0)
+			return '<font color="#006600">+'.$input.'</font>';
+		else
+			return $input;
+	}
 ?>

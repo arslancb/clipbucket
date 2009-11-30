@@ -1,0 +1,225 @@
+{* Including Global Header *}
+{include file="$style_dir/global_header.html"}
+<body>
+<div id="container" class="clearfix" style="background-color:none">
+
+    <!-- Including Commong header -->
+    {include file="$style_dir/header.html" }
+    {include file="$style_dir/message.html"}
+    <div id="content_container" {if $userquery->getUserBg($u) || $u.background_color!=''}style="background-position:center;background:{if $userquery->getUserBg($u)}url('{$userquery->getUserBg($u)}');background-repeat: {$u.background_repeat};{elseif $u.background_color!=''}{$u.background_color}{/if}"{/if}>
+    <div id="content" style="padding-bottom:15px">
+    	<!-- Channel Top -->
+        <div class="channel_box">
+        	<div class="channel_inner_box channel_top">
+            	<div class="usr_small_thumb"><img src="{$userquery->getUserThumb($u,'small')}" class="user_small_thumb" alt="{$u.username}"></div>
+                <div class="usr_channel">{lang code='user_s_channel' assign='usr_s'}{$usr_s|sprintf:$u.username} <a href="#" class="cb_button">{lang code='subscribe'}</a></div>
+               
+                {assign var='channel_links' value=$userquery->get_inner_channel_top_links($u)}
+                <ul class="top_channel_links">
+                {foreach from=$channel_links item=link key=link_title}
+					<li><a href="{$link}">{$link_title}</a></li>
+                {/foreach}
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- Channel Top End-->
+        
+        
+      
+        
+        {assign var=user_vdo value= $userquery->get_user_profile_video($p)}
+        {if $user_vdo}
+          <!-- User Video Block -->
+        <div class="channel_box">
+         <div class="channel_inner_box">
+         <div style="width:610px; float:left">
+          <div id="videoPlayer" class='video_player'>
+    		This content requires JavaScript and Macromedia Flash Player 7 or higher. <a href=http://www.macromedia.com/go/getflash/>Get Flash</a><br/><br/>
+    	  </div>
+          <script language="javascript">
+          {FlashPlayer vdetails = $vdo height=$Cbucket->configs.channel_player_height width=$Cbucket->configs.channel_player_width}
+          </script>
+          </div>
+          <div align="center" style="width:300px; float:left">{AD place=336x280}</div>
+          <div class="clearfix"></div>
+         </div>
+         
+        </div>
+         <!-- User Video Blcok Ends-->
+        {/if}
+        
+        
+        
+        <!-- Starting Bottom Channel Box -->
+        <div class="channel_box" style="margin-bottom:0px">
+   	  <div style="width:270px; float:left">
+            	<!-- Thumb and Links-->
+        		<div class="channel_inner_box" align="center">
+                	<div class="usr_thumb_container" align="center">
+                    	<img src="{$userquery->getUserThumb($u)}" alt="{$u.username}" class="user_thumb">
+                    </div>
+                    <a href="" class="cb_button">{lang code='subscribe'}</a><br>
+					{assign var='channel_action_links' value=$userquery->get_channel_action_links($u)}
+                    <ul class="channel_action_links">
+                    {foreach from=$channel_action_links item=link key=link_title}
+                        <li><a href="{$link}">{$link_title}</a></li>
+                    {/foreach}
+                    </ul>
+   	 			 </div>
+                <!-- Thumb and Links Ends-->
+                <div style="height:5px"></div>
+           		<!-- Profile Details -->
+                <div class="channel_inner_box">
+                	<span class="channel_heading">{lang code='profile'|capitalize:true}</span>
+                    
+                    <div class="show_info">
+                   	 <div class="item_list float_left" align="left">{lang code='user_channel_views'}</div>
+                     <div class="item_list float_right" align="right">{$u.profile_hits|number_format}</div>
+                    </div>
+                    
+                    {if $p.show_dob=='yes'}
+                    <div class="show_info">
+                   	 <div class="item_list float_left" align="left">{lang code='age'}</div>
+                     <div class="item_list float_right" align="right">{$u.dob|get_age} - {$u.dob|date_format}</div>
+                    </div>
+                    {/if}
+                    
+                    <div class="show_info">
+                   	 <div class="item_list float_left" align="left">{lang code='joined'}</div>
+                     <div class="item_list float_right" align="right">{$u.doj|date_format}</div>
+                    </div>
+                    
+                    <div class="show_info">
+                   	 <div class="item_list float_left" align="left">{lang code='user_last_login'}</div>
+                     <div class="item_list float_right" align="right">{$u.last_logged|nicetime}</div>
+                    </div>
+                    
+                    <div class="show_info">
+                   	 <div class="item_list float_left" align="left">{lang code='subscribers'}</div>
+                     <div class="item_list float_right" align="right">{$u.subscribers|number_format}</div>
+                    </div>
+                    
+                    <div class="show_info">
+                   	 <div class="item_list float_left" align="left">{lang code=country}</div>
+                     <div class="item_list float_right" align="right">{$u.country|country}</div>
+                    </div>
+                    
+                    
+                    
+            <span class="channel_heading">{lang code='Personal Details'|capitalize:true}</span>
+                    {assign var="personal_details" value=$userquery->load_personal_details($p)}
+                    {foreach from=$personal_details item=field}
+                    {assign var=db_field value=$field.db_field}
+                    {if $p.$db_field && $field.auto_view=='yes'}
+                        <div class="show_info">
+                        {if $field.type !='textarea'}
+                         <div class="item_list float_left" align="left">{$field.title}</div>
+                         <div class="item_list float_right" align="right">{input_value input=$field}</div>
+                        {else}
+                         {$field.value}
+                        {/if}
+                        </div>
+                    {/if}
+                    {/foreach}
+                    
+                    
+                    {if $p.about_me}
+                    <div class="show_info">
+              			{$p.about_me|nl2br}
+                    </div>
+                    {/if}
+                
+                <div class="clearfix"></div>
+           		</div>
+              	<!-- Profile Details Ends -->
+                
+                <!-- User Subscriotions -->
+                <div class="channel_inner_box" style="margin-top:5px">
+                <span class="channel_heading">{lang code='user_subscriptions' assign='users_videos'}{$users_videos|sprintf:$u.username}</span>
+                <hr width="100%" size="1" noshade>
+                {assign var='usr_subs' value=$userquery->get_user_subscriptions($u.userid)}
+                {section name=u_list loop=$usr_subs}
+                {include file="$style_dir/blocks/user.html" user=$usr_subs[u_list] block_type='small'}
+                {sectionelse}
+                <div align="center"><em><strong>{lang code='user_no_subscriptions' assign='user_subs'}{$user_subs|sprintf:$u.username}</strong></em></div>
+                {/section}
+                <div class="clearfix"></div>
+                <hr width="100%" size="1" noshade>
+                <div align="right"><a href="#">{lang code='more'}</a></div>
+                </div>
+        
+        <!-- User Subscriptions end -->
+            </div>
+       
+       
+       <!-- Right Colum -->
+      <div class="right_column">
+       	<div class="channel_inner_box">
+        	<span class="channel_heading">{lang code='users_videos' assign='users_videos'}{$users_videos|sprintf:$u.username}</span>
+            <hr width="100%" size="1" noshade>
+            	{get_videos assign='usr_vids' limit='4' order='date_added DESC' user=$u.userid}
+                {section name=v_list loop=$usr_vids}
+                    {include file="$style_dir/blocks/video.html" video=$usr_vids[v_list]}
+                {sectionelse}
+                	<div align="center"><em>{lang code='user_have_no_vide'}</em></div>
+                {/section}
+                <div class="clearfix"></div>
+            <hr width="100%" size="1" noshade>
+            <div align="right"><a href="#">{lang code='more'}</a></div>
+        </div>
+        
+        
+        <div class="channel_inner_box">
+        	<span class="channel_heading">{lang code='users_subscribers' assign='users_videos'}{$users_videos|sprintf:$u.username}</span>
+            <hr width="100%" size="1" noshade>
+            	{assign var='usr_subs' value=$userquery->get_user_subscribers_detail($u.userid)}
+                {section name=u_list loop=$usr_subs}
+                    {include file="$style_dir/blocks/user.html" user=$usr_subs[u_list] block_type='small'}
+                {sectionelse}
+                	<div align="center"><em><strong>{lang code='user_no_subscribers' assign='users_videos'}{$users_videos|sprintf:$u.username}</strong></em></div>
+                {/section}
+                <div class="clearfix"></div>
+            <hr width="100%" size="1" noshade>
+            <div align="right"><a href="#">{lang code='more'}</a></div>
+        </div>
+	
+
+	{ANCHOR place='channel_box'}
+       
+       <!-- Comments -->
+        <div class="channel_inner_box" >
+        	<span class="channel_heading">{lang code='comments'|capitalize:true}</span>
+            <hr width="100%" size="1" noshade><!-- Displaying Comments -->
+    {include file="$style_dir/blocks/comments.html" id=$u.userid type=c}<hr width="100%" size="1" noshade>
+            <span class="channel_heading_mid">{lang code='user_add_comment'}</span>
+            <form name="add_comment" action="" method="post">
+           	  <label for="comment"></label>
+           	  <textarea name="comment" id="comment" cols="45" rows="5"></textarea>
+              <br>
+              <label for="add_comment"></label>
+              <input type="submit" name="add_comment" id="add_comment" value="Submit">
+            </form>
+        </div>
+        
+        
+        </div>
+        <div class="clearfix"></div>
+        <!-- Ending Bottomg Channel Box-->
+     </div>   
+     
+     
+     
+    </div>
+    
+    
+    </div>
+    
+    <div id="footer" style="margin-top:0px;">
+    	<div class="footer">
+        	&copy; {$title} {$smarty.now|date_format:"%Y"}
+        </div>
+    </div>
+</div>
+</body>
+</html>

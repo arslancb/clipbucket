@@ -47,4 +47,4 @@ Assign('jsArray',$Cbucket->JSArray);
 //Assigning Module Files
 Assign('module_list',$Cbucket->moduleList);
 
-?>	
+?>

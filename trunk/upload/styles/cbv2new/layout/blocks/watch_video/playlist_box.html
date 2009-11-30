@@ -1,0 +1,27 @@
+{assign var=playlist value=$cbvid->action->get_playlist($smarty.session.cur_playlist)}
+
+{if $playlist}
+<span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#my_playlist").slideToggle("fast")'>Playlist : {$playlist.playlist_name}</span>
+<div class="watch_vids_cont" id="my_playlist">
+<!-- Getting Playlist Items-->
+{assign var=items value=$cbvid->get_playlist_items($playlist.playlist_id)}
+{assign var='bg' value='fff'}
+{section name=item loop=$items}
+	
+	<div class="playlist_item" style="background-color:#{$bg}; {if $video.videoid==$items[item].videoid} border:1px solid #999{/if}" onclick="window.location='{videoLink vdetails=$items[item]}'">
+    	<div class="pl_num">{$smarty.section.item.iteration}</div>
+        <div class="pl_thumb"><img src="{getThumb vdetails=$items[item]}" width="45" height="27" /></div>
+        <div class="pl_details"><a href="{videoLink vdetails=$items[item]}">{$items[item].title|truncate:30}</a></div>
+        <div class="pl_duration">{$items[item].duration|SetTime}</div>
+        <div class="clearfix"></div>
+    </div>
+    
+    {if $bg=='fff'}
+    {assign var='bg' value='EFF5F8'}
+    {else}
+    {assign var='bg' value='fff'}
+    {/if}
+{/section}
+<div class="clearfix"></div>
+</div>
+{/if}

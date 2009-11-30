@@ -6,7 +6,7 @@
         <div class="user_login clearfix">
         {if !$userquery->login_check('',true)}
         	<a href="{$baseurl}/forgot.php" class="forget" title="Forget Username/Password, Click Here"></a>
-            <form action="" method="post" name="login">
+            <form action="{link name='login'}" method="post" name="login">
                 <input type="text" value="Username" id="username" name="username"  />
                 <input type="password" value="Password" id="password" name="password"  />                
                 <input type="submit" value="Login" id="login" name="login"  />
@@ -14,7 +14,7 @@
 			</form> 
         {else}
         	<div class="avatar">
-            	<div style="width:40px; height:40px; background:#EEE; margin:0px; padding:0px;"></div>
+            	<div style="width:40px; height:40px; background:#EEE; margin:0px; padding:0px;"><img src="{$userquery->getUserThumb($udetails,'small')}" class="mid_user_thumb" /></div>
             </div>
             <div class="txt">Hello {$userquery->username} | <a href="{link name='logout'}">Logout</a></div>
             <div class="links"><a href="#">Inbox ({$cbpm->get_new_messages()})</a> | <a href="#">Messages ({$cbpm->get_new_messages('','notification')})</a> | <a href="{link name='my_account'}">Account</a> | <a href="#">Videos</a></div>
@@ -22,7 +22,7 @@
         </div> <!--USER_LOGIN CLASS END-->
       
          <div id="user_login">
-            <a href="#">
+            <a href="javascript:void(0)">
             {if !$userquery->login_check('',true)}
             	Login
             {else}
@@ -35,9 +35,10 @@
 
 <div class="top_tabs clearfix">
     <ul>
-        <li><a href="{$baseurl}" class="selected">Home</a></li>
-        <li><a href="{link name='videos'}">Videos</a></li>
-        <li><a href="groups.php">Groups</a></li>
+        <li><a href="{$baseurl}" {current_page page='home'}>Home</a></li>
+        <li><a href="{link name='videos'}"  {current_page page='videos'}>Videos</a></li>
+        <li><a href="{link name='groups'}"  {current_page page='groups'}>Groups</a></li>
+        <li><a href="{link name='signup'}" {current_page page='signup'}>Signup</a></li>
     </ul>
 </div> <!--TOP_TABS END-->
 

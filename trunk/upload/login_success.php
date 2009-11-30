@@ -9,7 +9,7 @@
 require 'includes/config.inc.php';
 
 $userquery->logincheck();
-
+header('location:'.BASEURL.'/index.php');
 ?>
 <script language="javascript">
 

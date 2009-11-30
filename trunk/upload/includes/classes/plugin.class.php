@@ -157,10 +157,11 @@ class CBPlugin extends ClipBucket
 		//Now Checking if plugin is installed or not
 		foreach($plugin_list as $plugin)
 		{
-			if($this->is_installed($plugin['file']))
+			
+			if($this->is_installed($plugin['file'],$plugin['version'],$plugin['folder']))
 			{
-			$plugin = array_merge($plugin,$this->getPlugin($plugin['file']));
-			$plug_array[] = $plugin;
+				$plugin = array_merge($plugin,$this->getPlugin($plugin['file']));
+				$plug_array[] = $plugin;
 			}
 		}
 		return $plug_array;
@@ -174,17 +175,18 @@ class CBPlugin extends ClipBucket
 	{
 		global $db;
 		
-		if($v)
-		$version_check = "AND plugin_version='$v'";
+		//if($v)
+		//$version_check = "AND plugin_version='$v'";
 		if($folder)
 		$folder_check = " AND plugin_folder ='$folder'";
 		
 		$query = "SELECT plugin_file FROM plugins WHERE plugin_file='".$file."' $version_check $folder_check";
-		$details = $db->Execute($query);
-		if($details->recordcount()>0)
-		return true;
+		
+		$details = $db->select("plugins","plugin_file","plugin_file='".$file."' $version_check $folder_check");
+		if($db->num_rows>0)
+			return true;
 		else
-		return false;
+			return false;
 	}
 	
 	

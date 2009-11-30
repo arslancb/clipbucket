@@ -14,7 +14,7 @@ Notice : Maintain this section
  
 define('NO_AVATAR','no_avatar.jpg'); //if there is no avatar or profile pic, this file will be used
 define('AVATAR_SIZE',250);
-define('AVATAR_SMALL_SIZE',30);
+define('AVATAR_SMALL_SIZE',40);
 define('BG_SIZE',1200);
 
 class userquery {
@@ -2317,6 +2317,11 @@ class userquery {
 					(
 					 'Uploaded Videos'=>'manage_videos.php',
 					 'Favorite Videos'=>'manage_videos.php?mode=favorites',
+					 ),
+		'Playlist'=>array
+					(
+					 'Manage Playlists'=>'manage_playlists.php',
+					 'Video Playlists'=>'manage_playlists.php?mode=manage_video_playlist',
 					 ),
 		'Messages' => array
 					(

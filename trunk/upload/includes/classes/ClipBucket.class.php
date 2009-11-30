@@ -127,18 +127,16 @@ class ClipBucket
 	 * Function add_header()
 	 * this will be used to add new files in header array
 	 * this is basically for plugins
-	 * for specific page array('page'=>'file') 
-	 * ie array('uploadactive'=>'datepicker.js')
+	 * @param FILE
+	 * @param PAGES (array)
 	 */
-	function add_header($files)
+	function add_header($file,$place='global')
 	{
-		if(is_array($files))
+		if(!is_array($place))
 		{
-			foreach($files as $key=> $file)
-				$this->header_files[$key] = $file;
-		}else{
-			$this->header_files[$files] = 'global';
+			$place = array($place);
 		}
+		$this->header_files[$file] = $place;
 	}
 	
 	/**

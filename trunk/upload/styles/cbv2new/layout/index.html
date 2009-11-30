@@ -1,43 +1,34 @@
 <script language="javascript">
 SetId('Featured');
 </script>
+
+
 <div class="content_con clearfix">
-	<div class="feature_con clearfix">
-    	<div class="feature_left">
-        	<div class="feature_head">
-				<div class="left_side"></div>
-                <div class="right_side"></div>
-            	<h2>Featured Video</h2>
-            </div> <!--FEATURE_HEAD END-->
-            <div class="feature_vid">
-            	<img src="{$imageurl}/player.png" width="350" height="280"  />
-            </div> <!--FEATURE_VID END-->
-        </div> <!--FEATURE_LEFT END-->
-        
-        <div class="feature_right clearfix">
-        	<div class="video_thumb">
-            	<div style="width:120px; height:90px; background:#f3f3f3"></div>
-            </div> <!--VIDEO_THUMB END-->
-            <div class="details_block">
-            	<ul>
-                	<li>Views of Video</li>
-                    <li><a href="OWNER LINK">Owner of Video</a></li>
-                    <li>Length of Video</li>
-                </ul>
-            </div> <!--DETAILS_BLOCK END-->
-            <div class="title"><a href="#">Here Goes Video Title</a></div>
-            <div class="sp"></div>
-        </div> <!--FEATURE_RIGHT END-->
-    </div> <!--FEATURE_CON END-->
-    <div class="feature_shadow"></div>
+	 <!--FEATURE_CON--> 
+    {if is_installed('editorspick')}
+    <div class="feature_con clearfix">
+    	<div class="feature_left" id="ep_video_container">
+        	{section name=e_list loop=$editor_picks max=1}
+            	{include file="$style_dir/blocks/editor_pick/video_block.html" video=$editor_picks[e_list]}
+            {/section}
+        </div>
+        <div class="feature_right">
+        	{section name=e_list loop=$editor_picks}
+            	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
+            {/section}
+        </div>
+    </div>
+    <div class="feature_shadow" ></div>
+    <!--FEATURE_CON END-->
+    {/if}
     
     <div class="ad">468X60 AD</div>
     
     <div class="tabs">
         <ul>
-            <li class="selected"><a href="javascript:void(0)" id="watched">Being Watched</a></li>
-            <li><a href="javascript:void(0)" id="most_watched">Most Watched</a></li>
-            <li><a href="javascript:void(0)" id="recently_watched">Recently Added</a></li>
+            <li class="selected"><a href="javascript:void(0)" id="watched" onclick="get_video('recent_viewed_vids','#index_vid_container')">Being Watched</a></li>
+            <li><a href="javascript:void(0)" id="most_watched" onclick="get_video('most_viewed','#index_vid_container')">Most Watched</a></li>
+            <li><a href="javascript:void(0)" id="recently_watched" onclick="get_video('recently_added','#index_vid_container')">Recently Added</a></li>
        </ul>    	
     </div> <!--TABS END-->
     <div class="main_vids clearfix">
@@ -45,37 +36,11 @@ SetId('Featured');
         	<div id="grid" title="Change To Grid Style"></div> 
             <div id="list" title="Change to List Style"></div>
 		</div> <!--STYLE_CHANGE END-->
-        {section name=v_list loop=$videos}
-        	<div class="horizantal clearfix">
-            	<div class="video_thumb">
-                	<a href="{videoLink vdetails=$videos[v_list]}"><img src="{getThumb vdetails=$videos[v_list]}" width="120" height="90" border="0" {ANCHOR place="video_thumb"} /></a>
-                </div> <!--VIDEO_THUMB END-->
-                <div class="details_block">
-                	<div class="lvl1 clearfix">
-                    	<div class="title"><a href="videos.php?v={$videos[v_list].videokey}">{$videos[v_list].title|truncate:40}</a></div>
-                        
-                        {show_rating class='rating' rating='$videos.rating' ratings='$videos.rated_by' total='10'}
-                       
-                    </div> <!--LVL1 END-->
-                    
-                    <div class="lvl2 clearfix">
-                    	<div class="desc">{$videos[v_list].description}</div>
-                        <div class="length">Time: <span>{$videos[v_list].duration|SetTime:false}</span></div>
-                    </div> <!--LVL2 END-->
-                    
-                    <div class="lvl3 clearfix">
-                    	<div class="views"><span>{$videos[v_list].views}</span> view(<strong>s</strong>)</div>
-                        <div class="comments"><a href="#"><img src="{$imageurl}/dot.gif" width="16" height="12" class="com_img" /> {$videos[v_list].comments_count} Comment(<strong>s</strong>)</a></div>
-                    </div> <!--LVL3 END-->
-                    
-                    <div class="lvl4 clearfix">
-                    	<div class="uploaded"><a href="{$userquery->profile_link($videos[v_list].userid)}">{$userquery->get_user_field_only($videos[v_list].userid,'username')}</a></div>
-                    </div> <!--LVL4 END-->
-                </div> <!--DETAILS_BLOCK END-->
-                <div class="vid_sp"></div>
-                
-            </div> <!--HORIZANTAL END-->
-        {/section}
+       
+       
+       <div id="index_vid_container">
+       
+       </div>
         
 
     </div> <!--MAIN_VIDS END-->

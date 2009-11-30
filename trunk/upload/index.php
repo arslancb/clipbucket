@@ -46,6 +46,10 @@ assign('topusers',$users);
 $videos = $db->select("video",'*',NULL,'15',"date_added DESC");
 Assign('videos', $videos);	
 
+if(is_installed('editorspick'))
+{
+	assign('editor_picks',get_ep_videos());
+}
 
 //Displaying The Template
 template_files('index.html');

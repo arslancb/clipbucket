@@ -5,23 +5,26 @@ Simple Plugin System
 */
 
 //Getting Plugin Config Details
-$plug_row = $myquery->Get_Plugin_Details();
 
 if(FRONT_END){
 	$installed_plugins = $cbplugin->getInstalledPlugins();
-	foreach($installed_plugins as $plugin)
+	if(is_array($installed_plugins))
 	{
-		if($plugin['folder'])
-			$folder = '/'.$plugin['folder'];
-		$file = PLUG_DIR.$folder.'/'.$plugin['file'];
-		if(file_exists($file))
-			include_once($file);
+		foreach($installed_plugins as $plugin)
+		{
+			if($plugin['folder'])
+				$folder = '/'.$plugin['folder'];
+			$file = PLUG_DIR.$folder.'/'.$plugin['file'];
+			if(file_exists($file))
+				include_once($file);
+		}
 	}
 }
 
 if(BACK_END)
 {
 	$plugin_list = $cbplugin->getPluginList();
+	if(is_array($plugin_list))
 	foreach($plugin_list as $plugin)
 	{
 		if($plugin['folder'])

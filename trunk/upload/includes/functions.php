@@ -642,10 +642,15 @@
 		if(!empty($vid))
 			$vdetails = $myquery->get_video_details($vid);
 		
+		$plist = "";
 		if(SEO == 'yes'){
-			$link = BASEURL.'/video/'.$vdetails['videokey'].'/'.SEO(clean(str_replace(' ','-',$vdetails['title'])));
+			if($vdetails['playlist_id'])
+				$plist = '?&play_list='.$vdetails['playlist_id'];
+			$link = BASEURL.'/video/'.$vdetails['videokey'].'/'.SEO(clean(str_replace(' ','-',$vdetails['title']))).$plist;
 		}else{
-			$link = BASEURL.'/watch_video.php?v='.$vdetails['videokey'];
+			if($vdetails['playlist_id'])
+				$plist = '&play_list='.$vdetails['playlist_id'];
+			$link = BASEURL.'/watch_video.php?v='.$vdetails['videokey'].$plist;
 		}
 		return $link;
 	}
@@ -755,14 +760,19 @@
 	/**
 	* FUNCTION USED TO GET CATEGORY LIST
 	*/
-	function getCategoryList($type='video')
+	function getCategoryList($type='video',$with_all=false)
 	{
 		switch ($type)
 		{
 			case "video":
 			{
 				global $cbvid;
-				return $cbvid->get_categories();
+				if($with_all)
+					$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
+				$cats = $cbvid->get_categories();
+				if($all_cat)
+				$cats = array_merge($all_cat,$cats);
+				return $cats;
 			}
 			break;
 		}
@@ -1687,6 +1697,16 @@
 	
 	
 	/**
+	 * Function used to get msg_list
+	 */
+	function msg_list()
+	{
+		global $eh;
+		return $eh->message_list;
+	}
+	
+	
+	/**
 	 * Function used to add tempalte in display template list
 	 */
 	function template_files($file)
@@ -1807,6 +1827,20 @@
 			return false;
 		}
 	}
+	
+	/**
+	 * Function used to check weather msg exists or not
+	 */
+	function msg()
+	{
+		if(count(msg_list())>0)
+		{
+			return msg_list();
+		}else{
+			return false;
+		}
+	}
+	
 	
 	
 	/**
@@ -1937,6 +1971,27 @@
 		global $ClipBucket;
 		$name = $params['name'];
 		$ref = $param['ref'];
+		
+		if($name=='category')
+		{
+			return category_link($params['data'],$params['type']);
+		}
+		if($name=='sort')
+		{
+			return sort_link($params['sort'],'sort',$params['type']);
+		}
+		if($name=='time')
+		{
+			return sort_link($params['sort'],'time',$params['type']);
+		}
+		if($name=='tag')
+		{
+			return BASEURL.'/search_result.php?keywords='.urlencode($params['tag']).'&type='.$params['type'];
+		}
+		if($name=='category_search')
+		{
+			return BASEURL.'/search_result.php?category[]='.$params['category'].'&type='.$params['type'];
+		}
 
 		return BASEURL.'/'.$ClipBucket->links[$name][0];
 	}
@@ -1963,61 +2018,6 @@
 		}else{
 			return true;
 		}
-	}
-	
-	
-	/**
-	 * Function used to turn tags into links
-	 */
-	function tags($input,$type)
-	{
-		//Exploding using comma
-		$tags = explode(',',$input);
-		$count = 1;
-		$total = count($tags);
-		$new_tags = '';
-		foreach($tags as $tag)
-		{
-			$new_tags .= $tag;
-			if($count<$total)
-				$new_tags .= ',';
-			$count++;
-		}
-		
-		return $new_tags;
-	}
-	
-	
-	/**
-	 * Function used to turn db category into links
-	 */
-	function categories($input,$type)
-	{
-		global $cbvideo;
-		switch($type)
-		{
-			case 'video':
-			default:
-			$obj = $cbvideo;
-		}
-		
-		preg_match_all('/#([0-9]+)#/',$input,$m);
-		$cat_array = array($m[1]);
-		$cat_array = $cat_array[0];
-
-		$count = 1;
-		$total = count($cat_array);
-		$cats = '';
-		foreach($cat_array as $cat)
-		{
-			$cat_details = $obj->get_category($cat);
-			$cats .= $cat_details['category_name'];
-			if($count<$total)
-				$cats .= ',';
-			$count++;
-		}
-		
-		return $cats;
 	}
 	
 	
@@ -2057,7 +2057,7 @@
 		return $rating;
 	}
 	
-	
+
 	/**
 	 * Function used to display
 	 * Blank Screen
@@ -2210,17 +2210,37 @@
 	 */
 	function show_share_form($array,&$Smarty)
 	{
-		$array['button_value'] = $array['button_value']?$array['button_value']  :  'Email';
-		$form .='<form id="form1" name="form1" method="post" action="'.$array['link'].'" class="'.$array['class'].'">';
-		$form .='<label for="users" class="label">Usernames or Emails</label><br />';
-		$form .='<input type="text" name="users" id="users"><br>';
-		$form .='<label for="message" class="label">Message</label>';
-		$form .='<br>';
-		$form .='<textarea name="message" id="message" cols="45" rows="5" ></textarea><br>';
-		$form .='<input type="submit" name="send_content" value="'.$array['button_value'].'" />';
-		$form .='</form>';
-		return $form;
+		
+		assign('params',$array);
+		Template('blocks/share_form.html');
 	}
+	
+	/**
+	 * Function used to show flag form
+	 */
+	function show_flag_form($array,&$Smarty)
+	{
+		assign('params',$array);
+		Template('blocks/flag_form.html');
+	}
+	
+	/**
+	 * Function used to show flag form
+	 */
+	function show_playlist_form($array,&$Smarty)
+	{
+		global $cbvid;
+		assign('params',$array);
+		
+		$playlists = $cbvid->action->get_playlists();
+		assign('playlists',$playlists);
+		
+		Template('blocks/playlist_form.html');
+	}
+	
+	
+	
+	
 	
 	function cbdate($format=NULL,$timestamp=NULL)
 	{
@@ -2519,5 +2539,119 @@
 						$in($params);
 		}
 		
+	}
+	
+	/**
+	 * Function used to check weather to include
+	 * given file or not
+	 * it will take array of pages
+	 * if array has ACTIVE PAGE or has GLOBAL value
+	 * it will return true
+	 * otherwise FALSE
+	 */
+	function is_includeable($array)
+	{
+		if(in_array(THIS_PAGE,$array) || in_array('global',$array))
+		{
+			return true;
+		}else
+			return false;
+	}
+	
+	
+	/**
+	 * In each plugin
+	 * we will define a CONST
+	 * such as plguin_installed
+	 * that will be used weather plugin is installed or not
+	 * ie define("editorspick_install","installed");
+	 * is_installed('editorspic');
+	 */
+	function is_installed($plugin)
+	{
+		if(defined($plugin."_install"))
+			return true;
+		else
+			return false;
+	}
+	
+	
+	/**
+	 * Category Link is used to return
+	 * Category based link
+	 */
+	function category_link($data,$type)
+	{
+		switch($type)
+		{
+			case 'video':
+			default:
+			{
+				if(!isset($_GET['sort']))
+					$_GET['sort'] = 'most_recent';
+				if(!isset($_GET['time']))
+					$_GET['time'] = 'all_time';
+				if(!isset($_GET['page']))
+					$_GET['page'] = 1;
+					
+				if(SEO=='yes')
+					return BASEURL.'/videos/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.$_GET['sort'].'/'.$_GET['time'].'/'.$_GET['page'];
+				else
+					return BASEURL.'/videos.php?cat='.$data['category_id'].'&sort='.$_GET['sort'].'&time='.$_GET['time'].'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
+			}
+			break;
+		}
+	}
+	
+	/**
+	 * Sorting Links is used to return
+	 * Sorting based link
+	 */
+	function sort_link($sort,$mode='sort',$type)
+	{
+		switch($type)
+		{
+			case 'video':
+			default:
+			{
+				if(!isset($_GET['cat']))
+					$_GET['cat'] = 'all';
+				if(!isset($_GET['time']))
+					$_GET['time'] = 'all_time';
+				if(!isset($_GET['sort']))
+					$_GET['sort'] = 'most_recent';
+				if(!isset($_GET['page']))
+					$_GET['page'] = 1;
+				if(!isset($_GET['seo_cat_name']))
+					$_GET['seo_cat_name'] = 'All';
+				
+				if($mode == 'sort')
+					$sorting = $sort;
+				else
+					$sorting = $_GET['sort'];
+				if($mode == 'time')
+					$time = $sort;
+				else
+					$time = $_GET['time'];
+					
+				if(SEO=='yes')
+					return BASEURL.'/videos/'.$_GET['cat'].'/'.$_GET['seo_cat_name'].'/'.$sorting.'/'.$time.'/'.$_GET['page'];
+				else
+					return BASEURL.'/videos.php?cat='.$_GET['cat'].'&sort='.$sorting.'&time='.$time.'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
+			}
+			break;
+		}
+	}
+	
+	
+	
+	
+	/**
+	 * Function used to get flag options
+	 */
+	function get_flag_options()
+	{
+		$action = new cbactions();
+		return $action->report_opts;
 	}
 ?>

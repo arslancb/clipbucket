@@ -1,0 +1,161 @@
+<div style="padding:5px">
+<div class="video_title">{$vdo.title}</div>
+{if $userquery->perm_check('admin_access')=='yes'}<div>{ANCHOR place=watch_admin_options data=$vdo}</div>{/if}
+</div>
+
+<div class="watch_left">
+<!-- Player -->
+<div class="player_container">
+    <div id="videoPlayer" class='video_player'>
+    This content requires JavaScript and Macromedia Flash Player 7 or higher. <a href=http://www.macromedia.com/go/getflash/>Get Flash</a><br/><br/>
+    </div>
+    <script language="javascript">
+        {FlashPlayer vdetails = $vdo}
+    </script>
+</div>
+<!-- Player End -->
+
+<!-- Actions -->
+<div class="video_actions_cont">
+    <div class="rating_container">
+    {show_video_rating  rating=$vdo.rating ratings=$vdo.rated_by total='10' id=$vdo.videoid type=video}
+    </div>
+    <div class="actions">
+    <ul>
+    <li><a href="javascript:void(0)" onclick="add_to_fav('video','{$vdo.videoid}');$('.video_action_result_boxes > *').slideUp();"><img src="{$imageurl}/dot.gif" class="add_to_fav" />Add to favorites</a></li>
+      <li><a href="javascript:void(0)" onclick="$('.video_action_result_boxes > *').slideUp();$('#flag_video').slideToggle();"><img src="{$imageurl}/dot.gif" class="report_this" />Report this!</a></li>
+      <li><a href="javascript:void(0)" onclick="$('.video_action_result_boxes > *').slideUp();$('#share_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="add_to_play" />Share This</a></li>
+      <li><a href="javascript:void(0)" onclick="$('.video_action_result_boxes > *').slideUp();$('#playlist_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="share_this" />Add to playlist</a></li>
+    </ul>
+    <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<!-- Actions End-->
+
+<!-- Action Result Container-->
+<div class="video_action_result_boxes">
+	{show_share_form id=$vdo.videoid type=Video}
+    {show_flag_form id=$vdo.videoid type=Video}
+    <div class="action_box" style="display:none" id="video_action_result_cont"></div>
+    {show_playlist_form id=$vdo.videoid type=Video}
+</div>
+<!-- Action Result Container End-->
+
+
+<!-- Video Stats-->
+<div class="video_details">
+<div  class="action_box"  id="video_detail_result_cont" style="margin-top:0px; margin-bottom:5px; display:none"></div>
+
+	<div class="vd_user_container" align="center">
+   		<a href="{$userquery->profile_link($user)}"><img src="{$userquery->getUserThumb($user)}" alt="{$user.username}" class="account_thumb" /></a>
+        <ul>
+        	<li><a href="#">View Profile</a></li>
+        	<li><a href="#">View Videos</a></li>
+        </ul>
+        <div align="center"><span class="small_button non_button" onclick="subscriber('{$user.userid}','subscribe_user')">Subscribe</span></div>
+    </div>
+    <div class="vd_details">
+    <div class="uploading_detail">
+    	Uploaded by <a href="{$userquery->profile_link($user)}">{$user.username}</a> &#8212; {$vdo.date_added|nicetime}
+    </div>
+    <div class="vd_stats">
+        <ul>
+          <li>views : <strong>{$vdo.views|number_format}</strong></li>
+          <li>duration : <strong>{$vdo.duration|SetTime}</strong></li>
+          <li>comments :<strong> {$vdo.comments_count|number_format}</strong></li>
+        </ul>
+    <div class="clearfix"></div>    
+    </div>
+    
+    	<div class="desc_cont">
+    	<div class="less_desc" id="less_desc">
+        	 <span class="upper_quote"></span>{$vdo.description|description|truncate:200} <a href="javascript:void(0)" onclick="$('#less_desc').css('display','none');$('#more_desc').css('display','block');">More</a>
+        </div>
+        <div class="more_desc" id="more_desc" style="display:none">
+        	 <span class="upper_quote"></span>{$vdo.description|description} <a href="javascript:void(0)" onclick="$('#more_desc').css('display','none');$('#less_desc').css('display','block');">Less</a>
+        </div>
+        
+        </div>
+        
+        
+        <div class="tags_cats">
+    <div class="tags">{$vdo.tags|tags:video}</div>
+    <div class="category">Category : {$vdo.category|categories:video}</div>
+    </div>
+    
+    </div>
+    
+    <div class="clearfix"></div>
+    
+</div>
+<!-- Video Sttas-->
+
+
+<!-- Video Comments -->
+<div>
+	<h2>Comments</h2>
+    <!-- Displaying Comments -->
+    {include file="$style_dir/blocks/comments/comments.html" id=$vdo.videoid type=v}
+    {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
+    <div class="clearfix"></div>
+</div>
+<!-- Video Comments -->
+</div>
+
+
+
+<!-- Watch Right -->
+
+<div class="watch_right">
+	{AD place='ad_300x250' style='margin-bottom:15px'}
+    {ANCHOR place="video_bookmarks" data=$vdo}
+    
+    <div class="video_details videosharing" align="left">
+      <strong>
+      <label for="embed_code">Embed Code</label>
+      <br />
+<input type="text" name="embed_code" id="embed_code" style="margin-bottom:5px; width:99%" value="{$cbvid->embed_code($vdo)|htmlspecialchars}" onclick="this.select()"/>
+      <br />
+      <label for="link_video">Link This Video<br />
+      </label>
+      <input type="text" name="link_video" id="link_video" style="width:99%" value="{videoLink vdetails=$vdo}"  onclick="this.select()"/>
+    </strong>{ANCHOR place="video_sharing_options" data=$vdo}</div>
+	
+    {ANCHOR place="watch_video_right" data=$vdo}
+
+
+<!-- Playlist -->
+{include file="$style_dir/blocks/watch_video/playlist_box.html" video=$vdo }
+<!-- Playlist End-->
+
+
+<!-- Getting List user videos -->
+{get_videos user=$vdo.userid limit=9 assign=user_vids exclude=$vdo.videoid}
+{if $user_vids}
+<span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#user_vids").slideToggle("fast")'>More from Admin</span>
+<div class="watch_vids_cont" id="user_vids">
+{section name=uvlist loop=$user_vids}
+	{include file="$style_dir/blocks/watch_video/video_box.html" video=$user_vids[uvlist]}
+{/section}
+<div class="clearfix"></div>
+</div>
+{/if}
+<!-- Getting List user videos -->
+
+<!-- Getting Related videos -->
+{get_videos tags=$vdo.tags limit=9 assign=related_vids exclude=$vdo.videoid}
+{if $related_vids}
+<span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#related_vids").slideToggle("fast")'>Related Videos</span>
+<div class="watch_vids_cont" id="related_vids">
+{section name=uvlist loop=$related_vids}
+	{include file="$style_dir/blocks/watch_video/video_box.html" video=$related_vids[uvlist]}
+{/section}
+<div class="clearfix"></div>
+</div>
+{/if}
+<!-- Getting Related videos -->
+
+</div>
+
+<div class="clearfix"></div>

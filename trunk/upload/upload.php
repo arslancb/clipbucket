@@ -8,7 +8,9 @@
  *******************************************************************
 */
 
-define("PAGE","upload_video");
+define("THIS_PAGE","upload");
+define("PARENT_PAGE","upload");
+
 require 'includes/config.inc.php';
 $userquery->logincheck();
 $userquery->login_check('allow_video_upload');

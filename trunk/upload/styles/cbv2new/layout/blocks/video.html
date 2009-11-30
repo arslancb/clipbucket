@@ -1,0 +1,96 @@
+
+<!-- Video Box -->
+{if $display_type =='normal' || $display_type==''}
+<div class="vertical">
+    <div class="video_thumb">
+        <a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" width="110" height="66" border="0" {ANCHOR place="video_thumb"} /></a>
+        <div class="duration">{$video.duration|SetTime}</div>
+</div> <!--VIDEO_THUMB END-->
+    <div class="details_block">
+        <div class="lvl1 clearfix">
+            <div class="title"><a href="videos.php?v={$video.videokey}">{$video.title|truncate:30}</a></div>
+            
+            {show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}
+           
+        </div> <!--LVL1 END-->
+        
+        <div class="lvl2 clearfix">
+            <div class="desc">{$video.description}</div>
+            <div class="length">Time: <span>{$video.duration|SetTime:false}</span></div>
+        </div> <!--LVL2 END-->
+        
+        <div class="lvl3 clearfix">
+            <div class="views"><span>{$video.views}</span> view(<strong>s</strong>)</div>
+            <div class="comments"><a href="#"><img src="{$imageurl}/dot.gif" width="16" height="12" class="com_img" /> {$video.comments_count} Comment(<strong>s</strong>)</a></div>
+        </div> <!--LVL3 END-->
+        
+        <div class="lvl4 clearfix">
+            <div class="uploaded"><a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a></div>
+        </div> <!--LVL4 END-->
+    </div> <!--DETAILS_BLOCK END-->    
+</div>
+    
+{if $only_once}
+<div class="clearfix"></div>
+{/if}
+
+{/if}
+<!-- Video Box -->
+
+
+
+
+<!-- Video Box verticle-->
+{if $display_type =='verticle'}
+<div class="video_block_verticle" align="center" {if $only_once} style="float:none" {/if}>
+	<div class="vdo_thumb_container" id="video_{$video.videoid}" style="float:left;" >
+    	<a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" width="120" height="90" border="0" {ANCHOR place="video_thumb"} /></a>
+        {ANCHOR place="video_thumb_div" data=$video}
+        <span class="vdo_duration">{$video.duration|SetTime:false}</span>
+    </div>
+  <div style="float:right; width:120px" align="left">
+  <div style="height:33px">
+  <a href="{videoLink vdetails=$video}">{$video.title|truncate:40}</a></div>
+  <div style="height:30px; font-size:10px; color:#666">{$video.views|number_format} {lang code='views'}<br />
+{$video.comments_count|number_format} {lang code='comments'}</div>
+    by <a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a> {show_rating class='small_stars' rating=$video.rating ratings=$video.rated_by total='10'}</div></div>
+    
+{if $only_once}
+<div class="clear"></div>
+{/if}
+
+{/if}
+<!-- Video Box verticle-->
+
+
+{if $display_type == 'horizontal'}
+<div class="horizantal clearfix">
+    <div class="video_thumb">
+        <a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" width="120" height="90" border="0" {ANCHOR place="video_thumb"} /></a>
+    <div class="duration">{$video.duration|SetTime}</div></div> <!--VIDEO_THUMB END-->
+    <div class="details_block">
+        <div class="lvl1 clearfix">
+            <div class="title"><a href="videos.php?v={$video.videokey}">{$video.title|truncate:40}</a></div>
+            
+            {show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}
+           
+        </div> <!--LVL1 END-->
+        
+        <div class="lvl2 clearfix">
+            <div class="desc">{$video.description}</div>
+            <div class="length">Time: <span>{$video.duration|SetTime:false}</span></div>
+        </div> <!--LVL2 END-->
+        
+        <div class="lvl3 clearfix">
+            <div class="views"><span>{$video.views}</span> view(<strong>s</strong>)</div>
+            <div class="comments"><a href="#"><img src="{$imageurl}/dot.gif" width="16" height="12" class="com_img" /> {$video.comments_count} Comment(<strong>s</strong>)</a></div>
+        </div> <!--LVL3 END-->
+        
+        <div class="lvl4 clearfix">
+            <div class="uploaded"><a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a></div>
+        </div> <!--LVL4 END-->
+    </div> <!--DETAILS_BLOCK END-->
+    <div class="vid_sp"></div>
+    
+</div>
+{/if}

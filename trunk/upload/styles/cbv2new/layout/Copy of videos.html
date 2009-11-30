@@ -1,0 +1,34 @@
+
+<!-- Listing Categories -->
+	{include file="$style_dir/blocks/category_list.html" type='video'}
+<!-- Listing Categories End -->
+
+<div style="width:620px; float:left" class="vid_page_conainer" >
+<div class="sort_cont">
+
+<ul>
+	<li>Sort :</li>
+	<li><a href="#">Recent</a></li>
+	<li><a href="#">Viewed</a></li>
+	<li class="selected"><a href="#">Featured</a></li>
+	<li><a href="#">Top Rated</a></li>
+	<li><a href="#">Commented</a></li>
+</ul>
+
+<div class="clearfix"></div>
+</div>
+
+<div style="border-bottom:1px solid #CCC; margin-bottom:5px; padding:5px; font-size:10px">All time | Today | Yesterday | This Week | Last Week | This Month | Last Month | This Year | Last Year</div>
+    <div id="style_change" style="margin-top:10px">Change Style of Listing 
+        	<div id="grid" title="Change To Grid Style"></div> 
+            <div id="list" title="Change to List Style"></div>
+		</div> 
+    {section name=v_list loop=$videos}
+        {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
+    {/section}
+    <div class="clearfix"></div>
+</div>
+
+<div class="clearfix"></div>
+
+{include file="$style_dir/blocks/pagination.html"}

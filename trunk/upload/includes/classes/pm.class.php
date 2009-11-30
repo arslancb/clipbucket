@@ -210,7 +210,7 @@ class cb_pm
 		foreach($usernames as $username)
 		{
 			$user_id = $this->get_the_user($username);
-			if($userquery->user_exists($username) && $username!=$sender && !$this->is_user_banned($username,userid()))
+			if($userquery->user_exists($username) && $username!=$sender && !$userquery->is_user_banned($username,userid()))
 				$valid_users[] = $user_id;
 		}
 		

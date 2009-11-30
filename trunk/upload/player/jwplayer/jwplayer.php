@@ -25,7 +25,7 @@
 
 if(!function_exists(jw_player))
 {
-	function jw_player($vdata)
+	function jw_player($data)
 	{
 		
 		$vdata = $data['vdetails'];
@@ -34,6 +34,8 @@ if(!function_exists(jw_player))
 		$vid_file = get_video_file($vdata,$no_video,false);
 		if($vid_file)
 		{
+			$swfobj->width = $data['width'];
+			$swfobj->height = $data['height'];
 			$swfobj->playerFile = PLAYER_URL.'/jwplayer/player.swf';
 			$swfobj->FlashObj();
 			//Writing Param

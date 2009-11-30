@@ -1,0 +1,256 @@
+<div>
+ {include file="$style_dir/blocks/manage/account_left.html"}
+ 
+ <div class="account_box">
+ {include file="$style_dir/blocks/manage/account_head.html" user=$user}
+
+
+
+<!--- CHANGING USER ACCOUNT AND PROFILE -->
+
+{if $mode == 'profile_settings'}
+{assign var="user_fields"  value=$userquery->load_profile_fields($p)}
+{assign var="user_custom_profile_fields" value=$userquery->load_custom_profile_fields($p)}
+{assign var="user_custom_signup_fields" value=$userquery->load_custom_signup_fields($p)}
+
+<div class="account_form">
+<form method="post" name="edit_profile">
+<fieldset class="fieldset">
+<legend>Account Details</legend>
+<div class="account_field_block clearfix">
+<div class="account_field_label" align="right"><strong><label for="country">Country</label></strong></div>
+<div class="account_field"><select name="country" id="country">
+        {assign var='countries' value=$Cbucket->get_countries(iso2)}
+        {foreach from=$countries item=country key=code}
+        <option value="{$code}" {if $user.country==$code} selected="selected"{/if}>{$country}</option>
+        {/foreach}
+        </select></div>
+<div class="clearfix"></div>
+</div>
+
+
+<div class="account_field_block clearfix">
+<div class="account_field_label" align="right"><strong><label for="country">Gender</label></strong></div>
+<div class="account_field"><label>
+          <input type="radio" name="sex" value="male" id="sex_0" {if $user.sex == male} checked="checked"{/if} />
+          Male</label>
+        
+        <label>
+          <input type="radio" name="sex" value="female" id="sex_1" {if $user.sex == female} checked="checked"{/if}/>
+          Female</label></div>
+<div class="clearfix"></div>
+</div>
+
+
+</fieldset>
+
+<fieldset class="fieldset">
+<legend>Profile Details</legend>
+{foreach from=$user_fields item=field}
+<div class="account_field_block clearfix">
+<div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
+<div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+<br>
+{$field.hint_2}</div>
+<div class="clearfix"></div>
+</div>
+
+{/foreach}
+
+<div align="right"><button name="update_profile" id="button" value="submit" class="cb_button">Update Profile</button></div>
+</fieldset>
+</form>
+</div>
+
+</div>
+<div class="clearfix"></div>
+{/if}
+<!--- END CHANGING USER ACCOUNT AND PROFILE -->
+
+
+
+
+<!--- CHANGING USER AVATAR AND BG -->
+
+{if $mode == 'avatar_bg'}
+<div class="account_form avatar_bg">
+<form method="post" enctype="multipart/form-data" name="edit_profile">
+
+<fieldset class="fieldset">
+<legend>User Avatar</legend>
+<div style="height:15px;"></div>
+<div style="float:left; width:200px;" align="center">
+<img src="{$userquery->getUserThumb($user)}" class="mid_user_thumb" style="max-width:95px"/>
+</div>
+
+
+<div style="width:300px; display:block; float:left">
+
+<strong>User Avatar</strong><br />
+  Please select image file<br />
+  <label for="avatar_file"></label>
+  <input type="file" name="avatar_file" id="avatar_file" />
+  OR<br />
+  
+  <label for="avatar_url">Please Enter Image URL</label>
+  <input name="avatar_url" type="text" id="avatar_url" value="{$user.avatar_url}" />
+  <br />
+  <input name="delete_avatar" type="checkbox" id="delete_avatar" value="yes" />
+  <label for="delete_avatar" style="display:inline">Delete This Image - (if user has uploaded profile pic)</label>
+  <input type="hidden" name="avatar_file_name" value="{$user.avatar}" /> 
+</div> 
+  
+</fieldset>
+<fieldset class="fieldset">
+<legend>User Background</legend>
+<div style="height:15px;"></div>
+<div style="float:left; width:200px;" align="center">
+{if $userquery->getUserBg($user)}<img src="{$userquery->getUserBg($user)}" style="max-width:95px"/>{else}<em><strong>No Bg</strong></em>{/if}
+</div>
+<div style="width:300px; display:block; float:left">
+<strong>User Background Image
+  </strong><br />
+  Please Select Image File
+  <br />
+  <input type="file" name="background_file" id="background_file" />
+  OR
+
+
+  <label for="background_url">Please Enter Image URL<br /></label>
+<input name="background_url" type="text" id="background_url" value="{$user.background_url}" />
+
+OR
+<label for="background_color">Please Enter Background Color</label>
+<input name="background_color" type="text" id="background_color" value="{$user.background_color}" />
+<input type="hidden" name="bg_file_name" value="{$user.background}" />
+
+
+<label for="background_repeat">Background Repeat Type (if using image as a background)</label>
+<select name="background_repeat" id="background_repeat" >
+<option value="repeat" {if $user.background_repeat=='repeat'} selected="selected"{/if}>repeat</option>
+<option value="repeat-x" {if $user.background_repeat=='repeat-x'} selected="selected"{/if}>repeat-x</option>
+<option value="repeat-y" {if $user.background_repeat=='repeat-y'} selected="selected"{/if}>repeat-y</option>
+<option value="no-repeat" {if $user.background_repeat=='no-repeat'} selected="selected"{/if}>no-repeat</option>
+</select>
+<br />
+
+{if $userquery->getUserBg($user)}<input name="delete_bg" type="checkbox" id="delete_bg" value="yes" /><label for="delete_bg" style="display:inline">Delete This Image</label>{/if}
+</div>
+
+<div class="clearfix"></div>
+</fieldset>
+<div align="right" style="padding-right:10px"><button name="update_avatar_bg" id="button" value="submit" class="cb_button">Update</button></div>
+
+</form>
+</div>
+
+</div>
+<div class="clearfix"></div>
+
+{/if}
+<!--- END CHANGING USER AVATAR AND BG -->
+
+
+
+{if $mode == 'change_email'}
+
+<!--- CHANGING USER EMAIL -->
+<div class="account_form">
+<form method="post" name="edit_profile">
+<fieldset class="fieldset">
+<legend>Change Email</legend>
+
+
+<div class="account_field_block">
+<div class="account_field_label" align="right"><strong><label for="curemail">Curent Email</label></strong></div>
+<div class="account_field"><input type="text" disabled value="{$user.email}" id="curemail" style="margin-bottom:10px"></div>
+<div class="clearfix"></div>
+</div>
+
+
+<div class="account_field_block">
+<div class="account_field_label" align="right"><strong><label for="new_email">New Email</label></strong></div>
+<div class="account_field"><input type="text" name="new_email" id="new_email" style="margin-bottom:10px"></div>
+<div class="clearfix"></div>
+</div>
+
+<div class="account_field_block">
+<div class="account_field_label" align="right"><strong><label for="cnew_email">Confirm new Email</label></strong></div>
+<div class="account_field"><input type="text" name="cnew_email" id="cnew_email" style="margin-bottom:10px"></div>
+<div class="clearfix"></div>
+</div>
+<div align="right"><button name="change_email" id="button" value="submit" class="cb_button">Change Email</button></div>
+
+
+
+</fieldset>
+</form>
+</div>
+
+<!-- END CHANGIN USER EMAIL -->
+{/if}
+
+
+
+
+{if $mode == 'change_password'}
+
+<!-- CHANGING USER PASSWORD -->
+<div class="account_form">
+<form method="post" name="edit_profile">
+<fieldset class="fieldset">
+<legend>Change Password</legend>
+
+
+<div class="account_field_block">
+<div class="account_field_label" align="right"><strong><label for="old_pass">{lang code='user_old_pass'}</label></strong></div>
+<div class="account_field"><input name="old_pass" type="password" id="old_pass" style="margin-bottom:10px"></div>
+<div class="clearfix"></div>
+</div>
+
+
+<div class="account_field_block">
+<div class="account_field_label" align="right"><strong><label for="new_pass">{lang code='user_new_pass'}</label></strong></div>
+<div class="account_field"><input name="new_pass" type="password" id="new_pass" style="margin-bottom:10px"/></div>
+<div class="clearfix"></div>
+</div>
+
+<div class="account_field_block">
+<div class="account_field_label" align="right"><strong><label for="c_new_pass">{lang code='user_c_new_pass'}</label></strong></div>
+<div class="account_field"><input name="c_new_pass" type="password" id="c_new_pass"  style="margin-bottom:10px" /></div>
+<div class="clearfix"></div>
+</div>
+<div align="right"><button name="change_password" id="button" value="submit" class="cb_button_2">{lang code='user_change_pass'}</button></div>
+
+
+
+</fieldset>
+</form>
+</div>
+<!-- END CHANGING USER PASSWORD -->
+{/if}
+
+{if $mode == 'ban_users'}
+<!-- Banning Users -->
+<div class="account_form">
+<form method="post" name="ban_users">
+<fieldset class="fieldset">
+<legend>Ban Users</legend>
+<div class="account_field_block">
+<div class="account_field_label" align="right"><strong><label for="users">{lang code='ban_users'}</label></strong></div>
+<div class="account_field">
+  <textarea name="users" id="users" style="margin-bottom:10px">{$user.banned_users}</textarea>
+  <br />
+{lang code='spe_users_by_comma'}</div>
+<div class="clearfix"></div>
+</div>
+
+<div align="right"><button name="ban_users" id="button" value="submit" class="cb_button_2">{lang code='ban_users'}</button></div>
+
+</fieldset>
+</form>
+</div>
+<!-- Banning Users End-->
+{/if}
+
+</div>

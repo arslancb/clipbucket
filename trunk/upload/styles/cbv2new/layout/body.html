@@ -2,64 +2,66 @@
 {include file="$style_dir/global_header.html"}
 <body>
 <!-- Including Commong header -->
-{include file="$style_dir/message.html"}
-
-<div id="container" class="clearfix">
-    {include file="$style_dir/header.html" }
-    <div id="content">
-        {foreach from=$template_files item=file}
-        {if template_file_exists($file,$style_dir)}
-        	{include file="$style_dir/$file" }
-        		{else}
-        			<div class="error" align="center">Unable to load template file "{$file}"</div>
-        {/if}
-        {/foreach}
-    </div> <!--CONTENT END-->
-	<div class="clear"></div>
-    <div class="search_footer clearfix">
-    	<div class="foot_s_con">
-            <div class="advance" title="Advanced Search"></div>
-            <form action="" method="get" name="advance_search">
-                <input type="text" name="query" id="query" />
-                <input type="submit" value="Search" />
-            </form>            
-        </div> <!--FOOT_S_CON END-->
-    </div> <!--SEARCH_FOOTER END-->
-	<div id="footer">
-    	<div class="changer">
-        <div class="copyright">Powered By Clipbucket</div> 
-            <form action="" method="post" name="change_lang">
-                <select>
-                    <option>Change Language</option>
-                    <option value="eng">English</option>
-                    <option value="fr">French</option>
-                    <option value="ur">Urdu</option>
-                    <option value="sp">Spanish</option>
-                </select>              
-            </form>
-                   
-            <div class="ch_left"></div>        	
-            <div class="ch_right"></div>
-        </div> <!--CHANGER END-->
-        <div class="ch_shadow"></div>
-        <div class="footer">
-            <ul class="clearfix">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#">Videos</a></li>
-                <li><a href="#">Groups</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Register</a></li>
-                <li><a href="#">Login</a></li>
-                <li><a href="#">Help</a></li>
-            </ul>
-            <div class="footer_sp"></div>
-            <ul class="clearfix">
-                <li>Exclusive Hosting Partners: <a href="#" rel="sponsors">Cirtex Hosting</a> &amp; <a href="#" rel="sponsors">HostV</a></li>
-            </ul> 
-            <div class="footer_sp"></div>       
-        </div> <!--FOOTER CLASS END-->
-	</div> <!--FOOTER ID END-->
+<div class="container_container">
+    <div id="container" class="clearfix">
+        {include file="$style_dir/header.html" }
+        <div id="content">
+        <!-- Message -->
+        {include file="$style_dir/message.html"}
+            {foreach from=$template_files item=file}
+            {if template_file_exists($file,$style_dir)}
+                {include file="$style_dir/$file" }
+                    {else}
+                        <div class="error" align="center">Unable to load template file "{$file}"</div>
+            {/if}
+            {/foreach}
+        </div> <!--CONTENT END-->
+        <div class="clear"></div>
+        <div class="search_footer clearfix">
+            <div class="foot_s_con">
+                <div class="advance" title="Advanced Search"></div>
+                <form action="" method="get" name="advance_search">
+                    <input type="text" name="query" id="query" />
+                    <input type="submit" value="Search" />
+                </form>            
+            </div> <!--FOOT_S_CON END-->
+        </div> <!--SEARCH_FOOTER END-->
+        <div id="footer">
+            <div class="changer">
+            <div class="copyright">Powered By Clipbucket</div> 
+                <form action="" method="post" name="change_lang">
+                    <select>
+                        <option>Change Language</option>
+                        <option value="eng">English</option>
+                        <option value="fr">French</option>
+                        <option value="ur">Urdu</option>
+                        <option value="sp">Spanish</option>
+                    </select>              
+                </form>
+                       
+                <div class="ch_left"></div>        	
+                <div class="ch_right"></div>
+            </div> <!--CHANGER END-->
+            <div class="ch_shadow"></div>
+            <div class="footer">
+                <ul class="clearfix">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Videos</a></li>
+                    <li><a href="#">Groups</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Register</a></li>
+                    <li><a href="#">Login</a></li>
+                    <li><a href="#">Help</a></li>
+                </ul>
+                <div class="footer_sp"></div>
+                <ul class="clearfix">
+                    <li>Exclusive Hosting Partners: <a href="#" rel="sponsors">Cirtex Hosting</a> &amp; <a href="#" rel="sponsors">HostV</a></li>
+                </ul> 
+                <div class="footer_sp"></div>       
+            </div> <!--FOOTER CLASS END-->
+        </div> <!--FOOTER ID END-->
+    </div>
 </div>
 </body>
 </html>

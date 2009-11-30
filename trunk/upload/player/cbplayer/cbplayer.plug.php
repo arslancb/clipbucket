@@ -58,7 +58,7 @@ if(!function_exists('cbplayer'))
 	{
 		$code = '';
 		$code .= '<object width="300" height="250">';
-		$code .= '<param name="movie" value="http://www.youtube.com/v/2dEdVwg7to4&hl=en&fs=1&"></param>';
+		$code .= '<param name="movie" value="'.PLAYER_URL.'/cbplayer/videoPlayer.swf?settingsFile='.PLAYER_URL.'/cbplayer/settings.php?vid='.$vdetails['videoid'].'"></param>';
 		$code .= '<param name="allowFullScreen" value="true"></param>';
 		$code .= '<param name="allowscriptaccess" value="always"></param>';
 		$code .= '<embed src="'.PLAYER_URL.'/cbplayer/videoPlayer.swf?settingsFile='.PLAYER_URL.'/cbplayer/settings.php?vid='.$vdetails['videoid'].'" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="300" height="250"></embed>';
@@ -67,6 +67,34 @@ if(!function_exists('cbplayer'))
 		return $code;
 	}
 	
+	/**
+	 * Loading Editor's pick videos
+	 */
+	function show_editor_pick_2($data=NULL)
+	{
+		$code	= '<div id="show_editor_pick_2">';
+		$code	.= '<script type="text/javascript">'."\n";
+		$code 	.= "var flashvars = {\n";
+		$code	.= " htmlPage: document.location,\n";
+		$code	.= "settingsFile: \"".PLAYER_URL."/cbplayer/editor_pick_settings.php\"\n";
+		$code	.= "};\n";
+		$code	.= "var params = {\n";
+		$code	.= "  allowFullScreen: \"true\"\n";
+		$code	.= "};\n";
+		$code	.= "swfobject.embedSWF(\"".PLAYER_URL."/cbplayer/videoPlayer.swf\", 
+						   \"show_editor_pick_2\", \"650\", \"300\", \"9.0.115\",
+						   \"swfobject/expressInstall.swf\", flashvars
+						   , params)";
+		$code	.= "</script>";
+		$code	.= "</div>";
+		echo $code;
+	}
+	
+	
 	register_actions_play_video('cbplayer');
+	/**
+	 * Works on if Editors pick plugin is installed
+	 */
+	register_anchor_function(array('show_editor_pick_2'=>'show_editor_pick_2'));
 }
 ?>

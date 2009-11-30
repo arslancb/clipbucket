@@ -49,8 +49,9 @@ RewriteRule ^([^.]*)/?$ index.php [L]
 #
 #
 #URL Rewriting for Videos
-RewriteRule ^videos 										videos.php [nc]
-RewriteRule ^video/(.*)/(.*)$								watch_video.php?v=$1&%{QUERY_STRING} [nc]
+RewriteRule ^videos/([0-9a-z].+)/(.*)/(.*)/(.*)/(.*) videos.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
+RewriteRule ^videos videos.php [L]
+RewriteRule ^video/(.*)/(.*) watch_video.php?v=$1&%{QUERY_STRING} [L]
 RewriteRule ^user/videos/(.*)$                       		user_videos.php?user=$1&%{QUERY_STRING}
 #
 #

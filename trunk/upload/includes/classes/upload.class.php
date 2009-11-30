@@ -227,6 +227,9 @@
 			$query_field[] = "active";
 			$query_val[] = $active;
 			
+			$query_field[] = "date_added";
+			$query_val[] = now();
+			
 			$query = "INSERT INTO video (";
 			$total_fields = count($query_field);
 			

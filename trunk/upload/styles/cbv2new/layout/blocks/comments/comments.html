@@ -1,0 +1,13 @@
+{assign var='comments' value=$myquery->get_comments($id,$type)}
+{section loop=$comments name=comment}
+	{include file="$style_dir/blocks/comments/comment.html" comment=$comments[comment]}
+{sectionelse}
+	<div id="latest_comment_container">
+	<div align="center" class="no_comments">
+    	<em>No Comments</em>
+    </div>
+    </div>
+{/section}
+{if $comments}
+<div id="latest_comment_container"></div>
+{/if}

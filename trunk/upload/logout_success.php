@@ -7,6 +7,7 @@
  ****************************************************************************************************
 */
 require 'includes/config.inc.php';
+header('location:'.BASEURL.'/index.php');
 ?>
 <script language="javascript">
 

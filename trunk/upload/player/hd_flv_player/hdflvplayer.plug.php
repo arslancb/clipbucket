@@ -28,6 +28,8 @@ if(!function_exists('hdflvplayer'))
 		$vid_file = get_video_file($vdata,$no_video,false);
 		if($vid_file)
 		{
+			$swfobj->width = $data['width'];
+			$swfobj->height = $data['height'];
 			$swfobj->playerFile = PLAYER_URL.'/hd_flv_player/hdplayer.swf';
 			$swfobj->FlashObj();
 			//Writing Param

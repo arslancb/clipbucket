@@ -218,7 +218,7 @@ if(!function_exists('validate_embed_code'))
 				$embed_code = $vdetails['embed_code'];
 				//Replacing Height And Width
 				$h_w_p = array("{Width}","{Height}");
-				$h_w_r = array(config('player_width'),config('player_height'));	
+				$h_w_r = array($data['width'],$data['height']);	
 				$embed_code = str_replace($h_w_p,$h_w_r,$embed_code);
 				$swfobj->EmbedCode(unhtmlentities($embed_code),$data['player_div']);
 				return $swfobj->code;

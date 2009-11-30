@@ -14,6 +14,10 @@ Plugin Type: global
 
 if(!function_exists('editors_pick'))
 {
+	
+	define("editorspick_install","installed");
+	assign("editorspick",EDITORSPICK);
+	
 	function editors_pick()
 	{
 		if($_GET['add_editor_pick'])
@@ -200,7 +204,9 @@ add_admin_menu('Videos','Editor\'s Pick','editor_pick.php');
 register_anchor_function(array('show_editor_pick'=>'index_right_top'));
 //Registering Delete Action
 register_action_remove_video('remove_vid_editors_pick');
-
+//ADding Header.html
+$file = PLUG_DIR.'/editors_pick/header.html';
+$Cbucket->add_header($file,array('index'));
 
 }
 ?>

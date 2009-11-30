@@ -288,3 +288,295 @@
 			}				
 		});
 	}
+	
+	
+	/**
+	 * Function used to load editor's pic video
+	 */
+	function get_ep_video(vid)
+	{
+		var page = baseurl+'/plugins/editors_pick/get_ep_video.php';
+		$.post(page, 
+		{ 	
+			vid : vid,
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+				$("#ep_video_container").html(data);
+		},'text');
+	}
+	
+	
+	/**
+	 * Function used to load editor's pic video
+	 */
+	function get_video(type,div)
+	{
+		var page = baseurl+'/ajax.php';
+		$.post(page, 
+		{ 	
+			mode : type,
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+				$(div).html(data);
+		},'text');
+	}
+
+
+	function rating_over(msg,disable)
+	{
+		if(disable!='disabled')
+		$("#rating_result_container").html(msg);
+	}
+	function rating_out(msg,disable)
+	{
+		if(disable!='disabled')
+		$("#rating_result_container").html(msg);
+	}
+	
+	
+	function submit_share_form(form_id,type)
+	{
+		var page = baseurl+'/ajax.php';
+		$.post(page, 
+		{ 	
+			mode : 'share_object',
+			type : type,
+			users : $("#"+form_id+" input:#users").val(),
+			message : $("#"+form_id+" input:#message").val(),
+			id : $("#"+form_id+" input:#objectid").val(),
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+			{
+				$("#share_form_results").css("display","block");
+				$("#share_form_results").html(data);
+			}
+		},'text');
+	}
+	
+	
+	
+	function flag_object(form_id,id,type)
+	{
+		var page = baseurl+'/ajax.php';
+		$.post(page, 
+		{ 	
+			mode : 'flag_object',
+			type : type,
+			flag_type : $("#"+form_id+" input:#flag_type").val(),
+			id : id,
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+			{
+				$("#flag_form_result").css("display","block");
+				$("#flag_form_result").html(data);
+			}
+		},'text');
+	}
+	
+	function add_to_fav(type,id)
+	{
+		var page = baseurl+'/ajax.php';
+		$.post(page, 
+		{ 	
+			mode : 'add_to_fav',
+			type : type,
+			id : id,
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+			{
+				$("#video_action_result_cont").css("display","block");
+				$("#video_action_result_cont").html(data);
+			}
+		},'text');
+	}
+	
+	
+	function subscriber(user,type)
+	{
+		var page = baseurl+'/ajax.php';
+		$.post(page, 
+		{ 	
+			mode : type,
+			subscribe_to : user,
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+			{
+				$("#video_detail_result_cont").css("display","block");
+				$("#video_detail_result_cont").html(data);
+			}
+		},'text');
+	}
+	
+	
+	function rate_comment(cid,thumb)
+	{
+		var page = baseurl+'/ajax.php';
+		$.post(page, 
+		{ 	
+			mode : 'rate_comment',
+			thumb : thumb,
+			cid : cid
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+			{
+				if(data.msg!='')
+					alert(data.msg)
+				if(data.rate!='')
+					$("#comment_rating_"+cid).html(data.rate);
+			}
+		},'json');
+	}
+
+	function add_comment_js(form_id,type)
+	{
+		var page = baseurl+'/ajax.php';
+		$.post(page, 
+		{ 	
+			mode : 'add_comment',
+			name : $("#"+form_id+" input:#name").val(),
+			email : $("#"+form_id+" input:#email").val(),
+			comment : $("#"+form_id+" textarea:#comment_box").val(),
+			obj_id : $("#"+form_id+" input:#obj_id").val(),
+			reply_to : $("#"+form_id+" input:#reply_to").val(),
+			type : type,
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+			{
+				$("#add_comment_result").css("display","block");
+				if(data.err!='')
+					$("#add_comment_result").html(data.err);
+				if(data.msg!='')
+					$("#add_comment_result").html(data.msg);
+					
+				if(data.cid!='')
+				{
+					get_the_comment(data.cid,"#latest_comment_container");
+					$("#"+form_id).slideUp();
+				}
+			}
+		},'json');
+	}
+	
+	function get_the_comment(id,div)
+	{
+		var page = baseurl+'/ajax.php';
+		$.post(page, 
+		{ 	
+			mode : 'get_comment',
+			cid : id
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+			{		
+				$(div).css("display","none");
+				$(div).html(data).fadeIn("slow");
+			}
+		},'text');
+	}
+	
+	function add_playlist(mode,vid,form_id)
+	{
+		var page = baseurl+'/ajax.php';
+		switch(mode)
+		{
+			case 'add':
+			{
+				$.post(page, 
+				{ 	
+					mode : 'add_playlist',
+					vid : vid,
+					pid : $("#playlist_id option:selected").val(),
+				},
+				function(data)
+				{
+					if(!data)
+						alert("No data");
+					else
+					{	
+						if(data.err != '')
+						{
+							$("#playlist_form_result").css("display","block");
+							$("#playlist_form_result").html(data.err);
+						}
+						
+						if(data.msg!='')
+						{
+							$("#playlist_form_result").css("display","block");
+							$("#playlist_form_result").html(data.msg);
+							$("#"+form_id).css("display","none");
+						}	
+						
+					}
+				},'json');
+			}
+			break;
+			
+			case 'new':
+			{
+
+				$.post(page, 
+				{ 	
+					mode : 'add_new_playlist',
+					vid : vid,
+					plname : $("#"+form_id+" input:#playlist_name").val(),
+				},
+				function(data)
+				{
+					if(!data)
+						alert("No data");
+					else
+					{	
+						if(data.err != '')
+						{
+							$("#playlist_form_result").css("display","block");
+							$("#playlist_form_result").html(data.err);
+						}
+						
+						if(data.msg!='')
+						{
+							$("#playlist_form_result").css("display","block");
+							$("#playlist_form_result").html(data.msg);
+							$("#"+form_id).css("display","none");
+						}	
+						
+					}
+				},'json');
+			}
+			break;
+		}
+	}

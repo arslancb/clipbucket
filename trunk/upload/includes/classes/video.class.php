@@ -342,25 +342,28 @@ class CBvideo extends CBCategory
 	function get_videos($params)
 	{
 		global $db;
+		
 		$limit = $params['limit'];
 		$order = $params['order'];
 		
 		$cond = "";
 		
 		//Setting Category Condition
-		if($params['category'])
+		if($params['category'] && strtolower($params['category'])!='all')
 		{
 			if($cond!='')
 				$cond .= ' AND ';
 				
 			$cond .= " (";
+			
 			if(!is_array($params['category']))
 			{
-				$cats = explode(',',$params['categgory']);
+				$cats = explode(',',$params['category']);
 			}else
 				$cats = $params['category'];
-			
+				
 			$count = 0;
+			
 			foreach($cats as $cat_params)
 			{
 				$count ++;
@@ -392,9 +395,28 @@ class CBvideo extends CBCategory
 		//Tags
 		if($params['tags'])
 		{
-			if($tag_n_title!='')
-				$tag_n_title .= ' OR ';
-			$tag_n_title .= " tags LIKE '%".$params['tags']."%'";
+			//checking for commas ;)
+			$tags = explode(",",$params['tags']);
+			if(count($tags)>0)
+			{
+				if($tag_n_title!='')
+					$tag_n_title .= ' OR ';
+				$total = count($tags);
+				$loop = 1;
+				foreach($tags as $tag)
+				{
+					$tag_n_title .= " tags LIKE '%".$tag."%'";
+					if($loop<$total)
+					$tag_n_title .= " OR ";
+					$loop++;
+					
+				}
+			}else
+			{
+				if($tag_n_title!='')
+					$tag_n_title .= ' OR ';
+				$tag_n_title .= " tags LIKE '%".$params['tags']."%'";
+			}
 		}
 		//TITLE
 		if($params['title'])
@@ -419,6 +441,13 @@ class CBvideo extends CBCategory
 			$featured .= " featured = 'yes' ";
 		}
 		
+		//Exclude Vids
+		if($params['exclude'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " videoid <> '".$params['exclude']."' ";
+		}
 		
 		$result = $db->select('video','*',$cond,$limit,$order);
 		
@@ -431,14 +460,40 @@ class CBvideo extends CBCategory
 			return $result;
 	}
 	
+	/**
+	 * Function used to count total video comments
+	 */
+	function count_video_comments($id)
+	{
+		global $db;
+		$total_comments = $db->count('comments',"comment_id","type='v' AND type_id='$id'");
+		return $total_comments;
+	}
+	
+	
+	/**
+	 * Function used to update video comments count
+	 */
+	function update_comments_count($id)
+	{
+		global $db;
+		$total_comments = $this->count_video_comments($id);
+		$db->update("video",array("comments_count"),$total_comments," videoid='$id'");
+	}
 	
 	/**
 	 * Function used to add video comment
 	 */
 	function add_comment($comment,$obj_id,$reply_to=NULL)
 	{
-		global $myquery;
-		return $myquery->add_comment($comment,$obj_id,$reply_to,'v');
+		global $myquery,$db;
+		$add_comment =  $myquery->add_comment($comment,$obj_id,$reply_to,'v');
+		if($add_comment)
+		{
+			//Updating Number of comments of video
+			$this->update_comments_count($obj_id);
+		}
+		return $add_comment;
 	}
 	
 	
@@ -648,5 +703,135 @@ class CBvideo extends CBCategory
 		}
 	}
 	
+	
+	
+	/**
+	 * Function used to get video rating details
+	 */
+	function get_video_rating($id)
+	{
+		global $db;
+		$result = $db->select($this->dbtbl['video'],"rating,rated_by,voter_ids"," videoid='$id' ");
+		if($db->num_rows>0)
+			return $result[0];
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to display rating option for videos
+	 * this is an OLD TYPICAL RATING SYSTEM
+	 * and yes, still with AJAX
+	 */
+	function show_video_rating($params)
+	{
+		$rating 	= $params['rating'];
+		$ratings 	= $params['ratings'];
+		$total 		= $params['total'];
+		$id 		= $params['id'];
+		$type 		= $params['type'];
+		
+		//Checking Percent
+		if($rating<=0)
+			$perc = '0';
+		else
+		{
+			if($total<=1)
+				$total = 1;
+			$perc = $rating*100/$total;
+		}
+				
+		$perc = $perc.'%';
+		
+		if($params['is_rating'])
+		{
+			if(error())
+			{
+				$rating_msg = error();
+				$rating_msg = '<span class="error">'.$rating_msg[0].'</span>';
+			}
+			if(msg())
+			{
+				$rating_msg = msg();
+				$rating_msg = '<span class="msg">'.$rating_msg[0].'</span>';
+			}
+		}
+		
+		assign('perc',$perc);
+		assign('id',$id);
+		assign('type',$type);
+		assign('id',$id);
+		assign('rating_msg',$rating_msg);
+		assign('disable',$params['disable']);
+		
+		Template('blocks/rating.html');
+		
+	}
+	
+	
+	/**
+	 * Function used to rate video
+	 */
+	function rate_video($id,$rating)
+	{
+		global $db;
+
+		if(!is_numeric($rating) || $rating <1)
+			$rating = 1;
+		if($rating>10)
+			$rating = 10;
+
+		$rating_details = $this->get_video_rating($id);
+		$voter_id = $rating_details['voter_ids'];
+		
+		$new_by = $rating_details['rated_by'];
+		$newrate = $rating_details['rating'];
+		
+		$niddle = "|";
+		$niddle .= userid();
+		$niddle .= "|";
+		$flag = strstr($voter_id, $niddle);
+		
+		if(!empty($flag))
+			e("You have already rated this video");
+		elseif(!userid())
+			e("Please login to rate");
+		else
+		{
+			if(empty($voter_id))
+				$voter_id .= "|";
+			$voter_id .= userid();
+			$voter_id .= "|";
+			$t = $rating_details['rated_by'] * $rating_details['rating'];
+			$new_by = $rating_details['rated_by'] + 1;
+			$newrate = ($t + $rating) / $new_by;
+			
+			$db->update($this->dbtbl['video'],array("rating","rated_by","voter_ids"),array($newrate,$new_by,$voter_id)," videoid='$id'");
+			e("Thanks for voting","m");	
+		}
+		
+		$result = array('rating'=>$newrate,'ratings'=>$new_by,'total'=>10,'id'=>$id,'type'=>'video','disable'=>'disabled');
+		return $result;
+	}
+	
+	
+	/**
+	 * Function used to get playlist items
+	 */
+	function get_playlist_items($pid)
+	{		
+		global $db;
+		$ptbl = $this->action->playlist_items_tbl;
+		$vtbl = $this->dbtbl['video'];
+		
+		$tbls = $ptbl.','.$vtbl;
+		$fields = $ptbl.".*,$vtbl.title,$vtbl.comments_count,$vtbl.views,$vtbl.userid,$vtbl.date_added,
+		$vtbl.file_name,$vtbl.category,$vtbl.description,$vtbl.videokey,$vtbl.tags,$vtbl.videoid";
+		$result = $db->select($tbls,$fields,"playlist_id='$pid' AND ".$vtbl.".videoid=".$ptbl.".object_id");
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;
+	}	 
 }
 ?>

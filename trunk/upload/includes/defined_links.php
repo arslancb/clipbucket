@@ -12,6 +12,38 @@ $Cbucket->links  = array
 'logout'	=>array('logout.php','logout'),
 'videos'	=>array('videos.php','videos'),
 'my_account'=>array('myaccount.php','my_account'),
+'groups'	=>array('groups.php','groups'),
 );
 
+
+/**
+ * Sortings
+ */
+function sorting_links()
+{
+	$array = array
+	('most_recent' 	=> 'Recent',
+	 'most_viewed'	=> 'Viewed',
+	 'featured'		=> 'Featured',
+	 'top_rated'	=> 'Top Rated',
+	 'most_commented'	=> 'Commented',
+	 );
+	return $array;
+}
+
+function time_links()
+{
+	$array = array
+	('all_time' 	=> 'All Time',
+	 'today'	=> 'Today',
+	 'yesterday'		=> 'Yesterday',
+	 'this_week'	=> 'This Week',
+	 'last_week'	=> 'Last Week',
+	 'this_month'	=> 'This Month',
+	 'last_month'	=> 'Last Month',
+	 'this_year'	=> 'This Year',
+	 'last_year'	=> 'Last Year',
+	 );
+	return $array;
+}
 ?>

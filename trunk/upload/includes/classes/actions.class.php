@@ -6,6 +6,12 @@
  * Flag content
  * share content
  * rate content
+ * playlist 
+ * quicklist
+ * 
+ * @Author : ARSLAN HASSAN (te haur kaun o sukda)
+ * @Script : ClipBucket v2
+ * @Since : Bakra Eid 2009
  */
  
 
@@ -33,6 +39,8 @@ class cbactions
 	 */
 	var $fav_tbl = 'favorites';
 	var $flag_tbl = 'flags';
+	var $playlist_tbl = 'cb_playlists';
+	var $playlist_items_tbl = 'cb_playlist_items';
 	
 	var $type_tbl = 'videos';
 	var $type_id_field = 'videoid';
@@ -151,7 +159,7 @@ class cbactions
 				if(!$this->report_check($id))
 				{
 					$db->insert($this->flag_tbl,array('type','id','userid','flag_type','date_added'),
-												array($this->type,$id,userid(),post('flag_type'),NOW()));
+												array($this->type,$id,userid(),mysql_clean(post('flag_type')),NOW()));
 					e(sprintf(lang('obj_report_msg'),$this->name),m);
 				}else{
 					e(sprintf(lang('obj_report_err'),$this->name));
@@ -193,11 +201,13 @@ class cbactions
 		//First checking weather object exists or not
 		if($this->exists($id))
 		{
+			global $eh;
 			if(userid())
 			{
-				$users = mysql_clean(post('users'));
-				$users = explode(',',$users);
-				if(is_array($users))
+				
+				$post_users = mysql_clean(post('users'));
+				$users = explode(',',$post_users);
+				if(is_array($users) && !empty($post_users))
 				{
 					foreach($users as $user)
 					{
@@ -228,6 +238,8 @@ class cbactions
 						$emails = implode(',',$emails_array);
 						//Now Finally Sending Email
 						cbmail(array('to'=>$emails,'from'=>username(),'subject'=>$subj,'content'=>$msg,'use_boundary'=>true));
+						e(sprintf(lang("thnx_sharing_msg"),$this->name),'m');
+						
 					}
 				}else{
 					e(sprintf(lang("share_video_no_user_err"),$this->name));
@@ -309,6 +321,217 @@ class cbactions
 			return count($results);
 		else
 			return false;
+	}
+	
+	
+	/**
+	 * Function used to create new playlist
+	 * @param ARRAY
+	 */
+	function create_playlist($params)
+	{
+		global $db;
+		$name = mysql_clean($params['name']);
+		if(!userid())
+			e(lang("please_login_create_playlist"));
+		elseif(empty($name))
+			e(lang("please_enter_playlist_name"));
+		elseif($this->playlist_exists($name,userid()))
+			e(sprintf(lang("play_list_with_this_name_arlready_exists"),$name));
+		else
+		{
+			$db->insert($this->playlist_tbl,array("playlist_name","userid","date_added","playlist_type"),
+									  array($name,userid(),now(),$this->type));
+			e(lang("new_playlist_created"),"m");
+			return $db->insert_id();
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Function used to check weather playlist already exists or not
+	 */
+	function playlist_exists($name,$user)
+	{
+		global $db;
+		$count = $db->count($this->playlist_tbl,"playlist_id"," userid='$user' AND playlist_name='$name'");
+		if($count)
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to get playlist
+	 */
+	function get_playlist($id,$user=NULL)
+	{
+		global $db;
+		
+		$user_cond;
+		if($user)
+			$user_cond = " AND userid='$user'";
+			
+		$result = $db->select($this->playlist_tbl,"*"," playlist_id='$id' $user_cond");
+		if($db->num_rows>0)
+			return $result[0];
+		else
+			return false;
+	}
+	
+	
+	/**
+	 * Function used to add new item in playlist
+	 */
+	function add_playlist_item($pid,$id)
+	{
+		global $db;
+		
+		if(!$this->exists($id))
+			e(sprintf(lang("obj_not_exists"),$this->name));
+		elseif(!$this->get_playlist($pid))
+			e(lang("playlist_not_exist"));
+		elseif(!userid())
+			e(lang('you_not_logged_in'));
+		elseif($this->playlist_item_with_obj($id,$pid))
+			e(sprintf(lang('this_already_exist_in_pl'),$this->name));
+		else
+		{
+			$db->insert($this->playlist_items_tbl,array("object_id","playlist_id","date_added","playlist_item_type","userid"),
+											array($id,$pid,now(),$this->type,userid()));
+			e(sprintf(lang('this_thing_added_playlist'),$this->name),"m");
+			return $db->insert_id();
+		}
+	}
+	
+	
+	/**
+	 * Function use to delete playlist item
+	 */
+	function delete_playlist_item($id)
+	{
+		global $db;
+		$item = $this->playlist_item($id);		
+		if(!$item)
+			e(lang("playlist_item_not_exist"));
+		elseif($item['userid']!=userid() && !has_access('admin_access'))
+			e(lang("you_dont_hv_permission_del_playlist"));
+		else
+		{
+			$db->delete($this->playlist_items_tbl,array("playlist_item_id"),array($id));
+			e(lang("playlist_item_delete"),"m");
+		}
+	}
+	
+	/**
+	 * Function used to check weather playlist item exists or not
+	 */
+	function playlist_item($id)
+	{
+		global $db;
+		$result = $db->select($this->playlist_items_tbl,"*"," playlist_item_id='$id' ");
+		if($db->num_rows>0)
+			return $result[0];
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to check weather playlist item exists or not
+	 */
+	function playlist_item_with_obj($id,$pid=NULL)
+	{
+		global $db;
+		$pid_cond = "";
+		if($pid)
+			$pid_cond = " AND playlist_id='$pid'";
+		$result = $db->select($this->playlist_items_tbl,"*"," object_id='$id' $pid_cond");
+		if($db->num_rows>0)
+			return $result[0];
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to update playlist details
+	 */
+	function edit_playlist($params)
+	{
+		global $db;
+		$name = mysql_clean($params['name']);
+		$pdetails = $this->get_playlist($params['pid']);
+		
+		if(!$pdetails)
+			e(lang("playlist_not_exist"));
+		elseif(!userid())
+			e(lang("you_not_logged_in"));
+		elseif(empty($name))
+			e(lang("please_enter_playlist_name"));
+		elseif($this->playlist_exists($name,userid()) && $pdetails['playlist_name'] !=$name)
+			e(sprintf(lang("play_list_with_this_name_arlready_exists"),$name));
+		else
+		{
+			$db->update($this->playlist_tbl,array("playlist_name"),
+									  array($name)," playlist_id='".$params['pid']."'");
+			e(lang("play_list_updated"),"m");
+		}
+	}
+	
+	/**
+	 * Function used to delete playlist
+	 */
+	function delete_playlist($id)
+	{
+		global $db;
+		$playlist = $this->get_playlist($id);
+		if(!$playlist)
+			e(lang("playlist_not_exist"));
+		elseif($playlist['userid']!=userid() && !has_access('admin_access'))
+			e(lang("you_dont_hv_permission_del_playlist"));
+		else
+		{
+			$db->delete($this->playlist_tbl,
+						array("playlist_id"),array($id));
+			$db->delete($this->playlist_items_tbl,
+						array("playlist_id"),array($id));
+			e(lang("playlist_delete_msg"),"m");
+		}
+	}
+	
+	/**
+	 * Function used to get playlists
+	 */
+	function get_playlists()
+	{
+		global $db;
+		$result = $db->select($this->playlist_tbl,"*"," playlist_type='".$this->type."' AND userid='".userid()."'");
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to get playlist items
+	 */
+	function get_playlist_items($pid)
+	{
+		global $db;
+		$result = $db->select($this->playlist_items_tbl,"*","playlist_id='$pid'");
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to count playlist item
+	 */	
+	function count_playlist_items($id)
+	{
+		global $db;
+		return $db->count($this->playlist_items_tbl,"playlist_item_id","playlist_id='$id'");
 	}
 }
 

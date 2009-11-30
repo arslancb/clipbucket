@@ -1,0 +1,22 @@
+<!-- Share This {$type} -->
+<div id="share_form" class="action_box share_form" style="display:none">
+	<div class="action_box_title">Share this {$params.type} &#8212; <span class="cancel"><a href="javascript:void(0)" onclick="$('#share_form').slideUp();">cancel</a></span></div>
+    <div class="form_container">
+    <form id="share_form" name="share_form" method="post" action="" class="">
+        	<div class="form_left">
+           	  <label for="users">To <span class="example">({$title} usernames or emails)</span></label>
+              Seperate usernames and emails by comma
+              <input name="users" type="text" class="left_text_area" id="users" value="" size="45" />
+              <label for="message">Message <span class="example">optional</span></label>
+              <textarea name="message" id="message" cols="45" rows="5" class="left_text_area"></textarea>
+              <input name="objectid" id="objectid" type="hidden" value="{$params.id}" />
+              <div align="right"><input type="button" name="send_content" value="Send" class="cb_button" onclick="submit_share_form('share_form','{$params.type}')"/></div>
+       		</div>
+            <div class="form_right">
+            	<div id="share_form_results" class="form_result" style="display:none"></div>
+            </div>
+            <div class="clearfix"></div>
+      </form>
+    </div>
+</div>
+<!-- Share This {$type} -->

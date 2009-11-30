@@ -1,0 +1,17 @@
+
+<!-- Video Box -->
+{if $display_type =='normal' || $display_type==''}
+<div class="watch_video_box">
+    <div class="watch_video_box_thumb" align="center"> 
+        <a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" width="82" height="48" border="0" {ANCHOR place="video_thumb"} /></a>
+        <div class="duration">{$video.duration|SetTime}</div>
+    </div> 
+   	<div class="watch_video_box_details">
+    <a href="#">{$video.title|truncate:30}</a><br>
+views : {$vdo.views|number_format}<br>
+<a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a>
+</div>
+    <!--VIDEO_THUMB END-->  
+</div>
+{/if}
+<!-- Video Box -->

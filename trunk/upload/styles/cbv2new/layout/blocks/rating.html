@@ -1,0 +1,22 @@
+<div id="rating_container">
+
+<ul class="big_stars" id="rating_container_{$id}">
+<li class="current-rating" style="width:{$perc}"></li>
+<li>
+<a href="javascript:void(0)" class="one-star" onclick="rate('{$id}','1','{$type}')" onMouseOver="rating_over('Poor','{$disable}')" onmouseout="rating_out('Rate this {$type}','{$disable}')"> </a>
+</li>
+<li>
+<a href="javascript:void(0)" class="two-stars" onclick="rate('{$id}','2','{$type}')" onMouseOver="rating_over('Bad','{$disable}')" onmouseout="rating_out('Rate this {$type}','{$disable}')"> </a>
+</li>
+<li>
+<a href="javascript:void(0)" class="three-stars" onclick="rate('{$id}','3','{$type}')" onMouseOver="rating_over('Average','{$disable}')" onmouseout="rating_out('Rate this {$type}','{$disable}')"> </a>
+</li>
+<li>
+<a href="javascript:void(0)" class="four-stars" onclick="rate('{$id}','4','{$type}')" onMouseOver="rating_over('Good','{$disable}')" onmouseout="rating_out('Rate this {$type}','{$disable}')"> </a>
+</li>
+<li>
+<a href="javascript:void(0)" class="five-stars" onclick="rate('{$id}','5','{$type}')" onMouseOver="rating_over('Excellent','{$disable}')" onmouseout="rating_out('Rate this {$type}','{$disable}')"> </a>
+</li>
+</ul>
+<div id="rating_result_container" align="center">{if $rating_msg}{$rating_msg}{else}Rate this {$type}{/if}</div>
+</div>

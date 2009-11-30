@@ -113,27 +113,11 @@ var imageurl = '{$imageurl}';
 
 {/if}
 <!-- Including Plugin Headers -->
-{php}
-global $plugin_list;
-if(!empty($plugin_list) && is_array($plugin_list))
-{
-    foreach($plugin_list as $plugin)
-    {
-        if(!empty($plugin['plugin_header_file']))
-        {
-        if( !empty($plugin['plugin_folder']) && 
-         file_exists(PLUG_DIR.'/'.$plugin['plugin_folder'].'/'.$plugin['plugin_header_file'])
-            )
-         {
-            template(PLUG_DIR.'/'.$plugin['plugin_folder'].'/'.$plugin['plugin_header_file'],false);
-         }else{
-            if(file_exists(PLUG_DIR.'/'.$plugin['plugin_header_file']))
-            template(PLUG_DIR.'/'.$plugin['plugin_header_file'],false);
-         }}
-    }
-}
-{/php}
-
+{foreach key=file item=page loop=$Cbucket->header_files}
+	{if $page == $this_page || $page=='global'}
+    	{include file=$file}
+    {/if}
+{/foreach}
 <!-- Including Plugin Headers -->
 
 <!-- Including Module Headers -->

@@ -6,6 +6,10 @@
  | @ Software  : ClipBucket , © PHPBucket.com														|
  ****************************************************************************************************
 */
+
+define("THIS_PAGE","signup");
+define("PARENT_PAGE","signup");
+
 require 'includes/config.inc.php';
 
 if($userquery->login_check('',true)){

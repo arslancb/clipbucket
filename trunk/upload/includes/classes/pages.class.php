@@ -133,7 +133,7 @@ class pages{
 	/**
 	 * Function used to create link
 	 */
-	function create_link($page,$link=NULL,$extra_params=NULL,$tag='<a #params#>#page#</a>',$return_param=false)
+	function create_link($page,$link=NULL,$extra_params=NULL,$tag=' <a #params#>#page#</a> ',$return_param=false)
 	{
 		if($link==NULL or $link == 'auto')
 		{
@@ -159,7 +159,10 @@ class pages{
 		$link = $link.$page_link;
 		$params = 'href="'.$link.'"';
 		$params .= ' '.$extra_params;
-	
+		
+		if(SEO=='yes')
+			$params ='href="'.$page.'"';
+		
 		$final_link = preg_replace(array("/$page_pattern/i","/$param_pattern/i"),array($page,$params),$tag);
 		$final_link = preg_replace(array("/$page_pattern/i","/$param_pattern/i"),array($page,$params),$final_link);
 		
@@ -168,7 +171,7 @@ class pages{
 			return preg_replace("/$page_pattern/i",$page,$params);
 		}
 		
-		return $final_link;
+		return ' '.$final_link.' ';
 	}
 
 	/**
@@ -211,7 +214,7 @@ class pages{
 			{
 				if($selected == $i)
 				{
-					$start .= '<span class ="selected">'.$i.'</span>';
+					$start .= ' <span class ="selected">'.$i.'</span> ';
 				}else
 					$start .= $this->create_link($i,$link,$extra_params,$tag);
 				$start_last = $i;
@@ -226,7 +229,7 @@ class pages{
 				
 				if($selected == $i)
 				{
-					$end .= '<span class ="selected">'.$i.'</span>';
+					$end .= ' <span class ="selected">'.$i.'</span> ';
 				}else
 				$end .= $this->create_link($i,$link,$extra_params,$tag);
 			}
@@ -241,7 +244,7 @@ class pages{
 				{
 					if($selected == $i)
 					{
-						$mid .= '<span class ="selected">'.$i.'</span>';
+						$mid .= ' <span class ="selected">'.$i.'</span> ';
 					}else
 						$mid .= $this->create_link($i,$link,$extra_params,$tag);
 				}
@@ -274,7 +277,7 @@ class pages{
 			for($i=1;$i<=$total_pages;$i++)
 			{
 				if($i == $selected)
-					$pagination_smart .= '<span class ="selected">'.$i.'</span>';
+					$pagination_smart .= ' <span class ="selected">'.$i.'</span> ';
 				else
 					$pagination_smart .=$this->create_link($i,$link,$extra_params,$tag);
 			}

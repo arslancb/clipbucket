@@ -1,5 +1,65 @@
-.big_stars { width:75px; height:16px; }
+/* $Id: rating_style.css 235 2009-08-25 12:39:17Z fwhite $ */
+.rating_container{width:140px; border-right:1px solid #CCC; height:40px; padding-right:10px}
+.rating_container #rating_result_container{font-size:10px; font-weight:bold; color:#333}
+.rating_container #rating_result_container .error{ color:#ed0000;}
+.rating_container #rating_result_container .msg{ color:#0099cc;}
 
-.big_stars .stars_blank{background-image:url(../images/stars.png); background-repeat:repeat-x; background-position:bottom; width:100%}
+.big_stars,
+.big_stars a:hover,
+.big_stars a:active,
+.big_stars .current-rating{
+	background: url(../images/big_stars.png) left -1000px repeat-x;
+}
+.big_stars{
+	position:relative;
+	width:140px;
+	height:28px;
+	overflow:hidden;
+	list-style:none;
+	margin:0;
+	padding:0;
+	background-position: left bottom;
+}
+.big_stars li{
+	display: inline;
+}
+.big_stars a, 
+.big_stars .current-rating{
+	position:absolute;
+	top:0;
+	left:0;
+	text-indent:-1000em;
+	height:28px;
+	line-height:28px;
+	outline:none;
+	overflow:hidden;
+	border: none;
 
-.big_stars .stars_filled{background-image:url(../images/stars.png); background-repeat:repeat-x; background-position:top; float:left}
+}
+.big_stars a:hover{
+	background-position: left center;
+}
+.big_stars a.one-star{
+	width:20%;
+	z-index:6;
+}
+.big_stars a.two-stars{
+	width:40%;
+	z-index:5;
+}
+.big_stars a.three-stars{
+	width:60%;
+	z-index:4;
+}
+.big_stars a.four-stars{
+	width:80%;
+	z-index:3;
+}
+.big_stars a.five-stars{
+	width:100%;
+	z-index:2;
+}
+.big_stars .current-rating{
+	z-index:1;
+	background-position: left top;
+}	

@@ -8,7 +8,10 @@
 */
 
 define("THIS_PAGE",'watch_video');
+define("PARENT_PAGE",'videos');
+
 require 'includes/config.inc.php';
+
 $userquery->perm_check('view_video',true);
 
 $pages->page_redir();
@@ -19,7 +22,15 @@ $vkey = @$_GET['v'];
 if(video_playable($vkey))
 {
 	$vdo = $cbvid->get_video($vkey);
-	assign('vdo',$vdo);
+	
+	//Checking for playlist
+	$pid = $_GET['play_list'];
+	if(!empty($pid))
+	{
+		$plist = $cbvid->action->get_playlist($pid,userid());
+		if($plist)
+			$_SESSION['cur_playlist'] = $pid;
+	}
 	
 	if(post('send_content'))
 	{
@@ -35,6 +46,7 @@ if(video_playable($vkey))
 	if(isset($_POST['add_comment']))
 	{
 		$cbvideo->add_comment($_POST['comment'],$vdo['videoid']);
+		$vdo['comments_count'] = $cxvid->count_video_comments;
 	}
 	
 	//Adding Video To Favorites
@@ -42,6 +54,10 @@ if(video_playable($vkey))
 	{
 		$cbvideo->action->add_to_fav($vdo['videoid']);
 	}
+	
+	assign('vdo',$vdo);
+	assign('user',$userquery->get_user_details($vdo['userid']));
+
 }
 
 //Displaying The Template

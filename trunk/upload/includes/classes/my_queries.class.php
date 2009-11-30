@@ -190,7 +190,7 @@ class myquery {
 	
 	//Function Used To Rate Comments
 	function RateComment($rate,$commentid){
-	global $LANG;
+		global $LANG;
 			if(!empty($_SESSION['username']) ){
 			$query = mysql_query("select score,scorer_ids from video_comments where comment_id='".$commentid."'");
 			$data = mysql_fetch_array($query);
@@ -216,7 +216,46 @@ class myquery {
 			$msg = e($LANG['class_comment_err6']);
 			}
 		return $msg;
+	}
+	
+	/***
+	 * Function used to rate comment
+	 ***/
+	function rate_comment($rate,$cid)
+	{
+		global $db;
+		$comment = $this->get_comment($cid);
+		$voters = $comment['voters'];
+		
+		$niddle = "|";
+		$niddle .= userid();
+		$niddle .= "|";
+		$flag = strstr($voters, $niddle);
+		
+		if(!$comment)
+			e(lang('no_comment_exists'));
+		elseif(!userid())
+			e(lang('class_comment_err6'));
+		elseif(userid()==$comment['userid'] || (!userid() && $_SERVER['REMOTE_ADDR'] == $comment['comment_ip']))
+			e(lang('no_own_commen_rate'));
+		elseif(!empty($flag))
+			e(lang('class_comment_err7'));
+		else
+		{
+			if(empty($voters))
+				$voters .= "|";
+			
+			$voters .= userid();
+			$voters.= "|";
+			
+			$newscore = $comment['vote']+$rate;
+			$db->update('comments',array('vote','voters'),array($newscore,$voters)," comment_id='$cid'");
+			e(lang('thanks_rating_comment'),"m");
+			return $newscore;			
 		}
+		
+		return false;
+	}
 	
 	//Function Used To Share Videos
 	function ShareVideo($username,$videoid,$message,$emails){
@@ -853,15 +892,17 @@ class myquery {
 		if(empty($eh->error_list))
 		{
 			$db->insert("comments",array
-						 ('type,comment,type_id,userid,date_added,parent_id,anonym_name,anonym_email'),
+						 ('type,comment,type_id,userid,date_added,parent_id,anonym_name,anonym_email','comment_ip'),
 						 array
-						 ($type,$comment,$obj_id,userid(),NOW(),$reply_to,$name,$email));
+						 ($type,$comment,$obj_id,userid(),NOW(),$reply_to,$name,$email,$_SERVER['REMOTE_ADDR']));
 			e("Comment has been added",m);
 			return $db->insert_id();
 		}
+		
+		return false;
 	}
 	
-	
+
 	
 	/**
 	 * Function used to  get file details from database

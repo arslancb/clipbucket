@@ -6,6 +6,8 @@
  | @ Software : ClipBucket , © PHPBucket.com														|
  ****************************************************************************************************
 */
+define("THIS_PAGE","groups");
+define("PARENT_PAGE","groups");
 require 'includes/config.inc.php';
 $pages->page_redir();
 

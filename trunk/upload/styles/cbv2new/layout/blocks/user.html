@@ -1,0 +1,19 @@
+{if $block_type == '' || $block_type=='normal'}
+<div class="user_block" id="user-{$user.userid}">
+<div><a href="{$userquery->profile_link($user)}">{$user.username}</a></div>
+<div class="user_mid_thumb_container" > <a href="{$userquery->profile_link($user)}"><img src="{$userquery->getuserthumb($user)}" border="0" class="user_mid_thumb"></a>
+</div>
+258213<br />
+videos<br />
+<br />
+21245658<br />
+views
+</div>
+{/if}
+
+{if $block_type =='small'}
+<div class="user_block_small" id="user-{$user.userid}" align="center">
+<div><a href="{$userquery->profile_link($user)}">{$user.username}</a></div>
+<a href="{$userquery->profile_link($user)}"><img src="{$userquery->getuserthumb($user)}" border="0" class="user_mid_thumb"></a>
+</div>
+{/if}

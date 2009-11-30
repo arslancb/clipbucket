@@ -83,6 +83,65 @@
 		echo $array['message_content'];
 		$cbpm->parse_attachments($array['message_attachments']);
 	}
+	
+	
+	
+	/**
+	 * Function used to turn tags into links
+	 */
+	function tags($input,$type,$sep=',')
+	{
+		//Exploding using comma
+		$tags = explode(',',$input);
+		$count = 1;
+		$total = count($tags);
+		$new_tags = '';
+		foreach($tags as $tag)
+		{
+			$params = array('name'=>'tag','tag'=>$tag,'type'=>$type);
+			$new_tags .= '<a href="'.cblink($params).'">'.$tag.'</a>';
+			if($count<$total)
+				$new_tags .= $sep;
+			$count++;
+		}
+		
+		return $new_tags;
+	}
+	
+	
+	/**
+	 * Function used to turn db category into links
+	 */
+	function categories($input,$type,$sep=',')
+	{
+		global $cbvideo;
+		switch($type)
+		{
+			case 'video':
+			default:
+			$obj = $cbvideo;
+		}
+		
+		preg_match_all('/#([0-9]+)#/',$input,$m);
+		$cat_array = array($m[1]);
+		$cat_array = $cat_array[0];
+
+		$count = 1;
+		$total = count($cat_array);
+		$cats = '';
+		foreach($cat_array as $cat)
+		{
+			$cat_details = $obj->get_category($cat);
+			
+			$params = array('name'=>'category_search','category'=>$cat_details['category_id'],'type'=>$type);
+			$cats .= '<a href="'.cblink($params).'">'.$cat_details['category_name'].'</a>';;
+			if($count<$total)
+				$cats .= $sep;
+			$count++;
+		}
+		
+		return $cats;
+	}
 
 
 ?>

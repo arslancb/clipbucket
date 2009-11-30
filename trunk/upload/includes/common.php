@@ -379,6 +379,8 @@ REGISERTING FUNCTION FOR SMARTY TEMPLATES
 */
 
 
+function show_video_rating($params){ global $cbvid; return $cbvid->show_video_rating($params); }
+
 $Smarty->register_function('AD','getAd');
 $Smarty->register_function('get_thumb','getSmartyThumb');
 $Smarty->register_function('getThumb','getSmartyThumb');
@@ -395,9 +397,12 @@ $Smarty->register_function('FlashPlayer','flashPlayer');
 $Smarty->register_function('HQFlashPlayer','HQflashPlayer');
 $Smarty->register_function('link','cblink');
 $Smarty->register_function('show_share_form','show_share_form');
+$Smarty->register_function('show_flag_form','show_flag_form');
+$Smarty->register_function('show_playlist_form','show_playlist_form');
 $Smarty->register_function('lang','smarty_lang');
 $Smarty->register_function('get_videos','get_videos');
 $Smarty->register_function('private_message','private_message');
+$Smarty->register_function('show_video_rating','show_video_rating');
 
 $Smarty->register_modifier('SetTime','SetTime');
 $Smarty->register_modifier('getname','getname');
