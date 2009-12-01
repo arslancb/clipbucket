@@ -21,6 +21,7 @@ if(!empty($mode))
 		case 'recent_viewed_vids':
 		{
 			$videos = get_videos(array('limit'=>'20','order'=>'last_viewed DESC'));
+			if($videos)
 			foreach($videos as $video)
 			{
 				assign('video',$video);
@@ -32,6 +33,7 @@ if(!empty($mode))
 		case 'most_viewed':
 		{
 			$videos = get_videos(array('limit'=>'20','order'=>'views DESC'));
+			if($videos)
 			foreach($videos as $video)
 			{
 				assign('video',$video);
@@ -43,6 +45,7 @@ if(!empty($mode))
 		case 'recently_added':
 		{
 			$videos = get_videos(array('limit'=>'20','order'=>'date_added DESC'));
+			if($videos)
 			foreach($videos as $video)
 			{
 				assign('video',$video);
@@ -219,36 +222,52 @@ if(!empty($mode))
 				case 'video':
 				default:
 				{
-				$id = mysql_clean($_POST['obj_id']);
-				$comment = $_POST['comment'];
-				if($comment=='undefined')
-					$comment = '';
-				$reply_to = $_POST['reply_to'];
-				
-				$cid = $cbvid->add_comment($comment,$id,$reply_to);
-				if(msg())
+					$id = mysql_clean($_POST['obj_id']);
+					$comment = $_POST['comment'];
+					if($comment=='undefined')
+						$comment = '';
+					$reply_to = $_POST['reply_to'];
+					
+					$cid = $cbvid->add_comment($comment,$id,$reply_to);
+				}
+				break;
+				case 'u':
+				case 'c':
 				{
-					$msg = msg_list();
-					$msg = '<div class="msg">'.$msg[0].'</div>';;
+					
+					$id = mysql_clean($_POST['obj_id']);
+					$comment = $_POST['comment'];
+					if($comment=='undefined')
+						$comment = '';
+					$reply_to = $_POST['reply_to'];
+					
+					$cid = $userquery->add_comment($comment,$id,$reply_to);
 				}
-				if(error())
-				{
-					$err = error_list();
-					$err = '<div class="error">'.$err[0].'</div>';;
-				}
+				break;
 				
-				$ajax['msg'] = $msg ? $msg : '';
-				$ajax['err'] = $err;
-				
-				//Getting Comment
-				if($cid)
-				{
-					$ajax['cid'] = $cid;
-				}
-				
-				echo json_encode($ajax);
-				}
 			}
+			
+			if(msg())
+			{
+				$msg = msg_list();
+				$msg = '<div class="msg">'.$msg[0].'</div>';;
+			}
+			if(error())
+			{
+				$err = error_list();
+				$err = '<div class="error">'.$err[0].'</div>';;
+			}
+			
+			$ajax['msg'] = $msg ? $msg : '';
+			$ajax['err'] = $err;
+			
+			//Getting Comment
+			if($cid)
+			{
+				$ajax['cid'] = $cid;
+			}
+			
+			echo json_encode($ajax);
 		
 		}
 		break;

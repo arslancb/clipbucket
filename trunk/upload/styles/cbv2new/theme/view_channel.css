@@ -1,11 +1,13 @@
 @charset "utf-8";
 /* CSS Document */
 
-.channel_inner_box, .channel_inner_box a{color:#fff; }
-.channel_box{background-color:#CCC;}
-.channel_inner_box{background-color:#666;}
 
-.channel_inner_box a{font-weight:bold}
+.channel_inner_box, .channel_inner_box a{font-weight:bold; text-decoration:none;font-family:Arial, Helvetica, sans-serif ; color:#333 }
+
+.channel_box{background-color:#d7d8d8;}
+.channel_inner_box{background-color:#fff;}
+
+
 .channel_box
 {
 
@@ -24,21 +26,31 @@
 	-webkit-border-radius:3px;
 	width:99%; margin:auto;
 	padding:5px;
-	font-size:12px; 
+	font-size:12px;
+	background-color:#fff
 }
-.channel_heading, .channel_top{font-size:16px; font-weight:bold}
+
+.channel_inner_box .error{color:#ed0000}
+.channel_inner_box .msg{color:#0099cc}
+
+.channel_top{font-size:16px; font-weight:bold}
 .channel_heading_mid{font-size:12px; font-weight:bold}
+
+.channel_heading{background-image:url(../images/view_channel.png); background-position:0px -375px; background-repeat:repeat-x; height:25px; display:block; margin-bottom:5px; padding-left:8px; line-height:25px; font-size:16px; color:#fff;border-radius:3px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px; }
 .channel_inner_box .usr_small_thumb
 {
 	width:40px;
-	height:30px;
 	float:left;
 }
 
-.usr_channel{ display:inline-block; float:left; margin-right:15px }
+.channel_top_user_box{float:left; display:inline-block}
+.usr_channel{ display:inline-block; margin-right:15px }
 
-.top_channel_links{display:block; margin:0px; padding:0px; float:left; line-height:33px}
-.top_channel_links li{list-style:none; padding:0px; margin:0px; display:block; float:left; width:100px}
+.top_channel_links{display:block; margin:0px; padding:0px; float:left; }
+.top_channel_links li{list-style:none; padding:0px; margin:0px; display:block; float:left; width:100px; text-align:center;  margin:0px 3px 0px 3px}
+.top_channel_links li a{color:#fff; display:block; background-color:#0099cc;border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; height:20px}
 
 .usr_thumb_container{margin-bottom:10px}
 .user_thumb{max-width:260px}
@@ -54,5 +66,5 @@
 .float_left{float:left}
 
 
-.right_column{float:right; width:675px; margin-right:3px}
+.right_column{float:right; width:705px; margin-right:3px}
 .right_column .channel_inner_box{margin-bottom:5px}

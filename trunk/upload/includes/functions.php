@@ -1241,11 +1241,12 @@
 	/**
 	 * Function used to get video from downloading queue
 	 */
-	function get_queued_video()
+	function get_queued_video($update=TRUE)
 	{
 		global $db;
 		$results = $db->select("conversion_queue","*","cqueue_conversion='no'");
 		$result = $results[0];
+		if($update)
 		$db->update("conversion_queue",array("cqueue_conversion"),array("p")," cqueue_id = '".$result['cqueue_id']."'");
 		return $result;
 	}

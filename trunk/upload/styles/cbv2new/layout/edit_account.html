@@ -134,6 +134,8 @@ OR
 </select>
 <br />
 
+<input type="checkbox" {if $user.background_attachement=='yes'} checked="checked"{/if} value="yes" name="background_attachement" id="background_attachement" />
+<label for="background_attachement" style="display:inline">Fix Background</label>
 {if $userquery->getUserBg($user)}<input name="delete_bg" type="checkbox" id="delete_bg" value="yes" /><label for="delete_bg" style="display:inline">Delete This Image</label>{/if}
 </div>
 

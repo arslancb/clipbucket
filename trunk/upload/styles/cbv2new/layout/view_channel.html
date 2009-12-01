@@ -1,19 +1,22 @@
 {* Including Global Header *}
 {include file="$style_dir/global_header.html"}
 <body>
+<div {if $userquery->getUserBg($u) || $u.background_color!=''}style="background-position:center;background:{if $userquery->getUserBg($u)}url('{$userquery->getUserBg($u)}');background-repeat: {$u.background_repeat};{elseif $u.background_color!=''}{$u.background_color}{/if}; {if $u.background_attachement=='yes'}background-attachment:fixed{/if}"{/if}>
 <div id="container" class="clearfix" style="background-color:none">
 
     <!-- Including Commong header -->
     {include file="$style_dir/header.html" }
+    <div style="height:10px; background-attachment:"></div>
     {include file="$style_dir/message.html"}
-    <div id="content_container" {if $userquery->getUserBg($u) || $u.background_color!=''}style="background-position:center;background:{if $userquery->getUserBg($u)}url('{$userquery->getUserBg($u)}');background-repeat: {$u.background_repeat};{elseif $u.background_color!=''}{$u.background_color}{/if}"{/if}>
+    <div id="content_container" >
     <div id="content" style="padding-bottom:15px">
     	<!-- Channel Top -->
         <div class="channel_box">
         	<div class="channel_inner_box channel_top">
-            	<div class="usr_small_thumb"><img src="{$userquery->getUserThumb($u,'small')}" class="user_small_thumb" alt="{$u.username}"></div>
-                <div class="usr_channel">{lang code='user_s_channel' assign='usr_s'}{$usr_s|sprintf:$u.username} <a href="#" class="cb_button">{lang code='subscribe'}</a></div>
-               
+            	<div class="channel_top_user_box">
+            		<div class="usr_small_thumb"><img src="{$userquery->getUserThumb($u,'small')}" class="user_small_thumb" alt="{$u.username}"></div>
+                	<div class="usr_channel">{lang code='user_s_channel' assign='usr_s'}{$usr_s|sprintf:$u.username} </div>
+                </div>
                 {assign var='channel_links' value=$userquery->get_inner_channel_top_links($u)}
                 <ul class="top_channel_links">
                 {foreach from=$channel_links item=link key=link_title}
@@ -49,7 +52,9 @@
          <!-- User Video Blcok Ends-->
         {/if}
         
-        
+        <div class="channel_box">
+        	<div class="channel_inner_box" id="result_cont" style="display:none"></div>
+        </div>
         
         <!-- Starting Bottom Channel Box -->
         <div class="channel_box" style="margin-bottom:0px">
@@ -59,7 +64,7 @@
                 	<div class="usr_thumb_container" align="center">
                     	<img src="{$userquery->getUserThumb($u)}" alt="{$u.username}" class="user_thumb">
                     </div>
-                    <a href="" class="cb_button">{lang code='subscribe'}</a><br>
+                    <span class="cb_button" onclick="subscriber('{$u.userid}','subscribe_user','result_cont')">{lang code='subscribe'}</span><br>
 					{assign var='channel_action_links' value=$userquery->get_channel_action_links($u)}
                     <ul class="channel_action_links">
                     {foreach from=$channel_action_links item=link key=link_title}
@@ -106,7 +111,7 @@
                     </div>
                     
                     
-                    
+                 <div class="clearfix"></div>  
             <span class="channel_heading">{lang code='Personal Details'|capitalize:true}</span>
                     {assign var="personal_details" value=$userquery->load_personal_details($p)}
                     {foreach from=$personal_details item=field}
@@ -157,7 +162,7 @@
       <div class="right_column">
        	<div class="channel_inner_box">
         	<span class="channel_heading">{lang code='users_videos' assign='users_videos'}{$users_videos|sprintf:$u.username}</span>
-            <hr width="100%" size="1" noshade>
+ 
             	{get_videos assign='usr_vids' limit='4' order='date_added DESC' user=$u.userid}
                 {section name=v_list loop=$usr_vids}
                     {include file="$style_dir/blocks/video.html" video=$usr_vids[v_list]}
@@ -172,7 +177,6 @@
         
         <div class="channel_inner_box">
         	<span class="channel_heading">{lang code='users_subscribers' assign='users_videos'}{$users_videos|sprintf:$u.username}</span>
-            <hr width="100%" size="1" noshade>
             	{assign var='usr_subs' value=$userquery->get_user_subscribers_detail($u.userid)}
                 {section name=u_list loop=$usr_subs}
                     {include file="$style_dir/blocks/user.html" user=$usr_subs[u_list] block_type='small'}
@@ -191,15 +195,9 @@
         <div class="channel_inner_box" >
         	<span class="channel_heading">{lang code='comments'|capitalize:true}</span>
             <hr width="100%" size="1" noshade><!-- Displaying Comments -->
-    {include file="$style_dir/blocks/comments.html" id=$u.userid type=c}<hr width="100%" size="1" noshade>
-            <span class="channel_heading_mid">{lang code='user_add_comment'}</span>
-            <form name="add_comment" action="" method="post">
-           	  <label for="comment"></label>
-           	  <textarea name="comment" id="comment" cols="45" rows="5"></textarea>
-              <br>
-              <label for="add_comment"></label>
-              <input type="submit" name="add_comment" id="add_comment" value="Submit">
-            </form>
+    		{include file="$style_dir/blocks/comments/comments.html" id=$u.userid type=c}<hr width="100%" size="1" noshade>
+                {include file="$style_dir/blocks/comments/add_comment.html" id=$u.userid type=c}
+
         </div>
         
         
@@ -220,6 +218,8 @@
         	&copy; {$title} {$smarty.now|date_format:"%Y"}
         </div>
     </div>
+</div>
+
 </div>
 </body>
 </html>

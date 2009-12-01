@@ -14,7 +14,7 @@ $SYSTEM_OS = $row['sys_os'] ? $row['sys_os'] : 'linux';
 require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.win32.php');
 
 //Get Vido
-$queue_details = get_queued_video();
+$queue_details = get_queued_video(TRUE);
 
 //Setting up details, moving files
 $tmp_file = $queue_details['cqueue_name'];
@@ -68,7 +68,7 @@ rename($temp_file,$orig_file);
 	$ffmpeg->remove_input=FALSE;
 	$ffmpeg->ClipBucket();
 	//Converting File In HD Format
-	$ffmpeg->convert_to_hd();
+	//$ffmpeg->convert_to_hd();
 	
 	$db->update("conversion_queue",
 				array("cqueue_conversion"),
@@ -77,7 +77,7 @@ rename($temp_file,$orig_file);
 	update_processed_video($queue_details);
 	
 	/**
-	 * Calling Functions before converting Video
+	 * Calling Functions after converting Video
 	 */
 	if(get_functions('after_convert_functions'))
 	{

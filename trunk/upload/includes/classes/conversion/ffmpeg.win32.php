@@ -134,7 +134,6 @@ class ffmpeg
 			if(!empty($vbrate))
 				$opt_av .= " -b $vbrate ";
 		}
-		
 
 		# video size, aspect and padding
 		$this->calculate_size_padding( $p, $i, $width, $height, $ratio, $pad_top, $pad_bottom, $pad_left, $pad_right );
@@ -225,7 +224,9 @@ class ffmpeg
 		if( $stats === false )
 			$this->log .= "Failed to stat file $path_source!\n";
 		$info['size'] = (integer)$stats['size'];
+		$this->ffmpeg." -i $path_source -acodec copy -vcodec copy -f null /dev/null 2>&1";
 		$output = $this->exec( $this->ffmpeg." -i $path_source -acodec copy -vcodec copy -f null /dev/null 2>&1" );
+	
 		# parse output
 		if( $this->parse_format_info( $output, $info ) === false )
 			return false;
@@ -695,7 +696,7 @@ class ffmpeg
 		$convert  = false;
 		//Checkinf for HD or Not
 		$opt_av = '';
-		pr($i);
+
 		if(substr($i['video_wh_ratio'],0,5) == '1.777' && $i['video_width'] > '500')
 		{
 			
@@ -809,7 +810,7 @@ class ffmpeg
 			$this->log .= "\r\n\r\n\n=========ENDING $type CONVERSION==============\n\n";
 			
 			$fields = array('file_conversion_log',strtolower($type));
-			$values = array($this->log,'yes');
+			$values = array(mysql_clean($this->log),'yes');
 			$db->update($this->tbl,$fields,$values," id = '".$this->row_id."'");
 			return true;
 		}else

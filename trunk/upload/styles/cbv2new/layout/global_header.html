@@ -52,11 +52,18 @@ var imageurl = '{$imageurl}';
 
 
 
-{if $page == 'upload_video'}
+{if $smarty.const.THIS_PAGE == 'upload'}
+
+<script src="{$js}/swfupload/swfupload.js"></script>
+<script src="{$js}/swfupload/plugins/fileprogress.js"></script>
+<script src="{$js}/swfupload/plugins/handlers.js"></script>
+<script src="{$js}/swfupload/plugins/swfupload.cookies.js"></script>
+<script src="{$js}/swfupload/plugins/swfupload.queue.js"></script>
+<script src="{$js}/swfupload/plugins/swfupload.speed.js"></script>
 
 <script type="text/javascript">
 		var swfu;
-		var file_name = {$file_name};
+		var file_name = '{$file_name}';
 {literal}
 		window.onload = function() {
 			var settings = {

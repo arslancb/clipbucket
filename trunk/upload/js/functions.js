@@ -322,10 +322,7 @@
 		},
 		function(data)
 		{
-			if(!data)
-				alert("No data");
-			else
-				$(div).html(data);
+			$(div).html(data);
 		},'text');
 	}
 
@@ -411,7 +408,7 @@
 	}
 	
 	
-	function subscriber(user,type)
+	function subscriber(user,type,result_cont)
 	{
 		var page = baseurl+'/ajax.php';
 		$.post(page, 
@@ -425,8 +422,8 @@
 				alert("No data");
 			else
 			{
-				$("#video_detail_result_cont").css("display","block");
-				$("#video_detail_result_cont").html(data);
+				$("#"+result_cont).css("display","block");
+				$("#"+result_cont).html(data);
 			}
 		},'text');
 	}
@@ -479,8 +476,8 @@
 					$("#add_comment_result").html(data.err);
 				if(data.msg!='')
 					$("#add_comment_result").html(data.msg);
-					
-				if(data.cid!='')
+				
+				if(data.cid)
 				{
 					get_the_comment(data.cid,"#latest_comment_container");
 					$("#"+form_id).slideUp();

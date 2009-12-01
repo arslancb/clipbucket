@@ -2129,11 +2129,9 @@ class userquery {
 	{
 		global $db,$signup,$Upload;
 		//Updating User Avatar
-		if($array['avatar_url'])
-		{
-			$uquery_field[] = 'avatar_url';
-			$uquery_val[] = mysql_clean($array['avatar_url']);
-		}
+		$uquery_field[] = 'avatar_url';
+		$uquery_val[] = mysql_clean($array['avatar_url']);
+	
 		
 		//Deleting User Avatar
 		if($array['delete_avatar']=='yes')
@@ -2164,23 +2162,21 @@ class userquery {
 		
 		
 		//Updating User Background
-		if($array['background_url'])
-		{
-			$uquery_field[] = 'background_url';
-			$uquery_val[] = mysql_clean($array['background_url']);
-		}
+		$uquery_field[] = 'background_url';
+		$uquery_val[] = mysql_clean($array['background_url']);
 		
-		if($array['background_color'])
-		{
-			$uquery_field[] = 'background_color';
-			$uquery_val[] = mysql_clean($array['background_color']);
-		}
+		$uquery_field[] = 'background_color';
+		$uquery_val[] = mysql_clean($array['background_color']);
 		
 		if($array['background_repeat'])
 		{
 			$uquery_field[] = 'background_repeat';
 			$uquery_val[] = mysql_clean($array['background_repeat']);
 		}
+		
+		//Background ATtachement
+		$uquery_field[] = 'background_attachement';
+		$uquery_val[] = mysql_clean($array['background_attachement']);
 		
 		
 		if(isset($_FILES['background_file']['name']))
