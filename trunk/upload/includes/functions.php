@@ -765,11 +765,24 @@
 		switch ($type)
 		{
 			case "video":
+			default:
 			{
 				global $cbvid;
 				if($with_all)
 					$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
 				$cats = $cbvid->get_categories();
+				if($all_cat)
+				$cats = array_merge($all_cat,$cats);
+				return $cats;
+			}
+			break;
+			case "user":
+			{
+				global $userquery;
+				if($with_all)
+					$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
+				
+				$cats = $userquery->get_categories();
 				if($all_cat)
 				$cats = array_merge($all_cat,$cats);
 				return $cats;
@@ -1206,7 +1219,7 @@
 		return true;
 	}
 	
-	
+		
 	/**
 	 * Function used to check videokey exists or not
 	 * key_exists
@@ -1800,8 +1813,8 @@
 	 */
 	function user_exists($user)
 	{
-		global $signup;
-		return $signup->duplicate_user($user);
+		global $userquery;
+		return $userquery->duplicate_user($user);
 	}
 	
 	/**
@@ -1810,8 +1823,8 @@
 	 */
 	function email_exists($user)
 	{
-		global $signup;
-		return $signup->duplicate_email($user);
+		global $userquery;
+		return $userquery->duplicate_email($user);
 	}
 	
 	
@@ -2189,6 +2202,8 @@
 			{
 				if(!isset($_COOKIE['video_'.$id])){
 					$db->update("video",array("views","last_viewed"),array("|f|views+1",NOW())," videoid='$id' OR videokey='$vkey'");
+					if(userid())
+					$db->update("users",array("total_watched"),array("|f|total_watched+1")," userid='".userid()."'");
 					setcookie('video_'.$id,'watched',time()+3600);
 				}
 			}
@@ -2500,7 +2515,7 @@
 			$flag = '';
 			$result = $result[0];
 			if(SHOW_COUNTRY_FLAG)
-				$flag = '<img src="'.BASEURL.'/images/icons/country/'.$result['iso2'].'.png" alt="" border="0">&nbsp;';
+				$flag = '<img src="'.BASEURL.'/images/icons/country/'.strtolower($result['iso2']).'.png" alt="" border="0">&nbsp;';
 			return $flag.$result['name_en'];
 		}else
 			return false;
@@ -2514,6 +2529,16 @@
 	{
 		global $cbvideo;
 		return $cbvideo->get_videos($param);
+	}
+	
+	
+	/**
+	 * function used to get vidos
+	 */
+	function get_users($param)
+	{
+		global $userquery;
+		return $userquery->get_users($param);
 	}
 	
 	/**
@@ -2601,6 +2626,23 @@
 					return BASEURL.'/videos.php?cat='.$data['category_id'].'&sort='.$_GET['sort'].'&time='.$_GET['time'].'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
 			}
 			break;
+			
+			case 'channels':case 'channel':
+			default:
+			{
+				if(!isset($_GET['sort']))
+					$_GET['sort'] = 'most_recent';
+				if(!isset($_GET['time']))
+					$_GET['time'] = 'all_time';
+				if(!isset($_GET['page']))
+					$_GET['page'] = 1;
+					
+				if(SEO=='yes')
+					return BASEURL.'/channels/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.$_GET['sort'].'/'.$_GET['time'].'/'.$_GET['page'];
+				else
+					return BASEURL.'/channels.php?cat='.$data['category_id'].'&sort='.$_GET['sort'].'&time='.$_GET['time'].'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
+			}
+			break;
 		}
 	}
 	
@@ -2639,6 +2681,36 @@
 					return BASEURL.'/videos/'.$_GET['cat'].'/'.$_GET['seo_cat_name'].'/'.$sorting.'/'.$time.'/'.$_GET['page'];
 				else
 					return BASEURL.'/videos.php?cat='.$_GET['cat'].'&sort='.$sorting.'&time='.$time.'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
+			}
+			break;
+			
+			case 'channels':
+			case 'channel':
+			{
+				if(!isset($_GET['cat']))
+					$_GET['cat'] = 'all';
+				if(!isset($_GET['time']))
+					$_GET['time'] = 'all_time';
+				if(!isset($_GET['sort']))
+					$_GET['sort'] = 'most_recent';
+				if(!isset($_GET['page']))
+					$_GET['page'] = 1;
+				if(!isset($_GET['seo_cat_name']))
+					$_GET['seo_cat_name'] = 'All';
+				
+				if($mode == 'sort')
+					$sorting = $sort;
+				else
+					$sorting = $_GET['sort'];
+				if($mode == 'time')
+					$time = $sort;
+				else
+					$time = $_GET['time'];
+					
+				if(SEO=='yes')
+					return BASEURL.'/channels/'.$_GET['cat'].'/'.$_GET['seo_cat_name'].'/'.$sorting.'/'.$time.'/'.$_GET['page'];
+				else
+					return BASEURL.'/channels.php?cat='.$_GET['cat'].'&sort='.$sorting.'&time='.$time.'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
 			}
 			break;
 		}

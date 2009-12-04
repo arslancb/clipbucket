@@ -70,7 +70,7 @@ var imageurl = '{$imageurl}';
 				{/literal}
 				flash_url : "{$js}/swfupload/swfupload.swf",
 				upload_url: "{$baseurl}/actions/file_uploader.php",
-				button_image_url: "{$baseurl}/images/icons/XPButton.png",
+				button_image_url: "{$imageurl}/cb_button.png",
 				post_params: 
 				{literal}
 				{
@@ -96,8 +96,13 @@ var imageurl = '{$imageurl}';
 				// Button settings
 				
 				button_placeholder_id: "spanButtonPlaceHolder",
-				button_width: 61,
+				button_width: 77,
 				button_height: 22,
+				button_text_style: ".cb_button_font { font-weight:bold; font-family:Arial, Helvetica, sans-serif;font-size:12;color:#333}",
+				button_text_left_padding: 18,
+				button_text_top_padding: 2,
+
+				button_text: '<span class="cb_button_font">Upload</span>',
 				
 				// The event handler functions are defined in handlers.js
 				file_queued_handler 			: fileQueued,
@@ -114,11 +119,25 @@ var imageurl = '{$imageurl}';
 			}
 
 			swfu = new SWFUpload(settings);
+			
+			load_quicklist_box();
+			ini_cookies();
 	     };
 {/literal}
 </script>
 
 {/if}
+{if $smarty.const.THIS_PAGE != 'upload'}
+<script type="text/javascript">
+{literal}
+window.onload = function() {
+	load_quicklist_box();
+	ini_cookies();
+}
+{/literal}
+</script>
+{/if}
+
 <!-- Including Plugin Headers -->
 {foreach key=file item=pages from=$Cbucket->header_files}
 	{if is_includeable($pages)}
@@ -126,23 +145,6 @@ var imageurl = '{$imageurl}';
     {/if}
 {/foreach}
 <!-- Including Plugin Headers -->
-
-<!-- Including Module Headers -->
-{php}
-global $Cbucket;
-$modlist = $Cbucket->moduleList;
-if(!empty($modlist) && is_array($modlist))
-{
-    foreach($modlist as $mod)
-    {
-        if(!empty($mod['module_include_file']) &&
-         file_exists(MODULEDIR.'/'.$mod['module_include_file']))
-            template(MODULEDIR.'/'.$mod['module_include_file'],false);
-    }
-}
-{/php}
-<!-- Including Module Headers -->
-
 
 {if $smarty.const.THIS_PAGE =='private_message' && $smarty.get.mid}
 <script type="text/javascript">
@@ -192,7 +194,9 @@ $(document).ready(function() {
 	);
 	
 	get_video('recently_added','#index_vid_container');
+	
 });
+
 </script>
 {/literal}
 

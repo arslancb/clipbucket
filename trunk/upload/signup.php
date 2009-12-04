@@ -22,7 +22,7 @@ if(!$signup->Registration()){
 $msg = $LANG['usr_reg_err'];
 }else{
 	if(isset($_POST['signup'])){
-		$signup->signup_user($_POST);
+		$userquery->signup_user($_POST);
 	}
 }
 subtitle('signup');

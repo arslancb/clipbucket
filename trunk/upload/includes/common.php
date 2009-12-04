@@ -43,6 +43,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('dbconnect.php');
 	require_once('classes/pages.class.php');
 	require_once('classes/actions.class.php');
+	require_once('classes/category.class.php');
 	require_once('classes/search.class.php');
 	require_once('classes/my_queries.class.php');
 	require_once('classes/user.class.php');
@@ -63,7 +64,6 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/log.class.php');
 	require_once('classes/swfObj.class.php');
 	require_once('classes/image.class.php');
-	require_once('classes/category.class.php');
 	require_once('classes/groups.class.php');
 	require_once('classes/video.class.php');
 	require_once('classes/player.class.php');
@@ -401,6 +401,7 @@ $Smarty->register_function('show_flag_form','show_flag_form');
 $Smarty->register_function('show_playlist_form','show_playlist_form');
 $Smarty->register_function('lang','smarty_lang');
 $Smarty->register_function('get_videos','get_videos');
+$Smarty->register_function('get_users','get_users');
 $Smarty->register_function('private_message','private_message');
 $Smarty->register_function('show_video_rating','show_video_rating');
 

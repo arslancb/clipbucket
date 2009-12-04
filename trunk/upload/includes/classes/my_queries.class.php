@@ -181,42 +181,18 @@ class myquery {
 				}
 			}
 			$db->Execute("DELETE FROM comments WHERE comment_id='$cid'");
+			$db->update("users",array("total_comments"),array("|f|total_comments-1")," userid='".$cdetails['userid']."'");
+			
 			e($LANG['usr_cmt_del_msg'],m);
+			return true;
 		}else{
 			e($LANG['no_comment_del_perm']);
+			return false;
 		}
+		return false;
 	}
 	function DeleteComment($id,$videoid){return $this->delete_comment($videoid);}
-	
-	//Function Used To Rate Comments
-	function RateComment($rate,$commentid){
-		global $LANG;
-			if(!empty($_SESSION['username']) ){
-			$query = mysql_query("select score,scorer_ids from video_comments where comment_id='".$commentid."'");
-			$data = mysql_fetch_array($query);
-			$voter_id = $data['scorer_ids'];
-			$userid = $_SESSION['userid'];
-			$niddle = "|";
-			$niddle .= $userid;
-			$niddle .= "|";
-			$flag = strstr($voter_id, $niddle);
-			if(empty($flag)){
-					if ($voter_id == "")
-					{
-							$voter_id .= "|";
-					}
-			$voter_id .= $userid;
-			$voter_id .= "|";
-			$newscore = $rate+$data['score'];
-			mysql_query("UPDATE video_comments SET score='".$newscore."' , scorer_ids='".$voter_id."' WHERE comment_id ='".$commentid."'");
-			}else{
-			$msg = e($LANG['class_comment_err7']);
-			}
-			}else{
-			$msg = e($LANG['class_comment_err6']);
-			}
-		return $msg;
-	}
+
 	
 	/***
 	 * Function used to rate comment
@@ -895,6 +871,8 @@ class myquery {
 						 ('type,comment,type_id,userid,date_added,parent_id,anonym_name,anonym_email','comment_ip'),
 						 array
 						 ($type,$comment,$obj_id,userid(),NOW(),$reply_to,$name,$email,$_SERVER['REMOTE_ADDR']));
+			$db->update("users",array("total_comments"),array("|f|total_comments+1")," userid='".userid()."'");
+			
 			e("Comment has been added",m);
 			return $db->insert_id();
 		}

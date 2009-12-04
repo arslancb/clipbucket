@@ -346,6 +346,37 @@ if(!empty($mode))
 		}
 		break;
 		
+		
+		case 'quicklist':
+		{
+			$todo = $_POST['todo'];
+			$id = mysql_clean($_POST['vid']);
+			
+			if($todo == 'add')
+			{
+				$return = $cbvid->add_to_quicklist($id);
+			}else
+				$return = $cbvid->remove_from_quicklist($id);
+				
+			echo $return;
+			
+		}
+		break;
+		
+		case 'getquicklistbox';
+		{
+			if($cbvid->total_quicklist()>0)
+				TEMPLATE('blocks/quicklist/block.html');		
+		}
+		break;
+		
+		case 'clear_quicklist':
+		{
+			$cbvid->clear_quicklist();
+			return 'removed';
+		}
+		break;
+		
 		default:
 		header('location:'.BASEURL);
 	}

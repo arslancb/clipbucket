@@ -11,6 +11,7 @@ $Cbucket->links  = array
 'login'		=>array('signup.php','login'),
 'logout'	=>array('logout.php','logout'),
 'videos'	=>array('videos.php','videos'),
+'channels'	=>array('channels.php','channels'),
 'my_account'=>array('myaccount.php','my_account'),
 'groups'	=>array('groups.php','groups'),
 );
@@ -35,8 +36,8 @@ function time_links()
 {
 	$array = array
 	('all_time' 	=> 'All Time',
-	 'today'	=> 'Today',
-	 'yesterday'		=> 'Yesterday',
+	 'today'		=> 'Today',
+	 'yesterday'	=> 'Yesterday',
 	 'this_week'	=> 'This Week',
 	 'last_week'	=> 'Last Week',
 	 'this_month'	=> 'This Month',

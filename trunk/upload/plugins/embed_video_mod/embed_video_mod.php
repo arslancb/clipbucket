@@ -109,17 +109,19 @@ if(!function_exists('validate_embed_code'))
 	function load_embed_form($params)
 	{
 		global $file_name;
-		echo '<div class="upload_form_div">';
+		if($params['class'])
+			$class = ' '.$params['class'];
+		echo '<div class="upload_form_div'.$class.'">';
 		echo '<span class="header2">Please enter embed code</span><br>';
 		echo '<textarea name="embed_code" cols="30" id="embed_code" rows="3" class="upload_input textarea"></textarea>';
 		echo '<br><br>';
 		echo '<span class="header2">Please Enter video duration</span><br>';
-		echo '<label for="duration">HH:MM:SS</label><input type="text" name="duration" id="duration" size="15"  class="upload_input"/>';
+		echo '<label for="duration">HH:MM:SS</label><br><input type="text" name="duration" id="duration" size="15"  class="upload_input"/>';
 		echo '<br><br>';
 		echo '<span class="header2">Please select video thumb</span><br>';
 		echo '<input type="hidden" name="step_2" value="yes" />';
 		echo '<input name="thumb_file" type="file"  class="upload_input filefield" id="thumb_file" />';
-		echo '<div align="right"><input type="button" name="embed_upload" id="embed_upload" value="Upload" onClick="check_embed_code()"/></div>';
+		echo '<div align="right"><input type="button" name="embed_upload" id="embed_upload" value="Upload" onClick="check_embed_code()" class="'.$params['button_class'].'"/></div>';
 		echo '</div>';
 	}
 	

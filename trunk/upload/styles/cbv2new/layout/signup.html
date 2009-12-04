@@ -1,96 +1,68 @@
-{assign var='required_fields' value=$signup->load_signup_fields()}
-{assign var='custom_field' value=$signup->custom_signup_fields}
+{assign var='required_fields' value=$userquery->load_signup_fields()}
+{assign var='custom_field' value=$userquery->custom_signup_fields}
 
-<table width="940" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td align="left" class="header1">{$LANG.members} {$LANG.login}</td>
-    <td align="left" class="header1">{$LANG.user_create_your}{$title} {$LANG.account}</td>
-  </tr>
-  <tr>
-    <td width="50%" align="center" valign="top">
-      <table width="98%" border="0" cellspacing="4" cellpadding="4">
-      <tr>
-        <td>{$LANG.user_already_have} {$title}</td>
-      </tr>
-      <tr>
-        <td align="left" bgcolor="#F0F0F0">
-        <form name="login_form" action="{$signup_link}" method="post">
-          <table width="98%" border="0" cellspacing="1" cellpadding="3">
-            <tr>
-              <td width="33%" align="right" valign="top" class="header3">{$LANG.username}:</td>
-              <td width="67%"><label>
-                <input name="username" type="text" id="username" size="30">
-              </label></td>
-            </tr>
-            <tr>
-              <td align="right" valign="top" class="header3">{$LANG.password}:</td>
-              <td><label>
-                <input name="password" type="password" id="password" size="30">
-              </label></td>
-            </tr>
-            <tr>
-              <td align="right" valign="top" class="header3">&nbsp;</td>
-              <td bgcolor="#F0F0F0"><input type="submit" name="login" id="button" value="{$LANG.login}" ></td>
-            </tr>
-            <tr>
-              <td colspan="2" align="center"><a href="{$baseurl}/forgot.php">{$LANG.user_forgot_password}</a> | <a href="{$baseurl}/forgot.php">{$LANG.user_forgot_username}</a></td>
-              </tr>
-          </table> </form>      </td>
-      </tr>
-      <tr>
-        <td align="left"><hr width="95%" size="1" noshade="noshade" /></td>
-      </tr>
-      <tr>
-        <td align="left" class="header1">{$LANG.what_is} {$title}?</td>
-      </tr>
-      <tr>
-        <td align="left"><p>{$title} is the home for video online:</p>
+
+<div class="signup_left">
+	<h2>Members Login</h2>
+    if you already have {$title} account, please login here
+    <div class="signup_container">
+    	<form name="login_form" id="login_form" method="post" action="" >
+       	  <label for="login_username" class="label">{lang code='username'} : </label>
+            <div class="input_container">
+        		<input name="username" type="text" id="login_username" size="30" >
+            </div>
+            <div class="clearfix"></div>
+          <label for="login_password" class="label">{lang code='password'} : </label>
+            <div class="input_container">
+            <input name="password" type="password" id="login_password" size="30" >
+            </div>
+            <div class="clearfix"></div>
+            <label for="" class="label">&nbsp;</label>
+            <div class="input_container">
+            <input type="submit" name="login" class="cb_button_2"value="{lang code='login'}" >
+            </div>
+            <div class="clearfix"></div>
+            <div align="center"><a href="{$baseurl}/forgot.php">{$LANG.user_forgot_password}</a> | <a href="{$baseurl}/forgot.php">{$LANG.user_forgot_username}</a></div>
+        </form>
+  </div>
+    
+    <p>{$title} is the home for video online:</p>
           
             <ul><li><strong>Watch</strong> millions  of videos</li><li><strong>Share favorites</strong> with friends and family</li><li><strong>Connect with other users</strong> who share your {$LANG.interests}</li><li><strong>Upload your videos</strong> to a worldwide audience</li></ul>
-<h3>{$LANG.reg_now_join} {$title} {$LANG.community}!</h3></td>      </tr>
-    </table>
-    </form></td>
-    <td width="50%" align="center" valign="top"><form id="form2" name="form2" method="post" action="">
-    <table width="98%" border="0" cellspacing="4" cellpadding="4">
-      <tr>
-        <td>{$LANG.user_reg_msg_0}{$title} {$LANG.user_reg_msg_1}</td>
-      </tr>
-      <tr>
-        <td align="left" bgcolor="#F0F0F0"><table width="98%" border="0" cellspacing="1" cellpadding="3">
-            <tr>
-              <td height="30" colspan="2" align="right" class="tips">{$LANG.user_all_fields_req}</td>
-              </tr>
-            {foreach from=$required_fields item=field}
-            <tr>
-              <td width="33%" align="right" valign="top" class="header3">{$field.title}* :</td>
-              <td width="67%">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}<br />
-                {$field.hint_2}</td>
-            </tr>
-            {/foreach}
-            
-            {foreach from=$custom_field item=field}
-            <tr>
-              <td width="33%" align="right" valign="top" class="header3">{$field.title}* :</td>
-              <td width="67%">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}<br />
-                {$field.hint_2}</td>
-            </tr>
-            {/foreach}
-           
-            <tr>
-              <td colspan="2" align="center" valign="top" class="header3"><input name="agree" type="checkbox" id="agree" value="yes" checked="checked" />
-                - {$LANG.user_i_agree_to_the} <a href="{$termsofuse_link}" target="_blank" style="text-decoration:underline">{$LANG.tos_title}</a> and <a href="{$privacy_link}" target="_blank" style="text-decoration:underline">{$LANG.privacy_policy}</a>
-                  <label></label></td>
-              </tr>
-            <tr>
-              <td colspan="2" align="center" valign="top" class="header3"><label>
-                <input type="submit" name="signup" id="button" value="{$LANG.signup}" />
-              </label></td>
-            </tr>
-        </table></td>
-      </tr>
+<h3>{$LANG.reg_now_join} {$title} {$LANG.community}!</h3>
 
-    </table>
-    </form>
-    </td>
-  </tr>
-</table>
+</div>
+<div class="signup_right">
+	<h2>New Members Signup Here</h2>
+    Register as ClipBucket v2 member, its free and easy just 
+    <div class="signup_container">
+    	<form name="login_form" id="login_form" method="post" action="" >
+        	{foreach from=$required_fields item=field}
+            	<label for="{$field.id}" class="label">{$field.title}</label>
+                <div class="input_container">
+                {if $field.hint_1}
+                <div class="hint">{$field.hint_1}</div>
+                {/if}
+                {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
+                {if $field.hint_2}
+                <div class="hint">{$field.hint_2}</div>
+                {/if}
+                </div>
+                <div class="clearfix"></div>
+               
+                
+            {/foreach} 
+            <div align="center">
+                <input name="agree" type="checkbox" id="agree" value="yes" checked="checked" />
+                - {$LANG.user_i_agree_to_the} <a href="{$termsofuse_link}" target="_blank" style="text-decoration:underline">{$LANG.tos_title}</a> and <a href="{$privacy_link}" target="_blank" style="text-decoration:underline">{$LANG.privacy_policy}</a>
+          </div>
+            <label for="" class="label">&nbsp;</label>
+            <div class="input_container">
+            <input type="submit" name="signup" class="cb_button_2" value="{lang code='signup'}" style="margin-top:10px" />
+            </div>
+            <div class="clearfix"></div>
+        </form>
+    </div>
+</div>
+
+<div class="clearfix"></div>

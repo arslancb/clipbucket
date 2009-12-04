@@ -1,5 +1,7 @@
 // JavaScript Document
 
+var page = baseurl+'/ajax.php';
+
 	function GetParam( name )
 	{
 	  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
@@ -315,7 +317,7 @@
 	 */
 	function get_video(type,div)
 	{
-		var page = baseurl+'/ajax.php';
+		
 		$.post(page, 
 		{ 	
 			mode : type,
@@ -341,7 +343,7 @@
 	
 	function submit_share_form(form_id,type)
 	{
-		var page = baseurl+'/ajax.php';
+		
 		$.post(page, 
 		{ 	
 			mode : 'share_object',
@@ -366,7 +368,7 @@
 	
 	function flag_object(form_id,id,type)
 	{
-		var page = baseurl+'/ajax.php';
+		
 		$.post(page, 
 		{ 	
 			mode : 'flag_object',
@@ -388,7 +390,7 @@
 	
 	function add_to_fav(type,id)
 	{
-		var page = baseurl+'/ajax.php';
+		
 		$.post(page, 
 		{ 	
 			mode : 'add_to_fav',
@@ -410,7 +412,7 @@
 	
 	function subscriber(user,type,result_cont)
 	{
-		var page = baseurl+'/ajax.php';
+		
 		$.post(page, 
 		{ 	
 			mode : type,
@@ -431,7 +433,7 @@
 	
 	function rate_comment(cid,thumb)
 	{
-		var page = baseurl+'/ajax.php';
+		
 		$.post(page, 
 		{ 	
 			mode : 'rate_comment',
@@ -454,7 +456,7 @@
 
 	function add_comment_js(form_id,type)
 	{
-		var page = baseurl+'/ajax.php';
+		
 		$.post(page, 
 		{ 	
 			mode : 'add_comment',
@@ -488,7 +490,7 @@
 	
 	function get_the_comment(id,div)
 	{
-		var page = baseurl+'/ajax.php';
+		
 		$.post(page, 
 		{ 	
 			mode : 'get_comment',
@@ -508,7 +510,7 @@
 	
 	function add_playlist(mode,vid,form_id)
 	{
-		var page = baseurl+'/ajax.php';
+		
 		switch(mode)
 		{
 			case 'add':
@@ -576,4 +578,115 @@
 			}
 			break;
 		}
+	}
+	
+	
+	/**
+	 * Function used to add and remove video from qucklist
+	 * THIS FEATURE IS SPECIALLY ADDED ON REQUEST BY JAHANZEB HASSAN
+	 */
+	function add_quicklist(obj,vid)
+	{
+		
+		$.post(page, 
+		{ 	
+			mode : 'quicklist',
+			todo : 'add',
+			vid : vid
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+			{
+				$(obj).removeClass('add_icon');
+				$(obj).addClass('check_icon');
+				$(obj).removeAttr('onClick');
+				load_quicklist_box();
+			}
+		},'text');
+	}
+	
+	/**
+	 * Function used to remove video from qucklist
+	 */
+	function remove_qucklist(obj,vid)
+	{
+		
+		$.post(page, 
+		{ 	
+			mode : 'quicklist',
+			todo : 'remove',
+			vid : vid
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+			{
+				$(obj).slideUp();
+				$(obj).hide();
+			}
+		},'text');
+	}
+	
+	/**
+	 * Function used to load quicklist
+	 */
+	function load_quicklist_box()
+	{
+		
+		$.post(page, 
+		{ 	
+			mode : 'getquicklistbox',
+		},
+		function(data)
+		{
+			if(!data)
+				$("#quicklist_box").css("display","none");
+			else
+			{
+				
+				
+					$("#quicklist_box").css("display","block");
+					$("#quicklist_box").html(data);
+					
+				if($.cookie("quick_list_box")!="hide")
+				{
+					$("#quicklist_cont").css("display","block");
+				}
+			}
+		},'text');
+	}
+	function clear_quicklist()
+	{
+		$.post(page, 
+		{ 	
+			mode : 'clear_quicklist',
+		},
+		function(data)
+		{
+			load_quicklist_box();
+		},'text');
+	}
+	
+	function quick_show_hide_toggle(obj)
+	{
+		$(obj).slideToggle()
+		
+		if($.cookie("quick_list_box")=="show")
+			$.cookie("quick_list_box","hide")	
+		else
+			$.cookie("quick_list_box","show")
+	}
+	
+	/**
+	 * Function used to set cookies
+	 */
+	function ini_cookies()
+	{
+		if(!$.cookie("quick_list_box"))
+			$.cookie("quick_list_box","show")
 	}

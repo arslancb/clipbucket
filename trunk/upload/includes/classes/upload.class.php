@@ -267,6 +267,7 @@
 				{
 					$db->Execute($query);
 					$insert_id = $db->insert_id();
+					$db->update("users",array("total_videos"),array("|f|total_videos+1")," userid='".userid()."'");
 				}
 			}
 			
@@ -496,7 +497,7 @@
 							 'name'=> 'category[]',
 							 'id'=> 'category',
 							 'value'=> array('category',$cat_array),
-							 'hint_1'=>  $LANG['vdo_cat_msg'].'<br>',
+							 'hint_1'=>  $LANG['vdo_cat_msg'],
 							 'db_field'=>'category',
 							 'required'=>'yes',
 							 'validate_function'=>'validate_vid_category',

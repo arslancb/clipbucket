@@ -11,122 +11,102 @@ require'../includes/admin_config.php';
 $userquery->login_check('member_moderation');
 $pages->page_redir();
 
-//-------TIME TO DO SOME ACTION-------//
 
 //Delete User
 if(isset($_GET['deleteuser'])){
 	$deleteuser = mysql_clean($_GET['deleteuser']);
-	if($userquery->Check_User_Exists($deleteuser)){
-	if($userquery->DeleteUser($deleteuser)){
-	$msg[] = 'User Has Been Deleted Successfully';
-	}else{
-	$msg[] = 'Error Deleting User';
-	}
-	}
+	$userquery->delete_user($deleteuser);
 }
 
 //Deleting Multiple Videos
 if(isset($_POST['delete_selected'])){
-				for($id=0;$id<=RESULTS;$id++){
-					if(@$userquery->Check_User_Exists($_POST['check_user'][$id])){
-						$userquery->DeleteUser($_POST['check_user'][$id]);
-					}
-				}
-			$msg = "Selected Users Have Been Deleted";
+	for($id=0;$id<=RESULTS;$id++)
+		$userquery->delete_user($deleteuser);
+	$eh->flush();
+	e("Selected users have been deleted","m");
 }
 
 //Activate User
 if(isset($_GET['activate'])){
 	$user = mysql_clean($_GET['activate']);
-	if($userquery->Check_User_Exists($user)){
-		$userquery->Activate($user);
-		$msg[] = 'User Has Been Activated';
-		}
+	$userquery->action('activate',$user);
 }
 //Deactivate User
 if(isset($_GET['deactivate'])){
 	$user = mysql_clean($_GET['deactivate']);
-	if($userquery->Check_User_Exists($user)){
-		$userquery->DeActivate($user);
-		$msg[] = 'User Has Been Deactivated';
-		}
+	$userquery->action('deactivate',$user);
 }
 
 //Using Multple Action
-			if(isset($_POST['activate_selected'])){
-				for($id=0;$id<=RESULTS;$id++){
-					$userquery->Activate($_POST['check_user'][$id]);
-				}
-			$msg = "Selected Members Have Been Activated";
-			}
-			if(isset($_POST['deactivate_selected'])){
-				for($id=0;$id<=RESULTS;$id++){
-					$userquery->DeActivate($_POST['check_user'][$id]);
-				}
-			$msg = "Selected Members Have Been Dectivated";
-			}
+if(isset($_POST['activate_selected'])){
+	for($id=0;$id<=RESULTS;$id++){
+		$userquery->action('activate',$_POST['check_user'][$id]);
+	}
+	$eh->flush();
+	e("Selected users have been activated","m");
+}
+if(isset($_POST['deactivate_selected'])){
+	for($id=0;$id<=RESULTS;$id++){
+		$userquery->action('deactivate',$_POST['check_user'][$id]);
+	}
+	$eh->flush();
+	e("Selected users have been deactivated","m");
+}
 			
 //Make User Featured
 if(isset($_GET['featured'])){
 	$user = mysql_clean($_GET['featured']);
-	if($userquery->Check_User_Exists($user)){
-		$userquery->MakeFeatured($user);
-		$msg[] = 'User Has Been Made Featured Member';
-		}
+	$userquery->action('featured',$user);
 }
 //Make User UnFeatured
 if(isset($_GET['unfeatured'])){
 	$user = mysql_clean($_GET['unfeatured']);
-	if($userquery->Check_User_Exists($user)){
-		$userquery->MakeUnFeatured($user);
-		$msg[] = 'User Has Been Unfeatured';
-		}
+	$userquery->action('unfeatured',$user);
 }
-
 //Using Multple Action
-			if(isset($_POST['make_featured_selected'])){
-				for($id=0;$id<=RESULTS;$id++){
-					$userquery->MakeFeatured($_POST['check_user'][$id]);
-				}
-			$msg = "Selected Users Have Been Set As Featured";
-			}
-			if(isset($_POST['make_unfeatured_selected'])){
-				for($id=0;$id<=RESULTS;$id++){
-					$userquery->MakeUnFeatured($_POST['check_user'][$id]);
-				}
-			$msg = "Selected Users Have Been Removed From The Featured List";
-			}
+if(isset($_POST['make_featured_selected'])){
+	for($id=0;$id<=RESULTS;$id++){
+		$userquery->action('featured',$_POST['check_user'][$id]);
+	}
+	$eh->flush();
+	e("Selected users have been set as featured","m");
+}
+if(isset($_POST['make_unfeatured_selected'])){
+	for($id=0;$id<=RESULTS;$id++){
+		$userquery->action('unfeatured',$_POST['check_user'][$id]);
+	}
+	$eh->flush();
+	e("Selected users have been removed from featured list","m");
+}
 
 //Ban User
 if(isset($_GET['ban'])){
 	$user = mysql_clean($_GET['ban']);
-	if($userquery->Check_User_Exists($user)){
-		$userquery->ban($user);
-		$msg[] = 'User Has Been Banned';
-		}
+	$userquery->action('ban',$user);
 }
 //UnBan User
 if(isset($_GET['unban'])){
 	$user = mysql_clean($_GET['unban']);
-	if($userquery->Check_User_Exists($user)){
-		$userquery->unban($user);
-		$msg[] = 'User Has Been Unbanned';
-		}
+	$userquery->action('unban',$user);
 }
 
 //Using Multple Action
-			if(isset($_POST['ban_selected'])){
-				for($id=0;$id<=RESULTS;$id++){
-					$userquery->ban($_POST['check_user'][$id]);
-				}
-			$msg = "Selected Members Have Been Banned";
-			}
-			if(isset($_POST['unban_selected'])){
-				for($id=0;$id<=RESULTS;$id++){
-					$userquery->unban($_POST['check_user'][$id]);
-				}
-			$msg = "Selected Members Have Been Unbanned";
-			}
+if(isset($_POST['ban_selected'])){
+	for($id=0;$id<=RESULTS;$id++){
+		$userquery->action('ban',$_POST['check_user'][$id]);
+	}
+	$eh->flush();
+	e("Selected users have been banned","m");
+}
+
+if(isset($_POST['unban_selected'])){
+	for($id=0;$id<=RESULTS;$id++){
+		$userquery->action('unban',$_POST['check_user'][$id]);
+	}
+	$eh->flush();
+	e("Selected users have been unbanned","m");
+}
+
 			
 //-------TIME END TO DO SOME ACTION-------//
 

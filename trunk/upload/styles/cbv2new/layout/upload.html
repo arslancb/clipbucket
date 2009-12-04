@@ -1,132 +1,101 @@
-</body><head>
-{if $show_upload != 'no'}
-{if $data.usr_status !=''}
-<body>
-<table width="930" border="0" align="center" cellpadding="3" cellspacing="0" bgcolor="#B9E3FF" style="border:solid 1px #0099CC;">
-  <tr>
-    <td ><table width="98%" border="0" cellpadding="0" cellspacing="0">
-      <tr>
-        <td width="5%"><img src="{$imageurl}/alert.png" /></td>
-        <td width="95%"><span class="tips">{$LANG.vdo_inactive_msg}</span> <a href="{$baseurl}/activation.php">{$LANG.vdo_click_here}</a></td>
-      </tr>
-    </table></td>
-  </tr>
-</table>
-{else}
-<script src="{$js}/flashobject.js"></script>
-<script src="{$js}/uploader.js"></script>
-{$java}
-
-
-</head>
-<body>
-
 {assign var='requiredFields' value=$Upload->loadRequiredFields()}
 {assign var='optionFields' value=$Upload->loadOptionFields()}
 {assign var='locationFields' value=$Upload->loadLocationFields()}
 {assign var='cust_fields'  value=$Upload->custom_form_fields}
 
-<table width="950" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td align="left">
-<div id="link_button">
-        <ul>
-		{foreach from=$plugin_list item=plugin}
-			{if $plugin.plugin_type == upload}
-				{$plugin.plugin_link}
-			{/if}
-		{/foreach}
-		</ul>
-</div>
-</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td align="left">{if $step =='1'}
-        <form name="upload_01" method="post" action="">
-          <table width="520" border="0" align="center" cellpadding="0" cellspacing="0">
-            <tr>
-              <td height="30" align="left" valign="middle" class="header1" >{$LANG.vdo_upload_step1} <span class="header2">{$LANG.vdo_upload_step2}</span></td>
-            </tr>
-            <tr>
-              <td align="right" valign="middle" bgcolor="#F0F0F0"><img src="{$imageurl}/uploader_tr.gif"></td>
-            </tr>
-            <tr bgcolor="#F6F6F6">
-              <td align="left" valign="middle" bgcolor="#F0F0F0"><table width="95%" border="0" align="center" cellpadding="2" cellspacing="1">
-                  <tr>
-                    <td colspan="2" align="left" class="header2">{$LANG.vdo_video_details}</td>
-                  </tr>
-                  {foreach from=$requiredFields item=field}
-                  <tr>
-                    <td width="117" align="right" valign="top" class="header3">{$field.title}* :</td>
-                    <td class="tips">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-                    <br>
-                    {$field.hint_2}</td>
-                  </tr>
-                  {/foreach}
-                  <tr>
-                    <td height="130" colspan="2" align="right"><table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
-                        <tr>
-                          <td colspan="2" align="left" class="header2">{$LANG.vdo_date_loc}</td>
-                        </tr>
-                  {foreach from=$locationFields item=field}
-                  <tr>
-                    <td width="117" align="right" valign="top" class="header3">{$field.title}* :</td>
-                    <td width="347" class="tips">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)} 
-                      <br>
-                      {$field.hint_2}</td>
-                  </tr>
-                  {/foreach}
-                    </table></td>
-                  </tr>
-                  <tr>
-                    <td height="80" colspan="2" align="right"><table width="100%" border="0" align="center" cellpadding="2" cellspacing="1">
-                        <tr>
-                          <td colspan="2" align="left" class="header2">{$LANG.vdo_share_opt}</td>
-                        </tr>
-                  {foreach from=$optionFields item=field}
-                  <tr>
-                    <td width="117" align="right" valign="top" class="header3">{$field.title}* :</td>
-                    <td class="tips">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-                    <br>
-                    {$field.hint_2}</td>
-                  </tr>
-                  {/foreach}
-                  {foreach from=$cust_fields item=field}
-                  <tr>
-                    <td width="117" align="right" valign="top" class="header3">{$field.title}* :</td>
-                    <td class="tips">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-                    <br>
-                    {$field.hint_2}</td>
-                  </tr>
-                  {/foreach}
-                    </table></td>
-                  </tr>
-                  <tr>
-                    <td align="right">&nbsp;</td>
-                    <td>&nbsp;</td>
-                  </tr>
-              </table></td>
-            </tr>
-            <tr bgcolor="#F6F6F6">
-              <td align="right" valign="middle" bgcolor="#F0F0F0"><img src="{$imageurl}/uploader_br.gif"></td>
-            </tr>
-            <tr>
-              <td align="center" valign="middle">
-                <input type="submit" name="submit_data" id="button" value="{$LANG.vdo_continue_upload}" onClick="return validate_upload_form(upload_01)">              </td>
-            </tr>
-          </table>
-              </form>
-    {/if}</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td align="left">&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td align="left">
+
+
+<div class="upload_left">
+
+	<!-- STEP 1 - UPLOADING VIDEO DETAILS -->
+
+	{if $step =='1'}
+	<div class="upload_info">
+		<h2>Video Upload Step 1 of 1</h2>
+        <form name="upload_form" class="upload_form" method="post" action="">
+        
+        <!-- Required Fields -->
+        <fieldset>
+        <span class="form_head">required fields</span>
+            {foreach from=$requiredFields item=field}
+            <div class="field">
+            <label for="{$field.id}" class="label">{$field.title}</label>
+            {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+            {if $field.hint_2}<br>
+            <div class="hint">{$field.hint_2}</div>{/if}
+            </div>
+            {/foreach}
+        
+        </fieldset>
+        <!-- Required Fields -->
+        
+        <div id="more_fields" style="display:none">
+        <!-- Location Fields -->
+        <fieldset>
+        <span class="form_head">{lang code='vdo_date_loc'}</span>
+            {foreach from=$locationFields item=field}
+            <div class="field">
+            <label for="{$field.id}" class="label">{$field.title}</label>
+            {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+            {if $field.hint_2}<br>
+            <div class="hint">{$field.hint_2}</div>{/if}
+            </div>
+            {/foreach}
+        
+        </fieldset>
+        <!-- Location Fields -->
+        
+        
+        <!-- Sharing Fields -->
+        <fieldset>
+        <span class="form_head">{lang code='vdo_share_opt'}</span>
+            {foreach from=$optionFields item=field}
+            <div class="field">
+            <label for="{$field.id}" class="label">{$field.title}</label>
+            {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+            {if $field.hint_2}<br>
+            <div class="hint">{$field.hint_2}</div>{/if}
+            </div>
+            {/foreach}
+        
+        </fieldset>
+        <!-- Sharing Fields -->
+        
+        {if $cust_fields}
+        <!-- Other Custom Fields -->
+        <fieldset>
+        <span class="form_head">{lang code='Custom Fields'}</span>
+            {foreach from=$cust_fields item=field}
+            <div class="field">
+            <label for="{$field.id}" class="label">{$field.title}</label>
+            {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+            {if $field.hint_2}<br>
+            <div class="hint">{$field.hint_2}</div>{/if}
+            </div>
+            {/foreach}
+        
+        </fieldset>
+        <!-- Other Custom Fields -->
+        {/if}
+        
+        </div>
+        
+        <span class="more_button"><a href="javascript:void()" onClick="$('#more_fields').slideToggle();$('.more_button').toggleClass('more_button_up');">More Options</a></span>
+        
+        
+        <div align="right" style="margin-top:10px"><input type="submit" name="submit_data" class="cb_button_2" value="{lang code='vdo_continue_upload'}"></div>
+        </form>
+    </div>
+    {/if}
+    
+    
+    <!-- STEP 1 ENDS HERE -->
+    
+    
+    
+    <!-- STEP 2 - UPLOADING VIDEO FILES -->
     {if $step =="2"}
+    <h2>Video Upload - Step 2 of 2</h2>
     <form action="{$upload_link}" method="post" enctype="multipart/form-data" name="{$upload_form_name}" id="{$upload_form_name}" >
       {$Upload->load_post_fields()}
       <input name="file_name" type="hidden" value="{$file_name}">
@@ -134,48 +103,41 @@
       
       {foreach from=$opt_list item=opt key=divid}
     	<div class="upload_opt" id="{$divid}">
-        	<span class="header1">{$opt.title}</span>
-    		{load_form name=$opt.load_func}
+        	<span class="upload_opt_head">{$opt.title}</span>
+    		{load_form name=$opt.load_func button_class='cb_button_2' class='upload_form'}
     	</div>
 	  {/foreach}
     </form>
     {/if}
+    <!-- STEP 2 ENDS HERE -->
     
-    
+    <!-- STEP 3 - VIEWING SUCCESSFULL PAGE -->
     {if $step==3}
-    
-    <table width="445" border="0" align="center" cellspacing="0">
-  <tr>
-    <td width="50%" class="header1" style="padding-left:5px">{$LANG.vdo_video_upload_complete}</td>
-  </tr>
-  <tr>
-    <td width="50%" align="right" bgcolor="#F0F0F0" style="padding:0px; margin:0px"><img src="{$imageurl}/uploader_tr.gif" width="20" height="20"></td>
-  </tr>
-  <tr>
-    <td width="50%" bgcolor="#F0F0F0" style="padding:5px"><span class="header1">{$LANG.vdo_thanks_you_upload_complete_1}.</span><br>
+    <div class="upload_info">
+		<h2>{lang code='vdo_video_upload_complete'}</h2>
+        <span class="header1">{$LANG.vdo_thanks_you_upload_complete_1}.</span><br>
       <span class="tips">{$LANG.vdo_thanks_you_upload_complete_2} <a href="{$manage_videos}"><strong>{$LANG.com_my_videos}</strong></a> {$LANG.vdo_after_it_has_process}    </span><span class="header1"><br>
-      </span></td>
-  </tr>
-  <tr>
-    <td width="50%" align="right" bgcolor="#F0F0F0" style="padding:0px; margin:0px"><img src="{$imageurl}/uploader_br.gif" width="20" height="20"></td>
-  </tr>
-  <tr>
-    <td width="50%" align="right" style="padding:0px; margin:0px">&nbsp;</td>
-  </tr>
-  <tr>
-    <td align="center"  style="padding:0px; margin:0px">
-      <div id="link_button" align="center">
-        <ul>
-          <li><a href="{$upload_link}" >{$LANG.vdo_upload_another_video}</a></li>
-          <li><a href="{$manage_videos}" >{$LANG.vdo_goto_my_videos}</a></li>
-         </ul>
-    </div></td>
-  </tr>
-</table>
+      </span>
+      
+    <div class="upload_link_button" align="center">
+     <ul>
+      <li><a href="{$upload_link}" >{$LANG.vdo_upload_another_video}</a></li>
+      <li><a href="{$manage_videos}" >{$LANG.vdo_goto_my_videos}</a></li>
+     </ul>
+     <div class='clearfix'></div>
+    </div>
+    
+    </div>
     {/if}
-    </td>
-    <td width="450">&nbsp;</td>
-  </tr>
-</table>
-{/if}
-{/if}
+    <!-- STEP 3 ENDS HERE -->
+    
+</div>
+
+<div class="upload_right">
+  <div class="instructions">
+	  <p><strong><strong>Important:</strong> Do not upload any TV shows, music videos, music concerts, or  commercials without permission unless they consist entirely of content  you created yourself.</strong></p>
+	  <p>The <a href="#">Copyright Tips page</a> and the <a href="#">Community Guidelines</a> can help you determine whether your video infringes someone else's copyright.</p>
+	  <p>By clicking "Upload Video", you are representing that this video does not violate {$title}'s <a id="terms-of-use-link" href="#">Terms of Use</a> and that you own all copyrights in this video or have authorization to upload it.</p>
+  </div>
+</div>
+<div class="clearfix"></div>

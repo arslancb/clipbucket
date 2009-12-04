@@ -1,6 +1,6 @@
 <div class="category_list">
 <span class="cat_heading">Categories</span>
-{assign var='category_list' value=func->getCategoryList(video,true)}
+{assign var='category_list' value=func->getCategoryList($type,true)}
 <div class="categories">
     <ul>
         {foreach from=$category_list item=cat}

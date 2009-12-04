@@ -65,6 +65,8 @@ class ClipBucket
 					 (
 					 'ajax.js'			=> 'homeactive',
 					 'jquery.js'		=> 'global',
+					 'jquery.js'		=> 'global',
+					 'jquery_plugs/cookie.js'		=> 'global',
 					 'dropdown.js'		=> 'global',
 					 'flashobject.js'	=> 'global',
 					 'rating_update.js'	=> 'global',

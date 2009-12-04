@@ -123,7 +123,7 @@ class formObj
 			$field['value'] = '';
 			//Generate Category list
 			$type = $field['type'] ? $field['type'] : 'video';
-			$catArray = getCategoryList();
+			$catArray = getCategoryList($field['category_type']);
 			foreach ($catArray as $cat)
 			{
 				$field['value'][$cat['category_id']] = $cat['category_name'];
@@ -147,7 +147,7 @@ class formObj
 					}
 				}
 			}
-			echo '<input name="'.$field['name'].'" type="checkbox" value="'.$key.'" '.$checked.' '.$field['extra_tags'].'>'.$value	;
+			echo '<label><input name="'.$field['name'].'" type="checkbox" value="'.$key.'" '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;
 			echo $field['sep'];
 		}
 	}
@@ -185,7 +185,7 @@ class formObj
 					$checked = '';
 				$count++;
 			}
-			echo '<input name="'.$field['name'].'" type="radio" value="'.$key.'" '.$checked.' '.$field['extra_tags'].'>'.$value	;
+			echo '<label><input name="'.$field['name'].'" type="radio" value="'.$key.'" '.$checked.' '.$field['extra_tags'].'>'.$value.'<label>'	;
 			echo $sep;
 		}
 	}
@@ -215,8 +215,25 @@ class formObj
 	function createDropDown($field)
 	{
 		global $LANG;
+		
+		//First Checking if value is CATEGORY
+		if($field['value'][0]=='category')
+		{
+			$values_array = $field['value'][1][0];
+			$field['value'] = '';
+			//Generate Category list
+			$type = $field['type'] ? $field['type'] : 'video';
+			$catArray = getCategoryList($field['category_type']);
+			foreach ($catArray as $cat)
+			{
+				$field['value'][$cat['category_id']] = $cat['category_name'];
+			}
+		}
+		
 		$ddFieldStart = '<select name="'.$field['name'].'" id="'.$field['id'].'" class="'.$field['class'].'">';
 		$arrayName = $this->rmBrackets($field['name']);
+		
+		if(is_array($field['value']))
 		foreach($field['value'] as $key => $value)
 		{
 			if(!empty($_POST[$arrayName]) || !empty($field['checked']))

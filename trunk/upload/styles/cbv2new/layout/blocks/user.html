@@ -1,13 +1,11 @@
 {if $block_type == '' || $block_type=='normal'}
 <div class="user_block" id="user-{$user.userid}">
-<div><a href="{$userquery->profile_link($user)}">{$user.username}</a></div>
-<div class="user_mid_thumb_container" > <a href="{$userquery->profile_link($user)}"><img src="{$userquery->getuserthumb($user)}" border="0" class="user_mid_thumb"></a>
+<div class="thumb_container" ><a href="{$userquery->profile_link($user)}"><img src="{$userquery->getuserthumb($user)}" border="0" class="user_thumb_normal"></a>
 </div>
-258213<br />
-videos<br />
-<br />
-21245658<br />
-views
+<div class="prof_title"><a href="{$userquery->profile_link($user)}">{$user.username}</a></div>
+{$user.total_videos|number_format} videos {$user.profile_hits|number_format} views<br />
+{$user.subscribers|number_format} subscribers
+Last active : {$user.last_active|nicetime}
 </div>
 {/if}
 

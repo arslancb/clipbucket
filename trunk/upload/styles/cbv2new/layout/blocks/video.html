@@ -5,10 +5,11 @@
     <div class="video_thumb">
         <a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" width="110" height="66" border="0" {ANCHOR place="video_thumb"} /></a>
         <div class="duration">{$video.duration|SetTime}</div>
+        <img src="{$imageurl}/dot.gif" class="add_icon" onclick="add_quicklist(this,'{$video.videoid}')" title="add {$video.title} to qucklist" alt="quicklist">
 </div> <!--VIDEO_THUMB END-->
     <div class="details_block">
         <div class="lvl1 clearfix">
-            <div class="title"><a href="videos.php?v={$video.videokey}">{$video.title|truncate:30}</a></div>
+            <div class="title"><a href="{videoLink vdetails=$video}">{$video.title|truncate:30}</a></div>
             
             {show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}
            

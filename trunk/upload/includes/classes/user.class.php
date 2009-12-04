@@ -12,12 +12,12 @@
 Notice : Maintain this section
 */
  
-define('NO_AVATAR','no_avatar.jpg'); //if there is no avatar or profile pic, this file will be used
+define('NO_AVATAR','no_avatar.png'); //if there is no avatar or profile pic, this file will be used
 define('AVATAR_SIZE',250);
 define('AVATAR_SMALL_SIZE',40);
 define('BG_SIZE',1200);
 
-class userquery {
+class userquery extends CBCategory{
 	
 	var $userid = '';
 	var $username = '';
@@ -25,6 +25,9 @@ class userquery {
 	var $permissions = '';
 	var $access_type_list = array(); //Access list
 	var $usr_levels = array();
+	var $signup_plugins = array(); //Signup Plugins
+	var $custom_signup_fields = array();
+	var $delete_user_functions = array();
 	
 	var $dbtbl = array(
 					   'user_permission_type'	=> 'user_permission_types',
@@ -35,6 +38,12 @@ class userquery {
 					   'action_log'				=> 'action_log',
 					   'subtbl'					=> 'subscriptions',
 					   );
+	
+	function userquery()
+	{
+		$this->cat_tbl = 'user_categories';
+	}
+	
 	
 	function init()
 	{
@@ -378,23 +387,89 @@ class userquery {
 	}
 	
  
-	//Delete User
-	
-	function DeleteUser($id){
-	global $stats;
-		if($id !=1){
-		$query = 'DELETE FROM users WHERE userid="'.$id.'"';
-		$result = mysql_query($query);
-		$stats->UpdateUserRecord(2);
-        if (mysql_errno()){
-            $result = false;
+ 
+	/**
+	 * Function used to delete user
+	 */
+	function delete_user($uid)
+	{
+		global $db;
+		
+		if($this->user_exists($uid))
+		{
+			
+			$udetails = $this->get_user_details($uid);
+
+			if(userid()!=uid&&has_access('admin_access')&&$uid!=1)
+			{
+				//list of functions to perform while deleting a video
+				$del_user_funcs = $this->delete_user_functions;
+				if(is_array($del_user_funcs))
+				{
+					foreach($del_user_funcs as $func)
+					{
+						if(function_exists($func))
+						{
+							$func($udetails);
+						}
+					}
+				}
+				
+				//Removing Subsriptions and subscribers
+				$this->remove_user_subscriptions($uid);
+				$this->remove_user_subscribers($uid);
+				
+				//Finally Removing Database entry of video
+				$db->execute("DELETE FROM ".$this->dbtbl['users']." WHERE userid='$uid'");
+				$db->execute("DELETE FROM ".$this->dbtbl['user_profile']." WHERE userid='$uid'");
+				
+				e(lang("class_vdo_del_msg"),m);
 			}else{
-			$result = true;
+				e(lang("You cannot delete this user"));
 			}
-			return $result;
 		}else{
-			return false;
+			e(lang("user_doesnt_exist"));
 		}
+	}
+	
+	/**
+	 * Remove all user subscriptions
+	 */
+	function remove_user_subscriptions($uid)
+	{
+		global $db;
+		if(!$this->user_exists($uid))
+			e(lang("user_doesnt_exist"));
+		elseif(!has_access('admin_access'))
+			e("You dont have sufficient permissions");
+		else
+		{
+			$db->execute("DELETE FROM ".$this->dbtbl['subtbl']." WHERE userid='$uid'");
+			e("User subscriptions have been removed","m");
+		}
+	}
+	
+	/**
+	 * Remove all user subscribers
+	 */
+	function remove_user_subscribers($uid)
+	{
+		global $db;
+		if(!$this->user_exists($uid))
+			e(lang("user_doesnt_exist"));
+		elseif(!has_access('admin_access'))
+			e("You dont have sufficient permissions");
+		else
+		{
+			$db->execute("DELETE FROM ".$this->dbtbl['subtbl']." WHERE subscribed_to='$uid'");
+			e("User subscribers have been removed","m");
+		}
+	}
+	
+	
+	//Delete User
+	function DeleteUser($id){
+		return $this->delete_user($id);
 	}
 		
 	//Check User Exists or Not
@@ -480,13 +555,13 @@ class userquery {
 	//Function Used To Activate User
 	function ActivateUser($user,$avcode){
 		$data = $this->GetUserData_username($user);
-			if($data['usr_status'] == 'Ok' || $data['avcode'] !=$avcode || empty($user)){
+		if($data['usr_status'] == 'Ok' || $data['avcode'] !=$avcode || empty($user)){
 			return false;
-			}else{
-			$this->Activate($data['userid']);
-			return true;
-			}
+		}else{
+			$this->action('activate',$data['userid']);
+		return true;
 		}
+	}
 	
 	//Function Used To Send Activation Code To User
 	function SendActivation($email){
@@ -509,135 +584,6 @@ class userquery {
 			}
 	}
 	
-	//Function Made to Update User Profile And Channel
-	function UpdateUserProfile($userid){
-		//Getting Personal Information
-		$fname 		= mysql_clean(@$_POST['fname']);
-		$lname 		= mysql_clean(@$_POST['lname']);
-		$sex   		= @$_POST['gender'];
-		$relation	= @$_POST['relationship'];
-		$show_dob	= $_POST['show_dob'];
-		$about_me	= mysql_clean($_POST['about_me']);
-		$web_url	= mysql_clean($_POST['web_url']);
-		
-		//Getting Professional Information
-		$education	= $_POST['education'];
-		$schools	= mysql_clean($_POST['schools']);
-		$occupation	= mysql_clean($_POST['occupation']);
-		$companies	= mysql_clean($_POST['campanies']);
-		
-		//Getting Interest & Hobbies
-		$hobbies	= mysql_clean($_POST['hobbies']);
-		$fav_movies	= mysql_clean($_POST['fav_movies']);
-		$fav_music	= mysql_clean($_POST['fav_music']);
-		$fav_books	= mysql_clean($_POST['fav_books']);
-		
-		//Getting Avatar
-		$file 		= $_FILES['avatar']['name'];
-		$ext 		= substr($file, strrpos($file, '.') + 1);
-		$thumb		= $_POST['thumb'];
-		$thumb_ext 	= substr($thumb, strrpos($thumb, '.') + 1);
-		$small_t	= substr($thumb, 0, strrpos($thumb, '.')).'-small.'.$thumb_ext;
-		
-		//Getting Channel Details
-		$title		= mysql_clean($_POST['title']);
-		$des		= mysql_clean($_POST['des']);
-		$rating		= $_POST['rating'];
-		$comment	= $_POST['comment'];
-		$f_video	= $_POST['f_video'];
-		
-				if(!empty($file)){
-					$image = new ResizeImage();	
-					if($image->ValidateImage($_FILES['avatar']['tmp_name'],$ext)){
-						$thumb_file = BASEDIR.'/images/avatars/'.$thumb;
-						$small_thumb_file=BASEDIR.'/images/avatars/'.$small_t;
-						if($thumb != 'no_avatar.jpg' && file_exists($thumb_file) && file_exists($small_thumb_file)){
-						unlink($thumb_file);
-						unlink($small_thumb_file);
-						}
-						$newname			= $userid;
-						$newthumb			= $newname.'.'.$ext;
-						$newthumb_small		= $newname.'-small.'.$ext;
-						$new_thumb			= BASEDIR.'/images/avatars/'.$newthumb;
-						$new_thumb_small 	= BASEDIR.'/images/avatars/'.$newthumb_small;
-						copy($_FILES['avatar']['tmp_name'],$new_thumb);
-						$image->CreateThumb($new_thumb,$new_thumb,90,$ext);
-						$image->CreateThumb($new_thumb,$new_thumb_small,30,$ext);
-						$thumb = $newthumb;
-						}
-					}
-					
-				$bgfile 		= $_FILES['background']['name'];
-				$bg				= $_POST['bg'];
-				$ext 			= substr($bgfile, strrpos($bgfile, '.') + 1);
-				
-				//Delete background
-				if($_POST['remove_bg'] == 'yes'){
-				if(is_file(BASEDIR.'/images/backgrounds/'.$bg) && file_exists(BASEDIR.'/images/backgrounds/'.$bg)){
-					unlink(BASEDIR.'/images/backgrounds/'.$bg);
-					}
-				$bg = "";		
-				}
-				if(!empty($bgfile)){
-						$image = new ResizeImage();	
-						if($image->ValidateImage($_FILES['background']['tmp_name'],$ext)){
-							if(file_exists(BASEDIR.'/images/backgrounds/'.$bg)){
-							unlink(BASEDIR.'/images/backgrounds/'.$bg);
-							}
-							$newname			= RandomString(10);
-							$newthumb			= $newname.'.'.$ext;
-							$new_thumb			= BASEDIR.'/images/backgrounds/'.$newthumb;
-							copy($_FILES['background']['tmp_name'],$new_thumb);
-							$bg					= $newthumb;
-						}
-				}
-				
-		mysql_query("UPDATE users SET
-		first_name		= '".$fname."',
-		last_name		= '".$lname."',
-		sex				= '".$sex."',
-		relation_status	= '".$relation."',
-		about_me		= '".$about_me."',
-		web_url			= '".$web_url."',
-		show_dob		= '".$show_dob."',
-		
-		education		= '".$education."',
-		schools			= '".$schools."',
-		occupation		= '".$occupation."',
-		companies		= '".$companies."',
-		
-		hobbies			= '".$hobbies."',
-		fav_movies		= '".$fav_movies."',
-		fav_music		= '".$fav_music."',
-		fav_books		= '".$fav_books."',
-		
-		avatar			= '".$thumb."',
-		background		= '".$bg."',
-		
-		channel_title	= '".$title."',
-		channel_des		= '".$des."',
-		featured_video	= '".$f_video."',
-		allow_comment	= '".$comment."',
-		allow_rating	= '".$rating."'
-		
-		WHERE userid='".$userid."'");
-		redirect_to($_COOKIE['page']."?updated=successfull");
-		}
-		
-	//Function Used To Update Email Settings For User
-	
-		function UpdateUserEmailSettings($usreid){
-			$email 		= mysql_clean($_POST['email']);
-			$msg_notify	= $_POST['msg_notify'];
-			$signup = new signup();
-			if($signup->isValidEmail($email)){
-				mysql_query("UPDATE users SET email='".$email."',msg_notify='".$msg_notify."' WHERE userid='".$usreid."'");
-			$msg = e($LANG['usr_email_msg'],m);
-			}else{
-			$msg = e($LANG['usr_email_err']);
-			}
-			return $msg;
-		}
 	
 	/**
 	 * Function used to change user password
@@ -682,33 +628,6 @@ class userquery {
 		}
 	
 	
-		//Function Used To Add Channel Comment
-	
-		function AddChannelComment($username,$comment){
-		global $LANG,$stats;
-				if(empty($_SESSION['username']) ||empty($_COOKIE['session'])){
-					$msg[] = e($LANG['usr_cmt_err']);
-					}else{
-						if(empty($comment)){
-						$msg[] = e($LANG['usr_cmt_err1']);
-						}
-						$userdetails = $this->GetUserData_username($username);
-						if($_SESSION['username'] == $userdetails['username']){
-						$msg[] = e($LANG['usr_cmt_err2']);
-						}
-						$query = mysql_query("SELECT * FROM channel_comments WHERE channel_user ='".$username."' AND username = '".$_SESSION['username']."'");
-						if(mysql_num_rows($query)>0){
-						$msg[] = e($LANG['usr_cmt_err3']);
-						}
-					}
-				if(empty($msg)){
-					$stats->UpdateUserRecord(6);
-					mysql_query("INSERT into channel_comments(comment,username,channel_user,date_added)VALUES('".$comment."','".$_SESSION['username']."','".$username."',now())");
-					$msg[] = e($LANG['usr_cmt_err4']);
-				}
-			return $msg;
-			}
-			
 		
 		//Add Contact to Contact list
 		
@@ -736,73 +655,64 @@ class userquery {
 			mysql_query("UPDATE users SET total_watched ='".$watched."' WHERE userid='".$userid."'");
 		}
 			
-		/**
-		 * Old Function : GetNewMsgs
-		 * This function is used to get user messages
-		 * @param : user
-		 * @param : sent/inbox 
-		 * @param : count (TRUE : FALSE)
-		 */
+	/**
+	 * Old Function : GetNewMsgs
+	 * This function is used to get user messages
+	 * @param : user
+	 * @param : sent/inbox 
+	 * @param : count (TRUE : FALSE)
+	 */
 		 
-		function get_pm_msgs($user,$box='inbox',$count=FALSE){
-			global $db,$eh,$LANG;
-			if(!$user)
-				$user = user_id();	
-			if(!user_id())
+	function get_pm_msgs($user,$box='inbox',$count=FALSE){
+		global $db,$eh,$LANG;
+		if(!$user)
+			$user = user_id();	
+		if(!user_id())
+		{
+			$eh->e($LANG['you_not_logged_in']);
+		}else{
+			switch($box)
 			{
-				$eh->e($LANG['you_not_logged_in']);
-			}else{
-				switch($box)
-				{
-					case 'inbox':
-					default:
-					$boxtype = 'inbox';
-					break;
-					
-					case 'sent':
-					case 'outbox':
-					$boxtype = 'outbox';
-					break;
-				}
+				case 'inbox':
+				default:
+				$boxtype = 'inbox';
+				break;
 				
+				case 'sent':
+				case 'outbox':
+				$boxtype = 'outbox';
+				break;
+			}
+			
+			if($count)
+				$status_query = " AND status = '0' ";
+				
+			$results = $db->select("messages",
+						" message_id ",
+						"(".$boxtype."_user = '$user' OR ".$boxtype."_user_id = '$user') $status_query");
+			
+	
+			if($db->num_rows > 0)
+			{
 				if($count)
-					$status_query = " AND status = '0' ";
-					
-				$results = $db->select("messages",
-							" message_id ",
-							"(".$boxtype."_user = '$user' OR ".$boxtype."_user_id = '$user') $status_query");
-				
-
-				if($db->num_rows > 0)
-				{
-					if($count)
-					return $db->num_rows;
-					else
-					return $results;
-				}
+				return $db->num_rows;
 				else
-				{
-					return false;
-				}
+				return $results;
+			}
+			else
+			{
+				return false;
 			}
 		}
-		function GetNewMsgs($user)
-		{
-			$msgs = $this->get_pm_msgs($user,'inbox',TRUE);
-			if($msgs)
-				return $msgs;
-			else
-				return 0;
-		}
-			
-		//Function Used To Unpdat Numner Of Subscrtibers of user
-		function UpdateSubscribers($user){
-		global $LANG;
-			$query = mysql_query("SELECT * FROM subscriptions WHERE subscribed_to ='".$user."' ");
-			$subs	= mysql_num_rows($query);
-			mysql_query("UPDATE users SET subscribers = '".$subs."' WHERE username='".$user."'");
-		}
-		
+	}
+	function GetNewMsgs($user)
+	{
+		$msgs = $this->get_pm_msgs($user,'inbox',TRUE);
+		if($msgs)
+			return $msgs;
+		else
+			return 0;
+	}
 		
 		
 	/**
@@ -1006,24 +916,7 @@ class userquery {
 		$sql = "UPDATE users SET last_active = '".NOW()."' WHERE username='".$username."' OR userid='".$username."' ";
 		$db->Execute($sql);
 	}
-	
-	//FUNCTION USED TO DELETE COMMMENT
-	// @ Param : username
-	// @ Param : commentid
-	function deleteUserComment($username,$commentid)
-	{
-		global $is_admin,$db,$LANG;
-		if($_SESSION['username']==$username || $is_admin ==1)
-		{
-			$sql = "DELETE FROM channel_comments WHERE comment_id='".$commentid."'
-						AND channel_user = '".$username."'";
-			$db->Execute($sql);
-			$msg = e($LANG['usr_cmt_del_msg'],m);
-		}else{
-			$msg = e($LANG['usr_cmt_del_err']);
-		}
-		return $msg;
-	}
+
 	
 	/**
 	 * FUNCTION USED TO GE USER THUMBNAIL
@@ -1365,6 +1258,28 @@ class userquery {
 		}
 	}
 	
+	
+	/**
+	 * Function used to count total video comments
+	 */
+	function count_profile_comments($id)
+	{
+		global $db;
+		$total_comments = $db->count('comments',"comment_id","type='c' AND type_id='$id'");
+		return $total_comments;
+	}
+	function count_channel_comments($id){ return $this->count_profile_comments($id); }
+	
+	/**
+	 * Function used to update user comments count
+	 */
+	function update_comments_count($id)
+	{
+		global $db;
+		$total_comments = $this->count_profile_comments($id);
+		$db->update("users",array("comments_count"),array($total_comments)," userid='$id'");
+	
+	}
 	/**
 	 * Function used to add comment on users profile
 	 */
@@ -1373,8 +1288,31 @@ class userquery {
 		global $myquery;
 		if(!$this->user_exists($obj_id))
 			e("User does not exists");
-		return $myquery->add_comment($comment,$obj_id,$reply_to,$type);
+		else
+			$add_comment = $myquery->add_comment($comment,$obj_id,$reply_to,$type);
+		if($add_comment)
+		{
+			//Updating Number of comments of video
+			$this->update_comments_count($obj_id);
+		}
+		return $add_comment;
 	}
+	
+	/**
+	 * Function used to remove video comment
+	 */
+	function delete_comment($cid,$is_reply=FALSE)
+	{
+		global $myquery,$db;
+		$remove_comment =  $myquery->delete_comment($cid,'c',$is_reply);
+		if($remove_comment)
+		{
+			//Updating Number of comments of video
+			$this->update_comments_count($obj_id);
+		}
+		return $remove_comment;
+	}
+	
 	
 	
 	/**
@@ -1608,7 +1546,6 @@ class userquery {
 		foreach($user_vids as $user_vid)
 		{
 			$usr_vids[$user_vid['videoid']] =  $user_vid['title'];
-			
 		}
 		
 		if(!$default)
@@ -1622,7 +1559,7 @@ class userquery {
 						  'id'=> "first_name",
 						  'value'=> $default['first_name'],
 						  'db_field'=>'first_name',
-						  'required'=>'yes',
+						  'required'=>'no',
 						  'syntax_type'=> 'name',
 						  'auto_view'=>'yes'
 						  ),
@@ -1938,7 +1875,9 @@ class userquery {
 			$array = array_merge($array,$_FILES);
 
 		$userfields = $this->load_profile_fields($array);
-		
+		$signup_fields = $this->load_signup_fields($array);
+		$cat_field = $signup_fields['cat'];
+		array_merge($userfields,$cat_field);
 		validate_cb_form($userfields,$array);
 		
 		foreach($userfields as $field)
@@ -1970,6 +1909,41 @@ class userquery {
 			if(!empty($field['db_field']))
 			$query_val[] = $val;
 		}
+		
+		
+		//Category
+		if($cat_field)
+		{
+			$field = $cat_field;
+			$name = formObj::rmBrackets($field['name']);
+			$val = $array[$name];
+			
+			if($field['use_func_val'])
+				$val = $field['validate_function']($val);
+			
+			
+			if(!empty($field['db_field']))
+			$uquery_field[] = $field['db_field'];
+			
+			if(is_array($val))
+			{
+				$new_val = '';
+				foreach($val as $v)
+				{
+					$new_val .= "#".$v."# ";
+				}
+				$val = $new_val;
+			}
+			if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
+				$val = mysql_clean($val);
+			else
+				$val = apply_func($field['clean_func'],$val);
+			
+			if(!empty($field['db_field']))
+			$uquery_val[] = $val;
+		}
+		
+
 		
 		//updating user detail
 		if(has_access('admin_access',TRUE) && isset($array['admin_manager']))
@@ -2407,6 +2381,621 @@ class userquery {
 			$uid = userid();
 		$result = $db->select($this->dbtbl['users'].",".$this->dbtbl['user_profile'],"*",$this->dbtbl['users'].".userid ='$uid' AND ".$this->dbtbl['users'].".userid = ".$this->dbtbl['user_profile'].".userid");
 		return $result[0];
+	}
+	
+	
+	function load_signup_fields($default=NULL)
+	{
+		global $LANG,$Cbucket;
+		/**
+		 * this function will create initial array for user fields
+		 * this will tell 
+		 * array(
+		 *       title [text that will represents the field]
+		 *       type [type of field, either radio button, textfield or text area]
+		 *       name [name of the fields, input NAME attribute]
+		 *       id [id of the fields, input ID attribute]       
+		 *       value [value of the fields, input VALUE attribute]
+		 *       size
+		 *       class
+		 *       label
+		 *       extra_params
+		 *       hint_1 [hint before field]
+		 *       hint_2 [hint after field]
+		 *       anchor_before [anchor before field]
+		 *       anchor_after [anchor after field]
+		 *      )
+		 */
+		 
+		
+		if(empty($default))
+			$default = $_POST;
+			
+		$username = $default['username'];
+		$email = $default['email'];
+		$dcountry = $default['country'] ? $default['country'] : $Cbucket->configs['default_country_iso2'];
+		$dob = $default['dob'];
+	
+			
+		 $dob =  $dob ? date("d-m-Y",strtotime($dob)) : '14-14-1989';
+		 
+		 $user_signup_fields = array
+		 (
+		  'username' => array(
+							  'title'=> $LANG['username'],
+							  'type'=> "textfield",
+							  'name'=> "username",
+							  'id'=> "username",
+							  'value'=> $username,
+							  'hint_2'=> $LANG['user_allowed_format'],
+							  'db_field'=>'username',
+							  'required'=>'yes',
+							  'syntax_type'=> 'username',
+							  'validate_function'=> 'username_check',
+							  'function_error_msg' => $LANG['user_contains_disallow_err'],
+							  'db_value_check_func'=> 'user_exists',
+							  'db_value_exists'=>false,
+							  'db_value_err'=>$LANG['usr_uname_err2']
+							  ),
+		  'email' => array(
+							  'title'=> $LANG['email'],
+							  'type'=> "textfield",
+							  'name'=> "email",
+							  'id'=> "email",
+							  'value'=> $email,
+							  'db_field'=>'email',
+							  'required'=>'yes',
+							  'syntax_type'=> 'email',
+							  'db_value_check_func'=> 'email_exists',
+							  'db_value_exists'=>false,
+							  'db_value_err'=>$LANG['usr_email_err3']
+							  ),
+		  'password' => array(
+							  'title'=> $LANG['password'],
+							  'type'=> "password",
+							  'name'=> "password",
+							  'id'=> "password",
+							  'db_field'=>'password',
+							  'required'=>'yes',
+							  'invalid_err'=>$LANG['usr_pass_err2'],
+							  'relative_to' => 'cpassword',
+							  'relative_type' => 'exact',
+							  'relative_err' => $LANG['usr_pass_err3'],
+							  'validate_function' => 'pass_code',
+							  'use_func_val'=>true
+							  ),
+		  'cpassword' => array(
+							  'title'=> $LANG['user_confirm_pass'],
+							  'type'=> "password",
+							  'name'=> "cpassword",
+							  'id'=> "cpassword",
+							  'required'=>'no',
+							  'invalid_err'=>$LANG['usr_cpass_err'],
+							  ),
+		  'country'	=> array(
+							 'title'=> $LANG['country'],
+							 'type' => 'dropdown',
+							 'value' => $Cbucket->get_countries(iso2),
+							 'id'	=> 'country',
+							 'name'	=> 'country',
+							 'checked'=> $dcountry,
+							 'db_field'=>'country',
+							 'required'=>'yes',
+							 ),
+		  'gender' => array(
+							'title' => $LANG['gender'],
+							'type' => 'radiobutton',
+							'name' => 'gender',
+							'id' => 'gender',
+							'value' => array('Male'=>$LANG['male'],'Female'=>$LANG['female']),
+							'sep'=> '&nbsp;',
+							'checked'=>'Male',
+							'db_field'=>'sex',
+							'required'=>'yes',
+							),
+		  'dob'	=> array(
+						 'title' => $LANG['user_date_of_birth'],
+						 'type' => 'textfield',
+						 'name' => 'dob',
+						 'id' => 'dob',
+						 'class'=>'date_field',
+						 'anchor_after' => 'date_picker',
+						 'value'=> $dob,
+						 'db_field'=>'dob',
+						 'required'=>'yes',
+						 ),
+		  'cat'		=> array('title'=> lang('Category'),
+							 'type'=> 'dropdown',
+							 'name'=> 'category',
+							 'id'=> 'category',
+							 'value'=> array('category',$default['category']),
+							 'db_field'=>'category',
+							 'checked'=>$default['category'],
+							 'required'=>'yes',
+							 'invalid_err'=>lang("Please select your category"),
+							 'display_function' => 'convert_to_categories',
+							 'category_type'=>'user',
+							 )
+		  );
+
+		 return $user_signup_fields;
+	}
+	
+	
+	/**
+	 * Function used to validate Signup Form
+	 */
+	function validate_form_fields($array=NULL)
+	{
+		global $userquery;
+		$fields = $this->load_signup_fields($array);
+
+		if($array==NULL)
+			$array = $_POST;
+		
+		if(is_array($_FILES))
+			$array = array_merge($array,$_FILES);
+
+		//Mergin Array
+		$signup_fields = array_merge($fields,$this->custom_signup_fields);
+		
+		validate_cb_form($signup_fields,$array);
+		
+	}
+	
+	
+	/**
+	 * Function used to validate signup form
+	 */
+	function signup_user($array=NULL)
+	{
+		global $LANG,$db,$userquery;
+		if($array==NULL)
+			$array = $_POST;
+		
+		if(is_array($_FILES))
+			$array = array_merge($array,$_FILES);
+		$this->validate_form_fields($array);
+		
+		//checking terms and policy agreement
+		if($_POST['agree']!='yes')
+			e($LANG['usr_ament_err']);
+		
+		
+		if(!error())
+		{
+			$signup_fields = $this->load_signup_fields($array);
+			
+			//Adding Custom Signup Fields
+			if(count($this->custom_signup_fields)>0)
+				$signup_fields = array_merge($signup_fields,$this->custom_signup_fields);
+			
+			foreach($signup_fields as $field)
+			{
+				$name = formObj::rmBrackets($field['name']);
+				$val = $array[$name];
+				
+				if($field['use_func_val'])
+					$val = $field['validate_function']($val);
+				
+				
+				if(!empty($field['db_field']))
+				$query_field[] = $field['db_field'];
+				
+				if(is_array($val))
+				{
+					$new_val = '';
+					foreach($val as $v)
+					{
+						$new_val .= "#".$v."# ";
+					}
+					$val = $new_val;
+				}
+				if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
+					$val = mysql_clean($val);
+				else
+					$val = apply_func($field['clean_func'],$val);
+				
+				if(!empty($field['db_field']))
+				$query_val[] = $val;
+				
+			}
+			
+			// Setting Verification type
+			if(EMAIL_VERIFICATION == '1'){
+				$usr_status = 'ToActivate';
+			}else{
+				$usr_status = 'Ok';
+			}
+			$query_field[] = "	usr_status";
+			$query_val[] = $usr_status;
+			
+			//Creating AV Code
+			$avcode		= RandomString(10);
+			$query_field[] = "avcode";
+			$query_val[] = $avcode;
+			
+			//Signup IP
+			$signup_ip	= $_SERVER['REMOTE_ADDR'];
+			$query_field[] = "signup_ip";
+			$query_val[] = $signup_ip;
+			
+			//Date Joined
+			$now = NOW();
+			$query_field[] = "doj";
+			$query_val[] = $now;
+			
+			$query = "INSERT INTO users (";
+			$total_fields = count($query_field);
+			
+			//Adding Fields to query
+			$i = 0;
+			foreach($query_field as $qfield)
+			{
+				$i++;
+				$query .= $qfield;
+				if($i<$total_fields)
+				$query .= ',';
+			}
+			
+			$query .= ") VALUES (";
+			
+			$i = 0;
+			//Adding Fields Values to query
+			foreach($query_val as $qval)
+			{
+				$i++;
+				$query .= "'$qval'";
+				if($i<$total_fields)
+				$query .= ',';
+			}
+			
+			//Finalzing Query
+			$query .= ")";
+			
+			$db->Execute($query);
+			$insert_id = $db->insert_id();
+			$db->insert($userquery->dbtbl['user_profile'],array("userid"),array($insert_id));
+			
+			if(!$userquery->perm_check('admin_add_user',true))
+			{
+				global $cbemail;
+				$tpl = $cbemail->get_template('email_verify_template');
+				$more_var = array
+				('{username}'	=> post('username'),
+				 '{password}'	=> post('password'),
+				 '{email}'		=> post('email'),
+				 '{avcode}'		=> $avcode,
+				);
+				if(!is_array($var))
+					$var = array();
+				$var = array_merge($more_var,$var);
+				$subj = $cbemail->replace($tpl['email_template_subject'],$var);
+				$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
+				
+				//Now Finally Sending Email
+				cbmail(array('to'=>post('email'),'from'=>'webmaster@localhost','subject'=>$subj,'content'=>$msg));
+			}
+			
+			
+			return $insert_id;
+		}
+	}
+	
+		
+	//Duplicate User Check
+	function duplicate_user($name){
+		global $myquery;
+		if($myquery->check_user($name)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	function duplicate_email($name){
+		$myquery =  new myquery();
+		if($myquery->check_email($name)){
+		return true;
+		}else{
+		return false;
+		}
+	}
+	
+	//Validate Email
+	
+	function isValidEmail($email){
+      return isValidEmail($email);
+   }
+	
+	//Validate Username
+	function isValidUsername($uname){
+		return $this->is_username($uname);
+	}
+   
+    /**
+	  * Function used to make username valid
+	  * this function will also check if username is banned or not
+	  * it will also filter the username and also filter its patterns
+	  * as given in administratio panel
+	  */
+	 function is_username($username)
+	 {
+		 global $Cbucket;
+		//Our basic pattern for username is
+		//$pattern = "^^[_a-z0-9-]+$";
+		$pattern = "^^[_a-z0-9-]+$"; 
+		//Now we will check if admin wants to change the pattern
+		if (eregi($pattern, $username)){
+			return true;
+		}else {
+			return false;
+		}  
+		
+	 }
+	
+	//Validate Admin Member
+	function Admin_Add_User(){
+		global $LANG,$stats;
+		$uname 		= mysql_clean($_POST['username']);
+		$email		= mysql_clean($_POST['email']);
+		$pass 		= pass_code(mysql_clean($_POST['password']));
+		$fname		= mysql_clean($_POST['fname']);
+		$lname		= mysql_clean($_POST['lname']);
+		$gender		= mysql_clean($_POST['gender']);
+		$level		= mysql_clean($_POST['level']);
+		$dob		= mysql_clean($_POST['dob']);
+		$ht			= mysql_clean($_POST['hometown']);
+		$city 		= mysql_clean($_POST['city']);
+		$country 	= $_POST['country'];
+		$zip		= mysql_clean($_POST['zip']);
+		$active		= $_POST['active'];
+		
+		if(empty($uname)){
+		$msg[] = e($LANG['usr_uname_err']);
+		}
+		if($this->duplicate_user($uname)){
+		$msg[] = e($LANG['usr_uname_err2']);
+		}
+		if(!$this->isValidUsername($uname)){
+			$msg[] = e($LANG['usr_uname_err3']);
+		}
+		if(empty($_POST['password'])){
+		$msg[] = e($LANG['usr_pass_err2']);
+		}
+		if(empty($email)){
+		$msg[] = e($LANG['usr_email_err1']);
+		}elseif(!$this->isValidEmail($email)){
+		$msg[] = e($LANG['usr_email_err2']);
+		}
+		if($this->duplicate_email($email)){
+		$msg[] = e($LANG['usr_email_err3']);
+		}
+		if(!empty($zip) && !is_numeric($zip)){
+		$msg[] = e($LANG['usr_pcode_err']);
+		}
+		
+		if(!$this->is_username($uname))
+			$msg[] = 'Username is not valid';
+		
+		$dob = strtotime($dob) ;
+		if(date("Y",$dob) < 1960 || date("Y",$dob) > date("Y"))
+		   $msg[] = "Please enter valid date of birth";
+		   
+		$dob = date('Y-m-d',strtotime($dob));
+		
+			if(empty($msg)){
+			if(!mysql_query("INSERT INTO users (username,password,email,first_name,last_name,sex,level,dob,hometown,city,country,zip,usr_status)
+		VALUES('".$uname."','".$pass."','".$email."','".$fname."','".$lname."','".$gender."','".$level."','".$dob."','".$ht."','".$city."','".$country."','".$zip."','".$active."')")) die(mysql_error());
+			$stats->UpdateUserRecord(1);
+			redirect_to($_SERVER['PHP_SELF'].'?msg='.urlencode($LANG['usr_add_succ_msg']));
+			}
+		
+		return $msg;
+	
+	}
+	
+	
+	
+	/**
+	 * Function used to get users
+	 */
+	function get_users($params)
+	{
+		global $db;
+		
+		$limit = $params['limit'];
+		$order = $params['order'];
+		
+		$cond = "";
+		
+		//Setting Category Condition
+		if($params['category'] && strtolower($params['category'])!='all')
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+				
+			$cond .= " (";
+			
+			if(!is_array($params['category']))
+			{
+				$cats = explode(',',$params['category']);
+			}else
+				$cats = $params['category'];
+				
+			$count = 0;
+			
+			foreach($cats as $cat_params)
+			{
+				$count ++;
+				if($count>1)
+				$cond .=" OR ";
+				$cond .= " category LIKE '%$cat_params%' ";
+			}
+			
+			$cond .= ")";
+		}
+		
+		//date span
+		if($params['date_span'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " ".cbsearch::date_margin("doj",$params['date_span']);
+		}
+		
+		/*//uid 
+		if($params['user'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " userid='".$params['user']."'";
+		}
+		
+		$tag_n_title='';
+		//Tags
+		if($params['tags'])
+		{
+			//checking for commas ;)
+			$tags = explode(",",$params['tags']);
+			if(count($tags)>0)
+			{
+				if($tag_n_title!='')
+					$tag_n_title .= ' OR ';
+				$total = count($tags);
+				$loop = 1;
+				foreach($tags as $tag)
+				{
+					$tag_n_title .= " tags LIKE '%".$tag."%'";
+					if($loop<$total)
+					$tag_n_title .= " OR ";
+					$loop++;
+					
+				}
+			}else
+			{
+				if($tag_n_title!='')
+					$tag_n_title .= ' OR ';
+				$tag_n_title .= " tags LIKE '%".$params['tags']."%'";
+			}
+		}
+		//TITLE
+		if($params['title'])
+		{
+			if($tag_n_title!='')
+				$tag_n_title .= ' OR ';
+			$tag_n_title .= " title LIKE '%".$params['tags']."%'";
+		}
+		
+		if($tag_n_title)
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " ($tag_n_title) ";
+		}*/
+		
+		//FEATURED
+		if($params['featured'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$featured .= " featured = 'yes' ";
+		}
+		
+		//Exclude Vids
+		if($params['exclude'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " userid <> '".$params['exclude']."' ";
+		}
+		
+		$result = $db->select('users','*',$cond,$limit,$order);
+		
+		
+		if($params['count_only'])
+			return $result = $db->count('users','*',$cond);
+		if($params['assign'])
+			assign($params['assign'],$result);
+		else
+			return $result;
+	}
+	
+	
+	
+	
+	/**
+	 * Function used to perform several actions with a video
+	 */
+	function action($case,$uid)
+	{
+		global $db;
+		if(!$this->user_exists($uid))
+			return false;
+		//Lets just check weathter user exists or not
+		$tbl = $this->dbtbl['users'];
+		switch($case)
+		{
+			//Activating a user
+			case 'activate':
+			case 'av':
+			case 'a':
+			{
+				$db->update($tbl,array('usr_status'),array('Ok')," userid='$uid' ");
+				e(lang("User has been activated"),m);
+			}
+			break;
+			
+			//Deactivating a user
+			case "deactivate":
+			case "dav":
+			case "d":
+			{
+				$db->update($tbl,array('usr_status'),array('ToActivate')," userid='$uid' ");
+				e(lang("User has been deactivated"),m);
+			}
+			break;
+			
+			//Featuring user
+			case "feature":
+			case "featured":
+			case "f":
+			{
+				$db->update($tbl,array('featured','featured_date'),array('yes',now())," userid='$uid' ");
+				e(lang("User has been set as featured"),m);
+			}
+			break;
+			
+			
+			//Unfeatured user
+			case "unfeature":
+			case "unfeatured":
+			case "uf":
+			{
+				$db->update($tbl,array('featured'),array('no')," userid='$uid' ");
+				e(lang("User has been removed from featured users"),m);
+			}
+			break;
+			
+			//Ban User
+			case "ban":
+			case "banned":
+			{
+				$db->update($tbl,array('ban_status'),array('yes')," userid='$uid' ");
+				e(lang("User has been banned"),m);
+			}
+			break;
+			
+			
+			//Ban User
+			case "unban":
+			case "unbanned":
+			{
+				$db->update($tbl,array('ban_status'),array('no')," userid='$uid' ");
+				e(lang("User has been unbanned"),m);
+			}
+			break;
+		}
 	}
 }
 ?>

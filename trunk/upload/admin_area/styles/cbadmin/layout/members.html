@@ -49,9 +49,13 @@
     {if $u.ban_status == no}       
     <a href="?ban={$u.userid}">Ban Member</a> 
     {/if}|
-    <a href="?editor_pick={$videos[list].videoid}">Add To Editor's Pick</a> | 
-    <a href="view_conversion_log.php?file_name={$videos[list].file_name}">File conversion details</a> | 
-    <a href="?delete_user={$u.userid}">Delete</a>
+    {if $u.featured != Yes} 
+    <a href="?featured={$u.userid}">Feature Member</a> 
+    {/if} 
+    {if $u.featured == Yes}       
+    <a href="?unfeatured={$u.userid}">Unfeature Member</a> 
+    {/if}|
+    <a href="?deleteuser={$u.userid}">Delete</a>
     </div>
     </td>
     <td width="50" valign="top" class="video_opt_td">&nbsp;</td>

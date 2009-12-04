@@ -1,3 +1,6 @@
+<!-- Loading Quicklist Box -->
+<div id="quicklist_box" class="quicklist_box"></div>
+
 <div id="header">
 	<div class="logo">
     	<img src="{$imageurl}/dot.gif" id="logo_icon" alt="{$title} Logo" title="{$title}" >
@@ -37,7 +40,7 @@
     <ul>
         <li><a href="{$baseurl}" {current_page page='home'}>Home</a></li>
         <li><a href="{link name='videos'}"  {current_page page='videos'}>Videos</a></li>
-        <li><a href="{link name='groups'}"  {current_page page='groups'}>Groups</a></li>
+        <li><a href="{link name='channels'}" {current_page page='channels'}>Channels</a></li>
         <li><a href="{link name='signup'}" {current_page page='signup'}>Signup</a></li>
     </ul>
 </div> <!--TOP_TABS END-->
@@ -49,8 +52,7 @@
             <li><a href="videos.php?cat={$cat[c_list].category_id}">{$cat[c_list].category_name}</a></li>
          {/section}   
          </ul>
-                     
-            <div class="search_con">
+<div class="search_con">
             	<form action="{$search_result}" method="get" name="search" id="search" style="margin:0px; padding:0px;">
                 	<input name="query" id="query" type="text" class="searchbar" value="{$query}" />
                     <input name="submit" type="submit" class="searchbutton" value="Search" />
@@ -58,4 +60,4 @@
             </div> <!--SEARCH_CON END-->
     </div> <!--NAVI END-->
 </div> <!--NAVI_CON END-->
-<div class="clear"></div>
+<div class="clearfix"></div>

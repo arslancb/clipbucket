@@ -14,7 +14,7 @@
  * too
  */
  
- 
+define("QUICK_LIST_SESS","quick_list");
 
 class CBvideo extends CBCategory
 {
@@ -261,6 +261,7 @@ class CBvideo extends CBCategory
 				}
 				//Finally Removing Database entry of video
 				$db->execute("DELETE FROM video WHERE videoid='$vid'");
+				$db->update("users",array("total_videos"),array("|f|total_videos-1")," userid='".$vdetails['userid']."'");
 				e(lang("class_vdo_del_msg"),m);
 			}else{
 				e(lang("You cannot delete this video"));
@@ -478,7 +479,7 @@ class CBvideo extends CBCategory
 	{
 		global $db;
 		$total_comments = $this->count_video_comments($id);
-		$db->update("video",array("comments_count"),$total_comments," videoid='$id'");
+		$db->update("video",array("comments_count"),array($total_comments)," videoid='$id'");
 	}
 	
 	/**
@@ -494,6 +495,21 @@ class CBvideo extends CBCategory
 			$this->update_comments_count($obj_id);
 		}
 		return $add_comment;
+	}
+	
+	/**
+	 * Function used to remove video comment
+	 */
+	function delete_comment($cid,$is_reply=FALSE)
+	{
+		global $myquery,$db;
+		$remove_comment =  $myquery->delete_comment($cid,'v',$is_reply);
+		if($remove_comment)
+		{
+			//Updating Number of comments of video
+			$this->update_comments_count($obj_id);
+		}
+		return $remove_comment;
 	}
 	
 	
@@ -832,6 +848,69 @@ class CBvideo extends CBCategory
 			return $result;
 		else
 			return false;
-	}	 
+	}	
+	
+	/**
+	 * Function used to add video in quicklist
+	 */
+	function add_to_quicklist($id)
+	{
+		global $sess;
+		if($this->exists($id))
+		{
+			$list = json_decode($sess->get(QUICK_LIST_SESS), true);
+			pr($list);
+			$list[] = $id;
+			$new_list = array_unique($list);
+			$sess->set(QUICK_LIST_SESS,json_encode($new_list));
+			return true;
+
+		}else
+			return false;
+	}
+	
+	/**
+	 * Removing video from quicklist
+	 */
+	function remove_from_quicklist($id)
+	{
+		global $sess;
+		$list = json_decode($sess->get(QUICK_LIST_SESS), true);
+		$key = array_search($id,$list);
+		unset($list[$key]);
+		$sess->set(QUICK_LIST_SESS,json_encode($list));
+		return true;
+	}
+	
+	
+	/**
+	 * function used to count num of quicklist
+	 */
+	function total_quicklist()
+	{
+		global $sess;
+		$total = $sess->get(QUICK_LIST_SESS);
+		$total = json_decode($total, true);
+		return count($total);
+	}
+	
+	/**
+	 * Function used to get quicklist
+	 */
+	function get_quicklist()
+	{
+		global $sess;
+		return json_decode($sess->get(QUICK_LIST_SESS), true);
+	}
+	
+	/**
+	 * Function used to remove all items of quicklist
+	 */
+	function clear_quicklist()
+	{
+		global $sess;
+		$sess->set(QUICK_LIST_SESS,'');
+	}
+	
 }
 ?>

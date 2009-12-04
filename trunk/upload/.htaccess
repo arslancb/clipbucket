@@ -76,9 +76,12 @@ RewriteRule ^message$ 								inbox.php [nc]
 #
 #Users, Channel & Management
 #
+
+RewriteRule ^channels/([0-9A-Za-z]+)/(.*)/(.*)/(.*)/(.*) channels.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
+RewriteRule ^channels channels.php [L]
 RewriteRule ^members/								channels.php [nc]
-RewriteRule ^users/								channels.php [nc]
-RewriteRule ^channels/								channels.php [nc]
+RewriteRule ^users/									channels.php [nc]
+
 #
 RewriteRule ^user/								channels.php [nc]
 RewriteRule ^user/channel/(.*)						view_channel.php?user=$1 [nc]

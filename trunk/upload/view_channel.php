@@ -7,6 +7,10 @@
  ******************************************************************
 */
 
+define("THIS_PAGE",'view_channel');
+define("PARENT_PAGE",'channels');
+
+
 require 'includes/config.inc.php';
 $pages->page_redir();
 $userquery->perm_check('view_channel',true);

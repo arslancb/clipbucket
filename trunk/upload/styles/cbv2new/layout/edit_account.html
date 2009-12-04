@@ -12,6 +12,7 @@
 {assign var="user_fields"  value=$userquery->load_profile_fields($p)}
 {assign var="user_custom_profile_fields" value=$userquery->load_custom_profile_fields($p)}
 {assign var="user_custom_signup_fields" value=$userquery->load_custom_signup_fields($p)}
+{assign var="signup_fields"  value=$userquery->load_signup_fields($user)}
 
 <div class="account_form">
 <form method="post" name="edit_profile">
@@ -38,6 +39,12 @@
         <label>
           <input type="radio" name="sex" value="female" id="sex_1" {if $user.sex == female} checked="checked"{/if}/>
           Female</label></div>
+<div class="clearfix"></div>
+</div>
+
+<div class="account_field_block clearfix">
+<div class="account_field_label" align="right"><strong><label for="country">Category</label></strong></div>
+<div class="account_field">{ANCHOR place=$signup_fields.cat.anchor_before}{$formObj->createField($signup_fields.cat)}{ANCHOR place=$signup_fields.cat.anchor_after}</div>
 <div class="clearfix"></div>
 </div>
 

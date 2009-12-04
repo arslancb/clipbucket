@@ -25,9 +25,12 @@
 	function load_remote_upload_form($params)
 	{
 		global $file_name;
-		echo '<div class="upload_form_div">';
+		if($params['class'])
+			$class = ' '.$params['class'];
+		echo '<div class="upload_form_div'.$class.'">';
+		echo '<label for="check_url">Please enter remote file url</label><br>';
 		echo '<input type="textfield" id="remote_file_url" name="remote_file_url"  class="upload_input"/>';
-		echo '<div align="right"><input type="button" name="check_url" id="check_url" value="Upload" onClick="check_remote_url()" ></div>';
+		echo '<div align="right"><input type="button" name="check_url" id="check_url" value="Upload" onClick="check_remote_url()" class="'.$params['button_class'].'"></div>';
 		echo '</div>';
 	}
 	

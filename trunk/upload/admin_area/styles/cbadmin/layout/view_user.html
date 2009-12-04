@@ -1,5 +1,6 @@
 <span class="page_title">Edit User</span>
 {assign var="user_fields"  value=$userquery->load_profile_fields($p)}
+{assign var="signup_fields"  value=$userquery->load_signup_fields($u)}
 {assign var="user_custom_profile_fields" value=$userquery->load_custom_profile_fields($p)}
 {assign var="user_custom_signup_fields" value=$userquery->load_custom_signup_fields($p)}
 
@@ -78,6 +79,10 @@
           Female</label>
         
       </p></td>
+    </tr>
+    <tr>
+      <td>Category</td>
+      <td>{ANCHOR place=$signup_fields.cat.anchor_before}{$formObj->createField($signup_fields.cat)}{ANCHOR place=$signup_fields.cat.anchor_after}</td>
     </tr>
 
   </table>

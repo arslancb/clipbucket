@@ -215,7 +215,7 @@ class cbsearch
 				case "all":
 				default:
 				{
-					$cond = " date_added != '' ";
+					$cond = " $date_column != '' ";
 				}
 				break;
 				
