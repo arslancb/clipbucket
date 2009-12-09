@@ -1,6 +1,7 @@
 <div class="video_title">{$vdo.title}</div>
 {if $userquery->perm_check('admin_access')=='yes'}<div>{ANCHOR place=watch_admin_options data=$vdo}</div>{/if}
 
+
 <!-- Video Left -->
 <div class="video_left" align="left">
 
@@ -10,6 +11,13 @@
     </div>
     <script language="javascript">
         {FlashPlayer vdetails = $vdo}
+    </script>
+    
+    <div id="hd_div" class='video_player' style="display:none">
+    This content requires JavaScript and Macromedia Flash Player 7 or higher. <a href=http://www.macromedia.com/go/getflash/>Get Flash</a><br/><br/>
+    </div>
+    <script language="javascript">
+        {FlashPlayer vdetails =$vdo player_div='hd_div' hq=true}
     </script>
 </div>
 <div class="clear"></div>

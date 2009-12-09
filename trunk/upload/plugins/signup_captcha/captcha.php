@@ -1,4 +1,5 @@
 <?php
+define("IS_CAPTCHA_LOADING",true);
 require '../../includes/common.php';
 require "captcha/class.img_validator.php";
 

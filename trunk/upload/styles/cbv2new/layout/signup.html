@@ -2,6 +2,17 @@
 {assign var='custom_field' value=$userquery->custom_signup_fields}
 
 
+{if $mode =='signup_success'}
+	<div class="simple_container">
+        	<h2>Signup Success</h2>
+	{if $udetails.usr_status !='Ok'}
+    	Thanks for joing {$title}, please check your inbox for activationg details
+    {else}
+    	Thanks for joing {$title}, please login to continue as our registered member
+    {/if}
+    </div>
+{/if}
+
 <div class="signup_left">
 	<h2>Members Login</h2>
     if you already have {$title} account, please login here
@@ -52,6 +63,24 @@
                
                 
             {/foreach} 
+            
+            <!-- Loading Custom Fields -->
+            {foreach from=$custom_field item=field}
+            	<label for="{$field.id}" class="label">{$field.title}</label>
+                <div class="input_container">
+                {if $field.hint_1}
+                <div class="hint">{$field.hint_1}</div>
+                {/if}
+                {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
+                {if $field.hint_2}
+                <div class="hint">{$field.hint_2}</div>
+                {/if}
+                </div>
+                <div class="clearfix"></div>
+               
+                
+            {/foreach} 
+            
             <div align="center">
                 <input name="agree" type="checkbox" id="agree" value="yes" checked="checked" />
                 - {$LANG.user_i_agree_to_the} <a href="{$termsofuse_link}" target="_blank" style="text-decoration:underline">{$LANG.tos_title}</a> and <a href="{$privacy_link}" target="_blank" style="text-decoration:underline">{$LANG.privacy_policy}</a>

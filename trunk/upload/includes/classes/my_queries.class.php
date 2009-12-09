@@ -888,13 +888,14 @@ class myquery {
 	function file_details($file_name)
 	{
 		global $db;
-		$results = $db->select("video_files","*"," src_name='$file_name'");
+		return get_file_details($file_name);
+		/*$results = $db->select("video_files","*"," src_name='$file_name'");
 		if($db->num_rows==0)
 			return false;
 		else
 		{
 			return $results[0];
-		}
+		}*/
 	}
 	
 	

@@ -11,21 +11,31 @@ define("THIS_PAGE","signup");
 define("PARENT_PAGE","signup");
 
 require 'includes/config.inc.php';
-
+	
+				
 if($userquery->login_check('',true)){
 	redirect_to(BASEURL);
 }
 
-//Checking If Registertatiosn Are Allowed or Not
-
-if(!$signup->Registration()){
-$msg = $LANG['usr_reg_err'];
-}else{
+	/**
+	 * Signing up new user
+	 */
 	if(isset($_POST['signup'])){
-		$userquery->signup_user($_POST);
+		if(!$userquery->is_registeration_allowed())
+			e(lang('usr_reg_err'));
+		else
+		{
+			$signup = $userquery->signup_user($_POST);
+			if($signup)
+			{
+				$udetails = $userquery->get_user_details($signup);
+				$eh->flush();
+				assign('udetails',$udetails);
+				assign('mode','signup_success');
+			}
+		}
 	}
-}
-subtitle('signup');
+
 
 //Login User
 
@@ -45,7 +55,6 @@ if(!isset($_POST['login']) && !isset($_POST['signup'])){
 	}
 }
 
-if($signup->Registration());
 //Displaying The Template
 template_files('signup.html');
 display_it()

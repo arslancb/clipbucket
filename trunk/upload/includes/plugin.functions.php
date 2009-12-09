@@ -208,12 +208,12 @@
 	 */
 	function register_signup_field($array)
 	{
-		global $signup;
+		global $userquery;
 		$name = key($array);
 		if(is_array($array) && !empty($array[$name]['name']))
 		{
 			foreach($array as $key => $arr)
-				$signup->custom_signup_fields[$key] = $arr;
+				$userquery->custom_signup_fields[$key] = $arr;
 		}
 	}
 	
@@ -277,5 +277,15 @@
 			return '<font color="#006600">+'.$input.'</font>';
 		else
 			return $input;
+	}
+	
+	
+	/**
+	 * Function use to register security captchas for clipbucket
+	 */
+	function register_cb_captcha($func,$ver_func,$show_field=true)
+	{
+		global $Cbucket;
+		$Cbucket->captchas[] = array('load_function'=>$func,'validate_function'=>$ver_func,'show_field'=>$show_field);
 	}
 ?>

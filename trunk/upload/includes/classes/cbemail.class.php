@@ -70,6 +70,8 @@ class CBEmail
 		 '{date_year}'		=> cbdate("Y"),
 		 '{date_month}'		=> cbdate("m"),
 		 '{date_day}'		=> cbdate("d"),
+		 '{signup_link}'	=> cblink(array('name'=>'signup')),
+		 '{login_link}'		=> cblink(array('name'=>'login')),
 		 );
 		
 		if(is_array($array) && count($array)>0)

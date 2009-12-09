@@ -26,6 +26,7 @@ class ClipBucket
 	var $template_files = array();
 	var $cur_template = 'clipbucketblue';
 	var $links = array();
+	var $captchas = array();
 	
 	/**
 	 * All Functions that are called
@@ -97,7 +98,9 @@ class ClipBucket
 		
 		$this->temp_exts = array('ahz','jhz','abc','xyz','cb2','tmp','olo','oar','ozz');
 		$this->template = $this->configs['template_dir'];
-
+		
+		if(!defined("IS_CAPTCHA_LOADING"))
+		$_SESSION['total_captchas_loaded'] = 0;
 	}
 	
 	

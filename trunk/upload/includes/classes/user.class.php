@@ -498,7 +498,7 @@ class userquery extends CBCategory{
 		/*if(!$id)
 			$id = userid();*/
 			
-		$results = $db->select('users','*'," userid='$id' OR username='".$id."'");
+		$results = $db->select('users','*'," userid='$id' OR username='".$id."' OR email='".$id."'");
 		return $results[0];		
 	}function GetUserData($id=NULL){ return $this->get_user_details($id); }
 	
@@ -553,35 +553,103 @@ class userquery extends CBCategory{
 		
 		
 	//Function Used To Activate User
-	function ActivateUser($user,$avcode){
-		$data = $this->GetUserData_username($user);
-		if($data['usr_status'] == 'Ok' || $data['avcode'] !=$avcode || empty($user)){
-			return false;
-		}else{
+	function activate_user_with_avcode($user,$avcode)
+	{
+		global $eh;
+		$data = $this->get_user_details($user);
+		if(!$data  || !$user)
+			e(lang("usr_exist_err"));
+		elseif($udetails['usr_status']=='Ok')
+			e(lang('usr_activation_err'));
+		elseif($udetails['ban_status']=='yes')
+			e(lang('ban_status'));
+		elseif($data['avcode'] !=$avcode)
+			e(lang('avcode_incorrect'));
+		else
+		{
 			$this->action('activate',$data['userid']);
-		return true;
+			$eh->flush();
+			e(lang("usr_activation_msg"),"m");
+			
+			if($data['welcome_email_sent']=='no')
+				$this->send_welcome_email($data,TRUE);
 		}
 	}
 	
-	//Function Used To Send Activation Code To User
-	function SendActivation($email){
-			$query = mysql_query("SELECT * FROM users WHERE email='".$email."'");
-			$data = mysql_fetch_array($query);
-			if(!empty($data['username']) && $data['usr_status'] != 'Ok'){
-			$username	= $data['username'];
-			$avcode 	= $data['avcode'];
-			$cur_date 	= date('m-d-Y');
-			$title		= TITLE;
-			$baseurl	= BASEURL;
-			$from		= SUPPORT_EMAIL;
-			$to			= $email;
-			require_once(BASEDIR.'/includes/email_templates/activation_request.template.php');
-			require_once(BASEDIR.'/includes/email_templates/activation_request.header.php');
-			send_email($from,$to,$subj,nl2br($body));
-			return true;
-			}else{
-			return false;
-			}
+	
+	/**
+	 * Function used to send activation code
+	 * to user
+	 * @param : $usenrma,$email or $userid
+	 */
+	function send_activation_code($email)
+	{
+		global $db,$cbemail;
+		$udetails = $this->get_user_details($email);
+		
+		if(!$udetails || !$email)
+			e(lang("usr_exist_err"));
+		elseif($udetails['usr_status']=='Ok')
+			e(lang('usr_activation_err'));
+		elseif($udetails['ban_status']=='yes')
+			e(lang('ban_status'));
+		else
+		{
+			$tpl = $cbemail->get_template('avcode_request_template');
+			$more_var = array
+			('{username}'	=> $udetails['username'],
+			 '{email}'		=> $udetails['email'],
+			 '{avcode}'		=> $udetails['avcode']
+			);
+			if(!is_array($var))
+				$var = array();
+			$var = array_merge($more_var,$var);
+			$subj = $cbemail->replace($tpl['email_template_subject'],$var);
+			$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
+			
+			//Now Finally Sending Email
+			cbmail(array('to'=>$udetails['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+			e(lang('usr_activation_em_msg'),"m");
+		}
+	}
+	function SendActivation($email)
+	{
+		return $this->send_activation_code($email);
+	}
+	
+	/**
+	 * Function used to send welcome email
+	 */
+	function send_welcome_email($user,$update_email_status=FALSE)
+	{
+		global $db,$cbemail;
+		
+		if(!is_array($user))
+			$udetails = $this->get_user_details($user);
+		else
+			$udetails = $user;
+		
+		if(!$udetails)
+			e(lang("usr_exist_err"));
+		else
+		{
+			$tpl = $cbemail->get_template('welcome_message_template');
+			$more_var = array
+			('{username}'	=> $udetails['username'],
+			 '{email}'		=> $udetails['email'],
+			);
+			if(!is_array($var))
+				$var = array();
+			$var = array_merge($more_var,$var);
+			$subj = $cbemail->replace($tpl['email_template_subject'],$var);
+			$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
+			
+			//Now Finally Sending Email
+			cbmail(array('to'=>$udetails['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+			
+			if($update_email_status)
+				$db->update($this->dbtbl['users'],array('welcome_email_sent'),array("yes")," userid='".$udetails['userid']."' ");
+		}
 	}
 	
 	
@@ -798,99 +866,122 @@ class userquery extends CBCategory{
 	}
 	
 		
-		//Function Used To Reset Passoword
-			function ResetPassword($step){
-			global $LANG,$row;
-						if($step == 1){
-							$user 	= mysql_clean($_POST['username']);
-							$verify	= $_POST['vcode'];
-							$query = mysql_query("SELECT * FROM users WHERE username = '".$user."'");
-							$data = mysql_fetch_array($query);
-									if(!mysql_num_rows($query)>0){
-									$msg[] = e($LANG['usr_exist_err']);
-									}
-									//Check Confirmation Code
-									if($row['captcha_type'] == '2'){
-									require "captcha/class.img_validator.php";
-									$img = new img_validator();
-									if(!$img->checks_word($verify)){
-									$msg[] = e($LANG['usr_ccode_err']);
-										}
-									}
-									if($row['captcha_type'] == 1){
-										if($verify != $_SESSION['security_code']){
-											$msg[] = e($LANG['usr_ccode_err']);
-										}
-									}
-									if(empty($msg)){
-										$myquery 	= new myquery();
-										$to 		= $data['email'];
-										$from 		= SUPPORT_EMAIL;
-										$subj		= $LANG['usr_pass_reset_conf'];
-										$message 	= $LANG['usr_dear_user'].",
-										".$LANG['usr_pass_reset_msg']."
-										".BASEURL."/forgot.php?action=reset_pass&code=".md5($to)."___AAAWWWx54s5d744_sad1sad&avcode=".$data['avcode']."&user=".$user;
-										send_email($from,$to,$subj,nl2br($message));
-									$msg = $LANG['usr_rpass_email_msg'];
-									}
-							}
-						if($step==2){
-						$user 	= mysql_clean($_GET['user']);
-						$avcode	= mysql_clean($_GET['avcode']);
-						$query = mysql_query("SELECT * FROM users WHERE username='".$user."' AND avcode ='".$avcode."'");
-						$data = mysql_fetch_array($query);
-							if(mysql_num_rows($query)>0&& !empty($avcode)){
-								$newpass = RandomString(6);
-								$pass 	 = pass_code($newpass);
-								mysql_query("UPDATE users SET password = '".$pass."' WHERE username = '".$user."'");
-								$msg = e($LANG['usr_pass_email_msg'],m);
-								
-								$myquery 	= new myquery();
-										$to 		= $data['email'];
-										$from 		= SUPPORT_EMAIL;
-										$subj		= $LANG['usr_rpass_msg'];
-										$message 	= $LANG['usr_dear_user'].",
-										".$LANG['usr_rpass_req_msg'].$newpass;
-								send_email($from,$to,$subj,nl2br($message));	
-								}else{
-								$msg = e($LANG['usr_exist_err']);
-								}
-							}
-		
-			return $msg;
+	/**
+	 * Function used to reset user password
+	 * it has two steps
+	 * 1 to send confirmation
+	 * 2 to reset the password
+	 */
+	 
+	function reset_password($step,$input,$code=NULL)
+	{
+		global $cbemail,$db;
+		switch($step)
+		{
+			case 1:
+			{
+				$udetails = $this->get_user_details($input);
+				if(!$udetails)
+					e(lang('usr_exist_err'));
+				 //verifying captcha...
+				elseif(!verify_captcha())
+					e(lang('usr_ccode_err'));
+				else
+				{
+					//Sending confirmation email
+					$tpl = $cbemail->get_template('password_reset_request');
+					$more_var = array
+					('{username}'	=> $udetails['username'],
+					 '{email}'		=> $udetails['email'],
+					 '{avcode}'		=> $udetails['avcode'],
+					 '{userid}'		=> $udetails['userid'],
+					);
+					if(!is_array($var))
+						$var = array();
+					$var = array_merge($more_var,$var);
+					$subj = $cbemail->replace($tpl['email_template_subject'],$var);
+					$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
+					
+					//Now Finally Sending Email
+					cbmail(array('to'=>$udetails['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+				
+					e(lang('usr_rpass_email_msg'),"m");
+				}
 			}
-										
-		//Function Used to recover USername
-		function RecoverUsername(){
-		global $LANG;
-			$email 	= mysql_clean($_POST['email']);
-			$verify	= $_POST['vcode'];
-			$query 	= mysql_query("SELECT * FROM users WHERE email='".$email."'");
-			$data 	= mysql_fetch_array($query);
-				if(!mysql_num_rows($query)>0){
-				$msg[] = e($LANG['usr_exist_err1']);
+			break;
+			case 2:
+			{
+				$udetails = $this->get_user_details($input);
+				if(!$udetails)
+					e(lang('usr_exist_err'));
+				 //verifying captcha...
+				elseif($udetails['avcode'] !=$code)
+					e(lang('usr_ccode_err'));
+				else
+				{
+					$newpass = RandomString(6);
+					$pass 	 = pass_code($newpass);
+					$avcode = RandomString(10);
+					$db->update($this->dbtbl['users'],array('password','avcode'),array($pass,$avcode)," userid='".$udetails['userid']."'");
+					//sending new password email...
+					//Sending confirmation email
+					$tpl = $cbemail->get_template('password_reset_details');
+					$more_var = array
+					('{username}'	=> $udetails['username'],
+					 '{email}'		=> $udetails['email'],
+					 '{avcode}'		=> $udetails['avcode'],
+					 '{userid}'		=> $udetails['userid'],
+					 '{password}'	=> $newpass,
+					);
+					if(!is_array($var))
+						$var = array();
+					$var = array_merge($more_var,$var);
+					$subj = $cbemail->replace($tpl['email_template_subject'],$var);
+					$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
+					
+					//Now Finally Sending Email
+					cbmail(array('to'=>$udetails['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+					e(lang('usr_pass_email_msg'),m);
 				}
-				
-				//Check Confirmation Code
-				require "captcha/class.img_validator.php";
-				$img = new img_validator();
-				if(!$img->checks_word($verify)){
-				$msg[] = e($LANG['usr_ccode_err']);
-				}
-				
-				if(empty($msg)){
-					$to 	= $email;
-					$from	= SUPPORT_EMAIL;
-					$subj	= $ANG['usr_uname_recovery'];
-					$message= $LANG['usr_dear_user'].",
-					".$LANG['usr_uname_req_msg'].$data['username'];
-					send_email($from,$to,$subj,nl2br($message));
-					$msg = e($LANG['usr_uname_email_msg'],m);	
-					}
-		return $msg;
-
-		
+			}
+			break;
 		}
+	}
+										
+	/**
+	 * Function used to recover username
+	 */
+	function recover_username($email)
+	{
+		global $cbemail;
+		$udetails = $this->get_user_details($email);
+		if(!$udetails)
+			e(lang('usr_exist_err'));
+		 //verifying captcha...
+		elseif($udetails['avcode'] !=$code)
+			e(lang('usr_ccode_err'));
+		else
+		{
+			$tpl = $cbemail->get_template('forgot_username_request');
+			$more_var = array
+			(
+			 '{username}'	=> $udetails['username'],
+			);
+			if(!is_array($var))
+				$var = array();
+			$var = array_merge($more_var,$var);
+			$subj = $cbemail->replace($tpl['email_template_subject'],$var);
+			$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
+			
+			//Now Finally Sending Email
+			cbmail(array('to'=>$udetails['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+			e(lang('usr_pass_email_msg'),m);
+			e(lang("usr_uname_email_msg"),"m");
+		}
+	return $msg;
+	
+	
+	}
 	//Gettin Bridge Paramaters
 	function GetBridgeParams($bridgeid){
 		$query = mysql_query("SELECT * FROM login_bridges WHERE bridge_id='".$bridgeid."'");
@@ -2604,11 +2695,16 @@ class userquery extends CBCategory{
 			// Setting Verification type
 			if(EMAIL_VERIFICATION == '1'){
 				$usr_status = 'ToActivate';
+				$welcome_email = 'no';
 			}else{
 				$usr_status = 'Ok';
+				$welcome_email = 'yes';
 			}
 			$query_field[] = "	usr_status";
 			$query_val[] = $usr_status;
+			
+			$query_field[] = "	welcome_email_sent";
+			$query_val[] = $welcome_email;
 			
 			//Creating AV Code
 			$avcode		= RandomString(10);
@@ -2657,7 +2753,7 @@ class userquery extends CBCategory{
 			$insert_id = $db->insert_id();
 			$db->insert($userquery->dbtbl['user_profile'],array("userid"),array($insert_id));
 			
-			if(!$userquery->perm_check('admin_add_user',true))
+			if(!$userquery->perm_check('admin_add_user',true,false) && EMAIL_VERIFICATION)
 			{
 				global $cbemail;
 				$tpl = $cbemail->get_template('email_verify_template');
@@ -2674,13 +2770,19 @@ class userquery extends CBCategory{
 				$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
 				
 				//Now Finally Sending Email
-				cbmail(array('to'=>post('email'),'from'=>'webmaster@localhost','subject'=>$subj,'content'=>$msg));
+				cbmail(array('to'=>post('email'),'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+			}
+			elseif(!$userquery->perm_check('admin_add_user',true,false))
+			{
+				$this->send_welcome_email($insert_id);
 			}
 			
 			
 			return $insert_id;
 		}
 	}
+	
+	
 	
 		
 	//Duplicate User Check
@@ -2941,7 +3043,8 @@ class userquery extends CBCategory{
 			case 'av':
 			case 'a':
 			{
-				$db->update($tbl,array('usr_status'),array('Ok')," userid='$uid' ");
+				$avcode = RandomString(10);
+				$db->update($tbl,array('usr_status','avcode'),array('Ok',$avcode)," userid='$uid' ");
 				e(lang("User has been activated"),m);
 			}
 			break;
@@ -2951,7 +3054,8 @@ class userquery extends CBCategory{
 			case "dav":
 			case "d":
 			{
-				$db->update($tbl,array('usr_status'),array('ToActivate')," userid='$uid' ");
+				$avcode = RandomString(10);
+				$db->update($tbl,array('usr_status','avcode'),array('ToActivate',$avcode)," userid='$uid' ");
 				e(lang("User has been deactivated"),m);
 			}
 			break;
@@ -2997,5 +3101,17 @@ class userquery extends CBCategory{
 			break;
 		}
 	}
+	
+	
+	/**
+	 * Is Registeration allowed
+	 */
+	 function is_registeration_allowed()
+	 {
+		if(ALLOW_REGISTERATION == 1 )
+			return true;
+		else
+			return false;
+	 }
 }
 ?>

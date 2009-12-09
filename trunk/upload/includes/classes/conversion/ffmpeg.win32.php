@@ -8,6 +8,9 @@
  * @License : CBLA - You Cannot MODIFY - REUSE THIS FILE
  * @website : http://clip-bucket.com/
  */
+ 
+ 
+define("KEEP_MP4_AS_IS","yes");
 
 class ffmpeg 
 {
@@ -28,6 +31,8 @@ class ffmpeg
 	var $gen_big_thumb = FALSE;
 	var $h264_single_pass = FALSE;
 	var $hq_output_file = '';
+	var $log_file = '';
+	var $input_ext = '';
 	
 	
 	/**
@@ -74,8 +79,7 @@ class ffmpeg
 		$this->log_file_info();
 		
 		//Insert Info into database
-		$this->insert_data();
-		
+		//$this->insert_data();		
 	}
 	
 	
@@ -421,6 +425,23 @@ class ffmpeg
 			$this->log .=" Unknown file details - Unable to get video details using FFMPEG \n";
 		}
 	}
+	/**
+	 * Function log outpuit file details
+	 */
+	function log_ouput_file_info()
+	{
+		$details = $this->output_details;
+		if(is_array($details))
+		{
+			foreach($details as $name => $value)
+			{
+				$this->log('output_'.$name,$value);
+			}
+		}else{
+			$this->log .=" Unknown file details - Unable to get output video details using FFMPEG \n";
+		}
+	}
+	 
 	
 	
 	
@@ -463,7 +484,8 @@ class ffmpeg
 	/**
 	 * Function used to calculate video padding
 	 */
-	function calculate_size_padding( $parameters, $source_info, & $width, & $height, & $ratio, & $pad_top, & $pad_bottom, & $pad_left, & $pad_right ) {
+	function calculate_size_padding( $parameters, $source_info, & $width, & $height, & $ratio, & $pad_top, & $pad_bottom, & $pad_left, & $pad_right )	
+	{
 		$p = $parameters;
 		$i = $source_info;
 
@@ -584,6 +606,7 @@ class ffmpeg
 	 */
 	function ClipBucket()
 	{
+		
 		$this->start_time_check();
 		$this->start_log();
 		$this->prepare();
@@ -591,17 +614,24 @@ class ffmpeg
 		$this->end_time_check();
 		$this->total_time();
 		$this->output_details = $this->get_file_info($this->output_file);
-		$this->log .= "\n\Time Took : ";
-		$this->log .= $this->total_time.' seconds';
+		$this->log .= "\r\n\r\n";
+		$this->log_ouput_file_info();
+		$this->log .= "\r\n\r\nTime Took : ";
+		$this->log .= $this->total_time.' seconds'."\r\n\r\n";
+
 		//$this->update_data();
 		//Generating Thumb
 		if($this->gen_thumbs)
 			$this->generate_thumbs($this->input_file,$this->input_details['duration']);
 		if($this->gen_big_thumb)
-			$this->generate_thumbs($this->input_file,$this->input_details['duration'],'300x240','big');
-		//Remove Input
-		if($this->remove_input)
-			unlink($this->input_file);
+			$this->generate_thumbs($this->input_file,$this->input_details['duration'],'original','big');
+		
+		if(!file_exists($this->output_file))
+			$this->log("conversion_status","failed");
+		else
+			$this->log("conversion_status","completed");
+			
+		$this->create_log_file();
 	}
 	
 	
@@ -612,12 +642,14 @@ class ffmpeg
 	function generate_thumbs($input_file,$duration,$dim='120x90',$num=3,$rand=NULL)
 	{
 		$output_dir = THUMBS_DIR;
-		
+		$dimension = '';
 		if($num=='big')
 		{
 			$file_name = getName($input_file)."-big.jpg";
 			$file_path = THUMBS_DIR.'/'.$file_name;
-			$command = $this->ffmpeg." -i $input_file -an -s $dim -y -f image2 -vframes 1 $file_path ";
+			if($dim!='original')
+				$dimension = " -s $dim  ";
+			$command = $this->ffmpeg." -i $input_file -an $dimension -y -f image2 -vframes 1 $file_path ";
 			$this->exec($command);
 		}else{
 				
@@ -637,7 +669,11 @@ class ffmpeg
 					} elseif($rand == "") {
 						$time = $this->ChangeTime($id);
 					}
-					$command = $this->ffmpeg." -i $input_file -an -ss $time -an -r 1 -s $dim -y -f image2 -vframes 1 $file_path ";
+					
+					if($dim!='original')
+						$dimension = " -s $dim  ";
+						
+					$command = $this->ffmpeg." -i $input_file -an -ss $time -an -r 1 $dimension -y -f image2 -vframes 1 $file_path ";
 					$this->exec($command);
 					$count = $count+1;
 				}
@@ -682,6 +718,7 @@ class ffmpeg
 	/**
 	 * Function used to convert video in HD format
 	 */
+	
 	function convert_to_hd($input=NULL,$output=NULL,$p=NULL,$i=NULL)
 	{
 		global $db;
@@ -771,7 +808,7 @@ class ffmpeg
 			$total_dims = count($widths);
 			
 			//Checking wich dimension is suitable for the video
-			for($id=0;$id<=$total_dims;$i++)
+			for($id=0;$id<=$total_dims;$id++)
 			{
 				$cur_dim = $widths[$id];
 				$next_dim = $widths[$id+1];
@@ -794,16 +831,22 @@ class ffmpeg
 			//Calculation Size Padding
 			$this->calculate_size_padding( $p, $i, $width, $height, $ratio, $pad_top, $pad_bottom, $pad_left, $pad_right );
 			$opt_av .= "-s {$width}x{$height} -aspect  $ratio -padcolor 000000 -padtop $pad_top -padbottom $pad_bottom -padleft $pad_left -padright $pad_right";
-
+			
+			
 			$command = $this->ffmpeg." -i ".$this->input_file." $opt_av -acodec libfaac -ab 96k -vcodec libx264 -vpre hq -crf 22 -threads 0 ".$this->hq_output_file."  2> ".TEMP_DIR."/output.tmp ";	
 			
-			$output = $this->exec($command);
+			if(KEEP_MP4_AS_IS=="yes" && $this->input_ext=='mp4')
+				copy($this->input_file,$this->hq_output_file);
+			else
+				$output = $this->exec($command);
+				
 			if(file_exists(TEMP_DIR.'/output.tmp'))
 			{
 				$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
 				unlink(TEMP_DIR.'/output.tmp');
 			}
 			
+			$this->log .= "\r\n\r\n\n=========STARTING $type CONVERSION==============\r\n\r\n\n";
 			$this->log("$type Video -- Conversion Command",$command);
 			$this->log .="\r\n\r\nConversion Details\r\n\r\n";
 			$this->log .=$output;
@@ -811,10 +854,25 @@ class ffmpeg
 			
 			$fields = array('file_conversion_log',strtolower($type));
 			$values = array(mysql_clean($this->log),'yes');
-			$db->update($this->tbl,$fields,$values," id = '".$this->row_id."'");
+			//$db->update($this->tbl,$fields,$values," id = '".$this->row_id."'");
+			$this->create_log_file();
 			return true;
 		}else
 			return false;
+	}
+	
+	/**
+	 * Function used to create log for a file
+	 */
+	function create_log_file()
+	{
+		$file = $this->log_file;
+		$data = $this->log;
+		$fo = fopen($file,"w");
+		if($fo)
+		{
+			fwrite($fo,$data);
+		}
 	}
 }
 ?>

@@ -1,18 +1,43 @@
-<div style="padding:5px">
-<div class="video_title">{$vdo.title}</div>
-{if $userquery->perm_check('admin_access')=='yes'}<div>{ANCHOR place=watch_admin_options data=$vdo}</div>{/if}
+<div class="vid_top_container">
+    <div class="video_title">{$vdo.title}</div>
+    {if $userquery->perm_check('admin_access')=='yes'}<div>{ANCHOR place=watch_admin_options data=$vdo}</div>{/if}
+    
+    {if has_hq($vdo)}
+    <span id="hq" class="hq_button_cont">
+    <a href="javascript:void(0)" onclick="$('#normal_player_cont,#hd_player_cont,#hq,#non_hq').toggle()">
+    	<img src="{$imageurl}/dot.gif" class="hq_button" border="0" />
+    </a>
+    </span>
+    <span id="non_hq" class="hq_button_cont" style="display:none">
+        <a href="javascript:void(0)" onclick="$('#normal_player_cont,#hd_player_cont,#hq,#non_hq').toggle()">
+            <img src="{$imageurl}/dot.gif" class="hq_button_sel" border="0" />
+        </a>
+    </span>
+    {/if}
 </div>
+
 
 <div class="watch_left">
 <!-- Player -->
-<div class="player_container">
+<div class="player_container" id="normal_player_cont">
     <div id="videoPlayer" class='video_player'>
     This content requires JavaScript and Macromedia Flash Player 7 or higher. <a href=http://www.macromedia.com/go/getflash/>Get Flash</a><br/><br/>
     </div>
     <script language="javascript">
         {FlashPlayer vdetails = $vdo}
     </script>
+    
 </div>
+{if has_hq($vdo)}
+<div class="player_container" style="display:none" id="hd_player_cont">    
+    <div id="hd_div" class='video_player'>
+    This content requires JavaScript and Macromedia Flash Player 7 or higher. <a href=http://www.macromedia.com/go/getflash/>Get Flash</a><br/><br/>
+    </div>
+    <script language="javascript">
+        {FlashPlayer vdetails =$vdo player_div='hd_div' hq=true}
+    </script>
+</div>
+{/if}
 <!-- Player End -->
 
 <!-- Actions -->

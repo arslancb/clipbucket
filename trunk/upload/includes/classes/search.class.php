@@ -182,7 +182,7 @@ class cbsearch
 				
 				case "yesterday":
 				{
-					$cond = " CONCAT(YEAR(curdate()),DAYOFYEAR(curdate())-1) = CONCAT(YEAR($date_column),DAYOFYEAR($date_column)-1) ";
+					$cond = " CONCAT(YEAR(curdate()),DAYOFYEAR(curdate())-1) = CONCAT(YEAR($date_column),DAYOFYEAR($date_column)) ";
 				}
 				break;
 				

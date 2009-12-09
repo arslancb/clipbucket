@@ -5,8 +5,8 @@
 <div class="prof_title"><a href="{$userquery->profile_link($user)}">{$user.username}</a></div>
 {$user.total_videos|number_format} videos {$user.profile_hits|number_format} views<br />
 {$user.subscribers|number_format} subscribers
-Last active : {$user.last_active|nicetime}
-</div>
+<br />
+Last active : {$user.last_active|nicetime} </div>
 {/if}
 
 {if $block_type =='small'}

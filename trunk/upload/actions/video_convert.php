@@ -4,6 +4,8 @@
   * Software : ClipBucket v2
   * License : CBLA
   **/
+
+
 ini_set('mysql.connect_timeout','6000');
 
 include(dirname(__FILE__)."/../includes/config.inc.php");
@@ -63,30 +65,17 @@ rename($temp_file,$orig_file);
 	$ffmpeg->configs = $configs;
 	$ffmpeg->gen_thumbs = TRUE;
 	$ffmpeg->gen_big_thumb = TRUE;
+	$ffmpeg->input_ext = $ext;
 	$ffmpeg->output_file = VIDEOS_DIR.'/'.$tmp_file.'.flv';
 	$ffmpeg->hq_output_file = VIDEOS_DIR.'/'.$tmp_file.'.mp4';
-	$ffmpeg->remove_input=FALSE;
+	$ffmpeg->log_file = LOGS_DIR.'/'.$tmp_file.'.log';
+	//$ffmpeg->remove_input=TRUE;
 	$ffmpeg->ClipBucket();
 	//Converting File In HD Format
-	//$ffmpeg->convert_to_hd();
+	$ffmpeg->convert_to_hd();
+	unlink($ffmpeg->input_file);
 	
-	$db->update("conversion_queue",
-				array("cqueue_conversion"),
-				array("yes")," cqueue_id = '".$queue_details['cqueue_id']."'");
-
-	update_processed_video($queue_details);
-	
-	/**
-	 * Calling Functions after converting Video
-	 */
-	if(get_functions('after_convert_functions'))
-	{
-		foreach(get_functions('after_convert_functions') as $func)
-		{
-			if(@function_exists($func))
-				$func();
-		}
-	}
+	//exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
 }
 
 

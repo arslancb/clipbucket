@@ -1,42 +1,51 @@
 <?php
 /* 
  ****************************************************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.											|
+ | Copyright (c) 2007-2009 Clip-Bucket.com. All rights reserved.											|
  | @ Author	   : ArslanHassan																		|
  | @ Software  : ClipBucket , © PHPBucket.com														|
  ****************************************************************************************************
 */
+
+define("THIS_PAGE","forgot");
+define("PARENT_PAGE",'signup');
+
 require 'includes/config.inc.php';
 
-$action = mysql_clean($_GET['action']);
-//Reset Password
+	$mode = $_GET['mode'];
+	
+	/**
+	 * Reseting Password
+	 * Sending Email
+	 */
 	if(isset($_POST['reset'])){
-		$msg = $userquery->ResetPassword(1);
+		$input = post('forgot_username');
+		$userquery->reset_password(1,$input);
 	}
 	
-	//Reseting
-	if($action =='reset_pass'){
-	$msg = $userquery->ResetPassword(2);	
+	/**
+	 * Reseting Password
+	 * Real Reseting ;)
+	 */
+	$user = get('user');
+	if($mode =='reset_pass' && $user)
+	{
+		$input = mysql_clean(get('user'));
+		$avcode = mysql_clean(get('avcode'));
+		$userquery->reset_password(2,$input,$avcode);
 	}
 	
-//Recover Username
-
-	if(isset($_POST['recover'])){
-		$msg = $userquery->RecoverUsername();
+	/**
+	 * Recovering username
+	 */
+	if(isset($_POST['recover_username']))
+	{
+		$email = mysql_clean($_POST['forgot_email']);
+		$msg = $userquery->recover_username($email);
 	}
-		
 
-if($row['captcha_type']==2){
-Assign('captcha',BASEURL.'/includes/classes/captcha/img.php');
-}elseif($row['captcha_type']==1){
-Assign('captcha',BASEURL.'/includes/classes/captcha_simple.img.php');
-}
+assign('mode',$mode);
 
-Assign('subtitle',$LANG['title_forgot']);
-
-Assign('msg',$msg);
-Template('header.html');
-Template('message.html');
-Template('forgot.html');
-Template('footer.html');
+template_files('forgot.html');
+display_it();
 ?>

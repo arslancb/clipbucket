@@ -197,7 +197,7 @@ if(!function_exists('validate_embed_code'))
 	{
 		global $myquery,$db;
 		$vdetails = $myquery->get_video_details($vid);
-		if(!empty($vdetails['embed_code']) && $vdetails['embed_code'] !=' ')
+		if(!empty($vdetails['embed_code']) && $vdetails['embed_code'] !=' ' && $vdetails['embed_code'] !='none')
 		{
 			$db->Execute("UPDATE video SET status='Successful' WHERE videoid='$vid'");
 		}

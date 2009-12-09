@@ -205,12 +205,12 @@ class CBvideo extends CBCategory
 				$query .= ',';
 			}*/
 			
-			if(has_access('admin_access') && !empty($array['status']))
+			if(has_access('admin_access',TRUE) && !empty($array['status']))
 			{
 				$query_field[] = 'status';
 				$query_val[] = $array['status'];
 			}
-			if(has_access('admin_access') && !empty($array['duration']))
+			if(has_access('admin_access',TRUE) && !empty($array['duration']))
 			{
 				$query_field[] = 'duration';
 				$query_val[] = $array['duration'];
@@ -221,7 +221,7 @@ class CBvideo extends CBCategory
 				e("You are not logged in");
 			}elseif(!$this->video_exists($vid)){
 				e("Video deos not exist");
-			}elseif(!$this->is_video_owner($vid,userid()) && !has_access('admin_access'))
+			}elseif(!$this->is_video_owner($vid,userid()) && !has_access('admin_access',TRUE))
 			{
 				e("You cannot edit this video");
 			}else{
@@ -245,7 +245,7 @@ class CBvideo extends CBCategory
 			
 			$vdetails = $this->get_video($vid);
 
-			if($this->is_video_owner($vid,userid()) || has_access('admin_access'))
+			if($this->is_video_owner($vid,userid()) || has_access('admin_access',TRUE))
 			{
 				//list of functions to perform while deleting a video
 				$del_vid_funcs = $this->video_delete_functions;
@@ -308,7 +308,10 @@ class CBvideo extends CBCategory
 	{
 		global $db;
 		$src = $vdetails['videoid'];
+		$file = LOGS_DIR.'/'.$vdetails['file_name'].'.log';
 		$db->execute("DELETE FROM video_file WHERE src_name = '$src'");
+		if(file_exists($file))
+			unlink($file);
 		e(lang("vid_log_delete_msg"),m);
 	}
 	
@@ -347,7 +350,8 @@ class CBvideo extends CBCategory
 		$limit = $params['limit'];
 		$order = $params['order'];
 		
-		$cond = "";
+		if(!has_access('admin_access',TRUE))
+			$cond = " status='Successful' AND active='yes' ";
 		
 		//Setting Category Condition
 		if($params['category'] && strtolower($params['category'])!='all')

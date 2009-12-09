@@ -126,7 +126,8 @@
 		}        	
 	}
 	
-	function Assign($name,$value){
+	function Assign($name,$value)
+	{
 		CBTemplate::assign($name,$value);
 	}
 	
@@ -379,7 +380,10 @@
          return true;
       }
       else {
-         return false;
+		 if(!DEVELOPMENT_MODE)
+         	return false;
+		 else
+		 	return true;
       }   
    }
 
@@ -1145,6 +1149,8 @@
 	
 	function is_valid_syntax($code,$text)
 	{
+		if(DEVELOPMENT_MODE && DEV_INGNORE_SYNTAX)
+			return true;
 		return validate_field($code,$text);
 	}
 	
@@ -1252,12 +1258,12 @@
 	
 	
 	/**
-	 * Function used to get video from downloading queue
+	 * Function used to get video from conversion queue
 	 */
 	function get_queued_video($update=TRUE)
 	{
 		global $db;
-		$results = $db->select("conversion_queue","*","cqueue_conversion='no'");
+		$results = $db->select("conversion_queue","*","cqueue_conversion='no'",1);
 		$result = $results[0];
 		if($update)
 		$db->update("conversion_queue",array("cqueue_conversion"),array("p")," cqueue_id = '".$result['cqueue_id']."'");
@@ -1265,6 +1271,16 @@
 	}
 
 	
+	
+	/**
+	 * Function used to get video being processed
+	 */
+	function get_video_being_processed()
+	{
+		global $db;
+		$results = $db->select("conversion_queue","*","cqueue_conversion='p'");
+		return $results;
+	}
 	
 	function get_video_details($vid=NULL)
 	{
@@ -1479,7 +1495,7 @@
 	 * Function used to update processed video
 	 * @param Files details
 	 */
-	function update_processed_video($file_array)
+	function update_processed_video($file_array,$status='Successful')
 	{
 		global $db;
 		$file = $file_array['cqueue_name'];
@@ -1499,7 +1515,7 @@
 			{
 				//Get Duration 
 				$stats = get_file_details($file_name);
-				$db->update("video",array("status","duration"),array("Successful",$stats['src_duration'])," file_name='".$file_name."'");
+				$db->update("video",array("status","duration"),array($status,$stats['duration'])," file_name='".$file_name."'");
 			}
 		}	
 	}
@@ -1526,8 +1542,31 @@
 	function get_file_details($file_name)
 	{
 		global $db;
-		$result = $db->select("video_files","*"," id ='$file_name' OR src_name = '$file_name' ");
-		return $result[0];
+		//$result = $db->select("video_files","*"," id ='$file_name' OR src_name = '$file_name' ");
+		//Reading Log File
+		$file = LOGS_DIR.'/'.$file_name.'.log';
+		if(file_exists($file))
+		{
+			$data = file_get_contents($file);
+			//$file = file_get_contents('1260270267.log');
+			
+			preg_match_all('/(.*) : (.*)/',trim($data),$matches);
+			
+			$matches_1 = ($matches[1]);
+			$matches_2 = ($matches[2]);
+			
+			for($i=0;$i<count($matches_1);$i++)
+			{
+				$statistics[trim($matches_1[$i])] = trim($matches_2[$i]);
+			}
+			if(count($matches_1)==0)
+			{
+				return false;
+			}
+			$statistics['conversion_log'] = $data;
+			return $statistics;
+		}else
+			return false;
 	}
 	
 	
@@ -2627,8 +2666,7 @@
 			}
 			break;
 			
-			case 'channels':case 'channel':
-			default:
+			case 'channels':case 'channel':case'c':case'user':
 			{
 				if(!isset($_GET['sort']))
 					$_GET['sort'] = 'most_recent';
@@ -2727,4 +2765,64 @@
 		$action = new cbactions();
 		return $action->report_opts;
 	}
+	
+	
+	/**
+	 * Function used to load captcha field
+	 */
+	function get_captcha()
+	{
+		global $Cbucket;
+		if(count($Cbucket->captchas)>0)
+		{
+			return $Cbucket->captchas[0];
+		}else
+			return false;
+	}
+	
+	/**
+	 * Function used to load captcha
+	 */
+	define("GLOBAL_CB_CAPTCHA","cb_captcha");
+	function load_captcha($params,&$Smarty)
+	{
+		global $total_captchas_loaded;
+		switch($params['load'])
+		{
+			case 'function':
+			{
+				if($total_captchas_loaded!=0)
+					$total_captchas_loaded = $total_captchas_loaded+1;
+				else
+					$total_captchas_loaded = 1;
+				$_SESSION['total_captchas_loaded'] = $total_captchas_loaded;
+				if(function_exists($params['captcha']['load_function']))
+					return $params['captcha']['load_function']().'<input name="cb_captcha_enabled" type="hidden" id="cb_captcha_enabled" value="yes" />';
+			}
+			break;
+			case 'field':
+			{
+				echo '<input type="text" '.$params['field_params'].' name="'.GLOBAL_CB_CAPTCHA.'" />';
+			}
+			break;
+			
+		}
+	}
+	
+	
+	/**
+	 * Function used to verify captcha
+	 */
+	function verify_captcha()
+	{
+		$var = post('cb_captcha_enabled');
+		if($var=='yes')
+		{
+			$captcha = get_captcha();
+			$val = $captcha['validate_function'](post(GLOBAL_CB_CAPTCHA));
+			return $val;
+		}else
+			return true;
+	}
+
 ?>

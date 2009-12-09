@@ -20,6 +20,9 @@
 
 ob_start();
 
+define("DEVELOPMENT_MODE",TRUE);
+define("DEV_INGNORE_SYNTAX",TRUE);
+
 //Setting Cookie Timeout
 define('COOKIE_TIMEOUT',315360000); // 10 years
 define('GARBAGE_TIMEOUT',COOKIE_TIMEOUT);
@@ -214,6 +217,7 @@ error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
 	define('ORIGINAL_DIR',FILES_DIR.'/original');
 	define('TEMP_DIR',FILES_DIR.'/temp');
 	define('CON_DIR',FILES_DIR.'/conversion_queue');
+	define('LOGS_DIR',FILES_DIR.'/logs');
 
 //DIRECT URL OF VIDEO FILES
 	define('FILES_URL',BASEURL.'/files');
@@ -286,7 +290,7 @@ error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
 	$cbpm->init();
     $thisurl = curPageURL();
     Assign('THIS_URL', $thisurl);
-
+	
  	//Assigning Smarty Tags & Values
     Assign('CB_VERSION',CB_VERSION);
     Assign('FFMPEG_FLVTOOLS_BINARY',FFMPEG_FLVTOOLS_BINARY);
@@ -404,6 +408,7 @@ $Smarty->register_function('get_videos','get_videos');
 $Smarty->register_function('get_users','get_users');
 $Smarty->register_function('private_message','private_message');
 $Smarty->register_function('show_video_rating','show_video_rating');
+$Smarty->register_function('load_captcha','load_captcha');
 
 $Smarty->register_modifier('SetTime','SetTime');
 $Smarty->register_modifier('getname','getname');

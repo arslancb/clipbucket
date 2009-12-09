@@ -404,6 +404,9 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 /**
  * Watch Video CSS
  */
+ 
+.vid_top_container{position:relative; margin-bottom:10px; padding-left:10px}
+.hq_button_cont{position:absolute; left:620px; bottom:0px}
 .watch_left{width:670px; float:left; padding:5px; padding-top:0px; }
 .video_title{font-size:18px; font-weight:bold; font-family:arial}
 .watch_right{width:310px; float:right; padding-left:5px; display:block}
@@ -583,3 +586,15 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .my_quicklist{max-height:325px; overflow:auto; padding-right:8px}
 .quicklist_box_head{background-image:url(../images/simple_gradient.png); background-position:bottom; height:20px;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px; padding:5px; line-height:20px; color:#333; font-size:11px; font-weight:bold}
 .quicklist_box_head a{color:#0099cc; font-size:11px; font-weight:bold; text-decoration:none}
+
+/** HQ BUTTONS **/
+.hq_button_sel,.hq_button{background-image:url(../images/hq.png); width:49px; height:26px; background-position:top}
+.hq_button_sel{background-position:bottom}
+
+
+.simple_container{background:#fff url(../images/simple_gradient.png) bottom repeat-x; border:1px solid #999;border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px; padding:5px; margin:5px} 
+
+.cbform .label{width:150px; float:left; display:block; text-align:right; margin-right:10px}
+.cbform input[type=textfield],.cbform input[type=text]{border:1px solid #999; margin:0px; width:200px; float:left; margin-bottom:6px; height:23px; line-height:23px; padding-top:0px; padding-bottom:0px;}
+
+.h2_inner_link,.h2_inner_link a{font-size:13px; font-family:Georgia, "Times New Roman", Times, serif; font-style:italic; text-decoration:none; color:#0099cc}

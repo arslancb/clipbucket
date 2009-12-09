@@ -40,9 +40,9 @@ var page = baseurl+'/ajax.php';
 		}
 	}
 	
-	function reloadImage(captcha_src)
+	function reloadImage(captcha_src,imgid)
 	{
-	img = document.getElementById('captcha');
+	img = document.getElementById(imgid);
 	img.src = captcha_src+'?'+Math.random();
 	}
 	

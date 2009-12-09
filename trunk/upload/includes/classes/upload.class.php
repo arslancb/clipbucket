@@ -218,6 +218,9 @@
 			//Userid
 			$query_field[] = "userid";
 			$query_val[] = userid();
+			
+			$activation = ACTIVATION;
+			
 			//Setting Activation Option
 			if($activation == 0){
 				$active = 'yes';

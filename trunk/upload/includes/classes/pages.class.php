@@ -93,9 +93,9 @@ class pages{
 	function redirectOrig()
 	{
 		$curpage = $this->GetCurrentUrl();
-		$newPage = preg_replace('/:\/\/www\./','',$curpage);
+		$newPage = preg_replace('/:\/\/www\./','://',$curpage);
 		if($curpage !=$newPage)
-			redirect_to($newPage);
+			header("location:$newPage");
 	}
 	
 	function create_url($params_array,$url=NULL,$remove_param=false,$urlencode=false)

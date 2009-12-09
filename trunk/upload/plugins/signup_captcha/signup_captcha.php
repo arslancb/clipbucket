@@ -19,8 +19,9 @@ if(!function_exists("signup_captcha"))
 	
 	function signup_captcha()
 	{
-		return '<img src="'.PLUG_URL.'/signup_captcha/captcha.php" border=1 name="captcha" id="captcha"/><br />
-               <a href="javascript:void(0)" onclick="javascript:reloadImage(\''.PLUG_URL.'/signup_captcha/captcha.php\');"> Refresh</a>';
+		$rand_id = RandomString(3);
+		return '<img src="'.PLUG_URL.'/signup_captcha/captcha.php" border=1 name="captcha" id="captcha_img_'.$rand_id.'"/><br />
+               <a href="javascript:void(0)" onclick="javascript:reloadImage(\''.PLUG_URL.'/signup_captcha/captcha.php\',\'captcha_img_'.$rand_id.'\');"> Refresh</a>';
 	}
 	
 	$signup_captcha['signup_captcha'] = 
@@ -42,7 +43,8 @@ if(!function_exists("signup_captcha"))
 		return $img->checks_word($val);
 	}
 	
-	register_anchor(signup_captcha(),signup_captcha);
+	register_anchor(signup_captcha(),"signup_captcha");
 	register_signup_field($signup_captcha);
+	register_cb_captcha('signup_captcha','signup_captcha_check',TRUE);
 }
 ?>
