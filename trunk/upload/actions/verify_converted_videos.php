@@ -9,7 +9,6 @@
 include(dirname(__FILE__)."/../includes/config.inc.php");
 
 $files = get_video_being_processed();
-
 if(is_array($files))
 foreach($files as $file)
 {

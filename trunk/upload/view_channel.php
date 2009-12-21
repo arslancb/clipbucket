@@ -36,6 +36,9 @@ if($udetails)
 	{
 		$userquery->add_comment($_POST['comment'],$udetails['userid']);
 	}
+	//Calling view channel functions
+	call_view_channel_functions($udetails);
+	
 	assign("u",$udetails);
 	assign('p',$userquery->get_user_profile($udetails['userid']));
 	

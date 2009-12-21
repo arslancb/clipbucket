@@ -487,7 +487,7 @@ class cbactions
 		$playlist = $this->get_playlist($id);
 		if(!$playlist)
 			e(lang("playlist_not_exist"));
-		elseif($playlist['userid']!=userid() && !has_access('admin_access'))
+		elseif($playlist['userid']!=userid() && !has_access('admin_access',TRUE))
 			e(lang("you_dont_hv_permission_del_playlist"));
 		else
 		{

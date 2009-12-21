@@ -20,7 +20,7 @@
             	<div style="width:40px; height:40px; background:#EEE; margin:0px; padding:0px;"><img src="{$userquery->getUserThumb($udetails,'small')}" class="mid_user_thumb" /></div>
             </div>
             <div class="txt">Hello {$userquery->username} | <a href="{link name='logout'}">Logout</a></div>
-            <div class="links"><a href="#">Inbox ({$cbpm->get_new_messages()})</a> | <a href="#">Messages ({$cbpm->get_new_messages('','notification')})</a> | <a href="{link name='my_account'}">Account</a> | <a href="#">Videos</a></div>
+            <div class="links"><a href="{link name='inbox'}">Inbox ({$cbpm->get_new_messages()})</a> | <a href="{link name='notifications'}">Messages ({$cbpm->get_new_messages('','notification')})</a> | <a href="{link name='my_account'}">Account</a> | <a href="{link name='my_videos'}">Videos</a></div>
         {/if} 
         </div> <!--USER_LOGIN CLASS END-->
       
@@ -41,7 +41,12 @@
         <li><a href="{$baseurl}" {current_page page='home'}>Home</a></li>
         <li><a href="{link name='videos'}"  {current_page page='videos'}>Videos</a></li>
         <li><a href="{link name='channels'}" {current_page page='channels'}>Channels</a></li>
+        <li><a href="{link name='groups'}" {current_page page='groups'}>Groups</a></li>
+        {if !userid()}
         <li><a href="{link name='signup'}" {current_page page='signup'}>Signup</a></li>
+        {else}
+        <li><a href="{link name='upload'}" {current_page page='upload'}>Upload</a></li>
+        {/if}
     </ul>
 </div> <!--TOP_TABS END-->
 

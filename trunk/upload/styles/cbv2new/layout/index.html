@@ -84,7 +84,7 @@ SetId('Featured');
 	<div class="box">
     	<div class="top_bg">
         	<h2>Top 10 Users</h2>
-            {get_users assign=topusers limit=10}
+            {get_users assign=topusers limit=10 order=' total_videos DESC '}
             {section name=tusers loop=$topusers}
         <div class="top_user">
         <div class="user_no">{$smarty.section.tusers.iteration}</div>

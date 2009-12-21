@@ -1,104 +1,166 @@
 <?php
 /* 
  ****************************************************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.											|
- | @ Author : ArslanHassan																			|
- | @ Software : ClipBucket , © PHPBucket.com														|
+ | Copyright (c) 2007-2009 Clip-Bucket.com. All rights reserved.											|
+ | @ Author	   : ArslanHassan																		|
+ | @ Software  : ClipBucket , © PHPBucket.com														|
  ****************************************************************************************************
 */
 
-require_once('includes/config.inc.php');
+define("THIS_PAGE",'manage_videos');
+
+require 'includes/config.inc.php';
 $userquery->logincheck();
-$pages->page_redir();
-$user	= $_SESSION['username'];
+$udetails = $userquery->get_user_details(userid());
+assign('user',$udetails);
+assign('p',$userquery->get_user_profile($udetails['userid']));
 
-//Leaving Groups
-if(isset($_POST['leave'])){
-	$query = mysql_query("SELECT * FROM group_members WHERE username = '".$user."'");
-		while($data=mysql_fetch_array($query)){
-			if($_POST[$data['group_id']] == 'yes'){
-			$groups->LeaveGroup($user,$data['group_id']);
+
+$mode = $_GET['mode'];
+
+$page = mysql_clean($_GET['page']);
+$get_limit = create_query_limit($page,VLISTPP);
+
+switch($mode)
+{
+	case 'manage':
+	default:
+	{
+		if($_GET['gid_delete'])
+		{
+			$gid = $_GET['gid_delete'];
+			$cbgroup->delete_group($gid);
+		}
+		
+		assign('mode','manage');
+		$usr_groups = $cbgroup->get_groups(array('user'=>userid()));
+		assign('usr_groups',$usr_groups);
+	}
+	break;
+	
+	case 'manage_members':
+	{
+		assign('mode','manage_members');
+		$gid = mysql_clean($_GET['gid']);
+		$gdetails = $cbgroup->get_group_details($gid);
+		
+		//Activating Member Members
+		if(isset($_POST['activate_pending']))
+		{
+			$total = count($_POST['users']);
+			for($i=0;$i<$total;$i++)
+			{
+				if($_POST['users'][$i]!='')
+					$cbgroup->member_actions($gid,$_POST['users'][$i],'activate');
 			}
 		}
-	$msg = $LANG['grp_rmv_msg'];
-}
-
-//Remove Groups
-if(isset($_POST['remove'])){
-	$query = mysql_query("SELECT * FROM groups WHERE username='".$user."'");
-		while($data=mysql_fetch_array($query)){
-			if($_POST[$data['group_id']] == 'yes'){
-			$groups->DeleteGroup($data['group_id']);
+		//Deactivation Members
+		if(isset($_POST['disapprove_members']))
+		{
+			$total = count($_POST['users']);
+			for($i=0;$i<$total;$i++)
+			{
+				if($_POST['users'][$i]!='')
+					$cbgroup->member_actions($gid,$_POST['users'][$i],'deactivate');
 			}
+		
 		}
-	$msg = $LANG['grp_del_msg'];
-}
+		//Deleting Members
+		if(isset($_POST['delete_members']))
+		{
+			$total = count($_POST['users']);
+			for($i=0;$i<$total;$i++)
+			{
+				if($_POST['users'][$i]!='')
+					$cbgroup->member_actions($gid,$_POST['users'][$i],'delete');
+			}
+		
+		}
+		
+		if($gdetails)
+		{
+			assign("group",$gdetails);
+			//Getting Group Members (Active Only)
+			$gp_mems = $cbgroup->get_members($gdetails['group_id'],"yes");
+			assign('gp_mems',$gp_mems);
 			
-
-//Getting Videos List
-	$limit = GLISTPP;
-	Assign('limit',$limit);
-	$page   = clean($_GET['page']);
-	if(empty($page) || $page == 0 || !is_numeric($page)){
-	$page   = 1;
+		}else
+			e("Group does not exist");
 	}
-	$from 	= $page-1;
-	$from 	= $from*$limit;
-	$query_limit  = "limit $from,$limit";
-	
-	//Getting Order
-	$show = mysql_clean($_GET['show']);
-	if($show == 'owned'){
-	Assign('show','Owned');
-	$sql 			= "SELECT * FROM groups WHERE username='".$user."' $orderby $query_limit ";
-	$sql_p 			= "SELECT * FROM groups WHERE username='".$user."' ";
-	}else{
-	Assign('show','Joined');
-	$sql 			= "SELECT * FROM group_members 	WHERE username='".$user."' $orderby $query_limit ";
-	$sql_p 			= "SELECT * FROM group_members 	WHERE username='".$user."' ";
+	break;
+	case 'manage_videos':
+	{
+		assign('mode','manage_videos');
+		$gid = mysql_clean($_GET['gid']);
+		$gdetails = $cbgroup->get_group_details($gid);
+		
+		
+		//Activating Member Members
+		if(isset($_POST['activate_videos']))
+		{
+			$total = count($_POST['check_vid']);
+			for($i=0;$i<$total;$i++)
+			{
+				if($_POST['check_vid'][$i]!='')
+					$cbgroup->video_actions($gid,$_POST['check_vid'][$i],'activate');
+			}
+		}
+		//Deactivation Members
+		if(isset($_POST['disapprove_videos']))
+		{
+			$total = count($_POST['check_vid']);
+			for($i=0;$i<$total;$i++)
+			{
+				if($_POST['check_vid'][$i]!='')
+					$cbgroup->video_actions($gid,$_POST['check_vid'][$i],'deactivate');
+			}
+		
+		}
+		//Deleting Members
+		if(isset($_POST['delete_videos']))
+		{
+			$total = count($_POST['check_vid']);
+			for($i=0;$i<$total;$i++)
+			{
+				if($_POST['check_vid'][$i]!='')
+					$cbgroup->video_actions($gid,$_POST['check_vid'][$i],'delete');
+			}
+		
+		}
+		
+		
+		if($gdetails)
+		{
+			assign("group",$gdetails);
+			//Getting Group Videos (Active Only)
+			$grp_vids = $cbgroup->get_group_videos($gid,"yes");
+			assign('grp_vids',$grp_vids);
+		}else
+			e("Group does not exist");
+		
 	}
+	break;
 	
-	$data 			= $db->Execute($sql);
-	$groups			= $data->getrows();
-	$total_groups	= $data->recordcount()+0;
-	
-	for($id=0;$id<$total_groups;$id++){
-	$query = mysql_query("SELECT * FROM groups WHERE group_id='".$groups[$id]['group_id']."'");
-	$group_details = mysql_fetch_array($query);
-		$groups[$id]['group_name'] 	= $group_details['group_name'];
-		$groups[$id]['dateadded'] 	= $group_details['dateadded'];
-		$groups[$id]['username'] 	= $group_details['username'];
-		$groups[$id]['group_url'] 	= $group_details['group_url'];
-		$groups[$id]['group_thumb'] = $group_details['group_thumb'];
-		$groups[$id]['approved'] 	= $group_details['approved'];
+	case 'joined':
+	{
+		
+		//Leaving Groups
+		if(isset($_POST['leave_groups']))
+		{
+			$total = count($_POST['check_gid']);
+			for($i=0;$i<$total;$i++)
+				$cbgroup->leave_group($_POST['check_gid'][$i],userid());
+		}
+		
+		assign('mode','joined');
+		$mem_grps = $cbgroup->user_joined_groups(userid());
+		assign('usr_groups',$mem_grps);
+		
 	}
-	
-	Assign('groups',$groups);
-	
-//Pagination
-	$query = mysql_query($sql_p);
-	Assign('grand_total',mysql_num_rows($query));
-	$total_rows = mysql_num_rows($query);
-	$page_id=1;
-	$id = 1;
-	$records = $total_rows/$limit;
-	$pages = round($records+0.49,0);
+	break;
+}
 
-$show_pages = ShowPagination($pages,$page,'order='.$order);
-Assign('show_pages',$show_pages);
 
-Assign('link','order='.$order);
-Assign('pages',$pages);
-Assign('cur_page',$page);
-Assign('nextpage',$page+1);
-Assign('prepage',$page-1);
-Assign('total_pages',$page_id);
-	
-
-subtitle('manage_video');
-Assign('msg',$msg);
-Template('header.html');
-Template('message.html');
-Template('manage_groups.html');
-Template('footer.html');
+template_files('manage_groups.html');
+display_it();
 ?>

@@ -39,12 +39,13 @@ if(!function_exists('bb_to_html'))
 }
 
 //Registering Action that will be applied while displaying comment and or description
-register_action(array('bb_to_html'=>array('comment','description','pm_compose_box')));
+register_action(array('bb_to_html'=>array('comment','description','pm_compose_box','before_topic_post_box')));
 //Registerin Anchors , that will be displayed before compose boxes
 register_anchor("<script>edToolbar('comment_box'); </script>",'before_compose_box');
 register_anchor("<script>edToolbar('comment_box-reply'); </script>",'before_reply_compose_box');
 register_anchor("<script>edToolbar('desc'); </script>",'before_desc_compose_box');
 register_anchor("<script>edToolbar('pm_content'); </script>",'before_pm_compose_box');
+register_anchor("<script>edToolbar('topic_post'); </script>",'before_topic_post_box');
 
 //Adding JS Code
 $Cbucket->addJS(array('bbcode_js/ed.js'=>'global'));

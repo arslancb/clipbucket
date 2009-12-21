@@ -2,18 +2,23 @@
 /**
  * ALL LINKS ARE DEFINED HERE
  * YOU CAN CHANGE THEM IF REQUIRED
- * ARRAY( [name]=> Array([Non SEO Link] [SEO Link])) - Without BASEURL
+ * ARRAY( [name]=> Array([Non SEO Link], [SEO Link])) - Without BASEURL
  */
 
 $Cbucket->links  = array
 (
-'signup'	=>array('signup.php','signup'),
+'channels'	=>array('channels.php','channels'),
+'groups'	=>array('groups.php','groups'),
+'inbox'		=>array('private_message.php?mode=inbox','private_message.php?mode=inbox'),
 'login'		=>array('signup.php','login'),
 'logout'	=>array('logout.php','logout'),
-'videos'	=>array('videos.php','videos'),
-'channels'	=>array('channels.php','channels'),
 'my_account'=>array('myaccount.php','my_account'),
-'groups'	=>array('groups.php','groups'),
+'my_videos'	=>array('manage_videos.php','manage_videos.php'),
+'notifications'=>array('private_message.php?mode=notification','private_message.php?mode=notification'),
+'signup'	=>array('signup.php','signup'),
+'upload'	=>array('upload.php','upload'),
+'videos'	=>array('videos.php','videos'),
+
 );
 
 

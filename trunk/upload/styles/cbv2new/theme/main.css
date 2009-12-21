@@ -7,7 +7,7 @@ Style name:		ClipBucket v2(New)
 
 @import url("view_channel.css");
 @import url("rating.css");
-body,html { background:url(../images/main_bg.png) repeat-x; background-color:#fff; margin:0px; padding:0px; font-family:Verdana,Tahoma,Arial,sans-serif; color:#555; font-size:12px; }
+body,html { background:url(../images/main_bg.png) repeat-x; background-color:#fff; margin:0px; padding:0px; font-family:Verdana,Tahoma,Arial,sans-serif; color:#333; font-size:11px; }
 
 /* CLEARS */
 .clearfix { }
@@ -159,31 +159,39 @@ span.remember { font-size:10px;  }
 #grid:hover,#list:hover { cursor:pointer; border:1px solid #aaa; }
 
 /* HORIZATAL LISTING STYLE */
-.horizantal { margin:0px; padding:0px; clear:both; }
-.horizantal .details_block { float:right; width:79%; }
-.horizantal .lvl1, .horizantal .lvl2, .horizantal .lvl3, .horizantal .lvl4 { clear:right; margin-top:8px;; }
+
+.horizantal { margin:0px; padding:0px; clear:both;}
+.horizantal .details_block { float:right; width:79%; margin-bottom:10px; }
+
+
+.horizantal .lvl1, .horizantal .lvl2, .horizantal .lvl3, .horizantal .lvl4 { clear:right; }
+
+.horizantal  .the_vid_container{border-bottom:#ccc 1px solid; margin-bottom:5px}
 
 .horizantal .lvl1 { margin:0px; padding:0px; }
 .horizantal .lvl1 .title { float:left; color:#0099cc; }
 .horizantal .lvl1 .rating { float:right; width:50px;  }
-.horizantal .lvl2 .desc { font-size:11px; width:80%; float:left;  }
+.horizantal .lvl2 .desc { font-size:11px; width:80%; float:left; margin-bottom:5px}
 .horizantal .lvl2 .length { font-size:10px; width:14.5%; float:right; }
 .horizantal .lvl2 .length span { font-weight:bold; color:#0099cc; }
 
-.horizantal .lvl3 .views { font-size:10px; float:left; margin-right:30px; }
+.horizantal .lvl3 .views { font-size:10px; float:right;}
 .horizantal .lvl3 .views span { color:#0099cc; }
-.horizantal .lvl3 .comments { font-size:10px; }
-.horizantal .lvl3 .comments a,.lvl3 .comments a:visited { text-decoration:none; }
-.horizantal .lvl3 .comments a .com_img { border:0px none; vertical-align:sub; background:url(../images/blocks.png) right -86px no-repeat; }
+.horizantal .lvl5 .comments { font-size:10px; float:right}
+.horizantal .lvl5 .comments span{ color:#0099cc; } 
+.horizantal .lvl5 .comments a,.lvl3 .comments a:visited { text-decoration:none; }
 
-.horizantal .lvl4 .uploaded { font-size:10px; }
+.horizantal .lvl4{ display:none}
+.horizantal .lvl5 .uploaded { font-size:11px; float:left}
 
+
+.vertical a,.horizantal a{text-decoration:none; font-weight:bold}
 /* VERTICAL LISTING STYLE */
 
 .vertical { width:118px; margin:0px 6px 10px 0px; padding:0px 0px 10px; float:left; height:150px }
 
 .vertical .details_block { float:none; width:100%;  }
-.vertical .lvl1, .vertical .lvl2, .vertical .lvl3, .vertical .lvl4 { margin:5px; display:block; }
+.vertical .lvl1, .vertical .lvl2, .vertical .lvl3, .vertical .lvl4 {  display:block; }
 
 .vertical .lvl1 .title { font-size:11px; }
 .vertical .lvl1 .rating { margin-top:5px; width:50px; }
@@ -191,9 +199,10 @@ span.remember { font-size:10px;  }
 
 .vertical .lvl3 { font-size:10px; }
 .vertical .lvl3 .views span { font-weight:lighter; }
-.vertical .lvl3 .comments { display:none; }
+
 
 .vertical .lvl4 { font-size:10px; }
+.vertical .lvl5{display:none}
 
 /* SIDEBAR INDEX */
 .box { background:#FFF; border:1px solid #b6e2fe; padding:2px; width:300px; margin:0px auto 10px; border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;-khtml-border-radius:5px }
@@ -263,11 +272,11 @@ span.remember { font-size:10px;  }
 .my_account_left{width:180px; float:left; }
 .my_account_left ul{margin:0px; padding:0px; display:block;}
 .my_account_left li{margin:0px; padding:0px; list-style:none; display:block; margin:5px; margin-left:0px}
-.my_account_left .li{font-size:12px; font-weight:bold; display:block; margin-bottom:10px}.my_account_left .li .heading{ display:block; width:170px; background-image:url(../images/blocks.png); background-position:-0px -160px; background-repeat:no-repeat; height:20px; line-height:20px; padding-left:5px; color:#333}
+.my_account_left .li{font-size:12px; font-weight:bold; display:block; margin-bottom:10px}.my_account_left .li .heading{ display:block; width:170px; background-image:url(../images/blocks.png); background-position:-0px -160px; background-repeat:no-repeat; height:20px; line-height:20px; padding-left:5px; color:#333; margin-left:5px; color:#fff}
 .my_account_left .li li{font-weight:normal; padding-left:5px; border-left:3px #ccc solid; margin-left:5px}
 .my_account_left .li li:hover{border-left:3px #999 solid;}
-.my_account_left .li a{display:block; text-decoration:none; font-family:tahoma; font-weight:bold}
-.my_account_left .li a:hover{color:#003366}
+.my_account_left .li a{display:block; text-decoration:none; font-family:tahoma; font-weight:bold; color:#333}
+.my_account_left .li a:hover{color:#0066cc}
 .account_box{float:right; width:780px;border-left:5px #999 solid; padding-left:10px; margin-right:10px}
 
 .account_option_box{display:block; width:225px; margin:10px; padding:10px;float:left; background-color:#EFF5F8; border-radius:5px; -moz-border-radius:5px;-webkit-border-radius:5px;}
@@ -472,13 +481,16 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .comment{ background:#fff url(../images/watch_video_details_bg.png) repeat-x; background-position:bottom;min-height:60px; padding:5px; border:1px solid #eee; font-family:tahoma; font-size:11pxl; margin-bottom:10px }
 .comment .user_com_thumb{ float:inherit; max-width:60px; max-height:80px; border:2px solid #fff}
 .comment .user_com_thumb_con{width:65px;float:left;}
-.comment .comm_other{float:right; width:585px; margin-right:5px}
+.comment .comm_other{float:left; margin-right:5px}
 .comment .user_bar{background:url(../images/nav_grads.png) 0px -240px repeat-x; height:18px; line-height:18px; padding:0px 5px 0px 5px}
 .comment .user_bar,.comment .user_bar a{color:#fff; font-size:11px; text-decoration:none;}
 .comment .comment_cont{float:left; width:515px; padding:3px;}
 .comment .comment_rating_cont{ float:right; width:60px; margin-top:10px}
 .comment .comment_rating_cont .comment_rating{font-size:16px; font-weight:bold;font-family:arial; text-align:center; display:block}
 .comment .thumb_down{background:url(../images/icons.png) ; width:24px; height:25px; display:inline-block; text-indent:-50000px; margin-right:5px; cursor:pointer}
+
+.topic_comments .comment .comment_cont{ width:820px}
+
 .comment .thumb_up{background:url(../images/icons.png) -24px 0px; width:24px; height:25px; display:inline-block; text-indent:-50000px;cursor:pointer}
 .desc_cont{}
 .upper_quote{background-image:url(../images/icons.png); background-position:0px -125px; height:32px; width:34px; display:inline-block; }
@@ -501,8 +513,8 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .watch_video_box .watch_video_box_thumb{border:1px solid  #999; padding:2px; display:inline-block; margin:auto; position:relative}
 .watch_video_box_thumb .duration{background-color:#333; color:#fff; font-size:8px; padding:1px; position:absolute; right:2px; bottom:2px}
 
-.watch_vids_head,.watch_vids_head_closed{background-image:url(../images/watch_video_bars.png); width:270px; height:26px; background-repeat:no-repeat; display:block; padding-left:30px; line-height:26px; color:#fff; font-size:14px; color:#fff; font-weight:bold; margin-top:10px; cursor:pointer}
-.watch_vids_head_closed{ background-position:0px -26px; color:#0099cc}
+.watch_vids_head,.watch_vids_head_closed{background-image:url(../images/watch_video_bars.png); width:270px; height:26px; background-repeat:no-repeat; display:block; padding-left:30px; line-height:26px; color:#fff; font-size:14px; color:#fff; font-weight:bold; margin-top:10px; cursor:pointer;background-position:0px -26px;}
+.watch_vids_head_closed{ background-position:0px -0px; color:#0099cc}
 
 .watch_vids_cont{width:300px; overflow:hidden; padding-bottom:10px; margin-bottom:10px; border-bottom:1px solid #CCC; padding-top:10px}
 
@@ -569,8 +581,10 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
  * Channel and user
  */
 .user_block{ display:block; width:120px; height:180px; float:left; margin:10px; font-size:10px}
-.user_block .thumb_container{ width:120px; height:120px; overflow:hidden; border:1px solid #99ccff; padding:1px; display:inline-table; vertical-align:middle}
+.user_block_med{display:block; width:80px; height:130px; float:left; margin:0px 10px 10px 0px; font-size:10px}
+.user_block .thumb_container,.user_block_med .thumb_container_medium{ width:120px; height:120px; overflow:hidden; border:1px solid #99ccff; padding:1px; display:inline-table; vertical-align:middle}.user_block_med .thumb_container_medium{width:80px; height:80px}
 .user_thumb_normal{width:120px; height:120px}
+.user_thumb_medium{width:80px; height:80px}
 .prof_title a{font-weight:bold; text-decoration:none}
 
 
@@ -598,3 +612,106 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .cbform input[type=textfield],.cbform input[type=text]{border:1px solid #999; margin:0px; width:200px; float:left; margin-bottom:6px; height:23px; line-height:23px; padding-top:0px; padding-bottom:0px;}
 
 .h2_inner_link,.h2_inner_link a{font-size:13px; font-family:Georgia, "Times New Roman", Times, serif; font-style:italic; text-decoration:none; color:#0099cc}
+
+
+
+
+/**
+ * Groups CSS
+ */
+.group_view{width:980px; margin:auto;}
+.group_top_cont{background:#FFF url(../images/simple_gradient.png) repeat-x bottom; border:1px solid #f0f0f0; padding:5px;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;}
+.grp_left_column{float:left; width:150px; padding-right:10px}
+.grp_right_column{float:right; width:800px;}
+.group_thumb_cont{ margin:auto}
+.group_thumb_cont img{border:#99ccff 2px solid;}
+.group_title{display:block; background-color:#333; color:#fff;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; padding:5px; font-size:14px; font-weight:bold; font-family:tahoma; margin-bottom:10px; padding-bottom:0px}
+
+.group_details{}
+.group_option_container{}
+.group_option_container ul{margin:0px; padding:0px}
+.group_option_container .grp_opt_title{background-color:#0066cc; color:#fff; display:block; padding:4px; margin-top:5px}
+.group_option_container ul li{list-style:none;}
+.group_detail_tabs{}
+.group_detail_tabs ul{padding:0px; margin:10px 0px 0px 0px;}
+.group_detail_tabs ul li{float:left; display:inline-block; padding:2px 5px; list-style:none; text-align:center; margin:0px 5px; border-bottom:none; cursor:pointer; font-size:16px; font-weight:bold; font-family:Arial, Helvetica, sans-serif}
+.group_detail_tabs ul .selected{color:#09c; background:#fff}
+
+.grp_info .info_cont{margin-bottom:10px}
+.grp_info .info_title{border-bottom:1px solid #abc0c7; height:10px; margin-bottom:10px}
+.grp_info .info_title span{line-height:20px; font-family:Tahoma; color:#333; font-weight:bold; background-color:#FFF; padding-right:8px; display:inline}
+.info_cont span{display:block; margin-bottom:5px; cursor:pointer}
+.info_cont span:hover{color:#06c}
+.info_cont span span:first-child{width:100px; float:left; color:#666}
+.info_cont span span:last-child{width:500px; float:left; color:#333}
+.info_cont span .grp_url{border:1px solid #999; padding:0px; color:#999; width:300px}
+
+.group_info span{display:block}
+
+.topic_table_head{background:#FFF url(../images/simple_gradient.png) repeat-x bottom; border:1px solid #f0f0f0; font-weight:bold}
+.topic_table td, .topic_table_head td{padding:4px 2px; color:#333; font-family:Tahoma;}
+.topic_table:nth-child(2n+1){background-color:#f7f7f7}
+
+.topic_title{font-weight:bold; display:block}
+.topic_title a{font-weight:bold; display:block; color:#333; text-decoration:none}
+.topic_title a:hover{color:#06c}
+
+.add_topic{padding:5px; height:18px; line-height:16px; display:inline-block; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; background-color:#E6F0FF; margin-bottom:5px; cursor:pointer;font-weight:bold;}
+.add_topic:hover{color:#06c}
+.add_topic img{display:inline; float:left; margin-right:5px 0px; }
+
+.add_topic_container{width:700px; margin:auto;background:#FFF url(../images/simple_gradient.png) repeat-x bottom; border:1px solid #f0f0f0; padding:5px; margin-bottom:10px}
+
+.topic_form .label{ display:block; font-size:12px; font-weight:bold; font-family:tahoma}
+.topic_form input[type=text],.topic_form textarea,.topic_form input[type=select]{width:600px; border:1px solid #999; padding:3px; margin-bottom:10px}
+.topic_icon_cont{width:600px; padding:3px}
+.topic_icon_cont fieldset{margin:0px; border:1px solid #999;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;}
+.topic_icon_cont label{display:block; width:70px; text-align:center; float:left; margin-bottom:5px}
+
+.topic_container{margin-top:10px}
+.topic_detail_cont{float:right; width:890px}
+.topic_detail_cont .topic_title{font-size:14px; font-weight:bold; line-height:32px; border-bottom:1px solid #dedcdc}
+.topic_detail_cont .topic_title img{ margin-right:10px}
+.topic_detail_cont .topic_title .date{font-size:11px; font-weight:normal; color:#999}
+
+.topic_post{ border-bottom:1px dashed #b9b9b9 ; padding-bottom:5px; margin-bottom:5px}
+.topic_post .topic_post_user{float:left; width:75px}
+.topic_post .topic_post_cont{float:left}
+.topic_post:last-child{border-bottom:none}
+.topic_post .topic_poster{display:block; color:#999}
+.topic_post .topic_poster a{font-weight:bold; font-family:tahoma; text-decoration:none}
+
+
+.manage_contacts_tbl_head{border:1px solid #c2c2c2; border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px; background-image:url(../images/gradients.png); background-position:0px -36px; height:19px}
+
+.manage_contacts_tbl{border-bottom:1px solid #999;}
+.manage_contacts_tbl:nth-child(2n+1){background-color:#F5F5F5}
+
+.manage_contacts_tbl_head td{ padding-left:3px; font-weight:bold}
+.manage_contacts_tbl_head td:nth-child(2),.manage_contacts_tbl_head td:nth-child(3){border-right:1px solid #c2c2c2;}
+.manage_contacts_tbl_head td:last-child{border-right:none}
+
+.manage_contacts_tbl td{padding-left:3px; }
+
+
+.grp_manage_links li, .cb_fb_style_button{background:url(../images/nav_grads.png) -0px -223px  repeat-x; height:18px; line-height:18px; display:inline-block; padding:0px 5px;  border:1px solid #999}
+.grp_manage_links li a,.cb_fb_style_button,.cb_fb_style_button a{ color:#333;font-weight:bold; font-family:tahoma; font-size:11px; text-decoration:none}
+.cb_pending{color:#333; font-style:italic; }
+
+.grp_manage_links li{border-right:none}
+.grp_manage_links li:last-child{border-right:1px solid #999}
+
+.grp_manage_links ul{display:inline-block; float:right; padding:0px; margin:0x;}
+.grp_manage_links li{float:left;}
+
+
+/**
+ * Groups Block
+ */
+.group_block{float:left; width:45%; height:80px; margin:0px 20px 10px 0px; padding:5px}
+.group_block:hover{background-color:#EEE}
+.group_block:nth-child(2n){margin-right:0px; margin-left:15px}
+.group_block .group_thumb{width:110px; height:80px; border:1px solid #333; padding:1px; display:block; float:left; margin-right:10px}
+.group_block,.group_block a{font-size:10px; font-family:tahoma }
+.group_block span{display:block;}
+.group_block .group_name,.group_block .group_name a{font-size:12px; text-decoration:none}

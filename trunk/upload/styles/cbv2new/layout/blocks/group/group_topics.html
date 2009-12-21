@@ -1,0 +1,41 @@
+<!-- Getting list of topics -->
+{if !$topics}
+    {assign var=topics value=$cbgroup->get_group_topics($group.group_id)}
+{/if}
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="topic_table_head">
+  <tr>
+    <td width="40" align="left">&nbsp;</td>
+    <td align="left">Topic Title</td>
+    <td width="150" align="left">Views</td>
+    <td width="100" align="left">Replies</td>
+    <td width="100" align="left">Last Reply</td>
+  </tr>
+</table>
+{if $topics}
+{foreach from=$topics item=topic}
+{assign var=poster value=$userquery->get_user_details($topic.userid)}
+
+{if $topic.last_poster}
+{assign var=last_poster value=$userquery->get_user_details($topic.last_poster)}
+{else}
+{assign var=last_poster value=''}
+{/if}
+
+<div class="topic_table">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" >
+  <tr>
+    <td width="40" align="left"><img src="{$cbgroup->get_topic_icon($topic)}" /></td>
+    <td align="left"><span class="topic_title"><a href="{$cbgroup->topic_link($topic)}">{$topic.topic_title}</a></span>by <a href="{$userquery->profile_link($poster)}">{$poster.username}</a> 4 days ago</td>
+    <td width="150" align="left">{$topic.total_views|number_format}</td>
+    <td width="100" align="left">{$topic.total_replies|number_format}</td>
+    <td width="100" align="left">{if $last_poster}{$topic.last_post_time|niceTime}<br />
+by <a href="{$userquery->profile_link($last_poster)}">{$last_poster.username}</a>{else}Never{/if}</td>
+  </tr>
+</table>
+</div>
+
+{/foreach}
+{else}
+<div align="center"><em><strong>No Topics</strong></em></div>
+{/if}

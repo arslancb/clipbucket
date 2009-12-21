@@ -46,7 +46,7 @@ if(video_playable($vkey))
 	if(isset($_POST['add_comment']))
 	{
 		$cbvideo->add_comment($_POST['comment'],$vdo['videoid']);
-		$vdo['comments_count'] = $cxvid->count_video_comments;
+		$vdo['comments_count'] = $cbvid->count_video_comments;
 	}
 	
 	//Adding Video To Favorites

@@ -14,13 +14,13 @@ $gpid = mysql_clean($_GET['group_id']);
 	$userdata = $db->select("users","*");
 
 	if(isset($_POST['update_group'])) {
-		$groups->edit_group($_POST);	
+		$cbgroup->edit_group($_POST);	
 	}
 	
 	//Assign Varialbes
 	assign('users',$userdata);
-	assign('category',$groups->get_categories());
-	assign('group_details',$groups->group_details($gpid));
+	assign('category',$cbgroup->get_categories());
+	assign('group_details',$cbgroup->group_details($gpid));
 
 template_files('edit_group.html');
 display_it();
@@ -32,14 +32,14 @@ display_it();
 //$gpid = mysql_clean($_GET['group_id']);
 ////Updating Group
 //if(isset($_POST['update'])){
-//	$msg = $groups->UpdateGroup(2);
+//	$msg = $cbgroup->UpdateGroup(2);
 //}
-//if(!$groups->GroupExists($group) || $group == 'Array'){
+//if(!$cbgroup->GroupExists($group) || $group == 'Array'){
 //	$msg = $LANG['grp_exist_error'];
 //	$show_group = 'No';
 //}else{
 //
-//		$details = $groups->GetDetailsid($group);
+//		$details = $cbgroup->GetDetailsid($group);
 //		$group 	= 	$details['group_id'];
 //		$user 	= 	$_SESSION['username'];
 //

@@ -280,7 +280,7 @@
 				
 	}
 
-		//FUNCTION USED TO CLEAN EMBED CODE
+		/*//FUNCTION USED TO CLEAN EMBED CODE
 		function CleanEmbedCode($code){
 			$code		    = trim($code);
 			$embed_code     = str_replace('<script', '', $code);
@@ -337,7 +337,7 @@
 			}else{
 			return $msg;
 			}
-		}
+		}*/
 	
 	
 	
@@ -482,6 +482,8 @@
 							 'size'=>'45',
 							 'db_field'=>'title',
 							 'required'=>'yes',
+							 'min_length' => 4,
+							 'max_length'=>100
 
 							 ),
 		 'desc'		=> array('title'=> $LANG['vdo_desc'],

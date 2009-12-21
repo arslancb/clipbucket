@@ -24,7 +24,9 @@ class EH extends ClipBucket
 	 
 	function add_error($message=NULL,$id=NULL)
 	{
+		global $ignore_cb_errors;
 		//if id is set, error will be generated from error message list
+		if(!$ignore_cb_errors)
 		$this->error_list[] = $message;
 	}
 
@@ -59,7 +61,9 @@ class EH extends ClipBucket
 	 */
 	function add_message($message=NULL,$id=NULL)
 	{
+		global $ignore_cb_errors;
 		//if id is set, error will be generated from error message list
+		if(!$ignore_cb_errors)
 		$this->message_list[] = $message;
 	}
 	   

@@ -1,0 +1,13 @@
+<div class="grp_manage_links">
+  <ul>
+    <li><a href="{$baseurl}/edit_group.php?url={$group.group_id}">Edit Group</a></li>
+    <li><a href="{group_link details=$group}">View Group</a></li>
+    <li><a href="{$baseurl}/manage_groups.php?mode=manage_members&gid={$group.group_id}">
+      Manage members</a></li>
+    <li><a href="{$baseurl}/manage_groups.php?mode=manage_videos&gid={$group.group_id}">Manage videos</a></li>
+    <li><a href="javascript:void(0)" onClick="
+    	  if (confirm('Are you sure you want to delete this group?'))
+				document.location = '{$baseurl}/manage_groups.php??mode=delete&gid={$group.group_id}';">Delete Group</a></li>
+  </ul>
+  <div class="clearfix"></div>
+</div>

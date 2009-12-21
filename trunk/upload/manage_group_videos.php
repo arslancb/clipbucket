@@ -16,11 +16,11 @@ $manage_vids = TRUE;
 $url = mysql_clean($_GET['url']);
 //Updating Group
 if(isset($_POST['update'])){
-	$msg = $groups->UpdateGroup();
+	$msg = $cbgroup->UpdateGroup();
 }
 		include('group_inc.php');
 
-		$details = $groups->GetDetails($url);
+		$details = $cbgroup->GetDetails($url);
 		$group 	= 	$details['group_id'];
 		$user 	= 	$_SESSION['username'];
 		if(empty($user)){
@@ -34,7 +34,7 @@ if(isset($_POST['update'])){
 			Assign('owner','yes');
 		}
 		//Chceking Logged in user is group user or not
-		if(!$groups->is_joined($_SESSION['username'],$group)){
+		if(!$cbgroup->is_joined($_SESSION['username'],$group)){
 			Assign('join','yes');
 		}else{
 			Assign('join','no');
@@ -44,11 +44,11 @@ Assign('groups',$details);
 
 //Removing A Video
 if(isset($_POST['remove'])){
-	$msg = $groups->RemoveVideos($group);
+	$msg = $cbgroup->RemoveVideos($group);
 }
 //Approve Videos
 if(isset($_POST['approve'])){
-	$msg = $groups->ApproveVideos($group);
+	$msg = $cbgroup->ApproveVideos($group);
 }
 
 //Getting Videos List

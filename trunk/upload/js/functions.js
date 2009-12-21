@@ -263,33 +263,19 @@ var page = baseurl+'/ajax.php';
 	}
 	
 	
-	function go_hq(vid)
-	{
-		 var flashvars = {
-		 htmlPage: document.location,
-		settingsFile: "http://localhost/clipbucket/2.x/2/upload/player/cbplayer/settings.php?hqid="+vid
-		};
-		var params = {
-		  allowFullScreen: "true"
-		};
-		swfobject.embedSWF("http://localhost/clipbucket/2.x/2/upload/player/cbplayer/videoPlayer.swf", 
-										   "videoPlayer", "600", "350", "9.0.115",
-										   "swfobject/expressInstall.swf", flashvars
-										   , params);
-	}
-	
 	
 	/**
-	 * Function used to delete video
+	 * Function used to delete any item with confirm message
 	 */
-	function delete_video(obj,vid,msg,url)
+	function delete_item(obj,id,msg,url)
 	{
-		$("#"+obj+'-'+vid).click(function () {
+		$("#"+obj+'-'+id).click(function () {
 			if (confirm(msg)) {
 				document.location = url;
 			}				
 		});
 	}
+	function delete_video(obj,id,msg,url){ return delete_item(obj,id,msg,url); }
 	
 	
 	/**
@@ -417,6 +403,25 @@ var page = baseurl+'/ajax.php';
 		{ 	
 			mode : type,
 			subscribe_to : user,
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+			{
+				$("#"+result_cont).css("display","block");
+				$("#"+result_cont).html(data);
+			}
+		},'text');
+	}
+	
+	function add_friend(uid,result_cont)
+	{
+		$.post(page, 
+		{ 	
+			mode : 'add_friend',
+			uid : uid,
 		},
 		function(data)
 		{
@@ -690,3 +695,18 @@ var page = baseurl+'/ajax.php';
 		if(!$.cookie("quick_list_box"))
 			$.cookie("quick_list_box","show")
 	}
+	
+	
+	function get_group_info(Div,li)
+	{
+		
+		if( $(Div).css("display")=="none") 
+		{
+			$("#group_info_cont > div").slideUp();
+			$("#group_info_cont "+Div).slideDown();
+			$(".group_detail_tabs .selected").removeClass("selected");
+			$(li).addClass("selected");
+		}
+	}
+	
+	

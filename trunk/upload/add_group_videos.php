@@ -1,62 +1,58 @@
 <?php
 /* 
- ****************************************************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.											|
- | @ Author : ArslanHassan																			|
- | @ Software : ClipBucket , © PHPBucket.com														|
- ****************************************************************************************************
+ ****************************************************************************
+ | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.						
+ | @ Author : ArslanHassan													
+ | @ Software : ClipBucket , © PHPBucket.com								
+ *******************************************************************************
 */
-$manage_vids = TRUE;
+
+define("THIS_PAGE","add_group_videos");
+define("PARENT_PAGE","groups");
+
 require 'includes/config.inc.php';
-$userquery->logincheck();
 $pages->page_redir();
 
-		$url = clean($_GET['url']);
-		include('group_inc.php');
-		$group 	 = @$topic_details['group_id'];
-		$details = $groups->GetDetails($url);
-		$group 	 = $details['group_id'];
-		$user	 = $_SESSION['username'];
-		include('group_check.php');
+$url = mysql_clean($_GET['url']);
 
-//Adding Video To Group
-if(isset($_POST['add_videos'])){
-if($details['video_type'] == 1){
-	$approved = 'no';
-}else{
-	$approved = 'yes';
-}
-	$msg = $groups->AddVideos($group,$approved);
-}
+$details = $cbgroup->group_details_url($url);
+assign('group',$details);
 
-//Getting User Videos
-	$sql = "SELECT * from video WHERE username = '".$user."'";
-	$rs = $db->Execute($sql);
-	$videos = $rs->getrows();
-	$total_vdo = $rs->recordcount()+0;
-	
-	for($id=0;$id<$total_vdo;$id++){
-		$query=mysql_query("SELECT * FROM video_detail WHERE flv='".$videos[$id]['flv']."'");
-		$data = mysql_fetch_array($query);
-		$query2=mysql_query("SELECT * FROM group_videos WHERE videokey='".$videos[$id]['videokey']."' AND group_id='".$details['group_id']."'");
-			if(mysql_num_rows($query2) > 0){
-			$videos[$id]['checked'] = 'checked="checked"';
-			}
-	$videos[$id]['thumb'] 		= GetThumb($videos[$id]['flv']);
+
+if(!$details)
+	e("Group does not exist");
+elseif(!$cbgroup->is_member(userid(),$details['group_id']))
+	e("You are not member of this group so cannot add videos");
+else
+{	
+
+	///Getting User Videos
+	$array = array('user'=>userid());
+	$usr_vids = get_videos($array);
+	assign('usr_vids',$usr_vids);
+
+	//Adding videos to group
+	if(isset($_POST['add_videos']))
+	{
+		$total = count($usr_vids);
+		for($i=0;$i<=$total;$i++)
+		{
+			$videoid = $usr_vids[$i]['videoid'];
+			if($_POST['check_video_'.$videoid]=='yes')
+				$cbgroup->add_group_video($videoid,$details['group_id'],false);
+			else
+				$cbgroup->remove_group_video($videoid,$details['group_id'],false);
+		}
+		//Update Group Total Videos
+		$cbgroup->update_group_videos_count($details['group_id']);
+		
+		$eh->flush();
+		e("Selected videos have been updated","m");
 	}
+	assign('group',$details);
+}
 	
-	Assign('videos',$videos);
-	Assign('total_vids',$total_vdo);
+template_files('add_group_videos.html');
+display_it();
 
-
-Assign('groups',$details);
-
-Assign('subtitle',$details['group_name'].' '.$LANG['grp_add_title']);
-@Assign('msg',$msg);
-@Assign('show_group',$show_group);
-Template('header.html');
-Template('message.html');	
-Template('group_header.html');
-Template('add_group_videos.html');
-Template('footer.html');
 ?>

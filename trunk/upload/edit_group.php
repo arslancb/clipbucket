@@ -1,51 +1,39 @@
 <?php
 /* 
- ****************************************************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.											|
- | @ Author : ArslanHassan																			|
- | @ Software : ClipBucket , © PHPBucket.com														|
- ****************************************************************************************************
+ *************************************************************
+ | Copyright (c) 2007-2009 Clip-Bucket.com. All rights reserved.
+ | @ Author	   : ArslanHassan									
+ | @ Software  : ClipBucket , © PHPBucket.com					
+ *************************************************************
 */
-
 require 'includes/config.inc.php';
-$pages->page_redir();
 $userquery->logincheck();
+$udetails = $userquery->get_user_details(userid());
+assign('user',$udetails);
+assign('p',$userquery->get_user_profile($udetails['userid']));
 
-$url = mysql_clean($_GET['url']);
-		//Updating Group
-		if(isset($_POST['update'])){
-			$msg = $groups->UpdateGroup();
-		}
-		//Checks Group exists Or Not
-		include('group_inc.php');
+$gid = mysql_clean($_GET['gid']);
+//get group details
+$gdetails = $cbgroup->get_group_details($gid);
 
-		$details = $groups->GetDetails($url);
-		$group 	= 	$details['group_id'];
-		$user 	= 	$_SESSION['username'];
-		if($details['username'] != $user){
-			$msg = $LANG['grp_owner_err1'];
-			$show_group = 'No';
-		}
-Assign('groups',$details);
+if($gdetails['userid'] != userid())
+{
+	e("You cannot edit this group");
+	$Cbucket->show_page = false;
+}else{
+	
+	//Updating Video Details
+	if(isset($_POST['update_group']))
+	{
+		$_POST['group_id'] = $gid;
+		$cbgroup->update_group();
+		$gdetails = $cbgroup->get_group_details($gid);
 
+	}
+	
+	assign('group',$gdetails);
+}
 
-//Assigning Category List
-	$sql = "SELECT * from category";
-	$rs = $db->Execute($sql);
-	$total_categories = $rs->recordcount() + 0;
-	$category = $rs->getrows();
-	Assign('category', $category);	
-
-//If Update is true
-$update = mysql_clean(@$_GET['update']);
-if($update==true){
-	$msg = $LANG['grp_update_msg'];
-}	
-Assign('show_group',@$show_group);
-Assign('subtitle',' Edit '.$details['group_name']);
-Assign('msg',@$msg);
-Template('header.html');
-Template('message.html');	
-Template('edit_group.html');
-Template('footer.html');
+template_files('edit_group.html');
+display_it();
 ?>

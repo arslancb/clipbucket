@@ -5,7 +5,8 @@
 <!-- ClipBucket v2 -->
 <meta name="copyright" content="ClipBucket - PHPBucket ClipBucket 2007 - {$smarty.now|date_format:"%Y"}" />
 <meta name="author" content="Arslan Hassan - http://clip-bucket.com/Arslan-Hassan" />
-
+<link rel="shortcut icon" href="{$baseurl}/favicon.ico">
+<link rel="icon" type="image/ico" href="{$baseurl}/favicon.ico">
 <meta name="keywords" content="{$meta_keywords}" />
 <meta name="description" content="{$meta_description}" />
 <meta name="distribution" content="global" />
@@ -15,7 +16,12 @@
 
 <link href="{$theme}/main.css" rel="stylesheet" type="text/css" />
 
-
+<!-- Setting Template Variables -->
+{php}
+	if(!$_COOKIE['current_style'])
+    	$_COOKIE['current_style'] = 'vertical';
+{/php}
+<!-- Setting Template Variables -->
 
 
 <script language="javascript">
@@ -175,6 +181,7 @@ $(document).ready(function() {
 	$('#grid').click(
 		function() {
 			$('.horizantal').removeClass('horizantal').addClass('vertical');
+			$.cookie("current_style","vertical")
 			$('.vid_sp').hide();
 		}
 	);
@@ -182,6 +189,7 @@ $(document).ready(function() {
 	$('#list').click(
 		function() {
 			$('.vertical').removeClass('vertical').addClass('horizantal');
+			$.cookie("current_style","horizantal")
 			$('.vid_sp').show();
 		}
 	);

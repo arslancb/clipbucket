@@ -37,7 +37,7 @@ rename($temp_file,$orig_file);
 		'use_audio_bit_rate' => true,
 		'use_audio_codec' => true,
 		'format' => 'flv',
-		'video_codec'=>'libx264',
+		'video_codec'=>'flv',
 		'audio_codec'=>'libfaac',
 		'audio_rate'=>22050,
 		'audio_bitrate'=>128000,
@@ -65,6 +65,7 @@ rename($temp_file,$orig_file);
 	$ffmpeg->configs = $configs;
 	$ffmpeg->gen_thumbs = TRUE;
 	$ffmpeg->gen_big_thumb = TRUE;
+	$ffmpeg->tmp_dir = TEMP_DIR;
 	$ffmpeg->input_ext = $ext;
 	$ffmpeg->output_file = VIDEOS_DIR.'/'.$tmp_file.'.flv';
 	$ffmpeg->hq_output_file = VIDEOS_DIR.'/'.$tmp_file.'.mp4';

@@ -68,7 +68,7 @@
 					{assign var='channel_action_links' value=$userquery->get_channel_action_links($u)}
                     <ul class="channel_action_links">
                     {foreach from=$channel_action_links item=link key=link_title}
-                        <li><a href="{$link}">{$link_title}</a></li>
+                        <li><a href="{$link.link}" onClick="{$link.onclick}">{$link_title}</a></li>
                     {/foreach}
                     </ul>
    	 			 </div>

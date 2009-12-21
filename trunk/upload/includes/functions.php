@@ -7,7 +7,7 @@
 # Function:         Various
 # Author:           Arslan Hassan
 # Language:         PHP
-# License:          CBLA @ [url]http://cbla.cbdev.org/[/url]
+# License:          CBLA @ [url]http://clip-bucket.com/cbla[/url]
 # Version:          2
 # Last Modified:    Monday, March 23, 2009 / 01:08 AM GMT+1 (fwhite)
 # Notice:           Please maintain this section
@@ -185,6 +185,7 @@
 			
 	/**
 	 * Function used to send emails
+	 * @Author : Arslan Hassan
 	 * this is a very basic email function 
 	 * you can extend or replace this function easily
 	 * read our docs.clip-bucket.com
@@ -666,6 +667,43 @@
 	} 
 	
 	/**
+	 * Group Link
+	 */
+	function group_link($params)
+	{
+		$grp = $params['details'];
+		$id = $grp['group_id'];
+		$name = $grp['group_name'];
+		$url = $grp['group_url'];
+		
+		if($params['type']=='' || $params['type']=='group')
+		{
+			if(SEO==yes)
+				return BASEURL.'/group/'.$url;
+			else
+				return BASEURL.'/view_group.php?url='.$url;
+		}
+		
+		if($params['type']=='view_members')
+		{
+			return BASEURL.'/view_group_members.php?url='.$url;
+			if(SEO==yes)
+				return BASEURL.'/group_members/'.$url;
+			else
+				return BASEURL.'/view_group_members.php?url='.$url;
+		}
+		
+		if($params['type']=='view_videos')
+		{
+			return BASEURL.'/view_group_videos.php?url='.$url;
+			if(SEO==yes)
+				return BASEURL.'/group_videos/'.$url;
+			else
+				return BASEURL.'/view_group_videos.php?url='.$url;
+		}
+	}
+	
+	/**
 	* FUNCTION USED TO GET ADVERTISMENT
 	* @param : array(Ad Code, LIMIT);
 	*/
@@ -787,6 +825,20 @@
 					$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
 				
 				$cats = $userquery->get_categories();
+				if($all_cat)
+				$cats = array_merge($all_cat,$cats);
+				return $cats;
+			}
+			break;
+			
+			case "group":
+			case "groups":
+			{
+				global $cbgroup;
+				if($with_all)
+					$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
+				
+				$cats = $cbgroup->get_categories();
 				if($all_cat)
 				$cats = array_merge($all_cat,$cats);
 				return $cats;
@@ -1081,7 +1133,7 @@
 	/**
 	 * Function used to check weather user access or not
 	 */
-	function has_access($acces,$check_only=FALSE)
+	function has_access($access,$check_only=TRUE)
 	{
 		global $userquery;
 		return $userquery->login_check($access,$check_only);
@@ -1866,6 +1918,14 @@
 		return $userquery->duplicate_email($user);
 	}
 	
+	/**
+	 * function used to check weather group URL exists or not
+	 */
+	function group_url_exists($url)
+	{
+		global $cbgroup;
+		return $cbgroup->group_url_exists($url);
+	}
 	
 	
 	/**
@@ -2210,6 +2270,8 @@
 	 */
 	function call_watch_video_function($vdo)
 	{
+		global $userquery;
+		
 		$funcs = get_functions('watch_video_functions');
 		if(is_array($funcs) && count($funcs)>0)
 		{
@@ -2223,6 +2285,80 @@
 		}
 		
 		increment_views($vdo['videoid']);
+		
+		if(userid())
+			$userquery->increment_watched_vides(userid());
+			
+	}
+	
+	
+	/**
+	 * Funcion used to call functions
+	 * when user view channel
+	 * ie in view_channel.php
+	 */
+	function call_view_channel_functions($u)
+	{
+		$funcs = get_functions('view_channel_functions');
+		if(is_array($funcs) && count($funcs)>0)
+		{
+			foreach($funcs as $func)
+			{
+				if(!function_exists($func))
+				{
+					$func($u);
+				}
+			}
+		}
+		
+		increment_views($u['userid'],"channel");
+	}
+	
+	
+	
+	
+	/**
+	 * Funcion used to call functions
+	 * when user view topic
+	 * ie in view_topic.php
+	 */
+	function call_view_topic_functions($tdetails)
+	{
+		$funcs = get_functions('view_topic_functions');
+		if(is_array($funcs) && count($funcs)>0)
+		{
+			foreach($funcs as $func)
+			{
+				if(!function_exists($func))
+				{
+					$func($tdetails);
+				}
+			}
+		}
+		
+		increment_views($tdetails['topic_id'],"topic");
+	}
+	
+	/**
+	 * Funcion used to call functions
+	 * when user view group
+	 * ie in view_group.php
+	 */
+	function call_view_group_functions($gdetails)
+	{
+		$funcs = get_functions('view_group_functions');
+		if(is_array($funcs) && count($funcs)>0)
+		{
+			foreach($funcs as $func)
+			{
+				if(!function_exists($func))
+				{
+					$func($gdetails);
+				}
+			}
+		}
+		
+		increment_views($gdetails['group_id'],"group");
 	}
 	
 	
@@ -2246,6 +2382,38 @@
 					setcookie('video_'.$id,'watched',time()+3600);
 				}
 			}
+			break;
+			case 'u':
+			case 'user':
+			default:
+			{
+				if(!isset($_COOKIE['user_'.$id])){
+					$db->update("users",array("profile_hits"),array("|f|profile_hits+1")," userid='$id'");
+					setcookie('user_'.$id,'watched',time()+3600);
+				}
+			}
+			break;
+			case 't':
+			case 'topic':
+			default:
+			{
+				if(!isset($_COOKIE['topic_'.$id])){
+					$db->update("group_topics",array("total_views"),array("|f|total_views+1")," topic_id='$id'");
+					setcookie('topic_'.$id,'watched',time()+3600);
+				}
+			}
+			break;
+			break;
+			case 'g':
+			case 'group':
+			default:
+			{
+				if(!isset($_COOKIE['group_'.$id])){
+					$db->update("groups",array("total_views"),array("|f|total_views+1")," group_id='$id'");
+					setcookie('group_'.$id,'watched',time()+3600);
+				}
+			}
+			break;
 		}
 		
 	}
@@ -2649,8 +2817,7 @@
 	{
 		switch($type)
 		{
-			case 'video':
-			default:
+			case 'video':case 'videos':case 'v':
 			{
 				if(!isset($_GET['sort']))
 					$_GET['sort'] = 'most_recent';
@@ -2681,6 +2848,22 @@
 					return BASEURL.'/channels.php?cat='.$data['category_id'].'&sort='.$_GET['sort'].'&time='.$_GET['time'].'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
 			}
 			break;
+			
+			default:
+			{
+				if(!isset($_GET['sort']))
+					$_GET['sort'] = 'most_recent';
+				if(!isset($_GET['time']))
+					$_GET['time'] = 'all_time';
+				if(!isset($_GET['page']))
+					$_GET['page'] = 1;
+					
+				if(SEO=='yes')
+					return BASEURL.'/'.$type.'/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.$_GET['sort'].'/'.$_GET['time'].'/'.$_GET['page'];
+				else
+					return BASEURL.'/'.$type.'.php?cat='.$data['category_id'].'&sort='.$_GET['sort'].'&time='.$_GET['time'].'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
+			}
+			break;
 		}
 	}
 	
@@ -2693,7 +2876,8 @@
 		switch($type)
 		{
 			case 'video':
-			default:
+			case 'videos':
+			case 'v':
 			{
 				if(!isset($_GET['cat']))
 					$_GET['cat'] = 'all';
@@ -2751,6 +2935,38 @@
 					return BASEURL.'/channels.php?cat='.$_GET['cat'].'&sort='.$sorting.'&time='.$time.'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
 			}
 			break;
+			
+			
+			default:
+			{
+				if(!isset($_GET['cat']))
+					$_GET['cat'] = 'all';
+				if(!isset($_GET['time']))
+					$_GET['time'] = 'all_time';
+				if(!isset($_GET['sort']))
+					$_GET['sort'] = 'most_recent';
+				if(!isset($_GET['page']))
+					$_GET['page'] = 1;
+				if(!isset($_GET['seo_cat_name']))
+					$_GET['seo_cat_name'] = 'All';
+				
+				if($mode == 'sort')
+					$sorting = $sort;
+				else
+					$sorting = $_GET['sort'];
+				if($mode == 'time')
+					$time = $sort;
+				else
+					$time = $_GET['time'];
+					
+				if(SEO=='yes')
+					return BASEURL.'/'.$type.'/'.$_GET['cat'].'/'.$_GET['seo_cat_name'].'/'.$sorting.'/'.$time.'/'.$_GET['page'];
+				else
+					return BASEURL.'/'.$type.'.php?cat='.$_GET['cat'].'&sort='.$sorting.'&time='.$time.'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
+			}
+			break;
+			
+			
 		}
 	}
 	
@@ -2823,6 +3039,29 @@
 			return $val;
 		}else
 			return true;
+	}
+	
+	
+	/**
+	 * Function used to ingore errors
+	 * that are created when there is wrong action done
+	 * on clipbucket ie inavalid username etc
+	 */
+	function ignore_errors()
+	{
+		global $ignore_cb_errors;
+		$ignore_cb_errors = TRUE;
+	}
+	
+	/**
+	 * Function used to set $ignore_cb_errors 
+	 * back to TRUE so our error catching system
+	 * can generate errors
+	 */
+	function catch_error()
+	{
+		global $ignore_cb_errors;
+		$ignore_cb_errors = FALSE;
 	}
 
 ?>

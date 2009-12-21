@@ -1,0 +1,52 @@
+{assign var='requiredFields' value=$cbgroup->load_required_fields()}
+{assign var='optionFields' value=$cbgroup->load_other_fields()}
+{assign var='customFields' value=$cbgroup->custom_group_fields}
+
+
+<table width="950" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td class="header1">{$LANG.grp_crt_grp}</td>
+  </tr>
+  <tr>
+    <td><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="66%" valign="top"><form name="form1" method="post" action="">
+          <table width="90%" border="0" cellspacing="0" cellpadding="5">
+            {foreach from=$requiredFields item=field}
+                  <tr>
+                    <td width="117" align="right" valign="top" class="header3">{$field.title}* :</td>
+                    <td class="tips">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    <br>
+                    {$field.hint_2}</td>
+                  </tr>
+                  {/foreach}
+            {foreach from=$customFields item=field}
+                  <tr>
+                    <td width="117" align="right" valign="top" class="header3">{$field.title}* :</td>
+                    <td class="tips">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    <br>
+                    {$field.hint_2}</td>
+                  </tr>
+                  {/foreach}{foreach from=$optionFields item=field}
+                  <tr>
+                    <td width="117" align="right" valign="top" class="header3">{$field.title}* :</td>
+                    <td class="tips">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    <br>
+                    {$field.hint_2}</td>
+                  </tr>
+                  {/foreach}
+            <tr>
+              <td align="right" valign="top" class="header2">&nbsp;</td>
+              <td><label>
+                <input type="submit" name="create_group" value="{$LANG.grp_crt_grp}" id="button">
+              </label></td>
+            </tr>
+          </table>
+                  </form>
+          </td>
+        <td width="34%" align="center" valign="top">{$ads.ad_336x280}</td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+

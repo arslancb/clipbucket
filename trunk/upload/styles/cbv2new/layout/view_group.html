@@ -1,0 +1,104 @@
+<div class="group_view">
+
+{include file="$style_dir/blocks/group/group_header.html" group=$group}
+
+{if $mode=='' || $mode=='main'}
+<div style="margin-top:10px">
+	<div style="float:left; width:500px"><h2 style="margin:0px; margin:0px">Discussions ({$group.total_topics|number_format})</h2></div>
+    <div style="float:right; width:250px" align="right">
+    <span class="add_topic" onclick="$('#add_topic_cont').slideToggle()">
+    <img src="{$imageurl}/group/add.png" /> ADD NEW TOPIC<span class="clearfix"></span></span>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<div id="add_topic_cont" style="display:none;">
+{include file="$style_dir/blocks/group/add_topic.html" group=$group}
+</div>
+
+{include file="$style_dir/blocks/group/group_topics.html" group=$group}
+{/if}
+
+
+{if $mode=='invite_group'}
+
+<!-- Inviting Members to Group -->
+<h2>Invite Members</h2>
+
+<div style="display:inline; margin:auto">
+	<div style="width:600px;margin:auto">
+    {if $friends}
+     <form name="invite_friends" id="invite_friends" action="" method="post">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="manage_contacts_tbl_head">
+      <tr>
+        <td width="15"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+        <td width="50">&nbsp;</td>
+        <td>Username</td>
+        <td width="100">views</td>
+        </tr>
+  </table>
+        
+        
+        {foreach from=$friends item=friend}
+            {if userid()!=$friend.userid}
+                {assign var=user_detail value=$userquery->get_user_details($friend.userid)}
+            {else}
+                {assign var=user_detail value=$userquery->get_user_details($friend.contact_userid)}
+            {/if}
+            
+            <div class="manage_contacts_tbl">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+            <td width="15"><input type="checkbox" name="friend[]" id="check_userd-{$user_detail.userid}" value="{$user_detail.userid}" /></td>
+            <td width="50" height="50" align="center" valign="middle"><a href="{$userquery->profile_link($user_detail)}"><img src="{$userquery->getUserThumb($user_detail)}" alt="{$user_detail.username}" width="40" height="40" border="0"></a></td>
+            <td><a href="{$userquery->profile_link($user_detail)}">{$user_detail.username}</a></td>
+            <td width="100">{$user_detail.profile_hits|number_format}</td>
+            </tr>
+            </table>
+            </div>
+            
+        {/foreach}
+        <div align="left" style="margin-top:10px"><input type="submit" name="invite_friends" class="cb_button" value="{lang code='invite'}"></div>
+    </form>
+    {else}
+    	No Contact
+    {/if}
+
+    </div>
+</div>
+<!-- Inviting Members to Group -->
+{/if}
+
+
+{* LISTING VIDEOS *}
+{if $mode=='view_videos'}
+<!-- Listing Group Videos Only -->
+	<h2>{$group.group_name} Videos ({$group.total_videos})</h2>
+    <div id="style_change" style="margin-top:10px">Change Style of Listing 
+        	<div id="grid" title="Change To Grid Style"></div> 
+            <div id="list" title="Change to List Style"></div>
+		</div> 
+    {section name=v_list loop=$videos}
+        {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
+    {/section}
+    <div class="clearfix"></div>
+
+<!-- Listing Group Videos end-->
+{/if}
+{* LISTING VIDEOS END*}
+
+
+{* LISTING MEMBERS *}
+{if $mode=='view_members'}
+	<!-- Listing members -->
+    <h2>{$group.group_name} Members ({$group.total_members})</h2>
+    {section name=u_list loop=$users}
+        {include file="$style_dir/blocks/user.html" user=$users[u_list]}
+    {/section}
+    <div class="clearfix"></div>
+
+    <!-- Listing Members -->
+{/if}
+{* LISTING MEMBERS END *}
+
+</div>

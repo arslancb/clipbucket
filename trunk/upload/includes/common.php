@@ -31,8 +31,11 @@ define('GARBAGE_TIMEOUT',COOKIE_TIMEOUT);
 ini_set('session.gc_maxlifetime', GARBAGE_TIMEOUT);
 session_set_cookie_params(COOKIE_TIMEOUT,'/');
 
-/*
-$sessdir = '/tmp/'.$_SERVER['HTTP_HOST'];
+
+//IGNORE CB ERRORS
+$ignore_cb_errors = FALSE;
+
+/*$sessdir = '/tmp/'.$_SERVER['HTTP_HOST'];
 if (!is_dir($sessdir)) { mkdir($sessdir, 0777); }
 ini_set('session.save_path', $sessdir);*/
 
@@ -55,7 +58,11 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/image.class.php');
 	require_once('classes/upload.class.php');
 	
-	require_once('classes/stats.class.php');error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
+	#WTF
+	require_once('classes/stats.class.php');
+	#WTF
+	error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
+	#WTF
 	
 	require_once('classes/ads.class.php');
 	require_once('classes/form.class.php');
@@ -81,7 +88,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	$calcdate	= new CalcDate();
 	$signup 	= new signup();	
 	$Upload 	= new Upload();
-	$groups 	= new Groups();
+	$cbgroup 	= new CBGroups();
 	$stats 		= new stats();
 	$adsObj		= new AdsManager();
 	$formObj	= new formObj();
@@ -270,6 +277,10 @@ error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
 	//Defining Group Thumbs directory
 	define('GP_THUMB_DIR',BASEDIR.'/images/groups_thumbs');
 	define('GP_THUMB_URL',BASEURL.'/images/groups_thumbs');	
+	
+	//TOPIC ICON DIR
+	define('TOPIC_ICON_DIR',BASEDIR.'/images/icons/topic_icons');
+	define('TOPIC_ICON_URL',BASEURL.'/images/icons/topic_icons');	
 
 	include 'functions.php';
 	include 'plugin.functions.php';
@@ -363,7 +374,7 @@ $Smarty->assign_by_ref('myquery', $myquery);
 $Smarty->assign_by_ref('userquery', $userquery);
 $Smarty->assign_by_ref('signup', $signup);
 $Smarty->assign_by_ref('Upload', $Upload);
-$Smarty->assign_by_ref('groups', new groups());
+$Smarty->assign_by_ref('cbgroup', $cbgroup);
 $Smarty->assign_by_ref('Stats', $stats);
 $Smarty->assign_by_ref('db', $db);
 $Smarty->assign_by_ref('adsObj', $adsObj);
@@ -389,6 +400,7 @@ $Smarty->register_function('AD','getAd');
 $Smarty->register_function('get_thumb','getSmartyThumb');
 $Smarty->register_function('getThumb','getSmartyThumb');
 $Smarty->register_function('videoLink','videoSmartyLink');
+$Smarty->register_function('group_link','group_link');
 $Smarty->register_function('show_rating','show_rating');
 $Smarty->register_function('ANCHOR','ANCHOR');
 $Smarty->register_function('FUNC','FUNC');

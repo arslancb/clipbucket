@@ -185,6 +185,27 @@ if(!empty($mode))
 		break;
 		
 		
+		case 'add_friend':
+		{
+			$friend = $_POST['uid'];
+			$userid = userid();
+			
+			$userquery->add_contact($userid,$friend);
+			if(msg())
+			{
+				$msg = msg_list();
+				$msg = '<div class="msg">'.$msg[0].'</div>';
+			}
+			if(error())
+			{
+				$msg = error_list();
+				$msg = '<div class="error">'.$msg[0].'</div>';
+			}
+			echo $msg;
+			
+		}
+		break;
+		
 		case 'rate_comment':
 		{
 			$thumb = $_POST['thumb'];
@@ -242,6 +263,19 @@ if(!empty($mode))
 					$reply_to = $_POST['reply_to'];
 					
 					$cid = $userquery->add_comment($comment,$id,$reply_to);
+				}
+				break;
+				case 't':
+				case 'topic':
+				{
+					
+					$id = mysql_clean($_POST['obj_id']);
+					$comment = $_POST['comment'];
+					if($comment=='undefined')
+						$comment = '';
+					$reply_to = $_POST['reply_to'];
+					
+					$cid = $cbgroup->add_comment($comment,$id,$reply_to);
 				}
 				break;
 				
@@ -379,6 +413,8 @@ if(!empty($mode))
 		
 		default:
 		header('location:'.BASEURL);
+		
+		
 	}
 }else
 	header('location:'.BASEURL);

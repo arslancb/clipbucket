@@ -13,11 +13,11 @@ $userquery->logincheck();
 
 $url = mysql_clean($_GET['url']);
 if(isset($_POST['update'])){
-	$msg = $groups->UpdateGroup();
+	$msg = $cbgroup->UpdateGroup();
 }
 		include('group_inc.php');
 		//Delete Group
-		$details = $groups->GetDetails($url);
+		$details = $cbgroup->GetDetails($url);
 		$group 	= 	$details['group_id'];
 		$user 	= 	$_SESSION['username'];
 		if($details['username'] !== $user){
@@ -27,7 +27,7 @@ if(isset($_POST['update'])){
 Assign('groups',$details);
 
 if(isset($_POST['delete_group'])){
-	$groups->DeleteGroup($_POST['group_id']);
+	$cbgroup->DeleteGroup($_POST['group_id']);
 	Assign('show_succes','yes');
 	$show_delete = 'No';
 }

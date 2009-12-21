@@ -147,43 +147,32 @@ class myquery {
 	 * Function used to delete comments
 	 * @param CID
 	 */
-	function delete_comment($cid,$type='v',$is_reply=FALSE)
+	function delete_comment($cid,$type='v',$is_reply=FALSE,$forceDelete=false)
 	{
 		global $db,$userquery,$LANG;
 		//first get comment details
 		
-		$cdetails = $this->get_comment($cid);
-		
-		switch($type)
-		{
-			case 'v':
-			$own_id = $this->get_vid_owner($cdetails['type_id']);
-			break;
-			
-			case 'c';
-			$own_id = $this->get_vid_owner($cdetails['type_id']);
-			break;
-		}
-			
-		
+		$cdetails = $this->get_comment($cid);	
 		$uid = user_id();
-		if(	   $uid == $cdetails['userid'] 
-			|| $uid==$own_id 
+		
+		if(($uid == $cdetails['userid'] && $cdetails['userid']!='')
 			|| $userquery->permission['mod_access'] == 'yes' 
-			|| $is_reply==TRUE)
+			|| $is_reply==TRUE || $forceDelete)
 		{
 			$replies = $this->get_comments($cdetails['type_id'],$type,FALSE,$cid,TRUE);
 			if(count($replies)>0 && is_array($replies))
 			{
 				foreach($replies as $reply)
 				{
-					$this->delete_comment($reply['comment_id'],$type,TRUE);
+					$this->delete_comment($reply['comment_id'],$type,TRUE,$forceDelete);
 				}
 			}
 			$db->Execute("DELETE FROM comments WHERE comment_id='$cid'");
-			$db->update("users",array("total_comments"),array("|f|total_comments-1")," userid='".$cdetails['userid']."'");
 			
-			e($LANG['usr_cmt_del_msg'],m);
+			if($uid)
+				$myquery->update_comments_by_user($uid);
+			
+			e($LANG['usr_cmt_del_msg'],"m");
 			return true;
 		}else{
 			e($LANG['no_comment_del_perm']);
@@ -193,6 +182,28 @@ class myquery {
 	}
 	function DeleteComment($id,$videoid){return $this->delete_comment($videoid);}
 
+
+	/**
+	 * Function used to delete all comments of particlar object
+	 */
+	function delete_comments($objid,$type='v',$forceDelete=false)
+	{
+		global $db,$userquery,$LANG;
+
+		$uid = user_id();
+		
+		if($userquery->permission['mod_access'] == 'yes'  || $forceDelete)
+		{
+			$db->Execute("DELETE FROM comments WHERE type_id='$objid' AND type='$type' ");
+			
+			e($LANG['usr_cmt_del_msg'],m);
+			return true;
+		}else{
+			e($LANG['no_comment_del_perm']);
+			return false;
+		}
+		return false;
+	}
 	
 	/***
 	 * Function used to rate comment

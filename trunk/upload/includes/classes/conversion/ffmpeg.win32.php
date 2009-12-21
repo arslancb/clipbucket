@@ -10,7 +10,9 @@
  */
  
  
-define("KEEP_MP4_AS_IS","yes");
+define("KEEP_MP4_AS_IS","no");
+define("MP4Box_BINARY","/usr/local/bin/MP4Box");
+define("FLVTool2_BINARY","/usr/local/bin/flvtool2");
 
 class ffmpeg 
 {
@@ -33,6 +35,8 @@ class ffmpeg
 	var $hq_output_file = '';
 	var $log_file = '';
 	var $input_ext = '';
+	var $tmp_dir = '/';
+	var $flvtool2 = '';
 	
 	
 	/**
@@ -41,6 +45,8 @@ class ffmpeg
 	function ffmpeg($file)
 	{
 		$this->ffmpeg = FFMPEG_BINARY;
+		$this->mp4box = MP4Box_BINARY;
+		$this->flvtool2 = FLVTool2_BINARY;
 		$this->input_file = $file;
 		
 	}
@@ -190,6 +196,18 @@ class ffmpeg
 			unlink(TEMP_DIR.'/output.tmp');
 		}
 		
+		
+		#FFMPEG GNERETAES Damanged File
+		#Injecting MetaData ysing FLVtool2 - you must have update version of flvtool2 ie 1.0.6 FInal or greator
+		$flv_cmd = $this->flvtool2." -U  ".$this->output_file."  2> ".TEMP_DIR."/flvtool2_output.tmp ";
+		$flvtool2_output = $this->exec($flv_cmd);
+		if(file_exists(TEMP_DIR.'/flvtool2_output.tmp'))
+		{
+			$flvtool2_output = $flvtool2_output ? $flvtool2_output : join("", file(TEMP_DIR.'/flvtool2_output.tmp'));
+			unlink(TEMP_DIR.'/flvtool2_output.tmp');
+		}
+		$output .= $flvtool2_output;
+		
 		$this->log('Conversion Command',$command);
 		$this->log .="\r\n\r\nConversion Details\r\n\r\n";
 		$this->log .=$output;
@@ -230,7 +248,9 @@ class ffmpeg
 		$info['size'] = (integer)$stats['size'];
 		$this->ffmpeg." -i $path_source -acodec copy -vcodec copy -f null /dev/null 2>&1";
 		$output = $this->exec( $this->ffmpeg." -i $path_source -acodec copy -vcodec copy -f null /dev/null 2>&1" );
-	
+		
+		
+
 		# parse output
 		if( $this->parse_format_info( $output, $info ) === false )
 			return false;
@@ -832,7 +852,7 @@ class ffmpeg
 			$this->calculate_size_padding( $p, $i, $width, $height, $ratio, $pad_top, $pad_bottom, $pad_left, $pad_right );
 			$opt_av .= "-s {$width}x{$height} -aspect  $ratio -padcolor 000000 -padtop $pad_top -padbottom $pad_bottom -padleft $pad_left -padright $pad_right";
 			
-			
+			$output = "";
 			$command = $this->ffmpeg." -i ".$this->input_file." $opt_av -acodec libfaac -ab 96k -vcodec libx264 -vpre hq -crf 22 -threads 0 ".$this->hq_output_file."  2> ".TEMP_DIR."/output.tmp ";	
 			
 			if(KEEP_MP4_AS_IS=="yes" && $this->input_ext=='mp4')
@@ -846,10 +866,26 @@ class ffmpeg
 				unlink(TEMP_DIR.'/output.tmp');
 			}
 			
+			/**
+			 * Mp4 files are mostly not converted properly
+			 * we have to use Mp4box in order
+			 * to play them in regular manner, otherwise Flash players will 
+			 * load whole video before playing it
+			 */
+			$mp4_output = "";
+			$command = $this->mp4box." -inter 0.5 ".$this->hq_output_file." -tmp ".$this->tmp_dir." 2> ".TEMP_DIR."/mp4_output.tmp ";
+			$mp4_output .= $this->exec($command);
+			if(file_exists(TEMP_DIR.'/mp4_output.tmp'))
+			{
+				$mp4_output = $mp4_output ? $mp4_output : join("", file(TEMP_DIR.'/mp4_output.tmp'));
+				unlink(TEMP_DIR.'/mp4_output.tmp');
+			}
+			$ouput .= $mp4_output;
+			
 			$this->log .= "\r\n\r\n\n=========STARTING $type CONVERSION==============\r\n\r\n\n";
 			$this->log("$type Video -- Conversion Command",$command);
 			$this->log .="\r\n\r\nConversion Details\r\n\r\n";
-			$this->log .=$output;
+			$this->log .= $output;
 			$this->log .= "\r\n\r\n\n=========ENDING $type CONVERSION==============\n\n";
 			
 			$fields = array('file_conversion_log',strtolower($type));

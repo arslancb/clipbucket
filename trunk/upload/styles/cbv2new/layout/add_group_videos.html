@@ -1,0 +1,21 @@
+<div class="group_view">
+
+{include file="$style_dir/blocks/group/group_header.html" group=$group}
+
+<h2>Add Videos To Group</h2>
+   
+<form name="add_group_videos" id="add_group_videos" method="post" action="">     
+{foreach from=$usr_vids item=video}
+	{if $cbgroup->is_group_video($video.videoid,$group.group_id)}
+    	{assign var='check_this' value='yes'}
+    {else}
+    	{assign var='check_this' value=''}
+    {/if}
+    {include file="$style_dir/blocks/video.html" video=$video display_type='add_type'}    
+{/foreach}
+<div class="clearfix"></div>
+<div align="center">
+	<input type="submit" name="add_videos" id="add_videos" value="Add Videos">
+</div>
+</form>   
+</div>

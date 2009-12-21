@@ -5,7 +5,7 @@
 	Author: Arslan Hassan
 	ClipBucket Version: 2
 	Plugin Version: 1.0
-	Website: http://labguru.com/
+	Website: http://clip-bucket.com/
 */
 
 
@@ -68,12 +68,13 @@ if(!function_exists('validate_embed_code'))
 	 */
 	function validate_embed_code($val)
 	{
-		global $LANG;
 	
 		if(empty($val) || $val=='none')
 		{
 			return 'none';		
 		}else{
+			//Striping Slasshes as they are not required
+			$val = stripslashes($val);
 			//Removing spaces and non required code
 			$val = preg_replace(array("/\r+/","/\n+/","/\t+/"),"",$val);
 			//Removing Links
@@ -86,15 +87,15 @@ if(!function_exists('validate_embed_code'))
 			$val = preg_replace('/<img (.*) \/>/','',$val);
 			
 			if(!stristr($val,'<embed')&&!stristr($val,'<object') &&!stristr($val,'<div'))
-				e($LANG['embed_code_invalid_err']);
+				e(lang('embed_code_invalid_err'));
 			
 			//Replacing Widht and Height 
 			$pattern = array
-			('/width="([0-9]+)"/ui',"/width='([0-9]+)'/ui",'/height="([0-9]+)"/ui',"/height='([0-9]+)'/ui",
-			 '/width:([0-9]+)px/ui','/height:([0-9]+)px/ui');
+			("/width=\"([0-9]+)\"/Ui","/width='([0-9]+)'/Ui","/height=\"([0-9]+)\"/Ui","/height='([0-9]+)'/Ui",
+			 "/width:([0-9]+)px/Ui","/height:([0-9]+)px/Ui");
 			$replace = array
 			('width="{Width}"','width="{Width}"','height="{Height}"','height="{Height}"',
-			 '/width:{Width}px/ui','/height:{Height}px/ui');
+			 'width:{Width}px','height:{Height}px');
 			
 			$val = preg_replace($pattern,$replace,$val);
 			

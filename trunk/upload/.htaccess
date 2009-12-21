@@ -118,24 +118,13 @@ RewriteRule ^External/Upload						external_upload.php [nc]
 #
 #
 #Group Section
-RewriteRule ^group/leave/([a-zA-Z0-9].+)$			leave_group.php?url=$1 [nc]
-RewriteRule ^manage/group/videos/([a-zA-Z0-9].+)$	manage_group_videos.php?url=$1 [nc]
-RewriteRule ^manage/group/videos/([a-zA-Z0-9].+)$	manage_group_videos.php?url=$1 [nc]
-RewriteRule ^manage/group/addvideos/([a-zA-Z0-9].+)$	add_group_videos.php?url=$1 [nc]
-RewriteRule ^manage/group/members/([a-zA-Z0-9].+)$	manage_group_members.php?url=$1 [nc]
-RewriteRule ^manage/group							manage_groups.php 
 
-RewriteRule ^group/view/([a-zA-Z0-9].+)				view_group.php?url=$1&%{QUERY_STRING} [nc]
-RewriteRule ^group/videos/([a-zA-Z0-9].+)			view_group_videos.php?url=$1 [nc]
-RewriteRule ^group/members/([a-zA-Z0-9].+)			view_group_members.php?url=$1 [nc]
-RewriteRule ^group/invite/([a-zA-Z0-9].+)			invite_group.php?url=$1 [nc]
-RewriteRule ^manage/group/edit/([a-zA-Z0-9])$		edit_group.php?url=$1 [nc]
-RewriteRule ^group/create/							create_group.php [nc]
-RewriteRule ^group/join/([a-zA-Z0-9].+)				join_group.php?url=$1 [nc]
-RewriteRule ^community								groups.php [nc]
-RewriteRule ^groups$								groups.php [nc]
-RewriteRule ^group/delete							delete_group.php [nc]
-RewriteRule ^group/topic/(.*)$						view_topic.php?tid=$1 [nc]
+RewriteRule ^group/([a-zA-Z0-9].+)					view_group.php?url=$1&%{QUERY_STRING} [L]
+RewriteRule ^view_topic/([a-zA-Z0-9].+)_tid_([0-9]+)					view_topic.php?tid=$2&%{QUERY_STRING} [L]
+RewriteRule ^groups/([0-9a-z].+)/(.*)/(.*)/(.*)/(.*) groups.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
+RewriteRule ^groups groups.php [L]
+
+
 
 RewriteRule ^sitemap.xml$ sitemap.php
 

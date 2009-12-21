@@ -2,7 +2,6 @@
 /* 
 **************************
 * @ Author : Arslan Hassan
-* @ Co Author : Frank White
 * @ Software : ClipBucket
 * @ Since : 2007
 * @ Modified : 06-08-2009
@@ -37,6 +36,7 @@ class userquery extends CBCategory{
 					   'users'					=> 'users',
 					   'action_log'				=> 'action_log',
 					   'subtbl'					=> 'subscriptions',
+					   'contacts'				=> 'contacts',
 					   );
 	
 	function userquery()
@@ -189,6 +189,9 @@ class userquery extends CBCategory{
 	function login_check($access=NULL,$check_only=FALSE)
 	{
 		global $LANG,$Cbucket,$sess;
+		
+		
+		
 		//First check weather userid is here or not
 		if(!userid())
 		{
@@ -219,15 +222,17 @@ class userquery extends CBCategory{
 		
 		//Now user have passed all the stages, now checking if user has level access or not
 		elseif($access)
-		{
+		{	
 			//$access_details = $this->get_user_level(userid());
 			$access_details = $this->permission;
+			
 			if(is_numeric($access))
 			{
 				if($access_details['level_id'] == $access)
 				{
 					return true;
 				}else{
+					
 					if(!$check_only)
 					e($LANG['insufficient_privileges']);
 					$Cbucket->show_page(false);
@@ -242,8 +247,10 @@ class userquery extends CBCategory{
 				else
 				{
 					if(!$check_only)
-					e($LANG['insufficient_privileges']);
-					$Cbucket->show_page(false);
+					{
+						e($LANG['insufficient_privileges']);
+						$Cbucket->show_page(false);
+					}
 					return false;
 				}
 			}
@@ -683,45 +690,243 @@ class userquery extends CBCategory{
 	function change_user_pass($array){ return $this->ChangeUserPassword($array); }
 	function change_password($array){ return $this->ChangeUserPassword($array); }
 	
-	//Function Used to update number of channel / profile views of user
-	
-		function UpdateChannelViews($user){
-			$query 	= mysql_query("SELECT profile_hits FROM users WHERE username='".$user."'");
-			$data 	= mysql_fetch_array($query);
-			$views = $data['profile_hits']+1;
-			if(!isset($_COOKIE['view_'.$user])){
-				mysql_query("UPDATE users SET profile_hits = '".$views."' WHERE username = '".$user."'");
-					setcookie('view_'.$user,'true',time()+3600,'/');
-				}
-		}
-	
-	
+	/**
+	 * Function used to add contact
+	 */
+	function add_contact($uid,$fid)
+	{
+		global $cbemail,$db;
 		
-		//Add Contact to Contact list
+		$friend = $this->get_user_details($fid);
+		$sender = $this->get_user_details($uid);
 		
-		function AddContact($friend,$username,$type=1){
-		global $LANG;
-			if($friend == $username){
-				$msg = e($LANG['usr_cnt_err']);
-				}
-			$query = mysql_query("SELECT * FROM contacts WHERE friend_username = '".$friend."' AND username='".$username."'");
-			if(mysql_num_rows($query)>0){
-				$msg = e($LANG['usr_cnt_err1']);
-				}
-				if(empty($msg)){
-					mysql_query("INSERT INTO contacts (friend_username,username,type)VALUES('".$friend."','".$username."','".$type."')");
-					$msg = e($LANG['usr_cnt_msg']);
-				}
-			return $msg;
+		if(!$friend)
+			e(lang('usr_exist_err'));
+		elseif($this->is_requested_friend($uid,$fid))
+			e("You have already sent friend request");
+		elseif($this->is_requested_friend($uid,$fid,"in"))
+		{
+			$this->confirm_friend($fid,$uid);
+			e("Friend has been added");
+		}else
+		{
+			$db->insert($this->dbtbl['contacts'],array('userid','contact_userid','date_added'),
+												 array($uid,$fid,now()));
+			$insert_id = $db->insert_id();
+			
+			e("Friend request has been sent","m");
+			
+			//Sending friendship request email
+			$tpl = $cbemail->get_template('friend_request_email');
+			
+			
+			$more_var = array
+			(
+			 '{reciever}'	=> $friend['username'],
+			 '{sender}'		=> $sender['username'],
+			 '{sender_link}'=> $this->profile_link($sender),
+			 '{request_link}'=> BASEURL.'/manage_contacts.php?mode=request&confirm='.$insert_id
+			);
+			if(!is_array($var))
+				$var = array();
+			$var = array_merge($more_var,$var);
+			$subj = $cbemail->replace($tpl['email_template_subject'],$var);
+			$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
+			
+			//Now Finally Sending Email
+			cbmail(array('to'=>$friend['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));		
 		}
 		
-		//Function Used to Update Videos Watch By A User
-		function UpdateWatched($userid){
-		global $LANG;
-			$data = $this->GetUserData($userid);
-			$watched = $data['total_watched']+1;
-			mysql_query("UPDATE users SET total_watched ='".$watched."' WHERE userid='".$userid."'");
+	}
+	
+	/**
+	 * Function used to check weather users are confirmed friends or not
+	 */
+	function is_confirmed_friend($uid,$fid)
+	{
+		global $db;
+		$count = $db->count($this->dbtbl['contacts'],"contact_id",
+					" (userid='$uid' AND contact_userid='$fid') OR (userid='$fid' AND contact_userid='$uid') AND confirmed='yes'" );
+		if($count[0]>0)
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * function used to check weather users are firends or not
+	 */
+	function is_friend($uid,$fid)
+	{
+		global $db;
+		$count = $db->count($this->dbtbl['contacts'],"contact_id",
+					" (userid='$uid' AND contact_userid='$fid') OR (userid='$fid' AND contact_userid='$uid')" );
+		if($count[0]>0)
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to check weather user has already requested friendship or not
+	 */
+	function is_requested_friend($uid,$fid,$type='out',$confirm=NULL)
+	{
+		global $db;
+		
+		$query = "";
+		if($confirm)
+			$query = " AND confirmed='$confirm' ";
+			
+		if($type=='out')
+			$count = $db->count($this->dbtbl['contacts'],"contact_id"," userid='$uid' AND contact_userid='$fid' $query" );
+			
+		else
+			$count = $db->count($this->dbtbl['contacts'],"contact_id"," userid='$fid' AND contact_userid='$uid' $query" );
+
+		if($count[0]>0)
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to confirm friend
+	 */
+	function confirm_friend($uid,$rid,$msg=TRUE)
+	{
+		global $cbemail,$db;
+		if(!$this->is_requested_friend($rid,$uid,'out','no'))
+		{
+			if($msg)
+			e("Either user has not requested you friend request or you have already confirmed it");
+		}else
+		{
+			$db->update($this->dbtbl['contacts'],array('confirmed'),array("yes")," userid='$rid' AND contact_userid='$uid' " );
+			if($msg)
+				e("Friend has been confirmed","m");
+			//Sending friendship confirmation email
+			$tpl = $cbemail->get_template('friend_confirmation_email');
+			
+			$friend = $this->get_user_details($rid);
+			$sender = $this->get_user_details($uid);
+			
+			$more_var = array
+			(
+			 '{reciever}'	=> $friend['username'],
+			 '{sender}'		=> $sender['username'],
+			 '{sender_link}'=> $this->profile_link($sender),
+			);
+			if(!is_array($var))
+				$var = array();
+			$var = array_merge($more_var,$var);
+			$subj = $cbemail->replace($tpl['email_template_subject'],$var);
+			$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
+			
+			//Now Finally Sending Email
+			cbmail(array('to'=>$friend['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));	
+		}	
+	}
+		
+	/**
+	 * Function used to confirm request
+	 */
+	function confirm_request($rid,$uid=NULL)
+	{
+		global $db;
+		
+		if(!$uid)
+			$uid = userid();
+			
+		$result = $db->select($this->dbtbl['contacts'],"*"," contact_id='$rid'");
+		$result = $result[0];
+		
+		if($db->num_rows==0)
+			e("No friend request found");
+		elseif($uid!=$result['contact_userid'])
+			e("You cannot confirm this request");
+		elseif($result['confirmed']=='yes')
+			e("Friend request is already confirmed");
+		else
+		{
+			$this->confirm_friend($uid,$result['userid']);
 		}
+	}
+		
+	
+	/**
+	 * Function used to get user contacts
+	 */
+	function get_contacts($uid,$group=0,$confirmed=NULL)
+	{
+		global $db;
+		
+		$query = "";
+		if($confirmed)
+			$query = " AND comfirmed='$confirmed' ";
+			
+		$result = $db->select($this->dbtbl['contacts'],"*"," userid='$uid' OR contact_userid='$uid' $query AND contact_group_id='$group' ");
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to get pending contacts
+	 */
+	function get_pending_contacts($uid,$group=0)
+	{
+		global $db;
+		$result = $db->select($this->dbtbl['contacts'],"*"," userid='$uid' AND confirmed='no' AND contact_group_id='$group' ");
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to get pending contacts
+	 */
+	function get_requested_contacts($uid,$group=0)
+	{
+		global $db;
+		$result = $db->select($this->dbtbl['contacts'],"*"," contact_userid='$uid' AND confirmed='no' AND contact_group_id='$group' ");
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;
+	}
+	
+	
+	/**
+	 * Function used to remove user from contact list
+	 * @param fid {id of friend that user wants to remove}
+	 * @param uid {id of user who is removing other from friendlist}
+	 */
+	function remove_contact($fid,$uid=NULL)
+	{
+		global $db;
+		if(!$uid)
+			$uid = userid();
+		if(!$this->is_friend($fid,$uid))
+			e("User is not in your contact list");
+		else
+		{
+			$db->Execute("DELETE from ".$this->dbtbl['contacts']." WHERE 
+						(userid='$uid' AND contact_userid='$fid') OR (userid='$fid' AND contact_userid='$uid')" );
+			e("User has been removed from your contact list","m");
+		}
+	}
+		
+	/**
+	 * Funcion used to increas user total_watched field
+	 */
+	function increment_watched_vides($userid)
+	{
+		global $db;
+		$db->update($this->dbtbl['users'],array('total_watched'),array('|f|total_watched+1')," userid='$userid'");
+	}
 			
 	/**
 	 * Old Function : GetNewMsgs
@@ -865,7 +1070,7 @@ class userquery extends CBCategory{
 			return false;
 	}
 	
-		
+	
 	/**
 	 * Function used to reset user password
 	 * it has two steps
@@ -1360,6 +1565,26 @@ class userquery extends CBCategory{
 		return $total_comments;
 	}
 	function count_channel_comments($id){ return $this->count_profile_comments($id); }
+	
+	/**
+	 * Function used to count total comments made by users
+	 */
+	function count_comments_by_user($uid)
+	{
+		global $db;
+		$total_comments = $db->count('comments',"comment_id","userid='$uid'");
+		return $total_comments;
+	}
+	
+	/**
+	 * Function used to update user comments
+	 */
+	function update_comments_by_user($uid)
+	{
+		global $db;
+		$total_comments = $this->count_comments_by_user($id);
+		$db->update("users",array("total_comments"),array($total_comments)," userid='$id'");
+	}
 	
 	/**
 	 * Function used to update user comments count
@@ -2333,7 +2558,10 @@ class userquery extends CBCategory{
 	 */
 	function get_channel_action_links($u)
 	{
-		return array(lang('Send Message')=>'sm',lang('Add as friend')=>'aaf',lang('Block user')=>'bu');
+		return array(lang('Send Message')=>array('link'=>'javascript:void(0)','onclick'=>"add_friend('".$u['userid']."','result_cont')"),
+					 lang('Add as friend')=>array('link'=>'javascript:void(0)','onclick'=>"add_friend('".$u['userid']."','result_cont')"),
+					 lang('Block user')=>array('link'=>'javascript:void(0)','onclick'=>"add_friend('".$u['userid']."','result_cont')")
+					 );
 	}
 	
 	
@@ -2379,6 +2607,12 @@ class userquery extends CBCategory{
 					 'Uploaded Videos'=>'manage_videos.php',
 					 'Favorite Videos'=>'manage_videos.php?mode=favorites',
 					 ),
+		'Groups' =>array
+					(
+					 'Manage Groups'=>'manage_groups.php',
+					 'Create new group'=>'create_group.php',
+					 'Joined Groups'=>'manage_groups.php?mode=joined',
+					 ),
 		'Playlist'=>array
 					(
 					 'Manage Playlists'=>'manage_playlists.php',
@@ -2390,6 +2624,11 @@ class userquery extends CBCategory{
 					 'Notifications' => 'private_message.php?mode=notification',
 					 'Sent'	=> 'private_message.php?mode=sent',
 					 'Compose New'=> 'private_message.php?mode=new_msg',
+					 ),
+		'Contacts'	=>array
+					(
+					 'Manage contacts' => 'manage_contacts.php?mode=manage',
+					 'Add new group'=> 'manage_contacts.php?mode=new_group',
 					 )
 		);
 		
