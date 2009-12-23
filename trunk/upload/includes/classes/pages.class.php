@@ -160,7 +160,7 @@ class pages{
 		$params = 'href="'.$link.'"';
 		$params .= ' '.$extra_params;
 		
-		if(SEO=='yes')
+		if(SEO=='yes' && THIS_PAGE !='search_result')
 		{
 			if(count($_GET)==0 || (count($_GET)==1 && isset($_GET['page'])))
 				$params = $params;	 

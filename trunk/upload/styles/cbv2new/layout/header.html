@@ -2,9 +2,8 @@
 <div id="quicklist_box" class="quicklist_box"></div>
 
 <div id="header">
-	<div class="logo">
-    	<img src="{$imageurl}/dot.gif" id="logo_icon" alt="{$title} Logo" title="{$title}" >
-    </div> <!--LOGO END-->
+	<div class="logo"> <a href="{$baseurl}"><img src="{$imageurl}/dot.gif" alt="{$title} Logo" name="logo_icon" border="0" id="logo_icon" title="{$title}" ></a>
+</div> <!--LOGO END-->
     <div class="login_con clearfix">
         <div class="user_login clearfix">
         {if !$userquery->login_check('',true)}

@@ -45,6 +45,43 @@ class cbsearch
 	
 	var $total_results = 0;
 	
+	
+	var $multi_cat = true;
+	
+	var $date_added_colum = 'date_added';
+	
+	/**
+	 * ClipBucket Search System works pretty easily
+	 * 1. It loads the appropriate class which defines what kind of search to perform and how to operate it
+	 * 2. Gets the result and save it in variable
+	 * 3. Loop results and assign VARIABLE.DATA to TEMPLATE_VAR
+	 * 4. Call display_template to show the result
+	 */
+	 
+	 var $display_template = '';
+	 var $template_var = '';
+	 
+	/**
+	 * INITIATION SEARCH
+	 */
+	function init_search($type='video')
+	{
+		global $Cbucket;
+		if($Cbucket->search_types[$type])
+		{
+			$obj = $Cbucket->search_types[$type];
+			global ${$obj};
+			${$obj}->init_search();
+			return ${$obj}->search;
+		}else
+		{
+			global $cbvid;
+			$cbvid->init_search();
+			return $cbvid->search;
+		}
+	}
+	
+	
 	/**
 	 * Variable to hold search query condition
 	 */
@@ -61,12 +98,12 @@ class cbsearch
 		#Checking for category
 		if(isset($this->category))
 		{
-			$this->cat_to_query($this->category);
+			$this->cat_to_query($this->category,$this->multi_cat);
 		}
 		#Setting Date Margin
 		if($this->date_margin!='')
 		{
-			$this->add_cond('('.$this->date_margin().')');
+			$this->add_cond('('.$this->date_margin($this->date_added_colum).')');
 		}
 		
 		#Sorting
@@ -84,6 +121,7 @@ class cbsearch
 		
 		$results = $db->select($this->db_tbl,'*',$condition,$this->limit,$sorting);
 		$this->total_results = $db->count($this->db_tbl,'*',$condition);
+		
 		return $results;
 	}
 	
@@ -134,7 +172,7 @@ class cbsearch
 	 * Category to query
 	 * fucntion used to covert category to query
 	 */
-	function cat_to_query($input)
+	function cat_to_query($input,$multi=TRUE)
 	{
 		if(!empty($input))
 		{
@@ -148,7 +186,11 @@ class cbsearch
 			{
 				if(!empty($query))
 					$query .=" OR ";
-				$query .=" category LIKE '%#$cat#%' ";
+				
+				if($multi)
+					$query .=" category LIKE '%#$cat#%' ";
+				else
+					$query .=" category = '$cat' ";
 			}
 	
 			if(count($this->query_conds)>0)

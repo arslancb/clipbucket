@@ -21,6 +21,7 @@ Assign('admtheme',BASEURL.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.TEMPLATE.'/theme')
 Assign('template_dir',TEMPLATEDIR);
 Assign('style_dir',LAYOUT);
 
+		
 
 //Checking Website is closed or not
 if($row['closed'] == 1){

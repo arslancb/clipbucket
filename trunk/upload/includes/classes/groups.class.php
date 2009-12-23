@@ -1829,5 +1829,92 @@ class CBGroups extends CBCategory
 		$count = $db->count($this->gp_tbl,"group_id"," userid='$user' ");
 		$db->update("users",array("total_groups"),array($count)," userid='$user' ");
 	}
+	
+	
+	
+	
+	/**
+	 * Function used to use to initialize search object for video section
+	 * op=>operator (AND OR)
+	 */
+	function init_search()
+	{
+		$this->search = new cbsearch;
+		$this->search->db_tbl = "groups";
+		$this->search->columns =array(
+			array('field'=>'title','type'=>'LIKE','var'=>'%{KEY}%'),
+		);
+		$this->search->cat_tbl = $this->cat_tbl;
+
+		$this->search->display_template = LAYOUT.'/blocks/group.html';
+		$this->search->template_var = 'group';
+		$this->search->multi_cat = true;
+		
+		/**
+		 * Setting up the sorting thing
+		 */
+		
+		$sorting	= 	array(
+						'date_added'	=> lang("date_added"),
+						'total_views'		=> lang("views"),
+						'total_comments'  => lang("comments"),
+						'total_videos' 	=> lang("videos"),
+						'total_members' 	=> lang("total members"),
+						);
+		
+		$this->search->sorting	= array(
+						'date_added'=> " date_added DESC",
+						'total_views'		=> " total_views DESC",
+						'total_comments'  => " total_comments DESC ",
+						'total_videos' 	=> " total_videos DESC",
+						'total_members' 	=> " total_members DESC",
+						);
+		/**
+		 * Setting Up The Search Fields
+		 */
+		 
+		$default = $_GET;
+		if(is_array($default['category']))
+			$cat_array = array($default['category']);		
+		$uploaded = $default['datemargin'];
+		$sort = $default['sort'];
+		
+		$this->search->search_type['groups'] = array('title'=>'Groups');
+		
+		$fields = array(
+		'keyword'	=> array(
+						'title'=> lang('keywords'),
+						'type'=> 'textfield',
+						'name'=> 'keywords',
+						'id'=> 'keywords',
+						'value'=>cleanForm($default['keywords'])
+						),
+		'category'	=>  array(
+						'title'		=> lang('vdo_cat'),
+						'type'		=> 'checkbox',
+						'name'		=> 'category[]',
+						'id'		=> 'category',
+						'value'		=> array('category',$cat_array),
+						'category_type'=>'group',
+						),
+		'date_margin'	=>  array(
+						'title'		=> lang('Joined'),
+						'type'		=> 'dropdown',
+						'name'		=> 'datemargin',
+						'id'		=> 'datemargin',
+						'value'		=> $this->search->date_margins(),
+						'checked'	=> $uploaded,
+						),
+		'sort'		=> array(
+						'title'		=> lang('sort_by'),
+						'type'		=> 'dropdown',
+						'name'		=> 'sort',
+						'value'		=> $sorting,
+						'checked'	=> $sort
+							)
+		);
+
+		$this->search->search_type['groups']['fields'] = $fields;
+	}
 }
 ?>

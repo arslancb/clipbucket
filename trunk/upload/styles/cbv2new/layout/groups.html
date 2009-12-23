@@ -25,17 +25,12 @@
 {/foreach}
 </div>
 
+<div class="time_cont" align="right">
+<span class="cb_fb_style_button"><a href="{link name='create_group'}">CREATE NEW GROUP</a></span>
+</div>
+
 {section name=glist loop=$groups}
-{assign var=owner value=$userquery->get_user_details($groups[glist].userid)}
-	<div class="group_block">
-    <a href="{group_link details=$groups[glist]}"><img src="{$cbgroup->get_group_thumb($groups[glist])}" class="group_thumb" /></a>
-        <span class="group_name"><strong><a href="{group_link details=$groups[glist]}">{$groups[glist].group_name}</a></strong></span>
-        <span> views : <strong>{$groups[glist].total_views|number_format}</strong></span>
-        <span>total members :<strong>{$groups[glist].total_views|number_format}</strong></span>
-       	<span>total videos : <strong>{$groups[glist].total_videos|number_format}</strong></span>
-        <span>discussions : <strong>{$groups[glist].total_members|number_format}</strong></span>
-        <span>owner : <strong><a href="{$userquery->profile_link($owner)}">{$owner.username}</a></strong></span>
-    </div>
+	{include file="$style_dir/blocks/group.html" video=$groups[glist]}
 {/section}
 
 </div>

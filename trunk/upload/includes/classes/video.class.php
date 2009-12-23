@@ -599,12 +599,15 @@ class CBvideo extends CBCategory
 	function init_search()
 	{
 		$this->search = new cbsearch;
-		$this->search->db_tbl = "video";
+		$this->search->db_tbl = "video";;
 		$this->search->columns =array(
 			array('field'=>'title','type'=>'LIKE','var'=>'%{KEY}%'),
-			array('field'=>'tags','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR')
+			array('field'=>'tags','type'=>'LIKE','var'=>'%{KEY}%','op'=>'AND')
 		);
 		$this->search->cat_tbl = $this->cat_tbl;
+
+		$this->search->display_template = LAYOUT.'/blocks/video.html';
+		$this->search->template_var = 'video';
 		
 		/**
 		 * Setting up the sorting thing
@@ -635,7 +638,8 @@ class CBvideo extends CBCategory
 		$uploaded = $default['datemargin'];
 		$sort = $default['sort'];
 		
-		$this->search->search_type['video'] = array('title'=>'Video');
+		$this->search->search_type['videos'] = array('title'=>'Videos');
+		
 		$fields = array(
 		'keyword'	=> array(
 						'title'=> lang('keywords'),
@@ -668,7 +672,7 @@ class CBvideo extends CBCategory
 							)
 		);
 
-		$this->search->search_type['video']['fields'] = $fields;
+		$this->search->search_type['videos']['fields'] = $fields;
 	}
 	
 	

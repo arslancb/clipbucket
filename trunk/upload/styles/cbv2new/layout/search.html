@@ -1,24 +1,60 @@
-<h2>Search</h2>
-
-{assign var='types' value=$cbvid->search->search_type}
-{foreach from=$types key=k item=search}
-    <h2> Search For {$search.title}</h2>
-    <div>
-    <form name="search-form-{$search.title}" method="get" action="">
-    {foreach from=$search.fields item=field}
-        {$field.title}* :{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-        	<br>
-        {$field.hint_2}
-    {/foreach}
-    </form>
+<div style="width:98%; margin:auto">
+<h2>ClipBucket Search</h2>
+	<div id="simple_search" class="simple_container" style="border:none">
+    	<div class="search_type">
+            <div>
+            <form name="search-form" method="get" action="">
+            	<div>
+            	<label class="label">Kewords</label>
+            	<input type="text" name="keywords" value="{$smarty.get.keywords|form_val}" id="keywords" />
+                </div>
+                <input type="submit" name="cbsearch" id="cbsearch" value="Search" class="cb_button"  />
+            </form>
+            </div>
+          </div>	
+          <div class="clearfix"></div>
     </div>
-{/foreach}
-<div style="width:600px; float:left" >
-    <div class="heading">Videos</div>
-    {section name=v_list loop=$videos}
-        {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
-    {/section}
-    <div class="clear"></div>
+	<div class="simple_container" style="height:400px; overflow:visible; display:none" id="advance_search">
+	{foreach from=$Cbucket->search_types item=search_type key=search_type_key}
+      {if $search_type}
+		{assign var='type' value=$cbsearch->init_search($search_type_key)}
+          {if $type}
+            {assign var='types' value=$type->search_type}
+            {foreach from=$types key=stype item=search}
+             <div class="search_type">
+                <h2> Search For {$search.title}</h2>
+                <div>
+                <form name="search-form-{$search.title}" method="get" action="">
+                <input type="hidden" name="type" value="{$stype}" />
+                    {foreach from=$search.fields item=field}
+                    	<div>
+                        <label class="label">{$field.title}</label>
+                        {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                        </div>
+                    {/foreach}
+                    <label for="button"></label>
+                    <input type="submit" name="cbsearch" id="cbsearch" value="Search" class="cb_button" />
+                </form>
+                </div>
+              </div>
+            {/foreach}
+          {/if}
+      {/if}
+	{/foreach}
+    <div class="clearfix"></div>
+    </div>
+<span class="more_button" style="margin-bottom:10px"><a href="javascript:void(0)" onClick="$('#advance_search').toggle();$('.more_button').toggleClass('more_button_up');$('#simple_search').toggle()">More Options</a></span>
+
+<div>
+    <div class="heading">{$search_type_title}</div>
+    {if $results}
+        {foreach item=result from=$results}
+        {assign var=$template_var value =$result}
+        	{include file="$display_template" }
+        {/foreach}
+    {/if}
+    <div class="clearfix"></div>
 </div>
 
 {include file="$style_dir/blocks/pagination.html"}
+</div>

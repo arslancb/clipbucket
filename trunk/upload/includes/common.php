@@ -437,13 +437,7 @@ $Smarty->register_modifier('get_age','get_age');
 $Smarty->register_modifier('outgoing_link','outgoing_link');
 $Smarty->register_modifier('nicetime','nicetime');
 $Smarty->register_modifier('country','get_country');
-
-
-
-/**
- * Initializing Search
- */
-		$cbvideo->init_search();
+$Smarty->register_modifier('cbsearch',new cbsearch());
 
 
 /*

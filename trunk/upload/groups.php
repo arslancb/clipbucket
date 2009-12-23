@@ -41,7 +41,7 @@ switch($sort)
 	break;
 	case "most_commented":
 	{
-		$g_cond['order'] = " total_posts DESC";
+		$g_cond['order'] = " total_topics DESC";
 	}
 	break;
 }

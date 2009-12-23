@@ -715,3 +715,9 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .group_block,.group_block a{font-size:10px; font-family:tahoma }
 .group_block span{display:block;}
 .group_block .group_name,.group_block .group_name a{font-size:12px; text-decoration:none}
+
+.search_type{display:block; float:left; width:31%; border-right:1px dotted #0099cc; padding-right:10px; margin-right:10px; height:100%; overflow:visible; position:relative}
+.search_type:nth-child(3){border-right:none; margin-right:0px}
+.search_type .label{display:block; font-size:11px; font:tahoma; font-weight:bold}
+.search_type div{margin-bottom:10px}
+.search_type input[type='textfied'],.search_type input[type='text'],.search_type select{width:200px; border:1px solid #999}

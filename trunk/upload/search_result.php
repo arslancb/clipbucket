@@ -6,18 +6,20 @@
  | @ Software : ClipBucket , © PHPBucket.com														|
  ****************************************************************************************************
 */
-define('THIS_PAGE','search');
+define('THIS_PAGE','search_result');
 require 'includes/config.inc.php';
 $pages->page_redir();
 						
 $page = mysql_clean($_GET['page']);
-$cbvid->search->key = $_GET['keywords'];
-$cbvid->search->category = $_GET['category'];
-$cbvid->search->date_margin = $_GET['datemargin'];
-$cbvid->search->sort_by = $_GET['sort'];
-$cbvid->search->limit = create_query_limit($page,VLISTPP);
-$videos = $cbvid->search->search();
+$type = $_GET['type'];
+$search = cbsearch::init_search($type);
 
+$search->key = $_GET['keywords'];
+$search->category = $_GET['category'];
+$search->date_margin = $_GET['datemargin'];
+$search->sort_by = $_GET['sort'];
+$search->limit = create_query_limit($page,VLISTPP);
+$results = $search->search();
 
 //Collecting Data for Pagination
 $total_rows = $cbvid->search->total_results;
@@ -25,7 +27,12 @@ $total_pages = count_pages($total_rows,VLISTPP);
 
 //Pagination
 $pages->paginate($total_pages,$page);
-Assign('videos', $videos);	
+
+
+Assign('results',$results );	
+Assign('template_var',$search->template_var);
+Assign('display_template',$search->display_template);
+Assign('search_type_title',$search->search_type[$type]['title']);
 
 
 //Displaying The Template

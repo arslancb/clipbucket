@@ -123,7 +123,7 @@ RewriteRule ^group/([a-zA-Z0-9].+)					view_group.php?url=$1&%{QUERY_STRING} [L]
 RewriteRule ^view_topic/([a-zA-Z0-9].+)_tid_([0-9]+)					view_topic.php?tid=$2&%{QUERY_STRING} [L]
 RewriteRule ^groups/([0-9a-z].+)/(.*)/(.*)/(.*)/(.*) groups.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
 RewriteRule ^groups groups.php [L]
-
+RewriteRule ^create_group create_group.php [L]
 
 
 RewriteRule ^sitemap.xml$ sitemap.php

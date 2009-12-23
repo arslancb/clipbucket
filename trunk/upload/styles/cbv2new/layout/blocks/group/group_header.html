@@ -99,9 +99,11 @@
             <!-- Group members-->
             	<div id="members" class="grp_info" style="display:none">
                 	{assign var=members value=$cbgroup->get_members($group.group_id)}
+                    {if $members}
                     {foreach from=$members item=member}
 						{include file="$style_dir/blocks/user.html" user=$member block_type='medium'}
                     {/foreach}
+                    {/if}
                     <div class="clearfix"></div>
                     <div align="right"><a href="{group_link details=$group type='view_members'}">View All Members</a></div>
           </div>
@@ -110,9 +112,11 @@
              <!-- Group videos-->
             	<div id="videos" class="grp_info" style="display:none">
                 	{assign var=gpvids value=$cbgroup->get_group_videos($group.group_id,'yes',6)}
+                    {if $gpvids}
                     {foreach from=$gpvids item=video}
 						{include file="$style_dir/blocks/video.html" video=$video}
                     {/foreach}
+                    {/if}
                     <div class="clearfix"></div>
                     <div align="right"><a href="{group_link details=$group type='view_videos'}">View All Videos</a></div>
                 </div>

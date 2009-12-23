@@ -28,6 +28,8 @@ class ClipBucket
 	var $links = array();
 	var $captchas = array();
 	
+	var $search_types = array('videos'=>'cbvid','groups'=>'cbgroup','users'=>'userquery');
+	
 	/**
 	 * All Functions that are called
 	 * before after converting a video

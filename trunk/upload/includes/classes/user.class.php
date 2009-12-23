@@ -2610,7 +2610,7 @@ class userquery extends CBCategory{
 		'Groups' =>array
 					(
 					 'Manage Groups'=>'manage_groups.php',
-					 'Create new group'=>'create_group.php',
+					 'Create new group'=>cblink(array('name'=>'create_group')),
 					 'Joined Groups'=>'manage_groups.php?mode=joined',
 					 ),
 		'Playlist'=>array
@@ -3352,5 +3352,88 @@ class userquery extends CBCategory{
 		else
 			return false;
 	 }
+	 
+	/**
+	 * Function used to use to initialize search object for video section
+	 * op=>operator (AND OR)
+	 */
+	function init_search()
+	{
+		$this->search = new cbsearch;
+		$this->search->db_tbl = "users";
+		$this->search->columns =array(
+			array('field'=>'username','type'=>'LIKE','var'=>'%{KEY}%'),
+		);
+		$this->search->cat_tbl = $this->cat_tbl;
+
+		$this->search->display_template = LAYOUT.'/blocks/user.html';
+		$this->search->template_var = 'user';
+		$this->search->multi_cat = false;
+		$this->search->date_added_colum = 'doj';
+		
+		/**
+		 * Setting up the sorting thing
+		 */
+		
+		$sorting	= 	array(
+						'doj'	=> lang("date_added"),
+						'profile_hits'		=> lang("views"),
+						'total_comments'  => lang("comments"),
+						'total_videos' 	=> lang("videos"),
+						);
+		
+		$this->search->sorting	= array(
+						'doj'=> " doj DESC",
+						'profile_hits'		=> " profile_hits DESC",
+						'total_comments'  => " total_comments DESC ",
+						'total_videos' 	=> " total_videos DESC",
+						);
+		/**
+		 * Setting Up The Search Fields
+		 */
+		 
+		$default = $_GET;
+		if(is_array($default['category']))
+			$cat_array = array($default['category']);		
+		$uploaded = $default['datemargin'];
+		$sort = $default['sort'];
+		
+		$this->search->search_type['users'] = array('title'=>'Users');
+		
+		$fields = array(
+		'keyword'	=> array(
+						'title'=> lang('keywords'),
+						'type'=> 'textfield',
+						'name'=> 'keywords',
+						'id'=> 'keywords',
+						'value'=>cleanForm($default['keywords'])
+						),
+		'category'	=>  array(
+						'title'		=> lang('vdo_cat'),
+						'type'		=> 'checkbox',
+						'name'		=> 'category[]',
+						'id'		=> 'category',
+						'value'		=> array('category',$cat_array),
+						'category_type'=>'user',
+						),
+		'date_margin'	=>  array(
+						'title'		=> lang('Joined'),
+						'type'		=> 'dropdown',
+						'name'		=> 'datemargin',
+						'id'		=> 'datemargin',
+						'value'		=> $this->search->date_margins(),
+						'checked'	=> $uploaded,
+						),
+		'sort'		=> array(
+						'title'		=> lang('sort_by'),
+						'type'		=> 'dropdown',
+						'name'		=> 'sort',
+						'value'		=> $sorting,
+						'checked'	=> $sort
+							)
+		);
+
+		$this->search->search_type['users']['fields'] = $fields;
+	}
 }
 ?>

@@ -8,6 +8,7 @@
 $Cbucket->links  = array
 (
 'channels'	=>array('channels.php','channels'),
+'create_group'=>array('create_group.php','create_group'),
 'groups'	=>array('groups.php','groups'),
 'inbox'		=>array('private_message.php?mode=inbox','private_message.php?mode=inbox'),
 'login'		=>array('signup.php','login'),
