@@ -52,16 +52,16 @@ $pages->page_redir();
 	
 	//Collecting Data for Pagination
 	$total_rows  = $db->count('users','*',$cond);
-	$total_pages = count_pages($total_rows,VLISTPP);
+	$total_pages = count_pages($total_rows,RESULTS);
 	
 	//Pagination
 	$pages->paginate($total_pages,$page);
 
-	// Assign varibles
+/*	// Assign varibles
 	assign('category',$cbgroup->get_categories());
 	assign('gps',$cbgroup->get_groups());
-
-template_files('groups_manager.html');
+*/
+template_files('under_development.html');
 display_it();
 
 ?>

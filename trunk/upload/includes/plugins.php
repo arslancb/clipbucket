@@ -6,26 +6,11 @@ Simple Plugin System
 
 //Getting Plugin Config Details
 
-if(FRONT_END){
-	$installed_plugins = $cbplugin->getInstalledPlugins();
-	if(is_array($installed_plugins))
-	{
-		foreach($installed_plugins as $plugin)
-		{
-			if($plugin['folder'])
-				$folder = '/'.$plugin['folder'];
-			$file = PLUG_DIR.$folder.'/'.$plugin['file'];
-			if(file_exists($file))
-				include_once($file);
-		}
-	}
-}
 
-if(BACK_END)
+$installed_plugins = $cbplugin->getInstalledPlugins();
+if(is_array($installed_plugins))
 {
-	$plugin_list = $cbplugin->getPluginList();
-	if(is_array($plugin_list))
-	foreach($plugin_list as $plugin)
+	foreach($installed_plugins as $plugin)
 	{
 		if($plugin['folder'])
 			$folder = '/'.$plugin['folder'];
@@ -47,6 +32,8 @@ if($Cbucket->configs['player_file'] !='cbplayer.plug.php' && $Cbucket->configs['
 	if(file_exists($file))
 		include_once($file);
 }
+
+
 include_once(PLAYER_DIR.'/cbplayer/cbplayer.plug.php');
 
 ?>

@@ -7,9 +7,13 @@
 define('THIS_PAGE', 'ADMIN_LOGIN');
 require '../includes/admin_config.php';
 Assign('THIS_PAGE', THIS_PAGE);
-if($userquery->admin_login_check(TRUE)){
+
+
+if($userquery->admin_login_check(TRUE))
+{
 	redirect_to(BASEURL."/".ADMINDIR."/index.php");
-	}
+}
+$eh->flush();
 
 $thisurl = $_SERVER['PHP_SELF'];
 Assign('THIS_URL', $thisurl);
@@ -32,12 +36,11 @@ if(isset($_POST['login'])){
 	if(userid())
 	{
 		if($userquery->login_check('admin_access'))
-		redirect_to($_COOKIE['pageredir']);
+			redirect_to('index.php');
 	}
 }
 
 subtitle('admin_login');
 Template('global_header.html');
-Template('msg.html');
 Template('login.html');
 ?>

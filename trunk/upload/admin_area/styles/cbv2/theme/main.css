@@ -33,7 +33,7 @@ a[rel=sponsors]:hover { background:#555; border:1px solid #232323; }
 .header_menu ul li:first-child{border-left:none}
 
 .footer_grey_bar{ color:#fff; font:14px/40px Century Gothic; padding-right:10px}
-
+.footer_grey_bar a{color:#fff;; text-decoration:none}
 .toggle_menu{height:30px; line-height:30px; font-size:15px; font-weight:bold; margin:3px; display:inline-block; cursor:pointer}
 .toggle_menu_icon{background-image:url(../images/icons.png); background-position:0px -29px; height:30px; width:30px; float:left; margin-right:5px}
 
@@ -155,3 +155,5 @@ padding-left:5px; font-size:16px; font-weight:bold; font-family:Arial, Helvetica
 .preview_thumb{max-width:175px; max-height:175px}
 
 .mid_user_thumb{max-width:30px; min-height:30px}
+
+.login_footer{ color:#333;font-size: 15px;font-family:"Century Gothic"; font-weight:bold}

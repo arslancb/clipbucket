@@ -1,0 +1,53 @@
+@charset "utf-8";
+/* CSS Document */
+
+body,td,th {
+	font-family: tahoma;
+	font-size: 11px;
+	color: #333;
+}
+body {
+	margin-left: 0px;
+	margin-top: 10px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+a {
+	font-size: 11px;
+	color: #333;
+}
+a:link {
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #333;
+}
+a:hover {
+	text-decoration: none;
+	color: #06C;
+}
+a:active {
+	text-decoration: none;
+	color: #333;
+}
+
+h1,h2,h3,h4{font-family:"Century Gothic"}
+
+.container{width:900px; margin:auto}
+.header{width:900px; height:65px; background-image:url(images/header.png);}
+.footer{width:880px; height:55px; background-image:url(images/footer.png); padding-right:20px; padding-top:10px; margin-bottom:10px}
+
+.content{background-image:url(images/gradient.png); background-position:bottom; background-repeat:repeat-x; border:1px solid #f6f6f6; padding:5px}
+
+.button,.button_disabled{ background-color:transparent; background:url(images/button_bg.png); height:48px; background-repeat:no-repeat; padding-left:49px; line-height:48px; font-family:"Century Gothic"; color:#09c; font-weight:bold; font-size:16px; border:none; border-right:1px solid #ededed; outline:none; cursor:pointer}
+
+.button_disabled{ background:url(images/button_bg_disabled.png); cursor:default; color:#999}
+
+
+.error,.msg {color:#ed0000; font-weight:bold; background-image:url(images/dialog-error.png); background-repeat:no-repeat; padding-left:20px; min-height:16px; display:block; margin-bottom:3px; font-size:12px}
+.msg {color:#006600;background-image:url(images/accepted_48.png); }
+
+.install_form{font-size:15px; font-weight:bold; margin:0px; padding:0px}
+.install_form label{display:block;}
+.install_form input[type=text]{border:1px solid #666; padding:3px; font-size:15px; color:#666; font-weight:bold; width:200px; margin-bottom:10px}

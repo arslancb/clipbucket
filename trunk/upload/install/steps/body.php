@@ -2,9 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+<title>ClipBucket v2 Installer</title>
+<link href="./theme/blue.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
+
+<div class="container">
+    <div class="header">
+    
+    </div>
+    
+    <!-- INCLUDING STEP <?=$step?> -->
+    <?php include("step_".$step.".php") ?>
+</div>
+
 </body>
 </html>

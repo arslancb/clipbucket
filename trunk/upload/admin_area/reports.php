@@ -3,13 +3,13 @@
  ****************************************************************************************************
  | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.											|
  | @ Author : ArslanHassan																			|
- | @ Software : ClipBucket , © PHPBucket.com														|
+ | @ Software : ClipBucket , Â© PHPBucket.com														|
  ****************************************************************************************************
 */
 
 require'../includes/admin_config.php';
 $userquery->admin_login_check();
 
-template_files('index.html');
+template_files('under_development.html');
 display_it();
 ?>

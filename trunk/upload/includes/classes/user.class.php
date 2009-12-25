@@ -164,6 +164,7 @@ class userquery extends CBCategory{
 							  ),
 						"userid='".$userid."'"
 						);
+			$this->init();
 			//Logging Actiong
 			$cblog->insert('login',$log_array);
 			
