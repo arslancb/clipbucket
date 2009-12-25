@@ -26,13 +26,13 @@ if(isset($_POST['make_featured_selected'])){
 	for($id=0;$id<=RESULTS;$id++){
 		$cbvid->action('feature',$_POST['check_video'][$id]);
 	}
-	e("Selected videos have been set as featured",m);
+	e("Selected videos have been set as featured","m");
 }
 if(isset($_POST['make_unfeatured_selected'])){
 	for($id=0;$id<=RESULTS;$id++){
 		$cbvid->action('unfeature',$_POST['check_video'][$id]);
 	}
-	e("Selected videos have been removed from featured list",m);
+	e("Selected videos have been removed from featured list","m");
 }
 
 //Activate / Deactivate
@@ -51,13 +51,13 @@ if(isset($_POST['activate_selected'])){
 	for($id=0;$id<=RESULTS;$id++){
 		$cbvid->action('activate',$_POST['check_video'][$id]);
 	}
-	e("Selected Videos Have Been Activated");
+	e("Selected Videos Have Been Activated","m");
 }
 if(isset($_POST['deactivate_selected'])){
 	for($id=0;$id<=RESULTS;$id++){
 		$cbvid->action('deactivate',$_POST['check_video'][$id]);
 	}
-	e("Selected Videos Have Been Dectivated");
+	e("Selected Videos Have Been Dectivated","m");
 }
 
 	
@@ -75,7 +75,7 @@ if(isset($_POST['delete_selected']))
 		$cbvideo->delete_video($_POST['check_video'][$id]);
 	}
 	$eh->flush();
-	e(lang("vdo_multi_del_erro"),m);
+	e(lang("vdo_multi_del_erro"),"m");
 }
 
 
@@ -86,59 +86,59 @@ call_functions($cbvid->video_manager_funcs);
 	if(isset($_POST['display_page'])){
 		redirect_to($_POST['page_number']);
 	}
-	
-	//Using Form
-	$cond = '';
-	$cond_array = array();
-	if(isset($_GET['search']))
-	{
-		//Valid Search Fields
-		$valid_search_fields = array
-		('videoid'	=> array('LIKE','%{VAR}%','AND'),
-		 'title'	=> array('LIKE','%{VAR}%','AND'),
-		 'videokey'	=> array('LIKE','%{VAR}%','AND'),
-		 'tags'		=> array('LIKE','%{VAR}%','AND'),
-		 );
 		
-		foreach($valid_search_fields as $field => $field_props)
-		{
-			if(!empty($_GET[$field]))
-			{
-				if(empty($field_props[0]))
-					$field_props[0] = '=';
-				if(empty($field_props[1]))
-					$field_props[1] = '{VAR}';
-				if(empty($field_props[2]))
-					$field_props[2] = 'OR';
-					
-				$query_val = $field_props[1];
-				$query_val = preg_replace('/{VAR}/',mysql_clean($_GET[$field]),$query_val);
-				$cond_array[] = $field_props[2]." $field ".$field_props[0]." '".$query_val."' ";
-			}
-		}
-		
-		//Creating Condition
-		$count = 0;
-		$cond = " videoid<>'0' ";
-		foreach($cond_array as $qcond)
-		{
-			$cond .= $qcond;
-		}
-	}
-	
-	//Getting Video List
 	$page = mysql_clean($_GET['page']);
 	$get_limit = create_query_limit($page,RESULTS);
-	$videos = $db->select("video",'*',$cond,$get_limit,"date_added DESC");
+	
+	if(isset($_GET['search']))
+	{
+		
+		$array = array
+		(
+		 'videoid' => $_GET['videoid'],
+		 'videokey' => $_GET['videokey'],
+		 'title'	=> $_GET['title'],
+		 'tags'	=> $_GET['tags'],
+		 'user' => $_GET['userid'],
+		 'category' => $_GET['category'],
+		 'featured' => $_GET['featured'],
+		 'active'	=> $_GET['active'],
+		 'status'	=> $_GET['status'],
+		 );
+		
+		
+		
+	}
+	
+	$result_array = $array;
+	//Getting Video List
+	$result_array['limit'] = $get_limit;
+	$videos = get_videos($array);
 	Assign('videos', $videos);	
 
 	//Collecting Data for Pagination
-	$total_rows = $db->count('video','*',$cond);
-	$records = $total_rows/RESULTS;
-	$total_pages = round($records+0.49,0);
+	$vcount = $array;
+	$vcount['count_only'] = true;
+	$total_rows  = get_videos($vcount);
+	$total_pages = count_pages($total_rows,RESULTS);
+
 	
-	//Pagination
-	$pages->paginate($total_pages,$page);
+	//Category Array
+	if(is_array($_GET['category']))
+		$cats_array = array($_GET['category']);		
+	else
+	{
+		preg_match_all('/#([0-9]+)#/',$_GET['category'],$m);
+		$cats_array = array($m[1]);
+	}
+	$cat_array =	array($LANG['vdo_cat'],
+					'type'=> 'checkbox',
+					'name'=> 'category[]',
+					'id'=> 'category',
+					'value'=> array('category',$cats_array),
+					'hint_1'=>  $LANG['vdo_cat_msg'],
+					'display_function' => 'convert_to_categories');
+	assign('cat_array',$cat_array);
 
 template_files('video_manager.html');
 display_it();

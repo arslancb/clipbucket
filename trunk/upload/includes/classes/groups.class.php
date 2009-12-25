@@ -1882,12 +1882,12 @@ class CBGroups extends CBCategory
 		$this->search->search_type['groups'] = array('title'=>'Groups');
 		
 		$fields = array(
-		'keyword'	=> array(
+		'query'	=> array(
 						'title'=> lang('keywords'),
 						'type'=> 'textfield',
-						'name'=> 'keywords',
-						'id'=> 'keywords',
-						'value'=>cleanForm($default['keywords'])
+						'name'=> 'query',
+						'id'=> 'query',
+						'value'=>cleanForm($default['query'])
 						),
 		'category'	=>  array(
 						'title'		=> lang('vdo_cat'),

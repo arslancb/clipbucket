@@ -9,7 +9,6 @@
 # Language:         PHP
 # License:          CBLA @ [url]http://clip-bucket.com/cbla[/url]
 # Version:          2
-# Last Modified:    Monday, March 23, 2009 / 01:08 AM GMT+1 (fwhite)
 # Notice:           Please maintain this section
 ####################################################################
 */
@@ -3062,6 +3061,29 @@
 	{
 		global $ignore_cb_errors;
 		$ignore_cb_errors = FALSE;
+	}
+	
+	
+	/**
+	 * Function used to call sub_menu_easily
+	 */
+	function sub_menu()
+	{
+		/**
+		 * Submenu function used to used to display submenu links
+		 * after navbar
+		 */
+		$funcs = get_functions('sub_menu');
+		if(is_array($funcs) && count($funcs)>0)
+		{
+			foreach($funcs as $func)
+			{
+				if(!function_exists($func))
+				{
+					return $func($u);
+				}
+			}
+		}
 	}
 
 ?>

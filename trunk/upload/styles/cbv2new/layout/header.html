@@ -53,12 +53,12 @@
     <div class="navi">
         <ul>
         {section name=c_list loop=$cat}
-            <li><a href="videos.php?cat={$cat[c_list].category_id}">{$cat[c_list].category_name}</a></li>
+            <li><a href="{link name='category' data=$cat[c_list] type=v}">{$cat[c_list].category_name}</a></li>
          {/section}   
          </ul>
 <div class="search_con">
-            	<form action="{$search_result}" method="get" name="search" id="search" style="margin:0px; padding:0px;">
-                	<input name="query" id="query" type="text" class="searchbar" value="{$query}" />
+            	<form action="{link name='search_result'}" method="get" name="search" id="search" style="margin:0px; padding:0px;">
+                	<input name="query" id="query" type="text" class="searchbar" value="{'query'|get_form_val:true}" />
                     <input name="submit" type="submit" class="searchbutton" value="Search" />
                 </form>
             </div> <!--SEARCH_CON END-->

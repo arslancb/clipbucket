@@ -16,6 +16,7 @@ $Cbucket->links  = array
 'my_account'=>array('myaccount.php','my_account'),
 'my_videos'	=>array('manage_videos.php','manage_videos.php'),
 'notifications'=>array('private_message.php?mode=notification','private_message.php?mode=notification'),
+'search_result'=>array('search_result.php','search_result.php'),
 'signup'	=>array('signup.php','signup'),
 'upload'	=>array('upload.php','upload'),
 'videos'	=>array('videos.php','videos'),

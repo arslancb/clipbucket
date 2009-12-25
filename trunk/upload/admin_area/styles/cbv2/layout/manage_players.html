@@ -1,0 +1,129 @@
+<div class="setting_title">Selected Player</div>
+<div>
+{assign var="player_dir" value=$Cbucket->configs.player_dir}
+{assign var="player_file" value=$Cbucket->configs.player_file}
+
+{assign var="curplayer" value=$cbplayer->getPlayerDetails($player_file,$player_dir)}
+<table width="800" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="190"><img src="{$cbplayer->get_preview_thumb($curplayer.folder)}" class="preview_thumb"  ></td>
+    <td valign="top"><h2 style="display:inline">{$curplayer.name}</h2> &#8212; <em><a href="{$curplayer.author_page}"><strong>{$curplayer.author}</strong></a></em><br />
+{$curplayer.description}<br />
+Version : {$curplayer.version} Released on {$curplayer.released|date_format}<br />
+Website : <a href="{$curplayer.website}">{$curplayer.website}</a></td>
+  </tr>
+</table>
+
+
+</div>
+
+<hr size="1" noshade />
+
+<div class="setting_title"><a href="javascript:void(0)" onclick="$('#player_size').toggle()">Change Player Size</a></div>
+<div id="msg_box" style="margin:5px;"></div>
+<div id="player_size" style="display:none">
+{literal}
+<style type="text/css">
+
+#resizable{{/literal}background-image:url({$imageurl}/play_icon.png);  background-repeat:no-repeat; background-position:center{literal}}
+
+</style>
+<script type="text/javascript">
+	function update_player_size(width,height,normal_player,channel_player)
+	{
+		var page = baseurl+'/actions/update_configs.php';
+		$.post(page, 
+		{ 	
+			width : width,
+			height : height,
+			update_player_size : normal_player,
+			update_channel_player_size:channel_player
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+				$("#msg_box").html('<div style="width:300px; padding:5px; text-align:center; background-color:#0099cc; border-radius:5px; -moz-border-radius:5px; color:#fff">'+data+'</div>');
+		},'text');
+	
+	}
+	
+	$(function() {
+		$("#resizable").resizable({
+			maxHeight: 800,
+			maxWidth: 800,
+			minHeight: 100,
+			minWidth: 100,
+			grid: 10,
+			resize:function(event,ui){$("#width").val(ui.size.width);$("#height").val(ui.size.height);},
+			stop:function(event,ui){update_player_size(ui.size.width,ui.size.height,'yes','')}
+		});
+		
+		 $("#width").change(function () {$('#resizable').css("width",this.value+'px') ; update_player_size(this.value,$("#height").val(),'yes','') });
+		 $("#height").change(function () {$('#resizable').css("height",this.value+'px');  update_player_size($("#width").val(),this.value,'yes','')  });
+	});
+	
+	
+	$(function() {
+		$("#resizable-channel").resizable({
+			maxHeight: 800,
+			maxWidth: 800,
+			minHeight: 100,
+			minWidth: 100,
+			grid: 10,
+			resize:function(event,ui){$("#channel_width").val(ui.size.width);$("#channel_height").val(ui.size.height);},
+			stop:function(event,ui){update_player_size(ui.size.width,ui.size.height,'','yes')}
+		});
+		
+		 $("#channel_width").change(function () {$('#resizable-channel').css("width",this.value+'px') ; update_player_size(this.value,$("#channel_height").val(),'','yes') });
+		 $("#channel_height").change(function () {$('#resizable-channel').css("height",this.value+'px');  update_player_size($("#channel_width").val(),this.value,'','yes')  });
+	});
+	</script>
+{/literal}
+<div class="demo">
+	
+<div id="resizable" class="ui-widget-content" style="width:{$Cbucket->configs.player_width}px; height:{$Cbucket->configs.player_height}px">
+	<h3 class="ui-widget-header">Actual Player Size</h3>
+</div>
+<label for="width">Width</label>
+<input type="text" name="width" id="width" value="{$Cbucket->configs.player_width}" />
+<label for="height">Height</label>
+<input type="text" name="height" id="height" value="{$Cbucket->configs.player_height}" />
+</div>
+
+Channel Player
+<div class="demo">
+	
+<div id="resizable-channel" class="ui-widget-content" style="width:{$Cbucket->configs.channel_player_width}px; height:{$Cbucket->configs.channel_player_height}px">
+	<h3 class="ui-widget-header">Actual Player Size</h3>
+</div>
+<label for="width">Width</label>
+<input type="text" name="width" id="channel_width" value="{$Cbucket->configs.channel_player_width}" />
+<label for="height">Height</label>
+<input type="text" name="height" id="channel_height" value="{$Cbucket->configs.channel_player_height}" />
+</div>
+
+</div>
+
+<hr size="1" noshade />
+<div class="setting_title">Available Players</div>
+
+{* Listing All Avilable Players *}
+
+{assign var='players' value=$cbplayer->get_players()}
+
+<div class="templates_container">
+{foreach from=$players item=player}
+{if $player_file !=$player.file && $player_dir != $player.folder}
+
+	<div class="template_box" align="center">
+    	<img src="{$cbplayer->get_preview_thumb($player.folder)}" class="preview_thumb" >
+<div align="center" style="" class="tpl_title">
+        	{$player.name} <br /><em>by <strong><a href="{$player.author_page}">{$player.author}</a></strong></em><br />
+        <a href="manage_players.php?set=yes&folder={$player.folder}&file={$player.file}">Activate This Player</a><br />
+</div>
+    </div>
+{/if}
+{/foreach}
+</div>

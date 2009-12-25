@@ -205,15 +205,40 @@ class CBvideo extends CBCategory
 				$query .= ',';
 			}*/
 			
-			if(has_access('admin_access',TRUE) && !empty($array['status']))
+			if(has_access('admin_access',TRUE))
 			{
-				$query_field[] = 'status';
-				$query_val[] = $array['status'];
-			}
-			if(has_access('admin_access',TRUE) && !empty($array['duration']))
-			{
-				$query_field[] = 'duration';
-				$query_val[] = $array['duration'];
+				if(!empty($array['status']))
+				{
+					$query_field[] = 'status';
+					$query_val[] = $array['status'];
+				}
+				
+				if(!empty($array['duration']))
+				{
+					$query_field[] = 'duration';
+					$query_val[] = $array['duration'];
+				}
+				
+				if(!empty($array['views']))
+				{
+					$query_field[] = 'views';
+					$query_val[] = $array['views'];
+				}
+				
+				if(!empty($array['rating']))
+				{
+					$query_field[] = 'rating';
+					$rating = $array['rating'];
+					if(!is_numeric($rating) || $rating<0 || $rating>10)
+						$rating = 1;
+					$query_val[] = $rating;
+				}
+				
+				if(!empty($array['rated_by']))
+				{
+					$query_field[] = 'rated_by';
+					$query_val[] = $array['rated_by'];
+				}
 			}
 			
 			if(!userid())
@@ -352,9 +377,22 @@ class CBvideo extends CBCategory
 		
 		if(!has_access('admin_access',TRUE))
 			$cond = " status='Successful' AND active='yes' ";
+		else
+		{
+			if(!$params['active'])
+				$params['active'] = 'yes';
+			if(!$params['status'])
+				$params['status'] = 'Successful';
+			$cond = " status='".$params['status']."' AND active='".$params['active']."' ";
+		}
 		
 		//Setting Category Condition
-		if($params['category'] && strtolower($params['category'])!='all')
+		$all = false;
+		if(!is_array($params['category']))
+			if(strtolower($params['category'])=='all')
+				$all = true;
+				
+		if($params['category'] && !$all)
 		{
 			if($cond!='')
 				$cond .= ' AND ';
@@ -453,7 +491,7 @@ class CBvideo extends CBCategory
 				$cond .= ' AND ';
 			$cond .= " videoid <> '".$params['exclude']."' ";
 		}
-		
+		$cond;
 		$result = $db->select('video','*',$cond,$limit,$order);
 		
 		
@@ -605,7 +643,7 @@ class CBvideo extends CBCategory
 			array('field'=>'tags','type'=>'LIKE','var'=>'%{KEY}%','op'=>'AND')
 		);
 		$this->search->cat_tbl = $this->cat_tbl;
-
+		
 		$this->search->display_template = LAYOUT.'/blocks/video.html';
 		$this->search->template_var = 'video';
 		
@@ -641,12 +679,12 @@ class CBvideo extends CBCategory
 		$this->search->search_type['videos'] = array('title'=>'Videos');
 		
 		$fields = array(
-		'keyword'	=> array(
+		'query'	=> array(
 						'title'=> lang('keywords'),
 						'type'=> 'textfield',
-						'name'=> 'keywords',
-						'id'=> 'keywords',
-						'value'=>cleanForm($default['keywords'])
+						'name'=> 'query',
+						'id'=> 'query',
+						'value'=>cleanForm($default['query'])
 						),
 		'category'	=>  array(
 						'title'		=> lang('vdo_cat'),

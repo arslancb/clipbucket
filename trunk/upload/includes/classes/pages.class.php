@@ -149,8 +149,10 @@ class pages{
 
 		preg_match('/\?/',$link,$matches);
 
+		$no_seo = false;
 		if(!empty($matches[0]))
 		{
+			$no_seo = true;
 			$page_link = '&'.$page_link_pattern;
 		}else{
 			$page_link = '?'.$page_link_pattern;
@@ -160,7 +162,7 @@ class pages{
 		$params = 'href="'.$link.'"';
 		$params .= ' '.$extra_params;
 		
-		if(SEO=='yes' && THIS_PAGE !='search_result')
+		if(SEO=='yes' && THIS_PAGE !='search_result' && !BACK_END)
 		{
 			if(count($_GET)==0 || (count($_GET)==1 && isset($_GET['page'])))
 				$params = $params;	 

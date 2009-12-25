@@ -1,18 +1,19 @@
 <div style="width:98%; margin:auto">
-<h2>ClipBucket Search</h2>
+
 	<div id="simple_search" class="simple_container" style="border:none">
-    	<div class="search_type">
-            <div>
-            <form name="search-form" method="get" action="">
-            	<div>
-            	<label class="label">Kewords</label>
-            	<input type="text" name="keywords" value="{$smarty.get.keywords|form_val}" id="keywords" />
-                </div>
-                <input type="submit" name="cbsearch" id="cbsearch" value="Search" class="cb_button"  />
-            </form>
-            </div>
-          </div>	
-          <div class="clearfix"></div>
+    	<div class="quick_search">
+        <form name="search-form" method="get" action="">
+            <span class='title'>ClipBucket Search &#8211;</span>
+            <input type="text" name="keywords" value="{'query'|get_form_val:true}" id="keywords" />
+            type
+            <select name="type">
+            	{foreach from=$Cbucket->search_types item=t key=stypes}
+                	<option value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
+                {/foreach}
+            </select>
+            <input type="submit" name="cbsearch" id="cbsearch" value="Search" class="cb_button" />
+        </form>
+    	</div>
     </div>
 	<div class="simple_container" style="height:400px; overflow:visible; display:none" id="advance_search">
 	{foreach from=$Cbucket->search_types item=search_type key=search_type_key}

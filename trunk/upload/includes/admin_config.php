@@ -37,9 +37,9 @@
 	
  	//Do No Edit Below This Line
  	
-	define('TEMPLATEDIR',BASEDIR.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/cbadmin');
+	define('TEMPLATEDIR',BASEDIR.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/cbv2');
 	define('SITETEMPLATEDIR',BASEDIR.'/'.TEMPLATEFOLDER.'/'.$row['template_dir']);
-	define('TEMPLATEURL',BASEURL.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/cbadmin');
+	define('TEMPLATEURL',BASEURL.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/cbv2');
 	define('LAYOUT',TEMPLATEDIR.'/layout');
 	
 	Assign('baseurl',BASEURL);

@@ -42,12 +42,13 @@
 	background-image:url(../images/bgs/left_menu_foot.png);
 	background-position:bottom;
 	background-repeat:no-repeat;
-	padding-bottom:15px
+	padding-bottom:15px;
+	
 }
 
 .subMenu
 {
-   display:block;
+   display:block;border:1px solid #0066cc;
 }
 
 .subItem,.subItemOver

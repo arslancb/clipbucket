@@ -100,39 +100,12 @@ if(isset($_POST['update'])){
 		}
 		$myquery->Set_Website_Details($field,$value);
 	}
-	
-	//Setting Lanuage Cookie
-	setcookie('sitelang', $rows['default_site_lang'], time()+315360000, '/');
-	setcookie('sitestyle', $row['template'], time()+315360000, '/');
 	e("Website Settings Have Been Updated",m);
 
 }
 
 $row = $myquery->Get_Website_Details();
-
-//Getting Template List
-	$sql = "SELECT * from template";
-	$rs = $db->Execute($sql);
-	$templates = $rs->getrows();
-	Assign('templates', $templates);	
-	
-//Getting Players List
-	$sql = "SELECT * from players";
-	$rs = $db->Execute($sql);
-	$player = $rs->getrows();
-	Assign('players', $player);
-
-//Lanugae Arrays
-	
 Assign('row',$row);
-@Assign('msg',$msg);
-
-/*Template('header.html');
-Template('leftmenu.html');
-Template('message.html');
-Template('main.html');
-Template('footer.html');*/
-
 template_files('main.html');
 display_it();
 ?>

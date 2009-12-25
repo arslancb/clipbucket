@@ -49,6 +49,7 @@ class cbsearch
 	var $multi_cat = true;
 	
 	var $date_added_colum = 'date_added';
+
 	
 	/**
 	 * ClipBucket Search System works pretty easily

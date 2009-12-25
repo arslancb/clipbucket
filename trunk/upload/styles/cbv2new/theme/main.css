@@ -721,3 +721,6 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .search_type .label{display:block; font-size:11px; font:tahoma; font-weight:bold}
 .search_type div{margin-bottom:10px}
 .search_type input[type='textfied'],.search_type input[type='text'],.search_type select{width:200px; border:1px solid #999}
+
+.quick_search .title{font-size:15px; font-weight:bold}
+.quick_search input[type=text],.quick_search select{width:200px; border:1px solid #939393; font-size:11px; padding:2px}

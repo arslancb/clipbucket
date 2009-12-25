@@ -1,0 +1,98 @@
+<span class="page_title">Groups Manager</span>
+<form name="group_manage" method="post">
+
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+     		<input type="submit" name="activate_selected" value="Activate"  class="button"/>
+            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+            <input type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
+            <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
+            <input type="submit" name="delete_selected" value="Delete"  class="button" onclick="Confirm_Delete('')"/>
+    
+    </td>
+    </tr>
+</table>
+
+
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="50" class="head_sep_left">GP-ID</td>
+    <td class="head"><div class="head_sep_left" style="width:250px">Details</div></td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+
+
+
+
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+{assign var = bgcolor value = ""}
+{section name=gp_list loop=$gps}
+{assign var="username" value=$userquery->GetUserData($gps[gp_list].group_owner)}
+<tr class="video_opt_td"  bgcolor="{$bgcolor}">
+    <td width="30" align="center" valign="top" class="video_opt_td"><input name="check_group[]" type="checkbox" id="check_group" value="{$gps[gp_list].group_id}" /></td>
+    <td width="50" align="center" valign="top" class="video_opt_td">{$gps[gp_list].group_id}</td>
+    <td valign="top"  class="video_opt_td" 
+    onmouseover="$('#vid_opt-{$gps[gp_list].group_id}').show()" 
+    onmouseout="$('#vid_opt-{$gps[gp_list].group_id}').hide()" >
+    <div style="float:left; width:45px; height:34px; margin-left:10px">
+    	<img src="{$gp_thumbs_url}/{$cbgroup->get_gp_thumb($gps[gp_list].group_image)}" class="mid_user_thumb" />
+    </div>
+    <a href="{$baseurl}/view_group.php?url={$gps[gp_list].group_url}" target="_blank" style="text-indent:10px">
+    {$gps[gp_list].group_name}
+    </a> &#8212;
+    <span class="vdo_sets">
+    Group Owner:<strong> <a href="view_user.php?uid={$username.userid}" style="font-size:10px;">{$username.username}</a></strong> &#8226;
+    Group Type:<strong> {if $gps[gp_list].group_type=="0"}Public{elseif $gps[gp_list].group_type=="1"}Private{else}Invited{/if}</strong> &#8226;
+    Group Status:<strong>{if $gps[gp_list].active=="yes"} Active{else $gps[gp_list].active=="no"} Unactive{/if}</strong> 
+    </span>
+    
+    <br />
+    <div id="vid_opt-{$gps[gp_list].group_id}" style="display:none" class="vid_opts">
+   	 
+      <a href="view_group.php?group_id={$gps[gp_list].group_id}">View</a> | 
+      <a href="edit_group.php?group_id={$gps[gp_list].group_id}">Edit</a> {if $videos[list].featured == yes} | 
+      <a href="javascript:Confirm_Delete('?delete_group={$gps[gp_list].group_id}')">Delete</a> | 
+      <a href="?make_unfeature={$gps[gp_list].group_id}">Make Unfeatured</a> {/if} 
+      {if $videos[list].featured == no} | 
+      <a href="?make_feature={$gps[gp_list].group_id}">Make Featured</a> {/if}
+      {if $gps[gp_list].active == yes}  | 
+      <a href="?deactivate={$gps[gp_list].group_id}">Deactivate</a> {else} | 
+      <a href="?activate={$gps[gp_list].group_id}">Activate</a> {/if}  |  
+      <a href="?delete_group={$gps[gp_list].group_id}">Delete</a>
+    </div>
+    </td>
+    <td width="50" valign="top" class="video_opt_td">&nbsp;</td>
+    </tr>
+    {if $bgcolor == ""}
+    {assign var = bgcolor value = "#EEEEEE"}
+    {else}
+    {assign var = bgcolor value = ""}
+    {/if}
+        
+{/section}
+</table>
+
+
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return_invert.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+     		<input type="submit" name="activate_selected" value="Activate"  class="button"/>
+            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+            <input type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
+            <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
+            <input type="submit" name="delete_selected" value="Delete"  class="button" onclick="Confirm_Delete('')"/>
+    
+    </td>
+    </tr>
+</table>
+
+</form>
+
+{include file="$style_dir/blocks/pagination.html" }
