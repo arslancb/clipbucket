@@ -170,7 +170,6 @@ class img_validator extends files
     /**
     * Generates a random text, whether a word isn't give or
     * the given word is more than the letters limit
-    * 
     */
     function generates_text()
     {

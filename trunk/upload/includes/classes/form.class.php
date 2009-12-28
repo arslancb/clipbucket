@@ -124,10 +124,15 @@ class formObj
 			//Generate Category list
 			$type = $field['type'] ? $field['type'] : 'video';
 			$catArray = getCategoryList($field['category_type']);
-			foreach ($catArray as $cat)
+			
+			if(is_array($catArray))
 			{
-				$field['value'][$cat['category_id']] = $cat['category_name'];
-			}
+				foreach ($catArray as $cat)
+				{
+					$field['value'][$cat['category_id']] = $cat['category_name'];
+				}
+			}else
+				return "There is no category to select";
 		}
 		$arrayName = $this->rmBrackets($field['name']);
 		//Creating Fields

@@ -85,6 +85,18 @@ switch($step)
 			$errors[] = '"/cache" directory is not writeable - Please changes its permission to 0777';
 		else
 			$msgs[] = '"/cache" directory is writeable';
+			
+		//Checking install Directory
+		if(!is_writeable("../install"))
+			$errors[] = '"/install" directory is not writeable - Please changes its permission to 0777';
+		else
+			$msgs[] = '"/install" directory is writeable';
+		
+		//Checking includes Directory
+		if(!is_writeable("../includes"))
+			$errors[] = '"/includes" directory is not writeable - Please changes its permission to 0777';
+		else
+			$msgs[] = '"/includes" directory is writeable';
 	}
 	break;
 	case 3:

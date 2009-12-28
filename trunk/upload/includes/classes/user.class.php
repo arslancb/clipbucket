@@ -2559,7 +2559,7 @@ class userquery extends CBCategory{
 	 */
 	function get_channel_action_links($u)
 	{
-		return array(lang('Send Message')=>array('link'=>'javascript:void(0)','onclick'=>"add_friend('".$u['userid']."','result_cont')"),
+		return array(lang('Send Message')=>array('link'=>cblink(array('name'=>'compose_new','extra_params'=>'to='.$u['username']))),
 					 lang('Add as friend')=>array('link'=>'javascript:void(0)','onclick'=>"add_friend('".$u['userid']."','result_cont')"),
 					 lang('Block user')=>array('link'=>'javascript:void(0)','onclick'=>"add_friend('".$u['userid']."','result_cont')")
 					 );
@@ -2624,7 +2624,7 @@ class userquery extends CBCategory{
 					 'Inbox'	=> 'private_message.php?mode=inbox',
 					 'Notifications' => 'private_message.php?mode=notification',
 					 'Sent'	=> 'private_message.php?mode=sent',
-					 'Compose New'=> 'private_message.php?mode=new_msg',
+					 'Compose New'=> cblink(array('name'=>'compose_new')),
 					 ),
 		'Contacts'	=>array
 					(

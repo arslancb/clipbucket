@@ -458,6 +458,9 @@ class cb_pm
 	 */
 	function load_compose_form()
 	{
+		$to = post('to');
+		$to = $to ? $to : get('to');
+		
 		$array = array
 		(
 		 'to'	=>array(
@@ -465,7 +468,7 @@ class cb_pm
 						'type'=>'textfield',
 						'name'=> 'to',
 						'id'=> 'to',
-						'value'=> post('to'),
+						'value'=> $to,
 						//'hint_2'=> "seperate usernames by comma ','",
 						'required'=>'yes'
 					),

@@ -72,7 +72,7 @@ class Session
 	{
 		if($this->overwrite)
 			$this->session_unregister($name);
-		session_register($name);
+		//session_register($name);
 	}
 	
 	/**
@@ -80,7 +80,7 @@ class Session
 	 */
 	function session_unregister($name)
 	{
-		session_unregister($name);
+		//session_unregister($name);
 	}
 	
 	/**

@@ -61,7 +61,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	#WTF
 	require_once('classes/stats.class.php');
 	#WTF
-	error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
+	//error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
 	#WTF
 	
 	require_once('classes/ads.class.php');
@@ -132,7 +132,7 @@ else
 }*/
 
     //ini_set('display_errors', '1');
-error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
+ error_reporting(E_ALL ^E_NOTICE);
 
 //Website Details
 
@@ -449,7 +449,7 @@ register_action_remove_video('remove_video_files');
 
 
 include('admin.functions.php');
-error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
+//error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
 
 
 ?>

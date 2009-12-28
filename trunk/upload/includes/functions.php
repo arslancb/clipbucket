@@ -706,7 +706,7 @@
 	* FUNCTION USED TO GET ADVERTISMENT
 	* @param : array(Ad Code, LIMIT);
 	*/
-	function getAd($params,&$Smarty)
+	function getAd($params)
 	{
 		global $adsObj;
 		$data = '';
@@ -722,7 +722,7 @@
 	* FUNCTION USED TO GET THUMBNAIL, MADE FOR SMARTY
 	* @ param : array("FLV");
 	*/
-	function getSmartyThumb($params,&$Smarty)
+	function getSmartyThumb($params)
 	{
 		return get_thumb($params['vdetails'],$params['num'],$params['multi'],$params['count_only']);
 	}
@@ -732,7 +732,7 @@
 	* @param : array(videoKey or ID,videok TITLE)
 	*/
 	
-	function videoSmartyLink($params,&$Smarty)
+	function videoSmartyLink($params)
 	{
 		return	VideoLink($params['vdetails']);
 	}
@@ -741,7 +741,7 @@
 	* FUNCTION USED TO GET VIDEO RATING IN SMARTY
 	* @param : array(pullRating($videos[$id]['videoid'],false,false,false,'novote');
 	*/
-	function pullSmartyRating($param,&$Smarty)
+	function pullSmartyRating($param)
 	{
 		return pullRating($param['id'],$param['show5'],$param['showPerc'],$aram['showVotes'],$param['static']);	
 	}
@@ -838,14 +838,16 @@
 					$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
 				
 				$cats = $cbgroup->get_categories();
-				if($all_cat)
-				$cats = array_merge($all_cat,$cats);
+				if($all_cat && is_array($cats))
+					$cats = array_merge($all_cat,$cats);
+				else
+					return false;
 				return $cats;
 			}
 			break;
 		}
 	}
-	function getSmartyCategoryList($params,&$Smarty)
+	function getSmartyCategoryList($params)
 	{
 		return getCategoryList($params['type']);
 	}
@@ -1092,7 +1094,7 @@
 	 * This function is used to call function in smarty template
 	 * This wont let you pass parameters to the function, but it will only call it
 	 */
-	function FUNC($params,&$Smarty)
+	function FUNC($params)
 	{
 		global $Cbucket;
 		//Function used to call functions by
@@ -1356,7 +1358,7 @@
 			return count($details);
 		return $details;
 	}
-	function get_all_video_files_smarty($params,&$Smarty)
+	function get_all_video_files_smarty($params)
 	{
 		$vdetails = $params['vdetails'];
 		$count_only = $params['count_only'];
@@ -1438,7 +1440,7 @@
 	/**
 	 * Function used to display flash player for ClipBucket video
 	 */
-	function flashPlayer($param,&$Smarty)
+	function flashPlayer($param)
 	{
 		global $Cbucket,$swfobj;
 		
@@ -1475,9 +1477,9 @@
 	/**
 	 * FUnctiuon used to plya HQ videos
 	 */
-	function HQflashPlayer($param,&$Smarty)
+	function HQflashPlayer($param)
 	{
-		return flashPlayer($param,&$Smarty);
+		return flashPlayer($param);
 	}
 	
 	
@@ -1496,7 +1498,7 @@
 	 * @param ARRAY $userdetail
 	 * @param SIZE $int
 	 */
-	function avatar($param,&$Smarty)
+	function avatar($param)
 	{
 		global $userquery;
 		$udetails = $param['details'];
@@ -1509,7 +1511,7 @@
 	/**
 	 * This funcion used to call function dynamically in smarty
 	 */
-	function load_form($param,&$Smarty)
+	function load_form($param)
 	{
 		$func = $param['name'];
 		if(function_exists($func))
@@ -1685,7 +1687,7 @@
 	/**
 	 * Function used to give output in proper form 
 	 */
-	function input_value($params,&$Smarty)
+	function input_value($params)
 	{
 		$input = $params['input'];
 		$value = $input['value'];
@@ -2078,7 +2080,7 @@
 	/**
 	 * Function used to assign link
 	 */
-	function cblink($params,&$Smarty=NULL)
+	function cblink($params)
 	{
 		global $ClipBucket;
 		$name = $params['name'];
@@ -2104,8 +2106,21 @@
 		{
 			return BASEURL.'/search_result.php?category[]='.$params['category'].'&type='.$params['type'];
 		}
-
-		return BASEURL.'/'.$ClipBucket->links[$name][0];
+		
+		$link = BASEURL.'/'.$ClipBucket->links[$name][0];
+		$param_link = "";
+		if(!empty($params['extra_params']))
+		{
+			preg_match('/\?/',$link,$matches);
+			if(!empty($matches[0]))
+			{
+				$param_link = '&'.$params['extra_params'];
+			}else{
+				$param_link = '?'.$params['extra_params'];
+			}
+		}
+			
+		return $link.$param_link;
 	}
 	
 	/**
@@ -2141,7 +2156,7 @@
 	 * ratings : number of rating
 	 * total : total rating or out of
 	 */
-	function show_rating($params,&$Smarty)
+	function show_rating($params)
 	{
 		$class 		= $params['class'] ? $params['class'] : 'rating_stars';
 		$rating 	= $params['rating'];
@@ -2430,7 +2445,7 @@
 	/**
 	 * Function used to show sharing form
 	 */
-	function show_share_form($array,&$Smarty)
+	function show_share_form($array)
 	{
 		
 		assign('params',$array);
@@ -2440,7 +2455,7 @@
 	/**
 	 * Function used to show flag form
 	 */
-	function show_flag_form($array,&$Smarty)
+	function show_flag_form($array)
 	{
 		assign('params',$array);
 		Template('blocks/flag_form.html');
@@ -2449,7 +2464,7 @@
 	/**
 	 * Function used to show flag form
 	 */
-	function show_playlist_form($array,&$Smarty)
+	function show_playlist_form($array)
 	{
 		global $cbvid;
 		assign('params',$array);
@@ -2999,7 +3014,7 @@
 	 * Function used to load captcha
 	 */
 	define("GLOBAL_CB_CAPTCHA","cb_captcha");
-	function load_captcha($params,&$Smarty)
+	function load_captcha($params)
 	{
 		global $total_captchas_loaded;
 		switch($params['load'])
