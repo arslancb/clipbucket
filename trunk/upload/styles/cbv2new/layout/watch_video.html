@@ -156,7 +156,8 @@
 
 
 <!-- Getting List user videos -->
-{get_videos user=$vdo.userid limit=9 assign=user_vids exclude=$vdo.videoid}
+{assign var=videos_items_columns value=func->config(videos_items_columns)}
+{get_videos user=$vdo.userid limit=$videos_items_columns assign=user_vids exclude=$vdo.videoid}
 {if $user_vids}
 <span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#user_vids").slideToggle("fast")'>More from Admin</span>
 <div class="watch_vids_cont" id="user_vids">
@@ -169,7 +170,8 @@
 <!-- Getting List user videos -->
 
 <!-- Getting Related videos -->
-{get_videos tags=$vdo.tags limit=9 assign=related_vids exclude=$vdo.videoid}
+{assign var=videos_items_columns value=func->config(videos_items_columns)}
+{get_videos tags=$vdo.tags limit=$videos_items_columns assign=related_vids exclude=$vdo.videoid}
 {if $related_vids}
 <span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#related_vids").slideToggle("fast")'>Related Videos</span>
 <div class="watch_vids_cont" id="related_vids">

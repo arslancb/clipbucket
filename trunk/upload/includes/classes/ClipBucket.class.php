@@ -366,6 +366,25 @@ class ClipBucket
 		define('TEMPLATE',$template);
 	}
 	
+	
+	/**
+	 * Function used to list available extension for clipbucket
+	 */
+	function list_extensions()
+	{
+		$exts = $this->configs['allowed_types'];
+		$exts = preg_replace('/ /','',$exts);
+		$exts = explode(',',$exts);
+		$new_form = '';
+		foreach($exts as $ext)
+		{
+			if(!empty($new_form))
+				$new_form .=";";
+			$new_form .= "*.$ext";
+		}
+		
+		return $new_form;
+	}
 }
 
 ?>

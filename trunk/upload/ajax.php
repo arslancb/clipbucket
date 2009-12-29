@@ -20,7 +20,7 @@ if(!empty($mode))
 	{
 		case 'recent_viewed_vids':
 		{
-			$videos = get_videos(array('limit'=>'20','order'=>'last_viewed DESC'));
+			$videos = get_videos(array('limit'=>config('videos_items_hme_page'),'order'=>'last_viewed DESC'));
 			if($videos)
 			foreach($videos as $video)
 			{
@@ -32,7 +32,7 @@ if(!empty($mode))
 		
 		case 'most_viewed':
 		{
-			$videos = get_videos(array('limit'=>'20','order'=>'views DESC'));
+			$videos = get_videos(array('limit'=>config('videos_items_hme_page'),'order'=>'views DESC'));
 			if($videos)
 			foreach($videos as $video)
 			{
@@ -44,7 +44,7 @@ if(!empty($mode))
 		
 		case 'recently_added':
 		{
-			$videos = get_videos(array('limit'=>'20','order'=>'date_added DESC'));
+			$videos = get_videos(array('limit'=>config('videos_items_hme_page'),'order'=>'date_added DESC'));
 			if($videos)
 			foreach($videos as $video)
 			{

@@ -1048,10 +1048,10 @@ class userquery extends CBCategory{
 	/**
 	 * function used to get user subscribers with details
 	 */
-	function get_user_subscribers_detail($id)
+	function get_user_subscribers_detail($id,$limit=NULL)
 	{
 		global $db;
-		$result = $db->select("users,".$this->dbtbl['subtbl'],"*"," subscriptions.subscribed_to = '$id' AND subscriptions.userid=users.userid");
+		$result = $db->select("users,".$this->dbtbl['subtbl'],"*"," subscriptions.subscribed_to = '$id' AND subscriptions.userid=users.userid",$limit);
 		if($db->num_rows>0)
 			return $result;
 		else
@@ -1061,10 +1061,10 @@ class userquery extends CBCategory{
 	/**
 	 * Function used to get user subscriptions
 	 */
-	function get_user_subscriptions($id)
+	function get_user_subscriptions($id,$limit=NULL)
 	{	
 		global $db;
-		$result = $db->select("users,".$this->dbtbl['subtbl'],"*"," subscriptions.userid = '$id' AND subscriptions.subscribed_to=users.userid");
+		$result = $db->select("users,".$this->dbtbl['subtbl'],"*"," subscriptions.userid = '$id' AND subscriptions.subscribed_to=users.userid",$limit);
 		if($db->num_rows>0)
 			return $result;
 		else

@@ -63,7 +63,8 @@ SetId('Featured');
     {/if}
     
     <!-- Getting Random videos -->
-    {get_videos assign=ran_vids limit=9 order=RAND()}
+    {assign var=videos_items_columns value=func->config(videos_items_columns)}
+    {get_videos assign=ran_vids limit=$videos_items_columns order=RAND()}
     
     {if $ran_vids}
     <div style="width:300px; margin:auto">

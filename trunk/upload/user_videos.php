@@ -21,7 +21,6 @@ $u = $u ? $u : $_GET['u'];
 
 $udetails = $userquery->get_user_details($u);
 $page = mysql_clean($_GET['page']);
-$get_limit = create_query_limit($page,VLISTPP);
 
 if($udetails)
 {
@@ -37,6 +36,7 @@ if($udetails)
 		case 'videos':
 		default:
 		{
+			$get_limit = create_query_limit($page,config('videos_items_uvid_page'));
 			assign("the_title",$udetails['username']." videos");
 			$videos = get_videos(array('user'=>$udetails['userid'],'limit'=>$get_limit));
 			$total_rows = get_videos(array('user'=>$udetails['userid'],'count_only'=>true));
@@ -44,6 +44,7 @@ if($udetails)
 		break;
 		case 'favorites':
 		{
+			$get_limit = create_query_limit($page,config('videos_items_ufav_page'));
 			assign("the_title",$udetails['username']." favorites");
 			$params = array('userid'=>$udetails['userid'],'limit'=>$get_limit);
 			$videos = $cbvid->action->get_favorites($params);

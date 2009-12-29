@@ -848,6 +848,9 @@ class myquery {
 		if(empty($comment))
 			e("Please enter something for comment");
 		
+		$params = array('comment'=>$comment,'obj_id'=>$obj_id,'reply_to'=>$reply_to,'type'=>$type);
+		$this->validate_comment_functions($params);
+		/*		
 		if($type=='video' || $type=='v')
 		{
 			if(!$this->video_exists($obj_id))
@@ -860,7 +863,7 @@ class myquery {
 					e("You cannot comment on your video");
 			}
 		}
-		
+		*/		
 		if(!userid() && $Cbucket->configs['anonym_comments']!='yes')
 			e("You are not logged in");
 		
@@ -1031,5 +1034,44 @@ class myquery {
 		global $db;
 		$db->Execute("UPDATE comments SET comment='$text' WHERE comment_id='$cid'");
 	}
+	
+	
+	/**
+	 * Function used to validate comments
+	 */
+	function validate_comment_functions($params)
+	{
+		$type = $params['type'];
+		$obj_id = $params['obj_id'];
+		$comment = $params['comment'];
+		$reply_to = $params['reply_to'];
+		
+		if($type=='video' || $type=='v')
+		{
+			if(!$this->video_exists($obj_id))
+				e("Video does not exist");
+			
+			//Checking owner of video
+			if(!USER_COMMENT_OWN)
+			{
+				if(userid()==$this->get_vid_owner($obj_id));
+					e("You cannot comment on your video");
+			}
+		}
+		
+		$func_array = get_functions('validate_comment_functions');
+		if(is_array($func_array))
+		{
+			foreach($func_array as $func)
+			{
+				if(function_exists($func))
+				{
+					return $func($params);
+				}
+			}
+		}
+		
+	}
+	
 }
 ?>

@@ -1,11 +1,11 @@
+
 <ul class="cbtab">
   <li onClick='display_tab(this,"div_1",true)' id="first_tab">Website Settings</li>
   <li onClick='display_tab(this,"div_2",true)' >Uploading and Conversion Settings</li>
   <li onClick='display_tab(this,"div_3",true)' >Display and Listing Settings</li>
   <li onClick='display_tab(this,"div_4",true)' >User &amp; Registeration</li>
 </ul>
-
-<div class="clear"></div>
+<div class="clearfix"></div>
 
 <form name="form1" method="post" action="">
 <input name="baseurl" value="{$row.baseurl}" type="hidden" />
@@ -122,22 +122,21 @@
               <td>&nbsp;</td>
             </tr>
             <tr>
-              <td>Require login to watch videos ?</td>
-              <td><input name="video_require_login" type="checkbox" id="video_require_login" value="yes" {if $row.video_require_login=='yes'}checked="checked"{/if} /></td>
+              <td colspan="2" valign="top" class="settings_inner_title">Comments</td>
             </tr>
             <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr>
-              <td valign="top">Allow  comments</td>
+              <td valign="top">Allow Video Comments</td>
               <td valign="top"><input name="video_comments" type="checkbox" id="video_comments" value="1" {if $row.video_comments=='1'}checked="checked"{/if} />
               <br />
               <input name="user_comment_own" type="checkbox" id="user_comment_own" value="1" {if $row.user_comment_own=='1'}checked=&quot;checked&quot;{/if} />
-              User can comment on his/her own video/channel</td>
+              User can comment on his/her own video</td>
             </tr>
             <tr>
-              <td valign="top">Maximum character count</td>
+              <td valign="top">&nbsp;</td>
+              <td valign="top">&nbsp;</td>
+            </tr>
+            <tr>
+              <td valign="top">Comments Counts</td>
               <td valign="top"><input name="max_comment_chr" type="text" id="max_comment_chr" value="{$row.max_comment_chr}" size="15" maxlength="5" /></td>
             </tr>
             <tr>
@@ -300,20 +299,78 @@
           <td valign="top">&nbsp;</td>
         </tr>
         <tr>
-          <td>Videos per page</td>
+          <td colspan="2" class="settings_inner_title">Videos Listing</td>
+        </tr>
+        <tr>
+          <td>Videos Page</td>
           <td><input name="videos_list_per_page" type="text" id="videos_list_per_page" value="{$row.videos_list_per_page}" size="6" maxlength="3" /></td>
         </tr>
         <tr>
-          <td>Videos per tab or section</td>
-          <td><input name="videos_list_per_tab" type="text" id="videos_list_per_tab" value="{$row.videos_list_per_tab}" size="6" maxlength="3" /></td>
+          <td>Channel Page</td>
+          <td><input name="videos_item_channel_page" type="text" id="videos_item_channel_page" value="{$row.videos_item_channel_page}" size="6" maxlength="3" /></td>
         </tr>
         <tr>
-          <td>Channels per page</td>
+          <td>User Videos</td>
+          <td><input name="videos_items_uvid_page" type="text" id="videos_items_uvid_page" value="{$row.videos_items_uvid_page}" size="6" maxlength="3" /></td>
+        </tr>
+        <tr>
+          <td>User Favorite</td>
+          <td><input name="videos_items_ufav_page" type="text" id="videos_items_ufav_page" value="{$row.videos_items_ufav_page}" size="6" maxlength="3" /></td>
+        </tr>
+        <tr>
+          <td>Group Page</td>
+          <td><input name="videos_items_grp_page" type="text" id="videos_items_grp_page" value="{$row.videos_items_grp_page}" size="6" maxlength="3" /></td>
+        </tr>
+        <tr>
+          <td>Home Tabs</td>
+          <td><input name="videos_items_hme_page" type="text" id="videos_items_hme_page" value="{$row.videos_items_hme_page}" size="6" maxlength="3" /></td>
+        </tr>
+        <tr>
+          <td>Search Page</td>
+          <td><input name="videos_items_search_page" type="text" id="videos_items_search_page" value="{$row.videos_items_search_page}" size="6" maxlength="3" /></td>
+        </tr>
+        <tr>
+          <td>Video Columns</td>
+          <td><input name="videos_items_columns" type="text" id="videos_items_columns" value="{$row.videos_items_columns}" size="6" maxlength="3" /></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="settings_inner_title">Users Listing</td>
+        </tr>
+        <tr>
+          <td>User list per page</td>
           <td><input name="channels_list_per_page" type="text" id="channels_list_per_page" value="{$row.channels_list_per_page}" size="6" maxlength="3" /></td>
         </tr>
         <tr>
-          <td>Channels per tab or section</td>
-          <td><input name="channels_list_per_tab" type="text" id="channels_list_per_tab" value="{$row.channels_list_per_tab}" size="6" maxlength="3" /></td>
+          <td>Subscribers in channel view</td>
+          <td><input name="users_items_subscibers" type="text" id="users_items_subscibers" value="{$row.users_items_subscibers}" size="6" maxlength="3" /></td>
+        </tr>
+        <tr>
+          <td>Subscriptions in channel view</td>
+          <td><input name="users_items_subscriptions" type="text" id="users_items_subscriptions" value="{$row.users_items_subscriptions}" size="6" maxlength="3" /></td>
+        </tr>
+        <tr>
+          <td>Users contacts in channel view</td>
+          <td><input name="users_items_group_page" type="text" id="users_items_group_page" value="{$row.users_items_group_page}" size="6" maxlength="3" /></td>
+        </tr>
+        <tr>
+          <td>View Group Page</td>
+          <td><input name="users_items_contacts_channel" type="text" id="users_items_contacts_channel" value="{$row.users_items_contacts_channel}" size="6" maxlength="3" /></td>
+        </tr>
+        <tr>
+          <td>Search Page</td>
+          <td><input name="users_items_search_page" type="text" id="users_items_search_page" value="{$row.users_items_search_page}" size="6" maxlength="3" /></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
         </tr>
         <tr>
           <td>Search results per page</td>

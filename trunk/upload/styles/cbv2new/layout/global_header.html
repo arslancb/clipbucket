@@ -39,11 +39,12 @@ var imageurl = '{$imageurl}';
 	{/literal}
 {/if}
 </script>
+
 <!-- Including JS Files-->
 {foreach from=$Cbucket->JSArray key=file item=type}
-{if $curActive == $type ||  $type=='global' }
-<script src="{$js}/{$file}"></script>
-{/if}
+    {if $curActive == $type ||  $type=='global' }
+    	<script src="{$js}/{$file}"></script>
+    {/if}
 {/foreach}
 <!-- Including JS Files-->
 
@@ -61,11 +62,7 @@ var imageurl = '{$imageurl}';
 {if $smarty.const.THIS_PAGE == 'upload'}
 
 <script src="{$js}/swfupload/swfupload.js"></script>
-<script src="{$js}/swfupload/plugins/fileprogress.js"></script>
-<script src="{$js}/swfupload/plugins/handlers.js"></script>
-<script src="{$js}/swfupload/plugins/swfupload.cookies.js"></script>
-<script src="{$js}/swfupload/plugins/swfupload.queue.js"></script>
-<script src="{$js}/swfupload/plugins/swfupload.speed.js"></script>
+<script src="{$js}/swfupload/plugins/all_in_one.js"></script>
 
 <script type="text/javascript">
 		var swfu;
@@ -74,25 +71,26 @@ var imageurl = '{$imageurl}';
 		window.onload = function() {
 			var settings = {
 				{/literal}
-				flash_url : "{$js}/swfupload/swfupload.swf",
-				upload_url: "{$baseurl}/actions/file_uploader.php",
-				button_image_url: "{$imageurl}/cb_button.png",
+					flash_url : "{$js}/swfupload/swfupload.swf",
+					upload_url: "{$baseurl}/actions/file_uploader.php",
+					button_image_url: "{$imageurl}/cb_button.png",
 				post_params: 
 				{literal}
 				{
 				{/literal}
-				"file_name" : file_name,
+					"file_name" : file_name,
 				{literal}
 				}
 				{/literal},
 				
 				
-				file_size_limit : "{$Clipbucket->configs.max_upload_size} MB",
-				{literal}
-				file_types : "*.*",
-				file_types_description : "All Files",
-				file_upload_limit : 2,
+				file_size_limit : "{$Cbucket->configs.max_upload_size} MB",				
+				file_types : "{$Cbucket->list_extensions()}",
+				file_types_description : "Video Files",
+				file_upload_limit : 1,
 				file_queue_limit : 0,
+				
+				{literal}
 				custom_settings : {
 					progressTarget : "fsUploadProgress",
 					cancelButtonId : "btnCancel"

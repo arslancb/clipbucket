@@ -83,7 +83,8 @@
                 <div class="channel_inner_box" style="margin-top:5px">
                 <span class="channel_heading">{lang code='user_subscriptions' assign='users_videos'}{$users_videos|sprintf:$u.username}</span>
                 <hr width="100%" size="1" noshade>
-                {assign var='usr_subs' value=$userquery->get_user_subscriptions($u.userid)}
+                {assign var=users_items_subscriptions value=func->config(users_items_subscriptions)}
+                {assign var='usr_subs' value=$userquery->get_user_subscriptions($u.userid,$users_items_subscriptions)}
                 {section name=u_list loop=$usr_subs}
                 {include file="$style_dir/blocks/user.html" user=$usr_subs[u_list] block_type='small'}
                 {sectionelse}
