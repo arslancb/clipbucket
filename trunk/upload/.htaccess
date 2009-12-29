@@ -52,27 +52,6 @@ RewriteRule ^([^.]*)/?$ index.php [L]
 RewriteRule ^videos/([0-9a-z].+)/(.*)/(.*)/(.*)/(.*) videos.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
 RewriteRule ^videos videos.php [L]
 RewriteRule ^video/(.*)/(.*) watch_video.php?v=$1&%{QUERY_STRING} [L]
-RewriteRule ^user/videos/(.*)$                       		user_videos.php?user=$1&%{QUERY_STRING}
-#
-#
-#
-#Signup Login & Logout URL Rewriting
-RewriteRule ^login$                      signup.php [nc]
-RewriteRule ^login/success                login_success.php [nc]
-RewriteRule ^logout/success                logout_success.php [nc]
-RewriteRule ^signup/success                   signup_success.php [nc]
-RewriteRule ^signup$                      signup.php [nc]
-RewriteRule ^logout$                     logout.php [nc]
-#
-#
-#
-#Messages
-RewriteRule ^message/sent 							sent.php [nc]
-RewriteRule ^message/inbox 							inbox.php [nc]
-RewriteRule ^message/compose 							compose.php [nc]
-RewriteRule ^message$ 								inbox.php [nc]
-#
-#
 #
 #Users, Channel & Management
 #
@@ -82,13 +61,12 @@ RewriteRule ^channels channels.php [L]
 RewriteRule ^members/								channels.php [nc]
 RewriteRule ^users/									channels.php [nc]
 
-#
-RewriteRule ^user/								channels.php [nc]
-RewriteRule ^user/channel/(.*)						view_channel.php?user=$1 [nc]
+RewriteRule ^user/contacts/(.*)				user_contacts.php?user=$1&%{QUERY_STRING} [nc]
+RewriteRule ^user/favourites/(.*)			user_fav_videos.php?user=$1&%{QUERY_STRING} [nc]
+RewriteRule ^user/videos/(.*)$				user_videos.php?user=$1&%{QUERY_STRING} [nc]
+RewriteRule ^user/(.*)						view_channel.php?user=$1 [nc]
 RewriteRule ^channel/(.*)					view_channel.php?user=$1 [nc]
-RewriteRule ^user/contacts/(.*)				user_contacts.php?user=$1 [nc]
-RewriteRule ^user/videos/(.*)					user_videos.php?user=$1 [nc]
-RewriteRule ^user/favourites/(.*)				user_fav_videos.php?user=$1 [nc]
+
 #
 RewriteRule ^myaccount								myaccount.php [nc]
 RewriteRule ^manage/videos/							manage_videos.php [nc]

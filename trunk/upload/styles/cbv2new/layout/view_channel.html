@@ -20,7 +20,7 @@
                 {assign var='channel_links' value=$userquery->get_inner_channel_top_links($u)}
                 <ul class="top_channel_links">
                 {foreach from=$channel_links item=link key=link_title}
-					<li><a href="{$link}">{$link_title}</a></li>
+                	<li><a href="{$link.link}" {if $link.onclick}onClick="{$link.onclick}"{/if}>{$link_title}</a></li>
                 {/foreach}
                 </ul>
                 <div class="clearfix"></div>

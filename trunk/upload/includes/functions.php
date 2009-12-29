@@ -1525,7 +1525,10 @@
 	 */
 	 function php_path()
 	 {
-		 return PHP_PATH;
+		 if(PHP_PATH !='')
+			 return PHP_PATH;
+		 else
+		 	return "/usr/bin/php";
 	 }
 	 
 	 
@@ -1536,7 +1539,8 @@
 	/**
 	 * Function in case htmlspecialchars_decode does not exist
 	 */
-	function unhtmlentities ($string) {
+	function unhtmlentities ($string)
+	{
 		$trans_tbl =get_html_translation_table (HTML_ENTITIES );
 		$trans_tbl =array_flip ($trans_tbl );
 		return strtr ($string ,$trans_tbl );
@@ -2107,7 +2111,11 @@
 			return BASEURL.'/search_result.php?category[]='.$params['category'].'&type='.$params['type'];
 		}
 		
-		$link = BASEURL.'/'.$ClipBucket->links[$name][0];
+		if(SEO!='yes')
+			$link = BASEURL.'/'.$ClipBucket->links[$name][0];
+		else
+			$link = BASEURL.'/'.$ClipBucket->links[$name][1];
+		
 		$param_link = "";
 		if(!empty($params['extra_params']))
 		{

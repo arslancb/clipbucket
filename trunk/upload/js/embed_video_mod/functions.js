@@ -21,7 +21,8 @@ function check_embed_code()
 			{
 				alert(data.err);
 			}else{
-				 $("#"+upload_form_name).submit();
+				//alert("est");
+				$("#"+upload_form_name).submit();
 			}
 		}, "json");
 	}

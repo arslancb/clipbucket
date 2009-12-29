@@ -7,20 +7,23 @@
 
 $Cbucket->links  = array
 (
-'channels'	=>array('channels.php','channels'),
-'compose_new'=>array('private_message.php?mode=new_msg','private_message.php?mode=new_msg'),
-'create_group'=>array('create_group.php','create_group'),
-'groups'	=>array('groups.php','groups'),
-'inbox'		=>array('private_message.php?mode=inbox','private_message.php?mode=inbox'),
-'login'		=>array('signup.php','login'),
-'logout'	=>array('logout.php','logout'),
-'my_account'=>array('myaccount.php','my_account'),
-'my_videos'	=>array('manage_videos.php','manage_videos.php'),
-'notifications'=>array('private_message.php?mode=notification','private_message.php?mode=notification'),
-'search_result'=>array('search_result.php','search_result.php'),
-'signup'	=>array('signup.php','signup'),
-'upload'	=>array('upload.php','upload'),
-'videos'	=>array('videos.php','videos'),
+'channels'		=>array('channels.php','channels'),
+'compose_new'	=>array('private_message.php?mode=new_msg','private_message.php?mode=new_msg'),
+'create_group'	=>array('create_group.php','create_group'),
+'groups'		=>array('groups.php','groups'),
+'inbox'			=>array('private_message.php?mode=inbox','private_message.php?mode=inbox'),
+'login'			=>array('signup.php','login'),
+'logout'		=>array('logout.php','logout'),
+'my_account'	=>array('myaccount.php','my_account'),
+'my_videos'		=>array('manage_videos.php','manage_videos.php'),
+'notifications'	=>array('private_message.php?mode=notification','private_message.php?mode=notification'),
+'search_result'	=>array('search_result.php','search_result.php'),
+'signup'		=>array('signup.php','signup'),
+'upload'		=>array('upload.php','upload'),
+'user_contacts' =>array('user_contacts.php?user=','user/contacts/'),
+'user_favorites'=>array('user_favorites.php?user=','user/favorites/'),
+'user_videos' 	=>array('user_videos.php?user=','user/videos/'),
+'videos'		=>array('videos.php','videos'),
 
 );
 

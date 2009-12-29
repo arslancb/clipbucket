@@ -1671,7 +1671,10 @@ class userquery extends CBCategory{
 	{
 		if(!is_array($udetails) && is_numeric($udetails))
 			$udetails = $this->get_user_details($udetails);
-		return BASEURL.'/view_channel.php?user='.$udetails['username'];
+		if(SEO!="yes")
+			return BASEURL.'/view_channel.php?user='.$udetails['username'];
+		else
+			return BASEURL.'/user/'.$udetails['username'];
 	}
 	function get_user_link($u)
 	{
@@ -2550,7 +2553,10 @@ class userquery extends CBCategory{
 	 */
 	function get_inner_channel_top_links($u)
 	{
-		return array(lang('uploads')=>'uploads',lang('favorites')=>'favorites',lang('contacts')=>'contacts');
+		return array(lang('upload')=>array('link'=>cblink(array('name'=>'user_videos')).$u['username']),
+					 lang('favorites')=>array('link'=>cblink(array('name'=>'user_favorites')).$u['username']),
+					 lang('contacts')=>array('link'=>cblink(array('name'=>'user_contacts')).$u['username']),
+					 );
 	}
 	
 	/**

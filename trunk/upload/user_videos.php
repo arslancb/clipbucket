@@ -1,10 +1,10 @@
 <?php
 /* 
- ****************************************************************************************************
- | Copyright (c) 2007-2009 Clip-Bucket.com. All rights reserved.											|
- | @ Author : ArslanHassan																			|
- | @ Software : ClipBucket , © PHPBucket.com														|
- ****************************************************************************************************
+ ****************************************************************
+ | Copyright (c) 2007-2009 Clip-Bucket.com. All rights reserved.
+ | @ Author : ArslanHassan										
+ | @ Software : ClipBucket , © PHPBucket.com					
+ ****************************************************************
 */
 
 define("THIS_PAGE",'user_videos');
@@ -30,6 +30,7 @@ if($udetails)
 	switch($mode)
 	{
 		case 'uploads':
+		case 'videos':
 		default:
 		{
 			$videos = get_videos(array('user'=>$udetails['userid'],'limit'=>$get_limit));
@@ -37,8 +38,8 @@ if($udetails)
 		}
 	}
 	
-
 Assign('videos', $videos);
+
 //Collecting Data for Pagination
 $total_pages = count_pages($total_rows,VLISTPP);
 
