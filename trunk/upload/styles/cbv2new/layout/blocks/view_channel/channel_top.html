@@ -1,0 +1,17 @@
+<!-- Channel Top -->
+<div class="channel_box">
+    <div class="channel_inner_box channel_top">
+        <div class="channel_top_user_box">
+            <div class="usr_small_thumb"><img src="{$userquery->getUserThumb($u,'small')}" class="user_small_thumb" alt="{$u.username}" style="max-height:30px; max-width:50px"></div>
+            <div class="usr_channel">{lang code='user_s_channel' assign='usr_s'}{$usr_s|sprintf:$u.username} </div>
+        </div>
+        {assign var='channel_links' value=$userquery->get_inner_channel_top_links($u)}
+        <ul class="top_channel_links">
+        {foreach from=$channel_links item=link key=link_title}
+            <li><a href="{$link.link}" {if $link.onclick}onClick="{$link.onclick}"{/if}>{$link_title}</a></li>
+        {/foreach}
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- Channel Top End-->

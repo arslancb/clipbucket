@@ -838,10 +838,8 @@
 					$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
 				
 				$cats = $cbgroup->get_categories();
-				if($all_cat && is_array($cats))
-					$cats = array_merge($all_cat,$cats);
-				else
-					return false;
+				if($all_cat)
+				$cats = array_merge($all_cat,$cats);
 				return $cats;
 			}
 			break;
@@ -1276,6 +1274,16 @@
 		}
 			
 		return true;
+	}
+	
+	/**
+	 * Function used to validate category
+	 * INPUT $cat array
+	 */
+	function validate_group_category($array=NULL)
+	{
+		global $cbgroup;
+		return $cbgroup->validate_group_category($array);
 	}
 	
 		

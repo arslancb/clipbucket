@@ -140,7 +140,8 @@ class pages{
 			if($_SERVER['QUERY_STRING'])
 				$link = '?'.$_SERVER['QUERY_STRING'];
 		}
-			
+		
+				
 		$page_pattern = '#page#';
 		$param_pattern = '#params#';
 		$page_url_param = $this->url_page_var;
@@ -158,11 +159,28 @@ class pages{
 			$page_link = '?'.$page_link_pattern;
 		}
 		
+		//Now checking if url is using & and ? then do not apply PAGE using slash instead use & or ?
+		$current_url = $_SERVER['REQUEST_URI'];
+		preg_match('/\?/',$current_url,$cur_matches);
+		if(count($cur_matches))
+			$has_q = true;
+		preg_match('/\.php/',$current_url,$cur_matches);
+		if(count($cur_matches))
+			$has_php = true;
+		preg_match('/&/',$current_url,$cur_matches);
+		if(count($cur_matches))
+			$has_amp = true;
+		
 		$link = $link.$page_link;
 		$params = 'href="'.$link.'"';
 		$params .= ' '.$extra_params;
 		
-		if(SEO=='yes' && THIS_PAGE !='search_result' && !BACK_END)
+		if($has_php && ($has_amp || $has_q))
+			$use_seo = false;
+		else
+			$use_seo = true;
+			
+		if(SEO=='yes' && THIS_PAGE !='search_result' && !BACK_END && $use_seo)
 		{
 			if(count($_GET)==0 || (count($_GET)==1 && isset($_GET['page'])))
 				$params = $params;	 

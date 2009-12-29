@@ -5,6 +5,8 @@
  * @License : CBLA
  * @Since : 15 December 2009
  */
+define("ALLOWED_GROUP_CATEGORIES","3");
+
 class CBGroups extends CBCategory
 {
 	var $gp_thumb_width = '140';
@@ -238,7 +240,7 @@ class CBGroups extends CBCategory
 						'hint_1'=>  lang('vdo_cat_msg'),
 						'db_field'=>'category',
 						'required'=>'yes',
-						'validate_function'=>'validate_vid_category',
+						'validate_function'=>'validate_group_category',
 						'invalid_err'=>lang('grp_cat_error'),
 						'display_function' => 'convert_to_categories',
 						'category_type'=>'group',
@@ -1574,7 +1576,7 @@ class CBGroups extends CBCategory
 			{
 				if($this->is_owner($group))
 				{
-					return '<a href="'.BASEURL.'/manage_groups.php?mode=delete&url='.$group['group_url'].'">Remove Group</a>';
+					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage&gid_delete='.$group['group_id'].'">Remove Group</a>';
 				}
 			}
 			break;
@@ -1915,6 +1917,39 @@ class CBGroups extends CBCategory
 		);
 
 		$this->search->search_type['groups']['fields'] = $fields;
+	}
+	
+	
+	/**
+	 * Function used to validate group category
+	 * @param input array
+	 */
+	function validate_group_category($array=NULL)
+	{
+		if($array==NULL)
+			$array = $_POST['category'];
+		if(count($array)==0)
+			return false;
+		else
+		{
+			
+			foreach($array as $arr)
+			{
+				if($this->category_exists($arr))
+					$new_array[] = $arr;
+			}
+		}
+		if(count($new_array)==0)
+		{
+			e($LANG['vdo_cat_err3']);
+			return false;
+		}elseif(count($new_array)>ALLOWED_GROUP_CATEGORIES)
+		{
+			e(sprintf($LANG['vdo_cat_err2'],ALLOWED_GROUP_CATEGORIES));
+			return false;
+		}
+			
+		return true;
 	}
 }
 ?>

@@ -120,6 +120,14 @@
 			case 'video':
 			default:
 			$obj = $cbvideo;
+			break;
+			case 'group':
+			case 'groups':
+			{
+				global $cbgroup;
+				$obj = $cbgroup;
+			}
+			break;
 		}
 		
 		preg_match_all('/#([0-9]+)#/',$input,$m);

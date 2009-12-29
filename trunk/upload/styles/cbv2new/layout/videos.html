@@ -10,7 +10,7 @@
 	<li>Sort :</li>
     {assign var=sorting_links value=func->sorting_links()}
     {foreach from=$sorting_links item=name key=sort}
-    	<li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort}">{$name}</a></li>
+    	<li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=video}">{$name}</a></li>
     {/foreach}
 </ul>
 

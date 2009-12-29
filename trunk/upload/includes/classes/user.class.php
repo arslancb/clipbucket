@@ -864,7 +864,7 @@ class userquery extends CBCategory{
 		
 		$query = "";
 		if($confirmed)
-			$query = " AND comfirmed='$confirmed' ";
+			$query = " AND confirmed='$confirmed' ";
 			
 		$result = $db->select($this->dbtbl['contacts'],"*"," userid='$uid' OR contact_userid='$uid' $query AND contact_group_id='$group' ");
 		if($db->num_rows>0)

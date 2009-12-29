@@ -60,15 +60,11 @@ RewriteRule ^channels/([0-9A-Za-z]+)/(.*)/(.*)/(.*)/(.*) channels.php?cat=$1&sor
 RewriteRule ^channels channels.php [L]
 RewriteRule ^members/								channels.php [nc]
 RewriteRule ^users/									channels.php [nc]
-
-RewriteRule ^user/contacts/(.*)				user_contacts.php?user=$1&%{QUERY_STRING} [nc]
-RewriteRule ^user/favourites/(.*)			user_fav_videos.php?user=$1&%{QUERY_STRING} [nc]
-RewriteRule ^user/videos/(.*)$				user_videos.php?user=$1&%{QUERY_STRING} [nc]
 RewriteRule ^user/(.*)						view_channel.php?user=$1 [nc]
 RewriteRule ^channel/(.*)					view_channel.php?user=$1 [nc]
 
 #
-RewriteRule ^myaccount								myaccount.php [nc]
+RewriteRule ^my_account								myaccount.php [nc]
 RewriteRule ^manage/videos/							manage_videos.php [nc]
 RewriteRule ^manage/favourites/						manage_favourites.php [nc]
 RewriteRule ^manage/contacts/							manage_contacts.php [nc]

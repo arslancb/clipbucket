@@ -1,73 +1,46 @@
 <?php
 /* 
- ****************************************************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.											|
- | @ Author : ArslanHassan																			|
- | @ Software : ClipBucket , © PHPBucket.com														|
- ****************************************************************************************************
+ ****************************************************************
+ | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
+ | @ Author : ArslanHassan										
+ | @ Software : ClipBucket , © PHPBucket.com					
+ ****************************************************************
 */
 
+define("THIS_PAGE",'user_contacts');
+define("PARENT_PAGE",'channels');
 require 'includes/config.inc.php';
 $pages->page_redir();
 
-$user = mysql_clean($_GET['user']);
-$user_data = $userquery->GetUserData_username($user);
-Assign('user',$user_data);
 
-//Listing Contacts
-	$limit  = CLISTPP;	
-	Assign('limit',$limit);
-	$page   = clean($_GET['page']);
-	if(empty($page) || $page == 0 || !is_numeric($page)){
-	$page   = 1;
-	}
-	$from 	= $page-1;
-	$from 	= $from*$limit;
-	$query_limit  = "limit $from,$limit";
-	$orderby	  = " ORDER BY friend_username";
+$u = $_GET['user'];
+$u = $u ? $u : $_GET['userid'];
+$u = $u ? $u : $_GET['username'];
+$u = $u ? $u : $_GET['uid'];
+$u = $u ? $u : $_GET['u'];
 
-	$sql 	= "SELECT * FROM contacts WHERE username='".$user."' $orderby $query_limit";
-	$sql_p 	= "SELECT * FROM contacts WHERE username='".$user."'";
-	
-	$contacts_data = $db->Execute($sql);
-	$total_contacts = $contacts_data->recordcount() + 0;
-	$contacts = $contacts_data->getrows();
-	
-	for($id=0;$id<$total_contacts;$id++){
-	$contact_details = $userquery->GetUserData_username($contacts[$id]['friend_username']);
-	$contacts[$id]['avatar'] = $contact_details['avatar'];
-	$contacts[$id]['views'] = $contact_details['profile_hits'];
-	$contacts[$id]['videos'] = $contact_details['total_videos'];
-	$contacts[$id]['comments'] = $contact_details['total_comments'];
-	$contacts[$id]['doj'] = $contact_details['doj'];
-	}
+$udetails = $userquery->get_user_details($u);
+$page = mysql_clean($_GET['page']);
+$get_limit = create_query_limit($page,CLISTPP);
 
-	Assign('contacts',$contacts);
+if($udetails)
+{
+	assign("u",$udetails);
+	$mode = $_GET['mode'];
 	
-	
-	
-//Pagination
-	$query = mysql_query($sql_p);
-	Assign('grand_total',mysql_num_rows($query));
-	$total_rows = mysql_num_rows($query);
-	$page_id=1;
-	$id = 1;
-	//$all_pages[0]['page'] = $page_id;
-	$records = $total_rows/$limit;
-	$pages = round($records+0.49,0);
+	assign("u",$udetails);
+	assign('p',$userquery->get_user_profile($udetails['userid']));
+	assign('friends',$userquery->get_contacts($udetails['userid'],0,"yes"));
 
-$show_pages = ShowPagination($pages,$page,'?user='.$user);
-Assign('show_pages',$show_pages);
+}else{
+	e(lang("usr_exist_err"));
+	$Cbucket->show_page = false;
+}
 
-Assign('link','?user='.$user);	
-Assign('pages',$pages+1);
-Assign('cur_page',$page);
-Assign('nextpage',$page+1);
-Assign('prepage',$page-1);
-Assign('total_pages',$page_id);
-Assign('subtitle',$user.$LANG['title_usr_contact']);
-Template('header.html');
-Template('message.html');	
+
+
+if($Cbucket->show_page)
 Template('user_contacts.html');
-Template('footer.html');
+else
+display_it();
 ?>

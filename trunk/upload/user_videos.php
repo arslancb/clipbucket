@@ -1,13 +1,14 @@
 <?php
 /* 
  ****************************************************************
- | Copyright (c) 2007-2009 Clip-Bucket.com. All rights reserved.
+ | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
  | @ Author : ArslanHassan										
  | @ Software : ClipBucket , © PHPBucket.com					
  ****************************************************************
 */
 
 define("THIS_PAGE",'user_videos');
+define("PARENT_PAGE",'channels');
 require 'includes/config.inc.php';
 $pages->page_redir();
 $userquery->perm_check('view_videos',true);
@@ -27,14 +28,27 @@ if($udetails)
 	assign("u",$udetails);
 	$mode = $_GET['mode'];
 	
+	assign("u",$udetails);
+	assign('p',$userquery->get_user_profile($udetails['userid']));
+
 	switch($mode)
 	{
 		case 'uploads':
 		case 'videos':
 		default:
 		{
+			assign("the_title",$udetails['username']." videos");
 			$videos = get_videos(array('user'=>$udetails['userid'],'limit'=>$get_limit));
 			$total_rows = get_videos(array('user'=>$udetails['userid'],'count_only'=>true));
+		}
+		break;
+		case 'favorites':
+		{
+			assign("the_title",$udetails['username']." favorites");
+			$params = array('userid'=>$udetails['userid'],'limit'=>$get_limit);
+			$videos = $cbvid->action->get_favorites($params);
+			$params['count_only'] = "yes";
+			$total_rows = $cbvid->action->get_favorites($params);
 		}
 	}
 	
@@ -52,6 +66,9 @@ $pages->paginate($total_pages,$page);
 }
 
 
-template_files('user_videos.html');
+
+if($Cbucket->show_page)
+Template('user_videos.html');
+else
 display_it();
 ?>

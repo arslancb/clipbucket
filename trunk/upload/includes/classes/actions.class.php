@@ -257,16 +257,33 @@ class cbactions
 	/**
 	 * Get Used Favorites
 	 */
-	function get_favorites($uid=NULL,$limit=NULL,$cond=NULL,$order=NULL)
+	function get_favorites($params)
 	{
 		global $db;
+		
+		$uid	= $params['userid'];
+		$limit	= $params['limit'];
+		$cond	= $params['cond'];
+		$order	= $params['order'];
+		
 		if(!$uid)
 			$uid=userid();
 		if($cond)
 			$cond = " AND ".$cond;
-		$results = $db->select($this->fav_tbl.",".$this->type_tbl,"*"," ".$this->fav_tbl.".type='".$this->type."' 
+		
+		if(!$params['count_only'])
+		{
+			$results = $db->select($this->fav_tbl.",".$this->type_tbl,"*"," ".$this->fav_tbl.".type='".$this->type."' 
 							   AND ".$this->fav_tbl.".userid='".$uid."' 
 							   AND ".$this->type_tbl.".".$this->type_id_field." = ".$this->fav_tbl.".id".$cond,$limit,$order);
+		}
+		if($params['count_only'])
+		{
+			return $results = $db->count($this->fav_tbl.",".$this->type_tbl,"*"," ".$this->fav_tbl.".type='".$this->type."' 
+							   AND ".$this->fav_tbl.".userid='".$uid."' 
+							   AND ".$this->type_tbl.".".$this->type_id_field." = ".$this->fav_tbl.".id".$cond);
+		}
+		
 		if($db->num_rows>0)
 			return $results;
 		else

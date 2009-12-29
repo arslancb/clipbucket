@@ -90,9 +90,11 @@ switch($mode)
 		}
 		if(get('query')!='')
 		{
-			$condi = " (video.title LIKE '%".mysql_clean(get('query'))."%' OR video.tags LIKE '%".mysql_clean(get('query'))."%' )";
+			$cond = " (video.title LIKE '%".mysql_clean(get('query'))."%' OR video.tags LIKE '%".mysql_clean(get('query'))."%' )";
 		}
-		$videos = $cbvid->action->get_favorites(userid(),$get_limit,$condi);
+		$params = array('userid'=>userid(),'limit'=>$get_limit,'cond'=>$cond);
+		
+		$videos = $cbvid->action->get_favorites($params);
 		Assign('uservids', $videos);	
 	}
 	break;
