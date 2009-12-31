@@ -41,9 +41,12 @@ if($details)
 	$topics = $cbgroup->get_topics(array('group'=>$details['group_id']));
 	assign('topics',$topics);
 	
+	subtitle($details['group_name']);
+	
 	//Calling all functions when a topic is called
 	call_view_group_functions($details);
 }
+
 
 template_files('view_group.html');
 display_it();

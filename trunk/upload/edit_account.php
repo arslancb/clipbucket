@@ -83,10 +83,12 @@ switch($mode)
 	break;
 }
 
+
 $udetails = $userquery->get_user_details(userid());
 assign('user',$udetails);
 assign('p',$userquery->get_user_profile($udetails['userid']));
 
+subtitle(lang("user_manage_my_account"));
 template_files('edit_account.html');
 display_it();
 ?>

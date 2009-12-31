@@ -55,6 +55,7 @@ if(!isset($_POST['login']) && !isset($_POST['signup'])){
 	}
 }
 
+subtitle(lang("signup"));
 //Displaying The Template
 template_files('signup.html');
 display_it()

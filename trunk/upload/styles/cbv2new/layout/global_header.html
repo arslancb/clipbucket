@@ -4,15 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- ClipBucket v2 -->
 <meta name="copyright" content="ClipBucket - PHPBucket ClipBucket 2007 - {$smarty.now|date_format:"%Y"}" />
-<meta name="author" content="Arslan Hassan - http://clip-bucket.com/Arslan-Hassan" />
+<meta name="author" content="Arslan Hassan - http://clip-bucket.com/arslan-hassan" />
 <link rel="shortcut icon" href="{$baseurl}/favicon.ico">
-<link rel="icon" type="image/ico" href="{$baseurl}/favicon.ico">
+<link rel="icon" type="image/ico" href="{$baseurl}/favicon.ico" />
 <meta name="keywords" content="{$meta_keywords}" />
 <meta name="description" content="{$meta_description}" />
 <meta name="distribution" content="global" />
 
 
-<title>{$title}</title>
+<title>{cbtitle}</title>
 
 <link href="{$theme}/main.css" rel="stylesheet" type="text/css" />
 
@@ -24,7 +24,7 @@
 <!-- Setting Template Variables -->
 
 
-<script language="javascript">
+<script type="text/javascript">
 var baseurl = '{$baseurl}';
 var imageurl = '{$imageurl}';
 {if $upload_form_name !=''}
@@ -43,7 +43,7 @@ var imageurl = '{$imageurl}';
 <!-- Including JS Files-->
 {foreach from=$Cbucket->JSArray key=file item=type}
     {if $curActive == $type ||  $type=='global' }
-    	<script src="{$js}/{$file}"></script>
+    	<script src="{$js}/{$file}" type="text/javascript"></script>
     {/if}
 {/foreach}
 <!-- Including JS Files-->
@@ -61,8 +61,8 @@ var imageurl = '{$imageurl}';
 
 {if $smarty.const.THIS_PAGE == 'upload'}
 
-<script src="{$js}/swfupload/swfupload.js"></script>
-<script src="{$js}/swfupload/plugins/all_in_one.js"></script>
+<script src="{$js}/swfupload/swfupload.js" type="text/javascript"></script>
+<script src="{$js}/swfupload/plugins/all_in_one.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 		var swfu;

@@ -38,7 +38,7 @@ if($udetails)
 }
 
 
-
+subtitle(sprintf(lang("users_contacts"),$udetails['username']));
 if($Cbucket->show_page)
 Template('user_contacts.html');
 else

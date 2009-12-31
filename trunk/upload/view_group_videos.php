@@ -25,6 +25,7 @@ if($details)
 	$videos = $cbgroup->get_group_videos($details['group_id'],"yes");
 	assign("videos",$videos);
 	assign("mode","view_videos");
+	subtitle($details['group_name']);
 }
 
 template_files('view_group.html');

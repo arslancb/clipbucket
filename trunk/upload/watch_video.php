@@ -57,6 +57,8 @@ if(video_playable($vkey))
 	
 	assign('vdo',$vdo);
 	assign('user',$userquery->get_user_details($vdo['userid']));
+	
+	subtitle($vdo['title']);
 
 }
 

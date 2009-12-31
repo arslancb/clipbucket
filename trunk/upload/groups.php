@@ -65,6 +65,7 @@ $total_pages = count_pages($total_rows,CLISTPP);
 //Pagination
 $pages->paginate($total_pages,$page);
 
+subtitle(lang('groups'));
 template_files('groups.html');
 display_it();
 ?>

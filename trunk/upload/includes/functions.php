@@ -3116,5 +3116,30 @@
 			}
 		}
 	}
+	
+	
+	/**
+	 * Function used to load clipbucket title
+	 */
+	function cbtitle($params)
+	{
+		global $cbsubtitle;
+		//Getting Subtitle
+		echo TITLE;
+		if(!$cbsubtitle)
+			echo " - ".SLOGAN;
+		else
+			echo " - ".$cbsubtitle;
+		echo " ".SUBTITLE;
+	}
+	
+	/**
+	 * function used to set website subtitle
+	 */
+	function subtitle($title)
+	{
+		global $cbsubtitle;
+		$cbsubtitle = $title;
+	}
 
 ?>

@@ -72,6 +72,8 @@ switch($mode)
 		
 		//Get User Messages
 		assign('user_msgs',$cbpm->get_user_inbox_messages(userid()));
+		
+		subtitle(lang("com_my_inbox"));
 	}
 	break;
 	
@@ -96,6 +98,8 @@ switch($mode)
 		
 		//Get User Messages
 		assign('user_msgs',$cbpm->get_user_outbox_messages(userid()));
+		
+		subtitle(lang("user_sent_box"));
 	}
 	
 	break;
@@ -121,6 +125,8 @@ switch($mode)
 		
 		//Get User Messages
 		assign('user_msgs',$cbpm->get_user_notification_messages(userid()));
+		
+		subtitle(lang("my_notifications"));
 	}
 	break;
 	
@@ -153,6 +159,8 @@ switch($mode)
 			if(!error())
 				$_POST = '';
 		}	
+		
+		subtitle(lang("title_crt_new_msg"));
 	}
 	
 }

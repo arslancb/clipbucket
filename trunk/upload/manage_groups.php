@@ -160,7 +160,7 @@ switch($mode)
 	break;
 }
 
-
+subtitle(lang("grp_groups_title"));
 template_files('manage_groups.html');
 display_it();
 ?>

@@ -18,7 +18,7 @@ if($tdetails)
 	$grp_details = $cbgroup->get_group_details($tdetails['group_id']);
 	assign('group',$grp_details);
 	assign('topic',$tdetails);
-	
+	subtitle($grp_details['group_name']);
 	//Calling all functions when a topic is called
 	call_view_topic_functions($tdetails);
 }

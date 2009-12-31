@@ -42,6 +42,8 @@ if($udetails)
 	assign("u",$udetails);
 	assign('p',$userquery->get_user_profile($udetails['userid']));
 	
+	subtitle(sprintf(lang('user_s_channel'),$udetails['username']));
+	
 }else{
 	e(lang("usr_exist_err"));
 	$Cbucket->show_page = false;

@@ -19,7 +19,8 @@ $pages->page_redir();
 if(isset($_POST['create_group'])) {
 	$cbgroup->create_group($_POST,userid(),true);	
 }
-	
+
+subtitle(lang('grp_crt_grp'));
 
 template_files('create_group.html');
 display_it();

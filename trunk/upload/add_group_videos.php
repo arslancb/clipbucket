@@ -50,6 +50,8 @@ else
 		e("Selected videos have been updated","m");
 	}
 	assign('group',$details);
+	
+	subtitle($details['group_name']);
 }
 	
 template_files('add_group_videos.html');

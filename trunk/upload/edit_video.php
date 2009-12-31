@@ -37,6 +37,7 @@ if($vdetails['userid'] != userid())
 	assign('v',$vdetails);
 }
 
+subtitle(lang("vdo_edit_vdo"));
 template_files('edit_video.html');
 display_it();
 ?>

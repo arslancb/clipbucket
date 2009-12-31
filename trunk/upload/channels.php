@@ -64,7 +64,7 @@ $total_pages = count_pages($total_rows,CLISTPP);
 //Pagination
 $pages->paginate($total_pages,$page);
 
-
+subtitle(lang('channels'));
 template_files('channels.html');
 display_it();
 ?>

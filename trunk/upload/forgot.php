@@ -46,6 +46,7 @@ require 'includes/config.inc.php';
 
 assign('mode',$mode);
 
+subtitle(lang("com_forgot_username"));
 template_files('forgot.html');
 display_it();
 ?>

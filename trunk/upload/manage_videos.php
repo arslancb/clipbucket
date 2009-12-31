@@ -65,6 +65,8 @@ switch($mode)
 		//Pagination
 		$pages->paginate($total_pages,$page);
 		
+		subtitle(lang("vdo_manage_vdeos"));
+		
 	}
 	break;
 	
@@ -96,6 +98,8 @@ switch($mode)
 		
 		$videos = $cbvid->action->get_favorites($params);
 		Assign('uservids', $videos);	
+		
+		subtitle(lang("com_manage_fav"));
 	}
 	break;
 }

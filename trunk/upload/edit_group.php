@@ -34,6 +34,7 @@ if($gdetails['userid'] != userid())
 	assign('group',$gdetails);
 }
 
+subtitle(lang("grp_edit_grp_title"));
 template_files('edit_group.html');
 display_it();
 ?>

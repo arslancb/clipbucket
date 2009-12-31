@@ -38,6 +38,7 @@ else
 	
 	assign('mode',"invite_group");
 	template_files('view_group.html');
+	subtitle(lang("grp_invite_msg"));
 	display_it();
 }
 ?>

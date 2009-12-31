@@ -68,7 +68,7 @@ $total_pages = count_pages($total_rows,VLISTPP);
 //Pagination
 $pages->paginate($total_pages,$page);
 
-
+subtitle(lang('videos'));
 //Displaying The Template
 template_files('videos.html');
 display_it();

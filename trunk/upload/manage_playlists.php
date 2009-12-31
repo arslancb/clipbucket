@@ -87,9 +87,7 @@ switch($mode)
 	break;
 }
 
-
-
-
+subtitle(lang("manage_playlist"));
 template_files('manage_playlists.html');
 display_it();
 ?>

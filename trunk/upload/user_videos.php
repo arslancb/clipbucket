@@ -40,6 +40,7 @@ if($udetails)
 			assign("the_title",$udetails['username']." videos");
 			$videos = get_videos(array('user'=>$udetails['userid'],'limit'=>$get_limit));
 			$total_rows = get_videos(array('user'=>$udetails['userid'],'count_only'=>true));
+			subtitle(sprintf(lang("users_videos"),$udetails['username']));
 		}
 		break;
 		case 'favorites':
@@ -50,6 +51,7 @@ if($udetails)
 			$videos = $cbvid->action->get_favorites($params);
 			$params['count_only'] = "yes";
 			$total_rows = $cbvid->action->get_favorites($params);
+			subtitle(sprintf(lang("title_usr_fav_vids"),$udetails['username']));
 		}
 	}
 	

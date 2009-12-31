@@ -57,13 +57,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/signup.class.php');
 	require_once('classes/image.class.php');
 	require_once('classes/upload.class.php');
-	
-	#WTF
 	require_once('classes/stats.class.php');
-	#WTF
-	//error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
-	#WTF
-	
 	require_once('classes/ads.class.php');
 	require_once('classes/form.class.php');
 	require_once('classes/ClipBucket.class.php');
@@ -131,7 +125,7 @@ else
  ini_set('display_errors', '0');
 }*/
 
-    //ini_set('display_errors', '1');
+ //ini_set('display_errors', '1');
  error_reporting(E_ALL ^E_NOTICE);
 
 //Website Details
@@ -139,26 +133,7 @@ else
     define('CB_VERSION', $row['version']);
     define('TITLE',$row['site_title']);
 	define('SLOGAN',$row['site_slogan']);
-	$sitelang = @$_COOKIE['sitelang'];
 	
-	function ValidLang($sitelang){
-	global $languages;
-		if(empty($languages[$sitelang])) {
-		return false;
-		}else {
-		return true;
-		}
-	}
-	
-    if (!isset($sitelang) || !ValidLang($sitelang))
-    {
-    define('LANG',$row['default_site_lang']);
-    setcookie('sitelang', $row['default_site_lang'], time()+315360000, '/');
-    }
-    else
-    {
-    define('LANG',$sitelang);
-    }
 	
 
  //Seo URLS
@@ -290,8 +265,6 @@ else
 	require BASEDIR.'/includes/classes/objects.class.php';
 	
 	require BASEDIR.'/includes/active.php';
-	require_once('email_templates/template_writer.php');
-	include(BASEDIR.'/lang/'.LANG.'/lang.php');
 	
 	$cbtpl = new CBTemplate();
 	$cbobjects = new CBObjects();
@@ -421,6 +394,7 @@ $Smarty->register_function('get_users','get_users');
 $Smarty->register_function('private_message','private_message');
 $Smarty->register_function('show_video_rating','show_video_rating');
 $Smarty->register_function('load_captcha','load_captcha');
+$Smarty->register_function('cbtitle','cbtitle');
 
 $Smarty->register_modifier('SetTime','SetTime');
 $Smarty->register_modifier('getname','getname');

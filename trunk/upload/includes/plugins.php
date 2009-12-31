@@ -12,6 +12,7 @@ if(is_array($installed_plugins))
 {
 	foreach($installed_plugins as $plugin)
 	{
+		$folder = "";
 		if($plugin['folder'])
 			$folder = '/'.$plugin['folder'];
 		$file = PLUG_DIR.$folder.'/'.$plugin['file'];

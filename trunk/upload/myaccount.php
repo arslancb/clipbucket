@@ -11,6 +11,7 @@ define("THIS_PAGE",'myaccount');
 require 'includes/config.inc.php';
 $userquery->logincheck();
 
+subtitle(lang("my_account"));
 assign('user',$userquery->get_user_details(userid()));
 template_files('myaccount.html');
 display_it();
