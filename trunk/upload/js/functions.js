@@ -37,7 +37,19 @@ var page = baseurl+'/ajax.php';
 		if (confirm('Are you sure you want to remove this video?'))
 		{
 			document.formname.submit();
-		}
+		}else
+			return false;
+	}
+	
+	function confirm_it(msg)
+	{
+		var action = confirm(msg);
+		if(action)
+		{
+			return true;
+		}else
+			return false;
+			
 	}
 	
 	function reloadImage(captcha_src,imgid)
@@ -354,12 +366,11 @@ var page = baseurl+'/ajax.php';
 	
 	function flag_object(form_id,id,type)
 	{
-		
 		$.post(page, 
 		{ 	
 			mode : 'flag_object',
 			type : type,
-			flag_type : $("#"+form_id+" input:#flag_type").val(),
+			flag_type : $("#"+form_id+" select:#flag_type").val(),
 			id : id,
 		},
 		function(data)

@@ -1663,6 +1663,14 @@ class userquery extends CBCategory{
 	{
 		return $this->get_user_field_only(user_id(),'username');
 	}
+
+	/**
+	 * FUnction used to get username from userid
+	 */
+	function get_username($uid)
+	{
+		return $this->get_user_field_only($uid,'username');
+	}
 	
 	/**
 	 * Function used to create profile link

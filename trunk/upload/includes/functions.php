@@ -3012,6 +3012,15 @@
 		return $action->report_opts;
 	}
 	
+	/**
+	 * Function used to display flag type
+	 */
+	function flag_type($id)
+	{
+		$flag_opts = get_flag_options();
+		return $flag_opts[$id];
+	}
+	
 	
 	/**
 	 * Function used to load captcha field
@@ -3141,5 +3150,14 @@
 		global $cbsubtitle;
 		$cbsubtitle = $title;
 	}
-
+	
+	
+	/**
+	 * FUnction used to get username from userid
+	 */
+	function get_username($uid)
+	{
+		global $userquery;
+		return $userquery->get_username($uid,'username');
+	}
 ?>

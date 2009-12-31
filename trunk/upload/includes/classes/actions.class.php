@@ -173,6 +173,18 @@ class cbactions
 	}
 	function flag_it($id){ return $this->report_id($id); }
 	
+	
+	/**
+	 * Function used to delete flags
+	 */
+	function delete_flags($id)
+	{
+		global $db;
+		$db->delete($this->flag_tbl,array("id","type"),array($id,$this->type));
+		e(sprintf(lang("type_flags_removed"),$this->name),"m");
+	}
+	
+	
 	/**
 	 * Function used to check weather user has already reported the object or not
 	 */
@@ -318,6 +330,20 @@ class cbactions
 		$results = $db->select($this->flag_tbl.",".$this->type_tbl,"*,
 							   count(*) AS total_flags",$this->flag_tbl.".id = ".$this->type_tbl.".".$this->type_id_field." 
 							   AND type='".$this->type."' GROUP BY ".$this->flag_tbl.".id ,".$this->flag_tbl.".type ",$limit);
+		if($db->num_rows>0)
+			return $results;
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to get all flags of an object
+	 */
+	function get_flags($id)
+	{
+		global $db;
+		$type = $this->type;
+		$results = $db->select($this->flag_tbl,"*","id = '$id' AND type='".$this->type."'");
 		if($db->num_rows>0)
 			return $results;
 		else

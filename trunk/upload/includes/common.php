@@ -412,6 +412,8 @@ $Smarty->register_modifier('outgoing_link','outgoing_link');
 $Smarty->register_modifier('nicetime','nicetime');
 $Smarty->register_modifier('country','get_country');
 $Smarty->register_modifier('cbsearch',new cbsearch());
+$Smarty->register_modifier('flag_type','flag_type');
+$Smarty->register_modifier('get_username','get_username');
 
 
 /*
