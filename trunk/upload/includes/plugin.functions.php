@@ -45,7 +45,7 @@
 	* then our function will get all the code for this placement and will display it
 	* @param : array(Ad Code, LIMIT);
 	*/
-	function ANCHOR($params,&$Smarty)
+	function ANCHOR($params)
 	{
 		global $Cbucket;
 		//Getting List of codes to display at this anchor
@@ -287,5 +287,7 @@
 	{
 		global $Cbucket;
 		$Cbucket->captchas[] = array('load_function'=>$func,'validate_function'=>$ver_func,'show_field'=>$show_field);
-	}
+	}register_anchor_function('cb_footer','the_footer');
+	
+	
 ?>

@@ -73,7 +73,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/player.class.php');
 	require_once('classes/cbemail.class.php');
 	require_once('classes/pm.class.php');
-	
+	require_once('classes/cbpage.class.php');
 	require_once 'languages.php';
 	
 	$pages 		= new pages();	
@@ -100,7 +100,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	$cbemail	= new CBEmail();
 	$cbsearch	= new CBSearch();
 	$cbpm		= new cb_pm();
-
+	$cbpage		= new cbpage();
 
 require 'defined_links.php';
 
@@ -361,6 +361,7 @@ $Smarty->assign_by_ref('cbobjects',$cbobjects);
 $Smarty->assign_by_ref('cbplayer',$cbplayer);
 $Smarty->assign_by_ref('cbsearch',$cbsearch);
 $Smarty->assign_by_ref('cbpm',$cbpm);
+$Smarty->assign_by_ref('cbpage',$cbpage);
 
 /*
 REGISERTING FUNCTION FOR SMARTY TEMPLATES
@@ -395,6 +396,8 @@ $Smarty->register_function('private_message','private_message');
 $Smarty->register_function('show_video_rating','show_video_rating');
 $Smarty->register_function('load_captcha','load_captcha');
 $Smarty->register_function('cbtitle','cbtitle');
+$Smarty->register_function('head_menu','head_menu');
+$Smarty->register_function('foot_menu','foot_menu');
 
 $Smarty->register_modifier('SetTime','SetTime');
 $Smarty->register_modifier('getname','getname');

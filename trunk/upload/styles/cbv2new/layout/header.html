@@ -37,15 +37,13 @@
 
 <div class="top_tabs clearfix">
     <ul>
-        <li><a href="{$baseurl}" {current_page page='home'}>Home</a></li>
-        <li><a href="{link name='videos'}"  {current_page page='videos'}>Videos</a></li>
-        <li><a href="{link name='channels'}" {current_page page='channels'}>Channels</a></li>
-        <li><a href="{link name='groups'}" {current_page page='groups'}>Groups</a></li>
-        {if !userid()}
-        <li><a href="{link name='signup'}" {current_page page='signup'}>Signup</a></li>
-        {else}
-        <li><a href="{link name='upload'}" {current_page page='upload'}>Upload</a></li>
-        {/if}
+    	{head_menu assign='headmenu'}
+        
+        {foreach from=$headmenu item=hm}
+        	{if $hm.name!=''}
+            	<li><a href="{$hm.link}" {current_page page=$hm.this} {if $hm.target} target="{$hm.target}"{/if} {if $hm.onclick} onclick="{$hm.onclick}"{/if}>{$hm.name}</a></li>
+            {/if}
+        {/foreach}
     </ul>
 </div> <!--TOP_TABS END-->
 

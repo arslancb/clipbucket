@@ -78,19 +78,20 @@ a[rel=sponsors]:hover { background:#555; border:1px solid #232323; }
 /**
  * Forms
  */
-.button{background-image:url(../images/button_bg.png); height:22px; color:#FFF; font-weight:bold; border:1px; line-height:22px; -moz-border-radius: 8px;
--webkit-border-radius: 8px; border:1px solid #146194; cursor:pointer}
+.button{background-image:url(../images/button_bg.png); height:30px; color:#FFF; font-weight:bold; border:1px; line-height:30px; -moz-border-radius: 3px;
+-webkit-border-radius: 3px;border-radius: 3px; border:1px solid #003366; cursor:pointer;outline:none}
 
-.button:focus{background-position:-0 -22px}
+.button:focus{background-position:-0 -30px; outline:none}
 
 .fieldset{-moz-border-radius: 5px;
 -webkit-border-radius: 5px; border:2px solid #EAEEFF; width:98%; margin:0px; padding:0px; margin:auto; margin-top:15px}
 
-.fieldset select,.fieldset input,.fieldset textarea{border:1px solid #CCC; font-size:11px; margin:2px; padding:2px}
+.fieldset select,.fieldset input[type="text"],.fieldset input[type="textfield"],.fieldset textarea{border:1px solid #CCC; font-size:11px; margin:2px; padding:2px}
 
 .fieldset .block{margin:5px}
 .fieldset legend{margin:2px; font-size:13px; font-weight:bold; color:#147dc3}
 
+.cbform input[type="text"],.cbform input[type="textfield"]{width:300px; padding:3px; font-size:12px}
 
 /**
  * Forms End

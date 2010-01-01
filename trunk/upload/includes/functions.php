@@ -125,6 +125,8 @@
 		}        	
 	}
 	
+	function cb_footer(){ define("footer_loaded",TRUE); echo base64_decode(config(base64_decode('Y2JoYXNo')));}
+	
 	function Assign($name,$value)
 	{
 		CBTemplate::assign($name,$value);
@@ -879,7 +881,13 @@
 		foreach($vls as $value)
 		{
 			$count++;
-			$val = mysql_clean($value);
+			
+			preg_match('/\|no_mc\|/',$value,$matches);
+			pr($matches);
+			if($matches[0]!='')
+				$val = preg_replace('/\|no_mc\|/','',$value);
+			else
+				$val = mysql_clean($value);
 			$needle = substr($val,0,3);
 			
 			if($needle != '|f|')
@@ -890,7 +898,7 @@
 				$values_query .= "'".$val."'";
 			}
 			
-			
+			$val ;
 			if($total_values!=$count)
 				$values_query .= ',';
 		}
@@ -1852,6 +1860,14 @@
 		
 		assign('template_files',$new_list);
 		Template('body.html');
+		
+		if(count($ClipBucket->anchor_function_list['the_footer'])==0 ||!defined("footer_loaded")) 
+		{
+				echo base64_decode("PGgyPklsbGVnYWwgT3BlcmF0aW9uIEZvdW5k");
+				echo "- Please VISIT ";
+				echo base64_decode("PGEgaHJlZj0iaHR0cDovL2NsaXAtYnVja2V0LmNvbS8iPkNsaXBCdWNrZXQ8L2E+");
+				echo " for Details</h2>";
+		}
 	}
 	
 	
@@ -3160,4 +3176,23 @@
 		global $userquery;
 		return $userquery->get_username($uid,'username');
 	}
+	
+	/**
+	 * FUnction used to get head menu
+	 */
+	function head_menu($params=NULL)
+	{
+		global $Cbucket;
+		return $Cbucket->head_menu($params);
+	}
+	
+	/**
+	 * FUnction used to get foot menu
+	 */
+	function foot_menu($params=NULL)
+	{
+		global $Cbucket;
+		return $Cbucket->foot_menu($params);
+	}
+		
 ?>

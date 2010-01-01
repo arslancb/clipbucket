@@ -7,6 +7,7 @@
  ****************************************************************************************************
 */
 define("THIS_PAGE",'myaccount');
+define("PARENT_PAGE",'home');
 
 require 'includes/config.inc.php';
 $userquery->logincheck();

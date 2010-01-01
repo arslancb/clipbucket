@@ -63,34 +63,18 @@ RewriteRule ^users/									channels.php [nc]
 RewriteRule ^user/(.*)						view_channel.php?user=$1 [nc]
 RewriteRule ^channel/(.*)					view_channel.php?user=$1 [nc]
 
-#
-RewriteRule ^my_account								myaccount.php [nc]
-RewriteRule ^manage/videos/							manage_videos.php [nc]
-RewriteRule ^manage/favourites/						manage_favourites.php [nc]
-RewriteRule ^manage/contacts/							manage_contacts.php [nc]
-RewriteRule ^manage/subscriptions/						manage_subscriptions.php [nc]
-RewriteRule ^manage/account							user_account.php [nc]
-RewriteRule ^manage/video/edit						edit_video.php [nc]
-#
-#
-#
+
+RewriteRule ^my_account					myaccount.php [nc]
+
+
+
 #Pages
-RewriteRule ^pages/help								help.php [nc]
-RewriteRule ^pages/privacy							privacy.php [nc]
-RewriteRule ^pages/termsofuse							termsofuse.php [nc]
-RewriteRule ^pages/contactus							contactus.php [nc]
-RewriteRule ^pages/aboutus							aboutus.php [nc]
-#
-#
+RewriteRule ^page/([0-9]+)/(.*)						view_page.php?pid=$1 [nc]
 #
 #Miscellenous
-RewriteRule ^subscriptions							manage_subscriptions.php [nc]
 RewriteRule ^search/result							search_result.php [nc]
 RewriteRule ^upload									upload.php [nc]
-RewriteRule ^External/Upload						external_upload.php [nc]
 
-#
-#
 #Group Section
 
 RewriteRule ^group/([a-zA-Z0-9].+)					view_group.php?url=$1&%{QUERY_STRING} [L]
@@ -101,6 +85,7 @@ RewriteRule ^create_group create_group.php [L]
 
 
 RewriteRule ^sitemap.xml$ sitemap.php
+RewriteRule ^signup signup.php
 
 #Error Pages
 ErrorDocument 404 /error_pages/404.php

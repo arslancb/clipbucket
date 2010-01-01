@@ -28,6 +28,11 @@ class ClipBucket
 	var $links = array();
 	var $captchas = array();
 	
+	var $head_menu = array();
+	var $foot_menu = array();
+	
+	var $in_footer = false;
+	
 	var $search_types = array('videos'=>'cbvid','groups'=>'cbgroup','users'=>'userquery');
 	
 	/**
@@ -384,6 +389,65 @@ class ClipBucket
 		}
 		
 		return $new_form;
+	}
+	
+	
+	/**
+	 * Function used to load head menu
+	 */
+	function head_menu($params=NULL)
+	{
+		global $cbpage;
+		$this->head_menu[] = array('name'=>lang("menu_home"),'link'=>BASEURL,"this"=>"home");
+		$this->head_menu[] = array('name'=>lang("videos"),'link'=>cblink(array('name'=>'videos')),"this"=>"videos");
+		$this->head_menu[] = array('name'=>lang("menu_channels"),'link'=>cblink(array('name'=>'channels')),"this"=>"channels");
+		$this->head_menu[] = array('name'=>lang("groups"),'link'=>cblink(array('name'=>'groups')),"this"=>"groups");
+		if(!userid())
+		$this->head_menu[] = array('name'=>lang("signup"),'link'=>cblink(array('name'=>'signup')),"this"=>"signup");
+		
+		$this->head_menu[] = array('name'=>lang("upload"),'link'=>cblink(array('name'=>'upload')),"this"=>"upload");
+		
+		if($params['assign'])
+			assign($params['assign'],$this->head_menu);
+		else
+			return $this->head_menu;
+	}
+	
+	/**
+	 * Function used to load head menu
+	 */
+	function foot_menu($params=NULL)
+	{
+		global $cbpage;
+		$this->foot_menu[] = array('name'=>lang("menu_home"),'link'=>BASEURL,"this"=>"home");
+		$this->foot_menu[] = array('name'=>lang("contact_us"),'link'=>cblink(array('name'=>'contact_us')),"this"=>"home");		
+		if(userid())
+			$this->foot_menu[] = array('name'=>lang("my_account"),'link'=>cblink(array('name'=>'my_account')),"this"=>"home");		
+		
+		if($cbpage->is_active(1))
+			$this->foot_menu[] = array('name'=>lang("about_us"),'link'=>$cbpage->get_page_link(1),"this"=>"home");
+		
+		if($cbpage->is_active(2))
+			$this->foot_menu[] = array('name'=>lang("privacy_policy"),'link'=>$cbpage->get_page_link(2),"this"=>"home");
+		
+		if($cbpage->is_active(3))
+			$this->foot_menu[] = array('name'=>lang("terms_of_serivce"),'link'=>$cbpage->get_page_link(3),"this"=>"home");
+		
+		if($cbpage->is_active(4))
+			$this->foot_menu[] = array('name'=>lang("help"),'link'=>$cbpage->get_page_link(4),"this"=>"groups");
+		
+		if($params['assign'])
+			assign($params['assign'],$this->foot_menu);
+		else
+			return $this->foot_menu;
+	}
+	
+	/**
+	 * Function used to call footer
+	 */
+	function footer()
+	{
+		ANCHOR(array('place'=>'the_footer'));
 	}
 }
 
