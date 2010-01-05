@@ -1073,5 +1073,30 @@ class myquery {
 		
 	}
 	
+	
+	/**
+	 * Function used to insert note in data base for admin referance
+	 */
+	function insert_note($note)
+	{
+		global $db;
+		$db->insert('cb_admin_notes',array('note,date_added,userid'),array($note,now(),userid()));
+	}
+	/**
+	 * Function used to get notes
+	 */
+	function get_notes()
+	{
+		global $db;
+		return $db->select('cb_admin_notes','*'," userid='".userid()."'",NULL," date_added DESC ");
+	}
+	/**
+	 * Function usde to delete note
+	 */
+	function delete_note($id)
+	{
+		global $db;
+		$db->delete("cb_admin_notes",array("note_id"),array($id));
+	}
 }
 ?>

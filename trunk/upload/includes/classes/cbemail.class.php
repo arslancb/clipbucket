@@ -27,7 +27,7 @@ class CBEmail
 	function get_email_template($code)
 	{
 		global $db;
-		$result = $db->select($this->db_tpl,"*"," email_template_code='".$code."'");
+		$result = $db->select($this->db_tpl,"*"," email_template_code='".$code."' OR email_template_id='$code' ");
 		if($db->num_rows>0)
 		{
 			return $result[0];
@@ -84,6 +84,45 @@ class CBEmail
 			$val_array[] = $val;
 		}
 		return preg_replace($var_array,$val_array,$content);
+	}
+	
+	/**
+	 * Function used to get all templates
+	 */
+	function get_templates()
+	{
+		global $db;
+		$results = $db->select($this->db_tpl,"*",NULL,NULL," email_template_name DESC");
+		if($db->num_rows>0)
+			return $results;
+		else
+			return false;
+	}
+	
+	
+	/**
+	 * Function used to update email template
+	 */
+	function update_template($params)
+	{
+		global $db;
+		$id = mysql_clean($params['id']);
+		$subj = mysql_clean($params['subj']);
+		$msg = mysql_real_escape_string($params['msg']);
+		
+		if(!$this->template_exists($id))
+			e("Email template does not exist");
+		elseif(empty($subj))
+			e("Email subject was empty");
+		elseif(empty($msg))
+			e("Email msg was empty");
+		else
+		{
+			$db->update($this->db_tpl,array("email_template_subject","email_template"),array($subj,$msg),
+									" email_template_id='$id'");
+			e("Email Template has been updated","m");
+		}
+		
 	}
 }
 

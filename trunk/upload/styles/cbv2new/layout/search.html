@@ -4,7 +4,7 @@
     	<div class="quick_search">
         <form name="search-form" method="get" action="">
             <span class='title'>ClipBucket Search &#8211;</span>
-            <input type="text" name="keywords" value="{'query'|get_form_val:true}" id="keywords" />
+            <input type="text" name="query" value="{'query'|get_form_val:true}" id="query" />
             type
             <select name="type">
             	{foreach from=$Cbucket->search_types item=t key=stypes}

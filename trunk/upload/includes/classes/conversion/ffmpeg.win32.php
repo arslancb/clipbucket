@@ -11,8 +11,9 @@
  
  
 define("KEEP_MP4_AS_IS","no");
-define("MP4Box_BINARY","/usr/local/bin/MP4Box");
-define("FLVTool2_BINARY","/usr/local/bin/flvtool2");
+define("MP4Box_BINARY",get_binaries('MP4Box')));
+define("FLVTool2_BINARY",get_binaries('flvtool2'));
+define('FFMPEG_BINARY', get_binaries('ffmpeg'));
 
 class ffmpeg 
 {
@@ -37,7 +38,9 @@ class ffmpeg
 	var $input_ext = '';
 	var $tmp_dir = '/';
 	var $flvtool2 = '';
-	
+	var $thumb_dim = '120x90' //Thumbs Dimension
+	var $num_of_thumbs = '3' //Number of thumbs
+	var $big_thumb_dim = 'original' //Big thumb size , original will get orginal video window size thumb othersie the dimension
 	
 	/**
 	 * Initiating Class
@@ -640,11 +643,15 @@ class ffmpeg
 		$this->log .= $this->total_time.' seconds'."\r\n\r\n";
 
 		//$this->update_data();
+		
+		$th_dim = $this->thumb_dim;
+		$big_th_dim = $this->big_thumb_dim ;
+		
 		//Generating Thumb
 		if($this->gen_thumbs)
-			$this->generate_thumbs($this->input_file,$this->input_details['duration']);
+			$this->generate_thumbs($this->input_file,$this->input_details['duration'],$th_dim,$this->num_of_thumbs);
 		if($this->gen_big_thumb)
-			$this->generate_thumbs($this->input_file,$this->input_details['duration'],'original','big');
+			$this->generate_thumbs($this->input_file,$this->input_details['duration'],$big_th_dim,'big');
 		
 		if(!file_exists($this->output_file))
 			$this->log("conversion_status","failed");

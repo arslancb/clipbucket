@@ -1,38 +1,108 @@
-<h2>Page Under Development</h2>
-<div class="admin_heading">
-	Stats IN-A-Glance
-</div>
-<div class="admin_box">
-	<div class="stats">
-    	<div class="stat">
-        TODAY - YESTERDAY - THIS WEEK - LAST WEEK - THIS MONTH - LAST MONTH
+
+	
+<table width="100%" border="0" class="index_table">
+  <tr>
+    <td valign="top" style="padding-right:13px">
+    
+<div class="widgets-wrap" id="column1">
+	 
+     
+     <div class="dragbox" id="cbstats" >
+        <h2>{$title} Quick Stats</h2>
+        <div class="dragbox-content" >
+            <div class="item">
+            	<div class="stats_subitem">Videos</div>
+                <div class="stats_subitem">Total : 44 | Active : 33 | Flagged : 2323 | Processing : 232</div>
+                <div class="clearfix"></div>
+            </div>
         </div>
+    </div>
+    
+       
+    <div class="dragbox" id="cbnews" >
+        <h2>ClipBucket News</h2>
+        <div class="dragbox-content" >
+            {assign var=cbnews value=$Cbucket->get_cb_news()}
+            {if $cbnews}
+                {foreach from=$cbnews item=news}
+                <div class="item news">
+                    <div class="news_title"><span class="title"><a href="{$news.link}">{$news.title}</a></span><span class="date">{$news.pubDate|date_format}</span></div><span class="clearfix"></span>
+                    <div>
+                        {$news.description}
+                    </div>
+                </div>
+                {/foreach}
+            {else}
+                <div align="center"><em><strong>No News Found</strong></em></div>
+            {/if}
+        </div>
+    </div>
+    
+</div>    
+    
+    </td>
+    <td width="210" valign="top" style="padding-right:13px">
+
+
+   
+<div class="widgets-wrap" style="width:210px" id="column2">
+
+    <!-- Admin Todo List -->  
+    <div class="dragbox" id="todo_list" >
+        <h2>Todo List</h2>
+        <div class="dragbox-content" >
+        	<div class="item"><a href="video_manager.php?search=search&active=no">Approve Videos ({get_videos active='no' count_only=true})</a></div>
+            <div class="item"><a href="members.php?view=inactive">Approve Members ({get_users status='ToActivate' count_only=true})</a></div>
+            <div class="item"><a href="groups_manager.php?active=no&amp;search=yes">Approve Groups ({get_groups active='no' count_only=true})</a></div>
+	    </div>
+    </div>
+    <!-- Admin Todo List -->
+    
+    <!-- Admin Todo List -->  
+    <div class="dragbox" id="quick_actions" >
+        <h2>Quick Action</h2>
+        <div class="dragbox-content" >
+        	<div class="item">Add Videos</div>
+            <div class="item">Add Members</div>
+            <div class="item">Add Group</div>
+            <div class="item">Add Group</div>
+	    </div>
+    </div>
+    <!-- Admin Todo List -->  
+
+
+    <!-- Admin personal Note Widget -->
+	<div class="dragbox" id="private_notes" >
+        <h2>Personal Notes</h2>
+        <div class="dragbox-content" >
+        {assign var=notes value=$myquery->get_notes()}
         
-        <!-- Video Stats -->
-        <div class="stat">
-        	<span>Videos</span>
-            <span>1212 Flagged - 2121 Pendings</span>
-            <div class="clearfix"></div>
+        <div id="the_notes">
+        {if $notes}
+       		<div id="no_note"></div>
+            {foreach from=$notes item=note}
+            	<div class="item" id="note-{$note.note_id}">
+                	<img src="{$imageurl}/cross.png" class="delete_note" onclick="delete_note('{$note.note_id}');" />
+                    {$note.note}
+                </div>
+            {/foreach}
+        {else}
+        	<div id="no_note" align="center"><strong><em>Currently, you d not have any note</em></strong></div>
+        {/if}
         </div>
-        <!-- Video Stats End-->
-        <!-- Group Stats -->
-        <div class="stat">
-        	<span>Videos</span>
-            <span>1212 Flagged - 2121 Pendings</span>
-            <div class="clearfix"></div>
-        </div>
-        <!-- Group Stats End-->
-        <!-- Members Stats -->
-        <div class="stat">
-        	<span>Videos</span>
-            <span>1212 Flagged - 2121 Pendings</span>
-            <div class="clearfix"></div>
-        </div>
-        <!-- Members Stats End-->
-        <div class="stat">
-        	<span>You are currently using ClipBucket v2</span>
-            <span><span class="simple_button">Check For Update</span></span>
-            <div class="clearfix"></div>
-        </div>
-	</div>
+        <form method="post">
+        	<textarea name="personal_note" id="personal_note" style="width:90%; height:50px; margin:5px; border:1px solid #999"></textarea>
+            <div align="right" style="padding-right:10px"><a href="javascript:void(0)" 
+            onclick="add_note('#personal_note')">Add Note</a></div>
+        </form>
+	    </div>
+    </div>
+    <!-- Admin personal Note Widget -->
+    
+    
 </div>
+    
+    
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,128 @@
+<h2>Mass Email</h2>
+
+
+<table width="800" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="10" align="center" valign="middle" class="left_head">&nbsp;</td>
+    <td class="head">Send Email To All Users</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+<form name="send_to_all" method="post">
+<table width="800" border="0" cellpadding="2" cellspacing="0" class="block">
+    <tr>
+        <td width="200" align="right" valign="top"><span class="td_body">From</span></td>
+        <td valign="top"><input name="from" type="text" id="from" value="{'from'|post}" size="45"></td>
+    </tr>
+    <tr>
+      <td align="right" valign="top"><span class="td_body">Subject</span></td>
+      <td valign="top"><span class="td_body">
+        <input name="subj" type="text" id="subj" value="{'subj'|post}" size="45">
+      </span></td>
+    </tr>
+    <tr>
+      <td align="right" valign="top"><span class="td_body">Message </span></td>
+      <td valign="top"><textarea name="msg" cols="45" rows="6" id="msg">{'msg'|post}</textarea>
+        <span class="td_body">
+        <label><br>
+          Keywords<br>
+          [username]  [email] [datejoined]</label>
+      </span></td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">Active only</td>
+      <td align="left" valign="top"><select name="active" id="active" class="input">
+      <option value="" ></option>
+        <option value="Ok" {if $smarty.post.active=='Ok'} selected="selected"{/if}>Yes</option>
+        <option value="ToActivate" {if $smarty.post.active=='no'} selected="selected"{/if}>No</option>
+      </select></td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">User Level</td>
+      <td align="left" valign="top"><select name="level" id="level">
+      	<option value="" ></option>
+        {assign var=levels value=$userquery->get_levels()}
+        {foreach from=$levels item=level}
+        	{if $level.user_level_id !='4'}
+        	<option value="{$level.user_level_id}" {if $smarty.post.level==$level.user_level_id} selected="selected"{/if}>{$level.user_level_name}</option>
+            {/if}
+        {/foreach}
+        </select></td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">Banned</td>
+      <td align="left" valign="top"><select name="ban" id="ban" class="input">
+          <option value="" ></option>
+          <option value="yes" {if $smarty.post.ban=='yes'} selected="selected"{/if}>Yes</option>
+          <option value="no" {if $smarty.post.ban=='no'} selected="selected"{/if}>No</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">Category</td>
+      <td align="left" valign="top">{$formObj->createField($cat_array)}</td>
+    </tr>
+    <tr>
+      <td valign="top">&nbsp;</td>
+      <td align="right" valign="top"><input type="submit" name="send_to_all" value="Send Email" class="button" id="send_to_all" ></td>
+    </tr>
+</table>
+</form>
+
+  
+  
+  
+  
+  
+  
+<div style="height:20px"></div>
+  
+  
+  
+  
+  
+<table width="800" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="10" align="center" valign="middle" class="left_head">&nbsp;</td>
+    <td class="head">Send Email To Specific Users</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+<form name="send_to_selected" method="post">
+<table width="800" border="0" cellpadding="2" cellspacing="0" class="block">
+    <tr>
+        <td width="200" align="right" valign="top"><span class="td_body">From</span></td>
+      <td valign="top"><input name="from" type="text" id="from" value="{'from'|get}" size="45"></td>
+  </tr>
+    <tr>
+      <td align="right" valign="top"><span class="td_body">Subject</span></td>
+      <td valign="top"><span class="td_body">
+        <input name="subj2" type="text" id="subj2" value="{'subj'|get}" size="45">
+      </span></td>
+  </tr>
+    <tr>
+      <td align="right" valign="top"><span class="td_body">Send To </span></td>
+      <td valign="top"><span class="td_body">
+        <input name="to" type="text" id="to" value="{'to'|get}" size="45">
+        <br>
+Seperate Usernames or Emails by comma ie arslan, zohaib@thewebsite.com</span></td>
+    </tr>
+    <tr>
+      <td align="right" valign="top"><span class="td_body">Message </span></td>
+      <td valign="top"><textarea name="msg" cols="45" rows="6" id="msg">{'msg'|get}</textarea></td>
+  </tr>
+    <tr>
+      <td valign="top">&nbsp;</td>
+      <td align="left" valign="top"><span class="td_body">
+        <label>Keywords<br>
+          [username]  [firstname] [lastname] [email] [datejoined]<br>
+          eg Hello [username] </label>
+      </span></td>
+    </tr>
+    <tr>
+      <td valign="top">&nbsp;</td>
+      <td align="right" valign="top"><input type="submit" name="send_mail" value="Send Email" class="button" ></td>
+    </tr>
+</table>
+</form>

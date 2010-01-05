@@ -1,70 +1,108 @@
+<h2>Edit Group</h2>
+
+{* Loading Form Fields *}
+{assign var='requiredFields' value=$cbgroup->load_required_fields($group,true)}
+{assign var='optionFields' value=$cbgroup->load_other_fields($group)}
+
 <table width="98%" border="0" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="200" align="left" valign="middle" class="left_head" style="text-indent:10px">Edit Group</td>
-    <td class="head">&nbsp;</td>
+    <td width="10" align="left" valign="middle" class="left_head" style="text-indent:10px">&nbsp;</td>
+    <td class="head">Editing {$group.title}</td>
     <td width="100" class="right_head">&nbsp;</td>
   </tr>
 </table>
-<form name="add_group" action="" method="post" enctype="multipart/form-data">
-<input name="gpid" type="hidden" value="{$group_details.group_id}" />
-<input name="owner" type="hidden" value="{$group_details.group_owner}"  />
-{assign var="username" value=$userquery->GetUserData($group_details.group_owner)}
-<table width="98%" border="0" cellpadding="0" cellspacing="0" class="block">
-  <tr>
-      <td class="td_body">&nbsp;</td>
-      <td align="right" class="td_body">* are required fields</td>
+
+
+
+<form name="edit_group" method="post">
+
+
+<fieldset class="fieldset">
+    <legend>Thumbs</legend>
+    <div style="width:140px; float:left" align="center">
+        <img src="{$cbgroup->get_group_thumb($group)}" border="1" style="margin:4px;max-height:120px; max-width:120px;" />
+    </div>
+    <div style="width:500px; float:left">
+        <li>{$LANG.grp_must_be} JPG | GIF | PNG</li>
+        <li>{$LANG.grp_90x90}</li>
+        <li>{$LANG.grp_thumb_warn}</li>
+        <input type="file" name="thumb_file" id="thumb_file" />
+    </div>
+    <div class="clearfix"></div>
+ </fieldset>
+
+ 
+<fieldset class="fieldset">
+  <legend>Required Details</legend>
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+   {foreach from=$requiredFields item=field}
+                  <tr>
+                    <td width="200"><strong>{$field.title} </strong></td>
+                    <td >{if $field.hint_1}{$field.hint_1}<br />{/if}
+{if $field.anchor_before}{ANCHOR place=$field.anchor_before}<br />{/if}
+{$formObj->createField($field)} <br />
+
+{$field.hint_2}</td>
     </tr>
-    <tr>
-      <td valign="top" class="td_body">Change User</td>
-      <td class="td_body"><select name="users" tabindex="1" style="padding:4px; border:1px solid #CCC; width:350px; font-size:12px;">
-	<option>Select User</option>
-	{section name=u_list loop=$users}
-    	<option value="{$users[u_list].userid}"{if $users[u_list].userid eq $group_details.group_owner} selected="selected" {/if}>{$users[u_list].username}</option>
-	{/section}
-</select></td>
+                {/foreach}
+  </table>
+</fieldset>
+
+
+
+
+
+<fieldset class="fieldset">
+    <legend>Group Stats</legend>
+
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+   
+                  <tr>
+                    <td width="200" valign="top"><strong>Total Views</strong></td>
+                    <td valign="top" ><label for="total_views"></label>
+                    <input name="total_views" type="text" id="total_views" value="{$group.total_views}" /></td>
     </tr>
-    <tr>
-      <td valign="top" class="td_body">Group Title</td>
-      <td class="td_body"><input name="title" id="title" value="{$group_details.group_name}" tabindex="2" style="padding:4px; border:1px solid #CCC; width:350px; font-size:12px;" /></td>
+                  <tr>
+                    <td valign="top"><strong>Total Members</strong></td>
+                    <td valign="top" ><label for="total_members"></label>
+                    <input name="total_members" type="text" id="total_members" value="{$group.total_members}" /></td>
+                  </tr>
+                  <tr>
+                    <td valign="top"><strong>Total Videos</strong></td>
+                    <td valign="top" ><label for="total_topics"></label>
+                    <input name="total_videos" type="text" id="total_views4" value="{$group.total_videos}" /></td>
+                  </tr>
+                  <tr>
+                    <td valign="top"><strong>Total Topics</strong></td>
+                    <td valign="top" ><label for="total_views5"></label>
+                    <input name="total_topics" type="text" id="total_views5" value="{$group.total_topics}" /></td>
+                  </tr>
+                  <tr>
+                    <td valign="top">&nbsp;</td>
+                    <td valign="top" >&nbsp;</td>
+                  </tr>
+
+  </table>
+</fieldset>
+
+
+<fieldset class="fieldset">
+  <legend>Other Details</legend>
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+   {foreach from=$optionFields item=field}
+                  <tr>
+                    <td width="200"><strong>{$field.title} </strong></td>
+                    <td >{if $field.hint_1}{$field.hint_1}<br />{/if}
+{if $field.anchor_before}{ANCHOR place=$field.anchor_before}<br />{/if}
+{$formObj->createField($field)} <br />
+
+{$field.hint_2}</td>
     </tr>
-    <tr>
-      <td valign="top" class="td_body">Group Description</td>
-      <td class="td_body"><p>
-        <textarea name="description" id="description" rows="5"  tabindex="3" style="padding:4px; border:1px solid #CCC; width:350px; font-size:12px;">{$group_details.group_description}</textarea>
-        <br />
-      </p></td>
-    </tr>
-    <tr>
-      <td class="td_body">Group Tags</td>
-      <td align="left" class="td_body"><input name="tags" id="tags" value="{$group_details.group_tags}" tabindex="4" style="padding:4px; border:1px solid #CCC; width:350px; font-size:12px;" /></td>
-    </tr>
-    <tr>
-      <td class="td_body">Group Url</td>
-      <td align="left" class="td_body"><input name="gp_url" id="gp_url" value="{$group_details.group_url}" tabindex="5" style="padding:4px; border:1px solid #CCC; width:350px; font-size:12px;" /> <small>Only these characters are allowed. a-z, 0-9, hypen(-), underscore(_), period(.)</small></td>
-    </tr>
-    <tr>
-      <td class="td_body">Group Type</td>
-      <td align="left" class="td_body"><input name="gptype" type="radio" value="0" tabindex="6"{if $group_details.group_type eq "0"} checked = "checked" {/if}>Public<BR/> <input name="gptype" type="radio" tabindex="7" value="1"{if $group_details.group_type eq "1"} checked = "checked" {/if}>Private<BR/> <input name="gptype" type="radio" tabindex="8" value="2"{if $group_details.group_type eq "2"} checked = "checked" {/if}>Only Invited Members</td>
-    </tr>
-    <tr>
-      <td class="td_body">Group Category</td>
-      <td align="left" class="td_body">
-      <select name="category" tabindex="9" style="padding:4px; border:1px solid #CCC; width:350px; font-size:12px;">
-		<option>Choose A Category</option>
-	{section name=cat_list loop=$category}
-    	<option value="{$category[cat_list].category_id}" {if $category[cat_list].category_id eq $group_details.group_category} selected="selected" {/if}>{$category[cat_list].category_name}</option>
-	{/section}
-</select></td>
-    </tr>
-    <tr>
-      <td class="td_body">Group Thumb</td>
-      <td align="left" class="td_body">
-      <div style="padding:3px; border:1px solid #ccc; float:left; margin-right:20px;"><img src="{$gp_thumbs_url}/{$cbgroup->get_gp_thumb($group_details.group_image)}" /></div>
-      <input type="file" name="gpThumb" id="gpThumb" tabindex="10"  style="padding:4px; border:1px solid #CCC; width:350px; font-size:12px;"/></td>
-    </tr>
-    <tr>
-      <td class="td_body">&nbsp;</td>
-      <td align="right" class="td_body"><input type="submit" tabindex="11" name="update_group" id="update_group" value="Update Group" class="button"/></td>
-    </tr>
-</table>
+                {/foreach}
+  </table>
+</fieldset>
+
+<div style="width:98%; margin:auto">
+<input type="submit" class="button" value="Update Group details" style="margin:5px 0px 15px 0px" name="update_group" id="update_group">
+</div>
 </form>

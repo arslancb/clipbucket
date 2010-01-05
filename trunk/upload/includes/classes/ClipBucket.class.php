@@ -215,18 +215,18 @@ class ClipBucket
 				'Manage Categories'=>'category.php',
 				'List Flagged Videos'=>'flagged_videos.php',
 				'Upload Videos'	=>'mass_uploader.php',
-				'List Inavtive Videos'=>'video_manager.php?view=search&&active=no'
+				'List Inactive Videos'=>'video_manager.php?search=search&active=no'
 				),
 		   
 		   //Users
 		   'Users'				=> 
 		   array(
-				 'Manage Members' => 'members.php?view=showall',
+				 'Manage Members' => 'members.php',
 				 'Add Member'=>'members.php?view=addmember',
 				 'User Levels'=>'user_levels.php',
 				 'Search Members'=>'members.php?view=search',
-				 'Inactive Only'=>'members.php?view=inactive',
-				 'Active Only'=>'members.php?view=active',
+				 'Inactive Only'=>'members.php?search=yes&status=ToActivate',
+				 'Active Only'=>'members.php?search=yes&status=Ok',
 				 'Mass Email'=>'mass_email.php'
 				),
 		   
@@ -235,7 +235,8 @@ class ClipBucket
 		   array(
 				 'Add Group'=>'add_group.php',
 				 'Manage Groups'=>'groups_manager.php',
-				 'Manage Categories'=>'group_category.php?view=show_category'
+				 'Manage Categories'=>'group_category.php?view=show_category',
+				 'View Inactive Groups' => 'groups_manager.php?active=no&search=yes',
 				),
 		   
 		   //Advertisments
@@ -448,6 +449,31 @@ class ClipBucket
 	function footer()
 	{
 		ANCHOR(array('place'=>'the_footer'));
+	}
+	
+	
+	/**
+	 * Function used to get News From ClipBucket Blog
+	 */
+	function get_cb_news()
+	{
+		$feeds = 3;
+		$text = 400;
+		//$url = 'http://blog.clip-bucket.com/feed/';
+		$url = 'http://localhost/clipbucket/2.x/2/upload/tester/feed.xml';
+		$news = xml2array($url);
+		if(!$news)
+		{
+			return false;
+		}else
+		{
+			$items = array();
+			$item = $news['rss']['channel']['item'];
+			for($i=0;$i<$feeds;$i++)
+				$items[] = $item[$i];
+			
+			return $items;
+		}
 	}
 }
 

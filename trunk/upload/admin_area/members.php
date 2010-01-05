@@ -1,10 +1,10 @@
 <?php
 /* 
- ****************************************************************************************************
- | Copyright (c) 2007-2009 Clip-Bucket.com. All rights reserved.											|
- | @ Author 	: ArslanHassan																		|
- | @ Software 	: ClipBucket , © PHPBucket.com														|
- ****************************************************************************************************
+ ***************************************************************
+ | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
+ | @ Author 	: ArslanHassan									
+ | @ Software 	: ClipBucket , © PHPBucket.com					
+ ***************************************************************
 */
 
 require'../includes/admin_config.php';
@@ -20,7 +20,7 @@ if(isset($_GET['deleteuser'])){
 
 //Deleting Multiple Videos
 if(isset($_POST['delete_selected'])){
-	for($id=0;$id<=RESULTS;$id++)
+	for($id=0;$id<=count($_POST['check_user']);$id++)
 		$userquery->delete_user($deleteuser);
 	$eh->flush();
 	e("Selected users have been deleted","m");
@@ -39,14 +39,14 @@ if(isset($_GET['deactivate'])){
 
 //Using Multple Action
 if(isset($_POST['activate_selected'])){
-	for($id=0;$id<=RESULTS;$id++){
+	for($id=0;$id<=count($_POST['check_user']);$id++){
 		$userquery->action('activate',$_POST['check_user'][$id]);
 	}
 	$eh->flush();
 	e("Selected users have been activated","m");
 }
 if(isset($_POST['deactivate_selected'])){
-	for($id=0;$id<=RESULTS;$id++){
+	for($id=0;$id<=count($_POST['check_user']);$id++){
 		$userquery->action('deactivate',$_POST['check_user'][$id]);
 	}
 	$eh->flush();
@@ -65,14 +65,14 @@ if(isset($_GET['unfeatured'])){
 }
 //Using Multple Action
 if(isset($_POST['make_featured_selected'])){
-	for($id=0;$id<=RESULTS;$id++){
+	for($id=0;$id<=count($_POST['check_user']);$id++){
 		$userquery->action('featured',$_POST['check_user'][$id]);
 	}
 	$eh->flush();
 	e("Selected users have been set as featured","m");
 }
 if(isset($_POST['make_unfeatured_selected'])){
-	for($id=0;$id<=RESULTS;$id++){
+	for($id=0;$id<=count($_POST['check_user']);$id++){
 		$userquery->action('unfeatured',$_POST['check_user'][$id]);
 	}
 	$eh->flush();
@@ -92,7 +92,7 @@ if(isset($_GET['unban'])){
 
 //Using Multple Action
 if(isset($_POST['ban_selected'])){
-	for($id=0;$id<=RESULTS;$id++){
+	for($id=0;$id<=count($_POST['check_user']);$id++){
 		$userquery->action('ban',$_POST['check_user'][$id]);
 	}
 	$eh->flush();
@@ -100,7 +100,7 @@ if(isset($_POST['ban_selected'])){
 }
 
 if(isset($_POST['unban_selected'])){
-	for($id=0;$id<=RESULTS;$id++){
+	for($id=0;$id<=count($_POST['check_user']);$id++){
 		$userquery->action('unban',$_POST['check_user'][$id]);
 	}
 	$eh->flush();
@@ -108,21 +108,66 @@ if(isset($_POST['unban_selected'])){
 }
 
 			
-//-------TIME END TO DO SOME ACTION-------//
+	//Calling Video Manager Functions
+	call_functions($userquery->user_manager_functions);
 
+	//Getting Member List
+	$page = mysql_clean($_GET['page']);
+	$get_limit = create_query_limit($page,RESULTS);
+	
+	if(isset($_GET['search']))
+	{
+		
+		$array = array
+		(
+		 'userid' 	=> $_GET['userid'],
+		 'username'	=> $_GET['username'],
+		 'category' => $_GET['category'],
+		 'featured' => $_GET['featured'],
+		 'ban'		=> $_GET['ban'],
+		 'status'	=> $_GET['status'],
+		 'email'	=> $_GET['email'],
+		 'gender'	=> $_GET['gender'],
+		 );		
+	}
+	
+	$result_array = $array;
+	//Getting Video List
+	$result_array['limit'] = $get_limit;
+	if(!$array['order'])
+		$result_array['order'] = " doj DESC ";
+		
+	$users = get_users($result_array);
+	Assign('users', $users);	
 
-//Getting Member List
-$page = mysql_clean($_GET['page']);
-$get_limit = create_query_limit($page,RESULTS);
-$users = $db->select("users",'*',$cond,$get_limit,"doj DESC");
-Assign('users', $users);	
-
-//Collecting Data for Pagination
-$total_rows  = $db->count('users','*',$cond);
-$total_pages = count_pages($total_rows,VLISTPP);
-
-//Pagination
-$pages->paginate($total_pages,$page);
+	//Collecting Data for Pagination
+	$mcount = $array;
+	$mcount['count_only'] = true;
+	$total_rows  = get_users($mcount);
+	$total_pages = count_pages($total_rows,RESULTS);
+	$pages->paginate($total_pages,$page);
+	
+	//Pagination
+	$pages->paginate($total_pages,$page);
+	
+	//Category Array
+	if(is_array($_GET['category']))
+		$cats_array = array($_GET['category']);		
+	else
+	{
+		preg_match_all('/#([0-9]+)#/',$_GET['category'],$m);
+		$cats_array = array($m[1]);
+	}
+	$cat_array =	array($LANG['vdo_cat'],
+					'type'=> 'checkbox',
+					'name'=> 'category[]',
+					'id'=> 'category',
+					'value'=> array('category',$cats_array),
+					'hint_1'=>  $LANG['vdo_cat_msg'],
+					'display_function' => 'convert_to_categories',
+					'category_type'=>'user');
+	assign('cat_array',$cat_array);
+	
 	
 template_files('members.html');
 display_it();

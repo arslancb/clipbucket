@@ -27,6 +27,7 @@ class userquery extends CBCategory{
 	var $signup_plugins = array(); //Signup Plugins
 	var $custom_signup_fields = array();
 	var $delete_user_functions = array();
+	var $user_manager_functions = array();
 	
 	var $dbtbl = array(
 					   'user_permission_type'	=> 'user_permission_types',
@@ -160,7 +161,7 @@ class userquery extends CBCategory{
 							  'num_visits','last_logged','ip'
 							  ),
 						array(
-							  '|f|num_visits+1',NOW(),$_SERVER['HTTP_HOST']
+							  '|f|num_visits+1',NOW(),$_SERVER['REMOTE_ADDR']
 							  ),
 						"userid='".$userid."'"
 						);
@@ -190,8 +191,6 @@ class userquery extends CBCategory{
 	function login_check($access=NULL,$check_only=FALSE)
 	{
 		global $LANG,$Cbucket,$sess;
-		
-		
 		
 		//First check weather userid is here or not
 		if(!userid())
@@ -2903,7 +2902,7 @@ class userquery extends CBCategory{
 		$this->validate_form_fields($array);
 		
 		//checking terms and policy agreement
-		if($_POST['agree']!='yes')
+		if($array['agree']!='yes' && !has_access('admin_access',true))
 			e($LANG['usr_ament_err']);
 		
 		
@@ -2954,7 +2953,23 @@ class userquery extends CBCategory{
 				$usr_status = 'Ok';
 				$welcome_email = 'yes';
 			}
-			$query_field[] = "	usr_status";
+			
+			if(has_access('admin_access',true))
+			{
+				if($array['active']=='yes')
+				{
+					$usr_status = 'Ok';
+					$welcome_email = 'yes';
+				}else{
+					$usr_status = 'ToActivate';
+					$welcome_email = 'no';
+				}
+				
+				$query_field[] = "level";
+				$query_val[] = $array['level'];
+			}
+			
+			$query_field[] = "usr_status";
 			$query_val[] = $usr_status;
 			
 			$query_field[] = "	welcome_email_sent";
@@ -3007,7 +3022,7 @@ class userquery extends CBCategory{
 			$insert_id = $db->insert_id();
 			$db->insert($userquery->dbtbl['user_profile'],array("userid"),array($insert_id));
 			
-			if(!$userquery->perm_check('admin_add_user',true,false) && EMAIL_VERIFICATION)
+			if(!has_access('admin_access',true) && EMAIL_VERIFICATION)
 			{
 				global $cbemail;
 				$tpl = $cbemail->get_template('email_verify_template');
@@ -3026,7 +3041,7 @@ class userquery extends CBCategory{
 				//Now Finally Sending Email
 				cbmail(array('to'=>post('email'),'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
 			}
-			elseif(!$userquery->perm_check('admin_add_user',true,false))
+			elseif(!has_access('admin_access',true))
 			{
 				$this->send_welcome_email($insert_id);
 			}
@@ -3034,6 +3049,8 @@ class userquery extends CBCategory{
 			
 			return $insert_id;
 		}
+		
+		return false;
 	}
 	
 	
@@ -3164,9 +3181,26 @@ class userquery extends CBCategory{
 		$order = $params['order'];
 		
 		$cond = "";
+		if(!has_access('admin_access',TRUE))
+			$cond .= " 	usr_status='Ok' AND ban_status ='no' ";
+		else
+		{
+			if($params['ban'])
+				$cond .= " ban_status ='".$params['ban']."'";
+				
+			if($params['status'])
+			{
+				if($cond!='')
+					$cond .=" AND ";
+				$cond .= " 	usr_status='".$params['status']."'";
+			}
+		}
 		
 		//Setting Category Condition
-		if($params['category'] && strtolower($params['category'])!='all')
+		if(!is_array($params['category']))
+			$is_all = strtolower($params['category']);
+			
+		if($params['category'] && $is_all!='all')
 		{
 			if($cond!='')
 				$cond .= ' AND ';
@@ -3255,15 +3289,47 @@ class userquery extends CBCategory{
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$featured .= " featured = 'yes' ";
+			$cond .= " featured = '".$params['featured']."' ";
 		}
 		
-		//Exclude Vids
+		//Email
+		if($params['email'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " email = '".$params['email']."' ";
+		}
+		
+		//Exclude Users
 		if($params['exclude'])
 		{
 			if($cond!='')
 				$cond .= ' AND ';
 			$cond .= " userid <> '".$params['exclude']."' ";
+		}
+		
+		//Getting specific User
+		if($params['userid'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " userid = '".$params['userid']."' ";
+		}
+		
+		//Sex
+		if($params['gender'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " sex = '".$params['gender']."' ";
+		}
+		
+		//Level
+		if($params['level'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " level = '".$params['level']."' ";
 		}
 		
 		$result = $db->select('users','*',$cond,$limit,$order);
@@ -3413,7 +3479,7 @@ class userquery extends CBCategory{
 		$uploaded = $default['datemargin'];
 		$sort = $default['sort'];
 		
-		$this->search->search_type['users'] = array('title'=>'Users');
+		$this->search->search_type['users'] = array('title'=>lang('users'));
 		
 		$fields = array(
 		'query'	=> array(
@@ -3424,7 +3490,7 @@ class userquery extends CBCategory{
 						'value'=>cleanForm($default['query'])
 						),
 		'category'	=>  array(
-						'title'		=> lang('vdo_cat'),
+						'title'		=> lang('category'),
 						'type'		=> 'checkbox',
 						'name'		=> 'category[]',
 						'id'		=> 'category',
@@ -3432,7 +3498,7 @@ class userquery extends CBCategory{
 						'category_type'=>'user',
 						),
 		'date_margin'	=>  array(
-						'title'		=> lang('Joined'),
+						'title'		=> lang('joined'),
 						'type'		=> 'dropdown',
 						'name'		=> 'datemargin',
 						'id'		=> 'datemargin',

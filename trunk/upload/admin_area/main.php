@@ -26,8 +26,8 @@ if(isset($_POST['update'])){
 					'keywords'	,
 					'player_file',
 					'ffmpegpath'	,
-					'mencoderpath',
-					'flvpath',
+					'flvtool2path',
+					'mp4boxpath',
 					'closed'	,
 					'closed_msg',
 					'resize',
@@ -92,6 +92,15 @@ if(isset($_POST['update'])){
 					'users_items_contacts_channel',
 					'users_items_search_page',
 					'users_items_group_page',
+					'video_categories',
+					'max_video_title',
+					'max_video_desc',
+					'max_video_tags',
+					'min_video_title',
+					'min_video_tags',
+					'min_video_desc',
+					'video_codec',
+					'vrate',
 					);
 	
 	//Numeric Array
@@ -115,6 +124,13 @@ if(isset($_POST['update'])){
 					'users_items_contacts_channel',
 					'users_items_search_page',
 					'users_items_group_page',
+					'video_categories',
+					'max_video_title',
+					'max_video_desc',
+					'max_video_tags',
+					'min_video_title',
+					'min_video_tags',
+					'min_video_desc',
 					);
 	foreach($rows as $field)
 	{

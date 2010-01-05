@@ -1,10 +1,10 @@
 <?php
 /* 
- ****************************************************************************************************
- | Copyright (c) 2007-2009 Clip-Bucket.com. All rights reserved.											|
- | @ Author	   : ArslanHassan																		|
- | @ Software  : ClipBucket , © PHPBucket.com														|
- ****************************************************************************************************
+ ****************************************************************
+ | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
+ | @ Author	   : ArslanHassan									
+ | @ Software  : ClipBucket , © PHPBucket.com					
+ ****************************************************************
 */
 
 define("THIS_PAGE",'manage_videos');
@@ -20,6 +20,7 @@ $mode = $_GET['mode'];
 
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,VLISTPP);
+
 
 switch($mode)
 {
@@ -44,48 +45,53 @@ switch($mode)
 		$gid = mysql_clean($_GET['gid']);
 		$gdetails = $cbgroup->get_group_details($gid);
 		
-		//Activating Member Members
-		if(isset($_POST['activate_pending']))
+		if(userid()!=$gdetails['userid'] && !has_access('admin_access',true))
+			e("You cannot moderate this group");
+		else
 		{
-			$total = count($_POST['users']);
-			for($i=0;$i<$total;$i++)
+			//Activating Member Members
+			if(isset($_POST['activate_pending']))
 			{
-				if($_POST['users'][$i]!='')
-					$cbgroup->member_actions($gid,$_POST['users'][$i],'activate');
+				$total = count($_POST['users']);
+				for($i=0;$i<$total;$i++)
+				{
+					if($_POST['users'][$i]!='')
+						$cbgroup->member_actions($gid,$_POST['users'][$i],'activate');
+				}
 			}
-		}
-		//Deactivation Members
-		if(isset($_POST['disapprove_members']))
-		{
-			$total = count($_POST['users']);
-			for($i=0;$i<$total;$i++)
+			//Deactivation Members
+			if(isset($_POST['disapprove_members']))
 			{
-				if($_POST['users'][$i]!='')
-					$cbgroup->member_actions($gid,$_POST['users'][$i],'deactivate');
-			}
-		
-		}
-		//Deleting Members
-		if(isset($_POST['delete_members']))
-		{
-			$total = count($_POST['users']);
-			for($i=0;$i<$total;$i++)
-			{
-				if($_POST['users'][$i]!='')
-					$cbgroup->member_actions($gid,$_POST['users'][$i],'delete');
-			}
-		
-		}
-		
-		if($gdetails)
-		{
-			assign("group",$gdetails);
-			//Getting Group Members (Active Only)
-			$gp_mems = $cbgroup->get_members($gdetails['group_id'],"yes");
-			assign('gp_mems',$gp_mems);
+				$total = count($_POST['users']);
+				for($i=0;$i<$total;$i++)
+				{
+					if($_POST['users'][$i]!='')
+						$cbgroup->member_actions($gid,$_POST['users'][$i],'deactivate');
+				}
 			
-		}else
-			e("Group does not exist");
+			}
+			//Deleting Members
+			if(isset($_POST['delete_members']))
+			{
+				$total = count($_POST['users']);
+				for($i=0;$i<$total;$i++)
+				{
+					if($_POST['users'][$i]!='')
+						$cbgroup->member_actions($gid,$_POST['users'][$i],'delete');
+				}
+			
+			}
+			
+			if($gdetails)
+			{
+				assign("group",$gdetails);
+				//Getting Group Members (Active Only)
+				$gp_mems = $cbgroup->get_members($gdetails['group_id'],"yes");
+				assign('gp_mems',$gp_mems);
+				
+			}else
+				e("Group does not exist");
+		}
 	}
 	break;
 	case 'manage_videos':
@@ -94,49 +100,53 @@ switch($mode)
 		$gid = mysql_clean($_GET['gid']);
 		$gdetails = $cbgroup->get_group_details($gid);
 		
-		
-		//Activating Member Members
-		if(isset($_POST['activate_videos']))
+		if(userid()!=$gdetails['userid'] && !has_access('admin_access',true))
+			e("You cannot moderate this group");
+		else
 		{
-			$total = count($_POST['check_vid']);
-			for($i=0;$i<$total;$i++)
+			//Activating Member Members
+			if(isset($_POST['activate_videos']))
 			{
-				if($_POST['check_vid'][$i]!='')
-					$cbgroup->video_actions($gid,$_POST['check_vid'][$i],'activate');
+				$total = count($_POST['check_vid']);
+				for($i=0;$i<$total;$i++)
+				{
+					if($_POST['check_vid'][$i]!='')
+						$cbgroup->video_actions($gid,$_POST['check_vid'][$i],'activate');
+				}
 			}
-		}
-		//Deactivation Members
-		if(isset($_POST['disapprove_videos']))
-		{
-			$total = count($_POST['check_vid']);
-			for($i=0;$i<$total;$i++)
+			//Deactivation Members
+			if(isset($_POST['disapprove_videos']))
 			{
-				if($_POST['check_vid'][$i]!='')
-					$cbgroup->video_actions($gid,$_POST['check_vid'][$i],'deactivate');
+				$total = count($_POST['check_vid']);
+				for($i=0;$i<$total;$i++)
+				{
+					if($_POST['check_vid'][$i]!='')
+						$cbgroup->video_actions($gid,$_POST['check_vid'][$i],'deactivate');
+				}
+			
 			}
-		
-		}
-		//Deleting Members
-		if(isset($_POST['delete_videos']))
-		{
-			$total = count($_POST['check_vid']);
-			for($i=0;$i<$total;$i++)
+			//Deleting Members
+			if(isset($_POST['delete_videos']))
 			{
-				if($_POST['check_vid'][$i]!='')
-					$cbgroup->video_actions($gid,$_POST['check_vid'][$i],'delete');
+				$total = count($_POST['check_vid']);
+				for($i=0;$i<$total;$i++)
+				{
+					if($_POST['check_vid'][$i]!='')
+						$cbgroup->video_actions($gid,$_POST['check_vid'][$i],'delete');
+				}
+			
 			}
-		
+			
+			
+			if($gdetails)
+			{
+				assign("group",$gdetails);
+				//Getting Group Videos (Active Only)
+				$grp_vids = $cbgroup->get_group_videos($gid,"yes");
+				assign('grp_vids',$grp_vids);
+			}else
+				e("Group does not exist");
 		}
-		
-		
-		if($gdetails)
-		{
-			assign("group",$gdetails);
-			//Getting Group Videos (Active Only)
-			$grp_vids = $cbgroup->get_group_videos($gid,"yes");
-			assign('grp_vids',$grp_vids);
-		}else
-			e("Group does not exist");
 		
 	}
 	break;

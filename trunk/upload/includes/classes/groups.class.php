@@ -16,6 +16,7 @@ class CBGroups extends CBCategory
 	var $gp_tbl = '';
 	var $custom_group_fields = array();
 	var $actions = '';
+	var $group_manager_funcs = array();
 	
 	/**
 	 * Constructor function to set values of tables
@@ -454,6 +455,31 @@ class CBGroups extends CBCategory
 				if(!empty($field['db_field']))
 				$query_val[] = $val;
 				
+			}
+		}
+		
+		
+		if(has_access('admin_access',TRUE))
+		{
+			if(!empty($array['total_views']))
+			{
+				$query_field[] = 'total_views';
+				$query_val[] = $array['total_views'];
+			}
+			if(!empty($array['total_videos']))
+			{
+				$query_field[] = 'total_videos';
+				$query_val[] = $array['total_videos'];
+			}
+			if(!empty($array['total_members']))
+			{
+				$query_field[] = 'total_members';
+				$query_val[] = $array['total_members'];
+			}
+			if(!empty($array['total_topics']))
+			{
+				$query_field[] = 'total_topics';
+				$query_val[] = $array['total_topics'];
 			}
 		}
 		
@@ -1140,7 +1166,7 @@ class CBGroups extends CBCategory
 			e("Group does not exist");
 		elseif(!$this->is_group_video($vid,$gid))
 			e("Video does not exist");
-		elseif(userid()!=$group['userid'])
+		elseif(userid()!=$group['userid'] && !has_access("admin_access"))
 			e("You are not owner of this group");
 		else
 		switch($case)
@@ -1342,39 +1368,58 @@ class CBGroups extends CBCategory
 		else
 			return false;
 	}
-
-	//Function Used To Feature Group
-
-	function MakeFeatured($group){
-	global $LANG;
-		mysql_query("UPDATE groups SET featured='yes' WHERE group_id='".$group."'");
-		return lang('grp_fr_msg');
+	
+	
+	/**
+	 * Function used to perform gorups actions
+	 */
+	function grp_actions($type,$gid)
+	{
+		global $db;
+		$gdetails = $this->get_details($gid);
+		if(!$gdetails)
+			e("Group does not exist");
+		else
+		{
+			switch($type)
+			{
+				case "activate":
+				case "active":
+				{
+					$db->update($this->gp_tbl,array("active"),array("yes")," group_id='$gid' ");
+					e("Group has been activated","m");
+				}
+				break;
+				case "deactivate":
+				case "deactive":
+				{
+					$db->update($this->gp_tbl,array("active"),array("no")," group_id='$gid' ");
+					e("Group has been deactivated","m");
+				}
+				break;
+				case "featured":
+				case "feature":
+				{
+					$db->update($this->gp_tbl,array("featured"),array("yes")," group_id='$gid' ");
+					e("Group has been set as featured","m");
+				}
+				break;
+				case "unfeatured":
+				case "unfeature":
+				{
+					$db->update($this->gp_tbl,array("featured"),array("no")," group_id='$gid' ");
+					e("Group has been removed from featured list","m");
+				}
+				break;
+				case "delete":
+				{
+					$this->delete_group($gid);
+					e("Group has been deleted","m");
+				}
+				break;
+			}
+		}
 	}
-
-	//Function Used To UngFeatured Group
-
-	function MakeUnFeatured($group){
-	global $LANG;
-		mysql_query("UPDATE groups SET featured='no' WHERE group_id='".$group."'");
-		return lang('grp_fr_msg2');
-	}
-
-	//Function Used To Activate Group
-
-	function Activate($group){
-	global $LANG;
-		mysql_query("UPDATE groups SET active='yes' WHERE group_id='".$group."'");
-		return lang('grp_av_msg');
-	}
-
-	//Function Used To DeActivate Group
-
-	function DeActivate($group){
-	global $LANG;
-		mysql_query("UPDATE groups SET active='no' WHERE group_id='".$group."'");
-		return lang('grp_inv_msg1');
-	}
-
 	
 	/**
 	 * Function used to get all topic icons
@@ -1651,18 +1696,27 @@ class CBGroups extends CBCategory
 	 * order => {soring by}
 	 * date_margin => {date span}
 	 */
-	function get_groups($params)
+	function get_groups($params=NULL)
 	{
 		global $db;
 		
 		$limit = $params['limit'];
 		$order = $params['order'];
 		
+		$cond = "";
 		if(!has_access('admin_access',TRUE))
-			$cond = " active='yes' ";
+			$cond .= " active='yes' ";
+		else
+		{
+			if($params['active'])
+				$cond .= " active='".$params['active']."'";
+		}
 		
 		//Setting Category Condition
-		if($params['category'] && strtolower($params['category'])!='all')
+		if(!is_array($params['category']))
+			$is_all = strtolower($params['category']);
+			
+		if($params['category'] && $is_all!='all')
 		{
 			if($cond!='')
 				$cond .= ' AND ';
@@ -1736,7 +1790,7 @@ class CBGroups extends CBCategory
 		{
 			if($tag_n_title!='')
 				$tag_n_title .= ' OR ';
-			$tag_n_title .= " group_name  LIKE '%".$params['tags']."%'";
+			$tag_n_title .= " group_name  LIKE '%".$params['title']."%'";
 		}
 		
 		if($tag_n_title)
@@ -1751,7 +1805,15 @@ class CBGroups extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$featured .= " featured = 'yes' ";
+			$cond .= " featured = '".$params['featured']."' ";
+		}
+		
+		//GROUP ID
+		if($params['group_id'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " group_id = '".$params['group_id']."' ";
 		}
 		
 		//Exclude Vids
@@ -1892,7 +1954,7 @@ class CBGroups extends CBCategory
 						'value'=>cleanForm($default['query'])
 						),
 		'category'	=>  array(
-						'title'		=> lang('vdo_cat'),
+						'title'		=> lang('category'),
 						'type'		=> 'checkbox',
 						'name'		=> 'category[]',
 						'id'		=> 'category',
@@ -1900,7 +1962,7 @@ class CBGroups extends CBCategory
 						'category_type'=>'group',
 						),
 		'date_margin'	=>  array(
-						'title'		=> lang('Joined'),
+						'title'		=> lang('created'),
 						'type'		=> 'dropdown',
 						'name'		=> 'datemargin',
 						'id'		=> 'datemargin',

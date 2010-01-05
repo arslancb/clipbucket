@@ -375,15 +375,20 @@ class CBvideo extends CBCategory
 		$limit = $params['limit'];
 		$order = $params['order'];
 		
+		$cond = "";
 		if(!has_access('admin_access',TRUE))
-			$cond = " status='Successful' AND active='yes' ";
+			$cond .= " status='Successful' AND active='yes' ";
 		else
 		{
-			if(!$params['active'])
-				$params['active'] = 'yes';
-			if(!$params['status'])
-				$params['status'] = 'Successful';
-			$cond = " status='".$params['status']."' AND active='".$params['active']."' ";
+			if($params['active'])
+				$cond .= " active='".$params['active']."'";
+				
+			if($params['status'])
+			{
+				if($cond!='')
+					$cond .=" AND ";
+				$cond .= " status='".$params['status']."'";
+			}
 		}
 		
 		//Setting Category Condition
@@ -491,7 +496,6 @@ class CBvideo extends CBCategory
 				$cond .= ' AND ';
 			$cond .= " videoid <> '".$params['exclude']."' ";
 		}
-		$cond;
 		
 		if(!$params['count_only'])
 			$result = $db->select('video','*',$cond,$limit,$order);		
@@ -676,7 +680,7 @@ class CBvideo extends CBCategory
 		$uploaded = $default['datemargin'];
 		$sort = $default['sort'];
 		
-		$this->search->search_type['videos'] = array('title'=>'Videos');
+		$this->search->search_type['videos'] = array('title'=>lang('videos'));
 		
 		$fields = array(
 		'query'	=> array(

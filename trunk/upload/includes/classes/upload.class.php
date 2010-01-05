@@ -19,9 +19,9 @@
  **************************************************************************************************
  **/
  
- define('ALLOWED_VDO_CATS',3);
  
- class Upload{
+ 
+class Upload{
  
  	var $custom_form_fields = array();  //Step 1 of Uploading
 	var $custom_upload_fields = array(); //Step 2 of Uploading
@@ -482,8 +482,8 @@
 							 'size'=>'45',
 							 'db_field'=>'title',
 							 'required'=>'yes',
-							 'min_length' => 4,
-							 'max_length'=>100
+							 'min_length' => config("video_min_title"),
+							 'max_length'=>config("video_max_title")
 
 							 ),
 		 'desc'		=> array('title'=> $LANG['vdo_desc'],
@@ -502,7 +502,7 @@
 							 'name'=> 'category[]',
 							 'id'=> 'category',
 							 'value'=> array('category',$cat_array),
-							 'hint_1'=>  $LANG['vdo_cat_msg'],
+							 'hint_1'=>  sprintf($LANG['vdo_cat_msg'],ALLOWED_VDO_CATS),
 							 'db_field'=>'category',
 							 'required'=>'yes',
 							 'validate_function'=>'validate_vid_category',

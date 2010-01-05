@@ -27,8 +27,9 @@ if(!empty($tmp_file)){
 $temp_file = TEMP_DIR.'/'.$tmp_file.'.'.$tmp_ext;
 $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 
-//copy($temp_file,$orig_file);
-rename($temp_file,$orig_file);
+	//copy($temp_file,$orig_file);
+	rename($temp_file,$orig_file);
+	
 	$configs = array
 	(
 		'use_video_rate' => true,
@@ -37,13 +38,14 @@ rename($temp_file,$orig_file);
 		'use_audio_bit_rate' => true,
 		'use_audio_codec' => true,
 		'format' => 'flv',
-		'video_codec'=>'flv',
-		'audio_codec'=>'libfaac',
-		'audio_rate'=>22050,
-		'audio_bitrate'=>128000,
-		'video_bitrate'=>512000,
-		'video_width'=>400,
-		'video_height'=>300,
+		'video_codec'=> config('video_codec'),
+		'audio_codec'=> config('audio_codec'),
+		'audio_rate'=> config("srate"),
+		'audio_bitrate'=> config("sbrate"),
+		'video_rate'=> config("vrate"),
+		'video_bitrate'=> config("vbrate"),
+		'video_width'=> config('r_width'),
+		'video_height'=> config('r_height'),
 		'resize'=>'max'
 	);
 
@@ -65,6 +67,9 @@ rename($temp_file,$orig_file);
 	$ffmpeg->configs = $configs;
 	$ffmpeg->gen_thumbs = TRUE;
 	$ffmpeg->gen_big_thumb = TRUE;
+	$ffmpeg->num_of_thumbs = config('num_thumbs');
+	$ffmpeg->thumb_dim = config('thumb_width')."x".config('thumb_height');
+	$ffmpeg->big_thumb_dim = config('big_thumb_width')."x".config('big_thumb_height');
 	$ffmpeg->tmp_dir = TEMP_DIR;
 	$ffmpeg->input_ext = $ext;
 	$ffmpeg->output_file = VIDEOS_DIR.'/'.$tmp_file.'.flv';

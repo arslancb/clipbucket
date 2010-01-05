@@ -23,15 +23,17 @@ if(isset($_GET['make_unfeature'])){
 
 //Using Multple Action
 if(isset($_POST['make_featured_selected'])){
-	for($id=0;$id<=RESULTS;$id++){
+	for($id=0;$id<=count($_POST['check_video']);$id++){
 		$cbvid->action('feature',$_POST['check_video'][$id]);
 	}
+	$eh->flush();
 	e("Selected videos have been set as featured","m");
 }
 if(isset($_POST['make_unfeatured_selected'])){
-	for($id=0;$id<=RESULTS;$id++){
+	for($id=0;$id<=count($_POST['check_video']);$id++){
 		$cbvid->action('unfeature',$_POST['check_video'][$id]);
 	}
+	$eh->flush();
 	e("Selected videos have been removed from featured list","m");
 }
 
@@ -48,15 +50,17 @@ if(isset($_GET['deactivate'])){
 
 //Using Multple Action
 if(isset($_POST['activate_selected'])){
-	for($id=0;$id<=RESULTS;$id++){
+	for($id=0;$id<=count($_POST['check_video']);$id++){
 		$cbvid->action('activate',$_POST['check_video'][$id]);
 	}
+	$eh->flush();
 	e("Selected Videos Have Been Activated","m");
 }
 if(isset($_POST['deactivate_selected'])){
-	for($id=0;$id<=RESULTS;$id++){
+	for($id=0;$id<=count($_POST['check_video']);$id++){
 		$cbvid->action('deactivate',$_POST['check_video'][$id]);
 	}
+	$eh->flush();
 	e("Selected Videos Have Been Dectivated","m");
 }
 
@@ -70,7 +74,7 @@ if(isset($_GET['delete_video'])){
 //Deleting Multiple Videos
 if(isset($_POST['delete_selected']))
 {
-	for($id=0;$id<=RESULTS;$id++)
+	for($id=0;$id<=count($_POST['check_video']);$id++)
 	{
 		$cbvideo->delete_video($_POST['check_video'][$id]);
 	}
@@ -79,13 +83,8 @@ if(isset($_POST['delete_selected']))
 }
 
 
-//Calling Video Manager Functions
-call_functions($cbvid->video_manager_funcs);
-	
-	//Jump To The page
-	if(isset($_POST['display_page'])){
-		redirect_to($_POST['page_number']);
-	}
+	//Calling Video Manager Functions
+	call_functions($cbvid->video_manager_funcs);
 		
 	$page = mysql_clean($_GET['page']);
 	$get_limit = create_query_limit($page,RESULTS);
@@ -104,16 +103,16 @@ call_functions($cbvid->video_manager_funcs);
 		 'featured' => $_GET['featured'],
 		 'active'	=> $_GET['active'],
 		 'status'	=> $_GET['status'],
-		 );
-		
-		
-		
+		 );		
 	}
 	
 	$result_array = $array;
 	//Getting Video List
 	$result_array['limit'] = $get_limit;
-	$videos = get_videos($array);
+	if(!$array['order'])
+		$result_array['order'] = " date_added DESC ";
+	$videos = get_videos($result_array);
+	
 	Assign('videos', $videos);	
 
 	//Collecting Data for Pagination
@@ -121,6 +120,7 @@ call_functions($cbvid->video_manager_funcs);
 	$vcount['count_only'] = true;
 	$total_rows  = get_videos($vcount);
 	$total_pages = count_pages($total_rows,RESULTS);
+	$pages->paginate($total_pages,$page);
 
 	
 	//Category Array

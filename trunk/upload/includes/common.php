@@ -162,7 +162,9 @@ else
 	define('RVLIST',$row['recently_viewed_limit']);				//Search Results List Per page
 	
  //Video Options
- 
+ 	define('ALLOWED_VDO_CATS',$row['video_categories']);
+	define('ALLOWED_CATEGORIES',3);
+	
  	define('VIDEO_COMMENT',$row['video_comments']);
 	define('VIDEO_RATING',$row['video_rating']);
 	define('COMMENT_RATING',$row['comment_rating']);
@@ -223,23 +225,11 @@ else
 	define('MAX_UPLOAD_SIZE', $row['max_upload_size']);
 	define('THUMB_HEIGHT', $row['thumb_height']);
 	define('THUMB_WIDTH', $row['thumb_width']);
-	define('FFMPEG_TYPE', $row['ffmpeg_type']);
-	if(FFMPEG_TYPE == 's'){
-		define('FFMPEG_BINARY', MODULEDIR.'/encoders/ffmpeg');
-	}else{
-		define('FFMPEG_BINARY', $row['ffmpegpath']);
-	}
-	define('FFMPEG_FLVTOOLS_BINARY', $row['flvpath']);
 	define('PHP_PATH', $row['php_path']);
-	define('FFMPEG_MENCODER_BINARY', $row['mencoderpath']);
-	define('FFMPEG_MPLAYER_BINARY', $row['mplayerpath']);
 	
 	//Defining Plugin Directory
 	define('PLUG_DIR',BASEDIR.'/plugins');
 	define('PLUG_URL',BASEURL.'/plugins');
-	
-	
-	define('ALLOWED_CATEGORIES',3);
 	
 	define('MAX_COMMENT_CHR',$Cbucket->configs['max_comment_chr']);
 	define('USER_COMMENT_OWN',$Cbucket->configs['user_comment_own']);
@@ -362,6 +352,7 @@ $Smarty->assign_by_ref('cbplayer',$cbplayer);
 $Smarty->assign_by_ref('cbsearch',$cbsearch);
 $Smarty->assign_by_ref('cbpm',$cbpm);
 $Smarty->assign_by_ref('cbpage',$cbpage);
+$Smarty->assign_by_ref('cbemail',$cbemail);
 
 /*
 REGISERTING FUNCTION FOR SMARTY TEMPLATES
@@ -392,6 +383,7 @@ $Smarty->register_function('show_playlist_form','show_playlist_form');
 $Smarty->register_function('lang','smarty_lang');
 $Smarty->register_function('get_videos','get_videos');
 $Smarty->register_function('get_users','get_users');
+$Smarty->register_function('get_groups','get_groups');
 $Smarty->register_function('private_message','private_message');
 $Smarty->register_function('show_video_rating','show_video_rating');
 $Smarty->register_function('load_captcha','load_captcha');

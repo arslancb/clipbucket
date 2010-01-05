@@ -1,13 +1,28 @@
-
+<script language="javascript">
+{literal}
+$(document).ready(function(){
+	
+	var thehash = window.location.hash.substr(9,3);
+	$("#tabbed_div > div").hide();
+	if(thehash=='')
+	{
+		display_tab('#tab_1','div_1');
+	}else{
+		display_tab('#tab_'+thehash,'div_'+thehash);
+	}
+	
+});
+{/literal}
+</script>
 <ul class="cbtab">
-  <li onClick='display_tab(this,"div_1",true)' id="first_tab">Website Settings</li>
-  <li onClick='display_tab(this,"div_2",true)' >Uploading and Conversion Settings</li>
-  <li onClick='display_tab(this,"div_3",true)' >Display and Listing Settings</li>
-  <li onClick='display_tab(this,"div_4",true)' >User &amp; Registeration</li>
+  <li onClick='display_tab(this,"div_1",true)' id="tab_1">Website Settings</li>
+  <li onClick='display_tab(this,"div_2",true)' id="tab_2">Uploading and Conversion Settings</li>
+  <li onClick='display_tab(this,"div_3",true)' id="tab_3">Display and Listing Settings</li>
+  <li onClick='display_tab(this,"div_4",true)' id="tab_4">User &amp; Registeration</li>
 </ul>
 <div class="clearfix"></div>
 
-<form name="form1" method="post" action="">
+<form name="form1" method="post" action="" id="main_form">
 <input name="baseurl" value="{$row.baseurl}" type="hidden" />
 <input name="basedir" value="{$row.baseurl}" type="hidden" />
 <div id="tabbed_div">
@@ -169,11 +184,31 @@
       <table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
         <tr>
           <td width="200" valign="top">FFMPEG Binary Path</td>
-          <td valign="top"><input name="ffmpegpath" type="text" id="ffmpegpath" value="{$row.ffmpegpath}" size="45" /></td>
+          <td valign="top"><input name="ffmpegpath" type="text" id="ffmpegpath" value="{$row.ffmpegpath}" size="45" />
+          <a href="http://docs.clip-bucket.com/clipbucket-docs/ffmpeg" target="_blank">
+          <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="FFMPEG Binary Paths - Click For More Details" /></a></td>
         </tr>
         <tr>
           <td valign="top">PHP Binary Path</td>
-          <td valign="top"><input name="php_path" type="text" id="php_path" value="{$row.php_path}" size="45" /></td>
+          <td valign="top"><input name="php_path" type="text" id="php_path" value="{$row.php_path}" size="45" />
+          <a href="http://docs.clip-bucket.com/clipbucket-docs/php" target="_blank">
+          <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="PHP Binary Paths - Click For More Details" /></a></td>
+        </tr>
+        <tr>
+          <td valign="top">Mp4 Binary Path</td>
+          <td valign="top"><input name="mp4boxpath" type="text" id="mp4boxpath" value="{$row.mp4boxpath}" size="45" />
+          <a href="http://docs.clip-bucket.com/clipbucket-docs/mp4box" target="_blank">
+          <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="MP4Box Binary Paths - Click For More Details" /></a></td>
+        </tr>
+        <tr>
+          <td valign="top">Flvtool2 Binary Path</td>
+          <td valign="top"><input name="flvtool2path" type="text" id="flvtool2path" value="{$row.flvtool2path}" size="45" />
+          <a href="http://docs.clip-bucket.com/clipbucket-docs/flvtool2" target="_blank">
+          <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="FLVTool2 Binary Paths - Click For More Details" /></a></td>
+        </tr>
+        <tr>
+          <td valign="top">&nbsp;</td>
+          <td valign="top">&nbsp;</td>
         </tr>
         <tr>
           <td valign="top">Allow video uploading</td>
@@ -206,18 +241,50 @@
           <td>&nbsp;</td>
         </tr>
         <tr>
-          <td colspan="2">Converting video height and thumbs settings</td>
+          <td colspan="2" class="settings_inner_title">Video Upload Form Settings</td>
+        </tr>
+        <tr>
+          <td>Min - Max Video title</td>
+          <td><input name="min_video_title" type="text" id="min_video_title" value="{$row.min_video_title}" size="20" />
+            -
+            <input name="max_video_title" type="text" id="max_video_title" value="{$row.max_video_title}" size="20" /></td>
+        </tr>
+        <tr>
+          <td>Min - Max Video Description</td>
+          <td><input name="min_video_desc" type="text" id="min_video_desc" value="{$row.min_video_desc}" size="20" />
+-
+  <input name="max_video_desc" type="text" id="php_path5" value="{$row.max_video_desc}" size="20" /></td>
+        </tr>
+        <tr>
+          <td>Min - Max Video Tags</td>
+          <td><input name="min_video_tags" type="text" id="php_path6" value="{$row.min_video_tags}" size="20" />
+-
+  <input name="max_video_tags" type="text" id="php_path7" value="{$row.max_video_tags}" size="20" /></td>
+        </tr>
+        <tr>
+          <td>Allowed Categories</td>
+          <td><input name="video_categories" type="text" id="php_path8" value="{$row.video_categories}" size="45" /></td>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
         </tr>
         <tr>
-          <td>Video Width</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="settings_inner_title">Conversion Settings</td>
+        </tr>
+        <tr>
+          <td>Max Video Width</td>
           <td><input name="r_width" type="text" id="r_width" value="{$row.r_width}" size="45" /></td>
         </tr>
         <tr>
-          <td>Video Height</td>
+          <td>Max Video Height</td>
           <td><input name="r_height" type="text" id="r_height" value="{$row.r_height}" size="45" /></td>
         </tr>
         <tr>
@@ -227,7 +294,8 @@
             <option value="max" {if $row.resize ==max} selected="selected"{/if}>Max</option>
             <option value="WxH" {if $row.resize ==WxH} selected="selected"{/if}>Stretch</option>
             <option value="fit" {if $row.resize ==fit} selected="selected"{/if}>Aspect Ratio</option>
-          </select>&nbsp;</td>
+          </select> <a href="http://docs.clip-bucket.com/clipbucket-docs/resize-video-type" target="_blank">
+          <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="Resize Type Of Video - Click For More Details" /></a></td>
         </tr>
         <tr>
           <td>Thumb Width</td>
@@ -254,11 +322,15 @@
           <td>&nbsp;</td>
         </tr>
         <tr>
-          <td colspan="2">Change only if you have good knowledge of video conversion</td>
+          <td colspan="2" class="settings_inner_title">Change only if you have good knowledge of video conversion <a href="http://docs.clip-bucket.com/clipbucket-docs/video-conversion-settings" target="_blank"><img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="Video Conversion Info - Click For More Details" /></a></td>
         </tr>
         <tr>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
+          <td>Video Codec</td>
+          <td><input name="video_codec" type="text" id="video_codec" value="{$row.video_codec}" size="45" /></td>
+        </tr>
+        <tr>
+          <td>Audio Codec</td>
+          <td><input name="audio_codec" type="text" id="audio_codec" value="{$row.audio_codec}" size="45" /></td>
         </tr>
         <tr>
           <td>Video Rate</td>

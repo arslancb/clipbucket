@@ -24,9 +24,9 @@
         <div class="search_footer clearfix">
             <div class="foot_s_con">
                 <div class="advance" title="Advanced Search"></div>
-                <form action="" method="get" name="advance_search">
-                    <input type="text" name="query" id="query" />
-                    <input type="submit" value="Search" />
+                <form name="search-form" method="get" action="{link name='search_result'}">
+                    <input type="text" name="query" value="{'query'|get_form_val:true}"  />
+                    <input type="submit" value="Search" name="cbsearch" />
                 </form>            
             </div> <!--FOOT_S_CON END-->
         </div> <!--SEARCH_FOOTER END-->

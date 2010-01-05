@@ -6,14 +6,8 @@
  * 
  * ClipBucket License (CBLA)
  * 
- */$(document).ready(function(){
-	$("#tabbed_div > div").hide();						  
-    display_tab('#first_tab','div_1');
+ */
 	
-  });
-
-		
-		
 var current_tab = '';
 var current_div = '';
 function display_tab(Li,divid)
@@ -25,6 +19,9 @@ function display_tab(Li,divid)
 		
 	$(Li).attr("class","selected");
 	$('#'+divid).show();
+	
+	window.location.hash = 'current_'+divid.substr(4,3);
+	$("#main_form").attr("action",window.location.hash); 
 	
 	current_tab = Li;
 	current_div = divid;
