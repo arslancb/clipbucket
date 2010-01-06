@@ -5,11 +5,10 @@
  */
 
 include("../includes/functions.php");
+include("./clipbucket.php");
 
-define("installer","ClipBucket v2 Installer");
-define("VERSION","2");
-define("STATE","pre-alpha");
-define("RELEASED","12-25-2009");
+	define("installer","ClipBucket v2 Installer");
+
 
 
 	/**

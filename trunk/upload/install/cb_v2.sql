@@ -3,17 +3,15 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 25, 2009 at 04:44 PM
+-- Generation Time: Jan 06, 2010 at 11:52 AM
 -- Server version: 5.1.36
 -- PHP Version: 5.3.0
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+--
+-- Database: `sample_cbv2`
+--
 
 -- --------------------------------------------------------
 
@@ -33,7 +31,8 @@ CREATE TABLE IF NOT EXISTS `action_log` (
   `action_success` enum('yes','no') CHARACTER SET latin1 NOT NULL,
   `action_details` text CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`action_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=139 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 -- --------------------------------------------------------
 
 --
@@ -57,15 +56,15 @@ CREATE TABLE IF NOT EXISTS `ads_data` (
 --
 
 INSERT INTO `ads_data` (`ad_id`, `ad_name`, `ad_code`, `ad_placement`, `ad_category`, `ad_status`, `ad_impressions`, `date_added`) VALUES
-(1, 'Ad Box of 300 x 250', '&lt;img src=&quot;http://www.lipsum.com/images/banners/black_300x250.gif&quot;&gt;', 'ad_300x250', 0, '1', 1478, '0000-00-00 00:00:00'),
+(1, 'Ad Box of 300 x 250', '&lt;img src=&quot;http://www.lipsum.com/images/banners/black_300x250.gif&quot;&gt;', 'ad_300x250', 0, '1', 1497, '0000-00-00 00:00:00'),
 (9, '336x280', '&lt;img src=&quot;http://www.lipsum.com/images/banners/black_336x280.gif&quot;&gt;', '336x280', 0, '1', 227, '0000-00-00 00:00:00'),
 (2, 'Adbox 160x600', '&lt;img src=''http://www.lipsum.com/images/banners/grey_160x600.gif'' /&gt;\r\n', 'ad_160x600', 0, '1', 1636, '0000-00-00 00:00:00'),
 (3, 'Adbox 468x60', '&lt;div style=''border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:468px; height:60px; line-height:60px;'' align=&quot;center&quot;&gt;\r\n	Ad Box 468 x 60\r\n&lt;/div&gt;', 'ad_160x600', 0, '1', 1956, '0000-00-00 00:00:00'),
-(4, 'Adbox 728x90', '<div style="border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:728px; height:90px; line-height:90px;" align="center">\r\n	Ad Box 728 x 90\r\n</div>', 'ad_728x90', 0, '1', 694, '0000-00-00 00:00:00'),
+(4, 'Adbox 728x90', '&lt;div style=&quot;border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:728px; height:90px; line-height:90px;&quot; align=&quot;center&quot;&gt;\r\n	Ad Box 728 x 90\r\n&lt;/div&gt;', 'ad_728x90', 0, '1', 694, '0000-00-00 00:00:00'),
 (5, 'Adbox 120x600', '&lt;div style=&quot;border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:120px; height:600px; &quot; align=&quot;center&quot;&gt;\r\n	Ad Box 120 x 600\r\n&lt;/div&gt;', 'ad_468x60', 0, '1', 686, '0000-00-00 00:00:00'),
-(6, 'Test', '&lt;img src=''http://www.lipsum.com/images/banners/black_300x250.gif''&gt;', 'ad_300x250', 0, '1', 1477, '0000-00-00 00:00:00'),
+(6, 'Test', '&lt;img src=''http://www.lipsum.com/images/banners/black_300x250.gif''&gt;', 'ad_300x250', 0, '1', 1496, '0000-00-00 00:00:00'),
 (7, 'Rasd', 'asd', 'ad_120x600', 0, '1', 711, '0000-00-00 00:00:00'),
-(8, 'Tesdt', 'test', 'ad_160x600', 0, '1', 1, '0000-00-00 00:00:00');
+(8, 'Tesdt', 'test', 'ad_160x600', 0, '1', 258, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -93,6 +92,53 @@ INSERT INTO `ads_placements` (`placement_id`, `placement`, `placement_name`, `di
 (7, 'ad_120x600', 'Skyscrapper 120 x 600', 'yes'),
 (10, 'ad_300x300', 'AD 300x300', 'no'),
 (11, '336x280', '336 x280 ad', 'no');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cb_admin_notes`
+--
+
+CREATE TABLE IF NOT EXISTS `cb_admin_notes` (
+  `note_id` int(225) NOT NULL AUTO_INCREMENT,
+  `note` text CHARACTER SET ucs2 NOT NULL,
+  `date_added` datetime NOT NULL,
+  `userid` int(225) NOT NULL,
+  PRIMARY KEY (`note_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `cb_admin_notes`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cb_pages`
+--
+
+CREATE TABLE IF NOT EXISTS `cb_pages` (
+  `page_id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_name` varchar(225) NOT NULL,
+  `page_title` varchar(225) NOT NULL,
+  `page_content` text NOT NULL,
+  `userid` int(225) NOT NULL,
+  `active` enum('yes','no') NOT NULL,
+  `delete_able` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`page_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `cb_pages`
+--
+
+INSERT INTO `cb_pages` (`page_id`, `page_name`, `page_title`, `page_content`, `userid`, `active`, `delete_able`, `date_added`) VALUES
+(1, 'About us', 'About us', '<div style="margin: auto; width: 98%;"><font style="font-weight: bold;" size="4">About Us</font><hr noshade="noshade" size="1">\r\n  \r\n  \r\n    <p><span style="font-weight: bold;">ClipBucket </span>is one of the world''s best video sites . We specialize in short-form\r\noriginal content - from new, emerging talents and established Hollywood\r\nheavyweights alike. We''re committed to delivering an exceptional\r\nentertainment experience, and we do so by engaging and empowering our\r\naudience every step of the way.</p>\r\n      <p>Everyone can Watch Videos\r\non <span style="font-weight: bold;">ClipBucket</span>. People can see first-hand accounts of current events, find\r\nvideos about their hobbies and interests, and discover the\r\nquirky and unusual. As more people capture special moments on\r\nvideo,<span style="font-weight: bold;">ClipBucket </span>is empowering them to become the broadcasters of\r\ntomorrow.</p>\r\n      <p><span style="font-weight: bold;">ClipBucket </span>not only a video sharing website but\r\nalso has social network features, you can make friends,\r\nand send them videos and private messages. <span style="font-weight: bold;">ClipBucket </span><span style="font-weight: bold;"></span> also has built in\r\nrating system and comment system so that people can discuss on there\r\ninterested videos, not only comment but also, people can rate Comments.</p></div>', 1, 'yes', 'no', '2010-01-01 08:47:56'),
+(2, 'Privacy Policy', 'Privacy Policy', '<h1>ClipBucket Privacy Notice - YT Version\r\n</h1>\r\n<h2>Personal Information</h2>\r\n<ul>\r\n  <li><strong>Browsing ClipBucket</strong> You can watch videos on ClipBucket without having a ClipBucket Account or a  PHPBucket Account. You also can contact us through the ClipBucket Help Center  or by emailing us directly without having to register for an account.</li>\r\n  <li><strong>Your ClipBucket Account.</strong> For some activities on ClipBucket, like uploading videos, posting  comments, flagging videos, or watching restricted videos, you need a  ClipBucket or PHPBucket Account. We ask for some personal information when  you create an account, including your email address and a password,  which is used to protect your account from unauthorized access. A  PHPBucket Account, additionally, allows you to access other PHPBucket  services that require registration.</li>\r\n  <li><strong>Usage Information.</strong> When you use ClipBucket, we may record information about your usage of the  site, such as the channels, groups and favorites you subscribe to,  which other users you communicate with, the videos you watch, the  frequency and size of data transfers, and information you display about  yourself as well as information you click on in ClipBucket (including UI  elements, settings). If you are logged in, we may associate that  information with your ClipBucket Account. In order to ensure the quality  of our service to you, we may place a tag (also called a "web beacon")  in HTML-based customer support emails or other communications with you  in order to confirm delivery.</li>\r\n  <li><strong>Content Uploaded to Site.</strong> Any personal information or video content that you voluntarily disclose  online (e.g., video comments, your profile page) may be collected and  used by others. If you download the ClipBucket Uploader, your copy  includes a unique application number. This number, and information  about your installation of the Uploader (version number, language) will  be sent to ClipBucket when the Uploader automatically checks for updates  and will be used to update your version of the Uploader.</li>\r\n</ul>\r\n<h2>Uses</h2>\r\n<ul>\r\n  <li>If  you submit personal information to ClipBucket, we may use that information  to operate, maintain, and improve the features and functionality of  ClipBucket, and to process any flagging activity or other communication  you send to us.</li>\r\n  <li>We do not use your  email address or other personal information to send commercial or  marketing messages without your consent. We may use your email address  without further consent for non-marketing or administrative purposes  (such as notifying you of major ClipBucket changes or for customer service  purposes). You also can choose how often ClipBucket sends you email  updates in your ClipBucket Account settings page.</li>\r\n  <li>We  use cookies, web beacons, and log file information to: (a) store  information so that you will not have to re-enter it during your visit  or the next time you visit ClipBucket; (b) provide custom, personalized  content and information; (c) monitor the effectiveness of our marketing  campaigns; (d) monitor aggregate metrics such as total number of  visitors and pages viewed; and (e) track your entries, submissions, and  status in promotions, sweepstakes, and contests.</li>\r\n</ul>\r\n<h2>Information That is Publicly Available</h2>\r\n<ul>\r\n  <li>When  you create a ClipBucket Account, some information about your ClipBucket  Account and your account activity will be provided to other users of  ClipBucket. This may include the date you opened your ClipBucket Account, the  date you last logged into your ClipBucket Account, your age (if you choose  to make it public), the country and the number of videos you have  watched.</li>\r\n  <li>Your ClipBucket Account name,  not your email address, is displayed to other users when you engage in  certain activities on ClipBucket, such as when you upload videos or send  messages through ClipBucket. Other users can contact you by leaving a  message or comment on the site.</li>\r\n  <li>Any  videos that you submit to ClipBucket may be redistributed through the  internet and other media channels, and may be viewed by other ClipBucket  users or the general public. </li>\r\n  <li>You  may also choose to add personal information which may include your  name, gender, profile picture or other details, that will be visible to  other users on your ClipBucket Account channel page. If you choose to add  certain features to your ClipBucket Account channel page, then these  features and your activity associated with these features will be  displayed to other users and may be aggregated and shared with your  friends or other users. Such shared activity may include your favorite  videos, videos you rated and videos that you have uploaded.</li>\r\n</ul>\r\n<h2>Your Choices</h2>\r\n<ul>\r\n  <li>If  you have a ClipBucket Account, you may update or correct your personal  profile information, email preferences and privacy settings at any time  by visiting your account profile page. </li>\r\n  <li>You  may control the information that is available to other users and your  confirmed friends at any time by editing your ClipBucket Account and the  features that are included on your channel page. If you have enabled  Active Sharing, other users may see that you, as identified by your  account name, not your email address, are watching the same video.</li>\r\n  <li>You  may, of course, decline to submit personal information through ClipBucket,  in which case you can still view videos and explore ClipBucket, but  ClipBucket may not be able to provide certain services to you. Some  advanced ClipBucket features may use other PHPBucket services like PHPBucket  Checkout or AdSense. The privacy notices of those services govern the  use of your personal information associated with them.</li>\r\n</ul>\r\n', 1, 'yes', 'no', '2010-01-01 08:52:46'),
+(3, 'Terms of Serivce', 'Terms of Service', 'Write your own terms of service...', 1, 'yes', 'no', '2010-01-01 08:53:57'),
+(4, 'Help', 'Help', '<span style="font-weight: bold;">How to use ClipBucket</span><br><ol><li>Articles will be written pretty soon</li></ol>', 1, 'yes', 'no', '2010-01-01 09:17:36');
 
 -- --------------------------------------------------------
 
@@ -173,72 +219,72 @@ CREATE TABLE IF NOT EXISTS `config` (
   `name` varchar(100) NOT NULL DEFAULT '',
   `value` mediumtext NOT NULL,
   PRIMARY KEY (`configid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=84 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=108 ;
 
 --
 -- Dumping data for table `config`
 --
 
 INSERT INTO `config` (`configid`, `name`, `value`) VALUES
-(45, 'user_comment_opt1', ''),
-(18, 'resize', 'no'),
-(17, 'r_width', '300'),
-(16, 'r_height', '240'),
-(15, 'srate', '22050'),
-(14, 'vbrate', '500000'),
-(10, 'keywords', 'clip bucket video sharing website script'),
-(11, 'ffmpegpath', ''),
-(12, 'flvpath', ''),
-(13, 'whatis', '<p>ClipBucket is the home for video online:</p>\r\n          \r\n            <ul><li><strong>Watch</strong> millions  of videos</li><li><strong>Share favorites</strong> with friends and family</li><li><strong>Connect with other users</strong> who share your interests</li><li><strong>Upload your videos</strong> to a worldwide audience</li></ul>\r\n<h3>Sign up now to join the ClipBucket community!</h3>'),
-(9, 'description', 'Clip Bucket is an ultimate Video Sharing script'),
-(8, 'closed_msg', 'We Are Updating Our Website, Please Visit us after few hours.'),
-(7, 'closed', '0'),
-(6, 'player_file', 'cbplayer.plug.php'),
-(5, 'template_dir', 'cbv2new'),
-(4, 'basedir', ''),
-(2, 'site_slogan', 'A way to broadcast yourself'),
 (1, 'site_title', 'ClipBucket v2'),
-(50, 'captcha_type', '1'),
-(49, 'user_rate_opt1', ''),
-(48, 'user_comment_opt4', ''),
-(47, 'user_comment_opt3', ''),
-(46, 'user_comment_opt2', ''),
-(43, 'thumb_height', '90'),
-(42, 'thumb_width', '120'),
-(41, 'sbrate', '64000'),
-(40, 'max_upload_size', '1000'),
-(39, 'recently_viewed_limit', '12'),
-(38, 'search_list_per_page', '20'),
-(37, 'admin_pages', '50'),
-(36, 'seo', 'yes'),
-(35, 'groups_list_per_page', '15'),
-(34, 'video_embed', '1'),
-(33, 'video_download', '1'),
-(32, 'comment_rating', '1'),
-(31, 'video_rating', ''),
-(30, 'video_comments', '1'),
-(29, 'channels_list_per_tab', '13'),
-(28, 'videos_list_per_tab', '12'),
-(27, 'channels_list_per_page', '25'),
-(26, 'videos_list_per_page', '15'),
-(51, 'allow_upload', 'yes'),
-(3, 'baseurl', ''),
-(25, 'php_path', ''),
-(24, 'allow_registeration', '1'),
+(2, 'site_slogan', 'A way to broadcast yourself'),
+(3, 'baseurl', 'http://localhost/clipbucket/2.x/2/upload'),
+(4, 'basedir', 'E:\\wamp\\www\\ClipBucket\\2.x\\2\\upload'),
+(5, 'template_dir', 'cbv2new'),
+(6, 'player_file', ''),
+(7, 'closed', '0'),
+(8, 'closed_msg', 'We Are Updating Our Website, Please Visit us after few hours.'),
+(9, 'description', 'Clip Bucket is an ultimate Video Sharing script'),
+(10, 'keywords', 'clip bucket video sharing website script'),
+(11, 'ffmpegpath', '/usr/bin/ffmpeg'),
+(12, 'flvtool2path', '/usr/bin/flvtool2'),
+(13, 'mp4boxpath', '/usr/bin/Mp4Box'),
+(14, 'vbrate', '512000'),
+(15, 'srate', '22050'),
+(16, 'r_height', '300'),
+(17, 'r_width', '400'),
+(18, 'resize', 'no'),
 (19, 'mencoderpath', ''),
-(23, 'email_verification', '1'),
-(44, 'ffmpeg_type', ''),
-(22, 'mplayerpath', ''),
-(21, 'activation', ''),
 (20, 'keep_original', '1'),
-(52, 'allowed_types', 'wmv avi divx 3gp mov mpeg mpg xvid flv asf rm dat mp4'),
-(53, 'version', '1.7.1'),
-(54, 'version_type', 'SVN'),
+(21, 'activation', ''),
+(22, 'mplayerpath', ''),
+(23, 'email_verification', '1'),
+(24, 'allow_registeration', '1'),
+(25, 'php_path', 'E:/wamp/bin/php/php5.3.0/php.exe'),
+(26, 'videos_list_per_page', '25'),
+(27, 'channels_list_per_page', '25'),
+(28, 'videos_list_per_tab', '1'),
+(29, 'channels_list_per_tab', '1'),
+(30, 'video_comments', '1'),
+(31, 'video_rating', ''),
+(32, 'comment_rating', '1'),
+(33, 'video_download', '1'),
+(34, 'video_embed', '1'),
+(35, 'groups_list_per_page', '15'),
+(36, 'seo', 'yes'),
+(37, 'admin_pages', '50'),
+(38, 'search_list_per_page', '20'),
+(39, 'recently_viewed_limit', '12'),
+(40, 'max_upload_size', '1000'),
+(41, 'sbrate', '128000'),
+(42, 'thumb_width', '120'),
+(43, 'thumb_height', '90'),
+(45, 'user_comment_opt1', ''),
+(44, 'ffmpeg_type', ''),
+(46, 'user_comment_opt2', ''),
+(47, 'user_comment_opt3', ''),
+(48, 'user_comment_opt4', ''),
+(49, 'user_rate_opt1', ''),
+(50, 'captcha_type', '1'),
+(51, 'allow_upload', 'yes'),
+(52, 'allowed_types', 'wmv,avi,divx,3gp,mov,mpeg,mpg,xvid,flv,asf,rm,dat,mp4'),
+(53, 'version', '2.0.1'),
+(54, 'version_type', 'Alpha'),
 (55, 'allow_template_change', ''),
 (56, 'allow_language_change', '1'),
-(57, 'default_site_lang', 'en'),
-(58, 'video_require_login', 'yes'),
-(59, 'audio_codec', ''),
+(57, 'default_site_lang', ''),
+(58, 'video_require_login', ''),
+(59, 'audio_codec', 'libmp3lame'),
 (60, 'con_modules_type', ''),
 (61, 'remoteUpload', ''),
 (62, 'embedUpload', ''),
@@ -247,7 +293,7 @@ INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (65, 'sys_os', ''),
 (66, 'debug_level', ''),
 (67, 'enable_troubleshooter', '1'),
-(68, 'vrate', '25'),
+(68, 'vrate', '30'),
 (69, 'num_thumbs', '3'),
 (70, 'big_thumb_width', '320'),
 (71, 'big_thumb_height', '240'),
@@ -262,8 +308,31 @@ INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (80, 'player_height', '308'),
 (81, 'default_country_iso2', 'PK'),
 (82, 'channel_player_width', '600'),
-(83, 'channel_player_height', '281');
-
+(83, 'channel_player_height', '281'),
+(84, 'videos_items_grp_page', '12'),
+(85, 'videos_items_hme_page', '20'),
+(86, 'videos_items_columns', '9'),
+(87, 'videos_items_ufav_page', '25'),
+(88, 'videos_items_uvid_page', '25'),
+(89, 'videos_items_search_page', '30'),
+(90, 'videos_item_channel_page', '10'),
+(91, 'users_items_subscriptions', '5'),
+(92, 'users_items_subscibers', '5'),
+(93, 'users_items_contacts_channel', '5'),
+(94, 'users_items_search_page', '12'),
+(95, 'users_items_group_page', '15'),
+(96, 'cbhash', 'PGRpdiBhbGlnbj0iY2VudGVyIj48IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPg0KUG93ZXJlZCBieSA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tLyI+Q2xpcEJ1Y2tldDwvYT4gdjIuMC4xPGJyPg0KQ29weXJpZ2h0IMKpMjAwNyAtIDIwMTAsIENsaXBCdWNrZXQNCjwhLS0gRG8gbm90IHJlbW92ZSB0aGlzIGNvcHlyaWdodCBub3RpY2UgLS0+PC9kaXY+'),
+(97, 'min_video_title', '4'),
+(98, 'max_video_title', '60'),
+(99, 'min_video_desc', '5'),
+(100, 'max_video_desc', '300'),
+(101, 'video_categories', '4'),
+(102, 'min_video_tags', '3'),
+(103, 'max_video_tags', '30');
+(104, 'video_codec', 'flv'),
+(105, 'date_released', '01-05-2010'),
+(106, 'date_installed', '01-05-2010'),
+(107, 'date_updated', now()),
 -- --------------------------------------------------------
 
 --
@@ -559,19 +628,31 @@ INSERT INTO `countries` (`id`, `iso2`, `iso3`, `name_en`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `editors_picks`
+-- Table structure for table `custom_fields`
 --
 
-CREATE TABLE IF NOT EXISTS `editors_picks` (
-  `pick_id` int(225) NOT NULL AUTO_INCREMENT,
-  `videoid` int(225) NOT NULL,
-  `sort` bigint(5) NOT NULL DEFAULT '1',
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`pick_id`)
+CREATE TABLE IF NOT EXISTS `custom_fields` (
+  `custom_field_list_id` int(11) NOT NULL AUTO_INCREMENT,
+  `custom_field_title` text NOT NULL,
+  `custom_field_type` text NOT NULL,
+  `custom_field_name` text NOT NULL,
+  `custom_field_id` text NOT NULL,
+  `custom_field_value` text NOT NULL,
+  `custom_field_hint_1` text NOT NULL,
+  `custom_field_db_field` text NOT NULL,
+  `custom_field_required` enum('yes','no') NOT NULL DEFAULT 'no',
+  `custom_field_validate_function` text NOT NULL,
+  `custom_field_invalid_err` text NOT NULL,
+  `custom_field_display_function` text NOT NULL,
+  `custom_field_anchor_before` text NOT NULL,
+  `custom_field_anchor_after` text NOT NULL,
+  `custom_field_hint_2` text NOT NULL,
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`custom_field_list_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `editors_picks`
+-- Dumping data for table `custom_fields`
 --
 
 
@@ -635,7 +716,7 @@ INSERT INTO `email_templates` (`email_template_id`, `email_template_name`, `emai
 (8, 'Forgot username request', 'forgot_username_request', '[{website_title}] - your {website_title} username', 'Hello,\r\nyour {website_title} username is : {username}\r\n\r\n--------------\r\nRegards\r\n{website_title}', '{username}'),
 (9, 'Friend Request Email', 'friend_request_email', '[{website_title}] {username} add you as friend', 'Hi {reciever},\r\n{sender} added you as a friend on {website_title}. We need to confirm that you know {sender} in order for you to be friends on {website_title}.\r\n\r\n<a href="{sender_link}">View profile of {sender}</a> \r\n<a href="{request_link}">lick here to respond to friendship request</a>\r\n\r\nThanks,\r\n{website_title} Team', 'reciever,sender,sender_link,request_link'),
 (10, 'Friend Confirmation Email', 'friend_confirmation_email', '[{website_title}] - {sender} has confirmed you as a friend', 'Hi {reciever},\r\n{sender} confirmed you as a friend on {website_title}.\r\n\r\n<a href="{sender_link}">View {sender} profile</a>\r\n\r\nThanks,\r\nThe Facebook Team', 'sender,reciever,sender_link'),
-(11, 'Group Invitation', 'group_invitation', '[{website_title}] {sender} has invited you to join group "{group_name}"', '{sender} invited you to join the {website_title} group "{group_name}".\r\n\r\n{group_description}\r\n\r\nTo see more details and confirm this group invitation, follow the link below:\r\n<a href="{group_url}">{group_url}</a>\r\n\r\nThanks,\r\n{website_title}', 'sender,reciever,group_name,group_url');
+(11, 'Group Invitation', 'group_invitation', '[{website_title}] {sender} has invited you to join group &#8220;{group_name}&#8221;', '{sender} invited you to join the {website_title} group "{group_name}".\r\n\r\n{group_description}\r\n\r\nTo see more details and confirm this group invitation, follow the link below:\r\n<a href="{group_url}">{group_url}</a>\r\n\r\nThanks,\r\n{website_title}', 'sender,reciever,group_name,group_url');
 
 -- --------------------------------------------------------
 
@@ -919,14 +1000,13 @@ CREATE TABLE IF NOT EXISTS `phrases` (
   `varname` varchar(250) NOT NULL DEFAULT '',
   `text` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=862 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=868 ;
 
 --
 -- Dumping data for table `phrases`
 --
 
 INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
-(507, 'en', 'grp_add_vdo_msg', 'Add Videos To Group '),
 (2, 'en', 'ad_name_error', 'Please Enter Name For The Advertisments'),
 (3, 'en', 'ad_code_error', 'Error : Please Enter Code For Advertisement'),
 (4, 'en', 'ad_exists_error1', 'Add Does not exists'),
@@ -1089,12 +1169,12 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (161, 'en', 'usr_arr_comitted', 'Comitted'),
 (162, 'en', 'usr_arr_open_marriage', 'Open Marriage'),
 (163, 'en', 'usr_arr_open_relate', 'Open Relationship'),
-(164, 'en', 'title_crt_new_msg', ' - Create New Message'),
+(164, 'en', 'title_crt_new_msg', 'Compose new message'),
 (165, 'en', 'title_forgot', 'Forgot Something? Find it now !'),
 (166, 'en', 'title_inbox', ' - Inbox'),
 (167, 'en', 'title_sent', ' - Sent Folder'),
 (168, 'en', 'title_usr_contact', '&#8217;s Contact List'),
-(169, 'en', 'title_usr_fav_vids', '&#8217;s Favourite Videos'),
+(169, 'en', 'title_usr_fav_vids', '%''s favorite videos'),
 (170, 'en', 'title_view_channel', '&#8217;s Channel'),
 (171, 'en', 'title_edit_video', 'Edit Video - '),
 (172, 'en', 'vdo_title_err', 'Please Enter Video Title'),
@@ -1192,7 +1272,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (264, 'en', 'com_not_redirecting_msg', 'if your are not redirecting'),
 (265, 'en', 'com_manage_contacts', 'Manage Contacts '),
 (266, 'en', 'com_send_message', 'Send Message'),
-(267, 'en', 'com_manage_fav', 'Manage Favourites '),
+(267, 'en', 'com_manage_fav', 'Manage Favorites '),
 (268, 'en', 'com_manage_subs', 'Manage Subscriptions'),
 (269, 'en', 'com_subscribe_to', 'Subscribe to %s''s channel'),
 (270, 'en', 'com_total_subs', 'Total Subscribtions'),
@@ -1270,7 +1350,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (342, 'en', 'hi', 'Hi'),
 (343, 'en', 'hobbies', 'Hobbies'),
 (344, 'en', 'Home', 'Home'),
-(345, 'en', 'inbox', 'Inbox'),
+(345, 'en', 'inbox', 'inbox'),
 (346, 'en', 'interests', 'Interests'),
 (347, 'en', 'join_now', 'Join Now'),
 (348, 'en', 'joined', 'Joined'),
@@ -1373,7 +1453,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (445, 'en', 'vdo_title', 'Title'),
 (446, 'en', 'vdo_desc', 'Description'),
 (447, 'en', 'vdo_cat', 'Video Category'),
-(448, 'en', 'vdo_cat_msg', 'You May Select Upto 3 Categories'),
+(448, 'en', 'vdo_cat_msg', 'You May Select Upto %s Categories'),
 (449, 'en', 'vdo_tags_msg', 'Tags are separated by commas ie Arslan Hassan, Awsome, ClipBucket'),
 (450, 'en', 'vdo_br_opt', 'Broadcast Options'),
 (451, 'en', 'vdo_br_opt1', 'Public Share your video with the Everyone! (Recommended)'),
@@ -1432,6 +1512,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (504, 'en', 'vdo_post_to_a_services', 'Post to an Aggregating Service'),
 (505, 'en', 'vdo_commentary', 'Commentary'),
 (506, 'en', 'vdo_post_a_comment', 'Post A Comment'),
+(507, 'en', 'grp_add_vdo_msg', 'Add Videos To Group '),
 (508, 'en', 'grp_no_vdo_msg', 'You Don&#8217;t Have Any Video'),
 (509, 'en', 'grp_add_to', 'Add To Group'),
 (510, 'en', 'grp_add_vdos', 'Add Videos'),
@@ -1565,8 +1646,8 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (638, 'en', 'user_create_group', 'Create New Group'),
 (639, 'en', 'user_manage_my_account', 'Manage My Account '),
 (640, 'en', 'user_manage_my_videos', 'Manage My Videos'),
-(641, 'en', 'user_manage_my_channel', 'Manage My Channe'),
-(642, 'en', 'user_sent_box', 'Sent Box'),
+(641, 'en', 'user_manage_my_channel', 'Manage My Channel'),
+(642, 'en', 'user_sent_box', 'My sent items'),
 (643, 'en', 'user_manage_channel', 'Manage Channel'),
 (644, 'en', 'user_manage_my_contacts', 'Manage My Contacts'),
 (645, 'en', 'user_manage_contacts', 'Manage Contacts'),
@@ -1650,7 +1731,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (723, 'en', 'user_do_not_have_contact', 'User Does Not Have Any Contact'),
 (724, 'en', 'user_no_fav_video_exist', 'User Does Not Have Favourite Video'),
 (725, 'en', 'user_have_no_vide', 'User has no videos'),
-(726, 'en', 'user_s_channel', '%sâ€™s Channel '),
+(726, 'en', 'user_s_channel', '%s''s Channel '),
 (727, 'en', 'user_last_login', 'Last Login'),
 (728, 'en', 'user_send_message', 'Send Message'),
 (729, 'en', 'user_add_contact', 'Add Contact'),
@@ -1780,7 +1861,13 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (858, 'en', 'remove_playlist_item_confirm', 'Are you sure you want to remove this from your playlist'),
 (859, 'en', 'remove_playlist_confirm', 'Are you sure you want to delete this playlist?'),
 (860, 'en', 'avcode_incorrect', 'Activation code is incorrect'),
-(861, 'en', 'group_join_login_err', 'Please login in order to join this group');
+(861, 'en', 'group_join_login_err', 'Please login in order to join this group'),
+(862, 'en', 'manage_playlist', 'Manage playlist'),
+(863, 'en', 'my_notifications', 'My notifications'),
+(864, 'en', 'users_contacts', '%s&#8217;s contacts'),
+(865, 'en', 'type_flags_removed', '%s flags have been removed'),
+(866, 'en', 'terms_of_serivce', 'Terms of services'),
+(867, 'en', 'users', 'Users');
 
 -- --------------------------------------------------------
 
@@ -1798,12 +1885,15 @@ CREATE TABLE IF NOT EXISTS `plugins` (
   `plugin_license_code` text NOT NULL,
   `plugin_active` enum('yes','no') NOT NULL,
   PRIMARY KEY (`plugin_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `plugins`
 --
 
+INSERT INTO `plugins` (`plugin_id`, `plugin_file`, `plugin_folder`, `plugin_version`, `plugin_license_type`, `plugin_license_key`, `plugin_license_code`, `plugin_active`) VALUES
+(1, 'embed_video_mod.php', 'embed_video_mod', 0, '', '', '', 'yes'),
+(5, 'tester_plugin.php', '', 0, '', '', '', 'yes');
 
 -- --------------------------------------------------------
 
@@ -1958,7 +2048,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `ind_status_doj` (`doj`),
   KEY `ind_status_id` (`userid`),
   KEY `ind_hits_doj` (`profile_hits`,`doj`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `users`
@@ -2148,7 +2238,7 @@ CREATE TABLE IF NOT EXISTS `user_profile` (
   PRIMARY KEY (`user_profile_id`),
   KEY `ind_status_id` (`userid`),
   FULLTEXT KEY `profile_tags` (`profile_tags`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
 
 --
 -- Dumping data for table `user_profile`
@@ -2223,6 +2313,7 @@ CREATE TABLE IF NOT EXISTS `video` (
   `status` enum('Successful','Processing','Failed') NOT NULL DEFAULT 'Processing',
   `flv_file_url` text,
   `default_thumb` int(3) NOT NULL DEFAULT '1',
+  `embed_code` text NOT NULL,
   PRIMARY KEY (`videoid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -2245,20 +2336,12 @@ CREATE TABLE IF NOT EXISTS `video_categories` (
   `category_thumb` mediumtext NOT NULL,
   `isdefault` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `video_categories`
 --
 
-INSERT INTO `video_categories` (`category_id`, `category_name`, `category_desc`, `date_added`, `category_thumb`, `isdefault`) VALUES
-(19, 'Auto Videos', '', '2009-11-22 13:48:50', '', 'no'),
-(18, 'Animal Videos', '', '2009-11-22 13:48:40', '', 'no'),
-(16, 'Some Category', '', '2009-09-01 19:42:35', '', 'no'),
-(10, 'Uncategorized', 'all uncategorized videos', '2009-08-31 21:50:50', '', 'yes'),
-(20, 'Entertainment', '', '2009-11-22 13:48:54', '', 'no'),
-(21, 'Funny Videos', '', '2009-11-22 13:48:59', '', 'no'),
-(22, 'Sports Videos', '', '2009-11-22 13:49:07', '', 'no');
 
 -- --------------------------------------------------------
 
@@ -2334,4 +2417,3 @@ CREATE TABLE IF NOT EXISTS `video_files` (
 --
 -- Dumping data for table `video_files`
 --
-

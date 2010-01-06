@@ -3397,8 +3397,8 @@
 	 */
 	function get_latest_cb_info()
 	{
-		//$url = 'http://clip-bucket.com/versions.xml';
-		$url = 'http://localhost/clipbucket/2.x/2/upload/tester/versions.xml';
+		$url = 'http://clip-bucket.com/versions.xml';
+		//$url = 'http://localhost/clipbucket/2.x/2/upload/tester/versions.xml';
 		$version = xml2array($url);
 		if(!$version)
 		{

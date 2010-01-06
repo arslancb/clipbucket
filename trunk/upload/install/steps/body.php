@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>ClipBucket v2 Installer</title>
 <link href="./theme/blue.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="./js/jquery.js"></script>
 </head>
 
 <body>

@@ -9,7 +9,6 @@
  */
  
 error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
-include("../includes/clipbucket.php");
 include("config.php");
 include("checkup.php");
 
@@ -40,8 +39,13 @@ if(file_exists(SCRIPT_DIR.'/files/install.loc'))
 	
 switch($step)
 {
-	case 1:
+	case "0":
 	default:
+	{
+		$step = 0;
+	}
+	break;
+	case 1:
 	{
 		$step = 1;
 	}
@@ -97,11 +101,6 @@ switch($step)
 			$errors[] = '"/includes" directory is not writeable - Please changes its permission to 0777';
 		else
 			$msgs[] = '"/includes" directory is writeable';
-		//Checking includes Directory
-		if(!is_writeable("../includes/clipbucket.php") && file_exists("../includes/clipbucket.php"))
-			$errors[] = '"/includes" directory is not writeable - Please changes its permission to 0777';
-		else
-			$msgs[] = '"/includes/clipbucket.php" directory is writeable';
 	}
 	break;
 	case 3:
@@ -203,9 +202,11 @@ switch($step)
 				$db->update("config",array("value"),array(SCRIPT_DIR)," name='basedir'");
 				
 				copy("install.loc",SCRIPT_DIR.'/files/install.loc');
+				copy("clipbucket.php",SCRIPT_DIR."/includes/clipbucket.php");
 
 			}
 		}
+		
 	}
 	
 	break;
@@ -213,6 +214,74 @@ switch($step)
 	{
 		$step = 'ai';
 	}
+	
+	break;
+	case "update_0":
+	{
+		$step = 'update_0';
+		if(file_exists("./../includes/dbconnect.php"))
+		{
+			include("./../includes/dbconnect.php");
+			$msgs[] = "Connected to database";
+		}else
+		{
+			$errors[] = "Unable to connect to find dbconnect.php :(, Please check your ./includes/dbconnect.php";
+		}
+		
+		//Checking Files Permissions
+		if(!is_files_writeable())
+			$errors[] = '"/files" directory is not writeable - Please changes its permission to 0777';
+		else
+			$msgs[] = '"/files" directory is writeable';
+
+		//Checking install Directory
+		if(!is_writeable("../install"))
+			$errors[] = '"/install" directory is not writeable - Please changes its permission to 0777';
+		else
+			$msgs[] = '"/install" directory is writeable';
+		
+		//Checking includes Directory
+		if(!is_writeable("../includes"))
+			$errors[] = '"/includes" directory is not writeable - Please changes its permission to 0777';
+		else
+			$msgs[] = '"/includes" directory is writeable';
+			
+			//Checking includes Directory
+		if(!is_writeable("../includes/clipbucket.php"))
+			$errors[] = '"/includes/clipbucket.php" file is not writeable - Please changes its permission to 0777';
+		else
+			$msgs[] = '"/includes/clipbucket.php" file is writeable';
+	}
+	break;
+	case "update_1":
+	{
+		include("./../includes/dbconnect.php");
+		$step = 'update_1';
+		//Checking for the update file
+		$dbfile = "cb_v".the_version()."_".VERSION.".sql";
+		$lines = file($dbfile);
+		foreach ($lines as $line_num => $line)
+		{
+			if (substr($line, 0, 2) != '--' && $line != '') 
+			{
+				$templine .= $line;
+				if (substr(trim($line), -1, 1) == ';') 
+				{
+					$db->Execute($templine);
+					$templine = '';
+				}
+			}
+		}
+		
+		$db->update("config",array("value"),array(RELEASED)," name='date_released'");
+		$db->update("config",array("value"),array(now())," name='date_updated'");
+		
+		copy("install.loc",SCRIPT_DIR.'/files/install.loc');
+		unlink(SCRIPT_DIR."/includes/clipbucket.php");
+			copy("clipbucket.php",SCRIPT_DIR."/includes/clipbucket.php");
+		
+	}
+	
 }
 
 include("steps/body.php");

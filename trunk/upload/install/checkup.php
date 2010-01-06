@@ -124,4 +124,37 @@
 			}
 		}
     }
+	
+	
+	function the_version()
+	{
+		$thefile = '../includes/clipbucket.php';
+		if(file_exists('../includes/clipbucket.php'))
+		{
+			$file = file_get_contents($thefile);
+			//Get Version
+			preg_match("/define\(\"VERSION\",\"(.*)\"\)/",$file,$matches);
+			$version = $matches[1];
+			return $version;
+
+		}else
+			return false;
+	}
+	
+	/**
+	 * Function used to check weather current ClipBucket is updateable or not
+	 */
+	function update_able()
+	{
+		$thefile = '../includes/clipbucket.php';
+		if(file_exists('../includes/clipbucket.php'))
+		{
+			$version = the_version();
+			if(VERSION > $version)
+				return true;
+			else
+				return false;
+		}else
+			return false;
+	}
 ?>

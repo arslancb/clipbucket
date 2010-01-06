@@ -463,8 +463,8 @@ class ClipBucket
 	{
 		$feeds = 5;
 		$text = 400;
-		//$url = 'http://blog.clip-bucket.com/feed/';
-		$url = 'http://localhost/clipbucket/2.x/2/upload/tester/feed.xml';
+		$url = 'http://blog.clip-bucket.com/feed/';
+		//$url = 'http://localhost/clipbucket/2.x/2/upload/tester/feed.xml';
 		$news = xml2array($url);
 		if(!$news)
 		{

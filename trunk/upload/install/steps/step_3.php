@@ -1,6 +1,13 @@
  <form name="form2" method="post" action="" class="install_form"><div class="content">
 	<h2>Database Settings</h2>
- <?php include("msgs.php") ?>
+ <?php include("msgs.php");
+ 
+ if(count($msgs)==0)
+	{
+ 
+ ?>
+ 
+ 
     <label for="host">Host</label>
     <input name="host" type="text" id="host" value="<? if($_POST['host']) echo form_val(post('host')); else echo "localhost"?>">
     <label for="dbname">Database Name</label>
@@ -10,6 +17,19 @@
     <label for="dbpass">Database Password</label>
     <input type="text" name="dbpass" id="dbpass" value="<? if($_POST['dbpass']) echo form_val(post('dbpass'));?>">
   </form>
+  
+  <?php
+	}else
+	{
+	?>
+    
+    <input name="host" type="hidden" id="host" value="<? if($_POST['host']) echo form_val(post('host')); else echo "localhost"?>">
+    <input type="hidden" name="dbname" id="dbname" value="<? if($_POST['dbname']) echo form_val(post('dbname'));?>">
+    <input type="hidden" name="dbuser" id="dbuser" value="<? if($_POST['dbuser']) echo form_val(post('dbuser'));?>">
+    <input type="hidden" name="dbpass" id="dbpass" value="<? if($_POST['dbpass']) echo form_val(post('dbpass'));?>">
+    <?php
+	}
+	?>
 </div>
 
 <div class="footer" align="right">
