@@ -13,7 +13,7 @@ include(dirname(__FILE__)."/../includes/config.inc.php");
 $SYSTEM_OS = $row['sys_os'] ? $row['sys_os'] : 'linux';
 	
 //Including FFMPEG CLASS
-require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.win32.php');
+require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
 
 //Get Vido
 $queue_details = get_queued_video(TRUE);

@@ -196,7 +196,7 @@ padding-left:5px; font-size:16px; font-weight:bold; font-family:Arial, Helvetica
 	 display:block; font-weight:bold;
 }
 .dragbox-content{
-	min-height:100px; margin:5px;
+	min-height:100px; margin:5px 0px;
 	font-family:'Lucida Grande', Verdana; font-size:0.8em; line-height:1.5em;
 }
 .widgets-wrap  .placeholder{
@@ -213,9 +213,10 @@ padding-left:5px; font-size:16px; font-weight:bold; font-family:Arial, Helvetica
 .dragbox h2 .configure a{color:#fff; text-decoration:none}
 
 .item img{ cursor:pointer;}
-.item{background-image:url(../images/widget_item_border.gif); background-position:bottom; background-repeat:repeat-x; padding-bottom:10px; padding-top:10px; font-size:11px; font-family:Verdana}
+.item{background-image:url(../images/widget_item_border.gif); background-position:bottom; background-repeat:repeat-x; font-size:11px; font-family:Verdana; padding:10px 5px}
 .item:first-child{padding-top:0px}
-.item:nth-child(2n){ background:#fff url(../images/widget_item_border.gif) repeat-x bottom  }
+.item:nth-child(2n){ background:#fff url(../images/widget_item_border.gif) repeat-x bottom }
+.subitem{background:#fff;}
 .index_table:first-child{padding:0px 20px 0px 0px}
 .index_table:last-child{padding:0px}
 

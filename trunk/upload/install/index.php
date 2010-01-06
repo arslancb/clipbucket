@@ -97,6 +97,11 @@ switch($step)
 			$errors[] = '"/includes" directory is not writeable - Please changes its permission to 0777';
 		else
 			$msgs[] = '"/includes" directory is writeable';
+		//Checking includes Directory
+		if(!is_writeable("../includes/clipbucket.php") && file_exists("../includes/clipbucket.php"))
+			$errors[] = '"/includes" directory is not writeable - Please changes its permission to 0777';
+		else
+			$msgs[] = '"/includes/clipbucket.php" directory is writeable';
 	}
 	break;
 	case 3:

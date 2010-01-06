@@ -1,270 +1,113 @@
 <?php
-#Author : Arslan^
-#Copyright : ClipBucket
-#License : CBLA
-#
-/*
-Limitations:
--------------
-You May Edit This File For your OWN WEBSITE
-- You Are Not Able To Use This On Other Script
-- You Cannnot Resale It or SHARE it
-- For Details , Please Read our CBLA
-*/
-define('ENCODING_LOGGING','yes');
-class ffmpeg {
-	//Special Function Used TO get duration
-	function ChangeTime($duration, $rand = "") {
-		if($rand != "") {
-			if($duration / 3600 > 1) {
-				$time = date("H:i:s", $duration - rand(0,$duration));
-			} else {
-				$time =  "00:";
-				$time .= date("i:s", $duration - rand(0,$duration));
-			}
-			return $time;
-		} elseif($rand == "") {
-			if($duration / 3600 > 1 ) {
-				$time = date("H:i:s",$duration);
-			} else {
-				$time = "00:";
-				$time .= date("i:s",$duration);
-			}
-			return $time;
-		}
-	}
 
-	//THIS FUNCTION IS USED TO GENERATE THUMBS
-	function AssignGeneratedThumbs($flv,$duration,$rand = "") {
-		global $row;
-		$filename_minus_ext	= substr($flv, 0, strrpos($flv, '.'));
-		$thumbnail_temp_dir	= BASEDIR.'/files/temp';
-		$thumbnail_output_dir	= BASEDIR.'/files/thumbs';
-		$ffmpeg			= FFMPEG_BINARY;
-		$flv_file		= BASEDIR.'/files/temp/'.$flv;
-		if(!file_exists($flv_file)) {
-			$flv_file	= BASEDIR.'/files/videos/'.$flv;
-		}
-		$t_height		= $row['thumb_height'];
-		$t_width		= $row['thumb_width'];
-		$t_dim = $t_width.'x'.$t_height;
+/**
+ * This is new file for conversion
+ * now , FFMPEG will only be used for video conversion
+ * @Author : Arslan Hassan
+ * @Software : ClipBucket
+ * @License : CBLA - You Cannot MODIFY - REUSE THIS FILE
+ * @website : http://clip-bucket.com/
+ */
+ 
+ 
+define("KEEP_MP4_AS_IS","no");
+define("MP4Box_BINARY",get_binaries('MP4Box')));
+define("FLVTool2_BINARY",get_binaries('flvtool2'));
+define('FFMPEG_BINARY', get_binaries('ffmpeg'));
+
+class ffmpeg 
+{
+	var $input_details = array(); //Holds File value
+	var $output_details = array(); // Holds Converted File Details
+	var $ffmpeg ; // path to ffmpeg binary
+	var $input_file; //File to be converted
+	var $output_file; //File after $file is converted
+	var $tbl = 'video_files';
+	var $row_id  ; //Db row id
+	var $log; //Holds overall status of conversion
+	var $start_time;
+	var $end_time;
+	var $total_time;
+	var $configs = array();
+	var $gen_thumbs; //If set to TRUE , it will generate thumbnails also
+	var $remove_input = TRUE;
+	var $gen_big_thumb = FALSE;
+	var $h264_single_pass = FALSE;
+	var $hq_output_file = '';
+	var $log_file = '';
+	var $input_ext = '';
+	var $tmp_dir = '/';
+	var $flvtool2 = '';
+	var $thumb_dim = '120x90' //Thumbs Dimension
+	var $num_of_thumbs = '3' //Number of thumbs
+	var $big_thumb_dim = 'original' //Big thumb size , original will get orginal video window size thumb othersie the dimension
+	
+	/**
+	 * Initiating Class
+	 */
+	function ffmpeg($file)
+	{
+		$this->ffmpeg = FFMPEG_BINARY;
+		$this->mp4box = MP4Box_BINARY;
+		$this->flvtool2 = FLVTool2_BINARY;
+		$this->input_file = $file;
 		
-		$thumb_log =  BASEDIR.'/logs/thumblog.txt';
-		if($duration > 14 ) {
-			$duration = $duration - 5;
-			//Setting oF Thumbs Duration
-			$division = $duration / 3;
-			$count=1;
-			for($id=3;$id<=$duration;$id++) {
-				$id		= $id + $division - 1;
-				if($rand != "") {
-					$time = $this->ChangeTime($id,1);
-				} elseif($rand == "") {
-					$time		= $this->ChangeTime($id);
-				}
-				$command	= "$ffmpeg -i $flv_file -an -ss $time -an -r 1 -s $t_dim -y -f image2 -vframes 1 $thumbnail_temp_dir/$filename_minus_ext-$count.jpg  &> $thumb_log";
-				$this->exec("$command",$output);
-				$count = $count+1;
-			}
-		} else {
-			$command = "$ffmpeg -i $flv_file -an -s $t_dim -y -f image2 -vframes 3 $thumbnail_temp_dir/$filename_minus_ext-%d.jpg &> $thumb_log";
-			if(!isset($output))
-				$output = "";
-			$this->exec($command,$output);
-		}
-		$command2 = "$ffmpeg -i $flv_file -an -s 320x240 -y -f image2 -vframes 1 $thumbnail_temp_dir/$filename_minus_ext-big.jpg";
-		$this->exec($command2);
-
-		//Checkin IF Thumnails Have Been Generated Or Not
-		for($id=1;$id<=3;$id++) {
-			if(file_exists($thumbnail_temp_dir.'/'.$filename_minus_ext.'-'.$id.'.jpg')) {
-				@unlink($thumbnail_output_dir/$filename_minus_ext.'-'.$id.'.jpg');
-				copy($thumbnail_temp_dir.'/'.$filename_minus_ext.'-'.$id.'.jpg',$thumbnail_output_dir.'/'.$filename_minus_ext.'-'.$id.'.jpg');
-				@unlink($thumbnail_temp_dir.'/'.$filename_minus_ext.'-'.$id.'.jpg');
-			}
-		}
-		if(file_exists($thumbnail_temp_dir.'/'.$filename_minus_ext.'-big.jpg')) {
-			@unlink($thumbnail_output_dir.'/'.$filename_minus_ext.'-big.jpg');
-			copy($thumbnail_temp_dir.'/'.$filename_minus_ext.'-big.jpg',$thumbnail_output_dir.'/'.$filename_minus_ext.'-big.jpg');
-			@unlink($thumbnail_temp_dir.'/'.$filename_minus_ext.'-big.jpg');
-		}
 	}
-
-	//THIS FUNCTION IS USED TO GENERATE DEFAULT THUMBS
-			function AssignDefaultThumb($flv){
-/*				global $LANG,$row;
-				$site_template = BASEDIR.'/styles/'.$row['template_dir'];
-				//Minus Extension
-				$filename_minus_ext = substr($flv, 0, strrpos($flv, '.'));
-				$proccesing_thumb = $site_template.'/images/'.LANG.'/processing.png';
-				$proccesing_thumb_big = $site_template.'/images/'.LANG.'/processing-big.png';
-				copy($proccesing_thumb,BASEDIR.'/files/thumbs/'.$filename_minus_ext.'-1.jpg');
-				copy($proccesing_thumb,BASEDIR.'/files/thumbs/'.$filename_minus_ext.'-2.jpg');
-				copy($proccesing_thumb,BASEDIR.'/files/thumbs/'.$filename_minus_ext.'-3.jpg');	
-				copy($proccesing_thumb_big,BASEDIR.'/files/thumbs/'.$filename_minus_ext.'-big.jpg');
-*/			
-			}
-
-	//THIS FUNCTION IS USED TO VALIDATE FILETYPE
-	function ValidateFile($file) {
-		global $row;
-		$ph = substr($file, strrpos($file,'.') + 1);
-		$ph = strtolower($ph); // Added line to fix case
-		$types = strtolower($row['allowed_types']);
-		$types_array = preg_replace('/,/',' ',$types);
-		$types_array = explode(' ',$types_array);
-		foreach($types_array as $type) {
-			$return = false;
-			if($type == $ph) {
-				$return = true;
-				break;
-			}
+	
+	
+	/**
+	 * Prepare file to be converted
+	 * this will first get info of the file
+	 * and enter its info into database
+	 */
+	function prepare($file=NULL)
+	{
+		global $db;
+		
+		if($file)
+			$this->input_file = $file;
+			
+		if(file_exists($this->input_file))
+			$this->input_file = $this->input_file;
+		else
+			$this->input_file = TEMP_DIR.'/'.$this->input_file;
+		
+		//Checking File Exists
+		if(!file_exists($this->input_file))
+		{
+			$this->log('File Exists','No');
+		}else{
+			$this->log('File Exists','Yes');
 		}
-		return $return;
+		
+		//Get File info
+		$this->input_details = $this->get_file_info();
+		
+		//Loging File Details
+		$this->log .= "\nPreparing file...\n";
+		$this->log_file_info();
+		
+		//Insert Info into database
+		//$this->insert_data();		
 	}
+	
+	
+	/**
+	 * Function used to convert video 
+	 */
+	function convert($file=NULL)
+	{
+		global $db;
+		if($file)
+			$this->input_file = $file;
+		
+		$this->log .= "\r\nConverting Video\r\n";
+		
 
-	//THE REAL ENCODING GOES HERE
-	function ConvertFile($file,$flv) {
-		global $stats,$db,$row;
-		if($this->ValidateFile($file)) {
-			$flvtool2 		= FFMPEG_FLVTOOLS_BINARY;
-			$vbrate 		= VBRATE;
-			$srate			= SRATE;
-			$sbrate			= $row['sbrate'];
-			$r_height		= R_HEIGHT;
-			$ffmpeg 		= FFMPEG_BINARY;
-			$r_width		= R_WIDTH;
-			$resize			= RESIZE;
-			$keep_original	= KEEP_ORIGINAL;
-			$max_size		= MAX_UPLOAD_SIZE;
-			$max_encode		= 3;
-			$vcodec			= VCODEC;
-			$acodec			= ACODEC;
-			$video_file = BASEDIR.'/files/temp/'.$file;
-			$flv_file = BASEDIR.'/files/videos/'.$flv;
-			$extension = substr($video_file, strrpos($video_file,'.') + 1);
-			//Check VIdeo File Size
-			$size = filesize($video_file);
-			if($size > $max_size*1024*1024) {
-				$status = "Failed";
-				$flv_file = "failed.flv";
-			} else {
-				
-				$resize = $resize == 'yes' ? 'WxH' : 'no';
-				$CONFIG['ffmpeg']['resize']			= $resize;
-				$CONFIG['ffmpeg']['format']			= 'flv';
-				$CONFIG['ffmpeg']['audio_codec'   ] = $row['audio_codec'];
-				$CONFIG['ffmpeg']['audio_rate']		= $srate;
-				$CONFIG['ffmpeg']['audio_bitrate']	= $sbrate;
-				$CONFIG['ffmpeg']['video_codec']	= 'flv';
-				$CONFIG['ffmpeg']['video_width']	= $r_width;
-				$CONFIG['ffmpeg']['video_height']	= $r_height;
-				$CONFIG['ffmpeg']['video_max_rate']	= 25;
-				$CONFIG['ffmpeg']['video_bitrate']	= $vbrate;
-				$CONFIG['ffmpeg']['video_rate']		= '800';
-				$CONFIG['ffmpeg']['flvtool2']		= $flvtool2;
-				$info = $this->get_file_info( $video_file );
-				//print_r($info);
-
-				$record['src_ext']			= substr( $file, strrpos( $file, '.' ) + 1 );
-				$record['src_format']		= $info['format'];
-				$record['src_duration']		= $info['duration'];
-				$record['src_size']			= $info['size'];
-				$record['src_bitrate']		= $info['bitrate'];
-				$record['src_video_width']	= $info['video_width'];
-				$record['src_video_height']	= $info['video_height'];
-				$record['src_video_wh_ratio']	= $info['video_wh_ratio'];
-				$record['src_video_codec']	= $info['video_codec'];
-				$record['src_video_rate']	= $info['video_rate'];
-				$record['src_video_bitrate']	= $info['video_bitrate'];
-				$record['src_video_color']	= $info['video_color'];
-				$record['src_audio_codec']	= $info['audio_codec'];
-				$record['src_audio_bitrate']	= $info['audio_bitrate'];
-				$record['src_audio_rate']	= $info['audio_rate'];
-				$record['src_audio_channels']	= $info['audio_channels'];
-
-				$parameters = $CONFIG['ffmpeg'];
-				$parameters['path_source']	= $video_file;
-				$parameters['path_log']		= BASEDIR."/logs/logs.txt";
-				$parameters['path_target']	= $flv_file;
-				//$lock = tempnam(BASEDIR . "/files/temp", "LOCK");
-				if(!isset($extension))
-					$extension = "";
-				if($extension != 'flv') {
-					if(isset($info['Unknown'])) {
-						if($info['Unknown'] == "Unknwon") {
-							exit;
-						} 
-					}
-					//for(;;) {
-						//if($max_encode >= count(glob(BASEDIR."/files/temp/LOCK*"))) {
-							$this->start_encoding( $parameters, $info, $lock );
-							//break;
-						//}
-					//}
-				} else {
-					copy($video_file,$flv_file);
-				}
-				
-				$sec = $info['duration'];
-				if(!isset($sec))
-					$sec = "1";
-				
-
-				/////////////////////////////////////////////////////////////
-				//                        STEP 2                           //
-				//                  FLVTOOL2 INJECTION                     //
-				/////////////////////////////////////////////////////////////
-				/*if($flvtool2 != '') {
-					while(1) {
-						if(!is_file($lock))
-							break;
-					}
-					$flv_cmd = "$flvtool2 -U $flv_file";
-					if(!isset($output))
-						$output = "";
-					$this->exec("$flv_cmd >> ".BASEDIR."/logs/logs.txt 2>&1", $output);
-				}*/
-
-				$status = "Successful";
-				
-				$this->AssignGeneratedThumbs($file,$sec);
-				$db->Execute("INSERT INTO `video_detail` (`flv`,`status`,`duration`,`original`) VALUES ('".$flv."','".$status."','".$sec."','".$file."')");
-				$db->Execute("UPDATE LOW_PRIORITY `video` SET `duration` = '".$sec."' , status='".$status."' WHERE `flv` = '".$flv."'");
-				
-				if($status == "Successful") { $stats->UpdateVideoRecord(8); }
-				
-				if($keep_original == 1) {
-					$original_file = BASEDIR.'/files/original/'.$file;
-					copy($video_file,$original_file);
-				} 
-				
-				if(is_file($video_file))
-					unlink($video_file);
-			}//If MAX SIZE CONDITION ENDs
-		}
-		if(!file_exists($flv_file)) {
-			$status = "Failed";
-			$stats->UpdateVideoRecord(10);
-			$this->AssignDefaultThumb($flv);
-			$db->Execute("UPDATE LOW_PRIORITY `video_detail` SET `status` = '".$status."' WHERE `flv` = '".$flv."'");
-			$db->Execute("UPDATE LOW_PRIORITY `video` SET `active` = 'no' AND `status` = '".$status."' WHERE `flv` = '".$flv."'");
-		}
-	}
-
-	###############################################################
-	# start encoding
-	# NOTE: see file av_encoder.class.php for interface details
-	# Author : Arslan Hassan, Made For ClipBucket
-	##############################################################
-	function start_encoding( $parameters, $source_info, $lockfile ) {
-		$ffmpeg = FFMPEG_BINARY;
-
-		$p = & $parameters;
-		$i = & $source_info;
-
-		$opt_av = " -y ";
-		$p['video_codec'];
+		$p = $this->configs;
+		$i = $this->input_details;
+		
+		
 		# Prepare the ffmpeg command to execute
 		if(isset($p['extra_options']))
 			$opt_av .= " -y {$p['extra_options']} ";
@@ -272,46 +115,117 @@ class ffmpeg {
 		# file format
 		if(isset($p['format']))
 			$opt_av .= " -f {$p['format']} ";
-		# video codec, frame rate and bitrate
-		$video_rate = min( $p['video_max_rate'], $i['video_rate'] );
-		$opt_av .= " -vcodec {$p['video_codec']} -b {$p['video_bitrate']} -r $video_rate ";
+			
+		# video codec
+		if(isset($p['video_codec']))
+			$opt_av .= " -vcodec ".$p['video_codec'];
+		elseif(isset($i['video_codec']))
+			$opt_av .= " -vcodec ".$i['video_codec'];
+		if($p['video_codec'] == 'libx264')
+			$opt_av .= " -vpre normal ";
+			
+		# video rate
+		if($p['use_video_rate'])
+		{
+			if(isset($p['video_rate']))
+				$vrate = $p['video_rate'];
+			elseif(isset($i['video_rate']))
+				$vrate = $i['video_rate'];
+			if(isset($p['video_max_rate']) && !empty($vrate))
+				$vrate = min($p['video_max_rate'],$vrate);
+			if(!empty($vrate))
+				$opt_av .= " -r $vrate ";
+		}
+		
+		# video bitrate
+		if($p['use_video_bit_rate'])
+		{
+			if(isset($p['video_bitrate']))
+				$vbrate = $p['video_bitrate'];
+			elseif(isset($i['video_bitrate']))
+				$vbrate = $i['video_bitrate'];
+			if(!empty($vbrate))
+				$opt_av .= " -b $vbrate ";
+		}
 
 		# video size, aspect and padding
 		$this->calculate_size_padding( $p, $i, $width, $height, $ratio, $pad_top, $pad_bottom, $pad_left, $pad_right );
 		$opt_av .= " -s {$width}x{$height} -aspect $ratio -padcolor 000000 -padtop $pad_top -padbottom $pad_bottom -padleft $pad_left -padright $pad_right ";
 		
 		# audio codec, rate and bitrate
-		if(!empty($p['audio_codec']) && $p['audio_codec'] != 'None'){
-		$opt_av .= " -acodec {$p['audio_codec']}";
+		if($p['use_audio_codec'])
+		{
+			if(!empty($p['audio_codec']) && $p['audio_codec'] != 'None'){
+				$opt_av .= " -acodec {$p['audio_codec']}";
+			}
 		}
-		# audio codec, rate and bitrate
-		$opt_av .= " -ar {$p['audio_rate']} -ab {$p['audio_bitrate']} ";
 		
+		# audio bitrate
+		if($p['use_audio_bit_rate'])
+		{
+			if(isset($p['audio_bitrate']))
+				$abrate = $p['audio_bitrate'];
+			elseif(isset($i['audio_bitrate']))
+				$abrate = $i['audio_bitrate'];
+			if(!empty($abrate))
+			{
+				$abrate_cmd = " -ab $abrate ";
+				$opt_av .= $abrate_cmd;
+			}
+		}
+		
+		# audio bitrate
+		if($p['use_audio_rate'])
+		{
+			if(isset($p['audio_rate']))
+				$arate = $p['audio_rate'];
+			elseif(isset($i['audio_rate']))
+				$arate = $i['audio_rate'];
+			if(!empty($arate))
+				$opt_av .= " -ar $arate ";
+		}
+		
+		$opt_av .= " -map_meta_data ".$this->output_file.":".$this->input_file;
 	
+		$command = $this->ffmpeg." -i ".$this->input_file." $opt_av ".$this->output_file."  2> ".TEMP_DIR."/output.tmp ";
 		
-		if(!isset($output))
-			$output = "";
-		//$lockfile = BASEDIR . "/files/temp/lock.tmp";
-		# execute ffmpeg, send output to the log file, run in background, with low priority (niced)	
-		//$this->exec("echo $ffmpeg -i {$p['path_source']} $opt_av {$p['path_target']} >> {$p['path_log']} ");
-		$this->exec( "$ffmpeg -i '{$p['path_source']}' $opt_av '{$p['path_target']}' &> '{$p['path_log']}'" );
+		//Updating DB
+		//$db->update($this->tbl,array('command_used'),array($command)," id = '".$this->row_id."'");
 		
-		# Adding FLVtool2 for addin video meta deta
-		if(!empty($p['flvtool2'])){
-		$this->exec( "{$p['flvtool2']} -U {$p['path_target']} >> '{$p['path_log']}'" );
-		$opt_av .= " {$p['flvtool2']} -U {$p['path_target']} >> '{$p['path_log']}'";
+		$output = $this->exec($command);
+		if(file_exists(TEMP_DIR.'/output.tmp'))
+		{
+			$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
+			unlink(TEMP_DIR.'/output.tmp');
 		}
 		
-		$this->exec( "echo $ffmpeg -i {$p['path_source']} $opt_av {$p['path_target']} >> '{$p['path_log']}'" );
+		
+		#FFMPEG GNERETAES Damanged File
+		#Injecting MetaData ysing FLVtool2 - you must have update version of flvtool2 ie 1.0.6 FInal or greator
+		$flv_cmd = $this->flvtool2." -U  ".$this->output_file."  2> ".TEMP_DIR."/flvtool2_output.tmp ";
+		$flvtool2_output = $this->exec($flv_cmd);
+		if(file_exists(TEMP_DIR.'/flvtool2_output.tmp'))
+		{
+			$flvtool2_output = $flvtool2_output ? $flvtool2_output : join("", file(TEMP_DIR.'/flvtool2_output.tmp'));
+			unlink(TEMP_DIR.'/flvtool2_output.tmp');
+		}
+		$output .= $flvtool2_output;
+		
+		$this->log('Conversion Command',$command);
+		$this->log .="\r\n\r\nConversion Details\r\n\r\n";
+		$this->log .=$output;
+		$this->output_details = $this->get_file_info($this->output_file);
 	}
-
-	###############################################################
-	# get encoding progress
-	# NOTE: see file av_encoder.class.php for interface details
-	# Author : Pedro,Arslan Hassan, Made For ClipBucket
-	###############################################################
-	function get_file_info( $path_source ) {
-		$ffmpeg = FFMPEG_BINARY;
+	
+	/**
+	 * Function used to get file information using FFMPEG
+	 * @param FILE_PATH
+	 */
+	 function get_file_info( $path_source =NULL) {
+		
+		if(!$path_source)
+			$path_source = $this->input_file;
+			
 		# init the info to N/A
 		$info['format']			= 'N/A';
 		$info['duration']		= 'N/A';
@@ -326,36 +240,60 @@ class ffmpeg {
 		$info['video_color']	= 'N/A';
 		$info['audio_codec']	= 'N/A';
 		$info['audio_bitrate']	= 'N/A';
-		$info['audio_rate']	= 'N/A';
+		$info['audio_rate']		= 'N/A';
 		$info['audio_channels']	= 'N/A';
+		$info['path']			= $path_source;
+		
 		# get the file size
-		$stats = stat( $path_source );
+		$stats = @stat( $path_source );
 		if( $stats === false )
-			trigger_error( "Failed to stat file $path_source!", E_USER_ERROR );
+			$this->log .= "Failed to stat file $path_source!\n";
 		$info['size'] = (integer)$stats['size'];
-		$output = $this->exec( "$ffmpeg -i '$path_source' -acodec copy -vcodec copy -f null /dev/null 2>&1" );
+		$this->ffmpeg." -i $path_source -acodec copy -vcodec copy -f null /dev/null 2>&1";
+		$output = $this->exec( $this->ffmpeg." -i $path_source -acodec copy -vcodec copy -f null /dev/null 2>&1" );
+		
+		
+
 		# parse output
 		if( $this->parse_format_info( $output, $info ) === false )
 			return false;
-
+		
 		return $info;
-
 	}
-
-	###############################################################
-	# Author : Pedro,ArslanHassan , Made For ClipBucket
-	# parse format info
-	#
-	# output (string)
-	#  - the ffmpeg output to be parsed to extract format info
-	#
-	# info (array)
-	#  - see function get_encoding_progress
-	#
-	# returns:
-	#  - (bool) false on error
-	#  - (bool) true on success
-	###############################################################
+	
+	
+	
+	
+	
+	/**
+	 * Function used to excute SHELL Scripts
+	 */
+	function exec( $cmd ) {
+		# use bash to execute the command
+		# add common locations for bash to the PATH
+		# this should work in virtually any *nix/BSD/Linux server on the planet
+		# assuming we have execute permission
+		//$cmd = "PATH=\$PATH:/bin:/usr/bin:/usr/local/bin bash -c \"$cmd\" ";
+		return shell_exec( $cmd);
+	}
+	
+	
+	
+	/**
+	 * Author : Arslan Hassan
+	 * parse format info
+	 * 
+	 * output (string)
+	 *  - the ffmpeg output to be parsed to extract format info
+	 * 
+	 * info (array)
+	 *  - see function get_encoding_progress
+	 * 
+	 * returns:
+	 *  - (bool) false on error
+	 *  - (bool) true on success
+	 */
+	 
 	function parse_format_info( $output, & $info ) {
 
 		# search the output for specific patterns and extract info
@@ -425,8 +363,152 @@ class ffmpeg {
 		#TODO allow files with no video (only audio)?
 		#return true;
 	}
-
-	function calculate_size_padding( $parameters, $source_info, & $width, & $height, & $ratio, & $pad_top, & $pad_bottom, & $pad_left, & $pad_right ) {
+	
+	/**
+	 * Function used to insert data into database
+	 * @param ARRAY
+	 */
+	
+	function insert_data()
+	{
+		global $db;
+		//Insert Info into database
+		if(is_array($this->input_details))
+		{
+			foreach($this->input_details as $field=>$value)
+			{
+				$fields[] = 'src_'.$field;
+				$values[] =  $value;
+			}
+			$fields[] = 'src_ext';
+			$values[] = getExt($this->input_details['path']);
+			$fields[] = 'src_name';
+			$values[] = getName($this->input_details['path']);
+			
+			$db->insert($this->tbl,$fields,$values);	
+			$this->row_id = $db->insert_id();
+		}
+	}
+	
+	/**
+	 * Function used to update data of
+	 */
+	function update_data($conv_only=false)
+	{
+		global $db;
+		//Insert Info into database
+		if(is_array($this->output_details) && !$conv_only)
+		{
+			foreach($this->output_details as $field=>$value)
+			{
+				$fields[] = 'output_'.$field;
+				$values[] = $value;
+			}		
+			$fields[] = 'file_conversion_log';
+			$values[] = $this->log;
+			$db->update($this->tbl,$fields,$values," id = '".$this->row_id."'");	
+		}else
+			$fields[] = 'file_conversion_log';
+			$values[] = $this->log;
+			$db->update($this->tbl,$fields,$values," id = '".$this->row_id."'");	
+	}
+	
+	
+	/**
+	 * Function used to add log in log var
+	 */
+	function log($name,$value)
+	{
+		$this->log .= $name.' : '.$value."\r\n";
+	}
+	
+	/**
+	 * Function used to start log
+	 */
+	function start_log()
+	{
+		$this->log = "Started on ".NOW()." - ".date("Y M d")."\r\n\n";
+		$this->log .= "Checking File ....\r\n";
+		$this->log('File',$this->input_file);
+	}
+	
+	/**
+	 * Function used to log video info
+	 */
+	function log_file_info()
+	{
+		$details = $this->input_details;
+		if(is_array($details))
+		{
+			foreach($details as $name => $value)
+			{
+				$this->log($name,$value);
+			}
+		}else{
+			$this->log .=" Unknown file details - Unable to get video details using FFMPEG \n";
+		}
+	}
+	/**
+	 * Function log outpuit file details
+	 */
+	function log_ouput_file_info()
+	{
+		$details = $this->output_details;
+		if(is_array($details))
+		{
+			foreach($details as $name => $value)
+			{
+				$this->log('output_'.$name,$value);
+			}
+		}else{
+			$this->log .=" Unknown file details - Unable to get output video details using FFMPEG \n";
+		}
+	}
+	 
+	
+	
+	
+	/**
+	 * Function used to time check
+	 */
+	function time_check()
+	{
+		$time = microtime();
+		$time = explode(' ',$time);
+		$time = $time[1]+$time[0];
+		return $time;
+	}
+	
+	/**
+	 * Function used to start timing
+	 */
+	function start_time_check()
+	{
+		$this->start_time = $this->time_check();
+	}
+	
+	/**
+	 * Function used to end timing
+	 */
+	function end_time_check()
+	{
+		$this->end_time = $this->time_check();
+	}
+	
+	/** 
+	 * Function used to check total time 
+	 */
+	function total_time()
+	{
+		$this->total_time = round(($this->end_time-$this->start_time),4);
+	}
+	
+	
+	/**
+	 * Function used to calculate video padding
+	 */
+	function calculate_size_padding( $parameters, $source_info, & $width, & $height, & $ratio, & $pad_top, & $pad_bottom, & $pad_left, & $pad_right )	
+	{
 		$p = $parameters;
 		$i = $source_info;
 
@@ -539,108 +621,301 @@ class ffmpeg {
 				break;
 		}
 	}
+	
+	
+	
+	/** 
+	 * Function used to perform all actions when converting a video
+	 */
+	function ClipBucket()
+	{
+		
+		$this->start_time_check();
+		$this->start_log();
+		$this->prepare();
+		$this->convert();
+		$this->end_time_check();
+		$this->total_time();
+		$this->output_details = $this->get_file_info($this->output_file);
+		$this->log .= "\r\n\r\n";
+		$this->log_ouput_file_info();
+		$this->log .= "\r\n\r\nTime Took : ";
+		$this->log .= $this->total_time.' seconds'."\r\n\r\n";
 
-	###############################################################
-	# exec
-	#
-	# exec shell scripts using bash
-	#
-	###############################################################
-	function exec( $cmd ) {
-		# use bash to execute the command
-		# add common locations for bash to the PATH
-		# this should work in virtually any *nix/BSD/Linux server on the planet
-		# assuming we have execute permission
-		//$cmd = "PATH=\$PATH:/bin:/usr/bin:/usr/local/bin bash -c \"$cmd\" ";
-		return shell_exec( $cmd );
+		//$this->update_data();
+		
+		$th_dim = $this->thumb_dim;
+		$big_th_dim = $this->big_thumb_dim ;
+		
+		//Generating Thumb
+		if($this->gen_thumbs)
+			$this->generate_thumbs($this->input_file,$this->input_details['duration'],$th_dim,$this->num_of_thumbs);
+		if($this->gen_big_thumb)
+			$this->generate_thumbs($this->input_file,$this->input_details['duration'],$big_th_dim,'big');
+		
+		if(!file_exists($this->output_file))
+			$this->log("conversion_status","failed");
+		else
+			$this->log("conversion_status","completed");
+			
+		$this->create_log_file();
 	}
-
-	###############################################################
-	# list_formats
-	#
-	# List Available File Formats (Do not use)
-	#
-	###############################################################
-	function list_formats($format) {
-
-		if($format == 'encoder') {
-			$formats = "E";
-		} elseif($format == 'decoder') {
-			$formats = "D";
-		} else {
-			$formats = "DE";
-		}
-
-		$ffmpeg = FFMPEG_BINARY;
-		exec("$ffmpeg -formats 2>&1", $output);
-
-		$formatstart = array_search('File formats:', $output);
-		$formatend = array_search('Codecs:', $output);
-
-		$formatstart = $formatstart + 1;
-		$formatend = $formatend - 2;
-
-		$i = 0;
-		foreach (range($formatstart,$formatend) as $number) {
-			$output[$number] = preg_replace('/^\s+/', '', $output[$number]);
-			list($enc[$number],$name[$number],$desc[$number]) = preg_split('/\s+/', $output[$number], 3);
-
-			if(ereg($formats, $enc[$number])) {
-				$listing[$i] = array('encode/decode' => $enc[$number], 'name' => $name[$number], 'description' => $desc[$number]);
-				$i++;
+	
+	
+	
+	/**
+	 * Function used to generate video thumbnails
+	 */
+	function generate_thumbs($input_file,$duration,$dim='120x90',$num=3,$rand=NULL)
+	{
+		$output_dir = THUMBS_DIR;
+		$dimension = '';
+		if($num=='big')
+		{
+			$file_name = getName($input_file)."-big.jpg";
+			$file_path = THUMBS_DIR.'/'.$file_name;
+			if($dim!='original')
+				$dimension = " -s $dim  ";
+			$command = $this->ffmpeg." -i $input_file -an $dimension -y -f image2 -vframes 1 $file_path ";
+			$this->exec($command);
+		}else{
+				
+			if($num > 1 && $duration > 14)
+			{
+				$duration = $duration - 5;
+				$division = $duration / 3;
+				$count=1;
+				for($id=3;$id<=$duration;$id++)
+				{
+					$file_name = getName($input_file)."-$count.jpg";
+					$file_path = THUMBS_DIR.'/'.$file_name;
+					
+					$id	= $id + $division - 1;
+					if($rand != "") {
+						$time = $this->ChangeTime($id,1);
+					} elseif($rand == "") {
+						$time = $this->ChangeTime($id);
+					}
+					
+					if($dim!='original')
+						$dimension = " -s $dim  ";
+						
+					$command = $this->ffmpeg." -i $input_file -an -ss $time -an -r 1 $dimension -y -f image2 -vframes 1 $file_path ";
+					$this->exec($command);
+					$count = $count+1;
+				}
+			}else{
+				$file_name = getName($input_file)."-%d.jpg";
+				$file_path = THUMBS_DIR.'/'.$file_name;
+				$command = $this->ffmpeg." -i $input_file -an -s $dim -y -f image2 -vframes $num $file_path ";
+				$this->exec($command);
 			}
 		}
-		return $listing;
 	}
-
-	###############################################################
-	# list_codecs
-	#
-	# List Available Codecs
-	#
-	###############################################################
-	function list_codecs($format, $type) {
-
-		if($format == "encode") {
-			$formats = "E";
-		} elseif ($format = "decode") {
-			$formats = "D";
-		} else {
-			return false;
+	
+	
+	
+	/**
+	 * Function used to convert seconds into proper time format
+	 * @param : INT duration
+	 * @parma : rand
+	 */
+	 
+	function ChangeTime($duration, $rand = "") {
+		if($rand != "") {
+			if($duration / 3600 > 1) {
+				$time = date("H:i:s", $duration - rand(0,$duration));
+			} else {
+				$time =  "00:";
+				$time .= date("i:s", $duration - rand(0,$duration));
+			}
+			return $time;
+		} elseif($rand == "") {
+			if($duration / 3600 > 1 ) {
+				$time = date("H:i:s",$duration);
+			} else {
+				$time = "00:";
+				$time .= date("i:s",$duration);
+			}
+			return $time;
 		}
-		if($type == "video") {
-			$types = "V";
-		} elseif ($type == "audio") {
-			$types = "A";
+	}
+	
+	
+	/**
+	 * Function used to convert video in HD format
+	 */
+	
+	function convert_to_hd($input=NULL,$output=NULL,$p=NULL,$i=NULL)
+	{
+		global $db;
+		if(!$input)
+			$input = $this->input_file;
+		if(!$output)
+			$output = $this->hq_output_file;
+		if(!$p)
+			$p = $this->configs;
+		if(!$i)
+			$i = $this->input_details;
+		$convert  = false;
+		//Checkinf for HD or Not
+		$opt_av = '';
+
+		if(substr($i['video_wh_ratio'],0,5) == '1.777' && $i['video_width'] > '500')
+		{
+			
+			//All Possible Hd Dimensions
+			$widths = 
+			array(
+			1280,
+			1216,
+			1152,
+			1088,
+			1024,
+			960,
+			896,
+			832,
+			768,
+			704,
+			640,
+			576,
+			512,
+			);
+			$heights = 
+			array(
+			720,
+			684,
+			648,
+			612,
+			576,
+			540,
+			504,
+			468,
+			432,
+			396,
+			360,
+			324,
+			288,
+			);		
+			
+			$convert = true;
+			$type = 'HD';
+			//Checking if video is HQ then convert it in Mp4
+		}elseif($i['video_width'] > '500' && substr($i['video_wh_ratio'],0,5) != '1.777')
+		{
+			$widths = array(
+			640 ,
+			624 ,
+			608 ,
+			592 ,
+			576 ,
+			560 ,
+			544 ,
+			528 ,
+			512 ,
+			);
+			 
+			$heights = array(
+			 480,
+			 468,
+			 456,
+			 444,
+			 432,
+			 420,
+			 408,
+			 396,
+			);
+			
+			$convert = true;
+			$type = 'HQ';
 		}
-
-		$ffmpeg = FFMPEG_BINARY;
-		exec("$ffmpeg -formats 2>&1", $output);
-
-		$codecstart = array_search('Codecs:', $output);
-		$codecend = array_search('Bitstream filters:', $output);
-		$codecstart = $codecstart + 1;
-		$codecend = $codecend - 2;
-
-		$i = 0;
-
-		foreach (range($codecstart, $codecend) as $number) {
-			$output[$number] = preg_replace('/^\s+/', '', $output[$number]);
-			$enc[$number] = preg_replace('/^([D E V A S T]+) (.+?)$/', '$1', $output[$number]);
-			$tmp[$number] = preg_replace('/^([D E V A S T]+) (.+?)$/', '$2', $output[$number]);
-			list($name[$number],$desc[$number]) = preg_split('/\s+/', $tmp[$number], 2);
-
-			if(ereg($formats, $enc[$number])) {
-				if(ereg($types, $enc[$number])) {
-					$listing[$i] = array('encode/decode' => $enc[$number], 'name' => $name[$number], 'description' => $desc[$number]);
-					$i++;
+		
+		if($convert)
+		{
+			$total_dims = count($widths);
+			
+			//Checking wich dimension is suitable for the video
+			for($id=0;$id<=$total_dims;$id++)
+			{
+				$cur_dim = $widths[$id];
+				$next_dim = $widths[$id+1];
+				$iwidth  = $i['video_width'];
+				
+				if($iwidth==$cur_dim || ($iwidth>$cur_dim && $iwidth<$next_dim))
+				{
+					$key = $id;
+					$out_width = $widths[$id];
+					$out_height = $heights[$id];
+					break;
 				}
 			}
-		}
-		return $listing;
+			$out_width = $out_width ? $out_width : $widths[0];
+			$out_height = $out_height ? $out_height : $heights[0];
+			$p['video_width'   ] = $out_width ;
+			$p['video_height'  ] = $out_height;
+			$p['resize']		 = 'WxH';
+						
+			//Calculation Size Padding
+			$this->calculate_size_padding( $p, $i, $width, $height, $ratio, $pad_top, $pad_bottom, $pad_left, $pad_right );
+			$opt_av .= "-s {$width}x{$height} -aspect  $ratio -padcolor 000000 -padtop $pad_top -padbottom $pad_bottom -padleft $pad_left -padright $pad_right";
+			
+			$output = "";
+			$command = $this->ffmpeg." -i ".$this->input_file." $opt_av -acodec libfaac -ab 96k -vcodec libx264 -vpre hq -crf 22 -threads 0 ".$this->hq_output_file."  2> ".TEMP_DIR."/output.tmp ";	
+			
+			if(KEEP_MP4_AS_IS=="yes" && $this->input_ext=='mp4')
+				copy($this->input_file,$this->hq_output_file);
+			else
+				$output = $this->exec($command);
+				
+			if(file_exists(TEMP_DIR.'/output.tmp'))
+			{
+				$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
+				unlink(TEMP_DIR.'/output.tmp');
+			}
+			
+			/**
+			 * Mp4 files are mostly not converted properly
+			 * we have to use Mp4box in order
+			 * to play them in regular manner, otherwise Flash players will 
+			 * load whole video before playing it
+			 */
+			$mp4_output = "";
+			$command = $this->mp4box." -inter 0.5 ".$this->hq_output_file." -tmp ".$this->tmp_dir." 2> ".TEMP_DIR."/mp4_output.tmp ";
+			$mp4_output .= $this->exec($command);
+			if(file_exists(TEMP_DIR.'/mp4_output.tmp'))
+			{
+				$mp4_output = $mp4_output ? $mp4_output : join("", file(TEMP_DIR.'/mp4_output.tmp'));
+				unlink(TEMP_DIR.'/mp4_output.tmp');
+			}
+			$ouput .= $mp4_output;
+			
+			$this->log .= "\r\n\r\n\n=========STARTING $type CONVERSION==============\r\n\r\n\n";
+			$this->log("$type Video -- Conversion Command",$command);
+			$this->log .="\r\n\r\nConversion Details\r\n\r\n";
+			$this->log .= $output;
+			$this->log .= "\r\n\r\n\n=========ENDING $type CONVERSION==============\n\n";
+			
+			$fields = array('file_conversion_log',strtolower($type));
+			$values = array(mysql_clean($this->log),'yes');
+			//$db->update($this->tbl,$fields,$values," id = '".$this->row_id."'");
+			$this->create_log_file();
+			return true;
+		}else
+			return false;
 	}
 	
-	
-	
+	/**
+	 * Function used to create log for a file
+	 */
+	function create_log_file()
+	{
+		$file = $this->log_file;
+		$data = $this->log;
+		$fo = fopen($file,"w");
+		if($fo)
+		{
+			fwrite($fo,$data);
+		}
+	}
 }
 ?>

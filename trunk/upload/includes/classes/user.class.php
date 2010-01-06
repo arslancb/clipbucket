@@ -80,7 +80,16 @@ class userquery extends CBCategory{
 			$this->UpdateLastActive(userid());
 		}else
 			$this->permission = $this->get_user_level(4,TRUE);
-
+		
+		
+		//Adding Actions such Report, share,fav etc
+		$this->action = new cbactions();
+		$this->action->type = 'u';
+		$this->action->name = 'user';
+		$this->action->obj_class = 'userquery';
+		$this->action->check_func = 'user_exists';
+		$this->action->type_tbl = $this->dbtbl['users'];
+		$this->action->type_id_field = 'userid';
 	}
 	
 	/**
@@ -3107,68 +3116,6 @@ class userquery extends CBCategory{
 		
 	 }
 	
-	//Validate Admin Member
-	function Admin_Add_User(){
-		global $LANG,$stats;
-		$uname 		= mysql_clean($_POST['username']);
-		$email		= mysql_clean($_POST['email']);
-		$pass 		= pass_code(mysql_clean($_POST['password']));
-		$fname		= mysql_clean($_POST['fname']);
-		$lname		= mysql_clean($_POST['lname']);
-		$gender		= mysql_clean($_POST['gender']);
-		$level		= mysql_clean($_POST['level']);
-		$dob		= mysql_clean($_POST['dob']);
-		$ht			= mysql_clean($_POST['hometown']);
-		$city 		= mysql_clean($_POST['city']);
-		$country 	= $_POST['country'];
-		$zip		= mysql_clean($_POST['zip']);
-		$active		= $_POST['active'];
-		
-		if(empty($uname)){
-		$msg[] = e($LANG['usr_uname_err']);
-		}
-		if($this->duplicate_user($uname)){
-		$msg[] = e($LANG['usr_uname_err2']);
-		}
-		if(!$this->isValidUsername($uname)){
-			$msg[] = e($LANG['usr_uname_err3']);
-		}
-		if(empty($_POST['password'])){
-		$msg[] = e($LANG['usr_pass_err2']);
-		}
-		if(empty($email)){
-		$msg[] = e($LANG['usr_email_err1']);
-		}elseif(!$this->isValidEmail($email)){
-		$msg[] = e($LANG['usr_email_err2']);
-		}
-		if($this->duplicate_email($email)){
-		$msg[] = e($LANG['usr_email_err3']);
-		}
-		if(!empty($zip) && !is_numeric($zip)){
-		$msg[] = e($LANG['usr_pcode_err']);
-		}
-		
-		if(!$this->is_username($uname))
-			$msg[] = 'Username is not valid';
-		
-		$dob = strtotime($dob) ;
-		if(date("Y",$dob) < 1960 || date("Y",$dob) > date("Y"))
-		   $msg[] = "Please enter valid date of birth";
-		   
-		$dob = date('Y-m-d',strtotime($dob));
-		
-			if(empty($msg)){
-			if(!mysql_query("INSERT INTO users (username,password,email,first_name,last_name,sex,level,dob,hometown,city,country,zip,usr_status)
-		VALUES('".$uname."','".$pass."','".$email."','".$fname."','".$lname."','".$gender."','".$level."','".$dob."','".$ht."','".$city."','".$country."','".$zip."','".$active."')")) die(mysql_error());
-			$stats->UpdateUserRecord(1);
-			redirect_to($_SERVER['PHP_SELF'].'?msg='.urlencode($LANG['usr_add_succ_msg']));
-			}
-		
-		return $msg;
-	
-	}
-	
-	
 	
 	/**
 	 * Function used to get users
@@ -3516,5 +3463,19 @@ class userquery extends CBCategory{
 
 		$this->search->search_type['users']['fields'] = $fields;
 	}
+	
+	
+	
+	/**
+	  * Function used to get number of users online
+	  */
+	 function get_online_users()
+	 {
+		 global $db;
+		 $pattern = date("Y-m-s H:i:s");
+		 $results =  $db->select("users",'*'," TIMESTAMPDIFF(MINUTE,last_active,'".NOW()."')  < 6 ");
+	 	 return $results;
+	 }
+	 
 }
 ?>

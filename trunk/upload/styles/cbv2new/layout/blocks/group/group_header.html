@@ -42,6 +42,7 @@
     	    <li class="selected" onclick="get_group_info('#info',this)">Info</li>
     	    <li onclick="get_group_info('#members',this)">Members</li>
     	    <li onclick="get_group_info('#videos',this)">Videos</li>
+            <li onclick="get_group_info('#flag_group',this); $('#flag_item').slideDown()">Report</li>
   	      </ul>
           <div class="clearfix"></div>
        	</div>
@@ -123,6 +124,12 @@
                     <div align="right"><a href="{group_link details=$group type='view_videos'}">View All Videos</a></div>
                 </div>
             <!-- Group videos-->
+            
+            <!-- Report This Group -->
+            <div id="flag_group" class="grp_info" style="display:none">
+             {show_flag_form id=$group.group_id type=Group}
+            </div> 
+            <!-- Report This Group -->
         </div>
     	</div>
     </div>

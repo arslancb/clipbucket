@@ -98,7 +98,10 @@
     
     </div>
     
-    <div id="footer" style="margin-top:0px;">
+    <div align="left"><a href="javascript:void(0)" onClick="$('#flag_item').slideToggle()">Report This User</a></div>
+    {show_flag_form id=$u.userid type=User}
+    <div style="height:10px"></div>
+  <div id="footer" style="margin-top:0px;">
     	<div class="footer">
         	&copy; {$title} {$smarty.now|date_format:"%Y"}
         </div>

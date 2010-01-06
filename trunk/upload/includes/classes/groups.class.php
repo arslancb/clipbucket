@@ -21,7 +21,8 @@ class CBGroups extends CBCategory
 	/**
 	 * Constructor function to set values of tables
 	 */
-	function CBGroups() {
+	function CBGroups()
+	{
 		$this->cat_tbl = 'group_categories';
 		$this->gp_tbl =  'groups';
 		$this->gp_mem_tbl =  'group_members';
@@ -31,14 +32,14 @@ class CBGroups extends CBCategory
 		$this->gp_invite_tbl = 'group_invitations';
 		$this->gp_vdo_tbl = 'group_videos';
 		
-		//Basically , we are using Actions for Group Topics
+		//Adding Actions such Report, share,fav etc
 		$this->action = new cbactions();
-		$this->action->type = 't';
-		$this->action->name = 'topic';
+		$this->action->type = 'g';
+		$this->action->name = 'group';
 		$this->action->obj_class = 'cbgroup';
-		$this->action->check_func = 'topic_exists';
-		$this->action->type_tbl = $this->gp_topic_tbl;
-		$this->action->type_id_field = 'topic_id';
+		$this->action->check_func = 'group_exists';
+		$this->action->type_tbl = $this->gp_tbl;
+		$this->action->type_id_field = 'group_id';
 
 	}
 		

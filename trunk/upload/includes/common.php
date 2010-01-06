@@ -57,7 +57,6 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/signup.class.php');
 	require_once('classes/image.class.php');
 	require_once('classes/upload.class.php');
-	require_once('classes/stats.class.php');
 	require_once('classes/ads.class.php');
 	require_once('classes/form.class.php');
 	require_once('classes/ClipBucket.class.php');
@@ -83,7 +82,6 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	$signup 	= new signup();	
 	$Upload 	= new Upload();
 	$cbgroup 	= new CBGroups();
-	$stats 		= new stats();
 	$adsObj		= new AdsManager();
 	$formObj	= new formObj();
 	$ClipBucket = $Cbucket	= new ClipBucket();
@@ -201,6 +199,7 @@ else
 	define('ORIGINAL_DIR',FILES_DIR.'/original');
 	define('TEMP_DIR',FILES_DIR.'/temp');
 	define('CON_DIR',FILES_DIR.'/conversion_queue');
+	define('MASS_UPLOAD_DIR',FILES_DIR.'/mass_uploads');
 	define('LOGS_DIR',FILES_DIR.'/logs');
 
 //DIRECT URL OF VIDEO FILES
@@ -338,7 +337,6 @@ $Smarty->assign_by_ref('userquery', $userquery);
 $Smarty->assign_by_ref('signup', $signup);
 $Smarty->assign_by_ref('Upload', $Upload);
 $Smarty->assign_by_ref('cbgroup', $cbgroup);
-$Smarty->assign_by_ref('Stats', $stats);
 $Smarty->assign_by_ref('db', $db);
 $Smarty->assign_by_ref('adsObj', $adsObj);
 $Smarty->assign_by_ref('formObj', $formObj);
@@ -421,6 +419,5 @@ register_action_remove_video('remove_video_files');
 
 include('admin.functions.php');
 //error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
-
 
 ?>

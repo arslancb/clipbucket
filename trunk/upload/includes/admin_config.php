@@ -9,14 +9,23 @@
 	Config.Inc.php
 	*/
 	include('common.php');
-	//Setting Number of Records
+	
+	
+	
+	include("clipbucket.php");
+	$Cbucket->cbinfo = array("version"=>VERSION,"state"=>STATE,"rev"=>REV,"release_date"=>RELEASED);
+	$latest = get_latest_cb_info();
+	$Cbucket->cbinfo['latest'] = $latest;
+	if($Cbucket->cbinfo['version'] < $Cbucket->cbinfo['latest']['version'])
+		$Cbucket->cbinfo['new_available'] = true;
+
 	
 	//Including Massuploader Class,
 	require_once('classes/mass_upload.class.php');
 	require_once('classes/ads.class.php');
 	//require_once('classes/sysinfo.class.php');
 	
-	$MassUpload 	= new MassUpload();
+	$cbmass 	= new mass_upload();
 	$ads_query 		= new AdsManager();
 	
 	
@@ -61,5 +70,7 @@
 	//Including Flv Players
 	include('flv_player.php');
 	
+	
+$Smarty->assign_by_ref('cbmass',$cbmass)	
 	
 ?>

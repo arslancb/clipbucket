@@ -12,8 +12,48 @@
         <div class="dragbox-content" >
             <div class="item">
             	<div class="stats_subitem">Videos</div>
-                <div class="stats_subitem">Total : 44 | Active : 33 | Flagged : 2323 | Processing : 232</div>
+                <div class="stats_subitem">Total : <strong>{get_videos count_only=yes}</strong> | Active : <strong>{get_videos count_only=yes active="yes"}</strong> | Flagged : <strong>{$cbvid->action->count_flagged_objects()}</strong> | Processing : <strong>{get_videos count_only=yes status='Processing'}</strong></div>
                 <div class="clearfix"></div>
+            </div>
+            
+             <div class="item">
+            	<div class="stats_subitem">Groups</div>
+                <div class="stats_subitem">Total : <strong>{get_groups count_only=yes}</strong> | Active : <strong>{get_groups count_only=yes active='yes'}</strong> | Flagged : <strong>{$cbgroup->action->count_flagged_objects()}</strong></div>
+                <div class="clearfix"></div>
+            </div>
+            
+             <div class="item">
+            	<div class="stats_subitem">Members</div>
+                <div class="stats_subitem">Total : <strong>{get_users count_only=yes}</strong> | Active : <strong>{get_users count_only=yes status='Ok'}</strong> | Flagged : <strong>{$userquery->action->count_flagged_objects()}</strong> | Banned : <strong>{get_users count_only=yes ban='yes'}</strong></div>
+                <div class="clearfix"></div>
+            </div>
+            
+            
+            <div class="item">
+            {assign var=users value=$userquery->get_online_users()}
+            <strong style="text-decoration:underline">Online Users({$users|@count})</strong><br />
+            
+            {if $users}
+            	{foreach from=$users item=user name=onlines}
+                	<strong><a href="{$userquery->profile_link($user)}" target="_blank">{$user.username}</a>{if !$smarty.foreach.onlines.last}, {/if}</strong>
+                {/foreach}
+            {else}
+            	No User is Online
+            {/if}    
+            
+            
+            </div>
+            
+            <div class="item subitem">
+            	{if $Cbucket->cbinfo.new_available}
+                	<div class="stats_subitem" style="width:60%; color:#060">Currently you are running <strong>{$ClipBucket->cbinfo.version} {$ClipBucket->cbinfo.state}</strong><br />
+Latest Version <strong>{$Cbucket->cbinfo.latest.version} {$Cbucket->cbinfo.latest.state} </strong></div>
+               		<div class="stats_subitem" style="width:39%"><span class="simple_button"><a href="{$Cbucket->cbinfo.latest.link}">Update Now</a></span></div>
+                	<div class="clearfix"></div>
+                {else}
+            		<div>
+                    Currently you are running <strong>{$Cbucket->cbinfo.version} {$Cbucket->cbinfo.state}</strong> - No New Version Available</div>
+                {/if}
             </div>
         </div>
     </div>
@@ -62,10 +102,10 @@
     <div class="dragbox" id="quick_actions" >
         <h2>Quick Action</h2>
         <div class="dragbox-content" >
-        	<div class="item">Add Videos</div>
-            <div class="item">Add Members</div>
-            <div class="item">Add Group</div>
-            <div class="item">Add Group</div>
+        	<div class="item"><a href="main.php">Website Settings</a></div>
+            <div class="item"><a href="add_member.php">Add Members</a></div>
+            <div class="item"><a href="add_group.php">Add Group</a></div>
+            <div class="item"><a href="video_modules.php">Check Video Modules</a></div>          
 	    </div>
     </div>
     <!-- Admin Todo List -->  

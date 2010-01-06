@@ -147,21 +147,40 @@ if(!empty($mode))
 				{
 					$id = $_POST['id'];
 					$cbvideo->action->report_it($id);
-					if(msg())
-					{
-						$msg = msg_list();
-						$msg = '<div class="msg">'.$msg[0].'</div>';
-					}
-					if(error())
-					{
-						$msg = error_list();
-						$msg = '<div class="error">'.$msg[0].'</div>';
-					}
-					
-					echo $msg;
+				}
+				break;
+				
+				case 'g':
+				case 'group':
+				default:
+				{
+					$id = $_POST['id'];
+					$cbgroup->action->report_it($id);
+				}
+				break;
+				
+				case 'u':
+				case 'user':
+				default:
+				{
+					$id = $_POST['id'];
+					$userquery->action->report_it($id);
 				}
 				break;
 			}
+			
+			if(msg())
+			{
+				$msg = msg_list();
+				$msg = '<div class="msg">'.$msg[0].'</div>';
+			}
+			if(error())
+			{
+				$msg = error_list();
+				$msg = '<div class="error">'.$msg[0].'</div>';
+			}
+			
+			echo $msg;
 		}
 		break;
 		

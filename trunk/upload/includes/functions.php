@@ -3390,5 +3390,35 @@
 			</div>
 		</div>';
 	}
+	
+	
+	/**
+	 * Function used to get latest ClipBucket version info
+	 */
+	function get_latest_cb_info()
+	{
+		//$url = 'http://clip-bucket.com/versions.xml';
+		$url = 'http://localhost/clipbucket/2.x/2/upload/tester/versions.xml';
+		$version = xml2array($url);
+		if(!$version)
+		{
+			return false;
+		}else
+		{
+			return $version['phpbucket']['clipbucket'][0];
+		}
+	}
+	
+	
+	/**
+	 * function used to get allowed extension as in array
+	 */
+	function get_vid_extensions()
+	{
+		$exts = config('allowed_types');
+		$exts = preg_replace("/ /","",$exts);
+		$exts = explode(",",$exts);
+		return $exts;
+	}
 		
 ?>

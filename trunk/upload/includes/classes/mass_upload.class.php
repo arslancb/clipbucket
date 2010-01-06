@@ -1,106 +1,79 @@
 <?php
 
 /* 
- ****************************************************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.											|
- | @ Author 	: ArslanHassan																		|
- | @ Software 	: ClipBucket , © PHPBucket.com														|
- ****************************************************************************************************
-*/
-/**
- **************************************************************************************************
- Mysql Queries are used to perform SQL Queries in DATABASE, Don not edit them this will may cause 
- script not to run properly
- This source file is subject to the ClipBucket End-User License Agreement, available online at:
- http://clip-bucket.com/cbla
- By using this software, you acknowledge having read this Agreement and agree to be bound thereby.
- **************************************************************************************************
- Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.
- **************************************************************************************************
- **/
- 
- class MassUpload{
- 
- 				function DataEntry($title,$des,$flv,$tags){
-				global $stats;
- 				$username = $_SESSION['username'];
-				if(empty($username)){
-				$username = $_SESSION['username'];
-				}
-				$activation		= ACTIVATION;
-				$title 			= mysql_clean($title);
-				$description 	= mysql_clean($des);
-				$tags 			= mysql_clean($tags);
-				$broadcast 		= $_POST['broadcast'];
-				$country		= $_POST['country'];
-				$location		= mysql_clean($_POST['location']);
-				$date			= $_POST['date'];
-				$comments		= $_POST['comments'];
-				$comment_voting	= $_POST['comment_voting'];
-				$rating			= $_POST['rating'];
-				$embedding		= $_POST['embedding'];
-				$category01 	= $_POST['category01'];
-				$category02 	= $_POST['category02'];
-				$category03 	= $_POST['category03'];
-				$vkey			= substr(md5(RandomString(10).$title.$tags),1,15);
-				
-				if($activation == 0){
-					$active = 'yes';
-					}else{
-					$active = 'no';
-				}	
-				
-								
-				 mysql_query("INSERT INTO video(
-				 title ,
-				 videokey ,
-				 flv,
-				 username ,
-				 category01 ,
-				 category02 ,
-				 category03 ,
-				 description,
-				 tags,
-				 broadcast,
-				 country,
-				 location,
-				 datecreated,
-				 allow_comments,
-				 comment_voting,
-				 allow_rating,
-				 allow_embedding,
-				 date_added,
-				 active,
-				 last_viewed
-				 
-				 )VALUES(
-				 
-				'".$title."',
-				'".$vkey."',
-				'".$flv."',
-				'".$username."',
-				'".$category01."',
-				'".$category02."',
-				'".$category03."',
-				'".$description."',
-				'".$tags."',
-				'".$broadcast."',
-				'".$country."',
-				'".$location."',
-				'".$date."',
-				'".$comments."',
-				'".$comment_voting."',
-				'".$rating."',
-				'".$embedding."',
-				now(),
-				'".$active."',
-				'0000-00-00 00:00:00'
-				)");
-				
-					//Updating Users Number Of  Videos Added By User
-					$videos_query 	= mysql_query("SELECT * FROM video WHERE username='".$username."'");
-					$videoscount	= mysql_num_rows($videos_query);
-					$updatequery = "UPDATE users SET total_videos='".$videoscount."' WHERE username = '".$username."'";
-					$stats->UpdateVideoRecord(1);
-				}
+****************************************************************
+| Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.	
+| @ Author 	: ArslanHassan										
+| @ Software 	: ClipBucket , © PHPBucket.com					
+****************************************************************
+****************************************************************
+Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.
+****************************************************************
+**/
+
+
+class mass_upload extends Upload
+{
+	
+	
+	/**
+	 * FUNCTION USED TO GET FILES FROM DIRECTORY
+	 */
+	function glob_files($source_folder, $ext='*', $sec=0)
+	{
+		if( !is_dir( $source_folder ) ) {
+			die ( "Invalid directory.\n\n" );
+		}
+	   
+		$FILES = glob($source_folder."\*.".$ext);
+		$set_limit    = 0;
+	   
+		foreach($FILES as $key => $file)
+		{
+			if( filemtime( $file ) > $sec ){
+				$FILE_LIST[$key]['path']    = substr( $file, 0, ( strrpos( $file, "\\" ) +1 ) );
+				$FILE_LIST[$key]['file']    = substr( $file, ( strrpos( $file, "\\" ) +1 ) ); 
+				$FILE_LIST[$key]['name']    = getName($FILE_LIST[$key]['file']);
+				$FILE_LIST[$key]['size']    = filesize( $file );
+				$FILE_LIST[$key]['date']    = date('Y-m-d G:i:s', filemtime( $file ) );
+			}
+		}
+		if(!empty($FILE_LIST)){
+			return $FILE_LIST;
+		} else {
+			die( "No files found!\n\n" );
+		}
+	}
+
+	
+	/**
+	 * Function used to get list of available files that can be processed
+	 */
+	function get_files()
+	{
+		$files = $this->glob_files(MASS_UPLOAD_DIR);
+		return $files;
+	}
+	
+	
+	/**
+	 * function used to get video files only3
+	 */
+	function get_video_files($with_path=false)
+	{
+		$exts = get_vid_extensions($with_path);
+		
+		$vid_files = array();
+		$files = $this->get_files();
+		foreach($files as $file)
+		{
+			$ext = getext($file['file']);
+			if(in_array($ext,$exts))
+				$vid_files[] = $file;
+		}
+		return $vid_files;
+	}
+	
 }
+
+?>

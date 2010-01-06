@@ -14,8 +14,7 @@
  **************************************************************************************************
  Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.
  **************************************************************************************************
- 
- DEPRECATED
+
  check_user
  check_email
  DeleteFlv
@@ -439,40 +438,6 @@ class myquery {
 				$msg = e($LANG['class_sub_exist_err']);
 			}
 		return $msg;
-	}
-	
-	//Function Used To Remove From Favourites
-	function RemoveFavourite($favid,$userid=NULL,$method=1){
-	global $LANG,$stats;;
-		if($method == 1){
-		$query  = mysql_query("SELECT * FROM video_favourites WHERE fav_id='".$favid."' AND userid='".$userid."'");
-			if(mysql_num_rows($query)>0){
-				mysql_query("DELETE FROM video_favourites WHERE fav_id='".$favid."'");
-				$msg = e($LANG['class_vdo_rm_fav_msg'],m);
-				$stats->UpdateVideoRecord(7);
-			}else{
-				$msg = e($LANG['class_vdo_fav_err1']);
-			}
-		}else{
-			mysql_query("DELETE FROM video_favourites WHERE videoid='".$favid."'");
-			$stats->UpdateVideoRecord(7);
-		}
-		return @$msg;
-	}
-	
-	//Function Used To Remove Contact
-	function RemoveUser($contactid,$user){
-	global $LANG;
-		$query=mysql_query("SELECT * FROM contacts WHERE contactid='".$contactid."' AND username ='".$user."'");
-			if(mysql_num_rows($query)>0){
-				mysql_query("DELETE from contacts WHERE contactid='".$contactid."'");
-				$msg = e($LANG['class_cont_del_msg'],m);
-
-			}else{
-				$msg = e($LANG['class_cot_err']);
-			}
-		return $msg;
-		
 	}
 	
 	//Function Used To Varify Syntax

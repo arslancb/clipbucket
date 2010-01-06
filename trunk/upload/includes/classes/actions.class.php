@@ -191,7 +191,7 @@ class cbactions
 	function report_check($id)
 	{
 		global $db;
-		$results = $db->select($this->flag_tbl,"flag_id"," id='".$id."' AND userid='".userid()."'");
+		$results = $db->select($this->flag_tbl,"flag_id"," id='".$id."' AND type='".$this->type."' AND userid='".userid()."'");
 		if($db->num_rows>0)
 			return true;
 		else
@@ -363,7 +363,7 @@ class cbactions
 		if($db->num_rows>0)
 			return count($results);
 		else
-			return false;
+			return 0;
 	}
 	
 	

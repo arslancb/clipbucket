@@ -70,7 +70,6 @@ class CBvideo extends CBCategory
 	function get_video_details($vid){return $this->get_video($vid);}
 	function getvideodetails($vid){return $this->get_video($vid);}
 	
-	
 	/**
 	 * Function used to perform several actions with a video
 	 */
@@ -382,13 +381,15 @@ class CBvideo extends CBCategory
 		{
 			if($params['active'])
 				$cond .= " active='".$params['active']."'";
-				
+
 			if($params['status'])
 			{
 				if($cond!='')
 					$cond .=" AND ";
 				$cond .= " status='".$params['status']."'";
 			}
+			
+			
 		}
 		
 		//Setting Category Condition
@@ -486,7 +487,7 @@ class CBvideo extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$featured .= " featured = 'yes' ";
+			$cond .= " featured = 'yes' ";
 		}
 		
 		//Exclude Vids

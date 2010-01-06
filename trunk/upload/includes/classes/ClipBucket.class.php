@@ -33,6 +33,8 @@ class ClipBucket
 	
 	var $in_footer = false;
 	
+	var $cbinfo = array();
+	
 	var $search_types = array('videos'=>'cbvid','groups'=>'cbgroup','users'=>'userquery');
 	
 	/**
@@ -222,11 +224,12 @@ class ClipBucket
 		   'Users'				=> 
 		   array(
 				 'Manage Members' => 'members.php',
-				 'Add Member'=>'members.php?view=addmember',
+				 'Add Member'=>'add_member.php',
 				 'User Levels'=>'user_levels.php',
 				 'Search Members'=>'members.php?view=search',
 				 'Inactive Only'=>'members.php?search=yes&status=ToActivate',
 				 'Active Only'=>'members.php?search=yes&status=Ok',
+				 'Reported Users'=>'flagged_users.php',
 				 'Mass Email'=>'mass_email.php'
 				),
 		   
@@ -237,6 +240,7 @@ class ClipBucket
 				 'Manage Groups'=>'groups_manager.php',
 				 'Manage Categories'=>'group_category.php?view=show_category',
 				 'View Inactive Groups' => 'groups_manager.php?active=no&search=yes',
+				 'View Reported Groups' => 'flagged_groups.php',
 				),
 		   
 		   //Advertisments
@@ -457,7 +461,7 @@ class ClipBucket
 	 */
 	function get_cb_news()
 	{
-		$feeds = 3;
+		$feeds = 5;
 		$text = 400;
 		//$url = 'http://blog.clip-bucket.com/feed/';
 		$url = 'http://localhost/clipbucket/2.x/2/upload/tester/feed.xml';
