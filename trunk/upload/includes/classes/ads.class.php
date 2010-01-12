@@ -24,21 +24,21 @@ class AdsManager
 		$status		= $_POST['status'];
 		
 		if(empty($name)){
-			$msg = e($LANG['ad_name_error']);
+			$msg = e(lang('ad_name_error'));
 		}
 		if(empty($code)){
-		//	$msg = e($LANG['ad_code_error']);
+		//	$msg = e(lang('ad_code_error'));
 		}
 		
 	
 		$query = mysql_query("SELECT * FROM ads_data WHERE ad_name ='".$name."'");
 		if(mysql_num_rows($query)>0){
-			$msg =  e($LANG['ad_exists_error2']);
+			$msg =  e(lang('ad_exists_error2'));
 		}
 		if(empty($msg)){
 		mysql_query("INSERT INTO ads_data (ad_category,ad_name,ad_placement,ad_code,ad_status)VALUES('".$category."','".$name."','".$placement."','".$code."','".$status."')");
 		
-		$msg =  e($LANG['ad_add_msg'],m);
+		$msg =  e(lang('ad_add_msg'),m);
 		}
 		return $msg;
 	}
@@ -53,11 +53,11 @@ class AdsManager
 		$status;
 		mysql_query("UPDATE ads_data SET ad_status = '".$status."' WHERE ad_id ='".$id."' ");
 		if($status == '0'){
-		$show_status = $LANG['ad_deactive'];
+		$show_status = lang('ad_deactive');
 		}else{
-		$show_status = $LANG['ad_active'];
+		$show_status = lang('ad_active');
 		}
-		$msg = e($LANG['ad_msg'].$show_status,m);
+		$msg = e(lang('ad_msg').$show_status,m);
 	return $msg;
 	}
 	
@@ -70,10 +70,10 @@ class AdsManager
 		$code	= mysql_real_escape_string(htmlspecialchars($_POST['code']));
 		$category = mysql_clean(@$_POST['category']);	
 				if(empty($name)){
-					$msg = e($LANG['ad_name_error']);
+					$msg = e(lang('ad_name_error'));
 				}
 				if(empty($code)){
-				//	$msg = e($LANG['ad_code_error']);
+				//	$msg = e(lang('ad_code_error'));
 				}
 				if(empty($msg)){
 				mysql_query("UPDATE ads_data SET
@@ -83,7 +83,7 @@ class AdsManager
 				ad_code	= '".$code."',
 				ad_status = '".$_POST['status']."'
 				Where ad_id = '".$id."'");
-				$msg = e($LANG['ad_update_msg'],m);
+				$msg = e(lang('ad_update_msg'),m);
 				}
 		return $msg;
 	}
@@ -91,13 +91,13 @@ class AdsManager
 	//Function Used To delete AD
 	
 	function DeleteAd($id){
-	global $LANG;
+		global $LANG;
 			$query = mysql_query("SELECT * FROM ads_data WHERE ad_id ='".$id."'");
-			if(mysql_num_rows($query)!=1){
-				$msg = e($LANG['ad_exists_error1']);
+			if(mysql_num_rows($query)>0){
+				mysql_query("DELETE FROM ads_data WHERE ad_id='".$id."'");
+				$msg = e(lang('ad_del_msg'),m);
 			}else{
-			mysql_query("DELETE FROM ads_data WHERE ad_id='".$id."'");
-				$msg = e($LANG['ad_del_msg'],m);
+				$msg = e(lang('ad_exists_error1'));
 			}
 		return $msg;
 	}
@@ -119,17 +119,17 @@ class AdsManager
 	function AddPlacement($array){
 		global $LANG;
 		if(empty($array[0])){
-			$msg = e($LANG['ad_placement_err2']);
+			$msg = e(lang('ad_placement_err2'));
 		}elseif(empty($array[1])){
-			$msg = e($LANG['ad_placement_err3']);
+			$msg = e(lang('ad_placement_err3'));
 		}
 		if(empty($msg)){
 			$query = mysql_query("SELECT * FROM ads_placements WHERE placement = '".$array[1]."'");
 				if(mysql_num_rows($query) > 0){
-					$msg = e($LANG['ad_placement_err1']);
+					$msg = e(lang('ad_placement_err1'));
 				}else{
 					if(!mysql_query("INSERT INTO ads_placements (placement_name,placement)VALUES('".$array[0]."','".$array[1]."')"))die(mysql_error());
-					$msg  = e($LANG['ad_placement_msg'],m);
+					$msg  = e(lang('ad_placement_msg'),m);
 				}
 		}
 		return $msg;

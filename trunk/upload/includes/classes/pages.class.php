@@ -69,8 +69,8 @@ class pages{
 
  	//This Function Set The PageDirect
 	function page_redir(){
-	setcookie("pageredir",clean($this->GetCurrentUrl()),time()+7200,'/');
-	Assign('pageredir',@$_COOKIE['pageredir']);
+		setcookie("pageredir",clean($this->GetCurrentUrl()),time()+7200,'/');
+		Assign('pageredir',@$_COOKIE['pageredir']);
 	}
 	
 	//This Funtion is use to Show Admin Panels Pages

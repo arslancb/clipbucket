@@ -31,6 +31,26 @@ var imageurl = "{$imageurl}";
 <script src="{$js}/jquery_plugs/compressed/jeditable.js" type="text/javascript"></script>
 <script src="{$js}/jquery_plugs/jquery.tipsy.js" type="text/javascript"></script>
 
+{if $Cbucket->AdminJSArray}
+<!-- Including JS Files-->
+{foreach from=$Cbucket->AdminJSArray key=file item=type}
+    {if $curActive == $type ||  $type=='global' }
+        {include_js type=$type file=$file}
+    {/if}
+{/foreach}
+<!-- Including JS Files-->
+{/if}
+
+{if $Cbucket->admin_header_files}
+    <!-- Including Headers -->
+    {foreach from=$Cbucket->admin_header_files key=file item=type}
+        {include_header type=$type file=$file}
+    {/foreach}
+    <!-- Ending Headers -->
+{/if}
+
+
+
 <!-- Including Nice Edit -->
 <script type="text/javascript" src="{$js}/nicedit/nicEdit.js"></script>
 {literal}

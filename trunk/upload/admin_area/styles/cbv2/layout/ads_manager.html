@@ -53,7 +53,7 @@
         </tr>
         <tr>
           <td>&nbsp;</td>
-          <td align="right"><input type="submit" name="update" id="button2" value="Update Advertisement" onclick="return validate_ad_form(add_adv)"/></td>
+          <td align="right"><input type="submit" name="update" class="button" value="Update Advertisement" onclick="return validate_ad_form(add_adv)"/></td>
         </tr>
       </table>
     </form></td>
@@ -111,7 +111,7 @@
         </tr>
         <tr>
           <td>&nbsp;</td>
-          <td align="right"><input type="submit" name="add" id="button2" value="Add Advertisement" onclick="return validate_ad_form(add_adv)"/></td>
+          <td align="right"><input type="submit" name="add" class="button" value="Add Advertisement" onclick="return validate_ad_form(add_adv)"/></td>
         </tr>
       </table>
     </form></td>
@@ -146,7 +146,8 @@
         <td width="120" align="left"><div style="padding-left:10px">{$ad.ad_impressions|number_format}</div></td>
         <td width="120" align="left"><div style="padding-left:10px">{$ad.date_added|date_format}</div></td>       
         <td width="270" align="left"><div style="padding-left:10px">{$adsObj->get_placement_name($ad.ad_placement)}</div></td>
-        <td width="150" align="left"><div style="padding-left:10px">&nbsp;</div></td>        
+        <td width="150" align="left"><div style="padding-left:10px"><a href="ads_manager.php?ad_id={$ad.ad_id}">Edit</a> | 
+<a href="ads_manager.php?delete={$ad.ad_id}">Delete</a></div></td>        
       </tr>
       {/foreach}
     </table></div></td>

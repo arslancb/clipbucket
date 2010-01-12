@@ -23,7 +23,7 @@ if(!empty($vkey) && $myquery->CheckVideoExists($vkey)){
 	}elseif(file_exists($flv)){
 		$file = $flv;
 	}else{
-		$msg = $LANG['class_vdo_del_err'];
+		$msg = lang('class_vdo_del_err');
 	}
 	if(VIDEO_DOWNLOAD != 1){
 		$msg = $LANG['vdo_download_allow_err'];

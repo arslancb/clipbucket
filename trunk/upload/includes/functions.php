@@ -610,6 +610,19 @@
 		echo '<p><pre>' . htmlentities( $data ) . '</pre></p></div>';
 	}
 	
+	/**
+	 * Function used to get shell output
+	 */
+	function shell_output($cmd)
+	{
+		if (stristr(PHP_OS, 'WIN')) { 
+			$cmd = $cmd;
+		}else{
+			$cmd = "PATH=\$PATH:/bin:/usr/bin:/usr/local/bin bash -c \"$cmd\"";
+		}
+		$data = shell_exec( $cmd );
+		return $data;
+	}
 	
 	/**
 	 * Function used to get video link
@@ -840,8 +853,8 @@
 					$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
 				
 				$cats = $cbgroup->get_categories();
-				if($all_cat)
-				$cats = array_merge($all_cat,$cats);
+				if($all_cat && is_array($cats))
+					$cats = array_merge($all_cat,$cats);
 				return $cats;
 			}
 			break;
@@ -1552,25 +1565,70 @@
 	  */
 	 function get_binaries($path)
 	 {
-		 $path = strtolower($path);
-		 switch($path)
+		 if(is_array($path))
 		 {
-			 case "php":
-			 return php_path();
-			 break;
-			 
-			 case "mp4box":
-			 return config("mp4boxpath");
-			 break;
-			 
-			 case "flvtool2":
-			 return config("flvtool2path");
-			 break;
-			 
-			 case "ffmpeg":
-			 return config("ffmpegpath");
-			 break;
+			 $type = $path['type'];
+			 $path = $path['path'];
 		 }
+		
+		if($type=='' || $type=='user')
+		{
+			$path = strtolower($path);
+			switch($path)
+			{
+				case "php":
+				return php_path();
+				break;
+				
+				case "mp4box":
+				return config("mp4boxpath");
+				break;
+				
+				case "flvtool2":
+				return config("flvtool2path");
+				break;
+				
+				case "ffmpeg":
+				return config("ffmpegpath");
+				break;
+			}
+		}else{
+			$path = strtolower($path);
+			switch($path)
+			{
+				case "php":
+				$return_path = exec("which php");
+				if($return_path)
+					return $return_path;
+				else
+					return "Unable to find PHP path";
+				break;
+				
+				case "mp4box":
+				$return_path =  exec("which MP4Box");
+				if($return_path)
+					return $return_path;
+				else
+					return "Unable to find mp4box path";
+				break;
+				
+				case "flvtool2":
+				$return_path =  exec("which flvtool2");
+				if($return_path)
+					return $return_path;
+				else
+					return "Unable to find flvtool2 path";
+				break;
+				
+				case "ffmpeg":
+				$return_path =  exec("which ffmpeg");
+				if($return_path)
+					return $return_path;
+				else
+					return "Unable to find ffmpeg path";
+				break;
+			}
+		}
 	 }
 	 
 	 
@@ -2352,7 +2410,7 @@
 			}
 		}
 		
-		increment_views($vdo['videoid']);
+		increment_views($vdo['videoid'],'video');
 		
 		if(userid())
 			$userquery->increment_watched_vides(userid());
@@ -2444,16 +2502,14 @@
 			default:
 			{
 				if(!isset($_COOKIE['video_'.$id])){
-					$db->update("video",array("views","last_viewed"),array("|f|views+1",NOW())," videoid='$id' OR videokey='$vkey'");
-					if(userid())
-					$db->update("users",array("total_watched"),array("|f|total_watched+1")," userid='".userid()."'");
+					$db->update("video",array("views","last_viewed"),array("|f|views+1",NOW())," videoid='$id' OR videokey='$id'");
 					setcookie('video_'.$id,'watched',time()+3600);
 				}
 			}
 			break;
 			case 'u':
 			case 'user':
-			default:
+
 			{
 				if(!isset($_COOKIE['user_'.$id])){
 					$db->update("users",array("profile_hits"),array("|f|profile_hits+1")," userid='$id'");
@@ -2463,7 +2519,7 @@
 			break;
 			case 't':
 			case 'topic':
-			default:
+
 			{
 				if(!isset($_COOKIE['topic_'.$id])){
 					$db->update("group_topics",array("total_views"),array("|f|total_views+1")," topic_id='$id'");
@@ -2474,7 +2530,7 @@
 			break;
 			case 'g':
 			case 'group':
-			default:
+
 			{
 				if(!isset($_COOKIE['group_'.$id])){
 					$db->update("groups",array("total_views"),array("|f|total_views+1")," group_id='$id'");
@@ -3420,5 +3476,165 @@
 		$exts = explode(",",$exts);
 		return $exts;
 	}
+	
+	
+	/**
+	 * This function used to include headers in <head> tag
+	 * it will check weather to include the file or not
+	 * it will take file and its type as an array
+	 * then compare its type with THIS_PAGE constant
+	 * if header has TYPE of THIS_PAGE then it will be inlucded
+	 */
+	function include_header($params)
+	{
+		$file = $params['file'];
+		$type = $params['type'];
 		
+		if($type=='global')
+			Template($file,false);
+		elseif(is_array($type))
+		{
+			foreach($type as $t)
+			{
+				if($t==THIS_PAGE)
+					Template($file,false);
+			}
+		}elseif($type==THIS_PAGE)
+			Template($file,false);
+		
+		return false;
+	}
+	
+	/**
+	 * This function works the same way as include_header
+	 * but the only difference is , it is used to include
+	 * JS files only
+	 */
+	function include_js($params)
+	{
+		$file = $params['file'];
+		$type = $params['type'];
+		
+		if($type=='global')
+			return '<script src="'.JS_URL.'/'.$file.'" type="text/javascript"></script>';
+		elseif(is_array($type))
+		{
+			foreach($type as $t)
+			{
+				if($t==THIS_PAGE)
+					return '<script src="'.JS_URL.'/'.$file.'" type="text/javascript"></script>';
+			}
+		}elseif($type==THIS_PAGE)
+			return '<script src="'.JS_URL.'/'.$file.'" type="text/javascript"></script>';
+		
+		return false;
+	}
+		
+	
+	/**
+	 * Function used to check weather FFMPEG has Required Modules installed or not
+	 */
+	function get_ffmpeg_codecs()
+	{
+		$req_codecs = array
+		('libxvid' => 'Required for DIVX AVI files',
+		 'libmp3lame'=> 'Required for proper Mp3 Encoding',
+		 'libfaac'	=> 'Required for AAC Audio Conversion',
+		 'libfaad'	=> 'Required for AAC Audio Conversion',
+		 'libx264'	=> 'Required for x264 video compression and conversion',
+		 );
+		$version = shell_output(  'E:\wamp\bin\ffmpeg\ffmpeg.exe -i xxx -acodec copy -vcodec copy -f null /dev/null 2>&1' );
+		preg_match_all("/enable\-(.*) /Ui",$version,$matches);
+		$installed = $matches[1];
+		
+		$the_codecs = array();
+		
+		foreach($installed as $inst)
+		{
+			if(empty($req_codecs[$inst]))
+				$the_codecs[$inst]['installed'] = 'yes';
+		}
+		
+		foreach($req_codecs as $key=>$codec)
+		{
+			$the_req_codecs[$key] = array();
+			$the_req_codecs[$key]['required'] = 'yes';
+			$the_req_codecs[$key]['desc'] = $req_codecs[$key];
+			if(in_array($key,$installed))
+				$the_req_codecs[$key]['installed'] = 'yes';
+			else
+				$the_req_codecs[$key]['installed'] = 'no';
+		}
+		
+		$the_codecs =  array_merge($the_req_codecs,$the_codecs);
+		return $the_codecs;
+	}
+	
+	
+	/**
+	 * Function used to cheack weather MODULE is INSTALLED or NOT
+	 */
+	function check_module_path($params)
+	{
+		$path = $params['path'];
+		
+		if($path['get_path'])
+			$path = get_binaries($path);
+		$array = array();
+		$result = shell_output($path." -version");
+		if($result)
+		{
+			if($params['assign'])
+			{
+				$array['status'] = 'ok';
+				$array['version'] = parse_version($params['path'],$result);
+				
+				assign($params['assign'],$array);
+				
+			}else
+			{
+				return $result;
+			}
+		}else
+		{
+			if($params['assign'])
+				assign($params['assign'],"error");
+			else
+				return false;
+		}
+			
+	}
+	
+	
+	/**
+	 * Function used to parse version from info
+	 */
+	function parse_version($path,$result)
+	{
+		switch($path)
+		{
+			case 'ffmpeg':
+			{
+				preg_match("/svn-r([0-9]+)/i",$result,$matches);
+				return $matches[1];
+			}
+			break;
+			case 'php':
+			{
+				return phpversion(); 
+			}
+			break;
+			case 'flvtool2':
+			{
+				preg_match("/flvtool2 ([0-9\.]+)/i",$result,$matches);
+				return $matches[1];
+			}
+			break;
+			case 'mp4box':
+			{
+				preg_match("/version ([0-9\.]+)/i",$result,$matches);
+				return $matches[1];
+			}
+		}
+	}
 ?>

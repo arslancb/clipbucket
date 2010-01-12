@@ -15,6 +15,7 @@ $Cbucket->links  = array
 'login'			=>array('signup.php','signup.php'),
 'login_success'	=>array('login_success.php','login_success.php'),
 'logout'		=>array('logout.php','logout.php'),
+'logout_success'=>array('logout_success.php','logout_success.php'),
 'my_account'	=>array('myaccount.php','my_account'),
 'my_videos'		=>array('manage_videos.php','manage_videos.php'),
 'notifications'	=>array('private_message.php?mode=notification','private_message.php?mode=notification'),

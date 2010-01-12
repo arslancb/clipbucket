@@ -25,7 +25,7 @@ if(isset($_POST['submit_data']))
 	if(empty($eh->error_list))
 	{
 		
-		$file_name = time();
+		$file_name = time().RandomString(5);
 		assign('file_name',$file_name);
 		$step=2;
 	}

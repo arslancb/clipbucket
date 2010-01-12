@@ -1,0 +1,159 @@
+<div align="center"><h2>MODULES AND PATHS</h2></div>
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="10" align="center" valign="middle" class="left_head">&nbsp;</td>
+    <td width="200" class="head">Module</td>
+    <td width="260" class="head"><div class="head_sep_left" style="width:100px">Server Path</div></td>
+    <td width="260" class="head"><div class="head_sep_left" style="width:100px">User Path</div></td>
+    <td width="60" class="head"><div class="head_sep_left" style="width:50px">Status</div></td>
+    <td width="10" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+  <tr>
+    <td width="10" align="center" valign="middle">&nbsp;</td>
+    <td width="200">FFMPEG</td>
+    <td width="10">&nbsp;</td>
+    <td width="250">{get_binaries path=ffmpeg type=server}</td>
+    <td width="10">&nbsp;</td>
+    <td width="250">{get_binaries path=ffmpeg type=user}</td>
+    {check_module_path path='ffmpeg' get_path='true' assign='ffmpeg_status'}
+    <td width="10">&nbsp;</td>
+    <td width="50"><img src="{$imageurl}/{if $ffmpeg_status.status=='ok'}button_ok.png{else}error.png{/if}"></td>
+    <td width="10">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle">&nbsp;</td>
+    <td width="200">PHP</td>
+    <td>&nbsp;</td>
+    <td>{get_binaries path=php type=server}</td>
+    <td>&nbsp;</td>
+    <td width="250">{get_binaries path=php type=user}</td>
+    {check_module_path path='php' get_path='true' assign='php_status'}
+    <td width="10">&nbsp;</td>
+    <td width="50"><img src="{$imageurl}/{if $php_status.status=='ok'}button_ok.png{else}error.png{/if}"></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle">&nbsp;</td>
+    <td width="200">FLVTool 2</td>
+    <td>&nbsp;</td>
+    <td>{get_binaries path=flvtool2 type=server}</td>
+    <td>&nbsp;</td>
+    <td width="250">{get_binaries path=flvtool2 type=user}</td>
+    {check_module_path path='flvtool2' get_path='true' assign='flvtool2_status'}
+    <td width="10">&nbsp;</td>
+    <td width="50"><img src="{$imageurl}/{if $flvtool2_status.status=='ok'}button_ok.png{else}error.png{/if}"></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle">&nbsp;</td>
+    <td width="200">MP4Box</td>
+    <td>&nbsp;</td>
+    <td>{get_binaries path=mp4box type=server}</td>
+    <td>&nbsp;</td>
+    <td width="250">{get_binaries path=mp4box type=user}</td>
+    {check_module_path path='mp4box' get_path='true' assign='mp4box_status'}
+    <td width="10">&nbsp;</td>
+    <td width="50"><img src="{$imageurl}/{if $mp4box_status.status=='ok'}button_ok.png{else}error.png{/if}"></td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+
+<div align="center" style="margin-top:30px"><h2>MODULES VERSION</h2></div>
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="10" align="center" valign="middle" class="left_head">&nbsp;</td>
+    <td width="195" align="left" class="head">Module</td>
+    <td width="195" align="left" class="head"><div class="head_sep_left" style="width:120px">Installed Version</div></td>
+    <td width="195" align="left" class="head"><div class="head_sep_left" style="width:100px">Required Version</div></td>
+    <td width="195" align="left" class="head"><div class="head_sep_left" style="width:100px">Status</div></td>
+    <td width="10" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0"class="block">
+  <tr>
+    <td width="10" align="center" valign="middle" >&nbsp;</td>
+    <td width="195" align="left" >FFMPEG</td>
+    <td width="10" align="left" ></td>
+    <td width="185" align="left" >r{$ffmpeg_status.version}</td>
+    <td width="10" align="left" ></td>
+    <td width="185" align="left" >r19000 or greator</td>
+    <td width="10" align="left" ></td>
+    <td width="185" align="left" ><img src="{$imageurl}/{if $ffmpeg_status.version>=19000}button_ok.png{else}error.png{/if}"></td>
+    <td width="10" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" >&nbsp;</td>
+    <td align="left" >PHP</td>
+    <td align="left" ></td>
+    <td align="left" >{$php_status.version}</td>
+    <td align="left" ></td>
+    <td align="left" >5.2.1 or greator</td>
+    <td align="left" ></td>
+    <td align="left" ><img src="{$imageurl}/{if $php_status.version>='5.2.1'}button_ok.png{else}error.png{/if}"></td>
+    <td >&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" >&nbsp;</td>
+    <td align="left" >FLVTool2</td>
+    <td align="left" ></td>
+    <td align="left" >{$flvtool2_status.version}</td>
+    <td align="left" ></td>
+    <td align="left" >1.0.6 or greator</td>
+    <td align="left" ></td>
+    <td align="left" ><img src="{$imageurl}/{if $flvtool2_status.version>='1.0.6'}button_ok.png{else}error.png{/if}"></td>
+    <td >&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" >&nbsp;</td>
+    <td align="left" >MP4Box</td>
+    <td align="left" ></td>
+    <td align="left" >{$mp4box_status.version}</td>
+    <td align="left" ></td>
+    <td align="left" >0.4.5 or greator</td>
+    <td align="left" ></td>
+    <td align="left" ><img src="{$imageurl}/{if $mp4box_status.version>='0.4.5'}button_ok.png{else}error.png{/if}"></td>
+    <td >&nbsp;</td>
+  </tr>
+</table>
+
+
+
+<div align="center" style="margin-top:30px">
+  <h2>CHECKING FFMPEG CODECS</h2></div>
+
+{assign var=ffmpeg value=func->get_ffmpeg_codecs()}
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="10" align="center" valign="middle" class="left_head">&nbsp;</td>
+    <td width="150" class="head">Codec</td>
+    <td width="150" class="head">Required</td>
+    <td class="head">Description</td>
+    <td width="100" class="head">Installed</td>
+    <td width="10" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
+    {assign var = bgcolor value = ""}
+    {foreach from=$ffmpeg item=codec key=key}
+    <tr {if $codec.installed=='yes'} bgcolor="{$bgcolor}" {else}bgcolor="#fff7f7" {/if}>
+    <td width="10" align="center" valign="middle" >&nbsp;</td>
+    <td width="150" height="20" valign="middle" {if $codec.installed!='yes'} style=" color:#ed0000;font-weight:bold"{/if}>{$key}</td>
+    <td width="150" valign="middle" >{if $codec.required=='yes'}Yes{else}No{/if}</td>
+    <td valign="middle">{$codec.desc}</td>
+    <td width="100" valign="middle" ><img src="{$imageurl}/{if $codec.installed=='yes'}button_ok.png{else}error.png{/if}"></td>
+    <td width="10">&nbsp;</td>
+ 	</tr>
+    {if $bgcolor == ""}
+    {assign var = bgcolor value = "#EEEEEE"}
+    {else}
+    {assign var = bgcolor value = ""}
+    {/if}
+    {/foreach}
+</table>

@@ -11,6 +11,7 @@ class ClipBucket
 {
 	var $BASEDIR;
 	var $JSArray = array();
+	var $AdminJSArray = array();
 	var $moduleList = array();
 	var $actionList = array();
 	var $anchorList = array();
@@ -18,6 +19,7 @@ class ClipBucket
 	var $AdminMenu = array();
 	var $configs = array();
 	var $header_files = array();// these files will be included in <head> tag
+	var $admin_header_files = array();// these files will be included in <head> tag
 	var $anchor_function_list = array();
 	var $show_page = true;
 	var $upload_opt_list = array();//this will have array of upload opts like upload file, emebed or remote upload
@@ -77,15 +79,14 @@ class ClipBucket
 					 'jquery.js'		=> 'global',
 					 'jquery.js'		=> 'global',
 					 'jquery_plugs/cookie.js'		=> 'global',
-					 'dropdown.js'		=> 'global',
 					 'flashobject.js'	=> 'global',
 					 'rating_update.js'	=> 'global',
 					 'checkall.js'		=> 'global',
-					 'redir.js'			=> 'global',
 					 'functions.js'		=> 'global',
 					 'swfobject.js'		=> 'global',
 					 'swfobject.obj.js'		=> 'global',
 					  ));
+		
 		
 		//This is used to create Admin Menu
 		$this->AdminMenu = $this->get_admin_menu();
@@ -137,6 +138,19 @@ class ClipBucket
 		$this->addJS($files);
 	}
 	
+	
+	function addAdminJS($files)
+	{
+		if(is_array($files))
+		{
+			foreach($files as $key=> $file)
+				$this->AdminJSArray[$key] = $file;
+		}else{
+			$this->AdminJSArray[$files] = 'global';
+		}
+	
+	}
+	
 	/**
 	 * Function add_header()
 	 * this will be used to add new files in header array
@@ -151,6 +165,24 @@ class ClipBucket
 			$place = array($place);
 		}
 		$this->header_files[$file] = $place;
+	}
+	
+	
+	/**
+	 * Function add_admin_header()
+	 * this will be used to add new files in header array
+	 * this is basically for plugins
+	 * @param FILE
+	 * @param PAGES (array)
+	 */
+	function add_admin_header($file,$place='global')
+	{
+		if(!is_array($place))
+		{
+			$place = array($place);
+		}
+		$this->admin_header_files[$file] = $place;
+	
 	}
 	
 	/**
@@ -269,9 +301,7 @@ class ClipBucket
 		   'Tool Box'=>
 		   array(
 				 'Module Manager'=>'module_manager.php',
-				 'PHP Info'	=> 'phpinfo.php',
-				 'FFMPEG Info'=>'',
-				 'All Modules Info'=>'',
+				 'Server Modules Info'	=> 'cb_mod_check.php',
 				 'View Encoding Status'=>'',
 				),
 		   

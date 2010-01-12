@@ -146,16 +146,19 @@ class Upload{
 		return validate_video_upload_form();
 	}
 	
-	function UploadProcess()
+	function UploadProcess($array=NULL)
 	{
-		return $this->submit_upload();
+		return $this->submit_upload($array);
 	}
 	
-	function submit_upload()
+	function submit_upload($array=NULL)
 	{
 		global $eh,$Cbucket,$db;
-
-		$this->validate_video_upload_form(NULL,TRUE);
+		
+		if(!$array)
+			$array = $_POST;
+			
+		$this->validate_video_upload_form($array,TRUE);
 		
 		if(empty($eh->error_list))
 		{
@@ -171,7 +174,7 @@ class Upload{
 			if(count($this->custom_form_fields)>0)
 				$upload_fields = array_merge($upload_fields,$this->custom_form_fields);
 			
-			$array = $_POST;
+			
 			if(is_array($_FILES))
 			$array = array_merge($array,$_FILES);
 		
@@ -202,6 +205,9 @@ class Upload{
 				else
 					$val = apply_func($field['clean_func'],$val);
 				
+				if(empty($val) && !empty($field['default_value']))
+					$val = $field['default_value'];
+					
 				if(!empty($field['db_field']))
 				$query_val[] = $val;
 				
@@ -268,6 +274,7 @@ class Upload{
 				$insert_id = file_name_exists($file_name);
 				if(!$insert_id)
 				{
+					
 					$db->Execute($query);
 					$insert_id = $db->insert_id();
 					$db->update("users",array("total_videos"),array("|f|total_videos+1")," userid='".userid()."'");
@@ -564,6 +571,7 @@ class Upload{
 							 'required'=>'no',
 							 'validate_function'=>'yes_or_no',
 							 'display_function'=>'display_sharing_opt',
+							 'default_value'=>'public',
 							 ),
 		 'comments'=> array('title'=>$LANG['comments'],
 							'type'=> 'radiobutton',
@@ -575,6 +583,7 @@ class Upload{
 							'required'=>'no',
 							'validate_function'=>'yes_or_no',
 							'display_function'=>'display_sharing_opt',
+							'default_value'=>'yes',
 							 ),
 		 'commentsvote'=> array('title'=>$LANG['vdo_comm_vote'],
 							 'type'=>'radiobutton',
@@ -586,6 +595,7 @@ class Upload{
 							 'required'=>'no',
 							 'validate_function'=>'yes_or_no',
 							 'display_function'=>'display_sharing_opt',
+							 'default_value'=>'yes',
 							 ),
 		 'rating'=> array('title'=>$LANG['ratings'],
 							 'type'=>'radiobutton',
@@ -597,6 +607,7 @@ class Upload{
 							'required'=>'no',
 							'validate_function'=>'yes_or_no',
 							'display_function'=>'display_sharing_opt',
+							'default_value'=>'yes',
 							 ),
 		 'embedding'=> array('title'=>$LANG['vdo_embedding'],
 							'type'=> 'radiobutton',
@@ -608,6 +619,7 @@ class Upload{
 							'required'=>'no',
 							'validate_function'=>'yes_or_no',
 							'display_function'=>'display_sharing_opt',
+							'default_value'=>'yes',
 							 ),
 		 );
 		return $uploadFormOptionFieldsArray;
@@ -631,17 +643,20 @@ class Upload{
 		$date_recorded = $default['date_recorded'];
 		$date_recorded =  $date_recorded ? date("d-m-Y",strtotime($date_recorded)) : date("d-m-Y",time());
 		
+		$country_array = array("");
+		$country_array = array_merge($country_array,ClipBucket::get_countries());
+		
 		$LocationFieldsArray = array
 		(
 		 'country'=> array('title'=>$LANG['country'],
 							'type'=> 'dropdown',
 							'name'=> 'country',
 							'id'=> 'country',
-							'value'=> ClipBucket::get_countries(),
+							'value'=> $country_array,
 							'checked'=> $dcountry,
 							'db_field'=>'country',
-							'required'=>'no'
-							
+							'required'=>'no',
+							'default_value'=>'',
 							
 							 ),
 		 'location'=> array('title'=>$LANG['location'],
@@ -651,7 +666,8 @@ class Upload{
 							'value'=> $location,
 							'hint_2'=> $LANG['vdo_add_eg'],
 							'db_field'=>'location',
-							'required'=>'no'
+							'required'=>'no',
+							'default_value'=>'',
 							 ),
 		 'date_recorded'	=> array(
 						 'title' => 'Date Recorded',
@@ -662,7 +678,8 @@ class Upload{
 						 'anchor_after' => 'date_picker',
 						 'value'=> $date_recorded,
 						 'db_field'=>'datecreated',
-						 'required'=>'no'
+						 'required'=>'no',
+						 'default_value'=>'',
 						 )
 		 );
 		return $LocationFieldsArray;

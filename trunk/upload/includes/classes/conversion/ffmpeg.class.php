@@ -11,7 +11,7 @@
  
  
 define("KEEP_MP4_AS_IS","no");
-define("MP4Box_BINARY",get_binaries('MP4Box')));
+define("MP4Box_BINARY",get_binaries('MP4Box'));
 define("FLVTool2_BINARY",get_binaries('flvtool2'));
 define('FFMPEG_BINARY', get_binaries('ffmpeg'));
 
@@ -38,9 +38,9 @@ class ffmpeg
 	var $input_ext = '';
 	var $tmp_dir = '/';
 	var $flvtool2 = '';
-	var $thumb_dim = '120x90' //Thumbs Dimension
-	var $num_of_thumbs = '3' //Number of thumbs
-	var $big_thumb_dim = 'original' //Big thumb size , original will get orginal video window size thumb othersie the dimension
+	var $thumb_dim = '120x90'; //Thumbs Dimension
+	var $num_of_thumbs = '3'; //Number of thumbs
+	var $big_thumb_dim = 'original'; //Big thumb size , original will get orginal video window size thumb othersie the dimension
 	
 	/**
 	 * Initiating Class
@@ -147,7 +147,8 @@ class ffmpeg
 			if(!empty($vbrate))
 				$opt_av .= " -b $vbrate ";
 		}
-
+		
+		
 		# video size, aspect and padding
 		$this->calculate_size_padding( $p, $i, $width, $height, $ratio, $pad_top, $pad_bottom, $pad_left, $pad_right );
 		$opt_av .= " -s {$width}x{$height} -aspect $ratio -padcolor 000000 -padtop $pad_top -padbottom $pad_bottom -padleft $pad_left -padright $pad_right ";
@@ -202,14 +203,17 @@ class ffmpeg
 		
 		#FFMPEG GNERETAES Damanged File
 		#Injecting MetaData ysing FLVtool2 - you must have update version of flvtool2 ie 1.0.6 FInal or greator
-		$flv_cmd = $this->flvtool2." -U  ".$this->output_file."  2> ".TEMP_DIR."/flvtool2_output.tmp ";
-		$flvtool2_output = $this->exec($flv_cmd);
-		if(file_exists(TEMP_DIR.'/flvtool2_output.tmp'))
+		if($this->flvtool2)
 		{
-			$flvtool2_output = $flvtool2_output ? $flvtool2_output : join("", file(TEMP_DIR.'/flvtool2_output.tmp'));
-			unlink(TEMP_DIR.'/flvtool2_output.tmp');
+			$flv_cmd = $this->flvtool2." -U  ".$this->output_file."  2> ".TEMP_DIR."/flvtool2_output.tmp ";
+			$flvtool2_output = $this->exec($flv_cmd);
+			if(file_exists(TEMP_DIR.'/flvtool2_output.tmp'))
+			{
+				$flvtool2_output = $flvtool2_output ? $flvtool2_output : join("", file(TEMP_DIR.'/flvtool2_output.tmp'));
+				unlink(TEMP_DIR.'/flvtool2_output.tmp');
+			}
+			$output .= $flvtool2_output;
 		}
-		$output .= $flvtool2_output;
 		
 		$this->log('Conversion Command',$command);
 		$this->log .="\r\n\r\nConversion Details\r\n\r\n";
@@ -755,6 +759,7 @@ class ffmpeg
 			$output = $this->hq_output_file;
 		if(!$p)
 			$p = $this->configs;
+
 		if(!$i)
 			$i = $this->input_details;
 		$convert  = false;

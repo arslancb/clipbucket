@@ -472,7 +472,7 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .vd_details .uploading_detail a:hover,.vd_details .uploading_detail:hover{color:#09c}
 
 .vd_details .tags_cats{border-top:1px solid #ccc; padding:5px; margin-top:10px}
-.tags_cats .tags{background-image:url(../images/tag_blue.png); background-repeat:no-repeat; height:16px; line-height:15px; padding-left:20px}
+.tags_cats .tags{background-image:url(../images/tag_blue.png); background-repeat:no-repeat; line-height:15px; padding-left:20px}
 .tags_cats .tags a{text-decoration:none; font-weight:bold; font-size:10px }
 .tags_cats .category{margin-top:5px;font-weight:bold; font-size:11px}.tags_cats .category a{text-decoration:none; font-weight:bold; font-size:11px }
 .vd_user_container .account_thumb{max-height:160px; max-width:120px;}

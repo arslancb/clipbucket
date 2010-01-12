@@ -187,7 +187,7 @@ else
 
 	define('FLVPLAYER',$row['player_file']);
     define('SUBTITLE',$row['code_dev']);
-    define('JSDIR','js');										//Javascript Directory Name
+	//Javascript Directory Name
 	define('ADMINDIR','admin_area');							//Admin Accissble Folder
 	define('ADMIN_BASEURL',BASEURL.'/'.ADMINDIR);
 	define('MODULEDIR',BASEDIR.'/modules');						//Modules Directory
@@ -201,7 +201,10 @@ else
 	define('CON_DIR',FILES_DIR.'/conversion_queue');
 	define('MASS_UPLOAD_DIR',FILES_DIR.'/mass_uploads');
 	define('LOGS_DIR',FILES_DIR.'/logs');
-
+	
+	define('JS_DIR',BASEDIR.'/js');
+	define('JS_URL',BASEURL.'/js');
+	
 //DIRECT URL OF VIDEO FILES
 	define('FILES_URL',BASEURL.'/files');
 	define('VIDEOS_URL',FILES_URL.'/videos');
@@ -271,7 +274,7 @@ else
     Assign('PHP_PATH',PHP_PATH);
     Assign('FFMPEG_BINARY',FFMPEG_BINARY);
     Assign('FFMPEG_MENCODER_BINARY',FFMPEG_MENCODER_BINARY);
-    Assign('js',BASEURL.'/'.JSDIR);
+    Assign('js',JS_URL);
 	Assign('title',TITLE);
 	Assign('slogan',SLOGAN);	
 	Assign('flvplayer',FLVPLAYER);
@@ -388,6 +391,10 @@ $Smarty->register_function('load_captcha','load_captcha');
 $Smarty->register_function('cbtitle','cbtitle');
 $Smarty->register_function('head_menu','head_menu');
 $Smarty->register_function('foot_menu','foot_menu');
+$Smarty->register_function('include_header','include_header');
+$Smarty->register_function('include_js','include_js');
+$Smarty->register_function('get_binaries','get_binaries');
+$Smarty->register_function('check_module_path','check_module_path');
 
 $Smarty->register_modifier('SetTime','SetTime');
 $Smarty->register_modifier('getname','getname');

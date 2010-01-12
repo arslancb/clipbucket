@@ -140,6 +140,7 @@ if(isset($_POST['delete_selected']))
 					'display_function' => 'convert_to_categories');
 	assign('cat_array',$cat_array);
 
+
 template_files('video_manager.html');
 display_it();
 

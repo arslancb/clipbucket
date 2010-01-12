@@ -17,11 +17,17 @@ if(isset($_POST['add']))
 	$adsObj->AddAd();
 }
 
-//Adding
+//Updating
 if(isset($_POST['update']))
 {
 	$adsObj->EditAd($_POST['ad_id']);
 }
+//Deleting
+if(isset($_GET['delete']))
+{
+	$adsObj->DeleteAd($_GET['delete']);
+}
+
 
 
 //Editing Ad

@@ -225,3 +225,11 @@ padding-left:5px; font-size:16px; font-weight:bold; font-family:Arial, Helvetica
 
 .stats_subitem{width:20%;float:left;}
 .stats_subitem:nth-child(2n){float:right; width:80%; text-align:right}
+
+
+.msg{ margin:10px;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px; }
+.msg ul{padding:0px}
+.msg ul li{list-style:none; padding-left:10px; margin-bottom:5px}
+.error{background-color:#fff7f7; border:1px solid #ed0000;}
+.blue{background-color:#fafdff; border:1px solid #005d9c;}
+.msg img{ margin-right:10px}
