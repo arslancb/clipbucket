@@ -141,7 +141,13 @@ class formObj
 		}
 		$arrayName = $this->rmBrackets($field['name']);
 		//Creating Fields
-
+		
+		if($multi)
+		{
+			global $multi_cat_id;
+			@$multi_cat_id++;
+		}
+			
 		foreach($field['value'] as $key => $value)
 		{
 			if(is_array($values_array))
@@ -161,8 +167,11 @@ class formObj
 			if(!$multi)
 				$field_name = $field['name'];
 			else
-				$field_name = $field['name'].'[]';
-				
+			{
+				$field_name = $field['name'];
+				$field_name = $this->rmBrackets($field_name);
+				$field_name = $field_name.$multi_cat_id.'[]';
+			}
 			echo '<label><input name="'.$field_name.'" type="checkbox" value="'.$key.'" '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;
 			echo $field['sep'];
 		}

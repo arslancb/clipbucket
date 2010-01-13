@@ -87,11 +87,24 @@ class mass_upload extends Upload
 		if(file_exists($mass_file) && is_file($mass_file))
 		{
 			rename($mass_file,$temp_file);
-			return true;
+			//copy($mass_file,$temp_file);
+			return $file_key.'.'.getExt($file);
 		}
 		return false;		
 	}
 	
+	
+	/**
+	 * Function used to check weather file exists in mass upload folder or not
+	 */
+	function is_mass_file($arr)
+	{
+		$file = MASS_UPLOAD_DIR.'/'.$arr['file'];
+		if(file_exists($file) && is_file($file) && $arr['file'])
+			return true;
+		else
+			return false;
+	}
 }
 
 ?>
