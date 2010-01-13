@@ -171,10 +171,10 @@ class myquery {
 			if($uid)
 				$myquery->update_comments_by_user($uid);
 			
-			e($LANG['usr_cmt_del_msg'],"m");
+			e(lang('usr_cmt_del_msg'),"m");
 			return true;
 		}else{
-			e($LANG['no_comment_del_perm']);
+			e(lang('no_comment_del_perm'));
 			return false;
 		}
 		return false;
@@ -195,10 +195,10 @@ class myquery {
 		{
 			$db->Execute("DELETE FROM comments WHERE type_id='$objid' AND type='$type' ");
 			
-			e($LANG['usr_cmt_del_msg'],m);
+			e(lang('usr_cmt_del_msg'),m);
 			return true;
 		}else{
-			e($LANG['no_comment_del_perm']);
+			e(lang('no_comment_del_perm'));
 			return false;
 		}
 		return false;
@@ -269,19 +269,19 @@ class myquery {
 	function SendMessage($to,$from,$subj,$message,$video,$reply_to=0,$redirect=NULL){
 	global $LANG;
 		if(empty($to)){
-			$msg = e($LANG['class_send_msg_err']);
+			$msg = e(lang('class_send_msg_err'));
 			}else{
 			$userquery 		= new userquery();
 			$user_data 		= $userquery->GetUserData_username($to);
 			if(empty($user_data['userid'])){
-				$msg = e($LANG['class_invalid_user'],m);
+				$msg = e(lang('class_invalid_user'),m);
 				}
 			}
 		if(empty($subj)){
-			$msg = e($LANG['class_subj_err']);
+			$msg = e(lang('class_subj_err'));
 			}
 		if(empty($message)){
-			$msg = e($LANG['class_msg_err']);
+			$msg = e(lang('class_msg_err'));
 			}
 		if(empty($msg)){
 			if(!mysql_query("INSERT INTO messages (inbox_user,outbox_user,message,attachment,subject,reply_to,reciever,sender)VALUES('".$to."','".$from."','".$message."','".$video."','".$subj."','".$reply_to."','".$to."','".$from."')"))die(mysql_error());
@@ -292,16 +292,16 @@ class myquery {
 			if($users['msg_notify'] == 'yes'){
 				$email = $users['email'];
 				$from_email  = TITLE."<".SUPPORT_EMAIL.">";
-				$subject = $from." ".$LANG['class_sent_you_msg'];
-				$messg	= $from." ".$LANG['class_sent_prvt_msg']." ".TITLE."<br />
-<a href=".BASEURL."/inbox.php>".$LANG['class_click_inbox']."</a><br />
-<a href=".BASEURL."/signup.php>".$LANG['class_click_login']."</a><br />
+				$subject = $from." ".lang('class_sent_you_msg');
+				$messg	= $from." ".lang('class_sent_prvt_msg')." ".TITLE."<br />
+<a href=".BASEURL."/inbox.php>".lang('class_click_inbox')."</a><br />
+<a href=".BASEURL."/signup.php>".lang('class_click_login')."</a><br />
 ====================================<br />
-".TITLE." ".$LANG['class_email_notify'];
+".TITLE." ".lang('class_email_notify');
 			send_email($from_email,$email,$subject,$messg);
 			}
 			if($redirect==1){
-			redirect_to(BASEURL.compose_msg_link.'?msg='.$LANG['class_msg_has_sent_to'].$to);
+			redirect_to(BASEURL.compose_msg_link.'?msg='.lang('class_msg_has_sent_to').$to);
 			}
 		}
 		
@@ -341,18 +341,18 @@ class myquery {
 						}else{
 						mysql_query("UPDATE messages SET inbox_user='' WHERE message_id='".$msgid."'");
 						}
-					$msg = e($LANG['class_inbox_del_msg'],m);
+					$msg = e(lang('class_inbox_del_msg'),m);
 					}else{
 					if(empty($user_data['inbox_user'])){
 						mysql_query("DELETE FROM messages WHERE message_id='".$msgid."'");
 						}else{
 						mysql_query("UPDATE messages SET outbox_user='' WHERE message_id='".$msgid."'");
 						}
-					$msg = e($LANG['class_sent_del_msg'],m);
+					$msg = e(lang('class_sent_del_msg'),m);
 					}
 				
 				}else{
-				$msg = e($LANG['class_msg_exist_err']);
+				$msg = e(lang('class_msg_exist_err'));
 				}
 		return $msg;
 	}
@@ -408,9 +408,9 @@ class myquery {
 				$this->DeleteVideo($videoid);
 				$this->DeleteVideoFiles($videoid);
 				mysql_query("DELETE FROM video WHERE videoid='".$videoid ."'");
-				$msg = e($LANG['class_vdo_del_msg'],m);
+				$msg = e(lang('class_vdo_del_msg'),m);
 			}else{
-				$msg = e($LANG['class_vdo_del_err']);
+				$msg = e(lang('class_vdo_del_err'));
 			}
 		//Updating Users Number Of  Videos Added By User
 				$videos_query 	= mysql_query("SELECT * FROM video WHERE username='".$user."'");
@@ -433,9 +433,9 @@ class myquery {
 			if(mysql_num_rows($query)>0){
 	global $LANG;
 				mysql_query("DELETE FROM subscriptions WHERE subscription_id='".$subid."'");
-				$msg = e($LANG['class_unsub_msg'],m);
+				$msg = e(lang('class_unsub_msg'),m);
 			}else{
-				$msg = e($LANG['class_sub_exist_err']);
+				$msg = e(lang('class_sub_exist_err'));
 			}
 		return $msg;
 	}
@@ -462,10 +462,10 @@ class myquery {
 		$syntax = mysql_clean($_POST['syntax']);
 				
 				if(empty($name)){
-					$msg = e($LANG['class_vdo_ep_add_msg']);
+					$msg = e(lang('class_vdo_ep_add_msg'));
 				}
 				if(empty($code)){
-					$msg = e($lANG['class_vdo_ep_err']);
+					$msg = e(lang('class_vdo_ep_err'));
 				}
 				$query = mysql_query("SELECT  * FROM advertisement WHERE ad_syntax = '".$syntax."'");
 				if(mysql_num_rows($query)>0){ 
@@ -570,12 +570,12 @@ class myquery {
 				$sort = $data['sort'];
 				$sort = $sort + 1;
 					mysql_query("INSERT INTO editors_picks (videokey,sort)VALUES('".$videokey."','".$sort."')");
-					$msg = e($LANG['class_vdo_ep_add_msg'],m);
+					$msg = e(lang('class_vdo_ep_add_msg'),m);
 				}else{
-					$msg = e($LANG['class_vdo_ep_err']);
+					$msg = e(lang('class_vdo_ep_err'));
 				}
 			}else{
-			$msg = e($LANG['class_vdo_ep_err1']);
+			$msg = e(lang('class_vdo_ep_err1'));
 			} 
 		return $msg;
 	}
@@ -587,9 +587,9 @@ class myquery {
 		$query = mysql_query("SELECT * FROM editors_picks WHERE pick_id='".$id."'");
 			if(mysql_num_rows($query)!=0){
 				$query = mysql_query("DELETE FROM editors_picks WHERE pick_id='".$id."'");
-				$msg =e($LANG['class_vdo_ep_msg'],m);
+				$msg =e(lang('class_vdo_ep_msg'),m);
 			}else{
-				$msg   = e($LANG['class_vdo_exist_err']);
+				$msg   = e(lang('class_vdo_exist_err'));
 			}
 		return $msg;
 	}
@@ -603,25 +603,25 @@ class myquery {
 				case 1;
 				$ext1 = 'gif';
 				$ext2 = 'GIF';
-				$msg  = e($LANG['class_img_gif_err']);
+				$msg  = e(lang('class_img_gif_err'));
 				break;
 				
 				case 2;
 				$ext1 = 'png';
 				$ext2 = 'PNG';
-				$msg  = e($LANG['class_img_png_err']);
+				$msg  = e(lang('class_img_png_err'));
 				break;
 				
 				case 3;
 				$ext1 = 'jpg';
 				$ext2 = 'JPG';
-				$msg  = e($LANG['class_img_jpg_err']);
+				$msg  = e(lang('class_img_jpg_err'));
 				break;
 				
 				default:
 				$ext1 = 'gif';
 				$ext2 = 'GIF';
-				$msg  = e($LANG['class_img_gif_err']);
+				$msg  = e(lang('class_img_gif_err'));
 
 			}
 				
@@ -639,9 +639,9 @@ class myquery {
 					list($width, $height) = getimagesize($uploaded_thumb);
 					$image->CreateThumb($uploaded_thumb,$uploaded_thumb,$width,$ext);
 					}
-					$msg = e($LANG['class_logo_msg'],m);
+					$msg = e(lang('class_logo_msg'),m);
 				 }else{
-					$msg = e($LANG['class_error_occured']);
+					$msg = e(lang('class_error_occured'));
 				 }
 				 }
 			
@@ -656,7 +656,7 @@ class myquery {
 			$data = mysql_fetch_assoc($query);
 			$sort = $data['sort'] - 2;
 			if(!mysql_query("UPDATE editors_picks SET sort='".$sort."' WHERE pick_id ='".$data['pick_id']."'"))die(mysql_error());
-			return e($LANG['editor_pic_up'],m);
+			return e(lang('editor_pic_up'),m);
 			
 	}
 		//FUNCTION USED TO MOVE VIDE UP IN EDITORS PICK
@@ -666,7 +666,7 @@ class myquery {
 			$data = mysql_fetch_assoc($query);
 			$sort = $data['sort'] + 2;
 			if(!mysql_query("UPDATE editors_picks SET sort='".$sort."' WHERE pick_id ='".$data['pick_id']."'"))die(mysql_error());
-			return e($LANG['editor_pic_up'],m);
+			return e(lang('editor_pic_up'),m);
 			
 	}
 	
@@ -787,7 +787,7 @@ class myquery {
 		$replace = array($subscriber,$from,TITLE);
 		
 		$to = $subscriber;
-		$subj = str_replace($array,$replace,$LANG['user_subscribe_subject']);
+		$subj = str_replace($array,$replace,lang('user_subscribe_subject'));
 		
 		//Get Subscription Message Template
 		$msg = get_subscription_template();

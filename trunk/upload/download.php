@@ -26,7 +26,7 @@ if(!empty($vkey) && $myquery->CheckVideoExists($vkey)){
 		$msg = lang('class_vdo_del_err');
 	}
 	if(VIDEO_DOWNLOAD != 1){
-		$msg = $LANG['vdo_download_allow_err'];
+		$msg = lang('vdo_download_allow_err');
 	}
 	
 	if(empty($msg)){
@@ -43,8 +43,8 @@ if(!empty($vkey) && $myquery->CheckVideoExists($vkey)){
 if(!empty($msg) || empty($vkey) || !$myquery->CheckVideoExists($vkey)){
 Assign('msg',$msg);
 if(empty($msg))
-Assign('msg',$LANG['class_vdo_del_err']);
-Assign('subtitle',$LANG['class_vdo_del_err']);
+Assign('msg',lang('class_vdo_del_err'));
+Assign('subtitle',lang('class_vdo_del_err'));
 Template('header.html');
 Template('message.html');
 Template('footer.html');

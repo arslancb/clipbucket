@@ -28,7 +28,7 @@ if(!function_exists('add_custom_field'))
 			if($key=='name' || $key=='title')
 			{
 				if(empty($attr))
-					e(sprintf($LANG['cust_field_err'],$key));
+					e(sprintf(lang('cust_field_err'),$key));
 			}
 			
 			if(!error_list())

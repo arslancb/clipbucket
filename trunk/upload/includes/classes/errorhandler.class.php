@@ -106,8 +106,9 @@ class EH extends ClipBucket
 	 * and small object
 	 * @param : message, @param :type,@param:id
 	 */
-	function e($message=NULL,$type=e,$id=NULL)
+	function e($message=NULL,$type='e',$id=NULL)
 	{
+	
 		switch($type)
 		{
 			case 'm':
@@ -118,9 +119,9 @@ class EH extends ClipBucket
 			break;
 			
 			case 'e':
-			case 0:
 			case 'err':
 			case 'error':
+			default:
 			$this->add_error($message,$id);
 			break;
 			
@@ -128,7 +129,9 @@ class EH extends ClipBucket
 			case 2:
 			case 'war':
 			case 'warning':
-			$this->add_warning($message,$id);
+			{
+				$this->add_warning($message,$id);
+			}
 			break;
 			
 			default:

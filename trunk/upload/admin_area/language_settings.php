@@ -69,7 +69,7 @@ Template('leftmenu.html');
 Template('message.html');
 Template('language_settings.html');
 Template('footer.html');*/
-
+subtitle("Language Settings");
 template_files('language_settings.html');
 display_it();
 ?>

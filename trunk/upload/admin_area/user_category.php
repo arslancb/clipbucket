@@ -43,7 +43,8 @@ if(isset($_GET['delete_category'])){
 assign('category',$userquery->get_categories());
 assign('total',$userquery->total_categories());
 
-Assign('msg',@$msg);	
+Assign('msg',@$msg);
+subtitle("User Category Manager");
 template_files('user_category.html');
 display_it();
 

@@ -40,7 +40,7 @@ if(isset($_GET['delete_category'])){
 assign('category',$cbgroup->get_categories());
 assign('total',$cbgroup->total_categories());
 
-	
+subtitle("Groups Category manager");	
 template_files('group_category.html'); display_it();
 
 ?>

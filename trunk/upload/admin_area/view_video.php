@@ -31,7 +31,7 @@ $msg[] = clean($_GET['msg']);
 		Assign('udata',$userquery->get_user_details($data['userid']));
 		Assign('data',$data);
 	}else{
-		$msg[] = $LANG['class_vdo_del_err'];
+		$msg[] = lang('class_vdo_del_err');
 	}
 	
 	
@@ -44,6 +44,8 @@ Template('message.html');
 Template('view_video.html');
 Template('footer.html');*/
 
+
+subtitle("View Video");
 template_files('view_video.html');
 display_it();
 

@@ -104,15 +104,15 @@
     <td valign="top"  class="video_opt_td" 
     onmouseover="$('#vid_opt-{$videos[list].videoid}').show()" 
     onmouseout="$('#vid_opt-{$videos[list].videoid}').hide()" >
-    <a href="{$baseurl}/watch_video.php?v={$videos[list].videokey}" target="_blank" style="text-indent:10px">
-    {$videos[list].title}
-    </a> &#8212;
+    <div><a href="{$baseurl}/watch_video.php?v={$videos[list].videokey}" target="_blank" style="text-indent:10px">
+    {$videos[list].title|truncate:80}
+    </a></div>
     <span class="vdo_sets">
     Featured:<strong>{$videos[list].featured} </strong> &#8226;
     Active:<strong>{$videos[list].active}</strong> &#8226;
     Status:<strong>{$videos[list].status}</strong>  &#8226;
     Uploaded:<strong>{$videos[list].date_added|niceTime}</strong>  &#8226;
-    User:<strong>{$videos[list].userid|username}</strong>
+    User:<strong>{$videos[list].userid|get_username}</strong>
     </span>
     
     <br />

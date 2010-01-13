@@ -26,6 +26,8 @@ require_once '../includes/admin_config.php';
 	}else
 		e("Group does not exist");
 
+
+subtitle("Edit Group");
 template_files('edit_group.html');
 display_it();
 

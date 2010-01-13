@@ -33,7 +33,7 @@ if(!function_exists("signup_captcha"))
 		  'required'=>'yes',
 		  'validate_function'=>'signup_captcha_check',
 		  'anchor_after'=>'signup_captcha',
-		  'invalid_err'=>$LANG['usr_ccode_err']
+		  'invalid_err'=>lang('usr_ccode_err')
 		  );
 		  
 	

@@ -29,6 +29,7 @@ class ClipBucket
 	var $cur_template = 'clipbucketblue';
 	var $links = array();
 	var $captchas = array();
+	var $clipbucket_footer = array('the_end');
 	
 	var $head_menu = array();
 	var $foot_menu = array();
@@ -90,7 +91,7 @@ class ClipBucket
 		
 		//This is used to create Admin Menu
 		$this->AdminMenu = $this->get_admin_menu();
-		
+
 		//Updating Upload Options
 		$this->upload_opt_list = array
 		(
@@ -111,6 +112,7 @@ class ClipBucket
 		
 		if(!defined("IS_CAPTCHA_LOADING"))
 		$_SESSION['total_captchas_loaded'] = 0;
+		
 	}
 	
 	
@@ -493,8 +495,11 @@ class ClipBucket
 	{
 		$feeds = 5;
 		$text = 400;
-		$url = 'http://blog.clip-bucket.com/feed/';
-		//$url = 'http://localhost/clipbucket/2.x/2/upload/tester/feed.xml';
+		
+		if($_SERVER['HTTP_HOST']!='localhost')
+			$url = 'http://blog.clip-bucket.com/feed/';
+		else
+			$url = 'http://localhost/clipbucket/2.x/2/upload/tester/feed.xml';
 		$news = xml2array($url);
 		if(!$news)
 		{

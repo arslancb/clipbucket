@@ -9,8 +9,9 @@
 require'../includes/admin_config.php';
 $userquery->admin_login_check();
 $pages->page_redir();
-;
 
+
+subtitle("ClipBucket Server Module Checker");
 template_files("cb_mod_check.html");
 display_it();
 ?>

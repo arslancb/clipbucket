@@ -224,6 +224,9 @@ class Upload{
 			//Userid
 			$query_field[] = "userid";
 			$query_val[] = userid();
+			//Upload Ip
+			$query_field[] = "upload_ip";
+			$query_val[] = $_SERVER['REMOTE_ADDR'];
 			
 			$activation = ACTIVATION;
 			
@@ -309,17 +312,17 @@ class Upload{
 			$embed_code		    = $this->CleanEmbedCode($_POST['embed_code']);
 			
 			if(empty($embed_code))
-				$msg[] = e($LANG['vdo_embed_code_wrong']);
+				$msg[] = e(lang('vdo_embed_code_wrong'));
 			$seconds			= mysql_clean($_POST['seconds']);
 			$minutes			= mysql_clean($_POST['minutes']);
 			
 			if(strlen($seconds)<2) $seconds = '0'.$seconds;
 			if(empty($seconds) || !is_numeric($seconds))
-				$msg[] = e($LANG['vdo_seconds_err']);
+				$msg[] = e(lang('vdo_seconds_err'));
 			
 			if(strlen($minutes)<2) $minutes = '0'.$minutes;
 			if(empty($minutes) || !is_numeric($minutes))
-				$msg[] = e($LANG['vdo_mins_err']);
+				$msg[] = e(lang('vdo_mins_err'));
 			
 			//Getting Thumb
 			if(empty($msg)){
@@ -335,7 +338,7 @@ class Upload{
 					copy($file_1,$file_2);
 					copy($file_1,$file_3);
 				}else{
-				$msg[] = e($LANG['vdo_thumb_up_err']);
+				$msg[] = e(lang('vdo_thumb_up_err'));
 				}
 			}
 			
@@ -382,7 +385,7 @@ class Upload{
 				$file_path = THUMBS_DIR.'/'.$file_name.'-'.$file_num.'.'.$ext;
 				move_uploaded_file($file['tmp_name'][$key],$file_path);
 				$imgObj->CreateThumb($file_path,$file_path,THUMB_WIDTH,$ext,THUMB_HEIGHT,false);
-				e($LANG['upload_vid_thumb_msg'],m);
+				e(lang('upload_vid_thumb_msg'),m);
 			}	
 		}
 	}
@@ -403,7 +406,7 @@ class Upload{
 			{
 				$this->upload_thumb($file_name,$file_array,$i);
 			}
-			e($LANG['upload_vid_thumbs_msg'],m);
+			e(lang('upload_vid_thumbs_msg'),m);
 		}else{
 			$file = $file_array;
 			$this->upload_thumb($file_name,$file);
@@ -481,7 +484,7 @@ class Upload{
 		 *      )
 		 */
 		 
-		 'title'	=> array('title'=> $LANG['vdo_title'],
+		 'title'	=> array('title'=> lang('vdo_title'),
 							 'type'=> 'textfield',
 							 'name'=> 'title',
 							 'id'=> 'title',
@@ -493,7 +496,7 @@ class Upload{
 							 'max_length'=>config("video_max_title")
 
 							 ),
-		 'desc'		=> array('title'=> $LANG['vdo_desc'],
+		 'desc'		=> array('title'=> lang('vdo_desc'),
 							 'type'=> 'textarea',
 							 'name'=> 'description',
 							 'id'=> 'desc',
@@ -504,27 +507,27 @@ class Upload{
 							 'required'=>'yes'
 							 
 							 ),
-		 'cat'		=> array('title'=> $LANG['vdo_cat'],
+		 'cat'		=> array('title'=> lang('vdo_cat'),
 							 'type'=> 'checkbox',
 							 'name'=> 'category[]',
 							 'id'=> 'category',
 							 'value'=> array('category',$cat_array),
-							 'hint_1'=>  sprintf($LANG['vdo_cat_msg'],ALLOWED_VDO_CATS),
+							 'hint_1'=>  sprintf(lang('vdo_cat_msg'),ALLOWED_VDO_CATS),
 							 'db_field'=>'category',
 							 'required'=>'yes',
 							 'validate_function'=>'validate_vid_category',
-							 'invalid_err'=>$LANG['vdo_cat_err3'],
+							 'invalid_err'=>lang('vdo_cat_err3'),
 							 'display_function' => 'convert_to_categories'
 
 							 
 							 ),
-		 'tags'		=> array('title'=> $LANG['tag_title'],
+		 'tags'		=> array('title'=> lang('tag_title'),
 							 'type'=> 'textfield',
 							 'name'=> 'tags',
 							 'id'=> 'tags',
 							 'value'=> cleanForm(genTags($tags)),
 							 'hint_1'=> '',
-							 'hint_2'=>  $LANG['vdo_tags_msg'],
+							 'hint_2'=>  lang('vdo_tags_msg'),
 							 'db_field'=>'tags',
 							 'required'=>'yes',
 							 'validate_function'=>'genTags'	
@@ -561,11 +564,11 @@ class Upload{
 		
 		$uploadFormOptionFieldsArray = array
 		(
-		 'broadcast'=> array('title'=>$LANG['vdo_br_opt'],
+		 'broadcast'=> array('title'=>lang('vdo_br_opt'),
 							 'type'=>'radiobutton',
 							 'name'=>'broadcast',
 							 'id'=>'broadcast',
-							 'value'=>array('public'=>$LANG['vdo_br_opt1'],'private'=>$LANG['vdo_br_opt2']),
+							 'value'=>array('public'=>lang('vdo_br_opt1'),'private'=>lang('vdo_br_opt2')),
 							 'checked'=>$broadcast,
 							 'db_field'=>'broadcast',
 							 'required'=>'no',
@@ -573,11 +576,11 @@ class Upload{
 							 'display_function'=>'display_sharing_opt',
 							 'default_value'=>'public',
 							 ),
-		 'comments'=> array('title'=>$LANG['comments'],
+		 'comments'=> array('title'=>lang('comments'),
 							'type'=> 'radiobutton',
 							'name'=>'allow_comments',
 							'id'=>'comments',
-							'value'=> array('yes'=>$LANG['vdo_allow_comm'],'no'=>$LANG['vdo_dallow_comm']),
+							'value'=> array('yes'=>lang('vdo_allow_comm'),'no'=>lang('vdo_dallow_comm')),
 							'checked'=> $comments,
 							'db_field'=>'allow_comments',
 							'required'=>'no',
@@ -585,11 +588,11 @@ class Upload{
 							'display_function'=>'display_sharing_opt',
 							'default_value'=>'yes',
 							 ),
-		 'commentsvote'=> array('title'=>$LANG['vdo_comm_vote'],
+		 'commentsvote'=> array('title'=>lang('vdo_comm_vote'),
 							 'type'=>'radiobutton',
 							 'name'=>'comment_voting',
 							 'id'=>'comment_voting',
-							 'value'=>array('yes'=>$LANG['vdo_allow_comm'].' Voting','no'=>$LANG['vdo_dallow_comm'].' Voting'),
+							 'value'=>array('yes'=>lang('vdo_allow_comm').' Voting','no'=>lang('vdo_dallow_comm').' Voting'),
 							 'checked'=>$comment_voting,
 							 'db_field'=>'comment_voting',
 							 'required'=>'no',
@@ -597,11 +600,11 @@ class Upload{
 							 'display_function'=>'display_sharing_opt',
 							 'default_value'=>'yes',
 							 ),
-		 'rating'=> array('title'=>$LANG['ratings'],
+		 'rating'=> array('title'=>lang('ratings'),
 							 'type'=>'radiobutton',
 							 'name'=>'allow_rating',
 							 'id'=>'rating',
-							'value'=> array('yes'=>$LANG['vdo_allow_rating'],'no'=>$LANG['vdo_dallow_ratig']),
+							'value'=> array('yes'=>lang('vdo_allow_rating'),'no'=>lang('vdo_dallow_ratig')),
 							'checked'=>$rating,
 							'db_field'=>'allow_rating',
 							'required'=>'no',
@@ -609,11 +612,11 @@ class Upload{
 							'display_function'=>'display_sharing_opt',
 							'default_value'=>'yes',
 							 ),
-		 'embedding'=> array('title'=>$LANG['vdo_embedding'],
+		 'embedding'=> array('title'=>lang('vdo_embedding'),
 							'type'=> 'radiobutton',
 							'name'=> 'allow_embedding',
 							'id'=> 'embedding',
-							'value'=> array('yes'=>$LANG['vdo_embed_opt1'],'no'=>$LANG['vdo_embed_opt2']),
+							'value'=> array('yes'=>lang('vdo_embed_opt1'),'no'=>lang('vdo_embed_opt2')),
 							'checked'=> $embedding,
 							'db_field'=>'allow_embedding',
 							'required'=>'no',
@@ -648,7 +651,7 @@ class Upload{
 		
 		$LocationFieldsArray = array
 		(
-		 'country'=> array('title'=>$LANG['country'],
+		 'country'=> array('title'=>lang('country'),
 							'type'=> 'dropdown',
 							'name'=> 'country',
 							'id'=> 'country',
@@ -659,12 +662,12 @@ class Upload{
 							'default_value'=>'',
 							
 							 ),
-		 'location'=> array('title'=>$LANG['location'],
+		 'location'=> array('title'=>lang('location'),
 							 'type'=>'textfield',
 							'name'=> 'location',
 							'id'=> 'location',
 							'value'=> $location,
-							'hint_2'=> $LANG['vdo_add_eg'],
+							'hint_2'=> lang('vdo_add_eg'),
 							'db_field'=>'location',
 							'required'=>'no',
 							'default_value'=>'',
@@ -715,7 +718,7 @@ class Upload{
 			echo $formObj->createField('dropdown','day','',$day_array,NULL,NULL,NULL,NULL,$d_day);
 			echo $sep;
 			echo $formObj->createField('dropdown','year','',$year_array,NULL,NULL,NULL,NULL,$d_year); 
-			echo $LANG['vdo_for_date'];
+			echo lang('vdo_for_date');
 		}
 		
 	}

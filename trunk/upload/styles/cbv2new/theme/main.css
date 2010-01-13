@@ -502,11 +502,12 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .add_comment_box{background-color:#f0f0f0}
 .add_comment_box .input{ border:1px solid #CCC; background-image:url(../images/watch_video_details_bg.png); background-position:10px; padding:5px; width:400px; background-repeat:repeat-x}
 
-.cb_error,.cb_message{border-radius:10px;-moz-border-radius:10px;-khtml-border-radius:10px;-webkit-border-radius:10px; padding:5px; border:1px #0099cc solid; margin:5px;background-image:url(../images/watch_video_details_bg.png); background-position:10px}
-.cb_error ul,.cb_message ul{display:block; margin:0px; padding:0px; padding-left:10px;}
-.cb_error ul li,.cb_message ul li{border-left:3px solid #ccc; list-style:none; padding-left:10px; cursor:pointer}
+.cb_warning,.cb_error,.cb_message{border-radius:10px;-moz-border-radius:10px;-khtml-border-radius:10px;-webkit-border-radius:10px; padding:5px; border:1px #0099cc solid; margin:5px;background-image:url(../images/watch_video_details_bg.png); background-position:10px}
+.cb_warning ul,.cb_error ul,.cb_message ul{display:block; margin:0px; padding:0px; padding-left:10px;}
+.cb_warning ul li,.cb_error ul li,.cb_message ul li{border-left:3px solid #ccc; list-style:none; padding-left:10px; cursor:pointer}
 .cb_error ul li{ color:#ed0000}
 .cb_message ul li{ color:#0099cc}
+.cb_warning ul li {color:#0066cc;border-left:none}
 .cb_error ul li:hover{border-color:#ed0000}
 .cb_message ul li:hover{border-color:#0099cc}
 
@@ -727,3 +728,8 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 
 .quick_search .title{font-size:15px; font-weight:bold}
 .quick_search input[type=text],.quick_search select{width:200px; border:1px solid #939393; font-size:11px; padding:2px}
+
+
+
+.admin_bar{background-color:#1E1E1E; padding:5px; color:#fff}
+.admin_bar a{color:#53baff; font-weight:bold; text-decoration:none}

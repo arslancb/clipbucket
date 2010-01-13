@@ -27,7 +27,7 @@ if($udetails)
 	$CBucket->show_page = false;
 }
 
-
+subtitle("View User");
 template_files("view_user.html");
 display_it();
 ?>

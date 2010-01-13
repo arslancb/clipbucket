@@ -92,7 +92,7 @@ switch($mode)
 	}
 	
 }
-
+subtitle("Manage Pages");
 template_files('manage_pages.html');
 display_it();
 

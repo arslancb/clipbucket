@@ -29,6 +29,8 @@ class userquery extends CBCategory{
 	var $delete_user_functions = array();
 	var $user_manager_functions = array();
 	
+	var $user_sessions = array();
+	
 	var $dbtbl = array(
 					   'user_permission_type'	=> 'user_permission_types',
 					   'user_permissions'		=> 'user_permissions',
@@ -49,11 +51,10 @@ class userquery extends CBCategory{
 	function init()
 	{
 		global $sess;
+
 		$this->userid = $sess->get('userid');
 		$this->username = $sess->get('username');
 		$this->level = $sess->get('level');
-		
-		
 		
 		//Setting Access
 		//Get list Of permission
@@ -62,6 +63,7 @@ class userquery extends CBCategory{
 		{
 			$this->add_access_type($perm['permission_code'],$perm['permission_name']);
 		}
+		
 		/*$this->add_access_type('admin_access','Admin Access');
 		$this->add_access_type('upload_access','Upload Access');
 		$this->add_access_type('channel_access','Channel Access');
@@ -77,7 +79,10 @@ class userquery extends CBCategory{
 		if(user_id())
 		{
 			$this->permission = $this->get_user_level(userid());
-			$this->UpdateLastActive(userid());
+			//exit();
+			
+			if($sess->get("dummy_username")=="")
+				$this->UpdateLastActive(userid());
 		}else
 			$this->permission = $this->get_user_level(4,TRUE);
 		
@@ -99,7 +104,7 @@ class userquery extends CBCategory{
 	{
 		$newkey = $session.$pass;
 		$newkey = md5($newkey);
-		
+		return $newkey;
 	}
 	
 	/**
@@ -130,15 +135,15 @@ class userquery extends CBCategory{
 		
 		//First we will check weather user is already logged in or not
 		if($this->login_check)
-			$msg[] = e($LANG['you_already_logged']);
+			$msg[] = e(lang('you_already_logged'));
 		elseif(!$this->user_exists($username))
-			$msg[] = e($LANG['user_doesnt_exist']);
+			$msg[] = e(lang('user_doesnt_exist'));
 		elseif(!$udetails)
-			$msg[] = e($LANG['usr_login_err']);
+			$msg[] = e(lang('usr_login_err'));
 		elseif(strtolower($udetails['usr_status']) != 'ok')
-			$msg[] = e($LANG['user_inactive_msg']);
+			$msg[] = e(lang('user_inactive_msg'));
 		elseif($udetails['ban_status'] == 'yes')
-			$msg[] = e($LANG['usr_ban_err']);
+			$msg[] = e(lang('usr_ban_err'));
 		else
 		{
 			
@@ -201,31 +206,33 @@ class userquery extends CBCategory{
 	{
 		global $LANG,$Cbucket,$sess;
 		
+		
 		//First check weather userid is here or not
 		if(!userid())
 		{
 			if(!$check_only)
-			e($LANG['you_not_logged_in']);
+			e(lang('you_not_logged_in'));
 			return false;
 		}
 		elseif(!$this->session_auth(userid()))
 		{
+			
 			if(!$check_only)
-			e($LANG['usr_invalid_session_err']);
+			e(lang('usr_invalid_session_err'));
 			return false;
 		}
 		//Now Check if logged in user exists or not
 		elseif(!$this->user_exists(userid()))
 		{
 			if(!$check_only)
-			e($LANG['invalid_user']);
+			e(lang('invalid_user'));
 			return false;
 		}
 		//Now Check logged in user is banned or not
 		elseif($this->is_banned(userid())=='yes')
 		{
 			if(!$check_only)
-			e($LANG['usr_ban_err']);
+			e(lang('usr_ban_err'));
 			return false;
 		}
 		
@@ -243,7 +250,7 @@ class userquery extends CBCategory{
 				}else{
 					
 					if(!$check_only)
-					e($LANG['insufficient_privileges']);
+					e(lang('insufficient_privileges'));
 					$Cbucket->show_page(false);
 					return false;
 				}
@@ -257,7 +264,7 @@ class userquery extends CBCategory{
 				{
 					if(!$check_only)
 					{
-						e($LANG['insufficient_privileges']);
+						e(lang('insufficient_privileges'));
 						$Cbucket->show_page(false);
 					}
 					return false;
@@ -298,9 +305,22 @@ class userquery extends CBCategory{
 	function session_auth($uid)
 	{
 		global $sess;
-		$ufields = $this->get_user_fields($uid,'user_session_key,user_session_code');
-		if($sess->get('user_session_key') == $ufields['user_session_key'] 
-			&& $sess->get('user_session_code') == $ufields['user_session_code'])
+		
+		return true;
+		/*if($sess->get('user_session_key') == $ufields['user_session_key'] 
+			&& $sess->get('user_session_code') == $ufields['user_session_code'])*/
+		if($this->user_sessions['key']=='')
+		{
+			$ufields = $this->get_user_fields($uid,'user_session_key,user_session_code');
+			echo test;
+			$this->user_sessions['key'] =  $ufields['user_session_key'];
+			$this->user_sessions['code'] =  $ufields['user_session_code'];
+		}
+		
+		if($this->user_sessions['key']==$sess->get('user_session_key')
+			&& $this->user_sessions['code']==$sess->get('user_session_code')
+			  ||( has_access("admin_access") && $sess->get("dummy_username")!=""))
+		
 			return true;
 		else
 			return false;
@@ -951,7 +971,7 @@ class userquery extends CBCategory{
 			$user = user_id();	
 		if(!user_id())
 		{
-			$eh->e($LANG['you_not_logged_in']);
+			$eh->e(lang('you_not_logged_in'));
 		}else{
 			switch($box)
 			{
@@ -1823,7 +1843,7 @@ class userquery extends CBCategory{
 					return true;
 				}else{
 					if(!$check_only)
-					e($LANG['insufficient_privileges']);
+					e(lang('insufficient_privileges'));
 					
 					if($control_page)
 					$Cbucket->show_page(false);
@@ -2310,6 +2330,17 @@ class userquery extends CBCategory{
 			$uquery_field[] = 'email';
 			$uquery_val[]	= $email;
 			
+			//Changning Password
+			if(!empty($array['pass']))
+			{
+				if($array['pass']!=$array['cpass'])
+					e("Passwords Mismatched");
+				else
+					$pass = pass_code($array['pass']);
+				$uquery_field[] = 'password';
+				$uquery_val[]	= $pass;
+			}
+			
 			//Changing User Level
 			$uquery_field[] = 'level';
 			$uquery_val[] = $array['level'];
@@ -2775,23 +2806,23 @@ class userquery extends CBCategory{
 		 $user_signup_fields = array
 		 (
 		  'username' => array(
-							  'title'=> $LANG['username'],
+							  'title'=> lang('username'),
 							  'type'=> "textfield",
 							  'name'=> "username",
 							  'id'=> "username",
 							  'value'=> $username,
-							  'hint_2'=> $LANG['user_allowed_format'],
+							  'hint_2'=> lang('user_allowed_format'),
 							  'db_field'=>'username',
 							  'required'=>'yes',
 							  'syntax_type'=> 'username',
 							  'validate_function'=> 'username_check',
-							  'function_error_msg' => $LANG['user_contains_disallow_err'],
+							  'function_error_msg' => lang('user_contains_disallow_err'),
 							  'db_value_check_func'=> 'user_exists',
 							  'db_value_exists'=>false,
-							  'db_value_err'=>$LANG['usr_uname_err2']
+							  'db_value_err'=>lang('usr_uname_err2')
 							  ),
 		  'email' => array(
-							  'title'=> $LANG['email'],
+							  'title'=> lang('email'),
 							  'type'=> "textfield",
 							  'name'=> "email",
 							  'id'=> "email",
@@ -2801,32 +2832,32 @@ class userquery extends CBCategory{
 							  'syntax_type'=> 'email',
 							  'db_value_check_func'=> 'email_exists',
 							  'db_value_exists'=>false,
-							  'db_value_err'=>$LANG['usr_email_err3']
+							  'db_value_err'=>lang('usr_email_err3')
 							  ),
 		  'password' => array(
-							  'title'=> $LANG['password'],
+							  'title'=> lang('password'),
 							  'type'=> "password",
 							  'name'=> "password",
 							  'id'=> "password",
 							  'db_field'=>'password',
 							  'required'=>'yes',
-							  'invalid_err'=>$LANG['usr_pass_err2'],
+							  'invalid_err'=>lang('usr_pass_err2'),
 							  'relative_to' => 'cpassword',
 							  'relative_type' => 'exact',
-							  'relative_err' => $LANG['usr_pass_err3'],
+							  'relative_err' => lang('usr_pass_err3'),
 							  'validate_function' => 'pass_code',
 							  'use_func_val'=>true
 							  ),
 		  'cpassword' => array(
-							  'title'=> $LANG['user_confirm_pass'],
+							  'title'=> lang('user_confirm_pass'),
 							  'type'=> "password",
 							  'name'=> "cpassword",
 							  'id'=> "cpassword",
 							  'required'=>'no',
-							  'invalid_err'=>$LANG['usr_cpass_err'],
+							  'invalid_err'=>lang('usr_cpass_err'),
 							  ),
 		  'country'	=> array(
-							 'title'=> $LANG['country'],
+							 'title'=> lang('country'),
 							 'type' => 'dropdown',
 							 'value' => $Cbucket->get_countries(iso2),
 							 'id'	=> 'country',
@@ -2836,18 +2867,18 @@ class userquery extends CBCategory{
 							 'required'=>'yes',
 							 ),
 		  'gender' => array(
-							'title' => $LANG['gender'],
+							'title' => lang('gender'),
 							'type' => 'radiobutton',
 							'name' => 'gender',
 							'id' => 'gender',
-							'value' => array('Male'=>$LANG['male'],'Female'=>$LANG['female']),
+							'value' => array('Male'=>lang('male'),'Female'=>lang('female')),
 							'sep'=> '&nbsp;',
 							'checked'=>'Male',
 							'db_field'=>'sex',
 							'required'=>'yes',
 							),
 		  'dob'	=> array(
-						 'title' => $LANG['user_date_of_birth'],
+						 'title' => lang('user_date_of_birth'),
 						 'type' => 'textfield',
 						 'name' => 'dob',
 						 'id' => 'dob',
@@ -2912,7 +2943,7 @@ class userquery extends CBCategory{
 		
 		//checking terms and policy agreement
 		if($array['agree']!='yes' && !has_access('admin_access',true))
-			e($LANG['usr_ament_err']);
+			e(lang('usr_ament_err'));
 		
 		
 		if(!error())
@@ -2989,6 +3020,8 @@ class userquery extends CBCategory{
 			$query_field[] = "avcode";
 			$query_val[] = $avcode;
 			
+			
+			
 			//Signup IP
 			$signup_ip	= $_SERVER['REMOTE_ADDR'];
 			$query_field[] = "signup_ip";
@@ -2998,6 +3031,25 @@ class userquery extends CBCategory{
 			$now = NOW();
 			$query_field[] = "doj";
 			$query_val[] = $now;
+			
+			
+			/**
+			 * A VERY IMPORTANT PART OF
+			 * OUR SIGNUP SYSTEM IS
+			 * SESSION KEY AND CODE
+			 * WHEN A USER IS LOGGED IN
+			 * IT IS ONLY VALIDATED BY
+			 * ITS SIGNUP KEY AND CODE 
+			 *
+			 */
+			$sess_key = $this->create_session_key($_COOKIE['PHPSESSID'],$array['password']);
+			$sess_code = $this->create_session_code();
+			
+			$query_field[] = "user_session_key";
+			$query_val[] = $sess_key;
+			
+			$query_field[] = "user_session_code";
+			$query_val[] = $sess_code;
 			
 			$query = "INSERT INTO users (";
 			$total_fields = count($query_field);
@@ -3477,5 +3529,70 @@ class userquery extends CBCategory{
 	 	 return $results;
 	 }
 	 
+	 
+	 
+	 
+	/**
+	 * Function will let admin to login as user
+	 */
+	function login_as_user($id)
+	{
+		global $sess;
+		$udetails = $this->get_user_details($id);
+		if($udetails)
+		{
+			$sess->set('dummy_username',$sess->get("username"));
+			$sess->set('dummy_level',$sess->get("level"));
+			$sess->set('dummy_userid',$sess->get("userid"));
+			$sess->set('dummy_user_session_key',$sess->get("user_session_key"));
+			$sess->set('dummy_user_session_code',$sess->get("user_session_code"));
+			
+			$sess->set('username',$udetails['username']);
+			$sess->set('level',$udetails['level']);
+			$sess->set('userid',$udetails['userid']);
+			$sess->set('user_session_key',$udetails['session_key']);
+			$sess->set('user_session_code',$udetails['session_code']);
+			
+			
+			
+			return true;
+		}else
+			e("User does not exist");
+	}
+	
+	/**
+	 * Function used to revert back to admin
+	 */
+	function revert_from_user()
+	{
+		global $sess;
+		if($this->is_admin_logged_as_user())
+		{
+			$sess->set('username',$sess->get("dummy_username"));
+			$sess->set('level',$sess->get("dummy_level"));
+			$sess->set('userid',$sess->get("dummy_userid"));
+			$sess->set('user_session_key',$sess->get("dummy_user_session_key"));
+			$sess->set('user_session_code',$sess->get("dummy_user_session_code"));
+			
+			$sess->un_set('dummy_username');
+			$sess->un_set('dummy_level');
+			$sess->un_set('dummy_userid');
+			$sess->un_set('dummy_user_session_key');
+			$sess->un_set('dummy_user_session_code');
+		}
+	}
+	
+	/**
+	 * Function used to check weather user is logged in as admin or not
+	 */
+	function is_admin_logged_as_user()
+	{
+		 global $sess;
+		 if($sess->get("dummy_username")!="")
+		 {
+			 return true;
+		 }
+		return false;
+	}
 }
 ?>

@@ -24,6 +24,8 @@ if(isset($_POST['update']))
 	}
 }
 
+
+subtitle("Email Settings");
 template_files('email_settings.html');
 display_it();
 ?>

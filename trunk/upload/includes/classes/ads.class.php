@@ -107,7 +107,7 @@ class AdsManager
 		global $LANG;
 		if(!mysql_query("Delete from ads_data WHERE ad_placement='".$placement."'"))die(mysql_error());
 		if(!mysql_query("Delete from ads_placements WHERE placement='".$placement."'"))die(mysql_error());
-		$msg = e($LANG['ad_placment_delete_msg'],m);
+		$msg = e(lang('ad_placment_delete_msg'),m);
 		return $msg;
 	}
 	

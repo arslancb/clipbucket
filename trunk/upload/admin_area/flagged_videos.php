@@ -110,6 +110,7 @@ switch($mode)
 	
 }
 
+subtitle("Flagged Videos");
 template_files('flagged_videos.html');
 display_it();
 ?>

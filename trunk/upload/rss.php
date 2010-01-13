@@ -33,9 +33,9 @@ $query = "SELECT * FROM video WHERE $query_param ORDER BY views DESC LIMIT 0,10"
 
 //Getting Whats Hot
 $list = array(
-		'featured'		=> $LANG['rss_feed_featured_title'],
-		'latest'		=> $LANG['rss_feed_latest_title'],
-		'most_viewed'	=> $LANG['rss_feed_most_viewed_title'],
+		'featured'		=> lang('rss_feed_featured_title'),
+		'latest'		=> lang('rss_feed_latest_title'),
+		'most_viewed'	=> lang('rss_feed_most_viewed_title'),
 		'link01'		=> BASEURL.videos_link.'?order=fr',
 		'link02'		=> BASEURL.videos_link.'?order=mr',
 		'link03'		=> BASEURL.videos_link.'?order=mv'

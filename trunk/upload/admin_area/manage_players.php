@@ -15,6 +15,8 @@ if($_GET['set'])
 {
 	$cbplayer->set_player($_GET);
 }
+
+subtitle("Manage Players");
 template_files('manage_players.html');
 display_it();
 ?>

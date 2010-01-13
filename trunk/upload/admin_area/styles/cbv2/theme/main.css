@@ -71,7 +71,7 @@ a[rel=sponsors]:hover { background:#555; border:1px solid #232323; }
 
 
 .admin_td,.video_opt_td{color:#333; font-size:12px;}
-.video_opt_td{height:45px; border-bottom:1px solid #ccc; padding-top:5px}
+.video_opt_td{height:55px; border-bottom:1px solid #ccc; padding-top:5px}
 .video_opt_td a{font-size:13px; font-weight:bold; color:#0c4469; text-decoration:none}
 .vid_opts{border:1px solid #ccc; padding:2px; display:inline;-moz-border-radius: 5px;
 -webkit-border-radius: 5px; border:0px solid #EAEEFF;} .vdo_sets,.vdo_sets a{font-size:11px; text-transform:uppercase; font-family: Consolas, Monaco, Courier, monospace;}
@@ -96,7 +96,7 @@ h2,.page_title a{font-size:18px; }
 .fieldset .block{margin:5px}
 .fieldset legend{margin:2px; font-size:13px; font-weight:bold; color:#147dc3}
 
-.cbform input[type="text"],.cbform input[type="textfield"]{width:300px; padding:3px; font-size:12px}
+.cbform input[type="text"],.cbform input[type="textfield"],.cbform select,.cbform textarea{width:300px; padding:3px; font-size:12px}
 
 /**
  * Forms End
@@ -134,7 +134,7 @@ padding-left:5px; font-size:16px; font-weight:bold; font-family:Arial, Helvetica
 }
 
 
-.row_white{border-bottom:1px dotted #646464; width:98%; margin:auto}
+.row_white{border-bottom:1px dotted #646464; width:100%; margin:auto}
 .row_white:hover{background-color:#F3F3F3}
 
 

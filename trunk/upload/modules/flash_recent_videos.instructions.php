@@ -16,7 +16,7 @@
 			</div>
 			<script type="text/javascript">
 				<!--
-     			var player = new FlashObject("'.BASEURL.'/modules/flash_recent_videos.swf?x='.BASEURL.'/modules/flash_recent_videos.php&amp;t='.$LANG['videos_being_watched'].'", "base", "550", "140", "6", "#FFFFFF");				
+     			var player = new FlashObject("'.BASEURL.'/modules/flash_recent_videos.swf?x='.BASEURL.'/modules/flash_recent_videos.php&amp;t='.lang('videos_being_watched').'", "base", "550", "140", "6", "#FFFFFF");				
 				player.write("flash_recent_videos");	
 				//-->
 			</script>	';

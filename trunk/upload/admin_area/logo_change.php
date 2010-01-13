@@ -12,6 +12,8 @@ $userquery->admin_login_check();
 $pages->page_redir();
 
 
+subtitle("Logo Changer");
+
 template_files('under_development.html');
 display_it();
 ?>

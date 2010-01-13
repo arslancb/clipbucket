@@ -272,11 +272,11 @@ class CBPlugin extends ClipBucket
 		 global $db,$LANG,$Cbucket;
 		 $plug_details = $this->get_plugin_details($pluginFile,$folder);	
 		 if(!$plug_details)
-		 	$msg = e($LANG['plugin_no_file_err']);
+		 	$msg = e(lang('plugin_no_file_err'));
 		 if(empty($plug_details['name']))
-		 	$msg = e($LANG['plugin_file_detail_err']);
+		 	$msg = e(lang('plugin_file_detail_err'));
 		 if($this->is_installed($pluginFile,$folder))
-		 	$msg = e($LANG['plugin_installed_err']);
+		 	$msg = e(lang('plugin_installed_err'));
 		
 		 if(empty($msg))
 		 {	  
@@ -310,7 +310,7 @@ class CBPlugin extends ClipBucket
 			 );
 			 
 			 //Checking For the installation SQL
-			 $msg = e($LANG['plugin_install_msg'],m);
+			 $msg = e(lang('plugin_install_msg'),m);
 			 define('NEW_INSTALL',false);
 		 }
 		 return $msg;
@@ -331,7 +331,7 @@ class CBPlugin extends ClipBucket
 		$active_msg = $active=='yes' ? 'activated' : 'deactiveted';
 			$msg = e("Plugin has been $active_msg",m);
 		}else{
-			$msg = e($LANG['plugin_no_install_err']);
+			$msg = e(lang('plugin_no_install_err'));
 		}
 		return $msg;
 	 }
@@ -354,7 +354,7 @@ class CBPlugin extends ClipBucket
 			require_once(PLUG_DIR.'/'.$folder.'uninstall_'.$file);
 			$msg = e("Plugin has been Uninstalled",m);
 		}else{
-			$msg = e($LANG['plugin_no_install_err']);
+			$msg = e(lang('plugin_no_install_err'));
 		}
 		return $msg;
 	 }

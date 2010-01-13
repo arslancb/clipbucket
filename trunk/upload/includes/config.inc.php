@@ -23,23 +23,7 @@ Assign('style_dir',LAYOUT);
 
 		
 
-//Checking Website is closed or not
-if($row['closed'] == 1){
-	
-	$msg = $row['closed_msg'];
-	
-	if($_SESSION['admin'] !='')
-	$msg = 'Attention: Site in Offline Mode';
-	
-	Assign('msg',$msg);
-	Assign('subtitle','Site Closed');
-	if($_SESSION['admin'] ==''){
-		Template('header.html');
-		Template('message.html');
-		Template('footer.html');
-		exit();
-	}
-}
+
 
 include('plugins.php');
 
@@ -48,4 +32,18 @@ Assign('jsArray',$Cbucket->JSArray);
 //Assigning Module Files
 Assign('module_list',$Cbucket->moduleList);
 
+
+//Checking Website is closed or not
+if($row['closed'] == 1 && THIS_PAGE!='ajax')
+{
+	
+	if(!has_access("admin_access",TRUE))
+	{	e($row['closed_msg'],"w");
+		template("global_header.html");
+		template("message.html");
+		exit();
+	}else{
+		e(lang("ATTENTION: THIS WEBSITE IS IN OFFLINE MODE"),"w");
+	}
+}
 ?>

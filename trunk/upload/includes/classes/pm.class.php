@@ -156,7 +156,6 @@ class cb_pm
 			$attachments = $this->get_attachments($array);
 			$type = $array['type'] ? $array['type'] : 'pm';
 			$reply_to = $this->is_reply($array['reply_to'],$from);
-			$to = $to.'|';
 			
 			$fields = array('message_from','message_to','message_content',
 										 'message_subject','date_added','message_attachments','message_box','reply_to');
@@ -216,7 +215,14 @@ class cb_pm
 		
 		$valid_users = array_unique($valid_users);
 		if(count($valid_users)>0)
-			return implode('|',$valid_users);
+		{
+			$vusers = '';
+			foreach($valid_users as $vu)
+			{
+				$vusers .="#".$vu."#";
+			}
+			return $vusers;
+		}
 		else
 			return false;
 	}
@@ -261,7 +267,7 @@ class cb_pm
 	function is_reply($id,$uid)
 	{
 		global $db;
-		$results = $db->select($this->tbl,'message_to'," message_id = '$id' AND message_to LIKE '%$uid|%'");
+		$results = $db->select($this->tbl,'message_to'," message_id = '$id' AND message_to LIKE '%#$uid#%'");
 		if($db->num_rows>0)
 			return true;
 		else
@@ -296,7 +302,7 @@ class cb_pm
 		global $db;
 		if(!$uid)
 			$uid = userid();
-		$result = $db->select($this->tbl.',users',$this->tbl.'.*,users.userid,users.username'," message_id='$mid' AND message_to LIKE '%$uid|%' AND userid=".$this->tbl.".message_from");
+		$result = $db->select($this->tbl.',users',$this->tbl.'.*,users.userid,users.username'," message_id='$mid' AND message_to LIKE '%#$uid#%' AND userid=".$this->tbl.".message_from");
 		
 		if($db->num_rows>0)
 		{
@@ -353,10 +359,10 @@ class cb_pm
 			{
 				if($count_only)
 				{
-					$result = $db->count($this->tbl,'message_id'," message_to LIKE '%$uid|%' AND message_box ='in' AND message_type='pm' ");
+					$result = $db->count($this->tbl,'message_id'," message_to LIKE '%#$uid#%' AND message_box ='in' AND message_type='pm' ");
 				}else{
 					$result = $db->select($this->tbl.',users',$this->tbl.'.*,users.username AS message_from_user ',
-										  $this->tbl.".message_to LIKE '%$uid|%' AND users.userid = ".$this->tbl.".message_from 
+										  $this->tbl.".message_to LIKE '%#$uid#%' AND users.userid = ".$this->tbl.".message_from 
 										  AND ".$this->tbl.".message_box ='in' AND message_type='pm'");
 				}
 			}
@@ -416,10 +422,10 @@ class cb_pm
 			{
 				if($count_only)
 				{
-					$result = $db->count($this->tbl,'message_id'," message_to LIKE '%$uid|%' AND message_box ='in' AND message_type='pm' ");
+					$result = $db->count($this->tbl,'message_id'," message_to LIKE '%#$uid#%' AND message_box ='in' AND message_type='pm' ");
 				}else{
 					$result = $db->select($this->tbl.',users',$this->tbl.'.*,users.username AS message_from_user ',
-										  $this->tbl.".message_to LIKE '%$uid|' AND users.userid = ".$this->tbl.".message_from 
+										  $this->tbl.".message_to LIKE '%#$uid#' AND users.userid = ".$this->tbl.".message_from 
 										  AND ".$this->tbl.".message_box ='in' AND message_type='notification'");
 				}
 			}
@@ -530,7 +536,7 @@ class cb_pm
 		$subj = $cbemail->replace($tpl['email_template_subject'],$vars);
 		$msg = $cbemail->replace($tpl['email_template'],$vars);
 		
-		cbmail(array('to'=>$emails,'from'=>'webmaster@localhost','subject'=>$subj,'content'=>$msg,'nl2br'=>true));
+		cbmail(array('to'=>$emails,'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg,'nl2br'=>true));
 	}
 	
 	/**
@@ -613,7 +619,7 @@ class cb_pm
 			case 'pm':
 			default:
 			{
-				$count = $db->count($this->tbl,"message_id"," message_to LIKE '%$uid|%' AND message_box='in' AND message_type='pm' AND 	message_status='unread'");
+				$count = $db->count($this->tbl,"message_id"," message_to LIKE '%#$uid#%' AND message_box='in' AND message_type='pm' AND 	message_status='unread'");
 				
 			}
 			break;
@@ -621,7 +627,7 @@ class cb_pm
 			case 'notification':
 			default:
 			{
-				$count = $db->count($this->tbl,"message_id"," message_to LIKE '%$uid|%' AND message_box='in' AND message_type='notification' AND message_status='unread'");
+				$count = $db->count($this->tbl,"message_id"," message_to LIKE '%#$uid#%' AND message_box='in' AND message_type='notification' AND message_status='unread'");
 			}
 			break;
 		}

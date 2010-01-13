@@ -732,9 +732,9 @@ class CBvideo extends CBCategory
 		if(file_exists($file))
 		{
 			$db->update("video",array("default_thumb"),array($num)," videoid='$vid'");
-			e($LANG['vid_thumb_changed'],m);
+			e(lang('vid_thumb_changed'),m);
 		}else{
-			e($LANG['vid_thumb_change_err']);
+			e(lang('vid_thumb_change_err'));
 		}
 	}	
 	

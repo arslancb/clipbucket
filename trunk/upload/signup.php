@@ -51,7 +51,7 @@ if(isset($_POST['login'])){
 //Checking Ban Error
 if(!isset($_POST['login']) && !isset($_POST['signup'])){
 	if(@$_GET['ban'] == true){
-		$msg = $LANG['usr_ban_err'];
+		$msg = lang('usr_ban_err');
 	}
 }
 

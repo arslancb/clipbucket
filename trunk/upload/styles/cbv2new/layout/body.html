@@ -1,6 +1,23 @@
 {* Including Global Header *}
 {include file="$style_dir/global_header.html"}
 <body>
+
+<!-- ADMIN BAR -->
+{if has_access('admin_access') || $userquery->is_admin_logged_as_user()}
+<div class="admin_bar">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+          <td align="left"><a href="{$baseurl}/admin_area">Admin Panel</a> | <a href="{$baseurl}/admin_area/video_manager.php">Moderate Videos</a> | <a href="{$baseurl}/admin_area/members.php">Moderate Users</a></td>
+          <td align="right">
+          {if $userquery->is_admin_logged_as_user()}
+          <a href="{$baseurl}/admin_area/login_as_user.php?revert=yes">Revert back to admin</a>
+          {/if}</td>
+    </tr>
+  </table>
+</div>
+{/if}
+<!-- ADMIN BAR -->
+
 <!-- Including Commong header -->
 <div class="container_container">
     <div id="container" class="clearfix">

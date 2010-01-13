@@ -148,6 +148,7 @@ if(isset($_POST['update'])){
 
 $row = $myquery->Get_Website_Details();
 Assign('row',$row);
+subtitle("Website Configurations");
 template_files('main.html');
 display_it();
 ?>

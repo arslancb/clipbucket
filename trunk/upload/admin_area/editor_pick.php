@@ -33,6 +33,8 @@ assign('videos',get_ep_videos());
 assign('max',get_highest_sort_number());
 assign('min',get_lowest_sort_number());
 	
+	
+subtitle("Editor's Pick");
 template_files('editor_pick.html');
 display_it();
 ?>

@@ -110,6 +110,7 @@ switch($mode)
 	
 }
 
+subtitle("Flagged Groups");
 template_files('flagged_groups.html');
 display_it();
 ?>

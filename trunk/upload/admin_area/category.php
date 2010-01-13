@@ -43,6 +43,7 @@ if(isset($_GET['delete_category'])){
 assign('category',$cbvid->get_categories());
 assign('total',$cbvid->total_categories());
 
+subtitle("Video Category Manager");
 Assign('msg',@$msg);	
 template_files('category.html');
 display_it();

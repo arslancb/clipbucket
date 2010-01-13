@@ -41,6 +41,7 @@ if(isset($_GET['ad_id']))
 		assign('ad_data',$ad_data);
 }
 
+subtitle("Advertisments Manager");
 template_files('ads_manager.html');
 display_it();
 

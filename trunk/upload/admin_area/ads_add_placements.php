@@ -37,7 +37,9 @@ $total_placements = $ads_exec->recordcount() + 0;
 		}
 				
 Assign('ads_placements',$ads_placements);
-		
+	
+	
+subtitle("Add Advertisment Placement");
 template_files('ads_add_placements.html');
 display_it();
 

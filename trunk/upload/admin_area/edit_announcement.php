@@ -14,6 +14,7 @@ if(isset($_POST['update']))
 	$msg = e("Announcement has been updated",m);
 }
 
+subtitle("Annoucment Manager");
 template_files('edit_announcemnent.html');
 display_it();
 

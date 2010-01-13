@@ -11,6 +11,8 @@ require_once '../includes/admin_config.php';
 $userquery->admin_login_check();
 $pages->page_redir();
 
+
+subtitle("Mass Uploader");
 template_files("under_development.html");
 display_it();
 ?>

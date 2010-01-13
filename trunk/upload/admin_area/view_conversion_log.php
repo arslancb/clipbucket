@@ -18,7 +18,7 @@ if($file_details)
 	assign('data',$file_details);
 }
 
-	
+subtitle("Conversion Log");
 template_files('view_conversion_log.html');
 display_it();
 ?>

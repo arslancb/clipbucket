@@ -2004,11 +2004,11 @@ class CBGroups extends CBCategory
 		}
 		if(count($new_array)==0)
 		{
-			e($LANG['vdo_cat_err3']);
+			e(lang('vdo_cat_err3'));
 			return false;
 		}elseif(count($new_array)>ALLOWED_GROUP_CATEGORIES)
 		{
-			e(sprintf($LANG['vdo_cat_err2'],ALLOWED_GROUP_CATEGORIES));
+			e(sprintf(lang('vdo_cat_err2'),ALLOWED_GROUP_CATEGORIES));
 			return false;
 		}
 			

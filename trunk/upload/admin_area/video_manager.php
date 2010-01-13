@@ -131,16 +131,16 @@ if(isset($_POST['delete_selected']))
 		preg_match_all('/#([0-9]+)#/',$_GET['category'],$m);
 		$cats_array = array($m[1]);
 	}
-	$cat_array =	array($LANG['vdo_cat'],
+	$cat_array =	array(lang('vdo_cat'),
 					'type'=> 'checkbox',
 					'name'=> 'category[]',
 					'id'=> 'category',
 					'value'=> array('category',$cats_array),
-					'hint_1'=>  $LANG['vdo_cat_msg'],
+					'hint_1'=>  lang('vdo_cat_msg'),
 					'display_function' => 'convert_to_categories');
 	assign('cat_array',$cat_array);
 
-
+subtitle("Video Manager");
 template_files('video_manager.html');
 display_it();
 

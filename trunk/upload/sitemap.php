@@ -28,7 +28,7 @@ $query = "SELECT * FROM video WHERE $query_param ORDER BY date_added DESC LIMIT 
 
 //Getting Whats Hot
 $list = array(
-      'latest'      => $LANG['latest_added_videos'],
+      'latest'      => lang('latest_added_videos'),
       'link01'      => BASEURL.videos_link.'?order=fr',
       );
 $text = $list[$show];

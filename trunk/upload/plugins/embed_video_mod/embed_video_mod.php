@@ -53,12 +53,12 @@ if(!function_exists('validate_embed_code'))
 			if(!empty($sec))
 				return $sec;
 			else
-				e($LANG['invalid_duration']);
+				e(lang('invalid_duration'));
 		}else{
 			if(is_numeric($time))
 				return $time;
 			else
-				e($LANG['invalid_duration']);
+				e(lang('invalid_duration'));
 		}
 	}
 	
@@ -180,7 +180,7 @@ if(!function_exists('validate_embed_code'))
 					$image->CreateThumb($file,$file,THUMB_WIDTH,$ext,THUMB_HEIGHT,false);
 				}
 			}else{
-				e($LANG['vdo_thumb_up_err']);
+				e(lang('vdo_thumb_up_err'));
 			}
 		}else{
 			return true;

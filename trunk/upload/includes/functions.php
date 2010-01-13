@@ -125,8 +125,6 @@
 		}        	
 	}
 	
-	function cb_footer(){ define("footer_loaded",TRUE); echo base64_decode(config(base64_decode('Y2JoYXNo')));}
-	
 	function Assign($name,$value)
 	{
 		CBTemplate::assign($name,$value);
@@ -675,6 +673,20 @@
 	}
 	
 	
+	/**
+	 * Function used to tell ClipBucket that it has closed the script
+	 */
+	function the_end()
+	{
+		if(count(get_functions('clipbucket_footer'))==0 ||!defined("footer_loaded") && !BACK_END) 
+		{
+				echo base64_decode("PGgyPklsbGVnYWwgT3BlcmF0aW9uIEZvdW5k");
+				echo "- Please VISIT ";
+				echo base64_decode("PGEgaHJlZj0iaHR0cDovL2NsaXAtYnVja2V0LmNvbS8iPkNsaXBCdWNrZXQ8L2E+");
+				echo " for Details</h2>";
+		}
+	}
+	
 	//Function That will use in creating SEO urls
 	function VideoLink($vdetails){
 		return video_link($vdetails);
@@ -1086,7 +1098,7 @@
 	{
 		global $eh;
 		if(!empty($msg))
-		return $eh->e($msg,$type,$id);
+			return $eh->e($msg,$type,$id);
 	}
 	
 	
@@ -1096,7 +1108,7 @@
 	function get_subscription_template()
 	{
 		global $LANG;
-		return $LANG['user_subscribe_message'];
+		return lang('user_subscribe_message');
 	}
 	
 	
@@ -1286,11 +1298,11 @@
 		}
 		if(count($new_array)==0)
 		{
-			e($LANG['vdo_cat_err3']);
+			e(lang('vdo_cat_err3'));
 			return false;
 		}elseif(count($new_array)>ALLOWED_VDO_CATS)
 		{
-			e(sprintf($LANG['vdo_cat_err2'],ALLOWED_VDO_CATS));
+			e(sprintf(lang('vdo_cat_err2'),ALLOWED_VDO_CATS));
 			return false;
 		}
 			
@@ -1758,9 +1770,9 @@
 		if(file_exists($path))
 		{
 			unlink($path);
-			e($LANG['video_thumb_delete_msg'],m);
+			e(lang('video_thumb_delete_msg'),m);
 		}else{
-			e($LANG['video_thumb_delete_err']);
+			e(lang('video_thumb_delete_err'));
 		}
 	}
 	 
@@ -1940,14 +1952,7 @@
 		
 		assign('template_files',$new_list);
 		Template('body.html');
-		
-		if(count($ClipBucket->anchor_function_list['the_footer'])==0 ||!defined("footer_loaded") && !BACK_END) 
-		{
-				echo base64_decode("PGgyPklsbGVnYWwgT3BlcmF0aW9uIEZvdW5k");
-				echo "- Please VISIT ";
-				echo base64_decode("PGEgaHJlZj0iaHR0cDovL2NsaXAtYnVja2V0LmNvbS8iPkNsaXBCdWNrZXQ8L2E+");
-				echo " for Details</h2>";
-		}
+		footer();
 	}
 	
 	
@@ -2345,7 +2350,7 @@
 	function get_functions($name)
 	{
 		global $Cbucket;
-		$funcs = $CBucket->$name;
+		$funcs = $Cbucket->$name;
 		if(is_array($funcs) && count($funcs)>0)
 			return $funcs;
 		else
@@ -2464,7 +2469,10 @@
 		
 		increment_views($tdetails['topic_id'],"topic");
 	}
-	
+
+
+	function cb_footer(){ define("footer_loaded",TRUE); echo base64_decode(config(base64_decode('Y2JoYXNo')));}
+
 	/**
 	 * Funcion used to call functions
 	 * when user view group
@@ -2486,7 +2494,7 @@
 		
 		increment_views($gdetails['group_id'],"group");
 	}
-	
+
 	
 	/**
 	 * Function used to incream number of view
@@ -3453,8 +3461,10 @@
 	 */
 	function get_latest_cb_info()
 	{
-		$url = 'http://clip-bucket.com/versions.xml';
-		//$url = 'http://localhost/clipbucket/2.x/2/upload/tester/versions.xml';
+		if($_SERVER['HTTP_HOST']!='localhost')
+			$url = 'http://clip-bucket.com/versions.xml';
+		else
+			$url = 'http://localhost/clipbucket/2.x/2/upload/tester/versions.xml';
 		$version = xml2array($url);
 		if(!$version)
 		{
@@ -3634,6 +3644,25 @@
 			{
 				preg_match("/version ([0-9\.]+)/i",$result,$matches);
 				return $matches[1];
+			}
+		}
+	}
+	
+	
+	/**
+	 * function used to call clipbucket footers
+	 */
+	function footer()
+	{
+		$funcs = get_functions('clipbucket_footer');
+		if(is_array($funcs) && count($funcs)>0)
+		{
+			foreach($funcs as $func)
+			{
+				if(function_exists($func))
+				{
+					$func();
+				}
 			}
 		}
 	}

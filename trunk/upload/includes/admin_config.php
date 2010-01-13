@@ -2,6 +2,7 @@
 
 	define("BACK_END",TRUE);
 	define("FRONT_END",FALSE);
+	define("SLOGAN","Administration Panel");
 	//Admin Area
 	$admin_area	=	TRUE;
 	
@@ -14,10 +15,6 @@
 	
 	include("clipbucket.php");
 	$Cbucket->cbinfo = array("version"=>VERSION,"state"=>STATE,"rev"=>REV,"release_date"=>RELEASED);
-	$latest = get_latest_cb_info();
-	$Cbucket->cbinfo['latest'] = $latest;
-	if($Cbucket->cbinfo['version'] < $Cbucket->cbinfo['latest']['version'])
-		$Cbucket->cbinfo['new_available'] = true;
 
 	
 	//Including Massuploader Class,

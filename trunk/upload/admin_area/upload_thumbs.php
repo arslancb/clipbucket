@@ -51,13 +51,13 @@ if($myquery->VideoExists($video)){
 	Assign('rand',rand(44,444));
 			
 }else{
-	$msg[] = $LANG['class_vdo_del_err'];
+	$msg[] = lang('class_vdo_del_err');
 }
 	
 
 
 
-		
+subtitle("Video Thumbs Manager");		
 template_files('upload_thumbs.html');
 display_it();
 ?>

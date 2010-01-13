@@ -25,6 +25,7 @@ Template('message.html');
 Template('language_settings.html');
 Template('footer.html');*/
 
+subtitle("Add Language Phrase");
 template_files('add_phrase.html');
 display_it();
 ?>

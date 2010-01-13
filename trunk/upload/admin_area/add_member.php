@@ -22,6 +22,7 @@ if(isset($_POST['add_member']))
 	}
 }
 
+subtitle("Add New Member");
 template_files('add_members.html');
 display_it();
 

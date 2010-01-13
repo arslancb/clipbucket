@@ -77,6 +77,7 @@ Template('message.html');
 Template('plugin_manager.html');
 Template('footer.html');*/
 
+subtitle("Plugin Manager");
 template_files('plugin_manager.html');
 display_it();
 ?>
