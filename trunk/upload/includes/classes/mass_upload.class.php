@@ -33,7 +33,9 @@ class mass_upload extends Upload
 			if( filemtime( $file ) > $sec ){
 				$FILE_LIST[$key]['path']    = substr( $file, 0, ( strrpos( $file, "\\" ) +1 ) );
 				$FILE_LIST[$key]['file']    = substr( $file, ( strrpos( $file, "\\" ) +1 ) ); 
-				$FILE_LIST[$key]['name']    = getName($FILE_LIST[$key]['file']);
+				$FILE_LIST[$key]['title']    = getName($FILE_LIST[$key]['file']);
+				$FILE_LIST[$key]['description']    = getName($FILE_LIST[$key]['file']);
+				$FILE_LIST[$key]['tags']    = gentags(str_replace(" ",",",getName($FILE_LIST[$key]['file'])));
 				$FILE_LIST[$key]['size']    = filesize( $file );
 				$FILE_LIST[$key]['date']    = date('Y-m-d G:i:s', filemtime( $file ) );
 			}
@@ -72,6 +74,22 @@ class mass_upload extends Upload
 				$vid_files[] = $file;
 		}
 		return $vid_files;
+	}
+	
+	/**
+	 * Moving file from MASS UPLOAD DIR TO TEMP DIR
+	 */
+	function move_to_temp($file_arr,$file_key)
+	{
+		$file = $file_arr['file'];
+		$mass_file  = MASS_UPLOAD_DIR.'/'.$file;
+		$temp_file = TEMP_DIR.'/'.$file_key.'.'.getExt($file);
+		if(file_exists($mass_file) && is_file($mass_file))
+		{
+			rename($mass_file,$temp_file);
+			return true;
+		}
+		return false;		
 	}
 	
 }

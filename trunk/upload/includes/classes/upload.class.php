@@ -225,7 +225,7 @@ class Upload{
 			$query_field[] = "userid";
 			$query_val[] = userid();
 			//Upload Ip
-			$query_field[] = "upload_ip";
+			$query_field[] = "uploader_ip";
 			$query_val[] = $_SERVER['REMOTE_ADDR'];
 			
 			$activation = ACTIVATION;

@@ -17,7 +17,7 @@ class formObj
 	/**
 	* FUNCTION USED TO CREATE TEXT FIELD
 	*/
-	function createField($field)
+	function createField($field,$multi=FALSE)
 	{
 		$field['sep'] = $field['sep'] ? $field['sep'] : '<br>';
 		
@@ -26,16 +26,16 @@ class formObj
 			case 'textfield':
 			case 'password':
 			case 'textarea':
-			$fields=$this->createTextfield($field);
+			$fields=$this->createTextfield($field,$multi);
 			break;
 			case 'checkbox':
-			$fields=$this->createCheckBox($field);
+			$fields=$this->createCheckBox($field,$multi);
 			break;
 			case 'radiobutton':
-			$fields=$this->createRadioButton($field);
+			$fields=$this->createRadioButton($field,$multi);
 			break;
 			case 'dropdown':
-			$fields=$this->createDropDown($field);
+			$fields=$this->createDropDown($field,$multi);
 			break;
 
 		}
@@ -52,7 +52,7 @@ class formObj
 	* @param extra_tags
 	* @param label
 	*/
-	function createTextfield($field)
+	function createTextfield($field,$multi=FALSE)
 	{
 		//Starting Text Field
 		if($field['type']=='textfield')
@@ -62,7 +62,12 @@ class formObj
 		elseif($field['type']=='textarea')
 			$textField = '<textarea';			
 		if(!empty($field['name']))
-			$textField .= ' name="'.$field['name'].'" ';
+		{
+			if(!$multi)
+				$textField .= ' name="'.$field['name'].'" ';
+			else
+				$textField .= ' name="'.$field['name'].'[]" ';
+		}
 		if(!empty($field['id']))
 			$textField .= ' id="'.$field['id'].'" ';
 		if(!empty($field['class']))
@@ -114,7 +119,7 @@ class formObj
 	 * @param label
 	 */
 	
-	function createCheckBox($field)
+	function createCheckBox($field,$multi=FALSE)
 	{
 		//First Checking if value is CATEGORY
 		if($field['value'][0]=='category')
@@ -152,7 +157,13 @@ class formObj
 					}
 				}
 			}
-			echo '<label><input name="'.$field['name'].'" type="checkbox" value="'.$key.'" '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;
+			
+			if(!$multi)
+				$field_name = $field['name'];
+			else
+				$field_name = $field['name'].'[]';
+				
+			echo '<label><input name="'.$field_name.'" type="checkbox" value="'.$key.'" '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;
 			echo $field['sep'];
 		}
 	}
@@ -167,7 +178,7 @@ class formObj
 	* @param extra_tags
 	* @param label
 	*/
-	function createRadioButton($field)
+	function createRadioButton($field,$multi=FALSE)
 	{
 		//Creating Fields
 		$count = 0;
@@ -190,7 +201,13 @@ class formObj
 					$checked = '';
 				$count++;
 			}
-			echo '<label><input name="'.$field['name'].'" type="radio" value="'.$key.'" '.$checked.' '.$field['extra_tags'].'>'.$value.'<label>'	;
+			
+			if(!$multi)
+				$field_name = $field['name'];
+			else
+				$field_name = $field['name'].'[]';
+				
+			echo '<label><input name="'.$field_name .'" type="radio" value="'.$key.'" '.$checked.' '.$field['extra_tags'].'>'.$value.'<label>'	;
 			echo $sep;
 		}
 	}
@@ -217,7 +234,7 @@ class formObj
 	* @param label
 	*/
 	
-	function createDropDown($field)
+	function createDropDown($field,$multi=FALSE)
 	{
 		global $LANG;
 		
@@ -235,7 +252,12 @@ class formObj
 			}
 		}
 		
-		$ddFieldStart = '<select name="'.$field['name'].'" id="'.$field['id'].'" class="'.$field['class'].'">';
+		if(!$multi)
+			$field_name = $field['name'];
+		else
+			$field_name = $field['name'].'[]';
+		
+		$ddFieldStart = '<select name="'.$field_name.'" id="'.$field['id'].'" class="'.$field['class'].'">';
 		$arrayName = $this->rmBrackets($field['name']);
 		
 		if(is_array($field['value']))

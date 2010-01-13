@@ -225,24 +225,16 @@ class ClipBucket
 		  $menu_array = array
 		  (
 		   //Statistics
-		   'Statiscs & Reports'	=> 
+		   'Stats And Configurations'	=> 
 		   array(
-					'Daily Stats'=>'statiscts.php',
-					'Full Reports'=>'reports.php'
-				),
-		   
-		    //Language Editor
-		   'Language'=>
-		   array(
-				 'Language Settings' => 'language_settings.php',
-				 'Add New Phrases'	=> 'add_phrase.php',
-				 ),
-		   //Configurations
-		   'Configurations'		=> 
-		   array(
+				'Daily Stats'=>'statiscts.php',
+				'Full Reports'=>'reports.php',
 				'Website Configurations'=>'main.php',
 				'Email Settings'=>'email_settings.php',
+				'Language Settings' => 'language_settings.php',
+				'Add New Phrases'	=> 'add_phrase.php',
 				),
+		   
 		   
 		   //Video
 		   'Videos'				=> 
@@ -285,14 +277,12 @@ class ClipBucket
 				),
 		   
 		   //Template Manager
-		   'Template Manager'=>
+		   'Templates And Players'=>
 		   array(
 				 'Template Editor'=>'templates.php',
-				 'Logo Changer'	=>'logo_change.php'
+				 'Manage Players' => 'manage_players.php'
 				
-				),
-		   
-		   
+				),		   
 		   //Plugin Manager
 		   'Plugin Manager'=>
 		   array(
@@ -302,17 +292,12 @@ class ClipBucket
 		   //Tool Box
 		   'Tool Box'=>
 		   array(
-				 'Module Manager'=>'module_manager.php',
+				 'ClipBucket Module Manager'=>'module_manager.php',
 				 'Server Modules Info'	=> 'cb_mod_check.php',
 				 'View Encoding Status'=>'',
 				),
 		   
-		   //Playes
-		   'Manage Players'=>
-		   array
-		   		(
-				 'Manage Players' => 'manage_players.php'
-				 )		   
+		   	   
 		   );
 		  
 		  
