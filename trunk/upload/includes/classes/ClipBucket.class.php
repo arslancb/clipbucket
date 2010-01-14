@@ -233,6 +233,7 @@ class ClipBucket
 				'Email Settings'=>'email_settings.php',
 				'Language Settings' => 'language_settings.php',
 				'Add New Phrases'	=> 'add_phrase.php',
+				'Manage Pages'	=> 'manage_pages.php',
 				),
 		   
 		   
@@ -279,7 +280,8 @@ class ClipBucket
 		   //Template Manager
 		   'Templates And Players'=>
 		   array(
-				 'Template Editor'=>'templates.php',
+				 'Templates Manager'=>'templates.php',
+				 'Templates Editor'=>'template_editor.php',
 				 'Manage Players' => 'manage_players.php'
 				
 				),		   

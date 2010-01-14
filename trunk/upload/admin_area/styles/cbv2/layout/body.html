@@ -10,20 +10,26 @@
 
 <!-- Inlcluding Other Files -->
 
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
-<tr>
-<td colspan="2" valign="top">
-<span class="toggle_menu" onClick="$('#left_menu').animate({literal}{width:'toggle'}{/literal},250);"><img src="{$imageurl}/dot.gif" class="toggle_menu_icon">Toggle Menu</span></td>
-</tr>
-<tr>
-<td width="210" valign="top" style="max-width:250px">{include file="$style_dir/left_menu.html" }
-</td>
-<td width="100%" valign="top" style="padding:0px 10px" >
+<span class="toggle_menu" onClick="$('#left_column').toggleClass('left_menu_0');$('#contentcolumn').toggleClass('contentcolumn0');"><img src="{$imageurl}/dot.gif" class="toggle_menu_icon">Toggle Menu</span>
+
+
+<div class="clearfix"></div>
+
+<div id="contentwrapper">
+    <div id="contentcolumn" class="contentcolumn">
+    	<div class="innertube">
 {foreach from=$template_files item=file}
     {include file="$style_dir/$file" }
-{/foreach}</td>
-</tr>
-</table>
+{/foreach}
+		</div>
+    </div>
+</div>
+
+
+
+{include file="$style_dir/left_menu.html" }
+
+
 </div>
 <div class="clearfix"></div>
 {include file="$style_dir/footer.html" }

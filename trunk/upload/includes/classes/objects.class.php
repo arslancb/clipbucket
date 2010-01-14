@@ -32,3 +32,5 @@ class CBObjects
 		return $dd;
 	}
 }
+
+?>

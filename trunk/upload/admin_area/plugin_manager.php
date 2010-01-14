@@ -17,8 +17,22 @@ $pages->page_redir();
 if(isset($_GET['uninstall']))
 {
 	$folder = $_GET['f'];
-	$msg = $cbplugin->uninstallPlugin(mysql_clean($_GET['uninstall']),$folder);
+	$cbplugin->uninstallPlugin(mysql_clean($_GET['uninstall']),$folder);
 }
+
+/**
+ * Uninstalling Multiple Plugins
+ */
+if(isset($_POST['uninstall_selected']))
+{
+	$plugs = count($_POST['check_plugin']);
+	for($i=0;$i<$plugs;$i++)
+	{
+		$itr = $_POST['check_plugin'][$i];
+		$cbplugin->uninstallPlugin($_POST['plugin_file_'.$itr],$_POST['plugin_folder_'.$itr]); 
+	}
+}
+
 
 
 //Activation or deactivating plugin
@@ -29,6 +43,19 @@ if(isset($_GET['activate']))
 	$msg = $cbplugin->pluginActive($id,'yes',$folder);
 }
 
+/**
+ * Activating Multiple
+ */
+if(isset($_POST['activate_selected']))
+{
+	$plugs = count($_POST['check_plugin']);
+	for($i=0;$i<$plugs;$i++)
+	{
+		$itr = $_POST['check_plugin'][$i];
+		$cbplugin->pluginActive($_POST['plugin_file_'.$itr],'yes',$_POST['plugin_folder_'.$itr]); 
+	}
+}
+
 if(isset($_GET['deactivate']))
 {
 	$folder = $_GET['f'];
@@ -37,11 +64,37 @@ if(isset($_GET['deactivate']))
 }
 
 
+/**
+ * dectivating Multiple
+ */
+if(isset($_POST['deactivate_selected']))
+{
+	$plugs = count($_POST['check_plugin']);
+	for($i=0;$i<$plugs;$i++)
+	{
+		$itr = $_POST['check_plugin'][$i];
+		$cbplugin->pluginActive($_POST['plugin_file_'.$itr],'no',$_POST['plugin_folder_'.$itr]); 
+	}
+}
+
 //Installing Plugin
 if(isset($_GET['install_plugin']))
 {
 	$folder = $_GET['f'];
 	$msg = $cbplugin->installPlugin(mysql_clean($_GET['install_plugin']),$folder);
+}
+
+/**
+ * Installing Multiple Plugins
+ */
+if(isset($_POST['install_selected']))
+{
+	$plugs = count($_POST['check_plugin']);
+	for($i=0;$i<$plugs;$i++)
+	{
+		$itr = $_POST['check_plugin'][$i];
+		$cbplugin->installPlugin($_POST['plugin_file_'.$itr],$_POST['plugin_folder_'.$itr]); 
+	}
 }
 
 //Get New Plugin List

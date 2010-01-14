@@ -174,7 +174,16 @@ else
 	if(!file_exists(BASEDIR.'/index.php'))
 	die('Basedir is incorrect, please set the correct basedir value in \'config\' table');
 	
-	define('BASEURL',$row['baseurl']);							//Direct Path To Script ie http://yourwebsite.com/subdi
+	
+	$baseurl = $row['baseurl'];
+	//Removing www. as it effects SEO and updating Config
+	$wwwcheck = preg_match('/:\/\/www\./',$baseurl,$matches);
+	if(count($matches)>0)
+	{
+		$baseurl = preg_replace('/:\/\/www\./','://',$baseurl);		
+	}			
+			
+	define('BASEURL',$baseurl);
 	
 	
 	define('TEMPLATEFOLDER','styles');							//Template Folder Name, usually STYLES
@@ -427,4 +436,13 @@ register_action_remove_video('remove_video_files');
 include('admin.functions.php');
 //error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
 
+
+
+//Removing www. as it effects SEO and updating Config
+$wwwcheck = preg_match('/:\/\/www\./',$baseurl,$matches);
+if(count($matches)>0)
+{
+	$baseurl = preg_replace('/:\/\/www\./','://',$baseurl);
+	$myquery->Set_Website_Details('baseurl',$baseurl);
+}
 ?>

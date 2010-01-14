@@ -1,14 +1,27 @@
 .left_menu
 {
-	width: 210px;
-	padding-left: 5px;
-	float:left;
-}  
+width: 211px; /*Width of left column*/
+padding-left: 5px;
+} 
+
+.left_menu_0
+{
+width: 0px; /*Width of left column*/
+overflow:hidden;
+padding-left: 0px;
+} 
+
+#left_column{
+float: left;
+margin-left: -100%;
+
+}
 
 .mainDiv
 {
-	margin-top:5px;
+	margin-top:3px;
 	width:211px;
+	margin-bottom:5px
 }
 
 .topItem,.topItemOver,.topItemClose,.topItemCloseOver

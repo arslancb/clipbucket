@@ -145,7 +145,7 @@ class CBPlayer
 	{
 		$path = $player.'/preview.';
 		$exts = array('png','jpg','gif');
-		$thumb_path = BASEURL.'/images/icons/no_thumb.png';
+		$thumb_path = BASEURL.'/images/icons/no_thumb_player.png';
 		foreach($exts as $ext)
 		{
 			$file = PLAYER_DIR.'/'.$path.$ext;

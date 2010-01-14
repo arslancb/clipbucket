@@ -3245,12 +3245,17 @@
 	function cbtitle($params)
 	{
 		global $cbsubtitle;
+		
+		$sub_sep = $params['sub_sep'];
+		if(!$sub_sep)
+			$sub_sep = '-';
+			
 		//Getting Subtitle
 		echo TITLE;
 		if(!$cbsubtitle)
-			echo " - ".SLOGAN;
+			echo " $sub_sep ".SLOGAN;
 		else
-			echo " - ".$cbsubtitle;
+			echo " $sub_sep ".$cbsubtitle;
 		echo " ".SUBTITLE;
 	}
 	

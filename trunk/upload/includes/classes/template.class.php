@@ -186,7 +186,7 @@ class CBTemplate {
 	{
 		$path = TEMPLATEFOLDER.'/'.$template.'/images/preview.';
 		$exts = array('png','jpg','gif');
-		$thumb_path = BASEURL.'/images/icons/no_thumb.png';
+		$thumb_path = BASEURL.'/images/icons/no_thumb_template.png';
 		foreach($exts as $ext)
 		{
 			$file = BASEDIR.'/'.$path.$ext;
@@ -217,5 +217,90 @@ class CBTemplate {
 		}else
 			return false;
 	}
+	
+	/**
+	 * Function used to check weather given template is ClipBucket Template or not
+	 * It will read Template XML file
+	 */
+	function is_template($folder)
+	{
+		return $this->get_template_details($folder);
+	}
+	
+	
+	/**
+	 * Function used to get list of template file frrom its layout and styles folder
+	 */
+	function get_template_files($template,$type=NULL)
+	{
+		switch($type)
+		{
+			case "layout":
+			default:
+			{
+				$style_dir = STYLES_DIR."/$template/layout/";
+				$files_patt = $style_dir."*.html";
+				$files = glob($files_patt);
+				/**
+				 * All Files IN Layout Folder
+				 */
+				$new_files = array();
+				foreach($files as $file)
+				{
+					$new_files[] = str_replace($style_dir,'',$file);
+				}
+				
+				/**
+				 * Now Reading Blocks Folder
+				 */
+				$blocks = $style_dir.'blocks/';
+				$file_patt = $blocks.'*.html';
+				$files = glob($file_patt);
+				foreach($files as $file)
+				{
+					$new_files['blocks'][] = str_replace($blocks,'',$file);
+				}
+				
+				/**
+				 * Reading Folders Under Blocks
+				 */
+				//$blocks_dirs = glob($blocks.'*',GLOB_ONLYDIR);
+//				foreach($blocks_dirs as $dir)
+//				{
+//					$dir_name = str_replace($blocks,'',$dir);
+//					
+//					/**
+//					 * Now Reading Files under them and saving in array
+//					 */
+//					$sub_dir = $blocks.$dir_name.'/';
+//					$file_patt = $sub_dir.'*.html';
+//					$files = glob($file_patt);
+//					foreach($files as $file)
+//					{
+//						$new_files['blocks'][$dir_name][] = str_replace($sub_dir,'',$file);
+//					}
+//				}
+				return $new_files;
+			}
+			break;
+			case "theme":
+			{
+				$style_dir = STYLES_DIR."/$template/theme/";
+				$files_patt = $style_dir."*.css";
+				$files = glob($files_patt);
+				/**
+				 * All Files IN CSS Folder
+				 */
+				$new_files = array();
+				foreach($files as $file)
+				{
+					$new_files[] = str_replace($style_dir,'',$file);
+				}
+				
+				return $new_files;
+			}
+		}
+	}
 }
+
 ?>
