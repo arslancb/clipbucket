@@ -2,7 +2,7 @@
 /* CSS Document */
 
 
-.channel_inner_box, .channel_inner_box a{font-weight:bold; text-decoration:none;font-family:Arial, Helvetica, sans-serif ; color:#333 }
+.channel_inner_box a{ font-weight:bold; text-decoration:none; color:#333 }
 
 .channel_box{background-color:#d7d8d8;}
 .channel_inner_box{background-color:#fff;}
@@ -33,12 +33,12 @@
 .channel_inner_box .error{color:#ed0000}
 .channel_inner_box .msg{color:#0099cc}
 
-.channel_top{font-size:16px; font-weight:bold}
-.channel_heading_mid{font-size:12px; font-weight:bold}
+.channel_top{font-size:16px; font-weight:bold; font-family:Arial, Helvetica, sans-serif;}
+.channel_heading_mid{font-size:12px; font-weight:bold; font-family:Arial, Helvetica, sans-serif;}
 
 .channel_heading{background-image:url(../images/view_channel.png); background-position:0px -375px; background-repeat:repeat-x; height:25px; display:block; margin-bottom:5px; padding-left:8px; line-height:25px; font-size:16px; color:#fff;border-radius:3px;
 	-moz-border-radius:3px;
-	-webkit-border-radius:3px; }
+	-webkit-border-radius:3px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; }
 .channel_inner_box .usr_small_thumb
 {
 	width:40px;
@@ -56,12 +56,12 @@
 .user_thumb{max-width:260px}
 
 .channel_action_links{display:block; text-align:center; margin:0px; padding:0px;line-height:normal}
-.channel_action_links a{font-size:12px; line-height:normal}
+.channel_action_links a{ line-height:normal}
 .channel_action_links li{list-style:none;line-height:normal}
 
 
 .show_info{clear:both}
-.show_info .item_list{width:50%; display:block}
+.show_info .item_list{width:50%; display:block; font-size:11px; }
 .float_right{float:right}
 .float_left{float:left}
 

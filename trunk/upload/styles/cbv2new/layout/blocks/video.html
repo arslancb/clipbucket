@@ -1,174 +1,25 @@
-
 {if $cur_class==''}
 {assign var=cur_class value=$smarty.cookies.current_style}
 {/if}
 
 <!-- Video Box -->
 {if $display_type =='normal' || $display_type==''}
-<div class="{if $cur_class}{$cur_class}{else}vertical{/if}">
-<div class="the_vid_container">
-    <div class="video_thumb">
-        <a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" width="110" height="66" border="0" {ANCHOR place="video_thumb"} /></a>
-        <div class="duration">{$video.duration|SetTime}</div>
-        <img src="{$imageurl}/dot.gif" class="add_icon" onclick="add_quicklist(this,'{$video.videoid}')" title="add {$video.title} to qucklist" alt="quicklist">
-</div> <!--VIDEO_THUMB END-->
-    <div class="details_block">
-        <div class="lvl1 clearfix">
-            <div class="title"><a href="{videoLink vdetails=$video}">{$video.title|truncate:30}</a></div>
-            
-            {show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}
-           
-        </div> <!--LVL1 END-->
-        
-        <div class="lvl2 clearfix">
-            <div class="desc">{$video.description|description|truncate:100}</div>
-            <div class="length">Time: <span>{$video.duration|SetTime:false}</span></div>
-        </div> <!--LVL2 END-->
-        
-        <div class="lvl3 clearfix">
-            <div class="views"><span>{$video.views}</span> view(<strong>s</strong>)</div>
-        </div> <!--LVL3 END-->
-        
-        <div class="lvl4 clearfix">
-            <div class="uploaded">
-             <a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a>
-            </div>
-        </div> <!--LVL4 END-->
-        
-        <!--LVL5 -->
-        <div class="lvl5">
-            <div class="uploaded">uploaded by <a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a> {$video.date_added|niceTime}
-            </div>
-            
-            <div class="comments"><span>{$video.comments_count}</span> Comment(<strong>s</strong>)</div>
-            <div class="clearfix"></div>
-            
-        </div><!--LVL5 END-->
-            
-    </div> <!--DETAILS_BLOCK END-->
-    <div class="clearfix"></div>
- </div> 
-</div>
-    
-{if $only_once}
-<div class="clearfix"></div>
-{/if}
 
+<div id="vid_wrap_{$video.videoid}" class="grid_view {if $cur_class == "grid_view"}{else}list_view{/if}">
+	<div class="vid_thumb">
+    	<a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" alt="{$video.title}" {ANCHOR place="video_thumb"} /></a>
+        <span class="vid_time">{$video.duration|SetTime}</span>
+		<img src="{$imageurl}/dot.gif" class="add_icon" onclick="add_quicklist(this,'{$video.videoid}')" title="Add {$video.title} to Quicklist" alt="Quicklist" />        
+    </div> <!--VID_THUMB END-->
+    <div class="vid_info_wrap">
+        <h2 class="title"><a href="{videoLink vdetails=$video}">{$video.title|truncate:30}</a></h2>
+        <div class="list_raitng">
+        	{show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}
+		</div>            
+        <p id="desc" class="vid_info">{$video.description|description|truncate:100}</p>
+        <p class="vid_info">{$video.views} View(<strong>s</strong>) <span class="list_commnets"> | {$video.comments_count} Comment(<strong>s</strong>)</p>
+        <p class="vid_info"><span class="info_list">Uploaded By </span><a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a> <span class="list_up_time">({$video.date_added|niceTime})</span></p>
+    </div> <!--VID_INFO_WRAP END-->
+</div> <!--VID_WRAP END-->
 {/if}
 <!-- Video Box -->
-
-
-
-
-<!-- Video Box verticle-->
-{if $display_type =='verticle'}
-<div class="video_block_verticle" align="center" {if $only_once} style="float:none" {/if}>
-	<div class="vdo_thumb_container" id="video_{$video.videoid}" style="float:left;" >
-    	<a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" width="120" height="90" border="0" {ANCHOR place="video_thumb"} /></a>
-        {ANCHOR place="video_thumb_div" data=$video}
-        <span class="vdo_duration">{$video.duration|SetTime:false}</span>
-    </div>
-  <div style="float:right; width:120px" align="left">
-  <div style="height:33px">
-  <a href="{videoLink vdetails=$video}">{$video.title|truncate:40}</a></div>
-  <div style="height:30px; font-size:10px; color:#666">{$video.views|number_format} {lang code='views'}<br />
-{$video.comments_count|number_format} {lang code='comments'}</div>
-    by <a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a> {show_rating class='small_stars' rating=$video.rating ratings=$video.rated_by total='10'}</div></div>
-    
-{if $only_once}
-<div class="clear"></div>
-{/if}
-
-{/if}
-<!-- Video Box verticle-->
-
-
-{if $display_type == 'horizontal'}
-<div class="horizantal clearfix">
-    <div class="video_thumb">
-        <a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" width="120" height="90" border="0" {ANCHOR place="video_thumb"} /></a>
-    <div class="duration">{$video.duration|SetTime}</div></div> <!--VIDEO_THUMB END-->
-    <div class="details_block">
-        <div class="lvl1 clearfix">
-            <div class="title"><a href="videos.php?v={$video.videokey}">{$video.title|truncate:40}</a></div>
-            
-            {show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}
-           
-        </div> <!--LVL1 END-->
-        
-        <div class="lvl2 clearfix">
-            <div class="desc">{$video.description}</div>
-            <div class="length">Time: <span>{$video.duration|SetTime:false}</span></div>
-        </div> <!--LVL2 END-->
-        
-        <div class="lvl3 clearfix">
-            <div class="views"><span>{$video.views}</span> view(<strong>s</strong>)</div>
-            <div class="comments"><a href="#"><img src="{$imageurl}/dot.gif" width="16" height="12" class="com_img" /> {$video.comments_count} Comment(<strong>s</strong>)</a></div>
-        </div> <!--LVL3 END-->
-        
-        <div class="lvl4 clearfix">
-            <div class="uploaded"><a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a></div>
-        </div> <!--LVL4 END-->
-    </div> <!--DETAILS_BLOCK END-->
-    <div class="vid_sp"></div>
-    
-</div>
-{/if}
-
-
-{if $display_type=='add_type'}
-<div class="vertical">
-<div class="the_vid_container">
-    <div class="video_thumb">
-        <label for="check_video_{$video.videoid}"><img src="{getThumb vdetails=$video}" width="110" height="66" border="0" /></label>
-        {if $check_type=='array'}
-        <input type="checkbox" name="check_video[]" id="check_video_{$video.videoid}" style="position:absolute; bottom:0px; left:0px" {if $check_this} checked="checked"{/if} value="{$video.videoid}" />
-        {else}
-        <input type="checkbox" name="check_video_{$video.videoid}" id="check_video_{$video.videoid}" style="position:absolute; bottom:0px; left:0px" {if $check_this} checked="checked"{/if} value="yes" />
-        {/if}
-        <div class="duration">{$video.duration|SetTime}</div>
-        
-</div> <!--VIDEO_THUMB END-->
-    <div class="details_block">
-        <div class="lvl1 clearfix">
-            <div class="title"><a href="{videoLink vdetails=$video}">{$video.title|truncate:30}</a></div>
-            
-            {show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}
-           
-        </div> <!--LVL1 END-->
-        
-        <div class="lvl2 clearfix">
-            <div class="desc">{$video.description|description|truncate:100}</div>
-            <div class="length">Time: <span>{$video.duration|SetTime:false}</span></div>
-        </div> <!--LVL2 END-->
-        
-        <div class="lvl3 clearfix">
-            <div class="views"><span>{$video.views}</span> view(<strong>s</strong>)</div>
-        </div> <!--LVL3 END-->
-        
-        <div class="lvl4 clearfix">
-            <div class="uploaded">
-             <a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a>
-            </div>
-        </div> <!--LVL4 END-->
-        
-        <!--LVL5 -->
-        <div class="lvl5">
-            <div class="uploaded">uploaded by <a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a> {$video.date_added|niceTime}
-            </div>
-            
-            <div class="comments"><span>{$video.comments_count}</span> Comment(<strong>s</strong>)</div>
-            <div class="clearfix"></div>
-            
-        </div><!--LVL5 END-->
-            
-    </div> <!--DETAILS_BLOCK END-->
-    <div class="clearfix"></div>
- </div> 
-</div>
-    
-{if $only_once}
-<div class="clearfix"></div>
-{/if}
-
-{/if}

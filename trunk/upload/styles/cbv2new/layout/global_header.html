@@ -19,7 +19,7 @@
 <!-- Setting Template Variables -->
 {php}
 	if(!$_COOKIE['current_style'])
-    	$_COOKIE['current_style'] = 'vertical';
+    	$_COOKIE['current_style'] = 'grid_view';
 {/php}
 <!-- Setting Template Variables -->
 
@@ -178,16 +178,16 @@ $(document).ready(function() {
 	
 	$('#grid').click(
 		function() {
-			$('.horizantal').removeClass('horizantal').addClass('vertical');
-			$.cookie("current_style","vertical")
+			$('.grid_view').removeClass('list_view');
+			$.cookie("current_style","grid_view")
 			$('.vid_sp').hide();
 		}
 	);
 	
 	$('#list').click(
 		function() {
-			$('.vertical').removeClass('vertical').addClass('horizantal');
-			$.cookie("current_style","horizantal")
+			$('.grid_view').addClass('list_view');
+			$.cookie("current_style","list_view")
 			$('.vid_sp').show();
 		}
 	);
@@ -202,6 +202,7 @@ $(document).ready(function() {
 	get_video('recently_added','#index_vid_container');
 	
 });
+
 
 </script>
 {/literal}

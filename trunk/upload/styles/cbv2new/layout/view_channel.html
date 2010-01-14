@@ -46,6 +46,10 @@
       <div class="right_column">
        	<div class="channel_inner_box">
         	<span class="channel_heading">{lang code='users_videos' assign='users_videos'}{$users_videos|sprintf:$u.username}</span>
+    	<div id="style_change">Change Style of Listing 
+        	<div id="grid" title="Change To Grid Style"></div> 
+            <div id="list" title="Change to List Style"></div>
+		</div> <!--STYLE_CHANGE END-->            
  				{assign var=videos_item_channel_page value=func->config(videos_item_channel_page)}
             	{get_videos assign='usr_vids' limit=$videos_item_channel_page order='date_added DESC' user=$u.userid}
                 {section name=v_list loop=$usr_vids}

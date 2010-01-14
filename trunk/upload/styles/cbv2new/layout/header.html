@@ -50,13 +50,22 @@
 <div id="navi_con">
     <div class="navi">
         <ul>
-        {section name=c_list loop=$cat}
-            <li><a href="{link name='category' data=$cat[c_list] type=v}">{$cat[c_list].category_name}</a></li>
-         {/section}   
+        {if !$userquery->login_check('',true)}
+        	<li>Welcome Guest ! <a href="{link name=login}">Login</a> or <a href="{link name=login}">Register</a></li>
+        {else}
+        	<li><a href="{link name='my_account'}">My Account</a></li>          	
+        	<li><a href="{$userquery->profile_link($udetails)}">View Channel</a></li>  
+        {/if}     
          </ul>
 <div class="search_con">
             	<form action="{link name='search_result'}" method="get" name="search" id="search" style="margin:0px; padding:0px;">
-                	<input name="query" id="query" type="text" class="searchbar" value="{'query'|get_form_val:true}" />
+					<select name="s_type" class="s_type">
+                    	<option value="">Content Type</option>                    
+                    	<option value="video">Video</option>
+                        <option value="video">Channels</option>
+                        <option value="video">Groups</option>
+                    </select>                
+	               	<input name="query" id="query" type="text" class="searchbar" value="{'query'|get_form_val:true}" />                    
                     <input name="submit" type="submit" class="searchbutton" value="Search" />
                 </form>
             </div> <!--SEARCH_CON END-->
