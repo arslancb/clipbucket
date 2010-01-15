@@ -1,7 +1,7 @@
 <?php
 /* 
  ******************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.
+ | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
  | @ Author 	: ArslanHassan										
  | @ Software 	: ClipBucket , © PHPBucket.com					
  ******************************************************************

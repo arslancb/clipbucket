@@ -1,10 +1,10 @@
 <?php
 /* 
- ****************************************************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.											|
- | @ Author : ArslanHassan																			|
- | @ Software : ClipBucket , © PHPBucket.com														|
- ****************************************************************************************************
+ ***************************************************************
+ | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved
+ | @ Author : ArslanHassan										
+ | @ Software : ClipBucket , © PHPBucket.com					
+ ***************************************************************
 */
 
 require_once('includes/config.inc.php');
