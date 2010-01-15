@@ -1,7 +1,0 @@
-#nav_container{background-image:url(../images/gradients.png); height:35px}
-
-.nav_menu{width:990px; margin:auto; }
-.nav_menu ul{padding:0px; margin:0px; padding-top:6px}
-.nav_menu ul li{padding:0px; margin:0px; list-style:none; float:left; margin-right:2px}
-.nav_menu a{display:block; width:127px; background-image:url(../images/header/navs.png); height:29px; color:#fff; font-size:14px; font-weight:bold; text-align:center; line-height:29px; font-family:Arial, Helvetica, sans-serif; text-decoration:none}
-.nav_menu a:hover{background-position:0px -29px}

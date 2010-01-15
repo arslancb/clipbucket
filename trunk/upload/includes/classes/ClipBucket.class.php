@@ -227,7 +227,7 @@ class ClipBucket
 		   //Statistics
 		   'Stats And Configurations'	=> 
 		   array(
-				'Daily Stats'=>'statiscts.php',
+				'Daily Stats'=>'statistics.php',
 				'Full Reports'=>'reports.php',
 				'Website Configurations'=>'main.php',
 				'Email Settings'=>'email_settings.php',

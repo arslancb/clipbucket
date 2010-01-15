@@ -11,7 +11,7 @@ define("THIS_PAGE",'channels');
 define("PARENT_PAGE",'channels');
 
 require 'includes/config.inc.php';
-$userquery->perm_check('view_channel',true);
+$userquery->perm_check('view_channels',true);
 
 //Setting Sort
 $sort = $_GET['sort'];

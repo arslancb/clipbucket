@@ -28,6 +28,7 @@ class userquery extends CBCategory{
 	var $custom_signup_fields = array();
 	var $delete_user_functions = array();
 	var $user_manager_functions = array();
+	var $user_exist = '';
 	
 	var $user_sessions = array();
 	
@@ -41,6 +42,8 @@ class userquery extends CBCategory{
 					   'subtbl'					=> 'subscriptions',
 					   'contacts'				=> 'contacts',
 					   );
+	
+	var $udetails = array();
 	
 	function userquery()
 	{
@@ -58,11 +61,11 @@ class userquery extends CBCategory{
 		
 		//Setting Access
 		//Get list Of permission
-		$perms = $this->get_permissions();
-		foreach($perms as $perm)
-		{
-			$this->add_access_type($perm['permission_code'],$perm['permission_name']);
-		}
+		//$perms = $this->get_permissions();
+		//foreach($perms as $perm)
+		//{
+		//	$this->add_access_type($perm['permission_code'],$perm['permission_name']);
+		//}
 		
 		/*$this->add_access_type('admin_access','Admin Access');
 		$this->add_access_type('upload_access','Upload Access');
@@ -78,13 +81,17 @@ class userquery extends CBCategory{
 		
 		if(user_id())
 		{
+			$this->udetails = $this->get_user_details(userid());
 			$this->permission = $this->get_user_level(userid());
+			
+			
 			//exit();
 			
 			if($sess->get("dummy_username")=="")
 				$this->UpdateLastActive(userid());
 		}else
 			$this->permission = $this->get_user_level(4,TRUE);
+			
 		
 		
 		//Adding Actions such Report, share,fav etc
@@ -222,7 +229,7 @@ class userquery extends CBCategory{
 			return false;
 		}
 		//Now Check if logged in user exists or not
-		elseif(!$this->user_exists(userid()))
+		elseif(!$this->user_exists(userid(),TRUE))
 		{
 			if(!$check_only)
 			e(lang('invalid_user'));
@@ -312,7 +319,7 @@ class userquery extends CBCategory{
 		if($this->user_sessions['key']=='')
 		{
 			$ufields = $this->get_user_fields($uid,'user_session_key,user_session_code');
-			echo test;
+			//echo test;
 			$this->user_sessions['key'] =  $ufields['user_session_key'];
 			$this->user_sessions['code'] =  $ufields['user_session_code'];
 		}
@@ -350,8 +357,10 @@ class userquery extends CBCategory{
 	function is_banned($uid)
 	{
 		global $db;
-		$details = $this->get_user_field($uid,'ban_status');
-		return $details['ban_status'];
+		//echo $this->udetails['ban_status'];
+		if(empty($this->udetails['ban_status']) && userid())
+			$this->udetails['ban_status'] = $this->get_user_field($uid,'ban_status');
+		return $this->udetails['ban_status'];
 	}
 	
 	/*
@@ -390,7 +399,8 @@ class userquery extends CBCategory{
 				return $login;
 			}
 	*/
-	function admin_check(){
+	function admin_check()
+	{
 		return $this->login_check('admin_access');
 	}
 
@@ -411,7 +421,8 @@ class userquery extends CBCategory{
 	}
 		
 	//This Function Is Used to Logout
-	function logout($page='login.php'){
+	function logout($page='login.php')
+	{
 		global $sess;
 
 		$sess->un_set('username');
@@ -509,20 +520,42 @@ class userquery extends CBCategory{
 	}
 		
 	//Check User Exists or Not
-	function Check_User_Exists($id){
+	function Check_User_Exists($id,$global=false){
 		global $db;
-		$result = $db->count($this->dbtbl['users'],"userid"," userid='".$id."' OR username='".$id."'");
-		if($result>0)
+		
+		if($global)
 		{
-			return true;
-		}else{
-			return false;
-		}	
+			if(empty($this->user_exist))
+			{
+				$result = $db->count($this->dbtbl['users'],"userid"," userid='".$id."' OR username='".$id."'");
+				if($result>0)
+				{
+					$this->user_exist = 'yes';
+				}else{
+					$this->user_exist = 'no';
+				}	
+			}
+			
+			if($this->user_exist=='yes')
+				return true;
+			else
+				return false;
+		}else
+		{
+			$result = $db->count($this->dbtbl['users'],"userid"," userid='".$id."' OR username='".$id."'");
+			if($result>0)
+			{
+				return true;
+			}else{
+				return false;
+			}	
+		}
+		
 	}
 	
-	function user_exists($username)
+	function user_exists($username,$global=false)
 	{
-		return $this->Check_User_Exists($username);
+		return $this->Check_User_Exists($username,$global);
 	}
 	
 	/**
@@ -540,7 +573,8 @@ class userquery extends CBCategory{
 	
 	
 	//Get User Data from Database
-	function GetUserData_username($username){
+	function GetUserData_username($username)
+	{
 	$query = mysql_query("SELECT * FROM users WHERE username='".$username."'");
 	$data = mysql_fetch_array($query);
 	return $data;
@@ -692,7 +726,8 @@ class userquery extends CBCategory{
 	/**
 	 * Function used to change user password
 	 */
-	function ChangeUserPassword($array){
+	function ChangeUserPassword($array)
+	{
 		global $db;
 		
 		$old_pass 	= $array['old_pass'];
@@ -1365,15 +1400,21 @@ class userquery extends CBCategory{
 	function get_user_level($uid,$is_level=false)
 	{
 		global $db;
+		
 		if($is_level)
-			$level['level'] = $uid;
+			$level = $uid;
 		else
 		{
-			if(!$uid)
-				$uid = userid();
-			$level = $this->get_user_field($uid,'level');
+			$level = $this->udetails['level'];
 		}
 		
+		
+		$result = $db->select('user_levels,user_levels_permissions','*',
+							  "user_levels_permissions.user_level_id='".$level."' 
+							  AND user_levels_permissions.user_level_id = user_levels.user_level_id");
+		
+		/*		
+		pr($result);
 		$results = $db->select('user_levels','*'," user_level_id='".$level['level']."'");
 		if($db->num_rows == 0)
 		 //incase user level is not valid, it will consider it as registered user
@@ -1384,11 +1425,11 @@ class userquery extends CBCategory{
 		//Now Getting Access Details
 		$access_results = $db->select("user_levels_permissions","*",
 									  "user_level_id = '".$u_level['user_level_id']."'");
-		$a_results = $access_results[0];
+		$a_results = $access_results[0];*/
 		
 		//Now Merging the two arrays
-		$user_level = array_merge($u_level,$a_results);
-		
+		$user_level = $result[0];
+		//pr($user_level);
 		return $user_level;
 	}
 	
@@ -1494,6 +1535,14 @@ class userquery extends CBCategory{
 	 */
 	function get_access_type_list()
 	{
+		if(!$this->access_type_list)
+		{
+			$perms = $this->get_permissions();
+			foreach($perms as $perm)
+			{
+				$this->add_access_type($perm['permission_code'],$perm['permission_name']);
+			}
+		}
 		return $this->access_type_list;
 	}
 	
@@ -1851,12 +1900,14 @@ class userquery extends CBCategory{
 				}
 			}else
 			{
+				
 				if($access_details[$access] == 'yes')
 				{
 					return true;
 				}
 				else
 				{
+					
 					if(!$check_login)
 						e(lang('insufficient_privileges'));
 					else

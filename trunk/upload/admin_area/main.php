@@ -8,7 +8,8 @@
 */
 
 require_once '../includes/admin_config.php';
-$userquery->admin_login_check();
+$userquery->login_check('web_config_access');
+
 $pages->page_redir();
 
 if(@$_GET['msg']){

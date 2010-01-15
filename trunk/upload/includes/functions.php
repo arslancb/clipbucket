@@ -927,9 +927,12 @@
 			if($total_values!=$count)
 				$values_query .= ',';
 		}
+		
 		//Complete Query
 		$query = "INSERT INTO $tbl ($fields_query) VALUES ($values_query) $ep";
+		$db->total_queries_sql[] = $query;
 		//if(!mysql_query($query)) die(mysql_error());
+		$db->total_queries++;
 		$db->Execute($query);
 		if(mysql_error()) die ($db->db_query.'<br>'.mysql_error());
 		return $db->insert_id();
@@ -968,6 +971,8 @@
 		//Complete Query
 		$query = "UPDATE $tbl SET $fields_query WHERE $cond $ep";
 		//if(!mysql_query($query)) die($query.'<br>'.mysql_error());
+		$db->total_queries++;
+		$db->total_queries_sql[] = $query;
 		$db->Execute($query);
 		if(mysql_error()) die ($db->db_query.'<br>'.mysql_error());
 		return $query;
@@ -1005,6 +1010,8 @@
 		//Complete Query
 		$query = "DELETE FROM $tbl WHERE $fields_query $ep";
 		//if(!mysql_query($query)) die(mysql_error());
+		$db->total_queries++;
+		$db->total_queries_sql[] = $query;
 		$db->Execute($query);
 		if(mysql_error()) die ($db->db_query.'<br>'.mysql_error());
 	}
@@ -1061,7 +1068,8 @@
 		//Finally Executing	
 		$data = $db->Execute($query);
 		$db->num_rows = $data->_numOfRows;
-
+		$db->total_queries++;
+		$db->total_queries_sql[] = $query;
 		//Now Get Rows and return that data
 		if($db->num_rows > 0)
 			return $data->getrows();
@@ -1083,6 +1091,8 @@
 			$condition = " Where $cond ";
 		$query = "Select Count($fields) From $tbl $condition";
 		$result = $db->Execute($query);
+		$db->total_queries++;
+		$db->total_queries_sql[] = $query;
 		return $result->fields[0];
 	}
 	

@@ -1706,11 +1706,11 @@ class CBGroups extends CBCategory
 		
 		$cond = "";
 		if(!has_access('admin_access',TRUE))
-			$cond .= " active='yes' ";
+			$cond .= " groups.active='yes' ";
 		else
 		{
 			if($params['active'])
-				$cond .= " active='".$params['active']."'";
+				$cond .= " groups.active='".$params['active']."'";
 		}
 		
 		//Setting Category Condition
@@ -1737,7 +1737,7 @@ class CBGroups extends CBCategory
 				$count ++;
 				if($count>1)
 				$cond .=" OR ";
-				$cond .= " category LIKE '%#$cat_params#%' ";
+				$cond .= " groups.category LIKE '%#$cat_params#%' ";
 			}
 			
 			$cond .= ")";
@@ -1756,7 +1756,7 @@ class CBGroups extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " userid='".$params['user']."'";
+			$cond .= " groups.userid='".$params['user']."'";
 		}
 		
 		$tag_n_title='';
@@ -1773,7 +1773,7 @@ class CBGroups extends CBCategory
 				$loop = 1;
 				foreach($tags as $tag)
 				{
-					$tag_n_title .= " group_tags LIKE '%".$tag."%'";
+					$tag_n_title .= " groups.group_tags LIKE '%".$tag."%'";
 					if($loop<$total)
 					$tag_n_title .= " OR ";
 					$loop++;
@@ -1783,7 +1783,7 @@ class CBGroups extends CBCategory
 			{
 				if($tag_n_title!='')
 					$tag_n_title .= ' OR ';
-				$tag_n_title .= " group_tags LIKE '%".$params['tags']."%'";
+				$tag_n_title .= " groups.group_tags LIKE '%".$params['tags']."%'";
 			}
 		}
 		//TITLE
@@ -1791,7 +1791,7 @@ class CBGroups extends CBCategory
 		{
 			if($tag_n_title!='')
 				$tag_n_title .= ' OR ';
-			$tag_n_title .= " group_name  LIKE '%".$params['title']."%'";
+			$tag_n_title .= " groups.group_name  LIKE '%".$params['title']."%'";
 		}
 		
 		if($tag_n_title)
@@ -1806,7 +1806,7 @@ class CBGroups extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " featured = '".$params['featured']."' ";
+			$cond .= " groups.featured = '".$params['featured']."' ";
 		}
 		
 		//GROUP ID
@@ -1822,10 +1822,13 @@ class CBGroups extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " group_id <> '".$params['exclude']."' ";
+			$cond .= " groups.group_id <> '".$params['exclude']."' ";
 		}
 		
-		$result = $db->select($this->gp_tbl,'*',$cond,$limit,$order);
+		if(!empty($cond))
+			$cond .= " AND ";
+			
+		$result = $db->select($this->gp_tbl.",users",'*',$cond." groups.userid = users.userid ",$limit,$order);
 		
 		
 		if($params['count_only'])

@@ -39,6 +39,7 @@ class ADODB_mysql extends ADOConnection {
 	var $substr = "substring";
 	var $nameQuote = '`';		/// string to use to quote identifiers and names
 	var $compat323 = false; 		// true if compat with mysql 3.23
+	var $total_queries = 0;
 	
 	
 	/**

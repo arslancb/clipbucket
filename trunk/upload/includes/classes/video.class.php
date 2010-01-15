@@ -376,17 +376,17 @@ class CBvideo extends CBCategory
 		
 		$cond = "";
 		if(!has_access('admin_access',TRUE))
-			$cond .= " status='Successful' AND active='yes' ";
+			$cond .= " video.status='Successful' AND video.active='yes' ";
 		else
 		{
 			if($params['active'])
-				$cond .= " active='".$params['active']."'";
+				$cond .= " video.active='".$params['active']."'";
 
 			if($params['status'])
 			{
 				if($cond!='')
 					$cond .=" AND ";
-				$cond .= " status='".$params['status']."'";
+				$cond .= " video.status='".$params['status']."'";
 			}
 			
 			
@@ -418,7 +418,7 @@ class CBvideo extends CBCategory
 				$count ++;
 				if($count>1)
 				$cond .=" OR ";
-				$cond .= " category LIKE '%#$cat_params#%' ";
+				$cond .= " video.category LIKE '%#$cat_params#%' ";
 			}
 			
 			$cond .= ")";
@@ -437,7 +437,7 @@ class CBvideo extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " userid='".$params['user']."'";
+			$cond .= " video.userid='".$params['user']."'";
 		}
 		
 		$tag_n_title='';
@@ -454,7 +454,7 @@ class CBvideo extends CBCategory
 				$loop = 1;
 				foreach($tags as $tag)
 				{
-					$tag_n_title .= " tags LIKE '%".$tag."%'";
+					$tag_n_title .= " video.tags LIKE '%".$tag."%'";
 					if($loop<$total)
 					$tag_n_title .= " OR ";
 					$loop++;
@@ -464,7 +464,7 @@ class CBvideo extends CBCategory
 			{
 				if($tag_n_title!='')
 					$tag_n_title .= ' OR ';
-				$tag_n_title .= " tags LIKE '%".$params['tags']."%'";
+				$tag_n_title .= " video.tags LIKE '%".$params['tags']."%'";
 			}
 		}
 		//TITLE
@@ -472,7 +472,7 @@ class CBvideo extends CBCategory
 		{
 			if($tag_n_title!='')
 				$tag_n_title .= ' OR ';
-			$tag_n_title .= " title LIKE '%".$params['tags']."%'";
+			$tag_n_title .= " video.title LIKE '%".$params['tags']."%'";
 		}
 		
 		if($tag_n_title)
@@ -487,7 +487,7 @@ class CBvideo extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " featured = 'yes' ";
+			$cond .= " video.featured = 'yes' ";
 		}
 		
 		//Exclude Vids
@@ -495,11 +495,13 @@ class CBvideo extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " videoid <> '".$params['exclude']."' ";
+			$cond .= " video.videoid <> '".$params['exclude']."' ";
 		}
 		
+		if(!empty($cond))
+			$cond .= " AND ";
 		if(!$params['count_only'])
-			$result = $db->select('video','*',$cond,$limit,$order);		
+			$result = $db->select('video,users','*',$cond." video.userid = users.userid",$limit,$order);		
 		if($params['count_only'])
 			return $result = $db->count('video','*',$cond);
 		if($params['assign'])
@@ -642,7 +644,7 @@ class CBvideo extends CBCategory
 	function init_search()
 	{
 		$this->search = new cbsearch;
-		$this->search->db_tbl = "video";;
+		$this->search->db_tbl = "video";
 		$this->search->columns =array(
 			array('field'=>'title','type'=>'LIKE','var'=>'%{KEY}%'),
 			array('field'=>'tags','type'=>'LIKE','var'=>'%{KEY}%','op'=>'AND')
@@ -651,6 +653,7 @@ class CBvideo extends CBCategory
 		
 		$this->search->display_template = LAYOUT.'/blocks/video.html';
 		$this->search->template_var = 'video';
+		$this->search->has_user_id = true;
 		
 		/**
 		 * Setting up the sorting thing

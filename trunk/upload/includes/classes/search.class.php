@@ -49,6 +49,13 @@ class cbsearch
 	var $multi_cat = true;
 	
 	var $date_added_colum = 'date_added';
+	
+	/**
+	 * this tells the cbsearch weather to get results from 
+	 * users table or not. if it is set to true, it will get 
+	 * user details where user_id = table.useri_id
+	 */
+	var $has_user_id = false; 
 
 	
 	/**
@@ -120,7 +127,14 @@ class cbsearch
 			$condition .= $cond." ";
 		}
 		
-		$results = $db->select($this->db_tbl,'*',$condition,$this->limit,$sorting);
+		if($this->has_user_id)
+		{
+			if($condition)
+				$condition .= " AND ";
+			$results = $db->select($this->db_tbl.",users",'*',$condition." ".$this->db_tbl.".userid=users.userid",$this->limit,$sorting);
+		}else
+			$results = $db->select($this->db_tbl,'*',$condition,$this->limit,$sorting);
+		//echo $db->db_query;
 		$this->total_results = $db->count($this->db_tbl,'*',$condition);
 		
 		return $results;
@@ -165,7 +179,7 @@ class cbsearch
 		else
 			$op = '';
 		if(!empty($this->key))	
-			$this->query_conds[] = $op." ".$array['field']." ".$type." '".preg_replace("/{KEY}/",$this->key,$var)."'";
+			$this->query_conds[] = $op." ".$this->db_tbl.".".$array['field']." ".$type." '".preg_replace("/{KEY}/",$this->key,$var)."'";
 
 	}
 	

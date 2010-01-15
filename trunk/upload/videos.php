@@ -36,7 +36,7 @@ switch($sort)
 	break;
 	case "featured":
 	{
-		$vid_cond['order'] = "yes";
+		$vid_cond['featured'] = "yes";
 	}
 	break;
 	case "top_rated":

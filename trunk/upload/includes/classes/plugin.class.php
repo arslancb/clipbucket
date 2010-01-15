@@ -152,18 +152,41 @@ class CBPlugin extends ClipBucket
 	 */
 	function getInstalledPlugins()
 	{
+		global $db;
 		//first get list of all plugins
 		$plugin_list = $this->getPluginList();
-		//Now Checking if plugin is installed or not
-		foreach($plugin_list as $plugin)
+		
+		$results = $db->select("plugins","*"," plugin_active='yes'");
+		
+		foreach($results as $result)
+		{
+			//Now Checking if plugin is installed or not
+			$this_plugin = $this->get_plugin_details($result['plugin_file'],$result['plugin_folder']);
+			if($this_plugin)
+			{
+				$result['file'] = $result['plugin_file'];
+				$result['folder'] = $result['plugin_folder'];
+				$plugin = array_merge($result,$this_plugin);
+			//	pr($plugin);
+				$plug_array[] = $plugin;
+			}
+
+		}
+		
+		
+		/*
+		 * OLDER VERSION
+		 foreach($plugin_list as $plugin)
 		{
 			
 			if($this->is_installed($plugin['file'],$plugin['version'],$plugin['folder']))
 			{
 				$plugin = array_merge($plugin,$this->getPlugin($plugin['file']));
+				//pr($plugin);
 				$plug_array[] = $plugin;
 			}
-		}
+		}*/
+
 		return $plug_array;
 	}
 	
@@ -178,7 +201,7 @@ class CBPlugin extends ClipBucket
 		//if($v)
 		//$version_check = "AND plugin_version='$v'";
 		if($folder)
-		$folder_check = " AND plugin_folder ='$folder'";
+			$folder_check = " AND plugin_folder ='$folder'";
 		
 		$query = "SELECT plugin_file FROM plugins WHERE plugin_file='".$file."' $version_check $folder_check";
 		

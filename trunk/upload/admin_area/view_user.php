@@ -6,7 +6,7 @@
  */
 require'../includes/admin_config.php';
 $pages->page_redir();
-$userquery->login_check('admin_access');
+$userquery->login_check('member_moderation');
 
 $uid = $_GET['uid'];
 $udetails = $userquery->get_user_details($uid);

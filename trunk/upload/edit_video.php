@@ -7,7 +7,8 @@
  ****************************************************************************************************
 */
 require 'includes/config.inc.php';
-$userquery->logincheck();
+$userquery->login_check('edit_video');
+
 $udetails = $userquery->get_user_details(userid());
 assign('user',$udetails);
 assign('p',$userquery->get_user_profile($udetails['userid']));

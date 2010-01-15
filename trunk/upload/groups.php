@@ -1,10 +1,10 @@
 <?php
 /* 
- ****************************************************************************************************
- | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.											|
- | @ Author : ArslanHassan																			|
- | @ Software : ClipBucket , © PHPBucket.com														|
- ****************************************************************************************************
+ ***********************************************************
+ | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
+ | @ Author : ArslanHassan									
+ | @ Software : ClipBucket , © PHPBucket.com				
+ ***********************************************************
 */
 define("THIS_PAGE","groups");
 define("PARENT_PAGE","groups");
@@ -31,7 +31,7 @@ switch($sort)
 	break;
 	case "featured":
 	{
-		$g_cond['order'] = "yes";
+		$g_cond['featured'] = "yes";
 	}
 	break;
 	case "top_rated":

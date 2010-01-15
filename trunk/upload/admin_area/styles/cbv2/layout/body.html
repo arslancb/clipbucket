@@ -10,6 +10,7 @@
 
 <!-- Inlcluding Other Files -->
 
+{if $Cbucket->show_page}
 <span class="toggle_menu" onClick="$('#left_column').toggleClass('left_menu_0');$('#contentcolumn').toggleClass('contentcolumn0');"><img src="{$imageurl}/dot.gif" class="toggle_menu_icon">Toggle Menu</span>
 
 
@@ -29,7 +30,7 @@
 
 {include file="$style_dir/left_menu.html" }
 
-
+{/if}
 </div>
 <div class="clearfix"></div>
 {include file="$style_dir/footer.html" }

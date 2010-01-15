@@ -1,14 +1,14 @@
 <?php
 /* 
  *******************************************
- | Copyright (c) 2007-2009 Clip-Bucket.com & (Arslan Hassan). All rights reserved.
+ | Copyright (c) 2007-2010 Clip-Bucket.com & (Arslan Hassan). All rights reserved.
  | @ Author : ArslanHassan
  | @ Software : ClipBucket , © PHPBucket.com
  *******************************************
 */
 
 require_once '../includes/admin_config.php';
-$userquery->login_check('admin_access');
+$userquery->login_check('video_moderation');
 $pages->page_redir();
 
 

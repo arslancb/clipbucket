@@ -8,7 +8,7 @@
 */
 
 require'../includes/admin_config.php';
-$userquery->admin_login_check();
+$userquery->login_check('web_config_access');
 $pages->page_redir();
 
 //Making Language Default
