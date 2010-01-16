@@ -1,41 +1,11 @@
 <body>
 
 <div class="header_grey_bar">
-	<img src="{$imageurl}/dot.gif" class="cbicon" /> {$title}
-    <div class="clearfix"></div>
+	<img src="{$imageurl}/dot.gif" class="cbicon" /> {$title} &#8212; <a href="{$baseurl}">Back To Main Website</a>
+	<div class="clearfix"></div>
 </div>
 
-{assign var=msg value=$eh->message_list}
-{assign var=err value=$eh->error_list}
-{if $err.0 neq '' || $err.1 neq ''}
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:10px">
-  <tr>
-    <td bgcolor="#FFF0FA">
-    <ul>
-    
-      {foreach from=$err item=show_msg}
-       <li> {$show_msg} </li>
-      {/foreach}
-      </ul></td>
-  </tr>
-</table><br>
-
-{/if}
-
-{if $msg.0 neq ''}
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td bgcolor="#F1F1F1">
-    <ul>
-    
-      {foreach from=$msg item=show_msg}
-       <li> {$show_msg} </li>
-      {/foreach}
-      </ul></td>
-  </tr>
-</table><br>
-{/if}
-
+{include file="$style_dir/msg.html" }
 
 <div style="height:400px; background-image:url({$imageurl}/bgs/login.png); background-repeat:repeat-x" align="center">
 <div id="login_box">

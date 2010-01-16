@@ -242,6 +242,8 @@ padding-left:5px; font-size:16px; font-weight:bold; font-family:Arial, Helvetica
 #contentwrapper{
 float: left;
 width: 100%;
+z-index:500;
+position:relative;
 }
 
 

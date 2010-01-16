@@ -14,7 +14,8 @@ padding-left: 0px;
 #left_column{
 float: left;
 margin-left: -100%;
-
+z-index:50000;
+position:relative;
 }
 
 .mainDiv
