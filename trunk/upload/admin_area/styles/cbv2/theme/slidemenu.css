@@ -1,30 +1,39 @@
 .left_menu
 {
-width: 211px; /*Width of left column*/
+width: 232px; /*Width of left column*/
 padding-left: 5px;
+position:relative;
 } 
 
 .left_menu_0
 {
-width: 0px; /*Width of left column*/
+width: 15px; /*Width of left column*/
 overflow:hidden;
 padding-left: 0px;
+margin-left:1px;
+
 } 
 
 #left_column{
 float: left;
 margin-left: -100%;
-z-index:50000;
+z-index:5001;
 position:relative;
 }
 
-.mainDiv
+.left_menu .mainDiv
 {
 	margin-top:3px;
 	width:211px;
 	margin-bottom:5px
 }
+.left_menu_0  .mainDiv
+{
+	margin-top:3px;
+	width:0px;
+	margin-bottom:5px
 
+}
 .topItem,.topItemOver,.topItemClose,.topItemCloseOver
 {
 	letter-spacing: 0;
@@ -99,3 +108,6 @@ color:#2b495d;
    border-left:1px solid black;
    border-right:1px solid black;	
 }
+
+.menu_toggle{ background-image:url(../images/slide_toggle.png);position:absolute; right:0px; top:0px; z-index:5002; width:15px; height:100%; cursor:pointer}
+.menu_toggle_arrow{ background-image:url(../images/slide_toggle.png); background-position:-15px 0px; background-repeat:no-repeat; position:absolute; right:0px; top:15px; z-index:5003; width:15px; height:100px; cursor:pointer}

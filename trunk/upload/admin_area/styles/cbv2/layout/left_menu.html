@@ -1,5 +1,10 @@
 
-<div class="left_menu" id="left_column">
+<div class="{$left_menu_class}" id="left_column">
+
+<img src="{$imageurl}/dot.gif" class="menu_toggle_arrow" onClick="toggle_menu()"/>
+<img src="{$imageurl}/dot.gif" class="menu_toggle" onClick="toggle_menu()"/>
+
+
 {assign var='menu' value = $Cbucket->AdminMenu}
 {foreach from=$menu key=name item=menu}
   <!-- *********************************Start {$name} Menu****************************** -->
