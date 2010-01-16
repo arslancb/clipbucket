@@ -1,7 +1,8 @@
 // JavaScript Document
 
 var page = baseurl+'/ajax.php';
-
+var loading_img = "<img src='"+imageurl+"/ajax-loader.gif'>";
+var loading = loading_img+" Loading...";
 	function GetParam( name )
 	{
 	  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
@@ -296,6 +297,7 @@ var page = baseurl+'/ajax.php';
 	function get_ep_video(vid)
 	{
 		var page = baseurl+'/plugins/editors_pick/get_ep_video.php';
+		$("#ep_video_container").html(loading);
 		$.post(page, 
 		{ 	
 			vid : vid,
@@ -315,7 +317,9 @@ var page = baseurl+'/ajax.php';
 	 */
 	function get_video(type,div)
 	{
-		
+		$(div).css("display","block");
+		$(div).html(loading);
+		$(div).html(loading);
 		$.post(page, 
 		{ 	
 			mode : type,
@@ -342,6 +346,8 @@ var page = baseurl+'/ajax.php';
 	function submit_share_form(form_id,type)
 	{
 		
+		$("#share_form_results").css("display","block");
+		$("#share_form_results").html(loading);
 		$.post(page, 
 		{ 	
 			mode : 'share_object',
@@ -356,7 +362,6 @@ var page = baseurl+'/ajax.php';
 				alert("No data");
 			else
 			{
-				$("#share_form_results").css("display","block");
 				$("#share_form_results").html(data);
 			}
 		},'text');
@@ -366,6 +371,8 @@ var page = baseurl+'/ajax.php';
 	
 	function flag_object(form_id,id,type)
 	{
+		$("#flag_form_result").css("display","block");
+		$("#flag_form_result").html(loading);
 		$.post(page, 
 		{ 	
 			mode : 'flag_object',
@@ -385,8 +392,16 @@ var page = baseurl+'/ajax.php';
 		},'text');
 	}
 	
+	function slide_up_watch_video(nodiv)
+	{
+		if($('.video_action_result_boxes '+nodiv).css("display")!="block")
+		$('.video_action_result_boxes > *').slideUp();
+	}
+	
 	function add_to_fav(type,id)
 	{
+		$("#video_action_result_cont").css("display","block");
+		$("#video_action_result_cont").html(loading);
 		
 		$.post(page, 
 		{ 	
@@ -409,6 +424,8 @@ var page = baseurl+'/ajax.php';
 	
 	function subscriber(user,type,result_cont)
 	{
+		$("#"+result_cont).css("display","block");
+		$("#"+result_cont).html(loading);
 		
 		$.post(page, 
 		{ 	
@@ -429,6 +446,9 @@ var page = baseurl+'/ajax.php';
 	
 	function add_friend(uid,result_cont)
 	{
+		$("#"+result_cont).css("display","block");
+		$("#"+result_cont).html(loading);
+		
 		$.post(page, 
 		{ 	
 			mode : 'add_friend',
@@ -449,7 +469,7 @@ var page = baseurl+'/ajax.php';
 	
 	function rate_comment(cid,thumb)
 	{
-		
+
 		$.post(page, 
 		{ 	
 			mode : 'rate_comment',
@@ -462,6 +482,7 @@ var page = baseurl+'/ajax.php';
 				alert("No data");
 			else
 			{
+
 				if(data.msg!='')
 					alert(data.msg)
 				if(data.rate!='')
@@ -472,7 +493,8 @@ var page = baseurl+'/ajax.php';
 
 	function add_comment_js(form_id,type)
 	{
-		
+		$("#add_comment_result").css("display","block");
+		$("#add_comment_result").html(loading);
 		$.post(page, 
 		{ 	
 			mode : 'add_comment',
@@ -506,7 +528,8 @@ var page = baseurl+'/ajax.php';
 	
 	function get_the_comment(id,div)
 	{
-		
+
+		$(div).html(loading);
 		$.post(page, 
 		{ 	
 			mode : 'get_comment',
@@ -526,7 +549,8 @@ var page = baseurl+'/ajax.php';
 	
 	function add_playlist(mode,vid,form_id)
 	{
-		
+		$("#playlist_form_result").css("display","block");
+		$("#playlist_form_result").html(loading);
 		switch(mode)
 		{
 			case 'add':

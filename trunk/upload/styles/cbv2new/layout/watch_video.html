@@ -47,10 +47,10 @@
     </div>
     <div class="actions">
     <ul>
-    <li><a href="javascript:void(0)" onclick="add_to_fav('video','{$vdo.videoid}');$('.video_action_result_boxes > *').slideUp();"><img src="{$imageurl}/dot.gif" class="add_to_fav" />Add to favorites</a></li>
-      <li><a href="javascript:void(0)" onclick="$('.video_action_result_boxes > *').slideUp();$('#flag_item').slideToggle();"><img src="{$imageurl}/dot.gif" class="report_this" />Report this!</a></li>
-      <li><a href="javascript:void(0)" onclick="$('.video_action_result_boxes > *').slideUp();$('#share_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="add_to_play" />Share This</a></li>
-      <li><a href="javascript:void(0)" onclick="$('.video_action_result_boxes > *').slideUp();$('#playlist_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="share_this" />Add to playlist</a></li>
+    <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#video_action_result_cont');add_to_fav('video','{$vdo.videoid}');"><img src="{$imageurl}/dot.gif" class="add_to_fav" />Add to favorites</a></li>
+      <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#flag_item');$('#flag_item').slideToggle();"><img src="{$imageurl}/dot.gif" class="report_this" />Report this!</a></li>
+      <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#share_form');$('#share_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="add_to_play" />Share This</a></li>
+      <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#playlist_form');$('#playlist_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="share_this" />Add to playlist</a></li>
     </ul>
     <div class="clearfix"></div>
     </div>
