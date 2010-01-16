@@ -59,17 +59,19 @@
         {/if}     
          </ul>
 <div class="search_con">
-            	<form action="{link name='search_result'}" method="get" name="search" id="search" style="margin:0px; padding:0px;">
-					<select name="type" class="s_type">
-                    	<option value="">Content Type</option>
-                        {foreach from=$Cbucket->search_types item=t key=stypes}
-                            <option value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
-                        {/foreach}
-                    </select>                
-	               	<input name="query" id="query" type="text" class="searchbar" value="{'query'|get_form_val:true}" />                    
-                    <input name="submit" type="submit" class="searchbutton" value="Search" />
-                </form>
-            </div> <!--SEARCH_CON END-->
+    <div class="s_bg">	
+        <form action="{link name='search_result'}" method="get" name="search" id="search" style="margin:0px; padding:0px;">               
+            <input name="query" id="query" type="text" class="searchbar" value="{'query'|get_form_val:true}" />
+            <select name="type" class="s_type">
+
+            {foreach from=$Cbucket->search_types item=t key=stypes}
+                <option value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
+            {/foreach}
+            </select>                                 
+            <input name="submit" type="submit" class="searchbutton" value="Search" />
+        </form>
+    </div> <!--S_BG END-->    
+</div> <!--SEARCH_CON END-->
     </div> <!--NAVI END-->
 </div> <!--NAVI_CON END-->
 <div class="clearfix"></div>
