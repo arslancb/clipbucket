@@ -2195,9 +2195,9 @@
 	/**
 	 * Function used to get player logo
 	 */
-	function get_player_logo()
+	function website_logo()
 	{
-		return PLAYER_URL.'/logo.png';
+		return BASEURL.'/images/logo.png';
 	}
 	
 	/**
@@ -2481,7 +2481,7 @@
 	}
 
 
-	function cb_footer(){ define("footer_loaded",TRUE); echo base64_decode(config(base64_decode('Y2JoYXNo')));}
+	function cb_footer(){ define("footer_loaded",TRUE); echo sprintf(base64_decode(config(base64_decode('Y2JoYXNo'))),VERSION);}
 
 	/**
 	 * Funcion used to call functions
@@ -3252,7 +3252,7 @@
 	/**
 	 * Function used to load clipbucket title
 	 */
-	function cbtitle($params)
+	function cbtitle($params=false)
 	{
 		global $cbsubtitle;
 		

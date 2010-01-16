@@ -77,7 +77,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 				<thumbImage value="<?=getthumb($video)?>"/>
                 <aspectRatio value="4:3"/>
                 <totalTime value="<?=$video['duration']?>"/>
-                <!-- <watermarkPath value="<?=get_player_logo()?>"/>
+                <!-- <watermarkPath value="<?=website_logo()?>"/>
                 <watermarkLink value="<?=video_link($video)?>"/> -->
 				<title>
 					<![CDATA[<?=$video['title']?>]]>

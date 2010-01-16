@@ -100,7 +100,11 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	$cbpm		= new cb_pm();
 	$cbpage		= new cbpage();
 
-require 'defined_links.php';
+	require 'defined_links.php';
+	
+	include("clipbucket.php");
+	$Cbucket->cbinfo = array("version"=>VERSION,"state"=>STATE,"rev"=>REV,"release_date"=>RELEASED);
+
 
 //Holds Advertisment IDS that are being Viewed
 	$ads_array = array();
@@ -293,8 +297,7 @@ else
 	Assign('gp_thumbs_url',GP_THUMB_URL);
 	Assign('video_thumbs',THUMBS_URL);
 	//Assign('ads',$ads);
-	Assign('meta_keywords',$row['keywords']);
-	Assign('meta_description',$row['description']);
+
 	Assign('email_verification',EMAIL_VERIFICATION);
 	Assign('group_thumb',BASEURL.'/images/groups_thumbs');
 	Assign('bg_dir',BASEURL.'/images/backgrounds');

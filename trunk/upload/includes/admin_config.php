@@ -10,13 +10,7 @@
 	Config.Inc.php
 	*/
 	include('common.php');
-	
-	
-	
-	include("clipbucket.php");
-	$Cbucket->cbinfo = array("version"=>VERSION,"state"=>STATE,"rev"=>REV,"release_date"=>RELEASED);
-
-	
+		
 	//Including Massuploader Class,
 	require_once('classes/mass_upload.class.php');
 	require_once('classes/ads.class.php');

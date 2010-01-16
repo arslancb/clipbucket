@@ -39,5 +39,5 @@ Assign('search_type_title',$search->search_type[$type]['title']);
 //Displaying The Template
 template_files('search.html');
 display_it();
-pr($db);
+//pr($db);
 ?>

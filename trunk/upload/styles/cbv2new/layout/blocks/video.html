@@ -17,7 +17,7 @@
         	{show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}
 		</div>            
         <p id="desc" class="vid_info">{$video.description|description|truncate:100}</p>
-        <p class="vid_info">{$video.views} View(<strong>s</strong>) <span class="list_commnets"> | {$video.comments_count} Comment(<strong>s</strong>)</p>
+        <p class="vid_info">{$video.views} View(<strong>s</strong>) <span class="list_commnets"> | {$video.comments_count} Comment(<strong>s</strong>)</span></p>
         <p class="vid_info"><span class="info_list">Uploaded By </span><a href="{$userquery->profile_link($video)}">{$video.username}</a> <span class="list_up_time">({$video.date_added|niceTime})</span></p>
     </div> <!--VID_INFO_WRAP END-->
 </div> <!--VID_WRAP END-->

@@ -75,7 +75,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
         <previewImage value="<?=getthumb($v,'big')?>"/>
 		<aspectRatio value="4:3"/>
 		<totalTime value="<?=$v['duration']?>"/>
-		<watermarkPath value="<?=get_player_logo()?>"/>
+		<watermarkPath value="<?=website_logo()?>"/>
 		<watermarkLink value="<?=video_link($v)?>"/>
         </video>
 		</category>
