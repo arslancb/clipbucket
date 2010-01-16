@@ -112,7 +112,7 @@ span.remember { font-size:10px;  }
 .searchbar { background:url(../images/blocks.png) top left no-repeat; width:155px; border:none; margin:0px; font-size:12px; color:#555; font-family:Tahoma; float:left; height:21px; line-height:21px; padding-left:5px }
 .searchbar:hover, .searchbar:focus { color:#232323; }
 .searchbutton { background:url(../images/blocks.png); border:0px; text-indent:-50000px; background-position:-160px 0px; width:31px; height:21px; cursor:pointer }
-.s_type { display:block; float:left; margin-right:5px; padding:2px; font-size:11px; font-family:Verdana,Arial,sans-serif; border:1px solid #464646; }
+.s_type { display:block; float:left; margin-right:5px; padding:2px 4px; font-size:10px; font-family:Verdana,Arial,sans-serif; border:1px solid #fff; -moz-border-radius:4px; -webkit-border-radius:4px; border-radius:4px; -khtml-border-radius:4px; }
 
 /* FEATURED VIDEO SECTION */
 .feature_left { float:left; margin:0px; padding:0px; width:460px }
