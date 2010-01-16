@@ -921,19 +921,26 @@ class userquery extends CBCategory{
 	/**
 	 * Function used to get user contacts
 	 */
-	function get_contacts($uid,$group=0,$confirmed=NULL)
+	function get_contacts($uid,$group=0,$confirmed=NULL,$count_only=false)
 	{
 		global $db;
 		
 		$query = "";
 		if($confirmed)
 			$query = " AND confirmed='$confirmed' ";
-			
-		$result = $db->select($this->dbtbl['contacts'],"*"," userid='$uid' OR contact_userid='$uid' $query AND contact_group_id='$group' ");
-		if($db->num_rows>0)
-			return $result;
-		else
-			return false;
+		
+		if(!$count_only)
+		{
+			$result = $db->select($this->dbtbl['contacts'],"*",
+											   " (userid='$uid' OR contact_userid='$uid') $query AND contact_group_id='$group' ");
+			if($db->num_rows>0)
+				return $result;
+			else
+				return false;
+		}else{
+			return $db->count($this->dbtbl['contacts'],"*",
+											   " (userid='$uid' OR contact_userid='$uid') $query AND contact_group_id='$group' ");
+		}
 	}
 	
 	/**

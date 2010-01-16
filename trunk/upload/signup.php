@@ -44,7 +44,12 @@ if(isset($_POST['login'])){
 	$username = mysql_clean(clean($username));
 	$password = mysql_clean(clean($_POST['password']));
 	if($userquery->login_user($username,$password))
-		redirect_to(cblink(array('name'=>'login_success')));
+	{
+		if($_COOKIE['pageredir'])
+			redirect_to($_COOKIE['pageredir']);
+		else
+			redirect_to(cblink(array('name'=>'my_account')));
+	}
 	
 }
 

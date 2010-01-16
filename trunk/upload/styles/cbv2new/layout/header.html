@@ -52,10 +52,14 @@
     <div class="navi">
         <ul>
         {if !$userquery->login_check('',true)}
-        	<li>Welcome Guest ! <a href="{link name=login}">Login</a> or <a href="{link name=login}">Register</a></li>
+        	<li>Welcome Guest ! Please <a href="{link name=login}">Login</a> or <a href="{link name=login}">Register</a></li>
         {else}
-        	<li><a href="{link name='my_account'}">My Account</a></li>          	
-        	<li><a href="{$userquery->profile_link($udetails)}">My Channel</a></li>  
+        	<li><a href="{link name='my_account'}">Account</a></li>          	
+        	<li><a href="{$userquery->profile_link($udetails)}"> Channel</a></li>
+        	<li><a href="{link name='my_videos'}">Videos</a></li>
+        	<li><a href="{link name='user_favorites'}">Favorites</a></li>
+        	<li><a href="{link name='my_playlists'}">Playlists</a></li>
+        	<li><a href="{link name='my_contacts'}">Friend Requests ({$userquery->get_contacts($userquery->userid,0,no,true)})</a></li>  
         {/if}     
          </ul>
 <div class="search_con">
