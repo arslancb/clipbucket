@@ -467,6 +467,29 @@ var loading = loading_img+" Loading...";
 	}
 	
 	
+	function block_user(user,result_cont)
+	{
+		$("#"+result_cont).css("display","block");
+		$("#"+result_cont).html(loading);
+		
+		$.post(page, 
+		{ 	
+			mode : 'ban_user',
+			user : user,
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+			{
+				$("#"+result_cont).css("display","block");
+				$("#"+result_cont).html(data);
+			}
+		},'text');
+	}
+	
+	
 	function rate_comment(cid,thumb)
 	{
 

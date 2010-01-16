@@ -2672,7 +2672,7 @@ class userquery extends CBCategory{
 	{
 		return array(lang('Send Message')=>array('link'=>cblink(array('name'=>'compose_new','extra_params'=>'to='.$u['username']))),
 					 lang('Add as friend')=>array('link'=>'javascript:void(0)','onclick'=>"add_friend('".$u['userid']."','result_cont')"),
-					 lang('Block user')=>array('link'=>'javascript:void(0)','onclick'=>"add_friend('".$u['userid']."','result_cont')")
+					 lang('Block user')=>array('link'=>'javascript:void(0)','onclick'=>"block_user('".$u['username']."','result_cont')")
 					 );
 	}
 	
@@ -2793,6 +2793,33 @@ class userquery extends CBCategory{
 			e(lang("user_ban_msg"),"m");
 		}else{
 			e(lang("no_user_ban_msg"),"m");
+		}
+	}
+	
+	/**
+	 * Function used to ban single user
+	 */
+	function ban_user($user)
+	{
+		global $db;
+		$uid  = userid();
+		if($user!=username() && !is_numeric($user) && $this->user_exists($user))
+		{
+			$banned_users = $this->udetails['banned_users'];
+			if($banned_users)
+				$banned_users .= ",$user";
+			else
+				$banned_users = "$user";
+			
+			if(!$this->is_user_banned($user))
+			{
+				$db->update($this->dbtbl['users'],array('banned_users'),array($banned_users)," userid='$uid'");
+				e("user has been blocked","m");
+			}else
+				e("User is already blocked");
+		}else
+		{
+			e("You cannot block this user");
 		}
 	}
 	

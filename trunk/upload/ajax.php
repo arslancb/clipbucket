@@ -225,6 +225,25 @@ if(!empty($mode))
 		}
 		break;
 		
+		case 'ban_user':
+		{
+			$user = $_POST['user'];
+			$userquery->ban_user($user);
+			if(msg())
+			{
+				$msg = msg_list();
+				$msg = '<div class="msg">'.$msg[0].'</div>';
+			}
+			if(error())
+			{
+				$msg = error_list();
+				$msg = '<div class="error">'.$msg[0].'</div>';
+			}
+			echo $msg;
+			
+		}
+		break;
+		
 		case 'rate_comment':
 		{
 			$thumb = $_POST['thumb'];
