@@ -10,9 +10,10 @@
 
 
 
-
-
-<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="50%" valign="top">
+    <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td align="left" class="left_head" style="padding-left:10px"><div class="head">Editing {$data.title}</div></td>
     <td width="20" align="right" class="right_head">&nbsp;</td>
@@ -38,7 +39,7 @@
   <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
     <tr>
       <td width="200"><strong>Useid</strong></td>
-      <td><a href="view_user.php?uid={$data.userid}">{$data.userid}</a></td>
+      <td><a href="view_user.php?uid={$data.userid}">{$data.userid|get_username}</a></td>
     </tr>
   </table>
 </fieldset>
@@ -96,7 +97,7 @@
   <tr>
     <td width="200" ><strong>{$field.title} :</strong></td>
     <td >{$field.hint_1}<br />
-      {ANCHOR place=$field.anchor_before}{$formObj->createField($field)} 
+      {$formObj->createField($field)} 
 {$field.hint_2}</td>
   </tr>
   {/foreach}
@@ -142,13 +143,46 @@ seconds</td>
   </table>
 </fieldset>
 
-<fieldset class="fieldset">
+
+
+
+
+
+
+
+
+
+
+
+<div style="width:98%; margin:auto">
+<input type="submit" class="button" value="Update video details" style="margin:5px 0px 15px 0px" name="update">
+</div>
+</form>
+
+</td>
+    <td width="50%" valign="top"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="left" class="left_head" style="padding-left:10px"><div class="head">Viewing {$data.title}</div></td>
+        <td width="20" align="right" class="right_head">&nbsp;</td>
+      </tr>
+    </table>
+    <div style="padding:5px">
+    <div id="videoPlayer" class='video_player'>
+    This content requires JavaScript and Macromedia Flash Player 7 or higher. <a href=http://www.macromedia.com/go/getflash/>Get Flash</a>
+    </div>
+    <script language="javascript">
+        {FlashPlayer vdetails = $data width='100%' autoplay='true'}
+    </script>
+    </div>
+    
+    
+    <fieldset class="fieldset">
   <legend>Recording Details</legend>
   <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
    {foreach from=$locationFields item=field}
                   <tr>
                     <td width="200"><strong>{$field.title} </strong></td>
-                    <td >{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)} 
+                    <td >{$field.hint_1}{$formObj->createField($field)} 
 {$field.hint_2}</td>
     </tr>
                 {/foreach}
@@ -156,13 +190,12 @@ seconds</td>
 </fieldset>
 
 
-
 <fieldset class="fieldset">
-  <legend>Sharing</legend>
+  <legend>Custom Form Fields</legend>
   <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-      {foreach from=$optionFields item=field}
+      {foreach from=$custom_form_fields item=field}
   <tr>
-    <td width="200"><strong>{$field.title} </strong></td>
+    <td width="200"><strong>{$field.title}</strong></td>
     <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
                     <br>
       {$field.hint_2}</td>
@@ -174,11 +207,11 @@ seconds</td>
 
 
 <fieldset class="fieldset">
-  <legend>Custom Form Fields</legend>
+  <legend>Sharing</legend>
   <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-      {foreach from=$custom_form_fields item=field}
+      {foreach from=$optionFields item=field}
   <tr>
-    <td width="200"><strong>{$field.title}</strong></td>
+    <td width="200"><strong>{$field.title} </strong></td>
     <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
                     <br>
       {$field.hint_2}</td>
@@ -201,8 +234,14 @@ seconds</td>
   {/foreach}
   </table>
 </fieldset>
-<div style="width:98%; margin:auto">
-<input type="submit" class="button" value="Update video details" style="margin:5px 0px 15px 0px" name="update">
-</div>
-</form>
+
+</td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top">{assign var=id value=$data.videoid}{include file="$style_dir/blocks/comments.html" type=v id=$data.videoid link="video=$id"}</td>
+  </tr>
+  
+  
+  
+</table>
 {/if}

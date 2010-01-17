@@ -199,32 +199,6 @@ span.remember { font-size:10px;  }
 .list_view .vid_thumb { float:left; }
 .list_view .rating { float:right; }
 
-/* HORIZATAL LISTING STYLE */
-
-.horizantal { margin:0px; padding:0px; clear:both;}
-.horizantal .details_block { float:right; width:79%; margin-bottom:10px; }
-
-
-.horizantal .lvl1, .horizantal .lvl2, .horizantal .lvl3, .horizantal .lvl4 { clear:right; }
-
-.horizantal  .the_vid_container{border-bottom:#ccc 1px solid; margin-bottom:5px}
-
-.horizantal .lvl1 { margin:0px; padding:0px; }
-.horizantal .lvl1 .title { float:left; color:#0099cc; }
-.horizantal .lvl1 .rating { float:right; width:50px;  }
-.horizantal .lvl2 .desc { font-size:11px; width:80%; float:left; margin-bottom:5px}
-.horizantal .lvl2 .length { font-size:10px; width:14.5%; float:right; }
-.horizantal .lvl2 .length span { font-weight:bold; color:#0099cc; }
-
-.horizantal .lvl3 .views { font-size:10px; float:right;}
-.horizantal .lvl3 .views span { color:#0099cc; }
-.horizantal .lvl5 .comments { font-size:10px; float:right}
-.horizantal .lvl5 .comments span{ color:#0099cc; } 
-.horizantal .lvl5 .comments a,.lvl3 .comments a:visited { text-decoration:none; }
-
-.horizantal .lvl4{ display:none}
-.horizantal .lvl5 .uploaded { font-size:11px; float:left}
-
 .vertical a,.horizantal a{text-decoration:none; font-weight:bold}
 
 /* VERTICAL LISTING STYLE */

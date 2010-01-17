@@ -112,13 +112,13 @@
     Active:<strong>{$videos[list].active}</strong> &#8226;
     Status:<strong>{$videos[list].status}</strong>  &#8226;
     Uploaded:<strong>{$videos[list].date_added|niceTime}</strong>  &#8226;
-    User:<strong>{$videos[list].userid|get_username}</strong>
+    User:<strong><a href="view_user.php?uid={$videos[list].userid}">{$videos[list].username}</a></strong>
     </span>
     
     <br />
     <div id="vid_opt-{$videos[list].videoid}" style="display:none" class="vid_opts">
    	 
-      <a href="view_video.php?video={$videos[list].videoid}">View</a> | 
+      <a href="edit_video.php?video={$videos[list].videoid}">View</a> or 
       <a href="edit_video.php?video={$videos[list].videoid}">Edit</a> {if $videos[list].featured == yes} | 
       <a href="javascript:Confirm_Delete('?delete_video={$videos[list].videoid}')">Delete</a> | 
       <a href="?make_unfeature={$videos[list].videoid}">Make Unfeatured</a> {/if} 

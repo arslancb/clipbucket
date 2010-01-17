@@ -56,5 +56,4 @@ else
 	
 template_files('add_group_videos.html');
 display_it();
-
 ?>

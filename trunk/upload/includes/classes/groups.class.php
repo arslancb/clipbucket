@@ -1631,7 +1631,7 @@ class CBGroups extends CBCategory
 			{
 				if($this->is_owner($group))
 				{
-					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage_members&url='.$group['group_url'].'">Manage Members</a>';
+					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage_members&gid='.$group['group_id'].'">Manage Members</a>';
 				}
 			}
 			break;
@@ -1640,7 +1640,7 @@ class CBGroups extends CBCategory
 			{
 				if($this->is_owner($group))
 				{
-					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage_videos&url='.$group['group_url'].'">Manage Videos</a>';
+					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage_videos&gid='.$group['group_id'].'">Manage Videos</a>';
 				}
 			}
 			break;
@@ -1651,6 +1651,15 @@ class CBGroups extends CBCategory
 				if($this->is_member(userid(),$group['group_id']))
 				{
 					return '<a href="'.BASEURL.'/add_group_videos.php?url='.$group['group_url'].'">Add Videos</a>';
+				}
+			}
+			break;
+			
+			case 'edit_group':
+			{
+				if($this->is_owner($group))
+				{
+					return '<a href="'.BASEURL.'/edit_group.php?gid='.$group['group_id'].'">Edit group</a>';
 				}
 			}
 			break;

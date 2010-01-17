@@ -56,19 +56,10 @@
         
         <div class="lvl4 clearfix">
             <div class="uploaded">
-             <a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a>
+             <a href="{$userquery->profile_link($video)}">{$video.username}</a>
             </div>
         </div> <!--LVL4 END-->
         
-        <!--LVL5 -->
-        <div class="lvl5">
-            <div class="uploaded">uploaded by <a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a> {$video.date_added|niceTime}
-            </div>
-            
-            <div class="comments"><span>{$video.comments_count}</span> Comment(<strong>s</strong>)</div>
-            <div class="clearfix"></div>
-            
-        </div><!--LVL5 END-->
             
     </div> <!--DETAILS_BLOCK END-->
     <div class="clearfix"></div>

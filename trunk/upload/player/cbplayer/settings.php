@@ -19,7 +19,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 		<playerHeight value="350"/>
 		
 		<autoLoad value="true"/>
-		<autoPlay value="false"/>
+		<autoPlay value="<?=$_GET['autoplay']?>"/>
 		<playContinuously value="true"/>
 		<jumpToNextCategory value="false"/>
 		<loop value="false"/>

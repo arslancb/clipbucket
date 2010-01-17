@@ -38,9 +38,9 @@ if(!function_exists('cbplayer'))
 				$code 	 = "var flashvars = {\n";
 				$code	.= " htmlPage: document.location,\n";
 				if($data['hq'])
-				$code	.= "settingsFile: \"".PLAYER_URL."/cbplayer/settings.php?hqid=".$vdata['videoid']."\"\n";
+				$code	.= "settingsFile: \"".PLAYER_URL."/cbplayer/settings.php?hqid=".$vdata['videoid']."&autplay=".$data['autoplay']."\"\n";
 				else
-				$code	.= "settingsFile: \"".PLAYER_URL."/cbplayer/settings.php?vid=".$vdata['videoid']."\"\n";
+				$code	.= "settingsFile: \"".PLAYER_URL."/cbplayer/settings.php?vid=".$vdata['videoid']."&autplay=".$data['autoplay']."\"\n";
 				$code	.= "};\n";
 				$code	.= "var params = {\n";
 				$code	.= "  allowFullScreen: \"true\"\n";

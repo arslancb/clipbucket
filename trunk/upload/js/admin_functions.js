@@ -56,31 +56,23 @@ function toggle_menu()
 	{
 		$('#left_column').animate({ 
         width: "15px",
-    	}, 1400 );
+    	}, 200,function(){ $('#left_column').removeClass('left_menu').addClass('left_menu_0')}  );
 		
 		$('#contentcolumn').animate({ 
         marginLeft: "15px",
-    	}, 1400 );
+    	}, 200 ).removeClass('contentcolumn').addClass('contentcolumn0');
 		
-		$('#left_column').removeClass('left_menu');
-		$('#left_column').addClass('left_menu_0');
-		$('#contentcolumn').removeClass('contentcolumn');
-		$('#contentcolumn').addClass('contentcolumn0');
 		$.cookie("admin_menu","hide");	
 	}else
 	{
 		$('#left_column').animate({ 
         width: "232px",
-    	}, 1400 );
+    	}, 200 ).removeClass('left_menu_0').addClass('left_menu');
 		
 		$('#contentcolumn').animate({ 
         marginLeft: "238px",
-    	}, 1400 );		
+    	}, 200 ).removeClass('contentcolumn0').addClass('contentcolumn');		
 		
-		$('#left_column').removeClass('left_menu_0');
-		$('#left_column').addClass('left_menu');
-		$('#contentcolumn').removeClass('contentcolumn0');
-		$('#contentcolumn').addClass('contentcolumn');
 		$.cookie("admin_menu","show");
 	}
 }

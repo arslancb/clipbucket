@@ -26,6 +26,9 @@
             {assign var=manage_members_link value=$cbgroup->group_opt_link($group,'manage_members')}
             {if $manage_members_link}<li>{$manage_members_link}</li>{/if}
             
+            {assign var=edit_group_link value=$cbgroup->group_opt_link($group,'edit_group')}
+            {if $edit_group_link}<li>{$edit_group_link}</li>{/if}
+            
             {assign var=remove_group_link value=$cbgroup->group_opt_link($group,'remove_group')}
             {if $remove_group_link}<li>{$remove_group_link}</li>{/if}
 

@@ -109,5 +109,5 @@ color:#2b495d;
    border-right:1px solid black;	
 }
 
-.menu_toggle{ background-image:url(../images/slide_toggle.png);position:absolute; right:0px; top:0px; z-index:5002; width:15px; height:100%; cursor:pointer}
+.menu_toggle{ background-image:url(../images/slide_toggle.png);position:absolute; right:0px; top:0px; z-index:5002; width:15px; height:100%; cursor:e-resize}
 .menu_toggle_arrow{ background-image:url(../images/slide_toggle.png); background-position:-15px 0px; background-repeat:no-repeat; position:absolute; right:0px; top:15px; z-index:5003; width:15px; height:100px; cursor:pointer}

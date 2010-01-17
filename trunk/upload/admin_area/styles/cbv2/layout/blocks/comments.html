@@ -1,5 +1,6 @@
 {assign var=bgcolor value =F2F2F2}
-{if $myquery->get_comments($id,$type)}
+{assign var=comments value=$myquery->get_comments($id,$type)}
+{if $comments}
 <table width="99%" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td width="35" align="center" class="left_head">CID</td>
@@ -14,7 +15,6 @@
 </table>
 <div>
 <table width="99%" border="0" cellpadding="0" cellspacing="0" class="block" style="text-indent:15px">
-
 {foreach from=$myquery->get_comments($id,$type) item=comment}
 	
 	{if $comment.parent_id == 0}
@@ -55,10 +55,8 @@
         	
 	{/if}
 {/foreach}
-{else}
-<tr style="background-color:#FFF">
-<td colspan="8" align="center"><em>No User Comments For This Video</em></td>
-</tr>
-{/if}
 </table>
 </div>
+{else}
+<div align="center"><em>No User Comments For This Video</em></div>
+{/if}

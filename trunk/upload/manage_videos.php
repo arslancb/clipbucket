@@ -55,6 +55,7 @@ switch($mode)
 		}
 			
 		$videos = get_videos($vid_array);
+		
 		Assign('uservids', $videos);	
 		
 		//Collecting Data for Pagination
@@ -107,4 +108,5 @@ switch($mode)
 
 template_files('manage_videos.html');
 display_it();
+
 ?>

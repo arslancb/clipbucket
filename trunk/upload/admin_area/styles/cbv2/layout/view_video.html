@@ -1,3 +1,4 @@
+{if $show=='oyeaaa'}
 {assign var='requiredFields' value=$Upload->loadRequiredFields($data)}
 {assign var='optionFields' value=$Upload->loadOptionFields($data)}
 {assign var='locationFields' value=$Upload->loadLocationFields($data)}
@@ -197,3 +198,6 @@
 </table>
 <br />
 <br />
+{else}
+<h2>Page moved</h2>
+{/if}

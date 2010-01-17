@@ -1505,6 +1505,7 @@
 		$code 		= $param['code'];
 		$height 	= $param['height'] = $param['height'] ? $param['height'] : config('player_height');
 		$width 		= $param['width'] = $param['width'] ? $param['width'] : config('player_width');
+		$params['autoplay'] = $params['autoplay'] ? $params['autoplay']  : 'true';
 		
 		if(count($Cbucket->actions_play_video)>0)
 		{
