@@ -26,3 +26,4 @@
   </form>
   
 </div>
+<?=the_installer_footer()?>

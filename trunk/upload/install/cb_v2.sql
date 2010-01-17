@@ -3,14 +3,14 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 06, 2010 at 11:52 AM
+-- Generation Time: Jan 17, 2010 at 03:53 PM
 -- Server version: 5.1.36
 -- PHP Version: 5.3.0
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Database: `sample_cbv2`
+-- Database: `svn_clean`
 --
 
 -- --------------------------------------------------------
@@ -33,6 +33,11 @@ CREATE TABLE IF NOT EXISTS `action_log` (
   PRIMARY KEY (`action_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+--
+-- Dumping data for table `action_log`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -49,22 +54,19 @@ CREATE TABLE IF NOT EXISTS `ads_data` (
   `ad_impressions` bigint(255) NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`ad_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `ads_data`
 --
 
 INSERT INTO `ads_data` (`ad_id`, `ad_name`, `ad_code`, `ad_placement`, `ad_category`, `ad_status`, `ad_impressions`, `date_added`) VALUES
-(1, 'Ad Box of 300 x 250', '&lt;img src=&quot;http://www.lipsum.com/images/banners/black_300x250.gif&quot;&gt;', 'ad_300x250', 0, '1', 1497, '0000-00-00 00:00:00'),
-(9, '336x280', '&lt;img src=&quot;http://www.lipsum.com/images/banners/black_336x280.gif&quot;&gt;', '336x280', 0, '1', 227, '0000-00-00 00:00:00'),
-(2, 'Adbox 160x600', '&lt;img src=''http://www.lipsum.com/images/banners/grey_160x600.gif'' /&gt;\r\n', 'ad_160x600', 0, '1', 1636, '0000-00-00 00:00:00'),
-(3, 'Adbox 468x60', '&lt;div style=''border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:468px; height:60px; line-height:60px;'' align=&quot;center&quot;&gt;\r\n	Ad Box 468 x 60\r\n&lt;/div&gt;', 'ad_160x600', 0, '1', 1956, '0000-00-00 00:00:00'),
-(4, 'Adbox 728x90', '&lt;div style=&quot;border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:728px; height:90px; line-height:90px;&quot; align=&quot;center&quot;&gt;\r\n	Ad Box 728 x 90\r\n&lt;/div&gt;', 'ad_728x90', 0, '1', 694, '0000-00-00 00:00:00'),
-(5, 'Adbox 120x600', '&lt;div style=&quot;border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:120px; height:600px; &quot; align=&quot;center&quot;&gt;\r\n	Ad Box 120 x 600\r\n&lt;/div&gt;', 'ad_468x60', 0, '1', 686, '0000-00-00 00:00:00'),
-(6, 'Test', '&lt;img src=''http://www.lipsum.com/images/banners/black_300x250.gif''&gt;', 'ad_300x250', 0, '1', 1496, '0000-00-00 00:00:00'),
-(7, 'Rasd', 'asd', 'ad_120x600', 0, '1', 711, '0000-00-00 00:00:00'),
-(8, 'Tesdt', 'test', 'ad_160x600', 0, '1', 258, '0000-00-00 00:00:00');
+(1, 'Adbox 336x280', '&lt;img src=&quot;http://www.lipsum.com/images/banners/black_336x280.gif&quot;&gt;', '336x280', 0, '1', 0, '0000-00-00 00:00:00'),
+(2, 'Adbox 160x600', '&lt;img src=''http://www.lipsum.com/images/banners/grey_160x600.gif'' /&gt;\r\n', 'ad_160x600', 0, '1', 0, '0000-00-00 00:00:00'),
+(3, 'Adbox 468x60', '&lt;div style=''border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:468px; height:60px; line-height:60px;'' align=&quot;center&quot;&gt;\r\n	Ad Box 468 x 60\r\n&lt;/div&gt;', 'ad_160x600', 0, '1', 0, '0000-00-00 00:00:00'),
+(4, 'Adbox 728x90', '&lt;div style=&quot;border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:728px; height:90px; line-height:90px;&quot; align=&quot;center&quot;&gt;\r\n	Ad Box 728 x 90\r\n&lt;/div&gt;', 'ad_728x90', 0, '1', 0, '0000-00-00 00:00:00'),
+(5, 'Adbox 120x600', '&lt;div style=&quot;border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:120px; height:600px; &quot; align=&quot;center&quot;&gt;\r\n	Ad Box 120 x 600\r\n&lt;/div&gt;', 'ad_468x60', 0, '1', 0, '0000-00-00 00:00:00'),
+(6, 'Adbox 300x250', '&lt;img src=''http://www.lipsum.com/images/banners/black_300x250.gif''&gt;', 'ad_300x250', 0, '1', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -78,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `ads_placements` (
   `placement_name` varchar(50) NOT NULL,
   `disable` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`placement_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `ads_placements`
@@ -89,9 +91,9 @@ INSERT INTO `ads_placements` (`placement_id`, `placement`, `placement_name`, `di
 (2, 'ad_468x60', 'Banner 468 x 60', 'yes'),
 (3, 'ad_300x250', 'Medium Rectangle 300 x 250', 'yes'),
 (4, 'ad_728x90', 'Leader Board 728 x 90', 'yes'),
-(7, 'ad_120x600', 'Skyscrapper 120 x 600', 'yes'),
-(10, 'ad_300x300', 'AD 300x300', 'no'),
-(11, '336x280', '336 x280 ad', 'no');
+(5, 'ad_120x600', 'Skyscrapper 120 x 600', 'yes'),
+(6, 'ad_300x300', 'AD 300x300', 'no'),
+(7, '336x280', '336 x280 ad', 'no');
 
 -- --------------------------------------------------------
 
@@ -105,10 +107,29 @@ CREATE TABLE IF NOT EXISTS `cb_admin_notes` (
   `date_added` datetime NOT NULL,
   `userid` int(225) NOT NULL,
   PRIMARY KEY (`note_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
 
 --
 -- Dumping data for table `cb_admin_notes`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cb_editors_picks`
+--
+
+CREATE TABLE IF NOT EXISTS `cb_editors_picks` (
+  `pick_id` int(225) NOT NULL AUTO_INCREMENT,
+  `videoid` int(225) NOT NULL,
+  `sort` bigint(5) NOT NULL DEFAULT '1',
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`pick_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `cb_editors_picks`
 --
 
 
@@ -228,17 +249,21 @@ CREATE TABLE IF NOT EXISTS `config` (
 INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (1, 'site_title', 'ClipBucket v2'),
 (2, 'site_slogan', 'A way to broadcast yourself'),
-(3, 'baseurl', 'http://localhost/clipbucket/2.x/2/upload'),
-(4, 'basedir', 'E:\\wamp\\www\\ClipBucket\\2.x\\2\\upload'),
+(3, 'baseurl', 'http://domain.tld'),
+(4, 'basedir', '/home/path/to/clipbucket'),
 (5, 'template_dir', 'cbv2new'),
-(6, 'player_file', ''),
+(6, 'player_file', 'cbplayer.plug.php'),
 (7, 'closed', '0'),
 (8, 'closed_msg', 'We Are Updating Our Website, Please Visit us after few hours.'),
 (9, 'description', 'Clip Bucket is an ultimate Video Sharing script'),
 (10, 'keywords', 'clip bucket video sharing website script'),
-(11, 'ffmpegpath', '/usr/bin/ffmpeg'),
-(12, 'flvtool2path', '/usr/bin/flvtool2'),
-(13, 'mp4boxpath', '/usr/bin/Mp4Box'),
+(11, 'ffmpegpath', '/usr/local/bin/ffmpeg'),
+(12, 'flvtool2path', '/usr/local/bin/flvtool2'),
+(13, 'mp4boxpath', '/usr/local/bin/MP4Box'),
+(104, 'video_codec', 'flv'),
+(105, 'date_released', '01-05-2010'),
+(106, 'date_installed', '01-05-2010'),
+(107, 'date_updated', '01-05-2010'),
 (14, 'vbrate', '512000'),
 (15, 'srate', '22050'),
 (16, 'r_height', '300'),
@@ -250,7 +275,7 @@ INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (22, 'mplayerpath', ''),
 (23, 'email_verification', '1'),
 (24, 'allow_registeration', '1'),
-(25, 'php_path', 'E:/wamp/bin/php/php5.3.0/php.exe'),
+(25, 'php_path', '/usr/local/bin/php'),
 (26, 'videos_list_per_page', '25'),
 (27, 'channels_list_per_page', '25'),
 (28, 'videos_list_per_tab', '1'),
@@ -321,18 +346,18 @@ INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (93, 'users_items_contacts_channel', '5'),
 (94, 'users_items_search_page', '12'),
 (95, 'users_items_group_page', '15'),
-(96, 'cbhash', 'PGRpdiBhbGlnbj0iY2VudGVyIj48IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPg0KUG93ZXJlZCBieSA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tLyI+Q2xpcEJ1Y2tldDwvYT4gdjIuMC4xPGJyPg0KQ29weXJpZ2h0IMKpMjAwNyAtIDIwMTAsIENsaXBCdWNrZXQNCjwhLS0gRG8gbm90IHJlbW92ZSB0aGlzIGNvcHlyaWdodCBub3RpY2UgLS0+PC9kaXY+'),
+(96, 'cbhash', 'PGRpdiBhbGlnbj0iY2VudGVyIj48IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPg0KUG93ZXJlZCBieSA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tLyI+Q2xpcEJ1Y2tldDwvYT4gJXM8YnI+DQpDb3B5cmlnaHQgJmNvcHk7IDIwMDcgLSAyMDEwLCBDbGlwQnVja2V0DQo8IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPjwvZGl2Pg=='),
 (97, 'min_video_title', '4'),
 (98, 'max_video_title', '60'),
 (99, 'min_video_desc', '5'),
 (100, 'max_video_desc', '300'),
 (101, 'video_categories', '4'),
 (102, 'min_video_tags', '3'),
-(103, 'max_video_tags', '30');
+(103, 'max_video_tags', '30'),
 (104, 'video_codec', 'flv'),
 (105, 'date_released', '01-05-2010'),
 (106, 'date_installed', '01-05-2010'),
-(107, 'date_updated', now()),
+(107, 'date_updated', now());
 -- --------------------------------------------------------
 
 --
@@ -659,6 +684,25 @@ CREATE TABLE IF NOT EXISTS `custom_fields` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `editors_picks`
+--
+
+CREATE TABLE IF NOT EXISTS `editors_picks` (
+  `pick_id` int(225) NOT NULL AUTO_INCREMENT,
+  `videoid` int(225) NOT NULL,
+  `sort` bigint(5) NOT NULL DEFAULT '1',
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`pick_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `editors_picks`
+--
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `email_settings`
 --
 
@@ -805,12 +849,14 @@ CREATE TABLE IF NOT EXISTS `group_categories` (
   `category_thumb` mediumtext NOT NULL,
   `isdefault` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `group_categories`
 --
 
+INSERT INTO `group_categories` (`category_id`, `category_name`, `category_desc`, `date_added`, `category_thumb`, `isdefault`) VALUES
+(1, 'Uncategorized', 'all uncategorized groups', '2009-12-29 09:50:15', '', 'yes');
 
 -- --------------------------------------------------------
 
@@ -845,7 +891,7 @@ CREATE TABLE IF NOT EXISTS `group_members` (
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `active` enum('yes','no') NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`group_mid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `group_members`
@@ -1007,6 +1053,7 @@ CREATE TABLE IF NOT EXISTS `phrases` (
 --
 
 INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
+(507, 'en', 'grp_add_vdo_msg', 'Add Videos To Group '),
 (2, 'en', 'ad_name_error', 'Please Enter Name For The Advertisments'),
 (3, 'en', 'ad_code_error', 'Error : Please Enter Code For Advertisement'),
 (4, 'en', 'ad_exists_error1', 'Add Does not exists'),
@@ -1512,7 +1559,6 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (504, 'en', 'vdo_post_to_a_services', 'Post to an Aggregating Service'),
 (505, 'en', 'vdo_commentary', 'Commentary'),
 (506, 'en', 'vdo_post_a_comment', 'Post A Comment'),
-(507, 'en', 'grp_add_vdo_msg', 'Add Videos To Group '),
 (508, 'en', 'grp_no_vdo_msg', 'You Don&#8217;t Have Any Video'),
 (509, 'en', 'grp_add_to', 'Add To Group'),
 (510, 'en', 'grp_add_vdos', 'Add Videos'),
@@ -1871,6 +1917,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 
 -- --------------------------------------------------------
 
+
 --
 -- Table structure for table `plugins`
 --
@@ -1885,7 +1932,7 @@ CREATE TABLE IF NOT EXISTS `plugins` (
   `plugin_license_code` text NOT NULL,
   `plugin_active` enum('yes','no') NOT NULL,
   PRIMARY KEY (`plugin_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `plugins`
@@ -1893,7 +1940,12 @@ CREATE TABLE IF NOT EXISTS `plugins` (
 
 INSERT INTO `plugins` (`plugin_id`, `plugin_file`, `plugin_folder`, `plugin_version`, `plugin_license_type`, `plugin_license_key`, `plugin_license_code`, `plugin_active`) VALUES
 (1, 'embed_video_mod.php', 'embed_video_mod', 0, '', '', '', 'yes'),
-(5, 'tester_plugin.php', '', 0, '', '', '', 'yes');
+(2, 'tester_plugin.php', '', 0, '', '', '', 'yes'),
+(3, 'signup_captcha.php', 'signup_captcha', 0, '', '', '', 'yes'),
+(4, 'comment_censor.php', '', 0, '', '', '', 'yes'),
+(5, 'cb_bbcode.php', 'cb_bbcodes', 0, '', '', '', 'yes'),
+(6, 'date_picker.php', 'date_picker', 0, '', '', '', 'yes'),
+(7, 'editors_picks.php', 'editors_pick', 0, '', '', '', 'yes');
 
 -- --------------------------------------------------------
 
@@ -2048,14 +2100,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `ind_status_doj` (`doj`),
   KEY `ind_status_id` (`userid`),
   KEY `ind_hits_doj` (`profile_hits`,`doj`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`userid`, `category`, `featured_video`, `username`, `user_session_key`, `user_session_code`, `password`, `email`, `usr_status`, `msg_notify`, `avatar`, `avatar_url`, `sex`, `dob`, `country`, `level`, `avcode`, `doj`, `last_logged`, `num_visits`, `session`, `ip`, `signup_ip`, `time_zone`, `featured`, `featured_date`, `profile_hits`, `total_watched`, `total_videos`, `total_comments`, `comments_count`, `ban_status`, `upload`, `subscribers`, `background`, `background_color`, `background_url`, `background_repeat`, `background_attachement`, `total_groups`, `last_active`, `rating`, `rated_by`, `banned_users`, `welcome_email_sent`) VALUES
-(1, 2, '', 'admin', '777750fea4d3bd585bf47dc1873619fc', 10192, '38d8e594a1ddbd29fdba0de385d4fefa', 'admin@domain.tld', 'Ok', 'yes', '', '', 'male', '1989-10-14', 'PK', 1, '', '2008-11-23 16:12:43', '2009-12-18 21:29:35', 1, 'pub6e7fq5oj76vakuov2j03hm1', '', '', 0, 'No', '2009-12-03 15:14:20', 0, 0, 0, 0, 0, 'no', '0', '0', '', '', '', '', 'no', 0, '2009-12-25 16:39:31', 0, '0', '', 'no');
+(1, 2, '', 'admin', '777750fea4d3bd585bf47dc1873619fc', 10192, '38d8e594a1ddbd29fdba0de385d4fefa', 'admin@domain.tld', 'Ok', 'yes', '', '', 'male', '1989-10-14', 'PK', 1, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'pub6e7fq5oj76vakuov2j03hm1', '', '', 0, 'No', '2009-12-03 15:14:20', 0, 0, 0, 0, 0, 'no', '0', '0', '', '', '', '', 'no', 0, '2010-01-17 15:16:49', 0, '0', '', 'yes');
 
 -- --------------------------------------------------------
 
@@ -2125,6 +2177,17 @@ CREATE TABLE IF NOT EXISTS `user_levels_permissions` (
   `avatar_upload` enum('yes','no') NOT NULL DEFAULT 'yes',
   `video_moderation` enum('yes','no') NOT NULL DEFAULT 'no',
   `member_moderation` enum('yes','no') NOT NULL DEFAULT 'no',
+  `ad_manager_access` enum('yes','no') NOT NULL DEFAULT 'no',
+  `manage_template_access` enum('yes','no') NOT NULL DEFAULT 'no',
+  `group_moderation` enum('yes','no') NOT NULL DEFAULT 'no',
+  `web_config_access` enum('yes','no') NOT NULL DEFAULT 'no',
+  `view_channels` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `view_groups` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `playlist_access` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `allow_channel_bg` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `private_msg_access` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `edit_video` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `admin_del_access` enum('yes','no') NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`user_level_permission_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
@@ -2132,12 +2195,12 @@ CREATE TABLE IF NOT EXISTS `user_levels_permissions` (
 -- Dumping data for table `user_levels_permissions`
 --
 
-INSERT INTO `user_levels_permissions` (`user_level_permission_id`, `user_level_id`, `admin_access`, `allow_video_upload`, `view_video`, `view_channel`, `view_group`, `view_videos`, `avatar_upload`, `video_moderation`, `member_moderation`) VALUES
-(5, 5, 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no', 'no'),
-(2, 2, 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no', 'no'),
-(3, 3, 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no'),
-(1, 1, 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes'),
-(4, 4, 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no');
+INSERT INTO `user_levels_permissions` (`user_level_permission_id`, `user_level_id`, `admin_access`, `allow_video_upload`, `view_video`, `view_channel`, `view_group`, `view_videos`, `avatar_upload`, `video_moderation`, `member_moderation`, `ad_manager_access`, `manage_template_access`, `group_moderation`, `web_config_access`, `view_channels`, `view_groups`, `playlist_access`, `allow_channel_bg`, `private_msg_access`, `edit_video`, `admin_del_access`) VALUES
+(5, 5, 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no', 'yes', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes'),
+(2, 2, 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes'),
+(3, 3, 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes'),
+(1, 1, 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes'),
+(4, 4, 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes');
 
 -- --------------------------------------------------------
 
@@ -2154,7 +2217,7 @@ CREATE TABLE IF NOT EXISTS `user_permissions` (
   `permission_default` enum('yes','no') CHARACTER SET latin1 NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`permission_id`),
   UNIQUE KEY `permission_code` (`permission_code`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
 
 --
 -- Dumping data for table `user_permissions`
@@ -2164,12 +2227,23 @@ INSERT INTO `user_permissions` (`permission_id`, `permission_type`, `permission_
 (12, 3, 'Admin Access', 'admin_access', 'User can access admin panel', 'no'),
 (13, 1, 'View Video', 'view_video', 'User can view videos', 'yes'),
 (11, 2, 'Allow Video Upload', 'allow_video_upload', 'Allow user to upload videos', 'yes'),
-(14, 1, 'View Channel', 'view_channel', 'User Can View Channels', 'yes'),
-(15, 1, 'View Group', 'view_group', 'User Can View Groups', 'yes'),
+(14, 1, 'View Channel', 'view_channel', 'User Can View Channel', 'yes'),
+(15, 1, 'View Group', 'view_group', 'User Can View Group', 'yes'),
 (16, 1, 'View Videos Page', 'view_videos', 'User Can view videos page', 'yes'),
 (17, 2, 'Allow Avatar Upload', 'avatar_upload', 'User can upload video', 'yes'),
 (19, 3, 'Video Moderation', 'video_moderation', 'User Can Moderate Videos', 'no'),
-(20, 3, 'Member Moderation', 'member_moderation', 'User Can Moderate Members', 'no');
+(20, 3, 'Member Moderation', 'member_moderation', 'User Can Moderate Members', 'no'),
+(21, 3, 'Advertisment Manager', 'ad_manager_access', 'User can change advertisment', 'no'),
+(22, 3, 'Manage Templates', 'manage_template_access', 'User can manage website templates', 'no'),
+(23, 3, 'Groups Moderation', 'group_moderation', 'User can moderate group', 'no'),
+(24, 3, 'Website Configurations', 'web_config_access', 'User can change website settings', 'no'),
+(25, 1, 'View channels', 'view_channels', 'User can channels', 'yes'),
+(26, 1, 'View Groups', 'view_groups', 'User can view groups', 'yes'),
+(28, 4, 'Playlist Access', 'playlist_access', 'User can access playlists', 'yes'),
+(29, 2, 'Allow Channel Background', 'allow_channel_bg', 'Allow user to change channel background', 'yes'),
+(30, 4, 'Private Messages', 'private_msg_access', 'User can use private messaging system', 'yes'),
+(31, 4, 'Edit Video', 'edit_video', 'User can edit video', 'yes'),
+(32, 3, 'Admin Delete Access', 'admin_del_access', 'User can delete comments if has admin access', 'no');
 
 -- --------------------------------------------------------
 
@@ -2238,14 +2312,14 @@ CREATE TABLE IF NOT EXISTS `user_profile` (
   PRIMARY KEY (`user_profile_id`),
   KEY `ind_status_id` (`userid`),
   FULLTEXT KEY `profile_tags` (`profile_tags`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `user_profile`
 --
 
 INSERT INTO `user_profile` (`user_profile_id`, `userid`, `profile_title`, `profile_desc`, `featured_video`, `first_name`, `last_name`, `avatar`, `show_dob`, `postal_code`, `time_zone`, `profile_tags`, `web_url`, `hometown`, `city`, `online_status`, `show_profile`, `allow_comments`, `allow_ratings`, `content_filter`, `icon_id`, `browse_criteria`, `about_me`, `education`, `schools`, `occupation`, `companies`, `relation_status`, `hobbies`, `fav_movies`, `fav_music`, `fav_books`, `background`, `profile_video`) VALUES
-(1, 1, '', '', '', '', '', 'no_avatar.jpg', 'yes', '51310', 0, '', '', '', '', 'offline', 'members', 'Yes', 'Yes', 'Nothing', 0, NULL, '', 'no ', '', '', '', 'Single', '', '', '', '', '', 0);
+(1, 1, '', '', '', '', '', 'no_avatar.jpg', 'yes', '0000', 0, '', '', '', '', '', 'all', 'Yes', 'Yes', 'Nothing', 0, NULL, '', 'no ', '', '', '', 'Single', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -2314,6 +2388,7 @@ CREATE TABLE IF NOT EXISTS `video` (
   `flv_file_url` text,
   `default_thumb` int(3) NOT NULL DEFAULT '1',
   `embed_code` text NOT NULL,
+  `uploader_ip` varchar(20) NOT NULL,
   PRIMARY KEY (`videoid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -2336,12 +2411,14 @@ CREATE TABLE IF NOT EXISTS `video_categories` (
   `category_thumb` mediumtext NOT NULL,
   `isdefault` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `video_categories`
 --
 
+INSERT INTO `video_categories` (`category_id`, `category_name`, `category_desc`, `date_added`, `category_thumb`, `isdefault`) VALUES
+(1, 'Uncategorized', 'all uncategorized videos', '', '', 'yes');
 
 -- --------------------------------------------------------
 

@@ -8,3 +8,4 @@ ClipBucket Has been installed successfully
 <a href="<?=SCRIPT_URL.'/admin_area'?>">you can access admin area here</a></div>
 <div class="footer" align="right">  
 </div>
+<?=the_installer_footer()?>

@@ -60,7 +60,7 @@ switch($step)
 			$msgs[] = '"/files" directory is writeable';
 		
 		//checking for sub dirs
-		$subdirs = array('conversion_queue','logs','original','temp','thumbs','videos');
+		$subdirs = array('conversion_queue','logs','original','temp','thumbs','videos','mass_uploads','mass_uploads');
 		foreach($subdirs as $subdir)
 		{
 			if(!is_files_writeable($subdir))
@@ -200,6 +200,9 @@ switch($step)
 
 				$db->update("config",array("value"),array(SCRIPT_URL)," name='baseurl'");
 				$db->update("config",array("value"),array(SCRIPT_DIR)," name='basedir'");
+				$db->update("config",array("value"),array(RELEASED)," name='date_released'");
+				$db->update("config",array("value"),array(now())," name='date_updated'");
+				$db->update("config",array("value"),array(now())," name='date_installed'");
 				
 				copy("install.loc",SCRIPT_DIR.'/files/install.loc');
 				copy("clipbucket.php",SCRIPT_DIR."/includes/clipbucket.php");
@@ -233,7 +236,17 @@ switch($step)
 			$errors[] = '"/files" directory is not writeable - Please changes its permission to 0777';
 		else
 			$msgs[] = '"/files" directory is writeable';
-
+			
+		//checking for sub dirs
+		$subdirs = array('conversion_queue','logs','original','temp','thumbs','videos','mass_uploads','mass_uploads');
+		foreach($subdirs as $subdir)
+		{
+			if(!is_files_writeable($subdir))
+				$errors[] = '"/files/'.$subdir.'" directory is not writeable - Please changes its permission to 0777';
+			else
+				$msgs[] = '"/files/'.$subdir.'" directory is writeable';
+		}
+		
 		//Checking install Directory
 		if(!is_writeable("../install"))
 			$errors[] = '"/install" directory is not writeable - Please changes its permission to 0777';
@@ -255,6 +268,11 @@ switch($step)
 	break;
 	case "update_1":
 	{
+		$version_arrays = 
+		array('2.0.0','2.0.1','2.0.2');
+		
+		//Checking What sql files need to be called....
+		
 		include("./../includes/dbconnect.php");
 		$step = 'update_1';
 		//Checking for the update file
@@ -273,8 +291,17 @@ switch($step)
 			}
 		}
 		
+		//Special Updates for v2.0.1 or less
+		if(the_version()=='2.0.1' || the_version()=='2')
+		{
+			//update cbhash(a general code of clipbucket that does nothing but tells clipbucket who it actually is)
+			$db->update("config",array("value"),array("")," name='date_released'");
+		}
+		
 		$db->update("config",array("value"),array(RELEASED)," name='date_released'");
 		$db->update("config",array("value"),array(now())," name='date_updated'");
+		$db->update("config",array("value"),array(VERSION)," name='version'");
+		$db->update("config",array("value"),array(STATE)," name='type'");
 		
 		copy("install.loc",SCRIPT_DIR.'/files/install.loc');
 		unlink(SCRIPT_DIR."/includes/clipbucket.php");

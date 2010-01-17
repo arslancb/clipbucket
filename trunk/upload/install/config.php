@@ -55,4 +55,12 @@ include("./clipbucket.php");
     }
 
 
+	function the_installer_footer()
+	{
+		echo "<div align='center'>";
+		echo "&copy; <a href='http://clip-bucket.com/'><strong>ClipBucket</strong></a> &lt;clip-bucket.com&gt; 2007 - ".date("Y",time())."<br>";
+		echo "Developed by <a href='http://clip-bucket.com/arslan-hassan><strong>Arslan Hassan</strong></a><br>";
+		echo "ClipBucket ".VERSION." installer";
+	}
+
 ?>

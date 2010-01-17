@@ -7,3 +7,4 @@
 
   
 </div>
+<?=the_installer_footer()?>
