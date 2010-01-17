@@ -30,6 +30,15 @@ $msg[] = clean($_GET['msg']);
 
 	//Check Video Exists or Not
 	if($myquery->VideoExists($video)){
+		
+		//Deleting Comment
+		$cid = mysql_clean($_GET['delete_comment']);
+		if(!empty($cid))
+		{
+			$myquery->delete_comment($cid);
+		}
+		
+		
 		$data = get_video_details($video);
 		Assign('udata',$userquery->get_user_details($data['userid']));
 		Assign('data',$data);

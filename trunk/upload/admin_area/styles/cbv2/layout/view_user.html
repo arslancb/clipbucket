@@ -329,14 +329,13 @@ Background Repeat Type (if using image as a background)<br />
 </table>
 <br />
   <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
-     <tr>
-    <td colspan="2" class="head_title">Profile Comments</td>
-  </tr>
+     
     <tr>
        <td colspan="2" align="center">&nbsp;</td>
     </tr>
     <tr>
-    <td colspan="2" align="center">{assign var=id value=$u.userid}{include file="$style_dir/blocks/comments.html" type=pr id=$u.userid link="uid=$id"}</td>
+    <td colspan="2" align="center">
+    {assign var=id value=$u.userid}{include file="$style_dir/blocks/comments.html" type=c id=$u.userid link="uid=$id"}</td>
   </tr>
   </table>
   <br />

@@ -155,7 +155,7 @@ class myquery {
 		$uid = user_id();
 		
 		if(($uid == $cdetails['userid'] && $cdetails['userid']!='')
-			|| $userquery->permission['mod_access'] == 'yes' 
+			|| $userquery->permission['admin_del_access'] == 'yes' 
 			|| $is_reply==TRUE || $forceDelete)
 		{
 			$replies = $this->get_comments($cdetails['type_id'],$type,FALSE,$cid,TRUE);
@@ -168,8 +168,8 @@ class myquery {
 			}
 			$db->Execute("DELETE FROM comments WHERE comment_id='$cid'");
 			
-			if($uid)
-				$myquery->update_comments_by_user($uid);
+			/*if($uid)
+				$myquery->update_comments_by_user($uid);*/
 			
 			e(lang('usr_cmt_del_msg'),"m");
 			return true;
@@ -191,7 +191,7 @@ class myquery {
 
 		$uid = user_id();
 		
-		if($userquery->permission['mod_access'] == 'yes'  || $forceDelete)
+		if($userquery->permission['admin_del_access'] == 'yes'  || $forceDelete)
 		{
 			$db->Execute("DELETE FROM comments WHERE type_id='$objid' AND type='$type' ");
 			

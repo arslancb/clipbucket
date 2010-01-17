@@ -13,6 +13,13 @@ $udetails = $userquery->get_user_details($uid);
 
 if($udetails)
 {
+	//Deleting Comment
+	$cid = mysql_clean($_GET['delete_comment']);
+	if(!empty($cid))
+	{
+		$myquery->delete_comment($cid);
+	}
+	
 	if(isset($_POST['update_user']))
 	{
 		$userquery->update_user($_POST);

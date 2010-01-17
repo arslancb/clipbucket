@@ -94,7 +94,7 @@
     onmouseover="$('#usr_opt-{$u.userid}').show()" 
     onmouseout="$('#usr_opt-{$u.userid}').hide()" >
     <div style="float:left; width:35px;"><img src="{$userquery->getUserThumb($u,'small')}" class="mid_user_thumb" /></div>
-    <a href="#" target="_blank" style="text-indent:10px">
+    <a href="{$userquery->profile_link($u)}" target="_blank" style="text-indent:10px">
     {$u.username}
     </a> &#8212;
     <span class="vdo_sets">Email:<strong><span style="text-transform:none">{$u.email}</span> </strong> &#8226;

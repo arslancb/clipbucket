@@ -4,17 +4,17 @@
 <table width="99%" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td width="35" align="center" class="left_head">CID</td>
-    <td width="35" class="head_sep_left">UID</td> 
-    <td width="100" class="head_sep_left">Username</td>
-    <td width="100" class="head_sep_left">Email</td>
-    <td  class="head_sep_left"><div class="head_sep_left" style="width:200px">Comment</div></td>
-    <td width="200" class="head_sep_left">Date</td>
-    <td width="70" class="head_sep_left">Votes</td>
-    <td width="100" class="right_head">&nbsp;</td>
+    <td width="35" class="head">UID</td> 
+    <td width="100" class="head">Username</td>
+    <td width="150" class="head">Email</td>
+    <td  class="head">Comment</td>
+    <td width="200" class="head">Date</td>
+    <td width="70" class="head">Votes</td>
+    <td width="100" class="head">&nbsp;</td>
   </tr>
 </table>
 <div>
-<table width="99%" border="0" cellpadding="0" cellspacing="0" class="block" style="text-indent:15px">
+<table width="99%" border="0" cellpadding="0" cellspacing="0" >
 {foreach from=$myquery->get_comments($id,$type) item=comment}
 	
 	{if $comment.parent_id == 0}
@@ -23,7 +23,7 @@
             <td width="35" align="left">{$comment.comment_id}</td>
             <td width="35" align="left">{$comment.userid}</td>
             <td width="100" align="left">{if $comment.anonym_name}{$comment.anonym_name}{else}{$udetails.username}{/if}</td>
-            <td  width="100" align="left">{if $comment.anonym_email}{$comment.anonym_email}{else}{$udetails.email}{/if}</td>
+            <td  width="150" align="left">{if $comment.anonym_email}{$comment.anonym_email}{else}{$udetails.email}{/if}</td>
             <td ><div class="edit_comment" id="{$comment.comment_id}">{$comment.comment}</div></td>
             <td width="200" align="left" >{$comment.date_added|date_format}</td>
             <td width="70" align="left" >{$comment.vote}</td>
@@ -58,5 +58,5 @@
 </table>
 </div>
 {else}
-<div align="center"><em>No User Comments For This Video</em></div>
+<div align="center"><em>No User Comments</em></div>
 {/if}
