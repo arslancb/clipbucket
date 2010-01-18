@@ -7,7 +7,7 @@
  http://clip-bucket.com/cbla
  By using this software, you acknowledge having read this Agreement and agree to be bound thereby.
  **************************************************************************************************
- Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.
+ Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
  **************************************************************************************************
 **/
 
@@ -163,7 +163,7 @@ class AdsManager
 			
 			//Checking If there is no code, then try to get duplicate ad
 			if(empty($code_array['ad_id']))
-			$code_array 	= $db->GetRow($query.$order.$limit_query);
+			$code_array 	= stripslashes(htmlspecialchars_decode($db->GetRow($query.$order.$limit_query)));
 			
 			$ads_array[] 	= $code_array['ad_id'];
 			
@@ -256,8 +256,11 @@ class AdsManager
 		global $db;
 		$result = $db->select("ads_data","*"," 	ad_placement='$id' OR ad_id='$id'");
 		if($db->num_rows>0)
-			return $result[0];
-		else
+		{
+			$result = $result[0];
+			$result['ad_code'] = stripslashes($result['ad_code']);
+			return $result;
+		}else
 			return false;
 	}
 
