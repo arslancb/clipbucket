@@ -40,7 +40,7 @@ if(isset($_POST['login'])){
 	}
 }
 
-subtitle('admin_login');
+subtitle('Admin Login');
 Template('global_header.html');
 Template('login.html');
 ?>

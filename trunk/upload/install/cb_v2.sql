@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 17, 2010 at 03:53 PM
+-- Generation Time: Jan 17, 2010 at 05:29 PM
 -- Server version: 5.1.36
 -- PHP Version: 5.3.0
 
@@ -19,7 +19,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `action_log`
 --
 
-CREATE TABLE IF NOT EXISTS `action_log` (
+DROP TABLE IF EXISTS `action_log`;
+CREATE TABLE `action_log` (
   `action_id` int(255) NOT NULL AUTO_INCREMENT,
   `action_type` varchar(60) CHARACTER SET latin1 NOT NULL,
   `action_username` varchar(60) CHARACTER SET latin1 NOT NULL,
@@ -44,7 +45,8 @@ CREATE TABLE IF NOT EXISTS `action_log` (
 -- Table structure for table `ads_data`
 --
 
-CREATE TABLE IF NOT EXISTS `ads_data` (
+DROP TABLE IF EXISTS `ads_data`;
+CREATE TABLE `ads_data` (
   `ad_id` int(50) NOT NULL AUTO_INCREMENT,
   `ad_name` mediumtext NOT NULL,
   `ad_code` mediumtext NOT NULL,
@@ -74,7 +76,8 @@ INSERT INTO `ads_data` (`ad_id`, `ad_name`, `ad_code`, `ad_placement`, `ad_categ
 -- Table structure for table `ads_placements`
 --
 
-CREATE TABLE IF NOT EXISTS `ads_placements` (
+DROP TABLE IF EXISTS `ads_placements`;
+CREATE TABLE `ads_placements` (
   `placement_id` int(20) NOT NULL AUTO_INCREMENT,
   `placement` varchar(26) NOT NULL,
   `placement_name` varchar(50) NOT NULL,
@@ -101,7 +104,8 @@ INSERT INTO `ads_placements` (`placement_id`, `placement`, `placement_name`, `di
 -- Table structure for table `cb_admin_notes`
 --
 
-CREATE TABLE IF NOT EXISTS `cb_admin_notes` (
+DROP TABLE IF EXISTS `cb_admin_notes`;
+CREATE TABLE `cb_admin_notes` (
   `note_id` int(225) NOT NULL AUTO_INCREMENT,
   `note` text CHARACTER SET ucs2 NOT NULL,
   `date_added` datetime NOT NULL,
@@ -120,7 +124,8 @@ CREATE TABLE IF NOT EXISTS `cb_admin_notes` (
 -- Table structure for table `cb_editors_picks`
 --
 
-CREATE TABLE IF NOT EXISTS `cb_editors_picks` (
+DROP TABLE IF EXISTS `cb_editors_picks`;
+CREATE TABLE `cb_editors_picks` (
   `pick_id` int(225) NOT NULL AUTO_INCREMENT,
   `videoid` int(225) NOT NULL,
   `sort` bigint(5) NOT NULL DEFAULT '1',
@@ -139,7 +144,8 @@ CREATE TABLE IF NOT EXISTS `cb_editors_picks` (
 -- Table structure for table `cb_pages`
 --
 
-CREATE TABLE IF NOT EXISTS `cb_pages` (
+DROP TABLE IF EXISTS `cb_pages`;
+CREATE TABLE `cb_pages` (
   `page_id` int(11) NOT NULL AUTO_INCREMENT,
   `page_name` varchar(225) NOT NULL,
   `page_title` varchar(225) NOT NULL,
@@ -167,7 +173,8 @@ INSERT INTO `cb_pages` (`page_id`, `page_name`, `page_title`, `page_content`, `u
 -- Table structure for table `cb_playlists`
 --
 
-CREATE TABLE IF NOT EXISTS `cb_playlists` (
+DROP TABLE IF EXISTS `cb_playlists`;
+CREATE TABLE `cb_playlists` (
   `playlist_id` int(11) NOT NULL AUTO_INCREMENT,
   `playlist_name` varchar(225) CHARACTER SET latin1 NOT NULL,
   `userid` int(11) NOT NULL,
@@ -187,7 +194,8 @@ CREATE TABLE IF NOT EXISTS `cb_playlists` (
 -- Table structure for table `cb_playlist_items`
 --
 
-CREATE TABLE IF NOT EXISTS `cb_playlist_items` (
+DROP TABLE IF EXISTS `cb_playlist_items`;
+CREATE TABLE `cb_playlist_items` (
   `playlist_item_id` int(225) NOT NULL AUTO_INCREMENT,
   `object_id` int(225) NOT NULL,
   `playlist_id` int(225) NOT NULL,
@@ -208,7 +216,8 @@ CREATE TABLE IF NOT EXISTS `cb_playlist_items` (
 -- Table structure for table `comments`
 --
 
-CREATE TABLE IF NOT EXISTS `comments` (
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE `comments` (
   `comment_id` int(60) NOT NULL AUTO_INCREMENT,
   `type` varchar(3) NOT NULL,
   `comment` text NOT NULL,
@@ -235,7 +244,8 @@ CREATE TABLE IF NOT EXISTS `comments` (
 -- Table structure for table `config`
 --
 
-CREATE TABLE IF NOT EXISTS `config` (
+DROP TABLE IF EXISTS `config`;
+CREATE TABLE `config` (
   `configid` int(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
   `value` mediumtext NOT NULL,
@@ -353,18 +363,16 @@ INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (100, 'max_video_desc', '300'),
 (101, 'video_categories', '4'),
 (102, 'min_video_tags', '3'),
-(103, 'max_video_tags', '30'),
-(104, 'video_codec', 'flv'),
-(105, 'date_released', '01-05-2010'),
-(106, 'date_installed', '01-05-2010'),
-(107, 'date_updated', now());
+(103, 'max_video_tags', '30');
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `contacts`
 --
 
-CREATE TABLE IF NOT EXISTS `contacts` (
+DROP TABLE IF EXISTS `contacts`;
+CREATE TABLE `contacts` (
   `contact_id` int(225) NOT NULL AUTO_INCREMENT,
   `userid` int(225) NOT NULL,
   `contact_userid` int(225) NOT NULL,
@@ -385,7 +393,8 @@ CREATE TABLE IF NOT EXISTS `contacts` (
 -- Table structure for table `conversion_queue`
 --
 
-CREATE TABLE IF NOT EXISTS `conversion_queue` (
+DROP TABLE IF EXISTS `conversion_queue`;
+CREATE TABLE `conversion_queue` (
   `cqueue_id` int(11) NOT NULL AUTO_INCREMENT,
   `cqueue_name` varchar(32) CHARACTER SET latin1 NOT NULL,
   `cqueue_ext` varchar(5) CHARACTER SET latin1 NOT NULL,
@@ -406,7 +415,8 @@ CREATE TABLE IF NOT EXISTS `conversion_queue` (
 -- Table structure for table `countries`
 --
 
-CREATE TABLE IF NOT EXISTS `countries` (
+DROP TABLE IF EXISTS `countries`;
+CREATE TABLE `countries` (
   `id` int(11) NOT NULL,
   `iso2` char(2) CHARACTER SET latin1 DEFAULT NULL,
   `iso3` char(3) CHARACTER SET latin1 DEFAULT NULL,
@@ -656,7 +666,8 @@ INSERT INTO `countries` (`id`, `iso2`, `iso3`, `name_en`) VALUES
 -- Table structure for table `custom_fields`
 --
 
-CREATE TABLE IF NOT EXISTS `custom_fields` (
+DROP TABLE IF EXISTS `custom_fields`;
+CREATE TABLE `custom_fields` (
   `custom_field_list_id` int(11) NOT NULL AUTO_INCREMENT,
   `custom_field_title` text NOT NULL,
   `custom_field_type` text NOT NULL,
@@ -687,7 +698,8 @@ CREATE TABLE IF NOT EXISTS `custom_fields` (
 -- Table structure for table `editors_picks`
 --
 
-CREATE TABLE IF NOT EXISTS `editors_picks` (
+DROP TABLE IF EXISTS `editors_picks`;
+CREATE TABLE `editors_picks` (
   `pick_id` int(225) NOT NULL AUTO_INCREMENT,
   `videoid` int(225) NOT NULL,
   `sort` bigint(5) NOT NULL DEFAULT '1',
@@ -706,7 +718,8 @@ CREATE TABLE IF NOT EXISTS `editors_picks` (
 -- Table structure for table `email_settings`
 --
 
-CREATE TABLE IF NOT EXISTS `email_settings` (
+DROP TABLE IF EXISTS `email_settings`;
+CREATE TABLE `email_settings` (
   `email_settings_id` int(25) NOT NULL AUTO_INCREMENT,
   `email_settings_name` varchar(60) NOT NULL,
   `email_settings_value` mediumtext NOT NULL,
@@ -734,7 +747,8 @@ INSERT INTO `email_settings` (`email_settings_id`, `email_settings_name`, `email
 -- Table structure for table `email_templates`
 --
 
-CREATE TABLE IF NOT EXISTS `email_templates` (
+DROP TABLE IF EXISTS `email_templates`;
+CREATE TABLE `email_templates` (
   `email_template_id` int(11) NOT NULL AUTO_INCREMENT,
   `email_template_name` varchar(225) CHARACTER SET latin1 NOT NULL,
   `email_template_code` varchar(225) CHARACTER SET latin1 NOT NULL,
@@ -768,7 +782,8 @@ INSERT INTO `email_templates` (`email_template_id`, `email_template_name`, `emai
 -- Table structure for table `favorites`
 --
 
-CREATE TABLE IF NOT EXISTS `favorites` (
+DROP TABLE IF EXISTS `favorites`;
+CREATE TABLE `favorites` (
   `favorite_id` int(225) NOT NULL AUTO_INCREMENT,
   `type` varchar(4) CHARACTER SET latin1 NOT NULL,
   `id` int(225) NOT NULL,
@@ -788,7 +803,8 @@ CREATE TABLE IF NOT EXISTS `favorites` (
 -- Table structure for table `flags`
 --
 
-CREATE TABLE IF NOT EXISTS `flags` (
+DROP TABLE IF EXISTS `flags`;
+CREATE TABLE `flags` (
   `flag_id` int(225) NOT NULL AUTO_INCREMENT,
   `type` varchar(4) CHARACTER SET latin1 NOT NULL,
   `id` int(225) NOT NULL,
@@ -809,7 +825,8 @@ CREATE TABLE IF NOT EXISTS `flags` (
 -- Table structure for table `groups`
 --
 
-CREATE TABLE IF NOT EXISTS `groups` (
+DROP TABLE IF EXISTS `groups`;
+CREATE TABLE `groups` (
   `group_id` int(225) NOT NULL AUTO_INCREMENT,
   `group_name` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `userid` int(255) NOT NULL,
@@ -841,7 +858,8 @@ CREATE TABLE IF NOT EXISTS `groups` (
 -- Table structure for table `group_categories`
 --
 
-CREATE TABLE IF NOT EXISTS `group_categories` (
+DROP TABLE IF EXISTS `group_categories`;
+CREATE TABLE `group_categories` (
   `category_id` int(225) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(30) NOT NULL DEFAULT '',
   `category_desc` text NOT NULL,
@@ -864,7 +882,8 @@ INSERT INTO `group_categories` (`category_id`, `category_name`, `category_desc`,
 -- Table structure for table `group_invitations`
 --
 
-CREATE TABLE IF NOT EXISTS `group_invitations` (
+DROP TABLE IF EXISTS `group_invitations`;
+CREATE TABLE `group_invitations` (
   `invitation_id` int(225) NOT NULL AUTO_INCREMENT,
   `group_id` int(225) NOT NULL,
   `userid` int(255) NOT NULL,
@@ -884,7 +903,8 @@ CREATE TABLE IF NOT EXISTS `group_invitations` (
 -- Table structure for table `group_members`
 --
 
-CREATE TABLE IF NOT EXISTS `group_members` (
+DROP TABLE IF EXISTS `group_members`;
+CREATE TABLE `group_members` (
   `group_mid` int(225) NOT NULL AUTO_INCREMENT,
   `group_id` int(225) NOT NULL,
   `userid` int(11) NOT NULL,
@@ -904,7 +924,8 @@ CREATE TABLE IF NOT EXISTS `group_members` (
 -- Table structure for table `group_posts`
 --
 
-CREATE TABLE IF NOT EXISTS `group_posts` (
+DROP TABLE IF EXISTS `group_posts`;
+CREATE TABLE `group_posts` (
   `post_id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
   `topic_id` int(11) NOT NULL,
@@ -924,7 +945,8 @@ CREATE TABLE IF NOT EXISTS `group_posts` (
 -- Table structure for table `group_topics`
 --
 
-CREATE TABLE IF NOT EXISTS `group_topics` (
+DROP TABLE IF EXISTS `group_topics`;
+CREATE TABLE `group_topics` (
   `topic_id` int(225) NOT NULL AUTO_INCREMENT,
   `topic_title` text NOT NULL,
   `userid` int(225) NOT NULL,
@@ -951,7 +973,8 @@ CREATE TABLE IF NOT EXISTS `group_topics` (
 -- Table structure for table `group_videos`
 --
 
-CREATE TABLE IF NOT EXISTS `group_videos` (
+DROP TABLE IF EXISTS `group_videos`;
+CREATE TABLE `group_videos` (
   `group_video_id` int(225) NOT NULL AUTO_INCREMENT,
   `videoid` int(255) NOT NULL,
   `group_id` int(225) NOT NULL,
@@ -972,7 +995,8 @@ CREATE TABLE IF NOT EXISTS `group_videos` (
 -- Table structure for table `languages`
 --
 
-CREATE TABLE IF NOT EXISTS `languages` (
+DROP TABLE IF EXISTS `languages`;
+CREATE TABLE `languages` (
   `language_id` int(9) NOT NULL AUTO_INCREMENT,
   `language_code` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `language_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
@@ -994,7 +1018,8 @@ INSERT INTO `languages` (`language_id`, `language_code`, `language_name`, `langu
 -- Table structure for table `messages`
 --
 
-CREATE TABLE IF NOT EXISTS `messages` (
+DROP TABLE IF EXISTS `messages`;
+CREATE TABLE `messages` (
   `message_id` int(225) NOT NULL AUTO_INCREMENT,
   `message_from` int(20) NOT NULL,
   `message_to` varchar(200) NOT NULL,
@@ -1020,7 +1045,8 @@ CREATE TABLE IF NOT EXISTS `messages` (
 -- Table structure for table `modules`
 --
 
-CREATE TABLE IF NOT EXISTS `modules` (
+DROP TABLE IF EXISTS `modules`;
+CREATE TABLE `modules` (
   `module_id` int(25) NOT NULL AUTO_INCREMENT,
   `module_name` varchar(25) NOT NULL,
   `module_file` varchar(60) NOT NULL,
@@ -1040,7 +1066,8 @@ CREATE TABLE IF NOT EXISTS `modules` (
 -- Table structure for table `phrases`
 --
 
-CREATE TABLE IF NOT EXISTS `phrases` (
+DROP TABLE IF EXISTS `phrases`;
+CREATE TABLE `phrases` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `lang_iso` varchar(2) NOT NULL DEFAULT 'en',
   `varname` varchar(250) NOT NULL DEFAULT '',
@@ -1857,6 +1884,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (808, 'en', 'no_date_provided', 'No date provided'),
 (809, 'en', 'second', 'second'),
 (810, 'en', 'minute', 'minute'),
+
 (811, 'en', 'bad_date', 'Never'),
 (812, 'en', 'users_videos', '%s&#8217;s videos'),
 (813, 'en', 'please_login_subscribe', 'Please login to subsribe %s'),
@@ -1917,12 +1945,12 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 
 -- --------------------------------------------------------
 
-
 --
 -- Table structure for table `plugins`
 --
 
-CREATE TABLE IF NOT EXISTS `plugins` (
+DROP TABLE IF EXISTS `plugins`;
+CREATE TABLE `plugins` (
   `plugin_id` int(255) NOT NULL AUTO_INCREMENT,
   `plugin_file` text NOT NULL,
   `plugin_folder` text NOT NULL,
@@ -1953,7 +1981,8 @@ INSERT INTO `plugins` (`plugin_id`, `plugin_file`, `plugin_folder`, `plugin_vers
 -- Table structure for table `plugin_config`
 --
 
-CREATE TABLE IF NOT EXISTS `plugin_config` (
+DROP TABLE IF EXISTS `plugin_config`;
+CREATE TABLE `plugin_config` (
   `plugin_config_id` int(223) NOT NULL AUTO_INCREMENT,
   `plugin_id_code` varchar(25) CHARACTER SET latin1 NOT NULL,
   `plugin_config_name` text CHARACTER SET latin1 NOT NULL,
@@ -1975,7 +2004,8 @@ CREATE TABLE IF NOT EXISTS `plugin_config` (
 -- Table structure for table `sessions`
 --
 
-CREATE TABLE IF NOT EXISTS `sessions` (
+DROP TABLE IF EXISTS `sessions`;
+CREATE TABLE `sessions` (
   `session_id` int(11) NOT NULL AUTO_INCREMENT,
   `session_user` int(11) NOT NULL,
   `session_string` varchar(60) NOT NULL,
@@ -1995,7 +2025,8 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 -- Table structure for table `stats`
 --
 
-CREATE TABLE IF NOT EXISTS `stats` (
+DROP TABLE IF EXISTS `stats`;
+CREATE TABLE `stats` (
   `stat_id` int(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(60) NOT NULL,
   `value` varchar(60) NOT NULL,
@@ -2013,7 +2044,8 @@ CREATE TABLE IF NOT EXISTS `stats` (
 -- Table structure for table `subscriptions`
 --
 
-CREATE TABLE IF NOT EXISTS `subscriptions` (
+DROP TABLE IF EXISTS `subscriptions`;
+CREATE TABLE `subscriptions` (
   `subscription_id` int(225) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
   `subscribed_to` mediumtext NOT NULL,
@@ -2032,7 +2064,8 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
 -- Table structure for table `template`
 --
 
-CREATE TABLE IF NOT EXISTS `template` (
+DROP TABLE IF EXISTS `template`;
+CREATE TABLE `template` (
   `template_id` int(20) NOT NULL AUTO_INCREMENT,
   `template_name` varchar(25) NOT NULL,
   `template_dir` varchar(30) NOT NULL,
@@ -2050,7 +2083,8 @@ CREATE TABLE IF NOT EXISTS `template` (
 -- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
   `userid` bigint(20) NOT NULL AUTO_INCREMENT,
   `category` int(20) NOT NULL,
   `featured_video` mediumtext NOT NULL,
@@ -2115,7 +2149,8 @@ INSERT INTO `users` (`userid`, `category`, `featured_video`, `username`, `user_s
 -- Table structure for table `user_categories`
 --
 
-CREATE TABLE IF NOT EXISTS `user_categories` (
+DROP TABLE IF EXISTS `user_categories`;
+CREATE TABLE `user_categories` (
   `category_id` int(225) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(30) NOT NULL DEFAULT '',
   `category_desc` text NOT NULL,
@@ -2140,7 +2175,8 @@ INSERT INTO `user_categories` (`category_id`, `category_name`, `category_desc`, 
 -- Table structure for table `user_levels`
 --
 
-CREATE TABLE IF NOT EXISTS `user_levels` (
+DROP TABLE IF EXISTS `user_levels`;
+CREATE TABLE `user_levels` (
   `user_level_id` int(20) NOT NULL AUTO_INCREMENT,
   `user_level_active` enum('yes','no') CHARACTER SET latin1 NOT NULL DEFAULT 'yes',
   `user_level_name` varchar(100) CHARACTER SET latin1 NOT NULL,
@@ -2165,7 +2201,8 @@ INSERT INTO `user_levels` (`user_level_id`, `user_level_active`, `user_level_nam
 -- Table structure for table `user_levels_permissions`
 --
 
-CREATE TABLE IF NOT EXISTS `user_levels_permissions` (
+DROP TABLE IF EXISTS `user_levels_permissions`;
+CREATE TABLE `user_levels_permissions` (
   `user_level_permission_id` int(22) NOT NULL AUTO_INCREMENT,
   `user_level_id` int(22) NOT NULL,
   `admin_access` enum('yes','no') NOT NULL DEFAULT 'no',
@@ -2208,7 +2245,8 @@ INSERT INTO `user_levels_permissions` (`user_level_permission_id`, `user_level_i
 -- Table structure for table `user_permissions`
 --
 
-CREATE TABLE IF NOT EXISTS `user_permissions` (
+DROP TABLE IF EXISTS `user_permissions`;
+CREATE TABLE `user_permissions` (
   `permission_id` int(225) NOT NULL AUTO_INCREMENT,
   `permission_type` int(225) NOT NULL,
   `permission_name` varchar(225) CHARACTER SET latin1 NOT NULL,
@@ -2251,7 +2289,8 @@ INSERT INTO `user_permissions` (`permission_id`, `permission_type`, `permission_
 -- Table structure for table `user_permission_types`
 --
 
-CREATE TABLE IF NOT EXISTS `user_permission_types` (
+DROP TABLE IF EXISTS `user_permission_types`;
+CREATE TABLE `user_permission_types` (
   `user_permission_type_id` int(225) NOT NULL AUTO_INCREMENT,
   `user_permission_type_name` varchar(225) CHARACTER SET latin1 NOT NULL,
   `user_permission_type_desc` mediumtext CHARACTER SET latin1 NOT NULL,
@@ -2274,7 +2313,8 @@ INSERT INTO `user_permission_types` (`user_permission_type_id`, `user_permission
 -- Table structure for table `user_profile`
 --
 
-CREATE TABLE IF NOT EXISTS `user_profile` (
+DROP TABLE IF EXISTS `user_profile`;
+CREATE TABLE `user_profile` (
   `user_profile_id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` bigint(20) NOT NULL,
   `profile_title` mediumtext NOT NULL,
@@ -2327,7 +2367,8 @@ INSERT INTO `user_profile` (`user_profile_id`, `userid`, `profile_title`, `profi
 -- Table structure for table `validation_re`
 --
 
-CREATE TABLE IF NOT EXISTS `validation_re` (
+DROP TABLE IF EXISTS `validation_re`;
+CREATE TABLE `validation_re` (
   `re_id` int(25) NOT NULL AUTO_INCREMENT,
   `re_name` varchar(60) NOT NULL,
   `re_code` varchar(60) NOT NULL,
@@ -2350,7 +2391,8 @@ INSERT INTO `validation_re` (`re_id`, `re_name`, `re_code`, `re_syntax`) VALUES
 -- Table structure for table `video`
 --
 
-CREATE TABLE IF NOT EXISTS `video` (
+DROP TABLE IF EXISTS `video`;
+CREATE TABLE `video` (
   `videoid` bigint(20) NOT NULL AUTO_INCREMENT,
   `videokey` mediumtext NOT NULL,
   `username` text NOT NULL,
@@ -2403,7 +2445,8 @@ CREATE TABLE IF NOT EXISTS `video` (
 -- Table structure for table `video_categories`
 --
 
-CREATE TABLE IF NOT EXISTS `video_categories` (
+DROP TABLE IF EXISTS `video_categories`;
+CREATE TABLE `video_categories` (
   `category_id` int(225) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(30) NOT NULL DEFAULT '',
   `category_desc` text NOT NULL,
@@ -2426,7 +2469,8 @@ INSERT INTO `video_categories` (`category_id`, `category_name`, `category_desc`,
 -- Table structure for table `video_favourites`
 --
 
-CREATE TABLE IF NOT EXISTS `video_favourites` (
+DROP TABLE IF EXISTS `video_favourites`;
+CREATE TABLE `video_favourites` (
   `fav_id` int(11) NOT NULL AUTO_INCREMENT,
   `videoid` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
@@ -2445,7 +2489,8 @@ CREATE TABLE IF NOT EXISTS `video_favourites` (
 -- Table structure for table `video_files`
 --
 
-CREATE TABLE IF NOT EXISTS `video_files` (
+DROP TABLE IF EXISTS `video_files`;
+CREATE TABLE `video_files` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `status` int(2) NOT NULL,
   `file_conversion_log` text CHARACTER SET latin1 NOT NULL,

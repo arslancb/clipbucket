@@ -498,10 +498,12 @@ class CBvideo extends CBCategory
 			$cond .= " video.videoid <> '".$params['exclude']."' ";
 		}
 		
-		if(!empty($cond))
-			$cond .= " AND ";
 		if(!$params['count_only'])
-			$result = $db->select('video,users','video.*,users.userid,users.username',$cond." video.userid = users.userid",$limit,$order);		
+		{
+			if(!empty($cond))
+				$cond .= " AND ";
+			$result = $db->select('video,users','video.*,users.userid,users.username',$cond." video.userid = users.userid",$limit,$order);	
+		}
 		if($params['count_only'])
 			return $result = $db->count('video','*',$cond);
 		if($params['assign'])

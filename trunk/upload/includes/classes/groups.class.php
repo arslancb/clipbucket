@@ -1834,10 +1834,14 @@ class CBGroups extends CBCategory
 			$cond .= " groups.group_id <> '".$params['exclude']."' ";
 		}
 		
-		if(!empty($cond))
+		
+		
+		if(!$params['count_only'])
+		{
+			if(!empty($cond))
 			$cond .= " AND ";
-			
-		$result = $db->select($this->gp_tbl.",users",'*',$cond." groups.userid = users.userid ",$limit,$order);
+			$result = $db->select($this->gp_tbl.",users",'*',$cond." groups.userid = users.userid ",$limit,$order);
+		}
 		
 		
 		if($params['count_only'])

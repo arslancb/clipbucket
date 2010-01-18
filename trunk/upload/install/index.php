@@ -295,7 +295,18 @@ switch($step)
 		if(the_version()=='2.0.1' || the_version()=='2')
 		{
 			//update cbhash(a general code of clipbucket that does nothing but tells clipbucket who it actually is)
-			$db->update("config",array("value"),array("")," name='date_released'");
+			$db->update("config",array("value"),array("PGRpdiBhbGlnbj0iY2VudGVyIj48IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPg0KUG93ZXJlZCBieSA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tLyI+Q2xpcEJ1Y2tldDwvYT4gJXM8YnI+DQpDb3B5cmlnaHQgJmNvcHk7IDIwMDcgLSAyMDEwLCBDbGlwQnVja2V0DQo8IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPjwvZGl2Pg==")," name='cbhash'");
+			
+			//Creating User Sessions and keys
+			$query = mysql_query("SELECT * FROM users WHERE userid <> '1' ");
+			while($data = mysql_fetch_array($query))
+			{
+				$sess_code = rand(10000,99999);
+				$newkey = $_COOKIE['PHPSESSID'].RandomString(10);
+				$sess_key = md5($newkey);
+				mysql_query("UPDATE users SET user_session_key='$sess_key'
+							, user_session_code ='$sess_code' WHERE userid='".$data['userid']."'");
+			}
 		}
 		
 		$db->update("config",array("value"),array(RELEASED)," name='date_released'");
