@@ -1620,7 +1620,7 @@
 			switch($path)
 			{
 				case "php":
-				$return_path = exec("which php");
+				$return_path = shell_output("which php");
 				if($return_path)
 					return $return_path;
 				else
@@ -1628,7 +1628,7 @@
 				break;
 				
 				case "mp4box":
-				$return_path =  exec("which MP4Box");
+				$return_path =  shell_output("which MP4Box");
 				if($return_path)
 					return $return_path;
 				else
@@ -1636,7 +1636,7 @@
 				break;
 				
 				case "flvtool2":
-				$return_path =  exec("which flvtool2");
+				$return_path =  shell_output("which flvtool2");
 				if($return_path)
 					return $return_path;
 				else
@@ -1644,7 +1644,7 @@
 				break;
 				
 				case "ffmpeg":
-				$return_path =  exec("which ffmpeg");
+				$return_path =  shell_output("which ffmpeg");
 				if($return_path)
 					return $return_path;
 				else
@@ -3569,7 +3569,7 @@
 		 'libfaad'	=> 'Required for AAC Audio Conversion',
 		 'libx264'	=> 'Required for x264 video compression and conversion',
 		 );
-		$version = shell_output(  'E:\wamp\bin\ffmpeg\ffmpeg.exe -i xxx -acodec copy -vcodec copy -f null /dev/null 2>&1' );
+		$version = shell_output(  get_binaries('ffmpeg').' -i xxx -acodec copy -vcodec copy -f null /dev/null 2>&1' );
 		preg_match_all("/enable\-(.*) /Ui",$version,$matches);
 		$installed = $matches[1];
 		
