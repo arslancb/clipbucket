@@ -88,8 +88,8 @@ RewriteRule ^sitemap.xml$ sitemap.php
 RewriteRule ^signup signup.php
 
 #Error Pages
-ErrorDocument 404 /error_pages/404.php
-ErrorDocument 403 /error_pages/403.php
+ErrorDocument 404 /view_page?pid=6
+ErrorDocument 403 /view_page?pid=5
 
 ########## End - Rewrite rules For SEO urls ######################
 RewriteRule ^rss$                           rss.php [nc]

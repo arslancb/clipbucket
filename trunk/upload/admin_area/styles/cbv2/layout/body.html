@@ -5,13 +5,7 @@
 {include file="$style_dir/msg.html" }
 
 <div style="min-height:600px; min-width:1000px">
-<!-- Including Left Column -->
 
-<!-- Inlcluding Other Files -->
-
-{if $Cbucket->show_page}
-<!--<span class="toggle_menu" onClick="$('#left_column').toggleClass('left_menu_0');$('#contentcolumn').toggleClass('contentcolumn0');"><img src="{$imageurl}/dot.gif" class="toggle_menu_icon">Toggle Menu</span>
--->
 {if $smarty.cookies.admin_menu=='hide'}
 	{assign var='left_menu_class' value='left_menu_0'}
     {assign var='contentcolumn_class' value='contentcolumn0'}
@@ -22,21 +16,24 @@
 
 <div class="clearfix"></div>
 
-<div id="contentwrapper">
-    <div id="contentcolumn" class="{$contentcolumn_class}">
-    	<div class="innertube">
-{foreach from=$template_files item=file}
-    {include file="$style_dir/$file" }
-{/foreach}
-		</div>
+<!-- Setting Body File -->
+{if $Cbucket->show_page}
+    <div id="contentwrapper">
+        <div id="contentcolumn" class="{$contentcolumn_class}">
+            <div class="innertube">
+    {foreach from=$template_files item=file}
+        {include file="$style_dir/$file" }
+    {/foreach}
+            </div>
+        </div>
     </div>
-</div>
+{/if}
+<!-- Setting Body File -->
 
 
-
+<!-- Changing Left Menu -->
 {include file="$style_dir/left_menu.html" }
 
-{/if}
 </div>
 <div class="clearfix"></div>
 {include file="$style_dir/footer.html" }

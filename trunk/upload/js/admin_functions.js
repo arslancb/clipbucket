@@ -59,7 +59,7 @@ function toggle_menu()
     	}, 200,function(){ $('#left_column').removeClass('left_menu').addClass('left_menu_0')}  );
 		
 		$('#contentcolumn').animate({ 
-        marginLeft: "15px",
+        marginLeft: "25px",
     	}, 200 ).removeClass('contentcolumn').addClass('contentcolumn0');
 		
 		$.cookie("admin_menu","hide");	
@@ -70,7 +70,7 @@ function toggle_menu()
     	}, 200 ).removeClass('left_menu_0').addClass('left_menu');
 		
 		$('#contentcolumn').animate({ 
-        marginLeft: "238px",
+        marginLeft: "248px",
     	}, 200 ).removeClass('contentcolumn0').addClass('contentcolumn');		
 		
 		$.cookie("admin_menu","show");

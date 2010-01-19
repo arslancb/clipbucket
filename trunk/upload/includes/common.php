@@ -146,9 +146,9 @@ else
  
  	define('EMAIL_VERIFICATION',$row['email_verification']);	
 	define('ALLOW_REGISTERATION',$row['allow_registeration']);
-	define('WEBSITE_EMAIL',$email_data['website_email']);
-	define('SUPPORT_EMAIL',$email_data['support_email']);
-	define('WELCOME_EMAIL',$email_data['welcome_email']);
+	define('WEBSITE_EMAIL',$row['website_email']);
+	define('SUPPORT_EMAIL',$row['support_email']);
+	define('WELCOME_EMAIL',$row['welcome_email']);
 	@define('VIDEO_REQUIRE_LOGIN',$row['video_require_login']);
 	define('ACTIVATION',$row['activation']);
 	define('DATE_FORMAT',"d-m-Y");

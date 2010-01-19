@@ -27,7 +27,9 @@ $(document).ready(function(){
 <input name="basedir" value="{$row.baseurl}" type="hidden" />
 <div id="tabbed_div">
     <div id="div_1" class="main_page_div">
-        <table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
+    
+        <fieldset class="fieldset" style="border:none">
+<table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
             <tr>
                 <td width="200" valign="top">Website title</td>
                 <td valign="top"><input name="site_title" type="text" id="site_title" value="{$row.site_title}" size="45"></td>
@@ -137,6 +139,25 @@ $(document).ready(function(){
               <td>&nbsp;</td>
             </tr>
             <tr>
+              <td colspan="2">Emails</td>
+            </tr>
+            <tr>
+              <td>Website Email</td>
+              <td><input name="website_email" type="text" id="website_email" value="{$row.website_email}" size="45" /></td>
+            </tr>
+            <tr>
+              <td>Support Email</td>
+              <td><input name="support_email" type="text" id="support_email" value="{$row.support_email}" size="45" /></td>
+            </tr>
+            <tr>
+              <td>Welcome Email</td>
+              <td><input name="welcome_email" type="text" id="welcome_email" value="{$row.welcome_email}" size="45" /></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
               <td colspan="2" valign="top" class="settings_inner_title">Comments</td>
             </tr>
             <tr>
@@ -178,10 +199,12 @@ $(document).ready(function(){
               <td>&nbsp;</td>
             </tr>
         </table>
+</fieldset>
   </div>
     
     <div id="div_2" class="main_page_div">
-      <table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
+      <fieldset  class="fieldset" style="border:none">
+<table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
         <tr>
           <td width="200" valign="top">FFMPEG Binary Path</td>
           <td valign="top"><input name="ffmpegpath" type="text" id="ffmpegpath" value="{$row.ffmpegpath}" size="45" />
@@ -355,9 +378,11 @@ $(document).ready(function(){
           <td>&nbsp;</td>
         </tr>
       </table>
+</fieldset>
 </div>
     
-    <div id="div_3" class="main_page_div" ><table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
+    <div id="div_3" class="main_page_div" ><fieldset  class="fieldset" style="border:none">
+<table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
         <tr>
           <td width="200" valign="top">Current Template</td>
           <td valign="top"><a href="templates.php">manage templates</a></td>
@@ -457,10 +482,12 @@ $(document).ready(function(){
           <td>&nbsp;</td>
         </tr>
       </table>
+</fieldset>
     </div>
     
     
-    <div id="div_4" class="main_page_div" ><table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
+    <div id="div_4" class="main_page_div" ><fieldset  class="fieldset" style="border:none">
+<table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
         <tr>
           <td width="200" valign="top">Turn on registerations</td>
           <td valign="top"><input name="allow_registeration" type="checkbox" id="allow_registeration" value="1" {if $row.allow_registeration=='1'}checked="checked"{/if} /></td>
@@ -511,6 +538,7 @@ $(document).ready(function(){
           <td valign="top">&nbsp;</td>
         </tr>
       </table>
+</fieldset>
     </div>
 </div>
 <div align="right"class="main_page_div" style="padding:5px; min-height:0px; margin-top:10px"><label>

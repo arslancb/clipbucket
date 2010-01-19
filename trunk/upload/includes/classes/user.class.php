@@ -678,7 +678,7 @@ class userquery extends CBCategory{
 			$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
 			
 			//Now Finally Sending Email
-			cbmail(array('to'=>$udetails['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+			cbmail(array('to'=>$udetails['email'],'from'=>SUPPORT_EMAIL,'subject'=>$subj,'content'=>$msg));
 			e(lang('usr_activation_em_msg'),"m");
 		}
 	}
@@ -715,7 +715,7 @@ class userquery extends CBCategory{
 			$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
 			
 			//Now Finally Sending Email
-			cbmail(array('to'=>$udetails['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+			cbmail(array('to'=>$udetails['email'],'from'=>WELCOME_EMAIL,'subject'=>$subj,'content'=>$msg));
 			
 			if($update_email_status)
 				$db->update($this->dbtbl['users'],array('welcome_email_sent'),array("yes")," userid='".$udetails['userid']."' ");
@@ -1250,7 +1250,7 @@ class userquery extends CBCategory{
 			$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
 			
 			//Now Finally Sending Email
-			cbmail(array('to'=>$udetails['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+			cbmail(array('to'=>$udetails['email'],'from'=>SUPPORT_EMAIL,'subject'=>$subj,'content'=>$msg));
 			e(lang('usr_pass_email_msg'),m);
 			e(lang("usr_uname_email_msg"),"m");
 		}
