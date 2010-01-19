@@ -3566,7 +3566,7 @@
 		('libxvid' => 'Required for DIVX AVI files',
 		 'libmp3lame'=> 'Required for proper Mp3 Encoding',
 		 'libfaac'	=> 'Required for AAC Audio Conversion',
-		 'libfaad'	=> 'Required for AAC Audio Conversion',
+		// 'libfaad'	=> 'Required for AAC Audio Conversion',
 		 'libx264'	=> 'Required for x264 video compression and conversion',
 		 );
 		$version = shell_output(  get_binaries('ffmpeg').' -i xxx -acodec copy -vcodec copy -f null /dev/null 2>&1' );
