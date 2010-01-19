@@ -17,7 +17,7 @@ FileETag MTime Size
 Options +FollowSymlinks
 RewriteEngine on
 
-<FilesMatch "\.(db|inc|tmpl|h|ihtml|sql|ini|configuration|config|class|bin|spd|theme|module|cfg|cpl|tmp|log|err|inc.php|class.php)$">
+<FilesMatch "\.(db|inc|html|tmpl|h|ihtml|sql|ini|configuration|config|class|bin|spd|theme|module|cfg|cpl|tmp|log|err|inc.php|class.php)$">
 order allow,deny
 satisfy all
 </FilesMatch>
@@ -93,6 +93,6 @@ ErrorDocument 403 /error_pages/403.php
 
 ########## End - Rewrite rules For SEO urls ######################
 RewriteRule ^rss$                           rss.php [nc]
-RewriteRule ^rss/([a-zA-Z0-9].+)$          rss.php?show=$1 [nc]
+RewriteRule ^rss/([a-zA-Z0-9].+)$          rss.php?mode=$1 [nc]
 
 ########## End - Rewrite rules For SEO urls ######################

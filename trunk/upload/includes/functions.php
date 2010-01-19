@@ -3682,4 +3682,42 @@
 			}
 		}
 	}
+	
+	
+	
+	
+	/**
+	 * Function used to generate RSS FEED links
+	 */
+	function rss_feeds($params)
+	{
+		/**
+		 * setting up the feeds arrays..
+		 * if you want to call em in your functions..simply call the global variable $rss_feeds
+		 */
+		$rss_link = cblink(array("name"=>"rss"));
+		$rss_feeds = array();
+		$rss_feeds[] = array("title"=>"Recently added videos","link"=>$rss_link."recent");
+		$rss_feeds[] = array("title"=>"Most Viewed Videos","link"=>$rss_link."views");
+		$rss_feeds[] = array("title"=>"Top Rated Videos","link"=>$rss_link."rating");
+		$rss_feeds[] = array("title"=>"Videos Being Watched","link"=>$rss_link."watching");
+		
+		$funcs = get_functions('rss_feeds');
+		if(is_array($funcs))
+		{
+			foreach($funcs as $func)
+			{
+				return $func($params);
+			}
+		}
+
+		if($params['link_tag'])
+		{
+			foreach($rss_feeds as $rss_feed)
+			{
+				echo "<link rel=\"alternate\" type=\"application/rss+xml\"
+				title=\"".$rss_feed['title']."\" href=\"".$rss_feed['link']."\" />\n";
+			}
+		}
+	}
 ?>

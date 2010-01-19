@@ -407,6 +407,7 @@ $Smarty->register_function('include_header','include_header');
 $Smarty->register_function('include_js','include_js');
 $Smarty->register_function('get_binaries','get_binaries');
 $Smarty->register_function('check_module_path','check_module_path');
+$Smarty->register_function('rss_feeds','rss_feeds');
 
 $Smarty->register_modifier('SetTime','SetTime');
 $Smarty->register_modifier('getname','getname');

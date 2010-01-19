@@ -13,7 +13,42 @@ require 'includes/config.inc.php';
 header ("Content-type: text/xml; charset=utf-8");
 echo '<?xml version=\'1.0\' encoding=\'UTF-8\'?>'."\n";
 echo '<?xml-stylesheet type="text/css" href="http://localhost/clipbucket/2.x/2/upload/styles/cbv2new/theme/main.css" ?>'."\n";
-subtitle('Rss Feed');
+
+$limit = 20;
+$mode = $_GET['mode'];
+switch($mode)
+{
+	case 'recent':
+	default:
+	{
+		 $videos = get_videos(array('limit'=>$limit));
+		 $title  = "Recently Added Videos";
+	}
+	break;
+	
+	case 'views':
+	{
+		 $videos = get_videos(array('limit'=>$limit,'order'=>'views DESC'));
+		 $title = "Most Viewed Videos";
+	}
+	break;
+	
+	case 'rating':
+	{
+		 $videos = get_videos(array('limit'=>$limit,'order'=>'rating DESC'));
+		 $title = "Top Rated Videos";
+	}
+	break;
+	
+	case 'watching':
+	{
+		 $videos = get_videos(array('limit'=>$limit,'order'=>'last_viewed DESC'));
+		 $title = "Videos Being Watched";
+	}
+	break;
+}
+
+subtitle($title);
 ?>
 
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
@@ -28,7 +63,7 @@ subtitle('Rss Feed');
     <description><?=$Cbucket->configs['description']?></description>
     
     <?php
-    $videos = get_videos(array('limit'=>'20'));
+   
     foreach($videos as $video)
     {
     ?>
@@ -73,4 +108,3 @@ subtitle('Rss Feed');
 
 </channel>
 </rss>
-
