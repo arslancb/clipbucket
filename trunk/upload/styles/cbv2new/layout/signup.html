@@ -8,10 +8,9 @@
 	{if $udetails.usr_status !='Ok'}
     	Thanks for joing {$title}, please check your inbox for activationg details
     {else}
-    	Thanks for joing {$title}, please login to continue as our registered member
-    {/if}
-    </div>
-{/if}
+    	Thanks for joing {$title}, please <strong><a href="{link name='login'}">click here login</a></strong> to continue as our registered member
+    {/if} </div>
+{else}
 
 <div class="signup_left">
 	<h2>Members Login</h2>
@@ -93,5 +92,5 @@
         </form>
     </div>
 </div>
-
+{/if}
 <div class="clearfix"></div>

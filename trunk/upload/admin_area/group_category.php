@@ -8,6 +8,7 @@
 */
 
 require_once '../includes/admin_config.php';
+$userquery->admin_login_check();
 
 //Form Processing
 if(isset($_POST['add_cateogry'])){

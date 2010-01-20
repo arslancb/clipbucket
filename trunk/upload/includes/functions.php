@@ -778,7 +778,8 @@
 	*/
 	function cleanForm($string)
 	{
-		$string = htmlspecialchars($string);
+		if(is_string($string))
+			$string = htmlspecialchars($string);
 		return $string;
 	}
 	function form_val($string){return cleanForm($string); }

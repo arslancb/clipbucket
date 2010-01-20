@@ -63,7 +63,7 @@ var imageurl = '{$imageurl}';
 
 
 
-{if $smarty.const.THIS_PAGE == 'upload'}
+{if $smarty.const.THIS_PAGE == 'upload' && $step =="2"}
 
 <script src="{$js}/swfupload/swfupload.js" type="text/javascript"></script>
 <script src="{$js}/swfupload/plugins/all_in_one.js" type="text/javascript"></script>
@@ -134,8 +134,7 @@ var imageurl = '{$imageurl}';
 {/literal}
 </script>
 
-{/if}
-{if $smarty.const.THIS_PAGE != 'upload'}
+{else}
 <script type="text/javascript">
 {literal}
 window.onload = function() {

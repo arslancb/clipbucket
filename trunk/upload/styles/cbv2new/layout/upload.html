@@ -29,6 +29,10 @@
         </fieldset>
         <!-- Required Fields -->
         
+        
+        <span class="more_button"><a href="javascript:void()" onClick="$('#more_fields').slideToggle();$('.more_button').toggleClass('more_button_up');">More Options</a></span>
+        
+        
         <div id="more_fields" style="display:none">
         <!-- Location Fields -->
         <fieldset>
@@ -80,7 +84,7 @@
         
         </div>
         
-        <span class="more_button"><a href="javascript:void()" onClick="$('#more_fields').slideToggle();$('.more_button').toggleClass('more_button_up');">More Options</a></span>
+        
         
         
         <div align="right" style="margin-top:10px"><input type="submit" name="submit_data" class="cb_button_2" value="{lang code='vdo_continue_upload'}"></div>
@@ -122,8 +126,8 @@
       
     <div class="upload_link_button" align="center">
      <ul>
-      <li><a href="{cblink name='upload'}" >{$LANG.vdo_upload_another_video}</a></li>
-      <li><a href="{cblink name='my_videos'}" >{$LANG.vdo_goto_my_videos}</a></li>
+      <li><a href="{link name='upload'}" >{$LANG.vdo_upload_another_video}</a></li>
+      <li><a href="{link name='my_videos'}" >{$LANG.vdo_goto_my_videos}</a></li>
      </ul>
      <div class='clearfix'></div>
     </div>

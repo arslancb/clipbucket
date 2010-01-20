@@ -8,6 +8,7 @@
 */
 
 require_once '../includes/admin_config.php';
+$userquery->admin_login_check();
 $userquery->login_check('admin_access');
 $pages->page_redir();
 

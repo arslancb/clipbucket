@@ -141,7 +141,7 @@ class userquery extends CBCategory{
 		$log_array = array('username'=>$username);
 		
 		//First we will check weather user is already logged in or not
-		if($this->login_check)
+		if($this->login_check())
 			$msg[] = e(lang('you_already_logged'));
 		elseif(!$this->user_exists($username))
 			$msg[] = e(lang('user_doesnt_exist'));
@@ -291,10 +291,10 @@ class userquery extends CBCategory{
 	 * this function is sitll in use so
 	 * we are just replace the lil code of it
 	 */
-	function logincheck($redirect=TRUE)
+	function logincheck($access=NULL,$redirect=TRUE)
 	{
 		
-		if(!$this->login_check())
+		if(!$this->login_check($access))
 		{
 			if($redirect==TRUE)
 				redirect_to(BASEURL.signup_link);
@@ -2658,7 +2658,7 @@ class userquery extends CBCategory{
 	 */
 	function get_inner_channel_top_links($u)
 	{
-		return array(lang('upload')=>array('link'=>cblink(array('name'=>'user_videos')).$u['username']),
+		return array(lang('upload')=>array('link'=>$this->get_user_videos_link($u),
 					 lang('favorites')=>array('link'=>cblink(array('name'=>'user_favorites')).$u['username']),
 					 lang('contacts')=>array('link'=>cblink(array('name'=>'user_contacts')).$u['username']),
 					 );
@@ -2676,6 +2676,13 @@ class userquery extends CBCategory{
 					 );
 	}
 	
+	/**
+	 * Function used to get user videos link
+	 */
+	function get_user_videos_link($u)
+	{
+		return cblink(array('name'=>'user_videos')).$u['username'];
+	}	
 	
 	
 	/**

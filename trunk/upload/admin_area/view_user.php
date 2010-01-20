@@ -5,6 +5,7 @@
  * @Since : Oct 16 09
  */
 require'../includes/admin_config.php';
+$userquery->admin_login_check();
 $pages->page_redir();
 $userquery->login_check('member_moderation');
 

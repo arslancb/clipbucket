@@ -1,113 +1,72 @@
 <?php
-
 /* 
-****************************************************************
-| Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.	
-| @ Author 	: ArslanHassan										
-| @ Software 	: ClipBucket , © PHPBucket.com					
-****************************************************************
-****************************************************************
-Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.
-****************************************************************
-**/
+ **************************************************************
+ | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
+ | @ Author : ArslanHassan										
+ | @ Software : ClipBucket , © PHPBucket.com					
+ **************************************************************
+*/
+
+require_once '../includes/admin_config.php';
+$userquery->admin_login_check();
+$pages->page_redir();
 
 
-class mass_upload extends Upload
+if(isset($_POST['mass_upload_video']))
 {
-	var $dirsep = "/";
+	$files = $cbmass->get_video_files();
 	
-	/**
-	 * FUNCTION USED TO GET FILES FROM DIRECTORY
-	 */
-	function glob_files($source_folder, $ext='*', $sec=0)
-	{
+	$total = count($_POST['mass_up']);
+	for($i=0;$i<$total;$i++)
+	{	
+		$file_key = time().RandomString(5);
+		$file_arr = $files[$i];
 		
-		if( !is_dir( $source_folder ) ) {
-			die ( "Invalid directory.\n\n" );
-		}
-	   	
-		$FILES = glob($source_folder.$this->dirsep."*.".$ext);
-		
-		$set_limit    = 0;
-	   
-		foreach($FILES as $key => $file)
+		if($cbmass->is_mass_file($file_arr))
 		{
-			if( filemtime( $file ) > $sec ){
-				$FILE_LIST[$key]['path']    = substr( $file, 0, ( strrpos( $file, $this->dirsep ) +1 ) );
-				$FILE_LIST[$key]['file']    = substr( $file, ( strrpos( $file, $this->dirsep ) +1 ) ); 
-				$FILE_LIST[$key]['title']    = getName($FILE_LIST[$key]['file']);
-				$FILE_LIST[$key]['description']    = getName($FILE_LIST[$key]['file']);
-				$FILE_LIST[$key]['tags']    = gentags(str_replace(" ",",",getName($FILE_LIST[$key]['file'])));
-				$FILE_LIST[$key]['size']    = filesize( $file );
-				$FILE_LIST[$key]['date']    = date('Y-m-d G:i:s', filemtime( $file ) );
-			}
+			$code = $i+1;
+			//Inserting Video Data...
+			$array = array
+			(
+			'title' => $_POST['title'][$i],
+			'description' => $_POST['description'][$i],
+			'tags' => $_POST['tags'][$i],
+			'category' => $_POST['category'.$code],
+			'file_name' => $file_key,
+			);
+			$vid = $Upload->submit_upload($array);
+		}else{
+			e("\"".$file_arr['title']."\" is not available");
 		}
-		if(!empty($FILE_LIST)){
-			return $FILE_LIST;
-		} else {
-			die( "No files found!\n\n" );
-		}
-	}
-
-	
-	/**
-	 * Function used to get list of available files that can be processed
-	 */
-	function get_files()
-	{
-		$files = $this->glob_files(MASS_UPLOAD_DIR);
-		return $files;
-	}
-	
-	
-	/**
-	 * function used to get video files only3
-	 */
-	function get_video_files($with_path=false)
-	{
-		$exts = get_vid_extensions($with_path);
 		
-		$vid_files = array();
-		$files = $this->get_files();
+		if(error())
+		{
+			$error_lists[] = "Unable to upload \"".$file_arr['title']."\"";
+			$errors = error();
+			foreach($errors as $e)
+				$error_lists[] = $e;
+			
+			$eh->flush_error();
+		}else{
+			e("\"".$file_arr['title']."\" Has been uploaded successfully","m");
+		}
 		
-		foreach($files as $file)
+		if($vid)
 		{
-			$ext = getext($file['file']);
-			if(in_array($ext,$exts))
-				$vid_files[] = $file;
+			//Moving file to temp dir and Inserting in conversion queue..
+			$file_name = $cbmass->move_to_temp($file_arr,$file_key);
+			$Upload->add_conversion_queue($file_name);
 		}
-		return $vid_files;
-	}
-	
-	/**
-	 * Moving file from MASS UPLOAD DIR TO TEMP DIR
-	 */
-	function move_to_temp($file_arr,$file_key)
-	{
-		$file = $file_arr['file'];
-		$mass_file  = MASS_UPLOAD_DIR.'/'.$file;
-		$temp_file = TEMP_DIR.'/'.$file_key.'.'.getExt($file);
-		if(file_exists($mass_file) && is_file($mass_file))
-		{
-			rename($mass_file,$temp_file);
-			//copy($mass_file,$temp_file);
-			return $file_key.'.'.getExt($file);
-		}
-		return false;		
-	}
-	
-	
-	/**
-	 * Function used to check weather file exists in mass upload folder or not
-	 */
-	function is_mass_file($arr)
-	{
-		$file = MASS_UPLOAD_DIR.'/'.$arr['file'];
-		if(file_exists($file) && is_file($file) && $arr['file'])
-			return true;
-		else
-			return false;
 	}
 }
 
+if(count($error_lists)>0)
+{
+	foreach($error_lists as $e)
+		e($e);
+}
+
+subtitle("Mass Uploader");
+template_files("mass_uploader.html");
+display_it();
 ?>

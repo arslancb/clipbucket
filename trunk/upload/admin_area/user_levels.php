@@ -9,6 +9,7 @@
 
 #Including Maing file and checking user level
 require'../includes/admin_config.php';
+$userquery->admin_login_check();
 $pages->page_redir();
 $userquery->login_check('admin_access');
 

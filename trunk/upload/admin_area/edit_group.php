@@ -8,6 +8,7 @@
 */
 
 require_once '../includes/admin_config.php';
+$userquery->admin_login_check();
 	
 	$gpid = mysql_clean($_GET['group_id']);
 	

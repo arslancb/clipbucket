@@ -10,6 +10,7 @@
  
 
 require'../includes/admin_config.php';
+$userquery->admin_login_check();
 $userquery->login_check('member_moderation');
 $pages->page_redir();
 
