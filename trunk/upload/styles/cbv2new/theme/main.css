@@ -283,10 +283,6 @@ span.remember { font-size:10px;  }
 .ad { width:468px; height:60px; background:#f3f3f3; border:1px solid #ccc; margin:0px auto 25px; padding:0px; line-height:60px; text-align:center; font-size:15px; }
 
 
-
-
-
-
 /* My ACcount */
 .my_account_left{width:180px; float:left; }
 .my_account_left ul{margin:0px; padding:0px; display:block;}
@@ -556,7 +552,7 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 
 /** UPLOAD CSS **/
 .upload_left{width:675px; float:left; padding:0px 5px}
-.upload_opt,.upload_left .upload_info{ background:#fff url(../images/simple_gradient.png) repeat-x bottom;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px; padding:5px; border:1px solid #f0f0f0;}
+.upload_opt,.upload_left .upload_info{ background:#fff url(../images/simple_gradient.png) repeat-x bottom;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px; padding:5px; border:1px solid #ccc;}
 .upload_right{width:300px; float:right; margin-right:10px}
 .upload_right .instructions{background:#fff url(../images/simple_gradient.png) repeat-x bottom; border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px; padding:5px; border:1px solid #f0f0f0; }
 
@@ -575,14 +571,17 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .more_button_up{ background-position:right -458px}
 .more_button_up a,.more_button a{color:#333; text-decoration:none; font-weight:bold; font-family:Arial, Helvetica, sans-serif;font-size:11px; display:block}.more_button_up a,.more_button a:hover{color:#0099cc}
 
-
+#file_upload_div, #remote_upload_div, #embed_code_div { display:none; }
+ul.upload_opts { list-style:none; margin:0px; padding:0px; }
+ul.upload_opts li { padding:8px; margin:0px 10px; top:1px; position:relative; border:1px solid transparent; }
+ul.upload_opts li:hover, ul.upload_opts li:active, ul.upload_opts li.selected { cursor:pointer; background:none; border:1px solid; border-color:#bbb #ccc #fff; color:#0099cc; -moz-border-radius:5px 5px 0px 0px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px; border-radius:5px 5px 0px 0px; }
 .upload_opt{  margin-bottom:10px }
-.upload_opt_head{font-size:16px; font-weight:bold; font-family:Arial, Helvetica, sans-serif}
+.upload_opt_head{ font-size:14px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; }
 .swfupload{margin:0px; margin-bottom:-5px}
 
 .upload_form_div{ margin:3px; border:1px solid #EAEAEA; background:#FFF; padding:4px; }
-.progressWrapper { padding:8px; background:#fafafa; border:1px solid #ccc; margin-top:5px;}
-.progressBarStatus { padding:2px; font-size:11px; font-weight:bold; }
+.progressWrapper { padding:8px; background:#d6f1ff; border:1px solid #0099ff; margin-top:5px;}
+.progressBarStatus { padding:2px; font-size:10px; font-weight:bold; }
 .divStatus{font-weight:bold; }
 
 .upload_link_button ul{margin:0px; padding:0px; display:block; padding:4px; margin-top:10px}

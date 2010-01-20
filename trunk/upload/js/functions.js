@@ -638,4 +638,41 @@ var loading = loading_img+" Loading...";
 		}
 	}
 	
+var current_tab = '';
+var current_div = '';
+
+function display_tab(Li,divid)
+{ 
+	if(current_tab!='')
+		$(current_tab).removeClass("selected");
+	if(current_div!='')	
+		$('#'+current_div).hide();
+		
+	$(Li).addClass("selected");
+	$('#'+divid).fadeIn('300');
+	
+	current_tab = Li;
+	current_div = divid;
+}
+
+var current_menu = "";
+function show_menu(menu)
+{
+	if(current_menu!=menu)
+		hide_menu()
+	$("#"+menu).slideDown('slow')
+	current_menu = menu;	
+	$("."+menu).addClass("selected");
+}
+
+function hide_menu()
+{
+	if(current_menu!='')
+	{
+		$("#"+current_menu).slideUp('normal'); 
+		$("."+current_menu).removeClass("selected");
+		return true;
+	}
+}
+	
 	
