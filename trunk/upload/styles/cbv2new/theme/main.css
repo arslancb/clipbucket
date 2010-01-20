@@ -576,12 +576,14 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .more_button_up a,.more_button a{color:#333; text-decoration:none; font-weight:bold; font-family:Arial, Helvetica, sans-serif;font-size:11px; display:block}.more_button_up a,.more_button a:hover{color:#0099cc}
 
 
-.upload_opt{  margin-bottom:10px}
+.upload_opt{  margin-bottom:10px }
 .upload_opt_head{font-size:16px; font-weight:bold; font-family:Arial, Helvetica, sans-serif}
 .swfupload{margin:0px; margin-bottom:-5px}
 
-.upload_form_div{margin:3px; border:1px solid #EAEAEA; background:#FFF; padding:3px;}
-.divStatus{font-weight:bold}
+.upload_form_div{ margin:3px; border:1px solid #EAEAEA; background:#FFF; padding:4px; }
+.progressWrapper { padding:8px; background:#fafafa; border:1px solid #ccc; margin-top:5px;}
+.progressBarStatus { padding:2px; font-size:11px; font-weight:bold; }
+.divStatus{font-weight:bold; }
 
 .upload_link_button ul{margin:0px; padding:0px; display:block; padding:4px; margin-top:10px}
 .upload_link_button ul li{list-style:none; float:left; display:block; margin-right:10px}

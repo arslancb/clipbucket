@@ -75,8 +75,8 @@
 	<div class="vd_user_container" align="center">
    		<a href="{$userquery->profile_link($user)}"><img src="{$userquery->getUserThumb($user)}" alt="{$user.username}" class="account_thumb" /></a>
         <ul>
-        	<li><a href="#">View Profile</a></li>
-        	<li><a href="#">View Videos</a></li>
+        	<li><a href="{$userquery->profile_link($user)}">View Profile</a></li>
+        	<li><a href="{$userquery->get_user_videos_link($user)}">View Videos</a></li>
         </ul>
         <div align="center"><span class="small_button non_button" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">Subscribe</span></div>
     </div>
@@ -105,7 +105,7 @@
         
         
         <div class="tags_cats">
-    <div class="tags">{$vdo.tags|tags:video}</div>
+    <div class="tags">{$vdo.tags|tags:videos}</div>
     <div class="category">Category : {$vdo.category|categories:video}</div>
     </div>
     
@@ -159,7 +159,7 @@
 {assign var=videos_items_columns value=func->config(videos_items_columns)}
 {get_videos user=$vdo.userid limit=$videos_items_columns assign=user_vids exclude=$vdo.videoid}
 {if $user_vids}
-<span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#user_vids").slideToggle("fast")'>More from Admin</span>
+<span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#user_vids").slideToggle("fast")'>More from {$user.username}</span>
 <div class="watch_vids_cont" id="user_vids">
 {section name=uvlist loop=$user_vids}
 	{include file="$style_dir/blocks/watch_video/video_box.html" video=$user_vids[uvlist]}

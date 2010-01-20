@@ -8,7 +8,7 @@
         <img src="{$imageurl}/dot.gif" class="add_icon" onclick="add_quicklist(this,'{$video.videoid}')" title="add {$video.title} to qucklist" alt="quicklist">
     </div> 
    	<div class="watch_video_box_details">
-    <a href="#">{$video.title|truncate:30}</a><br>
+    <a href="{videoLink vdetails=$video}">{$video.title|truncate:30}</a><br>
 views : {$vdo.views|number_format}<br>
 <a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a>
 </div>

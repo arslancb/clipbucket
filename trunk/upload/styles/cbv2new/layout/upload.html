@@ -103,15 +103,15 @@
     
     <form action="{$upload_link}" method="post" enctype="multipart/form-data" name="{$upload_form_name}" id="{$upload_form_name}" >
       {$Upload->load_post_fields()}
-      <input name="file_name" type="hidden" value="{$file_name}">
-      {assign var=opt_list value=$Upload->load_upload_options()}
-      
-      {foreach from=$opt_list item=opt key=divid}
-    	<div class="upload_opt" id="{$divid}">
-        	<span class="upload_opt_head"><a href="javascript:void(0)" onClick="$('#upload_form_div').slideToggle();">{$opt.title}</a></span>
-    		{load_form name=$opt.load_func button_class='cb_button_2' class='upload_form'}
-    	</div>
-	  {/foreach}
+    <input name="file_name" type="hidden" value="{$file_name}">
+    {assign var=opt_list value=$Upload->load_upload_options()}
+    
+    {foreach from=$opt_list item=opt key=divid}      
+        <div class="upload_opt" id="{$divid}">
+        <span class="upload_opt_head">{$opt.title}</span>
+        	{load_form name=$opt.load_func button_class='cb_button_2' class='upload_form'}                        
+        </div> <!--upload_opt-->
+    {/foreach} 
     </form>
     {/if}
     <!-- STEP 2 ENDS HERE -->
