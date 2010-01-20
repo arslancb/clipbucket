@@ -3,17 +3,7 @@
 var page = baseurl+'/ajax.php';
 var loading_img = "<img src='"+imageurl+"/ajax-loader.gif'>";
 var loading = loading_img+" Loading...";
-	function GetParam( name )
-	{
-	  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-	  var regexS = "[\\?&]"+name+"=([^&#]*)";
-	  var regex = new RegExp( regexS );
-	  var results = regex.exec( window.location.href );
-	  if( results == null )
-		return "";
-	  else
-		return results[1];
-	}
+
 
 	function Confirm_Delete(delUrl) {
 	  if (confirm("Are you sure you want to delete")) {
@@ -33,14 +23,6 @@ var loading = loading_img+" Loading...";
 	  }
 	}
 	
-	function removeVideo(formname)
-	{
-		if (confirm('Are you sure you want to remove this video?'))
-		{
-			document.formname.submit();
-		}else
-			return false;
-	}
 	
 	function confirm_it(msg)
 	{
@@ -59,45 +41,6 @@ var loading = loading_img+" Loading...";
 	img.src = captcha_src+'?'+Math.random();
 	}
 	
-	//Is Used to Validate Form Fields
-	function validate_required(field,alerttxt)
-	{
-	with (field)
-	{
-	  if (value==null||value=="")
- 	 {
- 	 alert(alerttxt);return false;
- 	 }
- 	 else
- 	 {
-	  return true;
-	  }
-	}
-	}
-	
-	//Validate the Upload Form
-	function validate_upload_form(thisform)
-	{
-	with (thisform)
-	{
-			if (validate_required(title,"Title must be filled out!")==false)
- 	 		{
-		 title.focus();return false;
-			}
-			if (validate_required(description,"Description must be filled out!")==false)
- 			{
-		 description.focus();return false;
-			}
-			if (validate_required(tags,"Plase Enter some tags for video")==false)
- 			{
-		 tags.focus();return false;
-			}
-			if (validate_required(category[0],"Select Category")==false)
- 			{
-		 	}
-	
-	}
-	}
 	
 	//Validate the Add Category Form
 	function validate_category_form(thisform)
@@ -153,57 +96,7 @@ var loading = loading_img+" Loading...";
 		}
 		// -->
 
-	function hide_active_sharing() {
-	  hideDiv("flash_recent_videos");
-	}
-	
-	function hideDiv(divname) {
-	if (document.getElementById) { // DOM3 = IE5, NS6
-	document.getElementById(divname).style.visibility = 'hidden';
-	}
-	else {
-	if (document.layers) { // Netscape 4
-	document.divname.visibility = 'hidden';
-	}
-	else { // IE 4
-	document.all.divname.style.visibility = 'hidden';
-	}
-	}
-	}
-	
-	function showDiv(divname) {
-	if (document.getElementById) { // DOM3 = IE5, NS6
-	document.getElementById(divname).style.visibility = 'visible';
-	}
-	else {
-	if (document.layers) { // Netscape 4
-	document.divname.visibility = 'visible';
-	}
-	else { // IE 4
-	document.all.divname.style.visibility = 'visible';
-	}
-	}
-	}
-	var OnId =null;
-	function SetId(ID){
- 		if(OnId != null){
-		OldElement = document.getElementById(OnId);
-		OldElement.setAttribute("class", ''); //For Most Browsers
-		OldElement.setAttribute("className", ''); //For Most Browsers
-		}
-		element = document.getElementById(ID);
-		if(element !=null){
-		element.setAttribute("class", 'currentTab'); //For Most Browsers
-		element.setAttribute("className", 'currentTab'); //For Most Browsers
-		OnId = ID;
-		}
-	}
-	
-	function innerHtmlDiv(Div,HTML){
-		document.getElementById(Div).innerHTML=HTML;
-	}
-	
-	
+
 	function check_remote_url()
 	{
 

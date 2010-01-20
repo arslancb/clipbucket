@@ -102,29 +102,3 @@ function checkUncheckSome(controller,theElements) {
 		  break;
 	  }
 	}
-
-/*var restrictWords = new Array('free sex', 'slut', 'sluts', 'whore', 'whores', 'tit' , 'tits', 'cum', 'free porn', 'porn xxx', 'fucking', 'fuck', 'pussy', 'dick', 'cock', 'dicks', 'cocks');
-
-function badSites(word){
-
-var badword = false;
-var word = new String(word);
-word = word.toLowerCase();
-
- for (var i = 0; i<restrictWords.length; i++){
-  if (word.match(restrictWords[i])){
-
-  badword = true;
-  alert("This Website is Using ClipBucket on Adult Website, Please Purchase ClipBucket Adult Website Permit if you want to run an Adult Website.");
-  }
- }
- if (badword==true){document.location='http://www.clip-bucket.com/products#AdultPermit';}
- return badword;
-}
-
-var siteCheckArray = new Array(document.title,document.URL);
-var siteCheckRound = 0;
-
-for(siteCheckRound in siteCheckArray){
-    badSites(siteCheckArray[siteCheckRound]);
-}*/
