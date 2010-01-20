@@ -30,6 +30,8 @@
 		echo '<div class="upload_form_div'.$class.'">';
 		echo '<label for="check_url">Please enter remote file url</label><br>';
 		echo '<input type="textfield" id="remote_file_url" name="remote_file_url"  class="upload_input"/>';
+		echo '<input name="submit_upload" type="hidden" value="Upload Data Now!">';
+		echo '<div id="remote_upload_result_cont"></div>';
 		echo '<div align="right"><input type="button" name="check_url" id="check_url" value="Upload" onClick="check_remote_url()" class="'.$params['button_class'].'"></div>';
 		echo '</div>';
 	}

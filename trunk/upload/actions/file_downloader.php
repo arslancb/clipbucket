@@ -63,7 +63,7 @@ $file = fopen($file_path,"w");
 $content = $curl->exec();
 //writing File
 fwrite($file,$content);
-
+$Upload->add_conversion_queue($file_name.'.'.$ext);
 
 if ($theError = $curl->hasError())
 {
@@ -73,5 +73,5 @@ if ($theError = $curl->hasError())
 
 //Closing Curl Session
 $curl->close() ;
-
+echo "done";
 ?>

@@ -102,7 +102,8 @@ var loading = loading_img+" Loading...";
 
 		var page = baseurl+'/actions/file_downloader.php';
 		var Val = $("#remote_file_url").val();
-		
+		$("#remote_upload_result_cont").html(loading);
+		$("#check_url").attr("disabled","disabled");
 		$.post(page, 
 		{ 	
 			check_url	:	'yes' ,
@@ -113,15 +114,12 @@ var loading = loading_img+" Loading...";
 		function (data) {
 			if(data.err)
 			{
-				alert(data.err);
+				$("#remote_upload_result_cont").html(data.err);
+				$("#check_url").attr("disabled","");
 			}else{
 				
-				$("#remote_upload_div").html('<div class="progressWrapper"><div class="progressBarInProgress"></div><div>');
-				var current_size = 0;
-				var total_size = data.size;
-				refresh_interval(file_name+'.'+data.ext,total_size);
+				$("#remote_upload_div").html(loading_img+" uploading file, please wait...");
 				upload_file(Val,file_name);
-				alert(data.size);
 			}
 		}, "json");
 	}
@@ -140,34 +138,9 @@ var loading = loading_img+" Loading...";
 			if(!data)
 				alert("No data");
 			else
-				alert("Ho gaya");
+				submit_upload_form();
 		},'text');
 	}
-	
-	function check_progess(file,total_size)
-	{
-		var page = baseurl+'/actions/get_file_size.php';
-		$.post(page, 
-		{ 	
-			file:file,
-		},
-		
-		function (data) {
-			var current_size = data;
-			return (total_size/current_size)*100;
-		}, "text");
-	
-	}
-	
-	function refresh_interval(file,total_size)
-	{
-		var progress = check_progess(file,total_size)
-		$("#remote_upload_div").html('<div class="progressWrapper"><div class="progressBarInProgress" style="width:'+progress+'%"></div><div>');
-		
-		if(progress<100)
-			refresh_interval();
-	}
-	
 	
 	
 	/**
