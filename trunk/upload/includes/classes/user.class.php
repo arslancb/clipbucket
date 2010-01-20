@@ -2658,7 +2658,7 @@ class userquery extends CBCategory{
 	 */
 	function get_inner_channel_top_links($u)
 	{
-		return array(lang('upload')=>array('link'=>$this->get_user_videos_link($u),
+		return array(lang('upload')=>array('link'=>$this->get_user_videos_link($u)),
 					 lang('favorites')=>array('link'=>cblink(array('name'=>'user_favorites')).$u['username']),
 					 lang('contacts')=>array('link'=>cblink(array('name'=>'user_contacts')).$u['username']),
 					 );
