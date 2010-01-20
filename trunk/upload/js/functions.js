@@ -517,6 +517,9 @@ var loading = loading_img+" Loading...";
 	function add_quicklist(obj,vid)
 	{
 		
+		$(obj).attr('src',imageurl+"/ajax-loader.gif");
+		$(obj).css('background-position',"-200px 200px");
+		
 		$.post(page, 
 		{ 	
 			mode : 'quicklist',
@@ -529,6 +532,8 @@ var loading = loading_img+" Loading...";
 				alert("No data");
 			else
 			{
+				$(obj).attr('src',imageurl+"/dot.gif");
+				$(obj).css('background-position',"-0px -0px");
 				$(obj).removeClass('add_icon');
 				$(obj).addClass('check_icon');
 				$(obj).removeAttr('onClick');
