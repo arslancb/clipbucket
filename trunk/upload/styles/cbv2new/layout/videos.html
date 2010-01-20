@@ -20,7 +20,7 @@
 <div class="time_cont">
 {assign var=time_links value=func->time_links()}
 {foreach from=$time_links item=name key=sort name=times}
-    <a href="{link name=time sort=$sort}" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a> {if !$smarty.foreach.times.last}|{/if}
+    <a href="{link name=time sort=$sort type=videos}" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a> {if !$smarty.foreach.times.last}|{/if}
 {/foreach}
 </div>
     <div id="style_change" style="margin-top:10px">Change Style of Listing 
