@@ -82,7 +82,7 @@
 
     {foreach from=$vidthumbs item=vid_thumb}
     	<div style="width:140px; float:left" align="center">
-    	<label for="{$vid_thumb|getname}"><img src="{$vid_thumb}" border="1" style="margin:4px" /><br />
+    	<label for="{$vid_thumb|getname}"><img src="{$vid_thumb}" border="1" style="margin:4px" style="max-width:120px" /><br />
         <input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $data.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />Default</label><br />
   {if $vid_thumb|getname!='processing'}
   <a href="?video={$data.videoid}&delete={$vid_thumb|getname}.{$vid_thumb|getext}">Delete</a>

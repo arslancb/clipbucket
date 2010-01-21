@@ -82,7 +82,7 @@
     </div>
     <div class="vd_details">
     <div class="uploading_detail">
-    	Uploaded by <a href="{$userquery->profile_link($user)}">{$user.username}</a> &#8212; {$vdo.date_added|nicetime}
+    	<a href="{$userquery->profile_link($user)}">Uploaded by {$user.username} &#8212; {$vdo.date_added|nicetime}</a>
     </div>
     <div class="vd_stats">
         <ul>
@@ -95,7 +95,7 @@
     
     	<div class="desc_cont">
     	<div class="less_desc" id="less_desc">
-        	 <span class="upper_quote"></span>{$vdo.description|description|truncate:200} <a href="javascript:void(0)" onclick="$('#less_desc').css('display','none');$('#more_desc').css('display','block');">More</a>
+        	 <span class="upper_quote"></span>{$vdo.description|description|truncate:200}{if strlen($vdo.description)>200}<a href="javascript:void(0)" onclick="$('#less_desc').css('display','none');$('#more_desc').css('display','block');">More</a>{/if}
         </div>
         <div class="more_desc" id="more_desc" style="display:none">
         	 <span class="upper_quote"></span>{$vdo.description|description} <a href="javascript:void(0)" onclick="$('#more_desc').css('display','none');$('#less_desc').css('display','block');">Less</a>

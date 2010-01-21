@@ -81,7 +81,10 @@
 					}
 				}
 			}else{
-				$funcs();
+				if($params['data'])
+					$funcs($params['data']);
+				else
+					$funcs();
 			}
 		}
 	}
