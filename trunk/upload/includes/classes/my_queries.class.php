@@ -853,7 +853,9 @@ class myquery {
 			$db->update("users",array("total_comments"),array("|f|total_comments+1")," userid='".userid()."'");
 			
 			e("Comment has been added",m);
-			return $db->insert_id();
+			
+			$cid = $db->insert_id();			
+			return $cid;
 		}
 		
 		return false;

@@ -151,12 +151,15 @@ class img_validator extends files
     function checks_word($word)
     {
 		if(isset($_SESSION["word_validator"])){
-        $recorded = base64_decode($_SESSION["word_validator"]);
+        	$recorded = base64_decode($_SESSION["word_validator"]);
 		}else{
-		$recorded = base64_decode($_COOKIE["word_validator"]);
+			$recorded = base64_decode($_COOKIE["word_validator"]);
 		}
+		
 		$given    = $this->encrypts_word($word);
-        if(ereg($given, $recorded))
+		preg_match("/$given/",$recorded,$matches);
+		
+        if($matches)
         {
             $msg = true;
         }
@@ -164,7 +167,7 @@ class img_validator extends files
         {
              $msg =  false;
         }
-	return $msg;
+		return $msg;
     }
 
     /**

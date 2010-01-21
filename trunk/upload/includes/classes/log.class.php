@@ -7,6 +7,19 @@
  * @ since : June 14, 2009
  * @ ClipBucket : v2.x
  * @ license : CBLA
+ * logging types
+ * - login
+ * - signup
+ * - upload_video
+ * - add_group
+ * - add_friend
+ * - video_comment
+ * - profile_comment
+ * - profile_update
+ * - add_playlist
+ * - add_topic
+ * - subscribe
+ * - add_favorite
  */
 
 
@@ -30,6 +43,9 @@ class CBLogs
 		$useremail = $a['useremail'];
 		$userlevel = $a['userlevel'];
 		
+		$action_obj_id = $a['action_obj_id'];
+		$action_done_id = $a['action_done_id'];
+		
 		$userid = $userid ? $userid : $userquery->udetails['userid'];
 		$username = $username ? $username : $userquery->udetails['username'];
 		$useremail = $useremail ? $useremail : $userquery->udetails['email'];
@@ -50,6 +66,8 @@ class CBLogs
 		'action_success',
 		'action_details',
 		'action_userlevel',
+		'action_obj_id',
+		'action_done_id',
 		),
 		array
 		(
@@ -61,7 +79,9 @@ class CBLogs
 		NOW(),
 		$success,
 		$details,
-		$userlevel
+		$userlevel,
+		$action_obj_id,
+		$action_done_id
 		)
 		);
 					  

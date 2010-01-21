@@ -1,24 +1,15 @@
 <?php
-
-/* 
- ****************************************************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.											|
- | @ Author 	: ArslanHassan																		|
- | @ Software 	: ClipBucket , © PHPBucket.com														|
- ****************************************************************************************************
-*/
 /**
- **************************************************************************************************
- Mysql Queries are used to perform SQL Queries in DATABASE, Don not edit them this will may cause 
- script not to run properly
- This source file is subject to the ClipBucket End-User License Agreement, available online at:
- http://clip-bucket.com/cbla
- By using this software, you acknowledge having read this Agreement and agree to be bound thereby.
- **************************************************************************************************
- Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.
- **************************************************************************************************
- **/
- 
+ * @Software : ClipBucket
+ * @Function : Handles all queries regarding ClipBucket Actions
+ * @Author : Arslan Hassan
+ * @Since : 15 December, 2007
+ * @License : CBLA
+ *
+ * Name : Upload
+ * This class can be edited for own purpose..
+ * it handles all uploading that is done on ClipBucket or with ClipBucket
+ */
  
  
 class Upload{
@@ -276,10 +267,18 @@ class Upload{
 			}else{
 				$insert_id = file_name_exists($file_name);
 				if(!$insert_id)
-				{
-					
+				{				
 					$db->Execute($query);
 					$insert_id = $db->insert_id();
+					
+					//loggin Upload
+					$log_array = array
+					(
+					 'success'=>'yes',
+					 'action_obj_id' => $insert_id,
+					 'details'=> "uploaded a video");
+					insert_log('upload_video',$log_array);
+					
 					$db->update("users",array("total_videos"),array("|f|total_videos+1")," userid='".userid()."'");
 				}
 			}

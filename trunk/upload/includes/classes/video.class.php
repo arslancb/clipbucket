@@ -542,6 +542,16 @@ class CBvideo extends CBCategory
 		$add_comment =  $myquery->add_comment($comment,$obj_id,$reply_to,'v');
 		if($add_comment)
 		{
+			//Loggin Comment			
+			$log_array = array
+			(
+			 'success'=>'yes',
+			 'details'=> "comment on a video",
+			 'action_obj_id' => $obj_id,
+			 'action_done_id' => $add_comment,
+			);
+			insert_log('video_comment',$log_array);
+			
 			//Updating Number of comments of video
 			$this->update_comments_count($obj_id);
 		}

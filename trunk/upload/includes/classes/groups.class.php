@@ -395,6 +395,15 @@ class CBGroups extends CBCategory
 				$grp_details = $this->get_details($insert_id);
 				redirect_to(group_link(array('details'=>$grp_details) ));
 			}
+			
+			//loggin Upload
+			$log_array = array
+			(
+			 'success'=>'yes',
+			 'action_obj_id' => $insert_id,
+			 'details'=> "created new group");
+			insert_log('add_group',$log_array);
+			
 			return $insert_id;
 		}
 	}
@@ -1500,6 +1509,16 @@ class CBGroups extends CBCategory
 		$add_comment =  $myquery->add_comment($comment,$obj_id,$reply_to,'t');
 		if($add_comment)
 		{
+			//Loggin Comment			
+			$log_array = array
+			(
+			 'success'=>'yes',
+			 'details'=> "comment on a topic",
+			 'action_obj_id' => $obj_id,
+			 'action_done_id' => $add_comment,
+			);
+			insert_log('topic_comment',$log_array);
+			
 			//Updating Number of comments of topics
 			$this->update_comments_count($obj_id);
 		}

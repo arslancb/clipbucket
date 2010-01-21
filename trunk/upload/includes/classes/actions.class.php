@@ -98,6 +98,17 @@ class cbactions
 				if(!$this->fav_check($id))
 				{
 					$db->insert($this->fav_tbl,array('type','id','userid','date_added'),array($this->type,$id,userid(),NOW()));
+					
+					//Loggin Favorite			
+					$log_array = array
+					(
+					 'success'=>'yes',
+					 'details'=> "added ".$this->name." to favorites",
+					 'action_obj_id' => $id,
+					 'action_done_id' => $db->insert_id(),
+					);
+					insert_log($this->name.'_favorite',$log_array);
+					
 					e(sprintf(lang('add_fav_message'),$this->name),m);
 				}else{
 					e(sprintf(lang('already_fav_message'),$this->name));
@@ -386,7 +397,19 @@ class cbactions
 			$db->insert($this->playlist_tbl,array("playlist_name","userid","date_added","playlist_type"),
 									  array($name,userid(),now(),$this->type));
 			e(lang("new_playlist_created"),"m");
-			return $db->insert_id();
+			$pid = $db->insert_id();
+			
+			//Logging Playlist			
+			$log_array = array
+			(
+			 'success'=>'yes',
+			 'details'=> "created playlist",
+			 'action_obj_id' => $pid,
+			);
+			
+			insert_log('add_playlist',$log_array);
+					
+			return $pid;
 		}
 		
 		return false;

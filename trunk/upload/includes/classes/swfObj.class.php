@@ -95,7 +95,7 @@ var $playerVar = 'player';
 	//function for Embed Code
 	function EmbedCode($code,$div){
 		$this->code = 'var EmbedCode="'.addslashes($code).'";'."\r\n";
-		$this->code .= "innerHtmlDiv('".$div."',EmbedCode)";
+		$this->code .= "$('#".$div."').html(EmbedCode)";
 	}
 	
 }

@@ -887,8 +887,35 @@ class userquery extends CBCategory{
 			$subj = $cbemail->replace($tpl['email_template_subject'],$var);
 			$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
 			
+			
 			//Now Finally Sending Email
 			cbmail(array('to'=>$friend['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));	
+			
+			
+			//Loggin Friendship
+			
+			$log_array = array
+			(
+			 'success'=>'yes',
+			 'action_obj_id' => $friend['userid'],
+			 'details'=>"friend with ".$friend['username']
+			 );
+			
+			insert_log('add_friend',$log_array);
+			
+			$log_array = array
+			(
+			 'success'=>'yes',
+			 'username' => $friend['username'],
+			 'userid' => $friend['userid'],
+			 'userlevel' => $friend['level'],
+			 'useremail' => $friend['email'],
+			 'action_obj_id' => $insert_id,
+			 'details'=> "friend with ".userid()
+			);
+			
+			//Login Upload
+			insert_log('add_friend',$log_array);
 		}	
 	}
 		
@@ -1080,6 +1107,17 @@ class userquery extends CBCategory{
 		{
 			$db->insert($this->dbtbl['subtbl'],array('userid','subscribed_to','date_added'),
 											   array($user,$to,NOW()));
+			
+			//Loggin Comment			
+			$log_array = array
+			(
+			 'success'=>'yes',
+			 'details'=> "subsribed to ".$to_user['username'],
+			 'action_obj_id' => $to_user['userid'],
+			 'action_done_id' => $db->insert_id(),
+			);
+			insert_log('subscribe',$log_array);
+			
 			e(sprintf(lang('usr_sub_msg'),$to_user['username']),'m');
 		}			
 	}
@@ -1693,6 +1731,16 @@ class userquery extends CBCategory{
 			$add_comment = $myquery->add_comment($comment,$obj_id,$reply_to,$type);
 		if($add_comment)
 		{
+			//Loggin Comment			
+			$log_array = array
+			(
+			 'success'=>'yes',
+			 'details'=> "comment on a profile",
+			 'action_obj_id' => $obj_id,
+			 'action_done_id' => $add_comment,
+			);
+			insert_log('profile_comment',$log_array);
+			
 			//Updating Number of comments of video
 			$this->update_comments_count($obj_id);
 		}
@@ -2515,6 +2563,14 @@ class userquery extends CBCategory{
 		//updating user profile
 		if(!error())
 		{
+			$log_array = array
+			(
+			 'success'=>'yes',
+			 'details'=> "updated profile"
+			);
+			//Login Upload
+			insert_log('profile_update',$log_array);
+			
 			$db->update($this->dbtbl['user_profile'],$query_field,$query_val," userid='".mysql_clean($array['userid'])."'");
 			e(lang("usr_pof_upd_msg"),'m');
 		}
@@ -2589,6 +2645,14 @@ class userquery extends CBCategory{
 			}
 		}
 		
+		$log_array = array
+			(
+			 'success'=>'yes',
+			 'details'=> "updated profile"
+			);
+			//Login Upload
+			insert_log('profile_update',$log_array);
+			
 		$db->update($this->dbtbl['users'],$uquery_field,$uquery_val," userid='".mysql_clean($array['userid'])."'");
 		e(lang("usr_avatar_bg_update"),'m');
 
@@ -3209,6 +3273,7 @@ class userquery extends CBCategory{
 			 
 			//Login Signup
 			insert_log('signup',$log_array);
+			
 			return $insert_id;
 		}
 		
