@@ -660,7 +660,7 @@ function show_menu(menu)
 {
 	if(current_menu!=menu)
 		hide_menu()
-	$("#"+menu).slideDown('slow')
+	$("#"+menu).show()
 	current_menu = menu;	
 	$("."+menu).addClass("selected");
 }
@@ -669,7 +669,7 @@ function hide_menu()
 {
 	if(current_menu!='')
 	{
-		$("#"+current_menu).slideUp('normal'); 
+		$("#"+current_menu).hide(); 
 		$("."+current_menu).removeClass("selected");
 		return true;
 	}
