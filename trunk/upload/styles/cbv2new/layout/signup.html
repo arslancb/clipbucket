@@ -2,16 +2,16 @@
 {assign var='custom_field' value=$userquery->custom_signup_fields}
 
 
-{if $mode =='signup_success'}
+{if $mode == 'signup_success'}
 	<div class="simple_container">
-        	<h2>Signup Success</h2>
-	{if $udetails.usr_status !='Ok'}
-    	Thanks for joing {$title}, please check your inbox for activationg details
+    	{if $udetails.usr_status !='Ok'}
+        	<h2 style="font-family:Arial,Verdana,sans-serif; margin:5px 5px 8px;">Just One More Step</h2>
+    	<p style="margin:0px 5px; line-height:18px; font-size:11px;">Your are just one step behind from becoming an official memeber of <strong>{$title}</strong>.  Please check your email, we have sent you a confirmation email which contains a confirmation link from {$title}, Please click it to complete your registration.</p>
     {else}
-    	Thanks for joing {$title}, please <strong><a href="{link name='login'}">click here login</a></strong> to continue as our registered member
+    	<h2 style="font-family:Arial,Verdana,sans-serif; margin:5px 5px 8px;">Welcome To {$LANG.community}</h2>
+    	<p style="margin:0px 5px; line-height:18px; font-size:11px;">Your email has been confirmed, Please <strong><a href="{link name='login'}">click here to login</a></strong> and continue as our registered member.</p>
     {/if} </div>
-{else}
-
+{else}    
 <div class="signup_left">
 	<h2>Members Login</h2>
     if you already have {$title} account, please login here
@@ -92,5 +92,5 @@
         </form>
     </div>
 </div>
-{/if}
+{/if}    
 <div class="clearfix"></div>

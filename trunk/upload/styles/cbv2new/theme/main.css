@@ -562,7 +562,7 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .upload_form fieldset .form_head{display:block; background-color:#0099cc; padding:3px; color:#fff; font-size:13px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; margin-bottom:10px}
 
 .upload_form .label{cursor:pointer; display:block; font-size:14px; text-transform:uppercase; font-family:Arial, Helvetica, sans-serif; font-weight:bold; margin-bottom:2px}
-.upload_form input[type=text],.upload_form input[type=textfield],.upload_form textarea{border:1px solid #999; width:400px}
+.upload_form input[type=text],.upload_form input[type=textfield],.upload_form textarea{border:1px solid #999; width:400px; resize:auto; }
 .upload_form .field{margin-bottom:10px}
 .upload_form .hint{font-size:11px}
 .upload_form label{cursor:pointer}
@@ -574,7 +574,8 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 #file_upload_div, #remote_upload_div, #embed_code_div { display:none; }
 ul.upload_opts { list-style:none; margin:0px; padding:0px; }
 ul.upload_opts li { padding:8px; margin:0px 10px; top:1px; position:relative; border:1px solid transparent; }
-ul.upload_opts li:hover, ul.upload_opts li:active, ul.upload_opts li.selected { cursor:pointer; background:none; border:1px solid; border-color:#bbb #ccc #fff; color:#0099cc; -moz-border-radius:5px 5px 0px 0px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px; border-radius:5px 5px 0px 0px; }
+ul.upload_opts li:hover { color:#0099cc; cursor:pointer; }
+ul.upload_opts li.selected { cursor:pointer; background:none; border:1px solid; border-color:#bbb #ccc #fff; color:#0099cc; -moz-border-radius:5px 5px 0px 0px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px; border-radius:5px 5px 0px 0px; }
 .upload_opt{  margin-bottom:10px }
 .upload_opt_head{ font-size:14px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; }
 .swfupload{margin:0px; margin-bottom:-5px}
