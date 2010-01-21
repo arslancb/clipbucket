@@ -74,7 +74,6 @@ if(isset($_POST['update'])){
 					'num_thumbs',
 					
 					'php_path',
-					'player_file',
 					
 					'resize',
 					'remoteUpload',

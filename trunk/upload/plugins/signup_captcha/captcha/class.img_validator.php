@@ -136,7 +136,7 @@ class img_validator extends files
     */
     function records_word($word)
     {        
-		session_register('word_validator');
+		//session_register('word_validator');
         $_SESSION["word_validator"] = base64_encode($this->encrypts_word($word));
 		if(empty($_SESSION['word_validator'])){
 			setcookie('word_validator', base64_encode($this->encrypts_word($word)));
@@ -311,7 +311,7 @@ class img_validator extends files
         */
         if($this->image_type == "jpeg")
         {
-            header("Content-type: image/jpeg");
+           header("Content-type: image/jpeg");
             imagejpeg($background_image, false, 100);
         }
         else

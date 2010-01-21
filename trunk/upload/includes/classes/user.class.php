@@ -3199,7 +3199,16 @@ class userquery extends CBCategory{
 				$this->send_welcome_email($insert_id);
 			}
 			
-			
+			$log_array = array
+			('username'	=> $array['username'],
+			 'userid'	=> $insert_id,
+			 'userlevel'=> $array['level'],
+			 'useremail'=> $array['email'],
+			 'success'=>'yes',
+			 'details'=> sprintf("%s signed up",$array['username']));
+			 
+			//Login Signup
+			insert_log('signup',$log_array);
 			return $insert_id;
 		}
 		

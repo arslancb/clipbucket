@@ -1,10 +1,10 @@
 <?php
 /* 
- ****************************************************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.											|
- | @ Author	   : ArslanHassan																			|
- | @ Software  : ClipBucket , © PHPBucket.com														|
- ****************************************************************************************************
+ *************************************************************
+ | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
+ | @ Author	   : ArslanHassan								
+ | @ Software  : ClipBucket , © PHPBucket.com				
+ *************************************************************
 */
 
 define("THIS_PAGE","signup");
@@ -12,7 +12,6 @@ define("PARENT_PAGE","signup");
 
 require 'includes/config.inc.php';
 	
-			assign('mode','signup_success');	
 if($userquery->login_check('',true)){
 	redirect_to(BASEURL);
 }

@@ -3721,4 +3721,13 @@
 			}
 		}
 	}
+	
+	/**
+	 * Function used to insert Log
+	 */
+	function insert_log($type,$details)
+	{
+		global $cblog;
+		$cblog->insert('login',$log_array);
+	}
 ?>
