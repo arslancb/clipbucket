@@ -30,10 +30,10 @@ class CBLogs
 		$useremail = $a['useremail'];
 		$userlevel = $a['userlevel'];
 		
-		$userid = $userid ? $userid : $userquery['userid'];
-		$username = $username ? $username : $userquery['username'];
-		$useremail = $useremail ? $useremail : $userquery['email'];
-		$userlevel = $userlevel ? $userlevel : $userquery['level'];
+		$userid = $userid ? $userid : $userquery->udetails['userid'];
+		$username = $username ? $username : $userquery->udetails['username'];
+		$useremail = $useremail ? $useremail : $userquery->udetails['email'];
+		$userlevel = $userlevel ? $userlevel : $userquery->udetails['level'];
 		
 		$success = $a['success'];
 		$details = $a['details'];
