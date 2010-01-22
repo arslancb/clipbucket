@@ -112,4 +112,6 @@ color:#2b495d;
 }
 
 .menu_toggle{ background-image:url(../images/slide_toggle_2.png);position:absolute; right:0px; top:0px; z-index:5002; width:9px; height:100%; cursor:e-resize; border:1px solid #aaa;}
-.menu_toggle_arrow{ background-image:url(../images/slide_toggle_3.png); background-repeat:no-repeat; position:absolute; right:0px; top:35px; z-index:5003; width:13px; height:51px; cursor:pointer}
+.menu_toggle_arrow{ background:url(../images/slide_toggle_3.png) left no-repeat; position:absolute; right:0px; top:35px; z-index:5003; width:13px; height:51px; cursor:pointer}
+.left_menu .menu_toggle_arrow:hover { background:url(../images/slide_toggle_3.png) -13px no-repeat; }
+.left_menu_0 .menu_toggle_arrow:hover { background:url(../images/slide_toggle_3.png) right no-repeat; }

@@ -52,7 +52,7 @@ function toggle_search(id)
 
 function toggle_menu()
 {
-	if($.cookie("admin_menu")=="show")
+	if($.cookie("admin_menu")=="show" || !$.cookie("admin_menu"))
 	{
 		$('#left_column').animate({ 
         width: "15px",

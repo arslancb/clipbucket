@@ -10,22 +10,19 @@
      <div class="dragbox" id="cbstats" >
         <h2>{$title} Quick Stats</h2>
         <div class="dragbox-content" >
-            <div class="item">
+            <div class="item clearfix">
             	<div class="stats_subitem">Videos</div>
-                <div class="stats_subitem">Total : <strong>{get_videos count_only=yes}</strong> | Active : <strong>{get_videos count_only=yes active="yes"}</strong> | Flagged : <strong>{$cbvid->action->count_flagged_objects()}</strong> | Processing : <strong>{get_videos count_only=yes status='Processing'}</strong></div>
-                <div class="clearfix"></div>
+                <div class="stats_subitem_d">Total : <strong>{get_videos count_only=yes}</strong> | Active : <strong>{get_videos count_only=yes active="yes"}</strong> | Flagged : <strong>{$cbvid->action->count_flagged_objects()}</strong> | Processing : <strong>{get_videos count_only=yes status='Processing'}</strong></div>
             </div>
             
-             <div class="item">
+             <div class="item clearfix">
             	<div class="stats_subitem">Groups</div>
-                <div class="stats_subitem">Total : <strong>{get_groups count_only=yes}</strong> | Active : <strong>{get_groups count_only=yes active='yes'}</strong> | Flagged : <strong>{$cbgroup->action->count_flagged_objects()}</strong></div>
-                <div class="clearfix"></div>
+                <div class="stats_subitem_d">Total : <strong>{get_groups count_only=yes}</strong> | Active : <strong>{get_groups count_only=yes active='yes'}</strong> | Flagged : <strong>{$cbgroup->action->count_flagged_objects()}</strong></div>
             </div>
             
-             <div class="item">
+             <div class="item clearfix">
             	<div class="stats_subitem">Members</div>
-                <div class="stats_subitem">Total : <strong>{get_users count_only=yes}</strong> | Active : <strong>{get_users count_only=yes status='Ok'}</strong> | Flagged : <strong>{$userquery->action->count_flagged_objects()}</strong> | Banned : <strong>{get_users count_only=yes ban='yes'}</strong></div>
-                <div class="clearfix"></div>
+                <div class="stats_subitem_d">Total : <strong>{get_users count_only=yes}</strong> | Active : <strong>{get_users count_only=yes status='Ok'}</strong> | Flagged : <strong>{$userquery->action->count_flagged_objects()}</strong> | Banned : <strong>{get_users count_only=yes ban='yes'}</strong></div>
             </div>
             
             

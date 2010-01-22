@@ -25,7 +25,7 @@ a[rel=sponsors]:hover { background:#555; border:1px solid #232323; }
 
 .sarch_button{width:109px; height:25px; cursor:pointer; background:transparent url(../images/icons.png) 0px -59px no-repeat;}
 
-.header_menu{background:url(../images/gradients.png)0px -41px repeat-x; height:33px; border:1px solid #000; border-left:none; border-right:none}
+.header_menu{ background-image:url(../images/gradients.png); background-repeat:repeat-x; background-position:0px -41px; height:33px; border:1px solid #000; border-left:none; border-right:none}
 .header_menu_after{background:url(../images/gradients.png)0px -74px repeat-x;height:13px;}
 
 .header_menu a{text-decoration:none; color:#fff}
@@ -225,7 +225,7 @@ padding-left:5px; font-size:16px; font-weight:bold; font-family:Arial, Helvetica
 
 
 .stats_subitem{width:20%;float:left;}
-.stats_subitem:nth-child(2n){float:right; width:80%; text-align:right}
+.stats_subitem_d{float:right; width:80%; text-align:right}
 
 
 .msg{ margin:10px;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px; }
