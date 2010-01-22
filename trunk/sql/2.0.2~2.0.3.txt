@@ -1,0 +1,8 @@
+INSERT INTO `clipbucket_svn`.`cb_pages` (`page_id`, `page_name`, `page_title`, `page_content`, `userid`, `active`, `delete_able`, `date_added`) VALUES (NULL, '403 Error', '403 Forbidden', '<h2>403 Access Denied</h2>
+Sorry, you cannot access this page...', '1', 'yes', 'no', ''), (NULL, '404 Error', '404 Not Found', '<h2>404 Not Found</h2>
+we are unable to find requested URL on server..', '1', 'yes', 'no', '');
+
+INSERT INTO `config` ( `name`, `value`) VALUES
+( 'support_email', 'support@website.tld'),
+( 'website_email', 'email@website.td'),
+( 'welcome_email', 'welcome@website.tld');
