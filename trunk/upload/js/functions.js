@@ -637,23 +637,6 @@ var loading = loading_img+" Loading...";
 			$(li).addClass("selected");
 		}
 	}
-	
-var current_tab = '';
-var current_div = '';
-
-function display_tab(Li,divid)
-{ 
-	if(current_tab!='')
-		$(current_tab).removeClass("selected");
-	if(current_div!='')	
-		$('#'+current_div).hide();
-		
-	$(Li).addClass("selected");
-	$('#'+divid).fadeIn('300');
-	
-	current_tab = Li;
-	current_div = divid;
-}
 
 var current_menu = "";
 function show_menu(menu)

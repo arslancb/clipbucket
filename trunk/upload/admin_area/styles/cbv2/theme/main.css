@@ -21,7 +21,7 @@ a[rel=sponsors]:hover { background:#555; border:1px solid #232323; }
 .header_grey_bar{ color:#fff;font-size: 20px;font-family:"Century Gothic"}
 .cbicon{background-image:url(../images/icons.png); width:50px; height:28px; background-repeat:no-repeat; margin:6px 10px 0px 10px; float:left}
 .header_grey_bar .welcome{font-size:15px; padding-right:10px}
-.header_grey_bar .logout_button{background-image:url(../images/icons.png); background-position:-50px 0px; height:25px; width:25px; float:right;margin:6px 5px 0px 5px; }
+.header_grey_bar .logout_button{background-image:url(../images/icons.png); background-position:-50px 0px; height:25px; width:25px; margin:6px 5px 0px 5px; vertical-align:sub; }
 
 .sarch_button{width:109px; height:25px; cursor:pointer; background:transparent url(../images/icons.png) 0px -59px no-repeat;}
 
