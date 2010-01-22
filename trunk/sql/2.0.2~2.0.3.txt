@@ -6,3 +6,8 @@ INSERT INTO `config` ( `name`, `value`) VALUES
 ( 'support_email', 'support@website.tld'),
 ( 'website_email', 'email@website.td'),
 ( 'welcome_email', 'welcome@website.tld');
+
+
+ALTER TABLE  `action_log` ADD  `action_link` TEXT NOT NULL AFTER  `action_details` ,
+ADD  `action_obj_id` INT( 255 ) NOT NULL AFTER  `action_link` ,
+ADD  `action_done_id` INT( 255 ) NOT NULL AFTER  `action_obj_id`
