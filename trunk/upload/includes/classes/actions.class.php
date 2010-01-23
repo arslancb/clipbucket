@@ -313,6 +313,15 @@ class cbactions
 			return false;
 	}
 	
+	/**
+	 * Function used to count total favorites only
+	 */
+	function total_favorites()
+	{
+		global $db;
+		return $db->count($this->fav_tbl,"favorite_id"," type='".$this->type."'");
+	}
+	
 	
 	/**
 	 * Function used remove video from favorites
@@ -598,6 +607,22 @@ class cbactions
 	{
 		global $db;
 		return $db->count($this->playlist_items_tbl,"playlist_item_id","playlist_id='$id'");
+	}
+	
+	
+	/**
+	 * Function used to count total playlist or items
+	 */
+	function count_total_playlist($item=false)
+	{
+		global $db;
+		if(!$item)
+		{
+			$result = $db->count($this->playlist_tbl,"*"," playlist_type='".$this->type."' ");
+			return $result;
+		}else{
+			return $db->count($this->playlist_items_tbl,"playlist_item_id"," playlist_item_type='".$this->type."'");
+		}
 	}
 }
 

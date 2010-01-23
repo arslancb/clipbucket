@@ -952,16 +952,21 @@ class myquery {
 			$cond .= " AND parent_id='$parent_id'";
 		}
 		
-		$result = $db->select("comments","*"," type='$type' AND type_id='$type_id' $cond");
+		if($type_id!='wildcard')
+			echo $typeid_query = "AND type_id='$type_id' ";
 		
-		if($db->num_rows > 0)
+		if(!$count_only)
 		{
-			if($count_only)
-				return $db->num_rows;
-			else
+			$result = $db->select("comments","*"," type='$type' $typeid_query $cond");
+			if($db->num_rows > 0)
+			{
 				return $result;
-		}else{
-			return '';
+			}else{
+				return '';
+			}
+		}else
+		{
+			return $db->count("comments","*"," type='$type' $typeid_query $cond");
 		}
 		
 	}

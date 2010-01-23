@@ -1336,24 +1336,24 @@ class userquery extends CBCategory{
 			$udetails = $this->get_user_details($uid);
 		//$thumbnail = $udetails['avatar'] ? $udetails['avatar'] : NO_AVATAR;
 		$thumbnail = $udetails['avatar'];
-		$thumb_file = BASEDIR.'/images/avatars/'.$thumbnail;
+		$thumb_file = USER_THUMBS_DIR.'/'.$thumbnail;
 		if(file_exists($thumb_file) && $thumbnail!='')
-			$thumb_file = BASEURL.'/images/avatars/'.$thumbnail;
+			$thumb_file = USER_THUMBS_URL.'/'.$thumbnail;
 		elseif(!empty($udetails['avatar_url']))
 		{
 			$thumb_file = $udetails['avatar_url'];
 			$remote  = true;
 		}else
-			$thumb_file = BASEURL.'/images/avatars/'.NO_AVATAR;
+			$thumb_file = USER_THUMBS_URL.'/'.NO_AVATAR;
 		$ext = GetExt($thumb_file);
 		$file = getName($thumb_file);
 		
 		if(!$remote)
 		{
 			if(!empty($size))
-				$thumb = BASEURL.'/images/avatars/'.$file.'-'.$size.'.'.$ext;
+				$thumb = USER_THUMBS_URL.'/'.$file.'-'.$size.'.'.$ext;
 			else
-				$thumb = BASEURL.'/images/avatars/'.$file.'.'.$ext;
+				$thumb = USER_THUMBS_URL.'/'.$file.'.'.$ext;
 		}else
 			$thumb = $thumb_file;
 		
@@ -1378,9 +1378,9 @@ class userquery extends CBCategory{
 			$udetails = $this->get_user_details($uid);
 		//$thumbnail = $udetails['avatar'] ? $udetails['avatar'] : 'no_avatar.jpg';
 		$file = $udetails['background'];
-		$bgfile = BASEDIR.'/images/backgrounds/'.$file;
+		$bgfile = USER_BG_DIR.'/'.$file;
 		if(file_exists($bgfile) && $file)
-			$thumb_file = BASEURL.'/images/backgrounds/'.$file;
+			$thumb_file = USER_BG_URL.'/'.$file;
 		elseif(!empty($udetails['background_url']))
 		{
 			$thumb_file = $udetails['background_url'];
@@ -2497,7 +2497,7 @@ class userquery extends CBCategory{
 		//Deleting User Avatar
 		if($array['delete_avatar']=='yes')
 		{
-			$file = BASEDIR.'/images/avatars/'.$array['avatar_file_name'];
+			$file = USER_THUMBS_DIR.'/'.$array['avatar_file_name'];
 			if(file_exists($file) && $array['avatar_file_name'] !='')
 				unlink($file);
 		}
@@ -2505,7 +2505,7 @@ class userquery extends CBCategory{
 		//Deleting User Bg
 		if($array['delete_bg']=='yes')
 		{
-			$file = BASEDIR.'/images/backgrounds/'.$array['bg_file_name'];
+			$file = USER_THUMBS_DIR.'/'.$array['bg_file_name'];
 			if(file_exists($file) && $array['bg_file_name'] !='')
 				unlink($file);
 		}
@@ -2591,7 +2591,7 @@ class userquery extends CBCategory{
 		//Deleting User Avatar
 		if($array['delete_avatar']=='yes')
 		{
-			$file = BASEDIR.'/images/avatars/'.$array['avatar_file_name'];
+			$file = USER_THUMBS_DIR.'/'.$array['avatar_file_name'];
 			if(file_exists($file) && $array['avatar_file_name'] !='')
 				unlink($file);
 		}
@@ -2599,7 +2599,7 @@ class userquery extends CBCategory{
 		//Deleting User Bg
 		if($array['delete_bg']=='yes')
 		{
-			$file = BASEDIR.'/images/backgrounds/'.$array['bg_file_name'];
+			$file = USER_THUMBS_DIR.'/'.$array['bg_file_name'];
 			if(file_exists($file) && $array['bg_file_name'] !='')
 				unlink($file);
 		}
@@ -3152,7 +3152,7 @@ class userquery extends CBCategory{
 			
 			if(has_access('admin_access',true))
 			{
-				if($array['active']=='yes')
+				if($array['active']=='Ok')
 				{
 					$usr_status = 'Ok';
 					$welcome_email = 'yes';
@@ -3164,10 +3164,10 @@ class userquery extends CBCategory{
 				$query_field[] = "level";
 				$query_val[] = $array['level'];
 			}
-			
+
 			$query_field[] = "usr_status";
 			$query_val[] = $usr_status;
-			
+
 			$query_field[] = "	welcome_email_sent";
 			$query_val[] = $welcome_email;
 			

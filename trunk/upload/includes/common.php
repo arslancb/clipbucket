@@ -215,6 +215,9 @@ else
 	define('MASS_UPLOAD_DIR',FILES_DIR.'/mass_uploads');
 	define('LOGS_DIR',FILES_DIR.'/logs');
 	
+	define("USER_THUMBS_DIR",BASEDIR.'/images/avatars');
+	define("USER_BG_DIR",BASEDIR.'/images/backgrounds');
+	
 	define('JS_DIR',BASEDIR.'/js');
 	define('JS_URL',BASEURL.'/js');
 	
@@ -227,6 +230,8 @@ else
 	define("PLAYER_DIR",BASEDIR.'/player');
 	define("PLAYER_URL",BASEURL.'/player');
 	
+	define("USER_THUMBS_URL",BASEURL.'/images/avatars');
+	define("USER_BG_URL",BASEURL.'/images/backgrounds');
 	
  //Required Settings For Video Converion
  
@@ -427,6 +432,7 @@ $Smarty->register_modifier('country','get_country');
 $Smarty->register_modifier('cbsearch',new cbsearch());
 $Smarty->register_modifier('flag_type','flag_type');
 $Smarty->register_modifier('get_username','get_username');
+$Smarty->register_modifier('formatfilesize','formatfilesize');
 
 
 /*

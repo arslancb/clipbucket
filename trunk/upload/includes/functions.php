@@ -420,6 +420,45 @@
 	}
 	
 	
+	
+	
+	/**
+	 * Get Directory Size
+	 */
+	function get_directory_size($path)
+	{
+		$totalsize = 0;
+		$totalcount = 0;
+		$dircount = 0;
+		if ($handle = opendir ($path))
+		{
+		while (false !== ($file = readdir($handle)))
+		{
+		  $nextpath = $path . '/' . $file;
+		  if ($file != '.' && $file != '..' && !is_link ($nextpath))
+		  {
+			if (is_dir ($nextpath))
+			{
+			  $dircount++;
+			  $result = get_directory_size($nextpath);
+			  $totalsize += $result['size'];
+			  $totalcount += $result['count'];
+			  $dircount += $result['dircount'];
+			}
+			elseif (is_file ($nextpath))
+			{
+			  $totalsize += filesize ($nextpath);
+			  $totalcount++;
+			}
+		  }
+		}
+		}
+		closedir ($handle);
+		$total['size'] = $totalsize;
+		$total['count'] = $totalcount;
+		$total['dircount'] = $dircount;
+		return $total;
+	}
 	//FUNCTION USED TO FORMAT FILE SIZE
 	//INPUT BYTES
 	//OUTPT MB , Kib
@@ -2529,8 +2568,10 @@
 			break;
 			case 'u':
 			case 'user':
+			case 'channel':
 
 			{
+				
 				if(!isset($_COOKIE['user_'.$id])){
 					$db->update("users",array("profile_hits"),array("|f|profile_hits+1")," userid='$id'");
 					setcookie('user_'.$id,'watched',time()+3600);
@@ -3729,5 +3770,19 @@
 	{
 		global $cblog;
 		$cblog->insert($type,$details);
+	}
+	
+	/**
+	 * Function used to get db size
+	 */
+	function get_db_size()
+	{
+		$result = mysql_query("SHOW TABLE STATUS");
+		$dbsize = 0;
+		while( $row = mysql_fetch_array( $result ) )
+		{  
+			$dbsize += $row[ "Data_length" ] + $row[ "Index_length" ];
+		}
+		return $dbsize;
 	}
 ?>

@@ -286,7 +286,8 @@ class cbsearch
 				case "last_month":
 				case "lastmonth":
 				{
-					$cond = " CONCAT(YEAR(curdate()),MONTH(curdate()))-1 = CONCAT(YEAR($date_column),MONTH($date_column)) ";
+					$lastmonth = date("Ym", strtotime("last month"));
+					$cond = " CONCAT(YEAR($date_column),MONTH($date_column)) ='$lastmonth' ";
 				}
 				break;
 				
