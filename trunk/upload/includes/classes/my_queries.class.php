@@ -953,7 +953,7 @@ class myquery {
 		}
 		
 		if($type_id!='wildcard')
-			echo $typeid_query = "AND type_id='$type_id' ";
+			$typeid_query = "AND type_id='$type_id' ";
 		
 		if(!$count_only)
 		{

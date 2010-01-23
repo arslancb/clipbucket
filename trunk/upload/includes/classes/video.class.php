@@ -190,6 +190,7 @@ class CBvideo extends CBCategory
 				$query_val[] = $val;
 				
 			}		
+
 			
 			#$query = "INSERT INTO video (";
 			$total_fields = count($query_field);
@@ -249,6 +250,7 @@ class CBvideo extends CBCategory
 			{
 				e("You cannot edit this video");
 			}else{
+				//pr($upload_fields);
 				$db->update('video',$query_field,$query_val," videoid='$vid'");
 				e("Video details have been updated",m);
 			}

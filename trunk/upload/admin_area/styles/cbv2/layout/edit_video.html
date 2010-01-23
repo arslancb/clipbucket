@@ -9,6 +9,7 @@
 {if $data.title neq ""}
 
 
+<form action="" method="post" name="Edit Member" id="Edit Member">
 
 <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
@@ -28,7 +29,6 @@
 
 </div>
 
-<form action="" method="post" name="Edit Member" id="Edit Member">
   
 
 <input name="admin" type="hidden" id="admin" value="true" />
@@ -82,7 +82,7 @@
 
     {foreach from=$vidthumbs item=vid_thumb}
     	<div style="width:140px; float:left" align="center">
-    	<label for="{$vid_thumb|getname}"><img src="{$vid_thumb}" border="1" style="margin:4px" style="max-width:120px" /><br />
+    	<label for="{$vid_thumb|getname}"><img src="{$vid_thumb}" border="1" style="margin:4px;max-width:120px" /><br />
         <input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $data.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />Default</label><br />
   {if $vid_thumb|getname!='processing'}
   <a href="?video={$data.videoid}&delete={$vid_thumb|getname}.{$vid_thumb|getext}">Delete</a>
@@ -157,7 +157,7 @@ seconds</td>
 <div style="width:98%; margin:auto">
 <input type="submit" class="button" value="Update video details" style="margin:5px 0px 15px 0px" name="update">
 </div>
-</form>
+
 
 </td>
     <td width="50%" valign="top"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
@@ -244,4 +244,5 @@ seconds</td>
   
   
 </table>
+</form>
 {/if}
