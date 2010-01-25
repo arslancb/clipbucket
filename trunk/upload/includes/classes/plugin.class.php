@@ -156,7 +156,11 @@ class CBPlugin extends ClipBucket
 		//first get list of all plugins
 		$plugin_list = $this->getPluginList();
 		
-		$results = $db->select("plugins","*"," plugin_active='yes'");
+		if(FRONT_END)
+			$active_query = " plugin_active='yes' ";
+		else
+			$active_query = NULL;
+		$results = $db->select("plugins","*",$active_query);
 		
 		foreach($results as $result)
 		{
