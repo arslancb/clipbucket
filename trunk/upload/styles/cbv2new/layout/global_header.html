@@ -201,7 +201,16 @@ $(document).ready(function() {
 			$(this).addClass('selected');
 		}
 	);
-	
+	$('#lang_selector').click(function(){
+  //do redirection
+});
+
+	$('#lang_selector').change(function(){
+	  var optionSelectedValue = $('#lang_selector option:selected').val();
+	  if(optionSelectedValue)
+	  window.location = "?set_site_lang="+optionSelectedValue;
+	});
+
 	get_video('recently_added','#index_vid_container');
 	
 });

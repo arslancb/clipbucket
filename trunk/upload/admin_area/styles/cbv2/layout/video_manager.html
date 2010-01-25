@@ -66,7 +66,7 @@
 <!-- DIsplaying Videos -->
 <form name="video_manage" method="post">
 
-<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
     <td height="50" style="padding-left:15px">
@@ -81,7 +81,7 @@
 </table>
 
 
-<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="30" align="center" valign="middle" class="left_head">
     <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
@@ -95,7 +95,7 @@
 
 
 {if $videos}
-<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
 {assign var = bgcolor value = ""}
 {section name=list loop=$videos}
 <tr class="video_opt_td"  bgcolor="{$bgcolor}">
@@ -145,10 +145,10 @@
 {/section}
 </table>
 {else}
-	<div align="center"><strong><em>No Video Found</em></strong></div>
+  <div align="center"><strong><em>No Video Found</em></strong></div>
 {/if}
 
-<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return_invert.png" width="25" height="25"></td>
     <td height="50" style="padding-left:15px">

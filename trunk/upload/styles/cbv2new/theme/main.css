@@ -751,3 +751,5 @@ ul.upload_opts li.selected { cursor:pointer; background:none; border:1px solid; 
 
 .admin_bar{background-color:#1E1E1E; padding:5px; color:#fff; z-index:3000; position:relative; }
 .admin_bar a{color:#53baff; font-weight:bold; text-decoration:none}
+
+.lang_selector{width:130px; border:none; padding:1px;}

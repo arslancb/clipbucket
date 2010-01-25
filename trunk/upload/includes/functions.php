@@ -2191,9 +2191,9 @@
 	{
 		global $LANG;
 		if($LANG[$var])
-		return $LANG[$var];
+			return $LANG[$var];
 		else
-		return $var;
+			return $var;
 	}
 	function smarty_lang($param)
 	{
@@ -3354,7 +3354,7 @@
 	 * FUNCTION Used to convert XML to Array
 	 * @Author : http://www.php.net/manual/en/function.xml-parse.php#87920
 	 */
-	function xml2array($url, $get_attributes = 1, $priority = 'tag')
+	function xml2array($url, $get_attributes = 1, $priority = 'tag',$is_url=true)
 	{
 		$contents = "";
 		if (!function_exists('xml_parser_create'))
@@ -3362,15 +3362,22 @@
 			return false;
 		}
 		$parser = xml_parser_create('');
-		if (!($fp = @ fopen($url, 'rb')))
+		
+		if($is_url)
 		{
-			return false;
+			if (!($fp = @ fopen($url, 'rb')))
+			{
+				return false;
+			}
+			while (!feof($fp))
+			{
+				$contents .= fread($fp, 8192);
+			}
+			fclose($fp);
+		}else{
+			$contents = $url;
 		}
-		while (!feof($fp))
-		{
-			$contents .= fread($fp, 8192);
-		}
-		fclose($fp);
+
 		xml_parser_set_option($parser, XML_OPTION_TARGET_ENCODING, "UTF-8");
 		xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0);
 		xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1);
@@ -3386,6 +3393,7 @@
 		$repeated_tag_index = array ();
 		foreach ($xml_values as $data)
 		{
+			
 			unset ($attributes, $value);
 			extract($data);
 			$result = array ();
@@ -3490,9 +3498,71 @@
 				$current = & $parent[$level -1];
 			}
 		}
+		
 		return ($xml_array);
 	}
 	
+	
+	function array2xml($array, $level=1)
+	{
+		$xml = '';
+		// if ($level==1) {
+		//     $xml .= "<array>\n";
+		// }
+		foreach ($array as $key=>$value) {
+		$key = strtolower($key);
+		if (is_object($value)) {$value=get_object_vars($value);}// convert object to array
+		
+		if (is_array($value)) {
+			$multi_tags = false;
+			foreach($value as $key2=>$value2) {
+			 if (is_object($value2)) {$value2=get_object_vars($value2);} // convert object to array
+				if (is_array($value2)) {
+					$xml .= str_repeat("\t",$level)."<$key>\n";
+					$xml .= array_to_xml($value2, $level+1);
+					$xml .= str_repeat("\t",$level)."</$key>\n";
+					$multi_tags = true;
+				} else {
+					if (trim($value2)!='') {
+						if (htmlspecialchars($value2)!=$value2) {
+							$xml .= str_repeat("\t",$level).
+									"<$key2><![CDATA[$value2]]>". // changed $key to $key2... didn't work otherwise.
+									"</$key2>\n";
+						} else {
+							$xml .= str_repeat("\t",$level).
+									"<$key2>$value2</$key2>\n"; // changed $key to $key2
+						}
+					}
+					$multi_tags = true;
+				}
+			}
+			if (!$multi_tags and count($value)>0) {
+				$xml .= str_repeat("\t",$level)."<$key>\n";
+				$xml .= array_to_xml($value, $level+1);
+				$xml .= str_repeat("\t",$level)."</$key>\n";
+			}
+		
+		 } else {
+			if (trim($value)!='') {
+			 echo "value=$value<br>";
+				if (htmlspecialchars($value)!=$value) {
+					$xml .= str_repeat("\t",$level)."<$key>".
+							"<![CDATA[$value]]></$key>\n";
+				} else {
+					$xml .= str_repeat("\t",$level).
+							"<$key>$value</$key>\n";
+				}
+			}
+		}
+		}
+		//if ($level==1) {
+		//    $xml .= "</array>\n";
+		// }
+		
+		return $xml;
+	}
+
+
 	
 	/**
 	 * FUnction used to display widget

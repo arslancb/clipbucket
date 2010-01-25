@@ -1,10 +1,10 @@
 <?php
 /* 
- ****************************************************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.											|
- | @ Author 	: ArslanHassan																		|
- | @ Software 	: ClipBucket , © PHPBucket.com														|
- ****************************************************************************************************
+ **************************************************************
+ | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
+ | @ Author 	: ArslanHassan									
+ | @ Software 	: ClipBucket , © PHPBucket.com					
+ ***************************************************************
 */
 
 require'../includes/admin_config.php';
@@ -19,22 +19,50 @@ if(isset($_POST['make_default']))
 	$lang_obj->make_default($id);
 }
 
+//Importing language
+if(isset($_POST['add_language']))
+{
+	$lang_obj->import_lang();
+}
+
+//Removig Langiage
+if(isset($_GET['delete']))
+{
+	$id = mysql_clean($_GET['delete']);
+	$lang_obj->delete_lang($id);
+}
+
+//Updateing Language
+if(isset($_POST['update_language']))
+{
+	$_POST['lang_id'] = $_GET['edit_language'];
+	$lang_obj->update_lang($_POST);
+}
+
+//Downloading Language
+if(isset($_GET['download']))
+{
+	$lang_obj->export_lang(mysql_clean($_GET['download']));
+}
+
 //Get List Of Languages
 assign('language_list',$lang_obj->get_langs());
 Assign('msg',$msg);	
+
+
 
 if($lang_obj->lang_exists(mysql_clean($_GET['edit_language'])))
 {
 	assign('edit_lang','yes');
 	assign('lang_details',$lang_obj->lang_exists(mysql_clean($_GET['edit_language'])));
 	$edit_id = mysql_clean($_GET['edit_language']);
-	$limit = RESULTS;
+	$limit = 900;
 	
 	
 	$current_page = $_GET['page'] ;
 	$current_page = is_numeric($current_page) && $current_page>0 ? $current_page : 1 ;
 	
-	$curr_limit = ($current_page-1)*RESULTS .','.RESULTS;
+	$curr_limit = ($current_page-1)*$limit .','.$limit;
 	
 	if(isset($_POST['search_phrase']))
 	{
@@ -59,17 +87,12 @@ if($lang_obj->lang_exists(mysql_clean($_GET['edit_language'])))
 	
 	assign('lang_phrases',$lang_phrases);
 	
-	$total_pages = $total_phrases/RESULTS;
+	$total_pages = $total_phrases/$limit;
 	$total_pages = round($total_pages+0.49,0);
 	$pages->paginate($total_pages,$current_page,'language_settings.php?edit_language='.$edit_id);
 }
 
 
-/*Template('header.html');
-Template('leftmenu.html');
-Template('message.html');
-Template('language_settings.html');
-Template('footer.html');*/
 subtitle("Language Settings");
 template_files('language_settings.html');
 display_it();

@@ -282,6 +282,7 @@ else
 	//Initializng Userquery class
 	$userquery->init();
 	$cbpm->init();
+	$lang_obj->init();
     $thisurl = curPageURL();
     Assign('THIS_URL', $thisurl);
 	
@@ -326,8 +327,9 @@ else
 	Assign('video_download',$row['video_download']);
 	Assign('video_embed',$row['video_embed']);
 	
-
-//Assign Lang
+	
+	
+	
 	$LANG = $lang_obj->lang_phrases();
 	Assign('LANG',$LANG);
 	Assign('langf',LANG);
@@ -445,7 +447,6 @@ register_action_remove_video('remove_video_files');
 
 include('admin.functions.php');
 //error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
-
 
 
 //Removing www. as it effects SEO and updating Config

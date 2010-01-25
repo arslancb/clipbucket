@@ -2,7 +2,7 @@
 {if $installed_plugin_list}
 
 <form name="installed_plugins" id="installed_plugins" method="post" action="plugin_manager.php">
-<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
     <td height="50" style="padding-left:15px">
@@ -14,7 +14,7 @@
   </tr>
 </table>
 
-<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="30" align="center" valign="middle" class="left_head">
     <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
@@ -23,7 +23,7 @@
   </tr>
 </table>
 
-<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
 {assign var = bgcolor value = ""}
 {foreach from=$installed_plugin_list item=plug name=item}
 
@@ -53,7 +53,7 @@
 {/foreach}
 </table>
 
-<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return_invert.png" width="25" height="25"></td>
     <td height="50" style="padding-left:15px">
@@ -81,7 +81,7 @@
 
 {if $new_plugin_list}<form name="available_plugins" id="available_plugins" action="plugin_manager.php" method="post">
 
-<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
     <td height="50" style="padding-left:15px"><input type="submit" name="install_selected" value="Install"  class="button" onclick="return confirm_it('Are you sure you want to install selected plugin(s)')" id="install_selected"/>
@@ -92,7 +92,7 @@
 
 
 
-<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="30" align="center" valign="middle" class="left_head">
     <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
@@ -105,7 +105,7 @@
 
 
 
-<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
 {assign var = bgcolor value = ""}
 {foreach from=$new_plugin_list item=plug name=item}
 
@@ -137,7 +137,7 @@
 
 
 
-<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return_invert.png" width="25" height="25" /></td>
     <td height="50" style="padding-left:15px"><input type="submit" name="install_selected" value="Install"  class="button" onclick="return confirm_it('Are you sure you want to delete selected video(s)')" id="install_selected"/>

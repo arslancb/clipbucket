@@ -4,7 +4,7 @@
 {assign var='requiredFields' value=$cbgroup->load_required_fields($group,true)}
 {assign var='optionFields' value=$cbgroup->load_other_fields($group)}
 
-<table width="98%" border="0" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td width="10" align="left" valign="middle" class="left_head" style="text-indent:10px">&nbsp;</td>
     <td class="head">Editing {$group.title}</td>
@@ -55,7 +55,7 @@
 <fieldset class="fieldset">
     <legend>Group Stats</legend>
 
-  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
    
                   <tr>
                     <td width="200" valign="top"><strong>Total Views</strong></td>
@@ -88,7 +88,7 @@
 
 <fieldset class="fieldset">
   <legend>Other Details</legend>
-  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
    {foreach from=$optionFields item=field}
                   <tr>
                     <td width="200"><strong>{$field.title} </strong></td>
@@ -102,7 +102,7 @@
   </table>
 </fieldset>
 
-<div style="width:98%; margin:auto">
+<div style="width:100%; margin:auto">
 <input type="submit" class="button" value="Update Group details" style="margin:5px 0px 15px 0px" name="update_group" id="update_group">
 </div>
 </form>

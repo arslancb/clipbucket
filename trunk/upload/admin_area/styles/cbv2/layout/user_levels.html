@@ -4,7 +4,7 @@
 
 <a href="?mode=add">Add New Level</a>
 
-<table width="99%" border="0" cellspacing="2" cellpadding="2">
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
   <tr class="tr_head">
     <td width="20">ID</td>
     <td width="200">Name</td>
@@ -31,14 +31,14 @@
 {elseif $view=='edit'}
 
 <form action="" method="post">
-<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
 <tr>
 <td width="30" class="left_head">&nbsp;</td>
 <td align="left" class="head">Edit Level Permissions</td>
 <td width="30" class="right_head">&nbsp;</td>
 </tr>
 </table>
-<table width="98%" border="0" cellpadding="0" cellspacing="0" align="center" >
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" >
 <tr bgcolor="{$bgcolor}" class="item_listing">
 <td style="padding:5px 0px 5px 10px"><strong>Level Name</strong></td>
 <td style="padding:5px 0px 5px 10px" width="250"><span class="tips">
@@ -58,7 +58,7 @@
 </tr>
 </table>
 {assign var=perms value=$userquery->get_permissions($types[t].user_permission_type_id)}
-<table width="98%" border="0" cellpadding="0" cellspacing="0" align="center" >
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" >
 {assign var = bgcolor value = ""}
 {foreach from=$perms item=perm}
 {if $perm.permission_id !=""}
@@ -100,7 +100,7 @@ No</label>
 
 
 
-<table width="99%" border="0" cellspacing="2" cellpadding="2">
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
   <tr>
 	<td><label for="button"></label>
 	  <input type="submit" name="update_level_perms" id="button" value="Update" /></td>
