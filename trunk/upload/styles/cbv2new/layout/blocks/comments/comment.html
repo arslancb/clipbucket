@@ -19,7 +19,9 @@
         	<a href='#comment_{$comment.comment_id}'>{$comment.anonym_name}</a> commmented {$comment.date_added|niceTime}
         {/if}
         </div>
-        <div style="width:28%; float:right" align="right"><a href="javascript:void(0)" onclick="to_reply('{$comment.comment_id}')">Reply</a> | <a href="javascript:void(0)" onclick="spam_comment('{$comment.comment_id}')">Spam</a> | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">Delete</a></div>
+        <div style="width:28%; float:right" align="right"><a href="javascript:void(0)" onclick="to_reply('{$comment.comment_id}')">Reply</a> | <a href="javascript:void(0)" onclick="spam_comment('{$comment.comment_id}')">Spam</a>
+        
+        {if has_access('admin_del_access') || $comment.userid==userid()} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">Delete</a>{/if}</div>
         <div class="cleafix"></div>
         </div>
         

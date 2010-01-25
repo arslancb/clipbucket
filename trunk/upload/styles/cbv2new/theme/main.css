@@ -119,7 +119,7 @@ span.remember { font-size:10px;  }
 
 /* FEATURED VIDEO SECTION */
 .feature_left { float:left; margin:0px; padding:0px; width:460px }
-.feature_left .feature_heading{background-image:url(../images/nav_grads.png); background-position:0px -417px; height:24px; line-height:24px; color:#FFF; text-shadow:0px 0px 8px #000; width:98%; display:block; margin-top:10px;border-radius:0px 8px 8px 0px; -moz-border-radius:0px 8px 8px 0px; -webkit-border-top-right-radius:8px; -webkit-border-bottom-right-radius:8px; padding-left:10px; font-weight:bold; text-transform:uppercase; font-family:Tahoma,Verdana,sans-serif; }
+.feature_left .feature_heading{background-image:url(../images/nav_grads.png); background-position:0px -417px; height:24px; line-height:24px; color:#fff; text-shadow:0px 0px 8px #000; width:98%; display:block; margin-top:10px;border-radius:0px 8px 8px 0px; -moz-border-radius:0px 8px 8px 0px; -webkit-border-top-right-radius:8px; -webkit-border-bottom-right-radius:8px; padding-left:10px; font-weight:bold; text-transform:uppercase; font-family:Tahoma,Verdana,sans-serif; }
 .feature_right { float:right; width:190px; margin:4px 3px 0px 0px;font-size:10px; overflow:auto; height:360px;}
 .feature_shadow { background:url(../images/shadows.png) 0px -31px no-repeat; width:660px; height:35px; margin:0px; padding:0px; }
 

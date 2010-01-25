@@ -39,7 +39,7 @@
             <td width="35" align="left">{$reply.userid}</td>
             <td width="100" align="left">{if $reply.anonym_name}{$reply.anonym_name}{else}{$udetails.username}{/if}</td>
             <td width="100" align="left">{if $reply.anonym_email}{$reply.anonym_email}{else}{$udetails.email}{/if}</td>
-            <td ><div class="edit_comment" id="{$reply.comment_id}">{$comment.comment_id} &hArr; {$reply.comment}</div></td>
+            <td >{$comment.comment_id} &hArr; <span class="edit_comment" id="{$reply.comment_id}">{$reply.comment}</span></td>
             <td width="200" align="left" >{$reply.date_added|date_format}</td>
             <td width="70" align="left" >{$reply.vote}</td>
             <td width="100" ><a href="?{$link}&amp;delete_comment={$reply.comment_id}">Delete</a></td>

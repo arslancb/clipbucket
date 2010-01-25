@@ -43,7 +43,7 @@ if($myquery->VideoExists($video)){
 	# Generating more thumbs
 	if(isset($_GET['gen_more']))
 	{
-		require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.win32.php');
+		require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
 		$ffmpeg = new ffmpeg($file_details['output_path']);
 		$ffmpeg->generate_thumbs($vid_file,$data['duration'],$dim='120x90',$num=3,$rand=true);
 	}
