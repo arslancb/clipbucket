@@ -17,14 +17,11 @@ Website : <a href="{$curtpl.website.link}">{$curtpl.website.title}</a></td>
 
 <hr size="1" noshade />
 
-
-
+{* Listing All Avilable Templates *}    
+{assign var='templates' value=$cbtpl->get_templates()}
+{if $templates} 
     <h2>Available Templates</h2>
-    
-    {* Listing All Avilable Templates *}    
-    {assign var='templates' value=$cbtpl->get_templates()}
-    
-	{if $templates}    
+	   
     <div class="templates_container">
     {foreach from=$templates item=template}
     {if $selected != $template.dir}
