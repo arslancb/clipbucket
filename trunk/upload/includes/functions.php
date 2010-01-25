@@ -2264,7 +2264,7 @@
 		}
 		if($name=='tag')
 		{
-			return BASEURL.'/search_result.php?keywords='.urlencode($params['tag']).'&type='.$params['type'];
+			return BASEURL.'/search_result.php?query='.urlencode($params['tag']).'&type='.$params['type'];
 		}
 		if($name=='category_search')
 		{

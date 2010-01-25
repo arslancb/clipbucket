@@ -21,6 +21,7 @@ assign('group',$details);
 
 if($details)
 {
+
 	//adding group topic
 	if(isset($_POST['add_topic']))
 	{
@@ -45,6 +46,10 @@ if($details)
 	
 	//Calling all functions when a topic is called
 	call_view_group_functions($details);
+}else
+{
+	e(lang("grp_exist_error"));
+	$Cbucket->show_page = false;
 }
 
 
