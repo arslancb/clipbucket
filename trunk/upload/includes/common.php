@@ -73,6 +73,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/cbemail.class.php');
 	require_once('classes/pm.class.php');
 	require_once('classes/cbpage.class.php');
+
 	require_once 'languages.php';
 	
 	$pages 		= new pages();	

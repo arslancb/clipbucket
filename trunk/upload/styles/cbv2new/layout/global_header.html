@@ -45,10 +45,10 @@ var imageurl = '{$imageurl}';
 </script>
 
 <!-- Including JS Files-->
-{foreach from=$Cbucket->JSArray key=file item=type}
-    {if $curActive == $type ||  $type=='global' }
-    	<script src="{$js}/{$file}" type="text/javascript"></script>
-    {/if}
+{foreach from=$Cbucket->JSArray item=type}
+ {foreach from=$type item=scope key=file}
+  {include_js type=$scope file=$file}
+ {/foreach}
 {/foreach}
 <!-- Including JS Files-->
 
@@ -158,7 +158,7 @@ window.onload = function() {
 var mid  = {$smarty.get.mid};
 {literal}
 		window.onload = function() {
-		$('#messages_container').scrollTo( '#message-'+mid, 800 );
+			$('#messages_container').scrollTo( '#message-'+mid, 800 );
 		}
 {/literal}
 </script>

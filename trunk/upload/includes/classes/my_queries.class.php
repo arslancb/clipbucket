@@ -155,7 +155,7 @@ class myquery {
 		$uid = user_id();
 		
 		if(($uid == $cdetails['userid'] && $cdetails['userid']!='')
-			|| $userquery->permission['admin_del_access'] == 'yes' 
+			|| has_access("admin_del_access",false)
 			|| $is_reply==TRUE || $forceDelete)
 		{
 			$replies = $this->get_comments($cdetails['type_id'],$type,FALSE,$cid,TRUE);
@@ -172,7 +172,7 @@ class myquery {
 				$myquery->update_comments_by_user($uid);*/
 			
 			e(lang('usr_cmt_del_msg'),"m");
-			return true;
+			return $cdetails['type_id'];
 		}else{
 			e(lang('no_comment_del_perm'));
 			return false;
@@ -180,7 +180,50 @@ class myquery {
 		return false;
 	}
 	function DeleteComment($id,$videoid){return $this->delete_comment($videoid);}
-
+	
+	/**
+	 * Function used to set comment as spam
+	 */
+	function spam_comment($cid)
+	{
+		global $db;
+		$comment = $this->get_comment($cid);	
+		$uid = user_id();
+		if($comment)
+		{
+			$voters = $comment['spam_voters'];
+		
+			$niddle = "|";
+			$niddle .= userid();
+			$niddle .= "|";
+			$flag = strstr($voters, $niddle);
+			
+			if(!$comment)
+				e(lang('no_comment_exists'));
+			elseif(!userid())
+				e(lang('login_to_mark_as_spam'));
+			elseif(userid()==$comment['userid'] || (!userid() && $_SERVER['REMOTE_ADDR'] == $comment['comment_ip']))
+				e(lang('no_own_commen_spam'));
+			elseif(!empty($flag))
+				e(lang('already_spammed_comment'));
+			else
+			{
+				if(empty($voters))
+					$voters .= "|";
+				
+				$voters .= userid();
+				$voters.= "|";
+				
+				$newscore = $comment['spam_votes']+1;
+				$db->update('comments',array('spam_votes','spam_voters'),array($newscore,$voters)," comment_id='$cid'");
+				e(lang('spam_comment_ok'),"m");
+				return $newscore;			
+			}
+		
+		}
+		e(lang('no_comment_exists'));
+		return false;
+	}
 
 	/**
 	 * Function used to delete all comments of particlar object
@@ -923,11 +966,16 @@ class myquery {
 	 */
 	function get_comment($id)
 	{
-		global $db;
+		global $db,$userquery;
 		$result = $db->select("comments","*"," comment_id='$id'");
 		if($db->num_rows>0)
 		{
-			return $result[0];
+			$result = $result[0];
+			if($result['userid'])
+				$udetails = $userquery->get_user_details($result['userid']);
+			if($udetails)
+			$result = array_merge($result,$udetails);
+			return $result ;
 		}else{
 			return false;
 		}
@@ -957,10 +1005,30 @@ class myquery {
 		
 		if(!$count_only)
 		{
-			$result = $db->select("comments","*"," type='$type' $typeid_query $cond");
-			if($db->num_rows > 0)
+			//Fetching comments by registered users
+			$result = $db->select("comments,users","*"," type='$type' $typeid_query AND comments.userid = users.userid  $cond");
+			//Fetchign comments by anonymous users
+			$result_anonym = $db->select("comments","*"," type='$type' $typeid_query AND comments.userid = '0'  $cond");
+			//Mergin both arrays
+			if(is_array($result) && is_array($result_anonym))
+				$result = array_merge($result,$result_anonym);
+			elseif(is_array($result_anonym))
+				$result = $result_anonym;
+				
+			//Sorting
+			$new_results = array();
+			if(is_array($result))
+			foreach($result as $r)
 			{
-				return $result;
+				$new_results[$r['comment_id']] = $r;
+			}
+			//Sorting wrt keys..
+			ksort($new_results);	
+			//pr($result);pr($new_results);
+			//pr($new_results);
+			if(count($new_results) > 0)
+			{
+				return $new_results;
 			}else{
 				return '';
 			}

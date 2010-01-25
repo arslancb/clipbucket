@@ -129,7 +129,7 @@ class ClipBucket
 		if(is_array($files))
 		{
 			foreach($files as $key=> $file)
-				$this->JSArray[$key] = $file;
+				$this->JSArray[][$key] = $file;
 		}else{
 			$this->JSArray[$files] = 'global';
 		}

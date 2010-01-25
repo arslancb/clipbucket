@@ -1,7 +1,7 @@
 <?php
 /* 
  ******************************************************************
- | Copyright (c) 2007-2009 Clip-Bucket.com. All rights reserved.	
+ | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.	
  | @ Author : ArslanHassan											
  | @ Software : ClipBucket , © PHPBucket.com						
  *******************************************************************
@@ -272,6 +272,30 @@ if(!empty($mode))
 		}
 		break;
 		
+		case 'spam_comment':
+		{
+			$cid = mysql_clean($_POST['cid']);
+
+				
+			$rating = $myquery->spam_comment($cid);
+			if(msg())
+			{
+				$msg = msg_list();
+				$msg = $msg[0];
+			}
+			if(error())
+			{
+				$err = error_list();
+				$err = $err[0];
+			}
+			
+			$ajax['msg'] = $msg;
+			$ajax['err'] = $err;
+			
+			echo json_encode($ajax);
+		}
+		break;
+		
 		case 'add_comment';
 		{
 			$type = $_POST['type'];
@@ -446,6 +470,57 @@ if(!empty($mode))
 		{
 			$cbvid->clear_quicklist();
 			return 'removed';
+		}
+		break;
+		
+		
+		case 'delete_comment':
+		{
+			$type = $_POST['type'];
+			switch($type)
+			{
+				case 'v':
+				case 'video':
+				default:
+				{
+					$cid = mysql_clean($_POST['cid']);
+					$type_id = $myquery->delete_comment($cid);
+					$cbvid->update_comments_count($type_id);
+				}
+				break;
+				case 'u':
+				case 'c':
+				{
+					$cid = mysql_clean($_POST['cid']);
+					$type_id = $myquery->delete_comment($cid);
+					$userquery->update_comments_count($type_id);
+				}
+				break;
+				case 't':
+				case 'topic':
+				{
+					$cid = mysql_clean($_POST['cid']);
+					$type_id = $myquery->delete_comment($cid);
+					$cbgroup->update_comments_count($type_id);
+				}
+				break;
+				
+			}
+			if(msg())
+			{
+				$msg = msg_list();
+				$msg = $msg[0];
+			}
+			if(error())
+			{
+				$err = error_list();
+				$err = $err[0];
+			}
+			
+			$ajax['msg'] = $msg;
+			$ajax['err'] = $err;
+			
+			echo json_encode($ajax);
 		}
 		break;
 		

@@ -379,6 +379,36 @@ var loading = loading_img+" Loading...";
 			}
 		},'json');
 	}
+	
+	
+	function delete_comment(cid,type)
+	{
+
+		$.post(page, 
+		{ 	
+			mode : 'delete_comment',
+			cid : cid,
+			type : type
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+			{
+
+				if(data.msg)
+				{
+					alert(data.msg);
+					$("#comment_"+cid).fadeOut("slow");
+					$("#spam_comment_"+cid).fadeOut("slow");;
+					
+				}
+				if(data.err)
+					alert(data.err);
+			}
+		},'json');
+	}
 
 	function add_comment_js(form_id,type)
 	{
@@ -659,3 +689,35 @@ function hide_menu()
 }
 	
 	
+function to_reply(cid)
+{
+	$("#reply_to").val(cid);
+	window.location = "#add_comment";
+}
+
+function spam_comment(cid)
+	{
+
+		$.post(page, 
+		{ 	
+			mode : 'spam_comment',
+			cid : cid
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+			{
+				if(data.msg)
+				{
+					$("#comment_"+cid).hide();
+					$("#spam_comment_"+cid).fadeIn("slow");
+				}
+				if(data.err)
+				{
+					alert(data.err)
+				}
+			}
+		},'json');
+	}

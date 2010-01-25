@@ -1,26 +1,35 @@
-{if $comment.userid !='' && $comment.userid!=0}
-{assign var=comm_user value=$userquery->get_user_details($comment.userid)}
+{if marked_spammed($comment)}
+	{assign var='comment_attr' value='style="display:none"'}
+    {assign var='spam_attr' value='style="display:block"'}
+{else}
+{assign var='comment_attr' value=''}
+    {assign var='spam_attr' value='style="display:none"'}
 {/if}
-	<div id="comment_{$comment_id}" class="comment">
+    
+	<div id="comment_{$comment.comment_id}" class="comment" {$comment_attr}>
     <div class="user_com_thumb_con" align="left">
-    	<img src="{$userquery->getuserthumb($comm_user)}" class="user_com_thumb"  />
+    	<img src="{$userquery->getuserthumb($comment)}" class="user_com_thumb"  />
     </div>
     <div class="comm_other">
     	<div class="user_bar">
         <div style="width:70%; float:left">
     	{if $comment.userid !='' && $comment.userid!=0}
-        	<a href="#">{$comm_user.username}</a> commmented {$comment.date_added|niceTime}
+        	<a href="#">{$comment.username}</a> commmented {$comment.date_added|niceTime}
         {else}
         	<a href='#comment_{$comment.comment_id}'>{$comment.anonym_name}</a> commmented {$comment.date_added|niceTime}
         {/if}
         </div>
-        <div style="width:28%; float:right" align="right">Reply | Spam | Delete</div>
+        <div style="width:28%; float:right" align="right"><a href="javascript:void(0)" onclick="to_reply('{$comment.comment_id}')">Reply</a> | <a href="javascript:void(0)" onclick="spam_comment('{$comment.comment_id}')">Spam</a> | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">Delete</a></div>
         <div class="cleafix"></div>
         </div>
         
         <div class="comment_cont">{$comment.comment|comment}</div>
-        <div class="comment_rating_cont"><span class="thumb_down" onclick="rate_comment('{$comment.comment_id}','down')">Thumbs Down</span><span class="thumb_up" onclick="rate_comment('{$comment.comment_id}','up')">Thumbs Up</span><span id="comment_rating_{$comment.comment_id}" class="comment_rating">{$comment.vote|comment_rating}</span></div>
+        <div class="comment_rating_cont"><span class="thumb_up" onclick="rate_comment('{$comment.comment_id}','up')">Thumbs Up</span><span class="thumb_down" onclick="rate_comment('{$comment.comment_id}','down')">Thumbs Down</span><span id="comment_rating_{$comment.comment_id}" class="comment_rating">{$comment.vote|comment_rating}</span></div>
         <div class="clearfix"></div>
     </div>
     <div class="clearfix"></div>
+    </div>
+    
+    <div id="spam_comment_{$comment.comment_id}" class="spam" {$spam_attr} >
+    	Marked as spam, comment by {if $comment.username}<em>{$comment.username}</em>{else}<em>{$comment.anonym_name}</em>{/if} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">Delete</a>
     </div>

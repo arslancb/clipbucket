@@ -3648,22 +3648,29 @@
 	 * but the only difference is , it is used to include
 	 * JS files only
 	 */
+	$the_js_files = array();
 	function include_js($params)
 	{
+		global $the_js_files;
+		
 		$file = $params['file'];
 		$type = $params['type'];
 		
-		if($type=='global')
-			return '<script src="'.JS_URL.'/'.$file.'" type="text/javascript"></script>';
-		elseif(is_array($type))
+		if(!in_array($file,$the_js_files))
 		{
-			foreach($type as $t)
+			$the_js_files[] = $file;
+			if($type=='global')
+				return '<script src="'.JS_URL.'/'.$file.'" type="text/javascript"></script>';
+			elseif(is_array($type))
 			{
-				if($t==THIS_PAGE)
-					return '<script src="'.JS_URL.'/'.$file.'" type="text/javascript"></script>';
-			}
-		}elseif($type==THIS_PAGE)
-			return '<script src="'.JS_URL.'/'.$file.'" type="text/javascript"></script>';
+				foreach($type as $t)
+				{
+					if($t==THIS_PAGE)
+						return '<script src="'.JS_URL.'/'.$file.'" type="text/javascript"></script>';
+				}
+			}elseif($type==THIS_PAGE)
+				return '<script src="'.JS_URL.'/'.$file.'" type="text/javascript"></script>';
+		}
 		
 		return false;
 	}
@@ -3854,5 +3861,18 @@
 			$dbsize += $row[ "Data_length" ] + $row[ "Index_length" ];
 		}
 		return $dbsize;
+	}
+	
+	
+	/**
+	 * Function used to check weather user has marked comment as spam or not
+	 */
+	function marked_spammed($comment)
+	{
+		$spam_voters = explode("|",$comment['spam_voters']);
+		if(userid() && in_array(userid(),$spam_voters))
+			return true;
+		else
+			return false;
 	}
 ?>

@@ -500,13 +500,14 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .comment .user_bar{background:url(../images/nav_grads.png) 0px -240px repeat-x; height:18px; line-height:18px; padding:0px 5px 0px 5px}
 .comment .user_bar,.comment .user_bar a{color:#fff; font-size:11px; text-decoration:none;}
 .comment .comment_cont{float:left; width:515px; padding:3px;}
-.comment .comment_rating_cont{ float:right; width:60px; margin-top:10px}
+.comment .comment_rating_cont{ float:right; width:45px; margin-top:10px}
 .comment .comment_rating_cont .comment_rating{font-size:16px; font-weight:bold;font-family:arial; text-align:center; display:block}
-.comment .thumb_down{background:url(../images/icons.png) ; width:24px; height:25px; display:inline-block; text-indent:-50000px; margin-right:5px; cursor:pointer}
-
+.comment .thumb_down{background:url(../images/up_down.png) ; width:19px; height:16px; display:inline-block; text-indent:-50000px; margin-right:0px; cursor:pointer; background-position:-21px 1px}
+.comment .thumb_down:hover{background-position:-21px -16px}
 .topic_comments .comment .comment_cont{ width:820px}
 
-.comment .thumb_up{background:url(../images/icons.png) -24px 0px; width:24px; height:25px; display:inline-block; text-indent:-50000px;cursor:pointer}
+.comment .thumb_up{background:url(../images/up_down.png) ; width:19px; height:16px; display:inline-block; text-indent:-50000px; margin-right:0px; cursor:pointer;background-position:-0px 1px}
+.comment .thumb_up:hover{background-position:-0px -16px}
 .desc_cont{}
 .upper_quote{background-image:url(../images/icons.png); background-position:0px -125px; height:32px; width:34px; display:inline-block; }
 .lower_quote{background-image:url(../images/icons.png); background-position:0px -161px; height:32px; width:34px; display:inline-block; }
@@ -753,3 +754,5 @@ ul.upload_opts li.selected { cursor:pointer; background:none; border:1px solid; 
 .admin_bar a{color:#53baff; font-weight:bold; text-decoration:none}
 
 .lang_selector{width:130px; border:none; padding:1px;}
+
+.spam{color:#999; font-family:verdana; font-size:11px; font-weight:bold; border-top:1px solid #999; border-bottom:1px solid #999; padding:2px 0px; margin:5px 0px 10px 0px}
