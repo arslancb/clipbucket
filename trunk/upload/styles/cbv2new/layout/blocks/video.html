@@ -21,6 +21,11 @@
         <p class="vid_info"><span class="info_list">Uploaded By </span><a href="{$userquery->profile_link($video)}">{$video.username}</a> <span class="list_up_time">({$video.date_added|niceTime})</span></p>
     </div> <!--VID_INFO_WRAP END-->
 </div> <!--VID_WRAP END-->
+
+{if $only_once}
+    <div class="clearfix"></div>
+{/if}
+
 {/if}
 <!-- Video Box -->
 
@@ -67,7 +72,7 @@
 </div>
     
 {if $only_once}
-<div class="clearfix"></div>
+    <div class="clearfix"></div>
 {/if}
 
 {/if}

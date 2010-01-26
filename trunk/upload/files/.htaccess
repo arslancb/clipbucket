@@ -1,5 +1,2 @@
-#Error Pages
-ErrorDocument 403 /error_pages/403.php
-
 Options -ExecCGI
 AddHandler cgi-script .php .pl .py .jsp .asp .htm .shtml .sh .cgi .exe .html .ruby .pearl

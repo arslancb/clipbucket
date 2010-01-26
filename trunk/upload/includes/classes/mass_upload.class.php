@@ -45,7 +45,7 @@ class mass_upload extends Upload
 		if(!empty($FILE_LIST)){
 			return $FILE_LIST;
 		} else {
-			die( "No files found!\n\n" );
+			return false;
 		}
 	}
 
@@ -69,7 +69,7 @@ class mass_upload extends Upload
 		
 		$vid_files = array();
 		$files = $this->get_files();
-		
+		if(is_array($files))
 		foreach($files as $file)
 		{
 			$ext = getext($file['file']);

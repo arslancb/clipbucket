@@ -646,7 +646,8 @@ class Upload{
 		$date_recorded =  $date_recorded ? date("d-m-Y",strtotime($date_recorded)) : date("d-m-Y",time());
 		
 		$country_array = array("");
-		$country_array = array_merge($country_array,ClipBucket::get_countries());
+
+		$country_array = @array_merge($country_array,ClipBucket::get_countries());
 		
 		$LocationFieldsArray = array
 		(
