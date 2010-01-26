@@ -162,6 +162,7 @@ class CBPlugin extends ClipBucket
 			$active_query = NULL;
 		$results = $db->select("plugins","*",$active_query);
 		
+		if(is_array($results))
 		foreach($results as $result)
 		{
 			//Now Checking if plugin is installed or not

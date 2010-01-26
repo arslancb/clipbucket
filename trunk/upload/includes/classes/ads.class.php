@@ -163,13 +163,13 @@ class AdsManager
 			
 			//Checking If there is no code, then try to get duplicate ad
 			if(empty($code_array['ad_id']))
-			$code_array 	= stripslashes(htmlspecialchars_decode($db->GetRow($query.$order.$limit_query)));
+			$code_array 	= $db->GetRow($query.$order.$limit_query);
 			
 			$ads_array[] 	= $code_array['ad_id'];
 			
 			//Incrementing Ad Impression
 			$this->incrementImpression($code_array['ad_id']);
-			return $code_array['ad_code'];
+			return stripslashes(htmlspecialchars_decode($code_array['ad_code']));
 			
 		}else{
 			/*In that case, get all '$limit' 
