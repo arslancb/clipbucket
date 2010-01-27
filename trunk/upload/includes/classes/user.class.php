@@ -1271,9 +1271,8 @@ class userquery extends CBCategory{
 		$udetails = $this->get_user_details($email);
 		if(!$udetails)
 			e(lang('usr_exist_err'));
-		 //verifying captcha...
-		elseif($udetails['avcode'] !=$code)
-			e(lang('usr_ccode_err'));
+		elseif(!verify_captcha())
+					e(lang('usr_ccode_err'));
 		else
 		{
 			$tpl = $cbemail->get_template('forgot_username_request');
@@ -3101,7 +3100,8 @@ class userquery extends CBCategory{
 		if($array['agree']!='yes' && !has_access('admin_access',true))
 			e(lang('usr_ament_err'));
 		
-		
+		if(!verify_captcha())
+					e(lang('usr_ccode_err'));
 		if(!error())
 		{
 			$signup_fields = $this->load_signup_fields($array);
@@ -3338,7 +3338,7 @@ class userquery extends CBCategory{
 	/**
 	 * Function used to get users
 	 */
-	function get_users($params)
+	function get_users($params=NULL,$force_admin=FALSE)
 	{
 		global $db;
 		
@@ -3346,7 +3346,7 @@ class userquery extends CBCategory{
 		$order = $params['order'];
 		
 		$cond = "";
-		if(!has_access('admin_access',TRUE))
+		if(!has_access('admin_access',TRUE) && !$force_admin)
 			$cond .= " 	usr_status='Ok' AND ban_status ='no' ";
 		else
 		{

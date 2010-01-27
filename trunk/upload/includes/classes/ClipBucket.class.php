@@ -251,6 +251,7 @@ class ClipBucket
 		   array(
 				 'Manage Members' => 'members.php',
 				 'Add Member'=>'add_member.php',
+				 'Manage categories' => 'user_category.php',
 				 'User Levels'=>'user_levels.php',
 				 'Search Members'=>'members.php?view=search',
 				 'Inactive Only'=>'members.php?search=yes&status=ToActivate',

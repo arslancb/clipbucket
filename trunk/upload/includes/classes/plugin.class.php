@@ -340,8 +340,9 @@ class CBPlugin extends ClipBucket
 			 //Checking For the installation SQL
 			 $msg = e(lang('plugin_install_msg'),m);
 			 define('NEW_INSTALL',false);
+			 return PLUG_DIR.'/'.$folder.$pluginFile;
 		 }
-		 return $msg;
+		 return false;
 	 }
 	 
 	 /**

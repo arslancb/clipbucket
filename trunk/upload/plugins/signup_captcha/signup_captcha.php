@@ -44,7 +44,7 @@ if(!function_exists("signup_captcha"))
 	}
 	
 	register_anchor(signup_captcha(),"signup_captcha");
-	register_signup_field($signup_captcha);
+	//register_signup_field($signup_captcha);
 	register_cb_captcha('signup_captcha','signup_captcha_check',TRUE);
 }
 ?>

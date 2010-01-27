@@ -11,9 +11,9 @@ include("../includes/config.inc.php");
 $date = date("Y-m-d");
 
 //Videos
-$videos['uploads'] = $cbvid->get_videos(array("count_only"=>true,"date_span"=>"today"));
-$videos['processing'] = $cbvid->get_videos(array("count_only"=>true,"status"=>"Processing","date_span"=>"today"));
-$videos['active'] = $cbvid->get_videos(array("count_only"=>true,"active"=>"yes","date_span"=>"today"));
+$videos['uploads'] = $cbvid->get_videos(array("count_only"=>true,"date_span"=>"today"),TRUE);
+$videos['processing'] = $cbvid->get_videos(array("count_only"=>true,"status"=>"Processing","date_span"=>"today"),TRUE);
+$videos['active'] = $cbvid->get_videos(array("count_only"=>true,"active"=>"yes","date_span"=>"today"),TRUE);
 //Views
 $vid_views = $db->select("video","SUM(views) as total_views"," date_added LIKE '%$date%'");
 $videos['views'] = $vid_views[0]['total_views'];
@@ -24,9 +24,9 @@ $videos['comments'] = $vid_comments[0]['total_comments'];
 
 /**
  * Testing
- * echo json_encode($videos);
- * PASSED
- */
+ * * PASSED
+ */echo json_encode($videos);
+ 
 
 //Users
 $users['signups'] = $userquery->get_users(array("count_only"=>true,"date_span"=>"today"));

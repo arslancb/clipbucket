@@ -1,7 +1,7 @@
 <?php
 /* 
  *******************************************************************
- | Copyright (c) 2007-2009 Clip-Bucket.com. All rights reserved.	
+ | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.	
  | @ Author : ArslanHassan											
  | @ Software : ClipBucket , © PHPBucket.com						
  ********************************************************************
@@ -81,7 +81,9 @@ if(isset($_POST['deactivate_selected']))
 if(isset($_GET['install_plugin']))
 {
 	$folder = $_GET['f'];
-	$msg = $cbplugin->installPlugin(mysql_clean($_GET['install_plugin']),$folder);
+	$installed = $cbplugin->installPlugin(mysql_clean($_GET['install_plugin']),$folder);
+	if($installed)
+		include($installed);
 }
 
 /**
@@ -93,7 +95,9 @@ if(isset($_POST['install_selected']))
 	for($i=0;$i<$plugs;$i++)
 	{
 		$itr = $_POST['check_plugin'][$i];
-		$cbplugin->installPlugin($_POST['plugin_file_'.$itr],$_POST['plugin_folder_'.$itr]); 
+		$installed = $cbplugin->installPlugin($_POST['plugin_file_'.$itr],$_POST['plugin_folder_'.$itr]); 
+		if($installed)
+			include($installed);
 	}
 }
 

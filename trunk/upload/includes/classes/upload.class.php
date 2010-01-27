@@ -212,9 +212,17 @@ class Upload{
 			//ADding Video Key
 			$query_field[] = "videokey";
 			$query_val[] = $this->video_keygen();
+			
+			
 			//Userid
 			$query_field[] = "userid";
-			$query_val[] = userid();
+			
+			if(!$array['userid'])
+				$query_val[] = userid();
+			else
+				$query_val[] = $array['userid'];
+			
+			
 			//Upload Ip
 			$query_field[] = "uploader_ip";
 			$query_val[] = $_SERVER['REMOTE_ADDR'];

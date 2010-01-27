@@ -1725,7 +1725,7 @@ class CBGroups extends CBCategory
 	 * order => {soring by}
 	 * date_margin => {date span}
 	 */
-	function get_groups($params=NULL)
+	function get_groups($params=NULL,$force_admin=FALSE)
 	{
 		global $db;
 		
@@ -1733,7 +1733,7 @@ class CBGroups extends CBCategory
 		$order = $params['order'];
 		
 		$cond = "";
-		if(!has_access('admin_access',TRUE))
+		if(!has_access('admin_access',TRUE) && !$force_admin)
 			$cond .= " groups.active='yes' ";
 		else
 		{
