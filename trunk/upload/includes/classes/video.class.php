@@ -369,7 +369,7 @@ class CBvideo extends CBCategory
 	 * that you need to fetch videos
 	 * please see docs.clip-bucket.com for more details
 	 */
-	function get_videos($params=NULL,$force_admin=FALSE)
+	function get_videos($params)
 	{
 		global $db;
 		
@@ -377,7 +377,7 @@ class CBvideo extends CBCategory
 		$order = $params['order'];
 		
 		$cond = "";
-		if(!has_access('admin_access',TRUE) && !$force_admin)
+		if(!has_access('admin_access',TRUE))
 			$cond .= " video.status='Successful' AND video.active='yes' ";
 		else
 		{
@@ -795,7 +795,11 @@ class CBvideo extends CBCategory
 	function get_video_rating($id)
 	{
 		global $db;
-		$result = $db->select($this->dbtbl['video'],"rating,rated_by,voter_ids"," videoid='$id' ");
+		if(is_numeric($vid))
+		{
+			$results = $db->select("video","*"," videoid='$vid'");
+		}else
+			$results = $db->select("video","*"," videokey='$vid'");
 		if($db->num_rows>0)
 			return $result[0];
 		else
