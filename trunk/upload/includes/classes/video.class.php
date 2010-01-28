@@ -56,7 +56,10 @@ class CBvideo extends CBCategory
 	function get_video($vid)
 	{
 		global $db;
-		$results = $db->select("video","*"," videoid='$vid' OR videokey='$vid'");
+		if(is_numeric($vid))
+			$results = $db->select("video","*"," videoid='$vid'");
+		else
+			$results = $db->select("video","*"," videokey='$vid'");
 		if($db->num_rows>0)
 		{
 			return $results[0];

@@ -132,7 +132,7 @@ class cbsearch
 			if($condition)
 				$condition .= " AND ";
 			$results = $db->select($this->db_tbl.",users",'*',$condition." ".$this->db_tbl.".userid=users.userid",$this->limit,$sorting);
-			echo $db->db_query;
+			$db->db_query;
 		}else
 			$results = $db->select($this->db_tbl,'*',$condition,$this->limit,$sorting);
 		//echo $db->db_query;

@@ -17,7 +17,7 @@ FileETag MTime Size
 Options +FollowSymlinks
 RewriteEngine on
 
-<FilesMatch "\.(db|inc|html|tmpl|h|ihtml|sql|ini|configuration|config|class|bin|spd|theme|module|cfg|cpl|tmp|log|err|inc.php|class.php)$">
+<FilesMatch "\.(db|inc|tmpl|h|ihtml|sql|ini|configuration|config|class|bin|spd|theme|module|cfg|cpl|tmp|log|err|inc.php|class.php)$">
 order allow,deny
 satisfy all
 </FilesMatch>
