@@ -262,4 +262,44 @@ OR
 <!-- Banning Users End-->
 {/if}
 
+
+{if $mode=='subs'}
+<h2>Manage Subscriptions</h2>
+
+
+ {if $subs}
+ 	
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="manage_contacts_tbl_head">
+      <tr>
+        <td width="15"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+        <td width="50">&nbsp;</td>
+        <td>Username</td>
+        <td width="100">views</td>
+        <td width="50">&nbsp;</td>
+      </tr>
+    </table>
+    
+   {foreach from=$subs item=sub}
+   <div class="manage_contacts_tbl">
+   <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="15"><input type="checkbox" name="sub[]" id="check_userd-{$user_detail.userid}" value="{$sub.subscribed_to}" /></td>
+        <td width="50" height="50" align="center" valign="middle"><a href="{$userquery->profile_link($sub)}"><img src="{$userquery->getUserThumb($sub)}" alt="{$sub.username}" width="40" height="40" border="0"></a></td>
+        <td><a href="{$userquery->profile_link($sub)}">{$sub.username}</a> | <a href="{$userquery->get_user_videos_link($sub)}">View Videos</a></td>
+        <td width="100">{$sub.profile_hits|number_format}</td>
+
+        <td width="50" align="center" valign="middle"><a href="?mode=subscriptions&delete_subs={$sub.subscribed_to}"><img src="{$imageurl}/cancel.png" width="16" height="16" border="0" /></a></td>
+      </tr>
+    </table>
+    </div>
+   {/foreach}
+{else}
+<div><em><strong>No subscription found</strong></em></div>
+ {/if}
+
+
+
+
+
+{/if}
 </div>

@@ -302,7 +302,7 @@ class cb_pm
 		global $db;
 		if(!$uid)
 			$uid = userid();
-		$result = $db->select($this->tbl.',users',$this->tbl.'.*,users.userid,users.username'," message_id='$mid' AND message_to LIKE '%#$uid#%' AND userid=".$this->tbl.".message_from");
+		$result = $db->select($this->tbl.',users',$this->tbl.'.*,users.userid,users.username'," message_id='$mid' AND message_to LIKE '%#$uid#%' AND userid=".$this->tbl.".message_from",NULL," date_added DESC ");
 		
 		if($db->num_rows>0)
 		{
@@ -363,7 +363,7 @@ class cb_pm
 				}else{
 					$result = $db->select($this->tbl.',users',$this->tbl.'.*,users.username AS message_from_user ',
 										  $this->tbl.".message_to LIKE '%#$uid#%' AND users.userid = ".$this->tbl.".message_from 
-										  AND ".$this->tbl.".message_box ='in' AND message_type='pm'");
+										  AND ".$this->tbl.".message_box ='in' AND message_type='pm'",NULL," date_added DESC");
 				}
 			}
 			break;
@@ -377,7 +377,7 @@ class cb_pm
 				}else{
 					$result = $db->select($this->tbl.',users',$this->tbl.'.*,users.username AS message_from_user ',
 										  $this->tbl.".message_from = '$uid' AND users.userid = ".$this->tbl.".message_from 
-										  AND ".$this->tbl.".message_box ='out'");
+										  AND ".$this->tbl.".message_box ='out'",NULL," date_added DESC");
 					
 	
 					//One More Query Need To be executed to get username of recievers
@@ -429,7 +429,7 @@ class cb_pm
 				}else{
 					$result = $db->select($this->tbl.',users',$this->tbl.'.*,users.username AS message_from_user ',
 										  $this->tbl.".message_to LIKE '%#$uid#' AND users.userid = ".$this->tbl.".message_from 
-										  AND ".$this->tbl.".message_box ='in' AND message_type='notification'");
+										  AND ".$this->tbl.".message_box ='in' AND message_type='notification'",NULL," date_added DESC");
 				}
 			}
 		}

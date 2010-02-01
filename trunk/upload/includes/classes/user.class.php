@@ -1131,12 +1131,34 @@ class userquery extends CBCategory{
 		if(!$user)
 			$user = userid();
 		global $db;
+		
+		if(!$user)
+			return false;
 		$result = $db->select($this->dbtbl['subtbl'],"*"," subscribed_to='$to' AND userid='$user'");
 		if($db->num_rows>0)
 			return $result;
 		else
 			return false;			
 	}
+	
+	/**
+	 * Function used to remove user subscription
+	 */
+	function remove_subscription($subid,$uid=NULL)
+	{
+		global $db;
+		if(!$uid)
+			$uid = userid();
+		if($this->is_subscribed($subid,$uid))
+		{
+			$db->execute("DELETE FROM ".$this->dbtbl['subtbl']." WHERE userid='$uid' AND subscribed_to='$subid'");
+			e("You have unsubscribed sucessfully","m");
+			return true;
+		}else
+			e("You are not subscribed");
+		
+		return false;
+	}function unsubscribe_user($subid,$uid=NULL){ return $this->remove_subscription($subid,$uid); }
 	
 	
 	/**
@@ -1179,6 +1201,8 @@ class userquery extends CBCategory{
 			return false;
 	}
 	
+	
+
 	
 	/**
 	 * Function used to reset user password

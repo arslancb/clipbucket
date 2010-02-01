@@ -81,6 +81,19 @@ switch($mode)
 		assign('mode','ban_users');
 	}
 	break;
+	
+	case 'subscriptions':
+	{
+		//Removing subscription
+		if(isset($_GET['delete_subs']))
+		{
+			$sid = mysql_clean($_GET['delete_subs']);
+			$userquery->unsubscribe_user($sid);
+		}
+		assign('mode','subs');
+		assign('subs',$userquery->get_user_subscriptions(userid()));
+	}
+	break;
 }
 
 

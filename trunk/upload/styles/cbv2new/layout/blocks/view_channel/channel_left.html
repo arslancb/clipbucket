@@ -4,7 +4,13 @@
                 	<div class="usr_thumb_container" align="center">
                     	<img src="{$userquery->getUserThumb($u)}" alt="{$u.username}" class="user_thumb">
                     </div>
+                    
+                    {if !$userquery->is_subscribed($u.userid)}
                     <span class="cb_button" onClick="subscriber('{$u.userid}','subscribe_user','result_cont')">{lang code='subscribe'}</span><br>
+                    {else}
+                    <span class="cb_button" onClick="subscriber('{$u.userid}','unsubscribe_user','result_cont')">{lang code='unsubscribe'}</span><br>
+                    {/if}
+                    
 					{assign var='channel_action_links' value=$userquery->get_channel_action_links($u)}
                     <ul class="channel_action_links">
                     {foreach from=$channel_action_links item=link key=link_title}
@@ -86,7 +92,7 @@
                 {assign var=users_items_subscriptions value=func->config(users_items_subscriptions)}
                 {assign var='usr_subs' value=$userquery->get_user_subscriptions($u.userid,$users_items_subscriptions)}
                 {section name=u_list loop=$usr_subs}
-                {include file="$style_dir/blocks/user.html" user=$usr_subs[u_list] block_type='small'}
+               	 {include file="$style_dir/blocks/user.html" user=$usr_subs[u_list] block_type='small'}
                 {sectionelse}
                 <div align="center"><em><strong>{lang code='user_no_subscriptions' assign='user_subs'}{$user_subs|sprintf:$u.username}</strong></em></div>
                 {/section}

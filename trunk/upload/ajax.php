@@ -203,6 +203,24 @@ if(!empty($mode))
 		}
 		break;
 		
+		case 'unsubscribe_user':
+		{
+			$subscribe_to = mysql_clean($_POST['subscribe_to']);
+			$userquery->unsubscribe_user($subscribe_to);
+			if(msg())
+			{
+				$msg = msg_list();
+				$msg = '<div class="msg">'.$msg[0].'</div>';
+			}
+			if(error())
+			{
+				$msg = error_list();
+				$msg = '<div class="error">'.$msg[0].'</div>';
+			}
+			echo $msg;
+		}
+		break;
+		
 		
 		case 'add_friend':
 		{
