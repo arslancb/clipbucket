@@ -78,9 +78,17 @@
 	 */
 	function private_message($array)
 	{
-		global $cbpm;
+		global $cbpm,$Cbucket;
 		$array = $array['pm'];
-		echo $array['message_content'];
+		$message = $array['message_content'];
+		$func_list = $Cbucket->getFunctionList('private_message');
+		//Applying Function
+		foreach($func_list as $func)
+		{
+			if(function_exists($func))
+				$message = $func($message);
+		}
+		echo $message;
 		$cbpm->parse_attachments($array['message_attachments']);
 	}
 	
