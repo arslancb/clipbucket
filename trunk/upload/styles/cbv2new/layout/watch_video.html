@@ -144,7 +144,11 @@
       <br />
       <label for="link_video">Link This Video<br />
       </label>
-      <input type="text" name="link_video" id="link_video" style="width:99%" value="{videoLink vdetails=$vdo}"  onclick="this.select()"/>
+      <input type="text" name="link_video" id="link_video" style="width:99%;margin-bottom:5px; " value="{videoLink vdetails=$vdo}"  onclick="this.select()"/>
+      
+      {if $Cbucket->configs.video_download==1}
+       <label><a href="{videoLink vdetails=$vdo type=download}">Click Here To Download This Video</a></label>
+      {/if}
     </strong>{ANCHOR place="video_sharing_options" data=$vdo}</div>
 	
     {ANCHOR place="watch_video_right" data=$vdo}

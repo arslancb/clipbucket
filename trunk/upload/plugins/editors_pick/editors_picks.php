@@ -178,6 +178,22 @@ if(!function_exists('editors_pick'))
 	}
 	
 	/**
+	 * Function used to move editors pick
+	 */
+	function move_epick($id,$order)
+	{
+		global $db;
+		if(!is_video_in_editors_pick($id))
+			e("Video doesnt exist in editor's picks");
+		else
+		{
+			if(!is_numeric($order) || $order <1)
+				$order = 1;
+			$db->update("cb_editors_picks",array("sort"),array($order)," videoid='".$id."'");
+		}
+	}
+	
+	/**
 	 * Function used to display editors pick
 	 */
 	function show_editor_pick()

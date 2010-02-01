@@ -447,7 +447,7 @@ class userquery extends CBCategory{
 			
 			$udetails = $this->get_user_details($uid);
 
-			if(userid()!=uid&&has_access('admin_access')&&$uid!=1)
+			if(userid()!=$uid&&has_access('admin_access',true)&&$uid!=1)
 			{
 				//list of functions to perform while deleting a video
 				$del_user_funcs = $this->delete_user_functions;

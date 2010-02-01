@@ -39,9 +39,29 @@ if(isset($_GET['category'])){
 if(isset($_GET['delete_category'])){
 	$cbvid->delete_category($_GET['delete_category']);
 }
+
+
+$cats = $cbvid->get_categories();
+
+
+//Updating Category Order
+if(isset($_POST['update_order']))
+{
+	foreach($cats as $cat)
+	{
+		if(!empty($cat['category_id']))
+		{
+			$order = $_POST['category_order_'.$cat['category_id']];
+			$cbvid->update_cat_order($cat['category_id'],$order);
+		}
+	}
 	
+	$cats = $cbvid->get_categories();
+
+}
+
 //Assing Category Values
-assign('category',$cbvid->get_categories());
+assign('category',$cats);
 assign('total',$cbvid->total_categories());
 
 subtitle("Video Category Manager");

@@ -665,7 +665,7 @@
 	 * Function used to get video link
 	 * @param ARRAY video details
 	 */
-	function video_link($vdetails)
+	function video_link($vdetails,$type=NULL)
 	{
 		global $myquery;
 		#checking what kind of input we have
@@ -708,7 +708,10 @@
 				$plist = '&play_list='.$vdetails['playlist_id'];
 			$link = BASEURL.'/watch_video.php?v='.$vdetails['videokey'].$plist;
 		}
-		return $link;
+		if(!$type || $type=='link')
+			return $link;
+		elseif($type=='download')
+			return BASEURL.'/download.php?v='.$vdetails['videokey'];
 	}
 	
 	
@@ -727,8 +730,8 @@
 	}
 	
 	//Function That will use in creating SEO urls
-	function VideoLink($vdetails){
-		return video_link($vdetails);
+	function VideoLink($vdetails,$type=NULL){
+		return video_link($vdetails,$type);
 	} 
 	
 	/**
@@ -800,7 +803,7 @@
 	
 	function videoSmartyLink($params)
 	{
-		return	VideoLink($params['vdetails']);
+		return	VideoLink($params['vdetails'],$params['type']);
 	}
 	
 	/**
@@ -879,7 +882,8 @@
 				if($with_all)
 					$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
 				$cats = $cbvid->get_categories();
-				if($all_cat)
+				
+				if($all_cat && is_array($cats))
 				$cats = array_merge($all_cat,$cats);
 				return $cats;
 			}
@@ -891,7 +895,7 @@
 					$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
 				
 				$cats = $userquery->get_categories();
-				if($all_cat)
+				if($all_cat && is_array($cats))
 				$cats = array_merge($all_cat,$cats);
 				return $cats;
 			}
@@ -2471,6 +2475,36 @@
 		if(userid())
 			$userquery->increment_watched_vides(userid());
 			
+	}
+	
+	
+	
+	
+	/**
+	 * Funcion used to call functions
+	 * when video is going to dwnload
+	 * ie in download.php
+	 */
+	function call_download_video_function($vdo)
+	{		
+		global $db;
+		$funcs = get_functions('download_video_functions');
+		if(is_array($funcs) && count($funcs)>0)
+		{
+			foreach($funcs as $func)
+			{
+				if(!function_exists($func))
+				{
+					$func($vdo);
+				}
+			}
+		}
+		
+		//Updating Video Downloads
+		$db->update("video",array("downloads"),array("|f|downloads+1"),"videoid = '".$vdo['videoid']."'");
+		//Updating User Download
+		if(userid())
+		$db->update("users",array("total_downloads"),array("|f|total_downloads+1"),"userid = '".userid()."'");
 	}
 	
 	

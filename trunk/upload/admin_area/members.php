@@ -22,7 +22,7 @@ if(isset($_GET['deleteuser'])){
 //Deleting Multiple Videos
 if(isset($_POST['delete_selected'])){
 	for($id=0;$id<=count($_POST['check_user']);$id++)
-		$userquery->delete_user($deleteuser);
+		$userquery->delete_user($_POST['check_user'][$id]);
 	$eh->flush();
 	e("Selected users have been deleted","m");
 }

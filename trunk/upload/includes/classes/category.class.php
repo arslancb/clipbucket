@@ -39,7 +39,7 @@ abstract class CBCategory
 	function get_category($cid)
 	{
 		global $db;
-		$results = $db->select($this->cat_tbl,"*"," category_id='$cid' ");
+		$results = $db->select($this->cat_tbl,"*"," category_id='$cid'");
 		if($db->num_rows>0)
 		{
 			return $results[0];
@@ -123,7 +123,7 @@ abstract class CBCategory
 	function get_categories()
 	{
 		global $db;
-		$select = $db->select($this->cat_tbl,"*");
+		$select = $db->select($this->cat_tbl,"*",NULL,NULL," category_order ASC");
 		return $select;
 	}
 	
@@ -330,6 +330,23 @@ abstract class CBCategory
 		if(empty($this->default_thumb))
 			$this->default_thumb = 'no_thumb.jpg';
 		return CAT_THUMB_URL.'/'.$this->default_thumb;
+	}
+	
+	/**
+	 * Function used to update category id
+	 */
+	function update_cat_order($id,$order)
+	{
+		global $db;
+		$cat = $this->category_exists($id);
+		if(!$cat)
+			e("Category does not exist");
+		else
+		{
+			if(!is_numeric($order) || $order <1)
+				$order = 1;
+			$db->update($this->cat_tbl,array("category_order"),array($order)," category_id='".$id."'");
+		}
 	}
 	
 }

@@ -1,52 +1,45 @@
 <?php
-/* 
- ****************************************************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.											|
- | @ Author	   : ArslanHassan																		|
- | @ Software  : ClipBucket , © PHPBucket.com														|
- ****************************************************************************************************
-*/
-	require_once 'includes/config.inc.php';
+/**
+ * FILE : Download
+ * Function : Download video
+ * @author : Arslan Hassan
+ * @Software : ClipBucket
+ * @Since : 1 Feb, 2010
+ *
+ * @License : CBLA
+ */
+ 
+define("THIS_PAGE",'download');
 
-$vkey 	= mysql_clean($_GET['v']);
-//Checking Video Key
-if(!empty($vkey) && $myquery->CheckVideoExists($vkey)){
-	$videos 	= $myquery->GetVideDetails($vkey);
-	$query	= mysql_query("SELECT * FROM video_detail WHERE flv ='".$videos['flv']."'");
-	$data	= mysql_fetch_array($query);
-	$flv_folder = 'files/videos';
-	$original_folder = 'files/original';
-	$flv = $flv_folder.'/'.$data['flv'];
-	$original = $original_folder.'/'.$data['original'];
-	if(!empty($data['original']) && file_exists($original)){
-		$file = $original;
-	}elseif(file_exists($flv)){
-		$file = $flv;
-	}else{
-		$msg = lang('class_vdo_del_err');
-	}
-	if(VIDEO_DOWNLOAD != 1){
-		$msg = lang('vdo_download_allow_err');
-	}
+require 'includes/config.inc.php';
+$userquery->perm_check('download_video',true);
+$pages->page_redir();
+
+//Getting Video Key
+$vkey = @$_GET['v'];
+$vdo = $cbvid->get_video($vkey);
+
+if($vdo && video_playable($vkey))
+{
+	//Calling Functions When Video Is going to download
+	call_download_video_function($vdo);
 	
-	if(empty($msg)){
-	header("Pragma: public"); // required
-	header("Expires: 0");
-	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-	header("Cache-Control: private",false); // required for certain browsers 
-    header("Content-type: application/force-download");
-    header("Content-Length: ".filesize($file)); 
-    header("Content-Disposition: attachment; filename=\"".basename($file)."\""); 
-    readfile("$file"); 
+	$file = get_video_file($vdo,false);
+
+	if($file)
+		$vdo['download_file'] = $file;
+	else
+	{
+		$Cbucket->show_page = false;
+		e("Unable to find download file");
 	}
+	assign('vdo',$vdo);
+	subtitle("Download ".$vdo['title']);
+	
 }
-if(!empty($msg) || empty($vkey) || !$myquery->CheckVideoExists($vkey)){
-Assign('msg',$msg);
-if(empty($msg))
-Assign('msg',lang('class_vdo_del_err'));
-Assign('subtitle',lang('class_vdo_del_err'));
-Template('header.html');
-Template('message.html');
-Template('footer.html');
-}
+
+
+//Displaying The Template
+template_files('download.html');
+display_it();
 ?>

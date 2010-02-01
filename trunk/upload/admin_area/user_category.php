@@ -40,8 +40,23 @@ if(isset($_GET['delete_category'])){
 	$userquery->delete_category($_GET['delete_category']);
 }
 	
+$cats = $userquery->get_categories();
+//Updating Category Order
+if(isset($_POST['update_order']))
+{
+	foreach($cats as $cat)
+	{
+		if(!empty($cat['category_id']))
+		{
+			$order = $_POST['category_order_'.$cat['category_id']];
+			$userquery->update_cat_order($cat['category_id'],$order);
+		}
+	}
+	$cats = $userquery->get_categories();
+}
+
 //Assing Category Values
-assign('category',$userquery->get_categories());
+assign('category',$cats);
 assign('total',$userquery->total_categories());
 
 Assign('msg',@$msg);

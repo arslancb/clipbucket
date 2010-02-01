@@ -37,8 +37,23 @@ if(isset($_GET['delete_category'])){
 	$cbgroup->delete_category($_GET['delete_category']);
 }
 	
+$cats = $cbgroup->get_categories();
+//Updating Category Order
+if(isset($_POST['update_order']))
+{
+	foreach($cats as $cat)
+	{
+		if(!empty($cat['category_id']))
+		{
+			$order = $_POST['category_order_'.$cat['category_id']];
+			$cbgroup->update_cat_order($cat['category_id'],$order);
+		}
+	}
+	$cats = $cbgroup->get_categories();
+}
+
 //Assing Category Values
-assign('category',$cbgroup->get_categories());
+assign('category',$cats);
 assign('total',$cbgroup->total_categories());
 
 subtitle("Groups Category manager");	

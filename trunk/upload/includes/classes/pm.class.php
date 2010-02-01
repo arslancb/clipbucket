@@ -410,7 +410,10 @@ class cb_pm
 						{
 							$t_names[] = $tn[0];
 						}
-						$to_user_names = implode(', ',$t_names);
+						if(is_array($t_names))
+							$to_user_names = implode(', ',$t_names);
+						else
+							$to_user_names = $t_names;
 						$result[$count]['to_usernames'] = $to_user_names;
 						$count++;
 					}
