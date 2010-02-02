@@ -155,6 +155,7 @@ class myquery {
 		$uid = user_id();
 		
 		if(($uid == $cdetails['userid'] && $cdetails['userid']!='')
+			|| $cdetails['type_owner_id'] == userid()										 
 			|| has_access("admin_del_access",false)
 			|| $is_reply==TRUE || $forceDelete)
 		{
@@ -844,7 +845,7 @@ class myquery {
 	 * This is more advance function , 
 	 * in this function functions can be applied on comments
 	 */
-	function add_comment($comment,$obj_id,$reply_to=NULL,$type='v')
+	function add_comment($comment,$obj_id,$reply_to=NULL,$type='v',$obj_owner=NULL)
 	{
 		global $userquery,$eh,$db,$Cbucket;
 		//Checking maximum comments characters allowed
@@ -890,9 +891,9 @@ class myquery {
 		if(empty($eh->error_list))
 		{
 			$db->insert("comments",array
-						 ('type,comment,type_id,userid,date_added,parent_id,anonym_name,anonym_email','comment_ip'),
+						 ('type,comment,type_id,userid,date_added,parent_id,anonym_name,anonym_email','comment_ip','type_owner_id'),
 						 array
-						 ($type,$comment,$obj_id,userid(),NOW(),$reply_to,$name,$email,$_SERVER['REMOTE_ADDR']));
+						 ($type,$comment,$obj_id,userid(),NOW(),$reply_to,$name,$email,$_SERVER['REMOTE_ADDR'],$obj_owner));
 			$db->update("users",array("total_comments"),array("|f|total_comments+1")," userid='".userid()."'");
 			
 			e("Comment has been added",m);

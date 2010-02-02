@@ -414,6 +414,8 @@ var loading = loading_img+" Loading...";
 	{
 		$("#add_comment_result").css("display","block");
 		$("#add_comment_result").html(loading);
+		$("#add_comment_button").attr("disabled","disabled");
+		
 		$.post(page, 
 		{ 	
 			mode : 'add_comment',
@@ -430,6 +432,8 @@ var loading = loading_img+" Loading...";
 				alert("No data");
 			else
 			{
+				$("#add_comment_button").attr("disabled","");
+				
 				$("#add_comment_result").css("display","block");
 				if(data.err!='')
 					$("#add_comment_result").html(data.err);

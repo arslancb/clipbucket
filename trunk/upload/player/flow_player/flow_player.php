@@ -31,14 +31,16 @@ if(!function_exists('flowplayer'))
 	define("AUTOPLAY",false);
 	define("SKIN","default.swf");
 	
-	function flowplayer($vdata)
+	function flowplayer($data)
 	{
-		$vid_file = get_video_file($vdata,false,false);
+		$vdata = $data['vdetails'];
+		$vid_file = get_video_file($vdata,true,true);
+		
 		$code = '';
 		if($vid_file)
 		{
-			$code .= "swfobject.embedSWF(\"".PLAYER_URL.'/flow_player/flowplayer.swf'."\", \"videoPlayer\", \"".$vdata['width']."\", \"".$vdata['height']."\", \"9.0.0\", null, {  \n";
-			$code .= "config: \"{'clip': '".BASEURL.'/files/videos/'.$vid_file."','autoPlay':'".$vdata['autoplay']."'  }}\"\n" ;
+			$code .= "swfobject.embedSWF(\"".PLAYER_URL.'/flow_player/flowplayer.swf'."\", \"videoPlayer\", \"".$data['width']."\", \"".$data['height']."\", \"9.0.0\", null, {  \n";
+			$code .= "config: \"{'clip': '".$vid_file."','autoPlay':'".$data['autoplay']."'  }}\"\n" ;
 			$code .= "} \n";
 			$code .= ");  \n"; 
 			return $code;

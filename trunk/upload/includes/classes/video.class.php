@@ -44,7 +44,9 @@ class CBvideo extends CBCategory
 	 */
 	function video_exists($vid)
 	{
-		return $this->get_video($vid);
+		global $db;
+		return $db->count("video","videoid"," videoid='$vid' ");
+		//return $this->get_video($vid);
 	}
 	function exists($vid){return $this->video_exists($vid);}
 	function videoexists($vid){return $this->video_exists($vid);}
@@ -544,23 +546,31 @@ class CBvideo extends CBCategory
 	function add_comment($comment,$obj_id,$reply_to=NULL)
 	{
 		global $myquery,$db;
-		$add_comment =  $myquery->add_comment($comment,$obj_id,$reply_to,'v');
-		if($add_comment)
+		
+		if(!$this->video_exists($obj_id))
+			e("Video doesn't exist");
+		else
 		{
-			//Loggin Comment			
-			$log_array = array
-			(
-			 'success'=>'yes',
-			 'details'=> "comment on a video",
-			 'action_obj_id' => $obj_id,
-			 'action_done_id' => $add_comment,
-			);
-			insert_log('video_comment',$log_array);
-			
-			//Updating Number of comments of video
-			$this->update_comments_count($obj_id);
+			//Getting Owner Id
+			$owner_id = $this->get_video_owner($obj_id,true);
+			$add_comment =  $myquery->add_comment($comment,$obj_id,$reply_to,'v',$owner_id);
+			if($add_comment)
+			{
+				//Loggin Comment			
+				$log_array = array
+				(
+				 'success'=>'yes',
+				 'details'=> "comment on a video",
+				 'action_obj_id' => $obj_id,
+				 'action_done_id' => $add_comment,
+				);
+				insert_log('video_comment',$log_array);
+				
+				//Updating Number of comments of video
+				$this->update_comments_count($obj_id);
+			}
+			return $add_comment;
 		}
-		return $add_comment;
 	}
 	
 	/**
@@ -758,6 +768,28 @@ class CBvideo extends CBCategory
 		}
 	}	
 	
+	
+	/**
+	 * Function used to get video owner
+	 */
+	function get_video_owner($vid,$idonly=false)
+	{
+		global $db;
+		if($idonly)
+		{
+			$results = $db->select("video","userid"," videoid='$vid' ",1);
+			if($db->num_rows>0)
+				return $results[0]['userid'];
+			else
+				return false;
+		}else{
+			$results = $db->select("video","*"," videoid='$vid' ",1);
+			if($db->num_rows>0)
+				return $results[0];
+			else
+				return false;
+		}
+	}
 	
 	/**
 	 * Function used to check weather current user is video owner or not

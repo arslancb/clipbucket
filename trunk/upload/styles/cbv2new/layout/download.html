@@ -1,0 +1,16 @@
+
+<script>
+var download_file = '{$vdo.download_file}';
+{literal}
+	$(document).ready
+	(function()
+	  {
+		setTimeout("location.href='"+download_file+"'",3000);				   
+	  }
+	)
+{/literal}
+</script>
+
+<div style="width:98%; margin:auto">
+<h2>Downloading {$vdo.title}...</h2>
+<p><a href="{$vdo.download_file}">click here if you don't redirect automatically</a> - <a href="{videoLink vdetails=$vdo}"> Click Here to Go Back to Video Page</a></p></div>

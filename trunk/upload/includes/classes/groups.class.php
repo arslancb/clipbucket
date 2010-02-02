@@ -239,7 +239,7 @@ class CBGroups extends CBCategory
 						'name'=> 'category[]',
 						'id'=> 'category',
 						'value'=> array('category',$cat_array),
-						'hint_1'=>  lang('vdo_cat_msg'),
+						'hint_1'=>  sprintf(lang('vdo_cat_msg'),ALLOWED_GROUP_CATEGORIES),
 						'db_field'=>'category',
 						'required'=>'yes',
 						'validate_function'=>'validate_group_category',
@@ -257,16 +257,16 @@ class CBGroups extends CBCategory
 	/**
 	 * Function used to load other group option fields
 	 */
-	function load_other_fields()
+	function load_other_fields($default=NULL)
 	{
 		global $LANG,$uploadFormOptionFieldsArray;
 		
 		
-		if($default == NULL)
+		if(!$default)
 			$default = $_POST;
 			
 		$gpprivacy = $default['group_privacy'];
-		$gpposting = $dafaul['post_type'];
+		$gpposting = $default['post_type'];
 		
 		$group_option_fields = array
 		(
@@ -1506,23 +1506,30 @@ class CBGroups extends CBCategory
 	function add_comment($comment,$obj_id,$reply_to=NULL)
 	{
 		global $myquery,$db;
-		$add_comment =  $myquery->add_comment($comment,$obj_id,$reply_to,'t');
-		if($add_comment)
+		
+		if(!$this->topic_exists($obj_id))
+			e("Topic does not exist");
+		else
 		{
-			//Loggin Comment			
-			$log_array = array
-			(
-			 'success'=>'yes',
-			 'details'=> "comment on a topic",
-			 'action_obj_id' => $obj_id,
-			 'action_done_id' => $add_comment,
-			);
-			insert_log('topic_comment',$log_array);
-			
-			//Updating Number of comments of topics
-			$this->update_comments_count($obj_id);
+			$owner = $this->get_group_owner_from_topic($obj_id);
+			$add_comment =  $myquery->add_comment($comment,$obj_id,$reply_to,'t',$owner);
+			if($add_comment)
+			{
+				//Loggin Comment			
+				$log_array = array
+				(
+				 'success'=>'yes',
+				 'details'=> "comment on a topic",
+				 'action_obj_id' => $obj_id,
+				 'action_done_id' => $add_comment,
+				);
+				insert_log('topic_comment',$log_array);
+				
+				//Updating Number of comments of topics
+				$this->update_comments_count($obj_id);
+			}
+			return $add_comment;
 		}
-		return $add_comment;
 	}
 	
 	/**
@@ -2048,6 +2055,21 @@ class CBGroups extends CBCategory
 		}
 			
 		return true;
+	}
+	
+	
+	/**
+	 * Get group owner from topic
+	 */
+	function get_group_owner_from_topic($tid)
+	{
+		global $db;
+		$results = $db->select("group_topics,groups","group_topics.group_id,group_topics.topic_id,groups.userid,groups.group_id","group_topics.group_id = groups.group_id AND group_topics.topic_id='$tid'");
+
+		if($db->num_rows>0)
+			return $results[0]['userid'];
+		else
+			return false;
 	}
 }
 ?>

@@ -1107,7 +1107,10 @@ class userquery extends CBCategory{
 		{
 			$db->insert($this->dbtbl['subtbl'],array('userid','subscribed_to','date_added'),
 											   array($user,$to,NOW()));
-			
+			$db->update($this->dbtbl['users'],array('subscribers'),
+											   array($this->get_user_subscribers($to,true))," userid='$to' ");
+			$db->update($this->dbtbl['users'],array('total_subscriptions'),
+											   array($this->get_user_subscriptions($user,'count'))," userid='$user' ");
 			//Loggin Comment			
 			$log_array = array
 			(
@@ -1153,6 +1156,13 @@ class userquery extends CBCategory{
 		{
 			$db->execute("DELETE FROM ".$this->dbtbl['subtbl']." WHERE userid='$uid' AND subscribed_to='$subid'");
 			e("You have unsubscribed sucessfully","m");
+			
+			$db->update($this->dbtbl['users'],array('subscribers'),
+											   array($this->get_user_subscribers($subid,true))," userid='$subid' ");
+			$db->update($this->dbtbl['users'],array('total_subscriptions'),
+											   array($this->get_user_subscriptions($uid,'count'))," userid='$uid' ");
+			
+			
 			return true;
 		}else
 			e("You are not subscribed");
@@ -1165,14 +1175,18 @@ class userquery extends CBCategory{
 	 * Function used to get user subscibers
 	 * @param userid
 	 */
-	function get_user_subscribers($id)
+	function get_user_subscribers($id,$count=false)
 	{
-		global $id;
-		$result = $db->select($this->dbtbl['subtbl'],"*"," subscribed_to='$to' ");
-		if($db->num_rows>0)
-			return $result;
-		else
-			return false;	
+		global $db;
+		if(!$count)
+		{
+			$result = $db->select($this->dbtbl['subtbl'],"*"," subscribed_to='$id' ");
+			if($db->num_rows>0)
+				return $result;
+			else
+				return false;	
+		}else
+			return $db->count($this->dbtbl['subtbl'],"subscription_id"," subscribed_to='$id' ");
 	}
 	
 	/**
@@ -1194,11 +1208,18 @@ class userquery extends CBCategory{
 	function get_user_subscriptions($id,$limit=NULL)
 	{	
 		global $db;
-		$result = $db->select("users,".$this->dbtbl['subtbl'],"*"," subscriptions.userid = '$id' AND subscriptions.subscribed_to=users.userid",$limit);
-		if($db->num_rows>0)
+		if($limit!='count')
+		{
+			$result = $db->select("users,".$this->dbtbl['subtbl'],"*"," subscriptions.userid = '$id' AND subscriptions.subscribed_to=users.userid",$limit);
+			if($db->num_rows>0)
+				return $result;
+			else
+				return false;
+		}else
+		{
+			$result =  $db->count($this->dbtbl['subtbl'],"subscription_id"," userid = '$id'");
 			return $result;
-		else
-			return false;
+		}
 	}
 	
 	
@@ -1751,7 +1772,9 @@ class userquery extends CBCategory{
 		if(!$this->user_exists($obj_id))
 			e("User does not exists");
 		else
-			$add_comment = $myquery->add_comment($comment,$obj_id,$reply_to,$type);
+		{
+			$add_comment = $myquery->add_comment($comment,$obj_id,$reply_to,$type,$obj_id);
+		}
 		if($add_comment)
 		{
 			//Loggin Comment			

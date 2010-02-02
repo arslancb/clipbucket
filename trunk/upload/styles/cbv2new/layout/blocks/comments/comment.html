@@ -21,7 +21,7 @@
         </div>
         <div style="width:28%; float:right" align="right"><a href="javascript:void(0)" onclick="to_reply('{$comment.comment_id}')">Reply</a> | <a href="javascript:void(0)" onclick="spam_comment('{$comment.comment_id}')">Spam</a>
         
-        {if has_access('admin_del_access') || $comment.userid==userid()} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">Delete</a>{/if}</div>
+        {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">Delete</a>{/if}</div>
         <div class="cleafix"></div>
         </div>
         

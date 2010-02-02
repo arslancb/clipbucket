@@ -53,7 +53,7 @@ if(!$cbtpl->is_template($sel_dir))
 					//echo $file;
 					$data = $_POST['thecontent'];
 					$open_file = fopen($file, "w");
-					fwrite($open_file, $data);
+					fwrite($open_file, stripslashes($data));
 					e("File has been updated","m");
 				}else
 					e("Unable to write file");
