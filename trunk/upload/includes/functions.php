@@ -3909,4 +3909,15 @@
 		else
 			return false;
 	}
+	
+	
+	/**
+	 * Function used to return db table name with prefix
+	 * @param : table name
+	 * @return : prefix_table_name;
+	 */
+	function tbl($tbl)
+	{
+		return $tbl;
+	}
 ?>

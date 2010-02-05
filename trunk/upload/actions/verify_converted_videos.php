@@ -17,7 +17,7 @@ foreach($files as $file)
 	if($file_details['conversion_status']=='failed')
 	{
 		
-		$db->update("conversion_queue",
+		$db->update(tbl("conversion_queue"),
 					array("cqueue_conversion"),
 					array("yes")," cqueue_id = '".$file['cqueue_id']."'");
 		update_processed_video($file,'Failed');
@@ -38,7 +38,7 @@ foreach($files as $file)
 	}elseif($file_details['conversion_status']=='completed')
 	{
 		
-		$db->update("conversion_queue",
+		$db->update(tbl("conversion_queue"),
 					array("cqueue_conversion"),
 					array("yes")," cqueue_id = '".$file['cqueue_id']."'");
 		update_processed_video($file,'Successful');
