@@ -1231,7 +1231,7 @@
 	function get_re($code)
 	{
 		global $db;
-		$results = $db->select("validation_re","*"," re_code='$code'");
+		$results = $db->select(tbl("validation_re"),"*"," re_code='$code'");
 		if($db->num_rows>0)
 		{
 			return $results[0]['re_syntax'];
@@ -1370,7 +1370,7 @@
 	function vkey_exists($key)
 	{
 		global $db;
-		$db->select("video","videokey"," videokey='$key'");
+		$db->select(tbl("video"),"videokey"," videokey='$key'");
 		if($db->num_rows>0)
 			return true;
 		else
@@ -1384,7 +1384,7 @@
 	function file_name_exists($name)
 	{
 		global $db;
-		$results = $db->select("video","videoid,file_name"," file_name='$name'");
+		$results = $db->select(tbl("video"),"videoid,file_name"," file_name='$name'");
 		
 		if($db->num_rows >0)
 			return $results[0]['videoid'];
@@ -1400,10 +1400,10 @@
 	function get_queued_video($update=TRUE)
 	{
 		global $db;
-		$results = $db->select("conversion_queue","*","cqueue_conversion='no'",1);
+		$results = $db->select(tbl("conversion_queue"),"*","cqueue_conversion='no'",1);
 		$result = $results[0];
 		if($update)
-		$db->update("conversion_queue",array("cqueue_conversion"),array("p")," cqueue_id = '".$result['cqueue_id']."'");
+		$db->update(tbl("conversion_queue"),array("cqueue_conversion"),array("p")," cqueue_id = '".$result['cqueue_id']."'");
 		return $result;
 	}
 
@@ -1415,7 +1415,7 @@
 	function get_video_being_processed()
 	{
 		global $db;
-		$results = $db->select("conversion_queue","*","cqueue_conversion='p'");
+		$results = $db->select(tbl("conversion_queue"),"*","cqueue_conversion='p'");
 		return $results;
 	}
 	
@@ -1724,7 +1724,7 @@
 			{
 				//Get Duration 
 				$stats = get_file_details($file_name);
-				$db->update("video",array("status","duration"),array($status,$stats['duration'])," file_name='".$file_name."'");
+				$db->update(tbl("video"),array("status","duration"),array($status,$stats['duration'])," file_name='".$file_name."'");
 			}
 		}	
 	}
@@ -1738,7 +1738,7 @@
 		global $db;
 		$vdetails = get_video_details($vid);
 		$file_name = $vdetails['file_name'];
-		$results = $db->select("conversion_queue","*"," cqueue_name='$file_name' AND cqueue_conversion='yes'");
+		$results = $db->select(tbl("conversion_queue"),"*"," cqueue_name='$file_name' AND cqueue_conversion='yes'");
 		$result = $results[0];
 		update_processed_video($result);							   
 	}
@@ -1751,7 +1751,7 @@
 	function get_file_details($file_name)
 	{
 		global $db;
-		//$result = $db->select("video_files","*"," id ='$file_name' OR src_name = '$file_name' ");
+		//$result = $db->select(tbl("video_files"),"*"," id ='$file_name' OR src_name = '$file_name' ");
 		//Reading Log File
 		$file = LOGS_DIR.'/'.$file_name.'.log';
 		if(file_exists($file))
@@ -2490,10 +2490,10 @@
 		}
 		
 		//Updating Video Downloads
-		$db->update("video",array("downloads"),array("|f|downloads+1"),"videoid = '".$vdo['videoid']."'");
+		$db->update(tbl("video"),array("downloads"),array("|f|downloads+1"),"videoid = '".$vdo['videoid']."'");
 		//Updating User Download
 		if(userid())
-		$db->update("users",array("total_downloads"),array("|f|total_downloads+1"),"userid = '".userid()."'");
+		$db->update(tbl("users"),array("total_downloads"),array("|f|total_downloads+1"),"userid = '".userid()."'");
 	}
 	
 	
@@ -2584,7 +2584,7 @@
 			default:
 			{
 				if(!isset($_COOKIE['video_'.$id])){
-					$db->update("video",array("views","last_viewed"),array("|f|views+1",NOW())," videoid='$id' OR videokey='$id'");
+					$db->update(tbl("video"),array("views","last_viewed"),array("|f|views+1",NOW())," videoid='$id' OR videokey='$id'");
 					setcookie('video_'.$id,'watched',time()+3600);
 				}
 			}
@@ -2596,7 +2596,7 @@
 			{
 				
 				if(!isset($_COOKIE['user_'.$id])){
-					$db->update("users",array("profile_hits"),array("|f|profile_hits+1")," userid='$id'");
+					$db->update(tbl("users"),array("profile_hits"),array("|f|profile_hits+1")," userid='$id'");
 					setcookie('user_'.$id,'watched',time()+3600);
 				}
 			}
@@ -2606,7 +2606,7 @@
 
 			{
 				if(!isset($_COOKIE['topic_'.$id])){
-					$db->update("group_topics",array("total_views"),array("|f|total_views+1")," topic_id='$id'");
+					$db->update(tbl("group_topics"),array("total_views"),array("|f|total_views+1")," topic_id='$id'");
 					setcookie('topic_'.$id,'watched',time()+3600);
 				}
 			}
@@ -2617,7 +2617,7 @@
 
 			{
 				if(!isset($_COOKIE['group_'.$id])){
-					$db->update("groups",array("total_views"),array("|f|total_views+1")," group_id='$id'");
+					$db->update(tbl("groups"),array("total_views"),array("|f|total_views+1")," group_id='$id'");
 					setcookie('group_'.$id,'watched',time()+3600);
 				}
 			}
@@ -2924,7 +2924,7 @@
 	function get_country($code)
 	{
 		global $db;
-		$result = $db->select("countries","name_en,iso2"," iso2='$code' OR iso3='$code'");
+		$result = $db->select(tbl("countries"),"name_en,iso2"," iso2='$code' OR iso3='$code'");
 		if($db->num_rows>0)
 		{
 			$flag = '';
