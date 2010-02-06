@@ -169,7 +169,7 @@ class cb_pm
 			$values_in[] = 'in';
 			$values_in[] = $reply_to;
 			
-			$db->insert($this->tbl,$fields_in,$values_in);
+			$db->insert(tbl($this->tbl),$fields_in,$values_in);
 			$array['msg_id'] = $db->insert_id();
 			if($array['is_pm'])
 			{
@@ -183,7 +183,7 @@ class cb_pm
 				$values_out[] = $reply_to;
 				$values_out[] = 'read';
 				
-				$db->insert($this->tbl,$fields_out,$values_out);
+				$db->insert(tbl($this->tbl),$fields_out,$values_out);
 			}
 			
 			//Sending Email
@@ -267,7 +267,7 @@ class cb_pm
 	function is_reply($id,$uid)
 	{
 		global $db;
-		$results = $db->select($this->tbl,'message_to'," message_id = '$id' AND message_to LIKE '%#$uid#%'");
+		$results = $db->select(tbl($this->tbl),'message_to'," message_id = '$id' AND message_to LIKE '%#$uid#%'");
 		if($db->num_rows>0)
 			return true;
 		else
@@ -281,7 +281,7 @@ class cb_pm
 	function get_message($id)
 	{
 		global $db;
-		$result = $db->select($this->tbl,'*'," message_id='$id'");
+		$result = $db->select(tbl($this->tbl),'*'," message_id='$id'");
 		$result = $result[0];
 		if($db->num_rows>0)
 		{
@@ -302,7 +302,7 @@ class cb_pm
 		global $db;
 		if(!$uid)
 			$uid = userid();
-		$result = $db->select($this->tbl.',users',$this->tbl.'.*,users.userid,users.username'," message_id='$mid' AND message_to LIKE '%#$uid#%' AND userid=".$this->tbl.".message_from",NULL," date_added DESC ");
+		$result = $db->select(tbl($this->tbl.',users'),tbl($this->tbl.'.*,users.userid,users.username')," message_id='$mid' AND message_to LIKE '%#$uid#%' AND userid=".tbl($this->tbl).".message_from",NULL," date_added DESC ");
 		
 		if($db->num_rows>0)
 		{
@@ -323,7 +323,7 @@ class cb_pm
 		global $db;
 		if(!$uid)
 			$uid = userid();
-		$result = $db->select($this->tbl.',users',$this->tbl.'.*,users.userid,users.username'," message_id='$mid' AND message_from='$uid' AND userid=".$this->tbl.".message_from");
+		$result = $db->select(tbl($this->tbl.',users'),tbl($this->tbl.'.*,users.userid,users.username')," message_id='$mid' AND message_from='$uid' AND userid=".tbl($this->tbl.".message_from"));
 		
 		if($db->num_rows>0)
 		{
@@ -340,7 +340,7 @@ class cb_pm
 	 */
 	function pm_count()	{
 		global $db;
-		return $db->count($this->tbl,'message_id');
+		return $db->count(tbl($this->tbl),'message_id');
 	}
 	
 	/**
@@ -359,11 +359,11 @@ class cb_pm
 			{
 				if($count_only)
 				{
-					$result = $db->count($this->tbl,'message_id'," message_to LIKE '%#$uid#%' AND message_box ='in' AND message_type='pm' ");
+					$result = $db->count(tbl($this->tbl),'message_id'," message_to LIKE '%#$uid#%' AND message_box ='in' AND message_type='pm' ");
 				}else{
-					$result = $db->select($this->tbl.',users',$this->tbl.'.*,users.username AS message_from_user ',
-										  $this->tbl.".message_to LIKE '%#$uid#%' AND users.userid = ".$this->tbl.".message_from 
-										  AND ".$this->tbl.".message_box ='in' AND message_type='pm'",NULL," date_added DESC");
+					$result = $db->select(tbl($this->tbl.',users'),tbl($this->tbl.'.*,users.username AS message_from_user '),
+										  tbl($this->tbl).".message_to LIKE '%#$uid#%' AND ".tbl("users").".userid = ".tbl($this->tbl).".message_from 
+										  AND ".tbl($this->tbl).".message_box ='in' AND message_type='pm'",NULL," date_added DESC");
 				}
 			}
 			break;
@@ -373,36 +373,35 @@ class cb_pm
 			{
 				if($count_only)
 				{
-					$result = $db->count($this->tbl,'message_id'," message_from = '$uid' AND message_box ='out' ");
+					$result = $db->count(tbl($this->tbl),'message_id'," message_from = '$uid' AND message_box ='out' ");
 				}else{
-					$result = $db->select($this->tbl.',users',$this->tbl.'.*,users.username AS message_from_user ',
-										  $this->tbl.".message_from = '$uid' AND users.userid = ".$this->tbl.".message_from 
-										  AND ".$this->tbl.".message_box ='out'",NULL," date_added DESC");
+					$result = $db->select(tbl($this->tbl.',users'),tbl($this->tbl.'.*,users.username AS message_from_user '),
+										  tbl($this->tbl).".message_from = '$uid' AND ".tbl("users").".userid = ".$this->tbl.".message_from 
+										  AND ".tbl($this->tbl).".message_box ='out'",NULL," date_added DESC");
 					
-	
 					//One More Query Need To be executed to get username of recievers
 					$count = 0;
 					
+					$cond = "";
 					if(is_array($result))
 					foreach($result as $re)
 					{
 						
 						$cond = '';
-						$receivers = explode('|',$re['message_to']);
-						
-						foreach($receivers as $to_user)
+						preg_match_all("/#(.*)#/Ui",$re['message_to'],$receivers);
+						//pr($receivers);
+						foreach($receivers[1] as $to_user)
 						{
 	
 							if(!empty($to_user))
 							{
 								if(!empty($cond))
 									$cond .= " OR ";
-								$cond .= " userid='$to_user' ";
+								$cond .= " userid = '$to_user' ";
 							}
 						}
 						
-						$to_names = $db->select('users','username',$cond);
-						
+						$to_names = $db->select(tbl('users'),'username',$cond);
 						$t_names = '';
 						
 						if(is_array($to_names))
@@ -425,11 +424,11 @@ class cb_pm
 			{
 				if($count_only)
 				{
-					$result = $db->count($this->tbl,'message_id'," message_to LIKE '%#$uid#%' AND message_box ='in' AND message_type='pm' ");
+					$result = $db->count(tbl($this->tbl),'message_id'," message_to LIKE '%#$uid#%' AND message_box ='in' AND message_type='pm' ");
 				}else{
-					$result = $db->select($this->tbl.',users',$this->tbl.'.*,users.username AS message_from_user ',
-										  $this->tbl.".message_to LIKE '%#$uid#' AND users.userid = ".$this->tbl.".message_from 
-										  AND ".$this->tbl.".message_box ='in' AND message_type='notification'",NULL," date_added DESC");
+					$result = $db->select(tbl($this->tbl.',users'),tbl($this->tbl.'.*,users.username AS message_from_user '),
+										  tbl($this->tbl).".message_to LIKE '%#$uid#' AND ".tbl("users.userid")." = ".tbl($this->tbl).".message_from 
+										  AND ".tbl($this->tbl).".message_box ='in' AND message_type='notification'",NULL," date_added DESC");
 				}
 			}
 		}
@@ -565,7 +564,7 @@ class cb_pm
 		}
 		
 		$emails = array();
-		$results = $db->select($userquery->dbtbl['users'],'email',$cond);
+		$results = $db->select(tbl($userquery->dbtbl['users']),'email',$cond);
 		foreach($results as $result)
 		{
 			$emails[] = $result[0];
@@ -582,7 +581,7 @@ class cb_pm
 	{
 		global $db;
 		if($mid)
-			$db->update($this->tbl,array('message_status'),array($status)," message_id='$mid'");
+			$db->update(tbl($this->tbl),array('message_status'),array($status)," message_id='$mid'");
 	}
 	
 	/**
@@ -595,13 +594,13 @@ class cb_pm
 		{
 			if($this->get_inbox_message($mid,$uid))
 			{
-				$db->delete($this->tbl,array("message_id"),array($mid));
+				$db->delete(tbl($this->tbl),array("message_id"),array($mid));
 				e(lang('msg_delete_inbox'),'m');
 			}
 		}else{
 			if($this->get_outbox_message($mid,$uid))
 			{
-				$db->delete($this->tbl,array("message_id"),array($mid));
+				$db->delete(tbl($this->tbl),array("message_id"),array($mid));
 				e(lang('msg_delete_outbox'),'m');
 			}
 		}
@@ -622,7 +621,7 @@ class cb_pm
 			case 'pm':
 			default:
 			{
-				$count = $db->count($this->tbl,"message_id"," message_to LIKE '%#$uid#%' AND message_box='in' AND message_type='pm' AND 	message_status='unread'");
+				$count = $db->count(tbl($this->tbl),"message_id"," message_to LIKE '%#$uid#%' AND message_box='in' AND message_type='pm' AND 	message_status='unread'");
 				
 			}
 			break;
@@ -630,7 +629,7 @@ class cb_pm
 			case 'notification':
 			default:
 			{
-				$count = $db->count($this->tbl,"message_id"," message_to LIKE '%#$uid#%' AND message_box='in' AND message_type='notification' AND message_status='unread'");
+				$count = $db->count(tbl($this->tbl),"message_id"," message_to LIKE '%#$uid#%' AND message_box='in' AND message_type='notification' AND message_status='unread'");
 			}
 			break;
 		}
