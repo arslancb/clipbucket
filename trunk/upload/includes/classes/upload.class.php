@@ -241,7 +241,7 @@ class Upload{
 			$query_field[] = "date_added";
 			$query_val[] = now();
 			
-			$query = "INSERT INTO video (";
+			$query = "INSERT INTO ".tbl("video")." (";
 			$total_fields = count($query_field);
 			
 			//Adding Fields to query
@@ -287,7 +287,7 @@ class Upload{
 					 'details'=> "uploaded a video");
 					insert_log('upload_video',$log_array);
 					
-					$db->update("users",array("total_videos"),array("|f|total_videos+1")," userid='".userid()."'");
+					$db->update(tbl("users"),array("total_videos"),array("|f|total_videos+1")," userid='".userid()."'");
 				}
 			}
 			
@@ -815,7 +815,7 @@ class Upload{
 			//Renaming File for security purpose
 			rename(TEMP_DIR.'/'.$file,TEMP_DIR.'/'.$new_file);
 			//Adding Details to database
-			$db->Execute("INSERT INTO conversion_queue (cqueue_name,cqueue_ext,cqueue_tmp_ext,date_added)
+			$db->Execute("INSERT INTO ".tbl("conversion_queue")." (cqueue_name,cqueue_ext,cqueue_tmp_ext,date_added)
 							VALUES ('".$name."','".$ext."','".$tmp_ext."','".NOW()."') ");
 			return $db->insert_id;
 		}else{
