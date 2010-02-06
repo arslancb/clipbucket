@@ -177,7 +177,7 @@ class userquery extends CBCategory{
 			$this->level = $sess->get('level');
 			
 			//Updating User last login , num of visist and ip
-			$db->update('users',
+			$db->update(tbl('users'),
 						array(
 							  'num_visits','last_logged','ip'
 							  ),
@@ -339,7 +339,7 @@ class userquery extends CBCategory{
 	function get_user_with_pass($username,$pass)
 	{
 		global $db;
-		$results = $db->select("users",
+		$results = $db->select(tbl("users"),
 							   "userid,email,level,usr_status,user_session_key,user_session_code",
 							   "(username='$username' OR userid='$username') AND password='$pass'");
 		if($db->num_rows > 0)
@@ -467,8 +467,8 @@ class userquery extends CBCategory{
 				$this->remove_user_subscribers($uid);
 				
 				//Finally Removing Database entry of video
-				$db->execute("DELETE FROM ".$this->dbtbl['users']." WHERE userid='$uid'");
-				$db->execute("DELETE FROM ".$this->dbtbl['user_profile']." WHERE userid='$uid'");
+				$db->execute("DELETE FROM ".tbl("users")." WHERE userid='$uid'");
+				$db->execute("DELETE FROM ".tbl("user_profile")." WHERE userid='$uid'");
 				
 				e(lang("class_vdo_del_msg"),m);
 			}else{
@@ -491,7 +491,7 @@ class userquery extends CBCategory{
 			e("You dont have sufficient permissions");
 		else
 		{
-			$db->execute("DELETE FROM ".$this->dbtbl['subtbl']." WHERE userid='$uid'");
+			$db->execute("DELETE FROM ".tbl($this->dbtbl['subtbl'])." WHERE userid='$uid'");
 			e("User subscriptions have been removed","m");
 		}
 	}
@@ -508,7 +508,7 @@ class userquery extends CBCategory{
 			e("You dont have sufficient permissions");
 		else
 		{
-			$db->execute("DELETE FROM ".$this->dbtbl['subtbl']." WHERE subscribed_to='$uid'");
+			$db->execute("DELETE FROM ".tbl($this->dbtbl['subtbl'])." WHERE subscribed_to='$uid'");
 			e("User subscribers have been removed","m");
 		}
 	}
@@ -527,7 +527,7 @@ class userquery extends CBCategory{
 		{
 			if(empty($this->user_exist))
 			{
-				$result = $db->count($this->dbtbl['users'],"userid"," userid='".$id."' OR username='".$id."'");
+				$result = $db->count(tbl($this->dbtbl['users']),"userid"," userid='".$id."' OR username='".$id."'");
 				if($result>0)
 				{
 					$this->user_exist = 'yes';
@@ -542,7 +542,7 @@ class userquery extends CBCategory{
 				return false;
 		}else
 		{
-			$result = $db->count($this->dbtbl['users'],"userid"," userid='".$id."' OR username='".$id."'");
+			$result = $db->count(tbl($this->dbtbl['users']),"userid"," userid='".$id."' OR username='".$id."'");
 			if($result>0)
 			{
 				return true;
@@ -567,7 +567,7 @@ class userquery extends CBCategory{
 		/*if(!$id)
 			$id = userid();*/
 			
-		$results = $db->select('users','*'," userid='$id' OR username='".$id."' OR email='".$id."'");
+		$results = $db->select(tbl('users'),'*'," userid='$id' OR username='".$id."' OR email='".$id."'");
 		return $results[0];		
 	}function GetUserData($id=NULL){ return $this->get_user_details($id); }
 	
@@ -718,7 +718,7 @@ class userquery extends CBCategory{
 			cbmail(array('to'=>$udetails['email'],'from'=>WELCOME_EMAIL,'subject'=>$subj,'content'=>$msg));
 			
 			if($update_email_status)
-				$db->update($this->dbtbl['users'],array('welcome_email_sent'),array("yes")," userid='".$udetails['userid']."' ");
+				$db->update(tbl($this->dbtbl['users']),array('welcome_email_sent'),array("yes")," userid='".$udetails['userid']."' ");
 		}
 	}
 	
@@ -744,7 +744,7 @@ class userquery extends CBCategory{
 			e(lang('usr_cpass_err1'));
 		else
 		{
-			$db->update($this->dbtbl['users'],array('password'),array(pass_code($array['new_pass']))," userid='".$uid."'");
+			$db->update(tbl($this->dbtbl['users']),array('password'),array(pass_code($array['new_pass']))," userid='".$uid."'");
 			e(lang("usr_pass_email_msg"),"m");
 
 		}
@@ -774,7 +774,7 @@ class userquery extends CBCategory{
 			e("Friend has been added");
 		}else
 		{
-			$db->insert($this->dbtbl['contacts'],array('userid','contact_userid','date_added'),
+			$db->insert(tbl($this->dbtbl['contacts']),array('userid','contact_userid','date_added'),
 												 array($uid,$fid,now()));
 			$insert_id = $db->insert_id();
 			
@@ -809,7 +809,7 @@ class userquery extends CBCategory{
 	function is_confirmed_friend($uid,$fid)
 	{
 		global $db;
-		$count = $db->count($this->dbtbl['contacts'],"contact_id",
+		$count = $db->count(tbl($this->dbtbl['contacts']),"contact_id",
 					" (userid='$uid' AND contact_userid='$fid') OR (userid='$fid' AND contact_userid='$uid') AND confirmed='yes'" );
 		if($count[0]>0)
 			return true;
@@ -823,7 +823,7 @@ class userquery extends CBCategory{
 	function is_friend($uid,$fid)
 	{
 		global $db;
-		$count = $db->count($this->dbtbl['contacts'],"contact_id",
+		$count = $db->count(tbl($this->dbtbl['contacts']),"contact_id",
 					" (userid='$uid' AND contact_userid='$fid') OR (userid='$fid' AND contact_userid='$uid')" );
 		if($count[0]>0)
 			return true;
@@ -843,10 +843,10 @@ class userquery extends CBCategory{
 			$query = " AND confirmed='$confirm' ";
 			
 		if($type=='out')
-			$count = $db->count($this->dbtbl['contacts'],"contact_id"," userid='$uid' AND contact_userid='$fid' $query" );
+			$count = $db->count(tbl($this->dbtbl['contacts']),"contact_id"," userid='$uid' AND contact_userid='$fid' $query" );
 			
 		else
-			$count = $db->count($this->dbtbl['contacts'],"contact_id"," userid='$fid' AND contact_userid='$uid' $query" );
+			$count = $db->count(tbl($this->dbtbl['contacts']),"contact_id"," userid='$fid' AND contact_userid='$uid' $query" );
 
 		if($count[0]>0)
 			return true;
@@ -866,7 +866,7 @@ class userquery extends CBCategory{
 			e("Either user has not requested you friend request or you have already confirmed it");
 		}else
 		{
-			$db->update($this->dbtbl['contacts'],array('confirmed'),array("yes")," userid='$rid' AND contact_userid='$uid' " );
+			$db->update(tbl($this->dbtbl['contacts']),array('confirmed'),array("yes")," userid='$rid' AND contact_userid='$uid' " );
 			if($msg)
 				e("Friend has been confirmed","m");
 			//Sending friendship confirmation email
@@ -929,7 +929,7 @@ class userquery extends CBCategory{
 		if(!$uid)
 			$uid = userid();
 			
-		$result = $db->select($this->dbtbl['contacts'],"*"," contact_id='$rid'");
+		$result = $db->select(tbl($this->dbtbl['contacts']),"*"," contact_id='$rid'");
 		$result = $result[0];
 		
 		if($db->num_rows==0)
@@ -958,14 +958,14 @@ class userquery extends CBCategory{
 		
 		if(!$count_only)
 		{
-			$result = $db->select($this->dbtbl['contacts'],"*",
+			$result = $db->select(tbl($this->dbtbl['contacts']),"*",
 											   " (userid='$uid' OR contact_userid='$uid') $query AND contact_group_id='$group' ");
 			if($db->num_rows>0)
 				return $result;
 			else
 				return false;
 		}else{
-			return $db->count($this->dbtbl['contacts'],"*",
+			return $db->count(tbl($this->dbtbl['contacts']),"*",
 											   " (userid='$uid' OR contact_userid='$uid') $query AND contact_group_id='$group' ");
 		}
 	}
@@ -976,7 +976,7 @@ class userquery extends CBCategory{
 	function get_pending_contacts($uid,$group=0)
 	{
 		global $db;
-		$result = $db->select($this->dbtbl['contacts'],"*"," userid='$uid' AND confirmed='no' AND contact_group_id='$group' ");
+		$result = $db->select(tbl($this->dbtbl['contacts']),"*"," userid='$uid' AND confirmed='no' AND contact_group_id='$group' ");
 		if($db->num_rows>0)
 			return $result;
 		else
@@ -989,7 +989,7 @@ class userquery extends CBCategory{
 	function get_requested_contacts($uid,$group=0)
 	{
 		global $db;
-		$result = $db->select($this->dbtbl['contacts'],"*"," contact_userid='$uid' AND confirmed='no' AND contact_group_id='$group' ");
+		$result = $db->select(tbl($this->dbtbl['contacts']),"*"," contact_userid='$uid' AND confirmed='no' AND contact_group_id='$group' ");
 		if($db->num_rows>0)
 			return $result;
 		else
@@ -1011,7 +1011,7 @@ class userquery extends CBCategory{
 			e("User is not in your contact list");
 		else
 		{
-			$db->Execute("DELETE from ".$this->dbtbl['contacts']." WHERE 
+			$db->Execute("DELETE from ".tbl($this->dbtbl['contacts'])." WHERE 
 						(userid='$uid' AND contact_userid='$fid') OR (userid='$fid' AND contact_userid='$uid')" );
 			e("User has been removed from your contact list","m");
 		}
@@ -1023,7 +1023,7 @@ class userquery extends CBCategory{
 	function increment_watched_vides($userid)
 	{
 		global $db;
-		$db->update($this->dbtbl['users'],array('total_watched'),array('|f|total_watched+1')," userid='$userid'");
+		$db->update(tbl($this->dbtbl['users']),array('total_watched'),array('|f|total_watched+1')," userid='$userid'");
 	}
 			
 	/**
@@ -1058,7 +1058,7 @@ class userquery extends CBCategory{
 			if($count)
 				$status_query = " AND status = '0' ";
 				
-			$results = $db->select("messages",
+			$results = $db->select(tbl("messages"),
 						" message_id ",
 						"(".$boxtype."_user = '$user' OR ".$boxtype."_user_id = '$user') $status_query");
 			
@@ -1105,11 +1105,11 @@ class userquery extends CBCategory{
 			e(sprintf(lang("usr_sub_err"),$to_user['username']));
 		else
 		{
-			$db->insert($this->dbtbl['subtbl'],array('userid','subscribed_to','date_added'),
+			$db->insert(tbl($this->dbtbl['subtbl']),array('userid','subscribed_to','date_added'),
 											   array($user,$to,NOW()));
-			$db->update($this->dbtbl['users'],array('subscribers'),
+			$db->update(tbl($this->dbtbl['users']),array('subscribers'),
 											   array($this->get_user_subscribers($to,true))," userid='$to' ");
-			$db->update($this->dbtbl['users'],array('total_subscriptions'),
+			$db->update(tbl($this->dbtbl['users']),array('total_subscriptions'),
 											   array($this->get_user_subscriptions($user,'count'))," userid='$user' ");
 			//Loggin Comment			
 			$log_array = array
@@ -1137,7 +1137,7 @@ class userquery extends CBCategory{
 		
 		if(!$user)
 			return false;
-		$result = $db->select($this->dbtbl['subtbl'],"*"," subscribed_to='$to' AND userid='$user'");
+		$result = $db->select(tbl($this->dbtbl['subtbl']),"*"," subscribed_to='$to' AND userid='$user'");
 		if($db->num_rows>0)
 			return $result;
 		else
@@ -1154,12 +1154,12 @@ class userquery extends CBCategory{
 			$uid = userid();
 		if($this->is_subscribed($subid,$uid))
 		{
-			$db->execute("DELETE FROM ".$this->dbtbl['subtbl']." WHERE userid='$uid' AND subscribed_to='$subid'");
+			$db->execute("DELETE FROM ".tbl($this->dbtbl['subtbl'])." WHERE userid='$uid' AND subscribed_to='$subid'");
 			e("You have unsubscribed sucessfully","m");
 			
-			$db->update($this->dbtbl['users'],array('subscribers'),
+			$db->update(tbl($this->dbtbl['users']),array('subscribers'),
 											   array($this->get_user_subscribers($subid,true))," userid='$subid' ");
-			$db->update($this->dbtbl['users'],array('total_subscriptions'),
+			$db->update(tbl($this->dbtbl['users']),array('total_subscriptions'),
 											   array($this->get_user_subscriptions($uid,'count'))," userid='$uid' ");
 			
 			
@@ -1180,13 +1180,13 @@ class userquery extends CBCategory{
 		global $db;
 		if(!$count)
 		{
-			$result = $db->select($this->dbtbl['subtbl'],"*"," subscribed_to='$id' ");
+			$result = $db->select(tbl($this->dbtbl['subtbl']),"*"," subscribed_to='$id' ");
 			if($db->num_rows>0)
 				return $result;
 			else
 				return false;	
 		}else
-			return $db->count($this->dbtbl['subtbl'],"subscription_id"," subscribed_to='$id' ");
+			return $db->count(tbl($this->dbtbl['subtbl']),"subscription_id"," subscribed_to='$id' ");
 	}
 	
 	/**
@@ -1195,7 +1195,7 @@ class userquery extends CBCategory{
 	function get_user_subscribers_detail($id,$limit=NULL)
 	{
 		global $db;
-		$result = $db->select("users,".$this->dbtbl['subtbl'],"*"," subscriptions.subscribed_to = '$id' AND subscriptions.userid=users.userid",$limit);
+		$result = $db->select(tbl("users,".$this->dbtbl['subtbl']),"*"," ".tbl("subscriptions.subscribed_to")." = '$id' AND ".tbl("subscriptions.userid")."=".tbl("users.userid"),$limit);
 		if($db->num_rows>0)
 			return $result;
 		else
@@ -1210,14 +1210,14 @@ class userquery extends CBCategory{
 		global $db;
 		if($limit!='count')
 		{
-			$result = $db->select("users,".$this->dbtbl['subtbl'],"*"," subscriptions.userid = '$id' AND subscriptions.subscribed_to=users.userid",$limit);
+			$result = $db->select(tbl("users,".$this->dbtbl['subtbl']),"*"," ".tbl("subscriptions.userid")." = '$id' AND ".tbl("subscriptions.subscribed_to")."=".tbl("users.userid"),$limit);
 			if($db->num_rows>0)
 				return $result;
 			else
 				return false;
 		}else
 		{
-			$result =  $db->count($this->dbtbl['subtbl'],"subscription_id"," userid = '$id'");
+			$result =  $db->count(tbl($this->dbtbl['subtbl']),"subscription_id"," userid = '$id'");
 			return $result;
 		}
 	}
@@ -1281,7 +1281,7 @@ class userquery extends CBCategory{
 					$newpass = RandomString(6);
 					$pass 	 = pass_code($newpass);
 					$avcode = RandomString(10);
-					$db->update($this->dbtbl['users'],array('password','avcode'),array($pass,$avcode)," userid='".$udetails['userid']."'");
+					$db->update(tbl($this->dbtbl['users']),array('password','avcode'),array($pass,$avcode)," userid='".$udetails['userid']."'");
 					//sending new password email...
 					//Sending confirmation email
 					$tpl = $cbemail->get_template('password_reset_details');
@@ -1444,7 +1444,7 @@ class userquery extends CBCategory{
 	function get_user_subscriber($username)
 	{
 		global $db;
-		$results = $db->Execute("SELECT * FROM subscriptions WHERE subsctibe_to='$username'");
+		$results = $db->Execute("SELECT * FROM ".tbl("subscriptions")." WHERE subsctibe_to='$username'");
 		if($results->recordcount() > 0)
 			return $results->getrows();
 		else
@@ -1461,7 +1461,7 @@ class userquery extends CBCategory{
 	function get_user_field($uid,$field)
 	{
 		global $db;
-		$results = $db->select('users',$field,"userid='$uid' OR username='$uid'");
+		$results = $db->select(tbl('users'),$field,"userid='$uid' OR username='$uid'");
 		
 		if($db->num_rows>0)
 		{
@@ -1498,13 +1498,13 @@ class userquery extends CBCategory{
 		}
 		
 		
-		$result = $db->select('user_levels,user_levels_permissions','*',
-							  "user_levels_permissions.user_level_id='".$level."' 
-							  AND user_levels_permissions.user_level_id = user_levels.user_level_id");
+		$result = $db->select(tbl('user_levels,user_levels_permissions'),'*',
+							  tbl("user_levels_permissions.user_level_id")."='".$level."' 
+							  AND ".tbl("user_levels_permissions.user_level_id")." = ".tbl("user_levels.user_level_id"));
 		
 		/*		
 		pr($result);
-		$results = $db->select('user_levels','*'," user_level_id='".$level['level']."'");
+		$results = $db->select(tbl('user_levels'),'*'," user_level_id='".$level['level']."'");
 		if($db->num_rows == 0)
 		 //incase user level is not valid, it will consider it as registered user
 			$u_level['user_level_id'] = 3;
@@ -1530,7 +1530,7 @@ class userquery extends CBCategory{
 	function get_levels($filter=NULL)
 	{
 		global $db;
-		$results = $db->select("user_levels","*",NULL,NULL," user_level_id ASC" );
+		$results = $db->select(tbl("user_levels"),"*",NULL,NULL," user_level_id ASC" );
 		if($db->num_rows > 0)
 		{
 			return $results;
@@ -1547,7 +1547,7 @@ class userquery extends CBCategory{
 	function get_level_details($lid)
 	{
 		global $db;
-		$results = $db->select("user_levels","*"," user_level_id='$lid' ");
+		$results = $db->select(tbl("user_levels"),"*"," user_level_id='$lid' ");
 		if($db->num_rows > 0 )
 		{
 			return $results[0];
@@ -1565,7 +1565,7 @@ class userquery extends CBCategory{
 	function get_level_users($id,$count=FALSE)
 	{
 		global $db;
-		$results = $db->select("users","level"," level='$id'");
+		$results = $db->select(tbl("users"),"level"," level='$id'");
 		if($db->num_rows>0)
 		{
 			if($count)
@@ -1591,7 +1591,7 @@ class userquery extends CBCategory{
 			e("Please enter level nane");
 		else
 		{
-			$db->insert("user_levels",array('user_level_name'),array($level_name));
+			$db->insert(tbl("user_levels"),array('user_level_name'),array($level_name));
 			$iid = $db->insert_id();
 			
 			$fields_array[] = 'user_level_id';
@@ -1601,7 +1601,7 @@ class userquery extends CBCategory{
 				$fields_array[] = $access;
 				$value_array[] = $array[$access] ? $array[$access] : 'no';
 			}
-			$db->insert("user_levels_permissions",$fields_array,$value_array);		
+			$db->insert(tbl("user_levels_permissions"),$fields_array,$value_array);		
 			return true;
 		}
 	}
@@ -1612,7 +1612,7 @@ class userquery extends CBCategory{
 	function get_level_permissions($id)
 	{
 		global $db;
-		$results = $db->select("user_levels_permissions","*"," user_level_id = '$id'");		
+		$results = $db->select(tbl("user_levels_permissions"),"*"," user_level_id = '$id'");		
 		if($db->num_rows>0)
 			return $results[0];
 		else
@@ -1678,11 +1678,11 @@ class userquery extends CBCategory{
 			{
 				$level_name = mysql_clean($array['level_name']);
 				//Upadting Now
-				$db->update("user_levels",array("user_level_name"),array($level_name)," user_level_id = '$id'");
+				$db->update(tbl("user_levels"),array("user_level_name"),array($level_name)," user_level_id = '$id'");
 			}
 			
 			//Updating Permissions
-			$db->update("user_levels_permissions",$fields_array,$value_array," user_level_id = '$id'");
+			$db->update(tbl("user_levels_permissions"),$fields_array,$value_array," user_level_id = '$id'");
 			
 			e("Level has been updated",m);
 			return true;
@@ -1706,12 +1706,12 @@ class userquery extends CBCategory{
 			//CHeck if leve is deleteable or not
 			if($level_details['user_level_is_default']=='no')
 			{
-				$db->delete("user_levels",array("user_level_id"),array($id));
-				$db->delete("user_levels_permissions",array("user_level_id"),array($id));
+				$db->delete(tbl("user_levels"),array("user_level_id"),array($id));
+				$db->delete(tbl("user_levels_permissions"),array("user_level_id"),array($id));
 				e("User level has been deleted, 
 				  all users of this level has been transfered to '".$de_level['user_level_name']."' ");
 				
-				$db->update("users",array("level"),array(3)," level='$id'");
+				$db->update(tbl("users"),array("level"),array(3)," level='$id'");
 				return true;
 				
 			}else{
@@ -1728,7 +1728,7 @@ class userquery extends CBCategory{
 	function count_profile_comments($id)
 	{
 		global $db;
-		$total_comments = $db->count('comments',"comment_id","type='c' AND type_id='$id'");
+		$total_comments = $db->count(tbl('comments'),"comment_id","type='c' AND type_id='$id'");
 		return $total_comments;
 	}
 	function count_channel_comments($id){ return $this->count_profile_comments($id); }
@@ -1739,7 +1739,7 @@ class userquery extends CBCategory{
 	function count_comments_by_user($uid)
 	{
 		global $db;
-		$total_comments = $db->count('comments',"comment_id","userid='$uid'");
+		$total_comments = $db->count(tbl('comments'),"comment_id","userid='$uid'");
 		return $total_comments;
 	}
 	
@@ -1750,7 +1750,7 @@ class userquery extends CBCategory{
 	{
 		global $db;
 		$total_comments = $this->count_comments_by_user($id);
-		$db->update("users",array("total_comments"),array($total_comments)," userid='$id'");
+		$db->update(tbl("users"),array("total_comments"),array($total_comments)," userid='$id'");
 	}
 	
 	/**
@@ -1760,7 +1760,7 @@ class userquery extends CBCategory{
 	{
 		global $db;
 		$total_comments = $this->count_profile_comments($id);
-		$db->update("users",array("comments_count"),array($total_comments)," userid='$id'");
+		$db->update(tbl("users"),array("comments_count"),array($total_comments)," userid='$id'");
 	
 	}
 	/**
@@ -1821,7 +1821,7 @@ class userquery extends CBCategory{
 		if($cond!=NULL)
 			$cond = " AND $cond ";
 			
-		$results = $db->select("video","*"," userid = '$uid' $cond");
+		$results = $db->select(tbl("video"),"*"," userid = '$uid' $cond");
 		if($db->num_rows > 0)
 		{
 			if($count_only)
@@ -1874,7 +1874,7 @@ class userquery extends CBCategory{
 	function get_level_types()
 	{
 		global $db;
-		return $db->select($this->dbtbl['user_permission_type'],"*");
+		return $db->select(tbl($this->dbtbl['user_permission_type']),"*");
 	}
 	
 	/**
@@ -1883,7 +1883,7 @@ class userquery extends CBCategory{
 	function level_type_exists($id)
 	{
 		global $db;
-		$result = $db->select($this->dbtbl['user_permission_type'],"*"," user_permission_type_id='".$id."' OR user_permission_type_name='$id'");
+		$result = $db->select(tbl($this->dbtbl['user_permission_type']),"*"," user_permission_type_id='".$id."' OR user_permission_type_name='$id'");
 		if($db->num_rows>0)
 			return $result[0];
 		else
@@ -1913,10 +1913,10 @@ class userquery extends CBCategory{
 			$desc = mysql_clean($array['desc']);
 			$default = mysql_clean($array['default']);
 			$default = $default ? $default : "yes";
-			$db->insert($this->dbtbl['user_permissions'],
+			$db->insert(tbl($this->dbtbl['user_permissions']),
 						array('permission_type','permission_code','permission_name','permission_desc','permission_default'),
 						array($typeid,$code,$name,$desc,$default));
-			$db->execute("ALTER TABLE `".$this->dbtbl['user_level_permission']."` ADD `".$code."` ENUM( 'yes', 'no' ) NOT NULL DEFAULT '".$default."'");
+			$db->execute("ALTER TABLE `".tbl($this->dbtbl['user_level_permission'])."` ADD `".$code."` ENUM( 'yes', 'no' ) NOT NULL DEFAULT '".$default."'");
 			e("New Permission has been added","m");
 		}
 	}
@@ -1928,7 +1928,7 @@ class userquery extends CBCategory{
 	function permission_exists($code)
 	{
 		global $db;
-		$result = $db->select($this->dbtbl['user_permissions'],"*"," permission_code='".$code."' OR permission_id='".$code."'");
+		$result = $db->select(tbl($this->dbtbl['user_permissions']),"*"," permission_code='".$code."' OR permission_id='".$code."'");
 		if($db->num_rows>0)
 			return $result[0];
 		else
@@ -1943,7 +1943,7 @@ class userquery extends CBCategory{
 		global $db;
 		if($type)
 			$cond = " permission_type ='$type'";
-		$result = $db->select($this->dbtbl['user_permissions'],"*",$cond);
+		$result = $db->select(tbl($this->dbtbl['user_permissions']),"*",$cond);
 		if($db->num_rows>0)
 		{
 			return $result;
@@ -1963,8 +1963,8 @@ class userquery extends CBCategory{
 		if($permission)
 		{
 			$field = $permission['permission_code'];
-			$db->delete($this->dbtbl['user_permissions'],array("permission_id"),array($id));
-			$db->execute("ALTER TABLE `".$this->dbtbl['user_level_permission']."` DROP `".$field."` ");
+			$db->delete(tbl($this->dbtbl['user_permissions']),array("permission_id"),array($id));
+			$db->execute("ALTER TABLE `".tbl($this->dbtbl['user_level_permission'])."` DROP `".$field."` ");
 			e("Permission has been delete","m");
 		}else
 			e("Permission does not exist");
@@ -2033,7 +2033,7 @@ class userquery extends CBCategory{
 	function get_user_profile($uid)
 	{
 		global $db;
-		$result = $db->select($this->dbtbl['user_profile'],"*"," userid='$uid'");
+		$result = $db->select(tbl($this->dbtbl['user_profile']),"*"," userid='$uid'");
 		if($db->num_rows>0)
 		{
 			return $result[0];
@@ -2600,7 +2600,7 @@ class userquery extends CBCategory{
 		
 		if(!error() && is_array($uquery_field))
 		{
-			$db->update($this->dbtbl['users'],$uquery_field,$uquery_val," userid='".mysql_clean($array['userid'])."'");
+			$db->update(tbl($this->dbtbl['users']),$uquery_field,$uquery_val," userid='".mysql_clean($array['userid'])."'");
 			e(lang("usr_upd_succ_msg"),'m');
 		}
 		
@@ -2617,7 +2617,7 @@ class userquery extends CBCategory{
 			//Login Upload
 			insert_log('profile_update',$log_array);
 			
-			$db->update($this->dbtbl['user_profile'],$query_field,$query_val," userid='".mysql_clean($array['userid'])."'");
+			$db->update(tbl($this->dbtbl['user_profile']),$query_field,$query_val," userid='".mysql_clean($array['userid'])."'");
 			e(lang("usr_pof_upd_msg"),'m');
 		}
 	}
@@ -2699,7 +2699,7 @@ class userquery extends CBCategory{
 			//Login Upload
 			insert_log('profile_update',$log_array);
 			
-		$db->update($this->dbtbl['users'],$uquery_field,$uquery_val," userid='".mysql_clean($array['userid'])."'");
+		$db->update(tbl($this->dbtbl['users']),$uquery_field,$uquery_val," userid='".mysql_clean($array['userid'])."'");
 		e(lang("usr_avatar_bg_update"),'m');
 
 	}
@@ -2711,7 +2711,7 @@ class userquery extends CBCategory{
 	function username_exists($i)
 	{
 		global $db;
-		$db->select($this->dbtbl['users'],"username"," username='$i'");
+		$db->select(tbl($this->dbtbl['users']),"username"," username='$i'");
 		if($db->num_rows>0)
 			return true;
 		else
@@ -2724,7 +2724,7 @@ class userquery extends CBCategory{
 	 function email_exists($i)
 	{
 		global $db;
-		$db->select($this->dbtbl['users'],"email"," email='$i'");
+		$db->select(tbl($this->dbtbl['users']),"email"," email='$i'");
 		if($db->num_rows>0)
 			return true;
 		else
@@ -2738,7 +2738,7 @@ class userquery extends CBCategory{
 	function get_user_action_log($uid,$limit=NULL)
 	{
 		global $db;
-		$result = $db->select($this->dbtbl['action_log'],"*"," action_userid='$uid'",$limit," date_added DESC");
+		$result = $db->select(tbl($this->dbtbl['action_log']),"*"," action_userid='$uid'",$limit," date_added DESC");
 		if($db->num_rows>0)
 			return $result;
 		else
@@ -2880,7 +2880,7 @@ class userquery extends CBCategory{
 			e(lang('usr_exist_err'));
 		else
 		{
-			$db->update($this->dbtbl['users'],array('email'),array($array['new_email'])," userid='".$array['userid']."'");
+			$db->update(tbl($this->dbtbl['users']),array('email'),array($array['new_email'])," userid='".$array['userid']."'");
 			e(lang("email_change_msg"),"m");
 		}
 	}
@@ -2906,7 +2906,7 @@ class userquery extends CBCategory{
 		{
 			$new_users = array_unique($new_users);
 			$banned_users = implode(',',$new_users);
-			$db->update($this->dbtbl['users'],array('banned_users'),array($banned_users)," userid='$uid'");
+			$db->update(tbl($this->dbtbl['users']),array('banned_users'),array($banned_users)," userid='$uid'");
 			e(lang("user_ban_msg"),"m");
 		}else{
 			e(lang("no_user_ban_msg"),"m");
@@ -2930,7 +2930,7 @@ class userquery extends CBCategory{
 			
 			if(!$this->is_user_banned($user))
 			{
-				$db->update($this->dbtbl['users'],array('banned_users'),array($banned_users)," userid='$uid'");
+				$db->update(tbl($this->dbtbl['users']),array('banned_users'),array($banned_users)," userid='$uid'");
 				e("user has been blocked","m");
 			}else
 				e("User is already blocked");
@@ -2950,7 +2950,7 @@ class userquery extends CBCategory{
 		global $db;
 		if(!$user)
 			$user = userid();
-		$result = $db->count($this->dbtbl['users'],"userid"," banned_users LIKE '%$ban%' AND (username='$user' OR userid='$user') ");
+		$result = $db->count(tbl($this->dbtbl['users']),"userid"," banned_users LIKE '%$ban%' AND (username='$user' OR userid='$user') ");
 		if($result)
 			return true;
 		else
@@ -2965,7 +2965,7 @@ class userquery extends CBCategory{
 		global $db;
 		if(!$uid)
 			$uid = userid();
-		$result = $db->select($this->dbtbl['users'].",".$this->dbtbl['user_profile'],"*",$this->dbtbl['users'].".userid ='$uid' AND ".$this->dbtbl['users'].".userid = ".$this->dbtbl['user_profile'].".userid");
+		$result = $db->select(tbl($this->dbtbl['users'].",".$this->dbtbl['user_profile']),"*",tbl($this->dbtbl['users']).".userid ='$uid' AND ".tbl($this->dbtbl['users']).".userid = ".tbl($this->dbtbl['user_profile']).".userid");
 		return $result[0];
 	}
 	
@@ -3254,7 +3254,7 @@ class userquery extends CBCategory{
 			$query_field[] = "user_session_code";
 			$query_val[] = $sess_code;
 			
-			$query = "INSERT INTO users (";
+			$query = "INSERT INTO ".tbl("users")." (";
 			$total_fields = count($query_field);
 			
 			//Adding Fields to query
@@ -3284,7 +3284,7 @@ class userquery extends CBCategory{
 			
 			$db->Execute($query);
 			$insert_id = $db->insert_id();
-			$db->insert($userquery->dbtbl['user_profile'],array("userid"),array($insert_id));
+			$db->insert(tbl($userquery->dbtbl['user_profile']),array("userid"),array($insert_id));
 			
 			if(!has_access('admin_access',true) && EMAIL_VERIFICATION)
 			{
@@ -3544,11 +3544,11 @@ class userquery extends CBCategory{
 			$cond .= " level = '".$params['level']."' ";
 		}
 		
-		$result = $db->select('users','*',$cond,$limit,$order);
+		$result = $db->select(tbl('users'),'*',$cond,$limit,$order);
 		
 		
 		if($params['count_only'])
-			return $result = $db->count('users','*',$cond);
+			return $result = $db->count(tbl('users'),'*',$cond);
 		if($params['assign'])
 			assign($params['assign'],$result);
 		else
@@ -3567,7 +3567,7 @@ class userquery extends CBCategory{
 		if(!$this->user_exists($uid))
 			return false;
 		//Lets just check weathter user exists or not
-		$tbl = $this->dbtbl['users'];
+		$tbl = tbl($this->dbtbl['users']);
 		switch($case)
 		{
 			//Activating a user
@@ -3738,7 +3738,7 @@ class userquery extends CBCategory{
 	 {
 		 global $db;
 		 $pattern = date("Y-m-s H:i:s");
-		 $results =  $db->select("users",'*'," TIMESTAMPDIFF(MINUTE,last_active,'".NOW()."')  < 6 ");
+		 $results =  $db->select(tbl("users"),'*'," TIMESTAMPDIFF(MINUTE,last_active,'".NOW()."')  < 6 ");
 	 	 return $results;
 	 }
 	 
