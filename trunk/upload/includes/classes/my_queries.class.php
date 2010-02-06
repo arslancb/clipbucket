@@ -36,7 +36,7 @@ class myquery {
 	function Set_Website_Details($name,$value){
 		//mysql_query("UPDATE config SET value = '".$value."' WHERE name ='".$name."'");
 		global $db,$Cbucket;
-		$db->update("config",array('value'),array($value)," name = '".$name."'");
+		$db->update(tbl("config"),array('value'),array($value)," name = '".$name."'");
 		$Cbucket->configs = $Cbucket->get_configs();
 	}
 	
@@ -167,7 +167,7 @@ class myquery {
 					$this->delete_comment($reply['comment_id'],$type,TRUE,$forceDelete);
 				}
 			}
-			$db->Execute("DELETE FROM comments WHERE comment_id='$cid'");
+			$db->Execute("DELETE FROM ".tbl("comments")." WHERE comment_id='$cid'");
 			
 			/*if($uid)
 				$myquery->update_comments_by_user($uid);*/
@@ -216,7 +216,7 @@ class myquery {
 				$voters.= "|";
 				
 				$newscore = $comment['spam_votes']+1;
-				$db->update('comments',array('spam_votes','spam_voters'),array($newscore,$voters)," comment_id='$cid'");
+				$db->update(tbl('comments'),array('spam_votes','spam_voters'),array($newscore,$voters)," comment_id='$cid'");
 				e(lang('spam_comment_ok'),"m");
 				return $newscore;			
 			}
@@ -237,7 +237,7 @@ class myquery {
 		
 		if($userquery->permission['admin_del_access'] == 'yes'  || $forceDelete)
 		{
-			$db->Execute("DELETE FROM comments WHERE type_id='$objid' AND type='$type' ");
+			$db->Execute("DELETE FROM ".tbl("comments")." WHERE type_id='$objid' AND type='$type' ");
 			
 			e(lang('usr_cmt_del_msg'),m);
 			return true;
@@ -279,7 +279,7 @@ class myquery {
 			$voters.= "|";
 			
 			$newscore = $comment['vote']+$rate;
-			$db->update('comments',array('vote','voters'),array($newscore,$voters)," comment_id='$cid'");
+			$db->update(tbl('comments'),array('vote','voters'),array($newscore,$voters)," comment_id='$cid'");
 			e(lang('thanks_rating_comment'),"m");
 			return $newscore;			
 		}
@@ -890,11 +890,11 @@ class myquery {
 		
 		if(empty($eh->error_list))
 		{
-			$db->insert("comments",array
+			$db->insert(tbl("comments"),array
 						 ('type,comment,type_id,userid,date_added,parent_id,anonym_name,anonym_email','comment_ip','type_owner_id'),
 						 array
 						 ($type,$comment,$obj_id,userid(),NOW(),$reply_to,$name,$email,$_SERVER['REMOTE_ADDR'],$obj_owner));
-			$db->update("users",array("total_comments"),array("|f|total_comments+1")," userid='".userid()."'");
+			$db->update(tbl("users"),array("total_comments"),array("|f|total_comments+1")," userid='".userid()."'");
 			
 			e("Comment has been added",m);
 			
@@ -956,7 +956,7 @@ class myquery {
 	function get_category($id)
 	{
 		global $db;
-		$results = $db->select("category","*"," categoryid='$id'");
+		$results = $db->select(tbl("category"),"*"," categoryid='$id'");
 		return $results[0];
 	}
 	
@@ -968,7 +968,7 @@ class myquery {
 	function get_comment($id)
 	{
 		global $db,$userquery;
-		$result = $db->select("comments","*"," comment_id='$id'");
+		$result = $db->select(tbl("comments"),"*"," comment_id='$id'");
 		if($db->num_rows>0)
 		{
 			$result = $result[0];
@@ -1007,9 +1007,9 @@ class myquery {
 		if(!$count_only)
 		{
 			//Fetching comments by registered users
-			$result = $db->select("comments,users","*"," type='$type' $typeid_query AND comments.userid = users.userid  $cond");
+			$result = $db->select(tbl("comments,users"),"*"," type='$type' $typeid_query AND comments.userid = users.userid  $cond");
 			//Fetchign comments by anonymous users
-			$result_anonym = $db->select("comments","*"," type='$type' $typeid_query AND comments.userid = '0'  $cond");
+			$result_anonym = $db->select(tbl("comments"),"*"," type='$type' $typeid_query AND comments.userid = '0'  $cond");
 			//Mergin both arrays
 			if(is_array($result) && is_array($result_anonym))
 				$result = array_merge($result,$result_anonym);
@@ -1035,7 +1035,7 @@ class myquery {
 			}
 		}else
 		{
-			return $db->count("comments","*"," type='$type' $typeid_query $cond");
+			return $db->count(tbl("comments"),"*"," type='$type' $typeid_query $cond");
 		}
 		
 	}
@@ -1047,7 +1047,7 @@ class myquery {
 	function get_vid_owner($vid)
 	{
 		global $db;
-		$results = $db->select("video","userid"," videoid='$vid'");
+		$results = $db->select(tbl("video"),"userid"," videoid='$vid'");
 		return $results[0];
 	}
 	
@@ -1073,7 +1073,7 @@ class myquery {
 	function update_comment($cid,$text)
 	{
 		global $db;
-		$db->Execute("UPDATE comments SET comment='$text' WHERE comment_id='$cid'");
+		$db->Execute("UPDATE ".tbl("comments")." SET comment='$text' WHERE comment_id='$cid'");
 	}
 	
 	
@@ -1121,7 +1121,7 @@ class myquery {
 	function insert_note($note)
 	{
 		global $db;
-		$db->insert('cb_admin_notes',array('note,date_added,userid'),array($note,now(),userid()));
+		$db->insert(tbl('cb_admin_notes'),array('note,date_added,userid'),array($note,now(),userid()));
 	}
 	/**
 	 * Function used to get notes
@@ -1129,7 +1129,7 @@ class myquery {
 	function get_notes()
 	{
 		global $db;
-		return $db->select('cb_admin_notes','*'," userid='".userid()."'",NULL," date_added DESC ");
+		return $db->select(tbl('cb_admin_notes'),'*'," userid='".userid()."'",NULL," date_added DESC ");
 	}
 	/**
 	 * Function usde to delete note
@@ -1137,7 +1137,7 @@ class myquery {
 	function delete_note($id)
 	{
 		global $db;
-		$db->delete("cb_admin_notes",array("note_id"),array($id));
+		$db->delete(tbl("cb_admin_notes"),array("note_id"),array($id));
 	}
 }
 ?>

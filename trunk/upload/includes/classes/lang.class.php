@@ -82,7 +82,7 @@ class language
 		elseif(!$this->get_phrase($name,$lang_code))
 		{
 			e("'$name' has been added",m);
-			$db->insert("phrases",array('lang_iso','varname','text'),array($lang_code,$name,$text));
+			$db->insert(tbl("phrases"),array('lang_iso','varname','text'),array($lang_code,$name,$text));
 		}else{
 			e("'$name' alread exists",m);
 		}
@@ -102,7 +102,7 @@ class language
 			$lang_query = "AND lang_iso = '".mysql_clean($lang_code)."'";
 		}
 		
-		$results = $db->select("phrases",'*'," id = '".mysql_clean($name)."' OR varname = '".mysql_clean($name)."' $lang_query ");
+		$results = $db->select(tbl("phrases"),'*'," id = '".mysql_clean($name)."' OR varname = '".mysql_clean($name)."' $lang_query ");
 		if($db->num_rows > 0 )
 			return $results[0];
 		else
@@ -118,7 +118,7 @@ class language
 		global $db;
 		//First checking if phrase already exists or not
 		if($this->get_phrase($id,$lang_code))
-			$db->update("phrases",array('text'),array(mysql_real_escape_string($text))," id = '".mysql_real_escape_string($id)."' ");
+			$db->update(tbl("phrases"),array('text'),array(mysql_real_escape_string($text))," id = '".mysql_real_escape_string($id)."' ");
 	}
 	
 	/**
@@ -131,7 +131,7 @@ class language
 		$lang_code = $lang_details['language_code'];
 		if(empty($lang_code))
 			$lang_code = $this->lang;
-		return $db->select("phrases",$fields," lang_iso = '".$lang_code."' $extra_param",$limit," id ");
+		return $db->select(tbl("phrases"),$fields," lang_iso = '".$lang_code."' $extra_param",$limit," id ");
 		
 	}
 	
@@ -147,7 +147,7 @@ class language
 		if(empty($lang_code))
 			$lang_code = $this->lang;
 		
-		$results = $db->select("phrases","COUNT(id)"," lang_iso = '".$lang_code."' $extra_param");
+		$results = $db->select(tbl("phrases"),"COUNT(id)"," lang_iso = '".$lang_code."' $extra_param");
 		if($db->num_rows>0)
 			return $results[0][0];
 		else
@@ -175,7 +175,7 @@ class language
 	function get_langs()
 	{
 		global $db;
-		$results = $db->select("languages","*");
+		$results = $db->select(tbl("languages"),"*");
 		return $results;
 	}
 	
@@ -189,7 +189,7 @@ class language
 	function lang_exists($id)
 	{
 		global $db;
-		$results = $db->select("languages","*"," language_code ='$id' OR language_id = '$id'");
+		$results = $db->select(tbl("languages"),"*"," language_code ='$id' OR language_id = '$id'");
 		if($db->num_rows>0)
 			return $results[0];
 		else
@@ -207,8 +207,8 @@ class language
 		if($lang)
 		{
 			setcookie('cb_lang',$lid,time()+3600,'/');
-			$db->update("languages",array("language_default"),array("no")," language_default='yes'");
-			$db->update("languages",array("language_default"),array("yes")," language_id='$lid'");
+			$db->update(tbl("languages"),array("language_default"),array("no")," language_default='yes'");
+			$db->update(tbl("languages"),array("language_default"),array("yes")," language_id='$lid'");
 			e($lang['language_name']." has been set as default language","m");
 		}
 	}
@@ -219,7 +219,7 @@ class language
 	function get_default_language()
 	{
 		global $db;
-		$result = $db->select('languages',"*"," language_default='yes' ");
+		$result = $db->select(tbl('languages'),"*"," language_default='yes' ");
 		$result = $result[0];
 		return $result;
 	}
@@ -300,7 +300,7 @@ class language
 					e("Language already exists");
 				else
 				{
-					$db->insert("languages",array("language_code","language_name","language_regex","language_default"),
+					$db->insert(tbl("languages"),array("language_code","language_name","language_regex","language_default"),
 												  array($data['iso_code'],$data['name'],"/^".$data['iso_code']."/i","no"));
 					$sql = '';
 					foreach($phrases as $code => $phrase)
@@ -337,8 +337,8 @@ class language
 			e("This is default language, please select other language as \"default\" and then delete this pack");
 		else
 		{
-			$db->delete('languages',array("language_code"),array($lang['language_code']));
-			$db->delete('phrases',array("lang_iso"),array($lang['language_code']));
+			$db->delete(tbl('languages'),array("language_code"),array($lang['language_code']));
+			$db->delete(tbl('phrases'),array("lang_iso"),array($lang['language_code']));
 			e("Language pack has been deleted","m");
 		}
 	}
@@ -362,10 +362,10 @@ class language
 			e("Language code already exists");
 		else
 		{
-			$db->update('languages',array("language_name","language_code","language_regex"),
+			$db->update(tbl('languages'),array("language_name","language_code","language_regex"),
 									array($array['name'],$array['code'],$array['regex'])," language_id='".$array['lang_id']."'");
 			if($array['code'] != $lang['language_code'])
-			$db->update("phrases",array("lang_iso"),array($array['code'])," lang_iso='".$lang['language_code']."'");
+			$db->update(tbl("phrases"),array("lang_iso"),array($array['code'])," lang_iso='".$lang['language_code']."'");
 			e("Language has been updated","m");
 		}
 			
