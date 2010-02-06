@@ -444,7 +444,7 @@ class CBvideo extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " video.userid='".$params['user']."'";
+			$cond .= " ".tbl('video.userid=')."".$params['user']."'";
 		}
 		
 		$tag_n_title='';
@@ -461,7 +461,7 @@ class CBvideo extends CBCategory
 				$loop = 1;
 				foreach($tags as $tag)
 				{
-					$tag_n_title .= " video.tags LIKE '%".$tag."%'";
+					$tag_n_title .= " ".tbl('video.tags')." LIKE '%".$tag."%'";
 					if($loop<$total)
 					$tag_n_title .= " OR ";
 					$loop++;
@@ -471,7 +471,7 @@ class CBvideo extends CBCategory
 			{
 				if($tag_n_title!='')
 					$tag_n_title .= ' OR ';
-				$tag_n_title .= " video.tags LIKE '%".$params['tags']."%'";
+				$tag_n_title .= " ".tbl('video.tags')." LIKE '%".$params['tags']."%'";
 			}
 		}
 		//TITLE
@@ -479,7 +479,7 @@ class CBvideo extends CBCategory
 		{
 			if($tag_n_title!='')
 				$tag_n_title .= ' OR ';
-			$tag_n_title .= " video.title LIKE '%".$params['tags']."%'";
+			$tag_n_title .= " ".tbl('video.title')." LIKE '%".$params['tags']."%'";
 		}
 		
 		if($tag_n_title)
@@ -502,7 +502,7 @@ class CBvideo extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " video.videoid <> '".$params['exclude']."' ";
+			$cond .= " ".tbl('video.videoid')." <> '".$params['exclude']."' ";
 		}
 		
 		
