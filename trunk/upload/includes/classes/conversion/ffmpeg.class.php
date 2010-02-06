@@ -389,7 +389,7 @@ class ffmpeg
 			$fields[] = 'src_name';
 			$values[] = getName($this->input_details['path']);
 			
-			$db->insert($this->tbl,$fields,$values);	
+			$db->insert(tbl($this->tbl),$fields,$values);	
 			$this->row_id = $db->insert_id();
 		}
 	}
@@ -410,11 +410,11 @@ class ffmpeg
 			}		
 			$fields[] = 'file_conversion_log';
 			$values[] = $this->log;
-			$db->update($this->tbl,$fields,$values," id = '".$this->row_id."'");	
+			$db->update(tbl($this->tbl),$fields,$values," id = '".$this->row_id."'");	
 		}else
 			$fields[] = 'file_conversion_log';
 			$values[] = $this->log;
-			$db->update($this->tbl,$fields,$values," id = '".$this->row_id."'");	
+			$db->update(tbl($this->tbl),$fields,$values," id = '".$this->row_id."'");	
 	}
 	
 	
