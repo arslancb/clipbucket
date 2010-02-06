@@ -97,7 +97,7 @@ class cbactions
 			{
 				if(!$this->fav_check($id))
 				{
-					$db->insert($this->fav_tbl,array('type','id','userid','date_added'),array($this->type,$id,userid(),NOW()));
+					$db->insert(tbl($this->fav_tbl),array('type','id','userid','date_added'),array($this->type,$id,userid(),NOW()));
 					
 					//Loggin Favorite			
 					$log_array = array
@@ -134,7 +134,7 @@ class cbactions
 		global $db;
 		if(!$uid)
 			$uid =userid();
-		$results = $db->select($this->fav_tbl,"favorite_id"," id='".$id."' AND userid='".$uid."' AND type='".$this->type."'");
+		$results = $db->select(tbl($this->fav_tbl),"favorite_id"," id='".$id."' AND userid='".$uid."' AND type='".$this->type."'");
 		if($db->num_rows>0)
 			return true;
 		else
@@ -169,7 +169,7 @@ class cbactions
 			{
 				if(!$this->report_check($id))
 				{
-					$db->insert($this->flag_tbl,array('type','id','userid','flag_type','date_added'),
+					$db->insert(tbl($this->flag_tbl),array('type','id','userid','flag_type','date_added'),
 												array($this->type,$id,userid(),mysql_clean(post('flag_type')),NOW()));
 					e(sprintf(lang('obj_report_msg'),$this->name),m);
 				}else{
@@ -191,7 +191,7 @@ class cbactions
 	function delete_flags($id)
 	{
 		global $db;
-		$db->delete($this->flag_tbl,array("id","type"),array($id,$this->type));
+		$db->delete(tbl($this->flag_tbl),array("id","type"),array($id,$this->type));
 		e(sprintf(lang("type_flags_removed"),$this->name),"m");
 	}
 	
@@ -202,7 +202,7 @@ class cbactions
 	function report_check($id)
 	{
 		global $db;
-		$results = $db->select($this->flag_tbl,"flag_id"," id='".$id."' AND type='".$this->type."' AND userid='".userid()."'");
+		$results = $db->select(tbl($this->flag_tbl),"flag_id"," id='".$id."' AND type='".$this->type."' AND userid='".userid()."'");
 		if($db->num_rows>0)
 			return true;
 		else
@@ -296,15 +296,15 @@ class cbactions
 		
 		if(!$params['count_only'])
 		{
-			$results = $db->select($this->fav_tbl.",".$this->type_tbl,"*"," ".$this->fav_tbl.".type='".$this->type."' 
-							   AND ".$this->fav_tbl.".userid='".$uid."' 
-							   AND ".$this->type_tbl.".".$this->type_id_field." = ".$this->fav_tbl.".id".$cond,$limit,$order);
+			$results = $db->select(tbl($this->fav_tbl.",".$this->type_tbl),"*"," ".tbl($this->fav_tbl).".type='".$this->type."' 
+							   AND ".tbl($this->fav_tbl).".userid='".$uid."' 
+							   AND ".tbl($this->type_tbl).".".$this->type_id_field." = ".tbl($this->fav_tbl).".id".$cond,$limit,$order);
 		}
 		if($params['count_only'])
 		{
-			return $results = $db->count($this->fav_tbl.",".$this->type_tbl,"*"," ".$this->fav_tbl.".type='".$this->type."' 
-							   AND ".$this->fav_tbl.".userid='".$uid."' 
-							   AND ".$this->type_tbl.".".$this->type_id_field." = ".$this->fav_tbl.".id".$cond);
+			return $results = $db->count(tbl($this->fav_tbl.",".$this->type_tbl),"*"," ".tbl($this->fav_tbl).".type='".$this->type."' 
+							   AND ".tbl($this->fav_tbl).".userid='".$uid."' 
+							   AND ".tbl($this->type_tbl).".".$this->type_id_field." = ".tbl($this->fav_tbl).".id".$cond);
 		}
 		
 		if($db->num_rows>0)
@@ -319,7 +319,7 @@ class cbactions
 	function total_favorites()
 	{
 		global $db;
-		return $db->count($this->fav_tbl,"favorite_id"," type='".$this->type."'");
+		return $db->count(tbl($this->fav_tbl),"favorite_id"," type='".$this->type."'");
 	}
 	
 	
@@ -333,7 +333,7 @@ class cbactions
 			$uid=userid();
 		if($this->fav_check($fav_id,$uid))
 		{
-			$db->delete($this->fav_tbl,array('userid','type','id'),array($uid,$this->type,$fav_id));
+			$db->delete(tbl($this->fav_tbl),array('userid','type','id'),array($uid,$this->type,$fav_id));
 			e(sprintf(lang('fav_remove_msg'),$this->name),m);
 		}else
 			e(sprintf(lang('unknown_favorite'),$this->name));
@@ -347,9 +347,9 @@ class cbactions
 	{
 		global $db;
 		$type = $this->type;
-		$results = $db->select($this->flag_tbl.",".$this->type_tbl,"*,
-							   count(*) AS total_flags",$this->flag_tbl.".id = ".$this->type_tbl.".".$this->type_id_field." 
-							   AND type='".$this->type."' GROUP BY ".$this->flag_tbl.".id ,".$this->flag_tbl.".type ",$limit);
+		$results = $db->select(tbl($this->flag_tbl.",".$this->type_tbl),"*,
+							   count(*) AS total_flags",tbl($this->flag_tbl).".id = ".tbl($this->type_tbl).".".$this->type_id_field." 
+							   AND type='".$this->type."' GROUP BY ".tbl($this->flag_tbl).".id ,".tbl($this->flag_tbl).".type ",$limit);
 		if($db->num_rows>0)
 			return $results;
 		else
@@ -363,7 +363,7 @@ class cbactions
 	{
 		global $db;
 		$type = $this->type;
-		$results = $db->select($this->flag_tbl,"*","id = '$id' AND type='".$this->type."'");
+		$results = $db->select(tbl($this->flag_tbl),"*","id = '$id' AND type='".$this->type."'");
 		if($db->num_rows>0)
 			return $results;
 		else
@@ -378,8 +378,8 @@ class cbactions
 	{
 		global $db;
 		$type = $this->type;
-		$results = $db->select($this->flag_tbl.",".$this->type_tbl,"id",$this->flag_tbl.".id = ".$this->type_tbl.".".$this->type_id_field." 
-							   AND type='".$this->type."' GROUP BY ".$this->flag_tbl.".id ,".$this->flag_tbl.".type ");
+		$results = $db->select(tbl($this->flag_tbl.",".$this->type_tbl),"id",tbl($this->flag_tbl).".id = ".tbl($this->type_tbl).".".$this->type_id_field." 
+							   AND type='".$this->type."' GROUP BY ".tbl($this->flag_tbl).".id ,".tbl($this->flag_tbl).".type ");
 		if($db->num_rows>0)
 			return count($results);
 		else
@@ -403,7 +403,7 @@ class cbactions
 			e(sprintf(lang("play_list_with_this_name_arlready_exists"),$name));
 		else
 		{
-			$db->insert($this->playlist_tbl,array("playlist_name","userid","date_added","playlist_type"),
+			$db->insert(tbl($this->playlist_tbl),array("playlist_name","userid","date_added","playlist_type"),
 									  array($name,userid(),now(),$this->type));
 			e(lang("new_playlist_created"),"m");
 			$pid = $db->insert_id();
@@ -430,7 +430,7 @@ class cbactions
 	function playlist_exists($name,$user)
 	{
 		global $db;
-		$count = $db->count($this->playlist_tbl,"playlist_id"," userid='$user' AND playlist_name='$name'");
+		$count = $db->count(tbl($this->playlist_tbl),"playlist_id"," userid='$user' AND playlist_name='$name'");
 		if($count)
 			return true;
 		else
@@ -448,7 +448,7 @@ class cbactions
 		if($user)
 			$user_cond = " AND userid='$user'";
 			
-		$result = $db->select($this->playlist_tbl,"*"," playlist_id='$id' $user_cond");
+		$result = $db->select(tbl($this->playlist_tbl),"*"," playlist_id='$id' $user_cond");
 		if($db->num_rows>0)
 			return $result[0];
 		else
@@ -473,7 +473,7 @@ class cbactions
 			e(sprintf(lang('this_already_exist_in_pl'),$this->name));
 		else
 		{
-			$db->insert($this->playlist_items_tbl,array("object_id","playlist_id","date_added","playlist_item_type","userid"),
+			$db->insert(tbl($this->playlist_items_tbl),array("object_id","playlist_id","date_added","playlist_item_type","userid"),
 											array($id,$pid,now(),$this->type,userid()));
 			e(sprintf(lang('this_thing_added_playlist'),$this->name),"m");
 			return $db->insert_id();
@@ -494,7 +494,7 @@ class cbactions
 			e(lang("you_dont_hv_permission_del_playlist"));
 		else
 		{
-			$db->delete($this->playlist_items_tbl,array("playlist_item_id"),array($id));
+			$db->delete(tbl($this->playlist_items_tbl),array("playlist_item_id"),array($id));
 			e(lang("playlist_item_delete"),"m");
 		}
 	}
@@ -505,7 +505,7 @@ class cbactions
 	function playlist_item($id)
 	{
 		global $db;
-		$result = $db->select($this->playlist_items_tbl,"*"," playlist_item_id='$id' ");
+		$result = $db->select(tbl($this->playlist_items_tbl),"*"," playlist_item_id='$id' ");
 		if($db->num_rows>0)
 			return $result[0];
 		else
@@ -521,7 +521,7 @@ class cbactions
 		$pid_cond = "";
 		if($pid)
 			$pid_cond = " AND playlist_id='$pid'";
-		$result = $db->select($this->playlist_items_tbl,"*"," object_id='$id' $pid_cond");
+		$result = $db->select(tbl($this->playlist_items_tbl),"*"," object_id='$id' $pid_cond");
 		if($db->num_rows>0)
 			return $result[0];
 		else
@@ -547,7 +547,7 @@ class cbactions
 			e(sprintf(lang("play_list_with_this_name_arlready_exists"),$name));
 		else
 		{
-			$db->update($this->playlist_tbl,array("playlist_name"),
+			$db->update(tbl($this->playlist_tbl),array("playlist_name"),
 									  array($name)," playlist_id='".$params['pid']."'");
 			e(lang("play_list_updated"),"m");
 		}
@@ -566,9 +566,9 @@ class cbactions
 			e(lang("you_dont_hv_permission_del_playlist"));
 		else
 		{
-			$db->delete($this->playlist_tbl,
+			$db->delete(tbl($this->playlist_tbl),
 						array("playlist_id"),array($id));
-			$db->delete($this->playlist_items_tbl,
+			$db->delete(tbl($this->playlist_items_tbl),
 						array("playlist_id"),array($id));
 			e(lang("playlist_delete_msg"),"m");
 		}
@@ -580,7 +580,7 @@ class cbactions
 	function get_playlists()
 	{
 		global $db;
-		$result = $db->select($this->playlist_tbl,"*"," playlist_type='".$this->type."' AND userid='".userid()."'");
+		$result = $db->select(tbl($this->playlist_tbl),"*"," playlist_type='".$this->type."' AND userid='".userid()."'");
 		if($db->num_rows>0)
 			return $result;
 		else
@@ -593,7 +593,7 @@ class cbactions
 	function get_playlist_items($pid)
 	{
 		global $db;
-		$result = $db->select($this->playlist_items_tbl,"*","playlist_id='$pid'");
+		$result = $db->select(tbl($this->playlist_items_tbl),"*","playlist_id='$pid'");
 		if($db->num_rows>0)
 			return $result;
 		else
@@ -606,7 +606,7 @@ class cbactions
 	function count_playlist_items($id)
 	{
 		global $db;
-		return $db->count($this->playlist_items_tbl,"playlist_item_id","playlist_id='$id'");
+		return $db->count(tbl($this->playlist_items_tbl),"playlist_item_id","playlist_id='$id'");
 	}
 	
 	
@@ -618,10 +618,10 @@ class cbactions
 		global $db;
 		if(!$item)
 		{
-			$result = $db->count($this->playlist_tbl,"*"," playlist_type='".$this->type."' ");
+			$result = $db->count(tbl($this->playlist_tbl),"*"," playlist_type='".$this->type."' ");
 			return $result;
 		}else{
-			return $db->count($this->playlist_items_tbl,"playlist_item_id"," playlist_item_type='".$this->type."'");
+			return $db->count(tbl($this->playlist_items_tbl),"playlist_item_id"," playlist_item_type='".$this->type."'");
 		}
 	}
 }
