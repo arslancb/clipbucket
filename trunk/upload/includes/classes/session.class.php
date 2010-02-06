@@ -30,8 +30,8 @@ class Session
 			$value = $this->id;
 		$this->get_user_session($user,$name);
 		if($db->num_rows>0)
-		$db->delete($this->tbl,array('session_string'),array($name));
-		$db->insert($this->tbl,array('session_user','session_string','session_value'),array($user,$name,$value));
+		$db->delete(tbl($this->tbl),array('session_string'),array($name));
+		$db->insert(tbl($this->tbl),array('session_user','session_string','session_value'),array($user,$name,$value));
 		//Finally Registering session
 		$this->session_register($name);
 		$this->session_val($name,$value);
@@ -47,7 +47,7 @@ class Session
 		global $db;
 		if($session_name)
 			$session_cond = " session_string='".mysql_clean($session_name)."'";
-		$results = $db->select($this->tbl,'*',$session_cond);
+		$results = $db->select(tbl($this->tbl),'*',$session_cond);
 		return $results;
 	}
 	
@@ -59,7 +59,7 @@ class Session
 	function get_current_session($session_string)
 	{
 		global $db;
-		$results = $db->select($this->tbl,'*'," session_string='logged_in' AND session_value='".$this->session."'");
+		$results = $db->select(tbl($this->tbl),'*'," session_string='logged_in' AND session_value='".$this->session."'");
 		return $results[0];
 	}
 	
@@ -97,7 +97,7 @@ class Session
 	function remove_session($user,$name)
 	{
 		global $db;
-		$db->delete('sessions',array("session_user","session_string"),array($user,$name));
+		$db->delete(tbl('sessions'),array("session_user","session_string"),array($user,$name));
 		$_SESSION[$name] = '';
 		$this->session_unregister($name);
 	}
