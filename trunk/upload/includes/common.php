@@ -87,7 +87,6 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	$formObj	= new formObj();
 	$ClipBucket = $Cbucket	= new ClipBucket();
 	$row 		= $myquery->Get_Website_Details();
-	$email_data = $myquery->Get_Email_Settings();
 	$cbplugin	= new CBPlugin();
 	$eh			= new EH();
 	$lang_obj	= new language;

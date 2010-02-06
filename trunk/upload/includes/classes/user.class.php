@@ -363,42 +363,6 @@ class userquery extends CBCategory{
 		return $this->udetails['ban_status'];
 	}
 	
-	/*
-	
-	-- USED WITH PRIRIOR VERSIONS OF CB
-	
-	//This Function Is Used to Login Admin
-	function adminlogin($username,$password){
-			$query = mysql_query("Select * FROM users WHERE level = 'Admin' and username = '".$username."' and password = '".$password."'");
-			$updatequery = "UPDATE users SET session='".$_COOKIE['PHPSESSID']."' WHERE username = '".$username."'";
-				
-				if(mysql_num_rows($query) >0 ){
-					$data = mysql_fetch_array($query);
-						if($data['ban_status'] != 'yes'){
-					setcookie('username',$username,time()+7200,'/');
-					setcookie('userid',$data['userid'],time()+7200,'/');
-					setcookie('session',$_COOKIE['PHPSESSID'],time()+7200,'/');
-					session_register('username');
-					session_register('superadmin');
-					session_register('admin');
-					session_register('userid');
-					$_SESSION['userid'] = $data['userid'];
-					$_SESSION['username'] = $data['username'];
-					if($data['userid']==1){
-					$_SESSION['superadmin'] = $data['username'];
-					}
-					$_SESSION['admin'] = $data['username'];
-					mysql_query($updatequery);
-					$login = 'loggedin';
-						}else{
-							$login = 'banned';
-						}
-					}else{
-					$login = 'failed';
-				}
-				return $login;
-			}
-	*/
 	function admin_check()
 	{
 		return $this->login_check('admin_access');
@@ -571,57 +535,9 @@ class userquery extends CBCategory{
 		return $results[0];		
 	}function GetUserData($id=NULL){ return $this->get_user_details($id); }
 	
-	
-	//Get User Data from Database
-	function GetUserData_username($username)
-	{
-	$query = mysql_query("SELECT * FROM users WHERE username='".$username."'");
-	$data = mysql_fetch_array($query);
-	return $data;
-	}
 
-	//Get User Data from Database
-	function CheckVideoOwner($videoid,$username){
-	$query = mysql_query("SELECT * FROM video WHERE videoid='".$videoid."'");
-	$videodata = mysql_fetch_array($query);
-    if($videodata['username'] == $username)
-    {
-    $response = 1;
-    }
-    else
-    {
-    $response = 0;
-    }
-	return $response;
-	}
 	
-	
-	//Function Used to Count Number of Videos Uploaded By User
-	
-	function TotalVideos($username){
-		$query = mysql_query("SELECT * FROM video WHERE username = '".$username."'");
-		$total = mysql_num_rows($query);
-		return $total;
-	}
-	
-	//Function Used to Count Number of Friends of User
-	
-	function TotalFriends($username){
-		$query = mysql_query("SELECT * FROM contacts WHERE username = '".$username."' AND type='1'");
-		$total = mysql_num_rows($query);
-		return $total;
-	}
-	
-	//Function Used to Count Number of Groups of User
-	
-	function TotalGroups($username){
-		$query = mysql_query("SELECT * FROM groups WHERE username = '".$username."'");
-		$total = mysql_num_rows($query);
-		return $total;
-	}
-		
-		
-		
+
 	//Function Used To Activate User
 	function activate_user_with_avcode($user,$avcode)
 	{
@@ -1339,22 +1255,6 @@ class userquery extends CBCategory{
 	return $msg;
 	
 	
-	}
-	//Gettin Bridge Paramaters
-	function GetBridgeParams($bridgeid){
-		$query = mysql_query("SELECT * FROM login_bridges WHERE bridge_id='".$bridgeid."'");
-		return mysql_fetch_array($query);
-	}
-	
-	//Updateing User if login 
-	function UpdateBrigeUser($username,$session,$bridge){
-		$query = mysql_query("SELECT * FROM bridge_users where username='".$username."'");
-		$date = time();
-		if(mysql_num_rows($query)>0){
-			mysql_query("UPDATE bridge_users SET session = '".$session."', date_updated = '".$date."'WHERE username='".$username."'");
-		}else{
-			mysql_query("INSERT INTO bridge_users(username,session,bridge,date_update)VALUES('".$username."','".$session."','".$bridge."','".$date."'");
-		}
 	}
 	
 	//FUNCTION USED TO UPDATE LAST ACTIVE FOR OF USER

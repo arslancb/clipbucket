@@ -286,8 +286,8 @@ class CBPlugin extends ClipBucket
 		 if($folder)
 		 	$folder_query = " AND plugin_folder = '$folder'";
 			
-		 $query = mysql_query("SELECT * FROM plugins WHERE plugin_file ='".$file."' $folder_query");
-		 return mysql_fetch_assoc($query);
+		 $result = $db->select(tbl("plugins"),"*"," plugin_file ='".$file."' $folder_query" );
+		 return $result[0];
 	 }
 	 
 	 
@@ -349,15 +349,15 @@ class CBPlugin extends ClipBucket
 	  * Function used to activate plugin
 	  */
 	 function pluginActive($plugin_file,$active='yes',$folder=NULL){
-		global $LANG;
+		global $db;
 		
 		if($folder)
 		 	$folder_query = " AND plugin_folder = '$folder'";
 			
 		if($this->is_installed($plugin_file))
 		{
-		mysql_query("UPDATE plugins SET plugin_active='".$active."' WHERE plugin_file='".$plugin_file."' $folder_query");
-		$active_msg = $active=='yes' ? 'activated' : 'deactiveted';
+			$db->Execute("UPDATE ".tbl("plugins")." SET plugin_active='".$active."' WHERE plugin_file='".$plugin_file."' $folder_query");
+			$active_msg = $active=='yes' ? 'activated' : 'deactiveted';
 			$msg = e("Plugin has been $active_msg",m);
 		}else{
 			$msg = e(lang('plugin_no_install_err'));
@@ -369,7 +369,7 @@ class CBPlugin extends ClipBucket
 	  * Function used to activate plugin
 	  */
 	 function uninstallPlugin($file,$folder=NULL){
-		global $LANG;
+		global $db;
 		if($this->is_installed($file))
 		{
 			if($folder)
@@ -378,7 +378,7 @@ class CBPlugin extends ClipBucket
 			if($folder!='')
 				$folder  = $folder.'/';
 
-			mysql_query("DELETE FROM plugins WHERE plugin_file='".$file."' $folder_query");
+			$db->Execute("DELETE FROM ".tbl("plugins")." WHERE plugin_file='".$file."' $folder_query");
 			if(file_exists(PLUG_DIR.'/'.$folder.'uninstall_'.$file))
 			require_once(PLUG_DIR.'/'.$folder.'uninstall_'.$file);
 			$msg = e("Plugin has been Uninstalled",m);

@@ -34,7 +34,6 @@ class AdsManager
 		{
 			$msg = e(lang('ad_name_error'));
 		}else{
-			$query = mysql_query("SELECT * FROM ads_data WHERE ad_name ='".$name."'");
 			$count = $db->count(tbl("ads_data"),"ad_id"," ad_name='$name'");
 			
 			if($count>0){
@@ -146,7 +145,7 @@ class AdsManager
 	 */
 	function AddPlacement($array)
 	{
-		global $LANG;
+		global $db;
 		if(empty($array[0])){
 			$msg = e(lang('ad_placement_err2'));
 		}elseif(empty($array[1])){
@@ -304,6 +303,16 @@ class AdsManager
 			return true;
 		else
 			return false;
+	}
+	
+	
+	/**
+	 * Count ads in a placement
+	 */
+	function count_ads_in_placement($place)
+	{
+		global $db;
+		return $db->count(tbl("ads_data"),"ad_id"," ad_placement='$place'");
 	}
 }
 ?>

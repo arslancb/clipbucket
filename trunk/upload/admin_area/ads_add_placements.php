@@ -31,11 +31,11 @@ $sql = "SELECT * FROM ".tbl("ads_placements");
 $ads_exec = $db->Execute($sql);
 $ads_placements = $ads_exec->getrows();
 $total_placements = $ads_exec->recordcount() + 0;
-	//Getting total Ads in each placement
-		for($id=0;$id<=$total_placements;$id++){
-			$query = mysql_query("SELECT * FROM ".tbl("ads_data")." WHERE ad_placement='".@$ads_placements[$id]['placement']."'");
-			$ads_placements[$id]['total_ads'] = mysql_num_rows($query);
-		}
+//Getting total Ads in each placement
+for($id=0;$id<=$total_placements;$id++)
+{
+	$ads_placements[$id]['total_ads'] = $adsObj->count_ads_in_placement($ads_placements[$id]['placement']);
+}
 				
 Assign('ads_placements',$ads_placements);
 	

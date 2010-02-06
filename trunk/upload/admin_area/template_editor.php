@@ -112,17 +112,6 @@ $_file 	= $files[0];
 $open_file = fopen($file, "r");
 $data = htmlentities(file_get_contents($file));
 
-//Getting Template List
-$query = "SELECT * FROM ".tbl("template")." ORDER by template_name";
-$TmpExe = $db->Execute($query);
-$Temps = $TmpExe->getrows();
-Assign('Temps',$Temps);
-
-//Checking Which Template Currently Using
-$query = mysql_query("SELECT template_name,template_dir FROM ".tbl("template")." WHERE template_dir='".mysql_clean($cur_dir)."'");
-$TempArr = mysql_fetch_assoc($query);
-
-
 template_files('template_editor.html');
 display_it();
 ?>

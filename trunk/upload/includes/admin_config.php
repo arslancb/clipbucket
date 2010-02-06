@@ -29,7 +29,7 @@
 			$num = $_POST['number'];
 			$admin_pages = $num;
 		}
-	if(!mysql_query("UPDATE config SET value='".$num."' WHERE name='admin_pages' "))die(mysql_error());
+		$db->update(tbl("config"),array("value"),array($num)," name='admin_pages'");
 	}
 	
 	define('RESULTS', $admin_pages);

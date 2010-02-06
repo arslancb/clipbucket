@@ -17,22 +17,11 @@
  require 'define_php_links.php';
  include_once 'upload_forms.php';
  
-    function add_column_if_not_exist($table, $column, $column_attr){
-	$exists = false;
-	$columns = mysql_query("show columns from $table");
-	while($c = mysql_fetch_assoc($columns)){
-		if($c['Field'] == $column){
-			$exists = true;
-			break;
-		}
-	}
-	if(!$exists){
-		mysql_query("ALTER TABLE `$table` ADD `$column`  $column_attr");
-	}
-    }
+
  
 	//This Funtion is use to get CURRENT PAGE DIRECT URL
-	function curPageURL() {
+	function curPageURL()
+	{
  		$pageURL = 'http';
 		if (@$_SERVER["HTTPS"] == "on") {
 		$pageURL .= "s";
