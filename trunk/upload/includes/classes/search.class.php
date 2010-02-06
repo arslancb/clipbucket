@@ -131,12 +131,12 @@ class cbsearch
 		{
 			if($condition)
 				$condition .= " AND ";
-			$results = $db->select($this->db_tbl.",users",'*',$condition." ".$this->db_tbl.".userid=users.userid",$this->limit,$sorting);
+			$results = $db->select(tbl($this->db_tbl.",users"),'*',$condition." ".tbl($this->db_tbl).".userid=".tbl("users.userid"),$this->limit,$sorting);
 			$db->db_query;
 		}else
-			$results = $db->select($this->db_tbl,'*',$condition,$this->limit,$sorting);
-		//echo $db->db_query;
-		$this->total_results = $db->count($this->db_tbl,'*',$condition);
+			$results = $db->select(tbl($this->db_tbl),'*',$condition,$this->limit,$sorting);
+		$db->db_query;
+		$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
 		
 		return $results;
 	}
@@ -180,7 +180,7 @@ class cbsearch
 		else
 			$op = '';
 		if(!empty($this->key))	
-			$this->query_conds[] = $op." ".$this->db_tbl.".".$array['field']." ".$type." '".preg_replace("/{KEY}/",$this->key,$var)."'";
+			$this->query_conds[] = $op." ".tbl($this->db_tbl).".".$array['field']." ".$type." '".preg_replace("/{KEY}/",$this->key,$var)."'";
 
 	}
 	
@@ -204,9 +204,9 @@ class cbsearch
 					$query .=" OR ";
 				
 				if($multi)
-					$query .=" ".$this->db_tbl.".category LIKE '%#$cat#%' ";
+					$query .=" ".tbl($this->db_tbl).".category LIKE '%#$cat#%' ";
 				else
-					$query .=" ".$this->db_tbl.".category = '$cat' ";
+					$query .=" ".tbl($this->db_tbl).".category = '$cat' ";
 			}
 	
 			if(count($this->query_conds)>0)

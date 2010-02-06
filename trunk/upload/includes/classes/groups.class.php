@@ -1949,7 +1949,7 @@ class CBGroups extends CBCategory
 		$this->search = new cbsearch;
 		$this->search->db_tbl = "groups";
 		$this->search->columns =array(
-			array('field'=>'title','type'=>'LIKE','var'=>'%{KEY}%'),
+			array('field'=>'group_name','type'=>'LIKE','var'=>'%{KEY}%'),
 		);
 		$this->search->cat_tbl = $this->cat_tbl;
 
