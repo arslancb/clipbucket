@@ -49,7 +49,7 @@ class CBGroups extends CBCategory
 	 */		
 	function group_url_exists($url) {
 		global $db;
-		$result = $db->count($this->gp_tbl,"*"," group_url='$url'");
+		$result = $db->count(tbl($this->gp_tbl),"*"," group_url='$url'");
 		if($result[0]>0)
 			return true;
 		else
@@ -63,7 +63,7 @@ class CBGroups extends CBCategory
 	function get_group($id)
 	{
 		global $db;
-		$gp_details = $db->select($this->gp_tbl,"*","group_id='$id'");
+		$gp_details = $db->select(tbl($this->gp_tbl),"*","group_id='$id'");
 		if($db->num_rows>0) {
 			return $gp_details[0];
 		} else{
@@ -80,7 +80,7 @@ class CBGroups extends CBCategory
 	function get_group_with_url($url)
 	{
 		global $db;
-		$gp_details = $db->select($this->gp_tbl,"*","group_url='$url'");
+		$gp_details = $db->select(tbl($this->gp_tbl),"*","group_url='$url'");
 		if($db->num_rows>0) {
 			return $gp_details[0];
 		} else{
@@ -118,7 +118,7 @@ class CBGroups extends CBCategory
 				$active = 'yes';
 			
 			
-			$db->insert($this->gp_mem_tbl,
+			$db->insert(tbl($this->gp_mem_tbl),
 						array("group_id","userid","date_added","active"),
 						array($gpid,$userid,now(),$active));
 			
@@ -126,7 +126,7 @@ class CBGroups extends CBCategory
 			$total_members = $this->total_members($gpid);
 			
 			//Update Stats
-			$db->update($this->gp_tbl,
+			$db->update(tbl($this->gp_tbl),
 						array("total_members"),
 						array($total_members),
 						"group_id='$gpid'");
@@ -383,7 +383,7 @@ class CBGroups extends CBCategory
 			$query_val[] = now();
 			
 			//Inserting IN Database now
-			$db->insert($this->gp_tbl,$query_field,$query_val);
+			$db->insert(tbl($this->gp_tbl),$query_field,$query_val);
 			$insert_id = $db->insert_id();
 			//Owner Joiing Group
 			ignore_errors();
@@ -512,7 +512,7 @@ class CBGroups extends CBCategory
 				e("You cannot edit this group");
 			}else{
 				
-				$db->update($this->gp_tbl,$query_field,$query_val," group_id='$gid'");
+				$db->update(tbl($this->gp_tbl),$query_field,$query_val," group_id='$gid'");
 				e("Group details have been updated",m);
 				
 				//Updating Group Thumb
@@ -691,12 +691,12 @@ class CBGroups extends CBCategory
 				$query_val[] = "yes";
 
 			//Inserting IN Database now
-			$db->insert($this->gp_topic_tbl,$query_field,$query_val);
+			$db->insert(tbl($this->gp_topic_tbl),$query_field,$query_val);
 			$insert_id = $db->insert_id();
 			
 			//Increasing Group Topic Counts
 			$count_topics = $this->count_group_topics($array['group_id']);
-			$db->update($this->gp_tbl,array("total_topics"),array($count_topics)," group_id='".$array['group_id']."'");
+			$db->update(tbl($this->gp_tbl),array("total_topics"),array($count_topics)," group_id='".$array['group_id']."'");
 			
 			//leaving msg
 			e("Topic has been added","m");
@@ -729,7 +729,7 @@ class CBGroups extends CBCategory
 			e("You cannot delete this topic");
 		else
 		{
-			$db->delete($this->gp_topic_tbl,array("topic_id","group_id"),array($tid,$topic['group_id']));
+			$db->delete(tbl($this->gp_topic_tbl),array("topic_id","group_id"),array($tid,$topic['group_id']));
 			//Deleting Topic Posts
 			$this->delete_comments($tid);
 			e("Topic has been deleted","m");
@@ -824,7 +824,7 @@ class CBGroups extends CBCategory
 		if($params['user'])
 			$user_query = " AND userid='".$params['user']."'";
 			
-		$results = $db->select($this->gp_topic_tbl,"*"," group_id='$gid' $approved_query  $user_query",$limit,$order);
+		$results = $db->select(tbl($this->gp_topic_tbl),"*"," group_id='$gid' $approved_query  $user_query",$limit,$order);
 		if($db->num_rows>0)
 			return $results;
 		else
@@ -840,7 +840,7 @@ class CBGroups extends CBCategory
 	function topic_exists($tid)
 	{
 		global $db;
-		$count = $db->count($this->gp_topic_tbl,'topic_id'," topic_id='$tid' ");
+		$count = $db->count(tbl($this->gp_topic_tbl),'topic_id'," topic_id='$tid' ");
 		if($count[0]>0)
 			return true;
 		else
@@ -854,7 +854,7 @@ class CBGroups extends CBCategory
 	function get_topic_details($topic)
 	{
 		global $db;
-		$result = $db->select($this->gp_topic_tbl,"*"," topic_id='$topic' ");
+		$result = $db->select(tbl($this->gp_topic_tbl),"*"," topic_id='$topic' ");
 		if($db->num_rows>0)
 			return $result[0];
 		else
@@ -869,7 +869,7 @@ class CBGroups extends CBCategory
 	function is_invited($uid,$gid,$owner,$gen_err=FALSE)
 	{
 		global $db;
-		$count = $db->count($this->gp_invite_tbl,'invitation_id'," invited='$uid' AND group_id='$gid' AND userid='$owner' ");
+		$count = $db->count(tbl($this->gp_invite_tbl),'invitation_id'," invited='$uid' AND group_id='$gid' AND userid='$owner' ");
 		if($count[0]>0)
 			return true;
 		else
@@ -894,7 +894,7 @@ class CBGroups extends CBCategory
 		if($active)
 			$active_query = " AND active='yes' ";
 			
-		$data = $db->count($this->gp_mem_tbl,"*","group_id='$gpid' AND userid='$user' $active_query");
+		$data = $db->count(tbl($this->gp_mem_tbl),"*","group_id='$gpid' AND userid='$user' $active_query");
 		
 		if($data[0]>0) {
 			return true;	
@@ -932,7 +932,7 @@ class CBGroups extends CBCategory
 	function total_members($gpid)
 	{
 		global $db;
-		$totalmem = $db->count("group_members","*","group_id='$gpid'");
+		$totalmem = $db->count(tbl("group_members"),"*","group_id='$gpid'");
 		return $totalmem[0];
 	}
 	
@@ -946,8 +946,8 @@ class CBGroups extends CBCategory
 		
 		$app_query = "";
 		if($approved)
-			$app_query = " AND ".$this->gp_mem_tbl.".active='$approved'"; 
-		$result = $db->select($this->gp_mem_tbl." LEFT JOIN users ON ".$this->gp_mem_tbl.".userid=users.userid","*"," group_id='$gid' $app_query",$limit);
+			$app_query = " AND ".tbl($this->gp_mem_tbl).".active='$approved'"; 
+		$result = $db->select(tbl($this->gp_mem_tbl)." LEFT JOIN users ON ".tbl($this->gp_mem_tbl).".userid=users.userid","*"," group_id='$gid' $app_query",$limit);
 
 		if($db->num_rows>0)
 			return $result;
@@ -962,7 +962,7 @@ class CBGroups extends CBCategory
 	function is_active_member($uid,$gid)
 	{
 		global $db;
-		$count = $db->count($this->gp_mem_tbl,"userid"," userid='$uid' AND group_id='$gid' AND active='yes'");
+		$count = $db->count(tbl($this->gp_mem_tbl),"userid"," userid='$uid' AND group_id='$gid' AND active='yes'");
 		if($count[0]>0)
 			return true;
 		else
@@ -975,7 +975,7 @@ class CBGroups extends CBCategory
 	function count_group_topics($group)
 	{
 		global $db;
-		$totaltopics = $db->count($this->gp_topic_tbl,"*","group_id='$group'");
+		$totaltopics = $db->count(tbl($this->gp_topic_tbl),"*","group_id='$group'");
 		return $totaltopics;
 	}
 	function CountTopics($group){ return $this->count_group_topics($group); }
@@ -1002,7 +1002,7 @@ class CBGroups extends CBCategory
 			return false;
 		else
 		{
-			$db->insert($this->gp_vdo_tbl,array("videoid","group_id","userid"),array($vid,$gid,userid()));
+			$db->insert(tbl($this->gp_vdo_tbl),array("videoid","group_id","userid"),array($vid,$gid,userid()));
 			e("Video has been added","m");
 			if($update_group)
 				$this->update_group_videos_count($gid);
@@ -1028,7 +1028,7 @@ class CBGroups extends CBCategory
 			return false;
 		else
 		{
-			$db->delete($this->gp_vdo_tbl,array("videoid","group_id"),array($vid,$gid));
+			$db->delete(tbl($this->gp_vdo_tbl),array("videoid","group_id"),array($vid,$gid));
 			e("Video has been removed","m");
 			if($update_group)
 				$this->update_group_videos_count($gid);
@@ -1043,7 +1043,7 @@ class CBGroups extends CBCategory
 	function is_group_video($vid,$gid)
 	{
 		global $db;
-		$count = $db->count($this->gp_vdo_tbl,"group_video_id"," videoid='$vid' AND group_id='$gid'");
+		$count = $db->count(tbl($this->gp_vdo_tbl),"group_video_id"," videoid='$vid' AND group_id='$gid'");
 		if($count[0]>0)
 			return true;
 		else
@@ -1058,7 +1058,7 @@ class CBGroups extends CBCategory
 	function count_videos($gpid)
 	{
 		global $db;
-		$totalmem = $db->count("group_videos","*","group_id='$gpid'");
+		$totalmem = $db->count(tbl("group_videos"),"*","group_id='$gpid'");
 		return $totalmem;
 	}
 	function total_videos($gid){return $this->count_videos($gid);}
@@ -1072,7 +1072,7 @@ class CBGroups extends CBCategory
 	{
 		global $db;
 		$total = $this->count_videos($gid);
-		$db->update($this->gp_tbl,array('total_videos'),array($total)," group_id='$gid'");
+		$db->update(tbl($this->gp_tbl),array('total_videos'),array($total)," group_id='$gid'");
 	}
 	
 	
@@ -1085,7 +1085,7 @@ class CBGroups extends CBCategory
 		if($approved)
 			$approved_query = "AND approved='$approved'";
 		
-		$result = $db->select($this->gp_vdo_tbl." LEFT JOIN video ON ".$this->gp_vdo_tbl.".videoid=video.videoid","*",
+		$result = $db->select(tbl($this->gp_vdo_tbl)." LEFT JOIN video ON ".tbl($this->gp_vdo_tbl).".videoid=video.videoid","*",
 							  " group_id='$gid' $approved_query AND video.active='yes' AND status='Successful'",$limit);
 		if($db->num_rows>0)
 			return $result;
@@ -1119,7 +1119,7 @@ class CBGroups extends CBCategory
 			case "activate":
 			case "active":
 			{
-				$db->update($this->gp_mem_tbl,array("active"),array("yes"),"userid='$memuid' AND group_id='$gid'");
+				$db->update(tbl($this->gp_mem_tbl),array("active"),array("yes"),"userid='$memuid' AND group_id='$gid'");
 				e("User has been activated","m");
 			}
 			break;
@@ -1129,7 +1129,7 @@ class CBGroups extends CBCategory
 			case "unactivate":
 			case "unactive":
 			{
-				$db->update($this->gp_mem_tbl,array("active"),array("no"),"userid='$memuid' AND group_id='$gid'");
+				$db->update(tbl($this->gp_mem_tbl),array("active"),array("no"),"userid='$memuid' AND group_id='$gid'");
 				e("User has been deactivated","m");
 			}
 			break;
@@ -1138,18 +1138,18 @@ class CBGroups extends CBCategory
 			{
 				
 				//Delete All Videos oF member
-				$db->delete($this->gp_vdo_tbl,array("userid","group_id"),array($memuid,gid));
+				$db->delete(tbl($this->gp_vdo_tbl),array("userid","group_id"),array($memuid,gid));
 				//Deleting ALl Topics Of 
 				$this->delete_user_topics($memuid,$gid);
 				//Delete Member
-				$db->delete($this->gp_mem_tbl,array("userid","group_id"),array($memuid,$gid));
+				$db->delete(tbl($this->gp_mem_tbl),array("userid","group_id"),array($memuid,$gid));
 				
 				$total_members = $this->total_members($gid);
 				$total_videos = $this->total_videos($gid);
 				$count_topics = $this->count_group_topics($gid);
 				
 				//Update Stat
-				$db->update($this->gp_tbl,array("total_topics","total_members","total_videos"),
+				$db->update(tbl($this->gp_tbl),array("total_topics","total_members","total_videos"),
 												array($count_topics,$total_members,$total_videos)," group_id='".$gid."'");
 
 				e("User has been deleted","m");
@@ -1184,7 +1184,7 @@ class CBGroups extends CBCategory
 			case "activate":
 			case "active":
 			{
-				$db->update($this->gp_vdo_tbl,array("approved"),array("yes"),"videoid ='$vid' AND group_id='$gid'");
+				$db->update(tbl($this->gp_vdo_tbl),array("approved"),array("yes"),"videoid ='$vid' AND group_id='$gid'");
 				e("Video has been activated","m");
 			}
 			break;
@@ -1194,7 +1194,7 @@ class CBGroups extends CBCategory
 			case "unactivate":
 			case "unactive":
 			{
-				$db->update($this->gp_vdo_tbl,array("approved"),array("no"),"videoid ='$vid' AND group_id='$gid'");
+				$db->update(tbl($this->gp_vdo_tbl),array("approved"),array("no"),"videoid ='$vid' AND group_id='$gid'");
 				e("Video has been deactivated","m");
 			}
 			break;
@@ -1202,11 +1202,11 @@ class CBGroups extends CBCategory
 			case "delete":
 			{
 				//Delete video
-				$db->delete($this->gp_vdo_tbl,array("videoid","group_id"),array($vid,$gid));	
+				$db->delete(tbl($this->gp_vdo_tbl),array("videoid","group_id"),array($vid,$gid));	
 				
 				$total_videos = $this->total_videos($gid);
 				//Update Stat
-				$db->update($this->gp_tbl,array("total_videos"),
+				$db->update(tbl($this->gp_tbl),array("total_videos"),
 												array($total_videos)," group_id='".$gid."'");
 				e("Video has been deleted","m");
 			}
@@ -1242,7 +1242,7 @@ class CBGroups extends CBCategory
 		else
 		{
 			//Inserting Invitation Code in database
-			$db->insert($this->gp_invite_tbl,array('group_id','userid','invited','date_added'),
+			$db->insert(tbl($this->gp_invite_tbl),array('group_id','userid','invited','date_added'),
 												   array($gid,$owner,$user,now()));
 			e("User has been invited","m");
 			
@@ -1298,7 +1298,7 @@ class CBGroups extends CBCategory
 			e("Group owner cannot leave group");
 		else
 		{
-			$db->delete($this->gp_mem_tbl,array("userid","group_id"),array($uid,$gid));
+			$db->delete(tbl($this->gp_mem_tbl),array("userid","group_id"),array($uid,$gid));
 			e("You have left the group","m");
 		}
 	}
@@ -1321,7 +1321,7 @@ class CBGroups extends CBCategory
 			$this->delete_group_topics($gid);
 			$this->delete_group_videos($gid);
 			$this->delete_group_members($gid);
-			$db->delete($this->gp_tbl,array("group_id"),array($gid));
+			$db->delete(tbl($this->gp_tbl),array("group_id"),array($gid));
 			$this->update_user_total_groups($group['userid']);
 			e("Group has been deleted","m");
 		}
@@ -1341,7 +1341,7 @@ class CBGroups extends CBCategory
 			e("You cannot delete group members");
 		else
 		{
-			$db->delete($this->gp_mem_tbl,array("group_id"),array($gid));
+			$db->delete(tbl($this->gp_mem_tbl),array("group_id"),array($gid));
 			e("Members have been deleted","m");
 		}
 	}
@@ -1360,7 +1360,7 @@ class CBGroups extends CBCategory
 			e("You cannot delete group videos");
 		else
 		{
-			$db->delete($this->gp_vdo_tbl,array("group_id"),array($gid));
+			$db->delete(tbl($this->gp_vdo_tbl),array("group_id"),array($gid));
 			e("videos have been deleted","m");
 		}
 	}
@@ -1372,7 +1372,7 @@ class CBGroups extends CBCategory
 	function group_exists($gid)
 	{
 		global $db;
-		$result = $db->count($this->gp_tbl,"group_id"," group_id='$gid'");
+		$result = $db->count(tbl($this->gp_tbl),"group_id"," group_id='$gid'");
 		if($result>0)
 			return true;
 		else
@@ -1396,28 +1396,28 @@ class CBGroups extends CBCategory
 				case "activate":
 				case "active":
 				{
-					$db->update($this->gp_tbl,array("active"),array("yes")," group_id='$gid' ");
+					$db->update(tbl($this->gp_tbl),array("active"),array("yes")," group_id='$gid' ");
 					e("Group has been activated","m");
 				}
 				break;
 				case "deactivate":
 				case "deactive":
 				{
-					$db->update($this->gp_tbl,array("active"),array("no")," group_id='$gid' ");
+					$db->update(tbl($this->gp_tbl),array("active"),array("no")," group_id='$gid' ");
 					e("Group has been deactivated","m");
 				}
 				break;
 				case "featured":
 				case "feature":
 				{
-					$db->update($this->gp_tbl,array("featured"),array("yes")," group_id='$gid' ");
+					$db->update(tbl($this->gp_tbl),array("featured"),array("yes")," group_id='$gid' ");
 					e("Group has been set as featured","m");
 				}
 				break;
 				case "unfeatured":
 				case "unfeature":
 				{
-					$db->update($this->gp_tbl,array("featured"),array("no")," group_id='$gid' ");
+					$db->update(tbl($this->gp_tbl),array("featured"),array("no")," group_id='$gid' ");
 					e("Group has been removed from featured list","m");
 				}
 				break;
@@ -1577,7 +1577,7 @@ class CBGroups extends CBCategory
 		else
 			$userid = userid();
 			
-		$db->update($this->gp_topic_tbl,array("total_replies","last_poster","last_post_time"),
+		$db->update(tbl($this->gp_topic_tbl),array("total_replies","last_poster","last_post_time"),
 										array($total_comments,$userid,now())," topic_id='$id'");
 	}
 	
@@ -1587,7 +1587,7 @@ class CBGroups extends CBCategory
 	function count_topic_comments($id)
 	{
 		global $db;
-		$total_comments = $db->count('comments',"comment_id","type='t' AND type_id='$id'");
+		$total_comments = $db->count(tbl('comments'),"comment_id","type='t' AND type_id='$id'");
 		return $total_comments;
 	}
 	
@@ -1866,12 +1866,12 @@ class CBGroups extends CBCategory
 		{
 			if(!empty($cond))
 			$cond .= " AND ";
-			$result = $db->select($this->gp_tbl.",users",'*',$cond." groups.userid = users.userid ",$limit,$order);
+			$result = $db->select(tbl($this->gp_tbl).",users",'*',$cond." groups.userid = users.userid ",$limit,$order);
 		}
 		
 		
 		if($params['count_only'])
-			return $result = $db->count($this->gp_tbl,'*',$cond);
+			return $result = $db->count(tbl($this->gp_tbl),'*',$cond);
 		if($params['assign'])
 			assign($params['assign'],$result);
 		else
@@ -1890,7 +1890,7 @@ class CBGroups extends CBCategory
 	function get_gp_field($gid,$field)
 	{
 		global $db;
-		$results = $db->select($this->gp_tbl,$field,"group_id='$gid'");
+		$results = $db->select(tbl($this->gp_tbl),$field,"group_id='$gid'");
 		
 		if($db->num_rows>0)
 		{
@@ -1918,8 +1918,8 @@ class CBGroups extends CBCategory
 	{
 		global $db;
 		# REF QUERY : SELECT * FROM group_members,groups WHERE group_members.userid = '1' AND group_members.group_id = groups.group_id
-		$result = $db->select($this->gp_tbl.','.$this->gp_mem_tbl,"*",$this->gp_mem_tbl.".userid='$uid' AND 
-							  ".$this->gp_mem_tbl.".group_id = ".$this->gp_tbl.".group_id",$limit,$this->gp_tbl.".group_name");
+		$result = $db->select(tbl($this->gp_tbl).','.tbl($this->gp_mem_tbl),"*",tbl($this->gp_mem_tbl).".userid='$uid' AND 
+							  ".tbl($this->gp_mem_tbl).".group_id = ".tbl($this->gp_tbl).".group_id",$limit,tbl($this->gp_tbl).".group_name");
 		if($db->num_rows>0)
 			return $result;
 		else
@@ -1933,8 +1933,8 @@ class CBGroups extends CBCategory
 	function update_user_total_groups($user)
 	{
 		global $db;
-		$count = $db->count($this->gp_tbl,"group_id"," userid='$user' ");
-		$db->update("users",array("total_groups"),array($count)," userid='$user' ");
+		$count = $db->count(tbl($this->gp_tbl),"group_id"," userid='$user' ");
+		$db->update(tbl("users"),array("total_groups"),array($count)," userid='$user' ");
 	}
 	
 	
@@ -2064,7 +2064,9 @@ class CBGroups extends CBCategory
 	function get_group_owner_from_topic($tid)
 	{
 		global $db;
-		$results = $db->select("group_topics,groups","group_topics.group_id,group_topics.topic_id,groups.userid,groups.group_id","group_topics.group_id = groups.group_id AND group_topics.topic_id='$tid'");
+		$results = $db->select(tbl("group_topics").",".tbl("groups"),
+			tbl("group_topics").".group_id,".tbl("group_topics").".topic_id,".tbl("groups")."userid,".tbl("groups").".group_id",
+			tbl("group_topics").".group_id = ".tbl("groups").".group_id AND ".tbl("group_topics").".topic_id='$tid'");
 
 		if($db->num_rows>0)
 			return $results[0]['userid'];

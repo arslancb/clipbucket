@@ -321,7 +321,7 @@ class ClipBucket
 	function get_countries($type=iso2)
 	{
 		global $db;
-		$results = $db->select("countries","*");
+		$results = $db->select(tbl("countries"),"*");
 		
 		switch($type)
 		{

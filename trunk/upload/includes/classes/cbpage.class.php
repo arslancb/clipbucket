@@ -40,7 +40,7 @@ class cbpage
 		
 		if(!error())
 		{
-			$db->insert($this->page_tbl,array("page_name","page_title","page_content","userid","date_added","active"),
+			$db->insert(tbl($this->page_tbl),array("page_name","page_title","page_content","userid","date_added","active"),
 											  array($name,$title,"|no_mc|".$content,userid(),now(),"yes"));
 			e("New page has been added successfully","m");
 			return false;
@@ -54,7 +54,7 @@ class cbpage
 	function get_page($id)
 	{
 		global $db;
-		$result = $db->select($this->page_tbl,"*"," page_id ='$id' ");
+		$result = $db->select(tbl($this->page_tbl),"*"," page_id ='$id' ");
 		if($db->num_rows>0)
 			return $result[0];
 		else
@@ -67,7 +67,7 @@ class cbpage
 	function get_pages()
 	{
 		global $db;
-		$result = $db->select($this->page_tbl,"*");
+		$result = $db->select(tbl($this->page_tbl),"*");
 		if($db->num_rows>0)
 			return $result;
 		else
@@ -99,7 +99,7 @@ class cbpage
 		
 		if(!error())
 		{
-			$db->update($this->page_tbl,array("page_name","page_title","page_content"),
+			$db->update(tbl($this->page_tbl),array("page_name","page_title","page_content"),
 											  array($name,$title,$content)," page_id='$id'");
 			e("Page has been updated","m");
 		}
@@ -116,7 +116,7 @@ class cbpage
 			e("Page does not exist");
 		if(!error())
 		{
-			$db->delete($this->page_tbl,array("page_id"),array($id));
+			$db->delete(tbl($this->page_tbl),array("page_id"),array($id));
 			e("Page has been deleted successfully","m");
 		}
 
@@ -158,18 +158,18 @@ class cbpage
 			switch($type)
 			{
 				case "activate";
-				$db->update($this->page_tbl,array("active"),array("yes")," page_id='$id'");
+				$db->update(tbl($this->page_tbl),array("active"),array("yes")," page_id='$id'");
 				e("Page has been activated","m");
 				break;
 				case "deactivate";
-				$db->update($this->page_tbl,array("active"),array("no")," page_id='$id'");
+				$db->update(tbl($this->page_tbl),array("active"),array("no")," page_id='$id'");
 				e("Page has been dectivated","m");
 				break;
 				case "delete";
 				{
 					if($page['delete_able']=='yes')
 					{
-						$db->delete($this->page_tbl,array("page_id"),array($id));
+						$db->delete(tbl($this->page_tbl),array("page_id"),array($id));
 						e("Page has been delete","m");
 					}else
 						e("You cannot delete this page");
@@ -185,7 +185,7 @@ class cbpage
 	function is_active($id)
 	{
 		global $db;
-		$result = $db->count($this->page_tbl,"page_id"," page_id='$id' ");
+		$result = $db->count(tbl($this->page_tbl),"page_id"," page_id='$id' ");
 		if($result>0)
 			return true;
 		else
