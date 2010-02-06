@@ -547,9 +547,9 @@ class myquery {
 		if(!$count_only)
 		{
 			//Fetching comments by registered users
-			$result = $db->select(tbl("comments,users"),"*"," type='$type' $typeid_query AND comments.userid = users.userid  $cond");
+			$result = $db->select(tbl("comments,users"),"*"," type='$type' $typeid_query AND ".tbl("comments.userid")." = ".tbl("users.userid")."  $cond");
 			//Fetchign comments by anonymous users
-			$result_anonym = $db->select(tbl("comments"),"*"," type='$type' $typeid_query AND comments.userid = '0'  $cond");
+			$result_anonym = $db->select(tbl("comments"),"*"," type='$type' $typeid_query AND ".tbl("comments.userid")." = '0'  $cond");
 			//Mergin both arrays
 			if(is_array($result) && is_array($result_anonym))
 				$result = array_merge($result,$result_anonym);

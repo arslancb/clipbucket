@@ -1,4 +1,4 @@
-{assign var=playlist value=$cbvid->action->get_playlist($smarty.session.cur_playlist)}
+{assign var=playlist value=$cbvid->action->get_playlist($smarty.get.play_list)}
 
 {if $playlist}
 <span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#my_playlist").slideToggle("fast")'>Playlist : {$playlist.playlist_name}</span>
