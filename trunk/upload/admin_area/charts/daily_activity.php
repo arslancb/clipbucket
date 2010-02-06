@@ -23,7 +23,7 @@ for($i=0;$i<$days;$i++)
 		$date_pattern = date("Y-m-d",$last_week+($i*86400));
 		
 		//echo "date_added LIKE '%$date_pattern%'";
-		$data = $db->select("cb_stats","*"," date_added LIKE '%$date_pattern%' ",1);
+		$data = $db->select(tbl("cb_stats"),"*"," date_added LIKE '%$date_pattern%' ",1);
 		$data = $data[0];
 		$datas[] = $data;
 	}

@@ -21,7 +21,7 @@ for($i=0;$i<$days;$i++)
 	if($i<$days-1)
 	{
 	$date_pattern = date("Y-m-d",$last_week+($i*86400));
-	$data = $db->select("cb_stats","*"," date_added LIKE '%$date_pattern%' ",1);
+	$data = $db->select(tbl("cb_stats"),"*"," date_added LIKE '%$date_pattern%' ",1);
 	$data = $data[0];
 	$datas[] = $data;
 	}
@@ -44,7 +44,7 @@ for($i=0;$i<$days;$i++)
 	{
 		$groups[] = $cbgroup->get_groups(array("count_only"=>true,"date_span"=>"today"))+0;
 		$active[] = $cbgroup->get_groups(array("count_only"=>true,"date_span"=>"today","active"=>'yes'))+0;
-		$tota_topics = $db->select("groups","SUM(total_topics) as the_topics"," date_added  LIKE '%$date%'");
+		$tota_topics = $db->select(tbl("groups"),"SUM(total_topics) as the_topics"," date_added  LIKE '%$date%'");
 		$topics_bar_data[] = $tota_topics['the_topics']+0;
 	}else{
 		$groups[] =$day[$i]['groups']->created+0;
