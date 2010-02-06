@@ -425,7 +425,7 @@ class CBvideo extends CBCategory
 				$count ++;
 				if($count>1)
 				$cond .=" OR ";
-				$cond .= " video.category LIKE '%#$cat_params#%' ";
+				$cond .= " ".tbl("video.category")." LIKE '%#$cat_params#%' ";
 			}
 			
 			$cond .= ")";
@@ -494,7 +494,7 @@ class CBvideo extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " video.featured = 'yes' ";
+			$cond .= " ".tbl("video.featured")." = 'yes' ";
 		}
 		
 		//Exclude Vids
