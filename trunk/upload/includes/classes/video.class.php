@@ -45,7 +45,7 @@ class CBvideo extends CBCategory
 	function video_exists($vid)
 	{
 		global $db;
-		return $db->count("video","videoid"," videoid='$vid' ");
+		return $db->count(tbl("video"),"videoid"," videoid='$vid' ");
 		//return $this->get_video($vid);
 	}
 	function exists($vid){return $this->video_exists($vid);}
@@ -59,9 +59,9 @@ class CBvideo extends CBCategory
 	{
 		global $db;
 		if(is_numeric($vid))
-			$results = $db->select("video","*"," videoid='$vid'");
+			$results = $db->select(tbl("video"),"*"," videoid='$vid'");
 		else
-			$results = $db->select("video","*"," videokey='$vid'");
+			$results = $db->select(tbl("video"),"*"," videokey='$vid'");
 		if($db->num_rows>0)
 		{
 			return $results[0];
@@ -91,7 +91,7 @@ class CBvideo extends CBCategory
 			case 'av':
 			case 'a':
 			{
-				$db->update("video",array('active'),array('yes')," videoid='$vid' OR videokey = '$vid' ");
+				$db->update(tbl("video"),array('active'),array('yes')," videoid='$vid' OR videokey = '$vid' ");
 				e(lang("class_vdo_act_msg"),m);
 			}
 			break;
@@ -101,7 +101,7 @@ class CBvideo extends CBCategory
 			case "dav":
 			case "d":
 			{
-				$db->update("video",array('active'),array('no')," videoid='$vid' OR videokey = '$vid' ");
+				$db->update(tbl("video"),array('active'),array('no')," videoid='$vid' OR videokey = '$vid' ");
 				e(lang("class_vdo_act_msg1"),m);
 			}
 			break;
@@ -111,7 +111,7 @@ class CBvideo extends CBCategory
 			case "featured":
 			case "f":
 			{
-				$db->update("video",array('featured','featured_date'),array('yes',now())," videoid='$vid' OR videokey = '$vid' ");
+				$db->update(tbl("video"),array('featured','featured_date'),array('yes',now())," videoid='$vid' OR videokey = '$vid' ");
 				e(lang("class_vdo_fr_msg"),m);
 			}
 			break;
@@ -122,7 +122,7 @@ class CBvideo extends CBCategory
 			case "unfeatured":
 			case "uf":
 			{
-				$db->update("video",array('featured'),array('no')," videoid='$vid' OR videokey = '$vid' ");
+				$db->update(tbl("video"),array('featured'),array('no')," videoid='$vid' OR videokey = '$vid' ");
 				e(lang("class_fr_msg1"),m);
 			}
 			break;
@@ -256,7 +256,7 @@ class CBvideo extends CBCategory
 				e("You cannot edit this video");
 			}else{
 				//pr($upload_fields);
-				$db->update('video',$query_field,$query_val," videoid='$vid'");
+				$db->update(tbl('video'),$query_field,$query_val," videoid='$vid'");
 				e("Video details have been updated",m);
 			}
 			
@@ -291,8 +291,8 @@ class CBvideo extends CBCategory
 					}
 				}
 				//Finally Removing Database entry of video
-				$db->execute("DELETE FROM video WHERE videoid='$vid'");
-				$db->update("users",array("total_videos"),array("|f|total_videos-1")," userid='".$vdetails['userid']."'");
+				$db->execute("DELETE FROM ".tbl("video")." WHERE videoid='$vid'");
+				$db->update(tbl("users"),array("total_videos"),array("|f|total_videos-1")," userid='".$vdetails['userid']."'");
 				e(lang("class_vdo_del_msg"),m);
 			}else{
 				e(lang("You cannot delete this video"));
@@ -340,7 +340,7 @@ class CBvideo extends CBCategory
 		global $db;
 		$src = $vdetails['videoid'];
 		$file = LOGS_DIR.'/'.$vdetails['file_name'].'.log';
-		$db->execute("DELETE FROM video_file WHERE src_name = '$src'");
+		$db->execute("DELETE FROM ".tbl("video_file")." WHERE src_name = '$src'");
 		if(file_exists($file))
 			unlink($file);
 		e(lang("vid_log_delete_msg"),m);
@@ -509,10 +509,10 @@ class CBvideo extends CBCategory
 		{
 			if(!empty($cond))
 				$cond .= " AND ";
-			$result = $db->select('video,users','video.*,users.userid,users.username',$cond." video.userid = users.userid",$limit,$order);	
+			$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),$cond." ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);	
 		}
 		if($params['count_only'])
-			return $result = $db->count('video','*',$cond);
+			return $result = $db->count(tbl('video'),'*',$cond);
 		if($params['assign'])
 			assign($params['assign'],$result);
 		else
@@ -525,7 +525,7 @@ class CBvideo extends CBCategory
 	function count_video_comments($id)
 	{
 		global $db;
-		$total_comments = $db->count('comments',"comment_id","type='v' AND type_id='$id'");
+		$total_comments = $db->count(tbl('comments'),"comment_id","type='v' AND type_id='$id'");
 		return $total_comments;
 	}
 	
@@ -537,7 +537,7 @@ class CBvideo extends CBCategory
 	{
 		global $db;
 		$total_comments = $this->count_video_comments($id);
-		$db->update("video",array("comments_count"),array($total_comments)," videoid='$id'");
+		$db->update(tbl("video"),array("comments_count"),array($total_comments)," videoid='$id'");
 	}
 	
 	/**
@@ -761,7 +761,7 @@ class CBvideo extends CBCategory
 		$file = THUMBS_DIR.'/'.$thumb;
 		if(file_exists($file))
 		{
-			$db->update("video",array("default_thumb"),array($num)," videoid='$vid'");
+			$db->update(tbl("video"),array("default_thumb"),array($num)," videoid='$vid'");
 			e(lang('vid_thumb_changed'),m);
 		}else{
 			e(lang('vid_thumb_change_err'));
@@ -777,13 +777,13 @@ class CBvideo extends CBCategory
 		global $db;
 		if($idonly)
 		{
-			$results = $db->select("video","userid"," videoid='$vid' ",1);
+			$results = $db->select(tbl("video"),"userid"," videoid='$vid' ",1);
 			if($db->num_rows>0)
 				return $results[0]['userid'];
 			else
 				return false;
 		}else{
-			$results = $db->select("video","*"," videoid='$vid' ",1);
+			$results = $db->select(tbl("video"),"*"," videoid='$vid' ",1);
 			if($db->num_rows>0)
 				return $results[0];
 			else
@@ -798,7 +798,7 @@ class CBvideo extends CBCategory
 	{
 		global $db;
 		
-		$result = $db->count($this->dbtbl['video'],'videoid',"videoid='$vid' AND userid='$uid' ");
+		$result = $db->count(tbl($this->dbtbl['video']),'videoid',"videoid='$vid' AND userid='$uid' ");
 		if($result>0)
 			return true;
 		else
@@ -832,9 +832,9 @@ class CBvideo extends CBCategory
 		global $db;
 		if(is_numeric($vid))
 		{
-			$results = $db->select("video","*"," videoid='$vid'");
+			$results = $db->select(tbl("video"),"*"," videoid='$vid'");
 		}else
-			$results = $db->select("video","*"," videokey='$vid'");
+			$results = $db->select(tbl("video"),"*"," videokey='$vid'");
 		if($db->num_rows>0)
 			return $result[0];
 		else
@@ -929,7 +929,7 @@ class CBvideo extends CBCategory
 			$new_by = $rating_details['rated_by'] + 1;
 			$newrate = ($t + $rating) / $new_by;
 			
-			$db->update($this->dbtbl['video'],array("rating","rated_by","voter_ids"),array($newrate,$new_by,$voter_id)," videoid='$id'");
+			$db->update(tbl($this->dbtbl['video']),array("rating","rated_by","voter_ids"),array($newrate,$new_by,$voter_id)," videoid='$id'");
 			e("Thanks for voting","m");	
 		}
 		
@@ -944,8 +944,8 @@ class CBvideo extends CBCategory
 	function get_playlist_items($pid)
 	{		
 		global $db;
-		$ptbl = $this->action->playlist_items_tbl;
-		$vtbl = $this->dbtbl['video'];
+		$ptbl = tbl($this->action->playlist_items_tbl);
+		$vtbl = tbl($this->dbtbl['video']);
 		
 		$tbls = $ptbl.','.$vtbl;
 		$fields = $ptbl.".*,$vtbl.title,$vtbl.comments_count,$vtbl.views,$vtbl.userid,$vtbl.date_added,
