@@ -27,7 +27,7 @@ class CBEmail
 	function get_email_template($code)
 	{
 		global $db;
-		$result = $db->select($this->db_tpl,"*"," email_template_code='".$code."' OR email_template_id='$code' ");
+		$result = $db->select(tbl($this->db_tpl),"*"," email_template_code='".$code."' OR email_template_id='$code' ");
 		if($db->num_rows>0)
 		{
 			return $result[0];
@@ -92,7 +92,7 @@ class CBEmail
 	function get_templates()
 	{
 		global $db;
-		$results = $db->select($this->db_tpl,"*",NULL,NULL," email_template_name DESC");
+		$results = $db->select(tbl($this->db_tpl),"*",NULL,NULL," email_template_name DESC");
 		if($db->num_rows>0)
 			return $results;
 		else
@@ -118,7 +118,7 @@ class CBEmail
 			e("Email msg was empty");
 		else
 		{
-			$db->update($this->db_tpl,array("email_template_subject","email_template"),array($subj,$msg),
+			$db->update(tbl($this->db_tpl),array("email_template_subject","email_template"),array($subj,$msg),
 									" email_template_id='$id'");
 			e("Email Template has been updated","m");
 		}
