@@ -54,7 +54,7 @@ class CBLogs
 		$success = $a['success'];
 		$details = $a['details'];
 		 
-		$db->insert('action_log',
+		$db->insert(tbl('action_log'),
 		array
 		(
 		'action_type',
