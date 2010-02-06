@@ -30,7 +30,28 @@
  DeleteFlag
  
  **/
- 
+
+/**
+ * Function used to return db table name with prefix
+ * @param : table name
+ * @return : prefix_table_name;
+ */
+function tbl($tbl)
+{
+	$prefix = TABLE_PREFIX;
+	$tbls = explode(",",$tbl);
+	$new_tbls = "";
+	foreach($tbls as $ntbl)
+	{
+		if(!empty($new_tbls))
+			$new_tbls .= ",";
+		$new_tbls .= $prefix.$ntbl;
+	}
+
+	return $new_tbls;
+}
+
+
 class myquery {
 
 	function Set_Website_Details($name,$value){
@@ -42,7 +63,8 @@ class myquery {
 	
 	function Get_Website_Details()
 	{
-		$query = mysql_query("SELECT * FROM config");
+		
+		$query = mysql_query("SELECT * FROM ".tbl("config"));
 		while($row = mysql_fetch_array($query))
 		{
 			$name = $row['name'];
@@ -639,7 +661,7 @@ class myquery {
 	function insert_note($note)
 	{
 		global $db;
-		$db->insert(tbl('cb_admin_notes'),array('note,date_added,userid'),array($note,now(),userid()));
+		$db->insert(tbl('admin_notes'),array('note,date_added,userid'),array($note,now(),userid()));
 	}
 	/**
 	 * Function used to get notes
@@ -647,7 +669,7 @@ class myquery {
 	function get_notes()
 	{
 		global $db;
-		return $db->select(tbl('cb_admin_notes'),'*'," userid='".userid()."'",NULL," date_added DESC ");
+		return $db->select(tbl('admin_notes'),'*'," userid='".userid()."'",NULL," date_added DESC ");
 	}
 	/**
 	 * Function usde to delete note
@@ -655,7 +677,7 @@ class myquery {
 	function delete_note($id)
 	{
 		global $db;
-		$db->delete(tbl("cb_admin_notes"),array("note_id"),array($id));
+		$db->delete(tbl("admin_notes"),array("note_id"),array($id));
 	}
 }
 ?>

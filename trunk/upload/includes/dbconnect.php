@@ -15,7 +15,9 @@
 	$DBUSER = 'root';
     //Database Password
 	$DBPASS = '';
-
+	//Setting Table Prefix
+	define("TABLE_PREFIX","cb_");
+	
 	require 'adodb/adodb.inc.php';
 
     $db = ADONewConnection($BDTYPE);

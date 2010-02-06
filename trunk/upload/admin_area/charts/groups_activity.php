@@ -21,7 +21,7 @@ for($i=0;$i<$days;$i++)
 	if($i<$days-1)
 	{
 	$date_pattern = date("Y-m-d",$last_week+($i*86400));
-	$data = $db->select(tbl("cb_stats"),"*"," date_added LIKE '%$date_pattern%' ",1);
+	$data = $db->select(tbl("stats"),"*"," date_added LIKE '%$date_pattern%' ",1);
 	$data = $data[0];
 	$datas[] = $data;
 	}

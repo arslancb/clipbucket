@@ -39,8 +39,8 @@ class cbactions
 	 */
 	var $fav_tbl = 'favorites';
 	var $flag_tbl = 'flags';
-	var $playlist_tbl = 'cb_playlists';
-	var $playlist_items_tbl = 'cb_playlist_items';
+	var $playlist_tbl = 'playlists';
+	var $playlist_items_tbl = 'playlist_items';
 	
 	var $type_tbl = 'videos';
 	var $type_id_field = 'videoid';

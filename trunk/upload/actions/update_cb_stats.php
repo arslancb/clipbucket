@@ -70,15 +70,15 @@ $fields = array('video_stats','user_stats','group_stats');
 $values = array('|no_mc|'.json_encode($videos),'|no_mc|'.json_encode($users),'|no_mc|'.json_encode($groups));
 
 //Checking If there is already a row of the same date, then update it otherwise insert data
-$result = $db->select(tbl("cb_stats"),"stat_id"," date_added LIKE '%$date%'");
+$result = $db->select(tbl("stats"),"stat_id"," date_added LIKE '%$date%'");
 if($db->num_rows>0)
 {
 	$result = $result[0];
-	$db->update(tbl("cb_stats"),$fields,$values," stat_id='".$result['stat_id']."'");
+	$db->update(tbl("stats"),$fields,$values," stat_id='".$result['stat_id']."'");
 }else
 {
 	$fields[] = 'date_added';
 	$values[] = $date;
-	$db->insert(tbl("cb_stats"),$fields,$values);
+	$db->insert(tbl("stats"),$fields,$values);
 }
 ?>

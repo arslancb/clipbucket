@@ -16,7 +16,7 @@ class cbpage
 	 */
 	function cbpage()
 	{
-		$this->page_tbl = 'cb_pages';
+		$this->page_tbl = 'pages';
 	}
 	
 	

@@ -15,7 +15,7 @@ class cbplaylist
 	/**
 	 * Database Tables
 	 */
-	var $dbtbl = array('user_playlists'=>'cb_user_playlists','playlist_items'=>'cb_playlist_items');
+	var $dbtbl = array('user_playlists'=>'cb_user_playlists','playlist_items'=>'playlist_items');
 	
 	
 	
