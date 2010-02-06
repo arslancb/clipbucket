@@ -1741,11 +1741,11 @@ class CBGroups extends CBCategory
 		
 		$cond = "";
 		if(!has_access('admin_access',TRUE) && !$force_admin)
-			$cond .= " groups.active='yes' ";
+			$cond .= " ".tbl("groups.active")."='yes' ";
 		else
 		{
 			if($params['active'])
-				$cond .= " groups.active='".$params['active']."'";
+				$cond .= " ".tbl("groups.active")."='".$params['active']."'";
 		}
 		
 		//Setting Category Condition

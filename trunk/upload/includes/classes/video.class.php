@@ -383,17 +383,17 @@ class CBvideo extends CBCategory
 		
 		$cond = "";
 		if(!has_access('admin_access',TRUE))
-			$cond .= " video.status='Successful' AND video.active='yes' ";
+			$cond .= " ".tbl("video.status")."='Successful' AND ".tbl("video.active")."='yes' ";
 		else
 		{
 			if($params['active'])
-				$cond .= " video.active='".$params['active']."'";
+				$cond .= " ".tbl("video.active")."='".$params['active']."'";
 
 			if($params['status'])
 			{
 				if($cond!='')
 					$cond .=" AND ";
-				$cond .= " video.status='".$params['status']."'";
+				$cond .= " ".tbl("video.status")."='".$params['status']."'";
 			}
 			
 			
@@ -505,12 +505,14 @@ class CBvideo extends CBCategory
 			$cond .= " video.videoid <> '".$params['exclude']."' ";
 		}
 		
+		
 		if(!$params['count_only'])
 		{
 			if(!empty($cond))
 				$cond .= " AND ";
 			$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),$cond." ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);	
 		}
+
 		if($params['count_only'])
 			return $result = $db->count(tbl('video'),'*',$cond);
 		if($params['assign'])
