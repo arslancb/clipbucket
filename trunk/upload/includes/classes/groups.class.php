@@ -1772,7 +1772,7 @@ class CBGroups extends CBCategory
 				$count ++;
 				if($count>1)
 				$cond .=" OR ";
-				$cond .= " groups.category LIKE '%#$cat_params#%' ";
+				$cond .= " ".tbl("groups.category")." LIKE '%#$cat_params#%' ";
 			}
 			
 			$cond .= ")";
@@ -1791,7 +1791,7 @@ class CBGroups extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " groups.userid='".$params['user']."'";
+			$cond .= " ".tbl("groups.userid")."='".$params['user']."'";
 		}
 		
 		$tag_n_title='';
@@ -1808,7 +1808,7 @@ class CBGroups extends CBCategory
 				$loop = 1;
 				foreach($tags as $tag)
 				{
-					$tag_n_title .= " groups.group_tags LIKE '%".$tag."%'";
+					$tag_n_title .= " ".tbl("groups.group_tags")." LIKE '%".$tag."%'";
 					if($loop<$total)
 					$tag_n_title .= " OR ";
 					$loop++;
@@ -1818,7 +1818,7 @@ class CBGroups extends CBCategory
 			{
 				if($tag_n_title!='')
 					$tag_n_title .= ' OR ';
-				$tag_n_title .= " groups.group_tags LIKE '%".$params['tags']."%'";
+				$tag_n_title .= " ".tbl("groups.group_tags")." LIKE '%".$params['tags']."%'";
 			}
 		}
 		//TITLE
@@ -1826,7 +1826,7 @@ class CBGroups extends CBCategory
 		{
 			if($tag_n_title!='')
 				$tag_n_title .= ' OR ';
-			$tag_n_title .= " groups.group_name  LIKE '%".$params['title']."%'";
+			$tag_n_title .= " ".tbl("groups.group_name")."  LIKE '%".$params['title']."%'";
 		}
 		
 		if($tag_n_title)
@@ -1841,7 +1841,7 @@ class CBGroups extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " groups.featured = '".$params['featured']."' ";
+			$cond .= " ".tbl("groups.featured")." = '".$params['featured']."' ";
 		}
 		
 		//GROUP ID
@@ -1857,7 +1857,7 @@ class CBGroups extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " groups.group_id <> '".$params['exclude']."' ";
+			$cond .= " ".tbl("groups.group_id")." <> '".$params['exclude']."' ";
 		}
 		
 		
@@ -1866,10 +1866,10 @@ class CBGroups extends CBCategory
 		{
 			if(!empty($cond))
 			$cond .= " AND ";
-			$result = $db->select(tbl($this->gp_tbl).",users",'*',$cond." groups.userid = users.userid ",$limit,$order);
+			$result = $db->select(tbl($this->gp_tbl.",users"),'*',$cond." ".tbl("groups.userid")." = ".tbl("users.userid")." ",$limit,$order);
 		}
 		
-		
+		//echo $db->db_query;
 		if($params['count_only'])
 			return $result = $db->count(tbl($this->gp_tbl),'*',$cond);
 		if($params['assign'])
