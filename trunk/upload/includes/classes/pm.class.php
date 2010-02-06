@@ -376,9 +376,9 @@ class cb_pm
 					$result = $db->count(tbl($this->tbl),'message_id'," message_from = '$uid' AND message_box ='out' ");
 				}else{
 					$result = $db->select(tbl($this->tbl.',users'),tbl($this->tbl.'.*,users.username AS message_from_user '),
-										  tbl($this->tbl).".message_from = '$uid' AND ".tbl("users").".userid = ".$this->tbl.".message_from 
+										  tbl($this->tbl).".message_from = '$uid' AND ".tbl("users").".userid = ".tbl($this->tbl).".message_from 
 										  AND ".tbl($this->tbl).".message_box ='out'",NULL," date_added DESC");
-					
+					//echo $db->db_query;
 					//One More Query Need To be executed to get username of recievers
 					$count = 0;
 					
