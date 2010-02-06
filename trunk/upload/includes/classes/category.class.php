@@ -39,7 +39,7 @@ abstract class CBCategory
 	function get_category($cid)
 	{
 		global $db;
-		$results = $db->select($this->cat_tbl,"*"," category_id='$cid'");
+		$results = $db->select(tbl($this->cat_tbl),"*"," category_id='$cid'");
 		if($db->num_rows>0)
 		{
 			return $results[0];
@@ -55,7 +55,7 @@ abstract class CBCategory
 	function get_cat_by_name($name)
 	{
 		global $db;
-		$results = $db->select($this->cat_tbl,"*"," category_name='$name' ");
+		$results = $db->select(tbl($this->cat_tbl),"*"," category_name='$name' ");
 		if($db->num_rows>0)
 		{
 			return $results[0];
@@ -83,7 +83,7 @@ abstract class CBCategory
 		{
 			e(lang("add_cat_no_name_err"));
 		}else{
-			$cid = $db->insert($this->cat_tbl,
+			$cid = $db->insert(tbl($this->cat_tbl),
 						array("category_name","category_desc","date_added"),
 						array($name,$desc,now())
 						);
@@ -109,8 +109,8 @@ abstract class CBCategory
 		global $db;
 		if($this->category_exists($cid))
 		{
-			$db->update($this->cat_tbl,array("isdefault"),array("no")," isdefault='yes' ");
-			$db->update($this->cat_tbl,array("isdefault"),array("yes")," category_id='$cid' ");
+			$db->update(tbl($this->cat_tbl),array("isdefault"),array("no")," isdefault='yes' ");
+			$db->update(tbl($this->cat_tbl),array("isdefault"),array("yes")," category_id='$cid' ");
 			e(lang("cat_set_default_ok"),m);
 		}else
 			e(lang("cat_exist_error"));
@@ -123,7 +123,7 @@ abstract class CBCategory
 	function get_categories()
 	{
 		global $db;
-		$select = $db->select($this->cat_tbl,"*",NULL,NULL," category_order ASC");
+		$select = $db->select(tbl($this->cat_tbl),"*",NULL,NULL," category_order ASC");
 		return $select;
 	}
 	
@@ -134,7 +134,7 @@ abstract class CBCategory
 	function total_categories()
 	{
 		global $db;
-		return  $db->count($this->cat_tbl,"*");
+		return  $db->count(tbl($this->cat_tbl),"*");
 	}
 	
 	
@@ -154,7 +154,7 @@ abstract class CBCategory
 			//Moving all contents to default category
 			$this->change_category($cid);
 			//Removing Category
-			$db->execute("DELETE FROM ".$this->cat_tbl." WHERE category_id='$cid'");
+			$db->execute("DELETE FROM ".tbl($this->cat_tbl)." WHERE category_id='$cid'");
 			e(lang("class_cat_del_msg"),m);
 		}
 	
@@ -166,7 +166,7 @@ abstract class CBCategory
 	function get_default_category()
 	{
 		global $db;
-		$results = $db->select($this->cat_tbl,"*"," isdefault='yes' ");
+		$results = $db->select(tbl($this->cat_tbl),"*"," isdefault='yes' ");
 		if($db->num_rows>0)
 			return $results[0];
 		else
@@ -192,8 +192,8 @@ abstract class CBCategory
 		global $db;
 		if(!$this->category_exists($to))
 			$to = $this->get_default_cid();
-		$db->execute("UPDATE ".$this->section_tbl." SET category = replace(category,'#".$from."#','#".$to."#') WHERE category LIKE '%#".$from."#%'");
-		$db->execute("UPDATE ".$this->section_tbl." SET category = replace(category,'#".$to."# #".$to."#','#".$to."#') WHERE category LIKE '%#".$to."#%'");
+		$db->execute("UPDATE ".tbl($this->section_tbl)." SET category = replace(category,'#".$from."#','#".$to."#') WHERE category LIKE '%#".$from."#%'");
+		$db->execute("UPDATE ".tbl($this->section_tbl)." SET category = replace(category,'#".$to."# #".$to."#','#".$to."#') WHERE category LIKE '%#".$to."#%'");
 	}
 	
 	
@@ -220,7 +220,7 @@ abstract class CBCategory
 		{
 			e(lang("add_cat_no_name_err"));
 		}else{
-			$db->update($this->cat_tbl,
+			$db->update(tbl($this->cat_tbl),
 						array("category_name","category_desc"),
 						array($name,$desc),
 						" category_id='$cid' "
@@ -345,7 +345,7 @@ abstract class CBCategory
 		{
 			if(!is_numeric($order) || $order <1)
 				$order = 1;
-			$db->update($this->cat_tbl,array("category_order"),array($order)," category_id='".$id."'");
+			$db->update(tbl($this->cat_tbl),array("category_order"),array($order)," category_id='".$id."'");
 		}
 	}
 	
