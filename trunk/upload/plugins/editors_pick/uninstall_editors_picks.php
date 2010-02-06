@@ -4,7 +4,7 @@
 	{
 		global $db;
 		$db->Execute(
-		'DROP TABLE `cb_editors_picks`'
+		'DROP TABLE `'.tbl("editors_picks").'`'
 		);
 	}
 	

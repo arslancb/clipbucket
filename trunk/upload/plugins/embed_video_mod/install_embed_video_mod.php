@@ -9,7 +9,7 @@ require_once('../includes/common.php');
 function install_embed_video_mode()
 {
 	global $db;
-	$db->Execute("ALTER TABLE `video` ADD `embed_code` TEXT NOT NULL ");
+	$db->Execute("ALTER TABLE `".tbl('video')."` ADD `embed_code` TEXT NOT NULL ");
 	
 }
 

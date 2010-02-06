@@ -7,13 +7,13 @@ function install_global_announcement()
 {
 	global $db;
 	$db->Execute(
-	'CREATE TABLE IF NOT EXISTS `cb_global_announcement` (
+	'CREATE TABLE IF NOT EXISTS `'.tbl("global_announcement").'` (
 	  `announcement` text NOT NULL
 	) ENGINE=MyISAM;'
 	);
 	
 	//inserting new announcment
-	$db->Execute("INSERT INTO  cb_global_announcement (announcement) VALUES ('')");
+	$db->Execute("INSERT INTO  ".tbl('global_announcement')." (announcement) VALUES ('')");
 }
 
 

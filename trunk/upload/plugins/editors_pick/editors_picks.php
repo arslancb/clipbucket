@@ -44,7 +44,7 @@ if(!function_exists('editors_pick'))
 			if(!is_video_in_editors_pick($vid))
 			{
 				$sort = get_highest_sort_number() + 1 ;
-				$db->insert("cb_editors_picks",array("videoid","sort","date_added"),array($vid,$sort,now()));
+				$db->insert(tbl("editors_picks"),array("videoid","sort","date_added"),array($vid,$sort,now()));
 				e(lang("Video has been added to editor's pick"),"m");
 			}else{
 				e(lang("Video is already in editor's pick"),"e");
@@ -63,7 +63,7 @@ if(!function_exists('editors_pick'))
 			$vid = $vid['videoid'];
 		if(is_video_in_editors_pick($vid))
 		{
-			$db->delete('cb_editors_picks',array('videoid'),array($vid));
+			$db->delete(tbl('editors_picks'),array('videoid'),array($vid));
 			e(lang("Video has been removed from editor's pick"),"m");
 		}
 	}
@@ -75,7 +75,7 @@ if(!function_exists('editors_pick'))
 	function is_video_in_editors_pick($vid)
 	{
 		global $db;
-		$count = $db->count("cb_editors_picks","videoid"," videoid='$vid'");
+		$count = $db->count(tbl("editors_picks"),"videoid"," videoid='$vid'");
 		if($count>0)
 			return true;
 		else
@@ -88,7 +88,7 @@ if(!function_exists('editors_pick'))
 	function get_highest_sort_number()
 	{
 		global $db;
-		$result = $db->select("cb_editors_picks","sort",NULL,NULL," sort DESC ");
+		$result = $db->select(tbl("editors_picks"),"sort",NULL,NULL," sort DESC ");
 		return $result[0]['sort'];
 	}
 	
@@ -98,7 +98,7 @@ if(!function_exists('editors_pick'))
 	function get_lowest_sort_number()
 	{
 		global $db;
-		$result = $db->select("cb_editors_picks","sort",NULL,NULL," sort ASC ");
+		$result = $db->select(tbl("editors_picks"),"sort",NULL,NULL," sort ASC ");
 		return $result[0]['sort'];
 	}
 	
@@ -120,7 +120,7 @@ if(!function_exists('editors_pick'))
 	function get_ep_videos()
 	{
 		global $db;
-		$results = $db->select('cb_editors_picks,video',"*"," cb_editors_picks.videoid = video.videoid ORDER BY cb_editors_picks.sort ASC");
+		$results = $db->select(tbl('editors_picks').','.tbl('video'),"*"," ".tbl('editors_picks').".videoid = ".tbl('video').".videoid ORDER BY ".tbl('editors_picks').".sort ASC");
 		return $results;
 	}
 	
@@ -130,21 +130,21 @@ if(!function_exists('editors_pick'))
 	function move_pick_up($id)
 	{
 		global $db;
-		$result = $db->select("cb_editors_picks","*"," pick_id='$id'");
+		$result = $db->select(tbl("editors_picks"),"*"," pick_id='$id'");
 		if($db->num_rows>0)
 		{
 			$result = $result[0];
 			$sort = $result['sort'];
 			if($sort>get_lowest_sort_number())
 			{
-				$less_result = $db->select("cb_editors_picks","*"," sort<$sort",1);
+				$less_result = $db->select(tbl("editors_picks"),"*"," sort<$sort",1);
 				if($db->num_rows>0)
 				{
 					$less_result = $less_result[0];
 					$new_sort = $less_result['sort'];
 					
-					$db->update('cb_editors_picks',array('sort'),$new_sort," pick_id='$id'");
-					$db->update('cb_editors_picks',array('sort'),$sort," pick_id='".$less_result['pick_id']."'");
+					$db->update(tbl('editors_picks'),array('sort'),$new_sort," pick_id='$id'");
+					$db->update(tbl('editors_picks'),array('sort'),$sort," pick_id='".$less_result['pick_id']."'");
 				}
 			}
 		}
@@ -157,21 +157,21 @@ if(!function_exists('editors_pick'))
 	function move_pick_down($id)
 	{
 		global $db;
-		$result = $db->select("cb_editors_picks","*"," pick_id='$id'");
+		$result = $db->select(tbl("editors_picks"),"*"," pick_id='$id'");
 		if($db->num_rows>0)
 		{
 			$result = $result[0];
 			$sort = $result['sort'];
 			if($sort<get_highest_sort_number())
 			{
-				$less_result = $db->select("cb_editors_picks","*"," sort>$sort",1);
+				$less_result = $db->select(tbl("editors_picks"),"*"," sort>$sort",1);
 				if($db->num_rows>0)
 				{
 					$less_result = $less_result[0];
 					$new_sort = $less_result['sort'];
 					
-					$db->update('cb_editors_picks',array('sort'),$new_sort," pick_id='$id'");
-					$db->update('cb_editors_picks',array('sort'),$sort," pick_id='".$less_result['pick_id']."'");
+					$db->update(tbl('editors_picks'),array('sort'),$new_sort," pick_id='$id'");
+					$db->update(tbl('editors_picks'),array('sort'),$sort," pick_id='".$less_result['pick_id']."'");
 				}
 			}
 		}
@@ -189,7 +189,7 @@ if(!function_exists('editors_pick'))
 		{
 			if(!is_numeric($order) || $order <1)
 				$order = 1;
-			$db->update("cb_editors_picks",array("sort"),array($order)," videoid='".$id."'");
+			$db->update(tbl("editors_picks"),array("sort"),array($order)," videoid='".$id."'");
 		}
 	}
 	

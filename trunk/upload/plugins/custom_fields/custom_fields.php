@@ -41,14 +41,14 @@ if(!function_exists('add_custom_field'))
 				
 				if($key=='db_field')
 				{
-					$db->execute("ALTER TABLE video ADD `".$attr."` TEXT NOT NULL");
+					$db->execute("ALTER TABLE ".tbl('video')." ADD `".$attr."` TEXT NOT NULL");
 				}
 			}
 			
 		}
 		
 		if(!error_list())
-		$db->insert("custom_fields",$fields_array,$value_array);		
+		$db->insert(tbl("custom_fields"),$fields_array,$value_array);		
 	}
 	
 	
@@ -58,7 +58,7 @@ if(!function_exists('add_custom_field'))
 	function load_form_fields()
 	{
 		global $db;
-		$results = $db->select("custom_fields","*");
+		$results = $db->select(tbl("custom_fields"),"*");
 		if(count($results[0])>0)
 		{
 			foreach($results as $result)

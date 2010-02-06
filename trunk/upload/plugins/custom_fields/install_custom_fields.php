@@ -12,7 +12,7 @@ function install_custom_fields()
 {
 	global $db;
 	$db->Execute(
-"CREATE TABLE `clipbucket_svn`.`custom_fields` (
+"CREATE TABLE `clipbucket_svn`.`".tbl('custom_fields')."` (
 `custom_field_list_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `custom_field_title` TEXT NOT NULL ,
 `custom_field_type` TEXT NOT NULL ,
@@ -32,7 +32,7 @@ function install_custom_fields()
 ) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_general_ci;");
 	
 	$db->Execute(
-"INSERT INTO `phrases` (
+"INSERT INTO `".tbl('phrases')."` (
 `id` ,
 `lang_iso` ,
 `varname` ,
