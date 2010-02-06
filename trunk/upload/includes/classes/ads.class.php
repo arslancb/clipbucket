@@ -14,125 +14,154 @@
 class AdsManager
 {
 
-	function AddAd(){
-		global $LANG;
-	
-		$name		= mysql_clean($_POST['name']);
-		$code		= mysql_real_escape_string(htmlspecialchars($_POST['code']));
-		$placement 	= mysql_clean($_POST['placement']);
-		$category  	= $_POST['category'];
-		$status		= $_POST['status'];
+	/**
+	 * Function used to add new advertisment in ClipBucket
+	 * @param : Array
+	 */
+	function AddAd($array=NULL)
+	{
+		global $LANG,$db;
+		if(!$array)
+			$array = $_POST;
+			
+		$name		= mysql_clean($array['name']);
+		$code		= mysql_real_escape_string(htmlspecialchars($array['code']));
+		$placement 	= mysql_clean($array['placement']);
+		$category  	= $array['category'];
+		$status		= $array['status'];
 		
-		if(empty($name)){
+		if(empty($name))
+		{
 			$msg = e(lang('ad_name_error'));
-		}
-		if(empty($code)){
-		//	$msg = e(lang('ad_code_error'));
-		}
-		
-	
-		$query = mysql_query("SELECT * FROM ads_data WHERE ad_name ='".$name."'");
-		if(mysql_num_rows($query)>0){
-			$msg =  e(lang('ad_exists_error2'));
-		}
-		if(empty($msg)){
-		mysql_query("INSERT INTO ads_data (ad_category,ad_name,ad_placement,ad_code,ad_status)VALUES('".$category."','".$name."','".$placement."','".$code."','".$status."')");
-		
-		$msg =  e(lang('ad_add_msg'),m);
-		}
-		return $msg;
-	}
-	
-	//Function Used To Change Ad Status
-	
-	function ChangeAdStatus($status,$id){
-		global $LANG;
-		if($status >1 || $status <0 ){
-		$status = 0;
-		}
-		$status;
-		mysql_query("UPDATE ads_data SET ad_status = '".$status."' WHERE ad_id ='".$id."' ");
-		if($status == '0'){
-		$show_status = lang('ad_deactive');
 		}else{
-		$show_status = lang('ad_active');
-		}
-		$msg = e(lang('ad_msg').$show_status,m);
-	return $msg;
-	}
-	
-	//Function Used To Edit Advertisment
-	
-	function EditAd($id){
-	global $LANG;
-		$placement 	= mysql_clean($_POST['placement']);
-		$name	= mysql_clean($_POST['name']);
-		$code	= mysql_real_escape_string(htmlspecialchars($_POST['code']));
-		$category = mysql_clean(@$_POST['category']);	
-				if(empty($name)){
-					$msg = e(lang('ad_name_error'));
-				}
-				if(empty($code)){
-				//	$msg = e(lang('ad_code_error'));
-				}
-				if(empty($msg)){
-				mysql_query("UPDATE ads_data SET
-				ad_placement = '".$placement."',
-				ad_name = '".$name."',
-				ad_category = '".$category."',
-				ad_code	= '".$code."',
-				ad_status = '".$_POST['status']."'
-				Where ad_id = '".$id."'");
-				$msg = e(lang('ad_update_msg'),m);
-				}
-		return $msg;
-	}
-	
-	//Function Used To delete AD
-	
-	function DeleteAd($id){
-		global $LANG;
-			$query = mysql_query("SELECT * FROM ads_data WHERE ad_id ='".$id."'");
-			if(mysql_num_rows($query)>0){
-				mysql_query("DELETE FROM ads_data WHERE ad_id='".$id."'");
-				$msg = e(lang('ad_del_msg'),m);
-			}else{
-				$msg = e(lang('ad_exists_error1'));
+			$query = mysql_query("SELECT * FROM ads_data WHERE ad_name ='".$name."'");
+			$count = $db->count(tbl("ads_data"),"ad_id"," ad_name='$name'");
+			
+			if($count>0){
+			e(lang('ad_exists_error2'));
+			}else
+			{
+				$db->insert(tbl("ads_data"),array("ad_category","ad_name","ad_placement","ad_code","ad_status"),
+											array($category,$name,$placement,$code,$status));		
+				$msg =  e(lang('ad_add_msg'),m);
 			}
-		return $msg;
+			return $msg;
+		}		
 	}
 	
-	//Function Used To Remove Add Placement
-	function RemovePlacement($placement){
+	
+	/**
+	 * Function used to set advertisment status
+	 * 1, to set as activate
+	 * 0, to set as deactivate
+	 */
+	
+	function ChangeAdStatus($status,$id)
+	{
+		global $db;
+		
+		if($status >1)
+			$status = 1;
+		if($status<0)
+			$status = 0;
+		
+		if($this->ad_exists($id))
+		{
+			$db->update(tbl("ads_data"),array("ad_status"),array($status)," ad_id='".mysql_clean($id)."'");
+			if($status == '0')
+				$show_status = lang('ad_deactive');
+			else
+				$show_status = lang('ad_active');
+			e(lang('ad_msg').$show_status,"m");
+		}else
+			e(lang("ad_exists_error1"));
+	}
+	
+	/**
+	 * Function used to edit advertisment
+	 * @params Array
+	 */
+	function EditAd($array=NULL)
+	{
+		global $db;
+		if(!$array)
+			$array = $_POST;
+			
+		$placement 	= mysql_clean($array['placement']);
+		$name	= mysql_clean($array['name']);
+		$code	= mysql_real_escape_string(htmlspecialchars($array['code']));
+		$category = mysql_clean(@$array['category']);
+		$id = $array['ad_id'];
+		
+		if(!$this->ad_exists($id))
+			e(lang("ad_exists_error1"));
+		elseif(empty($name))
+			e(lang('ad_name_error'));
+		else
+		{
+			$db->update(tbl("ads_data"),array("ad_placement","ad_name","ad_category","ad_code","ad_status"),
+						array($placement,$name,$category,$code,$array['status'],$id)," ad_id='$id' ");
+			e(lang('ad_update_msg'),"m");
+		}
+	}
+	
+	/**
+	 * Function used to delete advertisments
+	 * @param Ad Id
+	 */	
+	function DeleteAd($id)
+	{
+		global $db;
+		if(!$this->ad_exists($id))
+			e(lang("ad_exists_error1"));
+		else
+		{
+			$db->Execute("DELETE FROM ".tbl("ads_data")." WHERE ad_id='".$id."'");
+			$msg = e(lang('ad_del_msg'),"m");
+		}
+	}
+	
+	/**
+	 * Function used to remove advertismetn placement
+	 */
+	function RemovePlacement($placement)
+	{
 		global $LANG;
-		if(!mysql_query("Delete from ads_data WHERE ad_placement='".$placement."'"))die(mysql_error());
-		if(!mysql_query("Delete from ads_placements WHERE placement='".$placement."'"))die(mysql_error());
-		$msg = e(lang('ad_placment_delete_msg'),m);
-		return $msg;
+		if(!$this->get_placement($placement))
+			e("Placement does not exist");
+		else
+		{
+			$db->execute("Delete from ".tbl("ads_data")." WHERE ad_placement='".$placement."'");
+			$db->execute("Delete from ".tbl("ads_placements")." WHERE placement='".$placement."'");
+			e(lang('ad_placment_delete_msg'),"m");
+		}
 	}
 	
 	
-	//Function Used To Add Placement
-	//FUNCTION ADDPLACEMENT
-	//ARRAY : 	0=> Placement Name
-	// 			1=> Placement Code
-	function AddPlacement($array){
+	/**
+	 * Function used to add new palcement
+	 * @param Array
+	 * Array [0] => placement name
+	 * Array [1] => placement code
+	 */
+	function AddPlacement($array)
+	{
 		global $LANG;
 		if(empty($array[0])){
 			$msg = e(lang('ad_placement_err2'));
 		}elseif(empty($array[1])){
 			$msg = e(lang('ad_placement_err3'));
 		}
-		if(empty($msg)){
-			$query = mysql_query("SELECT * FROM ads_placements WHERE placement = '".$array[1]."'");
-				if(mysql_num_rows($query) > 0){
-					$msg = e(lang('ad_placement_err1'));
-				}else{
-					if(!mysql_query("INSERT INTO ads_placements (placement_name,placement)VALUES('".$array[0]."','".$array[1]."')"))die(mysql_error());
-					$msg  = e(lang('ad_placement_msg'),m);
-				}
+		if(empty($msg))
+		{
+			if($this->get_placement($array[1]))
+				e(lang('ad_placement_err1'));
+			else
+			{
+				$db->insert(tbl("ads_placements"),array("placement_name","placement"),array($array[0],$array[1]));
+				e(lang('ad_placement_msg'),"m");
+			}
 		}
-		return $msg;
 	}
 	
 	/**
@@ -155,7 +184,7 @@ class AdsManager
 			$limit_query = ' LIMIT 1';
 			$order = ' ORDER BY ad_impressions ASC ';
 			//Return Ad
-			$query = "SELECT ad_id,ad_code FROM ads_data 
+			$query = "SELECT ad_id,ad_code FROM ".tbl("ads_data")." 
 			WHERE ad_placement = '".$placement_code."'
 			AND ad_status='1'
 			";
@@ -186,10 +215,10 @@ class AdsManager
 	function incrementImpression($ad_id)
 	{
 		global $db;
-		$query = "SELECT ad_impressions FROM ads_data WHERE ad_id='".$ad_id."'";
+		$query = "SELECT ".tbl("ad_impressions")." FROM ads_data WHERE ad_id='".$ad_id."'";
 		$query_results = $db->GetRow($query);
 		$ad_imp = $query_results['ad_impressions'] + 1;
-		$query = "UPDATE ads_data SET ad_impressions = '".$ad_imp."' WHERE ad_id='".$ad_id."'";
+		$query = "UPDATE ".tbl("ads_data")." SET ad_impressions = '".$ad_imp."' WHERE ad_id='".$ad_id."'";
 		$db->Execute($query);
 	}
 	
@@ -201,7 +230,7 @@ class AdsManager
 	{
 		global $db;
 		
-		$result = $db->select("ads_placements");
+		$result = $db->select(tbl("ads_placements"));
 		if($db->num_rows>0)
 			return $result;
 		else
@@ -215,7 +244,7 @@ class AdsManager
 	{
 		global $db;
 		
-		$result = $db->select("ads_data");
+		$result = $db->select(tbl("ads_data"));
 		if($db->num_rows>0)
 			return $result;
 		else
@@ -229,7 +258,7 @@ class AdsManager
 	function get_placement($place)
 	{
 		global $db;
-		$result = $db->select("ads_placements","*"," placement='$place' OR placement_id='$place' ");
+		$result = $db->select(tbl("ads_placements"),"*"," placement='$place' OR placement_id='$place' ");
 		if($db->num_rows>0)
 			return $result[0];
 		else
@@ -254,7 +283,7 @@ class AdsManager
 	function get_ad_details($id)
 	{
 		global $db;
-		$result = $db->select("ads_data","*"," 	ad_placement='$id' OR ad_id='$id'");
+		$result = $db->select(tbl("ads_data"),"*"," 	ad_placement='$id' OR ad_id='$id'");
 		if($db->num_rows>0)
 		{
 			$result = $result[0];
@@ -263,6 +292,18 @@ class AdsManager
 		}else
 			return false;
 	}
-
+	
+	/**
+	 * Function used to check weather advertisment exists or not
+	 */
+	function ad_exists($id)
+	{
+		global $db;
+		$count = $db->count(tbl("ads_data"),"ad_id"," ad_id='$id' ");
+		if($count>0)
+			return true;
+		else
+			return false;
+	}
 }
 ?>

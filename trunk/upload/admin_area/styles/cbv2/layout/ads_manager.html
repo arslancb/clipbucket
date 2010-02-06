@@ -132,7 +132,7 @@
         <td width="120" align="left" class="head"><div class="head_sep_left" style="width:100px">Impressions</div></td>
         <td width="120" align="left" class="head"><div class="head_sep_left" style="width:100px">Date Added</div> </td>
         <td width="270" align="left" class="head"><div class="head_sep_left" style="width:220px">Placement</div></td>
-        <td width="150" class="right_head"><div class="head_sep_left" style="width:100px">Actions</div></td>
+        <td width="200" class="right_head"><div class="head_sep_left" style="width:100px">Actions</div></td>
       </tr>
      </table>
      <div class="block"> 
@@ -146,8 +146,8 @@
         <td width="120" align="left"><div style="padding-left:10px">{$ad.ad_impressions|number_format}</div></td>
         <td width="120" align="left"><div style="padding-left:10px">{$ad.date_added|date_format}</div></td>       
         <td width="270" align="left"><div style="padding-left:10px">{$adsObj->get_placement_name($ad.ad_placement)}</div></td>
-        <td width="150" align="left"><div style="padding-left:10px"><a href="ads_manager.php?ad_id={$ad.ad_id}">Edit</a> | 
-<a href="ads_manager.php?delete={$ad.ad_id}">Delete</a></div></td>        
+        <td width="200" align="left"><div style="padding-left:10px"><a href="ads_manager.php?ad_id={$ad.ad_id}">Edit</a> | 
+<a href="ads_manager.php?delete={$ad.ad_id}">Delete</a> | {if $ad.ad_status!=1}<a href="?activate={$ad.ad_id}">Activate</a>{else}<a href="?deactivate={$ad.ad_id}">Deactivate</a>{/if}</div></td>        
       </tr>
       {/foreach}
     </table></div></td>
