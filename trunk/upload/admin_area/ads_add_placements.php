@@ -27,13 +27,13 @@ if(isset($_POST['AddPlacement'])){
 }
 
 //Getting List Of Placement
-$sql = "SELECT * FROM ads_placements";
+$sql = "SELECT * FROM ".tbl("ads_placements");
 $ads_exec = $db->Execute($sql);
 $ads_placements = $ads_exec->getrows();
 $total_placements = $ads_exec->recordcount() + 0;
 	//Getting total Ads in each placement
 		for($id=0;$id<=$total_placements;$id++){
-			$query = mysql_query("SELECT * FROM ads_data WHERE ad_placement='".@$ads_placements[$id]['placement']."'");
+			$query = mysql_query("SELECT * FROM ".tbl("ads_data")." WHERE ad_placement='".@$ads_placements[$id]['placement']."'");
 			$ads_placements[$id]['total_ads'] = mysql_num_rows($query);
 		}
 				

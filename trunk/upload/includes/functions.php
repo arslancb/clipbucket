@@ -3918,6 +3918,15 @@
 	 */
 	function tbl($tbl)
 	{
+		$prefix = "";
+		$tbls = explode(",",$tbl);
+		$new_tbls = "";
+		foreach($tbls as $ntbl)
+		{
+			if(!empty($new_tbls))
+				$new_tbls .= ",";
+			$new_tbls .= $prefix.$tbl;
+		}
 		return $tbl;
 	}
 ?>
