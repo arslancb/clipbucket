@@ -947,7 +947,7 @@ class CBGroups extends CBCategory
 		$app_query = "";
 		if($approved)
 			$app_query = " AND ".tbl($this->gp_mem_tbl).".active='$approved'"; 
-		$result = $db->select(tbl($this->gp_mem_tbl)." LEFT JOIN users ON ".tbl($this->gp_mem_tbl).".userid=users.userid","*"," group_id='$gid' $app_query",$limit);
+		$result = $db->select(tbl($this->gp_mem_tbl)." LEFT JOIN ".tbl('users')." ON ".tbl($this->gp_mem_tbl).".userid=".tbl('users').".userid","*"," group_id='$gid' $app_query",$limit);
 
 		if($db->num_rows>0)
 			return $result;
@@ -1085,8 +1085,8 @@ class CBGroups extends CBCategory
 		if($approved)
 			$approved_query = "AND approved='$approved'";
 		
-		$result = $db->select(tbl($this->gp_vdo_tbl)." LEFT JOIN video ON ".tbl($this->gp_vdo_tbl).".videoid=video.videoid","*",
-							  " group_id='$gid' $approved_query AND video.active='yes' AND status='Successful'",$limit);
+		$result = $db->select(tbl($this->gp_vdo_tbl)." LEFT JOIN ".tbl('video')." ON ".tbl($this->gp_vdo_tbl).".videoid=".tbl('video').".videoid","*",
+							  " group_id='$gid' $approved_query AND ".tbl('video').".active='yes' AND status='Successful'",$limit);
 		if($db->num_rows>0)
 			return $result;
 		else
