@@ -148,12 +148,20 @@
     <tr>
       <td ><ul>
         <li><a href="login_as_user.php?uid={$u.userid}">Login as user</a></li>
-        <li><a href="#">Deactivate</a></li>
-        <li><a href="#">Ban</a></li>
-        <li><a href="#">Delete</a></li>
-        <li><a href="#">Delete Videos</a></li>
-        <li><a href="#">Delete Contacts</a></li>
-        <li><a href="#">Delete Private Messages</a></li>
+        {if $u.usr_status=="Ok"}
+        <li><a href="?uid={$u.userid}&amp;deactivate=yes">Deactivate</a></li>
+        {else}
+        <li><a href="?uid={$u.userid}&amp;activate=yes">Activate</a></li>
+		{/if}
+        {if $u.ban_status=="yes"}
+        <li><a href="?uid={$u.userid}&amp;unban=yes">Unban</a></li>
+        {else}
+        <li><a href="?uid={$u.userid}&amp;ban=yes">Ban</a></li>
+        {/if}
+        <li><a href="?uid={$u.userid}&amp;delete=yes">Delete</a></li>
+        <li><a href="?uid={$u.userid}&amp;delete_vids=yes">Delete Videos</a></li>
+        <li><a href="?uid={$u.userid}&amp;delete_contacts=yes">Delete Contacts</a></li>
+        <li><a href="?uid={$u.userid}&amp;delete_pm=yes">Delete Private Messages</a></li>
       </ul></td>
     </tr>
     </table>

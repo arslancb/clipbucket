@@ -444,7 +444,8 @@ class CBvideo extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " ".tbl('video.userid=')."".$params['user']."'";
+			$cond .= " ".tbl("video.userid")."='".$params['user']."'";
+
 		}
 		
 		$tag_n_title='';

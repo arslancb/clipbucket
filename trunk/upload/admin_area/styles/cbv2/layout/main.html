@@ -18,7 +18,7 @@ $(document).ready(function(){
   <li onClick='display_tab(this,"div_1",true)' id="tab_1">Website Settings</li>
   <li onClick='display_tab(this,"div_2",true)' id="tab_2">Uploading and Conversion Settings</li>
   <li onClick='display_tab(this,"div_3",true)' id="tab_3">Display and Listing Settings</li>
-  <li onClick='display_tab(this,"div_4",true)' id="tab_4">User &amp; Registeration</li>
+  <li onClick='display_tab(this,"div_4",true)' id="tab_4">Users &amp; Registeration</li>
 </ul>
 <div class="clearfix"></div>
 
@@ -471,6 +471,10 @@ $(document).ready(function(){
     
     <div id="div_4" class="main_page_div" ><fieldset  class="fieldset" style="border:none">
 <table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
+        <tr>
+          <td valign="top">Anonymous UserID</td>
+          <td valign="top"><input name="anonymous_id" type="text" id="anonymous_id" value="{$row.anonymous_id}" size="6" maxlength="3" /></td>
+        </tr>
         <tr>
           <td width="200" valign="top">Turn on registerations</td>
           <td valign="top"><input name="allow_registeration" type="checkbox" id="allow_registeration" value="1" {if $row.allow_registeration=='1'}checked="checked"{/if} /></td>

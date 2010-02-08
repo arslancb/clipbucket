@@ -264,7 +264,10 @@
 	/**
 	 * Function used to get file name
 	 */
-	function GetName($file){
+	function GetName($file)
+	{
+		if(!is_string($file))
+			return false;
 		$path = explode('/',$file);
 		if(is_array($path))
 			$file = $path[count($path)-1];

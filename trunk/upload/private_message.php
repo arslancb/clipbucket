@@ -106,7 +106,6 @@ switch($mode)
 	
 	case 'notification':
 	{
-		
 		assign('mode','notification');
 		
 		//Deleting Message

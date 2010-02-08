@@ -430,11 +430,22 @@ class userquery extends CBCategory{
 				$this->remove_user_subscriptions($uid);
 				$this->remove_user_subscribers($uid);
 				
-				//Finally Removing Database entry of video
+				//Changing User Videos To Anonymous
+				$db->execute("UPDATE ".tbl("video")." SET userid='".$this->get_anonymous_user()."' WHERE userid='".$uid."'");
+				//Changing User Group To Anonymous
+				$db->execute("UPDATE ".tbl("groups")." SET userid='".$this->get_anonymous_user()."' WHERE userid='".$uid."'");
+				//Deleting User Contacts
+				$this->remove_contacts($uid);
+				
+				//Deleting User PMS
+				$this->remove_user_pms($uid);
+				//Changing From Messages to Anonymous
+				$db->execute("UPDATE ".tbl("messages")." SET message_from='".$this->get_anonymous_user()."' WHERE message_from='".$uid."'");
+				//Finally Removing Database entry of user
 				$db->execute("DELETE FROM ".tbl("users")." WHERE userid='$uid'");
 				$db->execute("DELETE FROM ".tbl("user_profile")." WHERE userid='$uid'");
 				
-				e(lang("class_vdo_del_msg"),m);
+				e("User has been deleted","m");
 			}else{
 				e(lang("You cannot delete this user"));
 			}
@@ -1262,7 +1273,7 @@ class userquery extends CBCategory{
 	function UpdateLastActive($username)
 	{
 		global $db;
-		$sql = "UPDATE users SET last_active = '".NOW()."' WHERE username='".$username."' OR userid='".$username."' ";
+		$sql = "UPDATE ".tbl("users")." SET last_active = '".NOW()."' WHERE username='".$username."' OR userid='".$username."' ";
 		$db->Execute($sql);
 	}
 
@@ -3639,6 +3650,7 @@ class userquery extends CBCategory{
 		 global $db;
 		 $pattern = date("Y-m-s H:i:s");
 		 $results =  $db->select(tbl("users"),'*'," TIMESTAMPDIFF(MINUTE,last_active,'".NOW()."')  < 6 ");
+		
 	 	 return $results;
 	 }
 	 
@@ -3706,6 +3718,85 @@ class userquery extends CBCategory{
 			 return true;
 		 }
 		return false;
+	}
+	
+	
+	/**
+	 * Function used to get anonymous user
+	 */
+	function get_anonymous_user()
+	{
+		$uid = config('anonymous_id');
+		if($this->user_exists($uid))
+			return $uid;
+		else
+		{
+			$result = $db->select(tbl("users"),"userid"," level='6' ");
+			return $result[0]['userid'];
+		}
+	}
+	
+	
+	/**
+	 * Function used to delete user videos
+	 */
+	function delete_user_vids($uid)
+	{
+		global $cbvid,$eh;
+		$vids = get_videos(array('user'=>$uid));
+		foreach($vids as $vid)
+			$cbvid->delete_video($vid['videoid']);
+		$eh->flush_msg();
+		e("User videos have been deleted","m");	
+	}
+	
+	/**
+	 * Function used to remove user contacts
+	 */
+	function remove_contacts($uid)
+	{
+		global $eh;
+		$contacts = $this->get_contacts($uid);
+		if(is_array($contacts))
+		foreach($contacts as $contact)
+		{
+			$this->remove_contact($contact['userid'],$contact['contact_userid']);
+		}
+		$eh->flush_msg();
+		e("User contacts have been removed","m");
+	}
+	
+	/**
+	 * Function used to remove user private messages
+	 */
+	function remove_user_pms($uid,$box='both')
+	{
+		global $db,$cbpm,$eh;
+		
+		if($box=="inbox" || $box=="both")
+		{
+			$inboxs = $cbpm->get_user_inbox_messages($uid);
+			if(is_array($inboxs))
+			foreach($inboxs as $inbox)
+			{
+				$cbpm->delete_msg($inbox['message_id'],$uid);
+			}
+			$eh->flush_msg();
+			e("All User inbox messages have been delete","m");
+		}
+		if($box=="sent" || $box=="both")
+		{
+			$outs = $cbpm->get_user_outbox_messages($uid);
+			if(is_array($outs))
+			foreach($outs as $out)
+			{
+				echo test;
+				$cbpm->delete_msg($out['message_id'],$uid,'out');
+			}
+			$eh->flush_msg();
+			e("All user sent messages have been deleted","m");
+
+		}		
 	}
 }
 ?>

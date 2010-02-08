@@ -592,13 +592,20 @@ class cb_pm
 		global $db;
 		if($box=='in')
 		{
-			if($this->get_inbox_message($mid,$uid))
+			$inbox = $this->get_inbox_message($mid,$uid);
+			if($inbox)
 			{
-				$db->delete(tbl($this->tbl),array("message_id"),array($mid));
+				$inbox_user = $inbox['message_to'];
+				$inbox_user = preg_replace("/#".$uid."#/Ui","",$inbox_user);
+				if(empty($inbox_user))
+					$db->delete(tbl($this->tbl),array("message_id"),array($mid));
+				else
+					$db->update(tbl($this->tbl),array("message_to"),array($inbox_user)," message_id='".$inbox['message_id']."'  ");
 				e(lang('msg_delete_inbox'),'m');
 			}
 		}else{
-			if($this->get_outbox_message($mid,$uid))
+			$outbox = $this->get_outbox_message($mid,$uid);
+			if($outbox)
 			{
 				$db->delete(tbl($this->tbl),array("message_id"),array($mid));
 				e(lang('msg_delete_outbox'),'m');

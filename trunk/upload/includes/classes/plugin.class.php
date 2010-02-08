@@ -318,7 +318,7 @@ class CBPlugin extends ClipBucket
 			
 			 dbInsert
 			 (
-			 'plugins',
+			 tbl('plugins'),
 			 array(
 				   'plugin_file',
 				   'plugin_license_type',

@@ -27,6 +27,7 @@ if(isset($_POST['update'])){
 				  	'allow_registeration',
 					'allow_template_change',
 					'allow_upload',
+					'anonymous_id',
 					'audio_codec',
 					'activation',
 					
@@ -126,13 +127,29 @@ if(isset($_POST['update'])){
 	
 	//Numeric Array
 	$num_array = array(
-					'videos_list_per_page',
-					'videos_list_per_tab',
+					'anonymous_id',
+					
 					'channels_list_per_page',
 					'channels_list_per_tab',
-					'search_list_per_page',
-					'recently_viewed_limit',
+
 					'max_upload_size',
+					'max_video_title',
+					'max_video_desc',
+					'max_video_tags',
+					'min_video_title',
+					'min_video_tags',
+					'min_video_desc',
+					
+					'recently_viewed_limit',
+					
+					'search_list_per_page',
+					
+					'users_items_subscriptions',
+					'users_items_subscibers',
+					'users_items_contacts_channel',
+					'users_items_search_page',
+					'users_items_group_page',
+					
 					'videos_items_grp_page',
 					'videos_items_hme_page',
 					'videos_items_columns',
@@ -140,18 +157,9 @@ if(isset($_POST['update'])){
 					'videos_items_uvid_page',
 					'videos_items_search_page',
 					'videos_item_channel_page',
-					'users_items_subscriptions',
-					'users_items_subscibers',
-					'users_items_contacts_channel',
-					'users_items_search_page',
-					'users_items_group_page',
+					'videos_list_per_page',
+					'videos_list_per_tab',
 					'video_categories',
-					'max_video_title',
-					'max_video_desc',
-					'max_video_tags',
-					'min_video_title',
-					'min_video_tags',
-					'min_video_desc',
 					);
 	foreach($rows as $field)
 	{
