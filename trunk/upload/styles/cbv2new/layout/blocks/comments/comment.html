@@ -6,8 +6,8 @@
     {assign var='spam_attr' value='style="display:none"'}
 {/if}
     
-	<div id="comment_{$comment.comment_id}" class="comment" {$comment_attr}>
-    <div class="user_com_thumb_con" align="left">
+	<div id="comment_{$comment.comment_id}" class="comment clearfix" {$comment_attr}>
+    <div class="user_com_thumb_con">
     	<img src="{$userquery->getuserthumb($comment)}" class="user_com_thumb"  />
     </div>
     <div class="comm_other">
@@ -22,14 +22,11 @@
         <div style="width:28%; float:right" align="right"><a href="javascript:void(0)" onclick="to_reply('{$comment.comment_id}')">Reply</a> | <a href="javascript:void(0)" onclick="spam_comment('{$comment.comment_id}')">Spam</a>
         
         {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">Delete</a>{/if}</div>
-        <div class="cleafix"></div>
         </div>
         
         <div class="comment_cont">{$comment.comment|comment}</div>
         <div class="comment_rating_cont"><span class="thumb_up" onclick="rate_comment('{$comment.comment_id}','up')">Thumbs Up</span><span class="thumb_down" onclick="rate_comment('{$comment.comment_id}','down')">Thumbs Down</span><span id="comment_rating_{$comment.comment_id}" class="comment_rating">{$comment.vote|comment_rating}</span></div>
-        <div class="clearfix"></div>
     </div>
-    <div class="clearfix"></div>
     </div>
     
     <div id="spam_comment_{$comment.comment_id}" class="spam" {$spam_attr} >
