@@ -358,7 +358,7 @@ class CBPlugin extends ClipBucket
 		{
 			$db->Execute("UPDATE ".tbl("plugins")." SET plugin_active='".$active."' WHERE plugin_file='".$plugin_file."' $folder_query");
 			$active_msg = $active=='yes' ? 'activated' : 'deactiveted';
-			$msg = e("Plugin has been $active_msg",m);
+			$msg = e(sprintf(lang("plugin_has_been_s"),$active_msg),m);
 		}else{
 			$msg = e(lang('plugin_no_install_err'));
 		}
@@ -381,7 +381,7 @@ class CBPlugin extends ClipBucket
 			$db->Execute("DELETE FROM ".tbl("plugins")." WHERE plugin_file='".$file."' $folder_query");
 			if(file_exists(PLUG_DIR.'/'.$folder.'uninstall_'.$file))
 			require_once(PLUG_DIR.'/'.$folder.'uninstall_'.$file);
-			$msg = e("Plugin has been Uninstalled",m);
+			$msg = e(lang("plugin_uninstalled"),"m");
 		}else{
 			$msg = e(lang('plugin_no_install_err'));
 		}

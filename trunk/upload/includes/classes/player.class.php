@@ -169,9 +169,9 @@ class CBPlayer
 		{
 			$myquery->Set_Website_Details('player_file',$details['file']);
 			$myquery->Set_Website_Details('player_dir',$details['folder']);
-			e("Player has been activated",m);
+			e(lang("player_activated"),m);
 		}else
-			e("An error occured while activating player");
+			e(lang("error_occured_while_activating_player"));
 	}
 	function setplayer($details)
 	{

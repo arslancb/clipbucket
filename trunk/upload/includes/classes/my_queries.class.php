@@ -395,7 +395,7 @@ class myquery {
 				e(sprintf("'%d' characters allowed for comment",MAX_COMMENT_CHR));
 		}
 		if(empty($comment))
-			e("Please enter something for comment");
+			e(lang("pelase_enter_something_for_comment"));
 		
 		$params = array('comment'=>$comment,'obj_id'=>$obj_id,'reply_to'=>$reply_to,'type'=>$type);
 		$this->validate_comment_functions($params);
@@ -409,7 +409,7 @@ class myquery {
 			if(!USER_COMMENT_OWN)
 			{
 				if(userid()==$this->get_vid_owner($obj_id));
-					e("You cannot comment on your video");
+					e(lang("usr_cmt_err2"));
 			}
 		}
 		*/		
@@ -420,9 +420,9 @@ class myquery {
 		{
 			//Checking for input name and email
 			if(empty($_POST['name']))
-				e("Please enter your name");
+				e(lang("please_enter_your_name"));
 			if(empty($_POST['email']))
-				e("Please enter your email");
+				e(lang("please_enter_your_email"));
 			
 			$name = mysql_clean($_POST['name']);
 			$email = mysql_clean($_POST['email']);
@@ -436,7 +436,7 @@ class myquery {
 						 ($type,$comment,$obj_id,userid(),NOW(),$reply_to,$name,$email,$_SERVER['REMOTE_ADDR'],$obj_owner));
 			$db->update(tbl("users"),array("total_comments"),array("|f|total_comments+1")," userid='".userid()."'");
 			
-			e("Comment has been added",m);
+			e(lang("grp_comment_msg"),"m");
 			
 			$cid = $db->insert_id();			
 			return $cid;
@@ -600,9 +600,9 @@ class myquery {
 		if(is_dir(STYLES_DIR.'/'.$template) &&template)
 		{
 			$myquery->Set_Website_Details('template_dir',$template);
-			e("Template has been activated",m);
+			e(lang("template_activated"),m);
 		}else
-			e("An error occured while changing the template");
+			e(lang("error_occured_changing_template"));
 			
 	}
 	
@@ -636,7 +636,7 @@ class myquery {
 			if(!USER_COMMENT_OWN)
 			{
 				if(userid()==$this->get_vid_owner($obj_id));
-					e("You cannot comment on your video");
+					e(lang("usr_cmt_err2"));
 			}
 		}
 		

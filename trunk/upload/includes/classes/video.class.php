@@ -250,14 +250,14 @@ class CBvideo extends CBCategory
 			{
 				e(lang("you_not_logged_in"));
 			}elseif(!$this->video_exists($vid)){
-				e("Video deos not exist");
+				e(lang("class_vdo_del_err"));
 			}elseif(!$this->is_video_owner($vid,userid()) && !has_access('admin_access',TRUE))
 			{
-				e("You cannot edit this video");
+				e(lang("no_edit_video"));
 			}else{
 				//pr($upload_fields);
 				$db->update(tbl('video'),$query_field,$query_val," videoid='$vid'");
-				e("Video details have been updated",m);
+				e(lang("class_vdo_update_msg"),m);
 			}
 			
 		}
@@ -551,7 +551,7 @@ class CBvideo extends CBCategory
 		global $myquery,$db;
 		
 		if(!$this->video_exists($obj_id))
-			e("Video doesn't exist");
+			e(lang("class_vdo_del_err"));
 		else
 		{
 			//Getting Owner Id
@@ -919,9 +919,9 @@ class CBvideo extends CBCategory
 		$flag = strstr($voter_id, $niddle);
 		
 		if(!empty($flag))
-			e("You have already rated this video");
+			e(lang("you_hv_already_rated_vdo"));
 		elseif(!userid())
-			e("Please login to rate");
+			e(lang("please_login_to_rate"));
 		else
 		{
 			if(empty($voter_id))
@@ -933,7 +933,7 @@ class CBvideo extends CBCategory
 			$newrate = ($t + $rating) / $new_by;
 			
 			$db->update(tbl($this->dbtbl['video']),array("rating","rated_by","voter_ids"),array($newrate,$new_by,$voter_id)," videoid='$id'");
-			e("Thanks for voting","m");	
+			e(lang("thnx_for_voting"),"m");	
 		}
 		
 		$result = array('rating'=>$newrate,'ratings'=>$new_by,'total'=>10,'id'=>$id,'type'=>'video','disable'=>'disabled');

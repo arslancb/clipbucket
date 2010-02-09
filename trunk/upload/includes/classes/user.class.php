@@ -445,9 +445,9 @@ class userquery extends CBCategory{
 				$db->execute("DELETE FROM ".tbl("users")." WHERE userid='$uid'");
 				$db->execute("DELETE FROM ".tbl("user_profile")." WHERE userid='$uid'");
 				
-				e("User has been deleted","m");
+				e(lang("usr_del_msg"),"m");
 			}else{
-				e(lang("You cannot delete this user"));
+				e(lang("you_cant_delete_this_user"));
 			}
 		}else{
 			e(lang("user_doesnt_exist"));
@@ -463,11 +463,11 @@ class userquery extends CBCategory{
 		if(!$this->user_exists($uid))
 			e(lang("user_doesnt_exist"));
 		elseif(!has_access('admin_access'))
-			e("You dont have sufficient permissions");
+			e(lang("you_dont_hv_perms"));
 		else
 		{
 			$db->execute("DELETE FROM ".tbl($this->dbtbl['subtbl'])." WHERE userid='$uid'");
-			e("User subscriptions have been removed","m");
+			e(lang("user_subs_hv_been_removed"),"m");
 		}
 	}
 	
@@ -480,11 +480,11 @@ class userquery extends CBCategory{
 		if(!$this->user_exists($uid))
 			e(lang("user_doesnt_exist"));
 		elseif(!has_access('admin_access'))
-			e("You dont have sufficient permissions");
+			e(lang("you_dont_hv_perms"));
 		else
 		{
 			$db->execute("DELETE FROM ".tbl($this->dbtbl['subtbl'])." WHERE subscribed_to='$uid'");
-			e("User subscribers have been removed","m");
+			e(lang("user_subsers_hv_removed"),"m");
 		}
 	}
 	
@@ -694,18 +694,18 @@ class userquery extends CBCategory{
 		if(!$friend)
 			e(lang('usr_exist_err'));
 		elseif($this->is_requested_friend($uid,$fid))
-			e("You have already sent friend request");
+			e(lang("you_already_sent_frend_request"));
 		elseif($this->is_requested_friend($uid,$fid,"in"))
 		{
 			$this->confirm_friend($fid,$uid);
-			e("Friend has been added");
+			e(lang("friend_added"));
 		}else
 		{
 			$db->insert(tbl($this->dbtbl['contacts']),array('userid','contact_userid','date_added'),
 												 array($uid,$fid,now()));
 			$insert_id = $db->insert_id();
 			
-			e("Friend request has been sent","m");
+			e(lang("friend_request_sent"),"m");
 			
 			//Sending friendship request email
 			$tpl = $cbemail->get_template('friend_request_email');
@@ -790,12 +790,12 @@ class userquery extends CBCategory{
 		if(!$this->is_requested_friend($rid,$uid,'out','no'))
 		{
 			if($msg)
-			e("Either user has not requested you friend request or you have already confirmed it");
+			e(lang("friend_confirm_error"));
 		}else
 		{
 			$db->update(tbl($this->dbtbl['contacts']),array('confirmed'),array("yes")," userid='$rid' AND contact_userid='$uid' " );
 			if($msg)
-				e("Friend has been confirmed","m");
+				e(lang("friend_confirmed"),"m");
 			//Sending friendship confirmation email
 			$tpl = $cbemail->get_template('friend_confirmation_email');
 			
@@ -860,11 +860,11 @@ class userquery extends CBCategory{
 		$result = $result[0];
 		
 		if($db->num_rows==0)
-			e("No friend request found");
+			e(lang("friend_request_not_found"));
 		elseif($uid!=$result['contact_userid'])
-			e("You cannot confirm this request");
+			e(lang("you_cant_confirm_this_request"));
 		elseif($result['confirmed']=='yes')
-			e("Friend request is already confirmed");
+			e(lang("friend_request_already_confirmed"));
 		else
 		{
 			$this->confirm_friend($uid,$result['userid']);
@@ -935,12 +935,12 @@ class userquery extends CBCategory{
 		if(!$uid)
 			$uid = userid();
 		if(!$this->is_friend($fid,$uid))
-			e("User is not in your contact list");
+			e(lang("user_no_in_contact_list"));
 		else
 		{
 			$db->Execute("DELETE from ".tbl($this->dbtbl['contacts'])." WHERE 
 						(userid='$uid' AND contact_userid='$fid') OR (userid='$fid' AND contact_userid='$uid')" );
-			e("User has been removed from your contact list","m");
+			e(lang("user_removed_from_contact_list"),"m");
 		}
 	}
 		
@@ -1082,7 +1082,7 @@ class userquery extends CBCategory{
 		if($this->is_subscribed($subid,$uid))
 		{
 			$db->execute("DELETE FROM ".tbl($this->dbtbl['subtbl'])." WHERE userid='$uid' AND subscribed_to='$subid'");
-			e("You have unsubscribed sucessfully","m");
+			e(lang("class_unsub_msg"),"m");
 			
 			$db->update(tbl($this->dbtbl['users']),array('subscribers'),
 											   array($this->get_user_subscribers($subid,true))," userid='$subid' ");
@@ -1092,7 +1092,7 @@ class userquery extends CBCategory{
 			
 			return true;
 		}else
-			e("You are not subscribed");
+			e(lang("you_not_subscribed"));
 		
 		return false;
 	}function unsubscribe_user($subid,$uid=NULL){ return $this->remove_subscription($subid,$uid); }
@@ -1463,7 +1463,7 @@ class userquery extends CBCategory{
 		{
 			return $results[0];
 		}else{
-			e("Cannot find level");
+			e(lang("cant_find_level"));
 			return false;
 		}
 	}
@@ -1499,7 +1499,7 @@ class userquery extends CBCategory{
 			$array = $_POST;
 		$level_name = mysql_clean($array['level_name']);
 		if(empty($level_name))
-			e("Please enter level nane");
+			e(lang("please_enter_level_name"));
 		else
 		{
 			$db->insert(tbl("user_levels"),array('user_level_name'),array($level_name));
@@ -1595,7 +1595,7 @@ class userquery extends CBCategory{
 			//Updating Permissions
 			$db->update(tbl("user_levels_permissions"),$fields_array,$value_array," user_level_id = '$id'");
 			
-			e("Level has been updated",m);
+			e(lang("level_updated"),m);
 			return true;
 		}else{
 			return false;
@@ -1619,14 +1619,13 @@ class userquery extends CBCategory{
 			{
 				$db->delete(tbl("user_levels"),array("user_level_id"),array($id));
 				$db->delete(tbl("user_levels_permissions"),array("user_level_id"),array($id));
-				e("User level has been deleted, 
-				  all users of this level has been transfered to '".$de_level['user_level_name']."' ");
+				e(sprintf(lang("level_del_sucess"),$de_level['user_level_name']));
 				
 				$db->update(tbl("users"),array("level"),array(3)," level='$id'");
 				return true;
 				
 			}else{
-				e("This level is not deletable");
+				e(lang("level_not_deleteable"));
 				return false;
 			}
 		}
@@ -1681,7 +1680,7 @@ class userquery extends CBCategory{
 	{
 		global $myquery;
 		if(!$this->user_exists($obj_id))
-			e("User does not exists");
+			e(lang("usr_exist_err"));
 		else
 		{
 			$add_comment = $myquery->add_comment($comment,$obj_id,$reply_to,$type,$obj_id);
@@ -1808,13 +1807,13 @@ class userquery extends CBCategory{
 	{
 		global $db;
 		if(empty($array['code']))
-			e("Permission code is empty");
+			e(lang("perm_code_empty"));
 		elseif(empty($array['name']))
-			e("Permission name is empty");
+			e(lang("perm_name_empty"));
 		elseif($this->permission_exists($array['code']))
-			e("Permission already exists");
+			e(lang("perm_already_exist"));
 		elseif(!$this->level_type_exists($array['type']))
-			e("Permission type is not valid");
+			e(lang("perm_type_not_valid"));
 		else
 		{
 			$type = $this->level_type_exists($array['type']);
@@ -1828,7 +1827,7 @@ class userquery extends CBCategory{
 						array('permission_type','permission_code','permission_name','permission_desc','permission_default'),
 						array($typeid,$code,$name,$desc,$default));
 			$db->execute("ALTER TABLE `".tbl($this->dbtbl['user_level_permission'])."` ADD `".$code."` ENUM( 'yes', 'no' ) NOT NULL DEFAULT '".$default."'");
-			e("New Permission has been added","m");
+			e(lang("perm_added"),"m");
 		}
 	}
 	
@@ -1876,9 +1875,9 @@ class userquery extends CBCategory{
 			$field = $permission['permission_code'];
 			$db->delete(tbl($this->dbtbl['user_permissions']),array("permission_id"),array($id));
 			$db->execute("ALTER TABLE `".tbl($this->dbtbl['user_level_permission'])."` DROP `".$field."` ");
-			e("Permission has been delete","m");
+			e(lang("perm_deleted"),"m");
 		}else
-			e("Permission does not exist");
+			e(lang("perm_doesnt_exist"));
 	}
 	
 	
@@ -2397,7 +2396,7 @@ class userquery extends CBCategory{
 			if(!empty($array['pass']))
 			{
 				if($array['pass']!=$array['cpass'])
-					e("Passwords Mismatched");
+					e(lang("pass_mismatched"));
 				else
 					$pass = pass_code($array['pass']);
 				$uquery_field[] = 'password';
@@ -2842,12 +2841,12 @@ class userquery extends CBCategory{
 			if(!$this->is_user_banned($user))
 			{
 				$db->update(tbl($this->dbtbl['users']),array('banned_users'),array($banned_users)," userid='$uid'");
-				e("user has been blocked","m");
+				e(lang("user_blocked"),"m");
 			}else
-				e("User is already blocked");
+				e(lang("user_already_blocked"));
 		}else
 		{
-			e("You cannot block this user");
+			e(lang("you_cant_del_user"));
 		}
 	}
 	
@@ -3682,7 +3681,7 @@ class userquery extends CBCategory{
 			
 			return true;
 		}else
-			e("User does not exist");
+			e(lang("usr_exist_err"));
 	}
 	
 	/**
@@ -3747,7 +3746,7 @@ class userquery extends CBCategory{
 		foreach($vids as $vid)
 			$cbvid->delete_video($vid['videoid']);
 		$eh->flush_msg();
-		e("User videos have been deleted","m");	
+		e(lang("user_vids_hv_deleted"),"m");	
 	}
 	
 	/**
@@ -3763,7 +3762,7 @@ class userquery extends CBCategory{
 			$this->remove_contact($contact['userid'],$contact['contact_userid']);
 		}
 		$eh->flush_msg();
-		e("User contacts have been removed","m");
+		e(lang("user_contacts_hv_removed"),"m");
 	}
 	
 	/**
@@ -3782,7 +3781,7 @@ class userquery extends CBCategory{
 				$cbpm->delete_msg($inbox['message_id'],$uid);
 			}
 			$eh->flush_msg();
-			e("All User inbox messages have been delete","m");
+			e(lang("all_user_inbox_deleted"),"m");
 		}
 		if($box=="sent" || $box=="both")
 		{
@@ -3790,11 +3789,10 @@ class userquery extends CBCategory{
 			if(is_array($outs))
 			foreach($outs as $out)
 			{
-				echo test;
 				$cbpm->delete_msg($out['message_id'],$uid,'out');
 			}
 			$eh->flush_msg();
-			e("All user sent messages have been deleted","m");
+			e(lang("all_user_sent_messages_deleted"),"m");
 
 		}		
 	}

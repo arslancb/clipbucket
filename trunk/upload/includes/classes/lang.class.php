@@ -74,17 +74,17 @@ class language
 		global $db;
 		//First checking if phrase already exists or not
 		if(empty($name))
-			e("Phrase code was empty");
+			e(lang("phrase_code_empty"));
 		elseif(empty($text))
-			e("Phrase text was empty");
+			e(lang("phrase_text_empty"));
 		elseif(!$this->lang_exists($lang_code))
-			e("Language does not exist");
+			e(lang("language_does_not_exist"));
 		elseif(!$this->get_phrase($name,$lang_code))
 		{
-			e("'$name' has been added",m);
+			e(sprintf(lang("name_has_been_added"),$name),m);
 			$db->insert(tbl("phrases"),array('lang_iso','varname','text'),array($lang_code,$name,$text));
 		}else{
-			e("'$name' alread exists",m);
+			e(sprintf(lang("name_already_exists"),$name),m);
 		}
 	}
 	 
@@ -262,7 +262,7 @@ class language
             <?php
 			exit();
 		}else
-			e("language does not exist");
+			e(lang("lang_doesnt_exist"));
 	}
 	
 	/**
@@ -275,14 +275,14 @@ class language
 		$file_name = TEMP_DIR.'/cb_lang.xml';
 		
 		if(empty($_FILES['lang_file']['name']))
-			e("No file was selected");
+			e(lang("no_file_was_selected"));
 		elseif(move_uploaded_file($_FILES['lang_file']['tmp_name'],$file_name))
 		{
 			//Reading Content
 			$content = file_get_contents($file_name);
 			if(!$content)
 			{
-				e("Error reading file content");
+				e(lang("err_reading_file_content"));
 			}else
 			{
 				//Converting data from xml to array
@@ -291,13 +291,13 @@ class language
 				$data = $data['clipbucket_language'];
 				$phrases = $data['phrases'];
 				if(empty($data['name']))
-					e("Cant find language name");
+					e(lang("cant_find_lang_name"));
 				elseif(empty($data['iso_code']))
-					e("Cant fina language code");
+					e(lang("cant_find_lang_code"));
 				elseif(count($phrases)<1)
-					e("No phrases were found");
+					e(lang("no_phrases_found"));
 				elseif($this->lang_exists($data['iso_code']))
-					e("Language already exists");
+					e(lang("language_already_exists"));
 				else
 				{
 					$db->insert(tbl("languages"),array("language_code","language_name","language_regex","language_default"),
@@ -313,12 +313,12 @@ class language
 					$query = "INSERT INTO phrases (lang_iso,varname,text) VALUES \n";
 					$query .= $sql;
 					$db->execute($query);
-					e("Language has been added successfully","m");
+					e(lang("lang_added"),"m");
 				}
 			}
 			
 		}else
-			e("Error occured while uploading language file");
+			e(lang("error_while_upload_file"));
 			
 		if(file_exists($file_name))
 			unlink($file_name);
@@ -332,14 +332,14 @@ class language
 		global $db;
 		$lang = $this->get_lang($i);
 		if(!$lang)
-			e("Language does not exist");
+			e(lang("language_does_not_exist"));
 		elseif($lang['language_default'] == 'yes')
-			e("This is default language, please select other language as \"default\" and then delete this pack");
+			e(lang("default_lang_del_error"));
 		else
 		{
 			$db->delete(tbl('languages'),array("language_code"),array($lang['language_code']));
 			$db->delete(tbl('phrases'),array("lang_iso"),array($lang['language_code']));
-			e("Language pack has been deleted","m");
+			e(lang("lang_deleted"),"m");
 		}
 	}
 	
@@ -351,22 +351,22 @@ class language
 		global $db;
 		$lang = $this->get_lang($array['lang_id']);
 		if(!$lang)
-			e("Language does not exist");
+			e(lang("language_does_not_exist"));
 		elseif(empty($array['name']))
-			e("Language name was empty");
+			e(lang("lang_name_empty"));
 		elseif(empty($array['code']))
-			e("Language code was empty");
+			e(lang("lang_code_empty"));
 		elseif(empty($array['regex']))
-			e("Languae regular expression was empty");
+			e(lang("lang_regex_empty"));
 		elseif($this->lang_exists($array['code']) && $array['code'] != $lang['language_code'])
-			e("Language code already exists");
+			e(lang("lang_code_already_exist"));
 		else
 		{
 			$db->update(tbl('languages'),array("language_name","language_code","language_regex"),
 									array($array['name'],$array['code'],$array['regex'])," language_id='".$array['lang_id']."'");
 			if($array['code'] != $lang['language_code'])
 			$db->update(tbl("phrases"),array("lang_iso"),array($array['code'])," lang_iso='".$lang['language_code']."'");
-			e("Language has been updated","m");
+			e(lang("lang_updated"),"m");
 		}
 			
 	}
