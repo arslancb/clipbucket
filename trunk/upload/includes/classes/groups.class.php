@@ -105,7 +105,7 @@ class CBGroups extends CBCategory
 		$group = $this->get_group_details($gpid);
 		
 		if(!$group)
-			e("Group does not exist");
+			e(lang("grp_exist_error"));
 		elseif(!$this->is_joinable($group,$userid,TRUE))
 			return false;
 		elseif(!$userid)
@@ -504,16 +504,16 @@ class CBGroups extends CBCategory
 			
 			if(!userid())
 			{
-				e("You are not logged in");
+				e(lang("you_not_logged_in"));
 			}elseif(!$this->group_exists($gid)){
-				e("Group deos not exist");
+				e(lang("grp_exist_error"));
 			}elseif(!$this->is_owner($gid,userid()) && !has_access('admin_access',TRUE))
 			{
-				e("You cannot edit this group");
+				e(lang("you_cant_edit_group"));
 			}else{
 				
 				$db->update(tbl($this->gp_tbl),$query_field,$query_val," group_id='$gid'");
-				e("Group details have been updated",m);
+				e(lang("grp_details_updated"),m);
 				
 				//Updating Group Thumb
 				if(!empty($array['thumb_file']['tmp_name']))
@@ -699,7 +699,7 @@ class CBGroups extends CBCategory
 			$db->update(tbl($this->gp_tbl),array("total_topics"),array($count_topics)," group_id='".$array['group_id']."'");
 			
 			//leaving msg
-			e("Topic has been added","m");
+			e(lang("grp_tpc_msg"),"m");
 			
 			//Redirecting to topic
 			if($redirect_to_topic)
@@ -722,17 +722,17 @@ class CBGroups extends CBCategory
 		$topic = $this->get_topic_details($tid);
 		$group = $this->get_group_details($topic['group_id']);
 		if(!$topic)
-			e("Topic does not exist");
+			e(lang("grp_tpc_err4"));
 		elseif(!$group)
-			e("Group does not exist");
+			e(lang("grp_exist_error"));
 		elseif(userid()!=$topic['userid'] && userid()!=$group['userid'])
-			e("You cannot delete this topic");
+			e(lang("you_cant_del_topic"));
 		else
 		{
 			$db->delete(tbl($this->gp_topic_tbl),array("topic_id","group_id"),array($tid,$topic['group_id']));
 			//Deleting Topic Posts
 			$this->delete_comments($tid);
-			e("Topic has been deleted","m");
+			e(lang("grp_tpc_msg1"),"m");
 		}
 	}
 	
@@ -745,16 +745,16 @@ class CBGroups extends CBCategory
 		$group = $this->get_group_details($gid);
 		
 		if(!$group)
-			e("Group does not exist");
+			e(lang("grp_exist_error"));
 		elseif(userid()!=$group['userid'] && userid()!=$uid && !has_access('admin_access',true))
-			e("You cannot delete user topics");
+			e(lang("you_cant_del_user_topics"));
 		else
 		{
 			$usr_topics = $this->get_topics(array('group'=>$gid,'user'=>$uid));
 			if(is_array($usr_topics))
 			foreach($usr_topics as $topic)
 				$this->delete_topic($topic['topic_id']);
-			e("Topics have been deleted","m");
+			e(lang("topics_deleted"),"m");
 		}
 	}
 	
@@ -768,16 +768,16 @@ class CBGroups extends CBCategory
 		$group = $this->get_group_details($gid);
 		
 		if(!$group)
-			e("Group does not exist");
+			e(lang("grp_exist_error"));
 		elseif(userid()!=$group['userid'] && !has_access('admin_access',true))
-			e("You cannot delete group topics");
+			e(lang("you_cant_delete_grp_topics"));
 		else
 		{
 			$topics = $this->get_topics(array('group'=>$gid));
 			if(is_array($topics))
 			foreach($topics as $topic)
 				$this->delete_topic($topic['topic_id']);
-			e("Topics have been deleted","m");
+			e(lang("deleted"),"m");
 		}
 	}
 	
@@ -791,13 +791,13 @@ class CBGroups extends CBCategory
 			$gdetails = $this->get_group_details($getails);
 		
 		if(!$gdetails || empty($gdetails['group_id']))
-			e("Group does not exist");
+			e(lang("grp_exist_error"));
 		if(!userid())
-			e("Please login to post topics");
+			e(lang("grp_please_login"));
 		elseif(!$this->is_member(userid(),$gdetails['group_id'],TRUE))
-			e("You are not member of this group or you are not approved by group owner");
+			e(lang("you_not_grp_mem_or_approved"));
 		elseif($gdetails['post_type']==2 && userid() != $gdetails['userid']  && !has_access('admin_access',true))
-			e("You are not allowed to post topics");
+			e(lang("you_not_allowed_post_topics"));
 		else
 		{
 			return true;
@@ -993,17 +993,17 @@ class CBGroups extends CBCategory
 		$video = $cbvid->get_video_details($vid);
 		
 		if(!$group)
-			e("Group does note exist");
+			e(lang("grp_exist_error"));
 		elseif(!$video)
-			e("Video does not exist");
+			e(lang("class_vdo_del_err"));
 		elseif($video['userid']!=userid())
-			e("You cannot add this video");
+			e(lang("you_cant_add_this_vdo"));
 		elseif($this->is_group_video($vid,$gid))
 			return false;
 		else
 		{
 			$db->insert(tbl($this->gp_vdo_tbl),array("videoid","group_id","userid"),array($vid,$gid,userid()));
-			e("Video has been added","m");
+			e(lang("video_added"),"m");
 			if($update_group)
 				$this->update_group_videos_count($gid);
 		}
@@ -1019,17 +1019,17 @@ class CBGroups extends CBCategory
 		$video = $cbvid->get_video_details($vid);
 		
 		if(!$group)
-			e("Group does note exist");
+			e(lang("grp_exist_error"));
 		elseif(!$video)
-			e("Video does not exist");
+			e(lang("class_vdo_del_err"));
 		elseif($video['userid']!=userid())
-			e("You cannot remove this video");
+			e(lang("you_cant_del_this_vdo"));
 		elseif(!$this->is_group_video($vid,$gid))
 			return false;
 		else
 		{
 			$db->delete(tbl($this->gp_vdo_tbl),array("videoid","group_id"),array($vid,$gid));
-			e("Video has been removed","m");
+			e(lang("video_removed"),"m");
 			if($update_group)
 				$this->update_group_videos_count($gid);
 		}
@@ -1106,13 +1106,13 @@ class CBGroups extends CBCategory
 		$group = $this->get_group_details($gid);
 		
 		if(!$group)
-			e("Group does not exist");
+			e(lang("grp_exist_error"));
 		elseif(!$this->is_member($memuid,$gid))
-			e("User is not group member");
+			e(lang("user_not_grp_mem"));
 		elseif(userid()!=$group['userid'] && !has_access("admin_access",true))
-			e("You are not owner of this group");
+			e(lang("grp_owner_err1"));
 		elseif($group['userid']==$memuid && !$deleting_group)
-			e("You cannot perform actions on group owner");
+			e(lang("you_cant_perform_actions_on_grp_own"));
 		else
 		switch($case)
 		{
@@ -1120,7 +1120,7 @@ class CBGroups extends CBCategory
 			case "active":
 			{
 				$db->update(tbl($this->gp_mem_tbl),array("active"),array("yes"),"userid='$memuid' AND group_id='$gid'");
-				e("User has been activated","m");
+				e(lang("usr_ac_msg"),"m");
 			}
 			break;
 			
@@ -1130,7 +1130,7 @@ class CBGroups extends CBCategory
 			case "unactive":
 			{
 				$db->update(tbl($this->gp_mem_tbl),array("active"),array("no"),"userid='$memuid' AND group_id='$gid'");
-				e("User has been deactivated","m");
+				e(lang("usr_dac_msg"),"m");
 			}
 			break;
 			
@@ -1152,7 +1152,7 @@ class CBGroups extends CBCategory
 				$db->update(tbl($this->gp_tbl),array("total_topics","total_members","total_videos"),
 												array($count_topics,$total_members,$total_videos)," group_id='".$gid."'");
 
-				e("User has been deleted","m");
+				e(lang("usr_del_msg"),"m");
 			}
 			break;
 		}
@@ -1173,11 +1173,11 @@ class CBGroups extends CBCategory
 
 
 		if(!$group)
-			e("Group does not exist");
+			e(lang("grp_exist_error"));
 		elseif(!$this->is_group_video($vid,$gid))
-			e("Video does not exist");
+			e(lang("class_vdo_del_err"));
 		elseif(userid()!=$group['userid'] && !has_access("admin_access"))
-			e("You are not owner of this group");
+			e(lang("grp_owner_err1"));
 		else
 		switch($case)
 		{
@@ -1185,7 +1185,7 @@ class CBGroups extends CBCategory
 			case "active":
 			{
 				$db->update(tbl($this->gp_vdo_tbl),array("approved"),array("yes"),"videoid ='$vid' AND group_id='$gid'");
-				e("Video has been activated","m");
+				e(lang("class_vdo_act_msg"),"m");
 			}
 			break;
 			
@@ -1195,7 +1195,7 @@ class CBGroups extends CBCategory
 			case "unactive":
 			{
 				$db->update(tbl($this->gp_vdo_tbl),array("approved"),array("no"),"videoid ='$vid' AND group_id='$gid'");
-				e("Video has been deactivated","m");
+				e(lang("class_vdo_act_msg1"),"m");
 			}
 			break;
 			
@@ -1208,7 +1208,7 @@ class CBGroups extends CBCategory
 				//Update Stat
 				$db->update(tbl($this->gp_tbl),array("total_videos"),
 												array($total_videos)," group_id='".$gid."'");
-				e("Video has been deleted","m");
+				e(lang("class_vdo_del_msg"),"m");
 			}
 			break;
 		}
@@ -1230,21 +1230,21 @@ class CBGroups extends CBCategory
 		$reciever = $userquery->get_user_details($user);
 		
 		if(!$group)
-			e("Group does not exist");
+			e(lang("grp_exist_error"));
 		elseif(!$sender)
-			e("Sender not exists");
+			e(lang("unknown_sender"));
 		elseif(!$reciever)
-			e("Reciever not exists");
+			e(lang("unknown_reciever"));
 		elseif($this->is_member($user,$gid))
-			e("Member has alread joined this group");
+			e(lang("user_already_group_mem"));
 		elseif($owner != $group['userid'])
-			e("You are not owner of this group");
+			e(lang("grp_owner_err1"));
 		else
 		{
 			//Inserting Invitation Code in database
 			$db->insert(tbl($this->gp_invite_tbl),array('group_id','userid','invited','date_added'),
 												   array($gid,$owner,$user,now()));
-			e("User has been invited","m");
+			e(lang("grp_inv_msg"),"m");
 			
 			//Now Sending Email To User
 			$tpl = $cbemail->get_template('group_invitation');
@@ -1282,7 +1282,7 @@ class CBGroups extends CBCategory
 			$this->invite_member($user_array[$i],$group,$owner);
 		}
 		$eh->flush();
-		e("Invitations have been sent","m");
+		e(lang("invitations_sent"),"m");
 	}
 
 
@@ -1293,13 +1293,13 @@ class CBGroups extends CBCategory
 	{
 		global $db;
 		if(!$this->is_member($uid,$gid))
-			e("You are not member of this group");
+			e(lang("you_not_grp_mem"));
 		elseif($this->is_owner($gid,$uid))
-			e("Group owner cannot leave group");
+			e(lang("grp_owner_err2"));
 		else
 		{
 			$db->delete(tbl($this->gp_mem_tbl),array("userid","group_id"),array($uid,$gid));
-			e("You have left the group","m");
+			e(lang("grp_leave_succ_msg"),"m");
 		}
 	}
 
@@ -1312,9 +1312,9 @@ class CBGroups extends CBCategory
 		global $db;
 		$group = $this->get_group_details($gid);
 		if(!$group)
-			e("Group does not exist");
+			e(lang("grp_exist_error"));
 		elseif(userid()!=$group['userid'] && !has_access('admin_access',true))
-			e("You cannot delete this group");
+			e(lang("you_cant_delete_this_grp"));
 		else
 		{
 			//Deleting Everything Related To This Group
@@ -1323,7 +1323,7 @@ class CBGroups extends CBCategory
 			$this->delete_group_members($gid);
 			$db->delete(tbl($this->gp_tbl),array("group_id"),array($gid));
 			$this->update_user_total_groups($group['userid']);
-			e("Group has been deleted","m");
+			e(lang("grp_deleted"),"m");
 		}
 	}
 	
@@ -1336,13 +1336,13 @@ class CBGroups extends CBCategory
 		$group = $this->get_group_details($gid);
 		
 		if(!$group)
-			e("Group does not exist");
+			e(lang("grp_exist_error"));
 		elseif(userid()!=$group['userid'] && !has_access('admin_access',true))
-			e("You cannot delete group members");
+			e(lang("you_cant_del_grp_mems"));
 		else
 		{
 			$db->delete(tbl($this->gp_mem_tbl),array("group_id"),array($gid));
-			e("Members have been deleted","m");
+			e(lang("mems_deleted"),"m");
 		}
 	}
 	
@@ -1355,13 +1355,13 @@ class CBGroups extends CBCategory
 		$group = $this->get_group_details($gid);
 		
 		if(!$group)
-			e("Group does not exist");
+			e(lang("grp_exist_error"));
 		elseif(userid()!=$group['userid'] && !has_access('admin_access',true))
-			e("You cannot delete group videos");
+			e(lang("you_cant_del_grp_vdos"));
 		else
 		{
 			$db->delete(tbl($this->gp_vdo_tbl),array("group_id"),array($gid));
-			e("videos have been deleted","m");
+			e(lang("vdo_multi_del_erro"),"m");
 		}
 	}
 
@@ -1388,7 +1388,7 @@ class CBGroups extends CBCategory
 		global $db;
 		$gdetails = $this->get_details($gid);
 		if(!$gdetails)
-			e("Group does not exist");
+			e(lang("grp_exist_error"));
 		else
 		{
 			switch($type)
@@ -1397,34 +1397,34 @@ class CBGroups extends CBCategory
 				case "active":
 				{
 					$db->update(tbl($this->gp_tbl),array("active"),array("yes")," group_id='$gid' ");
-					e("Group has been activated","m");
+					e(lang("grp_av_msg"),"m");
 				}
 				break;
 				case "deactivate":
 				case "deactive":
 				{
 					$db->update(tbl($this->gp_tbl),array("active"),array("no")," group_id='$gid' ");
-					e("Group has been deactivated","m");
+					e(lang("grp_da_msg"),"m");
 				}
 				break;
 				case "featured":
 				case "feature":
 				{
 					$db->update(tbl($this->gp_tbl),array("featured"),array("yes")," group_id='$gid' ");
-					e("Group has been set as featured","m");
+					e(lang("grp_fr_msg"),"m");
 				}
 				break;
 				case "unfeatured":
 				case "unfeature":
 				{
 					$db->update(tbl($this->gp_tbl),array("featured"),array("no")," group_id='$gid' ");
-					e("Group has been removed from featured list","m");
+					e(lang("grp_fr_msg2"),"m");
 				}
 				break;
 				case "delete":
 				{
 					$this->delete_group($gid);
-					e("Group has been deleted","m");
+					e(lang("grp_del_msg"),"m");
 				}
 				break;
 			}
@@ -1508,7 +1508,7 @@ class CBGroups extends CBCategory
 		global $myquery,$db;
 		
 		if(!$this->topic_exists($obj_id))
-			e("Topic does not exist");
+			e(lang("grp_tpc_err4"));
 		else
 		{
 			$owner = $this->get_group_owner_from_topic($obj_id);

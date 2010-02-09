@@ -340,7 +340,7 @@ abstract class CBCategory
 		global $db;
 		$cat = $this->category_exists($id);
 		if(!$cat)
-			e("Category does not exist");
+			e(lang("cat_exist_error"));
 		else
 		{
 			if(!is_numeric($order) || $order <1)

@@ -32,17 +32,17 @@ class cbpage
 		$content = mysql_real_escape_string($param['page_content']);
 		
 		if(empty($name))
-			e("Page name was empty");
+			e(lang("page_name_empty"));
 		if(empty($title))
-			e("Page title was empty");
+			e(lang("page_title_empty"));
 		if(empty($content))
-			e("Page content was empty");
+			e(lang("page_content_empty"));
 		
 		if(!error())
 		{
 			$db->insert(tbl($this->page_tbl),array("page_name","page_title","page_content","userid","date_added","active"),
 											  array($name,$title,"|no_mc|".$content,userid(),now(),"yes"));
-			e("New page has been added successfully","m");
+			e(lang("new_page_added_successfully"),"m");
 			return false;
 		}
 		return false;
@@ -89,19 +89,19 @@ class cbpage
 		$page = $this->get_page($id);
 		
 		if(!$page)
-			e("Page does not exist");
+			e(lang("page_doesnt_exist"));
 		if(empty($name))
-			e("Page name was empty");
+			e(lang("page_name_empty"));
 		if(empty($title))
-			e("Page title was empty");
+			e(lang("page_title_empty"));
 		if(empty($content))
-			e("Page content was empty");
+			e(lang("page_content_empty"));
 		
 		if(!error())
 		{
 			$db->update(tbl($this->page_tbl),array("page_name","page_title","page_content"),
 											  array($name,$title,$content)," page_id='$id'");
-			e("Page has been updated","m");
+			e(lang("page_updated"),"m");
 		}
 		
 	}
@@ -113,11 +113,11 @@ class cbpage
 	{
 		$page = $this->get_page($id);
 		if(!$page)
-			e("Page does not exist");
+			e(lang("page_doesnt_exist"));
 		if(!error())
 		{
 			$db->delete(tbl($this->page_tbl),array("page_id"),array($id));
-			e("Page has been deleted successfully","m");
+			e(lang("page_deleted"),"m");
 		}
 
 	}
@@ -152,27 +152,27 @@ class cbpage
 		global $db;
 		$page = $this->get_page($id);
 		if(!$page)
-			e("Page does not exist");
+			e(lang("page_doent_exist"));
 		else
 		{
 			switch($type)
 			{
 				case "activate";
 				$db->update(tbl($this->page_tbl),array("active"),array("yes")," page_id='$id'");
-				e("Page has been activated","m");
+				e(lang("page_activated"),"m");
 				break;
 				case "deactivate";
 				$db->update(tbl($this->page_tbl),array("active"),array("no")," page_id='$id'");
-				e("Page has been dectivated","m");
+				e(lang("page_deactivated"),"m");
 				break;
 				case "delete";
 				{
 					if($page['delete_able']=='yes')
 					{
 						$db->delete(tbl($this->page_tbl),array("page_id"),array($id));
-						e("Page has been delete","m");
+						e(lang("page_deleted"),"m");
 					}else
-						e("You cannot delete this page");
+						e(lang("you_cant_delete_this_page"));
 				}
 				
 			}

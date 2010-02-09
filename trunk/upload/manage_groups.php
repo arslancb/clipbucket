@@ -46,7 +46,7 @@ switch($mode)
 		$gdetails = $cbgroup->get_group_details($gid);
 		
 		if(userid()!=$gdetails['userid'] && !has_access('admin_access',true))
-			e("You cannot moderate this group");
+			e(lang("you_cant_moderate_group"));
 		else
 		{
 			//Activating Member Members
@@ -90,7 +90,7 @@ switch($mode)
 				assign('gp_mems',$gp_mems);
 				
 			}else
-				e("Group does not exist");
+				e(lang("grp_exist_error"));
 		}
 	}
 	break;
@@ -101,7 +101,7 @@ switch($mode)
 		$gdetails = $cbgroup->get_group_details($gid);
 		
 		if(userid()!=$gdetails['userid'] && !has_access('admin_access',true))
-			e("You cannot moderate this group");
+			e(lang("you_cant_moderate_group"));
 		else
 		{
 			//Activating Member Members
@@ -145,7 +145,7 @@ switch($mode)
 				$grp_vids = $cbgroup->get_group_videos($gid,"yes");
 				assign('grp_vids',$grp_vids);
 			}else
-				e("Group does not exist");
+				e(lang("grp_exist_err"));
 		}
 		
 	}

@@ -127,7 +127,7 @@ class AdsManager
 	{
 		global $LANG;
 		if(!$this->get_placement($placement))
-			e("Placement does not exist");
+			e(lang("ad_placement_err4"));
 		else
 		{
 			$db->execute("Delete from ".tbl("ads_data")." WHERE ad_placement='".$placement."'");

@@ -31,7 +31,7 @@ if($vdo && video_playable($vkey))
 	else
 	{
 		$Cbucket->show_page = false;
-		e("Unable to find download file");
+		e(lang("unable_find_download_file"));
 	}
 	assign('vdo',$vdo);
 	subtitle("Download ".$vdo['title']);

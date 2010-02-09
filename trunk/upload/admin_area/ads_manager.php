@@ -50,7 +50,7 @@ if(isset($_GET['ad_id']))
 	$ad_id = mysql_clean($_GET['ad_id']);
 	$ad_data = $adsObj->get_ad_details($ad_id);
 	if(!$ad_data)
-		e("Ad does not exist");
+		e(lang("ad_exists_error1"));
 	else
 		assign('ad_data',$ad_data);
 }

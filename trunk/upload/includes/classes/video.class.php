@@ -248,7 +248,7 @@ class CBvideo extends CBCategory
 			
 			if(!userid())
 			{
-				e("You are not logged in");
+				e(lang("you_not_logged_in"));
 			}elseif(!$this->video_exists($vid)){
 				e("Video deos not exist");
 			}elseif(!$this->is_video_owner($vid,userid()) && !has_access('admin_access',TRUE))

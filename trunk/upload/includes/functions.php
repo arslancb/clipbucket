@@ -2297,11 +2297,11 @@
 		$vdo = $cbvideo->get_video($id);
 		if(!$vdo)
 		{
-			e("Video does not exist");
+			e(lang("class_vdo_del_err"));
 			return false;
 		}elseif($vdo['status']!='Successful')
 		{
-			e("This video is not working properly");
+			e(lang("this_vdo_not_working"));
 			if(!has_access('admin_access',TRUE))
 				return false;
 			else

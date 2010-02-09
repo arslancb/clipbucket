@@ -19,7 +19,7 @@ if($page)
 	assign('page',$page);
 	subtitle($page['page_title']);
 }else{
-	e("Page does not exist");
+	e(lang("page_doesnt_exist"));
 	$Cbucket->show_page = false;
 }
 

@@ -20,7 +20,7 @@ $details = $cbgroup->group_details_url($url);
 assign('group',$details);
 
 if(!$cbgroup->is_owner($details))
-	e("You cannot invite members");
+	e(lang("you_cant_invite_mems"));
 else
 {
 	if($details)

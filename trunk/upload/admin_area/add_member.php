@@ -18,7 +18,7 @@ if(isset($_POST['add_member']))
 {
 	if($userquery->signup_user($_POST))
 	{
-		e("New member has been added","m");
+		e(lang("new_mem_added"),"m");
 		$_POST = '';
 	}
 }

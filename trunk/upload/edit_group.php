@@ -18,7 +18,7 @@ $gdetails = $cbgroup->get_group_details($gid);
 
 if($gdetails['userid'] != userid())
 {
-	e("You cannot edit this group");
+	e(lang("you_cant_edit_group"));
 	$Cbucket->show_page = false;
 }else{
 	

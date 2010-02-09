@@ -20,9 +20,9 @@ assign('group',$details);
 
 
 if(!$details)
-	e("Group does not exist");
+	e(lang("grp_exist_error"));
 elseif(!$cbgroup->is_member(userid(),$details['group_id']))
-	e("You are not member of this group so cannot add videos");
+	e(lang("you_not_allowed_add_grp_vids"));
 else
 {	
 
@@ -47,7 +47,7 @@ else
 		$cbgroup->update_group_videos_count($details['group_id']);
 		
 		$eh->flush();
-		e("Selected videos have been updated","m");
+		e(lang("sel_vids_updated"),"m");
 	}
 	assign('group',$details);
 	

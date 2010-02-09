@@ -111,16 +111,16 @@ class CBEmail
 		$msg = mysql_real_escape_string($params['msg']);
 		
 		if(!$this->template_exists($id))
-			e("Email template does not exist");
+			e(lang("email_template_not_exist"));
 		elseif(empty($subj))
-			e("Email subject was empty");
+			e(lang("email_subj_empty"));
 		elseif(empty($msg))
-			e("Email msg was empty");
+			e(lang("email_msg_empty"));
 		else
 		{
 			$db->update(tbl($this->db_tpl),array("email_template_subject","email_template"),array($subj,$msg),
 									" email_template_id='$id'");
-			e("Email Template has been updated","m");
+			e(lang("email_tpl_has_updated"),"m");
 		}
 		
 	}

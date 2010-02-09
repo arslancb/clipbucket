@@ -23,6 +23,6 @@ if($myquery->video_exists($vid))
 	$Upload->do_after_video_upload($vid);
 
 }else{
-	e("Video doesn't exist");
+	e(lang("class_vdo_del_err"));
 }
 ?>

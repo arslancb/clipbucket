@@ -403,7 +403,7 @@ class myquery {
 		if($type=='video' || $type=='v')
 		{
 			if(!$this->video_exists($obj_id))
-				e("Video does not exist");
+				e(lang("class_vdo_del_err"));
 			
 			//Checking owner of video
 			if(!USER_COMMENT_OWN)
@@ -414,7 +414,7 @@ class myquery {
 		}
 		*/		
 		if(!userid() && $Cbucket->configs['anonym_comments']!='yes')
-			e("You are not logged in");
+			e(lang("you_not_logged_in"));
 		
 		if(!userid() && $Cbucket->configs['anonym_comments']=='yes')
 		{
@@ -630,7 +630,7 @@ class myquery {
 		if($type=='video' || $type=='v')
 		{
 			if(!$this->video_exists($obj_id))
-				e("Video does not exist");
+				e(lang("class_vdo_del_err"));
 			
 			//Checking owner of video
 			if(!USER_COMMENT_OWN)

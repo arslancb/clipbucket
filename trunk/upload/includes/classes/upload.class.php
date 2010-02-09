@@ -271,7 +271,7 @@ class Upload{
 			
 			if(!userid())
 			{
-				e("You are not logged in");
+				e(lang("you_not_logged_in"));
 			}else{
 				$insert_id = file_name_exists($file_name);
 				if(!$insert_id)
