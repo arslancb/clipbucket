@@ -9,7 +9,7 @@
     </div> 
    	<div class="watch_video_box_details">
     <a href="{videoLink vdetails=$video}">{$video.title|truncate:30}</a><br>
-views : {$vdo.views|number_format}<br>
+{lang code='views'}: {$vdo.views|number_format}<br>
 <a href="{$userquery->profile_link($video.userid)}">{$userquery->get_user_field_only($video.userid,'username')}</a>
 </div>
     <!--VIDEO_THUMB END-->  

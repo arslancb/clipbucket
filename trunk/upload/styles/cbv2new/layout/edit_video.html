@@ -27,7 +27,7 @@
  {foreach from=$vidthumbs item=vid_thumb}
     	<div style="width:140px; float:left" align="center">
     	<label for="{$vid_thumb|getname}"><img src="{$vid_thumb}" border="1" style="margin:4px" /><br />
-        <input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $v.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />Default</label><br />
+        <input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $v.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />{lang code='default'}</label><br />
  </div>
  {/foreach}
  </fieldset>
@@ -37,11 +37,11 @@
 
  {* Video Information Starts *}
     <fieldset class="fieldset">
-    <legend>Video Information - All fields are required</legend>
+    <legend>{lang code='video_info_all_fields_req'}</legend>
     {foreach from=$requiredFields item=field}
     <div class="account_field_block">
     <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
-    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
     <br>
     {$field.hint_2}</div>
     <div class="clearfix"></div>
@@ -59,11 +59,11 @@
  {* Sharig Information Starts *}
 
     <fieldset class="fieldset">
-    <legend>Sharing Options</legend>
+    <legend>{lang code='vdo_share_opt'}</legend>
     {foreach from=$optionFields item=field}
     <div class="account_field_block">
     <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
-    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
     <br>
     {$field.hint_2}</div>
     <div class="clearfix"></div>
@@ -79,11 +79,11 @@
  {* Location Fields *}
 
     <fieldset class="fieldset">
-    <legend>Date recorded &amp; Location</legend>
+    <legend>{lang code='date_recorded_location'}</legend>
     {foreach from=$locationFields item=field}
     <div class="account_field_block">
     <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
-    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
     <br>
     {$field.hint_2}</div>
     <div class="clearfix"></div>
@@ -99,7 +99,7 @@
  {* Loading Custom Fields *}
  {if $custom_form_fields.0.title !=''}
  	<fieldset class="fieldset">
-    <legend>More Options</legend>
+    <legend>{lang code='more_options'}</legend>
     {foreach from=$custom_form_fields item=field}
     <div class="account_field_block">
     <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
@@ -115,12 +115,10 @@
  {/if}
  {* Custom Fields ENDS *}
  
- <div align="right"><button name="update_video" id="button" value="submit" class="cb_button">Update Video</button></div>
+ <div align="right"><button name="update_video" id="button" value="submit" class="cb_button">{lang code='update_video'}</button></div>
 
  </form> 
  </div>
- 
- 
  
  
  <!-- ENDING EDITING {$v.title} -->

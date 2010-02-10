@@ -4,10 +4,10 @@
 
 {if $mode=='' || $mode=='main'}
 <div style="margin-top:10px">
-	<div style="float:left; width:500px"><h2 style="margin:0px; margin:0px">Discussions ({$group.total_topics|number_format})</h2></div>
+	<div style="float:left; width:500px"><h2 style="margin:0px; margin:0px">{lang code='grp_discus_title'} ({$group.total_topics|number_format})</h2></div>
     <div style="float:right; width:250px" align="right">
     <span class="add_topic" onclick="$('#add_topic_cont').slideToggle()">
-    <img src="{$imageurl}/group/add.png" /> ADD NEW TOPIC<span class="clearfix"></span></span>
+    <img src="{$imageurl}/group/add.png" />{lang code='grp_add_new_topic'}<span class="clearfix"></span></span>
     </div>
     <div class="clearfix"></div>
 </div>
@@ -23,7 +23,7 @@
 {if $mode=='invite_group'}
 
 <!-- Inviting Members to Group -->
-<h2>Invite Members</h2>
+<h2>{lang code='grp_invite_grp_title'}</h2>
 
 <div style="display:inline; margin:auto">
 	<div style="width:600px;margin:auto">
@@ -73,7 +73,10 @@
 {* LISTING VIDEOS *}
 {if $mode=='view_videos'}
 <!-- Listing Group Videos Only -->
-	<h2>{$group.group_name} Videos ({$group.total_videos})</h2>
+	<h2>
+    {lang code='users_videos' assign='users_videos'}
+    
+    {$users_videos|sprintf:$group.group_name}({$group.total_videos})</h2>
     <div id="style_change" style="margin-top:10px">Change Style of Listing 
         	<div id="grid" title="Change To Grid Style"></div> 
             <div id="list" title="Change to List Style"></div>
@@ -91,7 +94,7 @@
 {* LISTING MEMBERS *}
 {if $mode=='view_members'}
 	<!-- Listing members -->
-    <h2>{$group.group_name} Members ({$group.total_members})</h2>
+    <h2>{$group.group_name} {lang code='members'} ({$group.total_members})</h2>
     {section name=u_list loop=$users}
         {include file="$style_dir/blocks/user.html" user=$users[u_list]}
     {/section}

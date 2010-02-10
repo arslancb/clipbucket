@@ -1,7 +1,7 @@
 <div>
 	
 	<div class="add_topic_container">
-    	<h2>Add New Topic</h2>
+    	<h2>{lang code='grp_add_new_topic'}</h2>
       <form name="form1" method="post" action="{group_link details=$group}" class="topic_form">
       	{assign var='form_fields' value=$cbgroup->load_add_topic_form_fields()}
         
@@ -12,7 +12,7 @@
         
         <div class="topic_icon_cont">
         <fieldset>
-          <legend>Topic Icon</legend>
+          <legend>{lang code='topic_icon'}</legend>
         {assign var=topic_icons value=$cbgroup->get_topic_icons()}
         {if $topic_icons}
           {foreach from=$topic_icons item=icon}
@@ -24,7 +24,7 @@
         </fieldset>
         </div>
         
-        <div align="left" style="padding:5px 0px"><button name="add_topic" id="add_topic" value="submit" class="cb_button_2">Add topic</button></div>
+        <div align="left" style="padding:5px 0px"><button name="add_topic" id="add_topic" value="submit" class="cb_button_2">{lang code='grp_add_new_topic'}</button></div>
       </form>
 	</div>
 </div>

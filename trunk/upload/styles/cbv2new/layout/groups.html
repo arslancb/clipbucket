@@ -8,7 +8,7 @@
 <div class="sort_cont">
 
 <ul>
-	<li>Sort :</li>
+	<li>{lang code='sort_by'} :</li>
     {assign var=sorting_links value=func->sorting_links()}
     {foreach from=$sorting_links item=name key=sort}
     	<li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=groups}" >{$name}</a></li>
@@ -26,7 +26,7 @@
 </div>
 
 <div class="time_cont" align="right">
-<span class="cb_fb_style_button"><a href="{link name='create_group'}">CREATE NEW GROUP</a></span>
+<span class="cb_fb_style_button"><a href="{link name='create_group'}">{lang code='user_create_group'}</a></span>
 </div>
 
 {section name=glist loop=$groups}

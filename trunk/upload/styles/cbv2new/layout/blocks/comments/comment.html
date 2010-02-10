@@ -13,15 +13,19 @@
     <div class="comm_other">
     	<div class="user_bar">
         <div style="width:70%; float:left">
+        {lang code='user_commented_time' assign='user_commented_time'}
+        {assign var="nicetime" value=$comment.date_added|niceTime}
+        {assign var="comm_link" value=$comment.comment_id}
+        
     	{if $comment.userid !='' && $comment.userid!=0}
-        	<a href="#">{$comment.username}</a> commmented {$comment.date_added|niceTime}
+            {$user_commented_time|sprintf:"#comment_$comm_link":$comment.username:$nicetime}
         {else}
-        	<a href='#comment_{$comment.comment_id}'>{$comment.anonym_name}</a> commmented {$comment.date_added|niceTime}
+        	 {$user_commented_time|sprintf:"#comment_$comm_link":$comment.anonym_name:$nicetime}
         {/if}
         </div>
-        <div style="width:28%; float:right" align="right"><a href="javascript:void(0)" onclick="to_reply('{$comment.comment_id}')">Reply</a> | <a href="javascript:void(0)" onclick="spam_comment('{$comment.comment_id}')">Spam</a>
+        <div style="width:28%; float:right" align="right"><a href="javascript:void(0)" onclick="to_reply('{$comment.comment_id}')">{lang code='reply'}</a> | <a href="javascript:void(0)" onclick="spam_comment('{$comment.comment_id}')">{lang code='spam'}</a>
         
-        {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">Delete</a>{/if}</div>
+        {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">{lang code='delete'}</a>{/if}</div>
         </div>
         
         <div class="comment_cont">{$comment.comment|comment}</div>
@@ -30,5 +34,7 @@
     </div>
     
     <div id="spam_comment_{$comment.comment_id}" class="spam" {$spam_attr} >
-    	Marked as spam, comment by {if $comment.username}<em>{$comment.username}</em>{else}<em>{$comment.anonym_name}</em>{/if} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">Delete</a>
+    	{lang code='marked_as_spam_comment_by_user' assign='marked_as_spam_comment_by_user'}
+        
+    	{if $comment.username}{$marked_as_spam_comment_by_user|sprintf:$comment.username}{else}{$marked_as_spam_comment_by_user|sprintf:$comment.anonym_name}{/if} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">{lang code='delete'}</a>
     </div>

@@ -2,7 +2,7 @@
 
 <form name="videos_manager" method="post">
  <div style="float:left; width:300px">
-   <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" /><input type="submit" name="delete_pm" id="delete_fav_videos" value="Delete" class="small_button" />
+   <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" /><input type="submit" name="delete_pm" id="delete_fav_videos" value="{lang code='delete'}" class="small_button" />
  </div>
  
   
@@ -14,10 +14,10 @@
  	  <tr>
  	    <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
  	      </td>
- 	    {if $show_from}<td width="100">From</td>{/if}
-        {if $show_to}<td width="100">To</td>{/if}
- 	    <td>Subject</td>
- 	    <td width="100" class="last_td">Date sent</td>
+ 	    {if $show_from}<td width="100">{lang code='from'}</td>{/if}
+        {if $show_to}<td width="100">{lang code='to'}</td>{/if}
+ 	    <td>{lang code='subject'}</td>
+ 	    <td width="100" class="last_td">{lang code='date_sent'}</td>
  	    </tr>
  	  </table>
  </div>
@@ -53,7 +53,7 @@
  {/if}
  
  {sectionelse}
- 	<div align="center" style="padding:5px"><strong><em>You do not have any private message</em></strong></div>
+ 	<div align="center" style="padding:5px"><strong><em>{lang code='you_dont_hv_any_pm'}</em></strong></div>
  {/section}
  </div>
   
@@ -72,8 +72,8 @@
 <a id="reply_icon-{$pr_msg.message_id}" href="?mode=new_msg&reply={$pr_msg.message_id}"><img src="{$imageurl}/dot.gif" border="0" class="reply_icon" title="Reply!" /></a>
 </div>
  <div class="pm_message_top" align="left">
-  <div class="pm_line">From : <strong><a href="{$userquery->profile_link($pr_msg)}">{$pr_msg.username}</a></strong> - {$pr_msg.date_added|date_format:"%A, %B %e, %Y %I:%M %p"}</div>
-  <div class="pm_line">Subject : <strong>{$pr_msg.message_subject}</strong></div>
+  <div class="pm_line">{lang code='from'} : <strong><a href="{$userquery->profile_link($pr_msg)}">{$pr_msg.username}</a></strong> - {$pr_msg.date_added|date_format:"%A, %B %e, %Y %I:%M %p"}</div>
+  <div class="pm_line">{lang code='Subject'} : <strong>{$pr_msg.message_subject}</strong></div>
  </div>
  <hr width="100%" size="1" noshade="noshade" />
  <div align="left">

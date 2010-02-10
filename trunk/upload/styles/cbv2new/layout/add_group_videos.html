@@ -2,7 +2,7 @@
 
 {include file="$style_dir/blocks/group/group_header.html" group=$group}
 
-<h2>Add Videos To Group</h2>
+<h2>{lang code='grp_add_vdo_msg'}</h2>
    
 <form name="add_group_videos" id="add_group_videos" method="post" action="">     
 {foreach from=$usr_vids item=video}
@@ -15,7 +15,7 @@
 {/foreach}
 <div class="clearfix"></div>
 <div align="center">
-	<input type="submit" name="add_videos" id="add_videos" value="Add Videos" class="cb_button">
+	<input type="submit" name="add_videos" id="add_videos" value="{lang code='grp_add_vdos'}" class="cb_button">
 </div>
 </form>   
 </div>

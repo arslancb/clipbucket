@@ -1,21 +1,20 @@
 {assign var='required_fields' value=$userquery->load_signup_fields()}
 {assign var='custom_field' value=$userquery->custom_signup_fields}
 
-
 {if $mode == 'signup_success'}
-	<div class="simple_container">
+<div class="simple_container">
     	{if $udetails.usr_status !='Ok'}
-        	<h2 style="font-family:Arial,Verdana,sans-serif; margin:5px 5px 8px;">Just One More Step</h2>
-    	<p style="margin:0px 5px; line-height:18px; font-size:11px;">Your are just one step behind from becoming an official memeber of <strong>{$title}</strong>.  Please check your email, we have sent you a confirmation email which contains a confirmation link from {$title}, Please click it to complete your registration.</p>
-    {else}
-    	<h2 style="font-family:Arial,Verdana,sans-serif; margin:5px 5px 8px;">Welcome To {$LANG.community}</h2>
-    	<p style="margin:0px 5px; line-height:18px; font-size:11px;">Your email has been confirmed, Please <strong><a href="{link name='login'}">click here to login</a></strong> and continue as our registered member.</p>
-    {/if} </div>
+        	{lang code='signup_success_usr_ok'}
+    	{else}
+    		{lang code='signup_success_usr_emailverify' assign='signupsuccessusremailverify'}
+            {link name='login' assign='login_link'}
+            {$signupsuccessusremailverify|sprintf:$login_link}
+{/if} </div>
 {else}    
 <div class="signup_left">
-	<h2>Members Login</h2>
-    if you already have {$title} account, please login here
-    <div class="signup_container">
+	<h2>{lang code='user_mem_login'}</h2>
+	{lang code='if_you_already_hv_account'}
+	<div class="signup_container">
     	<form name="login_form" id="login_form" method="post" action="" >
        	  <label for="login_username" class="label">{lang code='username'} : </label>
             <div class="input_container">
@@ -32,19 +31,15 @@
             <input type="submit" name="login" class="cb_button_2"value="{lang code='login'}" >
             </div>
             <div class="clearfix"></div>
-            <div align="center"><a href="{$baseurl}/forgot.php">{$LANG.user_forgot_password}</a> | <a href="{$baseurl}/forgot.php">{$LANG.user_forgot_username}</a></div>
+            <div align="center"><a href="{$baseurl}/forgot.php">{lang code='user_forgot_password'}</a> | <a href="{$baseurl}/forgot.php">{lang code='user_forgot_username'}</a></div>
         </form>
   </div>
     
-    <p>{$title} is the home for video online:</p>
-          
-            <ul><li><strong>Watch</strong> millions  of videos</li><li><strong>Share favorites</strong> with friends and family</li><li><strong>Connect with other users</strong> who share your {$LANG.interests}</li><li><strong>Upload your videos</strong> to a worldwide audience</li></ul>
-<h3>{$LANG.reg_now_join} {$title} {$LANG.community}!</h3>
-
+   {lang code='signup_message_under_login'}
 </div>
 <div class="signup_right">
-	<h2>New Members Signup Here</h2>
-    Register as ClipBucket v2 member, its free and easy just 
+	<h2>{lang code='new_mems_signup_here'}</h2>
+    {lang code='register_as_our_website_member'}
     <div class="signup_container">
     	<form name="login_form" id="login_form" method="post" action="" >
         	{foreach from=$required_fields item=field}
@@ -97,7 +92,8 @@
             
             <div align="center">
                 <input name="agree" type="checkbox" id="agree" value="yes" checked="checked" />
-                - {$LANG.user_i_agree_to_the} <a href="{$cbpage->get_page_link(1)}" target="_blank" style="text-decoration:underline">{lang code='terms_of_serivce'}</a> and <a href="{$cbpage->get_page_link(2)}" target="_blank" style="text-decoration:underline">{lang code='privacy_policy'}</a>
+                {lang code='user_i_agree_to_the' assign='user_i_agree_to_the'}
+                - {$user_i_agree_to_the|sprintf:$cbpage->get_page_link(3):$cbpage->get_page_link(2)}</a>
           </div>
             <label for="" class="label">&nbsp;</label>
             <div class="input_container">

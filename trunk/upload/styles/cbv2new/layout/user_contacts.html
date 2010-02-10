@@ -45,7 +45,9 @@
        <!-- Right Colum -->
       <div class="right_column">
        	<div class="channel_inner_box">
-        <h2>{$u.username} contacts</h2>
+        {lang code='users_contacts' assign='users_contacts'}
+        
+        <h2>{$users_contacts|sprintf:$u.username}</h2>
         	{if $friends}
             {foreach from=$friends item=friend}
                 {if $u.userid!=$friend.userid}

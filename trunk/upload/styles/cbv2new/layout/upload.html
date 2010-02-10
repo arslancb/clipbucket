@@ -4,14 +4,14 @@
 {assign var='cust_fields'  value=$Upload->custom_form_fields}
 
 
-
+{lang code='vdo_upload_step2' assign='vdo_upload_step'}
 <div class="upload_left">
 
 	<!-- STEP 1 - UPLOADING VIDEO DETAILS -->
 
 	{if $step =='1'}
 	<div class="upload_info">
-		<h2>Video Upload Step 1 of 1</h2>
+		<h2>{$vdo_upload_step|sprintf:1}</h2>
         <form name="upload_form" class="upload_form" method="post" action="">
         
         <!-- Required Fields -->
@@ -30,7 +30,7 @@
         <!-- Required Fields -->
         
         
-        <span class="more_button"><a href="javascript:void()" onClick="$('#more_fields').slideToggle();$('.more_button').toggleClass('more_button_up');">More Options</a></span>
+        <span class="more_button"><a href="javascript:void()" onClick="$('#more_fields').slideToggle();$('.more_button').toggleClass('more_button_up');">{lang code='more_options'}</a></span>
         
         
         <div id="more_fields" style="display:none">
@@ -99,7 +99,7 @@
     
     <!-- STEP 2 - UPLOADING VIDEO FILES -->
     {if $step =="2"}
-    <h2>Video Upload - Step 2 of 2</h2>
+    <h2>{$vdo_upload_step|sprintf:2}</h2>
     {literal}
     <script type="text/javascript">
     	$(document).ready(function() { show_menu('file_upload_div') })
@@ -128,19 +128,10 @@
     <!-- STEP 3 - VIEWING SUCCESSFULL PAGE -->
     {if $step==3}
     <div class="upload_info">
-		<h2>{lang code='vdo_video_upload_complete'}</h2>
-        <span class="header1">{$LANG.vdo_thanks_you_upload_complete_1}.</span><br>
-      <span class="tips">{$LANG.vdo_thanks_you_upload_complete_2} <a href="{$manage_videos}"><strong>{$LANG.com_my_videos}</strong></a> {$LANG.vdo_after_it_has_process}    </span><span class="header1"><br>
-      </span>
-      
-    <div class="upload_link_button" align="center">
-     <ul>
-      <li><a href="{link name='upload'}" >{$LANG.vdo_upload_another_video}</a></li>
-      <li><a href="{link name='my_videos'}" >{$LANG.vdo_goto_my_videos}</a></li>
-     </ul>
-     <div class='clearfix'></div>
-    </div>
-    
+        {lang code='video_complete_msg' assign='video_complete_msg'}
+        {link name='upload' assign='uploadlink'}
+        {link name='my_videos' assign='myvidslink'}
+        {$video_complete_msg|sprintf:$myvidslink:$uploadlink:$myvidslink}    
     </div>
     {/if}
     <!-- STEP 3 ENDS HERE -->
@@ -148,10 +139,10 @@
 </div>
 
 <div class="upload_right">
-  <div class="instructions">
-	  <p><strong><strong>Important:</strong> Do not upload any TV shows, music videos, music concerts, or  commercials without permission unless they consist entirely of content  you created yourself.</strong></p>
-	  <p>The <a href="#">Copyright Tips page</a> and the <a href="#">Community Guidelines</a> can help you determine whether your video infringes someone else's copyright.</p>
-	  <p>By clicking "Upload Video", you are representing that this video does not violate {$title}'s <a id="terms-of-use-link" href="#">Terms of Use</a> and that you own all copyrights in this video or have authorization to upload it.</p>
-  </div>
+    <div class="instructions">
+       {lang code='upload_right_guide'}
+    </div>
+    <div style="height:10px"></div>
+  {AD place='ad_300x250'}
 </div>
 <div class="clearfix"></div>

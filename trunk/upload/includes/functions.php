@@ -722,7 +722,8 @@
 	}
 	
 	//Function That will use in creating SEO urls
-	function VideoLink($vdetails,$type=NULL){
+	function VideoLink($vdetails,$type=NULL)
+	{
 		return video_link($vdetails,$type);
 	} 
 	
@@ -795,7 +796,11 @@
 	
 	function videoSmartyLink($params)
 	{
-		return	VideoLink($params['vdetails'],$params['type']);
+		$link  =	VideoLink($params['vdetails'],$params['type']);
+		if(!$params['assign'])
+			return $link;
+		else
+			assign($params['assign'],$link);
 	}
 	
 	/**
@@ -2283,8 +2288,11 @@
 				$param_link = '?'.$params['extra_params'];
 			}
 		}
-			
-		return $link.$param_link;
+		
+		if($params['assign'])
+			assign($params['assign'],$link.$param_link);
+		else
+			return $link.$param_link;
 	}
 	
 	/**

@@ -5,30 +5,30 @@
   
 
  {if $mode =='inbox'}
- <h2>Private Messages &raquo; Inbox</h2>
+ <h2>{lang code='private_messages'} &raquo; {lang code='inbox'}</h2>
   {include file="$style_dir/blocks/pm/messages.html" show_from='true'}
  {/if}
  
  {if $mode =='notification'}
- <h2>Private Messages &raquo; Notifications</h2>
+ <h2>{lang code='private_messages'} &raquo; {lang code='notifications'}</h2>
   {include file="$style_dir/blocks/pm/messages.html" show_from='true'}
  {/if}
  
  
  
  {if $mode =='sent'}
- <h2>Private Messages &raquo; Sent</h2>
+ <h2>{lang code='private_messages'} &raquo; {lang code='sent'}</h2>
   {include file="$style_dir/blocks/pm/messages.html" show_to='true'}
  {/if}
  
  {if $mode =='new_msg'}
- <h2>Private Messages &raquo; Compose new message</h2>
+ <h2>{lang code='private_messages'} &raquo; {lang code='title_crt_new_msg'}</h2>
  {assign var='form_fields' value=$cbpm->load_compose_form()}
  <div class="account_form">
  <form id="pm_msg" name="pm_msg" method="post" action="">
  
     <fieldset class="fieldset">
-      <legend>New private message</legend>
+      <legend>{lang code='new_private_msg'}</legend>
       {foreach from=$form_fields item=field}
       <div class="account_field_block">
         <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
@@ -39,7 +39,7 @@
         </div>
       
       {/foreach}
-      <div align="right"><button name="send_message" id="send_message" value="submit" class="cb_button">Send Message</button></div>
+      <div align="right"><button name="send_message" id="send_message" value="submit" class="cb_button">{lang code='com_send_message'}</button></div>
     </fieldset>
   </form>
  </div>

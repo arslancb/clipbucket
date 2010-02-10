@@ -13,14 +13,17 @@
                 <input type="text" value="Username" id="username" name="username"  />
                 <input type="password" value="Password" id="password" name="password"  />                
                 <input type="submit" value="Login" id="login" name="login"  />
-                <input type="checkbox" name="rememberme" id="rememberme"  /> <span class="remember">Remember Me</span>
+                <input type="checkbox" name="rememberme" id="rememberme"  /> <span class="remember">{lang code='remember_me'}</span>
 			</form> 
         {else}
         	<div class="avatar">
             	<div style="width:40px; height:40px; background:#EEE; margin:0px; padding:0px;"><img src="{$userquery->getUserThumb($udetails,'small')}" class="mid_user_thumb" /></div>
             </div>
-            <div class="txt">Hello {$userquery->username} | <a href="{link name='logout'}">Logout</a></div>
-            <div class="links"><a href="{link name='inbox'}">Inbox ({$cbpm->get_new_messages()})</a> | <a href="{link name='notifications'}">Messages ({$cbpm->get_new_messages('','notification')})</a> | <a href="{link name='my_account'}">Account</a> | <a href="{link name='my_videos'}">Videos</a></div>
+            <div class="txt">
+            {lang code='howdy_user' assign='howdyuser'}
+            {$howdyuser|sprintf:$userquery->username}
+      		| <a href="{link name='logout'}">{lang code='logout'}</a></div>
+            <div class="links"><a href="{link name='inbox'}">{lang code='messages'} ({$cbpm->get_new_messages()})</a> | <a href="{link name='notifications'}">{lang code='notifications'} ({$cbpm->get_new_messages('','notification')})</a> | <a href="{link name='my_account'}">{lang code='account'}</a></div>
         {/if} 
         </div> <!--USER_LOGIN CLASS END-->
       
@@ -52,14 +55,16 @@
     <div class="navi">
         <ul>
         {if !$userquery->login_check('',true)}
-        	<li>Welcome Guest ! Please <a href="{link name=login}">Login</a> or <a href="{link name=login}">Register</a></li>
+        {lang code='after_meny_guest_msg' assign='guestmsg'}
+        {link name=login assign='loginlink'}
+        	<li>{$guestmsg|sprintf:$loginlink:$loginlink}</li>
         {else}
-        	<li><a href="{link name='my_account'}">Account</a></li>          	
-        	<li><a href="{$userquery->profile_link($udetails)}"> Channel</a></li>
-        	<li><a href="{link name='my_videos'}">Videos</a></li>
-        	<li><a href="{link name='my_favorites'}">Favorites</a></li>
-        	<li><a href="{link name='my_playlists'}">Playlists</a></li>
-        	<li><a href="{link name='my_contacts'}">Friend Requests ({$userquery->get_contacts($userquery->userid,0,no,true)})</a></li>  
+        	<li><a href="{link name='my_account'}">{lang code='com_my_account'}</a></li>          	
+        	<li><a href="{$userquery->profile_link($udetails)}">{lang code='com_my_channel'}</a></li>
+        	<li><a href="{link name='my_videos'}">{lang code='com_my_videos'}</a></li>
+        	<li><a href="{link name='my_favorites'}">{lang code='Favorites'}</a></li>
+        	<li><a href="{link name='my_playlists'}">{lang code='playlists'}</a></li>
+        	<li><a href="{link name='my_contacts'}">{lang code='friend_requests'} ({$userquery->get_contacts($userquery->userid,0,no,true)})</a></li>  
         {/if}     
          </ul>
 <div class="search_con">

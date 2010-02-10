@@ -6,7 +6,7 @@
     	<div class="group_thumb_cont" > <a href="{group_link details=$group}"><img src="{$cbgroup->get_group_thumb($group)}" border="0" /></a>
     </div>        
         <div class="group_option_container">
-        <span class="grp_opt_title">Group option</span>
+        <span class="grp_opt_title">{lang code='group_options'}</span>
           <ul>
           	{assign var=join_link value=$cbgroup->group_opt_link($group,'join')}
             {if $join_link}<li>{$join_link}</li>{/if}
@@ -42,10 +42,10 @@
     	<div class="group_title">
         <div class="group_detail_tabs">
     	  <ul>
-    	    <li class="selected" onclick="get_group_info('#info',this)">Info</li>
-    	    <li onclick="get_group_info('#members',this)">Members</li>
-    	    <li onclick="get_group_info('#videos',this)">Videos</li>
-            <li onclick="get_group_info('#flag_group',this); $('#flag_item').slideDown()">Report</li>
+    	    <li class="selected" onclick="get_group_info('#info',this)">{lang code='info'}</li>
+    	    <li onclick="get_group_info('#members',this)">{lang code='members'}</li>
+    	    <li onclick="get_group_info('#videos',this)">{lang code='videos'}</li>
+            <li onclick="get_group_info('#flag_group',this); $('#flag_item').slideDown()">{lang code='report_this'}</li>
   	      </ul>
           <div class="clearfix"></div>
        	</div>
@@ -58,42 +58,42 @@
             	<div id="info" class="grp_info">
                 
                 	<div class="info_cont">
-                    	<div class="info_title"><span onclick="$('#basic_info').slideToggle()">Basic Info</span></div>
+                    	<div class="info_title"><span onclick="$('#basic_info').slideToggle()">{lang code='basic_info'}</span></div>
                         <div id="basic_info">
-                    	<span><span>Group Name </span> <span>{$group.group_name}</span></span>
+                    	<span><span>{lang code='grp_name_title'} </span> <span>{$group.group_name}</span></span>
                         <div class="clearfix"></div>
 						{assign var=owner value=$userquery->get_user_details($group.userid)}
-                    	<span><span>Group Owner </span> <span><a href="{$userquery->profile_link($owner)}">{$owner.username}</a></span></span>
+                    	<span><span>{lang code='group_owner'} </span> <span><a href="{$userquery->profile_link($owner)}">{$owner.username}</a></span></span>
                         <div class="clearfix"></div>
                         
-                        <span><span>Total Members </span> <span>{$group.total_members|number_format}</span></span>
+                        <span><span>{lang code='total_mems'} </span> <span>{$group.total_members|number_format}</span></span>
                         <div class="clearfix"></div>
                         
-                        <span><span>Total Videos </span> <span>{$group.total_videos|number_format}</span></span>
+                        <span><span>{lang code='com_total_vids'} </span> <span>{$group.total_videos|number_format}</span></span>
                         <div class="clearfix"></div>
                         
-                        <span><span>Total Topics </span> <span>{$group.total_topics|number_format}</span></span>
+                        <span><span>{lang code='total_topics'} </span> <span>{$group.total_topics|number_format}</span></span>
                         <div class="clearfix"></div>
                         
-                        <span><span>Views </span> <span>{$group.total_views|number_format}</span></span>
+                        <span><span>{lang code='views'} </span> <span>{$group.total_views|number_format}</span></span>
                         <div class="clearfix"></div>
                                         
-                        <span><span>Group Url </span> <span>
+                        <span><span>{lang code='grp_url'}</span> <span>
                         <input type="text" value="{group_link details=$group}" class="grp_url" onclick="this.select()"/></span></span>
                         <div class="clearfix"></div>
                         </div>
                     </div>
                     
                     <div class="info_cont">
-                    	<div class="info_title"><span onclick="$('#more_details').slideToggle()">More Details</span></div>
+                    	<div class="info_title"><span onclick="$('#more_details').slideToggle()">{lang code='more_details'}</span></div>
                         <div id="more_details" style="display:none">
-                    	<span><span>Description </span> <span>{$group.group_description}</span></span>
+                    	<span><span>{lang code='vdo_desc'} </span> <span>{$group.group_description}</span></span>
                         <div class="clearfix"></div>
                         
-                        <span><span>Tags </span> <span>{$group.group_tags|tags:group}</span></span>
+                        <span><span>{lang code='tags'} </span> <span>{$group.group_tags|tags:group}</span></span>
                         <div class="clearfix"></div>
                         
-                        <span><span>Category </span> <span>{$group.category|categories:group}</span></span>
+                        <span><span>{lang code='category'} </span> <span>{$group.category|categories:group}</span></span>
                         <div class="clearfix"></div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                     {/foreach}
                     {/if}
                     <div class="clearfix"></div>
-                    <div align="right"><a href="{group_link details=$group type='view_members'}">View All Members</a></div>
+                    <div align="right"><a href="{group_link details=$group type='view_members'}">{lang code='view_all_mems'}</a></div>
           </div>
             <!-- Group members-->
             
@@ -124,7 +124,7 @@
                     {/foreach}
                     {/if}
                     <div class="clearfix"></div>
-                    <div align="right"><a href="{group_link details=$group type='view_videos'}">View All Videos</a></div>
+                    <div align="right"><a href="{group_link details=$group type='view_videos'}">{lang code='view_all_vids'}</a></div>
                 </div>
             <!-- Group videos-->
             

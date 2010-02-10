@@ -7,10 +7,10 @@
 <div class="admin_bar">
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-          <td align="left"><a href="{$baseurl}/admin_area">Admin Panel</a> | <a href="{$baseurl}/admin_area/video_manager.php">Moderate Videos</a> | <a href="{$baseurl}/admin_area/members.php">Moderate Users</a></td>
+          <td align="left"><a href="{$baseurl}/admin_area">{lang code='admin_panel'}</a> | <a href="{$baseurl}/admin_area/video_manager.php">{lang code='moderate_videos'}</a> | <a href="{$baseurl}/admin_area/members.php">{lang code='moderate_users'}</a></td>
           <td align="right">
           {if $userquery->is_admin_logged_as_user()}
-          <a href="{$baseurl}/admin_area/login_as_user.php?revert=yes">Revert back to admin</a>
+          <a href="{$baseurl}/admin_area/login_as_user.php?revert=yes">{lang code='revert_back_to_admin'}</a>
           {/if}</td>
     </tr>
   </table>
@@ -43,7 +43,7 @@
                 <div class="advance" title="Advanced Search"></div>
                 <form name="search-form" method="get" action="{link name='search_result'}">
                     <input type="text" name="query" value="{'query'|get_form_val:true}"  />
-                    <input type="submit" value="Search" name="cbsearch" />
+                    <input type="submit" value="{lang code='search'}" name="cbsearch" />
                 </form>            
             </div> <!--FOOT_S_CON END-->
         </div> <!--SEARCH_FOOTER END-->

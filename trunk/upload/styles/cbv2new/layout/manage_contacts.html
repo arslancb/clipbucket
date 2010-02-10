@@ -3,8 +3,8 @@
  <div class="account_box">
  {include file="$style_dir/blocks/manage/account_head.html" user=$user}
  
- <h2>Manage Contacts</h2>
- <h3>Friends</h3>
+ <h2>{lang code='user_manage_contacts'}</h2>
+ <h3>{lang code='friends'}</h3>
  {assign var=friends value=$userquery->get_contacts($user.userid,0)}
  {if $friends}
  	
@@ -12,8 +12,8 @@
       <tr>
         <td width="15"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
         <td width="50">&nbsp;</td>
-        <td>Username</td>
-        <td width="100">views</td>
+        <td>{lang code='username'}</td>
+        <td width="100">{lang code='views'}</td>
         <td width="100">&nbsp;</td>
         <td width="50">&nbsp;</td>
       </tr>
@@ -35,9 +35,9 @@
         <td><a href="{$userquery->profile_link($user_detail)}">{$user_detail.username}</a></td>
         <td width="100">{$user_detail.profile_hits|number_format}</td>
         <td width="100">{if $friend.contact_userid==userid() && $friend.confirmed!='yes'}
-        <span class="cb_fb_style_button"><a href="?mode=requests&confirm={$friend.contact_id}">Confirm</a></span>{/if}
+        <span class="cb_fb_style_button"><a href="?mode=requests&confirm={$friend.contact_id}">{lang code='confirm'}</a></span>{/if}
         {if $friend.userid==userid() && $friend.confirmed!='yes'}
-        <span class="cb_pending">Pending</span>
+        <span class="cb_pending">{lang code='pending'}</span>
         {/if}
         </td>
         <td width="50" align="center" valign="middle"><a href="?mode=delete&userid={$user_detail.userid}"><img src="{$imageurl}/cancel.png" width="16" height="16" border="0" /></a></td>
@@ -46,7 +46,7 @@
     </div>
    {/foreach}
 {else}
-<div><em><strong>No Contacts</strong></em></div>
+<div><em><strong>{lang code='no_contacts'}</strong></em></div>
  {/if}
  
  

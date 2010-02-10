@@ -8,6 +8,6 @@ This content requires JavaScript and Macromedia Flash Player 7 or higher. <a hre
 </script>
 </div>
 <div class="featured_video_details">
-    <div style="float:left; width:50%">Views : {$video.views}</div><div style="float:right; width:50px">{show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}</div>
+    <div style="float:left; width:50%">{lang code='views'} : {$video.views}</div><div style="float:right; width:50px">{show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}</div>
   <div class="clearfix"></div>
-{$video.description|truncate:125} - <a href="{videoLink vdetails=$video}">view video</a></div>
+{$video.description|truncate:125} - <a href="{videoLink vdetails=$video}">{lang code='view_video'}</a></div>

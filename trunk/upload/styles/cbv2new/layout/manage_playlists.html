@@ -4,7 +4,7 @@
  {include file="$style_dir/blocks/manage/account_head.html" user=$user}
  
  {if $mode =='manage_playlist'}
-  <h2>Manage Playlists</h2>
+  <h2>{lang code='manage_playlists'}</h2>
   
   <!-- ADD NEW PLAYLIST -->
     <div class="account_form">
@@ -32,9 +32,9 @@
  	  <tr>
  	    <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
  	      </td>
- 	    <td>Title</td>
- 	    <td width="130">Date added</td>
- 	    <td width="130" class="last_td">Total Items</td>
+ 	    <td>{lang code='title'}</td>
+ 	    <td width="130">{lang code='date_added'}</td>
+ 	    <td width="130" class="last_td">{lang code='total_items'}</td>
         
  	    </tr>
  	  </table>
@@ -49,7 +49,7 @@
  	      <label for="checkbox"></label></td>
  	    <td valign="middle">
         {$playlists[plist].playlist_name|truncate:100}<br />
-<span class="video_control"><a href="?mode=edit_playlist&amp;pid={$playlists[plist].playlist_id}">view</a> - <a href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$playlists[plist].playlist_id}','{lang code="remove_playlist_confirm"}','?mode=manage_playlist&amp;delete_pl={$playlists[plist].playlist_id}')" id="delete_icon_a-{$playlists[plist].playlist_id}">delete</a></span></td>
+<span class="video_control"><a href="?mode=edit_playlist&amp;pid={$playlists[plist].playlist_id}">{lang code='view'}</a> - <a href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$playlists[plist].playlist_id}','{lang code="remove_playlist_confirm"}','?mode=manage_playlist&amp;delete_pl={$playlists[plist].playlist_id}')" id="delete_icon_a-{$playlists[plist].playlist_id}">{lang code='delete'}</a></span></td>
  	    <td width="130">{$playlists[plist].date_added|date_format}</td>
  	    <td width="130">{$cbvid->action->count_playlist_items($playlists[plist].playlist_id)|number_format}</td>
  	    </tr>
@@ -65,7 +65,7 @@
  {/if}
  
  {if $mode =='edit_playlist'}
- <h2>Edit Playlist</h2>
+ <h2>{lang code='edit_playlist'}</h2>
  <div class="account_form">
     <form method="post" name="edit_profile">
     <fieldset class="fieldset">
@@ -83,17 +83,17 @@
     </form>
  </div>
  
- {if $items}<div align="right"><a href="{videoLink vdetails=$items[0]}">PLAY NOW</a></div>{/if}
+ {if $items}<div align="right"><a href="{videoLink vdetails=$items[0]}">{lang code='play_now'}</a></div>{/if}
  <div class="account_table">
    
      <table width="100%" border="0" cellspacing="0" cellpadding="0">
  	  <tr>
  	    <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
  	      </td>
- 	    <td>Title</td>
- 	    <td width="100">Date added</td>
- 	    <td width="100">Views</td>
-        <td width="100">Comments</td>
+ 	    <td>{lang code='title'}</td>
+ 	    <td width="100">{lang code='date_added'}</td>
+ 	    <td width="100">{lang code='views'}</td>
+        <td width="100">{lang code='comments'}</td>
  	    </tr>
  	  </table>
       
@@ -108,7 +108,7 @@
     {/if}
     
     {sectionelse}
-    <div align="center" style="padding:5px"><strong><em>You do not have any favorite video</em></strong></div>
+    <div align="center" style="padding:5px"><strong><em>{lang code='no_video_in_playlist'}</em></strong></div>
     {/section}
 
  {/if}

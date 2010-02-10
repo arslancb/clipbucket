@@ -7,7 +7,7 @@
 <div class="sort_cont">
 
 <ul>
-	<li>Sort :</li>
+	<li>{lang code='sort_by'} :</li>
     {assign var=sorting_links value=func->sorting_links()}
     {foreach from=$sorting_links item=name key=sort}
     	<li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=videos}">{$name}</a></li>
@@ -23,8 +23,8 @@
     <a href="{link name=time sort=$sort type=videos}" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a> {if !$smarty.foreach.times.last}|{/if}
 {/foreach}
 </div>
-    <div id="style_change" style="margin-top:10px">Change Style of Listing 
-        	<div id="grid" title="Change To Grid Style"></div> 
+    <div id="style_change" style="margin-top:10px">{lang code='change_style_of_listing'}
+      <div id="grid" title="Change To Grid Style"></div> 
             <div id="list" title="Change to List Style"></div>
 		</div> 
     {section name=v_list loop=$videos}

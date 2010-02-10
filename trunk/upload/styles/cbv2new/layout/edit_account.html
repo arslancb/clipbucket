@@ -17,7 +17,7 @@
 <div class="account_form">
 <form method="post" name="edit_profile">
 <fieldset class="fieldset">
-<legend>Account Details</legend>
+<legend>{lang code='account_details'}</legend>
 <div class="account_field_block clearfix">
 <div class="account_field_label" align="right"><strong><label for="country">Country</label></strong></div>
 <div class="account_field"><select name="country" id="country">
@@ -34,16 +34,16 @@
 <div class="account_field_label" align="right"><strong><label for="country">Gender</label></strong></div>
 <div class="account_field"><label>
           <input type="radio" name="sex" value="male" id="sex_0" {if $user.sex == male} checked="checked"{/if} />
-          Male</label>
+          {lang code='male'}</label>
         
         <label>
           <input type="radio" name="sex" value="female" id="sex_1" {if $user.sex == female} checked="checked"{/if}/>
-          Female</label></div>
+          {lang code='female'}</label></div>
 <div class="clearfix"></div>
 </div>
 
 <div class="account_field_block clearfix">
-<div class="account_field_label" align="right"><strong><label for="country">Category</label></strong></div>
+<div class="account_field_label" align="right"><strong><label for="category">{lang code='account_details'}</label></strong></div>
 <div class="account_field">{ANCHOR place=$signup_fields.cat.anchor_before}{$formObj->createField($signup_fields.cat)}{ANCHOR place=$signup_fields.cat.anchor_after}</div>
 <div class="clearfix"></div>
 </div>
@@ -52,7 +52,7 @@
 </fieldset>
 
 <fieldset class="fieldset">
-<legend>Profile Details</legend>
+<legend>{lang code='profile_details'}</legend>
 {foreach from=$user_fields item=field}
 <div class="account_field_block clearfix">
 <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
@@ -64,7 +64,7 @@
 
 {/foreach}
 
-<div align="right"><button name="update_profile" id="button" value="submit" class="cb_button">Update Profile</button></div>
+<div align="right"><button name="update_profile" id="button" value="submit" class="cb_button">{lang code='update_profile'}</button></div>
 </fieldset>
 </form>
 </div>
@@ -84,7 +84,7 @@
 <form method="post" enctype="multipart/form-data" name="edit_profile">
 
 <fieldset class="fieldset">
-<legend>User Avatar</legend>
+<legend>{lang code='user_user_avatar'}</legend>
 <div style="height:15px;"></div>
 <div style="float:left; width:200px;" align="center">
 <img src="{$userquery->getUserThumb($user)}" class="mid_user_thumb" style="max-width:95px"/>
@@ -93,13 +93,13 @@
 
 <div style="width:300px; display:block; float:left">
 
-<strong>User Avatar</strong><br />
-  Please select image file<br />
+<strong>{lang code='user_user_avatar'}</strong><br />
+  {lang code='please_select_img_file'}<br />
   <label for="avatar_file"></label>
-  <input type="file" name="avatar_file" id="avatar_file" />
-  OR<br />
+  <input type="file" name="avatar_file" id="avatar_file"  />
+  {lang code='or'}<br />
   
-  <label for="avatar_url">Please Enter Image URL</label>
+  <label for="avatar_url">{lang code='pelase_enter_image_url'}
   <input name="avatar_url" type="text" id="avatar_url" value="{$user.avatar_url}" />
   <br />
   <input name="delete_avatar" type="checkbox" id="delete_avatar" value="yes" />
@@ -109,30 +109,30 @@
   
 </fieldset>
 <fieldset class="fieldset">
-<legend>User Background</legend>
+<legend>{lang code='user_bg'}</legend>
 <div style="height:15px;"></div>
 <div style="float:left; width:200px;" align="center">
 {if $userquery->getUserBg($user)}<img src="{$userquery->getUserBg($user)}" style="max-width:95px"/>{else}<em><strong>No Bg</strong></em>{/if}
 </div>
 <div style="width:300px; display:block; float:left">
-<strong>User Background Image
+<strong>{lang code='user_bg_img'}
   </strong><br />
-  Please Select Image File
+  {lang code='please_select_img_file'}
   <br />
   <input type="file" name="background_file" id="background_file" />
-  OR
+  {lang code='or'}
 
 
-  <label for="background_url">Please Enter Image URL<br /></label>
+  <label for="background_url">{lang code='pelase_enter_image_url'}<br /></label>
 <input name="background_url" type="text" id="background_url" value="{$user.background_url}" />
 
-OR
-<label for="background_color">Please Enter Background Color</label>
+{lang code='or'}
+<label for="background_color">{lang code='please_enter_bg_color'}</label>
 <input name="background_color" type="text" id="background_color" value="{$user.background_color}" />
 <input type="hidden" name="bg_file_name" value="{$user.background}" />
 
 
-<label for="background_repeat">Background Repeat Type (if using image as a background)</label>
+<label for="background_repeat">{lang code='bg_repeat_type'}</label>
 <select name="background_repeat" id="background_repeat" >
 <option value="repeat" {if $user.background_repeat=='repeat'} selected="selected"{/if}>repeat</option>
 <option value="repeat-x" {if $user.background_repeat=='repeat-x'} selected="selected"{/if}>repeat-x</option>
@@ -142,13 +142,13 @@ OR
 <br />
 
 <input type="checkbox" {if $user.background_attachement=='yes'} checked="checked"{/if} value="yes" name="background_attachement" id="background_attachement" />
-<label for="background_attachement" style="display:inline">Fix Background</label>
-{if $userquery->getUserBg($user)}<input name="delete_bg" type="checkbox" id="delete_bg" value="yes" /><label for="delete_bg" style="display:inline">Delete This Image</label>{/if}
+<label for="background_attachement" style="display:inline">{lang code='fix_bg'}</label>
+{if $userquery->getUserBg($user)}<input name="delete_bg" type="checkbox" id="delete_bg" value="yes" /><label for="delete_bg" style="display:inline">{lang code='delete_this_img'}</label>{/if}
 </div>
 
 <div class="clearfix"></div>
 </fieldset>
-<div align="right" style="padding-right:10px"><button name="update_avatar_bg" id="button" value="submit" class="cb_button">Update</button></div>
+<div align="right" style="padding-right:10px"><button name="update_avatar_bg" id="button" value="submit" class="cb_button">{lang code='update'}</button></div>
 
 </form>
 </div>
@@ -167,28 +167,28 @@ OR
 <div class="account_form">
 <form method="post" name="edit_profile">
 <fieldset class="fieldset">
-<legend>Change Email</legend>
+<legend>{lang code='user_change_email'}</legend>
 
 
 <div class="account_field_block">
-<div class="account_field_label" align="right"><strong><label for="curemail">Curent Email</label></strong></div>
+<div class="account_field_label" align="right"><strong><label for="curemail">{lang code='current_email'}</label></strong></div>
 <div class="account_field"><input type="text" disabled value="{$user.email}" id="curemail" style="margin-bottom:10px"></div>
 <div class="clearfix"></div>
 </div>
 
 
 <div class="account_field_block">
-<div class="account_field_label" align="right"><strong><label for="new_email">New Email</label></strong></div>
+<div class="account_field_label" align="right"><strong><label for="new_email">{lang code='user_new_email'}</label></strong></div>
 <div class="account_field"><input type="text" name="new_email" id="new_email" style="margin-bottom:10px"></div>
 <div class="clearfix"></div>
 </div>
 
 <div class="account_field_block">
-<div class="account_field_label" align="right"><strong><label for="cnew_email">Confirm new Email</label></strong></div>
+<div class="account_field_label" align="right"><strong><label for="cnew_email">{lang code='confirm_new_email'}</label></strong></div>
 <div class="account_field"><input type="text" name="cnew_email" id="cnew_email" style="margin-bottom:10px"></div>
 <div class="clearfix"></div>
 </div>
-<div align="right"><button name="change_email" id="button" value="submit" class="cb_button">Change Email</button></div>
+<div align="right"><button name="change_email" id="button" value="submit" class="cb_button">{lang code='user_change_email'}</button></div>
 
 
 
@@ -208,7 +208,7 @@ OR
 <div class="account_form">
 <form method="post" name="edit_profile">
 <fieldset class="fieldset">
-<legend>Change Password</legend>
+<legend>{lang code='user_change_pass'}</legend>
 
 
 <div class="account_field_block">
@@ -264,7 +264,7 @@ OR
 
 
 {if $mode=='subs'}
-<h2>Manage Subscriptions</h2>
+<h2>{lang code='com_manage_subs'}</h2>
 
 
  {if $subs}
@@ -285,7 +285,7 @@ OR
       <tr>
         <td width="15"><input type="checkbox" name="sub[]" id="check_userd-{$user_detail.userid}" value="{$sub.subscribed_to}" /></td>
         <td width="50" height="50" align="center" valign="middle"><a href="{$userquery->profile_link($sub)}"><img src="{$userquery->getUserThumb($sub)}" alt="{$sub.username}" width="40" height="40" border="0"></a></td>
-        <td><a href="{$userquery->profile_link($sub)}">{$sub.username}</a> | <a href="{$userquery->get_user_videos_link($sub)}">View Videos</a></td>
+        <td><a href="{$userquery->profile_link($sub)}">{$sub.username}</a> | <a href="{$userquery->get_user_videos_link($sub)}">{lang code='grp_view_vdos'}</a></td>
         <td width="100">{$sub.profile_hits|number_format}</td>
 
         <td width="50" align="center" valign="middle"><a href="?mode=subscriptions&delete_subs={$sub.subscribed_to}"><img src="{$imageurl}/cancel.png" width="16" height="16" border="0" /></a></td>
@@ -294,7 +294,7 @@ OR
     </div>
    {/foreach}
 {else}
-<div><em><strong>No subscription found</strong></em></div>
+<div><em><strong>{lang code='no_subs_found'}</strong></em></div>
  {/if}
 
 

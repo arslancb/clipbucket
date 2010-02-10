@@ -7,7 +7,7 @@
 <div class="sort_cont">
 
 <ul>
-	<li>Sort :</li>
+	<li>{lang code='sort_by'} :</li>
     {assign var=sorting_links value=func->sorting_links()}
     {foreach from=$sorting_links item=name key=sort}
     	<li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=channel}" >{$name}</a></li>
