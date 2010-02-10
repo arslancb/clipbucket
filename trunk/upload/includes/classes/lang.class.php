@@ -310,7 +310,7 @@ class language
 						$sql .= "('".$data['iso_code']."','$code','".mysql_clean($phrase)."')";
 					}
 					$sql .= ";";
-					$query = "INSERT INTO phrases (lang_iso,varname,text) VALUES \n";
+					$query = "INSERT INTO ".tbl("phrases")." (lang_iso,varname,text) VALUES \n";
 					$query .= $sql;
 					$db->execute($query);
 					e(lang("lang_added"),"m");
