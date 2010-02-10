@@ -2730,44 +2730,47 @@ class userquery extends CBCategory{
 	{
 		$array = array
 		(
-		 'Account'	=>array
-		 			('My Account'	=> 'myaccount.php',
-					 'Ban users'	=> 'edit_account.php?mode=ban_users',
-					 'Change Password'	=>'edit_account.php?mode=change_password',
-					 'Change Email' 	=>'edit_account.php?mode=change_email',
+		 lang('account')	=>array
+		 			(
+					 lang('my_account')	=> 'myaccount.php',
+					 lang('ban_users')	=> 'edit_account.php?mode=ban_users',
+					 lang('user_change_pass')	=>'edit_account.php?mode=change_password',
+					 lang('user_change_email') 	=>'edit_account.php?mode=change_email',
+					 lang('com_manage_subs')	=> 'edit_account.php?mode=subscriptions',
 					 ),
-		 'Profile'	=>array
-		 			('Profile Settings'	=>'edit_account.php',
-					 'Change Avatar' 	=> 'edit_account.php?mode=avatar_bg',
-					 'Change Background' => 'edit_account.php?mode=avatar_bg',
+		 lang('user_channel_profiles')	=>array
+		 			(
+					 lang('user_profile_settings') =>'edit_account.php',
+					 lang('change_avatar') 	=> 'edit_account.php?mode=avatar_bg',
+					 lang('change_bg') => 'edit_account.php?mode=avatar_bg',
 					 ),
-		'Videos' =>array
+		lang('videos') =>array
 					(
-					 'Uploaded Videos'=>'manage_videos.php',
-					 'Favorite Videos'=>'manage_videos.php?mode=favorites',
+					 lang('uploaded_videos')=>'manage_videos.php',
+					 lang('user_fav_videos')=>'manage_videos.php?mode=favorites',
 					 ),
-		'Groups' =>array
+		lang('groups') =>array
 					(
-					 'Manage Groups'=>'manage_groups.php',
-					 'Create new group'=>cblink(array('name'=>'create_group')),
-					 'Joined Groups'=>'manage_groups.php?mode=joined',
+					 lang('grp_groups_title') =>'manage_groups.php',
+					 lang('user_create_group') =>cblink(array('name'=>'create_group')),
+					 lang('grp_joined_groups')=>'manage_groups.php?mode=joined',
 					 ),
-		'Playlist'=>array
+		lang('playlists')=>array
 					(
-					 'Manage Playlists'=>'manage_playlists.php',
-					 'Video Playlists'=>'manage_playlists.php?mode=manage_video_playlist',
+					 lang('manage_playlists') =>'manage_playlists.php',
+					 lang('video_playlists') =>'manage_playlists.php?mode=manage_video_playlist',
 					 ),
-		'Messages' => array
+		lang('messages') => array
 					(
-					 'Inbox'	=> 'private_message.php?mode=inbox',
-					 'Notifications' => 'private_message.php?mode=notification',
-					 'Sent'	=> 'private_message.php?mode=sent',
-					 'Compose New'=> cblink(array('name'=>'compose_new')),
+					 lang('inbox')	=> 'private_message.php?mode=inbox',
+					 lang('notifications') => 'private_message.php?mode=notification',
+					 lang('sent')	=> 'private_message.php?mode=sent',
+					 lang('title_crt_new_msg')=> cblink(array('name'=>'compose_new')),
 					 ),
-		'Contacts'	=>array
+		lang('contacts')	=>array
 					(
-					 'Manage contacts' => 'manage_contacts.php?mode=manage',
-					 'Add new group'=> 'manage_contacts.php?mode=new_group',
+					 lang('com_manage_contacts') => 'manage_contacts.php?mode=manage',
+					 lang('add_contact_list') => 'manage_contacts.php?mode=new_group',
 					 )
 		);
 		

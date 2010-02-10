@@ -10,5 +10,14 @@
     <li><a href="{$baseurl}/admin_area">Admin Home</a></li>
     <li><a href="{$baseurl}">Website Home</a></li>
   </ul>
+  <div class="dp_opts"><a href="javascript:void(0)" onclick="$('#dp_opts').slideToggle()">Display Options</a></div>
 </div>
-<div class="header_menu_after"></div>
+<div class="header_menu_after">
+<div id="dp_opts">
+  <form id="display_opts" name="display_opts" method="post" action="">
+  	Results Per Page : 
+  	<input name="admin_pages" type="text" style="width:50px" value="{$Cbucket->configs.admin_pages}"/>
+    <input type="submit" name="update_dp_options" id="button" value="Update"  class="button"/>
+  </form>
+</div>
+</div>

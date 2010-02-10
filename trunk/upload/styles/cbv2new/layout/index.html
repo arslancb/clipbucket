@@ -17,7 +17,7 @@
     <!--FEATURE_CON END-->
     {/if}
     
-    <div class="ad">468X60 AD</div>
+    <div class="ad">{AD place='ad_468x60'}</div>
     
     <div class="tabs">
         <ul>
@@ -43,10 +43,9 @@
 </div> <!--CONTENT_CON END-->
 
 <div class="side_con">
-	<div class="box">
-    	<div class="ads">{AD place=ad_300x250}</div>
-    </div> <!--BOX END-->
-    
+
+	<!-- Displaying 300x250 Advertisment -->
+    <div class="ads">{AD place=ad_300x250}</div>    
     
 	{if !$userquery->login_check('',true)}
     <div class="login">
@@ -73,14 +72,9 @@
     <div style="height:10px"></div>
     </div>
     {/if}
-    <!-- Getting Random videos -->
-    
-	
-    <!-- MY Test Plugin -->
-    {ANCHOR place='my_sample_anchor'}
     
 	<div class="box">
-    	<div class="top_bg">
+   	  <div class="top_bg">
         	<h2>{lang code='t_10_users'}</h2>
             {get_users assign=topusers limit=10 order=' total_videos DESC '}
             {section name=tusers loop=$topusers}

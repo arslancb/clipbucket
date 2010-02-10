@@ -56,7 +56,7 @@ if($lang_obj->lang_exists(mysql_clean($_GET['edit_language'])))
 	assign('edit_lang','yes');
 	assign('lang_details',$lang_obj->lang_exists(mysql_clean($_GET['edit_language'])));
 	$edit_id = mysql_clean($_GET['edit_language']);
-	$limit = 1200;
+	$limit = RESULTS;
 	
 	
 	$current_page = $_GET['page'] ;

@@ -21,15 +21,20 @@
 	
 	
 	$admin_pages = $row['admin_pages'];
-	if(isset($_POST['set_number'])){
-		if(!is_numeric($_POST['number']) || $_POST['number']<1){
+	
+	if(isset($_POST['update_dp_options']))
+	{
+		if(!is_numeric($_POST['admin_pages']) || $_POST['admin_pages']<1)
+		{
 			$num = '20';
-		$msg = "Please Type Number from 1 to Maximum";
+			$msg = "Please Type Number from 1 to Maximum";
 		}else{
-			$num = $_POST['number'];
+			$num = $_POST['admin_pages'];
 			$admin_pages = $num;
 		}
+		
 		$db->update(tbl("config"),array("value"),array($num)," name='admin_pages'");
+		$ClipBucket->configs = $Cbucket->configs = $Cbucket->get_configs();
 	}
 	
 	define('RESULTS', $admin_pages);

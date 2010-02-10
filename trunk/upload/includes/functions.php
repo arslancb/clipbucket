@@ -2896,12 +2896,14 @@
 	
 		// is it future date or past date
 		if($now > $unix_date) {   
+			//time_ago
 			$difference     = $now - $unix_date;
-			$tense         = "ago";
+			$tense         = "time_ago";
 		   
 		} else {
+			//from_now
 			$difference     = $unix_date - $now;
-			$tense         = "from now";
+			$tense         = "from_now";
 		}
 	   
 		for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
@@ -2913,8 +2915,9 @@
 		if($difference != 1) {
 			$periods[$j].= "s";
 		}
-	   
-		return "$difference $periods[$j] {$tense}";
+	   	
+		
+		return sprintf(lang($tense),$difference,$periods[$j]);
 	}
 	
 	

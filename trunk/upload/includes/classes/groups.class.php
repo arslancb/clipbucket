@@ -131,7 +131,7 @@ class CBGroups extends CBCategory
 						array($total_members),
 						"group_id='$gpid'");
 			
-			e(lang('You have successfully joined group.'),'m');
+			e(lang('grp_join_msg_succ'),'m');
 		}
 	}
 	
@@ -562,7 +562,7 @@ class CBGroups extends CBCategory
 				move_uploaded_file($file['tmp_name'],$path);
 				
 				if(!$imgObj->ValidateImage($path,$ext)) 
-					e(lang('Please Upload a valid with JPG OR GIF OR PNG Image.'));	
+					e(lang('pic_upload_vali_err'));	
 				else
 				{
 					$imgObj->CreateThumb($path,$path,$this->gp_thumb_width,$ext,$this->gp_thumb_height,true);
@@ -1470,7 +1470,7 @@ class CBGroups extends CBCategory
 		$fields = array
 		(
 		'title'	=> array(	
-						 'title'=> "Topic title",
+						 'title'=> lang('topic_title'),
 						 'type'=> 'textfield',
 						 'name'=> 'topic_title',
 						 'id'=> 'topic_title',
@@ -1482,7 +1482,7 @@ class CBGroups extends CBCategory
 						 'max_length'=>180,
 						 ),
 		'topic_post'	=> array(	
-						 'title'=> "Topic Post",
+						 'title'=> lang("topic_post"),
 						 'type'=> 'textarea',
 						 'name'=> 'topic_post',
 						 'id'=> 'topic_post',
@@ -1615,9 +1615,9 @@ class CBGroups extends CBCategory
 				if($this->is_joinable($group))
 				{
 					if(SEO=="yes")
-						return '<a href="'.group_link(array('details'=>$group)).'?join=yes">Join</a>';
+						return '<a href="'.group_link(array('details'=>$group)).'?join=yes">'.lang('join').'</a>';
 					else
-						return '<a href="'.group_link(array('details'=>$group)).'&join=yes">Join</a>';
+						return '<a href="'.group_link(array('details'=>$group)).'&join=yes">'.lang('join').'</a>';
 				}else
 					return false;
 			}
@@ -1627,7 +1627,7 @@ class CBGroups extends CBCategory
 			{
 				if($this->is_owner($group))
 				{
-					return '<a href="'.BASEURL.'/invite_group.php?url='.$group['group_url'].'">Invite</a>';
+					return '<a href="'.BASEURL.'/invite_group.php?url='.$group['group_url'].'">'.lang('invite').'</a>';
 				}
 			}
 			break;
@@ -1637,9 +1637,9 @@ class CBGroups extends CBCategory
 				if($this->is_member(userid(),$group['group_id']) && !$this->is_owner($group))
 				{
 					if(SEO=="yes")
-						return '<a href="'.group_link(array('details'=>$group)).'?leave=yes">Leave</a>';
+						return '<a href="'.group_link(array('details'=>$group)).'?leave=yes">'.lang('leave').'</a>';
 					else
-						return '<a href="'.group_link(array('details'=>$group)).'&leave=yes">Leave</a>';
+						return '<a href="'.group_link(array('details'=>$group)).'&leave=yes">'.lang('leave').'</a>';
 				}
 			}
 			break;
@@ -1648,7 +1648,7 @@ class CBGroups extends CBCategory
 			{
 				if($this->is_owner($group))
 				{
-					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage&gid_delete='.$group['group_id'].'">Remove Group</a>';
+					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage&gid_delete='.$group['group_id'].'">'.lang('grp_remove_group').'</a>';
 				}
 			}
 			break;
@@ -1657,7 +1657,7 @@ class CBGroups extends CBCategory
 			{
 				if($this->is_owner($group))
 				{
-					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage_members&gid='.$group['group_id'].'">Manage Members</a>';
+					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage_members&gid='.$group['group_id'].'">'.lang('grp_manage_mems').'</a>';
 				}
 			}
 			break;
@@ -1666,7 +1666,7 @@ class CBGroups extends CBCategory
 			{
 				if($this->is_owner($group))
 				{
-					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage_videos&gid='.$group['group_id'].'">Manage Videos</a>';
+					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage_videos&gid='.$group['group_id'].'">'.lang('com_manage_vids').'</a>';
 				}
 			}
 			break;
@@ -1676,7 +1676,7 @@ class CBGroups extends CBCategory
 			{
 				if($this->is_member(userid(),$group['group_id']))
 				{
-					return '<a href="'.BASEURL.'/add_group_videos.php?url='.$group['group_url'].'">Add Videos</a>';
+					return '<a href="'.BASEURL.'/add_group_videos.php?url='.$group['group_url'].'">'.lang('grp_add_vdos').'</a>';
 				}
 			}
 			break;
@@ -1685,7 +1685,7 @@ class CBGroups extends CBCategory
 			{
 				if($this->is_owner($group))
 				{
-					return '<a href="'.BASEURL.'/edit_group.php?gid='.$group['group_id'].'">Edit group</a>';
+					return '<a href="'.BASEURL.'/edit_group.php?gid='.$group['group_id'].'">'.lang('grp_edit_grp_title').'</a>';
 				}
 			}
 			break;

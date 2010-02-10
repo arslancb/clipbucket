@@ -17,7 +17,7 @@ a[rel=sponsors] { padding:5px; background:#0099cc; border:1px solid transparent;
 a[rel=sponsors]:hover { background:#555; border:1px solid #232323; }
 
 
-.footer_grey_bar,.header_grey_bar{background-image:url(../images/gradients.png); background-repeat:repeat-x; height:40px; line-height:40px}
+.footer_grey_bar,.header_grey_bar{background-image:url(../images/gradients.png); background-repeat:repeat-x; height:40px; line-height:40px; min-width:1000px}
 .header_grey_bar{ color:#fff;font-size: 20px;font-family:"Century Gothic"}
 .cbicon{background-image:url(../images/icons.png); width:50px; height:28px; background-repeat:no-repeat; margin:6px 10px 0px 10px; float:left}
 .header_grey_bar .welcome{font-size:15px; padding-right:10px}
@@ -25,8 +25,8 @@ a[rel=sponsors]:hover { background:#555; border:1px solid #232323; }
 
 .sarch_button{width:109px; height:25px; cursor:pointer; background:transparent url(../images/icons.png) 0px -59px no-repeat;}
 
-.header_menu{ background-image:url(../images/gradients.png); background-repeat:repeat-x; background-position:0px -41px; height:33px; border:1px solid #000; border-left:none; border-right:none}
-.header_menu_after{background:url(../images/gradients.png)0px -74px repeat-x;height:13px;}
+.header_menu{ background-image:url(../images/gradients.png); background-repeat:repeat-x; background-position:0px -41px; height:33px; border:1px solid #000; border-left:none; border-right:none;min-width:1000px; position:relative}
+.header_menu_after{background:url(../images/headerafter.png) repeat-x; min-height:13px; padding-top:5px}
 
 .header_menu a{text-decoration:none; color:#fff}
 .header_menu ul{list-style:none; margin:0px; padding:0px;}
@@ -143,7 +143,7 @@ padding-left:5px; font-size:16px; font-weight:bold; font-family:Arial, Helvetica
 
 .search_box{margin:5px; padding:5px; border:1px solid #e3e3e3; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; background:#f9f9f9} 
 
-.video_search .input{border:1px solid #666; width:200px}
+.video_search .input,#dp_opts input[type='text']{border:1px solid #666; width:200px}
 
 
 .item_listing td{border-bottom:1px solid #ccc}
@@ -262,3 +262,7 @@ margin-top: 0;
 
 .sel_file{ background-color:#FBFBFB}
 .sel_file a{color:#d54e21; font-weight:bold}
+
+.dp_opts{right:0px; top:5px; background-color:#006699; position:absolute; color:#FFF; padding:2px; display:inline; margin:3px; border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
+.dp_opts a{color:#fff; text-decoration:none; font-weight:bold}
+#dp_opts{padding:5px; border:1px solid #e3e3e3; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; background:#f9f9f9; margin-top:0px; margin:5px; padding:5px; display:none}
