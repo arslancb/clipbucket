@@ -42,10 +42,12 @@ if(isset($_POST['update'])){
 					'con_modules_type',
 					'comment_rating'	,
 					
+					'date_format',
 					'description',
 					'debug_level',
+					'default_country_iso2',
+					'default_time_zone',
 					'disallowed_usernames',
-					'default_site_lang',
 					
 					'embedUpload',
 					'email_verification',

@@ -725,3 +725,34 @@ function spam_comment(cid)
 			}
 		},'json');
 	}
+
+var normal_player_html = '';
+var hq_player_html = '';
+
+function hq_toggle(nplayer_div,hq_div)
+{
+	if($(nplayer_div).css("display")=='block')
+	{
+		if(normal_player_html=='')
+		normal_player_html = $(nplayer_div).html();
+		$(nplayer_div).html("");
+	}else
+	{
+		if(normal_player_html!='')
+		$(nplayer_div).html(normal_player_html);
+	}
+	
+	
+	if($(hq_div).css("display")=='block')
+	{
+		if(hq_player_html=='')
+		hq_player_html = $(hq_div).html();
+		$(hq_div).html("");
+	}else
+	{
+		if(hq_player_html!='')
+		$(hq_div).html(hq_player_html);
+	}
+	
+	$(nplayer_div+","+hq_div).toggle()
+}

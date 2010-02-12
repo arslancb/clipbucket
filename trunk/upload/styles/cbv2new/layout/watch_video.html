@@ -4,14 +4,9 @@
     
     {if has_hq($vdo)}
     <span id="hq" class="hq_button_cont">
-    <a href="javascript:void(0)" onclick="$('#normal_player_cont,#hd_player_cont,#hq,#non_hq').toggle()">
-    	<img src="{$imageurl}/dot.gif" class="hq_button" border="0" />
+    <a href="javascript:void(0)" onclick="hq_toggle('#normal_player_cont','#hd_player_cont'); $('#hq_button').toggleClass('hq_button_sel')">
+    	<img src="{$imageurl}/dot.gif" class="hq_button" border="0" id="hq_button" />
     </a>
-    </span>
-    <span id="non_hq" class="hq_button_cont" style="display:none">
-        <a href="javascript:void(0)" onclick="$('#normal_player_cont,#hd_player_cont,#hq,#non_hq').toggle()">
-            <img src="{$imageurl}/dot.gif" class="hq_button_sel" border="0" />
-        </a>
     </span>
     {/if}
 </div>

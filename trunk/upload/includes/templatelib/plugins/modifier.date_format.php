@@ -28,8 +28,16 @@
  * @return string|void
  * @uses smarty_make_timestamp()
  */
-function smarty_modifier_date_format($string, $format = '%b %e, %Y', $default_date = '')
+function smarty_modifier_date_format($string, $format = NULL, $default_date = '')
 {
+	if(!$format)
+	{
+		$format = config('date_format');
+
+		return date($format, strtotime($string));
+	}
+	
+	
     if ($string != '') {
         $timestamp = smarty_make_timestamp($string);
     } elseif ($default_date != '') {
@@ -50,6 +58,7 @@ function smarty_modifier_date_format($string, $format = '%b %e, %Y', $default_da
         }
         $format = str_replace($_win_from, $_win_to, $format);
     }
+	
     return strftime($format, $timestamp);
 }
 

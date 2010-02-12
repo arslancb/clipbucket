@@ -83,8 +83,6 @@ class userquery extends CBCategory{
 		{
 			$this->udetails = $this->get_user_details(userid());
 			$this->permission = $this->get_user_level(userid());
-			
-			
 			//exit();
 			
 			if($sess->get("dummy_username")=="")
@@ -502,7 +500,10 @@ class userquery extends CBCategory{
 		{
 			if(empty($this->user_exist))
 			{
-				$result = $db->count(tbl($this->dbtbl['users']),"userid"," userid='".$id."' OR username='".$id."'");
+				if(is_numeric($id))
+					$result = $db->count(tbl($this->dbtbl['users']),"userid"," userid='".$id."' ");
+				else
+					$result = $db->count(tbl($this->dbtbl['users']),"userid"," username='".$id."' ");
 				if($result>0)
 				{
 					$this->user_exist = 'yes';
@@ -517,7 +518,10 @@ class userquery extends CBCategory{
 				return false;
 		}else
 		{
-			$result = $db->count(tbl($this->dbtbl['users']),"userid"," userid='".$id."' OR username='".$id."'");
+			if(is_numeric($id))
+				$result = $db->count(tbl($this->dbtbl['users']),"userid"," userid='".$id."'");
+			else
+				$result = $db->count(tbl($this->dbtbl['users']),"userid"," username='".$id."'");
 			if($result>0)
 			{
 				return true;
@@ -541,8 +545,10 @@ class userquery extends CBCategory{
 		global $db;
 		/*if(!$id)
 			$id = userid();*/
-			
-		$results = $db->select(tbl('users'),'*'," userid='$id' OR username='".$id."' OR email='".$id."'");
+		if(is_numeric($id))	
+			$results = $db->select(tbl('users'),'*'," userid='$id'");
+		else
+			$results = $db->select(tbl('users'),'*'," username='".$id."' OR email='".$id."'");
 		return $results[0];		
 	}function GetUserData($id=NULL){ return $this->get_user_details($id); }
 	
@@ -1372,8 +1378,12 @@ class userquery extends CBCategory{
 	function get_user_field($uid,$field)
 	{
 		global $db;
-		$results = $db->select(tbl('users'),$field,"userid='$uid' OR username='$uid'");
 		
+		if(is_numeric($uid))
+			$results = $db->select(tbl('users'),$field,"userid='$uid'");
+		else
+			$results = $db->select(tbl('users'),$field,"username='$uid'");
+			
 		if($db->num_rows>0)
 		{
 			return $results[0];
@@ -2833,7 +2843,10 @@ class userquery extends CBCategory{
 	{
 		global $db;
 		$uid  = userid();
-		if($user!=username() && !is_numeric($user) && $this->user_exists($user))
+		
+		if(!$uid)
+			e(lang('you_not_logged_in'));
+		elseif($user!=username() && !is_numeric($user) && $this->user_exists($user))
 		{
 			$banned_users = $this->udetails['banned_users'];
 			if($banned_users)
@@ -2916,7 +2929,7 @@ class userquery extends CBCategory{
 		$dob = $default['dob'];
 	
 			
-		 $dob =  $dob ? date("d-m-Y",strtotime($dob)) : '14-14-1989';
+		 $dob =  $dob ? date(config("date_format"),strtotime($dob)) : date(config("date_format"),strtotime('14-10-1989'));
 		 
 		 $user_signup_fields = array
 		 (

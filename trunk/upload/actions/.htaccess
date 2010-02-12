@@ -1,0 +1,4 @@
+<FilesMatch "(video_convert.php|verify_converted_videos.php|update_cb_stats.php)$">
+Order deny,allow
+Deny from all
+</FilesMatch>

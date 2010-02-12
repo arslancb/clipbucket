@@ -60,7 +60,7 @@
         	<li>{$guestmsg|sprintf:$loginlink:$loginlink}</li>
         {else}
         	<li><a href="{link name='my_account'}">{lang code='com_my_account'}</a></li>          	
-        	<li><a href="{$userquery->profile_link($udetails)}">{lang code='com_my_channel'}</a></li>
+        	<li><a href="{$userquery->profile_link($userquery->udetails)}">{lang code='com_my_channel'}</a></li>
         	<li><a href="{link name='my_videos'}">{lang code='com_my_videos'}</a></li>
         	<li><a href="{link name='my_favorites'}">{lang code='Favorites'}</a></li>
         	<li><a href="{link name='my_playlists'}">{lang code='playlists'}</a></li>

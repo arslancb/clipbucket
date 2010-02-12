@@ -61,10 +61,14 @@ class pages{
 	
 	function GetCurrentUrl()
 	{
-		$serverURL      = $this->GetServerUrl();
-		$requestURL     = $_SERVER['REQUEST_URI'];
+		global $in_bg_cron;
+		if(!$in_bg_cron)
+		{
+			$serverURL      = $this->GetServerUrl();
+			$requestURL     = $_SERVER['REQUEST_URI'];
 		  
-		return $serverURL . $requestURL;
+			return $serverURL . $requestURL;
+		}
 	}
 
  	//This Function Set The PageDirect

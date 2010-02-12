@@ -10,7 +10,7 @@
  */
  
  
-define("KEEP_MP4_AS_IS","no");
+define("KEEP_MP4_AS_IS","yes");
 define("MP4Box_BINARY",get_binaries('MP4Box'));
 define("FLVTool2_BINARY",get_binaries('flvtool2'));
 define('FFMPEG_BINARY', get_binaries('ffmpeg'));

@@ -1,11 +1,12 @@
 <?php
  /**
+
   * Written by : Arslan Hassan
   * Software : ClipBucket v2
   * License : CBLA
   **/
 
-
+$in_bg_cron = true;
 ini_set('mysql.connect_timeout','6000');
 
 include(dirname(__FILE__)."/../includes/config.inc.php");

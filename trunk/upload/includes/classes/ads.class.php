@@ -40,8 +40,8 @@ class AdsManager
 			e(lang('ad_exists_error2'));
 			}else
 			{
-				$db->insert(tbl("ads_data"),array("ad_category","ad_name","ad_placement","ad_code","ad_status"),
-											array($category,$name,$placement,$code,$status));		
+				$db->insert(tbl("ads_data"),array("ad_category","ad_name","ad_placement","ad_code","ad_status","date_added"),
+											array($category,$name,$placement,$code,$status,now()));		
 				$msg =  e(lang('ad_add_msg'),m);
 			}
 			return $msg;

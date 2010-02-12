@@ -4,8 +4,10 @@
  * This class is used to update clipbucket daily stats
  */
 
+$in_bg_cron = true;
+
 //including config file..
-include("../includes/config.inc.php");
+include(dirname(__FILE__)."/../includes/config.inc.php");
 
 //Now Gathering All Data
 $date = date("Y-m-d");

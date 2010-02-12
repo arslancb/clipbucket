@@ -111,6 +111,34 @@ $(document).ready(function(){
               </select></td>
             </tr>
             <tr>
+              <td>Date Format</td>
+              <td><label for="textfield"></label>
+              <input name="date_format" type="text" id="date_format" value="{$row.date_format}" size="45" /></td>
+            </tr>
+            <tr>
+              <td>Default Time Zone</td>
+              <td>
+                <select name="default_time_zone" id="default_time_zone">
+                {assign var='tzs' value=func->get_time_zones()}
+                {foreach from=$tzs item=name key=tz}
+                	<option value="{$tz}" {if $row.default_time_zone==$tz} selected="selected"{/if}>{$name}</option>
+                {/foreach}
+                </select>
+            </tr>
+            <tr>
+              <td><label for="default_country_iso2">Default Country</label></td>
+              <td>
+                <select name="default_country_iso2" id="default_country_iso2">
+                {assign var=countries value=$Cbucket->get_countries(iso2)}
+                {foreach from=$countries item=country key=code}
+                	<option  {if $code == $row.default_country_iso2} selected="selected" {/if} value="{$code}">
+                    	{$country}
+                    </option>
+                {/foreach}
+              	</select>
+              </td>
+            </tr>
+            <tr>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
             </tr>

@@ -1408,11 +1408,45 @@
 	function get_queued_video($update=TRUE)
 	{
 		global $db;
-		$results = $db->select(tbl("conversion_queue"),"*","cqueue_conversion='no'",1);
-		$result = $results[0];
-		if($update)
-		$db->update(tbl("conversion_queue"),array("cqueue_conversion"),array("p")," cqueue_id = '".$result['cqueue_id']."'");
-		return $result;
+		$max_conversion = 2;
+		$max_time_wait = 7200 ; //Maximum Time Wait to make PRocessing Video Automatcially OK 
+		
+		//First Check How Many Videos Are In Queu Already
+		$processing = $db->count(tbl("conversion_queue"),"cqueue_id"," cqueue_conversion='p' ");
+		if($processing<$max_conversion)
+		{
+			$results = $db->select(tbl("conversion_queue"),"*","cqueue_conversion='no'",1);
+			$result = $results[0];
+			if($update)
+			$db->update(tbl("conversion_queue"),array("cqueue_conversion","time_started"),array("p",time())," cqueue_id = '".$result['cqueue_id']."'");
+			return $result;
+		}else
+		{
+			//Checking if video is taking more than $max_time_wait to convert so we can change its time to 
+			//OK Automatically
+			//Getting All Videos That are being processed
+			$results = $db->select(tbl("conversion_queue"),"*"," cqueue_conversion='p' ");
+			foreach($results as $vid)
+			{
+				if($vid['time_started'])
+				{
+					if($vid['time_started'])
+						$time_started = $vid['time_started'];
+					else
+						$time_started = strtotime($vid['date_added']);
+					
+					$elapsed_time = time()-$time_started;
+					
+					if($elapsed_time>$max_time_wait)
+					{
+						//CHanging Status TO OK
+						$db->update(tbl("conversion_queue"),array("cqueue_conversion"),
+						array("yes")," cqueue_id = '".$result['cqueue_id']."'");
+					}
+				}
+			}
+			return false;
+		}
 	}
 
 	
@@ -2688,7 +2722,7 @@
 	{
 		if(!$format)
 		{
-			$format = "d-m-Y";
+			$format = config("datE_format");
 		}
 		if(!$timestamp)
 			return date($format);
@@ -3913,5 +3947,45 @@
 			return false;
 	}
 	
+	
+	/**
+	 * function used to get all time zones
+	 */
+	function get_time_zones()
+	{
+		$timezoneTable = array(
+			"-12" => "(GMT -12:00) Eniwetok, Kwajalein",
+			"-11" => "(GMT -11:00) Midway Island, Samoa",
+			"-10" => "(GMT -10:00) Hawaii",
+			"-9" => "(GMT -9:00) Alaska",
+			"-8" => "(GMT -8:00) Pacific Time (US &amp; Canada)",
+			"-7" => "(GMT -7:00) Mountain Time (US &amp; Canada)",
+			"-6" => "(GMT -6:00) Central Time (US &amp; Canada), Mexico City",
+			"-5" => "(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima",
+			"-4" => "(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz",
+			"-3.5" => "(GMT -3:30) Newfoundland",
+			"-3" => "(GMT -3:00) Brazil, Buenos Aires, Georgetown",
+			"-2" => "(GMT -2:00) Mid-Atlantic",
+			"-1" => "(GMT -1:00 hour) Azores, Cape Verde Islands",
+			"0" => "(GMT) Western Europe Time, London, Lisbon, Casablanca",
+			"1" => "(GMT +1:00 hour) Brussels, Copenhagen, Madrid, Paris",
+			"2" => "(GMT +2:00) Kaliningrad, South Africa",
+			"3" => "(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg",
+			"3.5" => "(GMT +3:30) Tehran",
+			"4" => "(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi",
+			"4.5" => "(GMT +4:30) Kabul",
+			"5" => "(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent",
+			"5.5" => "(GMT +5:30) Bombay, Calcutta, Madras, New Delhi",
+			"6" => "(GMT +6:00) Almaty, Dhaka, Colombo",
+			"7" => "(GMT +7:00) Bangkok, Hanoi, Jakarta",
+			"8" => "(GMT +8:00) Beijing, Perth, Singapore, Hong Kong",
+			"9" => "(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk",
+			"9.5" => "(GMT +9:30) Adelaide, Darwin",
+			"10" => "(GMT +10:00) Eastern Australia, Guam, Vladivostok",
+			"11" => "(GMT +11:00) Magadan, Solomon Islands, New Caledonia",
+			"12" => "(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka"
+		);
+		return $timezoneTable;
+	}
 	
 ?>

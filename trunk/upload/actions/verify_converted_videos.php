@@ -5,6 +5,7 @@
  * if it is converted then activate it and let it go
  */
  
+$in_bg_cron = true;
 
 include(dirname(__FILE__)."/../includes/config.inc.php");
 
@@ -13,7 +14,7 @@ if(is_array($files))
 foreach($files as $file)
 {
 	$file_details = get_file_details($file['cqueue_name']);
-	pr($file_details);
+	//pr($file_details);
 	if($file_details['conversion_status']=='failed')
 	{
 		
@@ -39,8 +40,8 @@ foreach($files as $file)
 	{
 		
 		$db->update(tbl("conversion_queue"),
-					array("cqueue_conversion"),
-					array("yes")," cqueue_id = '".$file['cqueue_id']."'");
+					array("cqueue_conversion","time_completed"),
+					array("yes",time())," cqueue_id = '".$file['cqueue_id']."'");
 		update_processed_video($file,'Successful');
 		
 		/**

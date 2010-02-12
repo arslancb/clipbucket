@@ -266,7 +266,7 @@ else
 	//TOPIC ICON DIR
 	define('TOPIC_ICON_DIR',BASEDIR.'/images/icons/topic_icons');
 	define('TOPIC_ICON_URL',BASEURL.'/images/icons/topic_icons');	
-
+	
 	include 'functions.php';
 	include 'plugin.functions.php';
 	include 'plugins_functions.php';

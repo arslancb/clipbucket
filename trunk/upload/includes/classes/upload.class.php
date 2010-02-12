@@ -651,7 +651,7 @@ class Upload{
 		$dcountry = $default['country'];
 		$location = $default['location'];
 		$date_recorded = $default['date_recorded'];
-		$date_recorded =  $date_recorded ? date("d-m-Y",strtotime($date_recorded)) : date("d-m-Y",time());
+		$date_recorded =  $date_recorded ? date(config("date_format"),strtotime($date_recorded)) : date(config("date_format"),time());
 		
 		$country_array = array("");
 
