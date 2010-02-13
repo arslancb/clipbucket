@@ -8,6 +8,7 @@ ClipBucket Version: 2
 Version: 1.0
 Website: http://clip-bucket.com/
 Player type: global
+Released: 25-12-2009
 */
 
 /**
@@ -31,7 +32,6 @@ if(!function_exists('cbplayer'))
 	{
 		$vdata = $data['vdetails'];
 		global $swfobj;
-		
 		$vid_file = get_video_file($vdata,$no_video,false);
 		if($vid_file)
 		{

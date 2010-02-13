@@ -8,7 +8,7 @@
 */
 define('THIS_PAGE','index');
 require 'includes/config.inc.php';
-date_default_timezone_set('Eniwetok, Kwajalein');
+
 $pages->page_redir();
 
 

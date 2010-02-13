@@ -78,15 +78,17 @@ if(!function_exists('validate_embed_code'))
 			//Removing spaces and non required code
 			$val = preg_replace(array("/\r+/","/\n+/","/\t+/"),"",$val);
 			//Removing Links
-			$val = preg_replace('/<a href=(.*)>(.*)<\/a>/','',$val);
+			$val = preg_replace('/<a href=(.*)>(.*)<\/a>/i','',$val);
 			//Removing JS Codes
 			$val = preg_replace('/<script[^>]*?>.*?<\/script>/si','',$val);		
 			//Removing Iframes
-			$val = preg_replace('/<iframe(.*)><\/iframe>/','',$val);
+			$val = preg_replace('/<iframe(.*)><\/iframe>/i','',$val);
 			//Removing Img Tags
-			$val = preg_replace('/<img (.*) \/>/','',$val);
+			$val = preg_replace('/<img (.*) \/>/i','',$val);
+			//Removing DIV Tags
+			$val = preg_replace('/<div(.*)><\/div>/i','',$val);
 			
-			if(!stristr($val,'<embed')&&!stristr($val,'<object') &&!stristr($val,'<div'))
+			if(!stristr($val,'<embed')&&!stristr($val,'<object'))
 				e(lang('embed_code_invalid_err'));
 			
 			//Replacing Widht and Height 
@@ -136,8 +138,11 @@ if(!function_exists('validate_embed_code'))
 		'use_func_val' => true,
 		'clean_func' => array('htmlspecialchars'),
 		'type'	=> 'textarea',
-		
-	 );
+		'use_if_value' => true,
+		'hint_2'=>'Type "none" to set as empty',
+		'size'=>'45',
+		'rows'=>5
+	 );	
 	
 	$embed_field_array['duration'] = array
 	(
@@ -200,7 +205,10 @@ if(!function_exists('validate_embed_code'))
 		$vdetails = $myquery->get_video_details($vid);
 		if(!empty($vdetails['embed_code']) && $vdetails['embed_code'] !=' ' && $vdetails['embed_code'] !='none')
 		{
-			$db->Execute("UPDATE video SET status='Successful' WHERE videoid='$vid'");
+			//Parsing Emebd Codek, Getting Referal URL if possible and add AUTPLAY on of option 
+			$ref_url = get_refer_url_from_embed_code($vdetails['embed_code']);
+			$ref_url = $ref_url['url'];
+			$db->update(tbl("video"),array("status,refer_url"),array('Successful',$ref_url)," videoid='$vid'");
 		}
 	}
 	
@@ -223,12 +231,54 @@ if(!function_exists('validate_embed_code'))
 				$h_w_p = array("{Width}","{Height}");
 				$h_w_r = array($data['width'],$data['height']);	
 				$embed_code = str_replace($h_w_p,$h_w_r,$embed_code);
-				$swfobj->EmbedCode(unhtmlentities($embed_code),$data['player_div']);
+				$embed_code = unhtmlentities($embed_code);
+				//Checking for REF CODE , if its youtube, add AUTOPLAY accordingly)
+				$ref = get_refer_url_from_embed_code($embed_code);
+				if(!empty($ref) && $ref['website'] == "youtube")
+				{
+					//Add AutoPlay
+					if(config("autoplay_video")=="yes")
+						$autoplay = 1;
+					else
+						$autoplay = 0;
+					$embed_code = preg_replace("/src=\"(.*)\"/Ui","src=\"$1&autoplay=".$autoplay."\"",$embed_code);
+				}
+
+				
+				$swfobj->EmbedCode($embed_code,$data['player_div']);
 				return $swfobj->code;
 			}
 		}else{
 			return false;
 		}
+	}
+	
+	
+	/**
+	 * Function used to get refer url from youtube embed code
+	 */
+	function get_refer_url_from_embed_code($code)
+	{
+		//ONLY POSSIBLE WITH YOUTUBE , MORE WILL BE ADDED LATER
+		preg_match("/src=\"(.*)\"/Ui",$code,$matches);
+		$src = $matches[1];
+		//Checking for youtube
+		preg_match("/youtube\.com/",$src,$ytcom);
+		preg_match("/youtube-nocookie\.com/",$src,$ytnccom);
+		
+		if(!empty($ytcom[0]) || !empty($ytnccom[0]))
+		{
+			preg_match("/\/v\/(.*)/",$src,$srcs);
+			$srcs = explode("&",$srcs[1]);
+			$ytcode = $srcs[0];
+			//Creating Youtube VIdeo URL 
+			$yturl = "http://www.youtube.com/watch?v=".$ytcode;
+			$results['url'] = $yturl;
+			$results['website'] = 'youtube';
+			return $results;
+		}else
+			return false;
+			
 	}
 	
 	register_after_video_upload_action('embed_video_check');

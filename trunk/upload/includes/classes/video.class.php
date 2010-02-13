@@ -136,9 +136,7 @@ class CBvideo extends CBCategory
 	 */
 	function update_video($array=NULL)
 	{
-		global $eh,$Cbucket,$db,$Upload;
-
-		
+		global $eh,$Cbucket,$db,$Upload;		
 			 
 		$Upload->validate_video_upload_form(NULL,TRUE);
 		
@@ -170,29 +168,34 @@ class CBvideo extends CBCategory
 				$name = formObj::rmBrackets($field['name']);
 				$val = $array[$name];
 				
-				if($field['use_func_val'])
-					$val = $field['validate_function']($val);
-				
-				
-				if(!empty($field['db_field']))
-				$query_field[] = $field['db_field'];
-				
-				if(is_array($val))
+				if(empty($val) && $field['use_if_value'])
 				{
-					$new_val = '';
-					foreach($val as $v)
+				}else
+				{
+					if($field['use_func_val'])
+						$val = $field['validate_function']($val);
+					
+					
+					if(!empty($field['db_field']))
+					$query_field[] = $field['db_field'];
+					
+					if(is_array($val))
 					{
-						$new_val .= "#".$v."# ";
+						$new_val = '';
+						foreach($val as $v)
+						{
+							$new_val .= "#".$v."# ";
+						}
+						$val = $new_val;
 					}
-					$val = $new_val;
+					if(!$field['clean_func'] || (!apply_func($field['clean_func'],$val) && !is_array($field['clean_func'])))
+						$val = mysql_clean($val);
+					else
+						$val = apply_func($field['clean_func'],$val);
+					
+					if(!empty($field['db_field']))
+					$query_val[] = $val;
 				}
-				if(!$field['clean_func'] || (!apply_func($field['clean_func'],$val) && !is_array($field['clean_func'])))
-					$val = mysql_clean($val);
-				else
-					$val = apply_func($field['clean_func'],$val);
-				
-				if(!empty($field['db_field']))
-				$query_val[] = $val;
 				
 			}		
 
@@ -292,6 +295,8 @@ class CBvideo extends CBCategory
 				}
 				//Finally Removing Database entry of video
 				$db->execute("DELETE FROM ".tbl("video")." WHERE videoid='$vid'");
+				//Removing Video From Playlist
+				$db->execute("DELETE FROM ".tbl("playlist_items")." WHERE object_id='$vid' AND playlist_item_type='v'");
 				$db->update(tbl("users"),array("total_videos"),array("|f|total_videos-1")," userid='".$vdetails['userid']."'");
 				e(lang("class_vdo_del_msg"),m);
 			}else{

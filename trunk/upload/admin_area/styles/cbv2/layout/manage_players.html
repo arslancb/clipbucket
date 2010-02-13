@@ -1,31 +1,30 @@
-<h2>Selected Player</h2>
-<div>
-{assign var="player_dir" value=$Cbucket->configs.player_dir}
-{assign var="player_file" value=$Cbucket->configs.player_file}
-
-{assign var="curplayer" value=$cbplayer->getPlayerDetails($player_file,$player_dir)}
-<table width="800" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
   <tr>
-    <td width="190"><img src="{$cbplayer->get_preview_thumb($curplayer.folder)}" class="preview_thumb"  ></td>
-    <td valign="top"><h2 style="display:inline">{$curplayer.name}</h2> &#8212; <em><a href="{$curplayer.author_page}"><strong>{$curplayer.author}</strong></a></em><br />
-{$curplayer.description}<br />
-Version : {$curplayer.version} Released on {$curplayer.released|date_format}<br />
-Website : <a href="{$curplayer.website}">{$curplayer.website}</a></td>
+    <td align="left" class="settings_inner_title"><div onclick="toggle_search('player_size')" style="cursor:pointer">ClipBucket Website Player Settings -<span style="font-size:11px; color:#06c"> click here to edit setting</span></div></td>
+    <td width="20" align="right" >&nbsp;</td>
   </tr>
 </table>
+<div style="width:100%; margin:auto{if $smarty.cookies.show_player_size_search!='show'};display:none{/if}" id="player_size">
+<form name="player_settings" action="manage_players.php" method="post">
+<fieldset class="fieldset" style="border:none">
+<table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
+<tr>
+<td width="200" valign="top"><label for="autoplay_video">Autoplay</label></td>
+<td valign="top">
+    <label>
+      <input type="radio" name="autoplay_video" value="yes" id="autoplay_video_0" {if $row.autoplay_video=='yes'} checked="checked"{/if}  />
+      Yes</label>
+    <label><input type="radio" name="autoplay_video" value="no" id="autoplay_video_1" {if $row.autoplay_video=='no'} checked="checked"{/if}  />
+      No</label></td>
+</tr>
+</table>
+<div align="left"><input type="submit" class="button" value="Update" name="update" /></div>
+</fieldset>
 
-
-</div>
-
-<hr size="1" noshade />
-
-<div class="setting_title"><a href="javascript:void(0)" onclick="$('#player_size').toggle()">Change Player Size</a></div>
-<div id="msg_box" style="margin:5px;"></div>
-<div id="player_size" style="display:none">
-{literal}
+</form>{literal}
 <style type="text/css">
 
-#resizable{{/literal}background-image:url({$imageurl}/play_icon.png);  background-repeat:no-repeat; background-position:center{literal}}
+#resizable-channel,#resizable{{/literal}background-image:url({$imageurl}/play_icon.png);  background-repeat:no-repeat; background-position:center{literal}}
 
 </style>
 <script type="text/javascript">
@@ -81,28 +80,64 @@ Website : <a href="{$curplayer.website}">{$curplayer.website}</a></td>
 	});
 	</script>
 {/literal}
-<div class="demo">
-	
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+  <tr>
+    <td align="left" class="settings_inner_title"><div onclick="toggle_search('website_player');" style="cursor:pointer">Main Website Player -<span style="font-size:11px; color:#06c"> click here to main website player</span></div></td>
+    <td width="20" align="right" >&nbsp;</td>
+  </tr>
+</table>
+
+<div  class="demo" style="width:100%; margin:auto{if $smarty.cookies.website_player_search!='show'};display:none{/if}" id="website_player">
+<div id="msg_box" style="margin:5px;"></div>
+
 <div id="resizable" class="ui-widget-content" style="width:{$Cbucket->configs.player_width}px; height:{$Cbucket->configs.player_height}px">
-	<h3 class="ui-widget-header">Actual Player Size</h3>
+  <h3 class="ui-widget-header">Original Size of your Main Website Player</h3>
 </div>
-<label for="width">Width</label>
+<div class="player_dims"><label for="width">Width</label>
 <input type="text" name="width" id="width" value="{$Cbucket->configs.player_width}" />
 <label for="height">Height</label>
 <input type="text" name="height" id="height" value="{$Cbucket->configs.player_height}" />
-</div>
+</div></div>
 
-Channel Player
-<div class="demo">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+  <tr>
+    <td align="left" class="settings_inner_title"><div onclick="toggle_search('channel_player');" style="cursor:pointer">Channel Player Settings -<span style="font-size:11px; color:#06c"> click here to edit channel player settings</span></div></td>
+    <td width="20" align="right" >&nbsp;</td>
+  </tr>
+</table>
+<div  class="demo" style="width:100%; margin:auto{if $smarty.cookies.channel_player_search!='show'};display:none{/if}" id="channel_player">
 	
 <div id="resizable-channel" class="ui-widget-content" style="width:{$Cbucket->configs.channel_player_width}px; height:{$Cbucket->configs.channel_player_height}px">
-	<h3 class="ui-widget-header">Actual Player Size</h3>
+	<h3 class="ui-widget-header">Original Size of your Main Website Player</h3>
 </div>
-<label for="width">Width</label>
+<div class="player_dims"><label for="width">Width</label>
 <input type="text" name="width" id="channel_width" value="{$Cbucket->configs.channel_player_width}" />
 <label for="height">Height</label>
 <input type="text" name="height" id="channel_height" value="{$Cbucket->configs.channel_player_height}" />
+</div></div>
+
 </div>
+
+
+<div style="height:35px"></div>
+
+<h2>Selected Player</h2>
+<div>
+{assign var="player_dir" value=$Cbucket->configs.player_dir}
+{assign var="player_file" value=$Cbucket->configs.player_file}
+
+{assign var="curplayer" value=$cbplayer->getPlayerDetails($player_file,$player_dir)}
+<table width="800" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="190"><img src="{$cbplayer->get_preview_thumb($curplayer.folder)}" class="preview_thumb"  ></td>
+    <td valign="top"><h2 style="display:inline">{$curplayer.name}</h2> &#8212; <em><a href="{$curplayer.author_page}"><strong>{$curplayer.author}</strong></a></em><br />
+{$curplayer.description}<br />
+Version : {$curplayer.version} Released on {$curplayer.released|date_format}<br />
+Website : <a href="{$curplayer.website}">{$curplayer.website}</a></td>
+  </tr>
+</table>
+
 
 </div>
 

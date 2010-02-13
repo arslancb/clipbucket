@@ -79,6 +79,11 @@ class formObj
 			else
 			$textField .= ' cols="'.$field['size'].'" ';
 		}
+		if(!empty($field['rows']) && $field['type']=='textarea')
+		{
+			$textField .= ' rows="'.$field['rows'].'" ';
+		}
+		
 		if(!empty($field['extra_tags']))
 			$textField .= ' '.$field['extra_tags'].' ';
 		

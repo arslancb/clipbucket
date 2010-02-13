@@ -282,7 +282,7 @@ class ClipBucket
 		   array(
 				 'Templates Manager'=>'templates.php',
 				 'Templates Editor'=>'template_editor.php',
-				 'Manage Players' => 'manage_players.php'
+				 'Players Manager' => 'manage_players.php'
 				
 				),		   
 		   //Plugin Manager
@@ -295,6 +295,7 @@ class ClipBucket
 		   'Tool Box'=>
 		   array(
 				 'ClipBucket Module Manager'=>'module_manager.php',
+				 'PHP Info'	=> 'phpinfo.php',
 				 'Server Modules Info'	=> 'cb_mod_check.php',
 				 'View Encoding Status'=>'',
 				),

@@ -266,3 +266,6 @@ margin-top: 0;
 .dp_opts{right:0px; top:5px; background-color:#006699; position:absolute; color:#FFF; padding:2px; display:inline; margin:3px; border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
 .dp_opts a{color:#fff; text-decoration:none; font-weight:bold}
 #dp_opts{padding:5px; border:1px solid #e3e3e3; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; background:#f9f9f9; margin-top:0px; margin:5px; padding:5px; display:none}
+
+.player_dims{background-color:#E2E2E2; border-top:#666 1px solid; margin-top:5px; padding:5px}
+.player_dims lable{font-weight:bold;} .player_dims input{border:1px solid #666;}

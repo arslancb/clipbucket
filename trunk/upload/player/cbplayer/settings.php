@@ -18,7 +18,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 		<playerWidth value="500"/>
 		<playerHeight value="350"/>
 		
-		<autoLoad value="true"/>
+		<autoLoad value="<?=$_GET['autoplay']?>"/>
 		<autoPlay value="<?=$_GET['autoplay']?>"/>
 		<playContinuously value="true"/>
 		<jumpToNextCategory value="false"/>
