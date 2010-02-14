@@ -1,9 +1,10 @@
-<div class="content"><h2>Update ClipBucket from <?=the_version()?> to <?=VERSION?></h2>
+ <form name="form1" method="post" action="" class="install_form"><div class="content"><h2>Update ClipBucket from <?=the_version()?> to <?=VERSION?></h2><label for="dbprefix">Database Prefix</label>
+    <input type="text" name="dbprefix" id="dbprefix" value="<? if($_POST['dbprefix']) echo form_val(post('dbprefix')); else echo "cb_";?>">
 <?php include("msgs.php") ?>
 </div>
 <div class="footer" align="right">
 
-  <form name="form1" method="post" action="">
+ 
   	    
     <?php
 	if(count($errors)>0)
@@ -23,7 +24,7 @@
 	?>
 
     
-  </form>
+ 
   
 </div>
-<?=the_installer_footer()?>
+<?=the_installer_footer()?> </form>

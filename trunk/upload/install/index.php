@@ -53,54 +53,7 @@ switch($step)
 	case 2:
 	{
 		$step = 2;
-		//Checking Files Permissions
-		if(!is_files_writeable())
-			$errors[] = '"/files" directory is not writeable - Please changes its permission to 0777';
-		else
-			$msgs[] = '"/files" directory is writeable';
-		
-		//checking for sub dirs
-		$subdirs = array('conversion_queue','logs','original','temp','thumbs','videos','mass_uploads','mass_uploads');
-		foreach($subdirs as $subdir)
-		{
-			if(!is_files_writeable($subdir))
-				$errors[] = '"/files/'.$subdir.'" directory is not writeable - Please changes its permission to 0777';
-			else
-				$msgs[] = '"/files/'.$subdir.'" directory is writeable';
-		}
-		//Checking Images
-		if(!is_images_writeable())
-			$errors[] = '"/images" directory is not writeable - Please changes its permission to 0777';
-		else
-			$msgs[] = '"/images" directory is writeable';
-		//checking for sub dirs
-		$subdirs = array('avatars','backgrounds','category_thumbs','groups_thumbs');
-		
-		foreach($subdirs as $subdir)
-		{
-			if(!is_images_writeable($subdir))
-				$errors[] = '"/images/'.$subdir.'" directory is not writeable - Please changes its permission to 0777';
-			else
-				$msgs[] = '"/images/'.$subdir.'" directory is writeable';
-		}
-		
-		//Checking Cache Directory
-		if(!is_writeable("../cache"))
-			$errors[] = '"/cache" directory is not writeable - Please changes its permission to 0777';
-		else
-			$msgs[] = '"/cache" directory is writeable';
-			
-		//Checking install Directory
-		if(!is_writeable("../install"))
-			$errors[] = '"/install" directory is not writeable - Please changes its permission to 0777';
-		else
-			$msgs[] = '"/install" directory is writeable';
-		
-		//Checking includes Directory
-		if(!is_writeable("../includes"))
-			$errors[] = '"/includes" directory is not writeable - Please changes its permission to 0777';
-		else
-			$msgs[] = '"/includes" directory is writeable';
+		include("perms_check.php");
 	}
 	break;
 	case 3:
@@ -129,10 +82,14 @@ switch($step)
 	case 4:
 	{
 		$step = 4;
-		
+				
+		$prefix = post("prefix");
+		if(!$prefix || empty($prefix))
+			$prefix = "cb_";
+
 		$connect = @mysql_connect(post('host'),post('dbuser'),post('dbpass'));
 		if(!$connect)
-			$errors[] = "Unabele to connect to datbase server : ".mysql_error();
+			$errors[] = "Unable to connect to datbase server : ".mysql_error();
 		else
 		{
 			$db = @mysql_select_db(post('dbname'));
@@ -158,6 +115,8 @@ switch($step)
 	$DBUSER = "'.post('dbuser').'";
 	//Database Password
 	$DBPASS = "'.post('dbpass').'";
+	//Setting Table Prefix
+	define("TABLE_PREFIX","'.$prefix.'");
 
 	require \'adodb/adodb.inc.php\';
 
@@ -191,6 +150,7 @@ switch($step)
 						$templine .= $line;
 						if (substr(trim($line), -1, 1) == ';') 
 						{
+							$templine = preg_replace("/{tbl_prefix}/",$prefix,$templine);
 							$db->Execute($templine);
 							$templine = '';
 						}
@@ -198,12 +158,14 @@ switch($step)
 				}
 				
 
-				$db->update("config",array("value"),array(SCRIPT_URL)," name='baseurl'");
-				$db->update("config",array("value"),array(SCRIPT_DIR)," name='basedir'");
-				$db->update("config",array("value"),array(RELEASED)," name='date_released'");
-				$db->update("config",array("value"),array(now())," name='date_updated'");
-				$db->update("config",array("value"),array(now())," name='date_installed'");
-				
+				$db->update($prefix."config",array("value"),array(SCRIPT_URL)," name='baseurl'");
+				$db->update($prefix."config",array("value"),array(SCRIPT_DIR)," name='basedir'");
+				$db->update($prefix."config",array("value"),array(RELEASED)," name='date_released'");
+				$db->update($prefix."config",array("value"),array(now())," name='date_updated'");
+				$db->update($prefix."config",array("value"),array(now())," name='date_installed'");
+				$db->update($prefix."config",array("value"),array(VERSION)," name='version'");
+				$db->update($prefix."config",array("value"),array(STATE)," name='type'");
+
 				copy("install.loc",SCRIPT_DIR.'/files/install.loc');
 				copy("clipbucket.php",SCRIPT_DIR."/includes/clipbucket.php");
 
@@ -231,39 +193,20 @@ switch($step)
 			$errors[] = "Unable to connect to find dbconnect.php :(, Please check your ./includes/dbconnect.php";
 		}
 		
-		//Checking Files Permissions
-		if(!is_files_writeable())
-			$errors[] = '"/files" directory is not writeable - Please changes its permission to 0777';
-		else
-			$msgs[] = '"/files" directory is writeable';
-			
-		//checking for sub dirs
-		$subdirs = array('conversion_queue','logs','original','temp','thumbs','videos','mass_uploads','mass_uploads');
-		foreach($subdirs as $subdir)
-		{
-			if(!is_files_writeable($subdir))
-				$errors[] = '"/files/'.$subdir.'" directory is not writeable - Please changes its permission to 0777';
-			else
-				$msgs[] = '"/files/'.$subdir.'" directory is writeable';
-		}
+	//Checking includes Directory
+	if(!is_writeable("../includes/dbconnect.php"))
+		$errors[] = '"/includes/dbconnect.php" file is not writeable - Please changes its permission to 0777';
+	else
+		$msgs[] = '"/includes/dbconnect.php" file is writeable';
 		
-		//Checking install Directory
-		if(!is_writeable("../install"))
-			$errors[] = '"/install" directory is not writeable - Please changes its permission to 0777';
-		else
-			$msgs[] = '"/install" directory is writeable';
+	//Checking includes Directory
+	if(!is_writeable("../includes/clipbucket.php"))
+		$errors[] = '"/includes/clipbucket.php" file is not writeable - Please changes its permission to 0777';
+	else
+		$msgs[] = '"/includes/clipbucket.php" file is writeable';
 		
-		//Checking includes Directory
-		if(!is_writeable("../includes"))
-			$errors[] = '"/includes" directory is not writeable - Please changes its permission to 0777';
-		else
-			$msgs[] = '"/includes" directory is writeable';
-			
-			//Checking includes Directory
-		if(!is_writeable("../includes/clipbucket.php"))
-			$errors[] = '"/includes/clipbucket.php" file is not writeable - Please changes its permission to 0777';
-		else
-			$msgs[] = '"/includes/clipbucket.php" file is writeable';
+		
+		include("perms_check.php");
 	}
 	break;
 	case "update_1":
@@ -273,6 +216,10 @@ switch($step)
 		
 		//Checking What sql files need to be called....
 		
+		$prefix = post("prefix");
+		if(!$prefix || empty($prefix))
+			$prefix = "cb_";
+			
 		include("./../includes/dbconnect.php");
 		$step = 'update_1';
 		//Checking for the update file
@@ -285,6 +232,7 @@ switch($step)
 				$templine .= $line;
 				if (substr(trim($line), -1, 1) == ';') 
 				{
+					$templine = preg_replace("/{tbl_prefix}/",$prefix,$templine);
 					$db->Execute($templine);
 					$templine = '';
 				}
@@ -294,32 +242,196 @@ switch($step)
 		//Special Updates for v2.0.1 or less
 		if(the_version()=='2.0.1' || the_version()=='2')
 		{
-			//update cbhash(a general code of clipbucket that does nothing but tells clipbucket who it actually is)
-			$db->update("config",array("value"),array("PGRpdiBhbGlnbj0iY2VudGVyIj48IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPg0KUG93ZXJlZCBieSA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tLyI+Q2xpcEJ1Y2tldDwvYT4gJXM8YnI+DQpDb3B5cmlnaHQgJmNvcHk7IDIwMDcgLSAyMDEwLCBDbGlwQnVja2V0DQo8IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPjwvZGl2Pg==")," name='cbhash'");
-			
 			//Creating User Sessions and keys
-			$query = mysql_query("SELECT * FROM users WHERE userid <> '1' ");
+			$query = mysql_query("SELECT * FROM ".$prefix."users WHERE userid <> '1' ");
 			while($data = mysql_fetch_array($query))
 			{
 				$sess_code = rand(10000,99999);
 				$newkey = $_COOKIE['PHPSESSID'].RandomString(10);
 				$sess_key = md5($newkey);
-				mysql_query("UPDATE users SET user_session_key='$sess_key'
+				mysql_query("UPDATE ".$prefix."users SET user_session_key='$sess_key'
 							, user_session_code ='$sess_code' WHERE userid='".$data['userid']."'");
 			}
 		}
 		
-		$db->update("config",array("value"),array(RELEASED)," name='date_released'");
-		$db->update("config",array("value"),array(now())," name='date_updated'");
-		$db->update("config",array("value"),array(VERSION)," name='version'");
-		$db->update("config",array("value"),array(STATE)," name='type'");
+		//Rewriting Database File
+		if(the_version()<'2.0.4')
+		{
+						//update cbhash(a general code of clipbucket that does nothing but tells clipbucket who it actually is)
+			$db->update($prefix."config",array("value"),array("PGRpdiBhbGlnbj0iY2VudGVyIj48IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPg0KUG93ZXJlZCBieSA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tLyI+Q2xpcEJ1Y2tldDwvYT4gJXM8YnI+DQpDb3B5cmlnaHQgJmNvcHk7IDIwMDcgLSAyMDEwLCBDbGlwQnVja2V0IHwgPGEgaHJlZj0iaHR0cDovL2NsaXAtYnVja2V0LmNvbS9hcnNsYW4taGFzc2FuIj5BcnNsYW4gSGFzc2FuPC9hPg0KPCEtLSBEbyBub3QgcmVtb3ZlIHRoaXMgY29weXJpZ2h0IG5vdGljZSAtLT48L2Rpdj4=")," name='cbhash'");
+		
+		
+							$dbconnect = 
+
+'<?php
+	/**
+	* @Software : ClipBucket
+	* @License : CBLA
+	* @version :ClipBucket v2
+	*/
+
+	$BDTYPE = "mysql";
+	//Database Host
+	$DBHOST = "'.$DBHOST.'";
+	//Database Name
+	$DBNAME = "'.$DBNAME.'";
+	//Database Username
+	$DBUSER = "'.$DBUSER.'";
+	//Database Password
+	$DBPASS = "'.$DBPASS.'";
+	//Setting Table Prefix
+	define("TABLE_PREFIX","'.$prefix.'");
+	require \'adodb/adodb.inc.php\';
+
+	$db = ADONewConnection($BDTYPE);
+	$db->debug = false;
+	$db->charpage = \'cp_utf8\';
+	$db->charset = \'utf8\';
+	if(!$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME))
+	{
+	exit($db->ErrorMsg());
+	}
+	$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME);
+	
+?>';
+				$fp = fopen('../includes/dbconnect.php', 'w');
+				fwrite($fp, $dbconnect);
+				fclose($fp);
+
+		}
+		
+		
+		
+		$db->update($prefix."config",array("value"),array(RELEASED)," name='date_released'");
+		$db->update($prefix."config",array("value"),array(now())," name='date_updated'");
+		$db->update($prefix."config",array("value"),array(VERSION)," name='version'");
+		$db->update($prefix."config",array("value"),array(STATE)," name='type'");
 		
 		copy("install.loc",SCRIPT_DIR.'/files/install.loc');
 		unlink(SCRIPT_DIR."/includes/clipbucket.php");
 			copy("clipbucket.php",SCRIPT_DIR."/includes/clipbucket.php");
 		
 	}
+	break;
+	//Upgrading
+	case "upgrade_0":
+	{
+		$step = 'upgrade_0';
+		include("perms_check.php");
+		//Checking dbconnect.php Directory
+		if(!is_writeable("../includes/dbconnect.php"))
+			$errors[] = '"/includes/dbconnect.php" file is not writeable - Please changes its permission to 0777';
+		else
+			$msgs[] = '"/includes/dbconnect.php" file is writeable';
+		
+	}	
+	break;
+	case "upgrade_1":
+	{
+		$step = 'upgrade_1';
+		if(!isset($_POST['check_db_connection']))
+		{
+			$array = upgrade_able();
+			$_POST = $array;
+		}else
+		{
+			$connect = @mysql_connect(post('host'),post('dbuser'),post('dbpass'));
+			if(!$connect)
+				$errors[] = "Unabele to connect to datbase server : ".mysql_error();
+			else
+			{
+				$db = @mysql_select_db(post('dbname'));
+				if(!$db)
+					$errors[] = "Unable to connect select databse  : ".mysql_error();
+				else
+					$msgs[] = "Connected to database successfully";
+			}
+		}
+	}
+	break;
+	case "upgrade_2";
+	{
+		//Re Write Database File
+		$step = 'upgrade_2';
+		require '../includes/adodb/adodb.inc.php';
+
+		$db = ADONewConnection('mysql');
+		$db->debug = false;
+		$db->Connect(post('host'), post('dbuser'), post('dbpass'), post('dbname'));
+		
+		
+		//Checking What sql files need to be called....
+		$prefix = post("prefix");
+		if(!$prefix || empty($prefix))
+			$prefix = "cb_";
+
+
+				$dbconnect = 
+
+'<?php
+	/**
+	* @Software : ClipBucket
+	* @License : CBLA
+	* @version :ClipBucket v2
+	*/
+
+	$BDTYPE = "mysql";
+	//Database Host
+	$DBHOST = "'.post('host').'";
+	//Database Name
+	$DBNAME = "'.post('dbname').'";
+	//Database Username
+	$DBUSER = "'.post('dbuser').'";
+	//Database Password
+	$DBPASS = "'.post('dbpass').'";
+	//Setting Table Prefix
+	define("TABLE_PREFIX","'.$prefix.'");
+
+	require \'adodb/adodb.inc.php\';
+
+	$db = ADONewConnection($BDTYPE);
+	$db->debug = false;
+	$db->charpage = \'cp_utf8\';
+	$db->charset = \'utf8\';
+	if(!$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME))
+	{
+	exit($db->ErrorMsg());
+	}
+	$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME);
 	
+?>';
+				$fp = fopen('../includes/dbconnect.php', 'w');
+				fwrite($fp, $dbconnect);
+				fclose($fp);	
+				
+		$templine = '';
+		$lines = file("cb_v2.sql");
+		foreach ($lines as $line_num => $line)
+		{
+			if (substr($line, 0, 2) != '--' && $line != '') 
+			{
+				$templine .= $line;
+				if (substr(trim($line), -1, 1) == ';') 
+				{
+					$templine = preg_replace("/{tbl_prefix}/",$prefix,$templine);
+					$db->Execute($templine);
+					$templine = '';
+				}
+			}
+		}
+		
+		$db->update($prefix."config",array("value"),array(SCRIPT_URL)," name='baseurl'");
+		$db->update($prefix."config",array("value"),array(SCRIPT_DIR)," name='basedir'");
+		$db->update($prefix."config",array("value"),array(RELEASED)," name='date_released'");
+		$db->update($prefix."config",array("value"),array(now())," name='date_updated'");
+		$db->update($prefix."config",array("value"),array(now())," name='date_installed'");
+		$db->update($prefix."config",array("value"),array(VERSION)," name='version'");
+		$db->update($prefix."config",array("value"),array(STATE)," name='type'");
+
+		$msgs[] = "Database has been imported successfully";
+		
+	}
+	break;
 }
 
 include("steps/body.php");

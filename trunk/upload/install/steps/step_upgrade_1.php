@@ -40,13 +40,13 @@
   	if(count($msgs)>0)
 	{
 		?>
-  	<input type="submit" name="step3" id="step3" value="Continue Installation" class="button">
-     <input type="hidden" name="step"  value="4" >
+  	<input type="submit" name="step3" id="step3" value="Continue To Upgrade" class="button">
+     <input type="hidden" name="step"  value="upgrade_2" >
      <?php
 	}else{
 	?>
      <input type="submit" name="check_db_connection" id="step3" value="Check Connection" class="button">
-     <input type="hidden" name="step"  value="3" >
+     <input type="hidden" name="step"  value="upgrade_1" >
      <?php
 	}
 	?>

@@ -5,7 +5,19 @@
 <div class="footer" align="right">
 
   <form name="form1" method="post" action="">
-  	<input type="submit" name="step0" id="step0" value="Upgrade From 1.x" class="button_disabled"  onClick="return false;">
+  	<?php
+	if(!upgrade_able())
+	{
+	?>
+    <input type="submit" name="step0" id="step0" value="Upgrade From 1.7" class="button_disabled"  onClick="return false;">
+    <?php
+	}else{
+	?>
+    <input type="submit" name="step0" id="step0" value="Upgrade From 1.7" class="button"  onClick="$('#step').val('upgrade_0');this.submit()">
+    <?php
+	}
+	?>
+    
     <input type="hidden" name="step"  value="1" id="step" >
     <?php
 	if(!update_able())

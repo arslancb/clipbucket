@@ -5,6 +5,7 @@
 <title>ClipBucket v2 Installer</title>
 <link href="./theme/blue.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="./js/jquery.js"></script>
+<script type="text/javascript" src="./js/upgrader.js"></script>
 </head>
 
 <body>

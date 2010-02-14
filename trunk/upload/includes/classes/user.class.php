@@ -3741,6 +3741,7 @@ class userquery extends CBCategory{
 	 */
 	function get_anonymous_user()
 	{
+		global $db;
 		$uid = config('anonymous_id');
 		if($this->user_exists($uid))
 			return $uid;

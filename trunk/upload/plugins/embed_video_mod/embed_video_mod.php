@@ -206,9 +206,9 @@ if(!function_exists('validate_embed_code'))
 		if(!empty($vdetails['embed_code']) && $vdetails['embed_code'] !=' ' && $vdetails['embed_code'] !='none')
 		{
 			//Parsing Emebd Codek, Getting Referal URL if possible and add AUTPLAY on of option 
-			$ref_url = get_refer_url_from_embed_code($vdetails['embed_code']);
+			$ref_url = get_refer_url_from_embed_code(unhtmlentities($vdetails['embed_code']));
 			$ref_url = $ref_url['url'];
-			$db->update(tbl("video"),array("status,refer_url"),array('Successful',$ref_url)," videoid='$vid'");
+			$db->update(tbl("video"),array("status","refer_url"),array('Successful',$ref_url)," videoid='$vid'");
 		}
 	}
 	

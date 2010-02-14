@@ -138,7 +138,12 @@
 			return $version;
 
 		}else
+		{
+			$last_ver = upgrade_able();
+			if($last_ver)
+				return $last_ver['version'];
 			return false;
+		}
 	}
 	
 	/**
@@ -156,5 +161,38 @@
 				return false;
 		}else
 			return false;
+	}
+	
+	/**
+	 * Function used to check weather ClipBucket is updateable or not
+	 */
+	function upgrade_able()
+	{
+		$dbconnect = "../includes/dbconnect.php";
+		//checking for $dbconnect
+		if(file_exists($dbconnect))
+		{
+			include($dbconnect);
+			if($db)
+			{
+				if(defined("TABLE_PREFIX"))
+					$tbpre= TABLE_PREFIX;
+				//Checking weather there is any evidence of prior installation or not
+				$query = mysql_query("SELECT * FROM ".$tbpre."config WHERE name='version' ");
+				$data = mysql_fetch_array($query);
+				$version = substr($data['value'],0,3);
+				if($version=='1.7' || $version=='1.7')
+				{
+					$array['version'] = $version;
+					$array['host'] = $DBHOST;
+					$array['dbname'] = $DBNAME;
+					$array['dbuser'] = $DBUSER;
+					$array['dbpass'] = $DBPASS ;
+					return $array;
+				}
+			}
+		}
+		
+		return false;		
 	}
 ?>

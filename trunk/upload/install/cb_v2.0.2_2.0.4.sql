@@ -16,11 +16,95 @@ CREATE TABLE `phrases` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=860 ;
 
---
--- Dumping data for table `phrases`
---
 
-INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
+DROP TABLE IF EXISTS `cb_stats`;
+CREATE TABLE `cb_stats` (
+  `stat_id` int(255) NOT NULL AUTO_INCREMENT,
+  `date_added` date NOT NULL,
+  `video_stats` text NOT NULL,
+  `user_stats` text NOT NULL,
+  `group_stats` text NOT NULL,
+  PRIMARY KEY (`stat_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+    DROP TABLE `stats` ;
+	DROP TABLE `editors_picks` ;
+    RENAME TABLE  `cb_admin_notes`  TO `admin_notes` ;
+    RENAME TABLE  `cb_pages`  TO `pages` ;
+    RENAME TABLE  `cb_playlists`  TO `playlists` ;
+    RENAME TABLE  `cb_playlist_items`  TO `playlist_items ` ;
+	RENAME TABLE  `cb_editors_picks`  TO `editors_picks ` ;
+    RENAME TABLE  `cb_stats`  TO `stats ` ;
+
+    RENAME TABLE  `action_log`  TO `{tbl_prefix}action_log` ;
+    RENAME TABLE  `admin_notes`  TO `{tbl_prefix}admin_notes` ;
+    RENAME TABLE  `ads_data`  TO `{tbl_prefix}ads_data` ;
+    RENAME TABLE  `ads_placements`  TO `{tbl_prefix}ads_placements` ;
+    RENAME TABLE  `comments`  TO `{tbl_prefix}comments` ;
+    RENAME TABLE  `config`  TO `{tbl_prefix}config` ;
+    RENAME TABLE  `contacts`  TO `{tbl_prefix}contacts` ;
+    RENAME TABLE  `conversion_queue`  TO `{tbl_prefix}conversion_queue` ;
+    RENAME TABLE  `countries`  TO `{tbl_prefix}countries` ;
+    RENAME TABLE  `editors_picks`  TO `{tbl_prefix}editors_picks` ;
+    RENAME TABLE  `email_settings`  TO `{tbl_prefix}email_settings` ;
+    RENAME TABLE  `email_templates`  TO `{tbl_prefix}email_templates` ;
+    RENAME TABLE  `favorites`  TO `{tbl_prefix}favorites` ;
+    RENAME TABLE  `flags`  TO `{tbl_prefix}flags` ;
+    RENAME TABLE  `groups`  TO `{tbl_prefix}groups` ;
+    RENAME TABLE  `group_categories`  TO `{tbl_prefix}group_categories` ;
+    RENAME TABLE  `groups`  TO `{tbl_prefix}groups` ;
+    RENAME TABLE  `group_members`  TO `{tbl_prefix}group_members` ;
+    RENAME TABLE  `group_posts`  TO `{tbl_prefix}group_posts` ;
+    RENAME TABLE  `group_topics`  TO `{tbl_prefix}group_topics` ;
+    RENAME TABLE  `group_videos`  TO `{tbl_prefix}group_videos` ;
+	RENAME TABLE  `group_invitations`  TO `{tbl_prefix}group_invitations` ;
+    RENAME TABLE  `languages`  TO `{tbl_prefix}languages` ;
+    RENAME TABLE  `messages`  TO `{tbl_prefix}messages` ;
+    RENAME TABLE  `modules`  TO `{tbl_prefix}modules` ;
+    RENAME TABLE  `pages`  TO `{tbl_prefix}pages` ;
+    RENAME TABLE  `phrases`  TO `{tbl_prefix}phrases` ;
+    RENAME TABLE  `playlists`  TO `{tbl_prefix}playlists` ;
+    RENAME TABLE  `playlist_items`  TO `{tbl_prefix}playlist_items` ;
+    RENAME TABLE  `plugins`  TO `{tbl_prefix}plugins` ;
+    RENAME TABLE  `plugin_config`  TO `{tbl_prefix}plugin_config` ;
+    RENAME TABLE  `sessions`  TO `{tbl_prefix}sessions` ;
+    RENAME TABLE  `stats`  TO `{tbl_prefix}stats` ;
+    RENAME TABLE  `subscriptions`  TO `{tbl_prefix}subscriptions` ;
+    RENAME TABLE  `template`  TO `{tbl_prefix}template` ;
+    RENAME TABLE  `users`  TO `{tbl_prefix}users` ;
+    RENAME TABLE  `user_categories`  TO `{tbl_prefix}user_categories` ;
+    RENAME TABLE  `user_levels`  TO `{tbl_prefix}user_levels` ;
+    RENAME TABLE  `user_levels_permissions`  TO `{tbl_prefix}user_levels_permissions` ;
+    RENAME TABLE  `user_permissions`  TO `{tbl_prefix}user_permissions` ;
+    RENAME TABLE  `user_permission_types`  TO `{tbl_prefix}user_permission_types` ;
+    RENAME TABLE  `user_profile`  TO `{tbl_prefix}user_profile` ;
+    RENAME TABLE  `validation_re`  TO `{tbl_prefix}validation_re` ;
+    RENAME TABLE  `video`  TO `{tbl_prefix}video` ;
+    RENAME TABLE  `video_categories`  TO `{tbl_prefix}video_categories` ;
+    RENAME TABLE  `video_favourites`  TO `{tbl_prefix}video_favourites` ;
+    RENAME TABLE  `video_files`  TO `{tbl_prefix}video_files` ;
+
+    ALTER TABLE `{tbl_prefix}video` ADD `refer_url` TEXT NOT NULL AFTER `embed_code` 
+    ALTER TABLE `{tbl_prefix}video` ADD `downloads` BIGINT( 255 ) NOT NULL AFTER `refer_url`
+    ALTER TABLE `{tbl_prefix}users` ADD `total_downloads` BIGINT( 255 ) NOT NULL AFTER `welcome_email_sent`
+    
+    ALTER TABLE `{tbl_prefix}video_categories` ADD `category_order` INT( 5 ) NOT NULL DEFAULT '1' AFTER `category_name` 
+    ALTER TABLE `{tbl_prefix}user_categories` ADD `category_order` INT( 5 ) NOT NULL DEFAULT '1' AFTER `category_name` 
+    ALTER TABLE `{tbl_prefix}group_categories` ADD `category_order` INT( 5 ) NOT NULL DEFAULT '1' AFTER `category_name` 
+    
+    ALTER TABLE `{tbl_prefix}comments` ADD `type_owner_id` INT( 255 ) NOT NULL AFTER `type_id` 
+    ALTER TABLE `{tbl_prefix}users` ADD `total_subscriptions` BIGINT( 255 ) NOT NULL AFTER `subscribers` 
+    
+    INSERT INTO `{tbl_prefix}config` (`configid` ,`name` ,`value`)
+    VALUES (NULL , 'anonymous_id', '1'),
+    (NULL , 'date_format', 'd-m-Y'),
+    ( NULL , 'default_time_zone', '5'),
+    (NULL , 'autoplay_video', 'yes');
+	
+	TRUNCATE TABLE `{tbl_prefix}phrases`
+	
+	
+INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (1, 'en', 'ad_name_error', 'Please Enter Name For The Advertisments'),
 (2, 'en', 'ad_code_error', 'Error : Please Enter Code For Advertisement'),
 (3, 'en', 'ad_exists_error1', 'Add Does not exists'),
@@ -41,11 +125,11 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (18, 'en', 'cat_add_msg', 'Category has been added successfully'),
 (19, 'en', 'cat_update_msg', 'Category has been updated'),
 (20, 'en', 'grp_err', 'Group Doesn&#8217;t Exist'),
-(21, 'en', 'grp_fr_msg', 'Group Has Been Set to Featured'),
+(21, 'en', 'grp_fr_msg', 'Group has been set as featured'),
 (22, 'en', 'grp_fr_msg1', 'Selected Groups Have Been Removed From The Featured List'),
 (23, 'en', 'grp_ac_msg', 'Selected Groups Have Been Activated'),
 (24, 'en', 'grp_dac_msg', 'Selected Groups Have Been Dectivated'),
-(25, 'en', 'grp_del_msg', 'Group Has Been Delete'),
+(25, 'en', 'grp_del_msg', 'Group has been deleted'),
 (26, 'en', 'editor_pic_up', 'Video Has Been Moved Up'),
 (27, 'en', 'editor_pic_down', 'Video Has Been Moved Down'),
 (28, 'en', 'plugin_install_msg', 'Plugin has been installed'),
@@ -71,24 +155,24 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (48, 'en', 'grp_cat_error', 'Please Select A Category For Your group'),
 (49, 'en', 'grp_tpc_error2', 'Please enter topic to add'),
 (50, 'en', 'grp_tpc_error3', 'Your Topic Requires Approval From Owner Of This Group'),
-(51, 'en', 'grp_tpc_msg', 'Topic Has Been Added'),
-(52, 'en', 'grp_comment_msg', 'Comment Has Been Added'),
+(51, 'en', 'grp_tpc_msg', 'Topic has been added'),
+(52, 'en', 'grp_comment_msg', 'Comment has been added'),
 (53, 'en', 'grp_vdo_msg', 'Videos Have Been Deleted'),
 (54, 'en', 'grp_vdo_msg1', 'Videos Has Been Added Successfully'),
 (55, 'en', 'grp_vdo_msg2', 'Videos Have Been Approved'),
 (56, 'en', 'grp_mem_msg', 'Member Has Been Deleted'),
 (57, 'en', 'grp_mem_msg1', 'Member Has Been Approved'),
 (58, 'en', 'grp_inv_msg', 'Your Invitation Has Been Sent'),
-(59, 'en', 'grp_tpc_msg1', 'Topic Has Been Delete'),
+(59, 'en', 'grp_tpc_msg1', 'Topic has been deleted'),
 (60, 'en', 'grp_tpc_msg2', 'Topic Has Been Approved'),
-(61, 'en', 'grp_fr_msg2', 'Group has been un featured'),
+(61, 'en', 'grp_fr_msg2', 'Group has been removed from featured list'),
 (62, 'en', 'grp_inv_msg1', 'Has Invited You To Join '),
-(63, 'en', 'grp_av_msg', 'Group Has Been Activated'),
-(64, 'en', 'grp_da_msg', 'Group Has Been DeActivated'),
+(63, 'en', 'grp_av_msg', 'Group has been activated'),
+(64, 'en', 'grp_da_msg', 'Group has been deactivated'),
 (65, 'en', 'grp_post_msg', 'Post Has Been Delete'),
-(66, 'en', 'grp_update_msg', 'Group Has Been Updated'),
+(66, 'en', 'grp_update_msg', 'Group has been updated'),
 (67, 'en', 'grp_owner_err', 'Only Owner Can Add Videos To This Group'),
-(68, 'en', 'grp_owner_err1', 'You Are Not Group Owner'),
+(68, 'en', 'grp_owner_err1', 'You are not owner of this group'),
 (69, 'en', 'grp_owner_err2', 'You Are Group Owner , You Cannot Leave Your Group'),
 (70, 'en', 'grp_prvt_err1', 'This group is private, you need invitiation from its owner in order to join this group'),
 (71, 'en', 'grp_rmv_msg', 'Selected Groups Have Been Removed From Your Account'),
@@ -103,7 +187,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (80, 'en', 'usr_pass_err1', 'Password is Incorrect'),
 (81, 'en', 'usr_cmt_err', 'You Must Login First To Comment'),
 (82, 'en', 'usr_cmt_err1', 'Please Type Something In Comment Box'),
-(83, 'en', 'usr_cmt_err2', 'You Cannot Post Comment on  Your Own Video'),
+(83, 'en', 'usr_cmt_err2', 'You cannot comment on your video"'),
 (84, 'en', 'usr_cmt_err3', 'You Have Already Posted a Comment on this channel.'),
 (85, 'en', 'usr_cmt_err4', 'Comment Has Been Added'),
 (86, 'en', 'usr_cmt_del_msg', 'Comment Has Been Deleted'),
@@ -139,10 +223,10 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (116, 'en', 'usr_rpass_email_msg', 'Email Has Sent To You Please Follow the Instructions to Reset Your Password'),
 (117, 'en', 'usr_pass_email_msg', 'Password has been changed successfully'),
 (118, 'en', 'usr_email_msg', 'Email Settings Has Been Updated'),
-(119, 'en', 'usr_del_msg', 'User Has Been Deleted Successfully'),
+(119, 'en', 'usr_del_msg', 'User has been deleted'),
 (120, 'en', 'usr_dels_msg', 'Selected Users Have Been Deleted'),
-(121, 'en', 'usr_ac_msg', 'User Has Been Activated'),
-(122, 'en', 'usr_dac_msg', 'User Has Been Deactivated'),
+(121, 'en', 'usr_ac_msg', 'User has been activated'),
+(122, 'en', 'usr_dac_msg', 'User has been deactivated'),
 (123, 'en', 'usr_mem_ac', 'Selected Members Have Been Activated'),
 (124, 'en', 'usr_mems_ac', 'Selected Members Have Been Dectivated'),
 (125, 'en', 'usr_fr_msg', 'User Has Been Made Featured Member'),
@@ -218,7 +302,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (195, 'en', 'class_fr_msg1', 'Video has been removed from &#8220;Featured Videos&#8221;'),
 (196, 'en', 'class_vdo_act_msg', 'Video has been activated'),
 (197, 'en', 'class_vdo_act_msg1', 'Vidoe has been deactivated'),
-(198, 'en', 'class_vdo_update_msg', 'Video Has Been Updated Successfully'),
+(198, 'en', 'class_vdo_update_msg', 'Video details have been updated'),
 (199, 'en', 'class_comment_err', 'You Must Login First To Comment'),
 (200, 'en', 'class_comment_err1', 'Please Type Something In Comment Box'),
 (201, 'en', 'class_comment_err2', 'You Cannot Post Comment on  Your Own Video'),
@@ -247,7 +331,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (224, 'en', 'class_sent_del_msg', 'Message Has Been Delete From Sent Folder'),
 (225, 'en', 'class_msg_exist_err', 'Message Doesnt Exist'),
 (226, 'en', 'class_vdo_del_err', 'Video does not exist'),
-(227, 'en', 'class_unsub_msg', 'You Have Unsubscribed'),
+(227, 'en', 'class_unsub_msg', 'You have been unsubscribed sucessfully'),
 (228, 'en', 'class_sub_exist_err', 'Subscription Does Not Exist'),
 (229, 'en', 'class_vdo_rm_fav_msg', 'Video Has Been Removed From Favourites'),
 (230, 'en', 'class_vdo_fav_err1', 'This Video Is Not In Your Favourite List'),
@@ -429,11 +513,11 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (406, 'en', 'ratings', 'Ratings'),
 (407, 'en', 'remote_upload', 'Remote Upload'),
 (408, 'en', 'remove', 'Remove'),
-(409, 'en', 'search', 'search'),
+(409, 'en', 'search', 'Search'),
 (410, 'en', 'services', 'Services'),
 (411, 'en', 'show_all', 'Show All'),
 (412, 'en', 'signupup', 'Sign Up'),
-(413, 'en', 'sort_by', 'Sort By'),
+(413, 'en', 'sort_by', 'Sort'),
 (414, 'en', 'subscriptions', 'Subscriptions'),
 (415, 'en', 'subscribers', 'Subscribers'),
 (416, 'en', 'tag_title', 'Tags'),
@@ -492,7 +576,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (469, 'en', 'vdo_click_here', 'Click Here'),
 (470, 'en', 'vdo_continue_upload', 'Continue to Upload'),
 (471, 'en', 'vdo_upload_step1', 'Video Upload'),
-(472, 'en', 'vdo_upload_step2', '(Step 1/2) Filling Up Details'),
+(472, 'en', 'vdo_upload_step2', 'Video Step %s/2'),
 (473, 'en', 'vdo_upload_step3', '(Step 2/2)'),
 (474, 'en', 'vdo_select_vdo', 'Select a video to upload.'),
 (475, 'en', 'vdo_enter_remote_url', 'Enter Url Of The Video.'),
@@ -575,10 +659,10 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (552, 'en', 'grp_url_title1', 'Group url'),
 (553, 'en', 'grp_invite_msg3', 'Send Invitation'),
 (554, 'en', 'grp_join_confirm_msg', 'Are You Sure You Want To Join This Group'),
-(555, 'en', 'grp_join_msg_succ', 'You Have Successfully Joined'),
+(555, 'en', 'grp_join_msg_succ', 'You have successfully joined group'),
 (556, 'en', 'grp_click_here_to_go', 'Click Here To Go To'),
 (557, 'en', 'grp_leave_confirm', 'Are You Sure You Want To Leave This Group'),
-(558, 'en', 'grp_leave_succ_msg', 'You Have Successfully Left'),
+(558, 'en', 'grp_leave_succ_msg', 'You have left the group'),
 (559, 'en', 'grp_manage_members_title', 'Manage Members '),
 (560, 'en', 'grp_for_approval', 'For Approval'),
 (561, 'en', 'grp_rm_videos', 'Remove Videos'),
@@ -600,7 +684,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (577, 'en', 'grp_add_new_topic', 'Add New Topic'),
 (578, 'en', 'grp_attach_video', 'Attach Video '),
 (579, 'en', 'grp_add_topic', 'Add Topic'),
-(580, 'en', 'grp_please_login', 'Please Login To Post Topics'),
+(580, 'en', 'grp_please_login', 'Please login to post topics'),
 (581, 'en', 'grp_please_join', 'Please Join This Group To Post Topics'),
 (582, 'en', 'grp_inactive_account', 'Your Account Is Inactive And Required Activation From Group Owner'),
 (583, 'en', 'grp_about_this_grp', 'About This Group '),
@@ -645,7 +729,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (622, 'en', 'user_compose_new', 'Compose New Messages'),
 (623, 'en', 'user_total_subs_users', 'Total Subscribed Users'),
 (624, 'en', 'user_you_have', 'You Have'),
-(625, 'en', 'user_fav_videos', 'Favourite Videos'),
+(625, 'en', 'user_fav_videos', 'Favorite Videos'),
 (626, 'en', 'user_your_vids_watched', 'Your Videos Watched'),
 (627, 'en', 'user_times', 'Times'),
 (628, 'en', 'user_you_have_watched', 'You Have Watched'),
@@ -678,7 +762,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (655, 'en', 'user_date_of_birth', 'Date Of Birth'),
 (656, 'en', 'user_enter_text_as_img', 'Enter Text As Seen In The Image'),
 (657, 'en', 'user_refresh_img', 'Refresh Image'),
-(658, 'en', 'user_i_agree_to_the', 'I Agree to the'),
+(658, 'en', 'user_i_agree_to_the', 'I Agree to  <a href="%s" target="_blank">Terms of Service</a> and <a href="%s" target="_blank" >Privacy Policy'),
 (659, 'en', 'user_thanks_for_reg', 'Thank You For Registering on '),
 (660, 'en', 'user_email_has_sent', 'An email has been sent to your inbox containing Your Account'),
 (661, 'en', 'user_and_activation', '&amp; Activation'),
@@ -880,16 +964,250 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (857, 'en', 'login_to_mark_as_spam', 'Please login to mark as spam'),
 (858, 'en', 'no_own_commen_spam', 'You cannot mark your own comment as spam'),
 (859, 'en', 'already_spammed_comment', 'You have already marked this comment as spam'),
-(860, 'en', 'spam_comment_ok', 'Comment has been marked as spam');
-
-
-DROP TABLE IF EXISTS `cb_stats`;
-CREATE TABLE `cb_stats` (
-  `stat_id` int(255) NOT NULL AUTO_INCREMENT,
-  `date_added` date NOT NULL,
-  `video_stats` text NOT NULL,
-  `user_stats` text NOT NULL,
-  `group_stats` text NOT NULL,
-  PRIMARY KEY (`stat_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+(860, 'en', 'spam_comment_ok', 'Comment has been marked as spam'),
+(891, 'en', 'you_cant_delete_grp_topics', 'You cannot delete group topics'),
+(890, 'en', 'topics_deleted', 'Topics have been deleted'),
+(889, 'en', 'you_cant_del_user_topics', 'You cannot delete user topics'),
+(888, 'en', 'you_cant_del_topic', 'You cannot delete this topic'),
+(887, 'en', 'grp_details_updated', 'Group details have been updated'),
+(886, 'en', 'ad_placement_err4', 'Placement does not exist'),
+(885, 'en', 'you_cant_delete_this_page', 'You cannot delete this page'),
+(884, 'en', 'page_deactivated', 'Page has been dectivated'),
+(883, 'en', 'page_activated', 'Page has been activated'),
+(882, 'en', 'page_deleted', 'Page has been deleted successfully');
+INSERT INTO `cb_phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
+(881, 'en', 'page_updated', 'Page has been updated'),
+(880, 'en', 'new_page_added_successfully', 'New page has been added successfully'),
+(879, 'en', 'page_content_empty', 'Page content was empty'),
+(878, 'en', 'page_title_empty', 'Page title was empty'),
+(877, 'en', 'page_name_empty', 'Page name was empty'),
+(876, 'en', 'email_tpl_has_updated', 'Email Template has been updated'),
+(875, 'en', 'email_msg_empty', 'Email msg was empty'),
+(874, 'en', 'email_subj_empty', 'Email subject was empty'),
+(873, 'en', 'email_template_not_exist', 'Email template does not exist'),
+(872, 'en', 'this_vdo_not_working', 'This video is not working properly&#8221;'),
+(871, 'en', 'new_mem_added', 'New member has been added'),
+(870, 'en', 'pelase_select_img_file_for_vdo', 'Please select image file for video thumb'),
+(869, 'en', 'page_doesnt_exist', 'Page does not exist'),
+(868, 'en', 'you_cant_moderate_group', 'You cannot moderate this group'),
+(867, 'en', 'you_cant_invite_mems', 'You cannot invite members'),
+(866, 'en', 'you_cant_edit_group', 'You cannot edit this group'),
+(865, 'en', 'unable_find_download_file', 'Unable to find download file'),
+(864, 'en', 'sel_vids_updated', 'Selected videos have been updated'),
+(863, 'en', 'you_not_allowed_add_grp_vids', 'You are not member of this group so cannot add videos'),
+(862, 'en', 'arslan_hassan', 'Arslan Hassan'),
+(892, 'en', 'you_not_allowed_post_topics', 'You are not allowed to post topics'),
+(893, 'en', 'you_cant_add_this_vdo', 'You cannot add this video'),
+(894, 'en', 'video_added', 'Video has been added'),
+(895, 'en', 'you_cant_del_this_vdo', 'You cannot remove this video'),
+(896, 'en', 'video_removed', 'Video has been removed'),
+(897, 'en', 'user_not_grp_mem', 'User is not group member'),
+(898, 'en', 'user_already_group_mem', 'User has already joined this group'),
+(899, 'en', 'invitations_sent', 'Invitations have been sent'),
+(900, 'en', 'you_not_grp_mem', 'You are not member of this group'),
+(901, 'en', 'you_cant_delete_this_grp', 'You cannot delete this group'),
+(902, 'en', 'grp_deleted', 'Group has been deleted'),
+(903, 'en', 'you_cant_del_grp_mems', 'You cannot delete group members'),
+(904, 'en', 'mems_deleted', 'Members have been deleted'),
+(905, 'en', 'you_cant_del_grp_vdos', 'You cannot delete group videos'),
+(906, 'en', 'thnx_for_voting', 'Thanks for voting'),
+(907, 'en', 'you_hv_already_rated_vdo', 'You have already rated this video'),
+(908, 'en', 'please_login_to_rate', 'Please login to rate'),
+(909, 'en', 'you_not_subscribed', 'You are not subscribed'),
+(910, 'en', 'you_cant_delete_this_user', 'You cannot delete this user&#8221;'),
+(911, 'en', 'you_dont_hv_perms', 'You dont have sufficient permissions'),
+(912, 'en', 'user_subs_hv_been_removed', 'User subscriptions have been removed'),
+(913, 'en', 'user_subsers_hv_removed', 'User subscribers have been removed'),
+(914, 'en', 'you_already_sent_frend_request', 'You have already sent friend request'),
+(915, 'en', 'friend_added', 'Friend has been added'),
+(916, 'en', 'friend_request_sent', 'Friend request has been sent'),
+(917, 'en', 'friend_confirm_error', 'Either user has not requested you friend request or you have already confirmed it'),
+(918, 'en', 'friend_confirmed', 'Friend has been confirmed'),
+(919, 'en', 'friend_request_not_found', 'No friend request found'),
+(920, 'en', 'you_cant_confirm_this_request', 'You cannot confirm this request'),
+(921, 'en', 'friend_request_already_confirmed', 'Friend request is already confirmed'),
+(922, 'en', 'user_no_in_contact_list', 'User is not in your contact list'),
+(923, 'en', 'user_removed_from_contact_list', 'User has been removed from your contact list'),
+(924, 'en', 'cant_find_level', 'Cannot find level'),
+(925, 'en', 'please_enter_level_name', 'Please enter level name'),
+(926, 'en', 'level_updated', 'Level has been updated'),
+(927, 'en', 'level_del_sucess', 'User level has been deleted, all users of this level has been transfered to %s'),
+(928, 'en', 'level_not_deleteable', 'This level is not deletable'),
+(929, 'en', 'pass_mismatched', 'Passwords Mismatched'),
+(930, 'en', 'user_blocked', 'User has been blocked'),
+(931, 'en', 'user_already_blocked', 'User is already blocked'),
+(932, 'en', 'you_cant_del_user', 'You cannot block this user'),
+(933, 'en', 'user_vids_hv_deleted', 'User videos have been deleted'),
+(934, 'en', 'user_contacts_hv_removed', 'User contacts have been removed'),
+(935, 'en', 'all_user_inbox_deleted', 'All User inbox messages have been delete'),
+(936, 'en', 'all_user_sent_messages_deleted', 'All user sent messages have been deleted'),
+(937, 'en', 'pelase_enter_something_for_comment', 'Please enter something for comment'),
+(938, 'en', 'please_enter_your_name', 'Please enter your name'),
+(939, 'en', 'please_enter_your_email', 'Please enter your email'),
+(940, 'en', 'template_activated', 'Template has been activated'),
+(941, 'en', 'error_occured_changing_template', 'An error occured while changing the template'),
+(942, 'en', 'phrase_code_empty', 'Phrase code was empty'),
+(943, 'en', 'phrase_text_empty', 'Phrase text was empty'),
+(944, 'en', 'language_does_not_exist', 'Language does not exist'),
+(945, 'en', 'name_has_been_added', '%s has been added'),
+(946, 'en', 'name_already_exists', '&#8216;%s&#8217; already exist'),
+(947, 'en', 'lang_doesnt_exist', 'language does not exist'),
+(948, 'en', 'no_file_was_selected', 'No file was selected'),
+(949, 'en', 'err_reading_file_content', 'Error reading file content'),
+(950, 'en', 'cant_find_lang_name', 'Cant find language name'),
+(951, 'en', 'cant_find_lang_code', 'Cant find language code'),
+(952, 'en', 'no_phrases_found', 'No phrases were found'),
+(953, 'en', 'language_already_exists', 'Language already exists'),
+(954, 'en', 'lang_added', 'Language has been added successfully'),
+(955, 'en', 'error_while_upload_file', 'Error occured while uploading language file'),
+(956, 'en', 'default_lang_del_error', 'This is default language, please select other language as &#8220;default&#8221; and then delete this pack'),
+(957, 'en', 'lang_deleted', 'Language pack has been deleted'),
+(958, 'en', 'lang_name_empty', 'Language name was empty'),
+(959, 'en', 'lang_code_empty', 'Language code was empty'),
+(960, 'en', 'lang_regex_empty', 'Language regular expression was empty'),
+(961, 'en', 'lang_code_already_exist', 'Language code already exists'),
+(962, 'en', 'lang_updated', 'Language has been updated'),
+(963, 'en', 'player_activated', 'Player has been activated'),
+(964, 'en', 'error_occured_while_activating_player', 'An error occured while activating player'),
+(965, 'en', 'plugin_has_been_s', 'Plugin has been %s'),
+(966, 'en', 'plugin_uninstalled', 'Plugin has been Uninstalled'),
+(967, 'en', 'perm_code_empty', 'Permission code is empty'),
+(968, 'en', 'perm_name_empty', 'Permission name is empty'),
+(969, 'en', 'perm_already_exist', 'Permission already exists'),
+(970, 'en', 'perm_type_not_valid', 'Permission type is not valid'),
+(971, 'en', 'perm_added', 'New Permission has been added'),
+(972, 'en', 'perm_deleted', 'Permission has been deleted'),
+(973, 'en', 'perm_doesnt_exist', 'Permission does not exist'),
+(974, 'en', 'acitvation_html_message', 'Please enter your user username and activation code in order to activate your account, please check your inbox for Activation code, if you do not have activation code, please request by filling next form'),
+(975, 'en', 'acitvation_html_message2', 'Please enter your email address to request your activation code'),
+(976, 'en', 'admin_panel', 'Admin Panel'),
+(977, 'en', 'moderate_videos', 'Moderate Videos'),
+(978, 'en', 'moderate_users', 'Moderate Users'),
+(979, 'en', 'revert_back_to_admin', 'Revert back to admin'),
+(980, 'en', 'more_options', 'More Options'),
+(981, 'en', 'downloading_string', 'Downloading %s ...'),
+(982, 'en', 'download_redirect_msg', '<a href="%s">click here if you don''t redirect automatically</a> - <a href="%s"> Click Here to Go Back to Video Page</a>'),
+(983, 'en', 'account_details', 'Account Details'),
+(984, 'en', 'profile_details', 'Profile Details'),
+(985, 'en', 'update_profile', 'Update Profile'),
+(986, 'en', 'please_select_img_file', 'Please select image file'),
+(987, 'en', 'or', 'or'),
+(988, 'en', 'pelase_enter_image_url', 'Please Enter Image URL'),
+(989, 'en', 'user_bg', 'User Background'),
+(990, 'en', 'user_bg_img', 'User Background Image'),
+(991, 'en', 'please_enter_bg_color', 'Please Enter Background Color'),
+(992, 'en', 'bg_repeat_type', 'Background Repeat Type (if using image as a background)'),
+(993, 'en', 'fix_bg', 'Fix Background'),
+(994, 'en', 'delete_this_img', 'Delete this image'),
+(995, 'en', 'current_email', 'Current Email'),
+(996, 'en', 'confirm_new_email', 'Confirm new email'),
+(997, 'en', 'no_subs_found', 'No subscription found'),
+(998, 'en', 'video_info_all_fields_req', 'Video Information - All fields are required'),
+(999, 'en', 'update_group', 'Update Group'),
+(1000, 'en', 'default', 'Default'),
+(1001, 'en', 'grp_info_all_fields_req', 'Group Information - All Fields Are Required'),
+(1002, 'en', 'date_recorded_location', 'Date recorded &amp; Location'),
+(1003, 'en', 'update_video', 'Update Video'),
+(1004, 'en', 'click_here_to_recover_user', 'Click here to recover username'),
+(1005, 'en', 'click_here_reset_pass', 'Click here to reset password'),
+(1006, 'en', 'remember_me', 'Remember Me'),
+(1007, 'en', 'howdy_user', 'howdy %s'),
+(1008, 'en', 'notifications', 'Notifications'),
+(1009, 'en', 'playlists', 'Playlists'),
+(1010, 'en', 'friend_requests', 'Friend Requests'),
+(1011, 'en', 'after_meny_guest_msg', 'Welcome Guest ! Please <a href="%s">Login</a> or <a href="%s">Register</a>'),
+(1012, 'en', 'being_watched', 'Being Watched'),
+(1013, 'en', 'change_style_of_listing', 'Change Style of Listing'),
+(1014, 'en', 'website_members', '%s Members'),
+(1015, 'en', 'guest_homeright_msg', 'Watch, Upload, Share and more'),
+(1016, 'en', 'reg_for_free', 'Register for free'),
+(1017, 'en', 'rand_vids', 'Random Videos'),
+(1018, 'en', 't_10_users', 'Top 10 Users'),
+(1019, 'en', 'pending', 'Pending'),
+(1020, 'en', 'confirm', 'Confirm'),
+(1021, 'en', 'no_contacts', 'No Contacts'),
+(1022, 'en', 'you_dont_hv_any_grp', 'You do not have any group'),
+(1023, 'en', 'leave_groups', 'Leave Groups'),
+(1024, 'en', 'manage_grp_mems', 'Manage Group Members'),
+(1025, 'en', 'pending_mems', 'Pending Members'),
+(1026, 'en', 'active_mems', 'Active Members'),
+(1027, 'en', 'disapprove', 'Disapprove'),
+(1028, 'en', 'manage_grp_vids', 'Manage Group Videos'),
+(1029, 'en', 'pending_vids', 'Pending Videos'),
+(1030, 'en', 'no_pending_vids', 'No Pending Videos'),
+(1031, 'en', 'no_active_videos', 'No Active Videos'),
+(1032, 'en', 'active_videos', 'Active Videos'),
+(1033, 'en', 'manage_playlists', 'Manage Playlists'),
+(1034, 'en', 'total_items', 'Total Items'),
+(1035, 'en', 'play_now', 'PLAY NOW'),
+(1036, 'en', 'no_video_in_playlist', 'This playlist has no video'),
+(1037, 'en', 'view', 'View'),
+(1038, 'en', 'you_dont_hv_fav_vids', 'You do not have any favorite video'),
+(1039, 'en', 'private_messages', 'Private Messages'),
+(1040, 'en', 'new_private_msg', 'New private message'),
+(1041, 'en', 'search_for_s', 'Search For %s'),
+(1042, 'en', 'signup_success_usr_ok', '<h2 style="margin: 5px 5px 8px; font-family: Arial,Verdana,sans-serif;">Just One More Step</h2>     	<p style="margin: 0px 5px; line-height: 18px; font-size: 11px;">Your are just one step behind from becoming an official memeber of our website.  Please check your email, we have sent you a confirmation email which contains a confirmation link from our website, Please click it to complete your registration.</p>'),
+(1043, 'en', 'signup_success_usr_emailverify', '<h2 style="font-family:Arial,Verdana,sans-serif; margin:5px 5px 8px;">Welcome To our community</h2>\r\n    	<p style="margin:0px 5px; line-height:18px; font-size:11px;">Your email has been confirmed, Please <strong><a href="%s">click here to login</a></strong> and continue as our registered member.</p>'),
+(1044, 'en', 'if_you_already_hv_account', 'if you already have account, please login here '),
+(1045, 'en', 'signup_message_under_login', ' <p>Our website is the home for video online:</p>\r\n          \r\n            <ul><li><strong>Watch</strong> millions  of videos</li><li><strong>Share favorites</strong> with friends and family</li>\r\n            <li><strong>Connect with other users</strong> who share your interests</li><li><strong>Upload your videos</strong> to a worldwide audience\r\n\r\n</li></ul>'),
+(1046, 'en', 'new_mems_signup_here', 'New Members Signup Here'),
+(1047, 'en', 'register_as_our_website_member', 'Register as a member, its free and easy just '),
+(1048, 'en', 'video_complete_msg', '<h2>Video Upload Has Been Completed</h2>\r\n<span class="header1">Thank you! Your upload is complete.</span><br>\r\n<span class="tips">This video will be available in <a href="%s"><strong>My Videos</strong></a> after it has finished processing.</span>  \r\n<div class="upload_link_button" align="center">\r\n    <ul>\r\n        <li><a href="%s" >Upload Another Video</a></li>\r\n        <li><a href="%s" >Goto My Videos</a></li>\r\n    </ul>\r\n<div class=''clearfix''></div>\r\n</div>\r\n'),
+(1049, 'en', 'upload_right_guide', ' <div>\r\n            <div>\r\n              <p>\r\n                <strong>\r\n                <strong>Important:</strong>\r\n                Do not upload any TV shows, music videos, music concerts, or  commercials without permission unless they consist entirely of content  you created yourself.</strong></p>\r\n                <p>The \r\n                <a href="#">Copyright Tips page</a> and the \r\n                <a href="#">Community Guidelines</a> can help you determine whether your video infringes someone else''s copyright.</p>\r\n                <p>By clicking "Upload Video", you are representing that this video does not violate Our website''s \r\n                <a id="terms-of-use-link" href="#">Terms of Use</a> \r\n                and that you own all copyrights in this video or have authorization to upload it.</p>\r\n            </div>\r\n        </div>'),
+(1050, 'en', 'report_this_user', 'Report This User'),
+(1051, 'en', 'add_to_favs', 'Add to favorites'),
+(1052, 'en', 'report_this', 'Report this!'),
+(1053, 'en', 'share_this', 'Share This'),
+(1054, 'en', 'add_to_playlist', 'Add to playlist'),
+(1055, 'en', 'view_profile', 'View Profile'),
+(1056, 'en', 'subscribe', 'Subscribe'),
+(1057, 'en', 'uploaded_by_s', 'Uploaded by %s'),
+(1058, 'en', 'more', 'More'),
+(1059, 'en', 'link_this_video', 'Link This Video'),
+(1060, 'en', 'click_to_download_video', 'Click Here To Download This Video'),
+(1061, 'en', 'name', 'Name'),
+(1062, 'en', 'email_wont_display', 'Email (Wont display)'),
+(1063, 'en', 'please_login_to_comment', 'Please login to comment'),
+(1064, 'en', 'marked_as_spam_comment_by_user', 'Marked as spam, commented by <em>%s</em>'),
+(1065, 'en', 'spam', 'Spam'),
+(1066, 'en', 'user_commented_time', '<a href="%s">%s</a> commented %s'),
+(1067, 'en', 'no_comments', 'No Comments'),
+(1068, 'en', 'view_video', 'View Video'),
+(1069, 'en', 'topic_icon', 'Topic Icon'),
+(1070, 'en', 'group_options', 'Group option'),
+(1071, 'en', 'info', 'Info'),
+(1072, 'en', 'basic_info', 'Basic Info'),
+(1073, 'en', 'group_owner', 'Group Owner'),
+(1074, 'en', 'total_mems', 'Total Members'),
+(1075, 'en', 'total_topics', 'Total Topics'),
+(1076, 'en', 'grp_url', 'Group URL'),
+(1077, 'en', 'more_details', 'More Details<'),
+(1078, 'en', 'view_all_mems', 'View All Members'),
+(1079, 'en', 'view_all_vids', 'View All Videos'),
+(1080, 'en', 'topic_title', 'Topic Title'),
+(1081, 'en', 'last_reply', 'Last Reply'),
+(1082, 'en', 'topic_by_user', '<a href="%s">%s</a></span> by <a href="%s">%s</a>'),
+(1083, 'en', 'no_topics', 'No Topics'),
+(1084, 'en', 'last_post_time_by_user', '%s<br />\r\nby <a href="%s">%s'),
+(1085, 'en', 'profile_views', 'Profile views'),
+(1086, 'en', 'last_logged_in', 'last logged in'),
+(1087, 'en', 'last_active', 'Last active'),
+(1088, 'en', 'total_logins', 'Total logins'),
+(1089, 'en', 'total_videos_watched', 'Total videos watched'),
+(1090, 'en', 'view_group', 'View Group'),
+(1091, 'en', 'you_dont_hv_any_pm', 'You do not have any private message'),
+(1092, 'en', 'date_sent', 'Date sent'),
+(1093, 'en', 'show_hide', 'show - hide'),
+(1094, 'en', 'quicklists', 'Quicklists'),
+(1095, 'en', 'are_you_sure_rm_grp', 'Are you sure you want to remove this group ?'),
+(1096, 'en', 'are_you_sure_del_grp', 'Are you sure you want to delete this group?'),
+(1097, 'en', 'change_avatar', 'Change Avatar'),
+(1098, 'en', 'change_bg', 'Change Background'),
+(1099, 'en', 'uploaded_videos', 'Uploaded Videos'),
+(1100, 'en', 'video_playlists', 'Video Playlists'),
+(1101, 'en', 'add_contact_list', 'Add contact list'),
+(1102, 'en', 'topic_post', 'Topic Post'),
+(1103, 'en', 'invite', 'Invite'),
+(1104, 'en', 'time_ago', '%s %s ago'),
+(1105, 'en', 'from_now', '%s %s from now');
 

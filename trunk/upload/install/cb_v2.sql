@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 26, 2010 at 09:37 AM
+-- Generation Time: Feb 13, 2010 at 09:00 PM
 -- Server version: 5.1.36
 -- PHP Version: 5.3.0
 
@@ -16,11 +16,10 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `action_log`
+-- Table structure for table `{tbl_prefix}action_log`
 --
 
-DROP TABLE IF EXISTS `action_log`;
-CREATE TABLE `action_log` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}action_log` (
   `action_id` int(255) NOT NULL AUTO_INCREMENT,
   `action_type` varchar(60) CHARACTER SET latin1 NOT NULL,
   `action_username` varchar(60) CHARACTER SET latin1 NOT NULL,
@@ -38,18 +37,36 @@ CREATE TABLE `action_log` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `action_log`
+-- Dumping data for table `{tbl_prefix}action_log`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ads_data`
+-- Table structure for table `{tbl_prefix}admin_notes`
 --
 
-DROP TABLE IF EXISTS `ads_data`;
-CREATE TABLE `ads_data` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}admin_notes` (
+  `note_id` int(225) NOT NULL AUTO_INCREMENT,
+  `note` text CHARACTER SET ucs2 NOT NULL,
+  `date_added` datetime NOT NULL,
+  `userid` int(225) NOT NULL,
+  PRIMARY KEY (`note_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `{tbl_prefix}admin_notes`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{tbl_prefix}ads_data`
+--
+
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}ads_data` (
   `ad_id` int(50) NOT NULL AUTO_INCREMENT,
   `ad_name` mediumtext NOT NULL,
   `ad_code` mediumtext NOT NULL,
@@ -59,190 +76,54 @@ CREATE TABLE `ads_data` (
   `ad_impressions` bigint(255) NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`ad_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
--- Dumping data for table `ads_data`
+-- Dumping data for table `{tbl_prefix}ads_data`
 --
 
-INSERT INTO `ads_data` (`ad_id`, `ad_name`, `ad_code`, `ad_placement`, `ad_category`, `ad_status`, `ad_impressions`, `date_added`) VALUES
-(9, '336x280', '&lt;img src=&quot;http://www.lipsum.com/images/banners/black_336x280.gif&quot;&gt;', '336x280', 0, '1', 227, '0000-00-00 00:00:00'),
-(2, 'Adbox 160x600', '&lt;img src=''http://www.lipsum.com/images/banners/grey_160x600.gif'' /&gt;\r\n', 'ad_160x600', 0, '1', 1828, '0000-00-00 00:00:00'),
-(3, 'Adbox 468x60', '&lt;div style=''border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:468px; height:60px; line-height:60px;'' align=&quot;center&quot;&gt;\r\n	Ad Box 468 x 60\r\n&lt;/div&gt;', 'ad_468x60', 0, '1', 1956, '0000-00-00 00:00:00'),
-(4, 'Adbox 728x90', '&lt;div style=&quot;border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:728px; height:90px; line-height:90px;&quot; align=&quot;center&quot;&gt;\r\n	Ad Box 728 x 90\r\n&lt;/div&gt;', 'ad_728x90', 0, '1', 694, '0000-00-00 00:00:00'),
-(5, 'Adbox 120x600', '&lt;div style=&quot;border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:120px; height:600px; &quot; align=&quot;center&quot;&gt;\r\n	Ad Box 120 x 600\r\n&lt;/div&gt;', 'ad_468x60', 0, '1', 688, '0000-00-00 00:00:00');
+INSERT INTO `{tbl_prefix}ads_data` (`ad_id`, `ad_name`, `ad_code`, `ad_placement`, `ad_category`, `ad_status`, `ad_impressions`, `date_added`) VALUES
+(1, 'Adbox 300 x 250', '&lt;div style=''color:#0066cc; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:300px; height:250px; line-height:250px;'' align=&quot;center&quot;&gt;\r\n	Ad Box 300x250\r\n&lt;/div&gt;', 'ad_300x250', 0, '1', 0, '2010-02-13 00:00:00'),
+(2, 'Adbox 160x600', '&lt;img src=''http://www.lipsum.com/images/banners/grey_160x600.gif'' /&gt;\r\n', 'ad_160x600', 0, '1', 0, '2010-02-13 00:00:00'),
+(3, 'Adbox 468x60', '&lt;div style=''color:#0066cc; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:468px; height:60px; line-height:60px;'' align=&quot;center&quot;&gt;\r\n	Ad Box 468 x 60\r\n&lt;/div&gt;', 'ad_468x60', 0, '1', 0, '2010-02-13 00:00:00'),
+(4, 'Adbox 728x90', '&lt;img src=&quot;http://www.lipsum.com/images/banners/white_728x90.gif&quot; width=&quot;728&quot; height=&quot;90&quot; border=&quot;0&quot; alt=&quot;&quot; /&gt;', 'ad_728x90', 0, '1', 0, '2010-02-13 00:00:00'),
+(5, 'Adbox 120x600', '&lt;div style=&quot;border:2px #333333 solid; color:#53baff; font-size:20px; font-family:Geneva, Arial, Helvetica, sans-serif; font-weight:bold; width:120px; height:600px; &quot; align=&quot;center&quot;&gt;\r\n	Ad Box 120 x 600\r\n&lt;/div&gt;', 'ad_120x600', 0, '1', 0, '2010-02-13 00:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ads_placements`
+-- Table structure for table `{tbl_prefix}ads_placements`
 --
 
-DROP TABLE IF EXISTS `ads_placements`;
-CREATE TABLE `ads_placements` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}ads_placements` (
   `placement_id` int(20) NOT NULL AUTO_INCREMENT,
   `placement` varchar(26) NOT NULL,
   `placement_name` varchar(50) NOT NULL,
   `disable` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`placement_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
--- Dumping data for table `ads_placements`
+-- Dumping data for table `{tbl_prefix}ads_placements`
 --
 
-INSERT INTO `ads_placements` (`placement_id`, `placement`, `placement_name`, `disable`) VALUES
+INSERT INTO `{tbl_prefix}ads_placements` (`placement_id`, `placement`, `placement_name`, `disable`) VALUES
 (1, 'ad_160x600', 'Wide Skyscrapper 160 x 600', 'yes'),
 (2, 'ad_468x60', 'Banner 468 x 60', 'yes'),
 (3, 'ad_300x250', 'Medium Rectangle 300 x 250', 'yes'),
 (4, 'ad_728x90', 'Leader Board 728 x 90', 'yes'),
 (7, 'ad_120x600', 'Skyscrapper 120 x 600', 'yes'),
 (10, 'ad_300x300', 'AD 300x300', 'no'),
-(11, '336x280', '336 x280 ad', 'no');
+(11, '336x280', '336 x280 ad', 'no'),
+(13, 'ad_234x60', '234x60', 'no');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cb_admin_notes`
+-- Table structure for table `{tbl_prefix}comments`
 --
 
-DROP TABLE IF EXISTS `cb_admin_notes`;
-CREATE TABLE `cb_admin_notes` (
-  `note_id` int(225) NOT NULL AUTO_INCREMENT,
-  `note` text CHARACTER SET ucs2 NOT NULL,
-  `date_added` datetime NOT NULL,
-  `userid` int(225) NOT NULL,
-  PRIMARY KEY (`note_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `cb_admin_notes`
---
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cb_editors_picks`
---
-
-DROP TABLE IF EXISTS `cb_editors_picks`;
-CREATE TABLE `cb_editors_picks` (
-  `pick_id` int(225) NOT NULL AUTO_INCREMENT,
-  `videoid` int(225) NOT NULL,
-  `sort` bigint(5) NOT NULL DEFAULT '1',
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`pick_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `cb_editors_picks`
---
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cb_pages`
---
-
-DROP TABLE IF EXISTS `cb_pages`;
-CREATE TABLE `cb_pages` (
-  `page_id` int(11) NOT NULL AUTO_INCREMENT,
-  `page_name` varchar(225) NOT NULL,
-  `page_title` varchar(225) NOT NULL,
-  `page_content` text NOT NULL,
-  `userid` int(225) NOT NULL,
-  `active` enum('yes','no') NOT NULL,
-  `delete_able` enum('yes','no') NOT NULL DEFAULT 'yes',
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`page_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
-
---
--- Dumping data for table `cb_pages`
---
-
-INSERT INTO `cb_pages` (`page_id`, `page_name`, `page_title`, `page_content`, `userid`, `active`, `delete_able`, `date_added`) VALUES
-(1, 'About us', 'About us', '<div style="margin: auto; width: 98%;"><font style="font-weight: bold;" size="4">About Us</font><hr noshade="noshade" size="1">\r\n  \r\n  \r\n    <p><span style="font-weight: bold;">ClipBucket </span>is one of the world''s best video sites . We specialize in short-form\r\noriginal content - from new, emerging talents and established Hollywood\r\nheavyweights alike. We''re committed to delivering an exceptional\r\nentertainment experience, and we do so by engaging and empowering our\r\naudience every step of the way.</p>\r\n      <p>Everyone can Watch Videos\r\non <span style="font-weight: bold;">ClipBucket</span>. People can see first-hand accounts of current events, find\r\nvideos about their hobbies and interests, and discover the\r\nquirky and unusual. As more people capture special moments on\r\nvideo,<span style="font-weight: bold;">ClipBucket </span>is empowering them to become the broadcasters of\r\ntomorrow.</p>\r\n      <p><span style="font-weight: bold;">ClipBucket </span>not only a video sharing website but\r\nalso has social network features, you can make friends,\r\nand send them videos and private messages. <span style="font-weight: bold;">ClipBucket </span><span style="font-weight: bold;"></span> also has built in\r\nrating system and comment system so that people can discuss on there\r\ninterested videos, not only comment but also, people can rate Comments.</p></div>', 1, 'yes', 'no', '2010-01-01 08:47:56'),
-(2, 'Privacy Policy', 'Privacy Policy', '<h1>ClipBucket Privacy Notice - YT Version\r\n</h1>\r\n<h2>Personal Information</h2>\r\n<ul>\r\n  <li><strong>Browsing ClipBucket</strong> You can watch videos on ClipBucket without having a ClipBucket Account or a  PHPBucket Account. You also can contact us through the ClipBucket Help Center  or by emailing us directly without having to register for an account.</li>\r\n  <li><strong>Your ClipBucket Account.</strong> For some activities on ClipBucket, like uploading videos, posting  comments, flagging videos, or watching restricted videos, you need a  ClipBucket or PHPBucket Account. We ask for some personal information when  you create an account, including your email address and a password,  which is used to protect your account from unauthorized access. A  PHPBucket Account, additionally, allows you to access other PHPBucket  services that require registration.</li>\r\n  <li><strong>Usage Information.</strong> When you use ClipBucket, we may record information about your usage of the  site, such as the channels, groups and favorites you subscribe to,  which other users you communicate with, the videos you watch, the  frequency and size of data transfers, and information you display about  yourself as well as information you click on in ClipBucket (including UI  elements, settings). If you are logged in, we may associate that  information with your ClipBucket Account. In order to ensure the quality  of our service to you, we may place a tag (also called a "web beacon")  in HTML-based customer support emails or other communications with you  in order to confirm delivery.</li>\r\n  <li><strong>Content Uploaded to Site.</strong> Any personal information or video content that you voluntarily disclose  online (e.g., video comments, your profile page) may be collected and  used by others. If you download the ClipBucket Uploader, your copy  includes a unique application number. This number, and information  about your installation of the Uploader (version number, language) will  be sent to ClipBucket when the Uploader automatically checks for updates  and will be used to update your version of the Uploader.</li>\r\n</ul>\r\n<h2>Uses</h2>\r\n<ul>\r\n  <li>If  you submit personal information to ClipBucket, we may use that information  to operate, maintain, and improve the features and functionality of  ClipBucket, and to process any flagging activity or other communication  you send to us.</li>\r\n  <li>We do not use your  email address or other personal information to send commercial or  marketing messages without your consent. We may use your email address  without further consent for non-marketing or administrative purposes  (such as notifying you of major ClipBucket changes or for customer service  purposes). You also can choose how often ClipBucket sends you email  updates in your ClipBucket Account settings page.</li>\r\n  <li>We  use cookies, web beacons, and log file information to: (a) store  information so that you will not have to re-enter it during your visit  or the next time you visit ClipBucket; (b) provide custom, personalized  content and information; (c) monitor the effectiveness of our marketing  campaigns; (d) monitor aggregate metrics such as total number of  visitors and pages viewed; and (e) track your entries, submissions, and  status in promotions, sweepstakes, and contests.</li>\r\n</ul>\r\n<h2>Information That is Publicly Available</h2>\r\n<ul>\r\n  <li>When  you create a ClipBucket Account, some information about your ClipBucket  Account and your account activity will be provided to other users of  ClipBucket. This may include the date you opened your ClipBucket Account, the  date you last logged into your ClipBucket Account, your age (if you choose  to make it public), the country and the number of videos you have  watched.</li>\r\n  <li>Your ClipBucket Account name,  not your email address, is displayed to other users when you engage in  certain activities on ClipBucket, such as when you upload videos or send  messages through ClipBucket. Other users can contact you by leaving a  message or comment on the site.</li>\r\n  <li>Any  videos that you submit to ClipBucket may be redistributed through the  internet and other media channels, and may be viewed by other ClipBucket  users or the general public. </li>\r\n  <li>You  may also choose to add personal information which may include your  name, gender, profile picture or other details, that will be visible to  other users on your ClipBucket Account channel page. If you choose to add  certain features to your ClipBucket Account channel page, then these  features and your activity associated with these features will be  displayed to other users and may be aggregated and shared with your  friends or other users. Such shared activity may include your favorite  videos, videos you rated and videos that you have uploaded.</li>\r\n</ul>\r\n<h2>Your Choices</h2>\r\n<ul>\r\n  <li>If  you have a ClipBucket Account, you may update or correct your personal  profile information, email preferences and privacy settings at any time  by visiting your account profile page. </li>\r\n  <li>You  may control the information that is available to other users and your  confirmed friends at any time by editing your ClipBucket Account and the  features that are included on your channel page. If you have enabled  Active Sharing, other users may see that you, as identified by your  account name, not your email address, are watching the same video.</li>\r\n  <li>You  may, of course, decline to submit personal information through ClipBucket,  in which case you can still view videos and explore ClipBucket, but  ClipBucket may not be able to provide certain services to you. Some  advanced ClipBucket features may use other PHPBucket services like PHPBucket  Checkout or AdSense. The privacy notices of those services govern the  use of your personal information associated with them.</li>\r\n</ul>\r\n', 1, 'yes', 'no', '2010-01-01 08:52:46'),
-(3, 'Terms of Serivce', 'Terms of Service', 'Write your own terms of service...', 1, 'yes', 'no', '2010-01-01 08:53:57'),
-(4, 'Help', 'Help', '<span style="font-weight: bold;">How to use ClipBucket</span><br><ol><li>Articles will be written pretty soon</li></ol>', 1, 'yes', 'no', '2010-01-01 09:17:36'),
-(5, '403 Error', '403 Forbidden', '<h2>403 Access Denied</h2>\r\nSorry, you cannot access this page...', 0, 'yes', 'no', '0000-00-00 00:00:00'),
-(6, '404 Error', '404 Not Found', '<h2>404 Not Found</h2>\r\nwe are unable to find requested URL on server..', 0, 'yes', 'no', '0000-00-00 00:00:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cb_playlists`
---
-
-DROP TABLE IF EXISTS `cb_playlists`;
-CREATE TABLE `cb_playlists` (
-  `playlist_id` int(11) NOT NULL AUTO_INCREMENT,
-  `playlist_name` varchar(225) CHARACTER SET latin1 NOT NULL,
-  `userid` int(11) NOT NULL,
-  `playlist_type` varchar(10) CHARACTER SET latin1 NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`playlist_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `cb_playlists`
---
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cb_playlist_items`
---
-
-DROP TABLE IF EXISTS `cb_playlist_items`;
-CREATE TABLE `cb_playlist_items` (
-  `playlist_item_id` int(225) NOT NULL AUTO_INCREMENT,
-  `object_id` int(225) NOT NULL,
-  `playlist_id` int(225) NOT NULL,
-  `playlist_item_type` varchar(10) CHARACTER SET latin1 NOT NULL,
-  `userid` int(255) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`playlist_item_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `cb_playlist_items`
---
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cb_stats`
---
-
-DROP TABLE IF EXISTS `cb_stats`;
-CREATE TABLE `cb_stats` (
-  `stat_id` int(255) NOT NULL AUTO_INCREMENT,
-  `date_added` date NOT NULL,
-  `video_stats` text NOT NULL,
-  `user_stats` text NOT NULL,
-  `group_stats` text NOT NULL,
-  PRIMARY KEY (`stat_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `cb_stats`
---
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `comments`
---
-
-DROP TABLE IF EXISTS `comments`;
-CREATE TABLE `comments` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}comments` (
   `comment_id` int(60) NOT NULL AUTO_INCREMENT,
   `type` varchar(3) NOT NULL,
   `comment` text NOT NULL,
@@ -251,43 +132,43 @@ CREATE TABLE `comments` (
   `anonym_email` varchar(255) NOT NULL,
   `parent_id` int(60) NOT NULL,
   `type_id` int(225) NOT NULL,
+  `type_owner_id` int(255) NOT NULL,
   `vote` varchar(225) NOT NULL,
-  `spam_votes` int(225) NOT NULL,
-  `spam_voters` text NOT NULL,
   `voters` text NOT NULL,
+  `spam_votes` bigint(20) NOT NULL,
+  `spam_voters` text NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `comment_ip` text NOT NULL,
   PRIMARY KEY (`comment_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `comments`
+-- Dumping data for table `{tbl_prefix}comments`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `config`
+-- Table structure for table `{tbl_prefix}config`
 --
 
-DROP TABLE IF EXISTS `config`;
-CREATE TABLE `config` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}config` (
   `configid` int(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
   `value` mediumtext NOT NULL,
   PRIMARY KEY (`configid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=115 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=116 ;
 
 --
--- Dumping data for table `config`
+-- Dumping data for table `{tbl_prefix}config`
 --
 
-INSERT INTO `config` (`configid`, `name`, `value`) VALUES
+INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (1, 'site_title', 'ClipBucket v2'),
 (2, 'site_slogan', 'A way to broadcast yourself'),
-(3, 'baseurl', 'http://domain.tld'),
-(4, 'basedir', '/home/path/to/clipbucket'),
+(3, 'baseurl', 'http;//domain.tld'),
+(4, 'basedir', '/path/to/script'),
 (5, 'template_dir', 'cbv2new'),
 (6, 'player_file', 'cbplayer.plug.php'),
 (7, 'closed', '0'),
@@ -309,26 +190,26 @@ INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (23, 'email_verification', '1'),
 (24, 'allow_registeration', '1'),
 (25, 'php_path', '/usr/local/bin/php'),
-(26, 'videos_list_per_page', '25'),
+(26, 'videos_list_per_page', '10'),
 (27, 'channels_list_per_page', '25'),
 (28, 'videos_list_per_tab', '1'),
 (29, 'channels_list_per_tab', '1'),
 (30, 'video_comments', '1'),
-(31, 'video_rating', '1'),
+(31, 'video_rating', ''),
 (32, 'comment_rating', '1'),
 (33, 'video_download', '1'),
 (34, 'video_embed', '1'),
 (35, 'groups_list_per_page', '15'),
 (36, 'seo', 'yes'),
-(37, 'admin_pages', '50'),
+(37, 'admin_pages', '60'),
 (38, 'search_list_per_page', '20'),
-(39, 'recently_viewed_limit', '12'),
+(39, 'recently_viewed_limit', '4'),
 (40, 'max_upload_size', '1000'),
 (41, 'sbrate', '128000'),
 (42, 'thumb_width', '120'),
 (43, 'thumb_height', '90'),
-(44, 'ffmpeg_type', ''),
 (45, 'user_comment_opt1', ''),
+(44, 'ffmpeg_type', ''),
 (46, 'user_comment_opt2', ''),
 (47, 'user_comment_opt3', ''),
 (48, 'user_comment_opt4', ''),
@@ -336,7 +217,7 @@ INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (50, 'captcha_type', '1'),
 (51, 'allow_upload', 'yes'),
 (52, 'allowed_types', 'wmv,avi,divx,3gp,mov,mpeg,mpg,xvid,flv,asf,rm,dat,mp4'),
-(53, 'version', '2.0.3'),
+(53, 'version', '2.0.1'),
 (54, 'version_type', 'Alpha'),
 (55, 'allow_template_change', ''),
 (56, 'allow_language_change', '1'),
@@ -362,13 +243,13 @@ INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (76, 'user_comment_own', '1'),
 (77, 'anonym_comments', 'yes'),
 (78, 'player_dir', 'cbplayer'),
-(79, 'player_width', '652'),
+(79, 'player_width', '655'),
 (80, 'player_height', '308'),
-(81, 'default_country_iso2', 'PK'),
+(81, 'default_country_iso2', 'US'),
 (82, 'channel_player_width', '600'),
 (83, 'channel_player_height', '281'),
 (84, 'videos_items_grp_page', '12'),
-(85, 'videos_items_hme_page', '20'),
+(85, 'videos_items_hme_page', '8'),
 (86, 'videos_items_columns', '9'),
 (87, 'videos_items_ufav_page', '25'),
 (88, 'videos_items_uvid_page', '25'),
@@ -379,7 +260,7 @@ INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (93, 'users_items_contacts_channel', '5'),
 (94, 'users_items_search_page', '12'),
 (95, 'users_items_group_page', '15'),
-(96, 'cbhash', 'PGRpdiBhbGlnbj0iY2VudGVyIj48IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPg0KUG93ZXJlZCBieSA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tLyI+Q2xpcEJ1Y2tldDwvYT4gJXM8YnI+DQpDb3B5cmlnaHQgJmNvcHk7IDIwMDcgLSAyMDEwLCBDbGlwQnVja2V0DQo8IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPjwvZGl2Pg=='),
+(96, 'cbhash', 'PGRpdiBhbGlnbj0iY2VudGVyIj48IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPg0KUG93ZXJlZCBieSA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tLyI+Q2xpcEJ1Y2tldDwvYT4gdjIuMC4xPGJyPg0KQ29weXJpZ2h0IMKpMjAwNyAtIDIwMTAsIENsaXBCdWNrZXQNCjwhLS0gRG8gbm90IHJlbW92ZSB0aGlzIGNvcHlyaWdodCBub3RpY2UgLS0+PC9kaXY+'),
 (97, 'min_video_title', '4'),
 (98, 'max_video_title', '60'),
 (99, 'min_video_desc', '5'),
@@ -390,19 +271,22 @@ INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (104, 'video_codec', 'flv'),
 (105, 'date_released', '01-05-2010'),
 (106, 'date_installed', '01-05-2010'),
-(107, 'date_updated', '01-05-2010'),
-(112, 'website_email', 'email@website.com'),
-(113, 'support_email', 'support@website.com'),
-(114, 'welcome_email', 'welcome@website.com');
+(107, 'date_updated', '2010-01-09 18:36:16'),
+(108, 'support_email', 'support@website.tld'),
+(109, 'website_email', 'email@website.td'),
+(110, 'welcome_email', 'welcome@website.tld'),
+(112, 'anonymous_id', '8'),
+(113, 'date_format', 'm-d-Y'),
+(114, 'default_time_zone', '5'),
+(115, 'autoplay_video', 'yes');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `contacts`
+-- Table structure for table `{tbl_prefix}contacts`
 --
 
-DROP TABLE IF EXISTS `contacts`;
-CREATE TABLE `contacts` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}contacts` (
   `contact_id` int(225) NOT NULL AUTO_INCREMENT,
   `userid` int(225) NOT NULL,
   `contact_userid` int(225) NOT NULL,
@@ -413,323 +297,302 @@ CREATE TABLE `contacts` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `contacts`
+-- Dumping data for table `{tbl_prefix}contacts`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `conversion_queue`
+-- Table structure for table `{tbl_prefix}conversion_queue`
 --
 
-DROP TABLE IF EXISTS `conversion_queue`;
-CREATE TABLE `conversion_queue` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}conversion_queue` (
   `cqueue_id` int(11) NOT NULL AUTO_INCREMENT,
   `cqueue_name` varchar(32) CHARACTER SET latin1 NOT NULL,
   `cqueue_ext` varchar(5) CHARACTER SET latin1 NOT NULL,
   `cqueue_tmp_ext` varchar(3) CHARACTER SET latin1 NOT NULL,
   `cqueue_conversion` enum('yes','no','p') CHARACTER SET latin1 NOT NULL DEFAULT 'no',
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `time_started` varchar(32) NOT NULL,
+  `time_completed` varchar(32) NOT NULL,
   PRIMARY KEY (`cqueue_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `conversion_queue`
+-- Dumping data for table `{tbl_prefix}conversion_queue`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `countries`
+-- Table structure for table `{tbl_prefix}countries`
 --
 
-DROP TABLE IF EXISTS `countries`;
-CREATE TABLE `countries` (
-  `id` int(11) NOT NULL,
-  `iso2` char(2) CHARACTER SET latin1 DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}countries` (
+  `country_id` int(80) NOT NULL AUTO_INCREMENT,
+  `iso2` char(2) CHARACTER SET latin1 NOT NULL,
+  `name` varchar(80) CHARACTER SET latin1 NOT NULL,
+  `name_en` varchar(80) CHARACTER SET latin1 NOT NULL,
   `iso3` char(3) CHARACTER SET latin1 DEFAULT NULL,
-  `name_en` varchar(64) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `numcode` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`country_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=240 ;
 
 --
--- Dumping data for table `countries`
+-- Dumping data for table `{tbl_prefix}countries`
 --
 
-INSERT INTO `countries` (`id`, `iso2`, `iso3`, `name_en`) VALUES
-(1, 'AF', 'AFG', 'Afghanistan'),
-(3, 'AL', 'ALB', 'Albania'),
-(4, 'DZ', 'DZA', 'Algeria'),
-(5, 'AS', 'ASM', 'American Samoa'),
-(6, 'AD', 'AND', 'Andorra'),
-(7, 'AO', 'AGO', 'Angola'),
-(8, 'AI', 'AIA', 'Anguilla'),
-(9, 'AQ', 'ATA', 'Antarctica'),
-(10, 'AG', 'ATG', 'Antigua and Barbuda'),
-(11, 'AR', 'ARG', 'Argentina'),
-(12, 'AM', 'ARM', 'Armenia'),
-(13, 'AW', 'ABW', 'Aruba'),
-(14, 'AU', 'AUS', 'Australia'),
-(15, 'AT', 'AUT', 'Austria'),
-(16, 'AZ', 'AZE', 'Azerbaijan'),
-(17, 'BS', 'BHS', 'Bahamas'),
-(18, 'BH', 'BHR', 'Bahrain'),
-(19, 'BD', 'BGD', 'Bangladesh'),
-(20, 'BB', 'BRB', 'Barbados'),
-(21, 'BY', 'BLR', 'Belarus'),
-(22, 'BE', 'BEL', 'Belgium'),
-(23, 'BZ', 'BLZ', 'Belize'),
-(24, 'BJ', 'BEN', 'Benin'),
-(25, 'BM', 'BMU', 'Bermuda'),
-(26, 'BT', 'BTN', 'Bhutan'),
-(27, 'BO', 'BOL', 'Bolivia'),
-(28, 'BA', 'BIH', 'Bosnia and Herzegovina'),
-(29, 'BW', 'BWA', 'Botswana'),
-(30, 'BV', 'BVT', 'Bouvet Island'),
-(31, 'BR', 'BRA', 'Brazil'),
-(32, 'IO', 'IOT', 'British Indian Ocean Territory'),
-(33, 'BN', 'BRN', 'Brunei Darussalam'),
-(34, 'BG', 'BGR', 'Bulgaria'),
-(35, 'BF', 'BFA', 'Burkina Faso'),
-(36, 'BI', 'BDI', 'Burundi'),
-(37, 'KH', 'KHM', 'Cambodia'),
-(38, 'CM', 'CMR', 'Cameroon'),
-(39, 'CA', 'CAN', 'Canada'),
-(40, 'CV', 'CPV', 'Cape Verde'),
-(41, 'KY', 'CYM', 'Cayman Islands'),
-(42, 'CF', 'CAF', 'Central African Republic'),
-(43, 'TD', 'TCD', 'Chad'),
-(44, 'CL', 'CHL', 'Chile'),
-(45, 'CN', 'CHN', 'China'),
-(46, 'CX', 'CXR', 'Christmas Island'),
-(47, 'CC', 'CCK', 'Cocos Islands'),
-(48, 'CO', 'COL', 'Colombia'),
-(49, 'KM', 'COM', 'Comoros'),
-(50, 'CG', 'COG', 'Congo, Republic Of'),
-(52, 'CK', 'COK', 'Cook Islands'),
-(53, 'CR', 'CRI', 'Costa Rica'),
-(55, 'HR', 'HRV', 'Croatia'),
-(56, 'CU', 'CUB', 'Cuba'),
-(57, 'CY', 'CYP', 'Cyprus'),
-(58, 'CZ', 'CZE', 'Czech Republic'),
-(59, 'DK', 'DNK', 'Denmark'),
-(60, 'DJ', 'DJI', 'Djibouti'),
-(61, 'DM', 'DMA', 'Dominica'),
-(62, 'DO', 'DOM', 'Dominican Republic'),
-(63, 'EC', 'ECU', 'Ecuador'),
-(64, 'EG', 'EGY', 'Egypt'),
-(65, 'SV', 'SLV', 'El Salvador'),
-(66, 'GQ', 'GNQ', 'Equatorial Guinea'),
-(67, 'ER', 'ERI', 'Eritrea'),
-(68, 'EE', 'EST', 'Estonia'),
-(69, 'ET', 'ETH', 'Ethiopia'),
-(70, 'FO', 'FRO', 'Faeroe Islands'),
-(71, 'FK', 'FLK', 'Falkland Islands'),
-(72, 'FJ', 'FJI', 'Fiji'),
-(73, 'FI', 'FIN', 'Finland'),
-(74, 'FR', 'FRA', 'France'),
-(75, 'GF', 'GUF', 'French Guiana'),
-(76, 'PF', 'PYF', 'French Polynesia'),
-(78, 'GA', 'GAB', 'Gabon'),
-(79, 'GM', 'GMB', 'Gambia, The'),
-(80, 'GE', 'GEO', 'Georgia'),
-(81, 'DE', 'DEU', 'Germany'),
-(82, 'GH', 'GHA', 'Ghana'),
-(83, 'GI', 'GIB', 'Gibraltar'),
-(84, 'GB', 'GBR', 'Great Britain'),
-(85, 'GR', 'GRC', 'Greece'),
-(86, 'GL', 'GRL', 'Greenland'),
-(87, 'GD', 'GRD', 'Grenada'),
-(88, 'GP', 'GLP', 'Guadeloupe'),
-(89, 'GU', 'GUM', 'Guam'),
-(90, 'GT', 'GTM', 'Guatemala'),
-(91, 'GN', 'GIN', 'Guinea'),
-(92, 'GW', 'GNB', 'Guinea-bissau'),
-(93, 'GY', 'GUY', 'Guyana'),
-(94, 'HT', 'HTI', 'Haiti'),
-(95, 'HM', 'HMD', 'Heard Island'),
-(96, 'HN', 'HND', 'Honduras'),
-(97, 'HK', 'HKG', 'Hong Kong'),
-(98, 'HU', 'HUN', 'Hungary'),
-(99, 'IS', 'ISL', 'Iceland'),
-(100, 'IN', 'IND', 'India'),
-(101, 'ID', 'IDN', 'Indonesia'),
-(102, 'IR', 'IRN', 'Iran'),
-(103, 'IQ', 'IRQ', 'Iraq'),
-(104, 'IE', 'IRL', 'Ireland'),
-(105, 'IL', 'ISR', 'Israel'),
-(106, 'IT', 'ITA', 'Italy'),
-(107, 'JM', 'JAM', 'Jamaica'),
-(108, 'JP', 'JPN', 'Japan'),
-(109, 'JO', 'JOR', 'Jordan'),
-(110, 'KZ', 'KAZ', 'Kazakhstan'),
-(111, 'KE', 'KEN', 'Kenya'),
-(112, 'KI', 'KIR', 'Kiribati'),
-(113, 'KP', 'PRK', 'Korea'),
-(114, 'KR', 'KOR', 'Korea'),
-(115, 'KW', 'KWT', 'Kuwait'),
-(116, 'KG', 'KGZ', 'Kyrgyzstan'),
-(117, 'LA', 'LAO', 'Lao'),
-(118, 'LV', 'LVA', 'Latvia'),
-(119, 'LB', 'LBN', 'Lebanon'),
-(120, 'LS', 'LSO', 'Lesotho'),
-(121, 'LR', 'LBR', 'Liberia'),
-(122, 'LY', 'LBY', 'Libya'),
-(124, 'LT', 'LTU', 'Lithuania'),
-(125, 'LU', 'LUX', 'Luxembourg'),
-(128, 'MG', 'MDG', 'Madagascar'),
-(129, 'MW', 'MWI', 'Malawi'),
-(130, 'MY', 'MYS', 'Malaysia'),
-(131, 'MV', 'MDV', 'Maldives'),
-(132, 'ML', 'MLI', 'Mali'),
-(133, 'MT', 'MLT', 'Malta'),
-(134, 'MH', 'MHL', 'Marshall Islands'),
-(135, 'MQ', 'MTQ', 'Martinique'),
-(136, 'MR', 'MRT', 'Mauritania'),
-(137, 'MU', 'MUS', 'Mauritius'),
-(138, 'YT', 'MYT', 'Mayotte'),
-(139, 'MX', 'MEX', 'Mexico'),
-(141, 'MD', 'MDA', 'Moldova'),
-(142, 'MC', 'MCO', 'Monaco'),
-(143, 'MN', 'MNG', 'Mongolia'),
-(144, 'MS', 'MSR', 'Montserrat'),
-(145, 'MA', 'MAR', 'Morocco'),
-(147, 'MM', 'MMR', 'Myanmar '),
-(148, 'NA', 'NAM', 'Namibia'),
-(149, 'NR', 'NRU', 'Nauru'),
-(150, 'NP', 'NPL', 'Nepal'),
-(151, 'NL', 'NLD', 'Netherlands'),
-(152, 'AN', 'ANT', 'Netherlands Antilles'),
-(153, 'NC', 'NCL', 'New Caledonia'),
-(154, 'NZ', 'NZL', 'New Zealand'),
-(155, 'NI', 'NIC', 'Nicaragua'),
-(156, 'NE', 'NER', 'Niger'),
-(157, 'NG', 'NGA', 'Nigeria'),
-(158, 'NU', 'NIU', 'Niue'),
-(159, 'NF', 'NFK', 'Norfolk Island'),
-(160, 'MP', 'MNP', 'Northern Mariana Islands'),
-(161, 'NO', 'NOR', 'Norway'),
-(162, 'OM', 'OMN', 'Oman'),
-(163, 'PK', 'PAK', 'Pakistan'),
-(164, 'PW', 'PLW', 'Palau'),
-(165, 'PS', 'PSE', 'Palestinian Territories'),
-(166, 'PA', 'PAN', 'Panama'),
-(167, 'PG', 'PNG', 'Papua New Guinea'),
-(168, 'PY', 'PRY', 'Paraguay'),
-(169, 'PE', 'PER', 'Peru'),
-(170, 'PH', 'PHL', 'Philippines'),
-(171, 'PN', 'PCN', 'Pitcairn'),
-(172, 'PL', 'POL', 'Poland'),
-(173, 'PT', 'PRT', 'Portugal'),
-(174, 'PR', 'PRI', 'Puerto Rico'),
-(175, 'QA', 'QAT', 'Qatar'),
-(177, 'RO', 'ROU', 'Romania'),
-(178, 'RU', 'RUS', 'Russian Federation'),
-(179, 'RW', 'RWA', 'Rwanda'),
-(180, 'SH', 'SHN', 'Saint Helena'),
-(181, 'KN', 'KNA', 'Saint Kitts and Nevis'),
-(182, 'LC', 'LCA', 'Saint Lucia'),
-(183, 'PM', 'SPM', 'Saint Pierre and Miquelon'),
-(184, 'VC', 'VCT', 'Saint Vincent '),
-(185, 'WS', 'WSM', 'Samoa '),
-(186, 'SM', 'SMR', 'San Marino'),
-(187, 'ST', 'STP', 'Sao Tome and Principe'),
-(188, 'SA', 'SAU', 'Saudi Arabia'),
-(189, 'SN', 'SEN', 'Senegal'),
-(190, 'CS', 'SCG', 'Serbia and Montenegro '),
-(191, 'SC', 'SYC', 'Seychelles'),
-(192, 'SL', 'SLE', 'Sierra Leone'),
-(193, 'SG', 'SGP', 'Singapore'),
-(194, 'SK', 'SVK', 'Slovakia '),
-(195, 'SI', 'SVN', 'Slovenia'),
-(196, 'SB', 'SLB', 'Solomon Islands'),
-(197, 'SO', 'SOM', 'Somalia'),
-(198, 'ZA', 'ZAF', 'South Africa'),
-(199, 'GS', 'SGS', 'South Georgia'),
-(200, 'ES', 'ESP', 'Spain'),
-(201, 'LK', 'LKA', 'Sri Lanka'),
-(202, 'SD', 'SDN', 'Sudan'),
-(203, 'SR', 'SUR', 'Suriname'),
-(204, 'SJ', 'SJM', 'Svalbard and Jan Mayen'),
-(205, 'SZ', 'SWZ', 'Swaziland'),
-(206, 'SE', 'SWE', 'Sweden'),
-(207, 'CH', 'CHE', 'Switzerland'),
-(208, 'SY', 'SYR', 'Syrian Arab Republic'),
-(209, 'TW', 'TWN', 'Taiwan'),
-(210, 'TJ', 'TJK', 'Tajikistan'),
-(211, 'TZ', 'TZA', 'Tanzania'),
-(212, 'TH', 'THA', 'Thailand'),
-(213, 'TL', 'TLS', 'Timor-Leste'),
-(214, 'TG', 'TGO', 'Togo'),
-(215, 'TK', 'TKL', 'Tokelau'),
-(216, 'TO', 'TON', 'Tonga'),
-(217, 'TT', 'TTO', 'Trinidad and Tobago'),
-(218, 'TN', 'TUN', 'Tunisia'),
-(219, 'TR', 'TUR', 'Turkey'),
-(220, 'TM', 'TKM', 'Turkmenistan'),
-(221, 'TC', 'TCA', 'Turks and Caicos Islands'),
-(222, 'TV', 'TUV', 'Tuvalu'),
-(223, 'UG', 'UGA', 'Uganda'),
-(224, 'UA', 'UKR', 'Ukraine'),
-(225, 'AE', 'ARE', 'United Arab Emirates'),
-(226, 'GB', 'GBR', 'United Kingdom'),
-(227, 'US', 'USA', 'United States'),
-(229, 'UY', 'URY', 'Uruguay'),
-(230, 'UZ', 'UZB', 'Uzbekistan'),
-(231, 'VU', 'VUT', 'Vanuatu'),
-(232, 'VA', 'VAT', 'Vatican City'),
-(233, 'VE', 'VEN', 'Venezuela'),
-(234, 'VN', 'VNM', 'Viet Nam'),
-(235, 'VG', 'VGB', 'Virgin Islands, British'),
-(236, 'VI', 'VIR', 'Virgin Islands, U.S.'),
-(237, 'WF', 'WLF', 'Wallis and Futuna'),
-(238, 'EH', 'ESH', 'Western Sahara'),
-(239, 'YE', 'YEM', 'Yemen'),
-(240, 'ZM', 'ZMB', 'Zambia'),
-(241, 'ZW', 'ZWE', 'Zimbabwe');
+INSERT INTO `{tbl_prefix}countries` (`country_id`, `iso2`, `name`, `name_en`, `iso3`, `numcode`) VALUES
+(1, 'AF', 'AFGHANISTAN', 'Afghanistan', 'AFG', 4),
+(2, 'AL', 'ALBANIA', 'Albania', 'ALB', 8),
+(3, 'DZ', 'ALGERIA', 'Algeria', 'DZA', 12),
+(4, 'AS', 'AMERICAN SAMOA', 'American Samoa', 'ASM', 16),
+(5, 'AD', 'ANDORRA', 'Andorra', 'AND', 20),
+(6, 'AO', 'ANGOLA', 'Angola', 'AGO', 24),
+(7, 'AI', 'ANGUILLA', 'Anguilla', 'AIA', 660),
+(8, 'AQ', 'ANTARCTICA', 'Antarctica', NULL, NULL),
+(9, 'AG', 'ANTIGUA AND BARBUDA', 'Antigua and Barbuda', 'ATG', 28),
+(10, 'AR', 'ARGENTINA', 'Argentina', 'ARG', 32),
+(11, 'AM', 'ARMENIA', 'Armenia', 'ARM', 51),
+(12, 'AW', 'ARUBA', 'Aruba', 'ABW', 533),
+(13, 'AU', 'AUSTRALIA', 'Australia', 'AUS', 36),
+(14, 'AT', 'AUSTRIA', 'Austria', 'AUT', 40),
+(15, 'AZ', 'AZERBAIJAN', 'Azerbaijan', 'AZE', 31),
+(16, 'BS', 'BAHAMAS', 'Bahamas', 'BHS', 44),
+(17, 'BH', 'BAHRAIN', 'Bahrain', 'BHR', 48),
+(18, 'BD', 'BANGLADESH', 'Bangladesh', 'BGD', 50),
+(19, 'BB', 'BARBADOS', 'Barbados', 'BRB', 52),
+(20, 'BY', 'BELARUS', 'Belarus', 'BLR', 112),
+(21, 'BE', 'BELGIUM', 'Belgium', 'BEL', 56),
+(22, 'BZ', 'BELIZE', 'Belize', 'BLZ', 84),
+(23, 'BJ', 'BENIN', 'Benin', 'BEN', 204),
+(24, 'BM', 'BERMUDA', 'Bermuda', 'BMU', 60),
+(25, 'BT', 'BHUTAN', 'Bhutan', 'BTN', 64),
+(26, 'BO', 'BOLIVIA', 'Bolivia', 'BOL', 68),
+(27, 'BA', 'BOSNIA AND HERZEGOVINA', 'Bosnia and Herzegovina', 'BIH', 70),
+(28, 'BW', 'BOTSWANA', 'Botswana', 'BWA', 72),
+(29, 'BV', 'BOUVET ISLAND', 'Bouvet Island', NULL, NULL),
+(30, 'BR', 'BRAZIL', 'Brazil', 'BRA', 76),
+(31, 'IO', 'BRITISH INDIAN OCEAN TERRITORY', 'British Indian Ocean Territory', NULL, NULL),
+(32, 'BN', 'BRUNEI DARUSSALAM', 'Brunei Darussalam', 'BRN', 96),
+(33, 'BG', 'BULGARIA', 'Bulgaria', 'BGR', 100),
+(34, 'BF', 'BURKINA FASO', 'Burkina Faso', 'BFA', 854),
+(35, 'BI', 'BURUNDI', 'Burundi', 'BDI', 108),
+(36, 'KH', 'CAMBODIA', 'Cambodia', 'KHM', 116),
+(37, 'CM', 'CAMEROON', 'Cameroon', 'CMR', 120),
+(38, 'CA', 'CANADA', 'Canada', 'CAN', 124),
+(39, 'CV', 'CAPE VERDE', 'Cape Verde', 'CPV', 132),
+(40, 'KY', 'CAYMAN ISLANDS', 'Cayman Islands', 'CYM', 136),
+(41, 'CF', 'CENTRAL AFRICAN REPUBLIC', 'Central African Republic', 'CAF', 140),
+(42, 'TD', 'CHAD', 'Chad', 'TCD', 148),
+(43, 'CL', 'CHILE', 'Chile', 'CHL', 152),
+(44, 'CN', 'CHINA', 'China', 'CHN', 156),
+(45, 'CX', 'CHRISTMAS ISLAND', 'Christmas Island', NULL, NULL),
+(46, 'CC', 'COCOS (KEELING) ISLANDS', 'Cocos (Keeling) Islands', NULL, NULL),
+(47, 'CO', 'COLOMBIA', 'Colombia', 'COL', 170),
+(48, 'KM', 'COMOROS', 'Comoros', 'COM', 174),
+(49, 'CG', 'CONGO', 'Congo', 'COG', 178),
+(50, 'CD', 'CONGO, THE DEMOCRATIC REPUBLIC OF THE', 'Congo, the Democratic Republic of the', 'COD', 180),
+(51, 'CK', 'COOK ISLANDS', 'Cook Islands', 'COK', 184),
+(52, 'CR', 'COSTA RICA', 'Costa Rica', 'CRI', 188),
+(53, 'CI', 'COTE D''IVOIRE', 'Cote D''Ivoire', 'CIV', 384),
+(54, 'HR', 'CROATIA', 'Croatia', 'HRV', 191),
+(55, 'CU', 'CUBA', 'Cuba', 'CUB', 192),
+(56, 'CY', 'CYPRUS', 'Cyprus', 'CYP', 196),
+(57, 'CZ', 'CZECH REPUBLIC', 'Czech Republic', 'CZE', 203),
+(58, 'DK', 'DENMARK', 'Denmark', 'DNK', 208),
+(59, 'DJ', 'DJIBOUTI', 'Djibouti', 'DJI', 262),
+(60, 'DM', 'DOMINICA', 'Dominica', 'DMA', 212),
+(61, 'DO', 'DOMINICAN REPUBLIC', 'Dominican Republic', 'DOM', 214),
+(62, 'EC', 'ECUADOR', 'Ecuador', 'ECU', 218),
+(63, 'EG', 'EGYPT', 'Egypt', 'EGY', 818),
+(64, 'SV', 'EL SALVADOR', 'El Salvador', 'SLV', 222),
+(65, 'GQ', 'EQUATORIAL GUINEA', 'Equatorial Guinea', 'GNQ', 226),
+(66, 'ER', 'ERITREA', 'Eritrea', 'ERI', 232),
+(67, 'EE', 'ESTONIA', 'Estonia', 'EST', 233),
+(68, 'ET', 'ETHIOPIA', 'Ethiopia', 'ETH', 231),
+(69, 'FK', 'FALKLAND ISLANDS (MALVINAS)', 'Falkland Islands (Malvinas)', 'FLK', 238),
+(70, 'FO', 'FAROE ISLANDS', 'Faroe Islands', 'FRO', 234),
+(71, 'FJ', 'FIJI', 'Fiji', 'FJI', 242),
+(72, 'FI', 'FINLAND', 'Finland', 'FIN', 246),
+(73, 'FR', 'FRANCE', 'France', 'FRA', 250),
+(74, 'GF', 'FRENCH GUIANA', 'French Guiana', 'GUF', 254),
+(75, 'PF', 'FRENCH POLYNESIA', 'French Polynesia', 'PYF', 258),
+(76, 'TF', 'FRENCH SOUTHERN TERRITORIES', 'French Southern Territories', NULL, NULL),
+(77, 'GA', 'GABON', 'Gabon', 'GAB', 266),
+(78, 'GM', 'GAMBIA', 'Gambia', 'GMB', 270),
+(79, 'GE', 'GEORGIA', 'Georgia', 'GEO', 268),
+(80, 'DE', 'GERMANY', 'Germany', 'DEU', 276),
+(81, 'GH', 'GHANA', 'Ghana', 'GHA', 288),
+(82, 'GI', 'GIBRALTAR', 'Gibraltar', 'GIB', 292),
+(83, 'GR', 'GREECE', 'Greece', 'GRC', 300),
+(84, 'GL', 'GREENLAND', 'Greenland', 'GRL', 304),
+(85, 'GD', 'GRENADA', 'Grenada', 'GRD', 308),
+(86, 'GP', 'GUADELOUPE', 'Guadeloupe', 'GLP', 312),
+(87, 'GU', 'GUAM', 'Guam', 'GUM', 316),
+(88, 'GT', 'GUATEMALA', 'Guatemala', 'GTM', 320),
+(89, 'GN', 'GUINEA', 'Guinea', 'GIN', 324),
+(90, 'GW', 'GUINEA-BISSAU', 'Guinea-Bissau', 'GNB', 624),
+(91, 'GY', 'GUYANA', 'Guyana', 'GUY', 328),
+(92, 'HT', 'HAITI', 'Haiti', 'HTI', 332),
+(93, 'HM', 'HEARD ISLAND AND MCDONALD ISLANDS', 'Heard Island and Mcdonald Islands', NULL, NULL),
+(94, 'VA', 'HOLY SEE (VATICAN CITY STATE)', 'Holy See (Vatican City State)', 'VAT', 336),
+(95, 'HN', 'HONDURAS', 'Honduras', 'HND', 340),
+(96, 'HK', 'HONG KONG', 'Hong Kong', 'HKG', 344),
+(97, 'HU', 'HUNGARY', 'Hungary', 'HUN', 348),
+(98, 'IS', 'ICELAND', 'Iceland', 'ISL', 352),
+(99, 'IN', 'INDIA', 'India', 'IND', 356),
+(100, 'ID', 'INDONESIA', 'Indonesia', 'IDN', 360),
+(101, 'IR', 'IRAN, ISLAMIC REPUBLIC OF', 'Iran, Islamic Republic of', 'IRN', 364),
+(102, 'IQ', 'IRAQ', 'Iraq', 'IRQ', 368),
+(103, 'IE', 'IRELAND', 'Ireland', 'IRL', 372),
+(104, 'IL', 'ISRAEL', 'Israel', 'ISR', 376),
+(105, 'IT', 'ITALY', 'Italy', 'ITA', 380),
+(106, 'JM', 'JAMAICA', 'Jamaica', 'JAM', 388),
+(107, 'JP', 'JAPAN', 'Japan', 'JPN', 392),
+(108, 'JO', 'JORDAN', 'Jordan', 'JOR', 400),
+(109, 'KZ', 'KAZAKHSTAN', 'Kazakhstan', 'KAZ', 398),
+(110, 'KE', 'KENYA', 'Kenya', 'KEN', 404),
+(111, 'KI', 'KIRIBATI', 'Kiribati', 'KIR', 296),
+(112, 'KP', 'KOREA, DEMOCRATIC PEOPLE''S REPUBLIC OF', 'Korea, Democratic People''s Republic of', 'PRK', 408),
+(113, 'KR', 'KOREA, REPUBLIC OF', 'Korea, Republic of', 'KOR', 410),
+(114, 'KW', 'KUWAIT', 'Kuwait', 'KWT', 414),
+(115, 'KG', 'KYRGYZSTAN', 'Kyrgyzstan', 'KGZ', 417),
+(116, 'LA', 'LAO PEOPLE''S DEMOCRATIC REPUBLIC', 'Lao People''s Democratic Republic', 'LAO', 418),
+(117, 'LV', 'LATVIA', 'Latvia', 'LVA', 428),
+(118, 'LB', 'LEBANON', 'Lebanon', 'LBN', 422),
+(119, 'LS', 'LESOTHO', 'Lesotho', 'LSO', 426),
+(120, 'LR', 'LIBERIA', 'Liberia', 'LBR', 430),
+(121, 'LY', 'LIBYAN ARAB JAMAHIRIYA', 'Libyan Arab Jamahiriya', 'LBY', 434),
+(122, 'LI', 'LIECHTENSTEIN', 'Liechtenstein', 'LIE', 438),
+(123, 'LT', 'LITHUANIA', 'Lithuania', 'LTU', 440),
+(124, 'LU', 'LUXEMBOURG', 'Luxembourg', 'LUX', 442),
+(125, 'MO', 'MACAO', 'Macao', 'MAC', 446),
+(126, 'MK', 'MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF', 'Macedonia, the Former Yugoslav Republic of', 'MKD', 807),
+(127, 'MG', 'MADAGASCAR', 'Madagascar', 'MDG', 450),
+(128, 'MW', 'MALAWI', 'Malawi', 'MWI', 454),
+(129, 'MY', 'MALAYSIA', 'Malaysia', 'MYS', 458),
+(130, 'MV', 'MALDIVES', 'Maldives', 'MDV', 462),
+(131, 'ML', 'MALI', 'Mali', 'MLI', 466),
+(132, 'MT', 'MALTA', 'Malta', 'MLT', 470),
+(133, 'MH', 'MARSHALL ISLANDS', 'Marshall Islands', 'MHL', 584),
+(134, 'MQ', 'MARTINIQUE', 'Martinique', 'MTQ', 474),
+(135, 'MR', 'MAURITANIA', 'Mauritania', 'MRT', 478),
+(136, 'MU', 'MAURITIUS', 'Mauritius', 'MUS', 480),
+(137, 'YT', 'MAYOTTE', 'Mayotte', NULL, NULL),
+(138, 'MX', 'MEXICO', 'Mexico', 'MEX', 484),
+(139, 'FM', 'MICRONESIA, FEDERATED STATES OF', 'Micronesia, Federated States of', 'FSM', 583),
+
+(140, 'MD', 'MOLDOVA, REPUBLIC OF', 'Moldova, Republic of', 'MDA', 498),
+(141, 'MC', 'MONACO', 'Monaco', 'MCO', 492),
+(142, 'MN', 'MONGOLIA', 'Mongolia', 'MNG', 496),
+(143, 'MS', 'MONTSERRAT', 'Montserrat', 'MSR', 500),
+(144, 'MA', 'MOROCCO', 'Morocco', 'MAR', 504),
+(145, 'MZ', 'MOZAMBIQUE', 'Mozambique', 'MOZ', 508),
+(146, 'MM', 'MYANMAR', 'Myanmar', 'MMR', 104),
+(147, 'NA', 'NAMIBIA', 'Namibia', 'NAM', 516),
+(148, 'NR', 'NAURU', 'Nauru', 'NRU', 520),
+(149, 'NP', 'NEPAL', 'Nepal', 'NPL', 524),
+(150, 'NL', 'NETHERLANDS', 'Netherlands', 'NLD', 528),
+(151, 'AN', 'NETHERLANDS ANTILLES', 'Netherlands Antilles', 'ANT', 530),
+(152, 'NC', 'NEW CALEDONIA', 'New Caledonia', 'NCL', 540),
+(153, 'NZ', 'NEW ZEALAND', 'New Zealand', 'NZL', 554),
+(154, 'NI', 'NICARAGUA', 'Nicaragua', 'NIC', 558),
+(155, 'NE', 'NIGER', 'Niger', 'NER', 562),
+(156, 'NG', 'NIGERIA', 'Nigeria', 'NGA', 566),
+(157, 'NU', 'NIUE', 'Niue', 'NIU', 570),
+(158, 'NF', 'NORFOLK ISLAND', 'Norfolk Island', 'NFK', 574),
+(159, 'MP', 'NORTHERN MARIANA ISLANDS', 'Northern Mariana Islands', 'MNP', 580),
+(160, 'NO', 'NORWAY', 'Norway', 'NOR', 578),
+(161, 'OM', 'OMAN', 'Oman', 'OMN', 512),
+(162, 'PK', 'PAKISTAN', 'Pakistan', 'PAK', 586),
+(163, 'PW', 'PALAU', 'Palau', 'PLW', 585),
+(164, 'PS', 'PALESTINIAN TERRITORY, OCCUPIED', 'Palestinian Territory, Occupied', NULL, NULL),
+(165, 'PA', 'PANAMA', 'Panama', 'PAN', 591),
+(166, 'PG', 'PAPUA NEW GUINEA', 'Papua New Guinea', 'PNG', 598),
+(167, 'PY', 'PARAGUAY', 'Paraguay', 'PRY', 600),
+(168, 'PE', 'PERU', 'Peru', 'PER', 604),
+(169, 'PH', 'PHILIPPINES', 'Philippines', 'PHL', 608),
+(170, 'PN', 'PITCAIRN', 'Pitcairn', 'PCN', 612),
+(171, 'PL', 'POLAND', 'Poland', 'POL', 616),
+(172, 'PT', 'PORTUGAL', 'Portugal', 'PRT', 620),
+(173, 'PR', 'PUERTO RICO', 'Puerto Rico', 'PRI', 630),
+(174, 'QA', 'QATAR', 'Qatar', 'QAT', 634),
+(175, 'RE', 'REUNION', 'Reunion', 'REU', 638),
+(176, 'RO', 'ROMANIA', 'Romania', 'ROM', 642),
+(177, 'RU', 'RUSSIAN FEDERATION', 'Russian Federation', 'RUS', 643),
+(178, 'RW', 'RWANDA', 'Rwanda', 'RWA', 646),
+(179, 'SH', 'SAINT HELENA', 'Saint Helena', 'SHN', 654),
+(180, 'KN', 'SAINT KITTS AND NEVIS', 'Saint Kitts and Nevis', 'KNA', 659),
+(181, 'LC', 'SAINT LUCIA', 'Saint Lucia', 'LCA', 662),
+(182, 'PM', 'SAINT PIERRE AND MIQUELON', 'Saint Pierre and Miquelon', 'SPM', 666),
+(183, 'VC', 'SAINT VINCENT AND THE GRENADINES', 'Saint Vincent and the Grenadines', 'VCT', 670),
+(184, 'WS', 'SAMOA', 'Samoa', 'WSM', 882),
+(185, 'SM', 'SAN MARINO', 'San Marino', 'SMR', 674),
+(186, 'ST', 'SAO TOME AND PRINCIPE', 'Sao Tome and Principe', 'STP', 678),
+(187, 'SA', 'SAUDI ARABIA', 'Saudi Arabia', 'SAU', 682),
+(188, 'SN', 'SENEGAL', 'Senegal', 'SEN', 686),
+(189, 'CS', 'SERBIA AND MONTENEGRO', 'Serbia and Montenegro', NULL, NULL),
+(190, 'SC', 'SEYCHELLES', 'Seychelles', 'SYC', 690),
+(191, 'SL', 'SIERRA LEONE', 'Sierra Leone', 'SLE', 694),
+(192, 'SG', 'SINGAPORE', 'Singapore', 'SGP', 702),
+(193, 'SK', 'SLOVAKIA', 'Slovakia', 'SVK', 703),
+(194, 'SI', 'SLOVENIA', 'Slovenia', 'SVN', 705),
+(195, 'SB', 'SOLOMON ISLANDS', 'Solomon Islands', 'SLB', 90),
+(196, 'SO', 'SOMALIA', 'Somalia', 'SOM', 706),
+(197, 'ZA', 'SOUTH AFRICA', 'South Africa', 'ZAF', 710),
+(198, 'GS', 'SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS', 'South Georgia and the South Sandwich Islands', NULL, NULL),
+(199, 'ES', 'SPAIN', 'Spain', 'ESP', 724),
+(200, 'LK', 'SRI LANKA', 'Sri Lanka', 'LKA', 144),
+(201, 'SD', 'SUDAN', 'Sudan', 'SDN', 736),
+(202, 'SR', 'SURINAME', 'Suriname', 'SUR', 740),
+(203, 'SJ', 'SVALBARD AND JAN MAYEN', 'Svalbard and Jan Mayen', 'SJM', 744),
+(204, 'SZ', 'SWAZILAND', 'Swaziland', 'SWZ', 748),
+(205, 'SE', 'SWEDEN', 'Sweden', 'SWE', 752),
+(206, 'CH', 'SWITZERLAND', 'Switzerland', 'CHE', 756),
+(207, 'SY', 'SYRIAN ARAB REPUBLIC', 'Syrian Arab Republic', 'SYR', 760),
+(208, 'TW', 'TAIWAN, PROVINCE OF CHINA', 'Taiwan, Province of China', 'TWN', 158),
+(209, 'TJ', 'TAJIKISTAN', 'Tajikistan', 'TJK', 762),
+(210, 'TZ', 'TANZANIA, UNITED REPUBLIC OF', 'Tanzania, United Republic of', 'TZA', 834),
+(211, 'TH', 'THAILAND', 'Thailand', 'THA', 764),
+(212, 'TL', 'TIMOR-LESTE', 'Timor-Leste', NULL, NULL),
+(213, 'TG', 'TOGO', 'Togo', 'TGO', 768),
+(214, 'TK', 'TOKELAU', 'Tokelau', 'TKL', 772),
+(215, 'TO', 'TONGA', 'Tonga', 'TON', 776),
+(216, 'TT', 'TRINIDAD AND TOBAGO', 'Trinidad and Tobago', 'TTO', 780),
+(217, 'TN', 'TUNISIA', 'Tunisia', 'TUN', 788),
+(218, 'TR', 'TURKEY', 'Turkey', 'TUR', 792),
+(219, 'TM', 'TURKMENISTAN', 'Turkmenistan', 'TKM', 795),
+(220, 'TC', 'TURKS AND CAICOS ISLANDS', 'Turks and Caicos Islands', 'TCA', 796),
+(221, 'TV', 'TUVALU', 'Tuvalu', 'TUV', 798),
+(222, 'UG', 'UGANDA', 'Uganda', 'UGA', 800),
+(223, 'UA', 'UKRAINE', 'Ukraine', 'UKR', 804),
+(224, 'AE', 'UNITED ARAB EMIRATES', 'United Arab Emirates', 'ARE', 784),
+(225, 'GB', 'UNITED KINGDOM', 'United Kingdom', 'GBR', 826),
+(226, 'US', 'UNITED STATES', 'United States', 'USA', 840),
+(227, 'UM', 'UNITED STATES MINOR OUTLYING ISLANDS', 'United States Minor Outlying Islands', NULL, NULL),
+(228, 'UY', 'URUGUAY', 'Uruguay', 'URY', 858),
+(229, 'UZ', 'UZBEKISTAN', 'Uzbekistan', 'UZB', 860),
+(230, 'VU', 'VANUATU', 'Vanuatu', 'VUT', 548),
+(231, 'VE', 'VENEZUELA', 'Venezuela', 'VEN', 862),
+(232, 'VN', 'VIET NAM', 'Viet Nam', 'VNM', 704),
+(233, 'VG', 'VIRGIN ISLANDS, BRITISH', 'Virgin Islands, British', 'VGB', 92),
+(234, 'VI', 'VIRGIN ISLANDS, U.S.', 'Virgin Islands, U.s.', 'VIR', 850),
+(235, 'WF', 'WALLIS AND FUTUNA', 'Wallis and Futuna', 'WLF', 876),
+(236, 'EH', 'WESTERN SAHARA', 'Western Sahara', 'ESH', 732),
+(237, 'YE', 'YEMEN', 'Yemen', 'YEM', 887),
+(238, 'ZM', 'ZAMBIA', 'Zambia', 'ZMB', 894),
+(239, 'ZW', 'ZIMBABWE', 'Zimbabwe', 'ZWE', 716);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `custom_fields`
+-- Table structure for table `{tbl_prefix}editors_picks`
 --
 
-DROP TABLE IF EXISTS `custom_fields`;
-CREATE TABLE `custom_fields` (
-  `custom_field_list_id` int(11) NOT NULL AUTO_INCREMENT,
-  `custom_field_title` text NOT NULL,
-  `custom_field_type` text NOT NULL,
-  `custom_field_name` text NOT NULL,
-  `custom_field_id` text NOT NULL,
-  `custom_field_value` text NOT NULL,
-  `custom_field_hint_1` text NOT NULL,
-  `custom_field_db_field` text NOT NULL,
-  `custom_field_required` enum('yes','no') NOT NULL DEFAULT 'no',
-  `custom_field_validate_function` text NOT NULL,
-  `custom_field_invalid_err` text NOT NULL,
-  `custom_field_display_function` text NOT NULL,
-  `custom_field_anchor_before` text NOT NULL,
-  `custom_field_anchor_after` text NOT NULL,
-  `custom_field_hint_2` text NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`custom_field_list_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `custom_fields`
---
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `editors_picks`
---
-
-DROP TABLE IF EXISTS `editors_picks`;
-CREATE TABLE `editors_picks` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}editors_picks` (
   `pick_id` int(225) NOT NULL AUTO_INCREMENT,
   `videoid` int(225) NOT NULL,
   `sort` bigint(5) NOT NULL DEFAULT '1',
@@ -738,18 +601,17 @@ CREATE TABLE `editors_picks` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `editors_picks`
+-- Dumping data for table `{tbl_prefix}editors_picks`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `email_settings`
+-- Table structure for table `{tbl_prefix}email_settings`
 --
 
-DROP TABLE IF EXISTS `email_settings`;
-CREATE TABLE `email_settings` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}email_settings` (
   `email_settings_id` int(25) NOT NULL AUTO_INCREMENT,
   `email_settings_name` varchar(60) NOT NULL,
   `email_settings_value` mediumtext NOT NULL,
@@ -758,10 +620,10 @@ CREATE TABLE `email_settings` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
--- Dumping data for table `email_settings`
+-- Dumping data for table `{tbl_prefix}email_settings`
 --
 
-INSERT INTO `email_settings` (`email_settings_id`, `email_settings_name`, `email_settings_value`, `email_settings_headers`) VALUES
+INSERT INTO `{tbl_prefix}email_settings` (`email_settings_id`, `email_settings_name`, `email_settings_value`, `email_settings_headers`) VALUES
 (1, 'website_email', 'email@example.com', ''),
 (2, 'support_email', 'support@example.com', ''),
 (3, 'welcome_email', 'no-reply@example.com', ''),
@@ -774,11 +636,10 @@ INSERT INTO `email_settings` (`email_settings_id`, `email_settings_name`, `email
 -- --------------------------------------------------------
 
 --
--- Table structure for table `email_templates`
+-- Table structure for table `{tbl_prefix}email_templates`
 --
 
-DROP TABLE IF EXISTS `email_templates`;
-CREATE TABLE `email_templates` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}email_templates` (
   `email_template_id` int(11) NOT NULL AUTO_INCREMENT,
   `email_template_name` varchar(225) CHARACTER SET latin1 NOT NULL,
   `email_template_code` varchar(225) CHARACTER SET latin1 NOT NULL,
@@ -790,10 +651,10 @@ CREATE TABLE `email_templates` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
--- Dumping data for table `email_templates`
+-- Dumping data for table `{tbl_prefix}email_templates`
 --
 
-INSERT INTO `email_templates` (`email_template_id`, `email_template_name`, `email_template_code`, `email_template_subject`, `email_template`, `email_template_allowed_tags`) VALUES
+INSERT INTO `{tbl_prefix}email_templates` (`email_template_id`, `email_template_name`, `email_template_code`, `email_template_subject`, `email_template`, `email_template_allowed_tags`) VALUES
 (1, 'Share Video Template', 'share_video_template', '[{website_title}] - {username} wants to share a video with you', '<html>\r\n<head>\r\n<style type="text/css">\r\n<!--\r\n.title {\r\n	font-family: Arial, Helvetica, sans-serif;\r\n	padding: 5px;\r\n	font-weight:bold;\r\n	color: #FFFFFF;\r\n	font-size: 16px;\r\n}\r\n.title2 {\r\n	font-family: Arial, Helvetica, sans-serif;\r\n	padding: 5px;\r\n	font-weight:bold;\r\n	color: #000000;\r\n	font-size: 14px;\r\n}\r\n.messege {\r\n	font-family: Arial, Helvetica, sans-serif;\r\n	padding: 5px;\r\n	font-weight:bold;\r\n	color: #000000;\r\n	font-size: 12px;\r\n}\r\n#videoThumb{\r\n	width: 120px;\r\n	padding: 2px;\r\n	margin: 3px;\r\n	border: 1px solid #F0F0F0;\r\n	text-align: center;\r\n	vertical-align: middle;\r\n}\r\n#videoThumb img{border:0px}\r\nbody,td,th {\r\n	font-family: tahoma;\r\n	font-size: 11px;\r\n	color: #FFFFFF;\r\n}\r\n.text {\r\n	font-family: tahoma;\r\n	font-size: 11px;\r\n	color: #000000;\r\n	padding: 5px;\r\n}\r\n-->\r\n</style>\r\n</head>\r\n<body>\r\n<table width="100%" border="0" cellspacing="0" cellpadding="5">\r\n  <tr>\r\n    <td bgcolor="#53baff" ><span class="title">{website_title}</span>share video</td>\r\n  </tr>\r\n  <tr>\r\n    <td height="20" class="messege">{username} wants to share Video With You\r\n      <div id="videoThumb"><a href="{video_link}"><img src="{video_thumb}"><br>\r\n    watch video</a></div></td>\r\n  </tr>\r\n  <tr>\r\n    <td class="text" ><span class="title2">Video Description</span><br>\r\n      <span class="text">{video_description}</span></td>\r\n  </tr>\r\n  <tr>\r\n    <td><span class="title2">Personal Message</span><br>\r\n      <span class="text">{user_message}\r\n      </span><br>\r\n      <br>\r\n<span class="text">Thanks,</span><br> \r\n<span class="text">{username}</span></td>\r\n  </tr>\r\n  <tr>\r\n    <td bgcolor="#53baff">copyrights {date_year} {website_title}</td>\r\n  </tr>\r\n</table>\r\n</body>\r\n</html>', '{website_title},{'),
 (2, 'Email Verification Template', 'email_verify_template', '[{website_title}] - Account activation email', 'Hello {username},\r\nThank you for joining {website_title}, one last step is required in order to activate your account\r\n\r\n<a href=''{baseurl}/activation.php?av_username={username}&avcode={avcode}''>Click Here</a>\r\n{baseurl}/activation.php?av_username={username}&avcode={avcode}\r\n\r\nEmail           : {email}\r\nUsername        : {username}\r\nActivation code : {avcode}\r\n\r\nif above given is not working , please go here and activate it\r\n<a href=''{baseurl}/activation.php''>{baseurl}/activation.php</a>\r\n\r\n====================\r\nRegards\r\n{website_title}', ''),
 (3, 'Private Message Notification', 'pm_email_message', '[{website_title}] - {sender} has sent you a private message', '{sender} has sent you a private message, \r\n\r\n{subject}\r\n"{content}"\r\n\r\nclick here to view your inbox <a href="{baseurl}/private_message.php?mode=inbox&mid={msg_id}">{baseurl}/private_message.php?mode=inbox&mid={msg_id}</a>\r\n\r\n{website_title}', ''),
@@ -809,11 +670,10 @@ INSERT INTO `email_templates` (`email_template_id`, `email_template_name`, `emai
 -- --------------------------------------------------------
 
 --
--- Table structure for table `favorites`
+-- Table structure for table `{tbl_prefix}favorites`
 --
 
-DROP TABLE IF EXISTS `favorites`;
-CREATE TABLE `favorites` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}favorites` (
   `favorite_id` int(225) NOT NULL AUTO_INCREMENT,
   `type` varchar(4) CHARACTER SET latin1 NOT NULL,
   `id` int(225) NOT NULL,
@@ -823,18 +683,17 @@ CREATE TABLE `favorites` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `favorites`
+-- Dumping data for table `{tbl_prefix}favorites`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `flags`
+-- Table structure for table `{tbl_prefix}flags`
 --
 
-DROP TABLE IF EXISTS `flags`;
-CREATE TABLE `flags` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}flags` (
   `flag_id` int(225) NOT NULL AUTO_INCREMENT,
   `type` varchar(4) CHARACTER SET latin1 NOT NULL,
   `id` int(225) NOT NULL,
@@ -845,18 +704,17 @@ CREATE TABLE `flags` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `flags`
+-- Dumping data for table `{tbl_prefix}flags`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `groups`
+-- Table structure for table `{tbl_prefix}groups`
 --
 
-DROP TABLE IF EXISTS `groups`;
-CREATE TABLE `groups` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}groups` (
   `group_id` int(225) NOT NULL AUTO_INCREMENT,
   `group_name` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `userid` int(255) NOT NULL,
@@ -878,42 +736,41 @@ CREATE TABLE `groups` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `groups`
+-- Dumping data for table `{tbl_prefix}groups`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group_categories`
+-- Table structure for table `{tbl_prefix}group_categories`
 --
 
-DROP TABLE IF EXISTS `group_categories`;
-CREATE TABLE `group_categories` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}group_categories` (
   `category_id` int(225) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(30) NOT NULL DEFAULT '',
+  `category_order` int(5) NOT NULL DEFAULT '1',
   `category_desc` text NOT NULL,
   `date_added` mediumtext NOT NULL,
   `category_thumb` mediumtext NOT NULL,
   `isdefault` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `group_categories`
+-- Dumping data for table `{tbl_prefix}group_categories`
 --
 
-INSERT INTO `group_categories` (`category_id`, `category_name`, `category_desc`, `date_added`, `category_thumb`, `isdefault`) VALUES
-(1, 'Uncategorized', 'all uncategorized groups', '2009-12-29 09:50:15', '', 'yes');
+INSERT INTO `{tbl_prefix}group_categories` (`category_id`, `category_name`, `category_order`, `category_desc`, `date_added`, `category_thumb`, `isdefault`) VALUES
+(1, 'Anime', 1, 'Anime Category', '2010-01-14 06:26:47', '', 'yes');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group_invitations`
+-- Table structure for table `{tbl_prefix}group_invitations`
 --
 
-DROP TABLE IF EXISTS `group_invitations`;
-CREATE TABLE `group_invitations` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}group_invitations` (
   `invitation_id` int(225) NOT NULL AUTO_INCREMENT,
   `group_id` int(225) NOT NULL,
   `userid` int(255) NOT NULL,
@@ -923,18 +780,17 @@ CREATE TABLE `group_invitations` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `group_invitations`
+-- Dumping data for table `{tbl_prefix}group_invitations`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group_members`
+-- Table structure for table `{tbl_prefix}group_members`
 --
 
-DROP TABLE IF EXISTS `group_members`;
-CREATE TABLE `group_members` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}group_members` (
   `group_mid` int(225) NOT NULL AUTO_INCREMENT,
   `group_id` int(225) NOT NULL,
   `userid` int(11) NOT NULL,
@@ -944,18 +800,17 @@ CREATE TABLE `group_members` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `group_members`
+-- Dumping data for table `{tbl_prefix}group_members`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group_posts`
+-- Table structure for table `{tbl_prefix}group_posts`
 --
 
-DROP TABLE IF EXISTS `group_posts`;
-CREATE TABLE `group_posts` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}group_posts` (
   `post_id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
   `topic_id` int(11) NOT NULL,
@@ -965,18 +820,17 @@ CREATE TABLE `group_posts` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `group_posts`
+-- Dumping data for table `{tbl_prefix}group_posts`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group_topics`
+-- Table structure for table `{tbl_prefix}group_topics`
 --
 
-DROP TABLE IF EXISTS `group_topics`;
-CREATE TABLE `group_topics` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}group_topics` (
   `topic_id` int(225) NOT NULL AUTO_INCREMENT,
   `topic_title` text NOT NULL,
   `userid` int(225) NOT NULL,
@@ -993,18 +847,17 @@ CREATE TABLE `group_topics` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `group_topics`
+-- Dumping data for table `{tbl_prefix}group_topics`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group_videos`
+-- Table structure for table `{tbl_prefix}group_videos`
 --
 
-DROP TABLE IF EXISTS `group_videos`;
-CREATE TABLE `group_videos` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}group_videos` (
   `group_video_id` int(225) NOT NULL AUTO_INCREMENT,
   `videoid` int(255) NOT NULL,
   `group_id` int(225) NOT NULL,
@@ -1015,41 +868,39 @@ CREATE TABLE `group_videos` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `group_videos`
+-- Dumping data for table `{tbl_prefix}group_videos`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `languages`
+-- Table structure for table `{tbl_prefix}languages`
 --
 
-DROP TABLE IF EXISTS `languages`;
-CREATE TABLE `languages` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}languages` (
   `language_id` int(9) NOT NULL AUTO_INCREMENT,
   `language_code` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `language_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `language_regex` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `language_default` enum('yes','no') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `languages`
+-- Dumping data for table `{tbl_prefix}languages`
 --
 
-INSERT INTO `languages` (`language_id`, `language_code`, `language_name`, `language_regex`, `language_default`) VALUES
-(1, 'en', 'English', '/^en/i', 'yes');
+INSERT INTO `{tbl_prefix}languages` (`language_id`, `language_code`, `language_name`, `language_regex`, `language_default`) VALUES
+(2, 'en', 'English', '/^en/i', 'yes');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `messages`
+-- Table structure for table `{tbl_prefix}messages`
 --
 
-DROP TABLE IF EXISTS `messages`;
-CREATE TABLE `messages` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}messages` (
   `message_id` int(225) NOT NULL AUTO_INCREMENT,
   `message_from` int(20) NOT NULL,
   `message_to` varchar(200) NOT NULL,
@@ -1065,18 +916,17 @@ CREATE TABLE `messages` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `messages`
+-- Dumping data for table `{tbl_prefix}messages`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `modules`
+-- Table structure for table `{tbl_prefix}modules`
 --
 
-DROP TABLE IF EXISTS `modules`;
-CREATE TABLE `modules` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}modules` (
   `module_id` int(25) NOT NULL AUTO_INCREMENT,
   `module_name` varchar(25) NOT NULL,
   `module_file` varchar(60) NOT NULL,
@@ -1086,30 +936,60 @@ CREATE TABLE `modules` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `modules`
+-- Dumping data for table `{tbl_prefix}modules`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `phrases`
+-- Table structure for table `{tbl_prefix}pages`
 --
 
-DROP TABLE IF EXISTS `phrases`;
-CREATE TABLE `phrases` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}pages` (
+  `page_id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_name` varchar(225) NOT NULL,
+  `page_title` varchar(225) NOT NULL,
+  `page_content` text NOT NULL,
+  `userid` int(225) NOT NULL,
+  `active` enum('yes','no') NOT NULL,
+  `delete_able` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`page_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `{tbl_prefix}pages`
+
+--
+
+INSERT INTO `{tbl_prefix}pages` (`page_id`, `page_name`, `page_title`, `page_content`, `userid`, `active`, `delete_able`, `date_added`) VALUES
+(1, 'About us', 'About us', '<div style="margin: auto; width: 98%;"><font style="font-weight: bold;" size="4">About Us</font><hr noshade="noshade" size="1">\r\n  \r\n  \r\n    <p><span style="font-weight: bold;">ClipBucket </span>is one of the world''s best video sites . We specialize in short-form\r\noriginal content - from new, emerging talents and established Hollywood\r\nheavyweights alike. We''re committed to delivering an exceptional\r\nentertainment experience, and we do so by engaging and empowering our\r\naudience every step of the way.</p>\r\n      <p>Everyone can Watch Videos\r\non <span style="font-weight: bold;">ClipBucket</span>. People can see first-hand accounts of current events, find\r\nvideos about their hobbies and interests, and discover the\r\nquirky and unusual. As more people capture special moments on\r\nvideo,<span style="font-weight: bold;">ClipBucket </span>is empowering them to become the broadcasters of\r\ntomorrow.</p>\r\n      <p><span style="font-weight: bold;">ClipBucket </span>not only a video sharing website but\r\nalso has social network features, you can make friends,\r\nand send them videos and private messages. <span style="font-weight: bold;">ClipBucket </span><span style="font-weight: bold;"></span> also has built in\r\nrating system and comment system so that people can discuss on there\r\ninterested videos, not only comment but also, people can rate Comments.</p></div>', 1, 'yes', 'no', '2010-01-01 08:47:56'),
+(2, 'Privacy Policy', 'Privacy Policy', '<h1>ClipBucket Privacy Notice - YT Version\r\n</h1>\r\n<h2>Personal Information</h2>\r\n<ul>\r\n  <li><strong>Browsing ClipBucket</strong> You can watch videos on ClipBucket without having a ClipBucket Account or a  PHPBucket Account. You also can contact us through the ClipBucket Help Center  or by emailing us directly without having to register for an account.</li>\r\n  <li><strong>Your ClipBucket Account.</strong> For some activities on ClipBucket, like uploading videos, posting  comments, flagging videos, or watching restricted videos, you need a  ClipBucket or PHPBucket Account. We ask for some personal information when  you create an account, including your email address and a password,  which is used to protect your account from unauthorized access. A  PHPBucket Account, additionally, allows you to access other PHPBucket  services that require registration.</li>\r\n  <li><strong>Usage Information.</strong> When you use ClipBucket, we may record information about your usage of the  site, such as the channels, groups and favorites you subscribe to,  which other users you communicate with, the videos you watch, the  frequency and size of data transfers, and information you display about  yourself as well as information you click on in ClipBucket (including UI  elements, settings). If you are logged in, we may associate that  information with your ClipBucket Account. In order to ensure the quality  of our service to you, we may place a tag (also called a "web beacon")  in HTML-based customer support emails or other communications with you  in order to confirm delivery.</li>\r\n  <li><strong>Content Uploaded to Site.</strong> Any personal information or video content that you voluntarily disclose  online (e.g., video comments, your profile page) may be collected and  used by others. If you download the ClipBucket Uploader, your copy  includes a unique application number. This number, and information  about your installation of the Uploader (version number, language) will  be sent to ClipBucket when the Uploader automatically checks for updates  and will be used to update your version of the Uploader.</li>\r\n</ul>\r\n<h2>Uses</h2>\r\n<ul>\r\n  <li>If  you submit personal information to ClipBucket, we may use that information  to operate, maintain, and improve the features and functionality of  ClipBucket, and to process any flagging activity or other communication  you send to us.</li>\r\n  <li>We do not use your  email address or other personal information to send commercial or  marketing messages without your consent. We may use your email address  without further consent for non-marketing or administrative purposes  (such as notifying you of major ClipBucket changes or for customer service  purposes). You also can choose how often ClipBucket sends you email  updates in your ClipBucket Account settings page.</li>\r\n  <li>We  use cookies, web beacons, and log file information to: (a) store  information so that you will not have to re-enter it during your visit  or the next time you visit ClipBucket; (b) provide custom, personalized  content and information; (c) monitor the effectiveness of our marketing  campaigns; (d) monitor aggregate metrics such as total number of  visitors and pages viewed; and (e) track your entries, submissions, and  status in promotions, sweepstakes, and contests.</li>\r\n</ul>\r\n<h2>Information That is Publicly Available</h2>\r\n<ul>\r\n  <li>When  you create a ClipBucket Account, some information about your ClipBucket  Account and your account activity will be provided to other users of  ClipBucket. This may include the date you opened your ClipBucket Account, the  date you last logged into your ClipBucket Account, your age (if you choose  to make it public), the country and the number of videos you have  watched.</li>\r\n  <li>Your ClipBucket Account name,  not your email address, is displayed to other users when you engage in  certain activities on ClipBucket, such as when you upload videos or send  messages through ClipBucket. Other users can contact you by leaving a  message or comment on the site.</li>\r\n  <li>Any  videos that you submit to ClipBucket may be redistributed through the  internet and other media channels, and may be viewed by other ClipBucket  users or the general public. </li>\r\n  <li>You  may also choose to add personal information which may include your  name, gender, profile picture or other details, that will be visible to  other users on your ClipBucket Account channel page. If you choose to add  certain features to your ClipBucket Account channel page, then these  features and your activity associated with these features will be  displayed to other users and may be aggregated and shared with your  friends or other users. Such shared activity may include your favorite  videos, videos you rated and videos that you have uploaded.</li>\r\n</ul>\r\n<h2>Your Choices</h2>\r\n<ul>\r\n  <li>If  you have a ClipBucket Account, you may update or correct your personal  profile information, email preferences and privacy settings at any time  by visiting your account profile page. </li>\r\n  <li>You  may control the information that is available to other users and your  confirmed friends at any time by editing your ClipBucket Account and the  features that are included on your channel page. If you have enabled  Active Sharing, other users may see that you, as identified by your  account name, not your email address, are watching the same video.</li>\r\n  <li>You  may, of course, decline to submit personal information through ClipBucket,  in which case you can still view videos and explore ClipBucket, but  ClipBucket may not be able to provide certain services to you. Some  advanced ClipBucket features may use other PHPBucket services like PHPBucket  Checkout or AdSense. The privacy notices of those services govern the  use of your personal information associated with them.</li>\r\n</ul>\r\n', 1, 'no', 'no', '2010-01-01 08:52:46'),
+(3, 'Terms of Serivce', 'Terms of Service', 'Write your own terms of service...', 1, 'yes', 'no', '2010-01-01 08:53:57'),
+(4, 'Help', 'Help', '<span style="font-weight: bold;">How to use ClipBucket</span><br><ol><li>Articles will be written pretty soon</li></ol>', 1, 'yes', 'no', '2010-01-01 09:17:36'),
+(5, '403 Error', '403 Forbidden', '<h2>403 Access Denied</h2>\r\nSorry, you cannot access this page...', 1, 'yes', 'no', '0000-00-00 00:00:00'),
+(6, '404 Error', '404 Not Found', '<h2>404 Not Found</h2>\r\nwe are unable to find requested URL on server..', 1, 'yes', 'no', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{tbl_prefix}phrases`
+--
+
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}phrases` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `lang_iso` varchar(5) NOT NULL DEFAULT 'en',
   `varname` varchar(250) NOT NULL DEFAULT '',
   `text` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=860 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1106 ;
 
 --
--- Dumping data for table `phrases`
+-- Dumping data for table `{tbl_prefix}phrases`
 --
 
-INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
+INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (1, 'en', 'ad_name_error', 'Please Enter Name For The Advertisments'),
 (2, 'en', 'ad_code_error', 'Error : Please Enter Code For Advertisement'),
 (3, 'en', 'ad_exists_error1', 'Add Does not exists'),
@@ -1130,11 +1010,11 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (18, 'en', 'cat_add_msg', 'Category has been added successfully'),
 (19, 'en', 'cat_update_msg', 'Category has been updated'),
 (20, 'en', 'grp_err', 'Group Doesn&#8217;t Exist'),
-(21, 'en', 'grp_fr_msg', 'Group Has Been Set to Featured'),
+(21, 'en', 'grp_fr_msg', 'Group has been set as featured'),
 (22, 'en', 'grp_fr_msg1', 'Selected Groups Have Been Removed From The Featured List'),
 (23, 'en', 'grp_ac_msg', 'Selected Groups Have Been Activated'),
 (24, 'en', 'grp_dac_msg', 'Selected Groups Have Been Dectivated'),
-(25, 'en', 'grp_del_msg', 'Group Has Been Delete'),
+(25, 'en', 'grp_del_msg', 'Group has been deleted'),
 (26, 'en', 'editor_pic_up', 'Video Has Been Moved Up'),
 (27, 'en', 'editor_pic_down', 'Video Has Been Moved Down'),
 (28, 'en', 'plugin_install_msg', 'Plugin has been installed'),
@@ -1160,24 +1040,24 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (48, 'en', 'grp_cat_error', 'Please Select A Category For Your group'),
 (49, 'en', 'grp_tpc_error2', 'Please enter topic to add'),
 (50, 'en', 'grp_tpc_error3', 'Your Topic Requires Approval From Owner Of This Group'),
-(51, 'en', 'grp_tpc_msg', 'Topic Has Been Added'),
-(52, 'en', 'grp_comment_msg', 'Comment Has Been Added'),
+(51, 'en', 'grp_tpc_msg', 'Topic has been added'),
+(52, 'en', 'grp_comment_msg', 'Comment has been added'),
 (53, 'en', 'grp_vdo_msg', 'Videos Have Been Deleted'),
 (54, 'en', 'grp_vdo_msg1', 'Videos Has Been Added Successfully'),
 (55, 'en', 'grp_vdo_msg2', 'Videos Have Been Approved'),
 (56, 'en', 'grp_mem_msg', 'Member Has Been Deleted'),
 (57, 'en', 'grp_mem_msg1', 'Member Has Been Approved'),
 (58, 'en', 'grp_inv_msg', 'Your Invitation Has Been Sent'),
-(59, 'en', 'grp_tpc_msg1', 'Topic Has Been Delete'),
+(59, 'en', 'grp_tpc_msg1', 'Topic has been deleted'),
 (60, 'en', 'grp_tpc_msg2', 'Topic Has Been Approved'),
-(61, 'en', 'grp_fr_msg2', 'Group has been un featured'),
+(61, 'en', 'grp_fr_msg2', 'Group has been removed from featured list'),
 (62, 'en', 'grp_inv_msg1', 'Has Invited You To Join '),
-(63, 'en', 'grp_av_msg', 'Group Has Been Activated'),
-(64, 'en', 'grp_da_msg', 'Group Has Been DeActivated'),
+(63, 'en', 'grp_av_msg', 'Group has been activated'),
+(64, 'en', 'grp_da_msg', 'Group has been deactivated'),
 (65, 'en', 'grp_post_msg', 'Post Has Been Delete'),
-(66, 'en', 'grp_update_msg', 'Group Has Been Updated'),
+(66, 'en', 'grp_update_msg', 'Group has been updated'),
 (67, 'en', 'grp_owner_err', 'Only Owner Can Add Videos To This Group'),
-(68, 'en', 'grp_owner_err1', 'You Are Not Group Owner'),
+(68, 'en', 'grp_owner_err1', 'You are not owner of this group'),
 (69, 'en', 'grp_owner_err2', 'You Are Group Owner , You Cannot Leave Your Group'),
 (70, 'en', 'grp_prvt_err1', 'This group is private, you need invitiation from its owner in order to join this group'),
 (71, 'en', 'grp_rmv_msg', 'Selected Groups Have Been Removed From Your Account'),
@@ -1192,7 +1072,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (80, 'en', 'usr_pass_err1', 'Password is Incorrect'),
 (81, 'en', 'usr_cmt_err', 'You Must Login First To Comment'),
 (82, 'en', 'usr_cmt_err1', 'Please Type Something In Comment Box'),
-(83, 'en', 'usr_cmt_err2', 'You Cannot Post Comment on  Your Own Video'),
+(83, 'en', 'usr_cmt_err2', 'You cannot comment on your video"'),
 (84, 'en', 'usr_cmt_err3', 'You Have Already Posted a Comment on this channel.'),
 (85, 'en', 'usr_cmt_err4', 'Comment Has Been Added'),
 (86, 'en', 'usr_cmt_del_msg', 'Comment Has Been Deleted'),
@@ -1228,10 +1108,10 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (116, 'en', 'usr_rpass_email_msg', 'Email Has Sent To You Please Follow the Instructions to Reset Your Password'),
 (117, 'en', 'usr_pass_email_msg', 'Password has been changed successfully'),
 (118, 'en', 'usr_email_msg', 'Email Settings Has Been Updated'),
-(119, 'en', 'usr_del_msg', 'User Has Been Deleted Successfully'),
+(119, 'en', 'usr_del_msg', 'User has been deleted'),
 (120, 'en', 'usr_dels_msg', 'Selected Users Have Been Deleted'),
-(121, 'en', 'usr_ac_msg', 'User Has Been Activated'),
-(122, 'en', 'usr_dac_msg', 'User Has Been Deactivated'),
+(121, 'en', 'usr_ac_msg', 'User has been activated'),
+(122, 'en', 'usr_dac_msg', 'User has been deactivated'),
 (123, 'en', 'usr_mem_ac', 'Selected Members Have Been Activated'),
 (124, 'en', 'usr_mems_ac', 'Selected Members Have Been Dectivated'),
 (125, 'en', 'usr_fr_msg', 'User Has Been Made Featured Member'),
@@ -1307,7 +1187,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (195, 'en', 'class_fr_msg1', 'Video has been removed from &#8220;Featured Videos&#8221;'),
 (196, 'en', 'class_vdo_act_msg', 'Video has been activated'),
 (197, 'en', 'class_vdo_act_msg1', 'Vidoe has been deactivated'),
-(198, 'en', 'class_vdo_update_msg', 'Video Has Been Updated Successfully'),
+(198, 'en', 'class_vdo_update_msg', 'Video details have been updated'),
 (199, 'en', 'class_comment_err', 'You Must Login First To Comment'),
 (200, 'en', 'class_comment_err1', 'Please Type Something In Comment Box'),
 (201, 'en', 'class_comment_err2', 'You Cannot Post Comment on  Your Own Video'),
@@ -1336,7 +1216,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (224, 'en', 'class_sent_del_msg', 'Message Has Been Delete From Sent Folder'),
 (225, 'en', 'class_msg_exist_err', 'Message Doesnt Exist'),
 (226, 'en', 'class_vdo_del_err', 'Video does not exist'),
-(227, 'en', 'class_unsub_msg', 'You Have Unsubscribed'),
+(227, 'en', 'class_unsub_msg', 'You have been unsubscribed sucessfully'),
 (228, 'en', 'class_sub_exist_err', 'Subscription Does Not Exist'),
 (229, 'en', 'class_vdo_rm_fav_msg', 'Video Has Been Removed From Favourites'),
 (230, 'en', 'class_vdo_fav_err1', 'This Video Is Not In Your Favourite List'),
@@ -1518,11 +1398,11 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (406, 'en', 'ratings', 'Ratings'),
 (407, 'en', 'remote_upload', 'Remote Upload'),
 (408, 'en', 'remove', 'Remove'),
-(409, 'en', 'search', 'search'),
+(409, 'en', 'search', 'Search'),
 (410, 'en', 'services', 'Services'),
 (411, 'en', 'show_all', 'Show All'),
 (412, 'en', 'signupup', 'Sign Up'),
-(413, 'en', 'sort_by', 'Sort By'),
+(413, 'en', 'sort_by', 'Sort'),
 (414, 'en', 'subscriptions', 'Subscriptions'),
 (415, 'en', 'subscribers', 'Subscribers'),
 (416, 'en', 'tag_title', 'Tags'),
@@ -1581,7 +1461,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (469, 'en', 'vdo_click_here', 'Click Here'),
 (470, 'en', 'vdo_continue_upload', 'Continue to Upload'),
 (471, 'en', 'vdo_upload_step1', 'Video Upload'),
-(472, 'en', 'vdo_upload_step2', '(Step 1/2) Filling Up Details'),
+(472, 'en', 'vdo_upload_step2', 'Video Step %s/2'),
 (473, 'en', 'vdo_upload_step3', '(Step 2/2)'),
 (474, 'en', 'vdo_select_vdo', 'Select a video to upload.'),
 (475, 'en', 'vdo_enter_remote_url', 'Enter Url Of The Video.'),
@@ -1664,10 +1544,10 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (552, 'en', 'grp_url_title1', 'Group url'),
 (553, 'en', 'grp_invite_msg3', 'Send Invitation'),
 (554, 'en', 'grp_join_confirm_msg', 'Are You Sure You Want To Join This Group'),
-(555, 'en', 'grp_join_msg_succ', 'You Have Successfully Joined'),
+(555, 'en', 'grp_join_msg_succ', 'You have successfully joined group'),
 (556, 'en', 'grp_click_here_to_go', 'Click Here To Go To'),
 (557, 'en', 'grp_leave_confirm', 'Are You Sure You Want To Leave This Group'),
-(558, 'en', 'grp_leave_succ_msg', 'You Have Successfully Left'),
+(558, 'en', 'grp_leave_succ_msg', 'You have left the group'),
 (559, 'en', 'grp_manage_members_title', 'Manage Members '),
 (560, 'en', 'grp_for_approval', 'For Approval'),
 (561, 'en', 'grp_rm_videos', 'Remove Videos'),
@@ -1689,7 +1569,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (577, 'en', 'grp_add_new_topic', 'Add New Topic'),
 (578, 'en', 'grp_attach_video', 'Attach Video '),
 (579, 'en', 'grp_add_topic', 'Add Topic'),
-(580, 'en', 'grp_please_login', 'Please Login To Post Topics'),
+(580, 'en', 'grp_please_login', 'Please login to post topics'),
 (581, 'en', 'grp_please_join', 'Please Join This Group To Post Topics'),
 (582, 'en', 'grp_inactive_account', 'Your Account Is Inactive And Required Activation From Group Owner'),
 (583, 'en', 'grp_about_this_grp', 'About This Group '),
@@ -1734,7 +1614,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (622, 'en', 'user_compose_new', 'Compose New Messages'),
 (623, 'en', 'user_total_subs_users', 'Total Subscribed Users'),
 (624, 'en', 'user_you_have', 'You Have'),
-(625, 'en', 'user_fav_videos', 'Favourite Videos'),
+(625, 'en', 'user_fav_videos', 'Favorite Videos'),
 (626, 'en', 'user_your_vids_watched', 'Your Videos Watched'),
 (627, 'en', 'user_times', 'Times'),
 (628, 'en', 'user_you_have_watched', 'You Have Watched'),
@@ -1767,7 +1647,7 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (655, 'en', 'user_date_of_birth', 'Date Of Birth'),
 (656, 'en', 'user_enter_text_as_img', 'Enter Text As Seen In The Image'),
 (657, 'en', 'user_refresh_img', 'Refresh Image'),
-(658, 'en', 'user_i_agree_to_the', 'I Agree to the'),
+(658, 'en', 'user_i_agree_to_the', 'I Agree to  <a href="%s" target="_blank">Terms of Service</a> and <a href="%s" target="_blank" >Privacy Policy'),
 (659, 'en', 'user_thanks_for_reg', 'Thank You For Registering on '),
 (660, 'en', 'user_email_has_sent', 'An email has been sent to your inbox containing Your Account'),
 (661, 'en', 'user_and_activation', '&amp; Activation'),
@@ -1969,16 +1849,301 @@ INSERT INTO `phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (857, 'en', 'login_to_mark_as_spam', 'Please login to mark as spam'),
 (858, 'en', 'no_own_commen_spam', 'You cannot mark your own comment as spam'),
 (859, 'en', 'already_spammed_comment', 'You have already marked this comment as spam'),
-(860, 'en', 'spam_comment_ok', 'Comment has been marked as spam');
+(860, 'en', 'spam_comment_ok', 'Comment has been marked as spam'),
+(891, 'en', 'you_cant_delete_grp_topics', 'You cannot delete group topics'),
+(890, 'en', 'topics_deleted', 'Topics have been deleted'),
+(889, 'en', 'you_cant_del_user_topics', 'You cannot delete user topics'),
+(888, 'en', 'you_cant_del_topic', 'You cannot delete this topic'),
+(887, 'en', 'grp_details_updated', 'Group details have been updated'),
+(886, 'en', 'ad_placement_err4', 'Placement does not exist'),
+(885, 'en', 'you_cant_delete_this_page', 'You cannot delete this page'),
+(884, 'en', 'page_deactivated', 'Page has been dectivated'),
+(883, 'en', 'page_activated', 'Page has been activated'),
+(882, 'en', 'page_deleted', 'Page has been deleted successfully');
+INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
+(881, 'en', 'page_updated', 'Page has been updated'),
+(880, 'en', 'new_page_added_successfully', 'New page has been added successfully'),
+(879, 'en', 'page_content_empty', 'Page content was empty'),
+(878, 'en', 'page_title_empty', 'Page title was empty'),
+(877, 'en', 'page_name_empty', 'Page name was empty'),
+(876, 'en', 'email_tpl_has_updated', 'Email Template has been updated'),
+(875, 'en', 'email_msg_empty', 'Email msg was empty'),
+(874, 'en', 'email_subj_empty', 'Email subject was empty'),
+(873, 'en', 'email_template_not_exist', 'Email template does not exist'),
+(872, 'en', 'this_vdo_not_working', 'This video is not working properly&#8221;'),
+(871, 'en', 'new_mem_added', 'New member has been added'),
+(870, 'en', 'pelase_select_img_file_for_vdo', 'Please select image file for video thumb'),
+(869, 'en', 'page_doesnt_exist', 'Page does not exist'),
+(868, 'en', 'you_cant_moderate_group', 'You cannot moderate this group'),
+(867, 'en', 'you_cant_invite_mems', 'You cannot invite members'),
+(866, 'en', 'you_cant_edit_group', 'You cannot edit this group'),
+(865, 'en', 'unable_find_download_file', 'Unable to find download file'),
+(864, 'en', 'sel_vids_updated', 'Selected videos have been updated'),
+(863, 'en', 'you_not_allowed_add_grp_vids', 'You are not member of this group so cannot add videos'),
+(862, 'en', 'arslan_hassan', 'Arslan Hassan'),
+(892, 'en', 'you_not_allowed_post_topics', 'You are not allowed to post topics'),
+(893, 'en', 'you_cant_add_this_vdo', 'You cannot add this video'),
+(894, 'en', 'video_added', 'Video has been added'),
+(895, 'en', 'you_cant_del_this_vdo', 'You cannot remove this video'),
+(896, 'en', 'video_removed', 'Video has been removed'),
+(897, 'en', 'user_not_grp_mem', 'User is not group member'),
+(898, 'en', 'user_already_group_mem', 'User has already joined this group'),
+(899, 'en', 'invitations_sent', 'Invitations have been sent'),
+(900, 'en', 'you_not_grp_mem', 'You are not member of this group'),
+(901, 'en', 'you_cant_delete_this_grp', 'You cannot delete this group'),
+(902, 'en', 'grp_deleted', 'Group has been deleted'),
+(903, 'en', 'you_cant_del_grp_mems', 'You cannot delete group members'),
+(904, 'en', 'mems_deleted', 'Members have been deleted'),
+(905, 'en', 'you_cant_del_grp_vdos', 'You cannot delete group videos'),
+(906, 'en', 'thnx_for_voting', 'Thanks for voting'),
+(907, 'en', 'you_hv_already_rated_vdo', 'You have already rated this video'),
+(908, 'en', 'please_login_to_rate', 'Please login to rate'),
+(909, 'en', 'you_not_subscribed', 'You are not subscribed'),
+(910, 'en', 'you_cant_delete_this_user', 'You cannot delete this user&#8221;'),
+(911, 'en', 'you_dont_hv_perms', 'You dont have sufficient permissions'),
+(912, 'en', 'user_subs_hv_been_removed', 'User subscriptions have been removed'),
+(913, 'en', 'user_subsers_hv_removed', 'User subscribers have been removed'),
+(914, 'en', 'you_already_sent_frend_request', 'You have already sent friend request'),
+(915, 'en', 'friend_added', 'Friend has been added'),
+(916, 'en', 'friend_request_sent', 'Friend request has been sent'),
+(917, 'en', 'friend_confirm_error', 'Either user has not requested you friend request or you have already confirmed it'),
+(918, 'en', 'friend_confirmed', 'Friend has been confirmed'),
+(919, 'en', 'friend_request_not_found', 'No friend request found'),
+(920, 'en', 'you_cant_confirm_this_request', 'You cannot confirm this request'),
+(921, 'en', 'friend_request_already_confirmed', 'Friend request is already confirmed'),
+(922, 'en', 'user_no_in_contact_list', 'User is not in your contact list'),
+(923, 'en', 'user_removed_from_contact_list', 'User has been removed from your contact list'),
+(924, 'en', 'cant_find_level', 'Cannot find level'),
+(925, 'en', 'please_enter_level_name', 'Please enter level name'),
+(926, 'en', 'level_updated', 'Level has been updated'),
+(927, 'en', 'level_del_sucess', 'User level has been deleted, all users of this level has been transfered to %s'),
+(928, 'en', 'level_not_deleteable', 'This level is not deletable'),
+(929, 'en', 'pass_mismatched', 'Passwords Mismatched'),
+(930, 'en', 'user_blocked', 'User has been blocked'),
+(931, 'en', 'user_already_blocked', 'User is already blocked'),
+(932, 'en', 'you_cant_del_user', 'You cannot block this user'),
+(933, 'en', 'user_vids_hv_deleted', 'User videos have been deleted'),
+(934, 'en', 'user_contacts_hv_removed', 'User contacts have been removed'),
+(935, 'en', 'all_user_inbox_deleted', 'All User inbox messages have been delete'),
+(936, 'en', 'all_user_sent_messages_deleted', 'All user sent messages have been deleted'),
+(937, 'en', 'pelase_enter_something_for_comment', 'Please enter something for comment'),
+(938, 'en', 'please_enter_your_name', 'Please enter your name'),
+(939, 'en', 'please_enter_your_email', 'Please enter your email'),
+(940, 'en', 'template_activated', 'Template has been activated'),
+(941, 'en', 'error_occured_changing_template', 'An error occured while changing the template'),
+(942, 'en', 'phrase_code_empty', 'Phrase code was empty'),
+(943, 'en', 'phrase_text_empty', 'Phrase text was empty'),
+(944, 'en', 'language_does_not_exist', 'Language does not exist'),
+(945, 'en', 'name_has_been_added', '%s has been added'),
+(946, 'en', 'name_already_exists', '&#8216;%s&#8217; already exist'),
+(947, 'en', 'lang_doesnt_exist', 'language does not exist'),
+(948, 'en', 'no_file_was_selected', 'No file was selected'),
+(949, 'en', 'err_reading_file_content', 'Error reading file content'),
+(950, 'en', 'cant_find_lang_name', 'Cant find language name'),
+(951, 'en', 'cant_find_lang_code', 'Cant find language code'),
+(952, 'en', 'no_phrases_found', 'No phrases were found'),
+(953, 'en', 'language_already_exists', 'Language already exists'),
+(954, 'en', 'lang_added', 'Language has been added successfully'),
+(955, 'en', 'error_while_upload_file', 'Error occured while uploading language file'),
+(956, 'en', 'default_lang_del_error', 'This is default language, please select other language as &#8220;default&#8221; and then delete this pack'),
+(957, 'en', 'lang_deleted', 'Language pack has been deleted'),
+(958, 'en', 'lang_name_empty', 'Language name was empty'),
+(959, 'en', 'lang_code_empty', 'Language code was empty'),
+(960, 'en', 'lang_regex_empty', 'Language regular expression was empty'),
+(961, 'en', 'lang_code_already_exist', 'Language code already exists'),
+(962, 'en', 'lang_updated', 'Language has been updated'),
+(963, 'en', 'player_activated', 'Player has been activated'),
+(964, 'en', 'error_occured_while_activating_player', 'An error occured while activating player'),
+(965, 'en', 'plugin_has_been_s', 'Plugin has been %s'),
+(966, 'en', 'plugin_uninstalled', 'Plugin has been Uninstalled'),
+(967, 'en', 'perm_code_empty', 'Permission code is empty'),
+(968, 'en', 'perm_name_empty', 'Permission name is empty'),
+(969, 'en', 'perm_already_exist', 'Permission already exists'),
+(970, 'en', 'perm_type_not_valid', 'Permission type is not valid'),
+(971, 'en', 'perm_added', 'New Permission has been added'),
+(972, 'en', 'perm_deleted', 'Permission has been deleted'),
+(973, 'en', 'perm_doesnt_exist', 'Permission does not exist'),
+(974, 'en', 'acitvation_html_message', 'Please enter your user username and activation code in order to activate your account, please check your inbox for Activation code, if you do not have activation code, please request by filling next form'),
+(975, 'en', 'acitvation_html_message2', 'Please enter your email address to request your activation code'),
+(976, 'en', 'admin_panel', 'Admin Panel'),
+(977, 'en', 'moderate_videos', 'Moderate Videos'),
+(978, 'en', 'moderate_users', 'Moderate Users'),
+(979, 'en', 'revert_back_to_admin', 'Revert back to admin'),
+(980, 'en', 'more_options', 'More Options'),
+(981, 'en', 'downloading_string', 'Downloading %s ...'),
+(982, 'en', 'download_redirect_msg', '<a href="%s">click here if you don''t redirect automatically</a> - <a href="%s"> Click Here to Go Back to Video Page</a>'),
+(983, 'en', 'account_details', 'Account Details'),
+(984, 'en', 'profile_details', 'Profile Details'),
+(985, 'en', 'update_profile', 'Update Profile'),
+(986, 'en', 'please_select_img_file', 'Please select image file'),
+(987, 'en', 'or', 'or'),
+(988, 'en', 'pelase_enter_image_url', 'Please Enter Image URL'),
+(989, 'en', 'user_bg', 'User Background'),
+(990, 'en', 'user_bg_img', 'User Background Image'),
+(991, 'en', 'please_enter_bg_color', 'Please Enter Background Color'),
+(992, 'en', 'bg_repeat_type', 'Background Repeat Type (if using image as a background)'),
+(993, 'en', 'fix_bg', 'Fix Background'),
+(994, 'en', 'delete_this_img', 'Delete this image'),
+(995, 'en', 'current_email', 'Current Email'),
+(996, 'en', 'confirm_new_email', 'Confirm new email'),
+(997, 'en', 'no_subs_found', 'No subscription found'),
+(998, 'en', 'video_info_all_fields_req', 'Video Information - All fields are required'),
+(999, 'en', 'update_group', 'Update Group'),
+(1000, 'en', 'default', 'Default'),
+(1001, 'en', 'grp_info_all_fields_req', 'Group Information - All Fields Are Required'),
+(1002, 'en', 'date_recorded_location', 'Date recorded &amp; Location'),
+(1003, 'en', 'update_video', 'Update Video'),
+(1004, 'en', 'click_here_to_recover_user', 'Click here to recover username'),
+(1005, 'en', 'click_here_reset_pass', 'Click here to reset password'),
+(1006, 'en', 'remember_me', 'Remember Me'),
+(1007, 'en', 'howdy_user', 'howdy %s'),
+(1008, 'en', 'notifications', 'Notifications'),
+(1009, 'en', 'playlists', 'Playlists'),
+(1010, 'en', 'friend_requests', 'Friend Requests'),
+(1011, 'en', 'after_meny_guest_msg', 'Welcome Guest ! Please <a href="%s">Login</a> or <a href="%s">Register</a>'),
+(1012, 'en', 'being_watched', 'Being Watched'),
+(1013, 'en', 'change_style_of_listing', 'Change Style of Listing'),
+(1014, 'en', 'website_members', '%s Members'),
+(1015, 'en', 'guest_homeright_msg', 'Watch, Upload, Share and more'),
+(1016, 'en', 'reg_for_free', 'Register for free'),
+(1017, 'en', 'rand_vids', 'Random Videos'),
+(1018, 'en', 't_10_users', 'Top 10 Users'),
+(1019, 'en', 'pending', 'Pending'),
+(1020, 'en', 'confirm', 'Confirm'),
+(1021, 'en', 'no_contacts', 'No Contacts'),
+(1022, 'en', 'you_dont_hv_any_grp', 'You do not have any group'),
+(1023, 'en', 'leave_groups', 'Leave Groups'),
+(1024, 'en', 'manage_grp_mems', 'Manage Group Members'),
+(1025, 'en', 'pending_mems', 'Pending Members'),
+(1026, 'en', 'active_mems', 'Active Members'),
+(1027, 'en', 'disapprove', 'Disapprove'),
+(1028, 'en', 'manage_grp_vids', 'Manage Group Videos'),
+(1029, 'en', 'pending_vids', 'Pending Videos'),
+(1030, 'en', 'no_pending_vids', 'No Pending Videos'),
+(1031, 'en', 'no_active_videos', 'No Active Videos'),
+(1032, 'en', 'active_videos', 'Active Videos'),
+(1033, 'en', 'manage_playlists', 'Manage Playlists'),
+(1034, 'en', 'total_items', 'Total Items'),
+(1035, 'en', 'play_now', 'PLAY NOW'),
+(1036, 'en', 'no_video_in_playlist', 'This playlist has no video'),
+(1037, 'en', 'view', 'View'),
+(1038, 'en', 'you_dont_hv_fav_vids', 'You do not have any favorite video'),
+(1039, 'en', 'private_messages', 'Private Messages'),
+(1040, 'en', 'new_private_msg', 'New private message'),
+(1041, 'en', 'search_for_s', 'Search For %s'),
+(1042, 'en', 'signup_success_usr_ok', '<h2 style="margin: 5px 5px 8px; font-family: Arial,Verdana,sans-serif;">Just One More Step</h2>     	<p style="margin: 0px 5px; line-height: 18px; font-size: 11px;">Your are just one step behind from becoming an official memeber of our website.  Please check your email, we have sent you a confirmation email which contains a confirmation link from our website, Please click it to complete your registration.</p>'),
+(1043, 'en', 'signup_success_usr_emailverify', '<h2 style="font-family:Arial,Verdana,sans-serif; margin:5px 5px 8px;">Welcome To our community</h2>\r\n    	<p style="margin:0px 5px; line-height:18px; font-size:11px;">Your email has been confirmed, Please <strong><a href="%s">click here to login</a></strong> and continue as our registered member.</p>'),
+(1044, 'en', 'if_you_already_hv_account', 'if you already have account, please login here '),
+(1045, 'en', 'signup_message_under_login', ' <p>Our website is the home for video online:</p>\r\n          \r\n            <ul><li><strong>Watch</strong> millions  of videos</li><li><strong>Share favorites</strong> with friends and family</li>\r\n            <li><strong>Connect with other users</strong> who share your interests</li><li><strong>Upload your videos</strong> to a worldwide audience\r\n\r\n</li></ul>'),
+(1046, 'en', 'new_mems_signup_here', 'New Members Signup Here'),
+(1047, 'en', 'register_as_our_website_member', 'Register as a member, its free and easy just '),
+(1048, 'en', 'video_complete_msg', '<h2>Video Upload Has Been Completed</h2>\r\n<span class="header1">Thank you! Your upload is complete.</span><br>\r\n<span class="tips">This video will be available in <a href="%s"><strong>My Videos</strong></a> after it has finished processing.</span>  \r\n<div class="upload_link_button" align="center">\r\n    <ul>\r\n        <li><a href="%s" >Upload Another Video</a></li>\r\n        <li><a href="%s" >Goto My Videos</a></li>\r\n    </ul>\r\n<div class=''clearfix''></div>\r\n</div>\r\n'),
+(1049, 'en', 'upload_right_guide', ' <div>\r\n            <div>\r\n              <p>\r\n                <strong>\r\n                <strong>Important:</strong>\r\n                Do not upload any TV shows, music videos, music concerts, or  commercials without permission unless they consist entirely of content  you created yourself.</strong></p>\r\n                <p>The \r\n                <a href="#">Copyright Tips page</a> and the \r\n                <a href="#">Community Guidelines</a> can help you determine whether your video infringes someone else''s copyright.</p>\r\n                <p>By clicking "Upload Video", you are representing that this video does not violate Our website''s \r\n                <a id="terms-of-use-link" href="#">Terms of Use</a> \r\n                and that you own all copyrights in this video or have authorization to upload it.</p>\r\n            </div>\r\n        </div>'),
+(1050, 'en', 'report_this_user', 'Report This User'),
+(1051, 'en', 'add_to_favs', 'Add to favorites'),
+(1052, 'en', 'report_this', 'Report this!'),
+(1053, 'en', 'share_this', 'Share This'),
+(1054, 'en', 'add_to_playlist', 'Add to playlist'),
+(1055, 'en', 'view_profile', 'View Profile'),
+(1056, 'en', 'subscribe', 'Subscribe'),
+(1057, 'en', 'uploaded_by_s', 'Uploaded by %s'),
+(1058, 'en', 'more', 'More'),
+(1059, 'en', 'link_this_video', 'Link This Video'),
+(1060, 'en', 'click_to_download_video', 'Click Here To Download This Video'),
+(1061, 'en', 'name', 'Name'),
+(1062, 'en', 'email_wont_display', 'Email (Wont display)'),
+(1063, 'en', 'please_login_to_comment', 'Please login to comment'),
+(1064, 'en', 'marked_as_spam_comment_by_user', 'Marked as spam, commented by <em>%s</em>'),
+(1065, 'en', 'spam', 'Spam'),
+(1066, 'en', 'user_commented_time', '<a href="%s">%s</a> commented %s'),
+(1067, 'en', 'no_comments', 'No Comments'),
+(1068, 'en', 'view_video', 'View Video'),
+(1069, 'en', 'topic_icon', 'Topic Icon'),
+(1070, 'en', 'group_options', 'Group option'),
+(1071, 'en', 'info', 'Info'),
+(1072, 'en', 'basic_info', 'Basic Info'),
+(1073, 'en', 'group_owner', 'Group Owner'),
+(1074, 'en', 'total_mems', 'Total Members'),
+(1075, 'en', 'total_topics', 'Total Topics'),
+(1076, 'en', 'grp_url', 'Group URL'),
+(1077, 'en', 'more_details', 'More Details<'),
+(1078, 'en', 'view_all_mems', 'View All Members'),
+(1079, 'en', 'view_all_vids', 'View All Videos'),
+(1080, 'en', 'topic_title', 'Topic Title'),
+(1081, 'en', 'last_reply', 'Last Reply'),
+(1082, 'en', 'topic_by_user', '<a href="%s">%s</a></span> by <a href="%s">%s</a>'),
+(1083, 'en', 'no_topics', 'No Topics'),
+(1084, 'en', 'last_post_time_by_user', '%s<br />\r\nby <a href="%s">%s'),
+(1085, 'en', 'profile_views', 'Profile views'),
+(1086, 'en', 'last_logged_in', 'last logged in'),
+(1087, 'en', 'last_active', 'Last active'),
+(1088, 'en', 'total_logins', 'Total logins'),
+(1089, 'en', 'total_videos_watched', 'Total videos watched'),
+(1090, 'en', 'view_group', 'View Group'),
+(1091, 'en', 'you_dont_hv_any_pm', 'You do not have any private message'),
+(1092, 'en', 'date_sent', 'Date sent'),
+(1093, 'en', 'show_hide', 'show - hide'),
+(1094, 'en', 'quicklists', 'Quicklists'),
+(1095, 'en', 'are_you_sure_rm_grp', 'Are you sure you want to remove this group ?'),
+(1096, 'en', 'are_you_sure_del_grp', 'Are you sure you want to delete this group?'),
+(1097, 'en', 'change_avatar', 'Change Avatar'),
+(1098, 'en', 'change_bg', 'Change Background'),
+(1099, 'en', 'uploaded_videos', 'Uploaded Videos'),
+(1100, 'en', 'video_playlists', 'Video Playlists'),
+(1101, 'en', 'add_contact_list', 'Add contact list'),
+(1102, 'en', 'topic_post', 'Topic Post'),
+(1103, 'en', 'invite', 'Invite'),
+(1104, 'en', 'time_ago', '%s %s ago'),
+(1105, 'en', 'from_now', '%s %s from now');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `plugins`
+-- Table structure for table `{tbl_prefix}playlists`
 --
 
-DROP TABLE IF EXISTS `plugins`;
-CREATE TABLE `plugins` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}playlists` (
+  `playlist_id` int(11) NOT NULL AUTO_INCREMENT,
+  `playlist_name` varchar(225) CHARACTER SET latin1 NOT NULL,
+  `userid` int(11) NOT NULL,
+  `playlist_type` varchar(10) CHARACTER SET latin1 NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`playlist_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `{tbl_prefix}playlists`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{tbl_prefix}playlist_items`
+--
+
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}playlist_items` (
+  `playlist_item_id` int(225) NOT NULL AUTO_INCREMENT,
+  `object_id` int(225) NOT NULL,
+  `playlist_id` int(225) NOT NULL,
+  `playlist_item_type` varchar(10) CHARACTER SET latin1 NOT NULL,
+  `userid` int(255) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`playlist_item_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `{tbl_prefix}playlist_items`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{tbl_prefix}plugins`
+--
+
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}plugins` (
   `plugin_id` int(255) NOT NULL AUTO_INCREMENT,
   `plugin_file` text NOT NULL,
   `plugin_folder` text NOT NULL,
@@ -1988,30 +2153,29 @@ CREATE TABLE `plugins` (
   `plugin_license_code` text NOT NULL,
   `plugin_active` enum('yes','no') NOT NULL,
   PRIMARY KEY (`plugin_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
--- Dumping data for table `plugins`
+-- Dumping data for table `{tbl_prefix}plugins`
 --
 
-INSERT INTO `plugins` (`plugin_id`, `plugin_file`, `plugin_folder`, `plugin_version`, `plugin_license_type`, `plugin_license_key`, `plugin_license_code`, `plugin_active`) VALUES
-(2, 'tester_plugin.php', '', 0, '', '', '', 'yes'),
-(15, 'embed_video_mod.php', 'embed_video_mod', 0, '', '', '', 'yes'),
-(14, 'editors_picks.php', 'editors_pick', 0, '', '', '', 'yes'),
-(13, 'date_picker.php', 'date_picker', 0, '', '', '', 'yes'),
-(12, 'cb_modules.php', 'cb_modules', 0, '', '', '', 'yes'),
-(11, 'cb_bbcode.php', 'cb_bbcodes', 0, '', '', '', 'yes'),
-(10, 'comment_censor.php', '', 0, '', '', '', 'yes'),
-(17, 'signup_captcha.php', 'signup_captcha', 0, '', '', '', 'yes');
+INSERT INTO `{tbl_prefix}plugins` (`plugin_id`, `plugin_file`, `plugin_folder`, `plugin_version`, `plugin_license_type`, `plugin_license_key`, `plugin_license_code`, `plugin_active`) VALUES
+(1, 'embed_video_mod.php', 'embed_video_mod', 0, '', '', '', 'yes'),
+(5, 'tester_plugin.php', '', 0, '', '', '', 'yes'),
+(12, 'editors_picks.php', 'editors_pick', 0, '', '', '', 'yes'),
+(8, 'comment_censor.php', '', 0, '', '', '', 'yes'),
+(9, 'cb_bbcode.php', 'cb_bbcodes', 0, '', '', '', 'yes'),
+(10, 'cb_modules.php', 'cb_modules', 0, '', '', '', 'yes'),
+(15, 'signup_captcha.php', 'signup_captcha', 0, '', '', '', 'yes'),
+(14, 'date_picker.php', 'date_picker', 0, '', '', '', 'yes');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `plugin_config`
+-- Table structure for table `{tbl_prefix}plugin_config`
 --
 
-DROP TABLE IF EXISTS `plugin_config`;
-CREATE TABLE `plugin_config` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}plugin_config` (
   `plugin_config_id` int(223) NOT NULL AUTO_INCREMENT,
   `plugin_id_code` varchar(25) CHARACTER SET latin1 NOT NULL,
   `plugin_config_name` text CHARACTER SET latin1 NOT NULL,
@@ -2023,18 +2187,17 @@ CREATE TABLE `plugin_config` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `plugin_config`
+-- Dumping data for table `{tbl_prefix}plugin_config`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sessions`
+-- Table structure for table `{tbl_prefix}sessions`
 --
 
-DROP TABLE IF EXISTS `sessions`;
-CREATE TABLE `sessions` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}sessions` (
   `session_id` int(11) NOT NULL AUTO_INCREMENT,
   `session_user` int(11) NOT NULL,
   `session_string` varchar(60) NOT NULL,
@@ -2044,57 +2207,56 @@ CREATE TABLE `sessions` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `sessions`
+-- Dumping data for table `{tbl_prefix}sessions`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `stats`
+-- Table structure for table `{tbl_prefix}stats`
 --
 
-DROP TABLE IF EXISTS `stats`;
-CREATE TABLE `stats` (
-  `stat_id` int(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(60) NOT NULL,
-  `value` varchar(60) NOT NULL,
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}stats` (
+  `stat_id` int(255) NOT NULL AUTO_INCREMENT,
+  `date_added` date NOT NULL,
+  `video_stats` text NOT NULL,
+  `user_stats` text NOT NULL,
+  `group_stats` text NOT NULL,
   PRIMARY KEY (`stat_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `stats`
+-- Dumping data for table `{tbl_prefix}stats`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `subscriptions`
+-- Table structure for table `{tbl_prefix}subscriptions`
 --
 
-DROP TABLE IF EXISTS `subscriptions`;
-CREATE TABLE `subscriptions` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}subscriptions` (
   `subscription_id` int(225) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
   `subscribed_to` mediumtext NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`subscription_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 --
--- Dumping data for table `subscriptions`
+-- Dumping data for table `{tbl_prefix}subscriptions`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `template`
+-- Table structure for table `{tbl_prefix}template`
 --
 
-DROP TABLE IF EXISTS `template`;
-CREATE TABLE `template` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}template` (
   `template_id` int(20) NOT NULL AUTO_INCREMENT,
   `template_name` varchar(25) NOT NULL,
   `template_dir` varchar(30) NOT NULL,
@@ -2102,18 +2264,17 @@ CREATE TABLE `template` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `template`
+-- Dumping data for table `{tbl_prefix}template`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Table structure for table `{tbl_prefix}users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}users` (
   `userid` bigint(20) NOT NULL AUTO_INCREMENT,
   `category` int(20) NOT NULL,
   `featured_video` mediumtext NOT NULL,
@@ -2148,6 +2309,7 @@ CREATE TABLE `users` (
   `ban_status` enum('yes','no') NOT NULL DEFAULT 'no',
   `upload` varchar(20) NOT NULL DEFAULT '1',
   `subscribers` varchar(25) NOT NULL DEFAULT '0',
+  `total_subscriptions` bigint(255) NOT NULL,
   `background` mediumtext NOT NULL,
   `background_color` varchar(25) NOT NULL,
   `background_url` text NOT NULL,
@@ -2159,79 +2321,78 @@ CREATE TABLE `users` (
   `rated_by` text NOT NULL,
   `banned_users` text NOT NULL,
   `welcome_email_sent` enum('yes','no') NOT NULL DEFAULT 'no',
+  `total_downloads` bigint(255) NOT NULL,
   PRIMARY KEY (`userid`),
   KEY `ind_status_doj` (`doj`),
   KEY `ind_status_id` (`userid`),
   KEY `ind_hits_doj` (`profile_hits`,`doj`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `{tbl_prefix}users`
 --
 
-INSERT INTO `users` (`userid`, `category`, `featured_video`, `username`, `user_session_key`, `user_session_code`, `password`, `email`, `usr_status`, `msg_notify`, `avatar`, `avatar_url`, `sex`, `dob`, `country`, `level`, `avcode`, `doj`, `last_logged`, `num_visits`, `session`, `ip`, `signup_ip`, `time_zone`, `featured`, `featured_date`, `profile_hits`, `total_watched`, `total_videos`, `total_comments`, `comments_count`, `ban_status`, `upload`, `subscribers`, `background`, `background_color`, `background_url`, `background_repeat`, `background_attachement`, `total_groups`, `last_active`, `rating`, `rated_by`, `banned_users`, `welcome_email_sent`) VALUES
+INSERT INTO `{tbl_prefix}users` (`userid`, `category`, `featured_video`, `username`, `user_session_key`, `user_session_code`, `password`, `email`, `usr_status`, `msg_notify`, `avatar`, `avatar_url`, `sex`, `dob`, `country`, `level`, `avcode`, `doj`, `last_logged`, `num_visits`, `session`, `ip`, `signup_ip`, `time_zone`, `featured`, `featured_date`, `profile_hits`, `total_watched`, `total_videos`, `total_comments`, `comments_count`, `ban_status`, `upload`, `subscribers`, `background`, `background_color`, `background_url`, `background_repeat`, `background_attachement`, `total_groups`, `last_active`, `rating`, `rated_by`, `banned_users`, `welcome_email_sent`) VALUES
 (1, 2, '', 'admin', '777750fea4d3bd585bf47dc1873619fc', 10192, '38d8e594a1ddbd29fdba0de385d4fefa', 'admin@domain.tld', 'Ok', 'yes', '', '', 'male', '1989-10-14', 'PK', 1, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'pub6e7fq5oj76vakuov2j03hm1', '', '', 0, 'No', '2009-12-03 15:14:20', 0, 0, 0, 0, 0, 'no', '0', '0', '', '', '', '', 'no', 0, '2010-01-17 15:16:49', 0, '0', '', 'yes');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_categories`
+-- Table structure for table `{tbl_prefix}user_categories`
 --
 
-DROP TABLE IF EXISTS `user_categories`;
-CREATE TABLE `user_categories` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_categories` (
   `category_id` int(225) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(30) NOT NULL DEFAULT '',
+  `category_order` int(5) NOT NULL DEFAULT '1',
   `category_desc` text NOT NULL,
   `date_added` mediumtext NOT NULL,
   `category_thumb` mediumtext NOT NULL,
   `isdefault` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `user_categories`
+-- Dumping data for table `{tbl_prefix}user_categories`
 --
 
-INSERT INTO `user_categories` (`category_id`, `category_name`, `category_desc`, `date_added`, `category_thumb`, `isdefault`) VALUES
-(1, 'Basic User', '', '2009-12-03 12:18:15', '', 'yes'),
-(2, 'Gurus', '', '2009-12-03 12:18:21', '', 'no'),
-(3, 'Comedian', '', '2009-12-03 12:18:25', '', 'no');
+INSERT INTO `{tbl_prefix}user_categories` (`category_id`, `category_name`, `category_order`, `category_desc`, `date_added`, `category_thumb`, `isdefault`) VALUES
+(1, 'Basic User', 1, '', '2009-12-03 12:18:15', '', 'yes'),
+(2, 'Gurus', 1, '', '2009-12-03 12:18:21', '', 'no'),
+(3, 'Comedian', 1, '', '2009-12-03 12:18:25', '', 'no');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_levels`
+-- Table structure for table `{tbl_prefix}user_levels`
 --
 
-DROP TABLE IF EXISTS `user_levels`;
-CREATE TABLE `user_levels` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_levels` (
   `user_level_id` int(20) NOT NULL AUTO_INCREMENT,
   `user_level_active` enum('yes','no') CHARACTER SET latin1 NOT NULL DEFAULT 'yes',
   `user_level_name` varchar(100) CHARACTER SET latin1 NOT NULL,
   `user_level_is_default` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`user_level_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
--- Dumping data for table `user_levels`
+-- Dumping data for table `{tbl_prefix}user_levels`
 --
 
-INSERT INTO `user_levels` (`user_level_id`, `user_level_active`, `user_level_name`, `user_level_is_default`) VALUES
+INSERT INTO `{tbl_prefix}user_levels` (`user_level_id`, `user_level_active`, `user_level_name`, `user_level_is_default`) VALUES
 (4, 'yes', 'Guest', 'yes'),
 (2, 'yes', 'Registered User', 'yes'),
 (3, 'yes', 'Inactive User', 'yes'),
 (1, 'yes', 'Administrator', 'yes'),
-(5, 'yes', 'Global Moderator', 'yes');
+(5, 'yes', 'Global Moderator', 'yes'),
+(6, 'yes', 'Anonymous', 'yes');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_levels_permissions`
+-- Table structure for table `{tbl_prefix}user_levels_permissions`
 --
 
-DROP TABLE IF EXISTS `user_levels_permissions`;
-CREATE TABLE `user_levels_permissions` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_levels_permissions` (
   `user_level_permission_id` int(22) NOT NULL AUTO_INCREMENT,
   `user_level_id` int(22) NOT NULL,
   `admin_access` enum('yes','no') NOT NULL DEFAULT 'no',
@@ -2253,29 +2414,30 @@ CREATE TABLE `user_levels_permissions` (
   `allow_channel_bg` enum('yes','no') NOT NULL DEFAULT 'yes',
   `private_msg_access` enum('yes','no') NOT NULL DEFAULT 'yes',
   `edit_video` enum('yes','no') NOT NULL DEFAULT 'yes',
-  `admin_del_access` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `download_video` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `admin_del_access` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`user_level_permission_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
--- Dumping data for table `user_levels_permissions`
+-- Dumping data for table `{tbl_prefix}user_levels_permissions`
 --
 
-INSERT INTO `user_levels_permissions` (`user_level_permission_id`, `user_level_id`, `admin_access`, `allow_video_upload`, `view_video`, `view_channel`, `view_group`, `view_videos`, `avatar_upload`, `video_moderation`, `member_moderation`, `ad_manager_access`, `manage_template_access`, `group_moderation`, `web_config_access`, `view_channels`, `view_groups`, `playlist_access`, `allow_channel_bg`, `private_msg_access`, `edit_video`, `admin_del_access`) VALUES
-(5, 5, 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no', 'yes', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes'),
-(2, 2, 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no'),
-(3, 3, 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes'),
-(1, 1, 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes'),
-(4, 4, 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes');
+INSERT INTO `{tbl_prefix}user_levels_permissions` (`user_level_permission_id`, `user_level_id`, `admin_access`, `allow_video_upload`, `view_video`, `view_channel`, `view_group`, `view_videos`, `avatar_upload`, `video_moderation`, `member_moderation`, `ad_manager_access`, `manage_template_access`, `group_moderation`, `web_config_access`, `view_channels`, `view_groups`, `playlist_access`, `allow_channel_bg`, `private_msg_access`, `edit_video`, `download_video`, `admin_del_access`) VALUES
+(1, 1, 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes'),
+(2, 2, 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no'),
+(3, 3, 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no'),
+(4, 4, 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no'),
+(5, 5, 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no', 'yes', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no'),
+(6, 6, 'no', 'yes', 'no', 'no', 'no', 'no', 'yes', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'no', 'yes', 'no', 'no', 'yes', 'no');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_permissions`
+-- Table structure for table `{tbl_prefix}user_permissions`
 --
 
-DROP TABLE IF EXISTS `user_permissions`;
-CREATE TABLE `user_permissions` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_permissions` (
   `permission_id` int(225) NOT NULL AUTO_INCREMENT,
   `permission_type` int(225) NOT NULL,
   `permission_name` varchar(225) CHARACTER SET latin1 NOT NULL,
@@ -2284,13 +2446,13 @@ CREATE TABLE `user_permissions` (
   `permission_default` enum('yes','no') CHARACTER SET latin1 NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`permission_id`),
   UNIQUE KEY `permission_code` (`permission_code`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
 
 --
--- Dumping data for table `user_permissions`
+-- Dumping data for table `{tbl_prefix}user_permissions`
 --
 
-INSERT INTO `user_permissions` (`permission_id`, `permission_type`, `permission_name`, `permission_code`, `permission_desc`, `permission_default`) VALUES
+INSERT INTO `{tbl_prefix}user_permissions` (`permission_id`, `permission_type`, `permission_name`, `permission_code`, `permission_desc`, `permission_default`) VALUES
 (12, 3, 'Admin Access', 'admin_access', 'User can access admin panel', 'no'),
 (13, 1, 'View Video', 'view_video', 'User can view videos', 'yes'),
 (11, 2, 'Allow Video Upload', 'allow_video_upload', 'Allow user to upload videos', 'yes'),
@@ -2310,16 +2472,16 @@ INSERT INTO `user_permissions` (`permission_id`, `permission_type`, `permission_
 (29, 2, 'Allow Channel Background', 'allow_channel_bg', 'Allow user to change channel background', 'yes'),
 (30, 4, 'Private Messages', 'private_msg_access', 'User can use private messaging system', 'yes'),
 (31, 4, 'Edit Video', 'edit_video', 'User can edit video', 'yes'),
-(32, 3, 'Admin Delete Access', 'admin_del_access', 'User can delete comments if has admin access', 'no');
+(32, 4, 'Download Video', 'download_video', 'User can download videos', 'yes'),
+(33, 3, 'Admin Delete Access', 'admin_del_access', 'User can delete comments if has admin access', 'no');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_permission_types`
+-- Table structure for table `{tbl_prefix}user_permission_types`
 --
 
-DROP TABLE IF EXISTS `user_permission_types`;
-CREATE TABLE `user_permission_types` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_permission_types` (
   `user_permission_type_id` int(225) NOT NULL AUTO_INCREMENT,
   `user_permission_type_name` varchar(225) CHARACTER SET latin1 NOT NULL,
   `user_permission_type_desc` mediumtext CHARACTER SET latin1 NOT NULL,
@@ -2327,10 +2489,10 @@ CREATE TABLE `user_permission_types` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `user_permission_types`
+-- Dumping data for table `{tbl_prefix}user_permission_types`
 --
 
-INSERT INTO `user_permission_types` (`user_permission_type_id`, `user_permission_type_name`, `user_permission_type_desc`) VALUES
+INSERT INTO `{tbl_prefix}user_permission_types` (`user_permission_type_id`, `user_permission_type_name`, `user_permission_type_desc`) VALUES
 (1, 'Viewing Permission', ''),
 (2, 'Uploading Permission', ''),
 (3, 'Administrator Permission', ''),
@@ -2339,11 +2501,10 @@ INSERT INTO `user_permission_types` (`user_permission_type_id`, `user_permission
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_profile`
+-- Table structure for table `{tbl_prefix}user_profile`
 --
 
-DROP TABLE IF EXISTS `user_profile`;
-CREATE TABLE `user_profile` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_profile` (
   `user_profile_id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` bigint(20) NOT NULL,
   `profile_title` mediumtext NOT NULL,
@@ -2381,35 +2542,34 @@ CREATE TABLE `user_profile` (
   PRIMARY KEY (`user_profile_id`),
   KEY `ind_status_id` (`userid`),
   FULLTEXT KEY `profile_tags` (`profile_tags`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=39 ;
 
 --
--- Dumping data for table `user_profile`
+-- Dumping data for table `{tbl_prefix}user_profile`
 --
 
-INSERT INTO `user_profile` (`user_profile_id`, `userid`, `profile_title`, `profile_desc`, `featured_video`, `first_name`, `last_name`, `avatar`, `show_dob`, `postal_code`, `time_zone`, `profile_tags`, `web_url`, `hometown`, `city`, `online_status`, `show_profile`, `allow_comments`, `allow_ratings`, `content_filter`, `icon_id`, `browse_criteria`, `about_me`, `education`, `schools`, `occupation`, `companies`, `relation_status`, `hobbies`, `fav_movies`, `fav_music`, `fav_books`, `background`, `profile_video`) VALUES
-(1, 1, '', '', '', '', '', 'no_avatar.jpg', 'yes', '0000', 0, '', '', '', '', '', 'all', 'Yes', 'Yes', 'Nothing', 0, NULL, '', 'no ', '', '', '', 'Single', '', '', '', '', '', 0);
+INSERT INTO `{tbl_prefix}user_profile` (`user_profile_id`, `userid`, `profile_title`, `profile_desc`, `featured_video`, `first_name`, `last_name`, `avatar`, `show_dob`, `postal_code`, `time_zone`, `profile_tags`, `web_url`, `hometown`, `city`, `online_status`, `show_profile`, `allow_comments`, `allow_ratings`, `content_filter`, `icon_id`, `browse_criteria`, `about_me`, `education`, `schools`, `occupation`, `companies`, `relation_status`, `hobbies`, `fav_movies`, `fav_music`, `fav_books`, `background`, `profile_video`) VALUES
+(1, 1, 'One Piece FAN', 'I m One Piece Fan :D', '', 'One ', 'Piece', 'no_avatar.jpg', 'yes', '51310', 0, 'one piece', 'http://onepiecestrongworld.com', '', 'Sialkot', 'online', 'all', 'Yes', 'Yes', 'Nothing', 0, NULL, 'I \r\n One Piece Fan :D', 'no ', '', '', '', 'Married', '', '', '', '', '', 48);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `validation_re`
+-- Table structure for table `{tbl_prefix}validation_re`
 --
 
-DROP TABLE IF EXISTS `validation_re`;
-CREATE TABLE `validation_re` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}validation_re` (
   `re_id` int(25) NOT NULL AUTO_INCREMENT,
   `re_name` varchar(60) NOT NULL,
   `re_code` varchar(60) NOT NULL,
   `re_syntax` text NOT NULL,
   PRIMARY KEY (`re_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `validation_re`
+-- Dumping data for table `{tbl_prefix}validation_re`
 --
 
-INSERT INTO `validation_re` (`re_id`, `re_name`, `re_code`, `re_syntax`) VALUES
+INSERT INTO `{tbl_prefix}validation_re` (`re_id`, `re_name`, `re_code`, `re_syntax`) VALUES
 (1, 'Username', 'username', '^^[a-zA-Z0-9_]+$'),
 (2, 'Email', 'email', '^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,10})$'),
 (3, 'Field Text', 'field_text', '^^[_a-z0-9-]+$');
@@ -2417,11 +2577,10 @@ INSERT INTO `validation_re` (`re_id`, `re_name`, `re_code`, `re_syntax`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `video`
+-- Table structure for table `{tbl_prefix}video`
 --
 
-DROP TABLE IF EXISTS `video`;
-CREATE TABLE `video` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}video` (
   `videoid` bigint(20) NOT NULL AUTO_INCREMENT,
   `videokey` mediumtext NOT NULL,
   `username` text NOT NULL,
@@ -2458,26 +2617,28 @@ CREATE TABLE `video` (
   `status` enum('Successful','Processing','Failed') NOT NULL DEFAULT 'Processing',
   `flv_file_url` text,
   `default_thumb` int(3) NOT NULL DEFAULT '1',
-  `uploader_ip` varchar(20) NOT NULL,
   `embed_code` text NOT NULL,
+  `refer_url` text NOT NULL,
+  `downloads` bigint(255) NOT NULL,
+  `uploader_ip` varchar(20) NOT NULL,
   PRIMARY KEY (`videoid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `video`
+-- Dumping data for table `{tbl_prefix}video`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `video_categories`
+-- Table structure for table `{tbl_prefix}video_categories`
 --
 
-DROP TABLE IF EXISTS `video_categories`;
-CREATE TABLE `video_categories` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_categories` (
   `category_id` int(225) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(30) NOT NULL DEFAULT '',
+  `category_order` int(5) NOT NULL DEFAULT '1',
   `category_desc` text NOT NULL,
   `date_added` mediumtext NOT NULL,
   `category_thumb` mediumtext NOT NULL,
@@ -2486,20 +2647,17 @@ CREATE TABLE `video_categories` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `video_categories`
+-- Dumping data for table `{tbl_prefix}video_categories`
 --
 
-INSERT INTO `video_categories` (`category_id`, `category_name`, `category_desc`, `date_added`, `category_thumb`, `isdefault`) VALUES
-(1, 'Uncategorized', 'all uncategorized videos', '', '', 'yes');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `video_favourites`
+-- Table structure for table `{tbl_prefix}video_favourites`
 --
 
-DROP TABLE IF EXISTS `video_favourites`;
-CREATE TABLE `video_favourites` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_favourites` (
   `fav_id` int(11) NOT NULL AUTO_INCREMENT,
   `videoid` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
@@ -2508,18 +2666,17 @@ CREATE TABLE `video_favourites` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `video_favourites`
+-- Dumping data for table `{tbl_prefix}video_favourites`
 --
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `video_files`
+-- Table structure for table `{tbl_prefix}video_files`
 --
 
-DROP TABLE IF EXISTS `video_files`;
-CREATE TABLE `video_files` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_files` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `status` int(2) NOT NULL,
   `file_conversion_log` text CHARACTER SET latin1 NOT NULL,
@@ -2566,5 +2723,6 @@ CREATE TABLE `video_files` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `video_files`
+-- Dumping data for table `{tbl_prefix}video_files`
 --
+

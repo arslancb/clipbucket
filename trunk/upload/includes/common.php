@@ -102,7 +102,7 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 
 	require 'defined_links.php';
 	
-	include("clipbucket.php");
+	@include("clipbucket.php");
 	$Cbucket->cbinfo = array("version"=>VERSION,"state"=>STATE,"rev"=>REV,"release_date"=>RELEASED);
 
 
