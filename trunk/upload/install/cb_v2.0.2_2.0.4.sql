@@ -84,16 +84,16 @@ CREATE TABLE `cb_stats` (
     RENAME TABLE  `video_favourites`  TO `{tbl_prefix}video_favourites` ;
     RENAME TABLE  `video_files`  TO `{tbl_prefix}video_files` ;
 
-    ALTER TABLE `{tbl_prefix}video` ADD `refer_url` TEXT NOT NULL AFTER `embed_code` 
-    ALTER TABLE `{tbl_prefix}video` ADD `downloads` BIGINT( 255 ) NOT NULL AFTER `refer_url`
-    ALTER TABLE `{tbl_prefix}users` ADD `total_downloads` BIGINT( 255 ) NOT NULL AFTER `welcome_email_sent`
+    ALTER TABLE `{tbl_prefix}video` ADD `refer_url` TEXT NOT NULL AFTER `embed_code` ;
+    ALTER TABLE `{tbl_prefix}video` ADD `downloads` BIGINT( 255 ) NOT NULL AFTER `refer_url`;
+    ALTER TABLE `{tbl_prefix}users` ADD `total_downloads` BIGINT( 255 ) NOT NULL AFTER `welcome_email_sent`;
     
-    ALTER TABLE `{tbl_prefix}video_categories` ADD `category_order` INT( 5 ) NOT NULL DEFAULT '1' AFTER `category_name` 
-    ALTER TABLE `{tbl_prefix}user_categories` ADD `category_order` INT( 5 ) NOT NULL DEFAULT '1' AFTER `category_name` 
-    ALTER TABLE `{tbl_prefix}group_categories` ADD `category_order` INT( 5 ) NOT NULL DEFAULT '1' AFTER `category_name` 
+    ALTER TABLE `{tbl_prefix}video_categories` ADD `category_order` INT( 5 ) NOT NULL DEFAULT '1' AFTER `category_name` ;
+    ALTER TABLE `{tbl_prefix}user_categories` ADD `category_order` INT( 5 ) NOT NULL DEFAULT '1' AFTER `category_name` ;
+    ALTER TABLE `{tbl_prefix}group_categories` ADD `category_order` INT( 5 ) NOT NULL DEFAULT '1' AFTER `category_name` ;
     
-    ALTER TABLE `{tbl_prefix}comments` ADD `type_owner_id` INT( 255 ) NOT NULL AFTER `type_id` 
-    ALTER TABLE `{tbl_prefix}users` ADD `total_subscriptions` BIGINT( 255 ) NOT NULL AFTER `subscribers` 
+    ALTER TABLE `{tbl_prefix}comments` ADD `type_owner_id` INT( 255 ) NOT NULL AFTER `type_id` ;
+    ALTER TABLE `{tbl_prefix}users` ADD `total_subscriptions` BIGINT( 255 ) NOT NULL AFTER `subscribers` ;
     
     INSERT INTO `{tbl_prefix}config` (`configid` ,`name` ,`value`)
     VALUES (NULL , 'anonymous_id', '1'),
@@ -101,9 +101,11 @@ CREATE TABLE `cb_stats` (
     ( NULL , 'default_time_zone', '5'),
     (NULL , 'autoplay_video', 'yes');
 	
-	TRUNCATE TABLE `{tbl_prefix}phrases`
+	TRUNCATE TABLE `{tbl_prefix}phrases` ;
 	
-	
+	ALTER TABLE `{tbl_prefix}conversion_queue` ADD `time_started` VARCHAR( 32 ) NOT NULL AFTER `date_added` ,
+ADD `time_completed` VARCHAR( 32 ) NOT NULL AFTER `time_started`;
+
 INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (1, 'en', 'ad_name_error', 'Please Enter Name For The Advertisments'),
 (2, 'en', 'ad_code_error', 'Error : Please Enter Code For Advertisement'),

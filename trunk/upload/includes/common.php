@@ -27,19 +27,22 @@ define("DEV_INGNORE_SYNTAX",TRUE);
 define('COOKIE_TIMEOUT',315360000); // 10 years
 define('GARBAGE_TIMEOUT',COOKIE_TIMEOUT);
 
-//Setting Session Max Life
-ini_set('session.gc_maxlifetime', GARBAGE_TIMEOUT);
-session_set_cookie_params(COOKIE_TIMEOUT,'/');
-
-
-//IGNORE CB ERRORS
-$ignore_cb_errors = FALSE;
-
-/*$sessdir = '/tmp/'.$_SERVER['HTTP_HOST'];
-if (!is_dir($sessdir)) { mkdir($sessdir, 0777); }
-ini_set('session.save_path', $sessdir);*/
-
-session_start();
+if(!@$in_bg_cron)
+{
+	//Setting Session Max Life
+	ini_set('session.gc_maxlifetime', GARBAGE_TIMEOUT);
+	session_set_cookie_params(COOKIE_TIMEOUT,'/');
+	
+	
+	//IGNORE CB ERRORS
+	$ignore_cb_errors = FALSE;
+	
+	/*$sessdir = '/tmp/'.$_SERVER['HTTP_HOST'];
+	if (!is_dir($sessdir)) { mkdir($sessdir, 0777); }
+	ini_set('session.save_path', $sessdir);*/
+	
+	session_start();
+}
 // Check Installation Directory
 if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	header('location:../install');
