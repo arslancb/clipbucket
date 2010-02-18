@@ -125,10 +125,11 @@ class cbsearch
 		foreach($this->query_conds as $cond)
 		{
 			$condition .= $cond." ";
-		}
+		}	
 		
 		if($this->has_user_id)
 		{
+			$condition = "(".$condition.")";
 			if($condition)
 				$condition .= " AND ";
 			$results = $db->select(tbl($this->db_tbl.",users"),'*',$condition." ".tbl($this->db_tbl).".userid=".tbl("users.userid"),$this->limit,$sorting);
