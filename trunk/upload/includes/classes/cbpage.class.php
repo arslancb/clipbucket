@@ -100,7 +100,7 @@ class cbpage
 		if(!error())
 		{
 			$db->update(tbl($this->page_tbl),array("page_name","page_title","page_content"),
-											  array($name,$title,$content)," page_id='$id'");
+											  array($name,$title,'|no_mc|'.$content)," page_id='$id'");
 			e(lang("page_updated"),"m");
 		}
 		
