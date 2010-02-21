@@ -150,7 +150,7 @@ class pages{
 		$param_pattern = '#params#';
 		$page_url_param = $this->url_page_var;
 		$page_link_pattern = $page_url_param.'='.$page_pattern;
-		$link = preg_replace(array('/(\?page=[0-9+])+/','/(&page=[0-9+])+/','/(page=[0-9+])+/'),'',$link);
+		$link = preg_replace(array('/(\?page=[0-9]+)/','/(&page=[0-9]+)/','/(page=[0-9+])+/'),'',$link);
 
 		preg_match('/\?/',$link,$matches);
 
@@ -217,7 +217,7 @@ class pages{
 		if($page<=0||$page==''||!is_numeric($page))
 			$page = 1;
 		$total_pages = $total;
-		$pagination_start = 10;
+		$pagination_start = 14;
 		$display_page = 7;
 		$this->selected = $selected = $page;
 		$hellip = '&hellip;';

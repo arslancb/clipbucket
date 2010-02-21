@@ -38,6 +38,7 @@
  */
 function tbl($tbl)
 {
+	global $DBNAME;
 	$prefix = TABLE_PREFIX;
 	$tbls = explode(",",$tbl);
 	$new_tbls = "";
@@ -45,7 +46,7 @@ function tbl($tbl)
 	{
 		if(!empty($new_tbls))
 			$new_tbls .= ",";
-		$new_tbls .= $prefix.$ntbl;
+		$new_tbls .= $DBNAME.".".$prefix.$ntbl;
 	}
 
 	return $new_tbls;

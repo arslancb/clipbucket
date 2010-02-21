@@ -30,7 +30,7 @@ class ClipBucket
 	var $links = array();
 	var $captchas = array();
 	var $clipbucket_footer = array('the_end');
-	
+	var $clipbucket_functions = array();
 	var $head_menu = array();
 	var $foot_menu = array();
 	
@@ -371,13 +371,17 @@ class ClipBucket
 		global $cbtpl,$myquery;
 		$template = $this->template;
 		
+		if(isset($_SESSION['the_template']) && $cbtpl->is_template($_SESSION['the_template']))
+			$template = $_SESSION['the_template'];
 		if($_GET['template'])
 		{
 			if(is_dir(STYLES_DIR.'/'.$_GET['template']) && $_GET['template'])
 				$template = $_GET['template'];
 		}
+		if(isset($_GET['set_the_template']) && $cbtpl->is_template($_GET['set_the_template']))
+			$template = $_SESSION['the_template'] = $_GET['set_the_template'];
 		if(!is_dir(STYLES_DIR.'/'.$template) || !$template)
-			$template = 'clipbucketblue';
+			$template = 'cbv2new';
 		if(!is_dir(STYLES_DIR.'/'.$template) || !$template)
 		{
 			$template = $cbtpl->get_any_template();		 

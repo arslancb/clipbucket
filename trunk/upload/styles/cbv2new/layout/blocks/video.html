@@ -7,7 +7,7 @@
 
 <div id="vid_wrap_{$video.videoid}" class="grid_view {if $cur_class == 'grid_view'}{else}{$cur_class}{/if}">
 	<div class="vid_thumb">
-    	<a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" alt="{$video.title}" {ANCHOR place="video_thumb"} /></a>
+    	<a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" alt="{$video.title}" {ANCHOR place="video_thumb" data=$video} /></a>
         <span class="vid_time">{$video.duration|SetTime}</span>
 		<img src="{$imageurl}/dot.gif" class="add_icon" onclick="add_quicklist(this,'{$video.videoid}')" title="Add {$video.title} to Quicklist" alt="Quicklist" />        
     </div> <!--VID_THUMB END-->
@@ -33,7 +33,7 @@
 <div class="vertical">
 <div class="the_vid_container">
     <div class="video_thumb">
-        <label for="check_video_{$video.videoid}"><img src="{getThumb vdetails=$video}" width="110" height="66" border="0" /></label>
+        <label for="check_video_{$video.videoid}"><img src="{getThumb vdetails=$video}" width="110" height="66" border="0"  /></label>
         {if $check_type=='array'}
         <input type="checkbox" name="check_video[]" id="check_video_{$video.videoid}" style="position:absolute; bottom:0px; left:0px" {if $check_this} checked="checked"{/if} value="{$video.videoid}" />
         {else}

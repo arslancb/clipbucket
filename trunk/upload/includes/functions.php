@@ -933,50 +933,7 @@
 	function dbInsert($tbl,$flds,$vls,$ep=NULL)
 	{
 		global $db ;
-		$total_fields = count($flds);
-		$count = 0;
-		foreach($flds as $field)
-		{
-			$count++;
-			$fields_query .= $field;
-			if($total_fields!=$count)
-				$fields_query .= ',';
-		}
-		$total_values = count($vls);
-		$count = 0;
-		foreach($vls as $value)
-		{
-			$count++;
-			
-			preg_match('/\|no_mc\|/',$value,$matches);
-			//pr($matches);
-			if($matches[0]!='')
-				$val = preg_replace('/\|no_mc\|/','',$value);
-			else
-				$val = mysql_clean($value);
-			$needle = substr($val,0,3);
-			
-			if($needle != '|f|')
-				$values_query .= "'".$val."'";
-			else
-			{
-				$val = substr($val,3,strlen($val));
-				$values_query .= "'".$val."'";
-			}
-			
-			$val ;
-			if($total_values!=$count)
-				$values_query .= ',';
-		}
-		
-		//Complete Query
-		$query = "INSERT INTO $tbl ($fields_query) VALUES ($values_query) $ep";
-		$db->total_queries_sql[] = $query;
-		//if(!mysql_query($query)) die(mysql_error());
-		$db->total_queries++;
-		$db->Execute($query);
-		if(mysql_error()) die ($db->db_query.'<br>'.mysql_error());
-		return $db->insert_id();
+		$db->insert($tbl,$flds,$vls,$ep);
 	}
 	
 	/**
@@ -990,33 +947,7 @@
 	function dbUpdate($tbl,$flds,$vls,$cond,$ep=NULL)
 	{
 		global $db ;
-		
-		$total_fields = count($flds);
-		$count = 0;
-		for($i=0;$i<$total_fields;$i++)
-		{
-			$count++;
-			//$val = mysql_clean($vls[$i]);
-			$val = ($vls[$i]);
-			$needle = substr($val,0,3);
-			if($needle != '|f|')
-				$fields_query .= $flds[$i]."='".$val."'";
-			else
-			{
-				$val = substr($val,3,strlen($val));
-				$fields_query .= $flds[$i]."=".$val."";
-			}
-			if($total_fields!=$count)
-				$fields_query .= ',';
-		}
-		//Complete Query
-		$query = "UPDATE $tbl SET $fields_query WHERE $cond $ep";
-		//if(!mysql_query($query)) die($query.'<br>'.mysql_error());
-		$db->total_queries++;
-		$db->total_queries_sql[] = $query;
-		$db->Execute($query);
-		if(mysql_error()) die ($db->db_query.'<br>'.mysql_error());
-		return $query;
+		return $db->update($tbl,$flds,$vls,$cond,$ep);		
 	}
 	
 	
@@ -1031,30 +962,7 @@
 	function dbDelete($tbl,$flds,$vls,$ep=NULL)
 	{
 		global $db ;
-		$total_fields = count($flds);
-		$count = 0;
-		for($i=0;$i<$total_fields;$i++)
-		{
-			$count++;
-			$val = mysql_clean($vls[$i]);
-			$needle = substr($val,0,3);
-			if($needle != '|f|')
-				$fields_query .= $flds[$i]."='".$val."'";
-			else
-			{
-				$val = substr($val,3,strlen($val));
-				$fields_query .= $flds[$i]."=".$val."";
-			}
-			if($total_fields!=$count)
-				$fields_query .= ' AND ';
-		}
-		//Complete Query
-		$query = "DELETE FROM $tbl WHERE $fields_query $ep";
-		//if(!mysql_query($query)) die(mysql_error());
-		$db->total_queries++;
-		$db->total_queries_sql[] = $query;
-		$db->Execute($query);
-		if(mysql_error()) die ($db->db_query.'<br>'.mysql_error());
+		return $db->delete($tbl,$flds,$vls,$ep);		
 	}
 	
 	
@@ -1086,36 +994,7 @@
 	function dbselect($tbl,$fields='*',$cond=false,$limit=false,$order=false)
 	{
 		global $db;
-		$query_params = '';
-		//Making Condition possible
-		if($cond)
-		$where = " WHERE ";
-		else
-		$where = false;
-		
-		$query_params .= $where;
-		if($where)
-		{
-			$query_params .= $cond;
-		}
-		
-		if($order)
-			$query_params .= " ORDER BY $order ";
-		if($limit)
-			$query_params .= " LIMIT $limit ";
-			
-		$query = " SELECT $fields FROM $tbl $query_params ";
-
-		//Finally Executing	
-		$data = $db->Execute($query);
-		$db->num_rows = $data->_numOfRows;
-		$db->total_queries++;
-		$db->total_queries_sql[] = $query;
-		//Now Get Rows and return that data
-		if($db->num_rows > 0)
-			return $data->getrows();
-		else
-			return false;
+		return $db->dbselect($tbl,$fields,$cond,$limit,$order);
 	}
 	
 	
@@ -2306,10 +2185,22 @@
 			return BASEURL.'/search_result.php?category[]='.$params['category'].'&type='.$params['type'];
 		}
 		
+		
 		if(SEO!='yes')
-			$link = BASEURL.'/'.$ClipBucket->links[$name][0];
-		else
-			$link = BASEURL.'/'.$ClipBucket->links[$name][1];
+		{
+			preg_match('/http:\/\//',$ClipBucket->links[$name][0],$matches);
+			if($matches)
+				$link = $ClipBucket->links[$name][0];
+			else
+				$link = BASEURL.'/'.$ClipBucket->links[$name][0];
+		}else
+		{
+			preg_match('/http:\/\//',$ClipBucket->links[$name][1],$matches);
+			if($matches)
+				$link = $ClipBucket->links[$name][1];
+			else
+				$link = BASEURL.'/'.$ClipBucket->links[$name][1];
+		}
 		
 		$param_link = "";
 		if(!empty($params['extra_params']))

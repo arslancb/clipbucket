@@ -82,7 +82,7 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 	$ffmpeg->convert_to_hd();
 	unlink($ffmpeg->input_file);
 	
-	//exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
+	exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
 }
 
 

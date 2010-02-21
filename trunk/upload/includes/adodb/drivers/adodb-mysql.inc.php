@@ -47,7 +47,52 @@ class ADODB_mysql extends ADOConnection {
 	 */
 	function insert($tbl,$flds,$vls,$ep=NULL)
 	{
-		dbInsert($tbl,$flds,$vls,$ep);
+		//dbInsert($tbl,$flds,$vls,$ep);
+		$total_fields = count($flds);
+		$count = 0;
+		foreach($flds as $field)
+		{
+			$count++;
+			$fields_query .= $field;
+			if($total_fields!=$count)
+				$fields_query .= ',';
+		}
+		$total_values = count($vls);
+		$count = 0;
+		foreach($vls as $value)
+		{
+			$count++;
+			
+			preg_match('/\|no_mc\|/',$value,$matches);
+			//pr($matches);
+			if($matches[0]!='')
+				$val = preg_replace('/\|no_mc\|/','',$value);
+			else
+				$val = mysql_clean($value);
+			$needle = substr($val,0,3);
+			
+			if($needle != '|f|')
+				$values_query .= "'".$val."'";
+			else
+			{
+				$val = substr($val,3,strlen($val));
+				$values_query .= "'".$val."'";
+			}
+			
+			$val ;
+			if($total_values!=$count)
+				$values_query .= ',';
+		}
+		
+		//Complete Query
+		$query = "INSERT INTO $tbl ($fields_query) VALUES ($values_query) $ep";
+		$this->total_queries_sql[] = $query;
+		//if(!mysql_query($query)) die(mysql_error());
+		$this->total_queries++;
+		$this->Execute($query);
+		if(mysql_error()) die ($this->db_query.'<br>'.mysql_error());
+		return $this->insert_id();
+				
 	}
 	
 	/**
@@ -60,8 +105,41 @@ class ADODB_mysql extends ADOConnection {
 	*/
 	function update($tbl,$flds,$vls,$cond,$ep=NULL)
 	{
+		$total_fields = count($flds);
+		$count = 0;
+		for($i=0;$i<$total_fields;$i++)
+		{
+			$count++;
+			//$val = mysql_clean($vls[$i]);
+			$val = ($vls[$i]);
+			preg_match('/\|no_mc\|/',$val,$matches);
+			//pr($matches);
+			if($matches[0]!='')
+				$val = preg_replace('/\|no_mc\|/','',$val);
+			else
+				$val = mysql_clean($val);
+				
+			$needle = substr($val,0,3);
+			
+			if($needle != '|f|')
+				$fields_query .= $flds[$i]."='".$val."'";
+			else
+			{
+				$val = substr($val,3,strlen($val));
+				$fields_query .= $flds[$i]."=".$val."";
+			}
+			if($total_fields!=$count)
+				$fields_query .= ',';
+		}
+		//Complete Query
+		$query = "UPDATE $tbl SET $fields_query WHERE $cond $ep";
+		//if(!mysql_query($query)) die($query.'<br>'.mysql_error());
+		$this->total_queries++;
+		$this->total_queries_sql[] = $query;
+		$this->Execute($query);
+		if(mysql_error()) die ($this->db_query.'<br>'.mysql_error());
+		return $query;
 		
-		return dbUpdate($tbl,$flds,$vls,$cond,$ep);		
 	}
 
 
@@ -74,7 +152,35 @@ class ADODB_mysql extends ADOConnection {
 	*/
 	function delete($tbl,$flds,$vls,$ep=NULL)
 	{
-		dbDelete($tbl,$flds,$vls,$ep);
+		//dbDelete($tbl,$flds,$vls,$ep);
+		
+		
+		global $db ;
+		$total_fields = count($flds);
+		$count = 0;
+		for($i=0;$i<$total_fields;$i++)
+		{
+			$count++;
+			$val = mysql_clean($vls[$i]);
+			$needle = substr($val,0,3);
+			if($needle != '|f|')
+				$fields_query .= $flds[$i]."='".$val."'";
+			else
+			{
+				$val = substr($val,3,strlen($val));
+				$fields_query .= $flds[$i]."=".$val."";
+			}
+			if($total_fields!=$count)
+				$fields_query .= ' AND ';
+		}
+		//Complete Query
+		$query = "DELETE FROM $tbl WHERE $fields_query $ep";
+		//if(!mysql_query($query)) die(mysql_error());
+		$this->total_queries++;
+		$this->total_queries_sql[] = $query;
+		$this->Execute($query);
+		if(mysql_error()) die ($this->db_query.'<br>'.mysql_error());
+		
  	}
 	
 	/**
@@ -86,7 +192,37 @@ class ADODB_mysql extends ADOConnection {
 	 */
 	function select($tbl,$fields='*',$cond=false,$limit=false,$order=false)
 	{
-		return dbselect($tbl,$fields,$cond,$limit,$order);
+		//return dbselect($tbl,$fields,$cond,$limit,$order);
+		$query_params = '';
+		//Making Condition possible
+		if($cond)
+		$where = " WHERE ";
+		else
+		$where = false;
+		
+		$query_params .= $where;
+		if($where)
+		{
+			$query_params .= $cond;
+		}
+		
+		if($order)
+			$query_params .= " ORDER BY $order ";
+		if($limit)
+			$query_params .= " LIMIT $limit ";
+			
+		$query = " SELECT $fields FROM $tbl $query_params ";
+
+		//Finally Executing	
+		$data = $this->Execute($query);
+		$this->num_rows = $data->_numOfRows;
+		$this->total_queries++;
+		$this->total_queries_sql[] = $query;
+		//Now Get Rows and return that data
+		if($this->num_rows > 0)
+			return $data->getrows();
+		else
+			return false;
 	}
 	
 	

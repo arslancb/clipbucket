@@ -28,6 +28,8 @@ class userquery extends CBCategory{
 	var $custom_signup_fields = array();
 	var $delete_user_functions = array();
 	var $user_manager_functions = array();
+	var $logout_functions = array();
+	var $init_login_functons = array();
 	var $user_exist = '';
 	
 	var $user_sessions = array();
@@ -80,11 +82,26 @@ class userquery extends CBCategory{
 		}
 		
 		if(user_id())
-		{
+		{			
+			
 			$this->udetails = $this->get_user_details(userid());
 			$this->permission = $this->get_user_level(userid());
 			//exit();
 			
+			//Calling Logout Functions
+			$funcs = $this->init_login_functions;
+			if(is_array($funcs) && count($funcs)>0)
+			{
+				foreach($funcs as $func)
+				{
+					if(function_exists($func))
+					{
+						$func();
+					}
+				}
+			}
+
+
 			if($sess->get("dummy_username")=="")
 				$this->UpdateLastActive(userid());
 		}else
@@ -139,7 +156,7 @@ class userquery extends CBCategory{
 		$log_array = array('username'=>$username);
 		
 		//First we will check weather user is already logged in or not
-		if($this->login_check())
+		if($this->login_check(NULL,true))
 			$msg[] = e(lang('you_already_logged'));
 		elseif(!$this->user_exists($username))
 			$msg[] = e(lang('user_doesnt_exist'));
@@ -386,7 +403,19 @@ class userquery extends CBCategory{
 	function logout($page='login.php')
 	{
 		global $sess;
-
+		
+		//Calling Logout Functions
+		$funcs = $this->logout_functions;
+		if(is_array($funcs) && count($funcs)>0)
+		{
+			foreach($funcs as $func)
+			{
+				if(function_exists($func))
+				{
+					$func();
+				}
+			}
+		}
 		$sess->un_set('username');
 		$sess->un_set('level');
 		$sess->un_set('userid');
@@ -3059,7 +3088,7 @@ class userquery extends CBCategory{
 	/**
 	 * Function used to validate signup form
 	 */
-	function signup_user($array=NULL)
+	function signup_user($array=NULL,$send_signup_email=true)
 	{
 		global $LANG,$db,$userquery;
 		if($array==NULL)
@@ -3212,7 +3241,7 @@ class userquery extends CBCategory{
 			$insert_id = $db->insert_id();
 			$db->insert(tbl($userquery->dbtbl['user_profile']),array("userid"),array($insert_id));
 			
-			if(!has_access('admin_access',true) && EMAIL_VERIFICATION)
+			if(!has_access('admin_access',true) && EMAIL_VERIFICATION && $send_signup_email)
 			{
 				global $cbemail;
 				$tpl = $cbemail->get_template('email_verify_template');
@@ -3231,7 +3260,7 @@ class userquery extends CBCategory{
 				//Now Finally Sending Email
 				cbmail(array('to'=>post('email'),'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
 			}
-			elseif(!has_access('admin_access',true))
+			elseif(!has_access('admin_access',true) && $send_signup_email)
 			{
 				$this->send_welcome_email($insert_id);
 			}

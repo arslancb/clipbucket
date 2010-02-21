@@ -17,6 +17,12 @@ if($userquery->login_check('',true)){
 }
 
 	/**
+	 * Function used to call all signup functions
+	 */
+	if(cb_get_functions('signup_page')) cb_call_functions('signup_page'); 
+	
+	
+	/**
 	 * Signing up new user
 	 */
 	if(isset($_POST['signup'])){

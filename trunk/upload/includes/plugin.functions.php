@@ -32,10 +32,6 @@
 		}
 	}
 	
-	
-	
-	
-	
 	/**
 	* FUNCTION USED TO CREATE ANCHOR PLACEMENT
 	* these are the placement where we can add plugin's or widget's code,
@@ -292,5 +288,50 @@
 		$Cbucket->captchas[] = array('load_function'=>$func,'validate_function'=>$ver_func,'show_field'=>$show_field);
 	}register_anchor_function('cb_footer','the_footer');
 	
+	
+	/**
+	 * FUnction used to register ClipBucket php functions
+	 */
+	function cb_register_function($func_name,$place,$params=NULL)
+	{
+		global $Cbucket;
+		if(function_exists($func_name))
+		{
+			$Cbucket->clipbucket_functions[$place][] = array('func'=>$func_name,'params'=>$params);
+		}
+	}
+	
+	/**
+	 * function used to check weather specific place has function or not
+	 */
+	function cb_get_functions($place)
+	{
+		global $Cbucket;
+		if(count($Cbucket->clipbucket_functions[$place])>0)
+		{
+			return $Cbucket->clipbucket_functions[$place];
+		}else
+			return false;
+	}
+	
+	/**
+	 * Function used to call functions
+	 */
+	function cb_call_functions($place)
+	{
+		$funcs = cb_get_functions($place);
+		foreach($funcs as $func)
+		{
+			$func_name = $func['func'];
+			$params = $func['params'];
+			if(function_exists($func_name))
+			{
+				if($params)
+					$func_name($params);
+				else
+					$func_name();
+			}
+		}
+	}
 	
 ?>

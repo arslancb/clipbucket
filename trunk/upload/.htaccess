@@ -4,7 +4,7 @@ RewriteEngine on
 #
 #URL Rewriting for Videos
 RewriteRule ^videos/([0-9A-Za-z]+)/(.*)/(.*)/(.*)/(.*) videos.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
-RewriteRule ^videos videos.php [L]
+RewriteRule ^videos videos.php?%{QUERY_STRING} [L]
 RewriteRule ^video/(.*)/(.*) watch_video.php?v=$1&%{QUERY_STRING} [L]
 #
 #Users, Channel & Management
@@ -47,6 +47,6 @@ ErrorDocument 403 /view_page.php?pid=5
 
 ########## End - Rewrite rules For SEO urls ######################
 RewriteRule ^rss$                           rss.php [nc]
-RewriteRule ^rss/([a-zA-Z0-9].+)$          rss.php?mode=$1 [nc]
+RewriteRule ^rss/([a-zA-Z0-9].+)$          rss.php?mode=$1&%{QUERY_STRING} [nc]
 
 ########## End - Rewrite rules For SEO urls ######################
