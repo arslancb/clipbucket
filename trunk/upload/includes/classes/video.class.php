@@ -388,7 +388,8 @@ class CBvideo extends CBCategory
 		
 		$cond = "";
 		if(!has_access('admin_access',TRUE))
-			$cond .= " ".tbl("video.status")."='Successful' AND ".tbl("video.active")."='yes' ";
+			$cond .= " ".tbl("video.status")."='Successful' AND 
+			".tbl("video.active")."='yes' ";
 		else
 		{
 			if($params['active'])
@@ -400,8 +401,12 @@ class CBvideo extends CBCategory
 					$cond .=" AND ";
 				$cond .= " ".tbl("video.status")."='".$params['status']."'";
 			}
-			
-			
+			if($params['broadcast'])
+			{
+				if($cond!='')
+					$cond .=" AND ";
+				$cond .= " ".tbl("video.broadcast")."='".$params['public']."'";
+			}
 		}
 		
 		//Setting Category Condition
