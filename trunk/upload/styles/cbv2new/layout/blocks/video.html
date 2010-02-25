@@ -11,7 +11,8 @@
         <span class="vid_time">{$video.duration|SetTime}</span>
 		<img src="{$imageurl}/dot.gif" class="add_icon" onclick="add_quicklist(this,'{$video.videoid}')" title="Add {$video.title} to Quicklist" alt="Quicklist" />   
         {if $video.broadcast=='private'}
-        <img src="{$imageurl}/dot.gif" class="private_video" /> {/if}
+        	<a href="{videoLink vdetails=$video}"><span class="private_video">&nbsp;</span></a>
+        {/if}
         {ANCHOR place='in_video_thumb' data=$video}    
     </div> <!--VID_THUMB END-->
     <div class="vid_info_wrap">
