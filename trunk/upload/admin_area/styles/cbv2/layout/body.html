@@ -21,9 +21,15 @@
     <div id="contentwrapper">
         <div id="contentcolumn" class="{$contentcolumn_class}">
             <div class="innertube" style="padding-right:10px">
-    {foreach from=$template_files item=file}
-        {include file="$style_dir/$file" }
-    {/foreach}
+            {foreach from=$template_files item=file}
+            	{if !is_array($file)}
+                	{include file="$style_dir/$file" }
+                {else}
+                	{assign var=folder value=$file.folder}
+                    {assign var=inc_file value=$file.file}
+                	{include file="$folder/$inc_file" }
+                {/if}
+            {/foreach}
             </div>
         </div>
     </div>

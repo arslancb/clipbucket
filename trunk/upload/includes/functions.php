@@ -1892,10 +1892,13 @@
 	/**
 	 * Function used to add tempalte in display template list
 	 */
-	function template_files($file)
+	function template_files($file,$folder=false)
 	{
 		global $ClipBucket;
-		$ClipBucket->template_files[] = $file;
+		if(!$folder)
+			$ClipBucket->template_files[] = $file;
+		else
+			$ClipBucket->template_files[] = array('file'=>$file,'folder'=>$folder);
 	}
 	
 	
@@ -1908,10 +1911,17 @@
 		$dir = LAYOUT;
 		foreach($ClipBucket->template_files as $file)
 		{
-			if(file_exists(LAYOUT.'/'.$file))
+			if(file_exists(LAYOUT.'/'.$file) || is_array($file))
 			{
 				if($ClipBucket->show_page)
-					$new_list[] = $file;
+					if(!is_array($file))
+						$new_list[] = $file;
+					else
+					{
+						if(file_exists($file['folder'].'/'.$file['file']))
+							$new_list[] = $file;
+					}
+						
 			}
 		}
 		

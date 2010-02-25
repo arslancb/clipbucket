@@ -1,16 +1,11 @@
 <?php
-/* 
-****************************************************************************************************
-| Copyright (c) 2008 Clip-Bucket.com. All rights reserved.                                 |
-| @ Author : Murat Esgin (lavinya http://www.videoizlepaylas.com )    |         
-| @ Software : Video Media Sitemap for ClipBucket , © PHPBucket.com    |
-****************************************************************************************************
-*/
-ob_start();
-session_start();
-echo '<?xml version="1.0" encoding="utf-8"?>' . "\n";
+/**
+ * @ Software : ClipBucket
+ * @ File : Site Map
+ */
 
 require 'includes/config.inc.php';
+echo '<?xml version="1.0" encoding="utf-8"?>' . "\n";
 
 //Assign 
 Assign('WebsiteEmail',WEBSITE_EMAIL);
@@ -23,7 +18,7 @@ $query_param = "broadcast='public' AND active='yes' AND status='Successful'";
 
 //Getting Recently Added
 if($show == 'latest'){
-$query = "SELECT * FROM video WHERE $query_param ORDER BY date_added DESC LIMIT 0,1000";
+$query = "SELECT * FROM ".tbl("video")." WHERE $query_param ORDER BY date_added DESC LIMIT 0,1000";
 }
 
 //Getting Whats Hot

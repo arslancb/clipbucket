@@ -45,6 +45,18 @@ switch($mode)
 		 $videos = get_videos(array('limit'=>$limit,'order'=>'last_viewed DESC'));
 		 $title = "Videos Being Watched";
 	}
+	
+	case 'user':
+	{
+		 $user = mysql_clean($_GET['username']);
+		 //Get userid from username
+		 $uid = $userquery->get_user_field_only($user,'userid');
+		 $uid = $uid ? $uid : 'x';
+		 $videos = get_videos(array('limit'=>$limit,'user'=>$uid,'order'=>'date_added DESC'));
+		 //Count Total Videos of this user
+		 $total_vids = get_videos(array('count_only'=>true,'user'=>$uid));
+		 $title = "Videos uploaded by ".$user;
+	}
 	break;
 }
 
@@ -61,7 +73,14 @@ subtitle($title);
         <title><?=cbtitle()?></title>
     </image>
     <description><?=$Cbucket->configs['description']?></description>
-    
+    <?php
+	if($total_vids)
+	{
+	?>
+    <total_videos><?=$total_vids?></total_videos>
+    <?php
+	}
+	?>
     <?php
    
     foreach($videos as $video)

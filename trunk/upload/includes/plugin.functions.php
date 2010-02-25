@@ -151,14 +151,18 @@
 	  * @param STRING link
 	  * That will add new item in admin menu
 	  */
-	 function add_admin_menu($header='Tool Box',$name,$link)
+	 function add_admin_menu($header='Tool Box',$name,$link,$plug_folder=false)
 	 {
-		 global $Cbucket;
-		 //Gett Menu
-		 $menu = $Cbucket->AdminMenu;
-		 //Add New Meny
-		 $menu[$header][$name] = $link;
-		 $Cbucket->AdminMenu = $menu;
+		global $Cbucket;
+		//Get Menu
+		$menu = $Cbucket->AdminMenu;
+		
+		if($plug_folder)
+			$link = 'plugin.php?folder='.$plug_folder.'&file='.$link;
+			
+		//Add New Menu
+		$menu[$header][$name] = $link;
+		$Cbucket->AdminMenu = $menu;
 	 }
 	 
 	 
