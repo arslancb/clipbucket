@@ -108,7 +108,7 @@
 		$new_tags = '';
 		foreach($tags as $tag)
 		{
-			$params = array('name'=>'tag','tag'=>$tag,'type'=>$type);
+			$params = array('name'=>'tag','tag'=>trim($tag),'type'=>$type);
 			$new_tags .= '<a href="'.cblink($params).'">'.$tag.'</a>';
 			if($count<$total)
 				$new_tags .= $sep;

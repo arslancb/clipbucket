@@ -540,6 +540,7 @@
 		#get all possible thumbs of video
 		$vid_thumbs = glob(THUMBS_DIR."/".$vdetails['file_name']."*");
 		#replace Dir with URL
+		if(is_array($vid_thumbs))
 		foreach($vid_thumbs as $thumb)
 		{
 			$thumb_parts = explode('/',$thumb);
@@ -1387,6 +1388,7 @@
 		$vid_files = glob(VIDEOS_DIR."/".$vdetails['file_name']."*");
 
 		#replace Dir with URL
+		if(is_array($vid_files))
 		foreach($vid_files as $file)
 		{
 			$files_part = explode('/',$file);
