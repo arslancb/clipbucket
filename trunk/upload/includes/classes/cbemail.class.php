@@ -118,7 +118,7 @@ class CBEmail
 			e(lang("email_msg_empty"));
 		else
 		{
-			$db->update(tbl($this->db_tpl),array("email_template_subject","email_template"),array($subj,$msg),
+			$db->update(tbl($this->db_tpl),array("email_template_subject","email_template"),array($subj,'|no_mc|'.$msg),
 									" email_template_id='$id'");
 			e(lang("email_tpl_has_updated"),"m");
 		}

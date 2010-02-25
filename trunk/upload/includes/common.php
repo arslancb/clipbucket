@@ -76,6 +76,9 @@ if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
 	require_once('classes/cbemail.class.php');
 	require_once('classes/pm.class.php');
 	require_once('classes/cbpage.class.php');
+	
+	//Adding Gravatar
+	require_once('classes/gravatar.class.php');
 
 	require_once 'languages.php';
 	

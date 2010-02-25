@@ -15,6 +15,7 @@ define('NO_AVATAR','no_avatar.png'); //if there is no avatar or profile pic, thi
 define('AVATAR_SIZE',250);
 define('AVATAR_SMALL_SIZE',40);
 define('BG_SIZE',1200);
+define("USE_GAVATAR",true); //Use Gavatar
 
 class userquery extends CBCategory{
 	
@@ -1320,13 +1321,14 @@ class userquery extends CBCategory{
 	 */
 	function getUserThumb($udetails,$size='',$uid=NULL,$just_file=false)
 	{
-		
 		$remote = false;
-		if(empty($udetails['userid']))
+		if(empty($udetails['userid']) && $uid)
 			$udetails = $this->get_user_details($uid);
 		//$thumbnail = $udetails['avatar'] ? $udetails['avatar'] : NO_AVATAR;
 		$thumbnail = $udetails['avatar'];
 		$thumb_file = USER_THUMBS_DIR.'/'.$thumbnail;
+		
+		
 		if(file_exists($thumb_file) && $thumbnail!='')
 			$thumb_file = USER_THUMBS_URL.'/'.$thumbnail;
 		elseif(!empty($udetails['avatar_url']))
@@ -1334,22 +1336,54 @@ class userquery extends CBCategory{
 			$thumb_file = $udetails['avatar_url'];
 			$remote  = true;
 		}else
-			$thumb_file = USER_THUMBS_URL.'/'.NO_AVATAR;
+		{	
+			if(!USE_GAVATAR)
+				$thumb_file = USER_THUMBS_URL.'/'.NO_AVATAR;
+			else
+			{
+				switch($size)
+				{
+					case "small":
+					{
+						$thesize = AVATAR_SMALL_SIZE;
+						$default = USER_THUMBS_URL.'/'.getName(NO_AVATAR).'-small.'.getExt(NO_AVATAR);
+						
+					}
+					break;
+					default:
+					{
+						$thesize = AVATAR_SIZE;
+						$default = USER_THUMBS_URL.'/'.NO_AVATAR;
+					}
+				}
+				
+				$email = $udetails['email'];
+				$email = $email ? $email : $udetails['anonym_email'];
+				$gravatar = new Gravatar($email, $default);
+				$gravatar->size = $thesize;
+				$gravatar->rating = "G";
+				$gravatar->border = "FF0000";
+				
+				$thumb = $gravatar->getSrc();
+				//echo $gravatar->toHTML();
+			}
+		}
+		
 		$ext = GetExt($thumb_file);
 		$file = getName($thumb_file);
 		
 		if(!$remote)
 		{
-			if(!empty($size))
+			if(!empty($size) && !$thumb)
 				$thumb = USER_THUMBS_URL.'/'.$file.'-'.$size.'.'.$ext;
-			else
+			elseif(!$thumb)
 				$thumb = USER_THUMBS_URL.'/'.$file.'.'.$ext;
-		}else
+		}elseif(!USE_GAVATAR)
 			$thumb = $thumb_file;
 		
 		if($just_file)
 			return $file.'.'.$ext;
-			
+		
 		return $thumb;
 	}
 	function avatar($udetails,$size='',$uid=NULL)
