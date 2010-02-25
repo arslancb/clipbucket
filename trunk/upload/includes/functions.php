@@ -2238,7 +2238,7 @@
 	 */
 	function video_playable($id)
 	{
-		global $cbvideo;
+		global $cbvideo,$userquery;
 		$vdo = $cbvideo->get_video($id);
 		if(!$vdo)
 		{
@@ -2251,9 +2251,12 @@
 				return false;
 			else
 				return true;
-		}else{
+		}elseif($vdo['broadcast']=='private' 
+				&& !$userquery->is_confirmed_friend($vdo['userid'],userid()) && !has_access('video_moderation',true)){
+			e(lang('private_video_error'));
+			return false;
+		}else
 			return true;
-		}
 	}
 	
 	

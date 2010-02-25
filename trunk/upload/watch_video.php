@@ -57,7 +57,8 @@ if(video_playable($vkey))
 	
 	subtitle($vdo['title']);
 
-}
+}else
+	$Cbucket->show_page = false;
 
 //Displaying The Template
 template_files('watch_video.html');
