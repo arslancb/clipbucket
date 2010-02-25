@@ -172,10 +172,13 @@ class language
 	/**
 	 * Function used to get list of languages installed
 	 */
-	function get_langs()
+	function get_langs($active=false)
 	{
 		global $db;
-		$results = $db->select(tbl("languages"),"*");
+		$cond = NULL;
+		if($active)
+			$cond = " language_active='yes' ";
+		$results = $db->select(tbl("languages"),"*",$cond);
 		return $results;
 	}
 	
@@ -369,6 +372,42 @@ class language
 			e(lang("lang_updated"),"m");
 		}
 			
+	}
+	
+	
+	/**
+	 * function used to activate or deactive language
+	 */
+	function action_lang($action,$id)
+	{
+		global $db;
+		$lang = $this->lang_exists($id);
+		
+		if(!$this->lang_exists($id))
+			e($lang);
+		elseif($lang['language_default']=='yes')
+			e(lang("lang_default_no_actions"));
+		else
+		{
+			switch($action)
+			{
+				case "active":
+				case "activate":
+				{
+					$db->update(tbl('languages'),array("language_active"),array("yes")," language_id='$id' ");
+					e(lang("lang_has_been_activated"),"m");
+				}
+				break;
+				case "deactive":
+				case "deactivate":
+				{
+					$db->update(tbl('languages'),array("language_active"),array("no")," language_id='$id' ");
+					e(lang("lang_has_been_deactivated"),"m");
+				}
+				break;
+			}
+		}
+		
 	}
 }
 

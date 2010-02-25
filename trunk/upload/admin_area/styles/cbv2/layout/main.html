@@ -82,14 +82,14 @@ $(document).ready(function(){
             </tr>
             <tr>
               <td>Allow template change</td>
-              <td><select name="allow_language_change" id="allow_language_change">
+              <td><select name="allow_template_change" id="allow_template_change">
                 <option value="1"  
-       {if $row.allow_language_change == 1}
+       {if $row.allow_template_change == 1}
         selected="selected"
       {/if}
         >Yes</option>
                 <option value="0"
-        {if $row.allow_language_change == 0}
+        {if $row.allow_template_change == 0}
           selected="selected"
           {/if}
           >No</option>
@@ -97,14 +97,14 @@ $(document).ready(function(){
             </tr>
             <tr>
               <td>Allow language change</td>
-              <td><select name="seo2" id="seo">
-                <option value="yes"
-       {if $row.seo == yes}
+              <td><select name="allow_language_change" id="allow_language_change">
+                <option value="1"
+       {if $row.allow_language_change == 1}
         selected="selected"
       {/if}
         >Yes</option>
-                <option value="no"
-        {if $row.seo == no}
+                <option value="0"
+        {if $row.allow_language_change == 0}
           selected="selected"
           {/if}
           >No</option>

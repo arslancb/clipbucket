@@ -45,6 +45,12 @@ if(isset($_GET['download']))
 	$lang_obj->export_lang(mysql_clean($_GET['download']));
 }
 
+//Downloading Language
+if(isset($_GET['action']))
+{
+	$lang_obj->action_lang($_GET['action'],mysql_clean($_GET['id']));
+}
+
 //Get List Of Languages
 assign('language_list',$lang_obj->get_langs());
 Assign('msg',$msg);	

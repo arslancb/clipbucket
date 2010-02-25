@@ -38,7 +38,7 @@ class CBObjects
 	function display_languages($id='lang_selector',$class='lang_selector',$onchange='')
 	{
 		global $lang_obj;
-		$langs = $lang_obj->get_langs();
+		$langs = $lang_obj->get_langs('yes');
 		
 		if($class)
 			$class_attr = ' class="'.$class.'" ';

@@ -24,7 +24,7 @@
     <td width="100" align="left" valign="middle"><span style="margin-left:10px;">{$language_list[l_list].language_code}</span></td>
     <td width="150" align="left" valign="middle"><span style="margin-left:10px;">{$language_list[l_list].language_regex}</span></td>
     <td width="300" align="left" valign="middle">
-    <a href="?edit_language={$language_list[l_list].language_id}" style="margin-left:10px">Edit Phrases</a> | <a href="?edit_language={$language_list[l_list].language_id}">Edit</a> | <a href="javascript:void(0)" onclick="if(confirm_it('Are you sure you want to delete \'{$language_list[l_list].language_name}\' pack')) window.location = '?delete={$language_list[l_list].language_id}'">Delete</a> | <a href="?download={$language_list[l_list].language_id}" target="_blank">Export</a></td>
+    <a href="?edit_language={$language_list[l_list].language_id}" style="margin-left:10px">Edit Phrases</a> | <a href="?edit_language={$language_list[l_list].language_id}">Edit</a> | <a href="javascript:void(0)" onclick="if(confirm_it('Are you sure you want to delete \'{$language_list[l_list].language_name}\' pack')) window.location = '?delete={$language_list[l_list].language_id}'">Delete</a> | <a href="?download={$language_list[l_list].language_id}" target="_blank">Export</a>{if $language_list[l_list].language_active!='yes'} | <a href="?action=activate&id={$language_list[l_list].language_id}">Activate</a>{/if}{if $language_list[l_list].language_active=='yes'} | <a href="?action=deactivate&id={$language_list[l_list].language_id}">Dectivate</a>{/if}</td>
   </tr>
 </table>
 </div>
