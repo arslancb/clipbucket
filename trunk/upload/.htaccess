@@ -62,6 +62,7 @@ RewriteRule ^page/([0-9]+)/(.*)						view_page.php?pid=$1 [nc]
 #Miscellenous
 RewriteRule ^search/result							search_result.php [nc]
 RewriteRule ^upload									upload.php [nc]
+RewriteRule ^contact								contact.php [nc]
 
 #Group Section
 

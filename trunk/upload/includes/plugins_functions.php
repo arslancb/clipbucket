@@ -65,6 +65,7 @@
 		//Getting List of comment functions
 		$func_list = $Cbucket->getFunctionList('title');
 		//Applying Function
+		if(is_array($func_list))
 		foreach($func_list as $func)
 		{
 			$title = $func($title);
@@ -161,5 +162,22 @@
 		return $cats;
 	}
 
+
+	/**
+	 * Function used to display page
+	 */
+	function page($content)
+	{
+		global $Cbucket;
+		//Getting List of comment functions
+		$func_list = $Cbucket->getFunctionList('page');
+		//Applying Function
+		if(is_array($func_list))
+		foreach($func_list as $func)
+		{
+			$content = $func($content);
+		}
+		return $content;
+	}
 
 ?>

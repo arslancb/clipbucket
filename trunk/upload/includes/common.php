@@ -20,8 +20,8 @@
 
 ob_start();
 
-define("DEVELOPMENT_MODE",TRUE);
-define("DEV_INGNORE_SYNTAX",TRUE);
+define("DEVELOPMENT_MODE",FALSE);
+define("DEV_INGNORE_SYNTAX",FALSE);
 
 //Setting Cookie Timeout
 define('COOKIE_TIMEOUT',315360000); // 10 years
