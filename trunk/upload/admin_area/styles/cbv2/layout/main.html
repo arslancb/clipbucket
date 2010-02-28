@@ -169,20 +169,26 @@ $(document).ready(function(){
               <td valign="top"><input name="video_comments" type="checkbox" id="video_comments" value="1" {if $row.video_comments=='1'}checked="checked"{/if} /></td>
             </tr>
             <tr>
-              <td valign="top"><label for="user_comment_own">User can comment on his/her own video</label></td>
-              <td valign="top"><input name="user_comment_own" type="checkbox" id="user_comment_own" value="1" {if $row.user_comment_own=='1'}checked=&quot;checked&quot;{/if} /></td>
+              <td valign="top">Allow Channel Comments</td>
+              <td valign="top"><input name="channel_comments" type="checkbox" id="channel_comments" value="1" {if $row.channel_comments=='1'}checked="checked"{/if} /></td>
+            </tr>
+            <tr>
+              <td valign="top">Allow Guests to Comment</td>
+              <td valign="top"><input name="anonym_comments" type="checkbox" id="anonym_comments" value="yes" {if $row.anonym_comments=='yes'}checked{/if} /></td>
             </tr>
             <tr>
               <td valign="top"><label for="max_comment_chr">Maximum Comment Characters</label></td>
               <td valign="top"><input name="max_comment_chr" type="text" id="max_comment_chr" value="{$row.max_comment_chr}" size="15" maxlength="5" /></td>
             </tr>
             <tr>
-              <td><label for="comment_rating">Allow comments rating</label></td>
+              <td>Allow comments rating</td>
               <td><input name="comment_rating" type="checkbox" id="comment_rating" value="1" {if $row.comment_rating=='1'}checked="checked"{/if} /></td>
             </tr>
             <tr>
-              <td colspan="2" valign="top" >&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
             </tr>
+            
             <tr>
               <td colspan="2" valign="top" class="settings_inner_title">Videos</td>
             </tr>
@@ -207,7 +213,7 @@ $(document).ready(function(){
             </tr>
             <tr>
               <td>User can rate his/her video/channel</td>
-              <td><input name="video_comments3" type="checkbox" id="video_comments3" value="1" {if $row.video_comments=='1'}checked=&quot;checked&quot;{/if} /></td>
+              <td><input name="video_comments3" type="checkbox" id="video_comments3" value="1" {if $row.video_comments=='1'}checked{/if} /></td>
             </tr>
         </table>
 </fieldset>

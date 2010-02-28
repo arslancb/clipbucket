@@ -36,6 +36,7 @@ if(isset($_POST['update'])){
 					
 					'closed'	,
 					'closed_msg',
+					'channel_comments',
 					'channels_list_per_page',
 					'channels_list_per_tab',
 					'captcha_type',

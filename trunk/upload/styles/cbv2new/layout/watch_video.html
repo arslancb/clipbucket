@@ -118,7 +118,12 @@
 	<h2>{lang code='comments'}</h2>
     <!-- Displaying Comments -->
     {include file="$style_dir/blocks/comments/comments.html" id=$vdo.videoid type=v}
-    {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
+    
+    {if $Cbucket->configs.video_comments=='1' && $vdo.allow_comments=='yes'}
+    	{include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
+    {else}
+    	<div class="disable_msg" align="center">{lang code='comm_disabled_for_vid'}</div>
+    {/if}
     <div class="clearfix"></div>
 </div>
 <!-- Video Comments -->

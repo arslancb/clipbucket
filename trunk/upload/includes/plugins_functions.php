@@ -100,7 +100,7 @@
 	/**
 	 * Function used to turn tags into links
 	 */
-	function tags($input,$type,$sep=',')
+	function tags($input,$type,$sep=', ')
 	{
 		//Exploding using comma
 		$tags = explode(',',$input);
