@@ -85,8 +85,12 @@
         	<span class="channel_heading">{lang code='comments'|capitalize:true}</span>
             <hr width="100%" size="1" noshade><!-- Displaying Comments -->
     		{include file="$style_dir/blocks/comments/comments.html" id=$u.userid type=c}<hr width="100%" size="1" noshade>
+            
+             {if $myquery->is_commentable($p,'u')}
                 {include file="$style_dir/blocks/comments/add_comment.html" id=$u.userid type=c}
-
+			{else}
+    			<div class="disable_msg" align="center">{lang code='coments_disabled_profile'}</div>
+    		{/if}
         </div>
         
         

@@ -680,5 +680,38 @@ class myquery {
 		global $db;
 		$db->delete(tbl("admin_notes"),array("note_id"),array($id));
 	}
+	
+	
+	/**
+	 * Function used to check weather object is commentable or not
+	 */
+	function is_commentable($obj,$type)
+	{
+		switch($type)
+		{
+			case "video":
+			case "v":
+			case "vdo":
+			case "videos":
+			case "vid":
+			{
+				if($obj['allow_comments'] == 'yes' && config('video_comments')==1)
+					return true;
+			}
+			break;
+			case "channel":
+			case "user":
+			case "users":
+			case "u":
+			case "c":
+			{
+				if($obj['allow_comments'] == 'yes' && config('channel_comments')==1)
+					return true;
+			}
+		}
+		return false;
+	}
+	
+
 }
 ?>
