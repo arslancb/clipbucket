@@ -17,7 +17,6 @@ if(@$_GET['msg']){
 $msg = mysql_clean($_GET['msg']);
 }
 
-
 if(isset($_POST['update'])){
 	$configs = $Cbucket->configs;
 	
@@ -28,9 +27,13 @@ if(isset($_POST['update'])){
 					'allow_template_change',
 					'allow_upload',
 					'anonymous_id',
+					'approve_video_notification',
 					'audio_codec',
 					'activation',
 					
+					'background_color',
+					'background_upload',
+					'background_url',
 					'big_thumb_width',
 					'big_thumb_height',
 					
@@ -57,12 +60,20 @@ if(isset($_POST['update'])){
 					'flvtool2path',
 					'ffmpeg_type',
 					
+					'gravatars',
+					
 					'keywords'	,
 					'keep_original',
 					
 					'r_height',
 					'r_width',
 					
+					'max_bg_height',
+					'max_bg_size',
+					'max_bg_width',
+					'max_profile_pic_height',
+					'max_profile_pic_size',
+					'max_profile_pic_width',
 					'max_video_title',
 					'max_video_desc',
 					'max_video_tags',
@@ -78,11 +89,14 @@ if(isset($_POST['update'])){
 					'num_thumbs',
 					
 					'php_path',
+					'picture_url',
+					'picture_upload',
 					
 					'resize',
 					'remoteUpload',
 					'recently_viewed_limit',
 					
+					'send_comment_notification',
 					'site_title'	,
 					'sys_os'	,
 					'sbrate'	,

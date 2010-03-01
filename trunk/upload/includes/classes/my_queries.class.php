@@ -36,6 +36,8 @@
  * @param : table name
  * @return : prefix_table_name;
  */
+ 
+
 function tbl($tbl)
 {
 	global $DBNAME;
@@ -386,7 +388,7 @@ class myquery {
 	 * This is more advance function , 
 	 * in this function functions can be applied on comments
 	 */
-	function add_comment($comment,$obj_id,$reply_to=NULL,$type='v',$obj_owner=NULL)
+	function add_comment($comment,$obj_id,$reply_to=NULL,$type='v',$obj_owner=NULL,$obj_link=NULL)
 	{
 		global $userquery,$eh,$db,$Cbucket;
 		//Checking maximum comments characters allowed
@@ -439,7 +441,51 @@ class myquery {
 			
 			e(lang("grp_comment_msg"),"m");
 			
-			$cid = $db->insert_id();			
+			$cid = $db->insert_id();	
+			$own_details = $userquery->get_user_field_only($obj_owner,'email');
+			
+			
+			$username = username();
+			$username = $username ? $username : post('name');	
+			$useremail = $email;
+			
+			//Adding Comment Log
+			$log_array = array
+			(
+			 'success'=>'yes',
+			 'action_obj_id' => $cid,
+			 'action_done_id' => $obj_id,
+			 'details'=> "made a comment",
+			 'username'=>$username,
+			 'useremail'=>$useremail,
+			 );
+			insert_log($type.'_comment',$log_array);
+			
+			//sending email
+			if(SEND_COMMENT_NOTIFICATION=='yes' )
+			{
+				
+				global $cbemail;
+				
+				$tpl = $cbemail->get_template('user_comment_email');
+				
+				$more_var = array
+				('{username}'	=> $username,
+				 '{obj_link}' => $obj_link.'#comment_'.$cid,
+				 '{comment}' => $comment,
+				 '{obj}'	=> get_obj_type($type)
+				);
+				if(!is_array($var))
+					$var = array();
+				$var = array_merge($more_var,$var);
+				$subj = $cbemail->replace($tpl['email_template_subject'],$var);
+				$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
+				
+				//Now Finally Sending Email
+				cbmail(array('to'=>$own_details,'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+			}
+			
+					
 			return $cid;
 		}
 		
@@ -634,11 +680,11 @@ class myquery {
 				e(lang("class_vdo_del_err"));
 			
 			//Checking owner of video
-			if(!USER_COMMENT_OWN)
-			{
-				if(userid()==$this->get_vid_owner($obj_id));
-					e(lang("usr_cmt_err2"));
-			}
+			//if(!USER_COMMENT_OWN)
+			//{
+			//	if(userid()==$this->get_vid_owner($obj_id));
+			///		e(lang("usr_cmt_err2"));
+			//}
 		}
 		
 		$func_array = get_functions('validate_comment_functions');

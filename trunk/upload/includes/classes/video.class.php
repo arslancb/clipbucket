@@ -81,7 +81,9 @@ class CBvideo extends CBCategory
 	function action($case,$vid)
 	{
 		global $db;
-		if(!$this->exists($vid))
+		$video = $this->get_video_details($vid);
+		 
+		if(!$video)
 			return false;
 		//Lets just check weathter video exists or not
 		switch($case)
@@ -93,6 +95,26 @@ class CBvideo extends CBCategory
 			{
 				$db->update(tbl("video"),array('active'),array('yes')," videoid='$vid' OR videokey = '$vid' ");
 				e(lang("class_vdo_act_msg"),m);
+				
+				if(SEND_VID_APPROVE_EMAIL=='yes')
+				{
+					//Sending Email
+					global $cbemail,$userquery;
+					$tpl = $cbemail->get_template('video_activation_email');
+					$user_fields = $userquery->get_user_field($video['userid'],"username,email");
+					$more_var = array
+					('{username}'	=> $user_fields['username'],
+					 '{video_link}' => videoLink($video)
+					);
+					if(!is_array($var))
+						$var = array();
+					$var = array_merge($more_var,$var);
+					$subj = $cbemail->replace($tpl['email_template_subject'],$var);
+					$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
+					
+					//Now Finally Sending Email
+					cbmail(array('to'=>$user_fields['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+				}
 			}
 			break;
 			
@@ -560,13 +582,15 @@ class CBvideo extends CBCategory
 	{
 		global $myquery,$db;
 		
-		if(!$this->video_exists($obj_id))
+		$video = $this->get_video_details($obj_id);
+		
+		if(!$video)
 			e(lang("class_vdo_del_err"));
 		else
 		{
 			//Getting Owner Id
 			$owner_id = $this->get_video_owner($obj_id,true);
-			$add_comment =  $myquery->add_comment($comment,$obj_id,$reply_to,'v',$owner_id);
+			$add_comment =  $myquery->add_comment($comment,$obj_id,$reply_to,'v',$owner_id,videoLink($video));
 			if($add_comment)
 			{
 				//Loggin Comment			

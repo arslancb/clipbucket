@@ -945,7 +945,9 @@ class Upload{
 				case 'a':
 				case 'avatar':
 				{
-					if(file_exists($file['tmp_name']))
+					if($file['size'] > config('max_profile_pic_size'))
+						e(sprintf(lang('file_size_exceeds'),config('max_profile_pic_size')));
+					elseif(file_exists($file['tmp_name']))
 					{
 						$ext = getext($file['name']);
 						$file_name = $uid.'.'.$ext;
@@ -962,7 +964,7 @@ class Upload{
 								$imgObj->CreateThumb($file_path,$small_size,AVATAR_SMALL_SIZE,$ext);
 							}
 						}else{
-							e(lang("An error occured "));
+							e(lang("class_error_occured"));
 						}
 					}
 				}
@@ -971,7 +973,9 @@ class Upload{
 				case 'bg':
 				case 'background':
 				{
-					if(file_exists($file['tmp_name']))
+					if($file['size'] > config('max_bg_size'))
+						e(sprintf(lang('file_size_exceeds'),config('max_profile_pic_size')));
+					elseif(file_exists($file['tmp_name']))
 					{
 						$ext = getext($file['name']);
 						$file_name = $uid.'.'.$ext;

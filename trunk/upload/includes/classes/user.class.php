@@ -12,10 +12,6 @@ Notice : Maintain this section
 */
  
 define('NO_AVATAR','no_avatar.png'); //if there is no avatar or profile pic, this file will be used
-define('AVATAR_SIZE',250);
-define('AVATAR_SMALL_SIZE',40);
-define('BG_SIZE',1200);
-define("USE_GAVATAR",true); //Use Gavatar
 
 class userquery extends CBCategory{
 	
@@ -118,6 +114,13 @@ class userquery extends CBCategory{
 		$this->action->check_func = 'user_exists';
 		$this->action->type_tbl = $this->dbtbl['users'];
 		$this->action->type_id_field = 'userid';
+		
+		define('AVATAR_SIZE',config('max_profile_pic_width'));
+		define('AVATAR_SMALL_SIZE',40);
+		define('BG_SIZE',config('max_bg_width'));
+		define('BACKGROUND_URL',config('background_url'));
+		define("USE_GAVATAR",config('gravatars') ? config('gravatars') : false); //Use Gavatar
+		define('BACKGROUND_COLOR',config('background_color'));
 	}
 	
 	/**
@@ -1395,7 +1398,7 @@ class userquery extends CBCategory{
 	 * Function used to get user Background
 	 * @param : bg file
 	 */
-	function getUserBg($udetails)
+	function getUserBg($udetails,$check=false)
 	{
 		$remote = false;
 		if(empty($udetails['userid']))
@@ -1405,10 +1408,13 @@ class userquery extends CBCategory{
 		$bgfile = USER_BG_DIR.'/'.$file;
 		if(file_exists($bgfile) && $file)
 			$thumb_file = USER_BG_URL.'/'.$file;
-		elseif(!empty($udetails['background_url']))
+		elseif(!empty($udetails['background_url']) && BACKGROUND_URL=='yes')
 		{
 			$thumb_file = $udetails['background_url'];
 			$remote  = true;
+		}elseif(!empty($udetails['background_color']) && BACKGROUND_COLOR=='yes' && $check) 
+		{
+			return true;
 		}else
 			return false;
 

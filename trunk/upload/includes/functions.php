@@ -3894,4 +3894,22 @@
 		return $timezoneTable;
 	}
 	
+	
+	/**
+	 * Function used to get object type from its code
+	 * ie v=>video
+	 */
+	function get_obj_type($type)
+	{
+		switch($type)
+		{
+			case "v":
+			{
+				return "video";
+			}
+			break;
+		}
+	}
+	
+	
 ?>

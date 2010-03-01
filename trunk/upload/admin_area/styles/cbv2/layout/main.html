@@ -18,7 +18,7 @@ $(document).ready(function(){
   <li onClick='display_tab(this,"div_1",true)' id="tab_1">Website Settings</li>
   <li onClick='display_tab(this,"div_2",true)' id="tab_2">Uploading and Conversion Settings</li>
   <li onClick='display_tab(this,"div_3",true)' id="tab_3">Display and Listing Settings</li>
-  <li onClick='display_tab(this,"div_4",true)' id="tab_4">Users &amp; Registeration</li>
+  <li onClick='display_tab(this,"div_4",true)' id="tab_4">User Settings &amp; Registeration</li>
 </ul>
 <div class="clearfix"></div>
 
@@ -156,6 +156,22 @@ $(document).ready(function(){
             <tr>
               <td><label for="welcome_email">Welcome Email</label></td>
               <td><input name="welcome_email" type="text" id="welcome_email" value="{$row.welcome_email}" size="45" /></td>
+            </tr>
+            <tr>
+              <td>Send Comment Notification</td>
+              <td>
+                <select name="send_comment_notification" id="send_comment_notification">
+                  <option value="yes" {if $row.send_comment_notification=='yes'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.send_comment_notification=='no'} selected="selected"{/if}>No</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Send Video Approve Noticfication</td>
+              <td><select name="approve_video_notification" id="approve_video_notification">
+                <option value="yes" {if $row.approve_video_notification=='yes'} selected="selected"{/if}>Yes</option>
+                <option value="no" {if $row.approve_video_notification=='no'} selected="selected"{/if}>No</option>
+              </select></td>
             </tr>
             <tr>
               <td>&nbsp;</td>
@@ -520,22 +536,16 @@ $(document).ready(function(){
         <tr>
           <td valign="top">Image verification (captcha)</td>
           <td valign="top"><select name="captcha_type">
-          <option value="0" {if $row.captcha_type == 0}
+            <option value="0" {if $row.captcha_type == 0}
           selected="selected"
           {/if}>No</option>
-          <option value="1" {if $row.captcha_type == 1}
+            <option value="1" {if $row.captcha_type == 1}
           selected="selected"
           {/if}>Simple</option>
-          <option value="2" {if $row.captcha_type == 2}
+            <option value="2" {if $row.captcha_type == 2}
           selected="selected"
           {/if}>Secured</option>
-        </select></td>
-        </tr>
-        <tr>
-          <!--<td valign="top">Username regular expression</td>
-          <td valign="top"><label>
-            <input type="text" name="textfield" id="textfield" />
-          please refer to <a href="http://www.php.net/pcre">php.net</a></label></td>-->
+            </select></td>
         </tr>
         <tr>
           <td valign="top">Username maximum characters</td>
@@ -557,6 +567,101 @@ $(document).ready(function(){
         <tr>
           <td valign="top">&nbsp;</td>
           <td valign="top">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="2" valign="top" class="settings_inner_title">Profile Pictures &amp; Background</td>
+          </tr>
+        <tr>
+          <td valign="top">Use Gravatars</td>
+          <td valign="top"><label>
+<select name="gravatars" id="gravatars">
+<option value="yes"
+{if $row.gravatars == yes}
+selected="selected"
+{/if}>Yes</option>
+              <option value=""
+{if $row.gravatars == ''}
+selected="selected"
+{/if}>No</option>
+            </select>
+          </label></td>
+        </tr>
+        <tr>
+          <td valign="top">Max Porfile Pic Size</td>
+          <td valign="top"><input name="max_profile_pic_size" type="text" id="max_profile_pic_size" value="{$row.max_profile_pic_size}" size="6" maxlength="3" /> 
+            KBs           </td>
+        </tr>
+        <tr>
+          <td valign="top">Max Porfile Pic Dimension</td>
+          <td valign="top"><input name="max_profile_pic_width" type="text" id="max_profile_pic_width" value="{$row.max_profile_pic_width}" size="6" maxlength="3" />
+            Pixels</td>
+        </tr>
+        <tr>
+          <td valign="top">Allow Picture URL</td>
+          <td valign="top">
+<select name="picture_url" id="select4">
+<option value="yes" 
+{if $row.picture_url == yes}
+selected="selected"
+{/if}>Yes</option>
+<option value="no" {if $row.picture_url == no}
+selected="selected"
+{/if}>No</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td valign="top">Allow Picture Upload</td>
+          <td valign="top"><select name="picture_upload" id="select5">
+            <option value="yes" {if $row.picture_upload == yes}
+selected="selected"
+{/if}>Yes</option>
+            <option value="no" {if $row.picture_upload == no}
+selected="selected"
+{/if}>No</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td valign="top">Max Background Size</td>
+          <td valign="top"><input name="max_bg_size" type="text" id="max_bg_size" value="{$row.max_bg_size}" size="6" maxlength="3" />
+            KBs</td>
+        </tr>
+        <tr>
+          <td valign="top">Max Background Dimension</td>
+          <td valign="top"><input name="max_bg_height" type="text" id="max_bg_height" value="{$row.max_bg_height}" size="6" maxlength="3" />
+            Pixels</td>
+        </tr>
+        <tr>
+          <td valign="top">Allow Background URL</td>
+          <td valign="top"><select name="background_url" id="select6">
+            <option value="yes" {if $row.background_url == yes}
+selected="selected"
+{/if}>Yes</option>
+            <option value="no" {if $row.background_url == no}
+selected="selected"
+{/if}>No</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td valign="top">Allow Background Upload</td>
+          <td valign="top"><select name="background_upload" id="select7">
+            <option value="yes" {if $row.background_upload == yes}
+selected="selected"
+{/if}>Yes</option>
+            <option value="no" {if $row.background_upload == no}
+selected="selected"
+{/if}>No</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td valign="top">Allow Background Color</td>
+          <td valign="top"><select name="background_color" id="background_color">
+            <option value="yes" {if $row.background_color == yes}
+selected="selected"
+{/if}>Yes</option>
+            <option value="no" {if $row.background_color == no}
+selected="selected"
+{/if}>No</option>
+          </select></td>
         </tr>
       </table>
 </fieldset>

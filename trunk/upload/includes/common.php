@@ -271,7 +271,8 @@ else
 	
 	//TOPIC ICON DIR
 	define('TOPIC_ICON_DIR',BASEDIR.'/images/icons/topic_icons');
-	define('TOPIC_ICON_URL',BASEURL.'/images/icons/topic_icons');	
+	define('TOPIC_ICON_URL',BASEURL.'/images/icons/topic_icons');
+	
 	
 	include 'functions.php';
 	include 'plugin.functions.php';
@@ -462,4 +463,9 @@ if(count($matches)>0)
 	$baseurl = preg_replace('/:\/\/www\./','://',$baseurl);
 	$myquery->Set_Website_Details('baseurl',$baseurl);
 }
+
+	//Other settings
+	define("SEND_COMMENT_NOTIFICATION",config("send_comment_notification"));
+	define("SEND_VID_APPROVE_EMAIL",config("approve_video_notification"));
+
 ?>
