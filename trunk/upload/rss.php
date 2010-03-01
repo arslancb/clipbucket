@@ -12,7 +12,6 @@ define("THIS_PAGE",'rss');
 require 'includes/config.inc.php';
 header ("Content-type: text/xml; charset=utf-8");
 echo '<?xml version=\'1.0\' encoding=\'UTF-8\'?>'."\n";
-echo '<?xml-stylesheet type="text/css" href="http://localhost/clipbucket/2.x/2/upload/styles/cbv2new/theme/main.css" ?>'."\n";
 
 $limit = 20;
 $mode = $_GET['mode'];

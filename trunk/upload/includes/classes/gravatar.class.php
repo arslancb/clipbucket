@@ -188,4 +188,4 @@ class Gravatar
     public function __toString() { return $this->toHTML(); }
 }
 
-?> 
+?>

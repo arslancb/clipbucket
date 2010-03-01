@@ -262,7 +262,7 @@ class language
 					<?=array2xml(array('lang'=>$this->lang_phrases()));?>
 				</phrases>
 			</clipbucket_language>
-            <?php
+<?php
 			exit();
 		}else
 			e(lang("lang_doesnt_exist"));
