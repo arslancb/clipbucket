@@ -505,7 +505,6 @@ class ClipBucket
 			return $items;
 		}
 	}
-
 }
 
 ?>

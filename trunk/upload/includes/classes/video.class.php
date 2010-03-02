@@ -1056,5 +1056,18 @@ class CBvideo extends CBCategory
 		$sess->set(QUICK_LIST_SESS,'');
 	}
 	
+	/**
+	 * Function used to check weather video is downloadable or not
+	 */
+	function downloadable($vdo)
+	{
+		$file = get_video_file($vdo,false);
+		if($file)
+			return true;
+		else
+			return false;
+	}
+
+	
 }
 ?>

@@ -9,6 +9,9 @@ $in_bg_cron = true;
 
 include(dirname(__FILE__)."/../includes/config.inc.php");
 
+//Calling Cron Functions
+cb_call_functions('verify_converted_videos_cron');
+
 $files = get_video_being_processed();
 if(is_array($files))
 foreach($files as $file)

@@ -9,6 +9,10 @@ $in_bg_cron = true;
 //including config file..
 include(dirname(__FILE__)."/../includes/config.inc.php");
 
+//Calling Cron Functions
+cb_call_functions('update_cb_stats_cron');
+
+
 //Now Gathering All Data
 $date = date("Y-m-d");
 

@@ -11,6 +11,10 @@ ini_set('mysql.connect_timeout','6000');
 
 include(dirname(__FILE__)."/../includes/config.inc.php");
 
+//Calling Cron Functions
+cb_call_functions('video_convert_cron');
+
+
 $SYSTEM_OS = $row['sys_os'] ? $row['sys_os'] : 'linux';
 	
 //Including FFMPEG CLASS

@@ -324,6 +324,7 @@
 	function cb_call_functions($place)
 	{
 		$funcs = cb_get_functions($place);
+		if(is_array($funcs))
 		foreach($funcs as $func)
 		{
 			$func_name = $func['func'];

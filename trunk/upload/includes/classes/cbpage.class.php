@@ -185,11 +185,11 @@ class cbpage
 	function is_active($id)
 	{
 		global $db;
-		$result = $db->count(tbl($this->page_tbl),"page_id"," page_id='$id' ");
+		$result = $db->count(tbl($this->page_tbl),"page_id"," page_id='$id' AND	active='yes' ");
 		if($result>0)
 			return true;
 		else
-			return falses;
+			return false;
 	}
 		
 }

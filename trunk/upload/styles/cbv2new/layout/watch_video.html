@@ -147,8 +147,8 @@
       </label>
       <input type="text" name="link_video" id="link_video" style="width:99%;margin-bottom:5px; " value="{videoLink vdetails=$vdo}"  onclick="this.select()"/>
       
-      {if $Cbucket->configs.video_download==1}
-       <label><a href="{videoLink vdetails=$vdo type=download}">{lang code='click_to_download_video'}</a></label>
+      {if $Cbucket->configs.video_download==1 && $cbvid->downloadable($vdo)}
+      	<label><a href="{videoLink vdetails=$vdo type=download}">{lang code='click_to_download_video'}</a></label>
       {/if}
 </strong>{ANCHOR place="video_sharing_options" data=$vdo}</div>
 	

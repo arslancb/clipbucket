@@ -1,5 +1,7 @@
-<div id="rating_container">
-
+<div id="rating_container">{$Cbucket->configs.video_rating}
+{if $Cbucket->configs.video_rating !=1}
+	{assign var="disable" value="disable"}
+{/if}
 <ul class="big_stars" id="rating_container_{$id}">
 <li class="current-rating" style="width:{$perc}"></li>
 <li>
