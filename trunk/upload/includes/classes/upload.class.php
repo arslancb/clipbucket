@@ -945,7 +945,8 @@ class Upload{
 				case 'a':
 				case 'avatar':
 				{
-					if($file['size'] > config('max_profile_pic_size'))
+					
+					if($file['size']/1024 > config('max_profile_pic_size'))
 						e(sprintf(lang('file_size_exceeds'),config('max_profile_pic_size')));
 					elseif(file_exists($file['tmp_name']))
 					{
@@ -973,7 +974,7 @@ class Upload{
 				case 'bg':
 				case 'background':
 				{
-					if($file['size'] > config('max_bg_size'))
+					if($file['size']/1024 > config('max_bg_size'))
 						e(sprintf(lang('file_size_exceeds'),config('max_profile_pic_size')));
 					elseif(file_exists($file['tmp_name']))
 					{
