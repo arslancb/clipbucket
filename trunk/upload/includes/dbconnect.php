@@ -10,7 +10,7 @@
     //Database Host
  	$DBHOST = 'localhost';
     //Database Name
- 	$DBNAME = 'clipbucket_svn';
+ 	$DBNAME = 'svn_clean';
     //Database Username
 	$DBUSER = 'root';
     //Database Password

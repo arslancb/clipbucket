@@ -121,6 +121,7 @@ class userquery extends CBCategory{
 		define('BACKGROUND_URL',config('background_url'));
 		define("USE_GAVATAR",config('gravatars') ? config('gravatars') : false); //Use Gavatar
 		define('BACKGROUND_COLOR',config('background_color'));
+		
 	}
 	
 	/**
@@ -1412,7 +1413,7 @@ class userquery extends CBCategory{
 		{
 			$thumb_file = $udetails['background_url'];
 			$remote  = true;
-		}elseif(!empty($udetails['background_color']) && BACKGROUND_COLOR=='yes' && $check) 
+		}elseif(!empty($udetails['background_color']) && BACKGROUND_COLOR =='yes' && $check) 
 		{
 			return true;
 		}else

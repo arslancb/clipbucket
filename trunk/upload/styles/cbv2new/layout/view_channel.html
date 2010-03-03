@@ -1,7 +1,7 @@
 {* Including Global Header *}
 {include file="$style_dir/global_header.html"}
 <body>
-<div {if $userquery->getUserBg($u,true)}style="background-position:center;background:{if $userquery->getUserBg($u)}url('{$userquery->getUserBg($u)}');background-repeat: {$u.background_repeat};{elseif $u.background_color!=''}{$u.background_color}{/if}; {if $u.background_attachement=='yes'}background-attachment:fixed{/if}"{/if}>
+{include file="$style_dir/blocks/view_channel/channel_global.html" }
 <div id="container" class="clearfix" style="background-color:none">
 
     <!-- Including Commong header -->
@@ -10,7 +10,7 @@
     {include file="$style_dir/message.html"}
     <div id="content_container" >
     <div id="content" style="padding-bottom:15px">
-    	{include file="$style_dir/blocks/view_channel/channel_top.html" }
+    	
         
         {assign var=user_vdo value= $userquery->get_user_profile_video($p)}
             {if $user_vdo}
