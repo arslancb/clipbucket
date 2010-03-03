@@ -2088,7 +2088,8 @@ class userquery extends CBCategory{
 						  'id'=> "last_name",
 						  'value'=> $default['profile_desc'],
 						  'db_field'=>'profile_desc',
-						  'auto_view'=>'no'
+						  'auto_view'=>'yes',
+						  'clean_func' => 'Replacer',
 		
 						  ),
 		'relation_status' => array(
@@ -2124,7 +2125,8 @@ class userquery extends CBCategory{
 						  'id'=> "about_me",
 						  'value'=> $default['about_me'],
 						  'db_field'=>'about_me',
-						  'auto_view'=>'yes',
+						  'auto_view'=>'no',
+						  'clean_func' => 'Replacer',
 						  ),
 		'profile_tags' => array(
 						  'title'=>  lang("profile_tags"),
@@ -2235,6 +2237,7 @@ class userquery extends CBCategory{
 						  'id'=> "schools",
 						  'value'=> $default['schools'],
 						  'db_field'=>'schools',
+						  'clean_func' => 'Replacer',
 						  ),
 		'occupation' => array(
 						  'title'=>  lang("occupation"),
@@ -2243,6 +2246,7 @@ class userquery extends CBCategory{
 						  'id'=> "occupation",
 						  'value'=> $default['occupation'],
 						  'db_field'=>'occupation',
+						  'clean_func' => 'Replacer',
 						  ),
 		'companies' => array(
 						  'title'=>  lang("companies"),
@@ -2251,6 +2255,7 @@ class userquery extends CBCategory{
 						  'id'=> "companies",
 						  'value'=> $default['companies'],
 						  'db_field'=>'companies',
+						  'clean_func' => 'Replacer',
 						  ),
 		'hobbies' => array(
 						  'title'=>  lang("hobbies"),
@@ -2259,6 +2264,7 @@ class userquery extends CBCategory{
 						  'id'=> "hobbies",
 						  'value'=> $default['hobbies'],
 						  'db_field'=>'hobbies',
+						  'clean_func' => 'Replacer',
 						  ),
 		'fav_movies' => array(
 						  'title'=>  lang("user_fav_movs_shows"),
@@ -2267,6 +2273,7 @@ class userquery extends CBCategory{
 						  'id'=> "fav_movies",
 						  'value'=> $default['fav_movies'],
 						  'db_field'=>'fav_movies',
+						  'clean_func' => 'Replacer',
 						  ),
 		'fav_music' => array(
 						  'title'=>  lang("user_fav_music"),
@@ -2275,6 +2282,7 @@ class userquery extends CBCategory{
 						  'id'=> "fav_music",
 						  'value'=> $default['fav_music'],
 						  'db_field'=>'fav_music',
+						  'clean_func' => 'Replacer',
 						  ),
 		'fav_books' => array(
 						  'title'=>  lang("user_fav_books"),
@@ -2283,6 +2291,7 @@ class userquery extends CBCategory{
 						  'id'=> "fav_books",
 						  'value'=> $default['fav_books'],
 						  'db_field'=>'fav_books',
+						  'clean_func' => 'Replacer',
 						  ),
 		
 		);

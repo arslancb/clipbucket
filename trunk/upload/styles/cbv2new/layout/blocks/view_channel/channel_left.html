@@ -64,11 +64,17 @@
                     {assign var=db_field value=$field.db_field}
                     {if $p.$db_field && $field.auto_view=='yes'}
                         <div class="show_info">
-                        {if $field.type !='textarea'}
+                        {if $field.type !='textarea' && $field.type !='text' && $field.type !='textfield'}
                          <div class="item_list float_left" align="left">{$field.title}</div>
                          <div class="item_list float_right" align="right">{input_value input=$field}</div>
+                         <div class="clearfix"></div>
+                        {elseif $field.type =='textarea'}
+                        	<div class="item_list" align="left" style="margin-top:5px"><strong>{$field.title}</strong></div>
+                            <div style=" display:block; padding:5px; font-size:10px; background-color:#eaeaea; margin:3px 0px">{$field.value|nl2br}</div>
                         {else}
-                         {$field.value}
+                        	<div class="item_list" align="left" style="margin-top:5px">{$field.title}</div>
+                            <div class="clearfix"></div>
+                         	<div class="item_list">{input_value input=$field}</div>
                         {/if}
                         </div>
                     {/if}
@@ -77,7 +83,8 @@
                     
                     {if $p.about_me}
                     <div class="show_info">
-              			{$p.about_me|nl2br}
+                    	<div class="item_list" align="left" style="margin-top:5px"><strong>{lang code='user_about_me'}</strong></div>
+              			<div style=" display:block; padding:5px; font-size:10px; background-color:#eaeaea; margin:3px 0px">{$p.about_me|nl2br}</div>
                     </div>
                     {/if}
                 

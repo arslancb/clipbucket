@@ -69,6 +69,19 @@
  	 return $string;
 	}
 	
+	function cb_clean($string,$array=array('no_html'=>true,'mysql_clean'=>false))
+	{
+		if($array['no_html'])
+			$string = htmlentities($string);
+		if($array['special_html'])
+			$string = htmlspecialchars($string);
+		if($array['mysql_clean'])
+			$string = mysql_real_escape_string($string);
+		if($array['nl2br'])
+			$string = nl2br($string);
+		return $string;
+	}
+	
 	//This Fucntion is for Securing Password, you may change its combination for security reason but make sure dont not rechange once you made your script run
 	
 	function pass_code($string) {
