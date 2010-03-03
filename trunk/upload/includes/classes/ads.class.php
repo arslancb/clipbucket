@@ -214,7 +214,7 @@ class AdsManager
 	function incrementImpression($ad_id)
 	{
 		global $db;
-		$query = "SELECT ".tbl("ad_impressions")." FROM ads_data WHERE ad_id='".$ad_id."'";
+		$query = "SELECT ad_impressions FROM ".tbl("ads_data")." WHERE ad_id='".$ad_id."'";
 		$query_results = $db->GetRow($query);
 		$ad_imp = $query_results['ad_impressions'] + 1;
 		$query = "UPDATE ".tbl("ads_data")." SET ad_impressions = '".$ad_imp."' WHERE ad_id='".$ad_id."'";
