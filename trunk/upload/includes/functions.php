@@ -2740,8 +2740,8 @@
 				elseif(isset($max_len))
 				{
 					if($length > $max_len || $length < $min_len)
-					e(sprintf(" please enter '%s' value between '%s' and '%s'",
-							  $title,$field['min_length'],$field['max_length']));
+					e(sprintf(lang('please_enter_val_bw_min_max'),
+							  $title,$min_len,$field['max_length']));
 				}elseif(function_exists($field['db_value_check_func']))
 				{
 					$db_val_result = $field['db_value_check_func']($val);

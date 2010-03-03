@@ -288,6 +288,10 @@ else
 	$cbpm->init();
 	$lang_obj->init();
     $thisurl = curPageURL();
+	//Setting Up Group Class
+	$cbgroup->gp_thumb_width = config('grp_thumb_width');
+	$cbgroup->gp_thumb_height = config('grp_thumb_height');
+	
     Assign('THIS_URL', $thisurl);
 	
 	define("ALLOWED_GROUP_CATEGORIES",$row['grp_categories']);

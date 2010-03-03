@@ -173,7 +173,9 @@ class CBGroups extends CBCategory
 						'function_error_msg' => lang('user_contains_disallow_err'),
 						'db_value_check_func'=> 'group_url_exists',
 						'db_value_exists'=>false,
-						'db_value_err'=>lang('grp_url_error2')	
+						'db_value_err'=>lang('grp_url_error2'),
+						'min_length' => 3,
+						'max_length' => 18,
 						
 						);
 		else
@@ -190,6 +192,8 @@ class CBGroups extends CBCategory
 						'invalid_err'=>lang('grp_url_error'),
 						'syntax_type'=> 'field_text',
 						'function_error_msg' => lang('user_contains_disallow_err'),	
+						'min_length' => 3,
+						'max_length' => 18,
 						);
 			
 		$fields = array
@@ -203,6 +207,7 @@ class CBGroups extends CBCategory
 						'db_field'=>'group_name',
 						'required'=>'yes',
 						'invalid_err'=>lang('grp_name_error'),
+						'max_length'=>config('grp_max_title')
 						),
 		 'tags'		=> array(
 						'title'=> lang('tag_title'),
@@ -227,7 +232,8 @@ class CBGroups extends CBCategory
 						'extra_params'=>' rows="4" ',
 						'db_field'=>'group_description',
 						'invalid_err'=>lang('grp_des_error'),
-						'required'=>'yes'
+						'required'=>'yes',
+						'max_length'=>config('grp_max_desc')
 							 
 						),
 		 $url_form,
