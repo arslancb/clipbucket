@@ -10,7 +10,7 @@
  */
  
  
-define("KEEP_MP4_AS_IS","yes");
+define("KEEP_MP4_AS_IS",config('keep_mp4_as_is'));
 define("MP4Box_BINARY",get_binaries('MP4Box'));
 define("FLVTool2_BINARY",get_binaries('flvtool2'));
 define('FFMPEG_BINARY', get_binaries('ffmpeg'));
@@ -640,6 +640,17 @@ class ffmpeg
 		$this->convert();
 		$this->end_time_check();
 		$this->total_time();
+		
+		//Copying File To Original Folder
+		if($this->keep_original=='yes')
+		{
+			$this->log .= "\r\nCopy File to original Folder";
+			if(copy($this->input_file,$this->original_output_path))
+				$this->log .= "\r\File Copied to original Folder...";
+			else
+				$this->log .= "\r\Unable to copy file to original folder...";
+		}
+		
 		$this->output_details = $this->get_file_info($this->output_file);
 		$this->log .= "\r\n\r\n";
 		$this->log_ouput_file_info();

@@ -20,5 +20,4 @@ $userquery->admin_login_check();
 	
 template_files('index.html');
 display_it();
-
 ?>

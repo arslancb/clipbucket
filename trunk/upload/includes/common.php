@@ -169,10 +169,7 @@ else
 	define('SLISTPP',$row['search_list_per_page']);				//Search Results List Per page
 	define('RVLIST',$row['recently_viewed_limit']);				//Search Results List Per page
 	
- //Video Options
- 	define('ALLOWED_VDO_CATS',$row['video_categories']);
-	define('ALLOWED_CATEGORIES',3);
-	
+ //Video Options	
  	define('VIDEO_COMMENT',$row['video_comments']);
 	define('VIDEO_RATING',$row['video_rating']);
 	define('COMMENT_RATING',$row['comment_rating']);
@@ -292,6 +289,10 @@ else
 	$lang_obj->init();
     $thisurl = curPageURL();
     Assign('THIS_URL', $thisurl);
+	
+	define("ALLOWED_GROUP_CATEGORIES",$row['grp_categories']);
+	define('ALLOWED_VDO_CATS',$row['video_categories']);
+	define('ALLOWED_CATEGORIES',3);
 	
  	//Assigning Smarty Tags & Values
     Assign('CB_VERSION',CB_VERSION);

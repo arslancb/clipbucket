@@ -5,7 +5,6 @@
  * @License : CBLA
  * @Since : 15 December 2009
  */
-define("ALLOWED_GROUP_CATEGORIES","3");
 
 class CBGroups extends CBCategory
 {

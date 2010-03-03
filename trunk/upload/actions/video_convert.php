@@ -1,10 +1,44 @@
 <?php
  /**
-
   * Written by : Arslan Hassan
   * Software : ClipBucket v2
   * License : CBLA
   **/
+
+
+	/**
+	 * UN COMMENT IN CASE YOU ARE FACING TOO MANY MULTIPLE PROCESSESS AND CAUSING SERVER OVERLOAD
+	 *
+	 * Thanks to Erickson Reyes ercbluemonday at yahoo dot com | so processes dont overlap
+	 * ref : http://www.php.net/manual/en/function.getmypid.php#94531
+	// Initialize variables
+    $found            = 0;
+    $file                 = basename(__FILE__);
+    $commands    = array();
+
+        // Get running processes.
+    exec("ps w", $commands);
+
+        // If processes are found
+    if (count($commands) > 0) {
+
+        foreach ($commands as $command) {
+            if (strpos($command, $file) === false) {
+                               // Do nothin'
+            }
+            else {
+                               // Let's count how many times the file is found.
+                $found++;
+            }
+        }
+    }
+
+        // If the instance of the file is found more than once.
+    if ($found > 1) {
+        echo "Another process is running.\n";
+        die();
+    }
+	*/	
 
 $in_bg_cron = true;
 ini_set('mysql.connect_timeout','6000');
@@ -80,10 +114,15 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 	$ffmpeg->output_file = VIDEOS_DIR.'/'.$tmp_file.'.flv';
 	$ffmpeg->hq_output_file = VIDEOS_DIR.'/'.$tmp_file.'.mp4';
 	$ffmpeg->log_file = LOGS_DIR.'/'.$tmp_file.'.log';
-	//$ffmpeg->remove_input=TRUE;
+	//$ffmpeg->remove_input = TRUE;
+	$ffmpeg->keep_original = config('keep_original');
+	$ffmpeg->original_output_path = ORIGINAL_DIR.'/'.$tmp_file.'.'.$ext;
 	$ffmpeg->ClipBucket();
 	//Converting File In HD Format
-	$ffmpeg->convert_to_hd();
+	$hq_output = config('hq_output');
+	if($hq_output=='yes')
+		$ffmpeg->convert_to_hd();
+		
 	unlink($ffmpeg->input_file);
 	
 	exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");

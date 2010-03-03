@@ -1,0 +1,53 @@
+<p><span class="page_title">ClipBucket Cron Jobs</span><br>
+  Need help about crons ? here you can find some solutions</p>
+<p>Following are cron job commands, please read cron <a href="http://docs.clip-bucket.com/clipbucket-docs/clipbucket-installation#after_installation">tutorial here </a>, Lat run tells you when your cron was called last time, if its &quot;No date provided&quot;, it means your cron jobs are not set properly</p>
+
+<table width="98%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="10" align="center" valign="middle" class="left_head">&nbsp;</td>
+    <td width="220" class="head">Time</td>
+    <td class="head">Command</td>
+    <td width="10" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+<table width="98%" border="0" cellpadding="0" cellspacing="0" class="block">
+  <tr>
+    <td width="5" align="center" valign="middle">&nbsp;</td>
+    <td width="220" style="font-size:14px;">
+    <input value="*" style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:10px">
+    <input value="*" style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:50px">
+    <input value="*" style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:10px">
+    <input value="*" style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:10px">
+    <input value="*" style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:10px"></td>
+    <td style="font-size:14px;"><input value="php -q {$smarty.const.BASEDIR}/actions/video_convert.php &gt;/dev/null 2&gt;&amp;1 " style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:500px" onClick="this.select()">
+Last Run : {$video_convert_cron|niceTime}</td>
+    
+    {check_module_path path='ffmpeg' get_path='true' assign='ffmpeg_status'}
+    <td width="10">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="5" align="center" valign="middle">&nbsp;</td>
+    <td width="220" style="font-size:14px;">
+      <input value="*" style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:10px">
+      <input value="*" style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:50px">
+      <input value="*" style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:10px">
+      <input value="*" style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:10px">
+      <input value="*" style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:10px"></td>
+    <td style="font-size:14px;"><input value="php -q {$smarty.const.BASEDIR}/actions/verify_converted_videos.php &gt;/dev/null 2&gt;&amp;1 " style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:500px" onClick="this.select()">
+Last Run : {$verify_converted_videos_cron|niceTime} </td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="5" align="center" valign="middle">&nbsp;</td>
+    <td width="220" style="font-size:14px;">
+      <input value="0" style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:10px">
+      <input value="0,12,13" style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:50px">
+      <input value="*" style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:10px">
+      <input value="*" style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:10px">
+      <input value="*" style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:10px"></td>
+    <td style="font-size:14px;"><input value="php -q {$smarty.const.BASEDIR}/actions/update_cb_stats.php &gt;/dev/null 2&gt;&amp;1 " style="padding:4px; margin:5px; background-color:#F2F2F2; display:inline-block; border:1px solid #CCC; width:500px" onClick="this.select()">
+Last Run : {$update_cb_stats_cron|niceTime} </td>
+    <td>&nbsp;</td>
+  </tr>
+</table>

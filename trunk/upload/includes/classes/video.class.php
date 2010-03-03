@@ -869,9 +869,9 @@ class CBvideo extends CBCategory
 		global $db;
 		if(is_numeric($vid))
 		{
-			$results = $db->select(tbl("video"),"*"," videoid='$vid'");
+			$results = $db->select(tbl("video"),"allow_rating,rating,rated_by"," videoid='$vid'");
 		}else
-			$results = $db->select(tbl("video"),"*"," videokey='$vid'");
+			$results = $db->select(tbl("video"),"allow_rating,rating,rated_by"," videokey='$vid'");
 		if($db->num_rows>0)
 			return $result[0];
 		else
@@ -952,10 +952,15 @@ class CBvideo extends CBCategory
 		$niddle .= "|";
 		$flag = strstr($voter_id, $niddle);
 		
+		//checking if raings are allowed or not
+		$vid_rating = config('video_rating');
+		
 		if(!empty($flag))
 			e(lang("you_hv_already_rated_vdo"));
 		elseif(!userid())
 			e(lang("please_login_to_rate"));
+		elseif($vid_rating!=1 || $vid_rating )
+			e(lang("Video rating is disabled"));
 		else
 		{
 			if(empty($voter_id))

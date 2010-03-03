@@ -217,6 +217,41 @@ $(document).ready(function(){
               <td><input name="video_download" type="checkbox" id="video_download" value="1" {if $row.video_download=='1'}checked="checked"{/if} /></td>
             </tr>
             <tr>
+              <td>Max categories for each video</td>
+              <td><input name="video_categories" type="text" id="php_path8" value="{$row.video_categories}" size="15" maxlength="5" /></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="2" class="settings_inner_title">Groups</td>
+            </tr>
+            <tr>
+              <td>Group Thumb Height</td>
+              <td><input name="grp_thumb_height" type="text" id="grp_thumb_height" value="{$row.grp_thumb_height}" size="15" maxlength="5" /></td>
+            </tr>
+            <tr>
+              <td>Group Thumb Width</td>
+              <td><input name="grp_thumb_width" type="text" id="grp_thumb_width" value="{$row.grp_thumb_width}" size="15" maxlength="5" /></td>
+            </tr>
+            <tr>
+              <td>Group Max Title</td>
+              <td><input name="grp_max_title" type="text" id="grp_max_title" value="{$row.grp_max_title}" size="15" maxlength="5" /></td>
+            </tr>
+            <tr>
+              <td>Group Max Description</td>
+              <td><input name="grp_max_desc" type="text" id="grp_max_desc" value="{$row.grp_max_desc}" size="15" maxlength="5" /></td>
+            </tr>
+            <tr>
+              <td>Max categories for each group</td>
+              <td><input name="grp_categories" type="text" id="grp_categories" value="{$row.grp_categories}" size="15" maxlength="5" /></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
             </tr>
@@ -289,6 +324,16 @@ $(document).ready(function(){
           <td><input name="keep_original" type="checkbox" id="keep_original" value="1" {if $row.keep_original} checked="checked"{/if} /></td>
         </tr>
         <tr>
+          <td>Mp4 HQ Output</td>
+          <td><input name="hq_output" type="checkbox" id="hq_output" value="yes" {if $row.hq_output} checked="checked"{/if} />
+            <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" alt="" border="0" class="tipsy_tip" title="if enabled, ClipBucket will generate Highh Quality mp4 video if possible" /></a></td>
+        </tr>
+        <tr>
+          <td>Keep Mp4 As Is</td>
+          <td><input name="keep_mp4_as_is" type="checkbox" id="keep_mp4_as_is" value="yes" {if $row.keep_mp4_as_is} checked="checked"{/if} />
+            <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="if enabled, ClipBucket will keep mp4 vieo as is and will be playable as HQ video" /></a></td>
+        </tr>
+        <tr>
           <td>Activation required</td>
           <td><input name="activation" type="checkbox" id="activation" value="1" {if $row.activation==1} checked="checked"{/if} /></td>
         </tr>
@@ -317,14 +362,7 @@ $(document).ready(function(){
 -
   <input name="max_video_tags" type="text" id="php_path7" value="{$row.max_video_tags}" size="20" /></td>
         </tr>
-        <tr>
-          <td>Allowed Categories</td>
-          <td><input name="video_categories" type="text" id="php_path8" value="{$row.video_categories}" size="45" /></td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-        </tr>
+       
         <tr>
           <td>&nbsp;</td>
           <td>&nbsp;</td>

@@ -61,9 +61,13 @@ if(isset($_POST['update'])){
 					'ffmpeg_type',
 					
 					'gravatars',
+					'grp_categories',
+					
+					'hq_output',
 					
 					'keywords'	,
 					'keep_original',
+					'keep_mp4_as_is',
 					
 					'r_height',
 					'r_width',
@@ -118,6 +122,7 @@ if(isset($_POST['update'])){
 					'users_items_group_page',
 					'user_max_chr',
 					
+					'vid_categories',
 					'videos_items_grp_page',
 					'videos_items_hme_page',
 					'videos_items_columns',
