@@ -57,6 +57,8 @@
         {assign var=$template_var value =$result}
         	{include file="$display_template" }
         {/foreach}
+    {else}
+    	{lang code='no_results_found'}
     {/if}
     <div class="clearfix"></div>
     

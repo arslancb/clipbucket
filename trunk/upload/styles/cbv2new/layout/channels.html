@@ -25,6 +25,8 @@
 </div>
     {section name=u_list loop=$users}
         {include file="$style_dir/blocks/user.html" user=$users[u_list]}
+    {sectionelse}
+    	{lang code='no_results_found'}
     {/section}
     <div class="clearfix"></div>
 </div>

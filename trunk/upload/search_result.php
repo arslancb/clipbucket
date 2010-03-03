@@ -33,7 +33,10 @@ $pages->paginate($total_pages,$page);
 Assign('results',$results );	
 Assign('template_var',$search->template_var);
 Assign('display_template',$search->display_template);
-Assign('search_type_title',$search->search_type[$type]['title']);
+if(empty($search->key))
+	Assign('search_type_title',$search->search_type[$type]['title']);
+else
+	Assign('search_type_title',sprintf(lang('searching_keyword_in_obj'),$search->key,$search->search_type[$type]['title']));
 
 
 //Displaying The Template

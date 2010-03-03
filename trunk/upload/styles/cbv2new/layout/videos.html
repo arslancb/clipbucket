@@ -27,8 +27,11 @@
       <div id="grid" title="Change To Grid Style"></div> 
             <div id="list" title="Change to List Style"></div>
 		</div> 
+        
     {section name=v_list loop=$videos}
         {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
+    {sectionelse}
+    	{lang code='no_results_found'}
     {/section}
     <div class="clearfix"></div>
 </div>

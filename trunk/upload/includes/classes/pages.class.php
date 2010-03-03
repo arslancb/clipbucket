@@ -337,7 +337,8 @@ class pages{
 	{
 		
 		$this->pagination = $this->pagination($total,$page,$link,$extra_params,$tag);
-		//Assigning Varaiable that can be used in templates
+		
+		//Assigning Variable that can be used in templates
 		assign('pagination',$this->pagination);
 		
 		assign('next_link',$this->next_link);

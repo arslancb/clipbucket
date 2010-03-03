@@ -37,14 +37,14 @@ RewriteEngine on
 #
 #
 #URL Rewriting for Videos
-RewriteRule ^videos/([0-9A-Za-z]+)/(.*)/(.*)/(.*)/(.*) videos.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
+RewriteRule ^videos/(.*)/(.*)/(.*)/(.*)/(.*) videos.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
 RewriteRule ^videos videos.php?%{QUERY_STRING} [L]
 RewriteRule ^video/(.*)/(.*) watch_video.php?v=$1&%{QUERY_STRING} [L]
 #
 #Users, Channel & Management
 #
 
-RewriteRule ^channels/([0-9A-Za-z]+)/(.*)/(.*)/(.*)/(.*) channels.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
+RewriteRule ^channels/(.*)/(.*)/(.*)/(.*)/(.*) channels.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
 RewriteRule ^channels channels.php [L]
 RewriteRule ^members/								channels.php [nc]
 RewriteRule ^users/									channels.php [nc]
@@ -68,7 +68,7 @@ RewriteRule ^contact								contact.php [nc]
 
 RewriteRule ^group/([a-zA-Z0-9].+)					view_group.php?url=$1&%{QUERY_STRING} [L]
 RewriteRule ^view_topic/([a-zA-Z0-9].+)_tid_([0-9]+)					view_topic.php?tid=$2&%{QUERY_STRING} [L]
-RewriteRule ^groups/([0-9]+)/(.*)/(.*)/(.*)/(.*) groups.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
+RewriteRule ^groups/(.*)/(.*)/(.*)/(.*)/(.*) groups.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
 RewriteRule ^groups groups.php [L]
 RewriteRule ^create_group create_group.php [L]
 
