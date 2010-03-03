@@ -29,7 +29,10 @@
         </div>
         
         <div class="comment_cont">{$comment.comment|comment}</div>
+        {if $type=='v' && $vdo.comment_voting=='yes'}
         <div class="comment_rating_cont"><span class="thumb_up" onclick="rate_comment('{$comment.comment_id}','up')">Thumbs Up</span><span class="thumb_down" onclick="rate_comment('{$comment.comment_id}','down')">Thumbs Down</span><span id="comment_rating_{$comment.comment_id}" class="comment_rating">{$comment.vote|comment_rating}</span></div>
+        {/if}
+        
     </div>
     </div>
     
