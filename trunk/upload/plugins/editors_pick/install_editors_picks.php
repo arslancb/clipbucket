@@ -7,7 +7,7 @@ function install_editors_pick()
 {
 	global $db;
 	$db->Execute(
-	"CREATE TABLE IF NOT EXISTS `".tbl('editors_picks')."` (
+	"CREATE TABLE IF NOT EXISTS ".tbl('editors_picks')." (
   `pick_id` int(225) NOT NULL AUTO_INCREMENT,
   `videoid` int(225) NOT NULL,
   `sort` bigint(5) NOT NULL DEFAULT '1',

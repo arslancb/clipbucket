@@ -125,7 +125,7 @@ class AdsManager
 	 */
 	function RemovePlacement($placement)
 	{
-		global $LANG;
+		global $db;
 		if(!$this->get_placement($placement))
 			e(lang("ad_placement_err4"));
 		else
