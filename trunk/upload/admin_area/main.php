@@ -62,6 +62,8 @@ if(isset($_POST['update'])){
 					
 					'gravatars',
 					'grp_categories',
+					'groups_list_per_page',
+					'grps_items_search_page',
 					
 					'hq_output',
 					

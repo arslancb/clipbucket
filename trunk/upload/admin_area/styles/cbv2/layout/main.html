@@ -491,19 +491,23 @@ $(document).ready(function(){
         </tr>
         <tr>
           <td>Group Page</td>
-          <td><input name="videos_items_grp_page" type="text" id="videos_items_grp_page" value="{$row.videos_items_grp_page}" size="6" maxlength="3" /> </td>
+          <td><input name="videos_items_grp_page" type="text" id="videos_items_grp_page" value="{$row.videos_items_grp_page}" size="6" maxlength="3" /> 
+          - videos display in view group page</td>
         </tr>
         <tr>
           <td>Home Tabs</td>
-          <td><input name="videos_items_hme_page" type="text" id="videos_items_hme_page" value="{$row.videos_items_hme_page}" size="6" maxlength="3" /></td>
+          <td><input name="videos_items_hme_page" type="text" id="videos_items_hme_page" value="{$row.videos_items_hme_page}" size="6" maxlength="3" /> 
+          - videos display in home tab</td>
         </tr>
         <tr>
           <td>Search Page</td>
-          <td><input name="videos_items_search_page" type="text" id="videos_items_search_page" value="{$row.videos_items_search_page}" size="6" maxlength="3" /></td>
+          <td><input name="videos_items_search_page" type="text" id="videos_items_search_page" value="{$row.videos_items_search_page}" size="6" maxlength="3" /> 
+          - videos display in search page</td>
         </tr>
         <tr>
           <td>Video Columns</td>
-          <td><input name="videos_items_columns" type="text" id="videos_items_columns" value="{$row.videos_items_columns}" size="6" maxlength="3" /></td>
+          <td><input name="videos_items_columns" type="text" id="videos_items_columns" value="{$row.videos_items_columns}" size="6" maxlength="3" /> 
+          - videos display in right columns ie (Random, Related etc)</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
@@ -514,43 +518,67 @@ $(document).ready(function(){
         </tr>
         <tr>
           <td>User list per page</td>
-          <td><input name="channels_list_per_page" type="text" id="channels_list_per_page" value="{$row.channels_list_per_page}" size="6" maxlength="3" /></td>
+          <td><input name="channels_list_per_page" type="text" id="channels_list_per_page" value="{$row.channels_list_per_page}" size="6" maxlength="3" /> 
+          - 'users' page</td>
         </tr>
         <tr>
           <td>Subscribers in channel view</td>
-          <td><input name="users_items_subscibers" type="text" id="users_items_subscibers" value="{$row.users_items_subscibers}" size="6" maxlength="3" /></td>
+          <td><input name="users_items_subscibers" type="text" id="users_items_subscibers" value="{$row.users_items_subscibers}" size="6" maxlength="3" /> 
+          - subscribers in view channel page</td>
         </tr>
         <tr>
           <td>Subscriptions in channel view</td>
-          <td><input name="users_items_subscriptions" type="text" id="users_items_subscriptions" value="{$row.users_items_subscriptions}" size="6" maxlength="3" /></td>
+          <td><input name="users_items_subscriptions" type="text" id="users_items_subscriptions" value="{$row.users_items_subscriptions}" size="6" maxlength="3" /> 
+          - subscriptions in view channel page</td>
         </tr>
         <tr>
           <td>Users contacts in channel view</td>
-          <td><input name="users_items_group_page" type="text" id="users_items_group_page" value="{$row.users_items_group_page}" size="6" maxlength="3" /></td>
+          <td><input name="users_items_group_page" type="text" id="users_items_group_page" value="{$row.users_items_group_page}" size="6" maxlength="3" /> 
+          - users contacts in view channel</td>
         </tr>
         <tr>
           <td>View Group Page</td>
-          <td><input name="users_items_contacts_channel" type="text" id="users_items_contacts_channel" value="{$row.users_items_contacts_channel}" size="6" maxlength="3" /></td>
+          <td><input name="users_items_contacts_channel" type="text" id="users_items_contacts_channel" value="{$row.users_items_contacts_channel}" size="6" maxlength="3" /> 
+          - users in view group page</td>
         </tr>
         <tr>
           <td>Search Page</td>
-          <td><input name="users_items_search_page" type="text" id="users_items_search_page" value="{$row.users_items_search_page}" size="6" maxlength="3" /></td>
+          <td><input name="users_items_search_page" type="text" id="users_items_search_page" value="{$row.users_items_search_page}" size="6" maxlength="3" /> 
+          - users in search page</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
         </tr>
         <tr>
+          <td colspan="2" class="settings_inner_title">Groups</td>
+          </tr>
+        <tr>
+          <td>Groups Page</td>
+          <td><input name="groups_list_per_page" type="text" id="groups_list_per_page" value="{$row.groups_list_per_page}" size="6" maxlength="3" /> 
+            - 'groups' page</td>
+        </tr>
+        <tr>
+          <td>Search Page</td>
+          <td><input name="grps_items_search_page" type="text" id="grps_items_search_page" value="{$row.grps_items_search_page}" size="6" maxlength="3" /> 
+            - groups in search page</td>
+        </tr>
+        <tr>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
         </tr>
+        <tr>
+          <td colspan="2" class="settings_inner_title">General</td>
+          </tr>
         <tr>
           <td>Search results per page</td>
-          <td><input name="search_list_per_page" type="text" id="search_list_per_page" value="{$row.search_list_per_page}" size="6" maxlength="3" /></td>
+          <td><input name="search_list_per_page" type="text" id="search_list_per_page" value="{$row.search_list_per_page}" size="6" maxlength="3" /> 
+            - other search results</td>
         </tr>
         <tr>
           <td>Recently viewed videos</td>
-          <td><input name="recently_viewed_limit" type="text" id="recently_viewed_limit" value="{$row.recently_viewed_limit}" size="6" maxlength="3" /></td>
+          <td><input name="recently_viewed_limit" type="text" id="recently_viewed_limit" value="{$row.recently_viewed_limit}" size="6" maxlength="3" /> 
+            - recently viewed videos</td>
         </tr>
         <tr>
           <td>&nbsp;</td>

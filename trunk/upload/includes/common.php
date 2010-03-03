@@ -6,7 +6,7 @@
  * @Author      ArslanHassan
  * @copyright	Copyright (c) 2007-2008 {@link http://www.clip-bucket.com}
  * @license		http://www.clip-bucket.com
- * @version		v1.7.1
+ * @version		v2
  * @since 		2007-10-15
  * @License		CBLA
  *******************************************************************

@@ -48,7 +48,7 @@ switch($sort)
 
 //Getting User List
 $page = mysql_clean($_GET['page']);
-$get_limit = create_query_limit($page,CLISTPP);
+$get_limit = create_query_limit($page,GLISTPP);
 
 $glist = $g_cond;
 
@@ -60,7 +60,7 @@ Assign('groups', $groups);
 $gcount = $g_cond;
 $gcount['count_only'] = true;
 $total_rows  = $cbgroup->get_groups($gcount);
-$total_pages = count_pages($total_rows,CLISTPP);
+$total_pages = count_pages($total_rows,GLISTPP);
 
 //Pagination
 $pages->paginate($total_pages,$page);

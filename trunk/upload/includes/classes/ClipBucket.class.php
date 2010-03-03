@@ -294,10 +294,10 @@ class ClipBucket
 		   //Tool Box
 		   'Tool Box'=>
 		   array(
-				 'ClipBucket Module Manager'=>'module_manager.php',
+				 //'ClipBucket Module Manager'=>'module_manager.php',
 				 'PHP Info'	=> 'phpinfo.php',
 				 'Server Modules Info'	=> 'cb_mod_check.php',
-				 'View Encoding Status'=>'',
+				 //'View Encoding Status'=>'',
 				),
 		   
 		   	   
