@@ -64,7 +64,11 @@ if(isset($_POST['update'])){
 					'grp_categories',
 					'groups_list_per_page',
 					'grps_items_search_page',
-					
+					'grp_thumb_height',
+					'grp_thumb_width',
+					'grp_max_title',
+					'grp_max_desc',
+
 					'hq_output',
 					
 					'keywords'	,
