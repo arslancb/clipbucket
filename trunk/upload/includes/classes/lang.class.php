@@ -310,7 +310,7 @@ class language
 					{
 						if(!empty($sql))
 							$sql .=",\n";
-						$sql .= "('".$data['iso_code']."','$code','".mysql_clean($phrase)."')";
+						$sql .= "('".$data['iso_code']."','$code','".mysql_real_escape_string($phrase)."')";
 					}
 					$sql .= ";";
 					$query = "INSERT INTO ".tbl("phrases")." (lang_iso,varname,text) VALUES \n";
