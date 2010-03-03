@@ -749,6 +749,7 @@ class CBvideo extends CBCategory
 		$sort = $default['sort'];
 		
 		$this->search->search_type['videos'] = array('title'=>lang('videos'));
+		$this->search->results_per_page = config('videos_items_search_page');
 		
 		$fields = array(
 		'query'	=> array(

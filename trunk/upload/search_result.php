@@ -19,12 +19,12 @@ $search->key = $_GET['query'];
 $search->category = $_GET['category'];
 $search->date_margin = $_GET['datemargin'];
 $search->sort_by = $_GET['sort'];
-$search->limit = create_query_limit($page,VLISTPP);
+$search->limit = create_query_limit($page,$search->results_per_page);
 $results = $search->search();
 
 //Collecting Data for Pagination
-$total_rows = $cbvid->search->total_results;
-$total_pages = count_pages($total_rows,VLISTPP);
+$total_rows = $search->total_results;
+$total_pages = count_pages($total_rows,$search->results_per_page);
 
 //Pagination
 $pages->paginate($total_pages,$page);

@@ -15,7 +15,7 @@
         </form>
     	</div>
     </div>
-	<div class="simple_container" style="height:400px; overflow:visible; display:none" id="advance_search">
+	<div class="simple_container" style="min-height:400px; overflow:visible; display:none" id="advance_search">
 	{foreach from=$Cbucket->search_types item=search_type key=search_type_key}
       {if $search_type}
 		{assign var='type' value=$cbsearch->init_search($search_type_key)}
@@ -49,12 +49,22 @@
 
 <div>
     <div class="heading">{$search_type_title}</div>
+    <div style="height:10px"></div>
+    
+    <div style="width:810px; float:left">
     {if $results}
         {foreach item=result from=$results}
         {assign var=$template_var value =$result}
         	{include file="$display_template" }
         {/foreach}
     {/if}
+    <div class="clearfix"></div>
+    
+    </div>
+    <div style="width:160px; float:right">
+    {AD place='ad_160x600'}
+    </div>
+    
     <div class="clearfix"></div>
 </div>
 

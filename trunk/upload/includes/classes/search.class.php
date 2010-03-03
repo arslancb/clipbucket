@@ -129,15 +129,23 @@ class cbsearch
 		
 		if($this->has_user_id)
 		{
-			$condition = "(".$condition.")";
+			$query_cond = "(".$condition.")";
 			if($condition)
-				$condition .= " AND ";
-			$results = $db->select(tbl($this->db_tbl.",users"),'*',$condition." ".tbl($this->db_tbl).".userid=".tbl("users.userid"),$this->limit,$sorting);
-			$db->db_query;
+				$query_cond .= " AND ";
+			else
+				$query_cond = $condition;
+			$results = $db->select(tbl($this->db_tbl.",users"),
+								tbl($this->db_tbl.'.*,users.userid,users.username'),
+							$query_cond." ".tbl($this->db_tbl).".userid=".tbl("users.userid"),$this->limit,$sorting);
+			$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
+			
 		}else
+		{
 			$results = $db->select(tbl($this->db_tbl),'*',$condition,$this->limit,$sorting);
-		$db->db_query;
-		$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
+			$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
+		}
+		
+		
 		
 		return $results;
 	}

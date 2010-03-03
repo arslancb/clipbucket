@@ -41,11 +41,11 @@ $Cbucket->links  = array
 function sorting_links()
 {
 	$array = array
-	('most_recent' 	=> 'Recent',
-	 'most_viewed'	=> 'Viewed',
-	 'featured'		=> 'Featured',
-	 'top_rated'	=> 'Top Rated',
-	 'most_commented'	=> 'Commented',
+	('most_recent' 	=> lang('recent'),
+	 'most_viewed'	=> lang('viewed'),
+	 'featured'		=> lang('featured'),
+	 'top_rated'	=> lang('top_rated'),
+	 'most_commented'	=> lang('commented'),
 	 );
 	return $array;
 }
@@ -53,15 +53,15 @@ function sorting_links()
 function time_links()
 {
 	$array = array
-	('all_time' 	=> 'All Time',
-	 'today'		=> 'Today',
-	 'yesterday'	=> 'Yesterday',
-	 'this_week'	=> 'This Week',
-	 'last_week'	=> 'Last Week',
-	 'this_month'	=> 'This Month',
-	 'last_month'	=> 'Last Month',
-	 'this_year'	=> 'This Year',
-	 'last_year'	=> 'Last Year',
+	('all_time' 	=> lang('alltime'),
+	 'today'		=> lang('today'),
+	 'yesterday'	=> lang('yesterday'),
+	 'this_week'	=> lang('thisweek'),
+	 'last_week'	=> lang('lastweek'),
+	 'this_month'	=> lang('thismonth'),
+	 'last_month'	=> lang('lastmonth'),
+	 'this_year'	=> lang('thisyear'),
+	 'last_year'	=> lang('lastyear'),
 	 );
 	return $array;
 }

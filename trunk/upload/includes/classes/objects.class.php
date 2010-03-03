@@ -47,7 +47,7 @@ class CBObjects
 			$onchange_attr = ' onChange="'.$onchange.'" ';
 			
 		$obj = "<select id='lang_selector' $class_attr $onchange_attr>\n";
-		$obj .= "<option value=''>- Change Language -</option>\n";
+		$obj .= "<option value=''>".lang("chane_lang")."</option>\n";
 		foreach($langs as $lang)
 		{
 			if($lang_obj->lang == $lang['language_code'])

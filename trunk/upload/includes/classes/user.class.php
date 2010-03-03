@@ -3658,7 +3658,8 @@ class userquery extends CBCategory{
 		$this->search->template_var = 'user';
 		$this->search->multi_cat = false;
 		$this->search->date_added_colum = 'doj';
-		
+		$this->search->results_per_page = config('users_items_search_page');
+												 
 		/**
 		 * Setting up the sorting thing
 		 */

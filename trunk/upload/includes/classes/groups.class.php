@@ -1955,6 +1955,8 @@ class CBGroups extends CBCategory
 		$this->search->display_template = LAYOUT.'/blocks/group.html';
 		$this->search->template_var = 'group';
 		$this->search->multi_cat = true;
+		$this->search->results_per_page = config('grps_items_search_page');
+		$this->search->has_user_id = true;
 		
 		/**
 		 * Setting up the sorting thing

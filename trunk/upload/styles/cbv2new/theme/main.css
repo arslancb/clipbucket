@@ -26,10 +26,6 @@ img, a img { border:0px none; }
 .vid_sp { padding:5px 0px; margin-bottom:10px; border-bottom:1px solid #ccc; clear:both; }
 
 .heading{font-size:12px; color:#003; background-image:url(../images/nav_grads.png); background-position:-0px -195px; background-repeat:repeat-x; height:28px; display:block; color:#fff; line-height:28px; font-weight:bold; padding-left:5px;
--moz-border-radius: 5px 5px 0px 0px;
-border-radius: 5px 5px 0px 0px;
--webkit-border-radius: 5px 5px 0px 0px; text-transform:uppercase;
-
 }
 
 
