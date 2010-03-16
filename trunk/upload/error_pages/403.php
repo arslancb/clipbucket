@@ -6,7 +6,7 @@
 # Function:          HTTP Error Code 403
 # Author:            fwhite
 # Language:          PHP
-# License:           CBLA @ [url]http://cbla.cbdev.org/[/url]
+# License:           Attribution Assurance License @ [url]http://www.opensource.org/licenses/attribution.php/[/url]
 # Version:           1.6 SVN
 # Created:           Friday, December 26, 2008 / 1:13 AM EST (fwhite)
 # Last Modified:     Friday, December 26, 2008 / 1:13 AM EST (fwhite)

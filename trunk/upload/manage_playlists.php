@@ -4,7 +4,7 @@
  * Manage Playlist Page
  * @author : Arslan hassan
  * @Software: ClipBucket
- * @License : CBLA
+ * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  */
 
 

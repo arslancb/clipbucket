@@ -4,7 +4,7 @@
 * THIS CLASS IS USED TO CREATE DYNAMIC FORMS
 * @AUTHOR : ARSLAN HASSAN <arslan@labguru.com, arslan@clip-bucket.com>
 * @LINK : http://arslan.labguru.com/ - http://clip-bucket.com/
-* @LICENSE : CBLA
+* @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
 * @DATE : Feb 21 2009
 * @Version : 1.2
 * @CB Version : v2

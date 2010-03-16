@@ -19,7 +19,7 @@
  *
  * @Author : Arslan Hassan
  * @Script : ClipBucket v2
- * @License : CBLA
+ * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  * @Since : September 15 2009
  */
 

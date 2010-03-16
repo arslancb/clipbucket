@@ -2,7 +2,7 @@
 
 /**
  * This will let you edit ClipBucket templatates
- * @License : CBLA
+ * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  * @Since : jan 14 2010
  * @Author : Arslan
  */

@@ -2,7 +2,7 @@
 /**
  * @Author  : Arslan Hassan, Fawaz Tahir
  * @Software : ClipBucket, Community Bucket 
- * @License : CBLA
+ * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  * @Since : 15 December 2009
  */
 

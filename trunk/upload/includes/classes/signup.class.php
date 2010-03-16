@@ -6,7 +6,7 @@
  not to run properly
  This source file is subject to the ClipBucket End-User 
  License Agreement, available online at:
- http://clip-bucket.com/cbla
+ http://www.opensource.org/licenses/attribution.php
  By using this software, you acknowledge having read this 
  Agreement and agree to be bound thereby.
  ****************************************************

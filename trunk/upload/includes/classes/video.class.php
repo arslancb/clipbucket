@@ -2,7 +2,7 @@
 /**
  * Author : Arslan Hassan
  * Script : ClipBucket v2
- * LIcense : CBLA
+ * License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  *
  *
  * Class : Video

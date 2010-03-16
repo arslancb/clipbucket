@@ -14,7 +14,7 @@
 #
 # @ Author :Arslan Hassan
 # @ software : ClipBucket
-# @ license : cbla
+# @ License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
 # @ file : language.class.php
 #
 

@@ -9,7 +9,7 @@
  *
  * @Author : Arslan Hassan (=D)
  * @Software : ClipBucket v2
- * @License : CBLA
+ * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  *
  * Pleae check CBLA for more details
  * For code reference, please check docs.clip-bucket.com

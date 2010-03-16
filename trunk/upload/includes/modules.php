@@ -2,7 +2,7 @@
 /**
  **************************************************************************************************
  This Source File Is Written For ClipBucket, Please Read its End User License First and Agree its
- Terms of use at http://clip-bucket.com/cbla
+ Terms of use at http://www.opensource.org/licenses/attribution.php
  **************************************************************************************************
  Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.
  **************************************************************************************************

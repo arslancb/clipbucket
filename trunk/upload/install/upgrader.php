@@ -3,7 +3,7 @@
 /**
  * Installed Written by Arslan Hassan
  * @ Software : ClipBucket v2
- * @ license : CBLA
+ * @ License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  * @ since : 2512-2009
  * @ author: Arslan Hassan
  */

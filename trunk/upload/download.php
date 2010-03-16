@@ -6,7 +6,7 @@
  * @Software : ClipBucket
  * @Since : 1 Feb, 2010
  *
- * @License : CBLA
+ * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  */
  
 define("THIS_PAGE",'download');

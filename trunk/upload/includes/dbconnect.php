@@ -2,7 +2,7 @@
 
 	/**
 	* @Software : ClipBucket
-	* @License : CBLA
+	* @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
 	* @version :ClipBucket v2
 	*/
 

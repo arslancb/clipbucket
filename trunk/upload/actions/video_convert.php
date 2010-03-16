@@ -2,7 +2,7 @@
  /**
   * Written by : Arslan Hassan
   * Software : ClipBucket v2
-  * License : CBLA
+  * License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
   **/
 
 

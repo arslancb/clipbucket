@@ -2,7 +2,7 @@
 /*
 This Class Is Used To Create Player Code
 @ Author : ArslanHassan
-@ License : CBLA
+@ License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
 @ Created : Nov 10 2008
 @ version : 1.0
 */

@@ -5,7 +5,7 @@
  * @Author : Arslan Hassan
  * @Since : Jan 5 2009
  * @Function : Add Member
- * @license : CBLA
+ * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  */
  
 

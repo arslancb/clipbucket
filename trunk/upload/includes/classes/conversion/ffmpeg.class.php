@@ -5,7 +5,7 @@
  * now , FFMPEG will only be used for video conversion
  * @Author : Arslan Hassan
  * @Software : ClipBucket
- * @License : CBLA - You Cannot MODIFY - REUSE THIS FILE
+ * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php - You Cannot MODIFY - REUSE THIS FILE
  * @website : http://clip-bucket.com/
  */
  

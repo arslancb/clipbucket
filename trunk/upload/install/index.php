@@ -3,7 +3,7 @@
 /**
  * Installed Written by Arslan Hassan
  * @ Software : ClipBucket v2
- * @ license : CBLA
+ * @ License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  * @ since : 2512-2009
  * @ author: Arslan Hassan
  */
@@ -102,7 +102,7 @@ switch($step)
 '<?php
 	/**
 	* @Software : ClipBucket
-	* @License : CBLA
+	* @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
 	* @version :ClipBucket v2
 	*/
 
@@ -266,7 +266,7 @@ switch($step)
 '<?php
 	/**
 	* @Software : ClipBucket
-	* @License : CBLA
+	* @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
 	* @version :ClipBucket v2
 	*/
 
@@ -371,7 +371,7 @@ switch($step)
 '<?php
 	/**
 	* @Software : ClipBucket
-	* @License : CBLA
+	* @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
 	* @version :ClipBucket v2
 	*/
 

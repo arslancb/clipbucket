@@ -3,7 +3,7 @@
  * @author : Arslan Hassan
  * @software : ClipBucket
  * @since : June 20 2009
- * @license : CBLA
+ * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  * @URI : http://clip-bucket.com
  */
 

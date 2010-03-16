@@ -6,7 +6,7 @@
 * @ Since : 2007
 * @ Modified : 06-08-2009
 * $Id$
-* @ license : CBLA
+* @ License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
 **************************
 -- Do not use it for commercial use
 Notice : Maintain this section

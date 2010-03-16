@@ -7,7 +7,7 @@
 # Function:         SWFObject
 # Author:           Arslan Hassan
 # Language:         PHP
-# License:          CBLA @ [url]http://cbla.cbdev.org/[/url]
+# License:          CBLA @ [url]http://www.opensource.org/licenses/attribution.php/[/url]
 # Version:          1.7.x SVN
 # Created:          Unknown
 # Last Modified:    Sunday, March 22, 2009 / 01:33 PM GMT+1 (fwhite)

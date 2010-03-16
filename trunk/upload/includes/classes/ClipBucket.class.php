@@ -1,7 +1,7 @@
 <?php
 /**
  * @ Author Arslan Hassan
- * @ License : CBLA
+ * @ License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  * @ Class : CLipBucket Class
  * @ date : 12 MARCH 2009
  * @ Version : v1.8

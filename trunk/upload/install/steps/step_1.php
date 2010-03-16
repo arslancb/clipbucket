@@ -5,7 +5,7 @@
 <div class="footer" align="right">
 
   <form name="form1" method="post" action="">
-  	<input type="submit" name="step2" id="step1" value="I Accept CBLA" class="button">
+  	<input type="submit" name="step2" id="step1" value="I Accept the Attribution Assurance License" class="button">
      <input type="hidden" name="step"  value="2" >
   </form>
   

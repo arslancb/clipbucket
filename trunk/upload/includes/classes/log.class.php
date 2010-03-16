@@ -6,7 +6,7 @@
  * @ Author : Arslan Hassan
  * @ since : June 14, 2009
  * @ ClipBucket : v2.x
- * @ license : CBLA
+ * @ License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  * logging types
  * - login
  * - signup

@@ -8,7 +8,7 @@
  * and proper downloader
  
  * @Author : Arslan Hassan
- * @Licnese : CBLA
+ * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  * @Since : 01 July 2009
  */
 

@@ -4,7 +4,7 @@
  * @Function : Handles all queries regarding ClipBucket Actions
  * @Author : Arslan Hassan
  * @Since : 15 December, 2007
- * @License : CBLA
+ * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  *
  * Name : Upload
  * This class can be edited for own purpose..

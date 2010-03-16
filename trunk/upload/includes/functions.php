@@ -7,7 +7,7 @@
 # Function:         Various
 # Author:           Arslan Hassan
 # Language:         PHP
-# License:          CBLA @ [url]http://clip-bucket.com/cbla[/url]
+# License:          CBLA @ [url]http://www.opensource.org/licenses/attribution.php[/url]
 # Version:          2
 # Notice:           Please maintain this section
 ####################################################################
