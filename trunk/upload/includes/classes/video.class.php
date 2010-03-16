@@ -512,7 +512,7 @@ class CBvideo extends CBCategory
 		{
 			if($tag_n_title!='')
 				$tag_n_title .= ' OR ';
-			$tag_n_title .= " ".tbl('video.title')." LIKE '%".$params['tags']."%'";
+			$tag_n_title .= " ".tbl('video.title')." LIKE '%".$params['title']."%'";
 		}
 		
 		if($tag_n_title)
@@ -711,7 +711,7 @@ class CBvideo extends CBCategory
 		$this->search->db_tbl = "video";
 		$this->search->columns =array(
 			array('field'=>'title','type'=>'LIKE','var'=>'%{KEY}%'),
-			array('field'=>'tags','type'=>'LIKE','var'=>'%{KEY}%','op'=>'AND')
+			array('field'=>'tags','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR')
 		);
 		$this->search->cat_tbl = $this->cat_tbl;
 		
@@ -1073,6 +1073,27 @@ class CBvideo extends CBCategory
 		else
 			return false;
 	}
+	
+	/**
+	 * Function used get comments of videos
+	 */
+	function get_comments($type=NULL)
+	{
+		global $db;
+		$cond = "";
+		
+		if($type) {
+			$cond = " ".tbl("comments").".type='$type'";	
+		}
+		
+		$result = $db->select(tbl("comments"),"*",$cond);
+		
+		if($result) {
+			return $result;
+		} else {
+			return false;
+		}
+	}	
 
 	
 }

@@ -2644,7 +2644,7 @@ class userquery extends CBCategory{
 		//Deleting User Bg
 		if($array['delete_bg']=='yes')
 		{
-			$file = USER_THUMBS_DIR.'/'.$array['bg_file_name'];
+			$file = USER_BG_DIR.'/'.$array['bg_file_name'];
 			if(file_exists($file) && $array['bg_file_name'] !='')
 				unlink($file);
 		}
@@ -2910,7 +2910,8 @@ class userquery extends CBCategory{
 			$banned_users = implode(',',$new_users);
 			$db->update(tbl($this->dbtbl['users']),array('banned_users'),array($banned_users)," userid='$uid'");
 			e(lang("user_ban_msg"),"m");
-		}else{
+		}elseif (!$users){
+			$db->update(tbl($this->dbtbl['users']),array('banned_users'),array($users)," userid='$uid'");
 			e(lang("no_user_ban_msg"),"m");
 		}
 	}

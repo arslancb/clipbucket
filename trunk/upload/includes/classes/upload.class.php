@@ -975,7 +975,7 @@ class Upload{
 				case 'background':
 				{
 					if($file['size']/1024 > config('max_bg_size'))
-						e(sprintf(lang('file_size_exceeds'),config('max_profile_pic_size')));
+						e(sprintf(lang('file_size_exceeds'),config('max_bg_size')));
 					elseif(file_exists($file['tmp_name']))
 					{
 						$ext = getext($file['name']);
