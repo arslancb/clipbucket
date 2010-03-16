@@ -5,6 +5,7 @@
 * @ Software : ClipBucket
 * @ Since : 2007
 * @ Modified : 06-08-2009
+* $Id$
 * @ license : CBLA
 **************************
 -- Do not use it for commercial use
@@ -3642,9 +3643,9 @@ class userquery extends CBCategory{
 	
 	
 	/**
-	 * Is Registeration allowed
+	 * Is registration allowed
 	 */
-	 function is_registeration_allowed()
+	 function is_registration_allowed()
 	 {
 		if(ALLOW_REGISTERATION == 1 )
 			return true;

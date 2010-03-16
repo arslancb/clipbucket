@@ -3,7 +3,8 @@
  *************************************************************
  | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
  | @ Author	   : ArslanHassan								
- | @ Software  : ClipBucket , © PHPBucket.com				
+ | @ Software  : ClipBucket , © PHPBucket.com
+ | $Id$				
  *************************************************************
 */
 
@@ -26,7 +27,7 @@ if($userquery->login_check('',true)){
 	 * Signing up new user
 	 */
 	if(isset($_POST['signup'])){
-		if(!$userquery->is_registeration_allowed())
+		if(!$userquery->is_registration_allowed())
 			e(lang('usr_reg_err'));
 		else
 		{

@@ -1,3 +1,4 @@
+﻿-- $Id$
 -- phpMyAdmin SQL Dump
 -- version 3.2.0.1
 -- http://www.phpmyadmin.net
@@ -201,7 +202,7 @@ INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (51, 'allow_upload', 'yes'),
 (3, 'baseurl', 'http://localhost/clipbucket/2.x/2/upload'),
 (25, 'php_path', 'E:/wamp/bin/php/php5.3.0/php-win.exe'),
-(24, 'allow_registeration', '1'),
+(24, 'allow_registration', '1'),
 (19, 'mencoderpath', ''),
 (23, 'email_verification', '1'),
 (44, 'ffmpeg_type', ''),

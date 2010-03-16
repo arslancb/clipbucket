@@ -7,6 +7,7 @@
  * @license		http://www.phpbucket.com
  * @version		Pro 2
  * @since 		2007-10-15
+ * $Id$
  **************************************************************************************************
  This Source File Is Written For ClipBucket, Please Read its End User License First and Agree its
  Terms of use at http://phpbucket.com/eula/clipbucket
@@ -62,7 +63,7 @@ session_start();
  //Registration & Email Settings
  
  	define('EMAIL_VERIFICATION',$row['email_verification']);	
-	define('ALLOW_REGISTERATION',$row['allow_registeration']);
+	define('ALLOW_REGISTERATION',$row['allow_registration']);
 	define('WEBSITE_EMAIL',$email_data['website_email']);
 	define('SUPPORT_EMAIL',$email_data['support_email']);
 	define('WELCOME_EMAIL',$email_data['welcome_email']);

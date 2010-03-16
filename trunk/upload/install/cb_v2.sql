@@ -188,7 +188,7 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (21, 'activation', ''),
 (22, 'mplayerpath', ''),
 (23, 'email_verification', '1'),
-(24, 'allow_registeration', '1'),
+(24, 'allow_registration', '1'),
 (25, 'php_path', '/usr/local/bin/php'),
 (26, 'videos_list_per_page', '10'),
 (27, 'channels_list_per_page', '25'),

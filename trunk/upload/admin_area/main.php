@@ -23,7 +23,7 @@ if(isset($_POST['update'])){
 	$rows = array(
 				  	'allowed_types',
 				  	'allow_language_change',
-				  	'allow_registeration',
+				  	'allow_registration',
 					'allow_template_change',
 					'allow_upload',
 					'anonymous_id',

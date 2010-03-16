@@ -18,7 +18,7 @@ $(document).ready(function(){
   <li onClick='display_tab(this,"div_1",true)' id="tab_1">Website Settings</li>
   <li onClick='display_tab(this,"div_2",true)' id="tab_2">Uploading and Conversion Settings</li>
   <li onClick='display_tab(this,"div_3",true)' id="tab_3">Display and Listing Settings</li>
-  <li onClick='display_tab(this,"div_4",true)' id="tab_4">User Settings &amp; Registeration</li>
+  <li onClick='display_tab(this,"div_4",true)' id="tab_4">User Settings &amp; registration</li>
 </ul>
 <div class="clearfix"></div>
 
@@ -597,8 +597,8 @@ $(document).ready(function(){
             <a href="http://docs.clip-bucket.com/clipbucket-v2/anonymous-user" target="_blank"><img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="Set Anoymous Userid, Click For More Details" /></a></td>
         </tr>
         <tr>
-          <td width="200" valign="top">Turn on registerations</td>
-          <td valign="top"><input name="allow_registeration" type="checkbox" id="allow_registeration" value="1" {if $row.allow_registeration=='1'}checked="checked"{/if} /></td>
+          <td width="200" valign="top">Turn on registrations</td>
+          <td valign="top"><input name="allow_registration" type="checkbox" id="allow_registration" value="1" {if $row.allow_registration=='1'}checked="checked"{/if} /></td>
         </tr>
         <tr>
           <td valign="top">Email verification</td>
@@ -631,7 +631,7 @@ $(document).ready(function(){
           </label></td>
         </tr>
         <tr>
-          <td valign="top">Minimum age for registeration</td>
+          <td valign="top">Minimum age for registration</td>
           <td valign="top"><input name="min_age_reg" type="text" id="min_age_reg" value="{$row.min_age_reg}" size="6" maxlength="3" />
           leave blank to disable this option</td>
         </tr>
