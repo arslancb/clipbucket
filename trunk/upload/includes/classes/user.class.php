@@ -2098,10 +2098,12 @@ class userquery extends CBCategory{
 						  'type'=> "dropdown",
 						  'name'=> "relation_status",
 						  'id'=> "last_name",
-						  'value'=> array(lang('usr_arr_single')=>lang('usr_arr_single'),
-										  lang('usr_arr_married')=>lang('usr_arr_married'),
-										  lang('usr_arr_comitted')=>lang('usr_arr_comitted'),
-										  lang('usr_arr_open_relate')=>lang('usr_arr_open_relate')),
+						  'value'=> array(
+										  0 => lang('usr_arr_no_ans'),
+										  1 =>lang('usr_arr_single'),
+										  2 =>lang('usr_arr_married'),
+										  3 =>lang('usr_arr_comitted'),
+										  4 =>lang('usr_arr_open_relate')),
 						  'checked'=> $default['relation_status'],
 						  'db_field'=>'relation_status',
 						  'auto_view'=>'yes',
@@ -2230,6 +2232,7 @@ class userquery extends CBCategory{
 										  ),
 						  'checked'=>$default['education'],
 						  'db_field'=>'education',
+						  'auto_view'=>'yes',
 						  ),
 		'schools' => array(
 						  'title'=>  lang("schools"),
@@ -2239,6 +2242,7 @@ class userquery extends CBCategory{
 						  'value'=> $default['schools'],
 						  'db_field'=>'schools',
 						  'clean_func' => 'Replacer',
+						  'auto_view'=>'yes',
 						  ),
 		'occupation' => array(
 						  'title'=>  lang("occupation"),
@@ -2248,6 +2252,7 @@ class userquery extends CBCategory{
 						  'value'=> $default['occupation'],
 						  'db_field'=>'occupation',
 						  'clean_func' => 'Replacer',
+						  'auto_view'=>'yes',
 						  ),
 		'companies' => array(
 						  'title'=>  lang("companies"),
@@ -2257,6 +2262,7 @@ class userquery extends CBCategory{
 						  'value'=> $default['companies'],
 						  'db_field'=>'companies',
 						  'clean_func' => 'Replacer',
+						  'auto_view'=>'yes',
 						  ),
 		'hobbies' => array(
 						  'title'=>  lang("hobbies"),
@@ -2266,6 +2272,7 @@ class userquery extends CBCategory{
 						  'value'=> $default['hobbies'],
 						  'db_field'=>'hobbies',
 						  'clean_func' => 'Replacer',
+						  'auto_view'=>'yes',
 						  ),
 		'fav_movies' => array(
 						  'title'=>  lang("user_fav_movs_shows"),
@@ -2275,6 +2282,7 @@ class userquery extends CBCategory{
 						  'value'=> $default['fav_movies'],
 						  'db_field'=>'fav_movies',
 						  'clean_func' => 'Replacer',
+						  'auto_view'=>'yes',
 						  ),
 		'fav_music' => array(
 						  'title'=>  lang("user_fav_music"),
@@ -2284,6 +2292,7 @@ class userquery extends CBCategory{
 						  'value'=> $default['fav_music'],
 						  'db_field'=>'fav_music',
 						  'clean_func' => 'Replacer',
+						  'auto_view'=>'yes',
 						  ),
 		'fav_books' => array(
 						  'title'=>  lang("user_fav_books"),
@@ -2293,6 +2302,7 @@ class userquery extends CBCategory{
 						  'value'=> $default['fav_books'],
 						  'db_field'=>'fav_books',
 						  'clean_func' => 'Replacer',
+						  'auto_view'=>'yes',
 						  ),
 		
 		);

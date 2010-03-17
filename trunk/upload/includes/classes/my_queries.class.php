@@ -388,7 +388,7 @@ class myquery {
 	 * This is more advance function , 
 	 * in this function functions can be applied on comments
 	 */
-	function add_comment($comment,$obj_id,$reply_to=NULL,$type='v',$obj_owner=NULL,$obj_link=NULL)
+	function add_comment($comment,$obj_id,$reply_to=NULL,$type='v',$obj_owner=NULL,$obj_link=NULL,$force_name_email=false)
 	{
 		global $userquery,$eh,$db,$Cbucket;
 		//Checking maximum comments characters allowed
@@ -419,7 +419,7 @@ class myquery {
 		if(!userid() && $Cbucket->configs['anonym_comments']!='yes')
 			e(lang("you_not_logged_in"));
 		
-		if(!userid() && $Cbucket->configs['anonym_comments']=='yes')
+		if((!userid() && $Cbucket->configs['anonym_comments']=='yes') || $force_name_email)
 		{
 			//Checking for input name and email
 			if(empty($_POST['name']))

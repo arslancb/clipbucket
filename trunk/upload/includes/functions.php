@@ -3509,7 +3509,7 @@
 			 if (is_object($value2)) {$value2=get_object_vars($value2);} // convert object to array
 				if (is_array($value2)) {
 					$xml .= str_repeat("\t",$level)."<$key>\n";
-					$xml .= array_to_xml($value2, $level+1);
+					$xml .= array2xml($value2, $level+1);
 					$xml .= str_repeat("\t",$level)."</$key>\n";
 					$multi_tags = true;
 				} else {
@@ -3528,7 +3528,7 @@
 			}
 			if (!$multi_tags and count($value)>0) {
 				$xml .= str_repeat("\t",$level)."<$key>\n";
-				$xml .= array_to_xml($value, $level+1);
+				$xml .= array2xml($value, $level+1);
 				$xml .= str_repeat("\t",$level)."</$key>\n";
 			}
 		

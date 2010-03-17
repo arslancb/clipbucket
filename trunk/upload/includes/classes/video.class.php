@@ -578,7 +578,7 @@ class CBvideo extends CBCategory
 	/**
 	 * Function used to add video comment
 	 */
-	function add_comment($comment,$obj_id,$reply_to=NULL)
+	function add_comment($comment,$obj_id,$reply_to=NULL,$force_name_email=false)
 	{
 		global $myquery,$db;
 		
@@ -590,7 +590,7 @@ class CBvideo extends CBCategory
 		{
 			//Getting Owner Id
 			$owner_id = $this->get_video_owner($obj_id,true);
-			$add_comment =  $myquery->add_comment($comment,$obj_id,$reply_to,'v',$owner_id,videoLink($video));
+			$add_comment =  $myquery->add_comment($comment,$obj_id,$reply_to,'v',$owner_id,videoLink($video),$force_name_email);
 			if($add_comment)
 			{
 				//Loggin Comment			

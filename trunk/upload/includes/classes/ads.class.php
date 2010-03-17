@@ -41,7 +41,7 @@ class AdsManager
 			}else
 			{
 				$db->insert(tbl("ads_data"),array("ad_category","ad_name","ad_placement","ad_code","ad_status","date_added"),
-											array($category,$name,$placement,$code,$status,now()));		
+											array($category,$name,$placement,"|no_mc|".$code,$status,now()));		
 				$msg =  e(lang('ad_add_msg'),m);
 			}
 			return $msg;
@@ -99,7 +99,7 @@ class AdsManager
 		else
 		{
 			$db->update(tbl("ads_data"),array("ad_placement","ad_name","ad_category","ad_code","ad_status"),
-						array($placement,$name,$category,$code,$array['status'],$id)," ad_id='$id' ");
+						array($placement,$name,$category,"|no_mc|".$code,$array['status'],$id)," ad_id='$id' ");
 			e(lang('ad_update_msg'),"m");
 		}
 	}

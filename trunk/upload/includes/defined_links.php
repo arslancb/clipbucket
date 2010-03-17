@@ -19,7 +19,7 @@ $Cbucket->links  = array
 'logout_success'=>array('logout_success.php','logout_success.php'),
 'my_account'	=>array('myaccount.php','my_account'),
 'my_videos'		=>array('manage_videos.php','manage_videos.php'),
-'my_favorites'	=>array('manage_favorites.php','manage_videos.php?mode=favorites'),
+'my_favorites'	=>array('manage_videos.php?mode=favorites','manage_videos.php?mode=favorites'),
 'my_playlists'	=>array('manage_playlists.php','manage_playlists.php'),
 'my_contacts'	=>array('manage_contacts.php','manage_contacts.php'),
 'notifications'	=>array('private_message.php?mode=notification','private_message.php?mode=notification'),
