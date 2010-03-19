@@ -530,6 +530,15 @@ class CBvideo extends CBCategory
 			$cond .= " ".tbl("video.featured")." = 'yes' ";
 		}
 		
+		//VIDEO ID
+		if($params['videoid'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " ".tbl("video.videoid")." = '".$params['videoid']."' ";
+		}		
+		
+		
 		//Exclude Vids
 		if($params['exclude'])
 		{
