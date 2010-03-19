@@ -3717,6 +3717,7 @@
 			$path = get_binaries($path);
 		$array = array();
 		$result = shell_output($path." -version");
+
 		if($result)
 		{
 			if($params['assign'])
@@ -3750,8 +3751,12 @@
 		{
 			case 'ffmpeg':
 			{
-				preg_match("/svn-r([0-9]+)/i",$result,$matches);
-				return $matches[1];
+				preg_match("/svn-([0-9]+)/i",$result,$matches);
+				if(is_numeric($matches[1])) {
+					return $matches[1];
+				} else {
+					return false;	
+				}
 			}
 			break;
 			case 'php':
@@ -3762,13 +3767,21 @@
 			case 'flvtool2':
 			{
 				preg_match("/flvtool2 ([0-9\.]+)/i",$result,$matches);
-				return $matches[1];
+				if(is_numeric($matches[1])){
+					return $matches[1];
+				} else {
+					return false;	
+				}
 			}
 			break;
 			case 'mp4box':
 			{
 				preg_match("/version ([0-9\.]+)/i",$result,$matches);
-				return $matches[1];
+				if(is_numeric($matches[1])){
+					return $matches[1];
+				} else {
+					return false;	
+				}
 			}
 		}
 	}

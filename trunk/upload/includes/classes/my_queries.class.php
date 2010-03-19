@@ -211,6 +211,31 @@ class myquery {
 	}
 
 	/**
+	 * Function used to set comment as spam
+	 */
+	 function remove_spam($cid) {
+		global $db;
+		$comment = $this->get_comment($cid);
+		$vote = '0';
+		$none = '';
+		
+		if($comment) {
+			$votes = $comment['spam_votes'];
+			if(!$votes) {
+				e(lang('Comment is not a spam'));	
+			} elseif(!userid()) {
+				e(lang('login_to_mark_as_spam'));
+			} else {
+				$db->update(tbl('comments'),array('spam_votes','spam_voters'),array($vote,$none)," comment_id='$cid'"); 
+				e(lang('Spam removed from comment.'),"m");
+			}
+		} else {
+			e(lang('no_comment_exists'));	
+		}
+	 }
+	
+
+	/**
 	 * Function used to delete all comments of particlar object
 	 */
 	function delete_comments($objid,$type='v',$forceDelete=false)
@@ -751,7 +776,7 @@ class myquery {
 			case "u":
 			case "c":
 			{
-				if($obj['allow_comments'] == 'yes' && config('channel_comments')==1)
+				if($obj['allow_comments'] == 'Yes' && config('channel_comments')==1)
 					return true;
 			}
 		}

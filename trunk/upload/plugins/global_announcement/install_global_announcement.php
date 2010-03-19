@@ -7,7 +7,7 @@ function install_global_announcement()
 {
 	global $db;
 	$db->Execute(
-	'CREATE TABLE IF NOT EXISTS `'.tbl("global_announcement").'` (
+	'CREATE TABLE IF NOT EXISTS '.tbl("global_announcement").' (
 	  `announcement` text NOT NULL
 	) ENGINE=MyISAM;'
 	);

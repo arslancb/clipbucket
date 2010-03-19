@@ -30,5 +30,103 @@ switch($mode)
 		$myquery->delete_note($id);
 	}
 	break;
+	
+	case 'delete_comment':
+	{
+		$type = $_POST['type'];
+		switch($type)
+		{
+			case 'v':
+			case 'video':
+			default:
+			{
+				$cid = mysql_clean($_POST['cid']);
+				$type_id = $myquery->delete_comment($cid);
+				$cbvid->update_comments_count($type_id);
+			}
+			break;
+			case 'u':
+			case 'c':
+			{
+				$cid = mysql_clean($_POST['cid']);
+				$type_id = $myquery->delete_comment($cid);
+				$userquery->update_comments_count($type_id);
+			}
+			break;
+			case 't':
+			case 'topic':
+			{
+				$cid = mysql_clean($_POST['cid']);
+				$type_id = $myquery->delete_comment($cid);
+				$cbgroup->update_comments_count($type_id);
+			}
+			break;
+			
+		}
+		if(msg())
+		{
+			$msg = msg_list();
+			$msg = $msg[0];
+		}
+		if(error())
+		{
+			$err = error_list();
+			$err = $err[0];
+		}
+		
+		$ajax['msg'] = $msg;
+		$ajax['err'] = $err;
+		
+		echo json_encode($ajax);
+	}
+	break;
+	
+	case 'spam_comment':
+	{
+		$cid = mysql_clean($_POST['cid']);
+
+			
+		$rating = $myquery->spam_comment($cid);
+		if(msg())
+		{
+			$msg = msg_list();
+			$msg = $msg[0];
+		}
+		if(error())
+		{
+			$err = error_list();
+			$err = $err[0];
+		}
+		
+		$ajax['msg'] = $msg;
+		$ajax['err'] = $err;
+		
+		echo json_encode($ajax);
+	}
+	break;
+	
+	case 'remove_spam':
+	{
+		$cid = mysql_clean($_POST['cid']);
+
+			
+		$rating = $myquery->remove_spam($cid);
+		if(msg())
+		{
+			$msg = msg_list();
+			$msg = $msg[0];
+		}
+		if(error())
+		{
+			$err = error_list();
+			$err = $err[0];
+		}
+		
+		$ajax['msg'] = $msg;
+		$ajax['err'] = $err;
+		
+		echo json_encode($ajax);
+	}
+	break;	
 }
 ?>

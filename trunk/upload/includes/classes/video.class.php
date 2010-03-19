@@ -1077,24 +1077,107 @@ class CBvideo extends CBCategory
 	/**
 	 * Function used get comments of videos
 	 */
-	function get_comments($type=NULL)
+	function get_comments($params=NULL)
 	{
 		global $db;
-		$cond = "";
+		$comtbl = tbl("comments");
+		$limit = $params['limit'];
+		$order = $params['order'];
+		$type = $params['type'];
 		
-		if($type) {
-			$cond = " ".tbl("comments").".type='$type'";	
-		}
-		
-		$result = $db->select(tbl("comments"),"*",$cond);
-		
-		if($result) {
-			return $result;
-		} else {
-			return false;
-		}
-	}	
+		if($type)
+			$cond = " $comtbl.type = '$type'";
+		else
+			$cond = '';
+			
+		switch($type) {
+			case 'v':
+			{
+				$sectbl = tbl('video');
+				$sectblName = 'video';
+				$secfields =  $sectbl.".videokey,".$sectbl.".videoid,".$sectbl.".file_name,".$sectbl.".title";
+				if($cond) {
+					$cond .= " AND";
+				}
+				$cond .= " $comtbl.type_id = $sectbl.videoid";
+			}
+			break;
+			
+			case 't':
+			{
+				$sectbl = tbl('group_topics');
+				$sectblName = 'group_topics';
+				$secfields = $sectbl.".topic_title,".$sectbl.".topic_id,".$sectbl.".topic_title";
+				if($cond) {
+					$cond .= " AND";
+				}
+				$cond .= " $comtbl.type_id = $sectbl.topic_id";
+			}
+			break;
+			
+			case 'c':
+			{
+				$sectbl = tbl('users');
+				$sectblName = 'users';
+				$secfields = $sectbl.".username,".$sectbl.".userid";
+				if($cond) {
+					$cond .= " AND";
+				}
+				$cond .= " $comtbl.type_id = $sectbl.userid";
+			}
+			break;			
+			
+			
+			default:
+			{
+				$sectbl = tbl('video');
+				$sectblName = 'video';
+				$secfields =  $sectbl.".videokey,".$sectbl.".videoid,".$sectbl.".file_name,".$sectbl.".title";
+				if($cond) {
+					$cond .= " AND";
+				}
+				$cond .= " $comtbl.type_id = $sectbl.videoid";
+			}			
+		}	
 
+		if(!$params['count_only']) {
+		$result = $db->select(tbl("comments,".$sectblName.""),
+								  "$comtbl.*,$secfields",
+								  $cond,$limit,$order);
+		echo $db->db_query;
+		}
+		if($params['count_only'])
+			return $result = $db->count(tbl("comments,video"),"*",$cond);
+		else
+			return $result;
+	}
+	
+	/**
+	 * Function used get single comment
+	 */	
+
+	function get_comment($cid) {
+		global $db;
+		$result = $db->select(tbl("comments"),"*", " comment_id = $cid");
+		if($result)
+			return $result[0];
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used update comment
+	 */	
+	
+	function update_comment($cid,$comment) {
+			global $db;
+			if(!$comment) {
+				e(lang('usr_cmt_err1'),e);
+			} else {
+				$db->update(tbl("comments"),array("comment"),array($comment)," comment_id = $cid");
+				e(lang("Comment Updated"),m);
+			}
+	}
 	
 }
 ?>
