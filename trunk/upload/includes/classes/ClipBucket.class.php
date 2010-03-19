@@ -233,6 +233,7 @@ class ClipBucket
 				'Language Settings' => 'language_settings.php',
 				'Add New Phrases'	=> 'add_phrase.php',
 				'Manage Pages'	=> 'manage_pages.php',
+				'Manage Comments' => 'comments.php',
 				),
 		   
 		   

@@ -1153,7 +1153,7 @@ class CBvideo extends CBCategory
 		$result = $db->select(tbl("comments,".$sectblName.""),
 								  "$comtbl.*,$secfields",
 								  $cond,$limit,$order);
-		echo $db->db_query;
+		// echo $db->db_query;
 		}
 		if($params['count_only'])
 			return $result = $db->count(tbl("comments,video"),"*",$cond);
