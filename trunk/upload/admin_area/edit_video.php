@@ -27,8 +27,13 @@ $msg[] = clean($_GET['msg']);
 			$myquery->set_default_thumb($video,$_POST['default_thumb']);
 		}
 	}
-
-
+	
+	//Performing Video Acttions
+	if($_GET['mode']!='')
+	{
+		$cbvid->action($_GET['mode'],$video);
+	}
+	
 	//Check Video Exists or Not
 	if($myquery->VideoExists($video)){
 		

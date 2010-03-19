@@ -24,9 +24,20 @@
 <div style="width:98%; margin:auto; padding:10px">
 <!--<button onClick="location.href='view_video.php?video={$data.videoid}'" class="button">View This video</button>-->
 
-<input type="button" onClick="window.open('{videoLink vdetails=$data}')" class="button" value="Watch this video" />
-<input type="button" onClick="javascript:Confirm_Delete('video_manager.php?delete_video={$data.videoid}')" class="button" value="Delete this video" />
-
+<ul class="admin_links">
+<li><a href="{videoLink vdetails=$data}">Watch this video</a></li>
+{if $data.active!='yes'}
+<li><a href="edit_video.php?video={$data.videoid}&amp;mode=activate">Activate</a></li>
+{else}
+<li><a href="edit_video.php?video={$data.videoid}&amp;mode=deactivate">Deactivate</a></li>
+{/if}
+{if $data.featured!='yes'}
+<li><a href="edit_video.php?video={$data.videoid}&amp;mode=featured">Make Featured</a></li>
+{else}
+<li><a href="edit_video.php?video={$data.videoid}&amp;mode=unfeature">Make Unfeatured</a></li>
+{/if}
+<li><a href="javascript:void(0)" onClick="javascript:Confirm_Delete('video_manager.php?delete_video={$data.videoid}')">Delete This Video</a></li>
+</ul>
 </div>
 
   
