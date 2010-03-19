@@ -10,7 +10,7 @@
     {include file="$style_dir/message.html"}
     <div id="content_container" >
     <div id="content" style="padding-bottom:15px">
-    	
+    	{include file="$style_dir/blocks/view_channel/channel_top.html" }
         
         {assign var=user_vdo value= $userquery->get_user_profile_video($p)}
             {if $user_vdo}
