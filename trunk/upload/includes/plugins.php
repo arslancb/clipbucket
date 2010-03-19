@@ -37,4 +37,19 @@ if($Cbucket->configs['player_file'] !='cbplayer.plug.php' && $Cbucket->configs['
 
 include_once(PLAYER_DIR.'/cbplayer/cbplayer.plug.php');
 
+
+
+/**
+ * Adding Inactive sign on vdeo
+ */
+
+function display_inactive_sign($vdo)
+{
+	if($vdo['active']=='no')
+	{
+		echo '<div style="position:absolute;top:2px; height:13px; background-color:#ed0000; width:100%; color:#fff; font-size:10px; text-align:center">Video is inactive</div>';
+	}
+}
+register_anchor_function('display_inactive_sign','in_video_thumb');
+
 ?>

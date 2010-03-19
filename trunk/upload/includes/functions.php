@@ -2253,6 +2253,7 @@
 	{
 		global $cbvideo,$userquery;
 		$vdo = $cbvideo->get_video($id);
+		$uid = userid();
 		if(!$vdo)
 		{
 			e(lang("class_vdo_del_err"));
@@ -2265,7 +2266,7 @@
 			else
 				return true;
 		}elseif($vdo['broadcast']=='private' 
-				&& !$userquery->is_confirmed_friend($vdo['userid'],userid()) && !has_access('video_moderation',true)){
+				&& !$userquery->is_confirmed_friend($vdo['userid'],userid()) && !has_access('video_moderation',true) && $vdo['userid']!=$uid){
 			e(lang('private_video_error'));
 			return false;
 		}else
