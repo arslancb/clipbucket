@@ -127,7 +127,10 @@ include('../includes/config.inc.php');
 		exit(0);
 	}else{
 		$Upload->add_conversion_queue($file_name);
-		exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
+		$quick_conv = config('quick_conv');
+		
+		if($quick_conv=='yes')
+			exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
 	}
 
 	exit(0);

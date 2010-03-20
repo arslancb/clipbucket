@@ -102,6 +102,8 @@ if(isset($_POST['update'])){
 					'picture_url',
 					'picture_upload',
 					
+					'quick_conv',
+					
 					'resize',
 					'remoteUpload',
 					'recently_viewed_limit',
@@ -114,6 +116,7 @@ if(isset($_POST['update'])){
 					'site_slogan',
 					'seo',
 					'search_list_per_page',
+					'server_friendly_conversion',
 					'support_email',
 					
 					'thumb_width',

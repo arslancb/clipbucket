@@ -5,46 +5,53 @@
   * License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
   **/
 
-
-	/**
-	 * UN COMMENT IN CASE YOU ARE FACING TOO MANY MULTIPLE PROCESSESS AND CAUSING SERVER OVERLOAD
-	 *
-	 * Thanks to Erickson Reyes ercbluemonday at yahoo dot com | so processes dont overlap
-	 * ref : http://www.php.net/manual/en/function.getmypid.php#94531
-	// Initialize variables
-    $found            = 0;
-    $file                 = basename(__FILE__);
-    $commands    = array();
-
-        // Get running processes.
-    exec("ps w", $commands);
-
-        // If processes are found
-    if (count($commands) > 0) {
-
-        foreach ($commands as $command) {
-            if (strpos($command, $file) === false) {
-                               // Do nothin'
-            }
-            else {
-                               // Let's count how many times the file is found.
-                $found++;
-            }
-        }
-    }
-
-        // If the instance of the file is found more than once.
-    if ($found > 1) {
-        echo "Another process is running.\n";
-        die();
-    }
-	*/	
+	
+	
 
 $in_bg_cron = true;
 ini_set('mysql.connect_timeout','6000');
 
 include(dirname(__FILE__)."/../includes/config.inc.php");
 
+
+	$server_friendly = config('server_friendly_conversion');
+	if($server_friendly=='yes')
+	{
+		/**
+		 * UN COMMENT IN CASE YOU ARE FACING TOO MANY MULTIPLE PROCESSESS AND CAUSING SERVER OVERLOAD
+		 *
+		 * Thanks to Erickson Reyes ercbluemonday at yahoo dot com | so processes dont overlap
+		 * ref : http://www.php.net/manual/en/function.getmypid.php#94531*/	
+		 
+		// Initialize variables
+		$found            = 0;
+		$file                 = basename(__FILE__);
+		$commands    = array();
+		
+			// Get running processes.
+		exec("ps w", $commands);
+		
+			// If processes are found
+		if (count($commands) > 0) {
+		
+			foreach ($commands as $command) {
+				if (strpos($command, $file) === false) {
+								   // Do nothin'
+				}
+				else {
+								   // Let's count how many times the file is found.
+					$found++;
+				}
+			}
+		}
+		
+			// If the instance of the file is found more than once.
+		if ($found > 1) {
+			echo "Another process is running.\n";
+			die();
+		}
+	}
+	
 //Calling Cron Functions
 cb_call_functions('video_convert_cron');
 

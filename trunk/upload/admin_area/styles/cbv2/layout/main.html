@@ -298,6 +298,18 @@ $(document).ready(function(){
           <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="FLVTool2 Binary Paths - Click For More Details" /></a></td>
         </tr>
         <tr>
+          <td valign="top">Turn on Quick Conversion</td>
+          <td valign="top">
+              <input type="checkbox" name="quick_conv" id="quick_conv" value="yes" {if $row.quick_conv=='yes'} checked="checked"{/if}/>
+            <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" alt="" border="0" class="tipsy_tip" title="If you check this option, videos will be converted as soon as uploading is complete, make sure your php path is correct before enabling this option otherwise may cause your website inaccessible" /></a></td>
+        </tr>
+        <tr>
+          <td valign="top">Server Friendly Conversion</td>
+          <td valign="top">
+            <input type="checkbox" name="server_friendly_conversion" id="server_friendly_conversion" {if $row.server_friendly_conversion=='yes'} checked="checked"{/if} value="yes"/>
+            <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" alt="" border="0" class="tipsy_tip" title="If you enable this option then sever will process 1 video at a time, once it is finished, it will start processing new video" /></a></td>
+        </tr>
+        <tr>
           <td valign="top">&nbsp;</td>
           <td valign="top">&nbsp;</td>
         </tr>
