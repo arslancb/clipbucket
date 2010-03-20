@@ -547,14 +547,19 @@ class CBvideo extends CBCategory
 			$cond .= " ".tbl('video.videoid')." <> '".$params['exclude']."' ";
 		}
 		
+		if($params['cond'])
+			$cond .= " ".$params['cond'];
 		
+			
 		if(!$params['count_only'])
 		{
 			if(!empty($cond))
 				$cond .= " AND ";
 			$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),$cond." ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);	
 		}
-
+		
+		
+			
 		if($params['count_only'])
 			return $result = $db->count(tbl('video'),'*',$cond);
 		if($params['assign'])
@@ -1134,7 +1139,7 @@ class CBvideo extends CBCategory
 				}
 				$cond .= " $comtbl.type_id = $sectbl.userid";
 			}
-			break;			
+			break;
 			
 			
 			default:
@@ -1149,6 +1154,9 @@ class CBvideo extends CBCategory
 			}			
 		}	
 
+		if($params['cond'])
+			$cond .= " ".$params['cond'];
+			
 		if(!$params['count_only']) {
 		$result = $db->select(tbl("comments,".$sectblName.""),
 								  "$comtbl.*,$secfields",

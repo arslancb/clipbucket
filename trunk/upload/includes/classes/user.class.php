@@ -3906,5 +3906,32 @@ class userquery extends CBCategory{
 
 		}		
 	}
+	
+	
+	/**
+	 * Get subscred videos
+	 */
+	function get_subscribed_videos($uid,$limit=20)
+	{
+		$user_cond = "";
+		$users = $this->get_user_subscriptions($uid);
+
+		if($users)
+		{
+			foreach($users as $user)
+			{
+				//Creating Query
+				if($user_cond)
+					$user_cond .= " OR ";
+				$user_cond .= tbl("users.userid")."='".$user['userid']."' ";
+			}
+			$user_cond = " (".$user_cond.") ";
+			global $cbvid;
+			$vids = $cbvid->get_videos(array('limit'=>$limit,'cond'=>$user_cond));
+			return $vids;
+		}
+		return false;
+	}
+
 }
 ?>
