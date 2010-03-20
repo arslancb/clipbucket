@@ -2231,7 +2231,7 @@ CREATE TABLE IF NOT EXISTS `video` (
 
 CREATE TABLE IF NOT EXISTS `video_categories` (
   `category_id` int(225) NOT NULL AUTO_INCREMENT,
-  `category_name` varchar(30) NOT NULL DEFAULT '',
+  `category_name` text NOT NULL,
   `category_desc` text NOT NULL,
   `date_added` mediumtext NOT NULL,
   `category_thumb` mediumtext NOT NULL,
