@@ -1,0 +1,24 @@
+<div class="main_vids clearfix" style="border-top:1px solid #CCC">
+	<span class="subsription"><a href="{$baseurl}/edit_account.php?mode=subscriptions">Subscriptions</a></span>
+    <div id="style_change">{lang code='change_style_of_listing'} 
+      <div id="grid" title="Change To Grid Style"></div> 
+        <div id="list" title="Change to List Style"></div>
+  </div> <!--STYLE_CHANGE END-->
+   
+   
+   <div>
+   <!-- Listing Subscriptions-->
+   {assign var=subs_vids value=$userquery->get_subscribed_videos($userquery->userid,10)}
+   {if subs_vids}
+   	{foreach from=$subs_vids item=video}
+      {include file="$style_dir/blocks/video.html" video=$video}
+    {/foreach}
+   {else}
+   <em>No New Videos Found In Subscriptions</em>
+   {/if}
+   <!-- End Listing Subscriptions -->
+   </div>
+    
+
+</div>
+<div class="feature_shadow" ></div>

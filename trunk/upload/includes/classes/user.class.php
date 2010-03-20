@@ -3925,9 +3925,10 @@ class userquery extends CBCategory{
 					$user_cond .= " OR ";
 				$user_cond .= tbl("users.userid")."='".$user['userid']."' ";
 			}
-			$user_cond = " (".$user_cond.") ";
-			global $cbvid;
-			$vids = $cbvid->get_videos(array('limit'=>$limit,'cond'=>$user_cond));
+			$user_cond = " AND (".$user_cond.") ";
+			global $cbvid,$db;
+			$vids = $cbvid->get_videos(array('limit'=>$limit,'cond'=>$user_cond,"order"=>" date_added DESC ","date_span"=>"this_week"));
+			//pr($db->db_query);
 			return $vids;
 		}
 		return false;
