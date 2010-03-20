@@ -3874,10 +3874,15 @@
 	function marked_spammed($comment)
 	{
 		$spam_voters = explode("|",$comment['spam_voters']);
-		if(userid() && in_array(userid(),$spam_voters))
+		$spam_votes = $comment['spam_votes'];
+		$admin_vote = in_array('1',$spam_voters);
+		if(userid() && in_array(userid(),$spam_voters)){
 			return true;
-		else
+		}elseif($admin_vote){
+			return true;
+		}else{
 			return false;
+		}
 	}
 	
 	

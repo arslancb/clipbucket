@@ -1454,7 +1454,7 @@ class userquery extends CBCategory{
 			$results = $db->select(tbl('users'),$field,"userid='$uid'");
 		else
 			$results = $db->select(tbl('users'),$field,"username='$uid'");
-			
+
 		if($db->num_rows>0)
 		{
 			return $results[0];

@@ -1186,15 +1186,15 @@ class CBvideo extends CBCategory
 	 * Function used update comment
 	 */	
 	
-	function update_comment($cid,$comment) {
-			global $db;
-			if(!$comment) {
-				e(lang('usr_cmt_err1'),e);
-			} else {
-				$db->update(tbl("comments"),array("comment"),array($comment)," comment_id = $cid");
-				e(lang("Comment Updated"),m);
-			}
-	}
+//	function update_comment($cid,$comment) {
+//			global $db;
+//			if(!$comment) {
+//				e(lang('usr_cmt_err1'),e);
+//			} else {
+//				$db->update(tbl("comments"),array("comment"),array($comment)," comment_id = $cid");
+//				e(lang("Comment Updated"),m);
+//			}
+//	}
 	
 }
 ?>

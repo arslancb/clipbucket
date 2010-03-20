@@ -1092,6 +1092,7 @@ class CBGroups extends CBCategory
 		
 		$result = $db->select(tbl($this->gp_vdo_tbl)." LEFT JOIN ".tbl('video')." ON ".tbl($this->gp_vdo_tbl).".videoid=".tbl('video').".videoid","*",
 							  " group_id='$gid' $approved_query AND ".tbl('video').".active='yes' AND status='Successful'",$limit);
+
 		if($db->num_rows>0)
 			return $result;
 		else

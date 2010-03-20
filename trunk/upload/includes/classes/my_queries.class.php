@@ -686,6 +686,7 @@ class myquery {
 	{
 		global $db;
 		$db->Execute("UPDATE ".tbl("comments")." SET comment='$text' WHERE comment_id='$cid'");
+		//$db->update(tbl("comments"),array("comment"),array($text)," comment_id = $cid");
 	}
 	
 	
