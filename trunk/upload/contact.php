@@ -43,7 +43,7 @@ if(isset($_POST['contact']))
 		$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
 		
 		//Now Finally Sending Email
-		cbmail(array('to'=>'webmaster@localhost','from'=>$email,'subject'=>$subj,'content'=>$msg));
+		cbmail(array('to'=>WEBSITE_EMAIL,'from'=>$email,'subject'=>$subj,'content'=>$msg));
 		e(lang("email_send_confirm"),"m");
 	}
 }
