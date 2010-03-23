@@ -3948,6 +3948,25 @@
 			break;
 		}
 	}
+	
+	/**
+	 * Gives coversion process output
+	 */
+	function conv_status($in)
+	{
+		switch($in)
+		{
+			case "p":
+			return "Processing";
+			break;
+			case "no":
+			return "Pending";
+			break;
+			case "yes":
+			return "Done";
+			break;
+		}
+	}
 
 	
 	

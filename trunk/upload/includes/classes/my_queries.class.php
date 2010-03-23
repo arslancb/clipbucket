@@ -791,7 +791,33 @@ class myquery {
 	function get_conversion_queue($cond=NULL,$limit=NULL,$order='date_added DESC')
 	{
 		global $db;
+		$result = $db->select(tbl("conversion_queue"),"*",$cond,$limit,$oder);
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;
 	}
+	
+	/**
+	 * function used to remove queue
+	 */
+	function queue_action($action,$id)
+	{
+		global $db;
+		switch($action)
+		{
+			case "delete":
+			$db->execute("DELETE from ".tbl('conversion_queue')." WHERE cqueue_id ='$id' ");
+			break;
+			case "processed":
+			$db->update(tbl('conversion_queue'),array('cqueue_conversion'),array('yes')," cqueue_id ='$id' ");
+			break;
+			case "pending":
+			$db->update(tbl('conversion_queue'),array('cqueue_conversion'),array('no')," cqueue_id ='$id' ");
+			break;
+		}
+	}
+	
 	
 
 }
