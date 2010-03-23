@@ -81,6 +81,7 @@ if(isset($_POST['update'])){
 					
 					'max_bg_width',
 					'max_bg_size',
+					'max_conversion',
 					'max_profile_pic_height',
 					'max_profile_pic_size',
 					'max_profile_pic_width',
@@ -94,6 +95,7 @@ if(isset($_POST['update'])){
 					'mplayerpath',
 					'min_age_reg',
 					'max_comment_chr',
+					'max_time_wait',
 					'max_upload_size',
 					
 					'num_thumbs',

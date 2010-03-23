@@ -30,7 +30,7 @@
     </tr>
     <tr>
       <td style="background-color:#FFF">
-      <textarea name="page_content" id="page_content" style="width:100%; min-height:250px">{'page_content'|post}</textarea><script type="text/javascript">
+      <textarea name="page_content" id="page_content" style="width:100%; min-height:250px">{'page_content'|post|form_val}</textarea><script type="text/javascript">
 	{literal}new nicEditor({fullPanel : true,maxHeight:350}).panelInstance('page_content');{/literal}
 </script></td>
     </tr>
@@ -80,7 +80,7 @@
     </tr>
     <tr>
       <td style="background-color:#FFF">
-      <textarea name="page_content" id="page_content" style="width:100%; min-height:250px">{$page.page_content}</textarea><script type="text/javascript">
+      <textarea name="page_content" id="page_content" style="width:100%; min-height:250px">{$page.page_content|form_val}</textarea><script type="text/javascript">
 	{literal}new nicEditor({fullPanel : true,maxHeight:350}).panelInstance('page_content');{/literal}
 </script></td>
     </tr>

@@ -784,6 +784,15 @@ class myquery {
 		return false;
 	}
 	
+	/**
+	 * Function used to get list of items in conversion queue
+	 * @params $Cond, $limit,$order
+	 */
+	function get_conversion_queue($cond=NULL,$limit=NULL,$order='date_added DESC')
+	{
+		global $db;
+	}
+	
 
 }
 ?>

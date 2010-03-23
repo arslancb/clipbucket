@@ -59,7 +59,7 @@
 	//This Funtion is used to clean a String
 	
 	function clean($string,$allow_html=false) {
- 	 $string = stripslashes($string);
+ 	 //$string = $string;
  	 //$string = htmlentities($string);
 	 if($allow_html==false){
  	 $string = strip_tags($string);
@@ -92,13 +92,13 @@
 	//Mysql Clean Queries
 	
 	function mysql_clean($id){
-		$id = clean($id);
+		//$id = clean($id);
 		if (get_magic_quotes_gpc())
 		{
-		$id = stripslashes($id);
+			$id = stripslashes($id);
 		}
-	$id = mysql_real_escape_string($id);
-	return $id;
+		$id = mysql_real_escape_string($id);
+		return $id;
 	}
 	
 	//Redirect Using JAVASCRIPT
@@ -833,9 +833,13 @@
 	{
 		if(is_string($string))
 			$string = htmlspecialchars($string);
+		if(get_magic_quotes_gpc())
+			$string = stripslashes($string);
 		return $string;
 	}
 	function form_val($string){return cleanForm($string); }
+	
+	//Escaping Magic Quotes
 	
 	/**
 	* FUNCTION USED TO MAKE TAGS MORE PERFECT
@@ -1301,8 +1305,10 @@
 	function get_queued_video($update=TRUE)
 	{
 		global $db;
-		$max_conversion = 2;
-		$max_time_wait = 7200 ; //Maximum Time Wait to make PRocessing Video Automatcially OK 
+		$max_conversion = config('max_conversion');
+		$max_conversion = $max_conversion ? $max_conversion : 2;
+		$max_time_wait = config('max_time_wait'); //Maximum Time Wait to make PRocessing Video Automatcially OK
+		$max_time_wait = $max_time_wait ? $max_time_wait  : 7200;
 		
 		//First Check How Many Videos Are In Queu Already
 		$processing = $db->count(tbl("conversion_queue"),"cqueue_id"," cqueue_conversion='p' ");

@@ -310,6 +310,14 @@ $(document).ready(function(){
             <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" alt="" border="0" class="tipsy_tip" title="If you enable this option then sever will process 1 video at a time, once it is finished, it will start processing new video" /></a></td>
         </tr>
         <tr>
+          <td valign="top">Max Video Processes at once</td>
+          <td valign="top"><input name="max_conversion" type="text" id="max_conversion" value="{$row.max_conversion}" size="45" /></td>
+        </tr>
+        <tr>
+          <td valign="top">Max time wait after max processes</td>
+          <td valign="top"><input name="max_time_wait" type="text" id="max_time_wait" value="{$row.max_time_wait}" size="45" /></td>
+        </tr>
+        <tr>
           <td valign="top">&nbsp;</td>
           <td valign="top">&nbsp;</td>
         </tr>

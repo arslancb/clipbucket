@@ -29,7 +29,7 @@ class cbpage
 		global $db;
 		$name = mysql_clean($param['page_name']);
 		$title = mysql_clean($param['page_title']);
-		$content = mysql_real_escape_string($param['page_content']);
+		$content = ($param['page_content']);
 		
 		if(empty($name))
 			e(lang("page_name_empty"));
@@ -84,7 +84,7 @@ class cbpage
 		$id = $param['page_id'];
 		$name = mysql_clean($param['page_name']);
 		$title = mysql_clean($param['page_title']);
-		$content = mysql_real_escape_string($param['page_content']);
+		$content = addslashes($param['page_content']);
 		
 		$page = $this->get_page($id);
 		

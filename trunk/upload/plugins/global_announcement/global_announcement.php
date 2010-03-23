@@ -22,7 +22,7 @@ if(!function_exists('global_announcement'))
 	function get_announcement()
 	{
 		global $db;
-		$exec = $db->Execute('SELECT * FROM cb_global_announcement');
+		$exec = $db->Execute('SELECT * FROM '.tbl("global_announcement");
 		$ann = $exec->getrows();
 		return $ann[0][0];
 	}
@@ -32,7 +32,7 @@ if(!function_exists('global_announcement'))
 	{
 		global $db;
 		$text = mysql_clean($text);
-		$db->Execute("UPDATE cb_global_announcement SET announcement='$text'");
+		$db->Execute("UPDATE ".tbl("global_announcement")." SET announcement='$text'");
 	}
 	
 }

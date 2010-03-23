@@ -18,6 +18,7 @@
     <br>
     {ANCHOR place='before_compose_box'}
     <textarea name="comment" id="comment_box" cols="45" rows="5"  class="input" ></textarea>
+    <input type="hidden" name="type" value="{$type}" />
     <br>
     <div style="margin-top:5px"><input type="button" name="add_comment" id="add_comment_button" value="{lang code='user_add_comment'}" class="cb_button" onclick="add_comment_js('comment_form','{$type}')"></div>
 </form>

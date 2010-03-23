@@ -185,19 +185,20 @@ class ffmpeg
 			if(!empty($arate))
 				$opt_av .= " -ar $arate ";
 		}
+		$tmp_file = time().RandomString(5).'.tmp';
 		
 		$opt_av .= " -map_meta_data ".$this->output_file.":".$this->input_file;
 	
-		$command = $this->ffmpeg." -i ".$this->input_file." $opt_av ".$this->output_file."  2> ".TEMP_DIR."/output.tmp ";
+		$command = $this->ffmpeg." -i ".$this->input_file." $opt_av ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
 		
 		//Updating DB
 		//$db->update($this->tbl,array('command_used'),array($command)," id = '".$this->row_id."'");
 		
 		$output = $this->exec($command);
-		if(file_exists(TEMP_DIR.'/output.tmp'))
+		if(file_exists(TEMP_DIR.'/'.$tmp_file))
 		{
-			$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
-			unlink(TEMP_DIR.'/output.tmp');
+			$output = $output ? $output : join("", file(TEMP_DIR.'/'.$tmp_file));
+			unlink(TEMP_DIR.'/'.$tmp_file);
 		}
 		
 		
@@ -205,12 +206,13 @@ class ffmpeg
 		#Injecting MetaData ysing FLVtool2 - you must have update version of flvtool2 ie 1.0.6 FInal or greator
 		if($this->flvtool2)
 		{
-			$flv_cmd = $this->flvtool2." -U  ".$this->output_file."  2> ".TEMP_DIR."/flvtool2_output.tmp ";
+			$tmp_file = time().RandomString(5).'flvtool2_output.tmp';
+			$flv_cmd = $this->flvtool2." -U  ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
 			$flvtool2_output = $this->exec($flv_cmd);
-			if(file_exists(TEMP_DIR.'/flvtool2_output.tmp'))
+			if(file_exists(TEMP_DIR.'/'.$tmp_file))
 			{
-				$flvtool2_output = $flvtool2_output ? $flvtool2_output : join("", file(TEMP_DIR.'/flvtool2_output.tmp'));
-				unlink(TEMP_DIR.'/flvtool2_output.tmp');
+				$flvtool2_output = $flvtool2_output ? $flvtool2_output : join("", file(TEMP_DIR.'/'.$tmp_file));
+				unlink(TEMP_DIR.'/'.$tmp_file);
 			}
 			$output .= $flvtool2_output;
 		}
