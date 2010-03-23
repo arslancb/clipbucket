@@ -5,7 +5,12 @@
     <form id="form1" name="form1" method="post" action="">
       Announcement<br />
       <label for="textarea"></label>
-      <textarea name="text" id="textarea" cols="75" rows="6">{get_announcement}</textarea>
+      <textarea name="text" id="page_content" cols="75" rows="6" style="width:100%;">{get_announcement}</textarea>
+      <script type="text/javascript">
+	  	{literal}
+			new nicEditor({fullPanel : true,maxHeight:350}).panelInstance('page_content');
+		{/literal}
+		</script>
       <br />
       <input type="submit" name="update" value="Update" />
     </form></td>
