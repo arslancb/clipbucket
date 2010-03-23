@@ -112,7 +112,7 @@ $(document).ready(function(){
             </tr>
             <tr>
               <td>Date Format</td>
-              <td><label for="textfield"></label>
+              <td><label for="allow_multilingual_usernames"></label>
               <input name="date_format" type="text" id="date_format" value="{$row.date_format}" size="45" /></td>
             </tr>
             <tr>
@@ -618,7 +618,7 @@ $(document).ready(function(){
         </tr>
         <tr>
           <td width="200" valign="top">Turn on registrations</td>
-          <td valign="top"><input name="allow_registration" type="checkbox" id="allow_registration" value="1" {if $row.allow_registration=='1'}checked="checked"{/if} /></td>
+          <td valign="top"><input name="allow_registeration" type="checkbox" id="allow_registeration" value="1" {if $row.allow_registeration=='1'}checked="checked"{/if} /></td>
         </tr>
         <tr>
           <td valign="top">Email verification</td>
@@ -649,6 +649,21 @@ $(document).ready(function(){
             <br />
             sperate by commas
           </label></td>
+        </tr>
+        <tr>
+          <td valign="top">Allow Special Characters in usernames</td>
+          <td valign="top"><input name="allow_unicode_usernames" type="checkbox" 
+          id="allow_unicode_usernames" value="yes" {if $row.allow_unicode_usernames=='yes'}checked="checked"{/if} /></td>
+        </tr>
+        <tr>
+          <td valign="top">Minimum Username Length</td>
+          <td valign="top"><label>
+            <input name="min_username" type="text" id="min_username" value="{$row.min_username|form_val}" />
+          </label></td>
+        </tr>
+        <tr>
+          <td valign="top">Maximum Username Length</td>
+          <td valign="top"><input name="max_username" type="text" id="max_username" value="{$row.max_username|form_val}" /></td>
         </tr>
         <tr>
           <td valign="top">Minimum age for registration</td>

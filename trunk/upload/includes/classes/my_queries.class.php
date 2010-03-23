@@ -440,7 +440,8 @@ class myquery {
 					e(lang("usr_cmt_err2"));
 			}
 		}
-		*/		
+		*/
+		
 		if(!userid() && $Cbucket->configs['anonym_comments']!='yes')
 			e(lang("you_not_logged_in"));
 		

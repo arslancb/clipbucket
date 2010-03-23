@@ -3034,12 +3034,14 @@ class userquery extends CBCategory{
 							  'hint_2'=> lang('user_allowed_format'),
 							  'db_field'=>'username',
 							  'required'=>'yes',
-							  'syntax_type'=> 'username',
+							 // 'syntax_type'=> 'username',
 							  'validate_function'=> 'username_check',
 							  'function_error_msg' => lang('user_contains_disallow_err'),
 							  'db_value_check_func'=> 'user_exists',
 							  'db_value_exists'=>false,
-							  'db_value_err'=>lang('usr_uname_err2')
+							  'db_value_err'=>lang('usr_uname_err2'),
+							  'min_length'	=> config('min_username'),
+							  'max_length' => config('max_username'),
 							  ),
 		  'email' => array(
 							  'title'=> lang('email'),

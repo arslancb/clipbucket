@@ -22,7 +22,7 @@ if(!function_exists('global_announcement'))
 	function get_announcement()
 	{
 		global $db;
-		$exec = $db->Execute('SELECT * FROM '.tbl("global_announcement");
+		$exec = $db->Execute('SELECT * FROM '.tbl("global_announcement"));
 		$ann = $exec->getrows();
 		return $ann[0][0];
 	}

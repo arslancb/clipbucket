@@ -2000,7 +2000,12 @@
 			if(!empty($match[0]))
 				return false;
 		}
-		
+		//Checking if its syntax is valid or not
+		$multi = config('allow_unicode_usernames');
+		//Checking Spaces
+		preg_match('/ /',$username,$matches);
+		if(!is_valid_syntax('username',$username) && $multi!='yes' || $matches)
+			e(lang("class_invalid_user"));
 		return true;
 	}
 	

@@ -151,7 +151,7 @@ else
  //Registration & Email Settings
  
  	define('EMAIL_VERIFICATION',$row['email_verification']);	
-	define('ALLOW_REGISTERATION',$row['allow_registration']);
+	define('ALLOW_REGISTERATION',$row['allow_registeration']);
 	define('WEBSITE_EMAIL',$row['website_email']);
 	define('SUPPORT_EMAIL',$row['support_email']);
 	define('WELCOME_EMAIL',$row['welcome_email']);
