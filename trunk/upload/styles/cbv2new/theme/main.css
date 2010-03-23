@@ -61,7 +61,7 @@ Rating
 #header { margin:0px 0px 15px; padding:1px 0px 0px 5px; }
 
 /* LOGO */
-.logo { background:url(../images/blocks.png) left bottom no-repeat; width:350px; float:left; height:65px; margin:0px; padding:0px; }
+.logo { background:url(../images/logo.png) left bottom no-repeat; width:348px; float:left; height:53px; margin:8px 2px 10px 3px; padding:0px; }
 
 /* LOGIN FORM */
 #user_login { background:url(../images/log_button.png) top repeat-x; border:1px solid #ccc; padding:0px 8px; margin:0px auto; height:25px; line-height:25px; border-top:0px none; position:relative; bottom:1px; float:right; margin-right:15px; -moz-border-radius-bottomleft:5px; -webkit-border-bottom-left-radius:5px;-moz-border-radius-bottomright:5px; -webkit-border-bottom-right-radius:5px; z-index:2000; }
