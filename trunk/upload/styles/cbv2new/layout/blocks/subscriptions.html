@@ -1,6 +1,6 @@
 {if userid()}
 <div class="main_vids clearfix" style="border-top:1px solid #CCC">
-	<span class="subsription"><a href="{$baseurl}/edit_account.php?mode=subscriptions">Subscriptions</a></span>
+	<span class="subsription"><a href="{$baseurl}/edit_account.php?mode=subscriptions">{lang code='subscriptions'}</a></span>
     <div id="style_change">{lang code='change_style_of_listing'} 
       <div id="grid" title="Change To Grid Style"></div> 
         <div id="list" title="Change to List Style"></div>
@@ -15,7 +15,7 @@
       {include file="$style_dir/blocks/video.html" video=$video}
     {/foreach}
    {else}
-   <em>No New Videos Found In Subscriptions</em>
+   <em>{lang code='no_new_subs_video'}</em>
    {/if}
    <!-- End Listing Subscriptions -->
    </div>
