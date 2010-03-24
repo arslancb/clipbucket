@@ -11,7 +11,6 @@ require 'includes/config.inc.php';
 
 $pages->page_redir();
 
-pr($userquery->get_subscribed_videos(userid()));
 if(is_installed('editorspick'))
 {
 	assign('editor_picks',get_ep_videos());
