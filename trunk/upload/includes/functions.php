@@ -91,13 +91,16 @@
 	
 	//Mysql Clean Queries
 	
-	function mysql_clean($id){
+	function mysql_clean($id,$replacer=true){
 		//$id = clean($id);
+		
 		if (get_magic_quotes_gpc())
 		{
 			$id = stripslashes($id);
 		}
 		$id = htmlspecialchars(mysql_real_escape_string($id));
+		if($replacer)
+			$id = Replacer($id);
 		return $id;
 	}
 	
