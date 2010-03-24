@@ -84,14 +84,14 @@ if(isset($_POST['send_mail'])){
 		{
 			foreach($new_users as $theuser)
 			{
-				$user = $userquery->get_user($theuser);
+				$user = $userquery->get_user_details($theuser);
 				if($user)
 				{
 					$keys = array("[username]","[email]","[datejoined]");
 					$rplc = array($user['username'],$user['email'],$user['doj']);
 					$msg = nl2br(str_replace($keys, $rplc, $message));
 					//send_email($from,$data['email'],$subject,$msg);
-					cbmail(array('from'=>$from,'to'=>$user['email'],'subject'=>$subj,'content'=>$message));
+					cbmail(array('from'=>$from,'to'=>$user['email'],'subject'=>$subject,'content'=>$message));
 				}
 			}
 			e('Your Email has Been Sent To Sepecified users','m');		
