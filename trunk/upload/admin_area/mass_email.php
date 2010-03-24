@@ -64,7 +64,7 @@ if(isset($_POST['send_to_all']))
 	
 	
 //Send Message To Individual
-if(isset($_POST['email'])){
+if(isset($_POST['send_mail'])){
 		$from 		= mysql_clean($_POST['from']);
 		$subject	= mysql_clean($_POST['subj']);
 		$message	= $_POST['msg'];
