@@ -44,8 +44,8 @@ if(!@$in_bg_cron)
 	session_start();
 }
 // Check Installation Directory
-if(file_exists(dirname(__FILE__).'/../install/isinstall.php')){
-	header('location:../install');
+if(!file_exists(dirname(__FILE__).'/clipbucket.php')){
+	header('location:install');
 }
 //Required Files
 

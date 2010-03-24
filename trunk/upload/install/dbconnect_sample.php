@@ -1,7 +1,7 @@
 <?php
 	/**
 	* @Software : ClipBucket
-	* @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
+	* @License : CBLA
 	* @version :ClipBucket v2
 	*/
 

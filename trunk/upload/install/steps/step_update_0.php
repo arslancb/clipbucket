@@ -1,5 +1,12 @@
  <form name="form1" method="post" action="" class="install_form"><div class="content"><h2>Update ClipBucket from <?=the_version()?> to <?=VERSION?></h2><label for="dbprefix">Database Prefix</label>
+ <?php
+ if(the_version()<'2.0.4')
+ {
+ ?>
     <input type="text" name="dbprefix" id="dbprefix" value="<? if($_POST['dbprefix']) echo form_val(post('dbprefix')); else echo "cb_";?>">
+    <?php
+ }
+ ?>
 <?php include("msgs.php") ?>
 </div>
 <div class="footer" align="right">

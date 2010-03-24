@@ -12,7 +12,7 @@ include("./clipbucket.php");
 
 
 	/**
-	 * Function used to get ClipBucket License Agreement
+	 * Function used to get ClipBucket License (CBLA)
 	 */
 
 	function get_cbla()

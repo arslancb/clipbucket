@@ -3,7 +3,7 @@
 /**
  * Installed Written by Arslan Hassan
  * @ Software : ClipBucket v2
- * @ License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
+ * @ license : CBLA
  * @ since : 2512-2009
  * @ author: Arslan Hassan
  */
@@ -63,6 +63,8 @@ if($_POST['upgrade'])
 				$array['category'] = 1;
 				$array['level'] = 2;
 				$array['active'] = $user['usr_status'];
+				
+				$eh->flush();
 				
 				$uid = $userquery->signup_user($array);
 				
@@ -283,7 +285,7 @@ if($_POST['upgrade'])
 				}
 				elseif($arr == 'allow_reg')
 				{
-					$db->update(tbl("config"),array("value"),array($nconfig[$arr])," name='allow_registration'");
+					$db->update(tbl("config"),array("value"),array($nconfig[$arr])," name='allow_registeration'");
 				}elseif($arr== 'allowed_types')
 				{
 					$db->update(tbl("config"),array("value"),array(preg_replace("/ /",",",$nconfig[$arr]))," name='allowed_types'");

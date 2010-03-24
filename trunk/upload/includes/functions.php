@@ -97,7 +97,7 @@
 		{
 			$id = stripslashes($id);
 		}
-		$id = mysql_real_escape_string($id);
+		$id = htmlspecialchars(mysql_real_escape_string($id));
 		return $id;
 	}
 	
@@ -661,7 +661,7 @@
 		if (stristr(PHP_OS, 'WIN')) { 
 			$cmd = $cmd;
 		}else{
-			$cmd = "PATH=\$PATH:/bin:/usr/bin:/usr/local/bin bash -c \"$cmd\"";
+			$cmd = "PATH=\$PATH:/bin:/usr/bin:/usr/local/bin bash -c \"$cmd\"  2>&1";
 		}
 		$data = shell_exec( $cmd );
 		return $data;
@@ -3764,8 +3764,8 @@
 		{
 			case 'ffmpeg':
 			{
-				preg_match("/svn-([0-9]+)/i",$result,$matches);
-				if(is_numeric($matches[1])) {
+				preg_match("/svn-r(.*),/iU",strtolower($result),$matches);
+				if(is_numeric(floatval($matches[1]))) {
 					return $matches[1];
 				} else {
 					return false;	
@@ -3780,7 +3780,7 @@
 			case 'flvtool2':
 			{
 				preg_match("/flvtool2 ([0-9\.]+)/i",$result,$matches);
-				if(is_numeric($matches[1])){
+				if(is_numeric(floatval($matches[1]))){
 					return $matches[1];
 				} else {
 					return false;	
@@ -3789,8 +3789,9 @@
 			break;
 			case 'mp4box':
 			{
-				preg_match("/version ([0-9\.]+)/i",$result,$matches);
-				if(is_numeric($matches[1])){
+				preg_match("/version (.*) \(/Ui",$result,$matches);
+				//pr($matches);
+				if(is_numeric(floatval($matches[1]))){
 					return $matches[1];
 				} else {
 					return false;	

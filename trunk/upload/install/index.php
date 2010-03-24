@@ -3,7 +3,7 @@
 /**
  * Installed Written by Arslan Hassan
  * @ Software : ClipBucket v2
- * @ License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
+ * @ license : CBLA
  * @ since : 2512-2009
  * @ author: Arslan Hassan
  */
@@ -102,7 +102,7 @@ switch($step)
 '<?php
 	/**
 	* @Software : ClipBucket
-	* @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
+	* @License : CBLA
 	* @version :ClipBucket v2
 	*/
 
@@ -266,7 +266,7 @@ switch($step)
 '<?php
 	/**
 	* @Software : ClipBucket
-	* @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
+	* @License : CBLA
 	* @version :ClipBucket v2
 	*/
 
@@ -300,7 +300,34 @@ switch($step)
 
 		}
 		
+		$prefix = TABLE_PREFIX;
 		
+		//ClipBucket Stats Fix
+		if(the_version()<'2.0.5')
+		{
+			$results = $db->select($prefix."stats","*");
+			if(is_array($results))
+			foreach($results as $result)
+			{
+				$vid_stats = $result['video_stats'];
+				$user_stats = $result['user_stats'];
+				$group_stats = $result['group_stats'];
+				
+				if(substr($vid_stats,0,7)=='|no_mc|')
+					$vid_stats = substr($vid_stats,7,strlen($vid_stats));
+					
+				if(substr($user_stats,0,7)=='|no_mc|')
+					$user_stats = substr($user_stats,7,strlen($user_stats));
+					
+				if(substr($group_stats,0,7)=='|no_mc|')
+					$group_stats = substr($group_stats,7,strlen($group_stats));
+					
+				$db->update($prefix."stats",array('video_stats','user_stats','group_stats'),
+										array("|no_mc|".$vid_stats,"|no_mc|".$user_stats,"|no_mc|".$group_stats)," stat_id  ='".$result['stat_id']."' ");
+					
+			}
+		}
+
 		
 		$db->update($prefix."config",array("value"),array(RELEASED)," name='date_released'");
 		$db->update($prefix."config",array("value"),array(now())," name='date_updated'");
@@ -371,7 +398,7 @@ switch($step)
 '<?php
 	/**
 	* @Software : ClipBucket
-	* @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
+	* @License : CBLA
 	* @version :ClipBucket v2
 	*/
 

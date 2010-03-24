@@ -50,7 +50,7 @@
 				$description = $func($description);
 			}
 		}
-		return $description;
+		return nl2br($description);
 	}
 	
 	
