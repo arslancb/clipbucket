@@ -1,3 +1,5 @@
+-- $Id$
+
 INSERT INTO `{tbl_prefix}config` (
 `name` ,
 `value`
@@ -1186,3 +1188,5 @@ INSERT INTO `cb_phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 
 ALTER TABLE `{tbl_prefix}phrases`  ORDER BY `id`;
 ALTER TABLE `{tbl_prefix}languages` ADD `language_active` ENUM( "yes", "no" ) NOT NULL DEFAULT 'yes' AFTER `language_regex` ;
+
+UPDATE `{tbl_prefix}config` SET `name` =  'allow_registration'  WHERE `name` = 'allow_registeration' LIMIT 1 ;

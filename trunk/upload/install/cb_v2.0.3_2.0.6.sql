@@ -1,3 +1,5 @@
+-- $Id$
+
     DROP TABLE `stats` ;
 	DROP TABLE `editors_picks` ;
     RENAME TABLE  `cb_admin_notes`  TO `admin_notes` ;
@@ -1238,3 +1240,5 @@ INSERT INTO `{tbl_prefix}config` (`configid` ,`name` ,`value`) VALUES
 (NULL , 'allow_unicode_usernames', 'yes'),
 (NULL, 'min_username', '3'),
 (NULL, 'max_username', '15');
+
+UPDATE `{tbl_prefix}config` SET `name` =  'allow_registration'  WHERE `name` = 'allow_registeration' LIMIT 1 ;

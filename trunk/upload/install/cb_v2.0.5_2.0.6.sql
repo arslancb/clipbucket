@@ -1,4 +1,6 @@
-INSERT INTO `{tbl_prefix}config` (`configid` ,`name` ,`value`) VALUES 
+-- $Id$
+
+INSERT INTO `{tbl_prefix}config` (`configid` ,`name` ,`value`) VALUES
 (NULL , 'quick_conv', 'yes'),
 (NULL, 'server_friendly_conversion', 'yes'),
 (NULL, 'max_conversion', '2'),
@@ -17,3 +19,5 @@ INSERT INTO `{tbl_prefix}phrases` (`lang_iso`, `varname`, `text`) VALUES
 ('en', 'violence_replusive_content', 'Violence or repulsive content'),
 ('en', 'disturbing', 'Disturbing'),
 ('en', 'other', 'Other');
+
+UPDATE `{tbl_prefix}config` SET `name` =  'allow_registration'  WHERE `name` = 'allow_registeration' LIMIT 1 ;
