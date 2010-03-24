@@ -3176,6 +3176,7 @@
 	function get_flag_options()
 	{
 		$action = new cbactions();
+		$action->init();
 		return $action->report_opts;
 	}
 	

@@ -30,7 +30,7 @@ class CBvideo extends CBCategory
 	/**
 	 * __Constructor of CBVideo
 	 */	
-	function CBvideo()
+	function init()
 	{
 		$this->cat_tbl = 'video_categories';
 		$this->section_tbl = 'video';
@@ -685,6 +685,7 @@ class CBvideo extends CBCategory
 	function init_actions()
 	{
 		$this->action = new cbactions();
+		$this->action->init();
 		$this->action->type = 'v';
 		$this->action->name = 'video';
 		$this->action->obj_class = 'cbvideo';

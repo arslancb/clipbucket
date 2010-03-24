@@ -65,7 +65,7 @@ class cbactions
 	 * a content ie - copyrighted content - voilance - sex or something alike
 	 * ARRAY = array('Copyrighted','Nudity','bla','another bla');
 	 */
-	var $report_opts = array('Inappropriate Content','Copyright infringement','Sexual Content','Violance or repulsive content','Spam','Disturbing','Other');
+	var $report_opts = array();
 	
 	
 	/**
@@ -81,7 +81,23 @@ class cbactions
 	 */
 	var $val_array = array();
 
-
+	
+	/**
+	 * initializing
+	 */
+	function init()
+	{
+		$this->report_opts = array
+		(
+		lang('inapp_content'),
+		lang('copyright_infring'),
+		lang('sexual_content'),
+		lang('violence_replusive_content'),
+		lang('spam'),
+		lang('disturbing'),
+		lang('other')		
+		);
+	}
 
 	/**
 	 * Function used to add content to favorits

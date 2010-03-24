@@ -285,6 +285,7 @@ else
 	$swfobj		= new SWFObject();
 	//Initializng Userquery class
 	$userquery->init();
+	$cbvideo->init();
 	$cbpm->init();
 	$lang_obj->init();
     $thisurl = curPageURL();
