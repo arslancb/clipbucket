@@ -29,6 +29,19 @@ if(isset($_POST['mark_spam']))
 	e("Selected comments have been marked as spam","m");
 }
 
+
+//Function used to mark multiple comments as spam
+if(isset($_POST['not_spam'])) 
+{
+	$total = count($_POST['check_comments']);
+	for($i=0;$i<$total;$i++)
+	{
+		$myquery->remove_spam($_POST['check_comments'][$i]);
+	}
+	$eh->flush();
+	e("Selected comments have been removed from spam","m");
+}
+
 $mode = $_GET['mode'];
 $cid = $_GET['cid'];
 $comment = array();
