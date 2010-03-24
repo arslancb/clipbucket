@@ -269,10 +269,10 @@ switch($step)
 		}
 		
 		//Rewriting Database File
-		if(the_version()<'2.0.4')
+		if(the_version()<'2.0.6')
 		{
 						//update cbhash(a general code of clipbucket that does nothing but tells clipbucket who it actually is)
-			$db->update($prefix."config",array("value"),array("PGRpdiBhbGlnbj0iY2VudGVyIj48IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPg0KUG93ZXJlZCBieSA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tLyI+Q2xpcEJ1Y2tldDwvYT4gJXM8YnI+DQpDb3B5cmlnaHQgJmNvcHk7IDIwMDcgLSAyMDEwLCBDbGlwQnVja2V0IHwgPGEgaHJlZj0iaHR0cDovL2NsaXAtYnVja2V0LmNvbS9hcnNsYW4taGFzc2FuIj5BcnNsYW4gSGFzc2FuPC9hPg0KPCEtLSBEbyBub3QgcmVtb3ZlIHRoaXMgY29weXJpZ2h0IG5vdGljZSAtLT48L2Rpdj4=")," name='cbhash'");
+			$db->update($prefix."config",array("value"),array("PGRpdiBhbGlnbj0iY2VudGVyIj48IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPg0KUG93ZXJlZCBieSA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tLyI+Q2xpcEJ1Y2tldDwvYT4gJXMgfCA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tL2Fyc2xhbi1oYXNzYW4iPkFyc2xhbiBIYXNzYW48L2E+DQo8IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPjwvZGl2Pg==")," name='cbhash'");
 		
 		
 							$dbconnect = 

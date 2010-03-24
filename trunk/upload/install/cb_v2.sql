@@ -257,7 +257,7 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (93, 'users_items_contacts_channel', '5'),
 (94, 'users_items_search_page', '25'),
 (95, 'users_items_group_page', '15'),
-(96, 'cbhash', 'PGRpdiBhbGlnbj0iY2VudGVyIj48IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPg0KUG93ZXJlZCBieSA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tLyI+Q2xpcEJ1Y2tldDwvYT4gJXM8YnI+DQpDb3B5cmlnaHQgJmNvcHk7IDIwMDcgLSAyMDEwLCBDbGlwQnVja2V0IHwgPGEgaHJlZj0iaHR0cDovL2NsaXAtYnVja2V0LmNvbS9hcnNsYW4taGFzc2FuIj5BcnNsYW4gSGFzc2FuPC9hPg0KPCEtLSBEbyBub3QgcmVtb3ZlIHRoaXMgY29weXJpZ2h0IG5vdGljZSAtLT48L2Rpdj4='),
+(96, 'cbhash', 'PGRpdiBhbGlnbj0iY2VudGVyIj48IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPg0KUG93ZXJlZCBieSA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tLyI+Q2xpcEJ1Y2tldDwvYT4gJXMgfCA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tL2Fyc2xhbi1oYXNzYW4iPkFyc2xhbiBIYXNzYW48L2E+DQo8IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPjwvZGl2Pg=='),
 (97, 'min_video_title', '4'),
 (98, 'max_video_title', '60'),
 (99, 'min_video_desc', '5'),
