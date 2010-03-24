@@ -1,5 +1,22 @@
 <span class="page_title">Comments Manager</span>
 <br />
+<div style="padding:10px;">
+<div style="clear:both; height:5px;"></div>
+<a href="?filter=v" title="View Video Comments">View Video Comments</a> | <a href="?filter=t">View Topic Posts</a> | <a href="?filter=c">View Channel Comments</a>
+<div style="clear:both; height:5px;"></div>
+</div>
+
+<form name="comments_manager" method="post">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+     		<input type="submit" name="mark_spam" value="Mark Spam"  class="button" id="mark_spam"/>
+     		<input type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
+    
+    </td>
+    </tr>
+</table>
 
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
@@ -10,10 +27,11 @@
     <td width="50" class="right_head">&nbsp;</td>
   </tr>
 </table>
-<div style="clear:both; height:5px;"></div>
-<a href="?filter=v" title="View Video Comments">View Video Comments</a> | <a href="?filter=t">View Topic Posts</a> | <a href="?filter=c">View Channel Comments</a>
-<div style="clear:both; height:5px;"></div>
+
 {if $comments}
+
+
+
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
 {foreach from=$comments item=comment}
 
@@ -34,8 +52,8 @@
 </span> 
 
 <div style="height:5px; clear:both;"></div>
-<span style="font-size:11px;" id="{$comment.comment_id}" class="edit_comment">{$comment.comment}</span><br />
-
+<span style="font-size:11px;" id="{$comment.comment_id}" class="edit_comment">{$comment.comment}</span>
+<div style="height:20px;">
 <div id="comm_opt-{$comment.comment_id}" class="vid_opts" style="display:none">
 <a href="{videoLink vdetails=$comment}#{if $comment.spam_votes > 0}spam_{/if}comment_{$comment.comment_id}" target="_blank">{lang code='view'} {lang code='comment'}</a> |
 
@@ -43,7 +61,7 @@
 {if $comment.spam_votes !=0}  style="display:inline"{else} style="display:none;"{/if}>{lang code='remove'} {lang code='spam'}</a> | 
 
 <a href="#" onclick="delete_comment('{$comment.comment_id}','v'); return false;">{lang code='delete'}</a>
-</div>
+</div></div>
 </td>
 <td width="50" valign="top" class="video_opt_td">&nbsp;</td>	
 </tr>
@@ -54,8 +72,8 @@
  {if is_array($comment_owner)} <a href="{$userquery->profile_link($comment_owner)}"><strong>{$comment_owner.username}</strong></a> {else} <strong>{$comment_owner}</strong> {/if} commented on <strong>{$comment.date_added|date_format}</strong>  on a topic named <span style="text-transform:none"><a href="{$cbgroup->topic_link($comment)}" title="{$comment.topic_title}">{$comment.topic_title|truncate:40}</a></span>
 </span> 
 <div style="height:5px; clear:both;"></div>
-<span style="font-size:11px;" class="edit_comment">{$comment.comment}</span><br />
-
+<span style="font-size:11px;" class="edit_comment">{$comment.comment}</span>
+<div style="height:20px;">
 <div id="comm_opt-{$comment.comment_id}" class="vid_opts" style="display:none">
 <a href="{$cbgroup->topic_link($comment)}#{if $comment.spam_votes > 0}spam_{/if}comment_{$comment.comment_id}" target="_blank">{lang code='view'} {lang code='comment'}</a> |
 
@@ -63,7 +81,7 @@
 {if $comment.spam_votes !=0}  style="display:inline"{else} style="display:none;"{/if}>{lang code='remove'} {lang code='spam'}</a> | 
 
 <a href="#" onclick="delete_comment('{$comment.comment_id}','v'); return false;">{lang code='delete'}</a>
-</div>
+</div></div>
 {/if}
 
 {if $filters == 'c'}
@@ -71,8 +89,9 @@
  {if is_array($comment_owner)} <a href="{$userquery->profile_link($comment_owner)}"><strong>{$comment_owner.username}</strong></a> {else} <strong>{$comment_owner}</strong> {/if} commented on <strong>{$comment.date_added|date_format}</strong>  on a channel named <span style="text-transform:none"><a href="{$userquery->profile_link($comment)}" title="{$comment.username}">{$comment.username|truncate:40}</a></span>
 </span> 
 <div style="height:5px; clear:both;"></div>
-<span style="font-size:11px;" class="edit_comment">{$comment.comment}</span><br />
+<span style="font-size:11px;" class="edit_comment">{$comment.comment}</span>
 
+<div style="height:20px;">
 <div id="comm_opt-{$comment.comment_id}" class="vid_opts" style="display:none">
 <a href="{$userquery->profile_link($comment)}#{if $comment.spam_votes > 0}spam_{/if}comment_{$comment.comment_id}" target="_blank">{lang code='view'} {lang code='comment'}</a> |
 
@@ -80,7 +99,7 @@
 {if $comment.spam_votes !=0}  style="display:inline"{else} style="display:none;"{/if}>{lang code='remove'} {lang code='spam'}</a> | 
 
 <a href="#" onclick="delete_comment('{$comment.comment_id}','v'); return false;">{lang code='delete'}</a>
-</div>
+</div></div>
 {/if}
 
 {if $bgcolor == ""}
@@ -93,5 +112,6 @@
 {else}
 	<div align="center"><em>{lang code='no_comments'}</em></div>
 {/if}
+</form>
 <div style="height:10px; clear:both"></div>
 {include file="$style_dir/blocks/pagination.html" }

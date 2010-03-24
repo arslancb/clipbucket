@@ -187,7 +187,7 @@ class myquery {
 				e(lang('no_comment_exists'));
 			elseif(!userid())
 				e(lang('login_to_mark_as_spam'));
-			elseif(userid()==$comment['userid'] || (!userid() && $_SERVER['REMOTE_ADDR'] == $comment['comment_ip']))
+			elseif((userid()==$comment['userid'] && userid() && $comment['userid']) || (!userid() && $_SERVER['REMOTE_ADDR'] == $comment['comment_ip']))
 				e(lang('no_own_commen_spam'));
 			elseif(!empty($flag))
 				e(lang('already_spammed_comment'));

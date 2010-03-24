@@ -3,6 +3,32 @@ require'../includes/admin_config.php';
 $userquery->admin_login_check();
 $pages->page_redir();
 
+
+//Function used to delete multiple comments
+if(isset($_POST['delete_selected']))
+{
+	$total = count($_POST['check_comments']);
+	for($i=0;$i<$total;$i++)
+	{
+		$myquery->delete_comment($_POST['check_comments'][$i]);
+	}
+	$eh->flush();
+	e("Selected comments have been deleted","m");
+}
+
+
+//Function used to mark multiple comments as spam
+if(isset($_POST['mark_spam'])) 
+{
+	$total = count($_POST['check_comments']);
+	for($i=0;$i<$total;$i++)
+	{
+		$myquery->spam_comment($_POST['check_comments'][$i]);
+	}
+	$eh->flush();
+	e("Selected comments have been marked as spam","m");
+}
+
 $mode = $_GET['mode'];
 $cid = $_GET['cid'];
 $comment = array();

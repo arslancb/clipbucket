@@ -274,3 +274,5 @@ margin-top: 0;
 .admin_links li{list-style:none; display:block;  padding:2px 10px; margin:3px 0px; border-bottom:#666 1px dotted}
 .admin_links a{font-weight:bold; font-size:12px; color:#09c; display:block}
 .admin_links a:hover{color:#d54e21}
+
+.edit_comment{display:block; }
