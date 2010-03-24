@@ -165,6 +165,20 @@ switch($step)
 				$db->update($prefix."config",array("value"),array(now())," name='date_installed'");
 				$db->update($prefix."config",array("value"),array(VERSION)," name='version'");
 				$db->update($prefix."config",array("value"),array(STATE)," name='type'");
+				
+				$sess_key = $this->create_session_key($_COOKIE['PHPSESSID'],'admin');
+				$sess_code = $this->create_session_code();
+				
+				$query_field[] = "doj";
+				$query_val[] = now();
+				
+				$query_field[] = "user_session_key";
+				$query_val[] = $sess_key;
+				
+				$query_field[] = "user_session_code";
+				$query_val[] = $sess_code;
+			
+				$db->update($prefix."users",$query_field,$query_val," username='admin' ");
 
 				copy("install.loc",SCRIPT_DIR.'/files/install.loc');
 				copy("clipbucket.php",SCRIPT_DIR."/includes/clipbucket.php");

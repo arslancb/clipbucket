@@ -3,14 +3,14 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 03, 2010 at 03:01 PM
+-- Generation Time: Mar 23, 2010 at 03:01 PM
 -- Server version: 5.1.36
 -- PHP Version: 5.3.0
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Database: `ClipBucket Clean`
+-- Database: `ClipBucket 2.0.6`
 --
 
 -- --------------------------------------------------------
