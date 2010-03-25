@@ -136,7 +136,7 @@ if(!function_exists('validate_embed_code'))
 		'required'	=>'no',
 		'validate_function'=>'validate_embed_code',
 		'use_func_val' => true,
-		'clean_func' => array('htmlspecialchars'),
+		'clean_func' => array('clean_embed_code'),
 		'type'	=> 'textarea',
 		'use_if_value' => true,
 		'hint_2'=>'Type "none" to set as empty',
@@ -165,6 +165,14 @@ if(!function_exists('validate_embed_code'))
 		'validate_function' => 'upload_thumb',
 		'display_admin'	=> 'no_display',
 	);
+	
+	function clean_embed_code($input)
+	{
+		$input = htmlspecialchars($input);
+		//if(!get_magic_quotes_gpc())
+		//	$input = addslashes($input);
+		return $input;
+	}
 	
 	function upload_thumb($array)
 	{

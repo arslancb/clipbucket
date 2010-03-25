@@ -15,7 +15,7 @@ if(!function_exists('global_announcement'))
 	
 	function global_announcement()
 	{
-		echo '<div>'.get_announcement().'</div>';
+		echo '<div>'.htmlspecialchars_decode(get_announcement()).'</div>';
 	}
 	
 	
@@ -31,7 +31,7 @@ if(!function_exists('global_announcement'))
 	function update_announcement($text)
 	{
 		global $db;
-		$text = mysql_clean($text);
+		$text = $text;
 		$db->Execute("UPDATE ".tbl("global_announcement")." SET announcement='$text'");
 	}
 	

@@ -136,6 +136,8 @@ switch($step)
 				fclose($fp);		
 				
 				require '../includes/adodb/adodb.inc.php';
+				require '../includes/classes/category.class.php';
+				require '../includes/classes/user.class.php';
 
 				$db = ADONewConnection('mysql');
 				$db->debug = false;
@@ -166,8 +168,9 @@ switch($step)
 				$db->update($prefix."config",array("value"),array(VERSION)," name='version'");
 				$db->update($prefix."config",array("value"),array(STATE)," name='type'");
 				
-				$sess_key = $this->create_session_key($_COOKIE['PHPSESSID'],'admin');
-				$sess_code = $this->create_session_code();
+				$userquery = new userquery();
+				$sess_key = $userquery->create_session_key($_COOKIE['PHPSESSID'],'admin');
+				$sess_code = $userquery->create_session_code();
 				
 				$query_field[] = "doj";
 				$query_val[] = now();

@@ -38,6 +38,7 @@ if(isset($_POST['submit_upload']))
 	if(empty($eh->error_list))
 	{
 		$vid = $Upload->submit_upload();
+		//echo $db->db_query;
 		//Call file so it can activate video
 		exec(php_path()." ".BASEDIR."/actions/process_video.php ".$vid);
 		$step=3;

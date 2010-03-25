@@ -90,6 +90,14 @@
 	}
 	
 	//Mysql Clean Queries
+	function sql_free($id)
+	{
+		if (!get_magic_quotes_gpc())
+		{
+			$id = addslashes($id);
+		}
+		return $id;
+	}
 	
 	function mysql_clean($id,$replacer=true){
 		//$id = clean($id);
