@@ -114,27 +114,28 @@ if(!file_exists(dirname(__FILE__).'/clipbucket.php')){
 
 //Holds Advertisment IDS that are being Viewed
 	$ads_array = array();
-// Report all errors
 
-/*define('DEBUG_LEVEL', $row['debug_level']);
-if(DEBUG_LEVEL == 1)
+define('DEBUG_LEVEL', $row['debug_level']);
+switch(DEBUG_LEVEL)
 {
-    error_reporting(E_ALL);
-    ini_set('display_errors', '1');
+    case 0:
+        error_reporting(0);
+        ini_set('display_errors', '0');
+    case 1:
+        error_reporting(E_ALL);
+        ini_set('display_errors', '1');
+    default:
+        if(phpversion() >= '5.3.0')
+        {
+            error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
+            ini_set('display_errors', '1');
+        }
+        else
+        {
+            error_reporting(E_ALL ^E_NOTICE);
+            ini_set('display_errors', '1');
+        }
 }
-elseif(DEBUG_LEVEL == 2)
-{
-	error_reporting(E_ALL ^ E_NOTICE ^E_DEPRECATED);
-    ini_set('display_errors', '1');
-}
-else
-{
- error_reporting(0);
- ini_set('display_errors', '0');
-}*/
-
- //ini_set('display_errors', '1');
- error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
 
 //Website Details
 

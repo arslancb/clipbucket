@@ -223,7 +223,7 @@ INSERT INTO `config` (`configid`, `name`, `value`) VALUES
 (63, 'player_div_id', ''),
 (64, 'code_dev', ' (Powered by ClipBucket)'),
 (65, 'sys_os', ''),
-(66, 'debug_level', ''),
+(66, 'debug_level', '2'),
 (67, 'enable_troubleshooter', '1'),
 (68, 'vrate', '25'),
 (69, 'num_thumbs', '3'),
@@ -1973,15 +1973,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `ind_status_doj` (`doj`),
   KEY `ind_status_id` (`userid`),
   KEY `ind_hits_doj` (`profile_hits`,`doj`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`userid`, `featured_video`, `username`, `user_session_key`, `user_session_code`, `password`, `email`, `usr_status`, `msg_notify`, `avatar`, `avatar_url`, `sex`, `dob`, `country`, `level`, `avcode`, `doj`, `last_logged`, `num_visits`, `session`, `ip`, `signup_ip`, `time_zone`, `featured`, `profile_hits`, `total_watched`, `total_videos`, `total_comments`, `ban_status`, `upload`, `subscribers`, `background`, `background_color`, `background_url`, `background_repeat`, `total_groups`, `last_active`, `rating`, `rated_by`, `banned_users`) VALUES
-(1, '', 'admin', '777750fea4d3bd585bf47dc1873619fc', 10192, '38d8e594a1ddbd29fdba0de385d4fefa', 'arslan@clipbucket.com', 'Ok', 'yes', '1.jpg', 'http://t0.gstatic.com/images?q=tbn:2sYo4Cap-Hct-M:http://math1.unice.fr/~sb/SpringSchool2009/p38.jpg', 'male', '1989-10-14', 'PK', 1, '', '2008-11-23 16:12:43', '2009-10-28 11:12:42', 95, 'pub6e7fq5oj76vakuov2j03hm1', 'localhost', '', 0, 'No', 723132, 248, 52121, 1122, 'no', '1', '121', '1.jpg', '#53baff', '', 'repeat', 3, '2009-11-04 09:11:22', 10, '212', 'test'),
-(10, '', 'test', '', 0, 'cdc1c35aada927beae13f8b1e42e9a3e', 'webmaster@localhost', 'Ok', 'yes', 'no_avatar.jpg', '', 'male', '0000-00-00', 'PK', 2, '62fd374056', '2009-10-24 10:48:41', '2009-11-02 20:53:08', 3, '', 'localhost', '127.0.0.1', 0, 'No', 0, 0, 0, 0, 'no', '1', '0', '', '', '', 'repeat', 0, '2009-11-03 09:01:02', 1, '', '');
+(1, '', 'admin', '777750fea4d3bd585bf47dc1873619fc', 10192, '38d8e594a1ddbd29fdba0de385d4fefa', 'arslan@clip-bucket.com', 'Ok', 'yes', '', '', 'male', '1989-10-14', 'PK', 1, '', '2008-11-23 16:12:43', '2009-10-28 11:12:42', 95, 'pub6e7fq5oj76vakuov2j03hm1', 'localhost', '', 0, 'No', 723132, 248, 52121, 1122, 'no', '1', '121', '1.jpg', '#53baff', '', 'repeat', 3, '2009-11-04 09:11:22', 10, '212', 'test');
 
 -- --------------------------------------------------------
 

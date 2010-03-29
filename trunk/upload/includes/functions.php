@@ -2439,7 +2439,7 @@
 		{
 			foreach($funcs as $func)
 			{
-				if(!function_exists($func))
+				if(function_exists($func))
 				{
 					$func($vdo);
 				}
