@@ -1,14 +1,15 @@
 <?php
-
 /**
 ###################################################################
-# Copyright (c) 2008 - 2009 ClipBucket / PHPBucket
-# [url]http://clip-bucket.com[/url]
+# Copyright (c) 2008 - 2010 ClipBucket / PHPBucket
+# URL:              [url]http://clip-bucket.com[/url]
 # Function:         Various
 # Author:           Arslan Hassan
 # Language:         PHP
-# License:          CBLA @ [url]http://www.opensource.org/licenses/attribution.php[/url]
-# Version:          2
+# License:          Attribution Assurance License
+# [url]http://www.opensource.org/licenses/attribution.php[/url]
+# Version:          $Id$
+# Last Modified:    $Date$
 # Notice:           Please maintain this section
 ####################################################################
 */
@@ -2469,7 +2470,7 @@
 		{
 			foreach($funcs as $func)
 			{
-				if(!function_exists($func))
+				if(function_exists($func))
 				{
 					$func($vdo);
 				}
@@ -2496,7 +2497,7 @@
 		{
 			foreach($funcs as $func)
 			{
-				if(!function_exists($func))
+				if(function_exists($func))
 				{
 					$func($u);
 				}
@@ -2521,7 +2522,7 @@
 		{
 			foreach($funcs as $func)
 			{
-				if(!function_exists($func))
+				if(function_exists($func))
 				{
 					$func($tdetails);
 				}
@@ -2546,7 +2547,7 @@
 		{
 			foreach($funcs as $func)
 			{
-				if(!function_exists($func))
+				if(function_exists($func))
 				{
 					$func($gdetails);
 				}
@@ -3297,7 +3298,7 @@
 		{
 			foreach($funcs as $func)
 			{
-				if(!function_exists($func))
+				if(function_exists($func))
 				{
 					return $func($u);
 				}
