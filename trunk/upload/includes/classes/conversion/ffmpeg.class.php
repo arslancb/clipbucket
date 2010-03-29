@@ -203,7 +203,7 @@ class ffmpeg
 		
 		
 		#FFMPEG GNERETAES Damanged File
-		#Injecting MetaData ysing FLVtool2 - you must have update version of flvtool2 ie 1.0.6 FInal or greator
+		#Injecting MetaData ysing FLVtool2 - you must have update version of flvtool2 ie 1.0.6 FInal or greater
 		if($this->flvtool2)
 		{
 			$tmp_file = time().RandomString(5).'flvtool2_output.tmp';
