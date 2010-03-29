@@ -1411,7 +1411,7 @@
 		# checking if there is any other functions
 		# available
 		if(is_array($Cbucket->custom_video_file_funcs))
-		foreach($Cbucket->custom_video_file_funcs as $funcs)
+		foreach($Cbucket->custom_video_file_funcs as $func)
 			if(function_exists($func))
 				return $func($vdetails);
 		

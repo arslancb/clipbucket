@@ -53,21 +53,21 @@
 		preg_match('/include/', $value) || preg_match('/src/', $value)
 		|| preg_match('/man/', $value))
 		{
-		return false;
+		    return false;
 		}
 		return true;
     }
 
     function LocCheck($bin)
     {
-		$new        = array();
+	    $new        = array();
 		$check      = whereis($bin);
 		if($check)
 		{
-		$check      = explode(' ',$check);
-		$filtered   = array_filter($check,'FilterArray');
-		$filtered   = array_merge((array)$new, (array)$filtered);
-		return $filtered;
+		    $check      = explode(' ',$check);
+		    $filtered   = array_filter($check,'FilterArray');
+		    $filtered   = array_merge((array)$new, (array)$filtered);
+		    return $filtered;
 		}
 		$check  = array('Not Installed');
 		return $check;
@@ -81,8 +81,11 @@
 		if(!empty($safe_mode_execdir))
 		{
 			return false;
-		}else
-			return true;
+		}
+        else
+        {
+		    return true;
+        }
     }
 
 
@@ -181,7 +184,7 @@
 				$query = mysql_query("SELECT * FROM ".$tbpre."config WHERE name='version' ");
 				$data = mysql_fetch_array($query);
 				$version = substr($data['value'],0,3);
-				if($version=='1.7' || $version=='1.7')
+				if($version=='1.7')
 				{
 					$array['version'] = $version;
 					$array['host'] = $DBHOST;

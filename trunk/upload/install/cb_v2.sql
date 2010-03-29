@@ -2387,7 +2387,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}users` (
 --
 
 INSERT INTO `{tbl_prefix}users` (`userid`, `category`, `featured_video`, `username`, `user_session_key`, `user_session_code`, `password`, `email`, `usr_status`, `msg_notify`, `avatar`, `avatar_url`, `sex`, `dob`, `country`, `level`, `avcode`, `doj`, `last_logged`, `num_visits`, `session`, `ip`, `signup_ip`, `time_zone`, `featured`, `featured_date`, `profile_hits`, `total_watched`, `total_videos`, `total_comments`, `comments_count`, `ban_status`, `upload`, `subscribers`, `total_subscriptions`, `background`, `background_color`, `background_url`, `background_repeat`, `background_attachement`, `total_groups`, `last_active`, `rating`, `rated_by`, `banned_users`, `welcome_email_sent`, `total_downloads`) VALUES
-(1, 2, '', 'admin', '777750fea4d3bd585bf47dc1873619fc', 10192, '38d8e594a1ddbd29fdba0de385d4fefa', 'admin@domain.tld', 'Ok', 'yes', '1.png', '', 'male', '1989-10-14', 'PK', 1, '', '0000-00-00 00:00:00', '2010-03-01 08:11:13', 16, 'pub6e7fq5oj76vakuov2j03hm1', '127.0.0.1', '', 0, 'No', '2009-12-03 15:14:20', 0, 0, 0, 0, 1, 'no', '0', '0', 0, '', '#53baff', '', 'repeat', '', 0, '2010-03-03 14:58:00', 1, '0', '', 'yes', 0);
+(1, 2, '', 'admin', '777750fea4d3bd585bf47dc1873619fc', 10192, '38d8e594a1ddbd29fdba0de385d4fefa', 'admin@domain.tld', 'Ok', 'yes', '', '', 'male', '1989-10-14', 'PK', 1, '', '0000-00-00 00:00:00', '2010-03-01 08:11:13', 16, 'pub6e7fq5oj76vakuov2j03hm1', '127.0.0.1', '', 0, 'No', '2009-12-03 15:14:20', 0, 0, 0, 0, 1, 'no', '0', '0', 0, '', '#53baff', '', 'repeat', '', 0, '2010-03-03 14:58:00', 1, '0', '', 'yes', 0);
 
 -- --------------------------------------------------------
 
