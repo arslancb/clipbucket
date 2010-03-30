@@ -2499,6 +2499,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_permissions` (
   `permission_code` varchar(225) CHARACTER SET utf8 NOT NULL,
   `permission_desc` mediumtext CHARACTER SET utf8 NOT NULL,
   `permission_default` enum('yes','no') CHARACTER SET utf8 NOT NULL DEFAULT 'yes',
+  `input_type` ENUM('text', 'radio', 'select', 'textarea') NOT NULL DEFAULT 'radio',
   PRIMARY KEY (`permission_id`),
   UNIQUE KEY `permission_code` (`permission_code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;

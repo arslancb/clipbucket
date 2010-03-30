@@ -2424,8 +2424,8 @@
 		return $Cbucket->configs[$input];
 	}
 	function get_config($input){ return config($input); }
-	
-	
+
+
 	/**
 	 * Funcion used to call functions
 	 * when video is going to watched
@@ -2434,7 +2434,7 @@
 	function call_watch_video_function($vdo)
 	{
 		global $userquery;
-		
+
 		$funcs = get_functions('watch_video_functions');
 		if(is_array($funcs) && count($funcs)>0)
 		{
@@ -2446,16 +2446,34 @@
 				}
 			}
 		}
-		
+
 		increment_views($vdo['videoid'],'video');
-		
+
 		if(userid())
 			$userquery->increment_watched_vides(userid());
-			
+
 	}
 	
-	
-	
+	/**
+	 * Funcion used to call functions
+	 * when video is going
+	 * on CBvideo::remove_files
+	 */
+	function call_delete_video_function($vdo)
+	{
+		$funcs = get_functions('on_delete_video');
+		if(is_array($funcs) && count($funcs) > 0)
+		{
+			foreach($funcs as $func)
+			{
+				if(function_exists($func))
+				{
+					$func($vdo);
+				}
+			}
+		}
+	}
+
 	
 	/**
 	 * Funcion used to call functions

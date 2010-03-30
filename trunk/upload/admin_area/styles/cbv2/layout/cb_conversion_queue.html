@@ -41,7 +41,7 @@ do not try to change the things here, can cause problems to your Clipbucket conv
       <span class="vdo_sets">
         File Type : <strong>{$queue.cqueue_ext}</strong> &#8226; 
         Temp Ext : <strong>{$queue.cqueue_tmp_ext}</strong> &#8226;
-        Converion Process : <strong>{$queue.cqueue_conversion|conv_status}</strong> &#8226;
+        Conversion Process : <strong>{$queue.cqueue_conversion|conv_status}</strong> &#8226;
         {if $queue.time_started}
         Started : <strong>{"Y-m-d H:i:s"|date:$queue.time_started}</strong> &#8226;
         {/if}

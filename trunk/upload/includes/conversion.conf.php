@@ -86,7 +86,7 @@ session_start();
 	define('VIDEO_DOWNLOAD',$row['video_download']);
 	define('VIDEO_EMBED',$row['video_embed']);
 	
- //Required Settings For Video Converion
+ //Required Settings For Video Conversion
  
  	define('VBRATE', $row['vbrate']);
 	define('SRATE', $row['srate']);

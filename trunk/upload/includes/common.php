@@ -237,7 +237,7 @@ switch(DEBUG_LEVEL)
 	define("USER_THUMBS_URL",BASEURL.'/images/avatars');
 	define("USER_BG_URL",BASEURL.'/images/backgrounds');
 	
- //Required Settings For Video Converion
+ //Required Settings For Video Conversion
  
  	define('VBRATE', $row['vbrate']);
 	define('SRATE', $row['srate']);

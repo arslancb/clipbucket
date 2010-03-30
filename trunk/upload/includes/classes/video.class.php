@@ -378,6 +378,8 @@ class CBvideo extends CBCategory
 	 */
 	function remove_files($vdetails)
 	{
+	    call_delete_video_function($vdetails);
+        
 		//Getting list of files
 		$files = get_video_file($vdetails,false,false,true);
 		if(is_array($files))

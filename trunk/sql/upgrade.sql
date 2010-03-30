@@ -25,4 +25,6 @@ ADD `reciever_id` INT NOT NULL AFTER `sender_id`
 ALTER TABLE `subscriptions` ADD `subscriber_id` INT NOT NULL AFTER `subscribed_user` ,
 ADD `userid` INT NOT NULL AFTER `subscriber_id` 
 
-ALTER TABLE  `plugins` ADD  `plugin_folder` TEXT NOT NULL AFTER  `plugin_file`
+ALTER TABLE  `plugins` ADD  `plugin_folder` TEXT NOT NULL AFTER  `plugin_file` ;
+
+ALTER TABLE `user_permissions` ADD `input_type` ENUM( 'text', 'radio', 'select', 'textarea' ) NOT NULL DEFAULT 'radio';

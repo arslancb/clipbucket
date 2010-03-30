@@ -24,7 +24,7 @@ class ClipBucket
 	var $show_page = true;
 	var $upload_opt_list = array();//this will have array of upload opts like upload file, emebed or remote upload
 	var $temp_exts = array(); //Temp extensions
-	var $actions_play_video = array(); 
+	var $actions_play_video = array();
 	var $template_files = array();
 	var $cur_template = 'clipbucketblue';
 	var $links = array();
@@ -62,7 +62,14 @@ class ClipBucket
 	  * Email Function list
 	  */
 	 var $email_functions = array();
-	 
+
+	/**
+	 * This array contains
+	 * all functions that are called
+	 * on CBvideo::remove_files
+	 */
+     var $on_delete_video = array();
+
 	 
 	function ClipBucket ()
 	{

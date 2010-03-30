@@ -1,4 +1,5 @@
 <?php
+
 	/**
 	* @Software : ClipBucket
 	* @License : CBLA
@@ -19,13 +20,13 @@
 
 	require 'adodb/adodb.inc.php';
 
-	$db = ADONewConnection($BDTYPE);
-	$db->debug = false;
-	$db->charpage = 'cp_utf8';
-	$db->charset = 'utf8';
+	$db             = ADONewConnection($BDTYPE);
+	$db->debug      = false;
+	$db->charpage   = 'cp_utf8';
+	$db->charset    = 'utf8';
 	if(!$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME))
 	{
-	exit($db->ErrorMsg());
+	    exit($db->ErrorMsg());
 	}
 	$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME);
 	
