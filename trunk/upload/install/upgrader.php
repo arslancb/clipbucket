@@ -285,7 +285,7 @@ if($_POST['upgrade'])
 				}
 				elseif($arr == 'allow_reg')
 				{
-					$db->update(tbl("config"),array("value"),array($nconfig[$arr])," name='allow_registeration'");
+					$db->update(tbl("config"),array("value"),array($nconfig[$arr])," name='allow_registration'");
 				}elseif($arr== 'allowed_types')
 				{
 					$db->update(tbl("config"),array("value"),array(preg_replace("/ /",",",$nconfig[$arr]))," name='allowed_types'");

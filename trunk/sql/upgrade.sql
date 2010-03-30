@@ -1,5 +1,5 @@
-- Please Put all the DB changes here
-- Also add those changes that have been made and not been added
+-- Please Put all the DB changes here
+-- Also add those changes that have been made and not been added
 
 ALTER TABLE `video` ADD `userid` INT NOT NULL AFTER `username` 
 

@@ -19,12 +19,13 @@ class signup {
 	
 	
 	//This Function Is Used To Check Regiseration is allowed or not
-	function Registration(){
-			if(ALLOW_REGISTERATION == 1 ){
-			return true;
-			}else{
-			return false;
-			}
+	function Registration()
+    {
+        if(ALLOW_REG == 1)
+        {
+            return true;
+        }
+        return false;
 	}
 	
 }

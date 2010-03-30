@@ -2,19 +2,19 @@
 /*
  ********************************************************************
  * @Software    ClipBucket
- * @Author      ArslanHassan
- * @copyright	Copyright (c) 2007-2008 {@link http://www.clip-bucket.com}
+ * @Author      Arslan Hassan, et al
+ * @copyright	Copyright (c) 2007 - 2010 {@link http://www.clip-bucket.com}
  * @license		http://www.clip-bucket.com
  * @version		v2
  * $Id$
  * @since 		2007-10-15
- * @License		CBLA
+ * @License		Attribution Assurance License
  *******************************************************************
  This Source File Is Written For ClipBucket, Please Read its End User 
  License First and Agree its
  Terms of use at http://www.opensource.org/licenses/attribution.php
  *******************************************************************
- Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.
+ Copyright (c) 2007 - 2010 Clip-Bucket.com. All rights reserved.
  *******************************************************************
  */
 
@@ -152,7 +152,7 @@ switch(DEBUG_LEVEL)
  //Registration & Email Settings
  
  	define('EMAIL_VERIFICATION',$row['email_verification']);	
-	define('ALLOW_REGISTERATION',$row['allow_registeration']);
+	define('ALLOW_REG',$row['allow_registration']);
 	define('WEBSITE_EMAIL',$row['website_email']);
 	define('SUPPORT_EMAIL',$row['support_email']);
 	define('WELCOME_EMAIL',$row['welcome_email']);
