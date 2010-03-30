@@ -303,18 +303,6 @@ class CBvideo extends CBCategory
 
 			if($this->is_video_owner($vid,userid()) || has_access('admin_access',TRUE))
 			{
-				//list of functions to perform while deleting a video
-				$del_vid_funcs = $this->video_delete_functions;
-				if(is_array($del_vid_funcs))
-				{
-					foreach($del_vid_funcs as $func)
-					{
-						if(function_exists($func))
-						{
-							$func($vdetails);
-						}
-					}
-				}
 				//Finally Removing Database entry of video
 				$db->execute("DELETE FROM ".tbl("video")." WHERE videoid='$vid'");
 				//Removing Video From Playlist

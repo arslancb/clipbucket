@@ -265,8 +265,8 @@
 	  */
 	 function register_action_remove_video($func)
 	 {
-		 global $cbvid;
-		 $cbvid->video_delete_functions[] = $func;
+		 global $Cbucket;
+		 $Cbucket->on_delete_video[] = $func;
 	 }
 	 
 	/**
