@@ -3668,10 +3668,11 @@ class userquery extends CBCategory{
 	 */
 	 function is_registration_allowed()
 	 {
-		if(ALLOW_REGISTERATION == 1 )
-			return true;
-		else
-			return false;
+		if(ALLOW_REG == 1)
+        {
+		    return true;
+        }
+		return false;
 	 }
 	 
 	/**
