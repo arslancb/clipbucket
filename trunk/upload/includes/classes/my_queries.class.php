@@ -248,7 +248,7 @@ class myquery {
 		{
 			$db->Execute("DELETE FROM ".tbl("comments")." WHERE type_id='$objid' AND type='$type' ");
 			
-			e(lang('usr_cmt_del_msg'),m);
+			e(lang('usr_cmt_del_msg'),'m');
 			return true;
 		}else{
 			e(lang('no_comment_del_perm'));
@@ -673,7 +673,7 @@ class myquery {
 		if(is_dir(STYLES_DIR.'/'.$template) &&template)
 		{
 			$myquery->Set_Website_Details('template_dir',$template);
-			e(lang("template_activated"),m);
+			e(lang("template_activated"),'m');
 		}else
 			e(lang("error_occured_changing_template"));
 			

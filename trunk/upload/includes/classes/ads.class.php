@@ -42,7 +42,7 @@ class AdsManager
 			{
 				$db->insert(tbl("ads_data"),array("ad_category","ad_name","ad_placement","ad_code","ad_status","date_added"),
 											array($category,$name,$placement,"|no_mc|".$code,$status,now()));		
-				$msg =  e(lang('ad_add_msg'),m);
+				$msg =  e(lang('ad_add_msg'),'m');
 			}
 			return $msg;
 		}		

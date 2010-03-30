@@ -90,7 +90,7 @@ abstract class CBCategory
 			$cid = $db->insert_id();
 			if($default=='yes' || !$this->get_default_category())
 				$this->make_default_category($cid);
-			e(lang("cat_add_msg"),m);
+			e(lang("cat_add_msg"),'m');
 			
 			//Uploading thumb
 			if(!empty($_FILES['cat_thumb']['tmp_name']))
@@ -111,7 +111,7 @@ abstract class CBCategory
 		{
 			$db->update(tbl($this->cat_tbl),array("isdefault"),array("no")," isdefault='yes' ");
 			$db->update(tbl($this->cat_tbl),array("isdefault"),array("yes")," category_id='$cid' ");
-			e(lang("cat_set_default_ok"),m);
+			e(lang("cat_set_default_ok"),'m');
 		}else
 			e(lang("cat_exist_error"));
 	}
@@ -155,7 +155,7 @@ abstract class CBCategory
 			$this->change_category($cid);
 			//Removing Category
 			$db->execute("DELETE FROM ".tbl($this->cat_tbl)." WHERE category_id='$cid'");
-			e(lang("class_cat_del_msg"),m);
+			e(lang("class_cat_del_msg"),'m');
 		}
 	
 	}
@@ -227,7 +227,7 @@ abstract class CBCategory
 						);
 			if($default=='yes' || !$this->get_default_category())
 				$this->make_default_category($cid);
-			e(lang("cat_update_msg"),m);
+			e(lang("cat_update_msg"),'m');
 			
 			//Uploading thumb
 			if(!empty($_FILES['cat_thumb']['tmp_name']))

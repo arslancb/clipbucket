@@ -171,7 +171,7 @@ class CBPlayer
 		{
 			$myquery->Set_Website_Details('player_file',$details['file']);
 			$myquery->Set_Website_Details('player_dir',$details['folder']);
-			e(lang("player_activated"),m);
+			e(lang("player_activated"),'m');
 		}else
 			e(lang("error_occured_while_activating_player"));
 	}

@@ -125,7 +125,7 @@ class cbactions
 					);
 					insert_log($this->name.'_favorite',$log_array);
 					
-					e(sprintf(lang('add_fav_message'),$this->name),m);
+					e(sprintf(lang('add_fav_message'),$this->name),'m');
 				}else{
 					e(sprintf(lang('already_fav_message'),$this->name));
 				}
@@ -187,7 +187,7 @@ class cbactions
 				{
 					$db->insert(tbl($this->flag_tbl),array('type','id','userid','flag_type','date_added'),
 												array($this->type,$id,userid(),mysql_clean(post('flag_type')),NOW()));
-					e(sprintf(lang('obj_report_msg'),$this->name),m);
+					e(sprintf(lang('obj_report_msg'),$this->name),'m');
 				}else{
 					e(sprintf(lang('obj_report_err'),$this->name));
 				}
@@ -350,7 +350,7 @@ class cbactions
 		if($this->fav_check($fav_id,$uid))
 		{
 			$db->delete(tbl($this->fav_tbl),array('userid','type','id'),array($uid,$this->type,$fav_id));
-			e(sprintf(lang('fav_remove_msg'),$this->name),m);
+			e(sprintf(lang('fav_remove_msg'),$this->name),'m');
 		}else
 			e(sprintf(lang('unknown_favorite'),$this->name));
 	}

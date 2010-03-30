@@ -94,7 +94,7 @@ class CBvideo extends CBCategory
 			case 'a':
 			{
 				$db->update(tbl("video"),array('active'),array('yes')," videoid='$vid' OR videokey = '$vid' ");
-				e(lang("class_vdo_act_msg"),m);
+				e(lang("class_vdo_act_msg"),'m');
 				
 				if(SEND_VID_APPROVE_EMAIL=='yes')
 				{
@@ -124,7 +124,7 @@ class CBvideo extends CBCategory
 			case "d":
 			{
 				$db->update(tbl("video"),array('active'),array('no')," videoid='$vid' OR videokey = '$vid' ");
-				e(lang("class_vdo_act_msg1"),m);
+				e(lang("class_vdo_act_msg1"),'m');
 			}
 			break;
 			
@@ -134,7 +134,7 @@ class CBvideo extends CBCategory
 			case "f":
 			{
 				$db->update(tbl("video"),array('featured','featured_date'),array('yes',now())," videoid='$vid' OR videokey = '$vid' ");
-				e(lang("class_vdo_fr_msg"),m);
+				e(lang("class_vdo_fr_msg"),'m');
 			}
 			break;
 			
@@ -145,7 +145,7 @@ class CBvideo extends CBCategory
 			case "uf":
 			{
 				$db->update(tbl("video"),array('featured'),array('no')," videoid='$vid' OR videokey = '$vid' ");
-				e(lang("class_fr_msg1"),m);
+				e(lang("class_fr_msg1"),'m');
 			}
 			break;
 		}
@@ -282,7 +282,7 @@ class CBvideo extends CBCategory
 			}else{
 				//pr($upload_fields);
 				$db->update(tbl('video'),$query_field,$query_val," videoid='$vid'");
-				e(lang("class_vdo_update_msg"),m);
+				e(lang("class_vdo_update_msg"),'m');
 			}
 			
 		}
@@ -308,7 +308,7 @@ class CBvideo extends CBCategory
 				//Removing Video From Playlist
 				$db->execute("DELETE FROM ".tbl("playlist_items")." WHERE object_id='$vid' AND playlist_item_type='v'");
 				$db->update(tbl("users"),array("total_videos"),array("|f|total_videos-1")," userid='".$vdetails['userid']."'");
-				e(lang("class_vdo_del_msg"),m);
+				e(lang("class_vdo_del_msg"),'m');
 			}else{
 				e(lang("You cannot delete this video"));
 			}
@@ -341,7 +341,7 @@ class CBvideo extends CBCategory
 						unlink($file);
 			}
 			
-			e(lang("vid_thumb_removed_msg"),m);
+			e(lang("vid_thumb_removed_msg"),'m');
 		}
 	}
 	
@@ -358,7 +358,7 @@ class CBvideo extends CBCategory
 		$db->execute("DELETE FROM ".tbl("video_file")." WHERE src_name = '$src'");
 		if(file_exists($file))
 			unlink($file);
-		e(lang("vid_log_delete_msg"),m);
+		e(lang("vid_log_delete_msg"),'m');
 	}
 	
 	/**
@@ -381,7 +381,7 @@ class CBvideo extends CBCategory
 			if(file_exists(VIDEOS_DIR.'/'.$files) && is_file(VIDEOS_DIR.'/'.$files))
 					unlink(VIDEOS_DIR.'/'.$files);
 		}
-		e(lang("vid_files_removed_msg"),m);
+		e(lang("vid_files_removed_msg"),'m');
 	}
 	
 	
@@ -805,7 +805,7 @@ class CBvideo extends CBCategory
 		if(file_exists($file))
 		{
 			$db->update(tbl("video"),array("default_thumb"),array($num)," videoid='$vid'");
-			e(lang('vid_thumb_changed'),m);
+			e(lang('vid_thumb_changed'),'m');
 		}else{
 			e(lang('vid_thumb_change_err'));
 		}

@@ -518,7 +518,7 @@ class CBGroups extends CBCategory
 			}else{
 				
 				$db->update(tbl($this->gp_tbl),$query_field,$query_val," group_id='$gid'");
-				e(lang("grp_details_updated"),m);
+				e(lang("grp_details_updated"),'m');
 				
 				//Updating Group Thumb
 				if(!empty($array['thumb_file']['tmp_name']))

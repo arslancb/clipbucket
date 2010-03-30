@@ -12,7 +12,7 @@ if(isset($_POST['update']))
 {
 	$text = mysql_clean($_POST['text']);
 	update_announcement($text);
-	$msg = e("Announcement has been updated",m);
+	$msg = e("Announcement has been updated",'m');
 }
 
 subtitle("Annoucment Manager");

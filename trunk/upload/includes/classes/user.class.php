@@ -1268,7 +1268,7 @@ class userquery extends CBCategory{
 					
 					//Now Finally Sending Email
 					cbmail(array('to'=>$udetails['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
-					e(lang('usr_pass_email_msg'),m);
+					e(lang('usr_pass_email_msg'),'m');
 				}
 			}
 			break;
@@ -1301,8 +1301,8 @@ class userquery extends CBCategory{
 			
 			//Now Finally Sending Email
 			cbmail(array('to'=>$udetails['email'],'from'=>SUPPORT_EMAIL,'subject'=>$subj,'content'=>$msg));
-			e(lang('usr_pass_email_msg'),m);
-			e(lang("usr_uname_email_msg"),"m");
+			e(lang('usr_pass_email_msg'),'m');
+			e(lang("usr_uname_email_msg"),'m');
 		}
 	return $msg;
 	
@@ -1676,7 +1676,7 @@ class userquery extends CBCategory{
 			//Updating Permissions
 			$db->update(tbl("user_levels_permissions"),$fields_array,$value_array," user_level_id = '$id'");
 			
-			e(lang("level_updated"),m);
+			e(lang("level_updated"),'m');
 			return true;
 		}else{
 			return false;
@@ -3605,7 +3605,7 @@ class userquery extends CBCategory{
 			{
 				$avcode = RandomString(10);
 				$db->update($tbl,array('usr_status','avcode'),array('Ok',$avcode)," userid='$uid' ");
-				e(lang("User has been activated"),m);
+				e(lang("User has been activated"),'m');
 			}
 			break;
 			
@@ -3616,7 +3616,7 @@ class userquery extends CBCategory{
 			{
 				$avcode = RandomString(10);
 				$db->update($tbl,array('usr_status','avcode'),array('ToActivate',$avcode)," userid='$uid' ");
-				e(lang("User has been deactivated"),m);
+				e(lang("User has been deactivated"),'m');
 			}
 			break;
 			
@@ -3626,7 +3626,7 @@ class userquery extends CBCategory{
 			case "f":
 			{
 				$db->update($tbl,array('featured','featured_date'),array('yes',now())," userid='$uid' ");
-				e(lang("User has been set as featured"),m);
+				e(lang("User has been set as featured"),'m');
 			}
 			break;
 			
@@ -3637,7 +3637,7 @@ class userquery extends CBCategory{
 			case "uf":
 			{
 				$db->update($tbl,array('featured'),array('no')," userid='$uid' ");
-				e(lang("User has been removed from featured users"),m);
+				e(lang("User has been removed from featured users"),'m');
 			}
 			break;
 			
@@ -3646,7 +3646,7 @@ class userquery extends CBCategory{
 			case "banned":
 			{
 				$db->update($tbl,array('ban_status'),array('yes')," userid='$uid' ");
-				e(lang("User has been banned"),m);
+				e(lang("User has been banned"),'m');
 			}
 			break;
 			
@@ -3656,7 +3656,7 @@ class userquery extends CBCategory{
 			case "unbanned":
 			{
 				$db->update($tbl,array('ban_status'),array('no')," userid='$uid' ");
-				e(lang("User has been unbanned"),m);
+				e(lang("User has been unbanned"),'m');
 			}
 			break;
 		}

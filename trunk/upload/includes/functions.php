@@ -1768,7 +1768,7 @@
 		if(file_exists($path))
 		{
 			unlink($path);
-			e(lang('video_thumb_delete_msg'),m);
+			e(lang('video_thumb_delete_msg'),'m');
 		}else{
 			e(lang('video_thumb_delete_err'));
 		}

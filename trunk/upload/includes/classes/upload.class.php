@@ -392,7 +392,7 @@ class Upload{
 				$file_path = THUMBS_DIR.'/'.$file_name.'-'.$file_num.'.'.$ext;
 				move_uploaded_file($file['tmp_name'][$key],$file_path);
 				$imgObj->CreateThumb($file_path,$file_path,THUMB_WIDTH,$ext,THUMB_HEIGHT,false);
-				e(lang('upload_vid_thumb_msg'),m);
+				e(lang('upload_vid_thumb_msg'),'m');
 			}	
 		}
 	}
@@ -413,7 +413,7 @@ class Upload{
 			{
 				$this->upload_thumb($file_name,$file_array,$i);
 			}
-			e(lang('upload_vid_thumbs_msg'),m);
+			e(lang('upload_vid_thumbs_msg'),'m');
 		}else{
 			$file = $file_array;
 			$this->upload_thumb($file_name,$file);

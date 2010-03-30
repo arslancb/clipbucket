@@ -25,7 +25,7 @@ if(isset($_POST['update'])){
 		$value = mysql_clean($_POST[$field]);
 		$myquery->Set_Website_Details($field,$value);
 	}
-	e("Player Settings Have Been Updated",m);
+	e("Player Settings Have Been Updated",'m');
 	
 }
 

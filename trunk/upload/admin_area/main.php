@@ -208,7 +208,7 @@ if(isset($_POST['update'])){
 		}
 		$myquery->Set_Website_Details($field,$value);
 	}
-	e("Website Settings Have Been Updated",m);
+	e("Website Settings Have Been Updated",'m');
 
 }
 

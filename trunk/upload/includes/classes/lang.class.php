@@ -81,10 +81,10 @@ class language
 			e(lang("language_does_not_exist"));
 		elseif(!$this->get_phrase($name,$lang_code))
 		{
-			e(sprintf(lang("name_has_been_added"),$name),m);
+			e(sprintf(lang("name_has_been_added"),$name),'m');
 			$db->insert(tbl("phrases"),array('lang_iso','varname','text'),array($lang_code,$name,'|no_mc|'.$text));
 		}else{
-			e(sprintf(lang("name_already_exists"),$name),m);
+			e(sprintf(lang("name_already_exists"),$name),'m');
 		}
 	}
 	 

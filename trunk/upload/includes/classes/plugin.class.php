@@ -338,7 +338,7 @@ class CBPlugin extends ClipBucket
 			 );
 			 
 			 //Checking For the installation SQL
-			 $msg = e(lang('plugin_install_msg'),m);
+			 $msg = e(lang('plugin_install_msg'),'m');
 			 define('NEW_INSTALL',false);
 			 return PLUG_DIR.'/'.$folder.$pluginFile;
 		 }
@@ -358,7 +358,7 @@ class CBPlugin extends ClipBucket
 		{
 			$db->Execute("UPDATE ".tbl("plugins")." SET plugin_active='".$active."' WHERE plugin_file='".$plugin_file."' $folder_query");
 			$active_msg = $active=='yes' ? 'activated' : 'deactiveted';
-			$msg = e(sprintf(lang("plugin_has_been_s"),$active_msg),m);
+			$msg = e(sprintf(lang("plugin_has_been_s"),$active_msg),'m');
 		}else{
 			$msg = e(lang('plugin_no_install_err'));
 		}
