@@ -15,6 +15,12 @@
 		else
 			$msgs[] = '"/files/'.$subdir.'" directory is writeable';
 	}
+
+	if(!is_writeable("../files/temp/install.me"))
+		$errors[] = '"/files/temp/install.me" is not writeable - Please changes its permission to 0777';
+	else
+		$msgs[] = '"/files/temp/install.me" is writeable';
+
 	//Checking Images
 	if(!is_images_writeable())
 		$errors[] = '"/images" directory is not writeable - Please changes its permission to 0777';
@@ -42,11 +48,17 @@
 		$errors[] = '"/install" directory is not writeable - Please changes its permission to 0777';
 	else
 		$msgs[] = '"/install" directory is writeable';
+
+	//Checking includes Directory
+	if(!is_writeable("../includes/clipbucket.php"))
+		$errors[] = '"/includes/clipbucket.php" is not writeable - Please changes its permission to 0777';
+	else
+		$msgs[] = '"/includes/clipbucket.php" is writeable';
 	
 	//Checking includes Directory
-	if(!is_writeable("../includes"))
-		$errors[] = '"/includes" directory is not writeable - Please changes its permission to 0777';
+	if(!is_writeable("../includes/dbconnect.php"))
+		$errors[] = '"/includes/dbconnect.php" is not writeable - Please changes its permission to 0777';
 	else
-		$msgs[] = '"/includes" directory is writeable';
+		$msgs[] = '"/includes/dbconnect.php" is writeable';
 			
 ?>

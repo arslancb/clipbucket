@@ -19,7 +19,7 @@ $msgs = array();
 
 $step = $_POST['step'];
 
-if(file_exists(BASEDIR.'/files/install.loc'))
+if(file_exists(BASEDIR.'/files/install.lock'))
 	exit("Installation Loc Found");
 
 
@@ -305,8 +305,8 @@ if($_POST['upgrade'])
 		{
 			//Finalize Upgrade
 			//Setting Up The lock
-			copy("install.loc",BASEDIR.'/files/install.loc');
-			copy("clipbucket.php",BASEDIR."/includes/clipbucket.php");
+            file_put_contents(BASEDIR.'/files/install.lock',time());
+            file_put_contents(BASEDIR.'/includes/clipbucket.php',file_get_contents('clipbucket.php'));
 			//Dropin Db Tbls
 			$tbls = array("ads_data","ads_placements","category","channel_comments","config","contacts","editors_picks","email_settings","flagged_videos","groups","group_invitations","group_members","group_posts","group_topics","group_videos","logs","logs_ping","messages","modules","players","player_configs","player_skins","plugins","plugin_config","stats","subscriptions","template","users","video","video_comments","video_detail","video_favourites");
 			foreach($tbls as $tbl){

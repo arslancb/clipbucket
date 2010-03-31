@@ -6,17 +6,17 @@
 	* @version :ClipBucket v2
 	*/
 
-	$BDTYPE = "mysql";
+	$BDTYPE = 'mysql';
 	//Database Host
-	$DBHOST = "localhost";
+	$DBHOST = '_DB_HOST_';
 	//Database Name
-	$DBNAME = "sample_cbv2";
+	$DBNAME = '_DB_NAME_';
 	//Database Username
-	$DBUSER = "root";
+	$DBUSER = '_DB_USER_';
 	//Database Password
-	$DBPASS = "";
+	$DBPASS = '_DB_PASS_';
 	//Setting Table Prefix
-	define("TABLE_PREFIX","cb_");
+	define('TABLE_PREFIX','_TABLE_PREFIX_');
 
 	require 'adodb/adodb.inc.php';
 

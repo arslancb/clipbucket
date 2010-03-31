@@ -43,12 +43,11 @@ if(!@$in_bg_cron)
 	
 	session_start();
 }
-// Check Installation Directory
-if(!file_exists(dirname(__FILE__).'/clipbucket.php')){
-	header('location:install');
-}
-//Required Files
 
+    //Required Files
+
+    require_once('functions.php');
+    check_install();
 	require_once('dbconnect.php');
 	require_once('classes/pages.class.php');
 	require_once('classes/actions.class.php');
@@ -270,9 +269,7 @@ switch(DEBUG_LEVEL)
 	//TOPIC ICON DIR
 	define('TOPIC_ICON_DIR',BASEDIR.'/images/icons/topic_icons');
 	define('TOPIC_ICON_URL',BASEURL.'/images/icons/topic_icons');
-	
-	
-	include 'functions.php';
+
 	include 'plugin.functions.php';
 	include 'plugins_functions.php';
 	require BASEDIR.'/includes/templatelib/Template.class.php';

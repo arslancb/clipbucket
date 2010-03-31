@@ -8,7 +8,27 @@
  * @ author: Arslan Hassan
  */
  
-error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
+define('DEBUG_LEVEL', 1);
+switch(DEBUG_LEVEL)
+{
+    case 0:
+        error_reporting(0);
+        ini_set('display_errors', '0');
+    case 1:
+        error_reporting(E_ALL);
+        ini_set('display_errors', '1');
+    default:
+        if(phpversion() >= '5.3.0')
+        {
+            error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
+            ini_set('display_errors', '1');
+        }
+        else
+        {
+            error_reporting(E_ALL ^E_NOTICE);
+            ini_set('display_errors', '1');
+        }
+}
 include("config.php");
 include("checkup.php");
 
@@ -34,7 +54,7 @@ $msgs = array();
 
 $step = $_POST['step'];
 
-if(file_exists(SCRIPT_DIR.'/files/install.loc'))
+if(file_exists(SCRIPT_DIR.'/files/install.lock'))
 	$step = 'already_installed';
 	
 switch($step)
@@ -63,12 +83,12 @@ switch($step)
 		{
 			$connect = @mysql_connect(post('host'),post('dbuser'),post('dbpass'));
 			if(!$connect)
-				$errors[] = "Unabele to connect to datbase server : ".mysql_error();
+				$errors[] = "Unable to connect to database server : ".mysql_error();
 			else
 			{
 				$db = @mysql_select_db(post('dbname'));
 				if(!$db)
-					$errors[] = "Unable to connect select databse  : ".mysql_error();
+					$errors[] = "Unable to connect select database  : ".mysql_error();
 				else
 					$msgs[] = "Connected to database successfully";
 			}
@@ -89,51 +109,22 @@ switch($step)
 
 		$connect = @mysql_connect(post('host'),post('dbuser'),post('dbpass'));
 		if(!$connect)
-			$errors[] = "Unable to connect to datbase server : ".mysql_error();
+			$errors[] = "Unable to connect to database server : ".mysql_error();
 		else
 		{
 			$db = @mysql_select_db(post('dbname'));
 			if(!$db)
-				$errors[] = "Unable to connect select databse  : ".mysql_error();
+				$errors[] = "Unable to select database  : ".mysql_error();
 			else
 			{
-				$dbconnect = 
+				$dbconnect = file_get_contents('dbconnect.php');
+                $dbconnect = str_replace('_DB_HOST_', $_POST['host'], $dbconnect);
+                $dbconnect = str_replace('_DB_NAME_', $_POST['dbname'], $dbconnect);
+                $dbconnect = str_replace('_DB_USER_', $_POST['dbuser'], $dbconnect);
+                $dbconnect = str_replace('_DB_PASS_', $_POST['dbpass'], $dbconnect);
+                $dbconnect = str_replace('_TABLE_PREFIX_', $prefix, $dbconnect);
 
-'<?php
-	/**
-	* @Software : ClipBucket
-	* @License : CBLA
-	* @version :ClipBucket v2
-	*/
-
-	$BDTYPE = "mysql";
-	//Database Host
-	$DBHOST = "'.post('host').'";
-	//Database Name
-	$DBNAME = "'.post('dbname').'";
-	//Database Username
-	$DBUSER = "'.post('dbuser').'";
-	//Database Password
-	$DBPASS = "'.post('dbpass').'";
-	//Setting Table Prefix
-	define("TABLE_PREFIX","'.$prefix.'");
-
-	require \'adodb/adodb.inc.php\';
-
-	$db = ADONewConnection($BDTYPE);
-	$db->debug = false;
-	$db->charpage = \'cp_utf8\';
-	$db->charset = \'utf8\';
-	if(!$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME))
-	{
-	exit($db->ErrorMsg());
-	}
-	$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME);
-	
-?>';
-				$fp = fopen('../includes/dbconnect.php', 'w');
-				fwrite($fp, $dbconnect);
-				fclose($fp);		
+                file_put_contents(SCRIPT_DIR.'/includes/dbconnect.php',$dbconnect);
 				
 				require '../includes/adodb/adodb.inc.php';
 				require '../includes/classes/category.class.php';
@@ -183,8 +174,9 @@ switch($step)
 			
 				$db->update($prefix."users",$query_field,$query_val," username='admin' ");
 
-				copy("install.loc",SCRIPT_DIR.'/files/install.loc');
-				copy("clipbucket.php",SCRIPT_DIR."/includes/clipbucket.php");
+                file_put_contents(SCRIPT_DIR.'/files/install.lock',time());
+                file_put_contents(SCRIPT_DIR.'/includes/clipbucket.php',file_get_contents('clipbucket.php'));
+                unlink(SCRIPT_DIR.'/files/temp/install.me');
 
 			}
 		}
@@ -270,50 +262,22 @@ switch($step)
 							, user_session_code ='$sess_code' WHERE userid='".$data['userid']."'");
 			}
 		}
-		
+
 		//Rewriting Database File
 		if(the_version()<'2.0.6')
 		{
 						//update cbhash(a general code of clipbucket that does nothing but tells clipbucket who it actually is)
 			$db->update($prefix."config",array("value"),array("PGRpdiBhbGlnbj0iY2VudGVyIj48IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPg0KUG93ZXJlZCBieSA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tLyI+Q2xpcEJ1Y2tldDwvYT4gJXMgfCA8YSBocmVmPSJodHRwOi8vY2xpcC1idWNrZXQuY29tL2Fyc2xhbi1oYXNzYW4iPkFyc2xhbiBIYXNzYW48L2E+DQo8IS0tIERvIG5vdCByZW1vdmUgdGhpcyBjb3B5cmlnaHQgbm90aWNlIC0tPjwvZGl2Pg==")," name='cbhash'");
-		
-		
-							$dbconnect = 
 
-'<?php
-	/**
-	* @Software : ClipBucket
-	* @License : CBLA
-	* @version :ClipBucket v2
-	*/
 
-	$BDTYPE = "mysql";
-	//Database Host
-	$DBHOST = "'.$DBHOST.'";
-	//Database Name
-	$DBNAME = "'.$DBNAME.'";
-	//Database Username
-	$DBUSER = "'.$DBUSER.'";
-	//Database Password
-	$DBPASS = "'.$DBPASS.'";
-	//Setting Table Prefix
-	define("TABLE_PREFIX","'.$prefix.'");
-	require \'adodb/adodb.inc.php\';
+			$dbconnect = file_get_contents('dbconnect.php');
+            $dbconnect = str_replace('_DB_HOST_', $_POST['host'], $dbconnect);
+            $dbconnect = str_replace('_DB_NAME_', $_POST['dbname'], $dbconnect);
+            $dbconnect = str_replace('_DB_USER_', $_POST['dbuser'], $dbconnect);
+            $dbconnect = str_replace('_DB_PASS_', $_POST['dbpass'], $dbconnect);
+            $dbconnect = str_replace('_TABLE_PREFIX_', $prefix, $dbconnect);
 
-	$db = ADONewConnection($BDTYPE);
-	$db->debug = false;
-	$db->charpage = \'cp_utf8\';
-	$db->charset = \'utf8\';
-	if(!$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME))
-	{
-	exit($db->ErrorMsg());
-	}
-	$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME);
-	
-?>';
-				$fp = fopen('../includes/dbconnect.php', 'w');
-				fwrite($fp, $dbconnect);
-				fclose($fp);
+            file_put_contents(SCRIPT_DIR.'/includes/dbconnect.php',$dbconnect);
 
 		}
 		
@@ -351,9 +315,8 @@ switch($step)
 		$db->update($prefix."config",array("value"),array(VERSION)," name='version'");
 		$db->update($prefix."config",array("value"),array(STATE)," name='type'");
 		
-		copy("install.loc",SCRIPT_DIR.'/files/install.loc');
-		unlink(SCRIPT_DIR."/includes/clipbucket.php");
-			copy("clipbucket.php",SCRIPT_DIR."/includes/clipbucket.php");
+        file_put_contents(SCRIPT_DIR.'/files/install.lock',time());
+        file_put_contents(SCRIPT_DIR.'/includes/clipbucket.php',file_get_contents('clipbucket.php'));
 		
 	}
 	break;
@@ -381,7 +344,7 @@ switch($step)
 		{
 			$connect = @mysql_connect(post('host'),post('dbuser'),post('dbpass'));
 			if(!$connect)
-				$errors[] = "Unabele to connect to datbase server : ".mysql_error();
+				$errors[] = "Unabele to connect to database server : ".mysql_error();
 			else
 			{
 				$db = @mysql_select_db(post('dbname'));
@@ -402,51 +365,22 @@ switch($step)
 		$db = ADONewConnection('mysql');
 		$db->debug = false;
 		$db->Connect(post('host'), post('dbuser'), post('dbpass'), post('dbname'));
-		
-		
+
+
 		//Checking What sql files need to be called....
 		$prefix = post("prefix");
 		if(!$prefix || empty($prefix))
 			$prefix = "cb_";
 
 
-				$dbconnect = 
+        $dbconnect = file_get_contents('dbconnect.php');
+        $dbconnect = str_replace('_DB_HOST_', $_POST['host'], $dbconnect);
+        $dbconnect = str_replace('_DB_NAME_', $_POST['dbname'], $dbconnect);
+        $dbconnect = str_replace('_DB_USER_', $_POST['dbuser'], $dbconnect);
+        $dbconnect = str_replace('_DB_PASS_', $_POST['dbpass'], $dbconnect);
+        $dbconnect = str_replace('_TABLE_PREFIX_', $prefix, $dbconnect);
 
-'<?php
-	/**
-	* @Software : ClipBucket
-	* @License : CBLA
-	* @version :ClipBucket v2
-	*/
-
-	$BDTYPE = "mysql";
-	//Database Host
-	$DBHOST = "'.post('host').'";
-	//Database Name
-	$DBNAME = "'.post('dbname').'";
-	//Database Username
-	$DBUSER = "'.post('dbuser').'";
-	//Database Password
-	$DBPASS = "'.post('dbpass').'";
-	//Setting Table Prefix
-	define("TABLE_PREFIX","'.$prefix.'");
-
-	require \'adodb/adodb.inc.php\';
-
-	$db = ADONewConnection($BDTYPE);
-	$db->debug = false;
-	$db->charpage = \'cp_utf8\';
-	$db->charset = \'utf8\';
-	if(!$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME))
-	{
-	exit($db->ErrorMsg());
-	}
-	$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME);
-	
-?>';
-				$fp = fopen('../includes/dbconnect.php', 'w');
-				fwrite($fp, $dbconnect);
-				fclose($fp);	
+        file_put_contents(SCRIPT_DIR.'/includes/dbconnect.php',$dbconnect);
 				
 		$templine = '';
 		$lines = file("cb_v2.sql");

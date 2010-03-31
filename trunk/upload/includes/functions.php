@@ -4005,6 +4005,42 @@
 		}
 	}
 
-	
+    function check_install()
+    {
+        if(file_exists('files/temp/install.me') && file_exists('install'))
+        {
+            header('Location: '.get_server_url().'/install');
+            exit;
+        }
+
+        if(file_exists('install'))
+        {
+            define('INSTALL_FILES',1);
+        }
+    }
+
+    function get_server_url()
+    {
+        $DirName = dirname($_SERVER['PHP_SELF']);
+        if(preg_match('/admin_area/i', $DirName))
+        {
+            $DirName = str_replace('/admin_area','',$DirName);
+        }
+        return get_server_protocol().$_SERVER['HTTP_HOST'].$DirName;
+    }
+
+    function get_server_protocol()
+    {
+        if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
+        {
+            return 'https://';
+        }
+        else
+        {
+            $protocol = preg_replace('/^([a-z]+)\/.*$/', '\\1', strtolower($_SERVER['SERVER_PROTOCOL']));
+            $protocol .= '://';
+            return $protocol;
+        }
+    }
 	
 ?>

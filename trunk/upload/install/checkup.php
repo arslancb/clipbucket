@@ -182,7 +182,7 @@
 					$tbpre= TABLE_PREFIX;
 				//Checking weather there is any evidence of prior installation or not
 				$query = mysql_query("SELECT * FROM ".$tbpre."config WHERE name='version' ");
-				$data = mysql_fetch_array($query);
+				@$data = mysql_fetch_array($query);
 				$version = substr($data['value'],0,3);
 				if($version=='1.7')
 				{
