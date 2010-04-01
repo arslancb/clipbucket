@@ -173,7 +173,7 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (8, 'closed_msg', 'We Are Updating Our Website, Please Visit us after few hours.'),
 (9, 'description', 'Clip Bucket is an ultimate Video Sharing script'),
 (10, 'keywords', 'clip bucket video sharing website script'),
-(11, 'ffmpegpath', '/usr/bin/fffmpeg'),
+(11, 'ffmpegpath', '/usr/bin/ffmpeg'),
 (12, 'flvtool2path', '/usr/bin/flvtool2'),
 (13, 'mp4boxpath', '/usr/bin/MP4Box'),
 (14, 'vbrate', '512000'),
