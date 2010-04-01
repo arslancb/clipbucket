@@ -2146,7 +2146,7 @@ CREATE TABLE IF NOT EXISTS `user_profile` (
 
 INSERT INTO `user_profile` (`user_profile_id`, `userid`, `profile_title`, `profile_desc`, `featured_video`, `first_name`, `last_name`, `avatar`, `show_dob`, `postal_code`, `time_zone`, `profile_tags`, `web_url`, `hometown`, `city`, `online_status`, `show_profile`, `allow_comments`, `allow_ratings`, `content_filter`, `icon_id`, `browse_criteria`, `about_me`, `education`, `schools`, `occupation`, `companies`, `relation_status`, `hobbies`, `fav_movies`, `fav_music`, `fav_books`, `background`, `profile_video`) VALUES
 (8, 1, 'This is my profile title', 'test\r\n\r\n', '', 'Arslan Hassan', 'Hassan', 'no_avatar.jpg', 'yes', '51310', 0, 'arslan, hassan, great, developer', 'clip-bucket.com', 'Sialkot', 'Sialkot', 'offline', 'members', 'Yes', 'Yes', 'Nothing', 0, NULL, '', 'no ', 'AIPS, ma own school and no more', 'occupation', 'PHPBUcket, Webex etc etc', 'Single', 'Nothing special...', 'One piece', 'any thing , depends on my mood', 'Holy Quran and ebooks', '', 27),
-(9, 10, '', '', '', 'test', 'asdasd', 'no_avatar.jpg', 'no', '', 0, '', '', '', '', 'online', 'all', 'Yes', 'Yes', 'Nothing', 0, NULL, '', 'no ', '', '', '', 'Single', '', '', '', '', '', 0);
+(9, 10, '', '', '', 'test', '', 'no_avatar.jpg', 'no', '', 0, '', '', '', '', 'online', 'all', 'Yes', 'Yes', 'Nothing', 0, NULL, '', 'no ', '', '', '', 'Single', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 

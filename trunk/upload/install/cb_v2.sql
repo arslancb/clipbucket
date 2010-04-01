@@ -2604,7 +2604,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_profile` (
 --
 
 INSERT INTO `{tbl_prefix}user_profile` (`user_profile_id`, `userid`, `profile_title`, `profile_desc`, `featured_video`, `first_name`, `last_name`, `avatar`, `show_dob`, `postal_code`, `time_zone`, `profile_tags`, `web_url`, `hometown`, `city`, `online_status`, `show_profile`, `allow_comments`, `allow_ratings`, `content_filter`, `icon_id`, `browse_criteria`, `about_me`, `education`, `schools`, `occupation`, `companies`, `relation_status`, `hobbies`, `fav_movies`, `fav_music`, `fav_books`, `background`, `profile_video`) VALUES
-(1, 1, 'Administrator', '', '', 'Admin', '', 'no_avatar.jpg', 'yes', '', 0, '', '', '', '', 'online', 'all', 'Yes', 'Yes', 'Nothing', 0, NULL, 'asdasd', 'no ', '', '', '', 'Single', '', '', '', '', '', 0);
+(1, 1, 'Administrator', '', '', 'Admin', '', 'no_avatar.jpg', 'yes', '', 0, '', '', '', '', 'online', 'all', 'Yes', 'Yes', 'Nothing', 0, NULL, '', 'no ', '', '', '', 'Single', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
