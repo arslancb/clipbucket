@@ -1010,14 +1010,28 @@ class CBvideo extends CBCategory
 	 */
 	function add_to_quicklist($id)
 	{
-		global $sess;
+		global $json, $sess;
 		if($this->exists($id))
 		{
-			$list = json_decode($sess->get(QUICK_LIST_SESS), true);
+            if(phpversion() < '5.2.0')
+            {
+			    $list = $json->decode($sess->get(QUICK_LIST_SESS), true);
+            }
+            else
+            {
+			    $list = json_decode($sess->get(QUICK_LIST_SESS), true);
+            }
 			pr($list);
 			$list[] = $id;
 			$new_list = array_unique($list);
-			$sess->set(QUICK_LIST_SESS,json_encode($new_list));
+            if(phpversion() < '5.2.0')
+            {
+			    $sess->set(QUICK_LIST_SESS,$json->encode($new_list));
+            }
+            else
+            {
+                $sess->set(QUICK_LIST_SESS,json_encode($new_list));
+            }
 			return true;
 
 		}else
@@ -1029,11 +1043,26 @@ class CBvideo extends CBCategory
 	 */
 	function remove_from_quicklist($id)
 	{
-		global $sess;
-		$list = json_decode($sess->get(QUICK_LIST_SESS), true);
+		global $json, $sess;
+
+        if(phpversion() < '5.2.0')
+        {
+		    $list = $json->decode($sess->get(QUICK_LIST_SESS), true);
+        }
+        else
+        {
+            $list = json_decode($sess->get(QUICK_LIST_SESS), true);
+        }
 		$key = array_search($id,$list);
 		unset($list[$key]);
-		$sess->set(QUICK_LIST_SESS,json_encode($list));
+        if(phpversion() < '5.2.0')
+        {
+		    $sess->set(QUICK_LIST_SESS,$json->encode($list));
+        }
+        else
+        {
+		    $sess->set(QUICK_LIST_SESS,json_encode($list));
+        }
 		return true;
 	}
 	
@@ -1043,9 +1072,18 @@ class CBvideo extends CBCategory
 	 */
 	function total_quicklist()
 	{
-		global $sess;
+		global $json, $sess;
+
 		$total = $sess->get(QUICK_LIST_SESS);
-		$total = json_decode($total, true);
+
+        if(phpversion() < '5.2.0')
+        {
+		    $total = $json->decode($total, true);
+        }
+        else
+        {
+            $total = json_decode($total, true);
+        }
 		return count($total);
 	}
 	
@@ -1054,8 +1092,15 @@ class CBvideo extends CBCategory
 	 */
 	function get_quicklist()
 	{
-		global $sess;
-		return json_decode($sess->get(QUICK_LIST_SESS), true);
+		global $json, $sess;
+        if(phpversion() < '5.2.0')
+        {
+		    return $json->decode($sess->get(QUICK_LIST_SESS), true);
+        }
+        else
+        {
+            return json_decode($sess->get(QUICK_LIST_SESS), true);
+        }
 	}
 	
 	/**

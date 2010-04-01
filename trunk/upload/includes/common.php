@@ -136,6 +136,12 @@ switch(DEBUG_LEVEL)
         }
 }
 
+if(phpversion() < '5.2.0')
+{
+    require_once($Cbucket->BASEDIR.'/includes/classes/Services_JSON.php');
+    $json = new Services_JSON();
+}
+
 //Website Details
 
     define('CB_VERSION', $row['version']);
