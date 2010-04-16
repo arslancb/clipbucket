@@ -224,6 +224,9 @@ class userquery extends CBCategory{
 		}
 	}
 	
+	
+	
+	
 	/**
 	 * Function used to check weather user is login or not
 	 * it will also check weather user has access or not
@@ -2394,10 +2397,13 @@ class userquery extends CBCategory{
 
 		$userfields = $this->load_profile_fields($array);
 		$signup_fields = $this->load_signup_fields($array);
+		$custom_signup_fields = $this->load_custom_signup_fields($array);
+		
+			
 		$cat_field = $signup_fields['cat'];
 		array_merge($userfields,$cat_field);
 		validate_cb_form($userfields,$array);
-		
+	//	pr();
 		foreach($userfields as $field)
 		{
 			$name = formObj::rmBrackets($field['name']);
@@ -2616,6 +2622,43 @@ class userquery extends CBCategory{
 			}
 		}
 		
+		
+		//Adding Custom Field
+		if(is_array($custom_signup_fields))
+		{
+			foreach($custom_signup_fields as $field)
+			{
+				$name = formObj::rmBrackets($field['name']);
+				$val = $array[$name];
+				
+				if($field['use_func_val'])
+					$val = $field['validate_function']($val);
+				
+				
+				if(!empty($field['db_field']))
+				$uquery_field[] = $field['db_field'];
+				
+				if(is_array($val))
+				{
+					$new_val = '';
+					foreach($val as $v)
+					{
+						$new_val .= "#".$v."# ";
+					}
+					$val = $new_val;
+				}
+				if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
+					$val = mysql_clean($val);
+				else
+					$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
+	
+				
+				if(!empty($field['db_field']))
+				$uquery_val[] = $val;
+			}
+		}
+		
+		
 		if(!error() && is_array($uquery_field))
 		{
 			$db->update(tbl($this->dbtbl['users']),$uquery_field,$uquery_val," userid='".mysql_clean($array['userid'])."'");
@@ -2729,11 +2772,8 @@ class userquery extends CBCategory{
 	function username_exists($i)
 	{
 		global $db;
-		$db->select(tbl($this->dbtbl['users']),"username"," username='$i'");
-		if($db->num_rows>0)
-			return true;
-		else
-			return false;
+		//echo test;
+		return $db->count(tbl($this->dbtbl['users']),"username"," username='$i'");
 	}
 	
 	/**
@@ -2774,9 +2814,27 @@ class userquery extends CBCategory{
 	/**
 	 * Load Custom Signup Field
 	 */
-	function load_custom_signup_fields($array)
+	function load_custom_signup_fields($data,$ck_display_admin=FALSE,$ck_display_user=FALSE)
 	{
-		return false;
+		$array = $this->custom_signup_fields;
+		foreach($array as $key => $fields)
+		{
+			$ok = 'yes';
+			if($ck_display_admin)
+			{
+				if($fields['display_admin'] == 'no_display')
+					$ok = 'no';
+			}
+			
+			if($ok=='yes')
+			{
+				if(!$fields['value'])
+					$fields['value'] = $data[$fields['db_field']];
+				$new_array[$key] = $fields;
+			}
+		}
+		
+		return $new_array;
 	}
 	
 	
@@ -3434,6 +3492,7 @@ class userquery extends CBCategory{
 					$cond .=" AND ";
 				$cond .= " 	usr_status='".$params['status']."'";
 			}
+
 		}
 		
 		//Setting Category Condition

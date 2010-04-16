@@ -27,7 +27,8 @@ if($userquery->login_check('',true)){
 	 * Signing up new user
 	 */
 	if(isset($_POST['signup'])){
-		if(!$userquery->is_registration_allowed())
+		
+		if(!config('allow_registeration'))
 			e(lang('usr_reg_err'));
 		else
 		{

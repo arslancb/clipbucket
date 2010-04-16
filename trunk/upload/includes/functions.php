@@ -2032,7 +2032,7 @@
 	function user_exists($user)
 	{
 		global $userquery;
-		return $userquery->duplicate_user($user);
+		return $userquery->username_exists($user);
 	}
 	
 	/**
@@ -2780,6 +2780,7 @@
 			$funct_err = is_valid_value($field['validate_function'],$val);
 			if($block!=true)
 			{
+				
 				//Checking Syntax
 				if(!$funct_err)
 				{
@@ -2787,25 +2788,30 @@
 						e($function_error_msg);
 					elseif(!empty($invalid_err))
 						e($invalid_err);
-				}elseif(!is_valid_syntax($field['syntax_type'],$val))
+				}
+				
+				if(!is_valid_syntax($field['syntax_type'],$val))
 				{
 					if(!empty($invalid_err))
 						e($invalid_err);
 				}
-				elseif(isset($max_len))
+				if(isset($max_len))
 				{
 					if($length > $max_len || $length < $min_len)
 					e(sprintf(lang('please_enter_val_bw_min_max'),
 							  $title,$min_len,$field['max_length']));
-				}elseif(function_exists($field['db_value_check_func']))
+				}
+				if(function_exists($field['db_value_check_func']))
 				{
+
 					$db_val_result = $field['db_value_check_func']($val);
 					if($db_val_result != $field['db_value_exists'])
 						if(!empty($field['db_value_err']))
 							e($field['db_value_err']);
 						elseif(!empty($invalid_err))
 							e($invalid_err);
-				}elseif($field['relative_type']!='')
+				}
+				if($field['relative_type']!='')
 				{
 					switch($field['relative_type'])
 					{

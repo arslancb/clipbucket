@@ -12,7 +12,8 @@ $in_bg_cron = true;
 ini_set('mysql.connect_timeout','6000');
 
 include(dirname(__FILE__)."/../includes/config.inc.php");
-
+//Calling Cron Functions
+cb_call_functions('video_convert_cron');
 
 	$server_friendly = config('server_friendly_conversion');
 	if($server_friendly=='yes')
@@ -51,9 +52,6 @@ include(dirname(__FILE__)."/../includes/config.inc.php");
 			die();
 		}
 	}
-	
-//Calling Cron Functions
-cb_call_functions('video_convert_cron');
 
 
 $SYSTEM_OS = $row['sys_os'] ? $row['sys_os'] : 'linux';

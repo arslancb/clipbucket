@@ -13,6 +13,7 @@
  {assign var='optionFields' value=$Upload->loadOptionFields($v)}
  {assign var='locationFields' value=$Upload->loadLocationFields($v)}
 
+ {assign var='custom_fields' value=$Upload->load_custom_upload_fields($data,TRUE)}
  {assign var='custom_form_fields' value=$Upload->load_custom_form_fields($v,TRUE)}
  
  
@@ -97,10 +98,10 @@
  
  
  {* Loading Custom Fields *}
- {if $custom_form_fields.0.title !=''}
+ {if $custom_fields.0.title !=''}
  	<fieldset class="fieldset">
     <legend>{lang code='more_options'}</legend>
-    {foreach from=$custom_form_fields item=field}
+    {foreach from=$custom_fields item=field}
     <div class="account_field_block">
     <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
     <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
