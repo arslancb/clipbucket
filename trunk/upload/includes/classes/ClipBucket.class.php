@@ -120,6 +120,7 @@ class ClipBucket
 		if(!defined("IS_CAPTCHA_LOADING"))
 		$_SESSION['total_captchas_loaded'] = 0;
 		
+		$this->clean_requests();
 	}
 	
 	
@@ -513,6 +514,64 @@ class ClipBucket
 			
 			return $items;
 		}
+		
+	}
+	
+	
+	/**
+	 * Fucntion used to clean requests
+	 */
+	function clean_requests()
+	{
+		$posts = $_POST;
+		$gets = $_GET;
+		$request = $_REQUEST;
+		
+		//Cleaning post..
+		if(is_array($posts) && count($posts)>0)
+		{
+			$clean_posts = array();
+			foreach($posts as $key => $post)
+			{
+				if(!is_array($post))
+				{
+					$clean_posts[$key] = preg_replace(array('/\|no_mc\|/','/\|f\|/'),'',$post);
+				}else
+					$clean_posts[$key] = $post;
+			}
+			$_POST = $clean_posts;
+		}
+		
+		//Cleaning get..
+		if(is_array($gets) && count($gets)>0)
+		{
+			$clean_gets = array();
+			foreach($gets as $key => $get)
+			{
+				if(!is_array($get))
+				{
+					$clean_gets[$key] = preg_replace(array('/\|no_mc\|/','/\|f\|/'),'',$get);
+				}else
+					$clean_gets[$key] = $get;
+			}
+			$_GET = $clean_gets;
+		}
+		
+		//Cleaning request..
+		if(is_array($request) && count($request)>0)
+		{
+			$clean_request = array();
+			foreach($request as $key => $request)
+			{
+				if(!is_array($request))
+				{
+					$clean_request[$key] = preg_replace(array('/\|no_mc\|/','/\|f\|/'),'',$request);
+				}else
+					$clean_request[$key] = $request;
+			}
+			$_REQUEST = $clean_request;
+		}
+		
 	}
 }
 

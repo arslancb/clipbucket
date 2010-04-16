@@ -66,7 +66,7 @@
  	 $string = strip_tags($string);
 	 $string =  Replacer($string);
 	 }
-	 //$string = utf8_encode($string);
+	 $string = utf8_encode($string);
  	 return $string;
 	}
 	
@@ -107,7 +107,7 @@
 		{
 			$id = stripslashes($id);
 		}
-		$id = htmlspecialchars(mysql_real_escape_string($id));
+		$id = htmlspecialchars(mysql_real_escape_string($id), ENT_COMPAT, 'UTF-8');
 		if($replacer)
 			$id = Replacer($id);
 		return $id;
@@ -1497,7 +1497,7 @@
 		
 		if(count($Cbucket->actions_play_video)>0)
 		{
-	 		foreach($Cbucket->actions_play_video as $funcs)
+	 		foreach($Cbucket->actions_play_video as $funcs )
 			{
 				if(function_exists($funcs))
 				{
@@ -2758,7 +2758,11 @@
 			$invalid_err =  $field['invalid_err'];
 			$function_error_msg = $field['function_error_msg'];
 			if(is_string($val))
-			$length = strlen(utf8_decode($val));
+			{
+				if(!isUTF8($val))
+					$val = utf8_decode($val);
+				$length = strlen($val);
+			}
 			$min_len = $field['min_length'];
 			$min_len = $min_len ? $min_len : 0;
 			$max_len = $field['max_length'] ;
@@ -4051,5 +4055,31 @@
             return $protocol;
         }
     }
+	
+	
+	/**
+	 * Returns <kbd>true</kbd> if the string or array of string is encoded in UTF8.
+	 *
+	 * Example of use. If you want to know if a file is saved in UTF8 format :
+	 * <code> $array = file('one file.txt');
+	 * $isUTF8 = isUTF8($array);
+	 * if (!$isUTF8) --> we need to apply utf8_encode() to be in UTF8
+	 * else --> we are in UTF8 :)
+	 * </code>
+	 * @param mixed A string, or an array from a file() function.
+	 * @return boolean
+	 */
+	function isUTF8($string)
+	{
+		if (is_array($string))
+		{
+			$enc = implode('', $string);
+			return @!((ord($enc[0]) != 239) && (ord($enc[1]) != 187) && (ord($enc[2]) != 191));
+		}
+		else
+		{
+			return (utf8_encode(utf8_decode($string)) == $string);
+		}   
+	}
 	
 ?>
