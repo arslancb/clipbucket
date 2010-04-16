@@ -2014,7 +2014,9 @@
 		}
 		//Checking if its syntax is valid or not
 		$multi = config('allow_unicode_usernames');
+		
 		//Checking Spaces
+		if(!config('allow_username_spaces'))
 		preg_match('/ /',$username,$matches);
 		if(!is_valid_syntax('username',$username) && $multi!='yes' || $matches)
 			e(lang("class_invalid_user"));
@@ -2755,7 +2757,7 @@
 			$invalid_err =  $field['invalid_err'];
 			$function_error_msg = $field['function_error_msg'];
 			if(is_string($val))
-			$length = strlen($val);
+			$length = strlen(utf8_decode($val));
 			$min_len = $field['min_length'];
 			$min_len = $min_len ? $min_len : 0;
 			$max_len = $field['max_length'] ;

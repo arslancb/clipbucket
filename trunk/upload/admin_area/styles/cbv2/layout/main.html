@@ -656,6 +656,11 @@ $(document).ready(function(){
           id="allow_unicode_usernames" value="yes" {if $row.allow_unicode_usernames=='yes'}checked="checked"{/if} /></td>
         </tr>
         <tr>
+          <td valign="top">Allow spaces in usernames</td>
+          <td valign="top"><input name="allow_username_spaces" type="checkbox" 
+          id="allow_username_spaces" value="yes" {if $row.allow_username_spaces=='yes'}checked="checked"{/if} /></td>
+        </tr>
+        <tr>
           <td valign="top">Minimum Username Length</td>
           <td valign="top"><label>
             <input name="min_username" type="text" id="min_username" value="{$row.min_username|form_val}" />
