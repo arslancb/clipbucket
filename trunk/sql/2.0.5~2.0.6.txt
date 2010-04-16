@@ -1,0 +1,34 @@
+INSERT INTO `clipbucket_svn`.`cb_config` (
+`configid` ,
+`name` ,
+`value`
+)
+VALUES (
+NULL , 'quick_conv', 'yes'
+);
+
+INSERT INTO `clipbucket_svn`.`cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'server_friendly_conversion', 'yes');
+
+INSERT INTO `clipbucket_svn`.`cb_config` (
+`configid` ,
+`name` ,
+`value`
+)
+VALUES (
+NULL , 'max_conversion', '2'
+), (
+NULL , 'max_time_wait', '7200'
+);
+
+
+INSERT INTO `clipbucket_svn`.`cb_config` (
+`configid` ,
+`name` ,
+`value`
+)
+VALUES (
+NULL , 'allow_unicode_usernames', 'yes'
+);
+
+
+INSERT INTO `clipbucket_svn`.`cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'min_username', '3'), (NULL, 'max_username', '15');
