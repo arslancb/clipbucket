@@ -654,11 +654,15 @@ class CBGroups extends CBCategory
 					}
 					$val = $new_val;
 				}
-				if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
-					$val = mysql_clean($val);
-				else
-					$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
 				
+				if(!$field['clean_func'] || (!apply_func($field['clean_func'],$val) && !is_array($field['clean_func'])))
+					$val = $val;
+				else
+					$val = apply_func($field['clean_func'],sql_free($val));
+				
+				if(empty($val) && !empty($field['default_value']))
+					$val = $field['default_value'];
+					
 				if(!empty($field['db_field']))
 				$query_val[] = $val;
 				
@@ -1486,6 +1490,7 @@ class CBGroups extends CBCategory
 						 'required'=>'yes',
 						 'min_length' => 4,
 						 'max_length'=>180,
+						 
 						 ),
 		'topic_post'	=> array(	
 						 'title'=> lang("topic_post"),
