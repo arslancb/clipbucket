@@ -1407,7 +1407,8 @@
 	 * Function use to get video files
 	 */
 	function get_video_file($vdetails,$return_default=true,$with_path=true,$multi=false,$count_only=false,$hq=false)
-	{
+	{	
+		global $Cbucket;
 		# checking if there is any other functions
 		# available
 		if(is_array($Cbucket->custom_video_file_funcs))

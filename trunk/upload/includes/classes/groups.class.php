@@ -1605,7 +1605,7 @@ class CBGroups extends CBCategory
 		if(SEO==yes)
 			return BASEURL.'/view_topic/'.SEO($tdetails['topic_title']).'_tid_'.$tdetails['topic_id'];
 		else
-			return BASEURL.'/view_topic?tid='.$tdetails['topic_id'];
+			return BASEURL.'/view_topic.php?tid='.$tdetails['topic_id'];
 	}
 	
 	
@@ -1872,10 +1872,10 @@ class CBGroups extends CBCategory
 		{
 			if(!empty($cond))
 			$cond .= " AND ";
-			$result = $db->select(tbl($this->gp_tbl.",users"),'*',$cond." ".tbl("groups.userid")." = ".tbl("users.userid")." ",$limit,$order);
+			$result = $db->select(tbl($this->gp_tbl.",users"),''.tbl($this->gp_tbl).'.*, '.tbl("users").'.username, '.tbl("users").'.userid',$cond." ".tbl("groups.userid")." = ".tbl("users.userid")." ",$limit,$order);
 		}
 		
-		//echo $db->db_query;
+		// echo $db->db_query;
 		if($params['count_only'])
 			return $result = $db->count(tbl($this->gp_tbl),'*',$cond);
 		if($params['assign'])

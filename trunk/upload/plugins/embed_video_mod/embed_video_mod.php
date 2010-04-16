@@ -240,6 +240,8 @@ if(!function_exists('validate_embed_code'))
 				$h_w_r = array($data['width'],$data['height']);	
 				$embed_code = str_replace($h_w_p,$h_w_r,$embed_code);
 				$embed_code = unhtmlentities($embed_code);
+				$embed_code = preg_replace('/<b>(.*<\/b>)?/','',$embed_code);
+				
 				//Checking for REF CODE , if its youtube, add AUTOPLAY accordingly)
 				$ref = get_refer_url_from_embed_code($embed_code);
 				if(!empty($ref) && $ref['website'] == "youtube")
