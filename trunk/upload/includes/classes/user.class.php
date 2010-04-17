@@ -2541,6 +2541,13 @@ class userquery extends CBCategory{
 				$uquery_val[] = $array['doj'];
 			}
 			
+			//Changing JOined Date
+			if(isset($array['dob']))
+			{
+				$uquery_field[] = 'dob';
+				$uquery_val[] = $array['dob'];
+			}
+			
 		}
 		
 		//Changing Gender
