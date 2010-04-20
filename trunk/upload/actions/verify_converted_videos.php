@@ -34,7 +34,7 @@ foreach($files as $file)
 			foreach(get_functions('after_convert_functions') as $func)
 			{
 				if(@function_exists($func))
-					$func();
+					$func($file_details);
 			}
 		}
 		
@@ -55,7 +55,7 @@ foreach($files as $file)
 			foreach(get_functions('after_convert_functions') as $func)
 			{
 				if(@function_exists($func))
-					$func();
+					$func($file_details);
 			}
 		}
 	}

@@ -1414,7 +1414,7 @@
 		if(is_array($Cbucket->custom_video_file_funcs))
 		foreach($Cbucket->custom_video_file_funcs as $func)
 			if(function_exists($func))
-				return $func($vdetails);
+				return $func($vdetails, $hq);
 		
 		#Now there is no function so lets continue as
 		$vid_files = glob(VIDEOS_DIR."/".$vdetails['file_name']."*");
