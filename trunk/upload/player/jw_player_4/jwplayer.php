@@ -1,7 +1,7 @@
 <?php
 /*
-	Player Name: JW Player Plugin
-	Description: jw Player for Clipbucket
+	Player Name: JW Player 4.x
+	Description: JW Player 4.x Plugin for Clipbucket
 	Author: Arslan Hassan
 	ClipBucket Version: 2
 	Plugin Version: 1.0 - JW 4.5.230
@@ -38,7 +38,7 @@ if(!function_exists(jw_player))
 			
 			$swfobj->width = $data['width'];
 			$swfobj->height = $data['height'];
-			$swfobj->playerFile = PLAYER_URL.'/jwplayer/player.swf';
+			$swfobj->playerFile = PLAYER_URL.'/jw_player_4/player.swf';
 			$swfobj->DivId = $data['player_div'] ? $data['player_div'] : config('player_div_id');
 			
 			$swfobj->FlashObj();

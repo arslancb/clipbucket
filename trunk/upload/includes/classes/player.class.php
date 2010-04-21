@@ -103,7 +103,7 @@ class CBPlayer
 			preg_match( '/Description:(.*)$/mi', $plugin_data, $description );
 			preg_match( '/Author:(.*)$/mi', $plugin_data, $author );
 			preg_match( '/Author Website:(.*)$/mi', $plugin_data, $author_page );
-			preg_match( '/ClpBucket Version:(.*)$/mi', $plugin_data, $cbversion );
+			preg_match( '/ClipBucket Version:(.*)$/mi', $plugin_data, $cbversion );
 			preg_match( '/Player Type:(.*)$/mi', $plugin_data, $type );
 			preg_match( '/Released:(.*)$/mi', $plugin_data, $released );
 			
