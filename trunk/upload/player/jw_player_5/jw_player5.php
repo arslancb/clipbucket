@@ -26,7 +26,7 @@
 */
 
 
-if(!function_exists(jw_player5))
+if(!function_exists('jw_player5'))
 {
 	function jw_player5($data)
 	{

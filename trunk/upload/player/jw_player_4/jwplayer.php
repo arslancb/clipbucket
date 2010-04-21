@@ -23,7 +23,7 @@
  */
 
 
-if(!function_exists(jw_player))
+if(!function_exists('jw_player'))
 {
 	function jw_player($data)
 	{
