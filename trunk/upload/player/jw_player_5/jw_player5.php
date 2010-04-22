@@ -48,6 +48,7 @@ if(!function_exists('jw_player5'))
 			$swfobj->addParam('allowfullscreen','true');
 			$swfobj->addParam('allowscriptaccess','always');
 			$swfobj->addParam('wmode','opaque');
+            $swfobj->addVar('stretching','none');            
             $swfobj->addVar('image',getthumb($vdata,'big'));
             //$swfobj->addVar('plugins', PLAYER_URL.'/jw_player_5/plugins/hd.swf');
             $swfobj->addVar('autostart','true');
