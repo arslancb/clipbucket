@@ -745,8 +745,8 @@ class userquery extends CBCategory{
 			e(lang("friend_added"));
 		}else
 		{
-			$db->insert(tbl($this->dbtbl['contacts']),array('userid','contact_userid','date_added'),
-												 array($uid,$fid,now()));
+			$db->insert(tbl($this->dbtbl['contacts']),array('userid','contact_userid','date_added','request_type'),
+												 array($uid,$fid,now(),'out'));
 			$insert_id = $db->insert_id();
 			
 			e(lang("friend_request_sent"),"m");
@@ -837,6 +837,8 @@ class userquery extends CBCategory{
 			e(lang("friend_confirm_error"));
 		}else
 		{
+			$db->insert(tbl($this->dbtbl['contacts']),array('userid','contact_userid','date_added','request_type','confirmed'),
+												 array($uid,$rid,now(),'in','yes'));
 			$db->update(tbl($this->dbtbl['contacts']),array('confirmed'),array("yes")," userid='$rid' AND contact_userid='$uid' " );
 			if($msg)
 				e(lang("friend_confirmed"),"m");
@@ -900,7 +902,7 @@ class userquery extends CBCategory{
 		if(!$uid)
 			$uid = userid();
 			
-		$result = $db->select(tbl($this->dbtbl['contacts']),"*"," contact_id='$rid'");
+		$result = $db->select(tbl($this->dbtbl['contacts']),"*"," userid='$rid' AND contact_userid='$uid' ");
 		$result = $result[0];
 		
 		if($db->num_rows==0)
@@ -919,25 +921,32 @@ class userquery extends CBCategory{
 	/**
 	 * Function used to get user contacts
 	 */
-	function get_contacts($uid,$group=0,$confirmed=NULL,$count_only=false)
+	function get_contacts($uid,$group=0,$confirmed=NULL,$count_only=false,$type=NULL)
 	{
 		global $db;
 		
 		$query = "";
 		if($confirmed)
-			$query = " AND confirmed='$confirmed' ";
-		
+			$query .= " AND ".tbl("contacts").".confirmed='$confirmed' ";
+		if($type)
+			$query .= " AND ".tbl("contacts").".request_type='$type' ";
 		if(!$count_only)
 		{
-			$result = $db->select(tbl($this->dbtbl['contacts']),"*",
-											   " (userid='$uid' OR contact_userid='$uid') $query AND contact_group_id='$group' ");
+			$result = $db->select(tbl("contacts,users"),
+			tbl("contacts.contact_userid,contacts.confirmed,contacts.request_type ,users.*"),
+			tbl("contacts.userid")."='$uid' AND ".tbl("users.userid")."=".tbl("contacts.contact_userid")."
+			$query AND ".tbl("contacts").".contact_group_id='$group' ");
+			
 			if($db->num_rows>0)
 				return $result;
 			else
 				return false;
 		}else{
-			return $db->count(tbl($this->dbtbl['contacts']),"*",
-											   " (userid='$uid' OR contact_userid='$uid') $query AND contact_group_id='$group' ");
+			$count =  $db->count(tbl("contacts"),
+			tbl("contacts.contact_userid"),
+			tbl("contacts.userid")."='$uid' 
+			$query AND ".tbl("contacts").".contact_group_id='$group' ");
+			return $count;
 		}
 	}
 	
@@ -947,7 +956,10 @@ class userquery extends CBCategory{
 	function get_pending_contacts($uid,$group=0)
 	{
 		global $db;
-		$result = $db->select(tbl($this->dbtbl['contacts']),"*"," userid='$uid' AND confirmed='no' AND contact_group_id='$group' ");
+		$result = $db->select(tbl("contacts,users"),
+			tbl("contacts.userid,contacts.confirmed,contacts.request_type ,users.*"),
+			tbl("contacts.contact_userid")."='$uid' AND ".tbl("users.userid")."=".tbl("contacts.userid")."
+			AND ".tbl("contacts.confirmed")."='no' AND ".tbl("contacts").".contact_group_id='$group' ");
 		if($db->num_rows>0)
 			return $result;
 		else
