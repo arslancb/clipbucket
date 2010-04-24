@@ -1329,6 +1329,7 @@ class userquery extends CBCategory{
 	function UpdateLastActive($username)
 	{
 		global $db;
+		
 		$sql = "UPDATE ".tbl("users")." SET last_active = '".NOW()."' WHERE username='".$username."' OR userid='".$username."' ";
 		$db->Execute($sql);
 	}

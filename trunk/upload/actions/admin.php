@@ -16,9 +16,9 @@ switch($mode)
 {
 	case 'add_note':
 	{
-		$value = mysql_clean($_POST['note']);
+		$value = $_POST['note'];
 		$myquery->insert_note($value);
-		$array['note'] = mysql_clean($value);
+		$array['note'] = nl2br($value);
 		$array['id'] = $db->insert_id();
 		
 		echo json_encode($array);

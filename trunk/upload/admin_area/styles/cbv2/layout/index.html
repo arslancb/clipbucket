@@ -120,7 +120,7 @@ Latest Version <strong>{$Cbucket->cbinfo.latest.version} {$Cbucket->cbinfo.lates
             {foreach from=$notes item=note}
             	<div class="item" id="note-{$note.note_id}">
                 	<img src="{$imageurl}/cross.png" class="delete_note" onclick="delete_note('{$note.note_id}');" />
-                    {$note.note}
+                    {$note.note|nl2br}
                 </div>
             {/foreach}
         {else}
