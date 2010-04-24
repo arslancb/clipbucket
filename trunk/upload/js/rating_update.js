@@ -10,7 +10,7 @@ function rate(id,rating,type)
 		mode : 'rating',
 		id:id,
 		rating:rating,
-		type:type,
+		type:type
 	},
 	function(data)
 	{

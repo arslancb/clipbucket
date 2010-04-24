@@ -166,7 +166,7 @@ var loading = loading_img+" Loading...";
 		$("#ep_video_container").html(loading);
 		$.post(page, 
 		{ 	
-			vid : vid,
+			vid : vid
 		},
 		function(data)
 		{
@@ -188,7 +188,7 @@ var loading = loading_img+" Loading...";
 		$(div).html(loading);
 		$.post(page, 
 		{ 	
-			mode : type,
+			mode : type
 		},
 		function(data)
 		{
@@ -220,7 +220,7 @@ var loading = loading_img+" Loading...";
 			type : type,
 			users : $("#"+form_id+" input:#users").val(),
 			message : $("#"+form_id+" input:#message").val(),
-			id : $("#"+form_id+" input:#objectid").val(),
+			id : $("#"+form_id+" input:#objectid").val()
 		},
 		function(data)
 		{
@@ -244,7 +244,7 @@ var loading = loading_img+" Loading...";
 			mode : 'flag_object',
 			type : type,
 			flag_type : $("#"+form_id+" select:#flag_type").val(),
-			id : id,
+			id : id
 		},
 		function(data)
 		{
@@ -273,7 +273,7 @@ var loading = loading_img+" Loading...";
 		{ 	
 			mode : 'add_to_fav',
 			type : type,
-			id : id,
+			id : id
 		},
 		function(data)
 		{
@@ -296,7 +296,7 @@ var loading = loading_img+" Loading...";
 		$.post(page, 
 		{ 	
 			mode : type,
-			subscribe_to : user,
+			subscribe_to : user
 		},
 		function(data)
 		{
@@ -318,7 +318,7 @@ var loading = loading_img+" Loading...";
 		$.post(page, 
 		{ 	
 			mode : 'add_friend',
-			uid : uid,
+			uid : uid
 		},
 		function(data)
 		{
@@ -341,7 +341,7 @@ var loading = loading_img+" Loading...";
 		$.post(page, 
 		{ 	
 			mode : 'ban_user',
-			user : user,
+			user : user
 		},
 		function(data)
 		{
@@ -424,7 +424,7 @@ var loading = loading_img+" Loading...";
 			comment : $("#"+form_id+" textarea:#comment_box").val(),
 			obj_id : $("#"+form_id+" input:#obj_id").val(),
 			reply_to : $("#"+form_id+" input:#reply_to").val(),
-			type : type,
+			type : type
 		},
 		function(data)
 		{
@@ -482,8 +482,8 @@ var loading = loading_img+" Loading...";
 				{ 	
 					mode : 'add_playlist',
 					vid : vid,
-					pid : $("#playlist_id option:selected").val(),
-				},
+					pid : $("#playlist_id option:selected").val()
+		},
 				function(data)
 				{
 					if(!data)
@@ -515,8 +515,8 @@ var loading = loading_img+" Loading...";
 				{ 	
 					mode : 'add_new_playlist',
 					vid : vid,
-					plname : $("#"+form_id+" input:#playlist_name").val(),
-				},
+					plname : $("#"+form_id+" input:#playlist_name").val()
+		},
 				function(data)
 				{
 					if(!data)
@@ -608,7 +608,7 @@ var loading = loading_img+" Loading...";
 		
 		$.post(page, 
 		{ 	
-			mode : 'getquicklistbox',
+			mode : 'getquicklistbox'
 		},
 		function(data)
 		{
@@ -632,7 +632,7 @@ var loading = loading_img+" Loading...";
 	{
 		$.post(page, 
 		{ 	
-			mode : 'clear_quicklist',
+			mode : 'clear_quicklist'
 		},
 		function(data)
 		{

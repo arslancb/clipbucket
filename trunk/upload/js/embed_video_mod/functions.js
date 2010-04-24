@@ -13,7 +13,7 @@ function check_embed_code()
 			embed_code : $("#embed_code").val(),
 			duration : $("#duration").val(),
 			file_name : file_name,
-			thumb_file : $("#thumb_file").val(),
+			thumb_file : $("#thumb_file").val()
 		},				
 		
 		function (data) {
