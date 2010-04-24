@@ -10,6 +10,7 @@
 require_once '../includes/admin_config.php';
 $userquery->admin_login_check();
 $pages->page_redir();
+$userquery->perm_check('group_moderation',true);
 
 	// Deactivate Group
 	if(isset($_GET['deactivate'])) {

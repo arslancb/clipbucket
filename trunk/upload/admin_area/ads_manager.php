@@ -9,9 +9,8 @@
 
 require'../includes/admin_config.php';
 $userquery->admin_login_check();
-$userquery->login_check('admin_access');
 $pages->page_redir();
-
+$userquery->perm_check('ad_manager_access',true);
 //Adding
 if(isset($_POST['add']))
 {

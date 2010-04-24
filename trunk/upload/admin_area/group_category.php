@@ -9,7 +9,8 @@
 
 require_once '../includes/admin_config.php';
 $userquery->admin_login_check();
-
+$pages->page_redir();
+$userquery->perm_check('group_moderation',true);
 //Form Processing
 if(isset($_POST['add_cateogry'])){
 	$cbgroup->add_category($_POST);
