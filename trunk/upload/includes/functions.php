@@ -2061,10 +2061,15 @@
 	/**
 	 * Function used to check weather erro exists or not
 	 */
-	function error()
+	function error($param='array')
 	{
 		if(count(error_list())>0)
 		{
+			if($param!='array')
+			{
+				$msg = msg_list();
+				return $msg[$param];
+			}
 			return error_list();
 		}else{
 			return false;
@@ -2074,10 +2079,15 @@
 	/**
 	 * Function used to check weather msg exists or not
 	 */
-	function msg()
+	function msg($param='array')
 	{
 		if(count(msg_list())>0)
 		{
+			if($param!='array')
+			{
+				$msg = msg_list();
+				return $msg[$param];
+			}
 			return msg_list();
 		}else{
 			return false;

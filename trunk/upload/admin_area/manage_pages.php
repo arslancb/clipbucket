@@ -61,6 +61,8 @@ if(isset($_POST['add_page']))
 {
 	if($cbpage->create_page($_POST))
 		$mode = 'view';
+	if(!error())
+		header('location:manage_pages.php?msg='.msg('0'));
 }
 
 switch($mode)
@@ -74,6 +76,9 @@ switch($mode)
 	case "view":
 	default:
 	{
+		if($_GET['msg'])
+			e(mysql_clean($_GET['msg']),"m");
+			
 		assign("mode","manage");
 		assign("cbpages",$cbpage->get_pages());
 	}
