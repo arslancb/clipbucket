@@ -1,4 +1,4 @@
-<div class="account_head_container">
+<div class="account_head_container clearfix">
   <div class="account_thumb_container" align="center">
 	<img src="{$userquery->getUserThumb($user)}" alt="{$user.username}" class="account_thumb"><br />
     <a href="{$userquery->profile_link($user)}">{lang code='com_view_channel'}</a></div>
@@ -20,5 +20,5 @@
          {$cbpm->get_new_messages()}
         </div>
     </div>
-    <div class="clearfix"></div>
+
 </div>

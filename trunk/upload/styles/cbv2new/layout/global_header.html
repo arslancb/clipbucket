@@ -166,7 +166,7 @@ var mid  = {$smarty.get.mid};
 
 {literal}
 <script type="text/javascript">
-$(document).ready(function() {
+$(document).ready(function() {					   
 	$('.user_login').hide();					   
 	
 	$('#user_login').toggle(
@@ -193,7 +193,7 @@ $(document).ready(function() {
 			$.cookie("current_style","list_view")
 			$('.vid_sp').show();
 		}
-	);
+	);	
 	
 	$('.tabs li').click(
 		function() {
@@ -210,14 +210,17 @@ $(document).ready(function() {
 	  if(optionSelectedValue)
 	  window.location = "?set_site_lang="+optionSelectedValue;
 	});
-
-	get_video('recently_added','#index_vid_container');
+	get_video('recent_viewed_vids','#index_vid_container');
 	
 });
 
 
 </script>
 {/literal}
+
+<!--[if IE 7]>
+<link href="{$theme}/ie7.css" rel="stylesheet" type="text/css" />
+<![endif]-->
 
 </head>
 

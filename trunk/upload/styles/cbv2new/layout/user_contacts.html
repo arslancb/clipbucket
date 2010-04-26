@@ -38,13 +38,13 @@
         </div>
         
         <!-- Starting Bottom Channel Box -->
-        <div class="channel_box" style="margin-bottom:0px">
+        <div class="channel_box clearfix" style="margin-bottom:0px">
    	  
        {include file="$style_dir/blocks/view_channel/channel_left.html" }
        
        <!-- Right Colum -->
       <div class="right_column">
-       	<div class="channel_inner_box">
+       	<div class="channel_inner_box clearfix">
         {lang code='users_contacts' assign='users_contacts'}
         
         <h2>{$users_contacts|sprintf:$u.username}</h2>
@@ -60,11 +60,11 @@
             {else}
             <em>This user has no contacts</em>
             {/if}
-            <div class="clearfix"></div>
+            
         </div>
         	
         </div>
-        <div class="clearfix"></div>
+        
         <!-- Ending Bottomg Channel Box-->
      </div>   
      

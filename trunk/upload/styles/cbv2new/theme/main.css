@@ -12,7 +12,7 @@ body,html { background:url(../images/main_bg.png) repeat-x; background-color:#ff
 #content{}
 /* CLEARS */
 .clearfix { }
-.clearfix:after{ content: "."; display:block; height:0; font-size:0; clear:both; visibility:visible; }
+.clearfix:after{ content: "."; display:block; height:0; font-size:0; clear:both; visibility:hidden;  }
 
 /* GENERAL CSS */
 a{ color:#0066cc; text-decoration:underline; outline:none; }
@@ -24,6 +24,9 @@ img, a img { border:0px none; }
 .video_thumb .duration{ position:absolute; right:1px; bottom:1px; background-color:#333; color:#fff; font-size:9px; display:inline; padding:1px}
 .video_thumb:hover { border:1px solid #aaa; }
 .vid_sp { padding:5px 0px; margin-bottom:10px; border-bottom:1px solid #ccc; clear:both; }
+
+.moveL { float:left; }
+.moveR { float:right; }
 
 .heading{font-size:12px; color:#003; background-image:url(../images/nav_grads.png); background-position:-0px -195px; background-repeat:repeat-x; height:28px; display:block; color:#fff; line-height:28px; font-weight:bold; padding-left:5px;
 }
@@ -48,8 +51,8 @@ Rating
 .big_stars li:hover{}
 
 /* CONTAINERS */
-.container_container{background-image:url(../images/verticle_bg.png); background-position:center; background-repeat:repeat-y}
-#container { width:1000px; margin:0px auto; padding:0px; position:relative;  }
+.container_container{background-image:url(../images/verticle_bg.png); background-position:center; background-repeat:repeat-y; }
+#container { width:1000px; margin:0px auto; padding:0px; position:relative; }
 .content_con { width:660px; margin:0px auto; padding:0px; float:left; margin-left:8px; }
 .login_con { width:325px; float:right; margin:0px; padding:0px; position:absolute; top:0px; right:0px; z-index:999; }
 .side_con { background:url(../images/side_bg.png) top repeat-x; width:305px; min-height:391px; border:1px solid #ccc; background-color:#f3f3f3; margin:0px 8px 0px 0px; padding:5px; float:right; }
@@ -64,7 +67,7 @@ Rating
 .logo { background:url(../images/logo.png) left bottom no-repeat; width:348px; float:left; height:53px; margin:8px 2px 10px 3px; padding:0px; }
 
 /* LOGIN FORM */
-#user_login { background:url(../images/log_button.png) top repeat-x; border:1px solid #ccc; padding:0px 8px; margin:0px auto; height:25px; line-height:25px; border-top:0px none; position:relative; bottom:1px; float:right; margin-right:15px; -moz-border-radius-bottomleft:5px; -webkit-border-bottom-left-radius:5px;-moz-border-radius-bottomright:5px; -webkit-border-bottom-right-radius:5px; z-index:2000; }
+#user_login { background:url(../images/log_button.png) top repeat-x; border:1px solid #ccc; padding:0px 8px; margin:0px auto; height:25px; line-height:25px; border-top:0px none; position:relative; bottom:1px; float:right; margin-right:15px; -moz-border-radius-bottomleft:5px; -webkit-border-bottom-left-radius:5px;-moz-border-radius-bottomright:5px; -webkit-border-bottom-right-radius:5px; z-index:2000; overflow:hidden; }
 #user_login a { display:block; text-decoration:none; text-align:center; text-shadow:1px 1px 1px #FFF; color:#555; text-transform:uppercase; }
 #user_login a:hover { color:#aaa; }
 .user_login { background:#f3f3f3; border:1px solid #ccc; border-top:0px none; margin-right:5px; padding:2px 5px; margin:0px; margin-right:10px; }
@@ -107,7 +110,7 @@ span.remember { font-size:10px;  }
 /* SEARCH */
 .s_bg { background:url(../images/search.png) no-repeat; width:359px; height:29px; margin:0px; padding:0px; -moz-border-radius:4px 0px 0px 4px; border:1px solid transparent; }
 .searchbar { background:none; width:200px; border:none; margin:2px 10px 0px 0px; font-size:11px; color:#323232; font-family:Verdana,Tahoma,sans-serif; float:left; padding:6px 5px 7px; float:left; border-right:1px solid #ccc; }
-.searchbutton { background:none; text-indent:-5000px; border:0px; width:59px; height:25px; line-height:18px; cursor:pointer; margin-top:2px; margin-left:5px; font-weight:bold; font-family:tahoma; font-size:11px; }
+.searchbutton { background:none; text-indent:-5000px; border:0px; width:59px; height:25px; line-height:18px; cursor:pointer; margin-top:2px; margin-left:5px; font-weight:bold; font-family:tahoma; font-size:11px;  }
 .s_type { background:url(../images/dot.gif) repeat; float:left; margin:7px 9px 0px 1px; padding:0px 0px; font-size:10px; font-family:Verdana,Arial,sans-serif; border:0px none; color:#323232;  }
 
 
@@ -340,8 +343,8 @@ span.remember { font-size:10px;  }
 .account_vid_list .last_td{border-right:0px}
 .acc_usr_video_thumb{border:1px solid #999; margin:1px; padding:1px; display:block; float:left; width:50px;}
 
-.search_field{background-image:url(../images/blocks.png); width:150px; height:22px; border:none; padding-left:8px; padding-top:6px; font-size:11px; font-family:tahoma; margin:0px; float:left; background-position:0px -180px}
-.search_field_button{background-image:url(../images/blocks.png); width:25px; height:22px; border:0px; background-position:-160px -180px; padding:0px; margin:0px; text-indent:-50000000px; float:left; cursor:pointer; outline:none}
+.search_field{background:url(../images/blocks.png); width:150px; height:22px; border:none; padding-left:8px; padding-top:6px; font-size:11px; font-family:tahoma; margin:0px; float:left; background-position:0px -180px}
+.search_field_button{background:url(../images/blocks.png); width:25px; height:22px; border:0px; background-position:-160px -180px; padding:0px; margin:0px; text-indent:-50000000px; float:left; cursor:pointer; outline:none}
 
 /**
  * icons */
@@ -360,10 +363,10 @@ span.remember { font-size:10px;  }
  BUTONS
  ***/
  
-.cb_button_2,.cb_button,.small_button{background-image:url(../images/buttons.png)}
+.cb_button,.cb_button_2,.small_button{background:url(../images/buttons.png)}
 
-.cb_button_2,.cb_button{display:inline-block;height:31px; width:135px; color:#fff; line-height:31px; text-align:center; font-size:14px; font-weight:bold; border:none; font-family:Arial, Helvetica, sans-serif; cursor:pointer}
-.cb_button_2:hover,.cb_button:hover{background-position:-0px -31px}
+.cb_button,.cb_button_2{display:inline-block;height:31px; width:135px; color:#fff; line-height:31px; text-align:center; font-size:14px; font-weight:bold; border:none; font-family:Arial, Helvetica, sans-serif; cursor:pointer}
+.cb_button:hover,.cb_button_2:hover{background-position:-0px -31px}
 .cb_button_2{font-size:12px}
 
 .small_button{display:inline-block;height:21px; width:94px; color:#fff; text-align:center; font-size:11px; font-weight:bold; border:none; font-family:Arial, Helvetica, sans-serif; cursor:pointer; background-position:-0px -62px}

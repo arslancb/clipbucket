@@ -43,18 +43,18 @@
                 <div class="advance" title="Advanced Search"></div>
                 <form name="search-form" method="get" action="{link name='search_result'}">
                     <input type="text" name="query" value="{'query'|get_form_val:true}"  />
-                    <input type="submit" value="{lang code='search'}" name="cbsearch" />
+                    <input type="submit" value="{lang code='search'}" class="foot_s_btn" name="cbsearch" />
                 </form>            
             </div> <!--FOOT_S_CON END-->
         </div> <!--SEARCH_FOOTER END-->
         <div id="footer">
             <div class="changer">
-            <div class="copyright">Powered By Clipbucket</div>
-            	{if config("allow_language_change")}
+            <div class="copyright">Powered By Clipbucket</div> 
+			    {if config("allow_language_change")}
                 <form action="" method="post" name="change_lang">
                     {$cbobjects->display_languages()}              
                 </form>
-                {/if} 
+                {/if}       
                 <div class="ch_left"></div>        	
                 <div class="ch_right"></div>
             </div> <!--CHANGER END-->

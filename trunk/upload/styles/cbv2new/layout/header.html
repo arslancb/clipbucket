@@ -9,7 +9,7 @@
         <div class="user_login clearfix">
         {if !$userquery->login_check('',true)}
         	<a href="{$baseurl}/forgot.php" class="forget" title="Forget Username/Password, Click Here"></a>
-            <form action="{link name='login'}" method="post" name="login">
+            <form action="{link name='login'}" method="post" name="login" style="margin:0px; padding:0px;">
                 <input type="text" value="Username" id="username" name="username"  />
                 <input type="password" value="Password" id="password" name="password"  />                
                 <input type="submit" value="Login" id="login" name="login"  />
@@ -41,14 +41,14 @@
 
 <div class="top_tabs clearfix">
     <ul>
-    	{head_menu assign='headmenu'}
-        
+    	{head_menu assign='headmenu'}        
         {foreach from=$headmenu item=hm}
         	{if $hm.name!=''}
             	<li><a href="{$hm.link}" {current_page page=$hm.this} {if $hm.target} target="{$hm.target}"{/if} {if $hm.onclick} onclick="{$hm.onclick}"{/if}>{$hm.name}</a></li>
             {/if}
         {/foreach}
     </ul>
+	
 </div> <!--TOP_TABS END-->
 
 <div id="navi_con">
@@ -72,7 +72,6 @@
         <form action="{link name='search_result'}" method="get" name="search" id="search" style="margin:0px; padding:0px;">               
             <input name="query" id="query" type="text" class="searchbar" value="{'query'|get_form_val:true}" />
             <select name="type" class="s_type">
-
             {foreach from=$Cbucket->search_types item=t key=stypes}
                 <option value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
             {/foreach}
@@ -83,4 +82,3 @@
 </div> <!--SEARCH_CON END-->
     </div> <!--NAVI END-->
 </div> <!--NAVI_CON END-->
-<div class="clearfix"></div>

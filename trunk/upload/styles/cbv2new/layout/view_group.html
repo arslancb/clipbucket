@@ -3,13 +3,12 @@
 {include file="$style_dir/blocks/group/group_header.html" group=$group}
 
 {if $mode=='' || $mode=='main'}
-<div style="margin-top:10px">
+<div class="clearfix" style="margin-top:10px">
 	<div style="float:left; width:500px"><h2 style="margin:0px; margin:0px">{lang code='grp_discus_title'} ({$group.total_topics|number_format})</h2></div>
     <div style="float:right; width:250px" align="right">
     <span class="add_topic" onclick="$('#add_topic_cont').slideToggle()">
     <img src="{$imageurl}/group/add.png" />{lang code='grp_add_new_topic'}<span class="clearfix"></span></span>
     </div>
-    <div class="clearfix"></div>
 </div>
 
 <div id="add_topic_cont" style="display:none;">
@@ -81,6 +80,7 @@
         	<div id="grid" title="Change To Grid Style"></div> 
             <div id="list" title="Change to List Style"></div>
 		</div> 
+
     {section name=v_list loop=$videos}
         {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
     {/section}

@@ -110,7 +110,7 @@
     <input name="file_name" type="hidden" value="{$file_name}">
 
     {assign var=opt_list value=$Upload->load_upload_options()} 
-	<ul class="upload_opts">
+	<ul class="upload_opts clearfix">
     {foreach from=$opt_list item=opt key=divid}
 		<li class="upload_opt_head moveL {$divid}" onclick="show_menu('{$divid}')">{$opt.title}</li>
 	{/foreach}

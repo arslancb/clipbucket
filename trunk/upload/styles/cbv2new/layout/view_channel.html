@@ -15,7 +15,7 @@
         {assign var=user_vdo value= $userquery->get_user_profile_video($p)}
             {if $user_vdo}
               <!-- User Video Block -->
-            <div class="channel_box">
+            <div class="channel_box clearfix">
              <div class="channel_inner_box">
              <div style="width:610px; float:left">
               <div id="videoPlayer" class='video_player'>
@@ -26,7 +26,7 @@
               </script>
               </div>
               <div align="center" style="width:300px; float:left">{AD place=336x280}</div>
-              <div class="clearfix"></div>
+
              </div>
              
             </div>
@@ -38,32 +38,34 @@
         </div>
         
         <!-- Starting Bottom Channel Box -->
-        <div class="channel_box" style="margin-bottom:0px">
+        <div class="channel_box clearfix" style="margin-bottom:0px">
    	  
        {include file="$style_dir/blocks/view_channel/channel_left.html" }
        
        <!-- Right Colum -->
       <div class="right_column">
-       	<div class="channel_inner_box">
+       	<div class="channel_inner_box clearfix">
         	<span class="channel_heading">{lang code='users_videos' assign='users_videos'}{$users_videos|sprintf:$u.username}</span>
-    	<div id="style_change">Change Style of Listing 
-        	<div id="grid" title="Change To Grid Style"></div> 
-            <div id="list" title="Change to List Style"></div>
+    	<div id="style_change">
+			<div id="grid" title="Change To Grid Style"></div> 
+			<div id="list" title="Change to List Style"></div>		
+			Change Style of Listing
 		</div> <!--STYLE_CHANGE END-->            
  				{assign var=videos_item_channel_page value=func->config(videos_item_channel_page)}
             	{get_videos assign='usr_vids' limit=$videos_item_channel_page order='date_added DESC' user=$u.userid}
+
                 {section name=v_list loop=$usr_vids}
                     {include file="$style_dir/blocks/video.html" video=$usr_vids[v_list]}
                 {sectionelse}
                 	<div align="center"><em>{lang code='user_have_no_vide'}</em></div>
                 {/section}
-                <div class="clearfix"></div>
+              <div class="clear"></div> 
             <hr width="100%" size="1" noshade>
             <div align="right"><a href="{$userquery->get_user_videos_link($u)}">{lang code='more'}</a></div>
         </div>
         
         
-        <div class="channel_inner_box">
+        <div class="channel_inner_box clearfix">
         	<span class="channel_heading">{lang code='users_subscribers' assign='users_videos'}{$users_videos|sprintf:$u.username}</span>
             	{assign var=users_items_subscibers value=func->config(users_items_subscibers)}
             	{assign var='usr_subs' value=$userquery->get_user_subscribers_detail($u.userid,$users_items_subscibers)}
@@ -72,7 +74,7 @@
                 {sectionelse}
                 	<div align="center"><em><strong>{lang code='user_no_subscribers' assign='users_videos'}{$users_videos|sprintf:$u.username}</strong></em></div>
                 {/section}
-                <div class="clearfix"></div>
+                <div class="clear"></div>
             <hr width="100%" size="1" noshade>
             <div align="right"><a href="#">{lang code='more'}</a></div>
         </div>
@@ -95,7 +97,7 @@
         
         
         </div>
-        <div class="clearfix"></div>
+        
         <!-- Ending Bottomg Channel Box-->
      </div>   
      

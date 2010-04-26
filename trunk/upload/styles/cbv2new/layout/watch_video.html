@@ -40,20 +40,20 @@
 <!-- Player End -->
 
 <!-- Actions -->
-<div class="video_actions_cont">
+<div class="video_actions_cont clearfix">
     <div class="rating_container">
     {show_video_rating  rating=$vdo.rating ratings=$vdo.rated_by total='10' id=$vdo.videoid type=video}
     </div>
-    <div class="actions">
+    <div class="actions clearfix">
     <ul>
     <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#video_action_result_cont');add_to_fav('video','{$vdo.videoid}');"><img src="{$imageurl}/dot.gif" class="add_to_fav" />{lang code='add_to_favs'}</a></li>
       <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#flag_item');$('#flag_item').slideToggle();"><img src="{$imageurl}/dot.gif" class="report_this" />{lang code='report_this'}</a></li>
       <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#share_form');$('#share_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="add_to_play" />{lang code='share_this'}</a></li>
       <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#playlist_form');$('#playlist_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="share_this" />{lang code='add_to_playlist'}</a></li>
     </ul>
-    <div class="clearfix"></div>
+
     </div>
-    <div class="clearfix"></div>
+
 </div>
 <!-- Actions End-->
 
@@ -68,7 +68,7 @@
 
 
 <!-- Video Stats-->
-<div class="video_details">
+<div class="video_details clearfix">
 <div  class="action_box"  id="video_detail_result_cont" style="margin-top:0px; margin-bottom:5px; display:none"></div>
 
 	<div class="vd_user_container" align="center">
@@ -111,14 +111,12 @@
     
     </div>
     
-    <div class="clearfix"></div>
-    
 </div>
 <!-- Video Sttas-->
 
 
 <!-- Video Comments -->
-<div>
+<div id="commentsContainer">
 	<h2>{lang code='comments'}</h2>
     <!-- Displaying Comments -->
     {include file="$style_dir/blocks/comments/comments.html" id=$vdo.videoid type=v}

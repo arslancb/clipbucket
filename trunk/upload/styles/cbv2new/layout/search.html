@@ -15,7 +15,7 @@
         </form>
     	</div>
     </div>
-	<div class="simple_container" style="min-height:400px; overflow:visible; display:none" id="advance_search">
+	<div class="simple_container clearfix" style="min-height:400px; overflow:visible; display:none" id="advance_search">
 	{foreach from=$Cbucket->search_types item=search_type key=search_type_key}
       {if $search_type}
 		{assign var='type' value=$cbsearch->init_search($search_type_key)}
@@ -43,7 +43,6 @@
           {/if}
       {/if}
 	{/foreach}
-    <div class="clearfix"></div>
     </div>
 <span class="more_button" style="margin-bottom:10px"><a href="javascript:void(0)" onClick="$('#advance_search').toggle();$('.more_button').toggleClass('more_button_up');$('#simple_search').toggle()">{lang code='more_options'}</a></span>
 
