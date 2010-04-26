@@ -533,11 +533,20 @@ class CBGroups extends CBCategory
 	 */
 	function get_default_thumb($size=NULL)
 	{
-		if($size=='small')
-			$this->get_default_thumb = GP_THUMB_URL.'/no_thumb-small.png';
-		else
-			$this->get_default_thumb = GP_THUMB_URL.'/no_thumb.png';
-		return $this->get_default_thumb;
+		if($size=="small" && file_exists(TEMPLATEDIR.'/images/thumbs/group_thumb-small.png'))
+		{
+			return TEMPLATEURL.'/images/thumbs/group_thumb-small.png';
+		}elseif(file_exists(TEMPLATEDIR.'/images/thumbs/group_thumb.png') && !$size)
+		{
+			return TEMPLATEURL.'/images/thumbs/group_thumb.png';
+		}else
+		{
+			if($size=='small')
+				$this->get_default_thumb = GP_THUMB_URL.'/no_thumb-small.png';
+			else
+				$this->get_default_thumb = GP_THUMB_URL.'/no_thumb.png';
+			return $this->get_default_thumb;
+		}
 	}
 	
 	

@@ -27,6 +27,8 @@ class CBvideo extends CBCategory
 	var $video_manager_links = array();
 	var $video_manager_funcs = array();
 	
+	var $video_delete_functions = array(); //Holds all delete functions of video
+	
 	/**
 	 * __Constructor of CBVideo
 	 */	
@@ -303,6 +305,19 @@ class CBvideo extends CBCategory
 
 			if($this->is_video_owner($vid,userid()) || has_access('admin_access',TRUE))
 			{
+				#THIS SHOULD NOT BE REMOVED :O
+				//list of functions to perform while deleting a video
+				$del_vid_funcs = $this->video_delete_functions;
+				if(is_array($del_vid_funcs))
+				{
+					foreach($del_vid_funcs as $func)
+					{
+						if(function_exists($func))
+						{
+							$func($vdetails);
+						}
+					}
+				}
 				//Finally Removing Database entry of video
 				$db->execute("DELETE FROM ".tbl("video")." WHERE videoid='$vid'");
 				//Removing Video From Playlist
@@ -366,6 +381,13 @@ class CBvideo extends CBCategory
 	 */
 	function remove_files($vdetails)
 	{
+		//Return nothing incase there is no input
+		if(!$vdetails)
+		{
+			e("No input details specified");
+			return false;
+		}
+		//Callign Video Delete Functions
 	    call_delete_video_function($vdetails);
         
 		//Getting list of files

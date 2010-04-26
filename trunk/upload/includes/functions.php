@@ -631,10 +631,17 @@
 	/**
 	 * function used to get detaulf thumb of ClipBucket 
 	 */
-	 function default_thumb()
-	 {
+	function default_thumb()
+	{
+		if(file_exists(TEMPLATEDIR.'/images/thumbs/processing.png'))
+		{
+			return TEMPLATEURL.'/images/thumbs/processing.png';
+		}elseif(file_exists(TEMPLATEDIR.'/images/thumbs/processing.jpg'))
+		{
+			return TEMPLATEURL.'/images/thumbs/processing.jpg';
+		}else
 		return BASEURL.'/files/thumbs/processing.jpg';
-	 }
+	}
 	 
 	/** 
 	 * Function used to check weather give thumb is deafult or not

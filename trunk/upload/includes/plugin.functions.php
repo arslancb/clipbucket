@@ -265,13 +265,23 @@
 	  */
 	 function register_action_remove_video($func)
 	 {
-		 global $Cbucket;
-		 $Cbucket->on_delete_video[] = $func;
+		 global $cbvid;		 
+		 //Editing this thing without special consideration can trun whole CB into "WTF"
+		 $cbvid->video_delete_functions[] = $func;
 	 }
+	 
+	 /**
+	  * Function used to register function , that will be called when deleting video files
+	  */
+	 function register_action_remove_video_files($func)
+	 {
+		 global $Cbucket;	 
+		 $Cbucket->on_delete_video[] = $func;
+	 } 
 	 
 	/**
 	 * Function used to display comment rating
-	*/
+	 */
 	function comment_rating($input)
 	{
 		if($input<0)

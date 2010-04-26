@@ -731,7 +731,7 @@ ul.upload_opts li.selected { cursor:pointer; background:none; border:1px solid; 
 .group_block{float:left; width:45%; height:80px; margin:0px 20px 10px 0px; padding:5px}
 .group_block:hover{background-color:#EEE}
 .group_block:nth-child(2n){margin-right:0px; margin-left:15px}
-.group_block .group_thumb{width:110px; height:80px; border:1px solid #333; padding:1px; display:block; float:left; margin-right:10px}
+.group_block .group_thumb{max-width:110px; max-height:80px; border:1px solid #333; padding:1px; display:block; float:left; margin-right:10px}
 .group_block,.group_block a{font-size:10px; font-family:tahoma }
 .group_block span{display:block;}
 .group_block .group_name,.group_block .group_name a{font-size:12px; text-decoration:none}

@@ -1359,7 +1359,7 @@ class userquery extends CBCategory{
 		}else
 		{	
 			if(!USE_GAVATAR)
-				$thumb_file = USER_THUMBS_URL.'/'.NO_AVATAR;
+				$thumb_file = $this->get_default_thumb();
 			else
 			{
 				switch($size)
@@ -1367,14 +1367,14 @@ class userquery extends CBCategory{
 					case "small":
 					{
 						$thesize = AVATAR_SMALL_SIZE;
-						$default = USER_THUMBS_URL.'/'.getName(NO_AVATAR).'-small.'.getExt(NO_AVATAR);
+						$default = $this->get_default_thumb('small');
 						
 					}
 					break;
 					default:
 					{
 						$thesize = AVATAR_SIZE;
-						$default = USER_THUMBS_URL.'/'.NO_AVATAR;
+						$default = $this->get_default_thumb();
 					}
 				}
 				
@@ -1410,6 +1410,26 @@ class userquery extends CBCategory{
 	function avatar($udetails,$size='',$uid=NULL)
 	{
 		return $this->getUserThumb($udetails,$size,$uid);
+	}
+	
+	/**
+	 * Function used to get default user thumb
+	 */
+	function get_default_thumb($size=NULL)
+	{
+		if($size=="small" && file_exists(TEMPLATEDIR.'/images/thumbs/no_avatar-small.png'))
+		{
+			return TEMPLATEURL.'/images/thumbs/no_avatar-small.png';
+		}elseif(file_exists(TEMPLATEDIR.'/images/thumbs/no_avatar.png') && !$size)
+		{
+			return TEMPLATEURL.'/images/thumbs/no_avatar.png';
+		}else
+		{
+			if($size=='small')
+				return USER_THUMBS_URL.'/'.getName(NO_AVATAR).'-small.'.getExt(NO_AVATAR);
+			else
+				return USER_THUMBS_URL.'/'.NO_AVATAR;
+		}
 	}
 	
 	/**
