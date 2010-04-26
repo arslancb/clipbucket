@@ -415,7 +415,8 @@ var loading = loading_img+" Loading...";
 		$("#add_comment_result").css("display","block");
 		$("#add_comment_result").html(loading);
 		$("#add_comment_button").attr("disabled","disabled");
-		
+				
+		var captcha_enabled =  $("#"+form_id+" input:#cb_captcha_enabled").val();
 		$.post(page, 
 		{ 	
 			mode : 'add_comment',
@@ -424,7 +425,9 @@ var loading = loading_img+" Loading...";
 			comment : $("#"+form_id+" textarea:#comment_box").val(),
 			obj_id : $("#"+form_id+" input:#obj_id").val(),
 			reply_to : $("#"+form_id+" input:#reply_to").val(),
-			type : type
+			type : type,
+			cb_captcha_enabled: $("#"+form_id+" input:#cb_captcha_enabled").val(),
+			cb_captcha: $("#"+form_id+" input:#captcha").val()
 		},
 		function(data)
 		{
@@ -432,11 +435,15 @@ var loading = loading_img+" Loading...";
 				alert("No data");
 			else
 			{
+				
 				$("#add_comment_button").attr("disabled","");
 				
 				$("#add_comment_result").css("display","block");
 				if(data.err!='')
+				{
+					captcha_enabled
 					$("#add_comment_result").html(data.err);
+				}
 				if(data.msg!='')
 					$("#add_comment_result").html(data.msg);
 				

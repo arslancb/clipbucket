@@ -1,21 +1,42 @@
+{if $mode =='show_settings'}
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
   <tr>
-    <td align="left" class="settings_inner_title"><div onclick="toggle_search('player_size')" style="cursor:pointer">ClipBucket Website Player Settings -<span style="font-size:11px; color:#06c"> click here to edit setting</span></div></td>
+    <td align="left" class="settings_inner_title">ClipBucket Website Player Settings</td>
     <td width="20" align="right" >&nbsp;</td>
   </tr>
 </table>
-<div style="width:100%; margin:auto{if $smarty.cookies.show_player_size_search!='show'};display:none{/if}" id="player_size">
-<form name="player_settings" action="manage_players.php" method="post">
+<div style="width:100%; margin:auto" id="player_size">
+<form name="player_settings" action="manage_players.php?mode=show_settings" method="post">
 <fieldset class="fieldset" style="border:none">
 <table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
 <tr>
-<td width="200" valign="top"><label for="autoplay_video">Autoplay</label></td>
-<td valign="top">
+<td width="301" valign="top"><label for="autoplay_video"><strong>Autoplay</strong><br />
+  if yes, all videos will be played automatically
+</label></td>
+<td width="813" valign="top">
     <label>
       <input type="radio" name="autoplay_video" value="yes" id="autoplay_video_0" {if $row.autoplay_video=='yes'} checked="checked"{/if}  />
       Yes</label>
     <label><input type="radio" name="autoplay_video" value="no" id="autoplay_video_1" {if $row.autoplay_video=='no'} checked="checked"{/if}  />
       No</label></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Use Playlist<br />
+    </strong>By turning this on, player will turn on playlists feature in player (if available)</td>
+  <td valign="top"><label>
+    <input type="radio" name="use_playlist" value="yes" id="use_playlist" {if $row.use_playlist=='yes'} checked="checked"{/if}  />
+    Yes</label>
+    <label>
+      <input type="radio" name="use_playlist" value="no" id="use_playlist" {if $row.use_playlist=='no'} checked="checked"{/if}  />
+      No</label></td>
+</tr>
+<tr>
+  <td valign="top">&nbsp;</td>
+  <td valign="top">&nbsp;</td>
+</tr>
+<tr>
+  <td valign="top">&nbsp;</td>
+  <td valign="top">&nbsp;</td>
 </tr>
 </table>
 <div align="left"><input type="submit" class="button" value="Update" name="update" /></div>
@@ -81,6 +102,9 @@
 	</script>
 {/literal}
 
+<div style="height:30px"></div>
+In order to change player size, resize the box given below..
+<div style="height:10px"></div>
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
   <tr>
     <td align="left" class="settings_inner_title"><div onclick="toggle_search('website_player');" style="cursor:pointer">Main Website Player -<span style="font-size:11px; color:#06c"> click here to main website player</span></div></td>
@@ -91,7 +115,7 @@
 <div  class="demo" style="width:100%; margin:auto{if $smarty.cookies.website_player_search!='show'};display:none{/if}" id="website_player">
 <div id="msg_box" style="margin:5px;"></div>
 
-<div id="resizable" class="ui-widget-content" style="width:{$Cbucket->configs.player_width}px; height:{$Cbucket->configs.player_height}px">
+<div id="resizable" class="ui-widget-content" style="width:{$Cbucket->configs.player_width}px; height:{$Cbucket->configs.player_height}px; margin:auto">
   <h3 class="ui-widget-header">Original Size of your Main Website Player</h3>
 </div>
 <div class="player_dims"><label for="width">Width</label>
@@ -99,6 +123,9 @@
 <label for="height">Height</label>
 <input type="text" name="height" id="height" value="{$Cbucket->configs.player_height}" />
 </div></div>
+
+
+<div style="height:10px"></div>
 
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
   <tr>
@@ -108,7 +135,7 @@
 </table>
 <div  class="demo" style="width:100%; margin:auto{if $smarty.cookies.channel_player_search!='show'};display:none{/if}" id="channel_player">
 	
-<div id="resizable-channel" class="ui-widget-content" style="width:{$Cbucket->configs.channel_player_width}px; height:{$Cbucket->configs.channel_player_height}px">
+<div id="resizable-channel" class="ui-widget-content" style="width:{$Cbucket->configs.channel_player_width}px; height:{$Cbucket->configs.channel_player_height}px; margin:auto">
 	<h3 class="ui-widget-header">Original Size of your Main Website Player</h3>
 </div>
 <div class="player_dims"><label for="width">Width</label>
@@ -118,6 +145,9 @@
 </div></div>
 
 </div>
+
+
+{else}
 
 
 <div style="height:35px"></div>
@@ -162,3 +192,5 @@ Website : <a href="{$curplayer.website}">{$curplayer.website}</a></td>
 {/if}
 {/foreach}
 </div>
+
+{/if}

@@ -16,6 +16,24 @@
     Name : {$userquery->username}<br>
     {/if}
     <br>
+    
+    {if config('comments_captcha')=='all' || ( config('comments_captcha')=='guests' && !$userquery->login_check('',true) )}
+    {assign var=captcha value=func->get_captcha()}
+    {if $captcha} 
+        {if $captcha.show_field}
+            <label class="label" for="captcha">Verification Code</label><br />
+                {load_captcha captcha=$captcha load=field field_params = ' id="captcha" class="input'}
+           <div class="clearfix"></div>
+        {/if}
+        <label class="label">&nbsp;</label>
+        <div class="input_container">
+            {load_captcha captcha=$captcha load=function}
+        </div>
+        <div class="clearfix"></div>
+    {/if}
+    {/if}
+            
+            
     {ANCHOR place='before_compose_box'}
     <textarea name="comment" id="comment_box" cols="45" rows="5"  class="input" ></textarea>
     <input type="hidden" name="type" value="{$type}" />

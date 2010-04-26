@@ -201,6 +201,26 @@ $(document).ready(function(){
               <td><input name="comment_rating" type="checkbox" id="comment_rating" value="1" {if $row.comment_rating=='1'}checked="checked"{/if} /></td>
             </tr>
             <tr>
+              <td>Comments Captcha</td>
+              <td><p>
+                <label>
+                  <input type="radio" name="comments_captcha" value="all" id="comments_captcha_0" 
+                  {if $row.comments_captcha==all} checked="checked"{/if} />
+                  For Everyone</label>
+                
+                <label>
+                  <input type="radio" name="comments_captcha" value="guests" id="comments_captcha_1"
+                  {if $row.comments_captcha==guests} checked="checked"{/if} />
+                  For Guests Only</label>
+                
+                <label>
+                  <input type="radio" name="comments_captcha" value="none" id="comments_captcha_2" 
+                  {if $row.comments_captcha==none} checked="checked"{/if} />
+                Disable</label>
+                <br />
+              </p></td>
+            </tr>
+            <tr>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
             </tr>

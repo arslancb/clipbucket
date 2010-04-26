@@ -422,6 +422,8 @@ class myquery {
 			if(strlen($comment) > MAX_COMMENT_CHR)
 				e(sprintf("'%d' characters allowed for comment",MAX_COMMENT_CHR));
 		}
+		if(!verify_captcha())
+			e(lang('usr_ccode_err'));
 		if(empty($comment))
 			e(lang("pelase_enter_something_for_comment"));
 		

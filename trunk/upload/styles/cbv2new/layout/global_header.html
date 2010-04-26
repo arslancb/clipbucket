@@ -217,7 +217,13 @@ $(document).ready(function() {
 
 </script>
 {/literal}
-
+{literal}
+<!--[if lte IE 6]>
+<style type="text/css">
+.clearfix { height: 1%; }
+</style>
+<![endif]-->
+{/literal}
 <!--[if IE 7]>
 <link href="{$theme}/ie7.css" rel="stylesheet" type="text/css" />
 <![endif]-->

@@ -1,1 +1,3 @@
-INSERT INTO `clipbucket_svn`.`cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'allow_username_spaces', 'yes');
+INSERT INTO `cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'allow_username_spaces', 'yes');
+INSERT INTO `cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'use_playlist', 'yes');
+INSERT INTO `cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'comments_captcha', 'all');

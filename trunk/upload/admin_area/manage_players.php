@@ -12,12 +12,15 @@ $userquery->admin_login_check();
 $pages->page_redir();
 $userquery->login_check('admin_access');
 
+//Set Mode
+assign('mode',$_GET['mode']);
 
 if(isset($_POST['update'])){
 	$configs = $Cbucket->configs;
 	
 	$rows = array(
 				  	'autoplay_video',
+					'use_playlist',
 					);
 	
 	foreach($rows as $field)

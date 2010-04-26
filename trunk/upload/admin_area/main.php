@@ -38,7 +38,7 @@ if(isset($_POST['update'])){
 					'big_thumb_width',
 					'big_thumb_height',
 					
-					'closed'	,
+					'closed',
 					'closed_msg',
 					'channel_comments',
 					'anonym_comments',
@@ -46,7 +46,8 @@ if(isset($_POST['update'])){
 					'channels_list_per_tab',
 					'captcha_type',
 					'con_modules_type',
-					'comment_rating'	,
+					'comments_captcha',
+					'comment_rating',
 					
 					'date_format',
 					'description',

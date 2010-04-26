@@ -291,7 +291,8 @@ class ClipBucket
 		   array(
 				 'Templates Manager'=>'templates.php',
 				 'Templates Editor'=>'template_editor.php',
-				 'Players Manager' => 'manage_players.php'
+				 'Players Manager' => 'manage_players.php',
+				 'Player Settings' => 'manage_players.php?mode=show_settings'
 				
 				),		   
 		   //Plugin Manager
