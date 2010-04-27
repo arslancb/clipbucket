@@ -1001,6 +1001,41 @@ class Upload{
 		}else
 			e(lang('user_doesnt_exist'));
 	}
+	
+	
+	/** 
+	 * Function used to upload website logo
+	 * @param logo_file
+	 * @return $file_name.'.'.$ext;
+	 */
+	function upload_website_logo($file)
+	{
+		global $imgObj,$LANG;
+
+		if(!empty($file['name']))
+		{
+			//$file_num = $this->get_available_file_num($file_name);
+			$ext = getExt($file['name']);
+			$file_name = 'plaery-logo';
+			if($imgObj->ValidateImage($file['tmp_name'],$ext))
+			{
+				$file_path = BASEDIR.'/images/'.$file_name.'.'.$ext;
+				if(file_exists($file_path))
+					if(!unlink($file_path))
+					{
+						e("Unable to remove '$file_path' , please chmod it to 0777");
+						return false;
+					}
+						
+				move_uploaded_file($file['tmp_name'],$file_path);
+				//$imgObj->CreateThumb($file_path,$file_path,200,$ext,200,false);
+				e("Logo has been uploaded",'m');
+				return $file_name.'.'.$ext;
+			}else
+				e("Invalid Image file");
+		}
+		return false;
+	}
 
 }	
 ?>

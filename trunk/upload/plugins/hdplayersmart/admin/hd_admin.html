@@ -1,0 +1,120 @@
+<span class="page_title">HD Flv Player Smart - Plugin</span>
+  <p>this plugin will let you customize your hd flvplayer player, if its is activated.<br>
+  you can set its skin, add custom variables, set its icons and other configurations that are available for player</p>
+<p>&nbsp;</p>
+
+
+<div class="main_page_div">
+    
+        <form action="" method="post" enctype="multipart/form-data" name="hd_player">
+<fieldset class="fieldset" style="border:none">
+<table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
+            <tr>
+              <td colspan="2" valign="top" class="settings_inner_title">HD FLV Player Option</td>
+            </tr>
+            <tr>
+                <td width="200" valign="top">Auto Play Video</td>
+                <td valign="top"><label for="auto_play"></label>
+                  <select name="auto_play" id="auto_play">
+                    <option value="yes" {if $hd_smart->configs.auto_play=='yes'} selected{/if}>Yes</option>
+                    <option value="no" {if $hd_smart->configs.auto_play=='no'} selected{/if}>No</option>
+                </select></td>
+            </tr>
+            <tr>
+              <td valign="top">Logo Placement</td>
+              <td valign="top"><label for="logo_placement"></label>
+                <select name="logo_placement" id="logo_placement">
+                  <option value="TL"{if $hd_smart->configs.logo_placement=='TL'} selected{/if}>Top Left</option>
+                  <option value="TR"{if $hd_smart->configs.logo_placement=='TR'} selected{/if}>Top Right</option>
+                  <option value="BL"{if $hd_smart->configs.logo_placement=='BL'} selected{/if}>Bottom Left</option>
+                  <option value="BR"{if $hd_smart->configs.logo_placement=='BR'} selected{/if}>Bottom Right</option>
+              </select></td>
+            </tr>
+            <tr>
+              <td valign="top">Embed Visible</td>
+              <td valign="top"><label>
+    <input type="radio" name="embed_visible" value="true" id="embed_visible" {if $hd_smart->configs.embed_visible=='true'} checked="checked"{/if}  />
+    Yes</label>
+    <label>
+      <input type="radio" name="embed_visible" value="false" id="embed_visible" {if $hd_smart->configs.embed_visible=='false'} checked="checked"{/if}  />
+      No</label></td>
+            </tr>
+            <tr>
+              <td valign="top">&nbsp;</td>
+              <td valign="top">&nbsp;</td>
+            </tr>
+            <tr>
+              <td valign="top">&nbsp;</td>
+              <td valign="top">&nbsp;</td>
+            </tr>
+            <tr valign="top">
+              <td colspan="2" class="settings_inner_title">HD FLV Player Skins</td>
+            </tr>
+            <tr>
+              <td valign="top">Choose Skin</td>
+              <td valign="top"><label for="hd_skin"></label>
+                <select name="hd_skin" id="hd_skin">
+                	<option>Choose Skin</option>
+                    {if $hd_smart->skins}
+                    	{foreach from=$hd_smart->skins item=skin}
+                        	<option value="{$skin.file}"
+                            {if $hd_smart->configs.hd_skin ==$skin.file}selected{/if}>{$skin.name}</option>
+                        {/foreach}
+                    {/if}
+              	</select></td>
+            </tr>
+            <tr>
+              <td valign="top">Upload Skin</td>
+              <td valign="top"><label for="skin_file"></label>
+              <input type="file" name="skin_file" id="skin_file"></td>
+            </tr>
+            <tr>
+              <td valign="top">&nbsp;</td>
+              <td valign="top">&nbsp;</td>
+            </tr>
+            <tr valign="top">
+              <td colspan="2" class="settings_inner_title">HD FLV Player Plugins and Variables</td>
+            </tr>
+            <tr>
+              <td valign="top">Add New Var</td>
+              <td valign="top">Name 
+                <label for="cust_name"></label>
+              <input type="text" name="cust_name" id="cust_name"> 
+              Value 
+              <label for="cust_val"></label>
+              <input type="text" name="cust_val" id="cust_val"></td>
+            </tr>
+            <tr>
+              <td valign="top">Custom Variables</td>
+              <td valign="top">{if $hd_smart->configs.custom_variables}
+              <input type="hidden" value="{$hd_smart->configs.custom_variables|form_val}" name="custom_vars" />
+              {foreach from=$hd_smart->configs.custom_vars item=vars key=key}
+              <label><input type="checkbox" value="yes" name="cust_{$key}" checked> {$key}</label><br>
+              {/foreach}{/if}</td>
+            </tr>
+            <tr>
+              <td valign="top">&nbsp;</td>
+              <td valign="top">&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="2" valign="top">HD FLV Player License</td>
+            </tr>
+            <tr>
+              <td valign="top">License </td>
+              <td valign="top"><label>
+                <input type="text" name="license" id="license" value="{$hd_smart->configs.license}" />
+              </label></td>
+            </tr>
+            <tr>
+              <td valign="top">&nbsp;</td>
+              <td valign="top">&nbsp;</td>
+            </tr>
+            <tr>
+              <td valign="top"><label for="update"></label>
+              <input type="submit" name="update" id="update" value="Submit" class="button"></td>
+              <td valign="top">&nbsp;</td>
+            </tr>
+        </table>
+</fieldset>
+</form>
+</div>

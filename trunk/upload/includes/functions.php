@@ -2220,6 +2220,10 @@
 	 */
 	function website_logo()
 	{
+		$logo_file = config('player_logo_file');
+		if(file_exists(BASEDIR.'/images/'.$logo_file) && $logo_file)
+			return BASEURL.'/images/'.$logo_file;
+		
 		return BASEURL.'/images/logo.png';
 	}
 	

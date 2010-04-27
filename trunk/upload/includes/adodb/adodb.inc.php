@@ -868,7 +868,8 @@
 						if ($i+1 != sizeof($sqlarr)) ADOConnection::outp( "Input Array does not match ?: ".htmlspecialchars($sql));
 					} else if ($i != sizeof($sqlarr))	
 						ADOConnection::outp( "Input array does not match ?: ".htmlspecialchars($sql));
-		
+					
+					
 					$ret =& $this->_Execute($sql);
 					if (!$ret) return $ret;
 				}	
@@ -878,12 +879,13 @@
 						$stmt = $this->Prepare($sql);
 					else
 						$stmt = $sql;
-						
+					
 					foreach($inputarr as $arr) {
 						$ret =& $this->_Execute($stmt,$arr);
 						if (!$ret) return $ret;
 					}
 				} else {
+						
 					$ret =& $this->_Execute($sql,$inputarr);
 				}
 			}

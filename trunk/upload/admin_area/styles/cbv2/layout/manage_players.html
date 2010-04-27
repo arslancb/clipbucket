@@ -6,7 +6,7 @@
   </tr>
 </table>
 <div style="width:100%; margin:auto" id="player_size">
-<form name="player_settings" action="manage_players.php?mode=show_settings" method="post">
+<form action="manage_players.php?mode=show_settings" method="post" enctype="multipart/form-data" name="player_settings">
 <fieldset class="fieldset" style="border:none">
 <table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
 <tr>
@@ -31,8 +31,41 @@
       No</label></td>
 </tr>
 <tr>
-  <td valign="top">&nbsp;</td>
-  <td valign="top">&nbsp;</td>
+  <td valign="top"><strong>Logo File</strong><br />
+    Logo file that will display on your flash player</td>
+  <td valign="top"><img src="{website_logo}" /><br />
+    <label>
+      <input type="file" name="logo_file" id="logo_file" />
+    </label></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Logo Placement</strong><br />
+    Placement of logo, top, left , right or bottom</td>
+  <td valign="top"><label>
+    <select name="logo_placement" id="logo_placement">
+      <option value="tl" {if $row.logo_placement=='tl'} selected="selected"{/if}>Top Left</option>
+      <option value="tr" {if $row.logo_placement=='tr'} selected="selected"{/if}>Top Right</option>
+      <option value="br" {if $row.logo_placement=='br'} selected="selected"{/if}>Bottom Right</option>
+      <option value="bl" {if $row.logo_placement=='bl'} selected="selected"{/if}>Bottom Left</option>
+    </select>
+  </label></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Buffer Time</strong><br />
+    To control the buffer seconds</td>
+  <td valign="top"><label>
+    <input type="text" name="buffer_time" id="buffer_time" value="{$row.buffer_time}" />
+  </label></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Play Youtube Video Inside Player</strong><br />
+    this will let you play youtube videos in your player</td>
+  <td valign="top"><label>
+    <input type="radio" name="youtube_enabled" value="yes" id="youtube_enabled" {if $row.youtube_enabled=='yes'} checked="checked"{/if}  />
+    Yes</label>
+    <label>
+      <input type="radio" name="youtube_enabled" value="no" id="youtube_enabled" {if $row.youtube_enabled=='no'} checked="checked"{/if}  />
+      No</label></td>
 </tr>
 <tr>
   <td valign="top">&nbsp;</td>
@@ -107,7 +140,7 @@ In order to change player size, resize the box given below..
 <div style="height:10px"></div>
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
   <tr>
-    <td align="left" class="settings_inner_title"><div onclick="toggle_search('website_player');" style="cursor:pointer">Main Website Player -<span style="font-size:11px; color:#06c"> click here to main website player</span></div></td>
+    <td align="left" class="settings_inner_title"><div onclick="toggle_search('website_player');" style="cursor:pointer">Main Website Player Size -<span style="font-size:11px; color:#06c"> click here to main website player</span></div></td>
     <td width="20" align="right" >&nbsp;</td>
   </tr>
 </table>
@@ -129,7 +162,7 @@ In order to change player size, resize the box given below..
 
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
   <tr>
-    <td align="left" class="settings_inner_title"><div onclick="toggle_search('channel_player');" style="cursor:pointer">Channel Player Settings -<span style="font-size:11px; color:#06c"> click here to edit channel player settings</span></div></td>
+    <td align="left" class="settings_inner_title"><div onclick="toggle_search('channel_player');" style="cursor:pointer">Channel Player Settings Size -<span style="font-size:11px; color:#06c"> click here to edit channel player settings</span></div></td>
     <td width="20" align="right" >&nbsp;</td>
   </tr>
 </table>

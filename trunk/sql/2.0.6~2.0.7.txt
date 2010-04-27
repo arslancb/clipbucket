@@ -1,3 +1,10 @@
 INSERT INTO `cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'allow_username_spaces', 'yes');
 INSERT INTO `cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'use_playlist', 'yes');
 INSERT INTO `cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'comments_captcha', 'all');
+
+-- April 27
+
+INSERT INTO `clipbucket_svn`.`cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'player_logo_file', 'logo.png');
+INSERT INTO `clipbucket_svn`.`cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'logo_placement', 'br');
+INSERT INTO `clipbucket_svn`.`cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'buffer_time', '3');
+INSERT INTO `clipbucket_svn`.`cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'youtube_enabled', 'yes');

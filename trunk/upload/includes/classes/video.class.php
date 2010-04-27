@@ -219,6 +219,7 @@ class CBvideo extends CBCategory
 					
 					if(!empty($field['db_field']))
 					$query_val[] = $val;
+
 				}
 				
 			}		
@@ -322,6 +323,7 @@ class CBvideo extends CBCategory
 				$db->execute("DELETE FROM ".tbl("video")." WHERE videoid='$vid'");
 				//Removing Video From Playlist
 				$db->execute("DELETE FROM ".tbl("playlist_items")." WHERE object_id='$vid' AND playlist_item_type='v'");
+				
 				$db->update(tbl("users"),array("total_videos"),array("|f|total_videos-1")," userid='".$vdetails['userid']."'");
 				e(lang("class_vdo_del_msg"),'m');
 			}else{

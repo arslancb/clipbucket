@@ -56,6 +56,7 @@ switch($mode)
 		 $total_vids = get_videos(array('count_only'=>true,'user'=>$uid));
 		 $title = "Videos uploaded by ".$user;
 	}
+	
 	break;
 }
 

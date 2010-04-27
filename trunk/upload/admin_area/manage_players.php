@@ -18,10 +18,24 @@ assign('mode',$_GET['mode']);
 if(isset($_POST['update'])){
 	$configs = $Cbucket->configs;
 	
+	
 	$rows = array(
 				  	'autoplay_video',
+					'buffer_time',
+					'logo_placement',
 					'use_playlist',
+					'youtube_enabled',
+					
 					);
+	
+	//Checking for logo
+	if(isset($_FILES['logo_file']['name']))
+	{
+		$logo_file = $Upload->upload_website_logo($_FILES['logo_file']);
+		if($logo_file)
+			$myquery->Set_Website_Details('player_logo_file',$logo_file);
+	}
+	
 	
 	foreach($rows as $field)
 	{

@@ -276,6 +276,10 @@ if(phpversion() < '5.2.0')
 	define('TOPIC_ICON_DIR',BASEDIR.'/images/icons/topic_icons');
 	define('TOPIC_ICON_URL',BASEURL.'/images/icons/topic_icons');
 
+
+	//Enable youtube videos
+	define("YOUTUBE_ENABLED",$row['youtube_enabled']);
+	
 	include 'plugin.functions.php';
 	include 'plugins_functions.php';
 	require BASEDIR.'/includes/templatelib/Template.class.php';
@@ -432,6 +436,7 @@ $Smarty->register_function('include_js','include_js');
 $Smarty->register_function('get_binaries','get_binaries');
 $Smarty->register_function('check_module_path','check_module_path');
 $Smarty->register_function('rss_feeds','rss_feeds');
+$Smarty->register_function('website_logo','website_logo');
 
 $Smarty->register_modifier('SetTime','SetTime');
 $Smarty->register_modifier('getname','getname');

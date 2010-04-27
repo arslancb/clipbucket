@@ -763,3 +763,21 @@ function hq_toggle(nplayer_div,hq_div)
 	
 	$(nplayer_div+","+hq_div).toggle()
 }
+
+
+
+/** 
+ * Funcion autplay playlist
+ */
+function swap_auto_play()
+{
+	if($.cookie("auto_play_playlist")=="true")
+	{
+		$.cookie("auto_play_playlist","false");
+		$('#ap_status').html("off");
+	}else
+	{
+		$.cookie("auto_play_playlist","true");
+		$('#ap_status').html("on");
+	}
+}
