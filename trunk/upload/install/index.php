@@ -57,6 +57,7 @@ $step = $_POST['step'];
 if(file_exists(SCRIPT_DIR.'/files/install.lock'))
 	$step = 'already_installed';
 	
+
 switch($step)
 {
 	case "0":
@@ -102,7 +103,7 @@ switch($step)
 	case 4:
 	{
 		$step = 4;
-				
+
 		$prefix = post("prefix");
 		if(!$prefix || empty($prefix))
 			$prefix = "cb_";
@@ -124,7 +125,9 @@ switch($step)
                 $dbconnect = str_replace('_DB_PASS_', $_POST['dbpass'], $dbconnect);
                 $dbconnect = str_replace('_TABLE_PREFIX_', $prefix, $dbconnect);
 
-                file_put_contents(SCRIPT_DIR.'/includes/dbconnect.php',$dbconnect);
+                $fp = fopen('../includes/dbconnect.php', 'w');
+				fwrite($fp, $dbconnect);
+				fclose($fp);
 				
 				require '../includes/adodb/adodb.inc.php';
 				require '../includes/classes/category.class.php';
@@ -174,9 +177,11 @@ switch($step)
 			
 				$db->update($prefix."users",$query_field,$query_val," username='admin' ");
 
-                file_put_contents(SCRIPT_DIR.'/files/install.lock',time());
-                file_put_contents(SCRIPT_DIR.'/includes/clipbucket.php',file_get_contents('clipbucket.php'));
-                unlink(SCRIPT_DIR.'/files/temp/install.me');
+               // file_put_contents(SCRIPT_DIR.'/files/install.lock',time());
+               // file_put_contents(SCRIPT_DIR.'/includes/clipbucket.php',file_get_contents('clipbucket.php'));
+				copy("install.loc",SCRIPT_DIR.'/files/install.lock');
+				copy("clipbucket.php",SCRIPT_DIR."/includes/clipbucket.php");
+				unlink(SCRIPT_DIR.'/files/temp/install.me');
 
 			}
 		}
@@ -203,7 +208,7 @@ switch($step)
 		}
 		
 	//Checking includes Directory
-	if(!is_writeable("../includes/dbconnect.php"))
+	if(!is_writeable("../includes/dbconnect.php") && the_version()<'2.0.6') 
 		$errors[] = '"/includes/dbconnect.php" file is not writeable - Please changes its permission to 0777';
 	else
 		$msgs[] = '"/includes/dbconnect.php" file is writeable';
@@ -220,6 +225,7 @@ switch($step)
 	break;
 	case "update_1":
 	{
+		
 		$version_arrays = 
 		array('2.0.0','2.0.1','2.0.2');
 		
@@ -232,7 +238,41 @@ switch($step)
 		include("./../includes/dbconnect.php");
 		$step = 'update_1';
 		//Checking for the update file
+		
+		
+		
+		$all_ver_arrays = array('2.0.3','2.0.4','2.0.5','2.0.6');
+		$stop_ver = '2.0.6';
+		
+		$last_ver = $all_ver_arrays[count($all_ver_arrays) - 1];
+				
 		$dbfile = "cb_v".the_version()."_".VERSION.".sql";
+		
+		if(the_version()!=$last_ver)
+		{
+			//it waill call all queries 1 by 1 and move forward
+			$the_version = the_version();
+			//First file
+			//If version is latest, it will cal the single file and move forward
+			$dbfile = "cb_v".the_version()."_".$stop_ver.".sql";
+			$lines = file($dbfile);
+			foreach ($lines as $line_num => $line)
+			{
+				if (substr($line, 0, 2) != '--' && $line != '') 
+				{
+					$templine .= $line;
+					if (substr(trim($line), -1, 1) == ';') 
+					{
+						$templine = preg_replace("/{tbl_prefix}/",$prefix,$templine);
+						$db->Execute($templine);
+						$templine = '';
+					}
+				}
+			}
+			
+			$dbfile = "cb_v".$stop_ver."_".VERSION.".sql";
+		}
+
 		$lines = file($dbfile);
 		foreach ($lines as $line_num => $line)
 		{
@@ -315,8 +355,12 @@ switch($step)
 		$db->update($prefix."config",array("value"),array(VERSION)," name='version'");
 		$db->update($prefix."config",array("value"),array(STATE)," name='type'");
 		
-        file_put_contents(SCRIPT_DIR.'/files/install.lock',time());
-        file_put_contents(SCRIPT_DIR.'/includes/clipbucket.php',file_get_contents('clipbucket.php'));
+        //file_put_contents(SCRIPT_DIR.'/files/install.lock',time());
+        //file_put_contents(SCRIPT_DIR.'/includes/clipbucket.php',file_get_contents('clipbucket.php'));
+		copy("install.loc",SCRIPT_DIR.'/files/install.lock');
+		unlink(SCRIPT_DIR."/includes/clipbucket.php");
+			copy("clipbucket.php",SCRIPT_DIR."/includes/clipbucket.php");
+		unlink(SCRIPT_DIR.'/files/temp/install.me');
 		
 	}
 	break;

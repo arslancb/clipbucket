@@ -1,6 +1,8 @@
 <div class="content">
-	<h2>Please select your installation method</h2>
-</div>
+<div align="center"><p>Welcome to ClipBucket, Here you can choose what installation method you want to go with. </p>
+<div style="height:15px"></div>
+<h2>Please select your installation method</h2>
+</div></div>
 
 <div class="footer" align="right">
 

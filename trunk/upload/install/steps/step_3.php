@@ -1,5 +1,7 @@
  <form name="form2" method="post" action="" class="install_form"><div class="content">
 	<h2>Database Settings</h2>
+    
+  
  <?php include("msgs.php");
  
  if(count($msgs)==0)
@@ -7,7 +9,7 @@
  
  ?>
  
- 
+ 	<p style="font-size:11px; font-weight:normal">  Below you should enter your database connection details. If you're not sure about these, contact your host. </p>
     <label for="host">Host</label>
     <input name="host" type="text" id="host" value="<? if($_POST['host']) echo form_val(post('host')); else echo "localhost"?>">
     <label for="dbname">Database Name</label>
@@ -23,7 +25,7 @@
 	}else
 	{
 	?>
-    
+    <p style="font-size:12px; font-weight:normal">  Alright....database connection has been created, ClipBucket will now  create some tables and insert data...click continue</p>
     <input name="host" type="hidden" id="host" value="<? if($_POST['host']) echo form_val(post('host')); else echo "localhost"?>">
     <input type="hidden" name="dbname" id="dbname" value="<? if($_POST['dbname']) echo form_val(post('dbname'));?>">
     <input type="hidden" name="dbuser" id="dbuser" value="<? if($_POST['dbuser']) echo form_val(post('dbuser'));?>">

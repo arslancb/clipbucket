@@ -10,6 +10,7 @@
 define("FRONT_END",TRUE);
 define("BACK_END",FALSE);
 ini_set("include_path", "../includes");
+$while_installing = true;
 include("../includes/common.php");
 //Including Embed Video Mod Plugin (IMPORTANT)
 include('../plugins/embed_video_mod/embed_video_mod.php');
@@ -305,8 +306,11 @@ if($_POST['upgrade'])
 		{
 			//Finalize Upgrade
 			//Setting Up The lock
-            file_put_contents(BASEDIR.'/files/install.lock',time());
-            file_put_contents(BASEDIR.'/includes/clipbucket.php',file_get_contents('clipbucket.php'));
+            //file_put_contents(BASEDIR.'/files/install.lock',time());
+            //file_put_contents(BASEDIR.'/includes/clipbucket.php',file_get_contents('clipbucket.php'));
+			copy("install.loc",BASEDIR.'/files/install.lock');
+			unlink(BASEDIR."/includes/clipbucket.php");
+			copy("clipbucket.php",BASEDIR."/includes/clipbucket.php");
 			//Dropin Db Tbls
 			$tbls = array("ads_data","ads_placements","category","channel_comments","config","contacts","editors_picks","email_settings","flagged_videos","groups","group_invitations","group_members","group_posts","group_topics","group_videos","logs","logs_ping","messages","modules","players","player_configs","player_skins","plugins","plugin_config","stats","subscriptions","template","users","video","video_comments","video_detail","video_favourites");
 			foreach($tbls as $tbl){

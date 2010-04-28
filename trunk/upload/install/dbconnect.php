@@ -30,4 +30,8 @@
 	}
 	$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME);
 	
+	$db->Execute('SET NAMES utf8');
+	$db->Execute('SET CHARACTER SET utf8');
+	$db->Execute('SET COLLATION_CONNECTION="utf8_general_ci"');
+
 ?>

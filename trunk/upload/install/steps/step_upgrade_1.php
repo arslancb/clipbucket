@@ -1,5 +1,7 @@
  <form name="form2" method="post" action="" class="install_form"><div class="content">
 	<h2>Database Settings</h2>
+    <div style="font-size:12px; font-weight:normal; margin-bottom:10px">You are now about to upgrade your ClipBucket to the latest version, please enter database details in order to perform upgrade</div>
+    
  <?php include("msgs.php");
  
  if(count($msgs)==0)

@@ -49,16 +49,22 @@
 	else
 		$msgs[] = '"/install" directory is writeable';
 
+//	//Checking includes Directory
+//	if(!is_writeable("../includes/clipbucket.php"))
+//		$errors[] = '"/includes/clipbucket.php" is not writeable - Please changes its permission to 0777';
+//	else
+//		$msgs[] = '"/includes/clipbucket.php" is writeable';
+//	
+//	//Checking includes Directory
+//	if(!is_writeable("../includes/dbconnect.php"))
+//		$errors[] = '"/includes/dbconnect.php" is not writeable - Please changes its permission to 0777';
+//	else
+//		$msgs[] = '"/includes/dbconnect.php" is writeable';
+
 	//Checking includes Directory
-	if(!is_writeable("../includes/clipbucket.php"))
-		$errors[] = '"/includes/clipbucket.php" is not writeable - Please changes its permission to 0777';
+	if(!is_writeable("../includes"))
+		$errors[] = '"/includes" directory is not writeable - Please changes its permission to 0777';
 	else
-		$msgs[] = '"/includes/clipbucket.php" is writeable';
-	
-	//Checking includes Directory
-	if(!is_writeable("../includes/dbconnect.php"))
-		$errors[] = '"/includes/dbconnect.php" is not writeable - Please changes its permission to 0777';
-	else
-		$msgs[] = '"/includes/dbconnect.php" is writeable';
+		$msgs[] = '"/includes" directory is writeable';
 			
 ?>

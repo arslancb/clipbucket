@@ -7,5 +7,5 @@
         <a href="javascript:void(0)" onClick="import_users()">Click Here To Continue Upgrading...</a>
   </div>
 </div>
-
+<div class="footer" align="right"></div>
 <?=the_installer_footer()?>

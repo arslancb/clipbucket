@@ -3,7 +3,7 @@
 
 body,td,th {
 	font-family: tahoma;
-	font-size: 11px;
+	font-size: 12px;
 	color: #333;
 }
 body {
@@ -13,34 +13,26 @@ body {
 	margin-bottom: 0px;
 }
 a {
-	font-size: 11px;
-	color: #333;
-}
-a:link {
+	font-size: 12px;
+	color: #06c;
 	text-decoration: none;
 }
-a:visited {
-	text-decoration: none;
-	color: #333;
-}
+
 a:hover {
-	text-decoration: none;
-	color: #06C;
-}
-a:active {
-	text-decoration: none;
-	color: #333;
+	color: #cc3300;
 }
 
-h1,h2,h3,h4{font-family:"Century Gothic"}
 
-.container{width:900px; margin:auto}
+h1,h2,h3,h4{font-family:"Arial"}
+h2{font-size:14px}
+
+.container{width:899px; margin:auto;}
 .header{width:900px; height:65px; background-image:url(images/header.png);}
 .footer{width:880px; height:55px; background-image:url(images/footer.png); padding-right:20px; padding-top:10px; margin-bottom:10px}
 
-.content{background-image:url(images/gradient.png); background-position:bottom; background-repeat:repeat-x; border:1px solid #f6f6f6; padding:5px}
+.content{ background-color:#fff; background-position:bottom; background-repeat:repeat-x; padding:5px 10px 5px 10px;border-left:1px solid #bbb; border-right:2px solid #d5d5d5; margin-left:1px; min-height:200px}
 
-.button,.button_disabled{ background-color:transparent; background:url(images/button_bg.png); height:48px; background-repeat:no-repeat; padding-left:49px; line-height:48px; font-family:"Century Gothic"; color:#09c; font-weight:bold; font-size:16px; border:none; border-right:1px solid #ededed; outline:none; cursor:pointer}
+.button,.button_disabled{ background-color:transparent; background:url(images/button_bg.png); height:48px; background-repeat:no-repeat; padding-left:49px; line-height:48px; font-family:"Arial"; color:#09c; font-weight:bold; font-size:16px; border:none; border-right:1px solid #ededed; outline:none; cursor:pointer}
 
 .button_disabled{ background:url(images/button_bg_disabled.png); cursor:default; color:#999}
 

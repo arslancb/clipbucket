@@ -1,12 +1,17 @@
- <form name="form1" method="post" action="" class="install_form"><div class="content"><h2>Update ClipBucket from <?=the_version()?> to <?=VERSION?></h2><label for="dbprefix">Database Prefix</label>
+
+<form name="form1" method="post" action="" class="install_form"><div class="content"><h2>
+ Updating ClipBucket from <?=the_version()?> to <?=VERSION?></h2>
+ <div style="font-size:12px; font-weight:normal">You are now about to update your ClipBucket to the latest version, please enter database details in order to perform update</div><br />
  <?php
  if(the_version()<'2.0.4')
  {
  ?>
+ 	<label for="dbprefix">Database Prefix</label>
     <input type="text" name="dbprefix" id="dbprefix" value="<? if($_POST['dbprefix']) echo form_val(post('dbprefix')); else echo "cb_";?>">
     <?php
  }
  ?>
+ 
 <?php include("msgs.php") ?>
 </div>
 <div class="footer" align="right">
@@ -33,5 +38,5 @@
     
  
   
-</div>
-<?=the_installer_footer()?> </form>
+</div></form>
+<?=the_installer_footer()?> 

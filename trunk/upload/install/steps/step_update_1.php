@@ -1,10 +1,10 @@
-<div class="content"><h2>ClipBucket Has been updated to <?=VERSION?></h2>
+<div class="content"><h2>Updated to <?=VERSION?> successfully</h2>
+Congratulations, your clipbucket is now updated to latest version, You may need to look at our <a href="http://docs.clip-bucket.com/clipbucket-docs/clipbucket-installation#after_installation" target="_blank">After Updating Documentaion</a> that will guide you basics things about updating and settings
 
-<h3>ClipBucket has been successfully updated to the <?=VERSION?>, <a href="<?=SCRIPT_URL.'/admin_area'?>">click here to access admin panel</a></h3>
-<a href="http://docs.clip-bucket.com/clipbucket-docs/clipbucket-installation#after_installation" target="_blank"><strong>
- Please Read &quot;After Installation or Update Documentation&quot; Here
+<div style="height:15px"></div>
+You can now access admin area by <a href="<?=SCRIPT_URL.'/admin_area'?>">Clicking Here</a>
 
-</strong></a></div>
+</div>
 <div class="footer" align="right">
 
   

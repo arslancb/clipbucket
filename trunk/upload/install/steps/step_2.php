@@ -1,5 +1,7 @@
 <div class="content">
 	<h2>Checking File &amp; Directories Permissions</h2>
+    <p>ClipBucket need some files and folders permissions in order to store files properly, please make sure all files given below are chmod properly<br />
+<em>CHMOD : the chmod command (abbreviated from <strong>ch</strong>ange <strong>mod</strong>e) is a shell command and C language function in Unix and Unix-like  environments.</em></p>
     <?php include("msgs.php") ?>
 </div>
 

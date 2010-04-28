@@ -158,7 +158,7 @@
 		if(file_exists('../includes/clipbucket.php'))
 		{
 			$version = the_version();
-			if(VERSION > $version)
+			if($version && VERSION > $version)
 				return true;
 			else
 				return false;

@@ -1,5 +1,6 @@
 <div class="content">
   <h2>You are about to upgrade ClipBucket from <?=the_version()?> to <?=VERSION?></h2>
+  There possibilies that few of your data may loss during upgrade because of improper details or damaged structer.
 <?php include("msgs.php") ?>
 </div>
 <div class="footer" align="right">
