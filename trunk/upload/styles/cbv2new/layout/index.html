@@ -1,11 +1,16 @@
 
 <div class="content_con clearfix">
-	 <!--FEATURE_CON--> 
+	<!--FEATURE_CON--> 
     {if is_installed('editorspick')}
     <div class="feature_con clearfix">
     	<div class="feature_left" id="ep_video_container">
         	{section name=e_list loop=$editor_picks max=1}
             	{include file="$style_dir/blocks/editor_pick/video_block.html" video=$editor_picks[e_list]}
+            {sectionelse}
+            	<div style="font-size:11px;padding:10px;">
+                	There is no video in editor's pick, Please Add Videos In Editor's Pick<br />
+					Videos Manager > Add to editor's pick
+                </div>
             {/section}
         </div>
         <div class="feature_right">

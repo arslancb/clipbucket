@@ -131,7 +131,7 @@ SWFUpload.prototype.initSettings = function () {
 	this.ensureDefault("use_query_string", false);
 	this.ensureDefault("requeue_on_error", false);
 	this.ensureDefault("http_success", []);
-	this.ensureDefault("assume_success_timeout", 0);
+	this.ensureDefault("assume_success_timeout", 5);
 	
 	// File Settings
 	this.ensureDefault("file_types", "*.*");

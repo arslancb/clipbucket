@@ -95,7 +95,15 @@ if(!function_exists('hdflvplayer'))
 			//Setting Preview Image
 			$swfobj->addVar('preview',getThumb($vdata,'big'));
 			$swfobj->addVar('skin_autohide',true);
+			//Setting Buffer Time
+			$buffer = config('buffer_time');
 			
+			if($buffer<1)
+				$buffer = 3;
+			if($buffer>10)
+				$buffer = 10;
+			
+			$swfobj->addVar('buffer',$buffer);
 			
 			$swfobj->addVar('title',"Test");
 			$swfobj->CreatePlayer();

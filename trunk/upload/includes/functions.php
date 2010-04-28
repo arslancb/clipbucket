@@ -4041,8 +4041,10 @@
 
     function check_install()
     {
+		global $while_installing;
         if(file_exists('files/temp/install.me') && file_exists('install'))
         {
+			if(!$while_installing)
             header('Location: '.get_server_url().'/install');
             exit;
         }

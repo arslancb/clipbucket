@@ -3963,6 +3963,7 @@ class userquery extends CBCategory{
 	{
 		global $cbvid,$eh;
 		$vids = get_videos(array('user'=>$uid));
+		if(is_array($vids))
 		foreach($vids as $vid)
 			$cbvid->delete_video($vid['videoid']);
 		$eh->flush_msg();
