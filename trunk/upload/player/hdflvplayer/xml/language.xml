@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<language>
+
+<play><![CDATA[Play]]></play>
+
+<pause><![CDATA[Pause]]></pause>
+
+<hdison><![CDATA[HD is On]]></hdison>
+
+<hdisoff><![CDATA[HD is Off]]></hdisoff>
+
+<zoom><![CDATA[Zoom]]></zoom>
+
+<share><![CDATA[Share]]></share>
+
+<fullscreen><![CDATA[Fullscreen]]></fullscreen>
+
+<relatedvideos><![CDATA[Related Videos]]></relatedvideos>
+
+<sharetheword><![CDATA[Share the Word]]></sharetheword>
+
+<sendanemail><![CDATA[Send an Email]]></sendanemail>
+
+<to><![CDATA[To]]></to>
+
+<from><![CDATA[From]]></from>
+
+<note><![CDATA[Note (Optional)]]></note>
+
+<send><![CDATA[Send]]></send>
+
+<copylink><![CDATA[Copy Link]]></copylink>
+
+<copyembed><![CDATA[Copy Embedcode]]></copyembed>
+
+<facebook><![CDATA[Facebook]]></facebook>
+
+<reddit><![CDATA[reddit]]></reddit>
+
+<friendfeed><![CDATA[friendfeed]]></friendfeed>
+
+<slashdot><![CDATA[slashdot]]></slashdot>
+
+<delicious><![CDATA[delicious]]></delicious>
+
+<myspace><![CDATA[myspace]]></myspace>
+
+<wong><![CDATA[wong]]></wong>
+
+<digg><![CDATA[digg]]></digg>
+
+<blinklist><![CDATA[blinklist]]></blinklist>
+
+<bebo><![CDATA[bebo]]></bebo>
+
+<fark><![CDATA[fark]]></fark>
+
+<tweet><![CDATA[tweet]]></tweet>
+
+<furl><![CDATA[furl]]></furl>
+
+<adindicator><![CDATA[Your selection will follow this sponsors's message in - seconds]]></adindicator>
+<!-- Duration in seconds will be displayed in the place of Hypen in the tag.Do not remove the Hypen.-->
+
+<Skip><![CDATA[Skip this Video]]></Skip>
+
+</language>
