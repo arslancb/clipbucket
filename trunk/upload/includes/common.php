@@ -280,6 +280,9 @@ if(phpversion() < '5.2.0')
 	//Enable youtube videos
 	define("YOUTUBE_ENABLED",$row['youtube_enabled']);
 	
+	define("EMBED_VDO_WIDTH","480");
+	define("EMBED_VDO_HEIGHT","385");
+	
 	include 'plugin.functions.php';
 	include 'plugins_functions.php';
 	require BASEDIR.'/includes/templatelib/Template.class.php';
@@ -306,6 +309,7 @@ if(phpversion() < '5.2.0')
 	define("ALLOWED_GROUP_CATEGORIES",$row['grp_categories']);
 	define('ALLOWED_VDO_CATS',$row['video_categories']);
 	define('ALLOWED_CATEGORIES',3);
+	
 	
  	//Assigning Smarty Tags & Values
     Assign('CB_VERSION',CB_VERSION);

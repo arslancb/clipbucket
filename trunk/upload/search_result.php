@@ -11,14 +11,14 @@ require 'includes/config.inc.php';
 $pages->page_redir();
 						
 $page = mysql_clean($_GET['page']);
-$type = $_GET['type'] ;
+$type = mysql_clean($_GET['type']) ;
 $type = $type ? $type : 'videos';
 $search = cbsearch::init_search($type);
 
-$search->key = $_GET['query'];
-$search->category = $_GET['category'];
-$search->date_margin = $_GET['datemargin'];
-$search->sort_by = $_GET['sort'];
+$search->key = mysql_clean($_GET['query']);
+$search->category = mysql_clean($_GET['category']);
+$search->date_margin = mysql_clean($_GET['datemargin']);
+$search->sort_by = mysql_clean($_GET['sort']);
 $search->limit = create_query_limit($page,$search->results_per_page);
 $results = $search->search();
 

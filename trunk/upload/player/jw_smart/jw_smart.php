@@ -109,7 +109,52 @@ if(!function_exists("jw_smart"))
 			return false;
 	}
 	
+	function jw_embed_code($vdetails)
+	{
+		
+		$vid_file = get_video_file($vdetails,false,true);
+		//Checking for YT Referal
+		$ref = $vdetails['refer_url'];
+		//Checking for youtube
+		if(function_exists('is_ref_youtube'))
+			$ytcom = is_ref_youtube($ref);
+		if($ytcom)
+			$is_youtube = true;
+		else
+			$is_youtube = false;
+			
+		if($vid_file || $is_youtube)
+		{
+			if(!$vid_file)
+				$vid_file = urlencode($ref);
+			$code = '';
+			$code .= "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='".EMBED_VDO_WIDTH."' height='".EMBED_VDO_HEIGHT."'
+			id='cb_embed_player1' name='cb_embed_player1'>";
+			$code .= "<param name='movie' value='".PLAYER_URL.'/jw_smart/player-viral.swf'."'>";
+			$code .= "<param name='allowfullscreen' value='true'>";
+			$code .= "<param name='allowscriptaccess' value='always'>";
+			$code .= "<param name='flashvars' value='file=".$vid_file."'>";
+			$code .= "<embed id='cb_embed_player1'";
+			$code .= "		  name='cb_embed_player1'";
+			$code .= "		  src='".PLAYER_URL."/jw_smart/player-viral.swf'";
+			$code .= "		  width='".EMBED_VDO_WIDTH."'";
+			$code .= "		  height='".EMBED_VDO_HEIGHT."'";
+			$code .= "		  allowscriptaccess='always'";
+			$code .= "		  allowfullscreen='true'";
+			$code .= "		  flashvars='file=".$vid_file."'";
+			$code .= "   />";
+			$code .= "</object>";
+			return $code;
+		}else
+		{
+			return embeded_code($vdetails);
+		}
+	}
+	
 	add_js(array('swfobject.obj.js'=>'global'));
 	register_actions_play_video('jw_smart');
+	register_embed_function('jw_embed_code');
+	//Adding Embed Function 
+	
 }
 ?>

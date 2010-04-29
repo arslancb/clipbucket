@@ -667,7 +667,7 @@ class CBvideo extends CBCategory
 		
 		$embed_code = false;
 		
-		$funcs = $this->embed_func_listl;
+		$funcs = $this->embed_func_list;
 		if(is_array($funcs))
 		{
 			foreach($funcs as $func)

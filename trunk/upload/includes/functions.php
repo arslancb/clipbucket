@@ -2362,7 +2362,7 @@
 	 * Function used to display
 	 * Blank Screen
 	 * if there is nothing to play or to show
-	 * then who a blank screen
+	 * then show a blank screen
 	 */
 	function blank_screen($data)
 	{
@@ -4149,5 +4149,24 @@
         #return the filename part
         return $filename;
     }    
+	
+	/**
+	 * Function used to generate
+	 * embed code of embedded video
+	 */
+	function embeded_code($vdetails)
+	{
+		$code = '';
+		$code .= '<object width="'.EMBED_VDO_WIDTH.'" height="'.EMBED_VDO_HEIGHT.'">';
+		$code .= '<param name="allowFullScreen" value="true">';
+		$code .= '</param><param name="allowscriptaccess" value="always"></param>';
+		//Replacing Height And Width
+		$h_w_p = array("{Width}","{Height}");
+		$h_w_r = array(EMBED_VDO_WIDTH,EMBED_VDO_HEIGHT);	
+		$embed_code = str_replace($h_w_p,$h_w_r,$vdetails['embed_code']);
+		$code .= unhtmlentities($embed_code);
+		$code .= '</object>';
+		return $code;
+	}
 	
 ?>

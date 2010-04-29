@@ -38,9 +38,9 @@ if(!function_exists('cbplayer'))
 				$code 	 = "var flashvars = {\n";
 				$code	.= " htmlPage: document.location,\n";
 				if($data['hq'])
-				$code	.= "settingsFile: \"".PLAYER_URL."/cbplayer/settings.php?hqid=".$vdata['videoid']."&autplay=".$data['autoplay']."\"\n";
+				$code	.= "settingsFile: \"".PLAYER_URL."/cbplayer/settings.php?hqid=".$vdata['videoid']."&autoplay=".$data['autoplay']."\"\n";
 				else
-				$code	.= "settingsFile: \"".PLAYER_URL."/cbplayer/settings.php?vid=".$vdata['videoid']."&autplay=".$data['autoplay']."\"\n";
+				$code	.= "settingsFile: \"".PLAYER_URL."/cbplayer/settings.php?vid=".$vdata['videoid']."&autoplay=".$data['autoplay']."\"\n";
 				$code	.= "};\n";
 				$code	.= "var params = {\n";
 				$code	.= "  allowFullScreen: \"true\"\n";
@@ -56,13 +56,21 @@ if(!function_exists('cbplayer'))
 	
 	function default_embed_code($vdetails)
 	{
+		
+		$vid_file = get_video_file($vdata,$no_video,false);
+		if($vid_file)
+		{
 		$code = '';
-		$code .= '<object width="300" height="250">';
+		$code .= '<object width="'.EMBED_VDO_WIDTH.'" height="'.EMBED_VDO_HEIGHT.'">';
 		$code .= '<param name="movie" value="'.PLAYER_URL.'/cbplayer/videoPlayer.swf?settingsFile='.PLAYER_URL.'/cbplayer/settings.php?vid='.$vdetails['videoid'].'"></param>';
 		$code .= '<param name="allowFullScreen" value="true"></param>';
 		$code .= '<param name="allowscriptaccess" value="always"></param>';
 		$code .= '<embed src="'.PLAYER_URL.'/cbplayer/videoPlayer.swf?settingsFile='.PLAYER_URL.'/cbplayer/settings.php?vid='.$vdetails['videoid'].'" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="300" height="250"></embed>';
 		$code .= '</object>';
+		}else
+		{
+			return embeded_code($vdetails);
+		}
 		
 		return $code;
 	}

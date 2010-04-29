@@ -36,7 +36,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 		<showMiddlePlayBtn value="true"/>
 		
 		<showWatermark value="true"/>
-		<watermarkPos value="BR"/>
+		<watermarkPos value="<?=strtoupper(config('logo_placement'))?>"/>
 	
 		<spaceKeyListener value="true"/>
 		<clickListener value="true"/>

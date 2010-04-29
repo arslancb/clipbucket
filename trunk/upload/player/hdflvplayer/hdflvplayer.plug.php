@@ -1,7 +1,7 @@
 <?php
 
 /*
-Player Name: HD FLV Player
+Player Name: HD FLV Player Smart
 Description: HDFLV Player from BALA - hdflvplayer.nte
 Author: Arslan Hassan
 Author Website: http://clip-bucket.com/
@@ -114,7 +114,39 @@ if(!function_exists('hdflvplayer'))
 			return false;
 	}
 	
+	function hdflv_embed_code($vdetails)
+	{
+		
+		$vid_file = get_video_file($vdetails,false,true);
+		if($vid_file )
+		{
+
+			$code = '';
+			$code .= "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='".EMBED_VDO_WIDTH."' height='".EMBED_VDO_HEIGHT."'
+			id='cb_embed_player1' name='cb_embed_player1'>";
+			$code .= "<param name='movie' value='".PLAYER_URL.'/hdflvplayer/hdplayer.swf'."'>";
+			$code .= "<param name='allowfullscreen' value='true'>";
+			$code .= "<param name='allowscriptaccess' value='always'>";
+			$code .= "<param name='flashvars' value='file=".$vid_file."'>";
+			$code .= "<embed id='cb_embed_player1'";
+			$code .= "		  name='cb_embed_player1'";
+			$code .= "		  src='".PLAYER_URL."/hdflvplayer/hdplayer.swf'";
+			$code .= "		  width='".EMBED_VDO_WIDTH."'";
+			$code .= "		  height='".EMBED_VDO_HEIGHT."'";
+			$code .= "		  allowscriptaccess='always'";
+			$code .= "		  allowfullscreen='true'";
+			$code .= "		  flashvars='file=".$vid_file."&showPlaylist=false'";
+			$code .= "   />";
+			$code .= "</object>";
+			return $code;
+		}else
+		{
+			return embeded_code($vdetails);
+		}
+	}
+	
 	register_actions_play_video('hdflvplayer');
+	register_embed_function('hdflv_embed_code');
 }
 
 ?>

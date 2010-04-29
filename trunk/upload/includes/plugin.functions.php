@@ -349,4 +349,13 @@
 		}
 	}
 	
+	/**
+	 * Regiseter Embed Function
+	 */
+	function register_embed_function($name)
+	{
+		global $cbvid;
+		$cbvid->embed_func_list [] = $name;
+	}
+	
 ?>
