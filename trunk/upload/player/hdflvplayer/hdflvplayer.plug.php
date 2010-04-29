@@ -84,6 +84,8 @@ if(!function_exists('hdflvplayer'))
 			if($cb_hd_smart->configs['license'])
 			{
 				$swfobj->addVar('license',$cb_hd_smart->configs['license']);
+				$swfobj->addVar('logo_target',BASEURL);
+				$swfobj->addVar('logopath',website_logo());
 			}
 			
 			if($cb_hd_smart->configs['hd_skin'])

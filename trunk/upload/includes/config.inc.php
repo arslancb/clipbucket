@@ -34,7 +34,7 @@ Assign('module_list',$Cbucket->moduleList);
 
 
 //Checking Website is closed or not
-if($row['closed'] == 1 && THIS_PAGE!='ajax')
+if($row['closed'] == 1 && THIS_PAGE!='ajax' && !$in_bg_cron)
 {
 	
 	if(!has_access("admin_access",TRUE))

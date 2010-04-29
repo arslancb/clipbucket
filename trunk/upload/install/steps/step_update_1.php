@@ -3,6 +3,8 @@ Congratulations, your clipbucket is now updated to latest version, You may need 
 
 <div style="height:15px"></div>
 You can now access admin area by <a href="<?=SCRIPT_URL.'/admin_area'?>">Clicking Here</a>
+<div style="height:15px"></div>
+<strong>PLEASE CHANGE "includes" directory permission to 0755</strong>
 
 </div>
 <div class="footer" align="right">

@@ -15,6 +15,9 @@ You can access admin area by <a href="<?=SCRIPT_URL.'/admin_area'?>">Clicking He
 After login, We <strong>strongly recommend</strong> you to change your admin username, password and email by <strong><a href="<?=SCRIPT_URL.'/admin_area'?>/view_user.php?uid=1">
 Clicking Here</a></strong>
 
+<div style="height:15px"></div>
+<strong>PLEASE CHANGE "includes" directory permission to 0755</strong>
+
 </strong>
 
 

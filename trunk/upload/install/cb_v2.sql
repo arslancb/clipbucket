@@ -2194,7 +2194,8 @@ INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (4467, 'en', 'violence_replusive_content', 'Violence or repulsive content'),
 (4468, 'en', 'disturbing', 'Disturbing'),
 (4469, 'en', 'other', 'Other'),
-(4470, 'en', 'pending_requests', 'Pending requests');
+(4470, 'en', 'pending_requests', 'Pending requests'),
+(4471, 'en', 'friend_add_himself_error', 'You cannot add yourself as a friend');
 
 -- --------------------------------------------------------
 

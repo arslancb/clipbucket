@@ -86,9 +86,12 @@ if(!function_exists('validate_embed_code'))
 			//Removing Img Tags
 			$val = preg_replace('/<img (.*) \/>/i','',$val);
 			//Removing DIV Tags
-			$val = preg_replace('/<div(.*)><\/div>/i','',$val);
+			//$val = preg_replace('/<div(.*)><\/div>/i','',$val);
+			//Just Get Data wrapped inside embed 
+			$val = preg_match('/<embed(.*)>(.*)<\/embed>/',$val,$matches);
+			$val = $matches[0];
 			
-			if(!stristr($val,'<embed')&&!stristr($val,'<object'))
+			if(!stristr($val,'<embed'))
 				e(lang('embed_code_invalid_err'));
 			
 			//Replacing Widht and Height 

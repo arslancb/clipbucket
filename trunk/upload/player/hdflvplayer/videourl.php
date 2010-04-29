@@ -267,4 +267,3 @@ print("&location1=".$location);
 
 
 ?>
-

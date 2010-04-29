@@ -743,6 +743,9 @@ class userquery extends CBCategory{
 		{
 			$this->confirm_friend($fid,$uid);
 			e(lang("friend_added"));
+		}elseif($uid==$fid)
+		{
+			e(lang("friend_add_himself_error"));
 		}else
 		{
 			$db->insert(tbl($this->dbtbl['contacts']),array('userid','contact_userid','date_added','request_type'),
