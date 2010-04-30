@@ -8,3 +8,6 @@ INSERT INTO `clipbucket_svn`.`cb_config` (`configid`, `name`, `value`) VALUES (N
 INSERT INTO `clipbucket_svn`.`cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'logo_placement', 'br');
 INSERT INTO `clipbucket_svn`.`cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'buffer_time', '3');
 INSERT INTO `clipbucket_svn`.`cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'youtube_enabled', 'yes');
+
+-- April 28
+ALTER TABLE `cb_contacts` ADD `request_type` ENUM( 'in', 'out' ) NOT NULL AFTER `contact_group_id` 

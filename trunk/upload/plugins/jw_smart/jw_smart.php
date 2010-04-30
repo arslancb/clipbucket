@@ -145,6 +145,8 @@ class jwplayer_smart
 	
 }
 
+//Adding JWPlayer Liste
+
 $cb_jw_smart = new jwplayer_smart();
 $Smarty->assign_by_ref('jw_smart',$cb_jw_smart);
 ?>
