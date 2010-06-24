@@ -16,7 +16,11 @@ $type = $type ? $type : 'videos';
 $search = cbsearch::init_search($type);
 
 $search->key = mysql_clean($_GET['query']);
-$search->category = mysql_clean($_GET['category']);
+
+if(!is_array($_GET['category']))
+	$_GET['category'] = mysql_clean($_GET['category']);
+	
+$search->category = $_GET['category'];
 $search->date_margin = mysql_clean($_GET['datemargin']);
 $search->sort_by = mysql_clean($_GET['sort']);
 $search->limit = create_query_limit($page,$search->results_per_page);

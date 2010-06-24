@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /* 
 **************************
 * @ Author : Arslan Hassan
@@ -956,17 +956,28 @@ class userquery extends CBCategory{
 	/**
 	 * Function used to get pending contacts
 	 */
-	function get_pending_contacts($uid,$group=0)
+	function get_pending_contacts($uid,$group=0,$count_only=false)
 	{
 		global $db;
-		$result = $db->select(tbl("contacts,users"),
+		
+		if(!$count_only)
+		{
+			$result = $db->select(tbl("contacts,users"),
 			tbl("contacts.userid,contacts.confirmed,contacts.request_type ,users.*"),
 			tbl("contacts.contact_userid")."='$uid' AND ".tbl("users.userid")."=".tbl("contacts.userid")."
 			AND ".tbl("contacts.confirmed")."='no' AND ".tbl("contacts").".contact_group_id='$group' ");
-		if($db->num_rows>0)
-			return $result;
-		else
-			return false;
+			if($db->num_rows>0)
+				return $result;
+			else
+				return false;
+		}else
+		{
+			$count =  $db->count(tbl("contacts"),
+			tbl("contacts.contact_userid"),
+			tbl("contacts.contact_userid")."='$uid' AND ".tbl("contacts.confirmed")."='no' AND ".tbl("contacts").".contact_group_id='$group' ");
+			//echo $db->db_query;
+			return $count;
+		}
 	}
 	
 	/**

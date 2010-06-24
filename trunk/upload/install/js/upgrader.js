@@ -5,7 +5,7 @@ var page = "./upgrader.php";
 
 function import_users()
 {
-	$("#the_results").html("<strong>Step 2/6 - Importing Users , Pleae wait while ClipBucket imports users....</strong>");
+	$("#the_results").html("<strong>Step 2/6 - Importing Users , Please wait while ClipBucket imports users....</strong>");
 	$.post(page,
 	   {
 		   "upgrade" : "yes",
@@ -20,7 +20,7 @@ function import_users()
 
 function import_vids()
 {
-	$("#the_results").html("<strong>Step 3/6 - Importing Videos , Pleae wait while ClipBucket imports videos....</strong>");
+	$("#the_results").html("<strong>Step 3/6 - Importing Videos , Please wait while ClipBucket imports videos....</strong>");
 	$.post(page,
 	   {
 		   "upgrade" : "yes",
@@ -34,7 +34,7 @@ function import_vids()
 
 function import_comments()
 {
-	$("#the_results").html("<strong>Step 4/6 - Importing Comments , Pleae wait while ClipBucket imports video comments....</strong>");
+	$("#the_results").html("<strong>Step 4/6 - Importing Comments , Please wait while ClipBucket imports video comments....</strong>");
 	$.post(page,
 	   {
 		   "upgrade" : "yes",

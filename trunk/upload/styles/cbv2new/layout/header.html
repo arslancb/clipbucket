@@ -64,7 +64,7 @@
         	<li><a href="{link name='my_videos'}">{lang code='com_my_videos'}</a></li>
         	<li><a href="{link name='my_favorites'}">{lang code='Favorites'}</a></li>
         	<li><a href="{link name='my_playlists'}">{lang code='playlists'}</a></li>
-        	<li><a href="{link name='my_contacts'}">{lang code='friend_requests'} ({$userquery->get_contacts($userquery->userid,0,no,true,'in')})</a></li>  
+        	<li><a href="{link name='my_contacts'}">{lang code='friend_requests'} ({$userquery->get_pending_contacts($userquery->userid,0,true)})</a></li>  
         {/if}     
          </ul>
 <div class="search_con">

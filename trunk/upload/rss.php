@@ -44,7 +44,7 @@ switch($mode)
 		 $videos = get_videos(array('limit'=>$limit,'order'=>'last_viewed DESC'));
 		 $title = "Videos Being Watched";
 	}
-	
+	break;
 	case 'user':
 	{
 		 $user = mysql_clean($_GET['username']);

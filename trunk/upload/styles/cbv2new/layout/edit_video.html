@@ -98,7 +98,7 @@
  
  
  {* Loading Custom Fields *}
- {if $custom_fields.0.title !=''}
+ {if count($custom_form_fields)>0}
  	<fieldset class="fieldset">
     <legend>{lang code='more_options'}</legend>
     {foreach from=$custom_fields item=field}

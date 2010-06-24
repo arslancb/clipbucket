@@ -180,7 +180,7 @@
 
 <!-- Getting Related videos -->
 {assign var=videos_items_columns value=func->config(videos_items_columns)}
-{get_videos tags=$vdo.tags limit=$videos_items_columns assign=related_vids exclude=$vdo.videoid}
+{get_videos tags=$vdo.tags limit=$videos_items_columns assign=related_vids exclude=$vdo.videoid title=$vdo.title show_related=true}
 {if $related_vids}
 <span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#related_vids").slideToggle("fast")'>Related Videos</span>
 <div class="watch_vids_cont" id="related_vids">

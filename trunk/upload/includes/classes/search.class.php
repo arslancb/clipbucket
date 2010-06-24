@@ -56,7 +56,7 @@ class cbsearch
 	 * user details where user_id = table.useri_id
 	 */
 	var $has_user_id = false; 
-
+	
 	
 	/**
 	 * ClipBucket Search System works pretty easily
@@ -68,6 +68,18 @@ class cbsearch
 	 
 	 var $display_template = '';
 	 var $template_var = '';
+	 
+	 
+	/**
+	 * want to use MATCH - AGAINST method instead of LIKE
+	 * simply set this variable to true
+	 */
+	var $use_match_method = false;
+	
+	/**
+	 * Fields to use for MATCH - AGAINST method
+	 */
+	var $match_fields = array();
 	 
 	/**
 	 * INITIATION SEARCH
@@ -98,11 +110,31 @@ class cbsearch
 	function search()
 	{
 		global $db;
+		
+
+		$ma_query = "";
 		#Checking for columns
+		if(!$this->use_match_method)
 		foreach($this->columns as $column)
 		{
 			$this->query_cond($column);
 		}
+		else
+		{
+			if($this->key)
+			{
+				$this->set_the_key();
+				$ma_query = $this->match_against_query();
+				$this->add_cond($ma_query);
+				//add order
+				$add_select_field = ",".$ma_query." AS Resource";
+				$sorting = "Resource ASC";
+			}else
+			{
+				//do nothing
+			}
+		}
+		
 		#Checking for category
 		if(isset($this->category))
 		{
@@ -115,7 +147,7 @@ class cbsearch
 		}
 		
 		#Sorting
-		if(isset($this->sort_by))
+		if(isset($this->sort_by) && !$sorting)
 		{
 			$sorting = $this->sorting[$this->sort_by];
 		}
@@ -135,8 +167,9 @@ class cbsearch
 			else
 				$query_cond = $condition;
 			$results = $db->select(tbl($this->db_tbl.",users"),
-								tbl($this->db_tbl.'.*,users.userid,users.username'),
+								tbl($this->db_tbl.'.*,users.userid,users.username').$add_select_field,
 							$query_cond." ".tbl($this->db_tbl).".userid=".tbl("users.userid"),$this->limit,$sorting);
+			$db->db_query;
 			$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
 			
 		}else
@@ -172,7 +205,7 @@ class cbsearch
 	{
 		//Checking Condition Type
 		$type = strtolower($array['type']);
-		if($type !='=' && $type!='<' && $type!='>' && $type!='<=' && $type!='>=' && $type!='like')
+		if($type !='=' && $type!='<' && $type!='>' && $type!='<=' && $type!='>=' && $type!='like' && $type!='match')
 		{
 			$type = '=';
 		}
@@ -188,9 +221,12 @@ class cbsearch
 			$op = $array['op'];
 		else
 			$op = '';
-		if(!empty($this->key))	
+		if(!empty($this->key) && $type != 'match')	
 			$this->query_conds[] = $op." ".tbl($this->db_tbl).".".$array['field']." ".$type." '".preg_replace("/{KEY}/",$this->key,$var)."'";
-
+		if(!empty($this->key) && $type == 'match')
+			$this->query_conds[] = $op." MATCH(".tbl($this->db_tbl).".".$array['field'].") AGAINST('".preg_replace("/{KEY}/",$this->key,$var)."'
+										IN BOOLEAN MODE)";
+										
 	}
 	
 	/**
@@ -334,7 +370,45 @@ class cbsearch
 		
 		return $this->date_margins;
 	}
-
+	
+	
+	/**
+	 * Function used to create match_against query
+	 * it will simple loop the input fields
+	 * add table prefix and create MATCH(fields) AGAINST (keyword) query
+	 * @return - MATCH (fields) AGAINST (kewyord)
+	 */
+	function match_against_query()
+	{
+		$cond = " MATCH ( ";
+		$count = 0;
+		foreach($this->match_fields as $field)
+		{
+			if($count>0)
+				$cond .= ",";
+			$cond .= tbl($this->db_tbl).".".$field;
+			
+			$count++;
+		}
+		$cond .= ")"; //Here match(fields1,field2) thing is finished
+		
+		//now add against
+		$cond .= " AGAINST ('".$this->key."' IN BOOLEAN MODE) ";
+		
+		return $cond;
+	}
+	
+	/**
+	 * Function used to set the key
+	 */
+	function set_the_key($string=null)
+	{
+		if(!$string)
+		$string = $this->key;
+		$pattern = array('/(\w+)/i','/(\++)/i',"/(\-\+)/i",'/(\-+)/i');
+		$replacement = array('+$1',"+","-","-");
+		return $this->key = preg_replace($pattern, $replacement, $string);
+	}
 }
 
 ?>

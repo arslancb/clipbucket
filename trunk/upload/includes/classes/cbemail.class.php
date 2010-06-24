@@ -30,6 +30,8 @@ class CBEmail
 		$result = $db->select(tbl($this->db_tpl),"*"," email_template_code='".$code."' OR email_template_id='$code' ");
 		if($db->num_rows>0)
 		{
+			$result[0]['email_template'] = stripslashes($result[0]['email_template']);
+			$result[0]['email_template_subject'] = stripslashes($result[0]['email_template_subject']);
 			return $result[0];
 		}else
 			return false;

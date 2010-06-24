@@ -179,7 +179,7 @@ switch($step)
 
                // file_put_contents(SCRIPT_DIR.'/files/install.lock',time());
                // file_put_contents(SCRIPT_DIR.'/includes/clipbucket.php',file_get_contents('clipbucket.php'));
-				copy("install.loc",SCRIPT_DIR.'/files/install.lock');
+				copy("install.lock",SCRIPT_DIR.'/files/install.lock');
 				copy("clipbucket.php",SCRIPT_DIR."/includes/clipbucket.php");
 				unlink(SCRIPT_DIR.'/files/temp/install.me');
 
@@ -357,7 +357,7 @@ switch($step)
 		
         //file_put_contents(SCRIPT_DIR.'/files/install.lock',time());
         //file_put_contents(SCRIPT_DIR.'/includes/clipbucket.php',file_get_contents('clipbucket.php'));
-		copy("install.loc",SCRIPT_DIR.'/files/install.lock');
+		copy("install.lock",SCRIPT_DIR.'/files/install.lock');
 		unlink(SCRIPT_DIR."/includes/clipbucket.php");
 			copy("clipbucket.php",SCRIPT_DIR."/includes/clipbucket.php");
 		unlink(SCRIPT_DIR.'/files/temp/install.me');

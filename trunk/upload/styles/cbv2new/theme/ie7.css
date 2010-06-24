@@ -3,6 +3,7 @@
 	If you are reading this, I beg you please update your browser to Firefox or Chrome or Safari or Opera. If you still insists using on Internet Explorer, please use Internet Explorer 8
 */
 
+#container{overflow-x:hidden}
 .clearfix { display:inline-block; }
 .foot_s_con { margin:10px auto 0; padding:0px; }
 .foot_s_con input[type=submit] { background:url(../images/foot_search.png) top repeat-x; border:1px solid #555555; height:35px; padding:0px 6px; margin:1px 0px 0px; color:#FFF; font-family:Verdana,Tahoma,Arial,sans-serif; }

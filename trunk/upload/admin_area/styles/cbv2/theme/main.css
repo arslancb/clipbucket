@@ -276,3 +276,8 @@ margin-top: 0;
 .admin_links a:hover{color:#d54e21}
 
 .edit_comment{display:block; }
+
+.cb_div{border:1px solid #CCC; padding:10px; margin:10px; margin-left:0px }
+.cb_div td{border-bottom:1px solid #CCC}
+.cb_div .heading{background-color:#F2F2F2; font-weight:bold}
+.cb_div input[type=submit]{padding:5px}

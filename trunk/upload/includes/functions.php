@@ -440,7 +440,7 @@
 	
 	
 	/**
-	 * Get Directory Size
+	 * Get Directory Size - get_video_file($vdata,$no_video,false);
 	 */
 	function get_directory_size($path)
 	{
@@ -555,11 +555,27 @@
 		}
 			
 		#Checking if there is any custom function for
-		if(count($Cbucket->custom_get_thumb_funcs)>0)
-		foreach($Cbucket->custom_get_thumb_funcs as $funcs)
+		if(count($Cbucket->custom_get_thumb_funcs) > 0)
 		{
-			if(function_exists($funcs))
-				return $funcs($vdetails);
+			
+			foreach($Cbucket->custom_get_thumb_funcs as $funcs)
+			{
+				
+				//Merging inputs
+				$in_array = array(
+				'num' => $num,
+				'multi' => $multi,
+				'count' => $count,
+				'return_full_path' => $return_full_path,
+				'return_big' => $return_big
+				);
+				if(function_exists($funcs))
+				{
+					$func_returned = $funcs($vdetails,$in_array);
+					if($func_returned)
+					return $func_returned;
+				}
+			}
 		}
 		
 		#get all possible thumbs of video
@@ -919,6 +935,7 @@
 				
 				if($all_cat && is_array($cats))
 				$cats = array_merge($all_cat,$cats);
+
 				return $cats;
 			}
 			break;
@@ -1421,7 +1438,11 @@
 		if(is_array($Cbucket->custom_video_file_funcs))
 		foreach($Cbucket->custom_video_file_funcs as $func)
 			if(function_exists($func))
-				return $func($vdetails, $hq);
+			{
+				$func_returned = $func($vdetails, $hq);
+				if($func_returned)
+				return $func_returned;
+			}
 		
 		#Now there is no function so lets continue as
 		$vid_files = glob(VIDEOS_DIR."/".$vdetails['file_name']."*");
@@ -4167,6 +4188,19 @@
 		$code .= unhtmlentities($embed_code);
 		$code .= '</object>';
 		return $code;
+	}
+	
+	
+	/**
+	 * function used to convert input to proper date created formate
+	 */
+	function datecreated($in)
+	{
+		
+		if($in)
+			return date("Y-m-d",strtotime($in));
+		else
+			return '0000-00-00';
 	}
 	
 ?>

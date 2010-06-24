@@ -213,7 +213,7 @@ class CBvideo extends CBCategory
 						$val = $new_val;
 					}
 					if(!$field['clean_func'] || (!apply_func($field['clean_func'],$val) && !is_array($field['clean_func'])))
-						$val = mysql_clean($val);
+						$val = ($val);
 					else
 						$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
 					
@@ -284,7 +284,9 @@ class CBvideo extends CBCategory
 				e(lang("no_edit_video"));
 			}else{
 				//pr($upload_fields);
+				
 				$db->update(tbl('video'),$query_field,$query_val," videoid='$vid'");
+				//echo $db->db_query;
 				e(lang("class_vdo_update_msg"),'m');
 			}
 			
@@ -565,7 +567,7 @@ class CBvideo extends CBCategory
 			$cond .= " ".$params['cond'];
 		
 			
-		if(!$params['count_only'])
+		if(!$params['count_only'] &&  !$params['show_related'])
 		{
 			if(!empty($cond))
 				$cond .= " AND ";
@@ -573,7 +575,22 @@ class CBvideo extends CBCategory
 		}
 		
 		
+		if($params['show_related'])
+		{
+			$cond = "MATCH(".tbl("video.title,video.tags").") 
+			AGAINST ('".cbsearch::set_the_key($params['title'])."' IN BOOLEAN MODE) ";
+			if($params['exclude'])
+			{
+				if($cond!='')
+					$cond .= ' AND ';
+				$cond .= " ".tbl('video.videoid')." <> '".$params['exclude']."' ";
+			}
+			$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),
+			$cond." AND ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);
 			
+			assign($params['assign'],$result);
+		}
+		
 		if($params['count_only'])
 			return $result = $db->count(tbl('video'),'*',$cond);
 		if($params['assign'])
@@ -718,8 +735,8 @@ class CBvideo extends CBCategory
 	{
 		$this->email_template_vars = array
 		('{video_title}' => $details['title'],
-		 '{video_description}' => $details['tags'],
-		 '{video_tags}' => $details['description'],
+		 '{video_description}' => $details['description'],
+		 '{video_tags}' => $details['tags'],
 		 '{video_date}' => cbdate(DATE_FORMAT,strtotime($details['date_added'])),
 		 '{video_link}' => video_link($details),
 		 '{video_thumb}'=> GetThumb($details)
@@ -736,12 +753,15 @@ class CBvideo extends CBCategory
 	 */
 	function init_search()
 	{
-		$this->search = new cbsearch;
+			$this->search = new cbsearch;
 		$this->search->db_tbl = "video";
 		$this->search->columns =array(
 			array('field'=>'title','type'=>'LIKE','var'=>'%{KEY}%'),
 			array('field'=>'tags','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR')
 		);
+		$this->search->use_match_method = true;
+		$this->search->match_fields = array("title","tags");
+		
 		$this->search->cat_tbl = $this->cat_tbl;
 		
 		$this->search->display_template = LAYOUT.'/blocks/video.html';

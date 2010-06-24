@@ -51,7 +51,7 @@ if($_POST['upgrade'])
 			
 			//Getting List Of User
 			$users = $db->select("users","*"," userid<>'1'");
-
+			if(is_array($users))
 			foreach($users as $user)
 			{
 				$array['username'] = $user['username'];
@@ -229,6 +229,7 @@ if($_POST['upgrade'])
 		{
 			//Getting list Of Comments
 			$coms = $db->select("video_comments","*");
+			if(is_array($coms))
 			foreach($coms as $com)
 			{
 				$vid = $com['videoid'];
