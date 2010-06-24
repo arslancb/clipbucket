@@ -650,7 +650,7 @@ class Upload{
 		
 		$dcountry = $default['country'];
 		$location = $default['location'];
-		$date_recorded = $default['date_recorded'];
+		$date_recorded = $default['datecreated'];
 		$date_recorded =  $date_recorded ? date(config("date_format"),strtotime($date_recorded)) : date(config("date_format"),time());
 		
 		$country_array = array("");
@@ -683,14 +683,17 @@ class Upload{
 		 'date_recorded'	=> array(
 						 'title' => 'Date Recorded',
 						 'type' => 'textfield',
-						 'name' => 'date_recorded',
-						 'id' => 'date_recorded',
+						 'name' => 'datecreated',
+						 'id' => 'datecreated',
 						 'class'=>'date_field',
 						 'anchor_after' => 'date_picker',
 						 'value'=> $date_recorded,
 						 'db_field'=>'datecreated',
 						 'required'=>'no',
 						 'default_value'=>'',
+						 'use_func_val' => true,
+						 'validate_function' => 'datecreated',
+						 'hint_2' => config("date_format"),
 						 )
 		 );
 		return $LocationFieldsArray;

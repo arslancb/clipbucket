@@ -4197,8 +4197,21 @@
 	function datecreated($in)
 	{
 		
+		$date_els = explode('-',$in);
+		
+		//checking date format
+		$df = config("date_format");
+		$df_els  = explode('-',$df);
+		
+		foreach($df_els as $key => $el)
+			${strtolower($el).'id'} = $key;
+		
+		$month = $date_els[$mid];
+		$day = $date_els[$did];
+		$year = $date_els[$yid];
+
 		if($in)
-			return date("Y-m-d",strtotime($in));
+			return date("Y-m-d",strtotime($year.'-'.$month.'-'.$day));
 		else
 			return '0000-00-00';
 	}
