@@ -46,10 +46,12 @@
       <div class="right_column">
        	<div class="channel_inner_box clearfix">
         <h2>{$the_title}</h2>
-        	{section name=v_list loop=$videos}
-       		 {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
-    		{/section}
-            
+           
+            <div id="user_vids_page" class="clearfix">         
+                {section name=v_list loop=$videos}
+                 {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
+                {/section}
+            </div>
             {include file="$style_dir/blocks/pagination.html"}
         </div>
         	

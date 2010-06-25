@@ -77,13 +77,14 @@
     
     {$users_videos|sprintf:$group.group_name}({$group.total_videos})</h2>
     <div id="style_change" style="margin-top:10px">Change Style of Listing 
-        	<div id="grid" title="Change To Grid Style"></div> 
-            <div id="list" title="Change to List Style"></div>
+        	<div id="grid" onclick="ToggleView(this)" title="Change To Grid Style"></div> 
+            <div id="list" onclick="ToggleView(this)" title="Change to List Style"></div>
 		</div> 
-
-    {section name=v_list loop=$videos}
-        {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
-    {/section}
+	<div id="grp_videos_page">
+        {section name=v_list loop=$videos}
+            {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
+        {/section}
+    </div>
     <div class="clearfix"></div>
 
 <!-- Listing Group Videos end-->

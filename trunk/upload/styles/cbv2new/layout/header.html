@@ -10,8 +10,8 @@
         {if !$userquery->login_check('',true)}
         	<a href="{$baseurl}/forgot.php" class="forget" title="Forget Username/Password, Click Here"></a>
             <form action="{link name='login'}" method="post" name="login" style="margin:0px; padding:0px;">
-                <input type="text" value="Username" id="username" name="username"  />
-                <input type="password" value="Password" id="password" name="password"  />                
+                <input type="text" value="Username" id="username" name="username" onfocus="if(this.defaultValue == this.value) this.value = ''" onblur="if(this.value == '') this.value = this.defaultValue"  />
+                <input type="password" value="Password" id="password" name="password" onfocus="if(this.defaultValue == this.value) this.value = ''" onblur="if(this.value == '') this.value = this.defaultValue"  />                
                 <input type="submit" value="Login" id="login" name="login"  />
                 <input type="checkbox" name="rememberme" id="rememberme"  /> <span class="remember">{lang code='remember_me'}</span>
 			</form> 

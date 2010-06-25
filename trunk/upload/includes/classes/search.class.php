@@ -168,13 +168,15 @@ class cbsearch
 				$query_cond = $condition;
 			$results = $db->select(tbl($this->db_tbl.",users"),
 								tbl($this->db_tbl.'.*,users.userid,users.username').$add_select_field,
-							$query_cond." ".tbl($this->db_tbl).".userid=".tbl("users.userid"),$this->limit,$sorting);
+							$query_cond." ".tbl($this->db_tbl).".userid=".tbl("users.userid")." AND ".tbl($this->db_tbl).".active='yes'",$this->limit,$sorting);
+							//echo $db->db_query;
 			$db->db_query;
 			$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
 			
 		}else
 		{
 			$results = $db->select(tbl($this->db_tbl),'*',$condition,$this->limit,$sorting);
+			//echo $db->db_query;
 			$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
 		}
 		

@@ -5,7 +5,7 @@
 <!-- Video Box -->
 {if $display_type =='normal' || $display_type==''}
 
-<div id="vid_wrap_{$video.videoid}" class="grid_view {if $cur_class == 'grid_view'}{else}{$cur_class}{/if}">
+<div id="vid_wrap_{$video.videoid}" class="{if $video_view}{$video_view}{else}grid_view {if $cur_class == 'grid_view'}{else}{$cur_class}{/if}{/if}">
 	<div class="vid_thumb">
     	<a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" alt="{$video.title}" {ANCHOR place="video_thumb" data=$video} /></a>
         <span class="vid_time">{$video.duration|SetTime}</span>

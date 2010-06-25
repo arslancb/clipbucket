@@ -100,10 +100,12 @@ class userquery extends CBCategory{
 			}
 
 
-			if($sess->get("dummy_username")=="")
+			if($sess->get("dummy_username")=="") {
 				$this->UpdateLastActive(userid());
-		}else
+			}
+		}else {
 			$this->permission = $this->get_user_level(4,TRUE);
+		}
 			
 		
 		
@@ -242,7 +244,7 @@ class userquery extends CBCategory{
 		if(!userid())
 		{
 			if(!$check_only)
-			e(lang('you_not_logged_in'));
+				e(lang('you_not_logged_in'));
 			return false;
 		}
 		elseif(!$this->session_auth(userid()))
@@ -272,7 +274,6 @@ class userquery extends CBCategory{
 		{	
 			//$access_details = $this->get_user_level(userid());
 			$access_details = $this->permission;
-			
 			if(is_numeric($access))
 			{
 				if($access_details['level_id'] == $access)
@@ -289,6 +290,7 @@ class userquery extends CBCategory{
 			{
 				if($access_details[$access] == 'yes')
 				{
+					
 					return true;
 				}
 				else
@@ -1208,6 +1210,7 @@ class userquery extends CBCategory{
 		if($limit!='count')
 		{
 			$result = $db->select(tbl("users,".$this->dbtbl['subtbl']),"*"," ".tbl("subscriptions.userid")." = '$id' AND ".tbl("subscriptions.subscribed_to")."=".tbl("users.userid"),$limit);
+			
 			if($db->num_rows>0)
 				return $result;
 			else
@@ -1368,7 +1371,7 @@ class userquery extends CBCategory{
 			$thumb_file = USER_THUMBS_URL.'/'.$thumbnail;
 		elseif(!empty($udetails['avatar_url']))
 		{
-			$thumb_file = $udetails['avatar_url'];
+			$thumb = $udetails['avatar_url'];
 			$remote  = true;
 		}else
 		{	
@@ -1413,8 +1416,9 @@ class userquery extends CBCategory{
 				$thumb = USER_THUMBS_URL.'/'.$file.'-'.$size.'.'.$ext;
 			elseif(!$thumb)
 				$thumb = USER_THUMBS_URL.'/'.$file.'.'.$ext;
-		}elseif(!USE_GAVATAR)
+		}elseif(!USE_GAVATAR) {
 			$thumb = $thumb_file;
+		}
 		
 		if($just_file)
 			return $file.'.'.$ext;
@@ -1532,8 +1536,10 @@ class userquery extends CBCategory{
 	{
 		global $db;
 		
-		if($is_level)
+		if($is_level) 
+		{
 			$level = $uid;
+		}
 		else
 		{
 			$level = $this->udetails['level'];
@@ -1543,6 +1549,7 @@ class userquery extends CBCategory{
 		$result = $db->select(tbl('user_levels,user_levels_permissions'),'*',
 							  tbl("user_levels_permissions.user_level_id")."='".$level."' 
 							  AND ".tbl("user_levels_permissions.user_level_id")." = ".tbl("user_levels.user_level_id"));
+							  
 		
 		/*		
 		pr($result);
@@ -2027,6 +2034,7 @@ class userquery extends CBCategory{
 		}else
 		{*/
 			$access_details = $this->permission;
+			//pr($access_details);
 			if(is_numeric($access))
 			{
 				if($access_details['level_id'] == $access)
@@ -4040,20 +4048,20 @@ class userquery extends CBCategory{
 	{
 		$user_cond = "";
 		$users = $this->get_user_subscriptions($uid);
-
 		if($users)
 		{
 			foreach($users as $user)
 			{
+				//pr($user);
 				//Creating Query
 				if($user_cond)
 					$user_cond .= " OR ";
-				$user_cond .= tbl("users.userid")."='".$user['userid']."' ";
+				$user_cond .= tbl("users.userid")."='".$user[0]."' ";
 			}
 			$user_cond = " AND (".$user_cond.") ";
 			global $cbvid,$db;
 			$vids = $cbvid->get_videos(array('limit'=>$limit,'cond'=>$user_cond,"order"=>" date_added DESC ","date_span"=>"this_week"));
-			//pr($db->db_query);
+			// echo $db->db_query;
 			return $vids;
 		}
 		return false;

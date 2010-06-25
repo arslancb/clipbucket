@@ -227,19 +227,23 @@ if(!empty($mode))
 			$friend = $_POST['uid'];
 			$userid = userid();
 			
-			$userquery->add_contact($userid,$friend);
-			if(msg())
-			{
-				$msg = msg_list();
-				$msg = '<div class="msg">'.$msg[0].'</div>';
+			if($userid) {
+				$userquery->add_contact($userid,$friend);
+						
+				if(msg())
+				{
+					$msg = msg_list();
+					$msg = '<div class="msg">'.$msg[0].'</div>';
+				}
+				if(error())
+				{
+					$msg = error_list();
+					$msg = '<div class="error">'.$msg[0].'</div>';
+				}
+				echo $msg;
+			} else {
+				echo '<div class="error">'.e(lang('you_not_logged_in')).'</div>';	
 			}
-			if(error())
-			{
-				$msg = error_list();
-				$msg = '<div class="error">'.$msg[0].'</div>';
-			}
-			echo $msg;
-			
 		}
 		break;
 		
