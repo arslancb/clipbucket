@@ -6,7 +6,7 @@
 	{include file="$style_dir/blocks/user.html" user=$topic_starter block_type='medium'}
     <div class="topic_detail_cont">
     	<div class="topic_title"><img src="{$cbgroup->get_topic_icon($topic)}" style="float:left" />{$topic.topic_title}<span class="date"> &#8212; {$topic.date_added|niceTime}</span><span class="clearfix"></span></div>
-        {$topic.topic_post}
+        {$topic.topic_post|description}
     </div>
     <div class="clearfix"></div>
 </div>

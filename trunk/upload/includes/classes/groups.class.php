@@ -750,7 +750,14 @@ class CBGroups extends CBCategory
 			$db->delete(tbl($this->gp_topic_tbl),array("topic_id","group_id"),array($tid,$topic['group_id']));
 			//Deleting Topic Posts
 			$this->delete_comments($tid);
-			e(lang("grp_tpc_msg1"),"m");
+			
+			//Counting Total Topics
+			$count_topics = $this->count_topics($topic['group_id']);
+			
+			//Updating Total Number
+			$db->update(tbl($this->gp_tbl),array('total_topics'),array($count_topics)," group_id = '".$topic['group_id']."'");
+			
+			e(lang("grp_tpc_msg1"),"m"); 
 		}
 	}
 	

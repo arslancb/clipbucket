@@ -14,7 +14,7 @@ require 'includes/config.inc.php';
 $pages->page_redir();
 
 $url = mysql_clean($_GET['url']);
-
+$mode = $_GET['mode'];
 
 $details = $cbgroup->group_details_url($url);
 assign('group',$details);
@@ -46,6 +46,18 @@ if($details)
 	
 	//Calling all functions when a topic is called
 	call_view_group_functions($details);
+	
+	switch($mode)
+	{
+		case 'topic_del':
+		{
+				if(!empty($_GET['topic_id'])) {
+					$tid = $_GET['topic_id'];
+					$cbgroup->delete_topic($tid);
+				}
+		}
+	}
+	
 }else
 {
 	e(lang("grp_exist_error"));
