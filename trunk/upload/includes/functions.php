@@ -148,7 +148,7 @@
 	function RandomString($length)
 	{
     // Generate random 32 charecter string
-    $string = md5(time());
+    $string = md5(microtime());
 
     // Position Limiting
     $highest_startpoint = 32-$length;
