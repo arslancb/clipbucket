@@ -16,7 +16,7 @@ if(is_installed('editorspick'))
 	assign('editor_picks',get_ep_videos());
 }
 
-//This world is awsome!!
+//i love coding :)
 
 //Displaying The Template
 template_files('index.html');
