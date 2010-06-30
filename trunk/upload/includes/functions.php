@@ -4216,4 +4216,71 @@
 			return '0000-00-00';
 	}
 	
+	
+	/**
+	 * After struggling alot with baseurl problem
+	 * i finally able to found its nice and working solkution..
+	 * its not my original but its a genuine working copy
+	 */
+	function baseurl()
+	{
+		$protocol = is_ssl() ? 'https://' : 'http://';
+		return $base = $protocol.$_SERVER['HTTP_HOST'].untrailingslashit(stripslashes(dirname($_SERVER['SCRIPT_NAME'])));
+	}function base_url(){ return baseurl();}
+	
+	/**
+	 * SRC (WORD PRESS)
+	 * Appends a trailing slash.
+	 *
+	 * Will remove trailing slash if it exists already before adding a trailing
+	 * slash. This prevents double slashing a string or path.
+	 *
+	 * The primary use of this is for paths and thus should be used for paths. It is
+	 * not restricted to paths and offers no specific path support.
+	 *
+	 * @since 1.2.0
+	 * @uses untrailingslashit() Unslashes string if it was slashed already.
+	 *
+	 * @param string $string What to add the trailing slash to.
+	 * @return string String with trailing slash added.
+	 */
+	function trailingslashit($string) {
+		return untrailingslashit($string) . '/';
+	}
+
+	/**
+	 * SRC (WORD PRESS)
+	 * Removes trailing slash if it exists.
+	 *
+	 * The primary use of this is for paths and thus should be used for paths. It is
+	 * not restricted to paths and offers no specific path support.
+	 *
+	 * @since 2.2.0
+	 *
+	 * @param string $string What to remove the trailing slash from.
+	 * @return string String without the trailing slash.
+	 */
+	function untrailingslashit($string) {
+		return rtrim($string, '/');
+	}
+	
+	
+	/**
+	 * Determine if SSL is used.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @return bool True if SSL, false if not used.
+	 */
+	function is_ssl() {
+		if ( isset($_SERVER['HTTPS']) ) {
+			if ( 'on' == strtolower($_SERVER['HTTPS']) )
+				return true;
+			if ( '1' == $_SERVER['HTTPS'] )
+				return true;
+		} elseif ( isset($_SERVER['SERVER_PORT']) && ( '443' == $_SERVER['SERVER_PORT'] ) ) {
+			return true;
+		}
+		return false;
+	}
 ?>
