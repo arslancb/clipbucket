@@ -1523,21 +1523,39 @@
 		$width 		= $param['width'] = $param['width'] ? $param['width'] : config('player_width');
 		$param['autoplay'] = $param['autoplay'] ? $param['autoplay']  : config('autoplay_video');
 		
+		assign('player_params',$param);
 		if(count($Cbucket->actions_play_video)>0)
 		{
 	 		foreach($Cbucket->actions_play_video as $funcs )
 			{
+				
 				if(function_exists($funcs))
 				{
 					$func_data = $funcs($param);
 				}
 				if($func_data)
-					return $func_data;
+				{
+					$player_code = $func_data;
+					break;
+				}
 			}
 		}
 		
-		if(function_exists('cbplayer'))
-			return cbplayer($param,true);
+		if(function_exists('cbplayer') && empty($player_code))
+			$player_code = cbplayer($param,true);
+		
+		global $pak_player;
+		if($player_code)
+		if(!$pak_player)
+		{
+			assign("player_js_code",$player_code);
+			Template(PLAYER_DIR.'/player.html',false);
+			return false;
+		}else
+		{
+			return false;
+		}
+		
 		return blank_screen($param);
 	}
 	
@@ -4221,11 +4239,16 @@
 	 * After struggling alot with baseurl problem
 	 * i finally able to found its nice and working solkution..
 	 * its not my original but its a genuine working copy
+	 * its still in beta mode 
 	 */
 	function baseurl()
 	{
 		$protocol = is_ssl() ? 'https://' : 'http://';
-		return $base = $protocol.$_SERVER['HTTP_HOST'].untrailingslashit(stripslashes(dirname($_SERVER['SCRIPT_NAME'])));
+		if(!$sub_dir)
+		return $base = $protocol.$_SERVER['HTTP_HOST'].untrailingslashit(stripslashes(dirname(($_SERVER['SCRIPT_NAME']))));
+		else
+		return $base = $protocol.$_SERVER['HTTP_HOST'].untrailingslashit(stripslashes(dirname(dirname($_SERVER['SCRIPT_NAME']))));
+
 	}function base_url(){ return baseurl();}
 	
 	/**

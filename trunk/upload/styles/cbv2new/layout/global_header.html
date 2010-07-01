@@ -72,12 +72,14 @@ var imageurl = '{$imageurl}';
 		var swfu;
 		var file_name = '{$file_name}';
 {literal}
+		
 		window.onload = function() {
 			var settings = {
 				{/literal}
-					flash_url : "{$js}/swfupload/swfupload.swf",
-					upload_url: "{$baseurl}/actions/file_uploader.php",
-					button_image_url: "{$imageurl}/cb_button.png",
+				
+				flash_url : "{$js}/swfupload/swfupload.swf",
+				upload_url: "{$baseurl}/actions/file_uploader.php",
+				button_image_url: "{$imageurl}/cb_button.png",
 				post_params: 
 				{literal}
 				{

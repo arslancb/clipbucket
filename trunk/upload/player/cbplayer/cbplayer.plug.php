@@ -24,7 +24,8 @@ Released: 25-12-2009
 
 if(!function_exists('cbplayer'))
 {
-	
+	$Cbucket->addJS(array('swfobject.js'=> 'global'));
+
 	define("CBV2PLAYER",TRUE);
 	define("AUTOPLAY",false);
 	

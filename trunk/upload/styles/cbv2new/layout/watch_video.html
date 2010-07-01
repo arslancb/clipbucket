@@ -19,25 +19,8 @@
 <div class="watch_left">
 <!-- Player -->
 <div class="player_container" id="normal_player_cont">
-    <div id="videoPlayer" class='video_player'>
-    This content requires JavaScript and Macromedia Flash Player 7 or higher. <a href=http://www.macromedia.com/go/getflash/>Get Flash</a>
-    </div>
-    <script language="javascript">
-        {FlashPlayer vdetails = $vdo}
-    </script>
-    
+    {FlashPlayer vdetails = $vdo}
 </div>
-{if has_hq($vdo)}
-<div class="player_container" style="display:none" id="hd_player_cont">    
-    <div id="hd_div" class='video_player'>
-    This content requires JavaScript and Macromedia Flash Player 7 or higher. <a href=http://www.macromedia.com/go/getflash/>Get Flash</a><br/><br/>
-    </div>
-    <script language="javascript">
-        {FlashPlayer vdetails =$vdo player_div='hd_div' hq=true}
-    </script>
-</div>
-{/if}
-<!-- Player End -->
 
 <!-- Actions -->
 <div class="video_actions_cont clearfix">

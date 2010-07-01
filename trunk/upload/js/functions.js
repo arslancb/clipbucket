@@ -219,7 +219,7 @@ var loading = loading_img+" Loading...";
 			mode : 'share_object',
 			type : type,
 			users : $("#"+form_id+" input:#users").val(),
-			message : $("#"+form_id+" input:#message").val(),
+			message : $("#"+form_id+" textarea:#message").val(),
 			id : $("#"+form_id+" input:#objectid").val()
 		},
 		function(data)
@@ -774,10 +774,13 @@ function swap_auto_play()
 	if($.cookie("auto_play_playlist")=="true")
 	{
 		$.cookie("auto_play_playlist","false");
+		window.location = document.location;
 		$('#ap_status').html("off");
+		
 	}else
 	{
 		$.cookie("auto_play_playlist","true");
+		window.location = document.location;
 		$('#ap_status').html("on");
 	}
 }

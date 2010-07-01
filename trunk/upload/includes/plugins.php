@@ -25,7 +25,7 @@ if(is_array($installed_plugins))
  * Include ClipBucket Player
  */
 
-if($Cbucket->configs['player_file'] !='cbplayer.plug.php' && $Cbucket->configs['player_file'] !='')
+if($Cbucket->configs['player_file'] !='')
 {
 	if($Cbucket->configs['player_dir'])
 		$folder = '/'.$Cbucket->configs['player_dir'] ;
@@ -35,7 +35,7 @@ if($Cbucket->configs['player_file'] !='cbplayer.plug.php' && $Cbucket->configs['
 }
 
 
-include_once(PLAYER_DIR.'/cbplayer/cbplayer.plug.php');
+//include_once(PLAYER_DIR.'/cbplayer/cbplayer.plug.php');
 
 
 

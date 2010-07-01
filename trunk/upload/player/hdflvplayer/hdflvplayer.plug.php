@@ -12,6 +12,7 @@ Player type: global
 */
 
 
+$Cbucket->addJS(array('swfobject.obj.js'=> 'global'));
 
 if(!function_exists('hdflvplayer'))
 {

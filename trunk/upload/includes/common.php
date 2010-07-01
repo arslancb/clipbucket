@@ -188,7 +188,7 @@ if(phpversion() < '5.2.0')
 	die('Basedir is incorrect, please set the correct basedir value in \'config\' table');
 	
 	
-	//$baseurl = $row['baseurl'];
+	$baseurl = $row['baseurl'];
 	//Removing www. as it effects SEO and updating Config
 	$wwwcheck = preg_match('/:\/\/www\./',$baseurl,$matches);
 	if(count($matches)>0)
@@ -196,7 +196,8 @@ if(phpversion() < '5.2.0')
 		$baseurl = preg_replace('/:\/\/www\./','://',$baseurl);		
 	}			
 			
-	define('BASEURL',baseurl());
+	//define('BASEURL',baseurl(BACK_END));
+	define('BASEURL',$baseurl);
 	
 	
 	define('TEMPLATEFOLDER','styles');							//Template Folder Name, usually STYLES
