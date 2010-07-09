@@ -488,4 +488,5 @@ include('admin.functions.php');
 	define("SEND_COMMENT_NOTIFICATION",config("send_comment_notification"));
 	define("SEND_VID_APPROVE_EMAIL",config("approve_video_notification"));
 
+
 ?>

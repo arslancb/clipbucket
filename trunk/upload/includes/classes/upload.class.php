@@ -144,7 +144,7 @@ class Upload{
 	
 	function submit_upload($array=NULL)
 	{
-		global $eh,$Cbucket,$db;
+		global $eh,$Cbucket,$db,$userquery;
 		
 		if(!$array)
 			$array = $_POST;
@@ -165,6 +165,13 @@ class Upload{
 			if(count($this->custom_form_fields)>0)
 				$upload_fields = array_merge($upload_fields,$this->custom_form_fields);
 			
+			$userid = userid();
+			
+			if(!userid() && has_access('allow_video_upload',true,false))
+			{
+				$userid = $userquery->get_anonymous_user();
+				//$userid = $user['userid'];
+			}
 			
 			if(is_array($_FILES))
 			$array = array_merge($array,$_FILES);
@@ -218,7 +225,7 @@ class Upload{
 			$query_field[] = "userid";
 			
 			if(!$array['userid'])
-				$query_val[] = userid();
+				$query_val[] = $userid;
 			else
 				$query_val[] = $array['userid'];
 			
@@ -256,6 +263,7 @@ class Upload{
 			
 			$query .= ") VALUES (";
 			
+			
 			$i = 0;
 			//Adding Fields Values to query
 			foreach($query_val as $qval)
@@ -269,10 +277,14 @@ class Upload{
 			//Finalzing Query
 			$query .= ")";
 			
-			if(!userid())
+			//exit($query);
+			
+			if(!userid() && !has_access('allow_video_upload',false,false))
 			{
 				e(lang("you_not_logged_in"));
+				//exit();
 			}else{
+								
 				$insert_id = file_name_exists($file_name);
 				if(!$insert_id)
 				{				
@@ -284,10 +296,11 @@ class Upload{
 					(
 					 'success'=>'yes',
 					 'action_obj_id' => $insert_id,
+					 'userid' => $userid,
 					 'details'=> "uploaded a video");
 					insert_log('upload_video',$log_array);
 					
-					$db->update(tbl("users"),array("total_videos"),array("|f|total_videos+1")," userid='".userid()."'");
+					$db->update(tbl("users"),array("total_videos"),array("|f|total_videos+1")," userid='".$userid."'");
 				}
 			}
 			

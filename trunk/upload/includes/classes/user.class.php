@@ -235,42 +235,46 @@ class userquery extends CBCategory{
 	 * @param VARCHAR acess type it can be admin_access, upload_acess etc
 	 * you can either set it as level id
 	 */
-	function login_check($access=NULL,$check_only=FALSE)
+	function login_check($access=NULL,$check_only=FALSE,$verify_logged_user=TRUE)
 	{
 		global $LANG,$Cbucket,$sess;
 		
 		
-		//First check weather userid is here or not
-		if(!userid())
+		if($verify_logged_user)
 		{
-			if(!$check_only)
-				e(lang('you_not_logged_in'));
-			return false;
-		}
-		elseif(!$this->session_auth(userid()))
-		{
+			//First check weather userid is here or not
+			if(!userid())
+			{
+				if(!$check_only)
+					e(lang('you_not_logged_in'));
+				return false;
+			}
+			elseif(!$this->session_auth(userid()))
+			{
+				
+				if(!$check_only)
+				e(lang('usr_invalid_session_err'));
+				return false;
+			}
 			
-			if(!$check_only)
-			e(lang('usr_invalid_session_err'));
-			return false;
+			//Now Check if logged in user exists or not
+			elseif(!$this->user_exists(userid(),TRUE))
+			{
+				if(!$check_only)
+				e(lang('invalid_user'));
+				return false;
+			}
+			//Now Check logged in user is banned or not
+			elseif($this->is_banned(userid())=='yes')
+			{
+				if(!$check_only)
+				e(lang('usr_ban_err'));
+				return false;
+			}
 		}
-		//Now Check if logged in user exists or not
-		elseif(!$this->user_exists(userid(),TRUE))
-		{
-			if(!$check_only)
-			e(lang('invalid_user'));
-			return false;
-		}
-		//Now Check logged in user is banned or not
-		elseif($this->is_banned(userid())=='yes')
-		{
-			if(!$check_only)
-			e(lang('usr_ban_err'));
-			return false;
-		}
-		
+
 		//Now user have passed all the stages, now checking if user has level access or not
-		elseif($access)
+		if($access)
 		{	
 			//$access_details = $this->get_user_level(userid());
 			$access_details = $this->permission;
@@ -3972,8 +3976,36 @@ class userquery extends CBCategory{
 			return $uid;
 		else
 		{
-			$result = $db->select(tbl("users"),"userid"," level='6' ");
-			return $result[0]['userid'];
+			$result = $db->select(tbl("users"),"userid"," level='6' AND usr_status='Ok' ",1);
+			if($result[0]['userid'])
+				return $result[0]['userid'];
+			else
+			{
+				$pass =  RandomString(10);
+				
+				if($_SERVER['HTTP_HOST']!='localhost')
+					$email = 'anonymous'.RandomString(5).'@'.$_SERVER['HTTP_HOST'];
+				else
+					$email = 'anonymous'.RandomString(5).'@'.$_SERVER['HTTP_HOST'].'.tld';
+				
+				//Create Anonymous user
+				$uid = $this->signup_user(
+				array(
+				'username' => 'anonymous'.RandomString(5),
+				'email'	=> $email,
+				'password' => $pass,
+				'cpassword' => $pass,
+				'country' => get_country(config('default_country_iso2')),
+				'gender' => 'Male',
+				'dob'	=> '2000-10-10',
+				'category' => '1',
+				'level' => '6',
+				'active' => 'yes',
+				'agree' => 'yes',
+				),false);
+				
+				return $uid;
+			}
 		}
 	}
 	

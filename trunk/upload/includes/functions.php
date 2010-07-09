@@ -1149,10 +1149,11 @@
 	/**
 	 * Function used to check weather user access or not
 	 */
-	function has_access($access,$check_only=TRUE)
+	function has_access($access,$check_only=TRUE,$verify_logged_user=true)
 	{
 		global $userquery;
-		return $userquery->login_check($access,$check_only);
+		
+		return $userquery->login_check($access,$check_only,$verify_logged_user);
 	}
 	
 	/**

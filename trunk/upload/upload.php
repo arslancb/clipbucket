@@ -12,47 +12,59 @@ define("THIS_PAGE","upload");
 define("PARENT_PAGE","upload");
 
 require 'includes/config.inc.php';
-$userquery->logincheck();
-$userquery->login_check('allow_video_upload');
+
+
 
 $pages->page_redir();
 subtitle('upload');
 
-$step = 1;
-if(isset($_POST['submit_data']))
+//Checking if user is guest 
+if(userid())
+	$verify_logged_user = true;
+else
+	$verify_logged_user = false;
+
+if(has_access('allow_video_upload',false,$verify_logged_user))
 {
-	$Upload->validate_video_upload_form();
-	if(empty($eh->error_list))
+	$step = 1;
+	if(isset($_POST['submit_data']))
 	{
-		
-		$file_name = time().RandomString(5);
-		assign('file_name',$file_name);
+		$Upload->validate_video_upload_form();
+		if(empty($eh->error_list))
+		{
+			
+			$file_name = time().RandomString(5);
+			assign('file_name',$file_name);
+			$step=2;
+		}
+	}
+	
+	if(isset($_POST['submit_upload']))
+	{
 		$step=2;
+		$Upload->validate_video_upload_form(NULL,TRUE);
+		if(empty($eh->error_list))
+		{
+			$vid = $Upload->submit_upload();
+			//echo $db->db_query;
+			//Call file so it can activate video
+			exec(php_path()." ".BASEDIR."/actions/process_video.php ".$vid);
+			$step=3;
+		}
 	}
-}
-
-if(isset($_POST['submit_upload']))
+	
+	//Assigning Form Name [RECOMMEND for submitting purpose]
+	Assign('upload_form_name','UploadForm');
+		   
+	//Adding Uploading JS Files
+	$Cbucket->add_js(array('swfupload/swfupload.js'=>'uploadactive'));
+	$Cbucket->add_js(array('swfupload/plugins/swfupload.queue.js'=>'uploadactive'));
+	$Cbucket->add_js(array('swfupload/plugins/handlers.js'=>'uploadactive'));
+	$Cbucket->add_js(array('swfupload/plugins/fileprogress.js'=>'uploadactive'));
+}else
 {
-	$step=2;
-	$Upload->validate_video_upload_form(NULL,TRUE);
-	if(empty($eh->error_list))
-	{
-		$vid = $Upload->submit_upload();
-		//echo $db->db_query;
-		//Call file so it can activate video
-		exec(php_path()." ".BASEDIR."/actions/process_video.php ".$vid);
-		$step=3;
-	}
+	$userquery->logincheck('allow_video_upload',true);
 }
-
-//Assigning Form Name [RECOMMEND for submitting purpose]
-Assign('upload_form_name','UploadForm');
-	   
-//Adding Uploading JS Files
-$Cbucket->add_js(array('swfupload/swfupload.js'=>'uploadactive'));
-$Cbucket->add_js(array('swfupload/plugins/swfupload.queue.js'=>'uploadactive'));
-$Cbucket->add_js(array('swfupload/plugins/handlers.js'=>'uploadactive'));
-$Cbucket->add_js(array('swfupload/plugins/fileprogress.js'=>'uploadactive'));
 
 Assign('step',$step);
 
