@@ -201,7 +201,7 @@ if(isset($_POST['update'])){
 					);
 	foreach($rows as $field)
 	{
-		$value = mysql_clean($_POST[$field]);
+		$value = ($_POST[$field]);
 		if(in_array($field,$num_array))
 		{
 			if($value <= 0 || !is_numeric($value))
