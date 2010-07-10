@@ -8,7 +8,7 @@
         
         {foreach from=$foot_menu item=fm}
         	{if $fm.name!=''}
-            	<li><a href="{$fm.link}" {if $fm.target} target="{$fmtarget}"{/if} {if $fm.onclick} onclick="{$fm.onclick}" {/if}>{$fm.name}</a></li>
+            	<li><a href="{$fm.link}" {if $fm.target} target="{$fm.target}"{/if} {if $fm.onclick} onclick="{$fm.onclick}" {/if}>{$fm.name}</a></li>
             {/if}
         {/foreach}
     </ul>

@@ -63,6 +63,7 @@ RewriteRule ^page/([0-9]+)/(.*)						view_page.php?pid=$1 [nc]
 RewriteRule ^search/result							search_result.php [nc]
 RewriteRule ^upload									upload.php [nc]
 RewriteRule ^contact								contact.php [nc]
+RewriteRule ^categories								categories.php [nc]
 
 #Group Section
 
@@ -77,8 +78,8 @@ RewriteRule ^sitemap.xml$ sitemap.php
 RewriteRule ^signup signup.php
 
 #Error Pages
-ErrorDocument 404 /view_page.php?pid=6
-ErrorDocument 403 /view_page.php?pid=5
+ErrorDocument 404 /404.php
+ErrorDocument 403 /403.php
 
 ########## End - Rewrite rules For SEO urls ######################
 RewriteRule ^rss$                           rss.php [nc]

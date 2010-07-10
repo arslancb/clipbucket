@@ -171,7 +171,7 @@ var mid  = {$smarty.get.mid};
 	
 	function ToggleView(obj) {
 		var obj = $(obj),
-			obj_id = obj.attr('id');
+			obj_id = obj.attr('id'),
 			parent = obj.parent().attr('id'),
 			target = $("#"+parent).next().attr('id');
 			//alert('#'+parent+' #'+target+' .grid_view');

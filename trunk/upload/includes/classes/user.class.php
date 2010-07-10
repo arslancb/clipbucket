@@ -1253,6 +1253,13 @@ class userquery extends CBCategory{
 				{
 					//Sending confirmation email
 					$tpl = $cbemail->get_template('password_reset_request');
+					
+					if(!$udetails['avcode']) 
+					{
+						$avcode = RandomString(10);
+						$db->update(tbl($this->dbtbl['users']),array('avcode'),array($avcode)," userid='".$udetails['userid']."'");			
+					}
+										
 					$more_var = array
 					('{username}'	=> $udetails['username'],
 					 '{email}'		=> $udetails['email'],
