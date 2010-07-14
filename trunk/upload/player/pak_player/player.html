@@ -65,7 +65,7 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pak_player.swf", {literal}{
 		youtube :
 		{literal}
 		{
-			url:pakplayer_path+'/pak_player.youtube.swf',
+			url:pakplayer_path+'/flowplayer.youtube-3.2.swf',
 			enableGdata: true,
 		}
 		{/literal}
@@ -79,13 +79,17 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pak_player.swf", {literal}{
   }
 ,
 	clip:{
+		
 		{/literal}
 		{if $youtube}
 		url : 'api:{$ytcode}',
 		provider : 'youtube',
 		urlResolvers: 'youtube',
+		//scaling : 'scale',
+		
 		{else}
 		url : normal_video_file,
+		//scaling : 'fit',
 		{/if}
 		{literal}
 		onLastSecond: function()
@@ -98,10 +102,7 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pak_player.swf", {literal}{
 		},
 		
 	},
-	logo:
-	{
-		fullscreenOnly: false,
-	},
+
 	
 }{/literal});
 </script>
