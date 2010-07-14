@@ -736,8 +736,16 @@ function spam_comment(cid)
 var normal_player_html = '';
 var hq_player_html = '';
 
+var has_hq_function = false;
 function hq_toggle(nplayer_div,hq_div)
 {
+	if(has_hq_function)
+	{
+		var nplayer_div = nplayer_div;
+		var hq_div = hq_div;
+		hq_function();
+		return false;
+	}
 	if($(nplayer_div).css("display")=='block')
 	{
 		if(normal_player_html=='')

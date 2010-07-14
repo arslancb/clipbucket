@@ -15,6 +15,10 @@
  * @Script : ClipBucket v2
  * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  * @Since : September 15 2009
+ *
+ * Pakplayer is originated from Flowplayer so all things that works with flowplayer
+ * will ultimately work with Pakplayer
+ * Pakplayer license comes under AAL(OSI) please read our license agreement carefully
  */
 
 $pak_player = false;
@@ -37,14 +41,47 @@ if(!function_exists("pak_player"))
 		
 		$vdetails = $in['vdetails'];
 		$vid_file = get_video_file($vdetails,true,true);
-		
-		assign('player_logo',website_logo());
-		assign('normal_vid_file',$vid_file);
-		assign("hq_vid_file",$hq_file);			
-		assign('vdata',$vdata);
-		Template(PAK_PLAYER_DIR.'/player.html',false);
-		
-		return true;
+		//Checking for YT Referal
+		$ref = $vdetails['refer_url'];
+		//Checking for youtube
+		if(function_exists('is_ref_youtube'))
+			$ytcom = is_ref_youtube($ref);
+		if($ytcom)
+			$is_youtube = true;
+		else
+			$is_youtube = false;
+	
+		if($vid_file || $is_youtube)
+		{
+			$hd = $data['hq'];
+			
+			if($hd=='yes') $file = get_hq_video_file($vdetails); else $file = get_video_file($vdetails,true,true);
+			$hd_file = get_hq_video_file($vdetails);
+			
+			if($is_youtube)
+			{
+				preg_match("/\?v\=(.*)/",$ref,$srcs);
+
+				$srcs = explode("&",$srcs[1]);
+				$ytcode = $srcs[0];
+				assign('youtube',true);
+				assign('ytcode',$ytcode);
+			}
+			
+			if(!strstr($in['width'],"\%"))
+				$in['width'] = $in['width'].'px';
+			if(!strstr($in['height'],"\%"))
+				$in['height'] = $in['height'].'px';
+
+			assign('data',$in);
+			assign('player_logo',website_logo());
+			assign('normal_vid_file',$vid_file);
+			assign("hq_vid_file",$hd_file);			
+			assign('vdata',$vdetails);
+			Template(PAK_PLAYER_DIR.'/player.html',false);
+			
+			return true;
+		}
 	}
 	
 	register_actions_play_video('pak_player');

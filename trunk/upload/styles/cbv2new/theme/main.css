@@ -433,7 +433,7 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .watch_left{width:670px; float:left; padding:5px; padding-top:0px; }
 .video_title{font-size:18px; font-weight:bold; font-family:arial}
 .watch_right{width:310px; float:right; padding-left:5px; display:block}
-.player_container{display:block; background-color:#000; border-radius:10px;-moz-border-radius:10px;-webkit-border-radius:10px; padding:8px}
+.player_container{display:block; background-color:#ffffff;  padding:8px}
 
 .video_actions_cont{margin-top:10px}
 
