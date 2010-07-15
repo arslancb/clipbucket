@@ -31,22 +31,37 @@ if(isset($_POST['index_vids'])) {
 if(isset($_POST['index_usrs'])) {
 	$users = get_users(array("usr_status"=>"Ok"));
 	$total_users = get_users(array("count_only"=>true,"usr_status"=>"Ok"));
-	$percent = number_format(50 * $total_users / 100);
+	$percent = $cbindex->percent(25,$total_users);
+	$cond = '';
 	
-	if(empty($_GET['continue_from'])) {
-		for($i=0;$i<$percent;$i++) {
-			$video_count = $db->count($vtbl,$vtbl.".videoid"," $vtbl.userid = ".$users[$i]['userid']." AND $vtbl.active='yes' AND $vtbl.status='Successful'");
-			$db->update($utbl,array($utbl.".total_videos"),array($video_count)," $utbl.userid = ".$users[$i]['userid']."");
-		}
-		redirect_to("?continue_from=".$percent."");
-	} else {
-		$new_index = $_GET['continue_from'];		
-		for($i=$new_index;$i<$total_users;$i++) {
-			$video_count = $db->count($vtbl,$vtbl.".videoid"," $vtbl.userid = ".$users[$i]['userid']." AND $vtbl.active='yes' AND $vtbl.status='Successful'");
-			$db->update($utbl,array($utbl.".total_videos"),array($video_count)," $utbl.userid = ".$users[$i]['userid']."");
-		}
-		e(lang("User Indexing Completed"),"m");	
+	if(isset($_GET['new_index']))
+		$index = $_GET['new_index'];	
+	else
+		$index = $percent;
+	
+	for($i=0;$i<$total_users;$i++) {
+		$vparams = array("user"=>$users[$i]['userid'],"video_count"=>true);
+		$video_count = $cbindex->count_index("user",$vparams);
+		if(!empty($cond))
+			$cond .= ", ";
+		$cond .= "$utbl.total_videos = $video_count";	
+			
+		$cparams = array("user"=>$users[$i]['userid'],"comment_count"=>true);
+		$comment_count = $cbindex->count_index("user",$cparams);
+		if(!empty($cond))
+			$cond .= ", ";
+		$cond .= "$utbl.total_comments = $comment_count";
+		
+		$cbindex->update_index("user",array("values"=>$cond,"user"=>$users[$i]['userid']));
+		
+		// After each loop we will empty $cond
+		// Why ? If you dont do this it will
+		// start to concat every cond. 
+		$cond = '';	
+		
+		redirect_to("?new_index=".$index."");	
 	}
+	
 
 }
 

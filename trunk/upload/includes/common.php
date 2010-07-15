@@ -75,6 +75,7 @@ if(!@$in_bg_cron)
 	require_once('classes/cbemail.class.php');
 	require_once('classes/pm.class.php');
 	require_once('classes/cbpage.class.php');
+	require_once('classes/reindex.class.php');
 	
 	//Adding Gravatar
 	require_once('classes/gravatar.class.php');
@@ -104,6 +105,7 @@ if(!@$in_bg_cron)
 	$cbsearch	= new CBSearch();
 	$cbpm		= new cb_pm();
 	$cbpage		= new cbpage();
+	$cbindex	= new CBreindex();
 
 	require 'defined_links.php';
 	
