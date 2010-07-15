@@ -3665,6 +3665,14 @@ class userquery extends CBCategory{
 		}
 		
 		//Email
+		if($params['username'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " username = '".$params['username']."' ";
+		}
+		
+		//Email
 		if($params['email'])
 		{
 			if($cond!='')

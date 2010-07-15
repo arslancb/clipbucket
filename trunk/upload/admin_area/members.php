@@ -139,6 +139,7 @@ if(isset($_POST['unban_selected'])){
 		$result_array['order'] = " doj DESC ";
 		
 	$users = get_users($result_array);
+
 	Assign('users', $users);	
 
 	//Collecting Data for Pagination
@@ -168,7 +169,7 @@ if(isset($_POST['unban_selected'])){
 					'display_function' => 'convert_to_categories',
 					'category_type'=>'user');
 	assign('cat_array',$cat_array);
-	
+
 
 subtitle("Members Manager");
 template_files('members.html');
