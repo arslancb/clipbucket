@@ -34,12 +34,7 @@ if(isset($_POST['index_usrs'])) {
 	$percent = $cbindex->percent(25,$total_users);
 	$cond = '';
 	
-	if(isset($_GET['new_index']))
-		$index = $_GET['new_index'];	
-	else
-		$index = $percent;
-	
-	for($i=0;$i<$total_users;$i++) {
+	for($i=0;$i<$percent;$i++) {
 		$vparams = array("user"=>$users[$i]['userid'],"video_count"=>true);
 		$video_count = $cbindex->count_index("user",$vparams);
 		if(!empty($cond))
@@ -58,8 +53,7 @@ if(isset($_POST['index_usrs'])) {
 		// Why ? If you dont do this it will
 		// start to concat every cond. 
 		$cond = '';	
-		
-		redirect_to("?new_index=".$index."");	
+			
 	}
 	
 
