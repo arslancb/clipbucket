@@ -2591,6 +2591,8 @@ class userquery extends CBCategory{
 			$uquery_val[] = $array['total_comments'];
 			$uquery_field[] = 'subscribers';
 			$uquery_val[] = $array['subscribers'];
+			$uquery_field[] = 'comments_count';
+			$uquery_val[] = $array['comments_count'];
 			$uquery_field[] = 'rating';
 			
 			$rating = $array['rating'];

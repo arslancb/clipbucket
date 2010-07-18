@@ -128,6 +128,7 @@ if(isset($_POST['update'])){
 					'thumb_width',
 					'thumb_height',
 					
+					'use_ffmpeg_vf',
 					'user_comment_own',
 					'user_rate_opt1'	,
 					'users_items_subscriptions',

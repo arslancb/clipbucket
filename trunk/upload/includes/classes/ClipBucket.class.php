@@ -308,6 +308,7 @@ class ClipBucket
 				 'PHP Info'	=> 'phpinfo.php',
 				 'Server Modules Info'	=> 'cb_mod_check.php',
 				 'Conversion Queue Manager'	=> 'cb_conversion_queue.php',
+				 'ReIndexer'	=> 'reindex_cb.php',
 				 //'View Encoding Status'=>'',
 				),
 		   

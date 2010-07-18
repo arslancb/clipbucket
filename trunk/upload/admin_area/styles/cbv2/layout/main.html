@@ -297,7 +297,15 @@ $(document).ready(function(){
           <td width="200" valign="top">FFMPEG Binary Path</td>
           <td valign="top"><input name="ffmpegpath" type="text" id="ffmpegpath" value="{$row.ffmpegpath}" size="45" />
           <a href="http://docs.clip-bucket.com/clipbucket-docs/ffmpeg" target="_blank">
-          <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="FFMPEG Binary Paths - Click For More Details" /></a></td>
+          <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="FFMPEG Binary Paths - Click For More Details" /></a><br />
+          Turn on VF
+<label>
+                <input type="radio" name="use_ffmpeg_vf" value="yes" id="use_ffmpeg_vf_0" {if $row.use_ffmpeg_vf=='yes'} checked{/if} />
+              Yes</label>
+              <label>
+                <input type="radio" name="use_ffmpeg_vf" value="no" id="use_ffmpeg_vf_1"  {if $row.use_ffmpeg_vf=='no'} checked{/if}/>
+                No</label> 
+              <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="In latest releases of FFMPEG (greator than 20000) Pad flag has been changed from pad* to vf , if your ffmpeg is greator than r20000 please check YES " /></a></td>
         </tr>
         <tr>
           <td valign="top">PHP Binary Path</td>

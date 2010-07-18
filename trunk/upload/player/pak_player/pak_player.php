@@ -63,6 +63,8 @@ if(!function_exists("pak_player"))
 				preg_match("/\?v\=(.*)/",$ref,$srcs);
 
 				$srcs = explode("&",$srcs[1]);
+				$srcs = $srcs[0];
+				$srcs = explode("?",$srcs);
 				$ytcode = $srcs[0];
 				assign('youtube',true);
 				assign('ytcode',$ytcode);

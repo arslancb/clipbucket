@@ -2353,11 +2353,23 @@
 			else
 				return true;
 		}elseif($vdo['broadcast']=='private' 
-				&& !$userquery->is_confirmed_friend($vdo['userid'],userid()) && !has_access('video_moderation',true) && $vdo['userid']!=$uid){
+				&& !$userquery->is_confirmed_friend($vdo['userid'],userid()) 
+				&& !has_access('video_moderation',true) 
+				&& $vdo['userid']!=$uid){
 			e(lang('private_video_error'));
 			return false;
 		}else
+		{
+			$funcs = cb_get_functions('watch_video');
+			if($funcs)
+			foreach($funcs as $func)
+			{
+				$data = $func['func']($vdo);
+				if($data)
+					return $data;
+			}
 			return true;
+		}
 	}
 	
 	

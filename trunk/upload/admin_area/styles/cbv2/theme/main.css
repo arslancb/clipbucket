@@ -81,6 +81,7 @@ a[rel=sponsors]:hover { background:#555; border:1px solid #232323; }
 
 h2,.page_title{font-size:18px; margin:5px 0px 5px 0px; display:inline; font-weight:normal}
 h2,.page_title a{font-size:18px; }
+h4{margin:2px 0px}
 
 /**
  * Forms
@@ -281,3 +282,6 @@ margin-top: 0;
 .cb_div td{border-bottom:1px solid #CCC}
 .cb_div .heading{background-color:#F2F2F2; font-weight:bold}
 .cb_div input[type=submit]{padding:5px}
+
+.reindex_tbl .button {width:130px}
+.reindex_tbl td{height:60px}
