@@ -70,10 +70,10 @@ if($lang_obj->lang_exists(mysql_clean($_GET['edit_language'])))
 	
 	$curr_limit = ($current_page-1)*$limit .','.$limit;
 	
-	if(isset($_POST['search_phrase']))
+	if(isset($_GET['search_phrase']))
 	{
-		$varname = mysql_clean($_POST['varname']);
-		$text = mysql_clean($_POST['text']);
+		$varname = mysql_clean($_GET['varname']);
+		$text = mysql_clean($_GET['text']);
 		
 		if(!empty($varname))
 			$varname_query = "varname LIKE '%$varname%'";
@@ -95,7 +95,7 @@ if($lang_obj->lang_exists(mysql_clean($_GET['edit_language'])))
 	
 	$total_pages = $total_phrases/$limit;
 	$total_pages = round($total_pages+0.49,0);
-	$pages->paginate($total_pages,$current_page,'language_settings.php?edit_language='.$edit_id);
+	$pages->paginate($total_pages,$current_page);
 }
 
 

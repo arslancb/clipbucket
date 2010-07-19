@@ -69,13 +69,14 @@ Language Regex
 </div>
 
 
-<div class="search_box">  <form id="form1" name="form1" method="post" action="">
+<div class="search_box">  <form id="form1" name="form1" method="get" action="?">
     <label>Phrase Code - Name<br />
-<input name="varname" type="text" id="varname" value="{$smarty.post.varname|form_val}" />
+<input name="varname" type="text" id="varname" value="{$smarty.get.varname|form_val}" />
+<input name="edit_language" type="hidden" value="{$smarty.get.edit_language}" />
     </label>
     <br />
     <label>Phrase Text<br />
-<input name="text" type="text" id="text" value="{$smarty.post.text|form_val}" />
+<input name="text" type="text" id="text" value="{$smarty.get.text|form_val}" />
     </label>
     <br />
     <label>
