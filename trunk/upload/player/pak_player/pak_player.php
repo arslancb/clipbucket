@@ -86,6 +86,69 @@ if(!function_exists("pak_player"))
 		}
 	}
 	
+	/**
+	 * This function generates src for embedable link
+	 * which can be used in OBJECT tag to embed videos on a website
+	 *
+	 * @param video details
+	 * @return src link
+	 */
+	function pakplayer_embed_src($vdetails)
+	{
+		//Checking for YT Referal
+		$ref = $vdetails['refer_url'];
+		//Checking for youtube
+		if(function_exists('is_ref_youtube'))
+			$ytcom = is_ref_youtube($ref);
+		if($ytcom)
+			$is_youtube = true;
+		else
+			$is_youtube = false;
+		
+		if($is_youtube)
+		{
+			preg_match("/\?v\=(.*)/",$ref,$srcs);
+
+			$srcs = explode("&",$srcs[1]);
+			$srcs = $srcs[0];
+			$srcs = explode("?",$srcs);
+			$ytcode = $srcs[0];
+		}	
+			 
+		$player = PAK_PLAYER_URL.'/pak_player.swf?config=';
+		$code = "";
+		$code .= '{';
+		//adding file
+		if(!$is_youtube)
+		$code .= '"clip":{"url":"'.get_video_file($vdetails,false,true).'","scaling":"fit"}';
+		else
+		$code .= '"clip":{"url":"api:'.$ytcode.'","provider":"youtube","urlResolvers":"youtube"}';
+		//Adding Pluginser
+		$code .= ',"plugins":{';
+		//addgin skin
+		$code .= '"controls":{"background":"url('.PAK_PLAYER_URL.'/bg.png) repeat"}';
+		//Checking for youtube
+		if($is_youtube)
+			$code .= ',"youtube":{"url":"'.PAK_PLAYER_URL.'/pak_player.youtube.swf","enableGdata":"true"}';
+		///Canvas
+		//$code .= ',"canvas":{"backgroundGradient":"none","backgroundColor":"#000000"}';
+		
+		//Finishg Plugin
+		$code .= '}';
+		//Finishing Player config
+		$code .= '}';
+		
+		$final_code = $player.urlencode($code);
+		
+		$embedCode .= '<object width="'.EMBED_VDO_WIDTH.'" height="'.EMBED_VDO_HEIGHT.'">';
+		$embedCode .= '<param name="movie" value="'.$final_code.'"></param>';
+		$embedCode .= '<param name="allowFullScreen" value="true"></param>';
+		$embedCode .= '<param name="allowscriptaccess" value="always"></param>';
+		$embedCode .= '<embed src="'.$final_code.'"';
+		$embedCode .= 'type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="300" height="250"></embed>';
+		return $embedCode .= '</object>';
+	}
+	register_embed_function('pakplayer_embed_src');
 	register_actions_play_video('pak_player');
 	//include Pak Player JS File
 	$Cbucket->add_header(PAK_PLAYER_DIR.'/pplayer_head.html');

@@ -19,6 +19,7 @@ define("QUICK_LIST_SESS","quick_list");
 class CBvideo extends CBCategory
 {
 	var $embed_func_list = array(); //Function list that are applied while asking for video embed code
+	var $embed_src_func_list = array(); //Function list that are applied while asking for video embed src
 	var $action = ''; // variable used to call action class
 	var $email_template_vars = array();
 	
@@ -700,6 +701,24 @@ class CBvideo extends CBCategory
 			if(function_exists('default_embed_code'))
 			{
 				$embed_code = default_embed_code($vdetails);
+			}else
+			{
+				//return new Embed Code
+				$vid_file = get_video_file($vdetails,false,false);
+				if($vid_file)
+				{
+					$code = '';
+					$code .= '<object width="'.EMBED_VDO_WIDTH.'" height="'.EMBED_VDO_HEIGHT.'">';
+					$code .= '<param name="movie" value="'.PLAYER_URL.'/embed_player.php?vid='.$vdetails['videoid'].'"></param>';
+					$code .= '<param name="allowFullScreen" value="true"></param>';
+					$code .= '<param name="allowscriptaccess" value="always"></param>';
+					$code .= '<embed src="'.PLAYER_URL.'/embed_player.php?vid='.$vdetails['videoid'].'"';
+					$code .= 'type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="300" height="250"></embed>';
+					return $code .= '</object>';
+				}else
+				{
+					return embeded_code($vdetails);
+				}
 			}
 		}
 		
