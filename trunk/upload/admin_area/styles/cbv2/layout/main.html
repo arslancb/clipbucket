@@ -294,6 +294,18 @@ $(document).ready(function(){
       <fieldset  class="fieldset" style="border:none">
 <table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
         <tr>
+          <td valign="top">Use Crons</td>
+          <td valign="top">
+            <label>
+              <input type="radio" name="use_crons" value="yes" id="use_crons_0" {if $row.use_crons =='yes'} checked="checked"{/if} />
+              Yes</label>
+          
+            <label>
+              <input type="radio" name="use_crons" value="no" id="use_crons_1" {if $row.use_crons =='no'} checked="checked"{/if} />
+              No</label>
+            </td>
+        </tr>
+        <tr>
           <td width="200" valign="top">FFMPEG Binary Path</td>
           <td valign="top"><input name="ffmpegpath" type="text" id="ffmpegpath" value="{$row.ffmpegpath}" size="45" />
           <a href="http://docs.clip-bucket.com/clipbucket-docs/ffmpeg" target="_blank">

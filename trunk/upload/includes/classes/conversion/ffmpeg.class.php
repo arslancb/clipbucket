@@ -564,7 +564,7 @@ class ffmpeg
 				if( $ratio > 1.0 )
 					$width = $height * $ratio;
 				else
-					$height = $width / $ratio;
+					$height = @$width / $ratio;
 
 				# reduce width
 				if( $width > $max_width ) {
@@ -644,47 +644,81 @@ class ffmpeg
 	 */
 	function ClipBucket()
 	{
+		$conv_file = TEMP_DIR.'/conv_lock.loc';
+		//We will now add a loop
+		//that will check weather
 		
-		$this->start_time_check();
-		$this->start_log();
-		$this->prepare();
-		$this->convert();
-		$this->end_time_check();
-		$this->total_time();
-		
-		//Copying File To Original Folder
-		if($this->keep_original=='yes')
+		while(1)
 		{
-			$this->log .= "\r\nCopy File to original Folder";
-			if(copy($this->input_file,$this->original_output_path))
-				$this->log .= "\r\File Copied to original Folder...";
-			else
-				$this->log .= "\r\Unable to copy file to original folder...";
+			$use_crons = config('use_crons');
+			if(!file_exists($conv_file) || $use_crons=='yes' )
+			{
+				
+				if($use_crons=='no')
+				{
+					//Lets make a file
+					$file = fopen($conv_file,"w+");
+					fwrite($file,"converting..");
+					fclose($file);
+				}
+				
+				
+				$this->start_time_check();
+				$this->start_log();
+				$this->prepare();
+				$this->convert();
+				$this->end_time_check();
+				$this->total_time();
+				
+				//Copying File To Original Folder
+				if($this->keep_original=='yes')
+				{
+					$this->log .= "\r\nCopy File to original Folder";
+					if(copy($this->input_file,$this->original_output_path))
+						$this->log .= "\r\File Copied to original Folder...";
+					else
+						$this->log .= "\r\Unable to copy file to original folder...";
+				}
+				
+				$this->output_details = $this->get_file_info($this->output_file);
+				$this->log .= "\r\n\r\n";
+				$this->log_ouput_file_info();
+				$this->log .= "\r\n\r\nTime Took : ";
+				$this->log .= $this->total_time.' seconds'."\r\n\r\n";
+		
+				//$this->update_data();
+				
+				$th_dim = $this->thumb_dim;
+				$big_th_dim = $this->big_thumb_dim ;
+				
+				//Generating Thumb
+				if($this->gen_thumbs)
+					$this->generate_thumbs($this->input_file,$this->input_details['duration'],$th_dim,$this->num_of_thumbs);
+				if($this->gen_big_thumb)
+					$this->generate_thumbs($this->input_file,$this->input_details['duration'],$big_th_dim,'big');
+				
+				if(!file_exists($this->output_file))
+					$this->log("conversion_status","failed");
+				else
+					$this->log("conversion_status","completed");
+					
+				$this->create_log_file();
+
+				
+				if($use_crons=='no')
+				{
+					unlink($conv_file);
+				}
+				break;
+			}else
+			{
+				if($use_crons=='no')
+					sleep(10);
+				else
+					break;
+			}
 		}
 		
-		$this->output_details = $this->get_file_info($this->output_file);
-		$this->log .= "\r\n\r\n";
-		$this->log_ouput_file_info();
-		$this->log .= "\r\n\r\nTime Took : ";
-		$this->log .= $this->total_time.' seconds'."\r\n\r\n";
-
-		//$this->update_data();
-		
-		$th_dim = $this->thumb_dim;
-		$big_th_dim = $this->big_thumb_dim ;
-		
-		//Generating Thumb
-		if($this->gen_thumbs)
-			$this->generate_thumbs($this->input_file,$this->input_details['duration'],$th_dim,$this->num_of_thumbs);
-		if($this->gen_big_thumb)
-			$this->generate_thumbs($this->input_file,$this->input_details['duration'],$big_th_dim,'big');
-		
-		if(!file_exists($this->output_file))
-			$this->log("conversion_status","failed");
-		else
-			$this->log("conversion_status","completed");
-			
-		$this->create_log_file();
 	}
 	
 	

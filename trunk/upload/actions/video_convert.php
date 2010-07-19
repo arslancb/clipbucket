@@ -8,15 +8,17 @@
 	
 	
 
-$in_bg_cron = true;
-ini_set('mysql.connect_timeout','6000');
+	$in_bg_cron = true;
+	ini_set('mysql.connect_timeout','6000');
 
-include(dirname(__FILE__)."/../includes/config.inc.php");
-//Calling Cron Functions
-cb_call_functions('video_convert_cron');
+	include(dirname(__FILE__)."/../includes/config.inc.php");
+	//Calling Cron Functions
+	cb_call_functions('video_convert_cron');
 
 	$server_friendly = config('server_friendly_conversion');
-	if($server_friendly=='yes')
+	$use_crons = config('use_crons');
+	
+	if($server_friendly=='yes' && $use_crons=='yes')
 	{
 		/**
 		 * UN COMMENT IN CASE YOU ARE FACING TOO MANY MULTIPLE PROCESSESS AND CAUSING SERVER OVERLOAD
@@ -53,7 +55,6 @@ cb_call_functions('video_convert_cron');
 		}
 	}
 
-
 $SYSTEM_OS = $row['sys_os'] ? $row['sys_os'] : 'linux';
 	
 //Including FFMPEG CLASS
@@ -61,7 +62,6 @@ require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
 
 //Get Vido
 $queue_details = get_queued_video(TRUE);
-
 //Setting up details, moving files
 $tmp_file = $queue_details['cqueue_name'];
 $tmp_ext =  $queue_details['cqueue_tmp_ext'];

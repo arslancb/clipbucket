@@ -1706,7 +1706,7 @@
 	 * Function used to update processed video
 	 * @param Files details
 	 */
-	function update_processed_video($file_array,$status='Successful')
+	function update_processed_video($file_array,$status='Successful',$ingore_file_status=false)
 	{
 		global $db;
 		$file = $file_array['cqueue_name'];
@@ -1717,18 +1717,17 @@
 		$file_name = $file;
 		
 		$file_path = VIDEOS_DIR.'/'.$file_array['cqueue_name'].'.flv';
-
-		if(file_exists($file_path))
+		$file_size = @filesize($file_path);
+		
+		if(file_exists($file_path) && $file_size>0 && !$ingore_file_status)
 		{		
-			$file_size = filesize($file_path);
-			//Now we will update video where file_name = $file_name
-			if($file_size>0)
-			{
-				//Get Duration 
-				$stats = get_file_details($file_name);
-				$db->update(tbl("video"),array("status","duration"),array($status,$stats['duration'])," file_name='".$file_name."'");
-			}
-		}	
+			$stats = get_file_details($file_name);
+			$db->update(tbl("video"),array("status","duration"),array($status,$stats['duration'])," file_name='".$file_name."'");
+		}else
+		{
+			$stats = get_file_details($file_name);
+			$db->update(tbl("video"),array("status","duration"),array('Failed',$stats['duration'])," file_name='".$file_name."'");
+		}
 	}
 	
 	

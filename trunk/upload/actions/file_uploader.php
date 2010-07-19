@@ -129,7 +129,8 @@ include('../includes/config.inc.php');
 		$Upload->add_conversion_queue($file_name);
 		$quick_conv = config('quick_conv');
 		
-		if($quick_conv=='yes')
+		$use_crons = config('use_crons');
+		if($quick_conv=='yes' || $use_crons=='no')
 			exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
 	}
 
