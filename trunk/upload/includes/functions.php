@@ -63,10 +63,10 @@
  	 //$string = $string;
  	 //$string = htmlentities($string);
 	 if($allow_html==false){
- 	 $string = strip_tags($string);
-	 $string =  Replacer($string);
+ 		 $string = strip_tags($string);
+		 $string =  Replacer($string);
 	 }
-	 $string = utf8_encode($string);
+	// $string = utf8_encode($string);
  	 return $string;
 	}
 	

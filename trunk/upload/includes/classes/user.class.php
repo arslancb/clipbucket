@@ -158,6 +158,7 @@ class userquery extends CBCategory{
 		global $LANG,$sess,$cblog,$db;
 		//Now checking if user exists or not
 		$pass = pass_code($password);
+		
 		$udetails = $this->get_user_with_pass($username,$pass);
 		
 		//Inerting Access Log
