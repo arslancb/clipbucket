@@ -21,7 +21,6 @@
 	if($server_friendly=='yes' && $use_crons=='yes')
 	{
 		/**
-		 * UN COMMENT IN CASE YOU ARE FACING TOO MANY MULTIPLE PROCESSESS AND CAUSING SERVER OVERLOAD
 		 *
 		 * Thanks to Erickson Reyes ercbluemonday at yahoo dot com | so processes dont overlap
 		 * ref : http://www.php.net/manual/en/function.getmypid.php#94531*/	

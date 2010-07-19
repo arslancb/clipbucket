@@ -737,16 +737,15 @@ class ffmpeg
 			$file_path = THUMBS_DIR.'/'.$file_name;
 			if($dim!='original')
 				$dimension = " -s $dim  ";
-			$command = $this->ffmpeg." -i $input_file -an $dimension -y -f image2 -vframes 1 $file_path ";
+			$time = $this->ChangeTime($duration,1);
+			$command = $this->ffmpeg." -i $input_file -an -ss $time $dimension -y -f image2 -vframes 1 $file_path ";
 			$this->exec($command);
 		}else{
 				
 			if($num > 1 && $duration > 14)
 			{
-				echo "i was called 2";
-				return false;
 				$duration = $duration - 5;
-				$division = $duration / 3;
+				$division = $duration / $num;
 				$count=1;
 				for($id=3;$id<=$duration;$id++)
 				{
