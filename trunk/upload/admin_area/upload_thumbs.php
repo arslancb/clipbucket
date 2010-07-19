@@ -29,7 +29,7 @@ if($myquery->VideoExists($video)){
 	}
 	
 	$data = get_video_details($video);;
-	$vid_file = get_video_file($data);
+	$vid_file = VIDEOS_DIR.'/'.get_video_file($data,false,false);
 	
 	# Uploading Thumbs
 	if(isset($_POST['upload_thumbs'])){
@@ -43,9 +43,15 @@ if($myquery->VideoExists($video)){
 	# Generating more thumbs
 	if(isset($_GET['gen_more']))
 	{
+		$num = config('num_thumbs');
+		$dim = config('thumb_width').'x'.config('thumb_height');
+		$big_dim = config('big_thumb_width').'x'.config('big_thumb_height');
 		require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
-		$ffmpeg = new ffmpeg($file_details['output_path']);
-		$ffmpeg->generate_thumbs($vid_file,$data['duration'],$dim='120x90',$num=3,$rand=true);
+		$ffmpeg = new ffmpeg($vid_file);
+		//Generating Thumbs
+		$ffmpeg->generate_thumbs($vid_file,$data['duration'],$dim,$num,true);
+		//Generating Big Thumb
+		$ffmpeg->generate_thumbs($vid_file,$data['duration'],$big_dim,'big',true);
 	}
 	
 	Assign('data',$data);

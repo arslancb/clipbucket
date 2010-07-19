@@ -698,6 +698,7 @@ class ffmpeg
 		$dimension = '';
 		if($num=='big')
 		{
+		
 			$file_name = getName($input_file)."-big.jpg";
 			$file_path = THUMBS_DIR.'/'.$file_name;
 			if($dim!='original')
@@ -708,6 +709,8 @@ class ffmpeg
 				
 			if($num > 1 && $duration > 14)
 			{
+				echo "i was called 2";
+				return false;
 				$duration = $duration - 5;
 				$division = $duration / 3;
 				$count=1;
@@ -731,6 +734,7 @@ class ffmpeg
 					$count = $count+1;
 				}
 			}else{
+
 				$file_name = getName($input_file)."-%d.jpg";
 				$file_path = THUMBS_DIR.'/'.$file_name;
 				$command = $this->ffmpeg." -i $input_file -an -s $dim -y -f image2 -vframes $num $file_path ";
