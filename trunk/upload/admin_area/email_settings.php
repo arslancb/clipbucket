@@ -26,6 +26,30 @@ if(isset($_POST['update']))
 	}
 }
 
+if(isset($_POST['update_settings'])){
+	$configs = $Cbucket->configs;
+	
+	$rows = array(
+				  	'mail_type',
+				  	'smtp_host',
+					'smtp_user',
+				  	'smtp_pass',
+					'smtp_auth',
+					'smtp_port'
+					);
+	
+
+	foreach($rows as $field)
+	{
+		$value = ($_POST[$field]);
+		$myquery->Set_Website_Details($field,$value);
+	}
+	e("Email Settings Have Been Updated",'m');
+
+}
+
+$row = $myquery->Get_Website_Details();
+Assign('row',$row);
 
 subtitle("Email Settings");
 template_files('email_settings.html');

@@ -43,7 +43,7 @@ if(isset($_POST['contact']))
 		$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
 		
 		//Now Finally Sending Email
-		cbmail(array('to'=>WEBSITE_EMAIL,'from'=>$email,'subject'=>$subj,'content'=>$msg));
+		if(cbmail(array('to'=>SUPPORT_EMAIL,'from'=>$email,'subject'=>$subj,'content'=>$msg)))
 		e(lang("email_send_confirm"),"m");
 	}
 }

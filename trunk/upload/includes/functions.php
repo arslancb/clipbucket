@@ -221,34 +221,11 @@
 		$subject = $array['subject'];
 		$to		 = $array['to'];
 		$from	 = $array['from'];
+		$to_name = $array['to_name'];
+		$from_name = $array['from_name'];
 		
 		if($array['nl2br'])
 			$content = nl2br($content);
-			
-		//Setting Boundary
-		$mime_boundary = "----ClipBucket Emailer----".md5(time());
-		
-		$headers  = "From: ".$from." \r\n";
-		$headers .= "Content-Type: text/html; charset=UTF-8\n";
-		$headers .= "Content-Transfer-Encoding: 7bit  \r\n";
-		$headers .= "MIME-Version: 1.0\r\n";
-		//Checking if has CC 
-		if($array['cc'])
-		$headers .= "cc: ".$array['cc']." \r\n";
-		//Checking if has BCC 
-		if($array['bcc'])
-		$headers .= "Bcc: ".$array['bcc']." \r\n";
-		//Setting Mailer
-		$headers .= "X-Mailer: ClipBucket v2 \r\n";
-  		
-		//Starting Message
-		if($array['user_boundary'])
-		{
-			$message  = "--$mime_boundary--\n";
-			$message .= "Content-Type: text/html; charset=UTF-8\n";
-			$message .= "Content-Transfer-Encoding: 8bit\n\n";
-		}
-			
 		
 		# CHecking Content
 		if(preg_match('/<html>/',$content,$matches))
@@ -259,18 +236,39 @@
 			}
 		}
 		$message .= $content;
-		if($array['user_boundary'])
+		
+		//ClipBucket uses PHPMailer for sending emails
+		include("classes/phpmailer/class.phpmailer.php");
+		include("classes/phpmailer/class.smtp.php");
+		
+		$mail  = new PHPMailer(); // defaults to using php "mail()"
+		
+		$mail_type = config('mail_type');
+		
+		//---Setting SMTP ---		
+		if($mail_type=='smtp')
 		{
-			//Ending Message
-			$message .= "--$mime_boundary--\n";
+			$mail->IsSMTP(); // telling the class to use SMTP
+			$mail->Host       = config('smtp_host'); // SMTP server
+			if(config('smtp_auth')=='yes')
+			$mail->SMTPAuth   = true;                  // enable SMTP authentication
+			$mail->Port       = config('smtp_port');                    // set the SMTP port for the GMAIL server
+			$mail->Username   = config('smtp_user'); // SMTP account username
+			$mail->Password   = config('smtp_pass');        // SMTP account password
 		}
-			
-		$email = mail ($to,$subject,$message,$headers);
-		if( $email == true ){
+		//--- Ending Smtp Settings
+		
+		$mail->SetFrom($from, $from_name);		
+		$mail->AddAddress($to, $to_name);
+		$mail->Subject = $subject;
+		$mail->MsgHTML($message);
+				
+		if(!$mail->Send())
+		{
+		  e("Mailer Error: " . $mail->ErrorInfo);
+		  return false;
+		}else
 			return true;
-		}else{
-			return false;
-		}
 	}
 	function send_email($from,$to,$subj,$message)
 	{

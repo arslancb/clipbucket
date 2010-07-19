@@ -13,7 +13,7 @@
 
 class CBEmail
 {
-	
+	var $smtp = false;
 	var $db_tpl = 'email_templates';
 	
 	function cbemail()
@@ -126,6 +126,11 @@ class CBEmail
 		}
 		
 	}
+	
+	/**
+	 * Function used to send email via smtp
+	 */
+	//functio cbemail_smtp($to,$from,$subj,$message,
 }
 
 ?>
