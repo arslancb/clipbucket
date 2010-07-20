@@ -3803,6 +3803,8 @@
 		 'libfaac'	=> 'Required for AAC Audio Conversion',
 		// 'libfaad'	=> 'Required for AAC Audio Conversion',
 		 'libx264'	=> 'Required for x264 video compression and conversion',
+		 'libtheora' => 'Theora is an open video codec being developed by the Xiph.org',
+		 'libvorbis' => 'Ogg Vorbis is a new audio compression format',
 		 );
 		$version = shell_output(  get_binaries('ffmpeg').' -i xxx -acodec copy -vcodec copy -f null /dev/null 2>&1' );
 		preg_match_all("/enable\-(.*) /Ui",$version,$matches);
@@ -3877,7 +3879,9 @@
 		{
 			case 'ffmpeg':
 			{
-				preg_match("/svn-r(.*),/iU",strtolower($result),$matches);
+				//echo $result;
+				preg_match("/svn-r([0-9]+)/i",strtolower($result),$matches);
+				//pr($matches);
 				if(is_numeric(floatval($matches[1]))) {
 					return $matches[1];
 				} else {

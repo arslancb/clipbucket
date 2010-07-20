@@ -117,7 +117,7 @@
     onmouseout="$('#vid_opt-{$videos[list].videoid}').hide()" >
     <div><a href="edit_video.php?video={$videos[list].videoid}" target="_blank" style="text-indent:10px">
     {$videos[list].title|truncate:80}
-    </a></div>
+    </a> ({if $videos[list].duration>1}{$videos[list].duration|SetTime}{else}00:00{/if})</div>
     <span class="vdo_sets">
     Featured:<strong>{$videos[list].featured} </strong> &#8226;
     Active:<strong>{$videos[list].active}</strong> &#8226;
