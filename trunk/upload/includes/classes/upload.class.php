@@ -410,6 +410,26 @@ class Upload{
 		}
 	}
 	
+	/**
+	 * Function used to upload big thumb
+	 * @param FILE_NAME
+	 * @param $_FILES array name
+	 */	
+	function upload_big_thumb($file_name,$file_array) {
+		global $imgObj,$LANG;
+		$file = $file_array;
+		$ext = getExt($file['name']);
+		$bigThumbWidth = config('big_thumb_width');
+		$bigThumbHeight = config('big_thumb_height');
+		
+		if($imgObj->ValidateImage($file['tmp_name'],$ext))
+		{
+			$path = THUMBS_DIR.'/'.$file_name.'-big.'.$ext;
+			move_uploaded_file($file['tmp_name'],$path);
+			$imgObj->CreateThumb($path,$path,$bigThumbWidth,$ext,$bigThumbHeight,false);
+			e(lang('Video big thumb uploaded'),'m');	
+		}
+	}
 	
 	/**
 	 * Function used to upload video thumbs

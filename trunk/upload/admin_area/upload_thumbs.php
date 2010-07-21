@@ -36,6 +36,11 @@ if($myquery->VideoExists($video)){
 		$Upload->upload_thumbs($data['file_name'],$_FILES['vid_thumb']);
 	}
 	
+	# Uploading Big Thumb
+	if(isset($_POST['upload_big_thumb'])) {
+		$Upload->upload_big_thumb($data['file_name'],$_FILES['big_thumb']);
+	}
+	
 	# Delete Thumb
 	if(isset($_GET['delete']))
 		delete_video_thumb($_GET['delete']);
