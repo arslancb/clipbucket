@@ -71,8 +71,8 @@ abstract class CBCategory
 	function add_category($array)
 	{
 		global $db;
-		$name = mysql_clean($array['name']);
-		$desc = mysql_clean($array['desc']);
+		$name = ($array['name']);
+		$desc = ($array['desc']);
 		$default = mysql_clean($array['default']);
 		
 		if($this->get_cat_by_name($name))
@@ -204,8 +204,8 @@ abstract class CBCategory
 	function update_category($array)
 	{
 		global $db;
-		$name = mysql_clean($array['name']);
-		$desc = mysql_clean($array['desc']);
+		$name = ($array['name']);
+		$desc = ($array['desc']);
 		$default = mysql_clean($array['default']);
 		
 		$cur_name = mysql_clean($array['cur_name']);
