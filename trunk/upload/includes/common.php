@@ -122,9 +122,11 @@ switch(DEBUG_LEVEL)
     case 0:
         error_reporting(0);
         ini_set('display_errors', '0');
+        break;
     case 1:
         error_reporting(E_ALL);
         ini_set('display_errors', '1');
+        break;
     default:
         if(phpversion() >= '5.3.0')
         {
