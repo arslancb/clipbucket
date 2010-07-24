@@ -236,7 +236,6 @@ class cbactions
 		$ok = true;
 		$tpl = $this->share_template_name;
 		$var = $this->val_array;
-		
 		//First checking weather object exists or not
 		if($this->exists($id))
 		{
@@ -275,8 +274,11 @@ class cbactions
 						
 						//Setting Emails
 						$emails = implode(',',$emails_array);
+						
 						//Now Finally Sending Email
-						cbmail(array('to'=>$emails,'from'=>username(),'subject'=>$subj,'content'=>$msg,'use_boundary'=>true));
+						$from = $userquery->get_user_field_only(username(),"email");
+						
+						cbmail(array('to'=>$emails,'from'=>$from,'from_name'=>username(),'subject'=>$subj,'content'=>$msg,'use_boundary'=>true));
 						e(sprintf(lang("thnx_sharing_msg"),$this->name),'m');
 						
 					}
