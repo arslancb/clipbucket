@@ -496,7 +496,16 @@ class CBvideo extends CBCategory
 			$cond .= " ".tbl("video.userid")."='".$params['user']."'";
 
 		}
-		
+
+		//non-uid to exclude user videos from related
+		if($params['nonuser'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " ".tbl("video.userid")." <> '".$params['nonuser']."' ";
+
+		}		
+					
 		$tag_n_title='';
 		//Tags
 		if($params['tags'])
