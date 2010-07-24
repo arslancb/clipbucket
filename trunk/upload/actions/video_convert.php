@@ -129,7 +129,12 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 		
 	unlink($ffmpeg->input_file);
 	
-	exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
+	//exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
+	if (stristr(PHP_OS, 'WIN')) {
+		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php");
+	} else {
+		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
+	}
 }
 
 
