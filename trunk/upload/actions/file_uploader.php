@@ -131,7 +131,14 @@ include('../includes/config.inc.php');
 		
 		$use_crons = config('use_crons');
 		if($quick_conv=='yes' || $use_crons=='no')
-			exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
+		{
+			//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
+			if (stristr(PHP_OS, 'WIN')) {
+				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php");
+			} else {
+				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
+			}
+		}
 	}
 
 	exit(0);
