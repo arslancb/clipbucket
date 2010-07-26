@@ -48,7 +48,10 @@ class CBvideo extends CBCategory
 	function video_exists($vid)
 	{
 		global $db;
+		if(is_numeric($vid))
 		return $db->count(tbl("video"),"videoid"," videoid='$vid' ");
+		else
+		return $db->count(tbl("video"),"videoid"," videokey='$vid' ");
 		//return $this->get_video($vid);
 	}
 	function exists($vid){return $this->video_exists($vid);}
