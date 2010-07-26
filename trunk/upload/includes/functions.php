@@ -577,6 +577,7 @@
 		}
 		
 		#get all possible thumbs of video
+		if($vdetails['file_name'])
 		$vid_thumbs = glob(THUMBS_DIR."/".$vdetails['file_name']."*");
 		#replace Dir with URL
 		if(is_array($vid_thumbs))
@@ -1444,7 +1445,8 @@
 			}
 		
 		#Now there is no function so lets continue as
-		$vid_files = glob(VIDEOS_DIR."/".$vdetails['file_name']."*");
+		if($vdetails['file_name'])
+			$vid_files = glob(VIDEOS_DIR."/".$vdetails['file_name']."*");
 
 		#replace Dir with URL
 		if(is_array($vid_files))
