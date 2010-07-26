@@ -565,6 +565,14 @@ class CBvideo extends CBCategory
 			if($cond!='')
 				$cond .= ' AND ';
 			$cond .= " ".tbl("video.videoid")." = '".$params['videoid']."' ";
+		}
+		
+		//VIDEO ID
+		if($params['videokey'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " ".tbl("video.videokey")." = '".$params['videokey']."' ";
 		}		
 		
 		
