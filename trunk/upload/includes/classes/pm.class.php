@@ -138,14 +138,15 @@ class cb_pm
 	function send_pm($array)
 	{
 		global $userquery,$db;
-		$to = $this->check_users($array['to'],$from);
+		$to = $this->check_users($array['to'],$array['from']);
+
 		//checking from user
 		if(!$userquery->user_exists($array['from']))
 		{
 			e(lang('unknown_sender'));
 		//checking to user
 		}elseif(!$to)
-			e(lang('unknown_reciever'));
+			return false;
 		//Checking if subject is empty
 		elseif(empty($array['subj']))
 			e(lang('class_subj_err'));
@@ -201,31 +202,47 @@ class cb_pm
 	function check_users($input,$sender)
 	{
 		global $userquery;
-		//check if usernames are sperated by colon ';'
-		$input = preg_replace('/;/',',',$input);
-		//Now Exploding Input and converting it to and array
-		$usernames = explode(',',$input);
-		//Now Checkinf for valid usernames
-		$valid_users = array();
-		foreach($usernames as $username)
-		{
-			$user_id = $this->get_the_user($username);
-			if($userquery->user_exists($username) && $username!=$sender && !$userquery->is_user_banned($username,userid()))
-				$valid_users[] = $user_id;
-		}
 		
-		$valid_users = array_unique($valid_users);
-		if(count($valid_users)>0)
-		{
-			$vusers = '';
-			foreach($valid_users as $vu)
+		if(empty($input)) {
+			e(lang("unknown_reciever"));
+		} else {
+			//check if usernames are sperated by colon ';'
+			$input = preg_replace('/;/',',',$input);
+			//Now Exploding Input and converting it to and array
+			$usernames = explode(',',$input);
+			
+			//Now Checkinf for valid usernames
+			$valid_users = array();
+			foreach($usernames as $username)
 			{
-				$vusers .="#".$vu."#";
+				$user_id = $this->get_the_user($username);
+				if($userquery->is_user_banned($username,userid())) {
+					e(lang("You have banned ".$username.". Please unban to send private message."));
+				} elseif($userquery->is_user_banned(username(),$username)){
+					e(lang("You have been banned by ".$username."."));
+				}elseif(!$userquery->user_exists($username)) {
+					e(lang("unknown_reciever"));
+				} elseif($user_id == $sender) {
+					e(lang("You can not send private message to yourself"));				
+				} else {
+					$valid_users[] = $user_id;	
+				}
 			}
-			return $vusers;
+			
+			$valid_users = array_unique($valid_users);
+			
+			if(count($valid_users)>0)
+			{
+				$vusers = '';
+				foreach($valid_users as $vu)
+				{
+					$vusers .="#".$vu."#";
+				}
+				return $vusers;				
+			}
+			else
+				return false;
 		}
-		else
-			return false;
 	}
 	
 	
@@ -526,7 +543,7 @@ class cb_pm
 		$subject = clean($array['subj']);
 		$msgid = $array['msg_id'];
 		//Get To(Emails)
-		$emails = $this->get_users_emails($array['to']);		
+		$emails = $this->get_users_emails($array['to']);
 		$vars =	array
 		(
 		'{sender}' => $sender,

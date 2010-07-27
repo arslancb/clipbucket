@@ -3112,10 +3112,17 @@ class userquery extends CBCategory{
 		global $db;
 		if(!$user)
 			$user = userid();
-		$result = $db->count(tbl($this->dbtbl['users']),"userid"," banned_users LIKE '%$ban%' AND (username='$user' OR userid='$user') ");
-		if($result)
-			return true;
-		else
+		$result = $db->select(tbl($this->dbtbl['users']),"banned_users"," username='$user' OR userid='$user' ");
+		if($result) {
+			foreach($result as $banned_user) {
+				$ban_user = explode(',',$banned_user['banned_users']);
+				if(in_array($ban,$ban_user)) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}else
 			return false;
 	}
 	
