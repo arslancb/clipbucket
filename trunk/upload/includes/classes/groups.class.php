@@ -111,7 +111,7 @@ class CBGroups extends CBCategory
 			e(lang('group_join_login_err'));
 		else
 		{	
-			if($group['group_privacy']==1)
+			if($group['group_privacy']==1 && $group['userid'] != $userid)
 				$active = 'no';
 			else
 				$active = 'yes';
