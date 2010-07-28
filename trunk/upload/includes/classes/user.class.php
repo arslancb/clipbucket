@@ -2114,13 +2114,13 @@ class userquery extends CBCategory{
 		
 		$user_vids = get_videos(array('user'=>$default['userid']));
 		
-		
+		$usr_vids[''] = '-----';
 		if(is_array($user_vids))
 		foreach($user_vids as $user_vid)
 		{
 			$usr_vids[$user_vid['videoid']] =  $user_vid['title'];
 		}
-		$usr_vids[''] = '-----';
+		
 		
 		
 		if(!$default)
