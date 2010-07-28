@@ -13,5 +13,5 @@ Plugin Type: global
 register_action('date_picker','date_picker');
 //Adding header
 $file = PLUG_DIR.'/date_picker/header.html';
-$Cbucket->add_header($file,array('upload','signup'));
+$Cbucket->add_header($file,array('upload','signup','edit_video','edit_account'));
 ?>

@@ -6,6 +6,9 @@
  | @ Software  : ClipBucket , © PHPBucket.com					
  ****************************************************************
 */
+
+define("THIS_PAGE","edit_account");
+
 require 'includes/config.inc.php';
 $userquery->logincheck();
 
@@ -98,8 +101,12 @@ switch($mode)
 
 
 $udetails = $userquery->get_user_details(userid());
+$profile = $userquery->get_user_profile($udetails['userid']);
+$user_profile = array_merge($udetails,$profile);
+//pr($Cbucket->header_files);
 assign('user',$udetails);
-assign('p',$userquery->get_user_profile($udetails['userid']));
+assign('p',$user_profile);
+
 
 subtitle(lang("user_manage_my_account"));
 template_files('edit_account.html');

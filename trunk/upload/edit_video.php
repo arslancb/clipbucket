@@ -6,6 +6,9 @@
  | @ Software  : ClipBucket , © PHPBucket.com					
  ****************************************************************
 */
+
+define("THIS_PAGE","edit_video");
+
 require 'includes/config.inc.php';
 $userquery->login_check('edit_video');
 

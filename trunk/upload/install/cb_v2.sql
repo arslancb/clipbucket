@@ -280,7 +280,7 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (109, 'website_email', 'email@website.td'),
 (110, 'welcome_email', 'welcome@website.tld'),
 (112, 'anonymous_id', '8'),
-(113, 'date_format', 'm-d-Y'),
+(113, 'date_format', 'Y-m-d'),
 (114, 'default_time_zone', '5'),
 (115, 'autoplay_video', 'yes'),
 (116, 'default_country_iso2', 'PK'),

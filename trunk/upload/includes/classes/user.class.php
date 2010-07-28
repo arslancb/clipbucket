@@ -2113,6 +2113,8 @@ class userquery extends CBCategory{
 	{
 		
 		$user_vids = get_videos(array('user'=>$default['userid']));
+		$user_vids[] = array('videoid'=>'0','title'=>'None');
+		
 		if(is_array($user_vids))
 		foreach($user_vids as $user_vid)
 		{
@@ -2612,13 +2614,6 @@ class userquery extends CBCategory{
 				$uquery_val[] = $array['doj'];
 			}
 			
-			//Changing JOined Date
-			if(isset($array['dob']))
-			{
-				$uquery_field[] = 'dob';
-				$uquery_val[] = $array['dob'];
-			}
-			
 		}
 		
 		//Changing Gender
@@ -2633,6 +2628,13 @@ class userquery extends CBCategory{
 		{
 			$uquery_field[] = 'country';
 			$uquery_val[] = mysql_clean($array['country']);
+		}
+		
+		//Changing Date of birth
+		if(isset($array['dob']))
+		{
+			$uquery_field[] = 'dob';
+			$uquery_val[] = $array['dob'];
 		}
 		
 		//Updating User Avatar
