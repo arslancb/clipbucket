@@ -48,6 +48,11 @@
 <div class="clearfix"></div>
 </div>
 
+<div class="account_field_block clearfix">
+<div class="account_field_label" align="right"><strong><label for="dob">{lang code='user_date_of_birth'}</label></strong></div>
+<div class="account_field">{ANCHOR place=$signup_fields.dob.anchor_before}{$formObj->createField($signup_fields.dob)}{ANCHOR place=$signup_fields.dob.anchor_after}</div>
+<div class="clearfix"></div>
+</div>
 
 </fieldset>
 

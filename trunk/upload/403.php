@@ -13,13 +13,11 @@ require 'includes/config.inc.php';
 if(file_exists(LAYOUT."/403.html")) {
 	template_files('403.html');
 } else {
-	$file_name = "403.html";
-	$fh = fopen(LAYOUT."/".$file_name,'w');
-	$data = "<h2>403 Error</h2>\n";
-	$data .= "<p>Sorry, you cannot access this page.</p>";
-	fwrite($fh, $data);
-	fclose($fh);
-	template_files('403.html');
+	$data = "<span>403 Error. Sorry, you cannot access this page.</span>\n";
+	if(has_access('admin_access'))
+		e(lang("Please create your custom 403 error page in your styles/template_name/layout folder. Thanks"),"w");		
+	e(lang($data));
+	
 }
 
 display_it();

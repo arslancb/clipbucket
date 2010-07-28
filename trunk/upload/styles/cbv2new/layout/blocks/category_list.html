@@ -1,12 +1,10 @@
 <div class="category_list">
 <span class="cat_heading">{lang code='categories'}</span>
-{assign var='category_list' value=func->getCategoryList($type,true)}
+{assign var='category_list' value=func->getCategoryList($type,true,true)}
 <div class="categories">
 {if $category_list}
     <ul>
-        {foreach from=$category_list item=cat}
-            <li {if $smarty.get.cat==$cat.category_id ||  ($smarty.get.cat=="" && $cat.category_id=='all')} class="selected"{/if}><a href="{link name='category' data=$cat type=$type}">{$cat.category_name}</a></li>
-        {/foreach}
+		{$category_list}
     </ul>
 {else}
 No Category
