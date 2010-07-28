@@ -2195,7 +2195,15 @@ INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (4468, 'en', 'disturbing', 'Disturbing'),
 (4469, 'en', 'other', 'Other'),
 (4470, 'en', 'pending_requests', 'Pending requests'),
-(4471, 'en', 'friend_add_himself_error', 'You cannot add yourself as a friend');
+(4471, 'en', 'friend_add_himself_error', 'You cannot add yourself as a friend'),
+(4472, 'en', 'cant_pm_banned_user', 'You have banned %s. Please unban to send private message.'),
+(4473, 'en', 'cant_pm_user_banned_you', 'You have been banned by %s.'),
+(4474, 'en', 'you_cant_send_pm_yourself', 'You can not send private message to yourself'),
+(4475, 'en', 'you_cant_sub_yourself', 'You can not subscribe to yourself'),
+(4476, 'en', 'view_tp_inactive_user', 'You are still inactive. Please contact group owner if you think a handsome amount of time have passed since you joined.'),
+(4477, 'en', 'view_tp_join', 'To view topics, please join group'),
+(4478, 'en', 'you_not_grp_mem_or_approved', 'You are not group member or are not approved by group owner.'),
+(4479, 'en', 'you_cant_perform_actions_on_grp_own', 'You can not perform such action on your own group.');
 
 -- --------------------------------------------------------
 

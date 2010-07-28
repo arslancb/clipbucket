@@ -38,3 +38,14 @@ UPDATE `{table_prefix}phrases` SET text='Email (Wont` display)' WHERE text='Emai
 
 -- UPDATING DATE-FORMAT
 UPDATE `{table_prefix}config` SET date_format='Y-m-d' WHERE date_format='m-d-Y';
+
+-- NEW PHRASES
+INSERT INTO `{tbl_prefix}phrases` (`lang_iso`, `varname`, `text`) VALUES
+('en', 'cant_pm_banned_user', 'You have banned %s. Please unban to send private message.'),
+('en', 'cant_pm_user_banned_you', 'You have been banned by %s.'),
+('en', 'you_cant_send_pm_yourself', 'You can not send private message to yourself'),
+('en', 'you_cant_sub_yourself', 'You can not subscribe to yourself'),
+('en', 'view_tp_inactive_user', 'You are still inactive. Please contact group owner if you think a handsome amount of time have passed since you joined.'),
+('en', 'view_tp_join', 'To view topics, please join group'),
+('en', 'you_not_grp_mem_or_approved', 'You are not group member or are not approved by group owner.'),
+('en', 'you_cant_perform_actions_on_grp_own', 'You can not perform such action on your own group.');
