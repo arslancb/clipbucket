@@ -18,9 +18,9 @@ if($tdetails)
 	$grp_details = $cbgroup->get_group_details($tdetails['group_id']);
 	if($grp_details['post_type'] == 1 && !$cbgroup->is_member(userid(),$grp_details['group_id'],TRUE)) {
 		if($cbgroup->is_member(userid(),$grp_details['group_id']))
-			e(lang("You are still unactive. Please contact group owner if you think a handsome ammount of time have passed since you joined."));			
+			e(lang("view_tp_inactive_user"));			
 		else
-			e(lang("To view topics, please join group."));
+			e(lang("view_tp_join"));
 		$Cbucket->show_page = false;
 	} else {
 		assign('group',$grp_details);

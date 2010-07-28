@@ -1108,7 +1108,7 @@ class userquery extends CBCategory{
 		elseif($this->is_subscribed($to,$user))
 			e(sprintf(lang("usr_sub_err"),$to_user['username']));
 		elseif($to_user['userid'] == $user)
-			e("You can not subscribe to yourself");	
+			e(lang("you_cant_sub_yourself"));	
 		else
 		{
 			$db->insert(tbl($this->dbtbl['subtbl']),array('userid','subscribed_to','date_added'),

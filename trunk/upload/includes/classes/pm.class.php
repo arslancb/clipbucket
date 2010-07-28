@@ -217,13 +217,13 @@ class cb_pm
 			{
 				$user_id = $this->get_the_user($username);
 				if($userquery->is_user_banned($username,userid())) {
-					e(lang("You have banned ".$username.". Please unban to send private message."));
+					e(sprintf(lang("cant_pm_banned_user"),$username));
 				} elseif($userquery->is_user_banned(username(),$username)){
-					e(lang("You have been banned by ".$username."."));
+					e(sprintf(lang("cant_pm_user_banned_you"),$username));
 				}elseif(!$userquery->user_exists($username)) {
 					e(lang("unknown_reciever"));
 				} elseif($user_id == $sender) {
-					e(lang("You can not send private message to yourself"));				
+					e(lang("you_cant_send_pm_yourself"));				
 				} else {
 					$valid_users[] = $user_id;	
 				}
