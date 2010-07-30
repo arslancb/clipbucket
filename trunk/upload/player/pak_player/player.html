@@ -1,6 +1,6 @@
 <a
 	href="{$normal_vid_file}"
-	style="display:block;width:{$data.width};height:{$data.height};"
+	style="display:block;width:{$player_data.width};height:{$player_data.height};"
 	id="the_Video_Player">
 </a>
 
@@ -79,8 +79,9 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pak_player.swf", {literal}{
   }
 ,
 	clip:{
-		
 		{/literal}
+		autoPlay:{$player_data.autoplay},
+		
 		{if $youtube}
 		url : 'api:{$ytcode}',
 		provider : 'youtube',

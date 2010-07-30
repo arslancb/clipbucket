@@ -74,8 +74,13 @@ if(!function_exists("pak_player"))
 				$in['width'] = $in['width'].'px';
 			if(!strstr($in['height'],"\%"))
 				$in['height'] = $in['height'].'px';
-
-			assign('data',$in);
+			
+			if($in['autoplay'] =='yes' || $in['autoplay']===true)
+				$in['autoplay'] = true;
+			else
+				$in['autoplay'] = false;
+				
+			assign('player_data',$in);
 			assign('player_logo',website_logo());
 			assign('normal_vid_file',$vid_file);
 			assign("hq_vid_file",$hd_file);			
