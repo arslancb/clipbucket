@@ -152,6 +152,8 @@ if(!function_exists("pak_player"))
 	register_actions_play_video('pak_player');
 	//include Pak Player JS File
 	$Cbucket->add_header(PAK_PLAYER_DIR.'/pplayer_head.html');
+	
+	$Cbucket->add_admin_header(PAK_PLAYER_DIR.'/pplayer_head.html');
 }
 
 

@@ -920,7 +920,7 @@
 	/**
 	* FUNCTION USED TO GET CATEGORY LIST
 	*/
-	function getCategoryList($type='video',$with_all=false)
+	function getCategoryList($type='video',$with_all=false,$return_html=false)
 	{
 		switch ($type)
 		{
@@ -928,25 +928,37 @@
 			default:
 			{
 				global $cbvid;
-				if($with_all)
-					$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
-				$cats = $cbvid->get_categories();
-				
-				if($all_cat && is_array($cats))
-				$cats = array_merge($all_cat,$cats);
 
+				if($return_html) {
+					$cats = $cbvid->cb_list_categories($type,$with_all);
+				} else {
+					if($with_all)
+						$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
+						
+					$cats = $cbvid->get_categories();
+					
+					if($all_cat && is_array($cats))
+						$cats = array_merge($all_cat,$cats);
+				}
 				return $cats;
 			}
 			break;
 			case "user":
 			{
 				global $userquery;
-				if($with_all)
-					$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
+
 				
-				$cats = $userquery->get_categories();
-				if($all_cat && is_array($cats))
-				$cats = array_merge($all_cat,$cats);
+				if($return_html) {
+					$cats = $userquery->cb_list_categories($type,$with_all);
+				} else {
+					if($with_all)
+						$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
+						
+					$cats = $userquery->get_categories();
+					
+					if($all_cat && is_array($cats))
+						$cats = array_merge($all_cat,$cats);
+				}
 				return $cats;
 			}
 			break;
@@ -955,12 +967,19 @@
 			case "groups":
 			{
 				global $cbgroup;
-				if($with_all)
-					$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
 				
-				$cats = $cbgroup->get_categories();
-				if($all_cat && is_array($cats))
-					$cats = array_merge($all_cat,$cats);
+				
+				if($return_html) {
+					$cats = $cbgroup->cb_list_categories($type,$with_all);
+				} else {
+					if($with_all)
+						$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
+						
+					$cats = $cbgroup->get_categories();
+						
+					if($all_cat && is_array($cats))
+						$cats = array_merge($all_cat,$cats);
+				}
 				return $cats;
 			}
 			break;
@@ -3746,14 +3765,17 @@
 		$file = $params['file'];
 		$type = $params['type'];
 		
+		if(!$type)
+			$type = "global";
+		
 		if($type=='global')
 			Template($file,false);
 		elseif(is_array($type))
 		{
 			foreach($type as $t)
 			{
-				if($t==THIS_PAGE)
-					Template($file,false);
+				if($t==THIS_PAGE || $t == "global")
+					Template($file,false);	
 			}
 		}elseif($type==THIS_PAGE)
 			Template($file,false);
