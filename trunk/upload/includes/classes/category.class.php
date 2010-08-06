@@ -74,6 +74,7 @@ abstract class CBCategory
 		$name = ($array['name']);
 		$desc = ($array['desc']);
 		$default = mysql_clean($array['default']);
+		$parent_id = mysql_clean($array['parent_cat']);
 		
 		if($this->get_cat_by_name($name))
 		{
@@ -84,9 +85,9 @@ abstract class CBCategory
 			e(lang("add_cat_no_name_err"));
 		}else{
 			$cid = $db->insert(tbl($this->cat_tbl),
-						array("category_name","category_desc","date_added"),
-						array($name,$desc,now())
-						);
+						array("parent_id","category_name","category_desc","date_added"),
+						array($parent_id,$name,$desc,now())
+						);		
 			$cid = $db->insert_id();
 			if($default=='yes' || !$this->get_default_category())
 				$this->make_default_category($cid);
@@ -127,6 +128,75 @@ abstract class CBCategory
 		return $select;
 	}
 	
+	/**
+	 * Function used to list of categories
+	 */
+	function cb_list_categories($type,$with_all=false)
+	{
+		global $db;
+		if($type == 'video' || $type == 'vid' || $type == 'v')
+			$cond = " parent_id = 0";
+		else
+			$cond = NULL;	
+		
+		//Getting List of categories
+		$cats = $db->select(tbl($this->cat_tbl),"*",$cond,NULL," category_order ASC");
+		
+		if($with_all)
+			array_unshift($cats,array("category_id"=>"all","category_name"=>"All"));
+				
+		$html = '';
+		for($i=0;$i<count($cats);$i++)
+		{
+			if($_GET['cat'] == $cats[$i]['category_id'] || (empty($_GET['cat']) && $cats[$i]['category_id'] == 'all'))
+				$selected = "selected";
+			else
+				$selected = "";
+				
+			$html .= "<li class='".$selected."'>";
+			$html .= "<a href='".category_link($cats[$i],$type)."' title='".$cats[$i]['category_name']."'>".$cats[$i]['category_name']."</a>";
+			if($this->is_parent($cats[$i]['category_id']))
+			{
+				$html .= $this->cb_list_subs($cats[$i]['category_id'],$type);
+			}
+			$html .= "</li>";
+		}
+		return $html;
+		
+	}
+	
+	function cb_list_subs($cid,$type)
+	{
+		global $db;
+		$html = "";
+		$query = mysql_query("SELECT * FROM ".tbl($this->cat_tbl)." WHERE parent_id = $cid");
+
+		if(!empty($query))
+		{
+			
+			$html .= "<ul id='".$cid."_subs' class='sub_categories'>";
+			while($result = mysql_fetch_array($query))
+			{	
+				if($_GET['cat'] == $result['category_id'])
+					$selected = "selected";
+				else
+					$selected = "";
+					
+				$html .= "<li class='".$selected."'>";
+				$html .= "<a href='".category_link($result,$type)."' title='".$result['category_name']."'>".$result['category_name']."</a>";
+				if($this->is_parent($result['category_id']))
+				{
+					$html .= $this->cb_list_subs($result['category_id'],$type);
+				}
+				$html .= "</li>";
+			}
+			
+			$html .= "</ul>";
+		}
+		
+		return $html;
+	}
+	
 	
 	/**
 	 * Function used to count total number of categoies
@@ -147,12 +217,35 @@ abstract class CBCategory
 		$cat_details = $this->category_exists($cid);
 		if(!$cat_details)
 			e(lang("cat_exist_error"));
+			
 		//CHecking if category is default or not
 		elseif($cat_details['isdefault'] == 'yes')
 			e(lang("cat_default_err"));
 		else{
-			//Moving all contents to default category
-			$this->change_category($cid);
+			
+			$pcat = $this->has_parent($cid,true);
+			
+			//Checking if category is both parent and child
+			if($pcat && $this->is_parent($cid))
+			{
+				$to = $pcat[0]['category_id'];
+				$has_child = TRUE;
+			}
+			elseif($pcat && !$this->is_parent($cid)) //Checking if category is only child
+			{
+				$to = $pcat[0]['category_id'];
+				$has_child = TRUE;
+			}
+			elseif(!$pcat && $this->is_parent($cid)) //Checking if category is only parent
+			{
+				$to = NULL;
+				$has_child = NULL;
+				$db->update(tbl($this->cat_tbl),array('parent_id'),array('0')," parent_id = $cid");
+			}
+				
+			//Moving all contents to parent OR default category									
+			$this->change_category($cid,$to,$has_child);
+			
 			//Removing Category
 			$db->execute("DELETE FROM ".tbl($this->cat_tbl)." WHERE category_id='$cid'");
 			e(lang("class_cat_del_msg"),'m');
@@ -187,12 +280,19 @@ abstract class CBCategory
 	/**
 	 * Function used to move contents from one section to other
 	 */
-	function change_category($from,$to=NULL,$check_multiple=false)
+	function change_category($from,$to=NULL,$has_child=NULL,$check_multiple=false)
 	{
 		global $db;
+		
 		if(!$this->category_exists($to))
 			$to = $this->get_default_cid();
+		
+		if($has_child) {
+			$db->update(tbl($this->cat_tbl),array('parent_id'),array($to)," parent_id = $from");
+		}
+		
 		$db->execute("UPDATE ".tbl($this->section_tbl)." SET category = replace(category,'#".$from."#','#".$to."#') WHERE category LIKE '%#".$from."#%'");
+		
 		$db->execute("UPDATE ".tbl($this->section_tbl)." SET category = replace(category,'#".$to."# #".$to."#','#".$to."#') WHERE category LIKE '%#".$to."#%'");
 	}
 	
@@ -207,22 +307,25 @@ abstract class CBCategory
 		$name = ($array['name']);
 		$desc = ($array['desc']);
 		$default = mysql_clean($array['default']);
+		$pcat = mysql_clean($array['parent_cat']);
 		
 		$cur_name = mysql_clean($array['cur_name']);
 		$cid = mysql_clean($array['cid']);
+		$cur_parent = mysql_clean($array['cur_parent']);
 		
 		
 		if($this->get_cat_by_name($name) && $cur_name !=$name )
 		{
 			e(lang("add_cat_erro"));
 			
-		}elseif(empty($name))
-		{
+		}elseif(empty($name)){
 			e(lang("add_cat_no_name_err"));
+		} elseif($pcat == $cid){
+			e(lang("You can not make category parent of itself"));
 		}else{
 			$db->update(tbl($this->cat_tbl),
-						array("category_name","category_desc"),
-						array($name,$desc),
+						array("parent_id","category_name","category_desc"),
+						array($pcat,$name,$desc),
 						" category_id='$cid' "
 						);
 			if($default=='yes' || !$this->get_default_category())
@@ -348,6 +451,155 @@ abstract class CBCategory
 			$db->update(tbl($this->cat_tbl),array("category_order"),array($order)," category_id='".$id."'");
 		}
 	}
+	
+	/**
+	 * Function used get parent cateogry
+	 */
+	 function get_parent_category($pid)
+	 {
+		global $db;
+		$result = $db->select(tbl($this->cat_tbl),"*"," category_id = $pid");
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;
+	 }
+	 
+	/**
+	 * Function used to check category is parent or not
+	 */	
+	 function is_parent($cid)
+	 {
+		 global $db;
+		 $result = $db->count(tbl($this->cat_tbl),"category_id"," parent_id = $cid");
+		 
+		 if($result > 0)
+		 	return true;
+		 else
+		 	return false;	
+	 }
+	 
+	/**
+	 * Function used to check wheather category has parent or not
+	 */	
+	 function has_parent($cid,$return_parent=false)
+	 {
+		 global $db;
+		 $result = $db->select(tbl($this->cat_tbl),"*"," category_id = $cid AND parent_id != 0");
+		 
+		 if($result > 0) {
+		 	if($return_parent)
+			{
+				$pid = $this->get_parent_category($result[0]['parent_id']);
+				return $pid;				
+			} else {
+				return true;
+			}
+		 } else {
+		 	return false;
+		}
+	 }
+
+	/**
+	 * Function used to get parent categories
+	 */	
+	function get_parents($count=false) {
+		global $db;
+		
+		if($count) {
+			$result = $db->count(tbl($this->cat_tbl),"*"," parent_id = 0");
+		} else {	
+			$result = $db->select(tbl($this->cat_tbl),"*"," parent_id = 0");
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Function used to list categories in admin area
+	 * with indention
+	 */
+	function admin_area_cats($selected)
+	{
+		global $db;
+		$html = '';
+		$pcats = $this->get_parents();
+		
+		if(!empty($pcats))
+		{
+			foreach($pcats as $key=>$pcat)
+			{
+				if($selected == $pcat['category_id'])
+					$select = "selected='selected'";
+				else
+					$select = NULL;
+					
+				$html .= "<option value='".$pcat['category_id']."' $select>";
+				$html .= $pcat['category_name'];
+				$html .= "</option>";
+				if($this->is_parent($pcat['category_id']))
+					$html .= $this->get_sub_subs($pcat['category_id'],$selected);
+			}
+			
+			return $html;
+		}
+	}
+	
+	 /**
+	 * Function used to get child categories
+	 */	
+	 function get_sub_categories($cid)
+	 {
+		 global $db;
+		 $result = $db->select(tbl($this->cat_tbl),"*"," parent_id = $cid");
+		 //echo $db->db_query;
+		 if($result > 0){
+		 	return $result;		
+	 	}else{
+		 	return false;
+	 	}
+	 }
+	 
+	/**
+	 * Function used to get child child categories
+	*/
+	function get_sub_subs($cid,$selected,$space="&nbsp; - ")
+	{
+		global $db;
+		$html = '';
+		$subs = $this->get_sub_categories($cid);
+		if(!empty($subs))
+		{
+			foreach($subs as $sub_key=>$sub)
+			{
+				if($selected == $sub['category_id'])
+					$select = "selected='selected'";
+				else
+					$select = NULL;
+					
+				$html .= "<option value='".$sub['category_id']."' $select>";
+				$html .= $space.$sub['category_name'];
+				$html .= "</option>";
+				if($this->is_parent($sub['category_id']))
+					$html .= $this->get_sub_subs($sub['category_id'],$selected,$space." - ");
+			}
+			return $html;
+		}
+	}
+
+	function get_category_field($cid,$field)
+	{
+		global $db;
+		$result = $db->select(tbl($this->cat_tbl),"$field"," category_id = $cid");
+		//echo $db->db_query;
+		if($result)
+			return $result[0][$field];
+		else
+			return false;
+	}
+	
+	
+	
 	
 }
 

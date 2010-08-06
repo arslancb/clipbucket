@@ -22,6 +22,11 @@
     {FlashPlayer vdetails = $vdo}
 </div>
 
+{if has_hq($vdo)}
+<div id="hd_player_cont" style="display:none">    
+  {FlashPlayer vdetails =$vdo player_div='hd_div' hq=true} 
+</div>	        
+{/if}
 <!-- Actions -->
 <div class="video_actions_cont clearfix">
     <div class="rating_container">
@@ -163,9 +168,9 @@
 
 <!-- Getting Related videos -->
 {assign var=videos_items_columns value=func->config(videos_items_columns)}
-{get_videos nonuser=$vdo.userid exclude=$vdo.videoid limit=$videos_items_columns order="date_added ASC" assign=related_vids}
+{get_videos nonuser=$vdo.userid exclude=$vdo.videoid limit=$videos_items_columns order="date_added ASC" assign=related_vids show_related=yes title=$vdo.title}
 <!-- Related Videos based on category, please remove * and also above smarty function -->
-{* get_videos category=$vid_cat nonuser=$vdo.userid exclude=$vdo.videoid limit=$videos_items_columns order="date_added ASC" assign=related_vids *}
+{* get_videos category=$vid_cat nonuser=$vdo.userid exclude=$vdo.videoid limit=$videos_items_columns order="date_added ASC" assign=related_vids show_related=yes title=$vdo.title*}
 
 
 {if $related_vids}

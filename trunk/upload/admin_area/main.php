@@ -55,6 +55,7 @@ if(isset($_POST['update'])){
 					'default_country_iso2',
 					'default_time_zone',
 					'disallowed_usernames',
+					'use_subs',
 					
 					'embedUpload',
 					'email_verification',

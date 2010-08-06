@@ -7,3 +7,17 @@ INSERT INTO cb_config (name,value) VALUES
 ('smtp_pass','password'),
 ('smtp_auth','yes'),
 ('smtp_port','26');
+
+
+ALTER TABLE  `cb_video_categories` ADD  `parent_id` INT( 5 ) NOT NULL DEFAULT  '0' AFTER  `category_id`
+
+
+
+INSERT INTO  `clipbucket_svn`.`cb_config` (
+`configid` ,
+`name` ,
+`value`
+)
+VALUES (
+NULL ,  'use_subs',  '0'
+);

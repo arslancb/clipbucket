@@ -42,6 +42,12 @@ if(isset($_GET['delete_category'])){
 
 
 $cats = $cbvid->get_categories();
+$pid = $cbvid->get_category_field($_GET['category'],'parent_id');
+
+if($pid)
+	$selected = $pid;
+	
+$parent_cats = $cbvid->admin_area_cats($selected);
 
 
 //Updating Category Order
@@ -62,6 +68,7 @@ if(isset($_POST['update_order']))
 
 //Assing Category Values
 assign('category',$cats);
+assign('parent_cats',$parent_cats);
 assign('total',$cbvid->total_categories());
 
 subtitle("Video Category Manager");

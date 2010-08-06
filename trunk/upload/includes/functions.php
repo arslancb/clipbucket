@@ -922,6 +922,8 @@
 	*/
 	function getCategoryList($type='video',$with_all=false,$return_html=false)
 	{
+		$use_subs = config('use_subs');
+
 		switch ($type)
 		{
 			case "video":
@@ -929,7 +931,7 @@
 			{
 				global $cbvid;
 
-				if($return_html) {
+				if($return_html && $use_subs == "1") {
 					$cats = $cbvid->cb_list_categories($type,$with_all);
 				} else {
 					if($with_all)
@@ -948,7 +950,7 @@
 				global $userquery;
 
 				
-				if($return_html) {
+				if($return_html && $use_subs == "1") {
 					$cats = $userquery->cb_list_categories($type,$with_all);
 				} else {
 					if($with_all)
@@ -969,7 +971,7 @@
 				global $cbgroup;
 				
 				
-				if($return_html) {
+				if($return_html && $use_subs == "1") {
 					$cats = $cbgroup->cb_list_categories($type,$with_all);
 				} else {
 					if($with_all)

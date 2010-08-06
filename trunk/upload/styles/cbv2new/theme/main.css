@@ -385,8 +385,8 @@ span.remember { font-size:10px;  }
 .categories ul li:last-child{border-bottom:none}
 .categories .selected { background-color:#efefef; display:block;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px}
 .categories ul a{font:bold 14px arial;color:#0066cc; text-decoration:none; display:block; padding:2px 2px 2px 6px; }
-.categories ul.sub_categories { padding:0px; margin:0px 0 0 5px; }
-.categories ul.sub_categories li { padding:2px; margin:0px; }
+.categories ul.sub_categories { padding:0px; margin:0px 0px 0px 5px; }
+.categories ul.sub_categories li { padding:1px; margin:0px; }
 .categories ul.sub_categories li a { font:bold 11px Tahoma; }
 .time_cont{border-bottom:1px solid #CCC; margin-bottom:5px; padding:5px; font-size:10px}
 .time_cont a{ font-size:10px; color:#666; text-decoration:none}

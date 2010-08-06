@@ -29,6 +29,15 @@
       <td class="td_body"><textarea name="desc" id="desc" cols="33" rows="5">{'desc'|post_form_val}</textarea></td>
     </tr>
     <tr>
+      <td valign="top" class="td_body">Parent Category</td>
+      <td class="td_body">
+      	<select name="parent_cat" id="parent_cat">
+			<option value="0">None</option>
+			{$parent_cats}
+        </select>
+      </td>
+    </tr>    
+    <tr>
       <td valign="top" class="td_body">Make Default Category</td>
       <td class="td_body"><p>
         <label>
@@ -72,6 +81,15 @@
       <td valign="top" class="td_body">Category Description*</td>
       <td class="td_body"><textarea name="desc" id="desc" cols="33" rows="5">{$cat_details.category_desc}</textarea></td>
     </tr>
+    <tr>
+      <td valign="top" class="td_body">Parent Category</td>
+      <td class="td_body">
+      	<select name="parent_cat" id="parent_cat">
+        <option value="0">None</option>
+        {$parent_cats}      
+        </select>
+      </td>
+    </tr>    
      <tr>
       <td valign="top" class="td_body">Make Default Category</td>
       <td class="td_body"><p>

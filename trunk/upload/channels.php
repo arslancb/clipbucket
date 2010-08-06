@@ -32,7 +32,7 @@ switch($sort)
 	break;
 	case "featured":
 	{
-		$u_cond['order'] = "yes";
+		$u_cond['featured'] = "yes";
 	}
 	break;
 	case "top_rated":
