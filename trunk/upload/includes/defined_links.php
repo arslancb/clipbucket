@@ -40,6 +40,11 @@ $Cbucket->links  = array
  */
 function sorting_links()
 {
+	if(!isset($_GET['sort']))
+		$_GET['sort'] = 'most_recent';
+	if(!isset($_GET['time']))
+		$_GET['time'] = 'all_time';
+
 	$array = array
 	('most_recent' 	=> lang('recent'),
 	 'most_viewed'	=> lang('viewed'),
