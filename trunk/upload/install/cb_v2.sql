@@ -321,6 +321,7 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (151, 'player_logo_file', 'logo.jpg'),
 (152, 'logo_placement', 'br'),
 (153, 'buffer_time', '3');
+(154, 'use_subs', '0');
 
 -- --------------------------------------------------------
 
@@ -1154,7 +1155,7 @@ INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (3428, 'en', 'usr_exist_err', 'User Doesnt Exist'),
 (3429, 'en', 'usr_ccode_err', 'You Have Entered Wrong Confirmation Code'),
 (3430, 'en', 'usr_exist_err1', 'Sorry, No User Exists With This Email'),
-(3431, 'en', 'usr_exist_err2', 'Sorry , User Doesnâ€™t Exist'),
+(3431, 'en', 'usr_exist_err2', 'Sorry , User Doesn`t Exist'),
 (3432, 'en', 'usr_uname_err', 'Username is empty'),
 (3433, 'en', 'usr_uname_err2', 'Username already exists'),
 (3434, 'en', 'usr_pass_err2', 'Password Is Empty'),
@@ -1239,8 +1240,8 @@ INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (3513, 'en', 'vdo_sub_email_msg', ' and therefore this message is sent to you automatically that '),
 (3514, 'en', 'vdo_has_upload_nv', 'Has Uploaded New Video'),
 (3515, 'en', 'vdo_del_selected', 'Selected Videos Have Been Deleted'),
-(3516, 'en', 'vdo_cheat_msg', 'Please Donâ€™t Try To Cheat'),
-(3517, 'en', 'vdo_limits_warn_msg', 'Please Donâ€™t Try To Cross Your Limits'),
+(3516, 'en', 'vdo_cheat_msg', 'Please Don`t Try To Cheat'),
+(3517, 'en', 'vdo_limits_warn_msg', 'Please Don`t Try To Cross Your Limits'),
 (3518, 'en', 'vdo_cmt_del_msg', 'Comment Has Been Deleted'),
 (3519, 'en', 'vdo_iac_msg', 'Video Is Inactive - Please Contact Admin For Details'),
 (3520, 'en', 'vdo_is_in_process', 'Video Is Being Processed - Please Contact Administrator for further details'),
@@ -1285,7 +1286,7 @@ INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (3559, 'en', 'class_msg_has_sent_to', 'Message Has Been Sent To '),
 (3560, 'en', 'class_inbox_del_msg', 'Message Has Been Delete From Inbox '),
 (3561, 'en', 'class_sent_del_msg', 'Message Has Been Delete From Sent Folder'),
-(3562, 'en', 'class_msg_exist_err', 'Message Doesnâ€™t Exist'),
+(3562, 'en', 'class_msg_exist_err', 'Message Doesn`t Exist'),
 (3563, 'en', 'class_vdo_del_err', 'Video does not exist'),
 (3564, 'en', 'class_unsub_msg', 'You have been unsubscribed sucessfully'),
 (3565, 'en', 'class_sub_exist_err', 'Subscription Does Not Exist'),
@@ -1297,7 +1298,7 @@ INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (3571, 'en', 'class_vdo_ep_err', 'Video Is Already In The Editor&#8217;s Pick'),
 (3572, 'en', 'class_vdo_ep_err1', 'You Have Already Picked 10 Videos Please Delete Alteast One to Add More'),
 (3573, 'en', 'class_vdo_ep_msg', 'Video Has Been Removed From Editor&#8217;s Pick'),
-(3574, 'en', 'class_vdo_exist_err', 'Sorry, Video Doesnâ€™t Exist'),
+(3574, 'en', 'class_vdo_exist_err', 'Sorry, Video Doesn`t Exist'),
 (3575, 'en', 'class_img_gif_err', 'Please Upload Gif Image Only'),
 (3576, 'en', 'class_img_png_err', 'Please Upload Png Image Only'),
 (3577, 'en', 'class_img_jpg_err', 'Please Upload Jpg Image Only'),
@@ -1782,7 +1783,7 @@ INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (4056, 'en', 'user_doesnt_exist', 'User Doesn&#8217;t Exist'),
 (4057, 'en', 'user_do_not_have_contact', 'User Does Not Have Any Contacts'),
 (4058, 'en', 'user_no_fav_video_exist', 'User does not have any Favorite Videos selected'),
-(4059, 'en', 'user_have_no_vide', 'User doesnâ€™t have any videos'),
+(4059, 'en', 'user_have_no_vide', 'User doesn`t have any videos'),
 (4060, 'en', 'user_s_channel', '%s&#8217;s Channel '),
 (4061, 'en', 'user_last_login', 'Last Login'),
 (4062, 'en', 'user_send_message', 'Send Message'),
@@ -1971,7 +1972,7 @@ INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (4244, 'en', 'please_login_to_rate', 'Please login to rate'),
 (4245, 'en', 'you_not_subscribed', 'You are not subscribed'),
 (4246, 'en', 'you_cant_delete_this_user', 'You cannot delete this user&#8221;'),
-(4247, 'en', 'you_dont_hv_perms', 'You donâ€™t have sufficient permissions'),
+(4247, 'en', 'you_dont_hv_perms', 'You don`t have sufficient permissions'),
 (4248, 'en', 'user_subs_hv_been_removed', 'User subscriptions have been removed'),
 (4249, 'en', 'user_subsers_hv_removed', 'User subscribers have been removed'),
 (4250, 'en', 'you_already_sent_frend_request', 'You have already sent friend request'),
@@ -2034,7 +2035,7 @@ INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (4307, 'en', 'perm_added', 'New Permission has been added'),
 (4308, 'en', 'perm_deleted', 'Permission has been deleted'),
 (4309, 'en', 'perm_doesnt_exist', 'Permission does not exist'),
-(4310, 'en', 'acitvation_html_message', 'Please enter your username and activation code in order to activate your account, please check your inbox for the Activation code, if you didnâ€™t get one, please request it by filling the next form'),
+(4310, 'en', 'acitvation_html_message', 'Please enter your username and activation code in order to activate your account, please check your inbox for the Activation code, if you didn`t get one, please request it by filling the next form'),
 (4311, 'en', 'acitvation_html_message2', 'Please enter your email address to request your activation code'),
 (4312, 'en', 'admin_panel', 'Admin Panel'),
 (4313, 'en', 'moderate_videos', 'Moderate Videos'),
@@ -2107,7 +2108,7 @@ INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (4380, 'en', 'if_you_already_hv_account', 'if you already have an account, please login here '),
 (4381, 'en', 'signup_message_under_login', ' <p>Our website is the home for video online:</p>\r\n          \r\n            <ul><li><strong>Watch</strong> millions  of videos</li><li><strong>Share favorites</strong> with friends and family</li>\r\n            <li><strong>Connect with other users</strong> who share your interests</li><li><strong>Upload your videos</strong> to a worldwide audience\r\n\r\n</li></ul>'),
 (4382, 'en', 'new_mems_signup_here', 'New Members Signup Here'),
-(4383, 'en', 'register_as_our_website_member', 'Register as a member, itâ€™s free and easy just '),
+(4383, 'en', 'register_as_our_website_member', 'Register as a member, it`s free and easy just '),
 (4384, 'en', 'video_complete_msg', '<h2>Video Upload Has Been Completed</h2>\r\n<span class="header1">Thank you! Your upload is complete.</span><br>\r\n<span class="tips">This video will be available in <a href="%s"><strong>My Videos</strong></a> after it has finished processing.</span>  \r\n<div class="upload_link_button" align="center">\r\n    <ul>\r\n        <li><a href="%s" >Upload Another Video</a></li>\r\n        <li><a href="%s" >Go to My Videos</a></li>\r\n    </ul>\r\n<div class=''clearfix''></div>\r\n</div>\r\n'),
 (4385, 'en', 'upload_right_guide', ' <div>\r\n            <div>\r\n              <p>\r\n                <strong>\r\n                <strong>Important:</strong>\r\n                Do not upload any TV shows, music videos, music concerts, or  commercials without permission unless they consist entirely of content  you created yourself.</strong></p>\r\n                <p>The \r\n                <a href="#">Copyright Tips page</a> and the \r\n                <a href="#">Community Guidelines</a> can help you determine whether your video infringes someone else''s copyright.</p>\r\n                <p>By clicking "Upload Video", you are representing that this video does not violate Our website''s \r\n                <a id="terms-of-use-link" href="#">Terms of Use</a> \r\n                and that you own all copyrights in this video or have authorization to upload it.</p>\r\n            </div>\r\n        </div>'),
 (4386, 'en', 'report_this_user', 'Report This User'),
@@ -2122,7 +2123,7 @@ INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (4395, 'en', 'link_this_video', 'Link This Video'),
 (4396, 'en', 'click_to_download_video', 'Click Here To Download This Video'),
 (4397, 'en', 'name', 'Name'),
-(4398, 'en', 'email_wont_display', 'Email (Wontâ€™ display)'),
+(4398, 'en', 'email_wont_display', 'Email (Wont` display)'),
 (4399, 'en', 'please_login_to_comment', 'Please login to comment'),
 (4400, 'en', 'marked_as_spam_comment_by_user', 'Marked as spam, commented by <em>%s</em>'),
 (4401, 'en', 'spam', 'Spam'),
@@ -2137,7 +2138,7 @@ INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (4410, 'en', 'total_mems', 'Total Members'),
 (4411, 'en', 'total_topics', 'Total Topics'),
 (4412, 'en', 'grp_url', 'Group URL'),
-(4413, 'en', 'more_details', 'More Details<'),
+(4413, 'en', 'more_details', 'More Details'),
 (4414, 'en', 'view_all_mems', 'View All Members'),
 (4415, 'en', 'view_all_vids', 'View All Videos'),
 (4416, 'en', 'topic_title', 'Topic Title'),
@@ -2203,7 +2204,10 @@ INSERT INTO `{tbl_prefix}phrases` (`id`, `lang_iso`, `varname`, `text`) VALUES
 (4476, 'en', 'view_tp_inactive_user', 'You are still inactive. Please contact group owner if you think a handsome amount of time have passed since you joined.'),
 (4477, 'en', 'view_tp_join', 'To view topics, please join group'),
 (4478, 'en', 'you_not_grp_mem_or_approved', 'You are not group member or are not approved by group owner.'),
-(4479, 'en', 'you_cant_perform_actions_on_grp_own', 'You can not perform such action on your own group.');
+(4479, 'en', 'you_cant_perform_actions_on_grp_own', 'You can not perform such action on your own group.'),
+(4480,'en', '404_error', '404 Error. Requested page not found.'),
+(4481,'en', '403_error', '403 Error. Sorry, you cannot access this page.'),
+(4482,'en', 'err_warning', 'Please create your custom %s error page in your styles/template_name/layout folder. <a href="%s">Click Here For Tutorial</a>');
 
 -- --------------------------------------------------------
 
@@ -2750,6 +2754,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video` (
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_categories` (
   `category_id` int(225) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(225) NOT NULL DEFAULT '0',
   `category_name` varchar(30) NOT NULL DEFAULT '',
   `category_order` int(5) NOT NULL DEFAULT '1',
   `category_desc` text NOT NULL,

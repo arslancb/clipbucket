@@ -13,9 +13,9 @@ require 'includes/config.inc.php';
 if(file_exists(LAYOUT."/404.html")) {
 	template_files('404.html');
 } else {
-	$data = "<span>404 Error. Requested page not found./<span>\n";
+	$data = "404_error";
 	if(has_access('admin_access'))
-		e(lang("Please create your custom 404 error page in your style/template_name/layout folder. Thanks"),"w");
+		e(sprintf(lang("err_warning"),"404","http://lol.com.pk"),"w");	
 	e(lang($data));
 }
 

@@ -13,9 +13,9 @@ require 'includes/config.inc.php';
 if(file_exists(LAYOUT."/403.html")) {
 	template_files('403.html');
 } else {
-	$data = "<span>403 Error. Sorry, you cannot access this page.</span>\n";
+	$data = "403_error";
 	if(has_access('admin_access'))
-		e(lang("Please create your custom 403 error page in your styles/template_name/layout folder. Thanks"),"w");		
+		e(sprintf(lang("err_warning"),"403","http://lol.com.pk"),"w");		
 	e(lang($data));
 	
 }
