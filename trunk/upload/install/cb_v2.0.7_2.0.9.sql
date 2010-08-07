@@ -40,3 +40,15 @@ INSERT INTO `{tbl_prefix}phrases` (`lang_iso`, `varname`, `text`) VALUES
 ('en', 'view_tp_join', 'To view topics, please join group'),
 ('en', 'you_not_grp_mem_or_approved', 'You are not group member or are not approved by group owner.'),
 ('en', 'you_cant_perform_actions_on_grp_own', 'You can not perform such action on your own group.');
+
+-- NEW CONFIG
+INSERT INTO {tbl_prefix}config (name,value) VALUES ('use_subs','0');
+
+-- ALTER TABLE
+ALTER TABLE  {tbl_prefix}video_categories ADD  `parent_id` INT( 255 ) NOT NULL DEFAULT  '0' AFTER  `category_id`;
+
+-- NEW PHRASES
+INSERT INTO `{tbl_prefix}phrases` (`lang_iso`, `varname`, `text`) VALUES
+('en', '404_error', '404 Error. Requested page not found.'),
+('en', '403_error', '403 Error. Sorry, you cannot access this page.'),
+('en', 'err_warning', 'Please create your custom %s error page in your styles/template_name/layout folder. <a href="%s">Click Here For Tutorial</a>');

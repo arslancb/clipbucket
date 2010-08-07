@@ -255,22 +255,27 @@ switch($step)
 			//First file
 			//If version is latest, it will cal the single file and move forward
 			$dbfile = "cb_v".the_version()."_".$stop_ver.".sql";
-			$lines = file($dbfile);
-			foreach ($lines as $line_num => $line)
+			
+			if(file_exists($dbfile))
 			{
-				if (substr($line, 0, 2) != '--' && $line != '') 
+				$lines = file($dbfile);
+				foreach ($lines as $line_num => $line)
 				{
-					$templine .= $line;
-					if (substr(trim($line), -1, 1) == ';') 
+					if (substr($line, 0, 2) != '--' && $line != '') 
 					{
-						$templine = preg_replace("/{tbl_prefix}/",$prefix,$templine);
-						$db->Execute($templine);
-						$templine = '';
+						$templine .= $line;
+						if (substr(trim($line), -1, 1) == ';') 
+						{
+							$templine = preg_replace("/{tbl_prefix}/",$prefix,$templine);
+							$db->Execute($templine);
+							$templine = '';
+						}
 					}
 				}
-			}
+			}	
 			
 			$dbfile = "cb_v".$stop_ver."_".VERSION.".sql";
+			
 		}
 
 		$lines = file($dbfile);

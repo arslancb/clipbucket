@@ -20,7 +20,7 @@ UPDATE `{table_prefix}phrases` SET text='Email (Wont` display)' WHERE text='Emai
 INSERT INTO {tbl_prefix}config (name,value) VALUES ('use_subs','0');
 
 -- ALTER TABLE
-ALTER TABLE  `cb_video_categories` ADD  `parent_id` INT( 255 ) NOT NULL DEFAULT  '0' AFTER  `category_id`;
+ALTER TABLE  {tbl_prefix}video_categories ADD  `parent_id` INT( 255 ) NOT NULL DEFAULT  '0' AFTER  `category_id`;
 
 -- NEW PHRASES
 INSERT INTO `{tbl_prefix}phrases` (`lang_iso`, `varname`, `text`) VALUES
