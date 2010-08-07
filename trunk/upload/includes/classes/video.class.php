@@ -593,8 +593,9 @@ class CBvideo extends CBCategory
 			if(!empty($cond))
 				$cond .= " AND ";
 			$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),$cond." ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);	
+			//echo $db->db_query;
 		}
-		
+	
 		
 		if($params['show_related'])
 		{
@@ -611,6 +612,7 @@ class CBvideo extends CBCategory
 			
 			assign($params['assign'],$result);
 		}
+		
 		
 		if($params['count_only'])
 			return $result = $db->count(tbl('video'),'*',$cond);

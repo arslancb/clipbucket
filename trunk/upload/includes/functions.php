@@ -2378,6 +2378,13 @@
 				&& $vdo['userid']!=$uid){
 			e(lang('private_video_error'));
 			return false;
+		}elseif($vdo['active']=='no' )
+		{
+			e(lang("vdo_iac_msg"));
+			if(!has_access('admin_access',TRUE))
+				return false;
+			else
+				return true;
 		}else
 		{
 			$funcs = cb_get_functions('watch_video');

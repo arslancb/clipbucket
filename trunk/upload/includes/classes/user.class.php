@@ -2976,6 +2976,7 @@ class userquery extends CBCategory{
 	 */
 	function my_account_links()
 	{
+		
 		$array = array
 		(
 		 lang('account')	=>array
@@ -3023,6 +3024,8 @@ class userquery extends CBCategory{
 					 )
 		);
 		
+		if(count($this->user_account)>0)
+			$array = array_merge($array,$this->user_account);
 		return $array;
 	}
 	
