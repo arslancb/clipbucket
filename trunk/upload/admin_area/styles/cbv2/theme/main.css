@@ -156,9 +156,10 @@ padding-left:5px; font-size:16px; font-weight:bold; font-family:Arial, Helvetica
 {
 	font-size:11px; color:#333;
 }
+
 .templates_container .tpl_title{width:80%; margin:auto; font-size:12px;}
-.templates_container .template_box{width:200px; float:left; margin:10px; padding:10px}
-.templates_container .template_box:hover{background-color:#F3E8FF}
+.templates_container .template_box{width:250px; height:225px; float:left; margin:10px; padding:10px}
+.templates_container .template_box:hover{background-color:#F3E8FF; }
 
 
 .preview_thumb{width:175px; height:100px}
