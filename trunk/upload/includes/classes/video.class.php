@@ -610,6 +610,22 @@ class CBvideo extends CBCategory
 			$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),
 			$cond." AND ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);
 			
+			
+			if($db->num_rows == 0)
+			{
+				//Try Finding videos via tags
+				$cond = "MATCH(".tbl("video.title,video.tags").") 
+				AGAINST ('".cbsearch::set_the_key($params['tags'])."' IN BOOLEAN MODE) ";
+				if($params['exclude'])
+				{
+					if($cond!='')
+						$cond .= ' AND ';
+					$cond .= " ".tbl('video.videoid')." <> '".$params['exclude']."' ";
+				}
+				$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),
+				$cond." AND ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);
+
+			}
 			assign($params['assign'],$result);
 		}
 		

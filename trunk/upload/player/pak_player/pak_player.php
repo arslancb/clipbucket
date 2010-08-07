@@ -76,9 +76,9 @@ if(!function_exists("pak_player"))
 				$in['height'] = $in['height'].'px';
 			
 			if($in['autoplay'] =='yes' || $in['autoplay']===true)
-				$in['autoplay'] = true;
+				$in['autoplay'] = "true";
 			else
-				$in['autoplay'] = false;
+				$in['autoplay'] = "false";
 				
 			assign('player_data',$in);
 			assign('player_logo',website_logo());

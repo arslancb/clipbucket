@@ -293,10 +293,11 @@ span.remember { font-size:10px;  }
 .my_account_left .li a:hover{color:#0066cc}
 .account_box{float:right; width:780px;border-left:5px #999 solid; padding-left:10px; margin-right:10px}
 
-.account_option_box{display:block; width:225px; margin:10px; padding:10px;float:left; background-color:#EFF5F8; border-radius:5px; -moz-border-radius:5px;-webkit-border-radius:5px;}
+.account_option_box{display:block; width:200px; margin:10px; padding:10px;float:left; background-color:#EFF5F8; border-radius:5px; -moz-border-radius:5px;-webkit-border-radius:5px; height:150px;}
 .account_option_box .its_title{font-size:13px; font-weight:bold;}
 .account_option_box  li{list-style:none; border-bottom:1px dotted #999; padding-bottom:2px; margin-bottom:2px}
 .account_option_box ul{margin:0px; padding:0px; display:block; padding-left:15px}
+.account_option_box  a{text-decoration:none; font-size:14px}
 .account_option_box  a:hover{color:#009}
 
 .account_head_container{border-bottom:1px dotted #CCC; padding-bottom:10px}
