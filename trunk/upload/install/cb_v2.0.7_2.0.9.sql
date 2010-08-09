@@ -1,4 +1,4 @@
-w-- NEW CONFIGS
+-- NEW CONFIGS
 INSERT INTO {tbl_prefix}config (name,value) VALUES
 ('use_ffmpeg_vf','no'),
 ('use_crons','no'),

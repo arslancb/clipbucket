@@ -61,3 +61,14 @@ INSERT INTO `{tbl_prefix}phrases` (`lang_iso`, `varname`, `text`) VALUES
 ('en', '404_error', '404 Error. Requested page not found.'),
 ('en', '403_error', '403 Error. Sorry, you cannot access this page.'),
 ('en', 'err_warning', 'Please create your custom %s error page in your styles/template_name/layout folder. <a href="%s">Click Here For Tutorial</a>');
+
+-- NEW CONFIGS
+INSERT INTO {tbl_prefix}config (name,value) VALUES
+('use_ffmpeg_vf','no'),
+('use_crons','no'),
+('mail_type','mail'),
+('smtp_host','mail.myserver.com'),
+('smtp_user','user@myserver.com'),
+('smtp_pass','password'),
+('smtp_auth','yes'),
+('smtp_port','26');
