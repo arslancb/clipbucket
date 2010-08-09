@@ -162,6 +162,20 @@ switch($step)
 				$db->update($prefix."config",array("value"),array(VERSION)," name='version'");
 				$db->update($prefix."config",array("value"),array(STATE)," name='type'");
 				
+				
+				 $email_tpl_query = 
+				"INSERT INTO ".$prefix.'email_templates'." (`email_template_id`, `email_template_name`, `email_template_code`, `email_template_subject`, `email_template`, `email_template_allowed_tags`) VALUES
+				('Contact Form', 'contact_form', '[{website_title} - Contact] {reason} from {name}', 'Name : {name}\r\nEmail : {email}\r\nReason : {reason}\r\n\r\nMessage:\r\n{message}\r\n\r\n===============\r\nIp : {ip_address}\r\ndate : {now}', ''),
+				('Video Acitvation Email', 'video_activation_email', '[{website_title}] - Your video has been activated', 'Hello {username},\r\nYour video has been reviewed and activated by one of our staff, thanks for uploading this video. You can view this video here.\r\n{video_link}\r\n\r\nThanks\r\n{website_title} Team', ''),
+				('User Comment Email', 'user_comment_email', '[{website_title}] {username} made comment on your {obj}', '{username} has commented on your {obj}\r\n\"{comment}\"\r\n\r\n<a href=\"{obj_link}\">{obj_link}</a>\r\n\r\n{website_title} team', '');";
+				$email_check_query = mysql_query("SELECT * FROM ".$prefix.'email_templates'." WHERE email_template_code ='contact_form'");
+				if(mysql_num_rows($email_check_query)==0)
+				{
+					mysql_query($email_tpl_query);
+				}
+
+
+
 				$userquery = new userquery();
 				$sess_key = $userquery->create_session_key($_COOKIE['PHPSESSID'],'admin');
 				$sess_code = $userquery->create_session_code();
