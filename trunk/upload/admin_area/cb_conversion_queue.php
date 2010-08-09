@@ -9,6 +9,17 @@
 require'../includes/admin_config.php';
 $userquery->admin_login_check();
 $pages->page_redir();
+
+
+if($_GET['delete_lock'])
+{
+	if(conv_lock_exists())
+	{
+		unlink(TEMP_DIR.'/conv_lock.loc');
+		e("Conversion lock has been deleted","m");
+	}else
+		e("There is no conversion lock");
+}
 if(isset($_POST['delete_selected']))
 {
 	$total = count($_POST['check_queue']);

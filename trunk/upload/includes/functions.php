@@ -4353,4 +4353,20 @@
 		}
 		return false;
 	}
+	
+	
+	
+	/**
+	 * FUnction used to check weather conversion lock exists or not
+	 * if converson log exists it means no further conersion commands will be executed
+	 *
+	 * @return BOOLEAN
+	 */
+	function conv_lock_exists()
+	{
+		if(file_exists(TEMP_DIR.'/conv_lock.loc'))
+			return true;
+		else
+			return false;
+	}
 ?>

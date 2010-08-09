@@ -1,4 +1,4 @@
-<h2>ClipBucket Queue Manager</h2>
+<h2>ClipBucket Queue Manager</h2> {if conv_lock_exists()}<span class="button" style="padding:5px; margin-left:10px" onclick="window.location='?delete_lock=yes'">Delete Conversion Lock</span>{/if}
 <div></div>
 do not try to change the things here, can cause problems to your Clipbucket conversion system.
 
@@ -37,7 +37,7 @@ do not try to change the things here, can cause problems to your Clipbucket conv
     	{$queue.cqueue_id}
     </td>
     <td valign="top" class="video_opt_td" style="height:25px">
-      <a href="#">{$queue.cqueue_name}</a> - 
+      <a href="{$baseurl}/{$smarty.const.ADMINDIR}/view_conversion_log.php?file_name={$queue.cqueue_name}" target="_blank">{$queue.cqueue_name}</a> - 
       <span class="vdo_sets">
         File Type : <strong>{$queue.cqueue_ext}</strong> &#8226; 
         Temp Ext : <strong>{$queue.cqueue_tmp_ext}</strong> &#8226;
@@ -58,8 +58,9 @@ do not try to change the things here, can cause problems to your Clipbucket conv
 {/if}
 {/foreach}
 </table>
+{else}
+	<div align="center"><strong>No Conversion Queue File Found</strong></div>
 {/if}
-
 </form>
 
 {include file="$style_dir/blocks/pagination.html" }
