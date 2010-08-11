@@ -30,7 +30,7 @@ $videos = get_videos(array('limit'=>$limit,'active'=>'yes','order'=>'date_added 
 $vrating = $video['rating'] / 2;
 $findcond = strpos($vrating,'.');
 if ($findcond == "1"){
-    $firstrating = str_replace('.','.',$vrating);
+    $firstrating = str_replace(',','.',$vrating);
     echo $firstrating;
 }
 else { echo $vrating.'.0'; }
