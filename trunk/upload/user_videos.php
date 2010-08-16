@@ -41,6 +41,8 @@ if($udetails)
 			$videos = get_videos(array('user'=>$udetails['userid'],'limit'=>$get_limit));
 			$total_rows = get_videos(array('user'=>$udetails['userid'],'count_only'=>true));
 			subtitle(sprintf(lang("users_videos"),$udetails['username']));
+			$total_pages = count_pages($total_rows,config('videos_items_uvid_page'));
+
 		}
 		break;
 		case 'favorites':
@@ -52,13 +54,12 @@ if($udetails)
 			$params['count_only'] = "yes";
 			$total_rows = $cbvid->action->get_favorites($params);
 			subtitle(sprintf(lang("title_usr_fav_vids"),$udetails['username']));
+			$total_pages = count_pages($total_rows,config('videos_items_ufav_page'));
 		}
 	}
 	
 Assign('videos', $videos);
 
-//Collecting Data for Pagination
-$total_pages = count_pages($total_rows,VLISTPP);
 
 //Pagination
 $pages->paginate($total_pages,$page);

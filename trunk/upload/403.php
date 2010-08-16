@@ -15,7 +15,7 @@ if(file_exists(LAYOUT."/403.html")) {
 } else {
 	$data = "403_error";
 	if(has_access('admin_access'))
-		e(sprintf(lang("err_warning"),"403","http://lol.com.pk"),"w");		
+		e(sprintf(lang("err_warning"),"403","http://docs.clip-bucket.com/?p=154"),"w");		
 	e(lang($data));
 	
 }
