@@ -19,6 +19,7 @@ abstract class CBCategory
 {
 	var $cat_tbl = ''; //Name of category Table
 	var $section_tbl = ''; //Name of table that related to $cat_tbl
+	var $use_sub_cats = FALSE; // Set to true if you using Sub-Cateogires
 	var $cat_thumb_height = '125';
 	var $cat_thumb_width = '125';
 	var $default_thumb = 'no_thumb.jpg';
@@ -74,7 +75,16 @@ abstract class CBCategory
 		$name = ($array['name']);
 		$desc = ($array['desc']);
 		$default = mysql_clean($array['default']);
-		$parent_id = mysql_clean($array['parent_cat']);
+		
+		$flds = array("category_name","category_desc","date_added");
+		$values = array($name,$desc,now());
+		
+		if(!empty($this->use_sub_cats))
+		{
+			$parent_id = mysql_clean($array['parent_cat']);
+			$flds[] = "parent_id";
+			$values[] = $parent_id;	
+		}
 		
 		if($this->get_cat_by_name($name))
 		{
@@ -84,10 +94,8 @@ abstract class CBCategory
 		{
 			e(lang("add_cat_no_name_err"));
 		}else{
-			$cid = $db->insert(tbl($this->cat_tbl),
-						array("parent_id","category_name","category_desc","date_added"),
-						array($parent_id,$name,$desc,now())
-						);		
+			$cid = $db->insert(tbl($this->cat_tbl),$flds,$values);
+						
 			$cid = $db->insert_id();
 			if($default=='yes' || !$this->get_default_category())
 				$this->make_default_category($cid);
@@ -309,10 +317,17 @@ abstract class CBCategory
 		$default = mysql_clean($array['default']);
 		$pcat = mysql_clean($array['parent_cat']);
 		
+		$flds = array("category_name","category_desc");
+		$values = array($name,$desc);
+		
 		$cur_name = mysql_clean($array['cur_name']);
 		$cid = mysql_clean($array['cid']);
-		$cur_parent = mysql_clean($array['cur_parent']);
 		
+		if(!empty($this->use_sub_cats))
+		{
+			$flds[] = "parent_id";
+			$vlaues[] = $pcat;	
+		}
 		
 		if($this->get_cat_by_name($name) && $cur_name !=$name )
 		{
@@ -323,11 +338,8 @@ abstract class CBCategory
 		} elseif($pcat == $cid){
 			e(lang("You can not make category parent of itself"));
 		}else{
-			$db->update(tbl($this->cat_tbl),
-						array("parent_id","category_name","category_desc"),
-						array($pcat,$name,$desc),
-						" category_id='$cid' "
-						);
+			$db->update(tbl($this->cat_tbl),$flds,$values," category_id='$cid' ");
+			
 			if($default=='yes' || !$this->get_default_category())
 				$this->make_default_category($cid);
 			e(lang("cat_update_msg"),'m');

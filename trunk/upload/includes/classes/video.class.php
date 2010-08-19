@@ -37,6 +37,7 @@ class CBvideo extends CBCategory
 	{
 		$this->cat_tbl = 'video_categories';
 		$this->section_tbl = 'video';
+		$this->use_sub_cats = TRUE;
 		$this->init_actions();
 	}
 	
