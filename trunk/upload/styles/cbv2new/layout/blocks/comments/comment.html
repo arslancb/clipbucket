@@ -17,14 +17,14 @@
         {assign var="nicetime" value=$comment.date_added|niceTime}
         {if $comment.userid !='' && $comment.userid!=0}
         	{assign var="comm_link" value=$userquery->profile_link($comment)}
-            {assign var="comment_owner" value=$comment.username}
+            {assign var="comm_owner" value=$comment.username}
         {else}
         	{assign var="comm_id" value="#comment_"}
          	{assign var="comm_link" value=$comment.comment_id}
             {assign var="comm_owner" value=$comment.anonym_name}       
         {/if}
     	
-            {$user_commented_time|sprintf:"$comm_id$comm_link":$comm_owner:$nicetime}
+        {$user_commented_time|sprintf:"$comm_id$comm_link":$comm_owner:$nicetime}
 
         </div>
         <div style="width:28%; float:right" align="right"><a href="javascript:void(0)" onclick="to_reply('{$comment.comment_id}')">{lang code='reply'}</a> | <a href="javascript:void(0)" onclick="spam_comment('{$comment.comment_id}')">{lang code='spam'}</a>
