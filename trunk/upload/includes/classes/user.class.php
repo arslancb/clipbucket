@@ -437,6 +437,7 @@ class userquery extends CBCategory{
 		$sess->un_set('userid');
 		$sess->un_set('user_session_key');
 		$sess->un_set('user_session_code');
+		$sess->destroy();
 		//$sess->remove_session(userid());
 	}
 	
@@ -1978,7 +1979,7 @@ class userquery extends CBCategory{
 			$db->insert(tbl($this->dbtbl['user_permissions']),
 						array('permission_type','permission_code','permission_name','permission_desc','permission_default'),
 						array($typeid,$code,$name,$desc,$default));
-			$db->execute("ALTER TABLE `".tbl($this->dbtbl['user_level_permission'])."` ADD `".$code."` ENUM( 'yes', 'no' ) NOT NULL DEFAULT '".$default."'");
+			$db->execute("ALTER TABLE ".tbl($this->dbtbl['user_level_permission'])." ADD `".$code."` ENUM( 'yes', 'no' ) NOT NULL DEFAULT '".$default."'");
 			e(lang("perm_added"),"m");
 		}
 	}

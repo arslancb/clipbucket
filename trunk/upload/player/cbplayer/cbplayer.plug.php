@@ -55,10 +55,10 @@ if(!function_exists('cbplayer'))
 			return false;
 	}
 	
-	function default_embed_code($vdetails)
+	function cb_old_embed_code($vdetails)
 	{
 		
-		$vid_file = get_video_file($vdata,$no_video,false);
+		$vid_file = get_video_file($vdetails,$no_video,false);
 		if($vid_file)
 		{
 		$code = '';
@@ -101,9 +101,7 @@ if(!function_exists('cbplayer'))
 	
 	
 	register_actions_play_video('cbplayer');
-	/**
-	 * Works on if Editors pick plugin is installed
-	 */
+	register_embed_function('cb_old_embed_code');
 	register_anchor_function(array('show_editor_pick_2'=>'show_editor_pick_2'));
 }
 ?>

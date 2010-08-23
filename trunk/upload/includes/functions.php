@@ -1119,9 +1119,16 @@
 	/**
 	 * Short form of print_r as pr
 	 */
-	function pr($text)
+	function pr($text,$wrap_pre=false)
 	{
+		if(!$wrap_pre)
 		print_r($text);
+		else
+		{
+			echo "<pre>";
+			print_r($text);
+			echo "</pre>";
+		}
 	}
 	
 	

@@ -213,7 +213,11 @@ if(!function_exists('validate_embed_code'))
 	function embed_video_check($vid)
 	{
 		global $myquery,$db;
-		$vdetails = $myquery->get_video_details($vid);
+		if(is_array($vid))
+			$vdetails = $vid;
+		else
+			$vdetails = $myquery->get_video_details($vid);
+			
 		if(!empty($vdetails['embed_code']) && $vdetails['embed_code'] !=' ' && $vdetails['embed_code'] !='none')
 		{
 			//Parsing Emebd Codek, Getting Referal URL if possible and add AUTPLAY on of option 

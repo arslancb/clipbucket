@@ -24,7 +24,7 @@ define("DEVELOPMENT_MODE",FALSE);
 define("DEV_INGNORE_SYNTAX",FALSE);
 
 //Setting Cookie Timeout
-define('COOKIE_TIMEOUT',315360000); // 10 years
+define('COOKIE_TIMEOUT',86400*30); // 30 Days years
 define('GARBAGE_TIMEOUT',COOKIE_TIMEOUT);
 
 if(!@$in_bg_cron)
@@ -117,17 +117,25 @@ if(!@$in_bg_cron)
 	$ads_array = array();
 
 define('DEBUG_LEVEL', $row['debug_level']);
+
 switch(DEBUG_LEVEL)
 {
     case 0:
+	{
         error_reporting(0);
         ini_set('display_errors', '0');
-        break;
+	}
+    break;
     case 1:
+	{
         error_reporting(E_ALL);
         ini_set('display_errors', '1');
-        break;
+	}
+    break;
+	case 2:
     default:
+	{
+		
         if(phpversion() >= '5.3.0')
         {
             error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
@@ -138,6 +146,7 @@ switch(DEBUG_LEVEL)
             error_reporting(E_ALL ^E_NOTICE);
             ini_set('display_errors', '1');
         }
+	}
 }
 
 if(phpversion() < '5.2.0')
