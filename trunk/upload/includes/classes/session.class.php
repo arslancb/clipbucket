@@ -138,6 +138,14 @@ class Session
 	}
 	//replica
 	function get($name){ return $this->get_session($name); }
+	
+	/**
+	 * Destroy Session
+	 */
+	function destroy()
+	{
+		session_destroy();
+	}
 }
 
 ?>
