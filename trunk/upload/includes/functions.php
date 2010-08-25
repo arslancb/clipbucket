@@ -238,8 +238,8 @@
 		$message .= $content;
 		
 		//ClipBucket uses PHPMailer for sending emails
-		include("classes/phpmailer/class.phpmailer.php");
-		include("classes/phpmailer/class.smtp.php");
+		include_once("classes/phpmailer/class.phpmailer.php");
+		include_once("classes/phpmailer/class.smtp.php");
 		
 		$mail  = new PHPMailer(); // defaults to using php "mail()"
 		
