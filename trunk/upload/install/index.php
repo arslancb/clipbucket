@@ -250,7 +250,7 @@ switch($step)
 				
 		$dbfile = "cb_v".the_version()."_".VERSION.".sql";
 		
-		if(the_version()!=$last_ver)
+		if(the_version()<$last_ver)
 		{
 			//it waill call all queries 1 by 1 and move forward
 			$the_version = the_version();

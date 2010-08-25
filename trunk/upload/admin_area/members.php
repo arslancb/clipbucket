@@ -129,6 +129,7 @@ if(isset($_POST['unban_selected'])){
 		 'status'	=> $_GET['status'],
 		 'email'	=> $_GET['email'],
 		 'gender'	=> $_GET['gender'],
+		 'level'	=> $_GET['level']
 		 );		
 	}
 	

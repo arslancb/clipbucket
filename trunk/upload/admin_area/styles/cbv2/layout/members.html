@@ -41,6 +41,19 @@
       </select></td>
     </tr>
     <tr>
+    <td align="right">
+    Level
+    </td>
+    <td>
+    <select name="level" id="level" class="input">
+    <option value="">------</option>
+        {assign var=levels value=$userquery->get_levels()}
+        {foreach from=$levels item=level}
+        	<option value="{$level.user_level_id}" {if $smarty.get.level==$level.user_level_id} selected="selected"{/if}>{$level.user_level_name}</option>
+        {/foreach}
+        </select>
+    </td>
+    <tr>
       <td align="right" valign="top">Category</td>
       <td>
        {$formObj->createField($cat_array)} 

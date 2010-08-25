@@ -4011,7 +4011,7 @@ class userquery extends CBCategory{
 			return $uid;
 		else
 		{
-			$result = $db->select(tbl("users"),"userid"," level='6' AND usr_status='Ok' ",1);
+			$result = $db->select(tbl("users"),"userid"," level='6' AND usr_status='ToActivate' ","1");
 			if($result[0]['userid'])
 				return $result[0]['userid'];
 			else

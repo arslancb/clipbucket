@@ -24,7 +24,7 @@ define("DEVELOPMENT_MODE",FALSE);
 define("DEV_INGNORE_SYNTAX",FALSE);
 
 //Setting Cookie Timeout
-define('COOKIE_TIMEOUT',86400*30); // 30 Days years
+define('COOKIE_TIMEOUT',86400*30); // 30 Days
 define('GARBAGE_TIMEOUT',COOKIE_TIMEOUT);
 
 if(!@$in_bg_cron)
