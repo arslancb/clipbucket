@@ -41,7 +41,7 @@ switch($sort)
 	break;
 	case "top_rated":
 	{
-		$vid_cond['order'] = " rating DESC";
+		$vid_cond['order'] = " rating DESC, rated_by DESC";
 	}
 	break;
 	case "most_commented":

@@ -3044,6 +3044,8 @@ class userquery extends CBCategory{
 			e(lang('user_email_confirm_email_err'));
 		elseif(!$this->user_exists($array['userid']))	
 			e(lang('usr_exist_err'));
+		elseif($this->email_exists($array['new_email']))
+			e(lang('usr_email_err3'));	
 		else
 		{
 			$db->update(tbl($this->dbtbl['users']),array('email'),array($array['new_email'])," userid='".$array['userid']."'");
