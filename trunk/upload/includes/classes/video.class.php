@@ -448,7 +448,7 @@ class CBvideo extends CBCategory
 			{
 				if($cond!='')
 					$cond .=" AND ";
-				$cond .= " ".tbl("video.broadcast")."='".$params['public']."'";
+				$cond .= " ".tbl("video.broadcast")."='".$params['broadcast']."'";
 			}
 		}
 		

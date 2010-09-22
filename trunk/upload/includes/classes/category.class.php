@@ -326,7 +326,7 @@ abstract class CBCategory
 		if(!empty($this->use_sub_cats))
 		{
 			$flds[] = "parent_id";
-			$vlaues[] = $pcat;	
+			$values[] = $pcat;	
 		}
 		
 		if($this->get_cat_by_name($name) && $cur_name !=$name )

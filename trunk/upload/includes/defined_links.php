@@ -23,7 +23,7 @@ $Cbucket->links  = array
 'my_playlists'	=>array('manage_playlists.php','manage_playlists.php'),
 'my_contacts'	=>array('manage_contacts.php','manage_contacts.php'),
 'notifications'	=>array('private_message.php?mode=notification','private_message.php?mode=notification'),
-'rss'			=>array("rss.php?mode","rss/"),
+'rss'			=>array("rss.php?mode=","rss/"),
 'search_result'	=>array('search_result.php','search_result.php'),
 'signup'		=>array('signup.php','signup'),
 'upload'		=>array('upload.php','upload'),
