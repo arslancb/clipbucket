@@ -278,7 +278,7 @@ class cbactions
 						//Now Finally Sending Email
 						$from = $userquery->get_user_field_only(username(),"email");
 						
-						cbmail(array('to'=>$emails,'from'=>$from,'from_name'=>username(),'subject'=>$subj,'content'=>$msg,'use_boundary'=>true));
+						cbmail(array('to'=>$emails_array,'from'=>$from,'from_name'=>username(),'subject'=>$subj,'content'=>$msg,'use_boundary'=>true));
 						e(sprintf(lang("thnx_sharing_msg"),$this->name),'m');
 						
 					}

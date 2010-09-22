@@ -258,8 +258,18 @@
 		}
 		//--- Ending Smtp Settings
 		
-		$mail->SetFrom($from, $from_name);		
-		$mail->AddAddress($to, $to_name);
+		$mail->SetFrom($from, $from_name);
+		
+		if(is_array($to))
+		{
+			foreach($to as $name)
+			{		
+				$mail->AddAddress($name, $to_name);
+			}
+		} else {
+			$mail->AddAddress($to, $to_name);
+		}
+		
 		$mail->Subject = $subject;
 		$mail->MsgHTML($message);
 				

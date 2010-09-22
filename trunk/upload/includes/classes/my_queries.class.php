@@ -655,6 +655,86 @@ class myquery {
 		
 	}
 	
+	/**
+	 * Function used to get from database
+	 * with nested replies
+	 */	
+	/*function get_comments($obj_id,$type='v',$parent_only=TRUE,$count_only=FALSE)
+	{
+		global $db;
+		$cond = '';
+		$user_flds = tbl("users.userid").",".tbl("users.username").",".tbl("users.email").",".tbl("users.avatar").",".tbl("users.avatar_url");
+		if($obj_id != "all")
+			$cond = " type_id = '$obj_id'";
+		else
+			$cond = " ";
+			
+		if(!empty($cond))
+			$cond .= " AND ";
+			
+		if($parent_only && is_numeric($parent_only))
+		{	
+			$parent_id = $parent_only;			
+			$cond .= " parent_id='$parent_id'";
+		} else {
+			$cond .= " parent_id = '0'";
+		}
+		
+		if(!$count_only) 
+		{
+			$result = $db->select(tbl("comments,users"),tbl("comments").".*, $user_flds"," $cond AND type='$type' AND ".tbl("comments.userid")." = ".tbl("users.userid")."");
+			//echo $db->db_query;
+			$ayn_result = $db->select(tbl("comments,users"),tbl("comments").".*, $user_flds"," $cond AND type='$type' AND ".tbl("comments.userid")." = '0'");
+			if($result && $ayn_result)
+				$result = array_merge($result,$ayn_result);
+			elseif(!$result && $ayn_result)
+				$result = $ayn_result;
+			
+			$arr = array();
+			foreach($result as $comment)
+			{
+					$arr[$comment['comment_id']] = $comment;
+					$replies = $this->get_replies($comment['comment_id'],$type);
+					if($replies)
+					{
+						$arr[$comment['comment_id']][] = $replies;	
+					}
+			}
+			
+			return $arr;
+		}
+	}*/
+	
+	function get_replies($p_id,$type='v')
+	{
+		global $db;
+		$result = $db->select(tbl("comments,users"),"*"," type='$type' AND parent_id = '$p_id' AND ".tbl("comments.userid")." = ".tbl("users.userid")."");
+		$ayn_result = $db->select(tbl("comments,users"),"*"," type='$type' AND parent_id = '$p_id' AND ".tbl("comments.userid")." = '0'");
+		
+		if($result && $ayn_result)
+			$result = array_merge($result,$ayn_result);
+		elseif(!$result && $ayn_result)
+			$result = $ayn_result;
+			
+		return $result;	
+	}
+
+	function array_depth($array) {
+		$ini_depth = 0;
+		
+		foreach($array as $arr)
+		{
+			if(is_array($arr))
+			{
+				$depth = array_depth($arr) + 1;	
+				
+				if($depth > $ini_depth)
+					$ini_depth = $depth;
+			}
+		}
+		
+		return $ini_depth;
+	}
 	
 	/**
 	 * Function used to get video owner
