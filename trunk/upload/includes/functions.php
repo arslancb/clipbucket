@@ -1892,7 +1892,13 @@
 			return $input['checked'];
 		if(function_exists($input['display_function']))
 			return $input['display_function']($value);
-		else
+		elseif($input['type']=='dropdown')
+		{
+			if($input['checked'])
+				return $value[$input['checked']];
+			else
+				return $value[0];
+		}else
 			return $input['value'];
 	}
 	
@@ -2151,7 +2157,7 @@
 		{
 			if($param!='array')
 			{
-				$msg = msg_list();
+				$msg = error_list();
 				return $msg[$param];
 			}
 			return error_list();

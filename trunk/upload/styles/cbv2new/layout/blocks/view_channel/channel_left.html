@@ -57,22 +57,24 @@
                     </div>
                     
                     
-                 <div class="clearfix"></div>  
-            <span class="channel_heading">{lang code='Personal Details'|capitalize:true}</span>
-                    {assign var="personal_details" value=$userquery->load_personal_details($p)}
+            <div class="clearfix"></div>  
+            <div  style="height:10px"></div>
+            <span class="channel_heading">{lang code='Profile Details'|capitalize:true}</span>
+                    {assign var="personal_details" value=$userquery->load_profile_fields($p)}
                     {foreach from=$personal_details item=field}
                     {assign var=db_field value=$field.db_field}
                     {if $p.$db_field && $field.auto_view=='yes'}
                         <div class="show_info">
                         {if $field.type !='textarea' && $field.type !='text' && $field.type !='textfield'}
-                         <div class="item_list float_left" align="left">{$field.title}</div>
-                         <div class="item_list float_right" align="right">{input_value input=$field}</div>
-                         <div class="clearfix"></div>
+                         <div class="item_list" align="left" style="margin-top:5px"><strong>{$field.title}</strong></div>
+                            <div class="clearfix"></div>
+                         	<div class="item_list">{input_value input=$field}</div>
                         {elseif $field.type =='textarea'}
                         	<div class="item_list" align="left" style="margin-top:5px"><strong>{$field.title}</strong></div>
-                            <div style=" display:block; padding:5px; font-size:10px; background-color:#eaeaea; margin:3px 0px">{$field.value|nl2br}</div>
+                            <div style=" display:block; padding:5px; font-size:10px; background-color:#eaeaea; margin:3px 0px">
+                            {$field.value|nl2br}</div>
                         {else}
-                        	<div class="item_list" align="left" style="margin-top:5px">{$field.title}</div>
+                        	<div class="item_list" align="left" style="margin-top:5px"><strong>{$field.title}</strong></div>
                             <div class="clearfix"></div>
                          	<div class="item_list">{input_value input=$field}</div>
                         {/if}
@@ -87,7 +89,9 @@
               			<div style=" display:block; padding:5px; font-size:10px; background-color:#eaeaea; margin:3px 0px">{$p.about_me|nl2br}</div>
                     </div>
                     {/if}
-                
+                    
+                    
+               
                 <div class="clearfix"></div>
            		</div>
               	<!-- Profile Details Ends -->

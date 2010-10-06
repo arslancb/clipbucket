@@ -116,6 +116,7 @@ if(!@$in_bg_cron)
 //Holds Advertisment IDS that are being Viewed
 	$ads_array = array();
 
+
 define('DEBUG_LEVEL', $row['debug_level']);
 
 switch(DEBUG_LEVEL)
@@ -132,6 +133,7 @@ switch(DEBUG_LEVEL)
         ini_set('display_errors', '1');
 	}
     break;
+	
 	case 2:
     default:
 	{

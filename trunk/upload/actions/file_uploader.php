@@ -125,7 +125,9 @@ include('../includes/config.inc.php');
 	if (!@move_uploaded_file($_FILES[$upload_name]["tmp_name"], $save_path.$file_name)) {
 		HandleError("File could not be saved.");
 		exit(0);
-	}else{
+	}else
+	{
+		
 		$Upload->add_conversion_queue($file_name);
 		$quick_conv = config('quick_conv');
 		

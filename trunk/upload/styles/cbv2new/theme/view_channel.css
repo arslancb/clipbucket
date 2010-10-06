@@ -62,6 +62,7 @@
 
 .show_info{clear:both}
 .show_info .item_list{width:50%; display:block; font-size:11px; }
+.show_info .item_list a{font-weight:normal}
 .float_right{float:right}
 .float_left{float:left}
 

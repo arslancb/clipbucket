@@ -101,7 +101,7 @@
  {if count($custom_form_fields)>0}
  	<fieldset class="fieldset">
     <legend>{lang code='more_options'}</legend>
-    {foreach from=$custom_fields item=field}
+    {foreach from=$custom_form_fields item=field}
     <div class="account_field_block">
     <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
     <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
@@ -114,6 +114,8 @@
     
     </fieldset>
  {/if}
+ 
+ 
  {* Custom Fields ENDS *}
  
  <div align="right"><button name="update_video" id="button" value="submit" class="cb_button">{lang code='update_video'}</button></div>

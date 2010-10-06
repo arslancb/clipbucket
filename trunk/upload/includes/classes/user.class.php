@@ -2176,11 +2176,12 @@ class userquery extends CBCategory{
 						  'name'=> "relation_status",
 						  'id'=> "last_name",
 						  'value'=> array(
-										  lang('usr_arr_no_ans') => lang('usr_arr_no_ans'),
-										  lang('usr_arr_single') =>lang('usr_arr_single'),
-										  lang('usr_arr_married') =>lang('usr_arr_married'),
-										  lang('usr_arr_comitted') =>lang('usr_arr_comitted'),
-										  lang('usr_arr_open_relate') =>lang('usr_arr_open_relate')),
+										  lang('usr_arr_no_ans'),
+										  lang('usr_arr_single'),
+										  lang('usr_arr_married'),
+										  lang('usr_arr_comitted'),
+										  lang('usr_arr_open_relate')
+										  ),
 						  'checked'=> $default['relation_status'],
 						  'db_field'=>'relation_status',
 						  'auto_view'=>'yes',
@@ -2261,6 +2262,7 @@ class userquery extends CBCategory{
 						  'id'=> "postal_code",
 						  'value'=> $default['postal_code'],
 						  'db_field'=>'postal_code',
+						  'auto_view' => 'yes'
 						  ),
 		'hometown' => array(
 						  'title'=>  lang("hometown"),
@@ -2269,6 +2271,7 @@ class userquery extends CBCategory{
 						  'id'=> "hometown",
 						  'value'=> $default['hometown'],
 						  'db_field'=>'hometown',
+						  'auto_view' => 'yes'
 						  ),
 		'city' => array(
 						  'title'=>  lang("city"),
@@ -2277,6 +2280,7 @@ class userquery extends CBCategory{
 						  'id'=> "city",
 						  'value'=> $default['city'],
 						  'db_field'=>'city',
+						  'auto_view' => 'yes'
 						  ),
 		);
 		return $other_details;
@@ -2297,15 +2301,15 @@ class userquery extends CBCategory{
 						  'type'=> "dropdown",
 						  'name'=> "education",
 						  'id'=> "education",
-						  'value'=> array(lang('usr_arr_no_ans')=>lang('usr_arr_no_ans'),
-										  lang('usr_arr_elementary')=>lang('usr_arr_elementary'),
-										  lang('usr_arr_hi_school')=>lang('usr_arr_hi_school'),
-										  lang('usr_arr_some_colg')=>lang('usr_arr_some_colg'),
-										  lang('usr_arr_assoc_deg')=>lang('usr_arr_assoc_deg'),
-										  lang('usr_arr_bach_deg')=>lang('usr_arr_bach_deg'),
-										  lang('usr_arr_mast_deg')=>lang('usr_arr_mast_deg'),
-										  lang('usr_arr_phd')=>lang('usr_arr_phd'),
-										  lang('usr_arr_post_doc')=>lang('usr_arr_post_doc'),
+						  'value'=> array(lang('usr_arr_no_ans'),
+										  lang('usr_arr_elementary'),
+										  lang('usr_arr_hi_school'),
+										  lang('usr_arr_some_colg'),
+										  lang('usr_arr_assoc_deg'),
+										  lang('usr_arr_bach_deg'),
+										  lang('usr_arr_mast_deg'),
+										  lang('usr_arr_phd'),
+										  lang('usr_arr_post_doc'),
 										  ),
 						  'checked'=>$default['education'],
 						  'db_field'=>'education',
@@ -2449,8 +2453,8 @@ class userquery extends CBCategory{
 		$profile_fields = $this->load_personal_details($default);
 		$other_details = $this->load_location_fields($default);
 		$more_details = $this->load_other_fields($default);
-		$privacy = $this->load_privacy_field($default);		
-		return array_merge($profile_fields,$other_details,$more_details,$privacy);
+		// $privacy = $this->load_privacy_field($default);
+		return array_merge($profile_fields,$other_details,$more_details);
 	}
 	
 	
@@ -3732,6 +3736,13 @@ class userquery extends CBCategory{
 			if($cond!='')
 				$cond .= ' AND ';
 			$cond .= " level = '".$params['level']."' ";
+		}
+		
+		if($params['cond'])
+		{
+			if($cond!='')
+				$cond .= ' AND ';
+			$cond .= " ".$params['cond']." ";
 		}
 		
 		$result = $db->select(tbl('users'),'*',$cond,$limit,$order);
