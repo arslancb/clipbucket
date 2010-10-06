@@ -178,8 +178,9 @@ class CBvideo extends CBCategory
 			$upload_fields = array_merge($required_fields,$location_fields,$option_fields);
 			
 			//Adding Custom Upload Fields
-			if(count($Upload->custom_upload_fields)>0)
-				$upload_fields = array_merge($upload_fields,$Upload->custom_upload_fields);
+			//if(count($Upload->custom_upload_fields)>0)
+				//$upload_fields = array_merge($upload_fields,$Upload->custom_upload_fields);
+
 			//Adding Custom Form Fields
 			if(count($Upload->custom_form_fields)>0)
 				$upload_fields = array_merge($upload_fields,$Upload->custom_form_fields);
@@ -288,8 +289,8 @@ class CBvideo extends CBCategory
 			{
 				e(lang("no_edit_video"));
 			}else{
-				//pr($upload_fields);
-				
+				//pr($upload_fields);	
+	
 				$db->update(tbl('video'),$query_field,$query_val," videoid='$vid'");
 				//echo $db->db_query;
 				e(lang("class_vdo_update_msg"),'m');
