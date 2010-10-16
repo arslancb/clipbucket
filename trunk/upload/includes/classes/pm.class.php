@@ -62,7 +62,7 @@ define('CB_PM_MAX_INBOX',500); // 0 - OFF , U - Unlimited
 		global $cbvid;
 		$vid_array = array('user'=>userid(),'order'=>'title');
 		$videos = $cbvid->get_videos($vid_array);
-		$vids_array = array(''=>'No Video');
+		$vids_array = array('' => lang("No Video"));
 		if($videos)
 		foreach($videos as $video)
 		{
