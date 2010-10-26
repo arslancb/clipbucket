@@ -995,6 +995,27 @@
 				return $cats;
 			}
 			break;
+			
+			case "collection":
+			case "collections":
+			{
+				global $cbcollection;
+				
+				
+				if($return_html && $use_subs == "1") {
+					$cats = $cbcollection->cb_list_categories($type,$with_all);
+				} else {
+					if($with_all)
+						$all_cat = array(array('category_id'=>'all','category_name'=>'All'));
+						
+					$cats = $cbcollection->get_categories();
+						
+					if($all_cat && is_array($cats))
+						$cats = array_merge($all_cat,$cats);
+				}
+				return $cats;
+			}
+			break;
 		}
 	}
 	function getSmartyCategoryList($params)

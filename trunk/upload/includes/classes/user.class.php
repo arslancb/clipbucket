@@ -29,7 +29,7 @@ class userquery extends CBCategory{
 	var $logout_functions = array();
 	var $init_login_functons = array();
 	var $user_exist = '';
-	
+	var $user_account = array();
 	var $user_sessions = array();
 	
 	var $dbtbl = array(
@@ -3031,6 +3031,7 @@ class userquery extends CBCategory{
 		
 		if(count($this->user_account)>0)
 			$array = array_merge($array,$this->user_account);
+			
 		return $array;
 	}
 	

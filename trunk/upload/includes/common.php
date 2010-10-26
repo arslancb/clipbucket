@@ -76,6 +76,7 @@ if(!@$in_bg_cron)
 	require_once('classes/pm.class.php');
 	require_once('classes/cbpage.class.php');
 	require_once('classes/reindex.class.php');
+	require_once('classes/collections.class.php');
 	
 	//Adding Gravatar
 	require_once('classes/gravatar.class.php');
@@ -106,6 +107,7 @@ if(!@$in_bg_cron)
 	$cbpm		= new cb_pm();
 	$cbpage		= new cbpage();
 	$cbindex	= new CBreindex();
+	$cbcollection = new Collections();
 
 	require 'defined_links.php';
 	
@@ -414,7 +416,7 @@ $Smarty->assign_by_ref('cbsearch',$cbsearch);
 $Smarty->assign_by_ref('cbpm',$cbpm);
 $Smarty->assign_by_ref('cbpage',$cbpage);
 $Smarty->assign_by_ref('cbemail',$cbemail);
-
+$Smarty->assign_by_ref('cbcollection',$cbcollection);
 /*
 REGISERTING FUNCTION FOR SMARTY TEMPLATES
 */
