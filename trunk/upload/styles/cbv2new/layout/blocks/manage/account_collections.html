@@ -1,0 +1,19 @@
+<div class="account_vid_list" style="background-color:#{cycle values='ffffff,EFF5F8'}; padding:4px 0px;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="check_col[]" id="check_col-{$collection.collection_id}" value="{$collection.collection_id}" />
+ 	      <label for="checkbox"></label></td>
+ 	    <td valign="middle">
+        	{$collection.collection_name} 
+            <div class="clear"></div>
+            <div style="font-size:10px;"><a href="{$cbcollection->collection_links($collection)}">{lang code="view"}</a> - <a href="?mode=edit_collection&amp;cid={$collection.collection_id}">{lang code="edit"}</a> - <a href="javascript:void(0)">{lang code="delete"}</a></div>
+        </td>
+ 	    <td width="100">{$collection.date_added|date_format}</td>
+ 	    <td width="100">{$collection.views|number_format}</td>
+        <td width="100">{$collection.total_objects|number_format}</td>
+        <td width="100">{$collection.type}</td>
+ 	    <td width="100" class="last_td">{$collection.active}</td>
+
+ 	    </tr>
+ 	  </table>
+</div>
