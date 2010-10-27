@@ -23,9 +23,10 @@ class Collections extends CBCategory
 	 * help makes this class reusble for very object
 	 */
 	var $objTable = 'pictures';
-	var $objType = 'p';
+	var $objType = 'pictures';
 	var $objClass = 'cbpicture';
 	var $objFunction = 'picture_exists';
+	var $objFieldID = 'picture_id';
 	
 	
 	/**
@@ -35,7 +36,7 @@ class Collections extends CBCategory
 	{
 		$this->cat_tbl = "collection_categories";
 		$this->section_tbl = "collections";
-		$this->types = array('v' => lang("videos"),'p' => lang("pictures"));
+		$this->types = array('videos' => lang("videos"),'pictures' => lang("pictures"));
 		$this->set_user_links();
 	}
 	
@@ -118,8 +119,11 @@ class Collections extends CBCategory
 		else
 		{
 			if($p['active'])
+			{
+				if($cond != '')
+					$cond .= " AND ";
 				$cond .= " ".tbl('collections.active')." = '".$p['active']."'";
-				
+			}
 			if($p['broadcast'])
 			{
 				if($cond != '')
@@ -176,8 +180,7 @@ class Collections extends CBCategory
 				if($cond != '')
 					$cond .= " AND ";
 				$cond .= " ".tbl('collections.type')." = '".$p['type']."'";		
-			} else
-				$cond .= " ".tbl('collections.type')." = 'p'";
+			}
 				
 			if($p['featured'])
 			{
@@ -246,9 +249,12 @@ class Collections extends CBCategory
 			
 			if(!$p['count_only'])
 			{
+				if($cond != "")
+					$cond .= " AND ";
 				$result =   $db->select(tbl("collections,users"),
 							tbl("collections.*,users.userid,users.username"),
-							$cond." AND ".tbl("collections.userid")." = ".tbl("users.userid"),$limit,$sorting);	
+							$cond.tbl("collections.userid")." = ".tbl("users.userid"),$limit,$sorting);
+				//echo $db->db_query;				
 			}
 			
 			if($p['count_only'])
@@ -266,10 +272,10 @@ class Collections extends CBCategory
 	/**
 	 * Function used to get collection items
 	 */
-	function get_collection_items($id)
+	function get_collection_items($id,$order=NULL,$limit=NULL)
 	{
 		global $db;
-		$result = $db->select(tbl($this->items),"*"," collection_id = $id");
+		$result = $db->select(tbl($this->items),"*"," collection_id = $id",$limit,$order);
 		if($result)
 			return $result;
 		else
@@ -281,13 +287,13 @@ class Collections extends CBCategory
 	 */
 	function load_required_fields($default=NULL)
 	{
-		if($default=NULL)
+		if($default==NULL)
 			$default = $_POST;
 			
 		$name = $default['collection_name'];
 		$description = $default['collection_description'];
 		$tags = $default['collection_tags'];
-		
+		$type = $default['type'];
 		if(is_array($default['category']))
 			$cat_array = array($default['category']);		
 		else
@@ -353,7 +359,8 @@ class Collections extends CBCategory
 							'id' => 'type',
 							'value' => $this->types,
 							'db_field' => 'type',
-							'required' => 'yes'
+							'required' => 'yes',
+							'checked' => $type
 							)						   														   					   
 		);
 		
@@ -365,7 +372,7 @@ class Collections extends CBCategory
 	 */
 	function load_other_fields($default=NULL)
 	{
-		if($default=NULL)
+		if($default==NULL)
 			$default = $_POST;
 			
 		$broadcast = $default['broadcast'];
@@ -592,15 +599,15 @@ class Collections extends CBCategory
 	/**
 	 * Function used to check if user collection owner
 	 */
-	function is_collection_owner($cid,$userid=NULL)
+	function is_collection_owner($cdetails,$userid=NULL)
 	{
 		if($userid==NULL)
 			$userid = userid();
 			
-		if(!is_array($cid))
-			$details = $this->get_collection($cid);
+		if(!is_array($cdetails))
+			$details = $this->get_collection($cdetails);
 		else
-			$details = $cid;
+			$details = $cdetails;
 			
 		if($details['userid'] == $userid)
 			return true;
@@ -692,6 +699,7 @@ class Collections extends CBCategory
 			}
 		}
 	}
+	
 	/**
 	 * Function used to create collection preview
 	 */
@@ -699,7 +707,7 @@ class Collections extends CBCategory
 	{
 		global $db;
 		
-		if($array=NULL)
+		if($array==NULL)
 			$array = $_POST;
 		
 		if(is_array($_FILES))
@@ -713,7 +721,7 @@ class Collections extends CBCategory
 			$reqFields = $this->load_required_fields($array);
 			$otherFields = $this->load_other_fields($array);
 			
-			$collection_fields = array_merge($regFields,$otherFields);
+			$collection_fields = array_merge($reqFields,$otherFields);
 			if($this->custom_collection_fields > 0)
 				$collection_fields = array_merge($collection_fields,$this->custom_collection_fields);
 			foreach($collection_fields as $field)
@@ -779,13 +787,87 @@ class Collections extends CBCategory
 				e("cant_edit_collection");
 			else
 			{
-				$db->update(tbl($this->section_tbl),$query_field,$query_val," collection_id = $id");
+				$db->update(tbl($this->section_tbl),$query_field,$query_val," collection_id = $cid");
 				e("collection_updated","m");
 				
 				if(!empty($array['collection_thumb']['tmp_name']))
-					$this->upload_thumb($cid,$array['colleciton_thumb']);	
+					$this->upload_thumb($cid,$array['collection_thumb']);	
 			}
 		}
+	}
+	
+	/**
+	 * Function used get default thumb
+	 */
+	function get_default_thumb($size=NULL)
+	{
+		if($size=="small" && file_exists(TEMPLATEDIR."/images/thumbs/collection_thumb-small.png"))
+		{
+			return TEMPLATEDIR."/images/thumbs/collection_thumb-small.png";	
+		} elseif(!$size && file_exists(TEMPLATEDIR."/images/thumbs/collection_thumb.png")) {
+			return TEMPLATEDIR."/images/thumbs/collection_thumb.png";	
+		} else {
+			if($size == "small")
+				$thumb = COLLECT_THUMBS_URL."/no_thumb-small.png";
+			else
+				$thumb = COLLECT_THUMBS_URL."/no_thumb.png";
+				
+			return $thumb;			
+		}
+	}
+	
+	/**
+	 * Function used get collection thumb
+	 */
+	function get_thumb($cdetails,$size=NULL)
+	{
+
+		if(is_numeric($cdetails))
+		{
+			$cdetails = $this->get_collection($cdetails);
+			$cid = $cdetails['collection_id'];	
+		} else
+			$cid = $cdetails['collection_id'];			
+		$exts = array("jpg","png","gif","jpeg");
+		if($cdetails['total_objects'] == "0")
+		{
+			foreach($exts as $ext)
+			{
+				if($size=="small")
+					$s = "-small";
+				
+				if(file_exists(COLLECT_THUMBS_DIR."/".$cid.$s.".".$ext))
+					return COLLECT_THUMBS_URL."/".$cid.$s.".".$ext;	
+			}
+		} else {
+			// NEED TO FIGURE OUT A WAY TO GET OBJECT THUMB IF
+			// TOTAL OBJECTS GREATER THAN 0
+		}
+		
+		return $this->get_default_thumb($size);
+	}
+	
+	/**
+	 * Function used generate collection link
+	 */
+	function collection_links($details,$mode="main")
+	{
+		if(!is_array($details))
+			$details = $this->get_collection($details);
+			
+		switch($mode)
+		{
+			case "main":
+			default:	
+			{
+				if(SEO==yes)
+					return BASEURL."/view-collection/".$details['collection_id']."/".SEO(clean(str_replace(' ','-',$details['collection_name'])))."";
+				else
+					return BASEURL."/view_collection.php?cid=".$details['collection_id'];
+			}
+			break;
+		}
+			
 	}
 }
 

@@ -294,6 +294,9 @@ if(phpversion() < '5.2.0')
 	define('TOPIC_ICON_DIR',BASEDIR.'/images/icons/topic_icons');
 	define('TOPIC_ICON_URL',BASEURL.'/images/icons/topic_icons');
 
+	//TOPIC ICON DIR
+	define('COLLECT_THUMBS_DIR',BASEDIR.'/images/collection_thumbs');
+	define('COLLECT_THUMBS_URL',BASEURL.'/images/collection_thumbs');
 
 	//Enable youtube videos
 	define("YOUTUBE_ENABLED",$row['youtube_enabled']);
