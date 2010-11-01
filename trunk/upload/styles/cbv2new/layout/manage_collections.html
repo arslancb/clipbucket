@@ -30,6 +30,19 @@
     <input type="hidden" value="{$c.collection_id}" name="collection_id" id="collection_id"  />
     <div class="upload_info">
         <div class="account_form">
+            <div class="field clearfix">
+                <label for="colleciton_thumb" class="label">{lang code=collection_thumb"}</label>
+                <div style="width:140px; float:left" align="center">
+               		<img src="{$cbcollection->get_thumb($c)}"  />
+                </div>
+                <div style="width:500px; float:left; margin-left:15px;">
+                    <li>{lang code='grp_must_be'} JPG | GIF | PNG</li>
+                    <li>{lang code='grp_90x90'}</li>
+                    <li>{lang code='grp_thumb_warn'}</li>
+                    <input type="file" name="collection_thumb" id="collection_thumb" />
+                </div>
+            </div>
+            
         {foreach from=$fields item=field}
                 <div class="field">
                     <label for="{$field.id}" class="label">{$field.title}</label>
@@ -50,11 +63,9 @@
                     {if $field.hint_2}<br>
                     <div class="hint">{$field.hint_2}</div>{/if}
                 </div>
-            {/foreach}
-            
-            <input type="submit" name="update_collection" class="cb_button_2" value="{lang code='update_collection'}">
-            
+            {/foreach}          
         </div> <!-- account_form -->
+        <div align="right" style="margin-top:10px"><input type="submit" name="update_collection" class="cb_button_2" value="{lang code='update_collection'}"></div>
     </div> <!-- upload_info -->    
     {/if}
     
@@ -83,11 +94,32 @@
                         {if $field.hint_2}<br>
                         <div class="hint">{$field.hint_2}</div>{/if}
                     </div>
-                {/foreach}
-                <input type="submit" name="add_collection" class="cb_button_2" value="{lang code='add_new_collection'}">
-            
+                {/foreach}            
         </div>
+        <div align="right" style="margin-top:10px"><input type="submit" name="add_collection" class="cb_button_2" value="{lang code='add_new_collection'}"></div>
         </div>
+    {/if}
+    
+    {if $mode == "manage_items" || $mode == "collection_items"}
+    <h2>{lang code='manage_items'} - {$c.collection_name}</h2>
+     <div class="account_table">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+ 	      </td>
+ 	    <td>{lang code='title'}</td>
+ 	    <td width="100">{lang code='date_added'}</td>
+ 	    <td width="100">{lang code='views'}</td>
+ 	    <td width="100" class="last_td">{lang code='remove'}</td>
+ 	    </tr>
+ 	  </table>
+     </div>
+     
+    {section loop=$objs name=olist}
+    	{include file="$style_dir/blocks/manage/account_collections.html" display_type="items" collection=$objs[olist]}
+    {sectionelse}
+    	<div align="center" style="font:bold 11px Tahoma; margin-top:5px;">{lang code="no_items_found_in_collect"}</div>
+    {/section}    
     {/if}
     </form>
     </div> <!-- account_box end -->

@@ -51,9 +51,19 @@
     {show_flag_form id=$vdo.videoid type=Video}
     <div class="action_box" style="display:none" id="video_action_result_cont"></div>
     {show_playlist_form id=$vdo.videoid type=Video}
+    <div class="action_box">
+
+        	<form action="" method="post" name="collection_form" onsubmit="return false;" id="collection_form">
+            	<select name="collection" id="collection">
+                	{foreach from=$uc item=item}
+                    	<option value="{$item.collection_id}">{$item.collection_name} ({$item.total_objects})</option>
+                    {/foreach}
+                </select>
+                <button onclick="collection_actions('collection_form','add_new_item','{$vdo.videoid}','#video_action_result_cont','video');" class="cb_button_2">{lang code="add_to_collection"}</button>
+            </form>
+    </div> <!-- action_box end -->
 </div>
 <!-- Action Result Container End-->
-
 
 <!-- Video Stats-->
 <div class="video_details clearfix">

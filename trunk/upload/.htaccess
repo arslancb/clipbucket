@@ -73,6 +73,9 @@ RewriteRule ^groups/(.*)/(.*)/(.*)/(.*)/(.*) groups.php?cat=$1&sort=$3&time=$4&p
 RewriteRule ^groups groups.php [L]
 RewriteRule ^create_group create_group.php [L]
 
+#Collection Section
+RewriteRule ^collections collections.php [L]
+RewriteRule ^collections/(.*)/(.*)/(.*)/(.*)/(.*) collections.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
 
 RewriteRule ^sitemap.xml$ sitemap.php
 RewriteRule ^signup signup.php

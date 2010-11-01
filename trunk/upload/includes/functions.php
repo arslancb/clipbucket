@@ -2721,6 +2721,28 @@
 		
 		increment_views($gdetails['group_id'],"group");
 	}
+	
+	/**
+	 * Funcion used to call functions
+	 * when user view collection
+	 * ie in view_collection.php
+	 */
+	function call_view_collection_functions($cdetails)
+	{
+		$funcs = get_functions('view_collection_functions');
+		if(is_array($funcs) && count($funcs)>0)
+		{
+			foreach($funcs as $func)
+			{
+				if(function_exists($func))
+				{
+					$func($cdetails);
+				}
+			}
+		}
+		
+		increment_views($cdetails['collection_id'],"collection");
+	}
 
 	
 	/**
@@ -2775,6 +2797,15 @@
 				}
 			}
 			break;
+			case "c":
+			case "collect":
+			case "collection":
+			{
+				if(!isset($_COOKIE['collection_'.$id])){
+					$db->update(tbl("collections"),array("views"),array("|f|views+1")," collection_id = '$id'");
+					setcookie('collection_'.$id,'viewed',time()+3600);
+				}
+			}
 		}
 		
 	}

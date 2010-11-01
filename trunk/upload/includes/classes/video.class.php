@@ -21,6 +21,7 @@ class CBvideo extends CBCategory
 	var $embed_func_list = array(); //Function list that are applied while asking for video embed code
 	var $embed_src_func_list = array(); //Function list that are applied while asking for video embed src
 	var $action = ''; // variable used to call action class
+	var $collection = '';
 	var $email_template_vars = array();
 	
 	var $dbtbl = array('video'=>'video');
@@ -39,6 +40,21 @@ class CBvideo extends CBCategory
 		$this->section_tbl = 'video';
 		$this->use_sub_cats = TRUE;
 		$this->init_actions();
+		$this->init_collections();
+	}
+	
+	/**
+	 * Initiating Collections
+	 */
+	function init_collections()
+	{
+		$this->collection = new Collections();
+		$this->collection->objType = "v";
+		$this->collection->objClass = "cbvideo";
+		$this->collection->objTable = "video";
+		$this->collection->objName = "Video";
+		$this->collection->objFunction = "video_exists";
+		$this->collection->objFieldID = "videoid";	
 	}
 	
 	
@@ -431,6 +447,7 @@ class CBvideo extends CBCategory
 		$order = $params['order'];
 		
 		$cond = "";
+		
 		if(!has_access('admin_access',TRUE))
 			$cond .= " ".tbl("video.status")."='Successful' AND 
 			".tbl("video.active")."='yes' ";
@@ -611,7 +628,6 @@ class CBvideo extends CBCategory
 			}
 			$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),
 			$cond." AND ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);
-			
 			
 			if($db->num_rows == 0)
 			{

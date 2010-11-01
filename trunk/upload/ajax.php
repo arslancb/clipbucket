@@ -363,6 +363,19 @@ if(!empty($mode))
 				}
 				break;
 				
+				case 'cl':
+				case 'collection':
+				{
+					$id = mysql_clean($_POST['obj_id']);
+					$comment = $_POST['comment'];
+					if($comment=='undefined')
+						$comment = '';
+					$reply_to = $_POST['reply_to'];
+					
+					$cid = $cbcollection->add_comment($comment,$id,$reply_to);	
+				}
+				break;
+				
 			}
 			
 			if(msg())
@@ -526,6 +539,13 @@ if(!empty($mode))
 					$cbgroup->update_comments_count($type_id);
 				}
 				break;
+				case 'cl':
+				case 'collection':
+				{
+					$cid = mysql_clean($_POST['cid']);
+					$type_id = $myquery->delete_comment($cid);
+					$cbcollection->update_total_comments($type_id);	
+				}
 				
 			}
 			if(msg())
@@ -545,6 +565,95 @@ if(!empty($mode))
 			echo json_encode($ajax);
 		}
 		break;
+		
+		case "add_new_item":
+		{
+			$type = $_POST['type'];
+			
+			switch($type)
+			{
+				case "videos":
+				case "video":
+				case "v":
+				{
+					$cid = $_POST['cid'];
+					$id = $_POST['obj_id'];
+					$cbvideo->collection->add_collection_item($id,$cid);	
+				}
+				break; 
+				
+				case "pictures":
+				case "picture":
+				case "p":
+				{
+					$cid = $_POST['cid'];
+					$id = $_POST['obj_id'];
+					$cbpicture->collection->add_collection_item($id,$cid);	
+				}
+			}
+			
+			if(msg())
+			{
+				$msg = msg_list();
+				$msg = '<div class="msg">'.$msg[0].'</div>';	
+			}
+			
+			if(error())
+			{
+				$err = error_list();
+				$err = '<div class="error">'.$err[0].'</div>';	
+			}
+			
+			$ajax['msg'] = $msg;
+			$ajax['err'] = $err;
+			
+			echo json_encode($ajax);
+		}
+		break;
+		
+		
+		case "remove_collection_item":
+		{
+			$type = $_POST['type'];
+			
+			switch($type)
+			{
+				case "videos":
+				{
+					$obj_id = $_POST['obj_id'];
+					$cid = $_POST['cid'];
+					$cbvideo->collection->remove_item($obj_id,$cid);
+				}
+				break;
+				
+				case "pictures":
+				{
+					$obj_id = $_POST['obj_id'];
+					$cid = $_POST['cid'];
+					$cbpicture->collection->remove_item($obj_id,$cid);	
+				}
+				break;
+			}
+			
+			if(msg())
+			{
+				$msg = msg_list();
+				$msg = '<div class="msg">'.$msg[0].'</div>';	
+			}
+			
+			if(error())
+			{
+				$err = error_list();
+				$err = $err[0];	
+			}
+			
+			$ajax['msg'] = $msg;
+			$ajax['err'] = $err;
+			
+			echo json_encode($ajax);
+		}
+		break;
+		
 		
 		default:
 		header('location:'.BASEURL);

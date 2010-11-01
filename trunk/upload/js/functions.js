@@ -792,3 +792,79 @@ function swap_auto_play()
 		$('#ap_status').html("on");
 	}
 }
+
+function collection_actions(form,mode,objID,result_con,type,cid)
+{
+	$(result_con).css("display","block");
+	$(result_con).html(loading);
+	
+	switch(mode)
+	{
+		case 'add_new_item':
+		{
+			
+			$.post(page,
+				   {
+					   mode: mode,
+					   cid: $("#"+form+' #collection').val(),
+				   	   obj_id: objID,
+					   type: type
+				   },
+				   function(data)
+				   {
+						if(!data)
+							alert("No Data returned");
+						else
+						{
+							
+							if(data.msg)
+								$(result_con).html(data.msg);
+								
+							if(data.err)
+								$(result_con).html(data.err);		
+						}
+				   },'json')
+		}
+		break;
+		
+		case "remove_collection_item":
+		{
+			$("#"+form).hide();
+			$.post(page,
+				   {
+						mode: mode,
+						obj_id: objID,
+						type: type,
+						cid: cid   
+				   },
+				   function(data)
+				   {
+						if(!data)
+						{
+							alert("No Data Returned");
+							$(result_con+"_"+objID).hide();
+							$("#"+form).show();
+						}
+						else
+						{
+							if(data.err)
+							{
+								alert(data.err);
+								$(result_con+"_"+objID).hide();
+								$("#"+form+objID).show();
+							}
+							
+							if(data.msg)
+							{
+								$(result_con).html(data.msg);
+								$("#"+form+"_"+objID).slideUp(350);	
+							}
+									
+						}
+				   },'json')	
+			
+		}
+	}
+	
+	return false;
+}

@@ -854,6 +854,7 @@ class myquery {
 					return true;
 			}
 			break;
+			
 			case "channel":
 			case "user":
 			case "users":
@@ -863,6 +864,16 @@ class myquery {
 				if($obj['allow_comments'] == 'Yes' && config('channel_comments')==1)
 					return true;
 			}
+			break;
+			
+			case "collection":
+			case "collect":
+			case "cl":
+			{
+				if($obj['allow_comments'] == 'yes')
+					return true;
+			}
+			break;
 		}
 		return false;
 	}

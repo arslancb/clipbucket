@@ -1,3 +1,5 @@
+{if $mode ==''}{assign var='mode' value='manage'}{/if}
+{if $display_type == "" || $display_type == "collections"}
 <div class="account_vid_list" style="background-color:#{cycle values='ffffff,EFF5F8'}; padding:4px 0px;">
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
  	  <tr>
@@ -6,7 +8,7 @@
  	    <td valign="middle">
         	{$collection.collection_name} 
             <div class="clear"></div>
-            <div style="font-size:10px;"><a href="{$cbcollection->collection_links($collection)}">{lang code="view"}</a> - <a href="?mode=edit_collection&amp;cid={$collection.collection_id}">{lang code="edit"}</a> - <a href="javascript:void(0)">{lang code="delete"}</a></div>
+            <div style="font-size:10px;"><a href="{$cbcollection->collection_links($collection,'view')}">{lang code="view"}</a> - <a href="?mode=edit_collection&amp;cid={$collection.collection_id}">{lang code="edit"}</a> - <a href="?mode=manage_items&amp;cid={$collection.collection_id}&amp;type={$collection.type}">Manage Items</a> - <a href="javascript:void(0)" onmousedown="delete_item('delete_coll','{$collection.collection_id}','{lang code="confirm_collection_delete"}','?mode={$mode}&amp;delete_collection={$collection.collection_id}');" id="delete_coll-{$collection.collection_id}">{lang code="delete"}</a></div>
         </td>
  	    <td width="100">{$collection.date_added|date_format}</td>
  	    <td width="100">{$collection.views|number_format}</td>
@@ -17,3 +19,29 @@
  	    </tr>
  	  </table>
 </div>
+{/if}
+
+{if $display_type == "items"}
+	{if $type == "videos"}
+   <div id="collectionItem_{$collection.videoid}" class="account_vid_list" style="background-color:#{$bg}">
+   	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="check_vid[]" id="check_vid-{$collection.videoid}" value="{$collection.videoid}" />
+ 	      <label for="checkbox"></label></td>
+ 	    <td valign="middle">
+        <div style="padding-left:10px; float:left;width:300px">
+        <img src="{getThumb vdetails=$collection}" width="40" height="30" border="0" class="acc_usr_video_thumb" />{$collection.title|truncate:100}<br />
+<span class="video_control"><a href="{videoLink vdetails=$collection}">{lang code="view"}</a></span>
+        </div>
+        </td>
+ 	    <td width="100">{$collection.date_added|date_format}</td>
+ 	    <td width="100">{$collection.views|number_format}</td>
+ 	    <td width="100">
+        <a onclick="collection_actions('collectionItem','remove_collection_item','{$collection.videoid}','#removeItemContainer','{$type}','{$c.collection_id}')" id="collectionItem{$collection.videoid}" href="javascript:void(0);"><img src="{$imageurl}/cancel.png" width="16" height="16" /></a>
+        <div id="removeItemContainer_{$collection.videoid}" style="display:none"></div>
+        </td>
+ 	    </tr>
+ 	  </table>
+   </div>
+    {/if}
+{/if}
