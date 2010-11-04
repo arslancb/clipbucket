@@ -654,11 +654,61 @@ if(!empty($mode))
 		}
 		break;
 		
+		case "NePrItem":
+		{
+			$item_id = $_POST['item_id'];
+			$cid = $_POST['cid'];
+			$direc = mysql_clean($_POST['direction']);
+			$t = $_POST['type'];
+			
+			switch($t)
+			{
+				case "videos":
+				case "v":
+				{
+						$N_item = $cbvideo->collection->get_next_prev_item($item_id,$cid,$direc);
+				}
+				break;
+			}
+			
+			if($N_item)
+			{
+				$ajax['ci_id'] = $N_item[0]['ci_id'];
+				$ajax['cid'] = $N_item[0]['collection_id'];
+				echo json_encode($ajax);
+			} else {
+				return false;	
+			}
+		}
+		break;
+		
+		case "get_item":
+		{
+			$t = $_POST['type'];
+			$ci_id = $_POST['ci_id'];
+			$cid = $_POST['cid'];
+
+			switch($t)
+			{
+				case "videos":
+				case "v":
+				{
+					$item  = $cbvideo->collection->get_next_prev_item($ci_id,$cid,NULL);
+					assign('type',$t);
+					assign('object',$item[0]);
+				}
+			}
+			
+			if(!empty($item))
+			{
+				Template('blocks/view_item.html');	
+			}
+		}
+		break;
 		
 		default:
 		header('location:'.BASEURL);
-		
-		
+				
 	}
 }else
 	header('location:'.BASEURL);

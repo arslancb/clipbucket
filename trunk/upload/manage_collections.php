@@ -12,7 +12,7 @@ require 'includes/config.inc.php';
 $userquery->logincheck();
 $udetails = $userquery->get_user_details(userid());
 assign('user',$udetails);
-
+$order = tbl("collection_items").".date_added DESC";
 
 $mode = $_GET['mode'];
 $cid = mysql_clean($_GET['cid']);
@@ -30,6 +30,17 @@ switch($mode)
 		{
 			$cid = clean($_GET['delete_collection']);
 			$cbcollection->delete_collection($cid);	
+		}
+		
+		if($_POST['delete_selected'])
+		{
+			$count = count($_POST['check_col']);
+			for($i=0;$i<$count;$i++)
+			{
+				$cbcollection->delete_collection($_POST['check_col'][$i]);	
+			}
+			$eh->flush();
+			e("selected_collects_del","m");
 		}
 		
 		$usr_collections = $cbcollection->get_collections(array('user'=>userid()));
@@ -82,22 +93,23 @@ switch($mode)
 		{
 			case "videos":
 			{
-				$objs = array();
-				$items = $cbvideo->collection->get_collection_items($cid);
-				if($items)
+				if(isset($_POST['delete_selected']))
 				{
-					foreach($items as $item)
+					$count = count($_POST['check_item']);
+					for($i=0;$i<$count;$i++)
 					{
-						$objs[] = $cbvideo->get_video_details($item['object_id']);	
+						$cbvideo->collection->remove_item($_POST['check_item'][$i],$cid);
 					}
+					$eh->flush();
+					e(sprintf("selected_items_removed","videos"),"m");
 				}
+				$objs = $cbvideo->collection->get_collection_items_with_details($cid,$order);
 			}
 			break;
 		}
 		$collection = $cbcollection->get_collection($cid);
 		
 		assign('c',$collection);
-		assign('items',$items);
 		assign('objs',$objs);
 	}
 	break;

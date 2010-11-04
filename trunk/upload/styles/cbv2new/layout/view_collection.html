@@ -1,16 +1,29 @@
-<div style="width:750px; margin:0px auto">
+<div style="width:880px; margin:0px auto">
 
 	<div class="video_title" style="padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;">{$c.collection_name}</div>
-    <div style="font:normal 10px Tahoma; color:#333; padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;">{lang code="by"|capitalize} <a href="{$userquery->profile_link($c)}">{$c.username|capitalize}</a> - <a href="{link name='user_videos'}{$c.username}">{lang code="view"|capitalize} {$c.username|capitalize} {lang code="videos"|capitalize}</a></div>
-    {section name=o_list loop=$objects}
-    	{if $c.type == "videos"}
-        	{include file="$style_dir/blocks/video.html" video=$objects[o_list] video_view="grid_view"}
-        {/if}
-    {sectionelse}
-    	<div align="center" style="font:bold 11px Tahoma">{$c.collection_name} has 0 {$c.type}</div>       
-    {/section}
+    <div style="font:normal 10px Tahoma; color:#333; padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;">{lang code="by"|capitalize} <a href="{$userquery->profile_link($c)}">{$c.username|capitalize}</a> - <a href="{link name='user_videos'}{$c.username}">{lang code="view"|capitalize} {$c.username|capitalize} {lang code="videos"|capitalize}</a> {if $c.userid == $userquery->userid} - <a href="{link name='edit_collection'}{$c.collection_id}">{lang code="edit_collection"}</a> - {link name='manage_items' assign='miLink'} <a href="{$miLink|sprintf:$c.collection_id:$c.type}">{lang code="manage_items"}</a>{/if}</div>
+    
+    <div id="collectionItemView">
+    {section name=item loop=$objects max=1}
+    	{include file="$style_dir/blocks/view_item.html" object=$objects[item]}
+    {/section}    
+    </div>
+    
+    <div style="clear:both;"></div>
+    <div style="height:1px; border-bottom:1px solid #ccc; margin:5px 0;"></div>
+    <div class="video_title" style="font-size:14px;">{$c.type|capitalize} ({$c.total_objects})</div>
+    <div style="height:1px; border-bottom:1px solid #ccc; margin:5px 0;"></div>
+    
+    <div id="collectionItemsList">
+        {section name=o_list loop=$objects}
+			{include file="$style_dir/blocks/collection.html" object=$objects[o_list] display_type="view_collection" type=$c.type}
+        {sectionelse}
+            <div align="center" style="font:bold 11px Tahoma">{$c.collection_name} has 0 {$c.type}</div>       
+        {/section}
+    </div>
     <div class="clear"></div>
-    {include file="$style_dir/blocks/pagination.html"}
+   
+    <!-- {include file="$style_dir/blocks/pagination.html"} -->
     <div style="padding-bottom:5px; height:1px; margin-bottom:5px; border-bottom:1px solid #ccc;"></div>
     <div class="moveL" style="width:200px; font:normal 11px Tahoma;">
         <span style="color:#333; font-weight:bold;">{lang code="date_added"}</span>

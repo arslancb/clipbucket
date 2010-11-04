@@ -39,32 +39,37 @@ class Collections extends CBCategory
 		$this->section_tbl = "collections";
 		$this->types = array('videos' => lang("Videos"),'pictures' => lang("Pictures"));
 		ksort($this->types);
-		$this->set_user_links();
-		$this->search_type();
+		$this->setting_up_collections();
 	}
 	
 	/**
 	 * Setting links up in my account
 	 */
-	function set_user_links()
+	function setting_up_collections()
 	{
-		global $userquery;
+		global $userquery,$Cbucket;
+		
+		// Adding My Account Links
 		$links = array();	
 		$links[lang('Collections')] = array(
 											lang('Add New Collection') => "manage_collections.php?mode=add_new",
 											lang('Manage Collections') => "manage_collections.php"
 											);
-		$userquery->user_account = $links;									  	
+		$userquery->user_account = $links;
+		
+		// Adding Search Type
+		$Cbucket->search_types['collections'] = "cbcollection";
+		
+		// Adding Collection links in Cbucket Class
+		$Cbucket->links['manage_collections'] = array('manage_collections.php','manage_collections');
+		$Cbucket->links['edit_collection'] = array('manage_collections.php?mode=edit_collection&amp;cid=',
+												   'manage_collections.php?mode=edit_collection&amp;cid=');
+		$Cbucket->links['manage_items'] = array('manage_collections.php?mode=manage_items&amp;cid=%s&amp;type=%s',
+												'manage_collections.php?mode=manage_items&amp;cid=%s&amp;type=%s');												   
+											 
+											 									  	
 	}
-	
-	function search_type()
-	{
-		global $Cbucket;
-		$types = $Cbucket->search_types;
-		$types['collections'] = "cbcollection";
-		$Cbucket->search_types = $types;	
-	}
-	
+		
 	/**
 	 * Initiatting Search
 	 */
@@ -361,6 +366,42 @@ class Collections extends CBCategory
 			return $result;
 		else
 			return false;		
+	}
+	
+	/**
+	 * Function used to get next / previous collection item
+	 */
+	function get_next_prev_item($ci_id,$cid,$item="prev",$limit=1)
+	{
+		global $db;
+		$iTbl = tbl($this->items);
+		$oTbl = tbl($this->objTable);
+		$uTbl = tbl('users');
+		$tbls = $iTbl.",".$oTbl.",".$uTbl;
+		
+		if($item == "prev")
+		{
+			$op = ">";
+			$order = '';
+		}
+		elseif($item == "next")
+		{
+			$op = "<";
+			$order = $iTbl.".ci_id DESC";
+		}
+		elseif($item == NULL)
+		{
+			$op = "=";
+			$order = '';
+		}
+			
+		$result = $db->select($tbls,"$iTbl.*,$oTbl.*,$uTbl.username", " $iTbl.collection_id = $cid AND $iTbl.ci_id $op $ci_id AND $iTbl.object_id = $oTbl.".$this->objFieldID." AND $oTbl.userid = $uTbl.userid",$limit,$order);
+		//echo $db->db_query;
+		if($result)
+			return $result;
+		else
+			return false;			
+		
 	}
 	
 	/**
@@ -975,7 +1016,7 @@ class Collections extends CBCategory
 	/**
 	 * Function used get collection thumb
 	 */
-	function get_thumb($cdetails,$size=NULL)
+	function get_thumb($cdetails,$size=NULL,$return_c_thumb=FALSE)
 	{
 		if(is_numeric($cdetails))
 		{
@@ -985,7 +1026,7 @@ class Collections extends CBCategory
 			$cid = $cdetails['collection_id'];
 				
 		$exts = array("jpg","png","gif","jpeg");
-		if($cdetails['total_objects'] == 0)
+		if($cdetails['total_objects'] == 0 || $return_c_thumb)
 		{
 			foreach($exts as $ext)
 			{
@@ -1103,46 +1144,13 @@ class Collections extends CBCategory
 				if(SEO == yes)
 					return BASEURL."/view-collection/".$cdetails['collection_id']."/".$cdetails['type']."/".SEO(clean(str_replace(' ','-',$cdetails['collection_name'])))."";	
 				else
-					return BASEURL."/view_collection.php?cid=".$cdetails['collection_id']."&amp;type=".$cdetails['type']; 
+					return BASEURL."/view_collection.php?cid=".$cdetails['collection_id']; 
 			}
 		} else {
 			return BASEURL;	
 		}
 	}
 	
-	/**
-	 * Function used generate collection link
-	 */
-	/*function collection_links($details,$mode="main")
-	{
-		if(!is_array($details))
-			$details = $this->get_collection($details);
-			
-		switch($mode)
-		{
-			case "main":
-			default:	
-			{
-				if(SEO==yes)
-					return BASEURL."/collections";
-				else
-					return BASEURL."/collections.php";	
-			}
-			break;
-			
-			case "view":
-			case "view_collection":
-			case "vc":
-			{
-				if(SEO==yes)
-					return BASEURL."/view-collection/".$details['collection_id']."/".SEO(clean(str_replace(' ','-',$details['collection_name'])))."";
-				else
-					return BASEURL."/view_collection.php?cid=".$details['collection_id'];
-			}
-			break;
-		}
-			
-	}*/
 }
 
 ?>

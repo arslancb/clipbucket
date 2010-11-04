@@ -5,6 +5,9 @@
     <form action="" method="post" class="upload_form" name="form1" enctype="multipart/form-data">
     {if $mode == "manage" || $mode == ""}
     <h2>{lang code='manage_collections'}</h2>
+    <div style="margin-bottom:10px;">
+    	<img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-right:10px;" /><input type="submit" name="delete_selected" id="delete_selected" value="{lang code='delete'}" class="small_button" />
+    </div>
      <div class="account_table">
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
  	  <tr>
@@ -33,7 +36,7 @@
             <div class="field clearfix">
                 <label for="colleciton_thumb" class="label">{lang code=collection_thumb"}</label>
                 <div style="width:140px; float:left" align="center">
-               		<img src="{$cbcollection->get_thumb($c)}"  />
+               		<img src="{$cbcollection->get_thumb($c,NULL,TRUE)}"  />
                 </div>
                 <div style="width:500px; float:left; margin-left:15px;">
                     <li>{lang code='grp_must_be'} JPG | GIF | PNG</li>
@@ -102,6 +105,9 @@
     
     {if $mode == "manage_items" || $mode == "collection_items"}
     <h2>{lang code='manage_items'} - {$c.collection_name}</h2>
+    <div style="margin-bottom:10px;">
+    	<img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-right:10px;" /><input type="submit" name="delete_selected" id="delete_selected" value="{lang code='delete'}" class="small_button" />
+    </div>
      <div class="account_table">
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
  	  <tr>

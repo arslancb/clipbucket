@@ -868,3 +868,46 @@ function collection_actions(form,mode,objID,result_con,type,cid)
 	
 	return false;
 }
+
+function get_collection_item(obj,ci_id,cid,type,direction)
+{
+	var btn_text = $(obj).text();
+	$(obj).text('Working ...');
+	$.post(page,
+	{
+		mode : 'NePrItem',
+		item_id : ci_id,
+		cid : cid,
+		type : type,
+		direction: direction   
+	},
+	function(data)
+	{
+		if(!data)
+		{
+			alert("No "+btn_text+" "+type+" Found");
+			$(obj).text(btn_text);
+		} else {
+			//alert(data);
+			get_item(data.ci_id,data.cid,type);	
+		}
+	},'json')
+}
+
+function get_item(ci_id,cid,type)
+{
+	$("#collectionItemsList div").removeClass('selected');
+	$("#item_"+ci_id).addClass('selected');
+	
+	$.post(page,
+		   {
+			   mode : 'get_item',
+			   ci_id: ci_id,
+			   cid : cid,
+			   type: type
+		   },
+		   function(data)
+		   {
+			  $("#collectionItemView").html(data); 
+		   },'text')
+}

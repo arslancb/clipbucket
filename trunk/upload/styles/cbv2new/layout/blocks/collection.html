@@ -9,3 +9,17 @@
      </div>
 </div>    
 {/if}
+
+{if $display_type == "view_collection"}
+	{if $type == "videos"}
+    <div class="moveL collect_grid{if $smarty.section.o_list.first} selected{/if}" onclick="get_item('{$object.ci_id}','{$object.collection_id}','{$type}')" id="item_{$object.ci_id}">
+        <div class="vid_thumb">
+        	<a href="{videoLink vdetails=$object}"><img src="{getThumb vdetails=$object}" alt="{$object.title}" /></a>
+        </div>
+        <div style="height:4px;"></div>
+        <span class="obj_title"><a href="{videoLink vdetails=$object}" target="_blank" title="Go to video page" style="font:bold 11px Tahoma;">{$object.title|truncate:26}</a></span>
+        <div style="height:5px;"></div>
+        {show_rating class='rating' rating=$object.rating ratings=$object.rated_by total='10'}
+    </div> <!-- collection_{$collection.collection_id} end -->
+    {/if}
+{/if}
