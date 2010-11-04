@@ -1,0 +1,19 @@
+{if $type == "videos"}	
+        <div class="moveL">
+            {FlashPlayer vdetails=$object width=535 height=254}   
+        </div> 
+       
+        <div class="moveR" style="width:34%;">
+            <div class="video_title" style="font-size:14px;">{$object.title}</div>
+            <div style="height:5px;"></div>
+            <div style="font:normal 11px Tahoma; color:#333; text-align:justify; line-height:13px;">{$object.description|description|strip_tags|truncate:225}</div>
+            <div style="height:1px; border-bottom:1px solid #ccc; margin:5px 0;"></div>
+            <div style="font:normal 11px Tahoma; color:#333; text-align:center;">{$object.views} {lang code="views"} - {$object.comments_count} {lang code="comments"}</div>
+			<div style="height:1px; border-bottom:1px solid #ccc; margin:5px 0;"></div>                     
+          <div align="center" style="">
+                <button class="cb_button_2" onClick="get_collection_item(this,'{$object.ci_id}','{$object.collection_id}','{$type}','prev');" style="margin:0px auto 5px;font:bold 11px Tahoma;">{lang code="previous"}</button>
+                           
+                <button class="cb_button_2" onClick="get_collection_item(this,'{$object.ci_id}','{$object.collection_id}','{$type}','next');" style="font:bold 11px Tahoma;">{lang code="next"}</button>  
+            </div>
+        </div>     	
+{/if}
