@@ -873,6 +873,7 @@ function get_collection_item(obj,ci_id,cid,type,direction)
 {
 	var btn_text = $(obj).text();
 	$(obj).text('Working ...');
+	$(obj).attr('disabled','disalbed');
 	$.post(page,
 	{
 		mode : 'NePrItem',
@@ -887,6 +888,7 @@ function get_collection_item(obj,ci_id,cid,type,direction)
 		{
 			alert("No "+btn_text+" "+type+" Found");
 			$(obj).text(btn_text);
+			$(obj).removeAttr('disabled');
 		} else {
 			//alert(data);
 			get_item(data.ci_id,data.cid,type);	

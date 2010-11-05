@@ -6,6 +6,9 @@
     </div>
      <div class="vid_info_wrap">
      	<h2 class="title" style="font-family:Tahoma;"><a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name|truncate:30}</a></h2>
+        <p class="vid_info">{$collection.views} {lang code="views"}</p>
+        <p class="vid_info"><a href="{$userquery->profile_link($collection)}" title="{$collection.username}">{$collection.username|truncate:16}</a></p>
+        {$cbcollection->collection_rating($collection.collection_id,"videos")}
      </div>
 </div>    
 {/if}

@@ -10,6 +10,7 @@
 define("THIS_PAGE",'collections');
 define("PARENT_PAGE",'collections');
 require 'includes/config.inc.php';
+$pages->page_redir();
 
 $sort = $_GET['sort'];
 $cond = array("category"=>mysql_clean($_GET['cat']),"date_span"=>$_GET['time']);

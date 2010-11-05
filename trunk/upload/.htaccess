@@ -74,9 +74,10 @@ RewriteRule ^groups groups.php [L]
 RewriteRule ^create_group create_group.php [L]
 
 #Collection Section
-RewriteRule ^collections collections.php [L]
-RewriteRule ^collections/(.*)/(.*)/(.*)/(.*)/(.*) collections.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
-
+RewriteRule ^collections/(.*)/(.*)/(.*)/(.*)/(.*) 		collections.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
+RewriteRule ^collections 								collections.php [L]
+RewriteRule ^collection/(.*)/(.*)/(.*) 					view_collection.php?cid=$1&%{QUERY_STRING} [L]
+#
 RewriteRule ^sitemap.xml$ sitemap.php
 RewriteRule ^signup signup.php
 

@@ -1062,11 +1062,18 @@ class Collections extends CBCategory
 	/**
 	 * Function used generate collection link
 	 */
-	function collection_rating($cid)
-	{
-		$items = $this->get_collection_items_with_details($cid);
-		$type = $this->objType;
-		$arr = array();
+	function collection_rating($cid,$type)
+	{	
+		switch($type)
+		{
+			case "videos":
+			case "v":
+			{
+				global $cbvideo;
+				$items = $cbvideo->collection->get_collection_items_with_details($cid);
+			}
+		}
+		
 	}
 	
 	/**
@@ -1134,21 +1141,39 @@ class Collections extends CBCategory
 		{
 			if($type == NULL || $type == "main")
 			{
-				if(SEO == yes)
+				if(SEO == 'yes')
 					return BASEURL."/collections";
 				else
 					return 	BASEURL."/collections.php";	
 			}
 			elseif($type == "vc" || $type == "view_collection" ||$type == "view")
 			{
-				if(SEO == yes)
-					return BASEURL."/view-collection/".$cdetails['collection_id']."/".$cdetails['type']."/".SEO(clean(str_replace(' ','-',$cdetails['collection_name'])))."";	
+				if(SEO == 'yes')
+					return BASEURL."/collection/".$cdetails['collection_id']."/".$cdetails['type']."/".SEO(clean(str_replace(' ','-',$cdetails['collection_name'])))."";	
 				else
-					return BASEURL."/view_collection.php?cid=".$cdetails['collection_id']; 
+					return BASEURL."/view_collection.php?cid=".$cdetails['collection_id']."&amp;type=".$cdetails['type']; 
 			}
 		} else {
 			return BASEURL;	
 		}
+	}
+	
+	/**
+	 * Sorting links for collection
+	 */
+	function sorting_links()
+	{
+		if(!isset($_GET['sort']))
+			$_GET['sort'] = 'most_recent';	
+		
+		$array = array
+			('most_recent' 	=> lang('recent'),
+			 'most_viewed'	=> lang('viewed'),
+			 'featured'		=> lang('featured'),
+			 'most_items'	=> lang('Most Items'),
+			 'most_commented'	=> lang('commented'),
+			 );
+		return $array;	 	
 	}
 	
 }
