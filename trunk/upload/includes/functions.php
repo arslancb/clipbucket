@@ -3189,22 +3189,7 @@
 		
 	}
 	
-	/**
-	 * Function used to check weather to include
-	 * given file or not
-	 * it will take array of pages
-	 * if array has ACTIVE PAGE or has GLOBAL value
-	 * it will return true
-	 * otherwise FALSE
-	 */
-	function is_includeable($array)
-	{
-		if(in_array(THIS_PAGE,$array) || in_array('global',$array))
-		{
-			return true;
-		}else
-			return false;
-	}
+
 	
 	
 	/**
@@ -3849,22 +3834,38 @@
 		$file = $params['file'];
 		$type = $params['type'];
 		
+		if($file=='global_header')
+		{
+			Template(BASEDIR.'/styles/global/head.html',false);
+			return false;
+		}
+		
 		if(!$type)
 			$type = "global";
 		
-		if($type=='global')
-			Template($file,false);
-		elseif(is_array($type))
-		{
-			foreach($type as $t)
-			{
-				if($t==THIS_PAGE || $t == "global")
-					Template($file,false);	
-			}
-		}elseif($type==THIS_PAGE)
+		if(is_includeable($type))
 			Template($file,false);
 		
 		return false;
+	}
+	
+	/**
+	 * Function used to check weather to include
+	 * given file or not
+	 * it will take array of pages
+	 * if array has ACTIVE PAGE or has GLOBAL value
+	 * it will return true
+	 * otherwise FALSE
+	 */
+	function is_includeable($array)
+	{
+		if(!is_array($array))
+			$array = array($array);
+		if(in_array(THIS_PAGE,$array) || in_array('global',$array))
+		{
+			return true;
+		}else
+			return false;
 	}
 	
 	/**

@@ -849,6 +849,8 @@ class Upload{
 			//Creating New File Name
 			$new_file = $name.'.'.$tmp_ext;
 			//Renaming File for security purpose
+			if(!file_exists(TEMP_DIR.'/'.$file) || !$name)
+				return false;
 			rename(TEMP_DIR.'/'.$file,TEMP_DIR.'/'.$new_file);
 			//Adding Details to database
 			$db->Execute("INSERT INTO ".tbl("conversion_queue")." (cqueue_name,cqueue_ext,cqueue_tmp_ext,date_added)
