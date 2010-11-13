@@ -765,8 +765,24 @@ ul.upload_opts li.selected { cursor:pointer; background:none; border:1px solid; 
 
 .subsription a{text-decoration:none; font-size:14px; font-family:Arial, Helvetica, sans-serif; display:block; border-bottom:1px solid #CCC; padding-bottom:5px; margin-bottom:5px; color:#06c; font-weight:bold}
 
+
+.remote_main_bar
+{
+	width:400px;
+	height:30px;
+	border:1px solid #666;
+}
+
+.remote_prog_bar
+{
+	height:30px;
+	background-color:#53baff;
+	text-align:center;
+	line-height:30px;
+	width:0px
+}
 /* COLLECTION */
-.collect_grid { padding:5px;  border:1px solid #FFF; height:120px; margin:0 0 10px -1px; position:relative; -moz-border-radius:6px; -webkit-border-radius:6px; border-radius:6px;}
+.collect_grid { padding:5px;  border:1px solid #FFF; height:120px; margin:0 0 10px -1px; position:relative; -moz-border-radius:6px; }
 .collect_grid:hover { border-color:#CCC; background:#fafafa; z-index:50; cursor:pointer; }
 .collect_grid.selected { background:url(../images/simple_gradient.png) bottom repeat-x; border:1px solid #aaa; z-index:51; }
 .collect_grid:first-child { margin-left:none; }
