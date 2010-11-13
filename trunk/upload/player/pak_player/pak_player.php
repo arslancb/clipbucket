@@ -79,7 +79,38 @@ if(!function_exists("pak_player"))
 				$in['autoplay'] = "true";
 			else
 				$in['autoplay'] = "false";
+			
+			
+			//Logo Placement
+			$placement = config('logo_placement');
+			switch($placement)
+			{
+				case "tl":
+				assign('logo_top','5');
+				assign('logo_left','5');
+				assign('logo_position','top:5,left:5');
+				break;
 				
+				case "tr":
+				assign('logo_top','5');
+				assign('logo_right','5');
+				assign('logo_position','top:5,right:5');
+				break;
+				
+				case "br":
+				assign('logo_bottom','5');
+				assign('logo_right','5');
+				assign('logo_position','bottom:5,right:5');
+				break;
+				
+				case "bl":
+				assign('logo_bottom','5');
+				assign('logo_left','5');
+				assign('logo_position','bottom:5,left:5');
+				break;
+				
+			}
+			
 			assign('player_data',$in);
 			assign('player_logo',website_logo());
 			assign('normal_vid_file',$vid_file);
@@ -120,18 +151,54 @@ if(!function_exists("pak_player"))
 			$ytcode = $srcs[0];
 		}	
 			 
+		$key = config('pak_license');
+		$placement = config('logo_placement');
+		switch($placement)
+		{
+			case "tl":
+			define('logo_top','5');
+			define('logo_left','5');
+			define('logo_position','"top":5,"left":5');
+			break;
+			
+			case "tr":
+			define('logo_top','5');
+			define('logo_right','5');
+			define('logo_position','"top":5,"right":5');
+			break;
+			
+			case "br":
+			define('logo_bottom','5');
+			define('logo_right','5');
+			define('logo_position','"bottom":5,"right":5');
+			break;
+			
+			case "bl":
+			define('logo_bottom','5');
+			define('logo_left','5');
+			define('logo_position','"bottom":5,"left":5');
+			break;
+			
+		}	
+		if(!$key) 
 		$player = PAK_PLAYER_URL.'/pak_player.swf?config=';
+		else
+		$player = PAK_PLAYER_URL.'/pak_player.unlimited.swf?config=';
 		$code = "";
 		$code .= '{';
+		if($key) 
+		$code .= '"key":"'.$key.'",';
 		//adding file
 		if(!$is_youtube)
 		$code .= '"clip":{"url":"'.get_video_file($vdetails,false,true).'","scaling":"fit"}';
 		else
 		$code .= '"clip":{"url":"api:'.$ytcode.'","provider":"youtube","urlResolvers":"youtube"}';
+		//adding canvas link to video 
+		$code .= ',"canvas":{"linkUrl":"'.videoLink($vdetails).'"}';
 		//Adding Pluginser
 		$code .= ',"plugins":{';
 		//addgin skin
-		$code .= '"controls":{"background":"url('.PAK_PLAYER_URL.'/bg.png) repeat"}';
+		$code .= '"controls":{"background":"url('.PAK_PLAYER_URL.'/bg.png) repeat","url":"pak_player.controls.swf"}';
 		//Checking for youtube
 		if($is_youtube)
 			$code .= ',"youtube":{"url":"'.PAK_PLAYER_URL.'/pak_player.youtube.swf","enableGdata":"true"}';
@@ -140,6 +207,11 @@ if(!function_exists("pak_player"))
 		
 		//Finishg Plugin
 		$code .= '}';
+		if($key)
+		{
+			$code .= ',"logo":{"url":"'.website_logo().'","fullscreenOnly":false,'.logo_position.',"linkUrl":"'.BASEURL.'"}';
+		}
+		//adding branding
 		//Finishing Player config
 		$code .= '}';
 		
@@ -150,7 +222,7 @@ if(!function_exists("pak_player"))
 		$embedCode .= '<param name="allowFullScreen" value="true"></param>';
 		$embedCode .= '<param name="allowscriptaccess" value="always"></param>';
 		$embedCode .= '<embed src="'.$final_code.'"';
-		$embedCode .= 'type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="300" height="250"></embed>';
+		$embedCode .= 'type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="'.EMBED_VDO_WIDTH.'" height="'.EMBED_VDO_HEIGHT.'"></embed>';
 		return $embedCode .= '</object>';
 	}
 	register_embed_function('pakplayer_embed_src');

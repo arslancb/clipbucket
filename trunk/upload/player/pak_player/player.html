@@ -53,11 +53,16 @@ hq_function = pakplayer_hq;
 {/literal}
 
 var menu = new Array("menu","embed/share","settings/playlist","comments","donate"); 
-flowplayer("the_Video_Player", "{$pak_player_url}/pak_player.swf", {literal}{
-		
+flowplayer("the_Video_Player", "{$pak_player_url}/pak_player{if $Cbucket->configs.pak_license}.unlimited{/if}.swf", 
+	{literal}{{/literal}
+	{if $Cbucket->configs.pak_license}
+	key : '{$Cbucket->configs.pak_license}',	
+	{/if}
+	{literal}
 	plugins: {
 		controls: {
 			background: "url("+pakplayer_path+"/bg.png) repeat",
+			url: "pak_player.controls.swf",
 		},
 		
 		{/literal}
@@ -102,6 +107,16 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pak_player.swf", {literal}{
 			}
 		},
 		
+	},
+
+	
+	logo:
+	{
+		url: player_logo,
+		fullscreenOnly: false,
+		{/literal}
+		{$logo_position},
+		{literal}
 	},
 
 	
