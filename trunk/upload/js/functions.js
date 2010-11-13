@@ -96,32 +96,117 @@ var loading = loading_img+" Loading...";
 		}
 		// -->
 
-
+	
+	var download = 0;
+	var total_size = 0;
+	var cur_speed = 0;
+	
+	var status_refesh = 1 //in seconds
+	var result_page = baseurl+'/actions/file_results.php';
+	var download_page = baseurl+'/actions/file_downloader.php';
+	var count = 0;
+	
+	
+	var force_stop = false;
+	
 	function check_remote_url()
 	{
-
-		var page = baseurl+'/actions/file_downloader.php';
-		var Val = $("#remote_file_url").val();
-		$("#remote_upload_result_cont").html(loading);
-		$("#check_url").attr("disabled","disabled");
-		$.post(page, 
-		{ 	
-			check_url	:	'yes' ,
-			file_url : Val,
-			file_name : file_name
-		},				
+		var file = $("#remote_file_url").val();
+		force_stop = false;		
+		if(!file || file=='undefined')
+		{
+			alert("Please enter file url");
+			return false;
+		}
+		var ajaxCall = $.ajax({
+			  url: download_page,
+			  type: "POST",
+			  data: ({file:file,file_name:file_name}),
+			  dataType : 'json',
+			  beforeSend : function()
+			  {
+				  status_update();
+				  $("#loading").html(loading_img+" uploading file, please wait...");
+			  },
+			  success: function(data)
+			  {
+				  
+				  if(data.error)
+				  {		  
+					force_stop = true;
+					alert(data.error);
+				  }				  
+				  $("#loading").html('');
+			  }
+		   }
+		);
 		
-		function (data) {
-			if(data.err)
-			{
-				$("#remote_upload_result_cont").html(data.err);
-				$("#check_url").attr("disabled","");
-			}else{
+	
+	}
+	
+	
+	var perc_download = 0;
+	function status_update()
+	{
+		
+		var ajaxCall = $.ajax({
+				  url: result_page,
+				  type: "POST",
+				  data:({file_name:file_name}),
+				  dataType: "json",
+				  success: function(data){
 				
-				$("#remote_upload_div").html(loading_img+" uploading file, please wait...");
-				upload_file(Val,file_name);
-			}
-		}, "json");
+				  if(data)
+				  {
+					  var total = data.total_size;
+					  var download = data.downloaded;
+					  var total_fm = data.total_size_fm;
+					  var download_fm = data.downloaded_fm;
+					  var speed = data.speed_download;
+					  var eta = data.time_eta;
+					  var eta_fm = data.time_eta_fm;
+					  var time_took = data.time_took;
+					  var time_took_fm = data.time_took_fm;
+					   
+					  if(speed/1024/1024>1)
+					  {
+						var theSpeed = Math.round(speed / 1024/1024) + " Mbps";
+					  }else
+						var theSpeed = Math.round(speed/ 1024 ) + " Kbps";
+					  
+					perc_download = Math.round(download/total*100);
+					 
+					
+					$('#prog_bar').width(perc_download+'%');
+					$('#prog_bar').html(perc_download+'%');
+					$('#dspeed').html(theSpeed);
+					$('#eta').html('Time Left '+eta_fm);
+					$('#status').html(download_fm+' of '+total_fm);
+				  }
+					
+						var intval = status_refesh*1000;
+						if(perc_download<100 && !force_stop)
+						setTimeout(function(){status_update()},intval);
+						else if(perc_download==100 && total>1)
+						{
+							$('#time_took').html('Time Took : '+time_took_fm);
+							//Del the log file
+							$.ajax({
+							  url: result_page,
+							  type: "POST",
+							  data: ({del_log:'yes',file_name:file_name}),
+							  success:function(data)
+							  {
+								 submit_upload_form();
+							  }
+							  
+							  });
+						}
+	
+				  }
+			   }
+			);
+		
 	}
 	
 	
