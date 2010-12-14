@@ -2,133 +2,113 @@
 
 /**
  * @Author : Arslan Hassan
- * License : SWFUpload  <http://swfupload.org/>
- * This file is used to upload file using SWFUpload
- * you dont need to edit this file, edit it at yout own risk :)
  */
 include('../includes/config.inc.php');
 
-// Check post_max_size (http://us3.php.net/manual/en/features.file-upload.php#73762)
-	$POST_MAX_SIZE = ini_get('post_max_size');
-	$unit = strtoupper(substr($POST_MAX_SIZE, -1));
-	$multiplier = ($unit == 'M' ? 1048576 : ($unit == 'K' ? 1024 : ($unit == 'G' ? 1073741824 : 1)));
-
-	if ((int)$_SERVER['CONTENT_LENGTH'] > $multiplier*(int)$POST_MAX_SIZE && $POST_MAX_SIZE) {
-		header("HTTP/1.1 500 Internal Server Error"); // This will trigger an uploadError event in SWFUpload
-		echo "POST exceeded maximum allowed size.";
-		exit(0);
-	}
-
-// Settings
-	$save_path = TEMP_DIR.'/';				// The path were we will save the file (getcwd() may not be reliable and should be tested in your environment)
-	$upload_name = "Filedata";
-	$max_file_size_in_bytes = 2147483647;				// 2GB in bytes
+if($_FILES['Filedata'])
+	$mode = "upload";
+if($_POST['insertVideo'])
+	$mode = "insert_video";
+if($_POST['getForm'])
+	$mode = "get_form";
 	
-	$types = strtolower($row['allowed_types']);
-	$types_array = preg_replace('/,/',' ',$types);
-	$types_array = explode(' ',$types_array);
+switch($mode)
+{
+	
+	case "insert_video":
+	{
+		$title 	= getName($_POST['title']);
+		$file_name	= $_POST['file_name'];
 		
-	$extension_whitelist = $types_array;	// Allowed file extensions
-	$valid_chars_regex = '.A-Z0-9_ !@#$%^&()+={}\[\]\',~`-';				// Characters allowed in the file name (in a Regular Expression format)
+		$vidDetails = array
+		(
+			'title' => $title,
+			'description' => $title,
+			'tags' => genTags(str_replace(' ',', ',$title)),
+			'category' => array($cbvid->get_default_cid()),
+			'file_name' => $file_name,
+			'userid' => userid(),
+		);
+		
+		$vid = $Upload->submit_upload($vidDetails);
+		
+		echo $vid;
+	}
+	break;
 	
-// Other variables	
-	$MAX_FILENAME_LENGTH = 260;
-	$file_name = "";
-	$file_extension = "";
-	$uploadErrors = array(
+	case "get_form":
+	{
+		$title 	= getName($_POST['title']);
+		Template('blocks/upload/form.html');
+	}
+	break;
+	
+	case "upload":
+	{
+		$file_name	= $_POST['file_name'];
+		$tempFile = $_FILES['Filedata']['tmp_name'];
+		$targetFileName = $file_name.'.'.getExt( $_FILES['Filedata']['name']);
+		$targetFile = TEMP_DIR."/".$targetFileName;
+		
+		$max_file_size_in_bytes = config('max_upload_size')*1024*1024;
+		$types = strtolower(config('allowed_types'));
+		
+		//Checking filesize
+		$POST_MAX_SIZE = ini_get('post_max_size');
+		$unit = strtoupper(substr($POST_MAX_SIZE, -1));
+		$multiplier = ($unit == 'M' ? 1048576 : ($unit == 'K' ? 1024 : ($unit == 'G' ? 1073741824 : 1)));
+	
+		if ((int)$_SERVER['CONTENT_LENGTH'] > $multiplier*(int)$POST_MAX_SIZE && $POST_MAX_SIZE) {
+			header("HTTP/1.1 500 Internal Server Error"); // This will trigger an uploadError event in SWFUpload
+			upload_error("POST exceeded maximum allowed size.");
+			exit(0);
+		}
+		
+		//Checking uploading errors
+		$uploadErrors = array(
         0=>"There is no error, the file uploaded with success",
         1=>"The uploaded file exceeds the upload_max_filesize directive in php.ini",
         2=>"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form",
         3=>"The uploaded file was only partially uploaded",
         4=>"No file was uploaded",
         6=>"Missing a temporary folder"
-	);
-
-
-// Validate the upload
-	if (!isset($_FILES[$upload_name])) {
-		HandleError("No upload found in \$_FILES for " . $upload_name);
-		exit(0);
-	} else if (isset($_FILES[$upload_name]["error"]) && $_FILES[$upload_name]["error"] != 0) {
-		HandleError($uploadErrors[$_FILES[$upload_name]["error"]]);
-		exit(0);
-	} else if (!isset($_FILES[$upload_name]["tmp_name"]) || !@is_uploaded_file($_FILES[$upload_name]["tmp_name"])) {
-		HandleError("Upload failed is_uploaded_file test.");
-		exit(0);
-	} else if (!isset($_FILES[$upload_name]['name'])) {
-		HandleError("File has no name.");
-		exit(0);
-	}
-	
-// Validate the file size (Warning: the largest files supported by this code is 2GB)
-	$file_size = @filesize($_FILES[$upload_name]["tmp_name"]);
-	if (!$file_size || $file_size > $max_file_size_in_bytes) {
-		HandleError("File exceeds the maximum allowed size");
-		exit(0);
-	}
-	
-	if ($file_size <= 0) {
-		HandleError("File size outside allowed lower bound");
-		exit(0);
-	}
-
-
-// Validate file name (for our purposes we'll just remove invalid characters)
-	$file_name = $_POST['file_name'].'.'.strtolower(getExt($_FILES[$upload_name]['name']));
-	if (strlen($file_name) == 0 || strlen($file_name) > $MAX_FILENAME_LENGTH) {
-		HandleError("Invalid file name");
-		exit(0);
-	}
-
-
-// Validate that we won't over-write an existing file
-	if (file_exists($save_path . $file_name)) {
-		exit();
-	}
-
-// Validate file extension
-	$path_info = pathinfo($_FILES[$upload_name]['name']);
-	$file_extension = $path_info["extension"];
-	$is_valid_extension = false;
-	foreach ($extension_whitelist as $extension) {
-		if (strcasecmp($file_extension, $extension) == 0) {
-			$is_valid_extension = true;
-			break;
+		);
+		if (!isset($_FILES['Filedata'])) {
+			upload_error("No file was selected");
+			exit(0);
+		} else if (isset($_FILES['Filedata']["error"]) && $_FILES['Filedata']["error"] != 0) {
+			upload_error($uploadErrors[$_FILES['Filedata']["error"]]);
+			exit(0);
+		} else if (!isset($_FILES['Filedata']["tmp_name"]) || !@is_uploaded_file($_FILES['Filedata']["tmp_name"])) {
+			upload_error("Upload failed is_uploaded_file test.");
+			exit(0);
+		} else if (!isset($_FILES['Filedata']['name'])) {
+			upload_error("File has no name.");
+			exit(0);
 		}
-	}
-	if (!$is_valid_extension) {
-		HandleError("Invalid file extension");
-		exit(0);
-	}
-
-// Validate file contents (extension and mime-type can't be trusted)
-	/*
-		Validating the file contents is OS and web server configuration dependant.  Also, it may not be reliable.
-		See the comments on this page: http://us2.php.net/fileinfo
 		
-		Also see http://72.14.253.104/search?q=cache:3YGZfcnKDrYJ:www.scanit.be/uploads/php-file-upload.pdf+php+file+command&hl=en&ct=clnk&cd=8&gl=us&client=firefox-a
-		 which describes how a PHP script can be embedded within a GIF image file.
+		//Check file size
+		$file_size = @filesize($_FILES['Filedata']["tmp_name"]);
+		if (!$file_size || $file_size > $max_file_size_in_bytes) {
+			upload_error("File exceeds the maximum allowed size") ;
+			exit(0);
+		}
 		
-		Therefore, no sample code will be provided here.  Research the issue, decide how much security is
-		 needed, and implement a solution that meets the needs.
-	*/
-
-
-// Process the file
-	/*
-		At this point we are ready to process the valid file. This sample code shows how to save the file. Other tasks
-		 could be done such as creating an entry in a database or generating a thumbnail.
-		 
-		Depending on your server OS and needs you may need to set the Security Permissions on the file after it has
-		been saved.
-	*/
-	if (!@move_uploaded_file($_FILES[$upload_name]["tmp_name"], $save_path.$file_name)) {
-		HandleError("File could not be saved.");
-		exit(0);
-	}else
-	{
 		
-		$Upload->add_conversion_queue($file_name);
+		//Checking file type
+		$types_array = preg_replace('/,/',' ',$types);
+		$types_array = explode(' ',$types_array);
+		$file_ext = getExt($_FILES['Filedata']['name']);
+		if(!in_array($file_ext,$types_array))
+		{
+			upload_error("Invalid file extension");
+			exit(0);
+		}
+		
+			
+		move_uploaded_file($tempFile,$targetFile);
+		
+		$Upload->add_conversion_queue($targetFileName);
 		$quick_conv = config('quick_conv');
 		
 		$use_crons = config('use_crons');
@@ -136,18 +116,21 @@ include('../includes/config.inc.php');
 		{
 			//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
 			if (stristr(PHP_OS, 'WIN')) {
-				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php");
+				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName");
 			} else {
-				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
+				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName &> /dev/null &");
 			}
 		}
+		
+		echo 'success';	
+		
 	}
+}
 
-	exit(0);
 
-/* Handles the error output. This error message will be sent to the uploadSuccess event handler.  The event handler
-will have to check for any error messages and react as needed. */
-function HandleError($message) {
-	echo $message;
+//function used to display error
+function upload_error($error)
+{
+	echo $error;
 }
 ?>

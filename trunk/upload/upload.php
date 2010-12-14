@@ -26,15 +26,15 @@ else
 
 if(has_access('allow_video_upload',false,$verify_logged_user))
 {
+	$file_name = time().RandomString(5);
+	assign('file_name',$file_name);
+			
 	$step = 1;
 	if(isset($_POST['submit_data']))
 	{
 		$Upload->validate_video_upload_form();
 		if(empty($eh->error_list))
 		{
-			
-			$file_name = time().RandomString(5);
-			assign('file_name',$file_name);
 			$step=2;
 		}
 	}

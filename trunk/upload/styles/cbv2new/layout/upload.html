@@ -10,89 +10,34 @@
 	<!-- STEP 1 - UPLOADING VIDEO DETAILS -->
 
 	{if $step =='1'}
-	<div class="upload_info">
-		<h2>{$vdo_upload_step|sprintf:1}</h2>
-        <form name="upload_form" class="upload_form" method="post" action="">
-        
-        <!-- Required Fields -->
-        <fieldset>
-        <span class="form_head">required fields</span>
-        
-            {foreach from=$requiredFields item=field}
-            <div class="field">
-            <label for="{$field.id}" class="label">{$field.title}</label>
-            {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}
-            {ANCHOR place=$field.anchor_before}
-            {$formObj->createField($field)}
-            {if $field.hint_2}<br>
-            <div class="hint">{$field.hint_2}</div>{/if}
-            </div>
-            {/foreach}
-        
-        </fieldset>
-        <!-- Required Fields -->
-        
-        
-        <span class="more_button"><a href="javascript:void(0)" onClick="$('#more_fields').slideToggle();$('.more_button').toggleClass('more_button_up');">{lang code='more_options'}</a></span>
-        
-        
-        <div id="more_fields" style="display:none">
-        <!-- Location Fields -->
-        <fieldset>
-        <span class="form_head">{lang code='vdo_date_loc'}</span>
-            {foreach from=$locationFields item=field}
-            <div class="field">
-            <label for="{$field.id}" class="label">{$field.title}</label>
-            {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
-            {if $field.hint_2}<br>
-            <div class="hint">{$field.hint_2}</div>{/if}
-            </div>
-            {/foreach}
-        
-        </fieldset>
-        <!-- Location Fields -->
-        
-        
-        <!-- Sharing Fields -->
-        <fieldset>
-        <span class="form_head">{lang code='vdo_share_opt'}</span>
-            {foreach from=$optionFields item=field}
-            <div class="field">
-            <label for="{$field.id}" class="label">{$field.title}</label>
-            {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_before}
-            {if $field.hint_2}<br>
-            <div class="hint">{$field.hint_2}</div>{/if}
-            </div>
-            {/foreach}
-        
-        </fieldset>
-        <!-- Sharing Fields -->
-        
-        {if $cust_fields}
-        <!-- Other Custom Fields -->
-        <fieldset>
-        <span class="form_head">{lang code='Custom Fields'}</span>
-            {foreach from=$cust_fields item=field}
-            <div class="field">
-            <label for="{$field.id}" class="label">{$field.title}</label>
-            {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_before}
-            {if $field.hint_2}<br>
-            <div class="hint">{$field.hint_2}</div>{/if}
-            </div>
-            {/foreach}
-        
-        </fieldset>
-        <!-- Other Custom Fields -->
-        {/if}
-        
-        </div>
-        
-        
-        
-        
-        <div align="right" style="margin-top:10px"><input type="submit" name="submit_data" class="cb_button_2" value="{lang code='vdo_continue_upload'}"></div>
-        </form>
-    </div>
+
+    <h2>{$vdo_upload_step|sprintf:2}</h2>
+    {literal}
+    <script type="text/javascript">
+    	$(document).ready(function() { show_menu('file_upload_div') })
+	</script>		
+    {/literal}
+    <form action="{$upload_link}" method="post" enctype="multipart/form-data" name="{$upload_form_name}" id="{$upload_form_name}" >
+    <input name="file_name" type="hidden" value="{$file_name}">
+    {assign var=opt_list value=$Upload->load_upload_options()} 
+	<ul class="upload_opts clearfix">
+    {foreach from=$opt_list item=opt key=divid}
+		<li class="upload_opt_head moveL {$divid}" onclick="show_menu('{$divid}')">{$opt.title}</li>
+	{/foreach}
+    </ul>
+    <div class="clear"></div>         
+    {foreach from=$opt_list item=opt key=divid}      
+        <div class="upload_opt" id="{$divid}">
+ 			
+
+        </div> <!--upload_opt-->
+    {/foreach} 
+    </form>
+    
+    <input id="file_uploads" name="file_uploads" type="file" />
+            <a href="javascript:$('#file_uploads').uploadifyUpload();">Upload Files</a>
+    
+	
     {/if}
     
     

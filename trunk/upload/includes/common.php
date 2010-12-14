@@ -122,7 +122,7 @@ if(!@$in_bg_cron)
 	$ads_array = array();
 
 
-define('DEBUG_LEVEL', $row['debug_level']);
+define('DEBUG_LEVEL', 2);
 
 switch(DEBUG_LEVEL)
 {

@@ -15,24 +15,29 @@
 	<h2>{lang code='user_mem_login'}</h2>
 	{lang code='if_you_already_hv_account'}
 	<div class="signup_container">
-    	<form name="login_form" id="login_form" method="post" action="" >
+    	<form name="login_form" id="login_form" method="post" action="" {ANCHOR place='cb_login_form_tag'}>
+        
        	  <label for="login_username" class="label">{lang code='username'} : </label>
             <div class="input_container">
-        		<input name="username" type="text" id="login_username" size="30" >
+        		<input name="username" type="text" id="cb_login_username" size="30" >
             </div>
             <div class="clearfix"></div>
           <label for="login_password" class="label">{lang code='password'} : </label>
             <div class="input_container">
-            <input name="password" type="password" id="login_password" size="30" >
+            <input name="password" type="password" id="cb_login_password" size="30" >
             </div>
             <div class="clearfix"></div>
             <label for="" class="label">&nbsp;</label>
             <div class="input_container">
-            <input type="submit" name="login" class="cb_button_2"value="{lang code='login'}" >
+            <input type="submit" name="login" class="cb_button_2" value="{lang code='login'}" id="login_signup_bttn" {ANCHOR place='login_signup_bttn'} >
             </div>
             <div class="clear"></div>
             <div align="center"><a href="{$baseurl}/forgot.php">{lang code='user_forgot_password'}</a> | <a href="{$baseurl}/forgot.php">{lang code='user_forgot_username'}</a></div>
-        </form>
+            
+            {ANCHOR place='login_form'}
+           
+        </form>        
+        
   </div>
     
    {lang code='signup_message_under_login'}
@@ -100,6 +105,7 @@
             <input type="submit" name="signup" class="cb_button_2" value="{lang code='signup'}" style="margin-top:10px" />
             </div>
             <div class="clearfix"></div>
+            {ANCHOR place='signup_form'}
         </form>
     </div>
 </div>

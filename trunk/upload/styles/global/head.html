@@ -1,15 +1,14 @@
-
-<script type="text/javascript" language="javascript">
-	var Seo = '{$Cbucket->configs.seo}';
-	onReload_item();
-</script>
-
 {if $smarty.const.THIS_PAGE == 'upload' && $step =="2"}
 
 <script src="{$js}/swfupload/swfupload.js" type="text/javascript"></script>
 <script src="{$js}/swfupload/plugins/all_in_one.js" type="text/javascript"></script>
 <script type="text/javascript">
+{assign var="get_api_server" value=$multi_server->get_server_api()}
 
+{if $get_api_server}
+	var result_page = '{$get_api_server.server_api_path}/actions/file_results.php';
+	var download_page = '{$get_api_server.server_api_path}/actions/file_downloader.php';
+{/if}
 
 		var swfu;
 		var file_name = '{$file_name}';
@@ -19,8 +18,14 @@ window.onload = function() {
 	var settings = {
 		{/literal}
 		
-		flash_url : "{$js}/swfupload/swfupload.swf",
-		upload_url: "{$baseurl}/actions/file_uploader.php",
+		
+		{if $get_api_server}
+			flash_url : "{$get_api_server.server_api_path}/js/swfupload/swfupload.swf",
+			upload_url: "{$get_api_server.server_api_path}/actions/file_uploader.php",
+		{else}
+			flash_url : "{$js}/swfupload/swfupload.swf",
+			upload_url: "{$baseurl}/actions/file_uploader.php",
+		{/if}
 		
 		button_image_url: "{$imageurl}/cb_button.png",
 		post_params: 
@@ -89,6 +94,68 @@ window.onload = function() {
 {/literal}
 </script>
 {/if}
+
+
+<link href="{$js}/uploadify/uploadify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="{$js}/uploadify/swfobject.js"></script>
+<script type="text/javascript" src="{$js}/uploadify/jquery.uploadify.v2.1.4.js"></script>
+
+
+
+
+<script type="text/javascript">
+var jsURL = '{$js}';
+var file_name = '{$file_name}';
+{literal}
+$(document).ready(function()
+{
+  $('#file_uploads').uploadify({
+    'uploader'  : jsURL+'/uploadify/uploadify.swf',
+    'script'    : baseurl+'/actions/file_uploader.php',
+    'cancelImg' : jsURL+'/uploadify/cancel.png',
+    'auto'      : true,
+	'removeCompleted' : false,
+	'displayData' : 'both',
+	'scriptData'  : {"file_name" : file_name},
+	'onOpen'	 : function(event,ID,fileObj) {
+		$.ajax({
+			  url: baseurl+'/actions/file_uploader.php',
+			  type: "POST",
+			  data:({"getForm":"get_form","title":fileObj.name}),
+			  dataType: "text",
+			  success: function(data)
+			  {
+				$('#file_uploads'+ID).append(data);
+			  }
+			});
+			
+			return true;
+	},
+	'onComplete' : function(event, ID, fileObj, response, data)
+	{
+		if(response=='success')
+		{
+			$.ajax({
+				  url: baseurl+'/actions/file_uploader.php',
+				  type: "POST",
+				  data:({"insertVideo":"yes","title":fileObj.name,"file_name":file_name}),
+				  dataType: "text",
+				  success: function(data)
+				  {
+					alert(data)
+				  }
+				});
+		}else
+		{
+			alert(response);
+			return false;
+		}
+    },
+  });
+});
+{/literal}
+</script>
+
 
 {if $smarty.const.THIS_PAGE == 'photo_upload'}
 <script src="{$js}/swfupload/swfupload.js" type="text/javascript"></script>

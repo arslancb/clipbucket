@@ -10,11 +10,12 @@
         <div class="user_login clearfix">
         {if !$userquery->login_check('',true)}
         	<a href="{$baseurl}/forgot.php" class="forget" title="Forget Username/Password, Click Here"></a>
-            <form action="{link name='login'}" method="post" name="login" style="margin:0px; padding:0px;">
-                <input type="text" value="Username" id="username" name="username" onfocus="if(this.defaultValue == this.value) this.value = ''" onblur="if(this.value == '') this.value = this.defaultValue"  />
-                <input type="password" value="Password" id="password" name="password" onfocus="if(this.defaultValue == this.value) this.value = ''" onblur="if(this.value == '') this.value = this.defaultValue"  />                
-                <input type="submit" value="Login" id="login" name="login"  />
+            <form action="{link name='login'}" method="post" name="login" style="margin:0px; padding:0px;" {ANCHOR place='cb_login_form_tag'}>
+                <input type="text" value="Username" id="cb_head_username" name="username" onfocus="if(this.defaultValue == this.value) this.value = ''" onblur="if(this.value == '') this.value = this.defaultValue"  />
+                <input type="password" value="Password" id="cb_head_password" name="password" onfocus="if(this.defaultValue == this.value) this.value = ''" onblur="if(this.value == '') this.value = this.defaultValue"  />                
+                <input type="submit" value="Login" id="login_head_bttn" name="login" {ANCHOR place='login_head_bttn'} />
                 <input type="checkbox" name="rememberme" id="rememberme"  /> <span class="remember">{lang code='remember_me'}</span>
+                {ANCHOR place='login_form'}
 			</form> 
         {else}
         	<div class="avatar">

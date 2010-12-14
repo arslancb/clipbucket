@@ -3953,26 +3953,90 @@ class userquery extends CBCategory{
 	/**
 	 * Function will let admin to login as user
 	 */
-	function login_as_user($id)
+	function login_as_user($id,$realtime=false)
 	{
-		global $sess;
+		global $sess,$db,$cblog;
 		$udetails = $this->get_user_details($id);
 		if($udetails)
 		{
-			$sess->set('dummy_username',$sess->get("username"));
-			$sess->set('dummy_level',$sess->get("level"));
-			$sess->set('dummy_userid',$sess->get("userid"));
-			$sess->set('dummy_user_session_key',$sess->get("user_session_key"));
-			$sess->set('dummy_user_session_code',$sess->get("user_session_code"));
-			
-			$sess->set('username',$udetails['username']);
-			$sess->set('level',$udetails['level']);
-			$sess->set('userid',$udetails['userid']);
-			$sess->set('user_session_key',$udetails['session_key']);
-			$sess->set('user_session_code',$udetails['session_code']);
-			
-			
-			
+			if(!$realtime)
+			{
+				$sess->set('dummy_username',$sess->get("username"));
+				$sess->set('dummy_level',$sess->get("level"));
+				$sess->set('dummy_userid',$sess->get("userid"));
+				$sess->set('dummy_user_session_key',$sess->get("user_session_key"));
+				$sess->set('dummy_user_session_code',$sess->get("user_session_code"));
+				
+				$sess->set('username',$udetails['username']);
+				$sess->set('level',$udetails['level']);
+				$sess->set('userid',$udetails['userid']);
+				$sess->set('user_session_key',$udetails['session_key']);
+				$sess->set('user_session_code',$udetails['session_code']);
+			}else
+			{
+
+				if($this->login_check(NULL,true))
+					$msg[] = e(lang('you_already_logged'));
+				elseif(!$this->user_exists($udetails['username']))
+					$msg[] = e(lang('user_doesnt_exist'));
+				elseif(!$udetails)
+					$msg[] = e(lang('usr_login_err'));
+				elseif(strtolower($udetails['usr_status']) != 'ok')
+					$msg[] = e(lang('user_inactive_msg'));
+				elseif($udetails['ban_status'] == 'yes')
+					$msg[] = e(lang('usr_ban_err'));
+				else
+				{
+					
+					$log_array['userid'] = $userid  = $udetails['userid'];
+					$log_array['useremail'] = $udetails['email'];
+					$log_array['success'] = 1;
+					
+					$log_array['level'] = $level  = $udetails['level'];
+					
+					//Adding Sessing In Database 
+					//$sess->add_session($userid,'logged_in');
+					
+					$sess->set('username',$udetails['username']);
+					$sess->set('level',$udetails['level']);
+					$sess->set('userid',$udetails['userid']);
+					
+					//Starting special sessions for security
+					$sess->set('user_session_key',$udetails['user_session_key']);
+					$sess->set('user_session_code',$udetails['user_session_code']);
+					
+					//Setting Vars
+					$this->userid = $sess->get('userid');
+					$this->username = $sess->get('username');
+					$this->level = $sess->get('level');
+					
+					//Updating User last login , num of visist and ip
+					$db->update(tbl('users'),
+								array(
+									  'num_visits','last_logged','ip'
+									  ),
+								array(
+									  '|f|num_visits+1',NOW(),$_SERVER['REMOTE_ADDR']
+									  ),
+								"userid='".$udetails['userid']."'"
+								);
+					$this->init();
+					//Logging Actiong
+					$cblog->insert('login',$log_array);
+					
+					return true;
+				}
+				
+				//Error Loging
+				if(!empty($msg))
+				{
+					//Loggin Action
+					$log_array['success'] = no;
+					$log_array['details'] = $msg[0];
+					$cblog->insert('login',$log_array);
+				}
+			}
+						
 			return true;
 		}else
 			e(lang("usr_exist_err"));

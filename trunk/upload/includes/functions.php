@@ -1445,7 +1445,7 @@
 	/**
 	 * Function used to get video from conversion queue
 	 */
-	function get_queued_video($update=TRUE)
+	function get_queued_video($update=TRUE,$fileName=NULL)
 	{
 		global $db;
 		$max_conversion = config('max_conversion');
@@ -1457,7 +1457,13 @@
 		$processing = $db->count(tbl("conversion_queue"),"cqueue_id"," cqueue_conversion='p' ");
 		if($processing<$max_conversion)
 		{
-			$results = $db->select(tbl("conversion_queue"),"*","cqueue_conversion='no'",1);
+			if($fileName)
+			{
+				$queueName = getName($fileName);
+				$ext = getExt($fileName);
+				$fileNameQuery = " AND cqueue_name ='$queueName' AND cqueue_ext ='$ext' ";
+			}
+			$results = $db->select(tbl("conversion_queue"),"*","cqueue_conversion='no' $fileNameQuery",1);
 			$result = $results[0];
 			if($update)
 			$db->update(tbl("conversion_queue"),array("cqueue_conversion","time_started"),array("p",time())," cqueue_id = '".$result['cqueue_id']."'");
@@ -1496,10 +1502,18 @@
 	/**
 	 * Function used to get video being processed
 	 */
-	function get_video_being_processed()
+	function get_video_being_processed($fileName=NULL)
 	{
 		global $db;
-		$results = $db->select(tbl("conversion_queue"),"*","cqueue_conversion='p'");
+		
+		if($fileName)
+		{
+			$queueName = getName($fileName);
+			$ext = getExt($fileName);
+			$fileNameQuery = " AND cqueue_name ='$queueName' AND cqueue_ext ='$ext' ";
+		}
+			
+		$results = $db->select(tbl("conversion_queue"),"*","cqueue_conversion='p' $fileNameQuery");
 		return $results;
 	}
 	
@@ -3675,7 +3689,17 @@
 		{
 			if (!($fp = @ fopen($url, 'rb')))
 			{
-				return false;
+				$ch = curl_init();
+				curl_setopt($ch,CURLOPT_URL,$url);
+				curl_setopt($ch, CURLOPT_USERAGENT, 
+				'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.2) Gecko/20070219 Firefox/3.0.0.2');
+				curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+				curl_setopt($ch,CURLOPT_FOLLOWLOCATION,true);
+				$contents = curl_exec($ch);
+				curl_close($ch);
+				
+				if(!$contents)
+					return false;
 			}
 			while (!feof($fp))
 			{

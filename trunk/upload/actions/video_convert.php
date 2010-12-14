@@ -59,8 +59,17 @@ $SYSTEM_OS = $row['sys_os'] ? $row['sys_os'] : 'linux';
 //Including FFMPEG CLASS
 require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
 
+if($argv[1])
+	$fileName = $argv[1];
+else
+	$fileName = false;
+	
 //Get Vido
-$queue_details = get_queued_video(TRUE);
+$queue_details = get_queued_video(TRUE,$fileName);
+if(!$queue_details)
+	exit("Nothing to do");
+	
+	
 //Setting up details, moving files
 $tmp_file = $queue_details['cqueue_name'];
 $tmp_ext =  $queue_details['cqueue_tmp_ext'];
@@ -129,11 +138,63 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 		
 	unlink($ffmpeg->input_file);
 	
-	//exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
-	if (stristr(PHP_OS, 'WIN')) {
-		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php");
-	} else {
-		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
+	////exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
+//	if (stristr(PHP_OS, 'WIN')) {
+//		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php");
+//	} else {
+//		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
+//	}
+
+	//Calling Cron Functions
+	cb_call_functions('verify_converted_videos_cron');
+	
+	$files = get_video_being_processed($fileName);
+	if(is_array($files))
+	foreach($files as $file)
+	{
+		$file_details = get_file_details($file['cqueue_name']);
+		//pr($file_details);
+		if($file_details['conversion_status']=='failed')
+		{
+			
+			$db->update(tbl("conversion_queue"),
+						array("cqueue_conversion"),
+						array("yes")," cqueue_id = '".$file['cqueue_id']."'");
+			update_processed_video($file,'Failed');
+			
+			/**
+			 * Calling Functions after converting Video
+			 */
+			if(get_functions('after_convert_functions'))
+			{
+				foreach(get_functions('after_convert_functions') as $func)
+				{
+					if(@function_exists($func))
+						$func($file_details);
+				}
+			}
+			
+			
+		}elseif($file_details['conversion_status']=='completed')
+		{
+			
+			$db->update(tbl("conversion_queue"),
+						array("cqueue_conversion","time_completed"),
+						array("yes",time())," cqueue_id = '".$file['cqueue_id']."'");
+			update_processed_video($file,'Successful');
+			
+			/**
+			 * Calling Functions after converting Video
+			 */
+			if(get_functions('after_convert_functions'))
+			{
+				foreach(get_functions('after_convert_functions') as $func)
+				{
+					if(@function_exists($func))
+						$func($file_details);
+				}
+			}
+		}
 	}
 }
 
