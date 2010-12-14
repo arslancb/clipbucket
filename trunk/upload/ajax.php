@@ -68,6 +68,16 @@ if(!empty($mode))
 					$cbvid->show_video_rating($result);
 				}
 				break;
+				
+				case "photo":
+				{
+					$rating = $_POST['rating']*2;
+					$id = $_POST['id'];
+					$result = $cbphoto->rate_photo($id,$rating);
+					$result['is_rating'] = true;
+					$cbvid->show_video_rating($result);
+				}
+				break;
 			}
 		}
 		break;
@@ -101,6 +111,28 @@ if(!empty($mode))
 					echo $msg;
 				}
 				break;
+				
+				case "p":
+				case "photo":
+				{
+					$id = $_POST['id'];
+					$ph = $cbphoto->get_photo($id);
+					$cbphoto->set_share_email($ph);
+					$cbphoto->action->share_content($ph['photo_id']);
+					if(msg())
+					{
+						$msg = msg_list();
+						$msg = '<div class="msg">'.$msg[0].'</div>';
+					}
+					if(error())
+					{
+						$msg = error_list();
+						$msg = '<div class="error">'.$msg[0].'</div>';
+					}
+					
+					echo $msg;
+				}
+				break;
 			}
 		}
 		break;
@@ -117,6 +149,27 @@ if(!empty($mode))
 				{
 					$id = $_POST['id'];
 					$cbvideo->action->add_to_fav($id);
+					if(msg())
+					{
+						$msg = msg_list();
+						$msg = '<div class="msg">'.$msg[0].'</div>';
+					}
+					if(error())
+					{
+						$msg = error_list();
+						$msg = '<div class="error">'.$msg[0].'</div>';
+					}
+					
+					echo $msg;
+				}
+				break;
+				
+				case 'p':
+				case 'photo':
+				{
+					$id = $_POST['id'];
+					$cbphoto->action->add_to_fav($id);
+					// Need a function to update favs count
 					if(msg())
 					{
 						$msg = msg_list();
@@ -165,6 +218,16 @@ if(!empty($mode))
 				{
 					$id = $_POST['id'];
 					$userquery->action->report_it($id);
+				}
+				break;
+				
+				case 'p':
+				case 'photo':
+				default:
+				{
+					$id = $_POST['id'];
+					$cbphoto->action->report_it($id);
+					// Need a function to set photo reported field to yes
 				}
 				break;
 			}
@@ -582,13 +645,13 @@ if(!empty($mode))
 				}
 				break; 
 				
-				case "pictures":
-				case "picture":
+				case "photos":
+				case "photo":
 				case "p":
 				{
 					$cid = $_POST['cid'];
 					$id = $_POST['obj_id'];
-					$cbpicture->collection->add_collection_item($id,$cid);	
+					$cbphoto->collection->add_collection_item($id,$cid);	
 				}
 			}
 			
@@ -626,11 +689,12 @@ if(!empty($mode))
 				}
 				break;
 				
-				case "pictures":
+				case "photos":
 				{
 					$obj_id = $_POST['obj_id'];
 					$cid = $_POST['cid'];
-					$cbpicture->collection->remove_item($obj_id,$cid);	
+					$cbphoto->collection->remove_item($obj_id,$cid);
+					$cbphoto->make_photo_orphan($cid,$obj_id);	
 				}
 				break;
 			}
@@ -644,7 +708,7 @@ if(!empty($mode))
 			if(error())
 			{
 				$err = error_list();
-				$err = $err[0];	
+				$err = '<div class="error">'.$err[0].'</div>';	
 			}
 			
 			$ajax['msg'] = $msg;
@@ -654,9 +718,9 @@ if(!empty($mode))
 		}
 		break;
 		
-		case "NePrItem":
+		case "get_item":
 		{
-			$item_id = $_POST['item_id'];
+			$item_id = $_POST['ci_id'];
 			$cid = $_POST['cid'];
 			$direc = mysql_clean($_POST['direction']);
 			$t = $_POST['type'];
@@ -664,17 +728,36 @@ if(!empty($mode))
 			switch($t)
 			{
 				case "videos":
+				case "video":
 				case "v":
 				{
 						$N_item = $cbvideo->collection->get_next_prev_item($item_id,$cid,$direc);
+						//increment_views($N_item[0]['videoid'],'video');						
+						$cbvideo->collection->set_item_cookie($N_item[0]['videokey']);
+						$ajax['key'] = $N_item[0]['videokey'];
+						$ajax['cid'] = $N_item[0]['collection_id'];
+				}
+				break;
+				
+				case "photos":
+				case "photo":
+				case "p":
+				{
+						$N_item = $cbphoto->collection->get_next_prev_item($item_id,$cid,$direc);
+						increment_views($N_item[0]['photo_id'],'photo');
+						$cbphoto->collection->set_item_cookie($N_item[0]['photo_key']);
+						$ajax['key'] = $N_item[0]['photo_key'];
+						$ajax['cid'] = $N_item[0]['collection_id'];
+						
 				}
 				break;
 			}
 			
 			if($N_item)
 			{
-				$ajax['ci_id'] = $N_item[0]['ci_id'];
-				$ajax['cid'] = $N_item[0]['collection_id'];
+				assign('type',$t);
+				assign('object',$N_item[0]);
+				$ajax['content'] = Fetch('view_item.html');
 				echo json_encode($ajax);
 			} else {
 				return false;	
@@ -682,27 +765,89 @@ if(!empty($mode))
 		}
 		break;
 		
-		case "get_item":
+		case "load_more_items":
+		case "more_items":
+		case "moreItems":
 		{
-			$t = $_POST['type'];
-			$ci_id = $_POST['ci_id'];
 			$cid = $_POST['cid'];
-
-			switch($t)
+			$page = $_POST['page'];				
+			$newPage = $page+1;
+			$type = $_POST['type'];
+			$limit = create_query_limit($page,VLISTPP);
+			$order = tbl("collection_items").".ci_id DESC";
+			
+			switch($type)
 			{
 				case "videos":
+				case "video":
 				case "v":
 				{
-					$item  = $cbvideo->collection->get_next_prev_item($ci_id,$cid,NULL);
-					assign('type',$t);
-					assign('object',$item[0]);
+					$items = $cbvideo->collection->get_collection_items_with_details($cid,$order,$limit);
 				}
+				break;
+				
+				case "photos":
+				case "photo":
+				case "p":
+				{
+					$items = $cbphoto->collection->get_collection_items_with_details($cid,$order,$limit);
+				}
+				break;
+			}
+			if($items)
+			{
+				assign('page_no',$newPage);
+				assign('type',$type);
+				assign('cid',$cid);
+				$itemsArray['pagination'] = Fetch("blocks/new_pagination.html");
+				
+				foreach($items as $item)
+				{
+					assign('object',$item);
+					assign('display_type','view_collection');
+					assign('type',$type);
+					$itemsArray['content'] .= Fetch("blocks/collection.html");	
+				}
+				
+				echo json_encode($itemsArray);
+			} else
+				return false;
+		}
+		break;
+		
+		
+		case "add_collection":
+		{
+			$name = mysql_clean($_POST['collection_name']);
+			$desc = mysql_clean($_POST['collection_description']);
+			$tags = mysql_clean(genTags($_POST['collection_tags']));
+			$cat  = ($_POST['category']);
+			$type = "photos";
+			$CollectParams = array("collection_name"=>$name,"collection_description"=>$desc,"collection_tags"=>$tags,"category"=>$cat,"type"=>$type);
+			$cbcollection->create_collection($CollectParams);
+			
+			if(msg())
+			{
+				$msg = msg_list();
+				$msg = '<div class="msg">'.$msg[0].'</div>';	
 			}
 			
-			if(!empty($item))
+			if(error())
 			{
-				Template('blocks/view_item.html');	
+				$err = error_list();
+				$err = '<div class="error">'.$err[0].'</div>';	
 			}
+			
+			$ajax['msg'] = $msg;
+			$ajax['err'] = $err;
+			
+			echo json_encode($ajax);
+		}
+		break;
+		
+		case "ajaxPhotos":
+		{
+			echo "TEST SUCCESSFULL";
 		}
 		break;
 		

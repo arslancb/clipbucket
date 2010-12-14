@@ -139,6 +139,20 @@
 				$obj = $cbgroup;
 			}
 			break;
+			case 'user':
+			case 'users':
+			{
+				global $userquery;
+				$obj = $userquery;
+			}
+			break;
+			case 'collection':
+			case 'collections':
+			{
+				global $cbcollection;
+				$obj = $cbcollection;
+			}
+			break;
 		}
 		
 		preg_match_all('/#([0-9]+)#/',$input,$m);

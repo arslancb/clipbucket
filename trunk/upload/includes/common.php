@@ -27,6 +27,7 @@ define("DEV_INGNORE_SYNTAX",FALSE);
 define('COOKIE_TIMEOUT',86400*30); // 30 Days
 define('GARBAGE_TIMEOUT',COOKIE_TIMEOUT);
 
+
 if(!@$in_bg_cron)
 {
 	//Setting Session Max Life
@@ -77,6 +78,7 @@ if(!@$in_bg_cron)
 	require_once('classes/cbpage.class.php');
 	require_once('classes/reindex.class.php');
 	require_once('classes/collections.class.php');
+	require_once('classes/photos.class.php');
 	
 	//Adding Gravatar
 	require_once('classes/gravatar.class.php');
@@ -108,6 +110,7 @@ if(!@$in_bg_cron)
 	$cbpage		= new cbpage();
 	$cbindex	= new CBreindex();
 	$cbcollection = new Collections();
+	$cbphoto    = new CBPhotos();
 
 	require 'defined_links.php';
 	
@@ -294,9 +297,22 @@ if(phpversion() < '5.2.0')
 	define('TOPIC_ICON_DIR',BASEDIR.'/images/icons/topic_icons');
 	define('TOPIC_ICON_URL',BASEURL.'/images/icons/topic_icons');
 
-	//TOPIC ICON DIR
+	//COLLECTIONS ICON DIR
 	define('COLLECT_THUMBS_DIR',BASEDIR.'/images/collection_thumbs');
 	define('COLLECT_THUMBS_URL',BASEURL.'/images/collection_thumbs');
+	
+	//PHOTOS DETAILS	
+	define('PHOTOS_DIR',FILES_DIR."/photos");
+	define('PHOTOS_URL',FILES_URL."/photos");
+	
+	//SETTING PHOTO SETTING
+	$cbphoto->thumb_width = $row['photo_thumb_width'];
+	$cbphoto->thumb_height = $row['photo_thumb_height'];
+	$cbphoto->mid_width = $row['photo_med_width'];
+	$cbphoto->mid_height = $row['photo_med_height'];
+	$cbphoto->lar_width = $row['photo_lar_width'];
+	$cbphoto->cropping = $row['photo_crop'];
+	$cbphoto->position = $row['watermark_placement'];	
 
 	//Enable youtube videos
 	define("YOUTUBE_ENABLED",$row['youtube_enabled']);
@@ -420,6 +436,7 @@ $Smarty->assign_by_ref('cbpm',$cbpm);
 $Smarty->assign_by_ref('cbpage',$cbpage);
 $Smarty->assign_by_ref('cbemail',$cbemail);
 $Smarty->assign_by_ref('cbcollection',$cbcollection);
+$Smarty->assign_by_ref('cbphoto',$cbphoto);
 /*
 REGISERTING FUNCTION FOR SMARTY TEMPLATES
 */
@@ -450,6 +467,7 @@ $Smarty->register_function('lang','smarty_lang');
 $Smarty->register_function('get_videos','get_videos');
 $Smarty->register_function('get_users','get_users');
 $Smarty->register_function('get_groups','get_groups');
+$Smarty->register_function('get_photos','get_photos');
 $Smarty->register_function('private_message','private_message');
 $Smarty->register_function('show_video_rating','show_video_rating');
 $Smarty->register_function('load_captcha','load_captcha');
@@ -462,6 +480,9 @@ $Smarty->register_function('get_binaries','get_binaries');
 $Smarty->register_function('check_module_path','check_module_path');
 $Smarty->register_function('rss_feeds','rss_feeds');
 $Smarty->register_function('website_logo','website_logo');
+$Smarty->register_function('get_photo','get_photo');
+$Smarty->register_function('uploadButton','upload_photo_button');
+$Smarty->register_function('embedCodes','photo_embed_codes');
 
 $Smarty->register_modifier('SetTime','SetTime');
 $Smarty->register_modifier('getname','getname');
@@ -482,7 +503,9 @@ $Smarty->register_modifier('cbsearch',new cbsearch());
 $Smarty->register_modifier('flag_type','flag_type');
 $Smarty->register_modifier('get_username','get_username');
 $Smarty->register_modifier('formatfilesize','formatfilesize');
-
+$Smarty->register_modifier('getWidth','getWidth');
+$Smarty->register_modifier('getHeight','getHeight');
+$Smarty->register_modifier('get_collection_name','get_collection_name');
 
 /*
  * Registering Video Remove Functions
@@ -507,6 +530,7 @@ include('admin.functions.php');
 	//Other settings
 	define("SEND_COMMENT_NOTIFICATION",config("send_comment_notification"));
 	define("SEND_VID_APPROVE_EMAIL",config("approve_video_notification"));
+	
 
 
 ?>

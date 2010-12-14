@@ -246,6 +246,12 @@
 		 $Cbucket->actions_play_video[] = $func;
 	 }
 	 
+	 	function register_collection_delete_functions($func)
+		{
+			global $cbcollection;
+			$cbcollection->collection_delete_functions[] = $func;	
+		}
+	 
 	 
 	 
 	 /**

@@ -76,9 +76,9 @@ if(!function_exists("pak_player"))
 				$in['height'] = $in['height'].'px';
 			
 			if($in['autoplay'] =='yes' || $in['autoplay']===true)
-				$in['autoplay'] = "true";
+				$in['autoplay'] = true;
 			else
-				$in['autoplay'] = "false";
+				$in['autoplay'] = false;
 			
 			
 			//Logo Placement
@@ -110,7 +110,7 @@ if(!function_exists("pak_player"))
 				break;
 				
 			}
-			
+
 			assign('player_data',$in);
 			assign('player_logo',website_logo());
 			assign('normal_vid_file',$vid_file);

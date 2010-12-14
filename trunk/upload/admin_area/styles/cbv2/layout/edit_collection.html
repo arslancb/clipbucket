@@ -1,0 +1,135 @@
+{assign var=requiredFields value=$cbcollection->load_required_fields($data)}
+{assign var=otherFields value=$cbcollection->load_other_fields($data)}
+
+<form action="" method="post" enctype="multipart/form-data" name="edit_collection" id="edit_collection">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+    	<td width="50%" valign="top">
+        	<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td align="left" class="left_head" style="padding-left:10px"><div class="head">Editing {$data.collection_name}</div></td>
+                <td width="20" align="right" class="right_head">&nbsp;</td>
+            </tr>
+            </table>
+            <div style="width:97%; margin:auto; padding:10px">
+                <ul class="admin_links" style="font:bold 11px Tahoma;">
+                    {if $data.active!='yes'}
+                    <li><a href="edit_collection.php?collection={$data.collection_id}&amp;mode=ac">Activate</a></li>
+                    {else}
+                    <li><a href="edit_collection.php?collection={$data.collection_id}&amp;mode=dac">Deactivate</a></li>
+                    {/if}
+                    {if $data.featured!='yes'}
+                    <li><a href="edit_collection.php?collection={$data.collection_id}&amp;mode=mcf">Make Featured</a></li>
+                    {else}
+                    <li><a href="edit_collection.php?collection={$data.collection_id}&amp;mode=mcuf">Make Unfeatured</a></li>
+                    {/if}
+                    <li><a href="javascript:void(0)" onClick="javascript:Confirm_Delete('collection_manager.php?delete_collection={$data.collection_id}')">Delete This Collection</a></li>
+                </ul>
+            </div>
+<input name="admin" type="hidden" id="admin" value="true" />
+<input name="collection_id" type="hidden"  value="{$data.collection_id}" /> 
+<fieldset class="fieldset">
+	<legend>User Information</legend>
+    <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+    <tr>
+      <td width="200"><strong>Useid</strong></td>
+      <td><a href="view_user.php?uid={$data.userid}">{$data.userid|get_username}</a></td>
+    </tr>
+  </table>
+</fieldset>
+
+<fieldset class="fieldset">
+	<legend>Collection Details</legend>
+    <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+    <tr>
+      <td width="200"><strong>Collection ID</strong></td>
+      <td><input disabled="disabled" name="collecionID" type="text" id="collecionID" value="{$data.collection_id}" size="45" /></td>
+    </tr>
+    {foreach from=$requiredFields item=field}
+    <tr>
+        <td width="200" ><strong>{$field.title} :</strong></td>
+        <td>{$field.hint_1}<br />
+        {$formObj->createField($field)}<br/> 
+        {$field.hint_2}</td>
+    </tr>
+    {/foreach}
+  </table>
+</fieldset>
+<fieldset class="fieldset">
+	<legend>Collection Stats</legend>
+    <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+    <tr>
+      <td width="200"><strong>Total Objects</strong></td>
+      <td><input name="total_objects" type="text" id="total_objects" value="{$data.total_objects}" /></td>
+    </tr>
+    <tr>
+      <td width="200"><strong>Total Comments</strong></td>
+      <td><input name="total_comments" type="text" id="total_comments" value="{$data.total_comments}" /></td>
+    </tr>
+  </table>
+</fieldset>
+<input type="submit" class="button" value="Update Collection Details" style="margin:15px 0px 0px 15px" name="update_collection">           
+        </td>
+        <td width="50%" valign="top">
+        	<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td align="left" class="left_head" style="padding-left:10px"><div class="head">Items</div></td>
+                <td width="20" align="right" class="right_head">&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                	{if $objects}
+                    	{section name=list loop=$objects}
+                            {if $data.type == 'photos'}
+                                <div class="moveL" style="padding:2px; border:1px solid #ccc; margin:4px;">
+                                    {get_photo details=$objects[list] output='html' title=$photos[list].photo_title}
+                                </div>
+                            {/if}
+                            
+                            {if $data.type == 'videos'}
+                                <div class="moveL" style="padding:2px; border:1px solid #ccc; margin:4px;">
+                                    <img src="{get_thumb vdetails=$objects[list]}" width="120" height="70" />
+                                </div>
+                            {/if}
+                        {/section}
+                        <div style="height:5px; clear:both;"></div>
+                        {assign var=rest value=$data.total_objects-4}
+                        <a style="display:block; font:bold 11px Tahoma; text-align:center; padding:4px; background:#fafafa;border:1px solid #aaa;" href="manage_items.php?collection={$data.collection_id}&amp;type={$data.type}">Manage Items{if $rest && $rest>0} - {$rest} more item{if $rest>1}s{/if}{/if}</a>
+                    {else}
+                    	<div align="center" style="font:bold 11px Tahoma; margin-top:10px;">Collection has 0 items</div>
+                    {/if}
+                </td>
+            </tr>
+            </table>
+            <fieldset class="fieldset">
+            	<legend>Other Fields</legend>
+                <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+                {foreach from=$otherFields item=field}
+                    <tr>
+                        <td width="200" ><strong>{$field.title} :</strong></td>
+                        <td>{$field.hint_1}<br />
+                        {$formObj->createField($field)}<br/> 
+                        {$field.hint_2}</td>
+                    </tr>
+                {/foreach}
+                </table>
+            </fieldset>
+            
+            <fieldset class="fieldset">
+            	<legend>Collection Preview</legend>
+                <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+                	<tr>
+                        <td width="200" ><strong>Collection Preview :</strong></td>
+                        <td><img style="padding:2px; border:1px solid #ccc;" src="{$cbcollection->get_thumb($data,NULL,TRUE)}" />
+                        </label><input type="checkbox" value="{$data.collection_id}" name="delete_preview" id="del_{$data.collection_id}_preview" /><label for="del_{$data.collection_id}_preview">Delete Preview</label></td>
+                    </tr>
+                    <tr>
+                        <td width="200" ><strong>Upload New :</strong></td>
+                        <td><input type="file" name="collection_thumb" id="collection_thumb" ></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </td>
+	</tr>
+</table>    
+</form>

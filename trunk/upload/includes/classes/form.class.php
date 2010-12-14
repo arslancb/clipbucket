@@ -177,7 +177,11 @@ class formObj
 				$field_name = $this->rmBrackets($field_name);
 				$field_name = $field_name.$multi_cat_id.'[]';
 			}
-			echo '<label><input name="'.$field_name.'" type="checkbox" value="'.$key.'" '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;
+			
+			if(!empty($field['id']))
+				$field_id = ' id="'.$field['id'].'" ';
+				
+			echo '<label><input name="'.$field_name.'" type="checkbox" value="'.$key.'" '.$field_id.' '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;
 			echo $field['sep'];
 		}
 	}
@@ -215,13 +219,15 @@ class formObj
 					$checked = '';
 				$count++;
 			}
+			if(!empty($field['id']))
+				$field_id = ' id="'.$field['id'].'" ';
 			
 			if(!$multi)
 				$field_name = $field['name'];
 			else
 				$field_name = $field['name'].'[]';
 				
-			echo '<label><input name="'.$field_name .'" type="radio" value="'.$key.'" '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;
+			echo '<label><input name="'.$field_name .'" type="radio" value="'.$key.'" '.$field_id.' '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;
 			echo $sep;
 		}
 	}

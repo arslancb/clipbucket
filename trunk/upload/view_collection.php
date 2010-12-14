@@ -13,57 +13,55 @@ require 'includes/config.inc.php';
 $pages->page_redir();
 
 $c = mysql_clean($_GET['cid']);
-$cdetails = $cbcollection->get_collection($c);
+$type = mysql_clean($_GET['type']);
+
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,VLISTPP);
 $order = tbl("collection_items").".ci_id DESC";
 
-if($cdetails)
+if($cbcollection->is_viewable($c))
 {
-	$type = $cdetails['type'];
+	$cdetails = $cbcollection->get_collection($c);
+	
 	switch($type)
 	{
 		case "videos":
+		case "video":
+		case "v":
 		{
-			$items = $cbvideo->collection->get_collection_items_with_details($cdetails['collection_id'],$order);
+			$items = $cbvideo->collection->get_collection_items_with_details($c,$order,$get_limit);
+			$count = $cbvideo->collection->get_collection_items_with_details($c,NULL,NULL,TRUE);
 		}
 		break;
-				
-		case "pictures":
+		
+		case "photos":
+		case "photo":
+		case "p":
 		{
-			// Following to two lines will be un-commented once we have written picture.class
-			//$items = $cbpicture->collection->get_collection_items_with_details($cdetails['collection_id'],NULL,$get_limit);
-			//$total_rows = $cbpicture->collection->get_collection_items_with_details($cdetails['collection_id'],NULL,NULL,true);
+			$items = $cbphoto->collection->get_collection_items_with_details($c,$order,$get_limit);
+			$count = $cbphoto->collection->get_collection_items_with_details($c,NULL,NULL,TRUE);
 		}
+		break;
 	}
-	
 	
 	// Calling nesscary function for view collection
 	call_view_collection_functions($cdetails);
+	$total_pages = count_pages($count,VLISTPP);
 	
-	$total_pages = count_pages($total_rows,VLISTPP);
-
 	//Pagination
 	$pages->paginate($total_pages,$page);
-		
+	
+	assign('objects',$items);	
 	assign("c",$cdetails);
 	assign("type",$type);
-	assign("objects",$items);
-	
+	assign("cid",$c);	
 	subtitle($cdetails['collection_name']);	
 } else {
-	e(lang("collect_not_exist"));
 	$Cbucket->show_page = false;	
 }
 
-// Getting ready for Pagination
-$page = mysql_clean($_GET['page']);
 
-if($Cbucket->show_page)
-{
-	template_files('view_collection.html');
-}
-
+template_files('view_collection.html');
 display_it();	
 
 ?>

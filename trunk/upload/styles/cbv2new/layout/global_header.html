@@ -52,6 +52,7 @@ var imageurl = '{$imageurl}';
 {/foreach}
 <!-- Including JS Files-->
 
+{include_header file='global_header'}
 
 <!-- Including Headers -->
 {foreach from=$Cbucket->header_files key=file item=type}
@@ -60,7 +61,6 @@ var imageurl = '{$imageurl}';
     {/if}
 {/foreach}
 <!-- Ending Headers -->
-
 
 
 <!-- Including Plugin Headers -->
@@ -81,7 +81,7 @@ var mid  = {$smarty.get.mid};
 {/if}
 
 <!-- Including Common Js -->
-{include_header file='global_header'}
+
 <!-- End Including Common Js -->
 
 {literal}
@@ -116,6 +116,7 @@ var mid  = {$smarty.get.mid};
 		  window.location = "?set_site_lang="+optionSelectedValue;
 		});
 		get_video('recent_viewed_vids','#index_vid_container');
+			
 		
 	});
 
@@ -148,7 +149,35 @@ var mid  = {$smarty.get.mid};
 <!--[if IE 7]>
 <link href="{$theme}/ie7.css" rel="stylesheet" type="text/css" />
 <![endif]-->
+{literal}
+<script type="text/javascript">
 
+/***********************************************
+* Bookmark site script- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/* Modified to support Opera */
+function bookmarksite(title,url){
+if (window.sidebar) // firefox
+	window.sidebar.addPanel(title, url, "");
+else if(window.personalbar)
+{
+	window.personalbar.Addpage(title, url);
+}
+else if(window.opera && window.print){ // opera
+	var elem = document.createElement('a');
+	elem.setAttribute('href',url);
+	elem.setAttribute('title',title);
+	elem.setAttribute('rel','sidebar');
+	elem.click();
+} 
+else if(document.all)// ie
+	window.external.AddFavorite(url, title);
+}
+</script>
+{/literal}
 </head>
 
 <!-- Global Header Ends Here -->

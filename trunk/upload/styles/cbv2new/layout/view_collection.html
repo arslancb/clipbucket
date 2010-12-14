@@ -1,30 +1,27 @@
 <div style="width:880px; margin:0px auto">
 
-	<div class="video_title" style="padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;">{$c.collection_name}</div>
+	<div class="video_title" style="padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;">{$c.collection_name} </div>
+    {uploadButton details=$c target='_blank'}
     <div style="font:normal 10px Tahoma; color:#333; padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;">{lang code="by"|capitalize} <a href="{$userquery->profile_link($c)}">{$c.username|capitalize}</a> - <a href="{link name='user_videos'}{$c.username}">{lang code="view"|capitalize} {$c.username|capitalize} {lang code="videos"|capitalize}</a> {if $c.userid == $userquery->userid} - <a href="{link name='edit_collection'}{$c.collection_id}">{lang code="edit_collection"}</a> - {link name='manage_items' assign='miLink'} <a href="{$miLink|sprintf:$c.collection_id:$c.type}">{lang code="manage_items"}</a>{/if}</div>
-    
-    <div id="collectionItemView">
-    {section name=item loop=$objects max=1}
-    	{include file="$style_dir/blocks/view_item.html" object=$objects[item]}
-    {/section}    
-    </div>
-    
+       
     <div style="clear:both;"></div>
-    <div style="height:1px; border-bottom:1px solid #ccc; margin:5px 0;"></div>
-    <div class="video_title" style="font-size:14px;">{$c.type|capitalize} ({$c.total_objects})</div>
-    <div style="height:1px; border-bottom:1px solid #ccc; margin:5px 0;"></div>
-    
-    <div id="collectionItemsList">
-        {section name=o_list loop=$objects}
-			{include file="$style_dir/blocks/collection.html" object=$objects[o_list] display_type="view_collection" type=$c.type}
-        {sectionelse}
-            <div align="center" style="font:bold 11px Tahoma">{$c.collection_name} has 0 {$c.type}</div>       
-        {/section}
-    </div>
+   <!-- <div style="height:1px; border-bottom:1px solid #ccc; margin:5px 0;"></div>-->
+    <div class="moveL video_title" style="font-size:14px;">{$c.type|capitalize} ({$c.total_objects})</div>
     <div class="clear"></div>
-   
-    <!-- {include file="$style_dir/blocks/pagination.html"} -->
-    <div style="padding-bottom:5px; height:1px; margin-bottom:5px; border-bottom:1px solid #ccc;"></div>
+    <div class="clearfix" style="padding:10px; background:#f7f7f7; border:1px solid #ccc;">
+    	<table cellpadding="0" class="collectionTable" cellspacing="0" border="0">
+        <tr id="collectionItemsList" >
+		{section name=list loop=$objects}
+        	{include file="$style_dir/blocks/collection.html" object=$objects[list] display_type=view_collection type=$c.type}
+        {/section}
+        </tr>
+        </table>
+    </div>
+    
+    <div id="NewPagination" class="moveR">{include file="$style_dir/blocks/new_pagination.html"}</div>
+    
+   <!--{include file="$style_dir/blocks/pagination.html"}-->
+    <div style="padding-bottom:5px; height:1px; margin-bottom:5px; clear:both; border-bottom:1px solid #ccc;"></div>
     <div class="moveL" style="width:200px; font:normal 11px Tahoma;">
         <span style="color:#333; font-weight:bold;">{lang code="date_added"}</span>
         <div style="height:2px; clear:both;"></div>
@@ -53,7 +50,9 @@
     	{$c.collection_description|description}
         <div style="height:10px;"></div>
         <div class="video_title" style="font-size:14px; padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;">{lang code="comments"} ({$c.total_comments})</div>
-        {include file="$style_dir/blocks/comments/comments.html" id=$c.collection_id type='cl'}
+        <div id="collectionComments">
+        	{include file="$style_dir/blocks/comments/comments.html" id=$c.collection_id type='cl'}
+        </div>
         <div style="height:5px;"></div>
         {if $myquery->is_commentable($c,'collection')}
         	{include file="$style_dir/blocks/comments/add_comment.html" id=$c.collection_id type='cl'}

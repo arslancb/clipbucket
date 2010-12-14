@@ -61,7 +61,6 @@ var imageurl = "{$imageurl}";
 
 	<script type="text/javascript" charset="utf-8">
 	
-	
 		function makeTall(divid){  $('#'+divid).animate({"height":209},200);}
 		function makeShort(divid){ $('#'+divid).animate({"height":0},200);}
 		var on = false;
@@ -132,9 +131,77 @@ var imageurl = "{$imageurl}";
 		$('.tipsy_tip').tipsy({gravity: 'w'});
 		
 	});
-
-	
 	
 	</script>
+{/literal}
+
+{literal}
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	$('#ratios input[name=photo_ratio]').click(function()
+	{
+		var ratio = this.value;
+			ratio_part = ratio.split(':');
+			width = ratio_part[0];
+			height = ratio_part[1];
+			
+			ThumbHeight = $('#image_width').val() / width * height;
+			ThumbHeight = Math.ceil(ThumbHeight);
+			
+			MedHeight = $('#med_width').val() / width * height;
+			MedHeight = Math.ceil(MedHeight);
+			
+			$('#image_height').val(ThumbHeight);
+			$('#med_height').val(MedHeight);	
+	});
+		    
+	$('#image_width,#med_width').bind(
+	{
+		click: function()
+		{
+			$(this).select();
+		},
+		
+		focusout: function()
+		{
+			var ratio = $('#ratios input:checked').val();
+				id = this.id;
+				parts = id.split('_');
+				word = parts[0];
+				
+	
+			ratio_part = ratio.split(':');
+			width = ratio_part[0];
+			height = ratio_part[1];
+			
+			newHeight = this.value / width * height;
+			newHeight = Math.ceil(newHeight);
+			$('input[id="'+word+'_height"]').val(newHeight);	
+		},
+		
+		keypress: function(event)
+		{
+			if(event.which == '10')
+			{
+				var ratio = $('#ratios input:checked').val();
+					id = this.id;
+					parts = id.split('_');
+					word = parts[0];
+					
+				ratio_part = ratio.split(':');
+				width = ratio_part[0];
+				height = ratio_part[1];
+				
+				newHeight = this.value / width * height;
+				newHeight = Math.ceil(newHeight);
+				$('input[id="'+word+'_height"]').val(newHeight);
+				this.blur();
+			}
+			
+		}
+	});
+});
+</script>
 {/literal}
 </head>

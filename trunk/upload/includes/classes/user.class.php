@@ -3745,12 +3745,12 @@ class userquery extends CBCategory{
 				$cond .= ' AND ';
 			$cond .= " ".$params['cond']." ";
 		}
-		
-		$result = $db->select(tbl('users'),'*',$cond,$limit,$order);
+		if(!$params['count_only'])
+			$result = $db->select(tbl('users'),'*',$cond,$limit,$order);
 		
 		
 		if($params['count_only'])
-			return $result = $db->count(tbl('users'),'*',$cond);
+			return $result = $db->count(tbl('users'),'userid',$cond);
 		if($params['assign'])
 			assign($params['assign'],$result);
 		else

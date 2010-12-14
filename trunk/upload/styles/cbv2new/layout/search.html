@@ -17,10 +17,13 @@
     </div>
 	<div class="simple_container clearfix" style="min-height:400px; overflow:visible; display:none" id="advance_search">
 	{foreach from=$Cbucket->search_types item=search_type key=search_type_key}
+    
       {if $search_type}
 		{assign var='type' value=$cbsearch->init_search($search_type_key)}
+        	
           {if $type}
             {assign var='types' value=$type->search_type}
+            
             {foreach from=$types key=stype item=search}
              <div class="search_type">
              {lang code='search_for_s' assign='searchfor'}

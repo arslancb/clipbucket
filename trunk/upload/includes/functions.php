@@ -121,7 +121,18 @@
 		</script>';
 		exit("Javascript is turned off, <a href='$url'>click here to go to requested page</a>");
 		}
-		
+	
+	//Test function to return template file
+	function Fetch($name,$inside=FALSE)
+	{
+		if($inside)
+			$file = CBTemplate::fetch(LAYOUT.'/'.$inside.'/'.$name);
+		else
+			$file = CBTemplate::fetch(LAYOUT.'/'.$name);
+			
+		return $file;			
+	}
+	
 	//Simple Template Displaying Function
 	
 	function Template($template,$layout=true){
@@ -394,7 +405,44 @@
       	}else {
          return false;
       }   
-   }	
+   }
+   
+   //Simple Width Fetcher
+   function getWidth($file)
+   {
+		$sizes = getimagesize($file);
+		if($sizes)
+			return $sizes[0];   
+   }
+   
+   //Simple Height Fetcher
+   function getHeight($file)
+   {
+		$sizes = getimagesize($file);
+		if($sizes)
+			return $sizes[1];   
+   }
+   
+   //Photo File Fetcher
+   function get_photo($params)
+   {
+	   global $cbphoto;
+	   $cbphoto->getFileSmarty($params);
+   }
+   
+   //Photo Upload BUtton
+   function upload_photo_button($params)
+   {
+	   global $cbphoto;
+	   $cbphoto->upload_photo_button($params);
+   }
+   
+   //Photo Embed Cides
+   function photo_embed_codes($params)
+   {
+		global $cbphoto;
+		$cbphoto->photo_embed_codes($params);   
+   }
    
    //Function Used To Validate Email
 	
@@ -2806,6 +2854,18 @@
 					setcookie('collection_'.$id,'viewed',time()+3600);
 				}
 			}
+			break;
+			
+			case "photos":
+			case "photo":
+			case "p":
+			{
+				if(!isset($_COOKIE['photo_'.$id]))
+				{
+					$db->update(tbl('photos'),array("views","last_viewed"),array("|f|views+1",NOW())," photo_id = '$id'");
+					setcookie('photo_'.$id,'viewed',time()+3600);
+				}
+			}
 		}
 		
 	}
@@ -3141,6 +3201,15 @@
 	{
 		global $cbvideo;
 		return $cbvideo->get_videos($param);
+	}
+	
+	/**
+	 * function used to get photos
+	 */
+	function get_photos($param)
+	{
+		global $cbphoto;
+		return $cbphoto->get_photos($param);
 	}
 	
 	
@@ -3535,6 +3604,39 @@
 	{
 		global $userquery;
 		return $userquery->get_username($uid,'username');
+	}
+	
+	/**
+	 * Function used to get collection name from id
+	 * Smarty Function
+	 */
+	function get_collection_field($cid,$field='collection_name')
+	{
+		global $cbcollection;
+		return $cbcollection->get_collection_field($cid,$field);
+	}
+	
+	/**
+	 * Function used to delete photos if
+	 * whole collection is being deleted
+	 */
+	function delete_collection_photos($details)
+	{
+		global $cbcollection,$cbphoto;
+		$type = $details['type'];
+
+		if($type == 'photos')
+		{
+			$ps = $cbphoto->get_photos(array("collection"=>$details['collection_id']));
+			if(!empty($ps))
+			{	
+				foreach($ps as $p)
+				{
+					$cbphoto->make_photo_orphan($details,$p['photo_id']);	
+				}
+				unset($ps); // Empty $ps. Avoiding the duplication prob
+			}
+		}
 	}
 	
 	/**

@@ -286,3 +286,22 @@ margin-top: 0;
 
 .reindex_tbl .button {width:130px}
 .reindex_tbl td{height:60px}
+
+.RatioBox { background:#0099cc; border:1px solid #026f93; font:bold 11px Tahoma; color:#FFF; text-align:center; display:inline-block; }
+.smallText { font:normal 10px Tahoma; color:#7b7b7b; display:inline-block; margin-top:5px; }
+.AdminBoldText { font:bold 11px Tahoma; color:#7b7b7b; }
+/* I GOT FUKING ANNOYED THOSE TD's TR's SO I HAVE DEDICED TO ADD THIS CSS */
+.moveL { float:left; }
+.moveR { float:right; }
+
+li.myAdminList { list-style:none; padding:5px 0px; border-bottom:1px solid #ccc; position:relative; }
+li.myAdminList .PhotoCheckBox { width:30px; }
+li.myAdminList .PhotoID { width:75px; font:bold 11px Tahoma; text-align:center; }
+li.myAdminList .PhotoDetails { min-height:90px; height:90px; height:auto !important; }
+li.myAdminList .PhotoDetails a { color:#0C4469; font-size:13px; font-weight:bold; text-decoration:none; }
+li.myAdminList .AdminPhotoThumb { margin-right:8px; }
+li.myAdminList .AdminPhotoActions a { font:bold 11px Tahoma; }
+li.myAdminList .AdminPhotoActions a:hover { border-bottom:1px dashed #0099cc; }
+li.myAdminList input[disabled=disabled].disabled { font:normal 11px Tahoma; padding:1px; }
+
+.myAdminButton { background:url(../images/gradients.png); border:1px solid #000; padding:4px; margin:0px; font:bold 11px Tahoma; color:#FFF; }

@@ -1,0 +1,68 @@
+<div id="collectionItemView"> 
+	<div class="NextPrevButtons clearfix">
+    	<li class="moveL">
+        <a href="javascript:void(0)" onClick="get_item(this,'{$object.ci_id}','{$object.collection_id}','{$type}','prev');">Previous</a>
+        </li>
+        <li class="moveR">
+        <a href="javascript:void(0)" onClick="get_item(this,'{$object.ci_id}','{$object.collection_id}','{$type}','next');">Next</a>
+        </li>
+    </div>
+<div class="clearfix" style="padding:10px;">
+{if $type == 'photos'}
+<div class="moveL" style="width:700px; margin:0px 10px;">
+
+    <div style="background:#f3f3f3; border:1px solid #ccc; padding:10px 0px;">
+        <div align="center">{get_photo output='html' size='l' details=$object}</div>        
+    </div>
+    <div style="height:10px;"></div>
+    <div class="video_actions_cont clearfix">
+        <div class="rating_container">
+        	{show_video_rating  rating=$object.rating ratings=$object.rated_by total='10' id=$object.photo_id type=photo}
+        </div>
+        <div style="float:left; margin-left:15px;" class="actions clearfix">
+        <ul>
+            <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#video_action_result_cont');add_to_fav('video','{$vdo.videoid}');"><img src="{$imageurl}/dot.gif" class="add_to_fav" />{lang code='add_to_favs'}</a></li>
+            <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#flag_item');$('#flag_item').slideToggle();"><img src="{$imageurl}/dot.gif" class="report_this" />{lang code='report_this'}</a></li>
+            <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#share_form');$('#share_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="add_to_play" />{lang code='share_this'}</a></li>
+        </ul>
+        </div>
+    </div>
+</div>
+
+<div style="width:245px;" class="moveR">
+
+<div style="background:#f3f3f3; border:1px solid #ccc; padding:10px">
+	<div class="video_title">{$object.photo_title}</div>
+    <div class="borderLine"></div>
+    {$object.photo_description}
+    <div class="borderLine"></div>
+    <div style="font:normal 10px Tahoma;">{$object.photo_tags|tags:photos}</div>
+</div>
+{assign var=cid value=$object.collection_id}
+{get_photos assign=related extra_cond=" collection_id <> $cid" show_related=TRUE title=$object.photo_title tags=$object.photo_tags exclude=$object.photo_id limit='5'}
+{if $related}
+<div style="height:5px; clear:both"></div>
+<div class="PhotoHeading hover" onclick="$('#relatedPhotos').slideToggle('fast');">Related Photos</div>
+<div id="relatedPhotos">
+{section name=list loop=$related}
+	{include file="$style_dir/blocks/photo.html" display_type="related_photos" photo=$related[list]}
+{/section}
+</div>
+{/if}    
+</div>
+{/if}
+
+{if $type == 'videos'}
+<div style="width:700px; margin:0px 10px; float:left;">
+<div style="background:#f3f3f3; border:1px solid #ccc; padding:10px 0px;">
+	<div align="center">{FlashPlayer vdetails = $object}</div>
+</div>
+{$object.description}
+    <div class="clear"></div>
+  </div>
+    <div style="width:245px;" class="moveR">
+	<div class="video_title">{$object.title}</div>   
+</div>
+{/if}
+</div>
+</div>

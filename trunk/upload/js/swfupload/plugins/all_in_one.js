@@ -810,6 +810,19 @@ function uploadSuccess(file, serverData) {
 		this.debug(ex);
 	}
 }
+var array = new Array();
+function PictureUploadSuccess(file, serverData) {
+	try {		
+		var progress = new FileProgress(file, this.customSettings.progressTarget);
+		progress.setComplete();
+		progress.setStatus("Complete.");
+		progress.toggleCancel(false);
+		array.push(serverData);
+		$('#photoIDS').val(array);
+	} catch (ex) {
+		this.debug(ex);
+	}
+}
 
 function uploadError(file, errorCode, message) {
 	try {
@@ -872,5 +885,6 @@ function uploadComplete(file) {
 // This event comes from the Queue Plugin
 function queueComplete(numFilesUploaded) {
 	var status = document.getElementById("divStatus");
+	$('#EnterInfo').removeAttr('disabled');
 	status.innerHTML = numFilesUploaded + " file" + (numFilesUploaded === 1 ? "" : "s") + " uploaded.";
 }

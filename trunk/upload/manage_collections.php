@@ -106,6 +106,22 @@ switch($mode)
 				$objs = $cbvideo->collection->get_collection_items_with_details($cid,$order);
 			}
 			break;
+			
+			case "photos":
+			{
+				if(isset($_POST['delete_selected']))
+				{
+					$count = count($_POST['check_item']);
+					for($i=0;$i<$count;$i++)
+					{
+						$cbphoto->collection->remove_item($_POST['check_item'][$i],$cid);
+					}
+					$eh->flush();
+					e(sprintf("selected_items_removed","pictures"),"m");
+				}
+				$objs = $cbphoto->collection->get_collection_items_with_details($cid,$order);
+			}
+			break;
 		}
 		$collection = $cbcollection->get_collection($cid);
 		

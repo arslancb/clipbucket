@@ -954,47 +954,196 @@ function collection_actions(form,mode,objID,result_con,type,cid)
 	return false;
 }
 
-function get_collection_item(obj,ci_id,cid,type,direction)
-{
-	var btn_text = $(obj).text();
-	$(obj).text('Working ...');
-	$(obj).attr('disabled','disalbed');
-	$.post(page,
-	{
-		mode : 'NePrItem',
-		item_id : ci_id,
-		cid : cid,
-		type : type,
-		direction: direction   
-	},
-	function(data)
-	{
-		if(!data)
-		{
-			alert("No "+btn_text+" "+type+" Found");
-			$(obj).text(btn_text);
-			$(obj).removeAttr('disabled');
-		} else {
-			//alert(data);
-			get_item(data.ci_id,data.cid,type);	
-		}
-	},'json')
+// Simple function to open url with javascript
+function openURL(url) {
+	document.location = url;
 }
 
-function get_item(ci_id,cid,type)
+
+
+function get_item(obj,ci_id,cid,type,direction)
 {
-	$("#collectionItemsList div").removeClass('selected');
-	$("#item_"+ci_id).addClass('selected');
-	
+	var btn_text = $(obj).text();
+	$(obj).text('Working');
+		
 	$.post(page,
 		   {
 			   mode : 'get_item',
 			   ci_id: ci_id,
 			   cid : cid,
-			   type: type
+			   type: type,
+			   direction: direction
 		   },
 		   function(data)
 		   {
-			  $("#collectionItemView").html(data); 
-		   },'text')
+				if(!data)
+				{
+					alert('No '+type+' returned');
+					$(obj).text(btn_text);
+				} else {
+					var jsArray = new Array(type,data['cid'],data['key']);
+					construct_url(jsArray);
+					$("#collectionItemView").html(data['content']);
+				}
+		   },'json')
 }
+
+function construct_url(jsArr)
+{
+	var url;
+	if(Seo == 'yes')
+	{
+		url = '#!/item/'+jsArr[0]+'/'+jsArr[1]+'/'+jsArr[2];
+		window.location.hash = url
+	} else {
+		url	= '#!?item='+jsArr[2]+'&type='+jsArr[0]+'&collection='+jsArr[1];
+		window.location.hash = url
+	}
+}
+
+function onReload_item()
+{
+	var comURL,
+		regEX;		
+	if(window.location.hash)
+	{
+		comURL = window.location.href;
+		if(Seo == 'yes')
+		{	
+			regEX = RegExp('\/item.+#!');
+			if(regEX.test(comURL))
+			{
+				comURL = comURL.replace(regEX,'');
+				window.location.href = comURL;
+			}
+		} else {
+			regEX = RegExp('\\\?item.+#!');
+			if(regEX.test(comURL))
+			{	comURL = comURL.replace(regEX,'')		
+				window.location.href = comURL;
+			}
+		}
+	}
+}
+
+function pagination(object,cid,type,pageNumber)
+{
+	obj = $(object); objID = obj.id; parent = obj.parent();
+	
+	if(parent.attr('id'))
+		parentID = parent.attr('id')
+	else
+	{	parent.attr('id','loadMoreParent'); parentID = parent.attr('id'); }
+			
+	newCall = 
+	$.ajax({
+		url: page,
+		type: "post",
+		dataType: "json",
+		data: { mode: "moreItems", page:pageNumber, cid: cid, type: type },
+		beforeSend: function() { obj.removeAttr('onClick'); obj.html(loading) },
+		success : function(data) { 
+						if(!data)
+						{
+							if(object.tagName == "BUTTON")
+								obj.attr('disabled','disabled');
+							obj.removeAttr('onClick'); obj.text('No more '+type);
+						} else {
+							$('#collectionItemsList').append(data['content']); 
+							$('#NewPagination').html(data['pagination']);
+							obj.text('Load More');
+						}
+					}		
+	});
+}
+
+function ajax_add_collection(obj)
+{
+	var formID = obj.form.id, Form = $('#'+formID),
+		This = $(obj), AjaxCall, ButtonHTML = This.html(),
+		Result = $('#CollectionResult');	
+	AjaxCall = 
+	$.ajax
+	({
+		url: page,
+		type: "post",
+		dataType: "json",
+		data: "mode=add_collection&"+Form.serialize(),
+		beforeSend: function() { if(Result.css('display') == 'block') Result.slideUp('fast'); This.attr('disabled','disabled'); This.html(loading) },
+		success: function(data) {
+					if(data.msg)
+					{
+						$('#CollectionDIV').slideUp('fast');
+						Result.html(data['msg']).slideDown('fast');
+					}
+					else
+					{
+						Result.html(data['err']).slideDown('fast');
+						This.removeAttr('disabled'); This.html(ButtonHTML);
+					}
+				 }
+	});	
+}
+
+function updatePhotos(obj)
+{
+	var ID = obj.form.id,
+		Child = $("#"+ID).children().filter('div'),
+		total = Child.length, eachObj, AjaxCall;
+	for(i=0;i<total;i++)
+	{
+		alert(i)
+	}
+}
+
+/*function updatePhotos(obj)
+{
+	var ID = obj.form.id,
+		Child = $("#"+ID).children().filter('div'),
+		eachObj, AjaxCall, saving = 1;
+	var err_count = 0;	
+	$.each(Child,function(index,elem){
+		eachObj = $(elem);		
+		var inputs = $("#"+elem.id+" :input"),
+			query = '';
+			
+		inputs.each(function(ind, input)
+		{
+			if(input.type == "text" || input.type == "textarea" || input.type == "hidden")
+			{
+				if(input.value == null || input.value == '')
+				{
+					err_count++;				
+					input.style.border = '2px solid #ed0000';											
+					//ShouldContinue = false;						
+				} else {
+					query += input.id+"="+input.value+"&";
+					err_count = 0;
+					//ShouldContinue = true;
+				}
+			}
+			
+			if(input.type == "select-one" && input.selected)
+				query += input.id+"="+input.value+"&";
+			if(input.type == "radio" && input.checked)
+				query += input.id+"="+input.value+"&";
+		})
+		query += "mode=ajaxPhotos";
+		alert(query);
+		/*		
+			AjaxCall = 
+			$.ajax
+			({
+				url: page,
+				type: "post",
+				dataType: "text",
+				data: query,
+				cache: false,
+				beforeSend: function() { $(obj).text("Saving "+saving+" out of "+ Child.length); $(obj).attr('disabled','disabled') },
+				//complete : function() { alert("Request Completed") }
+				success: function(data) { $("#"+eachObj.attr('id')).hide() } 	
+			});
+			saving++;
+		
+	})
+}*/
