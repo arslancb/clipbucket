@@ -39,6 +39,15 @@ switch($mode)
 	case "get_form":
 	{
 		$title 	= getName($_POST['title']);
+		$vidDetails = array
+		(
+		'title'		=> $title,
+		'description' => $title,
+		'tags'		  => genTags(str_replace(' ',', ',$title)),
+		'category' => array($cbvid->get_default_cid()),
+		);
+		
+		assign('input',$vidDetails);
 		Template('blocks/upload/form.html');
 	}
 	break;
