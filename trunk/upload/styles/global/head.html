@@ -105,7 +105,9 @@ window.onload = function() {
 
 <script type="text/javascript">
 var jsURL = '{$js}';
+var uploadError = false;
 var file_name = '{$file_name}';
+var fileExt = '{$Cbucket->list_extensions()|replace:",":";"};*.*';
 {literal}
 $(document).ready(function()
 {
@@ -116,15 +118,18 @@ $(document).ready(function()
     'auto'      : true,
 	'removeCompleted' : false,
 	'displayData' : 'both',
+	'fileExt'     : fileExt,
+	'fileDesc'    : 'Video Files',
 	'scriptData'  : {"file_name" : file_name},
 	'onOpen'	 : function(event,ID,fileObj) {
 		$.ajax({
 			  url: baseurl+'/actions/file_uploader.php',
 			  type: "POST",
-			  data:({"getForm":"get_form","title":fileObj.name}),
+			  data:({"getForm":"get_form","title":fileObj.name,"objId":ID}),
 			  dataType: "text",
 			  success: function(data)
 			  {
+			    if(!uploadError)
 				$('#file_uploads'+ID).append(data);
 			  }
 			});
@@ -142,9 +147,12 @@ $(document).ready(function()
 				  dataType: "text",
 				  success: function(data)
 				  {
-					alert(data)
+				  	$('#upload_form'+ID).remove();
+					uploadError = true;
+					alert(data);
 				  }
 				});
+			$('#cbSubmitUpload'+ID).attr("disabled","").addClass('cbSubmitUpload');
 		}else
 		{
 			alert(response);

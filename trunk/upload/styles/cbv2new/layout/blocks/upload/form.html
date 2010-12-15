@@ -4,7 +4,7 @@
 {assign var='cust_fields'  value=$Upload->load_custom_form_fields($input)}
 
 
-<div class="upload_info">
+<div class="upload_info" id="upload_form{$objId}" style="margin-top:10px;">
     <h2>{$vdo_upload_step|sprintf:1}</h2>
     <form name="upload_form" class="upload_form" method="post" action="">
     
@@ -84,6 +84,8 @@
         
         
         
-        <div align="right" style="margin-top:10px"><input type="submit" name="submit_data" class="cb_button_2" value="{lang code='vdo_continue_upload'}"></div>
+        <div align="right" style="margin-top:10px">
+        <input type="submit" name="submit_data" class="cbSubmitUpload" value="{lang code='uploading'}" 
+        id="cbSubmitUpload{$objId}" disabled="disabled" ></div>
         </form>
     </div>

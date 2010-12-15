@@ -364,11 +364,13 @@ span.remember { font-size:10px;  }
  BUTONS
  ***/
  
-.cb_button,.cb_button_2,.small_button{background:url(../images/buttons.png)}
+.cbSubmitUpload,.cb_button,.cb_button_2,.small_button{background:url(../images/buttons.png)}
 
-.cb_button,.cb_button_2{display:inline-block;height:31px; width:135px; color:#fff; line-height:31px; text-align:center; font-size:14px; font-weight:bold; border:none; font-family:Arial, Helvetica, sans-serif; cursor:pointer}
-.cb_button:hover,.cb_button_2:hover{background-position:-0px -31px}
-.cb_button_2{font-size:12px}
+.cbSubmitUpload,.cb_button,.cb_button_2{display:inline-block;height:31px; width:135px; color:#fff; line-height:31px; text-align:center; font-size:14px; font-weight:bold; border:none; font-family:Arial, Helvetica, sans-serif; cursor:pointer}
+.cbSubmitUpload:hover,.cb_button:hover,.cb_button_2:hover{background-position:-0px -31px}
+.cbSubmitUpload,.cb_button_2{font-size:12px}
+
+
 
 .small_button{display:inline-block;height:21px; width:94px; color:#fff; text-align:center; font-size:11px; font-weight:bold; border:none; font-family:Arial, Helvetica, sans-serif; cursor:pointer; background-position:-0px -62px}
 .small_button:hover{background-position:-0px -83px}

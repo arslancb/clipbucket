@@ -47,6 +47,8 @@ switch($mode)
 		'category' => array($cbvid->get_default_cid()),
 		);
 		
+		assign("objId",$_POST['objId']);
+		
 		assign('input',$vidDetails);
 		Template('blocks/upload/form.html');
 	}
