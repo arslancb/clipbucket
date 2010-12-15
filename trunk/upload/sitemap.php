@@ -8,10 +8,12 @@
 */
 require 'includes/config.inc.php';
 header("Content-Type: text/xml charset=utf-8");
-print('<?xml version="1.0" encoding="UTF-8"?>' . "\n");
+echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 
 $limit = 100;
-$videos = get_videos(array('limit'=>$limit,'active'=>'yes','order'=>'date_added DESC'));?>
+$videos = get_videos(array('limit'=>$limit,'active'=>'yes','order'=>'date_added DESC'));
+
+?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
 <!-- by fjulio ( tangi @ clipbucket dev. ) -->
 <?php

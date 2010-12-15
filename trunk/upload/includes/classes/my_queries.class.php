@@ -61,6 +61,7 @@ class myquery {
 		//mysql_query("UPDATE config SET value = '".$value."' WHERE name ='".$name."'");
 		global $db,$Cbucket;
 		$db->update(tbl("config"),array('value'),array($value)," name = '".$name."'");
+		//echo $db->db_query."<br/><br/>";
 		$Cbucket->configs = $Cbucket->get_configs();
 	}
 	

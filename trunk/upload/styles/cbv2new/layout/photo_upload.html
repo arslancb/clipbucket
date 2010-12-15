@@ -18,7 +18,7 @@
 {/if}
 
 {if $step == 2}
- <button class="LoadMoreButton moveR clearfix" onclick="updatePhotos(this);" type="button" name="update_photos" id="update_photos">Save All</button>
+ <button class="LoadMoreButton moveR clearfix" onclick="callAjax(this);" type="button" name="update_photos" id="update_photos">Save All</button>
 
 	{section name=p_list loop=$photos}
     	{assign var='reqFields'  value=$cbphoto->load_required_forms($photos[p_list])}

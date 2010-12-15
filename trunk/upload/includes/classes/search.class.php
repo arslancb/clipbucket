@@ -111,7 +111,6 @@ class cbsearch
 	{
 		global $db;
 		
-
 		$ma_query = "";
 		#Checking for columns
 		if(!$this->use_match_method)

@@ -1085,22 +1085,26 @@ function ajax_add_collection(obj)
 	});	
 }
 
-function updatePhotos(obj)
-{
-	var ID = obj.form.id,
-		Child = $("#"+ID).children().filter('div'),
-		total = Child.length, eachObj, AjaxCall;
-	for(i=0;i<total;i++)
-	{
-		alert(i)
-	}
-}
-
 /*function updatePhotos(obj)
 {
 	var ID = obj.form.id,
 		Child = $("#"+ID).children().filter('div'),
-		eachObj, AjaxCall, saving = 1;
+		total = Child.length, eachObj, AjaxCall;
+}*/
+
+function callAjax(obj)
+{
+	var getArray = updatePhotos(obj),
+		TotalItems = getArray.length;
+	alert(TotalItems);	
+	$.each(getArray,function(i,v) { alert(i+" "+v) })	
+}
+
+function updatePhotos(obj)
+{
+	var ID = obj.form.id,
+		Child = $("#"+ID).children().filter('div'),
+		eachObj, AjaxCall, i = 0, ParamArray = new Array(Child.length);
 	var err_count = 0;	
 	$.each(Child,function(index,elem){
 		eachObj = $(elem);		
@@ -1129,9 +1133,8 @@ function updatePhotos(obj)
 				query += input.id+"="+input.value+"&";
 		})
 		query += "mode=ajaxPhotos";
-		alert(query);
-		/*		
-			AjaxCall = 
+		ParamArray[index] = query;
+		/*	AjaxCall = 
 			$.ajax
 			({
 				url: page,
@@ -1139,11 +1142,13 @@ function updatePhotos(obj)
 				dataType: "text",
 				data: query,
 				cache: false,
-				beforeSend: function() { $(obj).text("Saving "+saving+" out of "+ Child.length); $(obj).attr('disabled','disabled') },
-				//complete : function() { alert("Request Completed") }
+				beforeSend: function() { $(obj).html(loading_img+" Saving"); $(obj).attr('disabled','disabled') },
+				complete : function() { $(obj).html(Child.length+" photos saved") },
 				success: function(data) { $("#"+eachObj.attr('id')).hide() } 	
 			});
 			saving++;
-		
+		*/
 	})
-}*/
+	
+	return ParamArray;
+}
