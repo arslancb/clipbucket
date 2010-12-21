@@ -5,12 +5,15 @@
  */
 include('../includes/config.inc.php');
 
+
 if($_FILES['Filedata'])
 	$mode = "upload";
 if($_POST['insertVideo'])
 	$mode = "insert_video";
 if($_POST['getForm'])
 	$mode = "get_form";
+if($_POST['updateVideo']=='yes')
+	$mode = "update_video";
 	
 switch($mode)
 {
@@ -56,7 +59,7 @@ switch($mode)
 	
 	case "upload":
 	{
-		$file_name	= $_POST['file_name'];
+		$file_name	= time().RandomString(5);
 		$tempFile = $_FILES['Filedata']['tmp_name'];
 		$targetFileName = $file_name.'.'.getExt( $_FILES['Filedata']['name']);
 		$targetFile = TEMP_DIR."/".$targetFileName;
@@ -133,8 +136,22 @@ switch($mode)
 			}
 		}
 		
-		echo 'success';	
+		echo json_encode(array("success"=>"yes","file_name"=>$file_name));
 		
+	}
+	break;
+	
+	case "update_video":
+	{
+		$Upload->validate_video_upload_form();
+		if(empty($eh->error_list))
+		{
+			$cbvid->update_video();
+		}
+		if(error())
+			echo error('single');
+		else
+			echo msg('single');
 	}
 }
 
@@ -142,6 +159,6 @@ switch($mode)
 //function used to display error
 function upload_error($error)
 {
-	echo $error;
+	echo json_encode(array("error"=>$error));
 }
 ?>

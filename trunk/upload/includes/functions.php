@@ -158,19 +158,12 @@
 	//Funtion of Random String
 	function RandomString($length)
 	{
-    // Generate random 32 charecter string
-    $string = md5(microtime());
-
-    // Position Limiting
-    $highest_startpoint = 32-$length;
-
-    // Take a random starting point in the randomly
-    // Generated String, not going any higher then $highest_startpoint
-    $randomString = substr($string,rand(0,$highest_startpoint),$length);
-
-    return $randomString;
-
-}
+		$string = md5(microtime());
+		$highest_startpoint = 32-$length;
+		$randomString = substr($string,rand(0,$highest_startpoint),$length);
+		return $randomString;
+	
+	}
 
 
  //This Function Is Used To Display Tags Cloud
@@ -2240,6 +2233,8 @@
 		{
 			if($param!='array')
 			{
+				if($param=='single')
+					$param = 0;
 				$msg = error_list();
 				return $msg[$param];
 			}
@@ -2258,6 +2253,8 @@
 		{
 			if($param!='array')
 			{
+				if($param=='single')
+					$param = 0;
 				$msg = msg_list();
 				return $msg[$param];
 			}
@@ -2645,10 +2642,12 @@
 		global $userquery;
 
 		$funcs = get_functions('watch_video_functions');
+
 		if(is_array($funcs) && count($funcs)>0)
 		{
 			foreach($funcs as $func)
 			{
+				
 				if(function_exists($func))
 				{
 					$func($vdo);
@@ -4570,5 +4569,26 @@
 			return true;
 		else
 			return false;
+	}
+	
+	/**
+	 * Function used to return a well-formed queryString
+	 * for passing variables to url
+	 * @input variable_name
+	 */
+	function queryString($var,$remove=false)
+	{
+		$queryString = $_SERVER['QUERY_STRING'];
+		$queryString = preg_replace("/$var=([\w+\s\b]+|)/","",$queryString);
+		if($remove)
+		$queryString = preg_replace("/$remove=([\w+\s\b]+|)/","",$queryString);
+		$queryString = preg_replace("/\&+/","&",$queryString);
+		
+		if($queryString)
+			$preUrl = "?$queryString&";
+		else
+			$preUrl = "?";
+		
+		return $preUrl.$var;		
 	}
 ?>

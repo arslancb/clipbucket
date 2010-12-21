@@ -315,6 +315,7 @@
 	function cb_register_function($func_name,$place,$params=NULL)
 	{
 		global $Cbucket;
+		
 		if(function_exists($func_name))
 		{
 			$Cbucket->clipbucket_functions[$place][] = array('func'=>$func_name,'params'=>$params);
