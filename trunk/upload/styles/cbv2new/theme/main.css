@@ -40,6 +40,10 @@ Rating
 .rating .stars_blank { background:url(../images/small_stars.png) ;background-repeat:repeat-x; background-position:bottom; height:12px; width:100%; }
 .rating .stars_filled { background:url(../images/small_stars.png);background-repeat:repeat-x; background-position:top left; height:12px; float:left; }
 
+.viewCollectionRating { width:140px; height:28px; }
+.viewCollectionRating .stars_blank { background:url(../images/big_stars.png) ;background-repeat:repeat-x; background-position:bottom; height:28px; width:100%; }
+.viewCollectionRating .stars_filled { background:url(../images/big_stars.png);background-repeat:repeat-x; background-position:top left; height:28px; float:left; }
+
 .big_stars{width:140px; height:28px; position:relative}
 .big_stars .stars_blank { background:url(../images/big_stars.png) ;background-repeat:repeat-x; background-position:bottom; height:28px; width:100%; }
 .big_stars .stars_filled { background:url(../images/big_stars.png);background-repeat:repeat-x; background-position:top left; height:28px; float:left; }
@@ -110,8 +114,8 @@ span.remember { font-size:10px;  }
 /* SEARCH */
 .s_bg { background:url(../images/search.png) no-repeat; width:359px; height:29px; margin:0px; padding:0px; -moz-border-radius:4px 0px 0px 4px; border:1px solid transparent; }
 .searchbar { background:none; width:200px; border:none; margin:2px 10px 0px 0px; font-size:11px; color:#323232; font-family:Verdana,Tahoma,sans-serif; float:left; padding:6px 5px 7px; float:left; border-right:1px solid #ccc; }
-.searchbutton { background:none; text-indent:-5000px; border:0px; width:59px; height:25px; line-height:18px; cursor:pointer; margin-top:2px; margin-left:5px; font-weight:bold; font-family:tahoma; font-size:11px;  }
-.s_type { background:url(../images/dot.gif) repeat; float:left; margin:7px 9px 0px 1px; padding:0px 0px; font-size:10px; font-family:Verdana,Arial,sans-serif; border:0px none; color:#323232;  }
+.searchbutton { background:none; text-indent:-5000px; border:0px; width:59px; height:25px; line-height:18px; cursor:pointer; margin-top:2px; margin-left:5px; font-weight:bold; font-family:tahoma; font-size:11px; }
+.s_type { background:url(../images/dot.gif) repeat; float:left; margin:7px 9px 0px 1px; padding:0px 0px; font-size:10px; font-family:Verdana,Arial,sans-serif; border:0px none; color:#323232; width:64px;  }
 
 
 
@@ -444,11 +448,12 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 
 .video_actions_cont{margin-top:10px}
 
-.add_to_fav,.report_this,.share_this,.add_to_play{background-image:url(../images/icons.png);height:20px; width:20px}
+.add_to_fav,.report_this,.share_this,.add_to_play,.photo_embed_code{background-image:url(../images/icons.png);height:20px; width:20px}
 .add_to_fav{background-position:0px -105px; }
 .report_this{background-position:-19px -105px; }
 .share_this{background-position:-38px -105px; }
 .add_to_play{background-position:-57px -105px; }
+.photo_embed_code { background-position:-76px -105px; }
 
 .video_actions_cont .rating_container{ float:left}
 
@@ -816,7 +821,7 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 .photoTitle { font:bold 11px Tahoma; }
 .photoTitle a { text-decoration:none; }
 .photoInfo { font:normal 10px Tahoma; color:#666; }
-
+.photo_block { float:left; width:40%; margin-right:40px; padding:6px; }
 
 /* VIEW ITEM */
 .borderLine { border-bottom:1px solid #ccc; padding:5px 0px 0px; margin:0 0 5px; }
@@ -834,6 +839,11 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 .CollectionResult { background:#FFF url(../images/simple_gradient.png) bottom repeat-x; border:1px solid #aaa; margin:8px 8px 0px; padding:5px; font:bold 11px Tahoma; color:#666; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; }
 
 .CollectionResult .error { color:#ed0000; }
+.CollectionResult .msg { color:#0099cc; }
+
+.PhotoRatingStats { list-style:none; float:left; margin-right: 15px; }
+
+.collectionComments input[type=text], .collectionComments textarea.input { width:95% }
 .CollectionResult .msg { color:#0099cc; }
 
 .uploadErrorDiv, .uploadSuccessDiv{padding:5px 5px 5px 35px; background:url(../images/ok.png) no-repeat 2px 0px;}

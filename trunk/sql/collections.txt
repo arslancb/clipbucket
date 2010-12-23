@@ -39,3 +39,86 @@ CREATE TABLE IF NOT EXISTS `cb_collection_items` (
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`ci_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+INSERT INTO `cb_email_templates` (`email_template_id`, `email_template_name`, `email_template_code`, `email_template_subject`, `email_template`, `email_template_allowed_tags`) VALUES (NULL, 'Collection Share Template', 'collection_share_template', '{username} wants to share collection with you', '<html>
+<head>
+<style type="text/css">
+<!--
+.title {
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 5px;
+	font-weight:bold;
+	color: #FFFFFF;
+	font-size: 16px;
+}
+.title2 {
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 5px;
+	font-weight:bold;
+	color: #000000;
+	font-size: 14px;
+}
+.messege {
+	font-family:Tahoma, Geneva, sans-serif;
+	padding: 5px;
+	font-weight:bold;
+	color: #000000;
+	font-size: 11px;
+}
+#videoThumb{
+	float:left;
+	padding: 2px;
+	margin: 3px;
+	border: 1px solid #F0F0F0;
+	text-align: center;
+	vertical-align: middle;
+}
+#videoThumb img{border:0px}
+body,td,th {
+	font-family: tahoma;
+	font-size: 11px;
+	color: #FFFFFF;
+}
+.text, .text2 {
+	font-family: tahoma;
+	font-size: 11px;
+	color: #000000;
+	padding: 5px;
+}
+
+.text2 {
+	font-size: 10px;
+	padding: 0px;
+}
+-->
+</style>
+</head>
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+  <tr>
+    <td bgcolor="#0099cc" ><span class="title">{website_title}</span></td>
+  </tr>
+
+  <tr>
+    <td height="20" class="messege">{username} wants to share this collection with you.<br>
+      <div id="videoThumb"><a class="text" title="{name}" href="{collection_link}"><img src="{collection_thumb}"><br>
+    View Collection <small class=''text2''>({total_items} {type})</small></a></div></td>
+  </tr>
+  <tr>
+    <td class="text" ><span class="title2">Collection Description</span><br>
+      <span class="text">{description}</span></td>
+  </tr>
+  <tr>
+    <td><span class="title2">Personal Message</span><br>
+      <span class="text">{user_message}
+      </span><br>
+      <br>
+<span class="text">Thanks,</span><br> 
+<span class="text">{website_title}</span></td>
+  </tr>
+  <tr>
+    <td bgcolor="#0099cc">copyrights {date_year} {website_title}</td>
+  </tr>
+</table>
+</body>
+</html>', '');

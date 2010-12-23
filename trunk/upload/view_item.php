@@ -16,64 +16,81 @@ $type = $_GET['type'];
 $cid  = $_GET['collection'];
 $order = tbl("collection_items").".ci_id DESC";
 
-if(empty($item))
-	header('location:'.BASEURL);
-else
+if($cbcollection->is_viewable($cid))
 {
-	if(empty($type))
-		header('location:'.$_COOKIE['pageredir']);
+	if(empty($item))
+		header('location:'.BASEURL);
 	else
 	{
-		assign('type',$type);
-		
-		switch($type)
+		if(empty($type))
+			header('location:'.BASEURL);
+		else
 		{
-			case "videos":
-			case "v":
-			{
-				global $cbvideo;
-				$video = $cbvideo->get_video($item);
-				if($video)
-				{
-					$info = $cbvideo->collection->get_collection_item_fields($cid,$video['videoid'],'ci_id,collection_id');
-					$video = array_merge($video,$info[0]);
-					
-					increment_views($video['videoid'],'video');
-					
-					assign('object',$video);
-					assign('c',$collect);
-				} else {
-					e("Item does not exist");
-					$Cbucket->show_page = false;	
-				}
-			}
-			break;
+			assign('type',$type);
 			
-			case "photos":
-			case "p":
+			switch($type)
 			{
-				global $cbphoto;
-				$photo = $cbphoto->get_photo($item);
-				if($photo)
+				case "videos":
+				case "v":
 				{
-					$info = $cbphoto->collection->get_collection_item_fields($cid,$photo['photo_id'],'ci_id');
-					$photo = array_merge($photo,$info[0]);
+					global $cbvideo;
+					$video = $cbvideo->get_video($item);
 					
-					increment_views($photo['photo_id'],'photo');
-					
-					assign('object',$photo);
-					assign('c',$collect);
-				} else {
-					e("Item does not exist");
-					$Cbucket->show_page = false;	
+					if($video)
+					{
+						$info = $cbvideo->collection->get_collection_item_fields($cid,$video['videoid'],'ci_id,collection_id');
+						if($info)
+						{
+							$video = array_merge($video,$info[0]);						
+							increment_views($video['videoid'],'video');
+							
+							assign('object',$video);
+							assign('user',$userquery->get_user_details($video['userid']));
+							assign('c',$collect);
+						} else {
+							e("Item does not exist");
+							$Cbucket->show_page = false;
+						}
+					} else {
+						e("Item does not exist");
+						$Cbucket->show_page = false;	
+					}
 				}
+				break;
+				
+				case "photos":
+				case "p":
+				{
+					global $cbphoto;
+					$photo = $cbphoto->get_photo($item);
+					if($photo)
+					{
+						$info = $cbphoto->collection->get_collection_item_fields($cid,$photo['photo_id'],'ci_id');
+						if($info)
+						{
+							$photo = array_merge($photo,$info[0]);							
+							increment_views($photo['photo_id'],'photo');
+							
+							assign('object',$photo);
+							assign('user',$userquery->get_user_details($photo['userid']));
+							assign('c',$collect);
+						} else {
+							e("Item does not exist");
+							$Cbucket->show_page = false;	
+						}
+					} else {
+						e("Item does not exist");
+						$Cbucket->show_page = false;	
+					}
+				}
+				break;
 			}
-			break;
-		}
-	template_files('view_item.html');
-	display_it();	
+	
+		}		
 	}
-		
-}
-
+} else 
+	$Cbucket->show_page = false;
+	
+template_files('view_item.html');
+display_it();
 ?>

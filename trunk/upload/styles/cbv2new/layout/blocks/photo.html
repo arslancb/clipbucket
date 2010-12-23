@@ -1,3 +1,18 @@
+{if $display_type == ""}
+	<div class="clearfix photo_block">
+    	<a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' class='photoThumbBox moveL' style='margin-right:5px;'}</a>
+        <div class="photoTitle" style="margin-bottom:5px; font:bold 12px Arial;">
+        <a href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">{$photo.photo_title|truncate:15}</a></div>
+        <span class="photoInfo" style="font:normal 11px Tahoma">
+        {$photo.views|number_format} {lang code="views"} <br/> {$photo.total_comments} {lang code="comments"}
+        <br />
+        <a href="{$cbcollection->collection_links($photo.collection_id,'view')}">{$photo.collection_id|get_collection_field}</a>
+        </span>
+		
+        
+    </div>
+{/if}
+
 {if $display_type == 'related_photos'}
 	<div class="relatedPhotos clearfix">
     	<a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' class='photoThumbBox moveL' style='margin-right:5px;'}</a>

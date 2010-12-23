@@ -12,7 +12,7 @@ $userquery->admin_login_check();
 
 
 	
-	$latest = get_latest_cb_info();
+//	$latest = get_latest_cb_info();
 	$Cbucket->cbinfo['latest'] = $latest;
 	if($Cbucket->cbinfo['version'] < $Cbucket->cbinfo['latest']['version'])
 		$Cbucket->cbinfo['new_available'] = true;

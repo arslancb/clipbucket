@@ -206,3 +206,10 @@ window.onload = function() {
 	{rdelim}
 </script>
 {/if}
+
+{if $smarty.const.THIS_PAGE == 'view_item'}
+<script type="text/javascript">
+	var Seo = '{$Cbucket->configs.seo}';
+	onReload_item();
+</script>
+{/if}

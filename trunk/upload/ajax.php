@@ -133,6 +133,28 @@ if(!empty($mode))
 					echo $msg;
 				}
 				break;
+				
+				case "cl":
+				case "collection":
+				{
+					$id = $_POST['id'];
+					$cl = $cbcollection->get_collection($id);
+					$cbcollection->set_share_mail($cl);
+					$cbcollection->action->share_content($cl['collection_id']);
+					if(msg())
+					{
+						$msg = msg_list();
+						$msg = '<div class="msg">'.$msg[0].'</div>';
+					}
+					if(error())
+					{
+						$msg = error_list();
+						$msg = '<div class="error">'.$msg[0].'</div>';
+					}
+					
+					echo $msg;
+				}
+				break;
 			}
 		}
 		break;
@@ -149,6 +171,8 @@ if(!empty($mode))
 				{
 					$id = $_POST['id'];
 					$cbvideo->action->add_to_fav($id);
+					updateObjectStats('fav','video',$id); // Increment in total favs
+					
 					if(msg())
 					{
 						$msg = msg_list();
@@ -169,7 +193,30 @@ if(!empty($mode))
 				{
 					$id = $_POST['id'];
 					$cbphoto->action->add_to_fav($id);
-					// Need a function to update favs count
+					updateObjectStats('fav','photo',$id); // Increment in total favs
+					
+					if(msg())
+					{
+						$msg = msg_list();
+						$msg = '<div class="msg">'.$msg[0].'</div>';
+					}
+					if(error())
+					{
+						$msg = error_list();
+						$msg = '<div class="error">'.$msg[0].'</div>';
+					}
+					
+					echo $msg;
+				}
+				break;
+				
+				case "cl":
+				case "collection":
+				{
+					$id = $_POST['id'];
+					$cbcollection->action->add_to_fav($id);
+					//updateObjectStats('fav','collection',$id); // Increment in total favs
+					
 					if(msg())
 					{
 						$msg = msg_list();
@@ -223,13 +270,20 @@ if(!empty($mode))
 				
 				case 'p':
 				case 'photo':
-				default:
 				{
 					$id = $_POST['id'];
 					$cbphoto->action->report_it($id);
-					// Need a function to set photo reported field to yes
 				}
 				break;
+				
+				case "cl":
+				case "collection":
+				{
+					$id = $_POST['id'];
+					$cbcollection->action->report_it($id);
+				}
+				break;
+				
 			}
 			
 			if(msg())
@@ -439,6 +493,18 @@ if(!empty($mode))
 				}
 				break;
 				
+				case "p":
+				case "photo":
+				{
+					$id = mysql_clean($_POST['obj_id']);
+					$comment = $_POST['comment'];
+					if($comment=='undefined')
+						$comment = '';
+					$reply_to = $_POST['reply_to'];
+					$cid = $cbphoto->add_comment($comment,$id,$reply_to);	
+				}
+				break;
+				
 			}
 			
 			if(msg())
@@ -485,6 +551,8 @@ if(!empty($mode))
 			$vid = mysql_clean($_POST['vid']);
 			$pid = mysql_clean($_POST['pid']);
 			$cbvid->action->add_playlist_item($pid,$vid);
+			updateObjectStats('plist','video',$vid);
+			
 			
 			if(msg())
 			{
@@ -733,7 +801,6 @@ if(!empty($mode))
 				{
 						$N_item = $cbvideo->collection->get_next_prev_item($item_id,$cid,$direc);
 						//increment_views($N_item[0]['videoid'],'video');						
-						$cbvideo->collection->set_item_cookie($N_item[0]['videokey']);
 						$ajax['key'] = $N_item[0]['videokey'];
 						$ajax['cid'] = $N_item[0]['collection_id'];
 				}
@@ -745,7 +812,6 @@ if(!empty($mode))
 				{
 						$N_item = $cbphoto->collection->get_next_prev_item($item_id,$cid,$direc);
 						increment_views($N_item[0]['photo_id'],'photo');
-						$cbphoto->collection->set_item_cookie($N_item[0]['photo_key']);
 						$ajax['key'] = $N_item[0]['photo_key'];
 						$ajax['cid'] = $N_item[0]['collection_id'];
 						
@@ -756,6 +822,7 @@ if(!empty($mode))
 			if($N_item)
 			{
 				assign('type',$t);
+				assign('user',$userquery->get_user_details($N_item[0]['userid']));
 				assign('object',$N_item[0]);
 				$ajax['content'] = Fetch('view_item.html');
 				echo json_encode($ajax);
@@ -847,7 +914,15 @@ if(!empty($mode))
 		
 		case "ajaxPhotos":
 		{
-			echo "TEST SUCCESSFULL";
+			$cbphoto->insert_photo();
+		}
+		break;
+		
+		case "viewPhotoRating":
+		{
+			$pid = mysql_clean($_POST['photoid']);
+			$returnedArray = $cbphoto->photo_voters($pid);
+			echo ($returnedArray);	
 		}
 		break;
 		

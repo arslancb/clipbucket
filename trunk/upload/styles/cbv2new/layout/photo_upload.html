@@ -1,7 +1,8 @@
 <div class="content_con clearfix">
 <div class="upload_info">
-<form action="" method="post" name="photo_form" id="photo_form">
+
 {if $step == 1 || $step == ""}
+	<form action="" method="post" name="photo_form" id="photo_form">
 	{include file="$style_dir/blocks/upload_head.html"}
 	<div class="upload_form_div clearfix">
     	<input type="hidden" id="photoIDS" name="photoIDS"  />
@@ -15,16 +16,18 @@
         <div class="fieldset flash" id="fsUploadProgress"></div>
     </div>
     <button name="EnterInfo" class="LoadMoreButton moveR" id="EnterInfo" disabled="disabled">{lang code="Continue"}</button>
+    </form> 
 {/if}
 
 {if $step == 2}
- <button class="LoadMoreButton moveR clearfix" onclick="callAjax(this);" type="button" name="update_photos" id="update_photos">Save All</button>
-
 	{section name=p_list loop=$photos}
+    <form action="" method="post" name="{$photos[p_list].photo_key}Form" id="{$photos[p_list].photo_key}Form">
     	{assign var='reqFields'  value=$cbphoto->load_required_forms($photos[p_list])}
         {assign var='otherFields'  value=$cbphoto->load_other_forms($photos[p_list])}
         <div id="{$photos[p_list].photo_key}_Box" class="photoBox clearfix">
-        <input type="hidden" value="{$photos[p_list].photo_key}" name="photo_key_{$photos[p_list].photo_key}" id="photo_key"  />       
+        <input type="hidden" value="{$photos[p_list].photo_key}" name="photo_key" id="photo_key"  /> 
+        <input type="hidden" value="{$photos[p_list].ext}" name="ext" id="ext"  />
+        <input type="hidden" value="{$photos[p_list].filename}" name="filename" id="filename"  />      
         	<div class="photoDetailsBox clearfix">
                 <div class="moveL" style="width:52.1%;">
                     {foreach from=$reqFields item=item}
@@ -38,10 +41,10 @@
                         </div>
                     {/foreach}
                 </div>
-                
+               
                 <div class="moveR">
                 	<div class="photoThumbBox">
-                    	{get_photo details=$photos[p_list] output='html' size='m'}
+                    	 <img src="{$photos[p_list].image_file}" />
                     </div>
                 </div>
             </div>
@@ -55,12 +58,14 @@
                 </div>
             </div>
         </div>
-    {/section}  
+        </form>
+    {/section}
+    <button class="LoadMoreButton clearfix" onclick="callAjax(this);" type="button" name="update_photos" id="update_photos">Save All</button>
 {/if}
 
 {if $step == 3}
 	<h2>Photos have uploaded successfully.</h2>
 {/if}    
-</form>   
+  
 </div>    
 </div>

@@ -30,7 +30,7 @@
  	      <label for="checkbox"></label></td>
  	    <td valign="middle">
         <div style="padding-left:10px; float:left;width:300px">
-        <img src="{getThumb vdetails=$collection}" width="40" height="30" border="0" class="acc_usr_video_thumb" />{$collection.title|truncate:100}<br />
+       <label for="check_item-{$collection.videoid}"> <img src="{getThumb vdetails=$collection}" width="40" height="30" border="0" class="acc_usr_video_thumb" /></label>{$collection.title|truncate:100}<br />
 <span class="video_control"><a href="{$cbcollection->collection_links($collection,'view_item')}">{lang code="view"}</a></span>
         </div>
         </td>
@@ -53,7 +53,7 @@
  	      <label for="checkbox"></label></td>
  	    <td valign="middle">
         <div style="padding-left:10px; float:left;">
-        {get_photo style='padding:1px; border:1px solid #999; float:left;' details=$collection output="html"}
+        <label for="check_item-{$collection.photo_id}">{get_photo style='padding:1px; border:1px solid #999; float:left;' details=$collection output="html"}</label>
         {$collection.photo_title|truncate:100}<br />
 <span class="video_control"><a href="{$cbphoto->photo_links($collection,'view_item')}">{lang code="view"}</a></span>
         </div>
@@ -68,4 +68,22 @@
  	  </table>
    </div>
     {/if}
+{/if}
+
+{if $display_type == "favorite"}
+<div class="account_vid_list" style="background-color:#{cycle values='ffffff,EFF5F8'}; padding:4px 0px;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="check_col[]" id="check_col-{$collection.collection_id}" value="{$collection.collection_id}" />
+ 	      </td>
+ 	    <td valign="middle">
+        	<label for="check_col-{$collection.collection_id}"><img src="{$cbcollection->get_thumb($collection,'small',TRUE)}" border="0" class="acc_usr_video_thumb" /></label>{$collection.collection_name} 			
+            <div style="font-size:10px;"><a href="{$cbcollection->collection_links($collection,'view')}">{lang code="view"}</a> - <a href="javascript:void(0)" onmousedown="delete_item('delete_coll','{$collection.collection_id}','{lang code="Are you sure you want to remove this collection from favorites?"}','?mode={$mode}&amp;remove_fav_collection={$collection.collection_id}');" id="delete_coll-{$collection.collection_id}">{lang code="remove"}</a></div>
+        </td>
+ 	    <td width="100">{$collection.date_added|date_format}</td>
+        <td width="100">{$collection.type}</td>
+ 	    <td width="100" class="last_td">{$collection.views|number_format}</td>
+ 	    </tr>
+ 	  </table>
+</div>
 {/if}

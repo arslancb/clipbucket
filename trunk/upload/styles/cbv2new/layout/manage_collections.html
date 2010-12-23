@@ -26,6 +26,8 @@
      {section loop=$usr_collects name=clist}
 		{include file="$style_dir/blocks/manage/account_collections.html" collection=$usr_collects[clist]}
      {/section}
+     
+      {include file="$style_dir/blocks/manage/user_account_pagination.html"}
     {/if}
     
     {if $mode == "edit_collection"}
@@ -127,6 +129,35 @@
     	<div align="center" style="font:bold 11px Tahoma; margin-top:5px;">{lang code="no_items_found_in_collect"}</div>
     {/section}    
     {/if}
+    
+    {if $mode == "favorite"}
+    	<h2>Manage Favorite Collections</h2>
+        <div style="margin-bottom:10px;">
+        <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-right:10px;" /><input type="submit" name="remove_selected_favs" id="remove_selected_favs" value="{lang code='remove'}" class="small_button" />
+        </div>
+        <div class="account_table">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+                      </td>
+                    <td>{lang code='title'}</td>
+                    <td width="100">{lang code='date_added'}</td>
+                    <td width="100" class="last_td">{lang code='type'}</td>
+                    <td width="100" class="last_td">{lang code='views'}</td>
+                </tr>
+            </table>
+        </div>
+    {section loop=$collections name=list}
+    	{include file="$style_dir/blocks/manage/account_collections.html" display_type="favorite" collection=$collections[list]}
+    {sectionelse}
+    	<div align="center" style="font:bold 11px Tahoma; margin-top:5px;">{lang code="You dont have any favorite collection"}</div>
+    {/section}
+    
+     {include file="$style_dir/blocks/manage/user_account_pagination.html"}        
+    {/if}
     </form>
+   
     </div> <!-- account_box end -->
+    
+    
 </div>

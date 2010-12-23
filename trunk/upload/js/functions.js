@@ -955,8 +955,11 @@ function collection_actions(form,mode,objID,result_con,type,cid)
 }
 
 // Simple function to open url with javascript
-function openURL(url) {
-	document.location = url;
+function openURL(url,newWindow) {
+	if(newWindow == 'new')
+		window.open(url,'mywindow');
+	else	
+		document.location = url;
 }
 
 
@@ -964,7 +967,7 @@ function openURL(url) {
 function get_item(obj,ci_id,cid,type,direction)
 {
 	var btn_text = $(obj).text();
-	$(obj).text('Working');
+	$(obj).html(loading);
 		
 	$.post(page,
 		   {
@@ -979,7 +982,7 @@ function get_item(obj,ci_id,cid,type,direction)
 				if(!data)
 				{
 					alert('No '+type+' returned');
-					$(obj).text(btn_text);
+					$(obj).html(btn_text);
 				} else {
 					var jsArray = new Array(type,data['cid'],data['key']);
 					construct_url(jsArray);
@@ -1028,7 +1031,7 @@ function onReload_item()
 
 function pagination(object,cid,type,pageNumber)
 {
-	obj = $(object); objID = obj.id; parent = obj.parent();
+	var obj = $(object), objID = obj.id, parent = obj.parent(), parentID;
 	
 	if(parent.attr('id'))
 		parentID = parent.attr('id')
@@ -1091,64 +1094,101 @@ function ajax_add_collection(obj)
 		Child = $("#"+ID).children().filter('div'),
 		total = Child.length, eachObj, AjaxCall;
 }*/
+var AjaxIteration = 0;
+var InputIteration = 0;
 
 function callAjax(obj)
 {
-	var getArray = updatePhotos(obj),
-		TotalItems = getArray.length;
-	alert(TotalItems);	
-	$.each(getArray,function(i,v) { alert(i+" "+v) })	
+	var getArray = getDetails(obj),
+		TotalItems = getArray.length, AjaxCall,
+		inputs = getInputs(obj,true),
+		element = inputs[InputIteration++];
+		
+		if(AjaxIteration == getArray.length)
+		{
+			$(obj).html(TotalItems+" Photos Saved. Continue").removeAttr('disabled');
+			return;
+		}
+		else
+		{	
+		
+			AjaxCall = 
+				$.ajax
+				({
+					url: page,
+					type: "post",
+					dataType: "json",
+					data: getArray[AjaxIteration++],
+					cache: false,
+					beforeSend: function() { $(obj).html(loading_img+" Saving "+AjaxIteration+" of out "+TotalItems); $(obj).attr('disabled','disabled') },
+					success: function(data) { 
+						$('#'+element.id+" div:first-child > div").slideUp('normal');
+						$('#'+element.id+" div:first-child").css('padding','10px').html(
+						"<div style='font:bold 11px Tahoma;'>"+data.photo_title+" is now saved.</div>"
+						).fadeIn(350,function() { callAjax(obj);  });
+						
+					} 	
+				});
+		}
 }
 
-function updatePhotos(obj)
+function getInputs(obj,return_array)
 {
-	var ID = obj.form.id,
-		Child = $("#"+ID).children().filter('div'),
-		eachObj, AjaxCall, i = 0, ParamArray = new Array(Child.length);
-	var err_count = 0;	
-	$.each(Child,function(index,elem){
-		eachObj = $(elem);		
-		var inputs = $("#"+elem.id+" :input"),
-			query = '';
-			
-		inputs.each(function(ind, input)
-		{
-			if(input.type == "text" || input.type == "textarea" || input.type == "hidden")
-			{
-				if(input.value == null || input.value == '')
-				{
-					err_count++;				
-					input.style.border = '2px solid #ed0000';											
-					//ShouldContinue = false;						
-				} else {
-					query += input.id+"="+input.value+"&";
-					err_count = 0;
-					//ShouldContinue = true;
-				}
-			}
-			
-			if(input.type == "select-one" && input.selected)
-				query += input.id+"="+input.value+"&";
-			if(input.type == "radio" && input.checked)
-				query += input.id+"="+input.value+"&";
+	var	Child = $(obj).parent().children().filter('form'), InputArray = [];
+	if(return_array == true)
+	{
+		$.each(Child,function(index,element){
+				InputArray[index] = element;
 		})
-		query += "mode=ajaxPhotos";
-		ParamArray[index] = query;
-		/*	AjaxCall = 
-			$.ajax
-			({
-				url: page,
-				type: "post",
-				dataType: "text",
-				data: query,
-				cache: false,
-				beforeSend: function() { $(obj).html(loading_img+" Saving"); $(obj).attr('disabled','disabled') },
-				complete : function() { $(obj).html(Child.length+" photos saved") },
-				success: function(data) { $("#"+eachObj.attr('id')).hide() } 	
-			});
-			saving++;
-		*/
+		return InputArray;
+	} else
+		return Child;
+}
+
+function getDetails(obj)
+{
+	var forms = getInputs(obj), ParamArray = new Array(forms.length);
+		
+	$.each(forms,function(index,form) {
+			query = $("#"+form.id+" *").serialize();
+			query += "&mode=ajaxPhotos";
+			ParamArray[index] = query;
 	})
-	
+		
 	return ParamArray;
+}
+
+function viewRatings(object,pid)
+{
+	var obj = $(object), innerHTML = obj.html();
+	if(document.getElementById('RatingStatContainer'))
+		$("#RatingStatContainer").toggle();
+	else
+	{	
+		loadAjax = 
+		$.ajax
+		({
+			url:page,
+			type: "post",
+			dataType: "text",
+			data: { mode:"viewPhotoRating", photoid:pid },
+			beforeSend: function() { obj.html(loading); },
+			success:function(data) {
+				obj.html(innerHTML); 
+				if(data)
+				{
+					$("<div />").attr('id','RatingStatContainer')
+					.addClass('clearfix')
+					.css({
+						"padding" : "8px",
+						"font" : "normal 11px Tahoma",
+						"border" : "1px solid #ccc"	
+					}).html(data).fadeIn(350).insertAfter(obj);
+				} else {
+					obj.removeAttr('onclick');
+					alert("Photo has not recieved any rating yet.");	
+				}
+			}	
+		});
+	}
 }

@@ -19,6 +19,8 @@ class Collections extends CBCategory
 	var $custom_collection_fields = array();
 	var $collection_delete_functions = array();
 	var $action = '';
+	var $share_variables;
+	
 	/**
 	 * Setting variables of different thing which will
 	 * help makes this class reusble for very object
@@ -41,6 +43,7 @@ class Collections extends CBCategory
 		$this->types = array('videos' => lang("Videos"),'photos' => lang("Photos"));
 		ksort($this->types);
 		$this->setting_up_collections();
+		$this->init_actions();
 	}
 	
 	/**
@@ -54,7 +57,7 @@ class Collections extends CBCategory
 		$this->action->name = 'collection';
 		$this->action->obj_class = 'cbcollection';
 		$this->action->check_func = 'collection_exists';
-		$this->action->type_tbl = "collection";
+		$this->action->type_tbl = "collections";
 		$this->action->type_id_field = 'collection_id';	
 	} 
 	
@@ -65,14 +68,12 @@ class Collections extends CBCategory
 	{
 		global $userquery,$Cbucket;
 		
-		// Adding My Account Links
-		$links = array();	
-		$links[lang('Collections')] = array(
+		// Adding My Account Links	
+		$userquery->user_account[lang('Collections')] = array(
 											lang('Add New Collection') => "manage_collections.php?mode=add_new",
 											lang('Manage Collections') => "manage_collections.php",
-											lang('Favorite Collections') => "manage_collections.php?mode=favorites"
+											lang('Favorite Collections') => "manage_collections.php?mode=favorite"
 											);
-		$userquery->user_account = $links;
 		
 		// Adding Search Type
 		$Cbucket->search_types['collections'] = "cbcollection";
@@ -167,6 +168,23 @@ class Collections extends CBCategory
 		);
 
 		$this->search->search_type['collections']['fields'] = $fields;											
+	}
+	
+	/**
+	 * Function used to set-up sharing
+	 */
+	function set_share_mail($data)
+	{
+		$this->share_variables = array(
+				'{name}' => $data['collection_name'],
+				'{description}' => $data['collection_description'],
+				'{type}' => $data['type'],
+				'{total_items}' => $data['total_objects'],
+				'{collection_link}' => $this->collection_links($data,'view'),
+				'{collection_thumb}' => $this->get_thumb($data,'small',TRUE)
+			);
+		$this->action->share_template_name = 'collection_share_template';
+		$this->action->val_array = $this->share_variables;			
 	}
 		
 	/**
@@ -1215,12 +1233,13 @@ class Collections extends CBCategory
 					}
 				}
 			}
+			break;
 		}
 		$total_voters = count($voters);
 		if(!empty($total_rating) && $total_voters != 0)
 		{
 			$collect_rating = $total_rating / $total_voters;
-			return $collect_rating;	
+			return round($collect_rating,2);	
 		}
 	}
 	

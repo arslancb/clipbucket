@@ -44,10 +44,7 @@ switch($mode)
 							 'photo_lar_width',
 							 'photo_crop',
 							 'max_photo_size',
-							 'photo_multi_upload',
-							 'photo_download',
-							 'photo_comments',
-							 'photo_rating');
+							 'photo_multi_upload');
 							 
 			foreach($rows as $field)
 			{

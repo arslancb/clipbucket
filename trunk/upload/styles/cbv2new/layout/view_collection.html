@@ -6,13 +6,15 @@
        
     <div style="clear:both;"></div>
    <!-- <div style="height:1px; border-bottom:1px solid #ccc; margin:5px 0;"></div>-->
-    <div class="moveL video_title" style="font-size:14px;">{$c.type|capitalize} ({$c.total_objects})</div>
+    <div class="moveL video_title" style="font-size:14px; clear:both; margin-bottom:5px;">{$c.type|capitalize} ({$c.total_objects})</div>
     <div class="clear"></div>
     <div class="clearfix" style="padding:10px; background:#f7f7f7; border:1px solid #ccc;">
     	<table cellpadding="0" class="collectionTable" cellspacing="0" border="0">
-        <tr id="collectionItemsList" >
+        <tr id="collectionItemsList">
 		{section name=list loop=$objects}
         	{include file="$style_dir/blocks/collection.html" object=$objects[list] display_type=view_collection type=$c.type}
+        {sectionelse}
+        	<div align="center" style="font:bold 11px Tahoma;">{$c.collection_name} has 0 items.</div>    
         {/section}
         </tr>
         </table>
@@ -46,19 +48,45 @@
 
     </div> <!-- moveL end -->
     
-    <div style="width:540px; float:left;">
-    	{$c.collection_description|description}
-        <div style="height:10px;"></div>
-        <div class="video_title" style="font-size:14px; padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;">{lang code="comments"} ({$c.total_comments})</div>
+    <div class="clearfix" style="width:77%; float:left;">
+    	<span style="font:normal 11px Tahoma">{$c.collection_description|description}</span>
+        <div class="borderLine"></div>
+        <div class="video_actions_cont clearfix">
+        	{assign var=rating value=$cbcollection->collection_rating($c.collection_id,$c.type)}
+            <div class="rating_container">
+            	{show_rating class='viewCollectionRating' rating=$rating total='10'}
+                <div style="text-align:center; font:normal 10px Tahoma;" title="Collection rating is based on it's objects average rating.">How we calculate rating ?</div>
+            </div>
+            <div class="actions clearfix" style="float:left; margin:8px 0 0 15px; padding:0px;">
+            <ul>
+            <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#video_action_result_cont');add_to_fav('collection','{$c.collection_id}');"><img src="{$imageurl}/dot.gif" class="add_to_fav" />{lang code='add_to_favs'}</a></li>
+            <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#share_form');$('#share_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="add_to_play" />{lang code='share_this'}</a></li>
+            <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#flag_item');$('#flag_item').slideToggle();"><img src="{$imageurl}/dot.gif" class="report_this" />{lang code='report_this'}</a></li>
+            
+            </ul>            
+            </div>
+        </div> <!-- video_actions_cont -->
+        
+        <div class="video_action_result_boxes">
+            {show_share_form id=$c.collection_id type=Collection}
+            {show_flag_form id=$c.collection_id type=Collection}
+            <div class="action_box" style="display:none" id="video_action_result_cont"></div>
+        </div>
+        </div> <!-- IN-LINE DIV END -->
+        
+    <div style="height:15px; clear:both;"></div>
+    <div class="moveL" style="width:60%">
+    <div class="video_title" style="font-size:14px; padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;">{lang code="comments"} ({$c.total_comments})</div>  
         <div id="collectionComments">
         	{include file="$style_dir/blocks/comments/comments.html" id=$c.collection_id type='cl'}
         </div>
+      </div>
+      <div class="moveR collectionComments" style="width:39%">  
         <div style="height:5px;"></div>
         {if $myquery->is_commentable($c,'collection')}
         	{include file="$style_dir/blocks/comments/add_comment.html" id=$c.collection_id type='cl'}
         {else}
         	<div class="disable_msg" align="center">{lang code='comm_disabled_for_vid'}</div>
-        {/if}    
-    </div>
-
+        {/if}
+       </div>  
 </div>

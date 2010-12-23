@@ -42,9 +42,17 @@ switch($mode)
 			$eh->flush();
 			e("selected_collects_del","m");
 		}
-		
-		$usr_collections = $cbcollection->get_collections(array('user'=>userid()));
+		$collectArray = array('user'=>userid(),"limit"=>$get_limit);
+		$usr_collections = $cbcollection->get_collections($collectArray);
 		assign('usr_collects',$usr_collections);
+		
+		$collectArray['count_only'] = TRUE;
+		$total_rows = $cbcollection->get_collections($collectArray);
+		$total_pages = count_pages($total_rows,VLISTPP);
+		
+		//Pagination
+		$pages->paginate($total_pages,$page);
+		subtitle(lang("Manage Collections"));
 	}
 	break;
 	
@@ -60,6 +68,8 @@ switch($mode)
 		{
 			$cbcollection->create_collection($_POST);
 		}
+		
+		subtitle(lang("Create Collection"));
 	}
 	break;
 	
@@ -79,7 +89,9 @@ switch($mode)
 		
 		assign("fields",$reqFields);
 		assign("other_fields",$otherFields);
-		assign('c',$collection);		
+		assign('c',$collection);
+		
+		subtitle(lang("Edit Collection"));		
 	}
 	break;
 	
@@ -115,9 +127,10 @@ switch($mode)
 					for($i=0;$i<$count;$i++)
 					{
 						$cbphoto->collection->remove_item($_POST['check_item'][$i],$cid);
+						$cbphoto->make_photo_orphan($cid,$_POST['check_item'][$i]);
 					}
 					$eh->flush();
-					e(sprintf("selected_items_removed","pictures"),"m");
+					e(sprintf("selected_items_removed","photos"),"m");
 				}
 				$objs = $cbphoto->collection->get_collection_items_with_details($cid,$order);
 			}
@@ -127,12 +140,51 @@ switch($mode)
 		
 		assign('c',$collection);
 		assign('objs',$objs);
+		
+		subtitle(lang("Manage Collection Items"));
 	}
 	break;
+	
+	case "favorite":
+	case "favorites": case "fav":
+	{
+		if(isset($_GET['remove_fav_collection']))
+		{
+			$cid = mysql_clean($_GET['remove_fav_collection']);
+			$cbcollection->action->remove_favorite($cid);	
+		}
+		
+		if(isset($_POST['remove_selected_favs']))
+		{
+			$total = count($_POST['check_col']);
+			for($i=0;$i<$total;$i++)
+			{
+				$cbcollection->action->remove_favorite($_POST['check_col'][$i]);	
+			}
+			$eh->flush();
+			e($total." collection(s) have been removed from favorites","m");
+		}
+		
+		if(get('query')!='')
+		{
+			$cond = " (collection.collection_name LIKE '%".mysql_clean(get('query'))."%' OR collection.collection_tags LIKE '%".mysql_clean(get('query'))."%' )";
+		}
+		
+		$col_arr = array("user"=>userid(),"limit"=>$get_limit,"order"=>tbl('favorites.date_added DESC'),"cond"=>$cond);
+		$collections = $cbcollection->action->get_favorites($col_arr);
+		assign('collections',$collections);
+		
+		$col_arr['count_only'] = TRUE;
+		$total_rows  = $cbcollection->action->get_favorites($col_arr);
+		$total_pages = count_pages($total_rows,VLISTPP);
+		
+		//Pagination
+		$pages->paginate($total_pages,$page);
+		subtitle(lang("Manage Favorite Collections"));
+	}
 		
 }
 
-subtitle(lang("manage_collections"));
 template_files('manage_collections.html');
 display_it();
 ?>

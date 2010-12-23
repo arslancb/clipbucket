@@ -21,8 +21,10 @@ $order = tbl("collection_items").".ci_id DESC";
 
 if($cbcollection->is_viewable($c))
 {
-	$cdetails = $cbcollection->get_collection($c);
-	
+	$param = array("type"=>$type,"cid"=>$c);
+	$cdetails = $cbcollection->get_collections($param);
+	if($cdetails)
+	{
 	switch($type)
 	{
 		case "videos":
@@ -52,10 +54,14 @@ if($cbcollection->is_viewable($c))
 	$pages->paginate($total_pages,$page);
 	
 	assign('objects',$items);	
-	assign("c",$cdetails);
+	assign("c",$cdetails[0]);
 	assign("type",$type);
 	assign("cid",$c);	
-	subtitle($cdetails['collection_name']);	
+	subtitle($cdetails['collection_name']);
+	} else {
+		e(lang("collection_not_exists"));
+		$Cbucket->show_page = false;	
+	}
 } else {
 	$Cbucket->show_page = false;	
 }

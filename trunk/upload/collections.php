@@ -58,9 +58,9 @@ switch($type)
 	}
 	break;
 	
-	case "pictures":
+	case "photos":
 	{
-		$cond['type'] = "pictures";	
+		$cond['type'] = "photos";	
 	}
 }
 

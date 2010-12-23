@@ -492,7 +492,7 @@ class ClipBucket
 	 */
 	function get_cb_news()
 	{
-		$feeds = 5;
+		/*$feeds = 5;
 		$text = 400;
 		
 		if($_SERVER['HTTP_HOST']!='localhost')
@@ -511,7 +511,7 @@ class ClipBucket
 				$items[] = $item[$i];
 			
 			return $items;
-		}
+		}*/
 		
 	}
 	

@@ -437,6 +437,13 @@
 		$cbphoto->photo_embed_codes($params);   
    }
    
+   //Create download button
+   function photo_download_button($params)
+   {
+		global $cbphoto;
+		$cbphoto->download_button($params);   
+   }
+   
    //Function Used To Validate Email
 	
 	function isValidEmail($email){
@@ -2926,8 +2933,20 @@
 		Template('blocks/playlist_form.html');
 	}
 	
-	
-	
+	/**
+	 * Function used to show collection form
+	 */
+	function show_collection_form($params)
+	{
+		global $cbcollection;
+		assign('params',$params);
+		
+		$collectArray = array("order"=>" collection_name DESC","type"=>"videos","user"=>userid());
+		$collections = $cbcollection->get_collections($collectArray);
+		assign("collections",$collections);
+		
+		Template("/blocks/collection_form.html");	
+	}
 	
 	
 	function cbdate($format=NULL,$timestamp=NULL)
@@ -4555,6 +4574,59 @@
 		return false;
 	}
 	
+	/**
+	 * This will update stats like Favorite count, Playlist count
+	 */
+	function updateObjectStats($type='favorite',$object='video',$id,$op='+')
+	{
+		global $db;
+		
+		switch($type)
+		{
+			case "favorite":  case "favourite":
+			case "favorites": case "favourties":
+			case "fav":
+			{
+				switch($object)
+				{
+					case "video": 
+					case "videos": case "v":
+					{
+						$db->update(tbl('video'),array('favourite_count'),array("|f|favourite_count".$op."1")," videoid = '".$id."'");
+					}
+					break;
+					
+					case "photo":
+					case "photos": case "p":
+					{
+						$db->update(tbl('photos'),array('total_favorites'),array("|f|total_favorites".$op."1")," photo_id = '".$id."'");
+					}
+					break;
+					
+					/*case "collection":
+					case "collections": case "cl":
+					{
+						$db->update(tbl('photos'),array('total_favorites'),array("|f|total_favorites".$op."1")," photo_id = '".$id."'");
+					}
+					break;*/
+				}
+			}
+			break;
+			
+			case "playlist": case "playList":
+			case "plist":
+			{
+				switch($object)
+				{
+					case "video":
+					case "videos": case "v":
+					{
+						$db->update(tbl('video'),array('playlist_count'),array("|f|playlist_count".$op."1")," videoid = '".$id."'");
+					}
+				}
+			}
+		}
+	}
 	
 	
 	/**

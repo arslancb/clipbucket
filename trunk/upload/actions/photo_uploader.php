@@ -81,14 +81,14 @@ if(move_uploaded_file($_FILES[$form]['tmp_name'],$path.$filename.".".$extension)
 	// Photo Details
 	$userid = $_POST['userid'];
 	$collection = $_POST['collection'];
-	$name = mysql_clean(substr($info['filename'],0,40));
+	$name = mysql_clean(substr($info['filename'],0,20));
 	$desc = $name." description";
 	$tag = strtolower($name);
 	$key = $cbphoto->photo_key();
 			
 	//Making Array for inserting
-	$flds = array("photo_key","photo_title","photo_description","photo_tags","userid","date_added","filename","ext","owner_ip");
-	$vls  = array($key,$name,$desc,$tag,$userid,NOW(),$filename,$extension,$_SERVER['REMOTE_ADDR']);
+	$flds = array("photo_key","photo_title","photo_description","photo_tags","filename","ext");
+	$vls  = array($key,$name,$desc,$tag,$filename,$extension);
 	
 	if(!empty($collection))
 	{
@@ -101,25 +101,16 @@ if(move_uploaded_file($_FILES[$form]['tmp_name'],$path.$filename.".".$extension)
 	{
 		$detailsArray[$flds[$i]] = $vls[$i];	
 	}
-	
-	//$FileArray[$key] = $detailsArray;
-	$FinalVar = base64_encode(serialize($detailsArray));	
-	echo $FinalVar;
-	
-	
+		
 	// Creating Thumb and Med Size Image
-
-	//$cbphoto->createThumb($path.$filename.".".$extension,$path.$filename."_t.".$extension,$extension,$cbphoto->thumb_width,$cbphoto->thumb_height);
-	//$cbphoto->createThumb($path.$filename.".".$extension,$path.$filename."_m.".$extension,$extension,$cbphoto->mid_width,$cbphoto->mid_height);
-
+	$cbphoto->createThumb($path.$filename.".".$extension,$path.$filename."_t.".$extension,$extension,$cbphoto->thumb_width,$cbphoto->thumb_height);
+	$cbphoto->createThumb($path.$filename.".".$extension,$path.$filename."_m.".$extension,$extension,$cbphoto->mid_width,$cbphoto->mid_height);
 	
+	$image = str_replace($path,PHOTOS_URL."/",$path.$filename."_m.".$extension);
+	$detailsArray['image_file'] = $image;
 	
-	//Inserting into Database
-	//$db->insert(tbl("photos"),$flds,$vls);
-	//$insert_id = $db->insert_id();
-	
-	//Sending ID of photo to SWFupload
-	
+	$FinalVar = base64_encode(serialize($detailsArray));
+	echo $FinalVar;
 } else {	
 	HandleError("File could not be saved.");
 	exit(0);	

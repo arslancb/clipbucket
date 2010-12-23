@@ -875,6 +875,14 @@ class myquery {
 					return true;
 			}
 			break;
+			
+			case "photo":
+			case "p":
+			case "photos":
+			{
+				if($obj['allow_comments'] == 'yes' && config('photo_comments') == 1)
+					return true;	
+			}
 		}
 		return false;
 	}

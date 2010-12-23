@@ -66,7 +66,7 @@ if(isset($_POST['move_selected']))
 		
 }
 
-$photos = $cbphoto->get_photos(array("extra_cond"=>" collection_id = '0'"));
+$photos = $cbphoto->get_photos(array("get_orphans"=>TRUE));
 $collection = $cbphoto->collection->get_collections(array("type"=>"photos"));
 assign('photos',$photos);
 assign('c',$collection);

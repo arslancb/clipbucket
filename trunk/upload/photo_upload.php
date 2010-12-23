@@ -30,7 +30,7 @@ if(isset($_POST['EnterInfo']))
 			$data = unserialize(base64_decode($data));
 			$details[] = $data;
 		}
-		
+		//pr($details,TRUE);
 		assign('photos',$details);
 }
 
