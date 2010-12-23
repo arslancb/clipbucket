@@ -191,16 +191,27 @@
 	 * details of the field such as 'name',validate_func etc
 	 * please check docs.clip-bucket.com for "how to add custom form field"
 	 */
-	function register_custom_form_field($array)
+	function register_custom_form_field($array,$isGroup=false)
 	{
 		global $Upload;
 		$name = key($array);
-		if(is_array($array) && !empty($array[$name]['name']))
+		
+		if(!$isGroup)
 		{
-			foreach($array as $key => $arr)
-				$Upload->custom_form_fields[$key] = $arr;
+			if(is_array($array) && !empty($array[$name]['name']))
+			{
+				foreach($array as $key => $arr)
+					$Upload->custom_form_fields[$key] = $arr;
+			}
+		}else
+		{
+			if(is_array($array) && !empty($array['group_name']) )
+			{
+				$Upload->custom_form_fields_groups[] = $array;
+			}
 		}
 	}
+	
 	
 	
 	/**

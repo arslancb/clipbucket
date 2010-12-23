@@ -370,6 +370,8 @@ span.remember { font-size:10px;  }
 .cbSubmitUpload:hover,.cb_button:hover,.cb_button_2:hover{background-position:-0px -31px}
 .cbSubmitUpload,.cb_button_2{font-size:12px}
 
+input[disabled=disabled].cbSubmitUpload{ background:#f2f2f2; cursor:default; color:#999; border:1px solid #ccc; font:normal 11px Tahoma;}
+
 
 
 .small_button{display:inline-block;height:21px; width:94px; color:#fff; text-align:center; font-size:11px; font-weight:bold; border:none; font-family:Arial, Helvetica, sans-serif; cursor:pointer; background-position:-0px -62px}
@@ -833,3 +835,8 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 
 .CollectionResult .error { color:#ed0000; }
 .CollectionResult .msg { color:#0099cc; }
+
+.uploadErrorDiv, .uploadSuccessDiv{padding:5px 5px 5px 35px; background:url(../images/ok.png) no-repeat 2px 0px;}
+.uploadErrorMsg, .uploadSuccessMsg{font-size:14px; font-weight:bold; color:#7fa534; display:inline-block; line-height:20px; height:20px;}
+.uploadErrorDiv{ background:url(../images/error.png) no-repeat -3px 0px;}
+.uploadErrorMsg{color:#ed0000}

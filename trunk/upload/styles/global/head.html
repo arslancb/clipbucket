@@ -1,88 +1,137 @@
-{if $smarty.const.THIS_PAGE == 'upload' && $step =="2"}
+{if $smarty.const.THIS_PAGE == 'upload'}
 
-<script src="{$js}/swfupload/swfupload.js" type="text/javascript"></script>
-<script src="{$js}/swfupload/plugins/all_in_one.js" type="text/javascript"></script>
+<link href="{$js}/uploadify/uploadify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="{$js}/uploadify/swfobject.js"></script>
+<script type="text/javascript" src="{$js}/uploadify/jquery.uploadify.v2.1.4.js"></script>
+
 <script type="text/javascript">
-{assign var="get_api_server" value=$multi_server->get_server_api()}
-
-{if $get_api_server}
-	var result_page = '{$get_api_server.server_api_path}/actions/file_results.php';
-	var download_page = '{$get_api_server.server_api_path}/actions/file_downloader.php';
-{/if}
-
-		var swfu;
-		var file_name = '{$file_name}';
+var jsURL = '{$js}';
+var uploadError = false;
+var file_name = '{$file_name}';
+var lang = new Array();
+lang['saveData'] = 'Save Data';
+lang['savingData'] = 'Saving...';
+var fileExt = '{$Cbucket->list_extensions()|replace:",":";"}';
 {literal}
-		
-window.onload = function() {
-	var settings = {
-		{/literal}
-		
-		
-		{if $get_api_server}
-			flash_url : "{$get_api_server.server_api_path}/js/swfupload/swfupload.swf",
-			upload_url: "{$get_api_server.server_api_path}/actions/file_uploader.php",
-		{else}
-			flash_url : "{$js}/swfupload/swfupload.swf",
-			upload_url: "{$baseurl}/actions/file_uploader.php",
-		{/if}
-		
-		button_image_url: "{$imageurl}/cb_button.png",
-		post_params: 
-		{literal}
-		{
-		{/literal}
-			"file_name" : file_name
-		{literal}
-		}
-		{/literal},
-		
-		
-		file_size_limit : "{$Cbucket->configs.max_upload_size} MB",				
-		file_types : "{$Cbucket->list_extensions()}",
-		file_types_description : "Video Files",
-		file_upload_limit : 1,
-		file_queue_limit : 0,
-		
-		{literal}
-		custom_settings : {
-			progressTarget : "fsUploadProgress",
-			cancelButtonId : "btnCancel"
-		},
-		debug: false,
 
-		// Button settings
-		
-		button_placeholder_id: "spanButtonPlaceHolder",
-		button_width: 77,
-		button_height: 22,
-		button_text_style: ".cb_button_font { font-weight:bold; font-family:Arial, Helvetica, sans-serif;font-size:12;color:#333}",
-		button_text_left_padding: 18,
-		button_text_top_padding: 2,
+  function show_error(msg,ID,fade)
+  { $('#file_uploads'+ID+' .percentage')
+  	.after('<div class=\"uploadErrorDiv\"><div class=\"uploadErrorMsg\">'+msg+'<\/div><\/div>'); 
+	if(fade){$('.uploadSuccessDiv').delay(3000).fadeOut('slow');}
+  }
+  
+  function show_message(msg,ID,fade)
+  { $('#file_uploads'+ID+' .percentage')
+  .after('<div class=\"uploadSuccessDiv\"><div class=\"uploadSuccessMsg\">'+msg+'<\/div><\/div>');
+  if(fade){$('.uploadSuccessDiv').delay(3000).fadeOut('slow');}
+  }
 
-		button_text: '<span class="cb_button_font">Upload</span>',
-		
-		// The event handler functions are defined in handlers.js
-		file_queued_handler 			: fileQueued,
-		file_queue_error_handler 		: fileQueueError,
-		file_dialog_complete_handler 	: fileDialogComplete,
-		upload_start_handler 			: uploadStart,
-		upload_progress_handler 		: uploadProgress,
-		upload_error_handler 			: uploadError,
-		upload_success_handler 			: uploadSuccess,
-		upload_complete_handler 		: uploadComplete,
-		queue_complete_handler 			: queueComplete	// Queue plugin event
-		
 
-	}
-
-	swfu = new SWFUpload(settings);
+function doUpdateVideo(formId,ID)
+{
+	var formObjectData = $(formId).serialize();
+	//alert(serializedData);
 	
-	load_quicklist_box();
-	ini_cookies();
- };
+	$('#updateVideoDataLoading').html('<img src="'+imageurl+'/ajax-loader.gif" />');
+	$('#cbSubmitUpload'+ID)
+	.attr('disabled','disabled')
+	.attr("value",lang.savingData)
+	.attr("onClick","return false;");
+	
+	$.post(
+	baseurl+'/actions/file_uploader.php',formObjectData,function(data)
+	{
+		show_message(data,ID,true);
+		$('#updateVideoDataLoading').empty();
+		$('#cbSubmitUpload'+ID)
+		.attr("disabled","")
+		.attr("value",lang.saveData)
+		.attr("onClick","doUpdateVideo('#uploadForm"+ID+"','"+ID+"')")
+	},"text"
+	)
+}
+
+$(document).ready(function()
+{
+  
+
+  var instanceNumber = 0;
+  function showUploadify(object)
+  {
+  $(object).uploadify({
+    'uploader'  : jsURL+'/uploadify/uploadify.swf',
+    'script'    : baseurl+'/actions/file_uploader.php',
+    'cancelImg' : jsURL+'/uploadify/cancel.png',
+    'auto'      : true,
+	'removeCompleted' : false,
+	'displayData' : 'both',
+	'fileExt'     : fileExt,
+	'multi'		  : true,
+	'fileDesc'    : 'Video Files',
+	'onOpen'	 : function(event,ID,fileObj) {
+		
+		uploadError = false;
+		filename = new Date().getTime() + Math.round((99977 - 10016) * Math.random() + 1) ;
+		$.ajax({
+			  url: baseurl+'/actions/file_uploader.php',
+			  type: "POST",
+			  data:({"getForm":"get_form","title":fileObj.name,"objId":ID}),
+			  dataType: "text",
+			  success: function(data)
+			  {
+			    if(!uploadError)
+				{
+					$('#file_uploads'+ID).append(data);
+				}
+			  }
+			});
+			
+			return true;
+	},
+	'onComplete' : function(event, ID, fileObj, response, data)
+	{
+		var resObj = eval('(' + response + ')');
+		var vid  = "";
+		if(resObj.success=='yes')
+		{
+			var file_name = resObj.file_name;
+			$.ajax({
+				  url: baseurl+'/actions/file_uploader.php',
+				  type: "POST",
+				  data:({"insertVideo":"yes","title":fileObj.name,"file_name":file_name}),
+				  dataType: "text",
+				  success: function(data)
+				  {
+					vid = data;
+					$("#uploadForm"+ID+" #title").after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
+					.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
+					$('#cbSubmitUpload'+ID)
+					.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
+					.attr("disabled","")
+					.attr("value",lang.saveData)
+					.attr("onClick","doUpdateVideo('#uploadForm"+ID+"','"+ID+"')");
+					
+					doUpdateVideo('#uploadForm'+ID,ID);
+				  }
+				});
+		}else
+		{
+			$("#upload_form"+ID).empty().remove();
+			show_error(resObj.error,ID,false);	
+			uploadError = true;
+			return false;
+		}
+    },
+  });
+  }
+  
+  
+  showUploadify('#file_uploads');
+});
+
 {/literal}
 </script>
+
 
 {else}
 <script type="text/javascript">
@@ -95,74 +144,6 @@ window.onload = function() {
 </script>
 {/if}
 
-
-<link href="{$js}/uploadify/uploadify.css" type="text/css" rel="stylesheet" />
-<script type="text/javascript" src="{$js}/uploadify/swfobject.js"></script>
-<script type="text/javascript" src="{$js}/uploadify/jquery.uploadify.v2.1.4.js"></script>
-
-
-
-
-<script type="text/javascript">
-var jsURL = '{$js}';
-var uploadError = false;
-var file_name = '{$file_name}';
-var fileExt = '{$Cbucket->list_extensions()|replace:",":";"};*.*';
-{literal}
-$(document).ready(function()
-{
-  $('#file_uploads').uploadify({
-    'uploader'  : jsURL+'/uploadify/uploadify.swf',
-    'script'    : baseurl+'/actions/file_uploader.php',
-    'cancelImg' : jsURL+'/uploadify/cancel.png',
-    'auto'      : true,
-	'removeCompleted' : false,
-	'displayData' : 'both',
-	'fileExt'     : fileExt,
-	'fileDesc'    : 'Video Files',
-	'scriptData'  : {"file_name" : file_name},
-	'onOpen'	 : function(event,ID,fileObj) {
-		$.ajax({
-			  url: baseurl+'/actions/file_uploader.php',
-			  type: "POST",
-			  data:({"getForm":"get_form","title":fileObj.name,"objId":ID}),
-			  dataType: "text",
-			  success: function(data)
-			  {
-			    if(!uploadError)
-				$('#file_uploads'+ID).append(data);
-			  }
-			});
-			
-			return true;
-	},
-	'onComplete' : function(event, ID, fileObj, response, data)
-	{
-		if(response=='success')
-		{
-			$.ajax({
-				  url: baseurl+'/actions/file_uploader.php',
-				  type: "POST",
-				  data:({"insertVideo":"yes","title":fileObj.name,"file_name":file_name}),
-				  dataType: "text",
-				  success: function(data)
-				  {
-				  	$('#upload_form'+ID).remove();
-					uploadError = true;
-					alert(data);
-				  }
-				});
-			$('#cbSubmitUpload'+ID).attr("disabled","").addClass('cbSubmitUpload');
-		}else
-		{
-			alert(response);
-			return false;
-		}
-    },
-  });
-});
-{/literal}
-</script>
 
 
 {if $smarty.const.THIS_PAGE == 'photo_upload'}

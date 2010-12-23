@@ -15,6 +15,7 @@
 class Upload{
  
  	var $custom_form_fields = array();  //Step 1 of Uploading
+	var $custom_form_fields_groups = array() ; //Groups of custom fields
 	var $custom_upload_fields = array(); //Step 2 of Uploading
 	var $actions_after_video_upload = array('activate_video_with_file');
 	
@@ -953,17 +954,24 @@ class Upload{
 	/**
 	 * Function used to load custom form fields
 	 */
-	function load_custom_form_fields($data)
+	function load_custom_form_fields($data,$group_based=false)
 	{
-		$array = $this->custom_form_fields;
-		foreach($array as $key => $fields)
+		if(!$group_based)
 		{
-				if(!$fields['value'])
-					$fields['value'] = $data[$fields['db_field']];
-				$new_array[$key] = $fields;
+			$array = $this->custom_form_fields;
+			foreach($array as $key => $fields)
+			{
+					if(!$fields['value'])
+						$fields['value'] = $data[$fields['db_field']];
+					$new_array[$key] = $fields;
+			}
+			return $new_array;
+		}else
+		{
+			return $array = $this->custom_form_fields_groups;
 		}
 		
-		return $new_array;
+		
 	}
 	
 	
@@ -1073,6 +1081,109 @@ class Upload{
 				e("Invalid Image file");
 		}
 		return false;
+	}
+	
+	
+	
+	/**
+	 * load_video_fields
+	 * 
+	 * @param $input default values for all videos
+	 * @return array of video fields
+	 *
+	 * Function used to load Video fields
+	 * in clipbucket v2.5 , video fields are loaded in form of groups arrays
+	 * each group has it name and fields wrapped in array 
+	 * and that array will be part of video fields
+	 */
+	function load_video_fields($input)
+	{
+		$fields = array
+		(
+			array
+			(
+				'group_name' => lang('required_fields'),
+				'group_id'	=> 'required_fields',
+				'fields'	=> $this->loadRequiredFields($input),
+			),
+			array
+			(
+				'group_name' => lang('vdo_share_opt'),
+				'group_id'	=> 'sharing_fields',
+				'fields'	=> $this->loadOptionFields($input),
+			),
+			array
+			(
+				'group_name' => lang('date_recorded_location'),
+				'group_id'	=> 'date_location_fields',
+				'fields'	=> $this->loadLocationFields($input),
+			)
+		);
+		
+		//Adding Custom Fields
+		$custom_fields = $this->load_custom_form_fields($input,false);
+		
+		if($custom_fields)
+		{
+			$more_fields_group = 
+			array
+			(
+				'group_name' => lang('more_fields'),
+				'group_id'	=> 'custom_fields',
+				'fields'	=> $custom_fields,
+			);
+		}
+		
+		//Adding Custom Fields With Groups
+		$custom_fields_with_group = $this->load_custom_form_fields($input,true);
+		
+		//Finaling putting them together in their main array called $fields
+		if($custom_fields_with_group)
+		{
+			$custFieldGroups = $custom_fields_with_group;
+		
+			foreach($custFieldGroups as $fieldGroup)
+			{
+				
+				$group_id = $fieldGroup['group_id'];
+				
+				foreach($fields as $key => $field)
+				{ 
+			
+					if($field['group_id'] == $group_id)
+					{
+						$inputFields = $field['fields'];
+						$newFields = $fieldGroup['fields'];
+						$mergeField = array_merge($inputFields,$newFields);
+						
+						//Finally Updating array
+						$newGroupArray =
+						array
+						(
+							'group_name' => $field['group_name'],
+							'group_id' => $field['group_id'],
+							'fields' => $mergeField,
+						);
+						
+						$fields[$key] = $newGroupArray;
+						
+						$matched = true;
+						break;
+					}else
+						$matched = false;
+						
+				}
+				
+				if(!$matched)
+					$fields[] = $fieldGroup;
+				
+			}
+		}
+		
+		if($more_fields_group)
+			$fields[] = $more_fields_group;
+				
+		return $fields;
 	}
 
 }	
