@@ -1,9 +1,3 @@
-{assign var='requiredFields' value=$Upload->loadRequiredFields()}
-{assign var='optionFields' value=$Upload->loadOptionFields()}
-{assign var='locationFields' value=$Upload->loadLocationFields()}
-{assign var='cust_fields'  value=$Upload->custom_form_fields}
-
-
 {lang code='vdo_upload_step2' assign='vdo_upload_step'}
 <div class="upload_left">
 
@@ -17,8 +11,7 @@
     	$(document).ready(function() { show_menu('file_upload_div') })
 	</script>		
     {/literal}
-    <form action="{$upload_link}" method="post" enctype="multipart/form-data" name="{$upload_form_name}" id="{$upload_form_name}" >
-    <input name="file_name" type="hidden" value="{$file_name}">
+    
     {assign var=opt_list value=$Upload->load_upload_options()} 
 	<ul class="upload_opts clearfix">
     {foreach from=$opt_list item=opt key=divid}
@@ -28,50 +21,15 @@
     <div class="clear"></div>         
     {foreach from=$opt_list item=opt key=divid}      
         <div class="upload_opt" id="{$divid}">
- 			
-
-        </div> <!--upload_opt-->
+			{load_form name=$opt.load_func button_class='cb_button_2' class='upload_form'} 
+        </div>
     {/foreach} 
-    </form>
-    
-    <input id="file_uploads" name="file_uploads" type="file" />
-            <a href="javascript:$('#file_uploads').uploadifyUpload();">Upload Files</a>
     
 	
     {/if}
     
     
     <!-- STEP 1 ENDS HERE -->
-    
-    
-    
-    <!-- STEP 2 - UPLOADING VIDEO FILES -->
-    {if $step =="2"}
-    <h2>{$vdo_upload_step|sprintf:2}</h2>
-    {literal}
-    <script type="text/javascript">
-    	$(document).ready(function() { show_menu('file_upload_div') })
-	</script>		
-    {/literal}
-    <form action="{$upload_link}" method="post" enctype="multipart/form-data" name="{$upload_form_name}" id="{$upload_form_name}" >
-      {$Upload->load_post_fields()}
-    <input name="file_name" type="hidden" value="{$file_name}">
-
-    {assign var=opt_list value=$Upload->load_upload_options()} 
-	<ul class="upload_opts clearfix">
-    {foreach from=$opt_list item=opt key=divid}
-		<li class="upload_opt_head moveL {$divid}" onclick="show_menu('{$divid}')">{$opt.title}</li>
-	{/foreach}
-    </ul>
-    <div class="clear"></div>         
-    {foreach from=$opt_list item=opt key=divid}      
-        <div class="upload_opt" id="{$divid}">
-        	{load_form name=$opt.load_func button_class='cb_button_2' class='upload_form'}                        
-        </div> <!--upload_opt-->
-    {/foreach} 
-    </form>
-    {/if}
-    <!-- STEP 2 ENDS HERE -->
     
     <!-- STEP 3 - VIEWING SUCCESSFULL PAGE -->
     {if $step==3}

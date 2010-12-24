@@ -39,11 +39,12 @@ if($_POST['del_log'])
 	$use_crons = config('use_crons');
 	if($quick_conv=='yes' || $use_crons=='no')
 	{
+		$targetFileName = $details['file_name'];
 		//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
 		if (stristr(PHP_OS, 'WIN')) {
-			exec(php_path()." -q ".BASEDIR."/actions/video_convert.php");
-		} else {
-			exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
+				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName");
+			} else {
+				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName &> /dev/null &");
 		}
 	}
 	

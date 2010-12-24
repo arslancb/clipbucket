@@ -17,24 +17,28 @@
 		global $file_name;
 		if($params['class'])
 			$class = ' '.$params['class'];
-		echo '<div class="upload_form_div clearfix'.$class.'">';
-		echo '<label for="check_url" class="label">Please enter remote file url</label>';
-		echo '<input type="textfield" id="remote_file_url" name="remote_file_url"  class="upload_input"/>';
-		echo '<input name="submit_upload" type="hidden" value="Upload Data Now!">';
-		echo '<div id="remote_upload_result_cont"></div>';
-		echo '
-				<div id="loading" align="center" style="width:400px"></div>
-				<div class="remote_main_bar" id="main_bar">
-				<div id="prog_bar" class="remote_prog_bar"></div>
-				</div>
-				<div id="dspeed" align="center" style="width:400px"></div>
-				<div id="eta" align="center" style="width:400px"></div>
-				<div id="status" align="center" style="width:400px"></div>
-				<div id="time_took" align="center" style="width:400px"></div>
-				<div id="results" align="center" style="width:400px"></div>
-				';
-		echo '<div align="right"><input type="button" name="check_url" id="check_url" value="Upload" onClick="check_remote_url()" class="'.$params['button_class'].'"></div>';
-		echo '</div>';
+		echo
+		'<div class="upload_form_div clearfix'.$class.'" id="rempteUploadFormDiv">
+        <label for="remote_file_url" class="label">'.lang('please_enter_remote_file_url').'</label>
+        <input name="remote_file_url" type="textfield"  class="remoteUrlInput" 
+        id="remote_file_url" value="e.g http://clipbucket.com/sample.flv" 
+        onclick="if($(this).val()==\'e.g http://clipbucket.com/sample.flv\') $(this).val(\'\')"/>
+        <input name="submit_upload" type="hidden" value="Upload Data Now!">
+        
+        <div id="remote_upload_result_cont"></div>
+        <div class="remote_main_bar" id="main_bar">
+            <div id="prog_bar" class="remote_prog_bar"></div>
+        </div>
+        <div align="center" id="loading" style="height:16px; margin:5px 0px"></div>
+        <div>
+            '.lang('remoteDownloadStatusDiv').'
+        </div>                
+        <div align="right">
+            <input type="button" name="remoteUploadBttn" id="remoteUploadBttn" value="Upload" onClick="check_remote_url()" class="cbSubmitUpload">
+            <input type="button" name="remoteUploadBttnStop" id="remoteUploadBttnStop" value="Cancel"   class="cbSubmitUpload" style="display:none"/>
+        </div>
+   	 	</div>
+   	 	<div id="remoteForm"></div> ';
 	}
 	
 ?>

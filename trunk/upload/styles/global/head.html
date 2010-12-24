@@ -11,6 +11,7 @@ var file_name = '{$file_name}';
 var lang = new Array();
 lang['saveData'] = 'Save Data';
 lang['savingData'] = 'Saving...';
+lang['remoteUploadFile'] = '{lang code="remote_upload_file"}';
 var fileExt = '{$Cbucket->list_extensions()|replace:",":";"}';
 {literal}
 
@@ -21,8 +22,8 @@ var fileExt = '{$Cbucket->list_extensions()|replace:",":";"}';
   }
   
   function show_message(msg,ID,fade)
-  { $('#file_uploads'+ID+' .percentage')
-  .after('<div class=\"uploadSuccessDiv\"><div class=\"uploadSuccessMsg\">'+msg+'<\/div><\/div>');
+  { $('#uploadForm'+ID)
+  	.prepend('<div class=\"uploadSuccessDiv\"><div class=\"uploadSuccessMsg\">'+msg+'<\/div><\/div>');
   if(fade){$('.uploadSuccessDiv').delay(3000).fadeOut('slow');}
   }
 

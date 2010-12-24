@@ -97,6 +97,21 @@ var loading = loading_img+" Loading...";
 		// -->
 
 	
+	
+	function randomString()
+	{
+		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+		var string_length = 8;
+		var randomstring = '';
+		for (var i=0; i<string_length; i++) {
+			var rnum = Math.floor(Math.random() * chars.length);
+			randomstring += chars.substring(rnum,rnum+1);
+		}
+		return randomstring;
+	}
+
+
+
 	var download = 0;
 	var total_size = 0;
 	var cur_speed = 0;
@@ -108,14 +123,19 @@ var loading = loading_img+" Loading...";
 	
 	
 	var force_stop = false;
+	var remoteObjID = randomString();
 	
 	function check_remote_url()
 	{
+		$('#remoteUploadBttn').attr("disabled","disabled").hide();
+		$('#remoteUploadBttnStop').show();
 		var file = $("#remote_file_url").val();
 		force_stop = false;		
 		if(!file || file=='undefined')
 		{
 			alert("Please enter file url");
+			$('#remoteUploadBttn').attr('disabled','').show();
+			$('#remoteUploadBttnStop').attr("disabled","disabled").hide();
 			return false;
 		}
 		var ajaxCall = $.ajax({
@@ -125,8 +145,11 @@ var loading = loading_img+" Loading...";
 			  dataType : 'json',
 			  beforeSend : function()
 			  {
+				  
 				  status_update();
-				  $("#loading").html(loading_img+" uploading file, please wait...");
+				  var remoteFileName = getName(file);
+				 $("#loading").html('<div style="float: left; display: inline-block;"><img src="'+imageurl+'/ajax-loader.gif"></div><div style="float: left; line-height: 16px; padding-left:5px">'+lang.remoteUploadFile+'</div><div class="clear"></div>');
+				 $('#remoteFileName').replaceWith('"'+remoteFileName+'"');
 			  },
 			  success: function(data)
 			  {
@@ -134,6 +157,7 @@ var loading = loading_img+" Loading...";
 				  if(data.error)
 				  {		  
 					force_stop = true;
+					$('#remoteUploadBttn').attr('disabled','');
 					alert(data.error);
 				  }				  
 				  $("#loading").html('');
@@ -141,10 +165,15 @@ var loading = loading_img+" Loading...";
 		   }
 		);
 		
+		$('#remoteUploadBttnStop').click(function() { 
+		ajaxCall.abort(); force_stop=true; $("#loading").html('');$('#remoteDownloadStatus').hide(); $(this).hide();$('#remoteUploadBttn').attr('disabled','').show(); });
+		
+		
+		
 	
 	}
 	
-	
+	var hasLoaded = false;
 	var perc_download = 0;
 	function status_update()
 	{
@@ -175,34 +204,61 @@ var loading = loading_img+" Loading...";
 						var theSpeed = Math.round(speed/ 1024 ) + " Kbps";
 					  
 					perc_download = Math.round(download/total*100);
-					 
 					
-					$('#prog_bar').width(perc_download+'%');
+					$('#remoteDownloadStatus').show();
+					//$('#prog_bar').width(perc_download+'%');
+					$('#prog_bar').animate({width:perc_download+'%'},1000);
 					$('#prog_bar').html(perc_download+'%');
 					$('#dspeed').html(theSpeed);
-					$('#eta').html('Time Left '+eta_fm);
+					$('#eta').html(eta_fm);
 					$('#status').html(download_fm+' of '+total_fm);
 				  }
 					
-						var intval = status_refesh*1000;
-						if(perc_download<100 && !force_stop)
-						setTimeout(function(){status_update()},intval);
-						else if(perc_download==100 && total>1)
-						{
-							$('#time_took').html('Time Took : '+time_took_fm);
-							//Del the log file
-							$.ajax({
-							  url: result_page,
-							  type: "POST",
-							  data: ({del_log:'yes',file_name:file_name}),
-							  success:function(data)
-							  {
-								 submit_upload_form();
-							  }
+					var intval = status_refesh*1000;
+					if(perc_download<100 && !force_stop)
+					setTimeout(function(){status_update()},intval);
+					else if(perc_download==100 && total>1)
+					{
+						$('#time_took').html('Time Took : '+time_took_fm);
+						//Del the log file
+						$.ajax({
+						  url: result_page,
+						  type: "POST",
+						  data: ({del_log:'yes',file_name:file_name}),
+						  success:function(data)
+						  {
+							  $('#remoteUploadBttnStop').hide();
 							  
-							  });
-						}
-	
+							  $.post(baseurl+'/actions/file_uploader.php',
+								  {"getForm":"get_form","title":$("#remote_file_url").val(),"objId":remoteObjID},
+								  function(data)
+								  {
+										$('#remoteForm').append(data);
+								  },'text');
+			
+							  $.ajax({
+								  url: baseurl+'/actions/file_uploader.php',
+								  type: "POST",
+								  data:({"insertVideo":"yes","title":$("#remote_file_url").val(),"file_name":file_name}),
+								  dataType: "json",
+								  success: function(data)
+								  {
+									
+									vid = data;
+									$('#cbSubmitUpload'+remoteObjID)
+									.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
+									.attr("disabled","")
+									.attr("value",lang.saveData)
+									.attr("onClick","doUpdateVideo('#uploadForm"+remoteObjID+"','"+remoteObjID+"')")
+									.after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
+									.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
+
+								  }
+								});								
+						  }
+						  
+						  });
+					}
 				  }
 			   }
 			);
@@ -955,11 +1011,8 @@ function collection_actions(form,mode,objID,result_con,type,cid)
 }
 
 // Simple function to open url with javascript
-function openURL(url,newWindow) {
-	if(newWindow == 'new')
-		window.open(url,'mywindow');
-	else	
-		document.location = url;
+function openURL(url) {
+	document.location = url;
 }
 
 
@@ -967,7 +1020,7 @@ function openURL(url,newWindow) {
 function get_item(obj,ci_id,cid,type,direction)
 {
 	var btn_text = $(obj).text();
-	$(obj).html(loading);
+	$(obj).text('Working');
 		
 	$.post(page,
 		   {
@@ -982,7 +1035,7 @@ function get_item(obj,ci_id,cid,type,direction)
 				if(!data)
 				{
 					alert('No '+type+' returned');
-					$(obj).html(btn_text);
+					$(obj).text(btn_text);
 				} else {
 					var jsArray = new Array(type,data['cid'],data['key']);
 					construct_url(jsArray);
@@ -1031,7 +1084,7 @@ function onReload_item()
 
 function pagination(object,cid,type,pageNumber)
 {
-	var obj = $(object), objID = obj.id, parent = obj.parent(), parentID;
+	obj = $(object); objID = obj.id; parent = obj.parent();
 	
 	if(parent.attr('id'))
 		parentID = parent.attr('id')
@@ -1094,101 +1147,73 @@ function ajax_add_collection(obj)
 		Child = $("#"+ID).children().filter('div'),
 		total = Child.length, eachObj, AjaxCall;
 }*/
-var AjaxIteration = 0;
-var InputIteration = 0;
 
 function callAjax(obj)
 {
-	var getArray = getDetails(obj),
-		TotalItems = getArray.length, AjaxCall,
-		inputs = getInputs(obj,true),
-		element = inputs[InputIteration++];
-		
-		if(AjaxIteration == getArray.length)
+	var getArray = updatePhotos(obj),
+		TotalItems = getArray.length;
+	alert(TotalItems);	
+	$.each(getArray,function(i,v) { alert(i+" "+v) })	
+}
+
+function updatePhotos(obj)
+{
+	var ID = obj.form.id,
+		Child = $("#"+ID).children().filter('div'),
+		eachObj, AjaxCall, i = 0, ParamArray = new Array(Child.length);
+	var err_count = 0;	
+	$.each(Child,function(index,elem){
+		eachObj = $(elem);		
+		var inputs = $("#"+elem.id+" :input"),
+			query = '';
+			
+		inputs.each(function(ind, input)
 		{
-			$(obj).html(TotalItems+" Photos Saved. Continue").removeAttr('disabled');
-			return;
-		}
-		else
-		{	
-		
-			AjaxCall = 
-				$.ajax
-				({
-					url: page,
-					type: "post",
-					dataType: "json",
-					data: getArray[AjaxIteration++],
-					cache: false,
-					beforeSend: function() { $(obj).html(loading_img+" Saving "+AjaxIteration+" of out "+TotalItems); $(obj).attr('disabled','disabled') },
-					success: function(data) { 
-						$('#'+element.id+" div:first-child > div").slideUp('normal');
-						$('#'+element.id+" div:first-child").css('padding','10px').html(
-						"<div style='font:bold 11px Tahoma;'>"+data.photo_title+" is now saved.</div>"
-						).fadeIn(350,function() { callAjax(obj);  });
-						
-					} 	
-				});
-		}
-}
-
-function getInputs(obj,return_array)
-{
-	var	Child = $(obj).parent().children().filter('form'), InputArray = [];
-	if(return_array == true)
-	{
-		$.each(Child,function(index,element){
-				InputArray[index] = element;
+			if(input.type == "text" || input.type == "textarea" || input.type == "hidden")
+			{
+				if(input.value == null || input.value == '')
+				{
+					err_count++;				
+					input.style.border = '2px solid #ed0000';											
+					//ShouldContinue = false;						
+				} else {
+					query += input.id+"="+input.value+"&";
+					err_count = 0;
+					//ShouldContinue = true;
+				}
+			}
+			
+			if(input.type == "select-one" && input.selected)
+				query += input.id+"="+input.value+"&";
+			if(input.type == "radio" && input.checked)
+				query += input.id+"="+input.value+"&";
 		})
-		return InputArray;
-	} else
-		return Child;
-}
-
-function getDetails(obj)
-{
-	var forms = getInputs(obj), ParamArray = new Array(forms.length);
-		
-	$.each(forms,function(index,form) {
-			query = $("#"+form.id+" *").serialize();
-			query += "&mode=ajaxPhotos";
-			ParamArray[index] = query;
+		query += "mode=ajaxPhotos";
+		ParamArray[index] = query;
+		/*	AjaxCall = 
+			$.ajax
+			({
+				url: page,
+				type: "post",
+				dataType: "text",
+				data: query,
+				cache: false,
+				beforeSend: function() { $(obj).html(loading_img+" Saving"); $(obj).attr('disabled','disabled') },
+				complete : function() { $(obj).html(Child.length+" photos saved") },
+				success: function(data) { $("#"+eachObj.attr('id')).hide() } 	
+			});
+			saving++;
+		*/
 	})
-		
+	
 	return ParamArray;
 }
 
-function viewRatings(object,pid)
+
+
+function getName(File)
 {
-	var obj = $(object), innerHTML = obj.html();
-	if(document.getElementById('RatingStatContainer'))
-		$("#RatingStatContainer").toggle();
-	else
-	{	
-		loadAjax = 
-		$.ajax
-		({
-			url:page,
-			type: "post",
-			dataType: "text",
-			data: { mode:"viewPhotoRating", photoid:pid },
-			beforeSend: function() { obj.html(loading); },
-			success:function(data) {
-				obj.html(innerHTML); 
-				if(data)
-				{
-					$("<div />").attr('id','RatingStatContainer')
-					.addClass('clearfix')
-					.css({
-						"padding" : "8px",
-						"font" : "normal 11px Tahoma",
-						"border" : "1px solid #ccc"	
-					}).html(data).fadeIn(350).insertAfter(obj);
-				} else {
-					obj.removeAttr('onclick');
-					alert("Photo has not recieved any rating yet.");	
-				}
-			}	
-		});
-	}
+	var url = File;
+	var filename = url.substring(url.lastIndexOf('/')+1);
+	return filename;
 }

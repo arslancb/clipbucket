@@ -374,7 +374,7 @@ span.remember { font-size:10px;  }
 .cbSubmitUpload:hover,.cb_button:hover,.cb_button_2:hover{background-position:-0px -31px}
 .cbSubmitUpload,.cb_button_2{font-size:12px}
 
-input[disabled=disabled].cbSubmitUpload{ background:#f2f2f2; cursor:default; color:#999; border:1px solid #ccc; font:normal 11px Tahoma;}
+input[disabled].cbSubmitUpload{ background:#f2f2f2; cursor:default; color:#999; border:1px solid #ccc; font:normal 11px Tahoma;}
 
 
 
@@ -779,19 +779,27 @@ ul.upload_opts li.selected { cursor:pointer; background:none; border:1px solid; 
 
 .remote_main_bar
 {
-	width:400px;
-	height:30px;
-	border:1px solid #666;
+	width:100%;
+	height:20px;
+	background-image:url(../images/uploading_bar.png);
+	border-width:0px 1px 0px 1px; border-color:#dedede; border-style:solid;
 }
-
+#rempteUploadFormDiv{padding-right:10px;}
 .remote_prog_bar
 {
-	height:30px;
-	background-color:#53baff;
+	height:20px;
+	background-image:url(../images/uploading_bar.png);
+	background-position:-0px -20px;
 	text-align:center;
-	line-height:30px;
+	font:normal 13px  "Arial Black", Gadget, sans-serif;
+	color:#fff;
+	line-height:20px;
 	width:0px
 }
+
+.remoteDownloadStatus{ font-weight:bold; display:none }
+#remote_upload_div .remoteUrlInput {width:100%; border-style:solid; border-color:#dedede; border-width:1px 1px 0px 1px; height:20px; color:#999999 }
+
 /* COLLECTION */
 .collect_grid { position:relative; }
 .obj_title { width:110px; display:inline-block; }
