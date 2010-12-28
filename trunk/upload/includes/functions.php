@@ -416,6 +416,12 @@
 			return $sizes[1];   
    }
    
+   //Load Photo Upload Form
+   function loadPhotoUploadForm($params)
+   {
+		global $cbphoto;
+		return $cbphoto->loadUploadForm($params);   
+   }
    //Photo File Fetcher
    function get_photo($params)
    {

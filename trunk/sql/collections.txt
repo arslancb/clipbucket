@@ -29,6 +29,11 @@ CREATE TABLE IF NOT EXISTS `cb_collections` (
   PRIMARY KEY (`collection_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+ALTER TABLE  `cb_collections` CHANGE  `broadcast`  `broadcast` VARCHAR( 10 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  'public',
+CHANGE  `allow_comments`  `allow_comments` VARCHAR( 4 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  'yes',
+CHANGE  `active`  `active` VARCHAR( 4 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  'yes',
+CHANGE  `public_upload`  `public_upload` VARCHAR( 4 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT  'yes'
+
 
 CREATE TABLE IF NOT EXISTS `cb_collection_items` (
   `ci_id` bigint(20) NOT NULL AUTO_INCREMENT,

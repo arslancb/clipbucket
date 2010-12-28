@@ -41,7 +41,7 @@ switch($mode)
 				$cbphoto->delete_photo($_POST['check_photo'][$i]);	
 			}
 			$eh->flush();
-			e($total." photos has been deleted successfully","m");
+			e(sprintf(lang("total_photos_deleted"),$total),"m");
 		}
 		
 		$photo_arr = array("user"=>userid(),"limit"=>$get_limit, 'order'=>' date_added DESC');
@@ -61,7 +61,7 @@ switch($mode)
 		
 		//Pagination
 		$pages->paginate($total_pages,$page);
-		subtitle(lang("Manage Photos"));
+		subtitle(lang("manage_photos"));
 	}
 	break;
 	
@@ -84,7 +84,7 @@ switch($mode)
 				updateObjectStats('fav','photo',$_POST['check_photo'][$i],'-');	
 			}
 			$eh->flush();
-			e($total." photo(s) been removed from favorites","m");
+			e(sprintf(lang("total_fav_photos_removed"),$total),"m");
 		}
 		
 		if(get('query')!='')
@@ -102,7 +102,7 @@ switch($mode)
 		
 		//Pagination
 		$pages->paginate($total_pages,$page);
-		subtitle(lang("Manage Favorite Photos"));
+		subtitle(lang("manage_favorite_photos"));
 	}
 	break;
 	
@@ -123,7 +123,7 @@ switch($mode)
 				$cbphoto->delete_photo($_POST['check_photo'][$i],TRUE);
 			}
 			$eh->flush();
-			e($total." photos has been deleted successfully.","m");
+			e(sprintf(lang("total_photos_deleted"),$total),"m");
 		}
 		$photo_arr = array("user"=>userid(),"limit"=>$get_limit, 'order'=>' date_added DESC', "get_orphans"=>TRUE);
 		$collection = $cbphoto->collection->get_collections(array("user"=>userid(),"type"=>"photos"));
@@ -144,7 +144,7 @@ switch($mode)
 		
 		//Pagination
 		$pages->paginate($total_pages,$page);
-		subtitle(lang("Manage Orphan Photos"));
+		subtitle(lang("manage_orphan_photos"));
 	}
 	break;
 }

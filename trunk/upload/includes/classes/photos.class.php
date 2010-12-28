@@ -10,7 +10,7 @@
  * 	 - Photo Sharing Email Template
  */
  
-define('MAX_PHOTO_UPLOAD',5);
+//define('MAX_PHOTO_UPLOAD',5);
 
 class CBPhotos
 {
@@ -31,7 +31,7 @@ class CBPhotos
 	var $max_watermark_width = 120;
 	var $embed_types;
 	var $share_email_vars;
-	var $max_uploads = MAX_PHOTO_UPLOAD; // Max number of uploads at once
+	//var $max_uploads = MAX_PHOTO_UPLOAD;  Max number of uploads at once
 	var $search;
 	/**
 	 * __Constructor of CBPhotos
@@ -138,7 +138,18 @@ class CBPhotos
 							lang('Favorite Photos') => "manage_photos.php?mode=favorite",
 							lang('Orphan Photos') => "manage_photos.php?mode=orphan",
 							);
-		$userquery->user_account[lang('Photos')] = $accountLinks;									
+		$userquery->user_account[lang('Photos')] = $accountLinks;
+											
+		//Setting Cbucket links
+		$Cbucket->links['photos'] = array('photos.php','photos');
+		$Cbucket->links['manage_photos'] = array('manage_photos.php','manage_photos.php');
+		$Cbucket->links['edit_photo'] = array('edit_photo.php?photo=','edit_photo.php?photo=');
+		$Cbucket->links['manage_favorite_photos'] = array('manage_photos.php?mode=favorite','manage_photos.php?mode=favorite');
+		$Cbucket->links['manage_orphan_photos'] = array('manage_photos.php?mode=orphan','manage_photos.php?mode=orphan');
+		$Cbucket->links['user_photos'] = array('user_photos.php?mode=uploaded&amp;user=','user_photos.php?mode=uploaded&amp;user=');
+		$Cbucket->links['user_fav_photos'] = array('user_photos.php?mode=favorite&amp;user=','user_photos.php?mode=favorite&amp;user=');
+		
+		// Setting Home Tab
 			
 	}
 	
@@ -761,7 +772,7 @@ class CBPhotos
 		if(!empty($should_watermark) && $should_watermark == 1)
 		{
 			$this->watermark_image($path.$filename."_l.".$extension,$path.$filename."_l.".$extension);
-			$this->watermark_image($path.$filename.".".$extension,$path.$filename."_o.".$extension);
+			$this->watermark_image($path.$filename."_o.".$extension,$path.$filename."_o.".$extension);
 		}	
 	}
 	
@@ -945,12 +956,53 @@ class CBPhotos
 				case 3: //PNG
 				{
 					$sImage = imagecreatefrompng($input);
-					imagecopy($sImage,$wImage,$paddings[0],$paddings[1],0,0,$ww,$wh,75);
+					imagecopy($sImage,$wImage,$paddings[0],$paddings[1],0,0,$ww,$wh);
 					imagepng($sImage,$output,9);
 				}
 				break;
 			}
 		}
+	}
+	
+	/**
+	 * Load Upload Form
+	 */
+	function loadUploadForm($params)
+	{
+		$p = $params;
+		$should_include = $p['include_header'] ? $p['include_header'] : TRUE;
+		$output = '<form action="" method="post"';
+		if($p['formName'])
+			$output .= " name = '".$p['formName']."'";
+		else
+			$output .= " name = 'photo_form'";
+		if($p['formID'])
+			$output .= " id = '".$p['formID']."'";
+		else
+			$output .= " id = 'photo_form'";
+		if($p['formClass'])
+			$output .= " class = '".$p['formClass']."'";		
+		$output .= ">";
+			if($p['class'])
+				$class = $p['class'];
+			if($should_include === TRUE)	
+				$output .= Fetch("/blocks/upload_head.html");					
+			$output .= "<div class='upload_form_div clearfix ".$class."'>";
+				$output .= '<input type="hidden" id="photoIDS" name="photoIDS"  />';
+				$output .= '<div id="divStatus" class="divStatus moveL">Click "Upload" to select files</div>';
+				$output .= '<div class="moveR">';
+					$output .= '<span id="spanButtonPlaceHolder"></span>';
+					$output .= '<input id="btnCancel" type="button" value="Cancel" 
+		onClick="swfu.cancelQueue();" disabled="disabled" style="margin:0px 0px 1px 3px" />';
+				$output .= '</div>';
+				$output .= "<div class='clear'></div>";
+				$output .= '<div id="progress_status" class="divStatus clearfix"></div>';
+				$output .= '<div class="fieldset flash clearfix" id="fsUploadProgress"></div>';
+			$output .= "</div>";
+			$output .= '<button name="EnterInfo" class="'.$p['buttonClass'].'" id="EnterInfo" disabled="disabled">'.lang('continue').'</button>';
+		$output .= "</form>";
+		
+		return $output;							
 	}
 	
 	/**
@@ -966,8 +1018,8 @@ class CBPhotos
 		$description = $array['photo_description'];
 		$tags = $array['photo_tags'];
 		
-		if($array['without_user'])
-			$p['user'] = "";
+		if($array['user'])
+			$p['user'] = $array['user'];
 		else
 			$p['user'] = userid();
 			
@@ -1018,7 +1070,7 @@ class CBPhotos
 								  'type' => 'dropdown',
 								  'value' => $cl_array,
 								  'db_field' => 'collection_id',
-								  'required' => 'yes',
+								  'required' => 'no',
 								  'checked' => $collection,
 								  'invalid_err' => lang('photo_collection_err')
 								  )												  
@@ -1098,7 +1150,7 @@ class CBPhotos
 	function update_watermark($file)
 	{
 		if(empty($file))
-			e("Watermark file not found");
+			e(lang("no_watermark_found"));
 		else
 		{
 			$oldW = BASEDIR."/images/photo_watermark.png";
@@ -1119,9 +1171,9 @@ class CBPhotos
 					if($width > $this->max_watermark_width)	
 						$this->createThumb($wFile,$wFile,'png',$this->max_watermark_width);
 				}
-				e("Watermark Image Updated.","m");
+				e(lang("watermark_updated"),"m");
 			} else {
-				e("Please upload 24-bit PNG");	
+				e(lang("upload_png_watermark"));	
 			}
 				
 				
@@ -1170,7 +1222,7 @@ class CBPhotos
 								 'display_function' => 'display_sharing_opt',
 								 'default_value'=>'public'
 								 ),*/
-			'tagging' => array(
+			/*'tagging' => array(
 							  'title' => lang('tagging'),
 							  'type' => 'radiobutton',
 							  'id' => 'allow_tagging',
@@ -1182,7 +1234,7 @@ class CBPhotos
 							  'validate_function'=>'yes_or_no',
 							  'display_function' => 'display_sharing_opt',
 							  'default_value'=>'yes'
-							  ),
+							  ),*/
 			'embedding' => array(
 								 'title' => lang('vdo_embedding'),
 								 'type' => 'radiobutton',
@@ -1415,6 +1467,12 @@ class CBPhotos
 					$query_val[] = $array['total_favorites'];	
 				}
 				
+				if(isset($array['downloaded']))
+				{
+					$query_field[] = "downloaded";
+					$query_val[] = $array['downloaded'];	
+				}
+				
 				if(isset($array['voters']))
 				{
 					$query_field[] = "voters";
@@ -1438,7 +1496,7 @@ class CBPhotos
 					}
 					
 					$db->update(tbl('photos'),$query_field,$query_val," photo_id='$pid'");
-					e("photo_updated_successfully","m");
+					e(lang("photo_updated_successfully"),"m");
 				}
 			}
 		}
@@ -1746,8 +1804,8 @@ class CBPhotos
 	{
 		$cid = $arr['details'];
 		//pr($arr,TRUE);
-		$text = lang("Add more");
-			
+		$text = lang("add_more");
+		$result = '';			
 		if(!is_array($cid))
 			$details = $this->collection->get_collection($cid);
 		else
@@ -1755,44 +1813,83 @@ class CBPhotos
 			
 		if($details['type'] == 'photos' && $details['userid'] == user_id())
 		{
-			$div = "<div ";
-			if($arr['id'])
-				$div .= "id = '".$arr['id']."' ";
-				
-			if($arr['class'])
-				$div .= "class = '".$arr['class']."' ";
-				
-			if($arr['align'])
-				$div .= "align = '".$arr['align']."' ";
-				
-			if($arr['style'])
-				$div .= "style = '".$arr['style']."' ";
-				
-			if($arr['extra'])
-				$div .= $arr['extra'];
-			
-			if($arr['on_div'])
+			$output = $arr['output'];
+			if(empty($output) || $output == "button")
 			{
+				$result .= '<button type="button"';
 				$link = "'".$this->photo_links($details,'upload_more')."'";
-				$div .= 'onClick = "openURL('.$link.')"';
-				$div .= ">";
-				$div .= $text;
-				$div .= "</div>";			
-			} else {
-				$div .= ">";
-				$div .= "<a href='".$this->photo_links($details,'upload_more')."' ";
-				if($arr['link_class'])
-					$div .= "class = '".$arr['link_class']."' ";
-				if($arr['target'])
-					$div .= "target = '".$arr['target']."'";	
-				if($arr['link_style'])
-					$div .= "style = ".$arr['link_style']." ";		
-				$div .= ">";
-				$div .= $text;
-				$div .= "</a></div>";	
+				if($arr['new_window'] || $arr['target'] == "_blank")
+					$new_window = "'new'";
+				else
+					$new_window = "'same'";
+						
+				$result .= 'onClick = "openURL('.$link.','.$new_window.')"';
+				if($arr['id'])
+					$result .= ' id = "'.$arr['id'].'"';
+				if($arr['class'])
+					$result .= ' class = "'.$arr['class'].'"';
+				if($arr['title'])
+					$result .= ' title = "'.$arr['title'].'"';
+				if($arr['style'])
+					$result .= ' style = "'.$arr['style'].'"';
+				if($arr['extra'])
+					$result .=	mysql_clean($arr['extra']);
+					 	
+				$result .= ">".$text."</button>";	
+						 
 			}
 			
-			echo $div;
+			if($output == "div")
+			{
+				$result .= '<div ';
+				$link = "'".$this->photo_links($details,'upload_more')."'";
+				if($arr['new_window'] || $arr['target'] == "_blank")
+					$new_window = "'new'";
+				else
+					$new_window = "'same'";
+				$result .= 'onClick = "openURL('.$link.','.$new_window.')"';
+				if($arr['id'])
+					$result .= ' id = "'.$arr['id'].'"';
+				if($arr['align'])
+					$result .= ' align = "'.$arr['align'].'"';	
+				if($arr['class'])
+					$result .= ' class = "'.$arr['class'].'"';
+				if($arr['title'])
+					$result .= ' title = "'.$arr['title'].'"';
+				if($arr['style'])
+					$result .= ' style = "'.$arr['style'].'"';
+				if($arr['extra'])
+					$result .=	mysql_clean($arr['extra']);
+					 	
+				$result .= ">".$text."</div>";
+			}
+			
+			if($output == "link")
+			{
+				$result .= '<a href="'.$this->photo_links($details,'upload_more').'"';
+				
+				if($arr['new_window'])
+					$result .= ' target = "_blank"';
+				elseif($arr['target'])
+					$result .= ' target = "'.$arr['target'].'"';
+					
+				if($arr['id'])
+					$result .= ' id = "'.$arr['id'].'"';
+				if($arr['align'])
+					$result .= ' align = "'.$arr['align'].'"';	
+				if($arr['class'])
+					$result .= ' class = "'.$arr['class'].'"';
+				if($arr['title'])
+					$result .= ' title = "'.$arr['title'].'"';
+				if($arr['style'])
+					$result .= ' style = "'.$arr['style'].'"';
+				if($arr['extra'])
+					$result .=	mysql_clean($arr['extra']);
+					 	
+				$result .= ">".$text."</a>";
+			}
+			
+			echo $result;
 		} else {
 			return FALSE;	
 		}
@@ -1821,9 +1918,9 @@ class CBPhotos
 				case "upload_more":
 				{
 					if(SEO == "yes")
-						$link = BASEURL."/photo_upload/".$details['collection_id'];
+						$link = BASEURL."/photo_upload/".$this->encode_key($details['collection_id']);
 					else
-						$link = BASEURL."/photo_upload.php?collection=".$details['collection_id'];		
+						$link = BASEURL."/photo_upload.php?collection=".$this->encode_key($details['collection_id']);		
 				}
 				break;
 				
@@ -1898,7 +1995,11 @@ class CBPhotos
 	 */
 	function is_addable($cid)
 	{
-		$details = $this->collection->get_collection($cid);
+		if(!is_array($cid))
+			$details = $this->collection->get_collection($cid);
+		else
+			$details = $cid;
+				
 		if(empty($details))
 		{
 			return false;	
@@ -1998,9 +2099,9 @@ class CBPhotos
 		if(!userid())
 			e(lang("please_login_to_rate"));
 		elseif(!empty($already_voted))
-			e(str_replace("video","photo",lang("you_hv_already_rated_vdo")));
+			e(lang("you_hv_already_rated_photo"));
 		elseif($c_rating['allow_rating'] == 'no' || config('photo_rating') != 1)
-			e(str_replace('Video','Photo',lang("vid_rate_disabled")));
+			e(lang("photo_rate_disabled"));
 		else
 		{
 			$voters[userid()] = array('rate'=>$rating,'time'=>NOW());
@@ -2081,25 +2182,36 @@ class CBPhotos
 	 */
 	function photo_embed_codes($newArr)
 	{
-		$t = $newArr['type'];
-		if(is_array($t))
-			$types = $t;
-		elseif($t == 'all')
-			$types = $this->embed_types;
-		else	
-			$types = explode(',',$t);
-			
-		foreach($types as $type)
+		if(empty($newArr['details']))
 		{
-			$type = str_replace(' ','',$type);
-			$newArr['type'] = $type;
-			$codes[] = array("name"=>ucwords($type),"type"=>$type,"code"=>$this->generate_embed_codes($newArr));	
+			echo "<div class='error'>".e(lang("need_photo_details"))."</div>";
 		}
-		
-		if($newArr['assign'])
-			assign(mysql_clean($newArr['assign']),$codes);
+		elseif($newArr['details']['allow_embedding'] == 'no')
+		{
+			echo "<div class='error'>".e(lang("embedding_is_disabled"))."</div>";
+		}
 		else
-			return $codes;	
+		{		
+			$t = $newArr['type'];
+			if(is_array($t))
+				$types = $t;
+			elseif($t == 'all')
+				$types = $this->embed_types;
+			else	
+				$types = explode(',',$t);
+				
+			foreach($types as $type)
+			{
+				$type = str_replace(' ','',$type);
+				$newArr['type'] = $type;
+				$codes[] = array("name"=>ucwords($type),"type"=>$type,"code"=>$this->generate_embed_codes($newArr));	
+			}
+			
+			if($newArr['assign'])
+				assign(mysql_clean($newArr['assign']),$codes);
+			else
+				return $codes;
+		}
 	}
 	
 	/**
@@ -2107,7 +2219,7 @@ class CBPhotos
 	 */
 	function encode_key($key)
 	{
-		return base64_encode($key);
+		return base64_encode(serialize($key));
 	}
 	
 	/**
@@ -2115,11 +2227,22 @@ class CBPhotos
 	 */
 	function decode_key($key)
 	{
-		return base64_decode($key);
+		return unserialize(base64_decode($key));
+	}
+	
+	function incrementDownload($Array)
+	{
+		global $db;
+		if(!isset($_COOKIE[$Array['photo_id']."_downloaded"]))
+		{
+			$db->update(tbl('photos'),array('downloaded'),array('|f|downloaded+1'),' photo_id = "'.$Array['photo_id'].'"');
+			setcookie($Array['photo_id']."_downloaded",NOW(),time()+1800);	
+		}
 	}
 	
 	function download_photo($key)
 	{
+		
 		$file = $this->ready_photo_file($key);
 		if($file)
 		{
@@ -2139,6 +2262,7 @@ class CBPhotos
 					{
 						$size = filesize($file['file_dir']);
 						if($fp=@fopen($file['file_url'],'r')) {
+							$this->incrementDownload($p);
 							// sending the headers
 							header("Content-type: $mime");
 							header("Content-Length: $size");
@@ -2151,13 +2275,13 @@ class CBPhotos
 							exit;	
 						}
 					} else {
-						e("Photo is not readable.");	
+						e(lang("photo_not_readable"));	
 					}
 				} else {
-					e("Photo does not exist.");	
+					e(lang("photo_not_exist"));	
 				}
 			} else {
-				e("Wrong MIME type provided.");	
+				e(lang("wrong_mime_type"));	
 			}
 		} else
 			return false;

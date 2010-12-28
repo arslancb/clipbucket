@@ -164,12 +164,13 @@ window.onload = function() {
 			file_size_limit : "{$Cbucket->configs.max_photo_size} MB",				
 			file_types : "{$cbphoto->extensions()}",
 			file_types_description : "Image Files",
-			file_upload_limit : {$max_upload},
+			file_upload_limit : {$Cbucket->configs.photo_multi_upload},
 			post_params :
 			{ldelim}
 				{if $smarty.get.collection}
-				{if $cbphoto->is_addable($smarty.get.collection)}
-					collection : {$smarty.get.collection},
+				{assign var=collectionID value=$cbphoto->decode_key($smarty.get.collection)}
+				{if $cbphoto->is_addable($collectionID)}
+					collection : {$collectionID},
 				{/if}
 				{/if}
 				userid : {$userquery->userid}

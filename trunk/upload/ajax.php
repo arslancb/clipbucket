@@ -890,7 +890,8 @@ if(!empty($mode))
 			$tags = mysql_clean(genTags($_POST['collection_tags']));
 			$cat  = ($_POST['category']);
 			$type = "photos";
-			$CollectParams = array("collection_name"=>$name,"collection_description"=>$desc,"collection_tags"=>$tags,"category"=>$cat,"type"=>$type);
+			$CollectParams = 
+			array("collection_name"=>$name,"collection_description"=>$desc,"collection_tags"=>$tags,"category"=>$cat,"type"=>$type,"allow_comments"=>"yes","broadcast"=>"public","public_upload"=>"yes");
 			$cbcollection->create_collection($CollectParams);
 			
 			if(msg())

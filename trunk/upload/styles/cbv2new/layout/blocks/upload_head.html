@@ -1,6 +1,5 @@
-{if $smarty.get.collection}
-	{assign var=c value=$cbphoto->collection->get_collection($smarty.get.collection)}
-	{if $cbphoto->is_addable($c.collection_id)}
+{if $c}
+	{if $cbphoto->is_addable($c)}
     	<div class="clearfix photoBox">
         	<div style="background:#FFF; text-align:center; border-bottom:1px solid #ccc; color:#666; padding:8px; font:normal 11px Tahoma;">You are about to add new photos in <strong>{$c.collection_name}</strong></div>
             <div class="clearfix" style="padding:8px">
@@ -32,12 +31,12 @@
         </div> 
     {/if}
 {else}
-	{if !$c}
+	{if !$has_collection}
 	<div class="photoBox clearfix">
             	<div style="background:#FFF; text-align:center; border-bottom:1px solid #ccc; color:#666; padding:8px; font:bold 11px Tahoma;">Create Collection</div>               
 		{assign var='reqFields'  value=$cbcollection->load_required_fields()}
-        <div class="CollectionResult" id="CollectionResult" style="display:none;"></div>
-        <div class="clearfix" style="padding:8px;" id="CollectionDIV" >      
+        <div class="CollectionResult clearfix" id="CollectionResult" style="display:none;"></div> <!-- Keep id. This will display error/success message -->
+        <div class="clearfix" style="padding:8px;" id="CollectionDIV" >  <!-- Also keep this id. After addition this will slideUp -->     
         {foreach from=$reqFields item=field}
         {if $field.id != 'type'}
             <div class="field clearfix" style="margin-bottom:3px;">

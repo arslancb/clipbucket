@@ -1,7 +1,7 @@
 <div style="width:880px; margin:0px auto">
-
+{uploadButton details=$c output='div' target="_blank" class='moveR small_button non_button'}
 	<div class="video_title" style="padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;">{$c.collection_name} </div>
-    {uploadButton details=$c target='_blank'}
+    
     <div style="font:normal 10px Tahoma; color:#333; padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;">{lang code="by"|capitalize} <a href="{$userquery->profile_link($c)}">{$c.username|capitalize}</a> - <a href="{link name='user_videos'}{$c.username}">{lang code="view"|capitalize} {$c.username|capitalize} {lang code="videos"|capitalize}</a> {if $c.userid == $userquery->userid} - <a href="{link name='edit_collection'}{$c.collection_id}">{lang code="edit_collection"}</a> - {link name='manage_items' assign='miLink'} <a href="{$miLink|sprintf:$c.collection_id:$c.type}">{lang code="manage_items"}</a>{/if}</div>
        
     <div style="clear:both;"></div>

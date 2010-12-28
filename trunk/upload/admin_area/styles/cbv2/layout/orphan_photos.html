@@ -8,12 +8,6 @@
             <input type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
             <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
             <input type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected photos(s)')"/>
-            <input type="submit" name="move_selected" value="Move To" class="button"/>
-            <select name="collection_id" id="collection_id">
-            	{foreach from=$c item=item}
-                	<option value="{$item.collection_id}">{$item.collection_name}</option>
-                {/foreach}
-            </select>
     
     </td>
     </tr>

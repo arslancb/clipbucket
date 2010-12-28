@@ -27,7 +27,7 @@ if($_GET['mode']!='')
 }
 
 $p	= $cbphoto->get_photo($id);
-$p['without_user'] = TRUE;
+$p['user'] = $p['userid'];
 
 assign('data',$p);
 

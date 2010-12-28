@@ -1,7 +1,7 @@
 // JavaScript Document
 
 var page = baseurl+'/ajax.php';
-var loading_img = "<img src='"+imageurl+"/ajax-loader.gif'>";
+var loading_img = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-loader.gif'>";
 var loading = loading_img+" Loading...";
 
 
@@ -1019,8 +1019,8 @@ function openURL(url) {
 
 function get_item(obj,ci_id,cid,type,direction)
 {
-	var btn_text = $(obj).text();
-	$(obj).text('Working');
+	var btn_text = $(obj).html();
+	$(obj).html(loading);
 		
 	$.post(page,
 		   {
@@ -1084,7 +1084,8 @@ function onReload_item()
 
 function pagination(object,cid,type,pageNumber)
 {
-	obj = $(object); objID = obj.id; parent = obj.parent();
+	var obj = $(object), objID = obj.id, 
+		parent = obj.parent(), parentID, innerHTML = obj.html();
 	
 	if(parent.attr('id'))
 		parentID = parent.attr('id')
@@ -1103,11 +1104,11 @@ function pagination(object,cid,type,pageNumber)
 						{
 							if(object.tagName == "BUTTON")
 								obj.attr('disabled','disabled');
-							obj.removeAttr('onClick'); obj.text('No more '+type);
+							obj.removeAttr('onClick'); obj.html('No more '+type);
 						} else {
 							$('#collectionItemsList').append(data['content']); 
 							$('#NewPagination').html(data['pagination']);
-							obj.text('Load More');
+							obj.html(innerHTML);
 						}
 					}		
 	});
@@ -1141,71 +1142,71 @@ function ajax_add_collection(obj)
 	});	
 }
 
-/*function updatePhotos(obj)
-{
-	var ID = obj.form.id,
-		Child = $("#"+ID).children().filter('div'),
-		total = Child.length, eachObj, AjaxCall;
-}*/
+var AjaxIteration = 0;
+var InputIteration = 0;
 
 function callAjax(obj)
 {
-	var getArray = updatePhotos(obj),
-		TotalItems = getArray.length;
-	alert(TotalItems);	
-	$.each(getArray,function(i,v) { alert(i+" "+v) })	
+	var getArray = getDetails(obj),
+		object = $(obj),
+		TotalItems = getArray.length, AjaxCall,
+		inputs = getInputs(obj,true),
+		element = inputs[InputIteration++];
+		
+		if(AjaxIteration == getArray.length)
+		{
+			$(obj).html(TotalItems+" Photos Saved.").removeAttr('onclick').hide();
+			$("<input />").attr({  
+					'type' : 'submit',
+					'name' : 'updatePhotos',
+					'id' : 'updatePhotos',
+					'value' : 'Done'
+				}).addClass(object.attr('class')).fadeIn(350).insertAfter(object).wrap("<form method='post' action='' name='finishForm' id='finishForm' />");
+			return true;
+		}
+		else
+		{	
+		
+			AjaxCall = 
+				$.ajax
+				({
+					url: page,
+					type: "post",
+					dataType: "json",
+					data: getArray[AjaxIteration++],
+					cache: false,
+					beforeSend: function() { $(obj).html(loading_img+" Saving "+AjaxIteration+" out of "+TotalItems); $(obj).attr('disabled','disabled'); $("#"+element.id+" > div").css('opacity','0.5'); },
+					success: function(data) {
+						$('#'+element.id+" > div").empty().css({'padding':'10px','opacity':'1'}).html("<div style='font:bold 11px Tahoma;'>"+data.photo_title+" is now saved.</div>").fadeIn('normal',function() { callAjax(obj); });
+						
+					} 	
+				});
+		}
 }
 
-function updatePhotos(obj)
+function getInputs(obj,return_array)
 {
-	var ID = obj.form.id,
-		Child = $("#"+ID).children().filter('div'),
-		eachObj, AjaxCall, i = 0, ParamArray = new Array(Child.length);
-	var err_count = 0;	
-	$.each(Child,function(index,elem){
-		eachObj = $(elem);		
-		var inputs = $("#"+elem.id+" :input"),
-			query = '';
-			
-		inputs.each(function(ind, input)
-		{
-			if(input.type == "text" || input.type == "textarea" || input.type == "hidden")
-			{
-				if(input.value == null || input.value == '')
-				{
-					err_count++;				
-					input.style.border = '2px solid #ed0000';											
-					//ShouldContinue = false;						
-				} else {
-					query += input.id+"="+input.value+"&";
-					err_count = 0;
-					//ShouldContinue = true;
-				}
-			}
-			
-			if(input.type == "select-one" && input.selected)
-				query += input.id+"="+input.value+"&";
-			if(input.type == "radio" && input.checked)
-				query += input.id+"="+input.value+"&";
+	var	Child = $(obj).parent().children().filter('form'), InputArray = [];
+	if(return_array == true)
+	{
+		$.each(Child,function(index,element){
+				InputArray[index] = element;
 		})
-		query += "mode=ajaxPhotos";
-		ParamArray[index] = query;
-		/*	AjaxCall = 
-			$.ajax
-			({
-				url: page,
-				type: "post",
-				dataType: "text",
-				data: query,
-				cache: false,
-				beforeSend: function() { $(obj).html(loading_img+" Saving"); $(obj).attr('disabled','disabled') },
-				complete : function() { $(obj).html(Child.length+" photos saved") },
-				success: function(data) { $("#"+eachObj.attr('id')).hide() } 	
-			});
-			saving++;
-		*/
+		return InputArray;
+	} else
+		return Child;
+}
+
+function getDetails(obj)
+{
+	var forms = getInputs(obj), ParamArray = new Array(forms.length);
+		
+	$.each(forms,function(index,form) {
+			query = $("#"+form.id+" *").serialize();
+			query += "&mode=ajaxPhotos";
+			ParamArray[index] = query;
 	})
-	
+		
 	return ParamArray;
 }
 

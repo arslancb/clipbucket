@@ -485,6 +485,7 @@ $Smarty->register_function('get_photo','get_photo');
 $Smarty->register_function('uploadButton','upload_photo_button');
 $Smarty->register_function('embedCodes','photo_embed_codes');
 $Smarty->register_function('DownloadButtonP','photo_download_button');
+$Smarty->register_function('loadPhotoUploadForm','loadPhotoUploadForm');
 
 $Smarty->register_modifier('SetTime','SetTime');
 $Smarty->register_modifier('getname','getname');

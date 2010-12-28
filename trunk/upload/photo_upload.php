@@ -15,7 +15,11 @@ require 'includes/config.inc.php';
 $userquery->logincheck();
 subtitle(lang('photos_upload'));
 
-assign('max_upload',MAX_PHOTO_UPLOAD);
+if(isset($_GET['collection']))
+{
+	$c = $cbphoto->decode_key($_GET['collection']);
+	assign('c',$cbphoto->collection->get_collection($c));	
+}
 
 if(isset($_POST['EnterInfo']))
 {
@@ -34,15 +38,12 @@ if(isset($_POST['EnterInfo']))
 		assign('photos',$details);
 }
 
-if(isset($_POST['update_photos']))
-{
-	
-	//$newArray = $cbphoto->return_formatted_post($POST);	
-	//$cbphoto->update_multiple_photos($newArray);	
-	assign('step',2);
+if(isset($_POST['updatePhotos']))
+{	
+	assign('step',3);
 }
-$collections = $cbphoto->collection->get_collections(array("type"=>"photos","user"=>userid()));
-assign('c',$collections);
+$collections = $cbphoto->collection->get_collections(array("type"=>"photos","limit"=>1,"user"=>userid()));
+assign('has_collection',$collections);
 	
 subtitle(lang('photos_upload'));
 //Displaying The Template

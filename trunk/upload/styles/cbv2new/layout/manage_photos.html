@@ -41,7 +41,7 @@
     {/if}
     
     {if $mode == "favorite"}
-    	<h2>{lang code="Manage Favorite Photos"}</h2>
+    	<h2>{lang code="manage_favorite_photos"}</h2>
         <div align="right" style="float:right; display:inline">
             <form id="form1" name="form1" method="get" action="">
             <input name="query" type="text" class="search_field" id="query" value="{$smarty.get.query|form_val}" />
@@ -79,7 +79,7 @@
     {/if}
     
     {if $mode == 'orphan'}
-     	<h2>{lang code="Manage Orphan Photos"}</h2>
+     	<h2>{lang code="manage_orphan_photos"}</h2>
         <div align="right" style="float:right; display:inline">
             <form id="form1" name="form1" method="get" action="">
             <input name="query" type="text" class="search_field" id="query" value="{$smarty.get.query|form_val}" />
@@ -111,7 +111,7 @@
         {section name=p_list loop=$photos}
         	{include file="$style_dir/blocks/manage/account_photo.html" photo=$photos[p_list] control='orphan'}
         {sectionelse}
-        	<div align="center" style="padding:5px"><strong><em>{lang code='You dont have any orphan photos'}</em></strong></div>
+        	<div align="center" style="padding:5px"><strong><em>{lang code='you_dont_have_orphan_photos'}</em></strong></div>
         {/section}   
     
     {/if}

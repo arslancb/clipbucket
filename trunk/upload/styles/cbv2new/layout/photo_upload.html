@@ -1,25 +1,12 @@
 <div class="content_con clearfix">
 <div class="upload_info">
-
 {if $step == 1 || $step == ""}
-	<form action="" method="post" name="photo_form" id="photo_form">
-	{include file="$style_dir/blocks/upload_head.html"}
-	<div class="upload_form_div clearfix">
-    	<input type="hidden" id="photoIDS" name="photoIDS"  />
-        <div id="progress_status" class="divStatus"></div>
-        <div id="divStatus" class="divStatus moveL">Click 'Upload' to select files</div>
-        <div class="moveR">
-        <span id="spanButtonPlaceHolder"></span>
-        <input id="btnCancel" type="button" value="Cancel" 
-		onClick="swfu.cancelQueue();" disabled="disabled" style="margin:0px 0px 1px 3px" />
-        </div>
-        <div class="fieldset flash" id="fsUploadProgress"></div>
-    </div>
-    <button name="EnterInfo" class="LoadMoreButton moveR" id="EnterInfo" disabled="disabled">{lang code="Continue"}</button>
-    </form> 
+	<h2>Select Photo Files</h2>
+	{loadPhotoUploadForm buttonClass='LoadMoreButton moveR'}
 {/if}
 
 {if $step == 2}
+	<h2>Enter Information</h2>
 	{section name=p_list loop=$photos}
     <form action="" method="post" name="{$photos[p_list].photo_key}Form" id="{$photos[p_list].photo_key}Form">
     	{assign var='reqFields'  value=$cbphoto->load_required_forms($photos[p_list])}
@@ -60,12 +47,11 @@
         </div>
         </form>
     {/section}
-    <button class="LoadMoreButton clearfix" onclick="callAjax(this);" type="button" name="update_photos" id="update_photos">Save All</button>
+    <button class="LoadMoreButton clearfix" onclick="callAjax(this);" type="button" name="insertPhotos" id="insertPhotos">Save All</button>
 {/if}
 
 {if $step == 3}
 	<h2>Photos have uploaded successfully.</h2>
-{/if}    
-  
+{/if}     
 </div>    
 </div>

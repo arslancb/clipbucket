@@ -23,6 +23,7 @@ if($cbcollection->is_viewable($c))
 {
 	$param = array("type"=>$type,"cid"=>$c);
 	$cdetails = $cbcollection->get_collections($param);
+	
 	if($cdetails)
 	{
 	switch($type)

@@ -48,11 +48,11 @@ if($cbcollection->is_viewable($cid))
 							assign('user',$userquery->get_user_details($video['userid']));
 							assign('c',$collect);
 						} else {
-							e("Item does not exist");
+							e(lang("item_not_exist"));
 							$Cbucket->show_page = false;
 						}
 					} else {
-						e("Item does not exist");
+						e(lang("item_not_exist"));
 						$Cbucket->show_page = false;	
 					}
 				}
@@ -75,11 +75,11 @@ if($cbcollection->is_viewable($cid))
 							assign('user',$userquery->get_user_details($photo['userid']));
 							assign('c',$collect);
 						} else {
-							e("Item does not exist");
+							e(lang("item_not_exist"));
 							$Cbucket->show_page = false;	
 						}
 					} else {
-						e("Item does not exist");
+						e(lang("item_not_exist"));
 						$Cbucket->show_page = false;	
 					}
 				}

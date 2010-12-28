@@ -84,13 +84,12 @@ class Collections extends CBCategory
 													lang('Flagged Collections')=>'flagged_collections.php');
 		
 		// Adding Collection links in Cbucket Class
+		$Cbucket->links['collections'] = array('collections.php','collections');
 		$Cbucket->links['manage_collections'] = array('manage_collections.php','manage_collections');
 		$Cbucket->links['edit_collection'] = array('manage_collections.php?mode=edit_collection&amp;cid=',
 												   'manage_collections.php?mode=edit_collection&amp;cid=');
 		$Cbucket->links['manage_items'] = array('manage_collections.php?mode=manage_items&amp;cid=%s&amp;type=%s',
-												'manage_collections.php?mode=manage_items&amp;cid=%s&amp;type=%s');												   
-											 
-											 									  	
+												'manage_collections.php?mode=manage_items&amp;cid=%s&amp;type=%s');								
 	}
 		
 	/**

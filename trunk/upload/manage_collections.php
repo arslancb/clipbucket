@@ -52,7 +52,7 @@ switch($mode)
 		
 		//Pagination
 		$pages->paginate($total_pages,$page);
-		subtitle(lang("Manage Collections"));
+		subtitle(lang("manage_collections"));
 	}
 	break;
 	
@@ -69,7 +69,7 @@ switch($mode)
 			$cbcollection->create_collection($_POST);
 		}
 		
-		subtitle(lang("Create Collection"));
+		subtitle(lang("create_collection"));
 	}
 	break;
 	
@@ -91,7 +91,7 @@ switch($mode)
 		assign("other_fields",$otherFields);
 		assign('c',$collection);
 		
-		subtitle(lang("Edit Collection"));		
+		subtitle(lang("edit_collection"));		
 	}
 	break;
 	
@@ -141,7 +141,7 @@ switch($mode)
 		assign('c',$collection);
 		assign('objs',$objs);
 		
-		subtitle(lang("Manage Collection Items"));
+		subtitle(lang("manage_collection_items"));
 	}
 	break;
 	
@@ -162,7 +162,7 @@ switch($mode)
 				$cbcollection->action->remove_favorite($_POST['check_col'][$i]);	
 			}
 			$eh->flush();
-			e($total." collection(s) have been removed from favorites","m");
+			e(sprintf(lang("total_fav_collection_removed"),$total),"m");
 		}
 		
 		if(get('query')!='')
@@ -180,7 +180,7 @@ switch($mode)
 		
 		//Pagination
 		$pages->paginate($total_pages,$page);
-		subtitle(lang("Manage Favorite Collections"));
+		subtitle(lang("manage_favorite_collections"));
 	}
 		
 }
