@@ -51,6 +51,13 @@ if(isset($_GET['action']))
 	$lang_obj->action_lang($_GET['action'],mysql_clean($_GET['id']));
 }
 
+//Create package
+if(isset($_GET['create_package']))
+{
+	if($lang_obj->createPack($_GET['create_package']))
+		e("Language has been re-created","m");
+}
+
 //Get List Of Languages
 assign('language_list',$lang_obj->get_langs());
 Assign('msg',$msg);	

@@ -41,14 +41,18 @@ if(has_access('allow_video_upload',false,$verify_logged_user))
 	
 	if(isset($_POST['submit_upload']))
 	{
-		$step=2;
-		$Upload->validate_video_upload_form(NULL,TRUE);
+		if(!$_POST['file_name'])
+			$_POST['file_name'] = time().RandomString(5);
+
+		//$Upload->validate_video_upload_form(NULL,TRUE);
 		if(empty($eh->error_list))
 		{
 			$vid = $Upload->submit_upload();
 			//echo $db->db_query;
 			//Call file so it can activate video
-			exec(php_path()." ".BASEDIR."/actions/process_video.php ".$vid);
+			$Upload->do_after_video_upload($vid);
+			
+			if(!error())
 			$step=3;
 		}
 	}

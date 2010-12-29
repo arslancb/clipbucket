@@ -392,7 +392,7 @@ if(phpversion() < '5.2.0')
 	
 	
 	
-	$LANG = $lang_obj->lang_phrases();
+	$LANG = $lang_obj->lang_phrases('file');
 	Assign('LANG',$LANG);
 	Assign('langf',LANG);
     Assign('lang_count',count($languages));

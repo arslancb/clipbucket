@@ -4669,4 +4669,42 @@
 		
 		return $preUrl.$var;		
 	}
+	
+	
+	/**
+	 * Function use to download file to server
+	 * 
+	 * @param URL
+	 * @param destination
+	 */
+	function snatch_it($snatching_file,$destination,$dest_name,$rawdecode=true)
+	{
+		global $curl;
+		if($rawdecode==true)
+		$snatching_file= rawurldecode($snatching_file);
+		$destination.'/'.$dest_name;
+		$fp = fopen ($destination.'/'.$dest_name, 'w+');
+		$ch = curl_init($snatching_file);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 600);
+		curl_setopt($ch, CURLOPT_FILE, $fp);
+		curl_setopt($ch, CURLOPT_USERAGENT, 
+		'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.2) Gecko/20070219 Firefox/2.0.0.2');
+		curl_exec($ch);
+		curl_close($ch);
+		fclose($fp);
+	}
+	
+	
+	/**
+	 * Function check curl
+	 */
+	function isCurlInstalled()
+	{
+		if  (in_array  ('curl', get_loaded_extensions())) {
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 ?>

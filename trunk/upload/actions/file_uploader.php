@@ -42,11 +42,21 @@ switch($mode)
 	case "get_form":
 	{
 		$title 	= getName($_POST['title']);
+		if(!$title)
+			$title = $_POST['title'];
+		$desc = $_POST['desc'];
+		$tags = $_POST['tags'];
+		
+		if(!$desc)
+			$desc = $title;
+		if(!$tags)
+			$tags = $title;
+		
 		$vidDetails = array
 		(
 		'title'		=> $title,
-		'description' => $title,
-		'tags'		  => genTags(str_replace(' ',', ',$title)),
+		'description' => $desc,
+		'tags'		  => $tags,
 		'category' => array($cbvid->get_default_cid()),
 		);
 		
@@ -130,9 +140,9 @@ switch($mode)
 		{
 			//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
 			if (stristr(PHP_OS, 'WIN')) {
-				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName");
+				//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName");
 			} else {
-				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName &> /dev/null &");
+				//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName &> /dev/null &");
 			}
 		}
 		

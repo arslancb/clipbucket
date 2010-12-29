@@ -5,22 +5,21 @@
 
 	{if $step =='1'}
 
-    <h2>{$vdo_upload_step|sprintf:2}</h2>
     {literal}
     <script type="text/javascript">
-    	$(document).ready(function() { show_menu('file_upload_div') })
+    	$(document).ready(function() { show_menu('file_upload_div',true) })
 	</script>		
     {/literal}
     
     {assign var=opt_list value=$Upload->load_upload_options()} 
 	<ul class="upload_opts clearfix">
     {foreach from=$opt_list item=opt key=divid}
-		<li class="upload_opt_head moveL {$divid}" onclick="show_menu('{$divid}')">{$opt.title}</li>
+		<li class="upload_opt_head moveL {$divid}" onclick="show_menu('{$divid}',false)">{$opt.title}</li>
 	{/foreach}
     </ul>
     <div class="clear"></div>         
     {foreach from=$opt_list item=opt key=divid}      
-        <div class="upload_opt" id="{$divid}">
+        <div class="upload_opt" id="{$divid}" style="display:none">
 			{load_form name=$opt.load_func button_class='cb_button_2' class='upload_form'} 
         </div>
     {/foreach} 

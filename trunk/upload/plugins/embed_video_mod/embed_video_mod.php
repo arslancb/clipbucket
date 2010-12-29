@@ -73,6 +73,7 @@ if(!function_exists('validate_embed_code'))
 		{
 			return 'none';		
 		}else{
+			$val = urldecode($val);
 			//Striping Slasshes as they are not required
 			$val = stripslashes($val);
 			//Removing spaces and non required code
@@ -82,16 +83,16 @@ if(!function_exists('validate_embed_code'))
 			//Removing JS Codes
 			$val = preg_replace('/<script[^>]*?>.*?<\/script>/si','',$val);		
 			//Removing Iframes
-			$val = preg_replace('/<iframe(.*)><\/iframe>/i','',$val);
+			//$val = preg_replace('/<iframe(.*)><\/iframe>/i','',$val);
 			//Removing Img Tags
 			$val = preg_replace('/<img (.*) \/>/i','',$val);
 			//Removing DIV Tags
 			//$val = preg_replace('/<div(.*)><\/div>/i','',$val);
 			//Just Get Data wrapped inside embed 
-			$val = preg_match('/<embed(.*)>(.*)<\/embed>/',$val,$matches);
-			$val = $matches[0];
+			//$val = preg_match('/<embed(.*)>(.*)<\/embed>/',$val,$matches);
+			//$val = $matches[0];
 			
-			if(!stristr($val,'<embed'))
+			if(!stristr($val,'<embed') && !stristr($val,'<object') && !stristr($val,'<iframe') )
 				e(lang('embed_code_invalid_err'));
 			
 			//Replacing Widht and Height 
@@ -117,18 +118,9 @@ if(!function_exists('validate_embed_code'))
 		global $file_name;
 		if($params['class'])
 			$class = ' '.$params['class'];
-		echo '<div class="upload_form_div'.$class.'">';
-		echo '<span class="header2">Please enter embed code</span><br>';
-		echo '<textarea name="embed_code" cols="30" id="embed_code" rows="3" class="upload_input textarea"></textarea>';
-		echo '<br><br>';
-		echo '<span class="header2">Please Enter video duration</span><br>';
-		echo '<label for="duration">HH:MM:SS</label><br><input type="text" name="duration" id="duration" size="15"  class="upload_input"/>';
-		echo '<br><br>';
-		echo '<span class="header2">Please select video thumb</span><br>';
-		echo '<input type="hidden" name="step_2" value="yes" />';
-		echo '<input name="thumb_file" type="file"  class="upload_input filefield" id="thumb_file" />';
-		echo '<div align="right"><input type="button" name="embed_upload" id="embed_upload" value="Upload" onClick="check_embed_code()" class="'.$params['button_class'].'"/></div>';
-		echo '</div>';
+		assign('objId',RandomString(5));
+		assign('class',$class);
+		Template(PLUG_DIR.'/embed_video_mod/form.html',false);
 	}
 	
 	$embed_field_array['embed_code'] = array
@@ -179,6 +171,7 @@ if(!function_exists('validate_embed_code'))
 	
 	function upload_thumb($array)
 	{
+		
 		global $file_name,$LANG;
 		
 		//Get File Name
@@ -186,7 +179,7 @@ if(!function_exists('validate_embed_code'))
 		$ext 		= getExt($file);
 		$image = new ResizeImage();
 		
-		if(!empty($file) && file_exists($array['tmp_name']))
+		if(!empty($file) && file_exists($array['tmp_name']) &&!error())
 		{
 			if($image->ValidateImage($array['tmp_name'],$ext)){
 				$file = BASEDIR.'/files/thumbs/'.$_POST['file_name'].'.'.$ext;

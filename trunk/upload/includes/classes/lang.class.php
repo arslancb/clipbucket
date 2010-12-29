@@ -158,12 +158,18 @@ class language
 	/**
 	 * Function used to assign phrases as an array
 	 */
-	function lang_phrases()
+	function lang_phrases($code='db')
 	{
-		$phrases = $this->get_phrases();
-		foreach($phrases as $phrase)
+		if($code == 'db')
 		{
-			$lang[$phrase['varname']] = $phrase['text'];
+			$phrases = $this->get_phrases();
+			foreach($phrases as $phrase)
+			{
+				$lang[$phrase['varname']] = $phrase['text'];
+			}
+		}else
+		{
+			$lang = $this->getPhrasesFromPack();
 		}
 		return $lang;
 	}
@@ -376,6 +382,30 @@ class language
 	
 	
 	/**
+	 * Function used to create new language pack
+	 * that can be used by clipbucket
+	 * 
+	 */
+	function createPack($lang=false)
+	{
+		if(!$lang)
+			$lang = $this->lang;
+		$phrases = $this->get_phrases($lang);
+		
+		if(count($phrases)==0) return false;
+		$new_array = array();
+		foreach($phrases as $phrase)
+		{
+			$new_array[$phrase['varname']] = $phrase['text'];
+		}
+		$fo = fopen(BASEDIR.'/includes/langs/'.$lang.'.lang','w+');
+		fwrite($fo,json_encode($new_array));
+		fclose($fo);
+		return true;
+	}
+	
+	
+	/**
 	 * function used to activate or deactive language
 	 */
 	function action_lang($action,$id)
@@ -409,6 +439,22 @@ class language
 		}
 		
 	}
+	
+	/** 
+	 * Function used to get phrases from language packs
+	 */
+	function getPhrasesFromPack($lang=false)
+	{
+		if(!$lang)
+			$lang = $this->lang;
+		$file = BASEDIR.'/includes/langs/'.$lang.'.lang';
+		if(!file_exists($file))
+			$this->createPack($lang);
+		$langData = file_get_contents($file);
+		$phrases = json_decode($langData,true);
+		return $phrases;	
+	}
+		
 }
 
 ?>

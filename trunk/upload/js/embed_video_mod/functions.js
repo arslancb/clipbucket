@@ -1,7 +1,7 @@
 // JavaScript Document
 var embed_check = baseurl+"/actions/embed_form_verifier.php";
-function check_embed_code()
-{
+function check_embed_code(objId)
+{	
 	if($("#embed_code").val() == "")
 		alert("Embed code was empty");
 	else if($("#duration").val() == "")
@@ -10,7 +10,7 @@ function check_embed_code()
 	{
 		$.post(embed_check, 
 		{ 	
-			embed_code : $("#embed_code").val(),
+			embed_code : escape($("#embed_code").val()),
 			duration : $("#duration").val(),
 			file_name : file_name,
 			thumb_file : $("#thumb_file").val()
@@ -21,8 +21,7 @@ function check_embed_code()
 			{
 				alert(data.err);
 			}else{
-				//alert("est");
-				$("#"+upload_form_name).submit();
+				$("#uploadForm"+objId).submit();
 			}
 		}, "json");
 	}

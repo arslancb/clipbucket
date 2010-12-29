@@ -128,6 +128,7 @@ var loading = loading_img+" Loading...";
 	function check_remote_url()
 	{
 		$('#remoteUploadBttn').attr("disabled","disabled").hide();
+		$('#ytUploadBttn').attr("disabled","disabled");
 		$('#remoteUploadBttnStop').show();
 		var file = $("#remote_file_url").val();
 		force_stop = false;		
@@ -136,6 +137,7 @@ var loading = loading_img+" Loading...";
 			alert("Please enter file url");
 			$('#remoteUploadBttn').attr('disabled','').show();
 			$('#remoteUploadBttnStop').attr("disabled","disabled").hide();
+			$('#ytUploadBttn').attr("disabled","");
 			return false;
 		}
 		var ajaxCall = $.ajax({
@@ -158,6 +160,7 @@ var loading = loading_img+" Loading...";
 				  {		  
 					force_stop = true;
 					$('#remoteUploadBttn').attr('disabled','');
+					$('#ytUploadBttn').attr("disabled","");
 					alert(data.error);
 				  }				  
 				  $("#loading").html('');
@@ -169,8 +172,69 @@ var loading = loading_img+" Loading...";
 		ajaxCall.abort(); force_stop=true; $("#loading").html('');$('#remoteDownloadStatus').hide(); $(this).hide();$('#remoteUploadBttn').attr('disabled','').show(); });
 		
 		
-		
+	}
 	
+	function youtube_upload()
+	{
+		$('#remoteUploadBttn').attr("disabled","disabled");
+		$('#ytUploadBttn').attr("disabled","disabled");
+
+		var file = $("#remote_file_url").val();
+		force_stop = false;		
+		if(!file || file=='undefined')
+		{
+			alert("Please enter file url");
+			$('#remoteUploadBttn').attr('disabled','');
+			$('#ytUploadBttn').attr("disabled",'');
+			return false;
+		}
+		var ajaxCall = $.ajax({
+			  url: download_page,
+			  type: "POST",
+			  data: ({file:file,file_name:file_name,"youtube":"yes"}),
+			  dataType : 'json',
+			  beforeSend : function()
+			  {
+				 $("#loading").html('<div style="float: left; display: inline-block;"><img src="'+imageurl+'/ajax-loader.gif"></div><div style="float: left; line-height: 16px; padding-left:5px">Uploading video from youtube, please wait...</div><div class="clear"></div>');
+			  },
+			  success: function(data)
+			  {
+				  
+				  if(data.error)
+				  {		  
+					force_stop = true;
+					$('#remoteUploadBttn').attr('disabled','');
+					$('#ytUploadBttn').attr("disabled","");
+					alert(data.error);
+				  }else if(data.vid)
+				  {
+					  vid = data.vid;
+					  $('#remoteUploadBttn').attr("disabled","disabled").hide();
+					  $('#ytUploadBttn').attr("disabled","disabled").hide();
+					  $.post(baseurl+'/actions/file_uploader.php',
+					  {"getForm":"get_form",
+					  "title":data.title,
+					  "desc":data.desc,
+					  "tags":data.tags,"objId":remoteObjID},
+					  function(data)
+					  {
+							$('#remoteForm').append(data);
+							$('#cbSubmitUpload'+remoteObjID)
+					.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
+					.attr("disabled","")
+					.attr("value",lang.saveData)
+					.attr("onClick","doUpdateVideo('#uploadForm"+remoteObjID+"','"+remoteObjID+"')")
+					.after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
+					.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
+					
+					  },'text');
+					  
+				  }
+				  $("#loading").html('');
+			  }
+		   }
+		);
+		
 	}
 	
 	var hasLoaded = false;
@@ -821,8 +885,15 @@ var loading = loading_img+" Loading...";
 	}
 
 var current_menu = "";
-function show_menu(menu)
+function show_menu(menu,load_from_hash)
 {
+	if(window.location.hash && load_from_hash)
+	{
+		var thehash = window.location.hash;
+		show_menu(thehash.substr(9),false);
+		return false;
+	}
+	window.location.hash = 'current_'+menu;
 	if(current_menu!=menu)
 		hide_menu()
 	$("#"+menu).show()

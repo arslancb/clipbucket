@@ -16,65 +16,6 @@
 include("../includes/config.inc.php");
 include("../includes/classes/curl/class.curl.php");
 error_reporting(E_ALL ^E_NOTICE);
-
-////Get File
-////$url = 'http://farm3.static.flickr.com/2327/1791102470_1479de524c.jpg';
-//$url = $_POST['file_url'];
-//
-////Checking Extension
-//$ext = getExt($url);
-//
-////Load Class
-//$curl = new curl($url);
-////$curl->setopt(CURLOPT_FOLLOWLOCATION, true) ;
-//
-//if(empty($url))
-//{
-//	$array['err'] = "No url specified";
-//	echo json_encode($array);
-//	exit();
-//}
-//
-////Checking File size
-//if(!is_numeric($curl->file_size) || $curl->file_size == '')
-//{
-//	$array['err'] = "Unknown file size";
-//	echo json_encode($array);
-//	exit();
-//}
-//
-//
-//if(isset($_POST['check_url']))
-//{
-//	$array['size'] = $curl->file_size;
-//	$array['ext'] = $ext;
-//	echo json_encode($array);
-//	exit();
-//}
-//
-////Get File Extension
-//
-////Get File Name
-////$file_name = time();
-//$file_name = $_POST['file_name'];
-//$file_path = TEMP_DIR.'/'.$file_name.'.'.$ext;
-////Opening File
-//$file = fopen($file_path,"w");
-////Reading Content
-//$content = $curl->exec();
-////writing File
-//fwrite($file,$content);
-//$Upload->add_conversion_queue($file_name.'.'.$ext);
-//
-//if ($theError = $curl->hasError())
-//{
-//  $array['err'] = $theError ;
-//  echo json_encode($array);
-//}
-//
-////Closing Curl Session
-//$curl->close() ;
-//echo "done";
 	
 /**
  * Call back function of cURL handlers
@@ -86,6 +27,103 @@ error_reporting(E_ALL ^E_NOTICE);
  *
  * Writes the log in file
  */
+
+if(!isCurlInstalled())
+{
+	exit(json_encode(array("error"=>"Sorry, we do not support remote upload")));
+}
+
+if($_POST['youtube'])
+{
+	$youtube_url = $_POST['file'];
+	$filename = $_POST['file_name'];	
+	
+	$ParseUrl = parse_url($youtube_url);
+	parse_str($ParseUrl['query'], $youtube_url_prop);
+	$YouTubeId = isset($youtube_url_prop['v']) ? $youtube_url_prop['v'] : '';
+	
+	if(!$YouTubeId)
+	{
+		exit(json_encode(array("error"=>"Invalid youtube url")));
+	}
+			
+	$content = file_get_contents($youtube_url);
+	$match_arr = 
+	array
+	(
+		"title"=>"/<meta name=\"title\" content=\"(.*)\">/",
+		"description"=>"/<meta name=\"description\" content=\"(.*)\">/",
+		"tags" =>"/<meta name=\"keywords\" content=\"(.*)\">/",
+		"embed_code" => "/<meta name=\"keywords\" content=\"(.*)\">/",
+		"duration" => "/<span class=\"video-time\">(.*)<\/span>/"
+	);
+	
+	$vid_array = array();
+	foreach($match_arr as $title=> $match)
+	{
+		preg_match($match,$content,$matches);
+		$vid_array[$title] = $matches[1];
+	}
+	
+	$vid_array['thumbs'] = 
+	array('http://i3.ytimg.com/vi/'.$YouTubeId.'/1.jpg','http://i3.ytimg.com/vi/'.
+	$YouTubeId.'/2.jpg','http://i3.ytimg.com/vi/'.$YouTubeId.'/3.jpg',
+	'big'=>'http://i3.ytimg.com/vi/'.$YouTubeId.'/2.jpg');
+	$vid_array['embed_code'] = '<object width="425" height="344">
+	<param name="movie" value="http://www.youtube.com/v/'.$YouTubeId.'">
+	</param><param name="allowFullScreen" value="true"></param>
+	<param name="allowscriptaccess" value="always"></param>
+	<embed src="http://www.youtube.com/v/'.$YouTubeId.'" 
+	type="application/x-shockwave-flash" 
+	width="425" height="344" 
+	allowscriptaccess="always"
+	 allowfullscreen="true">
+	</embed></object>';
+	
+	$vid_array['category'] = array($cbvid->get_default_cid());
+	$vid_array['file_name'] = $filename;
+	$vid_array['userid'] = userid();
+	
+	$duration = $vid_array['duration'];
+	$duration = explode(":",$duration);
+	$sep = count($duration);
+	if($sep==3)
+		$duration = ($duration[0]*60*60)+($duration[1]*60)+($duration[2]);
+	else
+		$duration = ($duration[0]*60)+($duration[1]);
+
+	$vid = $Upload->submit_upload($vid_array);
+	
+	if(error())
+	{
+		exit(json_encode(array('error'=>error('single'))));
+	}
+	
+	if(!function_exists('get_refer_url_from_embed_code'))
+	{
+		exit(json_encode(array('error'=>"Clipbucket embed module is not installed")));
+	}
+	
+	$ref_url = get_refer_url_from_embed_code(unhtmlentities(stripslashes($vdetails['embed_code'])));
+	$ref_url = $ref_url['url'];
+	$db->update(tbl("video"),array("status","refer_url","duration"),array('Successful',$ref_url,$duration)," videoid='$vid'");
+	
+	//Downloading thumb
+	foreach($vid_array['thumbs'] as $tid => $thumb)
+	{
+		if($tid!='big')
+			$thumbId = $tid+1;
+		else
+			$thumbId = 'big';
+		snatch_it(urlencode($thumb),THUMBS_DIR,$filename."-$thumbId.jpg");
+	}
+	
+	exit(json_encode(array('vid'=>$vid,
+	'title'=>$vid_array['title'],'desc'=>$vid_array['description'],
+	'tags'=>$vid_array['tags'])));	
+}
+
+ 
  
 function callback($download_size, $downloaded, $upload_size, $uploaded)
 {
@@ -117,6 +155,9 @@ function callback($download_size, $downloaded, $upload_size, $uploaded)
 	fwrite($fo,json_encode($curl_info));
 	fclose($fo);
 }
+
+
+
 
 $file = $_POST['file'];
 $file_name = $_POST['file_name'];
