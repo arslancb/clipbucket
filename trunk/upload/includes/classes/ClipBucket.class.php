@@ -95,21 +95,7 @@ class ClipBucket
 		//This is used to create Admin Menu
 		$this->AdminMenu = $this->get_admin_menu();
 
-		//Updating Upload Options
-		$this->upload_opt_list = array
-		(
-		 'file_upload_div'	=>	array(
-							  'title'		=>	'Upload File',
-							  'func_class'	=> 	'Upload',
-							  'load_func'	=>	'load_upload_form',
-							  ),
-		 'remote_upload_div' => array(
-								  'title'	=> 'Remote Upload',
-								  'func_class' => 'Upload',
-								  'load_func' => 'load_remote_upload_form',
-								  )
-		 );
-		
+		//Updating Upload Options		
 		$this->temp_exts = array('ahz','jhz','abc','xyz','cb2','tmp','olo','oar','ozz');
 		$this->template = $this->configs['template_dir'];
 		

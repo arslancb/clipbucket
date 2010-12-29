@@ -55,8 +55,16 @@ if(isset($_GET['action']))
 if(isset($_GET['create_package']))
 {
 	if($lang_obj->createPack($_GET['create_package']))
-		e("Language has been re-created","m");
+		e("Language pack has been re-created","m");
 }
+
+//Create package
+if(isset($_GET['recreate_from_pack']))
+{
+	if($lang_obj->updateFromPack($_GET['recreate_from_pack']))
+		e("Language database has been updated","m");
+}
+
 
 
 //Get List Of Languages

@@ -8,7 +8,8 @@
 	function load_upload_form($params)
 	{
 		global $file_name;
-    	echo '<input id="file_uploads" name="file_uploads" type="file" />';
+		assign('params',$params);
+    	Template(STYLES_DIR.'/global/upload_form.html',false);
 	}
 
 	
@@ -23,7 +24,7 @@
         <input name="remote_file_url" type="textfield"  class="remoteUrlInput" 
         id="remote_file_url" value="e.g http://clipbucket.com/sample.flv" 
         onclick="if($(this).val()==\'e.g http://clipbucket.com/sample.flv\') $(this).val(\'\')"/>
-        <input name="submit_upload" type="hidden" value="Upload Data Now!">
+        <input name="submit_upload" type="hidden" value="'.lang('upload_data_now').'">
         
         <div id="remote_upload_result_cont"></div>
         <div class="remote_main_bar" id="main_bar">
@@ -35,9 +36,11 @@
         </div>                
         <div align="right">
 			<input type="button" name="ytUploadBttn" id="ytUploadBttn" 
-			value="Grab from youtube" onClick="youtube_upload()" class="cbSubmitUpload">
-            <input type="button" name="remoteUploadBttn" id="remoteUploadBttn" value="Upload" onClick="check_remote_url()" class="cbSubmitUpload">
-            <input type="button" name="remoteUploadBttnStop" id="remoteUploadBttnStop" value="Cancel"   class="cbSubmitUpload" style="display:none"/>
+			value="'.lang('grab_from_youtube').'" onClick="youtube_upload()" class="cbSubmitUpload">
+            <input type="button" name="remoteUploadBttn" id="remoteUploadBttn" value="'.lang('upload').'" 
+			onClick="check_remote_url()" class="cbSubmitUpload">
+            <input type="button" name="remoteUploadBttnStop" id="remoteUploadBttnStop" value="'.lang('cancel').'"   
+			class="cbSubmitUpload" style="display:none"/>
         </div>
    	 	</div>
    	 	<div id="remoteForm"></div> ';

@@ -390,9 +390,22 @@ if(phpversion() < '5.2.0')
 	Assign('video_embed',$row['video_embed']);
 	
 	
-	
-	
 	$LANG = $lang_obj->lang_phrases('file');
+	
+	
+	$ClipBucket->upload_opt_list = array
+	(
+	 'file_upload_div'	=>	array(
+						  'title'		=>	lang('upload_file'),
+						  'func_class'	=> 	'Upload',
+						  'load_func'	=>	'load_upload_form',
+						  ),
+	 'remote_upload_div' => array(
+							  'title'	=> lang('remote_upload'),
+							  'func_class' => 'Upload',
+							  'load_func' => 'load_remote_upload_form',
+							  )
+	 );
 	Assign('LANG',$LANG);
 	Assign('langf',LANG);
     Assign('lang_count',count($languages));

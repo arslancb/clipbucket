@@ -9,9 +9,10 @@ var jsURL = '{$js}';
 var uploadError = false;
 var file_name = '{$file_name}';
 var lang = new Array();
-lang['saveData'] = 'Save Data';
-lang['savingData'] = 'Saving...';
+lang['saveData'] = '{lang code='save_data'}';
+lang['savingData'] = '{lang code='saving'}';
 lang['remoteUploadFile'] = '{lang code="remote_upload_file"}';
+lang['upload_video_button'] = '{lang code="upload_video_button"}';
 var fileExt = '{$Cbucket->list_extensions()|replace:",":";"}';
 {literal}
 
@@ -62,13 +63,16 @@ $(document).ready(function()
   $(object).uploadify({
     'uploader'  : jsURL+'/uploadify/uploadify.swf',
     'script'    : baseurl+'/actions/file_uploader.php',
-    'cancelImg' : jsURL+'/uploadify/cancel.png',
+    'cancelImg' : imageurl+'/cancel_upload.png',
     'auto'      : true,
 	'removeCompleted' : false,
 	'displayData' : 'both',
 	'fileExt'     : fileExt,
 	'multi'		  : true,
 	'fileDesc'    : 'Video Files',
+	'buttonText' : lang.upload_video_button,
+	'queueID' : 'fileUploadQueue',
+	'queueLimit' : 2,
 	'onOpen'	 : function(event,ID,fileObj) {
 		
 		uploadError = false;
