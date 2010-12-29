@@ -454,6 +454,44 @@ class language
 		$phrases = json_decode($langData,true);
 		return $phrases;	
 	}
+	
+	/** 
+	 * Function used to import language from lang file
+	 * this function fill first remove all phrases from database
+	 * then update the language so that when we release update we just update the 
+	 * file and then call this function to refresh all the language phrases.
+	 */
+	function updateFromPack($lang=NULL)
+	{
+		global $db;
+		if(!$lang)
+			$lang = $this->lang;
+		$file = BASEDIR.'/includes/langs/'.$lang.'.lang';
+		if(file_exists($file))
+		{
+			$langData = file_get_contents($file);
+			$phrases = json_decode($langData,true);
+			//First lets delete all language phrases
+			$db->delete(tbl("phrases"),array("lang_iso"),array($lang));
+			//Now create query and then execute it
+			$query = "INSERT INTO ".tbl("phrases")."
+			(`lang_iso` ,`varname` ,`text`)
+			VALUES";
+			
+			$count = 0;
+			foreach($phrases as $key => $phrase)
+			{
+				if($count>0)
+					$query .= ",";
+				$query .= "('$lang', '$key', '".addslashes($phrase)."')";
+				$count++;
+			}
+			$query .= ";";
+			
+			$db->Execute($query);
+		
+		}
+	}
 		
 }
 
