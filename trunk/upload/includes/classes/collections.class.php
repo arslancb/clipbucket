@@ -83,6 +83,7 @@ class Collections extends CBCategory
 													lang('Manage Collections')=>'collection_manager.php',
 													lang('Flagged Collections')=>'flagged_collections.php');
 		
+
 		// Adding Collection links in Cbucket Class
 		$Cbucket->links['collections'] = array('collections.php','collections');
 		$Cbucket->links['manage_collections'] = array('manage_collections.php','manage_collections');

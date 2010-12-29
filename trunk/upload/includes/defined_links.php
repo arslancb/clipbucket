@@ -5,7 +5,8 @@
  * ARRAY( [name]=> Array([Non SEO Link], [SEO Link])) - Without BASEURL
  */
 
-$Cbucket->links  = array
+
+$cbLinks = array
 (
 'channels'		=>array('channels.php','channels'),
 'compose_new'	=>array('private_message.php?mode=new_msg','private_message.php?mode=new_msg'),
@@ -34,6 +35,8 @@ $Cbucket->links  = array
 
 );
 
+if(is_array($Cbucket->links))
+	$Cbucket->links  =  array_merge($Cbucket->links,$cbLinks);
 
 /**
  * Sortings
