@@ -46,4 +46,7 @@ if($row['closed'] == 1 && THIS_PAGE!='ajax' && !$in_bg_cron)
 		e(lang("ATTENTION: THIS WEBSITE IS IN OFFLINE MODE"),"w");
 	}
 }
+
+//Configuring Uploader
+uploaderDetails();
 ?>

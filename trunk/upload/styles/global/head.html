@@ -14,6 +14,10 @@ lang['savingData'] = '{lang code='saving'}';
 lang['remoteUploadFile'] = '{lang code="remote_upload_file"}';
 lang['upload_video_button'] = '{lang code="upload_video_button"}';
 var fileExt = '{$Cbucket->list_extensions()|replace:",":";"}';
+
+var uploadSwfPath = '{$uploaderDetails.uploadSwfPath}';
+var uploadScriptPath = '{$uploaderDetails.uploadScriptPath}';
+
 {literal}
 
   function show_error(msg,ID,fade)
@@ -61,8 +65,8 @@ $(document).ready(function()
   function showUploadify(object)
   {
   $(object).uploadify({
-    'uploader'  : jsURL+'/uploadify/uploadify.swf',
-    'script'    : baseurl+'/actions/file_uploader.php',
+    'uploader'  : uploadSwfPath,
+    'script'    : uploadScriptPath,
     'cancelImg' : imageurl+'/cancel_upload.png',
     'auto'      : true,
 	'removeCompleted' : false,

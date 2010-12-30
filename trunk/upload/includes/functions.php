@@ -4707,4 +4707,29 @@
 			return false;
 		}
 	}
+	
+	/**
+	 * Function for loading 
+	 * uploader file url & other configurations
+	 */
+	function uploaderDetails()
+	{
+		global $uploaderType;
+		switch($uploaderType)
+		{
+			case "video":
+			default:
+			{
+				$uploaderDetails = array
+				(
+					'uploadSwfPath' => JS_URL.'/uploadify/uploadify.swf',
+					'uploadScriptPath' => BASEURL.'/actions/file_uploader.php',
+				);
+			}
+		}
+
+		assign('uploaderDetails',$uploaderDetails);		
+		//Calling Custom Functions
+		cb_call_functions('uploaderDetails');
+	}
 ?>
