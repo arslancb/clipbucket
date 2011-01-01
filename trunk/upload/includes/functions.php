@@ -4679,6 +4679,46 @@
 		return $preUrl.$var;		
 	}
 	
+	/**
+	 * Following two functions are taken from
+	 * tutorialzine.com's post 'Creating a Facebook-like Registration Form with jQuery'
+	 * These function are written by Martin Angelov.
+	 * Read post here: http://tutorialzine.com/2009/08/creating-a-facebook-like-registration-form-with-jquery/
+	 */
+	function generate_options($params)
+	{
+		$reverse=false;
+		
+		if($params['from']>$params['to'])
+		{
+			$tmp=$params['from'];
+			$params['from']=$params['to'];
+			$params['to']=$tmp;
+			
+			$reverse=true;
+		}
+		
+		
+		$return_string=array();
+		for($i=$params['from'];$i<=$params['to'];$i++)
+		{
+			//$return_string[$i] = ($callback?$callback($i):$i);
+			$return_string[] = '<option value="'.$i.'">'.($params['callback']?$params['callback']($i):$i).'</option>';
+		}
+		
+		if($reverse)
+		{
+			$return_string=array_reverse($return_string);
+		}
+		
+		
+		return join('',$return_string);
+	}
+	function callback_month($month)
+	{
+		return date('M',mktime(0,0,0,$month,1));
+	}
+	
 	
 	/**
 	 * Function use to download file to server

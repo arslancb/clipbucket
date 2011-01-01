@@ -48,7 +48,7 @@ class ClipBucket
 	 
 	 var $before_convert_functions = array();
 	 var $after_convert_functions = array();
-	
+
 	
 	/**
 	 * This array contains
@@ -420,19 +420,56 @@ class ClipBucket
 	function head_menu($params=NULL)
 	{
 		global $cbpage;
-		$this->head_menu[] = array('name'=>lang("menu_home"),'link'=>BASEURL,"this"=>"home");
-		$this->head_menu[] = array('name'=>lang("videos"),'link'=>cblink(array('name'=>'videos')),"this"=>"videos");
-		$this->head_menu[] = array('name'=>lang("menu_channels"),'link'=>cblink(array('name'=>'channels')),"this"=>"channels");
-		$this->head_menu[] = array('name'=>lang("groups"),'link'=>cblink(array('name'=>'groups')),"this"=>"groups");
+		$this->head_menu[] = array('name'=>lang("menu_home"),'link'=>BASEURL,"this"=>"home","section"=>"home","extra_attr"=>"");
+		$this->head_menu[] = array('name'=>lang("videos"),'link'=>cblink(array('name'=>'videos')),"this"=>"videos","section"=>"home");
+		$this->head_menu[] = array('name'=>lang("menu_channels"),'link'=>cblink(array('name'=>'channels')),"this"=>"channels","section"=>"channels");
+		$this->head_menu[] = array('name'=>lang("groups"),'link'=>cblink(array('name'=>'groups')),"this"=>"groups","section"=>"groups");
+		$this->head_menu[] = array('name'=>lang("Collections"),'link'=>cblink(array('name'=>'collections')),"this"=>"collections","section"=>"collections");
 		if(!userid())
 		$this->head_menu[] = array('name'=>lang("signup"),'link'=>cblink(array('name'=>'signup')),"this"=>"signup");
 		
-		$this->head_menu[] = array('name'=>lang("upload"),'link'=>cblink(array('name'=>'upload')),"this"=>"upload");
-		
+		$this->head_menu[] = array('name'=>lang("upload"),'link'=>cblink(array('name'=>'upload')),"this"=>"upload");	
 		if($params['assign'])
 			assign($params['assign'],$this->head_menu);
 		else
 			return $this->head_menu;
+	}
+	
+		
+	function cbMenu($params=NULL)
+	{
+		{
+			$headMenu = $this->head_menu;
+			$output = '';
+			if(($params['tag']))
+					$output .= "<".$params['tag'].">";
+			foreach($headMenu as $menu)
+			{
+				$selected = current_page(array("page"=>$menu['this']));
+				
+				$output .= "<li ";
+				$output .= "id = 'cb".$menu['name']."Tab'";
+					
+				$output .= " class = '";
+				if($params['class'])
+					$outout .= $params['class'];
+				if($selected)
+					$output .= " selected";
+				$output .= "'";
+							
+				if($params['extra_params'])
+					$output .= ($params['extra_params']);					
+				$output .= ">";
+					$output .= "<a href='".$menu['link']."'>";
+					$output .= $menu['name']."</a>";
+				$output .= "</li>";
+					
+			}
+			if(($params['tag']))
+					$output .= "</".$params['tag'].">";
+					
+			return $output;		
+		}
 	}
 	
 	/**

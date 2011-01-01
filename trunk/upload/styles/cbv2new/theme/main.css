@@ -805,7 +805,8 @@ ul.upload_opts li.selected { cursor:pointer; background:none; border:1px solid; 
 .obj_title a { text-decoration:none; }
 
 .collectionTable { border-collapse:collapse; border-spacing:0px; width:100%; }
-td.collectItemBox { vertical-align:middle; display:inline-block; width:18%; text-align:center; padding:10px 0px; }
+#collectionItemsList { }
+.collectItemBox { vertical-align:middle; width:19%; display:inline-block; text-align:center; padding:10px 2px; zoom: 1; *display: inline; display: -moz-inline-stack; }
 a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 .collect_grid img { display:block; margin:3px; }
 

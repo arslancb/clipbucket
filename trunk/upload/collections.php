@@ -14,7 +14,7 @@ $pages->page_redir();
 
 $sort = $_GET['sort'];
 $cond = array("category"=>mysql_clean($_GET['cat']),"date_span"=>$_GET['time']);
-$type = mysql_clean($_GET['type']);
+$content = mysql_clean($_GET['content']);
 
 switch($sort)
 {	
@@ -50,7 +50,7 @@ switch($sort)
 	break;	
 }
 
-switch($type)
+switch($content)
 {
 	case "videos":
 	{

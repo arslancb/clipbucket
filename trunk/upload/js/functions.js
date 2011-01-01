@@ -1281,11 +1281,45 @@ function getDetails(obj)
 	return ParamArray;
 }
 
-
-
 function getName(File)
 {
 	var url = File;
 	var filename = url.substring(url.lastIndexOf('/')+1);
 	return filename;
+}
+
+function viewRatings(object,pid)
+{
+	var obj = $(object), innerHTML = obj.html();
+	if(document.getElementById('RatingStatContainer'))
+			$("#RatingStatContainer").toggle();
+	else
+	{       
+			loadAjax = 
+			$.ajax
+			({
+					url:page,
+					type: "post",
+					dataType: "text",
+					data: { mode:"viewPhotoRating", photoid:pid },
+					beforeSend: function() { obj.html(loading); },
+					success:function(data) {
+							obj.html(innerHTML); 
+							if(data)
+							{
+									$("<div />").attr('id','RatingStatContainer')
+									.addClass('clearfix')
+									.css({
+											"padding" : "8px",
+											"font" : "normal 11px Tahoma",
+											"border" : "1px solid #ccc",
+											"backgroundColor" : "#FFF"     
+									}).html(data).fadeIn(350).insertAfter(obj);
+							} else {
+									obj.removeAttr('onclick');
+									alert("Photo has not recieved any rating yet.");        
+							}
+					}       
+			});
+	}
 }

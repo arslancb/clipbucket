@@ -15,21 +15,21 @@
 {/if}
 
 {if $display_type == "view_collection"}
-<td class="collectItemBox">
+<div class="collectItemBox">
 	{if $type == "videos"}
     <div class="collect_grid">
-        	<a class="CollectThumb" href="{$cbphoto->photo_links($object,'view_item')}">
-            	<img src="{getThumb vdetails=$object}" alt="{$object.title}" width="120" height="70" />
-            </a>
+        <a class="CollectThumb" href="{$cbphoto->photo_links($object,'view_item')}">
+            <img src="{getThumb vdetails=$object}" alt="{$object.title}" width="120" height="70" />
+        </a>
     </div> <!-- collection_{$collection.videokey} end -->
     {/if}
     
     {if $type == "photos"}
-            <div class="collect_grid" style="height:auto">
-        	<a class="CollectThumb" href="{$cbphoto->photo_links($object,'view_item')}">
-            	{get_photo details=$object size='t' output='html' alt=$object.photo_title}
-            </a>        
+    <div class="collect_grid">
+        <a class="CollectThumb" href="{$cbphoto->photo_links($object,'view_item')}">
+            {get_photo details=$object size='t' output='html' alt=$object.photo_title}
+        </a>        
     </div> <!-- collection_{$object.photo_key} end -->    
     {/if}
-</td>    
+</div>  
 {/if}
