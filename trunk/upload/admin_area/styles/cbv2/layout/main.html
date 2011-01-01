@@ -309,6 +309,15 @@ $(document).ready(function(){
       <fieldset  class="fieldset" style="border:none">
 <table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
         <tr>
+          <td valign="top">Upoad Options</td>
+          <td valign="top"> 	
+    {foreach from=$opt_list item=opt}
+	{assign var=uploadOptId value=$opt.load_func}
+		<label><input type="checkbox" name="{$uploadOptId}" {if $row.$uploadOptId=='yes'} checked="checked"{/if} value="yes"/>{$opt.title}</label>
+	{/foreach}
+    </td>
+        </tr>
+        <tr>
           <td valign="top">Use Crons</td>
           <td valign="top">
             <label>

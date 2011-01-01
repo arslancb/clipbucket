@@ -2347,11 +2347,20 @@
 	 */
 	function lang($var)
 	{
-		global $LANG;
+		global $LANG,$Cbucket;
+		
+		$array_str = array
+		( '{title}');
+		$array_replace = array
+		( $Cbucket->configs['site_title'] );
+		
 		if($LANG[$var])
-			return $LANG[$var];
-		else
-			return $var;
+		{
+			return str_replace($array_str,$array_replace,$LANG[$var]);
+		}else
+		{
+			return str_replace($array_str,$array_replace,$var);
+		}
 	}
 	function smarty_lang($param)
 	{
