@@ -858,3 +858,5 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 .uploadErrorMsg, .uploadSuccessMsg{font-size:14px; font-weight:bold; color:#7fa534; display:inline-block; line-height:20px; height:20px;}
 .uploadErrorDiv{ background:url(../images/error.png) no-repeat -3px 0px;}
 .uploadErrorMsg{color:#ed0000}
+
+.PhotoUploaderWrapper { border:1px solid #CCC; width:100%; background-color:#EEE; display:inline-block; padding:15px 0px; text-align:center; }

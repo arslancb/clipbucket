@@ -3204,7 +3204,6 @@ class userquery extends CBCategory{
 		$email = $default['email'];
 		$dcountry = $default['country'] ? $default['country'] : $Cbucket->configs['default_country_iso2'];
 		$dob = $default['dob'];
-	
 			
 		 $dob =  $dob ? date(config("date_format"),strtotime($dob)) : date(config("date_format"),strtotime('14-10-1989'));
 		 
@@ -3295,6 +3294,7 @@ class userquery extends CBCategory{
 						 'db_field'=>'dob',
 						 'required'=>'yes',
 						 ),
+						 						 					 
 		  'cat'		=> array('title'=> lang('Category'),
 							 'type'=> 'dropdown',
 							 'name'=> 'category',

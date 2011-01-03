@@ -12,6 +12,7 @@ $exts = $cbphoto->exts;
 $max_size = 1048576; // 2MB in bytes
 $form = "photoUpload";
 $path = PHOTOS_DIR."/";
+
 // These are found in $_FILES. We can access them like $_FILES['file']['error'].
 $upErrors = array(
 				  0 => "There is no error, the file uploaded with success.",
@@ -25,18 +26,18 @@ $upErrors = array(
 				  
 // Let's see if everything is working fine by checking $_FILES.
 if(!isset($_FILES[$form])) {
-	HandleError("No upload found in \$_FILES for " . $form);
+	upload_error("No upload found in \$_FILES for " . $form);
 	exit(0);
 }
 elseif(isset($_FILES[$form]['error']) && $_FILES[$form]['error'] != 0) {
-	HandleError($upErrors[$_FILES[$form]['error']]);
+	upload_error($upErrors[$_FILES[$form]['error']]);
 	exit(0);
 }
 elseif(!isset($_FILES[$form]["tmp_name"]) || !@is_uploaded_file($_FILES[$form]["tmp_name"])) {
-	HandleError("Upload failed is_uploaded_file test.");
+	upload_error("Upload failed is_uploaded_file test.");
 	exit(0);
 } elseif(empty($_FILES[$form]['name'])) {
-	HandleError("File name is empty");
+	upload_error("File name is empty");
 	exit(0);	
 }
 
@@ -44,13 +45,13 @@ elseif(!isset($_FILES[$form]["tmp_name"]) || !@is_uploaded_file($_FILES[$form]["
 //$filesize = filesize($_FILES[$form]['tmp_name']);
 //if(!$filesize || $filesize > $max_size)
 //{
-//	HandleError("File exceeds the maximum allowed size");
+//	upload_error("File exceeds the maximum allowed size");
 //	exit(0);
 //}
 //
 //if($filesize < 0)
 //{
-//	HandleError("File size outside allowed lower bound");
+//	upload_error("File size outside allowed lower bound");
 //	exit(0);
 //}
 
@@ -68,7 +69,7 @@ foreach ($exts as $ext) {
 
 if(!$valid_extension)
 {
-	HandleError("Invalid file extension");
+	upload_error("Invalid file extension");
 	exit(0);	
 }
 
@@ -82,7 +83,7 @@ if(move_uploaded_file($_FILES[$form]['tmp_name'],$path.$filename.".".$extension)
 	$userid = $_POST['userid'];
 	$collection = $_POST['collection'];
 	$name = mysql_clean(substr($info['filename'],0,20));
-	$desc = $name." description";
+	$desc = $name;
 	$tag = strtolower($name);
 	$key = $cbphoto->photo_key();
 			
@@ -104,22 +105,22 @@ if(move_uploaded_file($_FILES[$form]['tmp_name'],$path.$filename.".".$extension)
 		
 	// Creating Thumb and Med Size Image
 	$cbphoto->createThumb($path.$filename.".".$extension,$path.$filename."_t.".$extension,$extension,$cbphoto->thumb_width,$cbphoto->thumb_height);
-	$cbphoto->createThumb($path.$filename.".".$extension,$path.$filename."_m.".$extension,$extension,$cbphoto->mid_width,$cbphoto->mid_height);
+	/*$cbphoto->createThumb($path.$filename.".".$extension,$path.$filename."_m.".$extension,$extension,$cbphoto->mid_width,$cbphoto->mid_height);*/
 	
-	$image = str_replace($path,PHOTOS_URL."/",$path.$filename."_m.".$extension);
+	$image = str_replace($path,PHOTOS_URL."/",$path.$filename."_t.".$extension);
 	$detailsArray['image_file'] = $image;
 	
 	$FinalVar = base64_encode(serialize($detailsArray));
 	echo $FinalVar;
 } else {	
-	HandleError("File could not be saved.");
+	upload_error("File could not be saved.");
 	exit(0);	
 }
 
 
-/* Handles the error output. This error message will be sent to the uploadSuccess event handler.  The event handler
-will have to check for any error messages and react as needed. */
-function HandleError($message) {
-	echo $message;
+//function used to display error
+function upload_error($error)
+{
+	echo json_encode(array("error"=>$error));
 } 
 ?> 

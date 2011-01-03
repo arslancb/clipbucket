@@ -153,67 +153,62 @@ window.onload = function() {
 </script>
 {/if}
 
-
-
 {if $smarty.const.THIS_PAGE == 'photo_upload'}
-<script src="{$js}/swfupload/swfupload.js" type="text/javascript"></script>
-<script src="{$js}/swfupload/plugins/all_in_one.js" type="text/javascript"></script>
+<link href="{$js}/uploadify/uploadify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="{$js}/uploadify/swfobject.js"></script>
+<script type="text/javascript" src="{$js}/uploadify/jquery.uploadify.v2.1.4.js"></script>
 
-<script type="text/javascript">
-	var swfu;
-	window.onload = function () 
-	{ldelim}
-		var settings = 
-		{ldelim}
-			flash_url : "{$js}/swfupload/swfupload.swf",
-			file_post_name: 'photoUpload',
-			upload_url: "{$baseurl}/actions/photo_uploader.php",
-			button_image_url: "{$imageurl}/cb_button.png",
-			file_size_limit : "{$Cbucket->configs.max_photo_size} MB",				
-			file_types : "{$cbphoto->extensions()}",
-			file_types_description : "Image Files",
-			file_upload_limit : {$Cbucket->configs.photo_multi_upload},
-			post_params :
-			{ldelim}
-				{if $smarty.get.collection}
-				{assign var=collectionID value=$cbphoto->decode_key($smarty.get.collection)}
-				{if $cbphoto->is_addable($collectionID)}
-					collection : {$collectionID},
-				{/if}
-				{/if}
-				userid : {$userquery->userid}
-			{rdelim},
-			file_queue_limit : 0,
-			custom_settings : {ldelim}
-					progressTarget : "fsUploadProgress",
-					cancelButtonId : "btnCancel"
-				{rdelim},
-			debug: false,
-			
-			// Button settings
-			
-			button_placeholder_id: "spanButtonPlaceHolder",
-			button_width: 77,
-			button_height: 22,
-			button_text_left_padding: 18,
-			button_text_top_padding: 2,
-			
-			button_text: '<span class="cb_button_font">Upload</span>',
-			
-			// The event handler functions are defined in handlers.js
-			file_queued_handler 			: fileQueued,
-			file_queue_error_handler 		: fileQueueError,
-			file_dialog_complete_handler 	: fileDialogComplete,
-			upload_start_handler 			: uploadStart,
-			upload_progress_handler 		: uploadProgress,
-			upload_error_handler 			: uploadError,
-			upload_success_handler 			: PictureUploadSuccess,
-			upload_complete_handler 		: uploadComplete,
-			queue_complete_handler 			: queueComplete	// Queue plugin event
-					
-		{rdelim}
-		swfu = new SWFUpload(settings);
-	{rdelim}
+<script type="text/javascript" language="javascript">
+var uploadSwfPath = '{$js}/uploadify/uploadify.swf',
+ 	uploadScriptPath = '{$baseurl}/actions/photo_uploader.php',
+	fileExt = '{$cbphoto->extensions()}',
+	lang = new Array(),
+	pData = new Array();
+lang['browsePhrase'] = '{lang code="browse_photos"}';
+{literal}
+
+	function photoUploadify(object)
+	{
+		$(object).uploadify(
+		{
+			'uploader'  : uploadSwfPath,
+			'script'    : uploadScriptPath,
+			'fileDataName' : 'photoUpload',
+			'cancelImg' : imageurl+'/cancel_upload.png',
+			'auto'      : true,
+			'removeCompleted' : false,
+			'displayData' : 'both',
+			'fileExt'     : fileExt,
+			'multi'		  : true,
+			{/literal}
+			{if $smarty.get.collection}
+			{assign var=cid value=$cbphoto->decode_key($smarty.get.collection)}
+			{if $cbphoto->is_addable($cid)}
+			'scriptData' : {ldelim} 'collection':'{$cid}' {rdelim},
+			{/if}
+			{/if}
+			{literal}
+			'fileDesc'    : 'Photo Files',
+			'buttonText' : lang.browsePhrase,
+			'queueID' : 'photoUploadQueue',
+			'onComplete' : function(event,ID,fileObj,response,data)
+			{
+				if(response)
+				{ 
+					pData.push(response);
+					$("#photoIDS").val(pData);
+				}
+			},
+			'onAllComplete': function(event,data) {
+				$("#EnterInfo").removeAttr('disabled');
+			}
+		});
+	}
+	
+$(document).ready(function() { 
+	photoUploadify('#photo_uploads'); 
+});	
+{/literal}
 </script>
 {/if}
 

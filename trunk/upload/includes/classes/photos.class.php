@@ -147,6 +147,7 @@ class CBPhotos
 		$Cbucket->links['photos'] = array('photos.php','photos');
 		$Cbucket->links['manage_photos'] = array('manage_photos.php','manage_photos.php');
 		$Cbucket->links['edit_photo'] = array('edit_photo.php?photo=','edit_photo.php?photo=');
+		$Cbucket->links['photo_upload'] = array('photo_upload.php','photo_upload');
 		$Cbucket->links['manage_favorite_photos'] = array('manage_photos.php?mode=favorite','manage_photos.php?mode=favorite');
 		$Cbucket->links['manage_orphan_photos'] = array('manage_photos.php?mode=orphan','manage_photos.php?mode=orphan');
 		$Cbucket->links['user_photos'] = array('user_photos.php?mode=uploaded&amp;user=','user_photos.php?mode=uploaded&amp;user=');
@@ -973,7 +974,7 @@ class CBPhotos
 	function loadUploadForm($params)
 	{
 		$p = $params;
-		$should_include = $p['include_header'] ? $p['include_header'] : TRUE;
+		$should_include = $p['includeHeader'] ? $p['includeHeader'] : TRUE;
 		$output = '<form action="" method="post"';
 		if($p['formName'])
 			$output .= " name = '".$p['formName']."'";
@@ -984,25 +985,26 @@ class CBPhotos
 		else
 			$output .= " id = 'photo_form'";
 		if($p['formClass'])
-			$output .= " class = '".$p['formClass']."'";		
+			$formClass = $p['formClass'];
+		$output .= " class = 'clearfix ".$formClass."'";		
 		$output .= ">";
+		$output .= '<input type="hidden" value="" name="photoIDS" id="photoIDS" />';
 			if($p['class'])
 				$class = $p['class'];
 			if($should_include === TRUE)	
-				$output .= Fetch("/blocks/upload_head.html");					
-			$output .= "<div class='upload_form_div clearfix ".$class."'>";
-				$output .= '<input type="hidden" id="photoIDS" name="photoIDS"  />';
-				$output .= '<div id="divStatus" class="divStatus moveL">Click "Upload" to select files</div>';
-				$output .= '<div class="moveR">';
-					$output .= '<span id="spanButtonPlaceHolder"></span>';
-					$output .= '<input id="btnCancel" type="button" value="Cancel" 
-		onClick="swfu.cancelQueue();" disabled="disabled" style="margin:0px 0px 1px 3px" />';
-				$output .= '</div>';
-				$output .= "<div class='clear'></div>";
-				$output .= '<div id="progress_status" class="divStatus clearfix"></div>';
-				$output .= '<div class="fieldset flash clearfix" id="fsUploadProgress"></div>';
+				$output .= Fetch("/blocks/upload_head.html");
+			$output .= "<div ";
+			$output .= "class = 'PhotoUploaderWrapper ".$class."'";
+			if($p['WrapperID'])
+				$output .= "id = '".$p['WrapperID']."'";
+			if($p['WrapperExtraAttr'])
+				$output .= $p['WrapperExtraAttr'];		
+			$output .= ">";						
+				$output .= '<input type="file" name="photo_uploads" id="photo_uploads" />';
 			$output .= "</div>";
-			$output .= '<button name="EnterInfo" class="'.$p['buttonClass'].'" id="EnterInfo" disabled="disabled">'.lang('continue').'</button>';
+			$output .= '<div style="clear:both;"></div>';
+			$output .= '<div id="photoUploadQueue"></div>';
+			$output .= '<button name="EnterInfo" class="'.$p['buttonClass'].'" id="EnterInfo" disabled="disabled">'.lang('Continue').'</button>';
 		$output .= "</form>";
 		
 		return $output;							

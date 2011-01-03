@@ -7,51 +7,20 @@
 
 {if $step == 2}
 	<h2>Enter Information</h2>
-	{section name=p_list loop=$photos}
-    <form action="" method="post" name="{$photos[p_list].photo_key}Form" id="{$photos[p_list].photo_key}Form">
-    	{assign var='reqFields'  value=$cbphoto->load_required_forms($photos[p_list])}
-        {assign var='otherFields'  value=$cbphoto->load_other_forms($photos[p_list])}
-        <div id="{$photos[p_list].photo_key}_Box" class="photoBox clearfix">
-        <input type="hidden" value="{$photos[p_list].photo_key}" name="photo_key" id="photo_key"  /> 
-        <input type="hidden" value="{$photos[p_list].ext}" name="ext" id="ext"  />
-        <input type="hidden" value="{$photos[p_list].filename}" name="filename" id="filename"  />      
-        	<div class="photoDetailsBox clearfix">
-                <div class="moveL" style="width:52.1%;">
-                    {foreach from=$reqFields item=item}
-                        <div class="field clearfix">
-                            <div class="moveL"><label class="label">{$item.title}</label></div>
-                            {$formObj->createField($item)}
-                            {if $item.hint_1}
-                                <div class="clear"></div>
-                                <span class="hint">{$item.hint_1}</span>
-                            {/if}
-                        </div>
-                    {/foreach}
-                </div>
-               
-                <div class="moveR">
-                	<div class="photoThumbBox">
-                    	 <img src="{$photos[p_list].image_file}" />
-                    </div>
-                </div>
-            </div>
-            <div class="OptionalSettings">
-            	<div class="Heading"><a href="#" onclick="$('#{$photos[p_list].photo_key}_Settings').slideToggle(); return false;">{lang code="Optional"} {lang code="Settings"}</a></div>
-                <div class="OptionalBox" style="display:none;" id="{$photos[p_list].photo_key}_Settings">
-                	{foreach from=$otherFields item=field}
-                    	{$field.title}<br />
-                        {$formObj->createField($field)}
-                    {/foreach}
-                </div>
-            </div>
-        </div>
-        </form>
-    {/section}
+	{foreach item=item from=$photos}
+		{include file="$style_dir/blocks/upload/photo_form.html" photo=$item}
+    {/foreach}
     <button class="LoadMoreButton clearfix" onclick="callAjax(this);" type="button" name="insertPhotos" id="insertPhotos">Save All</button>
 {/if}
 
 {if $step == 3}
-	<h2>Photos have uploaded successfully.</h2>
+	<div class="photoBox">
+    	<div style="background:#FFF; text-align:center; border-bottom:1px solid #ccc; color:#666; padding:8px; font:bold 14px Arial;">{lang code="photo_success_heading"}</div>
+        
+        <div class="clearfix" style="padding:8px; font:normal 11px Tahoma;">
+        	You can manage your photos from <strong><a href="{link name='manage_photos'}">{lang code='manage_photos'}</a></strong>.
+        </div>
+    </div>
 {/if}     
 </div>    
 </div>
