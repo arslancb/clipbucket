@@ -166,6 +166,29 @@ function bookmarkSite(title, url) {
 }
 </script>
 {/literal}
+
+{if $smarty.const.THIS_PAGE=='watch_video'}
+<meta property="og:image" content="{getThumb vdetails=$video}">
+<meta property="og:title" content="{$video.title}" />
+<meta property="og:description" content="{$video.description}" />
+<meta property="og:type" content="video" />
+<meta property="og:url" content="{videoLink vdetails=$video}" />
+<meta property="og:site_name" content="{cbtitle}" />
+<meta name="embed_video_url" content="http://embed.break.com/1976758">
+<meta name="embed_video_thumb_url" content="{getThumb vdetails=$video}">
+<meta name="embed_video_title" id="vid_title" content="{$video.title}">
+<meta name="embed_video_description" id="vid_desc" content="{$video.description}">
+<meta name="embed_video_width" content="{$smarty.const.EMBED_VDO_WIDTH}">
+<meta name="embed_video_height" content="{$smarty.const.EMBED_VDO_HEIGHT}">
+<meta name="medium" content="video">
+<meta name="video_height" content="{$smarty.const.EMBED_VDO_HEIGHT}">
+<meta name="video_width" content="{$smarty.const.EMBED_VDO_WIDTH}">
+<meta name="video_type" content="application/x-shockwave-flash">
+<link rel="video_src" href="{$embedFinalCode}">
+<link rel="videothumbnail" href="{getThumb vdetails=$video}" type="image/jpeg">
+<link rel="canonical" href="{videoLink vdetails=$video}">
+<link rel="image_src" href="{getThumb vdetails=$video}">
+{/if}
 </head>
 
 <!-- Global Header Ends Here -->

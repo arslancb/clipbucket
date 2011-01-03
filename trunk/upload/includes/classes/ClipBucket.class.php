@@ -428,6 +428,7 @@ class ClipBucket
 		if(!userid())
 		$this->head_menu[] = array('name'=>lang("signup"),'link'=>cblink(array('name'=>'signup')),"this"=>"signup");
 		
+		$this->head_menu[] = array('name'=>lang("photos"),'link'=>cblink(array('name'=>'photos')),"this"=>"photos");
 		$this->head_menu[] = array('name'=>lang("upload"),'link'=>cblink(array('name'=>'upload')),"this"=>"upload");	
 		if($params['assign'])
 			assign($params['assign'],$this->head_menu);

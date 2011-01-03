@@ -3373,7 +3373,10 @@
 					$_GET['time'] = 'all_time';
 				if(!isset($_GET['page']))
 					$_GET['page'] = 1;
-					
+				
+				if(THIS_PAGE=='photos')
+					$type = 'photos';
+				
 				if(SEO=='yes')
 					return BASEURL.'/'.$type.'/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.$_GET['sort'].'/'.$_GET['time'].'/';
 				else
@@ -3474,6 +3477,9 @@
 					$time = $sort;
 				else
 					$time = $_GET['time'];
+				
+				if(THIS_PAGE=='photos')
+					$type = 'photos';
 					
 				if(SEO=='yes')
 					return BASEURL.'/'.$type.'/'.$_GET['cat'].'/'.$_GET['seo_cat_name'].'/'.$sorting.'/'.$time.'/'.$_GET['page'];

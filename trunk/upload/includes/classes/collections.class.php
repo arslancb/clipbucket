@@ -225,7 +225,9 @@ class Collections extends CBCategory
 	function get_collection($id,$cond=NULL)
 	{
 		global $db;
-		$result = $db->select(tbl($this->section_tbl).",".tbl("users"),"".tbl($this->section_tbl).".*,".tbl('users').".userid,".tbl('users').".username"," ".tbl($this->section_tbl).".collection_id = $id AND ".tbl($this->section_tbl).".userid = ".tbl('users').".userid $cond");
+		$result = $db->select(tbl($this->section_tbl).",".tbl("users"),
+		"".tbl($this->section_tbl).".*,".tbl('users').".userid,".tbl('users').".username",
+		" ".tbl($this->section_tbl).".collection_id = $id AND ".tbl($this->section_tbl).".userid = ".tbl('users').".userid $cond");
 		//echo $db->db_query;
 		if($result)
 			return $result[0];

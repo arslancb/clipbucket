@@ -222,6 +222,9 @@ if(!function_exists("pak_player"))
 		$embedCode .= '<param name="allowFullScreen" value="true"></param>';
 		$embedCode .= '<param name="allowscriptaccess" value="always"></param>';
 		$embedCode .= '<embed src="'.$final_code.'"';
+		
+		assign('embedFinalCode',$final_code);
+		
 		$embedCode .= 'type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="'.EMBED_VDO_WIDTH.'" height="'.EMBED_VDO_HEIGHT.'"></embed>';
 		return $embedCode .= '</object>';
 	}
