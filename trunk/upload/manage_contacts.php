@@ -7,6 +7,9 @@
  ******************************************************************
 */
 
+define("THIS_PAGE",'manage_channels');
+define("PARENT_PAGE","channels");
+
 require 'includes/config.inc.php';
 $userquery->logincheck();
 $udetails = $userquery->get_user_details(userid());

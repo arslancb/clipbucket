@@ -8,7 +8,7 @@
 */
 
 define("THIS_PAGE","view_group_members");
-define("PARENT_PAGE","groups");
+define("PARENT_PAGE","channels");
 
 require 'includes/config.inc.php';
 $pages->page_redir();

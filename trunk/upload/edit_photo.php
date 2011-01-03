@@ -7,7 +7,8 @@
  ****************************************************************
 */
 
-define("THIS_PAGE","edit_video");
+define("THIS_PAGE","edit_photo");
+define("PARENT_PAGE",'photos');
 
 require 'includes/config.inc.php';
 $userquery->login_check('edit_video');

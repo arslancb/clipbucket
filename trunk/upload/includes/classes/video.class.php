@@ -36,11 +36,15 @@ class CBvideo extends CBCategory
 	 */	
 	function init()
 	{
+		global $Cbucket;
 		$this->cat_tbl = 'video_categories';
 		$this->section_tbl = 'video';
 		$this->use_sub_cats = TRUE;
 		$this->init_actions();
 		$this->init_collections();
+		
+		if(isSectionEnabled('videos'))
+		$Cbucket->search_types['videos'] = "cbvid";
 	}
 	
 	/**
@@ -828,7 +832,8 @@ class CBvideo extends CBCategory
 	 */
 	function init_search()
 	{
-			$this->search = new cbsearch;
+			
+		$this->search = new cbsearch;
 		$this->search->db_tbl = "video";
 		$this->search->columns =array(
 			array('field'=>'title','type'=>'LIKE','var'=>'%{KEY}%'),

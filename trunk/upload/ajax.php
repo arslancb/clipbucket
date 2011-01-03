@@ -20,6 +20,9 @@ if(!empty($mode))
 	{
 		case 'recent_viewed_vids':
 		{
+			if(!isSectionEnabled('videos') || !$userquery->perm_check('view_videos',false,true) )
+			exit();
+			
 			$videos = get_videos(array('limit'=>config('recently_viewed_limit'),'order'=>'last_viewed DESC'));
 			if($videos)
 			foreach($videos as $video)
@@ -32,6 +35,8 @@ if(!empty($mode))
 		
 		case 'most_viewed':
 		{
+			if(!isSectionEnabled('videos') || !$userquery->perm_check('view_videos',false,true) )
+			exit();
 			$videos = get_videos(array('limit'=>config('videos_items_hme_page'),'order'=>'views DESC'));
 			if($videos)
 			foreach($videos as $video)
@@ -44,6 +49,8 @@ if(!empty($mode))
 		
 		case 'recently_added':
 		{
+			if(!isSectionEnabled('videos') || !$userquery->perm_check('view_videos',false,true) )
+			exit();
 			$videos = get_videos(array('limit'=>config('videos_items_hme_page'),'order'=>'date_added DESC'));
 			if($videos)
 			foreach($videos as $video)

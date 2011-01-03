@@ -53,7 +53,7 @@ class userquery extends CBCategory{
 	
 	function init()
 	{
-		global $sess;
+		global $sess,$Cbucket;
 
 		$this->userid = $sess->get('userid');
 		$this->username = $sess->get('username');
@@ -124,6 +124,9 @@ class userquery extends CBCategory{
 		define('BACKGROUND_URL',config('background_url'));
 		define("USE_GAVATAR",config('gravatars') ? config('gravatars') : false); //Use Gavatar
 		define('BACKGROUND_COLOR',config('background_color'));
+		
+		if(isSectionEnabled('channels'))
+		$Cbucket->search_types['users'] = "userquery";
 		
 	}
 	
@@ -2931,10 +2934,17 @@ class userquery extends CBCategory{
 	 */
 	function get_inner_channel_top_links($u)
 	{
-		return array(lang('upload')=>array('link'=>$this->get_user_videos_link($u)),
-					 lang('favorites')=>array('link'=>cblink(array('name'=>'user_favorites')).$u['username']),
-					 lang('contacts')=>array('link'=>cblink(array('name'=>'user_contacts')).$u['username']),
-					 );
+		$channel_links = array();
+		
+		if(isSectionEnabled('videos'))
+		{
+			$channel_links[lang('upload')] = array('link'=>$this->get_user_videos_link($u));
+			$channel_links[lang('favorites')] = array('link'=>cblink(array('name'=>'user_favorites')).$u['username']);
+		}
+		if(isSectionEnabled('channels'))
+		$channel_links[lang('contacts')] = array('link'=>cblink(array('name'=>'user_contacts')).$u['username']);
+		
+		return $channel_links;
 	}
 	
 	/**
@@ -2982,52 +2992,61 @@ class userquery extends CBCategory{
 	function my_account_links()
 	{
 		
-		$array = array
+		
+		$array[lang('account')]	= 
+		array
 		(
-		 lang('account')	=>array
-		 			(
 					 lang('my_account')	=> 'myaccount.php',
 					 lang('ban_users')	=> 'edit_account.php?mode=ban_users',
 					 lang('user_change_pass')	=>'edit_account.php?mode=change_password',
 					 lang('user_change_email') 	=>'edit_account.php?mode=change_email',
-					 lang('com_manage_subs')	=> 'edit_account.php?mode=subscriptions',
+					 lang('com_manage_subs')	=> 'edit_account.php?mode=subscriptions'
+		);
 
-					 ),
-		 lang('user_channel_profiles')	=>array
+		
+		$array[lang('user_channel_profiles')] = array
 		 			(
 					 lang('user_profile_settings') =>'edit_account.php',
 					 lang('change_avatar') 	=> 'edit_account.php?mode=avatar_bg',
 					 lang('change_bg') => 'edit_account.php?mode=avatar_bg',
-					 ),
-		lang('videos') =>array
+					 );
+		
+		if(isSectionEnabled('videos'))
+		$array[lang('videos')] =  array
 					(
 					 lang('uploaded_videos')=>'manage_videos.php',
 					 lang('user_fav_videos')=>'manage_videos.php?mode=favorites',
-					 ),
-		lang('groups') =>array
+					 );
+		
+		if(isSectionEnabled('groups'))
+		$array[lang('groups')] =  array
 					(
 					 lang('grp_groups_title') =>'manage_groups.php',
 					 lang('user_create_group') =>cblink(array('name'=>'create_group')),
 					 lang('grp_joined_groups')=>'manage_groups.php?mode=joined',
-					 ),
-		lang('playlists')=>array
+					 );
+		
+		if(isSectionEnabled('playlists'))
+		$array[lang('playlists')]=array
 					(
 					 lang('manage_playlists') =>'manage_playlists.php',
 					 lang('video_playlists') =>'manage_playlists.php?mode=manage_video_playlist',
-					 ),
-		lang('messages') => array
+					 );
+		$array[lang('messages')] = array
 					(
 					 lang('inbox')	=> 'private_message.php?mode=inbox',
 					 lang('notifications') => 'private_message.php?mode=notification',
 					 lang('sent')	=> 'private_message.php?mode=sent',
 					 lang('title_crt_new_msg')=> cblink(array('name'=>'compose_new')),
-					 ),
-		lang('contacts')	=>array
+					 );
+		
+		if(isSectionEnabled('channels'))
+		$array[lang('contacts')] =  array
 					(
 					 lang('com_manage_contacts') => 'manage_contacts.php?mode=manage',
 					 lang('add_contact_list') => 'manage_contacts.php?mode=new_group',
-					 )
-		);
+					 );
+
 		
 		if(count($this->user_account)>0)
 			$array = array_merge($array,$this->user_account);

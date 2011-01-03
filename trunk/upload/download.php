@@ -10,6 +10,7 @@
  */
  
 define("THIS_PAGE",'download');
+define("PARENT_PAGE",'videos');
 
 require 'includes/config.inc.php';
 $userquery->perm_check('download_video',true);

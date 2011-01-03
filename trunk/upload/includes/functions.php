@@ -2348,7 +2348,7 @@
 	function lang($var)
 	{
 		global $LANG,$Cbucket;
-		
+
 		$array_str = array
 		( '{title}');
 		$array_replace = array
@@ -3695,6 +3695,12 @@
 		return $Cbucket->head_menu($params);
 	}
 	
+	function cbMenu($params=NULL)
+	{
+		global $Cbucket;
+		return $Cbucket->cbMenu($params);
+	}
+	
 	/**
 	 * FUnction used to get foot menu
 	 */
@@ -4781,4 +4787,36 @@
 		//Calling Custom Functions
 		cb_call_functions('uploaderDetails');
 	}
+	
+	
+	/**
+	 * Function isSectionEnabled
+	 * This function used to check weather INPUT section is enabled or not
+	 */
+	function isSectionEnabled($input,$restrict=false)
+	{
+		global $Cbucket;
+		$section = $Cbucket->configs[$input.'Section'];
+		
+		if(!$restrict)
+		{
+			if($section =='yes')
+				return true;
+			else
+				return false;
+		}else
+		{
+			if($section =='yes')
+			{
+				return true;
+			}else
+			{
+				template_files('blocked.html');
+				display_it();
+				exit();
+			}
+		}
+		
+	}
+
 ?>

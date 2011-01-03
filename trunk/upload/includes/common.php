@@ -50,22 +50,92 @@ if(!@$in_bg_cron)
     require_once('functions.php');
     check_install();
 	require_once('dbconnect.php');
-	require_once('classes/pages.class.php');
+	require_once('classes/ClipBucket.class.php');
+	require_once('classes/my_queries.class.php');
 	require_once('classes/actions.class.php');
 	require_once('classes/category.class.php');
-	require_once('classes/search.class.php');
-	require_once('classes/my_queries.class.php');
 	require_once('classes/user.class.php');
+	require_once('classes/lang.class.php');
+	require_once('classes/pages.class.php');
+	
+	
+	
+	$myquery 	= new myquery();
+	$row 		= $myquery->Get_Website_Details();
+	
+	
+	define('DEBUG_LEVEL', 2);
+
+	switch(DEBUG_LEVEL)
+	{
+		case 0:
+		{
+			error_reporting(0);
+			ini_set('display_errors', '0');
+		}
+		break;
+		case 1:
+		{
+			error_reporting(E_ALL);
+			ini_set('display_errors', '1');
+		}
+		break;
+		
+		case 2:
+		default:
+		{
+			
+			if(phpversion() >= '5.3.0')
+			{
+				error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
+				ini_set('display_errors', '1');
+			}
+			else
+			{
+				error_reporting(E_ALL ^E_NOTICE);
+				ini_set('display_errors', '1');
+			}
+		}
+	}
+
+
+	$pages 		= new pages();	
+	$ClipBucket = $Cbucket	= new ClipBucket();
+	
+	define('BASEDIR',$Cbucket->BASEDIR);
+	if(!file_exists(BASEDIR.'/index.php'))
+	die('Basedir is incorrect, please set the correct basedir value in \'config\' table');
+	
+	
+	$baseurl = $row['baseurl'];
+	//Removing www. as it effects SEO and updating Config
+	$wwwcheck = preg_match('/:\/\/www\./',$baseurl,$matches);
+	if(count($matches)>0)
+	{
+		$baseurl = preg_replace('/:\/\/www\./','://',$baseurl);		
+	}			
+			
+	//define('BASEURL',baseurl(BACK_END));
+	define('BASEURL',$baseurl);
+	
+	$userquery 	= new userquery();
+	$lang_obj	= new language;
+	
+	$LANG = $lang_obj->lang_phrases('file');
+	
+	
+	
+	require_once('classes/search.class.php');
+	
+	
 	require_once('classes/calcdate.class.php');
 	require_once('classes/signup.class.php');
 	require_once('classes/image.class.php');
 	require_once('classes/upload.class.php');
 	require_once('classes/ads.class.php');
 	require_once('classes/form.class.php');
-	require_once('classes/ClipBucket.class.php');
 	require_once('classes/plugin.class.php');
 	require_once('classes/errorhandler.class.php');
-	require_once('classes/lang.class.php');
 	require_once('classes/session.class.php');
 	require_once('classes/log.class.php');
 	require_once('classes/swfObj.class.php');
@@ -85,20 +155,19 @@ if(!@$in_bg_cron)
 
 	require_once 'languages.php';
 	
-	$pages 		= new pages();	
-	$myquery 	= new myquery();
-	$userquery 	= new userquery();
+	
+	
 	$calcdate	= new CalcDate();
 	$signup 	= new signup();	
 	$Upload 	= new Upload();
 	$cbgroup 	= new CBGroups();
 	$adsObj		= new AdsManager();
 	$formObj	= new formObj();
-	$ClipBucket = $Cbucket	= new ClipBucket();
-	$row 		= $myquery->Get_Website_Details();
+	
+	
 	$cbplugin	= new CBPlugin();
 	$eh			= new EH();
-	$lang_obj	= new language;
+	
 	$sess		= new Session();
 	$cblog		= new CBLogs();
 	$imgObj		= new ResizeImage();
@@ -122,39 +191,7 @@ if(!@$in_bg_cron)
 	$ads_array = array();
 
 
-define('DEBUG_LEVEL', 2);
 
-switch(DEBUG_LEVEL)
-{
-    case 0:
-	{
-        error_reporting(0);
-        ini_set('display_errors', '0');
-	}
-    break;
-    case 1:
-	{
-        error_reporting(E_ALL);
-        ini_set('display_errors', '1');
-	}
-    break;
-	
-	case 2:
-    default:
-	{
-		
-        if(phpversion() >= '5.3.0')
-        {
-            error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
-            ini_set('display_errors', '1');
-        }
-        else
-        {
-            error_reporting(E_ALL ^E_NOTICE);
-            ini_set('display_errors', '1');
-        }
-	}
-}
 
 if(phpversion() < '5.2.0')
 {
@@ -203,21 +240,7 @@ if(phpversion() < '5.2.0')
 	define('VIDEO_EMBED',$row['video_embed']);
 	
 
-	define('BASEDIR',$Cbucket->BASEDIR);
-	if(!file_exists(BASEDIR.'/index.php'))
-	die('Basedir is incorrect, please set the correct basedir value in \'config\' table');
 	
-	
-	$baseurl = $row['baseurl'];
-	//Removing www. as it effects SEO and updating Config
-	$wwwcheck = preg_match('/:\/\/www\./',$baseurl,$matches);
-	if(count($matches)>0)
-	{
-		$baseurl = preg_replace('/:\/\/www\./','://',$baseurl);		
-	}			
-			
-	//define('BASEURL',baseurl(BACK_END));
-	define('BASEURL',$baseurl);
 	
 	
 	define('TEMPLATEFOLDER','styles');							//Template Folder Name, usually STYLES
@@ -390,7 +413,7 @@ if(phpversion() < '5.2.0')
 	Assign('video_embed',$row['video_embed']);
 	
 	
-	$LANG = $lang_obj->lang_phrases('file');
+	
 	
 	
 	$ClipBucket->upload_opt_list = array
@@ -499,6 +522,8 @@ $Smarty->register_function('uploadButton','upload_photo_button');
 $Smarty->register_function('embedCodes','photo_embed_codes');
 $Smarty->register_function('DownloadButtonP','photo_download_button');
 $Smarty->register_function('loadPhotoUploadForm','loadPhotoUploadForm');
+
+$Smarty->register_function('cbMenu','cbMenu');
 
 $Smarty->register_modifier('SetTime','SetTime');
 $Smarty->register_modifier('getname','getname');

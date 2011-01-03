@@ -244,6 +244,14 @@ $(document).ready(function(){
               <td colspan="2" valign="top" class="settings_inner_title">Videos</td>
             </tr>
             <tr>
+              <td>Enable video section</td>
+              <td><label for="videosSection"></label>
+                <select name="videosSection" id="videosSection">
+                  <option value="yes" {if $row.videosSection!='no'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.videosSection=='no'} selected="selected"{/if}>No</option>
+              </select></td>
+            </tr>
+            <tr>
               <td><label for="video_embed">Allow video embedding</label></td>
               <td><input name="video_embed" type="checkbox" id="video_embed" value="1" {if $row.video_embed=='1'} checked="checked"{/if} /></td>
             </tr>
@@ -260,7 +268,30 @@ $(document).ready(function(){
               <td>&nbsp;</td>
             </tr>
             <tr>
+              <td colspan="2" valign="top" class="settings_inner_title">Channels</td>
+            </tr>
+            <tr>
+              <td>Enable channels</td>
+              <td><label for="channelsSection"></label>
+                <select name="channelsSection" id="channelsSection">
+                  <option value="yes" {if $row.channelsSection!='no'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.channelsSection=='no'} selected="selected"{/if}>No</option>
+              </select></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
               <td colspan="2" class="settings_inner_title">Groups</td>
+            </tr>
+            <tr>
+              <td>Enable group section</td>
+              <td><label for="groupsSection"></label>
+                <select name="groupsSection" id="groupsSection">
+                  <option value="yes" {if $row.groupsSection!='no'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.groupsSection=='no'} selected="selected"{/if}>No</option>
+              </select></td>
             </tr>
             <tr>
               <td>Group Thumb Height</td>
@@ -287,11 +318,30 @@ $(document).ready(function(){
               <td>&nbsp;</td>
             </tr>
             <tr>
+              <td colspan="2" valign="top" class="settings_inner_title">Photos</td>
+            </tr>
+            <tr>
+              <td>Enable photos</td>
+              <td><label for="photosSection"></label>
+                <select name="photosSection" id="photosSection">
+                  <option value="yes" {if $row.photosSection!='no'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.photosSection=='no'} selected="selected"{/if}>No</option>
+              </select></td>
+            </tr>
+            <tr>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
             </tr>
             <tr>
               <td colspan="2" class="settings_inner_title">General</td>
+            </tr>
+            <tr>
+              <td>Enable Collections</td>
+              <td><label for="collectionsSection"></label>
+                <select name="collectionsSection" id="collectionsSection">
+                  <option value="yes" {if $row.collectionsSection!='no'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.collectionsSection=='no'} selected="selected"{/if}>No</option>
+              </select></td>
             </tr>
             <tr>
               <td>Allow  ratings</td>
@@ -386,17 +436,11 @@ $(document).ready(function(){
           <td valign="top">&nbsp;</td>
         </tr>
         <tr>
-          <td valign="top">Allow video uploading</td>
-          <td valign="top"><label>
-            <input name="allow_upload" type="checkbox" id="allow_upload" value="yes" {if $row.allow_upload}checked="checked"{/if} />
-          </label></td>
-        </tr>
-        <tr>
           <td valign="top">Allowed extensions</td>
           <td valign="top"><label>
             <textarea name="allowed_types" id="allowed_types" cols="45" rows="5">{$row.allowed_types}</textarea>
             <br />
-          Sperate by comma [case insensitive]</label></td>
+            Sperate by comma [case insensitive]</label></td>
         </tr>
         <tr>
           <td valign="top">Max upload file size</td>

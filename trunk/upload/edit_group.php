@@ -6,6 +6,10 @@
  | @ Software  : ClipBucket , © PHPBucket.com					
  *************************************************************
 */
+
+define("THIS_PAGE",'edit_group');
+define("PARENT_PAGE",'groups');
+
 require 'includes/config.inc.php';
 $userquery->logincheck();
 $udetails = $userquery->get_user_details(userid());

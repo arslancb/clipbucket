@@ -7,6 +7,8 @@
  * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  */
 
+define("THIS_PAGE",'manage_playlists');
+define("PARENT_PAGE",'videos');
 
 require 'includes/config.inc.php';
 $userquery->logincheck();

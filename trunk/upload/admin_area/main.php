@@ -17,6 +17,9 @@ if(@$_GET['msg']){
 $msg = mysql_clean($_GET['msg']);
 }
 
+$opt_list = $Upload->load_upload_options();
+assign('opt_list',$opt_list);
+
 if(isset($_POST['update'])){
 	$configs = $Cbucket->configs;
 	
@@ -44,6 +47,8 @@ if(isset($_POST['update'])){
 					'anonym_comments',
 					'channels_list_per_page',
 					'channels_list_per_tab',
+					'channelsSection',
+					'collectionsSection',
 					'captcha_type',
 					'con_modules_type',
 					'comments_captcha',
@@ -59,6 +64,7 @@ if(isset($_POST['update'])){
 					
 					'embedUpload',
 					'email_verification',
+					'enable_groups',
 					
 					'ffmpegpath'	,
 					'flvtool2path',
@@ -72,6 +78,7 @@ if(isset($_POST['update'])){
 					'grp_thumb_width',
 					'grp_max_title',
 					'grp_max_desc',
+					'groupsSection',
 
 					'hq_output',
 					
@@ -108,6 +115,7 @@ if(isset($_POST['update'])){
 					'php_path',
 					'picture_url',
 					'picture_upload',
+					'photosSection',
 					
 					'quick_conv',
 					
@@ -141,6 +149,7 @@ if(isset($_POST['update'])){
 					'user_max_chr',
 					
 					'vid_categories',
+					'videosSection',
 					'videos_items_grp_page',
 					'videos_items_hme_page',
 					'videos_items_columns',
@@ -165,6 +174,11 @@ if(isset($_POST['update'])){
 					'welcome_email',
 					
 					);
+	
+	foreach($opt_list as $optl)
+	{
+		$rows[] = $optl['load_func'];
+	}
 	
 	//Numeric Array
 	$num_array = array(

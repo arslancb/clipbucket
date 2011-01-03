@@ -2,4 +2,12 @@ INSERT into cb_config (name,value) VALUES
 ('load_upload_form','yes'),
 ('load_remote_upload_form','yes'),
 ('load_embed_form','yes'),
-('load_link_video_form','yes');
+('load_link_video_form','yes'),
+('groupsSection','yes'),
+('videosSection','yes'),
+('photosSection','yes'),
+('homeSection','yes'),
+('uploadSection','yes'),
+('signupSection','yes')
+('collectionsSection','yes'),
+('channelsSection','yes');

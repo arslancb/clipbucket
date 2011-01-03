@@ -107,7 +107,12 @@ var mid  = {$smarty.get.mid};
 		  if(optionSelectedValue)
 		  window.location = "?set_site_lang="+optionSelectedValue;
 		});
+		{/literal}
+		{if isSectionEnabled('videos')}
 		get_video('recent_viewed_vids','#index_vid_container');
+		{/if}
+		{literal}
+		
 			
 		
 	});

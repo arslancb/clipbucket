@@ -19,6 +19,7 @@
 	{foreach from=$Cbucket->search_types item=search_type key=search_type_key}
     
       {if $search_type}
+      
 		{assign var='type' value=$cbsearch->init_search($search_type_key)}
         	
           {if $type}

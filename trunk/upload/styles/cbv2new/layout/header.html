@@ -43,12 +43,7 @@
 
 <div class="top_tabs clearfix">
     <ul>
-    	{head_menu assign='headmenu'}        
-        {foreach from=$headmenu item=hm}
-        	{if $hm.name!=''}
-            	<li><a href="{$hm.link}" {current_page page=$hm.this} {if $hm.target} target="{$hm.target}"{/if} {if $hm.onclick} onclick="{$hm.onclick}"{/if}>{$hm.name}</a></li>
-            {/if}
-        {/foreach}
+    	{cbMenu echo='yes'}
     </ul>
 	
 </div> <!--TOP_TABS END-->

@@ -8,6 +8,8 @@
 */
 
 define("THIS_PAGE",'manage_collections');
+define("PARENT_PAGE","collections");
+
 require 'includes/config.inc.php';
 $userquery->logincheck();
 $udetails = $userquery->get_user_details(userid());

@@ -61,8 +61,17 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pak_player{if $Cbucket->config
 	{literal}
 	plugins: {
 		controls: {
+			
+			{/literal}
+			{if $pakconfigs}
+				{foreach from=$pakconfigs item=value key=config}
+					{$config} : "{$value.default}",
+				{/foreach}
+			{else}
 			background: "url("+pakplayer_path+"/bg.png) repeat",
 			url: "pak_player.controls.swf",
+			{/if}
+			{literal}
 		},
 		
 		{/literal}

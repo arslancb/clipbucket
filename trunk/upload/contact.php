@@ -8,6 +8,9 @@
  Very Basic Contact Form
  Edit it according to your own need 
 */
+
+define("THIS_PAGE","contact");
+
 require 'includes/config.inc.php';
 
 $name = post('name');

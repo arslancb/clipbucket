@@ -10,6 +10,8 @@
  */
  
 define("THIS_PAGE",'download_photo');
+define("PARENT_PAGE",'photos');
+
 require 'includes/config.inc.php';
 //$userquery->perm_check('download_video',true);
 $pages->page_redir();

@@ -17,14 +17,20 @@
             {assign var=leave_link value=$cbgroup->group_opt_link($group,'leave')}
             {if $leave_link}<li>{$leave_link}</li>{/if}
             
+            {if isSectionEnabled('videos')}
             {assign var=add_videos_link value=$cbgroup->group_opt_link($group,'add_videos')}
             {if $add_videos_link}<li>{$add_videos_link}</li>{/if}
+            {/if}
             
+            {if isSectionEnabled('videos')}
             {assign var=manage_videos_link value=$cbgroup->group_opt_link($group,'manage_videos')}
             {if $manage_videos_link}<li>{$manage_videos_link}</li>{/if}
+            {/if}
             
+            {if isSectionEnabled('channels')}
             {assign var=manage_members_link value=$cbgroup->group_opt_link($group,'manage_members')}
             {if $manage_members_link}<li>{$manage_members_link}</li>{/if}
+            {/if}
             
             {assign var=edit_group_link value=$cbgroup->group_opt_link($group,'edit_group')}
             {if $edit_group_link}<li>{$edit_group_link}</li>{/if}
@@ -43,8 +49,12 @@
         <div class="group_detail_tabs clearfix">
     	  <ul>
     	    <li class="selected" onclick="get_group_info('#info',this)">{lang code='info'}</li>
+            {if isSectionEnabled('channels')}
     	    <li onclick="get_group_info('#members',this)">{lang code='members'}</li>
+            {/if}
+            {if isSectionEnabled('videos')}
     	    <li onclick="get_group_info('#videos',this)">{lang code='videos'}</li>
+            {/if}
             <li onclick="get_group_info('#flag_group',this); $('#flag_item').slideDown()">{lang code='report_this'}</li>
   	      </ul>
           

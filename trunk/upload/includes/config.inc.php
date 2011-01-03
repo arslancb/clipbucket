@@ -5,7 +5,11 @@ Config.Inc.php
 define("FRONT_END",TRUE);
 define("BACK_END",FALSE);
 
+if(!defined('PARENT_PAGE'))
+	define("PARENT_PAGE","home");
+	
 include('common.php');
+
 
 define('TEMPLATEDIR',BASEDIR.'/'.TEMPLATEFOLDER.'/'.TEMPLATE);
 define('TEMPLATEURL',BASEURL.'/'.TEMPLATEFOLDER.'/'.TEMPLATE);
@@ -49,4 +53,6 @@ if($row['closed'] == 1 && THIS_PAGE!='ajax' && !$in_bg_cron)
 
 //Configuring Uploader
 uploaderDetails();
+isSectionEnabled(PARENT_PAGE,true);
+
 ?>

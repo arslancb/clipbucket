@@ -13,6 +13,11 @@ $pages->page_redir();
 $page = mysql_clean($_GET['page']);
 $type = mysql_clean($_GET['type']) ;
 $type = $type ? $type : 'videos';
+$chkType = $type;
+//Checking if search for specific section is allowed or not
+if($type=='users')	$chkType = 'channels';
+isSectionEnabled($chkType,true);
+
 $search = cbsearch::init_search($type);
 
 $search->key = mysql_clean($_GET['query']);

@@ -22,6 +22,7 @@ class CBGroups extends CBCategory
 	 */
 	function CBGroups()
 	{
+		global $Cbucket;
 		$this->cat_tbl = 'group_categories';
 		$this->gp_tbl =  'groups';
 		$this->gp_mem_tbl =  'group_members';
@@ -39,6 +40,9 @@ class CBGroups extends CBCategory
 		$this->action->check_func = 'group_exists';
 		$this->action->type_tbl = $this->gp_tbl;
 		$this->action->type_id_field = 'group_id';
+		
+		if(isSectionEnabled('groups'))
+		$Cbucket->search_types['groups'] = "cbgroup";
 
 	}
 		

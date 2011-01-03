@@ -7,7 +7,8 @@
  ****************************************************************
 */
 
-define("THIS_PAGE",'manage_videos');
+define("THIS_PAGE",'manage_groups');
+define("PARENT_PAGE","groups");
 
 require 'includes/config.inc.php';
 $userquery->logincheck();

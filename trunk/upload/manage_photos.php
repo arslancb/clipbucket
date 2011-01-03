@@ -8,7 +8,7 @@
 */
 
 define("THIS_PAGE",'manage_photos');
-
+define("PARENT_PAGE","photos");
 require 'includes/config.inc.php';
 $userquery->logincheck();
 $udetails = $userquery->get_user_details(userid());

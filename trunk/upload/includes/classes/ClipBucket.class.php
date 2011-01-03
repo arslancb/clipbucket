@@ -38,7 +38,7 @@ class ClipBucket
 	
 	var $cbinfo = array();
 	
-	var $search_types = array('videos'=>'cbvid','groups'=>'cbgroup','users'=>'userquery');
+	var $search_types = array();
 	
 	/**
 	 * All Functions that are called
@@ -438,6 +438,22 @@ class ClipBucket
 		
 	function cbMenu($params=NULL)
 	{
+		$this->head_menu();
+		if(!$params['tag'])
+			$params['tag'] = 'li';
+
+		if(!$params['class'])
+			$params['class'] = '';
+
+
+		if(!$params['getSubTab'])
+			$params['getSubTab'] = '';
+		
+		if(!$params['parentTab'])
+			$params['parentTab'] = '';
+			
+		if(!$params['selectedTab'])
+			$params['selectedTab'] = '';
 		{
 			$headMenu = $this->head_menu;
 			$output = '';
@@ -445,30 +461,36 @@ class ClipBucket
 					$output .= "<".$params['tag'].">";
 			foreach($headMenu as $menu)
 			{
-				$selected = current_page(array("page"=>$menu['this']));
-				
-				$output .= "<li ";
-				$output .= "id = 'cb".$menu['name']."Tab'";
+				if(isSectionEnabled($menu['this']))
+				{
+					$selected = current_page(array("page"=>$menu['this']));
 					
-				$output .= " class = '";
-				if($params['class'])
-					$outout .= $params['class'];
-				if($selected)
-					$output .= " selected";
-				$output .= "'";
-							
-				if($params['extra_params'])
-					$output .= ($params['extra_params']);					
-				$output .= ">";
-					$output .= "<a href='".$menu['link']."'>";
-					$output .= $menu['name']."</a>";
-				$output .= "</li>";
+					$output .= "<li ";
+					$output .= "id = 'cb".$menu['name']."Tab'";
+						
+					$output .= " class = '";
+					if($params['class'])
+						$outout .= $params['class'];
+					if($selected)
+						$output .= " selected";
+					$output .= "'";
+								
+					if($params['extra_params'])
+						$output .= ($params['extra_params']);					
+					$output .= ">";
+						$output .= "<a href='".$menu['link']."'>";
+						$output .= $menu['name']."</a>";
+					$output .= "</li>";
+				}
 					
 			}
 			if(($params['tag']))
 					$output .= "</".$params['tag'].">";
-					
-			return $output;		
+			
+			if($params['echo'])
+				echo $output;
+			else		
+				return $output;		
 		}
 	}
 	

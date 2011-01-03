@@ -129,15 +129,17 @@ class CBPhotos
 	{
 		global $userquery,$Cbucket;
 		// Search type
+		if(isSectionEnabled('photos'))
 		$Cbucket->search_types['photos'] = "cbphoto";
 		
 		// My account links
 		$accountLinks = array();
 		$accountLinks = array(
-							lang('Uploaded Photos') => "manage_photos.php",
-							lang('Favorite Photos') => "manage_photos.php?mode=favorite",
-							lang('Orphan Photos') => "manage_photos.php?mode=orphan",
+							lang('manage_photos') => "manage_photos.php",
+							lang('manage_favorite_photos') => "manage_photos.php?mode=favorite",
+							lang('manage_orphan_photos') => "manage_photos.php?mode=orphan",
 							);
+		if(isSectionEnabled('photos'))
 		$userquery->user_account[lang('Photos')] = $accountLinks;
 											
 		//Setting Cbucket links

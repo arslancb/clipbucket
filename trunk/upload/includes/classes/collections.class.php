@@ -70,13 +70,15 @@ class Collections extends CBCategory
 		global $userquery,$Cbucket;
 		
 		// Adding My Account Links	
+		if(isSectionEnabled('collections'))
 		$userquery->user_account[lang('Collections')] = array(
-											lang('Add New Collection') => "manage_collections.php?mode=add_new",
-											lang('Manage Collections') => "manage_collections.php",
-											lang('Favorite Collections') => "manage_collections.php?mode=favorite"
+											lang('add_new_collection') => "manage_collections.php?mode=add_new",
+											lang('manage_collections') => "manage_collections.php",
+											lang('manage_favorite_collections') => "manage_collections.php?mode=favorite"
 											);
 		
 		// Adding Search Type
+		if(isSectionEnabled('collections'))
 		$Cbucket->search_types['collections'] = "cbcollection";
 		
 		// Adding Collection links in Admin Area

@@ -12,6 +12,7 @@
     <div id="content" style="padding-bottom:15px">
     	{include file="$style_dir/blocks/view_channel/channel_top.html" }
         
+        {if isSectionEnabled('videos')}
         {assign var=user_vdo value= $userquery->get_user_profile_video($p)}
             {if $user_vdo}
               <!-- User Video Block -->
@@ -30,6 +31,7 @@
             </div>
              <!-- User Video Blcok Ends-->
         {/if}
+        {/if}
         
         <div class="channel_box">
         	<div class="channel_inner_box" id="result_cont" style="display:none"></div>
@@ -42,6 +44,7 @@
        
        <!-- Right Colum -->
       <div class="right_column">
+      {if isSectionEnabled('videos')}
        	<div class="channel_inner_box clearfix">
         	<span class="channel_heading">{lang code='users_videos' assign='users_videos'}{$users_videos|sprintf:$u.username}</span>
  				{assign var=videos_item_channel_page value=func->config(videos_item_channel_page)}
@@ -56,8 +59,9 @@
             <hr width="100%" size="1" noshade>
             <div align="right"><a href="{$userquery->get_user_videos_link($u)}">{lang code='more'}</a></div>
         </div>
+       {/if} 
         
-        
+       {if isSectionEnabled('channels')}
         <div class="channel_inner_box clearfix">
         	<span class="channel_heading">{lang code='users_subscribers' assign='users_videos'}{$users_videos|sprintf:$u.username}</span>
             	{assign var=users_items_subscibers value=func->config(users_items_subscibers)}
@@ -71,7 +75,7 @@
             <hr width="100%" size="1" noshade>
             <div align="right"><a href="#">{lang code='more'}</a></div>
         </div>
-	
+	   {/if}
 
 	{ANCHOR place='channel_box'}
        

@@ -9,7 +9,7 @@
 */
 
 define("THIS_PAGE","photo_upload");
-define("PARENT_PAGE","photo_upload");
+define("PARENT_PAGE","upload");
 
 require 'includes/config.inc.php';
 $userquery->logincheck();

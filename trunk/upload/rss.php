@@ -14,12 +14,22 @@ header ("Content-type: text/xml; charset=utf-8");
 echo '<?xml version=\'1.0\' encoding=\'UTF-8\'?>'."\n";
 
 $limit = 20;
+$page = $_GET['page'];
+if($page<1 || !is_numeric )
+	$page = 1;
+
+if($page)
+{
+	$from = ($page-1)*$limit;
+	$limit = "$from,$limit";
+}
+	
 $mode = $_GET['mode'];
 switch($mode)
 {
 	case 'recent':
 	default:
-	{
+	{echo $limit;
 		 $videos = get_videos(array('limit'=>$limit));
 		 $title  = "Recently Added Videos";
 	}
@@ -27,6 +37,7 @@ switch($mode)
 	
 	case 'views':
 	{
+		
 		 $videos = get_videos(array('limit'=>$limit,'order'=>'views DESC'));
 		 $title = "Most Viewed Videos";
 	}

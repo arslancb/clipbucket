@@ -8,7 +8,8 @@
 */
 
 define("THIS_PAGE",'view_item');
-define("PARENT_PAGE",'view_collection');
+define("PARENT_PAGE",'collections');
+
 require 'includes/config.inc.php';
 
 $item = $_GET['item'];	

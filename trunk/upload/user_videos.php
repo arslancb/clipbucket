@@ -8,7 +8,8 @@
 */
 
 define("THIS_PAGE",'user_videos');
-define("PARENT_PAGE",'channels');
+define("PARENT_PAGE",'videos');
+
 require 'includes/config.inc.php';
 $pages->page_redir();
 $userquery->perm_check('view_videos',true);

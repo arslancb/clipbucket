@@ -7,6 +7,9 @@
  ****************************************************************************
 */
 
+define("THIS_PAGE",'view_topic');
+define("PARENT_PAGE",'groups');
+
 require 'includes/config.inc.php';
 $pages->page_redir();
 
