@@ -984,7 +984,47 @@
 	/**
 	* FUNCTION USED TO GET CATEGORY LIST
 	*/
-	function getCategoryList($type='video',$with_all=false,$return_html=false)
+	function getCategoryList($params)
+	{
+		$type = $params['type'];
+		switch($type)
+		{
+			case "video":case "videos":
+			case "v": default:
+			{
+				global $cbvid;
+				$cats = $cbvid->cbCategories($params);
+			}
+			break;
+				
+			case "users":case "user":
+			case "u": case "channels": case "channels":
+			{
+				global $userquery;
+				$cats = $userquery->cbCategories($params);
+			}
+			break;
+			
+			case "group":case "groups":
+			case "g":
+			{
+				global $cbgroup;
+				$cats = $cbgroup->cbCategories($params);
+			}
+			break;
+			
+			case "collection":case "collections":
+			case "cl":
+			{
+				global $cbcollection;
+				$cats = $cbcollection->cbCategories($params);
+			}
+			break;		
+		}
+		
+		return $cats;
+	}
+	/*function getCategoryList($type='video',$with_all=false,$return_html=false)
 	{
 		$use_subs = config('use_subs');
 
@@ -1071,10 +1111,10 @@
 			}
 			break;
 		}
-	}
+	}*/
 	function getSmartyCategoryList($params)
 	{
-		return getCategoryList($params['type']);
+		return getCategoryList($params);
 	}
 	
 	
@@ -4825,4 +4865,21 @@
 		
 	}
 
+
+	function array_depth($array) {
+		$ini_depth = 0;
+		
+		foreach($array as $arr)
+		{
+			if(is_array($arr))
+			{
+				$depth = array_depth($arr) + 1;	
+				
+				if($depth > $ini_depth)
+					$ini_depth = $depth;
+			}
+		}
+		
+		return $ini_depth;
+	}
 ?>

@@ -1,17 +1,12 @@
 <div class="category_list">
 <span class="cat_heading">{lang code='categories'}</span>
-{assign var='category_list' value=func->getCategoryList($type,true,true)}
-{assign var='use_subs' value=func->config(use_subs)}
+
 
 <div class="categories">
 <ul>
-	{if $use_subs == "1"}
-		{$category_list}
-	{else}
-		{foreach from=$category_list item=cat}
-            <li {if $smarty.get.cat==$cat.category_id ||  ($smarty.get.cat=="" && $cat.category_id=='all')} class="selected"{/if}><a href="{link name='category' data=$cat type=$type}">{$cat.category_name}</a></li>
-        {/foreach}
-	{/if}
+
+{cbCategories type=$type echo="TRUE" output="list" orderby="category_name" order="DESC" with_all="TRUE"}
+
 </ul>
 </div>
 </div>

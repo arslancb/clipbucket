@@ -149,6 +149,7 @@ if(!@$in_bg_cron)
 	require_once('classes/reindex.class.php');
 	require_once('classes/collections.class.php');
 	require_once('classes/photos.class.php');
+	require_once('classes/menuhandler.class.php');
 	
 	//Adding Gravatar
 	require_once('classes/gravatar.class.php');
@@ -180,7 +181,8 @@ if(!@$in_bg_cron)
 	$cbindex	= new CBreindex();
 	$cbcollection = new Collections();
 	$cbphoto    = new CBPhotos();
-
+//	$cbmenu		= new MenuHandler();
+	
 	require 'defined_links.php';
 	
 	@include("clipbucket.php");
@@ -474,6 +476,7 @@ $Smarty->assign_by_ref('cbpage',$cbpage);
 $Smarty->assign_by_ref('cbemail',$cbemail);
 $Smarty->assign_by_ref('cbcollection',$cbcollection);
 $Smarty->assign_by_ref('cbphoto',$cbphoto);
+//$Smarty->assign_by_ref('cbmenu',$cbmenu);
 /*
 REGISERTING FUNCTION FOR SMARTY TEMPLATES
 */
@@ -523,6 +526,7 @@ $Smarty->register_function('uploadButton','upload_photo_button');
 $Smarty->register_function('embedCodes','photo_embed_codes');
 $Smarty->register_function('DownloadButtonP','photo_download_button');
 $Smarty->register_function('loadPhotoUploadForm','loadPhotoUploadForm');
+$Smarty->register_function('cbCategories','getSmartyCategoryList');
 
 $Smarty->register_function('cbMenu','cbMenu');
 

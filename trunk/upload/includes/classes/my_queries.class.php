@@ -719,23 +719,6 @@ class myquery {
 			
 		return $result;	
 	}
-
-	function array_depth($array) {
-		$ini_depth = 0;
-		
-		foreach($array as $arr)
-		{
-			if(is_array($arr))
-			{
-				$depth = array_depth($arr) + 1;	
-				
-				if($depth > $ini_depth)
-					$ini_depth = $depth;
-			}
-		}
-		
-		return $ini_depth;
-	}
 	
 	/**
 	 * Function used to get video owner

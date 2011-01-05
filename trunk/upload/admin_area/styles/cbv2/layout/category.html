@@ -31,10 +31,7 @@
     <tr>
       <td valign="top" class="td_body">Parent Category</td>
       <td class="td_body">
-      	<select name="parent_cat" id="parent_cat">
-			<option value="0">None</option>
-			{$parent_cats}
-        </select>
+		{cbCategories output="dropdown" name="parent_cat" id="parent_cat" blank_option=TRUE}
       </td>
     </tr>    
     <tr>
@@ -84,10 +81,7 @@
     <tr>
       <td valign="top" class="td_body">Parent Category</td>
       <td class="td_body">
-      	<select name="parent_cat" id="parent_cat">
-        <option value="0">None</option>
-        {$parent_cats}      
-        </select>
+        {cbCategories output="dropdown" selected=$cat_details.parent_id name="parent_cat" id="parent_cat" blank_option=TRUE}      
       </td>
     </tr>    
      <tr>

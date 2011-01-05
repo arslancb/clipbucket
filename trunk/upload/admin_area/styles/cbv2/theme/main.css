@@ -305,3 +305,11 @@ li.myAdminList .AdminPhotoActions a:hover { border-bottom:1px dashed #0099cc; }
 li.myAdminList input[disabled=disabled].disabled { font:normal 11px Tahoma; padding:1px; }
 
 .myAdminButton { background:url(../images/gradients.png); border:1px solid #000; padding:4px; margin:0px; font:bold 11px Tahoma; color:#FFF; }
+.myAdminButton[disabled] { opacity:0.5 }
+
+.TabButton { margin-right:25px; position:relative; border-radius:3px; -moz-border-radius:3px; padding:4px 6px; background:url(../images/gradients.png); color:#FFF; font:bold 11px Tahoma; border:1px solid #000; }
+.TabButton:hover { cursor:move; }
+
+.delTab { font:normal 10px Verdana; background:#eee; border:1px solid white; margin:0px; padding:1px;  color:#333; }
+.delTab:hover { background:#000; border:1px solid white; color:#FFF; cursor:pointer; }
+.TabButton:hover .delTab { display:inline-block; }

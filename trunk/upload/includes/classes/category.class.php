@@ -136,6 +136,184 @@ abstract class CBCategory
 		return $select;
 	}
 	
+	function getCbCategories($params)
+	{
+		global $db; 
+		if($this->use_sub_cats && config('use_subs') == 1 && 
+		   ($params['type'] == "videos" || $params['type'] == "video" || $params['type'] == "v"))
+		{
+			$cond = " parent_id = 0";
+			$subCategories = TRUE;	
+		} else 
+			$cond = NULL;
+		$orderby = $params['orderby'] ? $params['orderby'] : "category_order";
+		$order = $params['order'] ? $params['order'] : "ASC";
+		
+		$categories = $db->select(tbl($this->cat_tbl),"*",$cond,NULL," $orderby $order");
+
+		$finalArray = array();
+		if($params['with_all'])
+			$finalArray[] = array("category_id"=>"all","category_name"=>"All");
+		
+		foreach($categories as $cat)
+		{
+			$finalArray[$cat['category_id']] = $cat;	
+			if($subCategories === TRUE && $this->is_parent($cat['category_id']))
+				$finalArray[$cat['category_id']]['children'] = $this->getCbSubCategories($cat['category_id'],$params);
+		}
+		
+		return $finalArray;
+	}
+	
+	function getCbSubCategories($category_id,$params)
+	{
+		global $db;
+		if(empty($category_id))
+			return false;
+		{
+			$subCats = $db->select(tbl($this->cat_tbl),"*"," parent_id = '$category_id'");
+
+			if($subCats)
+			{
+				$subArray = array();
+				foreach($subCats as $subCat)
+				{
+					$subArray[$subCat['category_id']] = $subCat;
+					if($this->is_parent($subCat['category_id']))
+					{
+						$subArray[$subCat['category_id']]['children'] = $this->getCbSubCategories($subCat['category_id'],$params);
+					}
+				}
+				return $subArray;
+			}
+		}
+	}
+	
+	function displayListCategories($catArray,$params)
+	{
+		$html = '';
+		foreach($catArray as $catID=>$cat)
+		{
+			if($_GET['cat'] == $cat['category_id'] || (empty($_GET['cat']) && $cat['category_id'] == 'all'))
+				$selected = " selected ";
+			else
+				$selected = "";
+			if($params['class'])
+				$class = $params['class'];		
+			$html .= "<li class='cbCategoryItem ".$class.$selected."'";
+			if($params['id'])
+				$html .= " id = '".$params['id']."'";					
+			$html .= "><a href='".cblink(array("name"=>"category","data"=>$cat,"type"=>$params['type']))."'>".$cat['category_name']."</a>";
+			if($cat['children'])
+			{
+				$html .= "<ul id='".$cat['category_id']."_categories' class='sub_categories'>";
+				$html .= $this->displayListCategories($cat['children'],$params);
+				$html .= "</ul>";
+			}
+			$html .= "</li>";
+		}
+		
+		return $html;	
+	}
+	
+	function displayOptions($catArray,$params,$spacer="")
+	{
+		foreach($catArray as $catID=>$cat)
+		{
+			if($_GET['cat'] == $cat['category_id'] || ($params['selected'] && $params['selected'] == $cat['category_id']))
+				$selected = " selected=selected";
+			else
+				$selected = "";
+			if($params['value'] == "link") 
+				$value = cblink(array("name"=>"category","data"=>$cat,"type"=>$params['type'])); else $value = $cat['category_id'];
+			$html .= "<option value='$value' $selected>";
+			$html .= $spacer.$cat['category_name'];
+			$html .= "</option>";
+			if($cat['children'])
+			{
+				$html .= $this->displayOptions($cat['children'],$params,$spacer.($params['spacer']?$params['spacer']:"&nbsp"));	
+			}
+		}
+		
+		return $html;
+	}
+	
+	function displayDropdownCategory($catArray,$params)
+	{
+		$html = '';
+		if($params['name']) $name = $params['name']; else $name = "cat";
+		if($params['id']) $id = $params['id']; else $id = "cat";
+		if($params['class']) $class = $params['class']; else $class = "cbSelectCat";
+		
+		$html .= "<select name='$name' id='$id' class='$class'>";
+		if($params['blank_option'])
+			$html .= "<option value='0'>None</option>";
+		$html .= $this->displayOptions($catArray,$params);
+		$html .= "</select>";
+		return $html;
+	}
+	
+	function displayOutput($CatArray,$params)
+	{
+		$output = $params['output'];
+		if(is_array($CatArray))
+		{
+			switch($output)
+			{
+				case "list": case "li":
+				default:
+				{
+					$html = $this->displayListCategories($CatArray,$params);
+				}
+				break;
+				
+				case "dropdown": case "option":
+				{
+					$html = $this->displayDropdownCategory($CatArray,$params);	
+				}
+				break;
+				
+				case "checkbox": case "check_box":
+				{
+					
+				}
+				break;
+			}
+			return $html;
+		} else 
+			return false;
+	}
+	
+	function cbCategories($params=NULL)
+	{
+		$p = $params;
+		$p['type'] = $p['type'] ? $p['type'] : 'video';  
+		$p['echo'] = $p['echo'] ? $p['echo'] : FALSE; 
+		$p['with_all'] = $p['with_all'] ? $p['with_all'] : FALSE;
+
+		{
+			$categories = $this->getCbCategories($p);
+			
+			if($categories)
+			{
+				if($p['echo'] == TRUE)
+				{
+					$html = $this->displayOutput($categories,$p);			
+					if($p['assign'])
+						assign($p['assign'],$html);
+					else
+						echo $html;
+				} else {
+					if($p['assign'])
+						assign($p['assign'],$categories);
+					else
+						return $categories;	
+				}
+			} else 
+				return false;
+		}
+	}
+	
 	/**
 	 * Function used to list of categories
 	 */
