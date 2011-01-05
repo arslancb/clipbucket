@@ -38,6 +38,7 @@ class ffmpeg
 	var $input_ext = '';
 	var $tmp_dir = '/';
 	var $flvtool2 = '';
+	var $flvtoolpp = '';
 	var $thumb_dim = '120x90'; //Thumbs Dimension
 	var $num_of_thumbs = '3'; //Number of thumbs
 	var $big_thumb_dim = 'original'; //Big thumb size , original will get orginal video window size thumb othersie the dimension
@@ -47,9 +48,12 @@ class ffmpeg
 	 */
 	function ffmpeg($file)
 	{
+		global $Cbucket;
 		$this->ffmpeg = FFMPEG_BINARY;
 		$this->mp4box = MP4Box_BINARY;
 		$this->flvtool2 = FLVTool2_BINARY;
+		$this->flvtoolpp = $Cbucket->configs['flvtoolpp'];
+		$this->mplayerpath = $Cbucket->configs['mplayerpath'];
 		$this->input_file = $file;
 		
 	}
@@ -265,7 +269,7 @@ class ffmpeg
 			$this->log .= "Failed to stat file $path_source!\n";
 		$info['size'] = (integer)$stats['size'];
 		$this->ffmpeg." -i $path_source -acodec copy -vcodec copy -f null /dev/null 2>&1";
-		$output = $this->exec( $this->ffmpeg." -i $path_source -acodec copy -vcodec copy -f null /dev/null 2>&1" );
+		$this->raw_output = $output = $this->exec( $this->ffmpeg." -i $path_source -acodec copy -vcodec copy -f null /dev/null 2>&1" );
 		
 		
 

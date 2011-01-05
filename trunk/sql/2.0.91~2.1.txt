@@ -1,3 +1,4 @@
+-- 434
 INSERT into cb_config (name,value) VALUES
 ('load_upload_form','yes'),
 ('load_remote_upload_form','yes'),
@@ -8,6 +9,14 @@ INSERT into cb_config (name,value) VALUES
 ('photosSection','yes'),
 ('homeSection','yes'),
 ('uploadSection','yes'),
-('signupSection','yes')
+('signupSection','yes'),
 ('collectionsSection','yes'),
 ('channelsSection','yes');
+-- 434
+
+--
+INSERT into cb_config (name,value) VALUES
+('flvtool++',''),
+('normal_resolution', '480'),
+('high_resolution', '720'),
+('max_video_duration','320');

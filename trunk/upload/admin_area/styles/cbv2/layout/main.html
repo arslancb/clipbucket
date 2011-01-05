@@ -11,6 +11,80 @@ $(document).ready(function(){
 		display_tab('#tab_'+thehash,'div_'+thehash);
 	}
 	
+	
+	$('#convProfile').change(function
+	(){
+		var value = $("#convProfile option:selected").val();
+		if(value>0)
+			setVdoSettings(value);
+	});
+	
+	function setVdoSettings(inType)
+	{
+		switch(inType)
+		{
+			default:
+			{
+
+				var convConfigs = { 
+				  'video_codec': 'libx264', 
+				  'audio_codec': 'libfaac' ,
+				  'vrate' : '25',
+				  'vbrate' : '512000',
+				  'srate' : '22050',
+				  'sbrate' : '128000',
+				}; 
+			}
+			break;
+			
+			case '2':
+			{
+				var convConfigs = { 
+				  'video_codec': 'flv', 
+				  'audio_codec': 'libmp3lame' ,
+				  'vrate' : '25',
+				  'vbrate' : '512000',
+				  'srate' : '22050',
+				  'sbrate' : '128000',
+				}; 
+			}
+			break;
+			
+			case '3':
+			{
+				var convConfigs = { 
+				  'video_codec': 'libx264', 
+				  'audio_codec': 'libfaac' ,
+				  'vrate' : '30',
+				  'vrate' : '30',
+				  'vbrate' : '640000',
+				  'srate' : '44100',
+				  'sbrate' : '320000',
+				}; 
+			}
+			break;
+			
+			case '4':
+			{
+				var convConfigs = { 
+				  'video_codec': 'flv', 
+				  'audio_codec': 'libmp3lame' ,
+				  'vrate' : '25',
+				  'vbrate' : '256000',
+				  'srate' : '22050',
+				  'sbrate' : '96000',
+				}; 
+			}
+			break;
+			
+		}
+		
+		$.each(convConfigs,function(index,value){
+			$('#'+index).val(value);
+		});	
+			
+	}
+	
 });
 {/literal}
 </script>
@@ -380,7 +454,7 @@ $(document).ready(function(){
             </td>
         </tr>
         <tr>
-          <td width="200" valign="top">FFMPEG Binary Path</td>
+          <td width="200" valign="top">FFMPEG Path</td>
           <td valign="top"><input name="ffmpegpath" type="text" id="ffmpegpath" value="{$row.ffmpegpath}" size="45" />
           <a href="http://docs.clip-bucket.com/clipbucket-docs/ffmpeg" target="_blank">
           <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="FFMPEG Binary Paths - Click For More Details" /></a><br />
@@ -394,22 +468,36 @@ $(document).ready(function(){
               <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="In latest releases of FFMPEG (greator than 20000) Pad flag has been changed from pad* to vf , if your ffmpeg is greator than r20000 please check YES " /></a></td>
         </tr>
         <tr>
-          <td valign="top">PHP Binary Path</td>
+          <td valign="top">PHP Path</td>
           <td valign="top"><input name="php_path" type="text" id="php_path" value="{$row.php_path}" size="45" />
           <a href="http://docs.clip-bucket.com/clipbucket-docs/php" target="_blank">
           <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="PHP Binary Paths - Click For More Details" /></a></td>
         </tr>
         <tr>
-          <td valign="top">Mp4 Binary Path</td>
+          <td valign="top">MP4Box Path</td>
           <td valign="top"><input name="mp4boxpath" type="text" id="mp4boxpath" value="{$row.mp4boxpath}" size="45" />
           <a href="http://docs.clip-bucket.com/clipbucket-docs/mp4box" target="_blank">
           <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="MP4Box Binary Paths - Click For More Details" /></a></td>
         </tr>
         <tr>
-          <td valign="top">Flvtool2 Binary Path</td>
+          <td valign="top">Flvtool2  Path</td>
           <td valign="top"><input name="flvtool2path" type="text" id="flvtool2path" value="{$row.flvtool2path}" size="45" />
           <a href="http://docs.clip-bucket.com/clipbucket-docs/flvtool2" target="_blank">
           <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="FLVTool2 Binary Paths - Click For More Details" /></a></td>
+        </tr>
+        <tr>
+          <td valign="top">Mplayer Path</td>
+          <td valign="top"><input name="mplayerpath" type="text" id="mplayerpath" value="{$row.mplayerpath}" size="45" />
+            <a href="http://docs.clip-bucket.com/clipbucket-docs/mplayer" target="_blank"><img src="{$imageurl}/help.png" alt="" border="0" class="tipsy_tip" title="MPlayer - Highly efficient library for generating thumbs from a video" /></a></td>
+        </tr>
+        <tr>
+          <td valign="top">Flvtool++ Path</td>
+          <td valign="top"><input name="flvtoolpp" type="text" id="flvtoolpp" value="{$row.flvtool2pp}" size="45" />
+          <a href="http://docs.clip-bucket.com/clipbucket-docs/mplayer" target="_blank"><img src="{$imageurl}/help.png" alt="" border="0" class="tipsy_tip" title="FLVTool++ - Flv Meta Data Injector from Facebook, flvtool2 can take upto an hour which flvtool++ can do it in minutes, or sometimes seconds" /></a></td>
+        </tr>
+        <tr>
+          <td valign="top">&nbsp;</td>
+          <td valign="top">&nbsp;</td>
         </tr>
         <tr>
           <td valign="top">Turn on Quick Conversion</td>
@@ -446,6 +534,11 @@ $(document).ready(function(){
           <td valign="top">Max upload file size</td>
           <td><input name="max_upload_size" type="text" id="max_upload_size" value="{$row.max_upload_size}" size="15" maxlength="5" /> 
       in MegaBytes </td>
+        </tr>
+        <tr>
+          <td>Max upload duration</td>
+          <td><input name="max_video_duration" type="text" id="max_upload_duration" value="{$row.max_video_duration}" size="15" maxlength="5" /> 
+            in minutes</td>
         </tr>
         <tr>
           <td>Save original file </td>
@@ -502,22 +595,22 @@ $(document).ready(function(){
           <td colspan="2" class="settings_inner_title">Conversion Settings</td>
         </tr>
         <tr>
-          <td>Max Video Width</td>
-          <td><input name="r_width" type="text" id="r_width" value="{$row.r_width}" size="45" /></td>
+          <td>Normal video resolution</td>
+          <td><label for="convProfile"></label>
+            <label for="normal_resolution"></label>
+            <select name="normal_resolution" id="normal_resolution">
+              <option value="240" {if $row.normal_resolution=='240'} selected="selected"{/if}>240p</option>
+              <option value="320" {if $row.normal_resolution=='320'} selected="selected"{/if}>320p</option>
+              <option value="480" {if $row.normal_resolution=='480'} selected="selected"{/if}>480p</option>
+            </select>
+            <label for="high_resolution"></label></td>
         </tr>
         <tr>
-          <td>Max Video Height</td>
-          <td><input name="r_height" type="text" id="r_height" value="{$row.r_height}" size="45" /></td>
-        </tr>
-        <tr>
-          <td>Resize Type</td>
-          <td><select name="resize" id="select">
-            <option value="no" {if $row.resize ==no} selected="selected"{/if}>No</option>
-            <option value="max" {if $row.resize ==max} selected="selected"{/if}>Max</option>
-            <option value="WxH" {if $row.resize ==WxH} selected="selected"{/if}>Stretch</option>
-            <option value="fit" {if $row.resize ==fit} selected="selected"{/if}>Aspect Ratio</option>
-          </select> <a href="http://docs.clip-bucket.com/clipbucket-docs/resize-video-type" target="_blank">
-          <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="Resize Type Of Video - Click For More Details" /></a></td>
+          <td>HQ video resolution</td>
+          <td><select name="high_resolution" id="high_resolution">
+            <option value="720" {if $row.high_resolution=='720'} selected="selected"{/if}>720p</option>
+              <option value="1080" {if $row.high_resolution=='1080'} selected="selected"{/if}>1080p</option>
+          </select></td>
         </tr>
         <tr>
           <td>Thumb Width</td>
@@ -545,6 +638,17 @@ $(document).ready(function(){
         </tr>
         <tr>
           <td colspan="2" class="settings_inner_title">Change only if you have good knowledge of video conversion <a href="http://docs.clip-bucket.com/clipbucket-docs/video-conversion-settings" target="_blank"><img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="Video Conversion Info - Click For More Details" /></a></td>
+        </tr>
+        <tr>
+          <td>Select profile</td>
+          <td><label for="convProfile"></label>
+            <select name="convProfile" id="convProfile">
+              <option selected="selected" value="0">Choose from list</option>
+              <option value="1">H.264, AAC - Youtube like</option>
+              <option value="3">High Configurations with H264</option>
+              <option value="2">Normal Configurations</option>
+              <option value="4">Low Configurations</option>
+            </select></td>
         </tr>
         <tr>
           <td>Video Codec</td>

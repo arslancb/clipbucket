@@ -68,6 +68,7 @@ if(isset($_POST['update'])){
 					
 					'ffmpegpath'	,
 					'flvtool2path',
+					'flvtoolpp',
 					'ffmpeg_type',
 					
 					'gravatars',
@@ -79,7 +80,8 @@ if(isset($_POST['update'])){
 					'grp_max_title',
 					'grp_max_desc',
 					'groupsSection',
-
+					
+					'high_resolution',
 					'hq_output',
 					
 					'keywords'	,
@@ -109,7 +111,9 @@ if(isset($_POST['update'])){
 					'max_comment_chr',
 					'max_time_wait',
 					'max_upload_size',
+					'mplayerpath',
 					
+					'normal_resolution',
 					'num_thumbs',
 					
 					'php_path',

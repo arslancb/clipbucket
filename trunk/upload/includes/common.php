@@ -254,7 +254,8 @@ if(phpversion() < '5.2.0')
 	define('FLVPLAYER',$row['player_file']);
     define('SUBTITLE',$row['code_dev']);
 	//Javascript Directory Name
-	define('ADMINDIR','admin_area');							//Admin Accissble Folder
+	define('ADMINDIR','admin_area');
+	define('ADMINBASEDIR',BASEDIR.'/admin_area');							//Admin Accissble Folder
 	define('ADMIN_BASEURL',BASEURL.'/'.ADMINDIR);
 	define('MODULEDIR',BASEDIR.'/modules');						//Modules Directory
 	
