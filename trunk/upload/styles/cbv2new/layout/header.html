@@ -1,9 +1,11 @@
+<div class="topHead">
+<div id="container" class="container clearfix">
 <!-- Loading Quicklist Box -->
 <div id="quicklist_box"></div>
 
 <div id="header">
 	<div>
-    <a href="{$baseurl}"><img src="{$imageurl}/dot.gif" alt="{cbtitle}" name="logo_icon" width="348" height="53" border="0" id="logo_icon" title="{cbtitle}"  class="logo"></a>
+    <a href="{$baseurl}"><img src="{$imageurl}/dot.gif" alt="{cbtitle}" name="logo_icon" width="183" height="39" border="0" id="logo_icon" title="{cbtitle}"  class="logo"></a>
 </div> <!--LOGO END-->
 {ANCHOR place='mature_content'}
     <div class="login_con clearfix">
@@ -37,18 +39,14 @@
             	My Info
             {/if}    
             </a>
-        </div> <!--USER_LOGIN ID END-->
+        </div> <!--USER_LOGIN ID END--><div class="updatedUpload">
+   	 <a href="javascript:void(0)">Upload video</a> | <a href="javascript:void(0)">Upload Photo</a>       
+    </div>
     </div> <!--LOGIN_CON END-->
     
-    <div class="updatedUpload">
-    <a href="javascript:void(0)">Upload</a>
-        <ul id="subMenu">
-            <li><a href="{link name='upload'}">{lang code="Video"} {lang code="upload"}</a></li>
-            <li><a href="{link name='photo_upload'}">{lang code="photo"} {lang code="upload"}</a></li>
-        </ul>        
-    </div>    
+        
 </div> <!--HEADER ID END-->
-
+</div>
 <div class="top_tabs clearfix">
     <ul>
     	{cbMenu echo='yes'}
@@ -56,8 +54,7 @@
 	
 </div> <!--TOP_TABS END-->
 
-<div id="navi_con">
-    <div class="navi">
+<div class="navi">
         <ul>
         {if !$userquery->login_check('',true)}
         {lang code='after_meny_guest_msg' assign='guestmsg'}
@@ -85,5 +82,4 @@
         </form>
     </div> <!--S_BG END-->    
 </div> <!--SEARCH_CON END-->
-    </div> <!--NAVI END-->
-</div> <!--NAVI_CON END-->
+    </div></div>

@@ -429,7 +429,7 @@ class ClipBucket
 		$this->head_menu[] = array('name'=>lang("signup"),'link'=>cblink(array('name'=>'signup')),"this"=>"signup");
 		
 		$this->head_menu[] = array('name'=>lang("photos"),'link'=>cblink(array('name'=>'photos')),"this"=>"photos");
-		$this->head_menu[] = array('name'=>lang("upload"),'link'=>cblink(array('name'=>'upload')),"this"=>"upload");	
+	
 		if($params['assign'])
 			assign($params['assign'],$this->head_menu);
 		else
@@ -458,8 +458,8 @@ class ClipBucket
 		{
 			$headMenu = $this->head_menu;
 			$output = '';
-			if(($params['tag']))
-					$output .= "<".$params['tag'].">";
+			//if(($params['tag']))
+			//		$output .= "<".$params['tag'].">";
 			foreach($headMenu as $menu)
 			{
 				if(isSectionEnabled($menu['this']))
@@ -485,8 +485,8 @@ class ClipBucket
 				}
 					
 			}
-			if(($params['tag']))
-					$output .= "</".$params['tag'].">";
+			//if(($params['tag']))
+			//		$output .= "</".$params['tag'].">";
 			
 			if($params['echo'])
 				echo $output;
