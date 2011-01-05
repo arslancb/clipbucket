@@ -231,7 +231,7 @@ abstract class CBCategory
 			$html .= "</option>";
 			if($cat['children'])
 			{
-				$html .= $this->displayOptions($cat['children'],$params,$spacer.($params['spacer']?$params['spacer']:"&nbsp"));	
+				$html .= $this->displayOptions($cat['children'],$params,$spacer.($params['spacer']?$params['spacer']:"- "));	
 			}
 		}
 		

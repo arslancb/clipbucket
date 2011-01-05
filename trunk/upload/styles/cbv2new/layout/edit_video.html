@@ -1,3 +1,4 @@
+{assign var='video_fields' value=$Upload->load_video_fields($v)}
 <div>
  {include file="$style_dir/blocks/manage/account_left.html"}
  
@@ -6,16 +7,7 @@
  
  
  <!-- EDITING {$v.title} -->
- <h2>Edit Video</h2>
- 
- {* Loading Form Fields *}
- {assign var='requiredFields' value=$Upload->loadRequiredFields($v)}
- {assign var='optionFields' value=$Upload->loadOptionFields($v)}
- {assign var='locationFields' value=$Upload->loadLocationFields($v)}
-
- {assign var='custom_fields' value=$Upload->load_custom_upload_fields($data,TRUE)}
- {assign var='custom_form_fields' value=$Upload->load_custom_form_fields($v,TRUE)}
- 
+ <h2>Edit Video</h2> 
  
  
  <div class="account_form">
@@ -36,87 +28,23 @@
  
  {* VIDEO THUMB ENDS *} 
 
- {* Video Information Starts *}
-    <fieldset class="fieldset">
-    <legend>{lang code='video_info_all_fields_req'}</legend>
-    {foreach from=$requiredFields item=field}
-    <div class="account_field_block">
-    <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
-    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
-    <br>
-    {$field.hint_2}</div>
-    <div class="clearfix"></div>
-    </div>
-    
-    {/foreach}
-    
-    </fieldset>
+ {foreach from=$video_fields item=field_group}
+ <fieldset class="fieldset">
+ <legend>{$field_group.group_name}</legend>
+ {foreach from=$field_group.fields item=field}
+ <div class="account_field_block">
+ <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
+ <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
+ <br>
+ {$field.hint_2}</div>
+ <div class="clearfix"></div>
+ </div>
 
+ {/foreach}
 
- 
- {* Video Information Ends *}
- 
- 
- {* Sharig Information Starts *}
+ </fieldset>
+ {/foreach}
 
-    <fieldset class="fieldset">
-    <legend>{lang code='vdo_share_opt'}</legend>
-    {foreach from=$optionFields item=field}
-    <div class="account_field_block">
-    <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
-    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
-    <br>
-    {$field.hint_2}</div>
-    <div class="clearfix"></div>
-    </div>
-    
-    {/foreach}
-    
-    </fieldset>
-    
- {* Sharing Information Ends *}
- 
- 
- {* Location Fields *}
-
-    <fieldset class="fieldset">
-    <legend>{lang code='date_recorded_location'}</legend>
-    {foreach from=$locationFields item=field}
-    <div class="account_field_block">
-    <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
-    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
-    <br>
-    {$field.hint_2}</div>
-    <div class="clearfix"></div>
-    </div>
-    
-    {/foreach}
-    
-    </fieldset>
-    
- {* Location Fields Ends *}
- 
- 
- {* Loading Custom Fields *}
- {if count($custom_form_fields)>0}
- 	<fieldset class="fieldset">
-    <legend>{lang code='more_options'}</legend>
-    {foreach from=$custom_form_fields item=field}
-    <div class="account_field_block">
-    <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
-    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-    <br>
-    {$field.hint_2}</div>
-    <div class="clearfix"></div>
-    </div>
-    
-    {/foreach}
-    
-    </fieldset>
- {/if}
- 
- 
- {* Custom Fields ENDS *}
  
  <div align="right"><button name="update_video" id="button" value="submit" class="cb_button">{lang code='update_video'}</button></div>
 

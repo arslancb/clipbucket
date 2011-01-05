@@ -124,25 +124,27 @@ class formObj
 	 * @param extra_tags
 	 * @param label
 	 */
-	
 	function createCheckBox($field,$multi=FALSE)
 	{
 		//First Checking if value is CATEGORY
 		if($field['value'][0]=='category')
 		{
 			$values_array = $field['value'][1][0];
-			$field['value'] = '';
+			//$field['value'] = '';
 			//Generate Category list
 			$type = $field['type'] ? $field['type'] : 'video';
 			$catArray = getCategoryList(array("type"=>$field['category_type']));
+			
+			
 			if(is_array($catArray))
 			{
-				foreach ($catArray as $cat)
-				{
-					$field['value'][$cat['category_id']] = $cat['category_name'];
-				}
+				
+				$this->listCategoryCheckBox(array('categories'=>$catArray,'field'=>$field),$multi);
+				return false;
 			}else
 				return "There is no category to select";
+			
+			
 		}
 		$arrayName = $this->rmBrackets($field['name']);
 		//Creating Fields
@@ -152,9 +154,12 @@ class formObj
 			global $multi_cat_id;
 			@$multi_cat_id++;
 		}
-			
+		
+		$count=0;
 		foreach($field['value'] as $key => $value)
 		{
+			$count++;
+			
 			if(is_array($values_array))
 			{
 				foreach($values_array as $cat_val)
@@ -180,9 +185,52 @@ class formObj
 			
 			if(!empty($field['id']))
 				$field_id = ' id="'.$field['id'].'" ';
-				
-			echo '<label><input name="'.$field_name.'" type="checkbox" value="'.$key.'" '.$field_id.' '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;
+			
+			if($count>0)
 			echo $field['sep'];
+			echo '<label><input name="'.$field_name.'" type="checkbox" value="'.$key.'" '.$field_id.' '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;			
+		}
+	}
+	
+	//Creating checkbox with indent for cateogry childs
+	function listCategoryCheckBox($in,$multi)
+	{
+		$cats = $in['categories'];
+		$field = $in['field'];
+		
+		//setting up the field name
+		if(!$multi)
+			$field_name = $field['name'];
+		else
+		{
+			$field_name = $field['name'];
+			$field_name = $this->rmBrackets($field_name);
+			$field_name = $field_name.$multi_cat_id.'[]';
+		}
+		
+		//Setting up the values
+		$values = $field['value'][1][0];
+		$newVals = array();
+		foreach($values as $val)
+			$newVals[] = '|'.$val.'|';
+		if($cats)
+		{
+			foreach($cats as $cat)
+			{
+				$checked = '';
+				//checking value
+				if(in_array('|'.$cat['category_id'].'|',$newVals))
+					$checked = 'checked';
+				echo $field['sep'];
+				echo '<label><input name="'.$field_name.'" type="checkbox" value="'.$cat['category_id'].'" '.$field_id.'
+				 '.$checked.' '.$field['extra_tags'].'>'.$cat['category_name'].'</label>'	;
+				 if($cat['children'])
+				 {
+					$childField = $field;
+					$childField['sep'] = $field['sep'].str_repeat('&nbsp;',5);
+				 	$this->listCategoryCheckBox(array('categories'=>$cat['children'],'field'=>$childField,'children_indent'=>true),$multi);
+				 }
+			}
 		}
 	}
 	
