@@ -877,6 +877,47 @@
 	}
 	
 	/**
+	* FUNCTION USED TO GET COMMENTS
+	* @param : array();
+	*/
+	function getComments($params=NULL)
+	{
+		global $db;
+		$order = $params['order'];
+		$limit = $params['limit'];
+		$type = $params['type'];
+		$cond = '';
+		if(empty($type))
+			$type = "v";
+		$cond .= tbl("comments.type")." = '".$type."'";
+		if($params['type_id'] && $params['sectionTable'])
+		{
+			if($cond != "")
+				$cond .= " AND ";
+			$cond .= tbl("comments.type_id")." = ".tbl($params['sectionTable'].".".$params['type_id']);
+		}
+				
+		if($params['cond'])
+		{
+			if($cond != "")
+				$cond .= " AND ";
+			$cond .= $params['cond'];
+		}
+				
+		if(!$params['count_only'])
+			$result = $db->select(tbl("comments".($params['sectionTable']?",".$params['sectionTable']:NULL)),"*",$cond,$limit,$order);
+			
+		//echo $db->db_query;	
+		if($params['count_only'])
+			$result = $db->count(tbl("comments"),"*",$cond);
+			
+		if($result)
+			return $result;
+		else
+			return false;						
+	}
+	
+	/**
 	* FUNCTION USED TO GET ADVERTISMENT
 	* @param : array(Ad Code, LIMIT);
 	*/
@@ -2179,7 +2220,9 @@
 		}
 		
 		assign('template_files',$new_list);
+
 		Template('body.html');
+		
 		footer();
 	}
 	

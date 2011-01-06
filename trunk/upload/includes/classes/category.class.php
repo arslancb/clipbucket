@@ -139,7 +139,8 @@ abstract class CBCategory
 	function getCbCategories($params)
 	{
 		global $db; 
-		if($this->use_sub_cats && config('use_subs') == 1 && 
+		$params['use_sub_cats'] = $params['use_sub_cats'] ? $params['use_sub_cats'] : "yes";
+		if($this->use_sub_cats && config('use_subs') == 1 && $params['use_sub_cats'] == "yes" && 
 		   ($params['type'] == "videos" || $params['type'] == "video" || $params['type'] == "v"))
 		{
 			$cond = " parent_id = 0";
@@ -253,6 +254,13 @@ abstract class CBCategory
 		return $html;
 	}
 	
+	function displayCollpasedListCateogry($catArray,$params)
+	{
+		$html = '';
+		
+		return $html;				
+	}
+	
 	function displayOutput($CatArray,$params)
 	{
 		$output = $params['output'];
@@ -263,7 +271,10 @@ abstract class CBCategory
 				case "list": case "li":
 				default:
 				{
-					$html = $this->displayListCategories($CatArray,$params);
+					if($params['list_style'] == "" || $params['list_style'] == "simple")
+						$html = $this->displayListCategories($CatArray,$params);
+					if($params['list_style'] == "collapsed")
+						$html = $this->displayCollpasedListCateogry($CatArray,$params);	
 				}
 				break;
 				

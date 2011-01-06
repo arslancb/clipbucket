@@ -441,7 +441,7 @@ class ClipBucket
 	{
 		$this->head_menu();
 		if(!$params['tag'])
-			$params['tag'] = 'li';
+			//$params['tag'] = 'li';
 
 		if(!$params['class'])
 			$params['class'] = '';

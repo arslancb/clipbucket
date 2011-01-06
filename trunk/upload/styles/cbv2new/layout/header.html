@@ -40,7 +40,7 @@
             {/if}    
             </a>
         </div> <!--USER_LOGIN ID END--><div class="updatedUpload">
-   	 <a href="javascript:void(0)">Upload video</a> | <a href="javascript:void(0)">Upload Photo</a>       
+   	 <a href="{link name='upload'}">Upload video</a> | <a href="{link name='photo_upload'}">Upload Photo</a>       
     </div>
     </div> <!--LOGIN_CON END-->
     
@@ -73,11 +73,21 @@
     <div class="s_bg">	
         <form action="{link name='search_result'}" method="get" name="search" id="search" style="margin:0px; padding:0px;">               
             <input name="query" id="query" type="text" class="searchbar" value="{'query'|get_form_val:true}" />
-            <select name="type" class="s_type">
-            {foreach from=$Cbucket->search_types item=t key=stypes}
-                <option value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
-            {/foreach}
-            </select>                                 
+            <input type="hidden" name="type" id="searchType" value="{$smarty.get.type}" />                      
+            <div class="moveL">
+            	<div id="selectedSearch" class="clearfix" onclick="$('#searchSelectWrapper').toggle();">
+                	<span id="selectedText">{$smarty.get.type|capitalize}</span>
+                </div>
+                <div id="searchSelectWrapper">
+                <ul>
+                    {foreach from=$Cbucket->search_types item=t key=stypes name=SearchTypes}
+                        <li{if $smarty.get.type == $stypes && $smarty.const.THIS_PAGE == "search_result"} class="selected"{/if}>
+                        <a id="{$stypes}" href="#">{$stypes|capitalize}</a>
+                        </li>
+                    {/foreach}
+                </ul>    
+                </div>
+            </div>                                
             <input name="submit" type="submit" class="searchbutton" value="Search" />
         </form>
     </div> <!--S_BG END-->    

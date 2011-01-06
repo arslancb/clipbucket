@@ -117,7 +117,7 @@ span.remember { font-size:10px;  }
 
 /* SEARCH */
 .s_bg { background:url(../images/search.png) no-repeat; width:359px; height:29px; margin:0px; padding:0px; -moz-border-radius:4px 0px 0px 4px; border:1px solid transparent; }
-.searchbar { background:none; width:200px; border:none; margin:2px 10px 0px 0px; font-size:11px; color:#323232; font-family:Verdana,Tahoma,sans-serif; float:left; padding:6px 5px 7px; float:left; border-right:1px solid #ccc; }
+.searchbar { background:none; width:200px; border:none; margin:2px 0px 0px 0px; font-size:11px; color:#323232; font-family:Verdana,Tahoma,sans-serif; float:left; padding:6px 5px 7px; float:left; border-right:1px solid #ccc; }
 .searchbutton { background:none; text-indent:-5000px; border:0px; width:59px; height:25px; line-height:18px; cursor:pointer; margin-top:2px; margin-left:5px; font-weight:bold; font-family:tahoma; font-size:11px; }
 .s_type { background:url(../images/dot.gif) repeat; float:left; margin:7px 9px 0px 1px; padding:0px 0px; font-size:10px; font-family:Verdana,Arial,sans-serif; border:0px none; color:#323232; width:64px;  }
 
@@ -397,7 +397,7 @@ input[disabled].cbSubmitUpload{ background:#f2f2f2; cursor:default; color:#999; 
 .categories ul li{list-style:none; display:block; margin-bottom:6px;}
 .categories ul li:last-child{border-bottom:none}
 .categories .selected { background-color:#efefef; display:block;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px}
-.categories ul a{font:bold 14px arial;color:#0066cc; text-decoration:none; display:block; padding:2px 2px 2px 6px; }
+.categories ul a{font:bold 14px arial;color:#0066cc; text-decoration:none; display:inline-block; padding:2px 2px 2px 6px; }
 .categories ul.sub_categories { padding:0px; margin:0px 0px 0px 5px; }
 .categories ul.sub_categories li { padding:1px; margin:0px; }
 .categories ul.sub_categories li a { font:bold 11px Tahoma; }
@@ -865,6 +865,16 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 
 .PhotoUploaderWrapper { border:1px solid #CCC; width:100%; background-color:#EEE; display:inline-block; padding:15px 0px; text-align:center; }
 
+
 .updatedUpload { float:right; background:url(../images/upload_bg.png) top repeat-x; position:relative; top:-1px; height:25px; padding:0px 8px; border:solid #090909; margin:0 0px 0 0; border-width:0 1px 1px; display:block; text-decoration:none; text-align:center; color:#555;  line-height:25px; overflow:visible; -moz-border-radius-bottomleft:5px; -webkit-border-bottom-left-radius:5px; z-index:1000; }
 .updatedUpload a { display:inline-block; color:#fff; text-decoration:none; font-weight:bold; margin:0px 5px }
 .updatedUpload a:hover{color:#53baff}
+
+#selectedSearch { position:relative; width:82px; margin:0px; padding:9px 0 5px 0px; text-align:center; font:bold 11px Tahoma; overflow:hidden; color:#000; }
+#selectedSearch:hover { cursor:pointer; }
+#searchSelectWrapper { padding:0px; margin:0px; position:relative; display:none;}
+#searchSelectWrapper ul { position:absolute; background:#EEE; width:104%; top:1px; text-align:center; list-style:none; z-index:999999; padding:0px; margin:0px; border:1px solid #ccc; border-top:0px none; left:-1px;  }
+#searchSelectWrapper ul li { padding:5px 0px; list-style:none; margin:0px; color:#000; display:block; float:none; border:0px none; position:relative; border:1px solid transparent; margin:0 -1px -1px -1px; }
+#searchSelectWrapper ul li a { margin:0px; font:normal 11px Tahoma; color:#000; text-transform:none; display:block; }
+#searchSelectWrapper ul li:hover, #searchSelectWrapper ul li.selected { background:#333; border-color:#000; }
+#searchSelectWrapper ul li:hover a, #searchSelectWrapper ul li.selected a { color:#FFF; }

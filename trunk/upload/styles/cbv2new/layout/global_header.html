@@ -79,7 +79,20 @@ var mid  = {$smarty.get.mid};
 {literal}
 <script type="text/javascript">
 	
-	$(document).ready(function() {					   
+	$(document).ready(function() {
+	{/literal}
+	{if $smarty.get.query == ""}
+	{literal}
+		$("#searchSelectWrapper ul li:first-child").addClass('selected');	
+		$('#selectedText').text($("#searchSelectWrapper ul li:first-child a").text());
+		$('#searchType').val($("#searchSelectWrapper ul li:first-child a").attr('id'));
+	{/literal}
+	{else}
+	{literal}
+	
+	{/literal}	
+	{/if}
+	{literal}						   
 	$('.user_login').hide();					   
 	
 	$('#user_login').toggle(
@@ -91,7 +104,17 @@ var mid  = {$smarty.get.mid};
 		}
 								
 	);
-		
+	$("#searchSelectWrapper ul li a").bind({
+		click : function(event) {
+			event.preventDefault();
+			$("#searchType").val($(this).attr('id'));
+			$('#selectedText').text($(this).text());
+			$(this).parent().parent().children().removeClass('selected');
+			$(this).parent().addClass('selected')
+			$('#searchSelectWrapper').hide();
+		},
+	
+	});	
 	$('.tabs li').click(
 		function() {
 			$('.tabs li').removeClass('selected')
@@ -116,7 +139,7 @@ var mid  = {$smarty.get.mid};
 			
 		
 	});
-
+	
 	function ToggleView(obj) {
 		var obj = $(obj),
 			obj_id = obj.attr('id'),

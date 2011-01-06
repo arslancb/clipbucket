@@ -134,8 +134,6 @@ class formObj
 			//Generate Category list
 			$type = $field['type'] ? $field['type'] : 'video';
 			$catArray = getCategoryList(array("type"=>$field['category_type']));
-			
-			
 			if(is_array($catArray))
 			{
 				
