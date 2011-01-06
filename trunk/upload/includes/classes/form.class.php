@@ -209,8 +209,9 @@ class formObj
 		//Setting up the values
 		$values = $field['value'][1][0];
 		$newVals = array();
-		foreach($values as $val)
-			$newVals[] = '|'.$val.'|';
+		if(!empty($values))
+			foreach($values as $val)
+				$newVals[] = '|'.$val.'|';
 		if($cats)
 		{
 			foreach($cats as $cat)

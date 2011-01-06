@@ -6,7 +6,7 @@
             <span class='title'>{$title} &#8250; {lang code='search'} &#8211;</span>
           <input type="text" name="query" value="{'query'|get_form_val:true}" id="query" />
             type
-            <select name="type">
+            <select id="SearchType" name="type">
             	{foreach from=$Cbucket->search_types item=t key=stypes}
                 	<option value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
                 {/foreach}
@@ -26,7 +26,7 @@
             {assign var='types' value=$type->search_type}
             
             {foreach from=$types key=stype item=search}
-             <div class="search_type">
+             <div id="{$stype}" class="search_type">
              {lang code='search_for_s' assign='searchfor'}
                 <h2>{$searchfor|sprintf:$search.title}</h2>
                 <div>
@@ -48,7 +48,7 @@
       {/if}
 	{/foreach}
     </div>
-<span class="more_button" style="margin-bottom:10px"><a href="javascript:void(0)" onClick="$('#advance_search').toggle();$('.more_button').toggleClass('more_button_up');$('#simple_search').toggle()">{lang code='more_options'}</a></span>
+<span class="more_button" style="margin-bottom:10px"><a href="javascript:void(0)" onClick="showAdvanceSearch('simple_search','advance_search','more_button','more_button_up');">{lang code='more_options'}</a></span>
 
 <div>
     <div class="heading">{$search_type_title}</div>

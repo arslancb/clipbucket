@@ -4094,6 +4094,13 @@
 			return false;
 		}
 		
+		if($file == 'admin_bar')
+		{
+			if(has_access('admin_access',TRUE))
+				Template(BASEDIR.'/styles/global/admin_bar.html',false);
+				return false;
+		}
+		
 		if(!$type)
 			$type = "global";
 		
