@@ -922,7 +922,7 @@ class CBPhotos
 		$values = array($finalxPadding,$finalyPadding);
 		return $values;			
 	}
-	
+		
 	/**
 	 * Used to watermark image
 	 */
@@ -1677,6 +1677,8 @@ class CBPhotos
 								
 							$src = array_find($photo['filename'].$size,$thumbs);
 							$dem = getimagesize($src);
+							$width = $dem[0];
+							$height = $dem[1];
 							
 							$img = "<img ";
 							$img .= "src = '".$src."'";
@@ -1689,9 +1691,14 @@ class CBPhotos
 								
 							if($p['align'])
 								$img .= " align = '".$p['align']."'";	
-								
-							$img .= " width = '".$dem[0]."'";
-							$img .= " height = '".$dem[1]."'";
+							if($p['width'] && is_numeric($p['width']))
+							{
+								$height = round($p['width'] / $width * $height);
+								$width = $p['width'];
+							}
+							
+							$img .= " width = '".$width."'";
+							$img .= " height = '".$height."'";
 							
 							if($p['title'])
 								$img .= " title = '".mysql_clean($p['title'])."'";
