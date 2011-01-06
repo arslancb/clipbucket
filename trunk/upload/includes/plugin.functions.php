@@ -317,7 +317,7 @@
 	{
 		global $Cbucket;
 		$Cbucket->captchas[] = array('load_function'=>$func,'validate_function'=>$ver_func,'show_field'=>$show_field);
-	}register_anchor_function('cb_footer','the_footer');
+	}register_anchor_function('cbRocks','the_footer');
 	
 	
 	/**

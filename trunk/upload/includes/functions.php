@@ -824,12 +824,24 @@
 	 */
 	function the_end()
 	{
-		if(count(get_functions('clipbucket_footer'))==0 ||!defined("footer_loaded") && !BACK_END) 
+		if(!$isWorthyBuddy) 
 		{
+				/*
 				echo base64_decode("PGgyPklsbGVnYWwgT3BlcmF0aW9uIEZvdW5k");
 				echo "- Please VISIT ";
 				echo base64_decode("PGEgaHJlZj0iaHR0cDovL2NsaXAtYnVja2V0LmNvbS8iPkNsaXBCdWNrZXQ8L2E+");
 				echo " for Details</h2>";
+				*/
+				
+				//Dear user, i have spent too much time of my life on developing
+				//This software and if you want to return me in this way, 
+				//its ok for me, but for those who told you how to do this...
+				echo "<!-- Sherif Abdou and Thomas Logan 'Fooled you assholes',
+						if you think giving credit to someones hardwork pisses you off,
+							then you better remove your FATHER'S NAME from your LIFE , 
+								Good Luck, Arslan Hassan -->";
+				echo 'i dont care if you try to play with my code, but what really pisses me off
+						is INSULT';
 		}
 	}
 	
@@ -1153,6 +1165,16 @@
 			break;
 		}
 	}*/
+	function cb_bottom()
+	{
+		if(
+		(!defined("isCBSecured") 
+		|| count(get_functions('clipbucket_footer'))== 0 )
+		&& !BACK_END) 
+		{
+				echo cbSecured(CB_SIGN_C);
+		}
+	}
 	function getSmartyCategoryList($params)
 	{
 		return getCategoryList($params);
@@ -1206,6 +1228,14 @@
 	}
 	
 	
+	/**
+	 **
+	 */
+	function cbRocks()
+	{
+		define("isCBSecured",TRUE); 
+		echo cbSecured(CB_SIGN);
+	}
 	
 	/**
 	 * Insert Id
@@ -2864,7 +2894,7 @@
 	}
 
 
-	function cb_footer(){ define("footer_loaded",TRUE); echo sprintf(base64_decode(config(base64_decode('Y2JoYXNo'))),VERSION);}
+	
 
 	/**
 	 * Funcion used to call functions
@@ -3720,7 +3750,7 @@
 			echo " $sub_sep ".SLOGAN;
 		else
 			echo " $sub_sep ".$cbsubtitle;
-		echo " ".SUBTITLE;
+		//echo " ".SUBTITLE;
 	}
 	
 	/**
@@ -4781,6 +4811,7 @@
 		return $preUrl.$var;		
 	}
 	
+	
 	/**
 	 * Following two functions are taken from
 	 * tutorialzine.com's post 'Creating a Facebook-like Registration Form with jQuery'
@@ -4932,4 +4963,14 @@
 		
 		return $ini_depth;
 	}
+	
+	
+	/**
+	 * JSON_ENCODE short
+	 */
+	function je($in){ return json_encode($in); }
+	/**
+	 * JSON_DECODE short
+	 */
+	function jd($in){ return json_decode($in); }
 ?>

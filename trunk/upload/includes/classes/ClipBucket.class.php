@@ -29,7 +29,7 @@ class ClipBucket
 	var $cur_template = 'clipbucketblue';
 	var $links = array();
 	var $captchas = array();
-	var $clipbucket_footer = array('the_end');
+	var $clipbucket_footer = array('cb_bottom');
 	var $clipbucket_functions = array();
 	var $head_menu = array();
 	var $foot_menu = array();

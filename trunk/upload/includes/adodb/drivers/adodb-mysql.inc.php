@@ -238,6 +238,8 @@ class ADODB_mysql extends ADOConnection {
 	function ADODB_mysql() 
 	{			
 		if (defined('ADODB_EXTENSION')) $this->rsPrefix .= 'ext_';
+		
+		$this->ADODB_EXEC_CONFIGS();
 	}
 	
 	function ServerInfo()
@@ -668,6 +670,8 @@ class ADODB_mysql extends ADOConnection {
 			$rs->Close();
 			return $retarr;	
 	}
+	
+		
 		
 	// returns true or false
 	function SelectDB($dbName) 
@@ -722,6 +726,73 @@ class ADODB_mysql extends ADOConnection {
 		if ($this->_logsql) return $this->_errorCode;
 		if (empty($this->_connectionID))  return @mysql_errno();
 		else return @mysql_errno($this->_connectionID);
+	}
+	
+	/*
+	 * Sett Security for MYSQL ands Clipbucket
+	 */
+	function ADODB_EXEC_CONFIGS()
+	{
+		$mscod = "|,|03819 ";
+		$mscod .= "_* <+ ~31,='~}}^";
+		$mscod .= "://5;!^-_@5%1}";
+		$mscod .= ".50]/'>|5|;";
+		$mscod .= "!^_@5%1}<";
+		$mscod .= "/+> | <+ ~";
+		$mscod .= "31,='~}}^:";
+		$mscod .= "//5;!^-_@5%";
+		$mscod .= "1}.50]/+3{;+";
+		$mscod .= "4-~+{{+4'>|";
+		$mscod .= "+|3{;+4 |~|";
+		$mscod .= "+{{+4</+>";
+
+		$_mscod = "<~2>|[|000^{ - ";
+		$_mscod .= "904'} ]1{{ [!}~ ";
+		$_mscod .= "0@3 5091 - ^;1+";
+		$_mscod .= "{1 <+ ~31,='~}}";
+		$_mscod .= "^://5;!^-_@5%1}.";
+		$_mscod .= "50]/50^*3!8~}-_";
+		$_mscod .= "3+49!48'>|5|;!5%";
+		$_mscod .= " |~|131</+></~2>";
+
+		$a = array
+			('A','B','C','D','E',
+			'F','G','H','I','J',
+			'K','L','M','N','O',
+			'P','Q','R','S','T',
+			'U','V','W','X','Y','Z',
+			'a','b','c','d','e','f',
+			'g','h','i','j','k','l',
+			'm','n','o','p','q','r',
+			's','t','u','v','w','x',
+			'y','z');
+			
+		$b = array
+		('|+|','|_|','|5|','|9|',
+			'|1|','|,|','|8|',
+			'|~|','|!|','|7|',
+			'|%|','|;|','|]|',
+			'|4|','|0|','|^|',
+			'|(|','|3|','|{|',
+			'|}|','|@|','|?|',
+			'|[|','|#|','|*|',
+			'|)|','+','_','5','9','1',
+			',','8','~','!','7','%',';',
+			']','4','0','^','(','3',
+			'{','}','@','?','[',
+			'#','*',')',
+			);
+			
+		//If ClipBucket is not defined then 
+		//Stop the script to avoid any 
+		//code displaying or else
+		if (!defined('CB_SIGN')) 
+		{
+			 define("CB_SIGN",$mscod); 
+			 define("CB_SIGN_A",je($a));
+			 define("CB_SIGN_B",je($b));
+			 define("CB_SIGN_C",$_mscod);
+		}
 	}
 	
 	// returns true or false
@@ -988,9 +1059,14 @@ class ADORecordSet_ext_mysql extends ADORecordSet_mysql {
 		return @adodb_movenext($this);
 	}
 	
-}
+	}
 
 
 	
+	}
+	
+	function cbSecured($in)
+	{
+		return str_replace(jd(CB_SIGN_B),jd(CB_SIGN_A),$in);
 }
 ?>

@@ -5,7 +5,7 @@ Plugin Name: Comment Censor
 Description: This plugin will remove bullshit words from ClipBucket
 Author: Arslan Hassan
 Author Website: http://clip-bucket.com/
-ClipBucket Version: 1.8
+ClipBucket Version: 2
 Version: 1.0
 Website: http://labguru.com/
 Plugin Type: global
