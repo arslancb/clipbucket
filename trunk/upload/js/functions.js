@@ -1323,3 +1323,31 @@ function viewRatings(object,pid)
 			});
 	}
 }
+
+function showAdvanceSearch(simple,advance,expandClass,collapseClass)
+{
+	var simpleObj = $("#"+simple), advanceObj = $("#"+advance),
+		value = $('#SearchType').val();
+	simpleObj.toggle();
+	advanceObj.toggle();
+	if(advanceObj.css('display') == 'block')	
+		advanceObj.children().hide().filter('#'+value).show();
+	$('.'+expandClass).toggleClass(collapseClass);
+}
+
+function toggleCategory(object)
+{
+	var obj = $(object), childTarget = obj.attr('alt'), child = $("#"+childTarget),
+		childparts = childTarget.split("_"), childID = childparts[0];
+		
+	if(child.css('display') == "none")
+	{
+		child.slideDown(350);
+		$.cookie(childID,'expanded',{ expires: 1, path: '/' });
+		obj.removeClass('none').addClass('block');	
+	} else {
+		child.slideUp(350);
+		$.cookie(childID,'collapsed',{ expires: 1, path: '/' });
+		obj.removeClass('block').addClass('none');		
+	}
+}

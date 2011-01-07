@@ -258,6 +258,50 @@ abstract class CBCategory
 	{
 		$html = '';
 		
+		foreach($catArray as $catID=>$cat)
+		{
+			if($_GET['cat'] == $catID || (empty($_GET['cat']) && $cat['category_id'] == 'all'))
+				$selected =  "selected"; 
+			else
+				$selected = "";
+
+				
+						
+			if($params['class'])
+				$class = $params['class'];		
+			$html .= "<li class='cbCategoryItem ".$class.$selected."'";
+			if($params['id'])
+				$html .= " id = '".$params['id']."'";					
+			$html .= ">";
+			$id  = '"#'.$catID.'_categories"';
+			if(array_key_exists($catID,$_COOKIE))
+			{
+				$property = $_COOKIE[$catID];
+				if($property == "expanded")
+					$display = "block";
+				if($property == "collapsed")
+					$display = "none";		
+			} else {
+				$display = "none";	
+			}	
+			if($cat['children'])		
+				$html .= "<span id='".$cat['category_id']."_toggler' alt='".$cat['category_id']."_categories' class='CategoryToggler ".$display."' onclick='toggleCategory(this);'>&nbsp;</span>";
+							
+			$html .= "<a href='".cblink(array("name"=>"category","data"=>$cat,"type"=>$params['type']))."'>".$cat['category_name']."</a>";
+			
+
+			
+			if($cat['children'])
+			{
+				
+
+				$html .= "<ul id='".$catID."_categories' class='sub_categories' style='display:".($display)."'>";
+				$html .= $this->displayCollpasedListCateogry($cat['children'],$params);
+				$html .= "</ul>";
+			}
+			$html .= "</li>";			
+		}
+		
 		return $html;				
 	}
 	

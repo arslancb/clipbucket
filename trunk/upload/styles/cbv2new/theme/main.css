@@ -878,3 +878,8 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 #searchSelectWrapper ul li a { margin:0px; font:normal 11px Tahoma; color:#000; text-transform:none; display:block; }
 #searchSelectWrapper ul li:hover, #searchSelectWrapper ul li.selected { background:#333; border-color:#000; }
 #searchSelectWrapper ul li:hover a, #searchSelectWrapper ul li.selected a { color:#FFF; }
+
+.CategoryToggler { float:right; width:8px; height:7px; margin:5px 4px 0 0; }
+.CategoryToggler:hover { cursor:pointer }
+.CategoryToggler.none { background:url(../images/category_buttons.png) left top no-repeat; }
+.CategoryToggler.block { background:url(../images/category_buttons.png) right top no-repeat; }

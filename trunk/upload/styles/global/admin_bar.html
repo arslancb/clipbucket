@@ -33,7 +33,7 @@ function showCBadminBarButton(height)
 		   'border' : '1px solid #000',
 		   'font' : 'bold 11px Tahoma',
 		   'color':'#FFF'}).html("Show Menu").insertAfter('#CBadminBar').animate({ 'top':'0px','opacity': 1 },500);
-	$.cookie('CBadminBar','collapsed');	   	
+	$.cookie('CBadminBar','hidden',{expires:1,path:'/'});	   	
 }
 
 function showCBadminBar(obj,height)
@@ -44,7 +44,7 @@ function showCBadminBar(obj,height)
 		$(obj).remove();
 		var Divoffset = $('#CBadminBar').offset().top;
 		$('html,body').animate({ scrollTop : Divoffset },500);	
-		$.cookie('CBadminBar','expanded');	
+		$.cookie('CBadminBar','shown',{expires:1,path:'/'});	
 	});
 }
 
@@ -59,7 +59,7 @@ $(document).ready(function(){
 });
 {/literal}
 </script>
-<div id="CBadminBar" class="CBadminBar clearfix"{if $smarty.cookies.CBadminBar == 'collapsed'} style="display:none"{/if}>
+<div id="CBadminBar" class="CBadminBar clearfix"{if $smarty.cookies.CBadminBar == 'hidden'} style="display:none"{/if}>
 	<ul class="CBadminBarWrapper">
     {assign var=adminLinks value=$Cbucket->AdminMenu}
     {foreach from=$adminLinks item=menu key=name}
@@ -78,6 +78,6 @@ $(document).ready(function(){
     <li id="CBadminBarToggle" class="CBadminBarHeading" style="float:right;"><a href="#">Hide Menu</a></li>
     </ul>      
 </div>
-{if $smarty.cookies.CBadminBar == 'collapsed'}
+{if $smarty.cookies.CBadminBar == 'hidden'}
 	<div id="showCBadminBar" style="position:fixed; top:0px; right:0px; width:auto; padding:6px; background:#333333; border:1px solid #000; color:#fff; font:bold 11px Tahoma;" onclick="showCBadminBar(this,'26');">Show Menu</div>
 {/if}
