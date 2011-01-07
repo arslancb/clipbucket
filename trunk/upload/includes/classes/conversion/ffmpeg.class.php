@@ -913,7 +913,7 @@ class ffmpeg
 
 		if(!$i)
 			$i = $this->input_details;
-		$convert  = false;
+		$convert  = true;
 		//Checkinf for HD or Not
 		$opt_av = '';
 
