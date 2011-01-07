@@ -942,7 +942,8 @@ class ffmpeg
 			$p['video_height'  ] = $p['hq_video_height'];
 			$p['resize']		 = 'WxH';
 			
-			$output = $this->hq_output_file;
+			$output_file = $this->hq_output_file;
+			
 			# video rate
 			if($p['use_video_rate'])
 			{
