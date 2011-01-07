@@ -1,10 +1,10 @@
 <style type="text/css">
 {literal}
 .CBadminBar { min-width:980px; width:980px; width:auto !important; background:#333; border-bottom:1px solid #000; padding:0px; font:bold 11px Tahoma, Geneva, sans-serif; color:#FFF; margin:0px; }
-.CBadminBar .CBadminBarWrapper { margin:0px; padding:0px; position:relative; top:0px; }
+.CBadminBar .CBadminBarWrapper { margin:0px; padding:0px; position:relative; top:0px; z-index:9999999999; }
 .CBadminBarWrapper { margin:0px; padding:0px; list-style:none; width:100%; }
-.CBadminBarWrapper li { margin:0px; padding:0px; }
-.CBadminBarHeading { display:inline-block; list-style:none; margin:0px; padding:0px; position:relative; }
+.CBadminBarWrapper li { margin:0px; padding:0px; list-style:none; }
+.CBadminBarHeading {  margin:0px; padding:0px; position:relative; float:left;}
 .CBadminBarHeading a { color:#CCC; text-decoration:none; display:inline-block;  padding:6px; }
 .CBadminBarHeading:hover a { background:#EEE; color:black; }
 
@@ -16,13 +16,15 @@
 .CBadminBarHeading:hover .CBadminBarSubMenu a:hover { color:#FFF; border:1px solid #000; background:#333; }
 .CBadminBarToggle { padding:5px; background:#121212; border:1px solid #000; position:fixed; top:10px; left:0px; font:bold 11px Tahoma, Geneva, sans-serif; color:#FFF; }
 #showCBadminBar:hover { cursor:pointer }
+.clearfix { }
+.clearfix:after{ content: "."; display:block; height:0; font-size:0; clear:both; visibility:hidden;  }
 {/literal}
 </style>
 <script type="text/javascript">
 {literal}
 function showCBadminBarButton(height)
 {
-	$("<div />")
+	$("<div></div>")
 	.attr({'id':'showCBadminBar','onClick' : 'showCBadminBar(this,"'+height+'")'})
 	.css({ 'position':'fixed',
 		   'top':'-'+height+'px',

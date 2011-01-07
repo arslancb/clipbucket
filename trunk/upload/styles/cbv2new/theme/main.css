@@ -9,7 +9,6 @@ Style name:		ClipBucket v2(New)
 @import url("rating.css");
 body,html {background-color:#fff; margin:0px; padding:0px; font-family:Arial, Helvetica, sans-serif; color:#333; font-size:11px; }
 
-
 #content{}
 /* CLEARS */
 .clearfix { }
@@ -95,9 +94,9 @@ span.remember { font-size:10px;  }
 .user_login .links { font-size:10px; }
 
 /* TOP TABS */
-.top_tabs { margin:0px; padding:0px; clear:both;overflow:hidden }
+.top_tabs { margin:0px; padding:0px; clear:both;overflow:hidden;}
 .top_tabs ul { margin:0px; padding:0px; list-style:none; float:left; position:relative; left:50%;  }
-.top_tabs ul li { margin:0px; padding:0px; float:left; list-style:none; position:relative; right:50%; top:1px;  }
+.top_tabs ul li { margin:0px; padding:0px; float:left; list-style:none; position:relative; right:50%; top:1px; }
 .top_tabs ul li a { width:120px; display:block; padding:5px 0px; background:#62b3ff; text-align:center; text-decoration:none; color:#FFF; margin-right:0px; font-size:13px;  background:url(../images/nav_grads.png); background-position:-0px -169px; background-repeat:repeat-x; border-right:1px solid #115683}
 .top_tabs ul li a:hover { background:#0099cc; }
 .top_tabs ul li.selected a { background:url(../images/nav_grads.png)  -0px -7px; repeat-x; border:1px solid #006699; border-bottom:0px none; font-weight:bold}
@@ -810,7 +809,7 @@ ul.upload_opts li.selected { cursor:pointer; background:none; border:1px solid; 
 
 .collectionTable { border-collapse:collapse; border-spacing:0px; width:100%; }
 #collectionItemsList { }
-.collectItemBox { vertical-align:middle; width:19%; display:inline-block; text-align:center; padding:10px 2px; zoom: 1; *display: inline; display: -moz-inline-stack; }
+.collectItemBox { vertical-align:middle; width:19%; display:inline-block; text-align:center; padding:10px 2px;  }
 a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 .collect_grid img { display:block; margin:3px; }
 

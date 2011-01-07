@@ -2,7 +2,7 @@
 	{include file="$style_dir/blocks/manage/account_left.html"}
 	<div class="account_box clearfix">
         {include file="$style_dir/blocks/manage/account_head.html" user=$user}    
-        <h2 style=" display:inline-block;">Edit Photo</h2> - <div style=" display:inline-block;"><a href="{$cbphoto->photo_links($p,'view_item')}" style="text-decoration:none; margin-top:10px;" target="_blank" class="LoadMoreButton">View Photo</a></div> -  <button class="LoadMoreButton" type="button" onClick="viewRatings(this,'{$p.photo_id}');">View Ratings</button>
+        <h2 style=" display:inline-block; *display:inline;">Edit Photo</h2> - <div style=" display:inline-block;*display:inline;"><a href="{$cbphoto->photo_links($p,'view_item')}" style="text-decoration:none; margin-top:10px;" target="_blank" class="LoadMoreButton">View Photo</a></div> -  <button class="LoadMoreButton" type="button" onClick="viewRatings(this,'{$p.photo_id}');">View Ratings</button>
         {assign var='requiredFields' value=$cbphoto->load_required_forms($p)}
         {assign var='optionFields' value=$cbphoto->load_other_forms($p)}
         <div class="clear"></div>

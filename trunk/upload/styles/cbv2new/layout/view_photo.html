@@ -1,7 +1,7 @@
 <div class="moveL" style="width:65%; margin:0px 10px;">
 
     <div style="background:#f3f3f3; border:1px solid #ccc; padding:10px 0px;">
-        <div align="center">{get_photo details=$photo output='html' size='l'}</div>        
+        <div align="center"><a href="javascript:void(0)" onClick="get_item(this,'{$object.ci_id}','{$object.collection_id}','{$type}','next');">{get_photo details=$photo output='html' size='l' title='Next Photo'}</a></div>        
     </div>
     <div style="height:10px;"></div>
     <div class="video_actions_cont clearfix">
@@ -70,7 +70,7 @@
 {if $userquery->userid == $photo.userid}
 	<a href="{$baseurl}/edit_photo.php?photo={$photo.photo_id}" style="text-decoration:none;" class="LoadMoreButton">Edit Photo</a>
 {/if}
-{DownloadButtonP details=$photo class='LoadMoreButton' style='display:inline-block; margin-left:5px;' output='div'}
+{DownloadButtonP details=$photo class='LoadMoreButton' style='display:inline-block; *display:inline; margin-left:5px;' output='div'}
 {get_photos assign=uphotos user=$photo.userid exclude=$photo.photo_id order=RAND() limit='5'}
 {if $uphotos}
 <div style="height:5px; clear:both"></div>

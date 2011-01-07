@@ -154,7 +154,7 @@ abstract class CBCategory
 
 		$finalArray = array();
 		if($params['with_all'])
-			$finalArray[] = array("category_id"=>"all","category_name"=>"All");
+			$finalArray[] = array("category_id"=>"all","category_name"=>lang("cat_all"));
 		
 		foreach($categories as $cat)
 		{
