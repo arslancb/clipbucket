@@ -14,6 +14,8 @@ define("KEEP_MP4_AS_IS",config('keep_mp4_as_is'));
 define("MP4Box_BINARY",get_binaries('MP4Box'));
 define("FLVTool2_BINARY",get_binaries('flvtool2'));
 define('FFMPEG_BINARY', get_binaries('ffmpeg'));
+define('PROCESSESS_AT_ONCE',5);
+
 
 class ffmpeg 
 {
@@ -42,7 +44,8 @@ class ffmpeg
 	var $thumb_dim = '120x90'; //Thumbs Dimension
 	var $num_of_thumbs = '3'; //Number of thumbs
 	var $big_thumb_dim = 'original'; //Big thumb size , original will get orginal video window size thumb othersie the dimension
-	
+	var $set_conv_lock = true;
+	var $lock_file = '';
 	/**
 	 * Initiating Class
 	 */
@@ -111,7 +114,6 @@ class ffmpeg
 		$p = $this->configs;
 		$i = $this->input_details;
 		
-		
 		# Prepare the ffmpeg command to execute
 		if(isset($p['extra_options']))
 			$opt_av .= " -y {$p['extra_options']} ";
@@ -140,18 +142,6 @@ class ffmpeg
 			if(!empty($vrate))
 				$opt_av .= " -r $vrate ";
 		}
-		
-		# video bitrate
-		if($p['use_video_bit_rate'])
-		{
-			if(isset($p['video_bitrate']))
-				$vbrate = $p['video_bitrate'];
-			elseif(isset($i['video_bitrate']))
-				$vbrate = $i['video_bitrate'];
-			if(!empty($vbrate))
-				$opt_av .= " -b $vbrate ";
-		}
-		
 		
 		# video size, aspect and padding
 		
@@ -187,22 +177,29 @@ class ffmpeg
 				$opt_av .= $abrate_cmd;
 			}
 		}
-		
+
 		# audio bitrate
 		if($p['use_audio_rate'])
 		{
-			if(isset($p['audio_rate']))
-				$arate = $p['audio_rate'];
-			elseif(isset($i['audio_rate']))
+			if($this->input_details['audio_channels']>2 || !is_numeric($this->input_details['audio_channels']))
+			{
 				$arate = $i['audio_rate'];
-			if(!empty($arate))
-				$opt_av .= " -ar $arate ";
+				$opt_av .= $arate_cmd = " -ar $arate ";
+			}else
+			{
+				if(isset($p['audio_rate']))
+					$arate = $p['audio_rate'];
+				elseif(isset($i['audio_rate']))
+					$arate = $i['audio_rate'];
+				if(!empty($arate))
+					$opt_av .= $arate_cmd = " -ar $arate ";
+			}
 		}
 		$tmp_file = time().RandomString(5).'.tmp';
 		
 		$opt_av .= " -map_meta_data ".$this->output_file.":".$this->input_file;
 	
-		$command = $this->ffmpeg." -i ".$this->input_file." $opt_av ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
+		$this->raw_command = $command = $this->ffmpeg." -i ".$this->input_file." $opt_av ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
 		
 		//Updating DB
 		//$db->update($this->tbl,array('command_used'),array($command)," id = '".$this->row_id."'");
@@ -217,7 +214,19 @@ class ffmpeg
 		
 		#FFMPEG GNERETAES Damanged File
 		#Injecting MetaData ysing FLVtool2 - you must have update version of flvtool2 ie 1.0.6 FInal or greater
-		if($this->flvtool2)
+		if($this->flvtoolpp)
+			{
+				$tmp_file = time().RandomString(5).'flvtool2_output.tmp';
+				$flv_cmd = $this->flvtoolpp." ".$this->output_file." ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
+				$flvtool2_output = $this->exec($flv_cmd);
+				if(file_exists(TEMP_DIR.'/'.$tmp_file))
+				{
+					$flvtool2_output = $flvtool2_output ? $flvtool2_output : join("", file(TEMP_DIR.'/'.$tmp_file));
+					unlink(TEMP_DIR.'/'.$tmp_file);
+				}
+				$output .= $flvtool2_output;
+				
+		}elseif($this->flvtool2)
 		{
 			$tmp_file = time().RandomString(5).'flvtool2_output.tmp';
 			$flv_cmd = $this->flvtool2." -U  ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
@@ -269,14 +278,13 @@ class ffmpeg
 			$this->log .= "Failed to stat file $path_source!\n";
 		$info['size'] = (integer)$stats['size'];
 		$this->ffmpeg." -i $path_source -acodec copy -vcodec copy -f null /dev/null 2>&1";
-		$this->raw_output = $output = $this->exec( $this->ffmpeg." -i $path_source -acodec copy -vcodec copy -f null /dev/null 2>&1" );
+		$this->raw_output = $output = $this->exec( $this->ffmpeg." -i $path_source -acodec copy -vcodec copy -y -f null /dev/null 2>&1" );
 		
-		
-
+		$this->raw_info = $info;
 		# parse output
-		if( $this->parse_format_info( $output, $info ) === false )
+		if( $this->parse_format_info( $output ) === false )
 			return false;
-		
+		$info = $this->raw_info;
 		return $info;
 	}
 	
@@ -296,7 +304,11 @@ class ffmpeg
 		return shell_exec( $cmd);
 	}
 	
-	
+	function pregMatch($in,$str)
+	{	
+		preg_match("/$in/",$str,$args);
+		return $args;
+	}
 	
 	/**
 	 * Author : Arslan Hassan
@@ -313,16 +325,17 @@ class ffmpeg
 	 *  - (bool) true on success
 	 */
 	 
-	function parse_format_info( $output, & $info ) {
-
+	function parse_format_info( $output ) {
+		$this->raw_info;
+		$info =  $this->raw_info;
 		# search the output for specific patterns and extract info
 		# check final encoding message
-		if( ereg( 'Unknown format', $output, $args) ) {
+		if($args =  $this->pregMatch( 'Unknown format', $output) ) {
 			$Unkown = "Unkown";
 		} else {
 			$Unkown = "";
 		}
-		if( ereg( 'video:([0-9]+)kB audio:([0-9]+)kB global headers:[0-9]+kB muxing overhead', $output, $args ) ) {
+		if( $args = $this->pregMatch( 'video:([0-9]+)kB audio:([0-9]+)kB global headers:[0-9]+kB muxing overhead', $output) ) {
 			$video_size = (float)$args[1];
 			$audio_size = (float)$args[2];
 		} else {
@@ -330,7 +343,7 @@ class ffmpeg
 		}
 
 		# check for last enconding update message
-		if( ereg( '(frame=([^=]*) fps=[^=]* q=[^=]* L)?size=[^=]*kB time=([^=]*) bitrate=[^=]*kbits/s[^=]*$', $output, $args ) ) {
+		if($args =  $this->pregMatch( '(frame=([^=]*) fps=[^=]* q=[^=]* L)?size=[^=]*kB time=([^=]*) bitrate=[^=]*kbits\/s[^=]*$', $output) ) {
 			$frame_count = $args[2] ? (float)$args[2] : 0;
 			$duration    = (float)$args[3];
 		} else {
@@ -346,12 +359,12 @@ class ffmpeg
 		if( $audio_size > 0 )
 			$info['audio_bitrate']	= (integer)($audio_size * 8 / $duration);
 			# get format information
-		if( ereg( "Input #0, ([^ ]+), from", $output, $args ) ) {
+		if($args =  $this->pregMatch( "Input #0, ([^ ]+), from", $output) ) {
 			$info['format'] = $args[1];
 		}
 
 		# get video information
-		if( ereg( 'Video: ([^ ]+), ([^ ]+), ([0-9]+)x([0-9]+)( \[PAR ([0-9]+):([0-9]+) DAR ([0-9]+):([0-9]+)\])?', $output, $args ) ) {
+		if($args =  $this->pregMatch( 'Video: ([^ ]+), ([^ ]+), ([0-9]+)x([0-9]+)( \[PAR ([0-9]+):([0-9]+) DAR ([0-9]+):([0-9]+)\])?', $output) ) {
 			$info['video_codec'  ] = $args[1];
 			$info['video_color'  ] = $args[2];
 			$info['video_width'  ] = $args[3];
@@ -364,18 +377,19 @@ class ffmpeg
 				if( (int)$dar1 > 0 && (int)$dar2 > 0  && (int)$par1 > 0 && (int)$par2 > 0 )
 					$info['video_wh_ratio'] = ( (float)$dar1 / (float)$dar2 ) / ( (float)$par1 / (float)$par2 );
 			}
+			
 			# laking aspect ratio information, assume pixel are square
 			if( $info['video_wh_ratio'] === 'N/A' )
 				$info['video_wh_ratio'] = (float)$info['video_width'] / (float)$info['video_height'];
 		}
 
 		# get audio information
-		if( ereg( "Audio: ([^ ]+), ([0-9]+) Hz, ([^\n,]*)", $output, $args ) ) {
+		if($args =  $this->pregMatch( "Audio: ([^ ]+), ([0-9]+) Hz, ([^\n,]*)", $output) ) {
 			$info['audio_codec'   ] = $args[1];
 			$info['audio_rate'    ] = $args[2];
 			$info['audio_channels'] = $args[3];
 		}
-
+		$this->raw_info = $info;
 		# check if file contains a video stream
 		return $video_size > 0;
 
@@ -642,6 +656,27 @@ class ffmpeg
 	}
 	
 	
+	/**
+	 * this will first check if there is a conversion lock or no
+	 * if there is a lock then wait till its delete otherwise create a lock and move forward
+	 */
+	function isLocked($num=1)
+	{
+		for($i=0;$i<$num;$i++)
+		{
+			$conv_file = TEMP_DIR.'/conv_lock'.$i.'.loc';
+			if(!file_exists($conv_file))
+			{
+				$this->lock_file = $conv_file;
+				$file = fopen($conv_file,"w+");
+				fwrite($file,"converting..");
+				fclose($file);
+				return false;
+			}
+		}
+		
+		return true;
+	}
 	
 	/** 
 	 * Function used to perform all actions when converting a video
@@ -655,7 +690,7 @@ class ffmpeg
 		while(1)
 		{
 			$use_crons = config('use_crons');
-			if(!file_exists($conv_file) || $use_crons=='yes' )
+			if(!$this->isLocked(PROCESSESS_AT_ONCE) || $use_crons=='yes' || !$this->set_conv_lock)
 			{
 				
 				if($use_crons=='no')
@@ -670,6 +705,25 @@ class ffmpeg
 				$this->start_time_check();
 				$this->start_log();
 				$this->prepare();
+				
+				$ratio = substr($this->input_details['video_wh_ratio'],0,3);
+				
+				if($ratio=='1.7' || $ratio=='1.6')
+				{
+					$res = $this->configs['res169'];
+				}else
+				{
+					$res = $this->configs['res43'];
+				}
+				
+				$nr = $this->configs['normal_res'];
+				$hr = $this->configs['high_res'];
+				$this->configs['video_width'] = $res[$nr][0];
+				$this->configs['video_height'] = $res[$nr][1];
+				$this->configs['hq_video_width'] = $res[$hr][0];
+				$this->configs['hq_video_height'] = $res[$hr][1];
+				
+				
 				$this->convert();
 				$this->end_time_check();
 				$this->total_time();
@@ -707,12 +761,10 @@ class ffmpeg
 					$this->log("conversion_status","completed");
 					
 				$this->create_log_file();
-
 				
-				if($use_crons=='no')
-				{
-					unlink($conv_file);
-				}
+				if($this->lock_file && file_exists($this->lock_file))
+				unlink($this->lock_file);
+
 				break;
 			}else
 			{
@@ -732,6 +784,9 @@ class ffmpeg
 	 */
 	function generate_thumbs($input_file,$duration,$dim='120x90',$num=3,$rand=NULL)
 	{
+		$tmpDir = TEMP_DIR.'/'.getName($input_file);
+		mkdir($tmpDir,0777);
+
 		$output_dir = THUMBS_DIR;
 		$dimension = '';
 		if($num=='big')
@@ -740,10 +795,25 @@ class ffmpeg
 			$file_name = getName($input_file)."-big.jpg";
 			$file_path = THUMBS_DIR.'/'.$file_name;
 			if($dim!='original')
+			{
 				$dimension = " -s $dim  ";
+				$mplayer_dim = "-vf scale=$width:$height";
+			}
+			
 			$time = $this->ChangeTime($duration,1);
+			
+			if(USE_MPLAYER)
+			$command = $this->mplayer." '$input_file' -ss $time -frames 1 -nosound $mplayer_dim -vo jpeg:quality=100:outdir='$tmpDir'";
+			else
 			$command = $this->ffmpeg." -i $input_file -an -ss $time $dimension -y -f image2 -vframes 1 $file_path ";
+			
 			$this->exec($command);
+			
+			//checking if file exists in temp dir
+			if(file_exists($tmpDir.'/00000001.jpg'))
+			{
+				rename($tmpDir.'/00000001.jpg',THUMBS_DIR.'/'.$file_name);
+			}
 		}else{
 				
 			if($num > 1 && $duration > 14)
@@ -764,10 +834,22 @@ class ffmpeg
 					}
 					
 					if($dim!='original')
+					{
 						$dimension = " -s $dim  ";
-						
+						$mplayer_dim = "-vf scale=$width:$height";
+					}
+					
+					if(USE_MPLAYER)
+					$command = $this->mplayer." '$input_file' -ss $time -frames 1 -nosound $mplayer_dim -vo jpeg:quality=100:outdir='$tmpDir'";
+					else	
 					$command = $this->ffmpeg." -i $input_file -an -ss $time -an -r 1 $dimension -y -f image2 -vframes 1 $file_path ";
-					$this->exec($command);
+					$this->exec($command);	
+
+					//checking if file exists in temp dir
+					if(file_exists($tmpDir.'/00000001.jpg'))
+					{
+						rename($tmpDir.'/00000001.jpg',THUMBS_DIR.'/'.$file_name);
+					}
 					$count = $count+1;
 				}
 			}else{
@@ -778,6 +860,9 @@ class ffmpeg
 				$this->exec($command);
 			}
 		}
+		
+		rmdir($tmpDir);
+
 	}
 	
 	
@@ -811,6 +896,9 @@ class ffmpeg
 	
 	/**
 	 * Function used to convert video in HD format
+	 * @ Author : Arslan Hassan
+	 * @ Software : ClipBucket
+	 * @license : AAL
 	 */
 	
 	function convert_to_hd($input=NULL,$output=NULL,$p=NULL,$i=NULL)
@@ -829,74 +917,7 @@ class ffmpeg
 		//Checkinf for HD or Not
 		$opt_av = '';
 
-		if(substr($i['video_wh_ratio'],0,5) == '1.777' && $i['video_width'] > '500')
-		{
-			
-			//All Possible Hd Dimensions
-			$widths = 
-			array(
-			1280,
-			1216,
-			1152,
-			1088,
-			1024,
-			960,
-			896,
-			832,
-			768,
-			704,
-			640,
-			576,
-			512,
-			);
-			$heights = 
-			array(
-			720,
-			684,
-			648,
-			612,
-			576,
-			540,
-			504,
-			468,
-			432,
-			396,
-			360,
-			324,
-			288,
-			);		
-			
-			$convert = true;
-			$type = 'HD';
-			//Checking if video is HQ then convert it in Mp4
-		}elseif($i['video_width'] > '500' && substr($i['video_wh_ratio'],0,5) != '1.777')
-		{
-			$widths = array(
-			640 ,
-			624 ,
-			608 ,
-			592 ,
-			576 ,
-			560 ,
-			544 ,
-			528 ,
-			512 ,
-			);
-			 
-			$heights = array(
-			 480,
-			 468,
-			 456,
-			 444,
-			 432,
-			 420,
-			 408,
-			 396,
-			);
-			
-			$convert = true;
-			$type = 'HQ';
-		}
+		$type = 'HD';
 		
 		if($convert)
 		{
@@ -917,20 +938,104 @@ class ffmpeg
 					break;
 				}
 			}
-			$out_width = $out_width ? $out_width : $widths[0];
-			$out_height = $out_height ? $out_height : $heights[0];
-			$p['video_width'   ] = $out_width ;
-			$p['video_height'  ] = $out_height;
+			$p['video_width'   ] = $p['hq_video_width'];
+			$p['video_height'  ] = $p['hq_video_height'];
 			$p['resize']		 = 'WxH';
-						
-			//Calculation Size Padding
+			
+			$output = $this->hq_output_file;
+			# video rate
+			if($p['use_video_rate'])
+			{
+				if(isset($p['video_rate']))
+					$vrate = $p['video_rate'];
+				elseif(isset($i['video_rate']))
+					$vrate = $i['video_rate'];
+				if(isset($p['video_max_rate']) && !empty($vrate))
+					$vrate = min($p['video_max_rate'],$vrate);
+				if(!empty($vrate))
+					$opt_av .= " -r $vrate ";
+			}
+			
+			# video bitrate
+			if($p['use_audio_bit_rate'])
+			{
+				if(isset($p['audio_bitrate']))
+					$abrate = $p['audio_bitrate'];
+				elseif(isset($i['audio_bitrate']))
+					$abrate = $i['audio_bitrate'];
+				if(!empty($abrate))
+				{
+					$abrate = min(320,$abrate);
+					$abrate_cmd = " -ab ".$abrate."k";
+					$opt_av .= $abrate_cmd;
+				}
+			}
+			
+			# audio bitrate
+			if($p['use_audio_rate'])
+			{
+				if($this->input_details['audio_channels']>2 || !is_numeric($this->input_details['audio_channels']))
+				{
+					$arate = $i['audio_rate'];
+					$opt_av .= $arate_cmd = " -ar $arate ";
+				}else
+				{
+					if(isset($p['audio_rate']))
+						$arate = $p['audio_rate'];
+					elseif(isset($i['audio_rate']))
+						$arate = $i['audio_rate'];
+					if(!empty($arate))
+						$opt_av .= $arate_cmd = " -ar $arate ";
+				}
+			}
+			
 			$this->calculate_size_padding( $p, $i, $width, $height, $ratio, $pad_top, $pad_bottom, $pad_left, $pad_right );
-			$opt_av .= "-s {$width}x{$height} -aspect  $ratio -padcolor 000000 -padtop $pad_top -padbottom $pad_bottom -padleft $pad_left -padright $pad_right";
+			$dimensions = "-s {$width}x{$height} -aspect  $ratio ";
+		
+			$ffmpeg_cmd  = $command = $this->ffmpeg." -i ".$this->input_file." $opt_av $dimensions -acodec libfaac  -vcodec libx264 -vpre hq -crf 22 -threads 0 ".$output_file."  2> ".TEMP_DIR."/output.tmp ";
+			//ALTERNATEIVE COMMAND, INCASE ABOCE COMMADN DONT GENERATE ANY RESULT
+			$alt_command = $this->ffmpeg." -i ".$this->input_file." $opt_av $dimensions -acodec libfaac -vcodec libx264 -vpre hq -crf 22 -threads 1 ".$output_file."  2> ".TEMP_DIR."/output.tmp ";
+			//Alt Command With BR 128 thread 1
+			$alt_command_2 = $this->ffmpeg." -i ".$this->input_file." $opt_av $dimensions -acodec libfaac -vcodec libx264 -vpre hq -crf 22 -threads 1 ".$output_file."  2> ".TEMP_DIR."/output.tmp ";
 			
-			$output = "";
-			$command = $this->ffmpeg." -i ".$this->input_file." $opt_av -acodec libfaac -ab 96k -vcodec libx264 -vpre hq -crf 22 -threads 0 ".$this->hq_output_file."  2> ".TEMP_DIR."/output.tmp ";	
+			//Executing Command
+			$output = $this->exec($command);	
+			if(file_exists(TEMP_DIR.'/output.tmp'))
+			{
+				$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
+				unlink(TEMP_DIR.'/output.tmp');
+			}
 			
-			if(KEEP_MP4_AS_IS=="yes" && $this->input_ext=='mp4')
+			//Checking if converted file size is 0
+			if(@filesize($output_file)<50)
+			{
+				@unlink($output_file);
+				$ffmpeg_cmd  = $command = $alt_command;
+				//Executing Command
+				$output = $this->exec($alt_command);	
+				if(file_exists(TEMP_DIR.'/output.tmp'))
+				{
+					$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
+					unlink(TEMP_DIR.'/output.tmp');
+				}
+			}
+			
+			//Checking if converted file size is 0 then use alt_command 2
+			if(@filesize($output_file)<50)
+			{
+				@unlink($output_file);
+				$ffmpeg_cmd = $command = $alt_command_2;
+				//Executing Command
+				$output = $this->exec($alt_command_2);	
+				if(file_exists(TEMP_DIR.'/output.tmp'))
+				{
+					$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
+					unlink(TEMP_DIR.'/output.tmp');
+				}
+			}
+			
+			
+			if(KEEP_MP4_AS_IS=="yes" && getExt($this->hq_output_file)=='mp4')
 				copy($this->input_file,$this->hq_output_file);
 			else
 				$output = $this->exec($command);

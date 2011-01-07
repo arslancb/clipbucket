@@ -3,6 +3,10 @@
   * Written by : Arslan Hassan
   * Software : ClipBucket v2
   * License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
+  * 
+  * I have done MANY experiments on video conversion
+  * so these results are the best possible output
+  * you can further discuss about it on forums.clip-bucket.com
   **/
 
 	
@@ -81,7 +85,21 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 
 	//copy($temp_file,$orig_file);
 	rename($temp_file,$orig_file);
+
+	$res169 = array();
+	$res169['240'] = array('427','240');
+	$res169['360'] = array('640','360');
+	$res169['480'] = array('853','480');
+	$res169['720'] = array('1280','1280');
+	$res169['1080'] = array('1920','1080');
 	
+	$res43 = array();
+	$res43['240'] = array('320','240');
+	$res43['360'] = array('480','360');
+	$res43['480'] = array('640','480');
+	$res43['720'] = array('960','1280');
+	$res43['1080'] = array('1440','1080');
+		
 	$configs = array
 	(
 		'use_video_rate' => true,
@@ -96,10 +114,15 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 		'audio_bitrate'=> config("sbrate"),
 		'video_rate'=> config("vrate"),
 		'video_bitrate'=> config("vbrate"),
-		'video_width'=> config('r_width'),
-		'video_height'=> config('r_height'),
+		'normal_res' => config('normal_resolution'),
+		'high_res' => config('high_resolution'),
+		'max_video_duration' => config('max_video_duration'),
+		'res169' => $res169,
+		'res43' => $res43,
 		'resize'=>'max'
 	);
+
+		
 
 	
 	/**
