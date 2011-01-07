@@ -140,9 +140,9 @@ switch($mode)
 		{
 			//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
 			if (stristr(PHP_OS, 'WIN')) {
-				//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName");
+				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName");
 			} else {
-				//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName &> /dev/null &");
+				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName &> /dev/null &");
 			}
 		}
 		
