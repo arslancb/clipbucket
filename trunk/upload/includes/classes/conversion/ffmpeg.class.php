@@ -993,11 +993,11 @@ class ffmpeg
 			$this->calculate_size_padding( $p, $i, $width, $height, $ratio, $pad_top, $pad_bottom, $pad_left, $pad_right );
 			$dimensions = "-s {$width}x{$height} -aspect  $ratio ";
 		
-			$ffmpeg_cmd  = $command = $this->ffmpeg." -i ".$this->input_file." $opt_av $dimensions -acodec libfaac  -vcodec libx264 -vpre hq -crf 22 -threads 0 ".$output_file."  2> ".TEMP_DIR."/output.tmp ";
+			$ffmpeg_cmd  = $command = $this->ffmpeg."  -y  -i ".$this->input_file." $opt_av $dimensions -acodec libfaac  -vcodec libx264 -vpre hq -crf 22 -threads 0 ".$output_file."  2> ".TEMP_DIR."/output.tmp ";
 			//ALTERNATEIVE COMMAND, INCASE ABOCE COMMADN DONT GENERATE ANY RESULT
-			$alt_command = $this->ffmpeg." -i ".$this->input_file." $opt_av $dimensions -acodec libfaac -vcodec libx264 -vpre hq -crf 22 -threads 1 ".$output_file."  2> ".TEMP_DIR."/output.tmp ";
+			$alt_command = $this->ffmpeg."  -y -i ".$this->input_file." $opt_av $dimensions -acodec libfaac -vcodec libx264 -vpre hq -crf 22 -threads 1 ".$output_file."  2> ".TEMP_DIR."/output.tmp ";
 			//Alt Command With BR 128 thread 1
-			$alt_command_2 = $this->ffmpeg." -i ".$this->input_file." $opt_av $dimensions -acodec libfaac -vcodec libx264 -vpre hq -crf 22 -threads 1 ".$output_file."  2> ".TEMP_DIR."/output.tmp ";
+			$alt_command_2 = $this->ffmpeg." -y  -i ".$this->input_file." $opt_av $dimensions -acodec libfaac -vcodec libx264 -vpre hq -crf 22 -threads 1 ".$output_file."  2> ".TEMP_DIR."/output.tmp ";
 			
 			//Executing Command
 			$output = $this->exec($command);	

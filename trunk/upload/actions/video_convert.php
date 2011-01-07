@@ -156,19 +156,8 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 	$ffmpeg->ClipBucket();
 	//Converting File In HD Format
 	$hq_output = config('hq_output');
-	if($hq_output=='yes')
-		$ffmpeg->convert_to_hd();
-		
-	unlink($ffmpeg->input_file);
 	
-	////exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
-//	if (stristr(PHP_OS, 'WIN')) {
-//		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php");
-//	} else {
-//		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
-//	}
-
-	//Calling Cron Functions
+	
 	cb_call_functions('verify_converted_videos_cron');
 	
 	$files = get_video_being_processed($fileName);
@@ -219,6 +208,41 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 			}
 		}
 	}
+	
+	
+	if($hq_output=='yes')
+	{
+		while(1)
+		{
+			$use_crons = config('use_crons');
+			
+			if(!$ffmpeg->isLocked(PROCESSESS_AT_ONCE) || $use_crons=='yes' || !$ffmpeg->set_conv_lock)
+			{
+				
+				$ffmpeg->convert_to_hd();			
+				if($ffmpeg->lock_file && file_exists($ffmpeg->lock_file))
+				unlink($ffmpeg->lock_file);
+	
+				break;
+			}
+			
+			
+			if($use_crons=='no')
+				sleep(10);
+			else
+				break;
+		}
+	}
+	
+	////exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
+//	if (stristr(PHP_OS, 'WIN')) {
+//		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php");
+//	} else {
+//		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
+//	}
+
+	//Calling Cron Functions
+	
 }
 
 
