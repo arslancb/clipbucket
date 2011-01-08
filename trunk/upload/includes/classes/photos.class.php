@@ -585,7 +585,7 @@ class CBPhotos
 		{
 			$photo = $this->get_photo($id);
 			
-			if($orphan === FALSE)//removing from collection
+			if($orphan == FALSE)//removing from collection
 				$this->collection->remove_item($photo['photo_id'],$photo['collection_id']);
 			
 			//now removing photo files
@@ -1043,7 +1043,7 @@ class CBPhotos
 							'type' => 'textfield',
 							'value' => $title,
 							'db_field' => 'photo_title',
-							'required' => 'no',
+							'required' => 'yes',
 							'invalid_err' => lang('photo_title_err')
 							),
 							
@@ -1055,7 +1055,7 @@ class CBPhotos
 							'value' => $description,
 							'db_field' => 'photo_description',
 							'anchor_before' => 'before_desc_compose_box',
-							'required' => 'no',
+							'required' => 'yes',
 							'invalid_err' => lang('photo_caption_err')
 							),
 			'tags' => array(
@@ -1065,7 +1065,7 @@ class CBPhotos
 							'type' => 'textfield',
 							'value' => $tags,
 							'db_field' => 'photo_tags',
-							'required' => 'no',
+							'required' => 'yes',
 							'invalid_err' => lang('photo_tags_err')
 							),
 			'collection' => array(
@@ -1075,7 +1075,7 @@ class CBPhotos
 								  'type' => 'dropdown',
 								  'value' => $cl_array,
 								  'db_field' => 'collection_id',
-								  'required' => 'no',
+								  'required' => 'yes',
 								  'checked' => $collection,
 								  'invalid_err' => lang('photo_collection_err')
 								  )												  
@@ -1086,67 +1086,74 @@ class CBPhotos
 	
 	function insert_photo($array=NULL)
 	{
-		global $db;
+		global $db,$eh;
 		if($array == NULL)
 			$array = $_POST;
+		
+		if(is_array($_FILES))
+			$array = array_merge($array,$_FILES);
 			
-		$forms = $this->load_required_forms($array);
-		$oForms = $this->load_other_forms($array);
-		$FullForms = array_merge($forms,$oForms);
-
-		foreach($FullForms as $field)
-		{
-			$name = formObj::rmBrackets($field['name']);
-			$val = $_POST[$name];
-
-			if($field['use_func_val'])
-				$val = $field['validate_function']($val);
-			
-			if(!empty($field['db_field']))
-				$query_field[] = $field['db_field'];
-			
-			if(is_array($val))
+		$this->validate_form_fields($array);
+		if(!error())
+		{	
+			$forms = $this->load_required_forms($array);
+			$oForms = $this->load_other_forms($array);
+			$FullForms = array_merge($forms,$oForms);
+	
+			foreach($FullForms as $field)
 			{
-				$new_val = '';
-				foreach($val as $v)
+				$name = formObj::rmBrackets($field['name']);
+				$val = $_POST[$name];
+	
+				if($field['use_func_val'])
+					$val = $field['validate_function']($val);
+				
+				if(!empty($field['db_field']))
+					$query_field[] = $field['db_field'];
+				
+				if(is_array($val))
 				{
-					$new_val .= "#".$v."# ";
+					$new_val = '';
+					foreach($val as $v)
+					{
+						$new_val .= "#".$v."# ";
+					}
+					$val = $new_val;
 				}
-				$val = $new_val;
+				if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
+					$val = mysql_clean($val);
+				else
+					$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
+				
+				if(!empty($field['db_field']))
+					$query_val[] = $val;	
 			}
-			if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
-				$val = mysql_clean($val);
-			else
-				$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
 			
-			if(!empty($field['db_field']))
-				$query_val[] = $val;	
+			$query_field[] = "userid";
+			$query_val[] = userid();
+			
+			$query_field[] = "date_added";
+			$query_val[] = NOW();
+			
+			$query_field[] = "owner_ip";
+			$query_val[] = $_SERVER['REMOTE_ADDR'];
+			
+			$query_field[] = "ext";
+			$query_val[] = $array['ext'];
+			
+			$query_field[] = "photo_key";
+			$query_val[] = $array['photo_key'];
+			
+			$query_field[] = "filename";
+			$query_val[] = $array['filename'];
+				
+			$insert_id = $db->insert(tbl($this->p_tbl),$query_field,$query_val);
+			$photo = $this->get_photo($insert_id);
+			$this->collection->add_collection_item($insert_id,$photo['collection_id']);
+			$this->generate_photos($photo);
+			$eh->flush();
+			e(sprintf(lang("photo_is_saved_now"),$photo['photo_title']),"m");
 		}
-		
-		$query_field[] = "userid";
-		$query_val[] = userid();
-		
-		$query_field[] = "date_added";
-		$query_val[] = NOW();
-		
-		$query_field[] = "owner_ip";
-		$query_val[] = $_SERVER['REMOTE_ADDR'];
-		
-		$query_field[] = "ext";
-		$query_val[] = $array['ext'];
-		
-		$query_field[] = "photo_key";
-		$query_val[] = $array['photo_key'];
-		
-		$query_field[] = "filename";
-		$query_val[] = $array['filename'];
-			
-		$insert_id = $db->insert(tbl($this->p_tbl),$query_field,$query_val);
-		$photo = $this->get_photo($insert_id);
-		$this->collection->add_collection_item($insert_id,$photo['collection_id']);
-		$this->generate_photos($photo);
-		
-		echo json_encode($photo);		
 	}
 	
 	/**

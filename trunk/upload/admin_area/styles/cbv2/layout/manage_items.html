@@ -8,9 +8,7 @@
             <input type="submit" name="move_selected" value="Move Selected"  class="button"/>
             <select name="collection_id" id="collection_id">
             	{foreach from=$c item=item}
-                	{if $smarty.get.collection != $item.collection_id}
-                		<option value="{$item.collection_id}">{$item.collection_name}</option>
-                    {/if}
+                		<option value="{$item.collection_id}"{if $smarty.get.collection == $item.collection_id} selected="selected"{/if}>{$item.collection_name}</option>
                 {/foreach}
             </select>
             <br />

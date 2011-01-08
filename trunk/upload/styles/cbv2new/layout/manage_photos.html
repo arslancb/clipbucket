@@ -79,7 +79,8 @@
     {/if}
     
     {if $mode == 'orphan'}
-     	<h2>{lang code="manage_orphan_photos"}</h2>
+     	<h2 style="margin-bottom:5px;">{lang code="manage_orphan_photos"}</h2>
+        <div style="font:normal 10px Tahoma; color:#666; margin-bottom:15px;">What are Orphan Photos? All the photos uploaded are dependent on their collections/albums. When you remove some photo from collection/album, this will not delete photo permenently. It will move photo here. You can also use this to make your photos private. Direct link is available for you to share with your friends.</div>
         <div align="right" style="float:right; display:inline">
             <form id="form1" name="form1" method="get" action="">
             <input name="query" type="text" class="search_field" id="query" value="{$smarty.get.query|form_val}" />

@@ -3066,13 +3066,15 @@
 	 */
 	function show_collection_form($params)
 	{
-		global $cbcollection;
-		assign('params',$params);
-		
-		$collectArray = array("order"=>" collection_name DESC","type"=>"videos","user"=>userid());
-		$collections = $cbcollection->get_collections($collectArray);
-		assign("collections",$collections);
-		
+		global $db,$cbcollection;
+		if(!userid())
+			$loggedIn = "not";
+		else	
+		{		
+			$collectArray = array("order"=>" collection_name ASC","type"=>"videos","user"=>userid());		
+			$collections = $cbcollection->get_collections($collectArray);
+			assign("collections",$collections);
+		}
 		Template("/blocks/collection_form.html");	
 	}
 	

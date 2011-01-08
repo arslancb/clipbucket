@@ -13,6 +13,7 @@ $pages->page_redir();
 
 $id = mysql_clean($_GET['collection']);
 $type = mysql_clean($_GET['type']);
+$data = $cbcollection->get_collection($id);
 
 switch($type)
 {
@@ -46,7 +47,7 @@ switch($type)
 		}
 		
 		$items = $cbphoto->collection->get_collection_items_with_details($id);
-		$collection = $cbphoto->collection->get_collections(array("type"=>"photos"));
+		$collection = $cbphoto->collection->get_collections(array("type"=>"photos","user"=>$data['userid']));
 	}
 	break;
 	
@@ -76,11 +77,11 @@ switch($type)
 		}
 		
 		$items = $cbvideo->collection->get_collection_items_with_details($id);
-		$collection = $cbphoto->collection->get_collections(array("type"=>"videos"));
+		$collection = $cbvideo->collection->get_collections(array("type"=>"videos","user"=>$data['userid']));
 	}
 }
 
-$data = $cbcollection->get_collection($id);
+
 
 assign('data',$data);
 assign('obj',$items);

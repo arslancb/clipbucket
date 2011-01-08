@@ -484,6 +484,10 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .action_box .cancel a{font-size:10px; font-weight:bold; color:#333; text-decoration:none; }
 .form_container select{border:1px solid #999; padding:2px; margin:5px}
 
+.ajaxMessages {border-radius:6px;-moz-border-radius:6px;-khtml-border-radius:6px;-webkit-border-radius:10px; background:url(../images/simple_gradient.png) bottom repeat-x; padding:6px; font:bold 11px Tahoma; margin-bottom:10px; }
+.ajaxMessages.msg { color:#0099cc; border:1px solid #0099cc; }
+.ajaxMessages.err { color:#ed0000; border:1px solid #ed0000; }
+ 
 .video_details{background:#fff url(../images/watch_video_details_bg.png) repeat-x bottom; border:1px solid #eee; margin-top:10px;}
 .video_details .vd_user_container{margin-right:10px; float:left; width:120px;}
 .video_details .vd_details{float:right; display:block; width:510px; z-index:10; font-size:11px; color:#333;}

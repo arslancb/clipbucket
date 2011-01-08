@@ -993,13 +993,13 @@ function swap_auto_play()
 {
 	if($.cookie("auto_play_playlist")=="true")
 	{
-		$.cookie("auto_play_playlist","false");
+		$.cookie("auto_play_playlist","false",{path:"/"});
 		window.location = document.location;
 		$('#ap_status').html("off");
 		
 	}else
 	{
-		$.cookie("auto_play_playlist","true");
+		$.cookie("auto_play_playlist","true",{path:"/"});
 		window.location = document.location;
 		$('#ap_status').html("on");
 	}
@@ -1215,16 +1215,18 @@ function ajax_add_collection(obj)
 
 var AjaxIteration = 0;
 var InputIteration = 0;
+var continueAjaxCall = true;
 
 function callAjax(obj)
 {
 	var getArray = getDetails(obj),
 		object = $(obj),
-		TotalItems = getArray.length, AjaxCall,
+		objectInnerText = $(obj).text(),
+		TotalItems = getArray.length, AjaxCall,		
 		inputs = getInputs(obj,true),
-		element = inputs[InputIteration++];
+		element = inputs[InputIteration], saving = AjaxIteration+1;
 		
-		if(AjaxIteration == getArray.length)
+		if(AjaxIteration == getArray.length && continueAjaxCall == true)
 		{
 			$(obj).html(TotalItems+" Photos Saved.").removeAttr('onclick').hide();
 			$("<input />").attr({  
@@ -1244,11 +1246,37 @@ function callAjax(obj)
 					url: page,
 					type: "post",
 					dataType: "json",
-					data: getArray[AjaxIteration++],
+					data: getArray[AjaxIteration],
 					cache: false,
-					beforeSend: function() { $(obj).html(loading_img+" Saving "+AjaxIteration+" out of "+TotalItems); $(obj).attr('disabled','disabled'); $("#"+element.id+" > div").css('opacity','0.5'); },
+					beforeSend: function() {
+						if(document.getElementById('photoUploadingMessages'))
+							$('#photoUploadingMessages').remove(); 
+						object.html(loading_img+" Saving "+ saving +" out of "+TotalItems); 
+						object.attr('disabled','disabled'); $("#"+element.id+" > div").animate({'opacity': 0.5 },450); 
+					},
 					success: function(data) {
-						$('#'+element.id+" > div").empty().css({'padding':'10px','opacity':'1'}).html("<div style='font:bold 11px Tahoma;'>"+data.photo_title+" is now saved.</div>").fadeIn('normal',function() { callAjax(obj); });
+						if(data.err)
+						{
+							continueAjaxCall = false
+							var formObj = $('#'+element.id), formOffset = formObj.offset().top;
+							$('body,html').animate({ scrollTop : formOffset },350);
+							$("#"+element.id+" > div").animate({ 'opacity' : 1 , 'border' : '1px solid #ed0000'},450);
+							$(data.err).insertAfter('#'+element.id)
+							object.text("Save All").removeAttr('disabled');
+							
+						}
+						
+						if(data.msg)
+						{
+							$('#'+element.id).empty().html(data.msg);
+							continueAjaxCall = true;
+							AjaxIteration++;
+							InputIteration++;
+							if(continueAjaxCall == true)
+								callAjax(obj);							
+						}
+						
+						//.css({'padding':'10px','opacity':'1'}).html("<div style='font:bold 11px Tahoma;'>"+data.msg+"</div>").fadeIn('normal',function() { callAjax(obj); });
 						
 					} 	
 				});
@@ -1326,8 +1354,8 @@ function viewRatings(object,pid)
 
 function showAdvanceSearch(simple,advance,expandClass,collapseClass)
 {
-	var simpleObj = $("#"+simple), advanceObj = $("#"+advance),
-		value = $('#SearchType').val();
+	var simpleObj = $("#"+simple); var advanceObj = $("#"+advance);
+	var	value = $('#SearchType').val();
 	simpleObj.toggle();
 	advanceObj.toggle();
 	if(advanceObj.css('display') == 'block')	

@@ -923,6 +923,22 @@ if(!empty($mode))
 		case "ajaxPhotos":
 		{
 			$cbphoto->insert_photo();
+			if(msg())
+			{
+				$msg = msg_list();
+				$msg = '<div id="photoUploadingMessages" class="ajaxMessages msg">'.$msg[0].'</div>';	
+			}
+			
+			if(error())
+			{
+				$err = error_list();
+				$err = '<div id="photoUploadingMessages" class="ajaxMessages err">'.$err[0].'</div>';	
+			}
+			
+			$ajax['msg'] = $msg;
+			$ajax['err'] = $err;
+			
+			echo json_encode($ajax);
 		}
 		break;
 		
