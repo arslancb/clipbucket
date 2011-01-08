@@ -111,6 +111,7 @@ if(isset($_POST['update'])){
 					'max_comment_chr',
 					'max_time_wait',
 					'max_upload_size',
+					'max_video_duration',
 					'mplayerpath',
 					
 					'normal_resolution',

@@ -146,6 +146,24 @@ class Session
 	{
 		session_destroy();
 	}
+	
+	/**
+	 * Function set cookie
+	 */
+	function set_cookie($name,$val)
+	{
+
+		$name = mysql_clean($name);	
+		setcookie($name,$val,3600+time(),'/');
+	}
+	
+	/**
+	 * Function get cookie
+	 */
+	function get_cookie($name)
+	{
+		return $_COOKIE[$name];
+	}
 }
 
 ?>

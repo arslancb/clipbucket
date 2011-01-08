@@ -9,11 +9,9 @@
 
 define("THIS_PAGE",'ajax');
 
-require 'includes/config.inc.php';
-
-
 $mode = $_POST['mode'];
-
+require 'includes/config.inc.php';
+	
 if(!empty($mode))
 {
 	switch($mode)
@@ -618,6 +616,7 @@ if(!empty($mode))
 		
 		case 'quicklist':
 		{
+			
 			$todo = $_POST['todo'];
 			$id = mysql_clean($_POST['vid']);
 			
@@ -627,13 +626,14 @@ if(!empty($mode))
 			}else
 				$return = $cbvid->remove_from_quicklist($id);
 				
-			echo $return;
-			
+			echo $return;			
 		}
 		break;
 		
 		case 'getquicklistbox';
 		{
+			//$cookie = $_COOKIE[QUICK_LIST_SESS];
+			//$vids = json_decode($cookie,true);
 			if($cbvid->total_quicklist()>0)
 				TEMPLATE('blocks/quicklist/block.html');		
 		}

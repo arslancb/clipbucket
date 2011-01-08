@@ -46,6 +46,7 @@ class ffmpeg
 	var $big_thumb_dim = 'original'; //Big thumb size , original will get orginal video window size thumb othersie the dimension
 	var $set_conv_lock = true;
 	var $lock_file = '';
+	var $failed_reason = '';
 	/**
 	 * Initiating Class
 	 */
@@ -708,6 +709,25 @@ class ffmpeg
 				
 				$ratio = substr($this->input_details['video_wh_ratio'],0,3);
 				
+				$max_duration = config('max_video_duration') * 60;
+
+				if($this->input_details['duration']>$max_duration)
+				{
+					$this->log .= "Video duration was ".$this->input_details['duration']." and Max video duration is $max_duration
+					<br>Therefore Video cancelled";
+					$this->log("conversion_status","failed");
+					$this->log("failed_reason","max_duration");
+					$this->create_log_file();
+				
+					if($this->lock_file && file_exists($this->lock_file))
+					unlink($this->lock_file);
+					
+					$this->failed_reason = 'max_duration';
+	
+					break;
+					return false;
+				}
+				
 				if($ratio=='1.7' || $ratio=='1.6')
 				{
 					$res = $this->configs['res169'];
@@ -968,7 +988,7 @@ class ffmpeg
 				{
 					$abrate = min(320,$abrate);
 					$abrate_cmd = " -ab ".$abrate."k";
-					$opt_av .= $abrate_cmd;
+					
 				}
 			}
 			
@@ -992,49 +1012,10 @@ class ffmpeg
 			
 			$this->calculate_size_padding( $p, $i, $width, $height, $ratio, $pad_top, $pad_bottom, $pad_left, $pad_right );
 			$dimensions = "-s {$width}x{$height} -aspect  $ratio ";
-		
-			$ffmpeg_cmd  = $command = $this->ffmpeg."  -y  -i ".$this->input_file." $opt_av $dimensions -acodec libfaac  -vcodec libx264 -vpre hq -crf 22 -threads 0 ".$output_file."  2> ".TEMP_DIR."/output.tmp ";
-			//ALTERNATEIVE COMMAND, INCASE ABOCE COMMADN DONT GENERATE ANY RESULT
-			$alt_command = $this->ffmpeg."  -y -i ".$this->input_file." $opt_av $dimensions -acodec libfaac -vcodec libx264 -vpre hq -crf 22 -threads 1 ".$output_file."  2> ".TEMP_DIR."/output.tmp ";
-			//Alt Command With BR 128 thread 1
-			$alt_command_2 = $this->ffmpeg." -y  -i ".$this->input_file." $opt_av $dimensions -acodec libfaac -vcodec libx264 -vpre hq -crf 22 -threads 1 ".$output_file."  2> ".TEMP_DIR."/output.tmp ";
 			
-			//Executing Command
-			$output = $this->exec($command);	
-			if(file_exists(TEMP_DIR.'/output.tmp'))
-			{
-				$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
-				unlink(TEMP_DIR.'/output.tmp');
-			}
 			
-			//Checking if converted file size is 0
-			if(@filesize($output_file)<50)
-			{
-				@unlink($output_file);
-				$ffmpeg_cmd  = $command = $alt_command;
-				//Executing Command
-				$output = $this->exec($alt_command);	
-				if(file_exists(TEMP_DIR.'/output.tmp'))
-				{
-					$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
-					unlink(TEMP_DIR.'/output.tmp');
-				}
-			}
-			
-			//Checking if converted file size is 0 then use alt_command 2
-			if(@filesize($output_file)<50)
-			{
-				@unlink($output_file);
-				$ffmpeg_cmd = $command = $alt_command_2;
-				//Executing Command
-				$output = $this->exec($alt_command_2);	
-				if(file_exists(TEMP_DIR.'/output.tmp'))
-				{
-					$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
-					unlink(TEMP_DIR.'/output.tmp');
-				}
-			}
-			
+			$command = $this->ffmpeg." -i ".$this->input_file." $opt_av  $dimensions -acodec libfaac -vcodec libx264 -vpre hq -crf 22 -threads 0 ".$this->hq_output_file."  2> ".TEMP_DIR."/output.tmp ";	
+
 			
 			if(KEEP_MP4_AS_IS=="yes" && getExt($this->hq_output_file)=='mp4')
 				copy($this->input_file,$this->hq_output_file);
@@ -1046,6 +1027,12 @@ class ffmpeg
 				$output = $output ? $output : join("", file(TEMP_DIR.'/output.tmp'));
 				unlink(TEMP_DIR.'/output.tmp');
 			}
+			
+			$this->log .= "\r\n\r\n\n=========STARTING $type CONVERSION==============\r\n\r\n\n";
+			$this->log("$type Video -- Conversion Command",$command);
+			$this->log .="\r\n\r\nConversion Details\r\n\r\n";
+			$this->log .= $output;
+			$this->log .= "\r\n\r\n\n=========ENDING $type CONVERSION==============\n\n";
 			
 			/**
 			 * Mp4 files are mostly not converted properly
@@ -1063,11 +1050,11 @@ class ffmpeg
 			}
 			$ouput .= $mp4_output;
 			
-			$this->log .= "\r\n\r\n\n=========STARTING $type CONVERSION==============\r\n\r\n\n";
+			$this->log .= "\r\n\r\n\n=========STARTING $type META DATA REPARING==============\r\n\r\n\n";
 			$this->log("$type Video -- Conversion Command",$command);
 			$this->log .="\r\n\r\nConversion Details\r\n\r\n";
 			$this->log .= $output;
-			$this->log .= "\r\n\r\n\n=========ENDING $type CONVERSION==============\n\n";
+			$this->log .= "\r\n\r\n\n=========ENDING $type  META DATA REPARING==============\n\n";
 			
 			$fields = array('file_conversion_log',strtolower($type));
 			$values = array(mysql_clean($this->log),'yes');

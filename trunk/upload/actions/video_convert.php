@@ -90,14 +90,14 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 	$res169['240'] = array('427','240');
 	$res169['360'] = array('640','360');
 	$res169['480'] = array('853','480');
-	$res169['720'] = array('1280','1280');
+	$res169['720'] = array('1280','720');
 	$res169['1080'] = array('1920','1080');
 	
 	$res43 = array();
 	$res43['240'] = array('320','240');
 	$res43['360'] = array('480','360');
 	$res43['480'] = array('640','480');
-	$res43['720'] = array('960','1280');
+	$res43['720'] = array('960','720');
 	$res43['1080'] = array('1440','1080');
 		
 	$configs = array
@@ -172,7 +172,7 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 			$db->update(tbl("conversion_queue"),
 						array("cqueue_conversion"),
 						array("yes")," cqueue_id = '".$file['cqueue_id']."'");
-			update_processed_video($file,'Failed');
+			update_processed_video($file,'Failed',$ffmpeg->failed_reason);
 			
 			/**
 			 * Calling Functions after converting Video
@@ -210,7 +210,7 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 	}
 	
 	
-	if($hq_output=='yes')
+	if($hq_output=='yes' && !$ffmpeg->failed_reason)
 	{
 		while(1)
 		{
@@ -243,7 +243,10 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 
 	//Calling Cron Functions
 	
+	unlink($ffmpeg->input_file);
 }
+
+
 
 
 ?>

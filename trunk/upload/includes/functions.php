@@ -1944,7 +1944,7 @@
 	 * Function used to update processed video
 	 * @param Files details
 	 */
-	function update_processed_video($file_array,$status='Successful',$ingore_file_status=false)
+	function update_processed_video($file_array,$status='Successful',$ingore_file_status=false,$failed_status='')
 	{
 		global $db;
 		$file = $file_array['cqueue_name'];
@@ -1960,11 +1960,13 @@
 		if(file_exists($file_path) && $file_size>0 && !$ingore_file_status)
 		{		
 			$stats = get_file_details($file_name);
-			$db->update(tbl("video"),array("status","duration"),array($status,$stats['duration'])," file_name='".$file_name."'");
+			$db->update(tbl("video"),array("status","duration","failed_reason"),
+			array($status,$stats['duration'],$failed_status)," file_name='".$file_name."'");
 		}else
 		{
 			$stats = get_file_details($file_name);
-			$db->update(tbl("video"),array("status","duration"),array('Failed',$stats['duration'])," file_name='".$file_name."'");
+			$db->update(tbl("video"),array("status","duration","failed_reason"),
+			array('Failed',$stats['duration'],$failed_status)," file_name='".$file_name."'");
 		}
 	}
 	

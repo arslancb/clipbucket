@@ -840,6 +840,7 @@ var loading = loading_img+" Loading...";
 			}
 		},'text');
 	}
+	
 	function clear_quicklist()
 	{
 		$.post(page, 

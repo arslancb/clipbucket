@@ -590,6 +590,29 @@ class CBvideo extends CBCategory
 			$cond .= " ".tbl("video.videoid")." = '".$params['videoid']."' ";
 		}
 		
+		//VIDEO ID
+		if($params['videoids'])
+		{
+			if(is_array($params['videoids']))
+			{
+				if($cond!='')
+				$cond .= ' AND ';
+				$cond .= ' ( ';
+				$curVid = 0;
+				foreach($params['videoids'] as $vid)
+				{
+					if(is_numeric($vid))
+					{
+						if($curVid>0)
+							$cond .= " OR ";
+						$cond .= " ".tbl("video.videoid")." = '".$vid."' ";
+					}
+					$curVid++;
+				}
+				$cond .= ' ) ';				
+			}
+		}
+		
 		//VIDEO KEY
 		if($params['videokey'])
 		{
@@ -1134,27 +1157,51 @@ class CBvideo extends CBCategory
 	 */
 	function add_to_quicklist($id)
 	{
-		global $json, $sess;
+		global $json, $sess, $userquery;
+		
 		if($this->exists($id))
 		{
             if(phpversion() < '5.2.0')
             {
-			    $list = $json->decode($sess->get(QUICK_LIST_SESS), true);
+			    $list = $json->decode($sess->get_cookie(QUICK_LIST_SESS), true);
             }
             else
             {
-			    $list = json_decode($sess->get(QUICK_LIST_SESS), true);
+			    $list = json_decode($sess->get_cookie(QUICK_LIST_SESS), true);
             }
-			pr($list);
+			
 			$list[] = $id;
 			$new_list = array_unique($list);
+			foreach($new_list as $key=>$data)
+				$newlist[] = $key;
+
+			/*//Getting list of videos
+			$vids = $this->get_videos(array('videoids'=>$new_list));
+			$newlist = array();
+			//setting up the list
+			if($vids)
+			foreach($vids as $vid)
+			{
+				$newlist[$vid['videoid']] = 
+				array(
+				'title' => $vid['title'],
+				'description' => $vid['description'],
+				'duration' => SetTime($vid['duration']),
+				'thumb'	=> get_thumb($vid),
+				'url'	=> video_link($video),
+				'owner' => $vid['username'],
+				'ownner_url' => $userquery->profile_link($vid),
+				'date_added' => $vid['date_added'],
+				'views'	=> $vid['views'],
+				);
+			}*/
             if(phpversion() < '5.2.0')
             {
-			    $sess->set(QUICK_LIST_SESS,$json->encode($new_list));
+			    $sess->set_cookie(QUICK_LIST_SESS,$json->encode($newlist));
             }
             else
             {
-                $sess->set(QUICK_LIST_SESS,json_encode($new_list));
+                $sess->set_cookie(QUICK_LIST_SESS,json_encode($newlist));
             }
 			return true;
 
@@ -1171,21 +1218,21 @@ class CBvideo extends CBCategory
 
         if(phpversion() < '5.2.0')
         {
-		    $list = $json->decode($sess->get(QUICK_LIST_SESS), true);
+		    $list = $json->decode($sess->get_cookie(QUICK_LIST_SESS), true);
         }
         else
         {
-            $list = json_decode($sess->get(QUICK_LIST_SESS), true);
+            $list = json_decode($sess->get_cookie(QUICK_LIST_SESS), true);
         }
 		$key = array_search($id,$list);
 		unset($list[$key]);
         if(phpversion() < '5.2.0')
         {
-		    $sess->set(QUICK_LIST_SESS,$json->encode($list));
+		    $sess->set_cookie(QUICK_LIST_SESS,$json->encode($list));
         }
         else
         {
-		    $sess->set(QUICK_LIST_SESS,json_encode($list));
+		    $sess->set_cookie(QUICK_LIST_SESS,json_encode($list));
         }
 		return true;
 	}
@@ -1198,7 +1245,7 @@ class CBvideo extends CBCategory
 	{
 		global $json, $sess;
 
-		$total = $sess->get(QUICK_LIST_SESS);
+		$total = $sess->get_cookie(QUICK_LIST_SESS);
 
         if(phpversion() < '5.2.0')
         {
@@ -1208,6 +1255,7 @@ class CBvideo extends CBCategory
         {
             $total = json_decode($total, true);
         }
+		
 		return count($total);
 	}
 	
@@ -1219,11 +1267,11 @@ class CBvideo extends CBCategory
 		global $json, $sess;
         if(phpversion() < '5.2.0')
         {
-		    return $json->decode($sess->get(QUICK_LIST_SESS), true);
+		    return $json->decode($sess->get_cookie(QUICK_LIST_SESS), true);
         }
         else
         {
-            return json_decode($sess->get(QUICK_LIST_SESS), true);
+            return json_decode($sess->get_cookie(QUICK_LIST_SESS), true);
         }
 	}
 	
@@ -1233,7 +1281,7 @@ class CBvideo extends CBCategory
 	function clear_quicklist()
 	{
 		global $sess;
-		$sess->set(QUICK_LIST_SESS,'');
+		$sess->set_cookie(QUICK_LIST_SESS,'');
 	}
 	
 	/**

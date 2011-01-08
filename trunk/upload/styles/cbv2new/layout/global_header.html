@@ -131,7 +131,7 @@ var mid  = {$smarty.get.mid};
 		  window.location = "?set_site_lang="+optionSelectedValue;
 		});
 		{/literal}
-		{if isSectionEnabled('videos')}
+		{if isSectionEnabled('videos') && $smarty.const.THIS_PAGE=='index'}
 		get_video('recent_viewed_vids','#index_vid_container');
 		{/if}
 		{literal}

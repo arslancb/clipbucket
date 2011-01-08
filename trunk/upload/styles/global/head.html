@@ -144,12 +144,14 @@ $(document).ready(function()
 
 {else}
 <script type="text/javascript">
-{literal}
-window.onload = function() {
-	load_quicklist_box();
+
+window.onload = function() {ldelim}
+	{if $total_quicklist}
+		load_quicklist_box();
+	{/if}
 	ini_cookies();
-}
-{/literal}
+{rdelim}
+
 </script>
 {/if}
 

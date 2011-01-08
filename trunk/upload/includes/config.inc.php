@@ -55,4 +55,7 @@ if($row['closed'] == 1 && THIS_PAGE!='ajax' && !$in_bg_cron)
 uploaderDetails();
 isSectionEnabled(PARENT_PAGE,true);
 
+//setting quicklist
+assign('total_quicklist',$cbvid->total_quicklist());
+
 ?>
