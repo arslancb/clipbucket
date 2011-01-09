@@ -820,18 +820,18 @@ class Collections extends CBCategory
 		if($this->collection_exists($cid))
 		{
 			if(!userid())
-				e("you_not_logged_in");
+				e(lang("you_not_logged_in"));
 			elseif(!$this->object_exists($objID))	
-				e("object_does_exists");
+				e(sprintf(lang("object_does_not_exists"),$this->objName));
 			elseif($this->object_in_collection($objID,$cid))
-				e("object_exists_collection");
+				e(sprintf(lang("object_exists_collection"),$this->objName));
 			else
 			{
 				$flds = array("collection_id","object_id","type","userid","date_added");
 				$vls = array($cid,$objID,$this->objType,userid(),NOW());
 				$db->insert(tbl($this->items),$flds,$vls);
 				$db->update(tbl($this->section_tbl),array("total_objects"),array("|f|total_objects+1")," collection_id = $cid");
-				e("item_added_in_collection","m");	
+				e(sprintf(lang("item_added_in_collection"),$this->objName),"m");	
 			}
 		} else {
 			e(lang("collect_not_exist"));	
@@ -905,9 +905,9 @@ class Collections extends CBCategory
 		global $db;
 		$collection = $this->get_collection($cid);
 		if(empty($collection))
-			e("collection_not_exists");
+			e(lang("collection_not_exists"));
 		elseif($collection['userid'] != userid() && !has_access('admin_access',true))
-			e("cant_perform_action_collect");
+			e(lang("cant_perform_action_collect"));
 		else
 		{
 			$del_funcs = $this->collection_delete_functions;
@@ -923,7 +923,7 @@ class Collections extends CBCategory
 			$db->delete(tbl($this->items),array("collection_id"),array($cid));
 			$this->delete_thumbs($cid);
 			$db->delete(tbl($this->section_tbl),array("collection_id"),array($cid));
-			e("collection_deleted","m");	
+			e(lang("collection_deleted"),"m");	
 		}
 	}
 	
@@ -935,13 +935,13 @@ class Collections extends CBCategory
 		global $db;
 		$collection = $this->get_collection($id);
 		if(!$collection)
-			e("collection_not_exists");
+			e(lang("collection_not_exists"));
 		elseif($collection['userid'] != userid() && !has_access('admin_access',true))
-			e("cant_perform_action_collect");
+			e(lang("cant_perform_action_collect"));
 		else {
 			$db->delete(tbl($this->items),array("collection_id"),array($cid));
 			$db->update(tbl($this->section_tbl),array("total_objects"),array($this->count_items($cid))," collection_id = $cid");
-			e("collect_items_deleted","m");	
+			e(lang("collect_items_deleted"),"m");	
 		}
 	}
 	
@@ -955,16 +955,16 @@ class Collections extends CBCategory
 		if($this->collection_exists($cid))
 		{
 			if(!userid())
-				e("you_not_logged_in");
+				e(lang("you_not_logged_in"));
 			elseif(!$this->object_in_collection($id,$cid))
 				e(sprintf(lang("object_not_in_collect"),$this->objName));
 			elseif(!$this->is_collection_owner($cid) && !has_access('admin_access',true))
-				e("cant_perform_action_collect");
+				e(lang("cant_perform_action_collect"));
 			else
 			{
 				$db->execute("DELETE FROM ".tbl($this->items)." WHERE object_id = $id AND collection_id = $cid");
 				$db->update(tbl($this->section_tbl),array("total_objects"),array("|f|total_objects-1")," collection_id = $cid");
-				e("collect_item_removed","m");	
+				e(sprintf(lang("collect_item_removed"),$this->objName),"m");	
 			}
 		} else {
 			e(lang('collect_not_exists'));
@@ -1118,15 +1118,15 @@ class Collections extends CBCategory
 		if(!error())
 		{
 			if(!userid())
-				e("you_not_logged_in");
+				e(lang("you_not_logged_in"));
 			elseif(!$this->collection_exists($cid))
-				e("collect_not_exist");
+				e(lang("collect_not_exist"));
 			elseif(!$this->is_collection_owner($cid,userid()) && !has_access('admin_access',TRUE))
-				e("cant_edit_collection");
+				e(lang("cant_edit_collection"));
 			else
 			{
 				$db->update(tbl($this->section_tbl),$query_field,$query_val," collection_id = $cid");
-				e("collection_updated","m");
+				e(lang("collection_updated"),"m");
 				
 				if(!empty($array['collection_thumb']['tmp_name']))
 					$this->upload_thumb($cid,$array['collection_thumb']);	
@@ -1429,7 +1429,7 @@ class Collections extends CBCategory
 			case "ac":
 			{
 				$db->update(tbl($this->section_tbl),array("active"),array("yes")," collection_id = $cid");
-				e("collection_activated","m");
+				e(lang("collection_activated"),"m");
 			}
 			break;
 			
@@ -1438,7 +1438,7 @@ class Collections extends CBCategory
 			case "dac":
 			{
 				$db->update(tbl($this->section_tbl),array("active"),array("no")," collection_id = $cid");
-				e("collection_deactivated","m");
+				e(lang("collection_deactivated"),"m");
 			}
 			break;
 			
@@ -1447,7 +1447,7 @@ class Collections extends CBCategory
 			case "mcf":
 			{
 				$db->update(tbl($this->section_tbl),array("featured"),array("yes")," collection_id = $cid");
-				e("collection_featured","m");
+				e(lang("collection_featured"),"m");
 			}
 			break;
 			
@@ -1456,7 +1456,7 @@ class Collections extends CBCategory
 			case "mcuf":
 			{
 				$db->update(tbl($this->section_tbl),array("featured"),array("no")," collection_id = $cid");
-				e("collection_unfeatured","m");
+				e(lang("collection_unfeatured"),"m");
 			}
 			break;
 			
