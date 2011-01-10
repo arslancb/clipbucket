@@ -10,10 +10,10 @@
   **/
 
 	
-	
+
+	ini_set('mysql.connect_timeout','6000');
 
 	$in_bg_cron = true;
-	ini_set('mysql.connect_timeout','6000');
 
 	include(dirname(__FILE__)."/../includes/config.inc.php");
 	//Calling Cron Functions
@@ -67,6 +67,7 @@ if($argv[1])
 	$fileName = $argv[1];
 else
 	$fileName = false;
+
 	
 //Get Vido
 $queue_details = get_queued_video(TRUE,$fileName);
@@ -80,6 +81,8 @@ $tmp_ext =  $queue_details['cqueue_tmp_ext'];
 $ext =  $queue_details['cqueue_ext'];
 
 if(!empty($tmp_file)){	
+
+
 $temp_file = TEMP_DIR.'/'.$tmp_file.'.'.$tmp_ext;
 $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 
@@ -154,60 +157,24 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 	$ffmpeg->keep_original = config('keep_original');
 	$ffmpeg->original_output_path = ORIGINAL_DIR.'/'.$tmp_file.'.'.$ext;
 	$ffmpeg->ClipBucket();
-	//Converting File In HD Format
-	$hq_output = config('hq_output');
 	
 	
-	cb_call_functions('verify_converted_videos_cron');
 	
-	$files = get_video_being_processed($fileName);
-	if(is_array($files))
-	foreach($files as $file)
+		
+	////exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
+	if (stristr(PHP_OS, 'WIN'))
 	{
-		$file_details = get_file_details($file['cqueue_name']);
-		//pr($file_details);
-		if($file_details['conversion_status']=='failed')
-		{
-			
-			$db->update(tbl("conversion_queue"),
-						array("cqueue_conversion"),
-						array("yes")," cqueue_id = '".$file['cqueue_id']."'");
-			update_processed_video($file,'Failed',$ffmpeg->failed_reason);
-			
-			/**
-			 * Calling Functions after converting Video
-			 */
-			if(get_functions('after_convert_functions'))
-			{
-				foreach(get_functions('after_convert_functions') as $func)
-				{
-					if(@function_exists($func))
-						$func($file_details);
-				}
-			}
-			
-			
-		}elseif($file_details['conversion_status']=='completed')
-		{
-			
-			$db->update(tbl("conversion_queue"),
-						array("cqueue_conversion","time_completed"),
-						array("yes",time())," cqueue_id = '".$file['cqueue_id']."'");
-			update_processed_video($file,'Successful');
-			
-			/**
-			 * Calling Functions after converting Video
-			 */
-			if(get_functions('after_convert_functions'))
-			{
-				foreach(get_functions('after_convert_functions') as $func)
-				{
-					if(@function_exists($func))
-						$func($file_details);
-				}
-			}
-		}
+		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $fileName");
+	} else {
+		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $fileName &> /dev/null &");
 	}
+
+
+	//Converting File In HD Format
+	if($ffmpeg->input_details['video_height']>'719')
+	$hq_output = config('hq_output');
+	else 
+	$hq_output = 'no';
 	
 	
 	if($hq_output=='yes' && !$ffmpeg->failed_reason)
@@ -233,20 +200,13 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 				break;
 		}
 	}
-	
-	////exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
-//	if (stristr(PHP_OS, 'WIN')) {
-//		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php");
-//	} else {
-//		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
-//	}
 
-	//Calling Cron Functions
 	
 	unlink($ffmpeg->input_file);
-}
+}else
+fwrite($fo,"Unable to get Temp File\n");
 
-
+fclose($fo);
 
 
 ?>

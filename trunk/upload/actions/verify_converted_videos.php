@@ -9,10 +9,15 @@ $in_bg_cron = true;
 
 include(dirname(__FILE__)."/../includes/config.inc.php");
 
-//Calling Cron Functions
 cb_call_functions('verify_converted_videos_cron');
 
-$files = get_video_being_processed();
+if($argv[1])
+	$fileName = $argv[1];
+else
+	$fileName = false;
+
+$files = get_video_being_processed($fileName);
+
 if(is_array($files))
 foreach($files as $file)
 {
@@ -24,7 +29,7 @@ foreach($files as $file)
 		$db->update(tbl("conversion_queue"),
 					array("cqueue_conversion"),
 					array("yes")," cqueue_id = '".$file['cqueue_id']."'");
-		update_processed_video($file,'Failed');
+		update_processed_video($file,'Failed',$ffmpeg->failed_reason);
 		
 		/**
 		 * Calling Functions after converting Video
@@ -37,7 +42,6 @@ foreach($files as $file)
 					$func($file_details);
 			}
 		}
-		
 		
 	}elseif($file_details['conversion_status']=='completed')
 	{

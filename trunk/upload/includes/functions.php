@@ -1572,7 +1572,7 @@
 		
 		//First Check How Many Videos Are In Queu Already
 		$processing = $db->count(tbl("conversion_queue"),"cqueue_id"," cqueue_conversion='p' ");
-		if($processing<$max_conversion)
+		if(true)
 		{
 			if($fileName)
 			{
