@@ -5,6 +5,11 @@
  * if it is converted then activate it and let it go
  */
  
+//Sleeping..
+//sometimes video is inserted after video conversion so in this case, video can get lost
+//if($argv[2]=='sleep')
+sleep(10);
+
 $in_bg_cron = true;
 
 include(dirname(__FILE__)."/../includes/config.inc.php");

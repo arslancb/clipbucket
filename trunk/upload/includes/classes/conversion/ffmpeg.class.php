@@ -822,7 +822,7 @@ class ffmpeg
 			
 			$time = $this->ChangeTime($duration,1);
 			
-			if(USE_MPLAYER)
+			if(USE_MPLAYER && $this->mplayer)
 			$command = $this->mplayer." '$input_file' -ss $time -frames 1 -nosound $mplayer_dim -vo jpeg:quality=100:outdir='$tmpDir'";
 			else
 			$command = $this->ffmpeg." -i $input_file -an -ss $time $dimension -y -f image2 -vframes 1 $file_path ";
@@ -859,10 +859,11 @@ class ffmpeg
 						$mplayer_dim = "-vf scale=$width:$height";
 					}
 					
-					if(USE_MPLAYER)
+					if(USE_MPLAYER && $this->mplayer)
 					$command = $this->mplayer." '$input_file' -ss $time -frames 1 -nosound $mplayer_dim -vo jpeg:quality=100:outdir='$tmpDir'";
 					else	
 					$command = $this->ffmpeg." -i $input_file -an -ss $time -an -r 1 $dimension -y -f image2 -vframes 1 $file_path ";
+					
 					$this->exec($command);	
 
 					//checking if file exists in temp dir

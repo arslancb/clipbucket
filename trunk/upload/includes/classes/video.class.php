@@ -1172,8 +1172,6 @@ class CBvideo extends CBCategory
 			
 			$list[] = $id;
 			$new_list = array_unique($list);
-			foreach($new_list as $key=>$data)
-				$newlist[] = $key;
 
 			/*//Getting list of videos
 			$vids = $this->get_videos(array('videoids'=>$new_list));
@@ -1197,11 +1195,11 @@ class CBvideo extends CBCategory
 			}*/
             if(phpversion() < '5.2.0')
             {
-			    $sess->set_cookie(QUICK_LIST_SESS,$json->encode($newlist));
+			    $sess->set_cookie(QUICK_LIST_SESS,$json->encode($new_list));
             }
             else
             {
-                $sess->set_cookie(QUICK_LIST_SESS,json_encode($newlist));
+                $sess->set_cookie(QUICK_LIST_SESS,json_encode($new_list));
             }
 			return true;
 

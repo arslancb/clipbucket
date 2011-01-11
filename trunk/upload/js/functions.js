@@ -298,27 +298,30 @@ var loading = loading_img+" Loading...";
 								  function(data)
 								  {
 										$('#remoteForm').append(data);
+										
+										$.ajax({
+										  url: baseurl+'/actions/file_uploader.php',
+										  type: "POST",
+										  data:({"insertVideo":"yes","title":$("#remote_file_url").val(),"file_name":file_name}),
+										  dataType: "json",
+										  success: function(data)
+										  {
+											
+											vid = data;
+											$('#cbSubmitUpload'+remoteObjID)
+											.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
+											.attr("disabled","")
+											.attr("value",lang.saveData)
+											.attr("onClick","doUpdateVideo('#uploadForm"+remoteObjID+"','"+remoteObjID+"')")
+											.after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
+											.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
+		
+										  }
+										});			
+								
 								  },'text');
 			
-							  $.ajax({
-								  url: baseurl+'/actions/file_uploader.php',
-								  type: "POST",
-								  data:({"insertVideo":"yes","title":$("#remote_file_url").val(),"file_name":file_name}),
-								  dataType: "json",
-								  success: function(data)
-								  {
-									
-									vid = data;
-									$('#cbSubmitUpload'+remoteObjID)
-									.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
-									.attr("disabled","")
-									.attr("value",lang.saveData)
-									.attr("onClick","doUpdateVideo('#uploadForm"+remoteObjID+"','"+remoteObjID+"')")
-									.after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
-									.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
-
-								  }
-								});								
+							  					
 						  }
 						  
 						  });

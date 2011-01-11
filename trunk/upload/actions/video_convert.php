@@ -68,7 +68,11 @@ if($argv[1])
 else
 	$fileName = false;
 
-	
+if($argv[2] == 'sleep')
+	$dosleep = 'sleep';
+else
+	$dosleep = '';
+
 //Get Vido
 $queue_details = get_queued_video(TRUE,$fileName);
 if(!$queue_details)
@@ -164,9 +168,9 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 	////exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php &> /dev/null &");
 	if (stristr(PHP_OS, 'WIN'))
 	{
-		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $fileName");
+		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $fileName $dosleep");
 	} else {
-		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $fileName &> /dev/null &");
+		exec(php_path()." -q ".BASEDIR."/actions/verify_converted_videos.php $fileName $dosleep &> /dev/null &");
 	}
 
 
@@ -203,10 +207,7 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 
 	
 	unlink($ffmpeg->input_file);
-}else
-fwrite($fo,"Unable to get Temp File\n");
-
-fclose($fo);
+}
 
 
 ?>

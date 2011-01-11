@@ -153,8 +153,7 @@ class Session
 	function set_cookie($name,$val)
 	{
 
-		$name = mysql_clean($name);	
-		setcookie($name,$val,3600+time(),'/');
+		setcookie($name,($val),3600+time(),'/');
 	}
 	
 	/**
@@ -162,7 +161,7 @@ class Session
 	 */
 	function get_cookie($name)
 	{
-		return $_COOKIE[$name];
+		return stripslashes(($_COOKIE[$name]));
 	}
 }
 
