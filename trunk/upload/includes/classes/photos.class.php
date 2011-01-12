@@ -1647,6 +1647,21 @@ class CBPhotos
 			return $this->default_thumb($size);	
 		} else {
 			
+			//Calling Custom Functions
+			if(count($Cbucket->custom_get_photo_funcs) > 0)
+			{
+				
+				foreach($Cbucket->custom_get_photo_funcs as $funcs)
+				{
+					if(function_exists($funcs))
+					{
+						$func_returned = $funcs($p);
+						if($func_returned)
+						return $func_returned;
+					}
+				}
+			}
+		
 			if(($p['size'] != 't' && $p['size'] != 'm' && $p['size'] != 'l' && $p['size'] != 'o') || empty($p['size']))
 				$p['size'] = 't';   
 			
