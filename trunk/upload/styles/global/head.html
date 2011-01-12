@@ -18,6 +18,7 @@ var fileExt = '{$Cbucket->list_extensions()|replace:",":";"}';
 var uploadSwfPath = '{$uploaderDetails.uploadSwfPath}';
 var uploadScriptPath = '{$uploaderDetails.uploadScriptPath}';
 
+
 {literal}
 
   function show_error(msg,ID,fade)
@@ -66,6 +67,7 @@ $(document).ready(function()
   {
   $(object).uploadify({
     'uploader'  : uploadSwfPath,
+	'scriptAccess' : 'always',
     'script'    : uploadScriptPath,
     'cancelImg' : imageurl+'/cancel_upload.png',
     'auto'      : true,
@@ -161,12 +163,14 @@ window.onload = function() {ldelim}
 <script type="text/javascript" src="{$js}/uploadify/jquery.uploadify.v2.1.4.js"></script>
 
 <script type="text/javascript" language="javascript">
-var uploadSwfPath = '{$js}/uploadify/uploadify.swf',
- 	uploadScriptPath = '{$baseurl}/actions/photo_uploader.php',
 	fileExt = '{$cbphoto->extensions()}',
 	lang = new Array(),
 	pData = new Array();
 lang['browsePhrase'] = '{lang code="browse_photos"}';
+
+var uploadSwfPath = '{$photoUploaderDetails.uploadSwfPath}';
+var uploadScriptPath = '{$photoUploaderDetails.uploadScriptPath}';
+
 {literal}
 
 	function photoUploadify(object)
@@ -175,6 +179,7 @@ lang['browsePhrase'] = '{lang code="browse_photos"}';
 		{
 			'uploader'  : uploadSwfPath,
 			'script'    : uploadScriptPath,
+			'scriptAccess' : 'always',
 			'fileDataName' : 'photoUpload',
 			'cancelImg' : imageurl+'/cancel_upload.png',
 			'auto'      : true,

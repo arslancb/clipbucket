@@ -1142,14 +1142,23 @@ class CBPhotos
 			$query_val[] = $array['ext'];
 			
 			$query_field[] = "photo_key";
-			$query_val[] = $array['photo_key'];
+			//$query_val[] = $array['photo_key'];
+			$query_val[] = $this->photo_key();
 			
 			$query_field[] = "filename";
 			$query_val[] = $array['filename'];
-				
+			
+			if($array['server_url'])
+			{
+				$query_field[] = "server_url";
+				$query_val[] = $array['server_url'];
+			}
+			
 			$insert_id = $db->insert(tbl($this->p_tbl),$query_field,$query_val);
 			$photo = $this->get_photo($insert_id);
 			$this->collection->add_collection_item($insert_id,$photo['collection_id']);
+			
+			if(!$array['server_url'])
 			$this->generate_photos($photo);
 			$eh->flush();
 			e(sprintf(lang("photo_is_saved_now"),$photo['photo_title']),"m");

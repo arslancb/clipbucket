@@ -4901,20 +4901,22 @@
 	function uploaderDetails()
 	{
 		global $uploaderType;
-		switch($uploaderType)
-		{
-			case "video":
-			default:
-			{
-				$uploaderDetails = array
-				(
-					'uploadSwfPath' => JS_URL.'/uploadify/uploadify.swf',
-					'uploadScriptPath' => BASEURL.'/actions/file_uploader.php',
-				);
-			}
-		}
 
-		assign('uploaderDetails',$uploaderDetails);		
+		$uploaderDetails = array
+		(
+			'uploadSwfPath' => JS_URL.'/uploadify/uploadify.swf',
+			'uploadScriptPath' => BASEURL.'/actions/file_uploader.php',
+		);
+		
+		$photoUploaderDetails = array
+		(
+			'uploadSwfPath' => JS_URL.'/uploadify/uploadify.swf',
+			'uploadScriptPath' => BASEURL.'/actions/photo_uploader.php',
+		);
+
+
+		assign('uploaderDetails',$uploaderDetails);	
+		assign('photoUploaderDetails',$photoUploaderDetails);		
 		//Calling Custom Functions
 		cb_call_functions('uploaderDetails');
 	}
