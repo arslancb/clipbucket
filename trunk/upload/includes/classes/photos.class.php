@@ -834,7 +834,7 @@ class CBPhotos
 				case "GIF":
 				{
 					$image = imagecreatefromgif($file);
-					imagecopyresampled($image_r, $file, 0, 0, 0, 0, $width, $height, $org_width, $org_height);
+					imagecopyresampled($image_r, $image, 0, 0, 0, 0, $width, $height, $org_width, $org_height);
 					imagejpeg($image_r,$to,90);
 					if(!empty($crop_image))
 						$this->crop_image($to,$to,$ext,$width,$d_height);
@@ -989,6 +989,15 @@ class CBPhotos
 		$output .= " class = 'clearfix ".$formClass."'";		
 		$output .= ">";
 		$output .= '<input type="hidden" value="" name="photoIDS" id="photoIDS" />';
+		$output .= '<input type="hidden" name="collectionID" id="collectionID"';
+		if($_GET['collection'])
+		{
+			if($this->is_addable($this->decode_key($_GET['collection'])))
+				$output .= " value = '".$this->decode_key($_GET['collection'])."'";
+		} else {
+			$output .= " value = ''";	 
+		}
+		$output .= "/>";
 			if($p['class'])
 				$class = $p['class'];
 			if($should_include === TRUE)	
@@ -1679,10 +1688,15 @@ class CBPhotos
 								$size = "_".$p['size'];
 								
 								$return_thumb = array_find($photo['filename'].$size,$thumbs);
-								if($p['assign'] != NULL)
-									assign($p['assign'],$return_thumb);
-								else
-									echo $return_thumb;	
+								if(empty($return_thumb))
+								{
+									$this->default_thumb($size);
+								} else {
+									if($p['assign'] != NULL)
+										assign($p['assign'],$return_thumb);
+									else
+										echo $return_thumb;
+								}
 							}
 						}
 						
@@ -1692,6 +1706,10 @@ class CBPhotos
 							$size = "_".$p['size'];
 								
 							$src = array_find($photo['filename'].$size,$thumbs);
+							if(empty($src))
+								$src = $this->default_thumb($size);
+							else
+								$src = $src;	
 							$dem = getimagesize($src);
 							$width = $dem[0];
 							$height = $dem[1];
@@ -1739,7 +1757,11 @@ class CBPhotos
 								$img .= mysql_clean($p['extra']);
 								
 							$img .= " />";
-							echo $img;
+							
+							if($p['assign'])
+								assign($p['assign'],$img);
+							else	
+								echo $img;
 						}
 					} else {
 						return $this->default_thumb($size);	
@@ -1972,17 +1994,15 @@ class CBPhotos
 	/**
 	 * Used to return default thumb
 	 */
-	function default_thumb($size)
+	function default_thumb($size=NULL)
 	{
-		if($size == "o")
-			$size = '';
-		else
-			$size = "_".$size;
+		if($size != "_t" && $size != "_m")
+			$size = "_m";
 			
-		if(file_exists(TEMPLATEDIR."/images/thumbs/collection_thumb-small.png"))
-			return TEMPLATEDIR."/images/thumbs/collection_thumb-small.png";
+		if(file_exists(TEMPLATEDIR."/images/thumbs/no-photo".$size.".png"))
+			return TEMPLATEURL."/images/thumbs/no-photo".$size.".png";
 		else
-			return COLLECT_THUMBS_URL."/no_thumb-small.png";			
+			return PHOTOS_URL."/no-photo".$size.".png";			
 	}
 	
 	/**
