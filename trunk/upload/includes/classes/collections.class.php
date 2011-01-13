@@ -789,8 +789,9 @@ class Collections extends CBCategory
 			$query_field[] = "active";
 			$query_val[] = "yes";
 
-			$db->insert(tbl($this->section_tbl),$query_field,$query_val);			
-			e(lang("collect_added_msg"),"m");	
+			$insert_id = $db->insert(tbl($this->section_tbl),$query_field,$query_val);			
+			e(lang("collect_added_msg"),"m");
+			return $insert_id;	
 		}
 	}
 	
@@ -902,7 +903,7 @@ class Collections extends CBCategory
 	 */
 	function delete_collection($cid)
 	{
-		global $db;
+		global $db,$eh;
 		$collection = $this->get_collection($cid);
 		if(empty($collection))
 			e(lang("collection_not_exists"));
@@ -923,6 +924,7 @@ class Collections extends CBCategory
 			$db->delete(tbl($this->items),array("collection_id"),array($cid));
 			$this->delete_thumbs($cid);
 			$db->delete(tbl($this->section_tbl),array("collection_id"),array($cid));
+			$eh->flush();
 			e(lang("collection_deleted"),"m");	
 		}
 	}

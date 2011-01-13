@@ -1560,77 +1560,8 @@ class CBPhotos
 	 */
 	function get_image_file($pid,$size='t',$multi=false,$assign=NULL,$with_path=true,$with_orig=false)
 	{
-		
-		if(empty($pid))
-			return false;
-		else
-		{
-			if(($size != 't' && $size != 'm' && $size != 'l' && $size != 'o') || empty($size))
-				$size = 't'; 
-				
-			if(!is_array($pid))
-				$photo = $this->get_photo($pid);
-			else
-				$photo = $pid;
-				
-			if(!empty($photo))
-			{
-				if(empty($photo['photo_id']) && empty($photo['photo_key']))
-					return false; // Something is wrong, so return false;
-				else
-				{
-					if(!empty($photo['filename']) && !empty($photo['ext']))
-					{
-						$files = glob(PHOTOS_DIR."/".$photo['filename']."*.".$photo['ext']);
-						
-						if(is_array($files))
-						{
-							foreach($files as $file)
-							{
-								$file_parts = explode('/',$file);
-								$thumb_name = $file_parts[count($file_parts)-1];
-								$type = $this->get_image_type($thumb_name);
-								if($with_orig)
-								{
-									if($with_path)
-										$thumbs[] = PHOTOS_URL."/".$thumb_name;
-									else
-										$thumbs[] = $thumb_name;
-								}
-								elseif(!empty($type))
-								{
-									if($with_path)
-										$thumbs[] = PHOTOS_URL."/".$thumb_name;
-									else
-										$thumbs[] = $thumb_name;	
-								}
-							}
-							//pr($thumbs,TRUE);
-							if($assign && $multi)
-							{
-								assign($assign,$thumbs);
-							} elseif(!$assign && $multi) {
-								return $thumbs;	
-							} else {
-								$size = "_".$size;
-								
-								$return_thumb = array_find($photo['filename'].$size,$thumbs);
-								if($assign != NULL)
-									assign($assign,$return_thumb);
-								else
-									return $return_thumb;
-							}						
-									
-						} else {
-							return false;	
-						}
-					} else {
-						return false;	
-					}
-				}
-			} else 
-				return false;
-		}
+		$params = array("details"=>$pid,"size"=>$size,"multi"=>$multi,"assign"=>$assign,"with_path"=>$with_path,"with_orig"=>$with_orig);
+		return $this->getFileSmarty($params);
 	}
 	
 	/**
@@ -1640,13 +1571,11 @@ class CBPhotos
 	 */
 	function getFileSmarty($p)
 	{
-		
 		$details = $p['details'];
 		if(empty($details))
 		{
 			return $this->default_thumb($size);	
-		} else {
-			
+		} else {		
 			//Calling Custom Functions
 			if(count($Cbucket->custom_get_photo_funcs) > 0)
 			{
@@ -1665,14 +1594,16 @@ class CBPhotos
 			if(($p['size'] != 't' && $p['size'] != 'm' && $p['size'] != 'l' && $p['size'] != 'o') || empty($p['size']))
 				$p['size'] = 't';   
 			
-			$with_path = $p['with_path'] ? $p['with_path'] : TRUE;
+			if($p['with_path'] === FALSE) $p['with_path'] = FALSE; else $p['with_path'] = TRUE;
+			$with_path = $p['with_path'];
+			$with_orig = $p['with_orig'] ? $p['with_orig'] : FALSE;
 			
 			if(!is_array($details))
 				$photo = $this->get_photo($details);
 			else
 				$photo = $details;
 				
-			if(empty($photo['photo_id']) || empty($photo['photo_key']))
+			if(empty($photo['photo_id']) || empty($photo['photo_key']))		
 				return $this->default_thumb($size);
 			else
 			{
@@ -1685,10 +1616,21 @@ class CBPhotos
 						{
 							$file_parts = explode("/",$file);
 							$thumb_name = $file_parts[count($file_parts)-1];
-							if($with_path)
-								$thumbs[] = PHOTOS_URL."/".$thumb_name;
-							else
-								$thumbs[] = $thumb_name;	
+							$type = $this->get_image_type($thumb_name);
+							if($with_orig)
+							{
+								if($with_path)
+									$thumbs[] = PHOTOS_URL."/".$thumb_name;
+								else
+									$thumbs[] = $thumb_name;
+							}
+							elseif(!empty($type))
+							{
+								if($with_path)
+									$thumbs[] = PHOTOS_URL."/".$thumb_name;
+								else
+									$thumbs[] = $thumb_name;	
+							}
 						}
 						
 						if(empty($p['output']) || $p['output'] == 'non_html')
@@ -1703,6 +1645,7 @@ class CBPhotos
 								$size = "_".$p['size'];
 								
 								$return_thumb = array_find($photo['filename'].$size,$thumbs);
+								
 								if(empty($return_thumb))
 								{
 									$this->default_thumb($size);
@@ -1710,7 +1653,7 @@ class CBPhotos
 									if($p['assign'] != NULL)
 										assign($p['assign'],$return_thumb);
 									else
-										echo $return_thumb;
+										return $return_thumb;
 								}
 							}
 						}
@@ -1724,7 +1667,8 @@ class CBPhotos
 							if(empty($src))
 								$src = $this->default_thumb($size);
 							else
-								$src = $src;	
+								$src = $src;
+									
 							$dem = getimagesize($src);
 							$width = $dem[0];
 							$height = $dem[1];
@@ -2265,9 +2209,12 @@ class CBPhotos
 				
 			foreach($types as $type)
 			{
-				$type = str_replace(' ','',$type);
-				$newArr['type'] = $type;
-				$codes[] = array("name"=>ucwords($type),"type"=>$type,"code"=>$this->generate_embed_codes($newArr));	
+				$type = strtolower($type);
+				if(in_array($type,$this->embed_types)) {
+					$type = str_replace(' ','',$type);
+					$newArr['type'] = $type;
+					$codes[] = array("name"=>ucwords($type),"type"=>$type,"code"=>$this->generate_embed_codes($newArr));
+				}
 			}
 			
 			if($newArr['assign'])

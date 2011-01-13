@@ -426,7 +426,7 @@
    function get_photo($params)
    {
 	   global $cbphoto;
-	   $cbphoto->getFileSmarty($params);
+	   return $cbphoto->getFileSmarty($params);
    }
    
    //Photo Upload BUtton

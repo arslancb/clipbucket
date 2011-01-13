@@ -25,29 +25,28 @@
                 <li style="list-style:none">Collection does not exist.</li>
                 <li style="list-style:none">It is unactive.</li>
                 <li style="list-style:none">It is private.</li>
-                <li style="list-style:none">Your are not own of collection.</li>
+                <li style="list-style:none">Your are not owner of collection.</li>
                 <li style="list-style:none; margin-top:5px; font-weight:bold;">You can select collection once your photos have been uploaded.</li>
             </div>            
         </div> 
     {/if}
 {else}
-	{if !$has_collection}
+
 	<div class="photoBox clearfix">
             	<div style="background:#FFF; text-align:center; border-bottom:1px solid #ccc; color:#666; padding:8px; font:bold 11px Tahoma;">Create Collection</div>               
-		{assign var='reqFields'  value=$cbcollection->load_required_fields()}
-        <div class="CollectionResult clearfix" id="CollectionResult" style="display:none;"></div> <!-- Keep id. This will display error/success message -->
+		{assign var='reqFields' value=$cbcollection->load_required_fields()}
+        <div class="CollectionResult clearfix" id="CollectionResult" style="display:none; margin-bottom:5px;"></div> <!-- Keep id. This will display error/success message -->
         <div class="clearfix" style="padding:8px;" id="CollectionDIV" >  <!-- Also keep this id. After addition this will slideUp -->     
         {foreach from=$reqFields item=field}
         {if $field.id != 'type'}
             <div class="field clearfix" style="margin-bottom:3px;">
-            <label for="{$field.id}" style="font:bold 11px Tahoma; width:100px;" class="moveL">{$field.title}</label> &nbsp;
-            {$formObj->createField($field)}
+            <label for="{$field.id}" style="font:bold 11px Tahoma; padding-top:3px; width:100px;" class="moveL">{$field.title}</label>
+            <div class="moveL">{$formObj->createField($field)}</div>       
             </div>
         {/if}
         {/foreach}
         <div class="moveR"><button type="button" onclick="ajax_add_collection(this);" class="LoadMoreButton">Add Collection</button></div>
         </div>
     </div>
- 
-    {/if}
+
 {/if}

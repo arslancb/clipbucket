@@ -53,7 +53,7 @@ var imageurl = '{$imageurl}';
 <!-- Including JS Files-->
 
 {include_header file='global_header'}
-{include_header file="admin_bar"}
+
 
 
 <!-- Including Plugin Headers -->
@@ -84,9 +84,9 @@ var mid  = {$smarty.get.mid};
 	{/literal}
 	{if $smarty.get.query == ""}
 	{literal}
-		$("#searchSelectWrapper ul li:first-child").addClass('selected');	
-		$('#selectedText').text($("#searchSelectWrapper ul li:first-child a").text());
-		$('#searchType').val($("#searchSelectWrapper ul li:first-child a").attr('id'));
+		$("#searchSelectWrapper ul li a").filter('#videos').parent().addClass('selected');	
+		$('#selectedText').text($("#searchSelectWrapper ul li a").filter('#videos').text());
+		$('#searchType').val($("#searchSelectWrapper ul li a").filter('#videos').attr('id'));
 	{/literal}
 	{else}
 	{literal}

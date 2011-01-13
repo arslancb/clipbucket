@@ -29,7 +29,7 @@ switch($mode)
 {
 	case 'recent':
 	default:
-	{echo $limit;
+	{
 		 $videos = get_videos(array('limit'=>$limit));
 		 $title  = "Recently Added Videos";
 	}

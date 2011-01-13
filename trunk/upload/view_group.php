@@ -37,12 +37,6 @@ if($details)
 	//Leaving
 	if($_GET['leave'])
 		$cbgroup->leave_group($details['group_id'],userid());
-		
-	//Getting list of topics
-	$topics = $cbgroup->get_topics(array('group'=>$details['group_id']));
-	assign('topics',$topics);
-	
-	subtitle($details['group_name']);
 	
 	//Calling all functions when a topic is called
 	call_view_group_functions($details);
@@ -58,6 +52,11 @@ if($details)
 		}
 	}
 	
+	//Getting list of topics
+	$topics = $cbgroup->get_topics(array('group'=>$details['group_id']));
+	assign('topics',$topics);
+	
+	subtitle($details['group_name']);	
 }else
 {
 	e(lang("grp_exist_error"));

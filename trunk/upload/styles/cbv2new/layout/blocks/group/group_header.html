@@ -53,7 +53,7 @@
     	    <li onclick="get_group_info('#members',this)">{lang code='members'}</li>
             {/if}
             {if isSectionEnabled('videos')}
-    	    <li onclick="get_group_info('#videos',this)">{lang code='videos'}</li>
+    	    <li onclick="get_group_info('#gpvideos',this)">{lang code='videos'}</li>
             {/if}
             <li onclick="get_group_info('#flag_group',this); $('#flag_item').slideDown()">{lang code='report_this'}</li>
   	      </ul>
@@ -125,7 +125,7 @@
             <!-- Group members-->
             
              <!-- Group videos-->
-            	<div id="videos" class="grp_info" style="display:none">
+            	<div id="gpvideos" class="grp_info" style="display:none">
                 	{assign var=gpvidlimit value=func->config(videos_items_grp_page)}
                 	{assign var=gpvids value=$cbgroup->get_group_videos($group.group_id,'yes',$gpvidlimit)}
                     {if $gpvids}

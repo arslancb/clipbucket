@@ -30,7 +30,7 @@
     {lang code='topic_by_user' assign='topic_by_user'}
     
     <span class="topic_title">{$topic_by_user|sprintf:$cbgroup->topic_link($topic):$topic.topic_title:$userquery->profile_link($poster):$poster.username} {$title.date_added|niceTime} 
-	{if has_access('admin_access') || $topic.userid == $userquery->userid}<small><a href="javascript:void(0)" id="delete_topic-{$topic.topic_id}" onmousedown="delete_item('delete_topic','{$topic.topic_id}','{lang code="tp_del_confirm"}','?mode=topic_del&amp;topic_id={$topic.topic_id}');">Delete</a></small>{/if}
+	{if has_access('admin_access') || $topic.userid == $userquery->userid}<small><a href="javascript:void(0)" id="delete_topic-{$topic.topic_id}" onmousedown="delete_item('delete_topic','{$topic.topic_id}','{lang code="tp_del_confirm"}','?mode=topic_del&amp;topic_id={$topic.topic_id}&amp;url={$group.group_url}');">Delete</a></small>{/if}
 	</td>
     <td width="150" align="left">{$topic.total_views|number_format}</td>
     <td width="100" align="left">{$topic.total_replies|number_format}</td>

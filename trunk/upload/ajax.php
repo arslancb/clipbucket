@@ -899,7 +899,7 @@ if(!empty($mode))
 			$type = "photos";
 			$CollectParams = 
 			array("collection_name"=>$name,"collection_description"=>$desc,"collection_tags"=>$tags,"category"=>$cat,"type"=>$type,"allow_comments"=>"yes","broadcast"=>"public","public_upload"=>"yes");
-			$cbcollection->create_collection($CollectParams);
+			$insert_id = $cbcollection->create_collection($CollectParams);
 			
 			if(msg())
 			{
@@ -915,6 +915,7 @@ if(!empty($mode))
 			
 			$ajax['msg'] = $msg;
 			$ajax['err'] = $err;
+			$ajax['id'] = $insert_id;
 			
 			echo json_encode($ajax);
 		}
@@ -923,6 +924,7 @@ if(!empty($mode))
 		case "ajaxPhotos":
 		{
 			$cbphoto->insert_photo();
+			
 			if(msg())
 			{
 				$msg = msg_list();
