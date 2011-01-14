@@ -1161,6 +1161,7 @@ class Collections extends CBCategory
 	 */
 	function get_thumb($cdetails,$size=NULL,$return_c_thumb=FALSE)
 	{
+		
 		if(is_numeric($cdetails))
 		{
 			$cdetails = $this->get_collection($cdetails);
@@ -1169,17 +1170,23 @@ class Collections extends CBCategory
 			$cid = $cdetails['collection_id'];
 				
 		$exts = array("jpg","png","gif","jpeg");
-		if($cdetails['total_objects'] == 0 || $return_c_thumb)
+		
+		if(file_exists(COLLECT_THUMBS_DIR."/".$cid."-small.".$ext))
+			$collectThumb = true;
+		else
+			$collectThumb = false;
+			
+		if($cdetails['total_objects'] == 0 || $return_c_thumb && $collectThumb)
 		{
 			foreach($exts as $ext)
 			{
 				if($size=="small")
 					$s = "-small";
 				
-				if(file_exists(COLLECT_THUMBS_DIR."/".$cid.$s.".".$ext))
-					return COLLECT_THUMBS_URL."/".$cid.$s.".".$ext;	
+				return COLLECT_THUMBS_URL."/".$cid.$s.".".$ext;	
 			}
 		} else {
+			
 			$item = $this->get_collection_items($cid,'ci_id DESC',1);
 			$type = $item[0]['type'];
 			switch($type)

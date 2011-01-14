@@ -611,9 +611,9 @@ class userquery extends CBCategory{
 		$data = $this->get_user_details($user);
 		if(!$data  || !$user)
 			e(lang("usr_exist_err"));
-		elseif($udetails['usr_status']=='Ok')
+		elseif($data['usr_status']=='Ok')
 			e(lang('usr_activation_err'));
-		elseif($udetails['ban_status']=='yes')
+		elseif($data['ban_status']=='yes')
 			e(lang('ban_status'));
 		elseif($data['avcode'] !=$avcode)
 			e(lang('avcode_incorrect'));
@@ -2847,6 +2847,7 @@ class userquery extends CBCategory{
 			 'success'=>'yes',
 			 'details'=> "updated profile"
 			);
+
 			//Login Upload
 			insert_log('profile_update',$log_array);
 			

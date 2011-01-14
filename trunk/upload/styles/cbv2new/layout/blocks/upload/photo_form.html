@@ -1,8 +1,8 @@
-<form action="" method="post" name="{$photo.photo_key}Form" id="{$photo.photo_key}Form">
+<form action="" method="post" name="{$photo.filename}Form" id="{$photo.filename}Form">
     {assign var='reqFields'  value=$cbphoto->load_required_forms($photo)}
     {assign var='otherFields'  value=$cbphoto->load_other_forms($photo)}
-    <div id="{$photo.photo_key}_Box" class="photoBox clearfix">
-    <input type="hidden" value="{$photo.photo_key}" name="photo_key" id="photo_key"  /> 
+    <div id="{$photo.filename}_Box" class="photoBox clearfix">
+    <input type="hidden" value="{$photo.filename}" name="filename" id="filename"  /> 
     <input type="hidden" value="{$photo.ext}" name="ext" id="ext"  />
     <input type="hidden" value="{$photo.server_url}" name="server_url" id="server_url" />
     <input type="hidden" value="{$photo.filename}" name="filename" id="filename"  />      
@@ -27,8 +27,8 @@
             </div>
         </div>
         <div class="OptionalSettings">
-            <div class="Heading"><a href="#" onclick="$('#{$photo.photo_key}_Settings').slideToggle(); return false;">{lang code="Optional"} {lang code="Settings"}</a></div>
-            <div class="OptionalBox" style="display:none;" id="{$photo.photo_key}_Settings">
+            <div class="Heading"><a href="#" onclick="$('#{$photo.filename}_Settings').slideToggle(); return false;">{lang code="Optional"} {lang code="Settings"}</a></div>
+            <div class="OptionalBox" style="display:none;" id="{$photo.filename}_Settings">
                 {foreach from=$otherFields item=field}
                     {$field.title}<br />
                     {$formObj->createField($field)}

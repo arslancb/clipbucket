@@ -1571,6 +1571,7 @@ class CBPhotos
 	 */
 	function getFileSmarty($p)
 	{
+		global $Cbucket;
 		$details = $p['details'];
 		if(empty($details))
 		{

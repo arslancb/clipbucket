@@ -225,3 +225,10 @@ $(document).ready(function() {
 	onReload_item();
 </script>
 {/if}
+
+{if $smarty.const.THIS_PAGE=='watch_video'}
+<meta property="og:title" content="{$vdo.title}" />
+<meta property="og:description" content="{$vdo.description|description}" />
+<meta property="og:image" content="{getThumb vdetails=$vdo}" />
+<meta name="medium" content="video" />
+{/if}

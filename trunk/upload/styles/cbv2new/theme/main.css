@@ -545,7 +545,7 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .cb_error ul li:hover{border-color:#ed0000}
 .cb_message ul li:hover{border-color:#0099cc}
 
-.watch_video_box{width:90px; margin:2px 4px 0px 4px; float:left; height:110px;}
+.watch_video_box{width:90px; margin:2px 4px 0px 4px; float:left; height:110px; overflow:hidden}
 .watch_video_box{ color:#999; font-size:10px;}
 .watch_video_box a{font-size:10px; text-decoration:none; font-weight:bold;}
 .watch_video_box .watch_video_box_thumb{border:1px solid  #999; padding:2px; display:inline-block; margin:auto; position:relative}

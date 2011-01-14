@@ -82,7 +82,7 @@ if(move_uploaded_file($_FILES[$form]['tmp_name'],$path.$filename.".".$extension)
 	// Photo Details
 	$userid = $_POST['userid'];
 	$collection = $_POST['collection'];
-	$name = mysql_clean(substr($info['filename'],0,20));
+	$name = mysql_clean(getName($_FILES[$form]['name']));
 	$desc = $name;
 	$tag = strtolower($name);
 	$key = $cbphoto->photo_key();

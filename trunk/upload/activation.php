@@ -13,7 +13,7 @@ define("PARENT_PAGE",'signup');
 
 require 'includes/config.inc.php';
 
-if($userquery->login_check('',true)){
+if($userquery->udetails['usr_status']=='Ok'){
 	redirect_to(BASEURL);
 }
 
