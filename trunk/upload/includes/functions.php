@@ -1769,7 +1769,10 @@
 		$code 		= $param['code'];
 		$height 	= $param['height'] = $param['height'] ? $param['height'] : config('player_height');
 		$width 		= $param['width'] = $param['width'] ? $param['width'] : config('player_width');
-		$param['autoplay'] = $param['autoplay'] ? $param['autoplay']  : config('autoplay_video');
+		
+		
+		if(!$param['autoplay'])
+		$param['autoplay'] = config('autoplay_video');
 		
 		assign('player_params',$param);
 		if(count($Cbucket->actions_play_video)>0)

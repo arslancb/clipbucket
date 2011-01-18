@@ -163,6 +163,22 @@ var loading = loading_img+" Loading...";
 					alert(data.error);
 				  }				  
 				  $("#loading").html('');
+				  
+				  var vid = data.vid;
+				  
+				   $.post(baseurl+'/actions/file_uploader.php',
+				  {"getForm":"get_form","title":$("#remote_file_url").val(),"objId":remoteObjID},
+				  function(data)
+				  {
+						$('#remoteForm').append(data);
+							$('#cbSubmitUpload'+remoteObjID)
+							.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
+							.attr("disabled","")
+							.attr("value",lang.saveData)
+							.attr("onClick","doUpdateVideo('#uploadForm"+remoteObjID+"','"+remoteObjID+"')")
+							.after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
+							.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
+				  },'text');
 			  }
 		   }
 		);
@@ -282,48 +298,8 @@ var loading = loading_img+" Loading...";
 					setTimeout(function(){status_update()},intval);
 					else if(perc_download==100 && total>1)
 					{
+						
 						$('#time_took').html('Time Took : '+time_took_fm);
-						//Del the log file
-						$.ajax({
-						  url: result_page,
-						  type: "POST",
-						  data: ({del_log:'yes',file_name:file_name}),
-						  success:function(data)
-						  {
-							  $('#remoteUploadBttnStop').hide();
-							  
-							  $.post(baseurl+'/actions/file_uploader.php',
-								  {"getForm":"get_form","title":$("#remote_file_url").val(),"objId":remoteObjID},
-								  function(data)
-								  {
-										$('#remoteForm').append(data);
-										
-										$.ajax({
-										  url: baseurl+'/actions/file_uploader.php',
-										  type: "POST",
-										  data:({"insertVideo":"yes","title":$("#remote_file_url").val(),"file_name":file_name}),
-										  dataType: "json",
-										  success: function(data)
-										  {
-											
-											vid = data;
-											$('#cbSubmitUpload'+remoteObjID)
-											.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
-											.attr("disabled","")
-											.attr("value",lang.saveData)
-											.attr("onClick","doUpdateVideo('#uploadForm"+remoteObjID+"','"+remoteObjID+"')")
-											.after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
-											.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
-		
-										  }
-										});			
-								
-								  },'text');
-			
-							  					
-						  }
-						  
-						  });
 					}
 				  }
 			   }

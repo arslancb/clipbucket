@@ -159,9 +159,9 @@ switch($mode)
 			$cbvid->update_video();
 		}
 		if(error())
-			echo error('single');
+			echo json_encode(array('error'=>error('single')));
 		else
-			echo msg('single');
+			echo json_encode(array('msg'=>msg('single')));
 	}
 }
 

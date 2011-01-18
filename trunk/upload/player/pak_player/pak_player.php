@@ -74,11 +74,13 @@ if(!function_exists("pak_player"))
 				$in['width'] = $in['width'].'px';
 			if(!strstr($in['height'],"\%"))
 				$in['height'] = $in['height'].'px';
-			
+		
 			if($in['autoplay'] =='yes' || $in['autoplay']===true)
+			{
 				$in['autoplay'] = true;
-			else
+			}else{
 				$in['autoplay'] = false;
+			}
 			
 			
 			//Logo Placement

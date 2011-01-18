@@ -21,36 +21,7 @@ $log_file = TEMP_DIR.'/'.$file_name.'_curl_log.cblog';
 $dummy_file = TEMP_DIR.'/'.$file_name.'_curl_dummy.cblog';
 
 
-if($_POST['del_log'])
-{
-	include("../includes/config.inc.php");
-	//include("include_functions.php");
-	//First lets add file to uploading queue
-	echo $log_file;
-	echo $details =  file_get_contents($log_file);
-	$details = json_decode($details,true);
-	print_r($details);
-	echo $details['file_name'];
-	$Upload->add_conversion_queue($details['file_name']);
-	unlink($log_file);
-	
-	$quick_conv = config('quick_conv');
-		
-	$use_crons = config('use_crons');
-	if($quick_conv=='yes' || $use_crons=='no')
-	{
-		$targetFileName = $details['file_name'];
-		//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
-		if (stristr(PHP_OS, 'WIN')) {
-				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName sleep");
-			} else {
-				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName sleep&> /dev/null &");
-		}
-	}
-	
-	exit();
-}else
-	include("include_functions.php");
+include("include_functions.php");
 
 
 if(file_exists($dummy_file))

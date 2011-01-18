@@ -33,6 +33,10 @@ if(!isCurlInstalled())
 	exit(json_encode(array("error"=>"Sorry, we do not support remote upload")));
 }
 
+//checking if user is logged in or not
+if(!userid())
+	exit(json_encode(array('error'=>'You are not logged in')));
+
 if($_POST['youtube'])
 {
 	$youtube_url = $_POST['file'];
@@ -65,10 +69,11 @@ if($_POST['youtube'])
 		$vid_array[$title] = $matches[1];
 	}
 	
+	
 	$vid_array['thumbs'] = 
 	array('http://i3.ytimg.com/vi/'.$YouTubeId.'/1.jpg','http://i3.ytimg.com/vi/'.
 	$YouTubeId.'/2.jpg','http://i3.ytimg.com/vi/'.$YouTubeId.'/3.jpg',
-	'big'=>'http://i3.ytimg.com/vi/'.$YouTubeId.'/2.jpg');
+	'big'=>'http://i3.ytimg.com/vi/'.$YouTubeId.'/0.jpg');
 	$vid_array['embed_code'] = '<object width="425" height="344">
 	<param name="movie" value="http://www.youtube.com/v/'.$YouTubeId.'">
 	</param><param name="allowFullScreen" value="true"></param>
@@ -160,7 +165,7 @@ function callback($download_size, $downloaded, $upload_size, $uploaded)
 
 
 $file = $_POST['file'];
-$file_name = $_POST['file_name'];
+$file_name = mysql_clean($_POST['file_name']);
 
 $log_file = TEMP_DIR.'/'.$file_name.'_curl_log.cblog';
 //For PHP < 5.3.0
@@ -237,5 +242,43 @@ if ($theError = $curl->hasError())
 //Finish Writing File
 fclose($temp_fo);
 
-echo json_encode(array('msg'=>"done"));
+
+sleep(10);
+$details =  file_get_contents($log_file);
+$details = json_decode($details,true);
+$Upload->add_conversion_queue($details['file_name']);
+unlink($log_file);
+unlink($dummy_file);
+$quick_conv = config('quick_conv');
+$use_crons = config('use_crons');
+
+
+//Inserting data
+$title 	= urldecode(mysql_clean(getName($file)));
+$vidDetails = array
+(
+	'title' => $title,
+	'description' => $title,
+	'tags' => genTags(str_replace(' ',', ',$title)),
+	'category' => array($cbvid->get_default_cid()),
+	'file_name' => $file_name,
+	'userid' => userid(),
+);
+
+$vid = $Upload->submit_upload($vidDetails);
+
+echo json_encode(array('vid'=>$vid));
+
+if($quick_conv=='yes' || $use_crons=='no')
+{
+	$targetFileName = $details['file_name'];
+	//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
+	if (stristr(PHP_OS, 'WIN')) {
+			exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName sleep");
+		} else {
+			exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName sleep&> /dev/null &");
+	}
+}
+	
+
 ?>

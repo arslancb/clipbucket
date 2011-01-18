@@ -16,7 +16,8 @@
         {ANCHOR place='in_video_thumb' data=$video}    
     </div> <!--VID_THUMB END-->
     <div class="vid_info_wrap">
-        <h2 class="title"><a href="{videoLink vdetails=$video}">{$video.title|truncate:30}</a></h2>
+        <h2 class="title truncatedtitle"><a href="{videoLink vdetails=$video}">{$video.title|truncate:40}</a></h2>
+        <h2 class="title fulltitle" style="display:none"><a href="{videoLink vdetails=$video}">{$video.title}</a></h2>
         <div class="list_raitng">
         	{show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}
 		</div>            

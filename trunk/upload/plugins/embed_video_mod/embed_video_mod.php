@@ -253,9 +253,16 @@ if(!function_exists('validate_embed_code'))
 						$autoplay = 0;
 					$embed_code = preg_replace("/src=\"(.*)\"/Ui","src=\"$1&autoplay=".$autoplay."\"",$embed_code);
 				}
-
-				if(YOUTUBE_ENABLED=='yes' && is_ref_youtube($vdetails['refer_url']))
+				
+				preg_match('/http:\/\/www\.youtube\.com\/v\/([a-zA-Z0-9_]+)/',$embed_code,$ytmatches);
+				$ytCode = $ytmatches[1];
+				
+				if(YOUTUBE_ENABLED=='yes' && $ytCode )
+				{
+					assign('youtube',$ytCode);
+					assign('ytcode',$ytCode);
 					return false;
+				}
 				
 				$swfobj->EmbedCode($embed_code,$data['player_div']);
 				return $swfobj->code;

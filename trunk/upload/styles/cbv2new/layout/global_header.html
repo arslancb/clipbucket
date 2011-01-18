@@ -149,11 +149,15 @@ var mid  = {$smarty.get.mid};
 			if(obj_id == "grid") {
 				$('#'+parent+' + #'+target+' .grid_view').removeClass('list_view');
 				$.cookie("current_style","grid_view")
-				$('.vid_sp').hide();				
+				$('.vid_sp').hide();		
+				$('.truncatedtitle').hide();	
+				$('.fulltitle').show();	
 			} else {
 				$('#'+parent+' + #'+target+' .grid_view').addClass('list_view');
 				$.cookie("current_style","list_view")
-				$('.vid_sp').show();				
+				$('.vid_sp').show();
+				$('.truncatedtitle').show();	
+				$('.fulltitle').hide();			
 			}
 	}
 

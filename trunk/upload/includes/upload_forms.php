@@ -18,12 +18,15 @@
 		global $file_name;
 		if($params['class'])
 			$class = ' '.$params['class'];
+		echo '<div style="font-size:12px; padding:5px">
+			'.lang('upload_remote_video_msg').'
+			</div>';
 		echo
 		'<div class="upload_form_div clearfix'.$class.'" id="remoteUploadFormDiv">
         <label for="remote_file_url" class="label">'.lang('please_enter_remote_file_url').'</label>
         <input name="remote_file_url" type="textfield"  class="remoteUrlInput" 
-        id="remote_file_url" value="e.g http://clipbucket.com/sample.flv" 
-        onclick="if($(this).val()==\'e.g http://clipbucket.com/sample.flv\') $(this).val(\'\')"/>
+        id="remote_file_url" value="e.g http://clipbucket.com/sample.flv or http://www.youtube.com/watch?v=QfRAHfquzM0" 
+        onclick="if($(this).val()==\'e.g http://clipbucket.com/sample.flv http://www.youtube.com/watch?v=QfRAHfquzM0\') $(this).val(\'\')"/>
         <input name="submit_upload" type="hidden" value="'.lang('upload_data_now').'">
         
         <div id="remote_upload_result_cont"></div>

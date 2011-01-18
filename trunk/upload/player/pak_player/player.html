@@ -1,8 +1,36 @@
+
+{if !$player_data.autoplay}
+<div id="the_Video_Player"
+	href="{$normal_vid_file}"
+	style="background: #000 url({getThumb vdetails=$vdata num=big}) no-repeat center;
+    display:block;width:{$player_data.width};height:{$player_data.height};
+    text-align:center;
+    cursor:pointer;">	
+
+	<div style="width:98%; height:100%; margin:auto; position:relative">
+    <img src="{$pak_player_url}/play.png" alt="{$vdata.title}" style="left:50%; top:50%; position:absolute; margin:-70px 0px 0px -41px"/>
+	<!-- info -->
+	<div 
+    style="
+     height:80px; width:100%; bottom:5px; text-align:left;
+    border:1px solid #fff; position:absolute; background-color:rgba(0,0,0,0.5);
+	color:#fff;
+    ">
+    <div style="padding:10px">
+		<span style="font-size:18px; font-weight:bold; text-align:left">{$vdata.title}</span><br />
+
+		<span>{$vdata.description|truncate:200}</span></div>
+	</div>
+	 </div>
+</div>
+{else}
 <a
 	href="{$normal_vid_file}"
 	style="display:block;width:{$player_data.width};height:{$player_data.height};"
 	id="the_Video_Player">
 </a>
+
+{/if}
 
 <script language="JavaScript">
 var pakplayer_path = '{$pak_player_url}';
@@ -94,7 +122,7 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pak_player{if $Cbucket->config
 ,
 	clip:{
 		{/literal}
-		autoPlay :'{$player_data.autoplay}',
+		autoPlay :true,
 		
 		{if $youtube}
 		url : 'api:{$ytcode}',
