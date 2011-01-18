@@ -52,6 +52,7 @@ class CBPhotos
 		$this->init_collections();
 		$this->photos_admin_menu();
 		$this->setting_other_things();
+		$this->set_photo_max_size();
 	}
 	
 	/**
@@ -227,6 +228,19 @@ class CBPhotos
 		
 		$this->search->search_type['photos']['fields'] = $forms;													
 	}
+	/**
+	 * Set File Max Size
+	 */
+	function set_photo_max_size()
+	{
+		global $Cbucket;
+		$adminSize = $Cbucket->configs['max_photo_size'];
+		if(!$adminSize)
+			$this->max_file_size = 2*1024*1024;
+		else
+			$this->max_file_size = $adminSize*1024*1024;		
+	}
+	
 	/**
 	 * Check if photo exists or not
 	 */
@@ -988,19 +1002,9 @@ class CBPhotos
 			$formClass = $p['formClass'];
 		$output .= " class = 'clearfix ".$formClass."'";		
 		$output .= ">";
-		$output .= '<input type="hidden" value="" name="photoIDS" id="photoIDS" />';
-		$output .= '<input type="hidden" name="collectionID" id="collectionID"';
-		if($_GET['collection'])
-		{
-			if($this->is_addable($this->decode_key($_GET['collection'])))
-				$output .= " value = '".$this->decode_key($_GET['collection'])."'";
-		} else {
-			$output .= " value = ''";	 
-		}
-		$output .= "/>";
 			if($p['class'])
 				$class = $p['class'];
-			if($should_include === TRUE)	
+			if($should_include == TRUE)	
 				$output .= Fetch("/blocks/upload_head.html");
 			$output .= "<div ";
 			$output .= "class = 'PhotoUploaderWrapper ".$class."'";
@@ -1013,7 +1017,6 @@ class CBPhotos
 			$output .= "</div>";
 			$output .= '<div style="clear:both;"></div>';
 			$output .= '<div id="photoUploadQueue"></div>';
-			$output .= '<button name="EnterInfo" class="'.$p['buttonClass'].'" id="EnterInfo" disabled="disabled">'.lang('Continue').'</button>';
 		$output .= "</form>";
 		
 		return $output;							
@@ -1171,6 +1174,7 @@ class CBPhotos
 			$this->generate_photos($photo);
 			$eh->flush();
 			e(sprintf(lang("photo_is_saved_now"),$photo['photo_title']),"m");
+			return $insert_id;
 		}
 	}
 	

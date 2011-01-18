@@ -4,7 +4,6 @@ var page = baseurl+'/ajax.php';
 var loading_img = "<img style='vertical-align:middle' src='"+imageurl+"/ajax-loader.gif'>";
 var loading = loading_img+" Loading...";
 
-
 	function Confirm_Delete(delUrl) {
 	  if (confirm("Are you sure you want to delete")) {
 		document.location = delUrl;
@@ -878,7 +877,6 @@ var loading = loading_img+" Loading...";
 	
 	function get_group_info(Div,li)
 	{
-		
 		if( $(Div).css("display")=="none") 
 		{
 			$("#group_info_cont > div").slideUp();
@@ -1188,7 +1186,7 @@ function pagination(object,cid,type,pageNumber)
 					}		
 	});
 }
-
+var collectionID;
 function ajax_add_collection(obj)
 {
 	var formID = obj.form.id, Form = $('#'+formID),
@@ -1207,6 +1205,7 @@ function ajax_add_collection(obj)
 					{
 						$('#CollectionDIV').slideUp('fast');
 						Result.html(data['msg']).slideDown('fast');
+						collectionID = data['id'];
 					}
 					else
 					{

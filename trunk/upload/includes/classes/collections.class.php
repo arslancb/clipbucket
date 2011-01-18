@@ -623,7 +623,7 @@ class Collections extends CBCategory
 						   'value' => array('category',$cat_array),
 						   'db_field' => 'category',
 						   'required' => 'yes',
-						   'validate_function' => 'validate_group_category',
+						   'validate_function' => 'validate_collection_category',
 						   'invalid_err' => lang('collect_cat_er'),
 						   'display_function' => 'convert_to_categories',
 						   'category_type' => 'collections'
@@ -720,6 +720,39 @@ class Collections extends CBCategory
 		$collection_fields = array_merge($reqFileds,$otherFields);
 		
 		validate_cb_form($collection_fields,$array);	
+	}
+	
+	/**
+	 * Function used to validate collection category
+	 * @param input array
+	 */	
+	function validate_collection_category($array=NULL)
+	{
+		if($array==NULL)
+			$array = $_POST['category'];
+		if(count($array)==0)
+			return false;
+		else
+		{
+			
+			foreach($array as $arr)
+			{
+				if($this->category_exists($arr))
+					$new_array[] = $arr;
+			}
+		}
+		if(count($new_array)==0)
+		{
+			e(lang('vdo_cat_err3'));
+			return false;
+		}
+		/*elseif(count($new_array)>ALLOWED_GROUP_CATEGORIES)
+		{
+			e(sprintf(lang('vdo_cat_err2'),ALLOWED_GROUP_CATEGORIES));
+			return false;
+		}*/
+			
+		return true;
 	}
 	
 	/**

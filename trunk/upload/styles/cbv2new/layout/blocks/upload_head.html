@@ -33,10 +33,25 @@
 {else}
 
 	<div class="photoBox clearfix">
-            	<div style="background:#FFF; text-align:center; border-bottom:1px solid #ccc; color:#666; padding:8px; font:bold 11px Tahoma;">Create Collection</div>               
-		{assign var='reqFields' value=$cbcollection->load_required_fields()}
-        <div class="CollectionResult clearfix" id="CollectionResult" style="display:none; margin-bottom:5px;"></div> <!-- Keep id. This will display error/success message -->
-        <div class="clearfix" style="padding:8px;" id="CollectionDIV" >  <!-- Also keep this id. After addition this will slideUp -->     
+            	<div style="background:#FFF; text-align:center; border-bottom:1px solid #ccc; color:#666; padding:8px; font:bold 11px Tahoma;"><a href="#" onclick="$('#SelectionDIV').show();$('#CollectionDIV').hide(); return false">Select Collection</a> | <a href="#" onclick="$('#CollectionDIV').show();$('#SelectionDIV').hide(); return false">Create Collection</a></div> 
+<div class="CollectionResult clearfix" id="CollectionResult" style="display:none; margin-bottom:5px;"></div> <!-- Keep id. This will display error/success message -->
+                              
+        <div id="SelectionDIV" style="padding:8px;">
+   			<div class="field clearfix" style="margin-bottom:3px;">
+            	<label style="font:bold 11px Tahoma; width:100px; display:inline-block; *display:inline;" >Select Collection</label>
+                <select onchange="update_collection_selection(this)" id="collectionSelection" name="collectionSelection" style="font:normal 11px Tahoma; padding:4px; border:1px solid #ccc; margin-right:15px;">
+                    {if $collections}
+                        {foreach from=$collections item=item}
+                            <option value="{$item.collection_id}">{$item.collection_name}</option>
+                        {/foreach}
+                    {else}
+                        <option value="0">No Collection Found</option>
+                    {/if}
+                </select>
+            </div>
+        </div>       
+        <div class="clearfix" style="padding:8px; display:none;" id="CollectionDIV" >  <!-- Also keep this id. After addition this will slideUp --> 
+        {assign var='reqFields' value=$cbcollection->load_required_fields()}    
         {foreach from=$reqFields item=field}
         {if $field.id != 'type'}
             <div class="field clearfix" style="margin-bottom:3px;">

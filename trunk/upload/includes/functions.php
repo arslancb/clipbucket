@@ -1526,7 +1526,16 @@
 		global $cbgroup;
 		return $cbgroup->validate_group_category($array);
 	}
-	
+
+	/**
+	 * Function used to validate category
+	 * INPUT $cat array
+	 */
+	function validate_collection_category($array=NULL)
+	{
+		global $cbcollection;
+		return $cbcollection->validate_collection_category($array);
+	}	
 		
 	/**
 	 * Function used to check videokey exists or not

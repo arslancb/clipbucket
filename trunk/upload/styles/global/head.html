@@ -48,13 +48,16 @@ function doUpdateVideo(formId,ID)
 	$.post(
 	baseurl+'/actions/file_uploader.php',formObjectData,function(data)
 	{
-		show_message(data,ID,true);
+		if(data.msg)
+		show_message(data.msg,ID,true);
+		if(data.error)
+		show_error(data.error,ID,true);
 		$('#updateVideoDataLoading').empty();
 		$('#cbSubmitUpload'+ID)
 		.attr("disabled","")
 		.attr("value",lang.saveData)
 		.attr("onClick","doUpdateVideo('#uploadForm"+ID+"','"+ID+"')")
-	},"text"
+	},"json"
 	)
 }
 
@@ -165,14 +168,173 @@ window.onload = function() {ldelim}
 <script type="text/javascript" language="javascript">
 	fileExt = '{$cbphoto->extensions()}',
 	lang = new Array(),
-	pData = new Array();
+	pData = new Array(),
+	ajaxImage = '<img src="'+imageurl+'/ajax-loader.gif" style="vertical-align:middle;" /> ',
+	uploadError = false;
+{if $smarty.get.collection}
+	{assign var=cid value=$cbphoto->decode_key($smarty.get.collection)}
+	{if $cbphoto->is_addable($cid)}
+	collectionID = '{$cid}';
+	{/if}
+{/if}	
 lang['browsePhrase'] = '{lang code="browse_photos"}';
-
+lang['saveData'] = "{lang code='save_data'}";
+lang['savingData'] = "{lang code='saving'}";
+lang['upPhoto'] = "{lang code='update_photo'}";
 var uploadSwfPath = '{$photoUploaderDetails.uploadSwfPath}';
 var uploadScriptPath = '{$photoUploaderDetails.uploadScriptPath}';
 
 {literal}
 
+function photoMessage(message,ID,fade)
+{
+	if(document.getElementById(ID+"Message"))
+		$("#"+ID+"Message").children(":first-child").html(message).end().fadeIn('slow');
+	else
+	{
+		$("#Form"+ID).before('<div id=\"'+ID+'Message\" class=\"uploadSuccessDiv\"><div class=\"uploadSuccessMsg\">'+message+'<\/div><\/div>');	
+	}
+	
+	if(fade)
+		$("#"+ID+"Message").delay(300).fadeOut('slow');
+}
+
+function photoError(message,ID,fade)
+{
+	if(document.getElementById(ID+"Error"))
+		$("#"+ID+"Error").children(":first-child").html(message).end().fadeIn('slow');
+	else
+	{
+		$("#Form"+ID)
+		.before('<div id=\"'+ID+'Error\" class=\"uploadErrorDiv\"><div class=\"uploadErrorMsg\">'+message+'<\/div><\/div>');
+	}
+	
+	if(fade)
+		$("#"+ID+"Error").delay(3000).fadeOut('slow');
+}
+
+function QueueLimitError(message,fade)
+{
+	$("#photoUploadQueue")
+	.before('<div id=\"QueueError\" style=\"margin-top:6px;\" class=\"uploadErrorDiv\"><div class=\"uploadErrorMsg\">'+message+'<\/div><\/div>');
+	if(fade)
+		$("#QueueError").delay(5000).fadeOut('slow');	
+}
+
+function insertAjaxPhoto(ID,filename,extension)
+{
+	var photoFields = $("#Form"+ID).serialize();
+	$.ajax({
+		url : uploadScriptPath,
+		type : 'POST',
+		dataType : 'json',
+		data : photoFields+"&filename="+filename+"&ext="+extension+"&insertPhoto=yes",
+		beforeSend : function()
+		{
+			$("#cbSubmitUpload"+ID).html(ajaxImage+lang.savingData).attr('disabled','disabled');	
+		},
+		success : function(data)
+		{
+			if(data.error)
+			{
+				photoError(data.error,ID,true);
+				$("#cbSubmitUpload"+ID).html("Save Photo")
+				.removeAttr('disabled').attr('onClick','insertAjaxPhoto("'+ID+'","'+filename+'","'+extension+'");');	
+			}
+			
+			if(data.success)
+			{
+				photoMessage(data.success,ID,true);
+				showPhotoPreview(ID,data.photoPreview);
+				
+				$("<input />").attr({
+					'id' : 'photo_id',
+					'name' : 'photo_id',
+					'value' : data.photoID,
+					'type' : 'hidden'	
+				}).prependTo('#Form'+ID);
+				
+				$("#cbSubmitUpload"+ID).html(lang.upPhoto)
+				.removeAttr('disabled').attr('onClick','updateAjaxPhoto("'+ID+'");');	
+			}
+		}
+	})
+}
+
+function updateAjaxPhoto(ID)
+{
+	var updateFields = $("#Form"+ID).serialize();
+	$.ajax({
+		url : uploadScriptPath,
+		type : 'POST',
+		dataType : 'json',
+		data : updateFields+"&updatePhoto=yes",
+		beforeSend : function()
+		{
+			$("#cbSubmitUpload"+ID).html(ajaxImage+lang.upPhoto).attr('disabled','disabled');
+		},
+		success : function(data)
+		{
+			if(data.error)
+			{
+				photoError(data.error,ID,true);
+				$("#cbSubmitUpload"+ID).removeAttr('disabled').html(lang.upPhoto);	
+			}
+			
+			if(data.success)
+			{
+				photoMessage(data.success,ID,true);
+				$("#Form"+ID).hide();
+				$("#cbSubmitUpload"+ID).removeAttr('disabled').html(lang.upPhoto);
+				if(!document.getElementById("toggle"+ID))
+				{	
+					$("<a></a>")
+					.addClass('reUpdateButton')
+					.attr({
+						"id" : "toggle"+ID,
+						"href" : "#reUpdate",
+						"onClick" : "$('#Form"+ID+"').toggle(); return false;",
+						"title" : "Toggle Photo Form"	
+					}).html('Re-'+lang.upPhoto).appendTo("#photo_uploads"+ID+" .percentage").fadeIn(350);
+				}
+			}
+		}
+	})
+}
+
+function showPhotoPreview(ID,preview)
+{
+	var object = $("#"+ID+"Preview"), parentObj = object.parent();
+	var FinalPreview = new Image();
+	FinalPreview.src = preview;
+	$(FinalPreview).load(function()
+	{
+		object.hide();
+		$("<img />")
+		.addClass(object.attr('class'))
+		.attr({ "id" : "FinalPreview"+ID, "src" : preview }).appendTo(parentObj).fadeIn('normal');	
+	});
+}
+
+function update_collection_selection(obj)
+{
+	if($("#CollectionResult").css('display') == 'block')
+		$("#CollectionResult").slideUp('fast');
+		
+	var This = $(obj), thisObj = obj;
+	This.attr('disabled','disabled');
+	This.after(ajaxImage);
+	collectionID = thisObj.value;
+	
+	setTimeout(function(){
+		This.next().remove();
+		$("#CollectionResult").html("<div class='msg'>Collection Selected</div>").slideDown(350);
+		This.removeAttr('disabled');	
+	},1000);
+}
+	
+$(document).ready(function() {
+	
 	function photoUploadify(object)
 	{
 		$(object).uploadify(
@@ -187,32 +349,48 @@ var uploadScriptPath = '{$photoUploaderDetails.uploadScriptPath}';
 			'displayData' : 'both',
 			'fileExt'     : fileExt,
 			'multi'		  : true,
-			{/literal}
-			{if $smarty.get.collection}
-			{assign var=cid value=$cbphoto->decode_key($smarty.get.collection)}
-			{if $cbphoto->is_addable($cid)}
-			'scriptData' : {ldelim} 'collection':'{$cid}' {rdelim},
-			{/if}
-			{/if}
-			{literal}
+			'queueSizeLimit': {/literal} '{$Cbucket->configs.photo_multi_upload}', {literal}
 			'fileDesc'    : 'Photo Files',
 			'buttonText' : lang.browsePhrase,
 			'queueID' : 'photoUploadQueue',
+			'sizeLimit' : {/literal}'{$cbphoto->max_file_size}',{literal}
+			'onSelect' : function(event,ID,fileObj)
+			{
+				uploadError = false;
+				$.ajax({
+					url : uploadScriptPath,
+					dataType : 'json',
+					type : 'POST',
+					data : ({ "photoForm":"yes" , "objID":ID , "name":fileObj.name , "collection":collectionID }),
+					success : function(data)
+					{
+						if(!uploadError)
+							$("#photo_uploads"+ID).append(data['form']);
+					}
+				});
+			},
 			'onComplete' : function(event,ID,fileObj,response,data)
 			{
-				if(response)
-				{ 
-					pData.push(response);
-					$("#photoIDS").val(pData);
+				var resObj = $.parseJSON(response);
+				if(resObj.success == "yes")
+				{
+					insertAjaxPhoto(ID,resObj.filename,resObj.extension);	
 				}
+				
 			},
-			'onAllComplete': function(event,data) {
-				$("#EnterInfo").removeAttr('disabled');
+			'onQueueFull' : function(event,queueSizeLimit)
+			{
+				QueueError = "I'm stuffed, "+queueSizeLimit+" is my limit. Thanks.";
+				QueueLimitError(QueueError,true);
+				return false;
+			},
+			'onError' : function(event,ID,fileObj,errorObj)
+			{
+				uploadError = true;	
 			}
 		});
 	}
-	
-$(document).ready(function() { 
+		 
 	photoUploadify('#photo_uploads'); 
 });	
 {/literal}
