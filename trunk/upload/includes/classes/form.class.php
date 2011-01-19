@@ -55,6 +55,7 @@ class formObj
 	*/
 	function createTextfield($field,$multi=FALSE)
 	{
+
 		//Starting Text Field
 		if($field['type']=='textfield')
 			$textField = '<input type="text"';

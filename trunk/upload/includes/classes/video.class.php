@@ -949,13 +949,13 @@ class CBvideo extends CBCategory
 		global $db,$LANG;
 		$num = get_thumb_num($thumb);
 		$file = THUMBS_DIR.'/'.$thumb;
-		if(file_exists($file))
-		{
+		//if(file_exists($file))
+		//{
 			$db->update(tbl("video"),array("default_thumb"),array($num)," videoid='$vid'");
 			e(lang('vid_thumb_changed'),'m');
-		}else{
-			e(lang('vid_thumb_change_err'));
-		}
+		//}else{
+		//	e(lang('vid_thumb_change_err'));
+		//}
 	}	
 	
 	

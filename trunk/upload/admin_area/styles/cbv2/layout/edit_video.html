@@ -1,10 +1,6 @@
-{assign var='requiredFields' value=$Upload->loadRequiredFields($data)}
-{assign var='optionFields' value=$Upload->loadOptionFields($data)}
-{assign var='locationFields' value=$Upload->loadLocationFields($data)}
 
-{assign var='custom_fields' value=$Upload->load_custom_upload_fields($data,TRUE)}
-{assign var='custom_form_fields' value=$Upload->load_custom_form_fields($data,TRUE)}
-
+{assign var='custom_upload_fields' value=$Upload->load_custom_upload_fields($data,TRUE)}
+{assign var='video_fields' value=$Upload->load_video_fields($data)}
 
 {if $data.title neq ""}
 
@@ -105,12 +101,6 @@
     </tr>
     
     {foreach from=$requiredFields item=field}
-  <tr>
-    <td width="200" ><strong>{$field.title} :</strong></td>
-    <td >{$field.hint_1}<br />
-      {$formObj->createField($field)} 
-{$field.hint_2}</td>
-  </tr>
   {/foreach}
   
     <tr>
@@ -153,6 +143,19 @@ seconds</td>
   </tr>
   </table>
 </fieldset>
+<fieldset class="fieldset">
+  <legend>Custom Upload Fields</legend>
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+      {foreach from=$custom_upload_fields item=field}
+  <tr>
+    <td width="200"><strong>{$field.title}</strong></td>
+    <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    <br>
+      {$field.hint_2}</td>
+  </tr>
+  {/foreach}
+  </table>
+</fieldset>
 
 
 
@@ -183,66 +186,21 @@ seconds</td>
 
     </div>
     
-    
+    {foreach from=$video_fields item=field_group}
     <fieldset class="fieldset">
-  <legend>Recording Details</legend>
-  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-   {foreach from=$locationFields item=field}
-                  <tr>
-                    <td width="200"><strong>{$field.title} </strong></td>
-                    <td >{$field.hint_1}{$formObj->createField($field)} 
-{$field.hint_2}</td>
-    </tr>
-                {/foreach}
-  </table>
-</fieldset>
-
-
-<fieldset class="fieldset">
-  <legend>Custom Form Fields</legend>
-  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-      {foreach from=$custom_form_fields item=field}
-  <tr>
-    <td width="200"><strong>{$field.title}</strong></td>
-    <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-                    <br>
-      {$field.hint_2}</td>
-  </tr>
-  {/foreach}
-  </table>
-</fieldset>
-
-
-
-<fieldset class="fieldset">
-  <legend>Sharing</legend>
-  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-      {foreach from=$optionFields item=field}
-  <tr>
-    <td width="200"><strong>{$field.title} </strong></td>
-    <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-                    <br>
-      {$field.hint_2}</td>
-  </tr>
-  {/foreach}
-  </table>
-</fieldset>
-
-
-<fieldset class="fieldset">
-  <legend>Custom Upload Fields</legend>
-  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-      {foreach from=$custom_fields item=field}
-  <tr>
-    <td width="200"><strong>{$field.title}</strong></td>
-    <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-                    <br>
-      {$field.hint_2}</td>
-  </tr>
-  {/foreach}
-  </table>
-</fieldset>
-
+        <legend>{$field_group.group_name}</legend>
+        <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+            {foreach from=$field_group.fields item=field}
+                <tr>
+                	<td width="200"><strong>{$field.title} </strong></td>
+                	<td >{$field.hint_1}{$formObj->createField($field)}{$field.hint_2}</td>
+                </tr>
+            {/foreach}
+        </table>
+    </fieldset>
+	{/foreach}
+    
+    
 </td>
   </tr>
   <tr>
