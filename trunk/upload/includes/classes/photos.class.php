@@ -1075,7 +1075,7 @@ class CBPhotos
 							'id' => 'photo_tags',
 							'name' => 'photo_tags',
 							'type' => 'textfield',
-							'value' => $tags,
+							'value' => genTags($tags),
 							'db_field' => 'photo_tags',
 							'required' => 'yes',
 							'invalid_err' => lang('photo_tags_err')
@@ -1133,7 +1133,7 @@ class CBPhotos
 					$val = $new_val;
 				}
 				if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
-					$val = mysql_clean($val);
+					$val = ($val);
 				else
 					$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
 				
@@ -1473,7 +1473,7 @@ class CBPhotos
 					$val = $new_val;
 				}
 				if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
-					$val = mysql_clean($val);
+					$val = ($val);
 				else
 					$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
 				

@@ -385,7 +385,7 @@ class Upload{
 							 'type'=> 'textfield',
 							 'name'=> 'title',
 							 'id'=> 'title',
-							 'value'=>  cleanForm($title),
+							 'value'=>  ($title),
 							 'size'=>'45',
 							 'db_field'=>'title',
 							 'required'=>'yes',
@@ -397,7 +397,7 @@ class Upload{
 							 'type'=> 'textarea',
 							 'name'=> 'description',
 							 'id'=> 'desc',
-							 'value'=> cleanForm($desc),
+							 'value'=> ($desc),
 							 'size'=>'35',
 							 'extra_params'=>' rows="4"',
 							 'db_field'=>'description',
@@ -422,7 +422,7 @@ class Upload{
 							 'type'=> 'textfield',
 							 'name'=> 'tags',
 							 'id'=> 'tags',
-							 'value'=> cleanForm(genTags($tags)),
+							 'value'=> (genTags($tags)),
 							 'hint_1'=> '',
 							 'hint_2'=>  lang('vdo_tags_msg'),
 							 'db_field'=>'tags',
@@ -836,7 +836,7 @@ class Upload{
 	 */
 	function upload_user_file($type='a',$file,$uid)
 	{
-		global $db,$userquery,$imgObj;
+		global $db,$userquery,$cbphoto,$imgObj;
 		$avatar_dir = BASEDIR.'/images/avatars/';
 		$bg_dir		= BASEDIR.'/images/backgrounds/';
 		
@@ -863,8 +863,8 @@ class Upload{
 								@unlink($file_path);
 							}else{
 								$small_size = $avatar_dir.$uid.'-small.'.$ext;
-								$imgObj->CreateThumb($file_path,$file_path,AVATAR_SIZE,$ext);
-								$imgObj->CreateThumb($file_path,$small_size,AVATAR_SMALL_SIZE,$ext);
+								$cbphoto->CreateThumb($file_path,$file_path,$ext,AVATAR_SIZE,AVATAR_SIZE);
+								$cbphoto->CreateThumb($file_path,$small_size,$ext,AVATAR_SMALL_SIZE,AVATAR_SMALL_SIZE);
 							}
 						}else{
 							e(lang("class_error_occured"));

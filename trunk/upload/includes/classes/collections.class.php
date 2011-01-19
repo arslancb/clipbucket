@@ -585,7 +585,7 @@ class Collections extends CBCategory
 						   'type' => 'textfield',
 						   'name' => 'collection_name',
 						   'id' => 'collection_name',
-						   'value' => $name,
+						   'value' => ($name),
 						   'db_field' => 'collection_name',
 						   'required' => 'yes',
 						   'invalid_err' => lang("collect_name_er")
@@ -596,7 +596,7 @@ class Collections extends CBCategory
 							'type' => 'textarea',
 							'name' => 'collection_description',
 							'id' => 'colleciton_desciption',
-							'value' => $description,
+							'value' => ($description),
 							'db_field' => 'collection_description',
 							'required' => 'yes',
 							'anchor_before' => 'before_desc_compose_box',
@@ -799,10 +799,10 @@ class Collections extends CBCategory
 					$val = $new_val;
 				}
 				if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
-					$val = mysql_clean($val);
+					$val = ($val);
 				else
 					$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
-				
+
 				if(!empty($field['db_field']))
 					$query_val[] = $val;	
 			}
@@ -1117,7 +1117,7 @@ class Collections extends CBCategory
 					$val = $new_val;
 				}
 				if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
-					$val = mysql_clean($val);
+					$val = ($val);
 				else
 					$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
 				
@@ -1192,7 +1192,7 @@ class Collections extends CBCategory
 	/**
 	 * Function used get collection thumb
 	 */
-	function get_thumb($cdetails,$size=NULL,$return_c_thumb=FALSE)
+	function get_thumb($cdetails,$size=NULL,$return_c_thumb=TRUE)
 	{
 		
 		if(is_numeric($cdetails))
@@ -1203,20 +1203,15 @@ class Collections extends CBCategory
 			$cid = $cdetails['collection_id'];
 				
 		$exts = array("jpg","png","gif","jpeg");
-		
-		if(file_exists(COLLECT_THUMBS_DIR."/".$cid."-small.".$ext))
-			$collectThumb = true;
-		else
-			$collectThumb = false;
-			
-		if($cdetails['total_objects'] == 0 || $return_c_thumb && $collectThumb)
+					
+		if($return_c_thumb)
 		{
 			foreach($exts as $ext)
 			{
 				if($size=="small")
 					$s = "-small";
-				
-				return COLLECT_THUMBS_URL."/".$cid.$s.".".$ext;	
+				if(file_exists(COLLECT_THUMBS_DIR."/".$cid.$s.".".$ext))
+					return COLLECT_THUMBS_URL."/".$cid.$s.".".$ext;	
 			}
 		} else {
 			

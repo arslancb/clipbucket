@@ -91,7 +91,7 @@ class formObj
 		if(!empty($field['value']))
 		{
 			if($field['type']=='textfield' ||$field['type']=='password')
-				$textField .= ' value="'.$field['value'].'" ';
+				$textField .= ' value="'.($field['value']).'" ';
 			
 		}
 		
