@@ -5,8 +5,8 @@ Plugin Name: ClipBucket Modules
 Description: Social Bookmarks and Recently Viewed Videos - Classic ClipBucet Modules
 Author: Arslan Hassan
 Author Website: http://clip-bucket.com/
-ClipBucket Version: 2
-Version: 1.0
+ClipBucket Version: 2.1
+Version: 2
 Website: http://labguru.com/
 Plugin Type: global
 */
@@ -22,27 +22,34 @@ if(!function_exists('cb_modules'))
 	
 	function show_social_bookmarks($vdetails)
 	{
-		$social_boookmarks = array
-		(
-		'digg'		=> 'http://digg.com/submit?phase=2&url={URL}&title={TITLE}',
-		'delicious' => 'http://del.icio.us/post?url={URL}&title={TITLE}',
-		'stumbleupon'=> 'http://www.stumbleupon.com/submit?url={URL}&title={TITLE}',
-		'reddit'	=> 'http://reddit.com/submit?url={URL}&title={TITLE}',
-		'technorati'=> 'http://technorati.com/cosmos/search.html?url={URL}',
-		'facebook'	=> 'http://www.facebook.com/share.php?u={URL}'
-		);
-		echo '<div style="margin:5px;">';
-		foreach($social_boookmarks as $bookmark=>$link)
-		{
-			$link = preg_replace(array("/{URL}/","/{TITLE}/"),array(videolink($vdetails),$vdetails['title']),$link);
-			
-			echo '<a href="'.$link.'"><img src="'.PLUG_URL.'/cb_modules/images/social_icons/'.$bookmark.'.png" border="0"></a> ';
-		}
-		echo '</div>';
+		
+		echo '<table style="margin-bottom:5px" width="100%"><tr><td align="center" height="20">';
+		echo '<a name="fb_share" type="button-count" ></a> 
+<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" 
+        type="text/javascript">
+</script></td>';
+	echo "<td align=\"center\"><script type=\"text/javascript\">
+		(function() {
+		var s = document.createElement('SCRIPT'), s1 = document.getElementsByTagName('SCRIPT')[0];
+		s.type = 'text/javascript';
+		s.async = true;
+		s.src = 'http://widgets.digg.com/buttons.js';
+		s1.parentNode.insertBefore(s, s1);
+		})();
+		</script>
+		<a class=\"DiggThisButton DiggCompact\"></a></td>";
+		echo '<td align="center"><a title="Post to Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="small-count"></a>
+<script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script></td>';
+		echo '<td align="center"><script src="http://www.stumbleupon.com/hostedbadge.php?s=1"></script></td>';
+		echo '<td align="center"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></td>';
+		echo '</tr></table>';
+	
+		
 	}
 	
 	
 	register_anchor_function("show_social_bookmarks","video_bookmarks");
+	
 }
 
 ?>

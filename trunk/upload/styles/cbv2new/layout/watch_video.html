@@ -67,7 +67,8 @@
         </ul>
         <div align="center"><span class="small_button non_button" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</span></div>
     </div>
-    <div class="vd_details">
+    
+    <div class="vd_details">{ANCHOR place="video_bookmarks" data=$vdo}
     <div class="uploading_detail">
     {lang code='uploaded_by_s' assign='uploaded_by_s'}
     	<a href="{$userquery->profile_link($user)}">{$uploaded_by_s|sprintf:$user.username} &#8212; {$vdo.date_added|nicetime}</a>
@@ -125,7 +126,7 @@
 
 <div class="watch_right">
 	<div class="ads">{AD place=ad_300x250}</div>    
-    {ANCHOR place="video_bookmarks" data=$vdo}
+    
     
     <div class="video_details videosharing" align="left">
       <strong>
