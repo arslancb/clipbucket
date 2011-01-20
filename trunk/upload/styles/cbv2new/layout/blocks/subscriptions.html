@@ -4,10 +4,15 @@
   
    <div>
    <!-- Listing Subscriptions-->
-   {assign var=subs_vids value=$userquery->get_subscribed_videos($userquery->userid,10)}
-   {if $subs_vids}
-   	{foreach from=$subs_vids item=video}
-      {include file="$style_dir/blocks/video.html" video=$video video_view="grid_view"}
+   {* assign var=subs_vids value=$userquery->get_subscribed_videos($userquery->userid,10)* }
+   {assign var=subs_uploads value=$userquery->getSubscriptionsUploadsWeek($userquery->userid,10)}
+   {if $subs_uploads}
+   	{foreach from=$subs_uploads item=item}
+    {if $item.photo_id}
+      	{include file="$style_dir/blocks/photo.html" photo=$item display_type="subscription"}
+    {else}
+    	{include file="$style_dir/blocks/video.html" video=$item video_view="grid_view"}
+    {/if}  
     {/foreach}
    {else}
    <em>{lang code='no_new_subs_video'}</em>

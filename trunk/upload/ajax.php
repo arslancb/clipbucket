@@ -952,6 +952,79 @@ if(!empty($mode))
 		}
 		break;
 		
+		case "loadAjaxPhotos":
+		{
+			$photosType = $_POST['photosType'];
+			$cond = array("limit"=>config("videos_items_hme_page"));
+			switch($photosType)
+			{
+				case "last_viewed":
+				default:
+				{
+					$cond['order'] = " last_viewed DESC";	
+				}
+				break;
+				
+				case "most_recent":
+				{
+					$cond['order'] = " date_added DESC";
+				}
+				break;
+				
+				case "featured":
+				{
+					$cond['featured'] = "yes";
+				}
+				break;
+				
+				case "most_favorited":
+				{
+					$cond['order'] = " total_favorites DESC";
+				}
+				break;
+				
+				case "most_commented":
+				{
+					$cond['order'] = " total_comments DESC";
+				}
+				break;
+				
+				case "highest_rated":
+				{
+					$cond['order'] = " rating DESC, rated_by DESC";
+				}
+				break;
+				
+				case "most_viewed":
+				{
+					$cond['order'] = " views DESC";
+				}
+				break;
+				
+				case "most_downloaded":
+				{
+					$cond['order'] = " downloaded DESC";
+				}
+				break;
+			}
+			
+			$photos = get_photos($cond);
+			if($photos)
+			{
+				foreach($photos as $photo)
+				{
+					assign("photo",$photo);
+					$cond['photoBlocks'] .= Fetch("/blocks/photo.html");	
+				}
+				$cond['completed'] = "successfull";
+			} else {
+				$cond['failed'] = "successfully";	
+			}
+			
+			echo json_encode($cond);
+		}
+		break;
+		
 		default:
 		header('location:'.BASEURL);
 				

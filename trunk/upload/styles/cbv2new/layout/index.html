@@ -51,6 +51,27 @@
 
     </div> <!--MAIN_VIDS END-->
     <div class="main_vid_shadow"></div>
+    <div style="height:5px;"></div>
+    {/if}
+    {if isSectionEnabled('photos')}
+     <div class="tabs">
+        <ul>
+            <li class="selected"><a href="javascript:void(0)" id="watched" onclick="getAjaxPhoto('last_viewed','#index_pho_container')">{lang code='being_watched'}</a></li>
+            <li><a href="javascript:void(0)" id="most_watched" onclick="getAjaxPhoto('most_viewed','#index_pho_container')">{lang code='most_viewed'}</a></li>
+            <li><a href="javascript:void(0)" id="recently_watched" onclick="getAjaxPhoto('most_recent','#index_pho_container')">{lang code='recently_added'}</a></li>
+            <li><a href="javascript:void(0)" id="recently_watched" onclick="getAjaxPhoto('most_downloaded','#index_pho_container')">{lang code='most_downloaded'}</a></li>
+       </ul>    	
+    </div> <!--TABS END-->
+    <div class="main_vids clearfix">
+    
+       <div id="index_pho_container">
+       
+       </div>
+        
+
+    </div> <!--MAIN_VIDS END-->
+     <div class="main_vid_shadow"></div>
+     <div style="height:5px;"></div>
     {/if}
 </div> <!--CONTENT_CON END-->
 

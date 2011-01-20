@@ -311,7 +311,7 @@ class CBPhotos
 		{
 			if($cond != "")
 				$cond .= " AND ";
-			$cond .= " ".tbl('photos.photo_id')." = '".$p['pid']."'";		
+			$cond .= $this->constructMultipleQuery(array("ids"=>$p['pid'],"sign"=>"=","operator"=>"OR"));		
 		}
 		
 		if($p['key'])
@@ -359,14 +359,14 @@ class CBPhotos
 		{
 			if($cond != "")
 				$cond .= " AND ";
-			$cond .= " ".tbl('photos.userid')." = '".$p['user']."'";		
+			$cond .= $this->constructMultipleQuery(array("ids"=>$p['user'],"sign"=>"=","operator"=>"AND","column"=>"userid"));		
 		}
 		
 		if($p['exclude'])
 		{			
 			if($cond != "")
 				$cond .= " AND ";			
-			$cond .= $this->exclude_query($p['exclude']);
+			$cond .= $this->constructMultipleQuery(array("ids"=>$p['exclude'],"sign"=>"<>"));
 		}
 		
 		$title_tag = '';
@@ -410,7 +410,7 @@ class CBPhotos
 		{
 			if($cond != "")
 				$cond .= " AND ";
-			$cond .= " ".tbl('photos.userid')." <> '".$p['ex_user']."'";		
+			$cond .= $this->constructMultipleQuery(array("ids"=>$p['ex_user'],"sign"=>"<>","operator"=>"AND","column"=>"userid"));		
 		}
 		
 		if($p['extra_cond'])
@@ -421,13 +421,13 @@ class CBPhotos
 		}
 		
 		if($p['get_orphans'])
-			$p['collection'] = '"0"';
+			$p['collection'] = "\0";
 			
 		if($p['collection'])
 		{
 			if($cond != "")
 				$cond .= " AND ";
-			$cond .= " ".tbl('photos.collection_id')." = '".$p['collection']."'";		
+			$cond .= $this->constructMultipleQuery(array("ids"=>$p['collection'],"sign"=>"=","operator"=>"OR","column"=>"collection_id"));		
 		} else {
 			if($cond != "")
 				$cond .= " AND ";
@@ -452,14 +452,14 @@ class CBPhotos
 			{
 				if($cond != "")
 					$cond .= " AND ";
-				$cond .= $this->exclude_query($p['exclude']);		
+				$cond .= $this->constructMultipleQuery(array("ids"=>$p['exclude'],"sign"=>"<>"));		
 			}
 			
 			if($p['collection'])
 			{
 				if($cond != "")
 					$cond .= " AND ";
-				$cond .= " ".tbl('photos.collection_id')." <> '".$p['collection']."'";		
+				$cond .= $this->constructMultipleQuery(array("ids"=>$p['collection'],"sign"=>"<>","column"=>"collection_id"));		
 			}
 			
 			if($p['extra_cond'])
@@ -485,14 +485,14 @@ class CBPhotos
 				{
 					if($cond != "")
 						$cond .= " AND ";
-					$cond .= $this->exclude_query($p['exclude']);		
+					$cond .= $this->constructMultipleQuery(array("ids"=>$p['exclude'],"sign"=>"<>"));		
 				}
 				
 				if($p['collection'])
 				{
 					if($cond != "")
 						$cond .= " AND ";
-					$cond .= " ".tbl('photos.collection_id')." <> '".$p['collection']."'";		
+					$cond .= $this->constructMultipleQuery(array("ids"=>$p['collection'],"sign"=>"<>","column"=>"collection_id"));		
 				}
 				
 				if($p['extra_cond'])
@@ -523,11 +523,40 @@ class CBPhotos
 		else
 			return $result;	
 	}
-	
+
+	/**
+	 * Used to construct Multi Query
+	 * Only IDs will be excepted
+	 */
+	function constructMultipleQuery($params)
+	{
+		$cond = "";
+		$IDs = $params['ids'];
+		if(is_array($IDs))
+			$IDs = $IDs;
+		else
+			$IDs = explode(",",$IDs);
+			
+		$count = 0;
+		$cond .= "( ";
+		foreach($IDs as $id)
+		{	
+			$id = str_replace(" ","",$id);	
+			if(is_numeric($id) || $params['column'] == 'collection_id')
+			{
+				if($count>0)
+					$cond .= " ".($params['operator']?$params['operator']:'AND')." ";
+				$cond .= "".tbl('photos.'.($params['column']?$params['column']:'photo_id'))." ".($params['sign']?$params['sign']:'=')." '".$id."'";
+				$count++;	
+			}
+		}
+		$cond .= " )";
+		
+		return $cond;		
+	}
 	
 	/**
-	 * Used to construct Exclude Query
-	 */
+	 * Used to construct Exclude Query 
 	function exclude_query($array)
 	{
 		$cond = '';
@@ -549,7 +578,7 @@ class CBPhotos
 		$cond .= " )";
 		
 		return $cond;
-	}
+	}*/
 	
 	/**
 	 * Used to generate photo key
@@ -1142,7 +1171,10 @@ class CBPhotos
 			}
 			
 			$query_field[] = "userid";
-			$query_val[] = userid();
+			if(!$array['userid'])
+			{	$query_val[] = $userid; $userid = userid(); }
+			else	
+			{	$query_val[] = $array['userid']; $userid = $array['userid']; }
 			
 			$query_field[] = "date_added";
 			$query_val[] = NOW();
@@ -1171,7 +1203,9 @@ class CBPhotos
 			$this->collection->add_collection_item($insert_id,$photo['collection_id']);
 			
 			if(!$array['server_url'])
-			$this->generate_photos($photo);
+				$this->generate_photos($photo);
+				
+				
 			$eh->flush();
 			e(sprintf(lang("photo_is_saved_now"),$photo['photo_title']),"m");
 			return $insert_id;

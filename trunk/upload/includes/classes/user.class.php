@@ -4204,7 +4204,67 @@ class userquery extends CBCategory{
 
 		}		
 	}
-	
+
+	/**
+	 * This will get user subscriptions
+	 * uploaded videos and photos
+	 * This is a test function
+	 */	
+function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploadsTimeSpan="this_week")
+{
+	$usr_cond = "";
+	$users = $this->get_user_subscriptions($uid);
+	if($users)
+	{
+		foreach($users as $user)
+		{
+			if($user_cond)
+				$user_cond .= " OR ";
+			$user_cond .= 	tbl("users.userid")."='".$user[0]."' ";	
+		}
+		$user_cond = " (".$user_cond.") ";
+		global $cbphoto,$cbvideo;
+		switch($uploadsType)
+		{
+			case "both":
+			default:
+			{
+				$photos = $cbphoto->get_photos(array("limit"=>$limit,"extra_cond"=>$user_cond,"order"=>" date_added DESC","date_span"=>$uploadsTimeSpan));
+				$videos = $cbvideo->get_videos(array("limit"=>$limit,"cond"=>" AND".$user_cond,"order"=>" date_added DESC","date_span"=>$uploadsTimeSpan));					
+				if(!empty($photos) && !empty($videos))
+					$finalResult = array_merge($videos,$photos);
+				elseif(empty($photos) && !empty($videos))
+					$finalResult = array_merge($videos,array());
+				elseif(!empty($photos) && empty($videos))
+					$finalResult = array_merge($photos,array());
+				else
+					return false;	
+			}
+			break;
+			
+			case "photos": case "photo" : case "p":
+			{
+				$photos = $cbphoto->get_photos(array("limit"=>$limit,"extra_cond"=>$user_cond,"order"=>" date_added DESC","date_span"=>$uploadsTimeSpan));
+				if($photos)
+					$finalResult = $photos;
+				else
+					return false;		
+			}
+			break;
+			
+			case "videos": case "video": case "v":
+			{
+				$videos = $cbvideo->get_videos(array("limit"=>$limit,"cond"=>" AND".$user_cond,"order"=>" date_added DESC","date_span"=>$uploadsTimeSpan));
+				if($videos)
+					$finalResult = $videos;
+				else
+					return false;	
+			}
+			break;
+		}
+		return $finalResult;			
+	}
+}
 	
 	/**
 	 * Get subscred videos

@@ -378,6 +378,38 @@ var loading = loading_img+" Loading...";
 			$(div).html(data);
 		},'text');
 	}
+	
+	/**
+	 * functio used to get photos through ajax
+	 */
+	function getAjaxPhoto(type,div)
+	{
+		$(div).css("display","block");
+		var preservedHTML = $(div).html();
+		$.ajax({
+			url : page,
+			type : 'POST',
+			dataType : 'json',
+			data : ({ mode : 'loadAjaxPhotos', 'photosType' : type }),
+			beforeSend : function ()
+			{
+				$(div).html(loading);	
+			},
+			success : function (data)
+			{
+				if(data['failed'])
+				{
+					alert("No Photos Returned");
+					$(div).html(preservedHTML);
+				}
+					
+				if(data['completed'])
+				{	
+					$(div).html(data['photoBlocks']);
+				}
+			}
+		})
+	}
 
 
 	function rating_over(msg,disable)

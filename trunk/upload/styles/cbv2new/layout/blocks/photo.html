@@ -22,3 +22,14 @@
         {show_rating rating=$photo.rating total='10' class='rating moveL'}
     </div>
 {/if}
+
+{if $display_type == 'subscription'}
+	<div class="grid_view clearfix" style="width:auto; margin-right:4px;">
+    	<a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' class='photoThumbBox'}</a>
+        <div class="photoTitle" style="margin:5px 0px; font:bold 11px Arial;">
+        <a href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">{$photo.photo_title|truncate:15}</a></div> 
+        {show_rating rating=$photo.rating total='10' class='rating'}
+        <div style="font-size:10px; margin:2px;">{$photo.views|number_format} {lang code="views"}</div>
+        <a href="{$userquery->profile_link($photo)}" style="font:bold 10px Arial; text-decoration:none;">{$photo.username|truncate:20}</a>
+    </div>
+{/if}
