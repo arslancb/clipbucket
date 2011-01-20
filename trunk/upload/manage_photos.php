@@ -19,7 +19,7 @@ assign('p',$userquery->get_user_profile($udetails['userid']));
 $mode = $_GET['mode'];
 
 $page = mysql_clean($_GET['page']);
-$get_limit = create_query_limit($page,VLISTPP);
+$get_limit = create_query_limit($page,MAINPLIST);
 
 switch($mode)
 {
@@ -57,7 +57,7 @@ switch($mode)
 		//Collecting Data for Pagination
 		$photo_arr['count_only'] = true;
 		$total_rows  = get_photos($photo_arr);
-		$total_pages = count_pages($total_rows,VLISTPP);
+		$total_pages = count_pages($total_rows,MAINPLIST);
 		
 		//Pagination
 		$pages->paginate($total_pages,$page);
@@ -98,7 +98,7 @@ switch($mode)
 		
 		$photo_arr['count_only'] = true;
 		$total_rows  = $cbphoto->action->get_favorites($photo_arr);
-		$total_pages = count_pages($total_rows,VLISTPP);
+		$total_pages = count_pages($total_rows,MAINPLIST);
 		
 		//Pagination
 		$pages->paginate($total_pages,$page);
@@ -140,7 +140,7 @@ switch($mode)
 		
 		$photo_arr['count_only'] = true;
 		$total_rows  = get_photos($photo_arr);
-		$total_pages = count_pages($total_rows,VLISTPP);
+		$total_pages = count_pages($total_rows,MAINPLIST);
 		
 		//Pagination
 		$pages->paginate($total_pages,$page);

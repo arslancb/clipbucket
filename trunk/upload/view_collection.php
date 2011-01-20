@@ -16,7 +16,7 @@ $c = mysql_clean($_GET['cid']);
 $type = mysql_clean($_GET['type']);
 
 $page = mysql_clean($_GET['page']);
-$get_limit = create_query_limit($page,VLISTPP);
+$get_limit = create_query_limit($page,COLLIP);
 $order = tbl("collection_items").".ci_id DESC";
 
 if($cbcollection->is_viewable($c))
@@ -49,7 +49,7 @@ if($cbcollection->is_viewable($c))
 	
 	// Calling nesscary function for view collection
 	call_view_collection_functions($cdetails);
-	$total_pages = count_pages($count,VLISTPP);
+	$total_pages = count_pages($count,COLLIP);
 	
 	//Pagination
 	$pages->paginate($total_pages,$page);

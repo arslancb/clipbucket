@@ -178,6 +178,21 @@ if(isset($_POST['update'])){
 					'website_email',
 					'welcome_email',
 					
+					'photo_main_list',
+					'photo_home_tabs',
+					'photo_search_result',
+					'photo_channel_page',
+					'photo_user_photos',
+					'photo_user_favorites',
+					'photo_other_limit',
+					
+					'collection_per_page',
+					'collection_home_page',
+					'collection_search_result',
+					'collection_user_collections',
+					'collection_items_page',
+					'collection_user_favorites',
+					'collection_channel_page',
 					);
 	
 	foreach($opt_list as $optl)
@@ -220,6 +235,22 @@ if(isset($_POST['update'])){
 					'videos_list_per_page',
 					'videos_list_per_tab',
 					'video_categories',
+					
+					'photo_main_list',
+					'photo_home_tabs',
+					'photo_search_result',
+					'photo_channel_page',
+					'photo_user_photos',
+					'photo_user_favorites',
+					'photo_other_limit',
+					
+					'collection_per_page',
+					'collection_home_page',
+					'collection_search_result',
+					'collection_user_collections',
+					'collection_items_page',
+					'collection_user_favorites',
+					'collection_channel_page',					
 					);
 	foreach($rows as $field)
 	{

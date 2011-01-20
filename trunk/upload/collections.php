@@ -66,7 +66,7 @@ switch($content)
 
 //Getting Collection List
 $page = mysql_clean($_GET['page']);
-$get_limit = create_query_limit($page,VLISTPP);
+$get_limit = create_query_limit($page,COLLPP);
 $clist = $cond;
 $clist['limit'] = $get_limit;
 $collections = $cbcollection->get_collections($clist);
@@ -77,7 +77,7 @@ Assign('collections', $collections);
 $ccount = $cond;
 $ccount['count_only'] = true;
 $total_rows  = $cbcollection->get_collections($ccount);
-$total_pages = count_pages($total_rows,VLISTPP);
+$total_pages = count_pages($total_rows,COLLPP);
 
 //Pagination
 $pages->paginate($total_pages,$page);

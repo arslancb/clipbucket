@@ -233,7 +233,25 @@ if(phpversion() < '5.2.0')
 	define('GLISTPP',$row['groups_list_per_page']);				//Groups List Per page
 	define('SLISTPP',$row['search_list_per_page']);				//Search Results List Per page
 	define('RVLIST',$row['recently_viewed_limit']);				//Search Results List Per page
-	
+
+ //Defining Photo Limits
+	define('MAINPLIST',$row['photo_main_list']);
+	define('HOMEPLIST',$row['photo_home_tabs']);
+	define('SEARCHPLIST',$row['photo_search_result']);
+	define('CHANNELPLIST',$row['photo_channel_page']);
+	define('USERPLIST',$row['photo_user_photos']);
+	define('UFAVPLIST',$row['photo_user_favorites']);
+	define('OTHERPLIST',$row['photo_other_limit']);
+
+ //Defining Collection Limits
+	define('COLLPP',$row['collection_per_page']);
+	define('COLLHP',$row['collection_home_page']);
+	define('COLLIP',$row['collection_items_page']);
+	define('COLLSP',$row['collection_search_result']);
+	define('COLLCP',$row['collection_channel_page']);
+	define('COLLUCP',$row['collection_user_collections']);
+	define('COLLUFP',$row['collection_user_favorites']);
+		
  //Video Options	
  	define('VIDEO_COMMENT',$row['video_comments']);
 	define('VIDEO_RATING',$row['video_rating']);

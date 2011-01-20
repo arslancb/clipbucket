@@ -20,3 +20,21 @@ INSERT into cb_config (name,value) VALUES
 ('normal_resolution', '480'),
 ('high_resolution', '720'),
 ('max_video_duration','320');
+
+-- 471
+INSERT into cb_config (name,value) VALUES
+('photo_main_list','20'),
+('photo_home_tabs','10'),
+('photo_search_result','20'),
+('photo_channel_page','10'),
+('photo_user_photos','20'),
+('photo_user_favorites','20'),
+('photo_other_limit','8'),
+('collection_per_page','20'),
+('collection_home_page','10'),
+('collection_search_result','20'),
+('collection_channel_page','10'),
+('collection_user_collections','20'),
+('collection_user_favorites','20'),
+('collection_items_page','20');
+-- 471

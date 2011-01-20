@@ -177,16 +177,16 @@ class CBPhotos
 		$this->search->display_template = LAYOUT.'/blocks/photo.html';
 		$this->search->template_var = 'photo';
 		$this->search->has_user_id = true;
-		$this->search->results_per_page = config('videos_items_search_page');
+		$this->search->results_per_page = config('photo_search_result');
 		$this->search->search_type['photos'] = array('title'=>lang('photos'));
 		$this->search->add_cond(tbl('photos.collection_id')." <> 0");
 		
 		$sorting	= 	array(
 						'date_added'=> lang("date_added"),
 						'views'		=> lang("views"),
-						'comments'  => lang("comments"),
+						'total_comments'  => lang("comments"),
 						'rating' 	=> lang("rating"),
-						'favorites'	=> lang("favorites")
+						'total_favorites'	=> lang("favorites")
 						);
 						
 		$this->search->sorting	= array(
@@ -194,12 +194,12 @@ class CBPhotos
 						'views'		=> " views DESC",
 						'rating' 	=> " rating DESC, rated_by DESC",
 						'total_comments'  => " total_comments DESC ",
-						'total_objects' 	=> " total_objects DESC"
+						'total_favorites' 	=> " total_favorites DESC"
 						);
 						
 		$array = $_GET;
 		$uploaded = $array['datemargin'];
-		$sort = $array['sorting'];
+		$sort = $array['sort'];
 		
 		$forms = array(
 			'query' => array(

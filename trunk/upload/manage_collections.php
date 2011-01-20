@@ -21,7 +21,7 @@ $cid = mysql_clean($_GET['cid']);
 
 assign("mode",$mode);
 $page = mysql_clean($_GET['page']);
-$get_limit = create_query_limit($page,VLISTPP);
+$get_limit = create_query_limit($page,COLLPP);
 
 switch($mode)
 {
@@ -50,7 +50,7 @@ switch($mode)
 		
 		$collectArray['count_only'] = TRUE;
 		$total_rows = $cbcollection->get_collections($collectArray);
-		$total_pages = count_pages($total_rows,VLISTPP);
+		$total_pages = count_pages($total_rows,COLLPP);
 		
 		//Pagination
 		$pages->paginate($total_pages,$page);
@@ -178,7 +178,7 @@ switch($mode)
 		
 		$col_arr['count_only'] = TRUE;
 		$total_rows  = $cbcollection->action->get_favorites($col_arr);
-		$total_pages = count_pages($total_rows,VLISTPP);
+		$total_pages = count_pages($total_rows,COLLPP);
 		
 		//Pagination
 		$pages->paginate($total_pages,$page);

@@ -127,7 +127,7 @@ class cbsearch
 				$this->add_cond($ma_query);
 				//add order
 				$add_select_field = ",".$ma_query." AS Resource";
-				$sorting = "Resource ASC";
+				//$sorting = "Resource ASC";
 			}else
 			{
 				//do nothing

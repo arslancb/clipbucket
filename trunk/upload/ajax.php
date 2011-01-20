@@ -847,7 +847,7 @@ if(!empty($mode))
 			$page = $_POST['page'];				
 			$newPage = $page+1;
 			$type = $_POST['type'];
-			$limit = create_query_limit($page,VLISTPP);
+			$limit = create_query_limit($page,COLLIP);
 			$order = tbl("collection_items").".ci_id DESC";
 			
 			switch($type)
@@ -955,7 +955,7 @@ if(!empty($mode))
 		case "loadAjaxPhotos":
 		{
 			$photosType = $_POST['photosType'];
-			$cond = array("limit"=>config("videos_items_hme_page"));
+			$cond = array("limit"=>config("photo_home_tabs"));
 			switch($photosType)
 			{
 				case "last_viewed":
