@@ -361,8 +361,8 @@ if(phpversion() < '5.2.0')
 	//Enable youtube videos
 	define("YOUTUBE_ENABLED",$row['youtube_enabled']);
 	
-	define("EMBED_VDO_WIDTH","480");
-	define("EMBED_VDO_HEIGHT","385");
+	define("EMBED_VDO_WIDTH",$row['embed_player_width']);
+	define("EMBED_VDO_HEIGHT",$row['embed_player_height']);
 	
 	include 'plugin.functions.php';
 	include 'plugins_functions.php';

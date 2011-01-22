@@ -68,6 +68,27 @@
       No</label></td>
 </tr>
 <tr>
+  <td valign="top"><strong>Embed Player Width</strong><br />
+    Enter embedable player width in pixels</td>
+  <td valign="top"><label for="embed_player_width"></label>
+    <input name="embed_player_width" type="text" id="embed_player_width" value="{$row.embed_player_width}" /></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Embed Player Height</strong><br />
+    Enter embedable player width in pixels</td>
+  <td valign="top"><label for="embed_player_width"></label>
+    <input name="embed_player_height" type="text" id="textfield" value="{$row.embed_player_height}" /></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Autoplay Embed</strong><br />
+    Autoplay embeded video by default</td>
+  <td valign="top"> <label>
+      <input type="radio" name="autoplay_embed" value="yes" id="autoplay_embed0" {if $row.autoplay_embed=='yes'} checked="checked"{/if}  />
+      Yes</label>
+    <label><input type="radio" name="autoplay_embed" value="no" id="autoplay_embed1" {if $row.autoplay_embed=='no'} checked="checked"{/if}  />
+      No</label></td>
+</tr>
+<tr>
   <td valign="top">&nbsp;</td>
   <td valign="top">&nbsp;</td>
 </tr>

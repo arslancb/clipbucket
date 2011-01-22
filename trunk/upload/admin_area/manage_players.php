@@ -25,7 +25,8 @@ if(isset($_POST['update'])){
 					'logo_placement',
 					'use_playlist',
 					'youtube_enabled',
-					
+					'embed_player_height',
+					'embed_player_width','autoplay_embed'
 					);
 	
 	//Checking for logo
