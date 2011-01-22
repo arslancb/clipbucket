@@ -1,3 +1,7 @@
+<!-- Getting Related videos -->
+{assign var=videos_items_columns value=func->config(videos_items_columns)}
+{get_videos nonuser=$vdo.userid exclude=$vdo.videoid limit=$videos_items_columns order="date_added ASC" assign=related_vids show_related=yes title=$vdo.title tags=$vdo.tags}
+
 <div class="vid_top_container">
     <div class="video_title">{$vdo.title}</div>
     {if $userquery->perm_check('admin_access')=='yes'}<div>{ANCHOR place=watch_admin_options data=$vdo}</div>{/if}
@@ -167,9 +171,6 @@
 {/if}
 <!-- Getting List user videos -->
 
-<!-- Getting Related videos -->
-{assign var=videos_items_columns value=func->config(videos_items_columns)}
-{get_videos nonuser=$vdo.userid exclude=$vdo.videoid limit=$videos_items_columns order="date_added ASC" assign=related_vids show_related=yes title=$vdo.title tags=$vdo.tags}
 <!-- Related Videos based on category, please remove * and also above smarty function -->
 {* get_videos category=$vid_cat nonuser=$vdo.userid exclude=$vdo.videoid limit=$videos_items_columns order="date_added ASC" assign=related_vids show_related=yes title=$vdo.title*}
 

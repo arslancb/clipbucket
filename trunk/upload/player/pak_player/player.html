@@ -1,36 +1,9 @@
-
-{if !$player_data.autoplay}
-<div id="the_Video_Player"
-	href="{$normal_vid_file}"
-	style="background: #000 url({getThumb vdetails=$vdata num=big}) no-repeat center;
-    display:block;width:{$player_data.width};height:{$player_data.height};
-    text-align:center;
-    cursor:pointer;">	
-
-	<div style="width:98%; height:100%; margin:auto; position:relative">
-    <img src="{$pak_player_url}/play.png" alt="{$vdata.title}" style="left:50%; top:50%; position:absolute; margin:-70px 0px 0px -41px"/>
-	<!-- info -->
-	<div 
-    style="
-     height:80px; width:100%; bottom:5px; text-align:left;
-    border:1px solid #fff; position:absolute; background-color:rgba(0,0,0,0.5);
-	color:#fff;
-    ">
-    <div style="padding:10px">
-		<span style="font-size:18px; font-weight:bold; text-align:left">{$vdata.title}</span><br />
-
-		<span>{$vdata.description|truncate:200}</span></div>
-	</div>
-	 </div>
-</div>
-{else}
 <a
 	href="{$normal_vid_file}"
-	style="display:block;width:{$player_data.width};height:{$player_data.height};"
+	style="display:block;width:{$player_data.width}; height:{$player_data.height}"
 	id="the_Video_Player">
 </a>
 
-{/if}
 
 <script language="JavaScript">
 var pakplayer_path = '{$pak_player_url}';
@@ -40,6 +13,7 @@ var normal_video_file = '{$normal_vid_file}';
 var ytcode = '{$ytcode}';
 var pre_item = "";
 var next_item = "";
+var splash_img = '{getThumb vdetails=$vdata num='big'}';
 
 {literal}
 //Now lets write an HQ video function that swaps the original video with hq
@@ -79,9 +53,9 @@ has_hq_function = true;
 hq_function = pakplayer_hq;
 
 {/literal}
-
+var bufferingStopped = false;
 var menu = new Array("menu","embed/share","settings/playlist","comments","donate"); 
-flowplayer("the_Video_Player", "{$pak_player_url}/pak_player{if $Cbucket->configs.pak_license}.unlimited{/if}.swf", 
+flowplayer("the_Video_Player", "{$pak_player_url}/pakplayer{if $Cbucket->configs.pak_license}.unlimited{/if}.swf", 
 	{literal}{{/literal}
 	{if $Cbucket->configs.pak_license}
 	key : '{$Cbucket->configs.pak_license}',	
@@ -97,7 +71,7 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pak_player{if $Cbucket->config
 				{/foreach}
 			{else}
 			background: "url("+pakplayer_path+"/bg.png) repeat",
-			url: "pak_player.controls.swf",
+			url: "pakplayer.controls.swf",
 			{/if}
 			{literal}
 		},
@@ -107,7 +81,7 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pak_player{if $Cbucket->config
 		youtube :
 		{literal}
 		{
-			url:pakplayer_path+'/pak_player.youtube.swf',
+			url:pakplayer_path+'/pakplayer.youtube.swf',
 			enableGdata: true,
 		}
 		{/literal}
@@ -120,10 +94,13 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pak_player{if $Cbucket->config
     backgroundColor: "#000000"
   }
 ,
-	clip:{
+
+	clip:
+	{
 		{/literal}
-		autoPlay :true,
+		autoPlay :false,
 		
+		title : "some title goes herer",
 		{if $youtube}
 		url : 'api:{$ytcode}',
 		provider : 'youtube',
@@ -143,9 +120,7 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pak_player{if $Cbucket->config
 				window.location = next_item;
 			}
 		},
-		
 	},
-
 	
 	logo:
 	{
@@ -154,8 +129,12 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pak_player{if $Cbucket->config
 		{/literal}
 		{$logo_position},
 		{literal}
+		
 	},
+	
 
 	
-}{/literal});
+});
+
+{/literal}
 </script>

@@ -1,0 +1,22 @@
+<script type="text/javascript" src="{$js}/jquery_plugs/farbtastic/farbtastic.js"></script>
+ <link rel="stylesheet" href="{$js}/jquery_plugs/farbtastic/farbtastic.css" type="text/css" />
+ <script type="text/javascript" charset="utf-8">
+  $(document).ready(function() {literal}{
+    var f = $.farbtastic('#picker');
+    var p = $('#picker');
+	var s = $('#something').hide();
+    var selected;
+    $('.colorPicker')
+      .each(function () { f.linkTo(this); $(this).css('opacity',1); })
+      .focus(function() {
+		$(this).parent().append(s.show());
+		f.setColor($(this).val());
+        if (selected) {
+          $(selected).css('opacity',1).removeClass('colorwell-selected');
+        }
+        f.linkTo(this);
+        p.css('opacity', 1);
+        $(selected = this).css('opacity', 1).addClass('colorwell-selected');
+      }).bind('focusout',function(){ s.hide()});
+  {/literal}});
+ </script>
