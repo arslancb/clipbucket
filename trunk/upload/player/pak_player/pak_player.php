@@ -118,6 +118,8 @@ if(!function_exists("pak_player"))
 			assign('normal_vid_file',$vid_file);
 			assign("hq_vid_file",$hd_file);			
 			assign('vdata',$vdetails);
+			assign('pakplayer','yes');
+			assign('updateEmbedCode','updateEmbedCode');
 			Template(PAK_PLAYER_DIR.'/player.html',false);
 			
 			return true;
@@ -132,8 +134,16 @@ if(!function_exists("pak_player"))
 	 * @return src link
 	 */
 	function pakplayer_embed_src($vdetails)
-	{
-		return ' ';
+	{	
+		if($vdetails['embed_code'])
+		{
+			if(function_exists('is_ref_youtube'))
+			$ytcom = is_ref_youtube($ref);
+			if($ytcom)
+				return true;
+			return false;
+		}else
+			return true;
 	}
 	register_embed_function('pakplayer_embed_src');
 	register_actions_play_video('pak_player');

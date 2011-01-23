@@ -3,7 +3,7 @@
 	style="display:block;width:{$player_data.width}; height:{$player_data.height}"
 	id="the_Video_Player">
     {if !$player_data.autoplay}
-    <div align="center" style="background-color:#222; height:100%; vertical-align:middle; position:relative">
+    <div align="center" style="background-color:#000; height:100%; vertical-align:middle; position:relative">
     	<img src="{getThumb vdetails=$vdata num=big}" style=" height:100%" />
         <img src="{$pak_player_url}/play.png" style="position:absolute; top:50%; left:50%; margin:-42px 0px 0px -42px; z-index:100"/>
 	</div>
@@ -140,16 +140,31 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pakplayer{if $Cbucket->configs
 	
 });
 
-$(document).ready(function(){ flowplayer('the_Video_Player').embed({autoPlay:true}); var embedCode = flowplayer('the_Video_Player').getEmbedCode();
-
-$('#embed_code').val(htmlDecode(embedCode)); 
-$('#embed_code').val( $('#embed_code').val().replace(/\"autoPlay\":false/g,'"autoPlay":true') );
-
-});
 
 function htmlDecode(value){ 
   return $('<div/>').html(value).text(); 
 }
+
+function updateEmbedCode(width,height,autoplay)
+{ 
+	if(autoplay=='yes')
+		autoPlayVid = 'true';
+	else
+		autoPlayVid = 'false';
+	
+	embedPlayerWidth = width;
+	embedPlayerHeight = height;
+	autoPlayEmbed = autoplay;
+		
+	$f('the_Video_Player').embed({width:width,height:height}); 
+	var embedCode = flowplayer('the_Video_Player').getEmbedCode();
+	$('#embed_code').val(htmlDecode(embedCode)); 
+	$('#embed_code').val( $('#embed_code').val().replace(/\"autoPlay\":(true|false)/g,'"autoPlay":'+autoPlayVid) );
+}
+
+$(document).ready(function(){ 
+updateEmbedCode(embedPlayerWidth,embedPlayerHeight,autoPlayEmbed);
+});
 
 {/literal}
 </script>

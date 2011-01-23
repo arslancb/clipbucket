@@ -1,3 +1,19 @@
+<script type="text/javascript">
+var embedPlayerWidth = '{$Cbucket->configs.embed_player_width}';
+var embedPlayerHeight = '{$Cbucket->configs.embed_player_height}';
+var autoPlayEmbed = '{$Cbucket->configs.autoplay_embed}';
+
+{literal}
+function updateEmbed(width,height,autoplay)
+{
+	$('#embed_code').val( $('#embed_code').val().replace(/width=\"([0-9]+)\"/g,'width="'+width+'"') );
+	$('#embed_code').val( $('#embed_code').val().replace(/width\:([0-9]+)px/g,'width:'+width+'px') );
+	$('#embed_code').val( $('#embed_code').val().replace(/height=\"([0-9]+)\"/g,'height="'+height+'"') );
+	$('#embed_code').val( $('#embed_code').val().replace(/height\:([0-9]+)px/g,'height:'+height+'px') );
+}
+{/literal}
+</script>
+
 {if $smarty.const.THIS_PAGE == 'upload'}
 
 <link href="{$js}/uploadify/uploadify.css" type="text/css" rel="stylesheet" />

@@ -571,6 +571,8 @@ $Smarty->register_modifier('getWidth','getWidth');
 $Smarty->register_modifier('getHeight','getHeight');
 $Smarty->register_modifier('get_collection_name','get_collection_name');
 
+
+assign('updateEmbedCode','updateEmbed');
 /*
  * Registering Video Remove Functions
  */
