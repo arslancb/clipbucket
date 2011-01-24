@@ -41,7 +41,7 @@
     <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#video_action_result_cont');add_to_fav('video','{$vdo.videoid}');"><img src="{$imageurl}/dot.gif" class="add_to_fav" />{lang code='add_to_favs'}</a></li>
       
       <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#share_form');$('#share_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="share_this" />{lang code='share_embed'}</a></li>
-      <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#playlist_form,#collection_form');$('#playlist_form,#collection_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="add_to_play" />{lang code='add_to_playlist'}</a></li>
+      <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#playlist_form');$('#playlist_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="add_to_play" />{lang code='add_to_playlist'}</a></li>
       
       <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#flag_item');$('#flag_item').slideToggle();"><img src="{$imageurl}/dot.gif" class="report_this" />{lang code='report_this'}</a></li>
     </ul>
@@ -57,7 +57,7 @@
     {show_flag_form id=$vdo.videoid type=Video}
     <div class="action_box" style="display:none" id="video_action_result_cont"></div>
     {show_playlist_form id=$vdo.videoid type=Video}
-    {show_collection_form id=$vdo.videoid type=Video}
+
 </div>
 <!-- Action Result Container End-->
 
@@ -134,22 +134,44 @@
 	<div class="ads">{AD place=ad_300x250}</div>    
     
     
-    {if $Cbucket->configs.video_download==1 && $cbvid->downloadable($vdo)}<div class="video_details videosharing" align="left">
-      <strong>
-      
-      
-      
-      
-      	<label><a href="{videoLink vdetails=$vdo type=download}">{lang code='click_to_download_video'}</a></label>
+    {if $Cbucket->configs.video_download==1 && $cbvid->downloadable($vdo)}<div class="video_details" align="left">
+     <label><a href="{videoLink vdetails=$vdo type=download}">{lang code='click_to_download_video'}</a></label>
      
-</strong></div> {/if}
+</div> {/if}
 	
     {ANCHOR place="watch_video_right" data=$vdo}
 
 
+<!-- Collections -->
+{if userid()}
+<span class="watch_vids_head watch_vids_head_closed" 
+onclick='$(this).toggleClass("watch_vids_head_closed");$("#vid_collections").slideToggle("fast")'>Collections</span>
+<div class="watch_vids_cont" id="vid_collections" style="display:none">
+
+{assign var=collections value=$cbvid->collection->getCollectionFromItem($vdo.videoid)}
+
+{if $collections}
+This video is found in following collections
+{foreach from=$collections item=collection name=collect}
+	<div class="watch_collect_item">
+    	{$smarty.foreach.collect.iteration}. <a href="#">{$collection.collection_name}</a>
+    </div>
+{/foreach}
+{/if}
+
+<div class="clearfix"></div>
+
+    {show_collection_form id=$vdo.videoid type=Video}
+
+
+</div>
+{/if}
+<!-- Collections -->
+
 <!-- Playlist -->
 {include file="$style_dir/blocks/watch_video/playlist_box.html" selected=$vdo.videoid }
 <!-- Playlist End-->
+
 
 
 <!-- Getting List user videos -->

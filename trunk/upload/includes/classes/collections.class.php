@@ -1504,6 +1504,34 @@ class Collections extends CBCategory
 		}
 	}
 	
+	/**
+	 * Function used to get collection from its Item ID and type
+	 * only get collections of logged in user
+	 * @param : OBJ_ID
+	 * @param : OBJ_Type
+	 * @return : Object
+	 */
+	function getCollectionFromItem($objId,$type=NULL)
+	{
+		global $db;
+		if(!$type)
+			$type = $this->objType;
+		$userid=userid();
+		$results = $db->select(tbl('collections,collection_items'),'*',
+		tbl("collections.collection_id")." = ".tbl("collection_items.collection_id")." AND "
+		.tbl("collection_items.type='".$type."'")." AND ".tbl("collections.userid='".$userid."'")." AND "
+		.tbl("collections.active='yes'")." AND ".tbl("collection_items.object_id='".$objId."'"));
+		
+		
+		if($db->num_rows>0)
+			$assign = $results;
+		else
+			$assign = false;
+			
+		return $assign;	
+		
+	}
+	
 }
 
 ?>

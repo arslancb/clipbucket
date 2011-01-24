@@ -3087,6 +3087,7 @@
 		{		
 			$collectArray = array("order"=>" collection_name ASC","type"=>"videos","user"=>userid());		
 			$collections = $cbcollection->get_collections($collectArray);
+			
 			assign("collections",$collections);
 		}
 		Template("/blocks/collection_form.html");	

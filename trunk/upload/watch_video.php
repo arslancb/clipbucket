@@ -58,7 +58,7 @@ if(video_playable($vkey))
 	assign('user',$userquery->get_user_details($vdo['userid']));
 	assign('uc',$u_collects);
 	subtitle($vdo['title']);
-
+	
 }else
 	$Cbucket->show_page = false;
 

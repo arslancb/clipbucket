@@ -470,6 +470,9 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .video_actions_cont .actions a:hover{text-decoration:underline}
 .video_actions_cont .actions a img{margin-right:5px; float:left; border:none; }
 
+.watch_collect_item{margin:5px; margin-top:0px; border-bottom:1px solid #CCC; padding-bottom:5px}
+.watch_collect_item a{font-size:12px; font-weight:bold; text-decoration:none}
+
 .playlist_item,.add_comment_box .input,.add_comment_box,.comment,.video_details,.form_container .form_result,.action_box{border-radius:10px;-moz-border-radius:10px;-khtml-border-radius:10px;-webkit-border-radius:10px; background-color:#F0F0F0; padding:10px}
 .action_box{margin-top:10px}
 .action_box .action_box_title{color:#333; font-size:16px;font-weight:bold; text-transform:uppercase; font-family:arial; border-bottom:1px solid #CCC}

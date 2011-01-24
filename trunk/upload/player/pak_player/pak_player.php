@@ -75,7 +75,7 @@ if(!function_exists("pak_player"))
 			if(!strstr($in['height'],"\%"))
 				$in['height'] = $in['height'].'px';
 		
-			if($in['autoplay'] =='yes' || $in['autoplay']===true)
+			if($in['autoplay'] =='yes' || $in['autoplay']===true || ($_COOKIE['auto_play_playlist'] && $_GET['playlist']))
 			{
 				$in['autoplay'] = true;
 			}else{

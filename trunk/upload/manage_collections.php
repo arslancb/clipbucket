@@ -46,6 +46,7 @@ switch($mode)
 		}
 		$collectArray = array('user'=>userid(),"limit"=>$get_limit);
 		$usr_collections = $cbcollection->get_collections($collectArray);
+		
 		assign('usr_collects',$usr_collections);
 		
 		$collectArray['count_only'] = TRUE;
