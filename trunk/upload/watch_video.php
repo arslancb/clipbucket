@@ -51,12 +51,8 @@ if(video_playable($vkey))
 	{
 		$cbvideo->action->add_to_fav($vdo['videoid']);
 	}
-	$p = array("user"=>userid(),"type"=>"videos");
-	$u_collects = $cbcollection->get_collections($p);
 	
 	assign('vdo',$vdo);
-	assign('user',$userquery->get_user_details($vdo['userid']));
-	assign('uc',$u_collects);
 	subtitle($vdo['title']);
 	
 }else
