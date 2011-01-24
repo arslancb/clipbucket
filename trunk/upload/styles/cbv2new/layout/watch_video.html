@@ -40,8 +40,8 @@
     <ul>
     <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#video_action_result_cont');add_to_fav('video','{$vdo.videoid}');"><img src="{$imageurl}/dot.gif" class="add_to_fav" />{lang code='add_to_favs'}</a></li>
       
-      <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#share_form');$('#share_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="share_this" />{lang code='share_this'}</a></li>
-      <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#playlist_form');$('#playlist_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="add_to_play" />{lang code='add_to_playlist'}</a></li>
+      <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#share_form');$('#share_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="share_this" />{lang code='share_embed'}</a></li>
+      <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#playlist_form,#collection_form');$('#playlist_form,#collection_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="add_to_play" />{lang code='add_to_playlist'}</a></li>
       
       <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#flag_item');$('#flag_item').slideToggle();"><img src="{$imageurl}/dot.gif" class="report_this" />{lang code='report_this'}</a></li>
     </ul>
@@ -134,15 +134,15 @@
 	<div class="ads">{AD place=ad_300x250}</div>    
     
     
-    <div class="video_details videosharing" align="left">
+    {if $Cbucket->configs.video_download==1 && $cbvid->downloadable($vdo)}<div class="video_details videosharing" align="left">
       <strong>
       
       
       
-      {if $Cbucket->configs.video_download==1 && $cbvid->downloadable($vdo)}
+      
       	<label><a href="{videoLink vdetails=$vdo type=download}">{lang code='click_to_download_video'}</a></label>
-      {/if}
-</strong>{ANCHOR place="video_sharing_options" data=$vdo}</div>
+     
+</strong></div> {/if}
 	
     {ANCHOR place="watch_video_right" data=$vdo}
 

@@ -458,7 +458,7 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .report_this{background-image:url(../images/icons/report_small.png);}
 .share_this{background-image:url(../images/icons/share_small.png);}
 .add_to_play{background-image:url(../images/icons/playlist_small.png); }
-.photo_embed_code { background-image:url(../images/icons/heart_small.png);}
+.photo_embed_code { background-image:url(../images/icons/embed_small.png);}
 
 .video_actions_cont .rating_container{ float:left}
 
@@ -467,7 +467,7 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .video_actions_cont .actions ul, .video_actions_cont .actions ul li{margin:0px; padding:0px;}
 .video_actions_cont .actions li{ display:block;list-style:none; height:20px; line-height:20px; display:block; float:left;}
 .video_actions_cont .actions a{color:#333; font-weight:bold; font-size:14px; display:block; margin-right:18px; text-decoration:none}
-
+.video_actions_cont .actions a:hover{text-decoration:underline}
 .video_actions_cont .actions a img{margin-right:5px; float:left; border:none; }
 
 .playlist_item,.add_comment_box .input,.add_comment_box,.comment,.video_details,.form_container .form_result,.action_box{border-radius:10px;-moz-border-radius:10px;-khtml-border-radius:10px;-webkit-border-radius:10px; background-color:#F0F0F0; padding:10px}
