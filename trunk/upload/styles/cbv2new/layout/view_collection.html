@@ -1,4 +1,7 @@
-<div style="width:880px; margin:0px auto">
+<!-- Defining object type-->
+{lang code='collection' assign='object_type'}
+
+<div style="width:990px; margin:0px auto">
 {uploadButton details=$c output='link' target="_blank" class='moveR small_button non_button'}
 	<div class="video_title" style="padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;">{$c.collection_name} </div>
     
@@ -76,7 +79,7 @@
         
     <div style="height:15px; clear:both;"></div>
     <div class="moveL" style="width:60%">
-    <div class="video_title" style="font-size:14px; padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;">{lang code="comments"} ({$c.total_comments})</div>  
+    <div class="" style="font-size:12px; padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;"><h2 class="commentHead">{lang code="comments"} ({$c.total_comments})</h2></div>  
         <div id="collectionComments">
         	{include file="$style_dir/blocks/comments/comments.html" id=$c.collection_id type='cl'}
         </div>

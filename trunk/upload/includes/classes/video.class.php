@@ -353,6 +353,12 @@ class CBvideo extends CBCategory
 				$db->execute("DELETE FROM ".tbl("playlist_items")." WHERE object_id='$vid' AND playlist_item_type='v'");
 				
 				$db->update(tbl("users"),array("total_videos"),array("|f|total_videos-1")," userid='".$vdetails['userid']."'");
+				
+				//Removing video Comments
+				$db->delete(tbl("comments"),array("type","type_id"),array("v",$vdetails['videoid']));
+				//Removing video From Favortes
+				$db->delete(tbl("favorites"),array("type","id"),array("v",$vdetails['videoid']));
+				
 				e(lang("class_vdo_del_msg"),'m');
 			}else{
 				e(lang("You cannot delete this video"));

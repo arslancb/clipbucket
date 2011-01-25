@@ -1,3 +1,6 @@
+<!-- Defining object type-->
+{lang code='video' assign='object_type'}
+
 <!-- Getting Related videos -->
 {assign var=videos_items_columns value=func->config(videos_items_columns)}
 {get_videos nonuser=$vdo.userid exclude=$vdo.videoid limit=$videos_items_columns order="date_added ASC" assign=related_vids show_related=yes title=$vdo.title tags=$vdo.tags}
@@ -112,7 +115,8 @@
 
 <!-- Video Comments -->
 <div id="commentsContainer">
-	<h2>{lang code='comments'}</h2>
+	<h2 class="commentHead">{lang code='comments'}</h2>
+    
     <!-- Displaying Comments -->
     {include file="$style_dir/blocks/comments/comments.html" id=$vdo.videoid type=v}
     
@@ -154,7 +158,7 @@ onclick='$(this).toggleClass("watch_vids_head_closed");$("#vid_collections").sli
 This video is found in following collections
 {foreach from=$collections item=collection name=collect}
 	<div class="watch_collect_item">
-    	{$smarty.foreach.collect.iteration}. <a href="#">{$collection.collection_name}</a>
+    	{$smarty.foreach.collect.iteration}. <a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name}</a>
     </div>
 {/foreach}
 {/if}

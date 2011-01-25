@@ -1,3 +1,4 @@
+
 <?php
 /**
 ###################################################################
@@ -2949,8 +2950,8 @@
 					$func($cdetails);
 				}
 			}
-		}
-		
+		};
+
 		increment_views($cdetails['collection_id'],"collection");
 	}
 

@@ -814,15 +814,19 @@ class Collections extends CBCategory
 			// user
 			$query_field[] = "userid";
 			if($array['userid'])
-				$query_val[] = $array['userid'];
+				$query_val[] = $userid = $array['userid'];
 			else
-				$query_val[] = userid();
+				$query_val[] =  $userid = userid();
 				
 			// active
 			$query_field[] = "active";
 			$query_val[] = "yes";
 
-			$insert_id = $db->insert(tbl($this->section_tbl),$query_field,$query_val);			
+			$insert_id = $db->insert(tbl($this->section_tbl),$query_field,$query_val);
+			
+			//Incrementing usr collection
+			$db->update(tbl("users"),array("total_collections"),array("|f|total_collections+1")," userid='".$userid."'");
+			
 			e(lang("collect_added_msg"),"m");
 			return $insert_id;	
 		}
@@ -957,6 +961,13 @@ class Collections extends CBCategory
 			$db->delete(tbl($this->items),array("collection_id"),array($cid));
 			$this->delete_thumbs($cid);
 			$db->delete(tbl($this->section_tbl),array("collection_id"),array($cid));
+						
+			//Decrementing users total collection
+			$db->update(tbl("users"),array("total_collections"),array("|f|total_collections-1")," userid='".$cid."'");
+			//Removing video Comments
+			$db->delete(tbl("comments"),array("type","type_id"),array("cl",$cid));
+			//Removing video From Favortes
+			$db->delete(tbl("favorites"),array("type","id"),array("cl",$cid));
 			$eh->flush();
 			e(lang("collection_deleted"),"m");	
 		}
@@ -975,7 +986,7 @@ class Collections extends CBCategory
 			e(lang("cant_perform_action_collect"));
 		else {
 			$db->delete(tbl($this->items),array("collection_id"),array($cid));
-			$db->update(tbl($this->section_tbl),array("total_objects"),array($this->count_items($cid))," collection_id = $cid");
+			$db->update(tbl($this->section_tbl),array("total_objects"),array($this->count_items($cid))," collection_id = $cid");			
 			e(lang("collect_items_deleted"),"m");	
 		}
 	}

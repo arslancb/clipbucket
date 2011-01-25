@@ -1,6 +1,8 @@
 <div class="add_comment_box" id="add_comment">
-<h2>{lang code='grp_add_comment'}</h2>
-<div id="add_comment_result" class="action_box" style="display:none"></div>
+<h2 style="margin:0px">{lang code='grp_add_comment'}</h2>
+
+
+<div id="add_comment_result" class="" style="display:none"></div>
 {if $userquery->login_check('',true) || $Cbucket->configs.anonym_comments == 'yes'}
 <form name="comment_form" method="post" action="" id="comment_form">
 	<input type="hidden" name="reply_to" id="reply_to" value="0">
@@ -15,7 +17,7 @@
     {else}
     Name : {$userquery->username}<br>
     {/if}
-    <br>
+  
     
     {if config('comments_captcha')=='all' || ( config('comments_captcha')=='guests' && !$userquery->login_check('',true) )}
     {assign var=captcha value=func->get_captcha()}
@@ -35,10 +37,9 @@
             
             
     {ANCHOR place='before_compose_box'}
-    <textarea name="comment" id="comment_box" cols="45" rows="5"  class="input" ></textarea>
+    <textarea name="comment" id="comment_box" cols="45" rows="5"  class="input" style="width:97%" ></textarea>
     <input type="hidden" name="type" value="{$type}" />
-    <br>
-    <div style="margin-top:5px"><input type="button" name="add_comment" id="add_comment_button" value="{lang code='user_add_comment'}" class="cb_button" onclick="add_comment_js('comment_form','{$type}')"></div>
+    <div style="margin-top:2px" ><input type="button" name="add_comment" id="add_comment_button" value="{lang code='user_add_comment'}" class="cb_button" onclick="add_comment_js('comment_form','{$type}')"></div>
 </form>
 {else}
 	{lang code='please_login_to_comment'}

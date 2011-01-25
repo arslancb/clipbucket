@@ -48,7 +48,7 @@ if($cbcollection->is_viewable($c))
 	}
 	
 	// Calling nesscary function for view collection
-	call_view_collection_functions($cdetails);
+	call_view_collection_functions($cdetails[0]);
 	$total_pages = count_pages($count,COLLIP);
 	
 	//Pagination

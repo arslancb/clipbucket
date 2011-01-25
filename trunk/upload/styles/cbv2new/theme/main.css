@@ -474,7 +474,7 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .watch_collect_item a{font-size:12px; font-weight:bold; text-decoration:none}
 
 .playlist_item,.add_comment_box .input,.add_comment_box,.comment,.video_details,.form_container .form_result,.action_box{border-radius:10px;-moz-border-radius:10px;-khtml-border-radius:10px;-webkit-border-radius:10px; background-color:#F0F0F0; padding:10px}
-.action_box{margin-top:10px}
+.action_box{ margin:5px 0px;}
 .action_box .action_box_title{color:#333; font-size:16px;font-weight:bold; text-transform:uppercase; font-family:arial; border-bottom:1px solid #CCC}
 .form_container{border-top:1px solid #fff; padding-top:10px; font-size:11px}
 .form_container .form_left{width:100%}
@@ -528,6 +528,9 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .comment .thumb_down:hover{background-position:-21px -16px}
 .topic_comments .comment .comm_other{float:right; width:93%; }
 .topic_comments .comment .comment_cont{ width:auto; max-width:835px; }
+
+.no_comments{ display:block; padding:5px; font-size:13px; font-weight:bold; margin:5px; border:1px solid #8F8059; background-color:#FFF6DF }
+h2.commentHead{ padding-left:30px; background-image:url(../images/icons/comments_small.png); background-repeat:no-repeat; margin-bottom:0px; padding-bottom:5px}
 
 .comment .thumb_up{background:url(../images/up_down.png) ; width:19px; height:16px; display:inline-block; text-indent:-50000px; margin-right:0px; cursor:pointer;background-position:-0px 1px}
 .comment .thumb_up:hover{background-position:-0px -16px}

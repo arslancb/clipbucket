@@ -624,6 +624,7 @@ class CBPhotos
 	 */
 	function delete_photo($id,$oprhan=FALSE)
 	{
+		global $db;
 		if($this->photo_exists($id))
 		{
 			$photo = $this->get_photo($id);
@@ -636,6 +637,16 @@ class CBPhotos
 			
 			//finally removing from Database
 			$this->delete_from_db($photo);	
+			
+			//Decrementing User Photos
+			$db->update(tbl("users"),array("total_photos"),array("|f|total_photos-1")," userid='".$photo['userid']."'");
+			
+			//Removing Photo Comments
+			$db->delete(tbl("comments"),array("type","type_id"),array("p",$photo['photo_id']));
+			
+			//Removing Photo From Favortes
+			$db->delete(tbl("favorites"),array("type","id"),array("p",$photo['photo_id']));			
+			
 		} else 
 			e(lang("photo_not_exists"));
 	}
@@ -1208,6 +1219,7 @@ class CBPhotos
 				
 			$eh->flush();
 			e(sprintf(lang("photo_is_saved_now"),$photo['photo_title']),"m");
+			$db->update(tbl("users"),array("total_photos"),array("|f|total_photos+1")," userid='".$userid."'");
 			return $insert_id;
 		}
 	}

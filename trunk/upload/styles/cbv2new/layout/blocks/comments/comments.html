@@ -1,12 +1,13 @@
 {assign var='comments' value=$myquery->get_comments($id,$type)}
 {if $comments}
+<div style="height:10px"></div>
     {foreach from=$comments item=comment}
         {include file="$style_dir/blocks/comments/comment.html" comment=$comment type=$type}
     {/foreach}
 {else}
 	<div id="latest_comment_container">
 	<div align="center" class="no_comments">
-    	<em>{lang code='no_comments'}</em>
+    	{lang code='no_comments' assign=no_comments} {$no_comments|sprintf:$object_type}
     </div>
     </div>
 {/if}
