@@ -680,7 +680,7 @@ class CBvideo extends CBCategory
 			assign($params['assign'],$result);
 		}
 		
-		
+		if($params['pr']) pr($result,true);
 		if($params['count_only'])
 			return $result = $db->count(tbl('video'),'*',$cond);
 		if($params['assign'])

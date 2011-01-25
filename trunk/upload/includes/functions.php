@@ -2612,7 +2612,10 @@
 	function video_playable($id)
 	{
 		global $cbvideo,$userquery;
+		if(!is_array($id))
 		$vdo = $cbvideo->get_video($id);
+		else
+		$vdo = $id;
 		$uid = userid();
 		if(!$vdo)
 		{

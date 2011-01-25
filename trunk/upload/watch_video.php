@@ -15,10 +15,11 @@ $pages->page_redir();
 
 //Getting Video Key
 $vkey = @$_GET['v'];
+$vdo = $cbvid->get_video($vkey);
 
-if(video_playable($vkey))
+if(video_playable($vdo))
 {
-	$vdo = $cbvid->get_video($vkey);
+	
 	
 	//Checking for playlist
 	$pid = $_GET['play_list'];

@@ -12,8 +12,7 @@
     <a href="{videoLink vdetails=$video}">{$video.title|truncate:30}</a><br>
 {lang code='views'}: {$video.views|number_format}<br>
 
-{assign var='vid_username' value=$userquery->get_user_field_only($video.userid,'username')}
-<a href="{$userquery->profile_link($video.userid)}" title="{$vid_username}" alt="{$vid_username}">{$vid_username|truncate:12}</a>
+<a href="{$userquery->profile_link($video)}" title="{$video.username}" alt="{$video.username}">{$video.username}</a>
 
 </div>
     <!--VIDEO_THUMB END-->  
