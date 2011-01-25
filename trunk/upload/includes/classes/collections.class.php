@@ -1248,6 +1248,115 @@ class Collections extends CBCategory
 		return $this->get_default_thumb($size);
 	}
 	
+	
+	/**
+	 * Used to display collection voterts details.
+	 * User who rated, how many stars and when user rated
+	 */
+	function collection_voters($id,$return_array=FALSE,$show_all=FALSE)
+	{
+		global $json;
+		$c= $this->get_collection($id);
+		if((!empty($c) && $c['userid'] == userid()) || $show_all === TRUE)
+		{
+			global $userquery;
+			$voters = $c['voters'];
+			if(phpversion() < "5.2.0")
+				$voters = $json->json_decode($voters,TRUE);
+			else
+				$voters = json_decode($voters,TRUE);
+				
+			if(!empty($voters))	
+			{
+				if($return_array)
+					return $voters;
+				else
+				{
+					foreach($voters as $id=>$details)
+					{
+						$username = get_username($id);
+						$output = "<li id='user".$id.$c['collection_id']."' class='PhotoRatingStats'>";
+						$output .= "<a href='".$userquery->profile_link($id)."'>$username</a>";
+						$output .= " rated <strong>". $details['rate']/2 ."</strong> stars <small>(";
+						$output  .= niceTime($details['time']).")</small>";
+						$output .= "</li>";
+						echo $output;		
+					}	
+				}
+			}
+		} else
+			return false;
+	}
+	
+	
+	/**
+	 * Used to get current rating
+	 */
+	function current_rating($id)
+	{
+		global $db;
+		$result = $db->select(tbl('collections'),'allow_rating,rating,rated_by,voters'," collection_id = ".$id."");
+		if($result)
+			return $result[0];
+		else
+			return false;				
+	}
+	
+	
+	/**
+	 * Used to rate photo
+	 */
+	function rate_collection($id,$rating)
+	{
+		global $db,$json;
+		
+		if(!is_numeric($rating) || $rating < 1)
+			$rating = 1;
+		if($rating > 10)
+			$rating = 10;
+			
+		$c_rating = $this->current_rating($id);
+		$voters   = $c_rating['voters'];
+		
+		$new_rate = $c_rating['rating'];
+		$rated_by = $c_rating['rated_by'];
+		
+		if(phpversion < '5.2.0')
+			$voters = $json->json_decode($voters,TRUE);
+		else
+			$voters = json_decode($voters,TRUE);
+
+		if(!empty($voters))
+			$already_voted = array_key_exists(userid(),$voters);
+			
+		if(!userid())
+			e(lang("please_login_to_rate"));
+		elseif(!empty($already_voted))
+			e(lang("you_hv_already_rated_photo"));
+		elseif($c_rating['allow_rating'] == 'no' || config('photo_rating') != 1)
+			e(lang("photo_rate_disabled"));
+		else
+		{
+			$voters[userid()] = array('rate'=>$rating,'time'=>NOW());
+			if(phpversion < '5.2.0')
+				$voters = $json->json_encode($voters);
+			else
+				$voters = json_encode($voters);
+					
+			$t = $c_rating['rated_by'] * $c_rating['rating'];
+			$rated_by = $c_rating['rated_by'] + 1;
+			$new_rate = ($t + $rating) / $rated_by;
+			$db->update(tbl('collections'),array('rating','rated_by','voters'),
+			array("$new_rate","$rated_by","|no_mc|$voters"),
+			" collection_id = ".$id."");
+			
+			e(lang("thnx_for_voting"),"m");			
+		}
+		
+		$return = array("rating"=>$new_rate,"rated_by"=>$rated_by,'total'=>10,"id"=>$id,"type"=>"photo","disabled"=>"disabled");
+		return $return;	
+	}
+	
 	/**
 	 * Function used generate collection link
 	 */
@@ -1346,7 +1455,7 @@ class Collections extends CBCategory
 	 * Function used return collection links
 	 */
 	function collection_links($details,$type=NULL)
-	{			
+	{		
 		if(is_array($details))
 		{
 			if(empty($details['collection_id']))
@@ -1376,8 +1485,11 @@ class Collections extends CBCategory
 				else
 					return BASEURL."/view_collection.php?cid=".$cdetails['collection_id']."&amp;type=".$cdetails['type']; 
 			} elseif($type == "vi" || $type == "view_item" ||$type == "item") {
-				$item_type = $this->get_collection_field($cdetails['collection_id'],'type');
-				
+				//$item_type = $this->get_collection_field($cdetails['collection_id'],'type');
+				if($cdetails['videoid'])
+					$item_type = 'videos';
+				else
+					$item_type = 'photos';
 				switch($item_type)
 					{
 						case "videos":

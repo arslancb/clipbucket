@@ -218,6 +218,7 @@ class ADODB_mysql extends ADOConnection {
 		$this->num_rows = $data->_numOfRows;
 		$this->total_queries++;
 		$this->total_queries_sql[] = $query;
+		
 		//Now Get Rows and return that data
 		if($this->num_rows > 0)
 			return $data->getrows();

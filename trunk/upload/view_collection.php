@@ -70,5 +70,4 @@ if($cbcollection->is_viewable($c))
 
 template_files('view_collection.html');
 display_it();	
-
 ?>

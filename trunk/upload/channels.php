@@ -67,4 +67,6 @@ $pages->paginate($total_pages,$page);
 subtitle(lang('channels'));
 template_files('channels.html');
 display_it();
+
+
 ?>

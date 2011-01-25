@@ -83,6 +83,15 @@ if(!empty($mode))
 					$cbvid->show_video_rating($result);
 				}
 				break;
+				case "collection":
+				{
+					$rating = $_POST['rating']*2;
+					$id = $_POST['id'];
+					$result = $cbcollection->rate_collection($id,$rating);
+					$result['is_rating'] = true;
+					$cbvid->show_video_rating($result);
+				}
+				break;
 			}
 		}
 		break;
@@ -952,6 +961,15 @@ if(!empty($mode))
 		}
 		break;
 		
+		
+		case "viewCollectionRating":
+		{
+			$cid = mysql_clean($_POST['cid']);
+			$returnedArray = $cbcollection->collection_voters($cid);
+			echo ($returnedArray);	
+		}
+		break;
+		
 		case "loadAjaxPhotos":
 		{
 			$photosType = $_POST['photosType'];
@@ -1031,6 +1049,5 @@ if(!empty($mode))
 	}
 }else
 	header('location:'.BASEURL);
-	
 	
 ?>
