@@ -7,7 +7,7 @@
 
 <div id="vid_wrap_{$video.videoid}" class="{if $video_view}{$video_view}{else}grid_view {if $cur_class == 'grid_view'}{else}{$cur_class}{/if}{/if}">
 	<div class="vid_thumb">
-    	<a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" alt="{$video.title}" {ANCHOR place="video_thumb" data=$video} /></a>
+    	<a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" title="{$video.title}" alt="{$video.title}" {ANCHOR place="video_thumb" data=$video} /></a>
         <span class="vid_time">{$video.duration|SetTime}</span>
 		<img src="{$imageurl}/dot.gif" class="add_icon" onclick="add_quicklist(this,'{$video.videoid}')" title="Add {$video.title} to Quicklist" alt="Quicklist" />   
         {if $video.broadcast=='private'}
@@ -16,7 +16,7 @@
         {ANCHOR place='in_video_thumb' data=$video}    
     </div> <!--VID_THUMB END-->
     <div class="vid_info_wrap">
-        <h2 class="title truncatedtitle"><a href="{videoLink vdetails=$video}">{$video.title|truncate:40}</a></h2>
+        <h2 class="title truncatedtitle"><a href="{videoLink vdetails=$video}" title="{$video.title}">{$video.title|truncate:40}</a></h2>
         <h2 class="title fulltitle" style="display:none"><a href="{videoLink vdetails=$video}">{$video.title}</a></h2>
         <div class="list_raitng">
         	{show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}

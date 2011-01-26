@@ -16,6 +16,7 @@ if(@$_GET['msg']){
 $msg[] = clean($_GET['msg']);
 }	
 
+
 	$video = mysql_clean($_GET['video']);
 
 	//Updating Video Details

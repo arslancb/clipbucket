@@ -1,20 +1,20 @@
 {assign var=bgcolor value =F2F2F2}
 {assign var=comments value=$myquery->get_comments($id,$type)}
 {if $comments}
-<table width="99%" border="0" cellpadding="0" cellspacing="0">
+<table width="99%" border="0" cellpadding="2" cellspacing="1" style="color:#fff">
   <tr>
-    <td width="35" align="center" class="left_head">CID</td>
-    <td width="35" class="head">UID</td> 
-    <td width="100" class="head">Username</td>
-    <td width="150" class="head">Email</td>
-    <td  class="head">Comment</td>
-    <td width="200" class="head">Date</td>
-    <td width="70" class="head">Votes</td>
-    <td width="100" class="head">&nbsp;</td>
+    <td width="35" height="30" bgcolor="#0066cc">CID</td>
+    <td width="35" height="30" bgcolor="#0066cc">UID</td> 
+    <td width="100" height="30" bgcolor="#0066cc">Username</td>
+    <td width="150" height="30" bgcolor="#0066cc">Email</td>
+    <td height="30" bgcolor="#0066cc">Comment</td>
+    <td width="200" height="30" bgcolor="#0066cc" >Date</td>
+    <td width="70" height="30" bgcolor="#0066cc">Votes</td>
+    <td width="100" height="30" bgcolor="#0066cc">&nbsp;</td>
   </tr>
 </table>
 <div>
-<table width="99%" border="0" cellpadding="0" cellspacing="0" >
+<table width="99%" border="0" cellpadding="2" cellspacing="1" >
 {foreach from=$myquery->get_comments($id,$type) item=comment}
 	
 	{if $comment.parent_id == 0}

@@ -198,8 +198,8 @@ class CBvideo extends CBCategory
 			$upload_fields = array_merge($required_fields,$location_fields,$option_fields);
 			
 			//Adding Custom Upload Fields
-			//if(count($Upload->custom_upload_fields)>0)
-				//$upload_fields = array_merge($upload_fields,$Upload->custom_upload_fields);
+			if(count($Upload->custom_upload_fields)>0)
+			$upload_fields = array_merge($upload_fields,$Upload->custom_upload_fields);
 
 			//Adding Custom Form Fields
 			if(count($Upload->custom_form_fields)>0)
@@ -212,6 +212,7 @@ class CBvideo extends CBCategory
 
 			if(is_array($_FILES))
 			$array = array_merge($array,$_FILES);
+			
 		
 			foreach($upload_fields as $field)
 			{
@@ -249,13 +250,9 @@ class CBvideo extends CBCategory
 				}
 				
 			}		
-
 			
 			#$query = "INSERT INTO video (";
 			$total_fields = count($query_field);
-			
-			//Adding Fields to query
-			$i = 0;
 			
 			/*for($key=0;$key<$total_fields;$key++)
 			{
