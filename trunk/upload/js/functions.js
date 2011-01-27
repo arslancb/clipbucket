@@ -1390,3 +1390,87 @@ function toggleCategory(object)
 		obj.removeClass('block').addClass('none');		
 	}
 }
+
+function loadObject(currentDOM,type,objID,container)
+{
+	var object = new Array(4);
+		object['this'] = currentDOM, object['type'] = type,
+		object['objID'] = objID, object['container'] = container;
+		
+	var obj = $(object['this']);
+	
+	{
+		obj.parent().css('position','relative');
+	
+		$.ajax({
+			url : page,
+			type : 'POST',
+			dataType : 'json',
+			data  : ({ mode : 'channelFeatured',
+					   contentType : object['type'],
+					   objID : object['objID']
+					}),
+			beforeSend : function()
+			{
+				obj.find('img').animate({ opacity : .5 });
+				$("#"+object['container']).animate({ opacity : .5 });
+			},
+			success : function(data)
+			{
+				if(data['error'])
+				{
+					obj.find('img').animate({ opacity : 1 });
+					$("#"+object['container']).animate({ opacity : 1 });
+					alert(data['error']);
+				}
+				else
+				{
+					obj.parent().children('.selected').removeClass('selected');
+					obj.addClass('selected');						
+					obj.find('img').animate({ opacity : 1 });				
+					$("#"+object['container']).html(data['data']);					
+					$("#"+object['container']).animate({ opacity : 1 });
+				}
+			}
+		})	
+	}
+}
+
+function channelObjects(object,div,type,user)
+{
+	var obj = $(object), curRel = obj.attr('rel'),
+		DIV = $(div), oldRel = obj.parents('ul').find('a.selected').attr('rel');
+
+	if(curRel)
+	{
+		if($("#"+curRel).css('display') == 'block')
+			return false;
+		else
+		{
+			obj.parents('ul').find('a.selected').removeClass('selected');
+			obj.addClass('selected');
+			
+			$("#"+oldRel).hide();
+			$("#"+curRel).show();		
+		}
+	} else {
+		var newRel = type+"DIV";
+		obj.attr('rel',newRel);
+		$.ajax({
+		 url : page,
+		 type : "POST",
+		 dataType : "json",
+		 data : ({ mode : "channelObjects", content : type, user : user}),
+		 beforeSend : function() { obj.append(loading_img) },
+		 success : function(data)
+		 {
+			obj.find('img').remove();
+			obj.parents('ul').find('a.selected').removeClass('selected');
+			obj.addClass('selected');		
+		
+			$("#"+oldRel).hide();
+			$("<div></div>").attr('id',newRel).addClass($("#"+oldRel).attr('class')).html(data.html).appendTo(DIV); 
+		 }
+		})	
+	}
+}

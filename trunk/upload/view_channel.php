@@ -48,7 +48,7 @@ if($udetails)
 	e(lang("usr_exist_err"));
 	$Cbucket->show_page = false;
 }
-
+add_js(array('jquery_plugs/compressed/jquery.jCarousel.js'=>'view_channel'));
 if($Cbucket->show_page)
 Template('view_channel.html');
 else

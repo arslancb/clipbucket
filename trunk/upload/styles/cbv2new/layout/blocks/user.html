@@ -23,3 +23,9 @@
 <div class="prof_title"><a href="{$userquery->profile_link($user)}">{$user.username}</a></div>
 {$user.total_videos|number_format} {lang code="videos"} {$user.profile_hits|number_format} {lang code="views"}</div>
 {/if}
+
+{if $block_type == "friends"}
+	<div style="float:left; margin:0 0px 2px 0;" id="user-{$user.userid}">
+    	<a href="{$userquery->profile_link($user)}" title="{$user.username}"><img src="{avatar details=$user size='small'}" alt="{$user.username}" style="padding:1px; vertical-align:middle;" /></a>
+    </div> <!-- friend_{$user.userid} end -->
+{/if}

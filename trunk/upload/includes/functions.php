@@ -3393,6 +3393,15 @@
 		return $cbphoto->get_photos($param);
 	}
 	
+	/**
+	 * function used to get photos
+	 */
+	function get_collections($param)
+	{
+		global $cbcollection;
+		return $cbcollection->get_collections($param);
+	}
+	
 	
 	/**
 	 * function used to get vidos

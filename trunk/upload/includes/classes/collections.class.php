@@ -95,6 +95,8 @@ class Collections extends CBCategory
 												   'manage_collections.php?mode=edit_collection&amp;cid=');
 		$Cbucket->links['manage_items'] = array('manage_collections.php?mode=manage_items&amp;cid=%s&amp;type=%s',
 												'manage_collections.php?mode=manage_items&amp;cid=%s&amp;type=%s');
+		$Cbucket->links['user_collections'] = array('user_collections.php?mode=uploaded&user','user_collections.php?mode=uploaded&user=');
+		$Cbucket->links['user_fav_collections'] = array('user_collections.php?mode=favorite&user','user_collections.php?mode=favorite&user=');										
 												
 																																													
 	}

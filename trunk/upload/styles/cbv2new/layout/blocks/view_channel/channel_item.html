@@ -1,0 +1,10 @@
+{if $object.photo_id}
+	<div class="video_title" style="font-size:14px; margin-bottom:5px;">{$object.photo_title}</div>
+	<div align="center">{get_photo details=$object output='html' size='l' width='370'}</div>
+{/if}
+
+
+{if $object.videoid}
+	<div class="video_title" style="font-size:14px; margin-bottom:5px;">{$object.title}</div>
+    {FlashPlayer vdetails=$object width='370' height='280' autoplay=true}
+{/if}

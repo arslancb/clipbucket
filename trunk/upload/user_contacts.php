@@ -26,11 +26,36 @@ $get_limit = create_query_limit($page,CLISTPP);
 if($udetails)
 {
 	assign("u",$udetails);
-	$mode = $_GET['mode'];
-	
-	assign("u",$udetails);
 	assign('p',$userquery->get_user_profile($udetails['userid']));
-	assign('friends',$userquery->get_contacts($udetails['userid'],0,"yes"));
+	$mode = $_GET['mode'];
+	switch($mode)
+	{
+		case "contacts":
+		default:
+		{
+			//assign("u",$udetails);
+			assign('p',$userquery->get_user_profile($udetails['userid']));
+			assign('mode',$mode);
+			assign('friends',$userquery->get_contacts($udetails['userid'],0,"yes"));
+		}
+		break;
+		
+		case "subscriptions":
+		{
+			assign('mode',$mode);
+			assign('heading',sprintf(lang('user_subscriptions'),$udetails['username']));
+			assign('userSubs',$userquery->get_user_subscriptions($udetails['userid'],NULL));
+		}
+		break;
+		
+		case "subscribers":
+		{
+			assign('mode',$mode);
+			assign('heading',sprintf(lang('users_subscribers'),$udetails['username']));
+			assign('userSubs',$userquery->get_user_subscribers_detail($udetails['userid'],NULL));
+		}
+		break;
+	}
 
 }else{
 	e(lang("usr_exist_err"));

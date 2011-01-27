@@ -527,6 +527,7 @@ $Smarty->register_function('get_videos','get_videos');
 $Smarty->register_function('get_users','get_users');
 $Smarty->register_function('get_groups','get_groups');
 $Smarty->register_function('get_photos','get_photos');
+$Smarty->register_function('get_collections','get_collections');
 $Smarty->register_function('private_message','private_message');
 $Smarty->register_function('show_video_rating','show_video_rating');
 $Smarty->register_function('load_captcha','load_captcha');

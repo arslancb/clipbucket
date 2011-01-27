@@ -1734,11 +1734,21 @@ class CBPhotos
 								$img .= " class = '".mysql_clean($p['class'])."'";
 								
 							if($p['align'])
-								$img .= " align = '".$p['align']."'";	
-							if($p['width'] && is_numeric($p['width']))
+								$img .= " align = '".$p['align']."'";
+							if(($p['width'] && is_numeric($p['width'])) && ($p['height'] && is_numeric($p['height'])))
+							{
+								$height = $p['height'];
+								$width  = $p['width'];	
+							}
+							elseif($p['width'] && is_numeric($p['width']))
 							{
 								$height = round($p['width'] / $width * $height);
 								$width = $p['width'];
+							}
+							elseif($p['height'] && is_numeric($p['height']))
+							{
+								$width = round($p['height'] * $width  /  $height);
+								$height = $p['height']; 	
 							}
 							
 							$img .= " width = '".$width."'";
@@ -1771,7 +1781,7 @@ class CBPhotos
 							if($p['assign'])
 								assign($p['assign'],$img);
 							else	
-								echo $img;
+								return $img;
 						}
 					} else {
 						return $this->default_thumb($size);	
@@ -2004,15 +2014,20 @@ class CBPhotos
 	/**
 	 * Used to return default thumb
 	 */
-	function default_thumb($size=NULL)
+	function default_thumb($size=NULL,$output='html')
 	{
 		if($size != "_t" && $size != "_m")
 			$size = "_m";
 			
 		if(file_exists(TEMPLATEDIR."/images/thumbs/no-photo".$size.".png"))
-			return TEMPLATEURL."/images/thumbs/no-photo".$size.".png";
+			$path = TEMPLATEURL."/images/thumbs/no-photo".$size.".png";
 		else
-			return PHOTOS_URL."/no-photo".$size.".png";			
+			$path = PHOTOS_URL."/no-photo".$size.".png";
+			
+		if(!empty($output) && $output == "html")
+			echo "<img src='".$path."' />";
+		else
+			return $path;					
 	}
 	
 	/**

@@ -960,7 +960,205 @@ if(!empty($mode))
 			echo ($returnedArray);	
 		}
 		break;
+
+		case "channelFeatured":
+		{
+			$contentType = $_POST['contentType'];
+			if(!$contentType)
+				echo json_encode(array("error"=>"Content Type is empty. Please tell us what type of content you want."));
+			else
+			{
+				switch($contentType)
+				{
+					case "videos": case "video":
+					case "vid": case "v": case "vdo":
+					{
+						$video = $cbvideo->get_video_details(mysql_clean($_POST['objID']));
+						if($video)
+						{
+							assign('object',$video);
+							$content = Fetch('/blocks/view_channel/channel_item.html');
+						}
+					}
+					break;
+					
+					case "photo": case "photos":
+					case "foto": case "p":
+					{
+						$photo = $cbphoto->get_photo(mysql_clean($_POST['objID']));
+						if($photo)
+						{
+							assign('object',$photo);
+							$content = Fetch('/blocks/view_channel/channel_item.html');	
+						}
+					}
+					break;
+				}
+				
+				if($content)
+				{
+					echo json_encode(array("data"=>$content));	
+				} else 
+					echo json_encode(array("error"=>"Nothing Found"));
+			}
+		}
+		break;
 		
+		case "channelObjects":
+		{
+			$contentType = strtolower(mysql_clean($_POST['content']));
+			$u = $userquery->get_user_details($_POST['user']);
+			switch($contentType)
+			{
+				case "videos" :
+				{
+					$videos = get_videos(array("user"=>$u['userid'],"order"=>" date_added DESC","limit"=>config('videos_item_channel_page')));
+					
+					if($videos)
+					{
+						foreach($videos as $video)
+						{
+							assign('video',$video);
+							assign('channelVideo',true);
+							$content['html'] .= Fetch("/blocks/video.html");
+						}
+						$content['html'] .= '<div align="right" class="clearfix channelAjaxMoreLink videosMoreLink" style="clear:both; display:block;">';
+						$content['html'] .= '<a href="'.cblink(array("name"=>"user_videos")).$u['username'].'">'.lang('more').'</a> | <a href="'.cblink(array("name"=>"user_favorites")).$u['username'].'">'.lang('Favorites').'</a>';
+						$content['html'] .= '</div>';
+					} else {
+						$content['html'] = '<div align="center"><em>'.lang('user_have_no_vide').'</em></div>';	
+					}
+				}
+				break;
+				
+				case "photos":
+				{
+					$photos = get_photos(array("user"=>$u['userid'],"order"=>" date_added DESC","limit"=>config('photo_channel_page')));
+					if($photos)
+					{
+						foreach($photos as $photo)
+						{
+							assign('photo',$photo);
+							assign('channelPhoto',true);
+							$content['html'] .= Fetch("/blocks/photo.html");
+						}
+						$content['html'] .= '<div align="right" class="clearfix channelAjaxMoreLink photosMoreLink" style="clear:both; display:block;">';
+						$content['html'] .= '<a href="'.cblink(array("name"=>"user_photos")).$u['username'].'">'.lang('more').'</a> | <a href="'.cblink(array("name"=>"user_fav_photos")).$u['username'].'">'.lang('Favorites').'</a>';
+						$content['html'] .= '</div>';
+					} else {
+						$content['html'] = '<div align="center"><em>'.lang('User dont have any photos').'</em></div>';	
+					}
+				}
+				break;
+				
+				case "groups":
+				{
+					$groups = get_groups(array("user"=>$u['userid'],"order"=>" date_added DESC","limit"=>config('photo_channel_page')));
+					if($groups)
+					{
+						foreach($groups as $group)
+						{
+							assign('group',$group);
+							assign('channelGroup',true);
+							$content['html'] .= Fetch("/blocks/group.html");
+						}
+					} else {
+						$content['html'] = '<div align="center"><em>'.lang('User dont have any groups.').'</em></div>';	
+					}
+				}
+				break;
+				
+				case "collections":
+				{
+					$collections = get_collections(array("user"=>$u['userid'],"order"=>" date_added DESC","limit"=>config('collection_channel_page')));
+					if($collections)
+					{
+						foreach($collections as $collection)
+						{
+							assign('collection',$collection);
+							assign('channelCollection',true);
+							$content['html'] .= Fetch("/blocks/collection.html");	
+						}
+						$content['html'] .= '<div align="right" class="clearfix channelAjaxMoreLink collectionsMoreLink" style="clear:both; display:block;">';
+						$content['html'] .= '<a href="'.cblink(array("name"=>"user_collections")).$u['username'].'">'.lang('more').'</a> | <a href="'.cblink(array("name"=>"user_fav_collections")).$u['username'].'">'.lang('Favorites').'</a>';
+						$content['html'] .= '</div>';						
+					} else {
+						$content['html'] = 	'<div align="center"><em>'.lang('User dont have any collections').'</em></div>';
+					}
+				}
+				break;
+				
+				case "friends":
+				{
+					$friends = $userquery->get_contacts($u['userid'],'0','yes');
+					if($friends)
+					{
+						foreach($friends as $friend)
+						{
+							assign('user',$friend);
+							assign('channelUser','friends');
+							$content['html'] .= Fetch("/blocks/user.html");
+						}
+					} else {
+						$content['html'] = '<div align="center"><em>'.lang('User dont any friends yet').'</em></div>';	
+					}
+				}
+				break;
+				
+				case "subscriptions":
+				{
+					$limit = config('users_items_subscriptions');
+					$subscriptions = $userquery->get_user_subscriptions($u['userid'],$limit);
+					if($subscriptions)
+					{
+						foreach($subscriptions as $subscription)
+						{
+							assign('user',$subscription);
+							assign('channelUser','subscriptions');
+							$content['html'] .= Fetch("/blocks/user.html");	
+						}
+						$content['html'] .= '<div align="right" class="clearfix channelAjaxMoreLink subscriptionsMoreLink" style="clear:both; display:block;">';
+						$content['html'] .= '<a href="'.cblink(array("name"=>"user_subscriptions")).$u['username'].'">'.lang('more').'</a>';
+						$content['html'] .= '</div>';
+					} else {
+						$content['html'] = '<div align="center"><em>'.sprintf(lang('user_no_subscriptions'),$u['username']).'</em></div>';	
+					}
+				}
+				break;
+				
+				case "subscribers":
+				{
+					$limit = config('users_items_subscribers');
+					$subscribers = $userquery->get_user_subscribers_detail($u['userid'],$limit);
+					if($subscribers)
+					{
+						foreach($subscribers as $subscriber)
+						{
+							assign('user',$subscriber);
+							assign('channelUser','subscribers');
+							$content['html'] .= Fetch("/blocks/user.html");	
+						}
+						$content['html'] .= '<div align="right" class="clearfix channelAjaxMoreLink subscribersMoreLink" style="clear:both; display:block;">';
+						$content['html'] .= '<a href="'.cblink(array("name"=>"user_subscribers")).$u['username'].'">'.lang('more').'</a>';
+						$content['html'] .= '</div>';
+					} else {
+						$content['html'] = '<div align="center"><em>'.sprintf(lang('user_no_subscribers'),$u['username']).'</em></div>';	
+					}
+				}
+				break;
+				
+				case "info":
+				{
+					
+				}
+				break;
+			}
+			
+			if($content)
+				echo json_encode($content);
+				
+		}
+		break;
 		
 		case "viewCollectionRating":
 		{

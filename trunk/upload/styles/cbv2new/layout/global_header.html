@@ -115,12 +115,21 @@ var mid  = {$smarty.get.mid};
 			$('#searchSelectWrapper').hide();
 		}
 	});
-	$('.tabs li').click(
+	/*$('.tabs li').click(
 		function() {
 			$('.tabs li').removeClass('selected')
 			$(this).addClass('selected');
 		}
-	);
+	);*/
+	
+	$('.tabs li').each(function(index, value){
+		$(value).click(function(){
+			{	
+				$(this).parent().children().filter('.selected').removeClass('selected');
+				$(this).addClass('selected');
+			}
+		})
+	});
 	$('#lang_selector').click(function(){
   	//do redirection
 	});
@@ -132,12 +141,33 @@ var mid  = {$smarty.get.mid};
 		});
 		{/literal}
 		{if isSectionEnabled('videos') && $smarty.const.THIS_PAGE=='index'}
-		get_video('recent_viewed_vids','#index_vid_container');
+			get_video('recent_viewed_vids','#index_vid_container');
 		{/if}
+		{if isSectionEnabled('photos') && $smarty.const.THIS_PAGE=='index'}
+			getAjaxPhoto('last_viewed','#index_pho_container');
+		{/if}
+	{if $smarty.const.THIS_PAGE == 'view_channel'}	
 		{literal}
-		
-			
-		
+		$('#photoListing').jCarouselLite({
+			vertical : true,
+			btnNext : "#PnextItem",
+			btnPrev : "#PprevItem",
+			circular : false,
+			speed : 500,
+			visible	: 5
+		});
+					
+		$('#videoListing').jCarouselLite({
+			vertical : true,
+			btnNext : "#VnextItem",
+			btnPrev : "#VprevItem",
+			circular : false,
+			speed : 500,
+			visible	: 5
+		});
+		{/literal}
+	{/if}
+	{literal}		
 	});
 	
 	function ToggleView(obj) {

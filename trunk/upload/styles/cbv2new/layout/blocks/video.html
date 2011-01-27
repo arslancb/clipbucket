@@ -2,9 +2,9 @@
 {assign var=cur_class value=$smarty.cookies.current_style}
 {/if}
 
-<!-- Video Box -->
-{if $display_type =='normal' || $display_type==''}
 
+{if $display_type =='normal' || $display_type==''}
+<!-- Video Box -->
 <div id="vid_wrap_{$video.videoid}" class="{if $video_view}{$video_view}{else}grid_view {if $cur_class == 'grid_view'}{else}{$cur_class}{/if}{/if}">
 	<div class="vid_thumb">
     	<a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" title="{$video.title}" alt="{$video.title}" {ANCHOR place="video_thumb" data=$video} /></a>
@@ -30,9 +30,15 @@
 {if $only_once}
     <div class="clearfix"></div>
 {/if}
-
-{/if}
 <!-- Video Box -->
+{/if}
+
+
+{if $display_type == "channel_page"}
+	<li class="itemBox" onclick="loadObject(this,'videos','{$video.videoid}','viewingArea')">
+    	<div align="center"><img src="{getThumb vdetails=$video}" alt="{$video.title}" width="110" height="64" /></div>
+    </li> <!-- itemBox {$video.videokey} end -->
+{/if}
 
 {if $display_type=='add_type'}
 <div class="vertical">

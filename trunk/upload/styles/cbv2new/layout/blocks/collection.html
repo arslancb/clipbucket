@@ -33,3 +33,9 @@
     {/if}
 </div>  
 {/if}
+
+{if $display_type == "user_collections"}
+	<div class="moveL" style="width:47px; height:47px; padding:2px; margin:0 0px 0px 0px;">
+   		<a href="{$cbcollection->collection_links($collection,'view')}" style="width:47px; height:47px;" title="{$collection.collection_name}"><img src="{$imageurl}/dot.gif" width="47" height="47" style="background:url({$cbcollection->get_thumb($collection,'small')}) center top no-repeat;" /></a>
+    </div>
+{/if}

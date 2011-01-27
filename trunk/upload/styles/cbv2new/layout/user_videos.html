@@ -1,77 +1,30 @@
-{* Including Global Header *}
 {include file="$style_dir/global_header.html"}
 <body>
 {include file="$style_dir/blocks/view_channel/channel_global.html" }
-<div id="container" class="clearfix" style="background-color:none">
-
-    <!-- Including Commong header -->
-    {include file="$style_dir/header.html" }
-    <div style="height:10px; background-attachment:"></div>
+<div id="container" class="container clearfix" style="background-color:none">
+	{include file="$style_dir/header.html"}
+    <div style="height:10px;"></div>
     {include file="$style_dir/message.html"}
-    <div id="content_container" >
-    <div id="content" style="padding-bottom:15px">
-    	{include file="$style_dir/blocks/view_channel/channel_top.html" }
-        
-        {assign var=user_vdo value= $userquery->get_user_profile_video($p)}
-            {if $user_vdo}
-              <!-- User Video Block -->
-            <div class="channel_box">
-             <div class="channel_inner_box">
-             <div style="width:610px; float:left">
-              <div id="videoPlayer" class='video_player'>
-                This content requires JavaScript and Macromedia Flash Player 7 or higher. <a href=http://www.macromedia.com/go/getflash/>Get Flash</a><br/><br/>
-              </div>
-              <script language="javascript">
-              {FlashPlayer vdetails = $user_vdo height=$Cbucket->configs.channel_player_height width=$Cbucket->configs.channel_player_width}
-              </script>
-              </div>
-              <div align="center" style="width:300px; float:left">{AD place=336x280}</div>
-              <div class="clearfix"></div>
-             </div>
-             
-            </div>
-             <!-- User Video Blcok Ends-->
-        {/if}
-        
-        <div class="channel_box">
-        	<div class="channel_inner_box" id="result_cont" style="display:none"></div>
+    <div class="channel_inner_box" id="result_cont" style="display:none; background:#eee;"></div>
+    <div class="moveL clearfix" style="width:270px; padding:0px 5px;">
+    	{include file="$style_dir/blocks/view_channel/channel_left.html"}
+    </div> <!-- this is left side -->
+	 <div class="moveL clearfix" style="width:700px; padding:0px 5px; ">
+     	<div id="channelDetailsBox" class="clearfix channelBox" style="border:1px solid #ccc; padding:0px 6px 6px;">
+         <h2>{$the_title}</h2>
+        	{section name=v_list loop=$videos}
+       		 {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
+    		{/section}
+            <div class="clearfix"></div>
+            {include file="$style_dir/blocks/pagination.html"}       
         </div>
-        
-        <!-- Starting Bottom Channel Box -->
-        <div class="channel_box clearfix" style="margin-bottom:0px">
-   	  
-       {include file="$style_dir/blocks/view_channel/channel_left.html" }
-       
-       <!-- Right Colum -->
-      <div class="right_column">
-       	<div class="channel_inner_box clearfix">
-        <h2>{$the_title}</h2>
-           
-            <div id="user_vids_page" class="clearfix">         
-                {section name=v_list loop=$videos}
-                 {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
-                {/section}
-            </div>
-            {include file="$style_dir/blocks/pagination.html"}
-        </div>
-        	
-        </div>
-       
-        <!-- Ending Bottomg Channel Box-->
-     </div>   
-     
-     
-     
+     </div> <!-- this is right side -->
+</div> <!-- container end -->
+<div class="clearfix" style="height:10px"></div>
+<div id="footer" class="clearfix" style="margin-top:0px;">
+    <div class="footer">
+        &copy; {$title} {$smarty.now|date_format:"%Y"}
     </div>
-    
-    
-    <div id="footer" style="margin-top:0px;">
-    	<div class="footer">
-        	&copy; {$title} {$smarty.now|date_format:"%Y"}
-        </div>
-    </div>
-</div>
-
-</div>
+</div> 
 </body>
 </html>

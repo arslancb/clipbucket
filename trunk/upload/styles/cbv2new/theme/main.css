@@ -843,7 +843,7 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 .photoTitle { font:bold 11px Tahoma; }
 .photoTitle a { text-decoration:none; }
 .photoInfo { font:normal 10px Tahoma; color:#666; }
-.photo_block { float:left; width:40%; margin-right:40px; padding:6px; }
+.photo_block { padding:6px 14px; display:inline-block; vertical-align:middle; margin-bottom:5px; *display:inline; }
 
 /* VIEW ITEM */
 .borderLine { border-bottom:1px solid #ccc; padding:5px 0px 0px; margin:0 0 5px; }
@@ -893,3 +893,33 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 .CategoryToggler:hover { cursor:pointer }
 .CategoryToggler.none { background:url(../images/category_buttons.png) left top no-repeat; }
 .CategoryToggler.block { background:url(../images/category_buttons.png) right top no-repeat; }
+
+.channelFeatureBox { padding:6px 0px; }
+.itemListing { display:inline-block; margin:0px; padding:0px; width:152px; overflow:hidden; min-height:250px; }
+.listHeading { font:bold 11px Tahoma; text-align:center; padding:4px 0px; color:#464646; border-top:1px solid #ccc; margin-bottom:-1px; background:#f3f3f3}
+.itemBox { padding:4px 0px; border:solid transparent; border-width:1px; margin:0 0 0px 0; }
+.itemBox:hover { cursor:pointer; background:#f3f3f3; border-color:#ccc; }
+.itemBox.selected { background:#006fb7; border-color:#053a5c; -moz-box-shadow: 0 0 4px 0px #000; -webkit-box-shadow: 0 0 4px 0px #000; box-shadow: 0 0 4px 0px #000; }
+.viewItemBox { display:inline-block; *display:inline; margin:0px; padding:0px;width:375px; }
+.viewingArea { padding:0px 15px; }
+.itemTitle { text-align:center; font:bold 11px Tahoma; text-transform:uppercase; }
+
+.channelBox { padding:10px 6px; border-bottom:1px solid #ccc; }
+.channelHeading { font:bold 14px Arial; margin-bottom:4px; }
+
+.carouselButton, .channelBar { border:solid #ccc; border-width:1px; width:100%; margin:0px 0px 0px 0px; font:bold 11px Tahoma; text-align:center; padding:2px 0px; background:url(../images/simple_gradient.png) repeat-x bottom;  }
+
+.carouselButton:hover { background:#115582 url(../images/nav_grads.png) left top repeat-x; color:#FFF; border-color:#053a5c; cursor:pointer; }
+.carouselButton:active { background:#0470b7; outline:none; }
+
+.channelBar { border-width:0 0 1px; margin:0 0 10px; width:100%; padding:0px; }
+.channelBar li { float:left; list-style:none; display:block; }
+.channelBar li a { font-weight:normal; padding:6px 10px; display:block; border-right:1px solid #ccc; border-left:1px solid #FFF; text-decoration:none; }
+.channelBar li a.selected { font-weight:bold; }
+.channelFieldset { border:0px none; padding-left:0px; padding-right:0px;  }
+.channelLegend { padding:4px 6px; background:#eee; font:bold 11px Tahoma; color:#464646; margin-bottom:5px; width:98%; border-top:1px solid #aaa; cursor:default; }
+.channelRow { margin-bottom:10px; padding:0px 6px; }
+.channelLabel { display:inline-block; width:18%; font:bold 11px Tahoma; color:#888; vertical-align:top; text-transform:capitalize; }
+.channelDetail { display:inline-block; font:normal 11px Tahoma; width:80%; }
+.channelInnerPadding { padding:0px 6px; }
+.moreThings { clear:both; display:block; font:bold 11px Arial; margin-top:3px; }

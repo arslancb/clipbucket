@@ -1,120 +1,165 @@
-{* Including Global Header *}
 {include file="$style_dir/global_header.html"}
 <body>
 {include file="$style_dir/blocks/view_channel/channel_global.html" }
 <div id="container" class="container clearfix" style="background-color:none">
-
-    <!-- Including Commong header -->
-    {include file="$style_dir/header.html" }
-    <div style="height:10px; background-attachment:"></div>
+	{include file="$style_dir/header.html"}
+    <div style="height:10px;"></div>
     {include file="$style_dir/message.html"}
-    <div id="content_container" >
-    <div id="content" style="padding-bottom:15px">
-    	{include file="$style_dir/blocks/view_channel/channel_top.html" }
-        
-        {if isSectionEnabled('videos')}
-        {assign var=user_vdo value= $userquery->get_user_profile_video($p)}
-            {if $user_vdo}
-              <!-- User Video Block -->
-            <div class="channel_box clearfix">
-             <div class="channel_inner_box">
-             <div style="width:610px; float:left">
+    <div class="channel_inner_box" id="result_cont" style="display:none; background:#eee;"></div>
+    {show_flag_form id=$u.userid type=User}
+    <div class="moveL clearfix" style="width:270px; padding:0px 5px;">
+    	{include file="$style_dir/blocks/view_channel/channel_left.html"}
+    </div> <!-- this is left side -->   
+    <div class="moveL clearfix" style="width:700px; padding:0px 5px; ">
+    {if isSectionEnabled('photos') || isSectionEnabled('videos')}
+ 	{get_photos assign=latestP order=" date_added DESC" limit=10 user=$u.userid}
+    {get_videos assign=latestV order=" date_added DESC" limit=10 user=$u.userid status="Successful" broadcast="public"}    
+    {if $latestP || $latestV}
+    	<div class="channelFeatureBox clearfix">
+        	<div class="itemListing moveL"> 
+                <button id="PprevItem" class="carouselButton">&uarr;</button>
+                	<div id="photoListing">
+                        <ul style="list-style:none; margin:0px; padding:0px;">
+                        {if $latestP}
+                        {section name=plist loop=$latestP}
+                            {include file="$style_dir/blocks/photo.html" photo=$latestP[plist] display_type='channel_page'}
+                        {/section}
+                        {else}
+                        	<div style="min-height:200px; text-align:center; line-height:200px;"><em>Found No Photos</em></div>
+                        {/if}
+                        </ul>
+                    </div>
+                    <button id="PnextItem" class="carouselButton">&darr;</button>
+            </div> <!-- itemListing end -->
+            <div class="viewItemBox">
+            	<div id="viewingArea" class="viewingArea">
 
-              {FlashPlayer vdetails = $user_vdo height=$Cbucket->configs.channel_player_height width=$Cbucket->configs.channel_player_width}
-			 
-              </div>
-              <div class="clear"></div>
-              <div align="center" style="width:300px; float:left">{AD place=336x280}</div>
-
-             </div>
-             
+                </div> <!-- viewingArea end -->
+            </div> <!-- viewItemBox end -->
+            <div class="itemListing moveR">              
+                
+                	<button id="VprevItem" class="carouselButton">&uarr;</button>
+                	<div id="videoListing">
+                        <ul style="list-style:none; margin:0px; padding:0px;">
+                        {if $latestV}
+                        {section name=vlist loop=$latestV}
+                            {include file="$style_dir/blocks/video.html" video=$latestV[vlist] display_type='channel_page'}
+                        {/section}
+                        {else}
+                        	<div style="min-height:200px; text-align:center; line-height:200px;"><em>Found No Videos</em></div>
+                        {/if}
+                        </ul>
+                    </div>
+                    <button id="VnextItem" class="carouselButton">&darr;</button>                           
+            </div> <!-- itemListing end -->
+        </div> <!-- channelFeatureBox end -->
+        {/if}
+        {/if}
+        <div class="clearfix channelBox" style="border:1px solid #ccc; padding:0px;">
+        	<ul class="channelBar clearfix">
+            	<li><a href="#" class="selected" rel="infoDIV" onClick="channelObjects(this,'#channelDetailsBox','info','{$u.userid}'); return false;">Info</a></li>
+                {if isSectionEnabled('videos')}
+                <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','videos','{$u.userid}'); return false;">Videos</a></li>{/if}
+                {if isSectionEnabled('groups')}
+                <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','groups','{$u.userid}'); return false;">Groups</a></li>{/if}
+                {if isSectionEnabled('photos')}
+                <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','photos','{$u.userid}'); return false;">Photos</a></li>{/if}
+            </ul>
+            <div id="channelDetailsBox">
+            <div id="infoDIV" class="channelInnerPadding clearfix">
+            <fieldset class="channelFieldset">
+            	<legend class="channelLegend">Basic Info</legend>
+                {assign var="personal_details" value=$userquery->load_personal_details($p)}
+                {foreach from=$personal_details item=field}
+                {if $field.auto_view=='yes'}
+                    <div class="channelRow">
+                    {if $field.type !='textarea' && $field.type !='text' && $field.type !='textfield'}
+                        <div class="channelLabel">{$field.title}</div>
+                        <div class="channelDetail">{input_value input=$field}</div>
+					{elseif $field.type =='textarea'}
+                        <div class="channelLabel">{$field.title}</div>
+                        <div class="channelDetail">{$field.value|nl2br}</div>
+                    {else}
+                        <div class="channelLabel">{$field.title}</div>
+                        <div class="channelDetail">{input_value input=$field}</div>                    
+                    {/if}                                                
+                    </div>
+                {/if}    
+				{/foreach}                                       
+            </fieldset>
+            
+			<fieldset id="moreDetails" class="channelFieldset">
+            	<legend class="channelLegend" style=" margin-bottom:0px;" onClick="$('#moreDetails').hide(); $('#moreDetailsDIV').show();">MORE</legend>
+            </fieldset>
+            
+            <div style="display:none; margin:0px; padding:0px;" id="moreDetailsDIV">
+            <fieldset class="channelFieldset">
+            	<legend class="channelLegend">Location</legend>
+                {assign var="location_details" value=$userquery->load_location_fields($p)}
+                {foreach from=$location_details item=field}
+                {if $field.auto_view=='yes'}
+                    <div class="channelRow">
+                    {if $field.type !='textarea' && $field.type !='text' && $field.type !='textfield'}
+                        <div class="channelLabel">{$field.title}</div>
+                        <div class="channelDetail">{input_value input=$field}</div>
+					{elseif $field.type =='textarea'}
+                        <div class="channelLabel">{$field.title}</div>
+                        <div class="channelDetail">{$field.value|nl2br}</div>
+                    {else}
+                        <div class="channelLabel">{$field.title}</div>
+                        <div class="channelDetail">{input_value input=$field}</div>                    
+                    {/if}                                                
+                    </div>
+                {/if}   
+				{/foreach}                                       
+            </fieldset>
+            
+            <fieldset class="channelFieldset">
+            	<legend class="channelLegend">Education, Hobbies, etc</legend>
+                {assign var="other_details" value=$userquery->load_other_fields($p)}
+                {foreach from=$other_details item=field}
+                {if $field.auto_view=='yes'}
+                    <div class="channelRow">
+                    {if $field.type !='textarea' && $field.type !='text' && $field.type !='textfield'}
+                        <div class="channelLabel">{$field.title}</div>
+                        <div class="channelDetail">{input_value input=$field}</div>
+					{elseif $field.type =='textarea'}
+                        <div class="channelLabel">{$field.title}</div>
+                        <div class="channelDetail">{$field.value|nl2br}</div>
+                    {else}
+                        <div class="channelLabel">{$field.title}</div>
+                        <div class="channelDetail">{input_value input=$field}</div>                    
+                    {/if}                                                
+                    </div>
+                {/if}   
+				{/foreach}                                       
+            </fieldset>                        
             </div>
-             <!-- User Video Blcok Ends-->
-        {/if}
-        {/if}
-        
-        <div class="channel_box">
-        	<div class="channel_inner_box" id="result_cont" style="display:none"></div>
-        </div>
-        
-        <!-- Starting Bottom Channel Box -->
-        <div class="channel_box clearfix" style="margin-bottom:0px">
-   	  
-       {include file="$style_dir/blocks/view_channel/channel_left.html" }
-       
-       <!-- Right Colum -->
-      <div class="right_column">
-      {if isSectionEnabled('videos')}
-       	<div class="channel_inner_box clearfix">
-        	<span class="channel_heading">{lang code='users_videos' assign='users_videos'}{$users_videos|sprintf:$u.username}</span>
- 				{assign var=videos_item_channel_page value=func->config(videos_item_channel_page)}
-            	{get_videos assign='usr_vids' limit=$videos_item_channel_page order='date_added DESC' user=$u.userid}
-
-                {section name=v_list loop=$usr_vids}
-                    {include file="$style_dir/blocks/video.html" video=$usr_vids[v_list] video_view="grid_view"}
-                {sectionelse}
-                	<div align="center"><em>{lang code='user_have_no_vide'}</em></div>
-                {/section}
-              <div class="clear"></div> 
-            <hr width="100%" size="1" noshade>
-            <div align="right"><a href="{$userquery->get_user_videos_link($u)}">{lang code='more'}</a></div>
-        </div>
-       {/if} 
-        
-       {if isSectionEnabled('channels')}
-        <div class="channel_inner_box clearfix">
-        	<span class="channel_heading">{lang code='users_subscribers' assign='users_videos'}{$users_videos|sprintf:$u.username}</span>
-            	{assign var=users_items_subscibers value=func->config(users_items_subscibers)}
-            	{assign var='usr_subs' value=$userquery->get_user_subscribers_detail($u.userid,$users_items_subscibers)}
-                {section name=u_list loop=$usr_subs}
-                    {include file="$style_dir/blocks/user.html" user=$usr_subs[u_list] block_type='small'}
-                {sectionelse}
-                	<div align="center"><em><strong>{lang code='user_no_subscribers' assign='users_videos'}{$users_videos|sprintf:$u.username}</strong></em></div>
-                {/section}
-                <div class="clear"></div>
-            <hr width="100%" size="1" noshade>
-            <div align="right"><a href="#">{lang code='more'}</a></div>
-        </div>
-	   {/if}
-
-	{ANCHOR place='channel_box'}
-       
-       <!-- Comments -->
-        <div class="channel_inner_box" style="font-weight:normal" >
-        	<span class="channel_heading">{lang code='comments'|capitalize:true}</span>
-            <hr width="100%" size="1" noshade><!-- Displaying Comments -->
-    		{include file="$style_dir/blocks/comments/comments.html" id=$u.userid type=c}<hr width="100%" size="1" noshade>
+            </div>
+            </div>
+            <div class="borderLine clearfix" style=" border-width:1px; margin:0px 0px 15px;"></div>
+			
+            <div class="channelInnerPadding" id="commentsDIV">
+            	<fieldset class="channelFieldset">
+                	<legend class="channelLegend">{lang code="comments"}</legend>
+{include file="$style_dir/blocks/comments/comments.html" id=$u.userid type=c}<hr width="100%" size="1" noshade>
             
              {if $myquery->is_commentable($p,'u')}
                 {include file="$style_dir/blocks/comments/add_comment.html" id=$u.userid type=c}
 			{else}
     			<div class="disable_msg" align="center">{lang code='coments_disabled_profile'}</div>
-    		{/if}
+    		{/if}                    
+                </fieldset>
+            </div>            
         </div>
-        
-        
-        </div>
-        
-        <!-- Ending Bottomg Channel Box-->
-     </div>   
-     
-     
-     
-    </div>
+    </div> <!-- this is right side -->       
+</div> <!-- container end -->
     
-    
+<div class="clearfix" style="height:10px"></div>
+<div id="footer" class="clearfix" style="margin-top:0px;">
+    <div class="footer">
+        &copy; {$title} {$smarty.now|date_format:"%Y"}
     </div>
-    
-    <div align="left"><a href="javascript:void(0)" onClick="$('#flag_item').slideToggle()">{lang code='report_this_user'}</a></div>
-    {show_flag_form id=$u.userid type=User}
-    <div style="height:10px"></div>
-  <div id="footer" style="margin-top:0px;">
-    	<div class="footer">
-        	&copy; {$title} {$smarty.now|date_format:"%Y"}
-        </div>
-    </div>
-</div>
-
-</div>
+</div> 
 </body>
 </html>
