@@ -158,7 +158,7 @@ onclick='$(this).toggleClass("watch_vids_head_closed");$("#vid_collections").sli
 This video is found in following collections
 {foreach from=$collections item=collection name=collect}
 	<div class="watch_collect_item">
-    	{$smarty.foreach.collect.iteration}. <a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name}</a>
+    	{$smarty.foreach.collect.iteration}. <a href="{$cbcollection->collection_links($collection.collection_id,'view')}">{$collection.collection_name}</a>
     </div>
 {/foreach}
 {/if}

@@ -33,7 +33,7 @@ if($cbcollection->is_viewable($c))
 		case "v":
 		{
 			$items = $cbvideo->collection->get_collection_items_with_details($c,$order,$get_limit);
-			$count = $cbvideo->collection->get_collection_items_with_details($c,NULL,NULL,TRUE);
+			//$count = $cbvideo->collection->get_collection_items_with_details($c,NULL,NULL,TRUE);
 		}
 		break;
 		
@@ -42,7 +42,7 @@ if($cbcollection->is_viewable($c))
 		case "p":
 		{
 			$items = $cbphoto->collection->get_collection_items_with_details($c,$order,$get_limit);
-			$count = $cbphoto->collection->get_collection_items_with_details($c,NULL,NULL,TRUE);
+			//$count = $cbphoto->collection->get_collection_items_with_details($c,NULL,NULL,TRUE);
 		}
 		break;
 	}

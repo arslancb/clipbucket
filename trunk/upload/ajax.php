@@ -894,7 +894,7 @@ if(!empty($mode))
 				
 				echo json_encode($itemsArray);
 			} else
-				return false;
+				echo json_encode(array("error"=>TRUE));
 		}
 		break;
 		

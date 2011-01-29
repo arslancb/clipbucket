@@ -1183,7 +1183,7 @@ class CBPhotos
 			
 			$query_field[] = "userid";
 			if(!$array['userid'])
-			{	$query_val[] = $userid; $userid = userid(); }
+			{ $userid = userid(); $query_val[] = $userid;  }
 			else	
 			{	$query_val[] = $array['userid']; $userid = $array['userid']; }
 			
@@ -1623,9 +1623,10 @@ class CBPhotos
 	{
 		global $Cbucket;
 		$details = $p['details'];
+		$output = $p['output'];
 		if(empty($details))
 		{
-			return $this->default_thumb($size);	
+			return $this->default_thumb($size,$output);	
 		} else {		
 			//Calling Custom Functions
 			if(count($Cbucket->custom_get_photo_funcs) > 0)
@@ -1655,7 +1656,7 @@ class CBPhotos
 				$photo = $details;
 				
 			if(empty($photo['photo_id']) || empty($photo['photo_key']))		
-				return $this->default_thumb($size);
+				return $this->default_thumb($size,$output);
 			else
 			{
 				if(!empty($photo['filename']) && !empty($photo['ext']))
@@ -1699,7 +1700,7 @@ class CBPhotos
 								
 								if(empty($return_thumb))
 								{
-									$this->default_thumb($size);
+									$this->default_thumb($size,$output);
 								} else {
 									if($p['assign'] != NULL)
 										assign($p['assign'],$return_thumb);
@@ -1784,7 +1785,7 @@ class CBPhotos
 								return $img;
 						}
 					} else {
-						return $this->default_thumb($size);	
+						return $this->default_thumb($size,$output);	
 					}
 				}
 			}
@@ -2014,7 +2015,7 @@ class CBPhotos
 	/**
 	 * Used to return default thumb
 	 */
-	function default_thumb($size=NULL,$output='html')
+	function default_thumb($size=NULL,$output=NULL)
 	{
 		if($size != "_t" && $size != "_m")
 			$size = "_m";

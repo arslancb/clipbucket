@@ -1166,12 +1166,12 @@ function onReload_item()
 function pagination(object,cid,type,pageNumber)
 {
 	var obj = $(object), objID = obj.id, 
-		parent = obj.parent(), parentID, innerHTML = obj.html();
+		paginationParent = obj.parent(), paginationParentID, paginationInnerHTML = obj.html();
 	
-	if(parent.attr('id'))
-		parentID = parent.attr('id')
+	if(paginationParent.attr('id'))
+		paginationParentID = parent.attr('id')
 	else
-	{	parent.attr('id','loadMoreParent'); parentID = parent.attr('id'); }
+	{	paginationParent.attr('id','loadMoreParent'); paginationParentID = paginationParent.attr('id'); }
 			
 	newCall = 
 	$.ajax({
@@ -1181,15 +1181,15 @@ function pagination(object,cid,type,pageNumber)
 		data: { mode: "moreItems", page:pageNumber, cid: cid, type: type },
 		beforeSend: function() { obj.removeAttr('onClick'); obj.html(loading) },
 		success : function(data) { 
-						if(!data)
+						if(data['error'])
 						{
 							if(object.tagName == "BUTTON")
 								obj.attr('disabled','disabled');
-							obj.removeAttr('onClick'); obj.html('No more '+type);
+							obj.removeAttr('onClick'); obj.html('No more '+type);	
 						} else {
 							$('#collectionItemsList').append(data['content']); 
 							$('#NewPagination').html(data['pagination']);
-							obj.html(innerHTML);
+							obj.html(paginationInnerHTML);
 						}
 					}		
 	});
