@@ -730,7 +730,7 @@ class ADODB_mysql extends ADOConnection {
 	}
 	
 	/*
-	 * Sett Security for MYSQL ands Clipbucket
+	 * Sett Security for MYSQL
 	 */
 	function ADODB_EXEC_CONFIGS()
 	{
