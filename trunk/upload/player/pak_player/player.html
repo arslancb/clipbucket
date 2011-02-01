@@ -26,29 +26,13 @@ var splash_img = '{getThumb vdetails=$vdata num='big'}';
 var video_quality = 'normal';
 function toggleQuality(obj)
 {
-	if(video_quality=='normal')
-	{
-		video_quality = 'hq';
-		var playerTime = flowplayer(obj).getTime();
-		flowplayer(obj).stop();
-		flowplayer(obj).getClip(0).update({ url:hq_video_file });
-		flowplayer(obj).play();
-		if(flowplayer(obj).isPlaying())
-		{
-			//flowplayer(obj).seek(playerTime);
-		}
-	}else
-	{
-		var playerTime = flowplayer(obj).getTime();
-		flowplayer(obj).stop();
-		flowplayer(obj).getClip(0).update({ url:normal_video_file });
-		video_quality = 'normal';
-		flowplayer(obj).play();
-		if(flowplayer(obj).isPlaying())
-		{
-			//flowplayer(obj).seek(playerTime);
-		}
-	}
+	
+	alert('test');	
+	alert(flowplayer(obj).getClip(0).url);
+	var duration = flowplayer(obj).getClip(0).duration;
+	flowplayer(obj).getClip(0).update({url:hq_video_file});
+	alert(flowplayer(obj).getClip(0).url);
+	flowplayer(obj).unload().load();
 }
 
 function pakplayer_hq()
