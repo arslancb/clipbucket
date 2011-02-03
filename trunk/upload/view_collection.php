@@ -58,7 +58,7 @@ if($cbcollection->is_viewable($c))
 	assign("c",$cdetails[0]);
 	assign("type",$type);
 	assign("cid",$c);	
-	subtitle($cdetails['collection_name']);
+	subtitle($cdetails[0]['collection_name']);
 	} else {
 		e(lang("collection_not_exists"));
 		$Cbucket->show_page = false;	

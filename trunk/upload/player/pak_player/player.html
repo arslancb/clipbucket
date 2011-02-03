@@ -1,5 +1,5 @@
 <a
-	href="{$normal_vid_file}"
+	href="{if !$ytcode}{$normal_vid_file}{else}api:{$ytcode}{/if}"
 	style="display:block;width:{$player_data.width}; height:{$player_data.height}"
 	id="the_Video_Player">
     {if !$player_data.autoplay}
@@ -27,12 +27,20 @@ var video_quality = 'normal';
 function toggleQuality(obj)
 {
 	
-	alert('test');	
-	alert(flowplayer(obj).getClip(0).url);
-	var duration = flowplayer(obj).getClip(0).duration;
-	flowplayer(obj).getClip(0).update({url:hq_video_file});
-	alert(flowplayer(obj).getClip(0).url);
-	flowplayer(obj).unload().load();
+		if(video_quality=='normal')
+		{
+			video_quality = 'hq';
+			flowplayer(obj).stop();
+			flowplayer(obj).setClip({url:hq_video_file});
+			flowplayer(obj).play();
+		}
+		else
+		{
+			video_quality = 'normal';
+			flowplayer(obj).stop();
+			flowplayer(obj).setClip({url:normal_video_file});
+			flowplayer(obj).play();
+		}
 }
 
 function pakplayer_hq()
@@ -61,7 +69,7 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pakplayer{if $Cbucket->configs
 				{/foreach}
 			{else}
 			background: "url("+pakplayer_path+"/bg.png) repeat",
-			url: "pakplayer.controls.swf",
+			url: "pakplayer.controls.swf"
 			{/if}
 			{literal}
 		},
@@ -71,8 +79,8 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pakplayer{if $Cbucket->configs
 		youtube :
 		{literal}
 		{
-			url:pakplayer_path+'/pakplayer.youtube.swf',
-			enableGdata: true,
+			url:pakplayer_path+'/flowplayer.youtube-3.2.1.swf',
+			enableGdata: true
 		}
 		{/literal}
 		{/if}
@@ -88,37 +96,53 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pakplayer{if $Cbucket->configs
 	clip:
 	{
 		{/literal}
-		autoPlay :true,
 		{if $youtube}
-		url : 'api:{$ytcode}',
 		provider : 'youtube',
 		urlResolvers: 'youtube',
-		//scaling : 'scale',
 		
 		{else}
-		url : normal_video_file,
+		
 		scaling : 'fit',
 		{/if}
 		{literal}
+		autoPlay :true,
+		
 		onLastSecond: function()
 		{
 			if(next_item)
 			{
 				if($.cookie('auto_play_playlist'))
 				window.location = next_item;
+			}else
+			{
+				this.seek(0);
 			}
-		},
+		}
 	},
 	
+	
+	playlists :
+	[
+		
+		{
+		{/literal}
+		{if $youtube}
+		url : 'api:{$ytcode}'		
+		{else}
+		url : normal_video_file
+		{/if}
+		{literal}
+		}
+	],
 	logo:
 	{
 		url: player_logo,
 		fullscreenOnly: false,
 		{/literal}
-		{$logo_position},
+		{$logo_position}
 		{literal}
 		
-	},
+	}
 	
 
 	
@@ -147,7 +171,11 @@ function updateEmbedCode(width,height,autoplay)
 }
 
 $(document).ready(function(){ 
+{/literal}
+{if $smarty.const.THIS_PAGE=='watch_video'}
 updateEmbedCode(embedPlayerWidth,embedPlayerHeight,autoPlayEmbed);
+{/if}
+{literal}
 });
 
 {/literal}

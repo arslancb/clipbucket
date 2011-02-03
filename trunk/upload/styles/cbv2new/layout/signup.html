@@ -88,11 +88,9 @@
                         {load_captcha captcha=$captcha load=field field_params = ' id="verification_code" '}
                    <div class="clearfix"></div>
                 {/if}
-                <label class="label">&nbsp;</label>
-                <div class="input_container">
-                	{load_captcha captcha=$captcha load=function}
-                </div>
-                <div class="clearfix"></div>
+
+                	<div align="center">{load_captcha captcha=$captcha load=function}</div>
+
             {/if}
             <div class="clear"></div>
             <div align="center">

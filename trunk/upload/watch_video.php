@@ -18,9 +18,7 @@ $vkey = @$_GET['v'];
 $vdo = $cbvid->get_video($vkey);
 
 if(video_playable($vdo))
-{
-	
-	
+{	
 	//Checking for playlist
 	$pid = $_GET['play_list'];
 	if(!empty($pid))

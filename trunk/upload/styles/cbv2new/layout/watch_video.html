@@ -69,18 +69,18 @@
 <div  class="action_box"  id="video_detail_result_cont" style="margin-top:0px; margin-bottom:5px; display:none"></div>
 
 	<div class="vd_user_container" align="center">
-   		<a href="{$userquery->profile_link($user)}"><img src="{$userquery->getUserThumb($user)}" alt="{$user.username}" class="account_thumb" /></a>
+   		<a href="{$userquery->profile_link($vdo)}"><img src="{$userquery->getUserThumb($vdo)}" alt="{$vdo.username}" class="account_thumb" /></a>
         <ul>
-        	<li><a href="{$userquery->profile_link($user)}">{lang code='view_profile'}</a></li>
-        	<li><a href="{$userquery->get_user_videos_link($user)}">{lang code='grp_view_vdos'}</a></li>
+        	<li><a href="{$userquery->profile_link($vdo)}">{lang code='view_profile'}</a></li>
+        	<li><a href="{$userquery->get_user_videos_link($vdo)}">{lang code='grp_view_vdos'}</a></li>
         </ul>
-        <div align="center"><span class="small_button non_button" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</span></div>
+        <div align="center"><span class="small_button non_button" onclick="subscriber('{$vdo.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</span></div>
     </div>
     
     <div class="vd_details">{ANCHOR place="video_bookmarks" data=$vdo}
     <div class="uploading_detail">
     {lang code='uploaded_by_s' assign='uploaded_by_s'}
-    	<a href="{$userquery->profile_link($user)}">{$uploaded_by_s|sprintf:$user.username} &#8212; {$vdo.date_added|nicetime}</a>
+    	<a href="{$userquery->profile_link($vdo)}">{$uploaded_by_s|sprintf:$vdo.username} &#8212; {$vdo.date_added|nicetime}</a>
     </div>
     <div class="vd_stats">
         <ul>
@@ -182,7 +182,7 @@ This video is found in following collections
 {assign var=videos_items_columns value=func->config(videos_items_columns)}
 {get_videos user=$vdo.userid limit=$videos_items_columns assign=user_vids exclude=$vdo.videoid}
 {if $user_vids}
-<span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#user_vids").slideToggle("fast")'>More from {$user.username}</span>
+<span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#user_vids").slideToggle("fast")'>More from {$vdo.username}</span>
 <div class="watch_vids_cont" id="user_vids">
 {section name=uvlist loop=$user_vids}
 	{include file="$style_dir/blocks/watch_video/video_box.html" video=$user_vids[uvlist]}
