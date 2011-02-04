@@ -79,7 +79,7 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pakplayer{if $Cbucket->configs
 		youtube :
 		{literal}
 		{
-			url:pakplayer_path+'/flowplayer.youtube-3.2.1.swf',
+			url:pakplayer_path+'/pakplayer.youtube.swf',
 			enableGdata: true
 		}
 		{/literal}
@@ -113,9 +113,6 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pakplayer{if $Cbucket->configs
 			{
 				if($.cookie('auto_play_playlist'))
 				window.location = next_item;
-			}else
-			{
-				this.seek(0);
 			}
 		}
 	},
