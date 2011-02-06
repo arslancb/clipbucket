@@ -2645,11 +2645,18 @@ class userquery extends CBCategory{
 			$uquery_val[] = $array['dob'];
 		}
 		
+		
+		
 		//Updating User Avatar
 		if($array['avatar_url'])
 		{
 			$uquery_field[] = 'avatar_url';
 			$uquery_val[] = $array['avatar_url'];
+		}
+		if($array['remove_avatar_url']=='yes')
+		{
+			$uquery_field[] = 'avatar_url';
+			$uquery_val[] = '';
 		}
 		
 		//Deleting User Avatar

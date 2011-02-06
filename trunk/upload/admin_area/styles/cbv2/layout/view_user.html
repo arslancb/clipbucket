@@ -256,7 +256,9 @@
   </fieldset><fieldset class="fieldset">
   <legend>User Avatar and Background</legend><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="100" align="center" valign="top"><img src="{$userquery->getUserThumb($u)}" class="mid_user_thumb" style="max-width:95px"/></td>
+    <td width="100" align="center" valign="top"><img src="{$userquery->getUserThumb($u)}" class="mid_user_thumb" style="max-width:95px"/><br />
+      <input name="delete_avatar" type="checkbox" id="delete_avatar" value="yes" />
+      <label for="delete_avatar">Delete This Image - (if user has profile pic)</label></td>
     <td valign="top"><strong>User Avatar/Profile Pic</strong><br />
       Please select image file<br />
       <label for="avatar_file"></label>
@@ -265,10 +267,11 @@
       Please Enter Image URL<br />
       <label for="avatar_url"></label>
       <input name="avatar_url" type="text" id="avatar_url" value="{$u.avatar_url}" />
-      <br />
-      <input name="delete_avatar" type="checkbox" id="delete_avatar" value="yes" />
-      <label for="delete_avatar">Delete This Image - (if user has profile pic)</label>
+      
       <input type="hidden" name="avatar_file_name" value="{$u.avatar}" />
+<br />
+      <input name="remove_avatar_url" type="checkbox" id="remove_avatar_url" value="yes" />
+      <label for="remove_avatar_url">Remote avatar url</label>
       </td>
   </tr>
   <tr>
