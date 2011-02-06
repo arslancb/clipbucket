@@ -26,31 +26,9 @@ if(video_playable($vdo))
 		$plist = $cbvid->action->get_playlist($pid,userid());
 		if($plist)
 			$_SESSION['cur_playlist'] = $pid;
-	}
-	
-	if(post('send_content'))
-	{
-		//Sending Video
-		$cbvid->set_share_email($vdo);
-		$cbvid->action->share_content($vdo['videoid']);
-	}
-	
+	}	
 	//Calling Functions When Video Is going to play
 	call_watch_video_function($vdo);
-	
-	//adding Comment
-	if(isset($_POST['add_comment']))
-	{
-		$cbvideo->add_comment($_POST['comment'],$vdo['videoid']);
-		$vdo['comments_count'] = $cbvid->count_video_comments;
-	}
-	
-	//Adding Video To Favorites
-	if(isset($_REQUEST['favorite']))
-	{
-		$cbvideo->action->add_to_fav($vdo['videoid']);
-	}
-	
 	assign('vdo',$vdo);
 	subtitle($vdo['title']);
 	

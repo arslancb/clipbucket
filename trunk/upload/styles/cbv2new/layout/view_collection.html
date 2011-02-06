@@ -27,7 +27,7 @@
     
    <!--{include file="$style_dir/blocks/pagination.html"}-->
     <div style="padding-bottom:5px; height:1px; margin-bottom:5px; clear:both; border-bottom:1px solid #ccc;"></div>
-    <div class="moveL" style="width:200px; font:normal 11px Tahoma;">
+    <div class="moveL" style="width:170px; font:normal 11px Tahoma;">
         <span style="color:#333; font-weight:bold;">{lang code="date_added"}</span>
         <div style="height:2px; clear:both;"></div>
         {$c.date_added|niceTime}
@@ -51,7 +51,7 @@
 
     </div> <!-- moveL end -->
     
-    <div class="clearfix" style="width:77%; float:left;">
+    <div class="clearfix" style="width:820px; float:left;">
     	<span style="font:normal 11px Tahoma">{$c.collection_description|description}</span>
         <div class="borderLine"></div>
         <div class="video_actions_cont clearfix">
@@ -68,8 +68,10 @@
             
             </ul>            
             </div>
+            
+            
         </div> <!-- video_actions_cont -->
-        
+        <div style="margin-top:5px">{AD place=ad_728x90}</div>
         <div class="video_action_result_boxes">
             {show_share_form id=$c.collection_id type=Collection}
             {show_flag_form id=$c.collection_id type=Collection}
@@ -78,18 +80,22 @@
         </div> <!-- IN-LINE DIV END -->
         
     <div style="height:15px; clear:both;"></div>
-    <div class="moveL" style="width:60%">
     <div class="" style="font-size:12px; padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;"><h2 class="commentHead">{lang code="comments"} ({$c.total_comments})</h2></div>  
+    <div class="moveL" style="width:670px">
+    
         <div id="collectionComments">
         	{include file="$style_dir/blocks/comments/comments.html" id=$c.collection_id type='cl'}
         </div>
       </div>
-      <div class="moveR collectionComments" style="width:39%">  
+      <div class="moveR collectionComments" style="width:310px">
+     
         <div style="height:5px;"></div>
         {if $myquery->is_commentable($c,'collection')}
         	{include file="$style_dir/blocks/comments/add_comment.html" id=$c.collection_id type='cl'}
         {else}
         	<div class="disable_msg" align="center">{lang code='comm_disabled_for_vid'}</div>
         {/if}
+        
+         <div align="center" style="margin:5px auto">{AD place=ad_300x250}</div>  
        </div>  
 </div>

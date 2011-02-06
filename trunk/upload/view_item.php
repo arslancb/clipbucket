@@ -28,7 +28,9 @@ if($cbcollection->is_viewable($cid))
 		else
 		{
 			assign('type',$type);
-			
+			$param = array("type"=>$type,"cid"=>$cid);
+			$cdetails = $cbcollection->get_collections($param);
+			$collect = $cdetails[0];
 			switch($type)
 			{
 				case "videos":
@@ -37,7 +39,7 @@ if($cbcollection->is_viewable($cid))
 					global $cbvideo;
 					$video = $cbvideo->get_video($item);
 					
-					if($video)
+					if(video_playable($video))
 					{
 						$info = $cbvideo->collection->get_collection_item_fields($cid,$video['videoid'],'ci_id,collection_id');
 						if($info)
@@ -47,7 +49,8 @@ if($cbcollection->is_viewable($cid))
 							
 							assign('object',$video);
 							assign('user',$userquery->get_user_details($video['userid']));
-							assign('c',$collect);
+							assign('c',$collect);						
+							
 						} else {
 							e(lang("item_not_exist"));
 							$Cbucket->show_page = false;
@@ -56,6 +59,8 @@ if($cbcollection->is_viewable($cid))
 						e(lang("item_not_exist"));
 						$Cbucket->show_page = false;	
 					}
+					
+					
 				}
 				break;
 				

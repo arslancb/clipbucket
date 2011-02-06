@@ -149,13 +149,13 @@
 <!-- Collections -->
 {if userid()}
 <span class="watch_vids_head watch_vids_head_closed" 
-onclick='$(this).toggleClass("watch_vids_head_closed");$("#vid_collections").slideToggle("fast")'>Collections</span>
+onclick='$(this).toggleClass("watch_vids_head_closed");$("#vid_collections").slideToggle("fast")'>{lang code='collections'}</span>
 <div class="watch_vids_cont" id="vid_collections" style="display:none">
 
 {assign var=collections value=$cbvid->collection->getCollectionFromItem($vdo.videoid)}
 
 {if $collections}
-This video is found in following collections
+{lang code='this_video_found_in_no_collection'}
 {foreach from=$collections item=collection name=collect}
 	<div class="watch_collect_item">
     	{$smarty.foreach.collect.iteration}. <a href="{$cbcollection->collection_links($collection.collection_id,'view')}">{$collection.collection_name}</a>
@@ -182,7 +182,10 @@ This video is found in following collections
 {assign var=videos_items_columns value=func->config(videos_items_columns)}
 {get_videos user=$vdo.userid limit=$videos_items_columns assign=user_vids exclude=$vdo.videoid}
 {if $user_vids}
-<span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#user_vids").slideToggle("fast")'>More from {$vdo.username}</span>
+<span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#user_vids").slideToggle("fast")'>
+
+{lang code='more_from' assign='more_from'}
+{$more_from|sprintf:$vdo.username}</span>
 <div class="watch_vids_cont" id="user_vids">
 {section name=uvlist loop=$user_vids}
 	{include file="$style_dir/blocks/watch_video/video_box.html" video=$user_vids[uvlist]}
@@ -197,7 +200,7 @@ This video is found in following collections
 
 
 {if $related_vids}
-<span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#related_vids").slideToggle("fast")'>Related Videos</span>
+<span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#related_vids").slideToggle("fast")'>{lang code='related_videos'}</span>
 <div class="watch_vids_cont" id="related_vids">
 {section name=uvlist loop=$related_vids}
 	{include file="$style_dir/blocks/watch_video/video_box.html" video=$related_vids[uvlist]}
