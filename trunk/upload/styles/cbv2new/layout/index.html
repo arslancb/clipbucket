@@ -90,24 +90,7 @@
     {/if}
  
 
-    {if isSectionEnabled('photos')}
-    <!-- Getting Random videos -->
-    {assign var=limit value=func->config(photo_other_limit)}
-    {get_photos assign=ran_ph limit=$limit order=RAND()}
     
-    {if $ran_ph}
-    <div style="width:300px; margin:auto">
-    <span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#rand_vids").slideToggle("fast")'>{lang code='rand_vids'}</span>
-    <div class="watch_vids_cont" id="rand_vids" style="background-color:#FFF">
-    {section name=plist loop=$ran_ph}
-        {include file="$style_dir/blocks/photo.html" photo=$ran_ph[plist] display_type="side_photos"}
-    {/section}
-    <div class="clearfix"></div>
-    </div>
-    <div style="height:10px"></div>
-    </div>
-    {/if}
-    {/if} 
     
     {if isSectionEnabled('videos')}
     <!-- Getting Random videos -->
@@ -127,6 +110,25 @@
     </div>
     {/if}
     {/if}
+    
+    {if isSectionEnabled('photos')}
+    <!-- Getting Random videos -->
+    {assign var=limit value=func->config(photo_other_limit)}
+    {get_photos assign=ran_ph limit=$limit order=RAND()}
+    
+    {if $ran_ph}
+    <div style="width:300px; margin:auto">
+    <span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#rand_vids").slideToggle("fast")'>{lang code='rand_photos'}</span>
+    <div class="watch_vids_cont" id="rand_vids" style="background-color:#FFF">
+    {section name=plist loop=$ran_ph}
+        {include file="$style_dir/blocks/photo.html" photo=$ran_ph[plist] display_type="side_photos"}
+    {/section}
+    <div class="clearfix"></div>
+    </div>
+    <div style="height:10px"></div>
+    </div>
+    {/if}
+    {/if} 
     
     {if isSectionEnabled('channels')}
 	<div class="box">
