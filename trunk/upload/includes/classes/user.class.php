@@ -1385,7 +1385,7 @@ class userquery extends CBCategory{
 		$thumb_file = USER_THUMBS_DIR.'/'.$thumbnail;
 		
 		
-		if(file_exists($thumb_file) && $thumbnail!='')
+		if(file_exists($thumb_file) && $thumbnail)
 			$thumb_file = USER_THUMBS_URL.'/'.$thumbnail;
 		elseif(!empty($udetails['avatar_url']))
 		{
@@ -1434,8 +1434,6 @@ class userquery extends CBCategory{
 				$thumb = USER_THUMBS_URL.'/'.$file.'-'.$size.'.'.$ext;
 			elseif(!$thumb)
 				$thumb = USER_THUMBS_URL.'/'.$file.'.'.$ext;
-		}elseif(!USE_GAVATAR) {
-			$thumb = $thumb_file;
 		}
 		
 		if($just_file)
