@@ -947,3 +947,7 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 .channelDetail { display:inline-block; font:normal 11px Tahoma; width:80%; }
 .channelInnerPadding { padding:0px 6px; }
 .moreThings { clear:both; display:block; font:bold 11px Arial; margin-top:3px; }
+
+.watchMainWindow{border:#001853; background-color:#0066cc; font-weight:bold; padding:3px; margin-top:5px}
+.watchMainWindow a{color:#fff; text-decoration:none; font-weight:bold}
+.watchMainWindow a:hover{text-decoration:underline}
