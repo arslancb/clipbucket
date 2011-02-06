@@ -8,6 +8,13 @@
                     {$photo.photo_title|truncate:100}<br />
                     <span class="video_control">
                     <a href="{$cbphoto->photo_links($photo,'view_item')}">view</a> - <a href="{$baseurl}/edit_photo.php?photo={$photo.photo_id}">edit</a> - <a href="javascript:void(0)"  onmousedown="delete_item('delete_icon_a','{$photo.photo_id}','{lang code="Are you sure you want to delete this photo? This action will delete photo permanently."}','?mode=uploaded&amp;delete_photo={$photo.photo_id}')"  id="delete_icon_a-{$photo.photo_id}">delete</a>
+               -      
+          {if !$userquery->isProfileItem($photo.photo_id,'p')}
+        	<a href="{$queryString}makeProfileItem={$photo.photo_id}&type=p">{lang code='make_profile_item'}</a>
+        {else}
+        	<a href="{$queryString}removeProfileItem={$photo.photo_id}&type=p">{lang code='remove_profile_item'}</a>
+        {/if}
+        
                     </span>
                 </td>
                 <td width="100">{$photo.date_added|date_format}</td>

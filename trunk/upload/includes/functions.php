@@ -4826,18 +4826,28 @@
 	 * for passing variables to url
 	 * @input variable_name
 	 */
-	function queryString($var,$remove=false)
+	function queryString($var=false,$remove=false)
 	{
 		$queryString = $_SERVER['QUERY_STRING'];
+		
+		if($var)
 		$queryString = preg_replace("/$var=([\w+\s\b]+|)/","",$queryString);
 		if($remove)
-		$queryString = preg_replace("/$remove=([\w+\s\b]+|)/","",$queryString);
-		$queryString = preg_replace("/\&+/","&",$queryString);
+		{
+			if(!is_array($remove))
+			$queryString = preg_replace("/$remove=([\w+\s\b]+|)/","",$queryString);
+			else
+			foreach($remove as $rm)
+				$queryString = preg_replace("/$rm=([\w+\s\b]+|)/","",$queryString);
+			
+		}
 		
 		if($queryString)
 			$preUrl = "?$queryString&";
 		else
 			$preUrl = "?";
+		
+		$preUrl = preg_replace(array("/(\&{2,10})/","/\?\&/"),array("&","?"),$preUrl);
 		
 		return $preUrl.$var;		
 	}

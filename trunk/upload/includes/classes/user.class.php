@@ -31,6 +31,7 @@ class userquery extends CBCategory{
 	var $user_exist = '';
 	var $user_account = array();
 	var $user_sessions = array();
+	var $profileItem = '';
 	
 	var $dbtbl = array(
 					   'user_permission_type'	=> 'user_permission_types',
@@ -2229,17 +2230,7 @@ class userquery extends CBCategory{
 						  'auto_view'=>'yes',
 						  'display_function'=>'outgoing_link'
 						  ),
-		'profile_video' => array(
-						  'title' => lang('Profile Video'),
-						  'type' => 'dropdown',
-						  'name' => 'profile_video',
-						  'id' => 'profile_video',
-						  'value' => $usr_vids,
-						  'checked' => $default['profile_video'],
-						  'db_field' => 'profile_video',
-						  'auto_view' => 'no',
 
-						  )
 		
 		);
 		
@@ -4295,6 +4286,135 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 			return $vids;
 		}
 		return false;
+	}
+	
+	
+	/**
+	 * Function used to set item as profile item
+	 */
+	function setProfileItem($id,$type='v',$uid=NULL)
+	{
+		global $cbvid,$db,$cbphoto;
+		if(!$uid)
+			$uid = userid();
+		if(!$uid)
+		{
+			e("user_doesnt_exist"); 
+			return false;
+		}
+		switch($type)
+		{
+			case "v":
+			{
+				if($cbvid->video_exists($id))
+				{
+					$array['type'] = 'v';
+					$array['id'] = $id;
+					$db->update(tbl('user_profile'),array('profile_item'),array("|no_mc|".json_encode($array))
+					," userid='$uid' ");
+					
+					e(sprintf(lang("this_has_set_profile_item"),lang("video")),"m");
+				}else
+					e("class_vdo_del_err");	
+			}
+			break;
+			
+			case "p":
+			{
+				if($cbphoto->photo_exists($id))
+				{
+					$array['type'] = 'p';
+					$array['id'] = $id;
+					$db->update(tbl('user_profile'),array('profile_item'),array("|no_mc|".json_encode($array))
+					," userid='$uid' ");
+					
+					e(sprintf(lang("this_has_set_profile_item"),lang("photo")),"m");
+				}else
+					e("photo_not_exists");	
+			}
+			break;
+		}
+	}
+	
+	/**
+	 * Remove Profile item
+	 */
+	function removeProfileItem($uid=NULL)
+	{
+		global $db;
+		if(!$uid)
+			$uid = userid();
+		if(!$uid)
+		{
+			e("user_doesnt_exist"); 
+			return false;
+		}
+		
+		$db->update(tbl('user_profile'),array('profile_item'),array("")
+		," userid='$uid' ");
+		
+		e(lang("profile_item_removed"),"m");
+	}
+	
+	/**
+	 * function used to get profile item
+	 */
+	function getProfileItem($uid=NULL,$withDetails = false)
+	{
+		global $db,$cbvid,$cbphoto;
+		if(!$uid)
+			$uid = userid();
+		if(!$uid)
+		{
+			e("user_doesnt_exist"); 
+			return false;
+		}
+		
+		if($uid == userid() && $this->profileItem && !$withDetails)
+			return $this->profileItem;
+		
+		$profileItem = $db->select(tbl("user_profile"),"profile_item"," userid='$uid'");
+		$profileItem = $profileItem[0]['profile_item'];
+		
+		$profileItem = json_decode($profileItem,true);
+		
+		if($withDetails)
+		{
+			switch($profileItem['type'])
+			{
+				case "p":
+				{
+					$photo = $cbphoto->get_photo($profileItem['id']);
+					$photo['type'] = 'p';
+					if($photo)
+						return $photo;
+				}
+				break;
+				case "v":
+				{
+					$video = $cbvid->get_video($profileItem['id']);
+					$video['type'] = 'v';
+					if($video)
+						return $video;
+				}
+				break;
+			}
+		}
+		return $this->profileItem = $profileItem;
+	}
+	
+	/**
+	 * Function used to check weather input given item
+	 * is profile item or not
+	 */
+	function isProfileItem($id,$type='v',$uid=NULL)
+	{
+		$profileItem = $this->getProfileItem($uid);
+		
+		if($profileItem['type'] == $type && $profileItem['id'] == $id)
+			return true;
+		else
+			return false;
 	}
 
 }

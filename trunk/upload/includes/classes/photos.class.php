@@ -247,7 +247,11 @@ class CBPhotos
 	function photo_exists($id)
 	{
 		global $db;
+		if(is_numeric($id))
 		$result = $db->select(tbl($this->p_tbl),"photo_id"," photo_id = '$id'");
+		else
+		$result = $db->select(tbl($this->p_tbl),"photo_id"," photo_key = '$id'");
+		
 		if($result)
 			return true;
 		else

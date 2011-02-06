@@ -965,7 +965,7 @@ if(!empty($mode))
 		{
 			$contentType = $_POST['contentType'];
 			if(!$contentType)
-				echo json_encode(array("error"=>"Content Type is empty. Please tell us what type of content you want."));
+				echo json_encode(array("error"=>lang("content_type_empty")));
 			else
 			{
 				switch($contentType)

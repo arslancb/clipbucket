@@ -22,6 +22,11 @@
                         <ul style="list-style:none; margin:0px; padding:0px;">
                         {if $latestP}
                         {section name=plist loop=$latestP}
+                        	{if $smarty.section.plist.iteration==1}
+								{if !$profile_item}
+                                	{assign var='profile_item' value=$latestP[plist]}
+                                {/if}
+                            {/if}
                             {include file="$style_dir/blocks/photo.html" photo=$latestP[plist] display_type='channel_page'}
                         {/section}
                         {else}
@@ -33,9 +38,11 @@
             </div> <!-- itemListing end -->
             <div class="viewItemBox">
             	<div id="viewingArea" class="viewingArea">
-
+					 
                 </div> <!-- viewingArea end -->
             </div> <!-- viewItemBox end -->
+            
+            
             <div class="itemListing moveR">              
                 
                 	<button id="VprevItem" class="carouselButton">&uarr;</button>
@@ -43,6 +50,9 @@
                         <ul style="list-style:none; margin:0px; padding:0px;">
                         {if $latestV}
                         {section name=vlist loop=$latestV}
+                        	{if !$profile_item}
+                                {assign var='profile_item' value=$latestV[vlist]}
+                            {/if}
                             {include file="$style_dir/blocks/video.html" video=$latestV[vlist] display_type='channel_page'}
                         {/section}
                         {else}
@@ -55,6 +65,23 @@
         </div> <!-- channelFeatureBox end -->
         {/if}
         {/if}
+        
+        {* Fetching Profile item File*}
+        
+        {if $profile_item}
+            <div id="profileItemScrap" style="display:none">
+            {include file="$style_dir/blocks/view_channel/channel_item.html" object = $profile_item }</div>
+            <script>
+                $(document).ready
+                (
+                    function()
+                    {ldelim}
+                        $('#viewingArea').html($('#profileItemScrap').html());
+                    {rdelim}
+                );
+            </script>
+        {/if}
+        
         <div class="clearfix channelBox" style="border:1px solid #ccc; padding:0px;">
         	<ul class="channelBar clearfix">
             	<li><a href="#" class="selected" rel="infoDIV" onClick="channelObjects(this,'#channelDetailsBox','info','{$u.userid}'); return false;">Info</a></li>
@@ -161,5 +188,16 @@
         &copy; {$title} {$smarty.now|date_format:"%Y"}
     </div>
 </div> 
+
+
+
+<script>var funcToBCalled = '';
+$(document).ready(function(){ldelim}
+	var firstChild = $('.itemBox:first-child');
+	funcToBCalled = firstChild.attr('onclick');
+	;
+	{rdelim}
+	).bind(funcToBCalled);
+</script>
 </body>
 </html>

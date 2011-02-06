@@ -28,12 +28,20 @@
  	    <td width="25"><input type="checkbox" name="check_vid[]" id="check_vid-{$video.videoid}" value="{$video.videoid}" />
  	      <label for="checkbox"></label></td>
  	    <td valign="middle">
-        <div style="padding-left:10px; float:left;width:290px">
-        <img src="{getThumb vdetails=$video}" width="40" height="30" border="0" class="acc_usr_video_thumb" />{$video.title|truncate:100}<br />
-<span class="video_control"><a href="{videoLink vdetails=$video}">view</a> - <a href="{$baseurl}/edit_video.php?vid={$video.videoid}">edit</a> - <a href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$video.videoid}','{lang code="confirm_del_video"}','?mode=uploaded&amp;vid_delete={$video.videoid}')"  id="delete_icon_a-{$video.videoid}">delete</a></span>
+        <div style="padding-left:10px; float:left;width:320px">
+        <img src="{getThumb vdetails=$video}" width="40" height="30" border="0" class="acc_usr_video_thumb" /><div>{$video.title|truncate:100}</div>
+<span class="video_control"><a href="{videoLink vdetails=$video}">view</a> - <a href="{$baseurl}/edit_video.php?vid={$video.videoid}">edit</a> - <a href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$video.videoid}','{lang code="confirm_del_video"}','?mode=uploaded&amp;vid_delete={$video.videoid}')"  id="delete_icon_a-{$video.videoid}">delete</a> - 
+		
+        {if !$userquery->isProfileItem($video.videoid,'v')}
+        	<a href="{$queryString}makeProfileItem={$video.videoid}&type=v">{lang code='make_profile_item'}</a>
+        {else}
+        	<a href="{$queryString}removeProfileItem={$video.videoid}&type=v">{lang code='remove_profile_item'}</a>
+        {/if}
+        
+        </span>
         <div class="clearfix"></div></div>
-        <a href="javascript:void(0)"  onmousedown="delete_video('delete_icon','{$video.videoid}','{lang code="confirm_del_video"}','?mode=uploaded&amp;vid_delete={$video.videoid}')" id="delete_icon-{$video.videoid}"><img src="{$imageurl}/dot.gif" border="0" class="delete_icon" /></a>
-        <a href="{$baseurl}/edit_video.php?vid={$video.videoid}"><img src="{$imageurl}/dot.gif" border="0" class="edit_icon" /></a></td>
+        
+       </td>
  	    <td width="100">{$video.date_added|date_format}</td>
  	    <td width="100">{$video.views|number_format}</td>
  	    <td width="100">{$video.comments_count}</td>

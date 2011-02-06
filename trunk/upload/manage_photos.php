@@ -21,6 +21,12 @@ $mode = $_GET['mode'];
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,MAINPLIST);
 
+
+assign('queryString',queryString(NULL,array('type',
+					'makeProfileItem',
+					'removeProfileItem',
+					'delete_photo')));
+					
 switch($mode)
 {
 	case "uploaded":
@@ -42,6 +48,20 @@ switch($mode)
 			}
 			$eh->flush();
 			e(sprintf(lang("total_photos_deleted"),$total),"m");
+		}
+		
+		//Setting Profile Photo
+		if(isset($_GET['makeProfileItem']))
+		{
+			$item = mysql_clean($_GET['makeProfileItem']);
+			$type = mysql_clean($_GET['type']);
+			$userquery->setProfileItem($item,$type);
+		}
+		
+		//Removing Profile Item
+		if(isset($_GET['removeProfileItem']))
+		{
+			$userquery->removeProfileItem();
 		}
 		
 		$photo_arr = array("user"=>userid(),"limit"=>$get_limit, 'order'=>' date_added DESC');

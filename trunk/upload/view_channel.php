@@ -40,10 +40,17 @@ if($udetails)
 	call_view_channel_functions($udetails);
 	
 	assign("u",$udetails);
-	assign('p',$userquery->get_user_profile($udetails['userid']));
+	
+	//Getting profile details
+	$p = $userquery->get_user_profile($udetails['userid']);
+	assign('p',$p);
 	
 	subtitle(sprintf(lang('user_s_channel'),$udetails['username']));
 	
+	//Setting profilte item
+	$profileItem = $userquery->getProfileItem($udetails['userid'],true);
+	
+	assign('profile_item',$profileItem);
 }else{
 	e(lang("usr_exist_err"));
 	$Cbucket->show_page = false;
