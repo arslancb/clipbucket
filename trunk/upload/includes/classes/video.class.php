@@ -871,7 +871,8 @@ class CBvideo extends CBCategory
 		$this->search->db_tbl = "video";
 		$this->search->columns =array(
 			array('field'=>'title','type'=>'LIKE','var'=>'%{KEY}%'),
-			array('field'=>'tags','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR')
+			array('field'=>'tags','type'=>'LIKE','var'=>'%{KEY}%','op'=>'OR'),
+			array('field'=>'broadcast','type'=>'!=','var'=>'unlisted','op'=>'AND','value'=>'static')
 		);
 		$this->search->use_match_method = true;
 		$this->search->match_fields = array("title","tags");

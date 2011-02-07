@@ -114,10 +114,10 @@ class cbsearch
 		$ma_query = "";
 		#Checking for columns
 		if(!$this->use_match_method)
-		foreach($this->columns as $column)
-		{
-			$this->query_cond($column);
-		}
+			foreach($this->columns as $column)
+			{
+				$this->query_cond($column);
+			}
 		else
 		{
 			if($this->key)
@@ -132,7 +132,15 @@ class cbsearch
 			{
 				//do nothing
 			}
+			
+			foreach($this->columns as $column)
+			{
+				if($column['value'] == 'static') 
+				$this->query_cond($column);
+			}
 		}
+		
+		
 		
 		#Checking for category
 		if(isset($this->category))
@@ -169,8 +177,8 @@ class cbsearch
 								tbl($this->db_tbl.'.*,users.userid,users.username').$add_select_field,
 							$query_cond." ".tbl($this->db_tbl).".userid=".tbl("users.userid")." AND ".tbl($this->db_tbl).".active='yes'",$this->limit,$sorting);
 							
-							//echo $db->db_query;
-			//$db->db_query;
+		
+
 			$this->total_results = $db->count(tbl($this->db_tbl),'*',$condition);
 			
 		}else
@@ -207,10 +215,15 @@ class cbsearch
 	{
 		//Checking Condition Type
 		$type = strtolower($array['type']);
-		if($type !='=' && $type!='<' && $type!='>' && $type!='<=' && $type!='>=' && $type!='like' && $type!='match')
+		
+		
+		if($type !='=' && $type!='<' && $type!='>' && $type!='<=' && $type!='>=' && $type!='like' && $type!='match'
+			 && $type!='!='  && $type!='<>')
 		{
 			$type = '=';
 		}
+		
+		
 		$var = $array['var'];
 		if(empty($var))
 		{
@@ -219,10 +232,19 @@ class cbsearch
 		
 		$array['op'] = $array['op']?$array['op']:'AND';
 		
+		
 		if(count($this->query_conds)>0)
 			$op = $array['op'];
 		else
 			$op = '';
+			
+		if($array['value'] == 'static')
+		{
+			$this->query_conds[] = $op." ".tbl($this->db_tbl).".".$array['field']." ".$type." '".$array['var']."'";
+			return true;
+		}
+		
+		
 		if(!empty($this->key) && $type != 'match')	
 			$this->query_conds[] = $op." ".tbl($this->db_tbl).".".$array['field']." ".$type." '".preg_replace("/{KEY}/",$this->key,$var)."'";
 		if(!empty($this->key) && $type == 'match')
@@ -382,10 +404,13 @@ class cbsearch
 	 */
 	function match_against_query()
 	{
+		
+		
 		$cond = " MATCH ( ";
 		$count = 0;
 		foreach($this->match_fields as $field)
-		{
+		{	
+		
 			if($count>0)
 				$cond .= ",";
 			$cond .= tbl($this->db_tbl).".".$field;
