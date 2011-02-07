@@ -45,9 +45,12 @@ Assign('display_template',$search->display_template);
 if(empty($search->key))
 	Assign('search_type_title',$search->search_type[$type]['title']);
 else
-	Assign('search_type_title',sprintf(lang('searching_keyword_in_obj'),$search->key,$search->search_type[$type]['title']));
+	Assign('search_type_title',sprintf(lang('searching_keyword_in_obj'),mysql_clean(get('query')),$search->search_type[$type]['title']));
 
-
+if(mysql_clean(get('query')))
+{
+	subtitle($search->search_type[$type]['title'].' &raquo; '.mysql_clean(get('query')));
+}
 //Displaying The Template
 template_files('search.html');
 display_it();
