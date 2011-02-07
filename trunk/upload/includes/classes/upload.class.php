@@ -465,7 +465,8 @@ class Upload{
 							 'type'=>'radiobutton',
 							 'name'=>'broadcast',
 							 'id'=>'broadcast',
-							 'value'=>array('public'=>lang('vdo_br_opt1'),'private'=>lang('vdo_br_opt2')),
+							 'value'=>array('public'=>lang('vdo_br_opt1'),'private'=>lang('vdo_br_opt2')
+							 ,'unlisted'=>lang('vdo_broadcast_unlisted')),
 							 'checked'=>$broadcast,
 							 'db_field'=>'broadcast',
 							 'required'=>'no',

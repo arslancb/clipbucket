@@ -31,6 +31,16 @@
  {foreach from=$video_fields item=field_group}
  <fieldset class="fieldset">
  <legend>{$field_group.group_name}</legend>
+ 
+ {if $field_group.group_id == 'required_fields'}
+ 
+ <div class="account_field_block">
+ <div class="account_field_label" align="right"><strong><label for="videoLink">{lang code='video_link'}</label></strong></div>
+ <div class="account_field"><textarea onclick="this.select()"  >{videoLink vdetails=$v}</textarea></div>
+ <div class="clearfix"></div>
+ </div>
+ 
+ {/if}
  {foreach from=$field_group.fields item=field}
  <div class="account_field_block">
  <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
@@ -39,6 +49,16 @@
  {$field.hint_2}</div>
  <div class="clearfix"></div>
  </div>
+ 
+ {if $field.name=='broadcast'}
+ 
+ <div class="account_field_block">
+ <div class="account_field_label" align="right"><strong><label for="videoLink">{lang code='video_link'}</label></strong></div>
+ <div class="account_field"><textarea onclick="this.select()"  >{videoLink vdetails=$v}</textarea></div>
+ <div class="clearfix"></div>
+ </div>
+ 
+ {/if}
 
  {/foreach}
 

@@ -99,7 +99,7 @@
             	<legend class="channelLegend">Basic Info</legend>
                 {assign var="personal_details" value=$userquery->load_personal_details($p)}
                 {foreach from=$personal_details item=field}
-                {if $field.auto_view=='yes'}
+                {if $field.auto_view=='yes' && $field.value}
                     <div class="channelRow">
                     {if $field.type !='textarea' && $field.type !='text' && $field.type !='textfield'}
                         <div class="channelLabel">{$field.title}</div>

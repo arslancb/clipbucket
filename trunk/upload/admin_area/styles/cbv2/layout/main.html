@@ -533,7 +533,8 @@ $(document).ready(function(){
         <tr>
           <td valign="top">Max upload file size</td>
           <td><input name="max_upload_size" type="text" id="max_upload_size" value="{$row.max_upload_size}" size="15" maxlength="5" /> 
-      in MegaBytes </td>
+      in MegaBytes <br />
+      Default PHP Max Upload size is <strong>{$upload_max_size}</strong> and Post max size is <strong>{$post_max_size}</strong>, if you set max upload file size larger than this, it will be override by default, however, if set lower than default, it will work fine.</td>
         </tr>
         <tr>
           <td>Max upload duration</td>

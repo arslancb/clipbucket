@@ -455,10 +455,10 @@ class CBvideo extends CBCategory
 		$order = $params['order'];
 		
 		$cond = "";
-		
+		$superCond = "";
 		if(!has_access('admin_access',TRUE))
-			$cond .= " ".tbl("video.status")."='Successful' AND 
-			".tbl("video.active")."='yes' ";
+			$superCond = $cond .= " ".tbl("video.status")."='Successful' AND 
+			".tbl("video.active")."='yes' AND ".tbl("video.broadcast")." !='unlisted' ";
 		else
 		{
 			if($params['active'])
@@ -649,7 +649,11 @@ class CBvideo extends CBCategory
 		
 		if($params['show_related'])
 		{
-			$cond = "MATCH(".tbl("video.title,video.tags").") 
+			$cond = "";
+			if($superCond)
+				$cond = $superCond." AND ";
+			
+			$cond .= "MATCH(".tbl("video.title,video.tags").") 
 			AGAINST ('".cbsearch::set_the_key($params['title'])."' IN BOOLEAN MODE) ";
 			if($params['exclude'])
 			{
@@ -657,13 +661,17 @@ class CBvideo extends CBCategory
 					$cond .= ' AND ';
 				$cond .= " ".tbl('video.videoid')." <> '".$params['exclude']."' ";
 			}
+			
 			$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),
 			$cond." AND ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);
 			
 			if($db->num_rows == 0)
 			{
+				$cond = "";
+				if($superCond)
+					$cond = $superCond." AND ";
 				//Try Finding videos via tags
-				$cond = "MATCH(".tbl("video.title,video.tags").") 
+				$cond .= "MATCH(".tbl("video.title,video.tags").") 
 				AGAINST ('".cbsearch::set_the_key($params['tags'])."' IN BOOLEAN MODE) ";
 				if($params['exclude'])
 				{
@@ -673,7 +681,6 @@ class CBvideo extends CBCategory
 				}
 				$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),
 				$cond." AND ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);
-
 			}
 			assign($params['assign'],$result);
 		}
