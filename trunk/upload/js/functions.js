@@ -1474,3 +1474,27 @@ function channelObjects(object,div,type,user)
 		})	
 	}
 }
+
+var comments_voting = 'no';
+function getComments(type,type_id,last_update,pageNum,total,object_type)
+{
+	$('#comments').html("<div style='padding:5px 0px;'>"+loading+"</div>");
+	$.ajax({
+	  type: 'POST',
+	  url: page,
+	  data:  {mode:'getComments',
+	  page:pageNum,type:type,
+	  type_id:type_id,
+	  object_type : object_type,
+	  last_update : last_update,
+	  total_comments : total,
+	  comments_voting : comments_voting},
+	  success: function(data)
+	  {
+		$('#comments').hide();
+		$('#comments').html(data);
+		$('#comments').fadeIn('slow');
+	  },
+	  dataType: 'text'
+	});
+}

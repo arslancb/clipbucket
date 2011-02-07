@@ -930,6 +930,17 @@
 			return false;						
 	}
 	
+	function getSmartyComments($params)
+	{
+		global $myquery;
+		$comments  =  $myquery->getComments($params);
+		
+		if($params['assign'])
+			assign($params['assign'],$comments);
+		else
+			return $comments;
+	}
+	
 	/**
 	* FUNCTION USED TO GET ADVERTISMENT
 	* @param : array(Ad Code, LIMIT);

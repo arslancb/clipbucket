@@ -1815,7 +1815,7 @@ class userquery extends CBCategory{
 	{
 		global $db;
 		$total_comments = $this->count_comments_by_user($id);
-		$db->update(tbl("users"),array("total_comments"),array($total_comments)," userid='$id'");
+		$db->update(tbl("users"),array("total_comments","last_commented"),array($total_comments,now())," userid='$id'");
 	}
 	
 	/**
@@ -1825,7 +1825,7 @@ class userquery extends CBCategory{
 	{
 		global $db;
 		$total_comments = $this->count_profile_comments($id);
-		$db->update(tbl("users"),array("comments_count"),array($total_comments)," userid='$id'");
+		$db->update(tbl("users"),array("comments_count","last_commented"),array($total_comments,now())," userid='$id'");
 	
 	}
 	/**

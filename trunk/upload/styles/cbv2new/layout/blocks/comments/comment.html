@@ -32,8 +32,26 @@
         {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">{lang code='delete'}</a>{/if}</div>
         </div>
         
-        <div class="comment_cont">{$comment.comment|comment}</div>
-        {if $type=='v' && $vdo.comment_voting=='yes'}
+        <div class="comment_cont">
+        
+        {if $comment.parent_id}
+       		{assign var=parentid value=$comment.parent_id}
+            {assign var=thisParent value=$parents.$parentid}
+            
+            {if $thisParent}
+        	<div style="padding:3px; margin:5px; background-color:#CCC">
+            	
+                {if $thisParent.username}@{$thisParent.username} : 
+                {/if}{$thisParent.comment|comment}
+            </div>
+            {/if}
+        {/if}
+        
+        {$comment.comment|comment}
+        
+        </div>
+
+        {if $type=='video' && $comments_voting=='yes' && $Cbucket->configs.comment_rating}
         <div class="comment_rating_cont"><span class="thumb_up" onclick="rate_comment('{$comment.comment_id}','up')">Thumbs Up</span><span class="thumb_down" onclick="rate_comment('{$comment.comment_id}','down')">Thumbs Down</span><span id="comment_rating_{$comment.comment_id}" class="comment_rating">{$comment.vote|comment_rating}</span></div>
         {/if}
         

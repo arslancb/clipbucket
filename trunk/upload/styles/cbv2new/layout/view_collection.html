@@ -84,7 +84,16 @@
     <div class="moveL" style="width:670px">
     
         <div id="collectionComments">
-        	{include file="$style_dir/blocks/comments/comments.html" id=$c.collection_id type='cl'}
+        	
+            <div id="comments"></div>
+			<script>
+                $(document).ready(function()
+                {ldelim}		
+                    comments_voting = 'no';	
+                    getComments('cl','{$c.collection_id}','{$c.last_commented}',1,'{$c.total_comments}','{$object_type}')
+                {rdelim}
+                );
+            </script>
         </div>
       </div>
       <div class="moveR collectionComments" style="width:310px">

@@ -2064,7 +2064,7 @@ class CBPhotos
 	{
 		global $db;
 		$count = $db->count(tbl("comments"),"comment_id"," type = 'p' AND type_id = '$pid'");
-		$db->update(tbl('photos'),array("total_comments"),array($count)," photo_id = '$pid'");	
+		$db->update(tbl('photos'),array("total_comments","last_commented"),array($count,now())," photo_id = '$pid'");	
 	}	
 	
 	/**

@@ -212,6 +212,7 @@ class pages{
 	 */
 	function pagination($total,$page,$link=NULL,$extra_params=NULL,$tag='<a #params#>#page#</a>')
 	{
+		
 		if($total==0)
 			return false;
 		if($page<=0||$page==''||!is_numeric($page))
@@ -238,6 +239,7 @@ class pages{
 		
 		if($pagination_start < $total_pages)
 		{
+			
 			//Starting First
 			for($i=1;$i<=$display_page;$i++)
 			{
@@ -311,7 +313,6 @@ class pages{
 					$pagination_smart .=$this->create_link($i,$link,$extra_params,$tag);
 			}
 			
-			
 			//Previous Page
 			if($selected-1 > 1)
 				$this->pre_link = $this->create_link($selected-1,$link,$extra_params,$tag,true);
@@ -343,6 +344,9 @@ class pages{
 		
 		assign('next_link',$this->next_link);
 		assign('pre_link',$this->pre_link);
+		
+		assign('next_page',$page+1);
+		assign('pre_page',$page-1);
 		
 		assign('first_link',$this->first_link);
 		assign('last_link',$this->last_link);

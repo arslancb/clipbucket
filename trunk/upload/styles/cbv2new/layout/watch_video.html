@@ -115,10 +115,17 @@
 
 <!-- Video Comments -->
 <div id="commentsContainer">
-	<h2 class="commentHead">{lang code='comments'}</h2>
+	<h2 class="commentHead">{lang code='comments'} ({$vdo.comments_count})</h2>
     
-    <!-- Displaying Comments -->
-    {include file="$style_dir/blocks/comments/comments.html" id=$vdo.videoid type=v}
+    <div id="comments"></div>
+    <script>
+		$(document).ready(function()
+		{ldelim}		
+			comments_voting = '{$vdo.comment_voting}';	
+			getComments('{$type}','{$vdo.videoid}','{$vdo.last_commented}',1,'{$vdo.comments_count}','{$object_type}')
+		{rdelim}
+		);
+	</script>
     
     {if $myquery->is_commentable($vdo,'v')}
     	{include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}

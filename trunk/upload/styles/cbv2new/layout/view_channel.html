@@ -1,3 +1,4 @@
+{lang code='channel' assign='object_type'}
 {include file="$style_dir/global_header.html"}
 <body>
 {include file="$style_dir/blocks/view_channel/channel_global.html" }
@@ -169,7 +170,18 @@
             <div class="channelInnerPadding" id="commentsDIV">
             	<fieldset class="channelFieldset">
                 	<legend class="channelLegend">{lang code="comments"}</legend>
-{include file="$style_dir/blocks/comments/comments.html" id=$u.userid type=c}<hr width="100%" size="1" noshade>
+
+
+<div id="comments"></div>
+<script>
+	$(document).ready(function()
+	{ldelim}		
+		comments_voting = 'no';	
+		getComments('c','{$u.userid}','{$u.last_commented}',1,'{$u.comments_count}','{$object_type}')
+	{rdelim}
+	);
+</script>
+<hr width="100%" size="1" noshade>
             
              {if $myquery->is_commentable($p,'u')}
                 {include file="$style_dir/blocks/comments/add_comment.html" id=$u.userid type=c}

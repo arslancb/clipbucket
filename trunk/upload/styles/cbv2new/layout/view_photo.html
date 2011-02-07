@@ -41,8 +41,16 @@
     <div class="borderLine"></div>
     <div style="clear:both;">
     <h2>{lang code='comments'}</h2>
-    {include file="$style_dir/blocks/comments/comments.html" id=$photo.photo_id type=p}
-    
+
+    <div id="comments"></div>
+    <script>
+		$(document).ready(function()
+		{ldelim}		
+			comments_voting = 'no';	
+			getComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}')
+		{rdelim}
+		);
+	</script>
     {if $myquery->is_commentable($photo,'p')}
     	{include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
     {else}

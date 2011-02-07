@@ -349,6 +349,11 @@ if(phpversion() < '5.2.0')
 	define('PHOTOS_DIR',FILES_DIR."/photos");
 	define('PHOTOS_URL',FILES_URL."/photos");
 	
+	//ADVANCE CACHING
+	define('CACHE_DIR',BASEDIR.'/cache');
+	define('COMM_CACHE_DIR',CACHE_DIR.'/comments');
+	define('COMM_CACHE_TIME',1000) ; //in seconds
+	
 	//SETTING PHOTO SETTING
 	$cbphoto->thumb_width = $row['photo_thumb_width'];
 	$cbphoto->thumb_height = $row['photo_thumb_height'];
@@ -546,6 +551,7 @@ $Smarty->register_function('embedCodes','photo_embed_codes');
 $Smarty->register_function('DownloadButtonP','photo_download_button');
 $Smarty->register_function('loadPhotoUploadForm','loadPhotoUploadForm');
 $Smarty->register_function('cbCategories','getSmartyCategoryList');
+$Smarty->register_function('getComments','getSmartyComments');
 
 $Smarty->register_function('cbMenu','cbMenu');
 

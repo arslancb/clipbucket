@@ -17,7 +17,15 @@
 
 
 <div class="topic_comments">
-	{include file="$style_dir/blocks/comments/comments.html" id=$topic.topic_id type=t}
+	<div id="comments"></div>
+    <script>
+		$(document).ready(function()
+		{ldelim}		
+			comments_voting = 'no';	
+			getComments('t','{$topic.topic_id}','{$topic.last_post_time}',1,'{$topic.total_replies 	}','{$object_type}')
+		{rdelim}
+		);
+	</script>
 </div>
 <hr width="100%" size="1" noshade>
 {include file="$style_dir/blocks/comments/add_comment.html" id=$topic.topic_id type=t}

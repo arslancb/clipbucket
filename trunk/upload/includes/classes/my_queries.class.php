@@ -491,7 +491,7 @@ class myquery {
 			insert_log($type.'_comment',$log_array);
 			
 			//sending email
-			if(SEND_COMMENT_NOTIFICATION=='yes' )
+			if(SEND_COMMENT_NOTIFICATION=='yes' && $own_details )
 			{
 				
 				global $cbemail;
@@ -606,55 +606,161 @@ class myquery {
 	 * @param PARENT_ID 
 	 * @param GET_REPLYIES_ONLY Boolean
 	 */
-	function get_comments($type_id,$type='v',$count_only=FALSE,$parent_id=NULL,$get_reply_only=FALSE)
+	function get_comments($type_id='*',$type='v',$count_only=FALSE,$get_type='all',$parent_id=NULL)
+	{
+		
+		$params = array(
+		'type_id' 		=> $type_id,
+		'type' 			=> $type,
+		'count_only' 	=> $count_only,
+		'get_type' 		=> $get_type,
+		'parent_id' 	=> $parent_id,
+		);
+		
+		return $this->getComments($params);
+	}
+	
+	/**
+	 * Function used to get using ARRAY as paramter
+	 */
+	function getComments($params)
 	{
 		global $db;
 		$cond = '';
+				
+		$p = $params;
+		extract( $p, EXTR_SKIP );
 		
+		switch($type)
+		{
+			case "video":
+			case "videos":
+			case "v":
+			case "vdo":
+			{
+				$type = 'v';
+			}
+			break;
+			
+			case "photo":
+			case "p":
+			case "photos":
+			{
+				$type='p';
+			}
+			break;
+			
+			case "topic":
+			case "t":
+			case "topics":
+			{
+				$type='t';
+			}
+			break;
+			
+			case "channel":
+			case "c":
+			case "channels":
+			{
+				$type='t';
+			}
+			break;
+			
+			case "cl":
+			case "collect":
+			case "collection":
+			case "collections":
+			{
+				$type='cl';
+			}
+			break;
+			
+		}
+		
+		if(!$count_only)
+		{
+			$file = $type.$type_id.str_replace(',','_',$limit).'-'.strtotime($last_update).'.tmp';
+			
+			$files = glob(COMM_CACHE_DIR.'/'.$type.$type_id.str_replace(',','_',$limit).'*');
+			
+			$theFile = getName($files[0]);
+			$theFileDetails = explode('-',$theFile);
+			$timeDiff = time() - $theFileDetails[1];
+			
+			if(file_exists(COMM_CACHE_DIR.'/'.$file) && $timeDiff < COMM_CACHE_TIME)
+				return json_decode(file_get_contents(COMM_CACHE_DIR.'/'.$file),true);
+		}
+		
+		if(!$order)
+			$order = ' date_added DESC ';
 		#Checking if user wants to get replies of comment 
 		if($parent_id!=NULL && $get_reply_only)
 		{
 			$cond .= " AND parent_id='$parent_id'";
 		}
 		
-		if($type_id!='wildcard')
+		if($type_id!='*')
 			$typeid_query = "AND type_id='$type_id' ";
 		
 		if(!$count_only)
 		{
-			//Fetching comments by registered users
-			$result = $db->select(tbl("comments,users"),"*"," type='$type' $typeid_query AND ".tbl("comments.userid")." = ".tbl("users.userid")."  $cond");
-			//Fetchign comments by anonymous users
-			$result_anonym = $db->select(tbl("comments"),"*"," type='$type' $typeid_query AND ".tbl("comments.userid")." = '0'  $cond");
-			//Mergin both arrays
-			if(is_array($result) && is_array($result_anonym))
-				$result = array_merge($result,$result_anonym);
-			elseif(is_array($result_anonym))
-				$result = $result_anonym;
-				
-			//Sorting
-			$new_results = array();
-			if(is_array($result))
-			foreach($result as $r)
-			{
-				$new_results[$r['comment_id']] = $r;
-			}
-			//Sorting wrt keys..
-			ksort($new_results);	
-			//pr($result);pr($new_results);
-			//pr($new_results);
-			if(count($new_results) > 0)
-			{
-				return $new_results;
-			}else{
-				return '';
-			}
+			/**
+			 * we have to get comments in such way that
+			 * comment replies comes along with their parents
+			 * in order to achieve this, we have to create a complex logic
+			 * lets see if we can get some tips from WP commenting system ;)
+			 * HAIL Open Source
+			 */
+			 
+			 $results = $db->select(tbl("comments,users"),'*'
+			 ," type='$type' $typeid_query AND ".tbl("comments.userid")." = ".tbl("users.userid")." $cond",$limit,$order);
+			 
+			 if(!$results)
+			 	return false;
+			 $parent_cond = '';
+			 
+			 $parents_array = array();
+			 if($results)
+			 foreach($results as $result)
+			 {
+				 if($result['parent_id'] && !in_array($result['parent_id'],$parents_array))
+				 {
+					if($parent_cond)
+						$parent_cond .= " OR ";
+				 	$parent_cond .= " comment_id='".$result['parent_id']."' " ;
+					
+					$parents_array[] = $result['parent_id'];
+				 }
+			 }
+			
+			//Getting Parents
+			 $parents = $db->select(tbl("comments,users"),'*'
+			 ," type='$type' AND ($parent_cond) AND ".tbl("comments.userid")." = ".tbl("users.userid")." ",NULL,$order);
+			 
+			 if($parents)
+			 	foreach($parents as $parent)
+					$new_parents[$parent['comment_id']] = $parent;
+			 $comment['comments'] = $results;
+			 $comment['parents'] = $new_parents;
+			 
+			 //Deleting any other previuos comment file
+			 $files = glob(COMM_CACHE_DIR.'/'.$type.$type_id.str_replace(',','_',$limit).'*');
+			 
+			 foreach($files as $delFile)
+			 	if(file_exists($delFile))
+					unlink($delFile);
+			 
+			 //Caching comment file
+			 if($file)
+			 	file_put_contents(COMM_CACHE_DIR.'/'.$file,json_encode($comment));
+			 return $comment;
+			 
 		}else
 		{
 			return $db->count(tbl("comments"),"*"," type='$type' $typeid_query $cond");
 		}
-		
 	}
+	
 	
 	/**
 	 * Function used to get from database

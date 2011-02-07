@@ -1241,8 +1241,44 @@ if(!empty($mode))
 		}
 		break;
 		
+		/**
+		 * Getting comments along with template
+		 */
+		case "getComments":
+		{
+			$params = array();
+			$limit = 5;
+			$page = $_POST['page'];
+			$params['type'] = mysql_clean($_POST['type']);
+			$params['type_id'] = mysql_clean($_POST['type_id']);
+			$params['last_update'] = mysql_clean($_POST['last_update']);
+			$params['limit'] = create_query_limit($page,$limit);			
+			$comments = $myquery->getComments($params);
+			//Adding Pagination
+			$total_pages = count_pages($_POST['total_comments'],$limit);
+			assign('object_type',mysql_clean($_POST['object_type']));		
+			//Pagination
+			$pages->paginate($total_pages,$page,NULL,NULL,'<a href="javascript:void(0)"
+			onClick="getComments(\''.$params['type'].'\',\''.$params['type_id'].'\',\''.$params['last_update'].'\',
+			\'#page#\',\''.$_POST['total_comments'].'\',\''.mysql_clean($_POST['object_type']).'\')">#page#</a>');
+			
+			assign('comments',$comments);
+			assign('type',$params['type']);
+			assign('type_id',$params['type_id']);
+			assign('last_update',$params['last_update']);
+			assign('total',$_POST['total_comments']);
+			assign('total_pages',$total_pages);
+			assign('comments_voting',$_POST['comments_voting']);
+			Template('blocks/comments/comments.html');
+			
+			assign('commentPagination','yes');
+			Template('blocks/pagination.html');
+		}
+		break;
+		
 		default:
 		header('location:'.BASEURL);
+		
 				
 	}
 }else

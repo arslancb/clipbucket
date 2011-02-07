@@ -705,7 +705,7 @@ class CBvideo extends CBCategory
 	{
 		global $db;
 		$total_comments = $this->count_video_comments($id);
-		$db->update(tbl("video"),array("comments_count"),array($total_comments)," videoid='$id'");
+		$db->update(tbl("video"),array("comments_count","last_commented"),array($total_comments,now())," videoid='$id'");
 	}
 	
 	/**

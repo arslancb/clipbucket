@@ -1450,7 +1450,7 @@ class Collections extends CBCategory
 	{
 		global $db;
 		$count = $db->count(tbl("comments"),"comment_id"," type = 'cl' AND type_id = '$cid'");
-		$db->update(tbl($this->section_tbl),array("total_comments"),array($count)," collection_id = '$cid'");	
+		$db->update(tbl($this->section_tbl),array("total_comments","last_commented"),array($count,now())," collection_id = '$cid'");	
 	}
 	
 	/**
