@@ -195,16 +195,30 @@ class CBvideo extends CBCategory
 			$required_fields = $Upload->loadRequiredFields($array);
 			$location_fields = $Upload->loadLocationFields($array);
 			$option_fields = $Upload->loadOptionFields($array);
-			
+									
 			$upload_fields = array_merge($required_fields,$location_fields,$option_fields);
 			
 			//Adding Custom Upload Fields
 			if(count($Upload->custom_upload_fields)>0)
 			$upload_fields = array_merge($upload_fields,$Upload->custom_upload_fields);
-
+			
 			//Adding Custom Form Fields
 			if(count($Upload->custom_form_fields)>0)
 				$upload_fields = array_merge($upload_fields,$Upload->custom_form_fields);
+			
+			//Adding custom fields from group
+			if(count($Upload->custom_form_fields_groups)>0)
+			{
+				$custom_fields_from_group_fields = array();
+				$custom_fields_from_group = $Upload->custom_form_fields_groups;
+				foreach($custom_fields_from_group as $cffg)
+				{
+					$custom_fields_from_group_fields = array_merge($custom_fields_from_group_fields,$cffg['fields']);
+				}						
+				
+				$upload_fields = array_merge($upload_fields,$custom_fields_from_group_fields);
+			}
+			
 			
 			if(!$array)
 			 $array = $_POST;

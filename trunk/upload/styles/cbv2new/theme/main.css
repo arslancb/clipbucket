@@ -963,3 +963,10 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 
 .viewChannelProfileThumb{background-color:#eaeaea; margin-bottom:2px; padding:5px}
 .viewChannelProfileThumb_outline{border:1px solid #eaeaea; padding:3px}
+
+.accntSettingHeadarrowup, .accntSettingHead{font-size:14px; font-weight:bold; background:url(../images/down.png) right no-repeat; display:block; margin:5px auto; padding:5px}
+.accntSettingHeadarrowup{background-image:url(../images/up.png); !important}
+.accntSettingHead:hover{background-color:#ECF8FD; cursor:pointer}
+
+.accountForm legend{background: #EEEEEE;border-top: 1px solid #AAAAAA; color: #464646; font: bold 11px Tahoma; padding: 4px 6px; width: 98%;}
+.accountForm fieldset{border:none; !important}

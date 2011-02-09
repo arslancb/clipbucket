@@ -818,8 +818,20 @@ class Upload{
 			$array = $this->custom_form_fields;
 			foreach($array as $key => $fields)
 			{
-					if(!$fields['value'])
-						$fields['value'] = $data[$fields['db_field']];
+					if($data[$fields['db_field']])
+						$value = $data[$fields['db_field']];
+					elseif($data[$fields['name']])
+						$value = $data[$fields['name']];
+						
+						
+					if($fields['type']=='radiobutton' || 
+					   $fields['type']=='checkbox' ||
+					   $fields['type']=='dropdown')
+					$fields['checked'] = $value;
+					else
+					$fields['value'] = $value;
+					
+						
 					$new_array[$key] = $fields;
 			}
 			return $new_array;
@@ -827,8 +839,6 @@ class Upload{
 		{
 			return $array = $this->custom_form_fields_groups;
 		}
-		
-		
 	}
 	
 	
@@ -999,19 +1009,44 @@ class Upload{
 		{
 			$custFieldGroups = $custom_fields_with_group;
 		
-			foreach($custFieldGroups as $fieldGroup)
+			foreach($custFieldGroups as $gKey => $fieldGroup)
 			{
+				
+				foreach($fieldGroup['fields'] as $mainKey => $nField)
+				{
+					$updatedNewFields[$mainKey] = $nField;
+					if($input[$nField['db_field']])
+						$value = $input[$nField['db_field']];
+					elseif($input[$nField['name']])
+						$value = $input[$nField['name']];
+						
+					if($nField['type']=='radiobutton' || 
+					   $nField['type']=='checkbox' ||
+					   $nField['type']=='dropdown')
+					$updatedNewFields[$mainKey]['checked'] = $value;
+					else
+					$updatedNewFields[$mainKey]['value'] = $value;
+									
+			
+				}
+				
+				$fieldGroup['fields'] = $updatedNewFields;
 				
 				$group_id = $fieldGroup['group_id'];
 				
 				foreach($fields as $key => $field)
 				{ 
-			
+					
 					if($field['group_id'] == $group_id)
 					{
 						$inputFields = $field['fields'];
+						//Setting field values
 						$newFields = $fieldGroup['fields'];
+						
+						
+						
 						$mergeField = array_merge($inputFields,$newFields);
+						
 						
 						//Finally Updating array
 						$newGroupArray =

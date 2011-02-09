@@ -232,6 +232,33 @@
 	}
 	
 	
+	/**
+	 * Function used to add custom profile fields fields
+	 * In this you will provide an array that has a complete
+	 * details of the field such as 'name',validate_func etc
+	 * please check docs.clip-bucket.com for "how to add custom form field"
+	 */
+	function register_custom_profile_field($array,$isGroup=false)
+	{
+		global $userquery;
+		$name = key($array);
+		
+		if(!$isGroup)
+		{
+			if(is_array($array) && !empty($array[$name]['name']))
+			{
+				foreach($array as $key => $arr)
+					$userquery->custom_profile_fields[$key] = $arr;
+			}
+		}else
+		{
+			if(is_array($array) && !empty($array['group_name']) )
+			{
+				$userquery->custom_profile_fields_groups[] = $array;
+			}
+		}
+	}
+	
 	
 	
 	/**

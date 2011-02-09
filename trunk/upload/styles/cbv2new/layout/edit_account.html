@@ -3,28 +3,27 @@
  
  <div class="account_box">
  {include file="$style_dir/blocks/manage/account_head.html" user=$user}
+ 
+{if $mode=='profile_settings'}
 
-
-
+<span class="accntSettingHead" id="accntSettingHead" onclick="$('#accountSettings').toggle(); 
+	$(this).toggleClass('accntSettingHeadarrowup')">{lang code='account_settings'}</span>
+<form method="post" class="accountForm">
+<div id="accountSettings" style="display:none">
 <!--- CHANGING USER ACCOUNT AND PROFILE -->
 
-{if $mode == 'profile_settings'}
-{assign var="user_fields"  value=$userquery->load_profile_fields($p)}
-{assign var="user_custom_profile_fields" value=$userquery->load_custom_profile_fields($p)}
-{assign var="user_custom_signup_fields" value=$userquery->load_custom_signup_fields($p)}
+
 {assign var="signup_fields"  value=$userquery->load_signup_fields($user)}
 
-<div class="account_form">
-<form method="post" name="edit_profile">
-<fieldset class="fieldset">
+<fieldset>
 <legend>{lang code='account_details'}</legend>
 <div class="account_field_block clearfix">
 <div class="account_field_label" align="right"><strong><label for="country">{lang code='country'}</label></strong></div>
 <div class="account_field"><select name="country" id="country">
         {assign var='countries' value=$Cbucket->get_countries(iso2)}
-        {foreach from=$countries item=country key=code}
-        <option value="{$code}" {if $user.country==$code} selected="selected"{/if}>{$country}</option>
-        {/foreach}
+            {foreach from=$countries item=country key=code}
+            	<option value="{$code}" {if $user.country==$code} selected="selected"{/if}>{$country}</option>
+            {/foreach}
         </select></div>
 <div class="clearfix"></div>
 </div>
@@ -55,32 +54,52 @@
 </div>
 
 </fieldset>
-
-<fieldset class="fieldset">
-<legend>{lang code='profile_details'}</legend>
-{foreach from=$user_fields item=field}
-<div class="account_field_block clearfix">
-<div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
-<div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-<br>
-{$field.hint_2}</div>
-<div class="clearfix"></div>
 </div>
 
-{/foreach}
+<span class="accntSettingHead"   id="accntProfileSettingHead"  onclick="$('#accntProfileSettings').toggle(); 
+	$(this).toggleClass('accntSettingHeadarrowup')" >{lang code='channel_profile_settings'}</span>
 
-<div align="right"><button name="update_profile" id="button" value="submit" class="cb_button">{lang code='update_profile'}</button></div>
-</fieldset>
+	{assign var='channel_profile_fields' value=$userquery->load_user_fields($p)}
+    
+   <div id="accntProfileSettings" style="display:none"> {foreach from=$channel_profile_fields item=field_group}
+     <fieldset>
+     	<legend>{$field_group.group_name}</legend>
+     	{foreach from=$field_group.fields item=field}
+        <div class="account_field_block clearfix">
+        <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
+        <div class="account_field">{if $field.hint_1}{$field.hint_1}<br />{/if}
+        {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
+        <br>
+        {$field.hint_2}</div>
+        <div class="clearfix"></div>
+        </div>
+        
+        {/foreach}
+     </fieldset>    
+    {/foreach}</div>
+
+<div align="right" style="padding-right:10px">
+<button name="update_profile" id="button" value="submit" class="cb_button">{lang code='update'}</button></div>
+
 </form>
-</div>
+
 
 </div>
-<div class="clearfix"></div>
+
+<script>
+	$(document).ready(function()
+	{ldelim}
+		{if $on=='account'}
+			$('#accountSettings').toggle(); 
+			$('#accntSettingHead').toggleClass('accntSettingHeadarrowup')
+		{else}
+			$('#accntProfileSettings').toggle(); 
+			$('#accntProfileSettingHead').toggleClass('accntSettingHeadarrowup')
+		{/if}
+	{rdelim}
+	);
+</script>
 {/if}
-<!--- END CHANGING USER ACCOUNT AND PROFILE -->
-
-
-
 
 <!--- CHANGING USER AVATAR AND BG -->
 

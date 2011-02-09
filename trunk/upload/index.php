@@ -29,7 +29,9 @@ $result = $db->select(tbl('video,users'),tbl('video.userid,video.views,users.*')
 			,' '.tbl('video.userid').' = '.tbl('users.userid').' GROUP BY '.tbl('users.userid').'',10,' total_views DESC');			
 if($db->num_rows > 0)
 	assign('topusers',$result);
-*/			
+*/		
+
+$userquery->load_user_fields($_POST);
 
 //Displaying The Template
 template_files('index.html');

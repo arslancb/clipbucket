@@ -24,6 +24,8 @@ class userquery extends CBCategory{
 	var $usr_levels = array();
 	var $signup_plugins = array(); //Signup Plugins
 	var $custom_signup_fields = array();
+	var $custom_profile_fields = array();
+	var $custom_profile_fields_groups = array();
 	var $delete_user_functions = array();
 	var $user_manager_functions = array();
 	var $logout_functions = array();
@@ -2109,330 +2111,7 @@ class userquery extends CBCategory{
 	
 	
 	
-	/**
-	 * FUnction loading personal details
-	 */
-	function load_personal_details($default)
-	{
-		
-		$user_vids = get_videos(array('user'=>$default['userid']));
-		
-		$usr_vids[''] = '-----';
-		if(is_array($user_vids))
-		foreach($user_vids as $user_vid)
-		{
-			$usr_vids[$user_vid['videoid']] =  $user_vid['title'];
-		}
-		
-		
-		
-		if(!$default)
-			$default = $_POST;
-		$profile_fields = array
-		(
-		'first_name' => array(
-						  'title'=> lang("user_fname"),
-						  'type'=> "textfield",
-						  'name'=> "first_name",
-						  'id'=> "first_name",
-						  'value'=> $default['first_name'],
-						  'db_field'=>'first_name',
-						  'required'=>'no',
-						  'syntax_type'=> 'name',
-						  'auto_view'=>'yes'
-						  ),
-		'last_name' => array(
-						  'title'=> lang("user_lname"),
-						  'type'=> "textfield",
-						  'name'=> "last_name",
-						  'id'=> "last_name",
-						  'value'=> $default['last_name'],
-						  'db_field'=>'last_name',
-						  'syntax_type'=> 'name',
-						  'auto_view'=>'yes'
-						  ),
-		'profile_title' => array(
-						  'title'=>  lang("profile_title"),
-						  'type'=> "textfield",
-						  'name'=> "profile_title",
-						  'id'=> "last_name",
-						  'value'=> $default['profile_title'],
-						  'db_field'=>'profile_title',
-						  'auto_view'=>'no'
-		
-						  ),
-		'profile_desc' => array(
-						  'title'=>  lang("profile_desc"),
-						  'type'=> "textarea",
-						  'name'=> "profile_desc",
-						  'id'=> "last_name",
-						  'value'=> $default['profile_desc'],
-						  'db_field'=>'profile_desc',
-						  'auto_view'=>'yes',
-						  'clean_func' => 'Replacer',
-		
-						  ),
-		'relation_status' => array(
-						  'title'=>  lang("user_relat_status"),
-						  'type'=> "dropdown",
-						  'name'=> "relation_status",
-						  'id'=> "last_name",
-						  'value'=> array(
-										  lang('usr_arr_no_ans'),
-										  lang('usr_arr_single'),
-										  lang('usr_arr_married'),
-										  lang('usr_arr_comitted'),
-										  lang('usr_arr_open_relate')
-										  ),
-						  'checked'=> $default['relation_status'],
-						  'db_field'=>'relation_status',
-						  'auto_view'=>'yes',
-						  'return_checked'	=> true,
-		
-						  ),
-		'show_dob' => array(
-						  'title'=>  lang("show_dob"),
-						  'type'=> "radiobutton",
-						  'name'=> "show_dob",
-						  'id'=> "show_dob",
-						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
-						  'checked'	=> $default['show_dob'],
-						  'db_field'=>'show_dob',
-						  'syntax_type'=> 'name',
-						  'auto_view'=>'no'
-						  ),
-		'about_me' => array(
-						  'title'=>  lang("user_about_me"),
-						  'type'=> "textarea",
-						  'name'=> "about_me",
-						  'id'=> "about_me",
-						  'value'=> $default['about_me'],
-						  'db_field'=>'about_me',
-						  'auto_view'=>'no',
-						  'clean_func' => 'Replacer',
-						  ),
-		'profile_tags' => array(
-						  'title'=>  lang("profile_tags"),
-						  'type'=> "textfield",
-						  'name'=> "profile_tags",
-						  'id'=> "profile_tags",
-						  'value'=> $default['profile_tags'],
-						  'db_field'=>'profile_tags',
-						  'auto_view'=>'no'
-						  ),
-		'web_url' => array(
-						  'title'=>  lang("website"),
-						  'type'=> "textfield",
-						  'name'=> "web_url",
-						  'id'=> "web_url",
-						  'value'=> $default['web_url'],
-						  'db_field'=>'web_url',
-						  'auto_view'=>'yes',
-						  'display_function'=>'outgoing_link'
-						  ),
-
-		
-		);
-		
-		return $profile_fields;
-	}
 	
-	
-	/**
-	 * function used to load location fields
-	 */
-	function load_location_fields($default)
-	{
-		if(!$default)
-			$default = $_POST;
-		$other_details = array
-		(
-		'postal_code' => array(
-						  'title'=>  lang("postal_code"),
-						  'type'=> "textfield",
-						  'name'=> "postal_code",
-						  'id'=> "postal_code",
-						  'value'=> $default['postal_code'],
-						  'db_field'=>'postal_code',
-						  'auto_view' => 'yes'
-						  ),
-		'hometown' => array(
-						  'title'=>  lang("hometown"),
-						  'type'=> "textfield",
-						  'name'=> "hometown",
-						  'id'=> "hometown",
-						  'value'=> $default['hometown'],
-						  'db_field'=>'hometown',
-						  'auto_view' => 'yes'
-						  ),
-		'city' => array(
-						  'title'=>  lang("city"),
-						  'type'=> "textfield",
-						  'name'=> "city",
-						  'id'=> "city",
-						  'value'=> $default['city'],
-						  'db_field'=>'city',
-						  'auto_view' => 'yes'
-						  ),
-		);
-		return $other_details;
-	}
-	
-	
-	/**
-	 * Function used to load experice fields
-	 */
-	function load_other_fields($default)
-	{
-		if(!$default)
-			$default = $_POST;
-		$more_details = array
-		(
-		'education' => array(
-						  'title'=>  lang("education"),
-						  'type'=> "dropdown",
-						  'name'=> "education",
-						  'id'=> "education",
-						  'value'=> array(lang('usr_arr_no_ans'),
-										  lang('usr_arr_elementary'),
-										  lang('usr_arr_hi_school'),
-										  lang('usr_arr_some_colg'),
-										  lang('usr_arr_assoc_deg'),
-										  lang('usr_arr_bach_deg'),
-										  lang('usr_arr_mast_deg'),
-										  lang('usr_arr_phd'),
-										  lang('usr_arr_post_doc'),
-										  ),
-						  'checked'=>$default['education'],
-						  'db_field'=>'education',
-						  'auto_view'=>'yes',
-						  ),
-		'schools' => array(
-						  'title'=>  lang("schools"),
-						  'type'=> "textarea",
-						  'name'=> "schools",
-						  'id'=> "schools",
-						  'value'=> $default['schools'],
-						  'db_field'=>'schools',
-						  'clean_func' => 'Replacer',
-						  'auto_view'=>'yes',
-						  ),
-		'occupation' => array(
-						  'title'=>  lang("occupation"),
-						  'type'=> "textarea",
-						  'name'=> "occupation",
-						  'id'=> "occupation",
-						  'value'=> $default['occupation'],
-						  'db_field'=>'occupation',
-						  'clean_func' => 'Replacer',
-						  'auto_view'=>'yes',
-						  ),
-		'companies' => array(
-						  'title'=>  lang("companies"),
-						  'type'=> "textarea",
-						  'name'=> "companies",
-						  'id'=> "companies",
-						  'value'=> $default['companies'],
-						  'db_field'=>'companies',
-						  'clean_func' => 'Replacer',
-						  'auto_view'=>'yes',
-						  ),
-		'hobbies' => array(
-						  'title'=>  lang("hobbies"),
-						  'type'=> "textarea",
-						  'name'=> "hobbies",
-						  'id'=> "hobbies",
-						  'value'=> $default['hobbies'],
-						  'db_field'=>'hobbies',
-						  'clean_func' => 'Replacer',
-						  'auto_view'=>'yes',
-						  ),
-		'fav_movies' => array(
-						  'title'=>  lang("user_fav_movs_shows"),
-						  'type'=> "textarea",
-						  'name'=> "fav_movies",
-						  'id'=> "fav_movies",
-						  'value'=> $default['fav_movies'],
-						  'db_field'=>'fav_movies',
-						  'clean_func' => 'Replacer',
-						  'auto_view'=>'yes',
-						  ),
-		'fav_music' => array(
-						  'title'=>  lang("user_fav_music"),
-						  'type'=> "textarea",
-						  'name'=> "fav_music",
-						  'id'=> "fav_music",
-						  'value'=> $default['fav_music'],
-						  'db_field'=>'fav_music',
-						  'clean_func' => 'Replacer',
-						  'auto_view'=>'yes',
-						  ),
-		'fav_books' => array(
-						  'title'=>  lang("user_fav_books"),
-						  'type'=> "textarea",
-						  'name'=> "fav_books",
-						  'id'=> "fav_books",
-						  'value'=> $default['fav_books'],
-						  'db_field'=>'fav_books',
-						  'clean_func' => 'Replacer',
-						  'auto_view'=>'yes',
-						  ),
-		
-		);
-		return $more_details;
-	}
-	
-	
-	/**
-	 * Function used to load privacy fields
-	 */
-	function load_privacy_field($default)
-	{
-		if(!$default)
-			$default = $_POST;
-			
-		$privacy = array
-		(
-		'online_status' => array(
-						  'title'=>  lang("online_status"),
-						  'type'=> "dropdown",
-						  'name'=> "privacy",
-						  'id'=> "privacy",
-						  'value'=> array('online'=>lang('online'),'offline'=>lang('offline'),'custom'=>lang('custom')),
-						  'checked'=>$default['online_status'],
-						  'db_field'=>'online_status',
-						  ),
-		'show_profile' => array(
-						  'title'=>  lang("show_profile"),
-						  'type'=> "dropdown",
-						  'name'=> "show_profile",
-						  'id'=> "show_profile",
-						  'value'=> array('all'=>lang('all'),'members'=>lang('members'),'friends'=>lang('friends')),
-						  'checked'=>$default['show_profile'],
-						  'db_field'=>'show_profile',
-						  ),
-		'allow_comments'=>array(
-						  'title'=>  lang("vdo_allow_comm"),
-						  'type'=> "radiobutton",
-						  'name'=> "allow_comments",
-						  'id'=> "allow_comments",
-						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
-						  'checked' => strtolower($default['allow_comments']),
-						  'db_field'=>'allow_comments',
-						  ),
-		'allow_ratings'=>array(
-						  'title'=>  lang("allow_ratings"),
-						  'type'=> "radiobutton",
-						  'name'=> "allow_ratings",
-						  'id'=> "allow_ratings",
-						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
-						  'checked' => strtolower($default['allow_ratings']),
-						  'db_field'=>'allow_ratings',
-						  ),
-		);
-		
-		return $privacy;
-	}
 	
 	/**
 	 * User Profile Fields
@@ -2444,9 +2123,10 @@ class userquery extends CBCategory{
 		
 		$profile_fields = $this->load_personal_details($default);
 		$other_details = $this->load_location_fields($default);
-		$more_details = $this->load_other_fields($default);
-		// $privacy = $this->load_privacy_field($default);
-		return array_merge($profile_fields,$other_details,$more_details);
+		$more_details = $this->load_education_interests($default);
+		$channel = $this->load_channel_settings($default);
+		$privacy_field = $this->load_privacy_field($default);
+		return array_merge($profile_fields,$other_details,$more_details,$channel,$privacy_field);
 	}
 	
 	
@@ -2466,12 +2146,27 @@ class userquery extends CBCategory{
 			$array = array_merge($array,$_FILES);
 
 		$userfields = $this->load_profile_fields($array);
-		$signup_fields = $this->load_signup_fields($array);
-		$custom_signup_fields = $this->load_custom_signup_fields($array);
+		//$signup_fields = $this->load_signup_fields($array);
+		//$custom_signup_fields = $this->load_custom_signup_fields($array);
 		
+		//Adding Custom Form Fields
+		if(count($this->custom_profile_fields)>0)
+			$userfields = array_merge($userfields,$this->custom_profile_fields);
+		
+		//Adding custom fields from group
+		if(count($this->custom_profile_fields_groups)>0)
+		{
+			$custom_fields_from_group_fields = array();
+			$custom_fields_from_group = $this->custom_profile_fields_groups;
+			foreach($custom_fields_from_group as $cffg)
+			{
+				$custom_fields_from_group_fields = array_merge($custom_fields_from_group_fields,$cffg['fields']);
+			}						
 			
-		$cat_field = $signup_fields['cat'];
-		array_merge($userfields,$cat_field);
+			$userfields = array_merge($userfields,$custom_fields_from_group_fields);
+		}
+			
+
 		validate_cb_form($userfields,$array);
 	//	pr();
 		foreach($userfields as $field)
@@ -2893,9 +2588,58 @@ class userquery extends CBCategory{
 	/**
 	 * Load Custom Profile Field
 	 */
-	function load_custom_profile_fields($array)
+	function load_custom_profile_fields($data,$group_based=false)
 	{
-		return false;
+		if(!$group_based)
+		{
+			$array = $this->custom_profile_fields;
+			foreach($array as $key => $fields)
+			{
+					if($data[$fields['db_field']])
+						$value = $data[$fields['db_field']];
+					elseif($data[$fields['name']])
+						$value = $data[$fields['name']];
+						
+						
+					if($fields['type']=='radiobutton' || 
+					   $fields['type']=='checkbox' ||
+					   $fields['type']=='dropdown')
+					$fields['checked'] = $value;
+					else
+					$fields['value'] = $value;						
+					$new_array[$key] = $fields;
+			}
+			return $new_array;
+		}else
+		{
+			$groups = $this->custom_profile_fields_groups;
+			
+			$new_grp = array();
+			if($groups)
+			foreach($groups as $grp)
+			{
+				$fields = array();
+				foreach($grp['fields'] as $key => $fields)
+				{
+					if($data[$fields['db_field']])
+						$value = $data[$fields['db_field']];
+					elseif($data[$fields['name']])
+						$value = $data[$fields['name']];
+						
+						
+					if($fields['type']=='radiobutton' || 
+					   $fields['type']=='checkbox' ||
+					   $fields['type']=='dropdown')
+					$fields['checked'] = $value;
+					else
+					$fields['value'] = $value;		
+				}
+				$grp['fields'][$key] = $fields;
+				$new_grp[] = $grp;
+			}
+		}
+		
+		return $new_grp;
 	}
 	
 	/**
@@ -3003,7 +2747,8 @@ class userquery extends CBCategory{
 		
 		$array[lang('user_channel_profiles')] = array
 		 			(
-					 lang('user_profile_settings') =>'edit_account.php',
+					 lang('account_settings') =>'edit_account.php?mode=account',
+					 lang('user_profile_settings') =>'edit_account.php?mode=profile',
 					 lang('change_avatar') 	=> 'edit_account.php?mode=avatar_bg',
 					 lang('change_bg') => 'edit_account.php?mode=avatar_bg',
 					 );
@@ -4416,6 +4161,547 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 		else
 			return false;
 	}
+	
+	
+	
+	
+	/**
+	 * FUnction loading personal details
+	 */
+	function load_personal_details($default)
+	{
+		
+		if(!$default)
+			$default = $_POST;
+		$profile_fields = array
+		(
+		'first_name' => array(
+						  'title'=> lang("user_fname"),
+						  'type'=> "textfield",
+						  'name'=> "first_name",
+						  'id'=> "first_name",
+						  'value'=> $default['first_name'],
+						  'db_field'=>'first_name',
+						  'required'=>'no',
+						  'syntax_type'=> 'name',
+						  'auto_view'=>'yes'
+						  ),
+		'last_name' => array(
+						  'title'=> lang("user_lname"),
+						  'type'=> "textfield",
+						  'name'=> "last_name",
+						  'id'=> "last_name",
+						  'value'=> $default['last_name'],
+						  'db_field'=>'last_name',
+						  'syntax_type'=> 'name',
+						  'auto_view'=>'yes'
+						  ),
+		
+		
+		'relation_status' => array(
+						  'title'=>  lang("user_relat_status"),
+						  'type'=> "dropdown",
+						  'name'=> "relation_status",
+						  'id'=> "last_name",
+						  'value'=> array(
+										  lang('usr_arr_no_ans'),
+										  lang('usr_arr_single'),
+										  lang('usr_arr_married'),
+										  lang('usr_arr_comitted'),
+										  lang('usr_arr_open_relate')
+										  ),
+						  'checked'=> $default['relation_status'],
+						  'db_field'=>'relation_status',
+						  'auto_view'=>'yes',
+						  'return_checked'	=> true,
+		
+						  ),
+		'show_dob' => array(
+						  'title'=>  lang("show_dob"),
+						  'type'=> "radiobutton",
+						  'name'=> "show_dob",
+						  'id'=> "show_dob",
+						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
+						  'checked'	=> $default['show_dob'],
+						  'db_field'=>'show_dob',
+						  'syntax_type'=> 'name',
+						  'auto_view'=>'no',
+						  'sep'=>'&nbsp;'
+						  ),
+		'about_me' => array(
+						  'title'=>  lang("user_about_me"),
+						  'type'=> "textarea",
+						  'name'=> "about_me",
+						  'id'=> "about_me",
+						  'value'=> $default['about_me'],
+						  'db_field'=>'about_me',
+						  'auto_view'=>'no',
+						  'clean_func' => 'Replacer',
+						  ),
+		'profile_tags' => array(
+						  'title'=>  lang("profile_tags"),
+						  'type'=> "textfield",
+						  'name'=> "profile_tags",
+						  'id'=> "profile_tags",
+						  'value'=> $default['profile_tags'],
+						  'db_field'=>'profile_tags',
+						  'auto_view'=>'no'
+						  ),
+		'web_url' => array(
+						  'title'=>  lang("website"),
+						  'type'=> "textfield",
+						  'name'=> "web_url",
+						  'id'=> "web_url",
+						  'value'=> $default['web_url'],
+						  'db_field'=>'web_url',
+						  'auto_view'=>'yes',
+						  'display_function'=>'outgoing_link'
+						  ),
+
+		
+		);
+		
+		return $profile_fields;
+	}
+	
+	
+	/**
+	 * function used to load location fields
+	 */
+	function load_location_fields($default)
+	{
+		if(!$default)
+			$default = $_POST;
+		$other_details = array
+		(
+		'postal_code' => array(
+						  'title'=>  lang("postal_code"),
+						  'type'=> "textfield",
+						  'name'=> "postal_code",
+						  'id'=> "postal_code",
+						  'value'=> $default['postal_code'],
+						  'db_field'=>'postal_code',
+						  'auto_view' => 'yes'
+						  ),
+		'hometown' => array(
+						  'title'=>  lang("hometown"),
+						  'type'=> "textfield",
+						  'name'=> "hometown",
+						  'id'=> "hometown",
+						  'value'=> $default['hometown'],
+						  'db_field'=>'hometown',
+						  'auto_view' => 'yes'
+						  ),
+		'city' => array(
+						  'title'=>  lang("city"),
+						  'type'=> "textfield",
+						  'name'=> "city",
+						  'id'=> "city",
+						  'value'=> $default['city'],
+						  'db_field'=>'city',
+						  'auto_view' => 'yes'
+						  ),
+		);
+		return $other_details;
+	}
+	
+	
+	/**
+	 * Function used to load experice fields
+	 */
+	function load_education_interests($default)
+	{
+		if(!$default)
+			$default = $_POST;
+		$more_details = array
+		(
+		'education' => array(
+						  'title'=>  lang("education"),
+						  'type'=> "dropdown",
+						  'name'=> "education",
+						  'id'=> "education",
+						  'value'=> array(lang('usr_arr_no_ans'),
+										  lang('usr_arr_elementary'),
+										  lang('usr_arr_hi_school'),
+										  lang('usr_arr_some_colg'),
+										  lang('usr_arr_assoc_deg'),
+										  lang('usr_arr_bach_deg'),
+										  lang('usr_arr_mast_deg'),
+										  lang('usr_arr_phd'),
+										  lang('usr_arr_post_doc'),
+										  ),
+						  'checked'=>$default['education'],
+						  'db_field'=>'education',
+						  'auto_view'=>'yes',
+						  ),
+		'schools' => array(
+						  'title'=>  lang("schools"),
+						  'type'=> "textarea",
+						  'name'=> "schools",
+						  'id'=> "schools",
+						  'value'=> $default['schools'],
+						  'db_field'=>'schools',
+						  'clean_func' => 'Replacer',
+						  'auto_view'=>'yes',
+						  ),
+		'occupation' => array(
+						  'title'=>  lang("occupation"),
+						  'type'=> "textarea",
+						  'name'=> "occupation",
+						  'id'=> "occupation",
+						  'value'=> $default['occupation'],
+						  'db_field'=>'occupation',
+						  'clean_func' => 'Replacer',
+						  'auto_view'=>'yes',
+						  ),
+		'companies' => array(
+						  'title'=>  lang("companies"),
+						  'type'=> "textarea",
+						  'name'=> "companies",
+						  'id'=> "companies",
+						  'value'=> $default['companies'],
+						  'db_field'=>'companies',
+						  'clean_func' => 'Replacer',
+						  'auto_view'=>'yes',
+						  ),
+		'hobbies' => array(
+						  'title'=>  lang("hobbies"),
+						  'type'=> "textarea",
+						  'name'=> "hobbies",
+						  'id'=> "hobbies",
+						  'value'=> $default['hobbies'],
+						  'db_field'=>'hobbies',
+						  'clean_func' => 'Replacer',
+						  'auto_view'=>'yes',
+						  ),
+		'fav_movies' => array(
+						  'title'=>  lang("user_fav_movs_shows"),
+						  'type'=> "textarea",
+						  'name'=> "fav_movies",
+						  'id'=> "fav_movies",
+						  'value'=> $default['fav_movies'],
+						  'db_field'=>'fav_movies',
+						  'clean_func' => 'Replacer',
+						  'auto_view'=>'yes',
+						  ),
+		'fav_music' => array(
+						  'title'=>  lang("user_fav_music"),
+						  'type'=> "textarea",
+						  'name'=> "fav_music",
+						  'id'=> "fav_music",
+						  'value'=> $default['fav_music'],
+						  'db_field'=>'fav_music',
+						  'clean_func' => 'Replacer',
+						  'auto_view'=>'yes',
+						  ),
+		'fav_books' => array(
+						  'title'=>  lang("user_fav_books"),
+						  'type'=> "textarea",
+						  'name'=> "fav_books",
+						  'id'=> "fav_books",
+						  'value'=> $default['fav_books'],
+						  'db_field'=>'fav_books',
+						  'clean_func' => 'Replacer',
+						  'auto_view'=>'yes',
+						  ),
+		
+		);
+		return $more_details;
+	}
+	
+	
+	/**
+	 * Function used to load privacy fields
+	 */
+	function load_privacy_field($default)
+	{
+		if(!$default)
+			$default = $_POST;
+			
+		$privacy = array
+		(
+		'show_profile' => array(
+						  'title'=>  lang("show_profile"),
+						  'type'=> "dropdown",
+						  'name'=> "show_profile",
+						  'id'=> "show_profile",
+						  'value'=> array('all'=>lang('all'),'members'=>lang('members'),'friends'=>lang('friends')),
+						  'checked'=>$default['show_profile'],
+						  'db_field'=>'show_profile',
+						  'sep' => '&nbsp;'
+						  ),
+		'allow_comments'=>array(
+						  'title'=>  lang("vdo_allow_comm"),
+						  'type'=> "radiobutton",
+						  'name'=> "allow_comments",
+						  'id'=> "allow_comments",
+						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
+						  'checked' => strtolower($default['allow_comments']),
+						  'db_field'=>'allow_comments',
+						  'sep' => '&nbsp;'
+						  ),
+		'allow_ratings'=>array(
+						  'title'=>  lang("allow_ratings"),
+						  'type'=> "radiobutton",
+						  'name'=> "allow_ratings",
+						  'id'=> "allow_ratings",
+						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
+						  'checked' => strtolower($default['allow_ratings']),
+						  'db_field'=>'allow_ratings',
+						  'sep' => '&nbsp;'
+						  ),
+		'allow_subscription'=>array(
+						  'title'=>  lang("allow_subscription"),
+						  'type'=> "radiobutton",
+						  'name'=> "allow_subscription",
+						  'id'=> "allow_subscription",
+						  'hint_1' => lang('allow_subscription_hint'),
+						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
+						  'checked' => strtolower($default['allow_subscription']),
+						  'db_field'=>'allow_subscription',
+						  'sep' => '&nbsp;'
+						  ),
+		);
+		
+		return $privacy;
+	}
+	
+	/**
+	 * load_channel_settings
+	 *
+	 * @param $input defaults value for channel settings
+	 * @return arra of channel info fields
+	 */
+	function load_channel_settings($default)
+	{
+		if(!$default)
+			$default = $_POST;
+			
+		$channel_settings = array
+		(
+		'profile_title' => array(
+						  'title'=>  lang("channel_title"),
+						  'type'=> "textfield",
+						  'name'=> "profile_title",
+						  'id'=> "profile_title",
+						  'value'=> $default['profile_title'],
+						  'db_field'=>'profile_title',
+						  'auto_view'=>'no'
+		
+						  ),
+		'profile_desc' => array(
+						  'title'=>  lang("channel_desc"),
+						  'type'=> "textarea",
+						  'name'=> "profile_desc",
+						  'id'=> "profile_desc",
+						  'value'=> $default['profile_desc'],
+						  'db_field'=>'profile_desc',
+						  'auto_view'=>'yes',
+						  'clean_func' => 'Replacer',
+						  ),
+		'show_my_friends'=>array(
+						  'title'=>  lang("show_my_friends"),
+						  'type'=> "radiobutton",
+						  'name'=> "show_my_friends",
+						  'id'=> "show_my_friends",
+						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
+						  'checked' => strtolower($default['show_my_friends']),
+						  'db_field'=>'show_my_friends',
+						  'sep' => '&nbsp;'
+						  ),
+		'show_my_videos'=>array(
+						  'title'=>  lang("show_my_videos"),
+						  'type'=> "radiobutton",
+						  'name'=> "show_my_videos",
+						  'id'=> "show_my_videos",
+						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
+						  'checked' => strtolower($default['show_my_videos']),
+						  'db_field'=>'show_my_videos',
+						  'sep' => '&nbsp;'
+						  ),
+		'show_my_photos'=>array(
+						  'title'=>  lang("show_my_photos"),
+						  'type'=> "radiobutton",
+						  'name'=> "show_my_photos",
+						  'id'=> "show_my_photos",
+						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
+						  'checked' => strtolower($default['show_my_photos']),
+						  'db_field'=>'show_my_photos',
+						  'sep' => '&nbsp;'
+						  ),
+		'show_my_subscriptions'=>array(
+						  'title'=>  lang("show_my_subscriptions"),
+						  'type'=> "radiobutton",
+						  'name'=> "show_my_subscriptions",
+						  'id'=> "show_my_subscriptions",
+						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
+						  'checked' => strtolower($default['show_my_subscriptions']),
+						  'db_field'=>'show_my_subscriptions',
+						  'sep' => '&nbsp;'
+						  ),
+		'show_my_subscribers'=>array(
+						  'title'=>  lang("show_my_subscribers"),
+						  'type'=> "radiobutton",
+						  'name'=> "show_my_subscribers",
+						  'id'=> "show_my_subscribers",
+						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
+						  'checked' => strtolower($default['show_my_subscribers']),
+						  'db_field'=>'show_my_subscribers',
+						  'sep' => '&nbsp;'
+						  ),
+		
+		);
+		
+		return $channel_settings;
+	}
+	
+	
+	/**
+	 * load_user_fields
+	 * 
+	 * @param $input default values for user profile fields
+	 * @return array of user fields
+	 *
+	 * Function used to load Video fields
+	 * in clipbucket v2.1 , video fields are loaded in form of groups arrays
+	 * each group has it name and fields wrapped in array 
+	 * and that array will be part of video fields
+	 */
+	
+	function load_user_fields($default,$type='all')
+	{
+		$getChannelSettings = false;
+		$getProfileSettings = false;
+		$fields = array();
+		
+		switch($type)
+		{
+			case "all":
+			{
+				$getChannelSettings = true;
+				$getProfileSettings = true;
+			}
+			break;
+			
+			case "channel":
+			case "channels":
+			{
+				$getChannelSettings = true;
+			}
+			break;
+			
+			case "profile":
+			case "profile_settings":
+			{
+				$getProfileSettings = true;
+			}
+			break;
+			
+		}
+		
+		
+		if($getChannelSettings)
+		{
+			$channel_settings = array
+			(
+				array
+				(
+					'group_name' => lang('channel_settings'),
+					'group_id'	=> 'channel_settings',
+					'fields'	=> array_merge($this->load_channel_settings($default)
+									,$this->load_privacy_field($default)),
+				),
+			);
+		}
+		
+		if($getProfileSettings)
+		{
+			$profile_settings = array
+			(
+				array
+				(
+					'group_name' => lang('profile_basic_info'),
+					'group_id'	=> 'profile_basic_info',
+					'fields'	=> $this->load_personal_details($default),
+				),
+				
+				array
+				(
+					'group_name' => lang('location'),
+					'group_id'=> 'profile_location',
+					'fields' => $this->load_location_fields($default)
+				),
+				
+				array
+				(
+					'group_name' => lang('profile_education_interests'),
+					'group_id' => 'profile_education_interests',
+					'fields' => $this->load_education_interests($default)
+				)
+			);
+			
+			//Loading Custom Profile Forms
+			$custom_fields_with_group = $this->load_custom_profile_fields($default,true);
+			
+			//Finaling putting them together in their main array called $fields
+			if($custom_fields_with_group)
+			{
+				$custFieldGroups = $custom_fields_with_group;
+			
+				foreach($custFieldGroups as $gKey => $fieldGroup)
+				{
+					
+					$group_id = $fieldGroup['group_id'];
+					
+					foreach($profile_settings as $key => $field)
+					{ 
+						
+						if($field['group_id'] == $group_id)
+						{
+							$inputFields = $field['fields'];
+							//Setting field values
+							$newFields = $fieldGroup['fields'];
+							
+							
+							
+							$mergeField = array_merge($inputFields,$newFields);
+							
+							
+							//Finally Updating array
+							$newGroupArray =
+							array
+							(
+								'group_name' => $field['group_name'],
+								'group_id' => $field['group_id'],
+								'fields' => $mergeField,
+							);
+							
+							$fields[$key] = $newGroupArray;
+							
+							$matched = true;
+							break;
+						}else
+							$matched = false;
+							
+					}
+					
+					if(!$matched)
+						$profile_settings[] = $fieldGroup;			
+					
+				}
+			}
+			
+		}
+		
+		
+		if($channel_settings)
+			$fields = array_merge($fields,$channel_settings);
+		if($profile_settings)
+			$fields = array_merge($fields,$profile_settings);
+			
+		return $fields;
+	}
+	
 
 }
 ?>

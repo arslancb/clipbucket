@@ -54,9 +54,15 @@ $mode = $_GET['mode'];
 
 switch($mode)
 {
-	case 'profile_settings':
-	default:
+	case 'account':
 	{
+		assign('on','account');
+		assign('mode','profile_settings');
+	}
+	break;
+	case 'profile':
+	{
+		assign('on','profile');
 		assign('mode','profile_settings');
 	}
 	break;
@@ -97,6 +103,12 @@ switch($mode)
 		assign('subs',$userquery->get_user_subscriptions(userid()));
 	}
 	break;
+	
+	default:
+	{
+		assign('on','account');
+		assign('mode','profile_settings');
+	}
 }
 
 

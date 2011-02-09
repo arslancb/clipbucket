@@ -9,15 +9,15 @@
 
     {foreach from=$video_fields item=field_group}
      <fieldset>
-      {* Hide fields if group is not required *}
-      {if $field_group.group_id!='required_fields'} 
-      	<span class="form_head" 
-        	onclick="$('#more_fields_{$field_group.group_id}{$objId}').slideToggle()"
-            	style="cursor:pointer">{$field_group.group_name}</span>
-    	<div id="more_fields_{$field_group.group_id}{$objId}" style="display:none">
-      {else}
-      	<span class="form_head">{$field_group.group_name}</span>
-      {/if}
+      	{* Hide fields if group is not required *}
+          {if $field_group.group_id!='required_fields'} 
+            <span class="form_head" 
+                onclick="$('#more_fields_{$field_group.group_id}{$objId}').slideToggle()"
+                    style="cursor:pointer">{$field_group.group_name}</span>
+            <div id="more_fields_{$field_group.group_id}{$objId}" style="display:none">
+          {else}
+            <span class="form_head">{$field_group.group_name}</span>
+          {/if}
     
         
            <div {if $field_group.group_id=='required_fields'} style="width:400px; float:left"{/if}>
