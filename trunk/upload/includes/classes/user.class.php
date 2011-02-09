@@ -4213,7 +4213,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'checked'=> $default['relation_status'],
 						  'db_field'=>'relation_status',
 						  'auto_view'=>'yes',
-						  'return_checked'	=> true,
+						  
 		
 						  ),
 		'show_dob' => array(
@@ -4420,6 +4420,15 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 			
 		$privacy = array
 		(
+		'online_status' => array(
+						  'title'=>  lang("online_status"),
+						  'type'=> "dropdown",
+						  'name'=> "privacy",
+						  'id'=> "privacy",
+						  'value'=> array('online'=>lang('online'),'offline'=>lang('offline'),'custom'=>lang('custom')),
+						  'checked'=>$default['online_status'],
+						  'db_field'=>'online_status',
+						  ),
 		'show_profile' => array(
 						  'title'=>  lang("show_profile"),
 						  'type'=> "dropdown",
@@ -4547,6 +4556,16 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
 						  'checked' => strtolower($default['show_my_subscribers']),
 						  'db_field'=>'show_my_subscribers',
+						  'sep' => '&nbsp;'
+						  ),
+		'show_my_collections'=>array(
+						  'title'=>  lang("show_my_collections"),
+						  'type'=> "radiobutton",
+						  'name'=> "show_my_collections",
+						  'id'=> "show_my_collections",
+						  'value' => array('yes'=>lang('yes'),'no'=>lang('no')),
+						  'checked' => strtolower($default['show_my_collections']),
+						  'db_field'=>'show_my_collections',
 						  'sep' => '&nbsp;'
 						  ),
 		
@@ -4692,7 +4711,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 			}
 			
 		}
-		
+				
 		
 		if($channel_settings)
 			$fields = array_merge($fields,$channel_settings);
@@ -4702,6 +4721,87 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 		return $fields;
 	}
 	
+	/**
+	 * Used to rate photo
+	 */
+	function rate_user($id,$rating)
+	{
+		global $db,$json;
+		
+		if(!is_numeric($rating) || $rating < 1)
+			$rating = 1;
+		if($rating > 10)
+			$rating = 10;
+			
+		$c_rating = $this->current_rating($id);
+		$voters   = $c_rating['voters'];
+		
+		$new_rate = $c_rating['rating'];
+		$rated_by = $c_rating['rated_by'];
+		
+		if(phpversion < '5.2.0')
+			$voters = $json->json_decode($voters,TRUE);
+		else
+			$voters = json_decode($voters,TRUE);
+
+		if(!empty($voters))
+			$already_voted = array_key_exists(userid(),$voters);
+			
+		if(!userid())
+			e(lang("please_login_to_rate"));
+		elseif(!empty($already_voted))
+			e(lang("you_have_already_voted_channel"));
+		elseif($c_rating['allow_ratings'] == 'no' || config('channel_rating') == 'no')
+			e(lang("channel_rating_disabled"));
+		else
+		{
+			$voters[userid()] = array('rate'=>$rating,'time'=>NOW());
+			if(phpversion < '5.2.0')
+				$voters = $json->json_encode($voters);
+			else
+				$voters = json_encode($voters);
+					
+			$t = $c_rating['rated_by'] * $c_rating['rating'];
+			$rated_by = $c_rating['rated_by'] + 1;
+			$new_rate = ($t + $rating) / $rated_by;
+			$db->update(tbl('user_profile'),array('rating','rated_by','voters'),
+			array("$new_rate","$rated_by","|no_mc|$voters"),
+			" userid = ".$id."");
+			
+			e(lang("thnx_for_voting"),"m");			
+		}
+		
+		$return = array("rating"=>$new_rate,"rated_by"=>$rated_by,'total'=>10,"id"=>$id,"type"=>"user","disabled"=>"disabled");
+		return $return;	
+	}
+	
+	
+	/**
+	 * Used to get current rating
+	 */
+	function current_rating($id)
+	{
+		global $db;
+		$result = $db->select(tbl('user_profile'),'allow_ratings,rating,rated_by,voters'," userid = ".$id."");
+		if($result)
+			return $result[0];
+		else
+			return false;				
+	}
+	
+	
+	/**
+	 * function used to check weather user is  online or not
+	 */
+	function isOnline($last_active,$status=NULL)
+	{
+		$time = strtotime($last_active);
+		$timeDiff = time() - $time;
+		if($timeDiff>60 || $status=='offline')
+			return false;
+		else
+			return true;
+	}
 
 }
 ?>

@@ -92,6 +92,16 @@ if(!empty($mode))
 					$cbvid->show_video_rating($result);
 				}
 				break;
+				
+				case "user":
+				{
+					$rating = $_POST['rating']*2;
+					$id = $_POST['id'];
+					$result = $userquery->rate_user($id,$rating);
+					$result['is_rating'] = true;
+					$cbvid->show_video_rating($result);
+				}
+				break;
 			}
 		}
 		break;

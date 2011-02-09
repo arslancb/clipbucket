@@ -7,6 +7,7 @@ Style name:		ClipBucket v2(New)
 
 @import url("view_channel.css");
 @import url("rating.css");
+
 body,html {background-color:#fff; margin:0px; padding:0px;
 font-family:Arial, Helvetica, sans-serif; color:#333; font-size:11px; 
 word-wrap:break-word;}
@@ -962,6 +963,7 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 .channel_action_links li{list-style:none;line-height:normal; margin:1px 0px}
 
 .viewChannelProfileThumb{background-color:#eaeaea; margin-bottom:2px; padding:5px}
+.channelHeading a{text-decoration:none}
 .viewChannelProfileThumb_outline{border:1px solid #eaeaea; padding:3px}
 
 .accntSettingHeadarrowup, .accntSettingHead{font-size:14px; font-weight:bold; background:url(../images/down.png) right no-repeat; display:block; margin:5px auto; padding:5px}
@@ -970,3 +972,6 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 
 .accountForm legend{background: #EEEEEE;border-top: 1px solid #AAAAAA; color: #464646; font: bold 11px Tahoma; padding: 4px 6px; width: 98%;}
 .accountForm fieldset{border:none; !important}
+
+.channel_title{font-size:13px; font-weight:bold; margin-bottom:3px}
+.channelCounts{font-size:16px; font-weight:bold; text-align:center;}

@@ -2112,10 +2112,13 @@
 	{
 		$input = $params['input'];
 		$value = $input['value'];
+		
 		if($input['value_field']=='checked')
 			$value = $input['checked'];
+			
 		if($input['return_checked'])
 			return $input['checked'];
+			
 		if(function_exists($input['display_function']))
 			return $input['display_function']($value);
 		elseif($input['type']=='dropdown')

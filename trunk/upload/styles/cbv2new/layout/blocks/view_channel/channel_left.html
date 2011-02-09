@@ -1,23 +1,29 @@
 <div class="clearfix channelBox">
-	<div class="channelHeading" style="margin:0 0 5px 0;"><a href="{$userquery->profile_link($u)}">{$u.username}</a></div>
-	<div class="viewChannelProfileThumb_outline"><div class="viewChannelProfileThumb" align="center"><a href="{$userquery->profile_link($u)}">
+	
+	<div class="viewChannelProfileThumb_outline"><div class="channelHeading" style="margin:0 0 5px 0;"><a href="{$userquery->profile_link($u)}">{$u.username}</a></div><div class="viewChannelProfileThumb" align="center"><a href="{$userquery->profile_link($u)}">
     <img src="{avatar details=$u}" style="border:1px solid #ccc; padding:1px; margin-right:5px;" /></a></div></div>
     
-					
-    {if !$userquery->is_subscribed($u.userid)}
-                    <span class="cb_button"  style="margin-top:2px;" onClick="subscriber('{$u.userid}','subscribe_user','result_cont')">{lang code='subscribe'}</span>
-                    {else}
-                    <span class="cb_button" style="margin-top:2px;" onClick="subscriber('{$u.userid}','unsubscribe_user','result_cont')">{lang code='unsubscribe'}</span>
+	{assign var=isSubscribed value=$userquery->is_subscribed($u.userid)}
+    <div style="height:10px"></div>
+    				<ul class="channel_action_links">			
+    {if !$isSubscribed && $p.allow_subscription!='no'}
+                    <li><a href="javascript:void(0)" 
+                    onClick="subscriber('{$u.userid}','subscribe_user','result_cont')">{lang code='subscribe'}</a></li>
+                    
+                    {elseif $isSubscribed}
+                   <li><a href="javascript:void(0)" 
+                    onClick="subscriber('{$u.userid}','unsubscribe_user','result_cont')">{lang code='unsubscribe'}</a></li>
                     {/if}
                     
                     {assign var='channel_action_links' value=$userquery->get_channel_action_links($u)}
-                    <ul class="channel_action_links">
+                    
                     {foreach from=$channel_action_links item=link key=link_title}
                         <li><a href="{$link.link}" {if $link.onclick}onClick="{$link.onclick}"{/if}>{$link_title}</a></li>
                     {/foreach}
                     </ul>    
 </div>
 
+{if $p.show_my_friends!='no'}
 <div class="clearfix channelBox">
 	<div class="channelHeading">{lang code="friends"} <small><a href="{link name='user_contacts'}{$u.username}">{lang code="view_all"}</a></small></div>
     {assign var=userFriends value=$userquery->get_contacts($u.userid,'0','yes')}
@@ -29,7 +35,9 @@
     	<em>User dont any friends yet.</em>
     {/if}
 </div>
-{if isSectionEnabled('collections')}
+{/if}
+
+{if isSectionEnabled('collections') && $p.show_my_collections!='no'}
 <div class="clearfix channelBox">
 	<div class="channelHeading">{lang code="Collections"}</div>
     {assign var=climit value=func->config(collection_channel_page)}
@@ -40,10 +48,12 @@
         {/foreach}
         <div align="right" class="clearfix" style="clear:both;display:block;margin-top:2px;"><a href="{link name='user_collections'}{$u.username}">{lang code='more'}</a> | <a href="{link name='user_fav_collections'}{$u.username}">{lang code='Favorites'}</a></div>
     {else}
-    	<em>User dont have any collections.</em>
+    	<em>{lang code='user_doesnt_any_collection'}</em>
     {/if}
 </div>
 {/if}
+
+{if $p.show_my_subscriptions!='no'}
 <div class="clearfix channelBox">
 	<div class="channelHeading">{lang code='user_subscriptions' assign='users_videos'}{$users_videos|sprintf:$u.username}</div>
     {assign var=users_items_subscriptions value=func->config(users_items_subscriptions)}
@@ -56,7 +66,9 @@
     	<em>{lang code='user_no_subscriptions' assign='user_subs'}{$user_subs|sprintf:$u.username}</em>
     {/if}
 </div>
+{/if}
 
 <div class="clearfix channelBox">
-<a href="javascript:void(0)" onClick="$('#flag_item').slideToggle()">{lang code='report_this_user'}</a>
+    <a href="javascript:void(0)" onClick="$('#flag_item').slideToggle()">{lang code='report_this_user'}</a>
 </div>
+{show_flag_form id=$u.userid type=User}

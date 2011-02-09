@@ -7,18 +7,23 @@
     <div style="height:10px;"></div>
     {include file="$style_dir/message.html"}
     <div class="channel_inner_box" id="result_cont" style="display:none; background:#eee;"></div>
-    {show_flag_form id=$u.userid type=User}
+    
     <div class="moveL clearfix" style="width:270px; padding:0px 5px;">
     	{include file="$style_dir/blocks/view_channel/channel_left.html"}
     </div> <!-- this is left side -->   
     <div class="moveL clearfix" style="width:700px; padding:0px 5px; ">
     {if isSectionEnabled('photos') || isSectionEnabled('videos')}
- 	{get_photos assign=latestP order=" date_added DESC" limit=10 user=$u.userid}
+    
+    {if $p.show_my_photos !='no'}
+ 		{get_photos assign=latestP order=" date_added DESC" limit=10 user=$u.userid}
+    {/if}
+    
     {get_videos assign=latestV order=" date_added DESC" limit=10 user=$u.userid status="Successful" broadcast="public"}    
     {if $latestP || $latestV}
     	<div class="channelFeatureBox clearfix">
+         {if $p.show_my_photos !='no'}
         	<div class="itemListing moveL"> 
-                <button id="PprevItem" class="carouselButton">&uarr;</button>
+                <button id="PprevItem" class="carouselButton"><img src="{$imageurl}/up.png"></button>
                 	<div id="photoListing">
                         <ul style="list-style:none; margin:0px; padding:0px;">
                         {if $latestP}
@@ -35,18 +40,23 @@
                         {/if}
                         </ul>
                     </div>
-                    <button id="PnextItem" class="carouselButton">&darr;</button>
+                    <button id="PnextItem" class="carouselButton"><img src="{$imageurl}/down.png"></button>
             </div> <!-- itemListing end -->
+            {/if}
+            
+            {if $p.show_my_photos !='no' || $p.show_my_videos !='no'} 
             <div class="viewItemBox">
             	<div id="viewingArea" class="viewingArea">
 					 
                 </div> <!-- viewingArea end -->
             </div> <!-- viewItemBox end -->
+            {/if}
             
             
+            {if $p.show_my_videos !='no'} 
             <div class="itemListing moveR">              
                 
-                	<button id="VprevItem" class="carouselButton">&uarr;</button>
+                	<button id="VprevItem" class="carouselButton"><img src="{$imageurl}/up.png"></button>
                 	<div id="videoListing">
                         <ul style="list-style:none; margin:0px; padding:0px;">
                         {if $latestV}
@@ -61,8 +71,9 @@
                         {/if}
                         </ul>
                     </div>
-                    <button id="VnextItem" class="carouselButton">&darr;</button>                           
+                    <button id="VnextItem" class="carouselButton"><img src="{$imageurl}/down.png"></button>                           
             </div> <!-- itemListing end -->
+            {/if}
         </div> <!-- channelFeatureBox end -->
         {/if}
         {/if}
@@ -85,17 +96,69 @@
         
         <div class="clearfix channelBox" style="border:1px solid #ccc; padding:0px;">
         	<ul class="channelBar clearfix">
-            	<li><a href="#" class="selected" rel="infoDIV" onClick="channelObjects(this,'#channelDetailsBox','info','{$u.userid}'); return false;">Info</a></li>
+            	<li><a href="#" class="selected" rel="infoDIV" onClick="channelObjects(this,'#channelDetailsBox','info','{$u.userid}'); return false;">{lang code='info'}</a></li>
                 {if isSectionEnabled('videos')}
-                <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','videos','{$u.userid}'); return false;">Videos</a></li>{/if}
+                <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','videos','{$u.userid}'); return false;">{lang code='videos'}</a></li>{/if}
                 {if isSectionEnabled('groups')}
-                <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','groups','{$u.userid}'); return false;">Groups</a></li>{/if}
+                <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','groups','{$u.userid}'); return false;">{lang code='groups'}</a></li>{/if}
                 {if isSectionEnabled('photos')}
-                <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','photos','{$u.userid}'); return false;">Photos</a></li>{/if}
+                <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','photos','{$u.userid}'); return false;">{lang code='photos'}</a></li>{/if}
             </ul>
             <div id="channelDetailsBox">
             <div id="infoDIV" class="channelInnerPadding clearfix">
             
+            <fieldset class="channelFieldset">
+            	<div style="width:500px; float:left; margin-right:10px; padding-right:10px;border-right:1px solid #999">
+                    {if $$p.profile_title}
+                        <div class="channel_title">{$p.profile_title}</div>
+                    {/if}
+                    {if $$p.profile_desc}
+                        {$p.profile_desc|nl2br}
+                    {/if}
+                    
+                    <div class="channelLegend" style="margin-top:5px">{lang code='user_activity'}</div>
+        				<div class="channelRow">
+                            <div class="channelLabel">{lang code='joined'}</div>
+                            <div class="channelDetail">{$u.doj|niceTime}</div>
+                        </div>
+                        
+                        <div class="channelRow">
+                            <div class="channelLabel">{lang code='user_last_login'}</div>
+                            <div class="channelDetail">{$u.last_logged|niceTime}</div>
+                        </div>
+                        
+                        
+                        <div class="channelRow">
+                            <div class="channelLabel">{lang code='online_status'}</div>
+                            <div class="channelDetail">
+                            {if $userquery->isOnline($u.last_active,$p.online_status)}
+                            	<span style="color:#060">{lang code='online'}</span>
+                            {else}
+                            	<span style="color:#ed0000">{lang code='offline'}</span>
+                            {/if}
+                            </div>
+                        </div>
+                       
+                        
+                </div>
+                
+                <div style="width:160px;float:left; ">
+                    {if $p.allow_ratings !='no' && $p.allow_ratings!='No'}
+                        <div class="rating_container" style="height:auto; padding-right:0px; margin:0px auto 10px auto; border:0px">
+                            {show_video_rating rating=$p.rating ratings=$p.rated_by total='10' id=$p.userid type=user}
+                        </div>
+                    {/if}
+                    
+                	<div class="channelCounts">{lang code='views'}<br>
+                    {$u.profile_hits|number_format} </div>
+                                        <div class="channelCounts" >{lang code='subscribers'}<br>
+                    {$u.profile_hits|number_format}</div>
+                </div>
+                
+                <div class="clear"></div>
+                
+                
+            </fieldset>
             {assign var='channel_profile_fields' value=$userquery->load_user_fields($p,'profile')}
             {foreach from=$channel_profile_fields item=field_group name=profile_groups}
                 {if $smarty.foreach.profile_groups.iteration==2}
@@ -104,6 +167,16 @@
                 {if $field_group.channel_view !='no'}              
                     <fieldset class="channelFieldset">
                         <legend class="channelLegend">{$field_group.group_name}</legend>
+                        
+                        {if $field_group.group_id=='profile_location'}
+                        	<div class="channelRow">
+                                <div class="channelLabel">{lang code='country'}</div>
+                                <div class="channelDetail">{$u.country|country}</div>
+                            </div>
+                        {/if}
+                        
+                       
+                        
                         {foreach from=$field_group.fields item=field}
                         {if $field.auto_view=='yes' && $field.value}
                             <div class="channelRow">
@@ -118,7 +191,15 @@
                                 <div class="channelDetail">{input_value input=$field}</div>                    
                             {/if}                                                
                             </div>
-                        {/if}    
+                        {/if}
+                        {if $field_group.group_id=='profile_basic_info' 
+                        	&& $field.name=='relation_status'
+                            	&& $p.show_dob!='no'}
+                        	<div class="channelRow">
+                                <div class="channelLabel">{lang code='user_date_of_birth'}</div>
+                                <div class="channelDetail">{$u.dob}</div>
+                            </div>
+                         {/if} 
                         {/foreach}                                       
                     </fieldset>
                   
@@ -129,7 +210,7 @@
             {/foreach}
             
 			<fieldset id="moreDetails" class="channelFieldset">
-            	<legend class="channelLegend" style=" margin-bottom:0px;" onClick="$('#moreDetails').hide(); $('#moreDetailsDIV').show();">MORE</legend>
+            	<legend class="channelLegend" style=" margin-bottom:0px;" onClick="$('#moreDetails').hide(); $('#moreDetailsDIV').show();">{lang code='more'}</legend>
             </fieldset>
             
             </div>
@@ -144,7 +225,12 @@
 <div id="comments"></div>
 <script>
 	$(document).ready(function()
-	{ldelim}		
+	{ldelim}
+		
+		{if $p.show_my_photos!='no' || $p.show_my_photos!='yes' }
+			var viewingAreaParent = $('#viewingArea').parent().parent().width();	
+			$('#viewingArea') .width(viewingAreaParent-180)	
+		{/if}
 		comments_voting = 'no';	
 		getComments('c','{$u.userid}','{$u.last_commented}',1,'{$u.comments_count}','{$object_type}')
 	{rdelim}
