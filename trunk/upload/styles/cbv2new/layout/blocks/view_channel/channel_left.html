@@ -1,18 +1,21 @@
 <div class="clearfix channelBox">
 	<div class="channelHeading" style="margin:0 0 5px 0;"><a href="{$userquery->profile_link($u)}">{$u.username}</a></div>
-	<a href="{$userquery->profile_link($u)}"><img src="{avatar details=$u}" class="moveL" style="border:1px solid #ccc; padding:1px; margin-right:5px;" /></a>
+	<div class="viewChannelProfileThumb_outline"><div class="viewChannelProfileThumb" align="center"><a href="{$userquery->profile_link($u)}">
+    <img src="{avatar details=$u}" style="border:1px solid #ccc; padding:1px; margin-right:5px;" /></a></div></div>
     
-					{assign var='channel_action_links' value=$userquery->get_channel_action_links($u)}
-                    <ul class="channel_action_links">
-                    {foreach from=$channel_action_links item=link key=link_title}
-                        <li><a href="{$link.link}" {if $link.onclick}onClick="{$link.onclick}"{/if}>{$link_title}</a></li>
-                    {/foreach}
-                    </ul>    
+					
     {if !$userquery->is_subscribed($u.userid)}
                     <span class="cb_button"  style="margin-top:2px;" onClick="subscriber('{$u.userid}','subscribe_user','result_cont')">{lang code='subscribe'}</span>
                     {else}
                     <span class="cb_button" style="margin-top:2px;" onClick="subscriber('{$u.userid}','unsubscribe_user','result_cont')">{lang code='unsubscribe'}</span>
                     {/if}
+                    
+                    {assign var='channel_action_links' value=$userquery->get_channel_action_links($u)}
+                    <ul class="channel_action_links">
+                    {foreach from=$channel_action_links item=link key=link_title}
+                        <li><a href="{$link.link}" {if $link.onclick}onClick="{$link.onclick}"{/if}>{$link_title}</a></li>
+                    {/foreach}
+                    </ul>    
 </div>
 
 <div class="clearfix channelBox">

@@ -951,3 +951,15 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 .watchMainWindow{border:#001853; background-color:#0066cc; font-weight:bold; padding:3px; margin-top:5px}
 .watchMainWindow a{color:#fff; text-decoration:none; font-weight:bold}
 .watchMainWindow a:hover{text-decoration:underline}
+
+/**
+ * View Channel
+ */
+
+
+.channel_action_links{display:block; text-align:left; margin:0px; padding:0px;line-height:normal}
+.channel_action_links a{ line-height:normal; text-decoration:none; font-weight:bold; font-size:11px; font-family:tahoma  }
+.channel_action_links li{list-style:none;line-height:normal; margin:1px 0px}
+
+.viewChannelProfileThumb{background-color:#eaeaea; margin-bottom:2px; padding:5px}
+.viewChannelProfileThumb_outline{border:1px solid #eaeaea; padding:3px}
