@@ -117,7 +117,15 @@ switch($mode)
 		$params = array('userid'=>userid(),'limit'=>$get_limit,'cond'=>$cond);
 		
 		$videos = $cbvid->action->get_favorites($params);
+		
 		Assign('uservids', $videos);	
+		
+		//Collecting Data for Pagination
+		$params['count_only'] = 'yes';
+		$favorites_count = $cbvid->action->get_favorites($params);
+		$total_pages = count_pages($favorites_count,VLISTPP);
+		//Pagination
+		$pages->paginate($total_pages,$page);
 		
 		subtitle(lang("com_manage_fav"));
 	}
