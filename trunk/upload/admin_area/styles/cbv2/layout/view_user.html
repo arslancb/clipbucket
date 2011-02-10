@@ -1,8 +1,5 @@
 <span class="page_title">Edit User</span>
-{assign var="user_fields"  value=$userquery->load_profile_fields($p)}
-{assign var="signup_fields"  value=$userquery->load_signup_fields($u)}
-{assign var="user_custom_profile_fields" value=$userquery->load_custom_profile_fields($p)}
-{assign var="user_custom_signup_fields" value=$userquery->load_custom_signup_fields($p)}
+{assign var='channel_profile_fields' value=$userquery->load_user_fields($p)}
 
 <form action="" method="post" enctype="multipart/form-data" name="form1" id="form1" class="cbform">
   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" >
@@ -96,46 +93,25 @@
   </table>
 </fieldset>
 
-
+{foreach from=$channel_profile_fields item=field_group}
 <fieldset class="fieldset">
-  <legend>Profile Details</legend>
+  <legend>{$field_group.group_name}</legend>
   <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-    {foreach from=$user_fields item=field}
-    <tr>
-      <td width="200"><strong>{$field.title}</strong></td>
-      <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-        <br>
-        {$field.hint_2}</td>
-        </tr>
+    		{foreach from=$field_group.fields item=field}
+            <tr>
+              <td width="200"><strong>{$field.title}</strong></td>
+              <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+            <br>
+            {$field.hint_2}</td>
+            </tr>
           {/foreach}
           
         </table>
 </fieldset>
+{/foreach}
 
 
 
-
-
-
-
-
-<fieldset class="fieldset">
-  <legend>User Custom Signup Fields</legend>
-  {if $user_custom_signup_fields}
-  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-  
-    {foreach from=$user_custom_signup_fields item=field}
-    <tr>
-      <td width="200"><strong>{$field.title}</strong></td>
-      <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</td>
-        <br>
-        {$field.hint_2}
-        </tr>
-          {/foreach}
-          
-        </table>
-    {else}<div align="center"><em>No custom field found</em></div>{/if}
-</fieldset>
 
 
 
@@ -212,12 +188,12 @@
     </tr>
     <tr>
       <td><strong>Profile Rating</strong></td>
-      <td><input name="rating" type="text" id="total_watched4" value="{$u.rating}" />
+      <td><input name="rating" type="text" id="total_watched4" value="{$p.rating}" />
         0-10</td>
     </tr>
     <tr>
       <td><strong>Profile Rated by</strong></td>
-      <td><input name="rated_by" type="text" id="total_watched5" value="{$u.rated_by}" /></td>
+      <td><input name="rated_by" type="text" id="total_watched5" value="{$p.rated_by}" /></td>
     </tr>
     <tr>
       <td><strong>Subscribers</strong></td>
@@ -310,27 +286,6 @@ Background Repeat Type (if using image as a background)<br />
 </fieldset>
 
 
-
-
-
-
-<fieldset class="fieldset">
-  <legend>User Custom Profile Fields</legend> {if $user_custom_profile_fields}
-  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
- 
-    {foreach from=$user_custom_profile_fields item=field}
-    <tr>
-      <td width="200"><strong>{$field.title}</strong></td>
-      <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</td>
-        <br>
-        {$field.hint_2}
-        </tr>
-          {/foreach}
-          
-        </table>{else}<div align="center"><em>No custom field found</em></div>{/if}
-</fieldset>
-
-
 </td>
 </tr>
   <tr>
@@ -352,6 +307,7 @@ Background Repeat Type (if using image as a background)<br />
     </tr>
     <tr>
     <td colspan="2" align="center">
+    
     {assign var=id value=$u.userid}{include file="$style_dir/blocks/comments.html" type=c id=$u.userid link="uid=$id"}</td>
   </tr>
   </table>

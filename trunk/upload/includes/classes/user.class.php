@@ -2292,14 +2292,14 @@ class userquery extends CBCategory{
 			$uquery_val[] = $array['subscribers'];
 			$uquery_field[] = 'comments_count';
 			$uquery_val[] = $array['comments_count'];
-			$uquery_field[] = 'rating';
+			$query_field[] = 'rating';
 			
 			$rating = $array['rating'];
 			if($rating<1 || $rating>10)
 				$rating = 1;
-			$uquery_val[] = $rating ;
-			$uquery_field[] = 'rated_by';
-			$uquery_val[] = $array['rated_by'];
+			$query_val[] = $rating ;
+			$query_field[] = 'rated_by';
+			$query_val[] = $array['rated_by'];
 			
 			//Changing JOined Date
 			if(isset($array['doj']))
