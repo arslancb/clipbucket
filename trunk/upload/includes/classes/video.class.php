@@ -535,9 +535,27 @@ class CBvideo extends CBCategory
 		//uid 
 		if($params['user'])
 		{
-			if($cond!='')
-				$cond .= ' AND ';
-			$cond .= " ".tbl("video.userid")."='".$params['user']."'";
+			if(!is_array($params['user']))
+			{
+				if($cond!='')
+					$cond .= ' AND ';
+				$cond .= " ".tbl("video.userid")."='".$params['user']."'";
+			}else
+			{
+				if($cond!='')
+						$cond .= ' AND (';
+				
+				$uQu = 0;		
+				foreach($params['user'] as $user)
+				{
+					if($uQu>0)
+						$cond .= ' OR ';
+					$cond .= " ".tbl("video.userid")."='".$user."'";
+					$uQu++;
+				}
+				
+				$cond .=" ) ";
+			}
 
 		}
 
@@ -634,18 +652,87 @@ class CBvideo extends CBCategory
 		//VIDEO KEY
 		if($params['videokey'])
 		{
-			if($cond!='')
-				$cond .= ' AND ';
-			$cond .= " ".tbl("video.videokey")." = '".$params['videokey']."' ";
+			
+			if(!is_array($params['videokey']))
+			{
+				if($cond!='')
+					$cond .= ' AND ';
+				$cond .= " ".tbl("video.videokey")." = '".$params['videokey']."' ";
+			}else
+			{
+				if($cond!='')
+						$cond .= ' AND (';
+				
+				$vkeyQue = 0;		
+				foreach($params['videokey'] as $videokey)
+				{
+					if($vkeyQue>0)
+						$cond .= ' OR ';
+					$cond .= " ".tbl("video.videokey")." = '".$videokey."' ";
+					$vkeyQue++;
+				}
+				
+				$cond .=" ) ";
+			}
 		}		
 		
 		
 		//Exclude Vids
 		if($params['exclude'])
 		{
+			if(!is_array($params['exclude']))
+			{
+				if($cond!='')
+					$cond .= ' AND ';
+				$cond .= " ".tbl('video.videoid')." <> '".$params['exclude']."' ";
+			}else
+			{
+				foreach($params['exclude'] as $exclude)
+				{
+					if($cond!='')
+						$cond .= ' AND ';
+					$cond .= " ".tbl('video.videoid')." <> '".$exclude."' ";
+				}
+			}
+		}
+		
+		//Duration
+		
+		if($params['duration'])
+		{
+			$duration_op = $params['duration_op'];
+			if(!$duration_op) $duration_op = "=";
+			
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " ".tbl('video.videoid')." <> '".$params['exclude']."' ";
+			$cond .= " ".tbl('video.duration')." ".$duration_op." '".$params['duration']."' ";
+		}
+		
+		//Filename
+		
+		if($params['filename'])
+		{
+			if(!is_array($params['filename']))
+			{
+				if($cond!='')
+					$cond .= ' AND ';
+				$cond .= " ".tbl('video.file_name')." <> '".$params['filename']."' ";
+			}else
+			{
+				if($cond!='')
+						$cond .= ' AND (';
+				
+				$fileNameQue = 0;		
+				foreach($params['filename'] as $filename)
+				{
+					if($fileNameQue>0)
+						$cond .= ' OR ';
+					$cond .= " ".tbl("video.file_name")." = '".$filename."' ";
+					$fileNameQue++;
+				}
+				
+				$cond .=" ) ";
+			}
 		}
 		
 		if($params['cond'])
