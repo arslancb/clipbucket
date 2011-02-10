@@ -171,9 +171,11 @@ onclick='$(this).toggleClass("watch_vids_head_closed");$("#vid_collections").sli
 {/if}
 
 <div class="clearfix"></div>
-
-    {show_collection_form id=$vdo.videoid type=Video}
-
+	
+    <div align="right"><a href="javascript:void(0)"
+    	 onclick="$('#addCollectionCont').toggle()"
+         	style="text-decoration:none"><strong>+ {lang code='add_to_my_collection'}</strong></a></div>
+    <div id="addCollectionCont" style="display:none">{show_collection_form id=$vdo.videoid type=Video}</div>
 
 </div>
 {/if}

@@ -49,14 +49,21 @@ if($udetails)
 	//Checking Profile permissions
 	
 	$perms = $p['show_profile'];
-	if(($perms == 'friends' || $perms == 'members') && !userid())
+	if(userid()!=$udetails['userid'])
 	{
-		e(lang('you_cant_view_profile'));
-		$Cbucket->show_page = false;
-	}elseif($perms == 'friends' && !$userquery->is_confirmed_friend($udetails['userid'],userid()))
-	{
-		e(sprintf(lang('only_friends_view_channel'),$udetails['username']));
-		$Cbucket->show_page = false;
+		if(($perms == 'friends' || $perms == 'members') && !userid())
+		{
+			e(lang('you_cant_view_profile'));
+			
+			if(!has_access('admin_access',true))
+				$Cbucket->show_page = false;
+		}elseif($perms == 'friends' && !$userquery->is_confirmed_friend($udetails['userid'],userid()))
+		{
+			e(sprintf(lang('only_friends_view_channel'),$udetails['username']));
+			
+			if(!has_access('admin_access',true))
+				$Cbucket->show_page = false;
+		}
 	}
 	
 	
