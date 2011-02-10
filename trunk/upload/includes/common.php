@@ -51,13 +51,13 @@ if(!@$in_bg_cron)
     check_install();
 	require_once('dbconnect.php');
 	require_once('classes/ClipBucket.class.php');
+	
 	require_once('classes/my_queries.class.php');
 	require_once('classes/actions.class.php');
 	require_once('classes/category.class.php');
 	require_once('classes/user.class.php');
 	require_once('classes/lang.class.php');
 	require_once('classes/pages.class.php');
-	
 	
 	
 	$myquery 	= new myquery();

@@ -45,9 +45,9 @@ if(isset($_POST['change_password']))
 }
 
 //Banning Users
-if(isset($_POST['ban_users']))
+if(isset($_POST['block_users']))
 {
-	$userquery->ban_users($_POST['users']);
+	$userquery->block_users($_POST['users']);
 }
 
 $mode = $_GET['mode'];
@@ -85,9 +85,9 @@ switch($mode)
 	}
 	break;
 	
-	case 'ban_users':
+	case 'block_users':
 	{
-		assign('mode','ban_users');
+		assign('mode','block_users');
 	}
 	break;
 	

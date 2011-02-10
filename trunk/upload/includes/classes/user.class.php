@@ -2738,7 +2738,7 @@ class userquery extends CBCategory{
 		array
 		(
 					 lang('my_account')	=> 'myaccount.php',
-					 lang('ban_users')	=> 'edit_account.php?mode=ban_users',
+					 lang('block_users')	=> 'edit_account.php?mode=block_users',
 					 lang('user_change_pass')	=>'edit_account.php?mode=change_password',
 					 lang('user_change_email') 	=>'edit_account.php?mode=change_email',
 					 lang('com_manage_subs')	=> 'edit_account.php?mode=subscriptions'
@@ -2822,6 +2822,7 @@ class userquery extends CBCategory{
 	/**
 	 * Function used to ban users
 	 */
+	function block_users($users,$uid=NULL){ return $this->ban_users($users,$uid); }
 	function ban_users($users,$uid=NULL)
 	{
 		global $db;

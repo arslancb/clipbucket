@@ -70,7 +70,9 @@
 </div>
 {/if}
 
+{if $userquery->userid!=$u.userid}
 <div class="clearfix channelBox">
     <a href="javascript:void(0)" onClick="$('#flag_item').slideToggle()">{lang code='report_this_user'}</a>
 </div>
+{/if}
 {show_flag_form id=$u.userid type=User}

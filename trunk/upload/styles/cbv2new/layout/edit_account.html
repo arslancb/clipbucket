@@ -263,14 +263,14 @@
 <!-- END CHANGING USER PASSWORD -->
 {/if}
 
-{if $mode == 'ban_users'}
+{if $mode == 'block_users'}
 <!-- Banning Users -->
 <div class="account_form">
 <form method="post" name="ban_users">
 <fieldset class="fieldset">
-<legend>Ban Users</legend>
+<legend>{lang code='block_users'}</legend>
 <div class="account_field_block">
-<div class="account_field_label" align="right"><strong><label for="users">{lang code='ban_users'}</label></strong></div>
+<div class="account_field_label" align="right"><strong><label for="users">{lang code='block_users'}</label></strong></div>
 <div class="account_field">
   <textarea name="users" id="users" style="margin-bottom:10px">{$user.banned_users}</textarea>
   <br />
@@ -278,7 +278,7 @@
 <div class="clearfix"></div>
 </div>
 
-<div align="right"><button name="ban_users" id="button" value="submit" class="cb_button_2">{lang code='ban_users'}</button></div>
+<div align="right"><button name="block_users" id="button" value="submit" class="cb_button_2">{lang code='block_users'}</button></div>
 
 </fieldset>
 </form>
