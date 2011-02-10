@@ -1751,6 +1751,25 @@ class CBGroups extends CBCategory
 	}
 	
 	
+	/**
+	 * Function used to check weather to view
+	 * group details ot user or not
+	 */
+	function is_viewable($group,$uid=NULL)
+	{
+		if(!$uid)
+			$uid = userid();
+			
+		$group_id = $group['group_id'];
+			$is_Member = $this->is_member($uid,$group['group_id'],true);
+		
+		if($group['group_privacy'] && !$is_Member)
+			return false;
+		else
+			return true;
+	}
+	
+	
 	
 	/**
 	 * Function used to get groups

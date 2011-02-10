@@ -52,6 +52,12 @@ if($details)
 		}
 	}
 	
+	$viewable = $cbgroup->is_viewable($details);
+	assign('isviewable',$viewable);
+	
+	if(!$viewable)
+		e(lang("you_need_owners_approval_to_view_group"));
+	
 	//Getting list of topics
 	$topics = $cbgroup->get_topics(array('group'=>$details['group_id']));
 	assign('topics',$topics);

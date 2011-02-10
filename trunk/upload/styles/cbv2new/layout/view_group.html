@@ -2,7 +2,7 @@
 
 {include file="$style_dir/blocks/group/group_header.html" group=$group}
 
-{if $mode=='' || $mode=='main'}
+{if ($mode=='' || $mode=='main') &&  $isviewable}
 <div class="clearfix" style="margin-top:10px">
 	<div style="float:left; width:500px"><h2 style="margin:0px; margin:0px">{lang code='grp_discus_title'} ({$group.total_topics|number_format})</h2></div>
     <div style="float:right; width:250px" align="right">
@@ -14,8 +14,7 @@
 <div id="add_topic_cont" style="display:none;">
 {include file="$style_dir/blocks/group/add_topic.html" group=$group}
 </div>
-
-{include file="$style_dir/blocks/group/group_topics.html" group=$group}
+	{include file="$style_dir/blocks/group/group_topics.html" group=$group}
 {/if}
 
 

@@ -70,6 +70,8 @@ switch($mode)
 		if(isset($_POST['add_collection']))
 		{
 			$cbcollection->create_collection($_POST);
+			
+			if(!error()) unset($_POST);
 		}
 		
 		subtitle(lang("create_collection"));

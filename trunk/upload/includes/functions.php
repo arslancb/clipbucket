@@ -2954,7 +2954,6 @@
 				}
 			}
 		}
-		
 		increment_views($gdetails['group_id'],"group");
 	}
 	

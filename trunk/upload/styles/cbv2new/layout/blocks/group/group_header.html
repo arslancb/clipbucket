@@ -49,10 +49,10 @@
         <div class="group_detail_tabs clearfix">
     	  <ul>
     	    <li class="selected" onclick="get_group_info('#info',this)">{lang code='info'}</li>
-            {if isSectionEnabled('channels')}
+            {if isSectionEnabled('channels') && $isviewable}
     	    <li onclick="get_group_info('#members',this)">{lang code='members'}</li>
             {/if}
-            {if isSectionEnabled('videos')}
+            {if isSectionEnabled('videos') && $isviewable}
     	    <li onclick="get_group_info('#gpvideos',this)">{lang code='videos'}</li>
             {/if}
             <li onclick="get_group_info('#flag_group',this); $('#flag_item').slideDown()">{lang code='report_this'}</li>
