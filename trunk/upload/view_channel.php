@@ -64,6 +64,18 @@ if($udetails)
 			if(!has_access('admin_access',true))
 				$Cbucket->show_page = false;
 		}
+		
+		//Checking if user is not banned by admin
+		if(userid())
+		{
+			if($userquery->is_user_banned(username(),$udetails['userid'],$udetails['banned_users']))
+			{
+				e(sprintf(lang('you_are_not_allowed_to_view_user_channel'),$udetails['username']));
+				
+				if(!has_access('admin_access',true))
+					$Cbucket->show_page = false;
+			}
+		}
 	}
 	
 	
@@ -78,8 +90,13 @@ if($udetails)
 	$Cbucket->show_page = false;
 }
 add_js(array('jquery_plugs/compressed/jquery.jCarousel.js'=>'view_channel'));
+
 if($Cbucket->show_page)
-Template('view_channel.html');
+	Template('view_channel.html');
 else
-display_it();
+{
+	$Cbucket->show_page = true;
+	template_files('blocks/view_channel/user_block.html');
+	display_it();
+}
 ?>

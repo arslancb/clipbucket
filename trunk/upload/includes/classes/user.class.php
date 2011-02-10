@@ -2884,23 +2884,29 @@ class userquery extends CBCategory{
 	/**
 	 * Function used to check weather user is banned or not
 	 */
-	function is_user_banned($ban,$user=NULL)
+	function is_user_banned($ban,$user=NULL,$banned_users=NULL)
 	{
 		global $db;
 		if(!$user)
 			$user = userid();
-		$result = $db->select(tbl($this->dbtbl['users']),"banned_users"," username='$user' OR userid='$user' ");
-		if($result) {
-			foreach($result as $banned_user) {
-				$ban_user = explode(',',$banned_user['banned_users']);
-				if(in_array($ban,$ban_user)) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		}else
+		
+		if(!$banned_users)
+		{
+			if(is_numeric($user))
+				$result = $db->select(tbl($this->dbtbl['users']),"banned_users"," userid='$user' ");
+			else
+				$result = $db->select(tbl($this->dbtbl['users']),"banned_users"," username='$user' ");
+			$banned_users = $result[0]['banned_users'];
+		}
+		
+		$ban_user = explode(',',$banned_users);
+		if(in_array($ban,$ban_user)) {
+			return true;
+		} else {
 			return false;
+		}
+		
+		return false;
 	}
 	
 	/**

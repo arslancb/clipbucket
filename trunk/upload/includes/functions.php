@@ -100,6 +100,7 @@
 		return $id;
 	}
 	
+	
 	function mysql_clean($id,$replacer=true){
 		//$id = clean($id);
 		
@@ -112,6 +113,16 @@
 			$id = Replacer($id);
 		return $id;
 	}
+	
+	function escape_gpc($in)
+	{
+		if (get_magic_quotes_gpc())
+		{
+			$in = stripslashes($in);
+		}
+		return $in;
+	}
+	
 	
 	//Redirect Using JAVASCRIPT
 	
@@ -221,8 +232,8 @@
 			}
 		}
 		
-		$content = $array['content'];
-		$subject = $array['subject'];
+		$content = escape_gpc($array['content']);
+		$subject = escape_gpc($array['subject']);
 		$to		 = $array['to'];
 		$from	 = $array['from'];
 		$to_name = $array['to_name'];
