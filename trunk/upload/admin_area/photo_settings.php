@@ -32,6 +32,7 @@ switch($mode)
 								 'photo_crop',
 								 'photo_multi_upload',
 								 'max_photo_size',
+								 'own_photo_rating',
 								 'photo_download',
 								 'photo_comments',
 								 'photo_rating');

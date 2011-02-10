@@ -4750,9 +4750,11 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 			
 		if(!userid())
 			e(lang("please_login_to_rate"));
+		elseif(userid()==$c_rating['userid'] && !config('own_channel_rating'))
+			e(lang("you_cant_rate_own_channel"));
 		elseif(!empty($already_voted))
 			e(lang("you_have_already_voted_channel"));
-		elseif($c_rating['allow_ratings'] == 'no' || config('channel_rating') == 'no')
+		elseif($c_rating['allow_ratings'] == 'no' || !config('channel_rating'))
 			e(lang("channel_rating_disabled"));
 		else
 		{
@@ -4772,7 +4774,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 			e(lang("thnx_for_voting"),"m");			
 		}
 		
-		$return = array("rating"=>$new_rate,"rated_by"=>$rated_by,'total'=>10,"id"=>$id,"type"=>"user","disabled"=>"disabled");
+		$return = array("rating"=>$new_rate,"rated_by"=>$rated_by,'total'=>10,"id"=>$id,"type"=>"user","disable"=>"disabled");
 		return $return;	
 	}
 	
@@ -4783,7 +4785,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 	function current_rating($id)
 	{
 		global $db;
-		$result = $db->select(tbl('user_profile'),'allow_ratings,rating,rated_by,voters'," userid = ".$id."");
+		$result = $db->select(tbl('user_profile'),'userid,allow_ratings,rating,rated_by,voters'," userid = ".$id."");
 		if($result)
 			return $result[0];
 		else

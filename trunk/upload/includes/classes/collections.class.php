@@ -1297,7 +1297,7 @@ class Collections extends CBCategory
 	function current_rating($id)
 	{
 		global $db;
-		$result = $db->select(tbl('collections'),'allow_rating,rating,rated_by,voters'," collection_id = ".$id."");
+		$result = $db->select(tbl('collections'),'allow_rating,rating,rated_by,voters,userid'," collection_id = ".$id."");
 		if($result)
 			return $result[0];
 		else
@@ -1330,13 +1330,17 @@ class Collections extends CBCategory
 
 		if(!empty($voters))
 			$already_voted = array_key_exists(userid(),$voters);
-			
+		
+		
+
 		if(!userid())
 			e(lang("please_login_to_rate"));
+		elseif(userid()==$c_rating['userid'])
+			e(lang("you_cannot_rate_own_collection"));
 		elseif(!empty($already_voted))
 			e(lang("you_hv_already_rated_photo"));
-		elseif($c_rating['allow_rating'] == 'no' || config('photo_rating') != 1)
-			e(lang("photo_rate_disabled"));
+		elseif($c_rating['allow_rating'] == 'no' || !config('collection_rating'))
+			e(lang("collection_rating_not_allowed"));
 		else
 		{
 			$voters[userid()] = array('rate'=>$rating,'time'=>NOW());
@@ -1354,8 +1358,8 @@ class Collections extends CBCategory
 			
 			e(lang("thnx_for_voting"),"m");			
 		}
-		
-		$return = array("rating"=>$new_rate,"rated_by"=>$rated_by,'total'=>10,"id"=>$id,"type"=>"photo","disabled"=>"disabled");
+	
+		$return = array("rating"=>$new_rate,"rated_by"=>$rated_by,'total'=>10,"id"=>$id,"type"=>"collection","disable"=>"disabled");
 		return $return;	
 	}
 	

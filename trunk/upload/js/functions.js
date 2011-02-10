@@ -415,7 +415,7 @@ var loading = loading_img+" Loading...";
 	function rating_over(msg,disable)
 	{
 		if(disable!='disabled')
-		$("#rating_result_container").html(msg);
+			$("#rating_result_container").html(msg);
 	}
 	function rating_out(msg,disable)
 	{

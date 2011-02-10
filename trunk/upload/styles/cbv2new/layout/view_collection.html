@@ -55,11 +55,13 @@
     	<span style="font:normal 11px Tahoma">{$c.collection_description|description}</span>
         <div class="borderLine"></div>
         <div class="video_actions_cont clearfix">
-        	{assign var=rating value=$cbcollection->collection_rating($c.collection_id,$c.type)}
-            <div class="rating_container">
-            	{show_video_rating  rating=$c.rating ratings=$c.rated_by total='10' id=$c.collection_id type=collection}
-                
-            </div>
+        	{assign var=rating value=$cbcollection->collection_rating($c.collection_id,'collection')}
+            
+            {if $Cbucket->configs.collection_rating}
+                <div class="rating_container">
+                    {show_video_rating  rating=$c.rating ratings=$c.rated_by total='10' id=$c.collection_id type=collection}
+                </div>
+            {/if}
             <div class="actions clearfix" style="float:left; margin:8px 0 0 15px; padding:0px;">
             <ul>
             <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#video_action_result_cont');add_to_fav('collection','{$c.collection_id}');"><img src="{$imageurl}/dot.gif" class="add_to_fav" />{lang code='add_to_favs'}</a></li>
@@ -71,7 +73,7 @@
             
             
         </div> <!-- video_actions_cont -->
-        <div style="margin-top:5px">{AD place=ad_728x90}</div>
+        <div style="margin-top:15px">{AD place=ad_728x90}</div>
         <div class="video_action_result_boxes">
             {show_share_form id=$c.collection_id type=Collection}
             {show_flag_form id=$c.collection_id type=Collection}

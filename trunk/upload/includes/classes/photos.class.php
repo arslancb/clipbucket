@@ -2138,9 +2138,9 @@ class CBPhotos
 		global $db;
 		
 		if(!is_numeric($id))
-			$result = $db->select(tbl('photos'),'allow_rating,rating,rated_by,voters'," photo_key = ".$id."");
+			$result = $db->select(tbl('photos'),'userid,allow_rating,rating,rated_by,voters'," photo_key = ".$id."");
 		else
-			$result = $db->select(tbl('photos'),'allow_rating,rating,rated_by,voters'," photo_id = ".$id."");
+			$result = $db->select(tbl('photos'),'userid,allow_rating,rating,rated_by,voters'," photo_id = ".$id."");
 			
 		if($result)
 			return $result[0];
@@ -2176,9 +2176,11 @@ class CBPhotos
 			
 		if(!userid())
 			e(lang("please_login_to_rate"));
+		elseif(userid()==$c_rating['userid'] && !config('own_photo_rating'))
+			e(lang("you_cannot_rate_own_photo"));
 		elseif(!empty($already_voted))
 			e(lang("you_hv_already_rated_photo"));
-		elseif($c_rating['allow_rating'] == 'no' || config('photo_rating') != 1)
+		elseif($c_rating['allow_rating'] == 'no' || !config('photo_rating'))
 			e(lang("photo_rate_disabled"));
 		else
 		{
@@ -2195,7 +2197,7 @@ class CBPhotos
 			e(lang("thnx_for_voting"),"m");			
 		}
 		
-		$return = array("rating"=>$new_rate,"rated_by"=>$rated_by,'total'=>10,"id"=>$id,"type"=>"photo","disabled"=>"disabled");
+		$return = array("rating"=>$new_rate,"rated_by"=>$rated_by,'total'=>10,"id"=>$id,"type"=>"photo","disable"=>"disabled");
 		return $return;	
 	}
 	

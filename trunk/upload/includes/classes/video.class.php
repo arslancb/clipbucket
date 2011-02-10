@@ -1136,9 +1136,9 @@ class CBvideo extends CBCategory
 		global $db;
 		if(is_numeric($id))
 		{
-			$results = $db->select(tbl("video"),"allow_rating,rating,rated_by,voter_ids"," videoid='$id'");
+			$results = $db->select(tbl("video"),"userid,allow_rating,rating,rated_by,voter_ids"," videoid='$id'");
 		}else
-			$results = $db->select(tbl("video"),"allow_rating,rating,rated_by,voter_ids"," videokey='$id'");
+			$results = $db->select(tbl("video"),"userid,allow_rating,rating,rated_by,voter_ids"," videokey='$id'");
 		if($db->num_rows>0)
 			return $results[0];
 		else
@@ -1222,11 +1222,13 @@ class CBvideo extends CBCategory
 		//checking if raings are allowed or not
 		$vid_rating = config('video_rating');
 		
-		if(!empty($flag))
-			e(lang("you_hv_already_rated_vdo"));
-		elseif(!userid())
+		if(!userid())
 			e(lang("please_login_to_rate"));
-		elseif($vid_rating!=1 || $rating_details['allow_rating'] !='yes' )
+		elseif(userid()==$rating_details['userid'] && !config('own_video_rating'))
+			e(lang("you_cant_rate_own_video"));
+		elseif(!empty($flag))
+			e(lang("you_hv_already_rated_vdo"));
+		elseif(!config('video_rating') || $rating_details['allow_rating'] !='yes' )
 			e(lang("vid_rate_disabled"));
 		else
 		{

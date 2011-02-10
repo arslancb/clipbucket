@@ -36,6 +36,7 @@
 	border: none;
 
 }
+
 .big_stars a:hover{
 	background-position: left center;
 }
@@ -63,3 +64,7 @@
 	z-index:1;
 	background-position: left top;
 }	
+
+.disabled a:hover{
+	background: url(../images/big_stars.png) left -1000px repeat-x;!important width:inherit;!important
+}

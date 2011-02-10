@@ -418,12 +418,22 @@ $(document).ready(function(){
               </select></td>
             </tr>
             <tr>
-              <td>Allow  ratings</td>
-              <td><input name="video_rating" type="checkbox" id="video_rating" value="1" {if $row.video_rating=='1'}checked="checked"{/if} /></td>
+              <td>Allow  videos ratings</td>
+              <td><input name="video_rating" type="checkbox" id="video_rating" value="1" {if $row.video_rating=='1'}checked="checked"{/if} />
+              - Allow user to rate own videos 
+              <input name="own_video_rating" type="checkbox" id="own_video_rating" value="1" {if $row.own_video_rating=='1'}checked="checked"{/if} /></td>
             </tr>
             <tr>
-              <td>User can rate his/her video/channel</td>
-              <td><input name="video_comments3" type="checkbox" id="video_comments3" value="1" {if $row.video_comments=='1'}checked{/if} /></td>
+              <td>Allow collection ratings</td>
+              <td><input name="collection_rating" type="checkbox" id="collection_rating" value="1" {if $row.collection_rating=='1'}checked="checked"{/if} />
+                - Allow user to rate own collections 
+                <input name="own_collection_rating" type="checkbox" id="own_collection_rating" value="1" {if $row.own_collection_rating=='1'}checked="checked"{/if} /></td>
+            </tr>
+            <tr>
+              <td>Allow channel ratings</td>
+              <td><input name="channel_rating" type="checkbox" id="channel_rating" value="1" {if $row.channel_rating=='1'}checked="checked"{/if} /> 
+                - Allow users to rate own channels 
+                <input name="own_channel_rating" type="checkbox" id="own_channel_rating" value="1" {if $row.own_channel_rating=='1'}checked="checked"{/if} /></td>
             </tr>
         </table>
 </fieldset>
@@ -909,7 +919,7 @@ $(document).ready(function(){
         </tr>
         <tr>
           <td valign="top">Email verification</td>
-          <td valign="top"><input name="email_verification" type="checkbox" id="email_verification" value="1" {if $row.email_verification=='1'}checked=&quot;checked&quot;{/if} /></td>
+          <td valign="top"><input name="email_verification" type="checkbox" id="email_verification" value="1" {if $row.email_verification=='1'}checked="checked"{/if} /></td>
         </tr>
         <tr>
           <td valign="top">Image verification (captcha)</td>

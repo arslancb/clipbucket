@@ -125,7 +125,8 @@
                     </td>
                     <td valign="top">
                     	<input type="checkbox" name="photo_rating" id="photo_rating" value="1"{if $row.photo_rating == '1'}checked{/if} >
-                    </td>
+                    	- User can rate his own photo 
+                    	<input type="checkbox" name="own_photo_rating" id="own_photo_rating" value="1"{if $row.own_photo_rating == '1'}checked{/if} /></td>
                 </tr>
              </table>
         </fieldset>

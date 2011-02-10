@@ -52,6 +52,8 @@ if(isset($_POST['update'])){
 					'channels_list_per_page',
 					'channels_list_per_tab',
 					'channelsSection',
+					'channel_rating',
+					'collection_rating',
 					'collectionsSection',
 					'captcha_type',
 					'con_modules_type',
@@ -120,7 +122,12 @@ if(isset($_POST['update'])){
 					
 					'normal_resolution',
 					'num_thumbs',
-					
+		
+					'own_channel_rating',
+					'own_collection_rating',
+					'own_video_rating',
+			
+			
 					'php_path',
 					'picture_url',
 					'picture_upload',
