@@ -1984,13 +1984,21 @@
 		if(file_exists($file_path) && $file_size>0 && !$ingore_file_status)
 		{		
 			$stats = get_file_details($file_name);
+			
+			$duration = $stats['output_duration'];
+			if(!$duration)
+				$duration = $stats['duration'];
 			$db->update(tbl("video"),array("status","duration","failed_reason"),
-			array($status,$stats['duration'],$failed_status)," file_name='".$file_name."'");
+			array($status,$duration,$failed_status)," file_name='".$file_name."'");
 		}else
 		{
 			$stats = get_file_details($file_name);
+			
+			$duration = $stats['output_duration'];
+			if(!$duration)
+				$duration = $stats['duration'];
 			$db->update(tbl("video"),array("status","duration","failed_reason"),
-			array('Failed',$stats['duration'],$failed_status)," file_name='".$file_name."'");
+			array('Failed',$duration,$failed_status)," file_name='".$file_name."'");
 		}
 	}
 	
