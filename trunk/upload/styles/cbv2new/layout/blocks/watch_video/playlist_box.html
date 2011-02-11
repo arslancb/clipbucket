@@ -15,22 +15,22 @@
 	{include file="$style_dir/blocks/quicklist/video_block.html" video=$cb_playlist_items[item] selected=$selected bg=$bg}
     
     {if $bg=='fff'}
-    {assign var='bg' value='EFF5F8'}
+    	{assign var='bg' value='EFF5F8'}
     {else}
-    {assign var='bg' value='fff'}
+    	{assign var='bg' value='fff'}
     {/if}
     
     {if $selected==$cb_playlist_items[item].videoid}
     	{assign var='pre_lock' value='yes'}
     {else}
-    {if !$pre_lock}
-        {videoLink vdetails=$cb_playlist_items[item] assign='pre_vid'}
-    {else}
-    	{if !$next_lock}
-        	 {videoLink vdetails=$cb_playlist_items[item] assign='next_vid'}
-            {assign var='next_lock' value='yes'}
-        {/if}
-    {/if}
+		{if !$pre_lock}
+			{videoLink vdetails=$cb_playlist_items[item] assign='pre_vid'}
+		{else}
+			{if !$next_lock}
+				 {videoLink vdetails=$cb_playlist_items[item] assign='next_vid'}
+				{assign var='next_lock' value='yes'}
+			{/if}
+		{/if}
     {/if}
 {/section}
 <div class="clearfix"></div>

@@ -153,21 +153,71 @@
     {ANCHOR place="watch_video_right" data=$vdo}
 
 
+{if $open_collection}
+	<!-- Loading items from collection -->
+		<span class="watch_vids_head" 
+		onclick='$(this).toggleClass("watch_vids_head_closed");$("#collectionItems").slideToggle("fast")'>{$c.collection_name}</span>
+		<div class="watch_vids_cont" id="collectionItems">
+		
+		<div class="NextPrevButtons clearfix">
+		{assign var=objctid value=$vdo.ci_id}
+		{assign var=collid value=$vdo.collection_id}
+		 <li class="moveL">
+			{assign var=preLink value=$cbvid->collection->get_next_prev_item($objctid,$collid,'prev')}
+			<a href="{$cbphoto->photo_links($preLink.0,'view_item')}" >Previous</a>
+		</li>
+		<li class="moveR">
+			{assign var=nextLink value=$cbvid->collection->get_next_prev_item($objctid,$collid,'next')}
+			<a href="{$cbphoto->photo_links($nextLink.0,'view_item')}" >Next</a>
+		</li>
+		</div>
+			
+			<div style="max-height:200px; overflow:auto">
+			{foreach from=$items item=item}
+				{if $bg=='fff'}
+					{assign var='bg' value='EFF5F8'}
+				{else}
+					{assign var='bg' value='fff'}
+				{/if}
+				
+				{include file="$style_dir/blocks/quicklist/video_block.html" video=$item selected=$vdo.videoid bg=$bg 
+					videoLink=$cbphoto->photo_links($item,'view_item')}
+				
+				{if $vdo.videoid==$item.videoid}
+				{assign var='pre_lock' value='yes'}
+				{else}
+					{if !$pre_lock}
+						{videoLink vdetails=$item assign='pre_vid'}
+					{else}
+						{if !$next_lock}
+							 {videoLink vdetails=$item assign='next_vid'}
+							 {assign var='next_lock' value='yes'}
+						{/if}
+					{/if}
+				{/if}
+	
+	
+			{/foreach}
+			</div>
+		</div>
+	<!-- Loading items ends -->
+{/if}
+
 <!-- Collections -->
 {if userid()}
-<span class="watch_vids_head watch_vids_head_closed" 
-onclick='$(this).toggleClass("watch_vids_head_closed");$("#vid_collections").slideToggle("fast")'>{lang code='collections'}</span>
-<div class="watch_vids_cont" id="vid_collections" style="display:none">
-
-{assign var=collections value=$cbvid->collection->getCollectionFromItem($vdo.videoid)}
-
-{if $collections}
-{lang code='this_video_found_in_no_collection'}
-{foreach from=$collections item=collection name=collect}
-	<div class="watch_collect_item">
-    	{$smarty.foreach.collect.iteration}. <a href="{$cbcollection->collection_links($collection.collection_id,'view')}">{$collection.collection_name}</a>
-    </div>
-{/foreach}
+	<span class="watch_vids_head watch_vids_head_closed" 
+	onclick='$(this).toggleClass("watch_vids_head_closed");$("#vid_collections").slideToggle("fast")'>{lang code='collections'}</span>
+	<div class="watch_vids_cont" id="vid_collections" style="display:none">
+	
+	{assign var=collections value=$cbvid->collection->getCollectionFromItem($vdo.videoid)}
+	
+	{if $collections}
+	{lang code='this_video_found_in_no_collection'}
+	{foreach from=$collections item=collection name=collect}
+		<div class="watch_collect_item">
+			{$smarty.foreach.collect.iteration}. <a href="{$cbcollection->collection_links($collection.collection_id,'view')}">{$collection.collection_name}</a>
+		</div>
+	{/foreach}
 {/if}
 
 <div class="clearfix"></div>
@@ -182,7 +232,7 @@ onclick='$(this).toggleClass("watch_vids_head_closed");$("#vid_collections").sli
 <!-- Collections -->
 
 <!-- Playlist -->
-{include file="$style_dir/blocks/watch_video/playlist_box.html" selected=$vdo.videoid }
+	{include file="$style_dir/blocks/watch_video/playlist_box.html" selected=$vdo.videoid }
 <!-- Playlist End-->
 
 

@@ -41,6 +41,15 @@ if($cbcollection->is_viewable($cid))
 					
 					if(video_playable($video))
 					{
+						//Getting list of collection items
+						$page = mysql_clean($_GET['page']);
+						$get_limit = create_query_limit($page,20);
+						$order = tbl("collection_items").".ci_id DESC";
+
+						$items = $cbvideo->collection->get_collection_items_with_details($cid,$order,$get_limit);
+						assign('items',$items);
+						
+						assign('open_collection','yes');
 						$info = $cbvideo->collection->get_collection_item_fields($cid,$video['videoid'],'ci_id,collection_id');
 						if($info)
 						{

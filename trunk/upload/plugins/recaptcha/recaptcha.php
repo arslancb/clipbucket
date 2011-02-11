@@ -24,6 +24,7 @@ $resp = null;
 $error = null;
 
 function cbRecaptcha(){ global $publickey, $privatekey, $error; return recaptcha_get_html($publickey, $error); }
+
 function validateCbRecaptcha($val=NULL)
 {
 	global $privatekey;
