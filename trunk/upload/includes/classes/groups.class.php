@@ -1524,6 +1524,7 @@ class CBGroups extends CBCategory
 						 'min_length' => 4,
 						 'max_length'=>800,
 						 'anchor_before' => 'before_topic_post_box',
+						 'anchor_after' => 'after_topic_post_box',
 						 )								 
 		);
 		return $fields;

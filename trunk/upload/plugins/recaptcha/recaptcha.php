@@ -29,10 +29,10 @@ function validateCbRecaptcha($val=NULL)
 	global $privatekey;
 	if ($_POST["recaptcha_response_field"])
 	{
-		  $resp = recaptcha_check_answer ($privatekey,
-									$_SERVER["REMOTE_ADDR"],
-									$_POST["recaptcha_challenge_field"],
-									$_POST["recaptcha_response_field"]);
+		$resp = recaptcha_check_answer ($privatekey,
+		$_SERVER["REMOTE_ADDR"],
+		$_POST["recaptcha_challenge_field"],
+		$_POST["recaptcha_response_field"]);
 
 		if ($resp->is_valid)
 				return true;
@@ -42,6 +42,6 @@ function validateCbRecaptcha($val=NULL)
 }
 
 register_cb_captcha('cbRecaptcha','validateCbRecaptcha',false);
-
+register_anchor('; Recaptcha.reload ();','onClickAddComment');
 add_header(PLUG_DIR.'/recaptcha/reCaptcha_header.html');
 ?>

@@ -59,12 +59,12 @@ $vlist['limit'] = $get_limit;
 $videos = get_videos($vlist);
 Assign('videos', $videos);	
 
+
 //Collecting Data for Pagination
 $vcount = $vid_cond;
 $vcount['count_only'] = true;
 $total_rows  = get_videos($vcount);
 $total_pages = count_pages($total_rows,VLISTPP);
-
 //Pagination
 $pages->paginate($total_pages,$page);
 

@@ -29,6 +29,7 @@
                 {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}
                 {ANCHOR place=$field.anchor_before}
                 {$formObj->createField($field)}
+				{ANCHOR place=$field.anchor_after}
                 {if $field.hint_2}<br>
                 <div class="hint">{$field.hint_2}</div>{/if}
                 </div>
@@ -45,10 +46,11 @@
                 <div class="field">
                 <label for="{$field.id}" class="label">{$category_array.title}</label>
                 {if $category_array.hint_1}<div class="hint">{$category_array.hint_1}</div><br>{/if}
-                {ANCHOR place=$category_array.anchor_before}
-                <div style="overflow:auto; height:150px">
+                {ANCHOR place=$field.anchor_before}
+                <div style="overflow:auto; height:100%">
                     {$formObj->createField($category_array)}
                 </div>
+				{ANCHOR place=$field.anchor_after}
                 {if $category_array.hint_2}<br>
                 <div class="hint">{$category_array.hint_2}</div>{/if}
                 </div>

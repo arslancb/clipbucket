@@ -7,6 +7,7 @@
 <form name="comment_form" method="post" action="" id="comment_form">
 	<input type="hidden" name="reply_to" id="reply_to" value="0">
     <input type="hidden" name="obj_id" id="obj_id" value="{$id}">
+	<input type="hidden" name="mode" value="add_comment">
 	{if !$userquery->login_check('',true) && $Cbucket->configs.anonym_comments == 'yes'}
     <label for="name" class="label">{lang code='name'}</label>
     <br>
@@ -17,29 +18,35 @@
     {else}
     Name : {$userquery->username}<br>
     {/if}
-  
-    
-    {if config('comments_captcha')=='all' || ( config('comments_captcha')=='guests' && !$userquery->login_check('',true) )}
-    {assign var=captcha value=func->get_captcha()}
-    {if $captcha} 
-        {if $captcha.show_field}
-            <label class="label" for="captcha">Verification Code</label><br />
-                {load_captcha captcha=$captcha load=field field_params = ' id="captcha" class="input'}
-           <div class="clearfix"></div>
-        {/if}
-        <label class="label">&nbsp;</label>
-        <div class="input_container">
-            {load_captcha captcha=$captcha load=function}
-        </div>
-        <div class="clearfix"></div>
-    {/if}
-    {/if}
-            
             
     {ANCHOR place='before_compose_box'}
-    <textarea name="comment" id="comment_box" cols="45" rows="5"  class="input" style="width:97%" ></textarea>
+   		<textarea name="comment" id="comment_box" cols="45" rows="5"  class="input" style="width:97%" ></textarea>
+	
+	<div style="height:10px"></div>
+	<div style="width:auto; float:left; ">
+	<strong>{lang code='please_enter_confimation_ode'}</strong>
+	  {if config('comments_captcha')=='all' || ( config('comments_captcha')=='guests' && !$userquery->login_check('',true) )}
+    	{assign var=captcha value=func->get_captcha()}
+		{if $captcha} 
+			{if $captcha.show_field}
+				<label class="label" for="captcha">Verification Code</label><br />
+					{load_captcha captcha=$captcha load=field field_params = ' id="captcha" class="input'}
+			   <div class="clearfix"></div>
+			{/if}
+			<label class="label">&nbsp;</label>
+	
+				{load_captcha captcha=$captcha load=function}
+	
+			<div class="clearfix"></div>
+		{/if}
+    {/if}
+	</div>
+	<div style="width:auto; float:left;padding-left:10px">{ANCHOR place='after_compose_box'}</div>
+	
+	<div class="clear"></div>
+	
     <input type="hidden" name="type" value="{$type}" />
-    <div style="margin-top:2px" ><input type="button" name="add_comment" id="add_comment_button" value="{lang code='user_add_comment'}" class="cb_button" onclick="add_comment_js('comment_form','{$type}')"></div>
+    <div style="margin-top:2px" ><input type="button" name="add_comment" id="add_comment_button" value="{lang code='user_add_comment'}" class="cb_button" onclick="add_comment_js('comment_form','{$type}'){ANCHOR place='onClickAddComment'}"></div>
 </form>
 {else}
 	{lang code='please_login_to_comment'}

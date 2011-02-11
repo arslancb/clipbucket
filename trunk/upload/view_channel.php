@@ -71,7 +71,7 @@ if($udetails)
 			if($userquery->is_user_banned(username(),$udetails['userid'],$udetails['banned_users']))
 			{
 				e(sprintf(lang('you_are_not_allowed_to_view_user_channel'),$udetails['username']));
-				
+				assign('isBlocked','yes');
 				if(!has_access('admin_access',true))
 					$Cbucket->show_page = false;
 			}

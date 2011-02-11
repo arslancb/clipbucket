@@ -41,16 +41,18 @@ if(!function_exists('bb_to_html'))
 //Registering Action that will be applied while displaying comment and or description
 register_action(array('bb_to_html'=>array('comment','description','pm_compose_box','before_topic_post_box','private_message')));
 
+$hints = "<div style='font-family:tahoma; margin:0px 0x 5px 0px'><strong>*Following bbcodes can be used</strong><br />
+<div style='padding-left:5px'>[b]for bold letters[/b]<br />
+[i]for italic letters[/i]<br />
+[u]for underline[/u]<br />
+[quote]for quotations[/quote]<br />
+[url]for link[/url] or [url=link]title[/url]</div></div>";
 //Registerin Anchors , that will be displayed before compose boxes
-register_anchor("<script>edToolbar('comment_box'); </script>",'before_compose_box');
-register_anchor("<script>edToolbar('comment_box-reply'); </script>",'before_reply_compose_box');
-register_anchor("<script>edToolbar('desc'); </script>",'before_desc_compose_box');
-register_anchor("<script>edToolbar('pm_content'); </script>",'before_pm_compose_box');
-register_anchor("<script>edToolbar('topic_post'); </script>",'before_topic_post_box');
+register_anchor($hints,'after_compose_box');
+register_anchor($hints,'after_reply_compose_box');
+register_anchor($hints,'after_desc_compose_box');
+register_anchor($hints,'after_pm_compose_box');
+register_anchor($hints,'after_topic_post_box');
 
-//Adding JS Code
-$Cbucket->addJS(array('bbcode_js/ed.js'=>'global'));
-//Creating Menu In Admin Panel
-//add_admin_menu('ClipBucket BBCode','Manage BBCodes','admin_bbcoder.php');
 
 ?>

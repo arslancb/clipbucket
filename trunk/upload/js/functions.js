@@ -631,19 +631,14 @@ var loading = loading_img+" Loading...";
 		$("#add_comment_result").html(loading);
 		$("#add_comment_button").attr("disabled","disabled");
 				
-		var captcha_enabled =  $("#"+form_id+" input:#cb_captcha_enabled").val();
-		$.post(page, 
-		{ 	
-			mode : 'add_comment',
-			name : $("#"+form_id+" input:#name").val(),
-			email : $("#"+form_id+" input:#email").val(),
-			comment : $("#"+form_id+" textarea:#comment_box").val(),
-			obj_id : $("#"+form_id+" input:#obj_id").val(),
-			reply_to : $("#"+form_id+" input:#reply_to").val(),
-			type : type,
-			cb_captcha_enabled: $("#"+form_id+" input:#cb_captcha_enabled").val(),
-			cb_captcha: $("#"+form_id+" input:#captcha").val()
-		},
+		//var captcha_enabled =  $("#"+form_id+" input:#cb_captcha_enabled").val();
+		
+		//First we will get all values of form_id and then serialize them
+		//so we can forward details to ajax.php
+		
+		var formObjectData = $('#'+form_id).serialize();
+		
+		$.post(page,formObjectData,
 		function(data)
 		{
 			if(!data)
@@ -656,7 +651,6 @@ var loading = loading_img+" Loading...";
 				$("#add_comment_result").css("display","block");
 				if(data.err!='')
 				{
-					captcha_enabled
 					$("#add_comment_result").html(data.err);
 				}
 				if(data.msg!='')

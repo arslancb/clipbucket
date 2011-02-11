@@ -401,7 +401,8 @@ class Upload{
 							 'size'=>'35',
 							 'extra_params'=>' rows="4"',
 							 'db_field'=>'description',
-							 'required'=>'yes'
+							 'required'=>'yes',
+							 'anchor_after'=>'after_desc_compose_box',
 							 
 							 ),
 		 'cat'		=> array('title'=> lang('vdo_cat'),
