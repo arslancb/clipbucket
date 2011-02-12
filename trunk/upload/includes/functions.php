@@ -913,6 +913,7 @@
 		if(empty($type))
 			$type = "v";
 		$cond .= tbl("comments.type")." = '".$type."'";
+		
 		if($params['type_id'] && $params['sectionTable'])
 		{
 			if($cond != "")
@@ -4554,20 +4555,29 @@
 		}
 	}
 
-    function check_install()
+    function check_install($type)
     {
-		global $while_installing;
-        if(file_exists('files/temp/install.me') && file_exists('install'))
-        {
-			if(!$while_installing)
-            header('Location: '.get_server_url().'/install');
-            exit;
-        }
-
-        if(file_exists('install'))
-        {
-            define('INSTALL_FILES',1);
-        }
+		global $while_installing,$Cbucket;
+		switch($type)
+		{
+			case "before":
+			{
+				if(file_exists('files/temp/install.me') && !file_exists('includes/clipbucket.php'))
+				{
+					header('Location: '.get_server_url().'/cb_install');
+				}
+			}
+			break;
+			
+			case "after":
+			{
+				if(file_exists('files/temp/install.me'))
+				{
+					$Cbucket->configs['closed'] = 1;
+				}
+			}
+			break;
+		}       
     }
 
     function get_server_url()
@@ -5047,4 +5057,60 @@
 	 * JSON_DECODE short
 	 */
 	function jd($in){ return json_decode($in); }
+	
+	
+	/**
+	 * function used to update last commented option 
+	 * so comment cache can be refreshed
+	 */
+	function update_last_commented($type,$id)
+	{
+		global $db;
+		
+		if($type && $id)
+		{
+			switch($type)
+			{
+				case "v":
+				case "video":
+				case "vdo":
+				case "vid":
+				case "videos":
+				$db->update(tbl("video"),array('last_commented'),array(now()),"videoid='$id'");
+				break;
+				
+				case "c":
+				case "channel":
+				case "user":
+				case "u":
+				case "users":
+				case "channels":
+				$db->update(tbl("users"),array('last_commented'),array(now()),"userid='$id'");
+				break;
+				
+				case "cl":
+				case "collection":
+				case "collect":
+				case "collections":
+				case "collects":
+				$db->update(tbl("collections"),array('last_commented'),array(now()),"collection_id='$id'");
+				break;
+				
+				case "p":
+				case "photo":
+				case "photos":
+				case "picture":
+				case "pictures":
+				$db->update(tbl("photos"),array('last_commented'),array(now()),"photo_id='$id'");
+				break;
+				
+				case "t":
+				case "topic":
+				case "topics":
+				$db->update(tbl("group_topics"),array('last_post_time'),array(now()),"videoid='$id'");
+				break;
+				
+			}
+		}
+	}
 ?>

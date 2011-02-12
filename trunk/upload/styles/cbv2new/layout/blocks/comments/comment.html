@@ -27,9 +27,9 @@
         {$user_commented_time|sprintf:"$comm_id$comm_link":$comm_owner:$nicetime}
 
         </div>
-        <div style="width:28%; float:right" align="right"><a href="javascript:void(0)" onclick="to_reply('{$comment.comment_id}')">{lang code='reply'}</a> | <a href="javascript:void(0)" onclick="spam_comment('{$comment.comment_id}')">{lang code='spam'}</a>
+        <div style="width:28%; float:right" align="right"><a href="javascript:void(0)" onclick="to_reply('{$comment.comment_id}')">{lang code='reply'}</a> | <a href="javascript:void(0)" onclick="spam_comment('{$comment.comment_id}','{$type}','{$type_id}')">{lang code='spam'}</a>
         
-        {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">{lang code='delete'}</a>{/if}</div>
+        {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}','{$type_id}')">{lang code='delete'}</a>{/if}</div>
         </div>
         
         <div class="comment_cont">
@@ -52,7 +52,7 @@
         </div>
 
         {if $type=='video' && $comments_voting=='yes' && $Cbucket->configs.comment_rating}
-        <div class="comment_rating_cont"><span class="thumb_up" onclick="rate_comment('{$comment.comment_id}','up')">Thumbs Up</span><span class="thumb_down" onclick="rate_comment('{$comment.comment_id}','down')">Thumbs Down</span><span id="comment_rating_{$comment.comment_id}" class="comment_rating">{$comment.vote|comment_rating}</span></div>
+        <div class="comment_rating_cont"><span class="thumb_up" onclick="rate_comment('{$comment.comment_id}','up','{$type}','{$type_id}')">Thumbs Up</span><span class="thumb_down" onclick="rate_comment('{$comment.comment_id}','down','{$type}','{$type_id}')">Thumbs Down</span><span id="comment_rating_{$comment.comment_id}" class="comment_rating">{$comment.vote|comment_rating}</span></div>
         {/if}
         
     </div>
@@ -61,5 +61,5 @@
     <div id="spam_comment_{$comment.comment_id}" class="spam" {$spam_attr} >
     	{lang code='marked_as_spam_comment_by_user' assign='marked_as_spam_comment_by_user'}
         
-    	{if $comment.username}{$marked_as_spam_comment_by_user|sprintf:$comment.username}{else}{$marked_as_spam_comment_by_user|sprintf:$comment.anonym_name}{/if} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}')">{lang code='delete'}</a>
+    	{if $comment.username}{$marked_as_spam_comment_by_user|sprintf:$comment.username}{else}{$marked_as_spam_comment_by_user|sprintf:$comment.anonym_name}{/if} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}')">{lang code='delete'}</a>
     </div>

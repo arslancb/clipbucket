@@ -431,6 +431,12 @@ if(!empty($mode))
 			$ajax['msg'] = $msg;
 			$ajax['rate'] = comment_rating($rating);
 			
+			//updating last update...
+			$type = mysql_clean($_POST['type']);
+			$typeid = mysql_clean($_POST['typeid']);
+			update_last_commented($type,$typeid);
+			
+			
 			echo json_encode($ajax);
 		}
 		break;
@@ -454,6 +460,10 @@ if(!empty($mode))
 			
 			$ajax['msg'] = $msg;
 			$ajax['err'] = $err;
+			
+			$type = mysql_clean($_POST['type']);
+			$typeid = mysql_clean($_POST['typeid']);
+			update_last_commented($type,$typeid);
 			
 			echo json_encode($ajax);
 		}
@@ -720,6 +730,7 @@ if(!empty($mode))
 			$ajax['err'] = $err;
 			
 			echo json_encode($ajax);
+			
 		}
 		break;
 		

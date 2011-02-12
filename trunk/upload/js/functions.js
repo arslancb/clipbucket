@@ -571,14 +571,16 @@ var loading = loading_img+" Loading...";
 	}
 	
 	
-	function rate_comment(cid,thumb)
+	function rate_comment(cid,thumb,type,typeid)
 	{
 
 		$.post(page, 
 		{ 	
 			mode : 'rate_comment',
 			thumb : thumb,
-			cid : cid
+			cid : cid,
+			type : type,
+			typeid : typeid
 		},
 		function(data)
 		{
@@ -922,13 +924,15 @@ function to_reply(cid)
 	window.location = "#add_comment";
 }
 
-function spam_comment(cid)
+function spam_comment(cid,type,typeid)
 	{
 
 		$.post(page, 
 		{ 	
 			mode : 'spam_comment',
-			cid : cid
+			cid : cid,
+			type : type,
+			typeid : typeid
 		},
 		function(data)
 		{

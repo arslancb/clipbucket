@@ -290,6 +290,7 @@ class myquery {
 			
 			$newscore = $comment['vote']+$rate;
 			$db->update(tbl('comments'),array('vote','voters'),array($newscore,$voters)," comment_id='$cid'");
+						
 			e(lang('thanks_rating_comment'),"m");
 			return $newscore;			
 		}
@@ -625,7 +626,7 @@ class myquery {
 	 */
 	function getComments($params)
 	{
-		global $db;
+		global $db,$userquery;
 		$cond = '';
 				
 		$p = $params;
@@ -712,8 +713,8 @@ class myquery {
 			 * HAIL Open Source
 			 */
 			 
-			 $results = $db->select(tbl("comments,users"),'*'
-			 ," type='$type' $typeid_query AND ".tbl("comments.userid")." = ".tbl("users.userid")." $cond",$limit,$order);
+			 $results = $db->select(tbl("comments"),'*'
+			 ," type='$type' $typeid_query $cond",$limit,$order);
 			 
 			 if(!$results)
 			 	return false;
@@ -734,13 +735,32 @@ class myquery {
 			 }
 			
 			//Getting Parents
-			 $parents = $db->select(tbl("comments,users"),'*'
-			 ," type='$type' AND ($parent_cond) AND ".tbl("comments.userid")." = ".tbl("users.userid")." ",NULL,$order);
+			 $parents = $db->select(tbl("comments"),'*'
+			 ," type='$type' AND ($parent_cond) ",NULL,$order);
 			 
 			 if($parents)
 			 	foreach($parents as $parent)
 					$new_parents[$parent['comment_id']] = $parent;
-			 $comment['comments'] = $results;
+			 
+			 
+			 //Inserting user data
+			 $new_results = array();
+			 foreach($results as $com)
+			 {
+				 $userid = $com['userid'];
+				 
+				 $uservar = 'user_'.$userid;
+				 
+				 if($userid && !$$uservar)
+				 	$$uservar = $userquery->get_user_details($userid);
+					
+				 if($$uservar)
+				 	$com = array_merge($com,$$uservar);
+				
+				$new_results[] = $com;
+			 }
+			 
+			 $comment['comments'] = $new_results;
 			 $comment['parents'] = $new_parents;
 			 
 			 //Deleting any other previuos comment file

@@ -48,7 +48,7 @@ if(!@$in_bg_cron)
     //Required Files
 
     require_once('functions.php');
-    check_install();
+    check_install('before');
 	require_once('dbconnect.php');
 	require_once('classes/ClipBucket.class.php');
 	
@@ -182,7 +182,7 @@ if(!@$in_bg_cron)
 	$cbcollection = new Collections();
 	$cbphoto    = new CBPhotos();
 //	$cbmenu		= new MenuHandler();
-	
+	check_install('after');
 	require 'defined_links.php';
 	
 	@include("clipbucket.php");
