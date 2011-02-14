@@ -22,7 +22,7 @@
         	<li <?=selected('dataimport')?>>Data import</li>
         	<li <?=selected('adminsettings')?>>Admin Settings</li>
         	<li <?=selected('sitesettings')?>>Site Settings</li>
-        	<li <?=selected('register')?>>Regiser</li>
+        	<li <?=selected('register')?>>Register</li>
         	<li <?=selected('finish')?>>Finish</li>
         </ul>
     </div>
