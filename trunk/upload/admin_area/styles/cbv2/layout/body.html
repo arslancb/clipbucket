@@ -4,7 +4,7 @@
 {include file="$style_dir/header.html" }
 {include file="$style_dir/msg.html" }
 
-<div style="min-height:600px; min-width:1000px">
+<div style="{if $mode!='watermark_settings'}min-height:600px;{/if} min-width:1000px">
 
 {if $smarty.cookies.admin_menu=='hide'}
 	{assign var='left_menu_class' value='left_menu_0'}

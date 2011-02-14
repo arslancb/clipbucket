@@ -23,9 +23,13 @@
    		<textarea name="comment" id="comment_box" cols="45" rows="5"  class="input" style="width:97%" ></textarea>
 	
 	<div style="height:10px"></div>
-	<div style="width:auto; float:left; ">
-	<strong>{lang code='please_enter_confimation_ode'}</strong>
+	
+    
 	  {if config('comments_captcha')=='all' || ( config('comments_captcha')=='guests' && !$userquery->login_check('',true) )}
+      
+      <div style="width:auto; float:left; ">
+	<strong>{lang code='please_enter_confimation_ode'}</strong>
+    
     	{assign var=captcha value=func->get_captcha()}
 		{if $captcha} 
 			{if $captcha.show_field}
@@ -39,9 +43,11 @@
 	
 			<div class="clearfix"></div>
 		{/if}
+        
+        </div>
     {/if}
-	</div>
-	<div style="width:auto; float:left;padding-left:10px">{ANCHOR place='after_compose_box'}</div>
+	
+	<div style="width:auto; float:left;padding-left:10px; padding-bottom:10px">{ANCHOR place='after_compose_box'}</div>
 	
 	<div class="clear"></div>
 	

@@ -21,8 +21,19 @@ assign('group',$details);
 
 if($details)
 {
+	///Getting User Videos
+	$page = mysql_clean($_GET['page']);
+	$get_limit = create_query_limit($page,28);
+	
 	//Getting List of all videos
-	$videos = $cbgroup->get_group_videos($details['group_id'],"yes");
+	$videos = $cbgroup->get_group_videos($details['group_id'],"yes",$get_limit);
+	
+	$total_rows  =  $details['total_videos'];
+	$total_pages = count_pages($total_rows,28);
+	//Pagination
+	$pages->paginate($total_pages,$page);
+	
+	
 	assign("videos",$videos);
 	assign("mode","view_videos");
 	subtitle($details['group_name']);

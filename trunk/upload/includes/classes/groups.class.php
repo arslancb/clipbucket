@@ -1114,8 +1114,18 @@ class CBGroups extends CBCategory
 		if($approved)
 			$approved_query = "AND approved='$approved'";
 		
-		$result = $db->select(tbl($this->gp_vdo_tbl)." LEFT JOIN ".tbl('video')." ON ".tbl($this->gp_vdo_tbl).".videoid=".tbl('video').".videoid","*",
-							  " group_id='$gid' $approved_query AND ".tbl('video').".active='yes' AND status='Successful'",$limit);
+		
+		if($limit!='count')
+		{
+			$result = $db->select(tbl($this->gp_vdo_tbl)." LEFT JOIN ".tbl('video')." 
+			ON ".tbl($this->gp_vdo_tbl).".videoid=".tbl('video').".videoid","*",
+			" group_id='$gid' $approved_query AND ".tbl('video').".active='yes' AND status='Successful'",$limit);
+		}else
+		{
+			return $db->count(tbl($this->gp_vdo_tbl)." LEFT JOIN ".tbl('video')." 
+			ON ".tbl($this->gp_vdo_tbl).".videoid=".tbl('video').".videoid","videoid",
+			" group_id='$gid' $approved_query AND ".tbl('video').".active='yes' AND status='Successful'",$limit);
+		}
 
 		if($db->num_rows>0)
 			return $result;

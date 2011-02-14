@@ -21,7 +21,7 @@ if(!empty($mode))
 			if(!isSectionEnabled('videos') || !$userquery->perm_check('view_videos',false,true) )
 			exit();
 			
-			$videos = get_videos(array('limit'=>config('recently_viewed_limit'),'order'=>'last_viewed DESC'));
+			$videos = get_videos(array('limit'=>config('videos_items_hme_page'),'order'=>'last_viewed DESC'));
 			if($videos)
 			foreach($videos as $video)
 			{

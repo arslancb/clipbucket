@@ -27,9 +27,19 @@ else
 {	
 
 	///Getting User Videos
-	$array = array('user'=>userid());
+	$page = mysql_clean($_GET['page']);
+	$get_limit = create_query_limit($page,28);
+
+	$array = array('user'=>userid(),'limit'=>$get_limit);
 	$usr_vids = get_videos($array);
 	assign('usr_vids',$usr_vids);
+	
+	$array['count_only'] = true;
+	$total_rows  = get_videos($array);
+	$total_pages = count_pages($total_rows,28);
+	//Pagination
+	$pages->paginate($total_pages,$page);
+
 
 	//Adding videos to group
 	if(isset($_POST['add_videos']))
