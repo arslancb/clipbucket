@@ -1,4 +1,6 @@
 <?php
+define("THIS_PAGE","cb_install");
+
 /**
  * ClipBucket v2.1 Installat Ajax
  */

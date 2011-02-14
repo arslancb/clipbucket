@@ -135,7 +135,7 @@
 				if(!function_exists('phpshield_load'))
 					$return['err'] = _("PHPShield loaders are not installed (optional)");
 				else
-					$return['err'] = _("PHPShield loaders are working (optional)");
+					$return['msg'] = _("PHPShield loaders are working (optional)");
 			}
 			break;
 			
@@ -146,10 +146,12 @@
 		return $return;
 	}
 	
-	
-	function _($in)
+	if(!function_exists('_'))
 	{
-		return $in;
+		function _($in)
+		{
+			return $in;
+		}
 	}
 	
 	
