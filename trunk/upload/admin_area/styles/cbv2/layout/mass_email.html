@@ -60,7 +60,7 @@
     </tr>
     <tr>
       <td align="right" valign="top">Category</td>
-      <td align="left" valign="top">{$formObj->createField($cat_array)}</td>
+      <td align="left" valign="top">{if $cat_array}{$formObj->createField($cat_array)}{/if}</td>
     </tr>
     <tr>
       <td valign="top">&nbsp;</td>
