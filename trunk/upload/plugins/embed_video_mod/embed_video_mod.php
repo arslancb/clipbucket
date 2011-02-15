@@ -23,42 +23,45 @@ if(!function_exists('validate_embed_code'))
 	 * Function used create duration from input
 	 * @param DURATION
 	 */
-	function validate_duration($time)
-	{
-		global $LANG;
-		if(empty($time))
-			return true;
-		$time = explode(':',$time);
-		if(count($time)>0)
+	if(!function_exists('validate_duration'))
+	{ 
+		function validate_duration($time)
 		{
-			$sec = 0;
-			$total = count($time);
-			
-			if($total==3)
+			global $LANG;
+			if(empty($time))
+				return true;
+			$time = explode(':',$time);
+			if(count($time)>0)
 			{
-				$hrs = $time[0]*60*60;
-				$mins = $time[1]*60;
-				$secs = $time[2];
-			}elseif($total==2)
-			{
-				$hrs = 0;
-				$mins = $time[0]*60;
-				$secs = $time[1];
+				$sec = 0;
+				$total = count($time);
+				
+				if($total==3)
+				{
+					$hrs = $time[0]*60*60;
+					$mins = $time[1]*60;
+					$secs = $time[2];
+				}elseif($total==2)
+				{
+					$hrs = 0;
+					$mins = $time[0]*60;
+					$secs = $time[1];
+				}else{
+					$hrs = 0;
+					$mins = 0;
+					$secs = $time[0];
+				}
+				$sec = $hrs+$mins+$secs;			
+				if(!empty($sec))
+					return $sec;
+				else
+					e(lang('invalid_duration'));
 			}else{
-				$hrs = 0;
-				$mins = 0;
-				$secs = $time[0];
+				if(is_numeric($time))
+					return $time;
+				else
+					e(lang('invalid_duration'));
 			}
-			$sec = $hrs+$mins+$secs;			
-			if(!empty($sec))
-				return $sec;
-			else
-				e(lang('invalid_duration'));
-		}else{
-			if(is_numeric($time))
-				return $time;
-			else
-				e(lang('invalid_duration'));
 		}
 	}
 	
