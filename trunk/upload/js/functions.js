@@ -399,7 +399,7 @@ var loading = loading_img+" Loading...";
 			{
 				if(data['failed'])
 				{
-					alert("No Photos Returned");
+					//alert("No Photos Returned");
 					$(div).html(preservedHTML);
 				}
 					
