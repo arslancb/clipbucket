@@ -663,7 +663,7 @@ class myquery {
 			case "c":
 			case "channels":
 			{
-				$type='t';
+				$type='c';
 			}
 			break;
 			

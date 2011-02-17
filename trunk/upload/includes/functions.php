@@ -2706,7 +2706,7 @@
 				&& !userid()
 				&& !has_access('video_moderation',true) 
 				&& $vdo['userid']!=$uid){
-			e(lang('private_video_error'));
+			e(lang('not_logged_video_error'));
 			return false;
 		}elseif($vdo['active']=='no' )
 		{
