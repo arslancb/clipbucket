@@ -2697,6 +2697,13 @@
 				return true;
 		}elseif($vdo['broadcast']=='private' 
 				&& !$userquery->is_confirmed_friend($vdo['userid'],userid()) 
+				&& !is_video_user($vdo)
+				&& !has_access('video_moderation',true) 
+				&& $vdo['userid']!=$uid){
+			e(lang('private_video_error'));
+			return false;
+		}elseif($vdo['broadcast']=='logged' 
+				&& !userid()
 				&& !has_access('video_moderation',true) 
 				&& $vdo['userid']!=$uid){
 			e(lang('private_video_error'));
@@ -2712,7 +2719,9 @@
 		//No Checking for video password
 		elseif($vdo['video_password'] 
 			&& $vdo['broadcast']=='unlisted'
-			&& $vdo['video_password']!=$video_password)
+			&& $vdo['video_password']!=$video_password
+			&& !has_access('video_moderation',true) 
+			&& $vdo['userid']!=$uid)
 		{
 			if(!$video_password)
 			e(lang("video_pass_protected"));
@@ -5160,5 +5169,57 @@
 				
 			}
 		}
+	}
+	
+	
+	
+	
+	/**
+	 * Function used to check 
+	 * input users are valid or not
+	 * so that only registere usernames can be set
+	 */
+	function video_users($users)
+	{
+		global $userquery;
+		$users_array = explode(',',$users);
+		$new_users = array();
+		foreach($users_array as $user)
+		{
+			if($user!=username() && !is_numeric($user) && $userquery->user_exists($user))
+			{
+				$new_users[] = $user;
+			}
+		}
+		
+		$new_users = array_unique($new_users);
+		
+		if(count($new_users)>0)
+			return implode(',',$new_users);
+		else
+			return " ";
+	}
+	
+	/**
+	 * function used to check weather logged in user is
+	 * is in video users or not
+	 */
+	function is_video_user($vdo,$user=NULL)
+	{
+		
+		if(!$user)
+			$user = username();
+		if(is_array($vdo))
+		$video_users = $vdo['video_users'];
+		else
+		$video_users = $vdo;
+		
+		
+		$users_array = explode(',',$video_users);
+
+		if(in_array($user,$users_array))
+			return true;
+		else
+			return false;
 	}
 ?>

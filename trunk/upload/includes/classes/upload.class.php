@@ -461,10 +461,13 @@ class Upload{
 		$embedding = $default['allow_embedding'] ? $default['allow_embedding'] : 'yes';
 		
 		//Checking weather to enabled or disable password field
+		$video_pass_disable = 'disabled="disabled"  ';
+		$video_user_disable = 'disabled="disabled"  ';
+		
 		if($broadcast=='unlisted')
 			$video_pass_disable = "";
-		else
-			$video_pass_disable = 'disabled="disabled"  ';
+		elseif($broadcast=='private')
+			$video_user_disable = '';
 			
 		$uploadFormOptionFieldsArray = array
 		(
@@ -473,7 +476,7 @@ class Upload{
 							 'name'=>'broadcast',
 							 'id'=>'broadcast',
 							 'value'=>array('public'=>lang('vdo_br_opt1'),'private'=>lang('vdo_br_opt2')
-							 ,'unlisted'=>lang('vdo_broadcast_unlisted')),
+							 ,'unlisted'=>lang('vdo_broadcast_unlisted'),'logged'=>lang("logged_users_only")),
 							 'checked'=>$broadcast,
 							 'db_field'=>'broadcast',
 							 'required'=>'no',
@@ -507,11 +510,13 @@ class Upload{
 							 'type'=>'textarea',
 							 'name'=>'video_users',
 							 'id'=>'video_users',
-							 'value'=>'',
+							 'value'=> $default['video_users'],
 							 'db_field'=>'video_users',
 							 'required'=>'no',
-							 'extra_tags' => ' disabled="disabled" ',
-							 'hint_2'=> lang('specify_video_users')
+							 'extra_tags' => " $video_user_disable ",
+							 'hint_2'=> lang('specify_video_users'),
+							 'validate_function' => 'video_users',
+							 'use_func_val'=>true
 							  ),
 		 'comments'=> array('title'=>lang('comments'),
 							'type'=> 'radiobutton',
