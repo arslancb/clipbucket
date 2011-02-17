@@ -139,7 +139,7 @@ class formObj
 			$catArray = getCategoryList(array("type"=>$field['category_type']));
 			if(is_array($catArray))
 			{
-				
+				$this->multi_cat_id = $this->multi_cat_id + 1;
 				$this->listCategoryCheckBox(array('categories'=>$catArray,'field'=>$field),$multi);
 				return false;
 			}else
@@ -204,7 +204,7 @@ class formObj
 			$field_name = $field['name'];
 		else
 		{
-			$this->multi_cat_id = $this->multi_cat_id + 1;
+			
 			$field_name = $field['name'];
 			$field_name = $this->rmBrackets($field_name);
 			$field_name = $field_name.$this->multi_cat_id.'[]';
