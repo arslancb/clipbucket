@@ -16,7 +16,7 @@ $pages->page_redir();
 //Getting Video Key
 $vkey = @$_GET['v'];
 $vdo = $cbvid->get_video($vkey);
-
+assign('vdo',$vdo);
 if(video_playable($vdo))
 {	
 	//Checking for playlist
@@ -29,7 +29,7 @@ if(video_playable($vdo))
 	}	
 	//Calling Functions When Video Is going to play
 	call_watch_video_function($vdo);
-	assign('vdo',$vdo);
+	
 	subtitle($vdo['title']);
 	
 }else

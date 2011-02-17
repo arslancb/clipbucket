@@ -500,7 +500,7 @@ class Upload{
 							 'value'=> $default['video_password'],
 							 'db_field'=>'video_password',
 							 'required'=>'no',
-							 'extra_tags' => ' $video_pass_disable ',
+							 'extra_tags' => " $video_pass_disable ",
 							 'hint_2'=> lang('set_video_password')
 							  ),
 		 'video_users' => array('title'=>lang('video_users'),

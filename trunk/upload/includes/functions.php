@@ -2674,6 +2674,11 @@
 	{
 		global $cbvideo,$userquery;
 		
+		if(isset($_POST['watch_protected_video']))
+			$video_password = mysql_clean(post('video_password'));
+		else
+			$video_password = '';
+		
 		if(!is_array($id))
 		$vdo = $cbvideo->get_video($id);
 		else
@@ -2705,10 +2710,15 @@
 				return true;
 		}
 		//No Checking for video password
-		elseif($vdo['video_password'] && $vdo['broadcast']=='unlisted')
+		elseif($vdo['video_password'] 
+			&& $vdo['broadcast']=='unlisted'
+			&& $vdo['video_password']!=$video_password)
 		{
+			if(!$video_password)
 			e(lang("video_pass_protected"));
-			template_files("video_password.html",BASEDIR.'/styles',false);
+			else
+			e(lang("invalid_video_password"));
+			template_files("blocks/watch_video/video_password.html",false,false);
 		}
 		else
 		{
