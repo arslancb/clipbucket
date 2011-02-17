@@ -2263,14 +2263,35 @@
 	
 	/**
 	 * Function used to add tempalte in display template list
+	 * @param File : file of the template
+	 * @param Folder : weather to add template folder or not
+	 * if set to true, file will be loaded from inside the template
+	 * such that file path will becom $templatefolder/$file
+	 * @param follow_show_page : this param tells weather to follow ClipBucket->show_page
+	 * variable or not, if show_page is set to false and follow is true, this template will not load
+	 * otherwise there it WILL
 	 */
-	function template_files($file,$folder=false)
+	function template_files($file,$folder=false,$follow_show_page=true)
 	{
 		global $ClipBucket;
 		if(!$folder)
-			$ClipBucket->template_files[] = $file;
+			$ClipBucket->template_files[] = array('file' => $file,'follow_show_page'=>$follow_show_page);
 		else
-			$ClipBucket->template_files[] = array('file'=>$file,'folder'=>$folder);
+			$ClipBucket->template_files[] = array('file'=>$file,
+			'folder'=>$folder,'follow_show_page'=>$follow_show_page);
+	}
+	
+	/**
+	 * Function used to include file
+	 */
+	function include_template_file($params)
+	{
+		$file = $params['file'];
+		
+		if(file_exists(LAYOUT.'/'.$file))
+			Template($file);
+		elseif(file_exists($file))
+			Template($file,false);
 	}
 	
 	
@@ -2285,15 +2306,22 @@
 		{
 			if(file_exists(LAYOUT.'/'.$file) || is_array($file))
 			{
-				if($ClipBucket->show_page)
+				
+				if(!$ClipBucket->show_page && $file['follow_show_page'])
+				{
+					
+				}else
+				{
 					if(!is_array($file))
 						$new_list[] = $file;
 					else
 					{
-						if(file_exists($file['folder'].'/'.$file['file']))
-							$new_list[] = $file;
+						if($file['folder'] && file_exists($file['folder'].'/'.$file['file']))
+							$new_list[] = $file['folder'].'/'.$file['file'];
+						else
+							$new_list[] = $file['file'];
 					}
-						
+				}							
 			}
 		}
 		
@@ -2675,7 +2703,14 @@
 				return false;
 			else
 				return true;
-		}else
+		}
+		//No Checking for video password
+		elseif($vdo['video_password'] && $vdo['broadcast']=='unlisted')
+		{
+			e(lang("video_pass_protected"));
+			template_files("video_password.html",BASEDIR.'/styles',false);
+		}
+		else
 		{
 			$funcs = cb_get_functions('watch_video');
 			if($funcs)
@@ -3295,7 +3330,7 @@
 	 */
 	function template_file_exists($file,$dir)
 	{
-		if(!file_exists($dir.'/'.$file) && !empty($file))
+		if(!file_exists($dir.'/'.$file) && !empty($file) && !file_exists($file))
 		{
 			echo sprintf(lang("temp_file_load_err"),$file,$dir);
 			return false;
@@ -4202,6 +4237,9 @@
 		
 		return false;
 	}
+	
+	
+
 	
 	/**
 	 * Function used to check weather to include

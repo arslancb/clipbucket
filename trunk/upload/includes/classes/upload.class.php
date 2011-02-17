@@ -460,6 +460,12 @@ class Upload{
 		$rating = $default['allow_rating'] ? $default['allow_rating'] : 'yes';
 		$embedding = $default['allow_embedding'] ? $default['allow_embedding'] : 'yes';
 		
+		//Checking weather to enabled or disable password field
+		if($broadcast=='unlisted')
+			$video_pass_disable = "";
+		else
+			$video_pass_disable = 'disabled="disabled"  ';
+			
 		$uploadFormOptionFieldsArray = array
 		(
 		 'broadcast'=> array('title'=>lang('vdo_br_opt'),
@@ -474,7 +480,39 @@ class Upload{
 							 'validate_function'=>'yes_or_no',
 							 'display_function'=>'display_sharing_opt',
 							 'default_value'=>'public',
+							 'extra_tags' => 
+							 	' onClick="
+									$(\'#video_password\').attr(\'disabled\',\'disabled\');
+									$(\'#video_users\').attr(\'disabled\',\'disabled\');
+									if($(this).val()==\'unlisted\') 
+										$(\'#video_password\').attr(\'disabled\',\'\')
+									else if($(this).val()==\'private\') 
+										$(\'#video_users\').attr(\'disabled\',\'\')
+
+									" '
 							 ),
+		 
+		 'video_password'=> array
+		 					('title'=>lang('video_password'),
+							 'type'=>'password',
+							 'name'=>'video_password',
+							 'id'=>'video_password',
+							 'value'=> $default['video_password'],
+							 'db_field'=>'video_password',
+							 'required'=>'no',
+							 'extra_tags' => ' $video_pass_disable ',
+							 'hint_2'=> lang('set_video_password')
+							  ),
+		 'video_users' => array('title'=>lang('video_users'),
+							 'type'=>'textarea',
+							 'name'=>'video_users',
+							 'id'=>'video_users',
+							 'value'=>'',
+							 'db_field'=>'video_users',
+							 'required'=>'no',
+							 'extra_tags' => ' disabled="disabled" ',
+							 'hint_2'=> lang('specify_video_users')
+							  ),
 		 'comments'=> array('title'=>lang('comments'),
 							'type'=> 'radiobutton',
 							'name'=>'allow_comments',

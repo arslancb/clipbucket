@@ -193,7 +193,9 @@ seconds</td>
             {foreach from=$field_group.fields item=field}
                 <tr>
                 	<td width="200"><strong>{$field.title} </strong></td>
-                	<td >{$field.hint_1}{$formObj->createField($field)}{$field.hint_2}</td>
+                	<td >{if $field.hint_1}{$field.hint_1}<br />{/if}
+                	  {$formObj->createField($field)}
+               	    {if $field.hint_2}<br />{$field.hint_2}{/if}</td>
                 </tr>
             {/foreach}
         </table>

@@ -28,7 +28,7 @@ class formObj
 			case 'textfield':
 			case 'password':
 			case 'textarea':
-			$fields=$this->createTextfield($field,$multi);
+				$fields=$this->createTextfield($field,$multi);
 			break;
 			case 'checkbox':
 			$fields=$this->createCheckBox($field,$multi);

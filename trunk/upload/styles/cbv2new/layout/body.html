@@ -15,11 +15,7 @@
         <!-- Message -->
         {include file="$style_dir/message.html"}
             {foreach from=$template_files item=file}
-            {if template_file_exists($file,$style_dir)}
-                {include file="$style_dir/$file" }
-                    {else}
-                        <div class="error" align="center">Unable to load template file "{$file}"</div>
-            {/if}
+				{include_template_file file=$file}				 		
             {/foreach}
         </div> <!--CONTENT END-->
         <div class="clear" style="margin-top:10px"></div>

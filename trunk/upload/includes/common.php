@@ -540,6 +540,7 @@ $Smarty->register_function('cbtitle','cbtitle');
 $Smarty->register_function('head_menu','head_menu');
 $Smarty->register_function('foot_menu','foot_menu');
 $Smarty->register_function('include_header','include_header');
+$Smarty->register_function('include_template_file','include_template_file');
 $Smarty->register_function('include_js','include_js');
 $Smarty->register_function('get_binaries','get_binaries');
 $Smarty->register_function('check_module_path','check_module_path');
