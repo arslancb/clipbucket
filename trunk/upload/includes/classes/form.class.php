@@ -14,6 +14,8 @@
 class formObj 
 {
 	
+	var $multi_cat_id =  0;
+	
 	/**
 	* FUNCTION USED TO CREATE TEXT FIELD
 	*/
@@ -202,9 +204,10 @@ class formObj
 			$field_name = $field['name'];
 		else
 		{
+			$this->multi_cat_id = $this->multi_cat_id + 1;
 			$field_name = $field['name'];
 			$field_name = $this->rmBrackets($field_name);
-			$field_name = $field_name.$multi_cat_id.'[]';
+			$field_name = $field_name.$this->multi_cat_id.'[]';
 		}
 		
 		//Setting up the values
