@@ -237,14 +237,14 @@ function QueueLimitError(message,fade)
 		$("#QueueError").delay(5000).fadeOut('slow');	
 }
 
-function insertAjaxPhoto(ID,filename,extension)
+function insertAjaxPhoto(ID,filename,extension,server_url)
 {
 	var photoFields = $("#Form"+ID).serialize();
 	$.ajax({
-		url : uploadScriptPath,
+		url : baseurl+'/actions/photo_uploader.php',
 		type : 'POST',
 		dataType : 'json',
-		data : photoFields+"&filename="+filename+"&ext="+extension+"&insertPhoto=yes",
+		data : photoFields+"&filename="+filename+"&ext="+extension+"&insertPhoto=yes&server_url="+server_url,
 		beforeSend : function()
 		{
 			$("#cbSubmitUpload"+ID).html(ajaxImage+lang.savingData).attr('disabled','disabled');	
@@ -281,7 +281,7 @@ function updateAjaxPhoto(ID)
 {
 	var updateFields = $("#Form"+ID).serialize();
 	$.ajax({
-		url : uploadScriptPath,
+		url : baseurl+'/actions/photo_uploader.php',
 		type : 'POST',
 		dataType : 'json',
 		data : updateFields+"&updatePhoto=yes",
@@ -374,7 +374,7 @@ $(document).ready(function() {
 			{
 				uploadError = false;
 				$.ajax({
-					url : uploadScriptPath,
+					url : baseurl+'/actions/photo_uploader.php',
 					dataType : 'json',
 					type : 'POST',
 					data : ({ "photoForm":"yes" , "objID":ID , "name":fileObj.name , "collection":collectionID }),
@@ -387,10 +387,11 @@ $(document).ready(function() {
 			},
 			'onComplete' : function(event,ID,fileObj,response,data)
 			{
+			
 				var resObj = $.parseJSON(response);
 				if(resObj.success == "yes")
 				{
-					insertAjaxPhoto(ID,resObj.filename,resObj.extension);	
+					insertAjaxPhoto(ID,resObj.filename,resObj.extension,resObj.server_url);	
 				}
 				
 			},
@@ -420,9 +421,16 @@ $(document).ready(function() {
 </script>
 {/if}
 
-{if $smarty.const.THIS_PAGE=='watch_video'}
-<meta property="og:title" content="{$vdo.title}" />
-<meta property="og:description" content="{$vdo.description|description}" />
-<meta property="og:image" content="{getThumb vdetails=$vdo}" />
-<meta name="medium" content="video" />
+{if $smarty.const.THIS_PAGE=='watch_video' || $object.videoid}
+    {if $object.videoid}{assign var=vdo value=$object} {/if}
+    <meta property="og:title" content="{$vdo.title}" />
+    <meta property="og:description" content="{$vdo.description|description}" />
+    <meta property="og:image" content="{getThumb vdetails=$vdo}" />
+    <meta name="medium" content="video" />
+{/if}
+{if $object.photo_id}
+<meta property="og:title" content="{$object.photo_title}" />
+<meta property="og:description" content="{$object.photo_description|description}" />
+<meta property="og:image" content="{get_photo details=$object size='t' output='non_html' alt=$object.photo_title}" />
+<meta name="medium" content="image" />
 {/if}

@@ -43,6 +43,7 @@ switch($mode)
 		$_POST['photo_title'] = genTags(str_replace(array('_','-'),' ',$_POST['photo_title']));
 		$_POST['photo_description'] = genTags(str_replace(array('_','-'),' ',$_POST['photo_description']));
 		$_POST['photo_tags'] = genTags(str_replace(array(' ','_','-'),', ',$_POST['photo_tags']));
+		$_POST['server_url'] = mysql_clean($_POST['server_url']);
 		
 		$insert_id = $cbphoto->insert_photo();
 		
@@ -52,7 +53,10 @@ switch($mode)
 		{
 			$response['success'] = msg('single');
 			$response['photoID'] = $insert_id;
-			$params = array("details"=>$insert_id,"size"=>"m");
+			
+			$details = $cbphoto->get_photo($insert_id);
+			
+			$params = array("details"=>$details,"size"=>"m");
 			$response['photoPreview'] = get_photo($params);	
 		}
 		

@@ -60,6 +60,8 @@ if($cbcollection->is_viewable($cid))
 							assign('user',$userquery->get_user_details($video['userid']));
 							assign('c',$collect);						
 							
+							subtitle($video['title']);
+							
 						} else {
 							e(lang("item_not_exist"));
 							$Cbucket->show_page = false;
@@ -89,6 +91,8 @@ if($cbcollection->is_viewable($cid))
 							assign('object',$photo);
 							assign('user',$userquery->get_user_details($photo['userid']));
 							assign('c',$collect);
+							
+							subtitle($photo['photo_title'].' &laquo; '.$collect['collection_name']);
 						} else {
 							e(lang("item_not_exist"));
 							$Cbucket->show_page = false;	

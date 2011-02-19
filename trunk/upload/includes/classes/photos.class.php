@@ -1206,7 +1206,7 @@ class CBPhotos
 			
 			$query_field[] = "filename";
 			$query_val[] = $array['filename'];
-			
+						
 			if($array['server_url'])
 			{
 				$query_field[] = "server_url";
@@ -1217,7 +1217,7 @@ class CBPhotos
 			$photo = $this->get_photo($insert_id);
 			$this->collection->add_collection_item($insert_id,$photo['collection_id']);
 			
-			if(!$array['server_url'])
+			if(!$array['server_url'] || $array['server_url']=='undefined')
 				$this->generate_photos($photo);
 				
 				
@@ -1668,10 +1668,12 @@ class CBPhotos
 					$files = glob(PHOTOS_DIR."/".$photo['filename']."*.".$photo['ext']);
 					if(!empty($files) && is_array($files))
 					{
+						
 						foreach($files as $file)
 						{
 							$file_parts = explode("/",$file);
 							$thumb_name = $file_parts[count($file_parts)-1];
+							
 							$type = $this->get_image_type($thumb_name);
 							if($with_orig)
 							{
