@@ -2,7 +2,10 @@
 	
 	<div class="viewChannelProfileThumb_outline"><div class="channelHeading" style="margin:0 0 5px 0;"><a href="{$userquery->profile_link($u)}">
     {assign var=category value=$userquery->get_category($u.category)}
-    {$u.username}</a> ({$category.category_name})</div><div class="viewChannelProfileThumb" align="center"><a href="{$userquery->profile_link($u)}">
+    
+   
+    
+    {$u.username}</a> ({$category.category_name})</div> {if $userquery->perm_check('admin_access')=='yes'}<div>{ANCHOR place=view_channel_admin_options data=$u}</div>{/if}<div class="viewChannelProfileThumb" align="center"><a href="{$userquery->profile_link($u)}">
     <img src="{avatar details=$u}" style="border:1px solid #ccc; padding:1px; margin-right:5px;" /></a></div></div>
     
 	{assign var=isSubscribed value=$userquery->is_subscribed($u.userid)}

@@ -227,7 +227,7 @@
 	$(document).ready(function()
 	{ldelim}
 		
-		{if $p.show_my_photos!='no' || $p.show_my_photos!='yes' }
+		{if $p.show_my_photo=='no' || $p.show_my_photos!='yes' }
 			var viewingAreaParent = $('#viewingArea').parent().parent().width();	
 			$('#viewingArea') .width(viewingAreaParent-180)	
 		{/if}

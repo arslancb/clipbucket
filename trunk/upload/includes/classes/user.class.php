@@ -2331,6 +2331,12 @@ class userquery extends CBCategory{
 			$uquery_val[] = $array['dob'];
 		}
 		
+		//Changing category
+		if(isset($array['category']))
+		{
+			$uquery_field[] = 'category';
+			$uquery_val[] = $array['category'];
+		}
 		
 		
 		//Updating User Avatar
