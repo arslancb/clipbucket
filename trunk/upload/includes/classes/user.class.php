@@ -2362,9 +2362,10 @@ class userquery extends CBCategory{
 		//Deleting User Bg
 		if($array['delete_bg']=='yes')
 		{
-			$file = USER_THUMBS_DIR.'/'.$array['bg_file_name'];
-			if(file_exists($file) && $array['bg_file_name'] !='')
-				unlink($file);
+			
+			$file = USER_BG_DIR.'/'.$array['bg_file_name'];
+			if(file_exists($file) && $array['bg_file_name'])
+			unlink($file);
 		}
 		
 		
