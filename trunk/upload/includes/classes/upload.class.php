@@ -1107,7 +1107,6 @@ class Upload{
 						break;
 					}else
 						$matched = false;
-						
 				}
 				
 				if(!$matched)
