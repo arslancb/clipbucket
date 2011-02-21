@@ -144,6 +144,17 @@ class ffmpeg
 				$opt_av .= " -r $vrate ";
 		}
 		
+		# video rate
+		if($p['use_video_bitrate'])
+		{
+			if(isset($p['video_bitrate']))
+				$vbrate = $p['video_bitrate'];
+			elseif(isset($i['video_bitrate']))
+				$vbrate = $i['video_bitrate'];
+			if(!empty($vrate))
+				$opt_av .= " -b $vbrate ";
+		}
+		
 		# video size, aspect and padding
 		
 		$this->calculate_size_padding( $p, $i, $width, $height, $ratio, $pad_top, $pad_bottom, $pad_left, $pad_right );
