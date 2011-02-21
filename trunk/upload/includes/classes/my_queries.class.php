@@ -607,7 +607,7 @@ class myquery {
 	 * @param PARENT_ID 
 	 * @param GET_REPLYIES_ONLY Boolean
 	 */
-	function get_comments($type_id='*',$type='v',$count_only=FALSE,$get_type='all',$parent_id=NULL)
+	function get_comments($type_id='*',$type='v',$count_only=FALSE,$get_type='all',$parent_id=NULL,$useCache='yes')
 	{
 		
 		$params = array(
@@ -616,6 +616,7 @@ class myquery {
 		'count_only' 	=> $count_only,
 		'get_type' 		=> $get_type,
 		'parent_id' 	=> $parent_id,
+		'cache'			=> $useCache
 		);
 		
 		return $this->getComments($params);
@@ -628,9 +629,13 @@ class myquery {
 	{
 		global $db,$userquery;
 		$cond = '';
+			
+		if(!$params['cache'])
+			$params['cache'] = 'yes';
 				
 		$p = $params;
 		extract( $p, EXTR_SKIP );
+		
 		
 		switch($type)
 		{
@@ -678,7 +683,7 @@ class myquery {
 			
 		}
 		
-		if(!$count_only)
+		if(!$count_only && $params['cache']=='yes')
 		{
 			$file = $type.$type_id.str_replace(',','_',$limit).'-'.strtotime($last_update).'.tmp';
 			

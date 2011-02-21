@@ -1474,7 +1474,7 @@ function channelObjects(object,div,type,user)
 }
 
 var comments_voting = 'no';
-function getComments(type,type_id,last_update,pageNum,total,object_type)
+function getComments(type,type_id,last_update,pageNum,total,object_type,admin)
 {
 	$('#comments').html("<div style='padding:5px 0px;'>"+loading+"</div>");
 	$.ajax({
@@ -1486,7 +1486,7 @@ function getComments(type,type_id,last_update,pageNum,total,object_type)
 	  object_type : object_type,
 	  last_update : last_update,
 	  total_comments : total,
-	  comments_voting : comments_voting},
+	  comments_voting : comments_voting,admin : admin},
 	  success: function(data)
 	  {
 		$('#comments').hide();

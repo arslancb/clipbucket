@@ -1,5 +1,4 @@
 {assign var=bgcolor value =F2F2F2}
-{assign var=comments value=$myquery->get_comments($id,$type)}
 {if $comments}
 <table width="99%" border="0" cellpadding="2" cellspacing="1" style="color:#fff">
   <tr>
@@ -14,49 +13,38 @@
   </tr>
 </table>
 <div>
-<table width="99%" border="0" cellpadding="2" cellspacing="1" >
-{foreach from=$myquery->get_comments($id,$type) item=comment}
-	
-	{if $comment.parent_id == 0}
-    {if $comment.userid !='' }{assign var="udetails" value=$userquery->get_user_details($comment.userid)}{/if}  
+{foreach from=$comments.comments item=comment}
+	<table width="99%" border="0" cellpadding="2" cellspacing="1" >
           <tr style="background-color:#{$bgcolor}">
             <td width="35" align="left">{$comment.comment_id}</td>
             <td width="35" align="left">{$comment.userid}</td>
-            <td width="100" align="left">{if $comment.anonym_name}{$comment.anonym_name}{else}{$udetails.username}{/if}</td>
-            <td  width="150" align="left">{if $comment.anonym_email}{$comment.anonym_email}{else}{$udetails.email}{/if}</td>
+            <td width="100" align="left">{if $comment.anonym_name}{$comment.anonym_name}{else}{$comment.username}{/if}</td>
+            <td  width="150" align="left">{if $comment.anonym_email}{$comment.anonym_email}{else}{$comment.email}{/if}</td>
             <td ><div class="edit_comment" id="{$comment.comment_id}">{$comment.comment}</div></td>
             <td width="200" align="left" >{$comment.date_added|date_format}</td>
             <td width="70" align="left" >{$comment.vote}</td>
             <td width="100" ><a href="?{$link}&amp;delete_comment={$comment.comment_id}">Delete</a></td>
     </tr>
         
-        
-        {foreach from=$myquery->get_comments($id,$type,false,$comment.comment_id,TRUE) item=reply}
-        	{if $reply.comment !=''}
-            {if $reply.userid !='' }{assign var="udetails" value=$userquery->get_user_details($reply.userid)}{/if}  
-			<tr style="background-color:#{$bgcolor}">
-            <td width="35" align="left">{$reply.comment_id}</td>
-            <td width="35" align="left">{$reply.userid}</td>
-            <td width="100" align="left">{if $reply.anonym_name}{$reply.anonym_name}{else}{$udetails.username}{/if}</td>
-            <td width="100" align="left">{if $reply.anonym_email}{$reply.anonym_email}{else}{$udetails.email}{/if}</td>
-            <td >{$comment.comment_id} &hArr; <span class="edit_comment" id="{$reply.comment_id}">{$reply.comment}</span></td>
-            <td width="200" align="left" >{$reply.date_added|date_format}</td>
-            <td width="70" align="left" >{$reply.vote}</td>
-            <td width="100" ><a href="?{$link}&amp;delete_comment={$reply.comment_id}">Delete</a></td>
-   	</tr>
-          	{/if}
-		{/foreach}
-        
-    	{if $bgcolor == 'F2F2F2'}
+   	{if $bgcolor == 'F2F2F2'}
         	{assign var=bgcolor value =FFF}
        	{elseif $bgcolor == 'FFF'}
         	{assign var=bgcolor value =F2F2F2}
         {/if}
         	
-	{/if}
 {/foreach}
 </table>
 </div>
 {else}
 <div align="center"><em>No User Comments</em></div>
 {/if}
+
+{literal}
+<script type="text/javascript">
+$(document).ready(function() {
+ $('.edit_comment').editable(baseurl+'/actions/edit_comment.php', { 
+ indicator : '<img src="'+baseurl+'/images/icons/progIndicator.gif">',
+ tooltip   : 'Click to edit...',
+});
+</script>
+{/literal}

@@ -257,8 +257,15 @@ if(!function_exists('validate_embed_code'))
 					$embed_code = preg_replace("/src=\"(.*)\"/Ui","src=\"$1&autoplay=".$autoplay."\"",$embed_code);
 				}
 				
-				preg_match('/http:\/\/www\.youtube\.com\/v\/([a-zA-Z0-9_]+)/',$embed_code,$ytmatches);
+				preg_match('/http:\/\/www\.youtube\.com\/v\/([a-zA-Z0-9_-]+)/',$embed_code,$ytmatches);
+				
 				$ytCode = $ytmatches[1];
+				
+				if(!$ytCode)
+				{
+					preg_match('/http:\/\/www\.youtube\.com\/embed\/([a-zA-Z0-9_-]+)/',$embed_code,$ytmatches);
+					$ytCode = $ytmatches[1];
+				}
 				
 				if(YOUTUBE_ENABLED=='yes' && $ytCode )
 				{

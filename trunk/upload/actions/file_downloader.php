@@ -51,15 +51,16 @@ if($_POST['youtube'])
 		exit(json_encode(array("error"=>"Invalid youtube url")));
 	}
 			
-	$content = file_get_contents($youtube_url);
-	$match_arr = 
+	$content = xml2array('http://gdata.youtube.com/feeds/api/videos/'.$YouTubeId);
+	$content = $content['entry'];
+/*	$match_arr = 
 	array
 	(
 		"title"=>"/<meta name=\"title\" content=\"(.*)\">/",
 		"description"=>"/<meta name=\"description\" content=\"(.*)\">/",
 		"tags" =>"/<meta name=\"keywords\" content=\"(.*)\">/",
 		"embed_code" => "/<meta name=\"keywords\" content=\"(.*)\">/",
-		"duration" => "/<span class=\"video-time\">(.*)<\/span>/"
+		"duration" => "/<span class=\"video-time\">([0-9\:]+)<\/span>/"
 	);
 	
 	$vid_array = array();
@@ -67,7 +68,13 @@ if($_POST['youtube'])
 	{
 		preg_match($match,$content,$matches);
 		$vid_array[$title] = $matches[1];
-	}
+	}*/
+	
+	$vid_array['title'] 		= $content['media:group']['media:title'];
+	$vid_array['description'] 	= $content['content'];
+	$vid_array['tags'] 			= $content['media:group']['media:keywords'];
+	$vid_array['duration'] 		= $content['media:group']['yt:duration_attr']['seconds'];
+	
 	
 	
 	$vid_array['thumbs'] = 
@@ -85,18 +92,19 @@ if($_POST['youtube'])
 	 allowfullscreen="true">
 	</embed></object>';
 	
+	
 	$vid_array['category'] = array($cbvid->get_default_cid());
 	$vid_array['file_name'] = $filename;
 	$vid_array['userid'] = userid();
 	
 	$duration = $vid_array['duration'];
-	$duration = explode(":",$duration);
+/*	$duration = explode(":",$duration);
 	$sep = count($duration);
 	if($sep==3)
 		$duration = ($duration[0]*60*60)+($duration[1]*60)+($duration[2]);
 	else
 		$duration = ($duration[0]*60)+($duration[1]);
-
+*/
 	$vid = $Upload->submit_upload($vid_array);
 	
 	if(error())

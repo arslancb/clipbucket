@@ -1273,7 +1273,14 @@ if(!empty($mode))
 			$params['type'] = mysql_clean($_POST['type']);
 			$params['type_id'] = mysql_clean($_POST['type_id']);
 			$params['last_update'] = mysql_clean($_POST['last_update']);
-			$params['limit'] = create_query_limit($page,$limit);			
+			$params['limit'] = create_query_limit($page,$limit);	
+			
+			$admin = "";
+			if($_POST['admin']=='yes' && has_access('admin_access',true))
+			{
+				$params['cache'] ='no';
+				$admin = "yes";
+			}
 			$comments = $myquery->getComments($params);
 			//Adding Pagination
 			$total_pages = count_pages($_POST['total_comments'],$limit);
@@ -1281,7 +1288,7 @@ if(!empty($mode))
 			//Pagination
 			$pages->paginate($total_pages,$page,NULL,NULL,'<a href="javascript:void(0)"
 			onClick="getComments(\''.$params['type'].'\',\''.$params['type_id'].'\',\''.$params['last_update'].'\',
-			\'#page#\',\''.$_POST['total_comments'].'\',\''.mysql_clean($_POST['object_type']).'\')">#page#</a>');
+			\'#page#\',\''.$_POST['total_comments'].'\',\''.mysql_clean($_POST['object_type']).'\',\''.$admin.'\')">#page#</a>');
 			
 			assign('comments',$comments);
 			assign('type',$params['type']);
@@ -1290,6 +1297,10 @@ if(!empty($mode))
 			assign('total',$_POST['total_comments']);
 			assign('total_pages',$total_pages);
 			assign('comments_voting',$_POST['comments_voting']);
+			
+			if($_POST['admin']=='yes' && has_access('admin_access',true))
+			Template(BASEDIR.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/cbv2/layout/blocks/comments.html',false);
+			else
 			Template('blocks/comments/comments.html');
 			
 			assign('commentPagination','yes');

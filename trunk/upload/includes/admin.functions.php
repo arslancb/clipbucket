@@ -21,6 +21,7 @@ if(has_access('admin_access',TRUE))
 		echo '<a href="'.ADMIN_BASEURL.'/view_user.php?uid='.$data['userid'].'">Edit User</a>';
 	}
 	
+	register_anchor_function('show_video_admin_link','watch_admin_options');
 	register_anchor_function('show_view_channel_link','view_channel_admin_options');
 }
 

@@ -310,8 +310,20 @@ Background Repeat Type (if using image as a background)<br />
     </tr>
     <tr>
     <td colspan="2" align="center">
+    <div id="comments"></div>
+    {assign var='object_type' value='channel'}
+    <script>
+	
+	$(document).ready(function()
+	{ldelim}
+		page = baseurl+'/ajax.php';
+		getComments('c','{$u.userid}','{$u.last_commented}',1,'{$u.comments_count}','{$object_type}','yes')
+	{rdelim}
+	);
+    </script>
     
-    {assign var=id value=$u.userid}{include file="$style_dir/blocks/comments.html" type=c id=$u.userid link="uid=$id"}</td>
+    
+    </td>
   </tr>
   </table>
   <br />
