@@ -1035,3 +1035,8 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_files` (
   PRIMARY KEY (`id`),
   FULLTEXT KEY `src_bitrate` (`src_bitrate`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+ALTER TABLE `{tbl_prefix}video` ADD `video_password` VARCHAR( 255 ) NOT NULL AFTER `videokey` ;
+ALTER TABLE `{tbl_prefix}video` ADD `video_users` TEXT NOT NULL AFTER `video_password`;
+ALTER TABLE `{tbl_prefix}video` ADD `category_parents` TEXT NOT NULL AFTER `category` ;

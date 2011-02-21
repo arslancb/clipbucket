@@ -2,12 +2,6 @@
 	href="{if !$ytcode}{$normal_vid_file}{else}api:{$ytcode}{/if}"
 	style="display:block;width:{$player_data.width}; height:{$player_data.height}"
 	id="the_Video_Player">
-    {if !$player_data.autoplay}
-    <div align="center" style="background-color:#000; height:100%; vertical-align:middle; position:relative">
-    	<img src="{getThumb vdetails=$vdata num=big}" style=" height:100%" />
-        <img src="{$pak_player_url}/play.png" style="position:absolute; top:50%; left:50%; margin:-42px 0px 0px -42px; z-index:100"/>
-	</div>
-    {/if}
 </a>
 
 
@@ -89,7 +83,6 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pakplayer{if $Cbucket->configs
 	},
 	canvas: {
     backgroundGradient: "none",
-    backgroundColor: "#000000"
   }
 ,
 
@@ -104,9 +97,15 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pakplayer{if $Cbucket->configs
 		
 		scaling : 'fit',
 		{/if}
-		{literal}
-		autoPlay :true,
 		
+		{if $player_data.autoplay}
+		autoPlay :true,
+		{else}
+		autoPlay : false,
+		{/if}
+		
+		{literal}
+				
 		onLastSecond: function()
 		{
 			if(next_item)
@@ -120,9 +119,8 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pakplayer{if $Cbucket->configs
 	
 	playlists :
 	[
-		
-		{
 		{/literal}
+		{ldelim}
 		{if $youtube}
 		url : 'api:{$ytcode}'		
 		{else}
@@ -175,5 +173,9 @@ updateEmbedCode(embedPlayerWidth,embedPlayerHeight,autoPlayEmbed);
 {literal}
 });
 
-{/literal}
+
 </script>
+
+<a href="javascript:void(0)" onclick="$f('the_Video_Player').getScreen().css({backgroundColor:'#cccccc'});">Click me</a>
+
+{/literal}
