@@ -21,6 +21,8 @@ assign('group',$details);
 
 if(!$details)
 	e(lang("grp_exist_error"));
+elseif(!$cbgroup->is_viewable($details))
+	$Cbucket->show_page = false;	
 elseif(!$cbgroup->is_member(userid(),$details['group_id']))
 	e(lang("you_not_allowed_add_grp_vids"));
 else

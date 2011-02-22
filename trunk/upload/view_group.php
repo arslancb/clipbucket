@@ -20,27 +20,30 @@ $details = $cbgroup->group_details_url($url);
 assign('group',$details);
 
 if($details)
-{
-
-	//adding group topic
-	if(isset($_POST['add_topic']))
+{		
+	$shouldView = $cbgroup->is_viewable($details);
+	if(!$shouldView)
+		$Cbucket->show_page = false;
+	else
 	{
-		$array = $_POST;
-		$array['group_id'] = $details['group_id'];
-		$cbgroup->add_topic($array);
-		if(!error()) $_POST = NULL;
-	}
+		//Joining Group
+		if($_GET['join'])
+			$cbgroup->join_group($details['group_id'],userid());
+		//Leaving
+		if($_GET['leave'])
+			$cbgroup->leave_group($details['group_id'],userid());			
+		//adding group topic
+		if(isset($_POST['add_topic']))
+		{
+			$array = $_POST;
+			$array['group_id'] = $details['group_id'];
+			$cbgroup->add_topic($array);
+			if(!error()) $_POST = NULL;
+		}
 
-	//Joining Group
-	if($_GET['join'])
-		$cbgroup->join_group($details['group_id'],userid());
-	//Leaving
-	if($_GET['leave'])
-		$cbgroup->leave_group($details['group_id'],userid());
-	
-	//Calling all functions when a topic is called
-	call_view_group_functions($details);
-	
+		//Calling all functions when a topic is called
+		call_view_group_functions($details);
+/*
 	switch($mode)
 	{
 		case 'topic_del':
@@ -60,8 +63,8 @@ if($details)
 	
 	//Getting list of topics
 	$topics = $cbgroup->get_topics(array('group'=>$details['group_id']));
-	assign('topics',$topics);
-	
+	assign('topics',$topics);*/
+	}
 	subtitle($details['group_name']);	
 }else
 {

@@ -924,7 +924,7 @@ class CBGroups extends CBCategory
 			$active_query = " AND active='yes' ";
 			
 		$data = $db->count(tbl($this->gp_mem_tbl),"*","group_id='$gpid' AND userid='$user' $active_query");
-		
+		//echo $db->db_query;
 		if($data[0]>0) {
 			return true;	
 		} else {
@@ -958,10 +958,12 @@ class CBGroups extends CBCategory
 	 * Function used to count total number of members in a group.
 	 * @param = $gpid { ID of group whose members are going to be counted }
 	 */
-	function total_members($gpid)
+	function total_members($gpid,$active=true)
 	{
 		global $db;
-		$totalmem = $db->count(tbl("group_members"),"*","group_id='$gpid'");
+		if($active)
+			$activeQuery = "AND active = 'yes'";
+		$totalmem = $db->count(tbl("group_members"),"*","group_id='$gpid' $activeQuery");
 		return $totalmem[0];
 	}
 	
@@ -1764,20 +1766,43 @@ class CBGroups extends CBCategory
 	
 	/**
 	 * Function used to check weather to view
-	 * group details ot user or not
+	 * group details ot user or not.
+	 * We need to check following things and display Message Accordingly
+	 * First - we to save group privacy into variables
+	 * Second - $privacy == 1 and user is not member of group. Display group but with warning message.
+	 * Third - $privacy == 1 and user is member of group. Display group but with warning message about pending approval.
+	 * Fourth - $privacy == 2 and user is not member. Dont display group with error message
 	 */
 	function is_viewable($group,$uid=NULL)
 	{
 		if(!$uid)
 			$uid = userid();
-			
-		$group_id = $group['group_id'];
-			$is_Member = $this->is_member($uid,$group['group_id'],true);
+		$privacy = $group['group_privacy'];
+		$isMember = $this->is_member($uid,$group['group_id']);
+		if($privacy == 1 && !$isMember)
+		{
+			e(lang("you_need_owners_approval_to_view_group"),"w");
+			return true;	
+		} elseif($privacy == 1 && !$this->is_active_member($uid,$group['group_id']))
+		{
+				e(lang("grp_inactive_account"),"w");
+				return true;
+		} elseif($privacy == 2 && !$isMember) {
+			e(lang("grp_prvt_err1"));
+			return false;	
+		} else {
+			return true;	
+		}
 		
-		if($group['group_privacy'] && !$is_Member)
-			return false;
+/*		$group_id = $group['group_id'];
+		$is_Member = $this->is_member($uid,$group['group_id'],true);
+		
+		if($group['group_privacy'] == 2 && !$is_Member)
+			return array("privacy"=>$group['group_privacy'],"isMember"=>$is_Member);
+		elseif($group['group_privacy'] == 1 && !$is_Member)
+			return array("privacy"=>$group['group_privacy'],"isMember"=>$is_Member);
 		else
-			return true;
+			return true;	*/
 	}
 	
 	
