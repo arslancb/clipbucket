@@ -43,27 +43,22 @@ if($details)
 
 		//Calling all functions when a topic is called
 		call_view_group_functions($details);
-/*
-	switch($mode)
-	{
-		case 'topic_del':
+
+		switch($mode)
 		{
+			case 'topic_del':
+			{
 				if(!empty($_GET['topic_id'])) {
 					$tid = $_GET['topic_id'];
 					$cbgroup->delete_topic($tid);
 				}
+			}
+			break;
 		}
-	}
-	
-	$viewable = $cbgroup->is_viewable($details);
-	assign('isviewable',$viewable);
-	
-	if(!$viewable)
-		e(lang("you_need_owners_approval_to_view_group"));
-	
-	//Getting list of topics
-	$topics = $cbgroup->get_topics(array('group'=>$details['group_id']));
-	assign('topics',$topics);*/
+		
+		//Getting list of topics
+		$topics = $cbgroup->get_topics(array('group'=>$details['group_id']));
+		assign('topics',$topics);
 	}
 	subtitle($details['group_name']);	
 }else
