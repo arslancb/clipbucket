@@ -15,12 +15,6 @@ var loading = loading_img+" Loading...";
 		document.location = delUrl;
 	  }
 	}
-
-	function Confirm_DelVid(delUrl) {
-	  if (confirm("Are you sure you want to delete this video?")) {
-		document.location = delUrl;
-	  }
-	}
 	
 	
 	function confirm_it(msg)
@@ -31,71 +25,52 @@ var loading = loading_img+" Loading...";
 			return true;
 		}else
 			return false;
-			
 	}
 	
-	function reloadImage(captcha_src,imgid)
-	{
-	img = document.getElementById(imgid);
-	img.src = captcha_src+'?'+Math.random();
-	}
+	function reloadImage(captcha_src,imgid){img = document.getElementById(imgid);img.src = captcha_src+'?'+Math.random();}
 	
 	
 	//Validate the Add Category Form
 	function validate_category_form(thisform)
 	{
-	with (thisform)
-	{
-			if (validate_required(title,"Title must be filled out!")==false)
- 	 		{
-		 title.focus();return false;
-			}
-			if (validate_required(description,"Description must be filled out!")==false)
- 			{
-		 description.focus();return false;
-			}
-	
+		with (thisform)
+		{
+				if (validate_required(title,"Title must be filled out!")==false)
+				{
+			 title.focus();return false;
+				}
+				if (validate_required(description,"Description must be filled out!")==false)
+				{
+			 description.focus();return false;
+				}
+		
+		}
 	}
-	}
 	
-	//Validate the Add Advertisment Form
 	function validate_ad_form(thisform)
 	{
-	with (thisform)
-	{
-			if (validate_required(name,"Name must be filled out!")==false)
- 	 		{
-		 name.focus();return false;
-			}
-			if (validate_required(type,"Type must be filled out!")==false)
- 			{
-		 type.focus();return false;
-			}
-			if (validate_required(syntax,"Syntax Must Be Filled Out")==false)
- 			{
-		 syntax.focus();return false;
-			}
-			if (validate_required(code,"Code Must Be Filled Out")==false)
- 			{
-		 code.focus();return false;
-			}
-	}
-	}
-	
-	
-	//CHECKK ALL FUNCTIOn
-
-		<!--
-		function checkAll(wotForm,wotState) {
-			for (a=0; a<wotForm.elements.length; a++) {
-				if (wotForm.elements[a].id.indexOf("delete_") == 0) {
-					wotForm.elements[a].checked = wotState ;
+		with (thisform)
+		{
+				if (validate_required(name,"Name must be filled out!")==false)
+				{
+			 name.focus();return false;
 				}
-			}
+				if (validate_required(type,"Type must be filled out!")==false)
+				{
+			 type.focus();return false;
+				}
+				if (validate_required(syntax,"Syntax Must Be Filled Out")==false)
+				{
+			 syntax.focus();return false;
+				}
+				if (validate_required(code,"Code Must Be Filled Out")==false)
+				{
+			 code.focus();return false;
+				}
 		}
-		// -->
-
+	}
 	
+
 	
 	function randomString()
 	{
@@ -338,27 +313,6 @@ var loading = loading_img+" Loading...";
 		});
 	}
 	function delete_video(obj,id,msg,url){ return delete_item(obj,id,msg,url); }
-	
-	
-	/**
-	 * Function used to load editor's pic video
-	 */
-	function get_ep_video(vid)
-	{
-		var page = baseurl+'/plugins/editors_pick/get_ep_video.php';
-		$("#ep_video_container").html(loading);
-		$.post(page, 
-		{ 	
-			vid : vid
-		},
-		function(data)
-		{
-			if(!data)
-				alert("No data");
-			else
-				$("#ep_video_container").html(data);
-		},'text');
-	}
 	
 	
 	/**
@@ -976,8 +930,6 @@ function hq_toggle(nplayer_div,hq_div)
 		if(normal_player_html!='')
 		$(nplayer_div).html(normal_player_html);
 	}
-	
-	
 	if($(hq_div).css("display")=='block')
 	{
 		if(hq_player_html=='')
@@ -988,7 +940,6 @@ function hq_toggle(nplayer_div,hq_div)
 		if(hq_player_html!='')
 		$(hq_div).html(hq_player_html);
 	}
-	
 	$(nplayer_div+","+hq_div).toggle()
 }
 
@@ -1222,88 +1173,7 @@ function ajax_add_collection(obj)
 	});	
 }
 
-var AjaxIteration = 0;
-var InputIteration = 0;
-var continueAjaxCall = true;
 
-function callAjax(obj)
-{
-	var getArray = getDetails(obj),
-		object = $(obj),
-		objectInnerText = $(obj).text(),
-		TotalItems = getArray.length, AjaxCall,		
-		inputs = getInputs(obj,true),
-		element = inputs[InputIteration], saving = AjaxIteration+1;
-		
-		if(AjaxIteration == getArray.length && continueAjaxCall == true)
-		{
-			$(obj).html(TotalItems+" Photos Saved.").removeAttr('onclick').hide();
-			$("<input />").attr({  
-					'type' : 'submit',
-					'name' : 'updatePhotos',
-					'id' : 'updatePhotos',
-					'value' : 'Done'
-				}).addClass(object.attr('class')).fadeIn(350).insertAfter(object).wrap("<form method='post' action='' name='finishForm' id='finishForm' />");
-			return true;
-		}
-		else
-		{	
-		
-			AjaxCall = 
-				$.ajax
-				({
-					url: page,
-					type: "post",
-					dataType: "json",
-					data: getArray[AjaxIteration],
-					cache: false,
-					beforeSend: function() {
-						if(document.getElementById('photoUploadingMessages'))
-							$('#photoUploadingMessages').remove(); 
-						object.html(loading_img+" Saving "+ saving +" out of "+TotalItems); 
-						object.attr('disabled','disabled'); $("#"+element.id+" > div").animate({'opacity': 0.5 },450); 
-					},
-					success: function(data) {
-						if(data.err)
-						{
-							continueAjaxCall = false
-							var formObj = $('#'+element.id), formOffset = formObj.offset().top;
-							$('body,html').animate({ scrollTop : formOffset },350);
-							$("#"+element.id+" > div").animate({ 'opacity' : 1 , 'border' : '1px solid #ed0000'},450);
-							$(data.err).insertAfter('#'+element.id)
-							object.text("Save All").removeAttr('disabled');
-							
-						}
-						
-						if(data.msg)
-						{
-							$('#'+element.id).empty().html(data.msg);
-							continueAjaxCall = true;
-							AjaxIteration++;
-							InputIteration++;
-							if(continueAjaxCall == true)
-								callAjax(obj);							
-						}
-						
-						//.css({'padding':'10px','opacity':'1'}).html("<div style='font:bold 11px Tahoma;'>"+data.msg+"</div>").fadeIn('normal',function() { callAjax(obj); });
-						
-					} 	
-				});
-		}
-}
-
-function getInputs(obj,return_array)
-{
-	var	Child = $(obj).parent().children().filter('form'), InputArray = [];
-	if(return_array == true)
-	{
-		$.each(Child,function(index,element){
-				InputArray[index] = element;
-		})
-		return InputArray;
-	} else
-		return Child;
-}
 
 function getDetails(obj)
 {
@@ -1495,4 +1365,38 @@ function getComments(type,type_id,last_update,pageNum,total,object_type,admin)
 	  },
 	  dataType: 'text'
 	});
+}
+
+function checkUncheckAll(theElement) {
+     var theForm = theElement.form, z = 0;
+	 
+	 for(z=0; z<theForm.length;z++){
+      if(theForm[z].type == 'checkbox' && theForm[z].name != 'checkall'){
+	  theForm[z].checked = theElement.checked;
+	  }
+     }
+    }
+	
+	
+	
+/**
+ * Function used to rate object
+ */
+function rate(id,rating,type)
+{
+	var page = baseurl+'/ajax.php';
+	$.post(page, 
+	{ 	
+		mode : 'rating',
+		id:id,
+		rating:rating,
+		type:type
+	},
+	function(data)
+	{
+		if(!data)
+			alert("No data");
+		else
+			$("#rating_container").html(data);
+	},'text');
 }

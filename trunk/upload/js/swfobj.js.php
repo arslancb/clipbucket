@@ -1,20 +1,10 @@
 <?php
 
 /**
-#########################################################################################################
-# Copyright (c) 2008 - 2009 ClipBucket / PHPBucket.com. All Rights Reserved.
-# [url]http://clip-bucket.com[/url]
-# Function:         SWFObject
-# Author:           Arslan Hassan
-# Language:         PHP
-# License:          CBLA @ [url]http://www.opensource.org/licenses/attribution.php/[/url]
-# Version:          1.7.x SVN
-# Created:          Unknown
-# Last Modified:    Sunday, March 22, 2009 / 01:33 PM GMT+1 (fwhite)
-# Notice:           Please maintain this section
-#########################################################################################################
-*/
-
+ * This file is just for our memorable code
+ * Happy Coding ^_^
+ */
+ 
 include('../includes/config.inc.php');
 include('../includes/classes/swfObj.class.php');
 

@@ -83,12 +83,8 @@ class ClipBucket
 		//Listing Common JS File
 		$this->addJS(array
 					 (
-					'jquery.js'		=> 'global',
-					'ajax.js'			=> 'homeactive',
-					'jquery_plugs/cookie.js'		=> 'global',
-					'rating_update.js'	=> 'global',
-					'checkall.js'		=> 'global',
-					'functions.js'		=> 'global',
+						'jquery_plugs/cookie.js'		=> 'global',
+						'functions.js'					=> 'global',
 					  ));
 		
 		

@@ -2161,5 +2161,178 @@ class CBGroups extends CBCategory
 		else
 			return false;
 	}
+	
+	/**
+	 * Function used to make member admin of the group
+	 * input ARRAY
+	 * INDEX gid => groupid
+	 * INDEX group => groupdetails
+	 * INDEX uid => Userid
+	 * INDEX user => userdtails
+	 * return error() | return true on success makeAdmin
+	 */
+	function make_admin($array){ return $this->makeAdmin($array);}
+	function makeAdmin($array)
+	{
+		global $userquery;
+		extract($array);
+		if(!@$groupid)
+			e(lang('Unknown group'));
+		elseif(!@$group)
+		{
+			$group = $this->get_group($groupid);
+		}
+		
+		if(!@$uid)
+			e(lang('Unknown group user'));
+		elseif(!@$user)
+		{
+			$user = $userquery->get_user_details($uid);
+		}
+		
+		if(!$group)
+			e(lang("Unknown group"));
+		if(!$user)
+			e(lang("Unknown user"));		
+		
+		if(!$this->is_member($userid,$groupid))
+			e(sprintf(lang("%s is not a member of %s"),$user['username'],$group['group_name']));
+		elseif(!$this->is_active_member($userid,$groupid))
+			e(sprintf(lang("%s is not active member of %s"),$user['username'],$group['group_name']));
+				
+			
+		//Checking if is owner or already an admin
+		$this->is_admin(array(
+		'group'=>$group,
+			'groupid'=>$groupid,
+				'userid'=>$userid,
+					'user'=>$user,
+						'error'=>true,
+							'checkowner'=>true));
+		
+		if(!error())
+		{
+			$groupAdmins = $group['group_admins'];
+			$groupAdmins = json_encode($groupAdmins,true);
+			$groupAdmins[] = $userid;
+			$groupAdmins = json_decode($groupAdmins);
+			
+			$db->update(tbl("groups"),array("group_admins"),
+			array($groupAdmins)," group_id='".$groupid."'");
+			e(sprintf(lang("%s has been made adminstrator of %s"),$user['username'],$group['group_name']));
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	/**
+	 * Function used to get weather user is admin of the group or not
+	 * input ARRAY
+	 * INDEX gid => groupid
+	 * INDEX group => groupdetails
+	 * INDEX uid => Userid
+	 * INDEX user => userdtails
+	 * return error() | return true on success makeAdmin
+	 */
+	function is_admin($array)
+	{
+		global $userquery;
+		extract($array);
+		if(!@$groupid)
+			e(lang('Unknown group'));
+		elseif(!@$group)
+		{
+			$group = $this->get_group($groupid);
+		}
+		
+		if(!@$uid)
+			e(lang('Unknown group user'));
+		elseif(!@$user)
+		{
+			$user = $userquery->get_user_details($uid);
+		}
+		if(!$group)
+			e(lang("Unknown group"));
+		if(!$user)
+			e(lang("Unknown user"));
+		
+		//Moving group admins into an array
+		$groupAdmins = $group['group_admins'];
+		$groupAdmins = json_encode($groupAdmins,true);
+		
+		if($group['userid']==$uid && $checkowner)
+		{
+			if(@$error)
+			e(sprintf(lang('%s is owner of %s'),$user['username'],$group['group_name']));
+			return true;
+		}elseif(in_array($uid,$groupAdmins))
+		{
+			if(@$error)
+			e(sprintf(lang('%s is admin of %s'),$user['username'],$group['group_name']));
+			return true;
+		}
+		
+		return false;		
+	}
+	
+	
+	/**
+	 * Removing admin from group
+	 */
+	function removeAdmin($array)
+	{
+		global $userquery;
+		extract($array);
+		if(!@$groupid)
+			e(lang('Unknown group'));
+		elseif(!@$group)
+		{
+			$group = $this->get_group($groupid);
+		}
+		
+		if(!@$uid)
+			e(lang('Unknown group user'));
+		elseif(!@$user)
+		{
+			$user = $userquery->get_user_details($uid);
+		}
+		
+		if(!$group)
+			e(lang("Unknown group"));
+		if(!$user)
+			e(lang("Unknown user"));
+			
+				
+		//Checking if is owner or already an admin
+		if(!$this->is_admin(array(
+			'group'=>$group,
+			'groupid'=>$groupid,
+			'userid'=>$userid,
+			'user'=>$user)))
+		{
+			e(sprintf(lang('%s is not admin of %s'),$user['username'],$group['group_name']));
+			return false;
+		}else
+		{
+			$groupAdmins = $group['group_admins'];
+			$groupAdmins = json_encode($groupAdmins,true);
+			$newAdmins = array();
+			foreach($groupAdmins as $gadmin)
+				if($gadmin!=$userid)
+					$newAdmins[] = $userid;
+			
+			$groupAdmins = json_decode($newAdmins);
+			$db->update(tbl("groups"),array("group_admins"),
+			array($groupAdmins)," group_id='".$groupid."'");
+			e(sprintf(lang("%s has been removed from adminstrators of %s"),$user['username'],$group['group_name']));
+			return true;
+			
+		}			
+			
+	}
+	
+	
 }
 ?>

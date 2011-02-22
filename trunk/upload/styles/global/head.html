@@ -1,7 +1,13 @@
+<script type="text/javascript" src="https://www.google.com/jsapi?key=ABQIAAAAr5pj809LgbJgBTxDJGy0IxQH8siQo9V3STvJ8WIDHu37hIWsoxRX_d1ABxknSddUPvo4LFb7wq8gwA"></script>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.8/themes/redmond/jquery-ui.css" type="text/css" media="all" />
 <script type="text/javascript">
+ google.load("jquery", "1");
+ google.load("jqueryui", "1");
+ 
 var embedPlayerWidth = '{$Cbucket->configs.embed_player_width}';
 var embedPlayerHeight = '{$Cbucket->configs.embed_player_height}';
 var autoPlayEmbed = '{$Cbucket->configs.autoplay_embed}';
+
 
 {literal}
 function updateEmbed(width,height,autoplay)
@@ -434,3 +440,13 @@ $(document).ready(function() {
 <meta property="og:image" content="{get_photo details=$object size='t' output='non_html' alt=$object.photo_title}" />
 <meta name="medium" content="image" />
 {/if}
+
+
+{literal}
+<script>
+$(function() {
+
+	$( ".date_field" ).datepicker({ dateFormat: 'yy-mm-dd' ,changeMonth: true,changeYear: true});
+});
+</script>
+{/literal}
