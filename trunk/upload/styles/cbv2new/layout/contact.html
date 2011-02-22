@@ -14,8 +14,17 @@
   <label for="message">{lang code="message"}</label>
   <textarea name="message" id="message" cols="45" rows="5"></textarea>
   <div style="height:10px;"></div>
-  <label for="button">&nbsp;</label>
-  <input type="submit" name="contact" id="button" value="Contact Us" class="button" />
+  
+{assign var=captcha value=func->get_captcha()}
+{if $captcha} 
+    {if $captcha.show_field}
+        <label for="verification_code">Verification Code</label>
+            {load_captcha captcha=$captcha load=field field_params = ' id="verification_code" '}
+    {/if}
+   <div align="right" style="width:480px">&nbsp;{load_captcha captcha=$captcha load=function}</div>
+{/if}
+
+ <div align="right" style="width:480px; padding-top:10px"> <input type="submit" name="contact" id="button" value="Contact Us" class="cb_button" /> </div>           
 </form>
 <p>&nbsp;</p>
 </div>

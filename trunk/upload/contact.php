@@ -20,6 +20,7 @@ $message = post('message');
 
 if(isset($_POST['contact']))
 {
+	
 	if(empty($name))
 		e(lang("name_was_empty"));
 	elseif(empty($email) || !is_valid_syntax('email',$email))
@@ -28,6 +29,8 @@ if(isset($_POST['contact']))
 		e(lang("pelase_enter_reason"));
 	elseif(empty($message))
 		e(lang("please_enter_something_for_message"));
+	elseif(!verify_captcha())
+		e(lang('usr_ccode_err'));
 	else
 	{
 		$tpl = $cbemail->get_template('contact_form');
