@@ -44,23 +44,9 @@ var imageurl = '{$imageurl}';
 {/if}
 </script>
 
-<!-- Including JS Files-->
-{foreach from=$Cbucket->JSArray item=type}
- {foreach from=$type item=scope key=file}
-  {include_js type=$scope file=$file}
- {/foreach}
-{/foreach}
-<!-- Including JS Files-->
 
 {include_header file='global_header'}
 
-
-
-<!-- Including Plugin Headers -->
-{foreach key=file item=type from=$Cbucket->header_files}
-	{include_header file=$file type=$type}
-{/foreach}
-<!-- Ending Plugin Headers -->
 
 {if $smarty.const.THIS_PAGE =='private_message' && $smarty.get.mid}
 <script type="text/javascript">

@@ -30,7 +30,7 @@ a[rel=sponsors]:hover { background:#555; border:1px solid #232323; }
 
 .header_menu a{text-decoration:none; color:#fff}
 .header_menu ul{list-style:none; margin:0px; padding:0px;}
-.header_menu ul li{list-style:none; float:left; width:100px; text-align:center; line-height:31px; color:#fff; border-right:#1577ba solid 1px;border-left:#43a1e1 solid 1px; margin-top:1px}
+.header_menu ul li{list-style:none; float:left; width:auto; text-align:center; line-height:31px; color:#fff; border-right:#1577ba solid 1px;border-left:#43a1e1 solid 1px; margin-top:1px; padding:0px 5px}
 .header_menu ul li:hover{background-color:#148ada}
 .header_menu ul li:first-child{border-left:none}
 
