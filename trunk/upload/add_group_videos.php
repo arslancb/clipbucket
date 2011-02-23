@@ -47,7 +47,7 @@ else
 	if(isset($_POST['add_videos']))
 	{
 		$total = count($usr_vids);
-		for($i=0;$i<=$total;$i++)
+		for($i=0;$i<$total;$i++)
 		{
 			$videoid = $usr_vids[$i]['videoid'];
 			if($_POST['check_video_'.$videoid]=='yes')
@@ -58,7 +58,7 @@ else
 		//Update Group Total Videos
 		$cbgroup->update_group_videos_count($details['group_id']);
 		
-		$eh->flush();
+		$eh->flush_msg();
 		e(lang("sel_vids_updated"),"m");
 	}
 	assign('group',$details);

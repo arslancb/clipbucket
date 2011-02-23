@@ -1030,10 +1030,15 @@ class CBGroups extends CBCategory
 		elseif($video['userid']!=userid())
 			e(lang("you_cant_add_this_vdo"));
 		elseif($this->is_group_video($vid,$gid))
-			return false;
+			return false;	
 		else
 		{
-			$db->insert(tbl($this->gp_vdo_tbl),array("videoid","group_id","userid"),array($vid,$gid,userid()));
+			if(!$this->is_active_member(userid(),$group['group_id']))
+			{	$approved = "no"; e(lang("your_video_send_in_modetation"),"w"); }
+			else
+				$approved = "yes";
+					
+			$db->insert(tbl($this->gp_vdo_tbl),array("videoid","group_id","userid","approved"),array($vid,$gid,userid(),$approved));
 			e(lang("video_added"),"m");
 			if($update_group)
 				$this->update_group_videos_count($gid);
@@ -1086,10 +1091,12 @@ class CBGroups extends CBCategory
 	 * Function used to count videos of group
 	 * @param GID {group ID}
 	 */
-	function count_videos($gpid)
+	function count_videos($gpid,$approved=true)
 	{
 		global $db;
-		$totalmem = $db->count(tbl("group_videos"),"*","group_id='$gpid'");
+		if($approved)
+			$appQuery = "AND approved = 'yes'";	
+		$totalmem = $db->count(tbl("group_videos"),"*","group_id='$gpid'  $appQuery");
 		return $totalmem;
 	}
 	function total_videos($gid){return $this->count_videos($gid);}
@@ -1162,6 +1169,8 @@ class CBGroups extends CBCategory
 			case "active":
 			{
 				$db->update(tbl($this->gp_mem_tbl),array("active"),array("yes"),"userid='$memuid' AND group_id='$gid'");
+				$total_members = $this->total_members($group['group_id']);
+				$db->update(tbl($this->gp_tbl),array("total_members"),array($total_members)," group_id='".$gid."'");
 				e(lang("usr_ac_msg"),"m");
 			}
 			break;
@@ -1172,6 +1181,8 @@ class CBGroups extends CBCategory
 			case "unactive":
 			{
 				$db->update(tbl($this->gp_mem_tbl),array("active"),array("no"),"userid='$memuid' AND group_id='$gid'");
+				$total_members = $this->total_members($group['group_id']);
+				$db->update(tbl($this->gp_tbl),array("total_members"),array($total_members)," group_id='".$gid."'");
 				e(lang("usr_dac_msg"),"m");
 			}
 			break;
@@ -1227,6 +1238,7 @@ class CBGroups extends CBCategory
 			case "active":
 			{
 				$db->update(tbl($this->gp_vdo_tbl),array("approved"),array("yes"),"videoid ='$vid' AND group_id='$gid'");
+				$this->update_group_videos_count($gid);
 				e(lang("class_vdo_act_msg"),"m");
 			}
 			break;
@@ -1237,6 +1249,7 @@ class CBGroups extends CBCategory
 			case "unactive":
 			{
 				$db->update(tbl($this->gp_vdo_tbl),array("approved"),array("no"),"videoid ='$vid' AND group_id='$gid'");
+				$this->update_group_videos_count($gid);
 				e(lang("class_vdo_act_msg1"),"m");
 			}
 			break;

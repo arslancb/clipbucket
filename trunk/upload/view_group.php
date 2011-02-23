@@ -26,6 +26,7 @@ if($details)
 		$Cbucket->show_page = false;
 	else
 	{
+		assign('isviewable',$shouldView);
 		//Joining Group
 		if($_GET['join'])
 			$cbgroup->join_group($details['group_id'],userid());
