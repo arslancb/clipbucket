@@ -592,7 +592,7 @@ var loading = loading_img+" Loading...";
 		//First we will get all values of form_id and then serialize them
 		//so we can forward details to ajax.php
 		
-		var formObjectData = $('#'+form_id).serialize();
+		var formObjectData = $('#'+form_id).serialize()+'&mode=add_comment';
 		
 		$.post(page,formObjectData,
 		function(data)

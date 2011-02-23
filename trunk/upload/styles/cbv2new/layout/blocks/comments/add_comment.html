@@ -7,7 +7,7 @@
 <form name="comment_form" method="post" action="" id="comment_form">
 	<input type="hidden" name="reply_to" id="reply_to" value="0">
     <input type="hidden" name="obj_id" id="obj_id" value="{$id}">
-	<input type="hidden" name="mode" value="add_comment">
+	
 	{if !$userquery->login_check('',true) && $Cbucket->configs.anonym_comments == 'yes'}
     <label for="name" class="label">{lang code='name'}</label>
     <br>
