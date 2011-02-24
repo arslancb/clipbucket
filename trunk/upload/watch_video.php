@@ -44,6 +44,7 @@ $video_cat = $v_cat[1].$v_cat[2];}
 $vid_cat = str_replace('%#%','',$video_cat);
 assign('vid_cat',$vid_cat);
 
+
 //Displaying The Template
 template_files('watch_video.html');
 display_it();

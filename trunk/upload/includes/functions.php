@@ -2008,6 +2008,7 @@
 			$duration = $stats['output_duration'];
 			if(!$duration)
 				$duration = $stats['duration'];
+				
 			$db->update(tbl("video"),array("status","duration","failed_reason"),
 			array('Failed',$duration,$failed_status)," file_name='".$file_name."'");
 		}
@@ -3401,7 +3402,7 @@
 		$unix_date         = strtotime($date);
 	   
 		   // check validity of date
-		if(empty($unix_date)) {   
+		if(empty($unix_date)  || $unix_date<1) {   
 			return lang("bad_date");
 		}
 	

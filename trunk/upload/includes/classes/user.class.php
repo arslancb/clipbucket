@@ -1193,13 +1193,16 @@ class userquery extends CBCategory{
 		global $db;
 		if(!$count)
 		{
-			$result = $db->select(tbl($this->dbtbl['subtbl']),"*"," subscribed_to='$id' ");
+			$result = $db->select(tbl('subscriptions'),"*",
+			" subscribed_to='$id' ");
 			if($db->num_rows>0)
 				return $result;
 			else
 				return false;	
 		}else
+		{
 			return $db->count(tbl($this->dbtbl['subtbl']),"subscription_id"," subscribed_to='$id' ");
+		}
 	}
 	
 	/**
@@ -4817,6 +4820,77 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 			return false;
 		else
 			return true;
+	}
+	
+	
+	/**
+	 * Function used to get list of subscribed users and then
+	 * send subscription email
+	 */
+	function sendSubscriptionEmail($vidDetails,$updateStatus=true)
+	{
+		global $cbemail,$db;
+		$v = $vidDetails;
+		if(!$v['videoid'])
+		{
+			e(lang("invalid_videoid"));
+			return false;
+		}
+		
+		if(!$v['userid'])
+		{
+			e(lang("invalid_userid"));
+			return false;
+		}
+		
+		//Lets get the list of subscribers 
+		$subscribers = $this->get_user_subscribers_detail($v['userid'],false);	
+		//Now lets get details of our uploader bhai saab
+		$uploader = $this->get_user_details($v['userid']);
+		//Loading subscription email template
+		$tpl = $cbemail->get_template('video_subscription_email');
+		
+		$total_subscribers = count($subscribers);
+		if($subscribers)
+		foreach($subscribers as $subscriber)
+		{
+			$var = $this->custom_subscription_email_vars;
+			
+			$more_var = array
+			('{username}'	=> $subscriber['username'],
+			 '{uploader}'		=> $uploader['username'],
+			 '{video_title}' => $v['title'],
+			 '{video_description}' => $v['description'],
+			 '{video_link}' => video_link($v),
+			 '{video_thumb}' => get_thumb($v),
+			);
+			if(!is_array($var))
+				$var = array();
+			$var = array_merge($more_var,$var);
+			$subj = $cbemail->replace($tpl['email_template_subject'],$var);
+			$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
+			
+			//Now Finally Sending Email
+			
+			cbmail(array('to'=>$subscriber['email'],'from'=>WELCOME_EMAIL,'subject'=>$subj,'content'=>$msg));
+			
+		}
+		
+		if($total_subscribers)
+		{
+			//Updating video subscription email status to sent
+			if($updateStatus)
+			$db->update(tbl('video'),array('subscription_email'),array('sent')," videoid='".$v['videoid']."'");
+			$s = "";
+			if($total_subscribers>1)
+				$s = "s";
+			e(sprintf(lang('subs_email_sent_to_users'),$total_subscribers,$s),"m");
+			return true;
+		}
+		
+		e(lang("no_user_subscribed_to_uploader"));
+		
+		return true;
 	}
 
 }

@@ -31,6 +31,7 @@ if($db->num_rows > 0)
 	assign('topusers',$result);
 */		
 
+
 $userquery->load_user_fields($_POST);
 
 //Displaying The Template

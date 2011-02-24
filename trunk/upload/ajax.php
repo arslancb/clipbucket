@@ -1307,7 +1307,7 @@ if(!empty($mode))
 			Template('blocks/pagination.html');
 		}
 		break;
-		
+
 		default:
 		header('location:'.BASEURL);
 		

@@ -54,7 +54,10 @@ foreach($files as $file)
 		$db->update(tbl("conversion_queue"),
 					array("cqueue_conversion","time_completed"),
 					array("yes",time())," cqueue_id = '".$file['cqueue_id']."'");
+		
+				
 		update_processed_video($file,'Successful');
+		
 		
 		/**
 		 * Calling Functions after converting Video
@@ -67,6 +70,18 @@ foreach($files as $file)
 					$func($file_details);
 			}
 		}
+		
+		//Sending Subscription Emails
+		$videoDetails = $cbvideo->get_video($file['cqueue_name'],true);
+		if($videoDetails)
+		{
+			if($videoDetails['broadcast']=='public' || 
+				$videoDetails['logged'] && 
+					$videoDetails['active']=='yes')
+			{
+				$userquery->sendSubscriptionEmail($videoDetails,true);
+			}
+		}			
 	}
 }
 ?>

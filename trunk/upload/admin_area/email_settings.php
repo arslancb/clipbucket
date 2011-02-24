@@ -16,10 +16,12 @@ $pages->page_redir();
 //Updatingg email templates
 if(isset($_POST['update']))
 {
-	for($i=0;$i<count($_POST['template_id']);$i++)
+	$templates = $cbemail->get_templates();
+	
+	foreach($templates as $template)
 	{
-		$params = array('id'=>$_POST['template_id'][$i],'subj'=>$_POST['subject'][$i],
-						'msg'=>$_POST['message'][$i]);   
+		$params = array('id'=>$template['email_template_id'],'subj'=>$_POST['subject'.$template['email_template_id']],
+						'msg'=>$_POST['message'.$template['email_template_id']]);   
 		$cbemail->update_template($params);
 		$eh->flush();
 		e("Email templates have been updated","m");

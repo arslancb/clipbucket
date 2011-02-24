@@ -82,13 +82,20 @@ class CBvideo extends CBCategory
 	/**
 	 * Function used to get video data
 	 */
-	function get_video($vid)
+	function get_video($vid,$file=false)
 	{
 		global $db;
-		if(is_numeric($vid))
-			$results = $db->select(tbl("video,users"),tbl("video.*,users.userid,users.username"),tbl("video.videoid='$vid'")." AND ".tbl("video.userid=").tbl("users.userid"));
-		else
-			$results = $db->select(tbl("video,users"),tbl("video.*,users.userid,users.username"),tbl("video.videokey='$vid'")." AND ".tbl("video.userid=").tbl("users.userid"));
+		
+		if(!$file)
+		{
+			if(is_numeric($vid))
+				$results = $db->select(tbl("video,users"),tbl("video.*,users.userid,users.username"),tbl("video.videoid='$vid'")." AND ".tbl("video.userid=").tbl("users.userid"));
+			else
+				$results = $db->select(tbl("video,users"),tbl("video.*,users.userid,users.username"),tbl("video.videokey='$vid'")." AND ".tbl("video.userid=").tbl("users.userid"));
+		}else
+		{
+			$results = $db->select(tbl("video,users"),tbl("video.*,users.userid,users.username"),tbl("video.file_name='$vid'")." AND ".tbl("video.userid=").tbl("users.userid"));
+		}
 			
 		if($db->num_rows>0)
 		{
@@ -108,7 +115,7 @@ class CBvideo extends CBCategory
 	 */
 	function action($case,$vid)
 	{
-		global $db;
+		global $db,$eh;
 		$video = $this->get_video_details($vid);
 		 
 		if(!$video)
@@ -142,6 +149,19 @@ class CBvideo extends CBCategory
 					
 					//Now Finally Sending Email
 					cbmail(array('to'=>$user_fields['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+				}
+				
+				
+				if(($video['broadcast']=='public' || $video['broadcast'] =="logged")
+					&& $video['subscription_email']=='pending')
+				{
+					//Sending Subscription email in background
+					if (stristr(PHP_OS, 'WIN'))
+					{
+						exec(php_path()." -q ".BASEDIR."/actions/send_subscription_email.php $vid ");
+					} else {
+						exec(php_path()." -q ".BASEDIR."/actions/send_subscription_email.php $vid &> /dev/null &");
+					}
 				}
 			}
 			break;
