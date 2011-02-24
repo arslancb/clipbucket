@@ -65,9 +65,7 @@ flowplayer("the_Video_Player", {ldelim}"src":"{$pak_player_url}/pakplayer{if $Cb
 			background: "url("+pakplayer_path+"/bg.png) repeat",
 			url: "pakplayer.controls.swf"
 			{/if}
-			{literal}
-		},
-		
+					
 		{if $youtube}
 		{rdelim},
 		youtube :
@@ -78,7 +76,7 @@ flowplayer("the_Video_Player", {ldelim}"src":"{$pak_player_url}/pakplayer{if $Cb
 		}
 		{/literal}
 		{else}
-		{rdelim}  // Take this you shitty IE7
+		{rdelim} // Take this you shitty IE7
 		{/if}
 		{literal}
 
