@@ -13,7 +13,7 @@ var normal_video_file = '{$normal_vid_file}';
 var ytcode = '{$ytcode}';
 var pre_item = "";
 var next_item = "";
-var splash_img = '{getThumb vdetails=$vdata num='big'}';
+var splash_img = '{getThumb vdetails=$vdata num="big"}';
 
 {literal}
 //Now lets write an HQ video function that swaps the original video with hq
@@ -47,7 +47,7 @@ hq_function = pakplayer_hq;
 {/literal}
 var bufferingStopped = false;
 var menu = new Array("menu","embed/share","settings/playlist","comments","donate"); 
-flowplayer("the_Video_Player", "{$pak_player_url}/pakplayer{if $Cbucket->configs.pak_license}.unlimited{/if}.swf", 
+flowplayer("the_Video_Player", {ldelim}"src":"{$pak_player_url}/pakplayer{if $Cbucket->configs.pak_license}.unlimited{/if}.swf","wmode":"transparent"{rdelim}, 
 	{literal}{{/literal}
 	{if $Cbucket->configs.pak_license}
 	key : '{$Cbucket->configs.pak_license}',	
@@ -68,8 +68,8 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pakplayer{if $Cbucket->configs
 			{literal}
 		},
 		
-		{/literal}
 		{if $youtube}
+		{rdelim},
 		youtube :
 		{literal}
 		{
@@ -77,12 +77,16 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pakplayer{if $Cbucket->configs
 			enableGdata: true
 		}
 		{/literal}
+		{else}
+		{rdelim}  // Take this you shitty IE7
 		{/if}
 		{literal}
 
 	},
 	canvas: {
-    backgroundGradient: "none",
+	backgroundColor: '#000000',  // For some reason we have define this :|
+	backgroundGradient : 'none',
+	background : '#000000 url('+splash_img+') no-repeat 50pct 50pct'
   }
 ,
 
@@ -105,7 +109,11 @@ flowplayer("the_Video_Player", "{$pak_player_url}/pakplayer{if $Cbucket->configs
 		{/if}
 		
 		{literal}
-				
+		onStart : function()
+		{
+			// Removing background image
+			 this.getPlugin("canvas").css({ "background" : "#000000"})
+		},
 		onLastSecond: function()
 		{
 			if(next_item)
