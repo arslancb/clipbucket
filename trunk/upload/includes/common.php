@@ -124,6 +124,7 @@ if(!@$in_bg_cron)
 	$LANG = $lang_obj->lang_phrases('file');
 	
 	
+	//Setting Time Zone date_default_timezone_set()
 	
 	require_once('classes/search.class.php');
 	
@@ -150,6 +151,7 @@ if(!@$in_bg_cron)
 	require_once('classes/collections.class.php');
 	require_once('classes/photos.class.php');
 	require_once('classes/menuhandler.class.php');
+	require_once('classes/cbfeeds.class.php');
 	
 	//Adding Gravatar
 	require_once('classes/gravatar.class.php');
@@ -181,6 +183,8 @@ if(!@$in_bg_cron)
 	$cbindex	= new CBreindex();
 	$cbcollection = new Collections();
 	$cbphoto    = new CBPhotos();
+	
+	$cbfeeds 	= new cbfeeds();
 //	$cbmenu		= new MenuHandler();
 	check_install('after');
 	require 'defined_links.php';
@@ -354,6 +358,12 @@ if(phpversion() < '5.2.0')
 	define('COMM_CACHE_DIR',CACHE_DIR.'/comments');
 	define('COMM_CACHE_TIME',1000) ; //in seconds
 	
+	//User Feeds
+	define("USER_FEEDS_DIR",CACHE_DIR.'/userfeeds');
+	
+	//Number of activity feeds to display on channel page
+	define("USER_ACTIVITY_FEEDS_LIMIT",15);
+	
 	//SETTING PHOTO SETTING
 	$cbphoto->thumb_width = $row['photo_thumb_width'];
 	$cbphoto->thumb_height = $row['photo_thumb_height'];
@@ -499,6 +509,7 @@ $Smarty->assign_by_ref('cbpage',$cbpage);
 $Smarty->assign_by_ref('cbemail',$cbemail);
 $Smarty->assign_by_ref('cbcollection',$cbcollection);
 $Smarty->assign_by_ref('cbphoto',$cbphoto);
+$Smarty->assign_by_ref('cbfeeds',$cbfeeds);
 //$Smarty->assign_by_ref('cbmenu',$cbmenu);
 /*
 REGISERTING FUNCTION FOR SMARTY TEMPLATES

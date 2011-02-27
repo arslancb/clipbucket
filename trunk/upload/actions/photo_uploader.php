@@ -156,6 +156,7 @@ switch($mode)
 		if(move_uploaded_file($_FILES[$form]['tmp_name'],$path.$filename.".".$extension))
 		{
 			echo json_encode(array("success"=>"yes","filename"=>$filename,"extension"=>$extension));
+			
 		} else {	
 			upload_error("File could not be saved.");
 			exit(0);	

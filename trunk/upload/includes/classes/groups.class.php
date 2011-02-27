@@ -100,7 +100,7 @@ class CBGroups extends CBCategory
 	 * @param = $userid { ID of user who is going to Join Group }
 	 * @param = $gpid { ID of group which is being joined }
 	 */
-	function join_group($gpid,$userid) {
+	function join_group($gpid,$userid,$createFeed=true) {
 		
 		global $db;
 		
@@ -127,6 +127,10 @@ class CBGroups extends CBCategory
 			
 			//Count total members
 			$total_members = $this->total_members($gpid);
+			
+			//Adding Feed
+			if($createFeed)
+			addFeed(array('action'=>'join_group','object_id' => $gpid,'object'=>'group','userid'=>$userid));
 			
 			//Update Stats
 			$db->update(tbl($this->gp_tbl),
@@ -396,14 +400,21 @@ class CBGroups extends CBCategory
 			$insert_id = $db->insert_id();
 			//Owner Joiing Group
 			ignore_errors();
-			$this->join_group($insert_id,$user);
+			
+			$this->join_group($insert_id,$user,false);
 			//Updating User Total Groups
 			$this->update_user_total_groups($user);
+			
+			//Adding Feed
+			addFeed(array('action'=>'create_group','object_id' => $insert_id,'object'=>'group'));
+			
 			if($redirect_to_group)
 			{
 				$grp_details = $this->get_details($insert_id);
 				redirect_to(group_link(array('details'=>$grp_details) ));
 			}
+			
+			
 			
 			//loggin Upload
 			$log_array = array

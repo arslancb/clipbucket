@@ -96,7 +96,9 @@
         
         <div class="clearfix channelBox" style="border:1px solid #ccc; padding:0px;">
         	<ul class="channelBar clearfix">
-            	<li><a href="#" class="selected" rel="infoDIV" onClick="channelObjects(this,'#channelDetailsBox','info','{$u.userid}'); return false;">{lang code='info'}</a></li>
+            	<li><a href="#" rel="userFeeds" id="userFeedTab" onClick="channelObjects(this,'#channelDetailsBox','feeds','{$u.userid}'); return false;">{lang code='activity'}</a></li>
+                
+            	<li><a href="#" rel="infoDIV"  id="infoTab" onClick="channelObjects(this,'#channelDetailsBox','info','{$u.userid}'); return false;">{lang code='info'}</a></li>
                 {if isSectionEnabled('videos')}
                 <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','videos','{$u.userid}'); return false;">{lang code='videos'}</a></li>{/if}
                 {if isSectionEnabled('groups')}
@@ -105,7 +107,7 @@
                 <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','photos','{$u.userid}'); return false;">{lang code='photos'}</a></li>{/if}
             </ul>
             <div id="channelDetailsBox">
-            <div id="infoDIV" class="channelInnerPadding clearfix">
+            	<div id="infoDIV" class="channelInnerPadding clearfix" style="display:none">
             
             <fieldset class="channelFieldset">
             	<div style="width:500px; float:left; margin-right:10px; padding-right:10px;border-right:1px solid #999">
@@ -214,6 +216,23 @@
             </fieldset>
             
             </div>
+            	
+                
+                {if isSectionEnabled('feeds')}
+                <div id="userFeeds"  class="channelInnerPadding clearfix" style="display:none">
+                	{assign var=userFeeds value=$cbfeeds->getUserFeeds($u)}
+                    
+                    {if $userFeeds}
+                        {foreach from=$userFeeds item=userFeed}
+                            {include file="$style_dir/blocks/feed.html" feed=$userFeed}
+                        {/foreach}
+                    {else}
+                        <div align="center" class="no_comments">
+                            {lang code='no_activity' assign=no_activity} {$no_activity|sprintf:$u.username}
+                        </div>
+                    {/if}
+                </div>
+                {/if}
             </div>
             <div class="borderLine clearfix" style=" border-width:1px; margin:0px 0px 15px;"></div>
 			
@@ -224,8 +243,13 @@
 
 <div id="comments"></div>
 <script>
-	$(document).ready(function()
+	$(document).ready(function()	
 	{ldelim}
+		{if isSectionEnabled('feeds')}
+			channelObjects('#userFeedTab','#channelDetailsBox','feeds','{$u.userid}');
+		{else}
+			channelObjects('#infoTab','#channelDetailsBox','info','{$u.userid}');
+		{/if}
 		
 		{if $p.show_my_photo=='no' || $p.show_my_photos!='yes' }
 			var viewingAreaParent = $('#viewingArea').parent().parent().width();	

@@ -304,7 +304,7 @@ class CBvideo extends CBCategory
 					$query_val[] = $array['status'];
 				}
 				
-				if(!empty($array['duration']))
+				if(!empty($array['duration']) && is_numeric($array['duration']) && $array['duration']>0)
 				{
 					$query_field[] = 'duration';
 					$query_val[] = $array['duration'];

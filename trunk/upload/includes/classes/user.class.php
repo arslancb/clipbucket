@@ -854,6 +854,9 @@ class userquery extends CBCategory{
 			e(lang("friend_confirm_error"));
 		}else
 		{
+			addFeed(array('action' => 'add_friend','object_id' => $rid,'object'=>'friend','uid'=>$uid));
+			addFeed(array('action' => 'add_friend','object_id' => $uid,'object'=>'friend','uid'=>$rid));
+			
 			$db->insert(tbl($this->dbtbl['contacts']),array('userid','contact_userid','date_added','request_type','confirmed'),
 												 array($uid,$rid,now(),'in','yes'));
 			$db->update(tbl($this->dbtbl['contacts']),array('confirmed'),array("yes")," userid='$rid' AND contact_userid='$uid' " );
@@ -3284,6 +3287,10 @@ class userquery extends CBCategory{
 			 
 			//Login Signup
 			insert_log('signup',$log_array);
+			
+			
+			//Adding User has Signup Feed
+			addFeed(array('action' => 'signup','object_id' => $insert_id,'object'=>'signup','uid'=>$insert_id));
 			
 			return $insert_id;
 		}

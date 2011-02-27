@@ -75,8 +75,8 @@ foreach($files as $file)
 		$videoDetails = $cbvideo->get_video($file['cqueue_name'],true);
 		if($videoDetails)
 		{
-			if($videoDetails['broadcast']=='public' || 
-				$videoDetails['logged'] && 
+			if( ($videoDetails['broadcast']=='public' || 
+				$videoDetails['logged']) && 
 					$videoDetails['active']=='yes')
 			{
 				$userquery->sendSubscriptionEmail($videoDetails,true);

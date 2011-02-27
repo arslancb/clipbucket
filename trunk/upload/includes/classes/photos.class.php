@@ -1224,6 +1224,10 @@ class CBPhotos
 			$eh->flush();
 			e(sprintf(lang("photo_is_saved_now"),$photo['photo_title']),"m");
 			$db->update(tbl("users"),array("total_photos"),array("|f|total_photos+1")," userid='".$userid."'");
+			
+			//Adding Photo Feed
+			addFeed(array('action' => 'upload_photo','object_id' => $insert_id,'object'=>'photo'));
+			
 			return $insert_id;
 		}
 	}

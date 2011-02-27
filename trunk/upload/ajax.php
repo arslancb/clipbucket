@@ -1307,7 +1307,23 @@ if(!empty($mode))
 			Template('blocks/pagination.html');
 		}
 		break;
-
+		
+		case "delete_feed":
+		{
+			$uid = mysql_clean($_POST['uid']);
+			$file = mysql_clean($_POST['file']);
+			if($uid && $file)
+			{
+				if($uid==userid() || has_access("admin_access",true))
+				{
+					$cbfeeds->deleteFeed($uid,$file);
+					$array['msg'] = lang("feed_has_been_deleted");
+				}else
+					$array['err'] = lang("you_cant_del_this_feed");
+			}
+			echo json_encode($array);
+		}
+		break;
 		default:
 		header('location:'.BASEURL);
 		

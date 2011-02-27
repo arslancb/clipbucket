@@ -3389,7 +3389,7 @@
 	 * a past date and a future date. 
 	 * thanks to yasmary at gmail dot com
 	 */
-	function nicetime($date)
+	function nicetime($date,$istime=false)
 	{
 		if(empty($date)) {
 			return lang('no_date_provided');
@@ -3399,7 +3399,11 @@
 		$lengths         = array(lang("60"),lang("60"),lang("24"),lang("7"),lang("4.35"),lang("12"),lang("10"));
 	   
 		$now             = time();
+		
+		if(!$istime)
 		$unix_date         = strtotime($date);
+	    else
+	   $unix_date         = $date;
 	   
 		   // check validity of date
 		if(empty($unix_date)  || $unix_date<1) {   
@@ -5222,5 +5226,95 @@
 			return true;
 		else
 			return false;
+	}
+	
+	
+	/**
+	 * Function used to create user feed
+	 * this function simple takes ID as input
+	 * and do the rest seemlessli ;)
+	 */
+	function addFeed($array)
+	{
+		global $cbfeeds,$cbphoto,$userquery;
+		
+		$action = $array['action'];
+		if($array['uid'])
+			$userid = $array['uid'];
+		else
+			$userid = userid();
+			
+		switch($action)
+		{
+			case "upload_photo":
+			{
+
+				$feed['action'] = 'upload_photo';
+				$feed['object'] = 'photo';
+				$feed['object_id'] = $array['object_id'];		
+				$feed['uid'] = $userid;;
+				
+				$cbfeeds->addFeed($feed);
+			}
+			break;
+			case "upload_video":
+			case "add_favorite":
+			{
+
+				$feed['action'] = $action;
+				$feed['object'] = 'video';
+				$feed['object_id'] = $array['object_id'];		
+				$feed['uid'] = $userid;
+				
+				$cbfeeds->addFeed($feed);
+			}
+			break;
+			
+			case "signup":
+			{
+
+				$feed['action'] = 'signup';
+				$feed['object'] = 'signup';
+				$feed['object_id'] = $array['object_id'];		
+				$feed['uid'] =  $userid;;
+				
+				$cbfeeds->addFeed($feed);
+			}
+			break;
+			
+			case "create_group":
+			case "join_group":
+			{
+				$feed['action'] = $action;
+				$feed['object'] = 'group';
+				$feed['object_id'] = $array['object_id'];		
+				$feed['uid'] = $userid;
+				
+				$cbfeeds->addFeed($feed);
+			}
+			break;
+			
+			case "add_friend":
+			{
+				$feed['action'] = 'add_friend';
+				$feed['object'] = 'friend';
+				$feed['object_id'] = $array['object_id'];		
+				$feed['uid'] = $userid;
+				
+				$cbfeeds->addFeed($feed);
+			}
+			break;
+			
+			case "add_collection":
+			{
+				$feed['action'] = 'add_collection';
+				$feed['object'] = 'collection';
+				$feed['object_id'] = $array['object_id'];		
+				$feed['uid'] = $userid;
+				
+				$cbfeeds->addFeed($feed);
+			}
+			
+		}
 	}
 ?>

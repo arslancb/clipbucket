@@ -224,6 +224,8 @@ class Upload{
 			
 		}
 		
+		//Adding Video Feed
+		addFeed(array('action' => 'upload_video','object_id' => $insert_id,'object'=>'video'));;
 		return $insert_id;
 				
 	}

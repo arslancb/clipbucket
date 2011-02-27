@@ -114,6 +114,7 @@ class cbactions
 				if(!$this->fav_check($id))
 				{
 					$db->insert(tbl($this->fav_tbl),array('type','id','userid','date_added'),array($this->type,$id,userid(),NOW()));
+					addFeed(array('action'=>'add_favorite','object_id' => $id,'object'=>'video'));
 					
 					//Loggin Favorite			
 					$log_array = array
