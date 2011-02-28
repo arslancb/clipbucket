@@ -256,14 +256,17 @@
 			var viewingAreaParent = $('#viewingArea').parent().parent().width();	
 			$('#viewingArea') .width(viewingAreaParent-180)	
 		{/if}
+		
+		{if $myquery->is_commentable($p,'u')}
 		comments_voting = 'no';	
 		getComments('c','{$u.userid}','{$u.last_commented}',1,'{$u.comments_count}','{$object_type}')
+		{/if}
 	{rdelim}
 	);
 </script>
 <hr width="100%" size="1" noshade>
             
-             {if $myquery->is_commentable($p,'u')}
+            {if $myquery->is_commentable($p,'u')}
                 {include file="$style_dir/blocks/comments/add_comment.html" id=$u.userid type=c}
 			{else}
     			<div class="disable_msg" align="center">{lang code='coments_disabled_profile'}</div>
