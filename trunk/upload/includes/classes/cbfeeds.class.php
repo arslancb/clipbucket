@@ -42,6 +42,8 @@ class cbfeeds
 	 */
 	function addFeed($feed)
 	{
+		if(!isSectionEnabled('feeds'))
+			return false;
 		global $userquery;
 		$uid = $feed['uid'];
 		

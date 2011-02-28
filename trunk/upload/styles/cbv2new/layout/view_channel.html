@@ -96,8 +96,9 @@
         
         <div class="clearfix channelBox" style="border:1px solid #ccc; padding:0px;">
         	<ul class="channelBar clearfix">
+            	{if isSectionEnabled('feeds')}
             	<li><a href="#" rel="userFeeds" id="userFeedTab" onClick="channelObjects(this,'#channelDetailsBox','feeds','{$u.userid}'); return false;">{lang code='activity'}</a></li>
-                
+                {/if}
             	<li><a href="#" rel="infoDIV"  id="infoTab" onClick="channelObjects(this,'#channelDetailsBox','info','{$u.userid}'); return false;">{lang code='info'}</a></li>
                 {if isSectionEnabled('videos')}
                 <li><a href="#" onClick="channelObjects(this,'#channelDetailsBox','videos','{$u.userid}'); return false;">{lang code='videos'}</a></li>{/if}
