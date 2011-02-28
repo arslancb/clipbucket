@@ -1311,7 +1311,7 @@ if(!empty($mode))
 		case "delete_feed":
 		{
 			$uid = mysql_clean($_POST['uid']);
-			$file = mysql_clean($_POST['file']);
+			$file = mysql_clean($_POST['file']).'.feed';
 			if($uid && $file)
 			{
 				if($uid==userid() || has_access("admin_access",true))
