@@ -1715,7 +1715,9 @@ class CBGroups extends CBCategory
 			{
 				if($this->is_owner($group))
 				{
-					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage&gid_delete='.$group['group_id'].'">'.lang('grp_remove_group').'</a>';
+					$gpID = $group['group_id']; $message = lang('are_you_sure_del_grp');
+					$url = BASEURL.'/manage_groups.php?mode=manage&gid_delete='.$gpID;
+					return "<a href='javascript:void(0)' id='delete_group-".$gpID."' onmousedown='delete_item(\"delete_group\",\"$gpID\",\"$message\",\"$url\")'>".lang('grp_remove_group')."</a>";
 				}
 			}
 			break;

@@ -897,6 +897,22 @@
 			else
 				return BASEURL.'/view_group_videos.php?url='.$url;
 		}
+		
+		if($params['type'] == 'view_topics')
+		{
+			if(SEO == "yes")
+				return BASEURL."/group/".$url."?mode=view_topics";
+			else
+				return BASEURL."/view_group.php?url=".$url."&mode=view_topics";		
+		}
+		
+		if($params['type'] == 'view_report_form')
+		{
+			if(SEO == "yes")
+				return BASEURL."/group/".$url."?mode=view_report_form";
+			else
+				return BASEURL."/view_group.php?url=".$url."&mode=view_report_form";	
+		}
 	}
 	
 	/**
