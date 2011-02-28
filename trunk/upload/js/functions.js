@@ -145,6 +145,8 @@ var loading = loading_img+" Loading...";
 				  {"getForm":"get_form","title":$("#remote_file_url").val(),"objId":remoteObjID},
 				  function(data)
 				  {
+					    $('#remoteUploadBttnStop').hide();
+						$('#ytUploadBttn').hide();
 						$('#remoteForm').append(data);
 							$('#cbSubmitUpload'+remoteObjID)
 							.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
@@ -210,12 +212,12 @@ var loading = loading_img+" Loading...";
 					  {
 							$('#remoteForm').append(data);
 							$('#cbSubmitUpload'+remoteObjID)
-					.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
-					.attr("disabled","")
-					.attr("value",lang.saveData)
-					.attr("onClick","doUpdateVideo('#uploadForm"+remoteObjID+"','"+remoteObjID+"')")
-					.after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
-					.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
+							.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
+							.attr("disabled","")
+							.attr("value",lang.saveData)
+							.attr("onClick","doUpdateVideo('#uploadForm"+remoteObjID+"','"+remoteObjID+"')")
+							.after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
+							.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
 					
 					  },'text');
 					  

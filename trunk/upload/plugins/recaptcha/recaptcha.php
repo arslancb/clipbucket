@@ -23,7 +23,7 @@ $resp = null;
 # the error code from reCAPTCHA, if any
 $error = null;
 
-function cbRecaptcha(){ global $publickey, $privatekey, $error; return recaptcha_get_html($publickey, $error); }
+function cbRecaptcha(){ global $publickey, $privatekey, $error; return recaptcha_get_html($publickey, $error);}
 
 function validateCbRecaptcha($val=NULL)
 {
