@@ -227,6 +227,23 @@ $(document).ready(function(){
           >No</option>
               </select></td>
             </tr>
+			<tr>
+              <td>Collpase Category Checkboxes</td>
+              <td><select name="show_collapsed_checkboxes" id="show_collapsed_checkboxes">
+                <option value="1"
+       {if $row.show_collapsed_checkboxes == 1}
+        selected="selected"
+      {/if}
+        >Yes</option>
+                <option value="0"
+        {if $row.show_collapsed_checkboxes == 0}
+          selected="selected"
+          {/if}
+          >No</option>
+              </select>
+               <span class="smallText" style="font-size:11px;">If selected <strong>YES</strong>, Categories shown while uploading <strong>video</strong> will be collapsed.</span>
+              </td>
+            </tr>            
             <tr>
               <td>&nbsp;</td>
               <td>&nbsp;</td>

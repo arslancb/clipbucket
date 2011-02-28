@@ -2703,6 +2703,12 @@
 				&& $vdo['userid']!=$uid){
 			e(lang('private_video_error'));
 			return false;
+		}elseif($vdo['active'] == 'pen'){
+				e(lang("video_in_pending_list"));
+				if(has_access('admin_access',TRUE) || $vdo['userid'] == userid())
+					return true;
+				else
+					return false;
 		}elseif($vdo['broadcast']=='logged' 
 				&& !userid()
 				&& !has_access('video_moderation',true) 
@@ -2733,6 +2739,7 @@
 		else
 		{
 			$funcs = cb_get_functions('watch_video');
+			
 			if($funcs)
 			foreach($funcs as $func)
 			{
@@ -4952,7 +4959,7 @@
 		
 		$preUrl = preg_replace(array("/(\&{2,10})/","/\?\&/"),array("&","?"),$preUrl);
 		
-		return $preUrl.$var;		
+		return $preUrl.$var;
 	}
 	
 	
@@ -5118,7 +5125,7 @@
 	/**
 	 * JSON_DECODE short
 	 */
-	function jd($in){ return json_decode($in); }
+	function jd($in,$returnClass=false){ if(!$returnClass) return  json_decode($in,true); else return  json_decode($in); }
 	
 	
 	/**
@@ -5226,8 +5233,39 @@
 			return true;
 		else
 			return false;
-	}
-	
+	}	
+	/**
+	 * Function used display privacy in text
+	 * according to provided number
+	 * 0 - Public
+	 * 1 - Protected
+	 * 2 - Private
+	 */
+	 function getGroupPrivacy($privacyID)
+	 {
+			{
+				switch($privacyID)
+				{
+					case "0": default:
+					{
+						return lang("group_is_public");
+					}
+					break;
+					
+					case "1":
+					{
+						return lang("group_is_protected");
+					}
+					break;
+					
+					case "2":
+					{
+						return lang("group_is_private");
+					}
+					break;
+				}
+			}
+	 }	
 	
 	/**
 	 * Function used to create user feed

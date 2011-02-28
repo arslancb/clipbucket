@@ -42,7 +42,6 @@
 
 {if $display_type=='add_type'}
 <div class="vertical">
-<div class="the_vid_container">
     <div class="video_thumb">
     	{ANCHOR place='in_video_thumb' data=$video}
         <label for="check_video_{$video.videoid}"><img src="{getThumb vdetails=$video}" width="110" height="66" border="0"  /></label>
@@ -63,7 +62,7 @@
         </div> <!--LVL1 END-->
         
         <div class="lvl2 clearfix">
-            <div class="desc">{$video.description|description|truncate:100}</div>
+            <div class="desc">{$video.description|description|strip_tags|truncate:100}</div>
             <div class="length">Time: <span>{$video.duration|SetTime:false}</span></div>
         </div> <!--LVL2 END-->
         
@@ -80,9 +79,7 @@
             
     </div> <!--DETAILS_BLOCK END-->
     <div class="clearfix"></div>
- </div> 
-</div>
-    
+ </div>  
 {if $only_once}
     <div class="clearfix"></div>
 {/if}

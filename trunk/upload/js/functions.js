@@ -382,14 +382,13 @@ var loading = loading_img+" Loading...";
 	
 	function submit_share_form(form_id,type)
 	{
-		
 		$("#share_form_results").css("display","block");
 		$("#share_form_results").html(loading);
 		$.post(page, 
 		{ 	
 			mode : 'share_object',
 			type : type,
-			users : $("#"+form_id+" input:#users").val(),
+			users : $("#"+form_id+" input:#ShareUsers").val(),
 			message : $("#"+form_id+" textarea:#message").val(),
 			id : $("#"+form_id+" input:#objectid").val()
 		},
@@ -1244,18 +1243,23 @@ function showAdvanceSearch(simple,advance,expandClass,collapseClass)
 	$('.'+expandClass).toggleClass(collapseClass);
 }
 
-function toggleCategory(object)
+function toggleCategory(object,perPage)
 {
 	var obj = $(object), childTarget = obj.attr('alt'), child = $("#"+childTarget),
 		childparts = childTarget.split("_"), childID = childparts[0];
-		
+	var browser = $.browser.msie; var browserVersion = $.browser.version;
+	
 	if(child.css('display') == "none")
 	{
 		child.slideDown(350);
+		if(browser && browserVersion == "7.0")
+			child.addClass('internetExplorer7CategoryToggleFix');
 		$.cookie(childID,'expanded',{ expires: 1, path: '/' });
 		obj.removeClass('none').addClass('block');	
 	} else {
 		child.slideUp(350);
+		if(browser && browserVersion == "7.0")
+			child.removeClass('internetExplorer7CategoryToggleFix');		
 		$.cookie(childID,'collapsed',{ expires: 1, path: '/' });
 		obj.removeClass('block').addClass('none');		
 	}
@@ -1379,8 +1383,6 @@ function checkUncheckAll(theElement) {
      }
     }
 	
-	
-	
 /**
  * Function used to rate object
  */
@@ -1401,4 +1403,72 @@ function rate(id,rating,type)
 		else
 			$("#rating_container").html(data);
 	},'text');
+}
+
+function setPageHash(Page)
+{
+	// Removing baseurl
+	var hashPart = Page.replace(baseurl,"");
+	var prevHash = window.location.hash.replace("#!",'');
+	//alert(hashPart+"       "+prevHash);
+    {
+		window.location.hash = "#!"+hashPart;
+	}
+	
+}
+
+function callURLParser()
+{
+	var expression = /(\#![/a-zA-Z0-9=\.\&\-\_\?]*)/g,
+		   location = window.location.href,
+		   returned = location.match(expression),
+		   lastVisited;
+	if(returned)
+	{
+		lastVisited = returned[returned.length - 1];	   
+		if(lastVisited)
+			window.location.href = baseurl+lastVisited.replace("#!",'');	
+	}
+}
+
+function groupsAjax(event,selector,divSelector)
+{
+	event.preventDefault(); // prevent from redirecting to URL
+	var ajaxPage, onLink = false, PreserveHTML, ParentTag, DIV;
+	if(divSelector == undefined)
+		divSelector = "ajaxGroupResultContainer";
+	if(selector.href) // Means function is on link
+	{
+		ajaxPage = selector.href;
+		onLink = true;
+		jqueryObj = $(selector);
+		javaObj = selector;	
+	} else {
+		ajaxPage = selector.childNodes[0].href;
+		jqueryObj = $(selector.childNodes[0]);
+		javaObj = selector.childNodes[0];	
+	}
+	if(ajaxPage == "undefined") {
+		alert("URL not found"); 
+		return false;
+	} else {
+		PreserveHTML = jqueryObj.html();
+		setPageHash(ajaxPage);
+		//return false;
+		if(onLink == true) {
+			ParentTag = jqueryObj.parent().parent();
+			ParentTag.children().filter('.selected').removeClass('selected');
+			jqueryObj.parent().addClass('selected');
+		} else {
+			ParentTag = jqueryObj.parent();
+			ParentTag.children().filter('.selected').removeClass('selected');
+			jqueryObj.addClass('selected');
+		}
+		jqueryObj.html(loading_img);
+		$("#"+divSelector).load(ajaxPage+" #"+divSelector+"",function(response, status, xhr){
+				jqueryObj.html(PreserveHTML);
+				if(document.getElementById('flag_item'))
+					$('#flag_item').show();	
+		});
+	}
 }

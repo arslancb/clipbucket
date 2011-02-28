@@ -34,6 +34,7 @@ else
 
 	$array = array('user'=>userid(),'limit'=>$get_limit);
 	$usr_vids = get_videos($array);
+	//echo $db->db_query;
 	assign('usr_vids',$usr_vids);
 	
 	$array['count_only'] = true;

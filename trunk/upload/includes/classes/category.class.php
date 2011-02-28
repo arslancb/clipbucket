@@ -277,10 +277,8 @@ abstract class CBCategory
 			if(array_key_exists($catID,$_COOKIE))
 			{
 				$property = $_COOKIE[$catID];
-				if($property == "expanded")
-					$display = "block";
-				if($property == "collapsed")
-					$display = "none";		
+				if($property == "expanded")$display = "block";
+				if($property == "collapsed")$display = "none";		
 			} else {
 				$display = "none";	
 			}	

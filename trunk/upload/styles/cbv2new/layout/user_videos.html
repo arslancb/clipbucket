@@ -1,3 +1,4 @@
+{lang code='channel' assign='object_type'}
 {include file="$style_dir/global_header.html"}
 <body>
 {include file="$style_dir/blocks/view_channel/channel_global.html" }
@@ -18,13 +19,6 @@
             <div class="clearfix"></div>
             {include file="$style_dir/blocks/pagination.html"}       
         </div>
-     </div> <!-- this is right side -->
-</div> <!-- container end -->
-<div class="clearfix" style="height:10px"></div>
-<div id="footer" class="clearfix" style="margin-top:0px;">
-    <div class="footer">
-        &copy; {$title} {$smarty.now|date_format:"%Y"}
-    </div>
-</div> 
+</div>
 </body>
 </html>

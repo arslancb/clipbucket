@@ -115,9 +115,9 @@
                 	{assign var=users_items_group_page value=func->config(users_items_group_page)}
                 	{assign var=members value=$cbgroup->get_members($group.group_id,"yes",$users_items_group_page)}
                     {if $members}
-                    {foreach from=$members item=member}
-						{include file="$style_dir/blocks/user.html" user=$member block_type='medium'}
-                    {/foreach}
+                        {foreach from=$members item=member}
+                            {include file="$style_dir/blocks/user.html" user=$member block_type='medium'}
+                        {/foreach}
                     {/if}
                     <div class="clear"></div>
                     <div align="right"><a href="{group_link details=$group type='view_members'}">{lang code='view_all_mems'}</a></div>

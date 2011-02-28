@@ -1636,10 +1636,13 @@ class userquery extends CBCategory{
 	 * @param : level_id
 	 * @param : count BOOLEAN (if TRUE it will return NUMBERS)
 	 */
-	function get_level_users($id,$count=FALSE)
+	function get_level_users($id,$count=FALSE,$fields="level")
 	{
 		global $db;
-		$results = $db->select(tbl("users"),"level"," level='$id'");
+		if($fields == "all")
+			$fields = "*";
+			
+		$results = $db->select(tbl("users"),$fields," level='$id'");
 		if($db->num_rows>0)
 		{
 			if($count)

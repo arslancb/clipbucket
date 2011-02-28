@@ -30,23 +30,23 @@ if($type!='videos')
 else
 {
 	$child_ids = array();
-	
-	foreach($_GET['category'] as $category)
-	{
-		$childs = $cbvid->get_sub_categories(mysql_clean($category));
-		if($childs)
-		foreach($childs as $child)
+	if($_GET['category'])
+		foreach($_GET['category'] as $category)
 		{
-			$child_ids[] = $child['category_id'];
-			$subchilds = $childs = $cbvid->get_sub_categories($child['category_id']);
-			if($subchilds)
-			foreach($subchilds as $subchild)
+			$childs = $cbvid->get_sub_categories(mysql_clean($category));
+			if($childs)
+			foreach($childs as $child)
 			{
-				$child_ids[] = $subchild['category_id'];
+				$child_ids[] = $child['category_id'];
+				$subchilds = $childs = $cbvid->get_sub_categories($child['category_id']);
+				if($subchilds)
+				foreach($subchilds as $subchild)
+				{
+					$child_ids[] = $subchild['category_id'];
+				}
 			}
+			$child_ids[] = mysql_clean($category);	
 		}
-		$child_ids[] = mysql_clean($category);	
-	}
 	
 	$search->category = $child_ids;
 }
@@ -54,7 +54,7 @@ $search->date_margin = mysql_clean($_GET['datemargin']);
 $search->sort_by = mysql_clean($_GET['sort']);
 $search->limit = create_query_limit($page,$search->results_per_page);
 $results = $search->search();
-
+//echo $db->db_query;
 //Collecting Data for Pagination
 $total_rows = $search->total_results;
 $total_pages = count_pages($total_rows,$search->results_per_page);

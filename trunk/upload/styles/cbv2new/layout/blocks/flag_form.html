@@ -1,5 +1,5 @@
 <!-- Flag This {$type} -->
-<div id="flag_item" class="action_box" style="display:none">
+<div id="flag_item" class="action_box" style="display:{if $display}{$display}{else}none{/if}">
 	<div class="action_box_title">Flag this {$params.type} &#8212; <span class="cancel"><a href="javascript:void(0)" onclick="$('#flag_item').slideUp();">cancel</a></span></div>
     <div class="form_container" align="center">
     

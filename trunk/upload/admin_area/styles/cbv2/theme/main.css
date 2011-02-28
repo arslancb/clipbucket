@@ -8,7 +8,7 @@ body,html {background-color:#fff; margin:0px; padding:0px; font-family:Verdana; 
 
 /* CLEARS */
 .clearfix { }
-.clearfix:after{ content: "."; display:block; height:0; font-size:0; clear:both; visibility:visible; }
+.clearfix:after{ content: "."; display:block; height:0; font-size:0; clear:both; visibility:hidden; }
 
 /* GENERAL CSS */
 a{ color:#0099cc; text-decoration:none; outline:none; }
@@ -312,6 +312,15 @@ li.myAdminList input[disabled=disabled].disabled { font:normal 11px Tahoma; padd
 
 .delTab { font:normal 10px Verdana; background:#eee; border:1px solid white; margin:0px; padding:1px;  color:#333; }
 .delTab:hover { background:#000; border:1px solid white; color:#FFF; cursor:pointer; }
+
+.TabButton:hover .delTab { display:inline-block; }
+
+.uploadCategoryCheckBlock { position:relative; width:200px; }
+.uploadCategoryCheckBlock br { display:none; }
+.CategoryToggler { position:absolute; width:10px; height:10px; top:5px; right:5px; }
+.CategoryToggler.none { background: url(../images/catgory_toggler.png) left top no-repeat; }
+.CategoryToggler.block { background: url(../images/catgory_toggler.png) right top no-repeat; top:5px; }
+.CategoryToggler:hover { cursor:pointer; }
 .TabButton:hover .delTab { display:inline-block; }
 
 

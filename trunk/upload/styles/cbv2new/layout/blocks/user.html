@@ -29,3 +29,9 @@
     	<a href="{$userquery->profile_link($user)}" title="{$user.username}"><img src="{avatar details=$user size='small'}" alt="{$user.username}" style="padding:1px; vertical-align:middle;" /></a>
     </div> <!-- friend_{$user.userid} end -->
 {/if}
+
+{if $block_type == "topic_view"}
+	<div class="topicStarterAvatar moveL">
+		<i class="topicStarterAvatarBG" style="background:url({avatar details=$user }) center no-repeat; width:56px; height:56px;"><a href="{$userquery->profile_link($user)}">{$user.username}</a></i>
+    </div>
+{/if}

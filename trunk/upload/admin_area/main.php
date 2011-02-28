@@ -150,6 +150,7 @@ if(isset($_POST['update'])){
 					'search_list_per_page',
 					'server_friendly_conversion',
 					'support_email',
+					'show_collapsed_checkboxes',
 					
 					'thumb_width',
 					'thumb_height',

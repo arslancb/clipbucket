@@ -140,7 +140,11 @@ class formObj
 			if(is_array($catArray))
 			{
 				$this->multi_cat_id = $this->multi_cat_id + 1;
-				$this->listCategoryCheckBox(array('categories'=>$catArray,'field'=>$field),$multi);
+				$params['categories'] = $catArray;
+				$params['field'] = $field;
+				if(config('show_collapsed_checkboxes') == 1)
+					$params['collapsed'] = true;	
+				$this->listCategoryCheckBox($params,$multi);
 				return false;
 			}else
 				return "There is no category to select";
@@ -193,18 +197,69 @@ class formObj
 		}
 	}
 	
+	function listCategoryCheckBoxCollapsed($in,$multi)
+	{
+		$cats = $in['categories'];
+		$field = $in['field'];
+		$rand = (rand(0,100000));
+		if($field['sep'] == "<br/>")
+			$field['sep'] = "";
+			
+		if(!$multi)
+			$fieldName = $field['name'];
+		else
+		{
+			$fieldName = $field['name'];
+			$fieldName = $this->rmBrackets($fieldName);
+			$fieldName = $fieldName.$multi_cat_id.'[]';
+		}
+		$display = "none";
+		$values = $field['value'][1][0];
+		$Values = array();
+		if(!empty($values))
+			foreach($values as $val)
+				$Values[] = "|".$val."|";
+	
+		if($cats)
+		{
+			$output = "";
+			foreach($cats as $cat)
+			{
+				$checked = "";
+				if(in_array("|".$cat['category_id']."|",$Values))
+					$checked = 'checked';
+				echo "<div class='uploadCategoryCheckBlock' style='position:relative'>";
+				echo $field['sep'];
+				echo '<label><input name="'.$fieldName.'" type="checkbox" value="'.$cat['category_id'].'" '.$field_id.'
+				 '.$checked.' '.$field['extra_tags'].'>'.$cat['category_name'].'</label>';
+				 if($cat['children'])
+				 {
+				 		echo "<span id='".$cat['category_id']."_toggler' alt='".$cat['category_id']."_".$rand."' class='CategoryToggler CheckBoxCategoryToggler ".$display."' style='display:block;' onclick='toggleCategory(this);'>&nbsp;</span>";
+							$childField = $field;
+							$childField['sep'] = $field['sep'].str_repeat('&nbsp;',5); 
+						echo "<div id='".$cat['category_id']."_".$rand."' class='sub_categories sub_categories_checkbox' style='display:".$display."'>";
+							echo 	$this->listCategoryCheckBoxCollapsed(array('categories'=>$cat['children'],'field'=>$childField,'children_indent'=>true),$multi);
+						echo "</div>"; 
+				 }
+				 echo "</div>";
+			}
+		}
+	}
+	
 	//Creating checkbox with indent for cateogry childs
 	function listCategoryCheckBox($in,$multi)
 	{
 		$cats = $in['categories'];
 		$field = $in['field'];
-		
+		//$in['collapsed'] = true;
+		$collapsed = $in['collapsed'];
+		if($collapsed)
+			return $this->listCategoryCheckBoxCollapsed($in,$multi);
 		//setting up the field name
 		if(!$multi)
 			$field_name = $field['name'];
 		else
 		{
-			
 			$field_name = $field['name'];
 			$field_name = $this->rmBrackets($field_name);
 			$field_name = $field_name.$this->multi_cat_id.'[]';

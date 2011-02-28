@@ -20,7 +20,7 @@
 
 ob_start();
 
-define("DEVELOPMENT_MODE",TRUE);
+define("DEVELOPMENT_MODE",FALSE);
 define("DEV_INGNORE_SYNTAX",TRUE);
 
 //Setting Cookie Timeout
@@ -405,7 +405,7 @@ if(phpversion() < '5.2.0')
 	define("ALLOWED_GROUP_CATEGORIES",$row['grp_categories']);
 	define('ALLOWED_VDO_CATS',$row['video_categories']);
 	define('ALLOWED_CATEGORIES',3);
-	
+	$Cbucket->AdminMenu = $Cbucket->LatestAdminMenu();
 	
  	//Assigning Smarty Tags & Values
     Assign('CB_VERSION',CB_VERSION);
@@ -589,7 +589,8 @@ $Smarty->register_modifier('formatfilesize','formatfilesize');
 $Smarty->register_modifier('getWidth','getWidth');
 $Smarty->register_modifier('getHeight','getHeight');
 $Smarty->register_modifier('get_collection_name','get_collection_name');
-
+$Smarty->register_modifier('json_decode','jd');
+$Smarty->register_modifier('getGroupPrivacy','getGroupPrivacy');
 
 assign('updateEmbedCode','updateEmbed');
 /*

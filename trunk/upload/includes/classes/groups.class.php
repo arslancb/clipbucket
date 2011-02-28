@@ -1330,7 +1330,6 @@ class CBGroups extends CBCategory
 			$var = array_merge($more_var,$var);
 			$subj = $cbemail->replace($tpl['email_template_subject'],$var);
 			$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
-			
 			//Now Finally Sending Email
 			cbmail(array('to'=>$reciever['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));		
 		}
@@ -1343,7 +1342,7 @@ class CBGroups extends CBCategory
 	{
 		global $eh;
 		$total = count($user_array);
-		for($i=0;$i<=$total;$i++)
+		for($i=0;$i<$total;$i++)
 		{
 			$this->invite_member($user_array[$i],$group,$owner);
 		}

@@ -89,7 +89,7 @@ class ClipBucket
 		
 		
 		//This is used to create Admin Menu
-		$this->AdminMenu = $this->get_admin_menu();
+		//$this->AdminMenu = $this->get_admin_menu();
 
 		//Updating Upload Options		
 		$this->temp_exts = array('ahz','jhz','abc','xyz','cb2','tmp','olo','oar','ozz');
@@ -298,6 +298,68 @@ class ClipBucket
 		  
 		  return $menu_array;
 	  }	 
+
+	function LatestAdminMenu()
+	{
+			global $userquery;
+			$per = $userquery->get_user_level($_SESSION['userid']);
+			if($per['web_config_access'] == "yes")
+				$NewMenu[ 'Stats And Configurations'] = array(
+													'Reports &amp; Stats'=>'reports.php',
+													'Website Configurations'=>'main.php',
+													'Email Settings'=>'email_settings.php',
+													'Language Settings' => 'language_settings.php',
+													'Add New Phrases'	=> 'add_phrase.php',
+													'Manage Pages'	=> 'manage_pages.php',
+													'Manage Comments' => 'comments.php'
+													);
+			if($per['video_moderation'] == "yes")
+				$NewMenu['Videos'	] =  array(
+													'Videos Manager'=>'video_manager.php',
+													'Manage Categories'=>'category.php',
+													'List Flagged Videos'=>'flagged_videos.php',
+													'Upload Videos'	=>'mass_uploader.php',
+													'List Inactive Videos'=>'video_manager.php?search=search&active=no'
+													);	
+			if($per['member_moderation'] == "yes")
+				$NewMenu['Users'] = array(
+													 'Manage Members' => 'members.php',
+													 'Add Member'=>'add_member.php',
+													 'Manage categories' => 'user_category.php',
+													 'User Levels'=>'user_levels.php',
+													 'Search Members'=>'members.php?view=search',
+													 'Inactive Only'=>'members.php?search=yes&status=ToActivate',
+													 'Active Only'=>'members.php?search=yes&status=Ok',
+													 'Reported Users'=>'flagged_users.php',
+													 'Mass Email'=>'mass_email.php'
+													);	
+			if($per['group_moderation'] == "yes")
+				$NewMenu['Groups'] = array('Add Group'=>'add_group.php',
+				 'Manage Groups'=>'groups_manager.php',
+				 'Manage Categories'=>'group_category.php?view=show_category',
+				 'View Inactive Groups' => 'groups_manager.php?active=no&search=yes',
+				 'View Reported Groups' => 'flagged_groups.php');
+				 
+			if($per['ad_manager_access'] == "yes")
+				$NewMenu['Advertisement'] = 			   array(
+				  'Manage Advertisments'=>'ads_manager.php',
+				  'Manage Placements'=>'ads_add_placements.php'
+				);
+			if($per['manage_template_access'] == "yes")
+				$NewMenu['Templates And Players'] = array(	'Templates Manager'=>'templates.php',
+				 'Templates Editor'=>'template_editor.php',
+				 'Players Manager' => 'manage_players.php',
+				 'Player Settings' => 'manage_players.php?mode=show_settings');	
+			$NewMenu['Plugin Manager'] = array('Plugin Manager'=>'plugin_manager.php');
+			$NewMenu['Tool Box'] = array(				 'PHP Info'	=> 'phpinfo.php',
+				 'Server Modules Info'	=> 'cb_mod_check.php',
+				 'Conversion Queue Manager'	=> 'cb_conversion_queue.php',
+				 'ReIndexer'	=> 'reindex_cb.php',
+				 'Conversion Lab &alpha;'	=> 'conversion_lab.php',
+				 'Repair video duration'	=> 'repair_vid_duration.php');
+
+			return $NewMenu;	 				  																																		
+	}	 
 	
 	/**
 	 * Function used to assign ClipBucket configurations

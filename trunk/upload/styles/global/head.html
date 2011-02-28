@@ -28,8 +28,9 @@ function updateEmbed(width,height,autoplay)
  {/foreach}
 {/foreach}
 <!-- Including JS Files-->
-
-
+<script type="text/javascript">
+	callURLParser();
+</script>
 <!-- Including Plugin Headers -->
 {foreach key=file item=type from=$Cbucket->header_files}
 	{include_header file=$file type=$type}
@@ -452,6 +453,7 @@ $(document).ready(function() {
     <meta property="og:image" content="{getThumb vdetails=$vdo}" />
     <meta name="medium" content="video" />
 {/if}
+
 {if $object.photo_id}
 <meta property="og:title" content="{$object.photo_title}" />
 <meta property="og:description" content="{$object.photo_description|description}" />

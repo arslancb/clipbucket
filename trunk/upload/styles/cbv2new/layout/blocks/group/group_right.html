@@ -1,0 +1,29 @@
+<div class="groupRightSide">	
+	<div class="channelLegend clearfix">{lang code="members"}</div>
+    <div class="channelBox clearfix">
+        {assign var=users_items_group_page value=func->config(users_items_group_page)}
+        {assign var=members value=$cbgroup->get_members($group.group_id,"yes",$users_items_group_page)}
+        {if $members}
+            {foreach from=$members item=member}
+                {include file="$style_dir/blocks/user.html" user=$member block_type='friends'}
+            {/foreach}
+        {/if}
+    </div>
+    <div style="height:10px;"></div>
+	<div class="channelLegend clearfix">{lang code="Links"}</div>
+    <ul class="channel_action_links channelBox clearfix">
+        {assign var=join_link value=$cbgroup->group_opt_link($group,'join')}
+        {if $join_link}<li>{$join_link}</li>{/if}
+        
+        {assign var=invite_link value=$cbgroup->group_opt_link($group,'invite')}
+        {if $invite_link}<li onClick="groupsAjax(event,this);">{$invite_link}</li>{/if}
+        
+        {assign var=leave_link value=$cbgroup->group_opt_link($group,'leave')}
+        {if $leave_link}<li>{$leave_link}</li>{/if}
+        {if isSectionEnabled('videos')}
+        
+        {assign var=add_videos_link value=$cbgroup->group_opt_link($group,'add_videos')}
+        {if $add_videos_link}<li>{$add_videos_link}</li>{/if}
+        {/if}                    
+    </ul>   
+</div>
