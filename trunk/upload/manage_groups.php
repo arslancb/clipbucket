@@ -46,10 +46,23 @@ switch($mode)
 		$gid = mysql_clean($_GET['gid']);
 		$gdetails = $cbgroup->get_group_details($gid);
 		
-		if(userid()!=$gdetails['userid'] && !has_access('admin_access',true))
+		$gArray = 
+		array
+		(
+			'group' => $gdetails,
+			'groupid'	=> $gid,
+			'uid'	=> userid(),
+			'user'	=> $userquery->udetails,
+			'checkowner' => 'yes'
+		);
+		
+		if(!$cbgroup->is_admin($gArray) && !has_access('admin_access',true))
 			e(lang("you_cant_moderate_group"));
 		else
 		{
+			//assign querystring
+			$queryString = queryString(NULL,array('make_admin','remove_admin'));
+			assign('queryString',$queryString);
 			//Activating Member Members
 			if(isset($_POST['activate_pending']))
 			{
@@ -82,6 +95,31 @@ switch($mode)
 				}
 			
 			}
+
+			
+			//Making Admin
+			if($_GET['make_admin'])
+			{
+				$uid = mysql_clean($_GET['make_admin']);
+				$cbgroup->make_admin(array('groupid'=>$gid,'group'=>$gdetails,'uid'=>$uid));
+				if(!error())
+				{
+					$makeAdmins[$uid] = 'yes';
+					assign('makeAdmins',$makeAdmins);
+				}
+			}
+			
+			//Remove Admin
+			if($_GET['remove_admin'])
+			{
+				$uid = mysql_clean($_GET['remove_admin']);
+				$cbgroup->remove_admin(array('groupid'=>$gid,'group'=>$gdetails,'uid'=>$uid));
+				if(!error())
+				{
+					$rmAdmins[$uid] = 'yes';
+					assign('rmAdmins',$rmAdmins);
+				}
+			}
 			
 			if($gdetails)
 			{
@@ -101,7 +139,17 @@ switch($mode)
 		$gid = mysql_clean($_GET['gid']);
 		$gdetails = $cbgroup->get_group_details($gid);
 		
-		if(userid()!=$gdetails['userid'] && !has_access('admin_access',true))
+		$gArray = 
+		array
+		(
+			'group' => $gdetails,
+			'groupid'	=> $gid,
+			'uid'	=> userid(),
+			'user'	=> $userquery->udetails,
+			'checkowner' => 'yes'
+		);
+		
+		if(!$cbgroup->is_admin($gArray) && !has_access('admin_access',true))
 			e(lang("you_cant_moderate_group"));
 		else
 		{

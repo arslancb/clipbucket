@@ -1675,6 +1675,16 @@ class CBGroups extends CBCategory
 	 */
 	function group_opt_link($group,$type)
 	{
+		global $userquery;
+		$gArray = 
+		array
+		(
+			'group' => $group,
+			'groupid'	=> $group['group_id'],
+			'uid'	=> userid(),
+			'user'	=> $userquery->udetails,
+			'checkowner' => 'yes'
+		);
 		switch($type)
 		{
 			case 'join':
@@ -1724,7 +1734,8 @@ class CBGroups extends CBCategory
 			
 			case 'manage_members':
 			{
-				if($this->is_owner($group))
+				
+				if($this->is_admin($gArray))
 				{
 					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage_members&gid='.$group['group_id'].'">'.lang('grp_manage_mems').'</a>';
 				}
@@ -1733,7 +1744,7 @@ class CBGroups extends CBCategory
 			
 			case 'manage_videos':
 			{
-				if($this->is_owner($group))
+				if($this->is_admin($gArray))
 				{
 					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage_videos&gid='.$group['group_id'].'">'.lang('com_manage_vids').'</a>';
 				}
@@ -1752,7 +1763,7 @@ class CBGroups extends CBCategory
 			
 			case 'edit_group':
 			{
-				if($this->is_owner($group))
+				if($this->is_admin($gArray))
 				{
 					return '<a href="'.BASEURL.'/edit_group.php?gid='.$group['group_id'].'">'.lang('grp_edit_grp_title').'</a>';
 				}
@@ -2199,7 +2210,7 @@ class CBGroups extends CBCategory
 	function make_admin($array){ return $this->makeAdmin($array);}
 	function makeAdmin($array)
 	{
-		global $userquery;
+		global $userquery,$db;
 		extract($array);
 		if(!@$groupid)
 			e(lang('Unknown group'));
@@ -2220,9 +2231,9 @@ class CBGroups extends CBCategory
 		if(!$user)
 			e(lang("Unknown user"));		
 		
-		if(!$this->is_member($userid,$groupid))
-			e(sprintf(lang("%s is not a member of %s"),$user['username'],$group['group_name']));
-		elseif(!$this->is_active_member($userid,$groupid))
+		//if(!$this->is_member($uid,$groupid))
+		//	e(sprintf(lang("%s is not a member of %s"),$user['username'],$group['group_name']));
+		if(!$this->is_active_member($uid,$groupid))
 			e(sprintf(lang("%s is not active member of %s"),$user['username'],$group['group_name']));
 				
 			
@@ -2230,7 +2241,7 @@ class CBGroups extends CBCategory
 		$this->is_admin(array(
 		'group'=>$group,
 			'groupid'=>$groupid,
-				'userid'=>$userid,
+				'uid'=>$uid,
 					'user'=>$user,
 						'error'=>true,
 							'checkowner'=>true));
@@ -2238,13 +2249,13 @@ class CBGroups extends CBCategory
 		if(!error())
 		{
 			$groupAdmins = $group['group_admins'];
-			$groupAdmins = json_encode($groupAdmins,true);
-			$groupAdmins[] = $userid;
-			$groupAdmins = json_decode($groupAdmins);
+			$groupAdmins = json_decode($groupAdmins,true);
+			$groupAdmins[] = $uid;
+			$groupAdmins = json_encode($groupAdmins);
 			
 			$db->update(tbl("groups"),array("group_admins"),
-			array($groupAdmins)," group_id='".$groupid."'");
-			e(sprintf(lang("%s has been made adminstrator of %s"),$user['username'],$group['group_name']));
+			array('|no_mc|'.$groupAdmins)," group_id='".$groupid."'");
+			e(sprintf(lang("%s has been made adminstrator of %s"),$user['username'],$group['group_name']),"m");
 			return true;
 		}
 		
@@ -2285,14 +2296,14 @@ class CBGroups extends CBCategory
 		
 		//Moving group admins into an array
 		$groupAdmins = $group['group_admins'];
-		$groupAdmins = json_encode($groupAdmins,true);
+		$groupAdmins = json_decode($groupAdmins,true);
 		
-		if($group['userid']==$uid && $checkowner)
+		if($group['userid']== $uid && $checkowner)
 		{
 			if(@$error)
 			e(sprintf(lang('%s is owner of %s'),$user['username'],$group['group_name']));
 			return true;
-		}elseif(in_array($uid,$groupAdmins))
+		}elseif(@in_array($uid,$groupAdmins))
 		{
 			if(@$error)
 			e(sprintf(lang('%s is admin of %s'),$user['username'],$group['group_name']));
@@ -2306,9 +2317,10 @@ class CBGroups extends CBCategory
 	/**
 	 * Removing admin from group
 	 */
+	function remove_admin($array){ return $this->removeAdmin($array);}
 	function removeAdmin($array)
 	{
-		global $userquery;
+		global $userquery,$db;
 		extract($array);
 		if(!@$groupid)
 			e(lang('Unknown group'));
@@ -2326,7 +2338,7 @@ class CBGroups extends CBCategory
 		
 		if(!$group)
 			e(lang("Unknown group"));
-		if(!$user)
+		if(!$uid)
 			e(lang("Unknown user"));
 			
 				
@@ -2334,7 +2346,7 @@ class CBGroups extends CBCategory
 		if(!$this->is_admin(array(
 			'group'=>$group,
 			'groupid'=>$groupid,
-			'userid'=>$userid,
+			'uid'=>$uid,
 			'user'=>$user)))
 		{
 			e(sprintf(lang('%s is not admin of %s'),$user['username'],$group['group_name']));
@@ -2342,16 +2354,16 @@ class CBGroups extends CBCategory
 		}else
 		{
 			$groupAdmins = $group['group_admins'];
-			$groupAdmins = json_encode($groupAdmins,true);
+			$groupAdmins = json_decode($groupAdmins,true);
 			$newAdmins = array();
 			foreach($groupAdmins as $gadmin)
-				if($gadmin!=$userid)
-					$newAdmins[] = $userid;
+				if($gadmin!=$uid)
+					$newAdmins[] = $gadmin;
 			
-			$groupAdmins = json_decode($newAdmins);
+			$groupAdmins = json_encode($newAdmins);
 			$db->update(tbl("groups"),array("group_admins"),
-			array($groupAdmins)," group_id='".$groupid."'");
-			e(sprintf(lang("%s has been removed from adminstrators of %s"),$user['username'],$group['group_name']));
+			array('|no_mc|'.$groupAdmins)," group_id='".$groupid."'");
+			e(sprintf(lang("%s has been removed from adminstrators of %s"),$user['username'],$group['group_name']),"m");
 			return true;
 			
 		}			
@@ -2360,4 +2372,12 @@ class CBGroups extends CBCategory
 	
 	
 }
+
+function isGroupAdmin($array){ global $cbgroup; $return = $cbgroup->is_admin($array); 
+if($array['assign']) assign($array['assign'],$return); else return $return;}
+function removeGroupAdmin($array){ global $cbgroup; $return = $cbgroup->removeAdmin($array); 
+if($array['assign']) assign($array['assign'],$return); else return $return;}
+function makeGroupAdmin($array){ global $cbgroup; $return = $cbgroup->make_admin($array);
+if($array['assign']) assign($array['assign'],$return); else return $return; }
+
 ?>

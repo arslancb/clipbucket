@@ -20,7 +20,17 @@ $gid = mysql_clean($_GET['gid']);
 //get group details
 $gdetails = $cbgroup->get_group_details($gid);
 
-if($gdetails['userid'] != userid())
+$gArray = 
+		array
+		(
+			'group' => $gdetails,
+			'groupid'	=> $gid,
+			'uid'	=> userid(),
+			'user'	=> $userquery->udetails,
+			'checkowner' => 'yes'
+		);
+		
+if(!$cbgroup->is_admin($gArray) && !has_access('admin_access',true))
 {
 	e(lang("you_cant_edit_group"));
 	$Cbucket->show_page = false;

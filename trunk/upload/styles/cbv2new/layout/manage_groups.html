@@ -170,6 +170,17 @@
           </tr>
         </table>
     {section name=amems loop=$gp_mems}
+    	{assign var=makeAdmin value='no'}
+        {assign var=removeAdmin value='no'}
+    	{isGroupAdmin assign=isAdmin group=$group gid=$group.group_id user=$gp_mems[amems] uid=$gp_mems[amems].userid
+        	assign=isGroupAdmin checkowner=true}
+        {if !$isGroupAdmin}
+        	{assign var=makeAdmin value='yes'}
+        {/if}
+        {if $group.userid != $gp_mems[amems].userid && $isGroupAdmin} 
+            {assign var=removeAdmin value='yes'}
+        {/if}
+        
     	{include file="$style_dir/blocks/manage/account_user.html" user=$gp_mems[amems] status='active'}
     {/section}
     </form>

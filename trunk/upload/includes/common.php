@@ -567,6 +567,10 @@ $Smarty->register_function('getComments','getSmartyComments');
 
 $Smarty->register_function('cbMenu','cbMenu');
 
+$Smarty->register_function('makeGroupAdmin','makeGroupAdmin');
+$Smarty->register_function('removeGroupAdmin','removeGroupAdmin');
+$Smarty->register_function('isGroupAdmin','isGroupAdmin');
+
 $Smarty->register_modifier('SetTime','SetTime');
 $Smarty->register_modifier('getname','getname');
 $Smarty->register_modifier('getext','getext');
