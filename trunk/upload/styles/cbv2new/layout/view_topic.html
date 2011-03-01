@@ -8,7 +8,7 @@
     <div style="padding:0px 5px">
 	<ul class="groupsBar clearfix" style="border-color:#aaa; border-width:0px 0px 1px;">
     	<li  {if $mode == "" || $mode == "main"}class="selected"{/if}><a href="{group_link details=$group}" onClick="groupsAjax(event,this);" id="gpViewInfo"><img src="{$imageurl}/dot.gif" class="blueDoc"/> {lang code="info"}</a></li>
-        <li {if $mode == "view_topics"}class="selected"{/if}><a href="{group_link details=$group}?mode=view_topics" onClick="groupsAjax(event,this);" id="gpViewTopics"><img src="{$imageurl}/dot.gif" class="ballonBox"/> {lang code="grp_topics_title"}</a></li>
+        <li {if $mode == "view_topics"}class="selected"{/if}><a href="{group_link details=$group type=view_topics}" onClick="groupsAjax(event,this);" id="gpViewTopics"><img src="{$imageurl}/dot.gif" class="ballonBox"/> {lang code="grp_topics_title"}</a></li>
         <li {if $mode == "view_members"}class="selected"{/if}><a href="{group_link details=$group type='view_members'}" id="gpAllMembers" onClick="groupsAjax(event,this);"><img src="{$imageurl}/dot.gif" class="blackUser"/>  {lang code="members"}</a></li>
         <li {if $mode == "view_videos"}class="selected"{/if}><a href="{group_link details=$group type='view_videos'}" id="gpAllVideos" onClick="groupsAjax(event,this);"><img src="{$imageurl}/dot.gif" class="camCorder"/>  {lang code="videos"}</a></li>
         <li {if $mode == "view_report_form"}class="selected"{/if}><a href="{group_link details=$group}?mode=view_report_form" onClick="groupsAjax(event,this);" id="gpAllReport"><img src="{$imageurl}/dot.gif" class="redShield"/>  Report</a></li>

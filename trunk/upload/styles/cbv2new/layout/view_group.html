@@ -103,7 +103,7 @@
         
         {if $mode == "view_topics"}
         	<div class="groupSep"><span class="SepText">{lang code="group"} {lang code="grp_topics_title"} - <a href="#" onclick="$('#groupAddNewTopic').toggle();return false;" style="text-decoration:none;">{lang code="grp_add_new_topic"}</a></span></div>
-            <div id="groupAddNewTopic" style="display:none">
+            <div id="groupAddNewTopic"  {if $smarty.post.add_topic && error()}{else}style="display:none"{/if}>
             	{include file="$style_dir/blocks/group/add_topic.html"}
             </div>
         	{include file="$style_dir/blocks/group/group_topics.html" group=$group}

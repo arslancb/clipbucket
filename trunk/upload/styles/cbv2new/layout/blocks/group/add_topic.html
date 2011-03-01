@@ -1,5 +1,5 @@
 <div class="add_topic_container">
-  <form name="form1" method="post" action="{group_link details=$group}" class="topic_form">
+  <form name="form1" method="post" action="{group_link details=$group type=view_topics}" class="topic_form">
     {assign var='form_fields' value=$cbgroup->load_add_topic_form_fields()}
     
     {foreach from=$form_fields item=field}
