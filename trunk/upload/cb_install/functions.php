@@ -120,6 +120,8 @@
 			
 			case "curl":
 			{
+				$version = false;
+				if(function_exists('curl_version'))
 				$version = @curl_version();
 
 				if(!$version)
