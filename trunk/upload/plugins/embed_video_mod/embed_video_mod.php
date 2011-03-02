@@ -172,33 +172,36 @@ if(!function_exists('validate_embed_code'))
 		return $input;
 	}
 	
-	function upload_thumb($array)
+	if(!function_exists('upload_thumb'))
 	{
-		
-		global $file_name,$LANG;
-		
-		//Get File Name
-		$file 		= $array['name'];
-		$ext 		= getExt($file);
-		$image = new ResizeImage();
-		
-		if(!empty($file) && file_exists($array['tmp_name']) &&!error())
+		function upload_thumb($array)
 		{
-			if($image->ValidateImage($array['tmp_name'],$ext)){
-				$file = BASEDIR.'/files/thumbs/'.$_POST['file_name'].'.'.$ext;
-				if(!file_exists($file))
-				{
-					move_uploaded_file($array['tmp_name'],$file);
-					$image->CreateThumb($file,$file,THUMB_WIDTH,$ext,THUMB_HEIGHT,false);
+			
+			global $file_name,$LANG;
+			
+			//Get File Name
+			$file 		= $array['name'];
+			$ext 		= getExt($file);
+			$image = new ResizeImage();
+			
+			if(!empty($file) && file_exists($array['tmp_name']) &&!error())
+			{
+				if($image->ValidateImage($array['tmp_name'],$ext)){
+					$file = BASEDIR.'/files/thumbs/'.$_POST['file_name'].'.'.$ext;
+					if(!file_exists($file))
+					{
+						move_uploaded_file($array['tmp_name'],$file);
+						$image->CreateThumb($file,$file,THUMB_WIDTH,$ext,THUMB_HEIGHT,false);
+					}
+				}else{
+					e(lang('vdo_thumb_up_err'));
 				}
 			}else{
-				e(lang('vdo_thumb_up_err'));
+				return true;
 			}
-		}else{
-			return true;
 		}
 	}
-	
+		
 	
 	/**
 	 * Function used to check embed video
