@@ -95,3 +95,5 @@ DROP  `rated_by` ;
 ALTER TABLE  `cb_user_profile` ADD  `rating` TINYINT( 2 ) NOT NULL AFTER  `profile_item` ,
 ADD  `voters` TEXT NOT NULL AFTER  `rating` ,
 ADD  `rated_by` INT( 150 ) NOT NULL AFTER  `voters`;
+
+ALTER TABLE `cb_comments` CHANGE `date_added` `date_added` DATETIME NOT NULL ;
