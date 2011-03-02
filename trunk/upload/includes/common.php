@@ -405,7 +405,7 @@ if(phpversion() < '5.2.0')
 	define("ALLOWED_GROUP_CATEGORIES",$row['grp_categories']);
 	define('ALLOWED_VDO_CATS',$row['video_categories']);
 	define('ALLOWED_CATEGORIES',3);
-	$Cbucket->AdminMenu = $Cbucket->LatestAdminMenu();
+	$Cbucket->AdminMenu = array_merge($Cbucket->LatestAdminMenu(),$Cbucket->AdminMenu);
 	
  	//Assigning Smarty Tags & Values
     Assign('CB_VERSION',CB_VERSION);
