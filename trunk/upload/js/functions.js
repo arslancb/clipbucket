@@ -785,12 +785,11 @@ var loading = loading_img+" Loading...";
 		},
 		function(data)
 		{
+			data = $.trim(data);
 			if(!data)
 				$("#quicklist_box").css("display","none");
 			else
-			{
-				
-				
+			{			
 					$("#quicklist_box").css("display","block");
 					$("#quicklist_box").html(data);
 					

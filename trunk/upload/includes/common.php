@@ -296,6 +296,8 @@ if(phpversion() < '5.2.0')
 	define("USER_THUMBS_DIR",BASEDIR.'/images/avatars');
 	define("USER_BG_DIR",BASEDIR.'/images/backgrounds');
 	
+	define("ICONS_URL",BASEURL.'/images/icons');
+	
 	define('JS_DIR',BASEDIR.'/js');
 	define('JS_URL',BASEURL.'/js');
 	
@@ -448,6 +450,7 @@ if(phpversion() < '5.2.0')
 	Assign('video_download',$row['video_download']);
 	Assign('video_embed',$row['video_embed']);
 	
+	assign('icons_url',ICONS_URL);
 	
 	
 	
