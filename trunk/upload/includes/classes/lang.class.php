@@ -51,6 +51,7 @@ class language
 	
 		
 		$lang_details = $this->lang_exists($lang);
+
 		if(isset($lang) && $lang_details)
 		{
 			$default = $lang_details ;
@@ -96,6 +97,7 @@ class language
 	function get_phrase($name,$lang_code=NULL)
 	{
 		global $db;
+		
 		
 		if($lang_code!='')
 		{
