@@ -120,9 +120,7 @@ if(!@$in_bg_cron)
 	
 	$userquery 	= new userquery();
 	$lang_obj	= new language;
-	
-	$LANG = $lang_obj->lang_phrases('file');
-	
+		
 	
 	//Setting Time Zone date_default_timezone_set()
 	
@@ -397,6 +395,7 @@ if(phpversion() < '5.2.0')
 	$cbvideo->init();
 	$cbpm->init();
 	$lang_obj->init();
+	$LANG = $lang_obj->lang_phrases('file');
     $thisurl = curPageURL();
 	//Setting Up Group Class
 	$cbgroup->gp_thumb_width = config('grp_thumb_width');
