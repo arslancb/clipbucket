@@ -151,6 +151,7 @@ if(!function_exists('validate_embed_code'))
 		'validate_function'=>'validate_duration',
 		'use_func_val' => true,
 		'display_admin'	=> 'no_display',
+		'use_if_value' => true,
 		
 	 );
 	
