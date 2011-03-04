@@ -2096,11 +2096,15 @@
 	
 	/**
 	 * Function used to get thumbnail number from its name
+	 * Updated: If we provide full path for some reason and 
+	 * web-address has '-' in it, this means our result is messed.
+	 * But we know our number will always be in last index
+	 * So wrap it with end() and problem solved.
 	 */
 	function get_thumb_num($name)
 	{
-		$list = explode('-',$name);
-		$list = explode('.',$list[1]);
+		$list = end(explode('-',$name));
+		$list = explode('.',$list);
 		return  $list[0];
 	}
 	
