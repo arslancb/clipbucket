@@ -1,13 +1,16 @@
 <?php
 define("THIS_PAGE","cb_install");
+include('clipbucket.php');
 
 /**
  * ClipBucket v2.1 Installat Ajax
  */
- 
- include("functions.php");
- 
  $mode = $_POST['mode'];
+ 
+ if($mode!='finish_upgrade')
+ include("functions.php");
+ include("upgradeable.php");
+ 
  
  if($mode=='dataimport')
  {
@@ -212,6 +215,76 @@ define("THIS_PAGE","cb_install");
 		 }
 		
 	 }
+	 
+	 echo json_encode($return);
+ }
+ 
+ if($mode=='finish_upgrade')
+ {
+	 chdir("..");
+	 $configIncluded = true;
+	 require_once 'includes/config.inc.php';
+	 chdir("cb_install");
+	 include("functions.php");
+	 $files = getUpgradeFiles();
+	 
+	 if($files)
+	 {
+		 $step = $_POST['step'];
+		 if($step=='upgrade')
+		 	$index = 0;
+		 else
+		 	$index = $step;
+		
+		$total = count($files);
+		
+		if($index >= $total)
+		{
+			$return['msg'] = '<div class="ok green">Upgrade clipbucket</div>';
+			$return['status'] = 'finalizing upgrade...';
+			$return['step'] = 'forward';
+		}
+		
+		if($index+1 >= $total)
+			$next = 'forward';
+		else
+			$next = $index+1;
+		
+		if($next=='forward')
+			$status = 'finalizing upgrade...';
+		 else
+		 	$status = 'Importing upgrade_'.$files[$next].'.sql';
+		 
+		 $sqlfile = BASEDIR."/cb_install/sql/upgrade_".$files[$index].".sql";
+		 if(file_exists($sqlfile))
+		 {
+			 
+			 $lines = file($sqlfile);
+			 foreach ($lines as $line_num => $line)
+			 {
+				if (substr($line, 0, 2) != '--' && $line != '') 
+				{
+					@$templine .= $line;
+					if (substr(trim($line), -1, 1) == ';') 
+					{
+						@$templine = preg_replace("/{tbl_prefix}/",TABLE_PREFIX,$templine);
+						$templine;
+						mysql_query($templine);
+						$templine = '';
+					}
+				}
+			 }
+		 }
+		 $return['msg'] = '<div class="ok green">upgrade_'.$files[$index].'.sql has been imported</div>';
+		 $return['status'] = $status;
+		 $return['step'] = $next;
+	 
+	 }else
+	 {
+		$return['msg'] = '<div class="ok green">Upgrade clipbucket</div>';
+		$return['status'] = 'finalizing upgrade...';
+		$return['step'] = 'forward';
+	 }	
 	 
 	 echo json_encode($return);
  }

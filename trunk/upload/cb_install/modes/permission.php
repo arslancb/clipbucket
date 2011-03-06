@@ -23,11 +23,15 @@
 
 
 <form name="installation" method="post" id="installation">
-	<input type="hidden" name="mode" value="permission" />
     <div style="padding:10px 0px" align="right">
 	<?=button('Recheck',' onclick="$(\'#mode\').val(\'permission\');
 	 $(\'#installation\').submit()" ',true);?>
      
 	<?=button('Continue To Next Step',' onclick="$(\'#installation\').submit()" ');?></div>
+    
+    <?php if(!$upgrade): ?>
     <input type="hidden" name="mode" value="database"  id="mode"/>
+    <?php else: ?>
+    <input type="hidden" name="mode" value="dataimport"  id="mode"/>
+    <?php endif; ?>
 </form>

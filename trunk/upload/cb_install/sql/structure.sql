@@ -1040,3 +1040,6 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_files` (
 ALTER TABLE `{tbl_prefix}video` ADD `video_password` VARCHAR( 255 ) NOT NULL AFTER `videokey` ;
 ALTER TABLE `{tbl_prefix}video` ADD `video_users` TEXT NOT NULL AFTER `video_password`;
 ALTER TABLE `{tbl_prefix}video` ADD `category_parents` TEXT NOT NULL AFTER `category` ;
+
+ALTER TABLE `{tbl_prefix}_video` ADD `subscription_email` ENUM( "pending", "sent" ) NOT NULL DEFAULT 'pending' AFTER `last_commented` ;
+ALTER TABLE `{tbl_prefix}_groups` ADD `group_admins` TEXT NOT NULL AFTER `userid` ;

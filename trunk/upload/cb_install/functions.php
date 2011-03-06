@@ -1,5 +1,6 @@
 <?php
 	
+	
 	define("BASEDIR",dirname(dirname(__FILE__)));
 	
 	if(!file_exists(BASEDIR.'/files/temp/install.me'))
@@ -200,6 +201,7 @@
 		(
 			'cache',
 			'cache/comments',
+			'cache/userfeeds',
 			'files',
 			'files/conversion_queue',
 			'files/logs',
@@ -257,4 +259,33 @@
 		if($mode==$selected)
 			return "class='selected'";
 	}
+	
+	/**
+	 * Function used to create list of files
+	 * that have to be executed while upgrade
+	 */
+	function getUpgradeFiles()
+	{
+		global $versions,$upgrade;
+		$version = VERSION;
+		$oldVer = $upgrade;
+		if($oldVer)
+		{
+			$total = count($versions);
+			$files = array();
+			
+			$found = false;
+			foreach($versions as $ver)
+			{
+				if($found)
+					$files[] = $ver;
+				if($ver==$oldVer)
+					$found = true;
+			}
+			return $files;
+		}
+		
+		return false;
+	}
+		
 ?>

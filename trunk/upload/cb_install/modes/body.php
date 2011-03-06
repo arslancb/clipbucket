@@ -3,7 +3,7 @@
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>ClipBucket v2.1 Beta Installer</title>
+<title>ClipBucket v<?=VERSION?> <?=STATE?> Installer</title>
 <link href="style.css" rel="stylesheet" type="text/css" />
 <link href='http://fonts.googleapis.com/css?family=Cabin:regular,bold' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
@@ -11,8 +11,10 @@
 </head>
 <body>
 	<div id="head">
-    	<span id="logo"><span style="color:#09c">ClipBucket</span> Installer v2.1 -&beta;eta</span>
+    	<span id="logo"><span style="color:#09c">ClipBucket</span> Installer v<?=VERSION?> - &beta;eta</span>
     </div>
+    
+    <?php if(!$upgrade):?>
 	<div id="header" class="br5px">
     	<ul class="headstatus">
         	<li <?=selected('agreement')?>>Agreement</li>
@@ -26,12 +28,22 @@
         	<li <?=selected('finish')?>>Finish</li>
         </ul>
     </div>
+    <?php else: ?>
+    <div id="header" class="br5px">
+    	<ul class="headstatus">
+        	<li <?=selected('upgrade')?>>Upgrade</li>
+        	<li <?=selected('permission')?>>Permissions</li>
+        	<li <?=selected('dataimport')?>>Data import</li>
+        	<li <?=selected('finish_upgrade')?>>Finish Upgrade</li>
+        </ul>
+    </div>
+    <?php endif; ?>
 	<div id="container" class="br5px">
     	<?php include($mode.'.php'); ?>
     </div>
     
     <div align="center" style="padding-top:10px; color:#999">
-    	Clipbucket 2.1 is an effort of Arslan Hassan, Fawaz Tahir and some great supporters.<br />
+    	Clipbucket <?=VERSION?> is an effort of Arslan Hassan, Fawaz Tahir and some great supporters.<br />
 &copy; Clipbucket2007 - <?=date("Y",time())?> | Code written by Clipbucket &amp; Team
     </div>
     

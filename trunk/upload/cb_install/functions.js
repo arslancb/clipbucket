@@ -38,9 +38,8 @@ function dodatabase(step)
 		if(data.step=='forward')
 		{
 			$('#installation').submit();
-		}
-		
-		if(data.step)
+		}		
+		if(data.step && data.step!='forward')
 			dodatabase(data.step)
 	},"json");
 }
