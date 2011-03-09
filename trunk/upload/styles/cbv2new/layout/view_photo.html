@@ -8,6 +8,7 @@
         href="{$cbphoto->photo_links($nextItem.0,'view_item')}" 
        >{get_photo details=$photo size='l' output='html'}</a></div>        
     </div>
+        {ANCHOR place="video_bookmarks" data=$photo}
     <div style="height:10px;"></div>
     <div class="video_actions_cont clearfix">
         <div class="rating_container">
@@ -75,7 +76,6 @@
 <div style="background:#f3f3f3; border:1px solid #ccc; padding:10px; margin-bottom:5px;">
 	<div class="video_title">{$photo.photo_title}</div>
     <div class="borderLine"></div>
-    {ANCHOR place="video_bookmarks" data=$vdo}
     {$photo.photo_description}
     <div class="borderLine"></div>
     <div style="font:normal 10px Tahoma;">{$photo.photo_tags|tags:photos}</div>
