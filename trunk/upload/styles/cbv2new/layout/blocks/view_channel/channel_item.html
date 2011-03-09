@@ -9,7 +9,7 @@
         <div class="clear"></div>
 		{$object.photo_description|description|truncate:200}<br />
 		<div class="watchMainWindow" align="center">
-        	<a href="{videoLink vdetails=$object}">{lang code='watch_on_photo_page'}</a>
+        	<a href="{$cbphoto->photo_links($object,'view_photo')}">{lang code='watch_on_photo_page'}</a>
         </div>
     </div>
 {/if}
