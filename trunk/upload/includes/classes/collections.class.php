@@ -1207,7 +1207,7 @@ class Collections extends CBCategory
 	/**
 	 * Function used get collection thumb
 	 */
-	function get_thumb($cdetails,$size=NULL,$return_c_thumb=TRUE)
+	function get_thumb($cdetails,$size=NULL,$return_c_thumb=false)
 	{
 		
 		if(is_numeric($cdetails))
@@ -1237,15 +1237,28 @@ class Collections extends CBCategory
 				case "v":
 				{
 					global $cbvideo;
-					return get_thumb($cbvideo->get_video_details($item[0]['object_id']));						
+					$thumb = get_thumb($cbvideo->get_video_details($item[0]['object_id']));						
 				}
 				break;
 				
 				case "p":
 				{
 					global $cbphoto;
-					return $cbphoto->get_image_file($cbphoto->get_photo($item[0]['object_id']));	
+					$thumb = $cbphoto->get_image_file($cbphoto->get_photo($item[0]['object_id']));	
 				}
+			}
+			
+			if($thumb)
+				return $thumb;
+			else
+			{
+				foreach($exts as $ext)
+				{
+					if($size=="small")
+						$s = "-small";
+					if(file_exists(COLLECT_THUMBS_DIR."/".$cid.$s.".".$ext))
+						return COLLECT_THUMBS_URL."/".$cid.$s.".".$ext;	
+				}				
 			}
 		}
 		
@@ -1652,7 +1665,6 @@ class Collections extends CBCategory
 		tbl("collections.collection_id")." = ".tbl("collection_items.collection_id")." AND "
 		.tbl("collection_items.type='".$type."'")." AND ".tbl("collections.userid='".$userid."'")." AND "
 		.tbl("collections.active='yes'")." AND ".tbl("collection_items.object_id='".$objId."'"));
-		
 		
 		if($db->num_rows>0)
 			$assign = $results;
