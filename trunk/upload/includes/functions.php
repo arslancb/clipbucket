@@ -2887,6 +2887,11 @@
 		global $Cbucket;
 		return $Cbucket->add_header($files);
 	}
+	function add_admin_header($files)
+	{
+		global $Cbucket;
+		return $Cbucket->add_admin_header($files);
+	}
 	
 	
 	/**
@@ -5106,7 +5111,7 @@
 				return false;
 		}else
 		{
-			if($section =='yes')
+			if($section =='yes' || THIS_PAGE=='cb_install')
 			{
 				return true;
 			}else

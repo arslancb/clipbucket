@@ -86,15 +86,17 @@ class CBvideo extends CBCategory
 	{
 		global $db;
 		
+		$userFields = "users.userid,users.username,users.avatar,users.avatar_url,users.email";
+		
 		if(!$file)
 		{
 			if(is_numeric($vid))
-				$results = $db->select(tbl("video,users"),tbl("video.*,users.userid,users.username"),tbl("video.videoid='$vid'")." AND ".tbl("video.userid=").tbl("users.userid"));
+				$results = $db->select(tbl("video,users"),tbl("video.*,$userFields"),tbl("video.videoid='$vid'")." AND ".tbl("video.userid=").tbl("users.userid"));
 			else
-				$results = $db->select(tbl("video,users"),tbl("video.*,users.userid,users.username"),tbl("video.videokey='$vid'")." AND ".tbl("video.userid=").tbl("users.userid"));
+				$results = $db->select(tbl("video,users"),tbl("video.*,$userFields"),tbl("video.videokey='$vid'")." AND ".tbl("video.userid=").tbl("users.userid"));
 		}else
 		{
-			$results = $db->select(tbl("video,users"),tbl("video.*,users.userid,users.username"),tbl("video.file_name='$vid'")." AND ".tbl("video.userid=").tbl("users.userid"));
+			$results = $db->select(tbl("video,users"),tbl("video.*,$userFields"),tbl("video.file_name='$vid'")." AND ".tbl("video.userid=").tbl("users.userid"));
 		}
 			
 		if($db->num_rows>0)
