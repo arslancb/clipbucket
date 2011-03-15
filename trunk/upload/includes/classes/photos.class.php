@@ -1785,7 +1785,7 @@ class CBPhotos
 								$img .= " style = '".$p['style']."'";
 							
 							if($p['extra'])
-								$img .= mysql_clean($p['extra']);
+								$img .= ($p['extra']);
 								
 							$img .= " />";
 							

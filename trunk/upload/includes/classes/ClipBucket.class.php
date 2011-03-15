@@ -531,7 +531,7 @@ class ClipBucket
 						
 					$output .= " class = '";
 					if($params['class'])
-						$outout .= $params['class'];
+						$output .= $params['class'];
 					if($selected)
 						$output .= " selected";
 					$output .= "'";

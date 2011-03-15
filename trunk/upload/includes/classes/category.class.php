@@ -147,10 +147,10 @@ abstract class CBCategory
 			$subCategories = TRUE;	
 		} else 
 			$cond = NULL;
-		$orderby = $params['orderby'] ? $params['orderby'] : "category_order";
-		$order = $params['order'] ? $params['order'] : "ASC";
-		
-		$categories = $db->select(tbl($this->cat_tbl),"*",$cond,NULL," $orderby $order");
+		$orderby = $params['orderby'] = $params['orderby'] ? $params['orderby'] : "category_order";
+		$order = $params['order'] = $params['order'] ? $params['order'] : "ASC";
+		$limit = $params['limit'] = $params['limit'] ? (is_numeric($params['limit']) ? $params['limit'] : NULL) : NULL;
+		$categories = $db->select(tbl($this->cat_tbl),"*",$cond,$limit," $orderby $order");
 
 		$finalArray = array();
 		if($params['with_all'])
@@ -172,8 +172,19 @@ abstract class CBCategory
 		if(empty($category_id))
 			return false;
 		{
-			$subCats = $db->select(tbl($this->cat_tbl),"*"," parent_id = '$category_id'");
-
+			$orderby = $params['orderby']; $order = $params['order'];
+			if($params['limit_sub'])
+			{
+				if(is_numeric($params['limit_sub']))
+					$limit = $params['limit_sub'];
+				elseif($params['limit_sub'] == "parent")
+					$limit = $params['limit'];
+				else
+					$limit = NULL;
+			}
+			
+			$subCats = $db->select(tbl($this->cat_tbl),"*"," parent_id = '$category_id'",$limit," $orderby $order");
+			
 			if($subCats)
 			{
 				$subArray = array();
