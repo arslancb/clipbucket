@@ -270,7 +270,37 @@ if(!empty($mode))
 				default:
 				{
 					$id = $_POST['id'];
-					$cbvideo->action->report_it($id);
+					$reported = $cbvideo->action->report_it($id);
+					/*if(!error()){
+						/*  SENDING EMAIL TO ADMIN 
+						$template =  $cbemail->get_template('flag_template');
+						$video = $cbvideo->get_video_details($id);
+						$emailVars = array(
+							"{video_link}" => videoLink($video),
+							"{video_title}" => $video['title'],
+							"{flag_reason}" => flag_type(post('flag_type')),
+							"{type}" => "video"
+						);
+						$admins = $userquery->get_level_users(1,false,'userid,email');
+							$libs =  $userquery->get_level_users(17,false,'userid,email');
+							if($libs)
+								$users = array_merge($admins,$libs);
+							else
+								$users = $admins;	
+						foreach ($users as $user)
+						{
+							if(isValidEmail($user['email']))
+								$emailsArray[] = $user['email'];	
+						}
+						
+						if(!is_array($var))
+							$var = array();
+						$vars = array_merge($emailVars,$var);
+						$subj = $cbemail->replace($template['email_template_subject'],$vars);
+						$msg = nl2br($cbemail->replace($template['email_template'],$vars));
+												
+						cbmail(array('to'=>$emailsArray,'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+					}*/
 				}
 				break;
 				
@@ -1029,6 +1059,12 @@ if(!empty($mode))
 		{
 			$contentType = strtolower(mysql_clean($_POST['content']));
 			$u = $userquery->get_user_details($_POST['user']);
+			$assign = $_POST['assign'];
+			if(is_array($assign))
+			{
+				foreach($assign as $var=>$value)
+					assign($var,$value);	
+			}
 			switch($contentType)
 			{
 				case "videos" :

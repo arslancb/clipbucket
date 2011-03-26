@@ -58,7 +58,7 @@ INSERT into cb_config (name,value) VALUES
 ('collection_items_page','20');
 
 ALTER TABLE `cb_users` ADD `total_photos` BIGINT( 255 ) NOT NULL AFTER `total_comments` ,
-ADD `total_collections` BIGINT( 255 ) NOT NULL AFTER `total_photos`;
+ALTER TABLE  `cb_users` ADD  `total_collections` BIGINT( 255 ) NOT NULL AFTER  `total_photos`;
 
 ALTER TABLE `cb_collections` ADD `rating` BIGINT( 20 ) NOT NULL;
 ALTER TABLE `cb_collections` ADD `rated_by` BIGINT( 20 ) NOT NULL AFTER `rating`  ;

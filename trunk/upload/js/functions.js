@@ -1309,11 +1309,11 @@ function loadObject(currentDOM,type,objID,container)
 	}
 }
 
-function channelObjects(object,div,type,user)
+function channelObjects(object,div,type,user,assign)
 {
 	var obj = $(object), curRel = obj.attr('rel'),
 		DIV = $(div), oldRel = obj.parents('ul').find('a.selected').attr('rel');
-
+	
 	if(curRel)
 	{
 		if($("#"+curRel).css('display') == 'block')
@@ -1333,7 +1333,7 @@ function channelObjects(object,div,type,user)
 		 url : page,
 		 type : "POST",
 		 dataType : "json",
-		 data : ({ mode : "channelObjects", content : type, user : user}),
+		 data : ({ mode : "channelObjects", content : type, user : user, assign : assign}),
 		 beforeSend : function() { obj.append(loading_img) },
 		 success : function(data)
 		 {

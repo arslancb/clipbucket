@@ -1207,7 +1207,7 @@ class CBPhotos
 			$query_field[] = "filename";
 			$query_val[] = $array['filename'];
 						
-			if($array['server_url'])
+			if($array['server_url'] && $array['server_url'] != "undefined")
 			{
 				$query_field[] = "server_url";
 				$query_val[] = $array['server_url'];
@@ -1838,7 +1838,19 @@ class CBPhotos
 		$text = lang('download_photo');
 		if(config('photo_download') == 1 && !empty($p))
 		{	
-			if($params['output'] == "" || $params['output'] == 'link')
+			if($params['return_url'])
+			{
+				$output = $this->photo_links($p,'download_photo');
+				if($params['assign'])
+				{
+					assign($params['assign'],$output);
+					return;
+				}
+				else
+					return $output;		
+			}
+			
+			if($params['output'] == '' || $params['output'] == 'link')
 			{
 				$output .= "<a href='".$this->photo_links($p,'download_photo')."'";
 				if($params['id'])
@@ -1872,7 +1884,10 @@ class CBPhotos
 				$output .= '>'.$text.'</div>';	
 			}
 			
-			echo $output;
+			if($params['assign'])
+				assign($params['assign'],$output);
+			else
+				return $output;
 		}
 	}
 	
@@ -1895,6 +1910,18 @@ class CBPhotos
 		if($details['type'] == 'photos' && $details['userid'] == user_id())
 		{
 			$output = $arr['output'];
+			if($arr['return_url'])
+			{
+				$result = $this->photo_links($details,'upload_more');
+				if($arr['assign'])
+				{
+					assign($arr['assign'],$result);
+					return;
+				}
+				else
+						return $result;
+			}
+			
 			if(empty($output) || $output == "button")
 			{
 				$result .= '<button type="button"';
@@ -1970,7 +1997,10 @@ class CBPhotos
 				$result .= ">".$text."</a>";
 			}
 			
-			echo $result;
+			if($arr['assign'])
+				assign($arr['assign'],$result);
+			else
+				return $result;	
 		} else {
 			return FALSE;	
 		}

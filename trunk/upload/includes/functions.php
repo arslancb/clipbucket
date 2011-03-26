@@ -444,21 +444,21 @@
    function upload_photo_button($params)
    {
 	   global $cbphoto;
-	   $cbphoto->upload_photo_button($params);
+	   return $cbphoto->upload_photo_button($params);
    }
    
    //Photo Embed Cides
    function photo_embed_codes($params)
    {
 		global $cbphoto;
-		$cbphoto->photo_embed_codes($params);   
+		return $cbphoto->photo_embed_codes($params);   
    }
    
    //Create download button
    function photo_download_button($params)
    {
 		global $cbphoto;
-		$cbphoto->download_button($params);   
+		return $cbphoto->download_button($params);   
    }
    
    //Function Used To Validate Email

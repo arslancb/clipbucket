@@ -449,7 +449,7 @@ $(document).ready(function() {
 {if $smarty.const.THIS_PAGE=='watch_video' || $object.videoid}
     {if $object.videoid}{assign var=vdo value=$object} {/if}
     <meta property="og:title" content="{$vdo.title}" />
-    <meta property="og:description" content="{$vdo.description|description}" />
+    <meta property="og:description" content="{$vdo.description|description|strip_tags}" />
     <meta property="og:image" content="{getThumb vdetails=$vdo}" />
     <meta name="medium" content="video" />
 {/if}
@@ -457,7 +457,7 @@ $(document).ready(function() {
 {if $object.photo_id}
 <meta property="og:title" content="{$object.photo_title}" />
 <meta property="og:description" content="{$object.photo_description|description}" />
-<meta property="og:image" content="{get_photo details=$object size='t' output='non_html' alt=$object.photo_title}" />
+<meta property="og:image" content="{get_photo details=$object size='m' output='non_html' alt=$object.photo_title}" />
 <meta name="medium" content="image" />
 {/if}
 

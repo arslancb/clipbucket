@@ -2039,9 +2039,9 @@ class CBGroups extends CBCategory
 	function user_joined_groups($uid,$limit=NULL)
 	{
 		global $db;
-		# REF QUERY : SELECT * FROM group_members,groups WHERE group_members.userid = '1' AND group_members.group_id = groups.group_id
+		# REF QUERY : SELECT * FROM group_members,groups WHERE group_members.userid = '1' AND group_members.group_id = groups.group_id AND groups_members.userid != groups.userid
 		$result = $db->select(tbl($this->gp_tbl).','.tbl($this->gp_mem_tbl),"*",tbl($this->gp_mem_tbl).".userid='$uid' AND 
-							  ".tbl($this->gp_mem_tbl).".group_id = ".tbl($this->gp_tbl).".group_id",$limit,tbl($this->gp_tbl).".group_name");
+							  ".tbl($this->gp_mem_tbl).".group_id = ".tbl($this->gp_tbl).".group_id AND ".tbl($this->gp_mem_tbl).".userid != ".tbl($this->gp_tbl).".userid",$limit,tbl($this->gp_tbl).".group_name");
 		if($db->num_rows>0)
 			return $result;
 		else

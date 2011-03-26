@@ -28,12 +28,15 @@
       <td valign="top" class="td_body">Category Description*</td>
       <td class="td_body"><textarea name="desc" id="desc" cols="33" rows="5">{'desc'|post_form_val}</textarea></td>
     </tr>
+    {assign var=useSubs value=func->config(use_subs)}
+    {if $useSubs == 1}
     <tr>
       <td valign="top" class="td_body">Parent Category</td>
       <td class="td_body">
 		{cbCategories output="dropdown" name="parent_cat" id="parent_cat" blank_option=TRUE echo=TRUE}
       </td>
-    </tr>    
+    </tr> 
+    {/if}   
     <tr>
       <td valign="top" class="td_body">Make Default Category</td>
       <td class="td_body"><p>

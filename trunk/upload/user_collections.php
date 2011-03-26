@@ -7,8 +7,8 @@
  ****************************************************************
 */
 
-define("THIS_PAGE",'user_photos');
-define("PARENT_PAGE",'photos');
+define("THIS_PAGE",'user_collections');
+define("PARENT_PAGE",'collections');
 
 require 'includes/config.inc.php';
 $pages->page_redir();

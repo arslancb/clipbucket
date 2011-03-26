@@ -45,14 +45,15 @@ if($user)
 		break;
 		
 		case "favorites":
-		case "fav_photots":
+		case "fav_photos":
+		case "favorite":
 		{
 			$limit = create_query_limit($page,config('photo_user_favorites'));
 			assign("the_title",$user['username']." ".lang('Favorite')." ".lang('photos'));
 			$favP = array("user"=>$user['userid'],"limit",$limit);
 			$photos = $cbphoto->action->get_favorites($favP);
 			$favP['count_only'] = true;
-			$total_rows = $cbphoto->action->get_favorites($params);
+			$total_rows = $cbphoto->action->get_favorites($favP);
 			$total_pages = count_pages($total_rows,config('photo_user_favorites'));
 		}
 		break;

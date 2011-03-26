@@ -173,6 +173,7 @@ abstract class CBCategory
 			return false;
 		{
 			$orderby = $params['orderby']; $order = $params['order'];
+			$finalOrder = $orderby.' '.$order;
 			if($params['limit_sub'])
 			{
 				if(is_numeric($params['limit_sub']))
@@ -182,8 +183,9 @@ abstract class CBCategory
 				else
 					$limit = NULL;
 			}
-			
-			$subCats = $db->select(tbl($this->cat_tbl),"*"," parent_id = '$category_id'",$limit," $orderby $order");
+			if($params['sub_order'])
+				$finalOrder = $params['sub_order'];
+			$subCats = $db->select(tbl($this->cat_tbl),"*"," parent_id = '$category_id'",$limit," $finalOrder");
 			
 			if($subCats)
 			{
