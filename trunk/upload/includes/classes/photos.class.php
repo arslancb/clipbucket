@@ -893,7 +893,7 @@ class CBPhotos
 				{
 					$image = imagecreatefromgif($file);
 					imagecopyresampled($image_r, $image, 0, 0, 0, 0, $width, $height, $org_width, $org_height);
-					imagejpeg($image_r,$to,90);
+					imagegif($image_r,$to,90);
 					if(!empty($crop_image))
 						$this->crop_image($to,$to,$ext,$width,$d_height);
 				}

@@ -156,7 +156,7 @@ switch($mode)
 		$photos = get_photos($photo_arr);		
 		//echo $db->db_query;
 		assign('photos',$photos);
-		assign('c',$collection);
+		assign('c',$collection[0]);
 		
 		$photo_arr['count_only'] = true;
 		$total_rows  = get_photos($photo_arr);

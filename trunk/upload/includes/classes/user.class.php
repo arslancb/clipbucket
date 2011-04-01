@@ -3992,6 +3992,8 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 		}
 		$user_cond = " (".$user_cond.") ";
 		global $cbphoto,$cbvideo;
+		$photoCount = 1;
+		$videoCount = 1;	
 		switch($uploadsType)
 		{
 			case "both":
@@ -4005,8 +4007,36 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 					$finalResult = array_merge($videos,array());
 				elseif(!empty($photos) && empty($videos))
 					$finalResult = array_merge($photos,array());
-				else
-					return false;	
+				
+				if(!empty($finalResult))
+				{
+					foreach($finalResult as $result)
+					{
+						if($result['videoid'])
+						{
+							$videoArr[] = $result;
+							$return['videos'] = array(
+								"title" => lang("videos"),
+								"total" => $videoCount++,
+								"items" => $videoArr
+							);
+						}
+						
+						if($result['photo_id'])
+						{
+							$photosArr[] = $result;
+							$return['photos'] = array(
+								"title" => lang("photos"),
+								"total" => $photoCount++,
+								"items" => $photosArr
+							);	
+						}
+									
+					}
+					//pr($return,true)	;	
+					return $return;
+				} else
+					return false;
 			}
 			break;
 			
@@ -4014,7 +4044,17 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 			{
 				$photos = $cbphoto->get_photos(array("limit"=>$limit,"extra_cond"=>$user_cond,"order"=>" date_added DESC","date_span"=>$uploadsTimeSpan));
 				if($photos)
-					$finalResult = $photos;
+				{
+					foreach($photos as $photo)
+					{
+						$photosArr[] = $photo;
+						$return['photos'] = array(
+							"title" => lang("photos"),
+							"total" => $photoCount++,
+							"items" => $photosArr
+						);								
+					}
+				}
 				else
 					return false;		
 			}
@@ -4024,13 +4064,23 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 			{
 				$videos = $cbvideo->get_videos(array("limit"=>$limit,"cond"=>" AND".$user_cond,"order"=>" date_added DESC","date_span"=>$uploadsTimeSpan));
 				if($videos)
-					$finalResult = $videos;
+				{
+					foreach($videos as $video)
+					{
+						$videoArr[] = $video;
+						$return['videos'] = array(
+							"title" => lang("videos"),
+							"total" => $videoCount++,
+							"items" => $videoArr
+						);							
+					}
+				}
 				else
 					return false;	
 			}
 			break;
 		}
-		return $finalResult;			
+		return $return;			
 	}
 }
 	
