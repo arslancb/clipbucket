@@ -19,7 +19,6 @@ if(is_installed('editorspick'))
 //i love coding :)
 
 
-
 /**
  * Custom Top users query. Specially for sauditube.org
  * SELECT cb_video.userid,cb_video.views,cb_users.*, SUM(cb_video.views) AS total_views FROM cb_video,cb_users 
@@ -30,9 +29,6 @@ $result = $db->select(tbl('video,users'),tbl('video.userid,video.views,users.*')
 if($db->num_rows > 0)
 	assign('topusers',$result);
 */		
-
-
-$userquery->load_user_fields($_POST);
 
 //Displaying The Template
 template_files('index.html');

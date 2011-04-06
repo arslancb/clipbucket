@@ -335,3 +335,13 @@ li.myAdminList input[disabled=disabled].disabled { font:normal 11px Tahoma; padd
 .optionsListsCont{ border:1px solid #09c; width:auto; margin-left:219px;padding:10px}
 .templateCodeCont{ border:1px solid #757575; padding:10px; background-color:#F7F7F7;}
 .templateCode{width:100%; height:100%; border:1px solid #F4F4F4; border:0px; background:none; min-height:500px;}
+
+.browser{background-image:url(../images/browsers.png); width:17px; height:16px; display:inline-block}
+.firefox{background-position:-18px 0px}
+.opera{background-position:-36px 0px}
+.safari{background-position:-52px 0px}
+.msie{background-position:-72px 0px}
+
+.browsingUsers td{font-weight:bold; font-size:11px; padding:5px 2px;border-bottom:1px solid #ccc}
+.browsingUsers tr:nth-child(even) td{background-color:#f3f3f3}
+.browsingUsers a.kick{font-size:10px; font-family:Tahoma; color:#ed0000}

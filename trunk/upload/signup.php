@@ -50,6 +50,7 @@ if(isset($_POST['login'])){
 	$username = $_POST['username'];
 	$username = mysql_clean(clean($username));
 	$password = mysql_clean(clean($_POST['password']));
+	
 	if($userquery->login_user($username,$password))
 	{
 		if($_COOKIE['pageredir'])

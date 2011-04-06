@@ -17,6 +17,8 @@
 	$clean_text	 	    = str_replace($entities_match, $entities_replace, $text);
     if ( $clean_text != '' )
         $slash              = ( $slash ) ? '/' : NULL;
+	
+	$clean_text = preg_replace('/\-{2,10}/','-',$clean_text);
 	return $slash . $clean_text;
 }	
 	

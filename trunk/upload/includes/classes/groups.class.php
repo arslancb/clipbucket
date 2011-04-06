@@ -402,6 +402,7 @@ class CBGroups extends CBCategory
 			ignore_errors();
 			
 			$this->join_group($insert_id,$user,false);
+			
 			//Updating User Total Groups
 			$this->update_user_total_groups($user);
 			
@@ -1309,7 +1310,7 @@ class CBGroups extends CBCategory
 		{
 			//Inserting Invitation Code in database
 			$db->insert(tbl($this->gp_invite_tbl),array('group_id','userid','invited','date_added'),
-												   array($gid,$owner,$user,now()));
+												   array($gid,$owner,$reciever['userid'],now()));
 			e(lang("grp_inv_msg"),"m");
 			
 			//Now Sending Email To User

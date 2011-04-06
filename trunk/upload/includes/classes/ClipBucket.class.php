@@ -352,12 +352,13 @@ class ClipBucket
 				 'Player Settings' => 'manage_players.php?mode=show_settings');	
 			$NewMenu['Plugin Manager'] = array('Plugin Manager'=>'plugin_manager.php');
 			$NewMenu['Tool Box'] = array(				 'PHP Info'	=> 'phpinfo.php',
+				'View online users'	=> 'online_users.php',
 				 'Server Modules Info'	=> 'cb_mod_check.php',
 				 'Conversion Queue Manager'	=> 'cb_conversion_queue.php',
 				 'ReIndexer'	=> 'reindex_cb.php',
 				 'Conversion Lab &alpha;'	=> 'conversion_lab.php',
 				 'Repair video duration'	=> 'repair_vid_duration.php');
-
+				 
 			return $NewMenu;	 				  																																		
 	}	 
 	
@@ -517,6 +518,11 @@ class ClipBucket
 			$params['selectedTab'] = '';
 		{
 			$headMenu = $this->head_menu;
+			
+			$custom = $this->custom_menu;
+			if(is_array($custom))
+				$headMenu = array_merge($headMenu,$custom);
+			
 			$output = '';
 			//if(($params['tag']))
 			//		$output .= "<".$params['tag'].">";

@@ -633,12 +633,25 @@ class CBPhotos
 		{
 			$photo = $this->get_photo($id);
 			
+			$del_photo_funcs = cb_get_functions('delete_photo');
+			if(is_array($del_photo_funcs))
+			{
+				
+				foreach($del_photo_funcs as $func)
+				{
+					if(function_exists($func['func']))
+					{
+						$func['func']($photo);
+					}
+				}
+			}
+			
 			if($orphan == FALSE)//removing from collection
 				$this->collection->remove_item($photo['photo_id'],$photo['collection_id']);
-			
+				
 			//now removing photo files
 			$this->delete_photo_files($photo);
-			
+
 			//finally removing from Database
 			$this->delete_from_db($photo);	
 			

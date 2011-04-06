@@ -47,6 +47,7 @@ class pages{
 		
 	function GetBaseUrl()
 	{
+		
 		$serverURL      = $this->GetServerUrl();
 		$scriptPath     = NULL;
 		if ( isset($_SERVER['SCRIPT_NAME']) ) {
@@ -54,8 +55,18 @@ class pages{
 			$scriptPath = ( $scriptPath == '/' ) ? '' : dirname($scriptPath);
 		}
 		  
+		$base = basename(dirname($_SERVER['SCRIPT_NAME']));
+		
+		$sus_dirs = array('admin_area','includes','plugins','files');
+		
+		$remove_arr = array();
+		$remove_arr[] = '/:\/\/www\./';
+		if(in_array($base,$sus_dirs))
+			$remove_arr[] = '/\/'.$base.'/';
+		
 		$baseURL = $serverURL . $scriptPath;
-		$baseURL = preg_replace('/:\/\/www\./','',$baseURL);
+		
+		$baseURL = preg_replace($remove_arr,'',$baseURL);
 		return $baseURL;
 	}
 	

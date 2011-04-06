@@ -11,30 +11,46 @@ class Session
 	var $tbl = 'sessions';
 	var $id= '';
 	var $overwrite = false;
+	
+	//Use cookies over sessions
+	var $cookie = true;
+	var $timeout = 3600; //1 hour
+	
 	/**
 	 * offcourse, its a constructor
 	 */
 	function session()
 	{
 		$this->id = session_id() ;
+		$this->timeout  = COOKIE_TIMEOUT;
 	}
 	
 	/**
-	 * Function used to add session
-	 */
-	
-	function add_session($user,$name,$value=false)
+	 * Function used to add session*/
+	function add_session($user,$name,$value=false,$reg=false)
 	{
-		global $db;
+		global $db,$pages;
 		if(!$value)
 			$value = $this->id;
-		$this->get_user_session($user,$name);
+		
+		$this->get_user_session($user,$name,true);
+		
 		if($db->num_rows>0)
-		$db->delete(tbl($this->tbl),array('session_string'),array($name));
-		$db->insert(tbl($this->tbl),array('session_user','session_string','session_value'),array($user,$name,$value));
-		//Finally Registering session
-		$this->session_register($name);
-		$this->session_val($name,$value);
+		{
+			$db->delete(tbl($this->tbl),array('session_string','session'),array($name,$this->id));
+		}
+		
+		$cur_url = $pages->GetCurrentUrl();
+		$db->insert(tbl($this->tbl),array('session_user','session','session_string','ip','session_value','session_date',
+		'last_active','referer','agent','current_page'),
+		array($user,$this->id,$name,$_SERVER['REMOTE_ADDR'],$value,now(),now(),$_SERVER['HTTP_REFERER'],$_SERVER['HTTP_USER_AGENT'],$cur_url));
+		
+		if($reg)
+		{
+			//Finally Registering session
+			$this->session_register($name);
+			$this->session_val($name,$value);
+		}
 	}
 	
 	
@@ -42,12 +58,36 @@ class Session
 	/**
 	 * Function is used to get session
 	 */
-	function get_user_session($user,$session_name=false)
+	function get_user_session($user,$session_name=false,$phpsess=false)
 	{
 		global $db;
 		if($session_name)
 			$session_cond = " session_string='".mysql_clean($session_name)."'";
+		if($phpsess)
+		{
+			if($session_cond)
+				$session_cond .= " AND ";
+			$session_cond .= " session ='".$this->id."' ";
+		}
 		$results = $db->select(tbl($this->tbl),'*',$session_cond);
+		return $results;
+	}
+	
+	/**
+	 * Function used to get sessins
+	 */
+	function get_sessions()
+	{
+		global $db,$pages;
+		$results = $db->select(tbl($this->tbl),'*'," session ='".$this->id."' ");
+		
+		$cur_url = $pages->GetCurrentUrl();
+		
+		if(THIS_PAGE!='ajax')
+			$db->update(tbl($this->tbl),array("last_active","current_page"),array(now(),$cur_url)," session='".$this->id."' ");
+		else
+			$db->update(tbl($this->tbl),array("last_active"),array(now())," session='".$this->id."' ");
+			
 		return $results;
 	}
 	
@@ -107,8 +147,15 @@ class Session
 	 */
 	function set_session($name,$val)
 	{
-		$this->session_register($name);
-		$_SESSION[$name] = $val;
+		
+		if($this->cookie)
+		{
+			setcookie($name,$val,time()+$this->timeout,'/');
+		}else
+		{
+			$this->session_register($name);
+			$_SESSION[$name] = $val;
+		}
 	}
 	function set($name,$val)
 	{
@@ -120,6 +167,11 @@ class Session
 	 */
 	function unset_session($name)
 	{
+		if($this->cookie)
+		{
+			unset($_COOKIE[$name]);
+			setcookie($name,'',0);
+		}else
 		unset($_SESSION[$name]);
 	}
 	function un_set($name)
@@ -133,8 +185,15 @@ class Session
 	 */
 	function get_session($name)
 	{
-		if(isset($_SESSION[$name]))
-		return $_SESSION[$name];
+		if($this->cookie)
+		{
+			if($_COOKIE[$name])
+				return $_COOKIE[$name];
+		}else
+		{
+			if(isset($_SESSION[$name]))
+			return $_SESSION[$name];
+		}
 	}
 	//replica
 	function get($name){ return $this->get_session($name); }
@@ -144,6 +203,8 @@ class Session
 	 */
 	function destroy()
 	{
+		global $db;
+		$db->delete(tbl($this->tbl),array('session'),array($this->id));
 		session_destroy();
 	}
 	
@@ -152,7 +213,6 @@ class Session
 	 */
 	function set_cookie($name,$val)
 	{
-
 		setcookie($name,($val),3600+time(),'/');
 	}
 	
@@ -162,6 +222,27 @@ class Session
 	function get_cookie($name)
 	{
 		return stripslashes(($_COOKIE[$name]));
+	}
+	
+	
+	function kick($id)
+	{
+		global $db;
+		//Getting little details from sessions such that
+		//some lower class user can kick admins out ;)
+		$results = $db->select(tbl("sessions")." LEFT JOIN (".tbl("users").") ON 
+		(".tbl("sessions").".session_user=".tbl("users").".userid)", tbl("sessions").".*,
+		".tbl("users").".level","session_id='".$id."'");
+		
+		$results = $results[0];
+		
+		if($results['level']==1)
+		{
+			e("You cannot kick administrators");
+			return false;
+		}
+		$db->delete(tbl($this->tbl),array("session_id"),array($id));
+		return true;
 	}
 }
 

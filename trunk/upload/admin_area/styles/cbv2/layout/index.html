@@ -28,12 +28,21 @@
             
             <div class="item">
             {assign var=users value=$userquery->get_online_users()}
-            <strong style="text-decoration:underline">Online Users({$users|@count})</strong><br />
+            <strong><a href="online_users.php">Online Users({$userquery->get_online_users(false,true)})</a></strong><br />
             
             {if $users}
             	{foreach from=$users item=user name=onlines}
-                	<strong><a href="{$userquery->profile_link($user)}" target="_blank">{$user.username}</a>{if !$smarty.foreach.onlines.last}, {/if}</strong>
+                {if $user.username!=""}
+               	 <strong><a href="{$userquery->profile_link($user)}" target="_blank">{$user.username}{if $user.logins>1}({$user.logins}){/if}</a>{if !$smarty.foreach.onlines.last}, {/if}</strong>			{/if}
                 {/foreach}
+               
+               
+                {foreach from=$users item=user name=onlines}
+                    {if $user.session_string=='guest'}
+                        <strong>and {$user.logins} guest{if $user.logins>1}s{/if}</strong>
+                     {/if}
+                {/foreach}
+                
             {else}
             	No User is Online
             {/if}    

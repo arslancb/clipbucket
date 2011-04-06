@@ -381,6 +381,7 @@ class CBvideo extends CBCategory
 						}
 					}
 				}
+
 				//Finally Removing Database entry of video
 				$db->execute("DELETE FROM ".tbl("video")." WHERE videoid='$vid'");
 				//Removing Video From Playlist

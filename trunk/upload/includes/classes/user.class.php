@@ -34,6 +34,9 @@ class userquery extends CBCategory{
 	var $user_account = array();
 	var $user_sessions = array();
 	var $profileItem = '';
+	var $sessions = '';
+	var $user_sess = ''; //variable which holds current user session
+	var $is_login = false;
 	
 	var $dbtbl = array(
 					   'user_permission_type'	=> 'user_permission_types',
@@ -58,9 +61,16 @@ class userquery extends CBCategory{
 	{
 		global $sess,$Cbucket;
 
-		$this->userid = $sess->get('userid');
-		$this->username = $sess->get('username');
-		$this->level = $sess->get('level');
+		
+//		$this->user_sess = $sess->get('user_sess');
+    	$this->sess_salt = $sess->get('sess_salt');
+		$this->sessions = $this->get_sessions();
+		
+		if($this->sessions['smart_sess'])
+		{
+			$this->userid = $this->sessions['smart_sess']['session_user'];
+		}
+		//$this->level = $sess->get('level');
 		
 		//Setting Access
 		//Get list Of permission
@@ -82,10 +92,17 @@ class userquery extends CBCategory{
 			$this->usr_levels[$level['user_level_id']]=$level["user_level_name"];
 		}
 		
-		if(user_id())
+		$udetails = "";
+		
+		if($this->userid)
+			$udetails = $this->get_user_details($this->userid,true);
+		
+		if($udetails)
 		{			
 			
-			$this->udetails = $this->get_user_details(userid());
+			$this->udetails = $udetails;
+			$this->username = $udetails['username'];
+			$this->level = $this->udetails['level'];
 			$this->permission = $this->get_user_level(userid());
 			//exit();
 			
@@ -107,6 +124,7 @@ class userquery extends CBCategory{
 				$this->UpdateLastActive(userid());
 			}
 		}else {
+			
 			$this->permission = $this->get_user_level(4,TRUE);
 		}
 			
@@ -189,22 +207,32 @@ class userquery extends CBCategory{
 			$log_array['success'] = 1;
 			
 			$log_array['level'] = $level  = $udetails['level'];
-			
+
 			//Adding Sessing In Database 
 			//$sess->add_session($userid,'logged_in');
 			
-			$sess->set('username',$username);
-			$sess->set('level',$level);
-			$sess->set('userid',$userid);
+			//$sess->set('username',$username);
+			//$sess->set('userid',$userid);
 			
 			//Starting special sessions for security
-			$sess->set('user_session_key',$udetails['user_session_key']);
-			$sess->set('user_session_code',$udetails['user_session_code']);
+			$session_salt = RandomString(5);
+			$sess->set('sess_salt',$session_salt);
+			
+			$smart_sess = md5($udetails['user_session_key'].$session_salt);
+			
+			$db->delete(tbl("sessions"),array("session","session_string"),array($sess->id,"guest"));
+			$sess->add_session($userid,'smart_sess',$smart_sess);
+			
+			//$sess->set('user_sess',$smart_sess);
+			
+			//$sess->set('user_session_key',$udetails['user_session_key']);
+			//$sess->set('user_session_code',$udetails['user_session_code']);
+			
 			
 			//Setting Vars
-			$this->userid = $sess->get('userid');
-			$this->username = $sess->get('username');
-			$this->level = $sess->get('level');
+			$this->userid = $udetails['userid'];
+			$this->username = $udetails['username'];
+			$this->level = $udetails['level'];
 			
 			//Updating User last login , num of visist and ip
 			$db->update(tbl('users'),
@@ -216,6 +244,8 @@ class userquery extends CBCategory{
 							  ),
 						"userid='".$userid."'"
 						);
+			
+			
 			$this->init();
 			//Logging Actiong
 			$cblog->insert('login',$log_array);
@@ -438,11 +468,8 @@ class userquery extends CBCategory{
 				}
 			}
 		}
-		$sess->un_set('username');
-		$sess->un_set('level');
-		$sess->un_set('userid');
-		$sess->un_set('user_session_key');
-		$sess->un_set('user_session_code');
+		
+		$sess->un_set('sess_salt');
 		$sess->destroy();
 		//$sess->remove_session(userid());
 	}
@@ -592,16 +619,33 @@ class userquery extends CBCategory{
 	/**
 	 * Function used to get user details using userid
 	 */
-	function get_user_details($id=NULL)
+	function get_user_details($id=NULL,$checksess=false)
 	{
-		global $db;
+		global $db,$sess;
 		/*if(!$id)
 			$id = userid();*/
 		if(is_numeric($id))	
 			$results = $db->select(tbl('users'),'*'," userid='$id'");
 		else
 			$results = $db->select(tbl('users'),'*'," username='".$id."' OR email='".$id."'");
-		return $results[0];		
+		$udetails = $results[0];	
+		
+		if(!$checksess)
+			return $udetails;
+		else
+		{
+			$session = $this->sessions['smart_sess'];
+			$udetails['user_session_key'];
+			$smart_sess = md5($udetails['user_session_key'].$sess->get('sess_salt'));
+			
+			if($smart_sess==$session['session_value'])
+			{
+				$this->is_login = true;
+				return $udetails;
+			}else
+			return false;
+		}
+			
 	}function GetUserData($id=NULL){ return $this->get_user_details($id); }
 	
 
@@ -3726,12 +3770,33 @@ class userquery extends CBCategory{
 	/**
 	  * Function used to get number of users online
 	  */
-	 function get_online_users()
+	 function get_online_users($group=true,$count=false)
 	 {
 		 global $db;
-		 $pattern = date("Y-m-s H:i:s");
-		 $results =  $db->select(tbl("users"),'*'," TIMESTAMPDIFF(MINUTE,last_active,'".NOW()."')  < 6 ");
 		
+		 if($group)
+		 {
+			 $results =  $db->select(tbl("sessions")." LEFT JOIN (".tbl("users").") ON 
+			 (".tbl("sessions.session_user=").tbl("users").".userid)" ,
+			 tbl("sessions.*,users.username,users.userid,users.email").",count(".tbl("sessions.session_user").") AS logins"
+			 ," TIMESTAMPDIFF(MINUTE,".tbl("sessions.last_active").",'".NOW()."')  < 6 GROUP BY ".tbl("users.userid"));	
+		 }else
+		 {
+			 if($count)
+			 {
+				  $results =  $db->count(tbl("sessions")." LEFT JOIN (".tbl("users").") ON 
+				 (".tbl("sessions.session_user=").tbl("users").".userid)" ,
+				 tbl("sessions.session_id")
+				 ," TIMESTAMPDIFF(MINUTE,".tbl("sessions.last_active").",'".NOW()."')  < 6 ");
+			 }else
+			 {
+				  $results =  $db->select(tbl("sessions")." LEFT JOIN (".tbl("users").") ON 
+				 (".tbl("sessions.session_user=").tbl("users").".userid)" ,
+				 tbl("sessions.*,users.username,users.userid,users.email")
+				 ," TIMESTAMPDIFF(MINUTE,".tbl("sessions.last_active").",'".NOW()."')  < 6 ");
+			 }
+		 }
+
 	 	 return $results;
 	 }
 	 
@@ -4952,6 +5017,29 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 		
 		return true;
 	}
+	
+	/**
+	 * function used to get user seesions
+	 */
+	function get_sessions()
+	{
+		global $sess;
+		$sessions = $sess->get_sessions();
+		$new_sessions = array();
+		if($sessions)
+		{
+			foreach($sessions as $session)
+			{
+				$new_sessions[$session['session_string']] = $session;
+			}
+		}else
+		{
+			$sess->add_session(0,'guest','guest');
+		}
+		
+		return $new_sessions;
+	}
+	
 
 }
 ?>

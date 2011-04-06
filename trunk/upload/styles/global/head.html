@@ -264,6 +264,7 @@ function QueueLimitError(message,fade)
 
 function insertAjaxPhoto(ID,filename,extension,server_url)
 {
+
 	var photoFields = $("#Form"+ID).serialize();
 	$.ajax({
 		url : baseurl+'/actions/photo_uploader.php',

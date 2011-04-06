@@ -18,7 +18,10 @@ if(is_array($installed_plugins))
 		$file = PLUG_DIR.$folder.'/'.$plugin['file'];
 		
 		if(file_exists($file))
+		{
+			$pluginFile = $file;
 			include_once($file);
+		}
 	}
 }
 

@@ -24,7 +24,7 @@ define("DEVELOPMENT_MODE",FALSE);
 define("DEV_INGNORE_SYNTAX",TRUE);
 
 //Setting Cookie Timeout
-define('COOKIE_TIMEOUT',86400*30); // 30 Days
+define('COOKIE_TIMEOUT',86400*1); // 1
 define('GARBAGE_TIMEOUT',COOKIE_TIMEOUT);
 
 
@@ -116,7 +116,7 @@ if(!@$in_bg_cron)
 	}			
 			
 	//define('BASEURL',baseurl(BACK_END));
-	define('BASEURL',$baseurl);
+	define('BASEURL',$pages->GetBaseUrl());
 	
 	$userquery 	= new userquery();
 	$lang_obj	= new language;
