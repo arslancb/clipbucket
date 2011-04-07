@@ -1,0 +1,16 @@
+
+DROP TABLE IF EXISTS `cb_sessions`;
+CREATE TABLE `cb_sessions` (
+  `session_id` int(11) NOT NULL AUTO_INCREMENT,
+  `session` varchar(100) NOT NULL,
+  `session_user` int(11) NOT NULL,
+  `session_string` varchar(60) NOT NULL,
+  `session_value` varchar(32) NOT NULL,
+  `ip` varchar(20) NOT NULL,
+  `session_date` datetime NOT NULL,
+  `current_page` text NOT NULL,
+  `referer` text NOT NULL,
+  `agent` text NOT NULL,
+  `last_active` datetime NOT NULL,
+  PRIMARY KEY (`session_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
