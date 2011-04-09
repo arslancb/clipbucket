@@ -375,7 +375,6 @@
 	
 	/**
 	 * Function used to call functions
-	 */
 	function cb_call_functions($place)
 	{
 		$funcs = cb_get_functions($place);
@@ -392,6 +391,48 @@
 					$func_name();
 			}
 		}
+	}*/
+	
+	/**
+	 * Function used to call cb_functions
+	 * Why I am re-writting this. Because we need some
+	 * extra parameters in some places to make these 
+	 * functions work correctly. Like while displaying
+	 * categories we need to pass all paramerters that
+	 * user has passed in cbCategories function
+	 */
+	function cb_call_functions($place,$extra=NULL)
+	{
+		$funcs = cb_get_functions($place);
+		if(is_array($funcs))
+			foreach($funcs as $func)
+			{
+				$fname = $func['func'];
+				$fparams = $func['params'];
+				if(function_exists($fname))
+				{
+					if($fparams) // checking if we have user defined params
+					{
+						if(is_array($fparams)) // Checking if params are array
+							if($extra && is_array($extra)) // Checking if we have some extra params
+								$fparams = array_merge($fparams,$extra); // If yes, then merge all params
+							else
+								$fparams = $fparams; // No Continue with user defined params	
+						else
+							$fparams = $extra; // It is not array, so assign $extra to $fparams.
+						
+						if(!empty($fparams))	
+							$fname($fparams);
+						else
+							$fname();				
+					} else {
+						if($extra != NULL)
+							$fname($extra);
+						else
+							$fname();		
+					}
+				}
+			}
 	}
 	
 	/**
@@ -402,6 +443,56 @@
 		global $cbvid;
 		$cbvid->embed_func_list [] = $name;
 	}
+
+	function create_module_link($params)
+	{
+		$Modlink = $module = "module.php";
+		$section = $params['section'];
+		$page = $params['page'];
+		$extra = $params['extra'];	
+		
+		if(empty($section) || empty($page))
+			$Modlink = BASEURL;
+		else
+		{
+			$Modlink .= "?s=".$section;
+			$Modlink .= "&p=".$page;
+			if(($extra))
+			{
+				if(is_array($extra))
+				{
+					foreach($extra as $var=>$value)
+					{	
+						if(is_numeric($var))
+							$woIndex[] = $value;
+						else
+						{		
+							$Modlink .= "&";
+							$Modlink .= $var."=".$value;
+						}
+					}
+					if(isset($woIndex))
+						if(count($woIndex) > 1)
+						{
+							foreach($woIndex as $var)
+							{
+								$Modlink .= "&".$var."=";	
+							}
+						} else {
+							$Modlink .= "&".$woIndex[0]."=";						
+						}
+					} else {
+						$Modlink .= "&".$extra;	
+					}
+			}
+		}
+		
+		return $Modlink;
+	}
 	
-	
+	function create_ModLink($section,$page,$extra=NULL)
+	{
+		$params = array("section"=>$section,"page"=>$page,"extra"=>$extra);
+		return create_module_link($params);
+	}
 ?>

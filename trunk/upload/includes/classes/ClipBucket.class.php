@@ -490,7 +490,8 @@ class ClipBucket
 		$this->head_menu[] = array('name'=>lang("signup"),'link'=>cblink(array('name'=>'signup')),"this"=>"signup");
 		
 		$this->head_menu[] = array('name'=>lang("photos"),'link'=>cblink(array('name'=>'photos')),"this"=>"photos");
-	
+		/* Calling custom functions for headMenu. This can be used to add new tabs */
+		//cb_call_functions('headMenu');
 		if($params['assign'])
 			assign($params['assign'],$this->head_menu);
 		else

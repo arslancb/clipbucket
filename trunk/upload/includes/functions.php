@@ -1081,8 +1081,14 @@
 		$type = $params['type'];
 		switch($type)
 		{
+			default:
+			{
+				cb_call_functions('categoryListing',$params);
+			}
+			break;
+			
 			case "video":case "videos":
-			case "v": default:
+			case "v": 
 			{
 				global $cbvid;
 				$cats = $cbvid->cbCategories($params);
@@ -3643,7 +3649,14 @@
 				
 				if(THIS_PAGE=='photos')
 					$type = 'photos';
-				
+
+				if(defined("IN_MODULE"))
+				{
+					$url = 'cat='.$data['category_id'].'&sort='.$_GET['sort'].'&time='.$_GET['time'].'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
+					$plugURL = queryString($url,array("cat","sort","time","page","seo_cat_name"));
+					return $plugURL;
+				}
+								
 				if(SEO=='yes')
 					return BASEURL.'/'.$type.'/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.$_GET['sort'].'/'.$_GET['time'].'/';
 				else
@@ -3747,15 +3760,20 @@
 				
 				if(THIS_PAGE=='photos')
 					$type = 'photos';
-					
+				
+				if(defined("IN_MODULE"))
+				{
+					$url = 'cat='.$_GET['cat'].'&sort='.$sorting.'&time='.$time.'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
+					$plugURL = queryString($url,array("cat","sort","time","page","seo_cat_name"));
+					return $plugURL;
+				}
+				
 				if(SEO=='yes')
 					return BASEURL.'/'.$type.'/'.$_GET['cat'].'/'.$_GET['seo_cat_name'].'/'.$sorting.'/'.$time.'/'.$_GET['page'];
 				else
 					return BASEURL.'/'.$type.'.php?cat='.$_GET['cat'].'&sort='.$sorting.'&time='.$time.'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
 			}
-			break;
-			
-			
+			break;		
 		}
 	}
 	
