@@ -1078,6 +1078,9 @@
 	*/
 	function getCategoryList($params)
 	{
+		global $cats;
+		$cats = "";
+		
 		$type = $params['type'];
 		switch($type)
 		{
@@ -3925,6 +3928,22 @@
 		//echo " ".SUBTITLE;
 	}
 	
+	
+	/**
+	 * @Script : ClipBucket
+	 * @Author : Arslan Hassan
+	 * @License : CBLA
+	 * @Since : 2007
+	 *
+	 * function whos_your_daddy
+	 * Simply tells the name of  script owner
+	 * @return INTELLECTUAL BADASS
+	 */
+	function whos_your_daddy()
+	{
+		echo  "<h1>Arslan Hassan</h1>";
+	}
+	
 	/**
 	 * function used to set website subtitle
 	 */
@@ -4000,6 +4019,8 @@
 		global $Cbucket;
 		return $Cbucket->foot_menu($params);
 	}
+	
+	
 	
 	
 	/**

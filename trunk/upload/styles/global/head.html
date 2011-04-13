@@ -1,9 +1,15 @@
+{if $Cbucket->configs.use_google_api}
 <script type="text/javascript" src="https://www.google.com/jsapi?key=ABQIAAAAr5pj809LgbJgBTxDJGy0IxQH8siQo9V3STvJ8WIDHu37hIWsoxRX_d1ABxknSddUPvo4LFb7wq8gwA"></script>
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.8/themes/redmond/jquery-ui.css" type="text/css" media="all" />
 <script type="text/javascript">
  google.load("jquery", "1");
  google.load("jqueryui", "1");
- 
+</script>
+{else}
+<script type="text/javascript" src="{$js}/jquery.js"></script>
+<script type="text/javascript" src="{$js}/ui/jquery-ui.js"></script>
+{/if} 
+<script type="text/javascript">
 var embedPlayerWidth = '{$Cbucket->configs.embed_player_width}';
 var embedPlayerHeight = '{$Cbucket->configs.embed_player_height}';
 var autoPlayEmbed = '{$Cbucket->configs.autoplay_embed}';

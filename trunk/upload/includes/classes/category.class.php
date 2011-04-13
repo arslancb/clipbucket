@@ -150,6 +150,8 @@ abstract class CBCategory
 		$orderby = $params['orderby'] = $params['orderby'] ? $params['orderby'] : "category_order";
 		$order = $params['order'] = $params['order'] ? $params['order'] : "ASC";
 		$limit = $params['limit'] = $params['limit'] ? (is_numeric($params['limit']) ? $params['limit'] : NULL) : NULL;
+		
+		
 		$categories = $db->select(tbl($this->cat_tbl),"*",$cond,$limit," $orderby $order");
 
 		$finalArray = array();

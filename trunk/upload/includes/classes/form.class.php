@@ -135,8 +135,10 @@ class formObj
 			$values_array = $field['value'][1][0];
 			//$field['value'] = '';
 			//Generate Category list
-			$type = $field['type'] ? $field['type'] : 'video';
-			$catArray = getCategoryList(array("type"=>$field['category_type']));
+			$type = $field['category_type'] ? $field['category_type'] : 'video';
+			
+			$catArray = getCategoryList(array("type"=>$type));
+			
 			if(is_array($catArray))
 			{
 				$this->multi_cat_id = $this->multi_cat_id + 1;
@@ -268,6 +270,7 @@ class formObj
 		//Setting up the values
 		$values = $field['value'][1][0];
 		$newVals = array();
+		
 		if(!empty($values))
 			foreach($values as $val)
 				$newVals[] = '|'.$val.'|';
