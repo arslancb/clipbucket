@@ -26,7 +26,7 @@ if(isset($_POST['update'])){
 					'use_playlist',
 					'youtube_enabled',
 					'embed_player_height',
-					'embed_player_width','autoplay_embed'
+					'embed_player_width','autoplay_embed','pseudostreaming','pak_license','pakplayer_contextmsg'
 					);
 	
 	//Checking for logo
@@ -37,6 +37,9 @@ if(isset($_POST['update'])){
 			$myquery->Set_Website_Details('player_logo_file',$logo_file);
 	}
 	
+	
+	if($_POST['pak_license'] && !file_exists(BASEDIR.'/player/pak_player/pakplayer.unlimited.swf'))
+	$_POST['pak_license'] = "";	
 	
 	foreach($rows as $field)
 	{

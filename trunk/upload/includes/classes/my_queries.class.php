@@ -57,9 +57,13 @@ function tbl($tbl)
 
 class myquery {
 
-	function Set_Website_Details($name,$value){
+	function Set_Website_Details($name,$value)
+	{
 		//mysql_query("UPDATE config SET value = '".$value."' WHERE name ='".$name."'");
 		global $db,$Cbucket;
+		
+		$this->config_exists($name,true);
+		
 		$db->update(tbl("config"),array('value'),array($value)," name = '".$name."'");
 		//echo $db->db_query."<br/><br/>";
 		$Cbucket->configs = $Cbucket->get_configs();
@@ -75,6 +79,20 @@ class myquery {
 			$data[$name] = $row['value'];
 		}
 		return $data;
+	}
+	
+	/**
+	 * Function used to check weather config exists or not
+	 * it also used to create a config if it does not exist
+	 */
+	function config_exists($name)
+	{
+		global $db;
+		$count = $db->count(tbl("config"),"configid"," name='$name' ");
+		if(!$count)
+			$db->insert(tbl("config"),array('name'),array($name));
+		
+		return true;
 	}
 
 	

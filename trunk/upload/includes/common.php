@@ -26,6 +26,7 @@ define("DEV_INGNORE_SYNTAX",TRUE);
 //Setting Cookie Timeout
 define('COOKIE_TIMEOUT',86400*1); // 1
 define('GARBAGE_TIMEOUT',COOKIE_TIMEOUT);
+define("REMBER_DAYS",7);
 
 
 if(!@$in_bg_cron)
@@ -116,7 +117,10 @@ if(!@$in_bg_cron)
 	}			
 			
 	//define('BASEURL',baseurl(BACK_END));
-	define('BASEURL',$pages->GetBaseUrl());
+	$clean_base = false;
+	if(defined("CLEAN_BASEURL"))
+		$clean_base = CLEAN_BASEURL;
+	define('BASEURL',$pages->GetBaseUrl($clean_base));
 	
 	$userquery 	= new userquery();
 	$lang_obj	= new language;
@@ -566,7 +570,7 @@ $Smarty->register_function('DownloadButtonP','photo_download_button');
 $Smarty->register_function('loadPhotoUploadForm','loadPhotoUploadForm');
 $Smarty->register_function('cbCategories','getSmartyCategoryList');
 $Smarty->register_function('getComments','getSmartyComments');
-
+$Smarty->register_function('fb_embed_video','fb_embed_video');
 $Smarty->register_function('cbMenu','cbMenu');
 
 $Smarty->register_function('makeGroupAdmin','makeGroupAdmin');

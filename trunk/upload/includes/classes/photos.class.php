@@ -1144,7 +1144,7 @@ class CBPhotos
 								  'type' => 'dropdown',
 								  'value' => $cl_array,
 								  'db_field' => 'collection_id',
-								  'required' => 'yes',
+								  'required' => '',
 								  'checked' => $collection,
 								  'invalid_err' => lang('photo_collection_err')
 								  )												  

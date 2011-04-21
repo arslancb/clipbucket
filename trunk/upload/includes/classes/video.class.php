@@ -43,6 +43,11 @@ class CBvideo extends CBCategory
 		$this->init_actions();
 		$this->init_collections();
 		
+		if(config('vid_cat_height'));
+		$this->cat_thumb_height =  config('vid_cat_height');
+		if(config('vid_cat_width'));
+		$this->cat_thumb_width =   config('vid_cat_width');
+		
 		if(isSectionEnabled('videos'))
 		$Cbucket->search_types['videos'] = "cbvid";
 	}
@@ -913,11 +918,13 @@ class CBvideo extends CBCategory
 			}
 		}
 		
+		
 		if(!$embed_code)
 		{
+		
 			//Default ClipBucket Embed Code
 			if(function_exists('default_embed_code'))
-			{
+			{				
 				$embed_code = default_embed_code($vdetails);
 			}else
 			{

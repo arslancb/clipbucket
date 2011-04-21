@@ -99,6 +99,13 @@ class ClipBucket
 		$_SESSION['total_captchas_loaded'] = 0;
 		
 		$this->clean_requests();
+		
+		if(!isset($_GET['sort']))
+			$_GET['sort'] = 'most_recent';
+		if(!isset($_GET['time']))
+			$_GET['time'] = 'all_time';
+		if(!isset($_GET['page']))
+			$_GET['page'] = 1;
 	}
 	
 	

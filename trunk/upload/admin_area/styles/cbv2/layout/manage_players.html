@@ -10,6 +10,11 @@
 <fieldset class="fieldset" style="border:none">
 <table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
 <tr>
+  <td valign="top"><strong>Pakplayer license</strong><br />
+    If you have pakplayer license, please enter it here</td>
+  <td valign="top"><input type="text" name="pak_license" id="pak_license" value="{$row.pak_license}" /></td>
+</tr>
+<tr>
 <td width="301" valign="top"><label for="autoplay_video"><strong>Autoplay</strong><br />
   if yes, all videos will be played automatically
 </label></td>
@@ -51,6 +56,11 @@
   </label></td>
 </tr>
 <tr>
+  <td valign="top"><label for="logo_padding"><strong>Logo Padding</strong></label><br />
+    Set logo padding in pixels </td>
+  <td valign="top"><input type="text" id="logo_padding" name="logo_padding" value="{$row.logo_padding}" /></td>
+</tr>
+<tr>
   <td valign="top"><strong>Buffer Time</strong><br />
     To control the buffer seconds</td>
   <td valign="top"><label>
@@ -87,6 +97,24 @@
       Yes</label>
     <label><input type="radio" name="autoplay_embed" value="no" id="autoplay_embed1" {if $row.autoplay_embed=='no'} checked="checked"{/if}  />
       No</label></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Use PseudoStreaming</strong><br />
+    Let users to play video from anywhere, requires h264 streaming module from webserver<br /></td>
+  <td valign="top">
+    <label>
+      <input type="radio" name="pseudostreaming" value="yes" id="pseudostreaming_0"{if $row.pseudostreaming=='yes'} checked="checked"{/if}  />
+      Yes</label>
+
+    <label>
+      <input type="radio" name="pseudostreaming" value="no" id="pseudostreaming_1" {if $row.pseudostreaming=='no'} checked="checked"{/if} />
+      No</label>
+  </td>
+</tr>
+<tr>
+  <td valign="top"><strong>Pakplayer Context Menu</strong><br />
+    Write what you want to display when user right clicks on pakplayer (only if have pak player license)</td>
+  <td valign="top"><input type="text" name="pakplayer_contextmsg" id="pakplayer_contextmsg" value="{$row.pakplayer_contextmsg}" /></td>
 </tr>
 <tr>
   <td valign="top">&nbsp;</td>

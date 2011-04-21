@@ -60,7 +60,7 @@ define('CB_PM_MAX_INBOX',500); // 0 - OFF , U - Unlimited
 	function video_attachment_form()
 	{
 		global $cbvid;
-		$vid_array = array('user'=>userid(),'order'=>'title');
+		$vid_array = array('user'=>userid(),'order'=>'date_added DESC','limit'=>15);
 		$videos = $cbvid->get_videos($vid_array);
 		$vids_array = array('' => lang("No Video"));
 		if($videos)

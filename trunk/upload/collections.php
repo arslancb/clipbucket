@@ -64,6 +64,8 @@ switch($content)
 	}
 }
 
+$cond['has_items'] = true;
+
 //Getting Collection List
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,COLLPP);

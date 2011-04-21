@@ -151,8 +151,7 @@ if(!function_exists("pak_player"))
 			$ytcode = $ref_details['ytcode'];
 		}
 		
-		
-		if(!$vdetails['embed_code'] || $ytcode)
+		if(!$vdetails['embed_code']  || $vdetails['embed_code'] =='none'|| $ytcode)
 		{
 			$code = '<embed src="'.$embed_src.'" type="application/x-shockwave-flash"';
 			$code .= 'allowscriptaccess="always" allowfullscreen="true"  ';
@@ -161,21 +160,7 @@ if(!function_exists("pak_player"))
 		}else
 			return false;
 	}
-	
-	function fb_embed_video($params)
-	{
-		$vdetails = $params['video'];
-		$config  = urlencode(BASEURL."/player/pak_player/embed_player.php?vid=".$vdetails['videoid']."&json=true&autoplay=yes");
-		if(!config('pak_license'))
-			$embed_src = BASEURL.'/player/pak_player/pakplayer.swf?config='.$config;
-		else
-			$embed_src = BASEURL.'/player/pak_player/pakplayer.unlimited.swf?config='.$config;
-		
-		return $embed_src;
-	}
-	
-	$Smarty->register_function('fb_embed_video','fb_embed_video');
-	
+			
 	register_embed_function('pakplayer_embed_src');
 	register_actions_play_video('pak_player');
 	//include Pak Player JS File

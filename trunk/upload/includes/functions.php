@@ -3611,12 +3611,7 @@
 		{
 			case 'video':case 'videos':case 'v':
 			{
-				if(!isset($_GET['sort']))
-					$_GET['sort'] = 'most_recent';
-				if(!isset($_GET['time']))
-					$_GET['time'] = 'all_time';
-				if(!isset($_GET['page']))
-					$_GET['page'] = 1;
+				
 					
 				if(SEO=='yes')
 					return BASEURL.'/videos/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.$_GET['sort'].'/'.$_GET['time'].'/';
@@ -3627,12 +3622,6 @@
 			
 			case 'channels':case 'channel':case'c':case'user':
 			{
-				if(!isset($_GET['sort']))
-					$_GET['sort'] = 'most_recent';
-				if(!isset($_GET['time']))
-					$_GET['time'] = 'all_time';
-				if(!isset($_GET['page']))
-					$_GET['page'] = 1;
 					
 				if(SEO=='yes')
 					return BASEURL.'/channels/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.$_GET['sort'].'/'.$_GET['time'].'/';
@@ -3643,12 +3632,6 @@
 			
 			default:
 			{
-				if(!isset($_GET['sort']))
-					$_GET['sort'] = 'most_recent';
-				if(!isset($_GET['time']))
-					$_GET['time'] = 'all_time';
-				if(!isset($_GET['page']))
-					$_GET['page'] = 1;
 				
 				if(THIS_PAGE=='photos')
 					$type = 'photos';

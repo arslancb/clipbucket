@@ -45,7 +45,7 @@ class pages{
 		return $serverProtocol. '://' .$serverName;
 	}
 		
-	function GetBaseUrl()
+	function GetBaseUrl($more=false)
 	{
 		
 		$serverURL      = $this->GetServerUrl();
@@ -53,14 +53,19 @@ class pages{
 		if ( isset($_SERVER['SCRIPT_NAME']) ) {
 			$scriptPath = $_SERVER['SCRIPT_NAME'];
 			$scriptPath = ( $scriptPath == '/' ) ? '' : dirname($scriptPath);
-		}
+	}
 		  
 		$base = basename(dirname($_SERVER['SCRIPT_NAME']));
 		
+		
 		$sus_dirs = array('admin_area','includes','plugins','files');
+		
 		
 		$remove_arr = array();
 		$remove_arr[] = '/:\/\/www\./';
+		
+		if($more)
+		$remove_arr[] = $more;
 		if(in_array($base,$sus_dirs))
 			$remove_arr[] = '/\/'.$base.'/';
 		

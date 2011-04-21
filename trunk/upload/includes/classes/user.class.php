@@ -177,7 +177,7 @@ class userquery extends CBCategory{
 	 * param VARCHAR $username
 	 * param TEXT $password
 	 */
-	function login_user($username,$password)
+	function login_user($username,$password,$remember=false)
 	{
 		global $LANG,$sess,$cblog,$db;
 		//Now checking if user exists or not
@@ -214,9 +214,14 @@ class userquery extends CBCategory{
 			//$sess->set('username',$username);
 			//$sess->set('userid',$userid);
 			
+			//Setting Timeout
+			if($remember)
+				$sess->timeout = 86400*REMBER_DAYS;
+				
 			//Starting special sessions for security
 			$session_salt = RandomString(5);
 			$sess->set('sess_salt',$session_salt);
+			$sess->set('PHPSESSID',$sess->id);
 			
 			$smart_sess = md5($udetails['user_session_key'].$session_salt);
 			

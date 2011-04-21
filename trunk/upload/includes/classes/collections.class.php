@@ -371,6 +371,17 @@ class Collections extends CBCategory
 			$cond .= " ".tbl('collections.collection_id')." = '".$p['cid']."'";		
 		}
 		
+		
+
+		/** Get only with those who have items **/
+		if($p['has_items'] )
+		{
+			if($cond != '')
+				$cond .= " AND ";
+			$cond .= " ".tbl('collections.total_objects')." > '1'";		
+		}
+		
+		
 		$title_tag = '';
 		
 		if($p['name'])

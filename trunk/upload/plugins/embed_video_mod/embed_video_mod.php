@@ -304,9 +304,16 @@ if(!function_exists('validate_embed_code'))
 			preg_match("/\/v\/(.*)/",$src,$srcs);
 			$srcs = explode("&",$srcs[1]);
 			$ytcode = $srcs[0];
+			if(!$ytcode)
+			{
+				preg_match("/\/embed\/(.*)/",$src,$srcs);
+				$srcs = explode("&",$srcs[1]);
+				$ytcode = $srcs[0];
+			}
 			//Creating Youtube VIdeo URL 
 			$yturl = "http://www.youtube.com/watch?v=".$ytcode;
 			$results['url'] = $yturl;
+			$results['ytcode'] = $ytcode;
 			$results['website'] = 'youtube';
 			return $results;
 		}else

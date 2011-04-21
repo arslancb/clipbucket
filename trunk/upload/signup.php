@@ -51,7 +51,11 @@ if(isset($_POST['login'])){
 	$username = mysql_clean(clean($username));
 	$password = mysql_clean(clean($_POST['password']));
 	
-	if($userquery->login_user($username,$password))
+	$remember = false;
+	if($_POST['rememberme'])
+		$remember = true;
+		
+	if($userquery->login_user($username,$password,$remember))
 	{
 		if($_COOKIE['pageredir'])
 			redirect_to($_COOKIE['pageredir']);
