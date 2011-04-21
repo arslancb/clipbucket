@@ -1,4 +1,5 @@
-{if $Cbucket->configs.use_google_api}
+<!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.8/themes/redmond/jquery-ui.css" type="text/css" media="all" />
+-->{if $Cbucket->configs.use_google_api}
 <script type="text/javascript" src="https://www.google.com/jsapi?key=ABQIAAAAr5pj809LgbJgBTxDJGy0IxQH8siQo9V3STvJ8WIDHu37hIWsoxRX_d1ABxknSddUPvo4LFb7wq8gwA"></script>
 
 <script type="text/javascript">
@@ -6,7 +7,6 @@
  google.load("jqueryui", "1");
 </script>
 {else}
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.8/themes/redmond/jquery-ui.css" type="text/css" media="all" />
 <script type="text/javascript" src="{$js}/jquery.js"></script>
 <script type="text/javascript" src="{$js}/ui/jquery-ui.js"></script>
 {/if} 
@@ -459,7 +459,13 @@ $(document).ready(function() {
     <meta property="og:title" content="{$vdo.title}" />
     <meta property="og:description" content="{$vdo.description|description|strip_tags}" />
     <meta property="og:image" content="{getThumb vdetails=$vdo}" />
-    <meta name="medium" content="video" />
+    <meta property="og:type" content="video">
+    <meta property="og:video" content='{fb_embed_video video=$vdo}'>
+    <meta property="og:video:height" content="259" />
+	<meta property="og:video:width" content="398" />
+    <meta property="og:video:type" content="application/x-shockwave-flash">
+    <meta property='og:url' content='{videoLink vdetails=$vdo}'/>
+	<meta property='og:site_name' content='{$website_title}'/>
 {/if}
 
 {if $object.photo_id}
