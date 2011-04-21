@@ -24,11 +24,21 @@
 $pak_player = false;
 if(!function_exists("pak_player"))
 {
+	$cbvid->embed_src_func_list[] = "pak_embed";
+	
+	
+	
 	define("PAK_PLAYER_DIR",PLAYER_DIR."/pak_player");
 	define("PAK_PLAYER_URL",PLAYER_URL."/pak_player");
 	assign('pak_player_dir',PAK_PLAYER_DIR);
 	assign('pak_player_url',PAK_PLAYER_URL);
 
+
+	function pak_embed($vid){ 
+	header('Content-Type: application/x-shockwave-flash'); 
+	echo file_get_contents(PAK_PLAYER_DIR.'/pakplayer.swf');
+	 exit(); }
+	
 	/**
 	 * this function will play pak player
 	 * @param : $in ARRAY 
@@ -42,30 +52,24 @@ if(!function_exists("pak_player"))
 		$vdetails = $in['vdetails'];
 		$vid_file = get_video_file($vdetails,true,true);
 		//Checking for YT Referal
-		$ref = $vdetails['refer_url'];
-		//Checking for youtube
-		if(function_exists('is_ref_youtube'))
-			$ytcom = is_ref_youtube($ref);
-		if($ytcom)
-			$is_youtube = true;
-		else
-			$is_youtube = false;
 	
-		if($vid_file || $is_youtube)
+
+		if(function_exists('get_refer_url_from_embed_code'))
+		{
+			$ref_details = get_refer_url_from_embed_code(unhtmlentities(stripslashes($vdetails['embed_code'])));
+			$ytcode = $ref_details['ytcode'];
+		}
+		
+		if($vid_file || $ytcode)
 		{
 			$hd = $data['hq'];
 			
 			if($hd=='yes') $file = get_hq_video_file($vdetails); else $file = get_video_file($vdetails,true,true);
 			$hd_file = get_hq_video_file($vdetails);
 			
-			if($is_youtube)
+			
+			if($ytcode)
 			{
-				preg_match("/\?v\=(.*)/",$ref,$srcs);
-				
-				$srcs = explode("&",$srcs[1]);
-				$srcs = $srcs[0];
-				$srcs = explode("?",$srcs);
-				$ytcode = $srcs[0];
 				assign('youtube',true);
 				assign('ytcode',$ytcode);
 			}
@@ -135,21 +139,47 @@ if(!function_exists("pak_player"))
 	 */
 	function pakplayer_embed_src($vdetails)
 	{	
-		if($vdetails['embed_code'])
+		$config  = urlencode(BASEURL."/player/pak_player/embed_player.php?vid=".$vdetails['videoid']."&json=true&autoplay=".config('autoplay_embed'));
+		if(!config('pak_license'))
+			$embed_src = BASEURL.'/player/pak_player/pakplayer.swf?config='.$config;
+		else
+			$embed_src = BASEURL.'/player/pak_player/pakplayer.unlimited.swf?config='.$config;
+		
+		if(function_exists('get_refer_url_from_embed_code'))
 		{
-			if(function_exists('is_ref_youtube'))
-			$ytcom = is_ref_youtube($ref);
-			if($ytcom)
-				return true;
-			return false;
+			$ref_details = get_refer_url_from_embed_code(unhtmlentities(stripslashes($vdetails['embed_code'])));
+			$ytcode = $ref_details['ytcode'];
+		}
+		
+		
+		if(!$vdetails['embed_code'] || $ytcode)
+		{
+			$code = '<embed src="'.$embed_src.'" type="application/x-shockwave-flash"';
+			$code .= 'allowscriptaccess="always" allowfullscreen="true"  ';
+			$code .= 'width="'.config("embed_player_width").'" height="'.config("embed_player_height").'"></embed>';
+			return $code;
 		}else
-			return true;
+			return false;
 	}
+	
+	function fb_embed_video($params)
+	{
+		$vdetails = $params['video'];
+		$config  = urlencode(BASEURL."/player/pak_player/embed_player.php?vid=".$vdetails['videoid']."&json=true&autoplay=yes");
+		if(!config('pak_license'))
+			$embed_src = BASEURL.'/player/pak_player/pakplayer.swf?config='.$config;
+		else
+			$embed_src = BASEURL.'/player/pak_player/pakplayer.unlimited.swf?config='.$config;
+		
+		return $embed_src;
+	}
+	
+	$Smarty->register_function('fb_embed_video','fb_embed_video');
+	
 	register_embed_function('pakplayer_embed_src');
 	register_actions_play_video('pak_player');
 	//include Pak Player JS File
 	$Cbucket->add_header(PAK_PLAYER_DIR.'/pplayer_head.html');
-	
 	$Cbucket->add_admin_header(PAK_PLAYER_DIR.'/pplayer_head.html');
 }
 

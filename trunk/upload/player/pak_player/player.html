@@ -1,6 +1,4 @@
 <a href="{if !$ytcode}{$normal_vid_file}{else}api:{$ytcode}{/if}" style="display:block;width:{$player_data.width}; height:{$player_data.height}" id="the_Video_Player"></a>
-
-
 <script language="JavaScript">
 var pakplayer_path = '{$pak_player_url}';
 var player_logo = '{$player_logo}';
@@ -41,8 +39,8 @@ has_hq_function = true;
 hq_function = pakplayer_hq;
 
 {/literal}
-var bufferingStopped = false;
-var menu = new Array("menu","embed/share","settings/playlist","comments","donate"); 
+
+
 flowplayer("the_Video_Player", {ldelim}"src":"{$pak_player_url}/pakplayer{if $Cbucket->configs.pak_license}.unlimited{/if}.swf"{rdelim}, 
 	{literal}{{/literal}
 	{if $Cbucket->configs.pak_license}
@@ -59,7 +57,7 @@ flowplayer("the_Video_Player", {ldelim}"src":"{$pak_player_url}/pakplayer{if $Cb
 				{/foreach}
 			{else}
 			background: "url("+pakplayer_path+"/bg.png) repeat",
-			url: "pak_player.controls.swf"
+			url: "pakplayer.controls.swf"
 			{/if}
 					
 		{if $youtube}
@@ -85,6 +83,7 @@ flowplayer("the_Video_Player", {ldelim}"src":"{$pak_player_url}/pakplayer{if $Cb
 
 	clip:
 	{
+		linkUrl : "#",
 		{/literal}
 		{if $youtube}
 		provider : 'youtube',
@@ -138,42 +137,28 @@ flowplayer("the_Video_Player", {ldelim}"src":"{$pak_player_url}/pakplayer{if $Cb
 		{$logo_position}
 		{literal}
 		
-	}
-	
-
-	
+	},
 });
 
 
 function htmlDecode(value){ 
   return $('<div/>').html(value).text(); 
 }
-
 function updateEmbedCode(width,height,autoplay)
 { 
 	if(autoplay=='yes')
-		autoPlayVid = 'true';
+		autoPlayVid = 'yes';
 	else
-		autoPlayVid = 'false';
+		autoPlayVid = 'no';
 	
 	embedPlayerWidth = width;
 	embedPlayerHeight = height;
 	autoPlayEmbed = autoplay;
-		
-	$f('the_Video_Player').embed({width:width,height:height}); 
-	var embedCode = flowplayer('the_Video_Player').getEmbedCode();
-	$('#embed_code').val(htmlDecode(embedCode)); 
-	$('#embed_code').val( $('#embed_code').val().replace(/\"autoPlay\":(true|false)/g,'"autoPlay":'+autoPlayVid) );
+	var embedCode =  $('#embed_code').val();
+	
+	$('#embed_code').val( $('#embed_code').val().replace(/height=\"([0-9]+)\"/g,'height="'+height+'"') );
+	$('#embed_code').val( $('#embed_code').val().replace(/width=\"([0-9]+)\"/g,'width="'+width+'"') );
+	$('#embed_code').val( $('#embed_code').val().replace(/autoplay\%3D(yes|no)/g,'autoplay%3D'+autoPlayVid) );
 }
-
-$(document).ready(function(){ 
-{/literal}
-{if $smarty.const.THIS_PAGE=='watch_video'}
-updateEmbedCode(embedPlayerWidth,embedPlayerHeight,autoPlayEmbed);
-{/if}
-{literal}
-});
-
-
 </script>
 {/literal}
