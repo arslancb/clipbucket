@@ -167,7 +167,8 @@
 			$cat_details = $obj->get_category($cat);
 			
 			$params = array('name'=>'category_search','category'=>$cat_details['category_id'],'type'=>$type);
-			$cats .= '<a href="'.cblink($params).'">'.$cat_details['category_name'].'</a>';;
+					
+			$cats .= '<a href="'.category_link($cat_details,$type).'">'.$cat_details['category_name'].'</a>';
 			if($count<$total)
 				$cats .= $sep;
 			$count++;
