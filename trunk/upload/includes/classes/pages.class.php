@@ -40,9 +40,10 @@ class pages{
 		   ( ($serverProtocol == 'http' && $_SERVER['SERVER_PORT'] != 80) ||
 		   ($serverProtocol == 'https' && $_SERVER['SERVER_PORT'] != 443) )) {
 			$serverPort = $_SERVER['SERVER_PORT'];
+			$serverPort  = ":".$serverPort ;
 		}
 		
-		return $serverProtocol. '://' .$serverName;
+		return $serverProtocol. '://' .$serverName.$serverPort;
 	}
 		
 	function GetBaseUrl($more=false)
@@ -50,10 +51,12 @@ class pages{
 		
 		$serverURL      = $this->GetServerUrl();
 		$scriptPath     = NULL;
+		
+		
 		if ( isset($_SERVER['SCRIPT_NAME']) ) {
 			$scriptPath = $_SERVER['SCRIPT_NAME'];
 			$scriptPath = ( $scriptPath == '/' ) ? '' : dirname($scriptPath);
-	}
+		}
 		  
 		$base = basename(dirname($_SERVER['SCRIPT_NAME']));
 		
