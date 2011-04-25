@@ -391,17 +391,27 @@ class CBGroups extends CBCategory
 			//UID
 			$query_field[] = "userid";
 			$query_val[] = $user;
+			
 			//DATE ADDED
 			$query_field[] = "date_added";
 			$query_val[] = now();
 			
+			$query_field[] = "total_members";
+			$query_val[] = 1;
+			
 			//Inserting IN Database now
 			$db->insert(tbl($this->gp_tbl),$query_field,$query_val);
 			$insert_id = $db->insert_id();
+			
 			//Owner Joiing Group
 			ignore_errors();
 			
-			$this->join_group($insert_id,$user,false);
+			$db->insert(tbl($this->gp_mem_tbl),
+			array("group_id","userid","date_added","active"),
+			array($insert_id,$user,now(),'yes'));
+
+
+			//$this->join_group($insert_id,$user,false);
 			
 			//Updating User Total Groups
 			$this->update_user_total_groups($user);
