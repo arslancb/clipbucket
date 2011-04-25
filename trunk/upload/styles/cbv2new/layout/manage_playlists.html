@@ -25,7 +25,11 @@
     </div>
   <!-- Add new playlist -->
   
+  
   <!-- Getting List of Playlist -->
+  <form name="manage_playlists" method="post">
+  
+  <input type="submit" class="cb_button_2" value="{lang code='delete_selected'}" style="margin-bottom:10px" name="delete_playlists"/>
   <div class="account_table">
    
      <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -45,7 +49,7 @@
     <div class="account_vid_list" style="background-color:#{$bg}">
    	<table width="100%" border="0" cellspacing="0" cellpadding="0">
  	  <tr>
- 	    <td width="25"><input type="checkbox" name="check_vid[]" id="check_vid-{$video.videoid}" value="{$video.videoid}" />
+ 	    <td width="25"><input type="checkbox" name="check_playlist[]" id="check_playlist-{$playlists[plist].playlist_id}" value="{$playlists[plist].playlist_id}" />
  	      <label for="checkbox"></label></td>
  	    <td valign="middle">
         {$playlists[plist].playlist_name|truncate:100}<br />
@@ -61,6 +65,7 @@
     {assign var='bg' value='fff'}
     {/if}
   {/section}
+  </form>
   <!-- Getting List of Playlist -->
  {/if}
  
@@ -83,7 +88,9 @@
     </form>
  </div>
  
- {if $items}<div align="right"><a href="{videoLink vdetails=$items[0]}">{lang code='play_now'}</a></div>{/if}
+ {if $items}<div align="right"><span class="play_now"><a href="{videoLink vdetails=$items[0]}" >{lang code='play_now'}</a></span></div>{/if}
+  <form name="edit_playlist" method="post">
+  <input type="submit" class="cb_button_2" value="{lang code='delete_selected'}" style="margin-bottom:10px" name="delete_playlist_item"/>
  <div class="account_table">
    
      <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -110,7 +117,7 @@
     {sectionelse}
     <div align="center" style="padding:5px"><strong><em>{lang code='no_video_in_playlist'}</em></strong></div>
     {/section}
-
+</form>
  {/if}
  </div>
 </div>

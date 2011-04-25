@@ -1010,3 +1010,5 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 .blueDoc { background:url(../images/icons/blue-document.png) no-repeat }
 .redShield { background:url(../images/icons/shield.png) no-repeat; }
 .ballonSmall { background:url(../images/icons/balloon-small.png) no-repeat; }
+
+.play_now a{display:inline-block; padding:2px; text-decoration:none; float:right; margin:4px; background-color:#333; color:#fff; padding:5px; border:1px solid #000;border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px; cursor:pointer; }

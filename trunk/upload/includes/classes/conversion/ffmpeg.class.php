@@ -376,7 +376,7 @@ class ffmpeg
 		}
 
 		# get video information
-		if(  $args= $this->pregMatch( '([0-9]{2,3})x([0-9]{2,3})', $output ) ) {
+		if(  $args= $this->pregMatch( '([0-9]{2,4})x([0-9]{2,4})', $output ) ) {
 			
 			$info['video_width'  ] = $args[1];
 			$info['video_height' ] = $args[2];

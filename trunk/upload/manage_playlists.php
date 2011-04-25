@@ -37,6 +37,33 @@ switch($mode)
 			$cbvid->action->delete_playlist($plid);
 		}
 		
+		if(isset($_POST['delete_playlists']))
+		{
+			$playlists = post('check_playlist');
+			
+			if(count($playlists)>0)
+			{
+				foreach($playlists as $playlist)
+				{
+					$playlist = mysql_clean($playlist);
+					$cbvid->action->delete_playlist($playlist);
+				}
+				
+				if(!error())
+				{
+					$eh->flush();
+					e(lang("playlists_have_been_removed"),"m");
+				}else
+				{
+					$eh->flush();
+					e(lang("playlist_not_exist"));
+				}
+			}else
+				e(lang("no_playlist_was_selected_to_delete"));
+			
+		}
+		
+		
 		//Adding New Playlist
 		if(isset($_POST['add_playlist']))
 		{
@@ -55,6 +82,33 @@ switch($mode)
 	
 	case 'edit_playlist':
 	{
+		
+		if(isset($_POST['delete_playlist_item']))
+		{
+			$items = post('check_playlist_items');
+			
+			if(count($items)>0)
+			{
+				foreach($items as $item)
+				{
+					$item = mysql_clean($item);
+					$cbvid->action->delete_playlist_item($item);
+				}
+				
+				if(!error())
+				{
+					$eh->flush();
+					e(lang("playlist_items_have_been_removed"),"m");
+				}else
+				{
+					$eh->flush();
+					e(lang("playlist_item_doesnt_exist"));
+				}
+				
+			}else
+				e(lang("no_item_was_selected_to_delete"));
+		}
+		
 		assign('mode','edit_playlist');
 		$pid = $_GET['pid'];
 		
