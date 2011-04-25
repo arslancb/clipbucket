@@ -8,13 +8,16 @@
 */
 
 define("IN_MODULE",true);
+define("THIS_PAGE",$_GET["p"]);
+define("PARENT_PAGE",$_GET["s"]);
+
 require 'includes/config.inc.php';
 $pages->page_redir();
 
-if(is_installed('editorspick'))
+/*if(is_installed('editorspick'))
 {
 	assign('editor_picks',get_ep_videos());
-}
+}*/
 
 //i love coding :)
 

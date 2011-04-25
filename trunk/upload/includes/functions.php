@@ -1086,7 +1086,7 @@
 		{
 			default:
 			{
-				cb_call_functions('categoryListing',$params);
+				 cb_call_functions('categoryListing',$params);
 			}
 			break;
 			
@@ -4988,14 +4988,14 @@
 		$queryString = $_SERVER['QUERY_STRING'];
 		
 		if($var)
-		$queryString = preg_replace("/$var=([\w+\s\b]+|)/","",$queryString);
+		$queryString = preg_replace("/&?$var=([\w+\s\b\.?\S]+|)/","",$queryString);
 		if($remove)
 		{
 			if(!is_array($remove))
-			$queryString = preg_replace("/$remove=([\w+\s\b]+|)/","",$queryString);
+			$queryString = preg_replace("/&?$remove=([\w+\s\b\.?\S]+|)/","",$queryString);
 			else
 			foreach($remove as $rm)
-				$queryString = preg_replace("/$rm=([\w+\s\b]+|)/","",$queryString);
+				$queryString = preg_replace("/&?$rm=([\w+\s\b\.?\S]+|)/","",$queryString);
 			
 		}
 		
