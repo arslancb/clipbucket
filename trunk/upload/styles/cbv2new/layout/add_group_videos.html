@@ -12,6 +12,7 @@
     <div id="ajaxGroupResultContainer">
         <div class="groupSep"><span class="SepText">{lang code='grp_add_vdo_msg'}</span></div>
             <form name="add_group_videos" id="add_group_videos" method="post" action="">     
+            {if $usr_vids}
                 {foreach from=$usr_vids item=video}
                 	{if $cbgroup->is_group_video($video.videoid,$group.group_id)}
                 		{assign var='check_this' value='yes'}
@@ -20,6 +21,7 @@
                 	{/if}
                 	{include file="$style_dir/blocks/video.html" video=$video display_type='add_type'}    
                 {/foreach}
+		{/if}
                 <div class="clear"></div>
                 {include file="$style_dir/blocks/pagination.html"}
                 <div align="center">
