@@ -160,7 +160,9 @@ if(!@$in_bg_cron)
 
 	require_once 'languages.php';
 	
-	
+	$lang_obj->init();
+	$LANG = $lang_obj->lang_phrases('file');
+
 	
 	$calcdate	= new CalcDate();
 	$signup 	= new signup();	
@@ -398,8 +400,6 @@ if(phpversion() < '5.2.0')
 	$userquery->init();
 	$cbvideo->init();
 	$cbpm->init();
-	$lang_obj->init();
-	$LANG = $lang_obj->lang_phrases('file');
     $thisurl = curPageURL();
 	//Setting Up Group Class
 	$cbgroup->gp_thumb_width = config('grp_thumb_width');

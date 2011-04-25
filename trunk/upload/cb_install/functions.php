@@ -229,7 +229,7 @@
 			{
 				$permsArray[] = array('path'=>$file,'msg'=>'writeable');
 			}else
-				$permsArray[] = array('path'=>$file,'err'=>'plessae chmod this file/directory to 777');				
+				$permsArray[] = array('path'=>$file,'err'=>'please chmod this file/directory to 777');				
 		}
 		return $permsArray;
 	}

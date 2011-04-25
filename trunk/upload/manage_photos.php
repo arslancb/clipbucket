@@ -97,6 +97,8 @@ switch($mode)
 		
 		if($_POST['remove_fav_photos'])
 		{
+		
+			
 			$total = count($_POST['check_photo']);
 			for($i=0;$i<$total;$i++)
 			{
@@ -126,9 +128,23 @@ switch($mode)
 	}
 	break;
 	
-	case "orphan":
+	case "my_album":
 	{
+			
+		assign('albumPrivacyUrl',queryString('','album_privacy'));
 		assign('mode','orphan');
+		
+		if(isset($_GET['album_privacy']))
+		{
+			if(in_array(get('album_privacy'),array('private','public','friends')))
+			{
+				$db->update(tbl("users"),array("album_privacy"),array(mysql_clean(get("album_privacy")))," userid='".userid()."'" );
+				e(lang("album_privacy_updated"),'m');
+				$udetails ['album_privacy'] = get('album_privacy');
+				assign('user',$udetails);
+			}
+		}
+		
 		if(isset($_GET['delete_orphan_photo']))
 		{
 			$id = mysql_clean($_GET['delete_orphan_photo']);

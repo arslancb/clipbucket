@@ -122,7 +122,8 @@ if(!function_exists('editors_pick'))
 	function get_ep_videos()
 	{
 		global $db;
-		$results = $db->select(tbl('editors_picks').','.tbl('video'),"*"," ".tbl('editors_picks').".videoid = ".tbl('video').".videoid AND ".tbl('video.active')." = 'yes' AND ".tbl('video.broadcast')." = 'public' AND ".tbl('video.status')." = 'Successful' ORDER BY ".tbl('editors_picks').".sort ASC");
+		$results = $db->select(tbl('editors_picks,video,users'),tbl('editors_picks.*,video.*,users.userid,users.username')," ".tbl('editors_picks').".videoid = ".tbl('video').".videoid AND ".tbl('video.active')." = 'yes' AND ".tbl('video.broadcast')." = 'public' AND ".tbl('video.status')." = 'Successful' AND ".tbl("video.userid")." = ".tbl("users.userid")." ORDER BY ".tbl('editors_picks').".sort ASC");
+		
 		return $results;
 	}
 	

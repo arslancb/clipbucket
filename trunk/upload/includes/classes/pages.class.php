@@ -61,7 +61,7 @@ class pages{
 		$base = basename(dirname($_SERVER['SCRIPT_NAME']));
 		
 		
-		$sus_dirs = array('admin_area','includes','plugins','files');
+		$sus_dirs = array('admin_area','includes','plugins','files','actions');
 		
 		
 		$remove_arr = array();

@@ -138,7 +138,7 @@ class CBPhotos
 		$accountLinks = array(
 							lang('manage_photos') => "manage_photos.php",
 							lang('manage_favorite_photos') => "manage_photos.php?mode=favorite",
-							lang('manage_orphan_photos') => "manage_photos.php?mode=orphan",
+							lang('manage_my_album') => "manage_photos.php?mode=my_album",
 							);
 		if(isSectionEnabled('photos'))
 		$userquery->user_account[lang('Photos')] = $accountLinks;
