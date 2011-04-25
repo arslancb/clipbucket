@@ -376,12 +376,12 @@ class ffmpeg
 		}
 
 		# get video information
-		if($args =  $this->pregMatch( 'Video: ([^ ]+), ([^ ]+), ([0-9]+)x([0-9]+)( \[PAR ([0-9]+):([0-9]+) DAR ([0-9]+):([0-9]+)\])?', $output) ) {
-			$info['video_codec'  ] = $args[1];
-			$info['video_color'  ] = $args[2];
-			$info['video_width'  ] = $args[3];
-			$info['video_height' ] = $args[4];
-			if( $args[5] ) {
+		if(  $args= $this->pregMatch( '([0-9]{2,3})x([0-9]{2,3})', $output ) ) {
+			
+			$info['video_width'  ] = $args[1];
+			$info['video_height' ] = $args[2];
+			
+		/*	if( $args[5] ) {
 				$par1 = $args[6];
 				$par2 = $args[7];
 				$dar1 = $args[8];
@@ -390,9 +390,15 @@ class ffmpeg
 					$info['video_wh_ratio'] = ( (float)$dar1 / (float)$dar2 ) / ( (float)$par1 / (float)$par2 );
 			}
 			
+			
 			# laking aspect ratio information, assume pixel are square
-			if( $info['video_wh_ratio'] === 'N/A' )
+			if( $info['video_wh_ratio'] === 'N/A' )*/
 				$info['video_wh_ratio'] = (float)$info['video_width'] / (float)$info['video_height'];
+		}
+		
+		if($args= $this->pregMatch('Video: ([^ ^,]+)',$output))
+		{
+			$info['video_codec'  ] = $args[1];
 		}
 
 		# get audio information
