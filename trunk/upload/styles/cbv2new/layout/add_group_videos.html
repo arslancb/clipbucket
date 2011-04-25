@@ -10,9 +10,10 @@
         <li {if $mode == "view_report_form"}class="selected"{/if}><a href="{group_link details=$group type='view_report_form'}" onClick="groupsAjax(event,this);" id="gpAllReport"><img src="{$imageurl}/dot.gif" class="redShield"/>  Report</a></li>
     </ul>
     <div id="ajaxGroupResultContainer">
+     {if $usr_vids}
         <div class="groupSep"><span class="SepText">{lang code='grp_add_vdo_msg'}</span></div>
             <form name="add_group_videos" id="add_group_videos" method="post" action="">     
-            {if $usr_vids}
+           
                 {foreach from=$usr_vids item=video}
                 	{if $cbgroup->is_group_video($video.videoid,$group.group_id)}
                 		{assign var='check_this' value='yes'}
@@ -21,7 +22,7 @@
                 	{/if}
                 	{include file="$style_dir/blocks/video.html" video=$video display_type='add_type'}    
                 {/foreach}
-		{/if}
+		
                 <div class="clear"></div>
                 {include file="$style_dir/blocks/pagination.html"}
                 <div align="center">
@@ -29,6 +30,9 @@
                 </div>
             </form>
         </div>    
+     {else}
+     <div align="center" style="font-weight:bold;;font-style:italic">{lang code='you_dont_have_any_videos'}</div>
+     {/if}
  </div>   
 </div>
 
