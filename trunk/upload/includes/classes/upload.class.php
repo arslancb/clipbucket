@@ -89,8 +89,8 @@ class Upload{
 			{
 				$userid = $userquery->get_anonymous_user();
 				//$userid = $user['userid'];
-			}elseif(!userid())
-				e("You are not logged in");
+			}elseif(userid() && !has_access('allow_video_upload',true,true))
+				return false;
 			
 			if(is_array($_FILES))
 			$array = array_merge($array,$_FILES);

@@ -341,7 +341,7 @@ class CBvideo extends CBCategory
 			
 			if(!userid())
 			{
-				e(lang("you_not_logged_in"));
+				e(lang("you_dont_have_permission_to_update_this_video"));
 			}elseif(!$this->video_exists($vid)){
 				e(lang("class_vdo_del_err"));
 			}elseif(!$this->is_video_owner($vid,userid()) && !has_access('admin_access',TRUE))
