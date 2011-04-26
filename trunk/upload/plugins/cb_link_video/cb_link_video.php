@@ -24,11 +24,12 @@
 	{
 		function validate_duration($time)
 		{
+			
 			global $LANG;
 			if(empty($time))
 				return true;
 			$time = explode(':',$time);
-			if(count($time)>0)
+			if(count($time)>0 && is_array($time))
 			{
 				$sec = 0;
 				$total = count($time);

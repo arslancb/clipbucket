@@ -54,9 +54,9 @@ Player size :
     <div class="form_container"><div id="share_form_results" class="form_result" style="display:none"></div>
     <form id="share_form" name="share_form" method="post" action="" class="">
         	<div class="form_left">
-           	  <label for="users">Send this video via email</label>
-              Seperate usernames and emails by comma
-              <input name="users" type="text" class="left_text_area" id="users" value="" size="45" />
+           	  <label for="users">{lang code='share_this_type' assign='share_this_type'}{$share_this_type:sprintf:$type}</label>
+              {lang code='seperate_usernames_with_comma'}
+              <input name="users" type="text" class="left_text_area" id="ShareUsers" value="" size="45" />
               <label for="message">Message <span class="example">optional</span></label>
               <textarea name="message" id="message" cols="45" rows="5" class="left_text_area"></textarea>
               <input name="objectid" id="objectid" type="hidden" value="{$params.id}" />
