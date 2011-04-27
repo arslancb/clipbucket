@@ -50,6 +50,7 @@ class CBvideo extends CBCategory
 		
 		if(isSectionEnabled('videos'))
 		$Cbucket->search_types['videos'] = "cbvid";
+		$Cbucket->clipbucket_footer[] = 'check_cbvideo';
 	}
 	
 	/**

@@ -23,33 +23,18 @@ if(!function_exists('cb_modules'))
 	function show_social_bookmarks($vdetails)
 	{
 		
-		echo '<table style="margin-bottom:5px" width="100%"><tr><td align="center" height="20">';
-		echo '<a name="fb_share" type="button-count" ></a> 
-<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" 
-        type="text/javascript">
-</script></td>';
-	echo "<td align=\"center\"><script type=\"text/javascript\">
-		(function() {
-		var s = document.createElement('SCRIPT'), s1 = document.getElementsByTagName('SCRIPT')[0];
-		s.type = 'text/javascript';
-		s.async = true;
-		s.src = 'http://widgets.digg.com/buttons.js';
-		s1.parentNode.insertBefore(s, s1);
-		})();
-		</script>
-		<a class=\"DiggThisButton DiggCompact\"></a></td>";
-		echo '<td align="center"><a title="Post to Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="small-count"></a>
-<script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script></td>';
-		echo '<td align="center"><script src="http://www.stumbleupon.com/hostedbadge.php?s=1"></script></td>';
-		echo '<td align="center"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></td>';
-		echo '</tr></table>';
+		echo '<div style="margin-bottom:5px" width="100%">';
+		
+		echo '<span class="boomarker"><script src="http://www.stumbleupon.com/hostedbadge.php?s=1"></script></span>';
+		echo '<span class="boomarker"><td align="center"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></span>';
+		echo '<span class=\'boomarker\'><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="" layout="button_count" show_faces="true" width="10" font=""></fb:like></span>';
+		echo '</div>';
 	
 		
-	}
-	
-	
+	}	
 	register_anchor_function("show_social_bookmarks","video_bookmarks");
 	
+	add_header(PLUG_DIR.'/'.this_plugin().'/css.html');
 }
 
 ?>

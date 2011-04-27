@@ -1554,8 +1554,8 @@ class CBGroups extends CBCategory
 						 'size'=>'45',
 						 'db_field'=>'topic_title',
 						 'required'=>'yes',
-						 'min_length' => 4,
-						 'max_length'=>180,
+						 'min_length' => 1,
+						 'max_length'=>config('max_topic_title'),
 						 
 						 ),
 		'topic_post'	=> array(	
@@ -1568,7 +1568,7 @@ class CBGroups extends CBCategory
 						 'db_field'=>'topic_post',
 						 'required'=>'yes',
 						 'min_length' => 4,
-						 'max_length'=>800,
+						 'max_length'=>config('max_topic_length'),
 						 'anchor_before' => 'before_topic_post_box',
 						 'anchor_after' => 'after_topic_post_box',
 						 )								 

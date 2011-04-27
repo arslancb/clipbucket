@@ -1215,14 +1215,10 @@
 	}*/
 	function cb_bottom()
 	{
-		if(
-		(!defined("isCBSecured") 
-		|| count(get_functions('clipbucket_footer'))== 0 )
-		&& !BACK_END) 
-		{
-				echo cbSecured(CB_SIGN_C);
-		}
+		//Woops..its gone
 	}
+	
+	
 	function getSmartyCategoryList($params)
 	{
 		return getCategoryList($params);
@@ -4518,6 +4514,10 @@
 	
 	
 	
+	
+	
+	
+	
 	/**
 	 * Function used to generate RSS FEED links
 	 */
@@ -4649,6 +4649,27 @@
 				return "video";
 			}
 			break;
+		}
+	}
+	
+	
+	
+	function check_cbvideo()
+	{
+		
+		/**
+		  * come, keep it for two more versions only
+		  * it will be gone in next few updates by default :p
+		  *
+		  * but dont ever forget its name
+		  * its a damn ClipBucket
+		  */
+		  
+		if((!defined("isCBSecured") 
+		|| count(get_functions('clipbucket_footer'))== 0 )
+		&& !BACK_END) 
+		{
+				echo cbSecured(CB_SIGN_C);
 		}
 	}
 	
