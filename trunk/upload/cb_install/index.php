@@ -13,7 +13,7 @@
  if(!$mode || !in_array($mode,$modes))
  {
  	if(!$upgrade)
- 		$mode = 'finish';
+ 		$mode = 'agreement';
 	else
 		$mode = 'upgrade';
  }

@@ -4724,6 +4724,10 @@
         {
             $DirName = str_replace('/admin_area','',$DirName);
         }
+		if(preg_match('/cb_install/i', $DirName))
+        {
+            $DirName = str_replace('/cb_install','',$DirName);
+        }
         return get_server_protocol().$_SERVER['HTTP_HOST'].$DirName;
     }
 
