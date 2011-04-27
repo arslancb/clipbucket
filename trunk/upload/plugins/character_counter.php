@@ -26,7 +26,6 @@ function character_counter($type)
 			echo '</script>';
 		}
 		break;
-		
 		case "topic":
 
 		{
