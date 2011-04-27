@@ -14,4 +14,4 @@ CREATE TABLE `{tbl_prefix}sessions` (
   PRIMARY KEY (`session_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-ALTER TABLE `{tbl_prefix}users` ADD `album_privacy` ENUM( 'public', 'private', 'friends' ) NOT NULL DEFAULT 'private' AFTER `is_subscribed`;
+ALTER TABLE `{tbl_prefix}users` ADD `album_privacy` ENUM( 'public', 'private', 'friends' ) NOT NULL DEFAULT 'private' ;

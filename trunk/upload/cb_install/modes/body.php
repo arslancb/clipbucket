@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div id="head">
-    	<span id="logo"><span style="color:#09c">ClipBucket</span> Installer v<?=VERSION?> - &beta;eta</span>
+    	<span id="logo"><span style="color:#09c">ClipBucket</span> Installer v<?=VERSION?>  <?=STATE?></span>
     </div>
     
     <?php if(!$upgrade):?>
