@@ -40,7 +40,7 @@ if(file_exists(BASEDIR.'/files/temp/install.me'))
 <div class="product br5px">
 	<div class="title">
     <a href="http://clip-bucket.com/product/ClipBucket-FLV-Player-Rebranding/76">Pakplayer rebranding</a></div>
-    <div class="desc">Removes "Powered by ClipBuclet" message and Pakplayer name from your flv player and Let you set your own logo and message on Pakplayer</div>
+    <div class="desc">Removes "Powered by ClipBucket" message and Pakplayer name from your flv player and Let you set your own logo and message on Pakplayer</div>
 </div>
     
 <div class="product br5px">
