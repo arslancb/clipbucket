@@ -21,7 +21,7 @@
 			$version = $matches[1];
 		}
 				
-		if(in_array($version,$versions) && $version < VERSION)
+		if(in_array(@$version,$versions) && $version < VERSION)
 			return $version;
 		else
 			return false;

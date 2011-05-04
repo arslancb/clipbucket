@@ -3635,7 +3635,14 @@
 				if(defined("IN_MODULE"))
 				{
 					$url = 'cat='.$data['category_id'].'&sort='.$_GET['sort'].'&time='.$_GET['time'].'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
-					$plugURL = queryString($url,array("cat","sort","time","page","seo_cat_name"));
+					global $prefix_catlink;
+					$url = $prefix_catlink.$url;
+					
+					$rm_array = array("cat","sort","time","page","seo_cat_name");
+					$p = "";
+					if($prefix_catlink)
+						$rm_array[] = 'p';
+					$plugURL = queryString($url,$rm_array);
 					return $plugURL;
 				}
 								
@@ -5148,6 +5155,7 @@
 	function isSectionEnabled($input,$restrict=false)
 	{
 		global $Cbucket;
+		
 		$section = $Cbucket->configs[$input.'Section'];
 		
 		if(!$restrict)

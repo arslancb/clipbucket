@@ -53,22 +53,21 @@
             {/if}
             
             
-            {if $p.show_my_videos !='no'} 
+            {if $p.show_my_videos !='no' && $latestV} 
             <div class="itemListing moveR">              
                 
                 	<button id="VprevItem" class="carouselButton"><img src="{$imageurl}/up.png"></button>
                 	<div id="videoListing">
                         <ul style="list-style:none; margin:0px; padding:0px;">
-                        {if $latestV}
+                       
                         {section name=vlist loop=$latestV}
                         	{if !$profile_item}
                                 {assign var='profile_item' value=$latestV[vlist]}
                             {/if}
                             {include file="$style_dir/blocks/video.html" video=$latestV[vlist] display_type='channel_page'}
                         {/section}
-                        {else}
-                        	<div style="min-height:200px; text-align:center; line-height:200px;"><em>{lang code='found_no_videos'}</em></div>
-                        {/if}
+                       
+                 
                         </ul>
                     </div>
                     <button id="VnextItem" class="carouselButton"><img src="{$imageurl}/down.png"></button>                           
@@ -252,7 +251,7 @@
 			channelObjects('#infoTab','#channelDetailsBox','info','{$u.userid}');
 		{/if}
 		
-		{if $p.show_my_photo=='no' || $p.show_my_photos!='yes' }
+		{if $p.show_my_photo=='no' || $p.show_my_photos!='yes'  || !$latestV}
 			var viewingAreaParent = $('#viewingArea').parent().parent().width();	
 			$('#viewingArea') .width(viewingAreaParent-180)	
 		{/if}

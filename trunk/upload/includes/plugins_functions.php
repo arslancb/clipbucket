@@ -123,13 +123,13 @@
 	/**
 	 * Function used to turn db category into links
 	 */
-	function categories($input,$type,$sep=',')
+	function categories($input,$type,$sep=',',$object_name=null)
 	{
 		global $cbvideo;
 		switch($type)
 		{
 			case 'video':
-			default:
+			//default:
 			$obj = $cbvideo;
 			break;
 			case 'group':
@@ -153,6 +153,12 @@
 				$obj = $cbcollection;
 			}
 			break;
+			
+			default:
+			{
+				global ${$object_name};
+				$obj = ${$object_name};
+			}
 		}
 		
 		preg_match_all('/#([0-9]+)#/',$input,$m);

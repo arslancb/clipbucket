@@ -14,7 +14,12 @@
 							   'title'	=> 'Embed Code',
 							   'load_func'	=>	'load_embed_form',
 							   );
-		
+if(post('verify_embed'))
+{
+	$embed_code = post('embed_code');
+	if($embed_code)
+		$_POST ['embed_code'] = base64_decode($embed_code);		
+}
 
 if(!function_exists('validate_embed_code'))
 {
@@ -77,7 +82,7 @@ if(!function_exists('validate_embed_code'))
 		{
 			return 'none';		
 		}else{
-			$val = urldecode($val);
+			//$val = base64_decode($val);
 			//Striping Slasshes as they are not required
 			$val = stripslashes($val);
 			//Removing spaces and non required code

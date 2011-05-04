@@ -220,8 +220,10 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (220, 'own_channel_rating', '1'),
 (221, 'collection_rating', '1'),
 (222, 'own_collection_rating', '1'),
-(223, 'own_video_rating', '1');
-
+(223, 'own_video_rating', '1'),
+(NULL,'feedsSection','yes'),
+(NULL,'max_topic_length','1500'),
+(NULL,'max_topic_title','300');
 
 
 INSERT INTO `{tbl_prefix}languages` (`language_id`, `language_code`, `language_name`, `language_regex`, `language_active`, `language_default`) VALUES
