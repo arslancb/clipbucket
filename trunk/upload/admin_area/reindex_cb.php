@@ -215,7 +215,7 @@ if(isset($_GET['index_collections'])) {
 		$indexes = $cbindex->count_index("collections",$params);
 		$fields = $cbindex->extract_fields("collections",$params);
 		$msg[] = $collections[$i]['collection_id'].": Updating <strong><em>".$collections[$i]['collection_name']."</em></strong>"; 	
-		$cbindex->update_index("photos",array("fields"=>$fields,"values"=>$indexes,"photo_id"=>$collections[$i]['collection_id']));
+		$cbindex->update_index("collections",array("fields"=>$fields,"values"=>$indexes,"photo_id"=>$collections[$i]['collection_id']));
 		}
 		$i++;
 	}
