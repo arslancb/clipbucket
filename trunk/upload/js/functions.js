@@ -643,7 +643,7 @@ var loading = loading_img+" Loading...";
 		},'text');
 	}
 	
-	function add_playlist(mode,vid,form_id)
+	function add_playlist(mode,vid,form_id,objtype)
 	{
 		$("#playlist_form_result").css("display","block");
 		$("#playlist_form_result").html(loading);
@@ -654,7 +654,8 @@ var loading = loading_img+" Loading...";
 				$.post(page, 
 				{ 	
 					mode : 'add_playlist',
-					vid : vid,
+					id : vid,
+					objtype : objtype,
 					pid : $("#playlist_id option:selected").val()
 		},
 				function(data)
@@ -687,7 +688,8 @@ var loading = loading_img+" Loading...";
 				$.post(page, 
 				{ 	
 					mode : 'add_new_playlist',
-					vid : vid,
+					id : vid,
+					objtype : objtype,
 					plname : $("#"+form_id+" input:#playlist_name").val()
 		},
 				function(data)
@@ -696,13 +698,13 @@ var loading = loading_img+" Loading...";
 						alert("No data");
 					else
 					{	
-						if(data.err != '')
+						if(data.err )
 						{
 							$("#playlist_form_result").css("display","block");
 							$("#playlist_form_result").html(data.err);
 						}
 						
-						if(data.msg!='')
+						if(data.msg)
 						{
 							$("#playlist_form_result").css("display","block");
 							$("#playlist_form_result").html(data.msg);

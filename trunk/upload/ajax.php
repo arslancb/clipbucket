@@ -612,28 +612,33 @@ if(!empty($mode))
 		 */
 		case 'add_playlist';
 		{
-			$vid = mysql_clean($_POST['vid']);
+			$id = mysql_clean($_POST['id']);
 			$pid = mysql_clean($_POST['pid']);
-			$cbvid->action->add_playlist_item($pid,$vid);
-			updateObjectStats('plist','video',$vid);
 			
+			$type = post('objtype');
 			
-			if(msg())
+			if($type=='video')
 			{
-				$msg = msg_list();
-				$msg = '<div class="msg">'.$msg[0].'</div>';;
+				$cbvid->action->add_playlist_item($pid,$id );
+				updateObjectStats('plist','video',$id);
+				
+				if(msg())
+				{
+					$msg = msg_list();
+					$msg = '<div class="msg">'.$msg[0].'</div>';;
+				}
+				if(error())
+				{
+					$err = error_list();
+					$err = '<div class="error">'.$err[0].'</div>';;
+				}
+				
+				$ajax['msg'] = $msg ? $msg : '';
+				$ajax['err'] = $err ? $err : '';
+				
+				
+				echo json_encode($ajax);
 			}
-			if(error())
-			{
-				$err = error_list();
-				$err = '<div class="error">'.$err[0].'</div>';;
-			}
-			
-			$ajax['msg'] = $msg ? $msg : '';
-			$ajax['err'] = $err ? $err : '';
-			
-			
-			echo json_encode($ajax);
 			
 		}
 		break;
@@ -641,33 +646,37 @@ if(!empty($mode))
 		
 		case 'add_new_playlist';
 		{
-			$vid = mysql_clean($_POST['vid']);
 			
-			$params = array('name'=>mysql_clean($_POST['plname']));
-			$pid = $cbvid->action->create_playlist($params);
-			
-			if($pid)
+			if(post('objtype')=='video')
 			{
-				$eh->flush();
-				$cbvid->action->add_playlist_item($pid,$vid);
+				$vid = mysql_clean($_POST['id']);
+				
+				$params = array('name'=>mysql_clean($_POST['plname']));
+				$pid = $cbvid->action->create_playlist($params);
+				
+				if($pid)
+				{
+					$eh->flush();
+					$cbvid->action->add_playlist_item($pid,$vid);
+				}
+				
+				if(msg())
+				{
+					$msg = msg_list();
+					$msg = '<div class="msg">'.$msg[0].'</div>';;
+				}
+				if(error())
+				{
+					$err = error_list();
+					$err = '<div class="error">'.$err[0].'</div>';;
+				}
+				
+				$ajax['msg'] = $msg ? $msg : '';
+				$ajax['err'] = $err ? $err : '';
+				
+				
+				echo json_encode($ajax);
 			}
-			
-			if(msg())
-			{
-				$msg = msg_list();
-				$msg = '<div class="msg">'.$msg[0].'</div>';;
-			}
-			if(error())
-			{
-				$err = error_list();
-				$err = '<div class="error">'.$err[0].'</div>';;
-			}
-			
-			$ajax['msg'] = $msg ? $msg : '';
-			$ajax['err'] = $err ? $err : '';
-			
-			
-			echo json_encode($ajax);
 			
 		}
 		break;

@@ -418,7 +418,7 @@ class cbactions
 			e(lang("please_login_create_playlist"));
 		elseif(empty($name))
 			e(lang("please_enter_playlist_name"));
-		elseif($this->playlist_exists($name,userid()))
+		elseif($this->playlist_exists($name,userid(),$this->type))
 			e(sprintf(lang("play_list_with_this_name_arlready_exists"),$name));
 		else
 		{
@@ -446,10 +446,13 @@ class cbactions
 	/**
 	 * Function used to check weather playlist already exists or not
 	 */
-	function playlist_exists($name,$user)
+	function playlist_exists($name,$user,$type=NULL)
 	{
 		global $db;
-		$count = $db->count(tbl($this->playlist_tbl),"playlist_id"," userid='$user' AND playlist_name='$name'");
+		if($type)
+			$type = $this->type;
+		$count = $db->count(tbl($this->playlist_tbl),"playlist_id"," userid='$user' AND playlist_name='$name' AND playlist_type='".$type."' ");
+
 		if($count)
 			return true;
 		else
@@ -600,6 +603,7 @@ class cbactions
 	{
 		global $db;
 		$result = $db->select(tbl($this->playlist_tbl),"*"," playlist_type='".$this->type."' AND userid='".userid()."'");
+		
 		if($db->num_rows>0)
 			return $result;
 		else
