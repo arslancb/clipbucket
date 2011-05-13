@@ -1572,3 +1572,24 @@ function decode64(input) {
 
 	return output.toString();
 }
+
+
+	/**
+	 * Function used to load editor's pic video
+	 */
+	function get_ep_video(vid)
+	{
+		var page = baseurl+'/plugins/editors_pick/get_ep_video.php';
+		$("#ep_video_container").html(loading);
+		$.post(page, 
+		{ 	
+			vid : vid
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+				$("#ep_video_container").html(data);
+		},'text');
+	}
