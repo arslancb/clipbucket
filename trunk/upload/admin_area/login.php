@@ -35,16 +35,15 @@ if(isset($_POST['login'])){
 	$password = mysql_clean(clean($_POST['password']));
 	
 	//Loggin User
-	$userquery->login_user($username,$password);
-	
-	//Checking if logged in user has access or not
-	if(userid())
-	{
-		if($userquery->login_check('admin_access'))
+	if($userquery->login_user($username,$password))
 			redirect_to('index.php');
-	}
+
 }
 
+
+if(userid() && !has_access('admin_access',true))
+	e(lang("you_dont_hv_perms"));
+	
 subtitle('Admin Login');
 Template('global_header.html');
 Template('login.html');

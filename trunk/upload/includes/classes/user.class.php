@@ -446,7 +446,7 @@ class userquery extends CBCategory{
 	 */
 	function admin_login_check($check_only=false)
 	{
-		if(!$this->login_check('admin_access'))
+		if(!has_access('admin_access',true))
 		{
 			if($check_only==FALSE)
 				redirect_to('login.php');

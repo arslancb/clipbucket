@@ -612,13 +612,12 @@ class ClipBucket
 	 */
 	function get_cb_news()
 	{
-		/*$feeds = 5;
+		$feeds = 5;
 		$text = 400;
 		
-		if($_SERVER['HTTP_HOST']!='localhost')
+		//if($_SERVER['HTTP_HOST']!='localhost')
 			$url = 'http://blog.clip-bucket.com/feed/';
-		else
-			$url = 'http://localhost/clipbucket/2.x/2/upload/tester/feed.xml';
+		
 		$news = xml2array($url);
 		if(!$news)
 		{
@@ -631,7 +630,7 @@ class ClipBucket
 				$items[] = $item[$i];
 			
 			return $items;
-		}*/
+		}
 		
 	}
 	

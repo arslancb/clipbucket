@@ -26,6 +26,23 @@
             </div>
             
             
+            
+            <div class="item clearfix">
+            	<div class="stats_subitem">Photos</div>
+                <div class="stats_subitem_d">Total : <strong>{get_photos count_only=yes}</strong> | Active : <strong>{get_photos count_only=yes active='yes'}</strong> | Flagged : <strong>{$cbphoto->action->count_flagged_objects()}</strong> </div>
+            </div>
+            
+            
+            
+             <div class="item clearfix">
+            	<div class="stats_subitem">Collections</div>
+                <div class="stats_subitem_d">Total : <strong>{get_collections count_only=yes}</strong> | Active : <strong>{get_collections count_only=yes active='yes'}</strong> 
+                | Flagged : <strong>{$cbcollection->action->count_flagged_objects()} </strong>
+                | Videos : <strong>{get_collections count_only=yes type='videos'}</strong> | Photos : <strong>{get_collections count_only=yes type='photos'}</strong>
+                </strong> </div>
+            </div>
+            
+            
             <div class="item">
             {assign var=users value=$userquery->get_online_users()}
             <strong><a href="online_users.php">Online Users({$userquery->get_online_users(false,true)})</a></strong><br />
@@ -68,31 +85,29 @@ Latest Version <strong>{$Cbucket->cbinfo.latest.version} {$Cbucket->cbinfo.lates
     <div class="dragbox" id="cbnews" >
         <h2>ClipBucket News</h2>
         <div class="dragbox-content" >
-            {assign var=cbnews value=$Cbucket->get_cb_news()}
-            {if $cbnews}
-                {foreach from=$cbnews item=news}
-                <div class="item news">
-                    <div class="news_title"><span class="title"><a href="{$news.link}">{$news.title}</a></span><span class="date">{$news.pubDate|date_format}</span></div><span class="clearfix"></span>
-                    <div>
-                        {$news.description}
-                    </div>
-                </div>
-                {/foreach}
-            {else}
-                <div align="center"><em><strong>No News Found</strong></em></div>
-            {/if}
+        	<div  id="clipbucket_news"></div>
         </div>
     </div>
     
     <div style="height:20px;"></div>
-    <h2>ClipBucket Team and Development</h2><br /><br />
-
-    ClipBucket is developed by <strong>Arslan</strong>, <strong>Fawaz</strong> and <strong>Frank White</strong>.<br />
-We say special thanks to <strong>Frank</strong> and <strong>Christian</strong> (oUTSKIRTs) for their great support and time.
-<br />
-<br />
-We need to grow our team but so far, very few people are thinking of doing any kind of contribution, so please go ahead and contribute your code so we can develop more features.
-    
+    <div style="font-size:12px">
+    <h2>Words from ClipBucket!</h2>
+    <p>ClipBucket is solely developed by <strong>Arslan Hassan</strong> and <strong>Fawaz Tahir </strong>, we started with a small website application with only functionality of serving videos to the community later on we decided to add every possible social networking feature to make social communities more interactive. We didn't have any milestones, no road map, no charts, no nothing. Only thing we had was a vision as of our captain <strong>Jahanzeb Hassan</strong> and plenty of hard work. </p>
+    <p><strong>ClipBucket team gives special thanks to</strong><br />
+      <br />
+      * Frank White for helping us knowing the basics of professional application development<br />
+      * Christian Russemen for keep our community active<br />
+      * You for using and believing on ClipBucket.</p>
+    <h3>What lies head?</h3>
+    <p>* Easy ClipBucket integeration with other applications<br />
+      * Make more secured, fast and optimized<br />
+      * HTML5 ready with mobile support<br />
+      * Full documentation of our source code
+    </p>
+    <h3>3rd world!</h3>
+    <p>yes, we belong to <a href="http://clip-bucket.com/pakistan">Islamic Republic of Pakistan</a> :) and many of you don't know what really going on here. Some simply believe what they see on television, some criticise without <a href="http://clip-bucket.com/pakistan#the_truth">knowing the facts.</a><br />
+  <strong><br />
+</strong></p></div>
 </div>    
     
     </td>
@@ -161,3 +176,21 @@ We need to grow our team but so far, very few people are thinking of doing any k
     </td>
   </tr>
 </table>
+
+
+<script>
+{literal}
+$(document).ready(function(){
+	$.ajax({
+	  url :  baseurl+'/ajax.php',
+	  type: "POST",
+	  dataType : 'text',
+	  data : {'mode':'get_news'},
+	  success : function(news){ $('#clipbucket_news').html(news) },
+	  timeout : 5000,
+	  error  :  function(err) { $('#clipbucket_news').html(' <div align="center"><em><strong>Unable to fetch news</strong></em></div>')},
+	  
+	});
+});
+{/literal}
+</script>

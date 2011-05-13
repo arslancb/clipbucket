@@ -1353,6 +1353,31 @@ if(!empty($mode))
 		}
 		break;
 		
+		
+		
+		case "get_news":
+		{
+			$news = $Cbucket->get_cb_news();
+			
+			if($news)
+			foreach($news as $n)
+			{
+					echo '<div class="item news">';
+					echo '<div class="news_title">
+					<span class="title"><a href="{$news.link}">'.$n['title'].'</a></span>
+					<span class="date">'.date("m-d-Y",time($n['pubDate'])).'</span></div>
+					<span class="clearfix"></span>';
+					echo '<div>';
+					echo $n['description'];
+					echo '</div>';
+					echo '</div>';
+			}
+			else
+			echo '<div align="center"><em><strong>Unable to fetch news</strong></em></div>';
+		}
+		break;
+		
+		
 		case "delete_feed":
 		{
 			$uid = mysql_clean($_POST['uid']);
