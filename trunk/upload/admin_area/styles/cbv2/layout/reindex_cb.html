@@ -43,7 +43,31 @@ Here you can re-index your videos, users or groups statistics. From below select
         	<input type="submit" name="index_gps" id="index_gps" value="Reindex Groups" class="button"
             onclick="$('#loop_start_gp').val($('#the_loop_size').val())"/>
         </form></td>
-    </tr>        
+    </tr>
+    
+    <tr>
+        <td align="left"><h4>Reindex Collections
+      </h4>
+        this will reindex all collections , update total objects, total comments</td>
+        <td align="right">
+        <form name="reindex_collections" method="get" action="">
+        	<input type="hidden" name="loop_size" value="" id="loop_start_cl" />
+        	<input type="submit" name="index_collections" id="index_collections" value="Reindex Collections" class="button"
+            onclick="$('#loop_start_gp').val($('#the_loop_size').val())"/>
+        </form></td>
+    </tr>
+    
+     <tr>
+        <td align="left"><h4>Reindex Photos
+      </h4>
+        this will reindex all photos , update total favorites, total comments</td>
+        <td align="right">
+        <form name="reindex_photos" method="get" action="">
+        	<input type="hidden" name="loop_size" value="" id="loop_start_ph" />
+        	<input type="submit" name="index_photos" id="index_photos" value="Reindex Photos" class="button"
+            onclick="$('#loop_start_gp').val($('#the_loop_size').val())"/>
+        </form></td>
+    </tr>               
 </table>
 
 {if $indexing}

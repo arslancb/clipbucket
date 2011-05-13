@@ -104,6 +104,22 @@ class CBreindex
 													$subtbl.".userid = ".$params['user']."");
 					$arr[] = $subscriptions_count;	
 				}
+
+				if($params['collections_count'])
+				{
+					global $cbcollection;
+					$details = array("user"=>$params['user'],"active"=>"yes","count_only"=>true);
+					$collection_count = $cbcollection->get_collections($details);
+					$arr[] = $collection_count;	
+				}
+				
+				if($params['photos_count'])
+				{
+					global $cbphoto;
+					$details = array("user"=>$params['user'],"active"=>"yes","count_only"=>true);
+					$photos_count = $cbphoto->get_photos($details);
+					$arr[] = $photos_count;	
+				}
 										
 				return $arr;
 				
@@ -183,6 +199,52 @@ class CBreindex
 				return $arr;
 			}
 			break;
+			
+			case "photos":
+			case "p":
+			case "photo":
+			{
+				if($params['favorite_count'])
+				{
+					$fav_count = $db->count(tbl("favorites"),"favorite_id",tbl("favorites.id")." = ".$params['photo_id']." AND ".tbl("favorites.type")." = 'p' ");
+					$arr[] = $fav_count;	
+				}
+				
+				if($params['total_comments'])
+				{
+					$comment_count = $db->count(tbl("comments"),"comment_id",tbl("comments.type_id")." = ".$params['photo_id']." AND ".tbl("comments.type")." = 'p' ");
+					$arr[] = $comment_count;	
+				}
+				
+				return $arr;
+			}
+			break;
+			
+			case "collections":
+			case "collection":
+			case "cl":
+			{
+				if($params['favorite_count'])
+				{
+					$fav_count = $db->count(tbl("favorites"),"favorite_id",tbl("favorites.id")." = ".$params['collection_id']." AND ".tbl("favorites.type")." = 'cl' ");
+					$arr[] = $fav_count;	
+				}
+				
+				if($params['total_comments'])
+				{
+					$comment_count = $db->count(tbl("comments"),"comment_id",tbl("comments.type_id")." = ".$params['collection_id']." AND ".tbl("comments.type")." = 'cl' ");
+					$arr[] = $comment_count;	
+				}
+				
+				if($params['total_items'])
+				{
+					$item_count = $db->count(tbl("collection_items"),"ci_id",tbl("collection_items.collection_id")." = ".$params['collection_id']);
+					$arr[] = $item_count;	
+				}
+				
+				return $arr;
+			}
+			break;
 		}
 	}
 	
@@ -218,6 +280,21 @@ class CBreindex
 			{
 					$db->update(tbl($this->gtbl),$params['fields'],$params['values'], tbl($this->gtbl).".group_id = ".$params['group_id']."");
 			}
+			break;
+			
+			case "photos": case "photo":
+			case "p": case "foto": case "piture":
+			{
+				$db->update(tbl("photos"),$params['fields'],$params['values'],tbl("photos.photo_id")." = ".$params['photo_id']);	
+			}
+			break;
+			
+			case "collection": case "collection":
+			case "cl":
+			{
+				$db->update(tbl("collections"),$params['fields'],$params['values'],tbl("collections.collection_id")." = ".$params['collection_id']);
+			}
+			break;
 		}
 	 }
 	 
@@ -253,7 +330,13 @@ class CBreindex
 						$fields[] = 'subscribers';
 						
 					if(array_key_exists('subscriptions_count',$arr))
-						$fields[] = 'total_subscriptions';						
+						$fields[] = 'total_subscriptions';	
+						
+					if(array_key_exists('collections_count',$arr))
+						$fields[] = 'total_collections';
+						
+					if(array_key_exists('photos_count',$arr))
+						$fields[] = 'total_photos';									
 					$result  = $fields;					
 				} else {
 					$result = $arr;	
@@ -310,6 +393,49 @@ class CBreindex
 				
 				return $result;
 			}
+			
+			case "photos": case "photo":
+			case "p": case "piture":
+			{
+				if(is_array($arr))
+				{
+					if(array_key_exists("favorite_count",$arr))
+						$fields[] = "total_favorites";
+						
+					if(array_key_exists("total_comments",$arr))
+						$fields[] = "total_comments";	
+						
+					$result = $fields;	
+				} else {
+					$result = $arr;	
+				}
+				
+				return $result;
+			}
+			break;
+			
+			case "collections": case "collection":
+			case "cl":
+			{
+				if(is_array($arr))
+				{
+					if(array_key_exists("favorite_count",$arr))
+						$fields[] = "total_favorites";
+					
+					if(array_key_exists("total_commnets",$arr))
+						$fields[] = "total_comments";
+						
+					if(array_key_exists("total_items",$arr))
+						$fields[] = "total_objects";
+						
+					$result = $fields;			
+				} else {
+					$result = $arr;	
+				}
+				
+				return $result;
+			}
+			break;
 		 }
 	 }
 }

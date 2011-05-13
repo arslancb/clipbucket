@@ -100,7 +100,7 @@ if(isset($_GET['index_usrs'])) {
 		if($users[$i]['userid'])
 		{
 			$params = array("user"=>$users[$i]['userid'],"comment_added"=>true,"subscriptions_count"=>true,"subscribers_count"=>true,
-							"video_count"=>true,"groups_count"=>true,"comment_received"=>true);
+							"video_count"=>true,"groups_count"=>true,"comment_received"=>true,"collections_count"=>true,"photos_count"=>true);
 			$indexes = $cbindex->count_index("user",$params);
 			$fields = $cbindex->extract_fields("user",$params);
 			$msg[] = $users[$i]['userid'].": Updating <strong><em>".$users[$i]['username']."</em></strong>"; 	
@@ -152,6 +152,78 @@ if(isset($_GET['index_gps'])) {
 	assign("index_msgs",$msg);
 	assign("indexing","yes");
 	assign('mode','index_gps');
+}
+
+if(isset($_GET['index_photos'])) {
+	$photos = get_photos(array("active"=>"yes","limit"=>$start_index.",".$loop_size));
+	$total_photos = get_photos(array("count_only"=>true,"active"=>"yes"));
+	$percent = $cbindex->percent(50,$total_photos);
+	$i = 0;
+	
+	assign('total',$total_photos);
+	assign('from',$start_index+1);
+	$to = $start_index+$loop_size;
+	if($to>$total_photos)
+	{
+		$to = $total_photos;
+		e($total_photos." photos have been reindexed successfully.","m");
+		assign("stop_loop","yes");
+	}
+	assign('to',$to);
+
+	while ($i < $total_photos)
+	{
+		if($photos[$i]['photo_id'])
+		{
+		$params = array("photo_id"=>$photos[$i]['photo_id'],"favorite_count"=>true,"total_comments"=>true);
+		$indexes = $cbindex->count_index("photos",$params);
+		$fields = $cbindex->extract_fields("photos",$params);
+		$msg[] = $photos[$i]['photo_id'].": Updating <strong><em>".$photos[$i]['photo_title']."</em></strong>"; 	
+		$cbindex->update_index("photos",array("fields"=>$fields,"values"=>$indexes,"photo_id"=>$photos[$i]['photo_id']));
+		}
+		$i++;
+	}
+	
+	e($start_index+1 ." - ".$to."  photos have been reindexed successfully.","m");			
+	assign("index_msgs",$msg);
+	assign("indexing","yes");
+	assign('mode','index_photos');
+}
+
+if(isset($_GET['index_collections'])) {
+	$collections = get_collections(array("active"=>"yes","limit"=>$start_index.",".$loop_size));
+	$total_collections = get_collections(array("count_only"=>true,"active"=>"yes"));
+	$percent = $cbindex->percent(50,$total_collections);
+	$i = 0;
+	
+	assign('total',$total_collections);
+	assign('from',$start_index+1);
+	$to = $start_index+$loop_size;
+	if($to>$total_collections)
+	{
+		$to = $total_collections;
+		e($total_collections." collections have been reindexed successfully.","m");
+		assign("stop_loop","yes");
+	}
+	assign('to',$to);
+
+	while ($i < $total_collections)
+	{
+		if($collections[$i]['collection_id'])
+		{
+		$params = array("collection_id"=>$collections[$i]['collection_id'],"total_items"=>true,"total_comments"=>true);
+		$indexes = $cbindex->count_index("collections",$params);
+		$fields = $cbindex->extract_fields("collections",$params);
+		$msg[] = $collections[$i]['collection_id'].": Updating <strong><em>".$collections[$i]['collection_name']."</em></strong>"; 	
+		$cbindex->update_index("photos",array("fields"=>$fields,"values"=>$indexes,"photo_id"=>$collections[$i]['collection_id']));
+		}
+		$i++;
+	}
+	
+	e($start_index+1 ." - ".$to."  collections have been reindexed successfully.","m");			
+	assign("index_msgs",$msg);
+	assign("indexing","yes");
+	assign('mode','index_collections');
 }
 
 subtitle("Re-index Clipbucket");		
