@@ -214,7 +214,7 @@ class pages{
 			if(count($_GET)==0 || (count($_GET)==1 && isset($_GET['page'])))
 				$params = $params;	 
 			else
-				$params ='href="'.$page.'"';
+				$params ='href="./'.$page.'"';
 		}
 		
 		$final_link = preg_replace(array("/$page_pattern/i","/$param_pattern/i"),array($page,$params),$tag);

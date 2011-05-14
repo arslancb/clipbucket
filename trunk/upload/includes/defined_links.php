@@ -8,11 +8,11 @@
 
 $cbLinks = array
 (
-'channels'		=>array('channels.php','channels'),
+'channels'		=>array('channels.php','channels/'),
 'compose_new'	=>array('private_message.php?mode=new_msg','private_message.php?mode=new_msg'),
 'contact_us'	=>array('contact.php','contact'),
 'create_group'	=>array('create_group.php','create_group'),
-'groups'		=>array('groups.php','groups'),
+'groups'		=>array('groups.php','groups/'),
 'inbox'			=>array('private_message.php?mode=inbox','private_message.php?mode=inbox'),
 'login'			=>array('signup.php','signup.php'),
 'login_success'	=>array('login_success.php','login_success.php'),
@@ -33,7 +33,7 @@ $cbLinks = array
 'user_subscribers' =>array('user_contacts.php?mode=subscribers&user=','user_contacts.php?mode=subscribers&user='),
 'user_favorites'=>array('user_videos.php?mode=favorites&user=','user_videos.php?mode=favorites&user='),
 'user_videos' 	=>array('user_videos.php?user=','user_videos.php?user='),
-'videos'		=>array('videos.php','videos'),
+'videos'		=>array('videos.php','videos/'),
 
 );
 

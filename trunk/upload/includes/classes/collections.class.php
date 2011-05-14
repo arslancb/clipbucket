@@ -89,7 +89,7 @@ class Collections extends CBCategory
 		
 
 		// Adding Collection links in Cbucket Class
-		$Cbucket->links['collections'] = array('collections.php','collections');
+		$Cbucket->links['collections'] = array('collections.php','collections/');
 		$Cbucket->links['manage_collections'] = array('manage_collections.php','manage_collections.php');
 		$Cbucket->links['edit_collection'] = array('manage_collections.php?mode=edit_collection&amp;cid=',
 												   'manage_collections.php?mode=edit_collection&amp;cid=');

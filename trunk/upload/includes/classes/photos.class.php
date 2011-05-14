@@ -145,7 +145,7 @@ class CBPhotos
 											
 		//Setting Cbucket links
 
-		$Cbucket->links['photos'] = array('photos.php','photos');
+		$Cbucket->links['photos'] = array('photos.php','photos/');
 		$Cbucket->links['manage_photos'] = array('manage_photos.php','manage_photos.php');
 		$Cbucket->links['edit_photo'] = array('edit_photo.php?photo=','edit_photo.php?photo=');
 		$Cbucket->links['photo_upload'] = array('photo_upload.php','photo_upload');
