@@ -20,7 +20,7 @@ if(!function_exists('cb_modules'))
 	}
 	
 	
-	function show_social_bookmarks($vdetails)
+	function show_social_bookmarks($vdetails=NULL)
 	{
 		
 		echo '<div style="margin-bottom:5px" width="100%">';

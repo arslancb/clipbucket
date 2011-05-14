@@ -195,9 +195,11 @@ if(!function_exists('validate_embed_code'))
 			{
 				if($image->ValidateImage($array['tmp_name'],$ext)){
 					$file = BASEDIR.'/files/thumbs/'.$_POST['file_name'].'.'.$ext;
+					$bfile = BASEDIR.'/files/thumbs/'.$_POST['file_name'].'.-big'.$ext;
 					if(!file_exists($file))
 					{
 						move_uploaded_file($array['tmp_name'],$file);
+						$image->CreateThumb($file,$bfile,config('big_thumb_width'),$ext,config('big_thumb_height'),false);
 						$image->CreateThumb($file,$file,THUMB_WIDTH,$ext,THUMB_HEIGHT,false);
 					}
 				}else{
