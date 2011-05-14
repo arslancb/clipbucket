@@ -1035,7 +1035,7 @@ class ffmpeg
 			$command = $this->ffmpeg." -i ".$this->input_file." $opt_av  $dimensions -acodec libfaac -vcodec libx264 -vpre hq -crf 22 -threads 0 ".$this->hq_output_file."  2> ".TEMP_DIR."/output.tmp ";	
 
 			
-			if(KEEP_MP4_AS_IS=="yes" && getExt($this->hq_output_file)=='mp4')
+			if(KEEP_MP4_AS_IS=="yes" && getExt($this->input_file)=='mp4')
 				copy($this->input_file,$this->hq_output_file);
 			else
 				$output = $this->exec($command);
