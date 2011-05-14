@@ -24,7 +24,11 @@ function GetServerURL()
 
 $released = $Cbucket->cbinfo;
 
-$db->update(tbl("config"),array("value"),array(dirname(GetServerURL()))," name='baseurl'");
+$baseurl = dirname(GetServerURL());
+if(substr($baseurl,strlen($baseurl)-1,1)=='/')
+	$baseurl = substr($baseurl,0,strlen($baseurl)-1);
+	
+$db->update(tbl("config"),array("value"),array($baseurl)," name='baseurl'");
 $db->update(tbl("config"),array("value"),array(BASEDIR)," name='basedir'");
 $db->update(tbl("config"),array("value"),array($released['release_date'])," name='date_released'");
 $db->update(tbl("config"),array("value"),array(now())," name='date_updated'");
