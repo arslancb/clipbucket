@@ -961,9 +961,9 @@ if(!empty($mode))
 		
 		case "add_collection":
 		{
-			$name = mysql_clean($_POST['collection_name']);
-			$desc = mysql_clean($_POST['collection_description']);
-			$tags = mysql_clean(genTags($_POST['collection_tags']));
+			$name = ($_POST['collection_name']);
+			$desc = ($_POST['collection_description']);
+			$tags = (genTags($_POST['collection_tags']));
 			$cat  = ($_POST['category']);
 			$type = "photos";
 			$CollectParams = 
