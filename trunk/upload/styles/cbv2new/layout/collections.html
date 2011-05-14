@@ -13,12 +13,19 @@
     {/foreach}
 </ul>
 </div>
+
+
 <div class="time_cont">
 {assign var=time_links value=func->time_links()}
 {foreach from=$time_links item=name key=sort name=times}
     <a href="{link name=time sort=$sort type='collections'}" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a> {if !$smarty.foreach.times.last}|{/if}
 {/foreach}
 </div>
+
+<div class="time_cont" align="right">
+<span class="cb_fb_style_button"><a href="{$baseurl}/manage_collections.php?mode=add_new">{lang code='add_new_collection'}</a></span>
+</div>
+
 {section name=c_list loop=$collections}
     {include file="$style_dir/blocks/collection.html" collection=$collections[c_list]}
 {sectionelse}

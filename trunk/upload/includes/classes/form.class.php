@@ -94,12 +94,12 @@ class formObj
 		if(!empty($field['value']))
 		{
 			if($field['type']=='textfield' ||$field['type']=='password')
-				$textField .= ' value="'.($field['value']).'" ';
+				$textField .= ' value="'.(htmlspecialchars_decode($field['value'])).'" ';
 			
 		}
 		
 		if($field['type']=='textarea')
-				$textField .= '>'.$field['value'];
+				$textField .= '>'.htmlspecialchars_decode($field['value']);
 				
 		//Finishing It
 		if($field['type']=='textfield' ||$field['type']=='password')

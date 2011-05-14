@@ -1024,7 +1024,7 @@
 		if(is_string($string))
 			$string = htmlspecialchars($string);
 		if(get_magic_quotes_gpc())
-			$string = stripslashes($string);
+			$string = stripslashes($string);			
 		return $string;
 	}
 	function form_val($string){return cleanForm($string); }

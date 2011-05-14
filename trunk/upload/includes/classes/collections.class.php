@@ -598,7 +598,7 @@ class Collections extends CBCategory
 						   'type' => 'textfield',
 						   'name' => 'collection_name',
 						   'id' => 'collection_name',
-						   'value' => ($name),
+						   'value' => cleanForm($name),
 						   'db_field' => 'collection_name',
 						   'required' => 'yes',
 						   'invalid_err' => lang("collect_name_er")
@@ -609,7 +609,7 @@ class Collections extends CBCategory
 							'type' => 'textarea',
 							'name' => 'collection_description',
 							'id' => 'colleciton_desciption',
-							'value' => ($description),
+							'value' => cleanForm($description),
 							'db_field' => 'collection_description',
 							'required' => 'yes',
 							'anchor_before' => 'before_desc_compose_box',

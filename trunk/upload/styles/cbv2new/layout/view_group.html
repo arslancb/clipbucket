@@ -1,7 +1,7 @@
 {include file="$style_dir/blocks/group/group_left.html"}
 
 <div class="groupContent">
-	<div class="groupTitle clearfix">{$group.group_name}</div>
+	<div class="groupTitle clearfix">{$group.group_name|htmlspecialchars_decode}</div>
     <div style="padding:0px 5px">
 		<ul class="groupsBar clearfix" style="border-color:#aaa; border-width:0px 0px 1px;">
     	<li  {if $mode == "" || $mode == "main"}class="selected"{/if}><a href="{group_link details=$group}" onClick="groupsAjax(event,this);" id="gpViewInfo"><img src="{$imageurl}/dot.gif" class="blueDoc"/> {lang code="info"}</a></li>

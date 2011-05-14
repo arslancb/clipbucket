@@ -669,7 +669,7 @@ ul.upload_opts li.selected { cursor:pointer; background:none; border:1px solid; 
  */
 .cross_icon,.check_icon,.add_icon{background-image:url(../images/icons/quicklist_small.png); height:14px; width:14px; background-repeat:no-repeat; cursor:pointer;position:absolute; left:2px; bottom:2px;}
 .check_icon{background-image:url(../images/icons/quicklist_check_small.png); }
-.cross_icon{background-position:0px -28px; position:relative; z-index:10}
+.cross_icon{ background-image:url(../images/icons/cross.png);position:relative; z-index:10}
 .private_video{background-image:url(../images/private.png); width:110px; height:66px;position:absolute; top:2px; left:2px; border:0px}
 .quicklist_box{bottom:0px; right:0px; padding:5px; background-color:#333; width:300px; color:#fff; position:fixed; z-index:1000; border-radius:5px 5px 0px 0px;-moz-border-radius:5px 5px 0px 0px;-webkit-border-radius:5px 5px 0px 0px}
 .my_quicklist{max-height:325px; overflow:auto; padding-right:8px}

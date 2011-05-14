@@ -222,7 +222,7 @@ class CBGroups extends CBCategory
 						'type'=> 'textfield',
 						'name'=> 'group_tags',
 						'id'=> 'group_tags',
-						'value'=> cleanForm(genTags($tags)),
+						'value'=> (genTags($tags)),
 						'hint_1'=> '',
 						'hint_2'=> lang('grp_tags_msg1'),
 						'db_field'=>'group_tags',

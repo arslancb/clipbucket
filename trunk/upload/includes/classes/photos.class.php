@@ -1110,7 +1110,7 @@ class CBPhotos
 							'id' => 'photo_title',
 							'name' => 'photo_title',
 							'type' => 'textfield',
-							'value' => $title,
+							'value' => cleanForm($title),
 							'db_field' => 'photo_title',
 							'required' => 'yes',
 							'invalid_err' => lang('photo_title_err')
@@ -1121,7 +1121,7 @@ class CBPhotos
 							'id' => 'photo_description',
 							'name' => 'photo_description',
 							'type' => 'textarea',
-							'value' => $description,
+							'value' =>cleanForm( $description),
 							'db_field' => 'photo_description',
 							'anchor_before' => 'before_desc_compose_box',
 							'required' => 'yes',
