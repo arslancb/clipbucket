@@ -72,6 +72,12 @@ class pages{
 		if(in_array($base,$sus_dirs))
 			$remove_arr[] = '/\/'.$base.'/';
 		
+		//Clearing Plugin  and Player baseurl
+		if(strstr($scriptPath,'/plugins/'))
+			$scriptPath = preg_replace('/(.*)\/plugins(.*)/i',"$1",$scriptPath);
+		if(strstr($scriptPath,'/player/'))
+			$scriptPath = preg_replace('/(.*)\/plugins(.*)/i',"$1",$scriptPath);
+
 		$baseURL = $serverURL . $scriptPath;
 		
 		$baseURL = preg_replace($remove_arr,'',$baseURL);

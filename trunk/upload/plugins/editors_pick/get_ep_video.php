@@ -18,9 +18,10 @@ if(isset($_POST['vid']))
 	if($vdetails)
 	{
 		assign('video',$vdetails);
-		Template("blocks/editor_pick/video_block.html");
+		$data = Fetch("blocks/editor_pick/video_block.html");
+		echo json_encode(array('data'=>$data));
 	}else{
-		echo "<em>No Video</em>";
+		echo json_encode(array('data'=> "<em>No Video</em>"));
 	}
 }else{
 	header("location:".BASEURL);

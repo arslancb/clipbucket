@@ -1579,17 +1579,22 @@ function decode64(input) {
 	 */
 	function get_ep_video(vid)
 	{
-		var page = baseurl+'/plugins/editors_pick/get_ep_video.php';
+		
 		$("#ep_video_container").html(loading);
-		$.post(page, 
-		{ 	
-			vid : vid
-		},
-		function(data)
-		{
-			if(!data)
-				alert("No data");
-			else
-				$("#ep_video_container").html(data);
-		},'text');
+		var page = baseurl+'/plugins/editors_pick/get_ep_video.php';
+		$.ajax({
+			url : page,
+			type : 'POST',
+			dataType : 'json',
+			timeout : 8000,
+			data  : ({ vid : vid}),
+			success : function(msg)
+								{
+									if(!msg.data)
+										alert("No data");
+									else
+										$("#ep_video_container").html(msg.data);
+								}
+			});
+
 	}
