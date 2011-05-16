@@ -1528,7 +1528,7 @@ class Collections extends CBCategory
 						case "v":
 						{
 							if(SEO == "yes")
-								return BASEURL."/item/".$item_type."/".$details['collection_id']."/".$details['videokey'];
+								return BASEURL."/item/".$item_type."/".$details['collection_id']."/".$details['videokey']."/".SEO(clean(str_replace(' ','-',$details['title'])));
 							else
 								return BASEURL."/view_item.php?item=".$details['videokey']."&amp;type=".$item_type."&amp;collection=".$details['collection_id'];
 						}
@@ -1538,7 +1538,7 @@ class Collections extends CBCategory
 						case "p":
 						{
 							if(SEO == "yes")
-								return BASEURL."/item/".$item_type."/".$details['collection_id']."/".$details['photo_key'];
+								return BASEURL."/item/".$item_type."/".$details['collection_id']."/".$details['photo_key']."/".SEO(clean(str_replace(' ','-',$details['photo_title'])));
 							else
 								return BASEURL."/view_item.php?item=".$details['photo_key']."&amp;type=".$item_type."&amp;collection=".$details['collection_id'];	
 						}

@@ -81,7 +81,7 @@ RewriteRule ^photos 									photos.php [L]
 RewriteRule ^collection/(.*)/(.*)/(.*)					view_collection.php?cid=$1&type=$2&%{QUERY_STRING} [L]
 
 #Photo Section
-RewriteRule ^item/(.*)/(.*)/(.*) 				view_item.php?item=$3&type=$1&collection=$2 [L]
+RewriteRule ^item/(.*)/(.*)/(.*)/(.*) 				view_item.php?item=$3&type=$1&collection=$2 [L]
 RewriteRule ^photo_upload/(.*) 		photo_upload.php?collection=$1 [L]
 RewriteRule ^photo_upload			photo_upload.php [L]
 #
