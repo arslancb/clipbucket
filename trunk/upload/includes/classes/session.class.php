@@ -41,10 +41,13 @@ class Session
 		}
 		
 		$cur_url = $pages->GetCurrentUrl();
-		$db->insert(tbl($this->tbl),array('session_user','session','session_string','ip','session_value','session_date',
-		'last_active','referer','agent','current_page'),
-		array($user,$this->id,$name,$_SERVER['REMOTE_ADDR'],$value,now(),now(),$_SERVER['HTTP_REFERER'],$_SERVER['HTTP_USER_AGENT'],$cur_url));
 		
+		if(THIS_PAGE!='cb_install')
+		{
+			$db->insert(tbl($this->tbl),array('session_user','session','session_string','ip','session_value','session_date',
+			'last_active','referer','agent','current_page'),
+			array($user,$this->id,$name,$_SERVER['REMOTE_ADDR'],$value,now(),now(),$_SERVER['HTTP_REFERER'],$_SERVER['HTTP_USER_AGENT'],$cur_url));
+		}
 		if($reg)
 		{
 			//Finally Registering session
@@ -83,10 +86,13 @@ class Session
 		
 		$cur_url = $pages->GetCurrentUrl();
 		
-		if(THIS_PAGE!='ajax')
-			$db->update(tbl($this->tbl),array("last_active","current_page"),array(now(),$cur_url)," session='".$this->id."' ");
-		else
-			$db->update(tbl($this->tbl),array("last_active"),array(now())," session='".$this->id."' ");
+		if(THIS_PAGE!='cb_install')
+		{
+			if(THIS_PAGE!='ajax')
+				$db->update(tbl($this->tbl),array("last_active","current_page"),array(now(),$cur_url)," session='".$this->id."' ");
+			else
+				$db->update(tbl($this->tbl),array("last_active"),array(now())," session='".$this->id."' ");
+		}
 			
 		return $results;
 	}

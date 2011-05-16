@@ -180,7 +180,7 @@ class pages{
 		$page_url_param = $this->url_page_var;
 		$page_link_pattern = $page_url_param.'='.$page_pattern;
 		$link = preg_replace(array('/(\?page=[0-9]+)/','/(&page=[0-9]+)/','/(page=[0-9+])+/'),'',$link);
-
+		
 		preg_match('/\?/',$link,$matches);
 
 		$no_seo = false;
@@ -215,11 +215,12 @@ class pages{
 			
 		if(SEO=='yes' && THIS_PAGE !='search_result' && !BACK_END && $use_seo)
 		{
-			if(count($_GET)==0 || (count($_GET)==1 && isset($_GET['page'])))
+			if(count($_GET)==0 || (count($_GET)==3 && isset($_GET['page'])))
 				$params = $params;	 
 			else
 				$params ='href="./'.$page.'"';
 		}
+		
 		
 		$final_link = preg_replace(array("/$page_pattern/i","/$param_pattern/i"),array($page,$params),$tag);
 		$final_link = preg_replace(array("/$page_pattern/i","/$param_pattern/i"),array($page,$params),$final_link);

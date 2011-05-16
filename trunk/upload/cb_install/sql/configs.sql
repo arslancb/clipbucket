@@ -1,7 +1,7 @@
 -- Configurations
 
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
-(1, 'site_title', 'ClipBucket v2.1'),
+(1, 'site_title', 'ClipBucket v2'),
 (2, 'site_slogan', 'A way to broadcast yourself'),
 (3, 'baseurl', ''),
 (4, 'basedir', ''),

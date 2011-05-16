@@ -14,7 +14,7 @@ define("KEEP_MP4_AS_IS",config('keep_mp4_as_is'));
 define("MP4Box_BINARY",get_binaries('MP4Box'));
 define("FLVTool2_BINARY",get_binaries('flvtool2'));
 define('FFMPEG_BINARY', get_binaries('ffmpeg'));
-define('PROCESSESS_AT_ONCE',5);
+define('PROCESSESS_AT_ONCE',config('max_conversion'));
 
 
 class ffmpeg 

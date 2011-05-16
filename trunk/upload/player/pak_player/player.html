@@ -70,10 +70,12 @@ flowplayer("the_Video_Player", {ldelim}"src":"{$pak_player_url}/pakplayer{if $Cb
 		}
 		{/literal}
 		{else}
+		
 		{rdelim} // Take this you shitty IE7
 		{/if}
-		{literal}
-
+		
+		{if $Cbucket->configs.pseudostreaming=='yes' && !$youtube},lighttpd : {ldelim} url: pakplayer_path+"/pakplayer.pseudo.swf"{rdelim}{/if}
+{literal}
 	},
 	canvas: {
 	backgroundColor: '#000000',  // For some reason we have to define this :|
@@ -90,7 +92,7 @@ flowplayer("the_Video_Player", {ldelim}"src":"{$pak_player_url}/pakplayer{if $Cb
 		urlResolvers: 'youtube',
 		
 		{else}
-		
+		{if $Cbucket->configs.pseudostreaming=='yes'}provider: 'lighttpd',{/if}
 		scaling : 'fit',
 		{/if}
 		
