@@ -6,15 +6,15 @@
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}action_log` (
   `action_id` int(255) NOT NULL AUTO_INCREMENT,
-  `action_type` varchar(60) CHARACTER SET latin1 NOT NULL,
-  `action_username` varchar(60) CHARACTER SET latin1 NOT NULL,
+  `action_type` varchar(60) CHARACTER SET utf8 NOT NULL,
+  `action_username` varchar(60) CHARACTER SET utf8 NOT NULL,
   `action_userid` int(30) NOT NULL,
-  `action_useremail` varchar(200) CHARACTER SET latin1 NOT NULL,
+  `action_useremail` varchar(200) CHARACTER SET utf8 NOT NULL,
   `action_userlevel` int(11) NOT NULL,
-  `action_ip` varchar(15) CHARACTER SET latin1 NOT NULL,
+  `action_ip` varchar(15) CHARACTER SET utf8 NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `action_success` enum('yes','no') CHARACTER SET latin1 NOT NULL,
-  `action_details` text CHARACTER SET latin1 NOT NULL,
+  `action_success` enum('yes','no') CHARACTER SET utf8 NOT NULL,
+  `action_details` text CHARACTER SET utf8 NOT NULL,
   `action_link` text NOT NULL,
   `action_obj_id` int(255) NOT NULL,
   `action_done_id` int(255) NOT NULL,
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}collections` (
   `public_upload` varchar(4) NOT NULL,
   `type` varchar(10) NOT NULL,
   PRIMARY KEY (`collection_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}collection_items` (
   `type` varchar(10) NOT NULL,
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`ci_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
 
 -- --------------------------------------------------------
 
@@ -195,10 +195,10 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}contacts` (
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}conversion_queue` (
   `cqueue_id` int(11) NOT NULL AUTO_INCREMENT,
-  `cqueue_name` varchar(32) CHARACTER SET latin1 NOT NULL,
-  `cqueue_ext` varchar(5) CHARACTER SET latin1 NOT NULL,
-  `cqueue_tmp_ext` varchar(3) CHARACTER SET latin1 NOT NULL,
-  `cqueue_conversion` enum('yes','no','p') CHARACTER SET latin1 NOT NULL DEFAULT 'no',
+  `cqueue_name` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `cqueue_ext` varchar(5) CHARACTER SET utf8 NOT NULL,
+  `cqueue_tmp_ext` varchar(3) CHARACTER SET utf8 NOT NULL,
+  `cqueue_conversion` enum('yes','no','p') CHARACTER SET utf8 NOT NULL DEFAULT 'no',
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `time_started` varchar(32) NOT NULL,
   `time_completed` varchar(32) NOT NULL,
@@ -213,10 +213,10 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}conversion_queue` (
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}countries` (
   `country_id` int(80) NOT NULL AUTO_INCREMENT,
-  `iso2` char(2) CHARACTER SET latin1 NOT NULL,
-  `name` varchar(80) CHARACTER SET latin1 NOT NULL,
-  `name_en` varchar(80) CHARACTER SET latin1 NOT NULL,
-  `iso3` char(3) CHARACTER SET latin1 DEFAULT NULL,
+  `iso2` char(2) CHARACTER SET utf8 NOT NULL,
+  `name` varchar(80) CHARACTER SET utf8 NOT NULL,
+  `name_en` varchar(80) CHARACTER SET utf8 NOT NULL,
+  `iso3` char(3) CHARACTER SET utf8 DEFAULT NULL,
   `numcode` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`country_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=240 ;
@@ -243,11 +243,11 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}editors_picks` (
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}email_templates` (
   `email_template_id` int(11) NOT NULL AUTO_INCREMENT,
-  `email_template_name` varchar(225) CHARACTER SET latin1 NOT NULL,
-  `email_template_code` varchar(225) CHARACTER SET latin1 NOT NULL,
-  `email_template_subject` mediumtext CHARACTER SET latin1 NOT NULL,
-  `email_template` text CHARACTER SET latin1 NOT NULL,
-  `email_template_allowed_tags` mediumtext CHARACTER SET latin1 NOT NULL,
+  `email_template_name` varchar(225) CHARACTER SET utf8 NOT NULL,
+  `email_template_code` varchar(225) CHARACTER SET utf8 NOT NULL,
+  `email_template_subject` mediumtext CHARACTER SET utf8 NOT NULL,
+  `email_template` text CHARACTER SET utf8 NOT NULL,
+  `email_template_allowed_tags` mediumtext CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`email_template_id`),
   UNIQUE KEY `email_template_code` (`email_template_code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
@@ -260,7 +260,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}email_templates` (
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}favorites` (
   `favorite_id` int(225) NOT NULL AUTO_INCREMENT,
-  `type` varchar(4) CHARACTER SET latin1 NOT NULL,
+  `type` varchar(4) CHARACTER SET utf8 NOT NULL,
   `id` int(225) NOT NULL,
   `userid` int(225) NOT NULL,
   `date_added` datetime NOT NULL,
@@ -275,7 +275,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}favorites` (
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}flags` (
   `flag_id` int(225) NOT NULL AUTO_INCREMENT,
-  `type` varchar(4) CHARACTER SET latin1 NOT NULL,
+  `type` varchar(4) CHARACTER SET utf8 NOT NULL,
   `id` int(225) NOT NULL,
   `userid` int(225) NOT NULL,
   `flag_type` bigint(25) NOT NULL,
@@ -517,7 +517,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}photos` (
   `server_url` text NOT NULL,
   `owner_ip` varchar(20) NOT NULL,
   PRIMARY KEY (`photo_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 -- --------------------------------------------------------
 
@@ -541,9 +541,9 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}phrases` (
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}playlists` (
   `playlist_id` int(11) NOT NULL AUTO_INCREMENT,
-  `playlist_name` varchar(225) CHARACTER SET latin1 NOT NULL,
+  `playlist_name` varchar(225) CHARACTER SET utf8 NOT NULL,
   `userid` int(11) NOT NULL,
-  `playlist_type` varchar(10) CHARACTER SET latin1 NOT NULL,
+  `playlist_type` varchar(10) CHARACTER SET utf8 NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`playlist_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
@@ -558,7 +558,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}playlist_items` (
   `playlist_item_id` int(225) NOT NULL AUTO_INCREMENT,
   `object_id` int(225) NOT NULL,
   `playlist_id` int(225) NOT NULL,
-  `playlist_item_type` varchar(10) CHARACTER SET latin1 NOT NULL,
+  `playlist_item_type` varchar(10) CHARACTER SET utf8 NOT NULL,
   `userid` int(255) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`playlist_item_id`)
@@ -590,12 +590,12 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}plugins` (
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}plugin_config` (
   `plugin_config_id` int(223) NOT NULL AUTO_INCREMENT,
-  `plugin_id_code` varchar(25) CHARACTER SET latin1 NOT NULL,
-  `plugin_config_name` text CHARACTER SET latin1 NOT NULL,
-  `plugin_config_value` text CHARACTER SET latin1 NOT NULL,
-  `player_type` enum('built-in','plugin') CHARACTER SET latin1 NOT NULL DEFAULT 'built-in',
-  `player_admin_file` text CHARACTER SET latin1 NOT NULL,
-  `player_include_file` text CHARACTER SET latin1 NOT NULL,
+  `plugin_id_code` varchar(25) CHARACTER SET utf8 NOT NULL,
+  `plugin_config_name` text CHARACTER SET utf8 NOT NULL,
+  `plugin_config_value` text CHARACTER SET utf8 NOT NULL,
+  `player_type` enum('built-in','plugin') CHARACTER SET utf8 NOT NULL DEFAULT 'built-in',
+  `player_admin_file` text CHARACTER SET utf8 NOT NULL,
+  `player_include_file` text CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`plugin_config_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -747,8 +747,8 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_categories` (
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_levels` (
   `user_level_id` int(20) NOT NULL AUTO_INCREMENT,
-  `user_level_active` enum('yes','no') CHARACTER SET latin1 NOT NULL DEFAULT 'yes',
-  `user_level_name` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `user_level_active` enum('yes','no') CHARACTER SET utf8 NOT NULL DEFAULT 'yes',
+  `user_level_name` varchar(100) CHARACTER SET utf8 NOT NULL,
   `user_level_is_default` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`user_level_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
@@ -795,10 +795,10 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_levels_permissions` (
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_permissions` (
   `permission_id` int(225) NOT NULL AUTO_INCREMENT,
   `permission_type` int(225) NOT NULL,
-  `permission_name` varchar(225) CHARACTER SET latin1 NOT NULL,
-  `permission_code` varchar(225) CHARACTER SET latin1 NOT NULL,
-  `permission_desc` mediumtext CHARACTER SET latin1 NOT NULL,
-  `permission_default` enum('yes','no') CHARACTER SET latin1 NOT NULL DEFAULT 'yes',
+  `permission_name` varchar(225) CHARACTER SET utf8 NOT NULL,
+  `permission_code` varchar(225) CHARACTER SET utf8 NOT NULL,
+  `permission_desc` mediumtext CHARACTER SET utf8 NOT NULL,
+  `permission_default` enum('yes','no') CHARACTER SET utf8 NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`permission_id`),
   UNIQUE KEY `permission_code` (`permission_code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
@@ -811,8 +811,8 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_permissions` (
 
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_permission_types` (
   `user_permission_type_id` int(225) NOT NULL AUTO_INCREMENT,
-  `user_permission_type_name` varchar(225) CHARACTER SET latin1 NOT NULL,
-  `user_permission_type_desc` mediumtext CHARACTER SET latin1 NOT NULL,
+  `user_permission_type_name` varchar(225) CHARACTER SET utf8 NOT NULL,
+  `user_permission_type_desc` mediumtext CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`user_permission_type_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
@@ -998,45 +998,45 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_favourites` (
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_files` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `status` int(2) NOT NULL,
-  `file_conversion_log` text CHARACTER SET latin1 NOT NULL,
-  `encoder` char(16) CHARACTER SET latin1 NOT NULL,
-  `command_used` text CHARACTER SET latin1 NOT NULL,
-  `src_path` text CHARACTER SET latin1 NOT NULL,
-  `src_name` char(64) CHARACTER SET latin1 NOT NULL,
-  `src_ext` char(8) CHARACTER SET latin1 NOT NULL,
-  `src_format` char(32) CHARACTER SET latin1 NOT NULL,
-  `src_duration` char(10) CHARACTER SET latin1 NOT NULL,
-  `src_size` char(10) CHARACTER SET latin1 NOT NULL,
-  `src_bitrate` char(6) CHARACTER SET latin1 NOT NULL,
-  `src_video_width` char(5) CHARACTER SET latin1 NOT NULL,
-  `src_video_height` char(5) CHARACTER SET latin1 NOT NULL,
-  `src_video_wh_ratio` char(10) CHARACTER SET latin1 NOT NULL,
-  `src_video_codec` char(16) CHARACTER SET latin1 NOT NULL,
-  `src_video_rate` char(10) CHARACTER SET latin1 NOT NULL,
-  `src_video_bitrate` char(10) CHARACTER SET latin1 NOT NULL,
-  `src_video_color` char(16) CHARACTER SET latin1 NOT NULL,
-  `src_audio_codec` char(16) CHARACTER SET latin1 NOT NULL,
-  `src_audio_bitrate` char(10) CHARACTER SET latin1 NOT NULL,
-  `src_audio_rate` char(10) CHARACTER SET latin1 NOT NULL,
-  `src_audio_channels` char(16) CHARACTER SET latin1 NOT NULL,
-  `output_path` text CHARACTER SET latin1 NOT NULL,
-  `output_format` char(32) CHARACTER SET latin1 NOT NULL,
-  `output_duration` char(10) CHARACTER SET latin1 NOT NULL,
-  `output_size` char(10) CHARACTER SET latin1 NOT NULL,
-  `output_bitrate` char(6) CHARACTER SET latin1 NOT NULL,
-  `output_video_width` char(5) CHARACTER SET latin1 NOT NULL,
-  `output_video_height` char(5) CHARACTER SET latin1 NOT NULL,
-  `output_video_wh_ratio` char(10) CHARACTER SET latin1 NOT NULL,
-  `output_video_codec` char(16) CHARACTER SET latin1 NOT NULL,
-  `output_video_rate` char(10) CHARACTER SET latin1 NOT NULL,
-  `output_video_bitrate` char(10) CHARACTER SET latin1 NOT NULL,
-  `output_video_color` char(16) CHARACTER SET latin1 NOT NULL,
-  `output_audio_codec` char(16) CHARACTER SET latin1 NOT NULL,
-  `output_audio_bitrate` char(10) CHARACTER SET latin1 NOT NULL,
-  `output_audio_rate` char(10) CHARACTER SET latin1 NOT NULL,
-  `output_audio_channels` char(16) CHARACTER SET latin1 NOT NULL,
-  `hd` enum('yes','no') CHARACTER SET latin1 NOT NULL DEFAULT 'no',
-  `hq` enum('yes','no') CHARACTER SET latin1 NOT NULL DEFAULT 'no',
+  `file_conversion_log` text CHARACTER SET utf8 NOT NULL,
+  `encoder` char(16) CHARACTER SET utf8 NOT NULL,
+  `command_used` text CHARACTER SET utf8 NOT NULL,
+  `src_path` text CHARACTER SET utf8 NOT NULL,
+  `src_name` char(64) CHARACTER SET utf8 NOT NULL,
+  `src_ext` char(8) CHARACTER SET utf8 NOT NULL,
+  `src_format` char(32) CHARACTER SET utf8 NOT NULL,
+  `src_duration` char(10) CHARACTER SET utf8 NOT NULL,
+  `src_size` char(10) CHARACTER SET utf8 NOT NULL,
+  `src_bitrate` char(6) CHARACTER SET utf8 NOT NULL,
+  `src_video_width` char(5) CHARACTER SET utf8 NOT NULL,
+  `src_video_height` char(5) CHARACTER SET utf8 NOT NULL,
+  `src_video_wh_ratio` char(10) CHARACTER SET utf8 NOT NULL,
+  `src_video_codec` char(16) CHARACTER SET utf8 NOT NULL,
+  `src_video_rate` char(10) CHARACTER SET utf8 NOT NULL,
+  `src_video_bitrate` char(10) CHARACTER SET utf8 NOT NULL,
+  `src_video_color` char(16) CHARACTER SET utf8 NOT NULL,
+  `src_audio_codec` char(16) CHARACTER SET utf8 NOT NULL,
+  `src_audio_bitrate` char(10) CHARACTER SET utf8 NOT NULL,
+  `src_audio_rate` char(10) CHARACTER SET utf8 NOT NULL,
+  `src_audio_channels` char(16) CHARACTER SET utf8 NOT NULL,
+  `output_path` text CHARACTER SET utf8 NOT NULL,
+  `output_format` char(32) CHARACTER SET utf8 NOT NULL,
+  `output_duration` char(10) CHARACTER SET utf8 NOT NULL,
+  `output_size` char(10) CHARACTER SET utf8 NOT NULL,
+  `output_bitrate` char(6) CHARACTER SET utf8 NOT NULL,
+  `output_video_width` char(5) CHARACTER SET utf8 NOT NULL,
+  `output_video_height` char(5) CHARACTER SET utf8 NOT NULL,
+  `output_video_wh_ratio` char(10) CHARACTER SET utf8 NOT NULL,
+  `output_video_codec` char(16) CHARACTER SET utf8 NOT NULL,
+  `output_video_rate` char(10) CHARACTER SET utf8 NOT NULL,
+  `output_video_bitrate` char(10) CHARACTER SET utf8 NOT NULL,
+  `output_video_color` char(16) CHARACTER SET utf8 NOT NULL,
+  `output_audio_codec` char(16) CHARACTER SET utf8 NOT NULL,
+  `output_audio_bitrate` char(10) CHARACTER SET utf8 NOT NULL,
+  `output_audio_rate` char(10) CHARACTER SET utf8 NOT NULL,
+  `output_audio_channels` char(16) CHARACTER SET utf8 NOT NULL,
+  `hd` enum('yes','no') CHARACTER SET utf8 NOT NULL DEFAULT 'no',
+  `hq` enum('yes','no') CHARACTER SET utf8 NOT NULL DEFAULT 'no',
   PRIMARY KEY (`id`),
   FULLTEXT KEY `src_bitrate` (`src_bitrate`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

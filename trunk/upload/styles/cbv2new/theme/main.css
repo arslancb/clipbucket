@@ -554,6 +554,7 @@ display:inline-block; width:18px; height:18px; line-height:18px; text-align:cent
 .topic_comments .comment .comm_other{float:right; width:93%; }
 .topic_comments .comment .comment_cont{ width:auto; max-width:835px; }
 
+.add_comment_result .error{color:#ed0000; padding:3px; border:1px solid #ed0000; margin:3px 0px}
 .no_comments{ display:block; padding:5px; font-size:13px; font-weight:bold; margin:5px; border:1px solid #8F8059; background-color:#FFF6DF }
 h2.commentHead{ padding-left:30px; background-image:url(../images/icons/comments_small.png); background-repeat:no-repeat; margin-bottom:0px; padding-bottom:5px}
 

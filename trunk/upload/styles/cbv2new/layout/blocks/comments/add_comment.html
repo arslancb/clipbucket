@@ -2,7 +2,7 @@
 <h2 style="margin:0px">{lang code='grp_add_comment'}</h2>
 
 
-<div id="add_comment_result" class="" style="display:none"></div>
+<div id="add_comment_result" class="add_comment_result" style="display:none"></div>
 {if $userquery->login_check('',true) || $Cbucket->configs.anonym_comments == 'yes'}
 <form name="comment_form" method="post" action="" id="comment_form">
 	<input type="hidden" name="reply_to" id="reply_to" value="0">
@@ -34,7 +34,7 @@
 		{if $captcha} 
 			{if $captcha.show_field}
 				<label class="label" for="captcha">Verification Code</label><br />
-					{load_captcha captcha=$captcha load=field field_params = ' id="captcha" class="input'}
+					{load_captcha captcha=$captcha load=field field_params = ' id="captcha" class="input" '}
 			   <div class="clearfix"></div>
 			{/if}
 			<label class="label">&nbsp;</label>
@@ -52,7 +52,8 @@
 	<div class="clear"></div>
 	
     <input type="hidden" name="type" value="{$type}" />
-    <div style="margin-top:2px" ><input type="button" name="add_comment" id="add_comment_button" value="{lang code='user_add_comment'}" class="cb_button" onclick="add_comment_js('comment_form','{$type}'){ANCHOR place='onClickAddComment'}"></div>
+    <div style="margin-top:2px" ><input type="button" name="add_comment" id="add_comment_button" value="{lang code='user_add_comment'}" 
+    class="cb_button" onclick="add_comment_js('comment_form','{$type}'){ANCHOR place='onClickAddComment'}"></div>
 </form>
 {else}
 	{lang code='please_login_to_comment'}
