@@ -1,6 +1,6 @@
 {if $display_type == ""}
 	<div class="clearfix photo_block">
-    	<a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' class='photoThumbBox moveL' style='margin-right:5px;'}</a>
+    	<a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' width="110" class='photoThumbBox moveL'}</a>
         <div class="photoTitle" style="font:bold 12px Arial; width:110px; margin-bottom:1px;">
         <a href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">{$photo.photo_title|truncate:20}</a></div>
         <span class="vid_info" style="font-size:10px;">

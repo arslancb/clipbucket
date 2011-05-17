@@ -118,8 +118,8 @@
     
     {if $ran_ph}
     <div style="width:300px; margin:auto">
-    <span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#rand_vids").slideToggle("fast")'>{lang code='rand_photos'}</span>
-    <div class="watch_vids_cont" id="rand_vids" style="background-color:#FFF">
+    <span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#rand_fotos").slideToggle("fast")'>{lang code='rand_photos'}</span>
+    <div class="watch_vids_cont" id="rand_fotos" style="background-color:#FFF">
     {section name=plist loop=$ran_ph}
         {include file="$style_dir/blocks/photo.html" photo=$ran_ph[plist] display_type="side_photos"}
     {/section}

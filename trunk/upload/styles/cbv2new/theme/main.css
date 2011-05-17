@@ -869,7 +869,7 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 .photoTitle { font:bold 11px Tahoma; }
 .photoTitle a { text-decoration:none; }
 .photoInfo { font:normal 10px Tahoma; color:#666; }
-.photo_block { padding:6px 14px; display:inline-block; vertical-align:middle; margin-bottom:5px; *display:inline; }
+.photo_block { padding:0; width:114px; display:inline-block; vertical-align:middle; margin:0 10px 12px 0; *display:inline; }
 
 /* VIEW ITEM */
 .borderLine { border-bottom:1px solid #ccc; padding:5px 0px 0px; margin:0 0 5px; }
