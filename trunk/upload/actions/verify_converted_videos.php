@@ -28,7 +28,10 @@ foreach($files as $file)
 {
 	$file_details = get_file_details($file['cqueue_name']);
 	//pr($file_details);
-	if($file_details['conversion_status']=='failed')
+	
+	//Thanks to pandusetiawan @ forums.clip-bucket.com
+	
+	if($file_details['conversion_status']=='failed' or strpos($file_details['conversion_log'],'conversion_status : failed') >0)
 	{
 		
 		$db->update(tbl("conversion_queue"),
@@ -48,7 +51,8 @@ foreach($files as $file)
 			}
 		}
 		
-	}elseif($file_details['conversion_status']=='completed')
+
+	}elseif($file_details['conversion_status']=='completed' or strpos($file_details['conversion_log'],'conversion_status : completed') >0)
 	{
 		
 		$db->update(tbl("conversion_queue"),
