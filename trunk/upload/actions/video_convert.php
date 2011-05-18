@@ -114,6 +114,7 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 		'use_audio_rate' => true,
 		'use_audio_bit_rate' => true,
 		'use_audio_codec' => true,
+		'use_video_codec'	=> true,
 		'format' => 'flv',
 		'video_codec'=> config('video_codec'),
 		'audio_codec'=> config('audio_codec'),
