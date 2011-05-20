@@ -14,3 +14,5 @@ CREATE TABLE `cb_sessions` (
   `last_active` datetime NOT NULL,
   PRIMARY KEY (`session_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `cb_users` ADD `album_privacy` ENUM( 'public', 'private', 'friends' ) NOT NULL DEFAULT 'private' AFTER `is_subscribed` 
