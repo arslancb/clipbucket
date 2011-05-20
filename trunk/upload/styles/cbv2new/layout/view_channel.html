@@ -21,7 +21,7 @@
     {get_videos assign=latestV order=" date_added DESC" limit=10 user=$u.userid status="Successful" broadcast="public"}    
     {if $latestP || $latestV}
     	<div class="channelFeatureBox clearfix">
-         {if $p.show_my_photos !='no'}
+         {if $p.show_my_photos !='no' && $latestP}
         	<div class="itemListing moveL"> 
                 <button id="PprevItem" class="carouselButton"><img src="{$imageurl}/up.png"></button>
                 	<div id="photoListing">
@@ -251,7 +251,7 @@
 			channelObjects('#infoTab','#channelDetailsBox','info','{$u.userid}');
 		{/if}
 		
-		{if $p.show_my_photo=='no' || $p.show_my_photos!='yes'  || !$latestV}
+		{if $p.show_my_photo=='no' || $p.show_my_photos!='yes'  || !$latestV || !$latestP}
 			var viewingAreaParent = $('#viewingArea').parent().parent().width();	
 			$('#viewingArea') .width(viewingAreaParent-180)	
 		{/if}
