@@ -5271,7 +5271,7 @@
 				case "t":
 				case "topic":
 				case "topics":
-				$db->update(tbl("group_topics"),array('last_post_time'),array(now()),"videoid='$id'");
+				$db->update(tbl("group_topics"),array('last_post_time'),array(now()),"topic_id='$id'");
 				break;
 				
 			}

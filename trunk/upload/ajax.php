@@ -493,6 +493,8 @@ if(!empty($mode))
 			
 			$type = mysql_clean($_POST['type']);
 			$typeid = mysql_clean($_POST['typeid']);
+			
+			if($_POST['type'] != 't')
 			update_last_commented($type,$typeid);
 			
 			echo json_encode($ajax);
