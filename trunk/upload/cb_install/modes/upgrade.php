@@ -1,5 +1,5 @@
 <?php
-if(userid() && $old_version > 2.3 ):
+if(userid() || $old_version < 2.3 ):
 ?>
 <p>You are now going to upgrade from <?=$old_version?> to <?=VERSION?>, please read <strong><a href="http://docs.clip-bucket.com/clipbucket-docs/clipbucket-installation">this documentation</a></strong> for further info and help, please click continue upgrade </p>
 

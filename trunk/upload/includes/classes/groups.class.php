@@ -489,7 +489,7 @@ class CBGroups extends CBCategory
 					$val = $new_val;
 				}
 				if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
-					$val = mysql_clean($val);
+					$val = ($val);
 				else
 					$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
 				

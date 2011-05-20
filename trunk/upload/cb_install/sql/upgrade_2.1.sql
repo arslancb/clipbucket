@@ -158,3 +158,6 @@ ADD  `voters` TEXT NOT NULL AFTER  `rating` ,
 ADD  `rated_by` INT( 150 ) NOT NULL AFTER  `voters`;
 
 ALTER TABLE `{tbl_prefix}comments` CHANGE `date_added` `date_added` DATETIME NOT NULL ;
+
+INSERT INTO `{tbl_prefix}collection_categories` (`category_id`, `category_name`, `category_order`, `category_desc`, `date_added`, `category_thumb`, `isdefault`) VALUES
+(1, 'Uncategorized', 0, 'Uncategorized', now(), 0, 'yes');

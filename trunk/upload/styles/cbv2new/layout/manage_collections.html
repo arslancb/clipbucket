@@ -33,14 +33,15 @@
     {/if}
     
     {if $mode == "edit_collection"}
-    <h2>{lang code='edit'} {$c.collection_name}</h2>
+   
+    <h2> {lang code='edit_type_collection'  sprintf=$c.collection_name}</h2>
     <input type="hidden" value="{$c.collection_id}" name="collection_id" id="collection_id"  />
     <div class="upload_info">
         <div class="account_form">
             <div class="field clearfix">
                 <label for="collection_thumb" class="label">{lang code=collection_thumb"}</label>
                 <div style="width:140px; float:left" align="center">
-               		<img src="{$cbcollection->get_thumb($c,NULL)}"  />
+               		<img src="{$cbcollection->get_thumb($c,NULL)}" style="max-width:120px"  />
                 </div>
                 <div style="width:500px; float:left; margin-left:15px;">
                     <li>{lang code='grp_must_be'} JPG | GIF | PNG</li>

@@ -81,6 +81,7 @@
         </div>
         </div> <!-- IN-LINE DIV END -->
         
+       {if $myquery->is_commentable($c,'collection')}
     <div style="height:15px; clear:both;"></div>
     <div class="" style="font-size:12px; padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;"><h2 class="commentHead">{lang code="comments"} ({$c.total_comments})</h2></div>  
     <div class="moveL" style="width:650px">
@@ -98,15 +99,21 @@
             </script>
         </div>
       </div>
+      {else}
+      <div align="center" class="moveL no_comments" style="width:650px">
+    	{lang code='comm_disabled_for_collection'}
+   	 </div>
+      
+      {/if}
+      
       <div class="moveR collectionComments" style="width:330px">
      
-        <div style="height:5px;"></div>
-        {if $myquery->is_commentable($c,'collection')}
-        	{include file="$style_dir/blocks/comments/add_comment.html" id=$c.collection_id type='cl'}
-        {else}
-        	<div class="disable_msg" align="center">{lang code='comm_disabled_for_vid'}</div>
-        {/if}
-        
+       
+            {if $myquery->is_commentable($c,'collection')}
+             <div style="height:5px;"></div>
+                {include file="$style_dir/blocks/comments/add_comment.html" id=$c.collection_id type='cl'}
+            {/if}
+            
          <div align="center" style="margin:5px auto">{AD place=ad_300x250}</div>  
        </div>  
 </div>

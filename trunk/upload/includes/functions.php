@@ -2560,7 +2560,7 @@
 	/**
 	 * Function used to return LANG variable
 	 */
-	function lang($var)
+	function lang($var,$sprintf=false)
 	{
 		global $LANG,$Cbucket;
 
@@ -2571,18 +2571,33 @@
 		
 		if($LANG[$var])
 		{
-			return str_replace($array_str,$array_replace,$LANG[$var]);
+			$phrase =  str_replace($array_str,$array_replace,$LANG[$var]);
 		}else
 		{
-			return str_replace($array_str,$array_replace,$var);
+			$phrase = str_replace($array_str,$array_replace,$var);
 		}
+		
+		if($sprintf)
+		{
+			$sprints = explode(',',$sprintf);
+			if(is_array($sprints))
+			{
+				foreach($sprints as $sprint)
+				{
+					$phrase = sprintf($phrase,$sprint);
+				}
+			}
+		}
+		
+		return $phrase;
+		
 	}
 	function smarty_lang($param)
 	{
 		if($param['assign']=='')
-			return lang($param['code']);
+			return lang($param['code'],$param['sprintf']);
 		else
-			assign($param['assign'],lang($param['code']));
+			assign($param['assign'],lang($param['code'],$param['sprintf']));
 	}
 	
 	

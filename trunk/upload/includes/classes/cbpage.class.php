@@ -64,10 +64,45 @@ class cbpage
 	/**
 	 * Function used to get all pages from database
 	 */
-	function get_pages()
+	function get_pages($params=false)
 	{
 		global $db;
-		$result = $db->select(tbl($this->page_tbl),"*");
+		$order = NULL;
+		$limit = NULL;
+		$conds = array();
+		$cond = false;
+		if($params['order'])
+		{
+			$order = $params['order'];
+		}
+		if($params['limit'])
+		{
+			$limit = $params['limit'];
+		}
+		
+		if($params['active'])
+		{
+			$conds[] = " active='".$params['active']."'";
+		}
+		
+		if($params['display_only'])
+		{
+			$conds[] = " display='yes' ";
+		}
+				
+		if($conds)
+		{
+			
+			foreach($conds as $c)
+			{
+				if($cond)
+					$cond .= " AND ";
+				
+				$cond .= $c;
+			}
+		}
+		
+		$result = $db->select(tbl($this->page_tbl),"*",$cond,$limit,$order);
 		if($db->num_rows>0)
 			return $result;
 		else
@@ -175,6 +210,21 @@ class cbpage
 						e(lang("you_cant_delete_this_page"));
 				}
 				
+				break;
+				
+				case "display":
+				{
+					$db->update(tbl($this->page_tbl),array("display"),array("yes")," page_id='$id'");
+					e(lang("Page displaye mode has been changed"),"m");
+				}
+				break;
+				
+				case "hide":
+				{
+					$db->update(tbl($this->page_tbl),array("display"),array("no")," page_id='$id'");
+					e(lang("Page displaye mode has been changed"),"m");
+				}
+				break;
 			}
 		}
 	}
@@ -185,13 +235,26 @@ class cbpage
 	function is_active($id)
 	{
 		global $db;
-		$result = $db->count(tbl($this->page_tbl),"page_id"," page_id='$id' AND	active='yes' ");
+		$result = $db->count(tbl($this->page_tbl),"page_id"," page_id='$id' AND active='yes' ");
 		if($result>0)
 			return true;
 		else
 			return false;
 	}
-		
+	
+	
+	/**
+	 * Function used to update order
+	 */
+	function update_order()
+	{
+		global $db;
+		$pages =  $this->get_pages();
+		foreach($pages as $page)
+		{
+			$db->update(tbl($this->page_tbl),array("page_order"),array($_POST['page_ord_'.$page['page_id']])," page_id='".$page['page_id']."'");
+		}
+	}
 }
 
 ?>

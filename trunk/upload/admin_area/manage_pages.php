@@ -32,6 +32,19 @@ if(isset($_GET['delete']))
 	$pid = mysql_clean($_GET['delete']);
 	$cbpage->page_actions('delete',$pid);
 }
+//Displaying
+if(isset($_GET['display']))
+{
+	$pid = mysql_clean($_GET['display']);
+	$cbpage->page_actions('display',$pid);
+}
+
+//Hiding
+if(isset($_GET['hide']))
+{
+	$pid = mysql_clean($_GET['hide']);
+	$cbpage->page_actions('hide',$pid);
+}
 if(isset($_POST['activate_selected'])){
 	for($id=0;$id<=count($_POST['check_page']);$id++){
 		$cbpage->page_actions('activate',$_POST['check_page'][$id]);
@@ -63,6 +76,13 @@ if(isset($_POST['add_page']))
 		$mode = 'view';
 	if(!error())
 		header('location:manage_pages.php?msg='.msg('0'));
+}
+
+//Updating order
+if(isset($_POST['update_order']))
+{
+	$cbpage->update_order();
+	e(lang("Page order has been updated"),"m");
 }
 
 switch($mode)

@@ -577,21 +577,27 @@ class ClipBucket
 		global $cbpage;
 		$this->foot_menu[] = array('name'=>lang("menu_home"),'link'=>BASEURL,"this"=>"home");
 		$this->foot_menu[] = array('name'=>lang("contact_us"),'link'=>cblink(array('name'=>'contact_us')),"this"=>"home");		
+		
+		
 		if(userid())
 			$this->foot_menu[] = array('name'=>lang("my_account"),'link'=>cblink(array('name'=>'my_account')),"this"=>"home");		
 		
-		if($cbpage->is_active(1))
-			$this->foot_menu[] = array('name'=>lang("about_us"),'link'=>$cbpage->get_page_link(1),"this"=>"home");
+		$pages = $cbpage->get_pages(array('active'=>'yes','display_only'=>'yes','order'=>'page_order ASC'));
+		 
 		
-		if($cbpage->is_active(2))
-			$this->foot_menu[] = array('name'=>lang("privacy_policy"),'link'=>$cbpage->get_page_link(2),"this"=>"home");
+		foreach($pages as $p)
+			$this->foot_menu[] = array('name'=>$p['page_name'],'link'=>$cbpage->page_link($p),"this"=>"home");
 		
-		if($cbpage->is_active(3))
-			$this->foot_menu[] = array('name'=>lang("terms_of_serivce"),'link'=>$cbpage->get_page_link(3),"this"=>"home");
-		
-		if($cbpage->is_active(4))
-			$this->foot_menu[] = array('name'=>lang("help"),'link'=>$cbpage->get_page_link(4),"this"=>"groups");
-		
+//		if($cbpage->is_active(2))
+//			$this->foot_menu[] = array('name'=>lang("privacy_policy"),'link'=>$cbpage->get_page_link(2),"this"=>"home");
+//		
+//		if($cbpage->is_active(3))
+//			$this->foot_menu[] = array('name'=>lang("terms_of_serivce"),'link'=>$cbpage->get_page_link(3),"this"=>"home");
+//		
+//		if($cbpage->is_active(4))
+//			$this->foot_menu[] = array('name'=>lang("help"),'link'=>$cbpage->get_page_link(4),"this"=>"groups");
+
+//		
 		if($params['assign'])
 			assign($params['assign'],$this->foot_menu);
 		else

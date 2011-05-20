@@ -378,7 +378,7 @@ class Collections extends CBCategory
 		{
 			if($cond != '')
 				$cond .= " AND ";
-			$cond .= " ".tbl('collections.total_objects')." > '1'";		
+			$cond .= " ".tbl('collections.total_objects')." >= '1'";		
 		}
 		
 		

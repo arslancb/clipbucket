@@ -154,6 +154,7 @@ switch($mode)
 	case "update_video":
 	{
 		$Upload->validate_video_upload_form();
+		$_POST['videoid'] = trim($_POST['videoid']);
 		if(empty($eh->error_list))
 		{
 			$cbvid->update_video();
