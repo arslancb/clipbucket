@@ -3819,17 +3819,36 @@ class userquery extends CBCategory{
 		{
 			if(!$realtime)
 			{
+				/*			
 				$sess->set('dummy_username',$sess->get("username"));
 				$sess->set('dummy_level',$sess->get("level"));
 				$sess->set('dummy_userid',$sess->get("userid"));
 				$sess->set('dummy_user_session_key',$sess->get("user_session_key"));
 				$sess->set('dummy_user_session_code',$sess->get("user_session_code"));
 				
+				
 				$sess->set('username',$udetails['username']);
 				$sess->set('level',$udetails['level']);
 				$sess->set('userid',$udetails['userid']);
 				$sess->set('user_session_key',$udetails['session_key']);
 				$sess->set('user_session_code',$udetails['session_code']);
+				*/
+								
+				$sess->set('dummy_sess_salt',$sess->get("sess_salt"));
+				$sess->set('dummy_PHPSESSID',$sess->get("PHPSESSID"));
+				$sess->set('dummy_userid',userid());
+				$sess->set('dummy_user_session_key',$this->udetails['user_session_key']);
+				
+				$userid = $udetails['userid'];
+				$session_salt = RandomString(5);
+				$sess->set('sess_salt',$session_salt);
+				$sess->set('PHPSESSID',$sess->id);
+				
+				$smart_sess = md5($udetails['user_session_key'].$session_salt);
+				
+				$db->delete(tbl("sessions"),array("session"),array($sess->id));
+				$sess->add_session($userid,'smart_sess',$smart_sess);
+			
 			}else
 			{
 
@@ -3846,27 +3865,43 @@ class userquery extends CBCategory{
 				else
 				{
 					
+					$userid = $udetails['userid'];
 					$log_array['userid'] = $userid  = $udetails['userid'];
 					$log_array['useremail'] = $udetails['email'];
 					$log_array['success'] = 1;
 					
 					$log_array['level'] = $level  = $udetails['level'];
-					
+		
 					//Adding Sessing In Database 
 					//$sess->add_session($userid,'logged_in');
 					
-					$sess->set('username',$udetails['username']);
-					$sess->set('level',$udetails['level']);
-					$sess->set('userid',$udetails['userid']);
+					//$sess->set('username',$username);
+					//$sess->set('userid',$userid);
 					
+					//Setting Timeout
+					if($remember)
+						$sess->timeout = 86400*REMBER_DAYS;
+						
 					//Starting special sessions for security
-					$sess->set('user_session_key',$udetails['user_session_key']);
-					$sess->set('user_session_code',$udetails['user_session_code']);
+					$session_salt = RandomString(5);
+					$sess->set('sess_salt',$session_salt);
+					$sess->set('PHPSESSID',$sess->id);
+					
+					$smart_sess = md5($udetails['user_session_key'].$session_salt);
+					
+					$db->delete(tbl("sessions"),array("session","session_string"),array($sess->id,"guest"));
+					$sess->add_session($userid,'smart_sess',$smart_sess);
+					
+					//$sess->set('user_sess',$smart_sess);
+					
+					//$sess->set('user_session_key',$udetails['user_session_key']);
+					//$sess->set('user_session_code',$udetails['user_session_code']);
+					
 					
 					//Setting Vars
-					$this->userid = $sess->get('userid');
-					$this->username = $sess->get('username');
-					$this->level = $sess->get('level');
+					$this->userid = $udetails['userid'];
+					$this->username = $udetails['username'];
+					$this->level = $udetails['level'];
 					
 					//Updating User last login , num of visist and ip
 					$db->update(tbl('users'),
@@ -3876,8 +3911,10 @@ class userquery extends CBCategory{
 								array(
 									  '|f|num_visits+1',NOW(),$_SERVER['REMOTE_ADDR']
 									  ),
-								"userid='".$udetails['userid']."'"
+								"userid='".$userid."'"
 								);
+					
+					
 					$this->init();
 					//Logging Actiong
 					$cblog->insert('login',$log_array);
@@ -3905,20 +3942,26 @@ class userquery extends CBCategory{
 	 */
 	function revert_from_user()
 	{
-		global $sess;
+		global $sess,$db;
 		if($this->is_admin_logged_as_user())
 		{
-			$sess->set('username',$sess->get("dummy_username"));
-			$sess->set('level',$sess->get("dummy_level"));
-			$sess->set('userid',$sess->get("dummy_userid"));
-			$sess->set('user_session_key',$sess->get("dummy_user_session_key"));
-			$sess->set('user_session_code',$sess->get("dummy_user_session_code"));
-			
-			$sess->un_set('dummy_username');
-			$sess->un_set('dummy_level');
-			$sess->un_set('dummy_userid');
-			$sess->un_set('dummy_user_session_key');
-			$sess->un_set('dummy_user_session_code');
+				
+				$userid = $sess->get('dummy_userid');
+				$session_salt = $sess->get('dummy_sess_salt');
+				$user_session_key = $sess->get('dummy_user_session_key');
+				$smart_sess = md5($user_session_key.$session_salt);
+				
+				$sess->set('sess_salt',$session_salt);
+				$sess->set('PHPSESSID',$sess->get('dummy_PHPSESSID'));
+					
+				$db->delete(tbl("sessions"),array("session"),array($sess->get('dummy_PHPSESSID')));
+				$sess->add_session($userid,'smart_sess',$smart_sess);
+
+				$sess->set('dummy_sess_salt','');
+				$sess->set('dummy_PHPSESSID','');
+				$sess->set('dummy_userid','');
+				$sess->set('dummy_user_session_key','');
+
 		}
 	}
 	
@@ -3928,7 +3971,7 @@ class userquery extends CBCategory{
 	function is_admin_logged_as_user()
 	{
 		 global $sess;
-		 if($sess->get("dummy_username")!="")
+		 if($sess->get("dummy_sess_salt")!="")
 		 {
 			 return true;
 		 }
