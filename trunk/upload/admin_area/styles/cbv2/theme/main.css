@@ -341,6 +341,7 @@ li.myAdminList input[disabled=disabled].disabled { font:normal 11px Tahoma; padd
 .opera{background-position:-36px 0px}
 .safari{background-position:-52px 0px}
 .msie{background-position:-72px 0px}
+.bot{background-image:url(../images/bot.png); background-repeat:no-repeat}
 
 .browsingUsers td{font-weight:bold; font-size:11px; padding:5px 2px;border-bottom:1px solid #ccc}
 .browsingUsers tr:nth-child(even) td{background-color:#f3f3f3}

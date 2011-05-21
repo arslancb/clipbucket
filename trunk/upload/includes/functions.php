@@ -5489,7 +5489,7 @@
 		//Checking if browser is firefox
 		if(!$in)
 			$in = $_SERVER['HTTP_USER_AGENT'];
-			
+		
 		$u_agent = $in;
 		$bname = 'Unknown';
 		$platform = 'Unknown';
@@ -5537,6 +5537,20 @@
 			$bname = 'Netscape';
 			$ub = "Netscape";
 		}
+		elseif(preg_match('/Googlebot/i',$u_agent))
+		{
+			$bname = 'Googlebot';
+			$ub = "bot";
+		}elseif(preg_match('/msnbot/i',$u_agent))
+		{
+			$bname = 'MSNBot';
+			$ub = "bot";
+		}elseif(preg_match('/Yahoo\! Slurp/i',$u_agent))
+		{
+			$bname = 'Yahoo Slurp';
+			$ub = "bot";
+		}
+
 	   
 		// finally get the correct version number
 		$known = array('Version', $ub, 'other');
