@@ -11,7 +11,7 @@
 
 	$Cbucket->upload_opt_list['link_video_link'] = 
 							  array(
-							   'title'	=> 'Video Link',
+							   'title'	=> lang('remote_play'),
 							   'load_func'	=>	'load_link_video_form',
 							   );
 		
