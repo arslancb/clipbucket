@@ -1186,7 +1186,7 @@ class CBvideo extends CBCategory
 		$rating 	= $params['rating'];
 		$ratings 	= $params['ratings'];
 		$total 		= $params['total'];
-		$id 		= $params['id'];
+		$id 			= $params['id'];
 		$type 		= $params['type'];
 		
 		//Checking Percent
@@ -1200,6 +1200,8 @@ class CBvideo extends CBCategory
 		}
 				
 		$perc = $perc.'%';
+		$disperc = 100 - $perc.'%';
+		$likes = floor($ratings*$perc/100); // get lowest integer
 		
 		if($params['is_rating'])
 		{
@@ -1216,10 +1218,13 @@ class CBvideo extends CBCategory
 		}
 		
 		assign('perc',$perc);
+		assign('disperc',$disperc);
 		assign('id',$id);
 		assign('type',$type);
 		assign('id',$id);
 		assign('rating_msg',$rating_msg);
+		assign("likes",$likes);
+		assign("dislikes",($ratings-$likes));
 		assign('disable',$params['disable']);
 		
 		Template('blocks/rating.html');
@@ -1233,10 +1238,10 @@ class CBvideo extends CBCategory
 	function rate_video($id,$rating)
 	{
 		global $db;
-
-		if(!is_numeric($rating) || $rating <1)
-			$rating = 1;
-		if($rating>10)
+		
+		if(!is_numeric($rating) || $rating <= 9)
+			$rating = 0;
+		if($rating >= 10)
 			$rating = 10;
 
 		$rating_details = $this->get_video_rating($id);
@@ -1244,7 +1249,62 @@ class CBvideo extends CBCategory
 		
 		$new_by = $rating_details['rated_by'];
 		$newrate = $rating_details['rating'];
+		if(phpversion < '5.2.0')
+			global $json; $js = $json;
 		
+		if(!empty($js))
+			$voters = $js->json_decode($voter_id,TRUE);
+		else
+			$voters = json_decode($voter_id,TRUE);	
+		
+		if(!empty($voters))
+			$already_voted = array_key_exists(userid(),$voters);
+			
+		if(!userid())
+			e(lang("please_login_to_rate"));
+		elseif(userid()==$rating_details['userid'] && !config('own_video_rating'))
+			e(lang("you_cant_rate_own_video"));
+		elseif(!empty($already_voted))
+			e(lang("you_hv_already_rated_vdo"));
+		elseif(!config('video_rating') || $rating_details['allow_rating'] !='yes' )
+			e(lang("vid_rate_disabled"));
+		else
+		{
+			$voters[userid()] = array(
+				"userid"	=>	userid(),
+				"username"	=>	username(),
+				"time"	=>	now(),
+				"rating"	=>	$rating
+			);
+			
+			if(!empty($js))
+				$voters = $js->json_encode($voters);
+			else
+				$voters = json_encode($voters);
+					
+			$t = $rating_details['rated_by'] * $rating_details['rating'];
+			$new_by = $rating_details['rated_by'] + 1;
+			$newrate = ($t + $rating) / $new_by;
+			$db->update(tbl($this->dbtbl['video']),array("rating","rated_by","voter_ids"),array($newrate,$new_by,"|no_mc|$voters")," videoid='$id'");
+			$userDetails = array(
+				"object_id"	=>	$id,
+				"type"	=>	"video",
+				"time"	=>	now(),
+				"rating"	=>	$rating,
+				"userid"	=>	userid(),
+				"username"	=>	username()
+			);	
+			/* Updating user details */		
+			update_user_voted($userDetails);
+			e(lang("thnx_for_voting"),"m");		
+		}
+		
+		$result = array('rating'=>$newrate,'ratings'=>$new_by,'total'=>10,'id'=>$id,'type'=>'video','disable'=>'disabled');
+		return $result;
+		
+		
+		/*
+		Following code is unused
 		$niddle = "|";
 		$niddle .= userid();
 		$niddle .= "|";
@@ -1277,6 +1337,7 @@ class CBvideo extends CBCategory
 		
 		$result = array('rating'=>$newrate,'ratings'=>$new_by,'total'=>10,'id'=>$id,'type'=>'video','disable'=>'disabled');
 		return $result;
+		*/
 	}
 	
 	

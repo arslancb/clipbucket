@@ -102,7 +102,7 @@ function doUpdateVideo(formId,ID)
 		show_error(data.error,ID,true);
 		$('#updateVideoDataLoading').empty();
 		$('#cbSubmitUpload'+ID)
-		.attr("disabled","")
+		.removeAttr("disabled")
 		.attr("value",lang.saveData)
 		.attr("onClick","doUpdateVideo('#uploadForm"+ID+"','"+ID+"')")
 	},"json"
@@ -169,7 +169,7 @@ $(document).ready(function()
 					.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
 					$('#cbSubmitUpload'+ID)
 					.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
-					.attr("disabled","")
+					.removeAttr("disabled")
 					.attr("value",lang.saveData)
 					.attr("onClick","doUpdateVideo('#uploadForm"+ID+"','"+ID+"')");
 					

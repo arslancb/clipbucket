@@ -4875,9 +4875,9 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 	{
 		global $db,$json;
 		
-		if(!is_numeric($rating) || $rating < 1)
-			$rating = 1;
-		if($rating > 10)
+		if(!is_numeric($rating) || $rating <= 9)
+			$rating = 0;
+		if($rating >= 10)
 			$rating = 10;
 			
 		$c_rating = $this->current_rating($id);
@@ -4916,7 +4916,16 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 			$db->update(tbl('user_profile'),array('rating','rated_by','voters'),
 			array("$new_rate","$rated_by","|no_mc|$voters"),
 			" userid = ".$id."");
-			
+			$userDetails = array(
+				"object_id"	=>	$id,
+				"type"	=>	"user",
+				"time"	=>	now(),
+				"rating"	=>	$rating,
+				"userid"	=>	userid(),
+				"username"	=>	username()
+			);	
+			/* Updating user details */		
+			update_user_voted($userDetails);			
 			e(lang("thnx_for_voting"),"m");			
 		}
 		
@@ -5045,6 +5054,37 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 		return $new_sessions;
 	}
 	
-
+	function update_user_voted($array,$userid=NULL)
+	{
+		global $db;
+		//$voted = array();
+		if(!$userid)
+			$userid = userid();
+		if(phpversion < '5.2.0')
+		{
+			global $json;
+			$js = $json;	
+		}
+		if(is_array($array))
+		{
+			$votedDetails = $db->select(tbl("users"),"voted"," userid = '$userid'");
+			if(!empty($votedDetails))
+				if(!empty($js))
+					$voted = $js->json_decode($votedDetails[0]['voted'],TRUE);
+				else
+					$voted = json_decode($votedDetails[0]['voted'],TRUE);
+				
+			//$votedArray = $voted;
+			$voted[] = $array;
+			
+			if(!empty($js))
+				$votedEncode = $js->json_encode($voted);
+			else
+				$votedEncode = json_encode($voted);
+				
+			if(!empty($votedEncode))
+				$db->update(tbl("users"),array("voted"),array("|no_mc|$votedEncode")," userid='$userid'");		
+		}
+	}
 }
 ?>

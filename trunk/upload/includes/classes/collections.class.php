@@ -1338,9 +1338,9 @@ class Collections extends CBCategory
 	{
 		global $db,$json;
 		
-		if(!is_numeric($rating) || $rating < 1)
-			$rating = 1;
-		if($rating > 10)
+		if(!is_numeric($rating) || $rating <= 9)
+			$rating = 0;
+		if($rating >= 10)
 			$rating = 10;
 			
 		$c_rating = $this->current_rating($id);
@@ -1381,7 +1381,16 @@ class Collections extends CBCategory
 			$db->update(tbl('collections'),array('rating','rated_by','voters'),
 			array("$new_rate","$rated_by","|no_mc|$voters"),
 			" collection_id = ".$id."");
-			
+			$userDetails = array(
+				"object_id"	=>	$id,
+				"type"	=>	"collection",
+				"time"	=>	now(),
+				"rating"	=>	$rating,
+				"userid"	=>	userid(),
+				"username"	=>	username()
+			);	
+			/* Updating user details */		
+			update_user_voted($userDetails);			
 			e(lang("thnx_for_voting"),"m");			
 		}
 	

@@ -13,8 +13,6 @@ define("PARENT_PAGE","upload");
 
 require 'includes/config.inc.php';
 
-
-
 $pages->page_redir();
 subtitle('upload');
 
