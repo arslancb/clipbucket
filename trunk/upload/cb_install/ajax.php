@@ -275,6 +275,36 @@ include('clipbucket.php');
 				}
 			 }
 		 }
+		 
+		 //There were problems with email templates with version lower than 2.4
+		 //therefore we are dumping all existing email templates and re-import them
+		 if(VERSION<'2.4.5')
+		 {
+			 mysql_query('TRUNCATE '.TABLE_PREFIX.'email_templates');
+			 //Dumping
+			 $sqlfile = BASEDIR."/cb_install/sql/email_templates.sql";
+			 if(file_exists($sqlfile))
+			 {
+				 
+				 $lines = file($sqlfile);
+				 foreach ($lines as $line_num => $line)
+				 {
+					if (substr($line, 0, 2) != '--' && $line != '') 
+					{
+						@$templine .= $line;
+						if (substr(trim($line), -1, 1) == ';') 
+						{
+							@$templine = preg_replace("/{tbl_prefix}/",TABLE_PREFIX,$templine);
+							$templine;
+							mysql_query($templine);
+							$templine = '';
+						}
+					}
+				 }
+			 }
+		 }
+		 //Dumping finished
+		 
 		 $return['msg'] = '<div class="ok green">upgrade_'.$files[$index].'.sql has been imported</div>';
 		 $return['status'] = $status;
 		 $return['step'] = $next;
