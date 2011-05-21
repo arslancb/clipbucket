@@ -1042,9 +1042,28 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_files` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
+-- Alterations
+
 ALTER TABLE `{tbl_prefix}video` ADD `video_password` VARCHAR( 255 ) NOT NULL AFTER `videokey` ;
 ALTER TABLE `{tbl_prefix}video` ADD `video_users` TEXT NOT NULL AFTER `video_password`;
 ALTER TABLE `{tbl_prefix}video` ADD `category_parents` TEXT NOT NULL AFTER `category` ;
 
 ALTER TABLE `{tbl_prefix}_video` ADD `subscription_email` ENUM( "pending", "sent" ) NOT NULL DEFAULT 'pending' AFTER `last_commented` ;
 ALTER TABLE `{tbl_prefix}_groups` ADD `group_admins` TEXT NOT NULL AFTER `userid` ;
+
+-- Alterations for 2.4.5
+
+ALTER TABLE `{$tbl_prefix}pages` ADD `page_order` BIGINT( 100 ) NOT NULL AFTER `page_id` ,
+ADD `display` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'yes' AFTER `page_order` ;
+
+UPDATE `{$tbl_prefix}pages` SET `display` = 'no' WHERE `page_id` =5 LIMIT 1 ;
+UPDATE `{$tbl_prefix}pages` SET `display` = 'no' WHERE`page_id` =6 LIMIT 1 ;
+
+UPDATE `{$tbl_prefix}pages` SET `page_order` = '1' WHERE `page_id` =1 LIMIT 1 ;
+UPDATE `{$tbl_prefix}pages` SET `page_order` = '2' WHERE `page_id` =2 LIMIT 1 ;
+UPDATE `{$tbl_prefix}pages` SET `page_order` = '3' WHERE `page_id` =3 LIMIT 1 ;
+UPDATE `{$tbl_prefix}pages` SET `page_order` = '4' WHERE `page_id` =4 LIMIT 1 ;
+UPDATE `{$tbl_prefix}pages` SET `page_order` = '5' WHERE `page_id` =5 LIMIT 1 ;
+UPDATE `{$tbl_prefix}pages` SET `page_order` = '6' WHERE `page_id` =6 LIMIT 1 ;
+
+ALTER TABLE  `{tbl_prefix}users` ADD  `voted` TEXT NOT NULL AFTER  `last_commented`;

@@ -10,7 +10,7 @@ INSERT INTO `{tbl_prefix}email_templates` (`email_template_id`, `email_template_
 (4, 'Acitvation code request template', 'avcode_request_template', '[{website_title}] - Account activation code request', 'Hello {username},\r\n\r\nYour Activation Code is : {avcode}\r\n<a href=''{baseurl}/activation.php?av_username={username}&avcode={avcode}''>Click Here</a> To goto Activation Page\r\n\r\nDirect Activation\r\n==========================================\r\nClick Here or Copy & Paste the following link in your browser\r\n{baseurl}/activation.php?av_username={username}&avcode={avcode}\r\n\r\nif above given links are not working, please go here and activate it\r\n\r\nEmail           : {email}\r\nUsername        : {username}\r\nActivation code : {avcode}\r\n\r\nif above given is not working , please go here and activate it\r\n<a href=''{baseurl}/activation.php''>{baseurl}/activation.php</a>\r\n\r\n----------------\r\nRegards\r\n{website_title}', 'username,email,avcode,doj'),
 (5, 'Welcome Message Template', 'welcome_message_template', 'Welcome {username} to {website_title}', 'Hello {username},\r\nThanks for joining at {website_title}!, you are now part of our community and we hope you will enjoy your stay\r\n\r\nAll the best,\r\n{website_title}', 'username,email'),
 (6, 'Password Reset Request', 'password_reset_request', '[{website_title}] - Password reset confirmation', 'Dear {username}\r\nyou have requested a password reset, please follow the link in order to reset your password\r\n<a href="{baseurl}/forgot.php?mode=reset_pass&user={userid}&avcode={avcode}">{baseurl}/forgot.php?mode=reset_pass&user={userid}&avcode={avcode}</a>\r\n\r\n-----------------------------------------\r\nIF YOU HAVE NOT REQUESTED A PASSWORD RESTE - PLEASE IGNORE THIS MESSAGE\r\n-----------------------------------------\r\nRegards\r\n{website_title}', 'username,userid,avcode'),
-(7, 'Passwor Reset Details', 'password_reset_details', '[{website_title}] - Password reset details', 'Dear {username}\r\nyour password has been reset\r\nyour new password is : {password}\r\n\r\n<a href="{login_link}">click here to login to website</a>\r\n<{login_link}>\r\n\r\n---------------\r\nRegards\r\n{website_title}', 'username,password'),
+(7, 'Password Reset Details', 'password_reset_details', '[{website_title}] - Password reset details', 'Dear {username}\r\nyour password has been reset\r\nyour new password is : {password}\r\n\r\n<a href="{login_link}">click here to login to website</a>\r\n<{login_link}>\r\n\r\n---------------\r\nRegards\r\n{website_title}', 'username,password'),
 (8, 'Forgot username request', 'forgot_username_request', '[{website_title}] - your {website_title} username', 'Hello,\r\nyour {website_title} username is : {username}\r\n\r\n--------------\r\nRegards\r\n{website_title}', '{username}'),
 (9, 'Friend Request Email', 'friend_request_email', '[{website_title}] {username} add you as friend', 'Hi {reciever},\r\n{sender} added you as a friend on {website_title}. We need to confirm that you know {sender} in order for you to be friends on {website_title}.\r\n\r\n<a href="{sender_link}">View profile of {sender}</a> \r\n<a href="{request_link}">click here to respond to friendship request</a>\r\n\r\nThanks,\r\n{website_title} Team', 'reciever,sender,sender_link,request_link'),
 (10, 'Friend Confirmation Email', 'friend_confirmation_email', '[{website_title}] - {sender} has confirmed you as a friend', 'Hi {reciever},\r\n{sender} confirmed you as a friend on {website_title}.\r\n\r\n<a href="{sender_link}">View {sender} profile</a>\r\n\r\nThanks,\r\nThe {website_title} Team', 'sender,reciever,sender_link'),
@@ -22,3 +22,88 @@ INSERT INTO `{tbl_prefix}email_templates` (`email_template_id`, `email_template_
 (
 NULL , 'Video Subscription Email', 'video_subscription_email', '{uploader} has uploaded new video on {website_title}', 'Hello {username} You have been notified by {website_title} that {uploader} has uploaded new video Video Title : {video_title} Video Description : {video_description} <a href="{video_link}"> <img src="{video_thumb" border="0" height="90" width="120"><br> click here to watch this video</a> You are notified because you are subscribed to {uploader}, you can manage your subscriptions by going to your account and click on manage subscriptions. {website_title}', ''
 );
+
+
+
+INSERT INTO `{tbl_prefix}email_templates` (`email_template_id`, `email_template_name`, `email_template_code`, `email_template_subject`, `email_template`, `email_template_allowed_tags`) VALUES (NULL, 'Collection Share Template', 'collection_share_template', '{username} wants to share collection with you', '<html>
+<head>
+<style type="text/css">
+<!--
+.title {
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 5px;
+	font-weight:bold;
+	color: #FFFFFF;
+	font-size: 16px;
+}
+.title2 {
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 5px;
+	font-weight:bold;
+	color: #000000;
+	font-size: 14px;
+}
+.messege {
+	font-family:Tahoma, Geneva, sans-serif;
+	padding: 5px;
+	font-weight:bold;
+	color: #000000;
+	font-size: 11px;
+}
+#videoThumb{
+	float:left;
+	padding: 2px;
+	margin: 3px;
+	border: 1px solid #F0F0F0;
+	text-align: center;
+	vertical-align: middle;
+}
+#videoThumb img{border:0px}
+body,td,th {
+	font-family: tahoma;
+	font-size: 11px;
+	color: #FFFFFF;
+}
+.text, .text2 {
+	font-family: tahoma;
+	font-size: 11px;
+	color: #000000;
+	padding: 5px;
+}
+
+.text2 {
+	font-size: 10px;
+	padding: 0px;
+}
+-->
+</style>
+</head>
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+  <tr>
+    <td bgcolor="#0099cc" ><span class="title">{website_title}</span></td>
+  </tr>
+
+  <tr>
+    <td height="20" class="messege">{username} wants to share this collection with you.<br>
+      <div id="videoThumb"><a class="text" title="{name}" href="{collection_link}"><img src="{collection_thumb}"><br>
+    View Collection <small class=''text2''>({total_items} {type})</small></a></div></td>
+  </tr>
+  <tr>
+    <td class="text" ><span class="title2">Collection Description</span><br>
+      <span class="text">{description}</span></td>
+  </tr>
+  <tr>
+    <td><span class="title2">Personal Message</span><br>
+      <span class="text">{user_message}
+      </span><br>
+      <br>
+<span class="text">Thanks,</span><br> 
+<span class="text">{website_title}</span></td>
+  </tr>
+  <tr>
+    <td bgcolor="#0099cc">copyrights {date_year} {website_title}</td>
+  </tr>
+</table>
+</body>
+</html>', '');
