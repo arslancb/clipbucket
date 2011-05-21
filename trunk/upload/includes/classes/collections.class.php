@@ -1522,7 +1522,7 @@ class Collections extends CBCategory
 			elseif($type == "vc" || $type == "view_collection" ||$type == "view")
 			{
 				if(SEO == 'yes')
-					return BASEURL."/collection/".$cdetails['collection_id']."/".$cdetails['type']."/".SEO(clean(str_replace(' ','-',$cdetails['collection_name'])))."";	
+					return BASEURL."/collection/".$cdetails['collection_id']."/".$cdetails['type']."/".SEO(($cdetails['collection_name']))."";	
 				else
 					return BASEURL."/view_collection.php?cid=".$cdetails['collection_id']."&amp;type=".$cdetails['type']; 
 			} elseif($type == "vi" || $type == "view_item" ||$type == "item") {

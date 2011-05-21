@@ -12,13 +12,19 @@
  
  $seo_urls = @SEO; 			//  yes/no
  function SEO( $text, $slash=false ) {
-	$entities_match		= array(' ','--','&quot;','!','@','#','%','^','&','*','_','(',')','+','{','}','|',':','"','<','>','?','[',']','\\',';',"'",',','.','/','*','+','~','`','=');
-	$entities_replace   = array('-','-','','','','','','','','','','','','','','','','','','','','','','','','');
+	
+	$text = preg_replace('/ \&\#?[(0-9a-zA-Z){4}]+\;/','',$text);
+	$entities_match		= array('&quot;','!','@','#','%','^','&','*','_','(',')','+','{','}','|',':','"','<','>','?','[',']','\\',';','"',',','.','/','*','+','~','`','=',"'");
+	$entities_replace   = array('','','','','','','','','','','','','','','','','','','','','','','','');
 	$clean_text	 	    = str_replace($entities_match, $entities_replace, $text);
+	$clean_text = trim($clean_text);
+	$clean_text = preg_replace('/ /','-',$clean_text);
     if ( $clean_text != '' )
         $slash              = ( $slash ) ? '/' : NULL;
 	
-	$clean_text = preg_replace('/\-{2,10}/','-',$clean_text);
+	
+	echo $clean_text = preg_replace('/\-{2,10}/','-',$clean_text);
+	
 	return $slash . $clean_text;
 }	
 	
