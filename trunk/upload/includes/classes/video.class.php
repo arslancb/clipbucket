@@ -1191,16 +1191,17 @@ class CBvideo extends CBCategory
 		
 		//Checking Percent
 		if($rating<=0)
-			$perc = '0';
+		{	$perc = '0'; $disperc = '0'; }
 		else
 		{
 			if($total<=1)
 				$total = 1;
 			$perc = $rating*100/$total;
+			$disperc = 100 - $perc;
 		}
 				
 		$perc = $perc.'%';
-		$disperc = 100 - $perc.'%';
+		$disperc = $disperc.'%';
 		$likes = floor($ratings*$perc/100); // get lowest integer
 		
 		if($params['is_rating'])

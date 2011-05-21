@@ -95,3 +95,13 @@
 	background-image: -moz-linear-gradient(bottom, #990000, #c40000);
 	background-image: -o-linear-gradient(bottom, #990000, #c40000);
 	filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#c40000, endColorStr=#990000); float:left; position:relative; margin-right:-1px; }
+	
+.ratingText { font:normal 11px Arial; }
+.UserDisliked, .UserLiked { background:url(../images/thumbs.png) -36px -28px no-repeat; width:14px; height:14px; display:inline-block; *display:inline;  }
+.UserLiked { background-position:-6px -26px; }
+
+.ratingContainer .LikeBar { height:4px; background:#060; margin-bottom:1px;  }
+.ratingContainer .DislikeBar { height:4px; background:#C00;  }
+
+.LikeText, .DislikeText { display:block; margin-bottom:1px; }
+.LikeText { color:green; } .DislikeText { color:red; }

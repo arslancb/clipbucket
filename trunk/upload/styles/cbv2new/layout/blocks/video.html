@@ -19,7 +19,7 @@
         <h2 class="title truncatedtitle"><a href="{videoLink vdetails=$video}" title="{$video.title}">{$video.title|truncate:40}</a></h2>
         <h2 class="title fulltitle" style="display:none"><a href="{videoLink vdetails=$video}">{$video.title}</a></h2>
         <div class="list_rating">
-        	{show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}
+        	{show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10' }
 		</div>            
         <p id="desc" class="vid_info">{$video.description|description|truncate:100}</p>
         <p class="vid_info">{$video.views} View(<strong>s</strong>) <span class="list_commnets"> | {$video.comments_count} Comment(<strong>s</strong>)</span></p>

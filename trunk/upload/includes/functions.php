@@ -2806,26 +2806,73 @@
 		$rating 	= $params['rating'];
 		$ratings 	= $params['ratings'];
 		$total 		= $params['total'];
-		
+		$style		= $params['style'];
 		//Checking Percent
 		if($rating<=0)
-			$perc = '0';
+		{	$perc = '0'; $disperc = '0'; }
 		else
 		{
 			if($total<=1)
 				$total = 1;
 			$perc = $rating*100/$total;
+			$disperc = 100 - $perc;
 		}
 				
 		$perc = $perc.'%';
+		$disperc = $disperc."%";
 		
-		$rating = '<div class="'.$class.'">
+		switch($style)
+		{
+			case "percentage": case "percent":
+			case "perc": default:
+			{
+				$likeClass = "UserLiked";
+				if(str_replace('%','',$perc) < '50')
+					$likeClass = 'UserDisliked';
+					
+				$ratingTemplate = '<div class="'.$class.'">
+									<div class="ratingContainer">
+										<span class="ratingText">'.$perc.' <span class="'.$likeClass.'">&nbsp;</span></span>
+									</div>
+								</div>';	
+			}
+			break;
+			
+			case "bars": case "Bars": case "bar":
+			{
+				$ratingTemplate = '<div class="'.$class.'">
+					<div class="ratingContainer">
+						<div class="LikeBar" style="width:'.$perc.'"></div>
+						<div class="DislikeBar" style="width:'.$disperc.'"></div>
+					</div>
+				</div>';
+			}
+			break;
+			
+			case "numerical": case "numbers":
+			case "number": case "num":
+			{
+				$likes = floor($ratings*$perc/100);
+				$dislikes = $ratings - $likes;
+				
+				$ratingTemplate = '<div class="'.$class.'">
+					<div class="ratingContainer">
+						<div class="ratingText">
+							<span class="LikeText">'.$likes.' Likes</span>
+							<span class="DislikeText">'.$dislikes.' Dislikes</span>
+						</div>
+					</div>
+				</div>';
+			}
+			break;
+		}
+		/*$rating = '<div class="'.$class.'">
 					<div class="stars_blank">
 						<div class="stars_filled" style="width:'.$perc.'">&nbsp;</div>
 						<div class="clear"></div>
 					</div>
-				  </div>';
-		return $rating;
+				  </div>';*/
+		return $ratingTemplate;
 	}
 	
 
