@@ -2832,8 +2832,10 @@
 					
 				$ratingTemplate = '<div class="'.$class.'">
 									<div class="ratingContainer">
-										<span class="ratingText">'.$perc.' <span class="'.$likeClass.'">&nbsp;</span></span>
-									</div>
+										<span class="ratingText">'.$perc.'</span>';
+				if($ratings > 0)
+					$ratingTemplate .= ' <span class="'.$likeClass.'">&nbsp;</span>';										
+				$ratingTemplate .='</div>
 								</div>';	
 			}
 			break;
