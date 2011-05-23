@@ -1826,6 +1826,7 @@ class CBGroups extends CBCategory
 			$uid = userid();
 		$privacy = $group['group_privacy'];
 		$isMember = $this->is_member($uid,$group['group_id']);
+		
 		if($privacy == 1 && !$isMember)
 		{
 			e(lang("you_need_owners_approval_to_view_group"),"w");
@@ -1834,7 +1835,7 @@ class CBGroups extends CBCategory
 		{
 				e(lang("grp_inactive_account"),"w");
 				return true;
-		} elseif($privacy == 2 && !$isMember) {
+		} elseif($privacy == 2 && !$isMember && !$this->is_invited($uid,$group['group_id'],$group['userid'])) {
 			e(lang("grp_prvt_err1"));
 			return false;	
 		} else {

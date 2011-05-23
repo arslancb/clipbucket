@@ -278,7 +278,7 @@ include('clipbucket.php');
 		 
 		 //There were problems with email templates with version lower than 2.4
 		 //therefore we are dumping all existing email templates and re-import them
-		 if(VERSION<'2.4.5')
+		 if($upgrade<'2.4.5')
 		 {
 			 mysql_query('TRUNCATE '.TABLE_PREFIX.'email_templates');
 			 //Dumping
