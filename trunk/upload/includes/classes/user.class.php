@@ -826,7 +826,7 @@ class userquery extends CBCategory{
 			 '{reciever}'	=> $friend['username'],
 			 '{sender}'		=> $sender['username'],
 			 '{sender_link}'=> $this->profile_link($sender),
-			 '{request_link}'=> BASEURL.'/manage_contacts.php?mode=request&confirm='.$insert_id
+			 '{request_link}'=> BASEURL.'/manage_contacts.php?mode=request&confirm='.$uid
 			);
 			if(!is_array($var))
 				$var = array();
@@ -1341,6 +1341,7 @@ class userquery extends CBCategory{
 					cbmail(array('to'=>$udetails['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
 				
 					e(lang('usr_rpass_email_msg'),"m");
+					return true;
 				}
 			}
 			break;
@@ -1377,6 +1378,7 @@ class userquery extends CBCategory{
 					//Now Finally Sending Email
 					cbmail(array('to'=>$udetails['email'],'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
 					e(lang('usr_pass_email_msg'),'m');
+					return true;
 				}
 			}
 			break;
@@ -1391,9 +1393,9 @@ class userquery extends CBCategory{
 		global $cbemail;
 		$udetails = $this->get_user_details($email);
 		if(!$udetails)
-			e(lang('usr_exist_err'));
+			e(lang('no_user_associated_with_email'));
 		elseif(!verify_captcha())
-					e(lang('usr_ccode_err'));
+			e(lang('usr_ccode_err'));
 		else
 		{
 			$tpl = $cbemail->get_template('forgot_username_request');

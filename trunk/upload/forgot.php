@@ -32,7 +32,8 @@ require 'includes/config.inc.php';
 	{
 		$input = mysql_clean(get('user'));
 		$avcode = mysql_clean(get('avcode'));
-		$userquery->reset_password(2,$input,$avcode);
+		if($userquery->reset_password(2,$input,$avcode))
+			assign('pass_recover','success');
 	}
 	
 	/**

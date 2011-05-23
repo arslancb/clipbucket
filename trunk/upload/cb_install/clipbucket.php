@@ -12,7 +12,7 @@
  define("ClipBucket","ClipBucket - Open Source Media Sharing Script by Arslan Hassan");
  define("VERSION","2.4.5");
  define("STATE","RC3");
- define("REV","667");
+ define("REV","669");
  define("RELEASED","5-23-2011");
  define("AUTHORS","ARSLAN HASSAN,FAWAZ TAHIR");
 
