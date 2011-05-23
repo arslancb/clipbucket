@@ -7,3 +7,13 @@ INSERT INTO `{tbl_prefix}pages` (`page_id`, `page_name`, `page_title`, `page_con
 (4, 'Help', 'Help', '<span style="font-weight: bold;">How to use ClipBucket</span><br><ol><li>Articles will be written pretty soon</li></ol>', 1, 'yes', 'no', '2010-01-01 09:17:36'),
 (5, '403 Error', '403 Forbidden', '<h2>403 Access Denied</h2>\r\nSorry, you cannot access this page...', 1, 'yes', 'no', '0000-00-00 00:00:00'),
 (6, '404 Error', '404 Not Found', '<h2>404 Not Found</h2>\r\nwe are unable to find requested URL on server..', 1, 'yes', 'no', '0000-00-00 00:00:00');
+
+UPDATE `{tbl_prefix}pages` SET `display` = 'no' WHERE `page_id` =5 LIMIT 1 ;
+UPDATE `{tbl_prefix}pages` SET `display` = 'no' WHERE`page_id` =6 LIMIT 1 ;
+
+UPDATE `{tbl_prefix}pages` SET `page_order` = '1' WHERE `page_id` =1 LIMIT 1 ;
+UPDATE `{tbl_prefix}pages` SET `page_order` = '2' WHERE `page_id` =2 LIMIT 1 ;
+UPDATE `{tbl_prefix}pages` SET `page_order` = '3' WHERE `page_id` =3 LIMIT 1 ;
+UPDATE `{tbl_prefix}pages` SET `page_order` = '4' WHERE `page_id` =4 LIMIT 1 ;
+UPDATE `{tbl_prefix}pages` SET `page_order` = '5' WHERE `page_id` =5 LIMIT 1 ;
+UPDATE `{tbl_prefix}pages` SET `page_order` = '6' WHERE `page_id` =6 LIMIT 1 ;

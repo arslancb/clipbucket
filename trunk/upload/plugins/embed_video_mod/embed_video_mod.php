@@ -309,7 +309,7 @@ if(!function_exists('validate_embed_code'))
 		
 		if(!empty($ytcom[0]) || !empty($ytnccom[0]))
 		{
-			preg_match("/\/v\/(.*)/",$src,$srcs);
+			preg_match("/\/v\/([a-zA-Z0-9_-]+)/",$src,$srcs);
 			$srcs = explode("&",$srcs[1]);
 			$ytcode = $srcs[0];
 			if(!$ytcode)

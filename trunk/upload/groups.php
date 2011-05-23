@@ -10,7 +10,7 @@ define("THIS_PAGE","groups");
 define("PARENT_PAGE","groups");
 require 'includes/config.inc.php';
 $pages->page_redir();
-
+$userquery->perm_check('view_groups',true);
 
 //Setting Sort
 $sort = $_GET['sort'];

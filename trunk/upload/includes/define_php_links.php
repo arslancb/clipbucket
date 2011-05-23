@@ -23,7 +23,7 @@
         $slash              = ( $slash ) ? '/' : NULL;
 	
 	
-	echo $clean_text = preg_replace('/\-{2,10}/','-',$clean_text);
+	$clean_text = preg_replace('/\-{2,10}/','-',$clean_text);
 	
 	return $slash . $clean_text;
 }	
