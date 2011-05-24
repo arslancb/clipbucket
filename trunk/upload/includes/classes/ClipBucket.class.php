@@ -497,6 +497,7 @@ class ClipBucket
 		$this->head_menu[] = array('name'=>lang("signup"),'link'=>cblink(array('name'=>'signup')),"this"=>"signup");
 		
 		$this->head_menu[] = array('name'=>lang("photos"),'link'=>cblink(array('name'=>'photos')),"this"=>"photos");
+
 		/* Calling custom functions for headMenu. This can be used to add new tabs */
 		//cb_call_functions('headMenu');
 		if($params['assign'])
@@ -508,7 +509,7 @@ class ClipBucket
 		
 	function cbMenu($params=NULL)
 	{
-		$this->head_menu();
+		$this->head_menu($params);
 		if(!$params['tag'])
 			//$params['tag'] = 'li';
 
@@ -530,7 +531,25 @@ class ClipBucket
 			$custom = $this->custom_menu;
 			if(is_array($custom))
 				$headMenu = array_merge($headMenu,$custom);
-			
+			/* Excluding tabs from menu */	
+			if($params['exclude'])
+			{
+				if(is_array($params['exclude']))
+					$exclude = $params['exclude'];
+				else
+					$exclude = explode(",",$params['exclude']);
+	
+				foreach($headMenu as $key=>$hm)
+				{
+					foreach($exclude as $ex)
+					{
+						$ex = trim($ex);
+						if(strtolower(trim($hm['name'])) == strtolower($ex))
+							unset($headMenu[$key]);	
+					}
+				}
+			}
+						
 			$output = '';
 			//if(($params['tag']))
 			//		$output .= "<".$params['tag'].">";
