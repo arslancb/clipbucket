@@ -1361,7 +1361,7 @@ class Collections extends CBCategory
 
 		if(!userid())
 			e(lang("please_login_to_rate"));
-		elseif(userid()==$c_rating['userid'])
+		elseif(userid()==$c_rating['userid'] && !config('own_collection_rating'))
 			e(lang("you_cannot_rate_own_collection"));
 		elseif(!empty($already_voted))
 			e(lang("you_hv_already_rated_photo"));

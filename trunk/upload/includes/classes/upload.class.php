@@ -235,13 +235,15 @@ class Upload{
 	 * Function used to get available name for video thumb
 	 * @param FILE_Name
 	 */
-	function get_available_file_num($file_name)
+	function get_available_file_num($file_name,$big=false)
 	{
 		//Starting from 1
 		$code = 1;
+		if($big)
+			$big = "big-";
 		while(1)
 		{
-			$path = THUMBS_DIR.'/'.$file_name.'-'.$code.'.';
+			$path = THUMBS_DIR.'/'.$file_name.'-'.$big.$code.'.';
 			if(!file_exists($path.'jpg') && !file_exists($path.'png') && !file_exists($path.'gif'))
 				break;
 			else
@@ -287,7 +289,7 @@ class Upload{
 			$path = THUMBS_DIR.'/'.$file_name.'-big.'.$ext;
 			move_uploaded_file($file['tmp_name'],$path);
 			$imgObj->CreateThumb($path,$path,$bigThumbWidth,$ext,$bigThumbHeight,false);
-			e(lang('Video big thumb uploaded'),'m');	
+			e(lang('Video big thumb uploaded'),'m');
 		}
 	}
 	
@@ -1123,6 +1125,26 @@ class Upload{
 				
 		return $fields;
 	}
-
+	
+	function isTime($time)
+	{
+		preg_match("/(([0-9]?[0-9]{1}):)?([0-5]{1}[0-9]{1}):([0-5]{1}[0-9]{1})/",$time,$match);
+		if(!empty($match[0]))
+			return ($match[0]);
+		else
+			return false;		
+	}	
+	
+	function time_to_sec($time) {
+		if(!$this->isTime($time))
+			e(lang("Format of time is not right."));
+		else
+		{		 
+			$hours = substr($time, 0, -6); 
+			$minutes = substr($time, -5, 2); 
+			$seconds = substr($time, -2); 
+			return $hours * 3600 + $minutes * 60 + $seconds; 
+		}
+	}
 }	
 ?>
