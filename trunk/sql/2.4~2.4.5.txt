@@ -19,3 +19,5 @@ UPDATE `clipbucket_svn`.`cb_pages` SET `page_order` = '5' WHERE `cb_pages`.`page
 UPDATE `clipbucket_svn`.`cb_pages` SET `page_order` = '6' WHERE `cb_pages`.`page_id` =6 LIMIT 1 ;
 
 ALTER TABLE  `cb_users` ADD  `voted` TEXT NOT NULL AFTER  `last_commented`
+
+INSERT INTO `clipbucket_svn`.`cb_config` (`configid`, `name`, `value`) VALUES (NULL, 'rating_style', 'percentage');

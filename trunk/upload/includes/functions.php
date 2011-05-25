@@ -2807,6 +2807,8 @@
 		$ratings 	= $params['ratings'];
 		$total 		= $params['total'];
 		$style		= $params['style'];
+		if(empty($style))
+			$style = config('rating_style');
 		//Checking Percent
 		if($rating<=0)
 		{	$perc = '0'; $disperc = '0'; }
