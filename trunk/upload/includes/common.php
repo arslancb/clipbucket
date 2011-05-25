@@ -387,6 +387,7 @@ if(!@$in_bg_cron)
 	define("EMBED_VDO_WIDTH",$row['embed_player_width']);
 	define("EMBED_VDO_HEIGHT",$row['embed_player_height']);
 	
+
 	include 'plugin.functions.php';
 	include 'plugins_functions.php';
 	require BASEDIR.'/includes/templatelib/Template.class.php';

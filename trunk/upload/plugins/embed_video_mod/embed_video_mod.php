@@ -195,7 +195,7 @@ if(!function_exists('validate_embed_code'))
 			{
 				if($image->ValidateImage($array['tmp_name'],$ext)){
 					$file = BASEDIR.'/files/thumbs/'.$_POST['file_name'].'.'.$ext;
-					$bfile = BASEDIR.'/files/thumbs/'.$_POST['file_name'].'.-big'.$ext;
+					$bfile = BASEDIR.'/files/thumbs/'.$_POST['file_name'].'.-big.'.$ext;
 					if(!file_exists($file))
 					{
 						move_uploaded_file($array['tmp_name'],$file);
