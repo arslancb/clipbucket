@@ -27,9 +27,6 @@ As you have installed ClipBucket Succesffuly, we highly recommend you to registe
   <li>We will not share your email to anyone</li>
   <li>We will integerate bug tracker pretty soon and you will be able to report bugs easily if you are registered</li>
 </ul>
-<p>Like us on facebook</p>
-<p><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like-box href="http://www.facebook.com/#!/pages/ClipBucket/189702491050380" width="292" show_faces="true" stream="false" header="true"></fb:like-box></p>
-
 
 <form name="installation" method="post" id="installation">
     <input type="hidden" name="mode" value="finish" />
