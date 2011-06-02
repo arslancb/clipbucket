@@ -122,7 +122,7 @@ switch($mode)
 		//Checking file type
 		$types_array = preg_replace('/,/',' ',$types);
 		$types_array = explode(' ',$types_array);
-		$file_ext = getExt($_FILES['Filedata']['name']);
+		$file_ext = strtolower(getExt($_FILES['Filedata']['name']));
 		if(!in_array($file_ext,$types_array))
 		{
 			upload_error("Invalid file extension");

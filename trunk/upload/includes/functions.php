@@ -5647,4 +5647,13 @@
 		global $userquery;
 		return $userquery->update_user_voted($array,$userid);	
 	}
+	
+	/**
+	  * function used to delete vidoe from collections
+	  */
+	function delete_video_from_collection($vdetails)
+	{
+		global  $cbvid;
+		$cbvid->collection->deleteItemFromCollections($vdetails['videoid']);
+	}
 ?>

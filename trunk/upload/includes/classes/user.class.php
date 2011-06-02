@@ -2761,11 +2761,10 @@ class userquery extends CBCategory{
 	 */
 	function get_channel_action_links($u)
 	{
-		return array(lang('Send Message')=>array('link'=>cblink(array('name'=>'compose_new','extra_params'=>'to='.$u['username']))),
-					 lang('Add as friend')=>array('link'=>'javascript:void(0)','onclick'=>"add_friend('".$u['userid']."','result_cont')"),
-					 lang('Block user')=>array('link'=>'javascript:void(0)','onclick'=>"block_user('".$u['username']."','result_cont')")
-					 );
-	}
+			return array(lang('send_message')=>array('link'=>cblink(array('name'=>'compose_new','extra_params'=>'to='.$u['username']))),
+                     lang('add_as_friend')=>array('link'=>'javascript:void(0)','onclick'=>"add_friend('".$u['userid']."','result_cont')"),
+                     lang('block_user')=>array('link'=>'javascript:void(0)','onclick'=>"block_user('".$u['username']."','result_cont')")
+                     );	}
 	
 	/**
 	 * Function used to get user videos link

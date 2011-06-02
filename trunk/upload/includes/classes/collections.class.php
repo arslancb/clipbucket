@@ -1695,6 +1695,27 @@ class Collections extends CBCategory
 		
 	}
 	
+	/**
+	 * Function used to remove item from collections
+	 * and decrement collection item count
+	 * @param : itemID
+	 * @param : type
+	 */
+	function deleteItemFromCollections($objId,$type=NULL)
+	{
+		global $db,$cbvid;
+		if(!$type)
+			$type = $this->objType;
+
+			$db->update(tbl('collections,collection_items'),array('total_objects'),array('|f|total_objects -1'),
+			tbl("collections.collection_id")." = ".tbl("collection_items.collection_id")." AND "
+			.tbl("collection_items.type='".$type."'")."  AND ".tbl("collection_items.object_id='".$objId."'"));
+			
+			
+			$db->execute("DELETE FROM ".tbl('collection_items')." WHERE "
+			.("type='".$type."'")."  AND ".("object_id='".$objId."'"));
+	}
+	
 }
 
 ?>
