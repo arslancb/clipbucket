@@ -193,7 +193,8 @@ class ffmpeg
 		# audio bitrate
 		if($p['use_audio_rate'])
 		{
-			if($this->input_details['audio_channels']>2 || !is_numeric($this->input_details['audio_channels']))
+			if($this->input_details['audio_channels']>2 || !is_numeric($this->input_details['audio_channels'])
+				&& is_numeric($i['audio_rate']))
 			{
 				$arate = $i['audio_rate'];
 				$opt_av .= $arate_cmd = " -ar $arate ";

@@ -269,7 +269,7 @@ function QueueLimitError(message,fade)
 		$("#QueueError").delay(5000).fadeOut('slow');	
 }
 
-function insertAjaxPhoto(ID,filename,extension,server_url)
+function insertAjaxPhoto(ID,filename,extension,server_url,folder)
 {
 
 	var photoFields = $("#Form"+ID).serialize();
@@ -277,7 +277,8 @@ function insertAjaxPhoto(ID,filename,extension,server_url)
 		url : baseurl+'/actions/photo_uploader.php',
 		type : 'POST',
 		dataType : 'json',
-		data : photoFields+"&filename="+filename+"&ext="+extension+"&insertPhoto=yes&server_url="+server_url,
+		data : photoFields+"&filename="+filename+"&ext="+extension+"&insertPhoto=yes&server_url="+server_url+
+		"&folder="+folder,
 		beforeSend : function()
 		{
 			$("#cbSubmitUpload"+ID).html(ajaxImage+lang.savingData).attr('disabled','disabled');	
@@ -424,7 +425,7 @@ $(document).ready(function() {
 				var resObj = $.parseJSON(response);
 				if(resObj.success == "yes")
 				{
-					insertAjaxPhoto(ID,resObj.filename,resObj.extension,resObj.server_url);	
+					insertAjaxPhoto(ID,resObj.filename,resObj.extension,resObj.server_url,resObj.folder);	
 				}
 				
 			},

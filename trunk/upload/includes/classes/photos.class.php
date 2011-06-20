@@ -1226,6 +1226,12 @@ class CBPhotos
 				$query_val[] = $array['server_url'];
 			}
 			
+			if($array['folder'] && $array['folder'] != "undefined")
+			{
+				$query_field[] = "file_directory";
+				$query_val[] = $array['folder'];
+			}
+			
 			$insert_id = $db->insert(tbl($this->p_tbl),$query_field,$query_val);
 			$photo = $this->get_photo($insert_id);
 			$this->collection->add_collection_item($insert_id,$photo['collection_id']);

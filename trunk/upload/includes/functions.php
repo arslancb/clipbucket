@@ -1066,7 +1066,7 @@
 	{
 		$disallow_array = array
 		('of','is','no','on','off','a','the','why','how','what','in');
-		if(!in_array($tag,$disallow_array))
+		if(!in_array($tag,$disallow_array) && strlen($tag)>2)
 			return true;
 		else
 			return false;
@@ -1076,7 +1076,7 @@
 	/**
 	* FUNCTION USED TO GET CATEGORY LIST
 	*/
-	function getCategoryList($params)
+	function getCategoryList($params=false)
 	{
 		global $cats;
 		$cats = "";
