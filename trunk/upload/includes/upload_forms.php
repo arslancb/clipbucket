@@ -13,7 +13,7 @@
 	}
 
 	
-	function load_remote_upload_form($params)
+	function load_remote_upload_form($params=NULL)
 	{
 		global $file_name;
 		if($params['class'])
@@ -38,10 +38,11 @@
             '.lang('remoteDownloadStatusDiv').'
         </div>                
         <div align="right">
+		
 			<input type="button" name="ytUploadBttn" id="ytUploadBttn" 
 			value="'.lang('grab_from_youtube').'" onClick="youtube_upload()" class="cbSubmitUpload">
             <input type="button" name="remoteUploadBttn" id="remoteUploadBttn" value="'.lang('upload').'" 
-			onClick="check_remote_url()" class="cbSubmitUpload">
+			onClick="'.get_remote_url_function().'" class="cbSubmitUpload">
             <input type="button" name="remoteUploadBttnStop" id="remoteUploadBttnStop" value="'.lang('cancel').'"   
 			class="cbSubmitUpload" style="display:none"/>
         </div>

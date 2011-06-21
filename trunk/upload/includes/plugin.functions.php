@@ -495,4 +495,22 @@
 		$params = array("section"=>$section,"page"=>$page,"extra"=>$extra);
 		return create_module_link($params);
 	}
+	
+	
+	/**
+	 * function used to get remote url function
+	 */
+	function get_remote_url_function()
+	{
+		$funcs = cb_get_functions('remote_url_function');
+		
+		if($funcs)
+		foreach($funcs as $func)
+		{
+			$val = $func['func']();
+			if($val)
+				return $val;
+		}
+		return 'check_remote_url()';
+	}
 ?>

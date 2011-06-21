@@ -894,9 +894,9 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 .collectionComments input[type=text], .collectionComments textarea.input { width:95% }
 .CollectionResult .msg { color:#0099cc; }
 
-.uploadErrorDiv, .uploadSuccessDiv{padding:5px 5px 5px 35px; background:url(../images/ok.png) no-repeat 2px 0px;}
-.uploadErrorMsg, .uploadSuccessMsg{font-size:14px; font-weight:bold; color:#7fa534; display:inline-block; line-height:20px; height:20px;}
-.uploadErrorDiv{ background:url(../images/error.png) no-repeat -3px 0px;}
+.uploadErrorDiv, .uploadSuccessDiv{padding:2px 5px 5px 20px; background:url(../images/ok.png) no-repeat 0px 0px;}
+.uploadErrorMsg, .uploadSuccessMsg{font-size:14px; font-weight:bold; color:#7fa534; display:inline-block;height:15px; vertical-align:middle}
+.uploadErrorDiv{ background:url(../images/error.png) no-repeat 0px 0px;}
 .uploadErrorMsg{color:#ed0000}
 
 .PhotoUploaderWrapper { border:1px solid #CCC; width:100%; background-color:#EEE; display:inline-block; padding:15px 0px; text-align:center; }

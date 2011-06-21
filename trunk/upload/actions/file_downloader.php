@@ -16,7 +16,20 @@
 include("../includes/config.inc.php");
 include("../includes/classes/curl/class.curl.php");
 error_reporting(E_ALL ^E_NOTICE);
-	
+
+
+
+if(isset($_POST['check_url']))
+{
+	$url = $_POST['check_url'];
+	if(checkRemoteFile($url))
+		echo json_encode(array('ok'=>'yes'));
+	else
+		echo json_encode(array('err'=>'Invalid remote url'));
+	exit();
+}
+
+
 /**
  * Call back function of cURL handlers
  * when it downloads a file, it works with php >= 5.3.0
