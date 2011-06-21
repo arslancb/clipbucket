@@ -22,9 +22,15 @@ error_reporting(E_ALL ^E_NOTICE);
 if(isset($_POST['check_url']))
 {
 	$url = $_POST['check_url'];
-	if(checkRemoteFile($url))
+	
+	$types_array = preg_replace('/,/',' ',strtolower(config('allowed_types')));
+	$types_array = explode(' ',$types_array);
+	$file_ext = strtolower(getExt(strtolower($url)));
+		
+	if(checkRemoteFile($url) && in_array($file_ext,$types_array) )
+	{
 		echo json_encode(array('ok'=>'yes'));
-	else
+	}else
 		echo json_encode(array('err'=>'Invalid remote url'));
 	exit();
 }
