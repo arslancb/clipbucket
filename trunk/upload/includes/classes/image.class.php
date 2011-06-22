@@ -5,9 +5,10 @@ class ResizeImage
 
 	//Resize the following image
 	function CreateThumb($file,$des,$dim,$ext,$dim_h=NULL,$aspect_ratio=true){
-	$array = getimagesize($file);
-	$width_orig= $array[0];
-	$height_orig= $array[1];
+		
+		$array = getimagesize($file);
+		$width_orig= $array[0];
+		$height_orig= $array[1];
 	
 		if($width_orig > $dim || $height_orig>$dim )
 		{

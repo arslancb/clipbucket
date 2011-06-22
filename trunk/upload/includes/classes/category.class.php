@@ -632,8 +632,10 @@ abstract class CBCategory
 					
 					//Now checking if file is really an image
 					if(!@$imgObj->ValidateImage($path,$ext))
+					{
 						e(lang("pic_upload_vali_err"));
-					else
+						unlink($path);
+					}else
 					{
 						$imgObj->CreateThumb($path,$path,$this->cat_thumb_width,$ext,$this->cat_thumb_height,true);
 					}

@@ -60,6 +60,13 @@ if(isset($_POST['update'])){
 					'con_modules_type',
 					'comments_captcha',
 					'comment_rating',
+					'collection_per_page',
+					'collection_home_page',
+					'collection_search_result',
+					'collection_user_collections',
+					'collection_items_page',
+					'collection_user_favorites',
+					'collection_channel_page',
 					
 					'date_format',
 					'description',
@@ -134,7 +141,15 @@ if(isset($_POST['update'])){
 					'php_path',
 					'picture_url',
 					'picture_upload',
-					'photosSection',
+					'photosSection',			
+					'photo_main_list',
+					'photo_home_tabs',
+					'photo_search_result',
+					'photo_channel_page',
+					'photo_user_photos',
+					'photo_user_favorites',
+					'photo_other_limit',
+					
 					
 					'quick_conv',
 					
@@ -169,6 +184,8 @@ if(isset($_POST['update'])){
 					'user_max_chr',
 					
 					'vid_categories',
+					'vid_cat_height',
+					'vid_cat_width',
 					'videosSection',
 					'videos_items_grp_page',
 					'videos_items_hme_page',
@@ -193,21 +210,7 @@ if(isset($_POST['update'])){
 					'website_email',
 					'welcome_email',
 					
-					'photo_main_list',
-					'photo_home_tabs',
-					'photo_search_result',
-					'photo_channel_page',
-					'photo_user_photos',
-					'photo_user_favorites',
-					'photo_other_limit',
 					
-					'collection_per_page',
-					'collection_home_page',
-					'collection_search_result',
-					'collection_user_collections',
-					'collection_items_page',
-					'collection_user_favorites',
-					'collection_channel_page',
 					);
 	
 	foreach($opt_list as $optl)

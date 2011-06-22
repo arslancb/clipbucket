@@ -87,10 +87,18 @@ class myquery {
 	 */
 	function config_exists($name)
 	{
-		global $db;
-		$count = $db->count(tbl("config"),"configid"," name='$name' ");
-		if(!$count)
+		global $db,$Cbucket;
+		
+		$configs = $Cbucket->configs;
+		
+		if (array_key_exists($name, $configs)) 
+			return true;
+		else
 			$db->insert(tbl("config"),array('name'),array($name));
+		
+		/*$count = $db->count(tbl("config"),"configid"," name='$name' ");
+		if(!$count)
+			$db->insert(tbl("config"),array('name'),array($name));*/
 		
 		return true;
 	}
