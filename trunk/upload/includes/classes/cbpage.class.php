@@ -119,7 +119,7 @@ class cbpage
 		$id = $param['page_id'];
 		$name = mysql_clean($param['page_name']);
 		$title = mysql_clean($param['page_title']);
-		$content = addslashes($param['page_content']);
+		$content = sql_free($param['page_content']);
 		
 		$page = $this->get_page($id);
 		
