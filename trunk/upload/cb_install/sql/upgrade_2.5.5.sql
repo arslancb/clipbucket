@@ -1,0 +1,1 @@
+ALTER TABLE `{tbl_prefix}groups` ADD `group_admins` TEXT NOT NULL AFTER `userid`;
