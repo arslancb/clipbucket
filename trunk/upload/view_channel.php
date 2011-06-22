@@ -96,6 +96,7 @@ if($Cbucket->show_page)
 else
 {
 	$Cbucket->show_page = true;
+	if($udetails)
 	template_files('blocks/view_channel/user_block.html');
 	display_it();
 }
