@@ -1260,11 +1260,29 @@ class CBvideo extends CBCategory
 		if(phpversion < '5.2.0')
 			global $json; $js = $json;
 		
-		if(!empty($js))
-			$voters = $js->json_decode($voter_id,TRUE);
-		else
-			$voters = json_decode($voter_id,TRUE);	
+		$Oldvoters = explode('|',$voter_id);
 		
+		if(is_array($Oldvoters) && count($Oldvoters)>2)
+		{
+			foreach($Oldvoters as $voter)
+			{
+				if($voter)
+				{
+					$voters[$voter] = array(
+					"userid"	=>	$voter,
+					"time"	=>	now(),
+					"method" => 'old',
+					);
+				}
+			}
+		}else
+		{
+			if(!empty($js))
+				$voters = $js->json_decode($voter_id,TRUE);
+			else
+				$voters = json_decode($voter_id,TRUE);	
+		}
+
 		if(!empty($voters))
 			$already_voted = array_key_exists(userid(),$voters);
 			
@@ -1285,13 +1303,17 @@ class CBvideo extends CBCategory
 				"rating"	=>	$rating
 			);
 			
+			$total_voters = count($voters);
+			
 			if(!empty($js))
 				$voters = $js->json_encode($voters);
 			else
 				$voters = json_encode($voters);
 					
 			$t = $rating_details['rated_by'] * $rating_details['rating'];
-			$new_by = $rating_details['rated_by'] + 1;
+			//$new_by = $rating_details['rated_by'] + 1;
+			$new_by = $total_voters;
+			
 			$newrate = ($t + $rating) / $new_by;
 			$db->update(tbl($this->dbtbl['video']),array("rating","rated_by","voter_ids"),array($newrate,$new_by,"|no_mc|$voters")," videoid='$id'");
 			$userDetails = array(

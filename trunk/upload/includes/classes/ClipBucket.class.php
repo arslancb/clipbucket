@@ -290,12 +290,14 @@ class ClipBucket
 		   'Tool Box'=>
 		   array(
 				 //'ClipBucket Module Manager'=>'module_manager.php',
-				 'PHP Info'	=> 'phpinfo.php',
-				 'Server Modules Info'	=> 'cb_mod_check.php',
+				 'PHP Info'					=> 'phpinfo.php',
+				 'Server Modules Info'		=> 'cb_mod_check.php',
 				 'Conversion Queue Manager'	=> 'cb_conversion_queue.php',
-				 'ReIndexer'	=> 'reindex_cb.php',
+				 'ReIndexer'				=> 'reindex_cb.php',
 				 'Conversion Lab &alpha;'	=> 'conversion_lab.php',
 				 'Repair video duration'	=> 'repair_vid_duration.php',
+				 'Maintenance'				=> 'maintenance.php',
+				 
 				 //'View Encoding Status'=>'',
 				),
 		   
@@ -365,7 +367,9 @@ class ClipBucket
 				 'ReIndexer'	=> 'reindex_cb.php',
 				 'Conversion Lab &alpha;'	=> 'conversion_lab.php',
 				 'Repair video duration'	=> 'repair_vid_duration.php');
-				 
+			
+			if($per['web_config_access'] == "yes")
+			$NewMenu['Tool Box']['Maintenance']='maintenance.php';
 			return $NewMenu;	 				  																																		
 	}	 
 	

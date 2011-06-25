@@ -197,8 +197,7 @@ class ffmpeg
 			$opt_av .= " -an ";
 		}elseif($p['use_audio_rate'])
 		{
-			if($this->input_details['audio_channels']>2 || !is_numeric($this->input_details['audio_channels'])
-				&& is_numeric($i['audio_rate']))
+			if(!$this->validChannels($this->input_details))
 			{
 				$arate = $i['audio_rate'];
 				$opt_av .= $arate_cmd = " -ar $arate ";
@@ -1100,6 +1099,42 @@ class ffmpeg
 		{
 			fwrite($fo,$data);
 		}
+	}
+	
+	
+	/**
+	 * validating video channels
+	 */
+	function validChannels($in)
+	{
+		if(!$in)
+			return true;
+		$in['audio_channels'] = strtolower($in['audio_channels']);
+		$channels = false;
+		if(is_numeric($in['audio_channels']))
+			$channels = $in['audio_channels'];
+		else
+		{
+			if(strstr($in['audio_channels'],'stereo'))
+				$channels = 2;
+			
+			if(strstr($in['audio_channels'],'mono'))
+				$channels = 1;
+	
+			if(!$channels)
+			{
+				preg_match('/([0-9.]+)/',$in['audio_channels'],$matches);
+				if($matches)
+					$channels = $matches[1];
+			}
+		}
+		
+		if(!$channels)
+			return true;
+		elseif($channels>2)
+			return false;
+		else
+			return true;
 	}
 }
 ?>

@@ -1,0 +1,58 @@
+<span class="page_title">Website Maintenance <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="Remove inactive sessions, user logs and old user feeds" /></span>
+<div style="height:3px;"></div>
+Remove inactive sessions, user access logs, comments cache, more options will be available soon
+<div style="height:25px; clear:both"></div>
+
+<div class="li_links">
+    <ul>
+     <li><a href="?mode=remove_sessions">Remove inactive sessions</a></li>
+     <li><a href="javascript:void(0)" onclick="$('#access_remove_form').show()" style="">Remove user access log
+     <span style="display:none" id="access_remove_form">
+     	 <form method="get" style="margin:0px; padding:0px; display:inline-block">
+         	older than 
+         	<input name="mode" value="remove_access_log" type="hidden" />
+         	<input name="days" type="text" style="border:1px solid #999" size="10" value="30"/>
+            days
+            <input type="submit" value="remove" />
+         </form>
+     </span>
+         </a>
+     </li>
+     <li><a href="javascript:void(0)" onclick="$('#activity_remove_form').show()" style="">Remove user activity feed
+     <span style="display:none" id="activity_remove_form">
+     	 <form method="get" style="margin:0px; padding:0px; display:inline-block">
+         	older than 
+         	<input name="mode" value="remove_activity_feed" type="hidden" />
+         	<input name="days" type="text" style="border:1px solid #999" size="10" value="30"/>
+            days
+            with loop size of <input name="loop_size" type="text" style="border:1px solid #999" size="10" value="100"/> users
+            <input type="submit" value="remove" />
+         </form>
+     </span>
+      </a></li>
+    </ul>
+</div>
+
+{if $smarty.get.mode =='remove_activity_feed'}
+    {if $indexing}
+<div align="right" style="padding:5px">{$from} - {$to} of {$total}</div>
+        <ul>
+        {foreach from=$index_msgs item=themsg}
+            <li>{$themsg}</li>
+        {/foreach}
+        </ul>
+    {if  $stop_loop!='yes'}
+    <script type="text/javascript">
+    var start_index = '{$next_index}';
+    var loop_size = '{$smarty.get.loop_size}';
+    var mode = '{$mode}';
+	var days = '{$smarty.get.days}';
+    {literal}$(document).oneTime(2000,function(){
+		$(window.location).attr('href', '?loop_size='+loop_size+'&mode='+mode+'&start_index='+start_index+'&days'+days)});{/literal}
+    </script>
+    redirecting....do not close this window
+    {else}
+        Indexing has been completed.
+    {/if}
+    {/if}
+{/if}

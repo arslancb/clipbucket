@@ -346,3 +346,8 @@ li.myAdminList input[disabled=disabled].disabled { font:normal 11px Tahoma; padd
 .browsingUsers td{font-weight:bold; font-size:11px; padding:5px 2px;border-bottom:1px solid #ccc}
 .browsingUsers tr:nth-child(even) td{background-color:#f3f3f3}
 .browsingUsers a.kick{font-size:10px; font-family:Tahoma; color:#ed0000}
+
+.li_links ul, .li_links li{margin:0px; padding:0px; list-style:none}
+.li_links ul{display:block;}
+.li_links a{display:block; padding:3px; background-color:#fff;font-size:13px}
+.li_links li:nth-child(2n) a{ background-color:#eee}
