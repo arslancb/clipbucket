@@ -575,7 +575,7 @@
 	 * @param ARRAY video_details, or videoid will also work
 	 */
 	 
-	function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_full_path=true,$return_big=true){
+	function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_full_path=true,$return_big=true,$size=false){
 		global $db,$Cbucket,$myquery;
 		$num = $num ? $num : 'default';
 		#checking what kind of input we have
@@ -690,7 +690,14 @@
 			{
 				$num = $vdetails['default_thumb'];
 			}
-			$vdetails['file_name'].'-'.$num;
+			if($num=='big' || $size=='big')
+			{
+				
+				$num = 'big-'.$vdetails['default_thumb'];
+				if(!file_exists(THUMBS_DIR.'/'.$vdetails['file_name'].'-'.$num.'.jpg'))
+				$num = 'big';				
+			}
+			
 			$default_thumb = array_find($vdetails['file_name'].'-'.$num,$thumbs);
 			
 			if(!empty($default_thumb))
@@ -705,9 +712,7 @@
 	 */
 	function is_big($thumb_file)
 	{
-		$total = strlen($thumb_file);
-		$name = substr($thumb_file,$strlen-7,3);
-		if($name=='big')
+		if(strstr($thumb_file,'big'))
 			return true;
 		else
 			return false;
@@ -990,7 +995,7 @@
 	*/
 	function getSmartyThumb($params)
 	{
-		return get_thumb($params['vdetails'],$params['num'],$params['multi'],$params['count_only']);
+		return get_thumb($params['vdetails'],$params['num'],$params['multi'],$params['count_only'],true,true,$params['size']);
 	}
 	
 	/**

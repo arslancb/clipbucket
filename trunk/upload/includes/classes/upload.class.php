@@ -265,7 +265,10 @@ class Upload{
 			if($imgObj->ValidateImage($file['tmp_name'][$key],$ext))
 			{
 				$file_path = THUMBS_DIR.'/'.$file_name.'-'.$file_num.'.'.$ext;
+				$big_file_path = THUMBS_DIR.'/'.$file_name.'-big-'.$file_num.'.'.$ext;
 				move_uploaded_file($file['tmp_name'][$key],$file_path);
+				
+				$imgObj->CreateThumb($file_path,$big_file_path,config('big_thumb_width'),$ext,config('big_thumb_height'),false);
 				$imgObj->CreateThumb($file_path,$file_path,THUMB_WIDTH,$ext,THUMB_HEIGHT,false);
 				e(lang('upload_vid_thumb_msg'),'m');
 			}	

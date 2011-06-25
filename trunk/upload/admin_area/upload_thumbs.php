@@ -36,10 +36,10 @@ if($myquery->VideoExists($video)){
 		$Upload->upload_thumbs($data['file_name'],$_FILES['vid_thumb']);
 	}
 	
-	# Uploading Big Thumb
-	if(isset($_POST['upload_big_thumb'])) {
-		$Upload->upload_big_thumb($data['file_name'],$_FILES['big_thumb']);
-	}
+//	# Uploading Big Thumb
+//	if(isset($_POST['upload_big_thumb'])) {
+//		$Upload->upload_big_thumb($data['file_name'],$_FILES['big_thumb']);
+//	}
 	
 	# Delete Thumb
 	if(isset($_GET['delete']))
@@ -56,7 +56,7 @@ if($myquery->VideoExists($video)){
 		//Generating Thumbs
 		$ffmpeg->generate_thumbs($vid_file,$data['duration'],$dim,$num,true);
 		//Generating Big Thumb
-		$ffmpeg->generate_thumbs($vid_file,$data['duration'],$big_dim,'big',true);
+		$ffmpeg->generate_thumbs($vid_file,$data['duration'],$big_dim,$num,true,true);
 	}
 	
 	Assign('data',$data);

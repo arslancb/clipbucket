@@ -3,7 +3,7 @@
 <form action="upload_thumbs.php?video={$data.videoid}" method="post" enctype="multipart/form-data" name="set_default_thumb" id="set_default_thumb">
   <a href="edit_video.php?video={$data.videoid}">&laquo; Back to Edit Details</a> | <a href="upload_thumbs.php?video={$data.videoid}&gen_more=true">Regenerate Thumbs</a><br />
   <fieldset class="fieldset">
-  {assign var=vidthumbs value=func->get_thumb($data,1,TRUE)}
+  {assign var=vidthumbs value=func->get_thumb($data,1,TRUE,FLASE,TRUE,FALSE)}
 
   {foreach from=$vidthumbs item=vid_thumb}
  
@@ -37,17 +37,4 @@
     </div>
 </form>
 <div style="height:20px"></div>
-<form action="upload_thumbs.php?video={$data.videoid}" method="post" enctype="multipart/form-data" name="form2">
-	<h2>Upload Big Thumb</h2>
-    <em><small>If you already have a Big Thumb, this will override that. So be careful</small></em>
-    <fieldset class="fieldset">
-    <div style="padding:15px;">
-        <input name="big_thumb" type="file" />
-        <label for="big_thumb_file"></label>
-    </div> 
-    </fieldset>
-    <div style="padding:15px;">
-    <input type="submit" name="upload_big_thumb" value="Upload Big Thumb" class="button"/> 
-    </div>    
-</form>
-{/if}
+ {/if}

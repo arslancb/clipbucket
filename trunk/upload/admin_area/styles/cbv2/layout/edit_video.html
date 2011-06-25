@@ -85,7 +85,7 @@
       <td width="200"><strong>Thumbnails<BR>
 {if $data.embeded !=yes}<a href="upload_thumbs.php?video={$data.videoid}&amp;gen_more=true">Regenerate  Thumbs</a>{/if}<br />
     <a href="upload_thumbs.php?video={$data.videoid}">Manage Thumbs</a></strong></td>
-      <td>{assign var=vidthumbs value=func->get_thumb($data,1,TRUE)}
+      <td>{assign var=vidthumbs value=func->get_thumb($data,1,TRUE,FALSE,TRUE,FALSE)}
 
     {foreach from=$vidthumbs item=vid_thumb}
     	<div style="width:140px; float:left" align="center">

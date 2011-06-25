@@ -794,7 +794,7 @@ class ffmpeg
 				if($this->gen_thumbs)
 					$this->generate_thumbs($this->input_file,$this->input_details['duration'],$th_dim,$this->num_of_thumbs);
 				if($this->gen_big_thumb)
-					$this->generate_thumbs($this->input_file,$this->input_details['duration'],$big_th_dim,'big');
+					$this->generate_thumbs($this->input_file,$this->input_details['duration'],$big_th_dim,$this->num_of_thumbs,NULL,true);
 				
 				if(!file_exists($this->output_file))
 					$this->log("conversion_status","failed");
@@ -823,84 +823,66 @@ class ffmpeg
 	/**
 	 * Function used to generate video thumbnails
 	 */
-	function generate_thumbs($input_file,$duration,$dim='120x90',$num=3,$rand=NULL)
+	function generate_thumbs($input_file,$duration,$dim='120x90',$num=3,$rand=NULL,$is_big=false)
 	{
 		$tmpDir = TEMP_DIR.'/'.getName($input_file);
 		mkdir($tmpDir,0777);
 
 		$output_dir = THUMBS_DIR;
 		$dimension = '';
-		if($num=='big')
-		{
+
+		$big = "";
 		
-			$file_name = getName($input_file)."-big.jpg";
-			$file_path = THUMBS_DIR.'/'.$file_name;
-			if($dim!='original')
+		if($is_big=='big')
+		{
+			$big = 'big-';
+		}
+		
+		if($num > 1 && $duration > 14)
+		{
+			$duration = $duration - 5;
+			$division = $duration / $num;
+			$count=1;
+			
+			
+			for($id=3;$id<=$duration;$id++)
 			{
-				$dimension = " -s $dim  ";
-				$mplayer_dim = "-vf scale=$width:$height";
-			}
-			
-			$time = $this->ChangeTime($duration,1);
-			
-			if(USE_MPLAYER && $this->mplayer)
-			$command = $this->mplayer." '$input_file' -ss $time -frames 1 -nosound $mplayer_dim -vo jpeg:quality=100:outdir='$tmpDir'";
-			else
-			$command = $this->ffmpeg." -i $input_file -an -ss $time $dimension -y -f image2 -vframes 1 $file_path ";
-			
-			$this->exec($command);
-			
-			//checking if file exists in temp dir
-			if(file_exists($tmpDir.'/00000001.jpg'))
-			{
-				rename($tmpDir.'/00000001.jpg',THUMBS_DIR.'/'.$file_name);
+				$file_name = getName($input_file)."-{$big}{$count}.jpg";
+				$file_path = THUMBS_DIR.'/'.$file_name;
+				
+				$id	= $id + $division - 1;
+				if($rand != "") {
+					$time = $this->ChangeTime($id,1);
+				} elseif($rand == "") {
+					$time = $this->ChangeTime($id);
+				}
+				
+				if($dim!='original')
+				{
+					$dimension = " -s $dim  ";
+					$mplayer_dim = "-vf scale=$width:$height";
+				}
+				
+				if(USE_MPLAYER && $this->mplayer)
+				$command = $this->mplayer." '$input_file' -ss $time -frames 1 -nosound $mplayer_dim -vo jpeg:quality=100:outdir='$tmpDir'";
+				else	
+				$command = $this->ffmpeg." -i $input_file -an -ss $time -an -r 1 $dimension -y -f image2 -vframes 1 $file_path ";
+				
+				$this->exec($command);	
+
+				//checking if file exists in temp dir
+				if(file_exists($tmpDir.'/00000001.jpg'))
+				{
+					rename($tmpDir.'/00000001.jpg',THUMBS_DIR.'/'.$file_name);
+				}
+				$count = $count+1;
 			}
 		}else{
-				
-			if($num > 1 && $duration > 14)
-			{
-				$duration = $duration - 5;
-				$division = $duration / $num;
-				$count=1;
-				for($id=3;$id<=$duration;$id++)
-				{
-					$file_name = getName($input_file)."-$count.jpg";
-					$file_path = THUMBS_DIR.'/'.$file_name;
-					
-					$id	= $id + $division - 1;
-					if($rand != "") {
-						$time = $this->ChangeTime($id,1);
-					} elseif($rand == "") {
-						$time = $this->ChangeTime($id);
-					}
-					
-					if($dim!='original')
-					{
-						$dimension = " -s $dim  ";
-						$mplayer_dim = "-vf scale=$width:$height";
-					}
-					
-					if(USE_MPLAYER && $this->mplayer)
-					$command = $this->mplayer." '$input_file' -ss $time -frames 1 -nosound $mplayer_dim -vo jpeg:quality=100:outdir='$tmpDir'";
-					else	
-					$command = $this->ffmpeg." -i $input_file -an -ss $time -an -r 1 $dimension -y -f image2 -vframes 1 $file_path ";
-					
-					$this->exec($command);	
 
-					//checking if file exists in temp dir
-					if(file_exists($tmpDir.'/00000001.jpg'))
-					{
-						rename($tmpDir.'/00000001.jpg',THUMBS_DIR.'/'.$file_name);
-					}
-					$count = $count+1;
-				}
-			}else{
-
-				$file_name = getName($input_file)."-%d.jpg";
-				$file_path = THUMBS_DIR.'/'.$file_name;
-				$command = $this->ffmpeg." -i $input_file -an -s $dim -y -f image2 -vframes $num $file_path ";
-				$this->exec($command);
-			}
+			$file_name = getName($input_file)."-{$big}%d.jpg";
+			$file_path = THUMBS_DIR.'/'.$file_name;
+			$command = $this->ffmpeg." -i $input_file -an -s $dim -y -f image2 -vframes $num $file_path ";
+			$this->exec($command);
 		}
 		
 		rmdir($tmpDir);
