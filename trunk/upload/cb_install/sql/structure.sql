@@ -1056,3 +1056,6 @@ ALTER TABLE `{tbl_prefix}_groups` ADD `group_admins` TEXT NOT NULL AFTER `userid
 ALTER TABLE `{tbl_prefix}pages` ADD `page_order` BIGINT( 100 ) NOT NULL AFTER `page_id` ,
 ADD `display` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'yes' AFTER `page_order` ;
 ALTER TABLE  `{tbl_prefix}users` ADD  `voted` TEXT NOT NULL AFTER  `last_commented`;
+
+-- Alterations for 2.5.5
+ALTER TABLE `{tbl_prefix}groups` ADD `group_admins` TEXT NOT NULL AFTER `userid`;
