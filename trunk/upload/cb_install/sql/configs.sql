@@ -236,6 +236,6 @@ INSERT INTO `{tbl_prefix}validation_re` (`re_id`, `re_name`, `re_code`, `re_synt
 (3, 'Field Text', 'field_text', '^^[_a-z0-9-]+$');
 
 
-INSERT INTO `{tbl_prefix}config` (`configid` ,`name` ,`value`)VALUES (
-NULL , 'comments_per_page', '15'
-);
+INSERT INTO `{tbl_prefix}config` (`configid` ,`name` ,`value`)VALUES 
+(NULL , 'comments_per_page', '15'),
+(NULL, 'embed_type', 'iframe');

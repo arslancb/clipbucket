@@ -8,7 +8,7 @@ var ytcode = '{$ytcode}';
 var pre_item = "";
 var next_item = "";
 var splash_img = '{getThumb vdetails=$vdata size="big"}';
-
+var embed_type = '{$Cbucket->configs.embed_type}';
 {literal}
 //Now lets write an HQ video function that swaps the original video with hq
 var video_quality = 'normal';
@@ -160,7 +160,26 @@ function updateEmbedCode(width,height,autoplay)
 	
 	$('#embed_code').val( $('#embed_code').val().replace(/height=\"([0-9]+)\"/g,'height="'+height+'"') );
 	$('#embed_code').val( $('#embed_code').val().replace(/width=\"([0-9]+)\"/g,'width="'+width+'"') );
+	$('#embed_code').val( $('#embed_code').val().replace(/height=([0-9]+)/g,'height='+height+'') );
+	$('#embed_code').val( $('#embed_code').val().replace(/width=([0-9]+)/g,'width='+width+'') );
 	$('#embed_code').val( $('#embed_code').val().replace(/autoplay\%3D(yes|no)/g,'autoplay%3D'+autoPlayVid) );
+	$('#embed_code').val( $('#embed_code').val().replace(/autoplay\=(yes|no)/g,'autoplay='+autoPlayVid) );
+}
+
+
+function switchEmbedCode(type)
+{
+	if(embed_type==type)
+		return false;
+	else
+	{
+		embed_type = type;
+		
+		var alt_embed =$('#alternate_embed_code').val();
+		$('#alternate_embed_code').val($('#embed_code').val());
+		$('#embed_code').val(alt_embed);
+		
+	}
 }
 </script>
 {/literal}

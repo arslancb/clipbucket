@@ -68,6 +68,8 @@ if(isset($_POST['update'])){
 					'collection_user_favorites',
 					'collection_channel_page',
 					
+					'embed_type',
+					
 					'date_format',
 					'description',
 					'debug_level',

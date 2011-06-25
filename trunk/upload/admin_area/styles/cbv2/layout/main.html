@@ -363,6 +363,14 @@ $(document).ready(function(){
               <input type="text" name="vid_cat_height" id="vid_cat_height" value="{$row.vid_cat_height}"/></td>
             </tr>
             <tr>
+              <td>Embed type</td>
+              <td><label for="embed_type"></label>
+                <select name="embed_type" id="embed_type">
+                  <option value="iframe" {if $row.embed_type=='iframe'} selected="selected"{/if}>Iframe</option>
+                  <option value="embed_object" {if $row.embed_type=='embed_object'} selected="selected"{/if}>Embed object</option>
+              </select></td>
+            </tr>
+            <tr>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
             </tr>

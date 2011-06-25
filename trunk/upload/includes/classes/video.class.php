@@ -901,14 +901,14 @@ class CBvideo extends CBCategory
 	/**
 	 * Function used to generate Embed Code
 	 */
-	function embed_code($vdetails)
+	function embed_code($vdetails,$type='embed_object')
 	{
 		//Checking for video details
 		if(!is_array($vdetails))
 		{
 			$vdetails = $this->get_video($vdetails);
 		}
-		
+				
 		$embed_code = false;
 		
 		$funcs = $this->embed_func_list;
@@ -926,6 +926,13 @@ class CBvideo extends CBCategory
 		}
 		
 		
+		if($type=='iframe')
+		{
+			$embed_code = '<iframe width="'.config('embed_player_width').'" height="'.config('embed_player_height').'" ';
+			$embed_code .= 'src="'.BASEURL.'/player/embed_player.php?vid='.$vdetails['videoid'].'&width='.
+			config('embed_player_width').'&height='.config('embed_player_height').
+			'&autoplay='.config('autoplay_embed').'" frameborder="0" allowfullscreen></iframe>';
+		}
 		
 		if(!$embed_code)
 		{
