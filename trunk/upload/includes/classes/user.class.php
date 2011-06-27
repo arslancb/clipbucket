@@ -1411,7 +1411,6 @@ class userquery extends CBCategory{
 			
 			//Now Finally Sending Email
 			cbmail(array('to'=>$udetails['email'],'from'=>SUPPORT_EMAIL,'subject'=>$subj,'content'=>$msg));
-			e(lang('usr_pass_email_msg'),'m');
 			e(lang("usr_uname_email_msg"),'m');
 		}
 	return $msg;
