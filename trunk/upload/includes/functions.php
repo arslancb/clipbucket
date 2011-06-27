@@ -2820,14 +2820,13 @@
 			if($total<=10)
 				$total = 10;
 			$perc = $rating*100/$total;
-			$disperc = 100 - $perc;
+			$disperc = 100 - $perc;		
 			if($ratings <= 0 && $disperc == 100)
 				$disperc = 0;
 		}
 				
 		$perc = $perc.'%';
-		$disperc = $disperc."%";
-		
+		$disperc = $disperc."%";		
 		switch($style)
 		{
 			case "percentage": case "percent":
@@ -2861,7 +2860,7 @@
 			case "numerical": case "numbers":
 			case "number": case "num":
 			{
-				$likes = floor($ratings*$perc/100);
+				$likes = round($ratings*$perc/100);
 				$dislikes = $ratings - $likes;
 				
 				$ratingTemplate = '<div class="'.$class.'">

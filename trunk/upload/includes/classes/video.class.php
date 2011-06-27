@@ -796,7 +796,6 @@ class CBvideo extends CBCategory
 			
 			$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),
 			$cond." AND ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);
-			
 			if($db->num_rows == 0)
 			{
 				$cond = "";
@@ -1204,19 +1203,18 @@ class CBvideo extends CBCategory
 		$type 		= $params['type'];
 		
 		//Checking Percent
-		if($rating<=0)
-		{	$perc = '0'; $disperc = '0'; }
-		else
 		{
-			if($total<=1)
-				$total = 1;
+			if($total<=10)
+				$total = 10;
 			$perc = $rating*100/$total;
 			$disperc = 100 - $perc;
+			if($ratings <= 0 && $disperc == 100)
+				$disperc = 0;
 		}
 				
 		$perc = $perc.'%';
 		$disperc = $disperc.'%';
-		$likes = floor($ratings*$perc/100); // get lowest integer
+		$likes = round($ratings*$perc/100); // get lowest integer
 		
 		if($params['is_rating'])
 		{
