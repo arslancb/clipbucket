@@ -2392,8 +2392,20 @@ class CBPhotos
 	{
 		
 		$file = $this->ready_photo_file($key);
+		
 		if($file)
 		{
+			
+			if($file['details']['server_url'])
+			{
+				$url = dirname(dirname($file['details']['server_url']));
+				header('location:'.$url.'/download_photo.php?file='.$file['details']['filename']
+				.'.'.$file['details']['ext'].'&folder='.$file['details']['file_directory']
+				.'&title='.urlencode($file['details']['photo_title']));
+				
+				$this->incrementDownload($p);
+				return true;
+			}
 			$p = $file['details'];
 			$mime_types=array();
 			$mime_types['gif']   = 'image/gif';
