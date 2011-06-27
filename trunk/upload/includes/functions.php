@@ -137,7 +137,7 @@
 	function Fetch($name,$inside=FALSE)
 	{
 		if($inside)
-			$file = CBTemplate::fetch(LAYOUT.'/'.$inside.'/'.$name);
+			$file = CBTemplate::fetch($name);
 		else
 			$file = CBTemplate::fetch(LAYOUT.'/'.$name);
 			
@@ -2807,7 +2807,7 @@
 	 */
 	function show_rating($params)
 	{
-		$class 		= $params['class'] ? $params['class'] : 'rating_stars';
+		$class 	= $params['class'] ? $params['class'] : 'rating_stars';
 		$rating 	= $params['rating'];
 		$ratings 	= $params['ratings'];
 		$total 		= $params['total'];
@@ -2815,14 +2815,14 @@
 		if(empty($style))
 			$style = config('rating_style');
 		//Checking Percent
-		if($rating<=0)
-		{	$perc = '0'; $disperc = '0'; }
-		else
+
 		{
-			if($total<=1)
-				$total = 1;
+			if($total<=10)
+				$total = 10;
 			$perc = $rating*100/$total;
 			$disperc = 100 - $perc;
+			if($ratings <= 0 && $disperc == 100)
+				$disperc = 0;
 		}
 				
 		$perc = $perc.'%';
@@ -2872,6 +2872,26 @@
 						</div>
 					</div>
 				</div>';
+			}
+			break;
+			
+			case "custom": case "own_style":
+			{
+				$file = LAYOUT."/".$params['file'];
+				if(!empty($params['file']) && file_exists($file))
+				{
+					// File exists, lets start assign things
+					assign("perc",$perc); assign("disperc",$disperc);
+					
+					// Likes and Dislikes
+					$likes = floor($ratings*$perc/100);
+					$dislikes = $ratings - $likes;
+					assign("likes",$likes);	assign("dislikes",$dislikes);
+					Template($file,FALSE);										
+				} else {
+					$params['style'] = "percent";
+					return show_rating($params);	
+				}
 			}
 			break;
 		}
