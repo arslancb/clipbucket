@@ -848,7 +848,60 @@ class CBPhotos
 		{
 			$this->watermark_image($path.$filename."_l.".$extension,$path.$filename."_l.".$extension);
 			$this->watermark_image($path.$filename."_o.".$extension,$path.$filename."_o.".$extension);
-		}	
+		}
+		
+		/* GETTING DETAILS OF IMAGES AND STORING THEM IN DB */
+		$this->update_image_details($p);
+	}
+	
+	/**
+	 * This function is used to get photo files and extract
+	 * dimensions and file size of each file, put them in array
+	 * then encode in json and finally update photo details column
+	 */ 
+	function update_image_details($photo)
+	{
+		global $db, $json;
+		if(is_array($photo) && !empty($photo['photo_id']))
+			$p = $photo;
+		else
+			$p = $this->get_photo($photo);
+			
+		if(!empty($photo))
+		{
+			$images = $this->get_image_file($p,NULL,TRUE,NULL,FALSE);
+			if($images)
+			{
+				foreach($images as $image)
+				{
+					$imageFile = PHOTOS_DIR."/".$image;
+					if(file_exists($imageFile))
+					{
+						$imageDetails = getimagesize($imageFile); $imageSize = filesize($imageFile);
+						$data[$this->get_image_type($image)] = array(
+							"width"	=>	$imageDetails[0],
+							"height"	=>	$imageDetails[1],
+							"attribute"	=>	mysql_clean($imageDetails[3]),
+							"size"	=>	array(
+								"bytes"	=>	round($imageSize),
+								"kilobytes"	=>	round($imageSize / 1024),
+								"megabytes"	=>	round($imageSize / 1024 / 1024, 2)
+							)
+						);	
+					}						
+				}
+				
+				if(is_array($data) && !empty($data))
+				{
+					if(phpversion() < "5.2.0")
+						$encodedData = stripslashes($json->json_encode($data));
+					else
+						$encodedData = stripslashes(json_encode($data));
+						
+					$db->update(tbl('photos'),array("photo_details"),array("|no_mc|$encodedData")," photo_id = '".$p['photo_id']."' ");				
+				}
+			}
+		}
 	}
 	
 	/**
@@ -1749,10 +1802,26 @@ class CBPhotos
 								$src = $this->default_thumb($size);
 							else
 								$src = $src;
-									
-							$dem = getimagesize($src);
-							$width = $dem[0];
-							$height = $dem[1];
+								
+							if(phpversion < '5.2.0')
+								global $json; $js = $json;
+							
+							if(!empty($js))
+								$imgDetails = $js->json_decode($photo['photo_details'],true);
+							else
+								$imgDetails = json_decode($photo['photo_details'],true);
+								
+							if(empty($imgDetails) || empty($imgDetails[$p['size']]))	
+							{
+								$dem = getimagesize(str_replace(PHOTOS_URL,PHOTOS_DIR,$src));
+								$width = $dem[0];
+								$height = $dem[1];
+								/* UPDATEING IMAGE DETAILS */
+								$this->update_image_details($details);	
+							} else {
+								$width = $imgDetails[$p['size']]['width'];
+								$height = $imgDetails[$p['size']]['height'];	
+							}
 							
 							$img = "<img ";
 							$img .= "src = '".$src."'";
