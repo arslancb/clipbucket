@@ -59,6 +59,20 @@ if(!empty($mode))
 		}
 		break;
 		
+		case 'featured_videos':
+		{
+			if(!isSectionEnabled('videos') || !$userquery->perm_check('view_videos',false,true) )
+			exit();
+			$videos = get_videos(array('limit'=>config('videos_items_hme_page'),'featured'=>'yes','order'=>'featured_date DESC'));
+			if($videos)
+			foreach($videos as $video)
+			{
+				assign('video',$video);
+				Template('blocks/video.html');
+			}
+		}
+		break;
+		
 		
 		case 'rating':
 		{

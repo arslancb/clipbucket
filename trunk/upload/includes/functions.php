@@ -1057,7 +1057,10 @@
 			
 		}
 		//Creating new tag string
-		$tagString = implode(',',$newTags);
+		if(is_array($newTags))
+			$tagString = implode(',',$newTags);
+		else
+			$tagString = 'no-tag';
 		return $tagString;
 	}
 	
