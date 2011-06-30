@@ -68,8 +68,10 @@ if($udetails)
 		$udetails = $userquery->get_user_details($uid);
 	}
 	
+	$profile = $userquery->get_user_profile($udetails['userid']);
+	$user_profile = array_merge($udetails,$profile);
 	assign('u',$udetails);
-	assign('p',$userquery->get_user_profile($udetails['userid']));
+	assign('p',$user_profile);
 }else{
 	e("No User Found");
 	$CBucket->show_page = false;

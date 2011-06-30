@@ -229,6 +229,7 @@
 			foreach($array as $key => $arr)
 				$userquery->custom_signup_fields[$key] = $arr;
 		}
+		
 	}
 	
 	

@@ -91,6 +91,18 @@
       <td><strong>Category</strong></td>
       <td>{ANCHOR place=$signup_fields.cat.anchor_before}{$formObj->createField($signup_fields.cat)}{ANCHOR place=$signup_fields.cat.anchor_after}</td>
     </tr>
+    
+    {assign var=cust_signup value=$userquery->load_custom_signup_fields($u,true)}
+    {if $cust_signup}
+    	{foreach from=$cust_signup item=field}
+            <tr>
+              <td ><strong>{$field.title}</strong></td>
+              <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+            <br>
+            {$field.hint_2}</td>
+            </tr>
+          {/foreach}
+    {/if}
 
   </table>
 </fieldset>

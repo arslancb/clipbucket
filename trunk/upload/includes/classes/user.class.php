@@ -2206,7 +2206,7 @@ class userquery extends CBCategory{
 
 		$userfields = $this->load_profile_fields($array);
 		//$signup_fields = $this->load_signup_fields($array);
-		//$custom_signup_fields = $this->load_custom_signup_fields($array);
+		$custom_signup_fields = $this->load_custom_signup_fields($array);
 		
 		//Adding Custom Form Fields
 		if(count($this->custom_profile_fields)>0)
@@ -2225,7 +2225,9 @@ class userquery extends CBCategory{
 			$userfields = array_merge($userfields,$custom_fields_from_group_fields);
 		}
 			
-
+			
+		validate_cb_form($custom_signup_fields,$array);
+		
 		validate_cb_form($userfields,$array);
 	//	pr();
 		foreach($userfields as $field)
@@ -2258,7 +2260,6 @@ class userquery extends CBCategory{
 			if(!empty($field['db_field']))
 			$query_val[] = $val;
 		}
-		
 		
 		//Category
 		if($cat_field)
@@ -2501,10 +2502,9 @@ class userquery extends CBCategory{
 	
 				
 				if(!empty($field['db_field']))
-				$uquery_val[] = $val;
+					$uquery_val[] = $val;
 			}
 		}
-		
 		
 		if(!error() && is_array($uquery_field))
 		{
@@ -2720,6 +2720,12 @@ class userquery extends CBCategory{
 			if($ck_display_admin)
 			{
 				if($fields['display_admin'] == 'no_display')
+					$ok = 'no';
+			}
+			
+			if($ck_display_user)
+			{
+				if($fields['display_user'] == 'no_display')
 					$ok = 'no';
 			}
 			
@@ -3122,7 +3128,7 @@ class userquery extends CBCategory{
 							 'category_type'=>'user',
 							 )
 		  );
-
+		  
 		 return $user_signup_fields;
 	}
 	

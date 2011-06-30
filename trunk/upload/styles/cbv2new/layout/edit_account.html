@@ -14,13 +14,14 @@
 
 
 {assign var="signup_fields"  value=$userquery->load_signup_fields($user)}
+{assign var="cust_signup_fields"  value=$userquery->load_custom_signup_fields($user,false,true)}
 
 <fieldset>
 <legend>{lang code='account_details'}</legend>
 <div class="account_field_block clearfix">
 <div class="account_field_label" align="right"><strong><label for="country">{lang code='country'}</label></strong></div>
 <div class="account_field"><select name="country" id="country">
-        {assign var='countries' value=$Cbucket->get_countries(iso2)}
+        	{assign var='countries' value=$Cbucket->get_countries(iso2)}
             {foreach from=$countries item=country key=code}
             	<option value="{$code}" {if $user.country==$code} selected="selected"{/if}>{$country}</option>
             {/foreach}
@@ -52,6 +53,20 @@
 <div class="account_field">{ANCHOR place=$signup_fields.dob.anchor_before}{$formObj->createField($signup_fields.dob)}{ANCHOR place=$signup_fields.dob.anchor_after}</div>
 <div class="clearfix"></div>
 </div>
+
+{if $cust_signup_fields}
+{foreach from=$cust_signup_fields item=field}
+<div class="account_field_block clearfix">
+<div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
+<div class="account_field">{if $field.hint_1}{$field.hint_1}<br />{/if}
+{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
+<br>
+{$field.hint_2}</div>
+<div class="clearfix"></div>
+</div>
+
+{/foreach}
+{/if}
 
 </fieldset>
 </div>
