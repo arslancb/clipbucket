@@ -8,7 +8,7 @@
 * $Id$
 * @ License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
 **************************
--- Do not use it for commercial use
+
 Notice : Maintain this section
 */
  
@@ -4849,6 +4849,21 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 				)
 			);
 			
+			
+			//Adding Custom Fields
+			$custom_fields = $this->load_custom_profile_fields($default,false);
+			
+			if($custom_fields)
+			{
+				$more_fields_group = 
+				array
+				(
+					'group_name' => lang('more_fields'),
+					'group_id'	=> 'custom_fields',
+					'fields'	=> $custom_fields,
+				);
+			}
+		
 			//Loading Custom Profile Forms
 			$custom_fields_with_group = $this->load_custom_profile_fields($default,true);
 			
@@ -4907,7 +4922,8 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 			$fields = array_merge($fields,$channel_settings);
 		if($profile_settings)
 			$fields = array_merge($fields,$profile_settings);
-			
+		if($more_fields_group)
+			$fields[] = $more_fields_group;	
 		return $fields;
 	}
 	
