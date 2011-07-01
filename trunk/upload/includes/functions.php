@@ -658,16 +658,20 @@
 		if(is_array($vid_thumbs))
 		foreach($vid_thumbs as $thumb)
 		{
-			$thumb_parts = explode('/',$thumb);
-			$thumb_file = $thumb_parts[count($thumb_parts)-1];
-			
-			if(!is_big($thumb_file) || $return_big)
+			if(file_exists($thumb) && filesize($thumb)>0)
 			{
-				if($return_full_path)
-					$thumbs[] = THUMBS_URL.'/'.$thumb_file;
-				else
-					$thumbs[] = $thumb_file;
-			}
+				$thumb_parts = explode('/',$thumb);
+				$thumb_file = $thumb_parts[count($thumb_parts)-1];
+				
+				if(!is_big($thumb_file) || $return_big)
+				{
+					if($return_full_path)
+						$thumbs[] = THUMBS_URL.'/'.$thumb_file;
+					else
+						$thumbs[] = $thumb_file;
+				}
+			}elseif(file_exists($thumb))
+				unlink($thumb);
 		}
 		
 		if(count($thumbs)==0)

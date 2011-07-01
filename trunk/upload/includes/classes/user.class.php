@@ -2861,8 +2861,20 @@ class userquery extends CBCategory{
 					 );
 
 		
+		
 		if(count($this->user_account)>0)
-			$array = array_merge($array,$this->user_account);
+		{
+			foreach($this->user_account as $key => $acc)
+			{
+				if(array_key_exists($key,$array))
+				{
+					foreach($acc as $title => $link)
+					$array[$key][$title] = $link;
+				}else
+				$array[$key] = $acc;
+			}
+			//$array = array_merge($array,$this->user_account);
+		}
 			
 		return $array;
 	}
