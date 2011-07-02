@@ -29,6 +29,7 @@ if(video_playable($vdo))
 	}	
 	//Calling Functions When Video Is going to play
 	call_watch_video_function($vdo);
+	
 	subtitle($vdo['title']);
 	
 }else

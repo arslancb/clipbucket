@@ -85,6 +85,13 @@ if(!empty($mode))
 					$result 	= $cbvid->rate_video($id,$rating);
 					$result['is_rating'] = true;
 					$cbvid->show_video_rating($result);
+					
+					$funcs = cb_get_functions('rate_video');	
+					if($funcs)
+					foreach($funcs as $func)
+					{
+						$func['func']($id);
+					}
 				}
 				break;
 				
@@ -95,6 +102,13 @@ if(!empty($mode))
 					$result = $cbphoto->rate_photo($id,$rating);
 					$result['is_rating'] = true;
 					$cbvid->show_video_rating($result);
+					
+					$funcs = cb_get_functions('rate_photo');	
+					if($funcs)
+					foreach($funcs as $func)
+					{
+						$func['func']($id);
+					}
 				}
 				break;
 				case "collection":
@@ -104,6 +118,13 @@ if(!empty($mode))
 					$result = $cbcollection->rate_collection($id,$rating);
 					$result['is_rating'] = true;
 					$cbvid->show_video_rating($result);
+					
+					$funcs = cb_get_functions('rate_collection');	
+					if($funcs)
+					foreach($funcs as $func)
+					{
+						$func['func']($id);
+					}
 				}
 				break;
 				
@@ -114,6 +135,13 @@ if(!empty($mode))
 					$result = $userquery->rate_user($id,$rating);
 					$result['is_rating'] = true;
 					$cbvid->show_video_rating($result);
+					
+					$funcs = cb_get_functions('rate_user');	
+					if($funcs)
+					foreach($funcs as $func)
+					{
+						$func['func']($id);
+					}
 				}
 				break;
 			}
@@ -222,6 +250,13 @@ if(!empty($mode))
 						$msg = '<div class="error">'.$msg[0].'</div>';
 					}
 					
+					$funcs = cb_get_functions('favorite_video');	
+					if($funcs)
+					foreach($funcs as $func)
+					{
+						$func['func']($id);
+					}
+					
 					echo $msg;
 				}
 				break;
@@ -244,6 +279,13 @@ if(!empty($mode))
 						$msg = '<div class="error">'.$msg[0].'</div>';
 					}
 					
+					$funcs = cb_get_functions('favorite_photo');	
+					if($funcs)
+					foreach($funcs as $func)
+					{
+						$func['func']($id);
+					}
+					
 					echo $msg;
 				}
 				break;
@@ -264,6 +306,13 @@ if(!empty($mode))
 					{
 						$msg = error_list();
 						$msg = '<div class="error">'.$msg[0].'</div>';
+					}
+					
+					$funcs = cb_get_functions('favorite_collection');	
+					if($funcs)
+					foreach($funcs as $func)
+					{
+						$func['func']($id);
 					}
 					
 					echo $msg;
