@@ -1033,6 +1033,7 @@
 		if(is_string($string))
 			$string = htmlspecialchars($string);
 		if(get_magic_quotes_gpc())
+			if(!is_array($string))
 			$string = stripslashes($string);			
 		return $string;
 	}
@@ -1823,9 +1824,10 @@
 		$flv_url 	= $file;
 		$embed 		= $param['embed'];
 		$code 		= $param['code'];
-		$height 	= $param['height'] = $param['height'] ? $param['height'] : config('player_height');
-		$width 		= $param['width'] = $param['width'] ? $param['width'] : config('player_width');
-		
+		$height 	= $param['height'] ? $param['height'] : config('player_height');
+		$width 		= $param['width'] ? $param['width'] : config('player_width');
+		$param['height'] = $height;
+		$param['width'] = $width ;
 		
 		if(!$param['autoplay'])
 		$param['autoplay'] = config('autoplay_video');
@@ -2029,19 +2031,24 @@
 		{		
 			$stats = get_file_details($file_name);
 			
-			$duration = $stats['output_duration'];
-			if(!$duration)
-				$duration = $stats['duration'];
+			//$duration = $stats['output_duration'];
+			//if(!$duration)
+			//	$duration = $stats['duration'];
+			
+			$duration = parse_duration(LOGS_DIR.'/'.$file_array['cqueue_name'].'.log');
+				
 			$db->update(tbl("video"),array("status","duration","failed_reason"),
 			array($status,$duration,$failed_status)," file_name='".$file_name."'");
 		}else
 		{
 			$stats = get_file_details($file_name);
 			
-			$duration = $stats['output_duration'];
-			if(!$duration)
-				$duration = $stats['duration'];
-				
+			//$duration = $stats['output_duration'];
+			//if(!$duration)
+			//	$duration = $stats['duration'];
+			
+			$duration = parse_duration(LOGS_DIR.'/'.$file_array['cqueue_name'].'.log');
+			
 			$db->update(tbl("video"),array("status","duration","failed_reason"),
 			array('Failed',$duration,$failed_status)," file_name='".$file_name."'");
 		}
@@ -2072,6 +2079,8 @@
 		//$result = $db->select(tbl("video_files"),"*"," id ='$file_name' OR src_name = '$file_name' ");
 		//Reading Log File
 		$file = LOGS_DIR.'/'.$file_name.'.log';
+		if(!file_exists($file))
+			$file = $file_name;
 		if(file_exists($file))
 		{
 			$data = file_get_contents($file);
@@ -2094,6 +2103,40 @@
 			return $statistics;
 		}else
 			return false;
+	}
+	
+	function parse_duration($log)
+	{
+		$duration = false;
+		$log_details = get_file_details($log);
+		$duration = $log['output_duration'];
+		if(!$duration || !is_numeric($duration))
+				$duration = $log['duration'];
+
+		if(!$duration || !is_numeric($duration))
+		{
+			if(file_exists($log))
+				$log_content = file_get_contents($log);
+			
+			//Parse duration..
+			preg_match_all('/Duration: ([0-9]{1,2}):([0-9]{1,2}):([0-9.]{1,5})/i',$log_content,$matches);
+			
+			unset($log_content);
+			
+			//Now we will multiple hours, minutes accordingly and then add up with seconds to 
+			//make a single variable of duration
+			
+			$hours = $matches[1][0];
+			$minutes = $matches[2][0];
+			$seconds = $matches[3][0];
+			
+			$hours = $hours * 60 * 60;
+			$minutes = $minutes * 60;
+			$duration = $hours+$minutes+$seconds;
+			
+			$duration;
+		}	
+		return $duration;
 	}
 	
 	
@@ -5571,7 +5614,7 @@
 		//Checking if browser is firefox
 		if(!$in)
 			$in = $_SERVER['HTTP_USER_AGENT'];
-		
+		echo $in;
 		$u_agent = $in;
 		$bname = 'Unknown';
 		$platform = 'Unknown';
@@ -5580,6 +5623,9 @@
 		//First get the platform?
 		if (preg_match('/linux/i', $u_agent)) {
 			$platform = 'linux';
+		}
+		elseif (preg_match('/iPhone/i', $u_agent)) {
+			$platform = 'iphone';
 		}
 		elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
 			$platform = 'mac';

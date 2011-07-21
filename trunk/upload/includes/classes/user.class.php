@@ -3869,7 +3869,6 @@ class userquery extends CBCategory{
 			
 			}else
 			{
-
 				if($this->login_check(NULL,true))
 					$msg[] = e(lang('you_already_logged'));
 				elseif(!$this->user_exists($udetails['username']))

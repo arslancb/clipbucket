@@ -23,9 +23,12 @@ if($_POST['fix_duration']
 		
 		if($log && $_POST['fix_duration'])
 		{
-			$duration = $log['output_duration'];
-			if(!$duration)
-				$duration = $log['duration'];
+			//$duration = $log['output_duration'];
+			//if(!$duration)
+			//	$duration = $log['duration'];
+			
+			$duration = parse_duration(LOGS_DIR.'/'.$video['file_name'].'.log');
+			
 			if(!$duration)
 				e("Can't do anything about \"".$video['title']."\"");	
 			else

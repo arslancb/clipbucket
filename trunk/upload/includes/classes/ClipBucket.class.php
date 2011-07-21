@@ -607,7 +607,7 @@ class ClipBucket
 		
 		$pages = $cbpage->get_pages(array('active'=>'yes','display_only'=>'yes','order'=>'page_order ASC'));
 		 
-		
+		if($pages)
 		foreach($pages as $p)
 			$this->foot_menu[] = array('name'=>$p['page_name'],'link'=>$cbpage->page_link($p),"this"=>"home");
 		
