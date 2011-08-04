@@ -229,7 +229,7 @@ class cbfeeds
 							$farr['action_title'] 
 							= sprintf(lang('user_has_uploaded_new_photo'),$userlink);
 							
-							$farr['links'][] = array('link'=>videoLink($cbphoto->photo_links($photo,'view_item')),'text'=>lang('view_photo'));
+							$farr['links'][] = array('link'=>($cbphoto->photo_links($photo,'view_item')),'text'=>lang('view_photo'));
 							
 							$farr['icon'] = 'images.png';
 						}

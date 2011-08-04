@@ -164,7 +164,7 @@ class ffmpeg
 		$opt_av .= " -s {$width}x{$height} -aspect $ratio -padcolor 000000 -padtop $pad_top -padbottom $pad_bottom -padleft $pad_left -padright $pad_right ";
 		}else
 		{
-			$opt_av .= "-s {$width}x{$height} -aspect  $ratio -vf 'pad=0:0:0:0:black'";
+			$opt_av .= "-s {$width}x{$height} -aspect  $ratio -vf  pad=0:0:0:0:black";
 		}
 		
 		

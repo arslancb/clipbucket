@@ -2,7 +2,7 @@
 {lang code='photo' assign='object_type'}
  <!-- onClick="get_item(this,'{$object.ci_id}','{$object.collection_id}','{$type}','next');"-->
 <div class="moveL" style="width:65%; margin:0px 10px;">
-
+{assign var=json value=$photo.photo_details|json_decode}
     <div style="background:#f3f3f3; border:1px solid #ccc; padding:10px 0px;">
         <div align="center"><a {if $nextLink} {assign var='nextItem' value=$nextLink} {else}  {assign var='nextItem' value=$preLink} {/if}
         href="{$cbphoto->photo_links($nextItem.0,'view_item')}" 

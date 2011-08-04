@@ -2,12 +2,13 @@
 <script>
 var download_file = '{$vdo.download_file}';
 {literal}
-	$(document).ready
+/*	$(document).ready
 	(function()
 	  {
 		setTimeout("location.href='"+download_file+"'",3000);				   
 	  }
 	)
+*/	
 {/literal}
 </script>
 
@@ -21,4 +22,4 @@ var download_file = '{$vdo.download_file}';
 {videoLink vdetails=$vdo assign='vidlink'}
 {assign value=$vdo.download_file var='downloadfile'}
 
-<p>{$redirectmsg|sprintf:$vidlink:$downloadfile}</p></div>
+<p>{$redirectmsg|sprintf:$downloadfile:$vidlink}</p></div>

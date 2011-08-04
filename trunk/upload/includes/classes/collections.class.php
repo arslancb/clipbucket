@@ -274,7 +274,7 @@ class Collections extends CBCategory
 		$cond = "";
 		
 		if(!has_access('admin_access',TRUE) && $p['user'] != userid())
-			$cond .= " ".tbl('collections.active')." = 'yes' AND ".tbl('collections.broadcast')." = 'public' ";
+			$cond .= " ".tbl('collections.active')." = 'yes'";
 		elseif($p['user'] == userid())
 			$cond .= " ".tbl('collections.active')." = 'yes'";	
 		else

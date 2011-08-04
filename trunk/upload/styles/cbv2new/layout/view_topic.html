@@ -14,14 +14,14 @@
         <li {if $mode == "view_report_form"}class="selected"{/if}><a href="{group_link details=$group type='view_report_form'}" onClick="groupsAjax(event,this);" id="gpAllReport"><img src="{$imageurl}/dot.gif" class="redShield"/>  Report</a></li>
     </ul>
  <div id="ajaxGroupResultContainer">   
-<div class="groupSep"><span class="SepText"><a href="{group_link details=$group type='view_topics'}" onclick="groupsAjax(event,this)">Back To Topics</a></span></div>
+<div class="groupSep"><span class="SepText"><a href="{group_link details=$group type='view_topics'}" >Back To Topics</a></span></div>
 <div style="height:5px;"></div>
 <div class="topic_post clearfix">
     <div class="topic_title">{$topic.topic_title}</div>
     {assign var=topic_starter value=$userquery->get_user_details($topic.userid)}
     {include file="$style_dir/blocks/user.html" user=$topic_starter block_type="topic_view"}
     <div class="moveR topic_content" style="width:88%">
-    	{$topic.topic_post}
+    	{$topic.topic_post|description}
         <div style="height:5px"></div>
         <div style="font:normal 10px Tahoma; color:#787878">{lang code="Added"}: {$topic.date_added|niceTime}</div>
     </div>    

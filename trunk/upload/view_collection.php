@@ -22,7 +22,7 @@ $order = tbl("collection_items").".ci_id DESC";
 if($cbcollection->is_viewable($c))
 {
 	$param = array("type"=>$type,"cid"=>$c);
-	$cdetails = $cbcollection->get_collections($param);
+	$cdetails = $cbcollection->get_collection($c,"AND ".tbl($cbcollection->section_tbl).".type = '$type' ");
 	
 	if($cdetails)
 	{
@@ -55,10 +55,10 @@ if($cbcollection->is_viewable($c))
 	$pages->paginate($total_pages,$page);
 	
 	assign('objects',$items);	
-	assign("c",$cdetails[0]);
+	assign("c",$cdetails);
 	assign("type",$type);
 	assign("cid",$c);	
-	subtitle($cdetails[0]['collection_name']);
+	subtitle($cdetails['collection_name']);
 	} else {
 		e(lang("collection_not_exists"));
 		$Cbucket->show_page = false;	

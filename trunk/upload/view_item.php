@@ -109,7 +109,7 @@ if($cbcollection->is_viewable($cid))
 	}
 } else 
 	$Cbucket->show_page = false;
-	
+
 template_files('view_item.html');
 display_it();
 ?>
