@@ -122,7 +122,18 @@ var mid  = {$smarty.get.mid};
 		$('#lang_selector').change(function(){
 		  var optionSelectedValue = $('#lang_selector option:selected').val();
 		  if(optionSelectedValue)
-		  window.location = "?set_site_lang="+optionSelectedValue;
+		  {
+		  		var $currentLocation = window.location.href,
+						matchedElement = $currentLocation.match(/\?/);
+						
+				if(matchedElement == null)
+				{
+					window.location = "?set_site_lang="+optionSelectedValue;	
+				} else {
+					window.location = window.location+"&set_site_lang="+optionSelectedValue;	
+				}
+				
+		  }
 		});
 		{/literal}
 		{if isSectionEnabled('videos') && $smarty.const.THIS_PAGE=='index'}

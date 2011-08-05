@@ -485,7 +485,12 @@ $(document).ready(function() {
 <script>
 $(function() {
 
-	$( ".date_field" ).datepicker({ dateFormat: 'yy-mm-dd' ,changeMonth: true,changeYear: true});
+	$( ".date_field" ).datepicker({ 
+		dateFormat: 'yy-mm-dd',
+		changeMonth: true,
+		changeYear: true,
+		yearRange : "1901 : c"
+		});
 });
 </script>
 {/literal}
