@@ -244,4 +244,5 @@ INSERT INTO `{tbl_prefix}config` (`configid` ,`name` ,`value`)VALUES
 -- Addition for 2.6
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'facebook_embed', 'yes');
 INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'seo_vido_url', '1');
-
+INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'use_cached_pagin', 'yes'),
+(NULL, 'cached_pagin_time', '5');

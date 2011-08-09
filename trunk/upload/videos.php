@@ -74,6 +74,7 @@ switch($sort)
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,VLISTPP);
 $vlist = $vid_cond;
+$count_query = $vid_cond;
 $vlist['limit'] = $get_limit;
 $videos = get_videos($vlist);
 Assign('videos', $videos);	
@@ -81,11 +82,19 @@ Assign('videos', $videos);
 
 //Collecting Data for Pagination
 $vcount = $vid_cond;
-$vcount['count_only'] = true;
-$total_rows  = get_videos($vcount);
-$total_pages = count_pages($total_rows,VLISTPP);
+
+$counter = get_counter('video',$count_query);
+
+if(!$counter)
+{
+	$vcount['count_only'] = true;
+	$total_rows  = get_videos($vcount);
+	$total_pages = count_pages($total_rows,VLISTPP);
+	$counter = $total_pages;
+	update_counter('video',$count_query,$counter);
+}
 //Pagination
-$pages->paginate($total_pages,$page);
+$pages->paginate($counter,$page);
 
 subtitle(lang('videos'));
 //Displaying The Template

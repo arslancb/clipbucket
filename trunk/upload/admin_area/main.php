@@ -186,6 +186,8 @@ if(isset($_POST['update'])){
 					'users_items_search_page',
 					'users_items_group_page',
 					'user_max_chr',
+					'use_cached_pagin',
+					'cached_pagin_time',
 					
 					'vid_categories',
 					'vid_cat_height',

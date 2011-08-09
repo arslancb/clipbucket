@@ -5807,4 +5807,54 @@
 			return false;
 		}
 	}
+	
+	
+	/**
+	 * function used to get counts from
+	 * cb_counter table
+	 */
+	function get_counter($section,$query)
+	{
+		if(!config('use_cached_pagin'))
+			return false;
+			
+		global $db;
+		
+		$timeRefresh = config('cached_pagin_time');
+		$timeRefresh = $timeRefresh*60;
+		
+		$validTime = time()-$timeRefresh;
+		
+		unset($query['order']);
+		$je_query = json_encode($query);
+		$query_md5 = md5($je_query);
+		$select = $db->select(tbl('counters'),"*","section='$section' AND query_md5='$query_md5' 
+		AND '$validTime' < date_added");
+		if($db->num_rows>0)
+		{
+			return $select[0]['counts'];
+		}else
+		return false;
+	}
+	
+	/**
+	 * function used to insert or update counter
+	 */
+	function update_counter($section,$query,$counter)
+	{
+		global $db;
+		unset($query['order']);
+		$je_query = json_encode($query);
+		$query_md5 = md5($je_query);
+		$count = $db->count(tbl('counters'),"*","section='$section' AND query_md5='$query_md5'");
+		if($count)
+		{
+			$db->update(tbl('counters'),array('counts','date_added'),array($counter,strtotime(now())),
+			"section='$section' AND query_md5='$query_md5'");
+		}else
+		{
+			$db->insert(tbl('counters'),array('section','query','query_md5','counts','date_added'),
+			array($section,'|no_mc|'.$je_query,$query_md5,$counter,strtotime(now())));
+		}
+	}
 ?>

@@ -789,6 +789,29 @@ $(document).ready(function(){
           <td valign="top">&nbsp;</td>
         </tr>
         <tr>
+          <td colspan="2" valign="top">Main Settings</td>
+          </tr>
+        <tr>
+          <td valign="top">Use cached pagination</td>
+          <td valign="top"><select name="use_cached_pagin" id="use_cached_pagin">
+            <option value="yes" {if $row.use_cached_pagin==yes}
+selected="selected"
+{/if}>Yes</option>
+            <option value="no" {if $row.use_cached_pagin!=yes}
+selected="selected"
+{/if}>No</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td valign="top">Pagination chaching time</td>
+          <td valign="top"><input name="cached_pagin_time" type="text" id="cached_pagin_time" value="{$row.cached_pagin_time}" size="45" /> 
+            in minutes</td>
+        </tr>
+        <tr>
+          <td valign="top">&nbsp;</td>
+          <td valign="top">&nbsp;</td>
+        </tr>
+        <tr>
           <td colspan="2" class="settings_inner_title">Videos Listing</td>
         </tr>
         <tr>

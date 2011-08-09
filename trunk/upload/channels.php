@@ -50,19 +50,27 @@ switch($sort)
 //Getting User List
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,CLISTPP);
-$ulist = $u_cond;
+$count_query = $ulist = $u_cond;
 $ulist['limit'] = $get_limit;
 $users = get_users($ulist);
 Assign('users', $users);	
 
-//Collecting Data for Pagination
-$ucount = $u_cond;
-$ucount['count_only'] = true;
-$total_rows  = get_users($ucount);
-$total_pages = count_pages($total_rows,CLISTPP);
+
+$counter = get_counter('channel',$count_query);
+
+if(!$counter)
+{
+	//Collecting Data for Pagination
+	$ucount = $u_cond;
+	$ucount['count_only'] = true;
+	$total_rows  = get_users($ucount);
+	$total_pages = count_pages($total_rows,CLISTPP);
+	$counter = $total_pages;
+	update_counter('channel',$count_query,$counter);
+}
 
 //Pagination
-$pages->paginate($total_pages,$page);
+$pages->paginate($counter,$page);
 
 subtitle(lang('channels'));
 template_files('channels.html');
