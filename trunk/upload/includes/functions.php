@@ -1291,7 +1291,7 @@
 	function cbRocks()
 	{
 		define("isCBSecured",TRUE); 
-		echo cbSecured(CB_SIGN);
+		//echo cbSecured(CB_SIGN);
 	}
 	
 	/**
@@ -5161,6 +5161,7 @@
 		
 		if($var)
 		$queryString = preg_replace("/&?$var=([\w+\s\b\.?\S]+|)/","",$queryString);
+		
 		if($remove)
 		{
 			if(!is_array($remove))
