@@ -769,7 +769,23 @@ class CBvideo extends CBCategory
 		if($params['cond'])
 			$cond .= " ".$params['cond'];
 		
-			
+		
+		$functions = cb_get_functions('get_videos');
+		if($functions)
+		{
+			foreach($functions as $func)
+			{
+				$array = array('params'=>$params,'cond'=>$cond);
+				if(function_exists($func['func']))
+				{
+					$returned = $func['func']($array);
+					if($returned)
+						$cond = $returned;
+				}
+			}
+		}
+		
+		
 		if(!$params['count_only'] &&  !$params['show_related'])
 		{
 			if(!empty($cond))
