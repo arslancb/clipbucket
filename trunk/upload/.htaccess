@@ -41,6 +41,10 @@ RewriteRule ^videos/(.*)/(.*)/(.*)/(.*)/(.*) videos.php?cat=$1&sort=$3&time=$4&p
 RewriteRule ^videos/([0-9]+) videos.php?page=$1 [L]
 RewriteRule ^videos videos.php?%{QUERY_STRING} [L]
 RewriteRule ^video/(.*)/(.*) watch_video.php?v=$1&%{QUERY_STRING} [L]
+#Alternate watch video links
+RewriteRule ^(.*)\_v([0-9]+) watch_video.php?v=$2&%{QUERY_STRING} [L]
+RewriteRule ^video/([0-9]+)_(.*) watch_video.php?v=$1&%{QUERY_STRING} [L]
+
 
 #
 #Users, Channel & Management
@@ -88,9 +92,9 @@ RewriteRule ^photos 									photos.php [L]
 RewriteRule ^collection/(.*)/(.*)/(.*)					view_collection.php?cid=$1&type=$2&%{QUERY_STRING} [L]
 
 #Photo Section
-RewriteRule ^item/(.*)/(.*)/(.*)/(.*) 				view_item.php?item=$3&type=$1&collection=$2 [L]
-RewriteRule ^photo_upload/(.*) 		photo_upload.php?collection=$1 [L]
-RewriteRule ^photo_upload			photo_upload.php [L]
+RewriteRule ^item/(.*)/(.*)/(.*)/(.*) 					view_item.php?item=$3&type=$1&collection=$2 [L]
+RewriteRule ^photo_upload/(.*) 							photo_upload.php?collection=$1 [L]
+RewriteRule ^photo_upload								photo_upload.php [L]
 #
 RewriteRule ^sitemap.xml$ sitemap.php
 RewriteRule ^signup signup.php
@@ -101,6 +105,8 @@ ErrorDocument 403 /403.php
 
 ########## End - Rewrite rules For SEO urls ######################
 RewriteRule ^rss$                           rss.php [nc]
-RewriteRule ^rss/([a-zA-Z0-9].+)$          rss.php?mode=$1&%{QUERY_STRING} [nc]
+RewriteRule ^rss/([a-zA-Z0-9].+)$           rss.php?mode=$1&%{QUERY_STRING} [nc]
 
 ########## End - Rewrite rules For SEO urls ######################
+
+RewriteRule	^([a-zA-Z0-9-]+)/?$ 	view_channel.php?uid=$1&seo_diret=yes [NS]

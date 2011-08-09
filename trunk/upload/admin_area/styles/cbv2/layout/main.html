@@ -379,6 +379,30 @@ $(document).ready(function(){
               </select></td>
             </tr>
             <tr>
+              <td>Seo video url pattern</td>
+              <td>
+                <label>
+                  <input type="radio" name="seo_vido_url" value="0" id="seo_vido_url_0"
+                   {if !$row.seo_vido_url || $row.seo_vido_url==0} checked="checked"{/if}	 />
+                  {$baseurl}/video/ABCDXYZ/video-title</label>
+                <br />
+                <label>
+                  <input type="radio" name="seo_vido_url" value="1" id="seo_vido_url_1"
+                   {if $row.seo_vido_url==1} checked="checked"{/if}/>
+                  {$baseurl}/video-title-v123</label>
+                <br />
+                <label>
+                  <input type="radio" name="seo_vido_url" value="2" id="seo_vido_url_2"
+                   {if $row.seo_vido_url==2} checked="checked"{/if}/>
+                  {$baseurl}/video/123/video-title</label>
+               <br />
+                <label>
+                  <input type="radio" name="seo_vido_url" value="3" id="seo_vido_url_3"
+                   {if $row.seo_vido_url==3} checked="checked"{/if}/>
+                  {$baseurl}/video/123_video-title</label>
+                </td>
+            </tr>
+            <tr>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
             </tr>
@@ -467,22 +491,28 @@ $(document).ready(function(){
               </select></td>
             </tr>
             <tr>
-              <td>Allow  videos ratings</td>
-              <td><input name="video_rating" type="checkbox" id="video_rating" value="1" {if $row.video_rating=='1'}checked="checked"{/if} />
-              - Allow user to rate own videos 
-              <input name="own_video_rating" type="checkbox" id="own_video_rating" value="1" {if $row.own_video_rating=='1'}checked="checked"{/if} /></td>
+              <td colspan="2"><input name="video_rating" type="checkbox" id="video_rating" value="1" {if $row.video_rating=='1'}checked="checked"{/if} />
+                Allow  videos ratings
+                
+              - 
+                  <input name="own_video_rating" type="checkbox" id="own_video_rating" value="1" {if $row.own_video_rating=='1'}checked="checked"{/if} />
+              Allow user to rate own videos </td>
             </tr>
             <tr>
-              <td>Allow collection ratings</td>
-              <td><input name="collection_rating" type="checkbox" id="collection_rating" value="1" {if $row.collection_rating=='1'}checked="checked"{/if} />
-                - Allow user to rate own collections 
-                <input name="own_collection_rating" type="checkbox" id="own_collection_rating" value="1" {if $row.own_collection_rating=='1'}checked="checked"{/if} /></td>
+              <td colspan="2"><input name="collection_rating" type="checkbox" id="collection_rating" value="1" {if $row.collection_rating=='1'}checked="checked"{/if} />
+                Allow collection ratings
+                
+                - 
+                  <input name="own_collection_rating" type="checkbox" id="own_collection_rating" value="1" {if $row.own_collection_rating=='1'}checked="checked"{/if} />
+                Allow user to rate own collections </td>
             </tr>
             <tr>
-              <td>Allow channel ratings</td>
-              <td><input name="channel_rating" type="checkbox" id="channel_rating" value="1" {if $row.channel_rating=='1'}checked="checked"{/if} /> 
-                - Allow users to rate own channels 
-                <input name="own_channel_rating" type="checkbox" id="own_channel_rating" value="1" {if $row.own_channel_rating=='1'}checked="checked"{/if} /></td>
+              <td colspan="2"><input name="channel_rating" type="checkbox" id="channel_rating" value="1" {if $row.channel_rating=='1'}checked="checked"{/if} />
+                Allow channel ratings
+                 
+                - 
+                  <input name="own_channel_rating" type="checkbox" id="own_channel_rating" value="1" {if $row.own_channel_rating=='1'}checked="checked"{/if} />
+                Allow users to rate own channels </td>
             </tr>
         </table>
 </fieldset>

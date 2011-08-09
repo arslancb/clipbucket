@@ -1429,8 +1429,8 @@ if(!empty($mode))
 			{
 					echo '<div class="item news">';
 					echo '<div class="news_title">
-					<span class="title"><a href="{$news.link}">'.$n['title'].'</a></span>
-					<span class="date">'.date("m-d-Y",time($n['pubDate'])).'</span></div>
+					<span class="title"><a href="'.$n['link'].'">'.$n['title'].'</a></span>
+					<span class="date">'.date("m-d-Y",strtotime($n['pubDate'])).'</span></div>
 					<span class="clearfix"></span>';
 					echo '<div>';
 					echo $n['description'];

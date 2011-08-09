@@ -167,6 +167,7 @@ if(isset($_POST['update'])){
 					'srate',
 					'site_slogan',
 					'seo',
+					'seo_vido_url',
 					'search_list_per_page',
 					'server_friendly_conversion',
 					'support_email',

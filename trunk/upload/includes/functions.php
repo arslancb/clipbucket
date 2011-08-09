@@ -108,7 +108,7 @@
 		{
 			$id = stripslashes($id);
 		}
-		$id = htmlspecialchars(mysql_real_escape_string($id), ENT_COMPAT, 'UTF-8');
+		$id = htmlspecialchars(mysql_real_escape_string($id));
 		if($replacer)
 			$id = Replacer($id);
 		return $id;
@@ -822,11 +822,58 @@
 		if(!empty($vid))
 			$vdetails = $myquery->get_video_details($vid);
 		
+		//calling for custom video link functions
+		$functions = cb_get_functions('video_link');
+		if($functions)
+		{
+			foreach($functions as $func)
+			{
+				$array = array('vdetails'=>$vdetails,'type'=>$type);
+				if(function_exists($func['func']))
+				{
+					$returned = $func['func']($array);
+					if($returned)
+					{
+						$link = $returned;
+						return $link;
+						break;
+					}
+				}
+			}
+		}
+		
 		$plist = "";
 		if(SEO == 'yes'){
+			
 			if($vdetails['playlist_id'])
 				$plist = '?&play_list='.$vdetails['playlist_id'];
-			$link = BASEURL.'/video/'.$vdetails['videokey'].'/'.SEO(clean(str_replace(' ','-',$vdetails['title']))).$plist;
+				
+			switch(config('seo_vido_url'))
+			{
+				default:
+					$link = BASEURL.'/video/'.$vdetails['videokey'].'/'.SEO(clean(str_replace(' ','-',$vdetails['title']))).$plist;
+				break;
+				
+				case 1:
+				{
+					$link = BASEURL.'/'.SEO(clean(str_replace(' ','-',$vdetails['title']))).'_v'.$vdetails['videoid'].$plist;
+				}
+				break;
+				
+				case 2:
+				{
+					$link = BASEURL.'/video/'.$vdetails['videoid'].'/'.SEO(clean(str_replace(' ','-',$vdetails['title']))).$plist;
+				}
+				break;
+				
+				case 3:
+				{
+					$link = BASEURL.'/video/'.$vdetails['videoid'].'_'.SEO(clean(str_replace(' ','-',$vdetails['title']))).$plist;
+				}
+				break;
+			}
+
+			
 		}else{
 			if($vdetails['playlist_id'])
 				$plist = '&play_list='.$vdetails['playlist_id'];

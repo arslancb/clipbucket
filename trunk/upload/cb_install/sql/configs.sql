@@ -226,6 +226,7 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (NULL,'max_topic_title','300');
 
 
+
 INSERT INTO `{tbl_prefix}languages` (`language_id`, `language_code`, `language_name`, `language_regex`, `language_active`, `language_default`) VALUES
 (5, 'en', 'English', '/^en/i', 'yes', 'yes');
 
@@ -239,3 +240,8 @@ INSERT INTO `{tbl_prefix}validation_re` (`re_id`, `re_name`, `re_code`, `re_synt
 INSERT INTO `{tbl_prefix}config` (`configid` ,`name` ,`value`)VALUES 
 (NULL , 'comments_per_page', '15'),
 (NULL, 'embed_type', 'iframe');
+
+-- Addition for 2.6
+INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'facebook_embed', 'yes');
+INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES (NULL, 'seo_vido_url', '1');
+

@@ -86,8 +86,25 @@ if($udetails)
 	
 	assign('profile_item',$profileItem);
 }else{
-	e(lang("usr_exist_err"));
-	$Cbucket->show_page = false;
+	
+	if($_GET['seo_diret']!='yes')
+	{
+		e(lang("usr_exist_err"));
+		$Cbucket->show_page = false;
+	}else{
+		header("HTTP/1.0 404 Not Found");
+		if(file_exists(LAYOUT."/404.html")) {
+			template_files('404.html');
+		} else {
+			$data = "404_error";
+			if(has_access('admin_access'))
+				e(sprintf(lang("err_warning"),"404","http://docs.clip-bucket.com/?p=154"),"w");	
+			e(lang($data));
+		}
+		
+		display_it();
+		exit();
+	}
 }
 add_js(array('jquery_plugs/compressed/jquery.jCarousel.js'=>'view_channel'));
 
