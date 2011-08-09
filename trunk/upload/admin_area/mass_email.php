@@ -51,8 +51,8 @@ if(isset($_POST['send_to_all']))
 		$users = get_users($uarray);
 		foreach($users as $user)
 		{
-			$keys = array("[username]","[email]","[datejoined]");
-			$rplc = array($user['username'],$user['email'],$user['doj']);
+			$keys = array("[username]","[email]","[datejoined]","[avcode]");
+			$rplc = array($user['username'],$user['email'],$user['doj'],$user['avcode']);
 			$message = nl2br(str_replace($keys, $rplc, $message));
 			//send_email($from,$data['email'],$subject,$msg);
 			
@@ -88,8 +88,8 @@ if(isset($_POST['send_mail'])){
 				$user = $userquery->get_user_details($theuser);
 				if($user)
 				{
-					$keys = array("[username]","[email]","[datejoined]");
-					$rplc = array($user['username'],$user['email'],$user['doj']);
+					$keys = array("[username]","[email]","[datejoined]","[avcode]");
+					$rplc = array($user['username'],$user['email'],$user['doj'],$user['avcode']);
 					$msg = nl2br(str_replace($keys, $rplc, $message));
 					//send_email($from,$data['email'],$subject,$msg);
 							
