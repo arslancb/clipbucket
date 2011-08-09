@@ -464,13 +464,17 @@ $(document).ready(function() {
     <meta property="og:title" content="{$vdo.title}" />
     <meta property="og:description" content="{$vdo.description|description|strip_tags}" />
     <meta property="og:image" content="{getThumb vdetails=$vdo}" />
-    <meta property="og:type" content="video">
-    <meta property="og:video" content='{fb_embed_video video=$vdo}'>
-    <meta property="og:video:height" content="259" />
-	<meta property="og:video:width" content="398" />
-    <meta property="og:video:type" content="application/x-shockwave-flash">
-    <meta property='og:url' content='{videoLink vdetails=$vdo}'/>
-	<meta property='og:site_name' content='{$website_title}'/>
+    
+    {if $Cbucket->configs.facebook_embed=='yes'}
+        <meta property="og:type" content="video">
+        <meta property="og:video" content='{fb_embed_video video=$vdo}'>
+        <meta property="og:video:height" content="259" />
+        <meta property="og:video:width" content="398" />
+        <meta property="og:video:type" content="application/x-shockwave-flash">
+    {/if}
+        <meta property='og:url' content='{videoLink vdetails=$vdo}'/>
+        <meta property='og:site_name' content='{$website_title}'/>
+    
 {/if}
 
 {if $object.photo_id}
@@ -494,3 +498,5 @@ $(function() {
 });
 </script>
 {/literal}
+
+<!-- ClipBucket version {$Cbucket->cbinfo.version} -->
