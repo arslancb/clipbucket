@@ -343,6 +343,14 @@ $(document).ready(function(){
               </select></td>
             </tr>
             <tr>
+              <td>Enable facebook embed</td>
+              <td><label for="facebook_embed"></label>
+                <select name="facebook_embed" id="facebook_embed">
+                   <option value="yes" {if $row.facebook_embed!='no'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.facebook_embed=='no'} selected="selected"{/if}>No</option>
+              </select></td>
+            </tr>
+            <tr>
               <td><label for="video_embed">Allow video embedding</label></td>
               <td><input name="video_embed" type="checkbox" id="video_embed" value="1" {if $row.video_embed=='1'} checked="checked"{/if} /></td>
             </tr>

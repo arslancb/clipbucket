@@ -86,6 +86,7 @@ if(isset($_POST['update'])){
 					'flvtool2path',
 					'flvtoolpp',
 					'ffmpeg_type',
+					'facebook_embed',
 					
 					'gravatars',
 					'grp_categories',
