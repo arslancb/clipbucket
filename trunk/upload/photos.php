@@ -15,7 +15,6 @@ $pages->page_redir();
 
 $sort = $_GET['sort'];
 $cond = array("category"=>mysql_clean($_GET['cat']),"date_span"=>$_GET['time']);
-$content = mysql_clean('photos');
 
 switch($sort)
 {	
@@ -44,40 +43,25 @@ switch($sort)
 	}
 	break;
 	
-	case "most_items":
+	case "top_rated":
 	{
-		$cond['order'] = " total_objects DESC";
+		$cond['order'] = " rating DESC, rated_by DESC";
 	}
 	break;	
 }
 
-switch($content)
-{
-	case "videos":
-	{
-		$cond['type'] = "videos";	
-	}
-	break;
-	
-	case "photos":
-	{
-		$cond['type'] = "photos";	
-	}
-}
-
-//Getting Collection List
+//Getting Photo List
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,MAINPLIST);
 $clist = $cond;
 $clist['limit'] = $get_limit;
-$collections = $cbcollection->get_collections($clist);
-
-Assign('collections', $collections);	
+$photos = get_photos($clist);
+Assign('photos', $photos);	
 
 //Collecting Data for Pagination
 $ccount = $cond;
 $ccount['count_only'] = true;
-$total_rows  = $cbcollection->get_collections($ccount);
+$total_rows = get_photos($ccount);
 $total_pages = count_pages($total_rows,MAINPLIST);
 
 //Pagination
@@ -85,6 +69,6 @@ $pages->paginate($total_pages,$page);
 
 subtitle(lang('photos'));
 //Displaying The Template
-template_files('collections.html');
+template_files('photos.html');
 display_it();
 ?>
