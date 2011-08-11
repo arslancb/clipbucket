@@ -1,1 +1,12 @@
-ALTER TABLE  `cb_video` CHANGE  `category`  `category` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '0'
+ALTER TABLE  `cb_video` CHANGE  `category`  `category` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '0';
+ALTER TABLE `cb_collections` CHANGE `category` `category` VARCHAR( 200 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+CREATE TABLE IF NOT EXISTS `cb_counters` (
+  `counter_id` int(100) NOT NULL AUTO_INCREMENT,
+  `section` varchar(200) NOT NULL,
+  `query` text NOT NULL,
+  `query_md5` varchar(200) NOT NULL,
+  `counts` bigint(200) NOT NULL,
+  `date_added` varchar(200) NOT NULL,
+  PRIMARY KEY (`counter_id`),
+  UNIQUE KEY `query_md5` (`query_md5`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
