@@ -798,9 +798,10 @@ class myquery {
 			 //Deleting any other previuos comment file
 			 $files = glob(COMM_CACHE_DIR.'/'.$type.$type_id.str_replace(',','_',$limit).'*');
 			 
-			 foreach($files as $delFile)
-			 	if(file_exists($delFile))
-					unlink($delFile);
+			 if($files)
+				 foreach($files as $delFile)
+			 		if(file_exists($delFile))
+						unlink($delFile);
 			 
 			 //Caching comment file
 			 if($file)
