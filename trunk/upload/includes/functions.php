@@ -1850,9 +1850,9 @@
 	/**
 	 * FUnction used to get HQ ie mp4 video
 	 */
-	function get_hq_video_file($vdetails)
+	function get_hq_video_file($vdetails,$return_default=true)
 	{
-		return get_video_file($vdetails,true,true,false,false,true);
+		return get_video_file($vdetails,$return_default,true,false,false,true);
 	}
 	
 	
@@ -1901,8 +1901,9 @@
 			$player_code = cbplayer($param,true);
 		
 		global $pak_player;
+		
 		if($player_code)
-		if(!$pak_player)
+		if(!$pak_player && $show_player)
 		{
 			assign("player_js_code",$player_code);
 			Template(PLAYER_DIR.'/player.html',false);

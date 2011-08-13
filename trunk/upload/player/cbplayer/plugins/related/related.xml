@@ -1,0 +1,31 @@
+<plugin>
+	<title>Related</title>
+	<filename>related.swf</filename>
+	<version>1.0</version>
+	<compatibility>Compatible with 5.0</compatibility>
+	<author>LongTail Video</author>
+	<description>This plugin displays a menu with related videos.</description>
+	<href>http://developer.longtailvideo.com/trac/browser/plugins/related/</href>
+
+	<flashvars>
+		<flashvar>
+			<name>file</name>
+			<default />
+			<description>
+				URL link to an mRSS playlist containing related video metadata.
+				If not set or empty, the "related videos" screen will display "No related videos found"
+			</description>
+		</flashvar>
+		<flashvar>
+			<name>oncomplete</name>
+			<default>true</default>
+			<description>Show the related videos screen when the video completes.</description>
+		</flashvar>
+		<flashvar>
+			<name>usedock</name>
+			<default>true</default>
+			<description>If false, the dock button for popping the related videos will not be shown.</description>
+		</flashvar>
+	</flashvars>
+
+</plugin>

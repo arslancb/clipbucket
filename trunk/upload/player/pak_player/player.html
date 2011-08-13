@@ -166,20 +166,5 @@ function updateEmbedCode(width,height,autoplay)
 	$('#embed_code').val( $('#embed_code').val().replace(/autoplay\=(yes|no)/g,'autoplay='+autoPlayVid) );
 }
 
-
-function switchEmbedCode(type)
-{
-	if(embed_type==type)
-		return false;
-	else
-	{
-		embed_type = type;
-		
-		var alt_embed =$('#alternate_embed_code').val();
-		$('#alternate_embed_code').val($('#embed_code').val());
-		$('#embed_code').val(alt_embed);
-		
-	}
-}
 </script>
 {/literal}

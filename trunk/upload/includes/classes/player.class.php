@@ -188,6 +188,18 @@ class CBPlayer
 	 
 	function fb_embed_video($params)
 	{
+		$fb_embed_funcs = cb_get_functions('fb_embed_video');
+		if($fb_embed_funcs)
+		{
+			foreach($fb_embed_funcs as $func)
+			{
+				if(function_exists($func['func']))
+				{
+					return $func['func']($params);
+				}
+			}
+		}
+		
 		$vdetails = $params['video'];
 		$config  = urlencode(BASEURL."/player/pak_player/embed_player.php?vid=".$vdetails['videoid']."&json=true&autoplay=yes");
 		if(!config('pak_license'))
