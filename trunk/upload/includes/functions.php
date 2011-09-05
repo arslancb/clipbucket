@@ -1365,10 +1365,10 @@
 	/**
 	 * Function used to select data from database
 	 */
-	function dbselect($tbl,$fields='*',$cond=false,$limit=false,$order=false)
+	function dbselect($tbl,$fields='*',$cond=false,$limit=false,$order=false,$p=false)
 	{
 		global $db;
-		return $db->dbselect($tbl,$fields,$cond,$limit,$order);
+		return $db->dbselect($tbl,$fields,$cond,$limit,$order,$p);
 	}
 	
 	
@@ -5856,6 +5856,35 @@
 		{
 			$db->insert(tbl('counters'),array('section','query','query_md5','counts','date_added'),
 			array($section,'|no_mc|'.$je_query,$query_md5,$counter,strtotime(now())));
+		}
+	}
+	
+	/**
+	 * function used to register a module file, that will be later called
+	 * by load_modules() function
+	 */
+	function register_module($mod_name,$file)
+	{
+		global $Cbucket;
+		$Cbucket->modules_list[$mod_name][] = $file;
+		
+	}
+	
+	/**
+	 * function used to load module files
+	 */
+	function load_modules()
+	{
+		global $Cbucket,$lang_obj,$signup,$Upload,$cbgroup,
+		$adsObj,$formObj,$cbplugin,$eh,$sess,$cblog,$imgObj,
+		$cbvideo,$cbplayer,$cbemail,$cbpm,$cbpage,$cbindex,
+		$cbcollection,$cbphoto,$cbfeeds,$userquery,$db,$pages;
+		
+		foreach($Cbucket->modules_list as $cbmod)
+		{
+			foreach($cbmod as $modfile)
+				if(file_exists($modfile))
+					include($modfile);
 		}
 	}
 ?>
