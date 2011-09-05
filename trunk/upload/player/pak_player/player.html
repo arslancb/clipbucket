@@ -41,7 +41,7 @@ hq_function = pakplayer_hq;
 {/literal}
 
 
-flowplayer("the_Video_Player", {ldelim}"src":"{$pak_player_url}/flowplayer.commercial{if $Cbucket->configs.pak_license}.unlimited{/if}.swf"{rdelim}, 
+flowplayer("the_Video_Player", {ldelim}"src":"{$pak_player_url}/pakplayer{if $Cbucket->configs.pak_license}.unlimited{/if}.swf"{rdelim}, 
 	{literal}{{/literal}
 	{if $Cbucket->configs.pak_license}
 	key : '{$Cbucket->configs.pak_license}',	
