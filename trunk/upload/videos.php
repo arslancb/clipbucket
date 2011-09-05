@@ -84,7 +84,6 @@ Assign('videos', $videos);
 $vcount = $vid_cond;
 
 $counter = get_counter('video',$count_query);
-
 if(!$counter)
 {
 	$vcount['count_only'] = true;
@@ -93,6 +92,7 @@ if(!$counter)
 	$counter = $total_pages;
 	update_counter('video',$count_query,$counter);
 }
+
 //Pagination
 $pages->paginate($counter,$page);
 

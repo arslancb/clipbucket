@@ -20,6 +20,7 @@
 
 ob_start();
 
+define('IN_CLIPBUCKET',true);
 define("DEVELOPMENT_MODE",FALSE);
 define("DEV_INGNORE_SYNTAX",TRUE);
 

@@ -190,7 +190,7 @@ class ADODB_mysql extends ADOConnection {
 	 * @param : values array
 	 * @params : Extra params
 	 */
-	function select($tbl,$fields='*',$cond=false,$limit=false,$order=false)
+	function select($tbl,$fields='*',$cond=false,$limit=false,$order=false,$ep=false)
 	{
 		//return dbselect($tbl,$fields,$cond,$limit,$order);
 		$query_params = '';
@@ -211,7 +211,7 @@ class ADODB_mysql extends ADOConnection {
 		if($limit)
 			$query_params .= " LIMIT $limit ";
 			
-		$query = " SELECT $fields FROM $tbl $query_params ";
+		$query = " SELECT $fields FROM $tbl $query_params $ep ";
 
 		//Finally Executing	
 		$data = $this->Execute($query);

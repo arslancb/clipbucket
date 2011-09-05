@@ -86,7 +86,7 @@ if(!function_exists('embed_video_src'))
 		$clip['linkUrl'] = videoLink($video);
 		$clip['linkWindow'] = '_blank';
 		
-		$logo['url'] = BASEURL."/images/logo.png";
+		$logo['url'] = website_logo();
 		$logo['fullscreenOnly'] = false;
 		
 		$logoPlace = config('logo_placement');

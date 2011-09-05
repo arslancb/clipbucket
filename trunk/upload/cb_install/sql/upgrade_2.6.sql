@@ -16,3 +16,5 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}counters` (
   PRIMARY KEY (`counter_id`),
   UNIQUE KEY `query_md5` (`query_md5`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+ALTER TABLE  `{tbl_prefix}photos` ADD  `photo_details` TEXT NOT NULL AFTER  `photo_tags`;

@@ -87,7 +87,7 @@ if(function_exists('get_refer_url_from_embed_code'))
   
   <!-- For Licensensed Players -->
   <!-- Setting Logo -->
-  <logo.file><?=BASEURL?>/images/logo.png</logo.file>
+  <logo.file><?=website_logo()?></logo.file>
   <logo.link><?=BASEURL?></logo.link>
   <logo.margin><?=config('logo_padding')?></logo.margin>
   <logo.position><?=cb_player_logo_position()?></logo.position>

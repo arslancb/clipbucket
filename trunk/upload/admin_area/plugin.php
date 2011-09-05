@@ -12,10 +12,14 @@ $pages->page_redir();
 
 $file = get('file');
 $folder = get('folder');
-
+$player = get('player');
 if($folder && $file)
 {
+	if(!$player)
 	$file = PLUG_DIR.'/'.$folder.'/'.$file;
+	else
+	$file = PLAYER_DIR.'/'.$folder.'/'.$file;
+	
 	if(file_exists($file))
 	{
 		require($file);

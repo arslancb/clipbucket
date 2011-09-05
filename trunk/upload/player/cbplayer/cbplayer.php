@@ -56,9 +56,9 @@ if(!function_exists('cb_player'))
 				assign('ytcode',$ytcode);
 			}
 			
-			if(!strstr($in['width'],"\%"))
+			if(!strstr($in['width'],"%"))
 				$in['width'] = $in['width'].'px';
-			if(!strstr($in['height'],"\%"))
+			if(!strstr($in['height'],"%"))
 				$in['height'] = $in['height'].'px';
 		
 			if($in['autoplay'] =='yes' || $in['autoplay']===true || 
@@ -73,6 +73,9 @@ if(!function_exists('cb_player'))
 			//Logo Placement
 			assign('logo_placement',cb_player_logo_position());
 			assign('logo_margin',config('logo_padding'));
+			
+			//Setting Skin
+			assign('cb_skin','glow/glow.xml');
 			
 			assign('player_data',$in);
 			assign('player_logo',website_logo());
@@ -165,6 +168,10 @@ if(!function_exists('cb_player'))
 	//include Pak Player JS File
 	$Cbucket->add_header(CB_PLAYER_DIR.'/cbplayer_header.html');
 	$Cbucket->add_admin_header(CB_PLAYER_DIR.'/cbplayer_header.html');
-
+	
+	/**
+	 * Including plugin files 
+	 */
+	include("cbplayer.plugin.php");
 }
 ?>

@@ -1,4 +1,4 @@
-<div id="mediaplayer">CB Player goes here</div>
+<div id="mediaplayer">Loading player, please wait....</div>
 <script type="text/javascript">
 var cb_player_file = '{$cb_player_url}/player.swf';
 var cb_player_url = '{$cb_player_url}';
@@ -14,7 +14,7 @@ var embed_type = '{$Cbucket->configs.embed_type}';
 
 		jwplayer("mediaplayer").setup({ldelim}
 		flashplayer: cb_player_file,
-		skin : cb_player_url+'/skins/glow/glow.xml',
+		skin : cb_player_url+'/skins/{$cb_skin}',
 		{if $ytcode}
 		file: 'http://www.youtube.com/watch?v={$ytcode}',
 		{else}
@@ -50,6 +50,9 @@ var embed_type = '{$Cbucket->configs.embed_type}';
         	{rdelim}
 			<!-- End Loading Related plugin -->
 			
+			<!-- Adding Extra Plugin Files -->
+			
+			<!-- Adding Extra Plugin Files -->
 		{rdelim}
 		,
 		
@@ -84,4 +87,28 @@ var embed_type = '{$Cbucket->configs.embed_type}';
 		{rdelim}
 	{rdelim});
 
+
+
+	<!-- Writing Quality Toggle function which will work outside the player -->
+	{literal}
+	var video_quality = 'normal';
+	function cb_toggle_quality()
+	{
+		jwplayer().stop();
+		if(video_quality=='normal')
+		{
+			video_quality = 'hq';
+			jwplayer().load(hq_video_file);
+			jwplayer().play();
+		}else
+		{
+			video_quality = 'normal';
+			jwplayer().load(normal_video_file);
+			jwplayer().play();
+		}
+	}
+	has_hq_function = true;
+	hq_function = cb_toggle_quality;
+	{/literal}
+	<!-- Toggle quality video ends -->
 </script>

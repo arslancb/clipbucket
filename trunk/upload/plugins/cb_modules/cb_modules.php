@@ -23,12 +23,8 @@ if(!function_exists('cb_modules'))
 	function show_social_bookmarks($vdetails=NULL)
 	{
 		
-		echo '<div style="margin-bottom:5px" width="100%">';
-		
-		echo '<span class="boomarker"><script src="http://www.stumbleupon.com/hostedbadge.php?s=1"></script></span>';
-		echo '<span class="boomarker"><td align="center"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></span>';
-		echo '<span class=\'boomarker\'><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="" layout="button_count" show_faces="true" width="10" font=""></fb:like></span>';
-		echo '</div>';
+		echo "<span  class='st_stumbleupon_vcount' displayText='Stumble' style='font-size:10px'></span><span  class='st_twitter_vcount' displayText='Tweet'></span><span  class='st_facebook_vcount' displayText='Facebook'></span><span  class='st_plusone_vcount' ></span>";
+		echo '<div style="height:10px"></div>';
 	
 		
 	}	

@@ -767,7 +767,12 @@ class CBvideo extends CBCategory
 		}
 		
 		if($params['cond'])
+		{
+			if($params['cond_and'])
+				if($cond!='')
+					$cond .= ' AND ';
 			$cond .= " ".$params['cond'];
+		}
 		
 		
 		$functions = cb_get_functions('get_videos');
