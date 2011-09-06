@@ -64,13 +64,13 @@ if(!$counter)
 	$ucount = $u_cond;
 	$ucount['count_only'] = true;
 	$total_rows  = get_users($ucount);
-	$total_pages = count_pages($total_rows,CLISTPP);
-	$counter = $total_pages;
+	$counter = $total_rows;
 	update_counter('channel',$count_query,$counter);
 }
 
+$total_pages = count_pages($counter,CLISTPP);
 //Pagination
-$pages->paginate($counter,$page);
+$pages->paginate($total_pages,$page);
 
 subtitle(lang('channels'));
 template_files('channels.html');

@@ -89,12 +89,13 @@ if(!$counter)
 	$vcount['count_only'] = true;
 	$total_rows  = get_videos($vcount);
 	$total_pages = count_pages($total_rows,VLISTPP);
-	$counter = $total_pages;
+	$counter = $total_rows;
 	update_counter('video',$count_query,$counter);
 }
 
+$total_pages = count_pages($counter,VLISTPP);
 //Pagination
-$pages->paginate($counter,$page);
+$pages->paginate($total_pages,$page);
 
 subtitle(lang('videos'));
 //Displaying The Template

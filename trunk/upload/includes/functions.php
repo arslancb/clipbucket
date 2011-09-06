@@ -5878,7 +5878,7 @@
 		global $Cbucket,$lang_obj,$signup,$Upload,$cbgroup,
 		$adsObj,$formObj,$cbplugin,$eh,$sess,$cblog,$imgObj,
 		$cbvideo,$cbplayer,$cbemail,$cbpm,$cbpage,$cbindex,
-		$cbcollection,$cbphoto,$cbfeeds,$userquery,$db,$pages;
+		$cbcollection,$cbphoto,$cbfeeds,$userquery,$db,$pages,$cbvid;
 		
 		foreach($Cbucket->modules_list as $cbmod)
 		{
