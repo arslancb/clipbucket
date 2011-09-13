@@ -421,7 +421,7 @@
 								$fparams = array_merge($fparams,$extra); // If yes, then merge all params
 							else
 								$fparams = $fparams; // No Continue with user defined params	
-						else
+						elseif($extra)
 							$fparams = $extra; // It is not array, so assign $extra to $fparams.
 						
 						if(!empty($fparams))	

@@ -1186,7 +1186,7 @@ class CBvideo extends CBCategory
 		{
 			if(!empty($link['title']) && !empty($link['link']))
 			{
-				return ' | <a href="'.$link['link'].'">'.$link['title'].'</a>';
+				return '<a href="'.$link['link'].'">'.$link['title'].'</a>';
 			}
 		}
 	}

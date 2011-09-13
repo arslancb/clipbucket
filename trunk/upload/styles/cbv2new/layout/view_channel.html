@@ -22,11 +22,13 @@
     {if $latestP || $latestV}
     	<div class="channelFeatureBox clearfix">
          {if $p.show_my_photos !='no' && $latestP}
+         
         	<div class="itemListing moveL"> 
                 <button id="PprevItem" class="carouselButton"><img src="{$imageurl}/up.png"></button>
                 	<div id="photoListing">
                         <ul style="list-style:none; margin:0px; padding:0px;">
                         {if $latestP}
+                        test
                         {section name=plist loop=$latestP}
                         	{if $smarty.section.plist.iteration==1}
 								{if !$profile_item}
@@ -251,7 +253,7 @@
 			channelObjects('#infoTab','#channelDetailsBox','info','{$u.userid}');
 		{/if}
 		
-		{if $p.show_my_photo=='no' || $p.show_my_photos!='yes'  || !$latestV || !$latestP}
+		{if $p.show_my_photos!='yes'  || !$latestV || !$latestP}
 			var viewingAreaParent = $('#viewingArea').parent().parent().width();	
 			$('#viewingArea') .width(viewingAreaParent-180)	
 		{/if}
@@ -292,6 +294,32 @@ $(document).ready(function(){ldelim}
 	;
 	{rdelim}
 	).bind(funcToBCalled);
+	
+	{if $smarty.const.THIS_PAGE == 'view_channel'}	
+		
+		{if $p.show_my_photos=='yes'  && $latestP}
+			
+			$('#photoListing').jCarouselLite({ldelim}
+				vertical : true,
+				btnNext : "#PnextItem",
+				btnPrev : "#PprevItem",
+				circular : false,
+				speed : 500,
+				visible	: 5
+			{rdelim});
+		{/if}
+		{if $p.show_my_videos=='yes'  && $latestV}		
+		$('#videoListing').jCarouselLite({ldelim}
+			vertical : true,
+			btnNext : "#VnextItem",
+			btnPrev : "#VprevItem",
+			circular : false,
+			speed : 500,
+			visible	: 5
+		{rdelim});
+		{/if}
+		
+	{/if}
 </script>
 </body>
 </html>

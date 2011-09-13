@@ -141,7 +141,7 @@
       <a href="view_conversion_log.php?file_name={$videos[list].file_name}">File conversion details</a> | 
       <a href="?delete_video={$videos[list].videoid}">Delete</a>
       {foreach from=$cbvid->video_manager_links item=links}
-      	| {$cbvid->video_manager_link($links,$videos[list])}
+      	{$cbvid->video_manager_link($links,$videos[list])}
       {/foreach}
     </div>
     </td>

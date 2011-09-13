@@ -142,27 +142,8 @@ var mid  = {$smarty.get.mid};
 		{if isSectionEnabled('photos') && $smarty.const.THIS_PAGE=='index'}
 			getAjaxPhoto('last_viewed','#index_pho_container');
 		{/if}
-	{if $smarty.const.THIS_PAGE == 'view_channel'}	
-		{literal}
-		$('#photoListing').jCarouselLite({
-			vertical : true,
-			btnNext : "#PnextItem",
-			btnPrev : "#PprevItem",
-			circular : false,
-			speed : 500,
-			visible	: 5
-		});
-					
-		$('#videoListing').jCarouselLite({
-			vertical : true,
-			btnNext : "#VnextItem",
-			btnPrev : "#VprevItem",
-			circular : false,
-			speed : 500,
-			visible	: 5
-		});
-		{/literal}
-	{/if}
+	
+	
 	{literal}		
 	});
 	

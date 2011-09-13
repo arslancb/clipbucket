@@ -521,6 +521,12 @@ class PHPMailer {
    * @access public
    */
   public static function ValidateAddress($address) {
+	 	
+		//Checking if domain is localhost, return true
+	$host = explode('@',$address);
+	$host = $host[1];
+	if($host=='localhost')
+		return true;
     if (function_exists('filter_var')) { //Introduced in PHP 5.2
       if(filter_var($address, FILTER_VALIDATE_EMAIL) === FALSE) {
         return false;

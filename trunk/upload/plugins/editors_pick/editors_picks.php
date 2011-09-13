@@ -108,10 +108,10 @@ if(!function_exists('editors_pick'))
 	function video_manager_ep_link($vid)
 	{
 		if(is_video_in_editors_pick($vid['videoid']))
-			return '<a href="'.queryString(NULL,
+			return '| <a href="'.queryString(NULL,
 			array('remove_editor_pick','add_editor_pick','mode')).'remove_editor_pick='.$vid['videoid'].'">Remove From Editor\'s Pick</a>';
 		else
-			return '<a href="'.queryString(NULL,
+			return '| <a href="'.queryString(NULL,
 			array('remove_editor_pick','add_editor_pick','mode')).'add_editor_pick='.$vid['videoid'].'">Add To Editor\'s Pick</a>';
 	}
 	

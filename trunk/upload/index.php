@@ -6,6 +6,7 @@
  | @ Software  : ClipBucket , © PHPBucket.com					
  ****************************************************************
 */
+
 define('THIS_PAGE','index');
 require 'includes/config.inc.php';
 
@@ -21,5 +22,4 @@ if(is_installed('editorspick'))
 //Displaying The Template
 template_files('index.html');
 display_it();
-
 ?>

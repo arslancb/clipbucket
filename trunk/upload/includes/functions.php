@@ -464,7 +464,7 @@
    //Function Used To Validate Email
 	
 	function isValidEmail($email){
-      $pattern = "/[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/";
+      $pattern = "/[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i";
 	  preg_match($pattern, $email,$matches);
       if ($matches[0]!=''){
          return true;
