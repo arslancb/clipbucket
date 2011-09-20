@@ -5663,7 +5663,7 @@
 		//Checking if browser is firefox
 		if(!$in)
 			$in = $_SERVER['HTTP_USER_AGENT'];
-		echo $in;
+		
 		$u_agent = $in;
 		$bname = 'Unknown';
 		$platform = 'Unknown';
@@ -5675,6 +5675,9 @@
 		}
 		elseif (preg_match('/iPhone/i', $u_agent)) {
 			$platform = 'iphone';
+		}
+		elseif (preg_match('/iPad/i', $u_agent)) {
+			$platform = 'ipad';
 		}
 		elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
 			$platform = 'mac';

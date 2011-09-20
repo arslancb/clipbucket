@@ -23,29 +23,29 @@ switch($mode)
 		if($_POST['update'])
 		{
 			$rows = array(
-								 'photo_ratio',
-								 'photo_thumb_width',
-								 'photo_thumb_height',
-								 'photo_med_width',
-								 'photo_med_height',
-								 'photo_lar_width',
-								 'photo_crop',
-								 'photo_multi_upload',
-								 'max_photo_size',
-								 'own_photo_rating',
-								 'photo_download',
-								 'photo_comments',
-								 'photo_rating');
+			 'photo_ratio',
+			 'photo_thumb_width',
+			 'photo_thumb_height',
+			 'photo_med_width',
+			 'photo_med_height',
+			 'photo_lar_width',
+			 'photo_crop',
+			 'photo_multi_upload',
+			 'max_photo_size',
+			 'own_photo_rating',
+			 'photo_download',
+			 'photo_comments',
+			 'photo_rating');
 			
 			$numeric = array(
-							 'photo_thumb_width',
-							 'photo_thumb_height',
-							 'photo_med_width',
-							 'photo_med_height',
-							 'photo_lar_width',
-							 'photo_crop',
-							 'max_photo_size',
-							 'photo_multi_upload');
+			 'photo_thumb_width',
+			 'photo_thumb_height',
+			 'photo_med_width',
+			 'photo_med_height',
+			 'photo_lar_width',
+			 'photo_crop',
+			 'max_photo_size',
+			 'photo_multi_upload');
 							 
 			foreach($rows as $field)
 			{

@@ -59,3 +59,23 @@ INSERT INTO `{tbl_prefix}user_permission_types` (`user_permission_type_id`, `use
 (2, 'Uploading Permission', ''),
 (3, 'Administrator Permission', ''),
 (4, 'General Permission', '');
+
+-- 2.6
+
+INSERT INTO `{tbl_prefix}user_permissions` (
+`permission_id` ,
+`permission_type` ,
+`permission_name` ,
+`permission_code` ,
+`permission_desc` ,
+`permission_default`
+)VALUES (
+NULL , '3', 'Allow photo moderation', 'photos_moderation', 'Allow user to moderation photos from admin panel', 'yes'), (
+NULL , '3', 'Collection modetaion', 'collection_moderation', 'Allow users to moderate collection', 'yes'), (
+NULL , '3', 'Plugins moderation', 'plugins_moderation', 'Allow user to moderate plugins', 'yes'), (
+NULL , '3', 'Tool Box', 'tool_box', 'Allow users to access tool box', 'yes');
+
+UPDATE `{tbl_prefix}user_levels_permissions` SET `photos_moderation` = 'yes',
+`collection_moderation` = 'yes',
+`plugins_moderation` = 'yes',
+`tool_box` = 'yes' WHERE `cb_user_levels_permissions`.`user_level_permission_id` =1;

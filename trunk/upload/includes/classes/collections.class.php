@@ -68,7 +68,7 @@ class Collections extends CBCategory
 	function setting_up_collections()
 	{
 		global $userquery,$Cbucket;
-		
+		$per = $userquery->get_user_level(userid());
 		// Adding My Account Links	
 		if(isSectionEnabled('collections'))
 		$userquery->user_account[lang('Collections')] = array(
@@ -82,6 +82,7 @@ class Collections extends CBCategory
 		$Cbucket->search_types['collections'] = "cbcollection";
 		
 		// Adding Collection links in Admin Area
+		if($per['collection_moderation'] == "yes")
 		$Cbucket->AdminMenu['Collections'] = array(
 													lang('Manage Collections')=>'collection_manager.php',
 													lang('Manage Categories')=>'collection_category.php',

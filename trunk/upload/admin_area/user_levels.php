@@ -46,6 +46,12 @@ switch($mode)
 		
 		//GettinG Level Permission
 		$level_perms = $userquery->get_level_permissions($lid);
+		
+		$plugin_perms = $level_perms['plugins_perms'];
+		$plugin_perms = json_decode($plugin_perms,true);
+		
+		assign('plugin_perms',$plugin_perms);
+		
 		Assign('level_perms',$level_perms);
 		
 		Assign('view','edit');

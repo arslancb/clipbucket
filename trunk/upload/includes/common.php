@@ -404,6 +404,7 @@ if(!@$in_bg_cron)
 	$userquery->init();
 	$cbvideo->init();
 	$cbpm->init();
+	$cbphoto->init_photos();
     $thisurl = curPageURL();
 	//Setting Up Group Class
 	$cbgroup->gp_thumb_width = config('grp_thumb_width');
@@ -414,6 +415,8 @@ if(!@$in_bg_cron)
 	define("ALLOWED_GROUP_CATEGORIES",$row['grp_categories']);
 	define('ALLOWED_VDO_CATS',$row['video_categories']);
 	define('ALLOWED_CATEGORIES',3);
+	
+	if($Cbucket->LatestAdminMenu())
 	$Cbucket->AdminMenu = array_merge($Cbucket->LatestAdminMenu(),$Cbucket->AdminMenu);
 	
  	//Assigning Smarty Tags & Values

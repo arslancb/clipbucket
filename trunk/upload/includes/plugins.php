@@ -10,6 +10,9 @@ Simple Plugin System
 $installed_plugins = $cbplugin->getInstalledPlugins();
 if(is_array($installed_plugins))
 {
+	$plug_permission = $userquery->permission['plugins_perms'];
+	$plug_permission = json_decode($plug_permission,true);
+	
 	foreach($installed_plugins as $plugin)
 	{
 		$folder = "";
@@ -17,12 +20,20 @@ if(is_array($installed_plugins))
 			$folder = '/'.$plugin['folder'];
 		$file = PLUG_DIR.$folder.'/'.$plugin['file'];
 		
-		if(file_exists($file))
+		$plugin_code = $plugin['file'].$folder;
+		
+		//Creating plugin permissions array
+		$Cbucket->plugins_perms[] = array('plugin_code'=>$plugin_code,
+		'plugin_name'=>$plugin['name'],'plugin_desc'=>$plugin['description']);
+			
+		if(file_exists($file) && $plug_permission[$plugin_code]!='no')
 		{
 			$pluginFile = $file;
 			include_once($file);
 		}
 	}
+	
+	//pr($Cbucket->plugins_perms,true);
 }
 
 /**

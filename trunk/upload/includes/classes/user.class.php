@@ -1804,8 +1804,14 @@ class userquery extends CBCategory{
 			if(!empty($array['level_name']))
 			{
 				$level_name = mysql_clean($array['level_name']);
-				//Upadting Now
+				//Upadting Now				
 				$db->update(tbl("user_levels"),array("user_level_name"),array($level_name)," user_level_id = '$id'");
+			}
+			
+			if(isset($_POST['plugin_perm']))
+			{
+				$fields_array[] = 'plugins_perms';
+				$value_array[] = '|no_mc|'.json_encode($_POST['plugin_perm']);
 			}
 			
 			//Updating Permissions

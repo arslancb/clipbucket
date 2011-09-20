@@ -895,7 +895,7 @@ class myquery {
 	function set_template($template)
 	{
 		global $myquery;
-		if(is_dir(STYLES_DIR.'/'.$template) &&template)
+		if(is_dir(STYLES_DIR.'/'.$template) && $template)
 		{
 			$myquery->Set_Website_Details('template_dir',$template);
 			e(lang("template_activated"),'m');

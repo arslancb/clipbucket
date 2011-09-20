@@ -1074,3 +1074,10 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}counters` (
   PRIMARY KEY (`counter_id`),
   UNIQUE KEY `query_md5` (`query_md5`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+ALTER TABLE `{tbl_prefix}user_levels_permissions` ADD `photos_moderation` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `allow_make_premium` ,
+ADD `collection_moderation` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `photos_moderation` ,
+ADD `plugins_moderation` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `collection_moderation` ,
+ADD `tool_box` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `plugins_moderation` ,
+ADD `plugins_perms` TEXT NOT NULL AFTER `tool_box` ;

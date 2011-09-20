@@ -1,10 +1,10 @@
 <?php
 /* 
- ********************************************************************
+ ***************************************************************
  | Copyright (c) 2007-2009 Clip-Bucket.com. All rights reserved.	
  | @ Author : ArslanHassan											
  | @ Software : ClipBucket , © PHPBucket.com							
- ********************************************************************
+ ***************************************************************
 */
 define("THIS_PAGE",'videos');
 define("PARENT_PAGE",'videos');
@@ -33,6 +33,7 @@ if($_GET['cat'] && $_GET['cat']!='all')
 		}
 	$child_ids[] = mysql_clean($_GET['cat']);
 }
+
 $vid_cond = array('category'=>$child_ids,'date_span'=>$_GET['time'],'sub_cats');
 
 switch($sort)
@@ -46,6 +47,7 @@ switch($sort)
 	case "most_viewed":
 	{
 		$vid_cond['order'] = " views DESC ";
+		$vid_cond['date_span_column'] = 'last_viewed';
 	}
 	break;
 	case "most_viewed":

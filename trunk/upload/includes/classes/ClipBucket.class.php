@@ -26,13 +26,14 @@ class ClipBucket
 	var $temp_exts = array(); //Temp extensions
 	var $actions_play_video = array();
 	var $template_files = array();
-	var $cur_template = 'clipbucketblue';
+	var $cur_template = 'cbv2new';
 	var $links = array();
 	var $captchas = array();
 	var $clipbucket_footer = array('cb_bottom');
 	var $clipbucket_functions = array();
 	var $head_menu = array();
 	var $foot_menu = array();
+	var $template = "";
 	
 	var $in_footer = false;
 	
@@ -215,6 +216,7 @@ class ClipBucket
 	  */
 	  function get_admin_menu()
 	  {
+		
 		  $menu_array = array
 		  (
 		   //Statistics
@@ -306,12 +308,13 @@ class ClipBucket
 		  
 		  
 		  return $menu_array;
+	  
 	  }	 
 
 	function LatestAdminMenu()
 	{
 			global $userquery;
-			$per = $userquery->get_user_level($_SESSION['userid']);
+			$per = $userquery->get_user_level(userid());
 			if($per['web_config_access'] == "yes")
 				$NewMenu[ 'Stats And Configurations'] = array(
 													'Reports &amp; Stats'=>'reports.php',
@@ -359,7 +362,12 @@ class ClipBucket
 				 'Templates Editor'=>'template_editor.php',
 				 'Players Manager' => 'manage_players.php',
 				 'Player Settings' => 'manage_players.php?mode=show_settings');	
+			
+			
+			if($per['plugins_moderation'] == "yes")
 			$NewMenu['Plugin Manager'] = array('Plugin Manager'=>'plugin_manager.php');
+			
+			if($per['tool_box'] == "yes")
 			$NewMenu['Tool Box'] = array(				 'PHP Info'	=> 'phpinfo.php',
 				'View online users'	=> 'online_users.php',
 				 'Server Modules Info'	=> 'cb_mod_check.php',
@@ -462,7 +470,8 @@ class ClipBucket
 			$myquery->set_template($template);
 		}
 		
-		define('TEMPLATE',$template);
+		//
+		return	$this->template = $template;
 	}
 	
 	

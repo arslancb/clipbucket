@@ -560,7 +560,13 @@ class CBvideo extends CBCategory
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " ".cbsearch::date_margin("date_added",$params['date_span']);
+			
+			if($params['date_span_column'])
+				$column = $params['date_span_column'];
+			else
+				$column = 'date_added';
+				
+			$cond .= " ".cbsearch::date_margin($column,$params['date_span']);
 		}
 		
 		//uid 

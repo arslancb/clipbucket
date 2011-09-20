@@ -31,7 +31,7 @@
 {elseif $view=='edit'}
 
 <form action="" method="post">
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:10px">
 <tr>
 <td width="30" class="left_head">&nbsp;</td>
 <td align="left" class="head">Edit Level Permissions</td>
@@ -50,7 +50,7 @@
 
 {assign var='types' value=$userquery->get_level_types()}
 {section name=t loop=$types}
-<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:10px">
 <tr>
 <td width="30" class="left_head">&nbsp;</td>
 <td align="left" class="head">{$types[t].user_permission_type_name}</td>
@@ -83,6 +83,7 @@ No</label>
 <tr><td><div style="width:100%; margin:auto" align="center"><em>No Permission Found</em></div></td></tr>
 {/if}
 
+
 {if $bgcolor == ""}
 {assign var = bgcolor value = "#EEEEEE"}
 {else}
@@ -94,10 +95,67 @@ No</label>
 {/foreach}
 </table>
 
+
 {/section}
 
 
 
+{if $Cbucket->plugins_perms}
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:10px">
+<tr>
+<td width="30" class="left_head">&nbsp;</td>
+<td align="left" class="head">Plugins Permissions</td>
+<td width="30" class="right_head">&nbsp;</td>
+</tr>
+</table>
+
+
+{assign var=perms value=$Cbucket->plugins_perms}
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" >
+{assign var = bgcolor value = ""}
+{foreach from=$perms item=perm}
+
+
+
+<tr bgcolor="{$bgcolor}" class="item_listing">
+<td style="padding:5px 0px 5px 10px"><strong>{$perm.plugin_name}</strong><br />
+<em>{$perm.plugin_desc}</em></td>
+<td style="padding:5px 0px 5px 10px" width="250">
+
+<label>
+{assign var=perm_plugin_code value=$perm.plugin_code}
+
+<input type="radio" name="plugin_perm[{$perm.plugin_code}]" value="yes" id="{$plugin_perms.plugin_code}_yes" {if $plugin_perms.$perm_plugin_code!='no'} checked="checked"{/if}/>
+Yes</label>
+<label>
+<input type="radio" name="plugin_perm[{$perm.plugin_code}]" value="no" id="{$plugin_perms.plugin_code}_no" {if $plugin_perms.$perm_plugin_code==no} checked="checked"{/if}/>
+No</label>
+
+
+</td>
+</tr>
+
+
+
+{if $bgcolor == ""}
+{assign var = bgcolor value = "#EEEEEE"}
+{else}
+{assign var = bgcolor value = ""}
+{/if}
+
+{foreachelse}
+<tr><td><div style="width:100%; margin:auto" align="center"><em>No Permission Found</em></div></td></tr>
+{/foreach}
+</table>
+
+
+
+
+
+
+{/if}
 
 
 <table width="100%" border="0" cellspacing="2" cellpadding="2">
@@ -127,44 +185,47 @@ No</label>
 </table>
 {assign var='types' value=$userquery->get_level_types()}
 {section name=t loop=$types}
-<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
-<tr>
-<td width="30" class="left_head">&nbsp;</td>
-<td align="left" class="head">{$types[t].user_permission_type_name}</td>
-<td width="30" class="right_head">&nbsp;</td>
-</tr>
-</table>
-{assign var=perms value=$userquery->get_permissions($types[t].user_permission_type_id)}
-<table width="98%" border="0" cellpadding="0" cellspacing="0" align="center" >
-{assign var = bgcolor value = ""}
-{foreach from=$perms item=perm}
-{if $perm.permission_id !=""}
-
-
-<tr bgcolor="{$bgcolor}" class="item_listing">
-<td style="padding:5px 0px 5px 10px"><strong>{$perm.permission_name}</strong><br />
-<em>{$perm.permission_desc}</em></td>
-<td style="padding:5px 0px 5px 10px" width="250">
-<label><input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_id}_yes" />Yes</label>
-<label><input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_id}_no" />No</label>
-</td>
-</tr>
-{else}
-<tr><td><div style="width:100%; margin:auto" align="center"><em>No Permission Found</em></div></td></tr>
-{/if}
-
-{if $bgcolor == ""}
-{assign var = bgcolor value = "#EEEEEE"}
-{else}
-{assign var = bgcolor value = ""}
-{/if}
-
-{foreachelse}
-<tr><td><div style="width:100%; margin:auto" align="center"><em>No Permission Found</em></div></td></tr>
-{/foreach}
-</table>
+    <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+    <td width="30" class="left_head">&nbsp;</td>
+    <td align="left" class="head">{$types[t].user_permission_type_name}</td>
+    <td width="30" class="right_head">&nbsp;</td>
+    </tr>
+    </table>
+    {assign var=perms value=$userquery->get_permissions($types[t].user_permission_type_id)}
+    <table width="98%" border="0" cellpadding="0" cellspacing="0" align="center" >
+    {assign var = bgcolor value = ""}
+    {foreach from=$perms item=perm}
+        {if $perm.permission_id !=""}
+        
+        
+        <tr bgcolor="{$bgcolor}" class="item_listing">
+        <td style="padding:5px 0px 5px 10px"><strong>{$perm.permission_name}</strong><br />
+        <em>{$perm.permission_desc}</em></td>
+        <td style="padding:5px 0px 5px 10px" width="250">
+        <label><input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_id}_yes" />Yes</label>
+        <label><input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_id}_no" />No</label>
+        </td>
+        </tr>
+        {else}
+        <tr><td><div style="width:100%; margin:auto" align="center"><em>No Permission Found</em></div></td></tr>
+        {/if}
+        
+        {if $bgcolor == ""}
+        {assign var = bgcolor value = "#EEEEEE"}
+        {else}
+        {assign var = bgcolor value = ""}
+        {/if}
+    
+    {foreachelse}
+    <tr><td><div style="width:100%; margin:auto" align="center"><em>No Permission Found</em></div></td></tr>
+    {/foreach}
+    </table>
 
 {/section}
 <input type="submit" name="add_new_level" id="button" value="Add Level" />
 </form>
 {/if}
+
+
+

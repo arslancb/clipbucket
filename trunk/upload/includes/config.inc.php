@@ -10,26 +10,24 @@ if(!defined('PARENT_PAGE'))
 	
 include('common.php');
 
+include('plugins.php');		
 
-define('TEMPLATEDIR',BASEDIR.'/'.TEMPLATEFOLDER.'/'.TEMPLATE);
-define('TEMPLATEURL',BASEURL.'/'.TEMPLATEFOLDER.'/'.TEMPLATE);
+define('TEMPLATEDIR',BASEDIR.'/'.TEMPLATEFOLDER.'/'.$Cbucket->template);
+define('TEMPLATEURL',BASEURL.'/'.TEMPLATEFOLDER.'/'.$Cbucket->template);
 define('LAYOUT',TEMPLATEDIR.'/layout');
-define('ADMINLAYOUT',BASEDIR.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.TEMPLATE.'/layout');
+define('ADMINLAYOUT',BASEDIR.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.$Cbucket->template.'/layout');
 
 Assign('baseurl',BASEURL);
 Assign('imageurl',TEMPLATEURL.'/images');
-Assign('admimageurl',BASEURL.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.TEMPLATE.'/images');
+Assign('admimageurl',BASEURL.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.$Cbucket->template.'/images');
 Assign('layout',TEMPLATEURL.'/layout');
 Assign('theme',TEMPLATEURL.'/theme');
-Assign('admtheme',BASEURL.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.TEMPLATE.'/theme');
+Assign('admtheme',BASEURL.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.$Cbucket->template.'/theme');
 Assign('template_dir',TEMPLATEDIR);
 Assign('style_dir',LAYOUT);
 
-		
 
 
-
-include('plugins.php');
 
 //Assigning JS Files
 Assign('jsArray',$Cbucket->JSArray);

@@ -40,7 +40,7 @@ class CBPhotos
 	{
 		$this->exts = array('jpg','png','gif','jpeg'); // This should be added from Admin Area. may be some people also want to allow BMPs;
 		$this->embed_types = array("html","forum","email","direct");
-		$this->init_photos();	
+			
 	}
 	
 	/**
@@ -109,8 +109,12 @@ class CBPhotos
 	 */
 	function photos_admin_menu()
 	{
-		global $Cbucket,$cbcollection;
+		global $Cbucket,$cbcollection,$userquery;
 		$am = $Cbucket->AdminMenu;
+		$per = $userquery->get_user_level(userid());
+		
+		
+		if($per['photos_moderation'] == "yes")
 		$am['Photos'] = array(
 							  'Photo Manager' => 'photo_manager.php',
 							  'Flagged Photos' => 'flagged_photos.php',
