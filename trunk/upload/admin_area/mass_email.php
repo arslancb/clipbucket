@@ -16,91 +16,40 @@ if(!empty($_GET['email'])){
 	Assign('email',$_GET['email']);
 }
 
-//Sending Message To Multiple Users
-if(isset($_POST['send_to_all']))
+//Creating an mass email
+if(isset($_POST['create_email']))
 {
-	$from 		= mysql_clean($_POST['from']);
-	$subject	= mysql_clean($_POST['subj']);
-	$message	= $_POST['msg'];
-	
-	$uarray = array();
-	
-	if(empty($from))
-		e("From field was empty");
-	if(empty($subject))
-		e("Subject field was empty");
-	if(empty($message))
-		e("Message field was empty");
-	
-	//Checking if admin wants to send email to active users only....
-	if($_POST['active']!='')
-		$uarray['status'] = $_POST['active'];
-	//Checking if admin wants to send email to banned or unbanned users only...
-	if($_POST['ban']!='')
-		$uarray['ban'] = $_POST['ban'];
-	//Checking if admin wants to send email to specific leveled users
-	if($_POST['level']!='')
-		$uarray['level'] = $_POST['level'];
-	//Checkinf if admin wants to send email to specfic categorized users
-	if($_POST['category']!='')
-		$uarray['category'] = $_POST['category'];
-	
-	
-	if(!error())
+	if($cbemail->add_mass_email())
 	{
-		$users = get_users($uarray);
-		foreach($users as $user)
-		{
-			$keys = array("[username]","[email]","[datejoined]","[avcode]");
-			$rplc = array($user['username'],$user['email'],$user['doj'],$user['avcode']);
-			$message = nl2br(str_replace($keys, $rplc, $message));
-			//send_email($from,$data['email'],$subject,$msg);
-			
-			cbmail(array('from'=>$from,'to'=>$user['email'],'subject'=>$subject,'content'=>$message));
-		}
-		e('Your Email has Been Sent To All Users','m');
+		unset($_POST);
 	}
 }
 
-	
-	
-//Send Message To Individual
-if(isset($_POST['send_mail'])){
-		$from 		= mysql_clean($_POST['from']);
-		$subject	= mysql_clean($_POST['subj']);
-		$message	= $_POST['msg'];
-		$users = $_POST['to'];
-		$new_users = explode(',',$users);
-		
-		if(empty($from))
-		e("From field was empty");
-		if(empty($subject))
-			e("Subject field was empty");
-		if(empty($message))
-			e("Message field was empty");
-		if(empty($users))
-			e("Users field was empty");
-		
-		if(!error())
-		{
-			foreach($new_users as $theuser)
-			{
-				$user = $userquery->get_user_details($theuser);
-				if($user)
-				{
-					$keys = array("[username]","[email]","[datejoined]","[avcode]");
-					$rplc = array($user['username'],$user['email'],$user['doj'],$user['avcode']);
-					$msg = nl2br(str_replace($keys, $rplc, $message));
-					//send_email($from,$data['email'],$subject,$msg);
-							
-					cbmail(array('from'=>$from,'to'=>$user['email'],'subject'=>$subject,'content'=>$msg));
-				}
-			}
-			e('Your Email has Been Sent To Sepecified users','m');		
-		}
+//Deleting Email
+if(isset($_GET['delete']))
+{
+	$del = mysql_clean($_GET['delete']);
+	$cbemail->action($del,'delete');
 }
 
+//Sending Email
+if(isset($_GET['send_email']))
+{
+	$eId = mysql_clean($_GET['send_email']);
+	$email = $cbemail->get_email($eId);
+	if($email)
+	{	
+		$msgs = $cbemail->send_emails($email);
+		assign('msgs',$msgs);
+		
+		$email = $cbemail->get_email($eId);
+		assign('send_email',$email);
+	}
+}
 
+//Getting List of emails
+$emails = $cbemail->get_mass_emails();
+assign('emails',$emails);
 
 //Category Array...
 if(is_array($_POST['category']))

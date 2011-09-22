@@ -279,10 +279,10 @@
 		{
 			foreach($to as $name)
 			{		
-				$mail->AddAddress($name, $to_name);
+				$mail->AddAddress(strtolower($name), $to_name);
 			}
 		} else {
-			$mail->AddAddress($to, $to_name);
+			$mail->AddAddress(strtolower($to), $to_name);
 		}
 		
 		$mail->Subject = $subject;

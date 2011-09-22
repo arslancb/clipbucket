@@ -351,3 +351,14 @@ li.myAdminList input[disabled=disabled].disabled { font:normal 11px Tahoma; padd
 .li_links ul{display:block;}
 .li_links a{display:block; padding:3px; background-color:#fff;font-size:13px}
 .li_links li:nth-child(2n) a{ background-color:#eee}
+
+.cb_title{background-color:#f3f3f3; font-size:12px; font-weight:bold; color:#333; border-bottom:1px solid #cccccc; height:27px; line-height:27px; padding-left:5px}
+.cb_form select,.cb_form input,.cb_form textarea{border:1px solid #bbb; font-size:11px; width:200px; color:#333; padding:3px}
+.cb_form textarea{width:auto}
+.cb_form .cb_fieldL{float:left; width:300px; margin-right:10px}
+.cb_form .cb_fieldR{float:left; width:400px;}
+.cb_form .cb_field_cont{margin-bottom:10px;}
+.cb_form input[type=radio],.cb_form input[type=checkbox]{width:auto !important}
+.cb_form input[type=submit]{width:auto !important; color:#fff; border:1px solid #003}
+
+.cb_row{margin:5px 0px; padding-left:5px}

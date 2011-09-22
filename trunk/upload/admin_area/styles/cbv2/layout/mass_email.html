@@ -1,128 +1,228 @@
-<h2>Mass Email</h2>
+<h2>Send email to users</h2>
+
+<p><br />
+  Send mass email to your users with our new and updated email manager
+</p>
 
 
-<table width="800" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="10" align="center" valign="middle" class="left_head">&nbsp;</td>
-    <td class="head">Send Email To All Users</td>
-    <td width="50" class="right_head">&nbsp;</td>
-  </tr>
-</table>
+{if $send_email==""}
+<form name="mass_email" method="post" action="mass_email.php?action=new">
+<div class="cb_title">
+	Email manager
+</div>
 
-<form name="send_to_all" method="post">
-<table width="800" border="0" cellpadding="2" cellspacing="0" class="block">
-    <tr>
-        <td width="200" align="right" valign="top"><span class="td_body">From</span></td>
-        <td valign="top"><input name="from" type="text" id="from" value="{'from'|post}" size="45"></td>
-    </tr>
-    <tr>
-      <td align="right" valign="top"><span class="td_body">Subject</span></td>
-      <td valign="top"><span class="td_body">
-        <input name="subj" type="text" id="subj" value="{'subj'|post}" size="45">
-      </span></td>
-    </tr>
-    <tr>
-      <td align="right" valign="top"><span class="td_body">Message </span></td>
-      <td valign="top"><textarea name="msg" cols="45" rows="6" id="msg">{'msg'|post}</textarea>
-        <span class="td_body">
-        <label><br>
-          Keywords<br>
-          [username]  [email] [datejoined]</label>
-      </span></td>
-    </tr>
-    <tr>
-      <td align="right" valign="top">Active only</td>
-      <td align="left" valign="top"><select name="active" id="active" class="input">
-      <option value="" ></option>
-        <option value="Ok" {if $smarty.post.active=='Ok'} selected="selected"{/if}>Yes</option>
-        <option value="ToActivate" {if $smarty.post.active=='no'} selected="selected"{/if}>No</option>
-      </select></td>
-    </tr>
-    <tr>
-      <td align="right" valign="top">User Level</td>
-      <td align="left" valign="top"><select name="level" id="level">
-      	<option value="" ></option>
+<div style="padding:5px" class="cb_form">
+	<div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>Email to send at once</strong>
+        <br />loop size of emails when mass emails are sent</div>
+        <div class="cb_fieldR"><input name="loop_size" type="text" value="500"/></div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    <div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>From</strong>
+        <br />Enter email address to tell user who sent it</div>
+        <div class="cb_fieldR"><input type="text" name="from" value="{'from'|post}"/></div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    <div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>Subject</strong>
+        <br />Enter your email subject</div>
+        <div class="cb_fieldR"><input type="text" name="subject" value="{'subject'|post}"//></div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    <div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>Message</strong>
+        <br />Enter your email message</div>
+        <div class="cb_fieldR"><textarea name="message" cols="50" rows="5" draggable="true"></textarea><br />
+{literal}You can use {username}, {userid}, {email}, {datejoined},{avcode} in your message{/literal}</div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    <div class="cb_field_cont" style="display:none">
+    	<div class="cb_fieldL"><strong>Email delivery method</strong>
+        <br />Please choose weather you want browser to send emails or create a background process </div>
+        <div class="cb_fieldR"><label><input type="radio" name="method" value="browser" checked="checked" />Browser</label>
+        <label><input type="radio" name="method" value="background" />Background Process</label></div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+</div>
+    
+    <div class="cb_title" style="background-color:#FFFFFF; margin-top:10px">
+    More options
+    </div>
+
+<div style="padding:5px" class="cb_form">    
+    <div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>Active status</strong>
+        <br />Choose weather to send to active users or non active</div>
+        <div class="cb_fieldR"><label><input name="active" type="radio" value="yes" checked="checked" />Yes</label>
+        <label><input type="radio" name="active" value="no" />No</label><label><input name="active" type="radio" value="any" />Any</label></div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    <div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>Banned status</strong>
+        <br />Send email to banned users</div>
+        <div class="cb_fieldR"><label><input type="radio" name="ban" value="yes" />Yes</label>
+        <label><input name="ban" type="radio" value="no" checked="checked" />No</label>
+        <label><input name="ban" type="radio" value="any" />Any</label></div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    <div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>User level</strong>
+        <br />Choose which user level to send email</div>
+        <div class="cb_fieldR">
+      	
         {assign var=levels value=$userquery->get_levels()}
         {foreach from=$levels item=level}
         	{if $level.user_level_id !='4'}
-        	<option value="{$level.user_level_id}" {if $smarty.post.level==$level.user_level_id} selected="selected"{/if}>{$level.user_level_name}</option>
+       	  <label style="width:120px; float:left"><input type='checkbox' 
+          name="level[]" value="{$level.user_level_id}" checked="checked"/>{$level.user_level_name}</label>
             {/if}
         {/foreach}
-        </select></td>
-    </tr>
-    <tr>
-      <td align="right" valign="top">Banned</td>
-      <td align="left" valign="top"><select name="ban" id="ban" class="input">
-          <option value="" ></option>
-          <option value="yes" {if $smarty.post.ban=='yes'} selected="selected"{/if}>Yes</option>
-          <option value="no" {if $smarty.post.ban=='no'} selected="selected"{/if}>No</option>
-        </select></td>
-    </tr>
-    <tr>
-      <td align="right" valign="top">Category</td>
-      <td align="left" valign="top">{if $cat_array}{$formObj->createField($cat_array)}{/if}</td>
-    </tr>
-    <tr>
-      <td valign="top">&nbsp;</td>
-      <td align="right" valign="top"><input type="submit" name="send_to_all" value="Send Email" class="button" id="send_to_all" ></td>
-    </tr>
-</table>
+        </div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    
+    <div class="cb_field_cont">
+    	<div class="cb_fieldL"><strong>User category</strong>
+        <br />User category</div>
+        <div class="cb_fieldR">
+		{assign var=cats value=$userquery->get_categories()}
+        {foreach from=$cats item=cat}
+
+        	<label style="width:120px; float:left">
+            <input type='checkbox' name="cat[]" value="{$cat.category_id}" checked="checked"/>{$cat.category_name}</label>
+
+        {/foreach}
+        </div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    <div class="cb_field_cont" style="display:none">
+    	<div class="cb_fieldL"><strong>Send to specified users</strong>
+        <br />Enter emails or usernames, seperate by commas,leave blank to follow criteria given above</div>
+        <div class="cb_fieldR"><textarea name="users" cols="50" rows="5" draggable="true" id="users"></textarea></div>
+    	<div class="clear clearfix"></div>
+    </div>
+    
+    
+    <div>
+    	<input name="create_email" type="submit" class="button" id="create" value="Create email" />
+    </div>
+    
+</div>
+
 </form>
 
-  
-  
-  
-  
-  
-  
-<div style="height:20px"></div>
-  
-  
-  
-  
-  
-<table width="800" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="10" align="center" valign="middle" class="left_head">&nbsp;</td>
-    <td class="head">Send Email To Specific Users</td>
-    <td width="50" class="right_head">&nbsp;</td>
-  </tr>
-</table>
 
-<form name="send_to_selected" method="post">
-<table width="800" border="0" cellpadding="2" cellspacing="0" class="block">
-    <tr>
-        <td width="200" align="right" valign="top"><span class="td_body">From</span></td>
-      <td valign="top"><input name="from" type="text" id="from" value="{'from'|post}" size="45"></td>
-  </tr>
-    <tr>
-      <td align="right" valign="top"><span class="td_body">Subject</span></td>
-      <td valign="top"><span class="td_body">
-        <input name="subj" type="text" id="subj" value="{'subj'|post}" size="45">
-      </span></td>
-  </tr>
-    <tr>
-      <td align="right" valign="top"><span class="td_body">Send To </span></td>
-      <td valign="top"><span class="td_body">
-        <input name="to" type="text" id="to" value="{'to'|post}" size="45">
-        <br>
-Seperate Usernames or Emails by comma ie arslan, zohaib@thewebsite.com</span></td>
-    </tr>
-    <tr>
-      <td align="right" valign="top"><span class="td_body">Message </span></td>
-      <td valign="top"><textarea name="msg" cols="45" rows="6" id="msg">{'msg'|post}</textarea></td>
-  </tr>
-    <tr>
-      <td valign="top">&nbsp;</td>
-      <td align="left" valign="top"><span class="td_body">
-        <label>Keywords<br>
-          [username]  [firstname] [lastname] [email] [datejoined]<br>
-          eg Hello [username] </label>
-      </span></td>
-    </tr>
-    <tr>
-      <td valign="top">&nbsp;</td>
-      <td align="right" valign="top"><input type="submit" name="send_mail" value="Send Email" class="button" ></td>
-    </tr>
-</table>
-</form>
+<div style="height:30px"></div>
+<div class="cb_title">
+	Mass email campains
+</div>
+{if $emails}
+    {foreach from=$emails item=email}
+    <div class="cb_row">
+        <div>
+            <strong>{$email.email_subj}</strong> &#8212; 
+          <a href="?send_email={$email.id}">Send Email</a> | 
+          <a href="?delete={$email.id}">Delete</a> | <a href="javascript:void(0)" onclick="$('#mytest').dialog('open')">View</a><br />
+            <span style="font-size:11px; color:#666"><strong>From</strong> 
+            : {$email.email_from} &#8226; <strong>Method</strong> : {$email.method}
+          &#8226; <strong>Sent</strong> : {$email.sent} &#8226; <strong>Status</strong> : {$email.status}</span><br />
+            {$email.date_added|niceTime}
+      </div>
+        <div id="mytest" style="display:none" class="email_content">{$email.email_msg|nl2br}</div>
+        <div class="clear clearfix"></div>
+    </div>
+    {/foreach}
+{else}
+<div class="cb_row">
+	<span style="font-weight:bold">No email was campaign found</span>
+</div>
+{/if}
+
+{literal}
+<script type="text/javascript">
+	$( ".email_content" ).dialog({autoOpen:false,modal:true});
+</script>
+{/literal}
+
+
+{else}
+
+<div class="cb_title">
+Sending emails &#8212; <a href="mass_email.php">Go back to mass email page</a></div>
+{if $send_email}
+{assign var=email value=$send_email}
+    <div class="cb_row">
+        <div>
+            <strong>{$email.email_subj}</strong> &#8212; 
+           	<a href="javascript:void(0)" onclick="$('#mytest').dialog('open')">View</a><br />
+            <span style="font-size:11px; color:#666"><strong>From</strong> 
+            : {$email.email_from} &#8226; <strong>Method</strong> : {$email.method}
+          &#8226; <strong>Sent</strong> : {$email.sent} &#8226; <strong>Status</strong> : {$email.status}</span><br />
+            {$email.date_added|niceTime}
+      </div>
+        <div id="mytest" style="display:none" class="email_content">{$email.email_msg|nl2br}</div>
+        <div class="clear clearfix"></div>
+    </div>
+    
+   
+    
+    <div style="height:10px"></div>
+     {$eh->message_list.0}
+    {if $msgs}
+    <ul>
+    	{foreach from=$msgs item=msg}
+        	<li>{$msg}</li>
+        {/foreach}
+    </ul>
+    {/if}
+    
+    
+    {if ($email.total==$email.sent && $email.sent>0)|| $email.status=='completed'}
+<div style="background-color:#fff9e3; border:1px solid #e1d5a8; padding:8px; font-size:12px; margin-left:5px">
+    	Email has been sent to {$email.total} users
+</div>
+    {else} 
+    <div style="background-color:#fff9e3; border:1px solid #e1d5a8; padding:8px; font-size:12px; margin-left:5px">
+    	Pelase wait, do not close this window... 
+        
+        (<a href="javascript:void(0);" id="pause" onclick="pause=true; $('#pause,#resume').toggle()">pause</a><a href="javascript:void(0);" onclick="$(window.location).attr('href', '?send_email='+email_id+'&index='+start_index); $('#pause,#resume').toggle()" id="resume" style="display:none">resume</a>)
+        
+    </div>
+    
+<script>
+		var start_index = '{$email.start_index}';
+		var email_id = '{$email.id}';
+		var pause = false;
+		{literal}$(document).oneTime(5000,function(){
+			if(!pause)
+			$(window.location).attr('href', '?send_email='+email_id+'&index='+start_index)});{/literal}
+	</script>
+    {/if}
+
+{/if}
+
+{literal}
+<script type="text/javascript">
+	$( ".email_content" ).dialog({autoOpen:false,modal:true});
+</script>
+{/literal}
+
+
+{/if}
