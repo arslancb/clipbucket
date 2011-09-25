@@ -39,7 +39,7 @@ RewriteEngine on
 #URL Rewriting for Videos
 RewriteRule ^videos/(.*)/(.*)/(.*)/(.*)/(.*) videos.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
 RewriteRule ^videos/([0-9]+) videos.php?page=$1 [L]
-RewriteRule ^videos videos.php?%{QUERY_STRING} [L]
+RewriteRule ^videos/?$ videos.php?%{QUERY_STRING} [L]
 RewriteRule ^video/(.*)/(.*) watch_video.php?v=$1&%{QUERY_STRING} [L]
 #Alternate watch video links
 RewriteRule ^(.*)\_v([0-9]+) watch_video.php?v=$2&%{QUERY_STRING} [L]
@@ -52,9 +52,9 @@ RewriteRule ^video/([0-9]+)_(.*) watch_video.php?v=$1&%{QUERY_STRING} [L]
 
 RewriteRule ^channels/(.*)/(.*)/(.*)/(.*)/(.*) channels.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
 RewriteRule ^channels/([0-9]+) channels.php?page=$1 [L]
-RewriteRule ^channels channels.php [L]
-RewriteRule ^members/								channels.php [nc]
-RewriteRule ^users/									channels.php [nc]
+RewriteRule ^channels/?$ channels.php [L]
+RewriteRule ^members/?$								channels.php [nc]
+RewriteRule ^users/?$								channels.php [nc]
 RewriteRule ^user/(.*)						view_channel.php?user=$1 [nc]
 RewriteRule ^channel/(.*)					view_channel.php?user=$1 [nc]
 
@@ -67,10 +67,10 @@ RewriteRule ^my_account					myaccount.php [nc]
 RewriteRule ^page/([0-9]+)/(.*)						view_page.php?pid=$1 [nc]
 #
 #Miscellenous
-RewriteRule ^search/result							search_result.php [nc]
-RewriteRule ^upload									upload.php [nc]
-RewriteRule ^contact								contact.php [nc]
-RewriteRule ^categories								categories.php [nc]
+RewriteRule ^search/result/?$							search_result.php [nc]
+RewriteRule ^upload/?$									upload.php [nc]
+RewriteRule ^contact/?$								contact.php [nc]
+RewriteRule ^categories/?$								categories.php [nc]
 
 #Group Section
 
@@ -79,25 +79,25 @@ RewriteRule ^group/([a-zA-Z0-9].+)					view_group.php?url=$1&%{QUERY_STRING} [L]
 RewriteRule ^view_topic/([a-zA-Z0-9].+)_tid_([0-9]+)					view_topic.php?tid=$2&%{QUERY_STRING} [L]
 RewriteRule ^groups/(.*)/(.*)/(.*)/(.*)/(.*) groups.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
 RewriteRule ^groups/([0-9]+) groups.php?page=$1 [L]
-RewriteRule ^groups groups.php [L]
+RewriteRule ^groups/?$ groups.php [L]
 RewriteRule ^create_group create_group.php [L]
 
 #Collection Section
 RewriteRule ^collections/(.*)/(.*)/(.*)/(.*)/(.*) 		collections.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
 RewriteRule ^collections/([0-9]+) collections.php?page=$1 [L]
-RewriteRule ^collections 								collections.php [L]
+RewriteRule ^collections/?$ 								collections.php [L]
 RewriteRule ^photos/(.*)/(.*)/(.*)/(.*)/(.*) 			photos.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]
 RewriteRule ^photos/([0-9]+) photos.php?page=$1 [L]
-RewriteRule ^photos 									photos.php [L]
+RewriteRule ^photos/?$ 									photos.php [L]
 RewriteRule ^collection/(.*)/(.*)/(.*)					view_collection.php?cid=$1&type=$2&%{QUERY_STRING} [L]
 
 #Photo Section
 RewriteRule ^item/(.*)/(.*)/(.*)/(.*) 					view_item.php?item=$3&type=$1&collection=$2 [L]
 RewriteRule ^photo_upload/(.*) 							photo_upload.php?collection=$1 [L]
-RewriteRule ^photo_upload								photo_upload.php [L]
+RewriteRule ^photo_upload/?$								photo_upload.php [L]
 #
 RewriteRule ^sitemap.xml$ sitemap.php
-RewriteRule ^signup signup.php
+RewriteRule ^signup/?$ signup.php
 
 #Error Pages
 ErrorDocument 404 /404.php
