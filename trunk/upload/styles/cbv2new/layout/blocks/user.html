@@ -4,7 +4,8 @@
 </div>
 <div class="prof_title"><a href="{$userquery->profile_link($user)}">{$user.username}</a></div>
 {$user.total_videos|number_format} {lang code="videos"} {$user.profile_hits|number_format} {lang code="views"}<br />
-{$user.subscribers|number_format} {lang code="subscribers"} {$user.total_photos|number_format} {lang code="photos"}
+{$user.subscribers|number_format} {lang code="subscribers"} 
+{if isSectionEnabled('photos')}{$user.total_photos|number_format} {lang code="photos"}{/if}
 <br />
 {lang code="last_active"} : {$user.last_active|nicetime} </div>
 {/if}
