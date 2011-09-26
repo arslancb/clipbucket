@@ -3,7 +3,7 @@
 <div class="thumb_container" ><a href="{$userquery->profile_link($user)}"><img src="{$userquery->getuserthumb($user)}" border="0" class="user_thumb_normal"></a>
 </div>
 <div class="prof_title"><a href="{$userquery->profile_link($user)}">{$user.username}</a></div>
-{$user.total_videos|number_format} {lang code="videos"} {$user.profile_hits|number_format} {lang code="views"}<br />
+{if isSectionEnabled('videos')}{$user.total_videos|number_format} {lang code="videos"}{/if} {$user.profile_hits|number_format} {lang code="views"}<br />
 {$user.subscribers|number_format} {lang code="subscribers"} 
 {if isSectionEnabled('photos')}{$user.total_photos|number_format} {lang code="photos"}{/if}
 <br />
