@@ -63,27 +63,24 @@
 
 
 <div align="center" style="margin-top:30px"><h2>MODULES VERSION</h2></div>
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
+<table width="605" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td width="10" align="center" valign="middle" class="left_head">&nbsp;</td>
     <td width="195" align="left" class="head">Module</td>
     <td width="195" align="left" class="head"><div class="head_sep_left" style="width:120px">Installed Version</div></td>
-    <td width="195" align="left" class="head"><div class="head_sep_left" style="width:100px">Required Version</div></td>
     <td width="195" align="left" class="head"><div class="head_sep_left" style="width:100px">Status</div></td>
     <td width="10" class="right_head">&nbsp;</td>
   </tr>
 </table>
 
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="0"class="block">
+<table width="605" border="0" align="center" cellpadding="0" cellspacing="0"class="block">
   <tr>
     <td width="10" align="center" valign="middle" >&nbsp;</td>
     <td width="195" align="left" >FFMPEG</td>
     <td width="10" align="left" ></td>
-    <td width="185" align="left" >r{$ffmpeg_status.version}</td>
+    <td width="185" align="left" >{$ffmpeg_status.version}</td>
     <td width="10" align="left" ></td>
-    <td width="185" align="left" >r19000 or greater</td>
-    <td width="10" align="left" ></td>
-    <td width="185" align="left" ><img src="{$imageurl}/{if $ffmpeg_status.version>=19000}button_ok.png{else}error.png{/if}"></td>
+    <td width="185" align="left" ><img src="{$imageurl}/{if $ffmpeg_status.version}button_ok.png{else}error.png{/if}"></td>
     <td width="10" >&nbsp;</td>
   </tr>
   <tr>
@@ -91,8 +88,6 @@
     <td align="left" >PHP</td>
     <td align="left" ></td>
     <td align="left" >{$php_status.version}</td>
-    <td align="left" ></td>
-    <td align="left" >5.2.1 or greater</td>
     <td align="left" ></td>
     <td align="left" ><img src="{$imageurl}/{if $php_status.version>='5.2.1'}button_ok.png{else}error.png{/if}"></td>
     <td >&nbsp;</td>
@@ -103,8 +98,6 @@
     <td align="left" ></td>
     <td align="left" >{$flvtool2_status.version}</td>
     <td align="left" ></td>
-    <td align="left" >1.0.6 or greater</td>
-    <td align="left" ></td>
     <td align="left" ><img src="{$imageurl}/{if $flvtool2_status.version>='1.0.6'}button_ok.png{else}error.png{/if}"></td>
     <td >&nbsp;</td>
   </tr>
@@ -114,8 +107,6 @@
     <td align="left" ></td>
     <td align="left" >{$mp4box_status.version}</td>
     <td align="left" ></td>
-    <td align="left" >0.4.5 or greater</td>
-    <td align="left" ></td>
     <td align="left" ><img src="{$imageurl}/{if $mp4box_status.version>='0.4.5'}button_ok.png{else}error.png{/if}"></td>
     <td >&nbsp;</td>
   </tr>
@@ -124,7 +115,7 @@
 
 
 <div align="center" style="margin-top:30px">
-  <h2>CHECKING FFMPEG CODECS</h2></div>
+<h2>CHECKING FFMPEG CODECS</h2></div>
 
 {assign var=ffmpeg value=func->get_ffmpeg_codecs()}
 <table width="800" border="0" align="center" cellpadding="0" cellspacing="0">

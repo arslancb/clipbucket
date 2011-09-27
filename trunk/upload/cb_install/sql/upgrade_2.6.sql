@@ -42,6 +42,23 @@ UPDATE `{tbl_prefix}user_levels_permissions` SET `photos_moderation` = 'yes',
 `plugins_moderation` = 'yes',
 `tool_box` = 'yes' WHERE `cb_user_levels_permissions`.`user_level_permission_id` =1;
 
+UPDATE {tbl_prefix}video SET rating='10' WHERE rating>10;
 
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}mass_emails` (
+  `id` int(255) NOT NULL AUTO_INCREMENT,
+  `email_subj` varchar(255) NOT NULL,
+  `email_from` varchar(255) NOT NULL,
+  `email_msg` text NOT NULL,
+  `configs` text NOT NULL,
+  `sent` bigint(255) NOT NULL,
+  `total` bigint(20) NOT NULL,
+  `users` text NOT NULL,
+  `start_index` bigint(255) NOT NULL,
+  `method` enum('browser','background') NOT NULL,
+  `status` enum('completed','pending','sending') NOT NULL,
+  `date_added` datetime NOT NULL,
+  `last_update` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 ALTER TABLE  `{tbl_prefix}photos` ADD  `photo_details` TEXT NOT NULL AFTER  `photo_tags`;

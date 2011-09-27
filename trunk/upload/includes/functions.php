@@ -4565,7 +4565,7 @@
 	/**
 	 * Function used to check weather FFMPEG has Required Modules installed or not
 	 */
-	function get_ffmpeg_codecs()
+	function get_ffmpeg_codecs($data=false)
 	{
 		$req_codecs = array
 		('libxvid' => 'Required for DIVX AVI files',
@@ -4576,7 +4576,11 @@
 		 'libtheora' => 'Theora is an open video codec being developed by the Xiph.org',
 		 'libvorbis' => 'Ogg Vorbis is a new audio compression format',
 		 );
-		$version = shell_output(  get_binaries('ffmpeg').' -i xxx -acodec copy -vcodec copy -f null /dev/null 2>&1' );
+		 
+		if($data)
+			$version = $data;
+		else
+			$version = shell_output(  get_binaries('ffmpeg').' -i xxx -acodec copy -vcodec copy -f null /dev/null 2>&1' );
 		preg_match_all("/enable\-(.*) /Ui",$version,$matches);
 		$installed = $matches[1];
 		
@@ -4654,9 +4658,12 @@
 				//pr($matches);
 				if(is_numeric(floatval($matches[1]))) {
 					return $matches[1];
-				} else {
-					return false;	
 				}
+				preg_match("/FFmpeg version ([0-9.]+),/i",strtolower($ffmpegData),$matches);
+				if(is_numeric(floatval($matches[1]))) {
+					return $matches[1];
+				}
+				
 			}
 			break;
 			case 'php':

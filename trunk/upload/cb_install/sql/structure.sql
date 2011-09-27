@@ -1081,3 +1081,20 @@ ADD `collection_moderation` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `pho
 ADD `plugins_moderation` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `collection_moderation` ,
 ADD `tool_box` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `plugins_moderation` ,
 ADD `plugins_perms` TEXT NOT NULL AFTER `tool_box` ;
+
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}mass_emails` (
+  `id` int(255) NOT NULL AUTO_INCREMENT,
+  `email_subj` varchar(255) NOT NULL,
+  `email_from` varchar(255) NOT NULL,
+  `email_msg` text NOT NULL,
+  `configs` text NOT NULL,
+  `sent` bigint(255) NOT NULL,
+  `total` bigint(20) NOT NULL,
+  `users` text NOT NULL,
+  `start_index` bigint(255) NOT NULL,
+  `method` enum('browser','background') NOT NULL,
+  `status` enum('completed','pending','sending') NOT NULL,
+  `date_added` datetime NOT NULL,
+  `last_update` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

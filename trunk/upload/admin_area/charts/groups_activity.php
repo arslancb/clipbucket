@@ -32,9 +32,9 @@ for($i=0;$i<$days;$i++)
 
 for($i=0;$i<$days;$i++)
 {
-	$day[$i]['video'] = json_decode($datas[$i]['video_stats']);
-	$day[$i]['users'] = json_decode($datas[$i]['user_stats']);
-	$day[$i]['groups'] = json_decode($datas[$i]['group_stats']);
+	$day[$i]['video'] = json_decode($datas[$i]['video_stats'],true);
+	$day[$i]['users'] = json_decode($datas[$i]['user_stats'],true);
+	$day[$i]['groups'] = json_decode($datas[$i]['group_stats'],true);
 	
 }
 $max = 1;

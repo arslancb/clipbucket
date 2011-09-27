@@ -32,9 +32,9 @@ for($i=0;$i<$days;$i++)
 
 for($i=0;$i<$days;$i++)
 {
-	$day[$i]['video'] = json_decode($datas[$i]['video_stats']);
-	$day[$i]['users'] = json_decode($datas[$i]['user_stats']);
-	$day[$i]['groups'] = json_decode($datas[$i]['group_stats']);
+	$day[$i]['video'] = json_decode($datas[$i]['video_stats'],true);
+	$day[$i]['users'] = json_decode($datas[$i]['user_stats'],true);
+	$day[$i]['groups'] = json_decode($datas[$i]['group_stats'],true);
 	
 }
 $max = 1;
@@ -43,7 +43,7 @@ for($i=0;$i<$days;$i++)
 	if($i==$days-1)
 	{
 		$uploads[] = $cbvid->get_videos(array("count_only"=>true,"date_span"=>"today"))+0;
-		$active[] = $cbvid->get_videos(array("count_only"=>true,"date_span"=>"today","active"=>'yes'))+0;
+		$active[] = $cbvid->get_videos(array("count_only"=>true,"date_span"=>"today","active"=>'yes',"status"=>'Successful'))+0;
 		$processing[] = $cbvid->get_videos(array("count_only"=>true,"date_span"=>"today","status"=>'Processing'))+0;
 	}else{
 		$uploads[] =$day[$i]['video']->uploads+0;

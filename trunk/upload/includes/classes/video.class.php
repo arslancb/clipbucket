@@ -1347,6 +1347,8 @@ class CBvideo extends CBCategory
 			$new_by = $total_voters;
 			
 			$newrate = ($t + $rating) / $new_by;
+			if($newrate>10)
+				$newrate = 10;
 			$db->update(tbl($this->dbtbl['video']),array("rating","rated_by","voter_ids"),array($newrate,$new_by,"|no_mc|$voters")," videoid='$id'");
 			$userDetails = array(
 				"object_id"	=>	$id,
