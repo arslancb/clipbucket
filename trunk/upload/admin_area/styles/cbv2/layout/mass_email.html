@@ -61,7 +61,8 @@
 <div style="padding:5px" class="cb_form">    
     <div class="cb_field_cont">
     	<div class="cb_fieldL"><strong>Active status</strong>
-        <br />Choose weather to send to active users or non active</div>
+        <br />
+      Choose whether to send to active users or non active</div>
         <div class="cb_fieldR"><label><input name="active" type="radio" value="yes" checked="checked" />Yes</label>
         <label><input type="radio" name="active" value="no" />No</label><label><input name="active" type="radio" value="any" />Any</label></div>
     	<div class="clear clearfix"></div>
@@ -131,7 +132,7 @@
 
 <div style="height:30px"></div>
 <div class="cb_title">
-	Mass email campains
+	Mass email campaigns
 </div>
 {if $emails}
     {foreach from=$emails item=email}
@@ -151,7 +152,7 @@
     {/foreach}
 {else}
 <div class="cb_row">
-	<span style="font-weight:bold">No email was campaign found</span>
+	<span style="font-weight:bold">No email campaign was  found</span>
 </div>
 {/if}
 

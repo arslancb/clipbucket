@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}counters` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
-ALTER TABLE `{tbl_prefix}user_levels_permissions` ADD `photos_moderation` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `allow_make_premium` ,
+ALTER TABLE `{tbl_prefix}user_levels_permissions` ADD `photos_moderation` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' ,
 ADD `collection_moderation` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `photos_moderation` ,
 ADD `plugins_moderation` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `collection_moderation` ,
 ADD `tool_box` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `plugins_moderation` ,
@@ -40,7 +40,7 @@ NULL , '3', 'Tool Box', 'tool_box', 'Allow users to access tool box', 'yes');
 UPDATE `{tbl_prefix}user_levels_permissions` SET `photos_moderation` = 'yes',
 `collection_moderation` = 'yes',
 `plugins_moderation` = 'yes',
-`tool_box` = 'yes' WHERE `cb_user_levels_permissions`.`user_level_permission_id` =1;
+`tool_box` = 'yes' WHERE `user_level_permission_id` =1;
 
 UPDATE {tbl_prefix}video SET rating='10' WHERE rating>10;
 

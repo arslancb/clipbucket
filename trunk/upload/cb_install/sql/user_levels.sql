@@ -78,4 +78,4 @@ NULL , '3', 'Tool Box', 'tool_box', 'Allow users to access tool box', 'yes');
 UPDATE `{tbl_prefix}user_levels_permissions` SET `photos_moderation` = 'yes',
 `collection_moderation` = 'yes',
 `plugins_moderation` = 'yes',
-`tool_box` = 'yes' WHERE `cb_user_levels_permissions`.`user_level_permission_id` =1;
+`tool_box` = 'yes' WHERE `user_level_permission_id` =1;

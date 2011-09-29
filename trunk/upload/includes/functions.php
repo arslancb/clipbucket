@@ -455,6 +455,7 @@
    }
    
    //Create download button
+
    function photo_download_button($params)
    {
 		global $cbphoto;
@@ -2617,6 +2618,7 @@
 		$limit  = $result;	
 		if(empty($page) || $page == 0 || !is_numeric($page)){
 		$page   = 1;
+
 		}
 		$from 	= $page-1;
 		$from 	= $from*$limit;
@@ -4622,6 +4624,16 @@
 
 		if($result)
 		{
+			if(strstr($result,'error'))
+			{
+				$error['error'] = $result;
+				
+				if($params['assign'])
+					assign($params['assign'],$error);
+				
+				return false;
+			}
+					
 			if($params['assign'])
 			{
 				$array['status'] = 'ok';
@@ -4636,7 +4648,7 @@
 		}else
 		{
 			if($params['assign'])
-				assign($params['assign'],"error");
+				assign($params['assign']['error'],"error");
 			else
 				return false;
 		}
@@ -4653,17 +4665,24 @@
 		{
 			case 'ffmpeg':
 			{
-				//echo $result;
+				//Gett FFMPEG SVN version
 				preg_match("/svn-r([0-9]+)/i",strtolower($result),$matches);
 				//pr($matches);
-				if(is_numeric(floatval($matches[1]))) {
-					return $matches[1];
+				if(is_numeric(floatval($matches[1])) && $matches[1]) {
+					return 'Svn '.$matches[1];
 				}
-				preg_match("/FFmpeg version ([0-9.]+),/i",strtolower($ffmpegData),$matches);
-				if(is_numeric(floatval($matches[1]))) {
-					return $matches[1];
+				//Get FFMPEG version
+				preg_match("/FFmpeg version ([0-9.]+),/i",strtolower($result),$matches);
+				if(is_numeric(floatval($matches[1])) && $matches[1]) {
+					return  $matches[1];
 				}
 				
+				//Get FFMPEG GIT version
+				preg_match("/ffmpeg version n\-([0-9]+)/i",strtolower($result),$matches);
+				
+				if(is_numeric(floatval($matches[1])) && $matches[1]) {
+					return 'Git '.$matches[1];
+				}
 			}
 			break;
 			case 'php':

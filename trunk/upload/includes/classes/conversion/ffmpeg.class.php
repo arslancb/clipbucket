@@ -47,6 +47,10 @@ class ffmpeg
 	var $set_conv_lock = true;
 	var $lock_file = '';
 	var $failed_reason = '';
+	
+	
+	var $vconfigs = array(); //Version Configs
+	
 	/**
 	 * Initiating Class
 	 */
@@ -97,6 +101,19 @@ class ffmpeg
 		
 		//Insert Info into database
 		//$this->insert_data();		
+		
+		//Gett FFMPEG version
+		$result = shell_output(FFMPEG_BINARY." -version");
+		$version = parse_version('ffmpeg',$result);
+		
+		
+		$this->vconfigs['map_meta_data'] = 'map_meta_data';
+		
+		if(strstr($version,'Git'))
+		{
+			$this->vconfigs['map_meta_data'] = 'map_metadata';
+		}
+		
 	}
 	
 	
@@ -213,7 +230,7 @@ class ffmpeg
 		}
 		$tmp_file = time().RandomString(5).'.tmp';
 		
-		$opt_av .= " -map_meta_data ".$this->output_file.":".$this->input_file;
+		//$opt_av .= '-'.$this->vconfigs['map_meta_data']." ".$this->output_file.":".$this->input_file;
 	
 		$this->raw_command = $command = $this->ffmpeg." -i ".$this->input_file." $opt_av ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
 		
@@ -230,7 +247,7 @@ class ffmpeg
 		
 		#FFMPEG GNERETAES Damanged File
 		#Injecting MetaData ysing FLVtool2 - you must have update version of flvtool2 ie 1.0.6 FInal or greater
-		if($this->flvtoolpp)
+		if($this->flvtoolpp && file_exists($this->output_file)  && @filesize($this->output_file)>0)
 			{
 				$tmp_file = time().RandomString(5).'flvtool2_output.tmp';
 				$flv_cmd = $this->flvtoolpp." ".$this->output_file." ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
@@ -242,7 +259,7 @@ class ffmpeg
 				}
 				$output .= $flvtool2_output;
 				
-		}elseif($this->flvtool2)
+		}elseif($this->flvtool2  && file_exists($this->output_file)  && @filesize($this->output_file)>0)
 		{
 			$tmp_file = time().RandomString(5).'flvtool2_output.tmp';
 			$flv_cmd = $this->flvtool2." -U  ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
@@ -360,23 +377,44 @@ class ffmpeg
 
 		# check for last enconding update message
 		if($args =  $this->pregMatch( '(frame=([^=]*) fps=[^=]* q=[^=]* L)?size=[^=]*kB time=([^=]*) bitrate=[^=]*kbits\/s[^=]*$', $output) ) {
-			$frame_count = $args[2] ? (float)$args[2] : 0;
+			$frame_count = $args[2] ? (float)ltrim($args[2]) : 0;
 			$duration    = (float)$args[3];
 		} else {
 			return false;
 		}
 
+		
+		if(!$duration)
+		{
+			$duration = $this->pregMatch( 'Duration: ([0-9.:]+),', $output );
+			$duration    = $duration[1];
+			
+			$duration = explode(':',$duration);
+			//Convert Duration to seconds
+			$hours = $duration[0];
+			$minutes = $duration[1];
+			$seconds = $duration[2];
+			
+			$hours = $hours * 60 * 60;
+			$minutes = $minutes * 60;
+			
+			$duration = $hours+$minutes+$seconds;
+		}
+
 		$info['duration'] = $duration;
-		$info['bitrate' ] = (integer)($info['size'] * 8 / 1024 / $duration);
-		if( $frame_count > 0 )
-			$info['video_rate']	= (float)$frame_count / (float)$duration;
-		if( $video_size > 0 )
-			$info['video_bitrate']	= (integer)($video_size * 8 / $duration);
-		if( $audio_size > 0 )
-			$info['audio_bitrate']	= (integer)($audio_size * 8 / $duration);
-			# get format information
-		if($args =  $this->pregMatch( "Input #0, ([^ ]+), from", $output) ) {
-			$info['format'] = $args[1];
+		if($duration)
+		{
+			$info['bitrate' ] = (integer)($info['size'] * 8 / 1024 / $duration);
+			if( $frame_count > 0 )
+				$info['video_rate']	= (float)$frame_count / (float)$duration;
+			if( $video_size > 0 )
+				$info['video_bitrate']	= (integer)($video_size * 8 / $duration);
+			if( $audio_size > 0 )
+				$info['audio_bitrate']	= (integer)($audio_size * 8 / $duration);
+				# get format information
+			if($args =  $this->pregMatch( "Input #0, ([^ ]+), from", $output) ) {
+				$info['format'] = $args[1];
+			}
 		}
 
 		# get video information
@@ -407,10 +445,20 @@ class ffmpeg
 
 		# get audio information
 		if($args =  $this->pregMatch( "Audio: ([^ ]+), ([0-9]+) Hz, ([^\n,]*)", $output) ) {
-			$info['audio_codec'   ] = $args[1];
-			$info['audio_rate'    ] = $args[2];
+			$audio_codec = $info['audio_codec'   ] = $args[1];
+			$audio_rate = $info['audio_rate'    ] = $args[2];
 			$info['audio_channels'] = $args[3];
 		}
+		
+		if(!$audio_codec || !$audio_rate)
+		{
+			$args =  $this->pregMatch( "Audio: ([a-zA-Z0-9]+)(.*), ([0-9]+) Hz, ([^\n,]*)", $output);
+			$info['audio_codec'   ] = $args[1];
+			$info['audio_rate'    ] = $args[3];
+			$info['audio_channels'] = $args[4];
+		}
+		
+		
 		$this->raw_info = $info;
 		# check if file contains a video stream
 		return $video_size > 0;

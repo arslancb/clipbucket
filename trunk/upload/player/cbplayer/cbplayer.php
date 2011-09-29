@@ -1,11 +1,11 @@
 <?php
 /*
-	Player Name: Pak Player 1.0
+	Player Name: ClipBucket (CB) Player 1.0
 	Description: Official ClipBucket Player with all required features
 	Author: Arslan Hassan
 	ClipBucket Version: 2
 	Plugin Version: 1.0
-	Website: http://clip-bucket.com/pak-player
+	Website: http://clip-bucket.com/cb-player
 
  * @Author : Arslan Hassan
  * @Script : ClipBucket v2

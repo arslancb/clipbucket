@@ -362,3 +362,5 @@ li.myAdminList input[disabled=disabled].disabled { font:normal 11px Tahoma; padd
 .cb_form input[type=submit]{width:auto !important; color:#fff; border:1px solid #003}
 
 .cb_row{margin:5px 0px; padding-left:5px}
+.font_12{font-size:12px}
+.font_ah{font-family:Arial, Helvetica, sans-serif}
