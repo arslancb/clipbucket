@@ -4615,16 +4615,16 @@
 	 */
 	function check_module_path($params)
 	{
-		$path = $params['path'];
+		$rPath = $path = $params['path'];
 		
 		if($path['get_path'])
 			$path = get_binaries($path);
 		$array = array();
 		$result = shell_output($path." -version");
-
+			
 		if($result)
 		{
-			if(strstr($result,'error'))
+			if(strstr($result,'error') || strstr(($result),'No such file or directory'))
 			{
 				$error['error'] = $result;
 				
