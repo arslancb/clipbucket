@@ -44,7 +44,7 @@
     
     <div align="center" style="padding-top:10px; color:#999">
     	ClipBucket <?=VERSION?> is an effort of Arslan Hassan, Fawaz Tahir and some great supporters.<br />
-&copy; ClipBucket 2007 - <?=date("Y",time())?> | Code written by ClipBucket &amp; Team
+&copy; ClipBucket 2007 - <?=date("Y",time())?> | Code written by Arslan &amp; his team
     </div>
     
     
