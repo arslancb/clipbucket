@@ -26,7 +26,7 @@ var embed_type = '{$Cbucket->configs.embed_type}';
 		autostart : '{$player_data.autoplay}',
 		
 		<!-- Setting Pseudo Streaming -->
-		{if $Cbucket->configs.pseudostreaming=='yes'}provider: 'httpd',{/if}
+		{if $Cbucket->configs.pseudostreaming=='yes'}provider: 'http',{/if}
 		
 		<!-- Setting Plugins -->
 		'plugins':
