@@ -13,10 +13,21 @@
  $seo_urls = @SEO; 			//  yes/no
  function SEO( $text, $slash=false ) {
 	
+	
+	//This is the MOOOOOOOOOOST BEATUIFUL PART OF SEO URL
+	$text =  iconv("UTF-8", "ISO-8859-1//TRANSLIT", $text);
+	
 	$text = preg_replace('/ \&\#?[(0-9a-zA-Z){4}]+\;/','',$text);
 	$entities_match		= array('&quot;','!','@','#','%','^','&','*','_','(',')','+','{','}','|',':','"','<','>','?','[',']','\\',';','"',',','.','/','*','+','~','`','=',"'");
+	
+	
+	$new_props = array('£','¥','|','§','«','¬','¯','º','±','ª',',','µ','»','¼','½','¿','À','Á','Â','Ã','Ä','Å','Æ','Ç','È','É','Ê','Ë','Ì','Í','Î','Ï','Ð','Ñ','Ò','Ó','Ô','Õ','Ö','Ø','Ù','Ú','Û','Ü','Ý','Þ','ß','à ','á','â','ã','ä','å','æ','ç ','è','é','ê','ë','ì','í','î','ï','ð','ñ','ò','ó','ô','õ','ö','÷','ø','ù','ú','û','ü','ý','þ','ÿ');
+	
+	$new_replace = array('','','','','','','','','','','','u','','','','','A','A','A','A','A','A','E','C','E','E','E','E','I','I','I','I','D','N','O','O','O','O','O','O','U','U ','U','U','Y','b','B','a','a','a','a','a','a','a','c ','e','e','e','e','i','í','i','i','o','n','o','o','o','o','o','','','u','u','u','u','y','p','y');
+	
 	$entities_replace   = array('','','','','','','','','','','','','','','','','','','','','','','','');
 	$clean_text	 	    = str_replace($entities_match, $entities_replace, $text);
+	$clean_text	 	    = str_replace($new_props, $new_replace, $clean_text);
 	$clean_text = trim($clean_text);
 	$clean_text = preg_replace('/ /','-',$clean_text);
     if ( $clean_text != '' )
