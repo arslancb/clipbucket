@@ -24,6 +24,7 @@ if(isset($_POST['update'])){
 					'buffer_time',
 					'logo_placement',
 					'use_playlist',
+					'logo_padding', // Issue : http://code.google.com/p/clipbucket/issues/detail?id=197 
 					'youtube_enabled',
 					'embed_player_height',
 					'embed_player_width','autoplay_embed','pseudostreaming','pak_license','pakplayer_contextmsg'
