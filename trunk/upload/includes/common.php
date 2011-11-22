@@ -275,6 +275,7 @@ if(!@$in_bg_cron)
 	
 	
 	define('TEMPLATEFOLDER','styles');							//Template Folder Name, usually STYLES
+	define('TEMPLATE',$row['template_dir']);				// Current Template name. Issue : http://code.google.com/p/clipbucket/issues/detail?id=199
 	define('STYLES_DIR',BASEDIR.'/'.TEMPLATEFOLDER);
 	
 // Define Lang Select & Style Select
@@ -633,7 +634,4 @@ include('admin.functions.php');
 	//Other settings
 	define("SEND_COMMENT_NOTIFICATION",config("send_comment_notification"));
 	define("SEND_VID_APPROVE_EMAIL",config("approve_video_notification"));
-	
-
-
 ?>

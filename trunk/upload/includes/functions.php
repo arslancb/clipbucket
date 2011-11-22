@@ -137,7 +137,7 @@
 	function Fetch($name,$inside=FALSE)
 	{
 		if($inside)
-			$file = CBTemplate::fetch($name);
+			$file = CBTemplate::fetch($inside.$name);
 		else
 			$file = CBTemplate::fetch(LAYOUT.'/'.$name);
 			
