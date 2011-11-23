@@ -16,7 +16,7 @@ $pages->page_redir();
 //Getting Video Key
 $vkey = @$_GET['v'];
 $vdo = $cbvid->get_video($vkey);
-assign('vdo',$vdo);
+assign('vdo',$vdo);assign('video',$vdo);
 if(video_playable($vdo))
 {	
 	
@@ -32,6 +32,10 @@ if(video_playable($vdo))
 		$vid_link_seo = explode('/',$vid_link);
 		$vid_link_seo = $vid_link_seo[count($vid_link_seo) -1 ];
 		
+		//Adding Extraqueries
+		if($_GET['play_list'])
+			$vid_link_seo .= '?&play_list='.$_GET['play_list'];
+			
 		//What we are getting
 		$server_link = $_SERVER['REQUEST_URI'];
 		$server_link_seo = explode('/',$server_link);
@@ -40,6 +44,7 @@ if(video_playable($vdo))
 		//Now finally Checking if both are equal else redirect to new link
 		if($vid_link_seo != $server_link_seo)
 		{
+			
 			//Redirect to valid link leaving mark 301 Permanent Redirect
 			header ('HTTP/1.1 301 Moved Permanently');
   			header ('Location: '.$vid_link);
