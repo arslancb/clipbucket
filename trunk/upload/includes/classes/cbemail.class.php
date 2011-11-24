@@ -349,7 +349,7 @@ class CBEmail
 				$send_message = "";
 				
 				//Now Finally Sending Email
-				cbmail(array('to'=>$user['email'],'from'=>$email['from'],'subject'=>$subj,'content'=>$msg));
+				cbmail(array('to'=>$user['email'],'from'=>$email['email_from'],'subject'=>$subj,'content'=>$msg));
 				$sent++;
 				
 				$send_msg[] = $user['userid'].": Email has been sent to <strong><em>".$user['username']."</em></strong>";

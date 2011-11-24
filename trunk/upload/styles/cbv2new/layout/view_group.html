@@ -98,7 +98,9 @@
         	<div class="groupSep"><span class="SepText">{lang code="group"} {lang code="videos"}</span></div>
             {section name=v_list loop=$videos}
                 {include file="$style_dir/blocks/video.html" video=$videos[v_list]}
-            {/section}           
+            {/section} 
+            <div class="clear"></div>
+            {include file="$style_dir/blocks/pagination.html"}                        
         {/if}
         
         {if $mode == "view_topics"}
