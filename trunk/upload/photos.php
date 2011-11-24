@@ -50,6 +50,28 @@ switch($sort)
 	break;	
 }
 
+
+if($_GET['cat'])
+{
+	$category = $cbcollection->get_category_field(mysql_clean(get('cat')),'category_name');
+	assign('category',$category);
+}
+
+if($_GET['sort'])
+{
+	$vsort = mysql_clean(get('sort'));
+	$vsort = str_replace('most_comment','comment',$vsort);
+	$sort = lang($vsort);
+	if($sort!=$vsort)
+		assign('sort',$vsort);
+	else
+		$sort = false;
+	
+	if($vsort =='most_recent')
+		$sort = false;
+}
+
+
 //Getting Photo List
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,MAINPLIST);
@@ -67,7 +89,14 @@ $total_pages = count_pages($total_rows,MAINPLIST);
 //Pagination
 $pages->paginate($total_pages,$page);
 
-subtitle(lang('photos'));
+$subtitle = lang('photos');
+if($category)
+	$subtitle .= " &#8250; ".$category;
+if($sort)
+	$subtitle .= " &#8226; ".$sort;
+	
+subtitle($subtitle);
+
 //Displaying The Template
 template_files('photos.html');
 display_it();

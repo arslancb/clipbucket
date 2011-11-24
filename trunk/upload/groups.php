@@ -46,6 +46,27 @@ switch($sort)
 	break;
 }
 
+
+if($_GET['cat'])
+{
+	$category = $cbgroup->get_category_field(mysql_clean(get('cat')),'category_name');
+	assign('category',$category);
+}
+
+if($_GET['sort'])
+{
+	$vsort = mysql_clean(get('sort'));
+	$vsort = str_replace('most_comment','comment',$vsort);
+	$sort = lang($vsort);
+	if($sort!=$vsort)
+		assign('sort',$vsort);
+	else
+		$sort = false;
+	
+	if($vsort =='most_recent')
+		$sort = false;
+}
+
 //Getting User List
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,GLISTPP);
@@ -64,8 +85,15 @@ $total_pages = count_pages($total_rows,GLISTPP);
 
 //Pagination
 $pages->paginate($total_pages,$page);
+$subtitle = lang('groups');
+if($category)
+	$subtitle .= " &#8250; ".$category;
+if($sort)
+	$subtitle .= " &#8226; ".$sort;
+	
+subtitle($subtitle);
 
-subtitle(lang('groups'));
+//Displaying The Template
 template_files('groups.html');
 display_it();
 ?>
