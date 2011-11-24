@@ -81,10 +81,13 @@ class cbfeeds
 		//Recreating Feed
 		$feed = json_encode($ufeed);
 		
-		//Appending feed in a file	
-		$file = fopen($feedFile,'a+');
-		fwrite($file,$feed);
-		fclose($file);
+		if($feedFile)
+		{
+			//Appending feed in a file	
+			$file = fopen($feedFile,'a+');
+			fwrite($file,$feed);
+			fclose($file);
+		}
 		
 		//Tada <{^-^}>
 		

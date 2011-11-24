@@ -72,7 +72,8 @@ switch($mode)
 			$vid_array['title'] = mysql_clean(get('query'));
 			$vid_array['tags'] =  mysql_clean(get('query'));
 		}
-			
+		
+		$vid_array['order'] = ' date_added DESC ';	
 		$videos = get_videos($vid_array);
 		
 		Assign('uservids', $videos);	

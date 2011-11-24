@@ -51,6 +51,7 @@ if(config('closed') && THIS_PAGE!='ajax' && !$in_bg_cron && THIS_PAGE!='cb_insta
 
 //Configuring Uploader
 uploaderDetails();
+if(!IN_MODULE)
 isSectionEnabled(PARENT_PAGE,true);
 
 //setting quicklist

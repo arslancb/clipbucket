@@ -43,6 +43,7 @@ if(!@$in_bg_cron)
 	/*$sessdir = '/tmp/'.$_SERVER['HTTP_HOST'];
 	if (!is_dir($sessdir)) { mkdir($sessdir, 0777); }
 	ini_set('session.save_path', $sessdir);*/
+
 	
 	session_start();
 }

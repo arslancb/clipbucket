@@ -97,7 +97,7 @@ class ClipBucket
 		$this->template = $this->configs['template_dir'];
 		
 		if(!defined("IS_CAPTCHA_LOADING"))
-		$_SESSION['total_captchas_loaded'] = 0;
+		$_COOKIE['total_captchas_loaded'] = 0;
 		
 		$this->clean_requests();
 		

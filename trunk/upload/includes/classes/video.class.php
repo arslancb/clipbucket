@@ -501,10 +501,13 @@ class CBvideo extends CBCategory
 		
 		$cond = "";
 		$superCond = "";
+		
+		
 		if(!has_access('admin_access',TRUE))
+		{
 			$superCond = $cond .= " ".tbl("video.status")."='Successful' AND 
 			".tbl("video.active")."='yes' AND ".tbl("video.broadcast")." !='unlisted' ";
-		else
+		}else
 		{
 			if($params['active'])
 				$cond .= " ".tbl("video.active")."='".$params['active']."'";
@@ -1264,6 +1267,8 @@ class CBvideo extends CBCategory
 		assign('id',$id);
 		assign('rating_msg',$rating_msg);
 		assign("likes",$likes);
+		assign('rating',$rating);
+		assign('ratings',$ratings);
 		assign("dislikes",($ratings-$likes));
 		assign('disable',$params['disable']);
 		

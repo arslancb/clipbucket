@@ -21,6 +21,9 @@ class pages{
 	var $last_link = '';
 	var $pagination = '';
 	
+	var $display_page = 7;
+	var $pagination_start = 14;
+	
 	function GetServerUrl()
 	{
 		$serverName = NULL;
@@ -248,8 +251,8 @@ class pages{
 		if($page<=0||$page==''||!is_numeric($page))
 			$page = 1;
 		$total_pages = $total;
-		$pagination_start = 14;
-		$display_page = 7;
+		$pagination_start = $this->pagination_start;
+		$display_page = $this->display_page;
 		$this->selected = $selected = $page;
 		$hellip = '&hellip;';
 		$first_hellip = '';
