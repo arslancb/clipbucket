@@ -157,6 +157,7 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 	$ffmpeg->input_ext = $ext;
 	$ffmpeg->output_file = VIDEOS_DIR.'/'.$tmp_file.'.flv';
 	$ffmpeg->hq_output_file = VIDEOS_DIR.'/'.$tmp_file.'.mp4';
+	$ffmpeg->raw_path = VIDEOS_DIR.'/'.$tmp_file;
 	$ffmpeg->log_file = LOGS_DIR.'/'.$tmp_file.'.log';
 	//$ffmpeg->remove_input = TRUE;
 	$ffmpeg->keep_original = config('keep_original');

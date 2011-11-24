@@ -33,6 +33,7 @@ if(isset($_POST['update'])){
 					'allow_unicode_usernames',
 				  	'allow_registeration',
 					'allow_template_change',
+					'allow_username_spaces',
 					'allow_upload',
 					'anonymous_id',
 					'anonym_comments',
@@ -215,6 +216,27 @@ if(isset($_POST['update'])){
 					
 					'website_email',
 					'welcome_email',
+					
+					
+					//Profile fields
+					"lname_length",
+					"fname_length",
+					"profile_title_length",
+					"profile_desc_length",
+					"about_me_length",
+					"profile_tags_length",
+					"web_url_length",
+					"location_length",
+					"hometown_length",
+					"city_length",
+					"postal_code_length",
+					"schools_length",
+					"occupation_length",
+					"companies_length",
+					"hobbies_length",
+					"fav_movies_length",
+					"fav_music_length",
+					"fav_books_length"
 					
 					
 					);
