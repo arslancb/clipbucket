@@ -81,6 +81,25 @@ $vlist['limit'] = $get_limit;
 $videos = get_videos($vlist);
 Assign('videos', $videos);	
 
+if($_GET['cat'])
+{
+	$category = $cbvid->get_category_field(mysql_clean(get('cat')),'category_name');
+	assign('category',$category);
+}
+
+if($_GET['sort'])
+{
+	$vsort = mysql_clean(get('sort'));
+	$vsort = str_replace('most_comment','comment',$vsort);
+	$sort = lang($vsort);
+	if($sort!=$vsort)
+		assign('sort',$vsort);
+	else
+		$sort = false;
+	
+	if($vsort =='most_recent')
+		$sort = false;
+}
 
 //Collecting Data for Pagination
 $vcount = $vid_cond;
@@ -98,7 +117,14 @@ $total_pages = count_pages($counter,VLISTPP);
 //Pagination
 $pages->paginate($total_pages,$page);
 
-subtitle(lang('videos'));
+$subtitle = lang('videos');
+if($category)
+	$subtitle .= " &#8250; ".$category;
+if($sort)
+	$subtitle .= " &#8226; ".$sort;
+	
+subtitle($subtitle);
+
 //Displaying The Template
 template_files('videos.html');
 display_it();

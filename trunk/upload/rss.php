@@ -69,6 +69,14 @@ switch($mode)
 	}
 	
 	break;
+	
+	case 'featured':
+	default:
+	{
+		 $videos = get_videos(array('limit'=>$limit,'order'=>'featured_date DESC','featured'=>'yes'));
+		 $title  = "Featured Videos";
+	}
+	break;
 }
 
 subtitle($title);

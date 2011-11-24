@@ -57,13 +57,14 @@ if($udetails)
 		break;
 	}
 
+	subtitle(sprintf(lang("users_contacts"),$udetails['username']));
 }else{
 	e(lang("usr_exist_err"));
 	$Cbucket->show_page = false;
 }
 
 
-subtitle(sprintf(lang("users_contacts"),$udetails['username']));
+
 if($Cbucket->show_page)
 Template('user_contacts.html');
 else

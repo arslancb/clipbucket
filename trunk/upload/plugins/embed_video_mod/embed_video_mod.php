@@ -286,8 +286,11 @@ if(!function_exists('validate_embed_code'))
 					return false;
 				}
 				
-				$swfobj->EmbedCode($embed_code,$data['player_div']);
-				return $swfobj->code;
+				echo $embed_code;
+				return true;
+				//$swfobj->EmbedCode($embed_code,$data['player_div']);
+				
+				//return $swfobj->code;
 			}
 		}else{
 			return false;

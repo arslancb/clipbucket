@@ -47,6 +47,7 @@ class ffmpeg
 	var $set_conv_lock = true;
 	var $lock_file = '';
 	var $failed_reason = '';
+	var $generate_iphone = false;
 	
 	
 	var $vconfigs = array(); //Version Configs
@@ -84,6 +85,8 @@ class ffmpeg
 		else
 			$this->input_file = TEMP_DIR.'/'.$this->input_file;
 		
+		
+		
 		//Checking File Exists
 		if(!file_exists($this->input_file))
 		{
@@ -120,7 +123,7 @@ class ffmpeg
 	/**
 	 * Function used to convert video 
 	 */
-	function convert($file=NULL)
+	function convert($file=NULL,$for_iphone=false)
 	{
 		global $db;
 		if($file)
@@ -237,20 +240,34 @@ class ffmpeg
 		//Updating DB
 		//$db->update($this->tbl,array('command_used'),array($command)," id = '".$this->row_id."'");
 		
-		$output = $this->exec($command);
-		if(file_exists(TEMP_DIR.'/'.$tmp_file))
+		if(!$for_iphone)
 		{
-			$output = $output ? $output : join("", file(TEMP_DIR.'/'.$tmp_file));
-			unlink(TEMP_DIR.'/'.$tmp_file);
-		}
-		
-		
-		#FFMPEG GNERETAES Damanged File
-		#Injecting MetaData ysing FLVtool2 - you must have update version of flvtool2 ie 1.0.6 FInal or greater
-		if($this->flvtoolpp && file_exists($this->output_file)  && @filesize($this->output_file)>0)
+			$output = $this->exec($command);
+			if(file_exists(TEMP_DIR.'/'.$tmp_file))
+			{
+				$output = $output ? $output : join("", file(TEMP_DIR.'/'.$tmp_file));
+				unlink(TEMP_DIR.'/'.$tmp_file);
+			}
+			
+			
+			#FFMPEG GNERETAES Damanged File
+			#Injecting MetaData ysing FLVtool2 - you must have update version of flvtool2 ie 1.0.6 FInal or greater
+			if($this->flvtoolpp && file_exists($this->output_file)  && @filesize($this->output_file)>0)
+				{
+					$tmp_file = time().RandomString(5).'flvtool2_output.tmp';
+					$flv_cmd = $this->flvtoolpp." ".$this->output_file." ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
+					$flvtool2_output = $this->exec($flv_cmd);
+					if(file_exists(TEMP_DIR.'/'.$tmp_file))
+					{
+						$flvtool2_output = $flvtool2_output ? $flvtool2_output : join("", file(TEMP_DIR.'/'.$tmp_file));
+						unlink(TEMP_DIR.'/'.$tmp_file);
+					}
+					$output .= $flvtool2_output;
+					
+			}elseif($this->flvtool2  && file_exists($this->output_file)  && @filesize($this->output_file)>0)
 			{
 				$tmp_file = time().RandomString(5).'flvtool2_output.tmp';
-				$flv_cmd = $this->flvtoolpp." ".$this->output_file." ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
+				$flv_cmd = $this->flvtool2." -U  ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
 				$flvtool2_output = $this->exec($flv_cmd);
 				if(file_exists(TEMP_DIR.'/'.$tmp_file))
 				{
@@ -258,24 +275,62 @@ class ffmpeg
 					unlink(TEMP_DIR.'/'.$tmp_file);
 				}
 				$output .= $flvtool2_output;
-				
-		}elseif($this->flvtool2  && file_exists($this->output_file)  && @filesize($this->output_file)>0)
-		{
-			$tmp_file = time().RandomString(5).'flvtool2_output.tmp';
-			$flv_cmd = $this->flvtool2." -U  ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
-			$flvtool2_output = $this->exec($flv_cmd);
-			if(file_exists(TEMP_DIR.'/'.$tmp_file))
-			{
-				$flvtool2_output = $flvtool2_output ? $flvtool2_output : join("", file(TEMP_DIR.'/'.$tmp_file));
-				unlink(TEMP_DIR.'/'.$tmp_file);
 			}
-			$output .= $flvtool2_output;
+			
+			$this->log('Conversion Command',$command);
+			$this->log .="\r\n\r\nConversion Details\r\n\r\n";
+			$this->log .=$output;
+			$this->output_details = $this->get_file_info($this->output_file);
 		}
 		
-		$this->log('Conversion Command',$command);
-		$this->log .="\r\n\r\nConversion Details\r\n\r\n";
-		$this->log .=$output;
-		$this->output_details = $this->get_file_info($this->output_file);
+		
+		
+		//Generating Mp4 for iphone
+		if($this->generate_iphone && $for_iphone)
+		{
+			$this->log .="\r\n\r\n== Generating Iphone Video ==\r\n\r\n";
+			$tmp_file = 'iphone_log.log';
+			$iphone_configs = "";
+			$iphone_configs .= " -acodec libfaac ";
+			$iphone_configs .= " -vcodec mpeg4 ";
+			$iphone_configs .= " -r 25  ";
+			$iphone_configs .= " -b 600k  ";
+			$iphone_configs .= " -ab 96k   ";
+			
+			if($this->input_details['audio_channels']>2)
+			{
+				$arate = $i['audio_rate'];
+				$iphone_configs .= $arate_cmd = " -ar $arate ";
+			}
+			
+			$p['video_width'] = '480';
+			$p['video_height'] = '320';
+			
+			$this->calculate_size_padding( $p, $i, $width, $height, $ratio, $pad_top, $pad_bottom, $pad_left, $pad_right );
+			$iphone_configs .= " -s {$width}x{$height} -aspect $ratio";
+			
+
+			$command = $this->ffmpeg." -i ".$this->input_file." $iphone_configs ".$this->raw_path."-m.mp4 2> ".TEMP_DIR."/".$tmp_file;
+			$this->exec($command);
+			
+			if(file_exists(TEMP_DIR.'/'.$tmp_file))
+			{
+				$output = $output ? $output : join("", file(TEMP_DIR.'/'.$tmp_file));
+				unlink(TEMP_DIR.'/'.$tmp_file);
+			}
+			
+			if(file_exists($this->raw_path."-m.mp4") && filesize($this->raw_path."-m.mp4")>0)
+			{
+				$this->has_mobile = 'yes';
+			}
+			
+			$this->log('== iphone Conversion Command',$command);
+			$this->log .="\r\n\r\nConversion Details\r\n\r\n";
+			$this->log .=$output;
+			
+			$this->log .="\r\n\r\n== Generating Iphone Video Ends ==\r\n\r\n";
+		}
+		
 	}
 	
 	/**
@@ -814,6 +869,8 @@ class ffmpeg
 				
 				
 				$this->convert();
+				if($this->generate_iphone)
+				$this->convert(NULL,true);
 				$this->end_time_check();
 				$this->total_time();
 				
@@ -822,9 +879,9 @@ class ffmpeg
 				{
 					$this->log .= "\r\nCopy File to original Folder";
 					if(copy($this->input_file,$this->original_output_path))
-						$this->log .= "\r\File Copied to original Folder...";
+						$this->log .= "\r\nFile Copied to original Folder...";
 					else
-						$this->log .= "\r\Unable to copy file to original folder...";
+						$this->log .= "\r\nUnable to copy file to original folder...";
 				}
 				
 				$this->output_details = $this->get_file_info($this->output_file);
@@ -1135,6 +1192,7 @@ class ffmpeg
 	/**
 	 * validating video channels
 	 */
+
 	function validChannels($in)
 	{
 		if(!$in)

@@ -54,6 +54,7 @@ $search->date_margin = mysql_clean($_GET['datemargin']);
 $search->sort_by = mysql_clean($_GET['sort']);
 $search->limit = create_query_limit($page,$search->results_per_page);
 $results = $search->search();
+
 //echo $db->db_query;
 //Collecting Data for Pagination
 $total_rows = $search->total_results;

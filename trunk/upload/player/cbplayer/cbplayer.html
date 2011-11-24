@@ -44,7 +44,7 @@ var embed_type = '{$Cbucket->configs.embed_type}';
 			
 			{ldelim}
             	file: cb_player_url+'/plugins/related/related_videos.php'+
-				'?vid={$vdo.videoid}&title={$vdo.title|urlencode}&tags={$vdo.tags|urlencode}',
+				'?vid={$vdata.videoid}&title={$vdata.title|urlencode}&tags={$vdata.tags|urlencode}',
 				usedock :false,
 				heading :'More suggested videos'
         	{rdelim}

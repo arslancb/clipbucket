@@ -79,7 +79,14 @@ if($udetails)
 	}
 	
 	
-	subtitle(sprintf(lang('user_s_channel'),$udetails['username']));
+	if($p['profile_title'])
+	{
+		if(strtolower($p['profile_title'])!=$udetails['username'])
+			subtitle($p['profile_title'].' &#8249; '.$udetails['username']);
+		else
+			subtitle($p['profile_title']);
+	}else
+		subtitle(sprintf(lang('user_s_channel'),$udetails['username']));
 	
 	//Setting profilte item
 	$profileItem = $userquery->getProfileItem($udetails['userid'],true);

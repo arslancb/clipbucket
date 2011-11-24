@@ -1240,7 +1240,7 @@ class userquery extends CBCategory{
 	 * Function used to get user subscibers
 	 * @param userid
 	 */
-	function get_user_subscribers($id,$count=false)
+	function get_user_subscribers($id,$count=false,$limit=NULL,$order=" date_added DESC")
 	{
 		global $db;
 		if(!$count)
@@ -1253,14 +1253,14 @@ class userquery extends CBCategory{
 				return false;	
 		}else
 		{
-			return $db->count(tbl($this->dbtbl['subtbl']),"subscription_id"," subscribed_to='$id' ");
+			return $db->count(tbl($this->dbtbl['subtbl']),"subscription_id"," subscribed_to='$id' ",$limit,$order);
 		}
 	}
 	
 	/**
 	 * function used to get user subscribers with details
 	 */
-	function get_user_subscribers_detail($id,$limit=NULL)
+	function get_user_subscribers_detail($id,$count=false,$limit=NULL,$order=" date_added DESC")
 	{
 		global $db;
 		$result = $db->select(tbl("users,".$this->dbtbl['subtbl']),"*"," ".tbl("subscriptions.subscribed_to")." = '$id' AND ".tbl("subscriptions.userid")."=".tbl("users.userid"),$limit);
@@ -1992,7 +1992,12 @@ class userquery extends CBCategory{
 		if(SEO!="yes")
 			return BASEURL.'/view_channel.php?user='.$udetails['username'];
 		else
-			return BASEURL.'/user/'.$udetails['username'];
+		{
+			if(config('channel_seo')=='b')
+				return BASEURL.'/'.$udetails['username'];
+			else
+				return BASEURL.'/user/'.$udetails['username'];
+		}
 	}
 	function get_user_link($u)
 	{
@@ -2235,16 +2240,22 @@ class userquery extends CBCategory{
 		validate_cb_form($custom_signup_fields,$array);
 		
 		validate_cb_form($userfields,$array);
-	//	pr();
+	
 		foreach($userfields as $field)
 		{
+			
 			$name = formObj::rmBrackets($field['name']);
 			$val = $array[$name];
 			
 			if($field['use_func_val'])
 				$val = $field['validate_function']($val);
 			
-			
+			//Overrides use_func_val
+			if($field['value_function'] && function_exists($field['value_function']))
+			{
+				$val = $field['value_function']($val);
+			}
+				
 			if(!empty($field['db_field']))
 			$query_field[] = $field['db_field'];
 			
@@ -2667,6 +2678,8 @@ class userquery extends CBCategory{
 			$array = $this->custom_profile_fields;
 			foreach($array as $key => $fields)
 			{
+					$value = "";
+					
 					if($data[$fields['db_field']])
 						$value = $data[$fields['db_field']];
 					elseif($data[$fields['name']])
@@ -2684,6 +2697,7 @@ class userquery extends CBCategory{
 			return $new_array;
 		}else
 		{
+			
 			$groups = $this->custom_profile_fields_groups;
 			
 			$new_grp = array();
@@ -2693,6 +2707,9 @@ class userquery extends CBCategory{
 				$fields = array();
 				foreach($grp['fields'] as $key => $fields)
 				{
+				
+					$value = "";
+					
 					if($data[$fields['db_field']])
 						$value = $data[$fields['db_field']];
 					elseif($data[$fields['name']])
@@ -2704,10 +2721,13 @@ class userquery extends CBCategory{
 					   $fields['type']=='dropdown')
 					$fields['checked'] = $value;
 					else
-					$fields['value'] = $value;		
+					$fields['value'] = $value;	
+					
+					$grp['fields'][$key] = $fields;	
 				}
-				$grp['fields'][$key] = $fields;
+				
 				$new_grp[] = $grp;
+				
 			}
 		}
 		
@@ -3206,7 +3226,15 @@ class userquery extends CBCategory{
 				$val = $array[$name];
 				
 				if($field['use_func_val'])
+				{
 					$val = $field['validate_function']($val);
+				}
+				
+				//Overrides use_func_val
+				if($field['value_function'] && function_exists($field['value_function']))
+				{
+					$val = $field['value_function']($val);
+				}
 				
 				
 				if(!empty($field['db_field']))
@@ -4384,6 +4412,43 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 	function load_personal_details($default)
 	{
 		
+		$fname = config('fname_length');
+		$lname = config('lname_length');
+		
+		$about_me = config('about_me_length');
+		$profile_tags = config('profile_tags_length');
+		$web_url = config('web_url_length');
+		
+		if($fname && $fname <10)
+			if(!$fname)
+				$fname = '50';
+			else
+				$fname = 10;
+		
+		if($lname && $lname <10)
+			if(!$lname)
+				$lname = '50';
+			else
+				$lname = 10;
+		
+		if($about_me && $about_me <50)
+			if(!$about_me)
+				$about_me = '100';
+			else
+				$about_me = 50;
+		
+		if($profile_tags && $profile_tags <10)
+			if(!$profile_tags)
+				$profile_tags = '30';
+			else
+				$profile_tags = 10;
+			
+		if($web_url && $web_url <10)
+			if(!$web_url)
+				$web_url = '10';
+			else
+				$web_url = 10;
+		
 		if(!$default)
 			$default = $_POST;
 		$profile_fields = array
@@ -4397,7 +4462,8 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'db_field'=>'first_name',
 						  'required'=>'no',
 						  'syntax_type'=> 'name',
-						  'auto_view'=>'yes'
+						  'auto_view'=>'yes',
+						  'max_length' => $fname
 						  ),
 		'last_name' => array(
 						  'title'=> lang("user_lname"),
@@ -4407,7 +4473,8 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'value'=> $default['last_name'],
 						  'db_field'=>'last_name',
 						  'syntax_type'=> 'name',
-						  'auto_view'=>'yes'
+						  'auto_view'=>'yes',
+						  'max_length' => $lname
 						  ),
 		
 		
@@ -4450,6 +4517,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'db_field'=>'about_me',
 						  'auto_view'=>'no',
 						  'clean_func' => 'Replacer',
+						  'max_length' => $about_me
 						  ),
 		'profile_tags' => array(
 						  'title'=>  lang("profile_tags"),
@@ -4458,7 +4526,8 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'id'=> "profile_tags",
 						  'value'=> $default['profile_tags'],
 						  'db_field'=>'profile_tags',
-						  'auto_view'=>'no'
+						  'auto_view'=>'no',
+						  'max_length' => $profile_tags
 						  ),
 		'web_url' => array(
 						  'title'=>  lang("website"),
@@ -4468,7 +4537,8 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'value'=> $default['web_url'],
 						  'db_field'=>'web_url',
 						  'auto_view'=>'yes',
-						  'display_function'=>'outgoing_link'
+						  'display_function'=>'outgoing_link',
+						  'max_length' => $web_url
 						  ),
 
 		
@@ -4483,6 +4553,26 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 	 */
 	function load_location_fields($default)
 	{
+		
+		$max_vals = array(
+					"hometown_length",
+					"city_length",
+					"postal_code_length",
+		);
+		
+		foreach($max_vals as $mval)
+		{
+			if(config($mval)>10)
+				$maxval[str_replace('_length','',$mval)] = config($mval);
+			elseif(is_numeric(config($mval)))
+				$maxval[$mval] = 10;
+			else
+				$maxval[$mval] = 100;
+		}
+		
+		extract($maxval);
+		
+		
 		if(!$default)
 			$default = $_POST;
 		$other_details = array
@@ -4494,7 +4584,8 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'id'=> "postal_code",
 						  'value'=> $default['postal_code'],
 						  'db_field'=>'postal_code',
-						  'auto_view' => 'yes'
+						  'auto_view' => 'yes',
+						  'max_length' => $postal_code
 						  ),
 		'hometown' => array(
 						  'title'=>  lang("hometown"),
@@ -4503,7 +4594,8 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'id'=> "hometown",
 						  'value'=> $default['hometown'],
 						  'db_field'=>'hometown',
-						  'auto_view' => 'yes'
+						  'auto_view' => 'yes',
+						  'max_length' => $hometown
 						  ),
 		'city' => array(
 						  'title'=>  lang("city"),
@@ -4512,7 +4604,8 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'id'=> "city",
 						  'value'=> $default['city'],
 						  'db_field'=>'city',
-						  'auto_view' => 'yes'
+						  'auto_view' => 'yes',
+						  'max_length' => $city
 						  ),
 		);
 		return $other_details;
@@ -4524,6 +4617,32 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 	 */
 	function load_education_interests($default)
 	{
+		
+		
+		$max_vals = array(
+					"schools_length",
+					"occupation_length",
+					"companies_length",
+					"hobbies_length",
+					"fav_movies_length",
+					"fav_music_length",
+					"fav_books_length"
+		);
+		
+		foreach($max_vals as $mval)
+		{
+			if(config($mval)>10)
+				$maxval[str_replace('_length','',$mval)] = config($mval);
+			elseif(is_numeric(config($mval)))
+				$maxval[$mval] = 10;
+			else
+				$maxval[$mval] = 100;
+		}
+		
+		extract($maxval);
+			
+			
+			
 		if(!$default)
 			$default = $_POST;
 		$more_details = array
@@ -4556,6 +4675,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'db_field'=>'schools',
 						  'clean_func' => 'Replacer',
 						  'auto_view'=>'yes',
+						  'max_length' => $schools
 						  ),
 		'occupation' => array(
 						  'title'=>  lang("occupation"),
@@ -4566,6 +4686,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'db_field'=>'occupation',
 						  'clean_func' => 'Replacer',
 						  'auto_view'=>'yes',
+						  'max_length' => $occupation
 						  ),
 		'companies' => array(
 						  'title'=>  lang("companies"),
@@ -4576,6 +4697,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'db_field'=>'companies',
 						  'clean_func' => 'Replacer',
 						  'auto_view'=>'yes',
+						  'max_length' => $companies
 						  ),
 		'hobbies' => array(
 						  'title'=>  lang("hobbies"),
@@ -4586,6 +4708,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'db_field'=>'hobbies',
 						  'clean_func' => 'Replacer',
 						  'auto_view'=>'yes',
+						  'max_length' => $hobbies
 						  ),
 		'fav_movies' => array(
 						  'title'=>  lang("user_fav_movs_shows"),
@@ -4596,6 +4719,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'db_field'=>'fav_movies',
 						  'clean_func' => 'Replacer',
 						  'auto_view'=>'yes',
+						  'max_length' => $fav_movies
 						  ),
 		'fav_music' => array(
 						  'title'=>  lang("user_fav_music"),
@@ -4606,6 +4730,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'db_field'=>'fav_music',
 						  'clean_func' => 'Replacer',
 						  'auto_view'=>'yes',
+						  'max_length' => $fav_music
 						  ),
 		'fav_books' => array(
 						  'title'=>  lang("user_fav_books"),
@@ -4616,6 +4741,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'db_field'=>'fav_books',
 						  'clean_func' => 'Replacer',
 						  'auto_view'=>'yes',
+						  'max_length' => $fav_books
 						  ),
 		
 		);
@@ -4698,7 +4824,16 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 	{
 		if(!$default)
 			$default = $_POST;
-			
+		
+		
+		$profile_title 	= config('profile_title_length');
+		$profile_desc 	= config('profile_desc_length');
+		
+		if($profile_title<10)
+			$profile_title = 10;
+		if($profile_desc<15)
+			$profile_desc = 15;	
+		
 		$channel_settings = array
 		(
 		'profile_title' => array(
@@ -4708,7 +4843,8 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'id'=> "profile_title",
 						  'value'=> $default['profile_title'],
 						  'db_field'=>'profile_title',
-						  'auto_view'=>'no'
+						  'auto_view'=>'no' ,
+						  'max_length' => $profile_title,
 		
 						  ),
 		'profile_desc' => array(
@@ -4720,6 +4856,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 						  'db_field'=>'profile_desc',
 						  'auto_view'=>'yes',
 						  'clean_func' => 'Replacer',
+						  'max_length' => $profile_desc,
 						  ),
 		'show_my_friends'=>array(
 						  'title'=>  lang("show_my_friends"),
@@ -4939,6 +5076,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 			}
 			
 		}
+		
 				
 		
 		if($channel_settings)
@@ -4947,6 +5085,8 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 			$fields = array_merge($fields,$profile_settings);
 		if($more_fields_group)
 			$fields[] = $more_fields_group;	
+		
+
 		return $fields;
 	}
 	
@@ -5011,7 +5151,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 			e(lang("thnx_for_voting"),"m");			
 		}
 		
-		$return = array("rating"=>$new_rate,"rated_by"=>$rated_by,'total'=>10,"id"=>$id,"type"=>"user","disable"=>"disabled");
+		$return = array("rating"=>$new_rate,'ratings'=>$rated_by,"rated_by"=>$rated_by,'total'=>10,"id"=>$id,"type"=>"user","disable"=>"disabled");
 		return $return;	
 	}
 	

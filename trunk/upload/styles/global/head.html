@@ -494,6 +494,11 @@ $(document).ready(function() {
     
 {/if}
 
+
+{if $smarty.const.THIS_PAGE=='view_channel' && $p.profile_desc}
+    <meta property="og:description" content="{$p.profile_desc}" />
+{/if}
+
 {if $object.photo_id}
 <meta property="og:title" content="{$object.photo_title}" />
 <meta property="og:description" content="{$object.photo_description|description}" />
