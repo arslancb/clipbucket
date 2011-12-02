@@ -132,7 +132,7 @@
 
 			}
 			break;
-			
+
 			case "phpshield":
 			{
 				if(!function_exists('phpshield_load'))
@@ -141,9 +141,17 @@
 					$return['msg'] = _("PHPShield loaders are working (optional)");
 			}
 			break;
-			
-			
-			
+
+
+			case "phpgd":
+			{
+				if (!extension_loaded('gd'))
+					$return['err'] = _("php-gd is not enabled, Photo section will not operate properly");
+				else
+					$return['msg'] = _("Found php-gd is enabed");
+			}
+			break;
+
 		}
 		
 		return $return;
