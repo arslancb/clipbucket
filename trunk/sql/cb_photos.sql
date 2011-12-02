@@ -156,8 +156,8 @@ body,td,th {
 
 /* LANG QURIES - COLLECTION AND PHOTOS */
 INSERT INTO `cb_phrases` (`lang_iso`, `varname`, `text`) VALUES
-('en', 'photo_not_exist', 'Photo does not exists.'),
-('en', 'photo_not_exists', 'Photo does not exists.'),
+('en', 'photo_not_exist', 'Photo does not exist.'),
+('en', 'photo_not_exists', 'Photos do not exist.'),
 ('en', 'photo_success_deleted', 'Photo has been deleted successfully.'),
 ('en', 'cant_edit_photo', 'You can not edit this photo.'),
 ('en', 'you_hv_already_rated_photo', 'You have already rated this photo.'),
@@ -169,7 +169,7 @@ INSERT INTO `cb_phrases` (`lang_iso`, `varname`, `text`) VALUES
 ('en', 'photo_featured', 'Photo is marked featured.'),
 ('en', 'photo_unfeatured', 'Photo is marked unfeatured.'),
 ('en', 'photo_updated_successfully', 'Photo is updated successfully.'),
-('en', 'success_delete_file', '%s files has been deleted successfully.'),
+('en', 'success_delete_file', '%s files have been deleted successfully.'),
 ('en', 'no_watermark_found', 'Can not find watermark file.'),
 ('en', 'watermark_updated', 'Watermark is updated'),
 ('en', 'upload_png_watermark', 'Please upload 24-bit PNG file.'),
@@ -201,9 +201,8 @@ INSERT INTO `cb_phrases` (`lang_iso`, `varname`, `text`) VALUES
 ('en','add_new_collection','Add New Collection'),
 ('en','update_collection','Update Collection'),
 ('en','update_photo','Update Photo'),
-('en','update_photo','Update Photo'),
 ('en','manage_collections','Manage Collections'),
-('en','no_collection_found','You dont have any collection'),
+('en','no_collection_found','You dont have any collections'),
 ('en','photo_title','Photo Title'),
 ('en','photo_caption','Photo Caption'),
 ('en','photo_tags','Photo Tags'),

@@ -18,5 +18,5 @@ INSERT INTO `cb_phrases` (`lang_iso`, `varname`, `text`) VALUES
 ('en', 'collection_deactivated', 'Collection deactivated.'),
 ('en', 'collection_featured', 'Collection featured.'),
 ('en', 'collection_unfeatured', 'Collection unfeatured.'),
-('en', 'upload_right_guide_photo', '<strong>Important: Do not upload any photo hat can be construed as porn, copyrighted material, harassment, or spam.</strong>
-<p>By continuing "Your Upload", you are representing that these photos does not violate Our website's <a id="terms-of-use-link" href="%s">Terms of Use</a> and that you own all copyrights of these photos or have authorization to upload it.</p>'),
+('en', 'upload_right_guide_photo', '<strong>Important: Do not upload any photo that can be construed as porn, copyrighted material, harassment, or spam.</strong>
+<p>By continuing "Your Upload", you are representing that these photos do not violate Our website's <a id="terms-of-use-link" href="%s">Terms of Use</a> and that you own all copyrights of these photos or have authorization to upload it.</p>'),
