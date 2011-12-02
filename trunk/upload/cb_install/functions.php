@@ -126,7 +126,7 @@
 				$version = @curl_version();
 
 				if(!$version)
-					$return['err'] = _("cURL library is not neabled");
+					$return['err'] = _("cURL library is not enabled");
 				else
 					$return['msg'] = sprintf(_("cURL %s found"),$version['version']);
 
