@@ -37,7 +37,7 @@ INSERT INTO `{tbl_prefix}user_permissions` (`permission_id`, `permission_type`, 
 (17, 2, 'Allow Avatar Upload', 'avatar_upload', 'User can upload video', 'yes'),
 (19, 3, 'Video Moderation', 'video_moderation', 'User Can Moderate Videos', 'no'),
 (20, 3, 'Member Moderation', 'member_moderation', 'User Can Moderate Members', 'no'),
-(21, 3, 'Advertisment Manager', 'ad_manager_access', 'User can change advertisment', 'no'),
+(21, 3, 'Advertisment Manager', 'ad_manager_access', 'User can change advertisement', 'no'),
 (22, 3, 'Manage Templates', 'manage_template_access', 'User can manage website templates', 'no'),
 (23, 3, 'Groups Moderation', 'group_moderation', 'User can moderate group', 'no'),
 (24, 3, 'Website Configurations', 'web_config_access', 'User can change website settings', 'no'),
@@ -70,7 +70,7 @@ INSERT INTO `{tbl_prefix}user_permissions` (
 `permission_desc` ,
 `permission_default`
 )VALUES (
-NULL , '3', 'Allow photo moderation', 'photos_moderation', 'Allow user to moderation photos from admin panel', 'yes'), (
+NULL , '3', 'Allow photo moderation', 'photos_moderation', 'Allow user to moderate photos from admin panel', 'yes'), (
 NULL , '3', 'Collection modetaion', 'collection_moderation', 'Allow users to moderate collection', 'yes'), (
 NULL , '3', 'Plugins moderation', 'plugins_moderation', 'Allow user to moderate plugins', 'yes'), (
 NULL , '3', 'Tool Box', 'tool_box', 'Allow users to access tool box', 'yes');

@@ -32,7 +32,7 @@ INSERT INTO `{tbl_prefix}user_permissions` (
 `permission_desc` ,
 `permission_default`
 )VALUES (
-NULL , '3', 'Allow photo moderation', 'photos_moderation', 'Allow user to moderation photos from admin panel', 'yes'), (
+NULL , '3', 'Allow photo moderation', 'photos_moderation', 'Allow user to moderate photos from admin panel', 'yes'), (
 NULL , '3', 'Collection modetaion', 'collection_moderation', 'Allow users to moderate collection', 'yes'), (
 NULL , '3', 'Plugins moderation', 'plugins_moderation', 'Allow user to moderate plugins', 'yes'), (
 NULL , '3', 'Tool Box', 'tool_box', 'Allow users to access tool box', 'yes');
