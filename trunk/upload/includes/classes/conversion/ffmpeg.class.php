@@ -151,30 +151,31 @@ class ffmpeg
 		if($p['video_codec'] == 'libx264')
 			$opt_av .= " -vpre normal ";
 			
-		# video rate
-		if($p['use_video_rate'])
-		{
-			if(isset($p['video_rate']))
-				$vrate = $p['video_rate'];
-			elseif(isset($i['video_rate']))
-				$vrate = $i['video_rate'];
-			if(isset($p['video_max_rate']) && !empty($vrate))
-				$vrate = min($p['video_max_rate'],$vrate);
-			if(!empty($vrate))
-				$opt_av .= " -r $vrate ";
-		}
-		
-		# video rate
-		if($p['use_video_bitrate'])
-		{
-			if(isset($p['video_bitrate']))
-				$vbrate = $p['video_bitrate'];
-			elseif(isset($i['video_bitrate']))
-				$vbrate = $i['video_bitrate'];
-			if(!empty($vrate))
-				$opt_av .= " -b $vbrate ";
-		}
-		
+                # video rate
+                if($p['use_video_rate'])
+                {
+                    if(isset($p['video_rate']))
+                        $vrate = $p['video_rate'];
+                    elseif(isset($i['video_rate']))
+                        $vrate = $i['video_rate'];
+                    if(isset($p['video_max_rate']) && !empty($vrate))
+                        $vrate = min($p['video_max_rate'],$vrate);
+                    if(!empty($vrate))
+                        $opt_av .= " -r $vrate ";
+                }
+                
+                # video bitrate
+                if($p['use_video_bit_rate'])
+                {
+                    if(isset($p['video_bitrate']))
+                        $vbrate = $p['video_bitrate'];
+                    elseif(isset($i['video_bitrate']))
+                        $vbrate = $i['video_bitrate'];
+                    if(!empty($vbrate))
+                        $opt_av .= " -b $vbrate ";
+                }
+                
+                
 		# video size, aspect and padding
 		
 		$this->calculate_size_padding( $p, $i, $width, $height, $ratio, $pad_top, $pad_bottom, $pad_left, $pad_right );
