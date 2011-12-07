@@ -492,6 +492,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}photos` (
   `photo_title` mediumtext NOT NULL,
   `photo_description` mediumtext NOT NULL,
   `photo_tags` mediumtext NOT NULL,
+  `photo_details` mediumtext NOT NULL,
   `userid` int(255) NOT NULL,
   `collection_id` int(255) NOT NULL,
   `date_added` datetime NOT NULL,
