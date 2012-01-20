@@ -709,6 +709,29 @@ class ClipBucket
 				}else
 					$clean_gets[$key] = $get;
 			}
+                        
+                        //Cleaning Sorts
+                        $sorts = array('most_recent','most_viewed','featured','top_rated','most_commented');
+                        if($this->more_sorts)
+                            $sorts = array_merge($this->more_sorts,$sorts);
+                        
+                        if(!in_array($clean_gets['sort'],$sorts))
+                            $clean_gets['sort'] = 'most_recent';
+                        
+                        //Cleaning Cat
+                        if(!is_numeric($clean_gets['cat']))
+                            $clean_gets['cat'] = 'all';
+                        
+                        //Cleaning time
+                        $times = array('all_time','today','yesterday','this_week','last_week',
+                            'this_month','last_month','this_year','last_year');
+                        if($this->more_times)
+                            $times = array_merge($this->more_times,$times);
+                        
+                        if(!in_array($clean_gets['time'],$times))
+                            $clean_gets['time'] = 'all_time';
+                        
+                        
 			$_GET = $clean_gets;
 		}
 		
