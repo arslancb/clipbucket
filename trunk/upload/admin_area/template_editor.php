@@ -42,8 +42,7 @@ if(!$cbtpl->is_template($sel_dir))
 	//Reading File
 	if(isset($_GET['file']) && isset($_GET['folder']))
 	{
-		$file = STYLES_DIR.'/'.TEMPLATE.'/'.$_GET['folder'].'/'.$_GET['file'];
-		
+		$file = STYLES_DIR.'/'.$sel_dir.'/'.$_GET['folder'].'/'.$_GET['file'];
 		if(file_exists($file))
 		{
 			if(isset($_POST['update_file']))
@@ -109,6 +108,7 @@ $_file 	= $_POST['file'];
 $file 	= $dir.$files[0];
 $_file 	= $files[0];
 }
+
 $open_file = fopen($file, "r");
 $data = htmlentities(file_get_contents($file));
 
