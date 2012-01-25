@@ -25,7 +25,8 @@ if(isset($_POST['delete_selected']))
 {
 	for($id=0;$id<=count($_POST['check_collect']);$id++)
 	{
-		$cbphoto->delete_photo($_POST['check_collect'][$id]);
+            $collect = mysql_clean($_POST['check_collect'][$i]);
+		$cbcollection->delete_collection($collect);
 	}
 	$eh->flush();
 	e("Selected collections have been deleted","m");
@@ -75,7 +76,7 @@ switch($mode)
 		$cdetails = $cbcollection->get_collection($cid);
 		if($cdetails)
 		{
-			$flags = $cbcollection->action->get_flags($pid);
+			$flags = $cbcollection->action->get_flags($cid);
 			assign('flags',$flags);
 			assign('collection',$cdetails);
 		}else

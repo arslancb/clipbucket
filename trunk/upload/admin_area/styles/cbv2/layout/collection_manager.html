@@ -121,7 +121,7 @@
                     Active:<strong>{$c[list].active}</strong>  &#8226;
                     Type:<strong>{$c[list].type}</strong>  &#8226;
                     Uploaded:<strong>{$c[list].date_added|niceTime}</strong>  &#8226;
-                    User:<strong><a href="view_user.php?uid={$c[list].userid}">{$c[list].username}</a></strong>
+                    User:<strong><a href="view_user.php?uid={$c[list].userid}">{if $c[list].username}{$c[list].username}{else}{$c[list].userid|get_username}{/if}</a></strong>
                 </span>
                     <div id="vid_opt-{$c[list].collection_id}" style="display:none" class="AdminPhotoActions">              
                     <a href="edit_collection.php?collection={$c[list].collection_id}">Edit</a> | 
