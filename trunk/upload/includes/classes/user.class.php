@@ -624,15 +624,18 @@ class userquery extends CBCategory{
 	/**
 	 * Function used to get user details using userid
 	 */
-	function get_user_details($id=NULL,$checksess=false)
+	function get_user_details($id=NULL,$checksess=false, $profile = false )
 	{
 		global $db,$sess;
+                                                if ( $profile === true ) {
+                                                    $join = " LEFT JOIN ".tbl('user_profile')." ON ".tbl('users.userid').' = '.tbl('user_profile.userid');
+                                                } 
 		/*if(!$id)
 			$id = userid();*/
-		if(is_numeric($id))	
-			$results = $db->select(tbl('users'),'*'," userid='$id'");
-		else
-			$results = $db->select(tbl('users'),'*'," username='".$id."' OR email='".$id."'");
+                                                if(is_numeric($id))	
+                                                        $results = $db->select(tbl('users').$join,'*'," ".tbl('users.userid')." ='$id'");
+                                                else
+                                                        $results = $db->select(tbl('users').$join,'*'," ".tbl('users.username')."='".$id."' OR ".tbl('users.email')."='".$id."'");
 		$udetails = $results[0];	
 		
 		if(!$checksess)
@@ -3634,9 +3637,14 @@ class userquery extends CBCategory{
 				$cond .= ' AND ';
 			$cond .= " ".$params['cond']." ";
 		}
-		if(!$params['count_only'])
-			$result = $db->select(tbl('users'),'*',$cond,$limit,$order);
-		
+
+                                                if ( $params['join_profile'] != "no" ) {
+                                                    @$join_profile = " LEFT JOIN ".tbl("user_profile")." ON ".tbl("users.userid")." = ".tbl("user_profile.userid");
+                                                }
+                                                
+		if(!$params['count_only']) {
+			$result = $db->select(tbl('users').$join_profile,'*',$cond,$limit,$order);
+                }
 		
 		if($params['count_only'])
 			return $result = $db->count(tbl('users'),'userid',$cond);
