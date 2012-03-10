@@ -17,7 +17,8 @@ if(is_installed('editorspick'))
 	assign('editor_picks',get_ep_videos());
 }
 
-//i love coding :)
+// i love coding :)
+// a commit done by CornerStore2
 
 //Displaying The Template
 template_files('index.html');
