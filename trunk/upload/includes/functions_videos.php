@@ -891,3 +891,126 @@ function delete_video_thumb($file)
                 e(lang('video_thumb_delete_err'));
         }
 }
+
+
+/**
+ * function used to remove video thumbs
+ */
+function remove_video_thumbs($vdetails)
+{
+    global $cbvid;
+    return $cbvid->remove_thumbs($vdetails);
+}
+
+/**
+ * function used to remove video log
+ */
+function remove_video_log($vdetails)
+{
+    global $cbvid;
+    return $cbvid->remove_log($vdetails);
+}
+
+/**
+ * function used to remove video files
+ */
+function remove_video_files($vdetails)
+{
+    global $cbvid;
+    return $cbvid->remove_files($vdetails);
+}
+
+
+/**
+ * Function used to check video is playlable or not
+ * @param vkey,vid
+ */
+function video_playable($id)
+{
+        global $cbvideo,$userquery;
+
+        if(isset($_POST['watch_protected_video']))
+                $video_password = mysql_clean(post('video_password'));
+        else
+                $video_password = '';
+
+        if(!is_array($id))
+        $vdo = $cbvideo->get_video($id);
+        else
+        $vdo = $id;
+        $uid = userid();
+        if(!$vdo)
+        {
+                e(lang("class_vdo_del_err"));
+                return false;
+        }elseif($vdo['status']!='Successful')
+        {
+                e(lang("this_vdo_not_working"));
+                if(!has_access('admin_access',TRUE))
+                        return false;
+                else
+                        return true;
+        }elseif($vdo['broadcast']=='private' 
+                        && !$userquery->is_confirmed_friend($vdo['userid'],userid()) 
+                        && !is_video_user($vdo)
+                        && !has_access('video_moderation',true) 
+                        && $vdo['userid']!=$uid){
+                e(lang('private_video_error'));
+                return false;
+        }elseif($vdo['active'] == 'pen'){
+                        e(lang("video_in_pending_list"));
+                        if(has_access('admin_access',TRUE) || $vdo['userid'] == userid())
+                                return true;
+                        else
+                                return false;
+        }elseif($vdo['broadcast']=='logged' 
+                        && !userid()
+                        && !has_access('video_moderation',true) 
+                        && $vdo['userid']!=$uid){
+                e(lang('not_logged_video_error'));
+                return false;
+        }elseif($vdo['active']=='no' )
+        {
+                e(lang("vdo_iac_msg"));
+                if(!has_access('admin_access',TRUE))
+                        return false;
+                else
+                        return true;
+        }
+        //No Checking for video password
+        elseif($vdo['video_password'] 
+                && $vdo['broadcast']=='unlisted'
+                && $vdo['video_password']!=$video_password
+                && !has_access('video_moderation',true) 
+                && $vdo['userid']!=$uid)
+        {
+                if(!$video_password)
+                e(lang("video_pass_protected"));
+                else
+                e(lang("invalid_video_password"));
+                template_files("blocks/watch_video/video_password.html",false,false);
+        }
+        else
+        {
+                $funcs = cb_get_functions('watch_video');
+
+                if($funcs)
+                foreach($funcs as $func)
+                {
+                        $data = $func['func']($vdo);
+                        if($data)
+                                return $data;
+                }
+                return true;
+        }
+}
+
+
+/**
+ * function used to get vidos
+ */
+function get_videos($param)
+{
+        global $cbvideo;
+        return $cbvideo->get_videos($param);
+}

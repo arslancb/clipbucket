@@ -137,4 +137,33 @@ function avatar($param)
         $uid = $param['uid'];
         return $userquery->avatar($udetails,$size,$uid);
 }
+
+
+/**
+ * Function used to check weather email already exists or not
+ * @input email
+ */
+function email_exists($user)
+{
+        global $userquery;
+        return $userquery->duplicate_email($user);
+}
+
+/** 
+ * Function used to count age from date
+ */
+function get_age($input)
+{ 
+        $time = strtotime($input);
+        $iMonth = date("m",$time);
+        $iDay = date("d",$time);
+        $iYear = date("Y",$time);
+
+        $iTimeStamp = (mktime() - 86400) - mktime(0, 0, 0, $iMonth, $iDay, $iYear); 
+        $iDays = $iTimeStamp / 86400;  
+        $iYears = floor($iDays / 365 );  
+        return $iYears; 
+}
+
+
 ?>
