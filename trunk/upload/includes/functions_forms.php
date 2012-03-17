@@ -279,4 +279,91 @@
 		}
 	}
         
+        
+        /**
+	 * Function used to verify captcha
+	 */
+	function verify_captcha()
+	{
+		$var = post('cb_captcha_enabled');
+		if($var=='yes')
+		{
+			$captcha = get_captcha();
+			$val = $captcha['validate_function'](post(GLOBAL_CB_CAPTCHA));
+			return $val;
+		}else
+			return true;
+	}
+        
+        
+        /**
+         * Cleans form value
+         * @param STRING $string
+         * @return STRING
+         */
+	function cleanForm($string)
+	{
+		if(is_string($string))
+			$string = htmlspecialchars($string);
+		if(get_magic_quotes_gpc())
+			if(!is_array($string))
+			$string = stripslashes($string);			
+		return $string;
+	}
+	function form_val($string){return cleanForm($string); }
+        
+        
+        
+        /**
+         *
+         * @param type $tag
+         * @return type 
+         */
+	function isValidtag($tag)
+	{
+            $disallow_array = array
+            ('of','is','no','on','off','a','the','why','how','what','in');
+            if(!in_array($tag,$disallow_array) && strlen($tag)>2)
+                    return true;
+            else
+                    return false;
+	}
+        
+        
+        
+        /**
+	 * Function used to give output in proper form 
+	 */
+	function input_value($params)
+	{
+		$input = $params['input'];
+		$value = $input['value'];
+		
+		if($input['value_field']=='checked')
+			$value = $input['checked'];
+			
+		if($input['return_checked'])
+			return $input['checked'];
+			
+		if(function_exists($input['display_function']))
+			return $input['display_function']($value);
+		elseif($input['type']=='dropdown')
+		{
+			if($input['checked'])
+				return $value[$input['checked']];
+			else
+				return $value[0];
+		}else
+			return $input['value'];
+	}
+        
+        
+        
+        /**
+	 * Function used to get post var
+	 */
+	function post($var)
+	{
+		return $_POST[$var];
+	}
 ?>

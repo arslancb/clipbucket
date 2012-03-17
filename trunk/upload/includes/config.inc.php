@@ -1,6 +1,6 @@
 <?php
-/*
-Config.Inc.php
+/**
+  Config.Inc.php
 */
 define("FRONT_END",TRUE);
 define("BACK_END",FALSE);
@@ -11,6 +11,7 @@ if(!defined('PARENT_PAGE'))
 include('common.php');
 
 include('plugins.php');		
+	
 
 define('TEMPLATEDIR',BASEDIR.'/'.TEMPLATEFOLDER.'/'.$Cbucket->template);
 define('TEMPLATEURL',BASEURL.'/'.TEMPLATEFOLDER.'/'.$Cbucket->template);

@@ -2,12 +2,15 @@
 
 class CBTemplate {
 
-	/**
-	 * Function used to set Smarty Functions
-	 */
+    /**
+     * Function used to set Smarty Functions
+     */
    function CBTemplate() {
+       
         global $Smarty;
+       
         if (!isset($Smarty)) {
+            
             $Smarty = new Smarty;
         }
     }
@@ -92,6 +95,7 @@ class CBTemplate {
         if (!isset($Smarty)) {
             CBTemplate::create();
         }
+       
         $Smarty->display($filename);
     }
 

@@ -14,6 +14,7 @@
 ####################################################################
 */
 
+
  define("SHOW_COUNTRY_FLAG",TRUE);
  require 'define_php_links.php';
  include_once 'upload_forms.php';
@@ -129,45 +130,17 @@
 	
 	//Redirect Using JAVASCRIPT
 	
-	function redirect_to($url){
-		echo '<script type="text/javascript">
-		window.location = "'.$url.'"
-		</script>';
-		exit("Javascript is turned off, <a href='$url'>click here to go to requested page</a>");
-		}
+	function redirect_to($url)
+        {
+            echo '<script type="text/javascript">
+            window.location = "'.$url.'"
+            </script>';
+            exit("Javascript is turned off, <a href='$url'>click here to go to requested page</a>");
+        }
 	
-	//Test function to return template file
-	function Fetch($name,$inside=FALSE)
-	{
-		if($inside)
-			$file = CBTemplate::fetch($inside.$name);
-		else
-			$file = CBTemplate::fetch(LAYOUT.'/'.$name);
-			
-		return $file;			
-	}
 	
-	//Simple Template Displaying Function
 	
-	function Template($template,$layout=true){
-	global $admin_area;
-		if($layout)
-		CBTemplate::display(LAYOUT.'/'.$template);
-		else
-		CBTemplate::display($template);
-		
-		if($template == 'footer.html' && $admin_area !=TRUE){
-			CBTemplate::display(BASEDIR.'/includes/templatelib/'.$template);
-		}
-		if($template == 'header.html'){
-			CBTemplate::display(BASEDIR.'/includes/templatelib/'.$template);
-		}        	
-	}
 	
-	function Assign($name,$value)
-	{
-		CBTemplate::assign($name,$value);
-	}
 	
 	//Funtion of Random String
 	function RandomString($length)
@@ -180,7 +153,7 @@
 	}
 
 
- //This Function Is Used To Display Tags Cloud
+         //This Function Is Used To Display Tags Cloud
 	 function TagClouds($cloudquery)
 	{
 			$tags = array();
@@ -368,56 +341,6 @@
       }   
    }
    
-   //Simple Width Fetcher
-   function getWidth($file)
-   {
-		$sizes = getimagesize($file);
-		if($sizes)
-			return $sizes[0];   
-   }
-   
-   //Simple Height Fetcher
-   function getHeight($file)
-   {
-		$sizes = getimagesize($file);
-		if($sizes)
-			return $sizes[1];   
-   }
-   
-   //Load Photo Upload Form
-   function loadPhotoUploadForm($params)
-   {
-		global $cbphoto;
-		return $cbphoto->loadUploadForm($params);   
-   }
-   //Photo File Fetcher
-   function get_photo($params)
-   {
-	   global $cbphoto;
-	   return $cbphoto->getFileSmarty($params);
-   }
-   
-   //Photo Upload BUtton
-   function upload_photo_button($params)
-   {
-	   global $cbphoto;
-	   return $cbphoto->upload_photo_button($params);
-   }
-   
-   //Photo Embed Cides
-   function photo_embed_codes($params)
-   {
-		global $cbphoto;
-		return $cbphoto->photo_embed_codes($params);   
-   }
-   
-   //Create download button
-
-   function photo_download_button($params)
-   {
-		global $cbphoto;
-		return $cbphoto->download_button($params);   
-   }
    
    //Function Used To Validate Email
 	
@@ -530,17 +453,9 @@
 	
 	
 	
-	function GetThumb($vdetails,$num='default',$multi=false,$count=false)
-	{
-
-		return get_thumb($vdetails,$num,$multi,$count);
-	}
 	
-	//Function That will use in creating SEO urls
-	function VideoLink($vdetails,$type=NULL)
-	{
-		return video_link($vdetails,$type);
-	} 
+	
+	
 	
 	 
 	
@@ -593,58 +508,7 @@
 	
 	
 	
-	/**
-	 * Group Link
-	 */
-	function group_link($params)
-	{
-		$grp = $params['details'];
-		$id = $grp['group_id'];
-		$name = $grp['group_name'];
-		$url = $grp['group_url'];
-		
-		if($params['type']=='' || $params['type']=='group')
-		{
-			if(SEO==yes)
-				return BASEURL.'/group/'.$url;
-			else
-				return BASEURL.'/view_group.php?url='.$url;
-		}
-		
-		if($params['type']=='view_members')
-		{
-			return BASEURL.'/view_group_members.php?url='.$url;
-			if(SEO==yes)
-				return BASEURL.'/group_members/'.$url;
-			else
-				return BASEURL.'/view_group_members.php?url='.$url;
-		}
-		
-		if($params['type']=='view_videos')
-		{
-			return BASEURL.'/view_group_videos.php?url='.$url;
-			if(SEO==yes)
-				return BASEURL.'/group_videos/'.$url;
-			else
-				return BASEURL.'/view_group_videos.php?url='.$url;
-		}
-		
-		if($params['type'] == 'view_topics')
-		{
-			if(SEO == "yes")
-				return BASEURL."/group/".$url."?mode=view_topics";
-			else
-				return BASEURL."/view_group.php?url=".$url."&mode=view_topics";		
-		}
-		
-		if($params['type'] == 'view_report_form')
-		{
-			if(SEO == "yes")
-				return BASEURL."/group/".$url."?mode=view_report_form";
-			else
-				return BASEURL."/view_group.php?url=".$url."&mode=view_report_form";	
-		}
-	}
+	
 	
 	/**
 	* FUNCTION USED TO GET COMMENTS
@@ -842,19 +706,7 @@
         }
 
 
-        /**
-	* FUNCTION USED TO CLEAN VALUES THAT CAN BE USED IN FORMS
-	*/
-	function cleanForm($string)
-	{
-		if(is_string($string))
-			$string = htmlspecialchars($string);
-		if(get_magic_quotes_gpc())
-			if(!is_array($string))
-			$string = stripslashes($string);			
-		return $string;
-	}
-	function form_val($string){return cleanForm($string); }
+        
 	
 	//Escaping Magic Quotes
 	
@@ -886,21 +738,7 @@
 		return $tagString;
 	}
 	
-	/**
-	* FUNCTION USED TO VALIDATE TAG
-	* @Author : Arslan Hassan <arslan@clip-bucket.com,arslan@labguru.com>
-	* @param tag
-	* return true or false
-	*/
-	function isValidtag($tag)
-	{
-		$disallow_array = array
-		('of','is','no','on','off','a','the','why','how','what','in');
-		if(!in_array($tag,$disallow_array) && strlen($tag)>2)
-			return true;
-		else
-			return false;
-	}
+	
 	
 	
 	/**
@@ -1138,89 +976,6 @@
 		return date('Y-m-d H:i:s', time());
 	}
 	
-	
-        
-        
-        
-        /**
-	 * Function used to display flash player for ClipBucket video
-	 */
-	function flashPlayer($param)
-	{
-		global $Cbucket,$swfobj;
-		
-		$param['player_div'] = $param['player_div'] ? $param['player_div'] : 'videoPlayer';
-		
-		$key 		= $param['key'];
-		$flv 		= $param['flv'].'.flv';
-		$code 		= $param['code'];
-		$flv_url 	= $file;
-		$embed 		= $param['embed'];
-		$code 		= $param['code'];
-		$height 	= $param['height'] ? $param['height'] : config('player_height');
-		$width 		= $param['width'] ? $param['width'] : config('player_width');
-		$param['height'] = $height;
-		$param['width'] = $width ;
-		
-		if(!$param['autoplay'])
-		$param['autoplay'] = config('autoplay_video');
-		
-		assign('player_params',$param);
-		if(count($Cbucket->actions_play_video)>0)
-		{
-	 		foreach($Cbucket->actions_play_video as $funcs )
-			{
-				
-				if(function_exists($funcs))
-				{
-					$func_data = $funcs($param);
-				}
-				if($func_data)
-				{
-					$player_code = $func_data;
-					break;
-				}
-			}
-		}
-		
-		if(function_exists('cbplayer') && empty($player_code))
-			$player_code = cbplayer($param,true);
-		
-		global $pak_player;
-		
-		if($player_code)
-		if(!$pak_player && $show_player)
-		{
-			assign("player_js_code",$player_code);
-			Template(PLAYER_DIR.'/player.html',false);
-			return false;
-		}else
-		{
-			return false;
-		}
-		
-		return blank_screen($param);
-	}
-	
-	
-	/**
-	 * FUnctiuon used to plya HQ videos
-	 */
-	function HQflashPlayer($param)
-	{
-		return flashPlayer($param);
-	}
-	
-	
-	/**
-	 * Function used to get player from website settings
-	 */
-	function get_player()
-	{
-		global $Cbucket;
-		return $Cbucket->configs['player_file'];
-	}
-	
         
         /**
 	 * This funcion used to call function dynamically in smarty
@@ -1360,31 +1115,7 @@
 
 	
 	
-	/**
-	 * Function used to give output in proper form 
-	 */
-	function input_value($params)
-	{
-		$input = $params['input'];
-		$value = $input['value'];
-		
-		if($input['value_field']=='checked')
-			$value = $input['checked'];
-			
-		if($input['return_checked'])
-			return $input['checked'];
-			
-		if(function_exists($input['display_function']))
-			return $input['display_function']($value);
-		elseif($input['type']=='dropdown')
-		{
-			if($input['checked'])
-				return $value[$input['checked']];
-			else
-				return $value[0];
-		}else
-			return $input['value'];
-	}
+	
 	
 	/**
 	 * Function used to convert input to categories
@@ -1487,77 +1218,7 @@
 		return $eh->message_list;
 	}
 	
-	
-	/**
-	 * Function used to add tempalte in display template list
-	 * @param File : file of the template
-	 * @param Folder : weather to add template folder or not
-	 * if set to true, file will be loaded from inside the template
-	 * such that file path will becom $templatefolder/$file
-	 * @param follow_show_page : this param tells weather to follow ClipBucket->show_page
-	 * variable or not, if show_page is set to false and follow is true, this template will not load
-	 * otherwise there it WILL
-	 */
-	function template_files($file,$folder=false,$follow_show_page=true)
-	{
-		global $ClipBucket;
-		if(!$folder)
-			$ClipBucket->template_files[] = array('file' => $file,'follow_show_page'=>$follow_show_page);
-		else
-			$ClipBucket->template_files[] = array('file'=>$file,
-			'folder'=>$folder,'follow_show_page'=>$follow_show_page);
-	}
-	
-	/**
-	 * Function used to include file
-	 */
-	function include_template_file($params)
-	{
-		$file = $params['file'];
-		
-		if(file_exists(LAYOUT.'/'.$file))
-			Template($file);
-		elseif(file_exists($file))
-			Template($file,false);
-	}
-        
-        
-        /** 
-	 * Function used to call display
-	 */
-	function display_it()
-	{
-		global $ClipBucket;
-		$dir = LAYOUT;
-		foreach($ClipBucket->template_files as $file)
-		{
-			if(file_exists(LAYOUT.'/'.$file) || is_array($file))
-			{
-				
-				if(!$ClipBucket->show_page && $file['follow_show_page'])
-				{
-					
-				}else
-				{
-					if(!is_array($file))
-						$new_list[] = $file;
-					else
-					{
-						if($file['folder'] && file_exists($file['folder'].'/'.$file['file']))
-							$new_list[] = $file['folder'].'/'.$file['file'];
-						else
-							$new_list[] = $file['file'];
-					}
-				}							
-			}
-		}
-		
-		assign('template_files',$new_list);
 
-		Template('body.html');
-		
-		footer();
-	}
 	
 	
 	/**
@@ -1567,31 +1228,8 @@
 	{
 		
 	}
-	
-	
-	
-	function showpagination($total,$page,$link,$extra_params=NULL,$tag='<a #params#>#page#</a>')
-	{
-		global $pages;
-		return $pages->pagination($total,$page,$link,$extra_params,$tag);
-	}
-        
-        
-        /**
-	 * Function used to check username is disallowed or not
-	 * @param USERNAME
-	 */
-	function check_disallowed_user($username)
-	{
-		global $Cbucket;
-		$disallowed_user = $Cbucket->configs['disallowed_usernames'];
-		$censor_users = explode(',',$disallowed_user);
-		if(in_array($username,$censor_users))
-			return false;
-		else
-			return true;
-	}
-        
+
+       
         
         /**
 	 * Function used to check weather erro exists or not
@@ -1703,214 +1341,7 @@
 		return $phrase;
 		
 	}
-	function smarty_lang($param)
-	{
-		if($param['assign']=='')
-			return lang($param['code'],$param['sprintf']);
-		else
-			assign($param['assign'],lang($param['code'],$param['sprintf']));
-	}
-        
-        
-        
-        /**
-	 * Function used to get player logo
-	 */
-	function website_logo()
-	{
-		$logo_file = config('player_logo_file');
-		if(file_exists(BASEDIR.'/images/'.$logo_file) && $logo_file)
-			return BASEURL.'/images/'.$logo_file;
-		
-		return BASEURL.'/images/logo.png';
-	}
 	
-	/**
-	 * Function used to assign link
-	 */
-	function cblink($params)
-	{
-		global $ClipBucket;
-		$name = $params['name'];
-		$ref = $param['ref'];
-		
-		if($name=='category')
-		{
-			return category_link($params['data'],$params['type']);
-		}
-		if($name=='sort')
-		{
-			return sort_link($params['sort'],'sort',$params['type']);
-		}
-		if($name=='time')
-		{
-			return sort_link($params['sort'],'time',$params['type']);
-		}
-		if($name=='tag')
-		{
-			return BASEURL.'/search_result.php?query='.urlencode($params['tag']).'&type='.$params['type'];
-		}
-		if($name=='category_search')
-		{
-			return BASEURL.'/search_result.php?category[]='.$params['category'].'&type='.$params['type'];
-		}
-		
-		
-		if(SEO!='yes')
-		{
-			preg_match('/http:\/\//',$ClipBucket->links[$name][0],$matches);
-			if($matches)
-				$link = $ClipBucket->links[$name][0];
-			else
-				$link = BASEURL.'/'.$ClipBucket->links[$name][0];
-		}else
-		{
-			preg_match('/http:\/\//',$ClipBucket->links[$name][1],$matches);
-			if($matches)
-				$link = $ClipBucket->links[$name][1];
-			else
-				$link = BASEURL.'/'.$ClipBucket->links[$name][1];
-		}
-		
-		$param_link = "";
-		if(!empty($params['extra_params']))
-		{
-			preg_match('/\?/',$link,$matches);
-			if(!empty($matches[0]))
-			{
-				$param_link = '&'.$params['extra_params'];
-			}else{
-				$param_link = '?'.$params['extra_params'];
-			}
-		}
-		
-		if($params['assign'])
-			assign($params['assign'],$link.$param_link);
-		else
-			return $link.$param_link;
-	}
-        
-        
-        /**
-	 * Function used to show rating
-	 * @inputs
-	 * class : class used to show rating usually rating_stars
-	 * rating : rating of video or something
-	 * ratings : number of rating
-	 * total : total rating or out of
-	 */
-	function show_rating($params)
-	{
-		$class 	= $params['class'] ? $params['class'] : 'rating_stars';
-		$rating 	= $params['rating'];
-		$ratings 	= $params['ratings'];
-		$total 		= $params['total'];
-		$style		= $params['style'];
-		if(empty($style))
-			$style = config('rating_style');
-		//Checking Percent
-
-		{
-			if($total<=10)
-				$total = 10;
-			$perc = $rating*100/$total;
-			$disperc = 100 - $perc;		
-			if($ratings <= 0 && $disperc == 100)
-				$disperc = 0;
-		}
-				
-		$perc = $perc.'%';
-		$disperc = $disperc."%";		
-		switch($style)
-		{
-			case "percentage": case "percent":
-			case "perc": default:
-			{
-				$likeClass = "UserLiked";
-				if(str_replace('%','',$perc) < '50')
-					$likeClass = 'UserDisliked';
-					
-				$ratingTemplate = '<div class="'.$class.'">
-									<div class="ratingContainer">
-										<span class="ratingText">'.$perc.'</span>';
-				if($ratings > 0)
-					$ratingTemplate .= ' <span class="'.$likeClass.'">&nbsp;</span>';										
-				$ratingTemplate .='</div>
-								</div>';	
-			}
-			break;
-			
-			case "bars": case "Bars": case "bar":
-			{
-				$ratingTemplate = '<div class="'.$class.'">
-					<div class="ratingContainer">
-						<div class="LikeBar" style="width:'.$perc.'"></div>
-						<div class="DislikeBar" style="width:'.$disperc.'"></div>
-					</div>
-				</div>';
-			}
-			break;
-			
-			case "numerical": case "numbers":
-			case "number": case "num":
-			{
-				$likes = round($ratings*$perc/100);
-				$dislikes = $ratings - $likes;
-				
-				$ratingTemplate = '<div class="'.$class.'">
-					<div class="ratingContainer">
-						<div class="ratingText">
-							<span class="LikeText">'.$likes.' Likes</span>
-							<span class="DislikeText">'.$dislikes.' Dislikes</span>
-						</div>
-					</div>
-				</div>';
-			}
-			break;
-			
-			case "custom": case "own_style":
-			{
-				$file = LAYOUT."/".$params['file'];
-				if(!empty($params['file']) && file_exists($file))
-				{
-					// File exists, lets start assign things
-					assign("perc",$perc); assign("disperc",$disperc);
-					
-					// Likes and Dislikes
-					$likes = floor($ratings*$perc/100);
-					$dislikes = $ratings - $likes;
-					assign("likes",$likes);	assign("dislikes",$dislikes);
-					Template($file,FALSE);										
-				} else {
-					$params['style'] = "percent";
-					return show_rating($params);	
-				}
-			}
-			break;
-		}
-		/*$rating = '<div class="'.$class.'">
-					<div class="stars_blank">
-						<div class="stars_filled" style="width:'.$perc.'">&nbsp;</div>
-						<div class="clear"></div>
-					</div>
-				  </div>';*/
-		return $ratingTemplate;
-	}
-	
-
-	/**
-	 * Function used to display
-	 * Blank Screen
-	 * if there is nothing to play or to show
-	 * then show a blank screen
-	 */
-	function blank_screen($data)
-	{
-		global $swfobj;
-		$code = '<div class="blank_screen" align="center">No Player or Video File Found - Unable to Play Any Video</div>';
-		$swfobj->EmbedCode(unhtmlentities($code),$data['player_div']);
-		return $swfobj->code;
-	}
 	
 	
 	
@@ -1940,33 +1371,6 @@
 	}
 	
 	
-	/**
-	 * Function used to add js in ClipBuckets JSArray
-	 * see docs.clip-bucket.com
-	 */
-	function add_js($files)
-	{
-		global $Cbucket;
-		return $Cbucket->addJS($files);
-	}
-	
-	/**
-	 * Function add_header()
-	 * this will be used to add new files in header array
-	 * this is basically for plugins
-	 * for specific page array('page'=>'file') 
-	 * ie array('uploadactive'=>'datepicker.js')
-	 */
-	function add_header($files)
-	{
-		global $Cbucket;
-		return $Cbucket->add_header($files);
-	}
-	function add_admin_header($files)
-	{
-		global $Cbucket;
-		return $Cbucket->add_admin_header($files);
-	}
 	
 	
 	/**
@@ -2061,65 +1465,10 @@
 	}
 	
 	
-	/**
-	 * Function used to get post var
-	 */
-	function post($var)
-	{
-		return $_POST[$var];
-	}
 	
 	
-	/**
-	 * Function used to show sharing form
-	 */
-	function show_share_form($array)
-	{
-		
-		assign('params',$array);
-		Template('blocks/share_form.html');
-	}
 	
-	/**
-	 * Function used to show flag form
-	 */
-	function show_flag_form($array)
-	{
-		assign('params',$array);
-		Template('blocks/flag_form.html');
-	}
 	
-	/**
-	 * Function used to show flag form
-	 */
-	function show_playlist_form($array)
-	{
-		global $cbvid;
-		assign('params',$array);
-		
-		$playlists = $cbvid->action->get_playlists();
-		assign('playlists',$playlists);
-		
-		Template('blocks/playlist_form.html');
-	}
-	
-	/**
-	 * Function used to show collection form
-	 */
-	function show_collection_form($params)
-	{
-		global $db,$cbcollection;
-		if(!userid())
-			$loggedIn = "not";
-		else	
-		{		
-			$collectArray = array("order"=>" collection_name ASC","type"=>"videos","user"=>userid());		
-			$collections = $cbcollection->get_collections($collectArray);
-			
-			assign("collections",$collections);
-		}
-		Template("/blocks/collection_form.html");	
-	}
 	
 	
 	function cbdate($format=NULL,$timestamp=NULL)
@@ -2170,36 +1519,7 @@
 	}
         
         
-        /**
-	 * Function used to check weather tempalte file exists or not
-	 * input path to file
-	 */
-	function template_file_exists($file,$dir)
-	{
-		if(!file_exists($dir.'/'.$file) && !empty($file) && !file_exists($file))
-		{
-			echo sprintf(lang("temp_file_load_err"),$file,$dir);
-			return false;
-		}else
-			return true;
-	}
         
-        
-        /** 
-	 * Function used to count age from date
-	 */
-	function get_age($input)
-	{ 
-		$time = strtotime($input);
-		$iMonth = date("m",$time);
-		$iDay = date("d",$time);
-		$iYear = date("Y",$time);
-		
-		$iTimeStamp = (mktime() - 86400) - mktime(0, 0, 0, $iMonth, $iDay, $iYear); 
-		$iDays = $iTimeStamp / 86400;  
-		$iYears = floor($iDays / 365 );  
-		return $iYears; 
-	}
         
         
         /**
@@ -2306,176 +1626,6 @@
 			return true;
 		else
 			return false;
-	}
-	
-	
-	/**
-	 * Category Link is used to return
-	 * Category based link
-	 */
-	function category_link($data,$type)
-	{
-		switch($type)
-		{
-			case 'video':case 'videos':case 'v':
-			{
-				
-					
-				if(SEO=='yes')
-					return BASEURL.'/videos/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.$_GET['sort'].'/'.$_GET['time'].'/';
-				else
-					return BASEURL.'/videos.php?cat='.$data['category_id'].'&sort='.$_GET['sort'].'&time='.$_GET['time'].'&seo_cat_name='.$_GET['seo_cat_name'];
-			}
-			break;
-			
-			case 'channels':case 'channel':case'c':case'user':
-			{
-					
-				if(SEO=='yes')
-					return BASEURL.'/channels/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.$_GET['sort'].'/'.$_GET['time'].'/';
-				else
-					return BASEURL.'/channels.php?cat='.$data['category_id'].'&sort='.$_GET['sort'].'&time='.$_GET['time'].'&seo_cat_name='.$_GET['seo_cat_name'];
-			}
-			break;
-			
-			default:
-			{
-				
-				if(THIS_PAGE=='photos')
-					$type = 'photos';
-
-				if(defined("IN_MODULE"))
-				{
-					$url = 'cat='.$data['category_id'].'&sort='.$_GET['sort'].'&time='.$_GET['time'].'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
-					global $prefix_catlink;
-					$url = $prefix_catlink.$url;
-					
-					$rm_array = array("cat","sort","time","page","seo_cat_name");
-					$p = "";
-					if($prefix_catlink)
-						$rm_array[] = 'p';
-					$plugURL = queryString($url,$rm_array);
-					return $plugURL;
-				}
-								
-				if(SEO=='yes')
-					return BASEURL.'/'.$type.'/'.$data['category_id'].'/'.SEO($data['category_name']).'/'.$_GET['sort'].'/'.$_GET['time'].'/';
-				else
-					return BASEURL.'/'.$type.'.php?cat='.$data['category_id'].'&sort='.$_GET['sort'].'&time='.$_GET['time'].'&seo_cat_name='.$_GET['seo_cat_name'];
-			}
-			break;
-		}
-	}
-	
-	/**
-	 * Sorting Links is used to return
-	 * Sorting based link
-	 */
-	function sort_link($sort,$mode='sort',$type)
-	{
-		switch($type)
-		{
-			case 'video':
-			case 'videos':
-			case 'v':
-			{
-				if(!isset($_GET['cat']))
-					$_GET['cat'] = 'all';
-				if(!isset($_GET['time']))
-					$_GET['time'] = 'all_time';
-				if(!isset($_GET['sort']))
-					$_GET['sort'] = 'most_recent';
-				if(!isset($_GET['page']))
-					$_GET['page'] = 1;
-				if(!isset($_GET['seo_cat_name']))
-					$_GET['seo_cat_name'] = 'All';
-				
-				if($mode == 'sort')
-					$sorting = $sort;
-				else
-					$sorting = $_GET['sort'];
-				if($mode == 'time')
-					$time = $sort;
-				else
-					$time = $_GET['time'];
-					
-				if(SEO=='yes')
-					return BASEURL.'/videos/'.$_GET['cat'].'/'.$_GET['seo_cat_name'].'/'.$sorting.'/'.$time.'/'.$_GET['page'];
-				else
-					return BASEURL.'/videos.php?cat='.$_GET['cat'].'&sort='.$sorting.'&time='.$time.'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
-			}
-			break;
-			
-			case 'channels':
-			case 'channel':
-			{
-				if(!isset($_GET['cat']))
-					$_GET['cat'] = 'all';
-				if(!isset($_GET['time']))
-					$_GET['time'] = 'all_time';
-				if(!isset($_GET['sort']))
-					$_GET['sort'] = 'most_recent';
-				if(!isset($_GET['page']))
-					$_GET['page'] = 1;
-				if(!isset($_GET['seo_cat_name']))
-					$_GET['seo_cat_name'] = 'All';
-				
-				if($mode == 'sort')
-					$sorting = $sort;
-				else
-					$sorting = $_GET['sort'];
-				if($mode == 'time')
-					$time = $sort;
-				else
-					$time = $_GET['time'];
-					
-				if(SEO=='yes')
-					return BASEURL.'/channels/'.$_GET['cat'].'/'.$_GET['seo_cat_name'].'/'.$sorting.'/'.$time.'/'.$_GET['page'];
-				else
-					return BASEURL.'/channels.php?cat='.$_GET['cat'].'&sort='.$sorting.'&time='.$time.'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
-			}
-			break;
-			
-			
-			default:
-			{
-				if(!isset($_GET['cat']))
-					$_GET['cat'] = 'all';
-				if(!isset($_GET['time']))
-					$_GET['time'] = 'all_time';
-				if(!isset($_GET['sort']))
-					$_GET['sort'] = 'most_recent';
-				if(!isset($_GET['page']))
-					$_GET['page'] = 1;
-				if(!isset($_GET['seo_cat_name']))
-					$_GET['seo_cat_name'] = 'All';
-				
-				if($mode == 'sort')
-					$sorting = $sort;
-				else
-					$sorting = $_GET['sort'];
-				if($mode == 'time')
-					$time = $sort;
-				else
-					$time = $_GET['time'];
-				
-				if(THIS_PAGE=='photos')
-					$type = 'photos';
-				
-				if(defined("IN_MODULE"))
-				{
-					$url = 'cat='.$_GET['cat'].'&sort='.$sorting.'&time='.$time.'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
-					$plugURL = queryString($url,array("cat","sort","time","page","seo_cat_name"));
-					return $plugURL;
-				}
-				
-				if(SEO=='yes')
-					return BASEURL.'/'.$type.'/'.$_GET['cat'].'/'.$_GET['seo_cat_name'].'/'.$sorting.'/'.$time.'/'.$_GET['page'];
-				else
-					return BASEURL.'/'.$type.'.php?cat='.$_GET['cat'].'&sort='.$sorting.'&time='.$time.'&page='.$_GET['page'].'&seo_cat_name='.$_GET['seo_cat_name'];
-			}
-			break;		
-		}
 	}
 	
 	
@@ -3299,6 +2449,99 @@
         
         
         
+	/**
+	 * Function used to ingore errors
+	 * that are created when there is wrong action done
+	 * on clipbucket ie inavalid username etc
+	 */
+	function ignore_errors()
+	{
+		global $ignore_cb_errors;
+		$ignore_cb_errors = TRUE;
+	}
+	
+	/**
+	 * Function used to set $ignore_cb_errors 
+	 * back to TRUE so our error catching system
+	 * can generate errors
+	 */
+	function catch_error()
+	{
+		global $ignore_cb_errors;
+		$ignore_cb_errors = FALSE;
+	}
+	
+	
+	/**
+	 * Function used to call sub_menu_easily
+	 */
+	function sub_menu()
+	{
+		/**
+		 * Submenu function used to used to display submenu links
+		 * after navbar
+		 */
+		$funcs = get_functions('sub_menu');
+		if(is_array($funcs) && count($funcs)>0)
+		{
+			foreach($funcs as $func)
+			{
+				if(function_exists($func))
+				{
+					return $func($u);
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * Function used to load clipbucket title
+	 */
+	function cbtitle($params=false)
+	{
+		global $cbsubtitle;
+		
+		$sub_sep = $params['sub_sep'];
+		if(!$sub_sep)
+			$sub_sep = '-';
+			
+		//Getting Subtitle
+		echo TITLE;
+		if(!$cbsubtitle)
+			echo " $sub_sep ".SLOGAN;
+		else
+			echo " $sub_sep ".$cbsubtitle;
+		//echo " ".SUBTITLE;
+	}
+	
+	
+	/**
+	 * @Script : ClipBucket
+	 * @Author : Arslan Hassan
+	 * @License : CBLA
+	 * @Since : 2007
+	 *
+	 * function whos_your_daddy
+	 * Simply tells the name of  script owner
+	 * @return INTELLECTUAL BADASS
+	 */
+	function whos_your_daddy()
+	{
+		echo  "<h1>Arslan Hassan</h1>";
+	}
+	
+        
+        /**
+	 * function used to set website subtitle
+	 */
+	function subtitle($title)
+	{
+		global $cbsubtitle;
+		$cbsubtitle = $title;
+	}
+	
+        
         /**
 	 * function used to check
 	 * remote link is valid or not
@@ -3412,6 +2655,385 @@
 					include($modfile);
 		}
 	}
+        
+        
+        
+        /**
+	 * FUNCTION Used to convert XML to Array
+	 * @Author : http://www.php.net/manual/en/function.xml-parse.php#87920
+	 */
+	function xml2array($url, $get_attributes = 1, $priority = 'tag',$is_url=true)
+	{
+		$contents = "";
+		if (!function_exists('xml_parser_create'))
+		{
+			return false;
+		}
+		$parser = xml_parser_create('');
+		
+		if($is_url)
+		{
+			if (!($fp = @ fopen($url, 'rb')))
+			{
+				$ch = curl_init();
+				curl_setopt($ch,CURLOPT_URL,$url);
+				curl_setopt($ch, CURLOPT_USERAGENT, 
+				'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.2) Gecko/20070219 Firefox/3.0.0.2');
+				curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+				curl_setopt($ch,CURLOPT_FOLLOWLOCATION,true);
+				$contents = curl_exec($ch);
+				curl_close($ch);
+				
+				if(!$contents)
+					return false;
+			}
+			while (!feof($fp))
+			{
+				$contents .= fread($fp, 8192);
+			}
+			fclose($fp);
+		}else{
+			$contents = $url;
+		}
+
+		xml_parser_set_option($parser, XML_OPTION_TARGET_ENCODING, "UTF-8");
+		xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0);
+		xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1);
+		xml_parse_into_struct($parser, trim($contents), $xml_values);
+		xml_parser_free($parser);
+		if (!$xml_values)
+			return; //Hmm...
+		$xml_array = array ();
+		$parents = array ();
+		$opened_tags = array ();
+		$arr = array ();
+		$current = & $xml_array;
+		$repeated_tag_index = array ();
+		foreach ($xml_values as $data)
+		{
+			
+			unset ($attributes, $value);
+			extract($data);
+			$result = array ();
+			$attributes_data = array ();
+			if (isset ($value))
+			{
+				if ($priority == 'tag')
+					$result = $value;
+				else
+					$result['value'] = $value;
+			}
+			if (isset ($attributes) and $get_attributes)
+			{
+				foreach ($attributes as $attr => $val)
+				{
+					if ($priority == 'tag')
+						$attributes_data[$attr] = $val;
+					else
+						$result['attr'][$attr] = $val; //Set all the attributes in a array called 'attr'
+				}
+			}
+			if ($type == "open")
+			{
+				$parent[$level -1] = & $current;
+				if (!is_array($current) or (!in_array($tag, array_keys($current))))
+				{
+					$current[$tag] = $result;
+					if ($attributes_data)
+						$current[$tag . '_attr'] = $attributes_data;
+					$repeated_tag_index[$tag . '_' . $level] = 1;
+					$current = & $current[$tag];
+				}
+				else
+				{
+					if (isset ($current[$tag][0]))
+					{
+						$current[$tag][$repeated_tag_index[$tag . '_' . $level]] = $result;
+						$repeated_tag_index[$tag . '_' . $level]++;
+					}
+					else
+					{
+						$current[$tag] = array (
+							$current[$tag],
+							$result
+						);
+						$repeated_tag_index[$tag . '_' . $level] = 2;
+						if (isset ($current[$tag . '_attr']))
+						{
+							$current[$tag]['0_attr'] = $current[$tag . '_attr'];
+							unset ($current[$tag . '_attr']);
+						}
+					}
+					$last_item_index = $repeated_tag_index[$tag . '_' . $level] - 1;
+					$current = & $current[$tag][$last_item_index];
+				}
+			}
+			elseif ($type == "complete")
+			{
+				if (!isset ($current[$tag]))
+				{
+					$current[$tag] = $result;
+					$repeated_tag_index[$tag . '_' . $level] = 1;
+					if ($priority == 'tag' and $attributes_data)
+						$current[$tag . '_attr'] = $attributes_data;
+				}
+				else
+				{
+					if (isset ($current[$tag][0]) and is_array($current[$tag]))
+					{
+						$current[$tag][$repeated_tag_index[$tag . '_' . $level]] = $result;
+						if ($priority == 'tag' and $get_attributes and $attributes_data)
+						{
+							$current[$tag][$repeated_tag_index[$tag . '_' . $level] . '_attr'] = $attributes_data;
+						}
+						$repeated_tag_index[$tag . '_' . $level]++;
+					}
+					else
+					{
+						$current[$tag] = array (
+							$current[$tag],
+							$result
+						);
+						$repeated_tag_index[$tag . '_' . $level] = 1;
+						if ($priority == 'tag' and $get_attributes)
+						{
+							if (isset ($current[$tag . '_attr']))
+							{
+								$current[$tag]['0_attr'] = $current[$tag . '_attr'];
+								unset ($current[$tag . '_attr']);
+							}
+							if ($attributes_data)
+							{
+								$current[$tag][$repeated_tag_index[$tag . '_' . $level] . '_attr'] = $attributes_data;
+							}
+						}
+						$repeated_tag_index[$tag . '_' . $level]++; //0 and 1 index is already taken
+					}
+				}
+			}
+			elseif ($type == 'close')
+			{
+				$current = & $parent[$level -1];
+			}
+		}
+		
+		return ($xml_array);
+	}
+	
+	
+	function array2xml($array, $level=1)
+	{
+		$xml = '';
+		// if ($level==1) {
+		//     $xml .= "<array>\n";
+		// }
+		foreach ($array as $key=>$value) {
+		$key = strtolower($key);
+		if (is_object($value)) {$value=get_object_vars($value);}// convert object to array
+		
+		if (is_array($value)) {
+			$multi_tags = false;
+			foreach($value as $key2=>$value2) {
+			 if (is_object($value2)) {$value2=get_object_vars($value2);} // convert object to array
+				if (is_array($value2)) {
+					$xml .= str_repeat("\t",$level)."<$key>\n";
+					$xml .= array2xml($value2, $level+1);
+					$xml .= str_repeat("\t",$level)."</$key>\n";
+					$multi_tags = true;
+				} else {
+					if (trim($value2)!='') {
+						if (htmlspecialchars($value2)!=$value2) {
+							$xml .= str_repeat("\t",$level).
+									"<$key2><![CDATA[$value2]]>". // changed $key to $key2... didn't work otherwise.
+									"</$key2>\n";
+						} else {
+							$xml .= str_repeat("\t",$level).
+									"<$key2>$value2</$key2>\n"; // changed $key to $key2
+						}
+					}
+					$multi_tags = true;
+				}
+			}
+			if (!$multi_tags and count($value)>0) {
+				$xml .= str_repeat("\t",$level)."<$key>\n";
+				$xml .= array2xml($value, $level+1);
+				$xml .= str_repeat("\t",$level)."</$key>\n";
+			}
+		
+		 } else {
+			if (trim($value)!='') {
+			 echo "value=$value<br>";
+				if (htmlspecialchars($value)!=$value) {
+					$xml .= str_repeat("\t",$level)."<$key>".
+							"<![CDATA[$value]]></$key>\n";
+				} else {
+					$xml .= str_repeat("\t",$level).
+							"<$key>$value</$key>\n";
+				}
+			}
+		}
+		}
+		//if ($level==1) {
+		//    $xml .= "</array>\n";
+		// }
+		
+		return $xml;
+	}
+        
+        /**
+	 * Function used to get latest ClipBucket version info
+	 */
+	function get_latest_cb_info()
+	{
+		if($_SERVER['HTTP_HOST']!='localhost')
+			$url = 'http://clip-bucket.com/versions.xml';
+		else
+			$url = 'http://localhost/clipbucket/2.x/2/upload/tester/versions.xml';
+		$version = xml2array($url);
+		if(!$version)
+		{
+			return false;
+		}else
+		{
+			return $version['phpbucket']['clipbucket'][0];
+		}
+	}
+        
+        
+        /**
+	 * Function used to generate RSS FEED links
+	 */
+	function rss_feeds($params)
+	{
+		/**
+		 * setting up the feeds arrays..
+		 * if you want to call em in your functions..simply call the global variable $rss_feeds
+		 */
+		$rss_link = cblink(array("name"=>"rss"));
+		$rss_feeds = array();
+		$rss_feeds[] = array("title"=>"Recently added videos","link"=>$rss_link."recent");
+		$rss_feeds[] = array("title"=>"Most Viewed Videos","link"=>$rss_link."views");
+		$rss_feeds[] = array("title"=>"Top Rated Videos","link"=>$rss_link."rating");
+		$rss_feeds[] = array("title"=>"Videos Being Watched","link"=>$rss_link."watching");
+		
+		$funcs = get_functions('rss_feeds');
+		if(is_array($funcs))
+		{
+			foreach($funcs as $func)
+			{
+				return $func($params);
+			}
+		}
+
+		if($params['link_tag'])
+		{
+			foreach($rss_feeds as $rss_feed)
+			{
+				echo "<link rel=\"alternate\" type=\"application/rss+xml\"
+				title=\"".$rss_feed['title']."\" href=\"".$rss_feed['link']."\" />\n";
+			}
+		}
+	}
+	
+	/**
+	 * Function used to insert Log
+	 */
+	function insert_log($type,$details)
+	{
+		global $cblog;
+		$cblog->insert($type,$details);
+	}
+	
+	/**
+	 * Function used to get db size
+	 */
+	function get_db_size()
+	{
+		$result = mysql_query("SHOW TABLE STATUS");
+		$dbsize = 0;
+		while( $row = mysql_fetch_array( $result ) )
+		{  
+			$dbsize += $row[ "Data_length" ] + $row[ "Index_length" ];
+		}
+		return $dbsize;
+	}
+	
+	
+	/**
+	 * Function used to check weather user has marked comment as spam or not
+	 */
+	function marked_spammed($comment)
+	{
+		$spam_voters = explode("|",$comment['spam_voters']);
+		$spam_votes = $comment['spam_votes'];
+		$admin_vote = in_array('1',$spam_voters);
+		if(userid() && in_array(userid(),$spam_voters)){
+			return true;
+		}elseif($admin_vote){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	
+	/**
+	 * function used to get all time zones
+	 */
+	function get_time_zones()
+	{
+		$timezoneTable = array(
+			"-12" => "(GMT -12:00) Eniwetok, Kwajalein",
+			"-11" => "(GMT -11:00) Midway Island, Samoa",
+			"-10" => "(GMT -10:00) Hawaii",
+			"-9" => "(GMT -9:00) Alaska",
+			"-8" => "(GMT -8:00) Pacific Time (US &amp; Canada)",
+			"-7" => "(GMT -7:00) Mountain Time (US &amp; Canada)",
+			"-6" => "(GMT -6:00) Central Time (US &amp; Canada), Mexico City",
+			"-5" => "(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima",
+			"-4" => "(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz",
+			"-3.5" => "(GMT -3:30) Newfoundland",
+			"-3" => "(GMT -3:00) Brazil, Buenos Aires, Georgetown",
+			"-2" => "(GMT -2:00) Mid-Atlantic",
+			"-1" => "(GMT -1:00 hour) Azores, Cape Verde Islands",
+			"0" => "(GMT) Western Europe Time, London, Lisbon, Casablanca",
+			"1" => "(GMT +1:00 hour) Brussels, Copenhagen, Madrid, Paris",
+			"2" => "(GMT +2:00) Kaliningrad, South Africa",
+			"3" => "(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg",
+			"3.5" => "(GMT +3:30) Tehran",
+			"4" => "(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi",
+			"4.5" => "(GMT +4:30) Kabul",
+			"5" => "(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent",
+			"5.5" => "(GMT +5:30) Bombay, Calcutta, Madras, New Delhi",
+			"6" => "(GMT +6:00) Almaty, Dhaka, Colombo",
+			"7" => "(GMT +7:00) Bangkok, Hanoi, Jakarta",
+			"8" => "(GMT +8:00) Beijing, Perth, Singapore, Hong Kong",
+			"9" => "(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk",
+			"9.5" => "(GMT +9:30) Adelaide, Darwin",
+			"10" => "(GMT +10:00) Eastern Australia, Guam, Vladivostok",
+			"11" => "(GMT +11:00) Magadan, Solomon Islands, New Caledonia",
+			"12" => "(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka"
+		);
+		return $timezoneTable;
+	}
+	
+	
+	/**
+	 * Function used to get object type from its code
+	 * ie v=>video
+	 */
+	function get_obj_type($type)
+	{
+		switch($type)
+		{
+			case "v":
+			{
+				return "video";
+			}
+			break;
+		}
+	}
+        
 	
         
         
@@ -3427,5 +3049,9 @@ include("functions_collections.php");
 include("functions_hooks.php");
 include("functions_photos.php");
 include("functions_forms.php");
+
+
+include("functions_templates.php");
+include("functions_players.php");
 
 ?>

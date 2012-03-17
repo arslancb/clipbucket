@@ -65,5 +65,60 @@
                 }
 	 }	
 	
-
+         
+        /**
+         * get group link
+         * 
+         * @param type $params
+         * @return type 
+         */
+	function group_link($params)
+	{
+		$grp = $params['details'];
+		$id = $grp['group_id'];
+		$name = $grp['group_name'];
+		$url = $grp['group_url'];
+		
+		if($params['type']=='' || $params['type']=='group')
+		{
+			if(SEO==yes)
+				return BASEURL.'/group/'.$url;
+			else
+				return BASEURL.'/view_group.php?url='.$url;
+		}
+		
+		if($params['type']=='view_members')
+		{
+			return BASEURL.'/view_group_members.php?url='.$url;
+			if(SEO==yes)
+				return BASEURL.'/group_members/'.$url;
+			else
+				return BASEURL.'/view_group_members.php?url='.$url;
+		}
+		
+		if($params['type']=='view_videos')
+		{
+			return BASEURL.'/view_group_videos.php?url='.$url;
+			if(SEO==yes)
+				return BASEURL.'/group_videos/'.$url;
+			else
+				return BASEURL.'/view_group_videos.php?url='.$url;
+		}
+		
+		if($params['type'] == 'view_topics')
+		{
+			if(SEO == "yes")
+				return BASEURL."/group/".$url."?mode=view_topics";
+			else
+				return BASEURL."/view_group.php?url=".$url."&mode=view_topics";		
+		}
+		
+		if($params['type'] == 'view_report_form')
+		{
+			if(SEO == "yes")
+				return BASEURL."/group/".$url."?mode=view_report_form";
+			else
+				return BASEURL."/view_group.php?url=".$url."&mode=view_report_form";	
+		}
+	}
 ?>

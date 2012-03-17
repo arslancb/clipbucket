@@ -1129,3 +1129,30 @@ function delete_video_from_collection($vdetails)
     global  $cbvid;
     $cbvid->collection->deleteItemFromCollections($vdetails['videoid']);
 }
+
+
+
+/**
+ *
+ * @param type $vdetails
+ * @param type $num
+ * @param type $multi
+ * @param type $count
+ * @return type 
+ */
+function GetThumb($vdetails,$num='default',$multi=false,$count=false)
+{
+    return get_thumb($vdetails,$num,$multi,$count);
+}
+
+
+/**
+ *
+ * @param type $vdetails
+ * @param type $type
+ * @return type 
+ */
+function VideoLink($vdetails,$type=NULL)
+{
+    return video_link($vdetails,$type);
+} 

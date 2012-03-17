@@ -35,6 +35,32 @@ define('COOKIE_TIMEOUT',86400*1); // 1
 define('GARBAGE_TIMEOUT',COOKIE_TIMEOUT);
 define("REMBER_DAYS",7);
 
+define('DEBUG_LEVEL', 2);
+
+
+switch(DEBUG_LEVEL)
+{
+    case 0:
+    {
+            error_reporting(0);
+            ini_set('display_errors', '0');
+    }
+    break;
+    case 1:
+    {
+            error_reporting(E_ALL);
+            ini_set('display_errors', '1');
+    }
+    break;
+
+    case 2:
+    default:
+    {
+        error_reporting(E_ALL ^E_NOTICE);
+        ini_set('display_errors','On');
+    }
+}
+
 
 if(!@$in_bg_cron)
 {
@@ -59,10 +85,14 @@ if(!@$in_bg_cron)
         
 }
 
-    //Required Files
 
-    require_once('functions.php');
-    check_install('before');
+
+        //Required Files
+
+        require_once('functions.php');
+        
+           
+        check_install('before');
 	require_once('dbconnect.php');
 	require_once('classes/ClipBucket.class.php');
 	
@@ -79,40 +109,7 @@ if(!@$in_bg_cron)
 	
 	
 	
-	define('DEBUG_LEVEL', 2);
-
-	switch(DEBUG_LEVEL)
-	{
-		case 0:
-		{
-			error_reporting(0);
-			ini_set('display_errors', '0');
-		}
-		break;
-		case 1:
-		{
-			error_reporting(E_ALL);
-			ini_set('display_errors', '1');
-		}
-		break;
-		
-		case 2:
-		default:
-		{
-			
-			if(phpversion() >= '5.3.0')
-			{
-				error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
-				ini_set('display_errors', '1');
-			}
-			else
-			{
-				error_reporting(E_ALL ^E_NOTICE);
-				//ini_set('display_errors', '1');
-			}
-		}
-	}
-
+	
 
 	$pages 		= new pages();	
 	$ClipBucket = $Cbucket	= new ClipBucket();
@@ -401,7 +398,6 @@ if(!@$in_bg_cron)
 	
 	define("EMBED_VDO_WIDTH",$row['embed_player_width']);
 	define("EMBED_VDO_HEIGHT",$row['embed_player_height']);
-	
 
 	include 'plugin.functions.php';
 	include 'plugins_functions.php';

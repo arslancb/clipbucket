@@ -172,4 +172,21 @@ function update_user_voted($array,$userid=NULL)
         global $userquery;
         return $userquery->update_user_voted($array,$userid);	
 }
+
+
+ /**
+ * Function used to check username is disallowed or not
+ * @param USERNAME
+ */
+function check_disallowed_user($username)
+{
+        global $Cbucket;
+        $disallowed_user = $Cbucket->configs['disallowed_usernames'];
+        $censor_users = explode(',',$disallowed_user);
+        if(in_array($username,$censor_users))
+                return false;
+        else
+                return true;
+}
+
 ?>
