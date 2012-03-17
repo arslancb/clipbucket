@@ -46,7 +46,8 @@ if(!function_exists('cb_player'))
 		{
 			$hd = $data['hq'];
 			
-			if($hd=='yes') $file = get_hq_video_file($vdetails); else $file = get_video_file($vdetails,true,true);
+			if($hd=='yes') $file = get_hq_video_file($vdetails); 
+                        else $file = get_video_file($vdetails,true,true);
 			$hd_file = get_hq_video_file($vdetails);
 			
 			

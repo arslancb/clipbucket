@@ -33,6 +33,8 @@ RewriteRule ^([^.]*)/?$ index.php [L]
 
 
 RewriteEngine on
+
+RewriteBase /
 #
 #
 #
@@ -109,9 +111,7 @@ RewriteRule ^rss/([a-zA-Z0-9].+)$           rss.php?mode=$1&%{QUERY_STRING} [nc]
 
 ########## End - Rewrite rules For SEO urls ######################
 
-RewriteRule	^([a-zA-Z0-9-]+)/?$ 	view_channel.php?uid=$1&seo_diret=yes [NS]
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
 
-
-#Audio Start#
-RewriteRule ^audio/(.*)/(.*) module.php?s=audio&p=listen_audio&a=$1
-#Audio End#
+RewriteRule	^([a-zA-Z0-9.]+)\.?([a-zA-Z0-9]+)?/?$ 	view_channel.php?uid=$1&seo_diret=yes [NC]

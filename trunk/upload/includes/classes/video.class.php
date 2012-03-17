@@ -760,8 +760,10 @@ class CBvideo extends CBCategory
 			}else
 			{
 				if($cond!='')
-						$cond .= ' AND (';
-				
+                                    $cond .= ' AND (';
+				else
+                                    $cond .=" ( ";
+                                
 				$fileNameQue = 0;		
 				foreach($params['filename'] as $filename)
 				{
@@ -773,6 +775,7 @@ class CBvideo extends CBCategory
 				
 				$cond .=" ) ";
 			}
+                        
 		}
 		
 		if($params['cond'])

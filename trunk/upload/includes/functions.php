@@ -70,7 +70,8 @@
  	 return $string;
 	}
 	
-	function cb_clean($string,$array=array('no_html'=>true,'mysql_clean'=>false))
+	function cb_clean($string,$array=array('no_html'=>true,
+            'mysql_clean'=>false))
 	{
 		if($array['no_html'])
 			$string = htmlentities($string);
@@ -83,7 +84,9 @@
 		return $string;
 	}
 	
-	//This Fucntion is for Securing Password, you may change its combination for security reason but make sure dont not rechange once you made your script run
+	//This Fucntion is for Securing Password,
+        // you may change its combination for security reason but make 
+        // sure dont not rechange once you made your script run
 	
 	function pass_code($string) {
  	 $password = md5(md5(sha1(sha1(md5($string)))));
@@ -350,7 +353,7 @@
 
 	//Function Used TO Get Extensio Of File
 		function GetExt($file){
-			return substr($file, strrpos($file,'.') + 1);
+			return strtolower(substr($file, strrpos($file,'.') + 1));
 			}
 
 	
@@ -649,40 +652,40 @@
 	*/
 	function getComments($params=NULL)
 	{
-		global $db;
-		$order = $params['order'];
-		$limit = $params['limit'];
-		$type = $params['type'];
-		$cond = '';
-		if(empty($type))
-			$type = "v";
-		$cond .= tbl("comments.type")." = '".$type."'";
-		
-		if($params['type_id'] && $params['sectionTable'])
-		{
-			if($cond != "")
-				$cond .= " AND ";
-			$cond .= tbl("comments.type_id")." = ".tbl($params['sectionTable'].".".$params['type_id']);
-		}
-				
-		if($params['cond'])
-		{
-			if($cond != "")
-				$cond .= " AND ";
-			$cond .= $params['cond'];
-		}
-				
-		if(!$params['count_only'])
-			$result = $db->select(tbl("comments".($params['sectionTable']?",".$params['sectionTable']:NULL)),"*",$cond,$limit,$order);
-			
-		//echo $db->db_query;	
-		if($params['count_only'])
-			$result = $db->count(tbl("comments"),"*",$cond);
-			
-		if($result)
-			return $result;
-		else
-			return false;						
+            global $db;
+            $order = $params['order'];
+            $limit = $params['limit'];
+            $type = $params['type'];
+            $cond = '';
+            if(empty($type))
+                    $type = "v";
+            $cond .= tbl("comments.type")." = '".$type."'";
+
+            if($params['type_id'] && $params['sectionTable'])
+            {
+                    if($cond != "")
+                            $cond .= " AND ";
+                    $cond .= tbl("comments.type_id")." = ".tbl($params['sectionTable'].".".$params['type_id']);
+            }
+
+            if($params['cond'])
+            {
+                    if($cond != "")
+                            $cond .= " AND ";
+                    $cond .= $params['cond'];
+            }
+
+            if(!$params['count_only'])
+                    $result = $db->select(tbl("comments".($params['sectionTable']?",".$params['sectionTable']:NULL)),"*",$cond,$limit,$order);
+
+            //echo $db->db_query;	
+            if($params['count_only'])
+                    $result = $db->count(tbl("comments"),"*",$cond);
+
+            if($result)
+                    return $result;
+            else
+                    return false;						
 	}
 	
 	
@@ -690,12 +693,937 @@
 	{
 		return BASEURL.'/out.php?l='.urlencode($link);
 	}
-	
+        
+        
+        
+        /**
+         * this_page()
+         * 
+         * get current page name as defined in THIS_PAGE static variable
+         * 
+         * @param STRING $page_name
+         * @return STRING current_page
+         */
+         function this_page($page)
+         {
+             if(defined('THIS_PAGE'))
+                 return THIS_PAGE;
+             else
+                 return 'index';
+         }
 
+         /**
+          * isValidToken()
+          * 
+          * validate input token given in $_POST request when submitting data in 
+          * ClipBucket.
+          * 
+          * @param STRING $token 
+          * @param STRING $method
+          * 
+          * return BOOLEAN
+          */
+         function isValidToken($token,$method=NULL)
+         {
+             $fullToken = getToken($method);
+             if($fullToken!=$token)
+                 return false;
+             else {
+                 return true;
+             }
+         }
+
+         /**
+          * getToken()
+          * 
+          * Function used to get current token
+          * 
+          * @param STRING $method 
+          * @return STRING $token
+          */
+         function getToken($method=NULL)
+         {
+             $sess = session_id();
+             $ip = $_SERVER['REMOTE_ADDR'];
+             $webkey = "";
+
+             if(defined('CB_WEBSITE_KEY'))
+             {
+                 $webkey = CB_WEBSITE_KEY;
+             }
+
+             if($webkey)
+             $fullToken = md5($sess.$method.$ip.$webkey);
+             else
+             $fullToken = md5($sess.$method.$ip);
+
+             return $fullToken;
+         }
+
+         /**
+          * createDataFolders()
+          * 
+          * create date folders with respect to date. so that no folder gets overloaded
+          * with number of files.
+          * 
+          * @param string FOLDER, if set to null, sub-date-folders will be created in 
+          * all data folders
+          * @return string 
+          */
+         function createDataFolders($headFolder=NULL)
+        {
+                $year = date("Y");
+                $month = date("m");
+                $day  = date("d");
+                $folder = $year.'/'.$month.'/'.$day;
+                if(!$headFolder)
+                {
+                    @mkdir(VIDEOS_DIR.'/'.$folder,0777,true);
+                    @mkdir(THUMBS_DIR.'/'.$folder,0777,true);
+                    @mkdir(ORIGINAL_DIR.'/'.$folder,0777,true);
+                    @mkdir(PHOTOS_DIR.'/'.$folder,0777,true);
+                }else
+                {
+                     @mkdir($headFolder.'/'.$folder,0777,true);
+                }
+                return $folder;
+        }
+
+
+        /**
+         * Gets the list of comments and assign it the given paramter
+         * @global type $myquery
+         * @param type $params ARGUMENTS , assign=variable to assign comments array
+         * in smarty template, read getComments for more information
+         * @return ARRAY $comments 
+         */
+        function getSmartyComments($params)
+        {
+                global $myquery;
+                $comments  =  $myquery->getComments($params);
+
+                if($params['assign'])
+                        assign($params['assign'],$comments);
+                else
+                        return $comments;
+        }
+
+
+        /**
+         * This wil get an Advertisment from database and display it
+         * 
+         * @global type $adsObj
+         * @param ARRAY (style,class,align,place)
+         * style = Css Styling on div wrapping AD
+         * class = class of div wrapping AD
+         * place = AD placement code e.g ad_300x250
+         * @return string 
+         */
+        function getAd($params)
+        {
+                global $adsObj;
+                $data = '';
+                if($params['style'] || $params['class'] || $params['align'])
+                        $data .= '<div style="'.$params['style'].'" class="'.$params['class'].'" align="'.$params['align'].'">';
+                $data .= ad($adsObj->getAd($params['place']));
+                if($params['style'] || $params['class'] || $params['align'])
+                        $data .= '</div>';
+                return $data;
+        }
+
+
+        /**
+         * FUNCTION USED TO GET VIDEO RATING IN SMARTY
+         * @param : array(pullRating($videos[$id]['videoid'],false,false,false,'novote');
+         */
+        function pullSmartyRating($param)
+        {
+                return pullRating($param['id'],$param['show5'],$param['showPerc'],$aram['showVotes'],$param['static']);	
+        }
+
+
+        /**
+	* FUNCTION USED TO CLEAN VALUES THAT CAN BE USED IN FORMS
+	*/
+	function cleanForm($string)
+	{
+		if(is_string($string))
+			$string = htmlspecialchars($string);
+		if(get_magic_quotes_gpc())
+			if(!is_array($string))
+			$string = stripslashes($string);			
+		return $string;
+	}
+	function form_val($string){return cleanForm($string); }
+	
+	//Escaping Magic Quotes
+	
+	/**
+	* FUNCTION USED TO MAKE TAGS MORE PERFECT
+	* @Author : Arslan Hassan <arslan@clip-bucket.com,arslan@labguru.com>
+	* @param tags text unformatted
+	* returns tags formatted
+	*/
+	function genTags($tags,$sep=',')
+	{
+		//Remove fazool spaces
+		$tags = preg_replace(array('/ ,/','/, /'),',',$tags);
+		$tags = preg_replace( "`[,]+`" , ",", $tags);
+		$tag_array = explode($sep,$tags);
+		foreach($tag_array as $tag)
+		{
+			if(isValidtag($tag))
+			{
+				$newTags[] = $tag;
+			}
+			
+		}
+		//Creating new tag string
+		if(is_array($newTags))
+			$tagString = implode(',',$newTags);
+		else
+			$tagString = 'no-tag';
+		return $tagString;
+	}
+	
+	/**
+	* FUNCTION USED TO VALIDATE TAG
+	* @Author : Arslan Hassan <arslan@clip-bucket.com,arslan@labguru.com>
+	* @param tag
+	* return true or false
+	*/
+	function isValidtag($tag)
+	{
+		$disallow_array = array
+		('of','is','no','on','off','a','the','why','how','what','in');
+		if(!in_array($tag,$disallow_array) && strlen($tag)>2)
+			return true;
+		else
+			return false;
+	}
+	
+	
+	/**
+	* FUNCTION USED TO GET CATEGORY LIST
+	*/
+	function getCategoryList($params=false)
+	{
+		global $cats;
+		$cats = "";
+		
+		$type = $params['type'];
+		switch($type)
+		{
+			default:
+			{
+				 cb_call_functions('categoryListing',$params);
+			}
+			break;
+			
+			case "video":case "videos":
+			case "v": 
+			{
+				global $cbvid;
+				$cats = $cbvid->cbCategories($params);
+			}
+			break;
+				
+			case "users":case "user":
+			case "u": case "channels": case "channels":
+			{
+				global $userquery;
+				$cats = $userquery->cbCategories($params);
+			}
+			break;
+			
+			case "group":case "groups":
+			case "g":
+			{
+				global $cbgroup;
+				$cats = $cbgroup->cbCategories($params);
+			}
+			break;
+			
+			case "collection":case "collections":
+			case "cl":
+			{
+				global $cbcollection;
+				$cats = $cbcollection->cbCategories($params);
+			}
+			break;		
+		}
+		
+		return $cats;
+	}
+        
+        
+        function cb_bottom()
+	{
+		//Woops..its gone
+	}
+        
+        function getSmartyCategoryList($params)
+	{
+		return getCategoryList($params);
+	}
+        
+        
+        
+        /**
+	* Function used to insert data in database
+	* @param : table name
+	* @param : fields array
+	* @param : values array
+	* @param : extra params
+	*/
+	function dbInsert($tbl,$flds,$vls,$ep=NULL)
+	{
+		global $db ;
+		$db->insert($tbl,$flds,$vls,$ep);
+	}
+	
+	/**
+	* Function used to Update data in database
+	* @param : table name
+	* @param : fields array
+	* @param : values array
+	* @param : Condition params
+	* @params : Extra params
+	*/
+	function dbUpdate($tbl,$flds,$vls,$cond,$ep=NULL)
+	{
+		global $db ;
+		return $db->update($tbl,$flds,$vls,$cond,$ep);		
+	}
+	
+	
+	
+	/**
+	* Function used to Delete data in database
+	* @param : table name
+	* @param : fields array
+	* @param : values array
+	* @params : Extra params
+	*/
+	function dbDelete($tbl,$flds,$vls,$ep=NULL)
+	{
+		global $db ;
+		return $db->delete($tbl,$flds,$vls,$ep);		
+	}
+	
+	
+	/**
+	 **
+	 */
+	function cbRocks()
+	{
+		define("isCBSecured",TRUE); 
+		//echo cbSecured(CB_SIGN);
+	}
+	
+	/**
+	 * Insert Id
+	 */
+	 function get_id($code)
+	 {
+		 global $Cbucket;
+		 $id = $Cbucket->ids[$code];
+		 if(empty($id)) $id = $code;
+		 return $id;
+	 }
+	 
+	/**
+	 * Set Id
+	 */
+	 function set_id($code,$id)
+	 {
+		 global $Cbucket;
+		 return $Cbucket->ids[$code]=$id;
+	 }
+	 
+	
+	/**
+	 * Function used to select data from database
+	 */
+	function dbselect($tbl,$fields='*',$cond=false,$limit=false,$order=false,$p=false)
+	{
+		global $db;
+		return $db->dbselect($tbl,$fields,$cond,$limit,$order,$p);
+	}
+	
+	
+	/**
+	 * Function used to count fields in mysql
+	 * @param TABLE NAME
+	 * @param Fields
+	 * @param condition
+	 */
+	function dbcount($tbl,$fields='*',$cond=false)
+	{
+		global $db;
+		if($cond)
+			$condition = " Where $cond ";
+		$query = "Select Count($fields) From $tbl $condition";
+		$result = $db->Execute($query);
+		$db->total_queries++;
+		$db->total_queries_sql[] = $query;
+		return $result->fields[0];
+	}
+	
+	/**
+	 * An easy function for erorrs and messages (e is basically short form of exception)
+	 * I dont want to use the whole Trigger and Exception code, so e pretty works for me :D
+	 * @param TEXT $msg
+	 * @param TYPE $type (e for Error, m for Message
+	 * @param INT $id Any Predefined Message ID
+	 */
+	
+	function e($msg=NULL,$type='e',$id=NULL)
+	{
+		global $eh;
+		if(!empty($msg))
+			return $eh->e($msg,$type,$id);
+	}
+	
+	
+	/**
+	 * Function used to get subscription template
+	 */
+	function get_subscription_template()
+	{
+		global $LANG;
+		return lang('user_subscribe_message');
+	}
+	
+	
+	/**
+	 * Short form of print_r as pr
+	 */
+	function pr($text,$wrap_pre=false)
+	{
+		if(!$wrap_pre)
+		print_r($text);
+		else
+		{
+			echo "<pre>";
+			print_r($text);
+			echo "</pre>";
+		}
+	}
+	
+	
+	/**
+	 * This function is used to call function in smarty template
+	 * This wont let you pass parameters to the function, but it will only call it
+	 */
+	function FUNC($params)
+	{
+		global $Cbucket;
+		//Function used to call functions by
+		//{func namefunction_name}
+		// in smarty
+		$func=$params['name'];
+		if(function_exists($func))
+			$func();
+	}
+	
+	
+	
+	/**
+	 * Function used to return mysql time
+	 * @author : Fwhite
+	 */
+	function NOW()
+	{
+		return date('Y-m-d H:i:s', time());
+	}
+	
+	
+	/**
+	 * Function used to get Regular Expression from database
+	 * @param : code
+	 */
+	function get_re($code)
+	{
+		global $db;
+		$results = $db->select(tbl("validation_re"),"*"," re_code='$code'");
+		if($db->num_rows>0)
+		{
+			return $results[0]['re_syntax'];
+		}else{
+			return false;
+		}
+	}
+	function get_regular_expression($code)
+	{
+		return get_re($code); 
+	}
+	
+	/**
+	 * Function used to check weather input is valid or not
+	 * based on preg_match
+	 */
+	function check_re($syntax,$text)
+	{
+		preg_match('/'.$syntax.'/i',$text,$matches);
+		if(!empty($matches[0]))
+		{
+			return true;
+		}else{
+			return false;
+		}
+	}
+	function check_regular_expression($code,$text)
+	{
+		return check_re($code,$text); 
+	}
+	
+	/**
+	 * Function used to check field directly
+	 */
+	function validate_field($code,$text)
+	{
+		$syntax =  get_re($code);
+		if(empty($syntax))
+			return true;
+		return check_regular_expression($syntax,$text);
+	}
+	
+	function is_valid_syntax($code,$text)
+	{
+		if(DEVELOPMENT_MODE && DEV_INGNORE_SYNTAX)
+			return true;
+		return validate_field($code,$text);
+	}
+	
+	/**
+	 * Function used to apply function on a value
+	 */
+	function is_valid_value($func,$val)
+	{
+		if(!function_exists($func))
+			return true;
+		elseif(!$func($val))
+			return false;
+		else
+			return true;
+	}
+	
+	function apply_func($func,$val)
+	{
+		if(is_array($func))
+		{
+			foreach($func as $f)
+				if(function_exists($f))
+					$val = $f($val);
+		}else{
+			$val = $func($val);
+		}
+		return $val;
+	}
+	
+	/**
+	 * Function used to validate YES or NO input
+	 */
+	function yes_or_no($input,$return=yes)
+	{
+		$input = strtolower($input);
+		if($input!=yes && $input !=no)
+			return $return;
+		else
+			return $input;
+	}
+        
+        
+        
+        /**
+	 * Function used to display flash player for ClipBucket video
+	 */
+	function flashPlayer($param)
+	{
+		global $Cbucket,$swfobj;
+		
+		$param['player_div'] = $param['player_div'] ? $param['player_div'] : 'videoPlayer';
+		
+		$key 		= $param['key'];
+		$flv 		= $param['flv'].'.flv';
+		$code 		= $param['code'];
+		$flv_url 	= $file;
+		$embed 		= $param['embed'];
+		$code 		= $param['code'];
+		$height 	= $param['height'] ? $param['height'] : config('player_height');
+		$width 		= $param['width'] ? $param['width'] : config('player_width');
+		$param['height'] = $height;
+		$param['width'] = $width ;
+		
+		if(!$param['autoplay'])
+		$param['autoplay'] = config('autoplay_video');
+		
+		assign('player_params',$param);
+		if(count($Cbucket->actions_play_video)>0)
+		{
+	 		foreach($Cbucket->actions_play_video as $funcs )
+			{
+				
+				if(function_exists($funcs))
+				{
+					$func_data = $funcs($param);
+				}
+				if($func_data)
+				{
+					$player_code = $func_data;
+					break;
+				}
+			}
+		}
+		
+		if(function_exists('cbplayer') && empty($player_code))
+			$player_code = cbplayer($param,true);
+		
+		global $pak_player;
+		
+		if($player_code)
+		if(!$pak_player && $show_player)
+		{
+			assign("player_js_code",$player_code);
+			Template(PLAYER_DIR.'/player.html',false);
+			return false;
+		}else
+		{
+			return false;
+		}
+		
+		return blank_screen($param);
+	}
+	
+	
+	/**
+	 * FUnctiuon used to plya HQ videos
+	 */
+	function HQflashPlayer($param)
+	{
+		return flashPlayer($param);
+	}
+	
+	
+	/**
+	 * Function used to get player from website settings
+	 */
+	function get_player()
+	{
+		global $Cbucket;
+		return $Cbucket->configs['player_file'];
+	}
+	
+        
+        /**
+	 * This funcion used to call function dynamically in smarty
+	 */
+	function load_form($param)
+	{
+		$func = $param['name'];
+		if(function_exists($func))
+			return $func($param);
+	}
+        
+        /**
+	 * Function used to get PHP Path
+	 */
+	 function php_path()
+	 {
+		 if(PHP_PATH !='')
+			 return PHP_PATH;
+		 else
+		 	return "/usr/bin/php";
+	 }
+	 
+	 
+         /**
+	  * Functon used to get binary paths
+	  */
+	 function get_binaries($path)
+	 {
+		 if(is_array($path))
+		 {
+			 $type = $path['type'];
+			 $path = $path['path'];
+		 }
+		
+		if($type=='' || $type=='user')
+		{
+			$path = strtolower($path);
+			switch($path)
+			{
+				case "php":
+				return php_path();
+				break;
+				
+				case "mp4box":
+				return config("mp4boxpath");
+				break;
+				
+				case "flvtool2":
+				return config("flvtool2path");
+				break;
+				
+				case "ffmpeg":
+				return config("ffmpegpath");
+				break;
+			}
+		}else{
+			$path = strtolower($path);
+			switch($path)
+			{
+				case "php":
+				$return_path = shell_output("which php");
+				if($return_path)
+					return $return_path;
+				else
+					return "Unable to find PHP path";
+				break;
+				
+				case "mp4box":
+				$return_path =  shell_output("which MP4Box");
+				if($return_path)
+					return $return_path;
+				else
+					return "Unable to find mp4box path";
+				break;
+				
+				case "flvtool2":
+				$return_path =  shell_output("which flvtool2");
+				if($return_path)
+					return $return_path;
+				else
+					return "Unable to find flvtool2 path";
+				break;
+				
+				case "ffmpeg":
+				$return_path =  shell_output("which ffmpeg");
+				if($return_path)
+					return $return_path;
+				else
+					return "Unable to find ffmpeg path";
+				break;
+			}
+		}
+	 }
+	 
+	 
+	/**
+	 * Function in case htmlspecialchars_decode does not exist
+	 */
+	function unhtmlentities ($string)
+	{
+		$trans_tbl =get_html_translation_table (HTML_ENTITIES );
+		$trans_tbl =array_flip ($trans_tbl );
+		return strtr ($string ,$trans_tbl );
+	}
+        
+        
+        /**
+	 * Function used to execute command in background
+	 */
+	function bgexec($cmd) {
+		if (substr(php_uname(), 0, 7) == "Windows"){
+			//exec($cmd." >> /dev/null &");
+			exec($cmd);
+			//pclose(popen("start \"bla\" \"" . $exe . "\" " . escapeshellarg($args), "r")); 
+		}else{
+			exec($cmd . " > /dev/null &");  
+		}
+	}
+        
+        
+        /**
+	 * Function used to get array value
+	 * if you know partial value of array and wants to know complete 
+	 * value of an array, this function is being used then
+	 */
+	function array_find($needle, $haystack)
+	{
+	   foreach ($haystack as $item)
+	   {
+		  if (strpos($item, $needle) !== FALSE)
+		  {
+			 return $item;
+			 break;
+		  }
+	   }
+	}
+
+	
+	
+	/**
+	 * Function used to give output in proper form 
+	 */
+	function input_value($params)
+	{
+		$input = $params['input'];
+		$value = $input['value'];
+		
+		if($input['value_field']=='checked')
+			$value = $input['checked'];
+			
+		if($input['return_checked'])
+			return $input['checked'];
+			
+		if(function_exists($input['display_function']))
+			return $input['display_function']($value);
+		elseif($input['type']=='dropdown')
+		{
+			if($input['checked'])
+				return $value[$input['checked']];
+			else
+				return $value[0];
+		}else
+			return $input['value'];
+	}
+	
+	/**
+	 * Function used to convert input to categories
+	 * @param input can be an array or #12# like
+	 */
+	function convert_to_categories($input)
+	{
+		if(is_array($input))
+		{
+			foreach($input as $in)
+			{		
+				if(is_array($in))
+				{
+					foreach($in as $i)
+					{
+						if(is_array($i))
+						{
+							foreach($i as $info)
+							{
+								$cat_details = get_category($info);
+								$cat_array[] = array($cat_details['categoryid'],$cat_details['category_name']);
+							}
+						}elseif(is_numeric($i)){
+							$cat_details = get_category($i);
+							$cat_array[] = array($cat_details['categoryid'],$cat_details['category_name']);
+						}
+					}
+				}elseif(is_numeric($in)){
+					$cat_details = get_category($in);
+					$cat_array[] = array($cat_details['categoryid'],$cat_details['category_name']);
+				}
+			}
+		}else{
+			preg_match_all('/#([0-9]+)#/',$default['category'],$m);
+			$cat_array = array($m[1]);
+			foreach($cat_array as $i)
+			{
+				$cat_details = get_category($i);
+				$cat_array[] = array($cat_details['categoryid'],$cat_details['category_name']);
+			}
+		}
+		
+		$count = 1;
+		if(is_array($cat_array))
+		{
+			foreach($cat_array as $cat)
+			{
+				echo '<a href="'.$cat[0].'">'.$cat[1].'</a>';
+				if($count!=count($cat_array))
+				echo ', ';
+				$count++;
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * Function used to get categorie details
+	 */
+	function get_category($id)
+	{
+		global $myquery;
+		return $myquery->get_category($id);
+	}
+	
+	
+	/**
+	 * Sharing OPT displaying
+	 */
+	function display_sharing_opt($input)
+	{
+		foreach($input as $key => $i)
+		{
+			return $key;
+			break;
+		}
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Function used to get error_list
+	 */
+	function error_list()
+	{
+		global $eh;
+		return $eh->error_list;
+	}
+	
+	
+	/**
+	 * Function used to get msg_list
+	 */
+	function msg_list()
+	{
+		global $eh;
+		return $eh->message_list;
+	}
+	
+	
+	/**
+	 * Function used to add tempalte in display template list
+	 * @param File : file of the template
+	 * @param Folder : weather to add template folder or not
+	 * if set to true, file will be loaded from inside the template
+	 * such that file path will becom $templatefolder/$file
+	 * @param follow_show_page : this param tells weather to follow ClipBucket->show_page
+	 * variable or not, if show_page is set to false and follow is true, this template will not load
+	 * otherwise there it WILL
+	 */
+	function template_files($file,$folder=false,$follow_show_page=true)
+	{
+		global $ClipBucket;
+		if(!$folder)
+			$ClipBucket->template_files[] = array('file' => $file,'follow_show_page'=>$follow_show_page);
+		else
+			$ClipBucket->template_files[] = array('file'=>$file,
+			'folder'=>$folder,'follow_show_page'=>$follow_show_page);
+	}
+	
+	/**
+	 * Function used to include file
+	 */
+	function include_template_file($params)
+	{
+		$file = $params['file'];
+		
+		if(file_exists(LAYOUT.'/'.$file))
+			Template($file);
+		elseif(file_exists($file))
+			Template($file,false);
+	}
+        
 //Including videos functions
 include("functions_videos.php");
+//Including Users Functions
+include("functions_users.php");
+//Group Functions
+include("functions_groups.php");
+//Collections Functions
+include("functions_collections.php");
 
-include("functions1.php");
 include("functions2.php");
 include("functions3.php");
 ?>

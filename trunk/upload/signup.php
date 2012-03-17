@@ -57,10 +57,12 @@ if(isset($_POST['login'])){
 		
 	if($userquery->login_user($username,$password,$remember))
 	{
-		if($_COOKIE['pageredir'])
-			redirect_to($_COOKIE['pageredir']);
-		else
-			redirect_to(cblink(array('name'=>'my_account')));
+            if(cb_get_functions('login_success')) cb_call_functions('login_success'); 
+            
+            if($_COOKIE['pageredir'])
+                    redirect_to($_COOKIE['pageredir']);
+            else
+                    redirect_to(cblink(array('name'=>'my_account')));
 	}
 	
 }

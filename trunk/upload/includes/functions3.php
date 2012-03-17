@@ -117,14 +117,7 @@
 	}
 	
 	
-	/**
-	 * FUnction used to get username from userid
-	 */
-	function get_username($uid)
-	{
-		global $userquery;
-		return $userquery->get_username($uid,'username');
-	}
+	
 	
 	/**
 	 * Function used to get collection name from id
@@ -1649,24 +1642,7 @@
 			global $pluginFile;
 		return basename(dirname($pluginFile));
 	}
-	
-	/**
-	 * function used to create folder for video
-	 * and files
-	 */
-	function createDataFolders()
-	{
-		$year = date("Y");
-		$month = date("m");
-		$day  = date("d");
-		$folder = $year.'/'.$month.'/'.$day;
-		@mkdir(VIDEOS_DIR.'/'.$folder,0777,true);
-		@mkdir(THUMBS_DIR.'/'.$folder,0777,true);
-		@mkdir(ORIGINAL_DIR.'/'.$folder,0777,true);
-		@mkdir(PHOTOS_DIR.'/'.$folder,0777,true);
-		
-		return $folder;
-	}
+
 	
 	
 	/**
@@ -1867,6 +1843,16 @@
 	{
 		global $db;
 		unset($query['order']);
+                
+                $newQuery = array();
+                
+                //Cleaning values...
+                foreach($query as $field => $value)
+                    $newQuery[$field] = mysql_clean($value);
+                
+                $counter = mysql_clean($counter);
+                $query = $newQuery;
+                
 		$je_query = json_encode($query);
 		$query_md5 = md5($je_query);
 		$count = $db->count(tbl('counters'),"*","section='$section' AND query_md5='$query_md5'");

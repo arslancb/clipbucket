@@ -1,3 +1,120 @@
+<div id="wrap">
+
+	<div class="inner_wrap">
+	{assign var=sort value=$smarty.get.sort|replace:'most_commented':'commented'}
+    <div class="itemListTitle br3 b89" id="sortingDD">
+    	{lang code=$sort} <span class="itemListTitleArrow"></span>
+        <div style="border-bottom:1px solid #ddd; width:150px; position:absolute;bottom:-2px; left:0px"></div>
+        
+        <div class="itemListDD br3_bottom b89" style="display:none" id="sortingDDList">
+        
+        	<ul>
+            {assign var=sorting_links value=func->sorting_links()}
+            {foreach from=$sorting_links item=name key=sort name=sorts}
+                <li><a href="{link name=sort sort=$sort type=videos}">{$name}</a></li>
+            {/foreach}   
+            </ul>
+        
+        </div>
+    </div>
+    
+    {assign var=time_frame value=$smarty.get.time|replace:'_':''"}
+    <div class="itemListTitle br3 b89" id="timingDD">
+    	{lang code=$time_frame} <span class="itemListTitleArrow"></span>
+        <div style="border-bottom:1px solid #ddd; width:150px; position:absolute;bottom:-2px; left:0px"></div>
+        
+        <div class="itemListDD br3_bottom b89" style="display:none" id="timingDDList">
+        
+        	<ul>
+            {assign var=time_links value=func->time_links()}
+            {foreach from=$time_links item=name key=sort name=times}
+                <li><a href="{link name=time sort=$sort type=videos}">{$name}</a></li>
+            {/foreach}   
+            </ul>
+        
+        </div>
+    </div>
+    
+    {cbCategories assign="category_list" type='v' with_all=TRUE echo=TRUE}
+    <div class="itemListTitle br3 b89" id="catDD" style="float:right">
+    	{if $smarty.get.cat == 'all' || $smarty.get.cat == ''}
+        All Categories
+        {else}
+        {$cbvid->get_category_field($smarty.get.cat,'category_name')}
+        {/if}
+         <span class="itemListTitleArrow"></span>
+        <div style="border-bottom:1px solid #ddd; width:150px; position:absolute;bottom:-2px; left:0px"></div>
+        
+        <div class="itemListDD br3_bottom b89" style="display:none" id="catDDList">
+        	 {if $category_list}
+        	<ul>
+            	{$category_list}
+            </ul>
+            
+            {/if} 
+        
+        </div>
+    </div>
+    
+    <div style="clear:both"></div>
+    </div>
+    
+    
+    <script>
+	{literal}
+		$('#sortingDD')
+		.bind('mouseenter',function(){ $('#sortingDDList').show()});
+		
+		$('#sortingDDList,#sortingDD').bind('mouseleave',function(){  $('#sortingDDList').hide() });
+		
+		$('#timingDD')
+		.bind('mouseenter',function(){ $('#timingDDList').show()});
+		
+		$('#timingDDList,#timingDD').bind('mouseleave',function(){  $('#timingDDList').hide() });
+		
+		$('#catDD')
+		.bind('mouseenter',function(){ $('#catDDList').show()});
+		
+		$('#catDDList,#catDD').bind('mouseleave',function(){  $('#catDDList').hide() });
+	
+	{/literal}	
+	</script>
+    
+    
+    
+    
+    
+
+
+	<div class="break2"></div>
+    
+    <div class="inner_wrap clearfix">
+        {section name=v_list loop=$videos}
+            {include file="$style_dir/blocks/video.html" 
+            view_video="normal" video=$videos[v_list] number=$smarty.section.v_list.iteration}
+    	{sectionelse}
+    		{lang code='no_results_found'}             
+        {/section}
+        <div class="clear"></div>
+        {include file="$style_dir/blocks/pagination.html"}
+    </div> <!--inner_wrap end-->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- Listing Categories -->
 	{include file="$style_dir/blocks/category_list.html" type='collections'}
 <!-- Listing Categories End -->

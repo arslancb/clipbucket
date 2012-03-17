@@ -425,3 +425,469 @@ function getSmartyThumb($params)
 {
 	return get_thumb($params['vdetails'],$params['num'],$params['multi'],$params['count_only'],true,true,$params['size']);
 }
+
+
+/**
+ * Function used to check weather video has Mp4 file or not
+ */
+function has_hq($vdetails,$is_file=false)
+{
+    $custom_funcs = cb_get_functions('has_hq');
+    if($custom_funcs && !$is_file)
+    foreach($custom_funcs as $func)
+    {
+        if(function_exists($func))
+        {
+            return $func($vdetails);
+        }
+    }
+
+    if(!$is_file)
+        $file = get_hq_video_file($vdetails);
+    else
+        $file = $vdetails;
+
+    if(getext($file)=='mp4' && !strstr($file,'-m'))
+        return $file;
+    else
+        return false;
+}
+
+/**
+ * Gets video link , used in Smarty 
+ * {VideoLink vdetails=$vdata type=link,playlist assign=somevar}
+ * @param type $params
+ * @return type 
+ */
+
+function videoSmartyLink($params)
+{
+        $link  =	VideoLink($params['vdetails'],$params['type']);
+        if(!$params['assign'])
+                return $link;
+        else
+                assign($params['assign'],$link);
+}
+
+
+/**
+ * function used to validate Video Category
+ * 
+ * @global type $myquery
+ * @global type $LANG
+ * @global type $cbvid
+ * @param type $array
+ * @return type 
+ */
+function validate_vid_category($array=NULL)
+{
+    global $myquery,$LANG,$cbvid;
+    if($array==NULL)
+            $array = $_POST['category'];
+    if(count($array)==0)
+            return false;
+    else
+    {
+
+            foreach($array as $arr)
+            {
+                    if($cbvid->category_exists($arr))
+                            $new_array[] = $arr;
+            }
+    }
+    if(count($new_array)==0)
+    {
+            e(lang('vdo_cat_err3'));
+            return false;
+    }elseif(count($new_array)>ALLOWED_VDO_CATS)
+    {
+            e(sprintf(lang('vdo_cat_err2'),ALLOWED_VDO_CATS));
+            return false;
+    }
+
+    return true;
+}
+
+
+/**
+ * Function used to check videokey exists or not
+ * key_exists
+ */
+function vkey_exists($key)
+{
+        global $db;
+        $db->select(tbl("video"),"videokey"," videokey='$key'");
+        if($db->num_rows>0)
+                return true;
+        else
+                return false;
+}
+
+
+/**
+ * Function used to check file_name exists or not
+ * as its a unique name so it will not let repost the data
+ */
+function file_name_exists($name)
+{
+    global $db;
+    $results = $db->select(tbl("video"),"videoid,file_name"," file_name='$name'");
+
+    if($db->num_rows >0)
+            return $results[0]['videoid'];
+    else
+            return false;
+}
+
+
+/**
+ * Function used to get video from conversion queue
+ */
+function get_queued_video($update=TRUE,$fileName=NULL)
+{
+        global $db;
+        $max_conversion = config('max_conversion');
+        $max_conversion = $max_conversion ? $max_conversion : 2;
+        $max_time_wait = config('max_time_wait'); //Maximum Time Wait to make PRocessing Video Automatcially OK
+        $max_time_wait = $max_time_wait ? $max_time_wait  : 7200;
+
+        //First Check How Many Videos Are In Queu Already
+        $processing = $db->count(tbl("conversion_queue"),"cqueue_id"," cqueue_conversion='p' ");
+        if(true)
+        {
+                if($fileName)
+                {
+                        $queueName = getName($fileName);
+                        $ext = getExt($fileName);
+                        $fileNameQuery = " AND cqueue_name ='$queueName' AND cqueue_ext ='$ext' ";
+                }
+                $results = $db->select(tbl("conversion_queue"),"*","cqueue_conversion='no' $fileNameQuery",1);
+                $result = $results[0];
+                if($update)
+                $db->update(tbl("conversion_queue"),array("cqueue_conversion","time_started"),array("p",time())," cqueue_id = '".$result['cqueue_id']."'");
+                return $result;
+        }else
+        {
+                //Checking if video is taking more than $max_time_wait to convert so we can change its time to 
+                //OK Automatically
+                //Getting All Videos That are being processed
+                $results = $db->select(tbl("conversion_queue"),"*"," cqueue_conversion='p' ");
+                foreach($results as $vid)
+                {
+                        if($vid['time_started'])
+                        {
+                                if($vid['time_started'])
+                                        $time_started = $vid['time_started'];
+                                else
+                                        $time_started = strtotime($vid['date_added']);
+
+                                $elapsed_time = time()-$time_started;
+
+                                if($elapsed_time>$max_time_wait)
+                                {
+                                        //CHanging Status TO OK
+                                        $db->update(tbl("conversion_queue"),array("cqueue_conversion"),
+                                        array("yes")," cqueue_id = '".$result['cqueue_id']."'");
+                                }
+                        }
+                }
+                return false;
+        }
+}
+
+
+/**
+ * Function used to get video being processed
+ */
+function get_video_being_processed($fileName=NULL)
+{
+        global $db;
+
+        if($fileName)
+        {
+                $queueName = getName($fileName);
+                $ext = getExt($fileName);
+                $fileNameQuery = " AND cqueue_name ='$queueName' AND cqueue_ext ='$ext' ";
+        }
+
+        $results = $db->select(tbl("conversion_queue"),"*","cqueue_conversion='p' $fileNameQuery");
+        return $results;
+}
+
+function get_video_details($vid=NULL)
+{
+        global $myquery;
+        if(!$vid)
+                global $vid;	
+        return $myquery->get_video_details($vid);
+}
+
+
+
+/**
+ * Function used to get all video files
+ * @param Vdetails
+ * @param $count_only
+ * @param $with_path
+ */
+function get_all_video_files($vdetails,$count_only=false,$with_path=false)
+{
+        $details = get_video_file($vdetails,true,$with_path,true,$count_only);
+        if($count_only)
+                return count($details);
+        return $details;
+}
+function get_all_video_files_smarty($params)
+{
+        $vdetails = $params['vdetails'];
+        $count_only = $params['count_only'];
+        $with_path = $params['with_path'];
+        return get_all_video_files($vdetails,$count_only,$with_path);
+}
+
+/**
+ * Function use to get video files
+ */
+function get_video_file($vdetails,$return_default=true,$with_path=true,$multi=false,$count_only=false,$hq=false)
+{	
+        global $Cbucket;
+        # checking if there is any other functions
+        # available
+        if(is_array($Cbucket->custom_video_file_funcs))
+        foreach($Cbucket->custom_video_file_funcs as $func)
+                if(function_exists($func))
+                {
+                        $func_returned = $func($vdetails, $hq);
+                        if($func_returned)
+                        return $func_returned;
+                }
+
+        #Now there is no function so lets continue as (WITH .files)
+        if($vdetails['file_name'])
+                $vid_files = glob(VIDEOS_DIR."/".$vdetails['file_name'].".*");
+
+        #Now there is no function so lets continue as (WITH - files)
+        if($vdetails['file_name'])
+                $vid_files_more = glob(VIDEOS_DIR."/".$vdetails['file_name']."-*");
+
+        if($vid_files && $vid_files_more)
+                $vid_files = array_merge($vid_files,$vid_files_more);
+
+
+        #replace Dir with URL
+        if(is_array($vid_files))
+        foreach($vid_files as $file)
+        {
+                $files_part = explode('/',$file);
+                $video_file = $files_part[count($files_part)-1];
+
+                if($with_path)
+                        $files[]	= VIDEOS_URL.'/'.$video_file;
+                else
+                        $files[]	= $video_file;
+        }
+
+        if(count($files)==0 && !$multi && !$count_only)
+        {
+                if($return_default)
+                {
+                        if($with_path)
+                                return VIDEOS_URL.'/no_video.flv';
+                        else
+                                return 'no_video.flv';
+                }else{
+                        return false;
+                }
+        }else{
+                if($multi)
+                        return $files;
+                if($count_only)
+                        return count($files);
+
+                foreach($files as $file)
+                {
+                        if($hq)
+                        {
+                                if(getext($file)=='mp4' && !strstr($file,'-m'))
+                                {
+                                        return $file;
+                                        break;
+                                }
+                        }else{
+                                return $file;
+                                break;
+                        }
+                }
+                return $files[0];
+        }
+}
+
+/**
+ * FUnction used to get HQ ie mp4 video
+ */
+function get_hq_video_file($vdetails,$return_default=true)
+{
+        return get_video_file($vdetails,$return_default,true,false,false,true);
+}
+
+
+/**
+ * Function used to update processed video
+ * @param Files details
+ */
+function update_processed_video($file_array,$status='Successful',$ingore_file_status=false,$failed_status='')
+{
+        global $db;
+        $file = $file_array['cqueue_name'];
+        $array = explode('-',$file);
+
+        if(!empty($array[0]))
+                $file_name = $array[0];
+        $file_name = $file;
+
+        $file_path = VIDEOS_DIR.'/'.$file_array['cqueue_name'].'.flv';
+        $file_size = @filesize($file_path);
+
+        if(file_exists($file_path) && $file_size>0 && !$ingore_file_status)
+        {		
+                $stats = get_file_details($file_name);
+
+                //$duration = $stats['output_duration'];
+                //if(!$duration)
+                //	$duration = $stats['duration'];
+
+                $duration = parse_duration(LOGS_DIR.'/'.$file_array['cqueue_name'].'.log');
+
+                $db->update(tbl("video"),array("status","duration","failed_reason"),
+                array($status,$duration,$failed_status)," file_name='".$file_name."'");
+        }else
+        {
+                $stats = get_file_details($file_name);
+
+                //$duration = $stats['output_duration'];
+                //if(!$duration)
+                //	$duration = $stats['duration'];
+
+                $duration = parse_duration(LOGS_DIR.'/'.$file_array['cqueue_name'].'.log');
+
+                $db->update(tbl("video"),array("status","duration","failed_reason"),
+                array('Failed',$duration,$failed_status)," file_name='".$file_name."'");
+        }
+}
+
+
+/**
+ * This function will activate the video if file exists
+ */
+function activate_video_with_file($vid)
+{
+        global $db;
+        $vdetails = get_video_details($vid);
+        $file_name = $vdetails['file_name'];
+        $results = $db->select(tbl("conversion_queue"),"*"," cqueue_name='$file_name' AND cqueue_conversion='yes'");
+        $result = $results[0];
+        update_processed_video($result);							   
+}
+
+
+/**
+ * Function Used to get video file stats from database
+ * @param FILE_NAME
+ */
+function get_file_details($file_name)
+{
+        global $db;
+        //$result = $db->select(tbl("video_files"),"*"," id ='$file_name' OR src_name = '$file_name' ");
+        //Reading Log File
+        $file = LOGS_DIR.'/'.$file_name.'.log';
+        if(!file_exists($file))
+                $file = $file_name;
+        if(file_exists($file))
+        {
+                $data = file_get_contents($file);
+                //$file = file_get_contents('1260270267.log');
+
+                preg_match_all('/(.*) : (.*)/',trim($data),$matches);
+
+                $matches_1 = ($matches[1]);
+                $matches_2 = ($matches[2]);
+
+                for($i=0;$i<count($matches_1);$i++)
+                {
+                        $statistics[trim($matches_1[$i])] = trim($matches_2[$i]);
+                }
+                if(count($matches_1)==0)
+                {
+                        return false;
+                }
+                $statistics['conversion_log'] = $data;
+                return $statistics;
+        }else
+                return false;
+}
+
+function parse_duration($log)
+{
+        $duration = false;
+        $log_details = get_file_details($log);
+        $duration = $log['output_duration'];
+        if(!$duration || !is_numeric($duration))
+                        $duration = $log['duration'];
+
+        if(!$duration || !is_numeric($duration))
+        {
+                if(file_exists($log))
+                        $log_content = file_get_contents($log);
+
+                //Parse duration..
+                preg_match_all('/Duration: ([0-9]{1,2}):([0-9]{1,2}):([0-9.]{1,5})/i',$log_content,$matches);
+
+                unset($log_content);
+
+                //Now we will multiple hours, minutes accordingly and then add up with seconds to 
+                //make a single variable of duration
+
+                $hours = $matches[1][0];
+                $minutes = $matches[2][0];
+                $seconds = $matches[3][0];
+
+                $hours = $hours * 60 * 60;
+                $minutes = $minutes * 60;
+                $duration = $hours+$minutes+$seconds;
+
+                $duration;
+        }	
+        return $duration;
+}
+
+
+/**
+ * Function used to get thumbnail number from its name
+ * Updated: If we provide full path for some reason and 
+ * web-address has '-' in it, this means our result is messed.
+ * But we know our number will always be in last index
+ * So wrap it with end() and problem solved.
+ */
+function get_thumb_num($name)
+{
+        $list = end(explode('-',$name));
+        $list = explode('.',$list);
+        return  $list[0];
+}
+
+
+/**
+ * Function used to remove thumb
+ */
+function delete_video_thumb($file)
+{
+        global $LANG;
+        $path = THUMBS_DIR.'/'.$file;
+        if(file_exists($path))
+        {
+                unlink($path);
+                e(lang('video_thumb_delete_msg'),'m');
+        }else{
+                e(lang('video_thumb_delete_err'));
+        }
+}

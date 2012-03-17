@@ -72,45 +72,13 @@
 	}
 
 	
-	/**
-	 * Function used to validate username
-	 * @input USERNAME
-	 */
-	function username_check($username)
-	{
-		global $Cbucket;
-		$banned_words = $Cbucket->configs['disallowed_usernames'];
-		$banned_words = explode(',',$banned_words);
-		foreach($banned_words as $word)
-		{
-			preg_match("/$word/Ui",$username,$match);
-			if(!empty($match[0]))
-				return false;
-		}
-		//Checking if its syntax is valid or not
-		$multi = config('allow_unicode_usernames');
-		
-		//Checking Spaces
-		if(!config('allow_username_spaces'))
-		preg_match('/ /',$username,$matches);
-		if(!is_valid_syntax('username',$username) && $multi!='yes' || $matches)
-			e(lang("class_invalid_user"));
-		return true;
-	}
 	
 	
 	
 	
 	
-	/**
-	 * Function used to check weather username already exists or not
-	 * @input USERNAME
-	 */
-	function user_exists($user)
-	{
-		global $userquery;
-		return $userquery->username_exists($user);
-	}
+	
+	
 	
 	/**
 	 * Function used to check weather email already exists or not
@@ -595,21 +563,7 @@
 	}
 	
 	
-	/**
-	 * Function used to check weather video has Mp4 file or not
-	 */
-	function has_hq($vdetails,$is_file=false)
-	{
-		if(!$is_file)
-			$file = get_hq_video_file($vdetails);
-		else
-			$file = $vdetails;
-			
-		if(getext($file)=='mp4' && !strstr($file,'-m'))
-			return $file;
-		else
-			return false;
-	}
+	
 	
 	/**
 	 * Function used to display an ad
@@ -675,7 +629,6 @@
 		return $Cbucket->configs[$input];
 	}
 	function get_config($input){ return config($input); }
-
 
 	/**
 	 * Funcion used to call functions
@@ -1014,15 +967,7 @@
 		return $total_pages = round($records+0.49,0);
 	}
 	
-	/**
-	 * Function used to return level name 
-	 * @param levelid
-	 */
-	function get_user_level($id)
-	{
-		global $userquery;
-		return $userquery->usr_levels[$id];
-	}
+	
 	
 	
 	
@@ -1298,14 +1243,7 @@
 	}
 	
 	
-	/**
-	 * function used to get vidos
-	 */
-	function get_users($param)
-	{
-		global $userquery;
-		return $userquery->get_users($param);
-	}
+	
 	
 	
 	/**

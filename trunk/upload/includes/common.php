@@ -21,8 +21,14 @@
 ob_start();
 
 define('IN_CLIPBUCKET',true);
-define("DEVELOPMENT_MODE",FALSE);
+//ClipBucket Website secret key
+//Check docs.clip-bucket.com for more about secret key
+define('CB_SECRET_KEY','0?hx4]{o?Wu');
+
+define("DEVELOPMENT_MODE",true);
 define("DEV_INGNORE_SYNTAX",TRUE);
+
+
 
 //Setting Cookie Timeout
 define('COOKIE_TIMEOUT',86400*1); // 1
@@ -45,7 +51,12 @@ if(!@$in_bg_cron)
 	ini_set('session.save_path', $sessdir);*/
 
 	
-	session_start();
+        if (array_key_exists('session', $_REQUEST))
+        session_id($_REQUEST['session']);
+	
+        session_start();
+        
+        
 }
 
     //Required Files
@@ -65,6 +76,7 @@ if(!@$in_bg_cron)
 	
 	$myquery 	= new myquery();
 	$row 		= $myquery->Get_Website_Details();
+	
 	
 	
 	define('DEBUG_LEVEL', 2);
@@ -96,7 +108,7 @@ if(!@$in_bg_cron)
 			else
 			{
 				error_reporting(E_ALL ^E_NOTICE);
-				ini_set('display_errors', '1');
+				//ini_set('display_errors', '1');
 			}
 		}
 	}
@@ -423,6 +435,7 @@ if(!@$in_bg_cron)
 	
  	//Assigning Smarty Tags & Values
     Assign('CB_VERSION',CB_VERSION);
+    assign('session_id',session_id());
     Assign('FFMPEG_FLVTOOLS_BINARY',FFMPEG_FLVTOOLS_BINARY);
     Assign('FFMPEG_MPLAYER_BINARY',FFMPEG_MPLAYER_BINARY);
     Assign('PHP_PATH',PHP_PATH);

@@ -375,6 +375,9 @@ class pages{
 		//Assigning Variable that can be used in templates
 		assign('pagination',$this->pagination);
 		
+		assign('current_page',$page);
+		assign('total_pages',$total);
+		
 		assign('next_link',$this->next_link);
 		assign('pre_link',$this->pre_link);
 		

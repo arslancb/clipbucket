@@ -2497,6 +2497,17 @@ class CBPhotos
 						if($fp=@fopen($file['file_url'],'r')) {
 							$this->incrementDownload($p);
 							// sending the headers
+                                                        /* Alternate Download Method
+                                                        header('Content-Type: application/octet-stream');
+                                                        header("Content-Length: $size");
+                                                        header("Content-Disposition: attachment; filename=\"".$p['photo_title'].".".$p['ext']."\"");
+                                                        header('Content-Transfer-Encoding: binary');
+                                                        header('Pragma: public');
+                                                        ob_clean();
+                                                        flush();
+                                                        readfile($photo_file);*/
+                                                        
+                                                        
 							header("Content-type: $mime");
 							header("Content-Length: $size");
 							header("Content-Disposition: attachment; filename=\"".$p['photo_title'].".".$p['ext']."\"");

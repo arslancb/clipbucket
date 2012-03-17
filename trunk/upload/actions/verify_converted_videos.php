@@ -75,6 +75,8 @@ foreach($files as $file)
 			}
 		}
 		
+		
+		
 		//Sending Subscription Emails
 		$videoDetails = $cbvideo->get_video($file['cqueue_name'],true);
 		if($videoDetails)

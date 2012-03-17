@@ -10,11 +10,11 @@
 
 
 	$Cbucket->upload_opt_list['link_video_link'] = 
-							  array(
-							   'title'	=> lang('remote_play'),
-							   'load_func'	=>	'load_link_video_form',
-							   );
-		
+              array(
+               'title'	=> lang('remote_play'),
+               'load_func'	=>	'load_link_video_form',
+               );
+
 
 	/**
 	 * Function used create duration from input
