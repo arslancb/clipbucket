@@ -166,4 +166,10 @@ function get_age($input)
 }
 
 
+
+function update_user_voted($array,$userid=NULL)
+{
+        global $userquery;
+        return $userquery->update_user_voted($array,$userid);	
+}
 ?>

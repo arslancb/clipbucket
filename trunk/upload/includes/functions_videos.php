@@ -1006,6 +1006,7 @@ function video_playable($id)
 }
 
 
+
 /**
  * function used to get vidos
  */
@@ -1013,4 +1014,118 @@ function get_videos($param)
 {
         global $cbvideo;
         return $cbvideo->get_videos($param);
+}
+
+
+/**
+ * function used to get allowed extension as in array
+ */
+function get_vid_extensions()
+{
+        $exts = config('allowed_types');
+        $exts = preg_replace("/ /","",$exts);
+        $exts = explode(",",$exts);
+        return $exts;
+}
+
+
+function check_cbvideo()
+{
+
+        /**
+          * come, keep it for two more versions only
+          * it will be gone in next few updates by default :p
+          *
+          * but dont ever forget its name
+          * its a damn ClipBucket
+          */
+
+        if((!defined("isCBSecured") 
+        || count(get_functions('clipbucket_footer'))== 0 )
+        && !BACK_END) 
+        {
+                        echo cbSecured(CB_SIGN_C);
+        }
+}
+
+
+
+/**
+ * Gives coversion process output
+ */
+function conv_status($in)
+{
+        switch($in)
+        {
+                case "p":
+                return "Processing";
+                break;
+                case "no":
+                return "Pending";
+                break;
+                case "yes":
+                return "Done";
+                break;
+        }
+}
+
+
+
+/**
+ * Function used to check 
+ * input users are valid or not
+ * so that only registere usernames can be set
+ */
+function video_users($users)
+{
+        global $userquery;
+        $users_array = explode(',',$users);
+        $new_users = array();
+        foreach($users_array as $user)
+        {
+                if($user!=username() && !is_numeric($user) && $userquery->user_exists($user))
+                {
+                        $new_users[] = $user;
+                }
+        }
+
+        $new_users = array_unique($new_users);
+
+        if(count($new_users)>0)
+                return implode(',',$new_users);
+        else
+                return " ";
+}
+
+/**
+ * function used to check weather logged in user is
+ * is in video users or not
+ */
+function is_video_user($vdo,$user=NULL)
+{
+
+        if(!$user)
+                $user = username();
+        if(is_array($vdo))
+        $video_users = $vdo['video_users'];
+        else
+        $video_users = $vdo;
+
+
+        $users_array = explode(',',$video_users);
+
+        if(in_array($user,$users_array))
+                return true;
+        else
+                return false;
+}
+
+
+/**
+* function used to delete vidoe from collections
+*/
+function delete_video_from_collection($vdetails)
+{
+    global  $cbvid;
+    $cbvid->collection->deleteItemFromCollections($vdetails['videoid']);
 }

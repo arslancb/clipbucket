@@ -2503,6 +2503,917 @@
         
         
         
+        function check_install($type)
+        {
+                    global $while_installing,$Cbucket;
+                    switch($type)
+                    {
+                            case "before":
+                            {
+                                    if(file_exists('files/temp/install.me') && !file_exists('includes/clipbucket.php'))
+                                    {
+                                            header('Location: '.get_server_url().'/cb_install');
+                                    }
+                            }
+                            break;
+
+                            case "after":
+                            {
+                                    if(file_exists('files/temp/install.me'))
+                                    {
+                                            $Cbucket->configs['closed'] = 1;
+                                    }
+                            }
+                            break;
+                    }       
+        }
+
+        function get_server_url()
+        {
+            $DirName = dirname($_SERVER['PHP_SELF']);
+            if(preg_match('/admin_area/i', $DirName))
+            {
+                $DirName = str_replace('/admin_area','',$DirName);
+            }
+                    if(preg_match('/cb_install/i', $DirName))
+            {
+                $DirName = str_replace('/cb_install','',$DirName);
+            }
+            return get_server_protocol().$_SERVER['HTTP_HOST'].$DirName;
+        }
+
+        function get_server_protocol()
+        {
+            if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
+            {
+                return 'https://';
+            }
+            else
+            {
+                $protocol = preg_replace('/^([a-z]+)\/.*$/', '\\1', strtolower($_SERVER['SERVER_PROTOCOL']));
+                $protocol .= '://';
+                return $protocol;
+            }
+        }
+        
+        
+        
+        
+        /**
+	 * Returns <kbd>true</kbd> if the string or array of string is encoded in UTF8.
+	 *
+	 * Example of use. If you want to know if a file is saved in UTF8 format :
+	 * <code> $array = file('one file.txt');
+	 * $isUTF8 = isUTF8($array);
+	 * if (!$isUTF8) --> we need to apply utf8_encode() to be in UTF8
+	 * else --> we are in UTF8 :)
+	 * </code>
+	 * @param mixed A string, or an array from a file() function.
+	 * @return boolean
+	 */
+	function isUTF8($string)
+	{
+		if (is_array($string))
+		{
+			$enc = implode('', $string);
+			return @!((ord($enc[0]) != 239) && (ord($enc[1]) != 187) && (ord($enc[2]) != 191));
+		}
+		else
+		{
+			return (utf8_encode(utf8_decode($string)) == $string);
+		}   
+	}
+
+    /*
+        extract the file extension from any given path or url.
+        source: http://www.php.net/manual/en/function.basename.php#89127
+    */
+    function fetch_file_extension($filepath)
+    {
+        preg_match('/[^?]*/', $filepath, $matches);
+        $string = $matches[0];
+
+        $pattern = preg_split('/\./', $string, -1, PREG_SPLIT_OFFSET_CAPTURE);
+
+        # check if there is any extension
+        if(count($pattern) == 1)
+        {
+            // no file extension found
+            return;
+        }
+
+        if(count($pattern) > 1)
+        {
+            $filenamepart = $pattern[count($pattern)-1][0];
+            preg_match('/[^?]*/', $filenamepart, $matches);
+            return $matches[0];
+        }
+    }
+
+    /*
+        extract the file filename from any given path or url.
+        source: http://www.php.net/manual/en/function.basename.php#89127
+    */
+    function fetch_filename($filepath)
+    {
+        preg_match('/[^?]*/', $filepath, $matches);
+        $string = $matches[0];
+        #split the string by the literal dot in the filename
+        $pattern = preg_split('/\./', $string, -1, PREG_SPLIT_OFFSET_CAPTURE);
+        #get the last dot position
+        $lastdot = $pattern[count($pattern)-1][1];
+        #now extract the filename using the basename function
+        $filename = basename(substr($string, 0, $lastdot-1));
+
+        #return the filename part
+        return $filename;
+    }    
+	
+	/**
+	 * Function used to generate
+	 * embed code of embedded video
+	 */
+	function embeded_code($vdetails)
+	{
+		$code = '';
+		$code .= '<object width="'.EMBED_VDO_WIDTH.'" height="'.EMBED_VDO_HEIGHT.'">';
+		$code .= '<param name="allowFullScreen" value="true">';
+		$code .= '</param><param name="allowscriptaccess" value="always"></param>';
+		//Replacing Height And Width
+		$h_w_p = array("{Width}","{Height}");
+		$h_w_r = array(EMBED_VDO_WIDTH,EMBED_VDO_HEIGHT);	
+		$embed_code = str_replace($h_w_p,$h_w_r,$vdetails['embed_code']);
+		$code .= unhtmlentities($embed_code);
+		$code .= '</object>';
+		return $code;
+	}
+	
+	
+	/**
+	 * function used to convert input to proper date created formate
+	 */
+	function datecreated($in)
+	{
+		
+		$date_els = explode('-',$in);
+		
+		//checking date format
+		$df = config("date_format");
+		$df_els  = explode('-',$df);
+		
+		foreach($df_els as $key => $el)
+			${strtolower($el).'id'} = $key;
+		
+		$month = $date_els[$mid];
+		$day = $date_els[$did];
+		$year = $date_els[$yid];
+
+		if($in)
+			return date("Y-m-d",strtotime($year.'-'.$month.'-'.$day));
+		else
+			return '0000-00-00';
+	}
+	
+	
+	/**
+	 * After struggling alot with baseurl problem
+	 * i finally able to found its nice and working solkution..
+	 * its not my original but its a genuine working copy
+	 * its still in beta mode 
+	 */
+	function baseurl()
+	{
+		$protocol = is_ssl() ? 'https://' : 'http://';
+		if(!$sub_dir)
+		return $base = $protocol.$_SERVER['HTTP_HOST'].untrailingslashit(stripslashes(dirname(($_SERVER['SCRIPT_NAME']))));
+		else
+		return $base = $protocol.$_SERVER['HTTP_HOST'].untrailingslashit(stripslashes(dirname(dirname($_SERVER['SCRIPT_NAME']))));
+
+	}function base_url(){ return baseurl();}
+	
+	/**
+	 * SRC (WORD PRESS)
+	 * Appends a trailing slash.
+	 *
+	 * Will remove trailing slash if it exists already before adding a trailing
+	 * slash. This prevents double slashing a string or path.
+	 *
+	 * The primary use of this is for paths and thus should be used for paths. It is
+	 * not restricted to paths and offers no specific path support.
+	 *
+	 * @since 1.2.0
+	 * @uses untrailingslashit() Unslashes string if it was slashed already.
+	 *
+	 * @param string $string What to add the trailing slash to.
+	 * @return string String with trailing slash added.
+	 */
+	function trailingslashit($string) {
+		return untrailingslashit($string) . '/';
+	}
+
+	/**
+	 * SRC (WORD PRESS)
+	 * Removes trailing slash if it exists.
+	 *
+	 * The primary use of this is for paths and thus should be used for paths. It is
+	 * not restricted to paths and offers no specific path support.
+	 *
+	 * @since 2.2.0
+	 *
+	 * @param string $string What to remove the trailing slash from.
+	 * @return string String without the trailing slash.
+	 */
+	function untrailingslashit($string) {
+		return rtrim($string, '/');
+	}
+	
+	
+	/**
+	 * Determine if SSL is used.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @return bool True if SSL, false if not used.
+	 */
+	function is_ssl() {
+		if ( isset($_SERVER['HTTPS']) ) {
+			if ( 'on' == strtolower($_SERVER['HTTPS']) )
+				return true;
+			if ( '1' == $_SERVER['HTTPS'] )
+				return true;
+		} elseif ( isset($_SERVER['SERVER_PORT']) && ( '443' == $_SERVER['SERVER_PORT'] ) ) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * This will update stats like Favorite count, Playlist count
+	 */
+	function updateObjectStats($type='favorite',$object='video',$id,$op='+')
+	{
+		global $db;
+		
+		switch($type)
+		{
+			case "favorite":  case "favourite":
+			case "favorites": case "favourties":
+			case "fav":
+			{
+				switch($object)
+				{
+					case "video": 
+					case "videos": case "v":
+					{
+						$db->update(tbl('video'),array('favourite_count'),array("|f|favourite_count".$op."1")," videoid = '".$id."'");
+					}
+					break;
+					
+					case "photo":
+					case "photos": case "p":
+					{
+						$db->update(tbl('photos'),array('total_favorites'),array("|f|total_favorites".$op."1")," photo_id = '".$id."'");
+					}
+					break;
+					
+					/*case "collection":
+					case "collections": case "cl":
+					{
+						$db->update(tbl('photos'),array('total_favorites'),array("|f|total_favorites".$op."1")," photo_id = '".$id."'");
+					}
+					break;*/
+				}
+			}
+			break;
+			
+			case "playlist": case "playList":
+			case "plist":
+			{
+				switch($object)
+				{
+					case "video":
+					case "videos": case "v":
+					{
+						$db->update(tbl('video'),array('playlist_count'),array("|f|playlist_count".$op."1")," videoid = '".$id."'");
+					}
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * FUnction used to check weather conversion lock exists or not
+	 * if converson log exists it means no further conersion commands will be executed
+	 *
+	 * @return BOOLEAN
+	 */
+	function conv_lock_exists()
+	{
+		if(file_exists(TEMP_DIR.'/conv_lock.loc'))
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * Function used to return a well-formed queryString
+	 * for passing variables to url
+	 * @input variable_name
+	 */
+	function queryString($var=false,$remove=false)
+	{
+		$queryString = $_SERVER['QUERY_STRING'];
+		
+		if($var)
+		$queryString = preg_replace("/&?$var=([\w+\s\b\.?\S]+|)/","",$queryString);
+		
+		if($remove)
+		{
+			if(!is_array($remove))
+			$queryString = preg_replace("/&?$remove=([\w+\s\b\.?\S]+|)/","",$queryString);
+			else
+			foreach($remove as $rm)
+				$queryString = preg_replace("/&?$rm=([\w+\s\b\.?\S]+|)/","",$queryString);
+			
+		}
+		
+		if($queryString)
+			$preUrl = "?$queryString&";
+		else
+			$preUrl = "?";
+		
+		$preUrl = preg_replace(array("/(\&{2,10})/","/\?\&/"),array("&","?"),$preUrl);
+		
+		return $preUrl.$var;
+	}
+	
+	
+	/**
+	 * Following two functions are taken from
+	 * tutorialzine.com's post 'Creating a Facebook-like Registration Form with jQuery'
+	 * These function are written by Martin Angelov.
+	 * Read post here: http://tutorialzine.com/2009/08/creating-a-facebook-like-registration-form-with-jquery/
+	 */
+	function generate_options($params)
+	{
+		$reverse=false;
+		
+		if($params['from']>$params['to'])
+		{
+			$tmp=$params['from'];
+			$params['from']=$params['to'];
+			$params['to']=$tmp;
+			
+			$reverse=true;
+		}
+		
+		
+		$return_string=array();
+		for($i=$params['from'];$i<=$params['to'];$i++)
+		{
+			//$return_string[$i] = ($callback?$callback($i):$i);
+			$return_string[] = '<option value="'.$i.'">'.($params['callback']?$params['callback']($i):$i).'</option>';
+		}
+		
+		if($reverse)
+		{
+			$return_string=array_reverse($return_string);
+		}
+		
+		
+		return join('',$return_string);
+	}
+	function callback_month($month)
+	{
+		return date('M',mktime(0,0,0,$month,1));
+	}
+	
+	
+	/**
+	 * Function use to download file to server
+	 * 
+	 * @param URL
+	 * @param destination
+	 */
+	function snatch_it($snatching_file,$destination,$dest_name,$rawdecode=true)
+	{
+		global $curl;
+		if($rawdecode==true)
+		$snatching_file= rawurldecode($snatching_file);
+		$destination.'/'.$dest_name;
+		$fp = fopen ($destination.'/'.$dest_name, 'w+');
+		$ch = curl_init($snatching_file);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 600);
+		curl_setopt($ch, CURLOPT_FILE, $fp);
+		curl_setopt($ch, CURLOPT_USERAGENT, 
+		'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.2) Gecko/20070219 Firefox/2.0.0.2');
+		curl_exec($ch);
+		curl_close($ch);
+		fclose($fp);
+	}
+	
+	
+	/**
+	 * Function check curl
+	 */
+	function isCurlInstalled()
+	{
+		if  (in_array  ('curl', get_loaded_extensions())) {
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	/**
+	 * Function for loading 
+	 * uploader file url & other configurations
+	 */
+	function uploaderDetails()
+	{
+		global $uploaderType;
+
+		$uploaderDetails = array
+		(
+			'uploadSwfPath' => JS_URL.'/uploadify/uploadify.swf',
+			'uploadScriptPath' => BASEURL.'/actions/file_uploader.php',
+		);
+		
+		$photoUploaderDetails = array
+		(
+			'uploadSwfPath' => JS_URL.'/uploadify/uploadify.swf',
+			'uploadScriptPath' => BASEURL.'/actions/photo_uploader.php',
+		);
+
+
+		assign('uploaderDetails',$uploaderDetails);	
+		assign('photoUploaderDetails',$photoUploaderDetails);		
+		//Calling Custom Functions
+		cb_call_functions('uploaderDetails');
+	}
+	
+	
+	/**
+	 * Function isSectionEnabled
+	 * This function used to check weather INPUT section is enabled or not
+	 */
+	function isSectionEnabled($input,$restrict=false)
+	{
+		global $Cbucket;
+		
+		$section = $Cbucket->configs[$input.'Section'];
+		
+		if(!$restrict)
+		{
+			if($section =='yes')
+				return true;
+			else
+				return false;
+		}else
+		{
+			if($section =='yes' || THIS_PAGE=='cb_install')
+			{
+				return true;
+			}else
+			{
+				template_files('blocked.html');
+				display_it();
+				exit();
+			}
+		}
+		
+	}
+
+
+	function array_depth($array) {
+		$ini_depth = 0;
+		
+		foreach($array as $arr)
+		{
+			if(is_array($arr))
+			{
+				$depth = array_depth($arr) + 1;	
+				
+				if($depth > $ini_depth)
+					$ini_depth = $depth;
+			}
+		}
+		
+		return $ini_depth;
+	}
+	
+	
+	/**
+	 * JSON_ENCODE short
+	 */
+	function je($in){ return json_encode($in); }
+	/**
+	 * JSON_DECODE short
+	 */
+	function jd($in,$returnClass=false){ if(!$returnClass) return  json_decode($in,true); else return  json_decode($in); }
+	
+	
+	/**
+	 * function used to update last commented option 
+	 * so comment cache can be refreshed
+	 */
+	function update_last_commented($type,$id)
+	{
+		global $db;
+		
+		if($type && $id)
+		{
+			switch($type)
+			{
+				case "v":
+				case "video":
+				case "vdo":
+				case "vid":
+				case "videos":
+				$db->update(tbl("video"),array('last_commented'),array(now()),"videoid='$id'");
+
+				break;
+				
+				case "c":
+				case "channel":
+				case "user":
+				case "u":
+				case "users":
+				case "channels":
+				$db->update(tbl("users"),array('last_commented'),array(now()),"userid='$id'");
+				break;
+				
+				case "cl":
+				case "collection":
+				case "collect":
+				case "collections":
+				case "collects":
+				$db->update(tbl("collections"),array('last_commented'),array(now()),"collection_id='$id'");
+				break;
+				
+				case "p":
+				case "photo":
+				case "photos":
+				case "picture":
+				case "pictures":
+				$db->update(tbl("photos"),array('last_commented'),array(now()),"photo_id='$id'");
+				break;
+				
+				case "t":
+				case "topic":
+				case "topics":
+				$db->update(tbl("group_topics"),array('last_post_time'),array(now()),"topic_id='$id'");
+				break;
+				
+			}
+		}
+	}
+	
+	
+        
+        /**
+	 * Function used to create user feed
+	 * this function simple takes ID as input
+	 * and do the rest seemlessli ;)
+	 */
+	function addFeed($array)
+	{
+		global $cbfeeds,$cbphoto,$userquery;
+		
+		$action = $array['action'];
+		if($array['uid'])
+			$userid = $array['uid'];
+		else
+			$userid = userid();
+			
+		switch($action)
+		{
+			case "upload_photo":
+			{
+
+				$feed['action'] = 'upload_photo';
+				$feed['object'] = 'photo';
+				$feed['object_id'] = $array['object_id'];		
+				$feed['uid'] = $userid;;
+				
+				$cbfeeds->addFeed($feed);
+			}
+			break;
+			case "upload_video":
+			case "add_favorite":
+			{
+
+				$feed['action'] = $action;
+				$feed['object'] = 'video';
+				$feed['object_id'] = $array['object_id'];		
+				$feed['uid'] = $userid;
+				
+				$cbfeeds->addFeed($feed);
+			}
+			break;
+			
+			case "signup":
+			{
+
+				$feed['action'] = 'signup';
+				$feed['object'] = 'signup';
+				$feed['object_id'] = $array['object_id'];		
+				$feed['uid'] =  $userid;;
+				
+				$cbfeeds->addFeed($feed);
+			}
+			break;
+			
+			case "create_group":
+			case "join_group":
+			{
+				$feed['action'] = $action;
+				$feed['object'] = 'group';
+				$feed['object_id'] = $array['object_id'];		
+				$feed['uid'] = $userid;
+				
+				$cbfeeds->addFeed($feed);
+			}
+			break;
+			
+			case "add_friend":
+			{
+				$feed['action'] = 'add_friend';
+				$feed['object'] = 'friend';
+				$feed['object_id'] = $array['object_id'];		
+				$feed['uid'] = $userid;
+				
+				$cbfeeds->addFeed($feed);
+			}
+			break;
+			
+			case "add_collection":
+			{
+				$feed['action'] = 'add_collection';
+				$feed['object'] = 'collection';
+				$feed['object_id'] = $array['object_id'];		
+				$feed['uid'] = $userid;
+
+				
+				$cbfeeds->addFeed($feed);
+			}
+			
+		}
+	}
+        
+        
+        /**
+	 * function used to get plugin directory name
+	 */
+	function this_plugin($pluginFile=NULL)
+	{
+		if(!$pluginFile)
+			global $pluginFile;
+		return basename(dirname($pluginFile));
+	}
+
+	
+	
+	/**
+	 * function used to get user agent details
+	 * Thanks to ruudrp at live dot nl 28-Nov-2010 11:31 PHP.NET
+	 */
+	function get_browser_details($in=NULL,$assign=false)
+	{
+		//Checking if browser is firefox
+		if(!$in)
+			$in = $_SERVER['HTTP_USER_AGENT'];
+		
+		$u_agent = $in;
+		$bname = 'Unknown';
+		$platform = 'Unknown';
+		$version= "";
+	
+		//First get the platform?
+		if (preg_match('/linux/i', $u_agent)) {
+			$platform = 'linux';
+		}
+		elseif (preg_match('/iPhone/i', $u_agent)) {
+			$platform = 'iphone';
+		}
+		elseif (preg_match('/iPad/i', $u_agent)) {
+			$platform = 'ipad';
+		}
+		elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
+			$platform = 'mac';
+		}
+		elseif (preg_match('/windows|win32/i', $u_agent)) {
+			$platform = 'windows';
+		}
+		
+		if (preg_match('/Android/i', $u_agent)) {
+			$platform = 'android';
+		}
+	   
+		// Next get the name of the useragent yes seperately and for good reason
+		if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent))
+		{
+			$bname = 'Internet Explorer';
+			$ub = "MSIE";
+		}
+		elseif(preg_match('/Firefox/i',$u_agent))
+		{
+			$bname = 'Mozilla Firefox';
+			$ub = "Firefox";
+		}
+		elseif(preg_match('/Chrome/i',$u_agent))
+		{
+			$bname = 'Google Chrome';
+			$ub = "Chrome";
+		}
+		elseif(preg_match('/Safari/i',$u_agent))
+		{
+			$bname = 'Apple Safari';
+			$ub = "Safari";
+		}
+		elseif(preg_match('/Opera/i',$u_agent))
+		{
+			$bname = 'Opera';
+			$ub = "Opera";
+		}
+		elseif(preg_match('/Netscape/i',$u_agent))
+		{
+			$bname = 'Netscape';
+			$ub = "Netscape";
+		}
+		elseif(preg_match('/Googlebot/i',$u_agent))
+		{
+			$bname = 'Googlebot';
+			$ub = "bot";
+		}elseif(preg_match('/msnbot/i',$u_agent))
+		{
+			$bname = 'MSNBot';
+			$ub = "bot";
+		}elseif(preg_match('/Yahoo\! Slurp/i',$u_agent))
+		{
+			$bname = 'Yahoo Slurp';
+			$ub = "bot";
+		}
+
+	   
+		// finally get the correct version number
+		$known = array('Version', $ub, 'other');
+		$pattern = '#(?<browser>' . join('|', $known) .
+		')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+		if (!@preg_match_all($pattern, $u_agent, $matches)) {
+			// we have no matching number just continue
+		}
+	   
+		// see how many we have
+		$i = count($matches['browser']);
+		if ($i != 1) {
+			//we will have two since we are not using 'other' argument yet
+			//see if version is before or after the name
+			if (strripos($u_agent,"Version") < strripos($u_agent,$ub)){
+				$version= $matches['version'][0];
+			}
+			else {
+				$version= $matches['version'][1];
+			}
+		}
+		else {
+			$version= $matches['version'][0];
+		}
+	   
+		// check if we have a number
+		if ($version==null || $version=="") {$version="?";}
+	   
+		$array= array(
+			'userAgent' => $u_agent,
+			'name'      => $bname,
+			'version'   => $version,
+			'platform'  => $platform,
+			'bname'		=> strtolower($ub),
+			'pattern'    => $pattern
+		);
+		
+		if($assign)	assign($assign,$array); else return $array;
+	}
+        
+        
+        
+        /**
+	 * function used to check
+	 * remote link is valid or not
+	 */
+	
+	function checkRemoteFile($url)
+	{
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL,$url);
+		// don't download content
+		curl_setopt($ch, CURLOPT_NOBODY, 1);
+		curl_setopt($ch, CURLOPT_FAILONERROR, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 1);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$result = curl_exec($ch);
+		if($result!==FALSE)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	
+	/**
+	 * function used to get counts from
+	 * cb_counter table
+	 */
+	function get_counter($section,$query)
+	{
+		if(!config('use_cached_pagin'))
+			return false;
+			
+		global $db;
+		
+		$timeRefresh = config('cached_pagin_time');
+		$timeRefresh = $timeRefresh*60;
+		
+		$validTime = time()-$timeRefresh;
+		
+		unset($query['order']);
+		$je_query = json_encode($query);
+		$query_md5 = md5($je_query);
+		$select = $db->select(tbl('counters'),"*","section='$section' AND query_md5='$query_md5' 
+		AND '$validTime' < date_added");
+		if($db->num_rows>0)
+		{
+			return $select[0]['counts'];
+		}else
+		return false;
+	}
+	
+	/**
+	 * function used to insert or update counter
+	 */
+	function update_counter($section,$query,$counter)
+	{
+		global $db;
+		unset($query['order']);
+                
+                $newQuery = array();
+                
+                //Cleaning values...
+                foreach($query as $field => $value)
+                    $newQuery[$field] = mysql_clean($value);
+                
+                $counter = mysql_clean($counter);
+                $query = $newQuery;
+                
+		$je_query = json_encode($query);
+		$query_md5 = md5($je_query);
+		$count = $db->count(tbl('counters'),"*","section='$section' AND query_md5='$query_md5'");
+		if($count)
+		{
+			$db->update(tbl('counters'),array('counts','date_added'),array($counter,strtotime(now())),
+			"section='$section' AND query_md5='$query_md5'");
+		}else
+		{
+			$db->insert(tbl('counters'),array('section','query','query_md5','counts','date_added'),
+			array($section,'|no_mc|'.$je_query,$query_md5,$counter,strtotime(now())));
+		}
+	}
+	
+	/**
+	 * function used to register a module file, that will be later called
+	 * by load_modules() function
+	 */
+	function register_module($mod_name,$file)
+	{
+		global $Cbucket;
+		$Cbucket->modules_list[$mod_name][] = $file;
+		
+	}
+	
+	/**
+	 * function used to load module files
+	 */
+	function load_modules()
+	{
+		global $Cbucket,$lang_obj,$signup,$Upload,$cbgroup,
+		$adsObj,$formObj,$cbplugin,$eh,$sess,$cblog,$imgObj,
+		$cbvideo,$cbplayer,$cbemail,$cbpm,$cbpage,$cbindex,
+		$cbcollection,$cbphoto,$cbfeeds,$userquery,$db,$pages,$cbvid;
+		
+		foreach($Cbucket->modules_list as $cbmod)
+		{
+			foreach($cbmod as $modfile)
+				if(file_exists($modfile))
+					include($modfile);
+		}
+	}
+	
+        
         
 //Including videos functions
 include("functions_videos.php");
@@ -2517,6 +3428,4 @@ include("functions_hooks.php");
 include("functions_photos.php");
 include("functions_forms.php");
 
-
-include("functions3.php");
 ?>
