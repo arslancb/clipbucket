@@ -44,6 +44,7 @@ if(isset($_POST['login'])){
 if(userid() && !has_access('admin_access',true))
 	e(lang("you_dont_hv_perms"));
 	
+
 subtitle('Admin Login');
 Template('global_header.html');
 Template('login.html');
