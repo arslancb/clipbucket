@@ -24,6 +24,27 @@
     <td width="200"><div align="left" style="width:200px">
 	<h3>Layout Files</h3>
     <ul>
+        
+        {foreach from=$layoutDirs item=dir key=name}
+            <li>{$name}</li>
+            <ul>
+               {if $dir.dirs}
+                {foreach from=$dir.dirs item=subdir key=subname}
+                    <li>{$subname}</li>
+                    <ul>
+                    {foreach from=$subdir item=subfile key=subfilename}
+                        <li{if $smarty.get.file==$subfile && $smarty.get.folder=="layout/$name/$subname"} class="sel_file"{/if}>
+                            <a href="?dir={$sel_dir}&file={$subfile}&folder=layout/{$name}/{$subname}">{$subfile}</a></li>
+                    {/foreach}
+                    </ul>
+                {/foreach}
+               {/if}
+               {foreach from=$dir.files item=file}
+               <li{if $smarty.get.file==$file && $smarty.get.folder=="layout/$name"} class="sel_file"{/if}><a href="?dir={$sel_dir}&file={$file}&folder=layout/{$name}">{$file}</a></li>
+               {/foreach}
+            </ul>
+        {/foreach}
+        
 	{foreach from=$tpl_files item=tplfile key=folder}
     	{if !is_array($tplfile)}
         	<li {if $smarty.get.file==$tplfile} class="sel_file"{/if}><a href="?dir={$sel_dir}&file={$tplfile}&folder=layout">{$tplfile}</a></li>

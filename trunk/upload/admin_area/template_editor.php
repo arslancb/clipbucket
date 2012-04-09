@@ -25,6 +25,7 @@ if(!$sel_dir || !$cbtpl->is_template($sel_dir))
 	$sel_dir = TEMPLATE;
 }
 
+
 //Checking if still there is no template, display error
 if(!$cbtpl->is_template($sel_dir))
 {
@@ -40,9 +41,17 @@ if(!$cbtpl->is_template($sel_dir))
 	assign('css_files',$css_files);
 	
 	//Reading File
-	if(isset($_GET['file']) && isset($_GET['folder']))
+        $tpl_file = get('file');
+        if(!$tpl_file)
+            $tpl_file = 'index.html';
+        
+        $tpl_folder = get('folder');
+        if(!$tpl_folder)
+            $tpl_folder = 'layout';
+        
+	if(isset($tpl_file) && isset($tpl_folder))
 	{
-		$file = STYLES_DIR.'/'.$sel_dir.'/'.$_GET['folder'].'/'.$_GET['file'];
+		$file = STYLES_DIR.'/'.$sel_dir.'/'.$tpl_folder.'/'.$tpl_file;
 		if(file_exists($file))
 		{
 			if(isset($_POST['update_file']))
@@ -73,22 +82,71 @@ if(!$cbtpl->is_template($sel_dir))
 
 //Getting And Listing Files
 if(!file_exists(BASEDIR.'/'.TEMPLATEFOLDER.'/'.@$_GET['temp']) || @$_GET['temp']==''){
-$dir = SITETEMPLATEDIR.'/layout/';
-$cur_dir = TEMPLATE;
+    $dir = SITETEMPLATEDIR.'/layout/';
+    $cur_dir = TEMPLATE;
 }else{
-$dir = BASEDIR.'/'.TEMPLATEFOLDER.'/'.$_GET['temp'].'/layout/';
-$cur_dir = $_GET['temp'];
+    $dir = BASEDIR.'/'.TEMPLATEFOLDER.'/'.$_GET['temp'].'/layout/';
+    $cur_dir = $_GET['temp'];
 }
+
 if(!($dp = opendir($dir))) die("Cannot open $dir.");
+
 while($file = readdir($dp)){
-$ext = GetExt($file);
-if($ext == 'html' || $ext == 'HTML'){
-$files[] = $file;
+    
+    $ext = GetExt($file);
+    if($ext == 'html' || $ext == 'HTML'){
+        $files[] = $file;
+    }
+    
+    if(!strstr($file,'.'))
+        $lDirs[] = $file;
+
 }
-}
-closedir($dp
-);
+closedir($dp);
 sort($files);
+
+$layout_dirs = array();
+foreach($lDirs as $ldir)
+{
+   $dp = @opendir($dir.'/'.$ldir);
+   if($dp)
+   {
+       while($file = readdir($dp)){
+            $ext = GetExt($file);
+            if($ext == 'html' || $ext == 'HTML'){
+                $layout_dirs[$ldir]['files'][] = $file;
+            }
+            
+            if(!strstr($file,'.'))
+            {
+                $subdir = $dir.'/'.$ldir.'/'.$file;
+                $subdirfiles = array();
+                $sdp = @opendir($subdir);
+                if($sdp)
+                {
+                    while($subfile = readdir($sdp)){
+                         $ext = GetExt($subfile);
+                          if($ext == 'html' || $ext == 'HTML'){
+                            $subdirfiles[] = $subfile;
+                        }
+                    }
+                }
+                closedir($sdp);
+                if($subdirfiles);
+                sort($subdirfiles);
+                $layout_dirs[$ldir]['dirs'][$file] = $subdirfiles;
+            }
+           
+       }
+   }
+   
+   
+   closedir($dp);
+
+}
+
+
+Assign('layoutDirs',$layout_dirs);
 Assign('files',$files);
 
 //Writng File
