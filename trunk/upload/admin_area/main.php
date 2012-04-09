@@ -298,6 +298,8 @@ if(isset($_POST['update'])){
 					'collection_user_favorites',
 					'collection_channel_page',					
 					);
+        
+        
 	foreach($rows as $field)
 	{
 		$value = ($_POST[$field]);
@@ -306,7 +308,11 @@ if(isset($_POST['update'])){
 			if($value <= 0 || !is_numeric($value))
 				$value = 1;
 		}
-		$myquery->Set_Website_Details($field,$value);
+
+                if($Cbucket->configs[$field]!=$value)
+                {
+                    $myquery->Set_Website_Details($field,$value);
+                }
 	}
 	e("Website Settings Have Been Updated",'m');
 
