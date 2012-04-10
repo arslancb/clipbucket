@@ -15,46 +15,46 @@ $pages->page_redir();
 
 //Getting Video Key
 $vkey = @$_GET['v'];
-$vdo = $cbvid->get_video($vkey);
-assign('vdo',$vdo);assign('video',$vdo);
+$slug = @$_GET['s'];
+$slug = mysql_clean($slug);
+if($slug)
+{
+    $slug = slug_exists($slug,'v');
+    if($slug)
+        $vkey = $slug['object_id'];
+}
+else
+    $theslug = false;
+$vdo = $cbvid->get_video($vkey,$theslug);
+
+assign('vdo',$vdo);
+assign('video',$vdo);
 if(video_playable($vdo))
 {	
-	
+	$pid = $_GET['play_list'];
+        
 	/**
 	 * Please check http://code.google.com/p/clipbucket/issues/detail?id=168
 	 * for more details about following code
 	 */
 	 
-	if(SEO=='yes')
+	if(SEO=='yes' && config('seo_vido_url')=='4' && $vdo['slug'])
 	{
-		//Checking if Video URL is Exactly What we have created
-		$vid_link = videoLink($vdo);
-		$vid_link_seo = explode('/',$vid_link);
-		$vid_link_seo = $vid_link_seo[count($vid_link_seo) -1 ];
-		
-		//Adding Extraqueries
-		if($_GET['play_list'])
-			$vid_link_seo .= '?&play_list='.$_GET['play_list'];
-			
-		//What we are getting
-		$server_link = $_SERVER['REQUEST_URI'];
-		$server_link_seo = explode('/',$server_link);
-		$server_link_seo = $server_link_seo[count($server_link_seo) -1 ];
-		
-		//Now finally Checking if both are equal else redirect to new link
-		if($vid_link_seo != $server_link_seo)
-		{
-			
-			//Redirect to valid link leaving mark 301 Permanent Redirect
-			header ('HTTP/1.1 301 Moved Permanently');
-  			header ('Location: '.$vid_link);
-			exit();
-		}
-		
+            //Now finally Checking if both are equal else redirect to new link
+            if($slug['slug'] != $vdo['slug'] )
+            {
+                    $vid_link = VideoLink($vdo);
+                    if($pid)
+                        $vid_link.='?play_list='.$pid;
+                    //Redirect to valid link leaving mark 301 Permanent Redirect
+                    header ('HTTP/1.1 301 Moved Permanently');
+                    header ('Location: '.$vid_link);
+                    exit();
+            }
 	}
 	
 	//Checking for playlist
-	$pid = $_GET['play_list'];
+	
 	if(!empty($pid))
 	{
 		$plist = $cbvid->action->get_playlist($pid,userid());

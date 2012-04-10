@@ -94,18 +94,35 @@ class CBvideo extends CBCategory
 	{
 		global $db;
 		
-		$userFields = "users.userid,users.username,users.avatar,users.avatar_url,users.email";
+		$userFields = array('userid','username','avatar','avatar_url',
+                'email','total_videos');
+                
+                $ufieldsQuery = "";
+                foreach($userFields as $ufield)
+                    $ufieldsQuery .= ',users.'.$ufield;
 		
 		if(!$file)
 		{
-			if(is_numeric($vid))
-				$results = $db->select(tbl("video,users"),tbl("video.*,$userFields"),tbl("video.videoid='$vid'")." AND ".tbl("video.userid=").tbl("users.userid"));
-			else
-				$results = $db->select(tbl("video,users"),tbl("video.*,$userFields"),tbl("video.videokey='$vid'")." AND ".tbl("video.userid=").tbl("users.userid"));
+                    if(is_numeric($vid))
+                       $cond = tbl("video.videoid='$vid'");
+                    else
+                       $cond = tbl("video.videokey='$vid'");    
 		}else
-		{
-			$results = $db->select(tbl("video,users"),tbl("video.*,$userFields"),tbl("video.file_name='$vid'")." AND ".tbl("video.userid=").tbl("users.userid"));
-		}
+                    $cond = tbl("video.file_name='$vid'");    
+                
+                
+                
+                $results = $db->select(
+                //Joining Slugs and User table
+                tbl("video")
+                .' LEFT JOIN '.tbl('users').' ON '
+                .tbl('video.userid').' = '.tbl('users.userid')
+                .' LEFT JOIN '.tbl('slugs').' ON '
+                .tbl('video.slug_id').' = '.tbl('slugs.slug_id'),
+                //Selecting fields
+                tbl("video.*".$ufieldsQuery.",slugs.*"),
+                //Addind Condition
+                $cond);
 			
 		if($db->num_rows>0)
 		{
@@ -217,7 +234,8 @@ class CBvideo extends CBCategory
 	function update_video($array=NULL)
 	{
 		global $eh,$Cbucket,$db,$Upload;		
-			 
+                
+                
 		$Upload->validate_video_upload_form(NULL,TRUE);
 		
 		if(empty($eh->error_list))
@@ -254,7 +272,8 @@ class CBvideo extends CBCategory
 			 $array = $_POST;
 			 
 			$vid = $array['videoid'];
-
+                        $the_video = get_video_details($vid);
+                        
 			if(is_array($_FILES))
 			$array = array_merge($array,$_FILES);
 			
@@ -352,9 +371,28 @@ class CBvideo extends CBCategory
 				e(lang("no_edit_video"));
 			}else{
 				//pr($upload_fields);	
-	
+                                
+                                //Updating Slug
+                                if(config('auto_update_slug')!='no' || !$the_video['slug'])
+                                {
+                                    if($the_video['title']!=$array['title'])
+                                    {
+                                        $slug = slug($array['title']);                                    
+                                        if($the_video['slug']!=$slug)
+                                        {
+                                            $db->update(tbl('slugs'),array('in_use')
+                                            ,array('no'),"object_id='$vid' AND object_type='v' ");
+                                            $slug_arr = add_slug($slug,$vid,'v');
+                                            
+                                            $query_field[] = 'slug_id';
+                                            $query_val[] = $slug_arr['id'];
+                                        }
+                                    }
+                                }
+                                
 				$db->update(tbl('video'),$query_field,$query_val," videoid='$vid'");
 				//echo $db->db_query;
+
 				e(lang("class_vdo_update_msg"),'m');
 			}
 			
@@ -805,10 +843,25 @@ class CBvideo extends CBCategory
 		
 		if(!$params['count_only'] &&  !$params['show_related'])
 		{
+                        $userFields = array('userid','email','username');
+                        foreach($userFields as $ufield)
+                        {
+                            $ufieldq .= ",users.".$ufield;
+                        }
+                        
 			if(!empty($cond))
 				$cond .= " AND ";
-			$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),$cond." ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);	
-			//echo $db->db_query;
+                                
+                        $result = $db->select(tbl('video')
+                        .' LEFT JOIN '.tbl('users').' ON '
+                        .tbl('video.userid').' = '.tbl('users.userid')
+                        .' LEFT JOIN '.tbl('slugs').' ON '
+                        .tbl('video.slug_id').' = '.tbl('slugs.slug_id')
+
+                        ,tbl('video.*'.$ufieldq.',slugs.*'),
+                        $cond." ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);	
+			
+                        //echo $db->db_query;
 		}
 	
 		
@@ -827,9 +880,16 @@ class CBvideo extends CBCategory
 				$cond .= " ".tbl('video.videoid')." <> '".$params['exclude']."' ";
 			}
 			
-			$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),
-			$cond." AND ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);
-			if($db->num_rows == 0)
+                        $result = $db->select(tbl('video')
+                        .' LEFT JOIN '.tbl('users').' ON '
+                        .tbl('video.userid').' = '.tbl('users.userid')
+                        .' LEFT JOIN '.tbl('slugs').' ON '
+                        .tbl('video.slug_id').' = '.tbl('slugs.slug_id')
+
+                        ,tbl('video.*'.$ufieldq.',slugs.*'),
+                        $cond." ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);	
+			
+                        if($db->num_rows == 0)
 			{
 				$cond = "";
 				if($superCond)
@@ -843,8 +903,16 @@ class CBvideo extends CBCategory
 						$cond .= ' AND ';
 					$cond .= " ".tbl('video.videoid')." <> '".$params['exclude']."' ";
 				}
-				$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),
-				$cond." AND ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);
+                                
+                                
+				 $result = $db->select(tbl('video')
+                                .' LEFT JOIN '.tbl('users').' ON '
+                                .tbl('video.userid').' = '.tbl('users.userid')
+                                .' LEFT JOIN '.tbl('slugs').' ON '
+                                .tbl('video.slug_id').' = '.tbl('slugs.slug_id')
+
+                                ,tbl('video.*'.$ufieldq.',slugs.*'),
+                                $cond." ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);	
 			}
 			assign($params['assign'],$result);
 		}

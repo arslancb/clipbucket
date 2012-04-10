@@ -3035,7 +3035,110 @@
 	}
         
 	
+        /**
+         * @name slug
+         * @todo generate slug
+         * @param STRING title
+         */
+        function slug($title)
+        {
+            
+            $title = SEO($title,false,false);
+            $title = SEO(clean(str_replace(' ','-',$title)),false,false);
+            
+            if(substr($title,strlen($title)-1,1)=='-')
+            {
+                $title = substr($title,0,strlen($title)-1);
+            }
+            
+            $title = mb_strtolower($title, 'UTF-8');
+            return $title;
+        }
         
+        /**
+         * @name add_slug
+         * @todo Add Slug in database for pretty urls
+         * @param STRING slug
+         * @param INT object ID
+         * @param STRING object type
+         */
+        function add_slug($slug,$id,$type)
+        {
+            global $db;
+            $counts = 0;
+            
+            $theSlug = $slug;
+            while(1)
+            {
+                if(!slug_exists($theSlug,$type,$id))
+                    break;
+                else
+                { 
+                    $counts++;
+                    $theSlug = $slug.'-'.$counts;
+                }
+                
+                break;
+            }
+            
+            $db->insert(tbl('slugs'),array('object_id','object_type','slug'),
+            array($id,$type,$theSlug));
+            
+            
+            return array('id'=>$db->insert_id(),'slug'=>$theSlug);
+        }
+        
+        
+        /**
+         * @name slug_exists
+         * @todo checks if slug exists or not
+         * @param STRING slug
+         * @param STRING type
+         * @return ARRAY slug
+         */
+        function slug_exists($slug,$type=NULL,$id=NULL)
+        {
+            global $db;
+            
+            $typeQuery = "";
+            
+            if($type)
+                $typeQuery = " AND object_type='$type' ";
+            if($id)
+                $idQuery = " AND object_id = '$id' ";
+            
+            $result = $db->select(tbl('slugs'),'*',"slug ='$slug' $typeQuery $idQuery");
+            
+            if($db->num_rows>0)
+                return $result[0];
+            else
+                return false;
+        }
+        
+        /**
+         * @name get_slug
+         * @todo Get slug of an object from tID and tpy
+         * @param STRING ID
+         * @param STRING type
+         */
+        function get_slug($id,$type)
+        {
+            global $db;
+            $results = $db->select(tbl('slugs'),'*',"object_id='$id' AND object_type='$type' ");
+            if($db->num_rows>0)
+            {
+                foreach($results as $result)
+                {
+                    if($result['in_use']=='yes')
+                        return $result;
+                }
+                
+                return $results[0];
+            }else
+            {
+                return false;
+            }
+        }
         
 //Including videos functions
 include("functions_videos.php");

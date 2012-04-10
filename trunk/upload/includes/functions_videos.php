@@ -320,7 +320,7 @@ function is_default_thumb($i)
  */
 function video_link($vdetails,$type=NULL)
 {
-	global $myquery;
+	global $myquery,$db;
 	#checking what kind of input we have
 	if(is_array($vdetails))
 	{
@@ -399,6 +399,34 @@ function video_link($vdetails,$type=NULL)
 			{
 				$link = BASEURL.'/video/'.$vdetails['videoid'].'_'.SEO(clean(str_replace(' ','-',$vdetails['title']))).$plist;
 			}
+                        
+                        case 4:
+                        {
+                                if($vdetails['slug'])
+                                {
+                                    $link = BASEURL.'/video/'
+                                    .$vdetails['slug']
+                                    .$plist;
+                                    
+                                }else
+                                {
+                                    //check if slug was recently added...
+                                    $slug_arr = get_slug($vdetails['videoid'],'v');
+                                    
+                                    if(!$slug_arr)
+                                    {
+                                        $slug_arr = add_slug(slug($vdetails['title']),$vdetails['videoid'],'v');
+                                        $db->update(tbl('video'),array('slug_id'),array($slug_arr['id'])
+                                        ,"videoid='".$vdetails['videoid']."'");
+                                    }
+                                    
+                                    $link = BASEURL.'/video/'
+                                    .$slug_arr['slug']
+                                    .$plist;
+                                    
+                                    
+                                }
+                        }
 			break;
 		}
 
@@ -1156,3 +1184,41 @@ function VideoLink($vdetails,$type=NULL)
 {
     return video_link($vdetails,$type);
 } 
+
+
+/**
+ * @method get video seo name
+ * @name video_slug
+ * @author Arslan
+ * @param ARRAY video details
+ */
+function video_slug($video)
+{
+    if(!$video['title'])
+        return false;
+    
+    $slug = slug($video['title']);
+    $theslug = $slug;
+    $count = 0 ;
+    while(1)
+    {
+        if(!video_slug_exists($theslug))
+            break;
+        $count++;
+        $theslug = $slug.'-'.$count;
+    }
+    
+    
+    return $theslug;
+}
+
+/**
+ * @todo check video slug exists or not
+ * @name video_slug_exists
+ * @author Arslan
+ * @param STRNG slug
+ */
+function video_slug_exists($slug)
+{
+    return slug_exists($slug,'v');
+}

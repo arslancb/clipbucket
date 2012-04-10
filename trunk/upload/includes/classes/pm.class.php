@@ -126,8 +126,8 @@ class cb_pm
 	 */
 	function init()
 	{
-		$array = video_attachment_form();
-		$this->add_custom_field($array);
+            //$array = video_attachment_form();
+            $this->add_custom_field($array);
 	}
 	
 	

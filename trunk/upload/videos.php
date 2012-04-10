@@ -15,10 +15,15 @@ $userquery->perm_check('view_videos',true);
 //Setting Sort
 $sort = $_GET['sort'];
 $child_ids = "";
+$cat = mysql_clean('cat');
+if(!is_numeric($cat))
+    $cat = 'all';
 
-if($_GET['cat'] && $_GET['cat']!='all')
+$time = mysql_clean(get('time'));
+
+if($cat && $cat!='all')
 {
-	$childs = $cbvid->get_sub_categories(mysql_clean($_GET['cat']));
+	$childs = $cbvid->get_sub_categories($cat);
 	$child_ids = array();
 	if($childs)
 		foreach($childs as $child)
@@ -31,10 +36,10 @@ if($_GET['cat'] && $_GET['cat']!='all')
 				$child_ids[] = $subchild['category_id'];
 			}
 		}
-	$child_ids[] = mysql_clean($_GET['cat']);
+	$child_ids[] = $cat;
 }
 
-$vid_cond = array('category'=>$child_ids,'date_span'=>$_GET['time'],'sub_cats');
+$vid_cond = array('category'=>$child_ids,'date_span'=>$time,'sub_cats');
 
 switch($sort)
 {

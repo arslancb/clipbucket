@@ -682,6 +682,7 @@ class ClipBucket
 		$gets = $_GET;
 		$request = $_REQUEST;
 		
+
 		//Cleaning post..
 		if(is_array($posts) && count($posts)>0)
 		{

@@ -37,6 +37,9 @@ define("REMBER_DAYS",7);
 
 define('DEBUG_LEVEL', 2);
 
+//Setting Content type to utf-8
+if(@!$disable_header)
+     header('Content-Type: text/html; charset=utf-8'); 
 
 switch(DEBUG_LEVEL)
 {
@@ -413,7 +416,7 @@ if(!@$in_bg_cron)
 	//Initializng Userquery class
 	$userquery->init();
 	$cbvideo->init();
-	$cbpm->init();
+	
 	$cbphoto->init_photos();
     $thisurl = curPageURL();
 	//Setting Up Group Class

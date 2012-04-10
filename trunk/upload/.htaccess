@@ -34,7 +34,7 @@ RewriteRule ^([^.]*)/?$ index.php [L]
 
 RewriteEngine on
 
-RewriteBase /
+#RewriteBase /
 #
 #
 #
@@ -46,6 +46,8 @@ RewriteRule ^video/(.*)/(.*) watch_video.php?v=$1&%{QUERY_STRING} [L]
 #Alternate watch video links
 RewriteRule ^(.*)\_v([0-9]+) watch_video.php?v=$2&%{QUERY_STRING} [L]
 RewriteRule ^video/([0-9]+)_(.*) watch_video.php?v=$1&%{QUERY_STRING} [L]
+RewriteRule ^video/(.*) watch_video.php?s=$1&%{QUERY_STRING} [L]
+
 
 
 #
