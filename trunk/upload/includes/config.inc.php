@@ -22,11 +22,15 @@ Assign('baseurl',BASEURL);
 Assign('imageurl',TEMPLATEURL.'/images');
 Assign('admimageurl',BASEURL.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.$Cbucket->template.'/images');
 Assign('layout',TEMPLATEURL.'/layout');
+Assign('layout_url',TEMPLATEURL.'/layout');
 Assign('theme',TEMPLATEURL.'/theme');
+Assign('theme_url',TEMPLATEURL.'/theme');
 Assign('admtheme',BASEURL.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.$Cbucket->template.'/theme');
 Assign('template_dir',TEMPLATEDIR);
 Assign('style_dir',LAYOUT);
-
+Assign('template_dir',TEMPLATEDIR);
+Assign('template_url',TEMPLATEURL);
+Assign('layout_dir',LAYOUT);
 
 
 

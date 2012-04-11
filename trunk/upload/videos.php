@@ -119,6 +119,7 @@ if(!$counter)
 }
 
 $total_pages = count_pages($counter,VLISTPP);
+
 //Pagination
 $pages->paginate($total_pages,$page);
 

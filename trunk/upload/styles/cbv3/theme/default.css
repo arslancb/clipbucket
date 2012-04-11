@@ -1,0 +1,20 @@
+/**
+ * @author : Arslan, Fawaz
+ * @Script : ClipBucket
+ * @Version : v3.0
+ * @Since : 2012
+ * @Rev : $REV$
+ */
+ 
+ header{
+     position: relative;
+     padding-top: 10px;
+ }
+ 
+ .logo-container{
+     padding-bottom: 10px;
+     position: absolute;
+     left: 0px;
+ }
+ 
+ .navbar{width: 500px; position: absolute; right: 0px}

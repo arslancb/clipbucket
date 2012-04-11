@@ -1059,21 +1059,10 @@ function get_vid_extensions()
 
 function check_cbvideo()
 {
-
-        /**
-          * come, keep it for two more versions only
-          * it will be gone in next few updates by default :p
-          *
-          * but dont ever forget its name
-          * its a damn ClipBucket
-          */
-
-        if((!defined("isCBSecured") 
-        || count(get_functions('clipbucket_footer'))== 0 )
-        && !BACK_END) 
-        {
-                        echo cbSecured(CB_SIGN_C);
-        }
+	/**
+	 * dont ever forget its name
+	 * its a damn ClipBucket
+	 */
 }
 
 

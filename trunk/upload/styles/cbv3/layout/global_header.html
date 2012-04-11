@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<!-- ClipBucket v3.0 -->
+<meta name="author" content="Arslan Hassan, Fawaz Tahir" />
+
+<link rel="shortcut icon" href="{$imageurl}/favicon.ico" type="image/x-icon" />
+
+<meta name="keywords" content="{$Cbucket->configs.keywords}" />
+<meta name="description" content="{$Cbucket->configs.description}" />
+<meta name="distribution" content="global" />
+
+
+
+<title>{cbtitle}</title>
+
+
+<!-- RSS FEEDS -->
+{rss_feeds link_tag=true}
+
+<!-- Including Normalizer And Bootstrap -->
+<link rel="stylesheet" type="text/css" href="{$layout_url}/normalize.css" />
+<link rel="stylesheet" type="text/css" href="{$template_url}/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="{$template_url}/bootstrap/css/bootstrap-responsive.min.css" />
+
+<!-- ClipBucket default.css -->
+<link rel="stylesheet" type="text/css" href="{$theme_url}/default.css" />
+
+<!-- Including ClipBucket Global_header -->
+{include_header file='global_header'}
+
+</head>
+
+<!-- Global Header Ends Here -->

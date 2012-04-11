@@ -1,0 +1,37 @@
+{assign var=msg value=$eh->message_list}
+{assign var=err value=$eh->error_list}
+{assign var=war value=$eh->warning_list}
+
+{if $err.0 neq '' || $err.1 != ''}
+<div class="cb_error">
+<ul>
+{foreach from=$err item=show_msg}
+<li> {$show_msg} </li>
+{/foreach}
+</ul>
+</div>
+{/if}
+
+
+{if $msg.0 neq ''}
+<div class="cb_message">
+<ul>
+{foreach from=$msg item=show_msg}
+<li>{$show_msg}</li>
+{/foreach}
+</ul>
+</div>
+{/if}
+
+
+{if $war.0 neq ''}
+<div class="cb_warning">
+<ul>
+<img src="{$imageurl}/messagebox_warning.png" style="float:left" />
+{foreach from=$war item=show_msg}
+<li>{$show_msg}</li>
+{/foreach}
+</ul>
+<div class="clearfix"></div>
+</div>
+{/if}

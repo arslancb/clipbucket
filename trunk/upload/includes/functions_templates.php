@@ -85,9 +85,18 @@
 		$file = $params['file'];
 		
 		if(file_exists(LAYOUT.'/'.$file))
-			Template($file);
-		elseif(file_exists($file))
-			Template($file,false);
+                {
+                    echo '<!-- Including '.$file.' -->';
+                    Template($file);
+                }elseif(file_exists($file))
+                {
+                    echo '<!-- Including '.$file.' -->';
+                    Template($file,false);
+                } elseif(file_exists(STYLES_DIR.'/global/'.$file))
+                {
+                    echo '<!-- Including '.$file.' -->';
+                    Template(STYLES_DIR.'/global/'.$file,false);
+                }
 	}
         
         
@@ -623,17 +632,18 @@
 	 */
 	function footer()
 	{
-		$funcs = get_functions('clipbucket_footer');
-		if(is_array($funcs) && count($funcs)>0)
-		{
-			foreach($funcs as $func)
-			{
-				if(function_exists($func))
-				{
-					$func();
-				}
-			}
-		}
+            $funcs = get_functions('clipbucket_footer');
+
+            if(is_array($funcs) && count($funcs)>0)
+            {
+                    foreach($funcs as $func)
+                    {
+                            if(function_exists($func))
+                            {
+                                    $func();
+                            }
+                    }
+            }
 	}
         
         
