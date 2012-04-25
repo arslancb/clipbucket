@@ -1,30 +1,55 @@
 <header>
+    <div class="header-top">
+        <div class="logo-container"><img src="{$imageurl}/logo.png" /></div>
+        
+        <!-- Buttons on the right side-->
+        <div class="header-top-right">
+            
+            <form class="inlineblock form-search" style="margin-right:10px;">
+                <div class="inlineblock valignTop input-append input-prepend">
+                <button class="btn">Videos 
+                 <span class='icon-chevron-down'></span></button><input 
+                     type="text" class="span6"><button class="btn">Search</button>
+
+                    
+                </div>
+            </form>
+            
+            
+            <div class="btn-group inlineblock valignTop">
+                {if !userid()}
+                <button class="btn"><span class="icon-user"></span> Login</button>
+                <button class="btn">Register</button>
+                {else}
+                <button class="btn"><span class="icon-user"></span> {username()}</button>
+                <button class="btn btn-primary">Upload
+                <span class="icon-upload icon-white"></span></button>
+                {/if}
+            </div>
+        </div>
+    </div>
     
-    <div class="logo-container"><img src="{$imageurl}/logo.png" /></div>
-    
-    <nav class="navbar nav-pills">
+    <nav class="navbar">
       <div class="navbar-inner">
+          
+
+          
+          
         <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-      
-          <div class="nav-collapse">
             <ul class="nav">
-              <li class="">
-                <a href="./index.html">Overview</a>
-              </li>
-              <li class="">
-                <a href="./scaffolding.html">Scaffolding</a>
-              </li>
-              <li class="">
-                <a href="./base-css.html">Base CSS</a>
-              </li>
-              
+                <li class="active"><a href="#"><span class="icon-home icon-white"></span> Home</a></li>
+                <li><a href="#"><span class="icon-film icon-white"></span> Videos</a></li>
+                <li><a href="#"><span class="icon-user icon-white"></span> Members</a></li>
+                <li><a href="#"><span class="icon-th-large icon-white"></span> Groups</a></li>
+                <li><a href="#"><span class="icon-white icon-picture"></span> Photos</a></li>
+                <li><a href="#"><span class="icon-headphones icon-white"></span> Music</a></li>
             </ul>
-          </div>
+            
+            <ul class="nav pull-right">
+                <li><a href="#"><span class="icon-user icon-white"></span></a></li>
+                <li><a href="#"><span class="icon-envelope icon-white"></span></a></li>
+                <li><a href="#"><span class="icon-globe icon-v3-white"></span></a></li>
+            </ul>
         </div>
       </div>
     </nav>

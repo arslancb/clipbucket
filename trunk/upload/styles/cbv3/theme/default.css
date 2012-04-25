@@ -7,9 +7,12 @@
  */
  
  header{
-     position: relative;
      padding-top: 10px;
  }
+ 
+ header .header-top{position: relative; height: 55px}
+ header .header-top-right{position: absolute; right: 3px; display: inline-block;
+ top: 5px}
  
  .logo-container{
      padding-bottom: 10px;
@@ -17,4 +20,93 @@
      left: 0px;
  }
  
- .navbar{width: 500px; position: absolute; right: 0px}
+ footer{margin-top: 15px}
+ 
+.container{width:1100px}
+
+.inlineblock{display: inline-block}
+.inline{display:inline}
+.block{display: block}
+.display-none{display: none}
+
+.relative {position: relative}
+.absolute {position:  absolute}
+
+.valignTop{vertical-align: top}
+.valignMid{vertical-align: middle}
+
+.spanauto{width: auto}
+.span100{width: 100px}
+.span770{width: 770px}
+.span734{width: 734px}
+.span336{width: 336px}
+.span300{width: 300px}
+
+.width75{width: 75px}
+.width100{width: 100px}
+.width150{width: 150px}
+.width200{width: 200px}
+
+.height5{height: 5px}
+.height10{height: 10px}
+.height15{height: 15px}
+.height20{height: 20px}
+
+.span100per{width: 100%}
+
+
+.video-details-shadow{background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.12)));
+background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.12) 100%);
+background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.12) 100%);
+background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.12) 100%);
+background: linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.12) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#1f000000',GradientType=0 );
+; bottom: 0px; width: 100%; height:10px}
+
+/* Icons */
+.icon-hard-disk {background-position: -0px -144px;}
+.icon-news {background-position: -24px -144px;}
+.icon-bell {background-position: -48px -144px;}
+.icon-popup {background-position: -72px -144px;}
+.icon-like {background-position: -96px -144px;}
+.icon-dislike {background-position: -120px -144px;}
+.icon-thumb-right {background-position: -144px -144px;}
+.icon-thumb-left {background-position: -168px -144px;}
+.icon-thumb-up {background-position: -192px -144px;}
+.icon-thumb-down {background-position: -216px -144px;}
+.icon-right {background-position: -240px -144px;}
+.icon-left {background-position: -264px -144px;}
+.icon-up {background-position: -288px -144px;}
+.icon-down {background-position: -312px -144px;}
+
+
+/* V3 ClipBucket Custom icons */
+.icon-stats {background-position: -0px -0px;}
+.icon-globe {background-position: -24px -0px;}
+.icon-keys  {background-position: -48px -0px;}
+
+.icon-v3 {
+  background-image: url("../images/v3icons.png");
+}
+.icon-v3-white {
+  background-image: url("../images/v3icons-white.png");
+}
+
+
+/* V3 Progress Bars */
+.progress-rating {
+background-color: #cc0000;
+height: 5px;
+background: -moz-linear-gradient(top,  #ff3019 0%, #cf0404 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ff3019), color-stop(100%,#cf0404));
+background: -webkit-linear-gradient(top,  #ff3019 0%,#cf0404 100%);
+background: -o-linear-gradient(top,  #ff3019 0%,#cf0404 100%);
+background: -ms-linear-gradient(top,  #ff3019 0%,#cf0404 100%);
+background: linear-gradient(top,  #ff3019 0%,#cf0404 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', endColorstr='#cf0404',GradientType=0 );
+}
+
+/* Comments */
+.comment{margin-top: 10px; margin-bottom: 10px}
+.comment .comment-text{margin-left: 5px}

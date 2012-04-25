@@ -1,0 +1,117 @@
+<!-- Watch Video Template $Id$ -->
+<h1>{$video.title}</h1>
+
+<div class="row">
+    <div class="span734">
+        <!-- Video Player -->
+        <div style="width: 100%; background-color: #ccc; height: 336px"></div>
+        
+        <!-- Video Stats and Actions -->
+        
+        <div class="video-stats">
+            <div class="inlineblock pull-left">
+                <div class="btn-toolbar">
+                    <div class="btn-group valignMid">
+                        <button class="btn"><span class="icon-like"></span> Like</button>
+                        <button class="btn"><span class="icon-dislike"></span></button>
+                    </div>
+                    <button class="btn"><span class="icon-plus"></span> Add To</button>
+                    <button class="btn"><span class="icon-share"></span> Share</button>
+                    <button class="btn"><span class="icon-flag"></span> Flag</button>
+                </div>
+            </div>
+            
+            <div class="inlineblock pull-right ">
+                <div class="btn-toolbar valignMid">
+                    <h3 class="inlineblock valignTop">3.5K views</h3>
+                    <button class="btn"><span class="icon-v3 icon-stats"></span></button>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        
+        <!-- Video Details -->
+        <div class="video-details row-fluid">
+            <div class="span9">
+                <div style="height: 60px ;overflow: hidden" id="vid-details" class="relative">
+                    <h6>uploaded {$video.date_added|niceTime} by {$video.username}</h6>
+
+                    <article><p>
+                        {$video.description}</p>
+                    </article>
+
+                    <h5>Category</h5>
+                        <h6>Some, Category, goes here</h6>
+                    <h5>Tags</h5>
+                        <h6>Some, Tags, GoeS, here</h6>
+                        
+                        <div class="height10"></div>
+                        <div  class="video-details-shadow absolute"></div>
+                </div>
+                
+                <div class="height5"></div>
+                
+                <div align="center">
+                
+                <div class="btn btn-info btn-mini width75" 
+                     id="vid-details-more" onclick="toggleLessMore('vid-details','more');">
+                    More</div>
+                <div class="btn btn-mini display-none width75"
+                     id="vid-details-less"  onclick="toggleLessMore('vid-details','less');">Less</div>
+                </div>
+                
+            </div>
+            <div class="span3">
+                <div class="progress progress-rating progress-success">
+                    <div class="bar" style="width: 95%;"></div>
+                </div>
+                <h6>2,839 likes, 139 dislikes</h6>
+            </div>
+            
+        </div> <!-- Ending Video Details -->
+        <div class="clearfix"></div>
+        
+        <!-- Related Photos -->
+        <div class="related-photos">
+            <h3>Photos you may like</h3>
+            
+            <ul class="thumbnails">
+                {section name=foo loop=4} 
+                <li>
+                    <a href="#" class="thumbnail">
+                        <img src="http://placehold.it/150x120" alt="">
+                    </a>
+                </li>
+                {/section}
+            </ul>
+        </div>
+        
+        <!-- Video Response -->
+        <div class="video-response">
+            <h3>Video Responses</h3>
+            <ul class="thumbnails">
+                {section name=foo loop=4} 
+                <li>
+                    <a href="#" class="thumbnail">
+                        <img src="http://placehold.it/150x120" alt="">
+                    </a>
+                </li>
+                {/section}
+            </ul>
+        </div>
+        
+        <!-- Add Comment -->
+        <div class="video-comments">
+            <h3>All Comments (4,555)</h3>
+            {section name=foo loop=4}
+                {include file="$layout_dir/blocks/comment.html"}
+            {/section}
+        </div>
+    </div>
+
+    <div class="span336">
+        bla
+    </div>
+</div>
+
+<div class="clearfix"></div>

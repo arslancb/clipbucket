@@ -404,13 +404,18 @@ if(!@$in_bg_cron)
 
 	include 'plugin.functions.php';
 	include 'plugins_functions.php';
-	require BASEDIR.'/includes/templatelib/Template.class.php';
+	
+        //require BASEDIR.'/includes/templatelib/Template.class.php';
+        define('SMARTY_DIR', BASEDIR.'/includes/smarty/');
+        require BASEDIR.'/includes/smarty/SmartyBC.class.php';
+        
 	require BASEDIR.'/includes/classes/template.class.php';
 	require BASEDIR.'/includes/classes/objects.class.php';
 	
 	require BASEDIR.'/includes/active.php';
 	
 	$cbtpl = new CBTemplate();
+        
 	$cbobjects = new CBObjects();
 	$swfobj		= new SWFObject();
 	//Initializng Userquery class
@@ -418,7 +423,7 @@ if(!@$in_bg_cron)
 	$cbvideo->init();
 	
 	$cbphoto->init_photos();
-    $thisurl = curPageURL();
+         $thisurl = curPageURL();
 	//Setting Up Group Class
 	$cbgroup->gp_thumb_width = config('grp_thumb_width');
 	$cbgroup->gp_thumb_height = config('grp_thumb_height');
@@ -581,7 +586,7 @@ $Smarty->register_function('include_header','include_header');
 $Smarty->register_function('include_template_file','include_template_file');
 $Smarty->register_function('include_js','include_js');
 $Smarty->register_function('get_binaries','get_binaries');
-$Smarty->register_function('check_module_path','check_module_path');
+//$Smarty->register_function('check_module_path','check_module_path');
 $Smarty->register_function('rss_feeds','rss_feeds');
 $Smarty->register_function('website_logo','website_logo');
 $Smarty->register_function('get_photo','get_photo');
@@ -602,7 +607,7 @@ $Smarty->register_modifier('SetTime','SetTime');
 $Smarty->register_modifier('getname','getname');
 $Smarty->register_modifier('getext','getext');
 $Smarty->register_modifier('form_val','form_val');
-$Smarty->register_modifier('get_from_val','get_from_val');
+//$Smarty->register_modifier('get_from_val','get_from_val');
 $Smarty->register_modifier('post_form_val','post_form_val');
 $Smarty->register_modifier('request_form_val','request_form_val');
 $Smarty->register_modifier('get_thumb_num','get_thumb_num');
@@ -613,13 +618,13 @@ $Smarty->register_modifier('get_age','get_age');
 $Smarty->register_modifier('outgoing_link','outgoing_link');
 $Smarty->register_modifier('nicetime','nicetime');
 $Smarty->register_modifier('country','get_country');
-$Smarty->register_modifier('cbsearch',new cbsearch());
+//$Smarty->register_modifier('cbsearch',new cbsearch());
 $Smarty->register_modifier('flag_type','flag_type');
 $Smarty->register_modifier('get_username','get_username');
 $Smarty->register_modifier('formatfilesize','formatfilesize');
 $Smarty->register_modifier('getWidth','getWidth');
 $Smarty->register_modifier('getHeight','getHeight');
-$Smarty->register_modifier('get_collection_name','get_collection_name');
+//$Smarty->register_modifier('get_collection_name','get_collection_name');
 $Smarty->register_modifier('json_decode','jd');
 $Smarty->register_modifier('getGroupPrivacy','getGroupPrivacy');
 

@@ -11,13 +11,14 @@ class CBTemplate {
        
         if (!isset($Smarty)) {
             
-            $Smarty = new Smarty;
+            $Smarty = new SmartyBC;
         }
     }
 
     function create() {
         global $Smarty;
-        $Smarty = new Smarty();
+        $Smarty = new SmartyBC();
+        
         $Smarty->compile_check = true;
         $Smarty->debugging = false;
         $Smarty->template_dir = BASEDIR."/styles";
@@ -157,13 +158,16 @@ class CBTemplate {
 			preg_match('/<released>(.*)<\/released>/',$content,$released);
 			preg_match('/<description>(.*)<\/description>/',$content,$description);
 			preg_match('/<website title="(.*)">(.*)<\/website>/',$content,$website_arr);
+                        preg_match('/<php>([a-z]{2,3}+)<\/php>/',$content,$php);
 			
 			$name = $name[1];
 			$author = $author[1];
 			$version = $version[1];
 			$released = $released[1];
 			$description = $description[1];
-
+                            
+                        $php = $php[1];
+                        
 			$website = array('title'=>$website_arr[1],'link'=>$website_arr[2]);
 			
 			//Now Create array
@@ -175,6 +179,7 @@ class CBTemplate {
 			 'description'=>$description,
 			 'website'=>$website,
 			 'dir'=>$temp,
+                         'php'=>$php,
 			 'path'=>TEMPLATEFOLDER.'/'.$temp
 			 );
 			

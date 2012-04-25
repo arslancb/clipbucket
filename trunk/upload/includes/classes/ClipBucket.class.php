@@ -470,7 +470,8 @@ class ClipBucket
 			$myquery->set_template($template);
 		}
 		
-		//
+		$this->template_details = $cbtpl->get_template_details($template);
+                
 		return	$this->template = $template;
 	}
 	

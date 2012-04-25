@@ -29,20 +29,36 @@
 	function Template($template,$layout=true)
         {
             
-                global $admin_area;
+                global $admin_area,$Cbucket;
                 
                 
-		if($layout)
-		CBTemplate::display(LAYOUT.'/'.$template);
-		else
-		CBTemplate::display($template);
-		
-		if($template == 'footer.html' && $admin_area !=TRUE){
-			CBTemplate::display(BASEDIR.'/includes/templatelib/'.$template);
-		}
-		if($template == 'header.html'){
-			CBTemplate::display(BASEDIR.'/includes/templatelib/'.$template);
-		}        	
+                //Getting list of variables and classes to make them global..
+                if($Cbucket->templateClasses)
+                {
+                    foreach ($Cbucket->templateClasses as $tClasskey)
+                    {
+                        global ${$tClasskey};
+                    }
+                }
+
+                if($Cbucket->template_details['php']!='on')
+                {
+                
+                    if($layout)
+                    CBTemplate::display(LAYOUT.'/'.$template);
+                    else
+                    CBTemplate::display($template);
+
+                }else
+                {
+                    if($layout)
+                        $template_file = LAYOUT.'/'.$template;
+                    else
+                        $template_file = $template;
+                    
+                    if(file_exists($template_file))
+                        include($template_file);
+                }
 	}
         
         /**
@@ -53,7 +69,9 @@
          */
         function Assign($name,$value)
 	{
-		CBTemplate::assign($name,$value);
+            global $Cbucket;
+            $CBucket->templateVars[$name] = $value;
+            CBTemplate::assign($name,$value);
 	}
         
         
