@@ -1,0 +1,42 @@
+.sidebar-nav{
+    padding: 9px 0px;
+}
+
+.row-fluid .span150, .span150{width: 150px}
+.row-fluid .span200, .span200{width: 200px}
+.row-fluid .span250, .span250{width: 150px}
+
+.sidebar-nav li a{padding: 3px 0px}
+.sidebar-nav li.nav-header{margin-left: -25px}
+
+.sidebar-nav .nav-header{cursor: pointer}
+
+.nav-sub-menu{padding: 0px}
+
+
+/* V3 ClipBucket Custom icons */
+.icon-stats {background-position: -0px -0px;}
+.icon-globe {background-position: -24px -0px;}
+.icon-keys  {background-position: -48px -0px;}
+.icon-reply {background-position: -72px -0px;}
+.icon-groups {background-position: -96px -0px;}
+.icon-add-user {background-position: -120px -0px;}
+.icon-remove-user {background-position: -144px -0px;}
+.icon-gauges {background-position: -168px -0px;}
+.icon-gauge {background-position: -192px -0px;}
+.icon-graph {background-position: -216px -0px;}
+.icon-pie-chart {background-position: -240px -0px;}
+.icon-adjustment {background-position: -264px -0px;}
+.icon-coins {background-position: -288px -0px;}
+.icon-notes {background-position: -312px -0px;}
+.icon-settings {background-position: -336px -0px;}
+.icon-plugins {background-position: -360px -0px;}
+
+.icon-v3 {
+  background-image: url("../images/v3icons.png");
+}
+.icon-v3-white {
+  background-image: url("../images/v3icons-white.png");
+}
+
+

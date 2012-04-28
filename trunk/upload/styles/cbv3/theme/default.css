@@ -32,15 +32,23 @@
 .relative {position: relative}
 .absolute {position:  absolute}
 
+.bottom{bottom:0px}
+.top{top:0px}
+.left{left:0px}
+.right{right:0px}
+
 .valignTop{vertical-align: top}
 .valignMid{vertical-align: middle}
 
 .spanauto{width: auto}
 .span100{width: 100px}
+.span700{width: 700px}
+.span650{width: 650px}
 .span770{width: 770px}
 .span734{width: 734px}
 .span336{width: 336px}
 .span300{width: 300px}
+.span100per{width: 100%}
 
 .width75{width: 75px}
 .width100{width: 100px}
@@ -51,8 +59,16 @@
 .height10{height: 10px}
 .height15{height: 15px}
 .height20{height: 20px}
+.height60{height: 60px}
+.height100perc{height: 100%}
 
-.span100per{width: 100%}
+.marginR10{margin-right: 10px}
+.marginL10{margin-left: 10px}
+.marginR5{margin-right: 5px}
+.marginL5{margin-left: 5px}
+
+.moveL{float: left}
+.moveR{float: right}
 
 
 .video-details-shadow{background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 100%);
@@ -85,6 +101,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .icon-stats {background-position: -0px -0px;}
 .icon-globe {background-position: -24px -0px;}
 .icon-keys  {background-position: -48px -0px;}
+.icon-reply {background-position: -72px -0px;}
+.icon-groups {background-position: -96px -0px;}
+.icon-add-user {background-position: -120px -0px;}
+.icon-remove-user {background-position: -144px -0px;}
 
 .icon-v3 {
   background-image: url("../images/v3icons.png");
@@ -109,4 +129,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', end
 
 /* Comments */
 .comment{margin-top: 10px; margin-bottom: 10px}
-.comment .comment-text{margin-left: 5px}
+.comment .comment-text{margin-left: 10px}
+.comment-textarea{margin-left: 10px !important; width: 650px}
+.comment-options{display: none}
+
+/* Author Box */
+.author-box-content{width: 220px}
+
+
+/* Login and Registeration Modal box */
+.login-modal-left{width: 249px; border-right: 1px solid #ccc; padding-right: 15px}
+.login-modal-right{width: 250px; margin-left: 15px; padding-top: 10px}
+
+.modal-username,.modal-password{width: 240px}
+.terms-text{font-size: 10px; color: #666}

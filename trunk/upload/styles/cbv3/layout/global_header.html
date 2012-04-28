@@ -31,8 +31,15 @@
 <!-- Including ClipBucket Global_header -->
 {include_header file='global_header'}
 
+<!-- Including Bootstrap JS 
+        NOTE : JQUERY v1.7 or higher is required -->
+<script type="text/javascript" src="{$template_url}/bootstrap/js/bootstrap.min.js"></script>
+
 <!-- Including Functions -->
 <script type="text/javascript" src="{$layout_url}/functions.js"></script>
+
+<!-- Including Javascript written in HTML document -->
+{include file="$layout_dir/javascript.html"}
 </head>
 
 <!-- Global Header Ends Here -->

@@ -1,0 +1,29 @@
+<h2>ClipBucket video duration fix</h2>
+<div style="margin:10px 0px">
+
+
+Clipbucket repair video duration using file conversion logs of each file, if there is no log, duration fix is likely not possible.<br />
+* with log => those videos that have file conversion log<br />
+* with no log => those don't have any conversion log</div>
+<div class="cb_div">{if $videos}
+	<form name="fix duration" method="post">
+<input type="submit" name="fix_duration" value="Fix duration (only with log)"  class="button"/>
+	<input type="submit" name="mark_failed" value="Mark failed (with no log)"  class="button"/>
+	<input type="submit" name="mark_delete" value="Delete (with no log)"  class="button"/>
+</form>
+<div style="height:10px"></div>
+	
+	{foreach from=$videos item=video}
+    {assign var=filename value=$video.file_name}
+    {assign var=log value=func->get_file_details($filename)}
+  <div style="margin-bottom:5px">
+        		<div style="display:inline-block; float:left"><img src="{getThumb vdetails=$video}" height="20" width="20"/></div>
+	<div style="padding-left:25px">{if $fixed_array.$filename}<strong>[FIXED]</strong> {/if}<a href='edit_video.php?video={$video.videoid}' style="color:#06c; font-weight:bold; text-decoration:{if $fixed_array.$filename}line-through {else}none{/if}
+    ">{$video.title}</a> (duration : <strong>{$vdo.duration|setTime}</strong> | Has Log :<strong>{if $log} <span style="color:#060">yes</span>{else}<span style="color:#ed0000">no</span>{/if} </strong>  )</div>
+       		<div  style="clear:both"></div>
+  </div>
+    {/foreach}
+    {else}
+    	<em><strong>No videos found with duration less than or equal to 1</strong></em>
+    {/if}
+</div>

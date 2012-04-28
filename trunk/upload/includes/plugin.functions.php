@@ -140,36 +140,6 @@
 	}
 	
 	
-	 /**
-	  * add link in admin area left menu
-	  *
-	  * Function used to add items in admin menu
-	  * This function will insert new item in admin menu
-	  * under given header, if the header is not available 
-	  * it will create one, ( Header means titles ie 'Plugins' 'Videos' etc)
-	  * http://docs.clip-bucket.com/add_admin_menu-function for reference
-	  *
-	  * @param STRING $header - Could be Plugin , Videos, Users , 
-	  * @param STRING $name - Menu title 
-	  * @param STRING $link - Menu Link
-	  * @param STRING $plug_folder - Path to plugin folder
-	  * @param STRING $is_player_file - Just to tell if plugin is somehow related to players
-	  */
-	 function add_admin_menu($header='Tool Box',$name,$link,$plug_folder=false,$is_player_file=false)
-	 {
-		global $Cbucket;
-		//Get Menu
-		$menu = $Cbucket->AdminMenu;
-		
-		if($plug_folder)
-			$link = 'plugin.php?folder='.$plug_folder.'&file='.$link;
-		if($is_player_file)
-			$link .= '&player=true';
-			
-		//Add New Menu
-		$menu[$header][$name] = $link;
-		$Cbucket->AdminMenu = $menu;
-	 }
 	 
 	 
 	 

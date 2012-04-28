@@ -101,16 +101,64 @@
         </div>
         
         <!-- Add Comment -->
-        <div class="video-comments">
+        <div class="comments video-comments">
             <h3>All Comments (4,555)</h3>
+            
+            <div class="add-comment row-fluid">
+                <div style="background-color: #333; height: 50px" class="spanauto">
+                    <img src="http://placehold.it/62x62"/>
+                </div>
+                <textarea class="input-xlarge span650
+                comment-textarea" id="textarea" rows="3"></textarea>
+                
+                <div class="clearfix"></div>
+                <div align="right">
+                    
+                    <button class="btn btn-primary">Add video response</button>
+                    <button class="btn">Post comment</button>
+                </div>
+            </div>
+            
+            <div class="height20"></div>
+            
             {section name=foo loop=4}
-                {include file="$layout_dir/blocks/comment.html"}
+                {include file="$layout_dir/blocks/comment.html" cid=$smarty.section.foo.iteration}
             {/section}
+            
+            <div align="right">
+                <div class="btn-group inlineblock">
+                    {section name=foo loop=6}
+                    <button class="btn">{$smarty.section.foo.iteration}</button>
+                    {/section}
+                    <button class="btn">Next &raquo;</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="span336">
-        bla
+        <div class="well" style="margin-bottom: 5px"> 
+            
+            <div class="row">
+                <div class="spanauto valignTop marginR10">
+                    <img src="http://placehold.it/60x60/53baff/ffffff"/>
+                </div>
+                <div class="span2 marginL5 author-box-content">
+                    <h4>Arslan Hassan</h4>
+                    ksajdklasdjksajd askldj askjd askjdklsajdkasjld jaskljd askljd lasj dklasdj 
+                    <div class="height5"></div>
+                    <div class="">
+                        <h6><i class="icon-film"></i> videos 4,45 | <i class="icon-picture"></i> photos 445</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-info" style="width:80%"><i class="icon-plus-sign icon-white"></i> Subscribe</button>
+            <button class="btn" style="width:10%"><i class="icon-envelope"></i></button>
+            <button class="btn" style="width:10%"><i class="icon-add-user icon-v3"></i></button>
+        </div>
+        
     </div>
 </div>
 

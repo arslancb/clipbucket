@@ -1,0 +1,278 @@
+{if $mode =='show_settings'}
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+  <tr>
+    <td align="left" class="settings_inner_title">ClipBucket Website Player Settings</td>
+    <td width="20" align="right" >&nbsp;</td>
+  </tr>
+</table>
+<div style="width:100%; margin:auto" id="player_size">
+<form action="manage_players.php?mode=show_settings" method="post" enctype="multipart/form-data" name="player_settings">
+<fieldset class="fieldset" style="border:none">
+<table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
+<tr>
+  <td valign="top"><strong>Pakplayer license</strong><br />
+    If you have pakplayer license, please enter it here</td>
+  <td valign="top"><input type="text" name="pak_license" id="pak_license" value="{$row.pak_license}" /></td>
+</tr>
+<tr>
+<td width="301" valign="top"><label for="autoplay_video"><strong>Autoplay</strong><br />
+  if yes, all videos will be played automatically
+</label></td>
+<td width="813" valign="top">
+    <label>
+      <input type="radio" name="autoplay_video" value="yes" id="autoplay_video_0" {if $row.autoplay_video=='yes'} checked="checked"{/if}  />
+      Yes</label>
+    <label><input type="radio" name="autoplay_video" value="no" id="autoplay_video_1" {if $row.autoplay_video=='no'} checked="checked"{/if}  />
+      No</label></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Use Playlist<br />
+    </strong>By turning this on, player will turn on playlists feature in player (if available)</td>
+  <td valign="top"><label>
+    <input type="radio" name="use_playlist" value="yes" id="use_playlist" {if $row.use_playlist=='yes'} checked="checked"{/if}  />
+    Yes</label>
+    <label>
+      <input type="radio" name="use_playlist" value="no" id="use_playlist" {if $row.use_playlist=='no'} checked="checked"{/if}  />
+      No</label></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Logo File</strong><br />
+    Logo file that will display on your flash player</td>
+  <td valign="top"><img src="{website_logo}" /><br />
+    <label>
+      <input type="file" name="logo_file" id="logo_file" />
+    </label></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Logo Placement</strong><br />
+    Placement of logo, top, left , right or bottom</td>
+  <td valign="top"><label>
+    <select name="logo_placement" id="logo_placement">
+      <option value="tl" {if $row.logo_placement=='tl'} selected="selected"{/if}>Top Left</option>
+      <option value="tr" {if $row.logo_placement=='tr'} selected="selected"{/if}>Top Right</option>
+      <option value="br" {if $row.logo_placement=='br'} selected="selected"{/if}>Bottom Right</option>
+      <option value="bl" {if $row.logo_placement=='bl'} selected="selected"{/if}>Bottom Left</option>
+    </select>
+  </label></td>
+</tr>
+<tr>
+  <td valign="top"><label for="logo_padding"><strong>Logo Padding</strong></label><br />
+    Set logo padding in pixels </td>
+  <td valign="top"><input type="text" id="logo_padding" name="logo_padding" value="{$row.logo_padding}" /></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Buffer Time</strong><br />
+    To control the buffer seconds</td>
+  <td valign="top"><label>
+    <input type="text" name="buffer_time" id="buffer_time" value="{$row.buffer_time}" />
+  </label></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Play Youtube Video Inside Player</strong><br />
+    this will let you play youtube videos in your player</td>
+  <td valign="top"><label>
+    <input type="radio" name="youtube_enabled" value="yes" id="youtube_enabled" {if $row.youtube_enabled=='yes'} checked="checked"{/if}  />
+    Yes</label>
+    <label>
+      <input type="radio" name="youtube_enabled" value="no" id="youtube_enabled" {if $row.youtube_enabled=='no'} checked="checked"{/if}  />
+      No</label></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Embed Player Width</strong><br />
+    Enter embedable player width in pixels</td>
+  <td valign="top"><label for="embed_player_width"></label>
+    <input name="embed_player_width" type="text" id="embed_player_width" value="{$row.embed_player_width}" /></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Embed Player Height</strong><br />
+    Enter embedable player width in pixels</td>
+  <td valign="top"><label for="embed_player_width"></label>
+    <input name="embed_player_height" type="text" id="textfield" value="{$row.embed_player_height}" /></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Autoplay Embed</strong><br />
+    Autoplay embeded video by default</td>
+  <td valign="top"> <label>
+      <input type="radio" name="autoplay_embed" value="yes" id="autoplay_embed0" {if $row.autoplay_embed=='yes'} checked="checked"{/if}  />
+      Yes</label>
+    <label><input type="radio" name="autoplay_embed" value="no" id="autoplay_embed1" {if $row.autoplay_embed=='no'} checked="checked"{/if}  />
+      No</label></td>
+</tr>
+<tr>
+  <td valign="top"><strong>Use PseudoStreaming</strong><br />
+    Let users to play video from anywhere, requires h264 streaming module from webserver<br /></td>
+  <td valign="top">
+    <label>
+      <input type="radio" name="pseudostreaming" value="yes" id="pseudostreaming_0"{if $row.pseudostreaming=='yes'} checked="checked"{/if}  />
+      Yes</label>
+
+    <label>
+      <input type="radio" name="pseudostreaming" value="no" id="pseudostreaming_1" {if $row.pseudostreaming=='no'} checked="checked"{/if} />
+      No</label>
+  </td>
+</tr>
+<tr>
+  <td valign="top"><strong>Pakplayer Context Menu</strong><br />
+    Write what you want to display when user right clicks on pakplayer (only if have pak player license)</td>
+  <td valign="top"><input type="text" name="pakplayer_contextmsg" id="pakplayer_contextmsg" value="{$row.pakplayer_contextmsg}" /></td>
+</tr>
+<tr>
+  <td valign="top">&nbsp;</td>
+  <td valign="top">&nbsp;</td>
+</tr>
+</table>
+<div align="left"><input type="submit" class="button" value="Update" name="update" /></div>
+</fieldset>
+
+</form>{literal}
+<style type="text/css">
+
+#resizable-channel,#resizable{{/literal}background-image:url({$imageurl}/play_icon.png);  background-repeat:no-repeat; background-position:center{literal}}
+
+</style>
+<script type="text/javascript">
+	function update_player_size(width,height,normal_player,channel_player)
+	{
+		var page = baseurl+'/actions/update_configs.php';
+		$.post(page, 
+		{ 	
+			width : width,
+			height : height,
+			update_player_size : normal_player,
+			update_channel_player_size:channel_player
+		},
+		function(data)
+		{
+			if(!data)
+				alert("No data");
+			else
+				$("#msg_box").html('<div style="width:300px; padding:5px; text-align:center; background-color:#0099cc; border-radius:5px; -moz-border-radius:5px; color:#fff">'+data+'</div>');
+		},'text');
+	
+	}
+	
+	$(function() {
+		$("#resizable").resizable({
+			maxHeight: 800,
+			maxWidth: 800,
+			minHeight: 100,
+			minWidth: 100,
+			grid: 10,
+			resize:function(event,ui){$("#width").val(ui.size.width);$("#height").val(ui.size.height);},
+			stop:function(event,ui){update_player_size(ui.size.width,ui.size.height,'yes','')}
+		});
+		
+		 $("#width").change(function () {$('#resizable').css("width",this.value+'px') ; update_player_size(this.value,$("#height").val(),'yes','') });
+		 $("#height").change(function () {$('#resizable').css("height",this.value+'px');  update_player_size($("#width").val(),this.value,'yes','')  });
+	});
+	
+	
+	$(function() {
+		$("#resizable-channel").resizable({
+			maxHeight: 800,
+			maxWidth: 800,
+			minHeight: 100,
+			minWidth: 100,
+			grid: 10,
+			resize:function(event,ui){$("#channel_width").val(ui.size.width);$("#channel_height").val(ui.size.height);},
+			stop:function(event,ui){update_player_size(ui.size.width,ui.size.height,'','yes')}
+		});
+		
+		 $("#channel_width").change(function () {$('#resizable-channel').css("width",this.value+'px') ; update_player_size(this.value,$("#channel_height").val(),'','yes') });
+		 $("#channel_height").change(function () {$('#resizable-channel').css("height",this.value+'px');  update_player_size($("#channel_width").val(),this.value,'','yes')  });
+	});
+	</script>
+{/literal}
+
+<div style="height:30px"></div>
+In order to change player size, resize the box given below..
+<div style="height:10px"></div>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+  <tr>
+    <td align="left" class="settings_inner_title"><div onclick="toggle_search('website_player');" style="cursor:pointer">Main Website Player Size -<span style="font-size:11px; color:#06c"> click here to main website player</span></div></td>
+    <td width="20" align="right" >&nbsp;</td>
+  </tr>
+</table>
+
+<div  class="demo" style="width:100%; margin:auto{if $smarty.cookies.website_player_search!='show'};display:none{/if}" id="website_player">
+<div id="msg_box" style="margin:5px;"></div>
+
+<div id="resizable" class="ui-widget-content" style="width:{$Cbucket->configs.player_width}px; height:{$Cbucket->configs.player_height}px; margin:auto">
+  <h3 class="ui-widget-header">Original Size of your Main Website Player</h3>
+</div>
+<div class="player_dims"><label for="width">Width</label>
+<input type="text" name="width" id="width" value="{$Cbucket->configs.player_width}" />
+<label for="height">Height</label>
+<input type="text" name="height" id="height" value="{$Cbucket->configs.player_height}" />
+</div></div>
+
+
+<div style="height:10px"></div>
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+  <tr>
+    <td align="left" class="settings_inner_title"><div onclick="toggle_search('channel_player');" style="cursor:pointer">Channel Player Settings Size -<span style="font-size:11px; color:#06c"> click here to edit channel player settings</span></div></td>
+    <td width="20" align="right" >&nbsp;</td>
+  </tr>
+</table>
+<div  class="demo" style="width:100%; margin:auto{if $smarty.cookies.channel_player_search!='show'};display:none{/if}" id="channel_player">
+	
+<div id="resizable-channel" class="ui-widget-content" style="width:{$Cbucket->configs.channel_player_width}px; height:{$Cbucket->configs.channel_player_height}px; margin:auto">
+	<h3 class="ui-widget-header">Original Size of your Main Website Player</h3>
+</div>
+<div class="player_dims"><label for="width">Width</label>
+<input type="text" name="width" id="channel_width" value="{$Cbucket->configs.channel_player_width}" />
+<label for="height">Height</label>
+<input type="text" name="height" id="channel_height" value="{$Cbucket->configs.channel_player_height}" />
+</div></div>
+
+</div>
+
+
+{else}
+
+
+<div style="height:35px"></div>
+
+<h2>Selected Player</h2>
+<div>
+{assign var="player_dir" value=$Cbucket->configs.player_dir}
+{assign var="player_file" value=$Cbucket->configs.player_file}
+
+{assign var="curplayer" value=$cbplayer->getPlayerDetails($player_file,$player_dir)}
+<table width="800" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="190"><img src="{$cbplayer->get_preview_thumb($curplayer.folder)}" class="preview_thumb"  ></td>
+    <td valign="top"><h2 style="display:inline">{$curplayer.name}</h2> &#8212; <em><a href="{$curplayer.author_page}"><strong>{$curplayer.author}</strong></a></em><br />
+{$curplayer.description}<br />
+Version : {$curplayer.version} Released on {$curplayer.released|date_format}<br />
+Website : <a href="{$curplayer.website}">{$curplayer.website}</a></td>
+  </tr>
+</table>
+
+
+</div>
+
+<hr size="1" noshade />
+<h2>Available Players</h2>
+
+{* Listing All Avilable Players *}
+
+{assign var='players' value=$cbplayer->get_players()}
+
+<div class="templates_container">
+{foreach from=$players item=player}
+{if $player_file !=$player.file && $player_dir != $player.folder}
+
+	<div class="template_box" align="center">
+    	<img src="{$cbplayer->get_preview_thumb($player.folder)}" class="preview_thumb" >
+<div align="center" style="" class="tpl_title">
+        	{$player.name} <br /><em>by <strong><a href="{$player.author_page}">{$player.author}</a></strong></em><br />
+        <a href="manage_players.php?set=yes&folder={$player.folder}&file={$player.file}">Activate This Player</a><br />
+</div>
+    </div>
+{/if}
+{/foreach}
+</div>
+
+{/if}

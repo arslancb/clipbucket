@@ -41,16 +41,19 @@
 	Assign('admin_pages',$admin_pages);
 	
  	//Do No Edit Below This Line
- 	
-	define('TEMPLATEDIR',BASEDIR.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/cbv2');
+ 	define('TEMPLATE','cbv3');
+	define('TEMPLATEDIR',BASEDIR.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.TEMPLATE);
 	define('SITETEMPLATEDIR',BASEDIR.'/'.TEMPLATEFOLDER.'/'.$row['template_dir']);
-	define('TEMPLATEURL',BASEURL.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/cbv2');
+	define('TEMPLATEURL',BASEURL.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.TEMPLATE);
 	define('LAYOUT',TEMPLATEDIR.'/layout');
 	
 	Assign('baseurl',BASEURL);
+        assign('template_url',TEMPLATEURL);
+        assign('template_dir',TEMPLATEDIR);
 	Assign('admindir',ADMINDIR);
 	Assign('imageurl',TEMPLATEURL.'/images');
 	Assign('layout',TEMPLATEURL.'/layout');
+        assign('layout_dir',TEMPLATEDIR.'/layout');
 	Assign('theme',TEMPLATEURL.'/theme');
 	Assign('style_dir',LAYOUT);
 	
@@ -67,6 +70,8 @@
 	include('flv_player.php');
 	
 	
-$Smarty->assign_by_ref('cbmass',$cbmass)	
+$Smarty->assign_by_ref('cbmass',$cbmass);
+        
+
 	
 ?>

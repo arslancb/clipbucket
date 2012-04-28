@@ -42,7 +42,7 @@ class Collections extends CBCategory
 		$this->section_tbl = "collections";
 		$this->types = array('videos' => lang("Videos"),'photos' => lang("Photos"));
 		ksort($this->types);
-		$this->setting_up_collections();
+		
 		$this->init_actions();
 
 	}
@@ -82,13 +82,27 @@ class Collections extends CBCategory
 		$Cbucket->search_types['collections'] = "cbcollection";
 		
 		// Adding Collection links in Admin Area
-		if($per['collection_moderation'] == "yes")
-		$Cbucket->AdminMenu['Collections'] = array(
-													lang('Manage Collections')=>'collection_manager.php',
-													lang('Manage Categories')=>'collection_category.php',
-													lang('Flagged Collections')=>'flagged_collections.php');
+	
 		
-
+                $menu = array(
+                    'title' => lang('Collections Manager'),
+                    'icon'  => 'icon-th',
+                    'id'    => 'collections-manager',
+                    'access' => 'collection_moderation',
+                );
+                    
+                $sub_menu =  array(
+                    'collections-manager' => array(
+                        array('title' => lang('Manage Collections'), 'link' =>'collection_manager.php'),
+                        array('title' => lang('Manage Categories'), 'link' =>'collection_category.php'),
+                        array('title' => lang('Flagged Collections'), 'link' =>'flagged_collections.php')
+                    )
+                );
+                
+                add_admin_menu($menu);
+                add_admin_sub_menus($sub_menu);
+                
+                
 		// Adding Collection links in Cbucket Class
 		$Cbucket->links['collections'] = array('collections.php','collections/');
 		$Cbucket->links['manage_collections'] = array('manage_collections.php','manage_collections.php');

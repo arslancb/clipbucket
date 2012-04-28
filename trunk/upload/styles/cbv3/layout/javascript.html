@@ -1,0 +1,23 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+       
+       //Adding Comment Hover effect
+       $('.comment').bind('mouseover',function(e){
+           $(this).find('.comment-options').show();
+       });
+       
+        //Adding Comment Mouse-leave effect
+       $('.comment').bind('mouseout',function(e){
+           $(this).find('.comment-options').hide();
+       });
+       
+       //Init Login Modal box
+       $('#login-modal').modal({
+          show : false
+       });
+       
+       //Init Drop Downs
+       $('.cb-dropdown').dropdown()
+       
+    });
+</script>

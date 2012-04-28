@@ -1,0 +1,22 @@
+
+<div class="well sidebar-nav">
+    <ul class="nav nav-list">
+    {assign var='menu' value = get_admin_menu()}
+    
+    {foreach from=$menu item=theMenu}
+    
+    <li class="nav-header" ref="{$theMenu.id}"><i class="{$theMenu.icon}"></i> {$theMenu.title}</li>
+    <li class="divider"></li>
+        <li class="nav-sub-menu" ref="{$theMenu.id}">
+            <ul class="nav nav-list">
+            {foreach from=$theMenu.sub_menu item=sub_menu}
+                {if $sub_menu!='icon'}
+                    <li><a href="{$sub_menu.link}">{$sub_menu.title}</a></li>
+                {/if}
+            {/foreach}
+            </ul>
+        </li>
+    </li>
+    {/foreach}
+    </ul>
+</div>

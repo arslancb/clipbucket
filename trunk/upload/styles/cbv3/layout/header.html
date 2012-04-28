@@ -1,27 +1,87 @@
 <header>
     <div class="header-top">
-        <div class="logo-container"><img src="{$imageurl}/logo.png" /></div>
+        <div class="logo-container"><a href="{$baseurl}"><img src="{$imageurl}/logo.png" /></a></div>
         
         <!-- Buttons on the right side-->
         <div class="header-top-right">
             
             <form class="inlineblock form-search" style="margin-right:10px;">
                 <div class="inlineblock valignTop input-append input-prepend">
-                <button class="btn">Videos 
-                 <span class='icon-chevron-down'></span></button><input 
-                     type="text" class="span6"><button class="btn">Search</button>
-
-                    
+                <button class="btn">Videos
+                    <span class='caret'></span></button><input type="text" class="span6"><button 
+                     class="btn"><i class="icon-search"></i></button>                    
                 </div>
             </form>
             
             
             <div class="btn-group inlineblock valignTop">
                 {if !userid()}
-                <button class="btn"><span class="icon-user"></span> Login</button>
-                <button class="btn">Register</button>
+                <button class="btn login-box" data-target="#login-modal"  data-toggle="modal"><span class="icon-user"></span> {lang code='Login'}</button>
+                
+                <!-- Login Modal Box -->
+                <div class="modal hide fade" id="login-modal">
+                  <div class="modal-header">
+                    <button class="close" data-dismiss="modal">×</button>
+                    <h3>{lang code='user_mem_login'}</h3>
+                  </div>
+                  <div class="modal-body">
+                      <div class="moveL login-modal-left">
+                          <form class="" method="post" action="{link name='signup'}">
+                          <input type="text" class="modal-username" 
+                                 placeholder="{lang code='Email'}" name="username">
+                          <input type="password" class="modal-password" 
+                                 placeholder="{lang code='Password'}" name="password">
+                          
+                          <div class="inlineblock moveL">
+                            <label class="checkbox">
+                                <input type="checkbox" id="rememberme" class="rememberme" value="yes">
+                                {lang code='remember_me'}
+                            </label>
+                          </div>
+                          <div class="inlineblock moveR">
+                            <button class="btn btn-inverse">{lang code='Login'}</button>
+                          </div>
+                          <div class="clearfix"></div>
+                          <input type="hidden" name="login" value="do"/>
+                          </form>
+                      </div>
+                      <div class="moveL login-modal-right" align="center">
+                          
+                          <h3>{lang code="Don't have an account?"}</h3>
+                          
+                          <a href="{link name='signup'}" class="btn btn-primary btn-large">
+                              {lang code="Create one now!"}
+                          </a>
+                          <div class="height10"></div>
+                          <div class="terms-text">{lang code="ready_ours_terms_privacy"}</div>
+                      </div>
+                      
+                      <div class="clearfix"></div>
+                  </div>
+                  <div class="modal-footer" style="text-align: left" >
+                      <a class="btn btn-mini">{lang code='user_forgot_message'}</a> or
+                      <a class="btn btn-mini">{lang code='user_forgot_username'}</a>
+                  </div>
+                </div>
+                
+                
+                <a href="{link name='signup'}" class="btn">Register</a>
                 {else}
-                <button class="btn"><span class="icon-user"></span> {username()}</button>
+                <button class="btn cb-dropdown"><span class="icon-user" 
+                  data-toggle="dropdown" data-target="#user-dropdown"></span> 
+                    {username()} <i class="caret"></i></button>
+                
+                    <ul class="dropdown-menu" id="#user-dropdown">
+                        
+                        {assign var=user_menu_links value=get_user_menu_links()}
+                        
+                        {foreach $user_menu_links as $menu}
+                            <li><a href="{$menu.link}">{$menu.name}</a></li>
+                        {/foreach}
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="icon-off"></i> Logout</a></li>
+                    </ul>
+                
                 <button class="btn btn-primary">Upload
                 <span class="icon-upload icon-white"></span></button>
                 {/if}

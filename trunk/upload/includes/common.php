@@ -387,6 +387,10 @@ if(!@$in_bg_cron)
 	//Number of activity feeds to display on channel page
 	define("USER_ACTIVITY_FEEDS_LIMIT",15);
 	
+        
+        
+                
+                
 	//SETTING PHOTO SETTING
 	$cbphoto->thumb_width = $row['photo_thumb_width'];
 	$cbphoto->thumb_height = $row['photo_thumb_height'];
@@ -414,11 +418,14 @@ if(!@$in_bg_cron)
 	
 	require BASEDIR.'/includes/active.php';
 	
+        include('menu.php');
+        
 	$cbtpl = new CBTemplate();
         
 	$cbobjects = new CBObjects();
 	$swfobj		= new SWFObject();
 	//Initializng Userquery class
+        $cbcollection->setting_up_collections();
 	$userquery->init();
 	$cbvideo->init();
 	

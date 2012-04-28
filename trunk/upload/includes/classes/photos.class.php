@@ -114,16 +114,26 @@ class CBPhotos
 		$per = $userquery->get_user_level(userid());
 		
 		
-		if($per['photos_moderation'] == "yes")
-		$am['Photos'] = array(
-							  'Photo Manager' => 'photo_manager.php',
-							  'Flagged Photos' => 'flagged_photos.php',
-							  'Orphan Photos' => 'orphan_photos.php',					
-							  'Photo Settings' => 'photo_settings.php',
-							  'Watermark Settings' => 'photo_settings.php?mode=watermark_settings',
-							  'Recreate Thumbs' => 'recreate_thumbs.php?mode=mass'
-							  );
-		$Cbucket->AdminMenu = $am;					  	
+		$menu = array(
+                    'title' => lang('Photos Manager'),
+                    'icon'  => 'icon-picture',
+                    'id'    => 'photos-manager',
+                    'access' => 'photos_moderation',
+                );
+                    
+                $sub_menu =  array(
+                    'photos-manager' => array(
+                        array('title' => lang('Photo Manager'), 'link' => 'photo_manager.php'),
+                        array('title' => lang('Flagged Photos'), 'link' => 'flagged_photos.php'),
+                        array('title' => lang('Orphan Photos'), 'link' => 'orphan_photos.php'),					
+                        array('title' => lang('Photo Settings'), 'link' => 'photo_settings.php'),
+                        array('title' => lang('Watermark Settings'), 'link' => 'photo_settings.php?mode=watermark_settings'),
+                        array('title' => lang('Recreate Thumbs'), 'link' => 'recreate_thumbs.php?mode=mass')
+                    )
+                );
+                
+                add_admin_menu($menu);
+                add_admin_sub_menus($sub_menu);				  	
 	}
 	
 	

@@ -1,0 +1,50 @@
+<h2>Mass Uploader</h2>
+<div style="height:10px"></div>
+{assign var=vid_files value=$cbmass->get_video_files()}
+{if $vid_files}
+
+	<form name="mass_upload" method="post" class="cbform">
+	{foreach from=$vid_files item=file name=mass_files}
+    
+    <input type="hidden" name="mass_up[]" value="{$file.title}" />
+    {assign var='requiredFields' value=$Upload->loadRequiredFields($file)}
+    {assign var='optionFields' value=$Upload->loadOptionFields($file)}
+    {assign var='locationFields' value=$Upload->loadLocationFields($file)}
+    {assign var='cust_fields'  value=$Upload->custom_form_fields}
+            
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" onclick="$('#file-{$smarty.foreach.mass_files.iteration}').slideToggle()" style="cursor:pointer; margin-bottom:10px" class="block">
+          <tr>
+            <td width="50" align="center" valign="middle" class="settings_inner_title">#{$smarty.foreach.mass_files.iteration}</td>
+            <td align="left" class="settings_inner_title" >{$file.file} - <span style="font-size:11px; color:#06c">enter details</span></td>
+          </tr>
+      </table>
+        
+       
+<table width="100%" border="0" cellpadding="2" cellspacing="0" class="block" id="file-{$smarty.foreach.mass_files.iteration}" style="display:none">
+			{foreach from=$requiredFields item=field}
+
+            <tr>
+              <td width="114" align="right" valign="top"><label for="{$field.id}" class="label">{$field.title}</label></td>
+              <td valign="top" style="padding-left:10px">{if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field,TRUE)}
+            {if $field.hint_2}<br>
+            <div class="hint">{$field.hint_2}</div>{/if}</td>
+    </tr>
+            {/foreach}
+      </table>
+      
+    {/foreach}
+    
+    <div style="width:100%; margin:10px auto" align="left">
+      <div style="padding:10px;border: dotted #0066cc 1px; background-color:#f5faff; " align="center"><input type="submit" name="mass_upload_video" id="mass_upload_video" value="Mass Upload Videos Now" class="button" /></div></div>
+    </form>
+{else}
+	
+                
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"class="block">
+          <tr>
+            <td align="center" valign="middle" class="settings_inner_title">NO VIDEO FOUND IN MASS UPLOAD FOLDER </td>
+          </tr>
+      </table>
+
+{/if}
+

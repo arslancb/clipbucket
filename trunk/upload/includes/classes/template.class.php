@@ -148,44 +148,92 @@ class CBTemplate {
 	
 	function get_template_details($temp,$file='template.xml')
 	{
-		$file = STYLES_DIR.'/'.$temp.'/template.xml';
-		if(file_exists($file))
-		{
-			$content = file_get_contents($file);
-			preg_match('/<name>(.*)<\/name>/',$content,$name);
-			preg_match('/<author>(.*)<\/author>/',$content,$author);
-			preg_match('/<version>(.*)<\/version>/',$content,$version);
-			preg_match('/<released>(.*)<\/released>/',$content,$released);
-			preg_match('/<description>(.*)<\/description>/',$content,$description);
-			preg_match('/<website title="(.*)">(.*)<\/website>/',$content,$website_arr);
-                        preg_match('/<php>([a-z]{2,3}+)<\/php>/',$content,$php);
-			
-			$name = $name[1];
-			$author = $author[1];
-			$version = $version[1];
-			$released = $released[1];
-			$description = $description[1];
-                            
-                        $php = $php[1];
-                        
-			$website = array('title'=>$website_arr[1],'link'=>$website_arr[2]);
-			
-			//Now Create array
-			$template_details = array
-			('name'=>$name,
-			 'author'=>$author,
-			 'version'=>$version,
-			 'released'=>$released,
-			 'description'=>$description,
-			 'website'=>$website,
-			 'dir'=>$temp,
-                         'php'=>$php,
-			 'path'=>TEMPLATEFOLDER.'/'.$temp
-			 );
-			
-			return $template_details;
-		}else
-			return false;
+            $file = STYLES_DIR.'/'.$temp.'/template.xml';
+
+            if(file_exists($file))
+            {
+                $content = file_get_contents($file);
+                preg_match('/<name>(.*)<\/name>/',$content,$name);
+                preg_match('/<author>(.*)<\/author>/',$content,$author);
+                preg_match('/<version>(.*)<\/version>/',$content,$version);
+                preg_match('/<released>(.*)<\/released>/',$content,$released);
+                preg_match('/<description>(.*)<\/description>/',$content,$description);
+                preg_match('/<website title="(.*)">(.*)<\/website>/',$content,$website_arr);
+                preg_match('/<php>([a-z]{2,3}+)<\/php>/',$content,$php);
+
+                $name = $name[1];
+                $author = $author[1];
+                $version = $version[1];
+                $released = $released[1];
+                $description = $description[1];
+
+                $php = $php[1];
+
+                $website = array('title'=>$website_arr[1],'link'=>$website_arr[2]);
+            }
+
+            if(!file_exists($file))
+            {
+                $file = STYLES_DIR.'/'.$temp.'/template.php';
+                
+                if(file_exists($file))
+                {
+                    // We don't need to write to the file, so just open for reading.
+                    $fp = fopen($file, 'r');
+                    // Pull only the first 8kiB of the file in.
+                    $template_data = fread( $fp, 8192 );
+
+                
+                    preg_match( '/Template Name:(.*)$/mi', $template_data, $name );
+                    preg_match( '/Website Title:(.*)$/mi', $template_data, $website_title );
+                    preg_match( '/Website:(.*)$/mi', $template_data, $website );
+                    preg_match( '/Version:(.*)/mi', $template_data, $version );
+                    preg_match( '/Description:(.*)$/mi', $template_data, $description );
+                    preg_match( '/Author:(.*)$/mi', $template_data, $author );
+                    preg_match( '/Author Website:(.*)$/mi', $template_data, $author_page );
+                    preg_match( '/ClpBucket Version:(.*)$/mi', $template_data, $cbversion );
+                    
+                    fclose($fp);
+
+                    $name = $name[1];
+                    $author = $author[1];
+                    $version = $version[1];
+                    $released = $released[1];
+                    $description = $description[1];
+
+                    $website_title =  $website_title[1];
+
+                    if(!$website_title)
+                        $website = array('title'=>$name,'link'=>$website);
+                    else
+                        $website = array('title'=>$website_title,'link'=>$website);
+                }
+            }
+                    
+            if($name)
+            {
+                //Checking if template has php file attached
+                if(file_exists(STYLES_DIR.'/'.$temp.'/template.php'))
+                {
+                    include(STYLES_DIR.'/'.$temp.'/template.php');
+                }
+
+                //Now Create array
+                $template_details = array
+                ('name'=>$name,
+                 'author'=>$author,
+                 'version'=>$version,
+                 'released'=>$released,
+                 'description'=>$description,
+                 'website'=>$website,
+                 'dir'=>$temp,
+                 'php'=>$php,
+                 'path'=>TEMPLATEFOLDER.'/'.$temp
+                 );
+                
+                return $template_details;
+            }else
+                    return false;
 	}
 	
 	/**

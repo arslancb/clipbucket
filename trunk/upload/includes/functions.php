@@ -1377,10 +1377,15 @@
 	 * Function used to get config value
 	 * of ClipBucket
 	 */
-	function config($input)
+	function config($input,$value=false)
 	{
-		global $Cbucket;
-		return $Cbucket->configs[$input];
+		global $Cbucket,$myquery;
+                if(!$value)
+                    return $Cbucket->configs[$input];
+                else
+                {
+                    $myquery->Set_Website_Details($input,$value);
+                }
 	}
 	function get_config($input){ return config($input); }
         
@@ -3149,7 +3154,8 @@ include("functions_groups.php");
 //Collections Functions
 include("functions_collections.php");
 
-include("functions_hooks.php");
+include("functions_filters.php");
+include("functions_widgets.php");
 include("functions_photos.php");
 include("functions_forms.php");
 

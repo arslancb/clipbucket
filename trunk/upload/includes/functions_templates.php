@@ -777,4 +777,282 @@
 		
 		return false;
 	}
+        
+        /**
+         * Registering a sidebar
+         * 
+         * @todo Right the documentation
+         */
+        function register_sidebar($param)
+        {
+            global $Cbucket;
+            extract($param);
+            
+            if($title && $description && $id)
+            {
+                if(!$before_title)
+                    $before_title = '<h3>';
+                if(!$after_title)
+                    $after_title  = '</h3>';
+                
+                if(!$before_widget)
+                    $before_widget = '<div>';
+                if(!$after_widget)
+                    $after_widget = '</div>';
+                
+                if($id=='default')
+                    $id = 'default-1';
+                
+                $sidebar = array(
+                    'title'         => $title,
+                    'description'   => $description,
+                    'id'            => $id,
+                    'before_widget' => $before_widget,
+                    'after_widget'  => $after_wdget,
+                    'before_title'  => $before_title,
+                    'after_title'   => $after_title,
+                );
+                
+                $Cbucket->sidebars[$id] = $sidebar;
+            }
+        }
+        
+        /**
+         * Display a sider bar
+         * 
+         * @todo Write documentation
+         */
+        function sidebar($place=NULL,$echo=true)
+        {
+            global $Cbucket;
+            if(!$place)
+                $place = 'default';
+            
+            $sidebar = $Cbucket->sidebars[$place];
+            
+            if($sidebar)
+            {
+                //Getting list of widgets...
+                
+            }
+        }
+        
+        
+        /**
+         * check if there is a siderbar or not
+         * @todo Write documentation
+         */
+        function has_sidebar($palce)
+        {
+            global $Cbucket;
+            $sidebar = $Cbucket->sidebars[$place];
+            if($sidebar)
+                return true;
+            else
+                return false;
+        }
+        
+        
+        /**
+         * register a widget
+         * @todo Write documentation
+         */
+        function register_widget($id,$title,$callback,$options,$params)
+        {
+            global $Cbucket;        
+            
+            if($title && $id)
+            {
+                if(function_exists($callback))
+                {
+                    $widget = array(
+                        'title' => $title,
+                        'id'    => $id,
+                        'callback'  => $callback,
+                        'options'   => $options,
+                        'params'    => $params
+                    );
+                    
+                    $Cbucket->widgets[] = $widget;
+                }
+            }
+        }
+        
+        
+        /**
+         * function used to get theme options
+         * @todo Write documentation
+         */
+        function theme_config($name)
+        {
+            global $Cbucket;
+            
+            if($Cbucket->theme_configs)
+                $theme_configs = $Cbucket->theme_configs;
+            else
+                $theme_configs = theme_configs();
+            
+            $value = $value[$name];
+        }
+        
+        /**
+         * Get them configurations
+         * @global type $Cbucket
+         * @return type
+         */
+        
+        function theme_configs()
+        {
+            global $Cbucket;
+            
+            $value = config($Cbucket->template);
+            $value = json_decode($value,true);
+            $value = $value['options'];
+            
+            return $value;
+        }
+        
+        
+        /**
+	  * add link in admin area left menu
+	  *
+	  * Function used to add items in admin menu
+	  * This function will insert new item in admin menu
+	  * under given header, if the header is not available 
+	  * it will create one, ( Header means titles ie 'Plugins' 'Videos' etc)
+	  * http://docs.clip-bucket.com/add_admin_menu-function for reference
+	  *
+	  * @todo Write documentation
+	  */
+	 function add_admin_menu($params,$name=false,$link=false,$plug_folder=false,$is_player_file=false)
+	 {
+		global $Cbucket;
+                
+                if(!is_array($params))
+                {
+                    $params = _add_admin_menu($params,$name,$link,$plug_folder,$is_player_file);
+                    add_admin_sub_menu($params);
+                    return true;
+                }
+                
+                $defaults = array(
+                    'title' => lang('Settings'),
+                    'id'    => 'settings',
+                    'icon'  => 'icon-gauge',
+                    'access' => 'admin-access'
+                );
+                
+                $params = array_merge($defaults,$params);
+                
+                return $Cbucket->AdminMenu[$params['id']] = $params;
+                
+	 }
+         
+         /**
+          * add multiple admin menus
+          */
+         function add_admin_menus($menus)
+         {
+             if(is_array($menus))
+             {
+                 foreach($menus as $menu)
+                     add_admin_menu ($menu);
+             }
+         }
+         
+         /**
+          * @todo write documentation
+          */
+         function add_admin_sub_menu($params)
+         {
+             global $Cbucket;
+             $defaults = array(
+                 'parent_id' => 'tool-box',
+                 'access' => 'admin_access',
+             );
+             
+             $params = array_merge($defaults,$params);
+             
+             if($params['title'])
+             {
+                 $id = $params['id'];
+                 if(!$id)
+                     $id = SEO ($params['title']);
+                 
+                 $menu = array(
+                     'id' => $id,
+                     'parent_id' => $params['parent_id'],
+                     'access'=> $params['access'],
+                     'title' => $params['title'],
+                     'link' => $params['link'],
+                     'icon' => $params['icon'], 
+                 );
+                 
+                 if($Cbucket->AdminMenu[$params['parent_id']])
+                 {
+                     $Cbucket->AdminMenu[$params['parent_id']]['sub_menu'][] = $menu;
+                 }
+             }
+             
+         }
+         
+         function add_admin_sub_menus($params)
+         {
+             if(is_array($params))
+             {
+                 foreach($params as $parent => $child)
+                 {
+                     
+                     foreach($child as $ch)
+                     {
+                        $ch['parent_id'] = $parent;
+                        add_admin_sub_menu($ch);
+                     }
+                 }
+             }
+         }
+         
+         function _add_admin_menu($header='Tool Box',$name=false,$link=false,$plug_folder=false,$is_player_file=false)
+         {
+             global $Cbucket;
+                
+            //Get Menu
+            $menu = $Cbucket->AdminMenu;
+
+            if($plug_folder)
+                    $link = 'plugin.php?folder='.$plug_folder.'&file='.$link;
+            if($is_player_file)
+                    $link .= '&player=true';
+
+            //Add New Menu
+            $menu[$header][$name] = $link;
+            
+            //Add sub menu function here...
+            
+            $params = array(
+                'title' => $name,
+                'parent_id' => SEO($header),
+                'id' => SEO('title'),
+                'link' => $link
+            );
+            
+            return $params;
+         }
+	 
+         /**
+          * get admin menu
+          * 
+          * @todo Write documentation
+          */
+         function get_admin_menu()
+         {
+             global $Cbucket;
+             
+             $array = $Cbucket->AdminMenu;
+             
+             //Apply Filters
+             $array = apply_filters($array, 'admin_menu');
+             
+             return $array;
+         }
 ?>

@@ -15,3 +15,4 @@ function toggleLessMore(div,type)
         $('#'+div+'-more').hide();
     }
 }
+

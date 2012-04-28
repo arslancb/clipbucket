@@ -189,4 +189,27 @@ function check_disallowed_user($username)
                 return true;
 }
 
+/**
+ * get user menu links
+ * 
+ * these links are listed on user menu found on right top on default template
+ * you can move the menu however.
+ * 
+ * @param NULL
+ * @return Array of links
+ */
+
+function get_user_menu_links()
+{
+    $array = array(
+        'videos' => 
+         array('name'=> lang('Videos'),  'link'=> cblink(array('name'=>'videos')))
+    );
+    
+    $new_array = apply_filters($array,'user_menu_links');
+    
+    return $new_array;
+    
+}
+
 ?>
