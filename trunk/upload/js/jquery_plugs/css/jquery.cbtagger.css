@@ -1,0 +1,295 @@
+.tagger-image-wrapper {
+	margin:auto;	
+}
+
+button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+.tagger-overlay {
+	background-color : rgba(255,255,255,0.2)	
+}
+.tagger-tagging-active {
+	cursor: crosshair;	
+}
+
+.tagger-container {
+	position : absolute;
+	cursor: default;
+	border-radius: 4px;
+	border:1px solid rgba(0, 0, 0, 0.25);
+	box-shadow:0 0 1px rgba(0, 0, 0, 0.25), 0 1px 5px 3px rgba(0, 0, 0, 0.05), inset 0px 0px 0px 4px rgba(255,255,255,0.8);	
+	z-index:500;
+}
+
+.tagger-input-details {
+	top:100%; left:50%;
+	position:absolute;
+}
+
+.tagger-input {
+	position : relative; border:1px solid black; width: 175px;
+	left:-50%; background: white;	padding:6px;  top:6px;
+}
+
+.tagger-input input {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing:border-box; width:100%;
+	border:1px solid #ccc; padding:4px;
+	font-family:inherit; font-size:11px;
+	margin-bottom:4px;
+	border-radius:4px 4px 4px 4px;
+	-moz-border-radius:4px 4px 4px 4px;
+	-webkit-border-radius:4px 4px 4px 4px;
+}
+
+.tagger-input input:focus {
+	border-color: #a5a5a5;
+}
+
+.tagger-tags-wrapper {
+	position : absolute;
+	top:0px; left:0px;
+	width:100%; height:100%;	
+}
+
+.tagger-tag {
+	position : absolute;
+	cursor: default;
+	border-radius: 4px;
+	border:1px solid rgba(0, 0, 0, 0.25);
+	box-shadow:0 0 1px rgba(0, 0, 0, 0.25), 0 1px 5px 3px rgba(0, 0, 0, 0.05);
+	opacity:0;	
+}
+
+.tagger-tag-box {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing:border-box;
+	border-radius: 4px;
+	border:4px solid rgba(255, 255, 255, 0.8);
+	width:100%; height:100%;	
+}
+
+.tagger-tag .tagger-tag-details {
+	position : absolute; top:95%;
+	left:50%; font-size:11px;
+}
+
+.tagger-tag .tagger-tag-details i {
+	background: white;
+	border: 1px solid #999;
+	box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+	color: black;
+	display: block;
+	font-style:normal; 
+	left : -50%;
+	padding: 3px 4px;
+	position:relative;
+	text-align:center;
+	width : 100px;
+	word-wrap: break-word;
+}
+
+.tagger-up-arrow {
+    width: 0; position:absolute;
+    height: 0; top:-6px; left:50%; margin-left:-6px;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #ffffff;	
+}
+
+.tagger-up-arrow.border {
+   border-bottom-color:#999;
+}
+
+.tagger-up-arrow.border:before {
+    width: 0; position:absolute; content:'';
+    height: 0; top:1px; left:50%; margin-left:-6px;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid white;
+}
+
+.tagger-input .tagger-up-arrow.border {
+	border-bottom-color: black;
+}
+
+.tagger-tag.tagger-tag-active-hover {
+	box-shadow : none; border-color:transparent;	
+}
+
+.tagger-tag.tagger-tag-active-hover .tagger-tag-box {
+	opacity : 0;	
+}
+
+.tagger-tag.tagger-tag-active-label .tagger-tag-details {
+	opacity : 0;
+}
+
+.tagger-tag-label, a .tagger-tag-label .tagger-tag-label-link {
+	color : #333333;
+	text-decoration: none;	
+	position: relative;
+	text-transform : capitalize;
+}
+
+.tagger-tag-label-css-string:after {
+	content:', ';	
+}
+.tagger-tag-label-css-string:nth-last-child(2):after {
+	content:' and ';	
+}
+.tagger-tag-label-css-string:last-child:after  {
+	content:'';	
+}
+
+.tagger-label-wrapper {
+	margin: 1em;
+	color: #999;
+}
+
+.tagger-pending-tag-label {
+	font-style: normal; font-family: Tahoma, Helvetica, sans-serif;
+	font-size:10px; position: absolute; width:12px; height:10px;
+	background: url('../images/help.png') center center no-repeat;
+	text-indent:-10000px;
+}
+
+.tagger-button {
+	background : white; cursor: pointer; padding: 0px; margin: 0;
+	border:0px none; font-family: Tahoma, Helvetica, sans-serif;
+}
+
+.tagger-button:active {
+	box-shadow: inset 0px 0px 3px 0px rgba(0,0,0,0.25);
+}
+
+.tagger-tagging-button {
+	position: absolute; font-weight:bold; border:1px solid #a5a5a5;
+	top:1%; left:1%; font-size:11px; padding: 2px 6px;
+	border-radius:4px 4px 4px 4px;
+	-moz-border-radius:4px 4px 4px 4px;
+	-webkit-border-radius:4px 4px 4px 4px;
+	background: rgb(254,255,255); box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.15);
+	background: -moz-linear-gradient(top,  rgba(254,255,255,1) 0%, rgba(238,238,238,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(254,255,255,1)), color-stop(100%,rgba(238,238,238,1)));
+	background: -webkit-linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(238,238,238,1) 100%);
+	background: -o-linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(238,238,238,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(238,238,238,1) 100%);
+	background: linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(238,238,238,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#eeeeee',GradientType=0 );
+}
+
+.tagger-save-button, .tagger-cancel-button {
+	text-align: left;  font-weight:bold;
+	font-size: 11px;
+	padding: 2px 6px;
+	border-radius:4px 4px 4px 4px;
+	-moz-border-radius:4px 4px 4px 4px;
+	-webkit-border-radius:4px 4px 4px 4px;
+}
+
+.tagger-save-button {
+	margin-right:1em;
+	border:1px solid #a5a5a5;
+	background: rgb(254,255,255);
+	background: -moz-linear-gradient(top,  rgba(254,255,255,1) 0%, rgba(238,238,238,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(254,255,255,1)), color-stop(100%,rgba(238,238,238,1)));
+	background: -webkit-linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(238,238,238,1) 100%);
+	background: -o-linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(238,238,238,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(238,238,238,1) 100%);
+	background: linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(238,238,238,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#eeeeee',GradientType=0 );
+}
+
+.tagger-save-button[disabled], .tagger-save-button[disabled=disabled], .tagger-save-button[disabled]:hover, .tagger-save-button[disabled=disabled]:hover {
+	background : #eee;
+	border-color:#ccc;
+}
+
+.tagger-tagging-button:hover, .tagger-save-button:hover {
+	border-color:#898989;
+}
+
+.tagger-tagging-button:active, .tagger-save-button:active {
+	background: rgb(238,238,238);
+	background: -moz-linear-gradient(top,  rgba(238,238,238,1) 0%, rgba(254,255,255,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(238,238,238,1)), color-stop(100%,rgba(254,255,255,1)));
+	background: -webkit-linear-gradient(top,  rgba(238,238,238,1) 0%,rgba(254,255,255,1) 100%);
+	background: -o-linear-gradient(top,  rgba(238,238,238,1) 0%,rgba(254,255,255,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(238,238,238,1) 0%,rgba(254,255,255,1) 100%);
+	background: linear-gradient(top,  rgba(238,238,238,1) 0%,rgba(254,255,255,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#feffff',GradientType=0 );
+}
+
+.tagger-cancel-button {
+	border:1px solid #720000;
+	background: rgb(239,2,2); 
+	background: -moz-linear-gradient(top,  rgba(239,2,2,1) 0%, rgba(173,0,0,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(239,2,2,1)), color-stop(100%,rgba(173,0,0,1)));
+	background: -webkit-linear-gradient(top,  rgba(239,2,2,1) 0%,rgba(173,0,0,1) 100%);
+	background: -o-linear-gradient(top,  rgba(239,2,2,1) 0%,rgba(173,0,0,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(239,2,2,1) 0%,rgba(173,0,0,1) 100%);
+	background: linear-gradient(top,  rgba(239,2,2,1) 0%,rgba(173,0,0,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ef0202', endColorstr='#ad0000',GradientType=0 );
+	color: white;
+}
+
+.tagger-cancel-button:hover {
+	border-color:#5e0000;
+}
+
+.tagger-cancel-button:active {
+	background: rgb(173,0,0);
+	background: -moz-linear-gradient(top,  rgba(173,0,0,1) 0%, rgba(239,2,2,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(173,0,0,1)), color-stop(100%,rgba(239,2,2,1)));
+	background: -webkit-linear-gradient(top,  rgba(173,0,0,1) 0%,rgba(239,2,2,1) 100%);
+	background: -o-linear-gradient(top,  rgba(173,0,0,1) 0%,rgba(239,2,2,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(173,0,0,1) 0%,rgba(239,2,2,1) 100%);
+	background: linear-gradient(top,  rgba(173,0,0,1) 0%,rgba(239,2,2,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ad0000', endColorstr='#ef0202',GradientType=0 );
+}
+
+.tagger-button-icon {
+	vertical-align: middle;
+	margin-right: 0.4em;
+}
+
+/* Typeahead - Twitter Bootstrap */
+.typeahead {
+	border-radius:4px 4px 4px 4px;
+	-moz-border-radius:4px 4px 4px 4px;
+	-webkit-border-radius:4px 4px 4px 4px;
+}
+
+.dropdown-menu {
+	border:1px solid rgba(0,0,0,0.2);
+	float:left;
+	left:0px;
+	list-style: none outside none;
+	padding:4px 0px;
+	top:100%;
+	z-index:1000;
+	position : absolute;
+	background : white;
+	min-width:160px;	
+}
+
+.dropdown-menu a {
+	clear: both;
+	color : #333;
+	display:block;
+	font-weight:normal;
+	line-height:18px;
+	padding:3px 15px;
+	white-space:nowrap;
+	text-decoration:none;
+}
+
+.dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover {
+	background-color : #0088cc;
+	color:white;	
+}
