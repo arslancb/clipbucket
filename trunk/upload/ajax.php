@@ -848,9 +848,10 @@ if(!empty($mode))
 				case "video":
 				case "v":
 				{
-					$cid = $_POST['cid'];
-					$id = $_POST['obj_id'];
-					$cbvideo->collection->add_collection_item($id,$cid);	
+                                    e(lang('Videos support for collection has been dropped'));
+//					$cid = $_POST['cid'];
+//					$id = $_POST['obj_id'];
+//					$cbvideo->collection->add_collection_item($id,$cid);	
 				}
 				break; 
 				
@@ -892,9 +893,10 @@ if(!empty($mode))
 			{
 				case "videos":
 				{
-					$obj_id = $_POST['obj_id'];
-					$cid = $_POST['cid'];
-					$cbvideo->collection->remove_item($obj_id,$cid);
+					//$obj_id = $_POST['obj_id'];
+					//$cid = $_POST['cid'];
+					//$cbvideo->collection->remove_item($obj_id,$cid);
+                                    e(lang('Videos support for collection has been dropped'));
 				}
 				break;
 				
@@ -940,10 +942,10 @@ if(!empty($mode))
 				case "video":
 				case "v":
 				{
-						$N_item = $cbvideo->collection->get_next_prev_item($item_id,$cid,$direc);
+						//$N_item = $cbvideo->collection->get_next_prev_item($item_id,$cid,$direc);
 						//increment_views($N_item[0]['videoid'],'video');						
-						$ajax['key'] = $N_item[0]['videokey'];
-						$ajax['cid'] = $N_item[0]['collection_id'];
+						//$ajax['key'] = $N_item[0]['videokey'];
+						//$ajax['cid'] = $N_item[0]['collection_id'];
 				}
 				break;
 				
@@ -990,7 +992,7 @@ if(!empty($mode))
 				case "video":
 				case "v":
 				{
-					$items = $cbvideo->collection->get_collection_items_with_details($cid,$order,$limit);
+					//$items = $cbvideo->collection->get_collection_items_with_details($cid,$order,$limit);
 				}
 				break;
 				

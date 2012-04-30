@@ -62,4 +62,20 @@ function photo_download_button($params)
             return $cbphoto->download_button($params);   
 }
 
+function load_photo_controls ( $args ) {
+  global $cbphoto;
+  if ( !empty($args['photo'])) {
+    $controls = explode(',',$args['controls']);
+    $controls = array_map('trim', $controls);
+    foreach ($controls as $control) {
+      $control_args = null;
+      // Parameters for this controls
+      $control_args = $args[$control];
+      $method_to_call = 'load_'.$control;
+      if ( method_exists($cbphoto, $method_to_call) ) {
+        $cbphoto->$method_to_call( $args['photo'], $control_args); // Call the method
+      }
+    }
+  }
+}
 ?>

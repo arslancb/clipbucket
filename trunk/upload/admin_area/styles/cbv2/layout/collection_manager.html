@@ -125,7 +125,7 @@
                 </span>
                     <div id="vid_opt-{$c[list].collection_id}" style="display:none" class="AdminPhotoActions">              
                     <a href="edit_collection.php?collection={$c[list].collection_id}">Edit</a> | 
-                    <a href="{$baseurl}/view_collection.php?cid={$c[list].collection_id}" target="_blank">View</a> {if $c[list].featured == yes} | 
+                    <a href="{$baseurl}/view_collection.php?cid={$c[list].collection_id}&type={$c[list].type}" target="_blank">View</a> {if $c[list].featured == yes} | 
                     <a href="?make_unfeature={$c[list].collection_id}">Make Unfeatured</a> {/if} 
                     {if $c[list].featured == no} | 
                     <a href="?make_feature={$c[list].collection_id}">Make Featured</a> {/if}

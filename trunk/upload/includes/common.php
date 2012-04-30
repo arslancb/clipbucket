@@ -392,14 +392,14 @@ if(!@$in_bg_cron)
                 
                 
 	//SETTING PHOTO SETTING
+                        define('USE_PHOTO_TAGGING',true);
 	$cbphoto->thumb_width = $row['photo_thumb_width'];
 	$cbphoto->thumb_height = $row['photo_thumb_height'];
 	$cbphoto->mid_width = $row['photo_med_width'];
 	$cbphoto->mid_height = $row['photo_med_height'];
 	$cbphoto->lar_width = $row['photo_lar_width'];
 	$cbphoto->cropping = $row['photo_crop'];
-	$cbphoto->position = $row['watermark_placement'];	
-
+	$cbphoto->position = $row['watermark_placement'];
 	//Enable youtube videos
 	define("YOUTUBE_ENABLED",$row['youtube_enabled']);
 	
@@ -522,6 +522,7 @@ require('modules.php');
 //Checking Website Template
 $Cbucket->set_the_template();
 
+
 /*
 REGISTER OBJECTS FOR SMARTY
 */
@@ -605,6 +606,7 @@ $Smarty->register_function('cbCategories','getSmartyCategoryList');
 $Smarty->register_function('getComments','getSmartyComments');
 $Smarty->register_function('fb_embed_video','fb_embed_video');
 $Smarty->register_function('cbMenu','cbMenu');
+$Smarty->register_function('load_photo_controls','load_photo_controls');
 
 $Smarty->register_function('makeGroupAdmin','makeGroupAdmin');
 $Smarty->register_function('removeGroupAdmin','removeGroupAdmin');
@@ -659,4 +661,12 @@ include('admin.functions.php');
 	//Other settings
 	define("SEND_COMMENT_NOTIFICATION",config("send_comment_notification"));
 	define("SEND_VID_APPROVE_EMAIL",config("approve_video_notification"));
+        
+define ('MOBILE_TEMPLATE','cb_iphone2');
+
+if ( $Cbucket->template == MOBILE_TEMPLATE ) {
+    require_once('classes/mobile-form-class.php');
+    $mobileObj = new MobileForm();
+    $Smarty->assign_by_ref('mobileObj',$mobileObj);
+}
 ?>

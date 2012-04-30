@@ -754,6 +754,7 @@
 		{
 			default:
 			{
+                            
 				 cb_call_functions('categoryListing',$params);
 			}
 			break;
@@ -3145,6 +3146,39 @@
             }
         }
         
+        if ( !function_exists('cb_show_page') ) {
+            function cb_show_page ( $var = false ) {
+                global $Cbucket;
+                if ( gettype($var) != 'boolean' || !is_bool($var)) {
+                    $var = false;
+                }
+                return $Cbucket->show_page = $show;
+            }
+        }
+        
+if ( !function_exists('cb_parse_args_string') ) {
+	function cb_parse_args_string ( $string=null ) {
+		if ( is_null($string) )
+			return false;
+
+		// Breaking string into configurations
+		$args = array();
+		$configurations = array_map('trim',explode("|",$string));
+		foreach( $configurations as $config ) {
+			$values = array_map('trim',explode(":",$config));
+			if ( count($values) == 2 ) {
+				$args[ $values[0] ] = $values[1];
+			}
+		}
+
+		if ( !empty( $args) ) {
+			return $args;
+		} else {
+			return false;
+		}
+	}
+}
+
 //Including videos functions
 include("functions_videos.php");
 //Including Users Functions
