@@ -17,6 +17,7 @@
 		return $file;			
 	}
 	
+        
 	
         /**
          * Function used to render Smarty Template
@@ -61,6 +62,8 @@
                 }
 	}
         
+        
+         
         /**
          * assign smarty variable
          * 
@@ -778,105 +781,7 @@
 		return false;
 	}
         
-        /**
-         * Registering a sidebar
-         * 
-         * @todo Right the documentation
-         */
-        function register_sidebar($param)
-        {
-            global $Cbucket;
-            extract($param);
-            
-            if($title && $description && $id)
-            {
-                if(!$before_title)
-                    $before_title = '<h3>';
-                if(!$after_title)
-                    $after_title  = '</h3>';
-                
-                if(!$before_widget)
-                    $before_widget = '<div>';
-                if(!$after_widget)
-                    $after_widget = '</div>';
-                
-                if($id=='default')
-                    $id = 'default-1';
-                
-                $sidebar = array(
-                    'title'         => $title,
-                    'description'   => $description,
-                    'id'            => $id,
-                    'before_widget' => $before_widget,
-                    'after_widget'  => $after_wdget,
-                    'before_title'  => $before_title,
-                    'after_title'   => $after_title,
-                );
-                
-                $Cbucket->sidebars[$id] = $sidebar;
-            }
-        }
-        
-        /**
-         * Display a sider bar
-         * 
-         * @todo Write documentation
-         */
-        function sidebar($place=NULL,$echo=true)
-        {
-            global $Cbucket;
-            if(!$place)
-                $place = 'default';
-            
-            $sidebar = $Cbucket->sidebars[$place];
-            
-            if($sidebar)
-            {
-                //Getting list of widgets...
-                
-            }
-        }
-        
-        
-        /**
-         * check if there is a siderbar or not
-         * @todo Write documentation
-         */
-        function has_sidebar($palce)
-        {
-            global $Cbucket;
-            $sidebar = $Cbucket->sidebars[$place];
-            if($sidebar)
-                return true;
-            else
-                return false;
-        }
-        
-        
-        /**
-         * register a widget
-         * @todo Write documentation
-         */
-        function register_widget($id,$title,$callback,$options,$params)
-        {
-            global $Cbucket;        
-            
-            if($title && $id)
-            {
-                if(function_exists($callback))
-                {
-                    $widget = array(
-                        'title' => $title,
-                        'id'    => $id,
-                        'callback'  => $callback,
-                        'options'   => $options,
-                        'params'    => $params
-                    );
-                    
-                    $Cbucket->widgets[] = $widget;
-                }
-            }
-        }
+       
         
         
         /**
@@ -905,7 +810,7 @@
         {
             global $Cbucket;
             
-            $value = config($Cbucket->template);
+            $value = config($Cbucket->template.'-options');
             $value = json_decode($value,true);
             $value = $value['options'];
             
@@ -991,6 +896,10 @@
                  if($Cbucket->AdminMenu[$params['parent_id']])
                  {
                      $Cbucket->AdminMenu[$params['parent_id']]['sub_menu'][] = $menu;
+                 }else
+                 {
+                     //Add menu to misc menu
+                     $Cbucket->AdminMenu['miscellaneous']['sub_menu'][] = $menu;
                  }
              }
              

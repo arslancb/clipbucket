@@ -1,0 +1,89 @@
+<script>
+    $(document).ready(function()
+    {
+        
+        //Setting Up the Left Column and Menu List
+        $('.nav-sub-menu').each(function(){
+            var ref = $(this).attr('ref');
+            
+            var cookie = $.cookie('menu-'+ref);
+            
+            if(cookie!='show')
+                $(this).hide();
+        })
+                
+        $('.nav-header').bind('click',function(){
+            
+            var ref = $(this).attr('ref');
+            var obj = $('.nav-sub-menu[ref='+ref+']');
+            
+            if(obj.css('display')=='none')  
+                $.cookie('menu-'+ref,'show');
+            else
+                $.cookie('menu-'+ref,'hide');
+            
+             obj.slideToggle('normal');
+        });
+        
+        /* Setting up side bars menu */
+        $('#sidebars-list li a').bind('click',function(){
+            
+            toggleSidebar(this);
+            
+        })
+        
+        
+        toggleSidebar('#sidebars-list li a:first');
+        
+        /* Setting up widgets dragablity */
+        $('.admin-widget-box').draggable({
+            cursor: "hand",
+            cursorAt: { left: 25 },
+            revert : 'invalid',
+            handler : 'img',
+            helper : function (event)
+            {
+                var text = $(this).find('.admin-widget-box-title').text();
+                return '<button class="btn btn-sidebar-dragable">'+text+'</button>';
+            },
+            drag : function (event,ui){
+                $(this).css('background-color','#ccc');
+            },
+            stop : function (event,ui){
+                $(this).css('background-color','#fff');
+            }
+        });
+        
+        /* And so dropability */
+        $('.sidebar-widgets .drop-widget-area').droppable({
+            drop:function(event,ui)
+            {
+                var theWidget = ui.draggable;
+                createWidget($(theWidget).attr('id'),
+                $(this).parent().attr('id'));
+            }
+        });
+        
+        
+        /* Adding Widgets Sortability */
+        $('.widgets-list').sortable({
+            cursor: "move",
+            'items' : 'div.widget-bar',
+            'axis'    : 'y' ,
+            'placeholder': "ui-state-highlight",
+            'containment' : '.widgets-list',
+            'update': function(event, ui) {
+                var $sidebar = $(this).attr('itemref');
+                saveSidebar($sidebar);
+             }
+        });
+        $(".sidebar-widgets").disableSelection();	
+        
+        
+        //Init the modal
+        $('.modal').modal({
+            show : false
+        })
+
+    })
+</script>

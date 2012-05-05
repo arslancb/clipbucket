@@ -312,6 +312,10 @@ class ClipBucket
 		
 		$this->template_details = $cbtpl->get_template_details($template);
 		
+                //CHecking if there is any php file, include it like a BOSS!
+                //if($this->template_details['php_file'])
+                //    include($this->template_details['php_file']);
+                
                 $this->template = $template;
                 
                 return	 $this->template;

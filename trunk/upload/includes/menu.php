@@ -133,5 +133,12 @@ $submenus = array(
 
 add_admin_sub_menus($submenus);
 
-            
+
+/**
+ * Adding Widgets Menu
+ */
+add_admin_sub_menu(array(
+    'title'=>lang('Widgets'),'id'=>'widgets',
+    'parent_id'=>'template-manager','link' => ADMIN_BASEURL.'/widgets.php'
+    ));
 ?>

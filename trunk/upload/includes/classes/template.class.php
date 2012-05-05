@@ -212,12 +212,7 @@ class CBTemplate {
                     
             if($name)
             {
-                //Checking if template has php file attached
-                if(file_exists(STYLES_DIR.'/'.$temp.'/template.php'))
-                {
-                    include(STYLES_DIR.'/'.$temp.'/template.php');
-                }
-
+                
                 //Now Create array
                 $template_details = array
                 ('name'=>$name,
@@ -230,6 +225,14 @@ class CBTemplate {
                  'php'=>$php,
                  'path'=>TEMPLATEFOLDER.'/'.$temp
                  );
+                
+                //Checking if template has php file attached
+                if(file_exists(STYLES_DIR.'/'.$temp.'/template.php'))
+                {
+                     $template_details['php_file'] = 
+                    STYLES_DIR.'/'.$temp.'/template.php';
+                }
+
                 
                 return $template_details;
             }else

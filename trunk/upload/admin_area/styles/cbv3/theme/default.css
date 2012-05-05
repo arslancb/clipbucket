@@ -40,3 +40,27 @@
 }
 
 
+
+/* Side Bars */
+.admin-sidebars{ width: 270px; padding: 10px; margin: 10px}
+.sidebar{margin-bottom: 10px}
+.sidebar-title{background-color: #aaa; padding: 4px}
+.xadmin-sidebars .btn{width: auto; display: block; text-align: left; font-weight: bold}
+.btn-sidebar{width: 245px !important}
+.btn-sidebar-dragable{width: 200px !important}
+
+.widget-btn-long{width: 223px  !important}
+.admin-sidebars .dropdown-menu{min-width: 198px;}
+.sidebar-desc{font-size: 11px; color: #3f4443; margin: 5px 0px}
+.sidebar{display: none}
+.widget-bar{margin:5px 0px}
+
+.admin-widget-box{width: 300px; margin-right: 10px; float: left; height: 80px; margin-bottom: 10px; overflow: hidden;}
+.admin-widget-box-icon{width: 50px; margin-right: 10px; float: left;cursor: move}
+.admin-widget-box-inner{width: 240px; float: left}
+.admin-widget-box-title{font-weight: bold; font-size: 15px; margin-bottom: 5px}
+
+.drop-widget-area{background-color: #f9f9f9;
+padding:5px; border:1px dashed #ccc}
+
+.widgets-list{padding: 5px 0px;}

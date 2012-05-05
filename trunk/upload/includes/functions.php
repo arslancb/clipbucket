@@ -1385,7 +1385,7 @@
                     return $Cbucket->configs[$input];
                 else
                 {
-                    $myquery->Set_Website_Details($input,$value);
+                    $myquery->Set_Website_Details($input,'|no_mc|'.$value);
                 }
 	}
 	function get_config($input){ return config($input); }

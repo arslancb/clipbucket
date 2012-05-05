@@ -1,0 +1,121 @@
+<h2>Widgets Manager</h2>
+<div>
+Widgets are blocks that can be displayed in sidebars of the website. Sidebars come along with 
+the template. To Add widgets in a siderbar, simply drag it from the left pane to the right 
+pane of the sidebar you want to add to.
+</div>
+
+<div style="margin-top: 20px; overflow: hidden">
+    <div style="width: 620px; " class="pull-left">
+        
+        {if $Cbucket->widgets}
+        
+        {foreach $Cbucket->widgets as $widget}
+        
+        <div class="admin-widget-box" id="{$widget.id}"> 
+            <div class="admin-widget-box-icon">
+                <img src="{if $widget.options.icon}{$widget.options.icon}{else}{$imageurl}/widget-icon.png{/if}"/>
+            </div>
+            <div class="admin-widget-box-inner">
+                <div class="admin-widget-box-title">
+                    {$widget.title}
+                </div>
+                <div class="admin-widget-box-des">
+                    {$widget.options.description}
+                </div>
+            </div>
+            
+            <!-- Sample Modal Box -->
+            {include file="$layout_dir/blocks/widget-form.html"}
+            
+            <div class="clearfix"></div>
+        </div>
+        {/foreach}
+        <div class="clearfix"></div>
+        {/if}
+    </div>
+
+    <!-- Listing Sidebars -->
+    {assign var=sidebars value=get_sidebars()}
+
+    <div class="admin-sidebars well pull-right">
+
+        <div class="btn-group">
+
+            <button class="btn btn-primary btn-sidebar" id="sidebar-dd-text">Choose Sidebar</button>
+            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="caret"></i></button>
+
+            <ul class="dropdown-menu" id="sidebars-list">
+            {foreach $sidebars as $sidebar}
+                <li><a href="javascript:void(0)" ref="{$sidebar.id}">{$sidebar.title}</a></li>
+            {/foreach}
+            </ul>
+        </div>
+
+        {foreach $sidebars as $sidebar}
+        <div class="sidebar {$sidebar.id}-sidebar" id="{$sidebar.id}">
+            <div class="sidebar-desc">
+                {$sidebar.description}
+            </div>
+            <form name="{$sidebar.id}-form" id="{$sidebar.id}-form" onSubmit="return false;">
+            <!-- Adding Sidebar Id in a secret place ;) -->
+            
+            <div class="sidebar-widgets {$sidebar.id}-widgets"
+                 id="{$sidebar.id}-widgets">
+                <input type="hidden" value="{$sidebar.id}" name="sidebar_id"/>
+                
+                
+                <div class="widgets-list" itemref="{$sidebar.id}" >
+                {* Getting list of widgets of the side bar *}
+                {assign var=sidebarWidgets value=get_sidebar_widgets($sidebar.id)}
+                {if $sidebarWidgets}
+                    {foreach $sidebarWidgets as $theWidget}
+                    {assign var=theWidget value=get_widget_details($theWidget.id,$sidebar.id)}
+                    <div class="widget-bar" id="{$theWidget.id}-{$sidebar.id}">
+                        <div class="btn-group">
+                            <span class="btn widget-btn-long">
+                                {if $theWidget.configs.title}
+                                    {$theWidget.configs.title}
+                                {else}
+                                    {$theWidget.title}
+                                {/if}
+                            </span>
+                            <button class="btn dropdown-toggle "
+                                    data-toggle="modal"
+                                    data-target="#{$theWidget.id}-{$sidebar.id}-modal"><i class="caret"></i></button>
+                        </div>
+                        <input name="widgets[]" value="{$theWidget.id}" type="hidden"/>
+                    </div>
+                    
+                    {/foreach}
+                {/if}
+                </div>
+                <div class="drop-widget-area">
+                    Drop widgets here
+                </div>
+            </div>
+            </form>
+            
+            <div id="modal-forms-{$sidebar.id}">
+            <!-- Widget modal box have a form of itself, which means we have to 
+                    take them outside of the sidebar form therefore we have to
+                        loop widget forms and modal boxes here -->
+                    {foreach $sidebarWidgets as $theWidget}
+                    {assign var=widget value=get_widget_details($theWidget.id,$sidebar.id)}
+
+                    <!-- Widget Modal Bux, Sara kam aithey hi parna ;) -->
+                    {* First we will assig widget options to a variable called
+                        widget so that we can use that in our template
+                         for more information, please read our widget documentation *}
+                    <!-- Khatm -->
+                    
+                    {include file="$layout_dir/blocks/widget-form.html"}
+                    
+                    {/foreach}
+            </div>
+        </div>
+        {/foreach}    
+    </div>
+    
+    <div class="clearfix"></div>
+</div>

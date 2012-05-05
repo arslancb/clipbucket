@@ -68,4 +68,8 @@ isSectionEnabled(PARENT_PAGE,true);
 //setting quicklist
 assign('total_quicklist',$cbvid->total_quicklist());
 
+//Adding Template functions
+if($Cbucket->template_details['php_file'])
+    include($Cbucket->template_details['php_file']);
+
 ?>

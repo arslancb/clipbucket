@@ -1,0 +1,15 @@
+<script>
+    var ajaxURL = baseurl+'/admin_area/ajax';
+    
+amplify.request.define( "update-sidebar", "ajax", {
+    url: ajaxURL+"/widgets.php",
+    type: "POST",
+    decoder: function( data, status, xhr, success, error ) {
+        if ( status === "success" ) {
+            success( data );
+        } else {
+            error( data );
+        }
+    }
+})
+</script>

@@ -43,9 +43,14 @@
  	//Do No Edit Below This Line
  	define('TEMPLATE','cbv3');
 	define('TEMPLATEDIR',BASEDIR.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.TEMPLATE);
+        
 	define('SITETEMPLATEDIR',BASEDIR.'/'.TEMPLATEFOLDER.'/'.$row['template_dir']);
 	define('TEMPLATEURL',BASEURL.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.TEMPLATE);
 	define('LAYOUT',TEMPLATEDIR.'/layout');
+        
+        define('TEMPLATEFOLDER','styles');
+        define('FRONT_TEMPLATEDIR',BASEDIR.'/'.TEMPLATEFOLDER.'/'.$Cbucket->template);
+        define('FRONT_TEMPLATEURL',BASEURL.'/'.TEMPLATEFOLDER.'/'.$Cbucket->template);
 	
 	Assign('baseurl',BASEURL);
         assign('template_url',TEMPLATEURL);
@@ -53,6 +58,7 @@
 	Assign('admindir',ADMINDIR);
 	Assign('imageurl',TEMPLATEURL.'/images');
 	Assign('layout',TEMPLATEURL.'/layout');
+        Assign('layout_url',TEMPLATEURL.'/layout');
         assign('layout_dir',TEMPLATEDIR.'/layout');
 	Assign('theme',TEMPLATEURL.'/theme');
 	Assign('style_dir',LAYOUT);
@@ -70,8 +76,10 @@
 	include('flv_player.php');
 	
 	
-$Smarty->assign_by_ref('cbmass',$cbmass);
+        $Smarty->assign_by_ref('cbmass',$cbmass);
         
+        if($Cbucket->template_details['php_file'])
+            include($Cbucket->template_details['php_file']);
 
 	
 ?>
