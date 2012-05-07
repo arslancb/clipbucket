@@ -73,7 +73,9 @@ pane of the sidebar you want to add to.
                     {assign var=theWidget value=get_widget_details($theWidget.id,$sidebar.id)}
                     <div class="widget-bar" id="{$theWidget.id}-{$sidebar.id}">
                         <div class="btn-group">
-                            <span class="btn widget-btn-long">
+                            <span class="btn widget-btn-long relative">
+                                <img src="{$imageurl}/loaders/1.gif" class="loader absolute"
+                                       style="left:5px; display: none"/>
                                 {if $theWidget.configs.title}
                                     {$theWidget.configs.title}
                                 {else}

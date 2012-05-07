@@ -4,6 +4,7 @@
 amplify.request.define( "update-sidebar", "ajax", {
     url: ajaxURL+"/widgets.php",
     type: "POST",
+    dataType: "json",
     decoder: function( data, status, xhr, success, error ) {
         if ( status === "success" ) {
             success( data );

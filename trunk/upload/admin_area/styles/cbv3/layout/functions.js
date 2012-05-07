@@ -35,7 +35,9 @@ function createWidget($widgetId,$sideBarId)
 
     var $newWidget = '<div class="widget-bar" id="'+$widgetId+'-'+$sideBarId+'" >';
         $newWidget += '<div class="btn-group">';
-        $newWidget += '<span class="btn widget-btn-long">';
+        $newWidget += '<span class="btn widget-btn-long relative">';
+        $newWidget += '<img src="'+imageurl+'/loaders/1.gif"';
+        $newWidget += 'class="loader absolute" style="left:5px"/>';
         $newWidget +=  $widgetTitle+'</span>';
         $newWidget += '<button class="btn dropdown-toggle"';
         $newWidget += ' data-toggle="modal" ';
@@ -44,7 +46,7 @@ function createWidget($widgetId,$sideBarId)
         $newWidget += '</div>';
         $newWidget += '<input type="hidden" name="widgets[]" value="'+$widgetId+'"/>';
         $newWidget += '</div>';
-    
+      
     
     /*Widget Modal
     var WidgetModal = '<div class="modal hide fade"';
@@ -55,10 +57,10 @@ function createWidget($widgetId,$sideBarId)
     //Append widget...*/
 
     $widgetList.append($newWidget);
+       
+    saveAndFetch($sideBarId,$widgetId); 
     
-    
-    var WidgetModal = saveAndFetch($sideBarId,$widgetId); 
-    $('#modal-forms-'+$sideBarId).append(WidgetModal);
+
     
     return true;
 }
@@ -86,7 +88,8 @@ function saveAndFetch($Id,$widgetId)
     FormData = FormData + '&mode=update-sidebar&fetch-widget='+$widgetId;
     amplify.request("update-sidebar",FormData,
         function(data){
-            return data;
+            $('#modal-forms-'+$Id).append(data.data);
+            $('#'+$widgetId+'-'+$Id+' .loader' ).hide();
         }
     );
 }
@@ -123,5 +126,6 @@ function deleteWidget($widgetId,$sidebarId){
     {
        $('#'+$widgetId+'-'+$sidebarId).remove();
        saveSidebar($sidebarId); 
+       $('#'+$widgetId+'-'+$sidebarId+'-modal').modal('hide').remove();
     }
 }

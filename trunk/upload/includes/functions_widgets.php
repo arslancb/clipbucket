@@ -91,7 +91,7 @@ function sidebar($place=NULL,$echo=true)
  * check if there is a siderbar or not
  * @todo Write documentation
  */
-function has_sidebar($palce)
+function has_sidebar($place)
 {
     global $Cbucket;
     $sidebar = $Cbucket->sidebars[$place];
