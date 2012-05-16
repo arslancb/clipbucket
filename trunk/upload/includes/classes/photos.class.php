@@ -35,6 +35,7 @@ class CBPhotos {
     var $search;
     var $tagger_configs;
     var $selector_id = 'photo';
+	var $thumb_dimensions = array();
 
     /**
      * __Constructor of CBPhotos
@@ -55,6 +56,37 @@ class CBPhotos {
         $this->photos_admin_menu();
         $this->setting_other_things();
         $this->set_photo_max_size();
+		$this->thumb_dimensions = array(
+			't'	=> array(
+				'width' => config('photo_thumb_width'),
+				'height' => config('photo_thumb_height'),
+				'crop' => (config('photo_crop') == 0 ? -1 : 4 ),
+				'watermark' => false,
+				'shrapit' => true
+			),
+			'm'	=> array(
+				'width' => config('photo_med_width'),
+				'height' => config('photo_med_height'),
+				'crop' => (config('photo_crop') == 0 ? -1 : 4 ),
+				'watermark' => false,
+				'shrapit' => false
+			),
+			'l'		=> array(
+				'width' => config('photo_lar_width'),
+				'height' => 0,
+				'crop' => -1,
+				'watermark' => true,
+				'shrapit' => false
+			),
+			'o'	=> array(
+				'width' => 0,
+				'height' => 0,
+				'crop' => -1,
+				'watermark' => true,
+				'shrapit' => false
+			)
+		);
+		
         /* Following is a sample for custom thumbs. We will have a config called 'custom_thumbs'.
          *  This will be a json_encoded multi-dimensional associative array. It's will be following
          *  $custom_thumbs = [type:'video|user|collection|photo|group'] => array(
@@ -1202,7 +1234,12 @@ class CBPhotos {
             $insert_id = $db->insert( tbl( $this->p_tbl ), $query_field, $query_val );
             $photo = $this->get_photo( $insert_id );
             $this->collection->add_collection_item( $insert_id, $photo['collection_id'] );
-
+			
+			/*
+			 * EXIF should be added here
+			*/
+			insert_exif_data( $photo );
+			
             if ( !$array['server_url'] || $array['server_url'] == 'undefined' )
                 $this->generate_photos( $photo );
 
@@ -1679,7 +1716,7 @@ class CBPhotos {
 
                             $img = "<img ";
                             $img .= "src = '" . $src . "'";
-                            if ( USE_PHOTO_TAGGING ) {
+                            if ( USE_PHOTO_TAGGING && THIS_PAGE == 'view_item' ) {
                                 $img .= " id = '".$this->get_selector_id()."_".$photo['photo_id']."' ";
                             } else {
                                 if ( $p['id'] ) {
@@ -1959,13 +1996,22 @@ class CBPhotos {
                 case "download_photo":
                 case "download": {
                         return BASEURL . "/download_photo.php?download=" . $this->encode_key( $details['photo_key'] );
-                    }
+                } break;
 
                 case "view_item":
                 case "view_photo": {
                         return $this->collection->collection_links( $details, 'view_item' );
                     }
                     break;
+					
+				case "make_avatar": case "ma": {
+					
+					if ( $details['collection_id'] == 1) {
+						$set_avatar = '&set_avatar=1';
+					}
+					
+					$link = BASEURL.'/edit_account.php?pid='.$this->encode_key(RandomString(12).$details['photo_key']).'&mode=make_avatar&u='.$details['userid'].$set_avatar;	
+				}break;
             }
             return $link;
         }

@@ -80,6 +80,7 @@ if ( $cbcollection->is_viewable( $cid ) ) {
                         $photo = $cbphoto->get_photo( $item );
                         if ( $photo ) {
                             $info = $cbphoto->collection->get_collection_item_fields( $cid, $photo['photo_id'], 'ci_id' );
+							
                             if ( $info ) {
                                 $photo = array_merge( $photo, $info[0] );
                                 increment_views( $photo['photo_id'], 'photo' );
@@ -89,6 +90,8 @@ if ( $cbcollection->is_viewable( $cid ) ) {
                                 assign( 'c', $collect );
 
                                 subtitle( $photo['photo_title'] . ' &laquo; ' . $collect['collection_name'] );
+								
+								insert_photo_colors( $photo );
                             } else {
                                 e( lang( "item_not_exist" ) );
                                 $Cbucket->show_page = false;

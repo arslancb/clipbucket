@@ -104,6 +104,7 @@ switch($mode)
 	case "items":
 	case "manage_items":
 	{
+		$collection = $cbcollection->get_collection($cid);
 		$type = clean($_GET['type']);
 		assign('type',$type);
 		switch($type)
@@ -126,6 +127,21 @@ switch($mode)
 			
 			case "photos":
 			{
+				if ( isset($_GET['cover_photo']) ) {
+					$cover_photo = mysql_clean( $_GET['cover_photo'] );
+					if ( $cover_photo != $collection['cover_photo'] ) {
+						if ( $cbcollection->object_in_collection( $cover_photo, $collection['collection_id'] ) ) {
+							if ( $cbcollection->set_cover_photo( $cover_photo, $collection['collection_id'] ) ) {
+								e('new_cover_photo_set','m');
+							} else {
+								e('unable_new_cover_photo');
+							}
+						} else {
+							e('item_not_exist');	
+						}
+					}
+				}
+				
 				if(isset($_POST['delete_selected']))
 				{
 					$count = count($_POST['check_item']);
@@ -141,8 +157,7 @@ switch($mode)
 			}
 			break;
 		}
-		$collection = $cbcollection->get_collection($cid);
-		
+				
 		assign('c',$collection);
 		assign('objs',$objs);
 		

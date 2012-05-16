@@ -1,0 +1,14 @@
+<ul class="thumbnails">
+	{foreach from=$collections item=collection}
+    	<li class="span">
+        	<div class="thumbnail">
+            	<img src="{$cbcollection->get_thumb($collection)}"/>
+            </div>
+            <div class="caption">
+            	<h5><a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name}</a></h5>
+            </div>
+        </li>
+    {foreachelse}
+    	no collection
+    {/foreach}
+</ul>

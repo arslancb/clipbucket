@@ -20,6 +20,7 @@ class Collections extends CBCategory
 	var $collection_delete_functions = array();
 	var $action = '';
 	var $share_variables;
+	var $avatar_collection;
 	
 	/**
 	 * Setting variables of different thing which will
@@ -40,10 +41,12 @@ class Collections extends CBCategory
 	{
 		$this->cat_tbl = "collection_categories";
 		$this->section_tbl = "collections";
-		$this->types = array('videos' => lang("Videos"),'photos' => lang("Photos"));
-		ksort($this->types);
+		$this->types = 'photos';
+		$this->deprecated_types = array('videos' => lang("Videos"),'photos' => lang("Photos"));
+		//ksort($this->types);
 		
 		$this->init_actions();
+		$this->set_avatar_collection_id( 999 );
 
 	}
 	
@@ -433,7 +436,7 @@ class Collections extends CBCategory
 				$cond .= " AND ";
 			$cond .= " ($title_tag) ";		
 		}
-		
+				
 		if(!$p['count_only'])
 		{
 			if($cond != "")
@@ -445,7 +448,7 @@ class Collections extends CBCategory
 			//echo $db->db_query;	
 						
 		}
-		
+				
 		if($p['count_only'])
 		{
 			return $result = $db->count(tbl("collections"),"collection_id",$cond);
@@ -1256,21 +1259,28 @@ class Collections extends CBCategory
 			}
 		} else {
 			
-			$item = $this->get_collection_items($cid,'ci_id DESC',1);
+			$cover_photo = $cdetails['cover_photo'];
+			if ( $cover_photo != 0 && $ph = $this->object_in_collection( $cover_photo, $cid ) ) {
+				$item[0] = $ph;	
+			} else {
+				$item = $this->get_collection_items($cid,'ci_id DESC',1);
+			}
+			
 			$type = $item[0]['type'];
 			switch($type)
 			{
 				case "v":
 				{
-					global $cbvideo;
-					$thumb = get_thumb($cbvideo->get_video_details($item[0]['object_id']));						
+					$thumb = $this->get_default_thumb( $size );
+//					global $cbvideo;
+//					$thumb = get_thumb($cbvideo->get_video_details($item[0]['object_id']));						
 				}
 				break;
 				
 				case "p":
 				{
 					global $cbphoto;
-					$thumb = $cbphoto->get_image_file($cbphoto->get_photo($item[0]['object_id']));	
+					$thumb = $cbphoto->get_image_file( $cbphoto->get_photo( $item[0]['object_id'] ) );	
 				}
 			}
 			
@@ -1731,6 +1741,23 @@ class Collections extends CBCategory
 			.("type='".$type."'")."  AND ".("object_id='".$objId."'"));
 	}
 	
+	function set_avatar_collection_id( $id ) {
+			return $this->avatar_collection = $id;
+	}
+	
+	function get_avatar_collection_id () {
+		return $this->avatar_collection;
+	}
+	
+	function set_cover_photo( $pid, $cid ) {
+		global $db;
+		$update = $db->update( tbl('collections'), array('cover_photo'),array($pid), " collection_id = '".$cid."' " );
+		if ( $update ) {
+			return true;
+		} else {
+			return false;	
+		}
+	}
 }
 
 ?>

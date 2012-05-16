@@ -3156,6 +3156,13 @@
             }
         }
         
+		if ( !function_exists('cb_filename') ) {
+			function cb_filename() {
+				$filename = time().RandomString(6);
+				return $filename;	
+			}
+		}
+		
 if ( !function_exists('cb_parse_args_string') ) {
 	function cb_parse_args_string ( $string=null ) {
 		if ( is_null($string) )

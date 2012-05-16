@@ -1,0 +1,59 @@
+{if $mode == 'avatar_bg'}
+
+{/if}
+
+{if $mode == 'make_avatar'}
+	<h2 class="page-header">Set Avatar</h2>
+    {assign var=pd value=$photo.photo_details|json_decode}
+    
+    {if $smarty.get.set_avatar != 1}
+    	<div class="well clearfix">
+        	<h4 style="float:left;">Crop Photo<br /> <small>Drag the corners of the transparent box below to crop this photo into your avatar. </small></h4>
+            <form action="" method="post" class="clearfix" style="margin:0px;">
+                <input type="hidden" name="start_x" id ="start_x" value="0" />
+                <input type="hidden" name="end_x" id ="end_x" value="{$Cbucket->configs.max_profile_pic_width}" />
+                
+                <input type="hidden" name="start_y" id="start_y" value="0" />
+                <input type="hidden" name="end_y"id="end_y" value="{$Cbucket->configs.max_profile_pic_width}" />
+                
+                <input type="hidden" name="pid" value="{$smarty.get.pid}" />
+                <button type="button" class="moveR btn btn-large" onclick="window.location = '{$cbphoto->photo_links($photo,view_photo)}'">Cancel</button>
+                <input type="submit" name="set_avatar" class="btn btn-large btn-primary marginR10 moveR" value="Set Avatar" />
+            </form>
+        </div>
+        <!-- Jcrop Start -->
+		<script type="text/javascript">
+			$(function() {
+				function updateCoords ( coords ) {
+		/*        var rx = {$Cbucket->configs.max_profile_pic_width} / coords.w;
+					var ry = {$Cbucket->configs.max_profile_pic_width} / coords.h;
+		
+					$('#preview_{$photo.photo_id}').css({
+						width: Math.round(rx * {$pd.l.width}) + 'px',
+						height: Math.round(ry * {$pd.l.height}) + 'px',
+						marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+						marginTop: '-' + Math.round(ry * coords.y) + 'px'
+					});*/
+		
+					$('#start_x').val( coords.x );
+					$('#end_x').val( coords.x2 );
+		
+					$('#start_y').val( coords.y );
+					$('#end_y').val( coords.y2 );
+				}
+				
+				$('#{$cbphoto->selector_id}_{$photo.photo_id}').Jcrop({
+					onChange: updateCoords,
+					onSelect: updateCoords,
+					setSelect : [0,0,{$Cbucket->configs.max_profile_pic_width},{$Cbucket->configs.max_profile_pic_width}],
+					aspectRatio : 1,
+					minSize : [{$smarty.const.AVATAR_SMALL_SIZE},{$smarty.const.AVATAR_SMALL_SIZE}]					
+				})
+			})
+		</script>      
+        <!-- Jcrop End -->
+    {/if}
+    <div class="thumbnail" style="width:{$pd.l.width}px; margin:auto;">
+    	{get_photo details=$photo size="l" output="html"}
+    </div>
+{/if}

@@ -71,6 +71,6 @@ function confirm_collection_type ( $type ) {
         }
         return $cbcollection->types;
     }
-    return $type;
+    return $cbcollection->types;
 }
 ?>

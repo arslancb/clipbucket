@@ -212,4 +212,71 @@ function get_user_menu_links()
     
 }
 
+function cb_upload_avatar ( $file, $uid = null) {
+	global $db, $userquery;
+	if ( is_null($uid) ) {
+		$uid = userid();
+	}
+	if ( !$uid ) {
+		return false;	
+	}
+	
+	$user = $userquery->get_user_details($uid);
+	if ( $user ) {
+		$collection = $user['avatar_collection'];
+	} else {
+		return false;	
+	}
+}
+
+/**
+ * Create user avatar collection
+ */
+function cb_create_user_avatar_collection( $uid = null) {
+	global $db, $userquery, $cbcollection;
+	
+	if ( is_null($uid) ) {
+		$uid = userid();	
+	}
+
+	if ( !$uid ) {
+		return;	
+	}
+	
+	if( is_array($uid) ) {
+		$user = $uid;	
+	} else {
+		$user = $userquery->get_user_details( $uid );	
+	}
+	
+	if ( !empty($user) ) {
+		if ( $user['avatar_collection'] == 0 ) {
+			/* User has no avatar collection. Create one */
+			$details = array(
+				'collection_name' => 'User Avatars',
+				'collection_description' => 'Collection of user avatars',
+				'collection_tags' => ' ',
+				//'category' => array('category', $cbcollection->get_avatar_collection_id() ),
+				'category' => '#'.$cbcollection->get_avatar_collection_id().'#',
+				'userid' => $user['userid'],
+				'date_added' => NOW(),
+				'is_avatar_collection' => 'yes',
+				'type' => 'photos',
+				'active' => 'yes',
+				'public_upload' => 'no',
+				'broadcast' => 'public',
+				'allow_comments' => 'yes'
+			);
+			
+			/* Insert collection */
+			$insert_id = $db->insert( tbl($cbcollection->section_tbl), array_keys($details), array_values($details) );
+			if ( $insert_id ) {
+				/* update user column avatar_collection */
+				$db->update( tbl('users'), array('avatar_collection'), array($insert_id), " userid = '".$user['userid']."' " );
+				return $insert_id;	
+			}
+		}
+	}
+}
+
 ?>

@@ -145,7 +145,7 @@ if(!@$in_bg_cron)
 	//Setting Time Zone date_default_timezone_set()
 	
 	require_once('classes/search.class.php');
-	
+	require_once('classes/resizer.class.php');
 	
 	require_once('classes/calcdate.class.php');
 	require_once('classes/signup.class.php');
@@ -661,7 +661,9 @@ include('admin.functions.php');
 	//Other settings
 	define("SEND_COMMENT_NOTIFICATION",config("send_comment_notification"));
 	define("SEND_VID_APPROVE_EMAIL",config("approve_video_notification"));
-        
+ 	
+	cb_create_user_avatar_collection();
+	       
 define ('MOBILE_TEMPLATE','cb_iphone2');
 
 if ( $Cbucket->template == MOBILE_TEMPLATE ) {
