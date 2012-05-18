@@ -75,14 +75,14 @@ class CBPhotos {
 				'width' => config('photo_lar_width'),
 				'height' => 0,
 				'crop' => -1,
-				'watermark' => true,
+				'watermark' => config('watermark_photo'),
 				'shrapit' => false
 			),
 			'o'	=> array(
 				'width' => 0,
 				'height' => 0,
 				'crop' => -1,
-				'watermark' => true,
+				'watermark' => config('watermark_photo'),
 				'shrapit' => false
 			)
 		);
@@ -321,13 +321,19 @@ class CBPhotos {
     /**
      * Get Photo
      */
-    function get_photo( $pid ) {
+    function get_photo( $pid, $join = false ) {
         global $db;
+        
+        if ( $join == true ) {
+            list( $join, $alias ) = join_collection_table();
+        }
+        
         if ( is_numeric( $pid ) )
-            $result = $db->select( tbl( $this->p_tbl ), "*", " photo_id = '$pid'" );
+            $result = $db->select( tbl( $this->p_tbl ).$join, "*".$alias, " photo_id = '$pid'" );
         else
-            $result = $db->select( tbl( $this->p_tbl ), "*", " photo_key = '$pid'" );
+            $result = $db->select( tbl( $this->p_tbl ).$join, "*".$alias, " photo_key = '$pid'" );
 
+       //echo $db->db_query;
         if ( $db->num_rows > 0 )
             return $result[0];
         else
@@ -815,18 +821,44 @@ class CBPhotos {
 
         $filename = $p['filename'];
         $extension = $p['ext'];
-
-        $this->createThumb( $path . $filename . "." . $extension, $path . $filename . "_o." . $extension, $extension );
-        $this->createThumb( $path . $filename . "." . $extension, $path . $filename . "_t." . $extension, $extension, $this->thumb_width, $this->thumb_height );
-        $this->createThumb( $path . $filename . "." . $extension, $path . $filename . "_m." . $extension, $extension, $this->mid_width, $this->mid_height );
-        $this->createThumb( $path . $filename . "." . $extension, $path . $filename . "_l." . $extension, $extension, $this->lar_width );
-
-        $should_watermark = config( 'watermark_photo' );
-
-        if ( !empty( $should_watermark ) && $should_watermark == 1 ) {
-            $this->watermark_image( $path . $filename . "_l." . $extension, $path . $filename . "_l." . $extension );
-            $this->watermark_image( $path . $filename . "_o." . $extension, $path . $filename . "_o." . $extension );
+        /* Updating resizes code. From static, we'll load code, dimensions, watermark and sharpit from thumb_dimensions array */
+        $dimensions = $this->thumb_dimensions;
+        $img = new CB_Resizer( $path.$filename.".".$extension );
+        foreach ( $dimensions as $code => $dim ) {
+            $img->target = $path.$filename."_".$code.".".$extension;
+            // Set cropping
+            $img->crop = $dim['crop'];
+            $img->_resize( $dim['width'], $dim['height'] );
+            
+            // Check if we want to sharp this thumb
+            if ( $dim['sharpit'] == true ) {
+                $img->_sharpit();
+            }
+            
+            // Check if we want to apply watermark
+            if ( $dim['watermark'] == true ) {
+                // Set placement
+                $img->watermark_placement = $this->position;
+                $watermark_file = $this->watermark_file();
+                // Replacing URL to DIR.
+                $watermark = str_replace( BASEURL, BASEDIR, $watermark_file );
+                $img->watermark( $watermark );
+            }
+            
+            // Lets save it
+            $img->save();
         }
+//        $this->createThumb( $path . $filename . "." . $extension, $path . $filename . "_o." . $extension, $extension );
+//        $this->createThumb( $path . $filename . "." . $extension, $path . $filename . "_t." . $extension, $extension, $this->thumb_width, $this->thumb_height );
+//        $this->createThumb( $path . $filename . "." . $extension, $path . $filename . "_m." . $extension, $extension, $this->mid_width, $this->mid_height );
+//        $this->createThumb( $path . $filename . "." . $extension, $path . $filename . "_l." . $extension, $extension, $this->lar_width );
+//
+//        $should_watermark = config( 'watermark_photo' );
+//
+//        if ( !empty( $should_watermark ) && $should_watermark == 1 ) {
+//            $this->watermark_image( $path . $filename . "_l." . $extension, $path . $filename . "_l." . $extension );
+//            $this->watermark_image( $path . $filename . "_o." . $extension, $path . $filename . "_o." . $extension );
+//        }
 
         /* GETTING DETAILS OF IMAGES AND STORING THEM IN DB */
         $this->update_image_details( $p );
@@ -1263,9 +1295,10 @@ class CBPhotos {
             e( lang( "no_watermark_found" ) );
         else {
             $oldW = BASEDIR . "/images/photo_watermark.png";
-            if ( file_exists( $oldW ) )
+            if ( file_exists( $oldW ) ) {
                 unset( $oldW );
-
+            }
+            
             $info = getimagesize( $file['tmp_name'] );
             $width = $info[0];
             $type = $info[2];
@@ -1275,8 +1308,14 @@ class CBPhotos {
             if ( $type == 3 ) {
                 if ( move_uploaded_file( $file['tmp_name'], BASEDIR . "/images/photo_watermark.png" ) ) {
                     $wFile = BASEDIR . "/images/photo_watermark.png";
-                    if ( $width > $this->max_watermark_width )
-                        $this->createThumb( $wFile, $wFile, 'png', $this->max_watermark_width );
+                    if ( $width > $this->max_watermark_width ) {
+                        /* Updating resizing code */
+                        $img = new CB_Resizer( $wFile );
+                        $img->target = $wFile;
+                        $img->_resize( $this->max_watermark_width );
+                        $img->save();
+                        //$this->createThumb( $wFile, $wFile, 'png', $this->max_watermark_width );
+                    }
                 }
                 e( lang( "watermark_updated" ), "m" );
             } else {
@@ -2447,7 +2486,6 @@ class CBPhotos {
         //Following are default tagger configs, which user should
         // have control over.
         $defaults = array(
-            'allowTagging' => 'yes',
 
             'autoComplete' => false,
             'autoCompleteOptions' => array(),
@@ -2458,25 +2496,28 @@ class CBPhotos {
             'makeString' => true,
             'makeStringCSS' => false,
 
-            'default_tags' => null,
+            'defaultTags' => null,
             'wrapDeleteLinks' => true,
             'use_percentage' => true,
             'use_arrows' => true,
-
+			
+			'buttonWrapper' => null,
+			'addIcon' => true,
+			
             'phrases' => array(
-                'tagging_disabled' => lang('tagging_disabled'),
-                'start_tagging' => lang('tag_photo'),
-                'stop_tagging' => lang('tag_done'),
-                'cancel_tag' => lang('cancel_tag'),
-                'save_tag' => lang('save_tag'),
-                'saving_tag' => lang('saving_tag'),
-                'empty_tag' => lang('tag_is_empty'),
-                'remove_tag' => lang('remove_tag'),
-                'confirm_remove_tag' => lang('confirm_remove_tag'),
-                'pending_tag' => lang('tag_pending')
+                'tagging_disabled' => lang('Tagging is disabled'),
+                'start_tagging' => lang('Tag Photo'),
+                'stop_tagging' => lang('Done Tagging'),
+                'cancel_tag' => lang('Cancel'),
+                'save_tag' => lang('Save'),
+                'saving_tag' => lang('Saving ..'),
+                'empty_tag' => lang('Input is empty'),
+                'remove_tag' => lang('Remove Tag'),
+                'confirm_remove_tag' => lang('Confirm Tag Removal ?'),
+                'pending_tag' => lang('Pending')
             )
         );
-
+			
         if ( $json === true ):
             return json_encode($defaults);
         else:

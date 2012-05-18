@@ -1549,7 +1549,7 @@ class Collections extends CBCategory
 				if(SEO == 'yes')
 					return BASEURL."/collection/".$cdetails['collection_id']."/".$cdetails['type']."/".SEO(($cdetails['collection_name']))."";	
 				else
-					return BASEURL."/view_collection.php?cid=".$cdetails['collection_id']."&amp;type=".$cdetails['type']; 
+					return BASEURL."/view_collection.php?cid=".$cdetails['collection_id']."&type=".$cdetails['type']; 
 			} elseif($type == "vi" || $type == "view_item" ||$type == "item") {
 				//$item_type = $this->get_collection_field($cdetails['collection_id'],'type');
 				if($cdetails['videoid'])
@@ -1564,7 +1564,7 @@ class Collections extends CBCategory
 							if(SEO == "yes")
 								return BASEURL."/item/".$item_type."/".$details['collection_id']."/".$details['videokey']."/".SEO(clean(str_replace(' ','-',$details['title'])));
 							else
-								return BASEURL."/view_item.php?item=".$details['videokey']."&amp;type=".$item_type."&amp;collection=".$details['collection_id'];
+								return BASEURL."/view_item.php?item=".$details['videokey']."&type=".$item_type."&collection=".$details['collection_id'];
 						}
 						break;
 						
@@ -1574,7 +1574,7 @@ class Collections extends CBCategory
 							if(SEO == "yes")
 								return BASEURL."/item/".$item_type."/".$details['collection_id']."/".$details['photo_key']."/".SEO(clean(str_replace(' ','-',$details['photo_title'])));
 							else
-								return BASEURL."/view_item.php?item=".$details['photo_key']."&amp;type=".$item_type."&amp;collection=".$details['collection_id'];	
+								return BASEURL."/view_item.php?item=".$details['photo_key']."&type=".$item_type."&collection=".$details['collection_id'];	
 						}
 						break;
 					}
@@ -1583,9 +1583,9 @@ class Collections extends CBCategory
 					$cdetails['page_no'] = 2;
 					
 				if(SEO == 'yes')
-					return "?cid=".$cdetails['collection_id']."&amp;type=".$cdetails['type']."&amp;page=".$cdetails['page_no'];
+					return "?cid=".$cdetails['collection_id']."&type=".$cdetails['type']."&page=".$cdetails['page_no'];
 				else
-					return 	"?cid=".$cdetails['collection_id']."&amp;type=".$cdetails['type']."&amp;page=".$cdetails['page_no'];
+					return 	"?cid=".$cdetails['collection_id']."&type=".$cdetails['type']."&page=".$cdetails['page_no'];
 			}
 		} else {
 			return BASEURL;	

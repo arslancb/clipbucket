@@ -1,0 +1,31 @@
+<form name="private_message_form" method="post" action="">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></th>
+                {if $show_from}<th>{lang code='from'}</td>{/if}
+                {if $show_to}<th>{lang code='to'}</td>{/if}
+                <th>{lang code='subject'}</th>
+                <th>{lang code='date_sent'}</th>
+                <th>{lang code='Actions'}</th>
+            </tr>
+        </thead>
+
+        <tbody>
+             {section name=msg loop=$user_msgs}
+            <tr>
+                <td><input type="checkbox" name="msg_id[]" id="msg_id" value="{$user_msgs[msg].message_id}" /></td>
+                {if $show_from}<td><a href="?mode={$mode}&mid={$user_msgs[msg].message_id}">{$user_msgs[msg].message_from_user}</a></td>{/if}
+                {if $show_to}<td><a href="?mode={$mode}&mid={$user_msgs[msg].message_id}">{$user_msgs[msg].to_usernames}</a></td>{/if}
+                <td><a href="?mode={$mode}&mid={$user_msgs[msg].message_id}">{$user_msgs[msg].message_subject|truncate:70}</a></td>
+                 <td>{$user_msgs[msg].date_added}</td>
+                <td><a id="delete_icon-{$pr_msg.message_id}" href="?mode={$mode}&delete_mid={$user_msgs[msg].message_id}" class="btn btn-danger btn-mini">{lang code='Remove'}</a></td>
+            </tr>
+            {/section}
+        </tbody>
+    </table>
+</form>
+
+{if $pr_msg !=''}
+    {private_message pm=$pr_msg}
+{/if}

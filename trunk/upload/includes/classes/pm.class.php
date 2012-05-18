@@ -189,7 +189,7 @@ class cb_pm
 			}
 			
 			//Sending Email
-			$this->send_pm_email($array);
+			//$this->send_pm_email($array);
 			e(lang("pm_sent_success"),"m");
 		}		
 	}
@@ -275,7 +275,8 @@ class cb_pm
 			{
 				$attachments .= $func($array);
 			}
-		}	
+		}
+    
 		return $attachments;
 	}
 	

@@ -1,5 +1,4 @@
 (function ($) {
-	var _this;
 	
 	$.clipbucket = $.clipbucket || {
 		'prefix' : 'cb-',
@@ -10,6 +9,7 @@
 		version : '1.0',
 		// Prefix
 		prefix : 'tagger-',
+		_this : null,
 		options : {
 			allowTagging : 'yes',
 			// Default, min, max Widths & Heights
@@ -74,14 +74,15 @@
 	};
 		
 	function CBTagger( element, options ) {
-		
+				
 		if ( element.get(0).tagName.toLowerCase() != 'img' ) {
 			throw("CB Tagger only works on images. Wrong element was supplied: "+element.get(0).tagName.toLowerCase() );	
 		}
-		
-		_this = this;
-		
+				
 		$( window ).load(function(e){
+			var _this = this;
+			TaggerSelf( _this );
+			
 			var fire = element.add(_this), orgParent = element.parent(), orgParentTag = orgParent.get(0).tagName.toLowerCase();
 			element.addClass('tagger-has-this-image'); element.attr('data-tagger-photo-id',element.attr('id').split('_')[1] );
 			if ( orgParentTag == 'a' ) {
@@ -115,17 +116,22 @@
 					buttonWrapper.css('position','relative');
 					button = $('<button></button>').attr('id',options.buttonID).addClass(options.buttonClass).text(options.phrases.start_tagging).appendTo(buttonWrapper);
 					if ( options.addIcon == true ) {
-						button.addClass('tagger-button-has-icon')
+						button.addClass('tagger-button-has-icon');
 						tagIcon = $("<img />").attr({
 							id : getID('tag-icon'),
 							src : baseurl+'/js/jquery_plugs/images/tag.png'
 						}).addClass('tagger-button-icon').prependTo(button);
-						options.phrases.start_tagging = tagIcon.get(0).outerHTML+options.phrases.start_tagging
+						options.phrases.start_tagging = tagIcon.get(0).outerHTML+options.phrases.start_tagging;
 					}
 
 					if ( options.buttonWrapper && document.getElementById(options.buttonWrapper) ) {
-						button.addClass('tagger-button-custom-wrapper '+options.buttonWrapper)
+						button.addClass('tagger-button-custom-wrapper '+options.buttonWrapper);
 					}
+					
+					// Event: start taggign
+					button.on('click',{ options: options }, function(e){
+						_this.start(e);
+					});
 				} 
 			}	
 
@@ -135,10 +141,6 @@
 			bindingContainer.on('mouseleave', '.tagger-tag, .tagger-tag-label',{ options: options }, hideTag );
 			// Event: remove tag
 			labelContainer.on('click','.tagger-remove-tag-link',{ options: options }, removeTag );
-			// Event: start taggign
-			button.on('click',{ options: options }, function(e){
-				_this.start(e);
-			})
 
 			if ( orgParentTag == 'a' ) {
 				orgParent.click(function(e){
@@ -158,7 +160,7 @@
 							left : left,
 							id : id,
 							label : label	
-						}
+						};
 					} else {
 						object = width	
 					}
@@ -178,7 +180,7 @@
 					});
 					
 					if ( object.pending ) {
-						thisTag.addClass('tagger-tag-pending')
+						thisTag.addClass('tagger-tag-pending');
 					}
 
 					thisTagBox = $("<div />").attr({
@@ -193,7 +195,7 @@
 						$("<b></b>").addClass( options.arrow_class ).appendTo(thisTagDetails.find('i'));	
 					}
 					
-					tagContainer.prepend(thisTag)
+					tagContainer.prepend(thisTag);
 							
 					/* Adding Label */
 					thisLabel = $("<span />").attr({
@@ -278,17 +280,17 @@
 					var image = _this.getImage(), overlayContainer = image.parent();
 					overlayContainer.removeClass('tagger-tagging-active');	
 					_this.hideTagger(e, overlayContainer);
-					overlayContainer.off('click')
+					overlayContainer.off('click');
 				},
 				showTagger : function(e, parent) {
 					var options = _this.getOptions();
 					/*  Return if event is called from Save or Cancel button*/					
-					if ( e.target.id == getID('cancel-button') || e.target.id == getID('save-button') )
+					if ( e.target.id == getID('cancel-button') || e.target.id == getID('save-button') ) {
 						return;
-					
+					}
 					/* Return if event is called from inside the Tagger */
 					if ( document.getElementById(getID('tagger')) ) {
-						postTAGGER = $('#'+getID('tagger') ), targetID = e.target.id;
+						postTAGGER = $('#'+getID('tagger') ); targetID = e.target.id;
 						if ( postTAGGER.attr('id') != targetID ) {
 							if ( postTAGGER.has(e.target).length == 1 ) {
 								return;	
@@ -300,7 +302,7 @@
 						}
 					}
 					
-					parent.addClass('tagger-overlay')
+					parent.addClass('tagger-overlay');
 					var TAGGER = $("<div />").attr({
 						id : getID('tagger')	
 					}).addClass('tagger-container').css({
@@ -343,7 +345,7 @@
 					$('.tagger-save-button').on('click',function(e){
 						var self = $(this);
 						if ( self.prev().get(0).tagName.toLowerCase() == 'input' ) {
-							label = self.prev().val()	
+							label = self.prev().val();	
 						} else {
 							label = $('#'+getID('input')).val();	
 						}
@@ -399,7 +401,7 @@
 	}
 	
 	function getTagDimensions (object) {
-		var options = _this.getOptions(), image = _this.getImage(),
+		var options = TaggerSelf().getOptions(), image = TaggerSelf().getImage(),
 		_return = {
 			width : object.width,
 			height : object.height,
@@ -420,7 +422,7 @@
 	}
 	
 	function getTagPosition( event, relative, tagger ) {
-		var x,y, options = _this.getOptions(), image = _this.getImage();
+		var x,y, options = TaggerSelf().getOptions(), image = TaggerSelf().getImage();
 		
 		x = Math.max(0, event.pageX - relative.offset().left - (options.defaultWidth/2) );
 		y = Math.max(0, event.pageY - relative.offset().top - (options.defaultHeight/2) );
@@ -541,6 +543,15 @@
 
 			wrapper.empty().html( formattedOutput );
 		}		
+	}
+	
+	function TaggerSelf( set ) {
+		
+		if ( set ) {
+			$.clipbucket.tagger._this = set;	
+		}
+		
+		return $.clipbucket.tagger._this;	
 	}
 	
 	// jQuery

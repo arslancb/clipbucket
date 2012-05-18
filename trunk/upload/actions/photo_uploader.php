@@ -56,7 +56,6 @@ switch($mode)
 			$response['photoID'] = $insert_id;
 			
 			$details = $cbphoto->get_photo($insert_id);
-			
 			$params = array("details"=>$details,"size"=>"m");
 			$response['photoPreview'] = get_photo($params);	
 		}

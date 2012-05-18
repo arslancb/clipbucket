@@ -3377,11 +3377,11 @@ class userquery extends CBCategory{
 				$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
 				
 				//Now Finally Sending Email
-				cbmail(array('to'=>post('email'),'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
+				//cbmail(array('to'=>post('email'),'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
 			}
 			elseif(!has_access('admin_access',true) && $send_signup_email)
 			{
-				$this->send_welcome_email($insert_id);
+				//$this->send_welcome_email($insert_id);
 			}
 			
 			$log_array = array

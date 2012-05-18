@@ -392,7 +392,7 @@ if(!@$in_bg_cron)
                 
                 
 	//SETTING PHOTO SETTING
-                        define('USE_PHOTO_TAGGING',true);
+	define('USE_PHOTO_TAGGING',true);
 	$cbphoto->thumb_width = $row['photo_thumb_width'];
 	$cbphoto->thumb_height = $row['photo_thumb_height'];
 	$cbphoto->mid_width = $row['photo_med_width'];
@@ -645,6 +645,8 @@ register_action_remove_video('remove_video_thumbs');
 register_action_remove_video('remove_video_log');
 register_action_remove_video('remove_video_files');
 
+register_anchor_function('load_tagging','cb_head');
+register_anchor_function('load_photo_actions','cb_head');
 
 include('admin.functions.php');
 //error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);

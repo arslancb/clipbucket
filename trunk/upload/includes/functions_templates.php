@@ -129,6 +129,7 @@
             
 		global $ClipBucket;
 		$dir = LAYOUT;
+		
 		foreach($ClipBucket->template_files as $file)
 		{
 			if(file_exists(LAYOUT.'/'.$file) || is_array($file))

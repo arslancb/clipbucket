@@ -72,7 +72,6 @@ $get_limit = create_query_limit($page,COLLPP);
 $clist = $cond;
 $clist['limit'] = $get_limit;
 $collections = $cbcollection->get_collections($clist);
-
 Assign('collections', $collections);	
 
 //Collecting Data for Pagination

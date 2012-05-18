@@ -1,1 +1,35 @@
-<h2><a href="{$cbphoto->photo_links($object,'ma')}" target="_blank">Set Avatar</a></h2>
+<div class="thumbnail inlineblock">
+	{get_photo details=$object size='l' output='html'}
+</div>
+<div id="some" class="inlineblock marginL10 well" style="vertical-align: top; padding: 8px 0;"></div>
+
+<div id="private_message_photo_form" class="hide fade modal">
+    <div class="modal-header">
+        <h3>{lang code='new_private_msg'}</h3>
+    </div>
+    <form id="pm_msg" name="pm_msg" method="post" action="" class="form-horizontal" style="margin:0px;">
+        <div class="modal-body">
+            <div id="private_message_response" class="alert hide">
+                Something to show
+            </div>
+            {assign var='form_fields' value=$cbpm->load_compose_form()}
+                <fieldset>
+                        {foreach from=$form_fields item=field}
+                            <div class="control-group">
+                                <label for="{$field.id}" class="control-label">{$field.title}</label>
+                                <div class="controls">
+                                    {if $field.hint_1}<p class="help-block">{$field.hint_1}</p>{/if}
+                                    {$formObj->createField($field)}
+                                    {if $field.hint_2}<p class="help-block">{$field.hint_2}</p>{/if}
+                                </div>
+                            </div>
+                        {/foreach}
+                </fieldset>
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="cb_send_photo_pm" type="button">{lang code='com_send_message'}</button>
+            <button class="btn" data-dismiss="modal" type="button">{lang code='Cancel'}</button>
+        </div>
+    </form>
+</div>

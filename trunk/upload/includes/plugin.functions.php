@@ -61,7 +61,7 @@
 		
 		//Getting list of function that will be performed while calling achor
 		$funcs = $Cbucket->get_anchor_function_list($params['place']);
-
+		
 		if(!empty($funcs))
 		{
 			if(is_array($funcs))

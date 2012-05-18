@@ -389,6 +389,7 @@ class ClipBucket
 			$headMenu = $this->head_menu;
 			
 			$custom = $this->custom_menu;
+			
 			if(is_array($custom))
 				$headMenu = array_merge($headMenu,$custom);
 			/* Excluding tabs from menu */	

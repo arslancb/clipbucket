@@ -62,6 +62,9 @@ if(config('closed') && THIS_PAGE!='ajax' && !$in_bg_cron && THIS_PAGE!='cb_insta
 
 //Configuring Uploader
 uploaderDetails();
+register_filter( 'photo_action_links', 'cbphoto_pm_action_link_filter' );
+attach_photo_pm_handlers();
+
 if(!IN_MODULE)
 isSectionEnabled(PARENT_PAGE,true);
 

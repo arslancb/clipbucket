@@ -83,6 +83,7 @@ if ( $cbcollection->is_viewable( $cid ) ) {
 							
                             if ( $info ) {
                                 $photo = array_merge( $photo, $info[0] );
+
                                 increment_views( $photo['photo_id'], 'photo' );
 
                                 assign( 'object', $photo );
@@ -90,8 +91,10 @@ if ( $cbcollection->is_viewable( $cid ) ) {
                                 assign( 'c', $collect );
 
                                 subtitle( $photo['photo_title'] . ' &laquo; ' . $collect['collection_name'] );
-								
-								insert_photo_colors( $photo );
+                                insert_photo_colors( $photo );
+                                
+                                register_photo_private_message_field( $photo );                                                                
+                                //pr( $cbpm->load_compose_form(), true );
                             } else {
                                 e( lang( "item_not_exist" ) );
                                 $Cbucket->show_page = false;

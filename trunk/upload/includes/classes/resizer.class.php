@@ -778,13 +778,13 @@ class CB_Resizer {
                 imagecopy( $cut, $resource, 0, 0, $destX, $destY, $wrx, $wry );
                 imagecopy( $cut, $wresource, 0, 0, 0, 0, $wrx, $wry );
                 imagecopymerge( $resource, $cut, $destX, $destY, 0, 0, $wrx, $wry, 100 );
-
-                $this->final_image = $resource;
-                return $this->final_image;
             } else {
                 /* Above contained failed, we will now use a string watermark */
                 //$this->string_watermark( $this->resource );
             }
+            
+            $this->final_image = $resource;
+            return $this->final_image;
         }
     }
 

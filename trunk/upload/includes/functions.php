@@ -1318,7 +1318,7 @@
 		( '{title}');
 		$array_replace = array
 		( $Cbucket->configs['site_title'] );
-		
+
 		if($LANG[$var])
 		{
 			$phrase =  str_replace($array_str,$array_replace,$LANG[$var]);

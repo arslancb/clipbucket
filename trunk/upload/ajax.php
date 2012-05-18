@@ -1461,6 +1461,27 @@ if(!empty($mode))
 			echo json_encode($array);
 		}
 		break;
+    
+            case "send_photo_pm": {
+                $array = $_POST;
+                $array['is_pm'] = true;
+                $array['from'] = userid();
+                
+                $cbpm->send_pm( $array );
+                
+                if ( error() ) {
+                    $errors = error_list();
+                    $response = array( 'error' => $errors[0] );
+                }
+                
+                if ( msg() ) {
+                    $success = msg_list();
+                    $response = array( 'success' => $success[0] );
+                }
+                                
+                echo json_encode( $response );
+            }break;
+            
 		default:
 		header('location:'.BASEURL);
 		
