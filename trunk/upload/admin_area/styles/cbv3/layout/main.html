@@ -193,7 +193,7 @@ $(document).ready(function(){
               <td>Default Time Zone</td>
               <td>
                 <select name="default_time_zone" id="default_time_zone">
-                {assign var='tzs' value=func->get_time_zones()}
+                {assign var='tzs' value=get_time_zones()}
                 {foreach from=$tzs item=name key=tz}
                 	<option value="{$tz}" {if $row.default_time_zone==$tz} selected="selected"{/if}>{$name}</option>
                 {/foreach}

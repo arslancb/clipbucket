@@ -28,6 +28,15 @@
 <!-- ClipBucket default.css -->
 <link rel="stylesheet" type="text/css" href="{$theme_url}/default.css" />
 
+<!-- ie 9 Gradient Fix -->
+<!--[if gte IE 9]>
+  <style type="text/css">
+    .gradient {
+       filter: none;
+    }
+  </style>
+<![endif]-->
+
 <!-- Including ClipBucket Global_header -->
 {include_header file='global_header'}
 
@@ -35,11 +44,17 @@
         NOTE : JQUERY v1.7 or higher is required -->
 <script type="text/javascript" src="{$template_url}/bootstrap/js/bootstrap.min.js"></script>
 
+<!-- Amplify -->
+<script type="text/javascript" src="{$template_url}/amplify/amplify.core.min.js"></script>
+<script type="text/javascript" src="{$template_url}/amplify/amplify.request.min.js"></script>
+<script type="text/javascript" src="{$template_url}/amplify/amplify.store.min.js"></script>
+
 <!-- Including Functions -->
 <script type="text/javascript" src="{$layout_url}/functions.js"></script>
 
 <!-- Including Javascript written in HTML document -->
 {include file="$layout_dir/javascript.html"}
+
 </head>
 
 <!-- Global Header Ends Here -->

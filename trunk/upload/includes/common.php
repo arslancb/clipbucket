@@ -387,7 +387,8 @@ if(!@$in_bg_cron)
 	//Number of activity feeds to display on channel page
 	define("USER_ACTIVITY_FEEDS_LIMIT",15);
 	
-        
+        define('FRONT_TEMPLATEDIR',BASEDIR.'/'.TEMPLATEFOLDER.'/'.$Cbucket->template);
+        define('FRONT_TEMPLATEURL',BASEURL.'/'.TEMPLATEFOLDER.'/'.$Cbucket->template);
         
                 
                 
@@ -603,6 +604,7 @@ $Smarty->register_function('embedCodes','photo_embed_codes');
 $Smarty->register_function('DownloadButtonP','photo_download_button');
 $Smarty->register_function('loadPhotoUploadForm','loadPhotoUploadForm');
 $Smarty->register_function('cbCategories','getSmartyCategoryList');
+$Smarty->register_function('get_categories','getSmartyCategoryList');
 $Smarty->register_function('getComments','getSmartyComments');
 $Smarty->register_function('fb_embed_video','fb_embed_video');
 $Smarty->register_function('cbMenu','cbMenu');
@@ -636,6 +638,8 @@ $Smarty->register_modifier('getHeight','getHeight');
 //$Smarty->register_modifier('get_collection_name','get_collection_name');
 $Smarty->register_modifier('json_decode','jd');
 $Smarty->register_modifier('getGroupPrivacy','getGroupPrivacy');
+
+$Smarty->register_function('loading_pointer','loading_pointer');
 
 assign('updateEmbedCode','updateEmbed');
 /*

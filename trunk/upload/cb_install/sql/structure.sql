@@ -1101,6 +1101,8 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}mass_emails` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
+-- Alterations for 3.0
+
 ALTER TABLE  `{tbl_prefix}video` ADD  `slug_id` INT( 255 ) NOT NULL AFTER  `videokey`;
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}slugs` (
   `slug_id` int(255) NOT NULL AUTO_INCREMENT,
@@ -1110,3 +1112,8 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}slugs` (
   `slug` mediumtext CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`slug_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+ALTER TABLE  `{tbl_prefix}video_categories` ADD  `category_icon` VARCHAR( 100 ) NOT NULL AFTER  `category_name`;
+ALTER TABLE  `{tbl_prefix}user_categories` ADD  `category_icon` VARCHAR( 100 ) NOT NULL AFTER  `category_name`;
+ALTER TABLE  `{tbl_prefix}group_categories` ADD  `category_icon` VARCHAR( 100 ) NOT NULL AFTER  `category_name`;
+ALTER TABLE  `{tbl_prefix}collection_categories` ADD  `category_icon` VARCHAR( 100 ) NOT NULL AFTER  `category_name`;

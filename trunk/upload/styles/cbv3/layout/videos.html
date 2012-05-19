@@ -1,0 +1,20 @@
+{assign var=type value='v'}
+
+
+<!-- Including Categories List -->
+<div class="sidebar-categories">
+    {include_template_file file="blocks/categories.html" type=$type}
+</div>
+
+<!-- CB Videos Listings -->
+<div class="videos-container">
+    {foreach $videos as $video}
+        {include_template_file file="blocks/video.html" video=$video}
+    {/foreach}
+</div>
+
+<script>
+   $(document).ready(function(){
+       $('.video-box:nth-child(4n+4)').css('margin-right','0px');
+   })
+</script>

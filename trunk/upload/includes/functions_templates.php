@@ -104,6 +104,19 @@
 	function include_template_file($params)
 	{
 		$file = $params['file'];
+                
+                //Assign Vars
+                if($params)
+                {
+                    foreach($params as $name => $value)
+                    {
+                        if($name!='file')
+                        {
+                            assign($name,$value);
+                        }
+                    }
+                }
+                
 		
 		if(file_exists(LAYOUT.'/'.$file))
                 {
@@ -964,5 +977,79 @@
              $array = apply_filters($array, 'admin_menu');
              
              return $array;
+         }
+         
+         
+         /**
+          * get list of icons in category-icons folder
+          */
+         function get_category_icons()
+         {
+             //Check if there is a folder
+             //template for category icons
+             if(file_exists(FRONT_TEMPLATEDIR.'/category-icons'))
+             {
+                 $dir = FRONT_TEMPLATEDIR.'/category-icons';
+                 $dir_url = FRONT_TEMPLATEURL.'/category-icons';
+             }else
+             {
+                 $dir = BASEDIR.'/images/category-icons';
+                 $dir_url = BASEURL.'/images/category-icons';
+             }
+             
+             
+             //Blank list of images
+             $images = array();
+                 
+             if(file_exists($dir))
+             {
+                 //Only get PNGs
+                 $imgList = glob($dir.'/*.png');
+                 
+                 if($imgList)
+                 {
+                     foreach($imgList as $img)
+                     {
+                         list($width, $height, $type, $attr) = getimagesize($img);
+                         if($width && $height)
+                             $images[] = $img;
+                     }
+                 }
+             }
+             
+             $final_images = array();
+             if($images)
+             {
+                 foreach($images as $image)
+                 {
+                     $imagearr = explode('/',$image);
+                     $imageName = $imagearr[count($imagearr) - 1];
+                     
+                     $final_images[$imageName] = array('url'=>$dir_url.'/'.$imageName,
+                         'path' => $dir.'/'.$imageName);
+                 }
+             }
+             
+             return $final_images;
+         }
+         
+         /**
+          * Loading Pointer
+          * 
+          * Displays a loading image with the given ID
+          * we need this pointer on many places to let user know if the
+          * process is finised or not to improve UI
+          * 
+          * @param ID String
+          * @return Image wraped in img tag with ID and hidden by default 
+          */
+         function loading_pointer($params)
+         {
+             $id = $params['place'] ? $params['place'] : $params['id'];
+             
+             $img = TEMPLATEURL.'/images/loaders/1.gif';
+             
+             return '<img src="'.$img.'" id="'.$id.'-loader" class="loading_pointer '.$params['class'].'">';
+             
          }
 ?>

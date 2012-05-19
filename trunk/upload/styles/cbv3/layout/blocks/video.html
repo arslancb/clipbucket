@@ -1,0 +1,22 @@
+<!-- Video BLock {$video.videoid} -->
+{$videolink=videoLink($video)}
+<div class="{$video.videoid}-video {$video.videoid} video-box">
+    <div class="video-thumb relative">
+        <a href="{$videolink}"><img src="{getThumb vdetails=$video}" /></a>
+        <span class="duration">{$video.duration|duration}</span>
+    </div>
+    <div class="video-info-cont relative">
+        <div class="title"><a href="{$videolink}">{$video.title}</a></div>
+        <div class="video-info absolute bottom">
+            <span class="user pull-left">{$video.username}</span>
+            <span class="user pull-right">{$video.date_added|niceTime}</span>
+            <div class="clearfix"></div>
+            
+             <span class="user pull-left">{$video.views|number_format} views</span>
+            <span class="user pull-right">{$video|cbv3_rating:perc}</span>
+            <div class="clearfix"></div>
+            
+        </div>
+    </div>
+</div>
+

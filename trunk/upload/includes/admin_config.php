@@ -10,7 +10,8 @@
 	Config.Inc.php
 	*/
 	include('common.php');
-		
+        include('functions_admin.php');
+        
 	//Including Massuploader Class,
 	require_once('classes/mass_upload.class.php');
 	require_once('classes/ads.class.php');

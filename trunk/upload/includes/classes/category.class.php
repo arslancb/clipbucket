@@ -76,8 +76,8 @@ abstract class CBCategory
 		$desc = ($array['desc']);
 		$default = mysql_clean($array['default']);
 		
-		$flds = array("category_name","category_desc","date_added");
-		$values = array($name,$desc,now());
+		$flds = array("category_name","category_desc","date_added","category_icon");
+		$values = array($name,$desc,now(),$array['icon']);
 		
 		if(!empty($this->use_sub_cats))
 		{
@@ -94,6 +94,14 @@ abstract class CBCategory
 		{
 			e(lang("add_cat_no_name_err"));
 		}else{
+                    
+                        //Get Last order ID
+                        $last = $this->get_last_order_number();
+                        $order_id = $last + 1;
+                        
+                        $flds[] = 'category_order';
+                        $values[] = $order_id;
+                        
 			$cid = $db->insert(tbl($this->cat_tbl),$flds,$values);
 						
 			$cid = $db->insert_id();
@@ -104,6 +112,8 @@ abstract class CBCategory
 			//Uploading thumb
 			if(!empty($_FILES['cat_thumb']['tmp_name']))
 				$this->add_category_thumb($cid,$_FILES['cat_thumb']);
+                        
+                        return $cid;
 		}
 		
 	}
@@ -140,10 +150,9 @@ abstract class CBCategory
 	{
 		global $db; 
 		$params['use_sub_cats'] = $params['use_sub_cats'] ? $params['use_sub_cats'] : "yes";
-		if($this->use_sub_cats && config('use_subs') == 1 && $params['use_sub_cats'] == "yes" && 
-		   ($params['type'] == "videos" || $params['type'] == "video" || $params['type'] == "v"))
+		
+                if($this->use_sub_cats && $params['use_sub_cats'] == "yes" )
 		{
-			$cond = " parent_id = 0";
 			$subCategories = TRUE;	
 		} else 
 			$cond = NULL;
@@ -164,9 +173,10 @@ abstract class CBCategory
 			if($subCategories === TRUE && $this->is_parent($cat['category_id']))
 				$finalArray[$cat['category_id']]['children'] = $this->getCbSubCategories($cat['category_id'],$params);
 		}
-		
 		return $finalArray;
 	}
+        
+        
 	
 	function getCbSubCategories($category_id,$params)
 	{
@@ -354,32 +364,33 @@ abstract class CBCategory
 	
 	function cbCategories($params=NULL)
 	{
-		$p = $params;
-		$p['type'] = $p['type'] ? $p['type'] : 'video';  
-		$p['echo'] = $p['echo'] ? $p['echo'] : FALSE; 
-		$p['with_all'] = $p['with_all'] ? $p['with_all'] : FALSE;
+            $p = $params;
+            $p['type'] = $p['type'] ? $p['type'] : 'video';  
+            $p['echo'] = $p['echo'] ? $p['echo'] : FALSE; 
+            $p['with_all'] = $p['with_all'] ? $p['with_all'] : FALSE;
 
-		{
-			$categories = $this->getCbCategories($p);
-			
-			if($categories)
-			{
-				if($p['echo'] == TRUE)
-				{
-					$html = $this->displayOutput($categories,$p);			
-					if($p['assign'])
-						assign($p['assign'],$html);
-					else
-						echo $html;
-				} else {
-					if($p['assign'])
-						assign($p['assign'],$categories);
-					else
-						return $categories;	
-				}
-			} else 
-				return false;
-		}
+            {
+                $categories = $this->getCbCategories($p);
+
+                if($categories)
+                {
+                    if($p['echo'] == TRUE)
+                    {
+                        $html = $this->displayOutput($categories,$p);			
+                        if($p['assign'])
+                            assign($p['assign'],$html);
+                        else
+                            echo $html;
+                    } else {
+                        
+                        if($p['assign'])
+                            assign($p['assign'],$categories);
+                        else
+                            return $categories;	
+                    }
+                } else 
+                        return false;
+            }
 	}
 	
 	/**
@@ -563,8 +574,8 @@ abstract class CBCategory
 		$default = mysql_clean($array['default']);
 		$pcat = mysql_clean($array['parent_cat']);
 		
-		$flds = array("category_name","category_desc");
-		$values = array($name,$desc);
+		$flds = array("category_name","category_desc","category_icon");
+		$values = array($name,$desc,$array['icon']);
 		
 		$cur_name = mysql_clean($array['cur_name']);
 		$cid = mysql_clean($array['cid']);
@@ -684,7 +695,67 @@ abstract class CBCategory
 	{
 		return $this->get_cat_thumb($i);
 	}
+        
+        /**
+         * Function used to get category iCOn, if there is no iCon default will
+         * be returned
+         * 
+         * @param  ARRAY $category
+         * @return STRING $iconurl
+         */
+        function get_icon($c)
+        {
+            //Check if there is a folder
+            //template for category icons
+            if(file_exists(FRONT_TEMPLATEDIR.'/category-icons'))
+            {
+                $dir = FRONT_TEMPLATEDIR.'/category-icons';
+                $dir_url = FRONT_TEMPLATEURL.'/category-icons';
+            }else
+            {
+                $dir = BASEDIR.'/images/category-icons';
+                $dir_url = BASEURL.'/images/category-icons';
+            }
+            
+            $icon_relative_path = $dir.'/'.$c['category_icon'];
+            if(file_exists($icon_relative_path) && $c['category_icon'])
+            {
+                return $dir_url.'/'.$c['category_icon'];
+            }else
+            {
+                return $this->default_category_icon();
+            }
+        }
 	
+        /**
+         * return default caetegory icon
+         * 
+         * @return STRING categoryIconUrl
+         */
+        function default_category_icon()
+        {
+        
+            //template for category icons
+            if(file_exists(FRONT_TEMPLATEDIR.'/category-icons'))
+            {
+                $dir = FRONT_TEMPLATEDIR.'/category-icons';
+                $dir_url = FRONT_TEMPLATEURL.'/category-icons';
+            }else
+            {
+                $dir = BASEDIR.'/images/category-icons';
+                $dir_url = BASEURL.'/images/category-icons';
+            }
+            
+            $icon_relative_path = $dir.'/default.png';
+            if(file_exists($icon_relative_path))
+            {
+                return $dir_url.'/default.png';
+            }else
+            {
+                return ffalse;
+            }    
+        }
+        
 	/**
 	 * function used to return default thumb
 	 */
@@ -731,7 +802,7 @@ abstract class CBCategory
 	 function is_parent($cid)
 	 {
 		 global $db;
-		 $result = $db->count(tbl($this->cat_tbl),"category_id"," parent_id = $cid");
+		 $result = $db->count(tbl($this->cat_tbl),"category_id"," parent_id = '$cid' ");
 		 
 		 if($result > 0)
 		 	return true;
@@ -859,6 +930,18 @@ abstract class CBCategory
 	}
 	
 	
+        /**
+         * Get Last Order
+         * 
+         * @return INT OrderId
+         */
+        function get_last_order_number()
+        {
+            global $db;
+            $result = $db->select(tbl($this->cat_tbl),'category_order',NULL,1,' category_order DESC');
+            
+            return $result[0]['category_order'];
+        }
 	
 	
 }

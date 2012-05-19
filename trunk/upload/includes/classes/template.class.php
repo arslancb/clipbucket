@@ -11,7 +11,12 @@ class CBTemplate {
        
         if (!isset($Smarty)) {
             
-            $Smarty = new SmartyBC;
+            $Smarty = new SmartyBC();
+        
+            $Smarty->compile_check = true;
+            $Smarty->debugging = false;
+            $Smarty->template_dir = BASEDIR."/styles";
+            $Smarty->compile_dir  = BASEDIR."/cache";
         }
     }
 

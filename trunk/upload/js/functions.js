@@ -181,7 +181,7 @@ var loading = loading_img+" Loading...";
 			return false;
 		}
 		var ajaxCall = $.ajax({
-			  url: download_page,
+			  url: download_page_youtube,
 			  type: "POST",
 			  data: ({file:file,file_name:file_name,"youtube":"yes"}),
 			  dataType : 'json',

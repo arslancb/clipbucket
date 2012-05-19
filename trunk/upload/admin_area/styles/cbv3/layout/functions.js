@@ -1,4 +1,32 @@
 
+
+/**
+ *Function used to display an error message popup box
+ */
+function displayError(err)
+{
+    $('#error .modal-body p').html('');
+     
+    $.each(err,function(index,data){
+        $('#error .modal-body p').append(data+'<br />');
+    })
+    $('#error').modal('show');
+}
+
+/**
+ *Function used to display an error message popup box
+ */
+function displayMsg(msg)
+{
+    $('#msg .modal-body p').html('');
+     
+    $.each(msg,function(index,data){
+        $('#msg .modal-body p').append(data+'<br />');
+    })
+    $('#msg').modal('show');
+}
+
+
 /**
  * toggles the sidebar for widgets
  * @param object
@@ -128,4 +156,171 @@ function deleteWidget($widgetId,$sidebarId){
        saveSidebar($sidebarId); 
        $('#'+$widgetId+'-'+$sidebarId+'-modal').modal('hide').remove();
     }
+}
+
+
+/**
+ * Add Category..
+ */
+function add_category()
+{
+    var formData = $('#add-category').serialize();
+    formData += '&mode=add_category';
+    
+    loading('add-category');
+    amplify.request("categories",formData,
+        function(data){
+            if(data.err)
+            {
+                displayError(data.err);
+            }else if(data.data)
+            {
+                $('#categories-list').append(data.data);
+                $('#category-'+data.cid).hide().fadeIn('slow');
+                loading('add-category','hide');
+                scrollTo('#category-'+data.cid);
+            }
+        }
+    );
+}
+
+
+/**
+ * Scroll to an elemet
+ */
+function scrollTo($element){
+    $('html, body').animate({
+            scrollTop: $($element).offset().top
+    }, 'fast');
+}
+
+/**
+ * Delete category
+ * @param cid STRING
+ */
+function delete_category(cid)
+{
+    amplify.request("categories",{cid : cid,'mode' : 'delete_category'},
+        function(data){
+            if(data.err)
+            {
+                displayError(data.err);
+            }else
+            {
+                $('#category-'+cid).fadeOut();
+            }
+        }
+    );
+
+}
+
+
+/**
+ * Make Default
+ * @param cid STRING
+ */
+function make_default(cid,category_name)
+{
+    amplify.request("categories",{cid : cid,'mode' : 'make_default','name':category_name},
+        function(data){
+            if(data.err)
+            {
+                displayError(data.err);
+            }else
+            {
+                displayMsg(data.msg)
+            }
+        }
+    );
+}
+
+
+/**
+ * function used to hide or show loading pointer
+ * 
+ */
+function loading_pointer(ID,toDo)
+{
+    var pointer = $('#'+ID+'-loader');
+    
+    if(toDo=='hide')
+    { 
+        pointer.hide();
+    }
+    else{
+        pointer.show();
+    }
+}
+function loading(ID,ToDo)
+{ 
+    return loading_pointer(ID,ToDo)
+}
+
+/**
+ * edit category...
+ */
+function edit_category(id)
+{
+    
+    amplify.request("categories",{'mode' : 'edit_category',cid:id},
+        function(data){
+            if(data.success)
+            {
+                $('#edit-category-modal .form-basic').html(data.template);
+                $('#edit-category-modal h3').html(data.title);
+                 $('#edit-category-modal .update-message').html('');
+                $('#edit-category-modal').modal('show');
+            }else
+                if(data.err)
+                    displayError(data.err);
+        }
+    );
+}
+
+/**
+ * Change Category
+ * @param id INT
+ */
+function save_category(id)
+{
+    $('#save-category-button').addClass('disable');
+    loading('save-category');
+    
+    var formData = $('#edit-category').serialize();
+        formData += '&mode=save_category';
+        
+      amplify.request("categories",formData,
+        function(data){
+            if(data.err)
+                $('#edit-category-modal .update-message').html('<div class="alert alert-danger">'+data.err+'</div>')
+            else
+                $('#edit-category-modal .update-message').html('<div class="alert alert-success">'+data.msg+'</div>') 
+            loading('save-category','hide');
+            $('#save-category-button').removeClass('disable');
+        }
+    );
+}
+
+
+/**
+ * Update Order
+ * 
+ * @param id INT
+ * @param order INT
+ * @param type STRING
+ */
+function update_order(id,order,type)
+{
+    if(type=='category')
+        var amplify_type = 'categories';
+    
+    loading(type+'-'+id);
+
+    amplify.request(amplify_type,{"mode":"update_order","cid":id,'order':order},
+        function(data){
+            if(data.err)
+                displayError(data.err);
+            loading(type+'-'+id,"hide");
+        }
+    );
 }

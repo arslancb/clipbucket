@@ -13,6 +13,7 @@
 
 .sidebar-nav{
     padding: 9px 0px;
+    margin-left: -5px;
 }
 
 .row-fluid .span150, .span150{width: 150px}
@@ -45,14 +46,22 @@
 .icon-settings {background-position: -336px -0px;}
 .icon-plugins {background-position: -360px -0px;}
 
+
 .icon-v3 {
   background-image: url("../images/v3icons.png");
 }
+
+
 .icon-v3-white {
   background-image: url("../images/v3icons-white.png");
 }
 
+.left-column{ margin-top: 10px; position: relative; 
+             width: 200px;margin-left: -100%;z-index:2; float: left}
+.left-column .nav-list{ margin-left: 5px}
 
+.content-container{margin-top: 10px; width: 100%; float: left;z-index:1;}
+.content{margin-left: 220px; padding-right: 10px}
 
 /* Side Bars */
 .admin-sidebars{ width: 270px; padding: 10px; margin: 10px}
@@ -77,3 +86,52 @@
 padding:5px; border:1px dashed #ccc}
 
 .widgets-list{padding: 5px 0px;}
+
+/* Header */
+.header-top{height: 63px; background-color: #1b1b1b }
+.header-top .logo{background-image: url(../images/header-top-bg.png); height: 62px; min-width: 388px;
+ background-repeat: no-repeat; font-size: 28px; color: #fff; padding-left:90px; line-height: 58px}
+
+@media screen and (-webkit-min-device-pixel-ratio:0){
+    .header-top .logo-text{
+        background: url(../images/logo-text.png);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; background-position: 0px 17px
+    }
+}
+
+.header-bottom{background-color: #363636}
+.header-bottom ul{margin: 0px; padding: 0px;}
+.header-bottom ul li{float: left; display: inline-block; border-right: 1px solid #222;
+border-left: 1px solid #4b4b4b; padding: 5px 10px; color: #fff; font-size: 11px; font-weight: bold}
+
+footer{background-color:#161616; padding: 0px 0px}
+footer ul{padding: 0px; margin: 0px;}
+footer ul li{padding: 0px; margin: 0px; list-style: none;border-right: 1px solid #2c2c2c;
+border-left: 1px solid #060606; padding: 15px 20px; float: left; height: 30px; color:#fff; vertical-align: middle; }
+footer ul li.version{font-size: 13px; margin-top: 5px; border-right: none}
+footer ul li.links{ width: 270px; border-right: none}
+footer ul li span{float: left; width: 120px; margin-right: 10px; font-size: 11px}
+footer ul li.team{font-size:11px; text-align: center; border-left: none}
+
+
+/* Forms */
+.form-basic{margin-top: 15px}
+.form-basic label{font-size: 12px; color: #666; font-weight: bold}
+
+/* Data rows */
+.data-row{ border-bottom:1px solid #e5e5e5; border-top:1px solid #fff; padding: 10px 0px  }
+.data-row:first-child{border-top:0px;}
+.data-row:last-child{border-bottom: 0px}
+.data-row > ul{padding: 0px; margin: 0px}
+.data-row > ul > li{padding: 0px; margin: 0px; list-style: none; float: left; padding-right: 10px;
+font-weight: bold; font-size: 12px; color: #626262}
+.data-row > ul > li.index{width: 35px;}
+.data-row > ul > li.option{width: 40px}
+.data-row > ul > li.text{width: 250px}
+.data-row > ul > li.action{width:70px; float: right; padding-right: 0px}
+.data-row input{margin-bottom: 0px; padding: 0px 4px}
+
+.well-compact{padding: 10px}
+
+.loading_pointer{ vertical-align: middle; display: none}

@@ -86,6 +86,8 @@ function SetTime($sec, $padHours = true) {
 }
 
 
+function duration($time,$pad=true){ return SetTime($time,$pad); }
+
 
 /**
  * Get thumbnails of a video

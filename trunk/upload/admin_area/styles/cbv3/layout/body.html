@@ -4,39 +4,32 @@
     
 <!-- Including Commong header -->
 {include file="$style_dir/header.html" }
-{include file="$style_dir/msg.html" }
 
-<div style="">
-
-{if $smarty.cookies.admin_menu=='hide'}
-	{assign var='left_menu_class' value='left_menu_0'}
-    {assign var='contentcolumn_class' value='contentcolumn0'}
-{else}
-	{assign var='left_menu_class' value='left_menu'}
-    {assign var='contentcolumn_class' value='contentcolumn'}
-{/if}
 
 <div class="clearfix"></div>
 
 
-<div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span200">
-      {include file="$style_dir/left_menu.html" }
-    </div>
-    <div class="span9">
+
+<!-- The Content -->
+<div class="content-container">
+    <div class="content">
+    {include file="$style_dir/msg.html" }
+    
     {if $Cbucket->show_page}
         {foreach from=$template_files item=file}
             {include_template_file file=$file}
         {/foreach}
     {/if}
     </div>
-  </div>
+</div>
+
+<div class="left-column">
+  {include file="$style_dir/left_menu.html" }
 </div>
 
 
 
-</div>
+
 <div class="clearfix"></div>
 {include file="$style_dir/footer.html" }
 </body>

@@ -1,0 +1,38 @@
+{* Getting a list of categories *}
+
+<div class="categories-nav">
+{$categories=getCategoryList(['type'=>$type])}
+
+<ul>
+{foreach $categories as $category}
+    {if !$category.parent_id}
+    
+    {$catLink = category_link($category,$type)}
+    <li class="gradient relative"><img src="{$cbvid->get_icon($category)}"/> 
+            <a href="{$catLink}">{$category.category_name}</a>
+
+        {if $category.children}
+            <i class="icon-toggle icon-set absolute right"></i>
+            
+            <ol>
+                {foreach $category.children as $child}
+                {$catLink = category_link($child,$type)}
+                    <li><a href="{$catLink}">{$child.category_name}</a>
+                        {if $child.children}
+                        <ul>
+                            {foreach $child.children as $sub_child}
+                            {$catLink = category_link($sub_child,$type)}
+                            <li>
+                                &#8211; <a href="{$catLink}">{$sub_child.category_name}</a>
+                            </li>
+                            {/foreach}
+                        </ul>
+                        {/if}
+                    </li>
+                {/foreach}
+            </ol>
+        {/if}</li>
+    {/if}
+{/foreach}
+</ul>
+</div>
