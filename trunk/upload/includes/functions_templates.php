@@ -1052,4 +1052,48 @@
              return '<img src="'.$img.'" id="'.$id.'-loader" class="loading_pointer '.$params['class'].'">';
              
          }
+         
+         
+         /**
+          * Shortify Numbers
+          * 
+          * display large numbers in short forms by adding K
+          * and triming the rest
+          * 100,000 => 100K 105,2345 => 105.2K 
+          * 
+          * @param INT $numbers
+          * @return STRING $shortened
+          */
+         function shortify($numbers)
+         {
+             if(is_numeric($numbers))
+             {
+                 if($numbers>1000)
+                 {
+                     $new = round($numbers/1000,1);
+                     return $new.'K';
+                 }
+             }
+         }
+         
+         
+         /**
+          * Displays the rating in the template in an ajax request 
+          * @todo Write Documentation
+          * 
+          * filters isliye lagay hain take array main radobadal ki ja skay
+          * cb_call_functions baad main issy array ko istemal kr k rating
+          * show krwa dega, is k liye pehle cb_register_function krwana
+          * parre ga.
+          * 
+          * return isliye kuch nhin krwaya kion k cb_call_funcion b kuch return
+          * nhin kr ra hai wo ilsye k ye content ko format nhin krta
+          * balke jitne registered functions hote hain unko call krta aur bich
+          * me hi echo hota
+          */
+         function showRating($rating)
+         {
+             $rating = apply_filters($rating, 'show-rating');
+             cb_call_functions('show_rating',$rating);
+         }
 ?>

@@ -4,7 +4,9 @@
 <div class="row">
     <div class="span734">
         <!-- Video Player -->
-        <div style="width: 100%; background-color: #ccc; height: 336px"></div>
+        <div style="width: 100%; background-color: #ccc; height: 336px">
+            {FlashPlayer width='100%' height='336px'}
+        </div>
         
         <!-- Video Stats and Actions -->
         
@@ -12,8 +14,10 @@
             <div class="inlineblock pull-left">
                 <div class="btn-toolbar">
                     <div class="btn-group valignMid">
-                        <button class="btn"><span class="icon-like"></span> Like</button>
-                        <button class="btn"><span class="icon-dislike"></span></button>
+                        <button class="btn" 
+                            onclick="cbv3rate('{$video.videoid}','1','video');"><span class="icon-like"></span> Like</button>
+                        <button class="btn"
+                            onclick="cbv3rate('{$video.videoid}','10','video');"><span class="icon-dislike"></span></button>
                     </div>
                     <button class="btn"><span class="icon-plus"></span> Add To</button>
                     <button class="btn"><span class="icon-share"></span> Share</button>
@@ -23,7 +27,7 @@
             
             <div class="inlineblock pull-right ">
                 <div class="btn-toolbar valignMid">
-                    <h3 class="inlineblock valignTop">3.5K views</h3>
+                    <h3 class="inlineblock valignTop">{$video.views|number_format} views</h3>
                     <button class="btn"><span class="icon-v3 icon-stats"></span></button>
                 </div>
             </div>
@@ -41,9 +45,9 @@
                     </article>
 
                     <h5>Category</h5>
-                        <h6>Some, Category, goes here</h6>
+                        <h6>{$vdo.category|categories:video}</h6>
                     <h5>Tags</h5>
-                        <h6>Some, Tags, GoeS, here</h6>
+                        <h6>{$vdo.tags|tags:videos}</h6>
                         
                         <div class="height10"></div>
                         <div  class="video-details-shadow absolute"></div>
@@ -61,11 +65,16 @@
                 </div>
                 
             </div>
+            
             <div class="span3">
-                <div class="progress progress-rating progress-success">
-                    <div class="bar" style="width: 95%;"></div>
+                
+                {* This is a custom function for this template *}
+                
+                <div id="video-rating-container">
+                    {$videoRating=cbv3_rating($video,'video-bar')}
+                    {$videoRating}
                 </div>
-                <h6>2,839 likes, 139 dislikes</h6>
+                
             </div>
             
         </div> <!-- Ending Video Details -->

@@ -2173,13 +2173,13 @@ class userquery extends CBCategory{
 	 */
 	function get_user_profile($uid)
 	{
-		global $db;
-		$result = $db->select(tbl($this->dbtbl['user_profile']),"*"," userid='$uid'");
-		if($db->num_rows>0)
-		{
-			return $result[0];
-		}else
-			return false;
+            global $db;
+            $result = $db->select(tbl($this->dbtbl['user_profile']),"*"," userid='$uid'");
+            if($db->num_rows>0)
+            {
+                    return $result[0];
+            }else
+                    return false;
 	}
 	
 	

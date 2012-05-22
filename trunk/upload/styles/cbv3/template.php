@@ -34,15 +34,10 @@ $sidebar = array(
     'description'   => lang('Displays a side bar on "watch video" page'),
     'before_title'  => '<h3>',
     'after_title'   => '</h3>',
-    'before_widget' => '<div>',
+    'before_widget' => '<div class="cb-widget">',
     'after_widget'  => '</div>',
     'id'            => 'watch-video-sidebar'
 );
-
-register_sidebar($sidebar);
-$sidebar['title'] = 'View photo';
-$sidebar['description'] = 'View Photos';
-$sidebar['id'] = 'view-photo-sidebar';   
 register_sidebar($sidebar);
 
 /**
@@ -52,22 +47,25 @@ register_sidebar($sidebar);
 register_widget(array(
     'id' => 'user-details-box',
     'title' => 'User details box',
-    'description' => 'Displays a user box with few details and a
-     a message and subscribe button ba bla...',
+    'description' => 'Displays a user box on watch video page with brief details.',
     'icon' => FRONT_TEMPLATEURL.'/images/widgets/user-box.png',
     'callback' => 'displayUserBox',
     'callback_admin' => 'displayUserBoxAdmin'
 ));
 
 register_widget(array(
-    'id' => 'user-details-box-2',
-    'title' => 'User details box 2',
-    'description' => 'Displays a user box with few details and a
-     a message and subscribe button ba bla...',
-    'icon' => FRONT_TEMPLATEURL.'/images/widgets/user-box.png',
-    'callback' => 'displayUserBox',
-    'callback_admin' => 'displayUserBoxAdmin'
+    'id' => 'related-videos',
+    'title' => 'Related videos',
+    'description' => 'List related videos on watch video page',
+    'icon' => FRONT_TEMPLATEURL.'/images/widgets/related-videos.png',
+    'callback' => 'displayRelatedVideos',
 ));
+
+
+
+
+//regsitering cb custom functions
+cb_register_function('cbv3_show_rating','show_rating');
 
 
 ?>

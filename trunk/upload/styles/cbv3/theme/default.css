@@ -185,6 +185,7 @@ background-position: 0px 1px; border-top: 1px solid #d8d8d8; padding: 7px 0px 8p
 
 .sidebar-categories{float: left; width: 255px; margin-right: 25px}
 .videos-container{float:left; width: 820px}
+.cb-widget{margin-bottom: 15px}
 
 /* Videos CSS */
 .video-box{width: 190px; float: left; margin-right: 20px; }
@@ -205,3 +206,18 @@ background-position: 0px 1px; border-top: 1px solid #d8d8d8; padding: 7px 0px 8p
          background-image: url("../images/duration-bg.png"); 
          background-repeat: no-repeat;
 color: #fff; font-size: 10px; text-align: center; font-weight: bold; text-shadow: 1px 1px 0px #000}
+
+
+.loading_pointer {display: none; vertical-align: middle}
+
+
+/* Account */
+.account-left{width: 220px; margin-right: 20px; float: left}
+.account-left .well{padding: 10px 0px}
+
+.account-right{width: 860px; float: left}
+.account-right h2 .label{vertical-align: middle}
+
+.account-heading{position: relative}
+.account-controls-left{width: 45%; float:left}
+.account-controls-right{width: 45%; float:right}

@@ -49,7 +49,7 @@ function sidebar($place=NULL,$echo=true)
     global $Cbucket;
     if(!$place)
         $place = 'default';
-   
+    
     $sidebar = $Cbucket->sidebars[$place];
     if(!$sidebar)
         $sidebar = $Cbucket->sidebars[$place.'-sidebar'];
@@ -58,6 +58,7 @@ function sidebar($place=NULL,$echo=true)
     {
         //Getting list of widgets...
         $widgets = get_sidebar_widgets($sidebar['id']);
+        $sidebar_output = "";
         foreach($widgets as $w)
         {
             $widget = get_widget_details($w['id']);
@@ -78,11 +79,13 @@ function sidebar($place=NULL,$echo=true)
                 
                 assign('widget',$widget_details);
                 if($widget['params'])
-                    return $widget['callback']($widget_details,$widget['params']);
+                    $sidebar_output .= $widget['callback']($widget_details,$widget['params']);
                 else
-                    return $widget['callback']($widget_details);
+                    $sidebar_output .= $widget['callback']($widget_details);
             }
         }
+        
+        return  $sidebar_output;
     }
 }
 

@@ -15,17 +15,22 @@
             }
         }
     });
-    
-    
-    //Getting list of video sample
-    
-    amplify.request("categories",{ "mode":"get_videos" }//params,
-        ,function(data){ 
-            ////Returns Json Data
-           //Thats it
+
+   
+    //defining up clipbucjet ajax request
+    amplify.request.define( "main", "ajax", {
+        url: ajaxURL+"/main.php",
+        type: "POST",
+        dataType: "json",
+        decoder: function( data, status, xhr, success, error ) {
+            if ( status === "success" ) {
+                success( data );
+            } else {
+                error( data );
+            }
         }
-    );
-  
+    });
+    
     
 </script>
 

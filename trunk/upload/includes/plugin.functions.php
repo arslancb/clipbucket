@@ -380,36 +380,36 @@
 	 */
 	function cb_call_functions($place,$extra=NULL)
 	{
-		$funcs = cb_get_functions($place);
-		if(is_array($funcs))
-			foreach($funcs as $func)
-			{
-				$fname = $func['func'];
-				$fparams = $func['params'];
-				if(function_exists($fname))
-				{
-					if($fparams) // checking if we have user defined params
-					{
-						if(is_array($fparams)) // Checking if params are array
-							if($extra && is_array($extra)) // Checking if we have some extra params
-								$fparams = array_merge($fparams,$extra); // If yes, then merge all params
-							else
-								$fparams = $fparams; // No Continue with user defined params	
-						elseif($extra)
-							$fparams = $extra; // It is not array, so assign $extra to $fparams.
-						
-						if(!empty($fparams))	
-							$fname($fparams);
-						else
-							$fname();				
-					} else {
-						if($extra != NULL)
-							$fname($extra);
-						else
-							$fname();		
-					}
-				}
-			}
+            $funcs = cb_get_functions($place);
+            if(is_array($funcs))
+            foreach($funcs as $func)
+            {
+                $fname = $func['func'];
+                $fparams = $func['params'];
+                if(function_exists($fname))
+                {
+                    if($fparams) // checking if we have user defined params
+                    {
+                        if(is_array($fparams)) // Checking if params are array
+                            if($extra && is_array($extra)) // Checking if we have some extra params
+                                $fparams = array_merge($fparams,$extra); // If yes, then merge all params
+                            else
+                                $fparams = $fparams; // No Continue with user defined params	
+                        elseif($extra)
+                            $fparams = $extra; // It is not array, so assign $extra to $fparams.
+
+                        if(!empty($fparams))	
+                            $fname($fparams);
+                        else
+                            $fname();				
+                    } else {
+                        if($extra != NULL)
+                            $fname($extra);
+                        else
+                            $fname();		
+                    }
+                }
+            }
 	}
 	
 	/**
