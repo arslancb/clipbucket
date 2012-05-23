@@ -917,14 +917,32 @@
 	 * @param INT $id Any Predefined Message ID
 	 */
 	
-	function e($msg=NULL,$type='e',$id=NULL)
+	function e($msg=NULL,$type='e',$rel=NULL,$id=NULL)
 	{
 		global $eh;
 		if(!empty($msg))
-			return $eh->e($msg,$type,$id);
+			return $eh->e($msg,$type,$rel,$id);
 	}
 	
 	
+        
+        /**
+         * Function used to return rel list after e function is called
+         * our eh also creates a relative list so that we can
+         * 'focus' on textfields in case of error generation 
+         */
+        
+        function get_rel_list()
+        {
+            global $eh;
+            $array = array(
+                'err' => $eh->error_rel,
+                'msg' => $eh->message_rel,
+                'war' => $eh->warning_rel
+            );
+            return $array;
+        }
+        
 	/**
 	 * Function used to get subscription template
 	 */

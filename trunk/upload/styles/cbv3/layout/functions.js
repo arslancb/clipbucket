@@ -28,6 +28,19 @@ function displayMsg(msg)
     $('#msg').modal('show');
 }
 
+
+/**
+ * Relative input highlight and add error
+ */
+function focusObj(err,type)
+{
+    $.each(err,function(rel,msg){
+        $('#'+rel).parent().parent().addClass(type);
+        $('#'+rel).parent().find('.help-inline').text(msg);
+    })
+}
+
+
 /**
  * function used to hide or show loading pointer
  * 
@@ -47,6 +60,26 @@ function loading_pointer(ID,toDo)
 function loading(ID,ToDo)
 { 
     return loading_pointer(ID,ToDo)
+}
+
+
+/**
+ * Updates counts of an object such as
+ * adding playlist will increase playlist_count
+ */
+function update_counter(obj,inc)
+{
+    var val = $(obj).text();
+    val = parseInt(val);
+    if(inc==1)
+    {
+        val += 1; 
+        $(obj).text(val);
+    }else
+    {
+        val -= 1; 
+        $(obj).text(val);
+    }
 }
 
 // CLIPBUCKET MAIN FUNCTIONS ----------------------
@@ -87,8 +120,8 @@ function toggleLessMore(div,type)
 function cbv3rate(id,rating,type)
 {
     loading('rating');
-    amplify.request("main",{ "mode":"rating",type:type,
-        id:id,rating:rating }//params,
+    amplify.request("main",{"mode":"rating",type:type,
+        id:id,rating:rating}//params,
         ,function(data){ 
             
             $('#video-rating-container')
@@ -98,3 +131,89 @@ function cbv3rate(id,rating,type)
     );
 }
 
+
+/**
+ * Create play list
+ */
+function create_playlist(type)
+{
+    $('#create_playlist_bttn').button('loading');
+    var formData = $('#create-playlist-modal form').serialize();
+    formData += "&mode=create_playlist&type="+type;
+    
+    $('#create_playlist_bttn').button('loading');
+    amplify.request('main',formData,function(data){
+        
+        if(data.err)
+        {
+            if(data.rel.err)
+            {
+                focusObj(data.rel.err,'error');
+            }
+            
+            if(data.rel.err.length<1)
+            {
+                $.each(data.err,function(index,err)
+                {
+                    $('#create-playlist-error')
+                        .append('<div>'+err+'</div>')
+                        .show();
+                });
+            }
+            
+            $('#create_playlist_bttn').button('reset');
+        }else
+        {
+            
+            $('#create-playlist-modal').modal('hide');
+            
+            $('#playlist-list').append(data.template);
+            $('#'+data.pid+'-playlist').hide().fadeIn('slow');
+            
+            update_counter('#playlists_count',1);
+            
+            updatePlaylistPage();
+            $('#create_playlist_bttn').button('reset'); 
+        }
+    });
+}
+
+
+
+/**
+ * toggle Playlist options, 
+ * 
+ * will hide controls if playlist counts is 0
+ * otherwise show them
+ */
+function updatePlaylistPage()
+{
+    if($('.playlist-list').length>0)
+    {
+        $('.playlist-list-controls').show();
+        $('.no-playlist').hide();
+    }else{
+        $('.playlist-list-controls').hide();
+        $('.no-playlist').show();
+    }
+}
+
+/**
+ * Delete playlist
+ */
+function delete_playlist(pid)
+{
+    amplify.request('main',
+    {mode:'delete_playlist',pid:pid},function(data){
+        if(data.err)
+        {
+            displayError(data.err);
+        }else
+        {
+            displayMsg(data.msg);
+            $('#'+pid+'-playlist').remove();
+            updatePlaylistPage();
+            update_counter('#playlists_count',-1);
+        }
+    })
+}

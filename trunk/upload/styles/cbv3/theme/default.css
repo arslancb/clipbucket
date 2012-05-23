@@ -212,12 +212,27 @@ color: #fff; font-size: 10px; text-align: center; font-weight: bold; text-shadow
 
 
 /* Account */
-.account-left{width: 220px; margin-right: 20px; float: left}
+.account-left{width: 220px; margin-right: 30px; float: left}
 .account-left .well{padding: 10px 0px}
 
-.account-right{width: 860px; float: left}
+.account-right{width: 850px; float: left}
 .account-right h2 .label{vertical-align: middle}
 
 .account-heading{position: relative}
 .account-controls-left{width: 45%; float:left}
 .account-controls-right{width: 45%; float:right}
+
+.playlist-list{margin: 0px; padding: 0px;}
+.playlist-list > li{margin: 0px; list-style: none; float: left; margin-right: 10px;
+height: 120px}
+
+.playlist-list > .thumb{display: block;width: 190px; }
+.playlist-thumb{position: relative}
+.playlist-thumb img{width: 160px; height: 100px; border: 1px solid #fff; 
+position: absolute;}
+
+.playlist-list .pltitle{font-size:13px; color:#000; font-weight: bold;}
+.playlist-list .seperator{margin: 0px 8px}
+.plinfo{width: 500px}
+.playlist-list .pldesc{margin-top: 5px; color: #666; font-size: 11px}
+.playlist-list .subinfo{font-size: 11px; color: #666}

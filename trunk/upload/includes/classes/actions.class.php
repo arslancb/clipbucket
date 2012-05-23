@@ -413,35 +413,81 @@ class cbactions
 	function create_playlist($params)
 	{
 		global $db;
-		$name = mysql_clean($params['name']);
+                
+                //Similar to extract but adding mysql_clean
+                $newarray = array_map('mysql_clean',$params);
+                extract($newarray);
+
 		if(!userid())
-			e(lang("please_login_create_playlist"));
+			e(lang("please_login_create_playlist"),"e");
 		elseif(empty($name))
-			e(lang("please_enter_playlist_name"));
+			e(lang("please_enter_playlist_name"),"e","playlist_name");
 		elseif($this->playlist_exists($name,userid(),$this->type))
-			e(sprintf(lang("play_list_with_this_name_arlready_exists"),$name));
+			e(sprintf(lang("play_list_with_this_name_arlready_exists","e","playlist_name"),$name));
 		else
 		{
-			$db->insert(tbl($this->playlist_tbl),array("playlist_name","userid","date_added","playlist_type"),
-									  array($name,userid(),now(),$this->type));
-			e(lang("new_playlist_created"),"m");
-			$pid = $db->insert_id();
-			
-			//Logging Playlist			
-			$log_array = array
-			(
-			 'success'=>'yes',
-			 'details'=> "created playlist",
-			 'action_obj_id' => $pid,
-			);
-			
-			insert_log('add_playlist',$log_array);
-					
-			return $pid;
+                    
+                    $fields = array(
+                        'playlist_name',
+                        'userid',
+                        'description',
+                        'tags',
+                        'playlist_type',
+                        'privacy',
+                        'allow_comments',
+                        'allow_rating',
+                        'date_added'
+                    );
+                    
+                    $values = array(
+                        $name,
+                        userid(),
+                        $desc,
+                        $tags,
+                        $this->type,
+                        $privacy,
+                        $allow_comments,
+                        $allow_rating,
+                        now()
+                    );
+                    
+                    $db->insert(tbl($this->playlist_tbl),$fields,$values);
+                    
+                    e(lang("new_playlist_created"),"m");
+                    $pid = $db->insert_id();
+
+                    //Logging Playlist			
+                    $log_array = array
+                    (
+                        'success'=>'yes',
+                        'details'=> "created playlist",
+                        'action_obj_id' => $pid,
+                    );
+
+                    insert_log('add_playlist',$log_array);
+
+                    return $pid;
 		}
 		
 		return false;
 	}
+        
+        /**
+         * Get playlist thumb
+         * 
+         * return a group of playlist thumbs
+         * 
+         * @param PID playlistid
+         * @return THUMBS Array 
+         */
+        function getPlaylistThumb($pid)
+        {
+            $array = array();
+            $array[] = IMAGEURL.'/playlist-default.png';
+            $array[] = IMAGEURL.'/playlist-default.png';
+            $array[] = IMAGEURL.'/playlist-default.png';
+            return $array;
+        }
 	
 	/**
 	 * Function used to check weather playlist already exists or not

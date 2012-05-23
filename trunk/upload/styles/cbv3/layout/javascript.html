@@ -110,5 +110,15 @@
                 $(this).parent().addClass('active');
             }
        })
+       
+       //Update Playlist Page
+       updatePlaylistPage();
+       
+       //reset form on showing modal
+       $('#create-playlist-modal').on('show', function () {
+        $('#create-playlist-modal form')[0].reset();
+        $('#create-playlist-error').hide().html('');
+       });
+       
     });
 </script>

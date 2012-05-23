@@ -74,6 +74,7 @@ switch($mode)
 		assign('mode','manage_playlist');
 		//Getting List of available playlists
 		$playlists = $cbvid->action->get_playlists();
+                assign('total_playlists',count($playlists));
 		assign('playlists',$playlists);
 		
 		

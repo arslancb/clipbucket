@@ -91,7 +91,66 @@ switch($mode){
         }
     }
     break;
-
+    
+    
+    case "create_playlist":
+    {
+        $array = array(
+            'name',
+            'description',
+            'tags',
+            'playlist_type',
+            'privacy',
+            'allow_comments',
+            'allow_rating',
+            'type',
+        );
+        
+        $type = post('type');
+        
+        $input = array();
+        foreach($array as $ar)
+        {
+            $input[$ar] = mysql_clean(post($ar));
+        }
+        
+        
+        if($type=='v')
+            $pid = $cbvid->action->create_playlist($input);
+        
+        if(!$type)
+            e(lang("Invalid playlist type"));
+        
+        if(error())
+        {
+            echo json_encode(array('err'=>error(),'rel'=>get_rel_list()));
+        }else
+        {
+            $playlist = $cbvid->action->get_playlist($pid);
+            assign('playlist',$playlist);
+            $template = Fetch('blocks/playlist.html');
+            echo json_encode(array('success'=>'yes','rel'=>get_rel_list(),
+            'template'=>$template,'pid'=>$pid));
+        }
+        
+    }
+    break;
+    
+    case "delete_playlist":
+    {
+        $pid = mysql_clean(post('pid'));
+        $cbvid->action->delete_playlist($pid);
+        
+        if(error())
+        {
+             echo json_encode(array('err'=>error()));
+        }else
+        {
+            echo json_encode(array('msg'=>array(lang('Playlist has been removed'))));
+        }
+    }
+    break;
+    
     default:
         exit(json_encode(array('err'=>lang('Invalid request'))));
 }

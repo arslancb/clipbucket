@@ -1,0 +1,47 @@
+<ul class="playlist-list {$playlist.playlist_id}-playlist" id="{$playlist.playlist_id}-playlist">
+    <li><span class=""><input type="checkbox"/></span></li>
+
+    <li class="relative thumb">
+        <div class="playlist-thumb">
+            {$pad=10}
+            {foreach $cbvid->action->getPlaylistThumb($playlist.playlist_id) as $pthumb}
+            <img src="{$pthumb}" style="top:{$pthumb@index*$pad}px; left:{$pthumb@index*$pad}px"/>
+            {/foreach}
+        </div>
+
+    </li>
+    <li class="plinfo relative">
+
+        <div>
+            <span class="pltitle">{$playlist.playlist_name}</span>
+            <span class="seperator">|</span> 86 Videos 
+            <span class="icon-lock"></span>
+        </div>
+
+        <div class="pldesc">{$playlist.description}</div>
+
+        <div class="subinfo absolute bottom">
+            <div>23 Comments <span class="seperator"></span> 3445 views</div>
+            <div>Created 34 Days ago <span class="seperator">|</span> Last Updated on 34th Jun, 2012</div>
+        </div>
+    </li>
+    <li>
+        <button class="btn dropdown-toggle" data-toggle="dropdown">
+            Options <i class="caret"></i>
+        </button>
+        
+        <div class="dropdown" >
+            <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li><a href="javascript:void(0)"
+                       onclick="delete_playlist('{$playlist.playlist_id}')">
+                            {lang code='Delete'}</a></li>
+            </ul>
+        </div>
+    </li>
+</ul>
+<div class="clearfix"></div>
+<hr/>
