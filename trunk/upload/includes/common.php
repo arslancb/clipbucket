@@ -178,6 +178,7 @@ if(!@$in_bg_cron)
 	
 	$lang_obj->init();
 	$LANG = $lang_obj->lang_phrases('file');
+        
 
 	
 	$calcdate	= new CalcDate();

@@ -4,6 +4,9 @@
 
 <div class="account-right">
     
+    
+    <!-- If mode is manage playlists -->
+    {if $mode=='manage_playlist'}
     <div class="account-heading">
         <h2 >{lang code="Playlists"} (<span id="playlists_count">{$total_playlists}</span>)</h2>
         
@@ -154,7 +157,101 @@
         {/if}
     </div>
     
+    {/if}
     
+    
+    
+    <!-- Have to edit playlist -->
+    {if $mode=='edit_playlist'}
+        <div class="account-heading">
+            <h2>{lang code='Manage playlist'}</h2>
+            
+            <form method="post" class="form-horizontal">     
+                <fieldset>
+                
+                <div class="control-group">
+                    <label class="control-label" for="playlist_name">{lang code="Playlist Name"}</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" id="playlist_name" name="name" value="{$playlist.playlist_name}"/>
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="description">{lang code="Description"}</label>
+                    <div class="controls">
+                        <textarea class="input-xlarge" id="description" name="description" >{$playlist.description}</textarea>
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="description">{lang code="Tags"}</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" id="tags" name="tags" value="{$playlist.tags}" />
+                        <p class="help-block">{lang code="Separate tags by comma, will be used for searching"}</p>
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">{lang code="Privacy"}</label>
+                    <div class="controls">
+                        <label class="radio inline">
+                        <input type="radio" name="privacy" id="privacy_pub" value="public" {if $playlist.privacy=='public'}checked="checked"{/if}>
+                        {lang code="Public"}
+                        </label>
+                        <label class="radio inline">
+                        <input type="radio" name="privacy" id="privacy_pri" value="private" {if $playlist.privacy=='private'}checked="checked"{/if}>
+                        {lang code="Private"}
+                        </label>
+                        <p class="help-block">{lang code="Choose weather to make your playlist public or private"}</p>
+                    </div>
+                </div>
+
+
+                <div class="control-group">
+                    <label class="control-label">{lang code="Allow comments"}</label>
+                    <div class="controls">
+                        <label class="radio inline">
+                        <input type="radio" name="allow_comments" id="comments_yes" value="yes"  {if $playlist.allow_comments=='yes'}checked="checked"{/if}>
+                        {lang code="Yes"}
+                        </label>
+                        <label class="radio inline">
+                        <input type="radio" name="allow_comments" id="comments_no" value="no"  {if $playlist.allow_comments=='no'}checked="checked"{/if}>
+                        {lang code="No"}
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="control-group">
+                    <label class="control-label">{lang code="Allow ratings"}</label>
+                    <div class="controls">
+                        <label class="radio inline">
+                        <input type="radio" name="allow_rating" id="rating_yes" value="yes"  {if $playlist.allow_rating=='yes'}checked="checked"{/if}>
+                        {lang code="Yes"}
+                        </label>
+                        <label class="radio inline">
+                        <input type="radio" name="allow_rating" id="rating_no" value="no"  {if $playlist.allow_rating=='no'}checked="checked"{/if}>
+                        {lang code="No"}
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+                
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" name="edit_playlist">Save playlist</button>
+            </div>
+                
+                
+            </form>
+        </div> 
+    <hr/>
+    
+    
+    <h2>Playlist items</h2>
+    {/if}
     
 </div>
 

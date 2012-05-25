@@ -1570,9 +1570,9 @@
 		$now             = time();
 		
 		if(!$istime)
-		$unix_date         = strtotime($date);
-	    else
-	   $unix_date         = $date;
+                    $unix_date         = strtotime($date);
+                else
+                    $unix_date         = $date;
 	   
 		   // check validity of date
 		if(empty($unix_date)  || $unix_date<1) {   
@@ -1588,7 +1588,7 @@
 		} else {
 			//from_now
 			$difference     = $unix_date - $now;
-			$tense         = "from_now";
+			$tense         = "a moment ago";
 		}
 	   
 		for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {

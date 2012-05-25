@@ -454,7 +454,6 @@ class language
 			$this->createPack($lang);
 		$langData = file_get_contents($file);
 		$phrases = json_decode($langData,true);
-
 		return $phrases;	
 	}
 	

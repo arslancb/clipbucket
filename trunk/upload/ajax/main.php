@@ -151,7 +151,55 @@ switch($mode){
     }
     break;
     
+    case "add_playlist_item":
+    {
+        
+        $type = post('v');
+        $pid = mysql_clean(post('pid'));
+        $id = mysql_clean(post('oid'));
+       // $note = mysql_clean(post('note'));
+        
+        switch($type){
+            case 'v':
+            default:
+            {
+                $item_id = $cbvid->action->add_playlist_item($pid,$id );
+                
+                if(!error())
+                {
+                    updateObjectStats('plist','video',$id);
+                    echo json_encode(array('status'=>'ok',
+                        'msg'=>msg(),'item_id'=>$item_id,'updated'=>nicetime(now())));
+                }else{
+                    echo json_encode(array('err'=>error()));
+                }
+            }
+        }
+        
+    }
+    break;
+    
+    case "create_playlist":
+    {
+        if(post('type')=='video')
+        {
+            
+            $params = array(
+                'playlist_name' => mysql_clean(post('playlist_name')),
+                'privacy'   => mysql_clean(post('privacy'))
+            );
+             
+            $pid = $cbvid->action->create_playlist($params);
+            
+            if(error())
+            {
+                echo json_encode(array('err'=>error(),'re'=>  get_rel_list()));
+            }
+        }
+    }
+    break;
+
     default:
-        exit(json_encode(array('err'=>lang('Invalid request'))));
+        exit(json_encode(array('err'=>array(lang('Invalid request')))));
 }
 ?>

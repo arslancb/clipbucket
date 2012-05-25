@@ -34,6 +34,58 @@
             <div class="clearfix"></div>
         </div>
         
+        <!-- Playlists -->
+        <div class="well" id="add-videos-to-playlist">
+            
+            <div class="alert alert-success display-none"></div>
+            <div class="alert alert-danger display-none"></div>
+            
+            <div class="relative">
+                
+                <h4 class="pull-left inlineblock">Add to playlist</h4>
+                
+                <div class="inlineblock pull-right">
+                    {* <span class="btn">Date created</span> *}
+                </div>
+                
+                <div class="clearfix"></div>
+                <div class="height10"></div>
+            </div>
+            
+            <!-- Listing playlist -->
+            
+            <div class="well add-playlist-box">
+                
+                <ul class="add-playlist-list bold">
+                    <li class="title">Playlist name</li>
+                    <li class="privacy">Privacy</li>
+                    <li class="date_added">Added</li>
+                    <li class="date_updated">Last update</li>
+                </ul>
+                
+                <div class="clearfix"></div>
+                {$playlists=$cbvid->action->get_playlists()}
+                {foreach $playlists as $playlist}
+                    {include_templatE_file file='blocks/playlist-ul.html' playlist=$playlist}
+                {/foreach}
+                
+                <div class="clearfix"></div>
+            </div>
+            
+            <div class="well add-playlist-box">
+                <form class="form-horizontal" style="margin: 0px">
+                    <input class="span4" type="text" placeholder="{lang code='Enter new playist name'}"/>
+                    <select class="span2">
+                        <option value="public">Public</option>
+                        <option value="private">Private</option>
+                    </select>
+                    <button class="btn">Create playlist</button>
+                </form>
+            </div>
+            
+            
+        </div>
+        
         <!-- Video Details -->
         <div class="video-details row-fluid">
             <div class="span9">

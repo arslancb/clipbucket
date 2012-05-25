@@ -442,7 +442,7 @@ class cbactions
                     $values = array(
                         $name,
                         userid(),
-                        $desc,
+                        $description,
                         $tags,
                         $this->type,
                         $privacy,
@@ -537,14 +537,20 @@ class cbactions
 			e(lang("playlist_not_exist"));
 		elseif(!userid())
 			e(lang('you_not_logged_in'));
-		elseif($this->playlist_item_with_obj($id,$pid))
-			e(sprintf(lang('this_already_exist_in_pl'),$this->name));
+		//elseif($this->playlist_item_with_obj($id,$pid))
+		//	e(sprintf(lang('this_already_exist_in_pl'),$this->name));
 		else
 		{
-			$db->insert(tbl($this->playlist_items_tbl),array("object_id","playlist_id","date_added","playlist_item_type","userid"),
-											array($id,$pid,now(),$this->type,userid()));
-			e(sprintf(lang('this_thing_added_playlist'),$this->name),"m");
-			return $db->insert_id();
+                    $db->insert(tbl($this->playlist_items_tbl),
+                    array("object_id","playlist_id","date_added","playlist_item_type","userid"),
+                    array($id,$pid,now(),$this->type,userid()));
+                    
+                    //Update total items in the playlist
+                    $db->update(tbl('playlists'),array('total_items','last_update'),
+                            array('|f|total_items+1',now())," playlist_id='".$pid."' ");
+                    
+                    e(sprintf(lang('this_thing_added_playlist'),$this->name),"m");
+                    return $db->insert_id();
 		}
 	}
 	
@@ -563,6 +569,10 @@ class cbactions
 		else
 		{
 			$db->delete(tbl($this->playlist_items_tbl),array("playlist_item_id"),array($id));
+                        //Update total items in the playlist
+                        $db->update(tbl('playlists'),array('total_items','last_update'),
+                        array('|f|total_items-1',now())," playlist_id='".$pid."' ");
+                        
 			e(lang("playlist_item_delete"),"m");
 		}
 	}

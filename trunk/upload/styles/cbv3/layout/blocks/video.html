@@ -1,9 +1,24 @@
+{if !$playlists}
+    {$playlists=$cbvid->action->get_playlists()}
+{/if}
+
+
 <!-- Video BLock {$video.videoid} -->
 {$videolink=videoLink($video)}
 <div class="{$video.videoid}-video {$video.videoid} video-box">
     <div class="video-thumb relative">
         <a href="{$videolink}"><img src="{getThumb vdetails=$video}" /></a>
         <span class="duration">{$video.duration|duration}</span>
+        
+        <div class="dropdown absolute video-options btn-group">
+            <a class="btn cb-tooltip" rel="tooltip" title="{lang code='Add &quot;%s&quot; to your quicklist'|sprintf:$video.title} "><i class="icon-plus"></i></a>
+                <a  class="btn dropdown-toggle"
+                data-toggle="dropdown"><i class="caret"></i></a>
+        
+            <ul class="dropdown-menu" style="right: 0; left: auto;">
+                <li><a href="">{lang code='Favorites'}</a></li>
+            </ul>
+        </div>
     </div>
     <div class="video-info-cont relative">
         <div class="title"><a href="{$videolink}">{$video.title}</a></div>
@@ -15,7 +30,6 @@
              <span class="user pull-left">{$video.views|number_format} views</span>
             <span class="user pull-right">{$video|cbv3_rating:perc}</span>
             <div class="clearfix"></div>
-            
         </div>
     </div>
 </div>

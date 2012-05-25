@@ -21,8 +21,10 @@
         <div class="pldesc">{$playlist.description}</div>
 
         <div class="subinfo absolute bottom">
-            <div>23 Comments <span class="seperator"></span> 3445 views</div>
-            <div>Created 34 Days ago <span class="seperator">|</span> Last Updated on 34th Jun, 2012</div>
+            <div>{$playlist.total_comments} {lang code='Comments'} <span class="seperator"></span> {lang code='played %d times'|sprintf:$playlist.played}</div>
+            {$created=niceTime($playlist.date_added)}
+            {$updated=date('M j, Y',strtotime($playlist.last_updated))}
+            <div>{lang code='Created %s'|sprintf:$created}<span class="seperator">|</span> {lang code='Last updated on %s'|sprintf:$updated}</div>
         </div>
     </li>
     <li>
@@ -32,9 +34,7 @@
         
         <div class="dropdown" >
             <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
+                <li><a href="{$baseurl}/manage_playlists.php?mode=edit_playlist&pid={$playlist.playlist_id}">{lang code='Manage'}</a></li>
                 <li class="divider"></li>
                 <li><a href="javascript:void(0)"
                        onclick="delete_playlist('{$playlist.playlist_id}')">

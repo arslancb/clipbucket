@@ -37,6 +37,7 @@ function focusObj(err,type)
     $.each(err,function(rel,msg){
         $('#'+rel).parent().parent().addClass(type);
         $('#'+rel).parent().find('.help-inline').text(msg);
+        
     })
 }
 
@@ -216,4 +217,42 @@ function delete_playlist(pid)
             update_counter('#playlists_count',-1);
         }
     })
+}
+
+/**
+ * Add item into the playlist
+ */
+function add_to_playlist(pid,oid,type)
+{
+    var mainDiv = '#add-videos-to-playlist';
+
+    loading('playlist-'+pid);
+
+    amplify.request('main',{
+        'mode'  : 'add_playlist_item',
+        'pid'   : pid,
+        'oid'   : oid,
+        'type'  : type
+        },
+        function(data){
+            $(mainDiv+' > .alert').hide();
+            
+            loading('playlist-'+pid,'hide');
+            if(data.err)
+            {
+                $(mainDiv+' .alert-danger')
+                .text(data.err[0])
+                .show();
+            }else
+            {
+                update_counter('#playlist-counter-'+pid,'1');
+                $('#playlist-ul-'+pid+' .date_updated').
+                text(data.updated);
+            
+                $(mainDiv+' .alert-success')
+                .text(data.msg[0])
+                .show();
+            }
+        }
+    )
 }

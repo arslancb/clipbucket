@@ -1,0 +1,53 @@
+{assign var=msg value=$eh->message_list}
+{assign var=err value=$eh->error_list}
+{assign var=war value=$eh->warning_list}
+
+{if count($err)>0}
+<div class="alert alert-danger">
+    <a class="close" data-dismiss="alert" href="javascript:void(0)">×</a>
+    
+    {if count($err)>1}
+    <ul>
+    {foreach from=$err item=show_msg}
+    <li> {$show_msg} </li>
+    {/foreach}
+    </ul>
+    {else}
+        {$err.0}
+    {/if}
+</div>
+{/if}
+
+
+{if count($msg)>0}
+<div class="alert alert-success">
+    <a class="close" data-dismiss="alert" href="javascript:void(0)">×</a>
+    {if count($msg)>1}
+    <ul>
+    {foreach from=$msg item=show_msg}
+    <li>{$show_msg}</li>
+    {/foreach}
+    </ul>
+    {else}
+        {$msg.0}
+    {/if}
+</div>
+{/if}
+
+{if count($war)>0}
+<div class="alert">
+    <a class="close" data-dismiss="alert" href="javascript:void(0)">×</a>
+    
+    {if count($war)>1}
+    <ul>
+    <img src="{$imageurl}/messagebox_warning.png" style="float:left" />
+    {foreach from=$war item=show_msg}
+    <li>{$show_msg}</li>
+    {/foreach}
+    </ul>
+    <div class="clearfix"></div>
+    {else}
+        {$war.0}
+    {/if}
+</div>
+{/if}
