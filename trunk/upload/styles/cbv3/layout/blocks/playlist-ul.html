@@ -1,12 +1,12 @@
 {$pid = $playlist.playlist_id}
-<ul class="add-playlist-list" id="playlist-ul-{$pid}">
-    <li class="title"
-            onclick="add_to_playlist('{$pid}','{$video.videoid}','v')">
+<ul class="add-playlist-list add-playlist-list-ul" onclick="add_to_playlist('{$pid}','{$oid}','{$type}')" id="playlist-ul-{$pid}">
+    <li class="title">
             {$playlist.playlist_name} (<span id="playlist-counter-{$pid}">{$playlist.total_items}</span>)</li>
     <li class="privacy">{$playlist.privacy}</li>
     <li class="date_added">{$playlist.date_added|niceTime}</li>
-    <li class="date_updated">{$playlist.last_update|niceTime}</li>
+    {*<li class="date_updated">{$playlist.last_update|niceTime}</li>*}
     <li class="loader">
 
         {loading_pointer place="playlist-$pid"}</li>
+    <div class="clearfix"></div>
 </ul>

@@ -423,7 +423,7 @@ class cbactions
 		elseif(empty($name))
 			e(lang("please_enter_playlist_name"),"e","playlist_name");
 		elseif($this->playlist_exists($name,userid(),$this->type))
-			e(sprintf(lang("play_list_with_this_name_arlready_exists","e","playlist_name"),$name));
+			e(sprintf(lang("play_list_with_this_name_arlready_exists"),$name),"e","playlist_name");
 		else
 		{
                     

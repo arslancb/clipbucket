@@ -83,6 +83,20 @@ function update_counter(obj,inc)
     }
 }
 
+
+function toggleBox(bttn,box)
+{
+    if($(bttn).hasClass('active'))
+    {
+        $(box).hide();
+        $(bttn).removeClass('active')
+    }else
+    {
+        $(box).show();
+        $(bttn).addClass('active')
+    }
+}
+
 // CLIPBUCKET MAIN FUNCTIONS ----------------------
 
 
@@ -227,7 +241,7 @@ function add_to_playlist(pid,oid,type)
     var mainDiv = '#add-videos-to-playlist';
 
     loading('playlist-'+pid);
-
+    
     amplify.request('main',{
         'mode'  : 'add_playlist_item',
         'pid'   : pid,
@@ -245,6 +259,7 @@ function add_to_playlist(pid,oid,type)
                 .show();
             }else
             {
+                $('#no_playlist').remove();
                 update_counter('#playlist-counter-'+pid,'1');
                 $('#playlist-ul-'+pid+' .date_updated').
                 text(data.updated);
@@ -255,4 +270,49 @@ function add_to_playlist(pid,oid,type)
             }
         }
     )
+}
+
+/**
+ * Create new playlist..
+ */
+function create_playlist_quick(type,oid)
+{
+    var name = $('#playlist_name').val();
+    var privacy = $('#playlist_privacy option:selected').val();
+    var mainDiv = '#add-videos-to-playlist';
+    
+    $('#create_playlist_bttn').button('loading');
+    
+    amplify.request('main',{
+        'mode' : 'create_playlist',
+        'name' : name,
+        'privacy'   : privacy,
+        'type'  : type,
+        'oid'   : oid
+        },
+        function(data){
+            
+            $('#create_playlist_bttn').button('reset');
+            $(mainDiv+' > .alert').hide();
+            
+            if(data.err)
+            {
+                $(mainDiv+' .alert-danger')
+                .text(data.err[0])
+                .show();
+            }else{
+
+                $('#playlist_name').val('');
+                $('#new-playlist-pointer')
+                .after(data.ul_template);
+                
+                $('.add-playlist-box').show();
+                
+                $(mainDiv+' .alert-success')
+                .text(data.msg[0])
+                .show();
+            }
+        }
+    )
+    
 }

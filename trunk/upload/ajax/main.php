@@ -128,9 +128,14 @@ switch($mode){
         {
             $playlist = $cbvid->action->get_playlist($pid);
             assign('playlist',$playlist);
+            if(post('oid')) assign('oid',post('oid'));
+            assign('type',post('type'));
+            
             $template = Fetch('blocks/playlist.html');
+            $ul_template = fetch('blocks/playlist-ul.html');
             echo json_encode(array('success'=>'yes','rel'=>get_rel_list(),
-            'template'=>$template,'pid'=>$pid));
+            'template'=>$template,'pid'=>$pid,'ul_template'=>$ul_template,
+                'msg'=>msg()));
         }
         
     }
@@ -176,26 +181,6 @@ switch($mode){
             }
         }
         
-    }
-    break;
-    
-    case "create_playlist":
-    {
-        if(post('type')=='video')
-        {
-            
-            $params = array(
-                'playlist_name' => mysql_clean(post('playlist_name')),
-                'privacy'   => mysql_clean(post('privacy'))
-            );
-             
-            $pid = $cbvid->action->create_playlist($params);
-            
-            if(error())
-            {
-                echo json_encode(array('err'=>error(),'re'=>  get_rel_list()));
-            }
-        }
     }
     break;
 

@@ -19,7 +19,7 @@
                         <button class="btn"
                             onclick="cbv3rate('{$video.videoid}','10','video');"><span class="icon-dislike"></span></button>
                     </div>
-                    <button class="btn"><span class="icon-plus"></span> Add To</button>
+                    <button class="btn" onclick="toggleBox(this,'#add-videos-to-playlist');" ><span class="icon-plus" ></span>{lang code='Add to'}</button>
                     <button class="btn"><span class="icon-share"></span> Share</button>
                     <button class="btn"><span class="icon-flag"></span> Flag</button>
                 </div>
@@ -35,56 +35,7 @@
         </div>
         
         <!-- Playlists -->
-        <div class="well" id="add-videos-to-playlist">
-            
-            <div class="alert alert-success display-none"></div>
-            <div class="alert alert-danger display-none"></div>
-            
-            <div class="relative">
-                
-                <h4 class="pull-left inlineblock">Add to playlist</h4>
-                
-                <div class="inlineblock pull-right">
-                    {* <span class="btn">Date created</span> *}
-                </div>
-                
-                <div class="clearfix"></div>
-                <div class="height10"></div>
-            </div>
-            
-            <!-- Listing playlist -->
-            
-            <div class="well add-playlist-box">
-                
-                <ul class="add-playlist-list bold">
-                    <li class="title">Playlist name</li>
-                    <li class="privacy">Privacy</li>
-                    <li class="date_added">Added</li>
-                    <li class="date_updated">Last update</li>
-                </ul>
-                
-                <div class="clearfix"></div>
-                {$playlists=$cbvid->action->get_playlists()}
-                {foreach $playlists as $playlist}
-                    {include_templatE_file file='blocks/playlist-ul.html' playlist=$playlist}
-                {/foreach}
-                
-                <div class="clearfix"></div>
-            </div>
-            
-            <div class="well add-playlist-box">
-                <form class="form-horizontal" style="margin: 0px">
-                    <input class="span4" type="text" placeholder="{lang code='Enter new playist name'}"/>
-                    <select class="span2">
-                        <option value="public">Public</option>
-                        <option value="private">Private</option>
-                    </select>
-                    <button class="btn">Create playlist</button>
-                </form>
-            </div>
-            
-            
-        </div>
+        {include_template_file file='blocks/add_playlist.html' video=$video type=v oid=$video.videoid}
         
         <!-- Video Details -->
         <div class="video-details row-fluid">
