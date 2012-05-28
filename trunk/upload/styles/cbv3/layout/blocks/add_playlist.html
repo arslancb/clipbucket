@@ -1,0 +1,76 @@
+<div class="well display-none" id="add-videos-to-playlist">
+            
+    <div class="alert alert-success display-none"></div>
+    <div class="alert alert-danger display-none"></div>
+
+    <div class="relative">
+
+        <h4 class="pull-left inlineblock">{lang code='Add to playlist'}</h4>
+
+        <div class="inlineblock pull-right">
+            {* <span class="btn">Date created</span> *}
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="height10"></div>
+    </div>
+
+    <!-- Listing playlist -->
+    {if $type=='v' || $type==''}
+        {$playlists=$cbvid->action->get_playlists()}
+    {/if}
+
+    {if $playlists}
+    <div class="well add-playlist-box">
+
+        <ul class="add-playlist-list bold">
+            <li class="title">{lang code='Playlist name'}</li>
+            <li class="privacy">{lang code='Privacy'}</li>
+            <li class="date_added">{lang code='Added'}</li>
+            {* <li class="date_updated">Last update</li>*}
+        </ul>
+
+        <div class="clearfix"></div>
+        
+        
+        {foreach $playlists as $playlist}
+            {include_template_file file='blocks/playlist-ul.html' playlist=$playlist type=$type oid=$oid}
+        {/foreach}
+
+        <div id="new-playlist-pointer"></div>
+
+    </div>
+    {else}
+        
+        <div class="well add-playlist-box display-none">
+
+        <ul class="add-playlist-list bold">
+            <li class="title">{lang code='Playlist name'}</li>
+            <li class="privacy">{lang code='Privacy'}</li>
+            <li class="date_added">{lang code='Added'}</li>
+            {* <li class="date_updated">Last update</li>*}
+        </ul>
+
+        <div class="clearfix"></div>
+        <div id="new-playlist-pointer"></div>
+
+    </div>
+    
+    <div class="alert alert-info" id="no_playlist">
+        {lang code='You do not have any playlist'}
+    </div>
+    {/if}
+
+    <div class="well add-playlist-box">
+        <form class="form-horizontal" style="margin: 0px">
+            <input class="span4" type="text" name="playlist_name" id="playlist_name" placeholder="{lang code='Enter new playist name'}"/>
+            <select class="span2" id="playlist_privacy">
+                <option value="public">{lang code='Public'}</option>
+                <option value="private">{lang code='Private'}</option>
+            </select>
+            <button class="btn" id="create_playlist_bttn" data-loading-text="{lang code='Creating...'}" onclick="create_playlist_quick('{$type}','{$oid}'); return false;">{lang code='Create playlist'}</button>
+        </form>
+    </div>
+
+
+</div>
