@@ -1,30 +1,35 @@
-{if $mode == "manage" || $mode == ""}
-<ul class="thumbnails">
-	{foreach from=$usr_collects item=collection}
-     	<li class="span">
-        	<div class="thumbnail">
-            	<img src="{$cbcollection->get_thumb($collection)}"/>
-                <div class="caption">
-                    <h5><a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name}</a></h5>
-                    <p><a href="?mode=manage_items&amp;cid={$collection.collection_id}&amp;type={$collection.type}" class="btn">Items</a></p>
-                </div>                
-            </div>
-        </li>   
-    {/foreach}
-</ul>
-{/if}
+{include_template_file file="blocks/account-left.html"}
 
-{if $mode == "manage_items" || $mode == "collection_items"}
-<ul class="thumbnails">
-	{foreach from=$objs item=collection}
-     	<li class="span">
-        	<div class="thumbnail">
-            	{get_photo details=$collection output="html" size="m"}
-                <div class="caption">
-                    <p><a href="?mode=manage_items&amp;cid={$collection.collection_id}&amp;type={$c.type}&cover_photo={$collection.photo_id}" class="btn btn-mini">Cover Photo</a></p>
-                </div>                
-            </div>
-        </li>   
-    {/foreach}
-</ul>
-{/if}
+
+<div class="account-right">
+{if $mode == "manage" || $mode == ""}
+    <ul class="thumbnails">
+        {foreach from=$usr_collects item=collection}
+            <li class="span">
+                <div class="thumbnail">
+                    <img src="{$cbcollection->get_thumb($collection)}"/>
+                    <div class="caption">
+                        <h5><a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name}</a></h5>
+                        <p><a href="?mode=manage_items&amp;cid={$collection.collection_id}&amp;type={$collection.type}" class="btn">Items</a></p>
+                    </div>                
+                </div>
+            </li>   
+        {/foreach}
+    </ul>
+    {/if}
+    
+    {if $mode == "manage_items" || $mode == "collection_items"}
+    <ul class="thumbnails">
+        {foreach from=$objs item=collection}
+            <li class="span">
+                <div class="thumbnail">
+                    {get_photo details=$collection output="html" size="m"}
+                    <div class="caption">
+                        <p><a href="?mode=manage_items&amp;cid={$collection.collection_id}&amp;type={$c.type}&cover_photo={$collection.photo_id}" class="btn btn-mini">Cover Photo</a></p>
+                    </div>                
+                </div>
+            </li>   
+        {/foreach}
+    </ul>
+    {/if}
+</div>

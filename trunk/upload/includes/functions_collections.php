@@ -73,4 +73,29 @@ function confirm_collection_type ( $type ) {
     }
     return $cbcollection->types;
 }
+
+function get_avatar_collections( $cond=null, $limit=null, $order=null ) {
+    global $db, $cbcollection;
+    
+    if ( !is_null($cond) ) {
+        $cond = ' AND '.$cond;
+    }
+    
+    $results = $db->select( tbl($cbcollection->section_tbl), '*',  " is_avatar_collection = 'yes' $cond", $limit, $order);
+    if ( $results ) {
+        return $results;
+    } else {
+        return false;
+    }
+}
+
+function get_collection_item ( $cid, $oid ) {
+	global $db, $cbcollection;
+	$result	= $db->select( tbl( $cbcollection->items ),'*', " collection_id = '".$cid."' AND object_id = '".$oid."' " );
+	if ( $result ) {
+		return $result[0];	
+	} else {
+		return false;	
+	}
+}
 ?>

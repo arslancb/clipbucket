@@ -27,7 +27,7 @@ class CB_Resizer {
 
         $this->png_quality = 9;
 
-        $this->cropping = 4;
+        $this->cropping = 5;
 
         $this->preserve_aspect = $this->auto_resource =  true;
 
@@ -105,35 +105,35 @@ class CB_Resizer {
                 if ( $this->cropping != -1 && $width > 0 && $height > 0 ) {
                     switch ( $this->cropping ) {
                         // TOP LEFT
-                        case 0: {
+                        case 1: {
                                 $start_x = 0;
                                 $start_y = 0;
                                 $end_x = $width;
                                 $end_y = $height;
                             }break;
                         // TOP CENTER
-                        case 1: {
+                        case 2: {
                                 $start_x = ( $target_width - $width ) / 2;
                                 $start_y = 0;
                                 $end_x = ( ( $target_width - $width ) / 2 ) + $width;
                                 $end_y = $height;
                             }break;
                         // TOP RIGHT
-                        case 2 : {
+                        case 3 : {
                                 $start_x = $target_width - $width;
                                 $start_y = 0;
                                 $end_x = $target_width;
                                 $end_y = $height;
                             }break;
                         // LEFT
-                        case 3 : {
+                        case 4 : {
                                 $start_x = 0;
                                 $start_y = ( $target_height - $height ) / 2;
                                 $end_x = $width;
                                 $end_y = ( ( $target_height - $height ) / 2 ) + $height;
                             }break;
                         // CENTER
-                        case 4 : default : {
+                        case 5 : default : {
                                 $start_x = ( $target_width - $width ) / 2;
                                 $start_y = ( $target_height - $height ) / 2;
                                 $end_x = ( ( $target_width - $width ) / 2 ) + $width;
@@ -141,7 +141,7 @@ class CB_Resizer {
                             }
                             break;
                         // RIGHT
-                        case 5 : {
+                        case 6 : {
                                 $start_x = $target_width - $width;
                                 $start_y = ( $target_height - $height ) / 2;
                                 $end_x = $target_width;
@@ -149,7 +149,7 @@ class CB_Resizer {
                             }
                             break;
                         // BOTTOM LEFT
-                        case 6 : {
+                        case 7 : {
                                 $start_x = 0;
                                 $start_y = $target_height - $height;
                                 $end_x = $width;
@@ -157,7 +157,7 @@ class CB_Resizer {
                             }
                             break;
                         // BOTTOM CENTER
-                        case 7 : {
+                        case 8 : {
                                 $start_x = ( $target_width - $width ) / 2;
                                 $start_y = $target_height - $height;
                                 $end_x = ( ( $target_width - $width ) / 2 ) + $width;
@@ -165,7 +165,7 @@ class CB_Resizer {
                             }
                             break;
                         // BOTTOM RIGHT
-                        case 8: {
+                        case 9: {
                                 $start_x = $target_width - $width;
                                 $start_y = $target_height - $height;
                                 $end_x = $target_width;

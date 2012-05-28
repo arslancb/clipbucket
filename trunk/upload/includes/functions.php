@@ -3204,6 +3204,42 @@ if ( !function_exists('cb_parse_args_string') ) {
 	}
 }
 
+function validate_image_file( $file, $ext = null ) {
+	global $imgObj;
+	return $imgObj->ValidateImage( $file, $ext );
+}
+
+function get_mature_thumb ( $object, $size = null, $output = null ) {
+	
+	/* Calling custom function */
+	$funcs = cb_get_functions('mature_thumb');
+	if ( is_array($funcs) ) {
+		foreach( $funcs as $func ) {
+			if  ( function_exists($func['func']) ) {
+				$thumb = $func['func']( $object, $size, $output );
+				if ( $thumb ) {
+					return $thumb;	
+				}
+			}
+		}
+	}
+	
+	if ( $size == 'big' ) {
+		$size = '-big';	
+	} else {
+		$size = null;	
+	}
+	
+	$name = "unsafe".$size.".jpg";
+	$path = BASEURL.'/images/'.$name;
+	
+	if ( $output ) {
+		return cb_output_img_tag( $path );	
+	} else {
+		return $path;	
+	}
+}
+
 //Including videos functions
 include("functions_videos.php");
 //Including Users Functions
@@ -3212,6 +3248,8 @@ include("functions_users.php");
 include("functions_groups.php");
 //Collections Functions
 include("functions_collections.php");
+//Exif
+include('exif.php');
 
 include("functions_filters.php");
 include("functions_widgets.php");

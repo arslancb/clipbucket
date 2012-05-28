@@ -117,7 +117,8 @@ function insert_photo_colors( $photo ) {
 		if ( file_exists($path) ) {
 			$img = new CB_Resizer( $path );
 			$colors = $img->color_palette();
-                  $img->_destroy(); // Free memory
+			$img->_destroy(); // Free memory
+			
 			if ( $colors ) {
 				$jcolors = json_encode( $colors );
 				$insert_id = $db->insert( tbl('photosmeta'), array('photo_id','meta_name','meta_value'), array($ph['photo_id'],'colors','|no_mc|'.$jcolors) );	
@@ -150,7 +151,7 @@ function insert_exif_data( $photo ) {
 		$path = $dir.$file;
 		if ( file_exists($path) ) {
 			/* File exists. read the exif data. Thanks to CopperMine, Love you */
-			$data = exif_read_data_raw( $path, 0);
+			$data = read_exif_data_raw( $path, 0);
 			if ( isset($data['SubIFD']) ) {
 				$exif_to_include = array('IFD0','SubIFD','IFD1','InteroperabilityIFD');
 				foreach( $exif_to_include as $eti ) {
@@ -172,6 +173,30 @@ function insert_exif_data( $photo ) {
 	}
 }
 
+function cb_output_img_tag( $src, $attrs = null ) {
+    
+    if ( empty( $src ) ) {
+        return false;
+    }
+    
+    $start = "<img ";
+    $close = " />";
+    
+    $attributes = ' src = "'.$src.'"';
+    if ( is_array( $attrs) ) {
+        /* We'll just loop through and add attrs in image */
+        foreach ( $attrs as $attr => $value ) {
+            if ( strtolower($attr) != 'extra' ) {
+              $attributes .= ' '.$attr.' = "'.$value.'" ';  
+            } else {
+                $attributes .= $value;
+            }
+        }
+    }
+    // THIS IS MERGINGGGGGG
+    return $start.$attributes.$close;
+}
+
 /**
  * Add a new thumb dimension in thumb_dimensions array. 
  * 
@@ -189,7 +214,7 @@ function add_custom_photo_size( $code, $width = 0, $height = 0, $crop = 4, $wate
 	$sizes = $cbphoto->thumb_dimensions;
 	$code = strtolower( $code );
 	
-	if ( $code == 't' || $code == 'm' || $code == 'l' || $code == 'o' ) {
+	if ( $code == 't' || $code == 'm' || $code == 'l' || $code == 'o' || preg_match('/[^\w]/', $code, $matches ) ) {
 		return false;	
 	}
 	
@@ -206,6 +231,66 @@ function add_custom_photo_size( $code, $width = 0, $height = 0, $crop = 4, $wate
 	);
 	
 	return  $cbphoto->thumb_dimensions = $sizes;
+}
+
+function get_all_custom_size_photos( $id ) {
+    global $cbphoto;
+    if ( !is_array( $id ) ) {
+        $photo = $cbphoto->get_photo( $id );
+    } else {
+        $photo = $id;
+    }
+    /* I'm unable to select only custom size photos using glob, so we'll
+     * get all photos loop through exclude clipbucket sizes and save only
+     * custom ones
+     */
+    $files = $cbphoto->get_image_file( $photo, null, true, null, false );
+    $cbsize = $cbphoto->thumb_dimensions;
+    if ( $files ) {
+        foreach ( $files as $file ) {
+            $code = $cbphoto->get_image_type ( $file );
+            if ( !isset( $cbsize[ $code ]) ) {
+                $custom_files[] = $file;
+            }
+        }
+        
+        if ( is_array( $custom_files ) ) {
+            return $custom_files;
+        } else {
+            return false;
+        }
+    }
+}
+
+function get_photo_dimensions() {
+    global $cbphoto;
+    return $cbphoto->thumb_dimensions;
+}
+
+function clean_custom_photo_size( $id ) {
+    global $cbphoto;
+    $photos = get_all_custom_size_photos( $id );
+    // Apply photo_dimension filters so get all custom sizes
+    apply_filters( null, 'photo_dimensions' );
+    $dimensions = get_photo_dimensions();
+    if ( $photos ) {
+        foreach ( $photos as $photo ) {
+            $code = $cbphoto->get_image_type( $photo );
+            /*
+            * The following custom code does not exist in thumb_dimensions array
+            */
+            if ( !isset( $dimensions[ $code ] ) ) {
+                // I'm still thinking what to do with these extra photos
+                $path = PHOTOS_DIR.'/'.$photo;
+                $month = 2678400; // month period
+                $lastacc = fileatime( $path );
+                if ( ( $lastacc ) && time() - $lastacc > $month ) {
+                    // it's been over a month since this file was accessed, remove it
+                    unlink( $photo );
+                }
+            }
+        }  
+    }
 }
 
 function get_photometa( $id, $name ) {
@@ -324,7 +409,7 @@ function parse_photo_attachment( $att ) {
  * @return none 
  */
 function load_photo_actions() {
-	global $cbphoto, $photo;
+	global $cbphoto, $photo, $userquery;
 	
 	if ( empty($photo) || !$photo || !isset( $photo['ci_id'] ) ) {
 		return false;	
@@ -351,13 +436,36 @@ function load_photo_actions() {
                 'target' => '_blank',
                 'icon' => 'pencil'
 		);
+		
+		$links[] = array(
+                'href' => '#',
+                'text' => lang('Delete Photo'),
+                'icon' => 'remove',
+				'tags' => array(
+					'onclick' => 'displayConfirm("delete_photo_'.$photo['photo_id'].'","'.lang('Please confirm the photo delete').'", delete_photo_ajax,"'.lang('Delete This Photo').'"); return false;',
+					'data-toggle' => 'modal',
+					'data-target' => '#delete_photo_'.$photo['photo_id']
+				)
+		);
 	}
-	
-	$links[] = array(
-        'href' => $cbphoto->photo_links( $photo, 'ma' ),
-        'text' => lang('Set as avatar'),
-        'icon' => 'user'
-	);
+
+	if ( userid () ) {
+		$user = $userquery->udetails;
+		if ( $photo['collection_id'] != $user['avatar_collection'] ) {
+			$links[] = array(
+				'href' => $cbphoto->photo_links( $photo, 'ma' ),
+				'text' => lang('Make avatar'),
+				'icon' => 'user'
+			);			
+		} else {
+			$links[] = array(
+				'href' => $cbphoto->photo_links( $photo, 'ma' ),
+				'text' => lang('Set as avatar'),
+				'icon' => 'user'
+			);				
+		}
+  }
+
 		
 	// Apply Filter to links
 	$links = apply_filters( $links, 'photo_action_links');
@@ -510,6 +618,20 @@ function load_tagging() {
 	Template(STYLES_DIR.'/global/photo_tagger.html',false); 
 }
 
+
+/**
+ *  This creates as array containing two index.
+ * index 0 => contains the mySQL JOIN statement
+ * index 1 => Alias for same columns in both tables
+ * Easy using for this function will be:
+ * ============================================
+ * list( $join, $alias ) = join_collection_table();
+ * $db->select( tbl('photos').$join, '*'.$alias, ....... );
+ * ============================================
+ * @global object $cbcollection
+ * @global object $cbphoto
+ * @return array 
+ */
 function join_collection_table() {
     global $cbcollection, $cbphoto;
     $c = tbl ($cbcollection->section_tbl ) ; $p = tbl('photos');
@@ -520,4 +642,77 @@ function join_collection_table() {
     return array( $join, $alias );
 }
 
+/**
+ * This function return all photos that are avatars
+ * 
+ * @global object $db
+ * @global OBJECT $cbphoto
+ * @param boolean $join
+ * @param string $cond
+ * @param string $order
+ * @param int $limit
+ * @return array
+ */
+function get_avatar_photos( $join=true, $cond=null,$order=null,$limit=null) {
+    global $db, $cbphoto;
+    
+    if ( !is_null($cond) ) {
+        $cond .= ' AND '.$cond;
+    }
+    
+    if ( $join ) {
+        list( $join, $alias ) = join_collection_table();
+    }
+    
+    $results = $db->select( tbl('photos').$join, '*'.$alias, " is_avatar='yes' $cond ", $limit, $order );
+    
+    if ( $results ) {
+        return $results;
+    } else {
+        return false;
+    }
+}
+
+
+function is_photo_viewable( $pid ) {
+	global $db, $cbphoto;
+	
+	if ( !is_array( $pid ) ) {
+		$photo = $cbphoto->get_photo( $pid );
+	} else {
+		$photo = $pid;
+	}
+	
+	if ( !$photo ) {
+		e(lang('photo_not_exists'));
+		if ( !has_access('admin_access', true) ) {
+			return false;
+		} else {
+			return true;	
+		}
+	} else if ( $photo['active'] == 'no' ) {
+		e(lang('Photo is not active. Please Admin for details'));
+		if ( !has_access('admin_access', true) ) {
+			return false;
+		} else {
+			return true;	
+		}	
+	} else if ( $photo['is_mature'] == 'yes' && !userid() ) {
+		assign('title', $photo['photo_title']);
+		template_files( STYLES_DIR.'/global/blocks/mature_content.html', false, false );
+	} else {
+		$funcs = cb_get_functions('view_photo');
+		if ( is_array( $funcs ) ) {
+			foreach( $funcs as $func ) {
+				if ( function_exists( $func['func'] ) ) {
+					$data = $func['func']( $photo );
+					if ( $data ) {
+						return $data;	
+					}
+				}
+			}
+		}
+		return true;
+	}
+}
 ?>

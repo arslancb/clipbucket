@@ -149,6 +149,8 @@ button::-moz-focus-inner {
 .tagger-label-wrapper {
 	margin: 1em;
 	color: #999;
+    line-height: 17px;
+    font-size:12px;
 }
 
 .tagger-pending-tag-label {

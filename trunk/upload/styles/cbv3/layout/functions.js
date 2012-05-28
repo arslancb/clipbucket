@@ -2,6 +2,84 @@
 // CLIPBUCKET MAIN FUNCTIONS ----------------------
 
 
+function displayConfirm( id, confirmMessage, onConfirm, heading ) {
+	if ( !document.getElementById(id) ) {
+		con = "<div id='"+id+"' class='modal hide confirm-modal'>";
+		
+		if ( heading ) {
+			con += "<div id='modal_header_"+id+"' class='modal-header'>";
+			con += "<h3>"+heading+"</h3>";
+			con += "</div>";
+		}
+		
+		con += "<div id='modal_body_"+id+"' class='modal-body'> ";
+		con += "<span>"+confirmMessage+"</span>";
+		con += "</div>";
+		
+		con += "<div id='modal_footer_"+id+"' class='modal-footer'>";
+		con += "<div class='pull-left'><div id='function_loader_"+id+"' class='loading_pointer'><img src='"+imageurl+"/loaders/1.gif' /></div></div>";
+		con += "<div class='pull-right'>";
+		con += "<button data-dismiss='modal' class='btn '>Cancel</button>";
+		con += "<button id='confirm_"+id+"' class='btn btn-primary '>Confirm</button>"
+		con += "</div>";
+		con += "</div>";
+		
+		con += "</div>";	
+		
+		$('body').append(con);	
+	}
+	
+	$('#confirm_'+id).on('click',function( event ){
+		event.preventDefault();
+
+		if ( jQuery.isFunction(onConfirm) ) {
+			onConfirm.call( this, id );
+		} else {
+			$('#'+id).modal('hide');
+			if ( onConfirm.search('http://') == -1 ) {
+				var error = ['Please check the function name provided,"'+onConfirm+'". Either it does not exist or name is not right. '];
+				displayError( error );	
+			} else {
+				window.location = onConfirm;	
+			}				
+		}
+	})
+}
+
+function delete_photo_ajax( id ) {
+	var modal = $('#'+id), button = $('#'+this.id), buttonText = button.text();
+	if ( button.hasClass('disabled') ) {
+		return;	
+	}
+	
+	disable_form_inputs( button.parents('.modal-footer').attr('id') );
+	button.text('Deleting ...');
+	var photo_id = id.split('_')[ id.split('_').length - 1 ];
+	
+	amplify.request('photos',{
+		mode : 'delete_photo',
+		id : photo_id	
+	}, function( data ) {
+		if( data.error ) {
+			enable_form_inputs( button.parents('.modal-footer').attr('id') );
+			button.text(buttonText);
+			modal.modal('hide');
+			displayError( data.error );
+		}
+		
+		if ( data.success ) {
+			if ( data.redirect_to ) {
+				window.location = data.redirect_to;
+			} else if ( $.cookie('pagedir') ) {
+				window.location = $.cookie('pagedir');	
+			} else {
+				window.location = baseurl;	
+			}
+			modal.modal('hide');
+		}
+	});
+}
+
 /**
  *Function used to display an error message popup box
  */
@@ -315,4 +393,46 @@ function create_playlist_quick(type,oid)
         }
     )
     
+}
+
+function disable_form_inputs( id , enable ) {
+	if ( !enable ) {
+		$('#'+id+' :input').attr('disabled', 'disabled');	
+	}
+	
+	if ( enable ) {
+		$('#'+id+' :input').removeAttr('disabled');
+	}
+}
+
+function enable_form_inputs( id ) {
+	disable_form_inputs( id, true );	
+}
+
+function send_private_message(e) {
+	var obj = $( e.target ), form = e.target.form, fields = $('#'+form.id ).serializeArray(), forward = {};
+	$.each( fields, function(index, val) {
+		forward[ val.name ] = val.value
+	});
+	
+	forward['mode'] = 'send_photo_pm';
+	disable_form_inputs( form.id )
+	$('#private_message_response').fadeOut('fast').removeClass('alert-error alert-success');
+	obj.button('loading');
+	
+	amplify.request('photos',forward, function( data ) {
+		enable_form_inputs( form.id )
+		if ( data.success ) {
+			$('#private_message_response').addClass('alert-success').html( data.success ).show();
+			form.reset();
+			var autoClose = setTimeout(function() {
+				obj.prev().trigger('click');
+			},2000)
+		}
+		
+		if ( data.error ) {
+			$('#private_message_response').addClass('alert-error').html( data.error ).show();	
+		}
+		obj.button('reset');
+	})
 }

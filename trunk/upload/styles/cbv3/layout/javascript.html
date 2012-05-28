@@ -31,7 +31,19 @@
         }
     });
     
-    
+    //photos private message
+    amplify.request.define( "photos", "ajax", {
+        url: ajaxURL+"/photos.php",
+        type: "POST",
+        dataType: "json",
+        decoder: function( data, status, xhr, success, error ) {
+            if ( status === "success" ) {
+                success( data );
+            } else {
+                error( data );
+            }
+        }
+    });
 </script>
 
 
@@ -58,42 +70,6 @@
        //Init Drop Downs
        $('.cb-dropdown').dropdown();
        
-       {if $smarty.const.THIS_PAGE == 'view_item'}
-        $('#cb_send_photo_pm').on('click',function(){
-            var obj = $(this), form = this.form, fields = $('#'+form.id ).serializeArray(), forward = {};
-            $.each( fields, function(index, val) {
-                forward[ val.name ] = val.value
-            });
-            
-            forward['mode'] = 'send_photo_pm';
-            
-            var callAJAX = $.ajax({
-                url : baseurl+'/ajax.php',
-                type : 'POST',
-                dataType : 'json',
-                data : forward,
-                beforeSend : function() {
-                   obj.parent().children('button').attr('disabled','disabled');
-                   $('#private_message_response').hide().removeClass('alert-error alert-success');
-                },
-                success : function( data ){
-                    if ( data.error ) {
-                        $('#private_message_response').addClass('alert-error').html( data.error ).show();
-                    }
-                    
-                    if ( data.success ) {
-                        $('#private_message_response').addClass('alert-success').html( data.success ).show();
-                        obj.next().html('Close');
-                        var autoClose = setTimeout(function() {
-                            obj.next().trigger('click');
-                        },2000)
-                    }
-                    
-                    obj.parent().children('button').removeAttr( 'disabled' );
-                }
-            })
-        })
-       {/if}
        //Hiding Children Categories
        $('.categories-nav > ul > li > ol').hide();
        //Adding Toggle

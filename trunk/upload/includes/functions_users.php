@@ -229,8 +229,80 @@ function cb_upload_avatar ( $file, $uid = null) {
 	}
 }
 
-function upload_new_avatar( $array = null ) {
-    global $cbphoto, $userquery, $photo;
+function upload_new_avatar( $file, $uid ) {
+	global $userquery, $cbphoto, $cbcollection, $db;
+	$size = $file['size'];
+	$user = $userquery->get_user_details( $uid );
+	$avatar_dir = BASEDIR.'/images/avatars/';
+	
+	if ( $user ) {
+		if($file['size']/1024 > config('max_profile_pic_size')) {
+			e(sprintf(lang('file_size_exceeds'),config('max_profile_pic_size')));
+		} elseif( file_exists($file['tmp_name']) ) {
+			$ext = getext( $file['name'] );
+			$filename = cb_filename();
+			$photopath = PHOTOS_DIR.'/';
+			if ( validate_image_file( $file['tmp_name'], $ext ) ) {
+				$cid = cb_create_user_avatar_collection( $user );
+				if( move_uploaded_file($file['tmp_name'], $photopath.$filename.'.'.$ext ) ) {
+					$fields = array(
+						'photo_title' => 'Avatar',
+						'photo_description' => ' ',
+						'photo_tags' => ' ',
+						'filename' => $filename,
+						'userid' => $uid,
+						'ext' => $ext,
+						'is_avatar' => true,
+						'collection_id' => $cid
+					);
+					
+					$photo_id = $cbphoto->insert_photo( $fields );
+					$avatar = $uid.'_'.$filename.'.'.$ext;
+					$avatarpath = $avatar_dir.$avatar;
+					
+					/* Resizing starts here */
+					$r = new CB_Resizer( $photopath.$filename.'.'.$ext );
+					/* Big Thumb */
+					$r->target = USER_THUMBS_DIR.'/'.$avatar;
+					$r->_resize( AVATAR_SIZE, AVATAR_SIZE );
+					$r->save();
+			
+					/* Small Thumb */
+					$r->target = USER_THUMBS_DIR.'/'.$uid.'_'.$filename.'-small.'.$ext;
+					$r->_resize(AVATAR_SMALL_SIZE, AVATAR_SMALL_SIZE);
+					$r->save();
+					
+					/* Uncropped version. Used to adjust thumbnail */
+					$r->target = USER_THUMBS_DIR.'/'.$uid.'_'.$filename.'-uncropped.'.$ext;
+					$r->cropping = -1;
+					$r->_resize( AVATAR_SIZE, AVATAR_SIZE );
+					$r->save();
+					/* Resizing ends here */
+					
+					/* Update user avatar field */
+					$db->update( tbl('users'),array('avatar'), array( $avatar ), " userid = '".$uid."' " );
+					
+					return $avatar;
+				} else {
+					e( lang('Unable to upload file. Please try again') );
+					if ( file_exists( $file['tmp_name']) ) {
+						unlink( $file['tmp_name'] );	
+					}
+					return false;
+				}
+			} else {
+				e( lang('Invalid File Type') );	
+				return false;
+			}
+		}	
+	} else {
+		e(lang('user_doesnt_exist'));
+		return false;	
+	}
+}
+
+function make_new_avatar( $array = null ) {
+    global $cbphoto, $userquery, $photo, $db;
     
     if ( is_null($array) ) {
         $array = $_POST;
@@ -238,14 +310,12 @@ function upload_new_avatar( $array = null ) {
     /* include resizer class */
     include_once 'includes/classes/resizer.class.php';
     /* get original photo */
-    $p = $cbphoto->get_image_file( $photo , 'o', false, null, false );
+    $p = get_original_photo( $photo );
     /* define source and decode photo details */
     $source = PHOTOS_DIR.'/'.$p; $pd = json_decode( $photo['photo_details'] , true);
-    /* set source */
-    $r = new CB_Resizer( $source );
     /* coordinates */
-    $x = mysql_clean( $_POST['start_x'] ); $x2 = mysql_clean( $_POST['end_x'] );
-    $y = mysql_clean( $_POST['start_y'] ); $y2 = mysql_clean( $_POST['end_y'] );
+    $x = mysql_clean( $array['start_x'] ); $x2 = mysql_clean( $array['end_x'] );
+    $y = mysql_clean( $array['start_y'] ); $y2 = mysql_clean( $array['end_y'] );
     
     if ( ( !is_numeric($x) || !is_numeric($x2) || !is_numeric($y) || !is_numeric($y2) ) ) {
         e('Unable to crop. Coordinates were unrealiable.');	
@@ -268,44 +338,59 @@ function upload_new_avatar( $array = null ) {
         $yy2 = ( ( $y2 / $pd['l']['height'] ) * 100 ); // compute percentage
         $newY = ( ( $yy * $pd['o']['height'] ) / 100 ); // compute pixels
         $newY2 = ( ( $yy2 * $pd['o']['height'] ) / 100 ); // compute pixels
+ 
+        /* set source */
+        $r = new CB_Resizer( $source );        
         
-        /* We'll save temporary save the cropped photo. */
-        $tempblock = $r->target = USER_THUMBS_DIR.'/'.userid()."-tempblock.".$photo['ext'];
+        $filename = cb_filename();
+        $photopath = PHOTOS_DIR.'/';
+        $avatar_dir = USER_THUMBS_DIR.'/';
+        $uid = $userquery->udetails['userid'];
+        $ext = $photo['ext'];
+        $cid = cb_create_user_avatar_collection( $userquery->udetails );
+        
+        /* Save the cropped as original source of photo. */
+        $new_photo = $r->target = $photopath.'/'.$filename.".".$photo['ext'];
         $r->_crop($newX, $newY, $newX2, $newY2 );
         $r->save();
         
-        $exts = array('jpg','jpeg','png','gif');
-
-        /* Delete previous avatar */
-        foreach( $exts as $ext ) {
-            if ( file_exists( USER_THUMBS_DIR.'/'.userid().'.'.$ext ) )	 {
-            unlink(USER_THUMBS_DIR.'/'.userid().'.'.$ext)	;
-            }
-
-            if ( file_exists(USER_THUMBS_DIR.'/'.userid().'-small.'.$ext) ) {
-            unlink( USER_THUMBS_DIR.'/'.userid().'-small.'.$ext );	
-            }
-        }
+        $fields = array(
+            'photo_title' => 'Avatar',
+            'photo_description' => ' ',
+            'photo_tags' => ' ',
+            'filename' => $filename,
+            'userid' => $uid,
+            'ext' => $photo['ext'],
+            'is_avatar' => true,
+            'collection_id' => $cid
+        );
         
-        /* Make $tempblock the source */
+        /* Inserting photo in user's avatar collection */
+        $photo_id = $cbphoto->insert_photo( $fields );
+        $avatar = $uid.'_'.$filename.'.'.$ext;
+        $avatarpath = $avatar_dir.$avatar;
+        
+        /* Make $new_photo the source */
         $r->source = $r->target;
         
         /* Big Thumb */
-        $r->target = USER_THUMBS_DIR.'/'.userid().'.'.$photo['ext'];
-        $r->cropping = -1;
-        $r->_resize( AVATAR_SIZE );
+        $r->target = $avatarpath;
+        $r->_resize( AVATAR_SIZE, AVATAR_SIZE );
         $r->save();
 
         /* Small Thumb */
-        $r->target = USER_THUMBS_DIR.'/'.userid().'-small.'.$photo['ext'];
-        $r->cropping = 1;
+        $r->target = USER_THUMBS_DIR.'/'.$uid.'_'.$filename.'-small.'.$photo['ext'];
         $r->_resize(AVATAR_SMALL_SIZE, AVATAR_SMALL_SIZE);
         $r->save();
-        
-        /* Remove $tempblock */
-        if ( file_exists($tempblock) ) {
-            unlink( $tempblock );	
-        }
+
+        /* Uncropped version. Used to adjust thumbnail */
+        $r->target = USER_THUMBS_DIR.'/'.$uid.'_'.$filename.'-uncropped.'.$ext;
+		$r->cropping = -1;
+        $r->_resize( AVATAR_SIZE, AVATAR_SIZE );
+        $r->save();
+		         
+        /* Update user avatar field */
+        $db->update( tbl('users'),array('avatar'), array( $avatar ), " userid = '".$uid."' " );
         
         /* go back to photo */
         redirect_to( $cbphoto->photo_links($photo, 'view_photo') );
@@ -315,12 +400,40 @@ function upload_new_avatar( $array = null ) {
     }
 }
 
+function cb_user_avatar_collection( $uid = null ) {
+    global $db, $userquery, $cbcollection;
+    if ( is_null( $uid) ) {
+        $uid = userid();
+    }
+    
+    if ( !$uid ) {
+        return false;
+    }
+    
+    if ( is_array( $uid ) ) {
+        $user = $uid;
+    } else {
+        $user = $userquery->get_user_details( $uid );
+    }
+    
+    if ( $user ) {
+        if ( $user['avatar_collection'] != 0 ) {
+            $collection = $cbcollection->get_collection( $user['avatar_collection'], " AND type = 'photos' ");
+            if ( $collection ) {
+                return $collection;
+            }
+        }
+        
+        return false;
+    } else {
+        return false;
+    }
+}
+
 /**
  * Create user avatar collection
  */
-function cb_create_user_avatar_collection( $uid = null) {
-	return;
-	
+function cb_create_user_avatar_collection( $uid = null) {	
 	global $db, $userquery, $cbcollection;
 	
 	if ( is_null($uid) ) {
@@ -341,7 +454,7 @@ function cb_create_user_avatar_collection( $uid = null) {
 		if ( $user['avatar_collection'] == 0 ) {
 			/* User has no avatar collection. Create one */
 			$details = array(
-				'collection_name' => 'User Avatars',
+				'collection_name' => ( $user['username'] ? $user['username'] : 'User').' Avatars',
 				'collection_description' => 'Collection of user avatars',
 				'collection_tags' => ' ',
 				//'category' => array('category', $cbcollection->get_avatar_collection_id() ),
@@ -363,8 +476,26 @@ function cb_create_user_avatar_collection( $uid = null) {
 				$db->update( tbl('users'), array('avatar_collection'), array($insert_id), " userid = '".$user['userid']."' " );
 				return $insert_id;	
 			}
+		} else {
+			return $user['avatar_collection'];	
 		}
 	}
+}
+
+
+function delete_photo_avatar( $photo ) {
+    if ( $photo['is_avatar'] == 'yes' ) {
+        $dir = USER_THUMBS_DIR.'/';
+        $avatar = $photo['userid'].'_'.$photo['filename'].'.'.$photo['ext'];
+        $avatar_small = $photo['userid'].'_'.$photo['filename'].'-small.'.$photo['ext'];
+        if ( file_exists($dir.$avatar) ) {
+            unlink( $dir.$avatar );
+        }
+        
+        if ( file_exists( $dir.$avatar_small ) ) {
+            unlink( $dir.$avatar_small );
+        }
+    }
 }
 
 ?>

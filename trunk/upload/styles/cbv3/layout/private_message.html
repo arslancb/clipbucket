@@ -1,16 +1,20 @@
- {if $mode =='inbox'}
- <h2 class="page-header">{lang code='private_messages'} &raquo; {lang code='inbox'}</h2>
-  {include file="$style_dir/blocks/pm/messages.html" show_from='true'}
- {/if}
- 
- {if $mode =='notification'}
- <h2 class="page-header">{lang code='private_messages'} &raquo; {lang code='notifications'}</h2>
-  {include file="$style_dir/blocks/pm/messages.html" show_from='true'}
- {/if}
- 
- 
- 
- {if $mode =='sent'}
- <h2 class="page-header">{lang code='private_messages'} &raquo; {lang code='sent'}</h2>
-  {include file="$style_dir/blocks/pm/messages.html" show_to='true'}
- {/if}
+{include_template_file file="blocks/account-left.html"}
+
+<div class="account-right">
+    {if $mode =='inbox'}
+    <h2 class="page-header">{lang code='private_messages'} &raquo; {lang code='inbox'}</h2>
+    {include file="$style_dir/blocks/pm/messages.html" show_from='true'}
+    {/if}
+    
+    {if $mode =='notification'}
+    <h2 class="page-header">{lang code='private_messages'} &raquo; {lang code='notifications'}</h2>
+    {include file="$style_dir/blocks/pm/messages.html" show_from='true'}
+    {/if}
+    
+    
+    
+    {if $mode =='sent'}
+    <h2 class="page-header">{lang code='private_messages'} &raquo; {lang code='sent'}</h2>
+    {include file="$style_dir/blocks/pm/messages.html" show_to='true'}
+    {/if}
+ </div>

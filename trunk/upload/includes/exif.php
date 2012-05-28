@@ -736,7 +736,6 @@ function read_entry(&$result,$in,$seek,$intel,$ifd_name,$globalOffset) {
 // http:// us2.php.net/manual/en/function.exif-read-data.php
 //================================================================================================
 function read_exif_data_raw($path,$verbose) {
-    echo $path;
     if ($path == '' || $path == 'none') return;
     
     $in = @fopen($path, 'rb'); // the b is for windows machines to open in binary mode

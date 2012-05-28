@@ -60,14 +60,14 @@ class CBPhotos {
 			't'	=> array(
 				'width' => config('photo_thumb_width'),
 				'height' => config('photo_thumb_height'),
-				'crop' => (config('photo_crop') == 0 ? -1 : 4 ),
+				'crop' => (config('photo_crop') == 0 ? -1 : 5 ),
 				'watermark' => false,
 				'shrapit' => true
 			),
 			'm'	=> array(
 				'width' => config('photo_med_width'),
 				'height' => config('photo_med_height'),
-				'crop' => (config('photo_crop') == 0 ? -1 : 4 ),
+				'crop' => (config('photo_crop') == 0 ? -1 : 5 ),
 				'watermark' => false,
 				'shrapit' => false
 			),
@@ -86,24 +86,6 @@ class CBPhotos {
 				'shrapit' => false
 			)
 		);
-		
-        /* Following is a sample for custom thumbs. We will have a config called 'custom_thumbs'.
-         *  This will be a json_encoded multi-dimensional associative array. It's will be following
-         *  $custom_thumbs = [type:'video|user|collection|photo|group'] => array(
-         *      [unique_code] => array(
-         *          [name] =>  'Thumb',
-         *          [unique_code]   =>  'thumb',
-         *          [abbr] =>  't',
-         *          [width]    =>  '120',
-         *          [height]   =>  '90',
-         *          [crop]     =>  true|false
-         *          [keep_aspect_ratio] =>  true|false
-         *      )
-         *  )
-         */
-        if ( $Cbucket->configs['custom_thumbs_dimensions'] || $Cbucket->configs['custom_thumbs_dimensions'] == '' ) {
-            
-        }
     }
 
     /**
@@ -472,7 +454,18 @@ class CBPhotos {
                 $cond .= " AND ";
             $cond .= " " . tbl( 'photos.collection_id' ) . " <> '0'";
         }
-
+        
+        if ( has_access('admin_access') ) {
+            if ( !$p['is_avatar'] ) { $p['is_avatar'] = 'no'; }
+            if ( $cond != '' ) { $cond .= ' AND '; }
+            $cond .= " ".tbl('photos.is_avatar')." = '".$p['is_avatar']."'";	
+        } else {
+            if ( $cond != '' ) {
+                $cond .= ' AND ';	
+            }
+            $cond .= ' '.tbl('photos.is_avatar').' = "no" ';
+        }
+        
         if ( !$p['count_only'] && !$p['show_related'] ) {
             if ( $cond != "" )
                 $cond .= " AND ";
@@ -500,6 +493,19 @@ class CBPhotos {
                     $cond .= " AND ";
                 $cond .= $p['extra_cond'];
             }
+            
+            // Remove avatar photos
+            if ( has_access('admin_access') ) {
+			if ( !$p['is_avatar'] ) { $p['is_avatar'] = 'no'; }
+			if ( $cond != '' ) { $cond .= ' AND '; }
+			$cond .= " ".tbl('photos.is_avatar')." = '".$p['is_avatar']."'";	
+		} else {
+			if ( $cond != '' ) {
+				$cond .= ' AND ';	
+			}
+			$cond .= ' '.tbl('photos.is_avatar').' = "no" ';
+		}
+            
             $result = $db->select( tbl( $tables ), tbl( "photos.*,users.userid,users.username" ), $cond . " AND " . tbl( 'photos.collection_id' ) . " <> '0' AND " . tbl( "photos.userid" ) . " = " . tbl( "users.userid" ), $limit, $order );
             //echo $db->db_query;
             // We found nothing from TITLE of Photos, let's try TAGS
@@ -526,6 +532,17 @@ class CBPhotos {
                     if ( $cond != "" )
                         $cond .= " AND ";
                     $cond .= $p['extra_cond'];
+                }
+                
+                if ( has_access('admin_access') ) {
+                    if ( !$p['is_avatar'] ) { $p['is_avatar'] = 'no'; }
+                    if ( $cond != '' ) { $cond .= ' AND '; }
+                    $cond .= " ".tbl('photos.is_avatar')." = '".$p['is_avatar']."'";	
+                } else {
+                    if ( $cond != '' ) {
+                        $cond .= ' AND ';	
+                    }
+                    $cond .= ' '.tbl('photos.is_avatar').' = "no" ';
                 }
                 $result = $db->select( tbl( $tables ), tbl( "photos.*,users.userid,users.username" ), $cond . " AND " . tbl( 'photos.collection_id' ) . " <> '0' AND " . tbl( "photos.userid" ) . " = " . tbl( "users.userid" ), $limit, $order );
                 //echo $db->db_query;
@@ -808,7 +825,12 @@ class CBPhotos {
     }
 
     /**
-     * Used to resize and watermark image
+     * Used to resize and watermark image.
+     * |= Updated on May 19th, 2012 =|
+     * using photo_dimensions filter you can add new
+     * dimensions in thumb_dimensions array. Use 
+     * add_custom_photo_size() function in your callback
+     * to easily add new dimensions
      * */
     function generate_photos( $array ) {
         global $db;
@@ -822,7 +844,9 @@ class CBPhotos {
         $filename = $p['filename'];
         $extension = $p['ext'];
         /* Updating resizes code. From static, we'll load code, dimensions, watermark and sharpit from thumb_dimensions array */
+        apply_filters( null, 'photo_dimensions' );
         $dimensions = $this->thumb_dimensions;
+                
         $img = new CB_Resizer( $path.$filename.".".$extension );
         foreach ( $dimensions as $code => $dim ) {
             $img->target = $path.$filename."_".$code.".".$extension;
@@ -1204,7 +1228,7 @@ class CBPhotos {
 
             foreach ( $FullForms as $field ) {
                 $name = formObj::rmBrackets( $field['name'] );
-                $val = $_POST[$name];
+                $val = $array[$name];
 
                 if ( $field['use_func_val'] )
                     $val = $field['validate_function']( $val );
@@ -1223,6 +1247,9 @@ class CBPhotos {
                     $val = ($val);
                 else
                     $val = apply_func( $field['clean_func'], sql_free( '|no_mc|' . $val ) );
+
+				if(empty($val) && !empty($field['default_value']))
+					$val = $field['default_value'];
 
                 if ( !empty( $field['db_field'] ) )
                     $query_val[] = $val;
@@ -1262,7 +1289,12 @@ class CBPhotos {
                 $query_field[] = "file_directory";
                 $query_val[] = $array['folder'];
             }
-
+			
+			if ( $array['is_avatar'] == true ) {
+				$query_field[] = 'is_avatar';
+				$query_val[] = true;
+			}
+			
             $insert_id = $db->insert( tbl( $this->p_tbl ), $query_field, $query_val );
             $photo = $this->get_photo( $insert_id );
             $this->collection->add_collection_item( $insert_id, $photo['collection_id'] );
@@ -1271,6 +1303,11 @@ class CBPhotos {
 			 * EXIF should be added here
 			*/
 			insert_exif_data( $photo );
+			
+			/*
+			 * Extract colors
+			 */
+			insert_photo_colors( $photo );
 			
             if ( !$array['server_url'] || $array['server_url'] == 'undefined' )
                 $this->generate_photos( $photo );
@@ -1616,16 +1653,23 @@ class CBPhotos {
      * Used to get image type
      * t = Thumb 
      * m = Medium 
-     * l = Large 
+     * l = Large
+     * |= Updated on May 19th, 2012 =|
+     * Now we also have custom dimensions for photos. 
      */
     function get_image_type( $name ) {
         if ( empty( $name ) )
             return false;
         else {
-            $parts = explode( "_", $name );
-            if ( is_array( $parts ) ) {
-                if ( !empty( $parts[1] ) )
-                    return substr( $parts[1], 0, 1 );
+            // Removing extension from $name if exists, making sure it's ungreedy and starts from end
+            $name = preg_replace('/(\.['.implode('|',$this->exts).']+?)$/', '', $name );
+            // Clipbucket photos filename and thumb code is joined using '_'
+            $first_occurence = strpos( $name, '_' );
+            // Checking if we have found any occurence
+            if ( $first_occurence ) {
+                // Adding 1 to remove the underscore of Clipbucket
+                $name = substr( $name, $first_occurence+1);
+                return $name;
             }
         }
     }
@@ -1661,10 +1705,19 @@ class CBPhotos {
                     }
                 }
             }
-
-            if ( ($p['size'] != 't' && $p['size'] != 'm' && $p['size'] != 'l' && $p['size'] != 'o') || empty( $p['size'] ) )
+            
+            if (  empty( $p['size'] ) ) {
                 $p['size'] = 't';
-
+            }
+            
+            if ( !empty( $p['code']) ) {
+                $p['size'] = $p['code'];
+            }
+            
+			if ( $details['is_mature'] == 'yes' && !userid() ) {
+				return get_mature_thumb( $details, $size, $output );
+			}
+			
             if ( $p['with_path'] === FALSE )
                 $p['with_path'] = FALSE; else
                 $p['with_path'] = TRUE;
@@ -1688,6 +1741,7 @@ class CBPhotos {
                             $thumb_name = $file_parts[count( $file_parts ) - 1];
 
                             $type = $this->get_image_type( $thumb_name );
+
                             if ( $with_orig ) {
                                 if ( $with_path )
                                     $thumbs[] = PHOTOS_URL . "/" . $thumb_name;
@@ -1701,7 +1755,11 @@ class CBPhotos {
                                     $thumbs[] = $thumb_name;
                             }
                         }
-
+						
+						if ( !$thumbs ) {
+							return $this->default_thumb( $size, $output );	
+						}
+						
                         if ( empty( $p['output'] ) || $p['output'] == 'non_html' ) {
                             if ( $p['assign'] && $p['multi'] ) {
                                 assign( $p['assign'], $thumbs );
@@ -1725,23 +1783,31 @@ class CBPhotos {
                         }
 
                         if ( $p['output'] == 'html' ) {
-
+                            
+                            /* Creating output here is dropped. Now we'll create an array of
+                             * attributes and pass to cb_output_img_tag, that function will
+                             *  create the actual HTML IMG tag
+                             */
                             $size = "_" . $p['size'];
 
                             $src = array_find( $photo['filename'] . $size, $thumbs );
-                            if ( empty( $src ) )
-                                $src = $this->default_thumb( $size );
-                            else
+                            $attrs = array();
+                            if ( empty( $src ) ) {
+                                return $this->default_thumb( $size, $output );
+                            } else {
                                 $src = $src;
-
-                            if ( phpversion < '5.2.0' )
+                            }
+                            
+                            if ( phpversion < '5.2.0' ) {
                                 global $json; $js = $json;
+                            }
 
-                            if ( !empty( $js ) )
+                            if ( !empty( $js ) ) {
                                 $imgDetails = $js->json_decode( $photo['photo_details'], true );
-                            else
+                            } else {
                                 $imgDetails = json_decode( $photo['photo_details'], true );
-
+                            }
+                            
                             if ( empty( $imgDetails ) || empty( $imgDetails[$p['size']] ) ) {
                                 $dem = getimagesize( str_replace( PHOTOS_URL, PHOTOS_DIR, $src ) );
                                 $width = $dem[0];
@@ -1753,23 +1819,25 @@ class CBPhotos {
                                 $height = $imgDetails[$p['size']]['height'];
                             }
 
-                            $img = "<img ";
-                            $img .= "src = '" . $src . "'";
                             if ( USE_PHOTO_TAGGING && THIS_PAGE == 'view_item' ) {
-                                $img .= " id = '".$this->get_selector_id()."_".$photo['photo_id']."' ";
+                                $id = $this->get_selector_id()."_".$photo['photo_id'];
                             } else {
                                 if ( $p['id'] ) {
-                                    $img .= " id = '" . mysql_clean( $p['id'] ) . "_" . $photo['photo_id'] . "'";
+                                    $id = mysql_clean( $p['id'] )."_".$photo['photo_id'];
                                 } else {
-                                    $img .= " id = '".$this->get_selector_id()."_".$photo['photo_id']."' ";
+                                    $id = $this->get_selector_id()."_".$photo['photo_id'];
                                 }                               
                             }
-
-                            if ( $p['class'] )
-                                $img .= " class = '" . mysql_clean( $p['class'] ) . "'";
-
-                            if ( $p['align'] )
-                                $img .= " align = '" . $p['align'] . "'";
+                            $attrs['id'] = $id;
+                            
+                            if ( $p['class'] ) {
+                                $attrs['class'] = mysql_clean( $p['class'] );
+                            }
+                            
+                            if ( $p['align'] ) {
+                                $attrs['align'] = $p['align'];
+                            }
+                            
                             if ( ($p['width'] && is_numeric( $p['width'] )) && ($p['height'] && is_numeric( $p['height'] )) ) {
                                 $height = $p['height'];
                                 $width = $p['width'];
@@ -1780,37 +1848,40 @@ class CBPhotos {
                                 $width = round( $p['height'] * $width / $height );
                                 $height = $p['height'];
                             }
-
-                            $img .= " width = '" . $width . "'";
-                            $img .= " height = '" . $height . "'";
-
-                            if ( $p['title'] )
-                                $img .= " title = '" . mysql_clean( $p['title'] ) . "'";
-                            else
-                                $img .= " title = '" . $photo['photo_title'] . "'";
-
-                            if ( $p['alt'] )
-                                $img .= " alt = '" . mysql_clean( $p['alt'] ) . "'";
-                            else
-                                $img .= " alt = '" . $photo['photo_title'] . "'";
-
-                            if ( $p['anchor'] ) {
-                                $anchor_p = array("place" => $p['anchor'], "data" => $photo);
-                                ANCHOR( $anchor_p );
+                            $attrs['width'] = $width; $attrs['height'] = $height;
+                            
+                            if ( $p['title'] ) {
+                                $title = mysql_clean( $p['title'] );
+                            } else {
+                                $title = $photo['photo_title'];
                             }
-
-                            if ( $p['style'] )
-                                $img .= " style = '" . $p['style'] . "'";
-
-                            if ( $p['extra'] )
-                                $img .= ($p['extra']);
-
-                            $img .= " />";
-
-                            if ( $p['assign'] )
+                            $attrs['title'] = $title;
+                            
+                            if ( $p['alt'] ) {
+                                $alt = mysql_clean( $p['alt'] );
+                            } else {
+                                $alt = mysql_clean( TITLE.' - '.$photo['photo_title'] );
+                            }
+                            $attrs['alt'] = $alt;
+                            
+                            $anchor_p = array("place" => 'photo_thumb', "data" => $photo);
+                            ANCHOR( $anchor_p );
+                            
+                            if ( $p['style'] ) {
+                                $attrs['style'] = $p['style'];
+                            }
+                            
+                            if ( $p['extra'] ) {
+                                $attrs['extra'] = $p['extra'];
+                            }
+                            
+                            $img = cb_output_img_tag( $src, $attrs );
+                            
+                            if ( $p['assign'] ) {
                                 assign( $p['assign'], $img );
-                            else
+                            } else {
                                 return $img;
+                            }
                         }
                     } else {
                         return $this->default_thumb( $size, $output );
@@ -2044,8 +2115,8 @@ class CBPhotos {
                     break;
 					
 				case "make_avatar": case "ma": {
-					
-					if ( $details['collection_id'] == 1) {
+					global $userquery;
+					if ( $details['collection_id'] == $userquery->udetails['avatar_collection']) {
 						$set_avatar = '&set_avatar=1';
 					}
 					
@@ -2068,10 +2139,11 @@ class CBPhotos {
         else
             $path = PHOTOS_URL . "/no-photo" . $size . ".png";
 
-        if ( !empty( $output ) && $output == "html" )
-            echo "<img src='" . $path . "' />";
-        else
+        if ( !empty( $output ) && $output == "html" ) {
+            return cb_output_img_tag( $path );
+        } else {
             return $path;
+        }
     }
 
     /**
@@ -2838,6 +2910,7 @@ class CBPhotos {
 
         return true;
     }
+	
 }
 
 ?>

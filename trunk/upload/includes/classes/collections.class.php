@@ -436,7 +436,19 @@ class Collections extends CBCategory
 				$cond .= " AND ";
 			$cond .= " ($title_tag) ";		
 		}
-				
+		
+		// Remove avatar collections
+		if ( has_access('admin_access') ) {
+			if ( !$p['avatar_collection'] ) { $p['avatar_collection'] = 'no'; }
+			if ( $cond != '' ) { $cond .= ' AND '; }
+			$cond .= " ".tbl('collections.is_avatar_collection')." = '".$p['avatar_collection']."'";	
+		} else {
+			if ( $cond != '' ) {
+				$cond .= ' AND ';	
+			}
+			$cond .= ' '.tbl('collections.is_avatar_collection').' = "no" ';
+		}
+		
 		if(!$p['count_only'])
 		{
 			if($cond != "")
@@ -1748,7 +1760,7 @@ class Collections extends CBCategory
 	function get_avatar_collection_id () {
 		return $this->avatar_collection;
 	}
-	
+  
 	function set_cover_photo( $pid, $cid ) {
 		global $db;
 		$update = $db->update( tbl('collections'), array('cover_photo'),array($pid), " collection_id = '".$cid."' " );

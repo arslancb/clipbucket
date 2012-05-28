@@ -652,6 +652,7 @@ register_action_remove_video('remove_video_files');
 
 register_anchor_function('load_tagging','cb_head');
 register_anchor_function('load_photo_actions','cb_head');
+cb_register_function('delete_photo_avatar','delete_photo');
 
 include('admin.functions.php');
 //error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
@@ -668,9 +669,7 @@ include('admin.functions.php');
 	//Other settings
 	define("SEND_COMMENT_NOTIFICATION",config("send_comment_notification"));
 	define("SEND_VID_APPROVE_EMAIL",config("approve_video_notification"));
- 	
-	cb_create_user_avatar_collection();
-	       
+ 		       
 define ('MOBILE_TEMPLATE','cb_iphone2');
 
 if ( $Cbucket->template == MOBILE_TEMPLATE ) {

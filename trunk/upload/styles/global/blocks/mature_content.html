@@ -1,0 +1,9 @@
+<div class="hero-unit clearfix">
+	<h2 style="margin-bottom:10px;">{if $title}{$title}{else}{lang code='Mature Content'}{/if}</h2>
+	<div class="thumbnail span3" style="margin:0px 20px 0px 0px; background:white;">
+    	<img src="{$baseurl}/images/unsafe-big.jpg" />
+    </div>
+    <p>This content may contain material that may be inappropriate for some users.</p>
+    <p>To view content, please verify you are 18 or above by login in or registering.</p>
+    <p><a href="{link name='login'}" class="btn btn-primary btn-large marginR5"><strong>{lang code='Register'}</strong></a> or <a href="{link name='login'}#login-modal" data-toggle="modal" class="marginL5 marginR5"><strong>{lang code='Login'}</strong></a></p>
+</div>

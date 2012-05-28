@@ -1,7 +1,9 @@
-<div class="thumbnail inlineblock">
+{assign var=pd value=$photo.photo_details|json_decode}
+<h3 class="page-header"><a href="{$cbcollection->collection_links( $c, 'view_collection' )}">{$c.collection_name}</a> &raquo;  {$photo.photo_title}</h3>
+<div class="thumbnail inlineblock" style="width: {$pd.l.width}px">
 	{get_photo details=$object size='l' output='html'}
 </div>
-<div id="some" class="inlineblock marginL10 well" style="vertical-align: top; padding: 8px 0;"></div>
+<div id="some" class="inlineblock marginL10 well" style="padding: 8px 0; vertical-align: top"></div>
 
 <div id="private_message_photo_form" class="hide fade modal">
     <div class="modal-header">
@@ -9,27 +11,29 @@
     </div>
     <form id="pm_msg" name="pm_msg" method="post" action="" class="form-horizontal" style="margin:0px;">
         <div class="modal-body">
-            <div id="private_message_response" class="alert hide">
-                Something to show
-            </div>
+            <div id="private_message_response" class="alert hide"></div>
             {assign var='form_fields' value=$cbpm->load_compose_form()}
                 <fieldset>
                         {foreach from=$form_fields item=field}
-                            <div class="control-group">
-                                <label for="{$field.id}" class="control-label">{$field.title}</label>
-                                <div class="controls">
-                                    {if $field.hint_1}<p class="help-block">{$field.hint_1}</p>{/if}
-                                    {$formObj->createField($field)}
-                                    {if $field.hint_2}<p class="help-block">{$field.hint_2}</p>{/if}
+                        	{if $field.type != 'hidden'}
+                                <div class="control-group">
+                                    <label for="{$field.id}" class="control-label">{$field.title}</label>
+                                    <div class="controls">
+                                        {if $field.hint_1}<p class="help-block">{$field.hint_1}</p>{/if}
+                                        {$formObj->createField($field)}
+                                        {if $field.hint_2}<p class="help-block">{$field.hint_2}</p>{/if}
+                                    </div>
                                 </div>
-                            </div>
+                            {else}
+                            	{$formObj->createField($field)}
+                            {/if}
                         {/foreach}
                 </fieldset>
 
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" id="cb_send_photo_pm" type="button">{lang code='com_send_message'}</button>
-            <button class="btn" data-dismiss="modal" type="button">{lang code='Cancel'}</button>
+            <button class="btn" data-dismiss="modal" type="button">{lang code='Close'}</button>
+            <button class="btn btn-primary" id="cb_send_photo_pm" data-loading-text='{lang code="Sending ..."}' data-complete-text="{lang code='Sent'}" type="button" onclick="send_private_message( event );">{lang code='com_send_message'}</button>
         </div>
     </form>
 </div>

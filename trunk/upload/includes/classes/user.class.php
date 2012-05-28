@@ -2581,7 +2581,8 @@ class userquery extends CBCategory{
 		
 		if(isset($_FILES['avatar_file']['name']))
 		{
-			$file = $Upload->upload_user_file('a',$_FILES['avatar_file'],$array['userid']);
+			//$file = $Upload->upload_user_file('a',$_FILES['avatar_file'],$array['userid']);
+			$file = upload_new_avatar( $_FILES['avatar_file'], ( $array['userid'] ? $array['userid'] : userid() ) );
 			if($file)
 			{
 				$uquery_field[] = 'avatar';

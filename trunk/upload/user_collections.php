@@ -41,6 +41,12 @@ if($user)
 			$collections = get_collections(array("limit"=>$limit,"user"=>$user['userid']));
 			$total_rows = get_collections(array("count_only"=>true,"user"=>$user['userid']));
 			$total_pages = count_pages($total_rows,config('collection_user_collections'));
+                    $avatar_collection = cb_user_avatar_collection( $user );
+                    if ( is_array( $collections ) && $avatar_collection ) {
+                        array_unshift( $collections, $avatar_collection );
+                    } else {
+                        $collections = $avatar_collection;
+                    }
 		}
 		break;
 		
@@ -58,7 +64,6 @@ if($user)
 		}
 		break;
 	}
-	
 	assign('collections',$collections);
 	
 	$pages->paginate($total_pages,$page);	

@@ -63,10 +63,15 @@ if ( mysql_clean($_GET['mode']) == 'make_avatar' ) {
 	} else {
 		assign( 'photo', $photo );
 		if ( isset($_GET['set_avatar']) ) {
-			/* Run set avatar code */	
+			/* Run set avatar code */
+                $uid = userid();
+                $db->update( tbl('users'), array('avatar'), array( $uid.'_'.$photo['filename'].'.'.$photo['ext'] ), " userid = '".$uid."' " );
+                
+                // redirect back to photo
+                redirect_to( $cbphoto->photo_links( $photo, 'view_photo' ) );
 		} else if( isset( $_POST['set_avatar']) ) {
                 /* Run make avatar code */
-                upload_new_avatar();
+                make_new_avatar();
 		}
 	}
 	

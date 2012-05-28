@@ -54,19 +54,21 @@
             </li>
         </fieldset> 
         <div style="height:5px; clear:both;"></div>
-        <a href="recreate_thumbs.php?mode={$mode}&amp;photo={$p.photo_id}&amp;recreate=true" style="margin-bottom:5px;" class="myAdminButton moveR">Re-create Photo</a>  		
-    <fieldset class="fieldset" style="padding:8px;">
-    	{foreach from=$files item=file}       	
-        	<div style="float:left; margin-right:15px;">
-            <div style="font:bold 11px Tahoma;">
-            	{assign var=size value=$cbphoto->get_image_type($file)}
-            	Filename: {$p.filename}{if $size} - Size: {$size}{/if}
-            </div>
-            <div style="height:5px;"></div>
-            <img src="{$file}" style="max-width:300px;" />           
-            </div>
-        {/foreach}
-    </fieldset>
+        <a href="recreate_thumbs.php?mode={$mode}&amp;photo={$p.photo_id}&amp;recreate=true" style="margin-bottom:5px;" class="myAdminButton moveR">Re-create Photo</a>
+        <br/><br/>
+        <ul class="thumbnails">
+            {foreach from=$files item=file}
+            <li class="inlineblock " style="float: none; vertical-align: top">
+                <div class="thumbnail">
+                    <img src="{$file}" style="max-width:260px;" />
+                    <div class="caption">
+                        <h5>Size : {$cbphoto->get_image_type( $file )}</h5>
+                    </div>
+                </div>
+            </li>
+            {/foreach}
+        </ul>        
+
 
 </form>
 {/if}

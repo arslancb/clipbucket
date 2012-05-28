@@ -29,9 +29,10 @@ if ( $cbcollection->is_viewable( $cid ) ) {
             header( 'location:' . BASEURL );
         else {
             assign( 'type', $type );
-            $param = array("type" => $type, "cid" => $cid);
-            $cdetails = $cbcollection->get_collections( $param );
-            $collect = $cdetails[0];
+//            $param = array("type" => $type, "cid" => $cid);
+//            $cdetails = $cbcollection->get_collections( $param );
+//            $collect = $cdetails[0];
+               $collect = $cbcollection->get_collection($cid, " AND type = '".$type."' ");
             switch ( $type ) {
                 case "videos":
                 case "v": {
@@ -83,18 +84,19 @@ if ( $cbcollection->is_viewable( $cid ) ) {
 							
                             if ( $info ) {
                                 $photo = array_merge( $photo, $info[0] );
-
-                                increment_views( $photo['photo_id'], 'photo' );
-
-                                assign( 'object', $photo );
-                                assign( 'user', $userquery->get_user_details( $photo['userid'] ) );
-                                assign( 'c', $collect );
-
-                                subtitle( $photo['photo_title'] . ' &laquo; ' . $collect['collection_name'] );
-                                insert_photo_colors( $photo );
-                                
-                                register_photo_private_message_field( $photo );                                                                
-                                //pr( $cbpm->load_compose_form(), true );
+								if ( is_photo_viewable( $photo ) ) {
+									increment_views( $photo['photo_id'], 'photo' );
+	
+									assign( 'object', $photo );
+									assign( 'user', $userquery->get_user_details( $photo['userid'] ) );
+									assign( 'c', $collect );
+	
+									subtitle( $photo['photo_title'] . ' &laquo; ' . $collect['collection_name'] );
+																  
+									register_photo_private_message_field( $photo );	
+								} else {
+									cb_show_page( false );	
+								}
                             } else {
                                 e( lang( "item_not_exist" ) );
                                 $Cbucket->show_page = false;

@@ -1,5 +1,23 @@
+{include_template_file file="blocks/account-left.html"}
+<div class="account-right">
 {if $mode == 'avatar_bg'}
-
+	<h2 class="page-header">{lang code='Avatar &amp; Background'}</h2>
+    <img src="{$userquery->getUserThumb($user)}" class="thumbnail moveL marginR10" />
+    <form method="post" enctype="multipart/form-data" name="edit_profile" class="form-horizontal clearfix moveL">
+    	<fieldset>
+        	<div class="control-group">
+            	<label class="control-label" for="avatar_file">{lang code='Avatar File'}</label>
+                <div class="controls">
+                	<input type="file" name="avatar_file" id="avatar_file"  />
+                </div>
+            </div>
+            <input type="hidden" name="avatar_file_name" value="{$user.avatar}" />
+        </fieldset>
+        <div>&nbsp;</div>
+        <div class="well clearfix">
+        	 <input type="submit" name="update_avatar_bg" class="btn btn-large btn-primary moveR" value="{lang code='Save Changes'}" />
+        </div>
+    </form>
 {/if}
 
 {if $mode == 'make_avatar'}
@@ -21,19 +39,22 @@
                 <input type="submit" name="set_avatar" class="btn btn-large btn-primary marginR10 moveR" value="Set Avatar" />
             </form>
         </div>
+        <div id="preview_thumbnail_{$photo.photo_id}" class="thumbnail display-none" style="width:{$Cbucket->configs.max_profile_pic_width}px; height:{$Cbucket->configs.max_profile_pic_width}px; overflow:hidden; margin-bottom:15px; padding:0px;">
+        	{get_photo details=$photo size="o" id="preview" style="max-width:none" output="html"}
+        </div>
         <!-- Jcrop Start -->
 		<script type="text/javascript">
 			$(function() {
 				function updateCoords ( coords ) {
-		/*        var rx = {$Cbucket->configs.max_profile_pic_width} / coords.w;
-					var ry = {$Cbucket->configs.max_profile_pic_width} / coords.h;
+		        var rx = {$Cbucket->configs.max_profile_pic_width} / coords.w;
+				var ry = {$Cbucket->configs.max_profile_pic_width} / coords.h;
 		
 					$('#preview_{$photo.photo_id}').css({
 						width: Math.round(rx * {$pd.l.width}) + 'px',
 						height: Math.round(ry * {$pd.l.height}) + 'px',
 						marginLeft: '-' + Math.round(rx * coords.x) + 'px',
 						marginTop: '-' + Math.round(ry * coords.y) + 'px'
-					});*/
+					});
 		
 					$('#start_x').val( coords.x );
 					$('#end_x').val( coords.x2 );
@@ -56,4 +77,6 @@
     <div class="thumbnail" style="width:{$pd.l.width}px; margin:auto;">
     	{get_photo details=$photo size="l" output="html"}
     </div>
+    
 {/if}
+</div>
