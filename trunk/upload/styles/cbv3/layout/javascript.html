@@ -67,6 +67,26 @@
           show : false
        });
        
+       
+       //Initializing Select/Deselect All function
+       $('.select_all').click(function(){
+            $target = $(this).attr('data-target');
+            $controller = this;
+            if($(this).is(':checked'))
+            {
+                $('.'+$target).attr('checked',true);
+            }else
+            {
+                $('.'+$target).attr('checked',false); 
+            }
+            
+            //Bind function to the target..
+            $('.'+$target).click(function(){
+                $($controller).attr('checked',false);
+            })
+       });
+       
+       
        //Init Drop Downs
        $('.cb-dropdown').dropdown();
        
@@ -98,6 +118,8 @@
        
        //Executing Tootltip
         $('.cb-tooltip').tooltip();
+        
+      
         
     });
 </script>

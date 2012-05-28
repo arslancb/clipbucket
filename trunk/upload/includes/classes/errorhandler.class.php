@@ -61,8 +61,8 @@ class EH extends ClipBucket
 	  */
 	  function flush_error()
 	  {
-		  $this->error_list = '';
-                  $this->flush_rel = '';
+		  unset($this->error_list);
+                  unset($this->flush_rel);
 	  }
 	  
 	/**
@@ -91,8 +91,8 @@ class EH extends ClipBucket
 	 */
 	function flush_msg()
 	{
-		$this->message_list = '';
-                $this->message_rel = '';
+		unset($this->message_list);
+                unset($this->message_rel);
 	}
 	
 	/**
@@ -100,8 +100,8 @@ class EH extends ClipBucket
 	 */
 	function flush_warning()
 	{
-		$this->warning_list = '';
-                $this->warning_rel = '';
+		unset($this->warning_list);
+                unset($this->warning_rel);
 	}
 	
 	/**

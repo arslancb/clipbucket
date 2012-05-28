@@ -1,5 +1,6 @@
-<ul class="playlist-list {$playlist.playlist_id}-playlist" id="{$playlist.playlist_id}-playlist">
-    <li><span class=""><input type="checkbox"/></span></li>
+{$pid=$playlist.playlist_id}
+<ul class="playlist-list {$pid}-playlist" id="{$pid}-playlist">
+    <li><span class=""><input name="check_playlist[]" type="checkbox" class="check_playlist" value="{$pid}"/></span></li>
 
     <li class="relative thumb">
         <div class="playlist-thumb">
@@ -14,8 +15,11 @@
 
         <div>
             <span class="pltitle">{$playlist.playlist_name}</span>
-            <span class="seperator">|</span> 86 Videos 
-            <span class="icon-lock"></span>
+            <span class="seperator">|</span> {$playlist.total_items} Videos 
+            {if $playlist.privacy=='private'}
+            <span class="icon-lock" title="{lang code='This playlist is private'}"></span>{else}
+            <span class="icon-globe icon-v3" title="{lang code='This playlist is public'}"></span>{/if}
+            
         </div>
 
         <div class="pldesc">{$playlist.description}</div>

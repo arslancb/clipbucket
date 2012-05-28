@@ -1,36 +1,4 @@
 
-<!-- Acount left -->
-{include_template_file file="blocks/account-left.html"}
-
-<div class="account-right">
-    
-    
-    <!-- If mode is manage playlists -->
-    {if $mode=='manage_playlist'}
-    <div class="account-heading">
-        <h2 >{lang code="Playlists"} (<span id="playlists_count">{$total_playlists}</span>)</h2>
-        
-        <div class="account-search absolute top right">
-            <form class=" form-search">
-                <input type="text" class="input-medium search-query">
-                <button type="submit" class="btn">{lang code='Search'}</button>
-            </form>
-        </div>
-    </div>
-    
-    <hr/>
-    
-    <div class="account-controls">
-        <div class="account-controls-left playlist-list-controls">
-            <span class="" style="margin-right: 8px"><input type="checkbox"/></span>
-            <button class="btn btn-danger">{lang code='Delete Selected'}</button>
-        </div>
-        
-        <div class="account-controls-right" align="right">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#create-playlist-modal">
-                <i class="icon-plus icon-white"></i> {lang code='Create New'}</button>
-        </div>
-        
         <!-- Create Playlist Modal Box -->
         <div class="modal hide fade" id="create-playlist-modal">
             <div class="modal-header">
@@ -122,24 +90,42 @@
                  class="btn btn-primary" data-loading-text="{lang code='Creating...'}" data-complete-text="finished!">{lang code="Create"}</a>
             </div>
         </div>
+
+
+<!-- Acount left -->
+{include_template_file file="blocks/account-left.html"}
+
+<div class="account-right">
+    
+    
+    <!-- If mode is manage playlists -->
+    {if $mode=='manage_playlist'}
+    <div class="account-heading">
+        <h2 >{lang code="Playlists"} (<span id="playlists_count">{$total_playlists}</span>)</h2>
         
-        
-        <!-- Success Modal -->
-        <div class="modal hide" id="myModal">
-            <div class="modal-header">
-                <button class="close" data-dismiss="modal">×</button>
-                <h3>New playlist has been created</h3>
-            </div>
-            <div class="modal-body">
-                <p><div class="alert alert-info">Your new playlist has been created,
-                you may now add items by clicking on 'view it'</div></p>
-            </div>
-            <div class="modal-footer">
-                <a href="javascript:void(0)" class="btn"  data-dismiss="modal">Ok</a>
-                <a href="#" class="btn btn-primary">View It</a>
-            </div>
+        <div class="account-search absolute top right">
+            <form class=" form-search">
+                <input type="text" class="input-medium search-query">
+                <button type="submit" class="btn">{lang code='Search'}</button>
+            </form>
+        </div>
+    </div>
+    
+    <hr/>
+    
+    
+    <form class="margin0 padding0 inline" method="post">
+    <div class="account-controls">
+        <div class="account-controls-left playlist-list-controls">
+            <span class="" style="margin-right: 8px"><input type="checkbox" class="select_all" data-target="check_playlist" /></span>
+                <button class="btn btn-danger" name="delete_playlists">{lang code='Delete Selected'}</button>
         </div>
         
+        <div class="account-controls-right" align="right">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#create-playlist-modal">
+                <i class="icon-plus icon-white"></i> {lang code='Create New'}</button>
+        </div>
+
         <div class="clearfix"></div>
     </div>
     
@@ -158,6 +144,8 @@
     </div>
     
     {/if}
+    
+    </form>
     
     
     
