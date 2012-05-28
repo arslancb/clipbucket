@@ -1,5 +1,7 @@
 <h3 class="page-header"><a href="{$cbcollection->collection_links( $c, 'view_collection' )}">{$c.collection_name}</a></h3>
 
-{foreach from=$objects item=object}
-<a href="{$cbphoto->photo_links( $object, 'view_photo')}" class="thumbnail moveL" style="margin: 5px">{get_photo details=$object size='m' output='html'}</a>
-{/foreach}
+{if $objects}
+    {foreach $objects as $object}
+    	<a href="{$cbphoto->photo_links( $object, 'view_photo')}" class="thumbnail moveL" style="margin: 5px">{get_photo details=$object size='m' output='html'}</a>
+    {/foreach}
+{/if}

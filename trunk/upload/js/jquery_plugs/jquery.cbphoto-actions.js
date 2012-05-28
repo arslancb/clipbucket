@@ -27,6 +27,9 @@
 			id : getID('wrapper')	
 		}).addClass('cbphoto-actions-wrapper nav nav-list');
 		
+		// Empty the element
+		element.html('');
+		
 		$.each( options.menu_items, function( index, val ) {
 			if ( val.href && val.text ) {
 				item = $( options.menu_item ).attr({
