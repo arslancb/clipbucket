@@ -648,7 +648,9 @@
                     @mkdir(PHOTOS_DIR.'/'.$folder,0777,true);
                 }else
                 {
-                     @mkdir($headFolder.'/'.$folder,0777,true);
+					if ( !file_exists( $headFolder.'/'.$folder ) ) { 
+                     	@mkdir($headFolder.'/'.$folder,0777,true);
+					}
                 }
                 return $folder;
         }

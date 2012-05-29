@@ -150,10 +150,10 @@ switch($mode)
 		}
 		
 		$filename = $cbphoto->create_filename();
-		
+		$date_dir = createDateFolder( PHOTOS_DIR ).'/';
 		
 		//Now uploading the file
-		if(move_uploaded_file($_FILES[$form]['tmp_name'],$path.$filename.".".$extension))
+		if(move_uploaded_file($_FILES[$form]['tmp_name'],$path.$date_dir.$filename.".".$extension))
 		{
 			echo json_encode(array("success"=>"yes","filename"=>$filename,"extension"=>$extension));
 			

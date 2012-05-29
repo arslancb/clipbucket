@@ -79,7 +79,7 @@ class CB_Resizer {
                     $x_aspect_ratio = $this->source_width / $width;
                     $y_aspect_ratio = $this->source_height / $height;
 
-                    if ( $this->cropping != -1 ) {
+                    if ( $this->cropping != -1 || $this->cropping == 10 ) {
                         $aspect_ratio = min( $x_aspect_ratio, $y_aspect_ratio );
                     } else {
                         $aspect_ratio = max( $x_aspect_ratio, $y_aspect_ratio );
@@ -102,7 +102,7 @@ class CB_Resizer {
             if ( ($this->preserve_aspect == true || $must_preserve_aspect == true ) && $this->exact_dimensions != true ) {
                 $canvas = $this->_create_canvas( $target_width, $target_height, -1 );
                 imagecopyresampled( $canvas, $this->resource, 0, 0, 0, 0, $target_width, $target_height, $this->source_width, $this->source_height );
-                if ( $this->cropping != -1 && $width > 0 && $height > 0 ) {
+                if ( $this->cropping != -1 && $width > 0 && $height > 0 && $this->cropping < 10 ) {
                     switch ( $this->cropping ) {
                         // TOP LEFT
                         case 1: {

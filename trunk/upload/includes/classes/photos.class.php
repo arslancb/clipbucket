@@ -327,7 +327,7 @@ class CBPhotos {
      */
     function get_photos( $p ) {
         global $db;
-        $tables = "photos,users";
+        $tables = "users,photos";
 
         $order = $p['order'];
         $limit = $p['limit'];
@@ -377,7 +377,7 @@ class CBPhotos {
         if ( $p['date_span'] ) {
             if ( $cond != "" )
                 $cond .= " AND ";
-            $cond .= " " . cbsearch::date_margin( "date_added", $p['date_span'] );
+            $cond .= " " . cbsearch::date_margin( tbl("photos.date_added"), $p['date_span'] );
         }
 
         if ( $p['featured'] ) {
@@ -465,11 +465,12 @@ class CBPhotos {
             }
             $cond .= ' '.tbl('photos.is_avatar').' = "no" ';
         }
-        
+        list ( $join, $alias ) = join_collection_table();
+		
         if ( !$p['count_only'] && !$p['show_related'] ) {
             if ( $cond != "" )
                 $cond .= " AND ";
-            $result = $db->select( tbl( $tables ), tbl( "photos.*,users.userid,users.username" ), $cond . tbl( "photos.userid" ) . " = " . tbl( "users.userid" ), $limit, $order );
+            $result = $db->select( tbl( $tables ).$join, tbl( "photos.*,users.userid,users.username" ).$alias, $cond . tbl( "photos.userid" ) . " = " . tbl( "users.userid" ), $limit, tbl('photos.'.trim($order) ));
             //echo $db->db_query;					  						  	
         }
 
@@ -496,9 +497,9 @@ class CBPhotos {
             
             // Remove avatar photos
             if ( has_access('admin_access') ) {
-			if ( !$p['is_avatar'] ) { $p['is_avatar'] = 'no'; }
-			if ( $cond != '' ) { $cond .= ' AND '; }
-			$cond .= " ".tbl('photos.is_avatar')." = '".$p['is_avatar']."'";	
+				if ( !$p['is_avatar'] ) { $p['is_avatar'] = 'no'; }
+				if ( $cond != '' ) { $cond .= ' AND '; }
+				$cond .= " ".tbl('photos.is_avatar')." = '".$p['is_avatar']."'";	
 		} else {
 			if ( $cond != '' ) {
 				$cond .= ' AND ';	
@@ -506,7 +507,7 @@ class CBPhotos {
 			$cond .= ' '.tbl('photos.is_avatar').' = "no" ';
 		}
             
-            $result = $db->select( tbl( $tables ), tbl( "photos.*,users.userid,users.username" ), $cond . " AND " . tbl( 'photos.collection_id' ) . " <> '0' AND " . tbl( "photos.userid" ) . " = " . tbl( "users.userid" ), $limit, $order );
+            $result = $db->select( tbl( $tables ).$join, tbl( "photos.*,users.userid,users.username" ).$alias, $cond . " AND " . tbl( 'photos.collection_id' ) . " <> '0' AND " . tbl( "photos.userid" ) . " = " . tbl( "users.userid" ), $limit, tbl('photos.'.trim($order) ) );
             //echo $db->db_query;
             // We found nothing from TITLE of Photos, let's try TAGS
             if ( $db->num_rows == 0 ) {
@@ -544,7 +545,7 @@ class CBPhotos {
                     }
                     $cond .= ' '.tbl('photos.is_avatar').' = "no" ';
                 }
-                $result = $db->select( tbl( $tables ), tbl( "photos.*,users.userid,users.username" ), $cond . " AND " . tbl( 'photos.collection_id' ) . " <> '0' AND " . tbl( "photos.userid" ) . " = " . tbl( "users.userid" ), $limit, $order );
+                $result = $db->select( tbl( $tables ).$join, tbl( "photos.*,users.userid,users.username" ).$alias, $cond . " AND " . tbl( 'photos.collection_id' ) . " <> '0' AND " . tbl( "photos.userid" ) . " = " . tbl( "users.userid" ), $limit, tbl('photos.'.trim($order) ) );
                 //echo $db->db_query;
             }
         }
@@ -701,10 +702,11 @@ class CBPhotos {
             $photo = $id;
 
         $pid = $photo['photo_id'];
+		$date_dir  = get_photo_date_folder( $photo );
         $files = $this->get_image_file( $pid, 't', TRUE, NULL, FALSE, TRUE );
         if ( !empty( $files ) ) {
             foreach ( $files as $file ) {
-                $file_dir = PHOTOS_DIR . "/" . $file;
+                $file_dir = PHOTOS_DIR . "/" . $date_dir.'/' . $file;
                 if ( file_exists( $file_dir ) )
                     unlink( $file_dir );
             }
@@ -834,8 +836,7 @@ class CBPhotos {
      * */
     function generate_photos( $array ) {
         global $db;
-        $path = PHOTOS_DIR . "/";
-
+        
         if ( !is_array( $array ) )
             $p = $this->get_photo( $array );
         else
@@ -843,6 +844,8 @@ class CBPhotos {
 
         $filename = $p['filename'];
         $extension = $p['ext'];
+		$date_dir = get_photo_date_folder( $p );
+		$path = PHOTOS_DIR . "/".$date_dir.'/';
         /* Updating resizes code. From static, we'll load code, dimensions, watermark and sharpit from thumb_dimensions array */
         apply_filters( null, 'photo_dimensions' );
         $dimensions = $this->thumb_dimensions;
@@ -904,7 +907,7 @@ class CBPhotos {
             $images = $this->get_image_file( $p, NULL, TRUE, NULL, FALSE );
             if ( $images ) {
                 foreach ( $images as $image ) {
-                    $imageFile = PHOTOS_DIR . "/" . $image;
+                    $imageFile = PHOTOS_DIR . "/" . get_photo_date_folder( $p ).'/'. $image;
                     if ( file_exists( $imageFile ) ) {
                         $imageDetails = getimagesize( $imageFile );
                         $imageSize = filesize( $imageFile );
@@ -1733,7 +1736,13 @@ class CBPhotos {
                 return $this->default_thumb( $size, $output );
             else {
                 if ( !empty( $photo['filename'] ) && !empty( $photo['ext'] ) ) {
-                    $files = glob( PHOTOS_DIR . "/" . $photo['filename'] . "*." . $photo['ext'] );
+					/* Enhacing the code to work with date folder structure */
+					$date_dir = get_photo_date_folder( $photo );
+					if ( $date_dir ) {
+						$date_dir .= '/';	
+					}
+					
+                    $files = glob( PHOTOS_DIR . "/". $date_dir . $photo['filename'] . "*." . $photo['ext'] );
                     if ( !empty( $files ) && is_array( $files ) ) {
 
                         foreach ( $files as $file ) {
@@ -1744,13 +1753,13 @@ class CBPhotos {
 
                             if ( $with_orig ) {
                                 if ( $with_path )
-                                    $thumbs[] = PHOTOS_URL . "/" . $thumb_name;
+                                    $thumbs[] = PHOTOS_URL . "/". $date_dir . $thumb_name;
                                 else
                                     $thumbs[] = $thumb_name;
                             }
                             elseif ( !empty( $type ) ) {
                                 if ( $with_path )
-                                    $thumbs[] = PHOTOS_URL . "/" . $thumb_name;
+                                    $thumbs[] = PHOTOS_URL . "/" .$date_dir. $thumb_name;
                                 else
                                     $thumbs[] = $thumb_name;
                             }

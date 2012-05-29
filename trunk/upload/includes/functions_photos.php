@@ -636,8 +636,8 @@ function join_collection_table() {
     global $cbcollection, $cbphoto;
     $c = tbl ($cbcollection->section_tbl ) ; $p = tbl('photos');
     $join = ' LEFT JOIN '.( $c ).' ON '.( $p.'.collection_id' ). ' = '.( $c.'.collection_id' );
-    $alias = ", $p.views as views, $p.allow_comments as allow_comments, $p.allow_rating as allow_rating, $p.total_comments as total_comments, $p.date_added as date_added, $p.rating as rating, $p.rated_by as rated_by, $p.voters as voters, $p.featured as featured, $p.broadcast as broadcast, $p.active as pactive";
-    $alias .= ", $c.views as cviews, $c.allow_comments as callow_comments, $c.allow_rating as callow_rating, $c.total_comments as ctotal_comments, $c.date_added as cdate_added, $c.rating as crating, $c.rated_by as crated_by, $c.voters as cvoters, $c.featured as cfeatured, $c.broadcast as cbroadcast, $c.active as active";
+    $alias = ", $p.views as views, $p.allow_comments as allow_comments, $p.allow_rating as allow_rating, $p.total_comments as total_comments, $p.date_added as date_added, $p.rating as rating, $p.rated_by as rated_by, $p.voters as voters, $p.featured as featured, $p.broadcast as broadcast, $p.active as active";
+    $alias .= ", $c.*, $c.views as cviews, $c.allow_comments as callow_comments, $c.allow_rating as callow_rating, $c.total_comments as ctotal_comments, $c.date_added as cdate_added, $c.rating as crating, $c.rated_by as crated_by, $c.voters as cvoters, $c.featured as cfeatured, $c.broadcast as cbroadcast, $c.active as cactive";
     
     return array( $join, $alias );
 }
@@ -714,5 +714,48 @@ function is_photo_viewable( $pid ) {
 		}
 		return true;
 	}
+}
+
+function delete_photo_tags( $photo ) {
+	global $db;
+	// Delete all tags of current photo
+	$db->delete( tbl('photo_tags'), array('photo_id'), array( $photo['photo_id'] ) );
+}
+
+function delete_photo_meta( $photo ) {
+	global $db;
+	// Delete all meta of current photo
+	$db->delete( tbl('photosmeta'), array('photo_id'), array( $photo['photo_id'] ) );	
+}
+
+function get_photo_date_folder ( $pid ) {
+	global $cbphoto, $db;
+	if ( !is_array($pid) ) {
+		$photo = $cbphoto->get_photo( $pid );	
+	} else {
+		$photo = $pid;	
+	}
+	
+	if ( empty( $photo ) ) {
+	 	return false;	
+	}
+	
+	// First check if we have db date_dir column
+	if( $photo['date_dir'] ) {
+		$date_dir = $photo['date_dir'];	
+	}
+	
+	if ( !$date_dir ) {
+		// OK, no db value found. Create structure from filename.
+		$random_string = substr( $photo['filename'], -6, 6 );
+		$time = str_replace( $random_string, '', $photo['filename'] );
+		$date_dir = date('Y/m/d', $time );
+		// Make sure the fi	le exists @PHOTOS_DIR.'/'.$date_dir.'/'.$photo['filename'].'.'.$photo['ext']
+		if ( !file_exists( PHOTOS_DIR.'/'.$date_dir.'/'.$photo['filename'].'.'.$photo['ext'] ) ) {
+			$date_dir = false;	
+		}		
+	}
+	
+	return $date_dir;
 }
 ?>

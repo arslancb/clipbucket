@@ -241,7 +241,7 @@ function upload_new_avatar( $file, $uid ) {
 		} elseif( file_exists($file['tmp_name']) ) {
 			$ext = getext( $file['name'] );
 			$filename = cb_filename();
-			$photopath = PHOTOS_DIR.'/';
+			$photopath = PHOTOS_DIR.'/'.createDataFolders( PHOTOS_DIR ).'/';
 			if ( validate_image_file( $file['tmp_name'], $ext ) ) {
 				$cid = cb_create_user_avatar_collection( $user );
 				if( move_uploaded_file($file['tmp_name'], $photopath.$filename.'.'.$ext ) ) {
@@ -270,12 +270,6 @@ function upload_new_avatar( $file, $uid ) {
 					/* Small Thumb */
 					$r->target = USER_THUMBS_DIR.'/'.$uid.'_'.$filename.'-small.'.$ext;
 					$r->_resize(AVATAR_SMALL_SIZE, AVATAR_SMALL_SIZE);
-					$r->save();
-					
-					/* Uncropped version. Used to adjust thumbnail */
-					$r->target = USER_THUMBS_DIR.'/'.$uid.'_'.$filename.'-uncropped.'.$ext;
-					$r->cropping = -1;
-					$r->_resize( AVATAR_SIZE, AVATAR_SIZE );
 					$r->save();
 					/* Resizing ends here */
 					
@@ -309,10 +303,12 @@ function make_new_avatar( $array = null ) {
     }
     /* include resizer class */
     include_once 'includes/classes/resizer.class.php';
+	$date_dir = get_photo_date_folder( $photo );
     /* get original photo */
     $p = get_original_photo( $photo );
     /* define source and decode photo details */
-    $source = PHOTOS_DIR.'/'.$p; $pd = json_decode( $photo['photo_details'] , true);
+    $source = PHOTOS_DIR.'/'.$date_dir.'/'.$p; 
+	$pd = json_decode( $photo['photo_details'] , true);
     /* coordinates */
     $x = mysql_clean( $array['start_x'] ); $x2 = mysql_clean( $array['end_x'] );
     $y = mysql_clean( $array['start_y'] ); $y2 = mysql_clean( $array['end_y'] );
@@ -325,8 +321,7 @@ function make_new_avatar( $array = null ) {
         * First we'll covert the posted pixels to percentage
         * Second get pixels from original photo using percentage
         * Using newly computed pixels crop from original photo
-        * Save it for temporary purpose, make it source and start making avatars
-        * Delete tempblock when all avatars are created
+        * Save it in avatar collection, make it source and start making avatars
         */
         
         $xx =  ( ( $x / $pd['l']['width'] ) * 100 ); // compute percentage
@@ -343,7 +338,7 @@ function make_new_avatar( $array = null ) {
         $r = new CB_Resizer( $source );        
         
         $filename = cb_filename();
-        $photopath = PHOTOS_DIR.'/';
+        $photopath = PHOTOS_DIR.'/'.createDataFolders( PHOTOS_DIR );
         $avatar_dir = USER_THUMBS_DIR.'/';
         $uid = $userquery->udetails['userid'];
         $ext = $photo['ext'];
@@ -381,12 +376,6 @@ function make_new_avatar( $array = null ) {
         /* Small Thumb */
         $r->target = USER_THUMBS_DIR.'/'.$uid.'_'.$filename.'-small.'.$photo['ext'];
         $r->_resize(AVATAR_SMALL_SIZE, AVATAR_SMALL_SIZE);
-        $r->save();
-
-        /* Uncropped version. Used to adjust thumbnail */
-        $r->target = USER_THUMBS_DIR.'/'.$uid.'_'.$filename.'-uncropped.'.$ext;
-		$r->cropping = -1;
-        $r->_resize( AVATAR_SIZE, AVATAR_SIZE );
         $r->save();
 		         
         /* Update user avatar field */
