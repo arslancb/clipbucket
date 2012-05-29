@@ -913,7 +913,7 @@ class Collections extends CBCategory
 				$flds = array("collection_id","object_id","type","userid","date_added");
 				$vls = array($cid,$objID,$this->objType,userid(),NOW());
 				$db->insert(tbl($this->items),$flds,$vls);
-				$db->update(tbl($this->section_tbl),array("total_objects"),array("|f|total_objects+1")," collection_id = $cid");
+				$db->update(tbl($this->section_tbl),array("total_objects","last_updated"),array("|f|total_objects+1",NOW())," collection_id = $cid");
 				e(sprintf(lang("item_added_in_collection"),$this->objName),"m");	
 			}
 		} else {

@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}photo_tags` (
   PRIMARY KEY (`ptag_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
 
+ALTER TABLE  `{tbl_prefix}collections` ADD  `last_updated` DATETIME NOT NULL AFTER  `last_commented`;
 ALTER TABLE  `{tbl_prefix}collections` ADD  `cover_photo` bigint(20) NOT NULL AFTER  `total_objects`;
 ALTER TABLE  `{tbl_prefix}collections` ADD  `is_avatar_collection` enum('yes','no') NOT NULL DEFAULT 'no' AFTER  `type`;
 
