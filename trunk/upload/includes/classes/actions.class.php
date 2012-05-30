@@ -483,12 +483,28 @@ class cbactions
         function getPlaylistThumb($pid)
         {
             $array = array();
-            $array[] = IMAGEURL.'/playlist-default.png';
-            $array[] = IMAGEURL.'/playlist-default.png';
-            $array[] = IMAGEURL.'/playlist-default.png';
+            
+            $items = $this->get_playlist_items($pid,NULL,3);
+            
+            global $cbvid, $cbaudio;
+            $array = array();
+            
+            if($items)
+            foreach($items as $item)
+            {
+                $item['type']=='v';
+                $array[] = GetThumb($item['object_id']);
+            }
+            else
+                return array(TEMPLATEURL.'/images/playlist-default.png');
+            
+            $array= array_unique($array);
+            rsort($array);
+            
             return $array;
         }
-	
+	function get_playlist_thumb($pid){ return $this->getPlaylistThumb($pid); }
+        
 	/**
 	 * Function used to check weather playlist already exists or not
 	 */
@@ -541,9 +557,12 @@ class cbactions
 		//	e(sprintf(lang('this_already_exist_in_pl'),$this->name));
 		else
 		{
+                    $last_order = $this->get_last_order($pid);
+                    $this_order = $last_order+1;
+                    
                     $db->insert(tbl($this->playlist_items_tbl),
-                    array("object_id","playlist_id","date_added","playlist_item_type","userid"),
-                    array($id,$pid,now(),$this->type,userid()));
+                    array("object_id","playlist_id","date_added","playlist_item_type","userid","item_order"),
+                    array($id,$pid,now(),$this->type,userid(),$this_order));
                     
                     //Update total items in the playlist
                     $db->update(tbl('playlists'),array('total_items','last_update'),
@@ -612,9 +631,15 @@ class cbactions
 	function edit_playlist($params)
 	{
 		global $db;
-		$name = mysql_clean($params['name']);
-		$pdetails = $this->get_playlist($params['pid']);
 		
+		
+                //$newarray = array_map('mysql_clean',$params);
+                $newarray = $params;
+                extract($newarray);
+                
+                //$name = mysql_clean($params['name']);
+		$pdetails = $this->get_playlist($pid);
+                
 		if(!$pdetails)
 			e(lang("playlist_not_exist"));
 		elseif(!userid())
@@ -625,9 +650,29 @@ class cbactions
 			e(sprintf(lang("play_list_with_this_name_arlready_exists"),$name));
 		else
 		{
-			$db->update(tbl($this->playlist_tbl),array("playlist_name"),
-									  array($name)," playlist_id='".$params['pid']."'");
-			e(lang("play_list_updated"),"m");
+                     $fields = array(
+                        'playlist_name',
+                        'description',
+                        'tags',
+                        'privacy',
+                        'allow_comments',
+                        'allow_rating',
+                        'date_added'
+                    );
+                    
+                    $values = array(
+                        $name,
+                        $description,
+                        $tags,
+                        $privacy,
+                        $allow_comments,
+                        $allow_rating,
+                        now()
+                    );
+                    
+                    $db->update(tbl($this->playlist_tbl),$fields,
+                    $values," playlist_id='".$pid."'");
+                    e(lang("play_list_updated"),"m");
 		}
 	}
 	
@@ -661,18 +706,22 @@ class cbactions
 		$result = $db->select(tbl($this->playlist_tbl),"*"," playlist_type='".$this->type."' AND userid='".userid()."'");
 		
 		if($db->num_rows>0)
-			return $result;
-		else
+                {
+                    return $result;
+                }else
 			return false;
 	}
 	
 	/**
 	 * Function used to get playlist items
 	 */
-	function get_playlist_items($pid)
+	function get_playlist_items($pid,$order=NULL,$limit=NULL)
 	{
 		global $db;
-		$result = $db->select(tbl($this->playlist_items_tbl),"*","playlist_id='$pid'");
+                if(!$order)
+                    $order = " item_order ASC ";
+		$result = $db->select(tbl($this->playlist_items_tbl),"*","playlist_id='$pid'",$limit,$order);
+              
 		if($db->num_rows>0)
 			return $result;
 		else
@@ -703,6 +752,146 @@ class cbactions
 			return $db->count(tbl($this->playlist_items_tbl),"playlist_item_id"," playlist_item_type='".$this->type."'");
 		}
 	}
+        
+        /**
+         * get last order number in the playlist for its items
+         * 
+         * @param INT pid
+         * @return INT oid 
+         */
+        function get_last_order($pid)
+        {
+            global $db;
+            $result = $db->select(tbl('playlist_items'),'item_order',"playlist_id='$pid' ",1,' item_order DESC ');
+            
+
+            if($result)
+            {
+                return $result[0]['item_order'];
+            }
+            
+            return 1;
+        }
+        
+        
+        /**
+         * Update playist order
+         * 
+         * @param INT pid
+         * @param ARRAY playlist_items array
+         * @return BOOLEAN 
+         */
+        function update_playlist_order($pid,$items,$uid=NULL)
+        {
+            global $db;
+            
+            if(!$uid) $uid = userid();
+            
+            if(!$this->playlist_exists_id($pid,$uid))
+            {
+                    e(lang("Playlist does not exists"));
+                    return false;
+            }
+            
+            $itemsNew = array();
+            $count = 0;
+            foreach($items as $item)
+            {
+                $count++;
+                $itemsNew[$item] = $count;
+            }
+            
+            //Setting up the query...    
+            $query = "UPDATE ".tbl('playlist_items');
+            $query .= " SET item_order = CASE playlist_item_id ";
+            foreach($itemsNew as $item => $order)
+            {
+                $query .= sprintf("WHEN '%s' THEN '%s' ",$item,$order);
+                $query .= " ";
+            }
+            $query .= " END ";
+            $query .= " WHERE playlist_item_id in(".implode($items,',')
+            .") AND playlist_id='$pid' ";
+            
+            $db->Execute($query);
+
+            if(mysql_error()) die ($db->db_query.'<br>'.mysql_error());
+            
+            return true;
+
+        }
+        
+        
+        /**
+         * Save playlist note...
+         * 
+         * @param INT pid
+         * @param STRING text 
+         */
+        function save_playlist_item_note($itemid,$text,$uid=NULL)
+        {
+            global $db;
+            
+            if(!$uid)
+                $uid = userid();
+            
+            if(!$this->playlist_item_exists($itemid,$uid))
+                    e(lang("Playlist item deos not exist"));
+            else{
+                $db->update(tbl('playlist_items'),array('item_note'),array($text)
+                        ,"playlist_item_id='$itemid' ");
+                
+                return true;
+            }
+        }
+        
+        /**
+         * function used to check playlist item exists or not
+         * 
+         * @param INT item_id
+         * @param INT playlist_id 
+         * @param INT uid
+         */
+        function playlist_item_exists($item_id,$uid=NULL)
+        {
+            if($uid)
+            {
+                $ucond = " AND userid='$uid' ";
+            }
+   
+            global $db;
+
+            $count = $db->count(tbl('playlist_items'),"playlist_item_id","playlist_item_id='$item_id' $ucond ");
+            
+            if($count)
+                    return true;
+            else
+                    return false;
+            
+        }
+        
+        /**
+         * function checks weather paylist exist or not
+         * 
+         * @param INT pid
+         * @param INT uid
+         */
+        
+        function playlist_exists_id($pid,$uid=NULL)
+        { 
+            if($uid)
+            {
+                $ucond = " AND userid='$uid' ";
+            }
+            
+            global $db;
+            $count = $db->count(tbl($this->playlist_tbl),"playlist_id"," playlist_id='$pid' $ucond");
+
+            if($count)
+                    return true;
+            else
+                    return false;
+        }
 }
 
 ?>

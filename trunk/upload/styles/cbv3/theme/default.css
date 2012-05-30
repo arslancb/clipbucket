@@ -259,3 +259,19 @@ position: absolute;}
 
 .video-options{right: 5px; bottom: 5px;}
 .video-options .btn{padding: 0px 2px; line-height: normal}
+
+.playlist-manage,.playlist-manage ul{ margin: 0px; padding: 0px}
+
+.playlist-manage > li{list-style: none; padding: 0px; clear: both;
+margin-bottom: 30px; min-height: 60px}
+
+.playlist-manage li ul li{margin:0px; float: left; display: inline-block;
+ list-style: none; padding: 0px;margin-right: 10px; min-height: 60px }
+.playlist-manage .iteration{font-size: 11px; }
+.playlist-manage .thumb img{width: 70px; height: 50px; border: 1px solid #000; 
+          box-shadow: 2px 2px 2px #aaa; margin-right:5px}
+.playlist-manage .iteration,.playlist-manage .move,.playlist-manage .delete{padding-top: 18px}
+.playlist-manage .delete{float: right}
+.playlist-manage .span4{vertical-align:top}
+.playlist-manage .video-title{font-size: 14px; font-weight:bold; margin-bottom: 5px}
+.playlist-manage .move{cursor:move}

@@ -1490,11 +1490,16 @@ class CBvideo extends CBCategory
 		$ptbl = tbl($this->action->playlist_items_tbl);
 		$vtbl = tbl($this->dbtbl['video']);
 		
-		$tbls = $ptbl.','.$vtbl;
 		$fields = $ptbl.".*,$vtbl.title,$vtbl.comments_count,$vtbl.views,$vtbl.userid,$vtbl.date_added,
 		$vtbl.file_name,$vtbl.category,$vtbl.description,$vtbl.videokey,$vtbl.tags,$vtbl.videoid,$vtbl.duration";
-		$result = $db->select($tbls,$fields,"playlist_id='$pid' AND ".$vtbl.".videoid=".$ptbl.".object_id");
-		if($db->num_rows>0)
+   
+                $result = $db->select(tbl('playlist_items')
+                .' LEFT JOIN '.tbl('video').' ON '
+                .$ptbl.'.object_id'.' = '.tbl('video.videoid')
+                ,$fields,$ptbl.'.object_id='.$vtbl.'.videoid AND '.$ptbl
+                        .".playlist_id='$pid'",NULL,$ptbl.'.item_order ASC');
+                
+                if($db->num_rows>0)
 			return $result;
 		else
 			return false;

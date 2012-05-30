@@ -151,6 +151,7 @@
     
     <!-- Have to edit playlist -->
     {if $mode=='edit_playlist'}
+    {$pid=$playlist.playlist_id}
         <div class="account-heading">
             <h2>{lang code='Manage playlist'}</h2>
             
@@ -238,8 +239,51 @@
     <hr/>
     
     
-    <h2>Playlist items</h2>
+    <h2>Playlist items (<span id="playlist_items_count">{$total_items}</span>)</h2>
+    <div class="height20"></div>
+    
+    {if $items}
+    <form method="post" id="playlist-manage-form" onsubmit="return false;" >
+    <ul class="playlist-manage" id="playlist-manage">
+        <input type="hidden" name="playlist_id" value="{$playlist.playlist_id}"/>
+        {foreach $items as $item}
+        {$itemid = $item.playlist_item_id}
+        <li id="{$itemid}-pitem">
+            <input type="hidden" name="playlist_item[]" value="{$item.playlist_item_id}" />
+            <ul>
+                <li class="iteration">{$item@iteration}.</li>
+                <li class="move"><i class=" icon-align-justify"></i></li>
+                <li class="thumb"><img src="{getThumb vdetails=$item}" /></li>
+                <li class="title">
+                    <div class="video-title">
+                        <a href="{videoLink vdetails=$item}">{$item.title}</a>
+                    </div>
+                    
+                    <input type="text" class="span4" id="{$itemid}-text"
+                           value="{$item.item_note}" placeholder="{lang code='Enter note for this item'}"/> 
+                    <a href="javascript:void(0);" class="btn btn-info save-plst-text" 
+                            data-loading-text="{lang code='saving..'}"  
+                                data-id="{$itemid}">{lang code='save'}</a>
+                    
+                </li>
+                <li class="delete">
+                    <a href="javascript:void(0)" data-id="{$itemid}" class="btn remove_playlist_item"
+                       data-confirm-title="{lang code='Confirm remove item'}"
+                       data-confirm-text="{lang code='Are you sure you want to remove %s from %s'|sprintf:$item.title:$playlist.playlist_name}">
+                    <i class="icon-trash"></i></a>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+        </li>    
+        {/foreach}
+    </ul>
     {/if}
+    </form>
+    {/if}
+    
+    
+        <div class="alert alert-info {if $total_items>0}display-none{/if}" id="no-playlist-items-div">{lang code='You do not have any items in this playlist, to add videos, goto any video page and click add to and follow the name'}</div>
+
     
 </div>
 

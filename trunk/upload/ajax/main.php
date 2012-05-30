@@ -183,6 +183,49 @@ switch($mode){
         
     }
     break;
+    
+    case "update_playlist_order":
+    {
+        $pid = mysql_clean(post('playlist_id'));
+        $items = post('playlist_item');
+        $items = array_map('mysql_clean',$items);
+        
+        $cbvid->action->update_playlist_order($pid,$items);
+        
+        if(error())
+            echo json_encode(array('err'=>error()));
+        else
+            echo json_encode(array('success'=>'yes'));
+    }
+    break;
+    
+    case "save_playlist_item_note":
+    {
+        $item_id = mysql_clean(post('item_id'));
+        $text = mysql_clean(post('text'));
+        
+        $cbvid->action->save_playlist_item_note($item_id,$text);
+        
+        if(error())
+        {
+            echo json_encode(array('err'=>error()));
+        }  else {
+            echo json_encode(array('msg'=>msg()));
+        }
+    }
+    break;
+    
+    
+    case "remove_playlist_item":
+    {
+        $item_id = mysql_clean(post('item_id'));
+        $cbvid->action->delete_playlist_item($item_id);
+        if(error())
+            echo json_encode(array('err'=>error()));
+        else
+            echo json_encode(array('success'=>'ok'));
+    }
+    break;
 
     default:
         exit(json_encode(array('err'=>array(lang('Invalid request')))));

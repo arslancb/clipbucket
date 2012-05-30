@@ -120,6 +120,56 @@
         $('.cb-tooltip').tooltip();
         
       
+        //Adding sortablities
+        $('#playlist-manage').sortable({
+            handle : '.move',
+            placeholder: "ui-state-highlight",
+            axis: 'y',
+            stop : function(event,ui){
+                
+                var formdata = 
+                $('#playlist-manage-form')
+                .serialize();
+                
+               
+                update_manage_playlist_order();
+                
+                formdata += '&mode=update_playlist_order';
+                
+                amplify.request('main',formdata,function(data){
+                    if(data.err)
+                    {
+                        displayError(data.err);
+                    }else
+                    {
+                       "...";
+                    }
+                })
+            }
+        });
         
+        
+            
+    
+        $('.save-plst-text').click(function(){
+
+            $(this).button('loading');
+            var item_id = $(this).attr('data-id');
+            var text = $('#'+item_id+'-text').val();
+
+            save_playlist_item_note(item_id,text);
+        })
+
+        
+        
+        $('.remove_playlist_item').click(function(){
+            var title = $(this).attr('data-confirm-title');
+            var text = $(this).attr('data-confirm-text');
+            var id = $(this).attr('data-id');
+            cb_confirm(title,text,function(){
+                remove_playlist_item(id);
+            });
+        })
     });
+
 </script>

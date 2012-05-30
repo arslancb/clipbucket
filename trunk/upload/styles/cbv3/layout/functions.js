@@ -436,3 +436,99 @@ function send_private_message(e) {
 		obj.button('reset');
 	})
 }
+
+
+    /**
+     * Save playlist text
+     * @param item_id INT
+     * @param text STRING
+     */
+    function save_playlist_item_note(item_id,text)
+    {
+        amplify.request('main',{
+            'mode' : 'save_playlist_item_note',
+            'item_id' : item_id,
+            'text' : text
+        },function(data){
+            if(data.err){
+                displayError(data.err);
+            }else
+            {
+                $('.save-plst-text[data-id='+item_id+']')
+                .button('reset');
+            }
+        })
+    }
+    
+    
+    /**
+     * function used to remove item from playlist
+     * 
+     * @param itemid 
+     */
+    function remove_playlist_item(itemid)
+    {
+        loading('confirm');
+        
+        amplify.request('main',{
+            mode : 'remove_playlist_item',
+            item_id : itemid
+        },function(data){
+            
+            //Incase there is any..
+            $('#confirm').modal('hide');
+            clear_confirm();
+
+            loading('confirm','hide');
+                    
+            if(data.err)
+                displayError(data.err);
+            else{
+                    $('#'+itemid+'-pitem')
+                    .hide('fast')
+                    .remove();
+                    
+                    update_manage_playlist_order();
+                    update_counter('#playlist_items_count',-1);
+                }
+            }
+        );
+    }
+    
+    /**
+     * Update manage playlist order
+     */
+    function update_manage_playlist_order(){     
+        var $length = $('#playlist-manage > li').size();
+        
+        if($length>0){
+            for(i=1;i<=$length;i++)
+            {
+                var my = i+1;
+                $('#playlist-manage li:nth-child('+my+') ul .iteration')
+                .text(i+'.');
+            }
+        }else{
+            $('#no-playlist-items-div').show();
+        }
+    }
+    
+    /**
+     * Function used to make confirmation about any action
+     */
+    function cb_confirm(title,text,callback)
+    {
+        $('#confirm .modal-header h3').text(title);
+        $('#confirm .modal-body').html(text);
+        $('#confirm-yes').bind('click',callback);    
+        $('#confirm').modal('show');
+    }
+    
+    /**
+     * Clears confirm form events and text
+     */
+    function clear_confirm(){
+        $('#confirm .modal-header h3').text('');
+        $('#confirm .modal-body').html('');
+        $('#confirm-yes').unbind('click');    
+    }

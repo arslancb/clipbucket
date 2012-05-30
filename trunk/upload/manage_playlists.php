@@ -74,7 +74,8 @@ switch($mode)
 		assign('mode','manage_playlist');
 		//Getting List of available playlists
 		$playlists = $cbvid->action->get_playlists();
-                assign('total_playlists',count($playlists));
+                
+                assign('total_playlists',$playlists? count($playlists) : 0);
 		assign('playlists',$playlists);
 		
 		
@@ -86,28 +87,29 @@ switch($mode)
 		
 		if(isset($_POST['delete_playlist_item']))
 		{
-			$items = post('check_playlist_items');
-			
-			if(count($items)>0)
-			{
-				foreach($items as $item)
-				{
-					$item = mysql_clean($item);
-					$cbvid->action->delete_playlist_item($item);
-				}
-				
-				if(!error())
-				{
-					$eh->flush();
-					e(lang("playlist_items_have_been_removed"),"m");
-				}else
-				{
-					$eh->flush();
-					e(lang("playlist_item_doesnt_exist"));
-				}
-				
-			}else
-				e(lang("no_item_was_selected_to_delete"));
+                    $items = post('check_playlist_items');
+                    
+
+                    if(count($items)>0)
+                    {
+                        foreach($items as $item)
+                        {
+                            $item = mysql_clean($item);
+                            $cbvid->action->delete_playlist_item($item);
+                        }
+
+                        if(!error())
+                        {
+                            $eh->flush();
+                            e(lang("playlist_items_have_been_removed"),"m");
+                        }else
+                        {
+                            $eh->flush();
+                            e(lang("playlist_item_doesnt_exist"));
+                        }
+
+                    }else
+                        e(lang("no_item_was_selected_to_delete"));
 		}
 		
 		assign('mode','edit_playlist');
@@ -115,7 +117,15 @@ switch($mode)
 		
 		if(isset($_POST['edit_playlist']))
 		{
-			$params = array('name'=>mysql_clean($_POST['name']),'pid'=>mysql_clean($pid));
+			$params = array(
+                            'name'=>($_POST['name']),
+                            'description' => (post('description')),
+                            'tags' => (post('tags')),
+                            'privacy' => (post('privacy')),
+                            'allow_comments' => (post('allow_comments')),
+                            'allow_rating' => (post('allow_rating')),
+                            'pid'=>($pid));
+                        
 			$cbvid->action->edit_playlist($params);
 		}
 		
@@ -133,7 +143,8 @@ switch($mode)
 			assign('playlist',$playlist);
 			//Getting Playlist Item
 			$items = $cbvid->get_playlist_items($pid);
-			assign('items',$items);
+			assign('items',$items );
+                        assign('total_items',$items?count($items) : 0);
 			
 		}else
 			e(lang('playlist_not_exist'));
