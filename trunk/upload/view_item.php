@@ -78,7 +78,7 @@ if ( $cbcollection->is_viewable( $cid ) ) {
                 case "photos":
                 case "p": {
                         global $cbphoto;
-                        $photo = $cbphoto->get_photo( $item );
+                        $photo = $cbphoto->get_photo( $item, true );
                         if ( $photo ) {
                             $info = $cbphoto->collection->get_collection_item_fields( $cid, $photo['photo_id'], 'ci_id' );
 							
@@ -94,6 +94,7 @@ if ( $cbcollection->is_viewable( $cid ) ) {
 									subtitle( $photo['photo_title'] . ' &laquo; ' . $collect['collection_name'] );
 																  
 									register_photo_private_message_field( $photo );	
+									
 								} else {
 									cb_show_page( false );	
 								}

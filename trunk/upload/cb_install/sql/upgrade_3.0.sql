@@ -58,5 +58,6 @@ ALTER TABLE  `{tbl_prefix}photos` ADD  `ptags_count` int(255) NOT NULL AFTER  `t
 ALTER TABLE  `{tbl_prefix}photos` ADD  `exif_data` enum('yes','no') NOT NULL DEFAULT 'yes' AFTER  `ptags_count`;
 ALTER TABLE  `{tbl_prefix}photos` ADD  `is_avatar` enum('yes','no') NOT NULL DEFAULT 'no' AFTER  `owner_ip`;
 ALTER TABLE  `{tbl_prefix}photos` ADD  `is_mature` enum('yes','no') NOT NULL DEFAULT 'no' AFTER  `is_avatar`;
+ALTER TABLE  `{tbl_prefix}photos` ADD  `view_exif` enum('yes','no') NOT NULL DEFAULT 'yes' AFTER  `is_mature`;
 
 ALTER TABLE  `{tbl_prefix}users` ADD  `avatar_collection` bigint(255) NOT NULL AFTER  `avatar_url`;

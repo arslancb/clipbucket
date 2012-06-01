@@ -1,7 +1,8 @@
-<!-- PhotoBlock {$cbphoto->photo_links($photo,'view_photo')} Start -->
-<li>
-    <a href="{$cbphoto->photo_links($photo,'view_photo')}" class="thumbnail inlineblock">
+<div class="inlineblock valignTop {$photo.photo_id}-photo video-box" id="photo-{$photo.photo_id}-box" style="float:none;">
+    <a href="{$cbphoto->photo_links($photo,'view_photo')}" class="thumbnail inlineblock relative">
         {get_photo details=$photo size='m' output='html'}
     </a>
-</li>
-<!-- PhotoBlock {$cbphoto->photo_links($photo,'view_photo')} End -->
+    <div class="video-info-cont relative">
+    	<div class="title"><a href="{$cbphoto->photo_links($photo,'view_photo')}">{$photo.photo_title}</a></div>
+    </div>
+</div>

@@ -22,7 +22,9 @@ class CB_Resizer {
     protected $fonts_dir = 'fonts/';
 
     function __construct( $filepath = '' ) {
-
+		
+		ini_set('memory_limit', '256M');
+		
         $this->quality = 90;
 
         $this->png_quality = 9;

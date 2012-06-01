@@ -46,6 +46,79 @@ function displayConfirm( id, confirmMessage, onConfirm, heading ) {
 	})
 }
 
+function save_exif_settings() {
+	var obj = $('#save_exif'), form = $('#exif_settings'), fields = form.serialize();
+	var pid = $('#pid').val();
+
+	$('#exif-error').hide().empty();
+	$('#exif-success').hide().empty();
+	
+	disable_form_inputs( form.attr('id') );
+	disable_form_inputs('modal_footer');
+	obj.button('loading');
+	loading_pointer('photo-'+pid);
+	
+	amplify.request('photos',fields+'&mode=inline_exif_setting', function( data ) {
+		enable_form_inputs( form.attr('id') );
+		enable_form_inputs('modal_footer');
+		
+		obj.button('reset');
+		loading_pointer('photo-'+pid,'hide');
+				
+		if ( data.error ) {
+			$('#exif-error').text( data.error ).show();
+		}
+		
+		if ( data.success ) {
+			$('#exif-success').text( data.success ).show();
+			setTimeout(function(){
+				$('#exif-settings').modal('hide');
+			},1500);	
+		}
+	});	
+}
+
+function show_colors(e) {
+	e.preventDefault();	
+	var link = $( e.target ), text = link.text(), pid = link.attr('data-photo-id'), icon = link.find('i');
+	
+	if ( link.hasClass('is-loading-colors') || link.hasClass('no-colors-found') ) {
+		return;	
+	}
+	
+	if ( document.getElementById(pid+'-colors-modal') ) {
+		$('#'+pid+'-colors-modal').modal('show');
+		return;	
+	}
+	
+	link.addClass('is-loading-colors').text(' Loading ... ').prepend( icon );
+	
+	amplify.request('photos',{
+		mode : 'get_colors',
+		id : pid	
+	}, function( data ) {
+		
+		link.removeClass('is-loading-colors').text( text ).prepend( icon );
+		
+		if ( data.error ) {
+			if ( typeof data.error == 'string' ) {
+				error = [data.error];
+				data.error = error	
+			}
+			
+			displayError( data.error );
+			link.addClass('no-colors-found').text(' No colors found').prepend( icon );
+		}
+		
+		if ( data.success ) {
+			$('body').append( data.template );
+			$('#'+pid+'-colors-modal').modal('show');
+			$('#'+pid+'-colors-modal .cb-tooltip').tooltip();	
+		}
+	});
+	
+}
+
 function delete_photo_ajax( id ) {
 	var modal = $('#'+id), button = $('#'+this.id), buttonText = button.text();
 	if ( button.hasClass('disabled') ) {

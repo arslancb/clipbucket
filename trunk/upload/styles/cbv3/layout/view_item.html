@@ -1,9 +1,19 @@
 {assign var=pd value=$photo.photo_details|json_decode}
 <h3 class="page-header"><a href="{$cbcollection->collection_links( $c, 'view_collection' )}">{$c.collection_name}</a> &raquo;  {$photo.photo_title}</h3>
-<div class="thumbnail inlineblock" style="width: {$pd.l.width}px">
-	{get_photo details=$object size='l' output='html'}
+
+<div class="row">
+	<div class="span734">
+        <div class="thumbnail inlineblock">
+            {get_photo details=$object size='l' output='html' width="720"}
+        </div>
+    </div>
+    
+    <div class="span336">
+    	<div id="photo_actions" class="well" style="padding: 8px 0;">Loading ...</div>
+        {sidebar('view-photo')}
+    </div>
 </div>
-<div id="photo_actions" class="inlineblock marginL10 well" style="padding: 8px 0; vertical-align: top">Loading ...</div>
+
 
 <div id="private_message_photo_form" class="hide fade modal">
     <div class="modal-header">

@@ -2131,6 +2131,16 @@ class CBPhotos {
 					
 					$link = BASEURL.'/edit_account.php?pid='.$this->encode_key(RandomString(12).$details['photo_key']).'&mode=make_avatar&u='.$details['userid'].$set_avatar;	
 				}break;
+				
+				case 'exif_data': case 'exif': {
+					if ( SEO == 'yes' ) {
+						$link = BASEURL.'/exif/'.$details['photo_key'];	
+					} else {
+						$link = BASEURL.'/exif.php?id='.$details['photo_key'];
+					}
+					
+					return $link;
+				} break;
             }
             return $link;
         }

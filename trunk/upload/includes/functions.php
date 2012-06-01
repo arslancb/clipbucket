@@ -3251,7 +3251,7 @@ include("functions_groups.php");
 //Collections Functions
 include("functions_collections.php");
 //Exif
-include('exif.php');
+include('exif_source.php');
 
 include("functions_filters.php");
 include("functions_widgets.php");

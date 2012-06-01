@@ -2,6 +2,6 @@
 
 {if $objects}
     {foreach $objects as $object}
-    	<a href="{$cbphoto->photo_links( $object, 'view_photo')}" class="thumbnail moveL" style="margin: 5px">{get_photo details=$object size='m' output='html'}</a>
+		{include_template_file file="blocks/photo.html" photo=$object}
     {/foreach}
 {/if}

@@ -155,12 +155,71 @@ function formatCanonData($type,$tag,$intel,$data,$exif,&$result) {
 				case 3: $result['EasyShooting'] = "Fast Shutter"; break;
 				case 4: $result['EasyShooting'] = "Slow Shutter"; break;
 				case 5: $result['EasyShooting'] = "Night"; break;
-				case 6: $result['EasyShooting'] = "Black & White"; break;
+				case 6: $result['EasyShooting'] = "Gray Scale"; break;
 				case 7: $result['EasyShooting'] = "Sepia"; break;
 				case 8: $result['EasyShooting'] = "Portrait"; break;
-				case 9: $result['EasyShooting'] = "Sport"; break;
+				case 9: $result['EasyShooting'] = "Sports"; break;
 				case 10: $result['EasyShooting'] = "Macro/Close-Up"; break;
-				case 11: $result['EasyShooting'] = "Pan Focus"; break;
+				case 11: $result['EasyShooting'] = "Black & White"; break;
+				case 12: $result['EasyShooting'] = "Pan focus"; break;
+				case 13: $result['EasyShooting'] = "Vivid"; break;
+				case 14: $result['EasyShooting'] = "Neutral"; break;
+				case 15: $result['EasyShooting'] = "Flash Off"; break;
+				case 16: $result['EasyShooting'] = "Long Shutter"; break;
+				case 17: $result['EasyShooting'] = "Super Macro"; break;
+				case 18: $result['EasyShooting'] = "Foliage"; break;
+				case 19: $result['EasyShooting'] = "Indoor"; break;
+				case 20: $result['EasyShooting'] = "Fireworks"; break;
+				case 21: $result['EasyShooting'] = "Beach"; break;
+				case 22: $result['EasyShooting'] = "Underwater"; break;
+				case 23: $result['EasyShooting'] = "Snow"; break;
+				case 24: $result['EasyShooting'] = "Kids & Pets"; break;
+				case 25: $result['EasyShooting'] = "Night Snapshot"; break;
+				case 26: $result['EasyShooting'] = "Digital Macro"; break;
+				case 27: $result['EasyShooting'] = "My Colors"; break;
+				case 28: $result['EasyShooting'] = "Movie Snap"; break;
+				case 29: $result['EasyShooting'] = "Super Macro 2"; break;
+				case 30: $result['EasyShooting'] = "Color Accent"; break;
+				case 31: $result['EasyShooting'] = "Color Swap"; break;
+				case 32: $result['EasyShooting'] = "Aquarium"; break;
+				case 33: $result['EasyShooting'] = "ISO 3200"; break;
+				case 34: $result['EasyShooting'] = "ISO 6400"; break;
+				case 35: $result['EasyShooting'] = "Creative Light Effect"; break;
+				case 36: $result['EasyShooting'] = "Easy"; break;
+				case 37: $result['EasyShooting'] = "Quick Shot"; break;
+				case 38: $result['EasyShooting'] = "Creative Auto"; break;
+				case 39: $result['EasyShooting'] = "Zoom Blur"; break;
+				case 40: $result['EasyShooting'] = "Low Light"; break;
+				case 41: $result['EasyShooting'] = "Nostalgic"; break;
+				case 42: $result['EasyShooting'] = "Super Vivid"; break;
+				case 43: $result['EasyShooting'] = "Poster Effect"; break;
+				case 44: $result['EasyShooting'] = "Face Self-Timer"; break;
+				case 45: $result['EasyShooting'] = "Smile"; break;
+				case 46: $result['EasyShooting'] = "Wink Smile-Timer"; break;
+				case 47: $result['EasyShooting'] = "Fisheye Effect"; break;
+				case 48: $result['EasyShooting'] = "Miniature Effect"; break;
+				case 49: $result['EasyShooting'] = "High-speed Burst"; break;
+				case 50: $result['EasyShooting'] = "Best Image Selection"; break;
+				case 51: $result['EasyShooting'] = "High Dynamic Range"; break;
+				case 52: $result['EasyShooting'] = "Handheld Night Scene"; break;
+				case 53: $result['EasyShooting'] = "Movie Digest"; break;
+				case 54: $result['EasyShooting'] = "Live View Control"; break;
+				case 55: $result['EasyShooting'] = "Discreet"; break;
+				case 56: $result['EasyShooting'] = "Blur Reduction"; break;
+				case 57: $result['EasyShooting'] = "Monochrome"; break;
+				case 58: $result['EasyShooting'] = "Toy Camera Effect"; break;
+				case 59: $result['EasyShooting'] = "Scene Intelligent Auto"; break;
+				case 60: $result['EasyShooting'] = "High-speed Burst HQ"; break;
+				case 61: $result['EasyShooting'] = "Smooth Skin"; break;
+				case 62: $result['EasyShooting'] = "Soft Focus"; break;
+				case 257: $result['EasyShooting'] = "Spotlight"; break;
+				case 258: $result['EasyShooting'] = "Night 2"; break;
+				case 259: $result['EasyShooting'] = "Night+"; break;
+				case 260: $result['EasyShooting'] = "Super Night"; break;
+				case 261: $result['EasyShooting'] = "Sunset"; break;
+				case 263: $result['EasyShooting'] = "Night Scene"; break;
+				case 264: $result['EasyShooting'] = "Surface"; break;
+				case 265: $result['EasyShooting'] = "Low Light 2"; break;
 				default: $result['EasyShooting'] = "Unknown";
 			}
 			$result['DigitalZoom']=hexdec(intel2Moto(substr($data,$place,4)));$place+=4;//12
@@ -206,6 +265,9 @@ function formatCanonData($type,$tag,$intel,$data,$exif,&$result) {
 			}
 			$result['MeteringMode']=hexdec(intel2Moto(substr($data,$place,4)));$place+=4;//17
 			switch($result['MeteringMode']) {
+				case 0: $result['MeteringMode'] = "Default"; break;
+				case 1: $result['MeteringMode'] = "Spot"; break;
+				case 2: $result['MeteringMode'] = "Average"; break;
 				case 3: $result['MeteringMode'] = "Evaluative"; break;
 				case 4: $result['MeteringMode'] = "Partial"; break;
 				case 5: $result['MeteringMode'] = "Center-weighted"; break;
@@ -215,8 +277,15 @@ function formatCanonData($type,$tag,$intel,$data,$exif,&$result) {
 			switch($result['FocusType']) {
 				case 0: $result['FocusType'] = "Manual"; break;
 				case 1: $result['FocusType'] = "Auto"; break;
-				case 3: $result['FocusType'] = "Close-up (Macro)"; break;
-				case 8: $result['FocusType'] = "Locked (Pan Mode)"; break;
+				case 2: $result['FocusType'] = "Not Known"; break;
+				case 3: $result['FocusType'] = "Macro"; break;
+				case 4: $result['FocusType'] = "Very Close"; break;
+				case 5: $result['FocusType'] = "Close"; break;
+				case 6: $result['FocusType'] = "Middle Range"; break;
+				case 7: $result['FocusType'] = "Far Range"; break;
+				case 8: $result['FocusType'] = "Pan Focus"; break;
+				case 9: $result['FocusType'] = "Super Macro"; break;
+				case 10: $result['FocusType'] = "Infinity"; break;
 				default: $result['FocusType'] = "Unknown";
 			}
 			$result['AFPointSelected']=hexdec(intel2Moto(substr($data,$place,4)));$place+=4;//19
@@ -291,6 +360,20 @@ function formatCanonData($type,$tag,$intel,$data,$exif,&$result) {
 				case 4: $result['WhiteBalance'] = "Fluorescent"; break;
 				case 5: $result['WhiteBalance'] = "Flash"; break;
 				case 6: $result['WhiteBalance'] = "Custom"; break;
+				case 7: $result['WhiteBalance'] = "Black & White"; break;
+				case 8: $result['WhiteBalance'] = "Shade"; break;
+				case 9: $result['WhiteBalance'] = "Manual Temperature"; break;
+				case 10: $result['WhiteBalance'] = "PC Set1"; break;
+				case 11: $result['WhiteBalance'] = "PC Set2"; break;
+				case 12: $result['WhiteBalance'] = "PC Set3"; break;
+				case 14: $result['WhiteBalance'] = "Daylight Fluorescent"; break;
+				case 15: $result['WhiteBalance'] = "Custom 1"; break;
+				case 16: $result['WhiteBalance'] = "Custom 2"; break;
+				case 17: $result['WhiteBalance'] = "Underwater"; break;
+				case 18: $result['WhiteBalance'] = "Custom 3"; break;
+				case 19: $result['WhiteBalance'] = "Custom 4"; break;
+				case 20: $result['WhiteBalance'] = "PC Set4"; break;
+				case 21: $result['WhiteBalance'] = "PC Set5"; break;
 				default: $result['WhiteBalance'] = "Unknown";
 			}
 			$result['Unknown']=hexdec(intel2Moto(substr($data,$place,4)));$place+=4;//8

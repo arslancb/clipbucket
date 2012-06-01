@@ -48,10 +48,10 @@ function lookup_Olympus_tag($tag) {
 		case "0200": $tag = "SpecialMode";break;
 		case "0201": $tag = "JpegQual";break;
 		case "0202": $tag = "Macro";break;
-		case "0203": $tag = "Unknown1";break;
-		case "0204": $tag = "DigiZoom";break;	
-		case "0205": $tag = "Unknown2";break;	
-		case "0206": $tag = "Unknown3";break;	
+		case "0203": $tag = "BWMode";break;
+		case "0204": $tag = "DigitalZoom";break;	
+		case "0205": $tag = "FocalPlaneDiagonal";break;	
+		case "0206": $tag = "LensDistortionParams";break;	
 		case "0207": $tag = "SoftwareRelease";break;	
 		case "0208": $tag = "PictInfo";break;	
 		case "0209": $tag = "CameraID";break;	
@@ -96,8 +96,14 @@ function formatOlympusData($type,$tag,$intel,$data) {
 			else $data = "Unknown: ".$data;
 		}
 		if($tag=="0202") { //Macro
-			if($data == 0) $data = "Normal";
-			else if($data == 1) $data = "Macro";
+			if($data == 0) $data = "Off";
+			else if($data == 1) $data = "On";
+			else if($data == 2) $data = "Super Macro";
+			else $data = "Unknown: ".$data;
+		}
+		if($tag=="0203") { //BWMode
+			if($data == 0) $data = "Off";
+			else if($data == 1) $data = "On";
 			else $data = "Unknown: ".$data;
 		}
 	} else if($type=="UNDEFINED") {

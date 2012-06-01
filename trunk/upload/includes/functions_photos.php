@@ -110,7 +110,7 @@ function insert_photo_colors( $photo ) {
 			return $id;	
 		}
 		
-		$dir = PHOTOS_DIR.'/';
+		$dir = PHOTOS_DIR.'/'.get_photo_date_folder( $ph).'/';
 		$file = get_original_photo( $ph );
 		$path = $dir.$file;
 		
@@ -140,7 +140,7 @@ function insert_exif_data( $photo ) {
 	}
 	
 	if ( is_array($ph) && isset($ph['photo_id']) ) {
-		$dir = PHOTOS_DIR.'/';
+		$dir = PHOTOS_DIR.'/'.get_photo_date_folder( $ph).'/';
 
 		if ( strtolower($ph['ext']) != 'jpg' ) {
 			/* return if photo is not jpg */
@@ -159,9 +159,38 @@ function insert_exif_data( $photo ) {
 						$exif[$eti] = $data[$eti];	
 					}
 				}
+
+				/* Removing unknown tags from exif data */
+				foreach ( $exif as $parent => $tags ) {
+					foreach ( $tags as $tag => $value ) {
+						if ( $tag == 'MakerNote' ) {
+							if ( is_array( $value ) ) {
+								foreach( $value as $mtag => $mvalue ) {
+									if ( strpos($mtag,'unknown') !== false ) {
+										unset( $exif[$parent][$tag][$mtag] );	
+									} else {
+										$exif[$parent][$tag][$mtag] = trim( $mvalue );
+									}						
+								}
+							}
+						}
+						
+						if ( is_array( $value )) {
+							continue;	
+						}	
+											
+						if ( strpos($tag,'unknown') !== false ) {
+							unset( $exif[$parent][$tag] );	
+						} else {
+							$exif[$parent][$tag] = trim( $value );		
+						}
+					}
+				}
+												
 				$jexif = json_encode($exif);
+				$jexif = preg_replace('/\\\(u000)(.){1}/','', $jexif);
 				/* add new meta of exif_data for current photo */
-				$insert_id = $db->insert( tbl('photosmeta'), array('photo_id','meta_name','meta_value'), array($ph['photo_id'],'exif_data','|no_mc|'.$jexif) );
+				$insert_id = $db->insert( tbl('photosmeta'), array('photo_id','meta_name','meta_value'), array($ph['photo_id'],'exif_data',"|no_mc|$jexif") );
 				if ( $insert_id ) {
 					/* update photo has_exif to yes, so we know that this photo has exif data */
 					$db->update( tbl($cbphoto->p_tbl), array('exif_data'), array('yes'), " photo_id = '".$ph['photo_id']."' " );
@@ -171,6 +200,53 @@ function insert_exif_data( $photo ) {
 			}
 		}
 	}
+}
+
+function ready_exif_data ( $exif, $photo = null ) {
+	if ( empty( $exif ) || !is_array($exif) ) {
+		return false;	
+	}
+	
+	$formatted['dates']['taken'] = $exif['IFD0']['DateTime'] ? $exif['IFD0']['DateTime'] : null;
+	$formatted['dates']['uploaded'] = ( $photo ? $photo['date_added'] : null );
+	
+	$formatted['base']['camera'] = ( $exif['IFD0']['Model'] ? $exif['IFD0']['Model'] : null );
+	$formatted['base']['exposure'] = ( $exif['SubIFD']['ExposureTime'] ? $exif['SubIFD']['ExposureTime'] : null );
+	$formatted['base']['aperture'] = ( $exif['SubIFD']['ApertureValue'] ? $exif['SubIFD']['ApertureValue'] : null );
+	$formatted['base']['focal length'] = ( $exif['SubIFD']['FocalLength'] ? $exif['SubIFD']['FocalLength'] : null );
+	$all = array();
+	$merge = array('IFD0','SubIFD');
+	foreach( $merge as $tag ) {
+		if ( isset($exif[$tag]) ) {
+			$all = array_merge($all, $exif[$tag]);	
+		}
+	}
+	
+	if ( isset( $exif['SubIFD']['MakerNote']) ) {
+		$all = array_merge( $all, $exif['SubIFD']['MakerNote'] );
+		unset( $all['MakerNote'] );	
+	}
+	
+	/* Remove Base indexes and DateTime */
+	unset( $all['DateTime'] );
+	unset( $all['Model'] );
+	unset( $all['ExposureTime'] );
+	unset( $all['ApertureValue'] );
+	unset( $all['FocalLength'] );
+	
+	$formatted['rest'] = $all;
+	
+	return $formatted;
+}
+
+function format_exif_camelCase( $str ) {
+	if ( !$str ) {
+		return false;	
+	}
+	
+	$re = '/(?<=[a-z])(?=[A-Z])/';
+	$str = preg_split( $re, $str );
+	return implode(' ', $str );
 }
 
 function cb_output_img_tag( $src, $attrs = null ) {
@@ -349,6 +425,15 @@ function cbphoto_pm_action_link_filter( $links ) {
       $links[] = add_photo_action_link( lang('Send in private message'), '#' , 'envelope', null, array('id' => 'private_message_photo', 'data-toggle' => 'modal', 'data-target' => '#private_message_photo_form') );  
     }
     
+	global $photo, $cbphoto;
+	
+	if ( ( $photo['exif_data'] == 'yes' && $photo['view_exif'] == 'yes' ) || ( $photo['userid'] == userid() && $photo['exif_data'] == 'yes' ) ) {
+		$links[] = add_photo_action_link( lang('EXIF Data'), $cbphoto->photo_links( $photo, 'exif_data' ), 'camera' );	
+	}
+	
+	/* Later we uncomment this, BAM something new to give >:D */
+	//$links[] = add_photo_action_link( lang('View Colors'),'#','tasks', null, array('onclick' => 'show_colors(event)', 'data-photo-id' => $photo['photo_id']) );
+	
     return $links;
 }
 

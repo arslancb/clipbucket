@@ -47,6 +47,7 @@ function lookup_Nikon_tag($tag,$model) {
 	
 	if($model==0) {
 		switch($tag) {
+			case "0001": $tag = "MakerNoteVersion";break;
 			case "0003": $tag = "Quality";break;
 			case "0004": $tag = "ColorMode";break;
 			case "0005": $tag = "ImageAdjustment";break;
@@ -61,6 +62,7 @@ function lookup_Nikon_tag($tag,$model) {
 		}
 	} else if($model==1) {
 		switch($tag) {
+			case "0001": $tag = "MakerNoteVersion";break;
 			case "0002": $tag = "ISOSetting";break;
 			case "0003": $tag = "ColorMode";break;
 			case "0004": $tag = "Quality";break;

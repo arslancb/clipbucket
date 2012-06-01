@@ -59,6 +59,46 @@ switch($mode){
 	}
 	break;
 	
+	case "inline_exif_setting": {
+		$pid = mysql_clean( $_POST['pid'] );
+		$val = ( $_POST['exif']);
+		if ( empty( $pid ) || !$cbphoto->photo_exists( $pid ) ) {
+			$response = array( 'error' => lang('Photo does not exist') );	
+		}
+		
+		if ( strtolower($val) != 'yes' || strtolower($val) != 'no' ) {
+			$response = array('error'=>lang('Invalid value provided'));	
+		}
+		
+		if ( $db->update( tbl('photos'), array('view_exif'), array($val), " photo_id = '".$pid."' " ) ) {
+			$response = array('success' => 'Exif privacy setting updated.');
+		} else {
+			$response = array('error' => 'Unable to update setting. Please try again');	
+		}
+		
+		echo json_encode( $response );
+	}
+	break;
+	
+	case "get_colors": {
+		$pid = mysql_clean( $_POST['id'] );
+		$colors = get_photo_meta_value( $pid, 'colors' );
+		
+		if ( $colors ) {
+			$colors = json_decode( $colors, true );
+			assign( 'colors', $colors );
+			assign( 'photo', $cbphoto->get_photo( $pid, true ) );
+			
+			$template = Fetch( '/global/colors.html', STYLES_DIR );
+			$response = array('success' => true, 'template' => $template );
+		} else {
+			$response = array('error' => 'No colors found for this photo.' );	
+		}
+		
+		echo json_encode($response);
+	}
+	break;
+	
     default: {
         exit(json_encode(array('err'=>lang('Invalid request'))));
 	}
