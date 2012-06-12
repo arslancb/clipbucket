@@ -226,6 +226,151 @@ switch($mode){
             echo json_encode(array('success'=>'ok'));
     }
     break;
+    
+    case 'add_comment';
+    {
+        $type = $_POST['type'];
+        switch($type)
+        {
+            case 'v':
+            case 'video':
+            default:
+            {
+                $id = mysql_clean($_POST['obj_id']);
+                $comment = $_POST['comment'];
+                if($comment=='undefined')
+                        $comment = '';
+                $reply_to = $_POST['reply_to'];
+
+                $cid = $cbvid->add_comment($comment,$id,$reply_to);
+            }
+            break;
+            case 'u':
+            case 'c':
+            {
+
+                $id = mysql_clean($_POST['obj_id']);
+                $comment = $_POST['comment'];
+                if($comment=='undefined')
+                        $comment = '';
+                $reply_to = $_POST['reply_to'];
+
+                $cid = $userquery->add_comment($comment,$id,$reply_to);
+            }
+            break;
+            case 't':
+            case 'topic':
+            {
+
+                $id = mysql_clean($_POST['obj_id']);
+                $comment = $_POST['comment'];
+                if($comment=='undefined')
+                        $comment = '';
+                $reply_to = $_POST['reply_to'];
+
+                $cid = $cbgroup->add_comment($comment,$id,$reply_to);
+            }
+            break;
+
+            case 'cl':
+            case 'collection':
+            {
+                $id = mysql_clean($_POST['obj_id']);
+                $comment = $_POST['comment'];
+                if($comment=='undefined')
+                        $comment = '';
+                $reply_to = $_POST['reply_to'];
+
+                $cid = $cbcollection->add_comment($comment,$id,$reply_to);	
+            }
+            break;
+
+            case "p":
+            case "photo":
+            {
+                $id = mysql_clean($_POST['obj_id']);
+                $comment = $_POST['comment'];
+                if($comment=='undefined')
+                        $comment = '';
+                $reply_to = $_POST['reply_to'];
+                $cid = $cbphoto->add_comment($comment,$id,$reply_to);	
+            }
+            break;
+
+        }
+        
+        
+        if(error())
+        {
+            exit(json_encode(array('err'=>error())));
+        }
+
+            $comment = $myquery->get_comment($cid);
+            assign('comment',$comment);
+            $template = get_template('single_comment');
+            $array = array(
+                'msg' => msg(),
+                'comment' => $template,
+                'success' => 'ok',
+                'cid' => $cid
+            );
+        
+        echo json_encode($array);
+
+    }
+    break;
+    
+    case "get_comments":
+    {
+        $params = array();
+        $limit = config('comments_per_page');
+        $page = $_POST['page'];
+        $params['type'] = mysql_clean($_POST['type']);
+        $params['type_id'] = mysql_clean($_POST['type_id']);
+        $params['last_update'] = mysql_clean($_POST['last_update']);
+        $params['limit'] = create_query_limit($page,$limit);	
+
+        $admin = "";
+        if($_POST['admin']=='yes' && has_access('admin_access',true))
+        {
+                $params['cache'] ='no';
+                $admin = "yes";
+        }
+        $comments = $myquery->getComments($params);
+        //Adding Pagination
+        $total_pages = count_pages($_POST['total_comments'],$limit);
+        assign('object_type',mysql_clean($_POST['object_type']));		
+        //Pagination
+        $pages->paginate($total_pages,$page,NULL,NULL,'<a href="javascript:void(0)"
+        onClick="getComments(\''.$params['type'].'\',\''.$params['type_id'].'\',\''.$params['last_update'].'\',
+        \'#page#\',\''.$_POST['total_comments'].'\',\''.mysql_clean($_POST['object_type']).'\',\''.$admin.'\')">#page#</a>');
+
+        assign('comments',$comments);
+        assign('type',$params['type']);
+        assign('type_id',$params['type_id']);
+        assign('last_update',$params['last_update']);
+        assign('total',$_POST['total_comments']);
+        assign('total_pages',$total_pages);
+        assign('comments_voting',$_POST['comments_voting']);
+
+        if($_POST['admin']=='yes' && has_access('admin_access',true))
+        {
+            Template(BASEDIR.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/cbv3/layout/blocks/comments.html',false);
+            exit();
+        }else
+        {
+            $template = get_template('comments');
+        }
+
+        assign('commentPagination','yes');
+
+        $template .= get_template('pagination');
+
+        echo json_encode(array('success'=>'yes','output'=>$template));
+
+    }
+    break;
+
 
     default:
         exit(json_encode(array('err'=>array(lang('Invalid request')))));

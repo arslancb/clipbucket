@@ -53,12 +53,12 @@
     $(document).ready(function(){
        
        //Adding Comment Hover effect
-       $('.comment').bind('mouseover',function(e){
+       $('.comment').live('mouseover',function(e){
            $(this).find('.comment-options').show();
        });
        
         //Adding Comment Mouse-leave effect
-       $('.comment').bind('mouseout',function(e){
+       $('.comment').live('mouseout',function(e){
            $(this).find('.comment-options').hide();
        });
        

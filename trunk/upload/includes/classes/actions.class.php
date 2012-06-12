@@ -590,7 +590,7 @@ class cbactions
 			$db->delete(tbl($this->playlist_items_tbl),array("playlist_item_id"),array($id));
                         //Update total items in the playlist
                         $db->update(tbl('playlists'),array('total_items','last_update'),
-                        array('|f|total_items-1',now())," playlist_id='".$pid."' ");
+                        array('|f|total_items-1',now())," playlist_id='".$item['playlist_id']."' ");
                         
 			e(lang("playlist_item_delete"),"m");
 		}

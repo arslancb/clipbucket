@@ -1411,12 +1411,20 @@ if(!empty($mode))
 			assign('comments_voting',$_POST['comments_voting']);
 			
 			if($_POST['admin']=='yes' && has_access('admin_access',true))
-			Template(BASEDIR.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/cbv2/layout/blocks/comments.html',false);
-			else
-			Template('blocks/comments/comments.html');
+                        {
+                            Template(BASEDIR.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/cbv3/layout/blocks/comments.html',false);
+                            exit();
+                        }else
+                        {
+                            $template = get_template('comments');
+                        }
 			
 			assign('commentPagination','yes');
-			Template('blocks/pagination.html');
+                        
+                        $template .= get_template('pagination');
+                        
+                        echo json_encode(array('success'=>'yes','output'=>$template));
+                        
 		}
 		break;
 		

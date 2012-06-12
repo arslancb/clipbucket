@@ -5,7 +5,7 @@
  */
 
 include("template_functions.php");
-
+include("configs.php");
 
 /**
  * add_thumb_size(336x44)

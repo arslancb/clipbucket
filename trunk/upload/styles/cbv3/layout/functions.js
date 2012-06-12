@@ -248,6 +248,33 @@ function toggleBox(bttn,box)
     }
 }
 
+
+/**
+ * Get Comments via ajax
+ */
+
+var comments_voting = 'no';
+function get_comments(type,type_id,last_update,pageNum,total,object_type,admin)
+{
+
+    amplify.request('main',
+    {
+        mode:'get_comments',
+        page:pageNum,type:type,
+        type_id:type_id,
+        object_type : object_type,
+        last_update : last_update,
+        total_comments : total,
+        comments_voting : comments_voting,admin : admin
+    },function(data){
+        
+
+        $('#comments').hide();
+        $('#comments').html(data.output);
+        $('#comments').fadeIn('slow');
+    })    
+}
+
 // CLIPBUCKET MAIN FUNCTIONS ----------------------
 
 
@@ -604,4 +631,26 @@ function send_private_message(e) {
         $('#confirm .modal-header h3').text('');
         $('#confirm .modal-body').html('');
         $('#confirm-yes').unbind('click');    
+    }
+    
+    
+    /**
+     * Add comment
+     */
+    function add_comment()
+    {
+        var comment_form = '#comment-form';
+        $('#add-comment-button').button('loading');
+        
+        form_data = $(comment_form).serialize();
+        form_data += '&mode=add_comment';
+        
+        amplify.request('main',form_data,function(data){
+            
+            $('#add-comment-button').button('reset');
+            if(data.err)
+            {
+                displayError(data.err);
+            }
+        })
     }

@@ -831,7 +831,7 @@
             return $value;
         }
         
-        
+      
         /**
 	  * add link in admin area left menu
 	  *
@@ -1095,5 +1095,41 @@
          {
              $rating = apply_filters($rating, 'show-rating');
              cb_call_functions('show_rating',$rating);
+         }
+         
+         
+         /***
+          *  fetch template files as defined int he template config
+          *  @param file
+          *  @param type , display | fetch
+          */
+         function get_template($file,$type='fetch')
+         {
+             $defaults = array(
+                 'single_comment' => 'blocks/comments/comment.html',
+                 'comments'       => 'blocks/comments/comments.html',
+                 'pagination'     => 'blocks/pagination.html'
+             );
+             
+             
+             $files = config('template_files');
+             
+             if($files[$file])
+             {
+                 $the_file = $files[$file];
+             }else
+             {
+                 $the_file = $defaults[$file];
+             }
+             
+             if($the_file)
+             {
+                 
+                 if($type=='fetch')
+                     return fetch($the_file);
+                 else
+                     template($the_file);
+             }
+             
          }
 ?>

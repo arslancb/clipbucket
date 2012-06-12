@@ -14,7 +14,7 @@ $pages->page_redir();
 
 if(is_installed('editorspick'))
 {
-	assign('editor_picks',get_ep_videos());
+    assign('editor_picks',get_ep_videos());
 }
 
 //i love coding :)

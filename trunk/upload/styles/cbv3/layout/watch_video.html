@@ -1,4 +1,7 @@
 <!-- Watch Video Template $Id$ -->
+{$object_type='video'}
+{$type='v'}
+
 <h1>{$video.title}</h1>
 
 <div class="row">
@@ -116,26 +119,47 @@
         <div class="comments video-comments">
             <h3>All Comments (4,555)</h3>
             
-            <div class="add-comment row-fluid">
-                <div style="background-color: #333; height: 50px" class="spanauto">
-                    <img src="http://placehold.it/62x62"/>
+            <form id="comment-form" method="post" onsubmit="return false;">
+                <input type="hidden" name="type" value="v"/>
+                <input type="hidden" name="obj_id" value="{$video.videoid}"/>
+                
+            <div class="add-comment row-fluid relative">
+                <div  class="inlineblock moveL marginR10 add-comment-uphoto">
+                    <img src="{$userquery->avatar($userquery->udetails)}"/>
                 </div>
                 <textarea class="input-xlarge span650
-                comment-textarea" id="textarea" rows="3"></textarea>
+                comment-textarea" id="comment-text" rows="3" name="comment"
+                    {if userid()} placeholder="{lang code='type something to comment....'}"{else}
+                    disabled{/if}
+                ></textarea>
+                
+                {if !userid()}
+                <div class="absolute comment-login"><a href="" class="btn">Please login to make a comment</a></div>
+                {/if}
                 
                 <div class="clearfix"></div>
                 <div align="right">
                     
                     <button class="btn btn-primary">Add video response</button>
-                    <button class="btn">Post comment</button>
+                    <button class="btn" onclick="add_comment('v')"
+                            data-loading-text="{lang code='Adding comment..'}"
+                                id="add-comment-button">Post comment</button>
                 </div>
             </div>
-            
+            </form>
             <div class="height20"></div>
             
-            {section name=foo loop=4}
-                {include file="$layout_dir/blocks/comment.html" cid=$smarty.section.foo.iteration}
-            {/section}
+            
+            <div id="comments"></div>
+            
+            <script>
+                $(document).ready(function()
+                    {
+                        comments_voting = '{$vdo.comment_voting}';	
+                        get_comments('{$type}','{$vdo.videoid}','{$vdo.last_commented}',1,'{$vdo.comments_count}','{$object_type}')
+                    }
+                );
+            </script>
             
             <div align="right">
                 <div class="btn-group inlineblock">

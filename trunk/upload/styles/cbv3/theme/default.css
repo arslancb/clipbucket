@@ -40,6 +40,9 @@
 .left{left:0px}
 .right{right:0px}
 
+.moveL,.floatL,.float-left{float: left}
+.moveR,.floatR,.float-right{float: right}
+
 .valignTop{vertical-align: top}
 .valignMid{vertical-align: middle}
 
@@ -146,8 +149,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', end
 /* Comments */
 .comment{margin-top: 10px; margin-bottom: 10px}
 .comment .comment-text{margin-left: 10px}
-.comment-textarea{margin-left: 10px !important; width: 650px}
+.comment-textarea{margin-left: 10px !important; width: 660px !important}
 .comment-options{display: none}
+.add-comment-uphoto{width: 62px; height: 62px}
+.comment-login{top: 10px; left: 90px}
 
 /* Author Box */
 .author-box-content{width: 220px}

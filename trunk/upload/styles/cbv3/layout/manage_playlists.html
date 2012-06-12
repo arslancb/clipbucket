@@ -137,10 +137,10 @@
         {foreach $playlists as $playlist}
             {include_template_file file='blocks/playlist.html' playlist=$playlist}
         {/foreach}
-
-        {else}
-        <div class="no-playlist alert alert-info">{lang code="<strong>Hey there!</strong> You have not created any playlist, please create one now or read our playlist guide."}</div>
-        {/if}
+        {/if}   
+       
+        <div class="no-playlist alert alert-info {if $playlists}display-none{/if}">{lang code="<strong>Hey there!</strong> You have not created any playlist, please create one now or read our playlist guide."}</div>
+        
     </div>
     
     {/if}
@@ -279,10 +279,12 @@
     </ul>
     {/if}
     </form>
+    
+        <div class="alert alert-info {if $total_items>0}display-none{/if}" id="no-playlist-items-div">{lang code='You do not have any items in this playlist, to add videos, goto any video page and click add to and follow the name'}</div>
+
     {/if}
     
     
-        <div class="alert alert-info {if $total_items>0}display-none{/if}" id="no-playlist-items-div">{lang code='You do not have any items in this playlist, to add videos, goto any video page and click add to and follow the name'}</div>
 
     
 </div>

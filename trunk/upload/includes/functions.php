@@ -266,6 +266,7 @@
 				
 		if(!$mail->Send())
 		{
+                  if(!DEVELOPMENT_MODE)
 		  e("Mailer Error: " . $mail->ErrorInfo);
 		  return false;
 		}else
@@ -3166,6 +3167,25 @@
             }
         }
         
+          /**
+         * set_config
+         * runtime configuration.. 
+         * overwrites existin $Cbucket->configs ...
+         * 
+         * @param STRING $var
+         * @param STRING $val
+         * 
+         * @return true
+         */
+        function set_config($var,$val)
+        {
+            global $Cbucket;
+            $Cbucket->configs[$var] = $val;
+            return true;
+        }
+        
+        
+        
         if ( !function_exists('cb_show_page') ) {
             function cb_show_page ( $var = false ) {
                 global $Cbucket;
@@ -3241,6 +3261,33 @@ function get_mature_thumb ( $object, $size = null, $output = null ) {
 		return $path;	
 	}
 }
+
+
+/**
+ * Get comment author...
+ * 
+ * @param ARRAY $comment
+ * @return STRING $author
+ */
+function comment_author($comment)
+{
+    if($comment['userid'])
+    {
+        //means registered user has made a comment..
+        return $comment['username'];
+    }else
+    {
+        //Show what guest has put in for name
+        return $comment['anonym_name'];
+    }
+}
+
+/**
+ * Alias of comment_author
+ * @param type $comment
+ * @return type 
+ */
+function get_comment_author($comment){ return comment_author($comment); }
 
 //Including videos functions
 include("functions_videos.php");
