@@ -284,7 +284,7 @@ if(!@$in_bg_cron)
 	define('VIDEO_DOWNLOAD',$row['video_download']);
 	define('VIDEO_EMBED',$row['video_embed']);
 	
-
+        define('ALLOW_OWN_COMMENT_RATING','yes');
 	
 	
 	

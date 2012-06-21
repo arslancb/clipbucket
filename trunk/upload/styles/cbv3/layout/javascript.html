@@ -50,18 +50,55 @@
 <!-- Working With the Javascript -->
 
 <script type="text/javascript">
+    
     $(document).ready(function(){
        
+     
        //Adding Comment Hover effect
-       $('.comment').live('mouseover',function(e){
+       
+       $('.comments').on('mouseenter','.comment',function(){
            $(this).find('.comment-options').show();
        });
        
         //Adding Comment Mouse-leave effect
-       $('.comment').live('mouseout',function(e){
+       $('.comments').on('mouseleave','.comment',function(){
            $(this).find('.comment-options').hide();
        });
        
+       //Adding Spam comment function
+       $('.comments').on('click','.spam-comment',function(){
+           var cid = $(this).attr('data-id');
+           var type = $(this).attr('data-type');
+           var typepid = $(this).attr('data-type-id');
+           spam_comment(cid,type,typepid);
+       })
+       
+       //Unspam
+       $('.comments').on('click','.unspam-comment',function(){
+           var cid = $(this).attr('data-id');
+           var type = $(this).attr('data-type');
+           var typepid = $(this).attr('data-type-id');
+           unspam_comment(cid,type,typepid);
+       })
+       
+       //view hide comment...
+       $('body').on('click','.view-toggle',function(){
+           
+           var $toggleobj = $('#'+$(this).attr('data-toggle-id'));
+           var $toggletext = $(this).attr('data-toggle-text');
+           
+           $toggleobj.toggle();
+           
+           //Changing text...
+           if($toggletext)
+           {
+               $(this).attr('data-toggle-text',$(this).text());
+               $(this).text($toggletext);
+           }
+           
+       })
+       
+
        //Init Login Modal box
        $('#login-modal').modal({
           show : false

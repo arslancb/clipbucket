@@ -1448,43 +1448,43 @@ class userquery extends CBCategory{
 		
 		
 		if(file_exists($thumb_file) && $thumbnail)
-			$thumb_file = USER_THUMBS_URL.'/'.$thumbnail;
+                    $thumb_file = USER_THUMBS_URL.'/'.$thumbnail;
 		elseif(!empty($udetails['avatar_url']))
 		{
-			$thumb = $udetails['avatar_url'];
-			$remote  = true;
+                    $thumb = $udetails['avatar_url'];
+                    $remote  = true;
 		}else
 		{	
-			if(!USE_GAVATAR)
-				$thumb_file = $this->get_default_thumb();
-			else
-			{
-				switch($size)
-				{
-					case "small":
-					{
-						$thesize = AVATAR_SMALL_SIZE;
-						$default = $this->get_default_thumb('small');
-						
-					}
-					break;
-					default:
-					{
-						$thesize = AVATAR_SIZE;
-						$default = $this->get_default_thumb();
-					}
-				}
-				
-				$email = $udetails['email'];
-				$email = $email ? $email : $udetails['anonym_email'];
-				$gravatar = new Gravatar($email, $default);
-				$gravatar->size = $thesize;
-				$gravatar->rating = "G";
-				$gravatar->border = "FF0000";
-				
-				$thumb = $gravatar->getSrc();
-				//echo $gravatar->toHTML();
-			}
+                    if(!USE_GAVATAR)
+                            $thumb_file = $this->get_default_thumb();
+                    else
+                    {
+                        switch($size)
+                        {
+                            case "small":
+                            {
+                                $thesize = AVATAR_SMALL_SIZE;
+                                $default = $this->get_default_thumb('small');
+
+                            }
+                            break;
+                            default:
+                            {
+                                $thesize = AVATAR_SIZE;
+                                $default = $this->get_default_thumb();
+                            }
+                        }
+
+                        $email = $udetails['email'];
+                        $email = $email ? $email : $udetails['anonym_email'];
+                        $gravatar = new Gravatar($email, $default);
+                        $gravatar->size = $thesize;
+                        $gravatar->rating = "G";
+                        $gravatar->border = "FF0000";
+
+                        $thumb = $gravatar->getSrc();
+                        //echo $gravatar->toHTML();
+                    }
 		}
 		
 		$ext = GetExt($thumb_file);
@@ -1492,14 +1492,14 @@ class userquery extends CBCategory{
 		
 		if(!$remote)
 		{
-			if(!empty($size) && !$thumb)
-				$thumb = USER_THUMBS_URL.'/'.$file.'-'.$size.'.'.$ext;
-			elseif(!$thumb)
-				$thumb = USER_THUMBS_URL.'/'.$file.'.'.$ext;
+                    if(!empty($size) && !$thumb)
+                        $thumb = USER_THUMBS_URL.'/'.$file.'-'.$size.'.'.$ext;
+                    elseif(!$thumb)
+                        $thumb = USER_THUMBS_URL.'/'.$file.'.'.$ext;
 		}
 		
 		if($just_file)
-			return $file.'.'.$ext;
+                    return $file.'.'.$ext;
 		
 		return $thumb;
 	}

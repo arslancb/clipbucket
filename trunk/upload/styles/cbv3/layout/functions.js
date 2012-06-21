@@ -651,6 +651,147 @@ function send_private_message(e) {
             if(data.err)
             {
                 displayError(data.err);
+            }else
+            {
+                $('#no_comments').hide();
+                $('#latest_comment_container')
+                .prepend(data.comment)
+                
+                $('#comment-text').val('');
+                update_counter('#total_comments',1);
+                $('#comment-'+data.cid).hide().fadeIn("slow");
+            }
+        })
+    }
+    
+    
+    /**
+     * function to rate comment..
+     */
+    function rate_comment(cid,thumb,type,typeid)
+    {
+        amplify.request('main', 
+        { 	
+            mode : 'rate_comment',
+            thumb : thumb,
+            cid : cid,
+            type : type,
+            typeid : typeid
+        },
+        function(data)
+        {
+            if(data.err)
+            {
+                displayError(data.err);
+            }else
+            {
+                $('#comment-rating-'+cid).removeClass('btn-info')
+                .removeClass('btn-info');
+                 
+                if(data.rating<0)
+                    $('#comment-rating-'+cid).addClass('btn-danger');
+                
+                if(data.rating>0)
+                    $('#comment-rating-'+cid).addClass('btn-info');
+                
+                
+                $('#comment-rating-'+cid).text(data.rating);
+            }
+        });
+    }
+    
+    
+    
+    /**
+     * Add reply values to comment field...
+     */
+    function add_reply(cid,author){
+        
+        var cancelBttn = ' <span>x</span> ';
+        $('#reply-author').html('@'+author+' &nbsp;&nbsp;&nbsp;&nbsp;'+cancelBttn).parent().show()
+        $('#reply-to').val(cid);
+        $('#comment-text').focus();
+    }
+    
+    /**
+     * cancel reply ..
+     */
+    function cancel_reply()
+    {
+        $('#reply-author').html('').parent().hide();
+        $('#reply-to').val('');
+    }
+    
+    
+    /**
+     * Mark comment as spam..
+     */
+    function spam_comment(cid,type,typeid)
+    {
+        
+        amplify.request('main',{ 	
+            mode : 'spam_comment',
+            cid : cid,
+            type : type,
+            typeid : typeid
+        },function(data){
+            if(data.msg)
+            {
+                $("#comment-container-"+cid).after(data.comment).remove();
+            }
+            if(data.err)
+            {
+                displayError(data.err)
+            }
+        })
+        
+    }
+
+
+    /**
+     * not spam function
+     */
+    function unspam_comment(cid,type,typeid)
+    {
+        
+        amplify.request('main',{ 	
+            mode : 'unspam_comment',
+            cid : cid,
+            type : type,
+            typeid : typeid
+        },function(data){
+            if(data.msg)
+            {
+                $("#comment-container-"+cid).after(data.comment).remove();
+            }
+            if(data.err)
+            {
+                displayError(data.err)
+            }
+        })
+        
+    }
+    
+    
+    /**
+     * Delete comment...
+     */
+    function delete_comment(cid,type)
+    {
+        amplify.request('main',{ 	
+            mode : 'delete_comment',
+            cid : cid,
+            type : type,
+        },function(data){
+            if(data.msg)
+            {
+                $("#comment-container-"+cid).fadeOut('slow',function(){
+                   $(this).remove();
+                })
+            }
+            if(data.err)
+            {
+                displayError(data.err)
             }
         })
     }

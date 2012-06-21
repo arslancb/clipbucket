@@ -61,6 +61,7 @@ if(isset($_POST['update'])){
 					'con_modules_type',
 					'comments_captcha',
 					'comment_rating',
+                                        'comment_spam_limit',
 					'collection_per_page',
 					'collection_home_page',
 					'collection_search_result',

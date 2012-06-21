@@ -15,22 +15,6 @@
  Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.
  **************************************************************************************************
 
- check_user
- check_email
- DeleteFlv
- DeleteOriginal
- DeleteThumbs
- DeleteVideoFiles
- UpdateVideo
- GetCategory
- RateVideo
- AddComment
- AddToFavourite
- FlagAsInappropriate
- DeleteFlag
- 
- **/
-
 /**
  * Function used to return db table name with prefix
  * @param : table name
@@ -155,7 +139,10 @@ class myquery {
 	
 	/**
 	 * Function used to delete comments
-	 * @param CID
+	 * @param INT $cid Comment id
+         * @param STRING $type Type of object, can be v,p or c
+         * @param BOOLEAN $is_reply Is comment a reply if yes
+         * @param BOOLEAN $foceDelete delete comment anyway...
 	 */
 	function delete_comment($cid,$type='v',$is_reply=FALSE,$forceDelete=false)
 	{
@@ -170,7 +157,9 @@ class myquery {
 			|| has_access("admin_del_access",false)
 			|| $is_reply==TRUE || $forceDelete)
 		{
+                        
 			$replies = $this->get_comments($cdetails['type_id'],$type,FALSE,$cid,TRUE);
+                        
 			if(count($replies)>0 && is_array($replies))
 			{
 				foreach($replies as $reply)
@@ -195,50 +184,115 @@ class myquery {
 	
 	/**
 	 * Function used to set comment as spam
+         * @param INT $cid
+         * @return BOOLEAN
 	 */
 	function spam_comment($cid)
 	{
-		global $db;
-		$comment = $this->get_comment($cid);	
-		$uid = user_id();
-		if($comment)
-		{
-			$voters = $comment['spam_voters'];
-		
-			$niddle = "|";
-			$niddle .= userid();
-			$niddle .= "|";
-			$flag = strstr($voters, $niddle);
-			
-			if(!$comment)
-				e(lang('no_comment_exists'));
-			elseif(!userid())
-				e(lang('login_to_mark_as_spam'));
-			elseif( userid()==$comment['userid'] || (!userid() && $_SERVER['REMOTE_ADDR'] == $comment['comment_ip']))
-				e(lang('no_own_commen_spam'));
-			elseif(!empty($flag))
-				e(lang('already_spammed_comment'));
-			else
-			{
-				if(empty($voters))
-					$voters .= "|";
-				
-				$voters .= userid();
-				$voters.= "|";
-				
-				$newscore = $comment['spam_votes']+1;
-				$db->update(tbl('comments'),array('spam_votes','spam_voters'),array($newscore,$voters)," comment_id='$cid'");
-				e(lang('spam_comment_ok'),"m");
-				return $newscore;			
-			}
-		
-		}
-		e(lang('no_comment_exists'));
-		return false;
-	}
+            global $db;
+            $comment = $this->get_comment($cid);
 
+            $uid = user_id();
+            if($comment)
+            {
+                $voters = $comment['spam_voters'];
+
+                //In our old system we used | to sperate ids
+                //Now we will remove this | and make good use of json
+
+                if(strstr($voters,'|'))
+                {
+                    $voters = explode('|',$voters);
+                }else
+                {
+                    $voters = json_decode($voters);
+                }
+                
+                if(!$voters)
+                    $voters = array();
+
+                if(!$comment)
+                    e(lang('no_comment_exists'));
+                elseif(!userid())
+                    e(lang('login_to_mark_as_spam'));
+                elseif( userid()==$comment['userid'] || (!userid() && $_SERVER['REMOTE_ADDR'] == $comment['comment_ip']))
+                    e(lang('no_own_commen_spam'));
+                elseif(in_array($uid,$voters))
+                    e(lang('already_spammed_comment'));
+                else
+                {
+                    $voters[] = userid();
+                    $newscore = $comment['spam_votes']+1;
+                    $voters = json_encode($voters);
+
+                    $db->update(tbl('comments'),array('spam_votes','spam_voters'),array($newscore,'|no_mc|'.$voters)," comment_id='$cid'");
+                    e(lang('spam_comment_ok'),"m");
+                    return $newscore;			
+                }
+
+            }else
+                e(lang('no_comment_exists'));
+            return false;
+	}
+        
+        /**
+         * Incase comment was not a spam, there should be an undo
+         * for a user..
+         * 
+         * @param INT $cid
+         * @return BOOLEAN
+         */
+	function unspam_comment($cid)
+	{
+            global $db;
+            $comment = $this->get_comment($cid);
+
+            $uid = user_id();
+            if($comment)
+            {
+                $voters = $comment['spam_voters'];
+
+                //In our old system we used | to sperate ids
+                //Now we will remove this | and make good use of json
+
+                if(strstr($voters,'|'))
+                {
+                    $voters = explode('|',$voters);
+                }else
+                {
+                    $voters = json_decode($voters);
+                }
+                
+                if(!$voters)
+                    $voters = array();
+
+                if(!$comment)
+                    e(lang('no_comment_exists'));
+                elseif(!userid())
+                    e(lang('login_to_mark_as_spam'));
+                elseif(!in_array($uid,$voters))
+                    e(lang('You never marked this as spam..'));
+                else
+                {
+                    $key = array_search($uid, $voters); 
+                    unset($voters[$key]); //Removing uid from voters list
+                    
+                    $newscore = $comment['spam_votes']-1;
+                    $voters = json_encode($voters);
+
+                    $db->update(tbl('comments'),array('spam_votes','spam_voters'),array($newscore,'|no_mc|'.$voters)," comment_id='$cid'");
+                    e(lang('Spam flag removed from comment'),"m");
+                    return $newscore;			
+                }
+
+            }else
+                e(lang('no_comment_exists'));
+            return false;
+	}
+        
 	/**
 	 * Function used to set comment as spam
+         * @todo Write documentation and improve this function
 	 */
 	 function remove_spam($cid) {
 		global $db;
@@ -293,32 +347,72 @@ class myquery {
 		$comment = $this->get_comment($cid);
 		$voters = $comment['voters'];
 		
-		$niddle = "|";
-		$niddle .= userid();
-		$niddle .= "|";
-		$flag = strstr($voters, $niddle);
+                //In our old system we used | to sperate ids
+                //Now we will remove this | and make good use of json
+
+                if(strstr($voters,'|'))
+                {
+                    $voters = explode('|',$voters);
+                    $voters = array(); //Old votes won't work..sorry
+                    
+                }else
+                {
+                    $voters = json_decode($voters,true);
+                }
+                
+                if(!$voters)
+                    $voters = array();
 		
 		if(!$comment)
 			e(lang('no_comment_exists'));
 		elseif(!userid())
 			e(lang('class_comment_err6'));
-		elseif(userid()==$comment['userid'] || (!userid() && $_SERVER['REMOTE_ADDR'] == $comment['comment_ip']))
+		elseif(( 
+                        userid()==$comment['userid'] 
+                        || (!userid() 
+                        && $_SERVER['REMOTE_ADDR'] == $comment['comment_ip'])
+                        )
+                        && ALLOW_OWN_COMMENT_RATING!='yes')
 			e(lang('no_own_commen_rate'));
-		elseif(!empty($flag))
-			e(lang('class_comment_err7'));
+		/*elseif(!empty($flag))
+			e(lang('class_comment_err7')); */
+                //This conidtion lifted to let user change there comment vote..
 		else
 		{
-			if(empty($voters))
-				$voters .= "|";
-			
-			$voters .= userid();
-			$voters.= "|";
-			
-			$newscore = $comment['vote']+$rate;
-			$db->update(tbl('comments'),array('vote','voters'),array($newscore,$voters)," comment_id='$cid'");
-						
-			e(lang('thanks_rating_comment'),"m");
-			return $newscore;			
+                    $uid = userid();
+                    $newscore = $comment['vote'];
+                    $old_vote = $voters[$uid];
+                    
+                    if($old_vote != $rate )
+                    {
+                        if($old_vote==-1)
+                        {
+                            $newscore += 1;
+                            $rate = 0;
+                        }elseif($old_vote==1)
+                        {
+                            $newscore -= 1;
+                            $rate = 0;
+                        }else
+                        {
+                            $newscore = $newscore+$rate;
+                        }
+                        
+                    }elseif(!isset($voters[$uid]))
+                    {
+                        $newscore = $newscore+$rate;
+                    }
+                    
+                    
+                    $voters[$uid] = $rate;
+
+                    $voters = json_encode($voters);
+                   
+
+                    $db->update(tbl('comments'),array('vote','voters'),array($newscore,'|no_mc|'.$voters)," comment_id='$cid'");
+
+                    e(lang('thanks_rating_comment'),"m");
+                    return $newscore;			
 		}
 		
 		return false;
@@ -756,41 +850,89 @@ class myquery {
 			 if($results)
 			 foreach($results as $result)
 			 {
-				 if($result['parent_id'] && !in_array($result['parent_id'],$parents_array))
-				 {
-					if($parent_cond)
-						$parent_cond .= " OR ";
-				 	$parent_cond .= " comment_id='".$result['parent_id']."' " ;
-					
-					$parents_array[] = $result['parent_id'];
-				 }
+                            if($result['parent_id'] && !in_array($result['parent_id'],$parents_array))
+                            {
+                                if($parent_cond)
+                                        $parent_cond .= " OR ";
+                                $parent_cond .= " comment_id='".$result['parent_id']."' " ;
+
+                                $parents_array[] = $result['parent_id'];
+                            }
 			 }
 			
 			//Getting Parents
-			 $parents = $db->select(tbl("comments"),'*'
-			 ," type='$type' AND ($parent_cond) ",NULL,$order);
+                         $userfields = array('username','email','userid',
+                         'avatar','avatar_url');
+                         
+                         //Applying filters...
+                         $userfields = apply_filters($userfields, 'comment_user_fields');
+                                 
+                         $ufields = '';
+                         foreach($userfields as $userfield)
+                         {
+                             //if($ufields)
+                             $ufields .= ',';
+                             $ufields .= tbl('users.'.$userfield);
+                         }
+                         
+                         
+                         $theQuery = " SELECT ".tbl('comments.*').$ufields." FROM ".tbl('comments')
+                         ." LEFT JOIN ".tbl('users')." ON ".tbl('comments.userid')." = ".tbl('users.userid')
+                         ." WHERE type='$type' $typeid_query $cond";
+                         
+                         if($order)
+                            $theQuery .= " ORDER BY ".$order;
+                         
+                         if($limit)
+                             $theQuery .= " LIMIT ".$limit;
+                         
+                        //Getting list of comments....
+                         $CB_Query = $db->Execute($theQuery);
+                         
+                         
+                         if($db->num_rows > 0)
+                         $results = $CB_Query->getrows();
 			 
+                        
+			 if(!$results)
+			 	return false;
+			 $parent_cond = '';
+			 
+                        
+			 $parents_array = array();
+			 if($results)
+			 foreach($results as $result)
+			 {
+                            if($result['parent_id'] && !in_array($result['parent_id'],$parents_array))
+                            {
+                                if($parent_cond)
+                                        $parent_cond .= " OR ";
+                                $parent_cond .= " comment_id='".$result['parent_id']."' " ;
+
+                                $parents_array[] = $result['parent_id'];
+                            }
+			 }
+                         
+                         if($parent_cond){
+                         
+                            //Getting list of parents....
+                            $CB_Query = $db->Execute(" SELECT ".tbl('comments.*').$ufields." FROM ".tbl('comments')
+                            ." LEFT JOIN ".tbl('users')." ON ".tbl('comments.userid')." = ".tbl('users.userid')
+                            ." WHERE type='$type' AND ($parent_cond) "
+                            ." ORDER BY ".$order       
+                            );
+
+                            if($db->num_rows > 0)
+                            $parents = $CB_Query->getrows();
+                         };
+                         
 			 if($parents)
-			 	foreach($parents as $parent)
-					$new_parents[$parent['comment_id']] = $parent;
+                            foreach($parents as $parent)
+                                $new_parents[$parent['comment_id']] = $parent;
 			 
 			 
 			 //Inserting user data
-			 $new_results = array();
-			 foreach($results as $com)
-			 {
-				 $userid = $com['userid'];
-				 
-				 $uservar = 'user_'.$userid;
-				 
-				 if($userid && !$$uservar)
-				 	$$uservar = $userquery->get_user_details($userid);
-					
-				 if($$uservar)
-				 	$com = array_merge($com,$$uservar);
-				
-				$new_results[] = $com;
-			 }
+			 $new_results = $results;
 			 
 			 $comment['comments'] = $new_results;
 			 $comment['parents'] = $new_parents;
@@ -810,60 +952,10 @@ class myquery {
 			 
 		}else
 		{
-			return $db->count(tbl("comments"),"*"," type='$type' $typeid_query $cond");
+			return $db->count(tbl("comments"),"comment_id"," type='$type' $typeid_query $cond");
 		}
 	}
 	
-	
-	/**
-	 * Function used to get from database
-	 * with nested replies
-	 */	
-	/*function get_comments($obj_id,$type='v',$parent_only=TRUE,$count_only=FALSE)
-	{
-		global $db;
-		$cond = '';
-		$user_flds = tbl("users.userid").",".tbl("users.username").",".tbl("users.email").",".tbl("users.avatar").",".tbl("users.avatar_url");
-		if($obj_id != "all")
-			$cond = " type_id = '$obj_id'";
-		else
-			$cond = " ";
-			
-		if(!empty($cond))
-			$cond .= " AND ";
-			
-		if($parent_only && is_numeric($parent_only))
-		{	
-			$parent_id = $parent_only;			
-			$cond .= " parent_id='$parent_id'";
-		} else {
-			$cond .= " parent_id = '0'";
-		}
-		
-		if(!$count_only) 
-		{
-			$result = $db->select(tbl("comments,users"),tbl("comments").".*, $user_flds"," $cond AND type='$type' AND ".tbl("comments.userid")." = ".tbl("users.userid")."");
-			//echo $db->db_query;
-			$ayn_result = $db->select(tbl("comments,users"),tbl("comments").".*, $user_flds"," $cond AND type='$type' AND ".tbl("comments.userid")." = '0'");
-			if($result && $ayn_result)
-				$result = array_merge($result,$ayn_result);
-			elseif(!$result && $ayn_result)
-				$result = $ayn_result;
-			
-			$arr = array();
-			foreach($result as $comment)
-			{
-					$arr[$comment['comment_id']] = $comment;
-					$replies = $this->get_replies($comment['comment_id'],$type);
-					if($replies)
-					{
-						$arr[$comment['comment_id']][] = $replies;	
-					}
-			}
-			
-			return $arr;
-		}
-	}*/
 	
 	function get_replies($p_id,$type='v')
 	{

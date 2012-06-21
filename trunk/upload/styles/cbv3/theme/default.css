@@ -42,6 +42,8 @@
 
 .moveL,.floatL,.float-left{float: left}
 .moveR,.floatR,.float-right{float: right}
+.text-left{text-align: left}
+.text-right{text-align: right}
 
 .valignTop{vertical-align: top}
 .valignMid{vertical-align: middle}
@@ -70,6 +72,9 @@
 
 .marginR10{margin-right: 10px}
 .marginL10{margin-left: 10px}
+.marginL50{margin-left: 50px}
+.marginL70{margin-left: 70px}
+
 .marginR5{margin-right: 5px}
 .marginL5{margin-left: 5px}
 .margin0{margin: 0px;}
@@ -123,6 +128,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .icon-v3 {
   background-image: url("../images/v3icons.png");
 }
+
+.icon-blank {
+  background-image: url("../images/dot.gif");
+  width: 0px;
+}
+
 .icon-v3-white {
   background-image: url("../images/v3icons-white.png");
 }
@@ -150,9 +161,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', end
 .comment{margin-top: 10px; margin-bottom: 10px}
 .comment .comment-text{margin-left: 10px}
 .comment-textarea{margin-left: 10px !important; width: 660px !important}
-.comment-options{display: none}
+.comment-options{ top: -6px; right: 100px; display: none}
+.like-dislike{ top: 3px; right: 7px}
 .add-comment-uphoto{width: 62px; height: 62px}
 .comment-login{top: 10px; left: 90px}
+.comment-thumb{ width: 50px; height: 50px}
+.spammed-comment-btns{right: 3px; top: 3px}
+.spammed-comment{margin: 5px 0px; color: #999; font-size: 12px; font-style: italic }
 
 /* Author Box */
 .author-box-content{width: 220px}

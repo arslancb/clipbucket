@@ -3268,16 +3268,20 @@ function get_mature_thumb ( $object, $size = null, $output = null ) {
  * 
  * @param ARRAY $comment
  * @return STRING $author
+ * @Author Arslan
  */
 function comment_author($comment)
 {
+    $comment = apply_filters($comment,'comment_author');
+    
     if($comment['userid'])
     {
         //means registered user has made a comment..
         return $comment['username'];
+        
     }else
     {
-        //Show what guest has put in for name
+        //Shows what guest has put in for name
         return $comment['anonym_name'];
     }
 }
@@ -3288,6 +3292,84 @@ function comment_author($comment)
  * @return type 
  */
 function get_comment_author($comment){ return comment_author($comment); }
+
+/**
+ * Can Delete Comment...
+ * 
+ * As the name suggests, it is used to check weather logged in user has
+ * rights to delete the comment or not.
+ * 
+ * @param $comment
+ * @Author Arslan Hassan
+ * @return BOOLEAN 
+ * @link http://docs.clip-bucket.com/user-manual/developers-guide/functions/can_delete_comment
+ */
+function can_delete_comment($comment,$userid=false){
+    
+    if(!$userid)
+        $userid = userid();
+    
+    if(has_access('admin_del_access')
+       OR $comment['userid'] == $userid
+       OR $comment['type_owner_id']== $userid)
+    {
+        return true;
+    }
+    
+    return false;
+}
+
+
+/**
+ * is comment spam? checks weather a comment is spam or not.
+ * first it checks logged in user has made the comment spam or not
+ * 2nd it checks if spam count crosses the limit of flag counts
+ * 
+ * @author Arslan Hassan
+ * @link http://docs.clip-bucket.com/user-manual/developers-guide/functions/is_comment_spam
+ * @param ARRAY $commment
+ * @return BOOLEAN
+ * 
+ */
+
+function is_comment_spam($comment)
+{
+    $comment = apply_filters($comment,'comment_spam');
+    
+    $uid = userid();
+    
+    $return = array(
+        'global_spam' => false,
+        'user_spam' => false,
+    );
+    
+    /* Here voters are those who marked comment as spam so dont 
+     * get confused that they are favoring the commentator
+     */
+    $voters = json_decode($comment['spam_voters'],true);
+    
+    if(!$voters) $voters = array();
+    
+    if($uid && in_array($uid,$voters))
+    {
+        $return['user_spam'] = true;
+    }
+    
+    /**
+     * Checking if spam counts is exceeding the limit.. 
+     */
+    if($comment['spam_votes'] >= config('comment_spam_limit')){
+        $return['global_spam'] = true;
+    }
+    
+    
+    $return = apply_filters($return,'comment_spam_output');
+    
+    
+    return $return;
+    
+}
+
 
 //Including videos functions
 include("functions_videos.php");

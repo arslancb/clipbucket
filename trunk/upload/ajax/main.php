@@ -370,8 +370,127 @@ switch($mode){
 
     }
     break;
+    
+    
+    case 'rate_comment':
+    {
+        $thumb = mysql_clean(post('thumb'));
+        $cid = mysql_clean(post('cid'));
+        
+        if($thumb!='down')
+            $rate = 1;
+        else
+            $rate = -1;
 
+        $rating = $myquery->rate_comment($rate,$cid);
+        
+        if(error())
+        {
+            echo json_encode(array('err'=>error()));
+        }else
+        {
+            echo json_encode(array('success'=>'ok','msg'=>msg(),
+            'rating'=>  comment_rating($rating)));
+        }
+    
 
+        //updating last update...
+        $type = mysql_clean($_POST['type']);
+        $typeid = mysql_clean($_POST['typeid']);
+        update_last_commented($type,$typeid);
+
+    }
+    break;
+    case 'spam_comment':
+    case 'unspam_comment':
+    {
+        $cid = mysql_clean($_POST['cid']);
+        
+        if($mode=='spam_comment')
+            $rating = $myquery->spam_comment($cid);
+        if($mode=='unspam_comment')
+            $rating = $myquery->unspam_comment($cid);
+        
+        if(!error()){
+
+            $type = mysql_clean($_POST['type']);
+            $typeid = mysql_clean($_POST['typeid']);
+            update_last_commented($type,$typeid);
+            
+            //Getting comment again..
+            assign('type',$type);
+            assign('type_id',$typeid);
+            
+            $new_com  = $myquery->get_comment($cid);
+            assign('comment',$new_com);
+            
+            $comment_template = get_template('single_comment');
+            
+            echo json_encode(array('success'=>'ok','msg'=>msg()
+            ,'comment'=>$comment_template));
+            
+        }else
+        {
+            echo json_encode(array('err'=>error()));
+        }
+
+    }
+    break;
+    
+    case 'delete_comment':
+    {
+        $type = $_POST['type'];
+        switch($type)
+        {
+            case 'v':
+            case 'video':
+            default:
+            {
+                    $cid = mysql_clean($_POST['cid']);
+                    $type_id = $myquery->delete_comment($cid);
+                    $cbvid->update_comments_count($type_id);
+            }
+            break;
+            case 'u':
+            case 'c':
+            {
+                    $cid = mysql_clean($_POST['cid']);
+                    $type_id = $myquery->delete_comment($cid);
+                    $userquery->update_comments_count($type_id);
+            }
+            break;
+            case 't':
+            case 'topic':
+            {
+                    $cid = mysql_clean($_POST['cid']);
+                    $type_id = $myquery->delete_comment($cid);
+                    $cbgroup->update_comments_count($type_id);
+            }
+            break;
+            case 'cl':
+            case 'collection':
+            {
+                    $cid = mysql_clean($_POST['cid']);
+                    $type_id = $myquery->delete_comment($cid);
+                    $cbcollection->update_total_comments($type_id);	
+            }
+
+        }
+        
+        if(!error())
+        {
+            echo json_encode(array(
+                'success'   => 'ok',
+                'msg'       => msg(),
+            ));
+        }else
+        {
+            echo json_encode(array('err'=>error()));
+        }
+
+    }
+    break;
+    
     default:
         exit(json_encode(array('err'=>array(lang('Invalid request')))));
 }

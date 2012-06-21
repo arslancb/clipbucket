@@ -117,7 +117,7 @@
         
         <!-- Add Comment -->
         <div class="comments video-comments">
-            <h3>All Comments (4,555)</h3>
+            <h3>All Comments (<span id="total_comments">{$video.comments_count}</span>)</h3>
             
             <form id="comment-form" method="post" onsubmit="return false;">
                 <input type="hidden" name="type" value="v"/>
@@ -133,18 +133,30 @@
                     disabled{/if}
                 ></textarea>
                 
+                <input name="reply_to" value="" type="hidden" id="reply_to" />
+                
                 {if !userid()}
                 <div class="absolute comment-login"><a href="" class="btn">Please login to make a comment</a></div>
                 {/if}
                 
                 <div class="clearfix"></div>
-                <div align="right">
+                
+                
+                
+                <div class="inlineblock moveL marginL70 display-none"  >
+                    <a href="javascript:void(0)" class="label label-info" id="reply-author"  onclick="cancel_reply()"></a>
+                    
+                </div>
+                
+                <div align="right" class="inlineblock moveR">
                     
                     <button class="btn btn-primary">Add video response</button>
                     <button class="btn" onclick="add_comment('v')"
                             data-loading-text="{lang code='Adding comment..'}"
                                 id="add-comment-button">Post comment</button>
                 </div>
+                
+                <div class="clearfix"></div>
             </div>
             </form>
             <div class="height20"></div>

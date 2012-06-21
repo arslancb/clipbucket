@@ -305,12 +305,17 @@
 	 */
 	function comment_rating($input)
 	{
-		if($input<0)
-			return '<font color="#ed0000">'.$input.'</font>';
-		elseif($input>0)
-			return '<font color="#006600">+'.$input.'</font>';
-		else
-			return $input;
+            if($input<0)
+                $output = $input;
+            elseif($input>0)
+                $output = '+'.$input;
+            else
+                $output = '0';   
+           
+            $output = apply_filters($output, 'comment_rating');  
+            
+
+            return $output;
 	}
 	
 	
