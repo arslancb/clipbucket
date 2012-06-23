@@ -141,4 +141,43 @@ add_admin_sub_menu(array(
     'title'=>lang('Widgets'),'id'=>'widgets',
     'parent_id'=>'template-manager','link' => ADMIN_BASEURL.'/widgets.php'
     ));
+
+
+/**
+ * Adding Navigation 
+ */
+$items = array(
+    array(
+        'title' => lang('Home'),
+        'link' => BASEURL,
+        'section' => 'home',
+        'icon' => 'icon-home icon-white'
+    ),
+    array(
+        'title' => lang('Videos'),
+        'link' => cblink(array('name'=>'videos')),
+        'section' => 'videos',
+        'icon' => 'icon-film icon-white'
+    ),
+    array(
+        'title' => lang('Members'),
+        'link' => cblink( array('name'=>'channels') ),
+        'section' => 'channels',
+        'icon' => 'icon-user icon-white'
+    ),
+    array(
+        'title' => lang('Groups'),
+        'link' => cblink( array('name'=>'groups') ),
+        'section' => 'groups',
+        'icon' => 'icon-th-large icon-white'
+    ),
+    array(
+        'title' => lang('Photos'),
+        'link' => cblink( array('name' => 'photos') ),
+        'section' => 'photos',
+        'icon' => 'icon-white icon-picture'
+    )
+);
+
+add_menu( 'navigation', $items );
 ?>

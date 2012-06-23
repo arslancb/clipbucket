@@ -7,7 +7,7 @@
 {$videolink=videoLink($video)}
 <div class="{$video.videoid}-video {$video.videoid} video-box">
     <div class="video-thumb relative">
-        <a href="{$videolink}"><img src="{getThumb vdetails=$video}" /></a>
+        <a href="{$videolink}"><img src="{getThumb vdetails=$video}" {ANCHOR place="video_thumb" data=$video} /></a>
         <span class="duration">{$video.duration|duration}</span>
         
         <div class="dropdown absolute video-options btn-group">

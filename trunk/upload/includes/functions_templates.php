@@ -694,7 +694,48 @@
 	function cbMenu($params=NULL)
 	{
 		global $Cbucket;
-		return $Cbucket->cbMenu($params);
+            $name = $params['name'];
+            if ( !$name ) {
+                $name = 'navigation';
+            }
+           
+            $menu = get_menu( $name );
+            $params['show_icons'] = $params['show_icons'] ? $params['show_icons'] : 'yes';
+            if ( $menu ) {
+                foreach ( $menu as $item ) {
+                    $continue = true;
+                    if ( $item['section'] && !isSectionEnabled( $item['section']) ) {
+                        $continue = false;
+                    }
+                    
+                    if ( $continue == true ) {
+                        $selected = current_page( array('page' => $item['section']) );
+                        $icon = '';
+                        $output .= '<li';
+                        $output .= " id='".SEO(strtolower($name))."-".$item['id']."' ";
+                        $classes = $params['class'] ? $params['class'] : '';
+                        if ( $selected ) {
+                            $classes .= ' active';
+                        }
+                        
+                        $output .= " class='$classes'  ";
+                        if( $item['icon'] && $params['show_icons'] == 'yes' ){
+                            $icon = "<i class='".$item['icon']."'></i> ";
+                        }
+                        $output .= "".$params['extra_params'] ? $params['extra_params'] : ''.">";
+                        $output .= "<a href='".$item['link']."' target='".$item['target']."'>".$icon.$item['title']."</a>";
+                        $output .= "</li>";
+                    }
+                }
+
+                if ( $params['assign'] ) {
+                    assign( $params['assign'], $output );
+                } else {
+                    return $output;
+                }
+            }
+            //pr( $menu , true );
+		//return $Cbucket->cbMenu($params);
 	}
 	
 	/**
@@ -1095,6 +1136,43 @@
          {
              $rating = apply_filters($rating, 'show-rating');
              cb_call_functions('show_rating',$rating);
+         }
+         
+         function get_menu( $name ) {
+             global $Cbucket;
+             $menu = $Cbucket->menus[$name];
+             
+             if( $menu ) {
+                 $menu = apply_filters($menu, 'filter_menu');
+                 return $menu;
+             } else {
+                 return false;
+             }
+         }
+         
+         function add_menu( $name, $items=null ) {
+             global $Cbucket;
+             if ( !get_menu($name) && !is_null($items) && is_array($items) ) {
+                 $Cbucket->menus[$name] = array();
+                 add_menu_items( $name, $items );
+             }
+         }
+         
+         function add_menu_items( $name, $items ) {
+             if ( is_array($items) ) {
+                 foreach( $items as $item ) {
+                     add_menu_item( $name, $item );
+                 }
+             }
+         }
+         
+         function add_menu_item( $name, $item, $link=false, $section=false, $icon=false, $id = false, $target='_self' ) {
+             global $Cbucket;
+             if( !is_array($item) ) {
+                 $item = array('title' => $item, 'link' => $link, 'icon' => $icon, 'target'=>$target, 'id' => $id, 'section'=>$section);
+             }
+             $item['id'] = $item['id'] ? $item['id'] : SEO(strtolower($item['title'])); 
+             $Cbucket->menus[$name][$item['id']] = $item;
          }
          
          
