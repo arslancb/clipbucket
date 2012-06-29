@@ -1,3 +1,5 @@
+h2{font-family: 'Squada One', cursive;}
+
 .inlineblock{display: inline-block}
 .inline{display:inline}
 .block{display: block}
@@ -15,6 +17,10 @@
     padding: 9px 0px;
     margin-left: -5px;
 }
+
+
+.height10{height: 10px}
+.height20{height: 20px}
 
 .row-fluid .span150, .span150{width: 150px}
 .row-fluid .span200, .span200{width: 200px}
