@@ -4,10 +4,10 @@
 
 {if $err.0 neq '' || $err.1 neq ''}
 
-<div class="msg error">
+<div class="alert alert-danger">
     <ul>
     {foreach from=$err item=show_msg}
-   		<li><img src="{$imageurl}/cross.png" />{$show_msg}</li>
+   		<li>{$show_msg}</li>
     {/foreach}
     </ul>
 </div>
@@ -15,20 +15,20 @@
 {/if}
 
 {if $msg.0 neq ''}
-<div class="msg blue">
+<div class="alert alert-success">
 	<ul>
         {foreach from=$msg item=show_msg}
-        	<li><img src="{$imageurl}/ok.png" />{$show_msg}</li>
+        	<li>{$show_msg}</li>
         {/foreach}
     </ul>
 </div>
 {/if}
 
 {if $war.0 neq ''}
-<div class="msg blue">
+<div class="alert">
 	<ul>
         {foreach from=$war item=show_msg}
-        	<li><img src="{$imageurl}/error.png" />{$show_msg}</li>
+        	<li>{$show_msg}</li>
         {/foreach}
     </ul>
 </div>

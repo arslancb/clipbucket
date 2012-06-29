@@ -1,41 +1,70 @@
+<style>
+    body,html{
+        background: #efefef !important;
+    }
+</style>
 <body>
+    <div class="login-page">
+        <div class="back-to-website gradient">
+            <a href="{$baseurl}">Go to main website</a>
+        </div>
 
-<div class="header_grey_bar">
-	<img src="{$imageurl}/dot.gif" class="cbicon" /> {$title} &#8212; <a href="{$baseurl}">Back To Main Website</a>
-	<div class="clearfix"></div>
-</div>
+        <!-- Logo -->
+        <div class="login-logo">
+            <img src="{$imageurl}/login-logo.png">
+        </div>
+        
+        <div class="login-msg">
+            {include file="$style_dir/msg.html" }
+        </div>
+        
+        <!-- Login Box -->
+        <div class="login-box">
+            <form name="login-form" class="form-vertical" method="post">
+                <div class="control-group">
+                    <label class="control-label" for="username">Username</label>
+                    <div class="controls">
+                        <input class="input-xlarge focused" id="username"
+                        name="username" type="text" value="" placeholder="username...">
+                    </div>
+                </div>
 
-{include file="$style_dir/msg.html" }
+                <div class="control-group">
+                    <label class="control-label" for="password">Password</label>
+                    <div class="controls">
+                        <input type="password" class="input-xlarge focused" 
+                               id="password" type="text" value="" name="password"
+                               placeholder="password">
+                    </div>
+                </div>
 
-<div style="height:400px; background-image:url({$imageurl}/bgs/login.png); background-repeat:repeat-x" align="center">
-<div id="login_box">
-  <form name="form1" method="post" action="">
-    <table width="78%" border="0" align="center" cellpadding="0" cellspacing="0">
-      <tr>
-        <td align="left"><label for="username">Username</label></td>
-      </tr>
-      <tr>
-        <td align="left">
-          <input type="text" name="username" id="username" class="textfield">
-        </td>
-      </tr>
-      <tr>
-        <td align="left"><label for="password">Password</label></td>
-      </tr>
-      <tr>
-        <td>
-          <input type="password" name="password" id="password" class="textfield">
-        </td>
-      </tr>
-      <tr>
-        <td align="center"><label>
-          <input type="submit" name="login" class="button" value="    Login    ">
-        </label></td>
-      </tr>
-    </table>
-  </form>
-</div>
-</div>
-<div align="center" class="login_footer">&copy; ClipBucket Copyright 2007 &#8211; {$smarty.now|date_format:"%Y"} | Arslan Hassan</div>
+
+                <div class="control-group inlineblock">
+
+                    <div class="controls">
+                        <label class="checkbox">
+                            <input type="checkbox" name="remember" value="option1">
+                            Remember me              
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="inlineblock pull-right" align="right">
+                    <input type="submit" name="login" value="Login to admin area" class="btn btn-primary">
+                </div>
+                
+                <div class="clearfix"></div>
+                
+                <div align="right">
+                    Forgot password?
+                </div>
+                
+            </form>
+        </div>
+
+        <!-- Login Footer -->
+        <div class="login-footer">
+            Forged by ClipBucket | Arslan Hassan | v3.0
+        </div>
+    </div>
 </body>
-</html>
