@@ -118,7 +118,7 @@
             
             
             <div class="control-group">
-                <label class="control-label" for="site_title">Website Slogan</label>
+                <label class="control-label" for="site_slogan">Website Slogan</label>
                 <div class="controls">
                     <input type="text" class="input-xlarge" id="site_slogan" name="site_slogan" value="{$r.site_slogan}">
                     <p class="help-block">A nice slogan or subtitle for your website</p>
@@ -130,7 +130,7 @@
             <div class="control-group">
                 <label class="control-label" for="closed">Close Website</label>
                 <div class="controls">
-                    <select name="closed" id="closed">
+                    <select name="closed" id="closed" class="input-xlarge">
                         <option value="1"  
                                 {if $row.closed == 1}
                                 selected="selected"
@@ -148,413 +148,506 @@
             
             
             
+            <div class="control-group">
+                <label class="control-label" for="closed_msg">Closed message</label>
+                <div class="controls">
+                    <textarea name="closed_msg" id="closed_msg" class="input-xlarge">{$r.closed_msg}</textarea>
+                    <p class="help-block">Message to display when website is offline</p>
+                </div>
+            </div>
             
             
+             <div class="control-group">
+                <label class="control-label" for="description">Meta Description</label>
+                <div class="controls">
+                    <textarea name="description" id="description" class="input-xlarge">{$r.description}</textarea>
+                    <p class="help-block">Meta description for website</p>
+                </div>
+            </div>
             
+            <div class="control-group">
+                <label class="control-label" for="keywords">Meta Keywords</label>
+                <div class="controls">
+                    <input name="keywords" type="text" id="keywords" value="{$r.keywords}" class="input-xlarge" />
+                    <p class="help-block">Meta keywords for website</p>
+                </div>
+            </div>
             
-            
-            
-            
-            
-            <fieldset class="fieldset" style="border:none">
-                <table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
-                   
-
-                    <tr>
-                        <td valign="top">Closed message</td>
-                        <td valign="top"><textarea name="closed_msg" id="closed_msg" cols="45" rows="5">{$row.closed_msg}</textarea></td>
-                    </tr>
-                    <tr>
-                        <td valign="top">Meta Description</td>
-                        <td valign="top"><textarea name="description" id="description" cols="45" rows="5">{$row.description}</textarea></td>
-                    </tr>
-                    <tr>
-                        <td valign="top">Meta Keywords</td>
-                        <td valign="top"><input name="keywords" type="text" id="keywords" value="{$row.keywords}" size="45" /></td>
-                    </tr>
-                    <tr>
-                        <td>SEO Urls</td>
-                        <td><select name="seo" id="select2">
+            <div class="control-group">
+                <label class="control-label" for="select2">SEO URLs</label>
+                <div class="controls">
+                   <select name="seo" id="select2" class="input-xlarge">
                                 <option value="yes"
-                                        {if $row.seo == yes}
+                                        {if $r.seo == yes}
                                         selected="selected"
                                         {/if}
                                         >Yes</option>
                                 <option value="no"
-                                        {if $row.seo == no}
+                                        {if $r.seo == no}
                                         selected="selected"
                                         {/if}
                                         >No</option>
-                            </select></td>
-                    </tr>
-                    <tr>
-                        <td>Allow template change</td>
-                        <td><select name="allow_template_change" id="allow_template_change">
-                                <option value="1"  
-                                        {if $row.allow_template_change == 1}
-                                        selected="selected"
-                                        {/if}
-                                        >Yes</option>
-                                <option value="0"
-                                        {if $row.allow_template_change == 0}
-                                        selected="selected"
-                                        {/if}
-                                        >No</option>
-                            </select></td>
-                    </tr>
-                    <tr>
-                        <td>Allow language change</td>
-                        <td><select name="allow_language_change" id="allow_language_change">
-                                <option value="1"
-                                        {if $row.allow_language_change == 1}
-                                        selected="selected"
-                                        {/if}
-                                        >Yes</option>
-                                <option value="0"
-                                        {if $row.allow_language_change == 0}
-                                        selected="selected"
-                                        {/if}
-                                        >No</option>
-                            </select></td>
-                    </tr>
-                    <tr>
-                        <td>Date Format</td>
-                        <td><label for="allow_multilingual_usernames"></label>
-                            <input name="date_format" type="text" id="date_format" value="{$row.date_format}" size="45" /></td>
-                    </tr>
-                    <tr>
-                        <td>Default Time Zone</td>
-                        <td>
-                            <select name="default_time_zone" id="default_time_zone">
-                                {assign var='tzs' value=get_time_zones()}
-                                {foreach from=$tzs item=name key=tz}
-                                <option value="{$tz}" {if $row.default_time_zone==$tz} selected="selected"{/if}>{$name}</option>
-                                {/foreach}
                             </select>
-                    </tr>
-                    <tr>
-                        <td><label for="default_country_iso2">Default Country</label></td>
-                        <td>
-                            <select name="default_country_iso2" id="default_country_iso2">
-                                {assign var=countries value=$Cbucket->get_countries(iso2)}
-                                {foreach from=$countries item=country key=code}
-                                <option  {if $code == $row.default_country_iso2} selected="selected" {/if} value="{$code}">
-                                    {$country}
-                            </option>
-                            {/foreach}
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Use Sub-Categories</td>
-                    <td><select name="use_subs" id="use_subs">
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="allow_template_change">Allow template change</label>
+                <div class="controls">
+                   <select name="allow_template_change" id="allow_template_change" class="input-xlarge">
+                                <option value="1"  
+                                        {if $r.allow_template_change == 1}
+                                        selected="selected"
+                                        {/if}
+                                        >Yes</option>
+                                <option value="0"
+                                        {if $r.allow_template_change == 0}
+                                        selected="selected"
+                                        {/if}
+                                        >No</option>
+                            </select>
+                    <p class="help-block">Allow users to select different template from Front End</p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="allow_language_change">Allow language change</label>
+                <div class="controls">
+                   <select name="allow_language_change" id="allow_language_change" class="input-xlarge">
+                                <option value="1"
+                                        {if $r.allow_language_change == 1}
+                                        selected="selected"
+                                        {/if}
+                                        >Yes</option>
+                                <option value="0"
+                                        {if $r.allow_language_change == 0}
+                                        selected="selected"
+                                        {/if}
+                                        >No</option>
+                            </select>
+                    <p class="help-block">Allow users to change language from Front End</p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="date_format">Date Format</label>
+                <div class="controls">
+                   <input name="date_format" type="text" id="date_format" value="{$r.date_format}" class="input-xlarge" />
+                    <p class="help-block">Read <a href="http://php.net/manual/en/function.date.php" target="_blank">PHP Documenation</a> for better understanding</p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="default_time_zone">Default Time Zone</label>
+                <div class="controls">
+                    <select name="default_time_zone" id="default_time_zone" class="input-xlarge">
+                        {assign var='tzs' value=get_time_zones()}
+                        {foreach from=$tzs item=name key=tz}
+                        <option value="{$tz}" {if $r.default_time_zone==$tz} selected="selected"{/if}>{$name}</option>
+                        {/foreach}
+                    </select>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="default_country_iso2">Default Country</label>
+                <div class="controls">
+                    <select name="default_country_iso2" id="default_country_iso2" class="input-xlarge">
+                        {assign var=countries value=$Cbucket->get_countries(iso2)}
+                        {foreach from=$countries item=country key=code}
+                        <option  {if $code == $r.default_country_iso2} selected="selected" {/if} value="{$code}">
+                        {$country}
+                        </option>
+                    {/foreach}
+                    </select>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="use_subs">Use Sub-Categories</label>
+                <div class="controls">
+                    <select name="use_subs" id="use_subs" class="input-xlarge">
                             <option value="1"
-                                    {if $row.use_subs == 1}
+                                    {if $r.use_subs == 1}
                                     selected="selected"
                                     {/if}
                                     >Yes</option>
                             <option value="0"
-                                    {if $row.use_subs == 0}
+                                    {if $r.use_subs == 0}
                                     selected="selected"
                                     {/if}
                                     >No</option>
-                        </select></td>
-                </tr>
-                <tr>
-                    <td>Collpase Category Checkboxes</td>
-                    <td><select name="show_collapsed_checkboxes" id="show_collapsed_checkboxes">
+                        </select>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="show_collapsed_checkboxes">Collpase Category Checkboxes</label>
+                <div class="controls">
+                    <select name="show_collapsed_checkboxes" id="show_collapsed_checkboxes" class="input-xlarge">
                             <option value="1"
-                                    {if $row.show_collapsed_checkboxes == 1}
+                                    {if $r.show_collapsed_checkboxes == 1}
                                     selected="selected"
                                     {/if}
                                     >Yes</option>
                             <option value="0"
-                                    {if $row.show_collapsed_checkboxes == 0}
+                                    {if $r.show_collapsed_checkboxes == 0}
                                     selected="selected"
                                     {/if}
                                     >No</option>
                         </select>
-                        <span class="smallText" style="font-size:11px;">If selected <strong>YES</strong>, Categories shown while uploading <strong>video</strong> will be collapsed.</span>
-                    </td>
-                </tr>            
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="settings_inner_title">Emails</td>
-                </tr>
-                <tr>
-                    <td>Website Email</td>
-                    <td><input name="website_email" type="text" id="website_email" value="{$row.website_email}" size="45" /></td>
-                </tr>
-                <tr>
-                    <td>Support Email</td>
-                    <td><input name="support_email" type="text" id="support_email" value="{$row.support_email}" size="45" /></td>
-                </tr>
-                <tr>
-                    <td><label for="welcome_email">Welcome Email</label></td>
-                    <td><input name="welcome_email" type="text" id="welcome_email" value="{$row.welcome_email}" size="45" /></td>
-                </tr>
-                <tr>
-                    <td>Send Comment Notification</td>
-                    <td>
-                        <select name="send_comment_notification" id="send_comment_notification">
-                            <option value="yes" {if $row.send_comment_notification=='yes'} selected="selected"{/if}>Yes</option>
-                            <option value="no" {if $row.send_comment_notification=='no'} selected="selected"{/if}>No</option>
+                    <p class="help-block">If selected Yes, Categories shown in checkboxes will be collapsed.</p>
+                </div>
+            </div>
+            
+            <h2 class="sub_heading">Emails</h2>
+            <div class="height20"></div>
+            
+            <div class="control-group">
+                <label class="control-label" for="website_email">Website Email</label>
+                <div class="controls">
+                    <input name="website_email" type="text" id="website_email" class="input-xlarge" value="{$r.website_email}"  />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="welcome_email">Welcome Email</label>
+                <div class="controls">
+                    <input name="welcome_email" type="text" id="welcome_email" class="input-xlarge" value="{$r.welcome_email}" />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="support_email">Support Email</label>
+                <div class="controls">
+                    <input name="support_email" type="text" id="support_email" class="input-xlarge" value="{$r.support_email}" />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+             <div class="control-group">
+                <label class="control-label" for="send_comment_notification">Send Comment Notification</label>
+                <div class="controls">
+                    <select name="send_comment_notification" id="send_comment_notification" class="input-xlarge">
+                            <option value="yes" {if $r.send_comment_notification=='yes'} selected="selected"{/if}>Yes</option>
+                            <option value="no" {if $r.send_comment_notification=='no'} selected="selected"{/if}>No</option>
                         </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Send Video Approve Noticfication</td>
-                    <td><select name="approve_video_notification" id="approve_video_notification">
-                            <option value="yes" {if $row.approve_video_notification=='yes'} selected="selected"{/if}>Yes</option>
-                            <option value="no" {if $row.approve_video_notification=='no'} selected="selected"{/if}>No</option>
-                        </select></td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td colspan="2" valign="top" class="settings_inner_title">Comments</td>
-                </tr>
-                <tr>
-                    <td valign="top"><label for="video_comments">Allow Video Comments</label></td>
-                    <td valign="top"><input name="video_comments" type="checkbox" id="video_comments" value="1" {if $row.video_comments=='1'}checked="checked"{/if} /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Allow Channel Comments</td>
-                    <td valign="top"><input name="channel_comments" type="checkbox" id="channel_comments" value="1" {if $row.channel_comments=='1'}checked="checked"{/if} /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Allow Guests to Comment</td>
-                    <td valign="top"><input name="anonym_comments" type="checkbox" id="anonym_comments" value="yes" {if $row.anonym_comments=='yes'}checked{/if} /></td>
-                </tr>
-                <tr>
-                    <td valign="top"><label for="max_comment_chr">Maximum Comment Characters</label></td>
-                    <td valign="top"><input name="max_comment_chr" type="text" id="max_comment_chr" value="{$row.max_comment_chr}" size="15" maxlength="5" /></td>
-                </tr>
-                <tr>
-                    <td>Allow comments rating</td>
-                    <td><input name="comment_rating" type="checkbox" id="comment_rating" value="1" {if $row.comment_rating=='1'}checked="checked"{/if} /></td>
-                </tr>
-                <tr>
-                    <td>Comments Captcha</td>
-                    <td><p>
-                            <label>
-                                <input type="radio" name="comments_captcha" value="all" id="comments_captcha_0" 
-                                       {if $row.comments_captcha==all} checked="checked"{/if} />
-                                       For Everyone</label>
-
-                            <label>
-                                <input type="radio" name="comments_captcha" value="guests" id="comments_captcha_1"
-                                       {if $row.comments_captcha==guests} checked="checked"{/if} />
-                                       For Guests Only</label>
-
-                            <label>
-                                <input type="radio" name="comments_captcha" value="none" id="comments_captcha_2" 
-                                       {if $row.comments_captcha==none} checked="checked"{/if} />
-                                       Disable</label>
-                            <br />
-                        </p></td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-
-                <tr>
-                    <td colspan="2" valign="top" class="settings_inner_title">Videos</td>
-                </tr>
-                <tr>
-                    <td>Enable video section</td>
-                    <td><label for="videosSection"></label>
-                        <select name="videosSection" id="videosSection">
-                            <option value="yes" {if $row.videosSection!='no'} selected="selected"{/if}>Yes</option>
-                            <option value="no" {if $row.videosSection=='no'} selected="selected"{/if}>No</option>
-                        </select></td>
-                </tr>
-                <tr>
-                    <td>Enable facebook embed</td>
-                    <td><label for="facebook_embed"></label>
-                        <select name="facebook_embed" id="facebook_embed">
-                            <option value="yes" {if $row.facebook_embed!='no'} selected="selected"{/if}>Yes</option>
-                            <option value="no" {if $row.facebook_embed=='no'} selected="selected"{/if}>No</option>
-                        </select></td>
-                </tr>
-                <tr>
-                    <td><label for="video_embed">Allow video embedding</label></td>
-                    <td><input name="video_embed" type="checkbox" id="video_embed" value="1" {if $row.video_embed=='1'} checked="checked"{/if} /></td>
-                </tr>
-                <tr>
-                    <td><labe for="video_download">Allow video download</labe></td>
-                <td><input name="video_download" type="checkbox" id="video_download" value="1" {if $row.video_download=='1'}checked="checked"{/if} /></td>
-                </tr>
-                <tr>
-                    <td>Max categories for each video</td>
-                    <td><input name="video_categories" type="text" id="php_path8" value="{$row.video_categories}" size="15" maxlength="5" /></td>
-                </tr>
-                <tr>
-                    <td>Category <label for="vid_cat_width">width</label> x <label for="vid_cat_height">height </label></td>
-                    <td>
-                        <input type="text" name="vid_cat_width" id="vid_cat_width" value="{$row.vid_cat_width}" />
-                        x
-
-                        <input type="text" name="vid_cat_height" id="vid_cat_height" value="{$row.vid_cat_height}"/></td>
-                </tr>
-                <tr>
-                    <td>Embed type</td>
-                    <td><label for="embed_type"></label>
-                        <select name="embed_type" id="embed_type">
-                            <option value="iframe" {if $row.embed_type=='iframe'} selected="selected"{/if}>Iframe</option>
-                            <option value="embed_object" {if $row.embed_type=='embed_object'} selected="selected"{/if}>Embed object</option>
-                        </select></td>
-                </tr>
-                <tr>
-                    <td>Seo video url pattern</td>
-                    <td>
-                        <label>
-                            <input type="radio" name="seo_vido_url" value="0" id="seo_vido_url_0"
-                                   {if !$row.seo_vido_url || $row.seo_vido_url==0} checked="checked"{/if}	 />
-                                   {$baseurl}/video/ABCDXYZ/video-title</label>
-                        <br />
-                        <label>
-                            <input type="radio" name="seo_vido_url" value="1" id="seo_vido_url_1"
-                                   {if $row.seo_vido_url==1} checked="checked"{/if}/>
-                                   {$baseurl}/video-title-v123</label>
-                        <br />
-                        <label>
-                            <input type="radio" name="seo_vido_url" value="2" id="seo_vido_url_2"
-                                   {if $row.seo_vido_url==2} checked="checked"{/if}/>
-                                   {$baseurl}/video/123/video-title</label>
-                        <br />
-                        <label>
-                            <input type="radio" name="seo_vido_url" value="3" id="seo_vido_url_3"
-                                   {if $row.seo_vido_url==3} checked="checked"{/if}/>
-                                   {$baseurl}/video/123_video-title</label>
-
-                        <br />
-                        <label>
-                            <input type="radio" name="seo_vido_url" value="4" id="seo_vido_url_4"
-                                   {if $row.seo_vido_url==4} checked="checked"{/if}/>
-                                   {$baseurl}/video/video-title <sup style="color:#ed0000">recommended</sup></label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td colspan="2" valign="top" class="settings_inner_title">Channels</td>
-                </tr>
-                <tr>
-                    <td>Enable channels</td>
-                    <td><label for="channelsSection"></label>
-                        <select name="channelsSection" id="channelsSection">
-                            <option value="yes" {if $row.channelsSection!='no'} selected="selected"{/if}>Yes</option>
-                            <option value="no" {if $row.channelsSection=='no'} selected="selected"{/if}>No</option>
-                        </select></td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="settings_inner_title">Groups</td>
-                </tr>
-                <tr>
-                    <td>Enable group section</td>
-                    <td><label for="groupsSection"></label>
-                        <select name="groupsSection" id="groupsSection">
-                            <option value="yes" {if $row.groupsSection!='no'} selected="selected"{/if}>Yes</option>
-                            <option value="no" {if $row.groupsSection=='no'} selected="selected"{/if}>No</option>
-                        </select></td>
-                </tr>
-                <tr>
-                    <td>Group Thumb Height</td>
-                    <td><input name="grp_thumb_height" type="text" id="grp_thumb_height" value="{$row.grp_thumb_height}" size="15" maxlength="5" /></td>
-                </tr>
-                <tr>
-                    <td>Group Thumb Width</td>
-                    <td><input name="grp_thumb_width" type="text" id="grp_thumb_width" value="{$row.grp_thumb_width}" size="15" maxlength="5" /></td>
-                </tr>
-                <tr>
-                    <td>Group Max Title</td>
-                    <td><input name="grp_max_title" type="text" id="grp_max_title" value="{$row.grp_max_title}" size="15" maxlength="5" /></td>
-                </tr>
-                <tr>
-                    <td>Group Max Description</td>
-                    <td><input name="grp_max_desc" type="text" id="grp_max_desc" value="{$row.grp_max_desc}" size="15" maxlength="5" /></td>
-                </tr>
-                <tr>
-                    <td>Max group topic name </td>
-                    <td><input name="max_topic_title" type="text" id="max_topic_title" value="{$row.max_topic_title}" size="15" maxlength="5" /></td>
-                </tr>
-                <tr>
-                    <td>Max group topic content</td>
-                    <td><input name="max_topic_length" type="text" id="max_topic_length" value="{$row.max_topic_length}" size="15" maxlength="5" /></td>
-                </tr>
-                <tr>
-                    <td>Max categories for each group</td>
-                    <td><input name="grp_categories" type="text" id="grp_categories" value="{$row.grp_categories}" size="15" maxlength="5" /></td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td colspan="2" valign="top" class="settings_inner_title">Photos</td>
-                </tr>
-                <tr>
-                    <td>Enable photos</td>
-                    <td><label for="photosSection"></label>
-                        <select name="photosSection" id="photosSection">
-                            <option value="yes" {if $row.photosSection!='no'} selected="selected"{/if}>Yes</option>
-                            <option value="no" {if $row.photosSection=='no'} selected="selected"{/if}>No</option>
-                        </select></td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="settings_inner_title">General</td>
-                </tr>
-                <tr>
-                    <td>Enable Collections</td>
-                    <td><label for="collectionsSection"></label>
-                        <select name="collectionsSection" id="collectionsSection">
-                            <option value="yes" {if $row.collectionsSection!='no'} selected="selected"{/if}>Yes</option>
-                            <option value="no" {if $row.collectionsSection=='no'} selected="selected"{/if}>No</option>
-                        </select></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input name="video_rating" type="checkbox" id="video_rating" value="1" {if $row.video_rating=='1'}checked="checked"{/if} />
-                                           Allow  videos ratings
-
-                                           - 
-                                           <input name="own_video_rating" type="checkbox" id="own_video_rating" value="1" {if $row.own_video_rating=='1'}checked="checked"{/if} />
-                                           Allow user to rate own videos </td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input name="collection_rating" type="checkbox" id="collection_rating" value="1" {if $row.collection_rating=='1'}checked="checked"{/if} />
-                                           Allow collection ratings
-
-                                           - 
-                                           <input name="own_collection_rating" type="checkbox" id="own_collection_rating" value="1" {if $row.own_collection_rating=='1'}checked="checked"{/if} />
-                                           Allow user to rate own collections </td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input name="channel_rating" type="checkbox" id="channel_rating" value="1" {if $row.channel_rating=='1'}checked="checked"{/if} />
-                                           Allow channel ratings
-
-                                           - 
-                                           <input name="own_channel_rating" type="checkbox" id="own_channel_rating" value="1" {if $row.own_channel_rating=='1'}checked="checked"{/if} />
-                                           Allow users to rate own channels </td>
-                </tr>
-            </table>
-        </fieldset>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            
+            <div class="control-group">
+                <label class="control-label" for="approve_video_notification">Send Video Approve Notification</label>
+                <div class="controls">
+                    <select name="approve_video_notification" id="approve_video_notification" class="input-xlarge">
+                        <option value="yes" {if $r.approve_video_notification=='yes'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $r.approve_video_notification=='no'} selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+ 
+            
+            <h2 class="sub_heading">Comments</h2>
+            <div class="height20"></div>            
+            
+            <div class="control-group">
+                <label class="control-label" for="video_comments">Allow Video Comments</label>
+                <div class="controls">
+                    <input name="video_comments" type="checkbox" id="video_comments" value="1" class="input-xlarge" {if $r.video_comments=='1'}checked="checked"{/if} />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+             <div class="control-group">
+                <label class="control-label" for="channel_comments">Allow Channel Comments</label>
+                <div class="controls">
+                    <input name="channel_comments" type="checkbox" id="channel_comments" value="1" class="input-xlarge" {if $r.channel_comments=='1'}checked="checked"{/if} />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="anonym_comments">Allow Guest Comments</label>
+                <div class="controls">
+                    <input name="anonym_comments" type="checkbox" id="anonym_comments" value="1" class="input-xlarge" {if $r.anonym_comments=='1'}checked="checked"{/if} />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="max_comment_chr">Maximum Comment Characters</label>
+                <div class="controls">
+                    <input name="max_comment_chr" type="text" id="max_comment_chr" value="{$r.max_comment_chr}" class="input-xlarge"  />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+             <div class="control-group">
+                <label class="control-label" for="comment_rating">Allow comments rating</label>
+                <div class="controls">
+                    <input name="comment_rating" type="checkbox" id="comment_rating" value="1" class="input-xlarge" {if $r.comment_rating=='1'}checked="checked"{/if} />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="comments_captcha_0">Comments Captcha</label>
+                <div class="controls">
+                    <label for="comments_captcha_0" class="radio"><input type="radio" name="comments_captcha" value="all" id="comments_captcha_0"  {if $r.comments_captcha==all} checked="checked"{/if} /> For Everyone</label>
+                    <label for="comments_captcha_1" class="radio"><input type="radio" name="comments_captcha" value="guests" id="comments_captcha_1"  {if $r.comments_captcha==guests} checked="checked"{/if} /> For Guests Only</label>
+                    <label for="comments_captcha_2" class="radio"><input type="radio" name="comments_captcha"  value="none" id="comments_captcha_2"  {if $r.comments_captcha==none} checked="checked"{/if} /> Disable</label>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <h2 class="sub_heading">Videos</h2>
+            <div class="height20"></div>
+            
+            <div class="control-group">
+                <label class="control-label" for="videosSection">Enable video section</label>
+                <div class="controls">
+                    <select name="videosSection" id="videosSection" class="input-xlarge">
+                        <option value="yes" {if $r.videosSection!='no'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $r.videosSection=='no'} selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="facebook_embed">Enable video section</label>
+                <div class="controls">
+                    <select name="facebook_embed" id="facebook_embed" class="input-xlarge">
+                        <option value="yes" {if $r.facebook_embed!='no'} selected="selected"{/if}>Yes</option>
+                            <option value="no" {if $r.facebook_embed=='no'} selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="video_embed">Allow video embedding</label>
+                <div class="controls">
+                    <input name="video_embed" type="checkbox" id="video_embed" value="1" class="input-xlarge" {if $r.video_embed=='1'} checked="checked"{/if} />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="video_download">Allow video download</label>
+                <div class="controls">
+                    <input name="video_download" type="checkbox" id="video_download" value="1" class="input-xlarge" {if $r.video_download=='1'} checked="checked"{/if} />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="video_rating">Allow video rating</label>
+                <div class="controls">
+                    <input name="video_rating" type="checkbox" id="video_rating" value="1" class="input-xlarge" {if $r.video_rating=='1'} checked="checked"{/if} />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="own_video_rating">Allow user to rate own videos</label>
+                <div class="controls">
+                    <input name="own_video_rating" type="checkbox" id="own_video_rating" value="1" class="input-xlarge" {if $r.own_video_rating=='1'} checked="checked"{/if} />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="video_categories">Max categories for each video</label>
+                <div class="controls">
+                    <input name="video_categories" type="text" id="video_categories" value="{$r.video_categories}"  maxlength="5" class="input-xlarge" />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+             <div class="control-group">
+                <label class="control-label" for="vid_cat_width">Category width x height</label>
+                <div class="controls">
+                    <input type="text" name="vid_cat_width" id="vid_cat_width" value="{$r.vid_cat_width}" class="input-xlarge" /> x  <input type="text" name="vid_cat_height" id="vid_cat_height" value="{$r.vid_cat_height}" class="input-xlarge"/>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="embed_type">Embed type</label>
+                <div class="controls">
+                     <select name="embed_type" id="embed_type" class="input-xlarge">
+                        <option value="iframe" {if $r.embed_type=='iframe'} selected="selected"{/if}>Iframe</option>
+                        <option value="embed_object" {if $r.embed_type=='embed_object'} selected="selected"{/if}>Embed object</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+             <div class="control-group">
+                <label class="control-label" for="seo_vido_url_0">SEO video url pattern</label>
+                <div class="controls">
+                    <label class="radio"><input type="radio" name="seo_vido_url" value="1" id="seo_vido_url_0"  {if !$r.seo_vido_url || $r.seo_vido_url==0} checked="checked"{/if}/>{$baseurl}/video-title-v123</label>
+                    <label class="radio"><input type="radio" name="seo_vido_url" value="1" id="seo_vido_url_1"  {if $r.seo_vido_url==1} checked="checked"{/if}/>{$baseurl}/video/ABCDXYZ/video-title</label>
+                    <label class="radio"><input type="radio" name="seo_vido_url" value="2" id="seo_vido_url_2"  {if $r.seo_vido_url==2} checked="checked"{/if}/>{$baseurl}/video/123/video-title</label>
+                    <label class="radio"><input type="radio" name="seo_vido_url" value="3" id="seo_vido_url_3"  {if $r.seo_vido_url==3} checked="checked"{/if}/>{$baseurl}/video/123_video-title</label>
+                    <label class="radio"><input type="radio" name="seo_vido_url" value="4" id="seo_vido_url_4"  {if $r.seo_vido_url==4} checked="checked"{/if}/>{$baseurl}/video/video-title <sup>recommended</sup></label>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <h2>Channels</h2>
+            <div class="height20"></div>
+            
+            <div class="control-group">
+                <label class="control-label" for="channelsSection">Enable channel section</label>
+                <div class="controls">
+                     <select name="channelsSection" id="channelsSection" class="input-xlarge">
+                            <option value="yes" {if $r.channelsSection!='no'} selected="selected"{/if}>Yes</option>
+                            <option value="no" {if $r.channelsSection=='no'} selected="selected"{/if}>No</option>
+                        </select>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="channel_rating"> Allow channel ratings</label>
+                <div class="controls">
+                    <input name="channel_rating" type="checkbox" id="channel_rating" value="1" class="input-xlarge" {if $r.channel_rating=='1'} checked="checked"{/if} />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="own_channel_rating">Allow user to rate own channels</label>
+                <div class="controls">
+                    <input name="own_channel_rating" type="checkbox" id="own_channel_rating" value="1" class="input-xlarge" {if $r.own_channel_rating=='1'} checked="checked"{/if} />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <h2>Groups</h2>
+            <div class="height20"></div>
+            
+            <div class="control-group">
+                <label class="control-label" for="groupsSection">Enable group section</label>
+                <div class="controls">
+                     <select name="groupsSection" id="groupsSection" class="input-xlarge">
+                            <option value="yes" {if $r.groupsSection!='no'} selected="selected"{/if}>Yes</option>
+                            <option value="no" {if $r.groupsSection=='no'} selected="selected"{/if}>No</option>
+                        </select>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="grp_thumb_width">Group Thumb Width</label>
+                <div class="controls">
+                    <input name="grp_thumb_width" type="text" id="grp_thumb_width" value="{$r.grp_thumb_width}" class="input-xlarge" maxlength="5" />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="grp_thumb_height">Group Thumb Height</label>
+                <div class="controls">
+                    <input name="grp_thumb_height" type="text" id="grp_thumb_height" value="{$r.grp_thumb_height}" class="input-xlarge" maxlength="5" />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="grp_max_title">Group Max Title</label>
+                <div class="controls">
+                    <input name="grp_max_title" type="text" id="grp_max_title" value="{$r.grp_max_title}" class="input-xlarge" maxlength="5" />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="grp_max_desc">Group Max Description</label>
+                <div class="controls">
+                    <input name="grp_max_desc" type="text" id="grp_max_desc" value="{$r.grp_max_desc}" class="input-xlarge" maxlength="5" />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="max_topic_title">Max group topic name</label>
+                <div class="controls">
+                    <input name="max_topic_title" type="text" id="max_topic_title" value="{$r.max_topic_title}" class="input-xlarge" maxlength="5" />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="max_topic_length">Max group topic content</label>
+                <div class="controls">
+                    <input name="max_topic_length" type="text" id="max_topic_length" value="{$r.max_topic_length}" class="input-xlarge" maxlength="5" />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="grp_categories">Max categories for each group</label>
+                <div class="controls">
+                    <input name="grp_categories" type="text" id="grp_categories" value="{$r.grp_categories}" class="input-xlarge" maxlength="5" />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <h2 class="sub_heading">Photos</h2>
+            <div class="height20"></div>
+            
+            <div class="control-group">
+                <label class="control-label" for="photosSection">Enable photo section</label>
+                <div class="controls">
+                    <select name="photosSection" id="photosSection" class="input-xlarge">
+                        <option value="yes" {if $r.photosSection!='no'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $r.photosSection=='no'} selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <h2 class="sub_heading">Collections</h2>
+            <div class="height20"></div>
+            
+            <div class="control-group">
+                <label class="control-label" for="collectionsSection">Enable collection section</label>
+                <div class="controls">
+                    <select name="collectionsSection" id="collectionsSection">
+                        <option value="yes" {if $r.collectionsSection!='no'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $r.collectionsSection=='no'} selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="collection_rating">Allow collection ratings</label>
+                <div class="controls">
+                    <input name="collection_rating" type="checkbox" id="collection_rating" value="1" {if $r.collection_rating=='1'}checked="checked"{/if} />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="own_collection_rating">Allow user to rate own collections</label>
+                <div class="controls">
+                    <input name="own_collection_rating" type="checkbox" id="own_collection_rating" value="1" {if $row.own_collection_rating=='1'}checked="checked"{/if} />
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            
     </div>
 
     <div id="div_2" class="tab-pane">
