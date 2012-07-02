@@ -6,6 +6,59 @@
         <div class="thumbnail inlineblock">
             {get_photo details=$object size='l' output='html' width="720"}
         </div>
+        
+        <div class="video-stats">
+        	<div class="inlineblock pull-left">
+            	<div class="btn-toolbar">
+                    <div class="btn-group valignMid">
+                        <button class="btn"><span class="icon-like"></span> Like</button>
+                        <button class="btn"><span class="icon-dislike"></span></button>
+                    </div> 
+                    <button class="btn" onclick="toggleBox(this,'#add-videos-to-playlist');" ><span class="icon-plus" ></span>{lang code='Add to'}</button>
+                    <button class="btn"><span class="icon-share"></span> Share</button>
+                    <button class="btn"><span class="icon-flag"></span> Flag</button>               
+                </div>
+            </div>
+        </div>
+        
+        <div class="inlineblock pull-right ">
+            <div class="btn-toolbar valignMid">
+                <h3 class="inlineblock valignTop">{$photo.views|number_format} {lang code='views'}</h3>
+                <button class="btn"><span class="icon-v3 icon-stats"></span></button>
+            </div>
+        </div>
+        
+        <div class="video-details row-fluid">
+        	<div class="span9">
+            	<div style="height: 60px ;overflow: hidden" id="vid-details" class="relative">
+                	<h6>uploaded {$photo.date_added|niceTime} by {$user.username}</h6>
+                    <article>
+                    	<p>{$photo.photo_description}</p>
+                    </article>
+                    <h5>{lang code='Collection'}</h5>
+                    <h6><a href="{$cbcollection->collection_links( $c, 'view_collection' )}">{$c.collection_name}</a></h6>
+                    
+                    <h5>Tags</h5>
+                    <h6>{$photo.photo_tags|tags:photos}</h6> 
+                                       
+                    <div class="height10"></div>
+                    <div  class="video-details-shadow absolute"></div>
+                </div>
+                <div class="height5"></div>
+                
+                <div align="center">
+                    <div class="btn btn-info btn-mini width75" id="vid-details-more" onclick="toggleLessMore('vid-details','more');">More</div>
+                    <div class="btn btn-mini display-none width75" id="vid-details-less"  onclick="toggleLessMore('vid-details','less');">Less</div>
+                </div>
+            </div>
+            
+            <div class="span3">
+                <div id="video-rating-container">
+                    {$photoRating=cbv3_rating($photo,'video-bar')}
+                    {$photoRating}
+                </div>        
+            </div>
+        </div>
     </div>
     
     <div class="span336">

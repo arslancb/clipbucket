@@ -13,6 +13,11 @@ require 'includes/config.inc.php';
 header ("Content-type: text/xml; charset=utf-8");
 echo '<?xml version=\'1.0\' encoding=\'UTF-8\'?>'."\n";
 
+if ( isset($_GET['type']) && $_GET['type'] == 'photos' ) {
+    include('rss_photos.php');
+    return true;
+}
+
 $limit = 20;
 $page = $_GET['page'];
 if($page<1 || !is_numeric )

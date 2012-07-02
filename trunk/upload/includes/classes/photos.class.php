@@ -190,7 +190,7 @@ class CBPhotos {
         $Cbucket->links['manage_orphan_photos'] = array('manage_photos.php?mode=orphan', 'manage_photos.php?mode=orphan');
         $Cbucket->links['user_photos'] = array('user_photos.php?mode=uploaded&amp;user=', 'user_photos.php?mode=uploaded&amp;user=');
         $Cbucket->links['user_fav_photos'] = array('user_photos.php?mode=favorite&amp;user=', 'user_photos.php?mode=favorite&amp;user=');
-
+       
         // Setting Home Tab
     }
 

@@ -1427,6 +1427,22 @@
 			case 'video':
 			default:
 			{
+                        $video = get_video_details($id);
+                        if (!$video) {
+                            return false;
+                        }
+                        
+                        if ( $video['active'] != 'yes' || $video['status'] != 'Successful' ) {
+                            return false;
+                        }
+                        
+                        if ( function_exists('vi_user_type') ) {
+                            $_user = vi_user_type();
+                            if ( $_user['user_type'] == 4 ) {
+                                return false;
+                            }
+                        }
+                        
 				if(!isset($_COOKIE['video_'.$id])){
 					$db->update(tbl("video"),array("views","last_viewed"),array("|f|views+1",NOW())," videoid='$id' OR videokey='$id'");
 					setcookie('video_'.$id,'watched',time()+3600);
@@ -2942,7 +2958,8 @@
 		$rss_feeds[] = array("title"=>"Most Viewed Videos","link"=>$rss_link."views");
 		$rss_feeds[] = array("title"=>"Top Rated Videos","link"=>$rss_link."rating");
 		$rss_feeds[] = array("title"=>"Videos Being Watched","link"=>$rss_link."watching");
-		
+		$rss_feeds = apply_filters($rss_feeds, 'rss_feeds');
+            
 		$funcs = get_functions('rss_feeds');
 		if(is_array($funcs))
 		{
@@ -3390,5 +3407,4 @@ include("functions_forms.php");
 
 include("functions_templates.php");
 include("functions_players.php");
-
 ?>

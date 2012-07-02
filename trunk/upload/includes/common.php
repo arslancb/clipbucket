@@ -141,7 +141,7 @@ if(!@$in_bg_cron)
 	$userquery 	= new userquery();
 	$lang_obj	= new language;
 		
-	
+	include('menu.php');
 	//Setting Time Zone date_default_timezone_set()
 	
 	require_once('classes/search.class.php');
@@ -420,7 +420,7 @@ if(!@$in_bg_cron)
 	
 	require BASEDIR.'/includes/active.php';
 	
-        include('menu.php');
+        
         
 	$cbtpl = new CBTemplate();
         

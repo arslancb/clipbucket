@@ -843,4 +843,9 @@ function get_photo_date_folder ( $pid ) {
 	
 	return $date_dir;
 }
+
+function view_photo_link( $photo, $type='view_item' ) {
+    global $cbphoto;
+    return $cbphoto->collection->collection_links( $photo, $type);
+}
 ?>

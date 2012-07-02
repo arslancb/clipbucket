@@ -125,5 +125,4 @@ function cbv3_show_rating($rating)
     
 }
 
-
 ?>
