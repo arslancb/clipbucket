@@ -1144,253 +1144,348 @@
     </div>
 
 
-    <div id="div_4" class="tab-pane" ><fieldset  class="fieldset" style="border:none">
-            <table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
-                <tr>
-                    <td valign="top">Anonymous UserID</td>
-                    <td valign="top"><input name="anonymous_id" type="text" id="anonymous_id" value="{$row.anonymous_id}" size="6" maxlength="3" />
-                        <a href="http://docs.clip-bucket.com/clipbucket-v2/anonymous-user" target="_blank"><img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="Set Anoymous Userid, Click For More Details" /></a></td>
-                </tr>
-                <tr>
-                    <td width="200" valign="top">Turn on registrations</td>
-                    <td valign="top"><input name="allow_registeration" type="checkbox" id="allow_registeration" value="1" {if $row.allow_registeration=='1'}checked="checked"{/if} /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Email verification</td>
-                    <td valign="top"><input name="email_verification" type="checkbox" id="email_verification" value="1" {if $row.email_verification=='1'}checked="checked"{/if} /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Image verification (captcha)</td>
-                    <td valign="top"><select name="captcha_type">
-                            <option value="0" {if $row.captcha_type == 0}
-                                    selected="selected"
-                                    {/if}>No</option>
-                            <option value="1" {if $row.captcha_type == 1}
-                                    selected="selected"
-                                    {/if}>Simple</option>
-                            <option value="2" {if $row.captcha_type == 2}
-                                    selected="selected"
-                                    {/if}>Secured</option>
-                        </select></td>
-                </tr>
-                <tr>
-                    <td valign="top">Username maximum characters</td>
-                    <td valign="top"><input name="user_max_chr" type="text" id="user_max_chr" value="{$row.user_max_chr}" size="6" maxlength="3" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Disallowed usernames</td>
-                    <td valign="top"><label>
-                            <textarea name="disallowed_usernames" id="disallowed_usernames" cols="45" rows="5">{$row.disallowed_usernames}</textarea>
-                            <br />
-                            sperate by commas
-                        </label></td>
-                </tr>
-                <tr>
-                    <td valign="top">Allow Special Characters in usernames</td>
-                    <td valign="top"><input name="allow_unicode_usernames" type="checkbox" 
-                                            id="allow_unicode_usernames" value="yes" {if $row.allow_unicode_usernames=='yes'}checked="checked"{/if} /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Allow spaces in usernames</td>
-                    <td valign="top"><input name="allow_username_spaces" type="checkbox" 
-                                            id="allow_username_spaces" value="yes" {if $row.allow_username_spaces=='yes'}checked="checked"{/if} /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Minimum Username Length</td>
-                    <td valign="top"><label>
-                            <input name="min_username" type="text" id="min_username" value="{$row.min_username|form_val}" />
-                        </label></td>
-                </tr>
-                <tr>
-                    <td valign="top">Maximum Username Length</td>
-                    <td valign="top"><input name="max_username" type="text" id="max_username" value="{$row.max_username|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Minimum age for registration</td>
-                    <td valign="top"><input name="min_age_reg" type="text" id="min_age_reg" value="{$row.min_age_reg}" size="6" maxlength="3" />
-                        leave blank to disable this option</td>
-                </tr>
-                <tr>
-                    <td valign="top">&nbsp;</td>
-                    <td valign="top">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td colspan="2" valign="top" class="settings_inner_title">Profile Settings</td>
-                </tr>
-                <tr>
-                <tr>
-                    <td valign="top">First Name max length</td>
-                    <td valign="top"><input name="fname_length" type="text" id="fname_length" value="{$row.fname_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Last Name max length</td>
-                    <td valign="top"><input name="lname_length" type="text" id="lname_length" value="{$row.lname_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Channel title max length</td>
-                    <td valign="top"><input name="profile_title_length" type="text" id="profile_title_length" value="{$row.profile_title_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Channel description max lenght</td>
-                    <td valign="top"><input name="profile_desc_length" type="text" id="profile_desc_length" value="{$row.profile_desc_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">About me max length</td>
-                    <td valign="top"><input name="about_me_length" type="text" id="about_me_length" value="{$row.about_me_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Profile tags max length</td>
-                    <td valign="top"><input name="profile_tags_length" type="text" id="profile_tags_length" value="{$row.profile_tags_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Website max length</td>
-                    <td valign="top"><input name="web_url_length" type="text" id="web_url_length" value="{$row.web_url_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Location max lenght</td>
-                    <td valign="top"><input name="location_length" type="text" id="location_length" value="{$row.location_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Hometown max lenght</td>
-                    <td valign="top"><input name="hometown_length" type="text" id="hometown_length" value="{$row.hometown_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">City max lenght</td>
-                    <td valign="top"><input name="city_length" type="text" id="city_length" value="{$row.city_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Postal code max length</td>
-                    <td valign="top"><input name="postal_code_length" type="text" id="postal_code_length" value="{$row.postal_code_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Schools max lenght</td>
-                    <td valign="top"><input name="schools_length" type="text" id="schools_length" value="{$row.schools_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Occupation max length</td>
-                    <td valign="top"><input name="occupation_length" type="text" id="occupation_length" value="{$row.occupation_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Companies max length</td>
-                    <td valign="top"><input name="companies_length" type="text" id="companies_length" value="{$row.companies_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Hobbies max length</td>
-                    <td valign="top"><input name="hobbies_length" type="text" id="hobbies_length" value="{$row.hobbies_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Favorite movies &amp; shows length</td>
-                    <td valign="top"><input name="fav_movies_length" type="text" id="fav_movies_length" value="{$row.fav_movies_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Favorite music length</td>
-                    <td valign="top"><input name="fav_music_length" type="text" id="fav_music_length" value="{$row.fav_music_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">Favorite books length</td>
-                    <td valign="top"><input name="fav_books_length" type="text" id="fav_books_length" value="{$row.fav_books_length|form_val}" /></td>
-                </tr>
-                <tr>
-                    <td valign="top">&nbsp;</td>
-                    <td valign="top">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td colspan="2" valign="top" class="settings_inner_title">Profile Pictures &amp; Background</td>
-                </tr>
-                <tr>
-                    <td valign="top">Use Gravatars</td>
-                    <td valign="top"><label>
-                            <select name="gravatars" id="gravatars">
-                                <option value="yes"
-                                        {if $row.gravatars == yes}
-                                        selected="selected"
-                                        {/if}>Yes</option>
-                                <option value=""
-                                        {if $row.gravatars == ''}
-                                        selected="selected"
-                                        {/if}>No</option>
-                            </select>
-                        </label></td>
-                </tr>
-                <tr>
-                    <td valign="top">Max Porfile Pic Size</td>
-                    <td valign="top"><input name="max_profile_pic_size" type="text" id="max_profile_pic_size" value="{$row.max_profile_pic_size}" size="6" maxlength="10" /> 
-                        KBs           </td>
-                </tr>
-                <tr>
-                    <td valign="top">Max Porfile Pic Dimension</td>
-                    <td valign="top"><input name="max_profile_pic_width" type="text" id="max_profile_pic_width" value="{$row.max_profile_pic_width}" size="6" maxlength="10" />
-                        Pixels</td>
-                </tr>
-                <tr>
-                    <td valign="top">Allow Picture URL</td>
-                    <td valign="top">
-                        <select name="picture_url" id="select4">
-                            <option value="yes" 
-                                    {if $row.picture_url == yes}
-                                    selected="selected"
-                                    {/if}>Yes</option>
-                            <option value="no" {if $row.picture_url == no}
-                                    selected="selected"
-                                    {/if}>No</option>
-                        </select></td>
-                </tr>
-                <tr>
-                    <td valign="top">Allow Picture Upload</td>
-                    <td valign="top"><select name="picture_upload" id="select5">
-                            <option value="yes" {if $row.picture_upload == yes}
-                                    selected="selected"
-                                    {/if}>Yes</option>
-                            <option value="no" {if $row.picture_upload == no}
-                                    selected="selected"
-                                    {/if}>No</option>
-                        </select></td>
-                </tr>
-                <tr>
-                    <td valign="top">Max Background Size</td>
-                    <td valign="top"><input name="max_bg_size" type="text" id="max_bg_size" value="{$row.max_bg_size}" size="6" maxlength="10" />
-                        KBs</td>
-                </tr>
-                <tr>
-                    <td valign="top">Max Background Dimension</td>
-                    <td valign="top"><input name="max_bg_width" type="text" id="max_bg_width" value="{$row.max_bg_width}" size="6" maxlength="10" />
-                        Pixels</td>
-                </tr>
-                <tr>
-                    <td valign="top">Allow Background URL</td>
-                    <td valign="top"><select name="background_url" id="select6">
-                            <option value="yes" {if $row.background_url == yes}
-                                    selected="selected"
-                                    {/if}>Yes</option>
-                            <option value="no" {if $row.background_url == no}
-                                    selected="selected"
-                                    {/if}>No</option>
-                        </select></td>
-                </tr>
-                <tr>
-                    <td valign="top">Allow Background Upload</td>
-                    <td valign="top"><select name="background_upload" id="select7">
-                            <option value="yes" {if $row.background_upload == yes}
-                                    selected="selected"
-                                    {/if}>Yes</option>
-                            <option value="no" {if $row.background_upload == no}
-                                    selected="selected"
-                                    {/if}>No</option>
-                        </select></td>
-                </tr>
-                <tr>
-                    <td valign="top">Allow Background Color</td>
-                    <td valign="top"><select name="background_color" id="background_color">
-                            <option value="yes" {if $row.background_color == yes}
-                                    selected="selected"
-                                    {/if}>Yes</option>
-                            <option value="no" {if $row.background_color == no}
-                                    selected="selected"
-                                    {/if}>No</option>
-                        </select></td>
-                </tr>
-            </table>
-        </fieldset>
+    <div id="div_4" class="tab-pane" >
+    
+        <div class="control-group">
+            <label class="control-label" for="anonymous_id">Anonymous UserID</label>
+            <div class="controls">
+                <input name="anonymous_id" type="text" id="anonymous_id" value="{$row.anonymous_id}" maxlength="3" class="input-xlarge" />
+                <p class="help-block">Set Anoymous Userid, <a href="http://docs.clip-bucket.com/clipbucket-v2/anonymous-user" target="_blank">Click For More Details</a></p>
+            </div>
+        </div>
+    
+    	<div class="control-group">
+            <label class="control-label" for="allow_registeration">Turn on registrations</label>
+            <div class="controls">
+                <input name="allow_registeration" type="checkbox" id="allow_registeration" value="1" {if $row.allow_registeration=='1'}checked="checked"{/if} class="input-xlarge"/>
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="email_verification">Email verification</label>
+            <div class="controls">
+                <input name="email_verification" type="checkbox" id="email_verification" value="1" {if $row.email_verification=='1'}checked="checked"{/if} class="input-xlarge" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="captcha_type">Image verification (captcha)</label>
+            <div class="controls">
+                <select name="captcha_type"  id="captcha_type" class="input-xlarge">
+                        <option value="0" {if $row.captcha_type == 0}selected="selected"{/if}>No</option>
+                        <option value="1" {if $row.captcha_type == 1}selected="selected"{/if}>Simple</option>
+                        <option value="2" {if $row.captcha_type == 2}selected="selected"{/if}>Secured</option>
+                    </select>
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="user_max_chr">Username maximum characters</label>
+            <div class="controls">
+                <input name="user_max_chr" type="text" id="user_max_chr" value="{$row.user_max_chr}" class="input-xlarge" maxlength="3" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="disallowed_usernames">Disallowed username</label>
+            <div class="controls">
+                <textarea name="disallowed_usernames" id="disallowed_usernames" class="input-xlarge">{$row.disallowed_usernames}</textarea>
+                <p class="help-block">Separated by commas</p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="allow_unicode_usernames">Allow Special Characters in usernames</label>
+            <div class="controls">
+                <input name="allow_unicode_usernames" type="checkbox" id="allow_unicode_usernames" value="yes" {if $row.allow_unicode_usernames=='yes'}checked="checked"{/if} />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="allow_username_spaces">Allow spaces in usernames</label>
+            <div class="controls">
+                <input name="allow_username_spaces" type="checkbox" id="allow_username_spaces" value="yes" {if $row.allow_username_spaces=='yes'}checked="checked"{/if} />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="min_username">Minimum Username Length</label>
+            <div class="controls">
+                <input name="min_username" type="text" id="min_username" value="{$row.min_username|form_val}" class="input-xlarge" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="max_username">Maximum Username Length</label>
+            <div class="controls">
+                <input name="max_username" type="text" id="max_username" value="{$row.max_username|form_val}" class="input-xlarge" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="max_username">Minimum age for registration</label>
+            <div class="controls">
+                <input name="min_age_reg" type="text" id="min_age_reg" value="{$row.min_age_reg}" class="input-xlarge" />
+                <p class="help-block">Leave blank to disable this option</p>
+            </div>
+        </div>
+        
+        <h2 class="sub_heading">Profile Settings</h2>
+        <div class="height20"></div>
+        
+        <div class="control-group">
+            <label class="control-label" for="fname_length">First Name max length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="fname_length" type="text" id="fname_length" value="{$row.fname_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="lname_length">Last Name max length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="lname_length" type="text" id="lname_length" value="{$row.lname_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="profile_title_length">Channel title max length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="profile_title_length" type="text" id="profile_title_length" value="{$row.profile_title_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="profile_desc_length">Channel description max length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="profile_desc_length" type="text" id="profile_desc_length" value="{$row.profile_desc_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="about_me_length">About me max length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="about_me_length" type="text" id="about_me_length" value="{$row.about_me_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="profile_tags_length">Profile tags max length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="profile_tags_length" type="text" id="profile_tags_length" value="{$row.profile_tags_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="web_url_length">Website max length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="web_url_length" type="text" id="web_url_length" value="{$row.web_url_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="location_length">Location max length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="location_length" type="text" id="location_length" value="{$row.location_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="hometown_length">Hometown max length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="hometown_length" type="text" id="hometown_length" value="{$row.hometown_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="city_length">City max length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="city_length" type="text" id="city_length" value="{$row.city_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="postal_code_length">Postal code max length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="postal_code_length" type="text" id="postal_code_length" value="{$row.postal_code_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="schools_length">Schools max length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="schools_length" type="text" id="schools_length" value="{$row.schools_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="occupation_length">Occupation max length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="occupation_length" type="text" id="occupation_length" value="{$row.occupation_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+         <div class="control-group">
+            <label class="control-label" for="companies_length">Companies max length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="companies_length" type="text" id="companies_length" value="{$row.companies_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="hobbies_length">Hobbies max length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="hobbies_length" type="text" id="hobbies_length" value="{$row.hobbies_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="fav_movies_length">Favorite movies &amp; shows length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="fav_movies_length" type="text" id="fav_movies_length" value="{$row.fav_movies_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="fav_music_length">Favorite music length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="fav_music_length" type="text" id="fav_music_length" value="{$row.fav_music_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="fav_books_length">Favorite books length</label>
+            <div class="controls">
+                <input class="input-xlarge" name="fav_books_length" type="text" id="fav_books_length" value="{$row.fav_books_length|form_val}" />
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <h2 class="sub_heading">Profile Pictures &amp; Background</h2>
+        <div class="height20"></div>
+        
+        <div class="control-group">
+            <label class="control-label" for="fav_books_length">Use Gravatars</label>
+            <div class="controls">
+                <select name="gravatars" id="gravatars" class="input-xlarge">
+                    <option value="yes" {if $row.gravatars == yes}selected="selected"{/if}>Yes</option>
+                    <option value="" {if $row.gravatars == ''}selected="selected"{/if}>No</option>
+                </select>
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="max_profile_pic_size">Max Profile Pic Size</label>
+            <div class="controls">
+                <input name="max_profile_pic_size" type="text" id="max_profile_pic_size" value="{$row.max_profile_pic_size}" class="input-xlarge" maxlength="10" /> &ndash; KBs 
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="max_profile_pic_width">Max Profile Pic Dimension</label>
+            <div class="controls">
+                <input name="max_profile_pic_width" type="text" id="max_profile_pic_width" value="{$row.max_profile_pic_width}" maxlength="10" class="input-xlarge" /> &ndash; Pixels 
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="picture_url">Allow Picture URL</label>
+            <div class="controls">
+                <select name="picture_url" id="picture_url" class="input-xlarge">
+                    <option value="yes" {if $row.picture_url == yes}selected="selected"{/if}>Yes</option>
+                    <option value="no" {if $row.picture_url == no}selected="selected"{/if}>No</option>
+                </select> 
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="picture_upload">Allow Picture Upload</label>
+            <div class="controls">
+                <select name="picture_upload" id="picture_upload" class="input-xlarge">
+                    <option value="yes" {if $row.picture_upload == yes}selected="selected"{/if}>Yes</option>
+                    <option value="no" {if $row.picture_upload == no}selected="selected"{/if}>No</option>
+                </select> 
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="max_bg_size">Max Background Size</label>
+            <div class="controls">
+                <input name="max_bg_size" type="text" id="max_bg_size" value="{$row.max_bg_size}" maxlength="10" class="input-xlarge" /> &ndash; KBs
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="max_bg_width">Max Background Dimension</label>
+            <div class="controls">
+                <input name="max_bg_width" type="text" id="max_bg_width" value="{$row.max_bg_width}" maxlength="10" class="input-xlarge" /> &ndash; Pixels
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="background_url">Allow Background URL</label>
+            <div class="controls">
+                <select name="background_url" id="background_url">
+                    <option value="yes" {if $row.background_url == yes}selected="selected"{/if}>Yes</option>
+                    <option value="no" {if $row.background_url == no}selected="selected"{/if}>No</option>
+                </select>
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="background_upload">Allow Background Upload</label>
+            <div class="controls">
+                <select name="background_upload" id="background_upload">
+                    <option value="yes" {if $row.background_upload == yes}selected="selected"{/if}>Yes</option>
+                    <option value="no" {if $row.background_upload == no}selected="selected"{/if}>No</option>
+                </select>
+                <p class="help-block"></p>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="background_color">Allow Background Color</label>
+            <div class="controls">
+                <select name="background_color" id="background_color">
+                    <option value="yes" {if $row.background_color == yes}selected="selected"{/if}>Yes</option>
+                    <option value="no" {if $row.background_color == no}selected="selected"{/if}>No</option>
+                </select>
+                <p class="help-block"></p>
+            </div>
+        </div>
+
     </div>
 </div>
 <div align="right"class="main_page_div" style="padding:5px; min-height:0px; margin-top:10px"><label>
