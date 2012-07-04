@@ -110,41 +110,11 @@ class ClipBucket
 	   $dirname = substr($dirname,0,strlen($dirname) -2);
 	   return $dirname == '/' ? '' : $dirname;
 	}
+        
 	
 	function addJS($files,$scope='global')
 	{
-            if($files)
-            {
-                if(is_array($scope))
-                {
-                    foreach($scope as $sc)
-                    {
-                        if(is_array($files))
-                        {
-                            foreach($files as $file)
-                            {
-                                $this->JSArray[$sc][] = $file;
-                            }
-                        }else
-                        {
-                            $this->JSArray[$sc][] = $files;
-                        }
-                    }
-                }else
-                {
-                    if(is_array($files))
-                    {
-                        foreach($files as $file)
-                        {
-                            $this->JSArray[$scope][] = $file;
-                        }
-                    }else
-                    {
-                        $this->JSArray[$scope][] = $files;
-                    }
-                }
-            }
-                        
+            return add_js($files,$scope);
 	}
         
         

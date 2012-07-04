@@ -10,7 +10,7 @@
 		global $userquery;
 
 		$funcs = get_functions('watch_video_functions');
-            pr($funcs,true);
+            
 		if(is_array($funcs) && count($funcs)>0)
 		{
 			foreach($funcs as $func)

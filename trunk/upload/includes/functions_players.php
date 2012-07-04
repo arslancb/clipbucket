@@ -6,7 +6,7 @@
 	function flashPlayer($param)
 	{
 		global $Cbucket,$swfobj;
-		
+                
 		$param['player_div'] = $param['player_div'] ? $param['player_div'] : 'videoPlayer';
 		
 		$key 		= $param['key'];
@@ -20,31 +20,26 @@
 		$param['height'] = $height;
 		$param['width'] = $width ;
 		
+                
 		if(!$param['autoplay'])
 		$param['autoplay'] = config('autoplay_video');
 		
 		assign('player_params',$param);
-		if(count($Cbucket->actions_play_video)>0)
-		{
-	 		foreach($Cbucket->actions_play_video as $funcs )
-			{
-				
-				if(function_exists($funcs))
-				{
-					$func_data = $funcs($param);
-				}
-				if($func_data)
-				{
-					$player_code = $func_data;
-					break;
-				}
-			}
-		}
+                
+                $param = apply_filters($param,'play_video');
+
+                //Calling actions for play_video
+                $output = call_actions('play_video',$param);
+                if($output)
+                {
+                    $player_code = $output;
+                    return $output;
+                }
 		
+                
+                
 		if(function_exists('cbplayer') && empty($player_code))
 			$player_code = cbplayer($param,true);
-		
-		global $pak_player;
 		
 		if($player_code)
 		if(!$pak_player && $show_player)

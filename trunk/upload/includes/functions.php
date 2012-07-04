@@ -3400,11 +3400,10 @@ include("functions_collections.php");
 include('exif_source.php');
 
 include("functions_filters.php");
+include("functions_actions.php");
 include("functions_widgets.php");
 include("functions_photos.php");
 include("functions_forms.php");
-
-
 include("functions_templates.php");
 include("functions_players.php");
 ?>

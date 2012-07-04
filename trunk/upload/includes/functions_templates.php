@@ -7,14 +7,16 @@
  * @param type $inside
  * @return type 
  */
-function Fetch($name, $inside = FALSE) {
-    if ($inside)
-        $file = CBTemplate::fetch($inside . $name);
-    else
+function Fetch($name, $layout=true) {
+    if ($layout===true)
         $file = CBTemplate::fetch(LAYOUT . '/' . $name);
-
+    elseif($layout)
+        $file = CBTemplate::fetch($layout  . $name);
+    else
+         $file = CBTemplate::fetch($name);
     return $file;
 }
+
 
 /**
  * Function used to render Smarty Template
@@ -334,14 +336,88 @@ function blank_screen($data) {
     return $swfobj->code;
 }
 
+
 /**
- * Function used to add js in ClipBuckets JSArray
- * see docs.clip-bucket.com
+ * Adds js files in ClipBucket template.
+ * 
+ * @link http://docs.clip-bucket.com/user-manual/developers-guide/functions/functions_templates/add_js
+ * @global type $Cbucket
+ * @param type $files
+ * @return type 
+ * @since 2.6
  */
-function add_js($files) {
+function add_js($files,$scope='global') {
     global $Cbucket;
-    return $Cbucket->addJS($files);
+    if($files)
+    {
+        if(is_array($scope))
+        {
+            foreach($scope as $sc)
+            {
+                if(is_array($files))
+                    foreach($files as $file)
+                        $Cbucket->JSArray[$sc][] = $file;
+                else
+                    $Cbucket->JSArray[$sc][] = $files;
+            }
+        }else
+        {
+            if(is_array($files))
+                foreach($files as $file)
+                    $Cbucket->JSArray[$scope][] = $file;
+            else
+                $Cbucket->JSArray[$scope][] = $files;      
+        }
+    }
+    return;
 }
+
+/**
+ * Adds CSS Files in ClipBucket template
+ * 
+ * @link http://docs.clip-bucket.com/user-manual/developers-guide/functions/functions_templates/add_css
+ * @since 2.6
+ * @param STRING $file CSS FILE
+ * @param STRING $scope File Scope, read more about scope on http://docs.clip-bucket.com/ 
+ */
+function add_css($files,$scope)
+{
+    global $Cbucket;
+    if($files)
+    {
+        if(is_array($scope))
+        {
+            foreach($scope as $sc)
+            {
+                if(is_array($files))
+                {
+                    foreach($files as $file)
+                    {
+                        $Cbucket->CSSArray[$sc][] = $file;
+                    }
+                }else
+                {
+                    $Cbucket->CSSArray[$sc][] = $files;
+                }
+            }
+        }else
+        {
+            if(is_array($files))
+            {
+                foreach($files as $file)
+                {
+                    $Cbucket->CSSArray[$scope][] = $file;
+                }
+            }else
+            {
+                $Cbucket->CSSArray[$scope][] = $files;
+            }
+        }
+    }
+    return;
+}
+
+
 
 /**
  * Function add_header()
@@ -1092,6 +1168,37 @@ function cb_load_js()
                     }
                     
                     echo '<script src="' . $file . '" type="text/javascript"></script>';
+                    echo "\n";
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Function loads ClipBucket CSS Files that are added using add_css function
+ * either in a plugin or a template file.
+ * 
+ * @return CSS files...
+ */
+function cb_load_css(){
+    
+    global $Cbucket;
+    $css_array = $Cbucket->CSSArray;
+ 
+    $css_array = apply_filters($css_array,'$css_array');
+    
+    if(is_array($css_array))
+    {
+        foreach($css_array as $scope => $css_files)
+        {
+            
+            if( (defined('THIS_PAGE') && $scope==THIS_PAGE) OR
+            $scope=='global' || !defined('THIS_PAGE'))
+            {
+                foreach($css_files as $file)
+                {
+                    echo '<link rel="stylesheet" type="text/css" href="' . $file . '" /> ';
                     echo "\n";
                 }
             }
