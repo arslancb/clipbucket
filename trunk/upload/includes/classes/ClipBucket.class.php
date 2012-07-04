@@ -69,7 +69,7 @@ class ClipBucket
 	 * all functions that are called
 	 * on CBvideo::remove_files
 	 */
-     var $on_delete_video = array();
+        var $on_delete_video = array();
 
 	 
 	function ClipBucket ()
@@ -82,16 +82,9 @@ class ClipBucket
 		//Get Base Directory
 		$this->BASEDIR = $this->getBasedir();
 		//Listing Common JS File
-		$this->addJS(array
-					 (
-						'jquery_plugs/cookie.js'		=> 'global',
-						'functions.js'					=> 'global',
-					  ));
 		
+                $this->addJS(array('jquery_plugs/cookie.js','functions.js'));
 		
-		//This is used to create Admin Menu
-		//$this->AdminMenu = $this->get_admin_menu();
-
 		//Updating Upload Options		
 		$this->temp_exts = array('ahz','jhz','abc','xyz','cb2','tmp','olo','oar','ozz');
 		$this->template = $this->configs['template_dir'];
@@ -118,20 +111,46 @@ class ClipBucket
 	   return $dirname == '/' ? '' : $dirname;
 	}
 	
-	function addJS($files)
+	function addJS($files,$scope='global')
 	{
-		if(is_array($files))
-		{
-			foreach($files as $key=> $file)
-				$this->JSArray[][$key] = $file;
-		}else{
-			$this->JSArray[$files] = 'global';
-		}
-	
+            if($files)
+            {
+                if(is_array($scope))
+                {
+                    foreach($scope as $sc)
+                    {
+                        if(is_array($files))
+                        {
+                            foreach($files as $file)
+                            {
+                                $this->JSArray[$sc][] = $file;
+                            }
+                        }else
+                        {
+                            $this->JSArray[$sc][] = $files;
+                        }
+                    }
+                }else
+                {
+                    if(is_array($files))
+                    {
+                        foreach($files as $file)
+                        {
+                            $this->JSArray[$scope][] = $file;
+                        }
+                    }else
+                    {
+                        $this->JSArray[$scope][] = $files;
+                    }
+                }
+            }
+                        
 	}
-	function add_js($files)
+        
+        
+	function add_js($files,$scope='global')
 	{
-		$this->addJS($files);
+		$this->addJS($files,$scope);
 	}
 	
 	

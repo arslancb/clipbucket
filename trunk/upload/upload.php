@@ -1,9 +1,9 @@
 <?php
 /* 
  *******************************************************************
- | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.	
+ | Copyright (c) 2007-2012 Clip-Bucket.com. All rights reserved.	
  | @ Author   : ArslanHassan										
- | @ Software : ClipBucket , © PHPBucket.com
+ | @ Software : ClipBucket , ï¿½ PHPBucket.com
  | @ Modified : June 14, 2009 by Arslan Hassan
  *******************************************************************
 */
@@ -59,10 +59,10 @@ if(has_access('allow_video_upload',false,$verify_logged_user))
 	Assign('upload_form_name','UploadForm');
 		   
 	//Adding Uploading JS Files
-	$Cbucket->add_js(array('swfupload/swfupload.js'=>'uploadactive'));
-	$Cbucket->add_js(array('swfupload/plugins/swfupload.queue.js'=>'uploadactive'));
-	$Cbucket->add_js(array('swfupload/plugins/handlers.js'=>'uploadactive'));
-	$Cbucket->add_js(array('swfupload/plugins/fileprogress.js'=>'uploadactive'));
+	$Cbucket->add_js('swfupload/swfupload.js','upload');
+	$Cbucket->add_js('swfupload/plugins/swfupload.queue.js','upload');
+	$Cbucket->add_js('swfupload/plugins/handlers.js','upload');
+	$Cbucket->add_js('swfupload/plugins/fileprogress.js','upload');
 }else
 {
 	$userquery->logincheck('allow_video_upload',true);

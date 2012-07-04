@@ -51,13 +51,9 @@
 
 
 <!-- Including JS Files-->
-
-{foreach from=$Cbucket->JSArray item=type}
-{foreach from=$type item=scope key=file}
-{include_js type=$scope file=$file}
-{/foreach}
-{/foreach}
+{cb_load_js()}
 <!-- Including JS Files-->
+
 <script type="text/javascript">
     callURLParser();
 </script>

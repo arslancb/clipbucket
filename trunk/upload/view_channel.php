@@ -113,7 +113,7 @@ if($udetails)
 		exit();
 	}
 }
-add_js(array('jquery_plugs/compressed/jquery.jCarousel.js'=>'view_channel'));
+add_js('jquery_plugs/compressed/jquery.jCarousel.js','view_channel');
 
 if($Cbucket->show_page)
 	Template('view_channel.html');

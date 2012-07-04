@@ -37,9 +37,10 @@ Assign('template_url',TEMPLATEURL);
 Assign('layout_dir',LAYOUT);
 
 if ( USE_PHOTO_TAGGING == true ) {
-	$Cbucket->addJS( array('jquery_plugs/jquery.cbtagger.js' => 'view_item') );
+	$Cbucket->addJS('jquery_plugs/jquery.cbtagger.js','view_item' );
 }
-$Cbucket->addJS( array('jquery_plugs/jquery.Jcrop.js' => 'edit_account') );
+$Cbucket->addJS('jquery_plugs/jquery.Jcrop.js', 'edit_account' );
+
 //Assigning JS Files
 Assign('jsArray',$Cbucket->JSArray);
 //Assigning Module Files

@@ -11,7 +11,7 @@ Plugin Type: global
 */
 
 
-add_js(array('jquery_plugs/counter.min.js'=>'global'));		
+add_js('jquery_plugs/counter.min.js');		
 
 function character_counter($type)
 {
