@@ -245,7 +245,7 @@ function show_rating($params) {
         $disperc = 100 - $perc;
         if ($ratings <= 0 && $disperc == 100)
             $disperc = 0;
-    }
+   
 
     $perc = $perc . '%';
     $disperc = $disperc . "%";
@@ -311,7 +311,7 @@ function show_rating($params) {
                 }
             }
             break;
-    
+    }
     /* $rating = '<div class="'.$class.'">
       <div class="stars_blank">
       <div class="stars_filled" style="width:'.$perc.'">&nbsp;</div>
@@ -704,6 +704,7 @@ function is_includeable($array) {
  * This function works the same way as include_header
  * but the only difference is , it is used to include
  * JS files only
+ * @deprecated v3.0
  */
 $the_js_files = array();
 
