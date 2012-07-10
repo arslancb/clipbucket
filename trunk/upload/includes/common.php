@@ -314,6 +314,7 @@ if(!@$in_bg_cron)
 	define('CON_DIR',FILES_DIR.'/conversion_queue');
 	define('MASS_UPLOAD_DIR',FILES_DIR.'/mass_uploads');
 	define('LOGS_DIR',FILES_DIR.'/logs');
+        define('WATERMARK_DIR',FILES_DIR.'/watermarks');
 	
 	define("USER_THUMBS_DIR",BASEDIR.'/images/avatars');
 	define("USER_BG_DIR",BASEDIR.'/images/backgrounds');

@@ -29,8 +29,8 @@ class CBvideo extends CBCategory
 	var $video_manager_links = array();
 	var $video_manager_funcs = array();
 	
-	var $video_delete_functions = array(); //Holds all delete functions of video
-	
+	var $video_delete_functions = array(); //Holds all delete functions of video 
+       
 	/**
 	 * __Constructor of CBVideo
 	 */	
@@ -53,6 +53,8 @@ class CBvideo extends CBCategory
 		$Cbucket->clipbucket_footer[] = 'check_cbvideo';
 		
 		$this->video_delete_functions[] = 'delete_video_from_collection';
+                
+                
 	}
 	
 	/**
@@ -1754,6 +1756,354 @@ class CBvideo extends CBCategory
 //				e(lang("Comment Updated"),m);
 //			}
 //	}
+        
+        
+        
+        /**
+         * Add video profile that will be used when converting a video
+         * 
+         * @param ARRAY a list of options for a profile
+         * @return INT added profile ID 
+         * @link http://docs.clip-bucket.com/user-manual/developers-guide/objects/videos/add_video_profile
+         */
+        function add_video_profile($array)
+        {
+            global $db;
+            
+            $fields = array(
+                'name',
+                'format',
+                'ext',
+                'suffix',
+                'height',
+                'width',
+                'verify_dimension',
+                'video_codec',
+                'audio_codec',
+                'audio_bitrate',
+                'video_bitrate',
+                'audio_rate',
+                'video_rate',
+                'resize',
+                'preset',
+                '2pass',
+                'apply_watermark',
+                'ffmpeg_cmd',  
+            );
+            
+            if($array['height']<100)
+                e(lang("Video height is too small, it must be atleast 100"));
+            
+            if($array['width']<100)
+                e(lang('Video width is too small, please make sure its atleast 100'));
+            
+            
+            $valid_exts     = array('flv','mp4','m4v','f4v','webm','3gp');
+            $valid_exts     = apply_filters($valid_exts,'valid_exts');
+            
+            $valid_formats  = array('flv','mp4','webm','mobile','3gp');
+            $valid_formats  = apply_filters($valid_formats,'valid_formats');
+            
+            $valid_presets  = array('','low','normal','hq','max');
+            $valid_presets  = apply_filters($valid_presets,'valid_presets');
+            
+            $valid_resizes  = array('none','max','fit','wxh');
+            $valid_resizes  = apply_filters($valid_resizes, 'valid_resizes');
+            
+            if(!in_array($array['ext'],$valid_exts))
+                e(lang('Invalid extension, please set valid streamable extension'),'e','ext');
+            
+            if(!in_array($array['format'],$valid_formats))
+                e(lang('Invalid video format, please select a valid video format'),'e','format');
+            
+            if(!$array['name'])
+                e(lang("Please enter a suitable name for this profile"),'e','name');
+            
+            if(!in_array($array['preset'],$valid_presets))
+            {
+                if($array['preset'])
+                    e(sprintf(lang("%s is not a valid preset"),$array['preset']),'e','preset');
+                else
+                    e(lang("Please choose a preset for your profile"),'e','preset');
+            }
+            
+            if(!in_array($array['resize'],$valid_resizes))
+                $array['resize'] = 'none';
+            
+            
+            /* Finally adding our preset */
+            if(!error())
+            {
+                $values = array();
+                foreach($fields as $field)
+                {
+                    $values[] = $array[$field];
+                }
+                
+                
+                $fields = apply_filters($fields,'video_profile_fields');
+                $values = apply_filters($values, 'video_profile_values');
+                
+                //Adding order
+                $order = $this->get_latest_profile_order();
+                $order = $order + 1;
+                
+                $fields[] = 'profile_order';
+                $values[] = $order;
+                
+                $db->insert(tbl('video_profiles'),$fields,$values);
+                
+                if($db->insert_id())
+                    return $db->insert_id();
+                else
+                    return false;
+            }
+            
+            return false;
+            
+        }
 	
+        /**
+         * Get list of video profiles
+         * 
+         * @param ARRAY for restrictions 
+         */
+        function get_video_profiles($array)
+        {
+            global $db;
+            
+            $cond = "";
+            
+            $cond = apply_filters($cond, 'get_video_profiles_cond');
+            
+            if($array['order'])
+                $order = $array['order'];
+            else
+                $order = ' profile_id ASC ';
+            
+            if($array['limit'])
+                $limit = $array['limit'];
+            else
+                $limit = NULL;      
+            
+            if($array['count_only'])
+            {
+               return $results = $db->count(tbl('video_profiles'),'profile_id',$cond);
+            }
+            
+            $results = $db->select(tbl('video_profiles'),'*',$cond,$limit,$order);
+            
+            if($db->num_rows>0)
+                return $results;
+            else
+                return false;
+            
+        }
+        
+        
+        /**
+         * get latest profile order..
+         * 
+         * @return INT 
+         */
+        function get_latest_profile_order()
+        {
+            global $db;
+            $results = $db->select(tbl('video_profiles'),'profile_order',NULL,1,' profile_order DESC ');
+            
+            if($db->num_rows>0)
+            {
+                return $results[0]['profile_order'];
+            }else
+            {
+                return 0;
+            }
+        }
+        
+        /**
+         * delete video profile..
+         * 
+         * @param INT
+         * @return BOOLEAN  
+         */
+        function delete_video_profile($in)
+        {
+            global $db;
+            
+            if($in)
+            {
+                $in = mysql_clean($in);
+                $db->Execute("DELETE FROM ".tbl('video_profiles')
+                ." WHERE profile_id='$in' "); 
+                return true;
+            }
+        }
+        
+        /**
+         * Update video profile...
+         * 
+         * @param ARRAY
+         * @return BOOLEAN 
+         */
+        function update_video_profile($array)
+        {
+            global $db;
+            
+            $fields = array(
+                'name',
+                'format',
+                'ext',
+                'suffix',
+                'height',
+                'width',
+                'verify_dimension',
+                'video_codec',
+                'audio_codec',
+                'audio_bitrate',
+                'video_bitrate',
+                'audio_rate',
+                'video_rate',
+                'resize',
+                'preset',
+                '2pass',
+                'apply_watermark',
+                'ffmpeg_cmd',  
+            );
+            
+            if($array['height']<100)
+                e(lang("Video height is too small, it must be atleast 100"));
+            
+            if($array['width']<100)
+                e(lang('Video width is too small, please make sure its atleast 100'));
+            
+            
+            $valid_exts     = array('flv','mp4','m4v','f4v','webm','3gp');
+            $valid_exts     = apply_filters($valid_exts,'valid_exts');
+            
+            $valid_formats  = array('flv','mp4','webm','mobile','3gp');
+            $valid_formats  = apply_filters($valid_formats,'valid_formats');
+            
+            $valid_presets  = array('','low','normal','hq','max');
+            $valid_presets  = apply_filters($valid_presets,'valid_presets');
+            
+            $valid_resizes  = array('none','max','fit','wxh');
+            $valid_resizes  = apply_filters($valid_resizes, 'valid_resizes');
+            
+            if(!in_array($array['ext'],$valid_exts))
+                e(lang('Invalid extension, please set valid streamable extension'),'e','ext');
+            
+            if(!in_array($array['format'],$valid_formats))
+                e(lang('Invalid video format, please select a valid video format'),'e','format');
+            
+            if(!$array['name'])
+                e(lang("Please enter a suitable name for this profile"),'e','name');
+            
+            if(!in_array($array['preset'],$valid_presets))
+            {
+                if($array['preset'])
+                    e(sprintf(lang("%s is not a valid preset"),$array['preset']),'e','preset');
+                else
+                    e(lang("Please choose a preset for your profile"),'e','preset');
+            }
+            
+            if(!in_array($array['resize'],$valid_resizes))
+                $array['resize'] = 'none';
+            
+            
+            /* Finally adding our preset */
+            if(!error())
+            {
+                $values = array();
+                foreach($fields as $field)
+                {
+                    $values[] = $array[$field];
+                }
+                
+                
+                $fields = apply_filters($fields,'video_profile_fields');
+                $values = apply_filters($values, 'video_profile_values');
+                
+                //Adding order
+                $order = $this->get_latest_profile_order();
+                $order = $order + 1;
+                
+                $profile_id = $array['profile_id'];
+                
+                $fields[] = 'profile_order';
+                $values[] = $order;
+                
+                $db->update(tbl('video_profiles'),$fields,$values," profile_id='$profile_id' ");
+                
+                return $profile_id;
+            }
+            
+            return false;
+            
+        }
+        
+        
+        /**
+         * Update playist order
+         * 
+         * @param INT pid
+         * @param ARRAY playlist_items array
+         * @return BOOLEAN 
+         */
+        function update_video_profile_order($items,$uid=NULL)
+        {
+            global $db;
+            
+            $itemsNew = array();
+            $count = 0;
+            
+            //Setting up the query...    
+            $query = "UPDATE ".tbl('video_profiles');
+            $query .= " SET profile_order = CASE profile_id ";
+            foreach($items as $item => $order)
+            {
+                $ids[] = $item;
+                $query .= sprintf("WHEN '%s' THEN '%s' ",$item,$order);
+                $query .= " ";
+            }
+            $query .= " END ";
+            $query .= " WHERE profile_id in(".implode($ids,',').")";
+
+            $db->Execute($query);
+
+            if(mysql_error()) die ($db->db_query.'<br>'.mysql_error());
+            
+            return true;
+
+        }
+        
+        /**
+         * Activate deactivate video profile
+         * 
+         * @param INT  pid
+         * @param STRING mode
+         */
+        function profile_action($pid,$mode)
+        {
+            global $db;
+            switch($mode)
+            {
+                case "activate":
+                {
+                    $db->update(tbl('video_profiles'),array('active'),array('yes')," profile_id='$pid' ");
+                    
+                    return true;
+                }
+                break;
+                case "deactivate":
+                {
+                    $db->update(tbl('video_profiles'),array('active'),array('no')," profile_id='$pid' ");
+                    return true;
+                }
+                break;
+            }
+        }
 }
+
+
+
 ?>

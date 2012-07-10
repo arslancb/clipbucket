@@ -30,4 +30,20 @@
         }
     })
     
+    
+    //Category Ajax Requests..
+    amplify.request.define("videos","ajax",{
+        url : ajaxURL+"/videos.php",
+        type : "POST",
+        dataType : "json",
+        decode:function(data,status,xhr,success,error)
+        {
+            if(status==='success'){
+                success(data);
+            }else{
+                error(data);
+            }
+        }
+    })
+    
 </script>

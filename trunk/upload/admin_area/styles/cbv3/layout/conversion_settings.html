@@ -1,0 +1,95 @@
+{* Lets do somethin  *}
+<h2>Conversion Settings</h2>
+Manage your video profiles and presets.
+Please read more about how to set these configurations <a href="http://docs.clip-bucket.com/user-manual/using-clipbucket/admin-area/settings-configurations">here</a>
+
+<p></p>
+
+
+<div class="manager-list">
+    <div class="controller scrolltoFixed white-grad">
+        <div class="buttons">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <label class="btn check-all"><input type="checkbox"></label>
+                </div>
+                <div class="btn-group">
+                    <a class="btn" onclick="$('#video-profile-mode').val('update');$('#video-profiles-form').submit();">Update</a>
+                    <a class="btn" onclick="$('#video-profile-mode').val('activate');$('#video-profiles-form').submit();">Activate</a>
+                    <a class="btn" onclick="$('#video-profile-mode').val('deactivate');$('#video-profiles-form').submit();">Deactivate</a>
+                    <a class="btn" onclick="cb_confirm('Delete profiles','Are you sure you want to remove these profiles?',function()
+                    {
+                        $('#video-profile-mode').val('delete');$('#video-profiles-form').submit();
+                    })">Remove</a>
+                </div>
+            </div>
+            
+            <div class="right-button">
+                <a class="btn btn-primary" data-toggle="modal" data-target="#profile-form">
+                    <i class="icon-plus icon-white"></i>
+                    Add New Profile
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    {include_template_file file="blocks/video_profile.html"}
+
+    <form name="update-vid-profiles" method="post" id="video-profiles-form">
+    
+    <input type="hidden" name="mode" value="" id="video-profile-mode"/>
+    
+    <table id="video-profiles" class="table table-striped list-block {if !$profiles}display-none{/if}">
+        <thead>
+            <tr>
+                <th width="50"></th>
+                <th width="70">#</th>
+                <th width="70">Order</th>
+                <th>Name</th>
+                <th width="70">Active</th>
+                <th width="200">Format/Resolution</th>
+                <th width="120"></th>
+            </tr>
+        </thead>
+        <tbody>
+    {if $profiles}
+        {foreach $profiles as $profile}
+            <tr>
+                <td><input type="checkbox" class="check-item" name="profile_ids[]" value="{$profile.profile_id}"></td>
+            <td>{$profile.profile_id}</td>
+            <td><input type="text" value="{$profile.profile_order}" name="profile_order[{$profile.profile_id}]" 
+            class="input-order"/></td>
+            <td>{$profile.name}</td>
+            <td>{$profile.active}</td>
+            <td>{$profile.format}/{$profile.width}x{$profile.height}</td>
+            <td><div class="btn-group">
+                    <button class="btn" data-toggle="modal" data-target="#profile-form{$profile.profile_id}">Edit</button>
+                    <button class="btn" onclick="cb_confirm('Delete video profile','Are you sure you want to remove {$profile.name} video profile',
+                    function(){ 
+                        $('#delete_profile_id').val('{$profile.profile_id}'); $('#delete_profile').submit();
+                    })">Delete</button>
+                </div></td>
+
+            </tr>
+        {/foreach}
+    {/if}
+        </tbody>
+    </table>
+    </form>     
+    
+    {if !$profiles}
+        <div class="alert">No profiles were found</div>
+    {else}
+    <form name="delete-profile" id="delete_profile" method="post">
+        <input type="hidden" name="delete_profile" id="delete_profile_id" value="" />
+    </form>
+        {* including profile *}
+        {foreach $profiles as $profile}
+            {include_template_file file="blocks/video_profile.html" profile=$profile}
+        {/foreach}
+    {/if}
+    
+    
+</div>
+
+<div class="clearfix"></div>

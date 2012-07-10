@@ -79,9 +79,6 @@ a[rel=sponsors]:hover { background:#555; border:1px solid #232323; }
 .vdo_sets,.vdo_sets a{font-size:11px; text-transform:uppercase; font-family: Consolas, Monaco, Courier, monospace;}
 
 
-h2,.page_title{font-size:18px; margin:5px 0px 5px 0px; display:inline; font-weight:normal}
-h2,.page_title a{font-size:18px; }
-h4{margin:2px 0px}
 
 /**
  * Forms
@@ -235,7 +232,7 @@ padding-left:5px; font-size:16px; font-weight:bold; font-family:Arial, Helvetica
 .msg{ margin:10px;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px; }
 .msg ul{padding:0px}
 .msg ul li{list-style:none; padding-left:10px; margin-bottom:5px}
-.error{background-color:#fff7f7; border:1px solid #ed0000;}
+
 .blue{background-color:#fafdff; border:1px solid #005d9c;}
 .msg img{ margin-right:10px}
 

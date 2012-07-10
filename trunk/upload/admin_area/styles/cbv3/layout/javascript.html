@@ -85,8 +85,50 @@
             show : false
         });
         
-
+        
+        //Fixing Bars
+        $( '.scrolltoFixed' ).scrollToFixed({
+            preFixed: function() { $(this).addClass('controller-fixed')},
+            postFixed: function() { $(this).removeClass('controller-fixed'); },
+        });
+         
         //Hiding Pointers
         //$('.loading_pointer').hide();
+        
+        $('.manager-list').on('click','.check-all',function(){
+            if($(this).find('input[type=checkbox]').is(':checked'))
+            {
+                $(this).parents('.manager-list')
+                .find('.table input[type=checkbox]')
+                .prop("checked",true);
+            }else
+            {
+                $(this).parents('.manager-list')
+                .find('.table input[type=checkbox]')
+                .prop("checked",false);
+            }
+       });
+       
+       $('.manager-list').on('click','.check-item',function(){
+
+            var $parent = $(this).parents('.list-block'); 
+            var boxes = $($parent).find('input[type=checkbox]').length;
+            var checked = $($parent)
+            .find('input[type=checkbox]:checked')
+            .length;
+            
+           
+            if(boxes!=checked)
+            { 
+                $(this).parents('.manager-list')
+                .find('.check-all input')
+                .prop("checked",false);
+            }else
+            {
+                $(this).parents('.manager-list')
+                .find('.check-all input')
+                .prop("checked",true);
+            }
+       });
     })
 </script>

@@ -27,8 +27,10 @@
      */
     function video_js($in)
     {
+        //Assigning configs so we can easily use them in template..
         assign('configs',$in);
         
+        //get the file for video...
         $player = fetch(VIDEO_JS_DIR.'/player.html',false);
         return $player;
     }

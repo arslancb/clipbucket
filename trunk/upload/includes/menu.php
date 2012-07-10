@@ -75,6 +75,7 @@ $submenus = array(
         array('title' => lang('Settings'),'link' => 'main.php'),
         array('title' => lang('Email Settings'),'link' => 'email_settings.php'),
         array('title' => lang('Language Settings'), 'link' => 'language_settings.php'),
+        array('title' => lang('Conversion Settings'), 'link' => 'conversion_settings.php')
         
     ),
     'members-manager' => array(

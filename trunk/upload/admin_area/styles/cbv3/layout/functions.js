@@ -13,6 +13,7 @@ function displayError(err)
     $('#error').modal('show');
 }
 
+
 /**
  *Function used to display an error message popup box
  */
@@ -26,6 +27,16 @@ function displayMsg(msg)
     $('#msg').modal('show');
 }
 
+/**
+ * Relative input highlight and add error
+ */
+function focusObj(err,type)
+{
+    $.each(err,function(rel,msg){
+        $('#'+rel).parent().parent().addClass(type);
+        $('#'+rel).parent().find('.help-inline').text(msg);
+    })
+}
 
 /**
  * toggles the sidebar for widgets
@@ -185,6 +196,29 @@ function add_category()
 }
 
 
+    /**
+     * Function used to make confirmation about any action
+     */
+    function cb_confirm(title,text,callback)
+    {
+        $('#confirm .modal-header h3').text(title);
+        $('#confirm .modal-body').html(text);
+        $('#confirm-yes').bind('click',callback);    
+        $('#confirm').modal('show');
+    }
+    
+    /**
+     * Clears confirm form events and text
+     */
+    function clear_confirm(){
+        $('#confirm .modal-header h3').text('');
+        $('#confirm .modal-body').html('');
+        $('#confirm-yes').unbind('click');    
+    }
+
+
+
+
 /**
  * Scroll to an elemet
  */
@@ -324,3 +358,71 @@ function update_order(id,order,type)
         }
     );
 }
+
+
+/**
+ * Add video profile..
+ */
+function add_video_profile()
+{
+    var $form = $('#video-profile-form').serialize();
+    
+    $('#video-profile-bttn').button('loading');
+    
+    $('#video-profile-alert').hide().html('');
+    
+    var postData  = $form+'&mode=add_profile';
+    amplify.request('videos',postData,function(data){
+        
+        if(data.rel.err)
+        {
+            focusObj(data.rel.err,'error');
+        }
+        
+        if(data.err)
+        {
+            $.each(data.err,function(rel,msg){
+                $('#video-profile-alert').append(msg+'<br>').show();
+            })
+            $('#video-profile-bttn').button('reset');
+        }else
+        {
+            $('#profile_id').val(data.profile_id);
+            $('#video-profile-form').submit();
+        }
+    })
+}
+
+
+/**
+ *  Update video profile...
+ */
+function update_video_profile(pid)
+{
+    var $form = $('#video-profile-form'+pid).serialize();
+    
+    $('#video-profile-bttn'+pid).button('loading');
+    
+    $('#video-profile-alert'+pid).hide().html('');
+    
+    var postData  = $form+'&mode=update_profile';
+    amplify.request('videos',postData,function(data){
+        
+        if(data.rel.err)
+        {
+            focusObj(data.rel.err,'error');
+        }
+        
+        if(data.err)
+        {
+            $.each(data.err,function(rel,msg){
+                $('#video-profile-alert'+pid).append(msg+'<br>').show();
+            })
+            $('#video-profile-bttn').button('reset');
+        }else
+        {
+            $('#video-profile-form'+pid).submit();
+        }
+    })
+}
+
