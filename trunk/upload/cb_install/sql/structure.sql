@@ -1120,3 +1120,30 @@ ALTER TABLE  `{tbl_prefix}collection_categories` ADD  `category_icon` VARCHAR( 1
 
 ALTER TABLE  `{tbl_prefix}playlist_items` ADD  `order` BIGINT( 10 ) NOT NULL AFTER  `playlist_id`;
 ALTER TABLE  `{tbl_prefix}playlist_items` ADD  `item_note` MEDIUMTEXT NOT NULL AFTER  `item_order`;
+
+
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_profiles` (
+  `profile_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `format` varchar(100) NOT NULL,
+  `ext` varchar(10) NOT NULL,
+  `suffix` varchar(100) NOT NULL,
+  `height` smallint(5) NOT NULL,
+  `width` smallint(5) NOT NULL,
+  `profile_order` int(10) NOT NULL,
+  `verify_dimension` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `video_codec` varchar(50) NOT NULL,
+  `audio_codec` varchar(50) NOT NULL,
+  `audio_bitrate` mediumint(50) NOT NULL,
+  `video_bitrate` mediumint(50) NOT NULL,
+  `audio_rate` mediumint(50) NOT NULL,
+  `video_rate` mediumint(50) NOT NULL,
+  `resize` enum('none','max','fit','wxh') NOT NULL DEFAULT 'max',
+  `preset` enum('none','low','normal','hq','max') NOT NULL DEFAULT 'normal',
+  `2pass` enum('yes','no') NOT NULL DEFAULT 'no',
+  `apply_watermark` enum('yes','no') NOT NULL,
+  `ffmpeg_cmd` mediumtext NOT NULL,
+  `active` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`profile_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
