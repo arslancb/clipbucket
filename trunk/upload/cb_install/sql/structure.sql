@@ -1126,3 +1126,23 @@ ALTER TABLE  `{tbl_prefix}conversion_queue` CHANGE  `cqueue_id`  `queue_id` INT(
 CHANGE  `cqueue_name`  `queue_name` VARCHAR( 32 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
 CHANGE  `cqueue_ext`  `queue_ext` VARCHAR( 5 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
 CHANGE  `cqueue_tmp_ext`  `queue_tmp_ext` VARCHAR( 3 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
+
+DROP TABLE IF EXISTS `{tbl_prefix}video_files`;
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_files` (
+  `file_id` int(255) NOT NULL AUTO_INCREMENT,
+  `queue_id` int(255) NOT NULL,
+  `file_name` varchar(32) NOT NULL,
+  `file_directory` varchar(200) NOT NULL,
+  `original_source` varchar(255) NOT NULL,
+  `is_original` enum('yes','no') NOT NULL DEFAULT 'no',
+  `file_ext` varchar(5) NOT NULL,
+  `output_results` text NOT NULL,
+  `status` enum('p','s','f') NOT NULL,
+  `profile_id` int(255) NOT NULL,
+  `log_file` varchar(255) NOT NULL,
+  `log` text NOT NULL,
+  `date_completed` time NOT NULL,
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`file_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

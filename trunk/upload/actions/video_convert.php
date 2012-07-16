@@ -76,7 +76,7 @@ if($process_running<=$max_processes && $queued_files)
                     $fid = $cbupload->add_video_file($queue,array('noinfo'),'p',$vid_profile['profile_id'],$log_file);
                     $cbupload->update_queue_status($queue,'u','Started conversion using Profile # '.$vid_profile['profile_id'],true);
                     
-                    echo $log_file = LOGS_DIR.'/'.$log_file;
+                    $log_file = LOGS_DIR.'/'.$log_file;
 
                     /** All of our new conversion code is written here **/
                     /** Lets us Prepare the ship, Lets Sail again.. **/
@@ -112,17 +112,18 @@ if($process_running<=$max_processes && $queued_files)
                     $converter->convert($params);
                     $output_details = $converter->getInfo($output_file);
                     $time_finished = time();
-                    $log = $convert->log();
+                    $log = $converter->log();
                     
                     $fields = array(
-                        'log' => $log,
+                        'log' => '|no_mc|'.json_encode($log),
                         'status' => 's',
-                        'output_result' => '|no_mc|'.json_encode($output_details),
+                        'output_results' => '|no_mc|'.json_encode($output_details),
                         'date_completed' => $time_finished,
                     );
                     
                     $cbupload->update_video_file($fid,$fields);
                     
+                    echo $db->db_query;
                     unset($converter);
                     break;
                 }

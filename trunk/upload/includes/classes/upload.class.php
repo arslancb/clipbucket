@@ -1402,7 +1402,7 @@ class Upload{
             foreach($values as $field => $val)
             {
                 $flds[] = $field;
-                $vals[] = $val;
+                echo $vals[] = $val;
             }
             
             $db->update(tbl('video_files'),$flds,$vals,"file_id='$fid' ");

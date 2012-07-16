@@ -103,7 +103,7 @@ class CBConverter
         
         if(!file_exists($input))
         {
-            $this->log('File does not exist...');
+            $this->log('<strong>'.$input.'</strong> File does not exist...');
             return $this->log();
         } 
         $info = $this->_getInfo($input);
@@ -246,7 +246,7 @@ class CBConverter
             }
             
             
-            if(file_exists($outputFile))
+            if(file_exists($outputFile) && !$this->output_log)
                 unlink($outputFile)
                 or $this->log('Unable to remove tmp bash output file','e');
             
