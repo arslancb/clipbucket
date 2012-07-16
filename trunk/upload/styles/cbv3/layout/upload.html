@@ -1,0 +1,72 @@
+{lang code='vdo_upload_step2' assign='vdo_upload_step'}
+<div class="upload_left">
+
+	<!-- STEP 1 - UPLOADING VIDEO DETAILS -->
+
+	{if $step =='1'}
+
+    {assign var='no_upload' value='yes'}
+    {assign var=opt_list value=$Upload->load_upload_options()} 
+	<ul class="upload_opts clearfix">
+    {foreach from=$opt_list item=opt key=divid}
+    
+    	{* Checking weather to show uploadin option to user or not *}
+    	{assign var=uploadOptId value=$opt.load_func}
+        {if $Cbucket->configs.$uploadOptId=='yes'}
+        	{assign var='no_upload' value='no'}
+			<li class="upload_opt_head moveL {$divid}" onclick="show_menu('{$divid}',false)">{$opt.title}</li>
+        {/if}
+	{/foreach}
+    </ul>
+    <div class="clear"></div>   
+    <div class="uploadFormContent">      
+    {foreach from=$opt_list item=opt key=divid}     
+    	{* Checking weather to show uploadin option to user or not *}
+    	{assign var=uploadOptId value=$opt.load_func}
+        {if $Cbucket->configs.$uploadOptId=='yes'} 
+        <div class="upload_opt" id="{$divid}" style="display:none">
+			{load_form name=$opt.load_func button_class='cb_button_2' class='upload_form'} 
+        </div>
+        {/if}
+    {/foreach} 
+    
+    {if $no_upload=='yes'}
+    	<div style="background-color:#FFEAEB; font-size:13pt; padding:5px">
+        	{lang code='no_upload_opt'}
+        </div>
+    {/if}
+    </div>
+    {literal}
+    <script>
+		
+		$(document).ready(function() { 
+		var formToLoad = $('.uploadFormContent .upload_opt:first-child').attr('id');
+		show_menu(formToLoad,true) })
+	</script>
+	{/literal}
+    {/if}
+    
+    
+    <!-- STEP 1 ENDS HERE -->
+    
+    <!-- STEP 3 - VIEWING SUCCESSFULL PAGE -->
+    {if $step==3}
+    <div class="upload_info">
+        {lang code='video_complete_msg' assign='video_complete_msg'}
+        {link name='upload' assign='uploadlink'}
+        {link name='my_videos' assign='myvidslink'}
+        {$video_complete_msg|sprintf:$myvidslink:$uploadlink:$myvidslink}    
+    </div>
+    {/if}
+    <!-- STEP 3 ENDS HERE -->
+    
+</div>
+
+<div class="upload_right">
+    <div class="instructions">
+       {lang code='upload_right_guide'}
+    </div>
+    <div style="height:10px"></div>
+  {AD place='ad_300x250'}
+</div>
+<div class="clearfix"></div>
