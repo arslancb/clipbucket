@@ -573,7 +573,7 @@ function file_name_exists($name)
 /**
  * Function used to get video from conversion queue
  */
-function get_queued_video($update=TRUE,$fileName=NULL)
+function get_queued_video($update=TRUE)
 {
         global $db;
         $max_conversion = config('max_conversion');

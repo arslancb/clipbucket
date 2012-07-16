@@ -63,11 +63,11 @@ Please read more about how to set these configurations <a href="http://docs.clip
             <td>{$profile.active}</td>
             <td>{$profile.format}/{$profile.width}x{$profile.height}</td>
             <td><div class="btn-group">
-                    <button class="btn" data-toggle="modal" data-target="#profile-form{$profile.profile_id}">Edit</button>
-                    <button class="btn" onclick="cb_confirm('Delete video profile','Are you sure you want to remove {$profile.name} video profile',
+                    <span class="btn" data-toggle="modal" data-target="#profile-form{$profile.profile_id}">Edit</span>
+                    <span class="btn" onclick="cb_confirm('Delete video profile','Are you sure you want to remove {$profile.name} video profile',
                     function(){ 
                         $('#delete_profile_id').val('{$profile.profile_id}'); $('#delete_profile').submit();
-                    })">Delete</button>
+                    })">Delete</span>
                 </div></td>
 
             </tr>

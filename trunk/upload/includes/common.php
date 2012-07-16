@@ -183,8 +183,8 @@ if(!@$in_bg_cron)
 	
 	$calcdate	= new CalcDate();
 	$signup 	= new signup();	
-	$Upload 	= new Upload();
-	$cbgroup 	= new CBGroups();
+        $cbupload       = $Upload 	= new Upload();
+        $cbgroup 	= new CBGroups();
 	$adsObj		= new AdsManager();
 	$formObj	= new formObj();
 	

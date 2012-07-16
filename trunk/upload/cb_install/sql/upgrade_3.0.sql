@@ -88,3 +88,13 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_profiles` (
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`profile_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+DROP TABLE  `{tbl_prefix}video_files`;
+ALTER TABLE  `{tbl_prefix}conversion_queue` CHANGE  `cqueue_conversion`  `conversion` ENUM(  'yes',  'no',  'p' )  NOT NULL DEFAULT  'no';
+ALTER TABLE  `{tbl_prefix}conversion_queue` CHANGE  `cqueue_id`  `queue_id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
+CHANGE  `cqueue_name`  `queue_name` VARCHAR( 32 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
+CHANGE  `cqueue_ext`  `queue_ext` VARCHAR( 5 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
+CHANGE  `cqueue_tmp_ext`  `queue_tmp_ext` VARCHAR( 3 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
+ALTER TABLE  `{tbl_prefix}conversion_queue` ADD  `status` ENUM(  'u',  's',  'f' ) NOT NULL DEFAULT  'u' AFTER  `conversion_counts`;
+ALTER TABLE  `{tbl_prefix}conversion_queue` ADD  `messages` TEXT AFTER  `status`;

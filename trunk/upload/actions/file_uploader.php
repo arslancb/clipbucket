@@ -133,19 +133,14 @@ switch($mode)
 		move_uploaded_file($tempFile,$targetFile);
 		
 		$Upload->add_conversion_queue($targetFileName);
-		$quick_conv = config('quick_conv');
 		
-		$use_crons = config('use_crons');
-		if($quick_conv=='yes' || $use_crons=='no')
-		{
-			//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
-			if (stristr(PHP_OS, 'WIN')) {
-				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName");
-			} else {
-				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName &> /dev/null &");
-			}
-		}
-		
+               /* //exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
+                if (stristr(PHP_OS, 'WIN')) {
+                        exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName");
+                } else {
+                        exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName &> /dev/null &");
+                }
+*/
 		echo json_encode(array("success"=>"yes","file_name"=>$file_name));
 		
 	}

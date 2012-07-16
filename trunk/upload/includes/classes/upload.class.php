@@ -763,8 +763,9 @@ class Upload{
 				return false;
 			rename(TEMP_DIR.'/'.$file,TEMP_DIR.'/'.$new_file);
 			//Adding Details to database
-			$db->Execute("INSERT INTO ".tbl("conversion_queue")." (cqueue_name,cqueue_ext,cqueue_tmp_ext,date_added)
-							VALUES ('".$name."','".$ext."','".$tmp_ext."','".NOW()."') ");
+			$db->Execute("INSERT INTO ".tbl("conversion_queue")."
+                        (queue_name,queue_ext,queue_tmp_ext,date_added)
+                        VALUES ('".$name."','".$ext."','".$tmp_ext."','".NOW()."') ");
 			return $db->insert_id;
 		}else{
 			return false;
@@ -778,24 +779,26 @@ class Upload{
 	 */
 	function video_keygen()
 	{
-		global $db;
-		
-		$char_list = "ABDGHKMNORSUXWY";
-		$char_list .= "123456789";
-		while(1)
-		{
-			$vkey = '';
-			srand((double)microtime()*1000000);
-			for($i = 0; $i < 12; $i++)
-			{
-			$vkey .= substr($char_list,(rand()%(strlen($char_list))), 1);
-			}
-			
-			if(!vkey_exists($vkey))
-			break;
-		}
-		
-		return $vkey;
+            global $db;
+
+            $char_list = "ABDGHKMNORSUXWY";
+            $char_list .= "123456789";
+            $char_list .= "qwdvbnmkpouyt";
+
+            while(1)
+            {
+                $vkey = '';
+                srand((double)microtime()*1000000);
+                for($i = 0; $i < 12; $i++)
+                {
+                $vkey .= substr($char_list,(rand()%(strlen($char_list))), 1);
+                }
+
+                if(!vkey_exists($vkey))
+                break;
+            }
+
+            return $vkey;
 	}
 	
 	
@@ -1149,5 +1152,293 @@ class Upload{
 			return $hours * 3600 + $minutes * 60 + $seconds; 
 		}
 	}
+         /**
+         * Get files from conversion queue..
+         * 
+         * @return ARRAY 
+         */
+        function get_queued_files(){
+            global $db;
+            
+            $results = $db->select(tbl("conversion_queue"),"*"," conversion='p' OR conversion='no' ",NULL," conversion_counts ASC ");
+            
+            if($db->num_rows>0)
+            {
+                $new_results = array();
+                //Get video files...we can do this by LEFT JOIN but want a child array for this.
+                foreach($results as $result)
+                {
+                    
+                    $result['files'] = $this->get_video_files(array('queue_id'=>$result['queue_id']));
+                    $new_results[] = $result;
+                }
+                
+                return $new_results;
+            }else
+                return false;
+        }
+        
+        
+        /**
+         * Get queue details from database
+         * 
+         * get_queue_details 
+         * 
+         * @param INT queue_id
+         * @return ARRAY queue details with video files
+         */
+        function get_queue_details($qid)
+        {
+            global $db;
+            $results = $db->select(tbl('conversion_queue'),'*',"queue_id='$qid'");
+            if($db->num_rows>0)
+            {
+                $result = $results[0];
+                $result['files'] = $this->get_video_files(array('queue_id'=>$qid));
+                
+                return $result;
+            }else
+                return false;
+        }
+        
+        /**
+         * Get video files from database table
+         * this will fetch data from cb_video_files as per given conditions
+         * 
+         * @param ARRAY $array a set of conditions
+         * @return ARRAY $output list of files
+         */
+        function get_video_files($array)
+        {
+            global $db;
+            $array = apply_filters($array,'get_video_files');
+            $cond = "";
+            
+            if($array['limit'])
+                $limit = $array['limit'];
+            else
+                $limit = NULL;
+            
+            
+            if($array['order'])
+                $order = $array['order'];
+            else
+                $order = ' file_id ASC ';
+            
+            if($array['queue_id'])
+                $cond = cond(" queue_id = '".$array['queue_id']."' ");
+            
+            if($array['file_name'])
+                $cond = cond(" file_name = '".$array['file_name']."' ");
+            
+            $cond = apply_filters($cond,'get_video_files_cond');
+            
+           
+            $results = $db->select(tbl('video_files'),'*',$cond,$limit,$order);
+            
+            if($db->num_rows>0)
+            {
+                $output = $results;
+            }else
+                $output = 0;
+            
+            $output = apply_filters($output,'get_video_files_output');
+            return $output;
+        }
+        
+        
+        /**
+         * Count number of conversion beein proccessed
+         * 
+         * conversions_count 
+         */
+        function conversion_count()
+        {
+            global $db;
+            $count = $db->count(tbl('video_files'),'file_id',"status='p'");
+            return $count;
+        }
+        
+        
+        /**
+         * Update queue status..
+         * 
+         * @param STRING status
+         * @param STRING message 
+         */
+        function update_queue_status($qid,$status,$message=NULL,$increment=false)
+        {
+            global $db;
+            
+            if(is_array($qid))
+            {
+                $queue = $qid;
+                $qid = $queue['queue_id'];
+            }else
+            {
+                $queue = $this->get_queue_details($qid);
+            }
+         
+            //Messages Array
+            $messages = $queue['messages'];
+            $messages = json_decode($messages,true);
+            $messages[] = $message;
+            $messages = '|no_mc|'.json_encode($messages);
+            
+            $fields = array('conversion','status','messages','conversion_counts','time_completed');
+            $tbl = tbl('conversion_queue');
+            
+            $conv_count = $queue['conversion_counts'];
+            
+            if($increment)
+            {
+                $conv_count = $conv_count + 1;
+            }
+                         
+            switch($status)
+            {
+                case "u":
+                {          
+                    $db->update($tbl,$fields,array('p','u',$messages,$conv_count,time()),"queue_id='$qid'");
+                }
+                break;
+            
+                case "s":
+                {
+                    $db->update($tbl,$fields,array('yes','s',$messages,$conv_count,time()),"queue_id='$qid'");
+                }
+                break;
+            
+                case "f":
+                {
+                    $db->update($tbl,$fields,array('yes','f',$messages,$conv_count,time()),"queue_id='$qid'");
+                }
+                break;
+            }
+        }
+        
+        
+        /**
+         * Add video file
+         * 
+         * @param INT queue_id
+         * @param ARRAY video_info
+         * @param INT profile_id 
+         */
+        function add_video_file($qid,$vid_info,$status='p',$profile_id=NULL,$log_file=NULL)
+        {
+            global $db,$cbvid;
+            
+            if($profile_id)
+            $profile = $cbvid->get_video_profile($profile_id);
+            
+            if(is_array($qid))
+            {
+                $queue = $qid;
+                $qid = $queue['queue_id'];
+            }else
+            {
+                $queue = $this->get_queue_details($qid);
+            }         
+            
+            
+            $fields = array();
+            $values = array();
+            
+           
+            $is_original = 'no';
+            
+            if(!$profile_id)
+            {
+               $is_original = 'yes';
+               $file_ext = $queue['queue_ext'];
+            }else
+                $file_ext = $profile['ext'];
+        
+            $directory          = create_dated_folder(NULL,$queue['date_added']);
+            $original_source    = $queue['queue_name'].'.'.$queue['queue_ext'];
+            $vid_info           = '|no_mc|'.json_encode($vid_info);
+            $file_name          = $queue['queue_name'];
+            
+            $vid_file = $this->video_file_exists($file_name,$qid,$profile_id,$file_ext);
+            
+            if($vid_file)
+                return $vid_file['file_id'];
+            
+            $fields = array('queue_id','file_name','file_directory',
+            'original_source','is_original','file_ext',
+            'output_results','status','profile_id','date_added','log_file');
+            
+            $values = array($qid,$file_name,$directory,$original_source,
+            $is_original,$file_ext,$vid_info,$status,$profile_id,now(),$log_file);
+            
+            
+            if(!$profile_id)
+            {
+                $fields[] = 'date_completed';
+                $values[] = now();
+            }
+            
+            $db->insert(tbl('video_files'),$fields,$values);
+
+            return $db->insert_id();
+        }
+        
+        
+        /**
+         * update video file info 
+         * 
+         * @param INT profile_id
+         * @param ARRAY $file_fileds
+         * @param ARRAY $file_values
+         */
+        function update_video_file($fid,$values)
+        {
+            global $db;
+            
+            $flds = array();
+            $vals = array();
+            
+            foreach($values as $field => $val)
+            {
+                $flds[] = $field;
+                $vals[] = $val;
+            }
+            
+            $db->update(tbl('video_files'),$flds,$vals,"file_id='$fid' ");
+        }
+        
+        
+        /**
+         * video file exists
+         * 
+         * @param file_name
+         * @param Queue_id
+         * @param ext 
+         */
+        function video_file_exists($filename,$queueid=NULL,$profile_id=NULL,$ext=NULL)
+        {
+            global $db;
+            
+            $var = " ";
+            
+            if($filename)
+                $var = cond("file_name='$filename'","AND",$var);
+
+            if($queueid)
+                $var = cond("queue_id='$queueid'","AND",$var);
+            if($ext)
+                $var = cond("file_ext='$ext'","AND",$var);
+            
+            if($profile_id)
+                $var = cond("profile_id='$profile_id'","AND",$var);
+            
+            $results = $db->select(tbl('video_files'),"*",$var);
+            
+            if($db->num_rows>0)
+                return $results[0];
+            else
+                return false;
+        }     
 }	
 ?>

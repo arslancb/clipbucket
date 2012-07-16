@@ -1868,7 +1868,7 @@ class CBvideo extends CBCategory
          * 
          * @param ARRAY for restrictions 
          */
-        function get_video_profiles($array)
+        function get_video_profiles($array=null)
         {
             global $db;
             
@@ -1879,7 +1879,7 @@ class CBvideo extends CBCategory
             if($array['order'])
                 $order = $array['order'];
             else
-                $order = ' profile_id ASC ';
+                $order = ' profile_order ASC ';
             
             if($array['limit'])
                 $limit = $array['limit'];
@@ -1900,6 +1900,21 @@ class CBvideo extends CBCategory
             
         }
         
+        /**
+         * Get video profile
+         * 
+         * @param INT profile_id
+         * @return ARRAY profile details 
+         */
+        function get_video_profile($pid)
+        {
+            global $db;
+            $profile = $db->select(tbl('video_profiles'),'*',"profile_id='$pid'");
+            if($db->num_rows>0)
+                return $profile[0];
+            else
+                return false;
+        }
         
         /**
          * get latest profile order..

@@ -69,6 +69,12 @@ class CBConverter
     // 5 channels otherwise it will skipp the step
     var $valid_two_channels = true;
     
+    
+    //Log file where output of every command will be given.
+    //By default is set to false so that defined output file can be used
+    //if value set, this file will be used to save outptu.
+    var $output_log = false;
+    
     /**
      * Constructor and sets the input file and get information..
      * @param Video File
@@ -224,6 +230,10 @@ class CBConverter
                     $outputFile = TEMP_DIR.'/'.time().RandomString(5);
                 else
                     $outputFile = TEMP_DIR.'/'.time().mt_rand(5, 6);
+                
+                if($this->output_log)
+                    $outputFile = $this->output_log;
+                
                 $output_cmd = " 2> ".$outputFile;
             }
             
@@ -762,12 +772,16 @@ class CBConverter
             'abitrate'=> 128000,
             'preset' => 'normal',
             'auto_rotate' => true,
+            
         );
         
+
         if($params && $defaults)
             $params = array_merge($defaults, $params);
         elseif($defaults)
             $params = $defaults;
+        
+        $output_file = $params['output_file'];
         
         //Creating array to pass to calculateResize func
         //and get resizeable width and height...
@@ -1135,8 +1149,11 @@ class CBConverter
             }
         }        
         
-        echo $CMD;
+        $CMD .= " ".$output_file;
         
+        $log = $this->exec($CMD);
+        
+        return $log;
     }
     
     
@@ -1545,8 +1562,8 @@ class CBConverter
             
             $rinfo = $this->calculateResize($dimInfo);
             
-            $pad_width  = $rinfo['width'] + ($rinfo['pad_x']*2);
-            $pad_height = $rinfo['height'] + ($rinfo['pad_y']*2);
+            $pad_width  = $rinfo['width']   + ($rinfo['pad_x']*2);
+            $pad_height = $rinfo['height']  + ($rinfo['pad_y']*2);
 
             if(!$params['padding_color'])
                 $pad_color = 'black';
@@ -1634,7 +1651,7 @@ class CBConverter
         /* Checking if there is some ffmepg execution error */
         preg_match();
         
-        /* Checking for codec missing erro */
+        /* Checking for codec missing error */
         
         /* Checking for bitrate/width/etc issue */
         
@@ -1642,6 +1659,23 @@ class CBConverter
         
         /* Checking for file missing error */
         
+    }
+    
+    
+    
+    /**
+     * function used to set the log file
+     * Simple set the value for output_log
+     * 
+     * @param STRING $file 
+     */
+    function set_log($file=false)
+    {
+        if(!$file)
+            $file = $outputFile = TEMP_DIR.'/'.time().mt_rand(5, 6);
+        
+        $this->output_log = $file;
+        return $file;
     }
 }
 ?>
