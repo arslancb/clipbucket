@@ -79,7 +79,7 @@ function load_photo_controls ( $args ) {
   }
 }
 
-function get_original_photo( $photo ) {
+function get_original_photo( $photo, $with_path = false ) {
 	global $cbphoto;
 	if ( !is_array($photo) ) {
 		$ph = $cbphoto->get_photo($photo);	
@@ -88,7 +88,7 @@ function get_original_photo( $photo ) {
 	}
 	
 	if ( is_array($ph) ) {
-		$files = $cbphoto->get_image_file( $ph, 'o', true, null, false, true);
+		$files = $cbphoto->get_image_file( $ph, 'o', true, null, $with_path, true);
 		$orig = $ph['filename'].'.'.$ph['ext'];
 		$file = array_find( $orig, $files );
 		return $file;			
@@ -338,8 +338,13 @@ function get_all_custom_size_photos( $id ) {
     }
 }
 
-function get_photo_dimensions() {
+function get_photo_dimensions($filter=false) {
     global $cbphoto;
+    
+    if ( $filter === true ) {
+        apply_filters( null, 'photo_dimensions' );
+    }
+    
     return $cbphoto->thumb_dimensions;
 }
 
@@ -432,7 +437,7 @@ function cbphoto_pm_action_link_filter( $links ) {
 	}
 	
 	/* Later we uncomment this, BAM something new to give >:D */
-	//$links[] = add_photo_action_link( lang('View Colors'),'#','tasks', null, array('onclick' => 'show_colors(event)', 'data-photo-id' => $photo['photo_id']) );
+	$links[] = add_photo_action_link( lang('View Colors'),'#','tasks', null, array('onclick' => 'show_colors(event)', 'data-photo-id' => $photo['photo_id']) );
 	
     return $links;
 }
@@ -813,6 +818,11 @@ function delete_photo_meta( $photo ) {
 	$db->delete( tbl('photosmeta'), array('photo_id'), array( $photo['photo_id'] ) );	
 }
 
+/**
+ * Function gets the date folder for the current photo.
+ * @param INT|ARRAY $pid, This could either be a photo id or photo array
+ * @return STRING 
+ */
 function get_photo_date_folder ( $pid ) {
 	global $cbphoto, $db;
 	if ( !is_array($pid) ) {
@@ -848,4 +858,52 @@ function view_photo_link( $photo, $type='view_item' ) {
     global $cbphoto;
     return $cbphoto->collection->collection_links( $photo, $type);
 }
+
+function add_photo_manager_link( $title, $link, $callback = false, $args = false ) {
+    global $cbphoto;
+    $random_id = RandomString(8);
+    
+    if ( !$title || !$link ) {
+        return false;
+    }
+    
+    $links = array(
+        'title' => $title,
+        'id' => $random_id.'-'.SEO(strtolower($title)),
+        'link' => $link,
+        'args' => $args,
+        'callback' => $callback
+    );
+         
+    return $links;
+}
+
+function display_manager_links( $photo ) {
+    global $cbphoto;
+    $links = $cbphoto->manager_links;
+    $cbphoto->photo = $photo;
+    $links = apply_filters($links, 'photo_manager_links');
+  
+    if ( $links ) {
+        foreach( $links as $link ) {
+            $output .= '<li><a id="'.$link['id'].'" href="'.$link['link'].'">'.$link['title'].'</a></li>';
+            $callback = $link['callback'];
+            if ( $callback && is_string( $callback ) ) {
+                $cbphoto->manager_link_callbacks[ $link['id'] ] = $callback;
+            }
+        }
+       
+        return $output;
+    }
+}
+
+function cb_some_photo_plugin_links( $links ) {
+    global $cbphoto;
+    $photo = $cbphoto->photo;
+    $link = '?some_var='.$photo['photo_key'];
+    $links[] = add_photo_manager_link( 'Testing Callbacks', $link, 'test_callback_for_photo' );
+    return $links;
+}
+
+
 ?>

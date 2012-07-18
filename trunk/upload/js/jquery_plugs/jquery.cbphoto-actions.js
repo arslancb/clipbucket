@@ -25,7 +25,11 @@
 		
 		menu = $( options.menu_wrapper).attr({
 			id : getID('wrapper')	
-		}).addClass('cbphoto-actions-wrapper nav nav-list');
+		}).addClass('cbphoto-actions-wrapper');
+		
+		if ( element.attr('data-menu-class') ) {
+			menu.addClass( element.attr('data-menu-class') );	
+		}
 		
 		// Empty the element
 		element.html('');
@@ -42,17 +46,32 @@
 					style : val.style || null
 				}).html( val.text );
 
-                        if ( val.icon ) {
-                            link.html(' '+link.html());
-                            icon = $("<i>").addClass('icon-'+val.icon).prependTo( link );
-                        }
-                        
-                        if ( val.tags && typeof val.tags == 'object' ) {
-                            link.attr( val.tags );
-                        }
-        
+				if ( val.icon ) {
+					link.html(' '+link.html());
+					icon = $("<i>").addClass('icon-'+val.icon).prependTo( link );
+				}
+				
+				if ( val.tags && typeof val.tags == 'object' ) {
+					link.attr( val.tags );
+				}
+        						
 				link.appendTo( item );
-				item.appendTo( menu ); 
+				item.appendTo( menu );
+				if ( link.attr('data-add-divider') ) {
+					add_divider = link.attr('data-add-divider');
+					var divider;
+					if ( add_divider == 'before' ) {
+							divider = $('<li></li>').attr({
+							'id' : getID('divider-item-'+index)	
+							}).addClass('divider');
+							item.before(divider)
+						} else if ( add_divider == 'after' ) {
+							divider = $('<li></li>').attr({
+							'id' : getID('divider-item-'+index)	
+							}).addClass('divider');
+							item.after(divider)
+					}
+				} 
 			}
 		});
 		

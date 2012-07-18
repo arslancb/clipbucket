@@ -455,6 +455,12 @@ class CBPhotos {
             $cond .= " " . tbl( 'photos.collection_id' ) . " <> '0'";
         }
         
+        if ( $p['mature'] ) {
+            if ( $cond != "" )
+                $cond .= " AND ";
+            $cond .= " " . tbl( 'photos.is_mature' ) . " = '" . $p['mature'] . "'";
+        }
+        
         if ( has_access('admin_access') ) {
             if ( !$p['is_avatar'] ) { $p['is_avatar'] = 'no'; }
             if ( $cond != '' ) { $cond .= ' AND '; }
@@ -2554,10 +2560,24 @@ class CBPhotos {
             case "make_unfeatured":
             case "unfeature_photo":
             case "ufp": {
-                    $db->update( tbl( $this->p_tbl ), array("featured"), array("no"), " photo_id = $id" );
-                    e( lang( "photo_unfeatured" ), "m" );
-                }
-                break;
+                $db->update( tbl( $this->p_tbl ), array("featured"), array("no"), " photo_id = $id" );
+                e( lang( "photo_unfeatured" ), "m" );
+            }
+            break;
+            case 'remove_mature':
+            case 'remove_mature_flag':
+            case 'rm': {
+                $db->update( tbl( $this->p_tbl ), array("is_mature"), array("no"), " photo_id = $id" );
+                e( lang( "Mature flag has been removed" ), "m" );
+            }
+            break;
+        
+            case 'add_mature':
+            case 'add_mature_flag':
+            case 'am': {
+                $db->update( tbl( $this->p_tbl ), array("is_mature"), array("yes"), " photo_id = $id" );
+                e( lang( "Mature flag has been added" ), "m" );
+            }
         }
     }
     

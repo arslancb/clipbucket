@@ -11,7 +11,7 @@ require_once '../includes/admin_config.php';
 $userquery->admin_login_check();
 $userquery->login_check('video_moderation');
 $pages->page_redir();
-
+register_filter('photo_manager_links','cb_some_photo_plugin_links');
 //Photo Actions are following
 
 //Feature
@@ -40,6 +40,16 @@ if(isset($_GET['deactivate']))
 {
 	$id = mysql_clean($_GET['deactivate']);
 	$cbphoto->photo_actions('deactivation',$id);	
+}
+
+if( isset($_GET['add_mature']) ) {
+    $id = mysql_clean( $_GET['add_mature'] );
+    $cbphoto->photo_actions('add_mature',$id);
+}
+
+if( isset($_GET['remove_mature']) ) {
+    $id = mysql_clean( $_GET['remove_mature'] );
+    $cbphoto->photo_actions('remove_mature',$id);
 }
 
 //Delete
@@ -109,6 +119,30 @@ if(isset($_POST['delete_selected']))
 	e($total." photos has been deleted successfully","m");
 }
 
+//Multi-add-mature
+if(isset($_POST['add_mature_selected']))
+{
+	$total = count($_POST['check_photo']);
+	for($i=0;$i<$total;$i++)
+	{
+		$cbphoto->photo_actions('add_mature',$_POST['check_photo'][$i]);	
+	}
+	$eh->flush();
+	e($total." photos has been flagged as 'Mature'","m");
+}
+
+//Multi-remove-mature
+if(isset($_POST['remove_mature_selected']))
+{
+	$total = count($_POST['check_photo']);
+	for($i=0;$i<$total;$i++)
+	{
+		$cbphoto->photo_actions('remove_mature',$_POST['check_photo'][$i]);	
+	}
+	$eh->flush();
+	e($total." photos mature flag has been removed.","m");
+}
+
 if(isset($_POST['move_to_selected']))
 {
 	$total = count($_POST['check_photo']);
@@ -122,16 +156,17 @@ if(isset($_POST['move_to_selected']))
 if(isset($_GET['search']))
 {
 	$array = array(
-			'title' => $_GET['title'],
-			'pid' => $_GET['photoid'],
-			'key' => $_GET['photokey'],
-			'tags' => $_GET['tags'],
-			'featured' => $_GET['featured'],
-			'active' => $_GET['active'],
-			'user' => $_GET['userid'],
-			'extension' => $_GET['extension'],
-			'order' => $_GET['order']
-			);	
+            'title' => $_GET['title'],
+            'pid' => $_GET['photoid'],
+            'key' => $_GET['photokey'],
+            'tags' => $_GET['tags'],
+            'featured' => $_GET['featured'],
+            'active' => $_GET['active'],
+            'user' => $_GET['userid'],
+            'extension' => $_GET['extension'],
+            'order' => $_GET['order'],
+            'mature' => $_GET['mature']
+    );	
 }
 
 $parr = $array;
@@ -146,10 +181,10 @@ if(!$parr['order'])
 else
 	$parr['order'] = $parr['order']." DESC";
 
-$collections = $cbcollection->get_collections(array("type"=>"photos"));			
+//$collections = $cbcollection->get_collections(array("type"=>"photos"));			
 $photos = $cbphoto->get_photos($parr);
 Assign('photos', $photos);
-assign('c',$collections);		
+//assign('c',$collections);		
 
 $pcount = $parr;
 $pcount['count_only'] = true;

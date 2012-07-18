@@ -208,7 +208,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 
 .controller{border: 1px solid #ccc;padding: 5px 8px; 
 border-width: 1px 0px; margin-bottom: 10px; }
-.controller .buttons{position: relative}
+.controller .buttons{position: relative; top:1px;}
 .controller-fixed{border-top: none; box-shadow: 0px 1px 1px #CCC}
 .buttons .right-button{ position: absolute; right: 0px; top: 2px}
 .buttons .btn-toolbar{margin: 0px}
