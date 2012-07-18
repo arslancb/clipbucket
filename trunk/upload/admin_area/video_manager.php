@@ -23,14 +23,14 @@ if(isset($_GET['make_unfeature'])){
 }
 
 //Using Multple Action
-if(isset($_POST['make_featured_selected'])){
+if($_POST['action_mode']=='featured'){
 	for($id=0;$id<=count($_POST['check_video']);$id++){
 		$cbvid->action('feature',$_POST['check_video'][$id]);
 	}
 	$eh->flush();
 	e("Selected videos have been set as featured","m");
 }
-if(isset($_POST['make_unfeatured_selected'])){
+if($_POST['action_mode']=='unfeatured'){
 	for($id=0;$id<=count($_POST['check_video']);$id++){
 		$cbvid->action('unfeature',$_POST['check_video'][$id]);
 	}
@@ -50,14 +50,14 @@ if(isset($_GET['deactivate'])){
 }
 
 //Using Multple Action
-if(isset($_POST['activate_selected'])){
+if($_POST['action_mode']=='activate'){
 	for($id=0;$id<=count($_POST['check_video']);$id++){
 		$cbvid->action('activate',$_POST['check_video'][$id]);
 	}
 	$eh->flush();
 	e("Selected Videos Have Been Activated","m");
 }
-if(isset($_POST['deactivate_selected'])){
+if($_POST['action_mode']=='deactivate'){
 	for($id=0;$id<=count($_POST['check_video']);$id++){
 		$cbvid->action('deactivate',$_POST['check_video'][$id]);
 	}
@@ -73,7 +73,7 @@ if(isset($_GET['delete_video'])){
 }
 
 //Deleting Multiple Videos
-if(isset($_POST['delete_selected']))
+if($_POST['action_mode']=='delete')
 {
 	for($id=0;$id<=count($_POST['check_video']);$id++)
 	{
@@ -104,6 +104,7 @@ if(isset($_POST['delete_selected']))
 		 'featured' => $_GET['featured'],
 		 'active'	=> $_GET['active'],
 		 'status'	=> $_GET['status'],
+                 'filename' => $_GET['filename']
 		 );		
 	}
 	
@@ -135,7 +136,10 @@ if(isset($_POST['delete_selected']))
 	$cat_array =	array(lang('vdo_cat'),
 					'type'=> 'checkbox',
 					'name'=> 'category[]',
+                                        'sep'   => '<div></div>',
 					'id'=> 'category',
+                                        'class' => 'checkbox',
+                                        'indent' => str_repeat('-',2).' ',
 					'value'=> array('category',$cats_array),
 					'hint_1'=>  lang('vdo_cat_msg'),
 					'display_function' => 'convert_to_categories');

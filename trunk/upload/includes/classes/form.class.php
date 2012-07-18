@@ -260,7 +260,9 @@ class formObj
 			
 			if($count>0)
 			echo $field['sep'];
-			echo '<label><input name="'.$field_name.'" type="checkbox" value="'.$key.'" '.$field_id.' '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;			
+                        
+                        $class = $field['class'];
+			echo '<label class="'.$class.'"><input name="'.$field_name.'" type="checkbox" value="'.$key.'" '.$field_id.' '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;			
 		}
 	}
 	
@@ -286,7 +288,9 @@ class formObj
 		if(!empty($values))
 			foreach($values as $val)
 				$Values[] = "|".$val."|";
-	
+                
+                $class = $field['class'];
+                
 		if($cats)
 		{
 			$output = "";
@@ -297,7 +301,10 @@ class formObj
 					$checked = 'checked';
 				echo "<div class='uploadCategoryCheckBlock' style='position:relative'>";
 				echo $field['sep'];
-				echo '<label><input name="'.$fieldName.'" type="checkbox" value="'.$cat['category_id'].'" '.$field_id.'
+                                
+                                
+                                
+				echo '<label class="'.$class.'"><input name="'.$fieldName.'" type="checkbox" value="'.$cat['category_id'].'" '.$field_id.'
 				 '.$checked.' '.$field['extra_tags'].'>'.$cat['category_name'].'</label>';
 				 if($cat['children'])
 				 {
@@ -336,10 +343,25 @@ class formObj
 		$values = $field['value'][1][0];
 		$newVals = array();
 		
+                
+                $class = $field['class'];
+                
 		if(!empty($values))
 			foreach($values as $val)
 				$newVals[] = '|'.$val.'|';
-		if($cats)
+                
+                $newcats = array();
+                foreach($cats as $c)
+                {
+                    if(!$c['parent_id'] || $in['children_indent'])
+                    {
+                        $newcats[] = $c;
+                    }
+                }
+                
+                $cats = $newcats;
+                
+                if($cats)
 		{
 			foreach($cats as $cat)
 			{
@@ -347,13 +369,16 @@ class formObj
 				//checking value
 				if(in_array('|'.$cat['category_id'].'|',$newVals))
 					$checked = 'checked';
-				echo $field['sep'];
-				echo '<label><input name="'.$field_name.'" type="checkbox" value="'.$cat['category_id'].'" '.$field_id.'
-				 '.$checked.' '.$field['extra_tags'].'>'.$cat['category_name'].'</label>'	;
-				 if($cat['children'])
+				
+                                echo $field['sep'];
+				echo '<label class="'.$class.'"><input name="'.$field_name.'" type="checkbox" value="'.$cat['category_id'].'" '.$field_id.''
+				 .$checked.' '.$field['extra_tags'].'>'.$cat['category_name'].'</label>
+                                     '	;
+				 
+                                 if($cat['children'])
 				 {
 					$childField = $field;
-					$childField['sep'] = $field['sep'].str_repeat('&nbsp;',5);
+					$childField['sep'] = $field['sep'].$field['indent'];
 				 	$this->listCategoryCheckBox(array('categories'=>$cat['children'],'field'=>$childField,'children_indent'=>true),$multi);
 				 }
 			}

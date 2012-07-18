@@ -10,8 +10,14 @@ Manage all your videos here, change categories , delete and edit. Read more
                     <label class="btn check-all"><input type="checkbox"></label>
                 </div>
                 <div class="btn-group">
-                    <a class="btn" onclick="return false;">First Button</a>
-                    <a class="btn" onclick="return false;">Second Button</a>
+                    <a class="btn" onclick="$('#action-mode').val('activate');$('#video-manager').submit();">Activate</a>
+                    <a class="btn" onclick="$('#action-mode').val('deactivate');$('#video-manager').submit();">Deactivate</a>
+                    <a class="btn" onclick="$('#action-mode').val('featured');$('#video-manager').submit();">Make Featured</a>
+                    <a class="btn" onclick="$('#action-mode').val('unfeatured');$('#video-manager').submit();">Remove Featured</a>
+                    <a class="btn btn-danger" onclick="cb_confirm('Confirm Remove?','Are you sure you want to remove selected videos?',function(){
+                        $('#action-mode').val('delete');
+                        $('#video-manager').submit();
+                    })">Delete</a>
                 </div>
             </div>
             
@@ -22,30 +28,111 @@ Manage all your videos here, change categories , delete and edit. Read more
                         <i class="icon-search icon-white"></i>
                         Search
                     </button>
-                    <a class="btn" data-toggle="modal" data-target="#advance-search">Advance Search</a>
+                    <a class="btn" data-toggle="modal" data-target="#advance-search-modal">Advance Search</a>
                 </form>
             </div>
         </div>
     </div>
-    
-    
-    <div class="modal hide" id="myModal">
+
+    <div class="modal hide fade" id="advance-search-modal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
             <h3>{lang code='Advance Search'}</h3>
         </div>
         <div class="modal-body">
-            <p>One fine body…</p>
+            <form class="form form-horizontal" id="advance_search">
+                <div class="control-group">
+                    <label class="control-label" for="search-title">Title</label>
+                    <div class="controls">
+                        <input type="text" name="title" class="input-xlarge" id="search-title" value="{'title'|get_form_val:true}">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label" for="videokey">Video Key</label>
+                    <div class="controls">
+                        <input type="text" name="videokey" class="input-xlarge" id="videokey" value="{'videokey'|get_form_val:true}">
+                    </div>
+                </div>
+                
+                
+                <div class="control-group">
+                    <label class="control-label" for="videoid">Video Key</label>
+                    <div class="controls">
+                        <input type="text" name="videoid" class="input-xlarge" id="videoid" value="{'videoid'|get_form_val:true}">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label" for="videoid">Filename</label>
+                    <div class="controls">
+                        <input type="text" name="filename" class="input-xlarge" id="filename" value="{'filename'|get_form_val:true}">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label" for="tags">Tags</label>
+                    <div class="controls">
+                        <input type="text" name="tags" class="input-xlarge" id="tags" value="{'tags'|get_form_val:true}">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label" for="active">Active</label>
+                    <div class="controls">
+                        <select name="active" class="input-xlarge">
+                            <option value="">--</option>
+                            <option value="yes" {if get('active')=='yes'}selected="selected" {/if}>Yes</option>
+                            <option value="no" {if get('active')=='no'}selected="selected" {/if}>No</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label" for="featured">Featured</label>
+                    <div class="controls">
+                        <select name="featured" class="input-xlarge">
+                            <option value="">--</option>
+                            <option value="yes" {if get('featured')=='yes'}selected="selected" {/if}>Yes</option>
+                            <option value="no" {if get('featured')=='no'}selected="selected" {/if}>No</option>
+                        </select>
+                    </div>
+                </div>
+                
+                
+                <div class="control-group">
+                    <label class="control-label" for="status">Status</label>
+                    <div class="controls">
+                        <select name="status" class="input-xlarge">
+                            <option value="">--</option>
+                            <option value="Successful" {if get('status')=='Successful'}selected="selected" {/if}>Successful</option>
+                            <option value="Failed" {if get('status')=='Failed'}selected="selected" {/if}>Failed</option>
+                            <option value="Processing" {if get('status')=='Processing'}selected="selected" {/if}>Processing</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label" for="category">Category</label>
+                    <div class="controls category-list">
+                        {$formObj->createField($cat_array)} 
+                    </div>
+                </div>
+                
+                <input type="hidden" name="search" value="do" />
+            </form>
         </div>
         <div class="modal-footer">
             <a href="#" class="btn" data-dismiss="modal">{lang code='Cancel'}</a>
-            <a href="#" class="btn btn-primary">{lang code='Seach'}</a>
+            <a href="javascript:void(0);" class="btn btn-primary" onclick="$('#advance_search').submit();">{lang code='Search'}</a>
         </div>
     </div>
-
-    <form name="my-form-name" method="post" id="my-form-id">
     
-   
+    
+    
+
+    <form name="video-manager" method="post" id="video-manager"> 
+    <input type="hidden" value="" name="action_mode" id="action-mode" />
     <table id="my-item-list-good-id" class="table table-striped list-block {if !$videos}display-none{/if}">
         <thead>
             <tr>
@@ -72,13 +159,12 @@ Manage all your videos here, change categories , delete and edit. Read more
                         data-original-title="More details">{$video.title}</a>
                         
                         {if $video.status=='Successful'}
-                        ({$video.duration|SetTime})
+                            ({$video.duration|SetTime})
                         {/if}
                         
                         {if $video.broadcast!='public'}
                         &nbsp;&nbsp;<a class="icon icon-user" rel="tooltip" title="This video is {$video.broadcast}"></a>
                         {/if}
-                        
                         
                         <div class="height5"></div>
                         
@@ -135,68 +221,11 @@ Manage all your videos here, change categories , delete and edit. Read more
     </table>
     </form>  
     
+    {if !$profiles}
+        <div class="alert">{lang code='There are no videos....'}</div>
+    {/if}
+    
 </div>
 
-<img src="{$imageurl}/dot.gif" class="sarch_button" onclick="toggle_search('searchdiv')" />
-<div class="search_box" id="searchdiv" {if $smarty.cookies.show_searchdiv_search!='show'} style="display:none"{/if}>  <form id="video_search" name="video_search" method="get" action="video_manager.php" class="video_search">
-  <table width="400" border="0" cellpadding="2" cellspacing="2">
-    <tr>
-      <td width="106" align="right"><label for="title">Video title</label></td>
-      <td width="280"><input name="title" type="text" class="input" id="title" value="{'title'|get_form_val:true}" //></td>
-    </tr>
-    <tr>
-      <td align="right"><label for="videokey">Video key</label></td>
-      <td><input name="videokey" type="text" class="input" id="videokey" value="{'videokey'|get_form_val:true}" //></td>
-    </tr>
-    <tr>
-      <td align="right"><label for="videoid">Video id</label></td>
-      <td><input name="videoid" type="text" class="input" id="videoid" value="{'videoid'|get_form_val:true}" //></td>
-    </tr>
-    <tr>
-      <td align="right"><label for="tags">Video tags</label></td>
-      <td><input name="tags" type="text" class="input" id="tags" value="{'tags'|get_form_val:true}" /></td>
-    </tr>
-    <tr>
-      <td align="right">Featured</td>
-      <td><label for="featured"></label>
-        <select name="featured" id="featured" class="input">
-          <option value="" ></option>
-          <option value="yes" {if $smarty.get.featured=='yes'} selected="selected"{/if}>Yes</option>
-          <option value="no" {if $smarty.get.featured=='no'} selected="selected"{/if}>No</option>
-        </select></td>
-    </tr>
-    <tr>
-      <td align="right">Active</td>
-      <td><select name="active" id="active" class="input">
-      <option value="" ></option>
-        <option value="yes" {if $smarty.get.active=='yes'} selected="selected"{/if}>Yes</option>
-        <option value="no" {if $smarty.get.active=='no'} selected="selected"{/if}>No</option>
-      </select></td>
-    </tr>
-    <tr>
-      <td align="right">Conversion Status</td>
-      <td><select name="status" id="status" class="input">
-      <option value="" ></option>
-        <option value="Successful" {if $smarty.get.status=='Successful'} selected="selected"{/if}>Successful</option>
-        <option value="Processing" {if $smarty.get.status=='Processing'} selected="selected"{/if}>Processing</option>
-        <option value="Failed" {if $smarty.get.status=='Failed'} selected="selected"{/if}>Failed</option>
-</select></td>
-    </tr>
-    <tr>
-      <td align="right">Userid</td>
-      <td><input name="userid" type="text" class="input" id="userid" value="{'userid'|get_form_val:true}" /></td>
-    </tr>
-    <tr>
-      <td align="right" valign="top">Category</td>
-      <td>
-     {$formObj->createField($cat_array)} 
-</td>
-    </tr>
-  </table>
-  <br />
-  <input type="submit" name="search" id="search" value="Search Form" class="button"/>
-</form>
-</div>
-  
 <!-- DIsplaying Videos Ends-->
 {include file="$style_dir/blocks/pagination.html" }

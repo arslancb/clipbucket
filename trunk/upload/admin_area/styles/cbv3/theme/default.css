@@ -215,3 +215,5 @@ border-width: 1px 0px; margin-bottom: 10px; }
 
 .input-order{width: 30px}
 .list-block tbody input[type=checkbox]{margin: 0px 10px}
+
+.category-list label{display: inline-block}
