@@ -22,8 +22,9 @@ class pages{
 	var $pagination = '';
 	
 	var $display_page = 7;
-	var $pagination_start = 14;
-	
+	var $pagination_start = 5;
+	var $selected = 1;
+        
 	function GetServerUrl()
 	{
 		$serverName = NULL;
@@ -224,7 +225,13 @@ class pages{
 				$params ='href="./'.$page.'"';
 		}
 		
-		
+                if($this->selected==$page)
+                {
+                    $class = 'active';
+                    $tag = preg_replace(array("/#class#/i"),array($class),$tag);
+
+                }
+                
 		$final_link = preg_replace(array("/$page_pattern/i","/$param_pattern/i"),array($page,$params),$tag);
 		$final_link = preg_replace(array("/$page_pattern/i","/$param_pattern/i"),array($page,$params),$final_link);
 		
@@ -254,7 +261,7 @@ class pages{
 		$pagination_start = $this->pagination_start;
 		$display_page = $this->display_page;
 		$this->selected = $selected = $page;
-		$hellip = '&hellip;';
+		$hellip = '<li class="disabled"><a href="#">&hellip;</a></li>';
 		$first_hellip = '';
 		$second_hellip = '';
 		
@@ -276,11 +283,8 @@ class pages{
 			//Starting First
 			for($i=1;$i<=$display_page;$i++)
 			{
-				if($selected == $i)
-				{
-					$start .= ' <span class ="selected">'.$i.'</span> ';
-				}else
-					$start .= $this->create_link($i,$link,$extra_params,$tag);
+				$this->selected = $selected;
+                                $start .= $this->create_link($i,$link,$extra_params,$tag);
 				$start_last = $i;
 			}
 			
@@ -291,10 +295,7 @@ class pages{
 				if($end_first=='')
 					$end_first = $i;
 				
-				if($selected == $i)
-				{
-					$end .= ' <span class ="selected">'.$i.'</span> ';
-				}else
+				$this->selected = $selected;
 				$end .= $this->create_link($i,$link,$extra_params,$tag);
 			}
 			
@@ -306,11 +307,8 @@ class pages{
 					
 				if($i>$start_last && $i<$end_first)
 				{
-					if($selected == $i)
-					{
-						$mid .= ' <span class ="selected">'.$i.'</span> ';
-					}else
-						$mid .= $this->create_link($i,$link,$extra_params,$tag);
+					$this->selected = $selected;
+                                        $mid .= $this->create_link($i,$link,$extra_params,$tag);
 				}
 				
 				$mid_last = $i;
@@ -341,8 +339,8 @@ class pages{
 			for($i=1;$i<=$total_pages;$i++)
 			{
 				if($i == $selected)
-					$pagination_smart .= ' <span class ="selected">'.$i.'</span> ';
-				else
+					$this->selected = $selected;
+				
 					$pagination_smart .=$this->create_link($i,$link,$extra_params,$tag);
 			}
 			
@@ -367,7 +365,7 @@ class pages{
 	/**
 	 * Function used to create pagination and assign values that can bee used in template
 	 */
-	function paginate($total,$page,$link=NULL,$extra_params=NULL,$tag='<a #params#>#page#</a>')
+	function paginate($total,$page,$link=NULL,$extra_params=NULL,$tag='<li class="#class#" ><a #params#>#page#</a></li>')
 	{
 		
 		$this->pagination = $this->pagination($total,$page,$link,$extra_params,$tag);

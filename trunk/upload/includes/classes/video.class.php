@@ -1258,9 +1258,12 @@ class CBvideo extends CBCategory
 	
 	/**
 	 * Function used to display video manger link
+         * 
+         * @todo : IMprove this function and add filters
 	 */
 	function video_manager_link($link,$vid)
 	{
+            
 		if(function_exists($link) && !is_array($link))
 		{
 			return $link($vid);
@@ -1268,7 +1271,7 @@ class CBvideo extends CBCategory
 		{
 			if(!empty($link['title']) && !empty($link['link']))
 			{
-				return '<a href="'.$link['link'].'">'.$link['title'].'</a>';
+				return '<li><a href="'.$link['link'].'">'.$link['title'].'</a></li>';
 			}
 		}
 	}

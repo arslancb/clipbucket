@@ -123,7 +123,9 @@ if($process_running<=$max_processes && $queued_files)
                     
                     $cbupload->update_video_file($fid,$fields);
                     
-                    echo $db->db_query;
+                    //Generate Video Thumbnails..
+                    
+                    
                     unset($converter);
                     break;
                 }
@@ -135,7 +137,6 @@ if($process_running<=$max_processes && $queued_files)
             }
         }
 
-        
         break;
     }
 }
