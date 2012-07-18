@@ -18,7 +18,7 @@ h2{font-family: 'Open sans', sans-serif;}
     margin-left: -5px;
 }
 
-
+.height5{height: 5px}
 .height10{height: 10px}
 .height20{height: 20px}
 
@@ -33,6 +33,9 @@ h2{font-family: 'Open sans', sans-serif;}
 
 .nav-sub-menu{padding: 0px}
 
+
+.valignTop{vertical-align: top}
+.valignMid{vertical-align: middle}
 
 /* V3 ClipBucket Custom icons */
 .icon-stats {background-position: -0px -0px;}

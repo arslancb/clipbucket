@@ -1,6 +1,7 @@
 
 <h2>Video Manager</h2>
-
+Manage all your videos here, change categories , delete and edit. Read more 
+<div class="height10"></div>
 <div class="manager-list">
     <div class="controller scrolltoFixed white-grad">
         <div class="buttons">
@@ -15,11 +16,30 @@
             </div>
             
             <div class="right-button">
-                <a class="btn btn-primary" data-toggle="modal" data-target="#profile-form">
-                    <i class="icon-plus icon-white"></i>
-                    Another Button
-                </a>
+                <form>
+                    <input class="input valignTop" name="title" value="{'title'|get}">
+                    <button class="btn btn-primary" name="search" value="do">
+                        <i class="icon-search icon-white"></i>
+                        Search
+                    </button>
+                    <a class="btn" data-toggle="modal" data-target="#advance-search">Advance Search</a>
+                </form>
             </div>
+        </div>
+    </div>
+    
+    
+    <div class="modal hide" id="myModal">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>{lang code='Advance Search'}</h3>
+        </div>
+        <div class="modal-body">
+            <p>One fine body…</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">{lang code='Cancel'}</a>
+            <a href="#" class="btn btn-primary">{lang code='Seach'}</a>
         </div>
     </div>
 
@@ -31,10 +51,11 @@
             <tr>
                 <th width="50"></th>
                 <th width="70">#</th>
-                <th width="70">Order</th>
-                <th>Name</th>
-                <th width="70">Active</th>
-                <th width="200">More Options</th>
+                <th width="60">Thumb</th>
+                <th>Video</th>
+                <th width="70">Uploader</th>
+                <th width="70">Status</th>
+                <th width="200">Date</th>
                 <th width="120"></th>
             </tr>
         </thead>
@@ -44,12 +65,38 @@
         {foreach $videos as $video}
             <tr>
             	<td><input type="checkbox" class="check-item" name="my-items-list[]" value="value"></td>
-                <td>ID</td>
-                <td><input type="text" value="1" name="item_order[item_id]" 
-                class="input-order"/></td>
-                <td>{$video.title}</td>
-                <td>Status etc</td>
-                <td>More etc</td>
+                <td>{$video.videoid}</td>
+                <td><img src="{getThumb vdetails=$video}" widt="60" height="45"/></td>
+                <td><a href="#" class="popover-classx" rel="popover" 
+                        data-content='<h6>Description</h6>{$video.description|truncate:300}<h6>Category</h6>{$video.category|categories:video}' 
+                        data-original-title="More details">{$video.title}</a>
+                        
+                        {if $video.status=='Successful'}
+                        ({$video.duration|SetTime})
+                        {/if}
+                        
+                        {if $video.broadcast!='public'}
+                        &nbsp;&nbsp;<a class="icon icon-user" rel="tooltip" title="This video is {$video.broadcast}"></a>
+                        {/if}
+                        
+                        
+                        <div class="height5"></div>
+                        
+                        {if $video.active=='yes'}
+                        <span class="label label-success">{lang code='Active'}</span>
+                        {else}
+                        <span class="label label-warning">{lang code='Inactive'}</span>
+                        {/if}
+                        
+                        {if $video.featured=='yes'}
+                            <span class="label label-success">Featured</span>
+                        {/if}
+                        
+                        
+                </td>
+                <td>{$video.username}</td>
+                <td>{$video.status}</td>
+                <td>{$video.date_added|niceTime}</td>
                 <td>   
                 <div class="dropdown pull-right btn-group">
                     <a class="btn" href="edit_video.php?video={$video.videoid}">Edit</a>
