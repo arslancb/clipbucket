@@ -1,4 +1,4 @@
-
+function js(){ return false; }
 
 /**
  *Function used to display an error message popup box

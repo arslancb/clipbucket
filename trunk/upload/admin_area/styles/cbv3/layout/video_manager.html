@@ -151,7 +151,7 @@ Manage all your videos here, change categories , delete and edit. Read more
     	
         {foreach $videos as $video}
             <tr>
-            	<td><input type="checkbox" class="check-item" name="my-items-list[]" value="value"></td>
+            	<td><input type="checkbox" class="check-item" name="check_video[]" value="{$video.videoid}"></td>
                 <td>{$video.videoid}</td>
                 <td><img src="{getThumb vdetails=$video}" widt="60" height="45"/></td>
                 <td><a href="#" class="popover-classx" rel="popover" 
@@ -191,15 +191,15 @@ Manage all your videos here, change categories , delete and edit. Read more
                     <li><a href="{$baseurl}/watch_video.php?v={$video.videokey}">Watch Video</a></li>
                     
                     {if $video.active == yes} 
-                    <li><a href="#">Deactivate</a></li>
+                    <li><a href="?deactivate={$video.videoid}">Deactivate</a></li>
                     {else}
-                    <li><a href="#">Activate</a></li>
+                    <li><a href="?deactivate={$video.videoid}">Activate</a></li>
                     {/if}
                     
                     {if $video.featured == yes}
-                    <li><a href="#">Unfeature it</a></li>
+                    <li><a href="?make_unfeature={$video.videoid}">Unfeature it</a></li>
                     {else}
-                    <li><a href="#">Make featured</a></li>
+                    <li><a href="?make_feature={$video.videoid}">Make featured</a></li>
                     {/if}
 
                     
@@ -208,9 +208,11 @@ Manage all your videos here, change categories , delete and edit. Read more
                     {/foreach}
                     
                     <li class="divider"></li>
-                    <li><a href="javascript:Confirm_Delete('?delete_video={$videos[list].videoid}')">Delete</a></li>
+                    <li><a href="javascript:void(0)" onclick="cb_confirm('Confirm delete video','Are you sure you want to delete {$video.title}?',function(){
+                    window.location = '?delete_video={$video.videoid}';
+                    })">Delete</a></li>
                     
-                    <li><a href="view_conversion_log.php?file_name={$videos[list].file_name}">Separated link</a></li>
+                    <li><a href="view_conversion_log.php?file_name={$video.file_name}">Conversion Status</a></li>
                     </ul> 
                 </div>
             </td>

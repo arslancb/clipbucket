@@ -93,6 +93,15 @@
             preFixed: function() { $(this).addClass('controller-fixed')},
             postFixed: function() { $(this).removeClass('controller-fixed'); },
         });
+        
+        if($( '.scrolltoFixedBottom' ).width()){
+            $( '.scrolltoFixedBottom' ).scrollToFixed({
+                bottom:'0px',
+                preFixed: function() { $(this).addClass('controller-fixed-bottom')},
+                limit: $('.scrolltoFixedBottom').offset().top ,
+                postFixed: function() { $(this).removeClass('controller-fixed-bottom'); }
+            });
+        }
          
         //Hiding Pointers
         //$('.loading_pointer').hide();

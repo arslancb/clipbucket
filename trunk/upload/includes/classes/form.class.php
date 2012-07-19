@@ -426,8 +426,13 @@ class formObj
 				$field_name = $field['name'];
 			else
 				$field_name = $field['name'].'[]';
-				
-			echo '<label><input name="'.$field_name .'" type="radio" value="'.$key.'" '.$field_id.' '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;
+			
+                        if($field['class'])
+                            $class = 'class="'.$field['class'].'"';
+                        else
+                            $class = '';
+                        
+			echo '<label '.$class.'><input name="'.$field_name .'" type="radio" value="'.$key.'" '.$field_id.' '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;
 			echo $sep;
 		}
 	}
