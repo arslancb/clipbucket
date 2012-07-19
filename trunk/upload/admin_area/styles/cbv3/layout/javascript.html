@@ -139,6 +139,21 @@
        
        $('.watermark-placement').on('click','.watermark-placement-holder',function(){
            $(this).siblings('.checked').removeClass('checked').end().addClass('checked');
+       });
+       
+       $('#select-all-thumbs').on('click',function(){
+           var total_thumbs = $('#collection-thumbs').find('input[type=checkbox]');
+           var checked_thumbs = $('#collection-thumbs').find('input:checked');
+           
+           
+           
+           if ( checked_thumbs.length == total_thumbs.length ) {
+               // perforn uncheck
+               total_thumbs.prop('checked',false);
+           } else {
+               // perform check
+               total_thumbs.prop('checked',true);
+           }
        })
     })
 </script>
