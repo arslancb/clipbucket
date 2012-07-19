@@ -134,7 +134,6 @@ $submenus = array(
 
 add_admin_sub_menus($submenus);
 
-
 /**
  * Adding Widgets Menu
  */

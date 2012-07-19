@@ -370,7 +370,8 @@ class formObj
 				if(in_array('|'.$cat['category_id'].'|',$newVals))
 					$checked = 'checked';
 				
-                                echo $field['sep'];
+                                
+                                echo $field['sep'].' ';
 				echo '<label class="'.$class.'"><input name="'.$field_name.'" type="checkbox" value="'.$cat['category_id'].'" '.$field_id.''
 				 .$checked.' '.$field['extra_tags'].'>'.$cat['category_name'].'</label>
                                      '	;

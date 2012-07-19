@@ -139,7 +139,7 @@ if($_POST['action_mode']=='delete')
                                         'sep'   => '<div></div>',
 					'id'=> 'category',
                                         'class' => 'checkbox',
-                                        'indent' => str_repeat('-',2).' ',
+                                        'indent' => str_repeat('-',2),
 					'value'=> array('category',$cats_array),
 					'hint_1'=>  lang('vdo_cat_msg'),
 					'display_function' => 'convert_to_categories');

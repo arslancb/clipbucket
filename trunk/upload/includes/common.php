@@ -141,7 +141,7 @@ if(!@$in_bg_cron)
 	$userquery 	= new userquery();
 	$lang_obj	= new language;
 		
-	include('menu.php');
+	
 	//Setting Time Zone date_default_timezone_set()
 	
 	require_once('classes/search.class.php');
@@ -304,7 +304,7 @@ if(!@$in_bg_cron)
 	define('ADMINBASEDIR',BASEDIR.'/admin_area');							//Admin Accissble Folder
 	define('ADMIN_BASEURL',BASEURL.'/'.ADMINDIR);
 	define('MODULEDIR',BASEDIR.'/modules');						//Modules Directory
-	
+	ADMIN_BASEURL;
 //DIRECT PATHS OF VIDEO FILES
 	define('FILES_DIR',BASEDIR.'/files');
 	define('VIDEOS_DIR',FILES_DIR.'/videos');
@@ -421,7 +421,7 @@ if(!@$in_bg_cron)
 	
 	require BASEDIR.'/includes/active.php';
 	
-        
+        include('menu.php');
         
 	$cbtpl = new CBTemplate();
         
