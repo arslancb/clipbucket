@@ -67,42 +67,29 @@ $(document).ready(function(){
 			$(this).select();
 		},
 		
-		focusout: function()
+		keyup: function()
 		{
-			var ratio = $('#ratios input:checked').val();
-				id = this.id;
-				parts = id.split('_');
-				word = parts[0];
-				
-	
-			ratio_part = ratio.split(':');
-			width = ratio_part[0];
-			height = ratio_part[1];
-			
-			newHeight = this.value / width * height;
-			newHeight = Math.ceil(newHeight);
-			$('input[id="'+word+'_height"]').val(newHeight);	
-		},
-		
-		keypress: function(event)
-		{
-			if(event.which == '10')
-			{
-				var ratio = $('#ratios input:checked').val();
-					id = this.id;
-					parts = id.split('_');
-					word = parts[0];
-					
-				ratio_part = ratio.split(':');
-				width = ratio_part[0];
-				height = ratio_part[1];
-				
-				newHeight = this.value / width * height;
-				newHeight = Math.ceil(newHeight);
-				$('input[id="'+word+'_height"]').val(newHeight);
-				this.blur();
-			}
-			
+                var ratio = $('#ratios input:checked').val();
+                id = this.id;
+                parts = id.split('_');
+                word = parts[0];
+
+                if ( isNaN(this.value) || this.value < 0 ) {
+                    alert('Please provide a valid and positive number');
+                    this.value = this.defaultValue;
+                    newHeight = this.value / width * height;
+                    newHeight = Math.ceil(newHeight);
+                    $('input[id="'+word+'_height"]').val(newHeight);
+                    return;
+                }
+                
+                ratio_part = ratio.split(':');
+                width = ratio_part[0];
+                height = ratio_part[1];
+
+                newHeight = this.value / width * height;
+                newHeight = Math.ceil(newHeight);
+                $('input[id="'+word+'_height"]').val(newHeight);	
 		}
 	});
 });
@@ -119,6 +106,7 @@ $(document).ready(function(){
 
 <!-- Including Bootstrap JS -->
 <script type="text/javascript" src="{$template_url}/bootstrap/js/bootstrap.min.js"></script>
+
 <!-- Amplify -->
 <script type="text/javascript" src="{$template_url}/amplify/amplify.core.min.js"></script>
 <script type="text/javascript" src="{$template_url}/amplify/amplify.request.min.js"></script>

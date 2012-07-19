@@ -132,5 +132,13 @@
                 .prop("checked",true);
             }
        });
+       
+       $('.photo-ratio-boxes').on('click','.thumbnail',function(){
+           $(this).parents('.photo-ratio-boxes').find('.checked').removeClass('checked').end().end().addClass('checked')
+       });
+       
+       $('.watermark-placement').on('click','.watermark-placement-holder',function(){
+           $(this).siblings('.checked').removeClass('checked').end().addClass('checked');
+       })
     })
 </script>
