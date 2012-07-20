@@ -322,3 +322,10 @@ border-width: 1px 0px; margin-bottom: 10px; }
 }
 
 .buttons{height: 35px}
+
+.border-box{
+    -moz-box-sizing:    border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing:     border-box;
+    box-sizing:        border-box;
+}

@@ -69,15 +69,7 @@
 <ul class="optionsLists" >
 	
     {foreach from=$templates item=template name=etemp}
-    	<li {if $smarty.foreach.etemp.iteration=='1'} class="selected"{/if}
-        	onclick="
-            	$('.tempselected').removeClass('selected').hide();
-            	$('#template-{$template.email_template_id}').show().addClass('tempselected');
-            	
-                $('.selected').removeClass('selected');
-            	$(this).toggleClass('selected');
-                
-                ">{$template.email_template_name}</li>
+    	<li {if $smarty.foreach.etemp.iteration=='1'} class="active"{/if} ">{$template.email_template_name}</li>
     {/foreach}
 
 </ul>
