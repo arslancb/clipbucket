@@ -1127,6 +1127,9 @@ CHANGE  `cqueue_name`  `queue_name` VARCHAR( 32 ) CHARACTER SET latin1 COLLATE l
 CHANGE  `cqueue_ext`  `queue_ext` VARCHAR( 5 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
 CHANGE  `cqueue_tmp_ext`  `queue_tmp_ext` VARCHAR( 3 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
 
+ALTER TABLE  `{tbl_prefix}conversion_queue` ADD  `status` ENUM(  'u',  's',  'f' ) NOT NULL DEFAULT  'u' AFTER  `conversion_counts`;
+ALTER TABLE  `{tbl_prefix}conversion_queue` ADD  `messages` TEXT AFTER  `status`;
+
 
 DROP TABLE IF EXISTS `{tbl_prefix}video_files`;
 CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_files` (
