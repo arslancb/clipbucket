@@ -95,10 +95,11 @@
         });
         
         if($( '.scrolltoFixedBottom' ).width()){
+            
             $( '.scrolltoFixedBottom' ).scrollToFixed({
-                bottom:'0px',
+                bottom:0,
                 preFixed: function() { $(this).addClass('controller-fixed-bottom')},
-                limit: $('.scrolltoFixedBottom').offset().top ,
+                limit: $('.scrolltoFixedBottom').offset().top - 50 ,
                 postFixed: function() { $(this).removeClass('controller-fixed-bottom'); }
             });
         }
