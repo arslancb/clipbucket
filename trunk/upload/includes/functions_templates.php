@@ -674,6 +674,14 @@ function head_menu($params = NULL) {
     return $Cbucket->head_menu($params);
 }
 
+/**
+ * This function returns the provided menu. If no name is passed
+ * navigation menu will load automatically.
+ * 
+ * @global object $Cbucket
+ * @param array $params
+ * @return string 
+ */
 function cbMenu($params = NULL) {
     global $Cbucket;
     $name = $params['name'];
@@ -1096,6 +1104,18 @@ function add_menu_items($name, $items) {
     }
 }
 
+/**
+ * This adds a new item in provided menu.
+ * @param $name STRING, Name of the menu in which item will be added
+ * @param $item STRING|ARRAY, If a string is provided it will be considered as item title
+ * it should be an array
+ * @param $link STRING, HTTP URL for provided title
+ * @param $section STRING, Name of the section
+ * @param $icon STRING, Add class name for icon. http://twitter.github.com/bootstrap/base-css.html#icon
+ * contains list of all icons that you can use
+ * @param $id STRING, Unique id for this item
+ * @param $target STRING, Set a target for current item
+ */
 function add_menu_item($name, $item, $link = false, $section = false, $icon = false, $id = false, $target = '_self') {
     global $Cbucket;
     if (!is_array($item)) {

@@ -1,7 +1,20 @@
 {if $mode == 'single'}
 <h2>Re-create Photo</h2>
+<div class="controller scrolltoFixed white-grad" >
+    <div class="buttons">
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <a href="edit_photo.php?photo={$p.photo_id}" class="btn">Back to details</a>
+            </div>
+        </div>
+        
+        <div class="right-button">
+            <a class="btn btn-primary" onclick="$('#mass_recreation').submit();">Re-create Photo</a>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
 <form action="recreate_thumbs.php?mode={$mode}&amp;photo={$data.photo_id}" method="post" enctype="multipart/form-data">
-        <p><a href="edit_photo.php?photo={$p.photo_id}">&laquo; Back to Edit Details</a></p>
         {include file="$style_dir/resizing_settings.html"}
         <a href="recreate_thumbs.php?mode={$mode}&amp;photo={$p.photo_id}&amp;recreate=true" class="btn btn-large btn-primary moveR">Re-create Photo</a>
 </form>
@@ -10,19 +23,25 @@
 {if $mode == 'mass' || $mode == ''}
     <h2>Mass Re-creation of Photos</h2>
     <p>This will re-create all the photos uploaded on your website, according to the settings shown below</p>
+    <div class="controller scrolltoFixed white-grad" >
+        <div class="buttons">
+            <div class="right-button">
+                <a class="btn btn-primary" onclick="$('#mass_recreation').submit();">Start Recreation</a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
     <p class="alert-danger alert">Take caution while using Mass Recreation. Use MAX of 5 photos per GO.</p>
    {include file="$style_dir/resizing_settings.html"} 
-    <form name="mass_recreation" method="get" class="form-horizontal" action="">
+    <form name="mass_recreation" id="mass_recreation" method="get" class="form-horizontal" action="">
             <div class="control-group">
-                <label class="control-label">Loop Size</label>
+                <label class="control-label" for="the_loop_size">Loop Size</label>
                 <div class="controls">
                     <input type="text" name="loop_size" class="input-xlarge" value="{$loop_size}" id="the_loop_size" />
                     <p class="help-block">Number of photos to re-create in one go.</p>
                 </div>
             </div>
-            <div class="form-actions">
-                <input type="submit" name="mass_recreation" id="mass_recreation" value="Start Recreation" class="btn btn-large btn-primary" />
-            </div>
+            <input type="hidden" name="mass_recreation" value="Start Recreation" />
       </form>
       
         {if $indexing}
@@ -48,16 +67,29 @@
 {/if}
 
 {if $mode == "collection"}
-	<h2>Recreate Photos</h2>
+    <h2>Recreate Photos</h2>
+    	{assign var=cid value=$smarty.get.cid}
+    	{assign var=c_name value=$cid|get_collection_field}
+    <div class="controller scrolltoFixed white-grad" >
+        <div class="buttons">
+            <div class="btn-group">
+                <a href="{$cbcollection->collection_links($cid,'vc')}" class="btn">{$c_name}</a>
+                <a href="edit_collection.php?collection={$cid}" class="btn">Edit Collection</a>
+                {if $items}<a href="manage_items.php?collection={$cid}&type={$cid|get_collection_field:type}" class="btn">Manage Items</a>{/if}
+            </div>
+            
+            <div class="right-button">
+                {if $items}<a class="btn btn-primary" onclick="$('#collection_photos_recreate').submit();">Re-create Photos</a>{else}<a href="manage_items.php?collection={$cid}&type={$cid|get_collection_field:type}" class="btn btn-primary">Manage Items</a>{/if}
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
     {if $items}
-    	{assign var=cid value=$items[0].collection_id}
-    	{assign var=c_name value=$items[0].collection_id|get_collection_field}
-      <p><strong>{$c_name}</strong> - <a href="{$cbcollection->collection_links($items[0].collection_id,'vc')}">View Collection</a> - <a href="{$baseurl}/admin_area/edit_collection.php?collection={$cid}">Edit Collection</a> - <a href="{$baseurl}/admin_area/manage_items.php?collection={$cid}&amp;type={$items[0].collection_id|get_collection_field:type}">Manage Items</a></p>
         {include file="$style_dir/resizing_settings.html"}
         <h2 class="sub_heading">Collection Photos</h2>
         <p>Select photos you want re-created or <a href="javascript:void(0);" class="btn btn-small" id='select-all-thumbs'>Click here to select all</a></p>
         <div class="height20"></div>
-        <form action="" method="post" name="collection_photos_recreate">
+        <form action="" method="post" name="collection_photos_recreate" id="collection_photos_recreate">
             <ul class="thumbnails" id="collection-thumbs">
                 {foreach from=$items item=photo}
                     <li class="inlineblock relative" style="float: none; vertical-align: top;">
@@ -66,10 +98,7 @@
                     </li>
                 {/foreach}
             </ul>
-            
-            <div class="form-actions">
-                <input type="submit" name="recreating" value="Re-create Photos"  class="btn btn-large btn-primary"/>
-            </div>
+            <input type="hidden" name="recreating" value="Re-create Photos" />
         </form>
          
     {else}

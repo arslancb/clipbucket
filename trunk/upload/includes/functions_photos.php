@@ -900,8 +900,9 @@ function display_manager_links( $photo ) {
 function cb_some_photo_plugin_links( $links ) {
     global $cbphoto;
     $photo = $cbphoto->photo;
-    $link = '?some_var='.$photo['photo_key'];
-    $links[] = add_photo_manager_link( 'Testing Callbacks', $link, 'test_callback_for_photo' );
+    $link = 'recreate_thumbs.php?mode=single&photo='.$photo['photo_id'];
+    $links[] = add_photo_manager_link( lang('Re-create Photo'), $link );
+    $links[] = add_photo_manager_link( lang('Edit Collection ('. $photo['collection_name'].')'), 'edit_collection.php?collection='.$photo['collection_id'] );
     return $links;
 }
 

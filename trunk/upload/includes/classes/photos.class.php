@@ -310,11 +310,17 @@ class CBPhotos {
             list( $join, $alias ) = join_collection_table();
         }
         
+        $userFields = array('userid','username','avatar','avatar_url','email','total_videos');
+        $uQueryFields = ',users.'.implode(',users.',$userFields);
+       
         if ( is_numeric( $pid ) )
-            $result = $db->select( tbl( $this->p_tbl ).$join, "*".$alias, " photo_id = '$pid'" );
+            $cond = tbl( $this->p_tbl.".photo_id='$pid'");
         else
-            $result = $db->select( tbl( $this->p_tbl ).$join, "*".$alias, " photo_key = '$pid'" );
-
+            $cond = tbl( $this->p_tbl.".photo_key='$pid'" );
+            
+        $result = $db->select( tbl( $this->p_tbl )
+                .' LEFT JOIN '.tbl('users').' ON '
+                .tbl($this->p_tbl.'.userid').' = '.tbl('users.userid').$join, tbl($this->p_tbl.".*".$uQueryFields).$alias, $cond );
        //echo $db->db_query;
         if ( $db->num_rows > 0 )
             return $result[0];
@@ -1167,9 +1173,11 @@ class CBPhotos {
             $p['user'] = userid();
 
         $p['type'] = "photos";
-        $collections = $this->collection->get_collections( $p );
-        $cl_array = $this->parse_array( $collections );
-        $collection = $array['collection_id'];
+        if ( $array['is_avatar'] == 'no' ) {
+            $collections = $this->collection->get_collections( $p );
+            $cl_array = $this->parse_array( $collections );
+            $collection = $array['collection_id'];
+        }
         $this->unique = rand( 0, 9999 );
         $fields =
                 array
@@ -1204,8 +1212,11 @@ class CBPhotos {
                         'db_field' => 'photo_tags',
                         'required' => 'yes',
                         'invalid_err' => lang( 'photo_tags_err' )
-                    ),
-                    'collection' => array(
+                    )
+        );
+
+        if ( $array['is_avatar'] == 'no' ) {
+            $fields['collection'] = array(
                         'title' => lang( 'collection' ),
                         'id' => 'collection_id',
                         'name' => 'collection_id',
@@ -1215,9 +1226,8 @@ class CBPhotos {
                         'required' => '',
                         'checked' => $collection,
                         'invalid_err' => lang( 'photo_collection_err' )
-                    )
-        );
-
+                    );
+        }
         return $fields;
     }
 
@@ -2868,7 +2878,7 @@ class CBPhotos {
             $cond = ' AND '.$cond;
         }
 
-        $results = $db->select( tbl('photo_tags'),'*', " photo_id = '".$photo."' || ptag_key = '".$photo."' || ptag_id = '".$photo."' ".$cond." ", $limit, $order );
+        $results = $db->select( tbl('photo_tags'),'*', " photo_id = '".$photo."' ".$cond." ", $limit, $order );
         if ( $results ) {
             return $results;
         } else {

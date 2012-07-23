@@ -51,7 +51,11 @@ function delete_collection_photos( $details ) {
  */
 function confirm_collection_type ( $type ) {
     global $cbcollection;
-    if (empty($type) || $type != $cbcollection->types ) {
+    if ( empty($type) ) {
+        $type = 'photos';
+    }
+    
+    if ($type != $cbcollection->types ) {
         if ( VERSION < '3.0' ) {
             // Get Deprecated Types;
             $dep_types = $cbcollection->deprecated_types;

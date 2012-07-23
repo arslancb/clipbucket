@@ -106,7 +106,7 @@
             </ul>
         </div>
         <div class="right-button">
-            <a class="btn btn-primary" onclick="$('#main_form').submit();">Save Settins</a>
+            <a class="btn btn-primary" onclick="$('#main_form').submit();">Save Settings</a>
         </div>
         
     </div>
@@ -125,6 +125,7 @@
     
     <input name="baseurl" value="{$row.baseurl}" type="hidden" />
     <input name="basedir" value="{$row.baseurl}" type="hidden" />
+    <input type="hidden" value="Save Settings" name="update" />
     <div class="tab-content">
         <div id="div_1" class="tab-pane">
 
@@ -323,351 +324,336 @@
                 <p class="help-block">If selected Yes, Categories shown in checkboxes will be collapsed.</p>
             </div>
         </div>
-
-        <h2 class="sub_heading">Emails</h2>
-        <div class="height20"></div>
-
-        <div class="control-group">
-            <label class="control-label" for="website_email">Website Email</label>
-            <div class="controls">
-                <input name="website_email" type="text" id="website_email" class="input-xlarge" value="{$r.website_email}"  />
-                <p class="help-block"></p>
+        
+        <fieldset>
+            <legend>Emails</legend>
+                <div class="control-group">
+                <label class="control-label" for="website_email">Website Email</label>
+                <div class="controls">
+                    <input name="website_email" type="text" id="website_email" class="input-xlarge" value="{$r.website_email}"  />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="welcome_email">Welcome Email</label>
-            <div class="controls">
-                <input name="welcome_email" type="text" id="welcome_email" class="input-xlarge" value="{$r.welcome_email}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="welcome_email">Welcome Email</label>
+                <div class="controls">
+                    <input name="welcome_email" type="text" id="welcome_email" class="input-xlarge" value="{$r.welcome_email}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="support_email">Support Email</label>
-            <div class="controls">
-                <input name="support_email" type="text" id="support_email" class="input-xlarge" value="{$r.support_email}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="support_email">Support Email</label>
+                <div class="controls">
+                    <input name="support_email" type="text" id="support_email" class="input-xlarge" value="{$r.support_email}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="send_comment_notification">Send Comment Notification</label>
-            <div class="controls">
-                <select name="send_comment_notification" id="send_comment_notification" class="input-xlarge">
-                    <option value="yes" {if $r.send_comment_notification=='yes'} selected="selected"{/if}>Yes</option>
-                    <option value="no" {if $r.send_comment_notification=='no'} selected="selected"{/if}>No</option>
-                </select>
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="send_comment_notification">Send Comment Notification</label>
+                <div class="controls">
+                    <select name="send_comment_notification" id="send_comment_notification" class="input-xlarge">
+                        <option value="yes" {if $r.send_comment_notification=='yes'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $r.send_comment_notification=='no'} selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
 
-        <div class="control-group">
-            <label class="control-label" for="approve_video_notification">Send Video Approve Notification</label>
-            <div class="controls">
-                <select name="approve_video_notification" id="approve_video_notification" class="input-xlarge">
-                    <option value="yes" {if $r.approve_video_notification=='yes'} selected="selected"{/if}>Yes</option>
-                    <option value="no" {if $r.approve_video_notification=='no'} selected="selected"{/if}>No</option>
-                </select>
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="approve_video_notification">Send Video Approve Notification</label>
+                <div class="controls">
+                    <select name="approve_video_notification" id="approve_video_notification" class="input-xlarge">
+                        <option value="yes" {if $r.approve_video_notification=='yes'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $r.approve_video_notification=='no'} selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
+        </fieldset>     
 
-
-        <h2 class="sub_heading">Comments</h2>
-        <div class="height20"></div>            
-
-        <div class="control-group">
-            <label class="control-label" for="video_comments">Allow Video Comments</label>
-            <div class="controls">
-                <input name="video_comments" type="checkbox" id="video_comments" value="1" class="input-xlarge" {if $r.video_comments=='1'}checked="checked"{/if} />
-                       <p class="help-block"></p>
+        <fieldset>
+            <legend>Comments</legend>
+                <div class="control-group">
+                <label class="control-label" for="video_comments">Allow Video Comments</label>
+                <div class="controls">
+                    <input name="video_comments" type="checkbox" id="video_comments" value="1" class="input-xlarge" {if $r.video_comments=='1'}checked="checked"{/if} />
+                        <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="channel_comments">Allow Channel Comments</label>
-            <div class="controls">
-                <input name="channel_comments" type="checkbox" id="channel_comments" value="1" class="input-xlarge" {if $r.channel_comments=='1'}checked="checked"{/if} />
-                       <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="channel_comments">Allow Channel Comments</label>
+                <div class="controls">
+                    <input name="channel_comments" type="checkbox" id="channel_comments" value="1" class="input-xlarge" {if $r.channel_comments=='1'}checked="checked"{/if} />
+                        <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="anonym_comments">Allow Guest Comments</label>
-            <div class="controls">
-                <input name="anonym_comments" type="checkbox" id="anonym_comments" value="1" class="input-xlarge" {if $r.anonym_comments=='1'}checked="checked"{/if} />
-                       <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="anonym_comments">Allow Guest Comments</label>
+                <div class="controls">
+                    <input name="anonym_comments" type="checkbox" id="anonym_comments" value="1" class="input-xlarge" {if $r.anonym_comments=='1'}checked="checked"{/if} />
+                        <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="max_comment_chr">Maximum Comment Characters</label>
-            <div class="controls">
-                <input name="max_comment_chr" type="text" id="max_comment_chr" value="{$r.max_comment_chr}" class="input-xlarge"  />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="max_comment_chr">Maximum Comment Characters</label>
+                <div class="controls">
+                    <input name="max_comment_chr" type="text" id="max_comment_chr" value="{$r.max_comment_chr}" class="input-xlarge"  />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="comment_rating">Allow comments rating</label>
-            <div class="controls">
-                <input name="comment_rating" type="checkbox" id="comment_rating" value="1" class="input-xlarge" {if $r.comment_rating=='1'}checked="checked"{/if} />
-                       <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="comment_rating">Allow comments rating</label>
+                <div class="controls">
+                    <input name="comment_rating" type="checkbox" id="comment_rating" value="1" class="input-xlarge" {if $r.comment_rating=='1'}checked="checked"{/if} />
+                        <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="comments_captcha_0">Comments Captcha</label>
-            <div class="controls">
-                <label for="comments_captcha_0" class="radio"><input type="radio" name="comments_captcha" value="all" id="comments_captcha_0"  {if $r.comments_captcha==all} checked="checked"{/if} /> For Everyone</label>
-                <label for="comments_captcha_1" class="radio"><input type="radio" name="comments_captcha" value="guests" id="comments_captcha_1"  {if $r.comments_captcha==guests} checked="checked"{/if} /> For Guests Only</label>
-                <label for="comments_captcha_2" class="radio"><input type="radio" name="comments_captcha"  value="none" id="comments_captcha_2"  {if $r.comments_captcha==none} checked="checked"{/if} /> Disable</label>
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="comments_captcha_0">Comments Captcha</label>
+                <div class="controls">
+                    <label for="comments_captcha_0" class="radio"><input type="radio" name="comments_captcha" value="all" id="comments_captcha_0"  {if $r.comments_captcha==all} checked="checked"{/if} /> For Everyone</label>
+                    <label for="comments_captcha_1" class="radio"><input type="radio" name="comments_captcha" value="guests" id="comments_captcha_1"  {if $r.comments_captcha==guests} checked="checked"{/if} /> For Guests Only</label>
+                    <label for="comments_captcha_2" class="radio"><input type="radio" name="comments_captcha"  value="none" id="comments_captcha_2"  {if $r.comments_captcha==none} checked="checked"{/if} /> Disable</label>
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
-
-        <h2 class="sub_heading">Videos</h2>
-        <div class="height20"></div>
-
-        <div class="control-group">
-            <label class="control-label" for="videosSection">Enable video section</label>
-            <div class="controls">
-                <select name="videosSection" id="videosSection" class="input-xlarge">
-                    <option value="yes" {if $r.videosSection!='no'} selected="selected"{/if}>Yes</option>
-                    <option value="no" {if $r.videosSection=='no'} selected="selected"{/if}>No</option>
-                </select>
-                <p class="help-block"></p>
+        </fieldset>        
+        <fieldset>
+            <legend>Videos</legend>
+            <div class="control-group">
+                <label class="control-label" for="facebook_embed">Enable video section</label>
+                <div class="controls">
+                    <select name="facebook_embed" id="facebook_embed" class="input-xlarge">
+                        <option value="yes" {if $r.facebook_embed!='no'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $r.facebook_embed=='no'} selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="facebook_embed">Enable video section</label>
-            <div class="controls">
-                <select name="facebook_embed" id="facebook_embed" class="input-xlarge">
-                    <option value="yes" {if $r.facebook_embed!='no'} selected="selected"{/if}>Yes</option>
-                    <option value="no" {if $r.facebook_embed=='no'} selected="selected"{/if}>No</option>
-                </select>
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="video_embed">Allow video embedding</label>
+                <div class="controls">
+                    <input name="video_embed" type="checkbox" id="video_embed" value="1" class="input-xlarge" {if $r.video_embed=='1'} checked="checked"{/if} />
+                        <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="video_embed">Allow video embedding</label>
-            <div class="controls">
-                <input name="video_embed" type="checkbox" id="video_embed" value="1" class="input-xlarge" {if $r.video_embed=='1'} checked="checked"{/if} />
-                       <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="video_download">Allow video download</label>
+                <div class="controls">
+                    <input name="video_download" type="checkbox" id="video_download" value="1" class="input-xlarge" {if $r.video_download=='1'} checked="checked"{/if} />
+                        <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="video_download">Allow video download</label>
-            <div class="controls">
-                <input name="video_download" type="checkbox" id="video_download" value="1" class="input-xlarge" {if $r.video_download=='1'} checked="checked"{/if} />
-                       <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="video_rating">Allow video rating</label>
+                <div class="controls">
+                    <input name="video_rating" type="checkbox" id="video_rating" value="1" class="input-xlarge" {if $r.video_rating=='1'} checked="checked"{/if} />
+                        <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="video_rating">Allow video rating</label>
-            <div class="controls">
-                <input name="video_rating" type="checkbox" id="video_rating" value="1" class="input-xlarge" {if $r.video_rating=='1'} checked="checked"{/if} />
-                       <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="own_video_rating">Allow user to rate own videos</label>
+                <div class="controls">
+                    <input name="own_video_rating" type="checkbox" id="own_video_rating" value="1" class="input-xlarge" {if $r.own_video_rating=='1'} checked="checked"{/if} />
+                        <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="own_video_rating">Allow user to rate own videos</label>
-            <div class="controls">
-                <input name="own_video_rating" type="checkbox" id="own_video_rating" value="1" class="input-xlarge" {if $r.own_video_rating=='1'} checked="checked"{/if} />
-                       <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="video_categories">Max categories for each video</label>
+                <div class="controls">
+                    <input name="video_categories" type="text" id="video_categories" value="{$r.video_categories}"  maxlength="5" class="input-xlarge" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="video_categories">Max categories for each video</label>
-            <div class="controls">
-                <input name="video_categories" type="text" id="video_categories" value="{$r.video_categories}"  maxlength="5" class="input-xlarge" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="vid_cat_width">Category width x height</label>
+                <div class="controls">
+                    <input type="text" name="vid_cat_width" id="vid_cat_width" value="{$r.vid_cat_width}" class="input-xlarge" /> x  <input type="text" name="vid_cat_height" id="vid_cat_height" value="{$r.vid_cat_height}" class="input-xlarge"/>
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="vid_cat_width">Category width x height</label>
-            <div class="controls">
-                <input type="text" name="vid_cat_width" id="vid_cat_width" value="{$r.vid_cat_width}" class="input-xlarge" /> x  <input type="text" name="vid_cat_height" id="vid_cat_height" value="{$r.vid_cat_height}" class="input-xlarge"/>
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="embed_type">Embed type</label>
+                <div class="controls">
+                    <select name="embed_type" id="embed_type" class="input-xlarge">
+                        <option value="iframe" {if $r.embed_type=='iframe'} selected="selected"{/if}>Iframe</option>
+                        <option value="embed_object" {if $r.embed_type=='embed_object'} selected="selected"{/if}>Embed object</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="embed_type">Embed type</label>
-            <div class="controls">
-                <select name="embed_type" id="embed_type" class="input-xlarge">
-                    <option value="iframe" {if $r.embed_type=='iframe'} selected="selected"{/if}>Iframe</option>
-                    <option value="embed_object" {if $r.embed_type=='embed_object'} selected="selected"{/if}>Embed object</option>
-                </select>
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="seo_vido_url_0">SEO video url pattern</label>
+                <div class="controls">
+                    <label class="radio"><input type="radio" name="seo_vido_url" value="1" id="seo_vido_url_0"  {if !$r.seo_vido_url || $r.seo_vido_url==0} checked="checked"{/if}/>{$baseurl}/video-title-v123</label>
+                    <label class="radio"><input type="radio" name="seo_vido_url" value="1" id="seo_vido_url_1"  {if $r.seo_vido_url==1} checked="checked"{/if}/>{$baseurl}/video/ABCDXYZ/video-title</label>
+                    <label class="radio"><input type="radio" name="seo_vido_url" value="2" id="seo_vido_url_2"  {if $r.seo_vido_url==2} checked="checked"{/if}/>{$baseurl}/video/123/video-title</label>
+                    <label class="radio"><input type="radio" name="seo_vido_url" value="3" id="seo_vido_url_3"  {if $r.seo_vido_url==3} checked="checked"{/if}/>{$baseurl}/video/123_video-title</label>
+                    <label class="radio"><input type="radio" name="seo_vido_url" value="4" id="seo_vido_url_4"  {if $r.seo_vido_url==4} checked="checked"{/if}/>{$baseurl}/video/video-title <sup>recommended</sup></label>
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label" for="seo_vido_url_0">SEO video url pattern</label>
-            <div class="controls">
-                <label class="radio"><input type="radio" name="seo_vido_url" value="1" id="seo_vido_url_0"  {if !$r.seo_vido_url || $r.seo_vido_url==0} checked="checked"{/if}/>{$baseurl}/video-title-v123</label>
-                <label class="radio"><input type="radio" name="seo_vido_url" value="1" id="seo_vido_url_1"  {if $r.seo_vido_url==1} checked="checked"{/if}/>{$baseurl}/video/ABCDXYZ/video-title</label>
-                <label class="radio"><input type="radio" name="seo_vido_url" value="2" id="seo_vido_url_2"  {if $r.seo_vido_url==2} checked="checked"{/if}/>{$baseurl}/video/123/video-title</label>
-                <label class="radio"><input type="radio" name="seo_vido_url" value="3" id="seo_vido_url_3"  {if $r.seo_vido_url==3} checked="checked"{/if}/>{$baseurl}/video/123_video-title</label>
-                <label class="radio"><input type="radio" name="seo_vido_url" value="4" id="seo_vido_url_4"  {if $r.seo_vido_url==4} checked="checked"{/if}/>{$baseurl}/video/video-title <sup>recommended</sup></label>
-                <p class="help-block"></p>
+        </fieldset>
+        <fieldset>
+            <legend>Channels</legend>
+            <div class="control-group">
+                <label class="control-label" for="channelsSection">Enable channel section</label>
+                <div class="controls">
+                    <select name="channelsSection" id="channelsSection" class="input-xlarge">
+                        <option value="yes" {if $r.channelsSection!='no'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $r.channelsSection=='no'} selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <h2>Channels</h2>
-        <div class="height20"></div>
-
-        <div class="control-group">
-            <label class="control-label" for="channelsSection">Enable channel section</label>
-            <div class="controls">
-                <select name="channelsSection" id="channelsSection" class="input-xlarge">
-                    <option value="yes" {if $r.channelsSection!='no'} selected="selected"{/if}>Yes</option>
-                    <option value="no" {if $r.channelsSection=='no'} selected="selected"{/if}>No</option>
-                </select>
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="channel_rating"> Allow channel ratings</label>
+                <div class="controls">
+                    <input name="channel_rating" type="checkbox" id="channel_rating" value="1" class="input-xlarge" {if $r.channel_rating=='1'} checked="checked"{/if} />
+                            <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="channel_rating"> Allow channel ratings</label>
-            <div class="controls">
-                <input name="channel_rating" type="checkbox" id="channel_rating" value="1" class="input-xlarge" {if $r.channel_rating=='1'} checked="checked"{/if} />
-                       <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="own_channel_rating">Allow user to rate own channels</label>
+                <div class="controls">
+                    <input name="own_channel_rating" type="checkbox" id="own_channel_rating" value="1" class="input-xlarge" {if $r.own_channel_rating=='1'} checked="checked"{/if} />
+                            <p class="help-block"></p>
+                </div>
             </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label" for="own_channel_rating">Allow user to rate own channels</label>
-            <div class="controls">
-                <input name="own_channel_rating" type="checkbox" id="own_channel_rating" value="1" class="input-xlarge" {if $r.own_channel_rating=='1'} checked="checked"{/if} />
-                       <p class="help-block"></p>
+        </fieldset>
+            
+        <fieldset>
+            <legend>Groups</legend>
+            <div class="control-group">
+                <label class="control-label" for="groupsSection">Enable group section</label>
+                <div class="controls">
+                    <select name="groupsSection" id="groupsSection" class="input-xlarge">
+                        <option value="yes" {if $r.groupsSection!='no'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $r.groupsSection=='no'} selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <h2>Groups</h2>
-        <div class="height20"></div>
-
-        <div class="control-group">
-            <label class="control-label" for="groupsSection">Enable group section</label>
-            <div class="controls">
-                <select name="groupsSection" id="groupsSection" class="input-xlarge">
-                    <option value="yes" {if $r.groupsSection!='no'} selected="selected"{/if}>Yes</option>
-                    <option value="no" {if $r.groupsSection=='no'} selected="selected"{/if}>No</option>
-                </select>
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="grp_thumb_width">Group Thumb Width</label>
+                <div class="controls">
+                    <input name="grp_thumb_width" type="text" id="grp_thumb_width" value="{$r.grp_thumb_width}" class="input-xlarge" maxlength="5" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="grp_thumb_width">Group Thumb Width</label>
-            <div class="controls">
-                <input name="grp_thumb_width" type="text" id="grp_thumb_width" value="{$r.grp_thumb_width}" class="input-xlarge" maxlength="5" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="grp_thumb_height">Group Thumb Height</label>
+                <div class="controls">
+                    <input name="grp_thumb_height" type="text" id="grp_thumb_height" value="{$r.grp_thumb_height}" class="input-xlarge" maxlength="5" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="grp_thumb_height">Group Thumb Height</label>
-            <div class="controls">
-                <input name="grp_thumb_height" type="text" id="grp_thumb_height" value="{$r.grp_thumb_height}" class="input-xlarge" maxlength="5" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="grp_max_title">Group Max Title</label>
+                <div class="controls">
+                    <input name="grp_max_title" type="text" id="grp_max_title" value="{$r.grp_max_title}" class="input-xlarge" maxlength="5" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="grp_max_title">Group Max Title</label>
-            <div class="controls">
-                <input name="grp_max_title" type="text" id="grp_max_title" value="{$r.grp_max_title}" class="input-xlarge" maxlength="5" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="grp_max_desc">Group Max Description</label>
+                <div class="controls">
+                    <input name="grp_max_desc" type="text" id="grp_max_desc" value="{$r.grp_max_desc}" class="input-xlarge" maxlength="5" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="grp_max_desc">Group Max Description</label>
-            <div class="controls">
-                <input name="grp_max_desc" type="text" id="grp_max_desc" value="{$r.grp_max_desc}" class="input-xlarge" maxlength="5" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="max_topic_title">Max group topic name</label>
+                <div class="controls">
+                    <input name="max_topic_title" type="text" id="max_topic_title" value="{$r.max_topic_title}" class="input-xlarge" maxlength="5" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="max_topic_title">Max group topic name</label>
-            <div class="controls">
-                <input name="max_topic_title" type="text" id="max_topic_title" value="{$r.max_topic_title}" class="input-xlarge" maxlength="5" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="max_topic_length">Max group topic content</label>
+                <div class="controls">
+                    <input name="max_topic_length" type="text" id="max_topic_length" value="{$r.max_topic_length}" class="input-xlarge" maxlength="5" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="max_topic_length">Max group topic content</label>
-            <div class="controls">
-                <input name="max_topic_length" type="text" id="max_topic_length" value="{$r.max_topic_length}" class="input-xlarge" maxlength="5" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="grp_categories">Max categories for each group</label>
+                <div class="controls">
+                    <input name="grp_categories" type="text" id="grp_categories" value="{$r.grp_categories}" class="input-xlarge" maxlength="5" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label" for="grp_categories">Max categories for each group</label>
-            <div class="controls">
-                <input name="grp_categories" type="text" id="grp_categories" value="{$r.grp_categories}" class="input-xlarge" maxlength="5" />
-                <p class="help-block"></p>
+        </fieldset>
+            
+        <fieldset>
+            <legend>Photos</legend>
+            <div class="control-group">
+                <label class="control-label" for="photosSection">Enable photo section</label>
+                <div class="controls">
+                    <select name="photosSection" id="photosSection" class="input-xlarge">
+                        <option value="yes" {if $r.photosSection!='no'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $r.photosSection=='no'} selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
+        </fieldset>
 
-        <h2 class="sub_heading">Photos</h2>
-        <div class="height20"></div>
-
-        <div class="control-group">
-            <label class="control-label" for="photosSection">Enable photo section</label>
-            <div class="controls">
-                <select name="photosSection" id="photosSection" class="input-xlarge">
-                    <option value="yes" {if $r.photosSection!='no'} selected="selected"{/if}>Yes</option>
-                    <option value="no" {if $r.photosSection=='no'} selected="selected"{/if}>No</option>
-                </select>
-                <p class="help-block"></p>
+        <fieldset>
+            <legend>Collections</legend>
+            <div class="control-group">
+                <label class="control-label" for="collectionsSection">Enable collection section</label>
+                <div class="controls">
+                    <select name="collectionsSection" id="collectionsSection">
+                        <option value="yes" {if $r.collectionsSection!='no'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $r.collectionsSection=='no'} selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <h2 class="sub_heading">Collections</h2>
-        <div class="height20"></div>
-
-        <div class="control-group">
-            <label class="control-label" for="collectionsSection">Enable collection section</label>
-            <div class="controls">
-                <select name="collectionsSection" id="collectionsSection">
-                    <option value="yes" {if $r.collectionsSection!='no'} selected="selected"{/if}>Yes</option>
-                    <option value="no" {if $r.collectionsSection=='no'} selected="selected"{/if}>No</option>
-                </select>
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="collection_rating">Allow collection ratings</label>
+                <div class="controls">
+                    <input name="collection_rating" type="checkbox" id="collection_rating" value="1" {if $r.collection_rating=='1'}checked="checked"{/if} />
+                        <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="collection_rating">Allow collection ratings</label>
-            <div class="controls">
-                <input name="collection_rating" type="checkbox" id="collection_rating" value="1" {if $r.collection_rating=='1'}checked="checked"{/if} />
-                       <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="own_collection_rating">Allow user to rate own collections</label>
+                <div class="controls">
+                    <input name="own_collection_rating" type="checkbox" id="own_collection_rating" value="1" {if $row.own_collection_rating=='1'}checked="checked"{/if} />
+                        <p class="help-block"></p>
+                </div>
             </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label" for="own_collection_rating">Allow user to rate own collections</label>
-            <div class="controls">
-                <input name="own_collection_rating" type="checkbox" id="own_collection_rating" value="1" {if $row.own_collection_rating=='1'}checked="checked"{/if} />
-                       <p class="help-block"></p>
-            </div>
-        </div>
-
+        </fieldset>
     </div>
 
     <div id="div_2" class="tab-pane">
@@ -1221,254 +1207,253 @@
             </div>
         </div>
 
-        <h2 class="sub_heading">Profile Settings</h2>
-        <div class="height20"></div>
-
-        <div class="control-group">
-            <label class="control-label" for="fname_length">First Name max length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="fname_length" type="text" id="fname_length" value="{$row.fname_length|form_val}" />
-                <p class="help-block"></p>
+        <fieldset>
+            <legend>Profile Settings</legend>
+            <div class="control-group">
+                <label class="control-label" for="fname_length">First Name max length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="fname_length" type="text" id="fname_length" value="{$row.fname_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="lname_length">Last Name max length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="lname_length" type="text" id="lname_length" value="{$row.lname_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="lname_length">Last Name max length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="lname_length" type="text" id="lname_length" value="{$row.lname_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="profile_title_length">Channel title max length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="profile_title_length" type="text" id="profile_title_length" value="{$row.profile_title_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="profile_title_length">Channel title max length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="profile_title_length" type="text" id="profile_title_length" value="{$row.profile_title_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="profile_desc_length">Channel description max length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="profile_desc_length" type="text" id="profile_desc_length" value="{$row.profile_desc_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="profile_desc_length">Channel description max length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="profile_desc_length" type="text" id="profile_desc_length" value="{$row.profile_desc_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="about_me_length">About me max length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="about_me_length" type="text" id="about_me_length" value="{$row.about_me_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="about_me_length">About me max length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="about_me_length" type="text" id="about_me_length" value="{$row.about_me_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="profile_tags_length">Profile tags max length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="profile_tags_length" type="text" id="profile_tags_length" value="{$row.profile_tags_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="profile_tags_length">Profile tags max length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="profile_tags_length" type="text" id="profile_tags_length" value="{$row.profile_tags_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="web_url_length">Website max length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="web_url_length" type="text" id="web_url_length" value="{$row.web_url_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="web_url_length">Website max length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="web_url_length" type="text" id="web_url_length" value="{$row.web_url_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="location_length">Location max length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="location_length" type="text" id="location_length" value="{$row.location_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="location_length">Location max length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="location_length" type="text" id="location_length" value="{$row.location_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="hometown_length">Hometown max length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="hometown_length" type="text" id="hometown_length" value="{$row.hometown_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="hometown_length">Hometown max length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="hometown_length" type="text" id="hometown_length" value="{$row.hometown_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="city_length">City max length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="city_length" type="text" id="city_length" value="{$row.city_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="city_length">City max length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="city_length" type="text" id="city_length" value="{$row.city_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="postal_code_length">Postal code max length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="postal_code_length" type="text" id="postal_code_length" value="{$row.postal_code_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="postal_code_length">Postal code max length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="postal_code_length" type="text" id="postal_code_length" value="{$row.postal_code_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="schools_length">Schools max length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="schools_length" type="text" id="schools_length" value="{$row.schools_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="schools_length">Schools max length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="schools_length" type="text" id="schools_length" value="{$row.schools_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="occupation_length">Occupation max length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="occupation_length" type="text" id="occupation_length" value="{$row.occupation_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="occupation_length">Occupation max length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="occupation_length" type="text" id="occupation_length" value="{$row.occupation_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="companies_length">Companies max length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="companies_length" type="text" id="companies_length" value="{$row.companies_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="companies_length">Companies max length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="companies_length" type="text" id="companies_length" value="{$row.companies_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="hobbies_length">Hobbies max length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="hobbies_length" type="text" id="hobbies_length" value="{$row.hobbies_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="hobbies_length">Hobbies max length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="hobbies_length" type="text" id="hobbies_length" value="{$row.hobbies_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="fav_movies_length">Favorite movies &amp; shows length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="fav_movies_length" type="text" id="fav_movies_length" value="{$row.fav_movies_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="fav_movies_length">Favorite movies &amp; shows length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="fav_movies_length" type="text" id="fav_movies_length" value="{$row.fav_movies_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="fav_music_length">Favorite music length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="fav_music_length" type="text" id="fav_music_length" value="{$row.fav_music_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="fav_music_length">Favorite music length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="fav_music_length" type="text" id="fav_music_length" value="{$row.fav_music_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="fav_books_length">Favorite books length</label>
-            <div class="controls">
-                <input class="input-xlarge" name="fav_books_length" type="text" id="fav_books_length" value="{$row.fav_books_length|form_val}" />
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="fav_books_length">Favorite books length</label>
+                <div class="controls">
+                    <input class="input-xlarge" name="fav_books_length" type="text" id="fav_books_length" value="{$row.fav_books_length|form_val}" />
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
+        </fieldset>
 
-        <h2 class="sub_heading">Profile Pictures &amp; Background</h2>
-        <div class="height20"></div>
-
-        <div class="control-group">
-            <label class="control-label" for="fav_books_length">Use Gravatars</label>
-            <div class="controls">
-                <select name="gravatars" id="gravatars" class="input-xlarge">
-                    <option value="yes" {if $row.gravatars == yes}selected="selected"{/if}>Yes</option>
-                    <option value="" {if $row.gravatars == ''}selected="selected"{/if}>No</option>
-                </select>
-                <p class="help-block"></p>
+        <fieldset>
+            <legend>Profile Pictures &amp; Background</legend>
+            <div class="control-group">
+                <label class="control-label" for="fav_books_length">Use Gravatars</label>
+                <div class="controls">
+                    <select name="gravatars" id="gravatars" class="input-xlarge">
+                        <option value="yes" {if $row.gravatars == yes}selected="selected"{/if}>Yes</option>
+                        <option value="" {if $row.gravatars == ''}selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="max_profile_pic_size">Max Profile Pic Size</label>
-            <div class="controls">
-                <input name="max_profile_pic_size" type="text" id="max_profile_pic_size" value="{$row.max_profile_pic_size}" class="input-xlarge" maxlength="10" /> &ndash; KBs 
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="max_profile_pic_size">Max Profile Pic Size</label>
+                <div class="controls">
+                    <input name="max_profile_pic_size" type="text" id="max_profile_pic_size" value="{$row.max_profile_pic_size}" class="input-xlarge" maxlength="10" /> &ndash; KBs 
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="max_profile_pic_width">Max Profile Pic Dimension</label>
-            <div class="controls">
-                <input name="max_profile_pic_width" type="text" id="max_profile_pic_width" value="{$row.max_profile_pic_width}" maxlength="10" class="input-xlarge" /> &ndash; Pixels 
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="max_profile_pic_width">Max Profile Pic Dimension</label>
+                <div class="controls">
+                    <input name="max_profile_pic_width" type="text" id="max_profile_pic_width" value="{$row.max_profile_pic_width}" maxlength="10" class="input-xlarge" /> &ndash; Pixels 
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="picture_url">Allow Picture URL</label>
-            <div class="controls">
-                <select name="picture_url" id="picture_url" class="input-xlarge">
-                    <option value="yes" {if $row.picture_url == yes}selected="selected"{/if}>Yes</option>
-                    <option value="no" {if $row.picture_url == no}selected="selected"{/if}>No</option>
-                </select> 
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="picture_url">Allow Picture URL</label>
+                <div class="controls">
+                    <select name="picture_url" id="picture_url" class="input-xlarge">
+                        <option value="yes" {if $row.picture_url == yes}selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $row.picture_url == no}selected="selected"{/if}>No</option>
+                    </select> 
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="picture_upload">Allow Picture Upload</label>
-            <div class="controls">
-                <select name="picture_upload" id="picture_upload" class="input-xlarge">
-                    <option value="yes" {if $row.picture_upload == yes}selected="selected"{/if}>Yes</option>
-                    <option value="no" {if $row.picture_upload == no}selected="selected"{/if}>No</option>
-                </select> 
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="picture_upload">Allow Picture Upload</label>
+                <div class="controls">
+                    <select name="picture_upload" id="picture_upload" class="input-xlarge">
+                        <option value="yes" {if $row.picture_upload == yes}selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $row.picture_upload == no}selected="selected"{/if}>No</option>
+                    </select> 
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="max_bg_size">Max Background Size</label>
-            <div class="controls">
-                <input name="max_bg_size" type="text" id="max_bg_size" value="{$row.max_bg_size}" maxlength="10" class="input-xlarge" /> &ndash; KBs
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="max_bg_size">Max Background Size</label>
+                <div class="controls">
+                    <input name="max_bg_size" type="text" id="max_bg_size" value="{$row.max_bg_size}" maxlength="10" class="input-xlarge" /> &ndash; KBs
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="max_bg_width">Max Background Dimension</label>
-            <div class="controls">
-                <input name="max_bg_width" type="text" id="max_bg_width" value="{$row.max_bg_width}" maxlength="10" class="input-xlarge" /> &ndash; Pixels
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="max_bg_width">Max Background Dimension</label>
+                <div class="controls">
+                    <input name="max_bg_width" type="text" id="max_bg_width" value="{$row.max_bg_width}" maxlength="10" class="input-xlarge" /> &ndash; Pixels
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="background_url">Allow Background URL</label>
-            <div class="controls">
-                <select name="background_url" id="background_url">
-                    <option value="yes" {if $row.background_url == yes}selected="selected"{/if}>Yes</option>
-                    <option value="no" {if $row.background_url == no}selected="selected"{/if}>No</option>
-                </select>
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="background_url">Allow Background URL</label>
+                <div class="controls">
+                    <select name="background_url" id="background_url">
+                        <option value="yes" {if $row.background_url == yes}selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $row.background_url == no}selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="background_upload">Allow Background Upload</label>
-            <div class="controls">
-                <select name="background_upload" id="background_upload">
-                    <option value="yes" {if $row.background_upload == yes}selected="selected"{/if}>Yes</option>
-                    <option value="no" {if $row.background_upload == no}selected="selected"{/if}>No</option>
-                </select>
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="background_upload">Allow Background Upload</label>
+                <div class="controls">
+                    <select name="background_upload" id="background_upload">
+                        <option value="yes" {if $row.background_upload == yes}selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $row.background_upload == no}selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="background_color">Allow Background Color</label>
-            <div class="controls">
-                <select name="background_color" id="background_color">
-                    <option value="yes" {if $row.background_color == yes}selected="selected"{/if}>Yes</option>
-                    <option value="no" {if $row.background_color == no}selected="selected"{/if}>No</option>
-                </select>
-                <p class="help-block"></p>
+            <div class="control-group">
+                <label class="control-label" for="background_color">Allow Background Color</label>
+                <div class="controls">
+                    <select name="background_color" id="background_color">
+                        <option value="yes" {if $row.background_color == yes}selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $row.background_color == no}selected="selected"{/if}>No</option>
+                    </select>
+                    <p class="help-block"></p>
+                </div>
             </div>
-        </div>
-
+        </fieldset>
     </div>
 </div>
 

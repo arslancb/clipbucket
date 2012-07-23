@@ -11,7 +11,7 @@ require_once '../includes/admin_config.php';
 $userquery->admin_login_check();
 $userquery->login_check('video_moderation');
 $pages->page_redir();
-register_filter('photo_manager_links','cb_some_photo_plugin_links');
+
 //Photo Actions are following
 
 //Feature
