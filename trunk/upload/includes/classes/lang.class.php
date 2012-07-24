@@ -19,6 +19,10 @@
 #
 
 
+/**
+ * @todo : Make sure when there is no phrase in databse pack, a notification should be added for administrator that XxX phrase has no defination. 
+ */
+
 
 class language
 {
@@ -120,8 +124,13 @@ class language
 		global $db;
 		//First checking if phrase already exists or not
 		if($this->get_phrase($id,$lang_code))
-			$db->update(tbl("phrases"),array('text'),array(mysql_real_escape_string($text))," id = '".mysql_real_escape_string($id)."' ");
-	}
+                $db->update(tbl("phrases"),array('text'),array('|no_mc|'.mysql_real_escape_string($text))," id = '".mysql_real_escape_string($id)."' ");
+	
+                if($this->auto_update_pack)
+                {
+                    $this->createPack($lang_code);
+                }
+        }
 	
 	/**
 	 * Function used to get all phrases of particular language
@@ -255,22 +264,16 @@ class language
 		$lang_details = $this->get_lang($id);
 		if($lang_details)
 		{
+                        $content = file_get_contents(BASEDIR.'/includes/langs/'.$lang_details['language_code'].'.lang');
+                        
 			header("Pragma: public"); // required
 			header("Expires: 0");
 			header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 			header("Cache-Control: private",false); // required for certain browsers 
 			header("Content-type: application/force-download");
-			header("Content-Disposition: attachment; filename=\"cb_lang_".$lang_details['language_code'].".xml\""); 
-			echo '<?xml version="1.0" encoding="UTF-8"?>';
-			?>
-			<clipbucket_language>
-				<name><?=$lang_details['language_name']?></name>
-				<iso_code><?=$lang_details['language_code']?></iso_code>
-				<phrases>
-					<?=array2xml(array('lang'=>$this->lang_phrases()));?>
-				</phrases>
-			</clipbucket_language>
-<?php
+			header("Content-Disposition: attachment; filename=\"cb_lang_".$lang_details['language_code'].".json\""); 
+			echo $content;
+
 			exit();
 		}else
 			e(lang("lang_doesnt_exist"));
@@ -279,12 +282,14 @@ class language
 	/**
 	 * Function used to import language
 	 */
-	function import_lang()
+	function import_lang_old()
 	{
 		global $db;
 		//First we will move uploaded file
 		$file_name = TEMP_DIR.'/cb_lang.xml';
 		
+                
+                
 		if(empty($_FILES['lang_file']['name']))
 			e(lang("no_file_was_selected"));
 		elseif(move_uploaded_file($_FILES['lang_file']['tmp_name'],$file_name))
@@ -335,6 +340,95 @@ class language
 			unlink($file_name);
 	} 
 	
+        
+        
+        function import_lang($array)
+        {
+            global $db;
+            if(!$array['code'])
+            {
+                e(lang('Input language code was invalid '));
+                return false;
+            }
+            
+            if(!$array['name'])
+                $array['name'] = $array['code'];
+            
+            $name = $array['name'];
+            $code = $array['code'];
+            
+            //Checking if language already exists...
+            $lang = $this->lang_exists($code);
+            
+            if(!$lang)
+            {
+                //Add language in databse.
+                //Create language file.
+                //Update from pack.
+                
+                $db_fields = array(
+                    'language_code' => $code,
+                    'language_name' => $name,
+                    'language_regex' => '/'.$code.'/',
+                    'language_default' => 'no'
+                );
+                
+                cb_insert(tbl('languages'),$db_fields);
+                $lang_file = BASEDIR.'/includes/langs/'.$code.'.lang';
+                $new_file = TEMP_DIR.'/'.$code.'.lang';
+                
+                $lang_id = $db->insert_id();
+                
+                if(move_uploaded_file($_FILES['lang_file']['tmp_name'], $new_file))
+                {
+                    rename($new_file,$lang_file);
+                    $this->updateFromPack($code);
+                    
+                    if(!error())
+                    {
+                        e(sprintf(lang('%s has been added.'),$name),'m');
+                        return true;
+                    }else
+                        return false;
+                }else{
+                    cb_update(tbl('languages'),array('language_active'=>'no')," language_id='$lang_id' ");     
+                    e(lang('Unable to upload language file'));
+                    return false;
+                }
+               
+            }  else {
+             
+                //Replace existing lang file and execute update from pack 
+                //function ;)
+                
+                $lang_file = BASEDIR.'/includes/langs/'.$lang['language_code'].'.lang';
+                $new_file = TEMP_DIR.'/'.$lang['language_code'].'.lang';
+                
+                if(move_uploaded_file($_FILES['lang_file']['tmp_name'], $new_file))
+                {
+                    unlink($lang_file);
+                    rename($new_file,$lang_file);
+                    
+                    
+                    $this->updateFromPack($lang['language_code']);
+                    
+                    if(!error())
+                    {
+                        e(lang('Language phrases been updated'),'m');
+                        return true;
+                    }else
+                        return false;
+                }else{
+                    e(lang('Unable to upload language file'));
+                    return false;
+                }
+                
+            }
+            
+        }
+        
+        
+        
 	/**
 	 * Function used to delete language pack
 	 */
@@ -392,7 +486,8 @@ class language
 	{
 		if(!$lang)
 			$lang = $this->lang;
-		$phrases = $this->get_phrases($lang);
+		
+                $phrases = $this->get_phrases($lang);
 		
 		if(count($phrases)==0) return false;
 		$new_array = array();
@@ -468,33 +563,41 @@ class language
 		global $db;
 		if(!$lang)
 			$lang = $this->lang;
-		$file = BASEDIR.'/includes/langs/'.$lang.'.lang';
+		
+                
+                $file = BASEDIR.'/includes/langs/'.$lang.'.lang';
+                
+        
 		if(file_exists($file))
 		{
 			$langData = file_get_contents($file);
 			$phrases = json_decode($langData,true);
+                        
 			//First lets delete all language phrases
 			$db->delete(tbl("phrases"),array("lang_iso"),array($lang));
-			//Now create query and then execute it
+			
+                        //Now create query and then execute it
 			$query = "INSERT INTO ".tbl("phrases")."
 			(`lang_iso` ,`varname` ,`text`)
 			VALUES";
 			
+                        
 			$count = 0;
 			foreach($phrases as $key => $phrase)
 			{
 				if($count>0)
 					$query .= ",";
-				$query .= "('$lang', '$key', '".addslashes($phrase)."')";
+				$query .= "('$lang', '$key', '".clean($phrase)."')";
 				$count++;
 			}
 			$query .= ";";
-			
+
 			$db->Execute($query);
 		
 		}
 	}
 		
 }
+
 
 ?>

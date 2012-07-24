@@ -1,7 +1,7 @@
 <?php
 /* 
  **************************************************************
- | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
+ | Copyright (c) 2007-2012 Clip-Bucket.com. All rights reserved.
  | @ Author 	: ArslanHassan									
  | @ Software 	: ClipBucket , © PHPBucket.com					
  ***************************************************************
@@ -13,16 +13,16 @@ $userquery->login_check('web_config_access');
 $pages->page_redir();
 
 //Making Language Default
-if(isset($_POST['make_default']))
+if(isset($_POST['default_language']))
 {
-	$id = mysql_clean($_POST['make_default']);
+	$id = mysql_clean($_POST['default_language']);
 	$lang_obj->make_default($id);
 }
 
 //Importing language
 if(isset($_POST['add_language']))
 {
-	$lang_obj->import_lang();
+    $lang_obj->import_lang($_POST);
 }
 
 //Removig Langiage
@@ -35,8 +35,14 @@ if(isset($_GET['delete']))
 //Updateing Language
 if(isset($_POST['update_language']))
 {
-	$_POST['lang_id'] = $_GET['edit_language'];
+	$_POST['lang_id'] = $_POST['update_language'];
 	$lang_obj->update_lang($_POST);
+        
+        //Updating phrases 
+        if(($_FILES['lang_file']['tmp_name']))
+        {
+            $lang_obj->import_lang($_POST);
+        }
 }
 
 //Downloading Language

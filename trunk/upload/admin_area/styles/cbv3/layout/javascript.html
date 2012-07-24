@@ -165,5 +165,15 @@
                total_thumbs.prop('checked',true);
            }
        })
+       
+       
+
+        $('.edit_lang').editable(baseurl+'/actions/update_phrase.php', { 
+        indicator : '<img src="'+baseurl+'/images/icons/progIndicator.gif">',
+        tooltip   : 'Click to edit...',
+        type :  'textarea',
+        width :500}
+        );
+    
     })
 </script>

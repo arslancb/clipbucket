@@ -2959,6 +2959,31 @@ function cond($condition, $operater = 'AND', $var = NULL) {
     return $cond;
 }
 
+
+
+/**
+ * CB New Insert function to make dev easy 
+ * 
+ * @param STRING tbl_name
+ * @param ARRAY fields=>values
+ */
+function cb_insert($tbl,$array)
+{
+    global $db;
+    
+    $fields = array();
+    $values = array();
+    
+    
+    foreach($array as $index=>$val)
+    {
+        $fields[] = $index;
+        $values[] = $val;
+    }
+    
+    return $db->insert($tbl,$fields,$values);
+}
+
 //Including videos functions
 include("functions_videos.php");
 //Including Users Functions
