@@ -588,7 +588,9 @@ class userquery extends CBCategory{
 					$result = $db->count(tbl($this->dbtbl['users']),"userid"," userid='".$id."' ");
 				else
 					$result = $db->count(tbl($this->dbtbl['users']),"userid"," username='".$id."' ");
-				if($result>0)
+				
+                             
+                                if($result>0)
 				{
 					$this->user_exist = 'yes';
 				}else{

@@ -42,13 +42,13 @@ if(isset($_GET['deactivate'])){
 }
 
 //Using Multple Action
-if(isset($_POST['activate_selected'])){
+if($_POST['mode']=='activate_selected'){
 	for($id=0;$id<=RESULTS;$id++){
 		$cbvid->action('activate',$_POST['check_video'][$id]);
 	}
 	e("Selected Videos Have Been Activated","m");
 }
-if(isset($_POST['deactivate_selected'])){
+if($_POST['mode']=='deactivate_selected'){
 	for($id=0;$id<=RESULTS;$id++){
 		$cbvid->action('deactivate',$_POST['check_video'][$id]);
 	}
@@ -64,7 +64,7 @@ if(isset($_REQUEST['delete_flags']))
 }
 
 //Deleting Multiple Videos
-if(isset($_POST['delete_flags']))
+if($_POST['mode']=='delete_flags')
 {
 	for($id=0;$id<=RESULTS;$id++)
 	{

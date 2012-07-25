@@ -1,94 +1,145 @@
 
 {if $mode=='view'}
-<span class="page_title">Flagged Videos Manager</span>
-<!-- DIsplaying Videos -->
-<form name="flagged_video" method="post" id="flagged_video">
-
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
-    <td height="50" style="padding-left:15px">
-     		<input type="submit" name="activate_selected" value="Activate"  class="button"/>
-            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
-            <input type="submit" name="delete_selected" value="Delete Videos"  class="button" onclick="return confirm_it('Are you sure you want to delete these videos')"/>
-            
-            <input type="submit" name="delete_flags" value="Delete Flags"  class="button" onclick="return confirm_it('Are you sure you want to delete flags of selected videos')"/>
-    
-    </td>
-    </tr>
-</table>
+<h2>Flagged Videos Manager</h2>
+<div class="height20"></div>
 
 
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle" class="left_head">
-    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
-    <td width="50" class="head_sep_left">VID</td>
-    <td class="head"><div class="head_sep_left" style="width:250px">Details</div></td>
-    <td width="50" class="right_head">&nbsp;</td>
-  </tr>
-</table>
+<div class="manager-list">
+    <div class="controller scrolltoFixed white-grad">
+        <div class="buttons">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <label class="btn check-all"><input type="checkbox"></label>
+                </div>
+                <div class="btn-group">
+                    <a class="btn" onclick="
+                        $('#mode').val('activate_selected');
+                        $('#video-flags-form').submit();">{lang code='Activate'}</a>
+                    <a class="btn" onclick="
+                        $('#mode').val('deactivate_selected');
+                        $('#video-flags-form').submit();">{lang code='Deactivate'}</a>
+                    <a class="btn" onclick="
+                        $('#mode').val('delete_selected');
+                        $('#video-flags-form').submit();">{lang code='Delete videos'}</a>
+                    <a class="btn" onclick="
+                        $('#mode').val('delete_flags');
+                        $('#video-flags-form').submit();">{lang code='Delete flags'}</a>
+                </div>
+            </div>
 
-
-
-
-
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-{assign var = bgcolor value = ""}
-{section name=list loop=$videos}
-<tr class="video_opt_td"  bgcolor="{$bgcolor}">
-    <td width="30" align="center" valign="top" class="video_opt_td">    <input name="check_video[]" type="checkbox" id="check_video" value="{$videos[list].videoid}" /></td>
-    <td width="50" align="center" valign="top" class="video_opt_td">{$videos[list].videoid}</td>
-    <td valign="top"  class="video_opt_td" 
-    onmouseover="$('#vid_opt-{$videos[list].videoid}').show()" 
-    onmouseout="$('#vid_opt-{$videos[list].videoid}').hide()" >
-    <a href="{$baseurl}/watch_video.php?v={$videos[list].videokey}" target="_blank" style="text-indent:10px">
-    {$videos[list].title}
-    </a> &#8212;
-    <span class="vdo_sets">
-    Active:<strong>{$videos[list].active}</strong> &#8226;
-    Status:<strong>{$videos[list].status}</strong>  &#8226;
-    Flags:<strong>{$videos[list].total_flags}</strong>
-    </span>
-    
-    <br />
-    <div id="vid_opt-{$videos[list].videoid}" style="display:none" class="vid_opts">
-   	 
-      <a href="view_video.php?video={$videos[list].videoid}">View</a> | 
-      <a href="edit_video.php?video={$videos[list].videoid}">Edit</a> |
-      <a href="?mode=view_flags&vid={$videos[list].videoid}">View Flags</a> |
-      <a href="?delete_video={$videos[list].videoid}">Delete Video</a> |
-      <a href="?delete_flags={$videos[list].videoid}">Delete Flags</a>
-
+            <div class="right-button">
+               
+            </div>
+        </div>
     </div>
-    </td>
-    <td width="50" valign="top" class="video_opt_td">&nbsp;</td>
-    </tr>
-    {if $bgcolor == ""}
-    {assign var = bgcolor value = "#EEEEEE"}
-    {else}
-    {assign var = bgcolor value = ""}
-    {/if}
-        
-{/section}
-</table>
+
+    <form name="video-flags-form" method="post" id="video-flags-form">
+        <input type="hidden" name="mode" id="mode" />
+    <table id="video-flags-list" class="table table-striped list-block {if !$videos}display-none{/if}">
+        <thead>
+            <tr>
+                <th width="50"></th>
+                <th width="70">#</th>
+                <th width="60">Thumb</th>
+                <th>Video</th>
+                <th width="70">Flags</th>
+                <th width="70">Uploader</th>
+                <th width="70">Status</th>
+                <th width="200">Date</th>
+                <th width="120"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+    	{foreach $videos as $video}
+            <tr>
+            	<td><input type="checkbox" class="check-item" name="check_video[]" value="{$video.videoid}"></td>
+                <td>{$video.videoid}</td>
+                <td><img src="{getThumb vdetails=$video}" widt="60" height="45"/></td>
+                <td><a href="#" class="popover-classx" rel="popover" 
+                        data-content='<h6>Description</h6>{$video.description|truncate:300}<h6>Category</h6>{$video.category|categories:video}' 
+                        data-original-title="More details">{$video.title}</a>
+                        
+                        {if $video.status=='Successful'}
+                            ({$video.duration|SetTime})
+                        {/if}
+                        
+                        {if $video.broadcast!='public'}
+                        &nbsp;&nbsp;<a class="icon icon-user" rel="tooltip" title="This video is {$video.broadcast}"></a>
+                        {/if}
+                        
+                        <div class="height5"></div>
+                        
+                        {if $video.active=='yes'}
+                        <span class="label label-success">{lang code='Active'}</span>
+                        {else}
+                        <span class="label label-warning">{lang code='Inactive'}</span>
+                        {/if}
+                        
+                        {if $video.featured=='yes'}
+                            <span class="label label-success">Featured</span>
+                        {/if}
+                        
+                        
+                </td>
+                <td>{$video.total_flags|number_format}</td>
+                <td>{$video.username}</td>
+                <td>{$video.status}</td>
+                <td>{$video.date_added|niceTime}</td>
+                <td>   
+                    
+
+      
+                <div class="dropdown pull-right btn-group">
+                    
+
+                    <a class="btn" href="?mode=view_flags&vid={$video.videoid}">View Flags</a>
+                    <a class="dropdown-toggle btn" data-toggle="dropdown"><b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                    <li><a href="?mode=view_flags&vid={$video.videoid}">View flags</a></li>
+                    <li><a href="?delete_flags={$videos[list].videoid}">Delete Flags</a></li>
+
+                          
+                    <li class="divider"></li>
+                    <li><a href="edit_video.php?video={$video.videoid}">Edit video</a></li>
+                    <li><a href="{$baseurl}/watch_video.php?v={$video.videokey}">Watch Video</a></li>
+                    
+                    {if $video.active == yes} 
+                    <li><a href="?deactivate={$video.videoid}">Deactivate</a></li>
+                    {else}
+                    <li><a href="?deactivate={$video.videoid}">Activate</a></li>
+                    {/if}
+                    
+                    {if $video.featured == yes}
+                    <li><a href="?make_unfeature={$video.videoid}">Unfeature it</a></li>
+                    {else}
+                    <li><a href="?make_feature={$video.videoid}">Make featured</a></li>
+                    {/if}
+
+                    
+                    {foreach from=$cbvid->video_manager_links item=links}
+                        {$cbvid->video_manager_link($links,$video)}
+                    {/foreach}
+                    
+                    <li class="divider"></li>
+                    <li><a href="javascript:void(0)" onclick="cb_confirm('Confirm delete video','Are you sure you want to delete {$video.title}?',function(){
+                    window.location = '?delete_video={$video.videoid}';
+                    })">Delete</a></li>
+                    
+                    <li><a href="view_conversion_log.php?file_name={$video.file_name}">Conversion Status</a></li>
+                    </ul> 
+                </div>
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    </form>  
+
+</div>
 
 
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return_invert.png" width="25" height="25"></td>
-    <td height="50" style="padding-left:15px">
-     <input type="submit" name="activate_selected" value="Activate"  class="button"/>
-            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
-            <input type="submit" name="delete_selected" value="Delete Videos"  class="button" onclick="return confirm_it('Are you sure you want to delete these videos')"/>
-            
-            <input type="submit" name="delete_flags" value="Delete Flags"  class="button" onclick="return confirm_it('Are you sure you want to delete flags of selected videos')"/>
-    
-    </td>
-    </tr>
-</table>
-
-</form>
 
 <!-- DIsplaying Videos Ends-->
 {include file="$style_dir/blocks/pagination.html" }
@@ -97,40 +148,56 @@
 
 
 {if $mode=='view_flags'}
-<span class="page_title">Viewing {$video.title} flags</span> &#8212; <a href="{$baseurl}/watch_video.php?v={$video.videokey}">View video</a> &#8226; <a href="edit_video.php?video={$video.videoid}">Edit video</a> &#8226; <a href="?delete_flags={$video.videoid}">Delete Flags</a> &#8226; <a href="?delete_video={$video.videoid}">Delete Video</a>
-<div  style="margin-bottom:10px"></div>
-<!-- DIsplaying Videos -->
-<form name="video_manage" method="post">
 
 
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle" class="left_head">&nbsp;</td>
-    <td class="head">Flag Details</td>
-    <td width="50" class="right_head">&nbsp;</td>
-  </tr>
-</table>
+<h2>{$video.title} flags</h2>
 
+<div class="manager-list">
+    <div class="controller scrolltoFixed white-grad">
+        <div class="buttons">
+            <div class="btn-toolbar">
 
+                <div class="btn-group">
+                    <a class="btn" href="{$baseurl}/watch_video.php?v={$video.videokey}">View video</a>
+                    <a class="btn" href="edit_video.php?video={$video.videoid}">Edit video</a>
+                    <a class="btn" href="?delete_flags={$video.videoid}">Delete Flags</a>
+                    <a class="btn" href="?delete_video={$video.videoid}">Delete Video</a>
 
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <form name="video-flags" method="post" id="video-flags">
 
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-{assign var = bgcolor value = ""}
-{section name=list loop=$flags}
-<tr class="video_opt_td"  bgcolor="{$bgcolor}">
-    <td width="30" align="left" valign="top" class="video_opt_td">{$smarty.section.list.iteration}</td>
-    <td align="left" valign="top" class="video_opt_td">Reported as "{$flags[list].flag_type|flag_type}" by {$flags[list].userid|get_username} {$flags[list].date_added|niceTime}</td>
-    <td width="50" valign="top" class="video_opt_td">&nbsp;</td>
-    </tr>
-    {if $bgcolor == ""}
-    {assign var = bgcolor value = "#EEEEEE"}
-    {else}
-    {assign var = bgcolor value = ""}
-    {/if}
+    <table id="video-flags-items" class="table table-striped list-block {if !$flags}display-none{/if}">
+        <thead>
+            <tr>
+
+                <th width="70">#</th>
+                <th>Report</th>
+                <th width="70">Reporter</th>
+                <th width="200">Date</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+    	{foreach $flags  as $flag}
+
+            <tr>
+                <td>{$flag.flag_id}</td>
+                <td>{$flag.flag_type|flag_type}</td>
+                <td>{$flag.userid|get_username}</td>
+                <td>{$flag.date_added|nicetime}</td>
+
+            </tr>
+        {/foreach}
         
-{/section}
-</table>
-</form>
+        </tbody>
+    </table>
+    </form>  
+
+</div>
 
 {/if}

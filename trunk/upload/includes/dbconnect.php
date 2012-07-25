@@ -25,6 +25,8 @@
 	$db->charpage   = 'cp_utf8';
 	$db->charset    = 'utf8';
 	
+        $db->SetFetchMode(ADODB_FETCH_ASSOC); 
+        
 	if(!$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME))
 	{
 	    exit($db->ErrorMsg());

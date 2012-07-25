@@ -794,9 +794,10 @@ function dbcount($tbl, $fields = '*', $cond = false) {
         $condition = " Where $cond ";
     $query = "Select Count($fields) From $tbl $condition";
     $result = $db->Execute($query);
+    
     $db->total_queries++;
     $db->total_queries_sql[] = $query;
-    return $result->fields[0];
+    return $result->_numOfRows;
 }
 
 /**
