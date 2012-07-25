@@ -63,7 +63,7 @@ if(video_playable($vdo))
 	}	
 	//Calling Functions When Video Is going to play
 	call_watch_video_function($vdo);
-
+echo json_encode($vdo);
 	subtitle($vdo['title']);
 	
 }else

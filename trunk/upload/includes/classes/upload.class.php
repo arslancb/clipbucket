@@ -524,7 +524,7 @@ class Upload{
 							 'extra_tags' => " $video_user_disable ",
 							 'hint_2'=> lang('specify_video_users'),
 							 'validate_function' => 'video_users',
-							 'use_func_val'=>true
+							 'use_func_val'=> true
 							  ),
 		 'comments'=> array('title'=>lang('comments'),
 							'type'=> 'radiobutton',

@@ -1100,20 +1100,26 @@ function video_users($users)
         global $userquery;
         $users_array = explode(',',$users);
         $new_users = array();
+        
+        if($users_array)
         foreach($users_array as $user)
         {
-                if($user!=username() && !is_numeric($user) && $userquery->user_exists($user))
-                {
-                        $new_users[] = $user;
-                }
+            if($user!=username() && !is_numeric($user) && $userquery->user_exists($user)
+                    && $user)
+            {
+                    $new_users[] = $user;
+            }
         }
-
+        
         $new_users = array_unique($new_users);
 
         if(count($new_users)>0)
+        {
                 return implode(',',$new_users);
-        else
+        }else
+        {
                 return " ";
+        }
 }
 
 /**

@@ -58,6 +58,7 @@
 						e($function_error_msg);
 					elseif(!empty($invalid_err))
 						e($invalid_err);
+                                        
 				}
 				
 				if(!is_valid_syntax($field['syntax_type'],$val))

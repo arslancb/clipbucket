@@ -1,3 +1,79 @@
+<h2>{lang code='Manage members'}</h2>
+Manage your members here, read more about managing members here. {*@todo:Put guide link here*}
+<div class="height10"></div>
+<div class="manager-list">
+    <div class="controller scrolltoFixed white-grad">
+        <div class="buttons">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <label class="btn check-all"><input type="checkbox"></label>
+                </div>
+                <div class="btn-group ">
+                    <a class="btn" onclick="return false;">Activate</a>
+                    <a class="btn" onclick="return false;">Deactivate</a>
+                    <a class="btn dropdown-toggle" data-toggle="dropdown">More options <i class="caret"></i></a>
+                    
+                    <ul class="dropdown-menu pull-right">
+                        <li><a href="#">Make Featured</a></li>
+                        <li><a href="#">Un-feature</a></li>
+                        <li><a href="#">Ban</a></li>
+                        <li><a href="#">Remove ban</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Delete</a></li>
+                    </ul>
+                    
+                </div>
+            </div>
+
+            <div class="right-button">
+                <form>
+                    <input class="input valignTop" name="title" value="{'title'|get}">
+                    <button class="btn btn-primary" name="search" value="do">
+                        <i class="icon-search icon-white"></i>
+                        Search
+                    </button>
+                    <a class="btn" data-toggle="modal" data-target="#advance-search-modal">Advance Search</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <form name="manage-members-form" method="post" id="manage-members-form">
+
+    <table id="manage-members-list" class="table table-striped list-block {if !$profiles}display-none{/if}">
+        <thead>
+            <tr>
+                <th width="50"></th>
+                <th width="70">#</th>
+                <th width="70">Order</th>
+                <th>Name</th>
+                <th width="70">Active</th>
+                <th width="200">More Options</th>
+                <th width="120"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+    	{* Start Loop Here *}
+
+            <tr>
+            	<td><input type="checkbox" class="check-item" name="my-items-list[]" value="value"></td>
+                <td>ID</td>
+                <td><input type="text" value="1" name="item_order[item_id]"
+                class="input-order"/></td>
+                <td>Name</td>
+                <td>Status etc</td>
+                <td>More etc</td>
+                <td>Actions or buttons</td>
+            </tr>
+        {* End Loop Here *}
+        </tbody>
+    </table>
+    </form>  
+
+</div>
+
+
 <span class="page_title">Member Manager</span>
 <img src="{$imageurl}/dot.gif" class="sarch_button" onclick="toggle_search('memsearchdiv')" />
 
@@ -186,14 +262,3 @@
 
 <!-- DIsplaying Videos Ends-->
 {include file="$style_dir/blocks/pagination.html" }
-<div class="controller scrolltoFixedBottom white-grad">
-    <div class="buttons">
-        <div class="btn-group">
-            
-        </div>
-        <div class="right-button">
-            <a class="btn">Awein</a>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-</div>
