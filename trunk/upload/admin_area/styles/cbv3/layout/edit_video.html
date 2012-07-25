@@ -63,7 +63,7 @@ This is a complete list of information that is displayed or used for displaying 
         </div>
 
         <div class="right-button">
-            <button class="btn btn-primary" name="search" value="do">Save</button>
+            <button class="btn btn-primary" onclick="$('#edit-video').submit();">Save</button>
         </div>
     </div>
 </div>
@@ -71,7 +71,8 @@ This is a complete list of information that is displayed or used for displaying 
 
 
 
-<form name="" class="form form-vertical">
+<form name="" class="form form-vertical" id="edit-video" method="post">
+    <input type="hidden" name="update" value="do" />
     <div class="" id="settings-container">
         <div class="settings-block">
 
