@@ -149,6 +149,7 @@ class CBPhotos {
                 $sub_menu =  array(
                     'photos-manager' => array(
                         array('title' => lang('Photo Manager'), 'link' => 'photo_manager.php'),
+                        array('title' => lang('Photo Tags Manager'), 'link' => 'tags_manager.php' ),
                         array('title' => lang('Flagged Photos'), 'link' => 'flagged_photos.php'),
                         array('title' => lang('Orphan Photos'), 'link' => 'orphan_photos.php'),					
                         array('title' => lang('Photo Settings'), 'link' => 'photo_settings.php'),
@@ -2655,6 +2656,11 @@ class CBPhotos {
         return $this->tagger_configs;
     }
 
+    /**
+     * This function loads photo tagger and it's default tags
+     * @global OBJECT $userquery
+     * @return ARRAY 
+     */
     function load_tagging() {
         $args = func_get_args(); $photo = $args[0];
 
@@ -2731,6 +2737,7 @@ class CBPhotos {
                     if ( $tag['ptag_isuser'] == 1 ) {
                         if ( $uid == $tag['ptag_by_userid'] ){ // Tagger is online
                             $ta['canDelete'] = true; // Grant him access to delete
+                           
                             if ( is_array($friends) && $fa[ $tag['ptag_userid'] ] ) {
                                 $ta['link'] = $userquery->profile_link( $tag['ptag_userid'] );
                                 // Person tagged is in his contacts lists and already been tagged, remove it from typahead array
@@ -2739,8 +2746,8 @@ class CBPhotos {
                         } else if ( $uid == $tag['ptag_userid'] ) {
                             if ( is_array($friends) && $fa[ $tag['ptag_by_userid'] ] ) {
                                 $ta['canDelete'] = true;
-                                $ta['link'] = $userquery->profile_link( $tag['ptag_userid'] );
                             }
+                            $ta['link'] = $userquery->profile_link( $tag['ptag_userid'] );
                         }
                     }
 
@@ -2771,6 +2778,13 @@ class CBPhotos {
         }
     }
 
+    /**
+     * Add new tag in photo
+     * @global OBJECT $userquery
+     * @global OBJECT $db
+     * @param ARRAY $array
+     * @return boolean 
+     */
     function add_new_tag ( $array = null ) {
         global $userquery, $db;
         if ( is_null($array) ) {
@@ -2871,21 +2885,150 @@ class CBPhotos {
             }
         }
     }
-
+    
+    /**
+     *
+     * @param ARRAY $params
+     */
+    
+    function get_tags( $params = array() ) {
+        global $db;
+        
+        $limit = $params['limit'];
+        $order = $params['order'];
+        
+        $cond = '';
+        
+        if ( !has_access('admin_access', true) ) {
+            $cond .= tbl('photo_tags.ptag_active')." = 'yes' ";
+        } else {
+            if ( $params['active'] ) {
+                if( $cond ) {
+                    $cond .= " AND ";
+                }
+                $cond .= tbl('photo_tags.ptag_active')." = '".$params['active']."' ";
+            }
+        }
+        
+        if ( $params['id'] ) {
+            if ( $cond ) {
+                $cond .= " AND ";
+            }
+            $cond .= tbl('photo_tags.ptag_id')." = '".$params['id']."' ";
+        }
+        
+        if ( $params['pid'] ) {
+            if ( $cond ) {
+                $cond .= " AND ";
+            }
+            $cond .= tbl('photo_tags.photo_id')." = '".$params['pid']."' ";
+        }
+        
+        if ( $params['tag'] ) {
+            if ( $cond ) {
+                $cond .= " AND ";
+            }
+            $cond .= '( '.tbl('photo_tags.ptag_name').' LIKE \'%'.$params['tag'].'%\' || '.tbl('photo_tags.ptag_username').' LIKE \'%'.$params['tag'].'%\' )';
+        }
+        
+        if ( $params['tagger'] ) {
+            if ( $cond ) {
+                $cond .= " AND ";
+            }
+            $cond .= tbl('photo_tags.ptag_by_userid')." = '".$params['tagger']."' ";
+        }
+        
+        if ( $params['tagged'] ) {
+            if ( $cond ) {
+                $cond .= " AND ";
+            }
+            $cond .= tbl('photo_tags.ptag_userid')." = '".$params['tagged']."' ";
+        }
+        
+        if ( $params['user_tagged_only'] ) {
+            if ( $cond ) {
+                $cond .= " AND ";
+            }
+            $cond .= tbl("photo_tags.ptag_isuser = '1'");
+        }
+        
+        if ( $params['join_photos'] ) {
+            $join = " LEFT JOIN ".tbl('photos')." ON ".tbl('photo_tags.photo_id')." = ".tbl('photos.photo_id')." ";
+            $alias = ", ".tbl('photos.*,photo_tags.date_added as date_added,photos.date_added as pdate_added');
+        }
+        
+        if ( $params['extra'] ) {
+            if ( $cond ) {
+                $cond .= " AND ";
+            }
+            $cond .= $params['extra'];
+        }
+        
+        if ( $params['count_only'] ) {
+            $results = $db->count( tbl('photo_tags'),'ptag_id', $cond );
+        }
+        
+        if ( !$params['count_only'] ) {
+            $results = $db->select( tbl('photo_tags').$join,tbl('photo_tags.*').$alias,$cond, $limit, $order );
+        }
+        
+        
+        
+        if ( $results ) {
+            if ( $params['assign'] ) {
+                assign( $params['assign'], $results );
+            } else {
+                return $results;  
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * This will get tags of provided photo id
+     * 
+     * @global OBJECT $db
+     * @param INT $photo Photo ID
+     * @param INT $limit Limit of number of results from DB
+     * @param STRING $cond Any other extra condition
+     * @param STRING $order Order of results
+     * @return MIX 
+     */
     function get_photo_tags( $photo, $limit=null, $cond=null, $order='date_added ASC' ) {
         global $db;
-        if ( !is_null($cond) ) {
-            $cond = ' AND '.$cond;
-        }
+        
+        if ( is_array ($photo) ) {
+            $params = $photo;
+        } else {
+            $params['pid'] = $photo;
+            $params['limit'] = $limit;
+            $params['order'] = $order;
 
-        $results = $db->select( tbl('photo_tags'),'*', " photo_id = '".$photo."' ".$cond." ", $limit, $order );
+            if ( !is_null($cond) ) {
+                $params['extra'] = $cond;
+            }
+        }
+        
+        $results = $this->get_tags($params);
+        
+        //$results = $db->select( tbl('photo_tags'),'*', " photo_id = '".$photo."' ".$cond." ", $limit, $order );
         if ( $results ) {
             return $results;
         } else {
             return false;
         }
     }
-
+    
+    /**
+     * This function will be create 32 characters long hash for tag string.
+     * It will remove everything expect alphanumeric characters. If tag is
+     * user and is friend of tagger, it will add it's userid to make it unique for
+     * that user.
+     * @param STRING $tag
+     * @param INT $uid
+     * @return STRING 
+     */
     function create_tag_hash( $tag, $uid=null ) {
         $tag = mb_strtolower($tag);
         $tag = preg_replace('/[^a-z0-9]/','', $tag);
@@ -2897,6 +3040,14 @@ class CBPhotos {
         }
     }
 
+    /**
+     * Get tag from it's id
+     * @global OBJECT $db
+     * @param INT $tag_id
+     * @param INT $pid
+     * @param STRING $cond
+     * @return MIX 
+     */
     function get_tag_with_id ( $tag_id, $pid =null, $cond = null ) {
         global $db; $condition = '';
         if ( !is_null($pid) ) {
@@ -2915,18 +3066,25 @@ class CBPhotos {
         }
     }
 
-    function remove_photo_tag ( $tag ) {
+    /**
+     * Remove photo tag
+     * @global OBJECT $db
+     * @global OBJECT $userquery
+     * @param INT $tag
+     * @return boolean 
+     */
+    function remove_photo_tag ( $tag_id ) {
         global $db, $userquery;
         $uid = $userquery->userid;
         if ( empty($uid)) {
             e(lang('login_to_remove_tag'));
             return false;
         }
-
-        if ( !is_array($tag) ) {
-            $tag = $this->get_tag_with_id( $tag );
+        
+        if ( !is_array($tag_id) ) {
+            $tag = $this->get_tag_with_id( $tag_id );
         } else {
-            $tag =$tag;
+            $tag =$tag_id;
         }
 
         /* if tag is empty return */
@@ -2935,22 +3093,22 @@ class CBPhotos {
             return false;
         }
 
-        /* if user is not photo owner or tagger or tagged */
-        if ( $uid != $tag['photo_owner_userid'] && $uid != $tag['ptag_by_userid'] && $tag['ptag_isuser'] == false ) {
+        /* if user is not photo owner or tagger or tagged or does not have admin access */
+        if ( ( $uid != $tag['photo_owner_userid'] && $uid != $tag['ptag_by_userid'] && $uid != $tag['ptag_userid'] ) && !has_access( 'admin_access', true ) ) {
             e(lang('cant_remove_tag_1'));
             return false;
         }
-
+        
         /* if tagged is user, make sure tag hash matches */
         if ( $tag['ptag_isuser'] == true ) {
-            if ( $uid == $tag['ptag_userid'] ) {
-                if ( $this->create_tag_hash( $tag['ptag_username'], $tag['ptag_userid'] ) != $tag['ptag_key'] ) {
+            if ( $uid != $tag['ptag_userid'] && !has_access('admin_access',true) ) {
+                {
                     e(lang('cant_remove_tag_2'));
                     return false;
                 }
             }
         }
-
+        
         /* Deletion Good TO GO */
         $db->delete( tbl('photo_tags'), array('ptag_id'), array($tag['ptag_id']) );
 

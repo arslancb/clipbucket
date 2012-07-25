@@ -33,7 +33,44 @@ if ( isset($_GET['view']) ) {
         case "tags": case "ptags": {
             assign('view','tags');
             
-            $tags = $cbphoto->get_photo_tags( $id );
+            if ( isset($_GET['delete_tag']) ) {
+                $tag_id = mysql_clean( $_GET['delete_tag'] );
+                if ( $cbphoto->remove_photo_tag( $tag_id ) ) {
+                    e(lang('Photo tag has been deleted successfully'),'m');
+                }
+            }
+            
+            $action = mysql_clean( $_POST['action'] );
+
+            switch( $action ) {
+                case 'delete_selected': {
+                    $tags = $_POST['check_tag'];
+                    $total_tags = count( $tags );
+                    foreach( $tags as $tag_id ) {
+                        $tag_id = mysql_clean($tag_id);
+                        $cbphoto->remove_photo_tag( $tag_id );
+                    }
+                    $eh->flush_msg();
+                    e( lang('Selected photo tags have been deleted successfully'), 'm' );
+                } break;
+            }            
+
+            $array = array();
+            $array['pid'] = $id;
+            if( isset($_GET['search']) ) {
+                $array['tag'] = $_GET['tag'];
+                $array['order'] = $_GET['order'];
+                $array['tagger'] = $_GET['tagger'];
+                $array['tagged'] = $_GET['tagged'];
+                $array['orderby'] = $_GET['orderby'];
+                $array['user_tagged_only'] = $_GET['only_user'];
+            }
+
+            $array['order'] = $array['order'] ? $array['order'] : 'date_added';
+            $array['orderby'] = $array['orderby'] ? $array['orderby'] : 'desc';
+            $array['order'] = tbl('photo_tags.'.$array['order'].' '.$array['orderby']);
+            
+            $tags = $cbphoto->get_photo_tags( $array );
             if ( $tags ) {
                 assign('tags',$tags);
             }

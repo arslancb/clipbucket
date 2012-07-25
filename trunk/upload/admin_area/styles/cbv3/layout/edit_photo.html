@@ -3,6 +3,74 @@
     {if $view == 'tags'}
         <h2>Photo Tags</h2>
         <p>Complete list of tags for current photo</p>
+        
+        <div id="photo-tags-advance-search" class="modal hide fade">
+            <div class="modal-header">
+                <h3>Advance Search</h3>
+            </div>
+
+            <div class="modal-body">
+                <form id="search-photo-tags-form" name="search-photo-tags-form" class="form-horizontal" method="get" action="">
+                    <input type="hidden" name="search" value="do" />
+                    <input type="hidden" value="{$smarty.get.photo}" name="photo" />
+                    <input type="hidden" name="view" value="tags" /> 
+                    <div class="control-group">
+                        <label class="control-label" for="tag">Tag</label>
+                        <div class="controls">
+                            <input type="text" class="input input-xlarge" id="tag" name="tag" value="{'tag'|get_form_val:true}">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="tagged">Tagged</label>
+                        <div class="controls">
+                            <input type="text" class="input input-xlarge" id="tagged" name="tagged" value="{'tagged'|get_form_val:true}">
+                            <p class="help-block">If you are looking for certain user's photos in which it has been tagged, provide it's userid and empty <label for="tag" class="inline"><code>Tag</code></label> Field</p>
+                        </div>
+                    </div>            
+
+                    <div class="control-group">
+                        <label class="control-label" for="tagger">Tagged By</label>
+                        <div class="controls">
+                            <input type="text" class="input input-xlarge" id="tagger" name="tagger" value="{'tagger'|get_form_val:true}">
+                            <p class="help-block">userid of user who has tagged the photos.</p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="only_user">Only User Tags</label>
+                        <div class="controls">
+                            <input type="checkbox" id="only_user" name="only_user" value="true"{if $smarty.get.only_user == 'true'} checked="checked"{/if}>
+                            <p class="help-block">Only include tags that are users from database</p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="tagger">Order By</label>
+                        <div class="controls">
+                            <select name="order" id="order">
+                                <option value="date_added"{if $smarty.get.order=='date_added'} selected="selected"{/if}>Date</option>
+                                <option value="ptag_id"{if $smarty.get.order == 'ptag_id'} selected="selected"{/if}>ID</option>
+                                <option value="ptag_username"{if $smarty.get.order=='ptag_username'} selected="selected"{/if}>Tag</option>
+                            </select>
+
+                            <select name="orderby" id="orderby" class="span1">
+                                <option value="asc"{if $smarty.get.orderby=='asc'} selected="selected"{/if} title="Ascending">asc</option>
+                                <option value="desc"{if $smarty.get.orderby == 'desc' || !$smarty.get.orderby} selected="selected"{/if} title="Descending">desc</option>
+                            </select>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <a href="javascript:void(0)" class="btn" data-dismiss="modal">Cancel</a>
+                <input type="button" class="btn btn-primary" name="search" value="Search" onclick="$('#search-photo-tags-form').submit();" />
+            </div>
+        </div>
+        
         <div class="manager-list">
             <div class="controller scrtolltoFixed white-grad">
                 <div class="buttons clearfix">
@@ -10,55 +78,72 @@
                         <div class="btn-group">
                             <label class="btn check-all"><input type="checkbox"></label>
                         </div>
-                        
                         <div class="btn-group">
-                            <a href="#" class="btn btn-danger">Delete</a>
+                             <a href="edit_photo.php?photo={$photo.photo_id}" class="btn">Back to details</a>
+                        </div>
+                        <div class="btn-group">
+                            <a href="#" class="btn btn-danger" onclick="cb_confirm('{lang code="Delete Tags"}','{lang code="Are you sure you want to delete selected photo tags ?"}', function(){
+                                $('#do-action').val('delete_selected'); $('#tags_manager_form').submit();
+                            }); return false;">Delete</a>
                         </div>
                     </div>
                     <div class="right-button">
-                        <a href="edit_photo.php?photo={$photo.photo_id}" class="btn btn-primary">Back to details</a>
+                        <form action="" method="get" id="photo-tags-quick-search">
+                            <input type="hidden" value="{$smarty.get.photo}" name="photo" />
+                            <input type="hidden" name="view" value="tags" />
+                            <input class="input valignTop" name="tag" value="{'tag'|get}">
+                            <button class="btn btn-primary" name="search" value="do" type="submit">
+                            <i class="icon-search icon-white"></i>
+                                Search
+                            </button>
+                            <a href="#" data-target="#photo-tags-advance-search" data-toggle="modal" class="btn">Advance Search</a>
+                        </form>
+                       
                     </div>
                 </div>
             </div>
             
-            <table id="photo_manager_table" class="table table-striped list-block {if !$tags}display-none{/if}">
-                <thead>
-                    <tr>
-                        <th width="50"></th>
-                        <th width="70">#</th>
-                        <th>Tag Hash <span class="icon-info-sign popover-class" rel="popover" title="What is Tag Hash ?" data-content="Tag Hash is unique identifier for tag string. This helps in keeping tags unique for current photo."></span></th>
-                        <th width="150">Tag</th>
-                        <th width="150">Tagged By</th>
-                        <th width="150">Date</th>
-                        <th width="120"></th>
-                    </tr>
-                </thead>
-                
-                {if $tags}
-                    {foreach $tags as $tag}
-                    <tr>
-                        <td><input type="checkbox" class="check-item" name="check_tag[]" value="{$tag.pag_id}" /></td>
-                        <td>{$tag.ptag_id}</td>
-                        <td>{$tag.ptag_key}</td>
-                        <td>
-                            {if $tag.ptag_isuser}
-                                <a href="view_user.php?uid={$tag.ptag_userid}">{$tag.ptag_username}</a>
-                            {else}
-                                {$tag.ptag_username}
-                            {/if}
-                        </td>
-                        <td><a href="view_user.php?uid={$tag.ptag_by_userid}">{$tag.ptag_by_username}</a></td>
-                        <td>{$tag.date_added|niceTime:true}</td>
-                        <td><a href="#" onclick="cb_confirm('Remove Tag','Are you sure you want to remove this tag ?', function(){
-                            window.location = '?photo={$tag.photo_id}&view=tags&delete_tag={$tag.ptag_id}'; 
-                        }); return false;" class="btn btn-mini">Remove Tag</a></td>
-                    </tr>
-                    {/foreach}
-                {/if}
-            </table>
+            <form id="tags_manager_form" method="post" name="tags_manager_form">
+                <input type="hidden" name="action" id="do-action" value="" />
+                <table id="photo_manager_table" class="table table-striped list-block {if !$tags}display-none{/if}">
+                    <thead>
+                        <tr>
+                            <th width="50"></th>
+                            <th width="70">#</th>
+                            <th>Tag Hash <span class="icon-info-sign popover-class" rel="popover" title="What is Tag Hash ?" data-content="Tag Hash is unique identifier for tag string. This helps in keeping tags unique for current photo."></span></th>
+                            <th width="150">Tag</th>
+                            <th width="150">Tagged By</th>
+                            <th width="150">Date</th>
+                            <th width="120"></th>
+                        </tr>
+                    </thead>
+
+                    {if $tags}
+                        {foreach $tags as $tag}
+                        <tr>
+                            <td><input type="checkbox" class="check-item" name="check_tag[]" value="{$tag.ptag_id}" /></td>
+                            <td>{$tag.ptag_id}</td>
+                            <td>{$tag.ptag_key}</td>
+                            <td>
+                                {if $tag.ptag_isuser}
+                                    <a href="view_user.php?uid={$tag.ptag_userid}">{$tag.ptag_username}</a>
+                                {else}
+                                    {$tag.ptag_username}
+                                {/if}
+                            </td>
+                            <td><a href="view_user.php?uid={$tag.ptag_by_userid}">{$tag.ptag_by_username}</a></td>
+                            <td>{$tag.date_added|niceTime:true}</td>
+                            <td><a href="#" onclick="cb_confirm('Delete Tag','Are you sure you want to delete this tag ?', function(){
+                                window.location = '?photo={$tag.photo_id}&view=tags&delete_tag={$tag.ptag_id}'; 
+                            }); return false;" class="btn btn-small">Delete Tag</a></td>
+                        </tr>
+                        {/foreach}
+                    {/if}
+                </table>
+            </form>
             
             {if !$tags}
-                <div class="alert">This photo has no tags ..</div>
+                {if $smarty.get.search == 'do'}<div class="alert">No tags found for current criteria</div>{else}<div class="alert">This photo has no tags ..</div>{/if}
             {/if}
         </div>
     {/if}

@@ -437,7 +437,7 @@ function cbphoto_pm_action_link_filter( $links ) {
 	}
 	
 	/* Later we uncomment this, BAM something new to give >:D */
-	$links[] = add_photo_action_link( lang('View Colors'),'#','tasks', null, array('onclick' => 'show_colors(event)', 'data-photo-id' => $photo['photo_id']) );
+	//$links[] = add_photo_action_link( lang('View Colors'),'#','tasks', null, array('onclick' => 'show_colors(event)', 'data-photo-id' => $photo['photo_id']) );
 	
     return $links;
 }
@@ -629,7 +629,7 @@ function load_tagging() {
 	$autoComplete = $options['autoComplete'];
 	$uid = userid();
 	
-	if ( ($autoComplete) == 1 && $uid ) {
+	if ( $uid ) {
 		$friends = $userquery->get_contacts( $uid, 0, 'yes');
 	}
 	
@@ -690,6 +690,10 @@ function load_tagging() {
 						$ta['link'] = $userquery->profile_link( $tag['ptag_userid'] );
 					}
 				}
+        
+                    if ( $tag['ptag_userid'] == $tag['ptag_by_userid'] ) {
+                        $ta['link'] = $userquery->profile_link( $tag['ptag_userid'] );
+                    }
 			}
 
 			$defaultTags[] = $ta;
