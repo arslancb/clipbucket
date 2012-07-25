@@ -46,12 +46,16 @@ if ( isset($_GET['view']) ) {
                 case 'delete_selected': {
                     $tags = $_POST['check_tag'];
                     $total_tags = count( $tags );
-                    foreach( $tags as $tag_id ) {
-                        $tag_id = mysql_clean($tag_id);
-                        $cbphoto->remove_photo_tag( $tag_id );
+                    if ( $total_tags > 0 ) {
+                        foreach( $tags as $tag_id ) {
+                            $tag_id = mysql_clean($tag_id);
+                            $cbphoto->remove_photo_tag( $tag_id );
+                        }
+                         $eh->flush_msg();
+                        e( lang('Selected photo tags have been deleted successfully'), 'm' );
+                    } else {
+                        e( lang('Please select tags you want to delete') );
                     }
-                    $eh->flush_msg();
-                    e( lang('Selected photo tags have been deleted successfully'), 'm' );
                 } break;
             }            
 

@@ -31,6 +31,44 @@ if(isset($_POST['delete_selected']))
 	e("Selected photos have been deleted","m");
 }
 
+//Activate
+if(isset($_GET['activate']))
+{
+	$id = mysql_clean($_GET['activate']);
+	$cbphoto->photo_actions('activation',$id);	
+}
+
+//Deactivate
+if(isset($_GET['deactivate']))
+{
+	$id = mysql_clean($_GET['deactivate']);
+	$cbphoto->photo_actions('deactivation',$id);	
+}
+
+//Multi-Active
+if(isset($_POST['deactivate_selected']))
+{
+	$total = count($_POST['check_photo']);
+	for($i=0;$i<$total;$i++)
+	{
+		$cbphoto->photo_actions('deactivation',$_POST['check_photo'][$i]);	
+	}
+	$eh->flush();
+	e($total." photos has been deactivated","m");
+}
+
+//Multi-Deactive
+if(isset($_POST['activate_selected']))
+{
+	$total = count($_POST['check_photo']);
+	for($i=0;$i<$total;$i++)
+	{
+		$cbphoto->photo_actions('activation',$_POST['check_photo'][$i]);	
+	}
+	$eh->flush();
+	e($total." photos has been activated","m");
+}
+
 if(isset($_REQUEST['delete_flags']))
 {
 	$photo = mysql_clean($_GET['delete_flags']);

@@ -43,6 +43,10 @@ switch ($mode) {
 				if ( $tag['ptag_isuser'] == 1 && $tag['ptag_isfriend'] == 1 ) {
 					$clean_post['link'] = $userquery->profile_link( $tag['ptag_userid'] ) ;
 				}
+        
+                    if ( $tag['ptag_by_userid'] == $tag['ptag_userid'] && $tag['ptag_userid'] == userid() ) {
+                        $clean_post['link'] = $userquery->profile_link( $tag['ptag_userid'] );
+                    }
 				echo json_encode( $clean_post );
 			} else {
 				$msg = error_list();

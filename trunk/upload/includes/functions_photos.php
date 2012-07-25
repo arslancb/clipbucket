@@ -690,8 +690,12 @@ function load_tagging() {
 						$ta['link'] = $userquery->profile_link( $tag['ptag_userid'] );
 					}
 				}
-        
-                    if ( $tag['ptag_userid'] == $tag['ptag_by_userid'] ) {
+                    
+                    /* This basically checks, if tagger and tagged and logged-in user are same 
+                     * create the profile link for logged-in user. This will be achieved if user tags
+                     * itself on a photo
+                     */
+                    if ( $tag['ptag_by_userid'] == $tag['ptag_userid'] && $tag['ptag_userid'] == $uid ) {
                         $ta['link'] = $userquery->profile_link( $tag['ptag_userid'] );
                     }
 			}
