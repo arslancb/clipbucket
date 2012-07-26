@@ -25,7 +25,16 @@ switch($mode)
         
         $videos = $cbvid->get_videos($request);
         
-        echo json_encode($videos);
+        $new_videos = array();
+        if($videos)
+            foreach($videos as $video)
+            {
+                $video['thumbs'] = array('default'=>THUMBS_URL.'/default.jpg');
+                $new_videos[] = $video;
+            }
+            
+        
+        echo json_encode($new_videos);
     }
 }
 
