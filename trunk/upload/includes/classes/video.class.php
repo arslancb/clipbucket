@@ -393,6 +393,7 @@ class CBvideo extends CBCategory
                                 }
                                 
 				$db->update(tbl('video'),$query_field,$query_val," videoid='$vid'");
+                                
 				//echo $db->db_query;
 
 				e(lang("class_vdo_update_msg"),'m');
