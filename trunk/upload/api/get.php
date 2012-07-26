@@ -9,7 +9,9 @@
 
 include('../includes/config.inc.php');
 
-$mode = $_POST['mode'];
+$request = $_REQUEST;
+$mode = $request['mode'];
+
 $max_video_limit = 20;
 
 switch($mode)
@@ -18,10 +20,10 @@ switch($mode)
     case "get_videos":
     default:
     {
-        if($_POST['limit'] > $max_video_limit || !$_POST['limit'])
-            $_POST['limit'] = $max_video_limit;
+        if($request['limit'] > $max_video_limit || !$request['limit'])
+            $request['limit'] = $max_video_limit;
         
-        $videos = $cbvid->get_videos($_POST);
+        $videos = $cbvid->get_videos($request);
         
         echo json_encode($videos);
     }
