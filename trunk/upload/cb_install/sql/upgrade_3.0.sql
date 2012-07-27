@@ -117,3 +117,11 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_files` (
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`file_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- 7-26-2012
+ALTER TABLE  `{tbl_prefix}users` CHANGE  `featured`  `featured` ENUM(  'no',  'yes' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'no';
+ALTER TABLE  `{tbl_prefix}users` CHANGE  `usr_status`  `status` ENUM(  'Ok',  'ToActivate' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'ToActivate';
+ALTER TABLE  `{tbl_prefix}users` CHANGE  `status`  `status` ENUM(  'Ok',  'ToActivate',  'verified',  'unverified' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'unverified';
+UPDATE {tbl_prefix}users SET status='verified' WHERE status='Ok';
+UPDATE {tbl_prefix}users SET status='unverified' WHERE status='ToActivate';
+ALTER TABLE  `{tbl_prefix}users` CHANGE  `status`  `status` ENUM(  'verified',  'unverified' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'unverified';

@@ -13,6 +13,8 @@ $userquery->login_check('member_moderation');
 $pages->page_redir();
 
 
+$mode = $_POST['mode'];
+
 //Delete User
 if(isset($_GET['deleteuser'])){
 	$deleteuser = mysql_clean($_GET['deleteuser']);
@@ -20,7 +22,7 @@ if(isset($_GET['deleteuser'])){
 }
 
 //Deleting Multiple Videos
-if(isset($_POST['delete_selected'])){
+if($mode=='delete'){
 	for($id=0;$id<=count($_POST['check_user']);$id++)
 		$userquery->delete_user($_POST['check_user'][$id]);
 	$eh->flush();
@@ -39,14 +41,14 @@ if(isset($_GET['deactivate'])){
 }
 
 //Using Multple Action
-if(isset($_POST['activate_selected'])){
+if($mode=='activate'){
 	for($id=0;$id<=count($_POST['check_user']);$id++){
 		$userquery->action('activate',$_POST['check_user'][$id]);
 	}
 	$eh->flush();
 	e("Selected users have been activated","m");
 }
-if(isset($_POST['deactivate_selected'])){
+if($mode=='deactivate'){
 	for($id=0;$id<=count($_POST['check_user']);$id++){
 		$userquery->action('deactivate',$_POST['check_user'][$id]);
 	}
@@ -65,14 +67,14 @@ if(isset($_GET['unfeatured'])){
 	$userquery->action('unfeatured',$user);
 }
 //Using Multple Action
-if(isset($_POST['make_featured_selected'])){
+if($mode=='featured'){
 	for($id=0;$id<=count($_POST['check_user']);$id++){
 		$userquery->action('featured',$_POST['check_user'][$id]);
 	}
 	$eh->flush();
 	e("Selected users have been set as featured","m");
 }
-if(isset($_POST['make_unfeatured_selected'])){
+if($mode=='unfeature'){
 	for($id=0;$id<=count($_POST['check_user']);$id++){
 		$userquery->action('unfeatured',$_POST['check_user'][$id]);
 	}
@@ -92,7 +94,7 @@ if(isset($_GET['unban'])){
 }
 
 //Using Multple Action
-if(isset($_POST['ban_selected'])){
+if($mode=='ban'){
 	for($id=0;$id<=count($_POST['check_user']);$id++){
 		$userquery->action('ban',$_POST['check_user'][$id]);
 	}
@@ -100,7 +102,7 @@ if(isset($_POST['ban_selected'])){
 	e("Selected users have been banned","m");
 }
 
-if(isset($_POST['unban_selected'])){
+if($mode=='unban'){
 	for($id=0;$id<=count($_POST['check_user']);$id++){
 		$userquery->action('unban',$_POST['check_user'][$id]);
 	}
@@ -123,9 +125,9 @@ if(isset($_POST['unban_selected'])){
 		(
 		 'userid' 	=> $_GET['userid'],
 		 'username'	=> $_GET['username'],
-		 'category' => $_GET['category'],
-		 'featured' => $_GET['featured'],
-		 'ban'		=> $_GET['ban'],
+		 'category'     => $_GET['category'],
+		 'featured'     => $_GET['search_featured'],
+		 'ban'		=> $_GET['search_ban'],
 		 'status'	=> $_GET['status'],
 		 'email'	=> $_GET['email'],
 		 'gender'	=> $_GET['gender'],
@@ -164,7 +166,9 @@ if(isset($_POST['unban_selected'])){
 	$cat_array =	array(lang('vdo_cat'),
 					'type'=> 'checkbox',
 					'name'=> 'category[]',
+                                        'sep'   => '<div></div>',
 					'id'=> 'category',
+                                        'class' => 'checkbox',
 					'value'=> array('category',$cats_array),
 					'hint_1'=>  lang('vdo_cat_msg'),
 					'display_function' => 'convert_to_categories',

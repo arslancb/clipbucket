@@ -10,6 +10,8 @@
 **************************
 
 Notice : Maintain this section
+ * 
+ * @todo : Write SQL query to change ToActivate => inactive and Ok => active in users table
 */
  
 define('NO_AVATAR','no_avatar.png'); //if there is no avatar or profile pic, this file will be used
@@ -195,7 +197,7 @@ class userquery extends CBCategory{
 			$msg[] = e(lang('user_doesnt_exist'));
 		elseif(!$udetails)
 			$msg[] = e(lang('usr_login_err'));
-		elseif(strtolower($udetails['usr_status']) != 'ok')
+		elseif(strtolower($udetails['status']) != 'verified')
 			$msg[] = e(lang('user_inactive_msg'));
 		elseif($udetails['ban_status'] == 'yes')
 			$msg[] = e(lang('usr_ban_err'));
@@ -412,7 +414,7 @@ class userquery extends CBCategory{
 	{
 		global $db;
 		$results = $db->select(tbl("users"),
-							   "userid,email,level,usr_status,user_session_key,user_session_code",
+							   "userid,email,level,status,user_session_key,user_session_code",
 							   "(username='$username' OR userid='$username') AND password='$pass'");
 		if($db->num_rows > 0)
 		{
@@ -668,7 +670,7 @@ class userquery extends CBCategory{
 		$data = $this->get_user_details($user);
 		if(!$data  || !$user)
 			e(lang("usr_exist_err"));
-		elseif($data['usr_status']=='Ok')
+		elseif($data['status']=='verified')
 			e(lang('usr_activation_err'));
 		elseif($data['ban_status']=='yes')
 			e(lang('ban_status'));
@@ -698,7 +700,7 @@ class userquery extends CBCategory{
 		
 		if(!$udetails || !$email)
 			e(lang("usr_exist_err"));
-		elseif($udetails['usr_status']=='Ok')
+		elseif($udetails['status']=='verified')
 			e(lang('usr_activation_err'));
 		elseif($udetails['ban_status']=='yes')
 			e(lang('ban_status'));
@@ -3267,21 +3269,21 @@ class userquery extends CBCategory{
 			
 			// Setting Verification type
 			if(EMAIL_VERIFICATION == '1'){
-				$usr_status = 'ToActivate';
+				$status = 'unverified';
 				$welcome_email = 'no';
 			}else{
-				$usr_status = 'Ok';
+				$status = 'verified';
 				$welcome_email = 'yes';
 			}
 			
 			if(has_access('admin_access',true))
 			{
-				if($array['active']=='Ok')
+				if($array['active']=='verified')
 				{
-					$usr_status = 'Ok';
+					$status = 'verified';
 					$welcome_email = 'yes';
 				}else{
-					$usr_status = 'ToActivate';
+					$status = 'unverified';
 					$welcome_email = 'no';
 				}
 				
@@ -3289,8 +3291,8 @@ class userquery extends CBCategory{
 				$query_val[] = $array['level'];
 			}
 
-			$query_field[] = "usr_status";
-			$query_val[] = $usr_status;
+			$query_field[] = "status";
+			$query_val[] = $status;
 
 			$query_field[] = "	welcome_email_sent";
 			$query_val[] = $welcome_email;
@@ -3475,7 +3477,7 @@ class userquery extends CBCategory{
 		
 		$cond = "";
 		if(!has_access('admin_access',TRUE) && !$force_admin)
-			$cond .= " 	usr_status='Ok' AND ban_status ='no' ";
+			$cond .= " 	status='verified' AND ban_status ='no' ";
 		else
 		{
 			if($params['ban'])
@@ -3485,7 +3487,7 @@ class userquery extends CBCategory{
 			{
 				if($cond!='')
 					$cond .=" AND ";
-				$cond .= " 	usr_status='".$params['status']."'";
+				$cond .= " 	status='".$params['status']."'";
 			}
 
 		}
@@ -3662,6 +3664,7 @@ class userquery extends CBCategory{
 	
 	/**
 	 * Function used to perform several actions with a video
+         * @todo : Add Active/Deactive Field and make it work
 	 */
 	function action($case,$uid)
 	{
@@ -3678,7 +3681,7 @@ class userquery extends CBCategory{
 			case 'a':
 			{
 				$avcode = RandomString(10);
-				$db->update($tbl,array('usr_status','avcode'),array('Ok',$avcode)," userid='$uid' ");
+				$db->update($tbl,array('status','avcode'),array('verified',$avcode)," userid='$uid' ");
 				e(lang("User has been activated"),'m');
 			}
 			break;
@@ -3689,7 +3692,7 @@ class userquery extends CBCategory{
 			case "d":
 			{
 				$avcode = RandomString(10);
-				$db->update($tbl,array('usr_status','avcode'),array('ToActivate',$avcode)," userid='$uid' ");
+				$db->update($tbl,array('status','avcode'),array('unverified',$avcode)," userid='$uid' ");
 				e(lang("User has been deactivated"),'m');
 			}
 			break;
@@ -3920,7 +3923,7 @@ class userquery extends CBCategory{
 					$msg[] = e(lang('user_doesnt_exist'));
 				elseif(!$udetails)
 					$msg[] = e(lang('usr_login_err'));
-				elseif(strtolower($udetails['usr_status']) != 'ok')
+				elseif(strtolower($udetails['status']) != 'verified')
 					$msg[] = e(lang('user_inactive_msg'));
 				elseif($udetails['ban_status'] == 'yes')
 					$msg[] = e(lang('usr_ban_err'));
@@ -4052,7 +4055,7 @@ class userquery extends CBCategory{
 			return $uid;
 		else
 		{
-			$result = $db->select(tbl("users"),"userid"," level='6' AND usr_status='ToActivate' ","1");
+			$result = $db->select(tbl("users"),"userid"," level='6' AND status='unverified' ","1");
 			if($result[0]['userid'])
 				return $result[0]['userid'];
 			else

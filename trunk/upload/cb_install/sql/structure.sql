@@ -1193,3 +1193,8 @@ ALTER TABLE  `{tbl_prefix}photos` ADD  `is_mature` enum('yes','no') NOT NULL DEF
 ALTER TABLE  `{tbl_prefix}photos` ADD  `view_exif` enum('yes','no') NOT NULL DEFAULT 'yes' AFTER  `is_mature`;
 
 ALTER TABLE  `{tbl_prefix}users` ADD  `avatar_collection` bigint(255) NOT NULL AFTER  `avatar_url`;
+
+-- 7-26-2012
+ALTER TABLE  `{tbl_prefix}users` CHANGE  `featured`  `featured` ENUM(  'no',  'yes' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'no';
+ALTER TABLE  `{tbl_prefix}users` CHANGE  `usr_status`  `status` ENUM(  'Ok',  'ToActivate' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'ToActivate';
+ALTER TABLE  `{tbl_prefix}users` CHANGE  `status`  `status` ENUM(  'verified',  'unverified' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'unverified';

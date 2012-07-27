@@ -9,25 +9,34 @@ Manage your members here, read more about managing members here. {*@todo:Put gui
                     <label class="btn check-all"><input type="checkbox"></label>
                 </div>
                 <div class="btn-group ">
-                    <a class="btn" onclick="return false;">Activate</a>
-                    <a class="btn" onclick="return false;">Deactivate</a>
+                   <a class="btn" onclick="$('#mode').val('activate');
+                        $('#manage-members-form').submit();">Activate</a>
+                       <a class="btn" onclick="$('#mode').val('deactivate');
+                        $('#manage-members-form').submit();">Deactivate</a>
                     <a class="btn dropdown-toggle" data-toggle="dropdown">More options <i class="caret"></i></a>
-                    
+
                     <ul class="dropdown-menu pull-right">
-                        <li><a href="#">Make Featured</a></li>
-                        <li><a href="#">Un-feature</a></li>
-                        <li><a href="#">Ban</a></li>
-                        <li><a href="#">Remove ban</a></li>
+                           <li><a onclick="$('#mode').val('featured');
+                            $('#manage-members-form').submit();">Make Featured</a></li>
+                                <li><a  onclick="$('#mode').val('unfeature');
+                            $('#manage-members-form').submit();">Un-feature</a></li>
+                               <li><a onclick="$('#mode').val('ban');
+                            $('#manage-members-form').submit();">Ban</a></li>
+                               <li><a onclick="$('#mode').val('unban');
+                            $('#manage-members-form').submit();">Remove ban</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Delete</a></li>
+                        <li><a onclick="cb_confirm('Delete videos',
+                            'Are you sure you want to delete selected users?',function(){
+                                $('#mode').val('delete');$('#manage-members-form').submit();
+                            })">Delete</a></li>
                     </ul>
-                    
+
                 </div>
             </div>
 
             <div class="right-button">
                 <form>
-                    <input class="input valignTop" name="title" value="{'title'|get}">
+                    <input class="input valignTop" name="username" value="{'username'|get}">
                     <button class="btn btn-primary" name="search" value="do">
                         <i class="icon-search icon-white"></i>
                         Search
@@ -39,226 +48,162 @@ Manage your members here, read more about managing members here. {*@todo:Put gui
     </div>
 
     <form name="manage-members-form" method="post" id="manage-members-form">
+        <input type="hidden" name="mode" value="" id="mode"/>
 
-    <table id="manage-members-list" class="table table-striped list-block {if !$profiles}display-none{/if}">
-        <thead>
-            <tr>
-                <th width="50"></th>
-                <th width="70">#</th>
-                <th width="70">Order</th>
-                <th>Name</th>
-                <th width="70">Active</th>
-                <th width="200">More Options</th>
-                <th width="120"></th>
-            </tr>
-        </thead>
-        <tbody>
+        <table id="manage-members-list" class="table table-striped list-block {if !$users}display-none{/if}">
+            <thead>
+                <tr>
+                    <th width="50"></th>
+                    <th width="70">#</th>
+                    <th width="60">Photo</th>
+                    <th>Username</th>
+                    <th width="100">Status</th>
+                    <th width="200">Date</th>
+                    <th width="120"></th>
+                </tr>
+            </thead>
+            <tbody>
 
-    	{* Start Loop Here *}
+                {foreach $users as $user}
+                {$u=$user}
+                <tr>
+                    <td><input type="checkbox" class="check-item" name="check_user[]" value="{$user.userid}"></td>
+                    <td>{$user.userid}</td>
+                    <td><img src="{$userquery->getUserThumb($u,'small')}" class="mid_user_thumb" /></td>
+                    <td><a href="view_user.php?uid={$u.userid}" class="popover-class" rel="popover" 
+                           data-content="{$user.email}<br>{$user.sex}<br>{$user.country}" 
+                           data-original-title="{$user.username}">{$user.username}</a>
+                        {if $user.featured=='yes'}<span class="label label-success">Featured</span>{/if}
 
-            <tr>
-            	<td><input type="checkbox" class="check-item" name="my-items-list[]" value="value"></td>
-                <td>ID</td>
-                <td><input type="text" value="1" name="item_order[item_id]"
-                class="input-order"/></td>
-                <td>Name</td>
-                <td>Status etc</td>
-                <td>More etc</td>
-                <td>Actions or buttons</td>
-            </tr>
-        {* End Loop Here *}
-        </tbody>
-    </table>
+
+                    </td>
+                    <td>
+                        <span class="label label-{if $user.status=='verified'}success{else}warning{/if}">{$user.status}</span>
+                        <div></div>
+                        {if $user.active=='yes'}<span class="label label-success">Active</span>{else}
+                        <span class="label label-warning">Inactive</span>{/if}
+                    </td>
+                    <td>{$user.doj|nicetime}</td>
+                    <td>
+                        <div class="dropdown btn-group pull-right">
+                            <a href="view_user.php?uid={$u.userid}" class="btn">Edit</a>
+                            <a href="javascript:void(0)" class="btn dropdown-toggle" data-toggle="dropdown"><i class="caret"></i></a>
+
+                            <ul class="dropdown-menu">
+                                {if $u.status == 'verified'}
+                                <li><a href="?deactivate={$u.userid}">Deactivate</a></li>
+                                {elseif $u.status == 'unverified'}
+                                <li><a href="?activate={$u.userid}">Activate</a></li>
+                                {/if}
+                                {if $u.ban_status == yes} 
+                                <li><a href="?unban={$u.userid}">Unban Member</a> </li>
+                                {/if} 
+                                {if $u.ban_status == no}       
+                                <li><a href="?ban={$u.userid}">Ban Member</a> </li>
+                                {/if}
+                                {if $u.featured != Yes} 
+                                <li><a href="?featured={$u.userid}">Feature Member</a> </li>
+                                {/if} 
+                                {if $u.featured == Yes}       
+                                <li><a href="?unfeatured={$u.userid}">Unfeature Member</a></li> 
+                                {/if}
+                                <li><a href="login_as_user.php?uid={$u.userid}">Login as user</a></li> 
+                                <li><a href="javascript:void(0)" onclick="cb_confirm('Delete user',
+                                'Are you sure you want to remove {$user.username}?',function(){
+                                    window.location = '?deleteuser={$u.userid}';
+                                })">Delete</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                {/foreach}
+            </tbody>
+        </table>
     </form>  
 
 </div>
 
-
-<span class="page_title">Member Manager</span>
-<img src="{$imageurl}/dot.gif" class="sarch_button" onclick="toggle_search('memsearchdiv')" />
-
-<div class="search_box" id="memsearchdiv" {if $smarty.cookies.show_memsearchdiv_search!='show'} style="display:none"{/if}>  <form id="user_search" name="user_search" method="get" action="members.php" class="video_search">
-  <table width="400" border="0" cellpadding="2" cellspacing="2">
-    <tr>
-      <td width="106" align="right">Userid</td>
-      <td width="280"><input name="userid" type="text" class="input" id="userid" value="{'userid'|get_form_val:true}" //></td>
-    </tr>
-    <tr>
-      <td align="right">Username</td>
-      <td><input name="username" type="text" class="input" id="username" value="{'username'|get_form_val:true}" //></td>
-    </tr>
-    <tr>
-      <td align="right">Email</td>
-      <td><input name="email" type="text" class="input" id="email" value="{'email'|get_form_val:true}" //></td>
-    </tr>
-    <tr>
-      <td align="right">Status</td>
-      <td><select name="status" id="status" class="input">
-          <option value="" ></option>
-          <option value="Ok" {if $smarty.get.status=='Ok'} selected="selected"{/if}>OK</option>
-          <option value="ToActivate" {if $smarty.get.status=='ToActivate'} selected="selected"{/if}>Inactive</option>
-        </select></td>
-    </tr>
-    <tr>
-      <td align="right">Banned</td>
-      <td>
-        <select name="ban" id="ban" class="input">
-          <option value="" ></option>
-          <option value="yes" {if $smarty.get.ban=='yes'} selected="selected"{/if}>Yes</option>
-          <option value="no" {if $smarty.get.ban=='no'} selected="selected"{/if}>No</option>
-        </select></td>
-    </tr>
-    <tr>
-      <td align="right">Featured</td>
-      <td><select name="featured" id="featured" class="input">
-      <option value="" ></option>
-        <option value="Yes" {if $smarty.get.featured=='Yes'} selected="selected"{/if}>Yes</option>
-        <option value="No" {if $smarty.get.featured=='No'} selected="selected"{/if}>No</option>
-      </select></td>
-    </tr>
-    <tr>
-    <td align="right">
-    Level
-    </td>
-    <td>
-    <select name="level" id="level" class="input">
-    <option value="">------</option>
-        {assign var=levels value=$userquery->get_levels()}
-        {foreach from=$levels item=level}
-        	<option value="{$level.user_level_id}" {if $smarty.get.level==$level.user_level_id} selected="selected"{/if}>{$level.user_level_name}</option>
-        {/foreach}
-        </select>
-    </td>
-    <tr>
-      <td align="right" valign="top">Category</td>
-      <td>
-       {$formObj->createField($cat_array)} 
-  </td>
-    </tr>
-  </table>
-  <br />
-  <input type="submit" name="search" id="search" value="Search Form" class="button"/>
-</form>
-</div>
-<!-- Displaying Members -->
-
-
-<form name="user_manage" method="post">
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
-    <td height="50" style="padding-left:15px">
-     		<input type="submit" name="activate_selected" value="Activate"  class="button"/>
-            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
-            <input type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
-            <input type="submit" name="ban_selected2" value="Make Unfeatured"  class="button" id="ban_selected2"/>
-            <input type="submit" name="ban_selected" value="Ban Selected"  class="button" id="ban_selected"/>
-            <input type="submit" name="unban_selected" value="Unban Selected"  class="button" id="unban_selected"/>
-        <input type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
-    
-    </td>
-    </tr>
-</table>
-
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="40" align="center" valign="middle" class="left_head">
-    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
-    <td width="50" class="head">UID</td>
-    <td class="head">User Details</td>
-    <td width="50" class="right_head">&nbsp;</td>
-  </tr>
-</table>
-
-
-
-{if $users}
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-
-{foreach from=$users item=u}
-<tr class="video_opt_td"  bgcolor="{$bgcolor}">
-    <td width="40" align="center" valign="top" class="video_opt_td">    <input name="check_user[]" type="checkbox" id="check_user" value="{$u.userid}" /></td>
-    <td width="50" align="left" valign="top" class="video_opt_td">{$u.userid}</td>
-    <td valign="top"  class="video_opt_td" 
-    onmouseover="$('#usr_opt-{$u.userid}').show()" 
-    onmouseout="$('#usr_opt-{$u.userid}').hide()" >
-    <div style="float:left; width:35px;"><img src="{$userquery->getUserThumb($u,'small')}" class="mid_user_thumb" /></div>
-    <a href="{$userquery->profile_link($u)}" target="_blank" style="text-indent:10px">
-    {$u.username}
-    </a> &#8212;
-    <span class="vdo_sets">Email:<strong><span style="text-transform:none">{$u.email}</span> </strong> &#8226;
-    Status:<strong>{$u.usr_status}</strong>  &#8226;
-    Level:<strong>{$u.level|get_user_level}</strong> &#8226;
-    Last Active:<strong>{$u.last_active}</strong> 
-    </span>
-    
-    <br />
-    <div id="usr_opt-{$u.userid}"  class="vid_opts" style="display:none">
-   	 
-    <a href="view_user.php?uid={$u.userid}">View</a> or 
-    <a href="view_user.php?uid={$u.userid}">Edit</a> |
-    {if $u.usr_status == Ok}
-    <a href="?deactivate={$u.userid}">Deactivate</a>
-    {elseif $u.usr_status == ToActivate}
-    <a href="?activate={$u.userid}">Activate</a>
-    {/if}  | 
-    {if $u.ban_status == yes} 
-    <a href="?unban={$u.userid}">Unban Member</a> 
-    {/if} 
-    {if $u.ban_status == no}       
-    <a href="?ban={$u.userid}">Ban Member</a> 
-    {/if}|
-    {if $u.featured != Yes} 
-    <a href="?featured={$u.userid}">Feature Member</a> 
-    {/if} 
-    {if $u.featured == Yes}       
-    <a href="?unfeatured={$u.userid}">Unfeature Member</a> 
-    {/if}|
-    <a href="login_as_user.php?uid={$u.userid}">Login as user</a> | <a href="?deleteuser={$u.userid}">Delete</a>
+<div class="modal hide fade" id="advance-search-modal">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>{lang code='Advance Search'}</h3>
     </div>
-    </td>
-    <td width="50" valign="top" class="video_opt_td">&nbsp;</td>
-  </tr>
-{if $bgcolor == ""}
-{assign var = bgcolor value = "#EEEEEE"}
-{else}
-{assign var = bgcolor value = ""}
-{/if}  
-{/foreach}
+    <div class="modal-body">
+        <form class="form form-horizontal" id="advance_search">
+            <div class="control-group">
+                <label class="control-label" for="userid">Userid</label>
+                <div class="controls">
+                    <input name="userid" type="text" class="input-xlarge" id="userid" value="{'userid'|get_form_val:true}" />
+                </div>
+            </div>
 
 
+            <div class="control-group">
+                <label class="control-label" for="username">Username</label>
+                <div class="controls">
+                    <input name="username" type="text" class="input-xlarge" id="username" value="{'username'|get_form_val:true}" />
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="email">Email</label>
+                <div class="controls">
+                    <input name="email" type="text" class="input-xlarge" id="email" value="{'email'|get_form_val:true}" />
+                </div>
+            </div>
 
 
+            <div class="control-group">
+                <label class="control-label" for="status">Status</label>
+                <div class="controls">
+                    <select name="status" id="status" class="input-xlarge">
+                        <option value="" ></option>
+                        <option value="verified" {if $smarty.get.status=='verified'} selected="selected"{/if}>Verified</option>
+                        <option value="unverified" {if $smarty.get.status=='unverified'} selected="selected"{/if}>Unverified</option>
+                    </select>
+                </div>
+            </div>
 
 
+            <div class="control-group">
+                <label class="control-label" for="ban">Is Banned</label>
+                <div class="controls">
+                    <select name="search_ban" id="ban" class="input-xlarge">
+                        <option value="" ></option>
+                        <option value="yes" {if $smarty.get.search_ban=='yes'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $smarty.get.search_ban=='no'} selected="selected"{/if}>No</option>
+                    </select>
+                </div>
+            </div>
 
-  
-</table>
+
+            <div class="control-group">
+                <label class="control-label" for="featured">Featured</label>
+                <div class="controls">
+                    <select name="search_featured" id="featured" class="input-xlarge">
+                        <option value="" ></option>
+                        <option value="yes" {if $smarty.get.search_featured=='yes'} selected="selected"{/if}>Yes</option>
+                        <option value="no" {if $smarty.get.search_featured=='no'} selected="selected"{/if}>No</option>
+                    </select>
+                </div>
+            </div>
 
 
+            
+            <div class="control-group">
+                <label class="control-label" for="category">Category</label>
+                <div class="controls">
+                    {$formObj->createField($cat_array)}
+                </div>
+            </div>
 
-
-
-{else}
-	<div align="center"><strong><em>NO USER FOUND</em></strong></div>
-{/if}
-
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return_invert.png" width="25" height="25"></td>
-    <td height="50" style="padding-left:15px">
-     		<input type="submit" name="activate_selected" value="Activate"  class="button"/>
-            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
-            <input type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
-            <input type="submit" name="ban_selected2" value="Make Unfeatured"  class="button" id="ban_selected2"/>
-            <input type="submit" name="ban_selected" value="Ban Selected"  class="button" id="ban_selected"/>
-            <input type="submit" name="unban_selected" value="Unban Selected"  class="button" id="unban_selected"/>
-        <input type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
-    
-    </td>
-    </tr>
-</table>
-</form>
-
+            <input type="hidden" name="search" value="do" />
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">{lang code='Cancel'}</a>
+        <a href="javascript:void(0);" class="btn btn-primary" onclick="$('#advance_search').submit();">{lang code='Search'}</a>
+    </div>
+</div>
 <!-- DIsplaying Videos Ends-->
 {include file="$style_dir/blocks/pagination.html" }
