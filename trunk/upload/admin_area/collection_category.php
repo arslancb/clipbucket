@@ -41,13 +41,13 @@ if(isset($_GET['delete_category'])){
 }
 
 
-$cats = $cbcollection->get_categories();
-$pid = $cbcollection->get_category_field($_GET['category'],'parent_id');
-
+//$cats = $cbcollection->get_categories();
+//$pid = $cbcollection->get_category_field($_GET['category'],'parent_id');
+$cats = getCategoryList(array('type'=>'collection'));
 if($pid)
 	$selected = $pid;
 	
-$parent_cats = $cbcollection->admin_area_cats($selected);
+//$parent_cats = $cbcollection->admin_area_cats($selected);
 
 
 //Updating Category Order
@@ -62,18 +62,24 @@ if(isset($_POST['update_order']))
 		}
 	}
 	
-	$cats = $cbcollection->get_categories();
+	$cats = getCategoryList(array('type'=>'collection'));
 
 }
 
+assign('manage_categories_title','Manage collection categories');
+assign('type','collection');
+$Smarty->assign_by_ref('obj',$cbcollection);
+
 //Assing Category Values
 assign('category',$cats);
-assign('parent_cats',$parent_cats);
+assign('categories',$cats);
+
+//Assing Category Values
 assign('total',$cbcollection->total_categories());
 
 subtitle("Collection Category Manager");
 Assign('msg',@$msg);	
-template_files('collection_category.html');
+template_files('category.html');
 display_it();
 
 ?>

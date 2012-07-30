@@ -1,100 +1,157 @@
 {if $mode == 'view'}
-<span class="page_title">Flagged Collections Manager</span>
-<form name="flagged_photo" method="post" id="flagged_photo">
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
-    <td height="50" style="padding-left:15px">
-            <input type="submit" name="delete_selected" value="Delete Collection"  class="button" onclick="return confirm_it('Are you sure you want to delete these collection(s)')"/>
-            
-            <input type="submit" name="delete_flags" value="Delete Flags"  class="button" onclick="return confirm_it('Are you sure you want to delete flags of selected collection(s)')"/>
-    
-    </td>
-    </tr>
-</table>
+<h2>Flagged Collections Manager</h2>
+<p>&nbsp;</p>
 
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle" class="left_head">
-    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
-    <td width="75" align="left" class="head">Collection ID</td>
-    <td class="head">Details</td>
-    <td width="50" class="right_head">&nbsp;</td>
-  </tr>
-</table>
-
-{if $c}
-{section name=list loop=$c}
-    <li class="clearfix myAdminList" style="background:#{cycle values='FFFFFF,EEEEEE'}" 
-        OnMouseOver="$('#vid_opt-{$c[list].collection_id}').show()"
-        OnMouseOut="$('#vid_opt-{$c[list].collection_id}').hide()">
-	<div class="moveL PhotoCheckBox">
-    	<div align="center"><input name="check_collect[]" type="checkbox" id="check_collection" value="{$c[list].collection_id}" /></div>
-    </div>
-    
-    <div class="moveL PhotoID">{$c[list].collection_id}</div>
-    <div class="moveL clearfix PhotoDetails" style="width:88%;">
-    	<div class="moveL AdminPhotoThumb">
-        	<img src="{$cbcollection->get_thumb($c[list],'small',TRUE)}" style="padding:2px; border:1px solid #ccc" />
-        </div>
-        <div class="moveL">
-        	<a style="font-size:12px;" href="{$baseurl}/admin_area/edit_collection.php?collection={$c[list].collection_id}">{$c[list].collection_name}</a> ({$c[list].total_objects} {$c[list].type})
-            <div style="height:4px;"></div>
-            <span class="vdo_sets">
-                Featured:<strong>{$c[list].featured} </strong> &#8226;
-                Uploaded:<strong>{$c[list].date_added|niceTime}</strong>  &#8226;
-                User:<strong><a href="view_user.php?uid={$c[list].userid}">{if $c[list].username}{$c[list].username}{else}{$c[list].userid|get_username}{/if}</a></strong> &#8226;
-                Flag: <strong>{$c[list].total_flags}</strong>
-            </span>
-            <div style="height:4px;"></div>
-            <div id="vid_opt-{$c[list].collection_id}" style="display:none" class="AdminPhotoActions">              
-               <a href="{$baseurl}/admin_area/edit_collection.php?collection={$c[list].collection_id}">Edit Collection</a> | 
-                <a href="{$cbcollection->collection_links($c[list],'view')}" target="_blank">View Collection</a> | <a href="?delete_collection={$c[list].collection_id}">Delete Collection</a> | <a href="?mode=view_flags&cid={$c[list].collection_id}">View Flags</a> | <a href="?delete_flags={$c[list].collection_id}">Delete Flags</a>
+<div class="manager-list">
+    <div class="controller scrolltoFixed white-grad">
+        <div class="buttons">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <label class="btn check-all"><input type="checkbox"></label>
+                </div>
+                
+                <div class="btn-group">
+                    <a href="#" class="btn" onclick="$('#do-action').attr('name','activate_selected'); $('#flagged_collections').submit(); return false;">Activate</a>
+                    <a href="#" class="btn" onclick="$('#do-action').attr('name','deactivate_selected'); $('#flagged_collections').submit(); return false;">Deactivate</a>
+                </div>
+                
+                <div class="btn-group">
+                    <a href="#" onclick="cb_confirm('{lang code="Delete Selected Collections"}','{lang code="Are you sure you want to delete selected collections ?"}', function(){
+                       $('#do-action').attr('name','delete_selected'); $('#flagged_collections').submit(); return false;
+                    }); return false;" class="btn btn-danger">Delete Collections</a>
+                    
+                     <a href="#" onclick="cb_confirm('{lang code="Remove Selected Flags"}','{lang code="Are you sure you want to remove flags from selected collections ?"}', function(){
+                       $('#do-action').attr('name','delete_flags'); $('#flagged_collections').submit(); return false;
+                    }); return false;" class="btn btn-danger">Remove Flags</a>
+                </div>
             </div>
         </div>
     </div>
-</li>
-{/section}
-{else}
-	<div align="center"><strong>No Flags Found</strong></div>
-{/if}
-
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
-    <td height="50" style="padding-left:15px">
-            <input type="submit" name="delete_selected" value="Delete Photos"  class="button" onclick="return confirm_it('Are you sure you want to delete these photo(s)')"/>
-            
-            <input type="submit" name="delete_flags" value="Delete Flags"  class="button" onclick="return confirm_it('Are you sure you want to delete flags of selected photo(s)')"/>
     
-    </td>
-    </tr>
-</table>
-
-</form>
+    <form name="flagged_collections" method="post" id="flagged_collections">
+        <input type="hidden" name="" value="do" id="do-action" />
+        <table id="flagged_collections_table" class="table table-striped list-block {if !$c}display-none{/if}">
+            <thead>
+                <tr>
+                    <th width="50"></th>
+                    <th width="70">#</th>
+                    <th width="60">Thumb</th>
+                    <th>Collection</th>
+                     <th width="130">Flags</th>
+                     <th width="130">Owner</th>
+                    <th width="130">Date</th>
+                    <th width="120"></th>
+                </tr>
+            </thead>
+            {if $c}
+                {$collections=$c}
+                
+                {foreach $collections as $c}
+                <tr>
+                    <td><input type="checkbox" class="check-item" name="check_collection[]" value="{$c.collection_id}"></td>
+                    <td>{$c.collection_id}</td>
+                    <td><img src="{$cbcollection->get_thumb($c,'small',true)}" /></td>
+                    <td>
+                        <a href="edit_collection.php?collection={$c.collection_id}">{$c.collection_name}</a>
+                        <div class="height5"></div>
+                        {if $c.active=='yes'}
+                            <span class="label label-success">{lang code='Active'}</span>
+                        {else}
+                            <span class="label label-warning">{lang code='Inactive'}</span>
+                        {/if}
+                        {if $c.featured=='yes'}
+                            <span class="label label-success">Featured</span>
+                        {/if}
+                    </td>
+                    <td>{$c.total_flags|number_format}</td>
+                    <td>{$c.username}</td>
+                    <td>{$c.date_added|niceTime}</td>
+                    <td>
+                        <div class="dropdown pull-right btn-group">
+                            <a href="?mode=view_flags&cid={$c.collection_id}" class="btn">{lang code='View Flags'}</a>
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="?mode=view_flags&cid={$c.collection_id}">View Flags</a></li>
+                                <li><a href="#" onclick=" cb_confirm('Remove Flags','Are you sure you want to all flags from this collection ?', function(){
+                                    window.location = '?delete_flags={$c.collection_id}'
+                                }); return false;">Remove Flags</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{$cbcollection->collection_links($c,'vc')}">View Collection</a></li>
+                                <li><a href="edit_collection.php?collection={$c.collection_id}">Edit Collection</a></li>
+                                {if $c.active == 'yes'}
+                                    <li><a href="?deactivate={$c.collection_id}">Deactivate</a></li>
+                                {else}
+                                    <li><a href="?activate={$c.collection_id}">Activate</a></li>
+                                {/if}
+                                <li class="divider"></li>
+                                <li><a href="#" onclick=" cb_confirm('Delete Collection','Are you sure you want to delete this collection ?', function(){
+                                    window.location = '?delete_collect={$c.collection_id}'
+                                }); return false;">Delete Collection</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                {/foreach}
+            {/if}
+        </table>
+    </form>
+    
+    {if !$c}
+    <div class="alert">{lang code='No flags found'}</div>
+    {/if}
+</div>
 
 {include file="$style_dir/blocks/pagination.html" }
 {/if}
 
 {if $mode == 'view_flags'}
-<span class="page_title">Viewing {$collection.colleciton_name} flags</span> &#8212; <a href="{$cbcollection->collection_links($collection,'view')}">View Collection</a> &#8226; <a href="edit_collection.php?collection={$collection.collection_id}">Edit Collection</a> &#8226; <a href="?delete_flags={$collection.collection_id}">Delete Flags</a> &#8226; <a href="?delete_collection={$collection.collection_id}">Delete Collection</a>
-<div  style="margin-bottom:10px"></div>
-<form name="video_manage" method="post">
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle" class="left_head">&nbsp;</td>
-    <td class="head">Flag Details</td>
-    <td width="50" class="right_head">&nbsp;</td>
-  </tr>
-</table>
-
-{section name=list loop=$flags}
-<li class="clearfix myAdminList" style="background:#{cycle values='FFFFFF,EEEEEE'}">
-	<div class="moveL PhotoID" style="width:30px;">{$smarty.section.list.iteration}</div>
-    <div class="moveL">
-    	Reported as "{$flags[list].flag_type|flag_type}" by {$flags[list].userid|get_username} {$flags[list].date_added|niceTime}
+<h2>{$collection.collection_name} Flags</h2>
+<p>Following are details of flags</p>
+<div class="manager-list">
+    <div class="controller scrolltoFixed white-grad">
+        <div class="buttons">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <a href="{$cbcollection->collection_links($collection,'vc')}" class="btn">View Collection</a>
+                    <a href="edit_collection.php?collection={$collection.collection_id}" class="btn">Edit Collection</a>
+                </div>
+                
+                <div class="btn-group">
+                    <a href="#" class="btn btn-danger" onclick=" cb_confirm('Delete Photo','Are you sure you want to delete this photo ?', function(){
+                            window.location = 'flagged_collections.php?delete_collection={$collection.collection_id}'
+                        }); return false;">Delete Collection</a>
+                     <a href="#" class="btn btn-danger" onclick="cb_confirm('Remove Flags','Are you sure you want to all flags from this photo ?', function(){
+                        window.location = 'flagged_collections.php?delete_flags={$collection.collection_id}'
+                    }); return false;">Remove Flags</a>
+                </div>
+                
+            </div>
+        </div>
     </div>
-</li>
-{/section}
-</form>
+    
+    <form name="flagged_collections" method="post" id="flagged_collections">
+        <table id="flagged_collections_table" class="table table-striped list-block {if !$flags}display-none{/if}">
+            <thead>
+                <tr>
+                    <th width="70">#</th>
+                    <th>Report</th>
+                    <th width="70">Reporter</th>
+                    <th width="200">Date</th>
+                </tr>    
+            </thead>
+             {if $flags}
+                {foreach $flags as $flag}
+                <tr>
+                    <td>{$flag.flag_id}</td>
+                    <td>{$flag.flag_type|flag_type}</td>
+                    <td>{$flag.userid|get_username}</td>
+                    <td>{$flag.date_added|niceTime}</td>
+                </tr>
+                {/foreach}
+            {/if}
+        </table>
+    </form>
+</div>
 {/if}

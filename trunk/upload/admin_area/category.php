@@ -42,7 +42,6 @@ if(isset($_GET['delete_category'])){
 
 
 $cats = getCategoryList(array('type'=>'v'));
-$pid = $cbvid->get_category_field($_GET['category'],'parent_id');
 
 if($pid)
 	$selected = $pid;

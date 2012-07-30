@@ -120,11 +120,16 @@ if($_GET['search'])
 		'type'	=> $_GET['collection_type'],
 		'user'	=> $_GET['userid'],
 		'order'	=> $_GET['order'],
+           'orderby'	=> $_GET['orderby'],
 		'broadcast'	=> $_GET['broadcast'],
 		'featured'	=> $_GET['featured'],
 		'active'	=> $_GET['active']
 	);	
 }
+
+$array['order'] = $array['order'] ? $array['order'] : 'date_added';
+$array['orderby'] = $array['orderby'] ? $array['orderby'] : 'desc';
+$array['order'] = tbl('collections.'.$array['order'].' '.$array['orderby']);
 
 $carray = $array;
 
@@ -133,10 +138,6 @@ $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,RESULTS);
 
 $carray['limit'] = $get_limit;
-if(!empty($carray['order']))
-	$carray['order'] = $carray['order']." DESC";
-else
-	$carray['order'] = " collection_id DESC";	
 
 $collections = $cbcollection->get_collections($carray);
 assign('c',$collections);

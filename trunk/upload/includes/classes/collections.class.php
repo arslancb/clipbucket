@@ -453,7 +453,9 @@ class Collections extends CBCategory
 		{
 			if($cond != "")
 				$cond .= " AND ";
-			$result =   $db->select(tbl("collections,users"),
+			$result =   $db->select(tbl("collections")
+                                .' LEFT JOIN '.tbl('users').' ON '
+                                .tbl('collections.userid').' = '.tbl('users.userid'),
 						tbl("collections.*,users.userid,users.username"),
 						$cond.tbl("collections.userid")." = ".tbl("users.userid"),$limit,$order);
 									
@@ -612,7 +614,7 @@ class Collections extends CBCategory
 		$name = $default['collection_name'];
 		$description = $default['collection_description'];
 		$tags = $default['collection_tags'];
-		$type = $default['type'];
+		//$type = $default['type'];
 		if(is_array($default['category']))
 			$cat_array = array($default['category']);		
 		else
@@ -672,7 +674,7 @@ class Collections extends CBCategory
 						   'category_type' => 'collections'
 						   ),
 						   
-			'type' => array(
+			/*'type' => array(
 							'title' => lang("collect_type"),
 							'type' => 'dropdown',
 							'name' => 'type',
@@ -681,7 +683,7 @@ class Collections extends CBCategory
 							'db_field' => 'type',
 							'required' => 'yes',
 							'checked' => $type
-							)						   														   					   
+							)*/						   														   					   
 		);
 		
 		return $reqFileds;	

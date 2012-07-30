@@ -1,135 +1,230 @@
 {assign var=requiredFields value=$cbcollection->load_required_fields($data)}
 {assign var=otherFields value=$cbcollection->load_other_fields($data)}
+{$c=$data}
+<h2>{lang code='Edit Collection'}: {$c.collection_name}</h2>
+<p></p>
+    <script>
+        $(function(){
+        $('#settings-container').masonry({
+            // options
+            itemSelector : '.settings-block',
+            columnWidth: 400,
+            isResizable : true
+        });
+    });
 
-<form action="" method="post" enctype="multipart/form-data" name="edit_collection" id="edit_collection">
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-    <tr>
-    	<td width="50%" valign="top">
-        	<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
-            <tr>
-                <td align="left" class="left_head" style="padding-left:10px"><div class="head">Editing {$data.collection_name}</div></td>
-                <td width="20" align="right" class="right_head">&nbsp;</td>
-            </tr>
-            </table>
-            <div style="width:97%; margin:auto; padding:10px">
-                <ul class="admin_links" style="font:bold 11px Tahoma;">
-                    {if $data.active!='yes'}
-                    <li><a href="edit_collection.php?collection={$data.collection_id}&amp;mode=ac">Activate</a></li>
-                    {else}
-                    <li><a href="edit_collection.php?collection={$data.collection_id}&amp;mode=dac">Deactivate</a></li>
-                    {/if}
-                    {if $data.featured!='yes'}
-                    <li><a href="edit_collection.php?collection={$data.collection_id}&amp;mode=mcf">Make Featured</a></li>
-                    {else}
-                    <li><a href="edit_collection.php?collection={$data.collection_id}&amp;mode=mcuf">Make Unfeatured</a></li>
-                    {/if}
-                    <li><a href="javascript:void(0)" onClick="javascript:Confirm_Delete('collection_manager.php?delete_collection={$data.collection_id}')">Delete This Collection</a></li>
-                </ul>
+    </script>
+<div class="manager-list">
+<div class="controller scrolltoFixed white-grad">
+        <div class="buttons">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <a class="btn" onclick=""><span class="icon icon-eye-open"></span></a>
+                </div>
+                <div class="btn-group dropdown">
+                    <a class="btn">Options</a>
+                    <a class="btn dropdown-toggle" onclick="" data-toggle="dropdown"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{$cbcollection->collection_links($c,'vc')}">View Collection</a></li>
+
+                        {if $c.featured == 'yes'}
+                        <li><a href="?mode=mcuf&collection={$c.collection_id}">Unfeature It</a></li>
+                        {else}
+                        <li><a href="?mode=mcf&photo={$c.collection_id}">Make Featured</a></li>
+                        {/if}
+
+                        {if $c.active == 'yes'}
+                        <li><a href="?mode=dac&collection={$c.collection_id}">Deactivate</a></li>
+                        {else}
+                        <li><a href="?mode=ac&collection={$c.collection_id}">Activate</a></li>
+                        {/if}
+
+                        <li class="divider"></li>
+                        <li><a href="#" onclick=" cb_confirm('Delete Collection','Are you sure you want to delete this collection ?', function(){
+                            window.location = 'collection_manager.php?delete_collection={$photo.photo_id}'
+                        }); return false;">Delete Collection</a></li>
+                    </ul>
+                </div>
+
+                <div class="btn-group">
+                    <a href="#" class="btn btn-danger" onclick=" cb_confirm('Delete Collection','Are you sure you want to delete this collection ?', function(){
+                        window.location = 'collection_manager.php?delete_collection={$c.collection_id}'
+                    }); return false;">Delete</a>
+                </div>
+
+                <div class="right-button">
+                    <button class="btn btn-primary" name="save_photo" value="do-action">Save</button>
+                </div>
+
             </div>
-<input name="admin" type="hidden" id="admin" value="true" />
-<input name="collection_id" type="hidden"  value="{$data.collection_id}" /> 
-<fieldset class="fieldset">
-	<legend>User Information</legend>
-    <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-    <tr>
-      <td width="200"><strong>Useid</strong></td>
-      <td><a href="view_user.php?uid={$data.userid}">{$data.userid|get_username}</a></td>
-    </tr>
-  </table>
-</fieldset>
+        </div>
+    </div>
+</div>
 
-<fieldset class="fieldset">
-	<legend>Collection Details</legend>
-    <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-    <tr>
-      <td width="200"><strong>Collection ID</strong></td>
-      <td><input disabled="disabled" name="collecionID" type="text" id="collecionID" value="{$data.collection_id}" size="45" /></td>
-    </tr>
-    {foreach from=$requiredFields item=field}
-    <tr>
-        <td width="200" ><strong>{$field.title} :</strong></td>
-        <td>{$field.hint_1}<br />
-        {$formObj->createField($field)}<br/> 
-        {$field.hint_2}</td>
-    </tr>
-    {/foreach}
-  </table>
-</fieldset>
-<fieldset class="fieldset">
-	<legend>Collection Stats</legend>
-    <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-    <tr>
-      <td width="200"><strong>Total Objects</strong></td>
-      <td><input name="total_objects" type="text" id="total_objects" value="{$data.total_objects}" /></td>
-    </tr>
-    <tr>
-      <td width="200"><strong>Total Comments</strong></td>
-      <td><input name="total_comments" type="text" id="total_comments" value="{$data.total_comments}" /></td>
-    </tr>
-  </table>
-</fieldset>
-<input type="submit" class="button" value="Update Collection Details" style="margin:15px 0px 0px 15px" name="update_collection">           
-        </td>
-        <td width="50%" valign="top">
-        	<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
-            <tr>
-                <td align="left" class="left_head" style="padding-left:10px"><div class="head">Items</div></td>
-                <td width="20" align="right" class="right_head">&nbsp;</td>
-            </tr>
-            <tr>
-                <td>
-                	{if $objects}
-                    	{section name=list loop=$objects}
-                            {if $data.type == 'photos'}
-                                <div class="moveL" style="padding:2px; border:1px solid #ccc; margin:4px;">
-                                    {get_photo details=$objects[list] output='html' title=$photos[list].photo_title}
-                                </div>
+ <form action="" method="post" name="edit_collection" id="edit_collection" class="form form-vertical" enctype="multipart/form-data" >
+     <div id="settings-container">
+         <div class="settings-block">
+             <fieldset>
+                 <legend>Photos</legend>
+                {if $objects}
+                    {foreach $objects as $object}
+                    <div class="span2" style="background-image: url('{get_photo details=$object size=m}'); background-position: center; height:170px; background-repeat: no-repeat; margin:8px 0px 0px 9px;">
+                        
+                    </div> 
+                    {/foreach}
+                    {assign var=rest value=$data.total_objects-$objects|@count}
+                    <div class="height10 clear"></div>
+                    <a href="manage_items.php?collection={$c.collection_id}&type={$c.type}" class="btn pull-right clear btn-mini" rel="tooltip" title="{if $rest && $rest>0}{$rest} more photo{if $rest>1}s{/if}{/if}">Manage Items</a>
+                {else}
+                    <div class="height10"></div>
+                    <h6 class="text-center">{lang code='No photos found'}</h6>
+                {/if}
+             </fieldset>
+         </div>
+         
+         <div class="settings-block">
+                <fieldset>
+                    <legend>Important Details</legend>
+
+                    <div class="control-group">
+                        <label class="control-label" for="userid">Owner Userid</label>
+                        <div class="controls">
+                            <div class=" input-append">
+                                <input type="text" class="input-xlarge" id="userid" name="userid" value="{$c.userid}"{if $c.is_avatar_collection == 'yes'} disabled="disabled"{/if}><span class="add-on">{$c.username}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="collection_id">Collection ID</label>
+                        <div class="controls">
+                            <input disabled="disabled" class="input-xlarge" name="collection_id" type="text" id="collection_id" value="{$c.collection_id}" />                
+                        </div>
+                    </div>
+                    
+                     <div class="control-group">
+                        <label class="control-label" for="last_updated">Last Updated</label>
+                        <div class="controls">
+                            <input disabled="disabled" class="input-xlarge" name="last_updated" type="text" id="last_updated" value="{$c.last_updated|niceTime}" />                
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+         
+         <div class="settings-block">
+             <fieldset>
+                 <legend>Required Fields</legend>
+                 {foreach from=$requiredFields item=field}
+                    <div class="control-group">
+                        <label for="{$field.id}" class="control-label">{$field.title}</label>
+                        <div class="controls">
+                            {$field.class='input-xlarge'}
+                            {if $field.type=='checkbox' || $field.type=='radiobutton'}
+                                {$field.sep=' '}
+
+                                {if $field.type=='checkbox'}
+                                    {$field.class='checkbox'}
+                                {else}
+                                    {$field.class='radio'}
+                                {/if}
                             {/if}
-                            
-                            {if $data.type == 'videos'}
-                                <div class="moveL" style="padding:2px; border:1px solid #ccc; margin:4px;">
-                                    <img src="{get_thumb vdetails=$objects[list]}" width="120" height="70" />
-                                </div>
+                            {$formObj->createField($field)}   
+                            {if $field.hint_2}<p class="help-block">{$field.hint_2}</p>{/if}
+                        </div>
+                    </div>
+                 {/foreach}
+             </fieldset>
+         </div>
+         
+         <div class="settings-block">
+             <fieldset>
+                 <legend>Collection Thumb</legend>
+                 <div class="control-group">
+                        <label class="control-label" for="collection_{$c.collection_id}_preview">Preview</label>
+                        <div class="controls">
+                            <img src="{$cbcollection->get_thumb($c,null,true)}" id="collection_{$c.collection_id}_preview" />  
+                            <label for="delete_{$c.collection_id}_preview" class="checkbox btn btn-danger" data-toggle="button"><input type="checkbox" name="delete_preview" id="delete_{$c.collection_id}_preview" value="{$c.collection_id}" /> Delete Preview</label>
+                        </div>
+                    </div>
+                 
+                 <div class="control-group">
+                        <label class="control-label" for="collection_thumb">Upload New</label>
+                        <div class="controls">
+                            <input type="file" class="input-xlarge" id="collection_thumb" name="collection_thumb" />         
+                        </div>
+                    </div>
+             </fieldset>
+         </div>
+         
+         <div class="settings-block">
+             <fieldset>
+                 <legend>Other Fields</legend>
+                 {foreach from=$otherFields item=field}
+                    <div class="control-group">
+                        <label for="{$field.id}" class="control-label">{$field.title}</label>
+                        <div class="controls">
+                            {$field.class='input-xlarge'}
+                            {if $field.type=='checkbox' || $field.type=='radiobutton'}
+                                {$field.sep=' '}
+                                {if $field.type=='checkbox'}
+                                    {$field.class='checkbox'}
+                                {else}
+                                    {$field.class='radio'}
+                                {/if}
                             {/if}
-                        {/section}
-                        <div style="height:5px; clear:both;"></div>
-                        {assign var=rest value=$data.total_objects-4}
-                        <a style="display:block; font:bold 11px Tahoma; text-align:center; padding:4px; background:#fafafa;border:1px solid #aaa;" href="manage_items.php?collection={$data.collection_id}&amp;type={$data.type}">Manage Items{if $rest && $rest>0} - {$rest} more item{if $rest>1}s{/if}{/if}</a>
-                    {else}
-                    	<div align="center" style="font:bold 11px Tahoma; margin-top:10px;">Collection has 0 items</div>
-                    {/if}
-                </td>
-            </tr>
-            </table>
-            <fieldset class="fieldset">
-            	<legend>Other Fields</legend>
-                <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
-                {foreach from=$otherFields item=field}
-                    <tr>
-                        <td width="200" ><strong>{$field.title} :</strong></td>
-                        <td>{$field.hint_1}<br />
-                        {$formObj->createField($field)}<br/> 
-                        {$field.hint_2}</td>
-                    </tr>
-                {/foreach}
-                </table>
-            </fieldset>
-            
-            <fieldset class="fieldset">
-            	<legend>Collection Preview</legend>
-                <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
-                	<tr>
-                        <td width="200" ><strong>Collection Preview :</strong></td>
-                        <td><img style="padding:2px; border:1px solid #ccc;" src="{$cbcollection->get_thumb($data,NULL,TRUE)}" />
-                        </label><input type="checkbox" value="{$data.collection_id}" name="delete_preview" id="del_{$data.collection_id}_preview" /><label for="del_{$data.collection_id}_preview">Delete Preview</label></td>
-                    </tr>
-                    <tr>
-                        <td width="200" ><strong>Upload New :</strong></td>
-                        <td><input type="file" name="collection_thumb" id="collection_thumb" ></td>
-                    </tr>
-                </table>
-            </fieldset>
-        </td>
-	</tr>
-</table>    
-</form>
+                            {$formObj->createField($field)}   
+                            {if $field.hint_2}<p class="help-block">{$field.hint_2}</p>{/if}
+                        </div>
+                    </div>
+                 {/foreach}
+             </fieldset>
+         </div>
+         
+         <div class="settings-block">
+             <fieldset>
+                 <legend>Collection Stats and Info</legend>
+                 <div class="control-group">
+                        <label class="control-label" for="views">Views</label>
+                        <div class="controls">
+                            <input type="text" class="input-xlarge" id="views" name="views" value="{$c.views}" />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+                 <div class="control-group">
+                        <label class="control-label" for="total_objects">Total Photos</label>
+                        <div class="controls">
+                            <input type="text" class="input-xlarge" id="total_objects" name="total_objects" value="{$c.total_objects}" />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                 
+                    <div class="control-group">
+                        <label class="control-label" for="total_comments">Total Comments</label>
+                        <div class="controls">
+                            <input type="text" class="input-xlarge" id="total_comments" name="total_comments" value="{$c.total_comments}" />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="rating">Rating</label>
+                        <div class="controls">
+                            <div class=" input-append">
+                                <input class="input-xlarge" name="rating" type="text" id="rating" value="{$c.rating}"><span class="add-on"> of 10</span>   
+                            </div>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="rated_by">Rated By</label>
+                        <div class="controls">
+                            <input type="text" class="input-xlarge" id="rated_by" name="rated_by" value="{$c.rated_by}" />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+             </fieldset>
+         </div>
+     </div>
+ </form>

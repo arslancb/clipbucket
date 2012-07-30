@@ -910,7 +910,11 @@ function cb_some_photo_plugin_links( $links ) {
     $photo = $cbphoto->photo;
     $link = 'recreate_thumbs.php?mode=single&photo='.$photo['photo_id'];
     $links[] = add_photo_manager_link( lang('Re-create Photo'), $link );
-    $links[] = add_photo_manager_link( lang('Edit Collection ('. $photo['collection_name'].')'), 'edit_collection.php?collection='.$photo['collection_id'] );
+    if ( $photo['collection_id'] != 0 ) {
+        $links[] = add_photo_manager_link( lang('Edit Collection ('. $photo['collection_name'].')'), 'edit_collection.php?collection='.$photo['collection_id'] );
+    } else {
+        $links[] = add_photo_manager_link(lang('Photo is orphan'),'javascript:void(0)');
+    }
     return $links;
 }
 

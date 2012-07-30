@@ -44,8 +44,42 @@ if(isset($_POST['delete_flags']))
 	for($id=0;$id<=count($_POST['check_collect']);$id++)
 	{
 		$eh->flush();
-		$cbcollection->action->delete_flags($_POST['check_collect'][$id]);
+		$cbcollection->action->delete_flags($_POST['check_collection'][$id]);
 	}
+}
+
+if(isset($_GET['activate']))
+{
+	$cid = mysql_clean($_GET['activate']);
+	$cbcollection->collection_actions('ac',$cid);	
+}
+
+if(isset($_GET['deactivate']))
+{
+	$cid = mysql_clean($_GET['deactivate']);
+	$cbcollection->collection_actions('dac',$cid);	
+}
+
+if(isset($_POST['activate_selected']))
+{
+	$total = count($_POST['check_collection']);
+	for($i=0;$i<$total;$i++)
+	{
+		$cbcollection->collection_actions('ac',$_POST['check_collection'][$i]);	
+	}
+	$eh->flush();
+	e($total." collections has been activated","m");
+}
+
+if(isset($_POST['deactivate_selected']))
+{
+	$total = count($_POST['check_collection']);
+	for($i=0;$i<$total;$i++)
+	{
+		$cbcollection->collection_actions('dac',$_POST['check_collection'][$i]);	
+	}
+	$eh->flush();
+	e($total." collections has been deactivated","m");
 }
 
 switch($mode)

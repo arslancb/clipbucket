@@ -23,6 +23,10 @@ h2.sub_heading { font-size:20px; font-weight: normal; }
 .height10{height: 10px}
 .height20{height: 20px}
 
+.text-right { text-align: right }
+.text-left { text-align: left }
+.text-center { text-align: center; }
+
 .row-fluid .span150, .span150{width: 150px}
 .row-fluid .span200, .span200{width: 200px}
 .row-fluid .span250, .span250{width: 150px}
