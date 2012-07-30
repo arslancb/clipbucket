@@ -1735,6 +1735,14 @@ class userquery extends CBCategory{
 				$fields_array[] = $access;
 				$value_array[] = $array[$access] ? $array[$access] : 'no';
 			}
+                        
+                        if(isset($_POST['plugin_perm']))
+			{
+				$fields_array[] = 'plugins_perms';
+				$value_array[] = '|no_mc|'.json_encode($_POST['plugin_perm']);
+			}
+                        
+                        
 			$db->insert(tbl("user_levels_permissions"),$fields_array,$value_array);		
 			return true;
 		}

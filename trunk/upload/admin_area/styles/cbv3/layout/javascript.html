@@ -120,6 +120,21 @@
                 .prop("checked",false);
             }
         });
+        
+        $('.yes_no_toggle').on('click','.yes_no_toggle .btn',function(){
+            $val = $(this).attr('data-value');
+            
+            if($val=='yes'){
+                $(this).parents('fieldset').find('input[value=yes]').prop("checked",true);
+                $(this).parents('fieldset').find('input[value=no]').prop("checked",false);
+            
+            }
+            
+            if($val=='no'){
+                $(this).parents('fieldset').find('input[value=no]').prop("checked",true);
+                $(this).parents('fieldset').find('input[value=yes]').prop("checked",false);
+            }
+        })
        
         $('.manager-list').on('click','.check-item',function(){
 
@@ -183,7 +198,9 @@
             columnWidth: 400,
             isResizable : true
         });
-
+        
+        
+        
 
     })
 </script>

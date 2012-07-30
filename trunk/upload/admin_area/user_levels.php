@@ -21,6 +21,18 @@ $action = mysql_clean($_GET['action']);
 if($action=='delete')
 	$userquery->delete_user_level($lid);
 	
+
+if(isset($_POST['add_new_level']))
+{
+    $array = $_POST;
+    $userquery->add_user_level($array);
+    
+    if(!error()){
+        e(lang("New level has been added"),"m");
+    }
+
+}
+                
 switch($mode)
 {
 	case 'view':
@@ -57,17 +69,7 @@ switch($mode)
 		Assign('view','edit');
 	}	
 	break;
-	
-	case 'add':
-	{
-		if(isset($_POST['add_new_level']))
-		{
-			$array = $_POST;
-			if($userquery->add_user_level($array))
-				redirect_to('user_levels.php?added=true');
-		}
-		Assign('view','add');
-	}
+
 }
 
 subtitle("User levels");
