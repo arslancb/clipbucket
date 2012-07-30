@@ -72,6 +72,7 @@ switch($mode)
 
 }
 
+
 subtitle("User levels");
 template_files('user_levels.html');
 display_it();

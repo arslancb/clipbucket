@@ -111,6 +111,7 @@ switch($mode)
 	
 }
 
+
 subtitle("Flagged Users");
 template_files('flagged_users.html');
 display_it();

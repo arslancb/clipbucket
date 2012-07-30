@@ -366,15 +366,26 @@ class cbactions
 	{
 		global $db;
 		$type = $this->type;
-		$results = $db->select(tbl($this->flag_tbl).' LEFT JOIN '.tbl($this->type_tbl).' ON '
-                .tbl($this->type_tbl.'.'
-                .$this->type_id_field.'=').tbl('flags.id')
-                .' LEFT JOIN '.tbl('users').' ON '
-                .tbl($this->type_tbl.'.userid').' = '.tbl('users.userid'),"*,
-                count(*) AS total_flags",tbl($this->flag_tbl).".id = ".tbl($this->type_tbl).".".$this->type_id_field." 
-                AND ".tbl($this->flag_tbl).".type='".$this->type."' GROUP BY ".tbl($this->flag_tbl).".id ,".tbl($this->flag_tbl).".type ",$limit);
-		
                 
+                if($type!='u')
+                {
+                    $results = $db->select(tbl($this->flag_tbl).' LEFT JOIN '.tbl($this->type_tbl).' ON '
+                    .tbl($this->type_tbl.'.'
+                    .$this->type_id_field.'=').tbl('flags.id')
+                    .' LEFT JOIN '.tbl('users').' ON '
+                    .tbl($this->type_tbl.'.userid').' = '.tbl('users.userid'),"*,
+                    count(*) AS total_flags",tbl($this->flag_tbl).".id = ".tbl($this->type_tbl).".".$this->type_id_field." 
+                    AND ".tbl($this->flag_tbl).".type='".$this->type."' GROUP BY ".tbl($this->flag_tbl).".id ,".tbl($this->flag_tbl).".type ",$limit);
+                }else
+                {
+                    $results = $db->select(tbl($this->flag_tbl).' LEFT JOIN '.tbl($this->type_tbl).' ON '
+                    .tbl($this->type_tbl.'.'
+                    .$this->type_id_field.'=').tbl('flags.id'),"*,
+                    count(*) AS total_flags",tbl($this->flag_tbl).".id = ".tbl($this->type_tbl).".".$this->type_id_field." 
+                    AND ".tbl($this->flag_tbl).".type='".$this->type."' GROUP BY ".tbl($this->flag_tbl).".id ,".tbl($this->flag_tbl).".type ",$limit);
+                }
+		
+		               
                 if($db->num_rows>0)
 			return $results;
 		else
