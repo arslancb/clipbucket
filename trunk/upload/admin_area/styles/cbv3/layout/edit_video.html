@@ -6,17 +6,7 @@
 <h2>Edit Video : {$video.title}</h2>
 This is a complete list of information that is displayed or used for displaying a video.
 
-<script>
-    $(function(){
-  $('#settings-container').masonry({
-    // options
-    itemSelector : '.settings-block',
-    columnWidth: 400,
-    isResizable : true
-  });
-});
 
-</script>
 
 <div class="height10"></div>
 
@@ -130,7 +120,7 @@ This is a complete list of information that is displayed or used for displaying 
                     {foreach from=$field_group.fields item=field}
 
                     <div class="control-group">
-                        <label class="control-label" for="filename">{$field.title}</label>
+                        <label class="control-label" for="{$field.id}">{$field.title}</label>
                         <div class="controls">
                             {$field.class='input-xlarge'}
                             

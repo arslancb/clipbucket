@@ -61,7 +61,7 @@ if($udetails)
 		$myquery->delete_comment($cid);
 	}
 	
-	if(isset($_POST['update_user']))
+	if($_POST['update']=='do')
 	{
 		$userquery->update_user($_POST);
 		if(!error())

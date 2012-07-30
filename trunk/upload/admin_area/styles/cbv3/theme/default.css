@@ -1,7 +1,7 @@
 h2{font-family: 'Open sans', sans-serif;}
 h2.sub_heading { font-size:20px; font-weight: normal; }
 
-.inlineblock{display: inline-block}
+.inlineblock{display: inline-block !important}
 .inline{display:inline}
 .block{display: block}
 .display-none{display: none}
