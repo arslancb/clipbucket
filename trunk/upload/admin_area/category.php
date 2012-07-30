@@ -67,6 +67,10 @@ if(isset($_POST['update_order']))
 
 }
 
+assign('manage_categories_title','Manage video categories');
+assign('type','video');
+$Smarty->assign_by_ref('obj',$cbvid);
+
 //Assing Category Values
 assign('categories',$cats);
 assign('parent_cats',$parent_cats);

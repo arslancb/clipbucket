@@ -2,7 +2,7 @@
     <ul>
         <li class="index"><input type="checkbox" /></li>
         <li class="index">{$category.category_id}</li>
-        <li class="option"><input type="text" style="width: 20px" value="{$category.category_order}" onchange="update_order('{$category.category_id}',$(this).val(),'category')"/></li>
+        <li class="option"><input type="text" style="width: 20px" value="{$category.category_order}" onchange="update_order('{$category.category_id}',$(this).val(),'category','{$type}')"/></li>
         {$category_id = $category.category_id}
         <li class="text">{$prefix}{$category.category_name} {loading_pointer place="category-$category_id"}</li>
         <li class="action">
@@ -10,31 +10,18 @@
                 <button class="btn btn-mini">Options</button>
                 <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                <li><a href="javascript:void(0)" onclick="edit_category('{$category.category_id}')">Edit</a>
-                <li><a href="javascript:void(0)" onclick="make_default('{$category.category_id}','{$category.category_name}')">Make Default</a></li>
+                <li><a href="javascript:void(0)" onclick="edit_category('{$category.category_id}','{$type}')">Edit</a>
+                <li><a href="javascript:void(0)" onclick="make_default('{$category.category_id}','{$category.category_name}','{$type}')">Make Default</a></li>
                 <li class="divider"></li>
-                <li><a data-toggle="modal" data-target="#delete-category-{$category.category_id}"  >
+                {$cat_del_msg="You are about to delete <strong>$category.category_name</strong>, All items under this category will be moved to Default Category "}
+                <li><a onclick="cb_confirm('Confirm Delete','{$cat_del_msg}',function(){
+                    delete_category('{$category.category_id}','{$type}');
+                })">
                         <i class="icon-trash "></i> Delete Category</a></li>
                 </ul>
             </div>
         </li>
     </ul>
     <div class="clearfix"></div>
-    
-    <!-- Delete Confirmation Box -->
-    <div id="delete-category-{$category.category_id}" title="Confirm Delete" class="modal hide fade">
-        <div class="modal-header">
-            <button class="close" data-dismiss="modal">×</button>
-            <h3>Confirm Delete</h3>
-        </div>
-        <div class="modal-body">
-            <p>You are about to delete <strong>{$category.category_name}</strong>, All items under this category will be moved to Default Category </p>
-        </div>
-        <div class="modal-footer">
-            <a href="javascript:void(0)" class="btn" data-dismiss="modal">Cancel</a>
-            <a href="javascript:void(0)" class="btn btn-primary" 
-               data-dismiss="modal" 
-               onclick="delete_category('{$category.category_id}')">Confirm</a>
-        </div>
-    </div>
+
 </div>

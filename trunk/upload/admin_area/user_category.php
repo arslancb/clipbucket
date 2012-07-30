@@ -55,13 +55,19 @@ if(isset($_POST['update_order']))
 	$cats = $userquery->get_categories();
 }
 
+assign('manage_categories_title','Manage user categories');
+assign('type','user');
+$Smarty->assign_by_ref('obj',$userquery);
+
 //Assing Category Values
 assign('category',$cats);
+assign('categories',$cats);
+
 assign('total',$userquery->total_categories());
 
 Assign('msg',@$msg);
 subtitle("User Category Manager");
-template_files('user_category.html');
+template_files('category.html');
 display_it();
 
 ?>

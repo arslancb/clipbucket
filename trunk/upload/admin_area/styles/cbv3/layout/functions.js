@@ -232,9 +232,9 @@ function scrollTo($element){
  * Delete category
  * @param cid STRING
  */
-function delete_category(cid)
+function delete_category(cid,type)
 {
-    amplify.request("categories",{cid : cid,'mode' : 'delete_category'},
+    amplify.request("categories",{cid : cid,'mode' : 'delete_category',type:type},
         function(data){
             if(data.err)
             {
@@ -253,9 +253,9 @@ function delete_category(cid)
  * Make Default
  * @param cid STRING
  */
-function make_default(cid,category_name)
+function make_default(cid,category_name,type)
 {
-    amplify.request("categories",{cid : cid,'mode' : 'make_default','name':category_name},
+    amplify.request("categories",{cid : cid,'mode' : 'make_default','name':category_name,type:type},
         function(data){
             if(data.err)
             {
@@ -293,16 +293,16 @@ function loading(ID,ToDo)
 /**
  * edit category...
  */
-function edit_category(id)
+function edit_category(id,type)
 {
     
-    amplify.request("categories",{'mode' : 'edit_category',cid:id},
+    amplify.request("categories",{'mode' : 'edit_category',cid:id,type:type},
         function(data){
             if(data.success)
             {
                 $('#edit-category-modal .form-basic').html(data.template);
                 $('#edit-category-modal h3').html(data.title);
-                 $('#edit-category-modal .update-message').html('');
+                $('#edit-category-modal .update-message').html('');
                 $('#edit-category-modal').modal('show');
             }else
                 if(data.err)
@@ -322,7 +322,7 @@ function save_category(id)
     
     var formData = $('#edit-category').serialize();
         formData += '&mode=save_category';
-        
+
       amplify.request("categories",formData,
         function(data){
             if(data.err)
@@ -350,7 +350,7 @@ function update_order(id,order,type)
     
     loading(type+'-'+id);
 
-    amplify.request(amplify_type,{"mode":"update_order","cid":id,'order':order},
+    amplify.request(amplify_type,{"mode":"update_order","cid":id,'order':order,type:type},
         function(data){
             if(data.err)
                 displayError(data.err);

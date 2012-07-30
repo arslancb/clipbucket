@@ -5,17 +5,39 @@ include("../../includes/admin_config.php");
 
 $mode = post('mode');
 
+$type = $_POST['type'];
+assign('type',$type);
+
+
+switch($type)
+{
+    case "video":case "videos":case "vid":default:
+        $obj = $cbvid;
+        break;
+    case "user":case "users":case "channel":case "u":
+        $obj = $userquery;
+        break;
+    case "group": case "groups":case "g":
+        $obj = $cbgroup;
+        break;
+    case "collection": case "c":
+        $obj = $cbcollection;
+        break;
+}
+        
+        
 switch($mode)
 {
     case "add_category":
     {
-        $cid = $cbvid->add_category($_POST);
+
+        $cid = $obj->add_category($_POST);
         //$cid = 18;
         if(error())
         {
             echo json_encode(array('err'=>error()));
         }else{
-           $category =  $cbvid->get_category($cid);
+           $category =  $obj->get_category($cid);
            assign('category',$category);
            
            $category_template = Fetch('blocks/category.html');
@@ -29,7 +51,7 @@ switch($mode)
     {
         $cid = mysql_clean(post('cid'));
         
-        $cbvid->delete_category($cid);
+        $obj->delete_category($cid);
         
         if(error())
         {
@@ -42,7 +64,7 @@ switch($mode)
     case "make_default":
     {
         $cid = mysql_clean(post('cid'));
-        $cbvid->make_default_category($cid);
+        $obj->make_default_category($cid);
         $name = post('name');
         if(error())
         {
@@ -54,8 +76,10 @@ switch($mode)
     
     case "edit_category":
     {
+        
         $cid = mysql_clean(post('cid'));
-        $category = $cbvid->get_category($cid);
+        $category = $obj->get_category($cid);
+
         if($category)
         {
             assign('c',$category);
@@ -72,7 +96,11 @@ switch($mode)
 
     case "save_category":
     {
-        $cbvid->update_category($_POST);
+        $type = $_POST['type'];
+        assign('type',$type);
+
+        $category = $obj->update_category($_POST);
+     
         if(error())
         {
             echo json_encode(array('err'=>error('single')));
@@ -89,7 +117,7 @@ switch($mode)
         $cid = mysql_clean(post('cid'));
         $order = mysql_clean(post('order'));
         
-        $cbvid->update_cat_order($cid,$order);
+        $obj->update_cat_order($cid,$order);
         
         if(error())
             echo json_encode (array('err'=>erro()));

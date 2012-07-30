@@ -1,8 +1,9 @@
-<h3>Categories Manager</h3>
+<h2>{$manage_categories_title}</h2>
 
 <div style="width: 400px" class="pull-left">
     <div style="padding-right: 15px">
         <form class="form-vertical form-basic" enctype="multipart/form-data" id="add-category" method="post">
+            <input type="hidden" value="{$type}" name="type" />
             <fieldset>
                 <!-- Category Title -->
                 <div class="control-group">
@@ -22,7 +23,7 @@
                 <div class="control-group">
                     <label class="control-label" for="parent_cat">Parent</label>
                     <div class="controls">
-                        {cbCategories output="dropdown" name="parent_cat" id="parent_cat" blank_option=TRUE echo=TRUE type="video"}
+                        {cbCategories output="dropdown" name="parent_cat" id="parent_cat" blank_option=TRUE echo=TRUE type=$type}
                     </div>
                 </div>
                 <!-- Make Category default -->
@@ -93,7 +94,7 @@
 
                     <div class="span2" style="width: 160px; margin-left: 0px;">
                         <div id="file-thumb" class="thumbnail">
-                            <img src="{$cbvid->default_thumb()}"/>
+                            <img src="{$obj->default_thumb()}"/>
                         </div>
                     </div>
                         <div class="clearfix" style="margin-bottom: 10px"></div>
@@ -174,7 +175,7 @@
             <div class="pull-right">
                 <a href="javascript:void(0)" class="btn" data-dismiss="modal">Close</a>
                 
-                <a href="javascript:void(0)" class="btn btn-primary" onclick="save_category();" id="save-category-button">Save changes</a>
+                <a href="javascript:void(0)" class="btn btn-primary" onclick="save_category('{$type}');" id="save-category-button">Save changes</a>
             </div>
         </div>
         </div>
