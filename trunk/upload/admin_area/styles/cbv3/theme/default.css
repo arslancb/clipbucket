@@ -42,6 +42,18 @@ h2.sub_heading { font-size:20px; font-weight: normal; }
 .valignTop{vertical-align: top}
 .valignMid{vertical-align: middle}
 
+
+.marginR10{margin-right: 10px}
+.marginL10{margin-left: 10px}
+.marginL50{margin-left: 50px}
+.marginL70{margin-left: 70px}
+
+.marginR5{margin-right: 5px}
+.marginL5{margin-left: 5px}
+.margin0{margin: 0px;}
+
+
+
 /* V3 ClipBucket Custom icons */
 .icon-stats {background-position: -0px -0px;}
 .icon-globe {background-position: -24px -0px;}

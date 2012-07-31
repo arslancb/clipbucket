@@ -1463,6 +1463,7 @@ class CBGroups extends CBCategory
 	{
 		global $db;
 		$gdetails = $this->get_details($gid);
+                
 		if(!$gdetails)
 			e(lang("grp_exist_error"));
 		else
@@ -1479,6 +1480,7 @@ class CBGroups extends CBCategory
 				case "deactivate":
 				case "deactive":
 				{
+                                    
 					$db->update(tbl($this->gp_tbl),array("active"),array("no")," group_id='$gid' ");
 					e(lang("grp_da_msg"),"m");
 				}

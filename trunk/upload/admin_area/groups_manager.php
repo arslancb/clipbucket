@@ -33,25 +33,26 @@ $userquery->perm_check('group_moderation',true);
 	}
 
 	//Multiple Activate
-	if(isset($_POST['activate_selected'])) {
+	if($_POST['action-mode']=='activate') {
 		for($i=0; $i<count($_POST['check_group']); $i++) {
-			$cbgroup->grp_actions('activate',$_POST['check_group'][$i],true);
+			$cbgroup->grp_actions('activate',$_POST['check_group'][$i]);
 		}
 		$eh->flush();
 		e(lang('Selected Groups are activated.'),'m');
 	}
 
 	//Multiple Deactivate
-	if(isset($_POST['deactivate_selected'])) {
+	if($_POST['action-mode']=='deactivate') {
 		for($i=0; $i<count($_POST['check_group']); $i++) {
-			$cbgroup->grp_actions('decativate',$_POST['check_group'][$i],true);
+                   
+			$cbgroup->grp_actions('deactivate',$_POST['check_group'][$i]);
 		}
 		$eh->flush();
 		e(lang('Selected Groups are deactivated.'),'m');
 	}
 	
 	//Multiple Feature
-	if(isset($_POST['make_featured_selected'])) {
+	if($_POST['action-mode']=='featured') {
 		for($i=0; $i<count($_POST['check_group']); $i++) {
 			$cbgroup->grp_actions('feature',$_POST['check_group'][$i],true);
 		}
@@ -60,7 +61,7 @@ $userquery->perm_check('group_moderation',true);
 	}
 	
 	//Multiple UnFeature
-	if(isset($_POST['make_unfeatured_selected'])) {
+	if($_POST['action-mode']=='unfeatured') {
 		for($i=0; $i<count($_POST['check_group']); $i++) {
 			$cbgroup->grp_actions('feature',$_POST['check_group'][$i],true);
 		}
@@ -74,7 +75,7 @@ $userquery->perm_check('group_moderation',true);
 	}
 	
 	//Multiple Delete
-	if(isset($_POST['delete_selected'])) {
+	if($_POST['action-mode']=='delete') {
 		for($i=0; $i<count($_POST['check_group']); $i++) {
 			$cbgroup->grp_actions("delete",$_POST['check_group'][$i],true);
 		}
@@ -129,14 +130,19 @@ $userquery->perm_check('group_moderation',true);
 		preg_match_all('/#([0-9]+)#/',$_GET['category'],$m);
 		$cats_array = array($m[1]);
 	}
-	$cat_array =	array(lang('vdo_cat'),
+        
+        
+        $cat_array =	array(lang('Category'),
 					'type'=> 'checkbox',
 					'name'=> 'category[]',
+                                        'sep'   => '<div></div>',
 					'id'=> 'category',
+                                        'class' => 'checkbox',
+                                        'indent' => str_repeat('-',2),
 					'value'=> array('category',$cats_array),
 					'hint_1'=>  lang('vdo_cat_msg'),
 					'display_function' => 'convert_to_categories',
-					'category_type'=>'groups');
+                                        'category_type'=>'group');
 	assign('cat_array',$cat_array);
 
 
