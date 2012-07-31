@@ -3,7 +3,7 @@
  ****************************************************************
  | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.
  | @ Author 	: ArslanHassan									
- | @ Software 	: ClipBucket , © PHPBucket.com					
+ | @ Software 	: ClipBucket , ï¿½ PHPBucket.com					
  ****************************************************************
 */
 
@@ -12,18 +12,43 @@ $userquery->admin_login_check();
 	
 	$gpid = mysql_clean($_GET['group_id']);
 	
-	$group = $cbgroup->get_details($gpid);
+	$gp = $cbgroup->group_exists($gpid);
 	
-	if($group)
+	if($gp)
 	{
+            $mode = $_GET['mode'];
+            if ( $mode ) {
+                switch ( $mode ) {
+                    case 'feature': {
+                        $cbgroup->grp_actions('feature',mysql_clean($_GET['group_id']));
+                    }break;
+                
+                    case 'unfeature': {
+                        $cbgroup->grp_actions('unfeature',mysql_clean($_GET['group_id']));
+                    }break;
+                
+                    case 'activate': {
+                        $cbgroup->grp_actions('activate',mysql_clean($_GET['group_id']));	
+                    }break;
+                
+                    case 'deactivate': {
+                        $cbgroup->grp_actions('deactivate',mysql_clean($_GET['group_id']));
+                    }break;
+                
+                    default: {
+                        e(lang('No or unsupported action provided'));
+                    }break;
+                }
+            }
 		if(isset($_POST['update_group']))
 		{
 			$_POST['group_id'] = $gpid;
 			$cbgroup->update_group();
-			$group = $cbgroup->get_group_details($gid);
+			//$group = $cbgroup->get_group_details($gpid);
 	
 		}
-		assign('group',$group );
+        $group = $cbgroup->get_details($gpid);
+        assign('group',$group );
 	}else
 		e("Group does not exist");
 

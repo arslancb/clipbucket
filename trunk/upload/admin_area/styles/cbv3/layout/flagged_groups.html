@@ -28,15 +28,15 @@
         </div>
     </div>
     
-    <form name="flagged_photo" method="post" id="flagged_groups">
+    <form name="flagged_groups" method="post" id="flagged_groups">
          <input type="hidden" name="" value="do" id="do-action" />
-         <table id="photo_manager_table" class="table table-striped list-block {if !$groups}display-none{/if}">
+         <table id="group_manager_table" class="table table-striped list-block {if !$groups}display-none{/if}">
             <thead>
                 <tr>
                     <th width="50"></th>
                     <th width="70">#</th>
                     <th width="60">Thumb</th>
-                    <th>Photo</th>
+                    <th>Group</th>
                      <th width="130">Flags</th>
                      <th width="130">Uploader</th>
                     <th width="130">Date</th>
@@ -98,7 +98,7 @@
                                     <li class="divider"></li>
                                     <li><a href="#" onclick=" cb_confirm('Delete Group','Are you sure you want to delete this group ?', function(){
                                         window.location = '?delete_group={$group.group_id}'
-                                    }); return false;">Delete Photo</a></li>
+                                    }); return false;">Delete Group</a></li>
                                 </ul>
                             </div>
 

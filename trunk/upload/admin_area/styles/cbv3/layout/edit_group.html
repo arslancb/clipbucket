@@ -1,108 +1,185 @@
-<h2>Edit Group</h2>
+<h2>Edit Group : {$group.group_name}</h2>
+<p>This is a complete list of information that is displayed or used for displaying a group.</p>
+
+<div class="controller scrolltoFixed white-grad">
+    <div class="buttons">
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <a class="btn" href="{group_link details=$group}"><span class="icon icon-eye-open"></span></a>
+            </div>
+            <div class="btn-group dropdown">
+                <a class="btn">Options</a>
+                <a class="btn dropdown-toggle" onclick="" data-toggle="dropdown"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{group_link details=$group}">View Group</a></li>
+
+                    {if $group.featured == 'yes'}
+                    <li><a href="?mode=unfeature&group_id={$group.group_id}">Unfeature It</a></li>
+                    {else}
+                    <li><a href="?mode=feature&group_id={$group.group_id}">Make Featured</a></li>
+                    {/if}
+
+                    {if $group.active == 'yes'}
+                    <li><a href="?mode=deactivate&group_id={$group.group_id}">Deactivate</a></li>
+                    {else}
+                    <li><a href="?mode=activate&group_id={$group.group_id}">Activate</a></li>
+                    {/if}
+
+                    <li class="divider"></li>
+                    <li><a href="#" onclick=" cb_confirm('Delete Group','Are you sure you want to delete this group ?', function(){
+                        window.location = 'group_manager.php?delete_group={$group.group_id}'
+                    }); return false;">Delete Group</a></li>
+                </ul>
+            </div>
+
+            <div class="btn-group">
+                <a href="#" class="btn btn-danger" onclick=" cb_confirm('Delete Group','Are you sure you want to delete this group ?', function(){
+                        window.location = 'group_manager.php?delete_group={$group.group_id}'
+                    }); return false;">Delete</a>
+            </div>
+
+
+            <div class="right-button">
+                <button class="btn btn-primary" name="save" value="save" id="save" onclick="$('#edit_group').submit()">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 {* Loading Form Fields *}
 {assign var='requiredFields' value=$cbgroup->load_required_fields($group,true)}
 {assign var='optionFields' value=$cbgroup->load_other_fields($group)}
 
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="10" align="left" valign="middle" class="left_head" style="text-indent:10px">&nbsp;</td>
-    <td class="head">Editing {$group.title}</td>
-    <td width="100" class="right_head">&nbsp;</td>
-  </tr>
-</table>
-
-
-
-<form name="edit_group" method="post">
-
-
-<fieldset class="fieldset">
-    <legend>Thumbs</legend>
-    <div style="width:140px; float:left" align="center">
-        <img src="{$cbgroup->get_group_thumb($group)}" border="1" style="margin:4px;max-height:120px; max-width:120px;" />
+<form action="" method="post" name="edit_group" id="edit_group" class="form form-vertical">
+    <input type="hidden" name="update_group" id="update_group" value="update_group" />
+    <div id="settings-container">
+        
+        <div class="settings-block">
+            <fieldset>
+                <legend>Thumb</legend>
+                <div class="height10"></div>
+                
+                <span class="span2" style="margin-left:0px;">
+                    <img src="{$cbgroup->get_group_thumb($group)}" class="thumbnail" />
+                </span>
+                {$LANG.grp_must_be} JPG | GIF | PNG
+                <div class="height10"></div>
+                {$LANG.grp_90x90}
+                <div class="height10"></div>
+                {$LANG.grp_thumb_warn}
+                <div class="clearfix"></div>
+                <div class="height10"></div>
+                
+                <div class="controls-group">
+                    <label for="thumb_file">Group Thumb</label>
+                    <div class="controls">
+                        <input type="file" class="input-xlarge" id="thumb_file" name="thumb_file" />
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        
+        <div class="settings-block">
+            <fieldset>
+                <legend>Important Details</legend>
+                <div class="control-group">
+                    <label class="control-label" for="userid">User/Owner</label>
+                    <div class="controls">
+                        <div class=" input-append">
+                            <input type="text" class="input-xlarge" id="userid" name="userid" value="{$group.userid}"><span class="add-on">{$group.userid|get_username}</span>
+                        </div>                        
+                    </div>
+                </div>
+                
+                 <div class="control-group">
+                        <label class="control-label" for="group_id">Group ID</label>
+                        <div class="controls">
+                            <input disabled="disabled" class="input-xlarge" name="group_id" type="text" id="group_id" value="{$group.group_id}" />                
+                        </div>
+                    </div>
+            </fieldset>
+        </div>
+        
+        <div class="settings-block">
+            <fieldset>
+                <legend>Required Fields</legend>
+                {foreach from=$requiredFields item=field}
+                    <div class="control-group">
+                        <label for="{$field.id}" class="control-label">{$field.title}</label>
+                        <div class="controls">
+                            {$field.class='input-xlarge'}
+                            {if $field.type=='checkbox' || $field.type=='radiobutton'}
+                                {$field.sep=' '}
+                                {if $field.type=='checkbox'}
+                                    {$field.class='checkbox'}
+                                {else}
+                                    {$field.class='radio'}
+                                {/if}
+                            {/if}
+                            {$formObj->createField($field)}   
+                            {if $field.hint_2}<p class="help-block">{$field.hint_2}</p>{/if}
+                        </div>
+                    </div>
+                    {/foreach}
+            </fieldset>
+        </div>
+        
+        <div class="settings-block">
+            <fieldset>
+                <legend>Optional Fields</legend>
+                {foreach from=$optionFields item=field}
+                    <div class="control-group">
+                        <label for="{$field.id}" class="control-label">{$field.title}</label>
+                        <div class="controls">
+                            {$field.class='input-xlarge'}
+                            {if $field.type=='checkbox' || $field.type=='radiobutton'}
+                                {$field.sep=' '}
+                                {if $field.type=='checkbox'}
+                                    {$field.class='checkbox'}
+                                {else}
+                                    {$field.class='radio'}
+                                {/if}
+                            {/if}
+                            {$formObj->createField($field)}   
+                            {if $field.hint_2}<p class="help-block">{$field.hint_2}</p>{/if}
+                        </div>
+                    </div>
+                    {/foreach}
+            </fieldset>
+        </div>
+        
+        <div class="settings-block">
+            <fieldset>
+                <legend>Group Stats and Info</legend>
+                <div class="control-group">
+                    <label for="total_views" class="control-label">Total Views</label>
+                    <div class="controls">
+                        <input type="text" value="{$group.total_views}" name="total_views" id="total_views" class="input-xlarge" />
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="total_members" class="control-label">Total Members</label>
+                    <div class="controls">
+                        <input type="text" value="{$group.total_members}" name="total_members" id="total_members" class="input-xlarge" />
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="total_videos" class="control-label">Total Videos</label>
+                    <div class="controls">
+                        <input type="text" value="{$group.total_videos}" name="total_videos" id="total_videos" class="input-xlarge" />
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="total_topics" class="control-label">Total Topics</label>
+                    <div class="controls">
+                        <input type="text" value="{$group.total_topics}" name="total_topics" id="total_topics" class="input-xlarge" />
+                    </div>
+                </div>
+            </fieldset>
+        </div>
     </div>
-    <div style="width:500px; float:left">
-        <li>{$LANG.grp_must_be} JPG | GIF | PNG</li>
-        <li>{$LANG.grp_90x90}</li>
-        <li>{$LANG.grp_thumb_warn}</li>
-        <input type="file" name="thumb_file" id="thumb_file" />
-    </div>
-    <div class="clearfix"></div>
- </fieldset>
-
- 
-<fieldset class="fieldset">
-  <legend>Required Details</legend>
-  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-   {foreach from=$requiredFields item=field}
-                  <tr>
-                    <td width="200"><strong>{$field.title} </strong></td>
-                    <td >{if $field.hint_1}{$field.hint_1}<br />{/if}
-{if $field.anchor_before}{ANCHOR place=$field.anchor_before}<br />{/if}
-{$formObj->createField($field)} <br />
-
-{$field.hint_2}</td>
-    </tr>
-                {/foreach}
-  </table>
-</fieldset>
-
-
-
-
-
-<fieldset class="fieldset">
-    <legend>Group Stats</legend>
-
-  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-   
-                  <tr>
-                    <td width="200" valign="top"><strong>Total Views</strong></td>
-                    <td valign="top" ><label for="total_views"></label>
-                    <input name="total_views" type="text" id="total_views" value="{$group.total_views}" /></td>
-    </tr>
-                  <tr>
-                    <td valign="top"><strong>Total Members</strong></td>
-                    <td valign="top" ><label for="total_members"></label>
-                    <input name="total_members" type="text" id="total_members" value="{$group.total_members}" /></td>
-                  </tr>
-                  <tr>
-                    <td valign="top"><strong>Total Videos</strong></td>
-                    <td valign="top" ><label for="total_topics"></label>
-                    <input name="total_videos" type="text" id="total_views4" value="{$group.total_videos}" /></td>
-                  </tr>
-                  <tr>
-                    <td valign="top"><strong>Total Topics</strong></td>
-                    <td valign="top" ><label for="total_views5"></label>
-                    <input name="total_topics" type="text" id="total_views5" value="{$group.total_topics}" /></td>
-                  </tr>
-                  <tr>
-                    <td valign="top">&nbsp;</td>
-                    <td valign="top" >&nbsp;</td>
-                  </tr>
-
-  </table>
-</fieldset>
-
-
-<fieldset class="fieldset">
-  <legend>Other Details</legend>
-  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-   {foreach from=$optionFields item=field}
-                  <tr>
-                    <td width="200"><strong>{$field.title} </strong></td>
-                    <td >{if $field.hint_1}{$field.hint_1}<br />{/if}
-{if $field.anchor_before}{ANCHOR place=$field.anchor_before}<br />{/if}
-{$formObj->createField($field)} <br />
-
-{$field.hint_2}</td>
-    </tr>
-                {/foreach}
-  </table>
-</fieldset>
-
-<div style="width:100%; margin:auto">
-<input type="submit" class="button" value="Update Group details" style="margin:5px 0px 15px 0px" name="update_group" id="update_group">
-</div>
 </form>
