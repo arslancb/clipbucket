@@ -47,12 +47,14 @@ if(isset($_POST['activate_selected'])){
 	for($id=0;$id<=count($_POST['check_group']);$id++){
 		$cbgroup->grp_actions('activate',$_POST['check_group'][$id]);
 	}
+    $eh->flush();
 	e("Selected Groups Have Been Activated","m");
 }
 if(isset($_POST['deactivate_selected'])){
 	for($id=0;$id<=count($_POST['check_group']);$id++){
 		$cbgroup->grp_actions('activate',$_POST['check_group'][$id]);
 	}
+    $eh->flush();
 	e("Selected Groups Have Been Dectivated","m");
 }
 

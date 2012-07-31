@@ -38,7 +38,7 @@ if(isset($_GET['delete_category'])){
 	$cbgroup->delete_category($_GET['delete_category']);
 }
 	
-$cats = $cbgroup->get_categories();
+$cats = getCategoryList(array('type'=>'group'));
 //Updating Category Order
 if(isset($_POST['update_order']))
 {
@@ -50,14 +50,19 @@ if(isset($_POST['update_order']))
 			$cbgroup->update_cat_order($cat['category_id'],$order);
 		}
 	}
-	$cats = $cbgroup->get_categories();
+	$cats = getCategoryList(array('type'=>'group'));
 }
+
+assign('manage_categories_title','Manage group categories');
+assign('type','group');
+$Smarty->assign_by_ref('obj',$cbgroup);
 
 //Assing Category Values
 assign('category',$cats);
+assign('categories',$cats);
 assign('total',$cbgroup->total_categories());
 
 subtitle("Groups Category manager");	
-template_files('group_category.html'); display_it();
+template_files('category.html'); display_it();
 
 ?>
