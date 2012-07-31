@@ -135,21 +135,9 @@ Manage your groups from here, you can read more about how to manage groups here 
                     <td><input type="checkbox" class="check-item" name="check_group[]" value="{$group.group_id}"></td>
                     <td>{$group.group_id}</td>
                     <td><img src="{$cbgroup->get_group_thumb($group)}"  width="60"/></td>
-                    <td>{$group.group_name}
+                    <td><a href="edit_group.php?group_id={$group.group_id}">{$group.group_name}</a>
                         
                        
-                        
-                        
-                        {if $group.active=='yes'}
-                        <span class="label label-success">{lang code='Active'}</span>
-                        {else}
-                        <span class="label label-warning">{lang code='Inactive'}</span>
-                        {/if}
-                        
-                        
-                        {if $group.featured=='yes'}
-                            <span class="label label-success">Featured</span>
-                        {/if}
                         
                         
                          {if $group.group_privacy>0}
@@ -158,6 +146,22 @@ Manage your groups from here, you can read more about how to manage groups here 
                         
                         <div>
                             <div class="height10"></div>
+                            
+                            <span class="pull-left">
+
+                                {if $group.active=='yes'}
+                                <span class="label label-success">{lang code='Active'}</span>
+                                {else}
+                                <span class="label label-warning">{lang code='Inactive'}</span>
+                                {/if}
+
+
+                                {if $group.featured=='yes'}
+                                    <span class="label label-success">Featured</span>
+                                {/if}
+
+
+                            </span>
                             <h6 class="pull-right marginR10"><i class="icon-film"></i>  {$group.total_videos|number_format}  <i class="icon-user"></i>  {$group.total_members|number_format}   <i class="icon-book"></i>  {$group.total_topics|number_format}</h6>
                             <div class="clearfix"></div>
                         </div>
