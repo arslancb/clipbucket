@@ -35,7 +35,7 @@ class AdsManager
 			$msg = e(lang('ad_name_error'));
 		}else{
 			$count = $db->count(tbl("ads_data"),"ad_id"," ad_name='$name'");
-			
+                        
 			if($count>0){
 			e(lang('ad_exists_error2'));
 			}else

@@ -792,12 +792,14 @@ function dbcount($tbl, $fields = '*', $cond = false) {
     global $db;
     if ($cond)
         $condition = " Where $cond ";
-    $query = "Select Count($fields) From $tbl $condition";
+    $query = "Select Count($fields) AS counted From $tbl $condition";
     $result = $db->Execute($query);
     
     $db->total_queries++;
     $db->total_queries_sql[] = $query;
-    return $result->_numOfRows;
+    
+    $counted = $result->fields['counted'];
+    return $counted;
 }
 
 /**
