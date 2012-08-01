@@ -1226,6 +1226,21 @@ function cb_load_css(){
     }
 }
 
-
+/**
+ * Source: http://www.barattalo.it/2010/02/02/recursive-remove-directory-rmdir-in-php/
+ * @param string $path
+ */
+function rmdir_recurse($path) {
+    $path = rtrim($path, '/').'/';
+    $handle = opendir($path);
+    while(false !== ($file = readdir($handle))) {
+        if($file != '.' and $file != '..' ) {
+            $fullpath = $path.$file;
+            if(is_dir($fullpath)) rmdir_recurse($fullpath); else unlink($fullpath);
+        }
+    }
+    closedir($handle);
+    rmdir($path);
+}
 
 ?>

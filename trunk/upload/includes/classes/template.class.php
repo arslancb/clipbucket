@@ -143,7 +143,7 @@ class CBTemplate {
 			if($tpl_details && $tpl_details['name']!='')
 				$tpls[$tpl_details['name']] = $tpl_details;
 		}
-		
+    
 		return $tpls;
 	}
 	function gettemplates()
@@ -366,6 +366,22 @@ class CBTemplate {
 			}
 		}
 	}
+  
+    function delete_template( $dir ) {
+        $current = config('template_dir');
+        $tpl = $this->get_template_details($current);
+        if ( $tpl['dir'] == $dir ) {
+            e( lang('You cannot delete current active template.') );
+        } else {
+            if ( $template = $this->is_template( $dir ) ) {
+                $path = STYLES_DIR.'/'.$template['dir'];
+                rmdir_recurse( $path );
+                return true;
+            } else {
+               e( lang('Either it is not a Clipbucket compatible template or template does not exist') );
+            }
+        }
+    }
 }
 
 ?>
