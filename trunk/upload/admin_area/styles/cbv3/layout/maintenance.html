@@ -1,58 +1,96 @@
-<span class="page_title">Website Maintenance <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="Remove inactive sessions, user logs and old user feeds" /></span>
-<div style="height:3px;"></div>
+<h2>
+    Website Maintenance 
+    <img src="{$imageurl}/help.png" border="0" rel="tooltip" title="Remove inactive sessions, user logs and old user feeds" />
+</h2>
+<div class="height5"></div>
 Remove inactive sessions, user access logs, comments cache, more options will be available soon
-<div style="height:25px; clear:both"></div>
+<div class="height10"></div>
 
-<div class="li_links">
-    <ul>
-     <li><a href="?mode=remove_sessions">Remove inactive sessions</a></li>
-     <li><a href="javascript:void(0)" onclick="$('#access_remove_form').show()" style="">Remove user access log
-     <span style="display:none" id="access_remove_form">
-     	 <form method="get" style="margin:0px; padding:0px; display:inline-block">
-         	older than 
-         	<input name="mode" value="remove_access_log" type="hidden" />
-         	<input name="days" type="text" style="border:1px solid #999" size="10" value="30"/>
-            days
-            <input type="submit" value="remove" />
-         </form>
-     </span>
-         </a>
-     </li>
-     <li><a href="javascript:void(0)" onclick="$('#activity_remove_form').show()" style="">Remove user activity feed
-     <span style="display:none" id="activity_remove_form">
-     	 <form method="get" style="margin:0px; padding:0px; display:inline-block">
-         	older than 
-         	<input name="mode" value="remove_activity_feed" type="hidden" />
-         	<input name="days" type="text" style="border:1px solid #999" size="10" value="30"/>
-            days
-            with loop size of <input name="loop_size" type="text" style="border:1px solid #999" size="10" value="100"/> users
-            <input type="submit" value="remove" />
-         </form>
-     </span>
-      </a></li>
-    </ul>
-</div>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Tool</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Remove sessions that are not active from past 5 minutes or more.</td>
+            <td><a href="?mode=remove_sessions" class="btn">Remove inactive sessions</a></td>
+        </tr>
+
+        <tr>
+            <td>Remove user access log which is older than specified date.</td>
+            <td>
+                <a href="javascript:void(0)" class="btn" onclick="$('#access_remove_form').show()" style="">Remove user access log</a>
+                <div style="display:none" id="access_remove_form">
+                    <div class="height10"></div>
+                    <form method="get" class="form-horizontal">
+                        <div class="input-prepend input-append">
+                            <input name="mode" value="remove_access_log" type="hidden" />
+                            <span class="add-on">older than </span><input name="days" type="text" class="input-mini" value="30"/><span class="add-on">Days</span>
+                        </div>
+                        
+                        <input type="submit" class="btn" value="Go"/>
+                    </form>
+                </div>
+
+            </td>
+        </tr>
+        
+        
+        
+        <tr>
+            <td>Remove user activity feed which is older than specified date.</td>
+            <td>
+                <a href="javascript:void(0)" class="btn" onclick="$('#activity_remove_form').show()" style="">Remove user activity feed</a>
+                <div style="display:none" id="activity_remove_form">
+                    <div class="height10"></div>
+                    <form method="get" class="form-horizontal">
+                        <div class="input-prepend input-append">
+                            <input name="mode" value="remove_activity_feed" type="hidden" />
+                            <span class="add-on">
+                                older than 
+                            </span><input name="days" type="text" 
+                                  class="input-mini" value="30"/><span 
+                                  class="add-on">Days, with loop size of</span><input 
+                                    name="loop_size" class="input-mini" value="100"><span 
+                                  class="add-on">users</span>
+                        </div>
+                        
+                        <input type="submit" class="btn" value="Go"/>
+                    </form>
+                </div>
+
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+
 
 {if $smarty.get.mode =='remove_activity_feed'}
-    {if $indexing}
+{if $indexing}
 <div align="right" style="padding:5px">{$from} - {$to} of {$total}</div>
-        <ul>
-        {foreach from=$index_msgs item=themsg}
-            <li>{$themsg}</li>
-        {/foreach}
-        </ul>
-    {if  $stop_loop!='yes'}
-    <script type="text/javascript">
+<ul>
+    {foreach from=$index_msgs item=themsg}
+    <li>{$themsg}</li>
+    {/foreach}
+</ul>
+{if  $stop_loop!='yes'}
+<script type="text/javascript">
     var start_index = '{$next_index}';
     var loop_size = '{$smarty.get.loop_size}';
     var mode = '{$mode}';
-	var days = '{$smarty.get.days}';
+    var days = '{$smarty.get.days}';
     {literal}$(document).oneTime(2000,function(){
-		$(window.location).attr('href', '?loop_size='+loop_size+'&mode='+mode+'&start_index='+start_index+'&days'+days)});{/literal}
-    </script>
-    redirecting....do not close this window
-    {else}
-        Indexing has been completed.
-    {/if}
-    {/if}
+        $(window.location).attr('href', '?loop_size='+loop_size+'&mode='+mode+'&start_index='+start_index+'&days'+days)});{/literal}
+</script>
+redirecting....do not close this window
+{else}
+Indexing has been completed.
+{/if}
+{/if}
 {/if}
