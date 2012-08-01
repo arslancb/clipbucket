@@ -1,33 +1,75 @@
-<h2>{$total} users are online</h2>
-<div style="height:10px"></div>
+<h2>{$total} {if $total>1}users are{else}user is{/if} online</h2>
+<div class="height10"></div>
 
-<div style="padding:3px; background-color:#09c; font-weight:bold; color:#fff">
-<table width="100%" border="0" cellspacing="0" cellpadding="2">
-  <tr>
-    <td width="150">User</td>
-    <td>Browsing</td>
-    <td width="150">Access time</td>
-    <td width="100">IP</td>
-    </tr>
-</table>
+
+<div class="manager-list">
+    <div class="controller scrolltoFixed white-grad display-none">
+        <div class="buttons">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <label class="btn check-all"><input type="checkbox"></label>
+                </div>
+                <div class="btn-group">
+                    <a class="btn" onclick="return false;">First Button</a>
+                    <a class="btn" onclick="return false;">Second Button</a>
+                </div>
+            </div>
+
+            <div class="right-button">
+                <a class="btn btn-primary" data-toggle="modal" data-target="#form">
+                    <i class="icon-plus icon-white"></i>
+                    Another Button
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <form name="online-users-form" method="post" id="online-users-form">
+        <table id="online-users-list" class="table table-striped list-block {if !$online_users}display-none{/if}">
+            <thead>
+                <tr>
+                    <th width="70">#</th>
+                    <th width="70">User</th>
+                    <th>Browsing</th>
+                    <th width="">Access time</th>
+                    <th width="200">IP</th>
+                    <th width="120"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {foreach $online_users as $user}
+                {$theBrowser=get_browser_details($user.agent)}
+                <tr>
+                    <td>{$user.session_id}</td>
+                    <td>
+                        {if $user.username}
+                            <a href="view_user?uid={$user.userid}">{$user.username}</a>
+                        {else}
+                            {$user.session_string}
+                        {/if} 
+                         
+                        <a href="#" class="popover-class" rel="popover" data-content="{$theBrowser.name} {$theBrowser.version} <br> {$theBrowser.platform}" data-original-title="Visitor">              
+                            <img class="browser {$theBrowser.bname}" src="{$imageurl}/dot.gif"  />
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{$user.current_page}">{$user.current_page|truncate:40:'..':false:true}</a>
+
+                            {if $user.referer} 
+                            <sub class="">
+                                <a href="{$user.referer}" target="_blank"  rel="tooltip" title="{$user.referer}">view referer</a>
+                            </sub>
+                            {/if}
+                    </td>
+                    <td>{$user.session_date|niceTime}</td>
+                    <td>{$user.ip}</td>
+                    <td><a href="{$queryString}kick={$user.session_id}" class="btn btn-danger" rel="tooltip" title="This will make user force logout">KICK</a></td>
+                </tr>
+                {/foreach}
+            </tbody>
+        </table>
+    </form>  
+
 </div>
 
-
-{if $online_users}
-<table width="100%" border="0" cellspacing="0" cellpadding="0" class="browsingUsers">
-{foreach from=$online_users item=user}
-{$user.agent|get_browser_details:theBrowser}
-
-    
-      <tr >
-        <td width="150">{if $user.username}<a href="view_user?uid={$user.userid}">{$user.username}</a>{else}{$user.session_string}{/if} <img class="tipsy_tip browser {$theBrowser.bname}" src="{$imageurl}/dot.gif" title="{$theBrowser.name} {$theBrowser.version} on {$theBrowser.platform}" /></td>
-        <td><a href="{$user.current_page}">{$user.current_page|truncate:40:'..':false:true}</a>
-        
-        {if $user.referer} <sub class="tipsy_tip" title="{$user.referer}"><a href="{$user.referer}" target="_blank" style="color:#030">view referer</a></sub>{/if}</td>
-        <td width="150">{$user.session_date|niceTime}<br><a href="{$queryString}kick={$user.session_id}" class="kick" title="This will make user force logout">KICK</a></td>
-        <td width="100">{$user.ip}</td>
-      </tr>
-  
-{/foreach}
-</table>
-{/if}
+{include file="$style_dir/blocks/pagination.html" }

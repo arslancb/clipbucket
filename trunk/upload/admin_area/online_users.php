@@ -13,13 +13,24 @@ $pages->page_redir();
 
 if($_GET['kick'])
 {
-	if($sess->kick(mysql_clean($_GET['kick'])))
-	{
-		e("User has been kicked out","m");
-	}
+    if($sess->kick(mysql_clean($_GET['kick'])))
+    {
+            e("User has been kicked out","m");
+    }
 }
 
-$online_users = $userquery->get_online_users(false);
+$results = 30;
+
+$page = mysql_clean($_GET['page']);
+$get_limit = create_query_limit($page,$results);
+        
+$online_users = $userquery->get_online_users(false,false,$get_limit);
+
+$total_rows  = $userquery->get_online_users(false,true);
+$total_pages = count_pages($total_rows,$results);
+$pages->paginate($total_pages,$page);
+        
+        
 assign('total',count($online_users));
 assign('online_users',$online_users);
 assign('queryString',queryString(NULL,'kick'));

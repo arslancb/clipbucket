@@ -3849,7 +3849,7 @@ class userquery extends CBCategory{
 	/**
 	  * Function used to get number of users online
 	  */
-	 function get_online_users($group=true,$count=false)
+	 function get_online_users($group=true,$count=false,$limit=false)
 	 {
 		 global $db;
 		
@@ -3858,7 +3858,7 @@ class userquery extends CBCategory{
 			 $results =  $db->select(tbl("sessions")." LEFT JOIN (".tbl("users").") ON 
 			 (".tbl("sessions.session_user=").tbl("users").".userid)" ,
 			 tbl("sessions.*,users.username,users.userid,users.email").",count(".tbl("sessions.session_user").") AS logins"
-			 ," TIMESTAMPDIFF(MINUTE,".tbl("sessions.last_active").",'".NOW()."')  < 6 GROUP BY ".tbl("users.userid"));	
+			 ," TIMESTAMPDIFF(MINUTE,".tbl("sessions.last_active").",'".NOW()."')  < 6 GROUP BY ".tbl("users.userid"),$limit);	
 		 }else
 		 {
 			 if($count)
@@ -3872,7 +3872,7 @@ class userquery extends CBCategory{
 				  $results =  $db->select(tbl("sessions")." LEFT JOIN (".tbl("users").") ON 
 				 (".tbl("sessions.session_user=").tbl("users").".userid)" ,
 				 tbl("sessions.*,users.username,users.userid,users.email")
-				 ," TIMESTAMPDIFF(MINUTE,".tbl("sessions.last_active").",'".NOW()."')  < 6 ");
+				 ," TIMESTAMPDIFF(MINUTE,".tbl("sessions.last_active").",'".NOW()."')  < 6 ",$limit);
 			 }
 		 }
 
