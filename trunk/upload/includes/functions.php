@@ -333,6 +333,7 @@ if (!function_exists('htmlspecialchars_decode')) {
 //THIS FUNCTION IS USED TO LIST FILE TYPES IN FLASH UPLOAD
 //INPUT FILE TYPES
 //OUTPUT FILE TYPE IN PROPER FORMAT
+
 function ListFileTypes($types) {
     $types_array = preg_replace('/,/', ' ', $types);
     $types_array = explode(' ', $types_array);
@@ -549,39 +550,41 @@ function getToken($method = NULL) {
  * all data folders
  * @return string 
  */
-function createDataFolders($headFolder = NULL,$custom_date=NULL) {
-    
+function createDataFolders($headFolder = NULL, $custom_date = NULL) {
+
     $time = time();
-    
-    if($custom_date)
+
+    if ($custom_date)
         $time = strtotime($custom_date);
-    
-    $year = date("Y",$time);
-    $month = date("m",$time);
-    $day = date("d",$time);
+
+    $year = date("Y", $time);
+    $month = date("m", $time);
+    $day = date("d", $time);
     $folder = $year . '/' . $month . '/' . $day;
-    
-    $data=cb_call_functions('dated_folder');
-    if($data) return $data;
-    
+
+    $data = cb_call_functions('dated_folder');
+    if ($data)
+        return $data;
+
     if (!$headFolder) {
-        @mkdir(VIDEOS_DIR   . '/' . $folder, 0777, true);
-        @mkdir(THUMBS_DIR   . '/' . $folder, 0777, true);
+        @mkdir(VIDEOS_DIR . '/' . $folder, 0777, true);
+        @mkdir(THUMBS_DIR . '/' . $folder, 0777, true);
         @mkdir(ORIGINAL_DIR . '/' . $folder, 0777, true);
-        @mkdir(PHOTOS_DIR   . '/' . $folder, 0777, true);
-        @mkdir(LOGS_DIR     . '/' . $folder, 0777, true);
-        
+        @mkdir(PHOTOS_DIR . '/' . $folder, 0777, true);
+        @mkdir(LOGS_DIR . '/' . $folder, 0777, true);
     } else {
         if (!file_exists($headFolder . '/' . $folder)) {
             @mkdir($headFolder . '/' . $folder, 0777, true);
         }
     }
-    
+
     $folder = apply_filters($folder, 'dated_folder');
     return $folder;
 }
-function create_dated_folder($headFolder = NULL,$custom_date=NULL)
-        {return createDataFolders($headFolder,$custom_date);}
+
+function create_dated_folder($headFolder = NULL, $custom_date = NULL) {
+    return createDataFolders($headFolder, $custom_date);
+}
 
 /**
  * Gets the list of comments and assign it the given paramter
@@ -794,10 +797,10 @@ function dbcount($tbl, $fields = '*', $cond = false) {
         $condition = " Where $cond ";
     $query = "Select Count($fields) AS counted From $tbl $condition";
     $result = $db->Execute($query);
-    
+
     $db->total_queries++;
     $db->total_queries_sql[] = $query;
-    
+
     $counted = $result->fields['counted'];
     return $counted;
 }
@@ -2948,7 +2951,7 @@ function is_comment_spam($comment) {
  * deafult global $cond is used, but if param is given, it will overide
  */
 function cond($condition, $operater = 'AND', $var = NULL) {
-    
+
     if (!$var) {
         global $cond;
     }else
@@ -2962,29 +2965,155 @@ function cond($condition, $operater = 'AND', $var = NULL) {
     return $cond;
 }
 
-
-
 /**
  * CB New Insert function to make dev easy 
  * 
  * @param STRING tbl_name
  * @param ARRAY fields=>values
  */
-function cb_insert($tbl,$array)
-{
+function cb_insert($tbl, $array) {
     global $db;
-    
+
     $fields = array();
     $values = array();
-    
-    
-    foreach($array as $index=>$val)
-    {
+
+
+    foreach ($array as $index => $val) {
         $fields[] = $index;
         $values[] = $val;
     }
-    
-    return $db->insert($tbl,$fields,$values);
+
+    return $db->insert($tbl, $fields, $values);
+}
+
+/**
+ * Function used to check weather FFMPEG has Required Modules installed or not
+ */
+function get_ffmpeg_codecs($data = false) {
+    $req_codecs = array
+        ('libxvid' => 'Required for DIVX AVI files',
+        'libmp3lame' => 'Required for proper Mp3 Encoding',
+        'libfaac' => 'Required for AAC Audio Conversion',
+        // 'libfaad'	=> 'Required for AAC Audio Conversion',
+        'libx264' => 'Required for x264 video compression and conversion',
+        'libtheora' => 'Theora is an open video codec being developed by the Xiph.org',
+        'libvorbis' => 'Ogg Vorbis is a new audio compression format',
+    );
+
+    if ($data)
+        $version = $data;
+    else
+        $version = shell_output(get_binaries('ffmpeg') . ' -i xxx -acodec copy -vcodec copy -f null /dev/null 2>&1');
+    preg_match_all("/enable\-(.*) /Ui", $version, $matches);
+    $installed = $matches[1];
+
+    $the_codecs = array();
+
+    foreach ($installed as $inst) {
+        if (empty($req_codecs[$inst]))
+            $the_codecs[$inst]['installed'] = 'yes';
+    }
+
+    foreach ($req_codecs as $key => $codec) {
+        $the_req_codecs[$key] = array();
+        $the_req_codecs[$key]['required'] = 'yes';
+        $the_req_codecs[$key]['desc'] = $req_codecs[$key];
+        if (in_array($key, $installed))
+            $the_req_codecs[$key]['installed'] = 'yes';
+        else
+            $the_req_codecs[$key]['installed'] = 'no';
+    }
+
+    $the_codecs = array_merge($the_req_codecs, $the_codecs);
+    return $the_codecs;
+}
+
+/**
+ * Function used to cheack weather MODULE is INSTALLED or NOT
+ */
+function check_module_path($params) {
+    $rPath = $path = $params['path'];
+
+    if ($path['get_path'])
+        $path = get_binaries($path);
+    $array = array();
+    $result = shell_output($path . " -version");
+
+    if ($result) {
+        if (strstr($result, 'error') || strstr(($result), 'No such file or directory')) {
+            $error['error'] = $result;
+
+            if ($params['assign'])
+                assign($params['assign'], $error);
+
+            return false;
+        }
+
+        if ($params['assign']) {
+            $array['status'] = 'ok';
+            $array['version'] = parse_version($params['path'], $result);
+
+            assign($params['assign'], $array);
+        } else {
+            return $result;
+        }
+    } else {
+        if ($params['assign'])
+            assign($params['assign']['error'], "error");
+        else
+            return false;
+    }
+}
+
+/**
+ * Function used to parse version from info
+ */
+function parse_version($path, $result) {
+    switch ($path) {
+        case 'ffmpeg': {
+                //Gett FFMPEG SVN version
+                preg_match("/svn-r([0-9]+)/i", strtolower($result), $matches);
+                //pr($matches);
+                if (is_numeric(floatval($matches[1])) && $matches[1]) {
+                    return 'Svn ' . $matches[1];
+                }
+                //Get FFMPEG version
+                preg_match("/FFmpeg version ([0-9.]+),/i", strtolower($result), $matches);
+                if (is_numeric(floatval($matches[1])) && $matches[1]) {
+                    return $matches[1];
+                }
+
+                //Get FFMPEG GIT version
+                preg_match("/ffmpeg version n\-([0-9]+)/i", strtolower($result), $matches);
+
+                if (is_numeric(floatval($matches[1])) && $matches[1]) {
+                    return 'Git ' . $matches[1];
+                }
+            }
+            break;
+        case 'php': {
+                return phpversion();
+            }
+            break;
+        case 'flvtool2': {
+                preg_match("/flvtool2 ([0-9\.]+)/i", $result, $matches);
+                if (is_numeric(floatval($matches[1]))) {
+                    return $matches[1];
+                } else {
+                    return false;
+                }
+            }
+            break;
+        case 'mp4box': {
+                preg_match("/version (.*) \(/Ui", $result, $matches);
+                //pr($matches);
+                if (is_numeric(floatval($matches[1]))) {
+                    return $matches[1];
+                } else {
+                    return false;
+                }
+            }
+    }
 }
 
 //Including videos functions
