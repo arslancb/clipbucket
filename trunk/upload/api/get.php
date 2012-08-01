@@ -43,10 +43,10 @@ switch($mode)
     {
         $params = array();
         $limit = config('comments_per_page');
-        $page = $_POST['page'];
-        $params['type'] = mysql_clean($_POST['type']);
-        $params['type_id'] = mysql_clean($_POST['type_id']);
-        $params['last_update'] = mysql_clean($_POST['last_update']);
+        $page = $request['page'];
+        $params['type'] = mysql_clean($request['type']);
+        $params['type_id'] = mysql_clean($request['type_id']);
+        $params['last_update'] = mysql_clean($request['last_update']);
         $params['limit'] = create_query_limit($page,$limit);	
 
         $comments = $myquery->getComments($params);
