@@ -35,6 +35,7 @@ if(!$cbtpl->is_template($sel_dir))
 	assign('sel_dir',$sel_dir);
 	//Getting list template layout files , i.e HTML files
 	$files = $cbtpl->get_template_files($sel_dir );
+ 
 	assign('tpl_files',$files);
 	//Getting list of css files
 	$css_files = $cbtpl->get_template_files($sel_dir,'theme');
@@ -81,12 +82,12 @@ if(!$cbtpl->is_template($sel_dir))
 
 
 //Getting And Listing Files
-if(!file_exists(BASEDIR.'/'.TEMPLATEFOLDER.'/'.@$_GET['temp']) || @$_GET['temp']==''){
+if(!file_exists(BASEDIR.'/'.TEMPLATEFOLDER.'/'.@$_GET['dir']) || @$_GET['dir']==''){
     $dir = SITETEMPLATEDIR.'/layout/';
     $cur_dir = TEMPLATE;
 }else{
-    $dir = BASEDIR.'/'.TEMPLATEFOLDER.'/'.$_GET['temp'].'/layout/';
-    $cur_dir = $_GET['temp'];
+    $dir = BASEDIR.'/'.TEMPLATEFOLDER.'/'.$_GET['dir'].'/layout/';
+    $cur_dir = $_GET['dir'];
 }
 
 if(!($dp = opendir($dir))) die("Cannot open $dir.");
@@ -170,6 +171,8 @@ $_file 	= $files[0];
 $open_file = fopen($file, "r");
 $data = htmlentities(file_get_contents($file));
 
+$details = $cbtpl->get_template_details( $cur_dir );
+assign('tpl',$details);
 template_files('template_editor.html');
 display_it();
 ?>

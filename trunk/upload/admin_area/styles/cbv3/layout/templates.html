@@ -1,41 +1,91 @@
-<h2>Selected Template</h2>
-<div style="margin-top:10px">
+<h2>Templates Manager</h2>
+<p>Here you can manage your available templates.</p>
 {assign var="selected" value=$Cbucket->configs.template_dir}
 {assign var="curtpl" value=$cbtpl->get_template_details($selected)}
-<table width="800" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td width="190"><img src="{$cbtpl->get_preview_thumb($curtpl.dir)}" class="preview_thumb_template" ></td>
-    <td valign="top"><h2 style="display:inline">{$curtpl.name}</h2> &#8212; <em><a href="{$curtpl.website.link}"><strong>{$curtpl.author}</strong></a></em><br />
-{$curtpl.description}<br />
-Version : {$curtpl.version}, Released on {$curtpl.released|date_format}<br />
-Website : <a href="{$curtpl.website.link}">{$curtpl.website.title}</a></td>
-  </tr>
-</table>
+<div class="manager-list">
+    <div class="controller scrollToFixed white-grad">
+        <div class="buttons">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <label class="btn check-all"><input type="checkbox" /></label>
+                </div>
 
+                <div class="btn-group">
+                    <a href="#" class="btn btn-danger" onclick="cb_confirm('Delete Selected Templates','Are you sure you want to delete selected templates ?', function(){
+                        $('#do-action').attr('name','delete_selected'); $('#template_manager').submit();
+                    }); return false;">Delete</a>
+                </div>
 
-</div>
-
-<hr size="1" noshade />
-
-{* Listing All Avilable Templates *}    
-{assign var='templates' value=$cbtpl->get_templates()}
-{if $templates} 
-    <h2>Available Templates</h2>
-	   
-    <div class="templates_container">
-    {foreach from=$templates item=template}
-    {if $selected != $template.dir}
-        <div class="template_box" align="center">
-            <img src="{$cbtpl->get_preview_thumb($template.dir)}" class="preview_thumb_template" >
-    <div align="center" style="" class="tpl_title">
-                {$template.name} <br /><em>by <strong>{$template.author}</strong></em><br />
-            <a href="templates.php?change={$template.dir}">Activate This Template</a><br />
-            <a href="{$baseurl}?template={$template.dir}" target="_blank">Preview</a><br />
-          <a href="{$baseurl}?template={$template.dir}&amp;set_template=yes" target="_blank">Preview &amp; Activate</a></div>
+                <div class="right-button">
+                    <div class="btn-group">
+                        <a href="#" class="btn btn-primary"><i class="icon-upload icon-white"></i> Upload</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    {/if}
-    {/foreach}
     </div>
-{else}
-	<div align="center">No New Template Found</div>
-{/if}
+    <fieldset>
+        <legend>Current Template</legend>
+        <div class="height20"></div>
+        <span class="span3" style="margin-left:0px;">
+            <img src="{$cbtpl->get_preview_thumb($curtpl.dir)}" class="thumbnail width240" />
+        </span>
+        <div id="current_template_details">
+            <h3 class="template_name">{$curtpl.name}</h3>
+            <p>By <a href="{$curtpl.website.link}"><strong>{$curtpl.author}</strong></a>, Released on {$curtpl.released|date_format}</p>
+            <p>{$curtpl.description}</p>
+            <p>Version: {$curtpl.version} | Website: <a href="{$curtpl.website.link}">{$curtpl.website.title}</a></p>
+            <p><a href="template_editor.php?dir={$curtpl.dir}" class="btn btn-mini">Open in editor</a></p>
+        </div>
+    </fieldset>
+    <div class="height20 clear"></div>
+    {* Listing All Avilable Templates *}    
+    {assign var='templates' value=$cbtpl->get_templates()}
+
+    {if $templates}
+    <form name="template_manager" id="template_manager" method="post" action="">
+        <fieldset>
+            <legend>Available Templates</legend>
+            <div class="height20"></div>
+            <div class="row show-grid list-block table">
+                    <input type="hidden" name="" value="do" id="do-action" />
+                    {foreach $templates as $template}
+                    {if $template.dir != $selected}
+                        <div class="span3 thumbnail marginB20 relative">
+                            <input type="checkbox" class="absolute check-item" value="{$template.dir}" name="check_template[]"  />
+                            <img src="{$cbtpl->get_preview_thumb($template.dir)}" class="width270" />
+                            <div class="caption">
+                                <h4>{$template.name}</h4>
+                                <div class="font_12 clearfix marginT5">
+                                    By {$template.author}
+                                    <div class="btn-group pull-right">
+                                        <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown" href="#">Options <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="templates.php?change={$template.dir}">Activate</a></li>
+                                            <li><a href="{$baseurl}?template={$template.dir}">Preview</a></li>
+                                            <li><a href="template_editor.php?dir={$template.dir}">Open in editor</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#" onclick="cb_confirm('Delete Template','Are you sure you want to delete this template ? ', function(){
+                                                window.location = '?delete={$template.dir}';
+                                            }); return false;">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="font_12 clearfix marginT10 display-none" id="{$template@iteration}{$template@index}_details">
+                                    <p class="font_12"><strong>Version: </strong>{$template.version}</p>
+                                    <p class="font_12">{$template.description}</p>
+                                    <p class="font_12">All of this template’s files are located in <code>{$template.path}</code></p>
+                                </div>
+                            </div>
+                        </div>
+                    {/if}
+                    {/foreach}
+            </div>
+        </form>
+    </fieldset>
+
+    {else}
+      <div class="alert">No New Template Found</div>
+    {/if}
+</div>

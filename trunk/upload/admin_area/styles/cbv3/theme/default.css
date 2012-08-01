@@ -19,6 +19,14 @@ h2.sub_heading { font-size:20px; font-weight: normal; }
     margin-left: -5px;
 }
 
+.width75{width: 75px}
+.width100{width: 100px}
+.width150{width: 150px}
+.width200{width: 200px}
+.width240{width: 240px}
+.width250{width: 250px}
+.width270{width: 270px}
+
 .height5{height: 5px}
 .height10{height: 10px}
 .height20{height: 20px}
@@ -26,6 +34,19 @@ h2.sub_heading { font-size:20px; font-weight: normal; }
 .text-right { text-align: right }
 .text-left { text-align: left }
 .text-center { text-align: center; }
+
+.marginR10{margin-right: 10px}
+.marginL10{margin-left: 10px}
+.marginL50{margin-left: 50px}
+.marginL70{margin-left: 70px}
+
+.marginR5{margin-right: 5px}
+.marginL5{margin-left: 5px}
+.margin0{margin: 0px;}
+.marginT5 { margin-top: 5px;}
+.marginT10 { margin-top: 10px;}
+.marginB20 { margin-bottom: 20px;}
+.marginB0 { margin-bottom: 0px;}
 
 .row-fluid .span150, .span150{width: 150px}
 .row-fluid .span200, .span200{width: 200px}
@@ -344,4 +365,11 @@ border-width: 1px 0px; margin-bottom: 10px; }
     -webkit-box-sizing: border-box;
     -ms-box-sizing:     border-box;
     box-sizing:        border-box;
+}
+
+h3.template_name {
+    font-size: 22px;
+    font-weight:lighter;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    margin-bottom: 10px;
 }

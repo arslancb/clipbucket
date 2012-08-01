@@ -251,8 +251,7 @@ margin-top: 0;
 }
 
 
-.file_content{background-color:#FCFCFC; border:1px solid #CCC; padding:5px; margin:5px  }
-.file_content textarea{font-size:12px; color:#333; height:500px; overflow:auto;background-color:#FCFCFC; width:100%; border:none; padding:0px; margin:0px}
+.file_content textarea, textarea.file_content {height:550px; overflow:auto; width:100%; font-family: Consolas,Monaco,monospace; padding: 10px; max-width: 100%; }
 
 .sel_file{ background-color:#FBFBFB}
 .sel_file a{color:#d54e21; font-weight:bold}
