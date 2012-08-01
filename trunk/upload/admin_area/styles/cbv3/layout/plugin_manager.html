@@ -1,153 +1,196 @@
-<h2>Installed Plugins</h2>
-{if $installed_plugin_list}
+<h2>Plugins manager</h2>
+<div class="height10"></div>
 
-<form name="installed_plugins" id="installed_plugins" method="post" action="plugin_manager.php">
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
-    <td height="50" style="padding-left:15px">
-     		<input type="submit" name="activate_selected" value="Activate"  class="button"/>
-            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
-            <input type="submit" name="uninstall_selected" value="Uninstall"  class="button" onclick="return confirm_it('Are you sure you want to uninstall selected plugin(s)')" id="uninstall_selected"/>
-    
-    </td>
-  </tr>
-</table>
 
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle" class="left_head">
-    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
-    <td class="head">Plugin Details</td>
-    <td width="50" class="right_head">&nbsp;</td>
-  </tr>
-</table>
+<div class="manager-list">
+    <div class="controller scrolltoFixed white-grad">
+        <div class="buttons">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <label class="btn check-all"><input type="checkbox"></label>
+                </div>
+                <div class="btn-group">
+                    <a class="btn" onclick="$('#action-mode').val('activate');$('#installed-plugins').submit();">Activate</a>
+                    <a class="btn" onclick="$('#action-mode').val('deactivate');$('#installed-plugins').submit();">Deactivate</a>
+                    <a class="btn btn-inverse" onclick="cb_confirm('Confirm uninstall?','Are you sure you want to uninstall selected plugins?',function(){
+                        $('#action-mode').val('uninstall');
+                        $('#installed-plugins').submit();
+                    })">Uninstall</a>
+                </div>
+            </div>
 
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-{assign var = bgcolor value = ""}
-{foreach from=$installed_plugin_list item=plug name=item}
+            <div class="right-button">
+                <a class="btn btn-primary" data-toggle="modal" data-target="#install-modal">
+                    <i class="icon-download-alt icon-white"></i>
+                    Install New
+                </a>
 
-<tr class="video_opt_td"  bgcolor="{$bgcolor}">
-    <td width="30" align="center" valign="top" class="video_opt_td"><input name="check_plugin[]" type="checkbox"  value="{$smarty.foreach.item.iteration}" />
-    <input type="hidden" name="plugin_file_{$smarty.foreach.item.iteration}" value="{$plug.plugin_file}" />
-    <input type="hidden" name="plugin_folder_{$smarty.foreach.item.iteration}" value="{$plug.folder}" />
-    </td>
-    <td valign="top"  class="video_opt_td">
-      <strong>{$plug.name}</strong> &#8212; 
-      <span class="vdo_sets">
-      Active:<strong>{$plug.plugin_active}</strong> &#8226;
-      Author:<strong><a href="{$plug.website}">{$plug.author}</a></strong> &#8226;
-      Version:<strong>{$plug.version}</strong></span>
-      <div style="margin-bottom:10px"> {$plug.description}</div>
-      <span class="vdo_sets">{if $plug.plugin_active == 'yes'}<a href="?deactivate={$plug.plugin_file}{if $plug.folder!=''}&f={$plug.folder}{/if}">Deactivate</a>{else}<a href="?activate={$plug.plugin_file}{if $plug.folder!=''}&f={$plug.folder}{/if}">Activate</a>{/if} | 
-    <a href="javascript:Confirm_Uninstall('?uninstall={$plug.plugin_file}{if $plug.folder!=''}&f={$plug.folder}{/if}')">Uninstall</a></span>
-    <div style="height:5px"></div>
-     </td>
-    </tr>
-    {if $bgcolor == ""}
-    {assign var = bgcolor value = "#EEEEEE"}
-    {else}
-    {assign var = bgcolor value = ""}
-    {/if}
-        
-{/foreach}
-</table>
+                <a class="btn btn-primary" data-toggle="modal" data-target="#upload-modal">
+                    <i class="icon-upload icon-white"></i>
+                    Upload
+                </a>
+            </div>
 
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return_invert.png" width="25" height="25"></td>
-    <td height="50" style="padding-left:15px">
-     <input type="submit" name="activate_selected" value="Activate"  class="button"/>
-            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
-            <input type="submit" name="uninstall_selected" value="Uninstall"  class="button" onclick="return confirm_it('Are you sure you want to delete selected video(s)')" id="uninstall_selected"/>
-    
-    </td>
-  </tr>
-</table>
-</form>
-
-{else}
-<div align="center"><strong><em>No Installed Plugin Found</em></strong></div>
-{/if}
+        </div>
+    </div>
 
 
 
+    <form name="installed-plugins" method="post" id="installed-plugins">
+        <input type="hidden" name="action-mode" id="action-mode" />
+        <table id="installed-plugins-list" class="table table-striped list-block {if !$installed_plugin_list}display-none{/if}">
+            <thead>
+                <tr>
+                    <th width="50"></th>
+                    <th>Name</th>
+                    <th width="70">Version</th>
+                    <th width="180"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {foreach $installed_plugin_list as $plugin}
+
+                <tr>
+                    <td>
+                        <input type="checkbox" class="check-item" name="check_plugin[]" value="{$plugin@iteration}">
+                        <input type="hidden" name="plugin_file_{$plugin@iteration}" value="{$plugin.plugin_file}" />
+                        <input type="hidden" name="plugin_folder_{$plugin@iteration}" value="{$plugin.folder}" />
+                    </td>
+                    <td>
+
+                        <strong>{$plugin.name}</strong>
+                        <div>{$plugin.description}</div>
+
+                        <div class="height5"></div>
+
+                        {if $plugin.plugin_active=='yes'}
+                        <span class="label label-success">Active</span>
+                        {else}
+                        <span class="label label-warning">Inactive</span>
+                        {/if}
 
 
+                        <a href="{$plugin.website}" target="_blank" class="btn btn-mini" title="Written by {$plugin.author}" rel="tooltip">
+                            {$plugin.author}
+                            <i class="icon-share"></i>
+                        </a>
 
-{* Listing New Plugins *}
-<div style="height:25px"></div>
-<h2>Available Plugins </h2>
+                    </td>
+                    <td>{$plugin.version}</td>
+                    <td><div class="dropdown pull-right">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown">Options <i class="caret"></i></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    {if $plugin.plugin_active == 'yes'}
+                                    <a  href="?deactivate={$plugin.plugin_file}{if $plugin.folder!=''}&f={$plugin.folder}{/if}">
+                                        Deactivate
+                                    </a>
+                                    {else}
+                                    <a  href="?activate={$plugin.plugin_file}{if $plugin.folder!=''}&f={$plugin.folder}{/if}">
+                                        Activate
+                                    </a>
+                                    {/if}
+                                </li>
+                                <li class="divider"></li>
+                                <span class="display-none" id="{$plugin@iteration}-ad-uninstall">
+                                    Are you sure you want to uninstall {$plugin.name} ?
+                                </span>
+                                <li><a href="javascript:void(0)" onclick="cb_confirm('Uninstall plugin',$('#{$plugin@iteration}-ad-uninstall').text(),
+                                function(){
+                                    window.location = '?uninstall={$plugin.plugin_file}{if $plugin.folder!=''}&f={$plugin.folder}{/if}';
+                                })">Uninstall</a></li>
+                            </ul>
 
-{if $new_plugin_list}<form name="available_plugins" id="available_plugins" action="plugin_manager.php" method="post">
+                        </div></td>
+                </tr>
+                {/foreach}
+            </tbody>
+        </table>
 
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
-    <td height="50" style="padding-left:15px"><input type="submit" name="install_selected" value="Install"  class="button" onclick="return confirm_it('Are you sure you want to install selected plugin(s)')" id="install_selected"/>
-    
-    </td>
-  </tr>
-</table>
-
-
-
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle" class="left_head">
-    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
-    <td class="head">Plugin Details</td>
-    <td width="50" class="right_head">&nbsp;</td>
-  </tr>
-</table>
+        {if !$installed_plugin_list}
+        <div class="alert">There are no plugins installed</div>
+        {/if}
+    </form>  
 
 
-
-
-
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-{assign var = bgcolor value = ""}
-{foreach from=$new_plugin_list item=plug name=item}
-
-<tr class="video_opt_td"  bgcolor="{$bgcolor}">
-    <td width="30" align="center" valign="top" class="video_opt_td">
-   <input name="check_plugin[]" type="checkbox"  value="{$smarty.foreach.item.iteration}" />
-    <input type="hidden" name="plugin_file_{$smarty.foreach.item.iteration}" value="{$plug.file}" />
-    <input type="hidden" name="plugin_folder_{$smarty.foreach.item.iteration}" value="{$plug.folder}" /></td>
-    <td valign="top"  class="video_opt_td" >
-      <strong>{$plug.name}</strong> &#8212; 
-      <span class="vdo_sets">
-      Active:<strong>{$plug.plugin_active}</strong> &#8226;
-      Author:<strong><a href="{$plug.website}">{$plug.author}</a></strong> &#8226;
-      Version:<strong>{$plug.version}</strong></span>
-      <div style="margin-bottom:10px"> {$plug.description}</div>
-      <span class="vdo_sets"><a href="?install_plugin={$plug.file}{if $plug.folder!=''}&f={$plug.folder}{/if}">Install Plugin</a></span>
-    <div style="height:5px"></div>
-    </td>
-  </tr>
-    {if $bgcolor == ""}
-    {assign var = bgcolor value = "#EEEEEE"}
-    {else}
-    {assign var = bgcolor value = ""}
-    {/if}
-        
-{/foreach}
-</table>
+</div>
 
 
 
 
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return_invert.png" width="25" height="25" /></td>
-    <td height="50" style="padding-left:15px"><input type="submit" name="install_selected" value="Install"  class="button" onclick="return confirm_it('Are you sure you want to install selected plugin(s)')" id="install_selected"/>
-    
-    </td>
-  </tr>
-</table>
-</form>
+<div class="modal hide" id="install-modal">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Install New plugins</h3>
+    </div>
 
 
- {else}
-<div align="center"><strong><em>No Plugin is available</em></strong></div>
-{/if}
+    <div class="modal-body">
+        <div class="manager-list">
+            <div class="controller white-grad">
+                <div class="buttons">
+                    <div class="btn-toolbar">
+                        <div class="btn-group">
+                            <label class="check-all"><input type="checkbox"></label>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" onclick="$('#new-action-mode').val('activate');
+                            $('#new-plugins').submit();">Install Selected</a>
+
+                        </div>
+
+                        <div class="right-button">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <form name="new-plugins" method="post" id="new-plugins">
+                <input type="hidden" name="action-mode" id="new-action-mode" value="" />
+                {if $new_plugin_list}
+
+                <table class="table table-striped list-block">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {foreach $new_plugin_list as $plugin}
+                        <tr>
+                            <td><input type="checkbox" class="check-item" name="check_plugin[]" value="{$plugin@iteration}"></td>
+                            <td>
+                                <strong>{$plugin.name}</strong>
+                                <div>{$plugin.description}</div>
+                                <div class="height5"></div>
+                                <span class="btn btn-mini disabled">{$plugin.version}</span>
+                                <a href="{$plugin.website}" target="_blank" class="btn btn-mini" title="Written by {$plugin.author}" rel="tooltip">
+                                    {$plugin.author}
+                                    <i class="icon-share"></i>
+                                </a>
+                            </td>
+                            <td><a class="btn btn-success" href="?install_plugin={$plugin.file}{if $plugin.folder!=''}&f={$plugin.folder}{/if}">Install</a></td>
+                        </tr>
+                        {/foreach}
+                    </tbody>
+                </table>
+
+
+                {/if}
+            </form>
+
+            {if !$new_plugin_list}
+            <div class="alert">Now new plugins are avaialble, please upload.</div>
+            {/if}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+    </div>
+</div>

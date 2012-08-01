@@ -23,7 +23,7 @@ if(isset($_GET['uninstall']))
 /**
  * Uninstalling Multiple Plugins
  */
-if(isset($_POST['uninstall_selected']))
+if($_POST['action-mode']=='uninstall')
 {
 	$plugs = count($_POST['check_plugin']);
 	for($i=0;$i<$plugs;$i++)
@@ -46,7 +46,7 @@ if(isset($_GET['activate']))
 /**
  * Activating Multiple
  */
-if(isset($_POST['activate_selected']))
+if($_POST['action-mode']=='activate')
 {
 	$plugs = count($_POST['check_plugin']);
 	for($i=0;$i<$plugs;$i++)
@@ -67,7 +67,7 @@ if(isset($_GET['deactivate']))
 /**
  * dectivating Multiple
  */
-if(isset($_POST['deactivate_selected']))
+if($_POST['action-mode']=='deactivate')
 {
 	$plugs = count($_POST['check_plugin']);
 	for($i=0;$i<$plugs;$i++)
@@ -89,7 +89,7 @@ if(isset($_GET['install_plugin']))
 /**
  * Installing Multiple Plugins
  */
-if(isset($_POST['install_selected']))
+if($_POST['action-mode']=='install')
 {
 	$plugs = count($_POST['check_plugin']);
 	for($i=0;$i<$plugs;$i++)
