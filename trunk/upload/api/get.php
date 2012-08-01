@@ -37,6 +37,23 @@ switch($mode)
         
         echo json_encode($new_videos);
     }
+    break;
+    
+    case "getComments":
+    {
+        $params = array();
+        $limit = config('comments_per_page');
+        $page = $_POST['page'];
+        $params['type'] = mysql_clean($_POST['type']);
+        $params['type_id'] = mysql_clean($_POST['type_id']);
+        $params['last_update'] = mysql_clean($_POST['last_update']);
+        $params['limit'] = create_query_limit($page,$limit);	
+
+        $comments = $myquery->getComments($params);
+        
+        echo json_encode($comments);
+    }
+    break;
 }
 
 ?>
