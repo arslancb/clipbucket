@@ -29,7 +29,7 @@ switch($mode)
         if($videos)
             foreach($videos as $video)
             {
-                $video['thumbs'] = array('default'=>THUMBS_URL.'/default.jpg');
+                $video['thumbs'] = array('default'=>BASEURL.'/api/thumb-sample.php');
                 $video['videos'] = array('mobile' => VIDEOS_URL.'/12345.mp4');
                 $new_videos[] = $video;
             }
