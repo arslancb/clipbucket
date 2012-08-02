@@ -202,7 +202,31 @@
         });
         
         
+        $('.block-title .icon-blank').each(function(){
+            
+            if($(this).parent().next().css('display')!='none')
+            {
+                $(this).removeClass('icon-plus').addClass('icon-minus');
+            }else
+            {
+                $(this).removeClass('icon-minus').addClass('icon-plus');
+            }
+        });
         
+        $('.block-title').on('click','.icon-blank',function(){
+            $(this).parent().next().toggle();
+            
+            if($(this).parent().next().css('display')!='none')
+            {
+                $(this).removeClass('icon-plus').addClass('icon-minus');
+            }else
+            {
+                $(this).removeClass('icon-minus').addClass('icon-plus');
+            }
+        })
 
-    })
+    });
+    
+    
+   
 </script>

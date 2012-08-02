@@ -80,7 +80,7 @@ h2.sub_heading { font-size:20px; font-weight: normal; }
 .icon-globe {background-position: -24px -0px;}
 .icon-keys  {background-position: -48px -0px;}
 .icon-reply {background-position: -72px -0px;}
-.icon-groups {background-position: -96px -0px;}
+.icon-groups {background-position: -96px 3px;}
 .icon-add-user {background-position: -120px -0px;}
 .icon-remove-user {background-position: -144px -0px;}
 .icon-gauges {background-position: -168px -0px;}
@@ -373,3 +373,29 @@ h3.template_name {
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
     margin-bottom: 10px;
 }
+
+
+.home-sidebar{
+    width:225px; float: left; background-color: #f5f5f5; 
+    border-left: 1px solid #ccc; height: 100%
+}
+
+.home-sidebar .sidebar-title{ font-size: 11px; font-weight: bold; background-color: #f5f5f5; }
+
+.home-block{
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #f5f5f5;
+    border: 1px solid #d1d1d1;
+    -webkit-box-shadow:  1px 1px 1px 0px rgba(229, 229, 229, 1);
+    box-shadow:  1px 1px 1px 0px rgba(229, 229, 229, 1);
+    padding: 10px;
+    width: 350px;
+    
+}
+.home-block .block-title{font-size: 16px; font-weight: bold; margin-bottom: 5px; position: relative}
+.icon-blank{cursor: pointer; position: absolute; right: 0px}
+.block-content{padding-top: 15px;}
+.block-content .stats tr td:nth-child(2),.block-content .stats tr th:nth-child(2){ text-align: right}
+.block-content .stats tr td {font-size: 14px}
