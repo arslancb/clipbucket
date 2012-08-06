@@ -614,8 +614,11 @@ class CBvideo extends CBCategory
 		}
 		
 		//uid 
-		if($params['user'])
+		if($params['user'] || $params['userid'])
 		{
+                        if($params['userid'])
+                            $params['user'] = $params['userid'];
+                        
 			if(!is_array($params['user']))
 			{
 				if($cond!='')
