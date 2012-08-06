@@ -224,9 +224,22 @@
                 $(this).removeClass('icon-minus').addClass('icon-plus');
             }
         })
+        
+        
+        notificationHeight();
+        
+        //Fixing Bars
+        $( '.notification-container' ).scrollToFixed({
+            top : 0,
+
+            limit: function() {
+                var limit = $('footer').offset().top - $('.notification-container').outerHeight(true) ;
+                return limit;
+            }
+        });
 
     });
-    
+   
     
    
 </script>

@@ -1,4 +1,6 @@
-function js(){ return false; }
+function js(){
+    return false;
+}
 
 /**
  *Function used to display an error message popup box
@@ -73,18 +75,18 @@ function createWidget($widgetId,$sideBarId)
     }
 
     var $newWidget = '<div class="widget-bar" id="'+$widgetId+'-'+$sideBarId+'" >';
-        $newWidget += '<div class="btn-group">';
-        $newWidget += '<span class="btn widget-btn-long relative">';
-        $newWidget += '<img src="'+imageurl+'/loaders/1.gif"';
-        $newWidget += 'class="loader absolute" style="left:5px"/>';
-        $newWidget +=  $widgetTitle+'</span>';
-        $newWidget += '<button class="btn dropdown-toggle"';
-        $newWidget += ' data-toggle="modal" ';
-        $newWidget += ' data-target="#'+$widgetId+'-'+$sideBarId+'-modal" ';
-        $newWidget += '><i class="caret"></i></button>';
-        $newWidget += '</div>';
-        $newWidget += '<input type="hidden" name="widgets[]" value="'+$widgetId+'"/>';
-        $newWidget += '</div>';
+    $newWidget += '<div class="btn-group">';
+    $newWidget += '<span class="btn widget-btn-long relative">';
+    $newWidget += '<img src="'+imageurl+'/loaders/1.gif"';
+    $newWidget += 'class="loader absolute" style="left:5px"/>';
+    $newWidget +=  $widgetTitle+'</span>';
+    $newWidget += '<button class="btn dropdown-toggle"';
+    $newWidget += ' data-toggle="modal" ';
+    $newWidget += ' data-target="#'+$widgetId+'-'+$sideBarId+'-modal" ';
+    $newWidget += '><i class="caret"></i></button>';
+    $newWidget += '</div>';
+    $newWidget += '<input type="hidden" name="widgets[]" value="'+$widgetId+'"/>';
+    $newWidget += '</div>';
       
     
     /*Widget Modal
@@ -115,7 +117,7 @@ function saveSidebar($Id,$widgetId)
         function( data ) {
             
         }
-    );
+        );
 }
 
 /** 
@@ -130,7 +132,7 @@ function saveAndFetch($Id,$widgetId)
             $('#modal-forms-'+$Id).append(data.data);
             $('#'+$widgetId+'-'+$Id+' .loader' ).hide();
         }
-    );
+        );
 }
 
 /**
@@ -151,7 +153,7 @@ function saveWidget($bttn,$id)
             $($bttn).text('Save');
             $($bttn).prev().trigger('click');
         }
-    );
+        );
         
 }
 
@@ -163,9 +165,9 @@ function deleteWidget($widgetId,$sidebarId){
    
     if($('#'+$widgetId+'-'+$sidebarId).html())
     {
-       $('#'+$widgetId+'-'+$sidebarId).remove();
-       saveSidebar($sidebarId); 
-       $('#'+$widgetId+'-'+$sidebarId+'-modal').modal('hide').remove();
+        $('#'+$widgetId+'-'+$sidebarId).remove();
+        saveSidebar($sidebarId); 
+        $('#'+$widgetId+'-'+$sidebarId+'-modal').modal('hide').remove();
     }
 }
 
@@ -192,29 +194,29 @@ function add_category()
                 scrollTo('#category-'+data.cid);
             }
         }
-    );
+        );
 }
 
 
-    /**
+/**
      * Function used to make confirmation about any action
      */
-    function cb_confirm(title,text,callback)
-    {
-        $('#confirm .modal-header h3').text(title);
-        $('#confirm .modal-body').html(text);
-        $('#confirm-yes').bind('click',callback);    
-        $('#confirm').modal('show');
-    }
+function cb_confirm(title,text,callback)
+{
+    $('#confirm .modal-header h3').text(title);
+    $('#confirm .modal-body').html(text);
+    $('#confirm-yes').bind('click',callback);    
+    $('#confirm').modal('show');
+}
     
-    /**
+/**
      * Clears confirm form events and text
      */
-    function clear_confirm(){
-        $('#confirm .modal-header h3').text('');
-        $('#confirm .modal-body').html('');
-        $('#confirm-yes').unbind('click');    
-    }
+function clear_confirm(){
+    $('#confirm .modal-header h3').text('');
+    $('#confirm .modal-body').html('');
+    $('#confirm-yes').unbind('click');    
+}
 
 
 
@@ -224,7 +226,7 @@ function add_category()
  */
 function scrollTo($element){
     $('html, body').animate({
-            scrollTop: $($element).offset().top
+        scrollTop: $($element).offset().top
     }, 'fast');
 }
 
@@ -234,16 +236,20 @@ function scrollTo($element){
  */
 function delete_category(cid,type)
 {
-    amplify.request("categories",{cid : cid,'mode' : 'delete_category',type:type},
-        function(data){
-            if(data.err)
-            {
-                displayError(data.err);
-            }else
-            {
-                $('#category-'+cid).fadeOut();
-            }
+    amplify.request("categories",{
+        cid : cid,
+        'mode' : 'delete_category',
+        type:type
+    },
+    function(data){
+        if(data.err)
+        {
+            displayError(data.err);
+        }else
+        {
+            $('#category-'+cid).fadeOut();
         }
+    }
     );
 
 }
@@ -255,16 +261,21 @@ function delete_category(cid,type)
  */
 function make_default(cid,category_name,type)
 {
-    amplify.request("categories",{cid : cid,'mode' : 'make_default','name':category_name,type:type},
-        function(data){
-            if(data.err)
-            {
-                displayError(data.err);
-            }else
-            {
-                displayMsg(data.msg)
-            }
+    amplify.request("categories",{
+        cid : cid,
+        'mode' : 'make_default',
+        'name':category_name,
+        type:type
+    },
+    function(data){
+        if(data.err)
+        {
+            displayError(data.err);
+        }else
+        {
+            displayMsg(data.msg)
         }
+    }
     );
 }
 
@@ -296,18 +307,22 @@ function loading(ID,ToDo)
 function edit_category(id,type)
 {
     
-    amplify.request("categories",{'mode' : 'edit_category',cid:id,type:type},
-        function(data){
-            if(data.success)
-            {
-                $('#edit-category-modal .form-basic').html(data.template);
-                $('#edit-category-modal h3').html(data.title);
-                $('#edit-category-modal .update-message').html('');
-                $('#edit-category-modal').modal('show');
-            }else
-                if(data.err)
-                    displayError(data.err);
-        }
+    amplify.request("categories",{
+        'mode' : 'edit_category',
+        cid:id,
+        type:type
+    },
+    function(data){
+        if(data.success)
+        {
+            $('#edit-category-modal .form-basic').html(data.template);
+            $('#edit-category-modal h3').html(data.title);
+            $('#edit-category-modal .update-message').html('');
+            $('#edit-category-modal').modal('show');
+        }else
+        if(data.err)
+            displayError(data.err);
+    }
     );
 }
 
@@ -321,9 +336,9 @@ function save_category(id)
     loading('save-category');
     
     var formData = $('#edit-category').serialize();
-        formData += '&mode=save_category';
+    formData += '&mode=save_category';
 
-      amplify.request("categories",formData,
+    amplify.request("categories",formData,
         function(data){
             if(data.err)
                 $('#edit-category-modal .update-message').html('<div class="alert alert-danger">'+data.err+'</div>')
@@ -332,7 +347,7 @@ function save_category(id)
             loading('save-category','hide');
             $('#save-category-button').removeClass('disable');
         }
-    );
+        );
 }
 
 
@@ -350,12 +365,17 @@ function update_order(id,order,type)
     
     loading(type+'-'+id);
 
-    amplify.request(amplify_type,{"mode":"update_order","cid":id,'order':order,type:type},
-        function(data){
-            if(data.err)
-                displayError(data.err);
-            loading(type+'-'+id,"hide");
-        }
+    amplify.request(amplify_type,{
+        "mode":"update_order",
+        "cid":id,
+        'order':order,
+        type:type
+    },
+    function(data){
+        if(data.err)
+            displayError(data.err);
+        loading(type+'-'+id,"hide");
+    }
     );
 }
 
@@ -426,3 +446,14 @@ function update_video_profile(pid)
     })
 }
 
+/**
+ * Adjust notification sidebar height.
+ */
+function notificationHeight()
+{
+    var height = $(window).height();
+    if(height<450)
+        height = 450;
+    $('.notification-container').height(height + 10);
+    $('.home-box').css('min-height',height);
+}
