@@ -54,6 +54,42 @@ switch($mode)
         echo json_encode($comments);
     }
     break;
+
+    case "getCategory":
+    case "getCategories":
+    {
+        $type = $request['type'];
+        switch($type)
+        {
+            case "v":
+            case "video":
+            case "videos":
+            default:
+            {
+                $categories = $cbvid->getCbCategories();     
+            }
+            break;
+            
+            case "u":
+            case "user":
+            case "users":
+            {
+                $categories = $userquery->getCbCategories();
+            }
+            
+            break;
+            
+            case "g":
+            case "group":
+            case "groups":
+            {
+                $categories = $cbgroup->getCbCategories();
+            }
+        }
+        
+        echo json_encode($categories);
+    }
+    break;
 }
 
 ?>

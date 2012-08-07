@@ -146,7 +146,7 @@ abstract class CBCategory
 		return $select;
 	}
 	
-	function getCbCategories($params)
+	function getCbCategories($params=NULL)
 	{
 		global $db; 
 		$params['use_sub_cats'] = $params['use_sub_cats'] ? $params['use_sub_cats'] : "yes";
