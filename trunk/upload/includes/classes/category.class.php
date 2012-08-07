@@ -168,10 +168,17 @@ abstract class CBCategory
 			$finalArray[] = array("category_id"=>"all","category_name"=>lang("cat_all"));
 		
 		foreach($categories as $cat)
-		{
-			$finalArray[$cat['category_id']] = $cat;	
-			if($subCategories === TRUE && $this->is_parent($cat['category_id']))
-				$finalArray[$cat['category_id']]['children'] = $this->getCbSubCategories($cat['category_id'],$params);
+		{ 
+                    if($subCategories === TRUE && $this->is_parent($cat['category_id']))
+                    {
+                            $cat['children'] = $this->getCbSubCategories($cat['category_id'],$params);
+
+                    }
+                    
+                    if($params['indexes_only'])
+                        $finalArray[] = $cat;
+                    else
+                        $finalArray[$cat['category_id']] = $cat;
 		}
 		return $finalArray;
 	}
@@ -204,11 +211,16 @@ abstract class CBCategory
 				$subArray = array();
 				foreach($subCats as $subCat)
 				{
-					$subArray[$subCat['category_id']] = $subCat;
+					//$subArray[$subCat['category_id']] = $subCat;
 					if($this->is_parent($subCat['category_id']))
 					{
-						$subArray[$subCat['category_id']]['children'] = $this->getCbSubCategories($subCat['category_id'],$params);
+						$subCat['children'] = $this->getCbSubCategories($subCat['category_id'],$params);
 					}
+                                        
+                                        if($params['indexes_only'])
+                                            $subArray[] = $subCat;
+                                        else
+                                            $subArray[$subCat['category_id']] = $subCat;
 				}
 				return $subArray;
 			}

@@ -66,7 +66,7 @@ switch($mode)
             case "videos":
             default:
             {
-                $categories = $cbvid->getCbCategories();     
+                $categories = $cbvid->getCbCategories(arraY('indexes_only'=>true));     
             }
             break;
             
@@ -74,7 +74,7 @@ switch($mode)
             case "user":
             case "users":
             {
-                $categories = $userquery->getCbCategories();
+                $categories = $userquery->getCbCategories(arraY('indexes_only'=>true)); 
             }
             
             break;
@@ -83,10 +83,9 @@ switch($mode)
             case "group":
             case "groups":
             {
-                $categories = $cbgroup->getCbCategories();
+                $categories = $cbgroup->getCbCategories(arraY('indexes_only'=>true)); 
             }
         }
-        
         echo json_encode($categories);
     }
     break;
