@@ -1,0 +1,19 @@
+<textarea class="note-textarea" id="note-text" placeholder="add new note.."></textarea>
+<input type="button" class="btn btn-primary note-add-btn text-center"
+       data-loading-text="Adding note..." value="Add note"
+       onclick="add_note();"/>
+
+{assign var=notes value=$myquery->get_notes()}
+<table class="table table-striped table-condensed stats">
+    <tbody id="notes-container">
+        {if $notes}
+        {foreach from=$notes item=note}
+        <tr id="note-{$note.note_id}">
+            <td>{$note.note|nl2br}</td>
+            <td width="20"><a href="javascript:void(0)" class="icon-trash"
+                              onclick="delete_note('{$note.note_id}')"></a></td>
+        </tr>
+        {/foreach}
+        {/if}
+    </tbody>
+</table>
