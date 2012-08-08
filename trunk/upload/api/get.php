@@ -92,7 +92,7 @@ switch($mode)
 
     case 'getFields':
     case 'get_fields': {
-        $fields = $cbvid->load_video_fields(null);
+        $fields = $Upload->load_video_fields(null);
         
         echo json_encode($fields);
     }
