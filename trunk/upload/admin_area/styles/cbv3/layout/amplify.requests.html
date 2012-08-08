@@ -1,7 +1,7 @@
 <script>
     var ajaxURL = baseurl+'/admin_area/ajax';
     
-    //Update sidebar
+    //widgets sidebar
     amplify.request.define( "update-sidebar", "ajax", {
         url: ajaxURL+"/widgets.php",
         type: "POST",
@@ -31,9 +31,25 @@
     })
     
     
-    //Category Ajax Requests..
+    //videos Ajax Requests..
     amplify.request.define("videos","ajax",{
         url : ajaxURL+"/videos.php",
+        type : "POST",
+        dataType : "json",
+        decode:function(data,status,xhr,success,error)
+        {
+            if(status==='success'){
+                success(data);
+            }else{
+                error(data);
+            }
+        }
+    })
+    
+    
+    //main Ajax Requests..
+    amplify.request.define("main","ajax",{
+        url : ajaxURL+"/main.php",
         type : "POST",
         dataType : "json",
         decode:function(data,status,xhr,success,error)

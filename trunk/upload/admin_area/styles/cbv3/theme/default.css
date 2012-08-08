@@ -382,6 +382,8 @@ h3.template_name {
 
 .home-sidebar .sidebar-title{ font-size: 11px; font-weight: bold; background-color: #f5f5f5; }
 
+.blocks-container{width: 50%; float: left; box-sizing: padding-box; -moz-box-sizing: padding-box; -webkit-box-sizing: padding-box;
+                  padding-right: 20px;}
 .home-block{
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -391,12 +393,13 @@ h3.template_name {
     -webkit-box-shadow:  1px 1px 1px 0px rgba(229, 229, 229, 1);
     box-shadow:  1px 1px 1px 0px rgba(229, 229, 229, 1);
     padding: 10px;
-    min-width: 350px;
+    width: 100%;
     display: inline-block;
     margin-left: 0px !important;
-    margin-right: 20px; margin-bottom: 20px
+    margin-right: 20px; margin-bottom: 20px;
+    box-sizing: padding-box; -moz-box-sizing: padding-box; -webkit-box-sizing: padding-box
 }
-.home-block .block-title{font-size: 16px; font-weight: bold; margin-bottom: 5px; position: relative}
+.home-block .block-title{font-size: 16px; font-weight: bold; margin-bottom: 5px; position: relative; display: block; cursor: move}
 .icon-blank{cursor: pointer; position: absolute; right: 0px}
 .block-content{padding-top: 15px;}
 .block-content .stats tr td:nth-child(2),.block-content .stats tr th:nth-child(2){ text-align: right}
@@ -443,3 +446,7 @@ padding: 4px 6px 4px 10px; height: 40px;
 border-top: 1px solid rgba(255, 255, 255, 0.2)
 }
 .notification li.notifications ul li .desc{font-weight: normal; font-size: 11px; margin-top: -3px}
+
+.note-textarea,.note-add-btn{width:100%; box-sizing:padding-box; -moz-box-sizing: padding-box; -webkit-box-sizing: padding-box}
+.note-add-btn{width: 100% !important; margin-bottom: 10px}
+.awein{background-color: #000; padding: 10px}

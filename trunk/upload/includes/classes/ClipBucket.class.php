@@ -71,6 +71,8 @@ class ClipBucket
 	 */
         var $on_delete_video = array();
 
+        
+        var $admin_blocks = array();
 	 
 	function ClipBucket ()
 	{

@@ -457,3 +457,58 @@ function notificationHeight()
     $('.notification-container').height(height + 10);
     $('.home-box').css('min-height',height);
 }
+
+
+/** 
+ * Add Note for admin
+ */
+
+function add_note()
+{
+    var $note = $('#note-text').val();
+
+        amplify.request('main',{"mode":"add-note","note":$note},function(data){
+        if(data.err)
+        {
+            displayError(data.err);
+        }else
+        {
+            var new_note = '<tr id="note-'+data.id+'" class="display-none"><td>';
+            new_note += data.note;
+            new_note += '</td>';
+            new_note += '<td><a href="javascript:void(0)" class="icon-trash" onclick="delete_note(\''+data.id+'\')"></i></td></tr>';
+            
+            $('#note-text').val('');
+            $('#notes-container').prepend(new_note);
+            $('#note-'+data.id).fadeIn();
+        }
+    });
+
+}
+
+function delete_note($id)
+{
+    amplify.request('main',{mode:'delete-note',id:$id},function(data){
+        if(data.err){
+            displayError(data.err);
+        }else
+        {
+            $('#note-'+$id).fadeOut(function(){ $(this).remove() });
+        }
+    })
+}
+
+function update_admin_home_order()
+{
+    var formData = $('#admin-home-blocks-form').serialize();
+    formData += '&mode=update-home-block-order';
+    
+    amplify.request('main',formData,function(data){
+        if(data.err){
+            displayError(data.err);
+        }else
+        {
+            
+        }
+    })
+}

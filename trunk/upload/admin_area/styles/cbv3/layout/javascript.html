@@ -58,6 +58,9 @@
             }
         });
         
+        
+        
+        
         /* And so dropability */
         $('.sidebar-widgets .drop-widget-area').droppable({
             drop:function(event,ui)
@@ -83,6 +86,34 @@
         });
         $(".sidebar-widgets").disableSelection();	
         
+        
+        
+        $('.blocks-container').sortable({
+            cursor: "move",
+            revert : 'invalid',
+            connectWith: ".blocks-container",
+            placeholder: "awein",
+            tolerance: 'pointer',
+            opacity : 0.6,
+            helper: 'clone',
+            handle: '.block-title',
+            update : function ()
+            {
+                $('.home-block').each(function(){
+                    var $id = $(this).attr('data-block-id');
+                    var $container = $(this)
+                    .parents('.blocks-container')
+                    .attr('data-container-id');
+                    
+                    $('#'+$id+'-container').val($container);
+                    
+                    
+                })
+                
+                update_admin_home_order();
+            }
+
+        })
         
         //Init the modal
         $('.modal').modal({
