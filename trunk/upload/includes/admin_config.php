@@ -83,7 +83,7 @@ if ($Cbucket->template_details['php_file'])
 
 
 register_admin_block(array('title' => 'Status Overview', 'function' => 'admin_home_overview'));
-//register_admin_block(array('title'=>'Summary of Stats','function'=>'admin_home_stats'));
+register_admin_block(array('title'=>'Summary of Stats','function'=>'admin_home_stats'));
 register_admin_block(array('title' => 'Recent Activity', 'function' => 'admin_home_activity'));
 register_admin_block(array('title' => 'Personal Notes', 'function' => 'admin_home_notes'));
 register_admin_block(array('title' => 'Personal Notes 2', 'function' => 'admin_home_notes'));

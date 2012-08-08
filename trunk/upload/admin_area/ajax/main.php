@@ -48,10 +48,11 @@ switch($mode)
         
         $order = 1;
         $orders = array();
-        rsort($_POST['block_order']);
+       // rsort($_POST['block_order']);
         
         foreach($_POST['block_order'] as $block_order)
         {
+           
             $orders[$block_order] = $order;
             $order++;
         }

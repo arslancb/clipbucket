@@ -1,79 +1,85 @@
 <script type="text/javascript">
+    
+        
+   
     google.load("visualization", "1", {
         packages:["corechart"]
     });
     google.setOnLoadCallback(drawChart);
     function drawChart() {
+        $(document).ready(function(){
+            
         
-        var usersData = google.visualization.arrayToDataTable([
-            ['Date', 'Signups']
-            {$foo=1}
-            {while $foo < 14}
-            {$foo=$foo+1}
-            {$signup=10|mt_rand:20}
-            ,['{$foo}',{$signup}]
-            {/while}
-        ]);
+            var usersData = google.visualization.arrayToDataTable([
+                ['Date', 'Signups']
+                {$foo=1}
+                {while $foo < 14}
+                {$foo=$foo+1}
+                {$signup=10|mt_rand:20}
+                ,['{$foo}',{$signup}]
+                {/while}
+            ]);
         
-        var videosData = google.visualization.arrayToDataTable([
-            ['Date', 'Signups']
-            {$foo=1}
-            {while $foo < 14}
-            {$foo=$foo+1}
-            {$signup=10|mt_rand:20}
-            ,['{$foo}',{$signup}]
-            {/while}
-        ]);
-        
-        
-        var photosData = google.visualization.arrayToDataTable([
-            ['Date', 'Signups']
-            {$foo=1}
-            {while $foo < 14}
-            {$foo=$foo+1}
-            {$signup=10|mt_rand:20}
-            ,['{$foo}',{$signup}]
-            {/while}
-        ]);
-        
-        var groupsData = google.visualization.arrayToDataTable([
-            ['Date', 'Signups']
-            {$foo=1}
-            {while $foo < 14}
-            {$foo=$foo+1}
-            {$signup=10|mt_rand:20}
-            ,['{$foo}',{$signup}]
-            {/while}
-        ]);
+            var videosData = google.visualization.arrayToDataTable([
+                ['Date', 'Signups']
+                {$foo=1}
+                {while $foo < 14}
+                {$foo=$foo+1}
+                {$signup=10|mt_rand:20}
+                ,['{$foo}',{$signup}]
+                {/while}
+            ]);
         
         
-        var options = {          
-            backgroundColor : '#f5f5f5',
-            seriesType: "bars",
-            width : 480,
-            series: { 1: { type: "line" } },
-            chartArea:{ left:30,top:30,width:"90%",height:"70%" },
-            legend: { position: 'none'},
-            hAxis : { textStyle : { fontSize : 0 } },
-            bar : { groupWidth:'98%' }
-        };
+            var photosData = google.visualization.arrayToDataTable([
+                ['Date', 'Signups']
+                {$foo=1}
+                {while $foo < 14}
+                {$foo=$foo+1}
+                {$signup=10|mt_rand:20}
+                ,['{$foo}',{$signup}]
+                {/while}
+            ]);
+        
+            var groupsData = google.visualization.arrayToDataTable([
+                ['Date', 'Signups']
+                {$foo=1}
+                {while $foo < 14}
+                {$foo=$foo+1}
+                {$signup=10|mt_rand:20}
+                ,['{$foo}',{$signup}]
+                {/while}
+            ]);
         
         
-        var userChart = new google.visualization.ComboChart(document.getElementById('usersData'));
-        userChart.draw(usersData, options);
+            var options = {          
+                backgroundColor : '#f5f5f5',
+                seriesType: "bars",
+                width : 480,
+                series: { 1: { type: "line" } },
+                chartArea:{ left:30,top:30,width:"90%",height:"70%" },
+                legend: { position: 'none'},
+                hAxis : { textStyle : { fontSize : 0 } },
+                bar : { groupWidth:'98%' }
+            };
         
-        var videoChart = new google.visualization.ComboChart(document.getElementById('videosData'));
-        videoChart.draw(videosData, options);
+        
+            var userChart = new google.visualization.ComboChart(document.getElementById('usersData'));
+            userChart.draw(usersData, options);
+        
+            var videoChart = new google.visualization.ComboChart(document.getElementById('videosData'));
+            videoChart.draw(videosData, options);
         
         
-        var photoChart = new google.visualization.ComboChart(document.getElementById('photosData'));
-        photoChart.draw(photosData, options);
+            var photoChart = new google.visualization.ComboChart(document.getElementById('photosData'));
+            photoChart.draw(photosData, options);
         
         
-        var groupChart = new google.visualization.ComboChart(document.getElementById('groupsData'));
-        groupChart.draw(groupsData, options);
-
+            var groupChart = new google.visualization.ComboChart(document.getElementById('groupsData'));
+            groupChart.draw(groupsData, options);
+        })
     }
+    
 </script>
 
 
