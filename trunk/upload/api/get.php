@@ -89,6 +89,14 @@ switch($mode)
         echo json_encode($categories);
     }
     break;
+
+    case 'getFields':
+    case 'get_fields': {
+        $fields = $cbvid->load_video_fields(null);
+        
+        echo json_encode($fields);
+    }
+    break;
 }
 
 ?>
