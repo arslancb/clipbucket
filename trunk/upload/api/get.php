@@ -98,14 +98,11 @@ switch($mode)
         foreach($groups as $group)
         {
             $new_fields  = array();
-            $index_count = 0;
-            foreach($group['fields'] as $index => $field)
+            
+            foreach($group['fields'] as $field)
             {
                // foreach($fields as $field)
-                $new_fields[$index] = $field;
-                $new_fields[$index]['index'] = $index_count;
-                
-                $index_count++;
+                $new_fields[] = $field;
             }
             
             $group['fields'] = $new_fields;
@@ -113,7 +110,7 @@ switch($mode)
             
         }
         
-       // pr($new_groups,true);
+        //pr($new_groups,true);
         echo json_encode($new_groups);
     }
     break;
