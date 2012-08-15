@@ -92,9 +92,25 @@ switch($mode)
 
     case 'getFields':
     case 'get_fields': {
-        $fields = $Upload->load_video_fields(null);
+        $groups = $Upload->load_video_fields(null);
         
-        echo json_encode($fields);
+        $new_groups = array();
+        foreach($groups as $group)
+        {
+            $new_fields  = array();
+            
+            foreach($group['fields'] as $field)
+            {
+               // foreach($fields as $field)
+                $new_fields[] = $field;
+            }
+            
+            $group['fields'] = $new_fields;
+            $new_groups[] = $group;
+            
+        }
+        
+        echo json_encode($new_groups);
     }
     break;
 }
