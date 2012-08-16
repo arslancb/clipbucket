@@ -3127,6 +3127,9 @@ include("functions_collections.php");
 //Exif
 include('exif_source.php');
 
+include("functions_upload.php");
+
+
 include("functions_filters.php");
 include("functions_actions.php");
 include("functions_widgets.php");

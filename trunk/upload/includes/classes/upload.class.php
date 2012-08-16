@@ -409,7 +409,7 @@ class Upload{
 							 'size'=>'35',
 							 'extra_params'=>' rows="4"',
 							 'db_field'=>'description',
-							 'required'=>'yes',
+							 'required'=>'no',
 							 'anchor_after'=>'after_desc_compose_box',
 							 
 							 ),
@@ -1439,6 +1439,6 @@ class Upload{
                 return $results[0];
             else
                 return false;
-        }     
+        }        
 }	
 ?>

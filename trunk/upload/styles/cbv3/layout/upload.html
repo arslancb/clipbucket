@@ -1,72 +1,134 @@
-{lang code='vdo_upload_step2' assign='vdo_upload_step'}
-<div class="upload_left">
+<script>
 
-	<!-- STEP 1 - UPLOADING VIDEO DETAILS -->
-
-	{if $step =='1'}
-
-    {assign var='no_upload' value='yes'}
-    {assign var=opt_list value=$Upload->load_upload_options()} 
-	<ul class="upload_opts clearfix">
-    {foreach from=$opt_list item=opt key=divid}
+    function get_upload_template($id,$title,$size){
+        
+        var template = '<div class="upload_list" id="file-'+$id+'" rel="'+$id+'">';
+        template += '<i class="icon-upload"></i>';
+        template += '<div class="video-title">'+$title+'</div>';
+        template += '<div class="progress progress-striped active">';
+        template += '<div class="bar" style="width: 0%"></div>';
+        template += '</div>';
+        template += '<div class="upload-stats">';
+        template += '<div class="inlineBlock pull-left">';
+        template += '<span class="total_size">'+$size+'</span> | ';
+        template += '<span class="percent_upload">0%</span> | ';
+        template += '<span class="status">waiting..</span>';
+        template += '</div>';
+        template += '<div class="inlineBlock pull-right">';
+        template += '<i class="icon-signal"></i>';
+        template += ' <span class="speed valignTop">0 kbs</span> ';
+        template += '<i class="icon-time"></i>';
+        template += ' <span class="time valignTop">00:00</span>';
+        template += '</div>';
+        template += '<div class="clearfix"></div>';
+        template += '</div>';
+        //ADding error div...just incase its required...
+        template += '<div class="alert alert-error display-none"></div>';
+        template += '</div>';
+        
+        return template;
+    }
     
-    	{* Checking weather to show uploadin option to user or not *}
-    	{assign var=uploadOptId value=$opt.load_func}
-        {if $Cbucket->configs.$uploadOptId=='yes'}
-        	{assign var='no_upload' value='no'}
-			<li class="upload_opt_head moveL {$divid}" onclick="show_menu('{$divid}',false)">{$opt.title}</li>
-        {/if}
-	{/foreach}
-    </ul>
-    <div class="clear"></div>   
-    <div class="uploadFormContent">      
-    {foreach from=$opt_list item=opt key=divid}     
-    	{* Checking weather to show uploadin option to user or not *}
-    	{assign var=uploadOptId value=$opt.load_func}
-        {if $Cbucket->configs.$uploadOptId=='yes'} 
-        <div class="upload_opt" id="{$divid}" style="display:none">
-			{load_form name=$opt.load_func button_class='cb_button_2' class='upload_form'} 
+
+
+</script>
+
+{$options=get_upload_options()}
+
+<div id="upload-form-template">
+    <div class="upload-form display-none">
+        <div class="title"><h2></h2></div>
+        {$upload_fields=$Upload->load_video_fields(false)}
+
+        <div class="upload-btn-options gradient">
+
+            <div class="btn-group">
+                {foreach $upload_fields as $field_group}           
+                <a class="btn form-group form-btn btn-primary
+                   {if $field_group@iteration > 1}disabled{else}active{/if}"
+                   data-toggle="tab" data-target="#{$field_group.group_id}">{$field_group.group_name}</a>
+                {/foreach}
+            </div>
+
+            <form class="form form-horizontal">
+                <div class="tab-content">
+                    {foreach $upload_fields as $field_group} 
+                    <div class="tab-pane {if $field_group@iteration==1}active{/if}" id="{$field_group.group_id}">
+                        {foreach from=$field_group.fields item=field}
+
+                        {* Formating field for our template *}
+                        {$field.class='input-xxlarge'}
+
+                        {if $field.type=='checkbox' || $field.type=='radiobutton'}
+                        {$field.sep=' '}
+
+                        {if $field.type=='checkbox'}
+                        {$field.class='checkbox'}
+                        {else}
+                        {$field.class='radio'}
+                        {/if}
+                        {/if}
+
+
+                        <div class="control-group">
+                            <label class="control-label" for="input01">{$field.title}
+                                {if $field.hint_before}
+                                <div>{$field.hint_before}</div>
+                                {/if}
+                            </label>
+                            <div class="controls">
+                                {ANCHOR place=$field.anchor_before}
+                                {$formObj->createField($field)}
+                                {ANCHOR place=$field.anchor_after}
+                                {if $field.hint_after}
+                                <p class="help-block">{$field.hint_after}</p>
+                                {/if}
+                            </div>
+                        </div>
+                        {/foreach}
+                    </div>
+                    {/foreach}
+                </div>
+                <input type="hidden" name="videoid" value="" />
+            </form>
         </div>
-        {/if}
-    {/foreach} 
-    
-    {if $no_upload=='yes'}
-    	<div style="background-color:#FFEAEB; font-size:13pt; padding:5px">
-        	{lang code='no_upload_opt'}
+        <div align="right">
+            <a class="btn btn-primary save-video" style="margin-top: 10px" >Save video</a>
         </div>
-    {/if}
     </div>
-    {literal}
-    <script>
-		
-		$(document).ready(function() { 
-		var formToLoad = $('.uploadFormContent .upload_opt:first-child').attr('id');
-		show_menu(formToLoad,true) })
-	</script>
-	{/literal}
-    {/if}
-    
-    
-    <!-- STEP 1 ENDS HERE -->
-    
-    <!-- STEP 3 - VIEWING SUCCESSFULL PAGE -->
-    {if $step==3}
-    <div class="upload_info">
-        {lang code='video_complete_msg' assign='video_complete_msg'}
-        {link name='upload' assign='uploadlink'}
-        {link name='my_videos' assign='myvidslink'}
-        {$video_complete_msg|sprintf:$myvidslink:$uploadlink:$myvidslink}    
-    </div>
-    {/if}
-    <!-- STEP 3 ENDS HERE -->
-    
 </div>
 
-<div class="upload_right">
-    <div class="instructions">
-       {lang code='upload_right_guide'}
+<div id="uplad_options_container">
+    <div id="upload_window" class="padding_box">
+        {foreach $options as $option}
+        <div class="upload-window" id="window-{$option.id}">
+            {upload_window($option)}
+        </div>
+        {/foreach}
     </div>
-    <div style="height:10px"></div>
-  {AD place='ad_300x250'}
+    <div id="upload_options" class="padding_box">
+        <ul class="upload_options">
+            {foreach $options as $option}
+            <li data-toggle="upload-option" data-target="{$option.id}">
+                <i class="upload-icon {$option.icon}"></i> 
+                <span class="upload-title">{$option.title}</span>
+                <div class="upload-desc">{$option.description}</div>
+            </li>
+            {/foreach}
+        </ul>
+    </div>
+
+    <div class="clearfix"></div>
 </div>
-<div class="clearfix"></div>
+
+
+<div class="upload-divider"></div>
+
+<div class="upload_list_container" id="upload_list_container">
+    <!-- upload blocks will be displayed here -->
+</div>
+
+
+<div class="upload-form-container" id="upload-form-container">
+
+</div>

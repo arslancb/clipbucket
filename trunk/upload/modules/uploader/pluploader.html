@@ -1,0 +1,228 @@
+<div class="upload_computer_window">
+    <img src="{$imageurl}/icons/upload-drive.png" />
+    <div class="height20"></div>
+    <a class="btn btn-primary btn-large" id="plupload-pickfiles">Select files from your computer</a>
+    <div></div>
+    <div class="upload-files-dropable relative">
+        Drop your files here
+        <div style="width: 100%; height: 100%" id="upload-files-dropable" class="absolute left top"></div>
+    </div>
+</div>
+
+<!-- Writing stuff to make plupload work....somehow =D -->
+
+
+<script type="text/javascript">
+    
+    amplify.request.define( "upload", "ajax", {
+        url: baseurl+"/actions/file_uploader.php",
+        type: "POST",
+        dataType: "json",
+        decoder: function( data, status, xhr, success, error ) {
+            if ( status === "success" ) {
+                success( data );
+            } else {
+                error( data );
+            }
+        }
+    });
+    
+    
+    function cb_drag(){
+        //Function is called when a drag occurs...
+        $('#upload-files-dropable').parent().addClass('drag_start');
+    }
+    
+    function cb_drag_stop(){
+        $('#upload-files-dropable').parent().removeClass('drag_start');
+    }
+    
+    function time(raw){
+
+        var time = parseInt(raw,10)
+        var minutes = Math.floor(time / 60);
+        var seconds = time % 60;
+        
+        if(minutes<10)
+            minutes = '0'+minutes;
+        if(seconds <10)
+            seconds = '0'+seconds;
+
+        return minutes+":"+seconds;
+    }
+        
+    // Custom example logic
+    $(function() {
+    
+        
+        var filenames = Array();
+        
+        var uploader = new plupload.Uploader({
+            runtimes : 'html5,flash',
+            browse_button : 'plupload-pickfiles',
+            container : 'container',
+            max_file_size : '1000mb',
+            drop_element : 'upload-files-dropable',
+            url : '{$baseurl}/actions/file_uploader.php',
+            flash_swf_url : '/plupload/js/plupload.flash.swf',
+            dragdrop :  true,
+            filters : [
+                { title : "{lang code='Video files'}", extensions : "{$Cbucket->list_extensions()}" },
+            ]
+        });
+
+        uploader.bind('Init', function(up, params) {
+            $('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
+        });
+ 
+
+        $('#uploadfiles').click(function(e) {
+            uploader.start();
+            e.preventDefault();
+        });
+
+        uploader.init();
+
+        uploader.bind('FilesAdded', function(up, files) {
+            $.each(files, function(i, file) {
+                var template = get_upload_template(
+                file.id,
+                file.name,
+                plupload.formatSize(file.size));
+                
+                var filename = new Date().getTime();
+                filename += Math.round((99977 - 10016) * Math.random() + 1) ;
+                
+                //Send insert video request to server and get video id...
+                //before starting uploading...
+                
+                $('#upload_list_container').append(template);
+                
+                amplify.request('upload',
+                {
+                    insertVideo : 'yes',
+                    title : file.name,
+                    file_name : filename
+                },function(data){
+                    
+                    filenames[file.id] = data.vid;
+                    $('#file-'+file.id+' .status').html('{lang code="uploading"}');
+                    
+                    
+                    //Add form
+                    var $form = '<div id="file-form-'+file.id+'">';
+                    $form += $('#upload-form-template').html();
+                    $form += '</div>';
+                    
+                    //Appending
+                    $('#upload-form-container').append($form);
+                    
+                    //Change the title
+                    //Make it changeable according to template
+                    $('#file-form-'+file.id+' .title h2').text(file.name);
+                    $('#file-form-'+file.id+' input[name=title]').val(file.name);
+                    
+                    //#Making IDs ready for newly added form...
+                    $('#file-form-'+file.id+' .form-btn').each(function(){
+                        var $target = $(this).attr('data-target');
+                        $(this).attr('data-target',$target+'-'+file.id);
+                    })
+                    
+                    $('#file-form-'+file.id+' .tab-pane').each(function(){
+                        var $id = $(this).attr('id');
+                        $(this).attr('id',$id+'-'+file.id);
+                    })
+                    
+                    if($('.upload_list_active').length<1)
+                    {
+                        toggle_upload_list($('.upload_list:first'));
+                    }
+                    
+                    //Adding videoid input hidden field...
+                    $('#file-form-'+file.id+' input[name=videoid]').val(data.vid);
+                    
+                    $('#file-form-'+file.id+' .save-video').click(function(){
+                        var formdata = $('#file-form-'+file.id+' form').serialize();
+                        formdata += '&updateVideo=yes';
+                        
+                        amplify.request('upload',
+                        formdata,function(data){
+                            
+                        
+                        });
+                    })
+                    
+                    /**
+                     * activating form buttons and ther actions
+                     */
+                    $('.upload-btn-options,#upload-form-template').on('click','.form-btn',function(){
+            
+                        toggle_upload_tab(this);
+                    })
+                    
+                    
+                    
+                    
+                })
+                
+                
+                
+            });
+            
+            uploader.start();
+            
+            up.refresh(); // Reposition Flash/Silverlight
+        });
+        
+
+        uploader.bind('UploadProgress', function(up, file) {
+            
+            var $size = plupload.formatSize(up.total.bytesPerSec);            
+            var $rawTime = (up.total.size-up.total.loaded)/up.total.bytesPerSec; 
+            
+            console.log($rawTime);
+            
+            var $time = time($rawTime);
+            
+            //updating upload speed
+            $('#file-'+file.id+' .speed').html($size+'/s');
+            //update progres bar
+            $('#file-'+file.id+' .progress .bar').width(file.percent + "%");
+            //update progress text
+            $('#file-'+file.id+' .percent_upload').html(file.percent + "%");
+           
+            //update time remaining
+            $('#file-'+file.id+' .time').html($time);
+            
+            //Update stats
+            $('#file-'+file.id+' .status').html('{lang code="uploading"}');
+        });
+
+        uploader.bind('Error', function(up, err) {
+            var file = err.file;
+            $('#file-'+file.id+' .upload-stats').hide();
+            $('#file-'+file.id+' .alert-error').html(err.message).show();
+            
+            $('#file-'+file.id+' .progress').removeClass('active');
+            $('#file-'+file.id+' .progress').addClass('progress-error');
+            up.refresh(); // Reposition Flash/Silverlight
+        });
+
+        uploader.bind('FileUploaded', function(up, file) {
+            $('#file-'+file.id+' .progress').removeClass('active');
+            $('#file-'+file.id+' .progress').addClass('progress-success');
+            $('#file-'+file.id+' .status').html('{lang code="success"}');
+        });
+    });
+</script>
+<h3>Custom example</h3>
+<div id="container">
+    <div id="filelist">No runtime found.</div>
+    <br />
+    <a id="pickfiles" href="#">[Select files]</a>
+    <a id="uploadfiles" href="#">[Upload files]</a>
+
+    <div id="progress"></div>
+
+
+</div>

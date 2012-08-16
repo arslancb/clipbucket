@@ -54,59 +54,59 @@
     $(document).ready(function(){
        
      
-       //Adding Comment Hover effect
+        //Adding Comment Hover effect
        
-       $('.comments').on('mouseenter','.comment',function(){
-           $(this).find('.comment-options').show();
-       });
+        $('.comments').on('mouseenter','.comment',function(){
+            $(this).find('.comment-options').show();
+        });
        
         //Adding Comment Mouse-leave effect
-       $('.comments').on('mouseleave','.comment',function(){
-           $(this).find('.comment-options').hide();
-       });
+        $('.comments').on('mouseleave','.comment',function(){
+            $(this).find('.comment-options').hide();
+        });
        
-       //Adding Spam comment function
-       $('.comments').on('click','.spam-comment',function(){
-           var cid = $(this).attr('data-id');
-           var type = $(this).attr('data-type');
-           var typepid = $(this).attr('data-type-id');
-           spam_comment(cid,type,typepid);
-       })
+        //Adding Spam comment function
+        $('.comments').on('click','.spam-comment',function(){
+            var cid = $(this).attr('data-id');
+            var type = $(this).attr('data-type');
+            var typepid = $(this).attr('data-type-id');
+            spam_comment(cid,type,typepid);
+        })
        
-       //Unspam
-       $('.comments').on('click','.unspam-comment',function(){
-           var cid = $(this).attr('data-id');
-           var type = $(this).attr('data-type');
-           var typepid = $(this).attr('data-type-id');
-           unspam_comment(cid,type,typepid);
-       })
+        //Unspam
+        $('.comments').on('click','.unspam-comment',function(){
+            var cid = $(this).attr('data-id');
+            var type = $(this).attr('data-type');
+            var typepid = $(this).attr('data-type-id');
+            unspam_comment(cid,type,typepid);
+        })
        
-       //view hide comment...
-       $('body').on('click','.view-toggle',function(){
+        //view hide comment...
+        $('body').on('click','.view-toggle',function(){
            
-           var $toggleobj = $('#'+$(this).attr('data-toggle-id'));
-           var $toggletext = $(this).attr('data-toggle-text');
+            var $toggleobj = $('#'+$(this).attr('data-toggle-id'));
+            var $toggletext = $(this).attr('data-toggle-text');
            
-           $toggleobj.toggle();
+            $toggleobj.toggle();
            
-           //Changing text...
-           if($toggletext)
-           {
-               $(this).attr('data-toggle-text',$(this).text());
-               $(this).text($toggletext);
-           }
+            //Changing text...
+            if($toggletext)
+            {
+                $(this).attr('data-toggle-text',$(this).text());
+                $(this).text($toggletext);
+            }
            
-       })
+        })
        
 
-       //Init Login Modal box
-       $('#login-modal').modal({
-          show : false
-       });
+        //Init Login Modal box
+        $('#login-modal').modal({
+            show : false
+        });
        
        
-       //Initializing Select/Deselect All function
-       $('.select_all').click(function(){
+        //Initializing Select/Deselect All function
+        $('.select_all').click(function(){
             $target = $(this).attr('data-target');
             $controller = this;
             if($(this).is(':checked'))
@@ -121,39 +121,39 @@
             $('.'+$target).click(function(){
                 $($controller).attr('checked',false);
             })
-       });
+        });
        
        
-       //Init Drop Downs
-       $('.cb-dropdown').dropdown();
+        //Init Drop Downs
+        $('.cb-dropdown').dropdown();
        
-       //Hiding Children Categories
-       $('.categories-nav > ul > li > ol').hide();
-       //Adding Toggle
-       $('.categories-nav > ul > li .icon-toggle').click(function(){
-           $('.categories-nav > ul > li > ol').toggle();
+        //Hiding Children Categories
+        $('.categories-nav > ul > li > ol').hide();
+        //Adding Toggle
+        $('.categories-nav > ul > li .icon-toggle').click(function(){
+            $('.categories-nav > ul > li > ol').toggle();
            
-           if($('.categories-nav > ul > li > ol').css('display')=='none')
-           {
-               $(this).removeClass('toggle-invert');
-               $(this).parent().removeClass('active');
-           }else
+            if($('.categories-nav > ul > li > ol').css('display')=='none')
+            {
+                $(this).removeClass('toggle-invert');
+                $(this).parent().removeClass('active');
+            }else
             {
                 $(this).addClass('toggle-invert');
                 $(this).parent().addClass('active');
             }
-       })
+        })
        
-       //Update Playlist Page
-       updatePlaylistPage();
+        //Update Playlist Page
+        updatePlaylistPage();
        
-       //reset form on showing modal
-       $('#create-playlist-modal').on('show', function () {
-        $('#create-playlist-modal form')[0].reset();
-        $('#create-playlist-error').hide().html('');
-       });
+        //reset form on showing modal
+        $('#create-playlist-modal').on('show', function () {
+            $('#create-playlist-modal form')[0].reset();
+            $('#create-playlist-error').hide().html('');
+        });
        
-       //Executing Tootltip
+        //Executing Tootltip
         $('.cb-tooltip').tooltip();
         
       
@@ -165,7 +165,7 @@
             stop : function(event,ui){
                 
                 var formdata = 
-                $('#playlist-manage-form')
+                    $('#playlist-manage-form')
                 .serialize();
                 
                
@@ -179,7 +179,7 @@
                         displayError(data.err);
                     }else
                     {
-                       "...";
+                        "...";
                     }
                 })
             }
@@ -206,6 +206,24 @@
             cb_confirm(title,text,function(){
                 remove_playlist_item(id);
             });
+        })
+        
+        
+        
+        /**
+         * Setting up upload buttons
+         */
+        $('.upload_options').on('click','li',function(){
+            
+            toggle_upload(this);
+        })
+        
+        toggle_upload($('.upload_options li:first'));
+        
+       
+        
+        $('.upload_list_container').on('click','.upload_list',function(){
+            toggle_upload_list(this);
         })
     });
 

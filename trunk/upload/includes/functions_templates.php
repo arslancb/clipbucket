@@ -7,16 +7,23 @@
  * @param type $inside
  * @return type 
  */
-function Fetch($name, $layout=true) {
-    if ($layout===true)
-        $file = CBTemplate::fetch(LAYOUT . '/' . $name);
-    elseif($layout)
-        $file = CBTemplate::fetch($layout  . $name);
-    else
-         $file = CBTemplate::fetch($name);
+function Fetch($name, $layout = true) {
+
+    
+    if (file_exists($name) && !is_dir($name)) {
+        $fileName = $name;
+    } elseif ($layout === true) {
+        $fileName = LAYOUT . '/' . $name;
+    } elseif ($layout) {
+        $fileName = $layout . $name;
+    } else {
+        $fileName = $name;
+    }
+
+    $file = CBTemplate::fetch($fileName);
+
     return $file;
 }
-
 
 /**
  * Function used to render Smarty Template
@@ -241,13 +248,13 @@ function show_rating($params) {
     if (empty($style))
         $style = config('rating_style');
     //Checking Percent {
-        if ($total <= 10)
-            $total = 10;
-        $perc = $rating * 100 / $total;
-        $disperc = 100 - $perc;
-        if ($ratings <= 0 && $disperc == 100)
-            $disperc = 0;
-   
+    if ($total <= 10)
+        $total = 10;
+    $perc = $rating * 100 / $total;
+    $disperc = 100 - $perc;
+    if ($ratings <= 0 && $disperc == 100)
+        $disperc = 0;
+
 
     $perc = $perc . '%';
     $disperc = $disperc . "%";
@@ -336,7 +343,6 @@ function blank_screen($data) {
     return $swfobj->code;
 }
 
-
 /**
  * Adds js files in ClipBucket template.
  * 
@@ -346,27 +352,23 @@ function blank_screen($data) {
  * @return type 
  * @since 2.6
  */
-function add_js($files,$scope='global') {
+function add_js($files, $scope = 'global') {
     global $Cbucket;
-    if($files)
-    {
-        if(is_array($scope))
-        {
-            foreach($scope as $sc)
-            {
-                if(is_array($files))
-                    foreach($files as $file)
+    if ($files) {
+        if (is_array($scope)) {
+            foreach ($scope as $sc) {
+                if (is_array($files))
+                    foreach ($files as $file)
                         $Cbucket->JSArray[$sc][] = $file;
                 else
                     $Cbucket->JSArray[$sc][] = $files;
             }
-        }else
-        {
-            if(is_array($files))
-                foreach($files as $file)
+        }else {
+            if (is_array($files))
+                foreach ($files as $file)
                     $Cbucket->JSArray[$scope][] = $file;
             else
-                $Cbucket->JSArray[$scope][] = $files;      
+                $Cbucket->JSArray[$scope][] = $files;
         }
     }
     return;
@@ -380,44 +382,31 @@ function add_js($files,$scope='global') {
  * @param STRING $file CSS FILE
  * @param STRING $scope File Scope, read more about scope on http://docs.clip-bucket.com/ 
  */
-function add_css($files,$scope)
-{
+function add_css($files, $scope) {
     global $Cbucket;
-    if($files)
-    {
-        if(is_array($scope))
-        {
-            foreach($scope as $sc)
-            {
-                if(is_array($files))
-                {
-                    foreach($files as $file)
-                    {
+    if ($files) {
+        if (is_array($scope)) {
+            foreach ($scope as $sc) {
+                if (is_array($files)) {
+                    foreach ($files as $file) {
                         $Cbucket->CSSArray[$sc][] = $file;
                     }
-                }else
-                {
+                } else {
                     $Cbucket->CSSArray[$sc][] = $files;
                 }
             }
-        }else
-        {
-            if(is_array($files))
-            {
-                foreach($files as $file)
-                {
+        } else {
+            if (is_array($files)) {
+                foreach ($files as $file) {
                     $Cbucket->CSSArray[$scope][] = $file;
                 }
-            }else
-            {
+            } else {
                 $Cbucket->CSSArray[$scope][] = $files;
             }
         }
     }
     return;
 }
-
-
 
 /**
  * Function add_header()
@@ -1156,8 +1145,6 @@ function get_template($file, $type = 'fetch') {
     }
 }
 
-
-
 /**
  * Loads all javascript files, previous function include_js is now
  * deprecated, all js files that are added using add_js function will be
@@ -1165,28 +1152,22 @@ function get_template($file, $type = 'fetch') {
  * 
  * @return js files wrappded in script tag
  */
-function cb_load_js()
-{
+function cb_load_js() {
     global $Cbucket;
     $js_array = $Cbucket->JSArray;
- 
-    $js_array = apply_filters($js_array,'js_array');
-    
-    if(is_array($js_array))
-    {
-        foreach($js_array as $scope => $js_files)
-        {
-            
-            if( (defined('THIS_PAGE') && $scope==THIS_PAGE) OR
-            $scope=='global' || !defined('THIS_PAGE'))
-            {
-                foreach($js_files as $file)
-                {
-                    if(!strstr($file, 'http'))
-                    {
-                        $file = JS_URL.'/'.$file;
+
+    $js_array = apply_filters($js_array, 'js_array');
+
+    if (is_array($js_array)) {
+        foreach ($js_array as $scope => $js_files) {
+
+            if ((defined('THIS_PAGE') && $scope == THIS_PAGE) OR
+                    $scope == 'global' || !defined('THIS_PAGE')) {
+                foreach ($js_files as $file) {
+                    if (!strstr($file, 'http')) {
+                        $file = JS_URL . '/' . $file;
                     }
-                    
+
                     echo '<script src="' . $file . '" type="text/javascript"></script>';
                     echo "\n";
                 }
@@ -1201,23 +1182,19 @@ function cb_load_js()
  * 
  * @return CSS files...
  */
-function cb_load_css(){
-    
+function cb_load_css() {
+
     global $Cbucket;
     $css_array = $Cbucket->CSSArray;
- 
-    $css_array = apply_filters($css_array,'$css_array');
-    
-    if(is_array($css_array))
-    {
-        foreach($css_array as $scope => $css_files)
-        {
-            
-            if( (defined('THIS_PAGE') && $scope==THIS_PAGE) OR
-            $scope=='global' || !defined('THIS_PAGE'))
-            {
-                foreach($css_files as $file)
-                {
+
+    $css_array = apply_filters($css_array, '$css_array');
+
+    if (is_array($css_array)) {
+        foreach ($css_array as $scope => $css_files) {
+
+            if ((defined('THIS_PAGE') && $scope == THIS_PAGE) OR
+                    $scope == 'global' || !defined('THIS_PAGE')) {
+                foreach ($css_files as $file) {
                     echo '<link rel="stylesheet" type="text/css" href="' . $file . '" /> ';
                     echo "\n";
                 }
@@ -1231,12 +1208,14 @@ function cb_load_css(){
  * @param string $path
  */
 function rmdir_recurse($path) {
-    $path = rtrim($path, '/').'/';
+    $path = rtrim($path, '/') . '/';
     $handle = opendir($path);
-    while(false !== ($file = readdir($handle))) {
-        if($file != '.' and $file != '..' ) {
-            $fullpath = $path.$file;
-            if(is_dir($fullpath)) rmdir_recurse($fullpath); else unlink($fullpath);
+    while (false !== ($file = readdir($handle))) {
+        if ($file != '.' and $file != '..') {
+            $fullpath = $path . $file;
+            if (is_dir($fullpath))
+                rmdir_recurse($fullpath); else
+                unlink($fullpath);
         }
     }
     closedir($handle);

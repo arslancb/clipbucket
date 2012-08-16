@@ -322,11 +322,12 @@ class ClipBucket
 		$exts = preg_replace('/ /','',$exts);
 		$exts = explode(',',$exts);
 		$new_form = '';
-		foreach($exts as $ext)
+		
+                foreach($exts as $ext)
 		{
 			if(!empty($new_form))
-				$new_form .=";";
-			$new_form .= "*.$ext";
+				$new_form .=",";
+			$new_form .= $ext;
 		}
 		
 		return $new_form;

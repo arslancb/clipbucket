@@ -18,6 +18,7 @@ if(is_installed('editorspick'))
     assign('editor_picks',get_ep_videos());
 }
 
+
 //i love coding :)
 
 //Displaying The Template

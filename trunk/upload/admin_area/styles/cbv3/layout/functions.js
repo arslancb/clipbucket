@@ -511,4 +511,13 @@ function update_admin_home_order()
             
         }
     })
+    
+    
+    //NOw we wil check which box does not have any box..and changes its style
+    $('.blocks-container').each(function(){
+      if($(this).children('.home-block').size() <1 )
+          $(this).addClass('no-blocks');
+      else
+          $(this).removeClass('no-blocks');
+    })
 }

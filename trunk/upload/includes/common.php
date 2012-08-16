@@ -353,7 +353,9 @@ if(!@$in_bg_cron)
 	//Defining Plugin Directory
 	define('PLUG_DIR',BASEDIR.'/plugins');
 	define('PLUG_URL',BASEURL.'/plugins');
-	
+	define('MODULES_DIR',BASEDIR.'/modules');
+        define('MODULES_URL',BASEURL.'/modules');
+        
 	define('MAX_COMMENT_CHR',$Cbucket->configs['max_comment_chr']);
 	define('USER_COMMENT_OWN',$Cbucket->configs['user_comment_own']);
 	
@@ -680,4 +682,7 @@ if ( $Cbucket->template == MOBILE_TEMPLATE ) {
     $mobileObj = new MobileForm();
     $Smarty->assign_by_ref('mobileObj',$mobileObj);
 }
+
+
+include('startup.php');
 ?>
