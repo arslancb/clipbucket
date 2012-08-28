@@ -7,166 +7,216 @@ include('../includes/config.inc.php');
 
 
 
-if($_FILES['Filedata'])
-	$mode = "upload";
+if (isset($_REQUEST['upload']))
+    $mode = "upload";
 
-if($_POST['insertVideo'])
-	$mode = "insert_video";
-if($_POST['getForm'])
-	$mode = "get_form";
-if($_POST['updateVideo']=='yes')
-	$mode = "update_video";
-	
-switch($mode)
-{
-	
-	case "insert_video":
-	{
-		$title 	= getName($_POST['title']);
-		$file_name	= $_POST['file_name'];
-		
-		$vidDetails = array
-		(
-			'title' => $title,
-			'description' => $title,
-			'tags' => genTags(str_replace(' ',', ',$title)),
-			'category' => array($cbvid->get_default_cid()),
-			'file_name' => $file_name,
-			'userid' => userid(),
-		);
-		
-		$vid = $Upload->submit_upload($vidDetails);
-		
-		echo json_encode(array('success'=>'yes','vid'=>$vid));
-	}
-	break;
-	
-	case "get_form":
-	{
-		$title 	= getName($_POST['title']);
-		if(!$title)
-			$title = $_POST['title'];
-		$desc = $_POST['desc'];
-		$tags = $_POST['tags'];
-		
-		if(!$desc)
-			$desc = $title;
-		if(!$tags)
-			$tags = $title;
-		
-		$vidDetails = array
-		(
-		'title'		=> $title,
-		'description' => $desc,
-		'tags'		  => $tags,
-		'category' => array($cbvid->get_default_cid()),
-		);
-		
-		assign("objId",$_POST['objId']);
-		
-		assign('input',$vidDetails);
-		Template('blocks/upload/form.html');
-	}
-	break;
-	
-	case "upload":
-	{
-		$file_name	= time().RandomString(5);
-		$tempFile = $_FILES['Filedata']['tmp_name'];
-		$targetFileName = $file_name.'.'.getExt( $_FILES['Filedata']['name']);
-		$targetFile = TEMP_DIR."/".$targetFileName;
-		
-		$max_file_size_in_bytes = config('max_upload_size')*1024*1024;
-		$types = strtolower(config('allowed_types'));
-		
-		//Checking filesize
-		$POST_MAX_SIZE = ini_get('post_max_size');
-		$unit = strtoupper(substr($POST_MAX_SIZE, -1));
-		$multiplier = ($unit == 'M' ? 1048576 : ($unit == 'K' ? 1024 : ($unit == 'G' ? 1073741824 : 1)));
-	
-		if ((int)$_SERVER['CONTENT_LENGTH'] > $multiplier*(int)$POST_MAX_SIZE && $POST_MAX_SIZE) {
-			header("HTTP/1.1 500 Internal Server Error"); // This will trigger an uploadError event in SWFUpload
-			upload_error("POST exceeded maximum allowed size.");
-			exit(0);
-		}
-		
-		//Checking uploading errors
-		$uploadErrors = array(
-                    0=>"There is no error, the file uploaded with success",
-                    1=>"The uploaded file exceeds the upload_max_filesize directive in php.ini",
-                    2=>"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form",
-                    3=>"The uploaded file was only partially uploaded",
-                    4=>"No file was uploaded",
-                    6=>"Missing a temporary folder"
-		);
-		if (!isset($_FILES['Filedata'])) {
-			upload_error("No file was selected");
-			exit(0);
-		} else if (isset($_FILES['Filedata']["error"]) && $_FILES['Filedata']["error"] != 0) {
-			upload_error($uploadErrors[$_FILES['Filedata']["error"]]);
-			exit(0);
-		} else if (!isset($_FILES['Filedata']["tmp_name"]) || !@is_uploaded_file($_FILES['Filedata']["tmp_name"])) {
-			upload_error("Upload failed is_uploaded_file test.");
-			exit(0);
-		} else if (!isset($_FILES['Filedata']['name'])) {
-			upload_error("File has no name.");
-			exit(0);
-		}
-		
-		//Check file size
-		$file_size = @filesize($_FILES['Filedata']["tmp_name"]);
-		if (!$file_size || $file_size > $max_file_size_in_bytes) {
-			upload_error("File exceeds the maximum allowed size") ;
-			exit(0);
-		}
-		
-		
-		//Checking file type
-		$types_array = preg_replace('/,/',' ',$types);
-		$types_array = explode(' ',$types_array);
-		$file_ext = strtolower(getExt($_FILES['Filedata']['name']));
-		if(!in_array($file_ext,$types_array))
-		{
-			upload_error("Invalid file extension");
-			exit(0);
-		}
-		
-			
-		move_uploaded_file($tempFile,$targetFile);
-		
-		$Upload->add_conversion_queue($targetFileName);
-		
-               /* //exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
-                if (stristr(PHP_OS, 'WIN')) {
-                        exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName");
-                } else {
-                        exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName &> /dev/null &");
+if ($_POST['insertVideo'])
+    $mode = "insert_video";
+if ($_POST['getForm'])
+    $mode = "get_form";
+if ($_POST['updateVideo'] == 'yes')
+    $mode = "update_video";
+
+switch ($mode) {
+
+    case "insert_video": {
+            $title = getName($_POST['title']);
+            $file_name = $_POST['file_name'];
+
+            $vidDetails = array
+                (
+                'title' => $title,
+                'description' => $title,
+                'tags' => genTags(str_replace(' ', ', ', $title)),
+                'category' => array($cbvid->get_default_cid()),
+                'file_name' => $file_name,
+                'userid' => userid(),
+            );
+
+            $vid = $Upload->submit_upload($vidDetails);
+
+            echo json_encode(array('success' => 'yes', 'vid' => $vid));
+        }
+        break;
+
+    case "get_form": {
+            $title = getName($_POST['title']);
+            if (!$title)
+                $title = $_POST['title'];
+            $desc = $_POST['desc'];
+            $tags = $_POST['tags'];
+
+            if (!$desc)
+                $desc = $title;
+            if (!$tags)
+                $tags = $title;
+
+            $vidDetails = array
+                (
+                'title' => $title,
+                'description' => $desc,
+                'tags' => $tags,
+                'category' => array($cbvid->get_default_cid()),
+            );
+
+            assign("objId", $_POST['objId']);
+
+            assign('input', $vidDetails);
+            Template('blocks/upload/form.html');
+        }
+        break;
+
+    case "upload": {
+            
+           
+
+           
+
+            // HTTP headers for no cache etc
+            header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+            header("Cache-Control: no-store, no-cache, must-revalidate");
+            header("Cache-Control: post-check=0, pre-check=0", false);
+            header("Pragma: no-cache");
+
+
+            $targetDir = TEMP_DIR;
+
+            $cleanupTargetDir = true; // Remove old files
+            $maxFileAge = 5 * 3600; // Temp file age in seconds
+            @set_time_limit(5 * 60);
+
+            $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
+            $chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
+            $fileName = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
+
+            // Clean the fileName for security reasons
+            $fileName = preg_replace('/[^\w\._]+/', '_', $fileName);
+
+            // Make sure the fileName is unique but only if chunking is disabled
+            if ($chunks < 2 && file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName)) {
+                $ext = strrpos($fileName, '.');
+                $fileName_a = substr($fileName, 0, $ext);
+                $fileName_b = substr($fileName, $ext);
+
+                $count = 1;
+                while (file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName_a . '_' . $count . $fileName_b))
+                    $count++;
+
+                $fileName = $fileName_a . '_' . $count . $fileName_b;
+            }
+
+            $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
+
+            // Create target dir
+            if (!file_exists($targetDir))
+                @mkdir($targetDir);
+
+            // Remove old temp files	
+            if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))) {
+                while (($file = readdir($dir)) !== false) {
+                    $tmpfilePath = $targetDir . DIRECTORY_SEPARATOR . $file;
+
+                    // Remove temp file if it is older than the max age and is not the current file
+                    if (preg_match('/\.part$/', $file) && (filemtime($tmpfilePath) < time() - $maxFileAge) && ($tmpfilePath != "{$filePath}.part")) {
+                        @unlink($tmpfilePath);
+                    }
                 }
-*/
-		echo json_encode(array("success"=>"yes","file_name"=>$file_name));
-		
-	}
-	break;
-	
-	case "update_video":
-	{
-		$Upload->validate_video_upload_form();
-		$_POST['videoid'] = trim($_POST['videoid']);
-		if(empty($eh->error_list))
-		{
-			$cbvid->update_video();
-		}
-		if(error())
-			echo json_encode(array('error'=>error('single')));
-		else
-			echo json_encode(array('msg'=>msg('single')));
-	}
+
+                closedir($dir);
+            } else
+                die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "id"}');
+
+
+            // Look for the content type header
+            if (isset($_SERVER["HTTP_CONTENT_TYPE"]))
+                $contentType = $_SERVER["HTTP_CONTENT_TYPE"];
+
+            if (isset($_SERVER["CONTENT_TYPE"]))
+                $contentType = $_SERVER["CONTENT_TYPE"];
+
+            // Handle non multipart uploads older WebKit versions didn't support multipart in HTML5
+            if (strpos($contentType, "multipart") !== false) {
+                if (isset($_FILES['file']['tmp_name']) && is_uploaded_file($_FILES['file']['tmp_name'])) {
+                    // Open temp file
+                    $out = fopen("{$filePath}.part", $chunk == 0 ? "wb" : "ab");
+                    if ($out) {
+                        // Read binary input stream and append it to temp file
+                        $in = fopen($_FILES['file']['tmp_name'], "rb");
+
+                        if ($in) {
+                            while ($buff = fread($in, 4096))
+                                fwrite($out, $buff);
+                        } else
+                            die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
+                        fclose($in);
+                        fclose($out);
+                        @unlink($_FILES['file']['tmp_name']);
+                    } else
+                        die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
+                } else
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}');
+            } else {
+                // Open temp file
+                $out = fopen("{$filePath}.part", $chunk == 0 ? "wb" : "ab");
+                if ($out) {
+                    // Read binary input stream and append it to temp file
+                    $in = fopen("php://input", "rb");
+
+                    if ($in) {
+                        while ($buff = fread($in, 4096))
+                            fwrite($out, $buff);
+                    } else
+                        die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
+
+                    fclose($in);
+                    fclose($out);
+                } else
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
+            }
+
+            // Check if file has been uploaded
+            if (!$chunks || $chunk == $chunks - 1) {
+                // Strip the temp .part suffix off 
+                rename("{$filePath}.part", $filePath);
+            }
+
+
+            // Return JSON-RPC response
+            //die('{"jsonrpc" : "2.0", "result" : null, "id" : "id"}');
+
+            //move_uploaded_file($tempFile, $targetFile);
+            $file_name = time() . RandomString(5);
+            $targetFileName = $file_name . '.' . getExt($filePath);
+            $targetFile = TEMP_DIR . "/" . $targetFileName;
+            
+            rename($filePath,$targetFile);
+
+            $Upload->add_conversion_queue($targetFileName);
+
+            /* //exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
+              if (stristr(PHP_OS, 'WIN')) {
+              exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName");
+              } else {
+              exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName &> /dev/null &");
+              }
+             */
+            echo json_encode(array("success" => "yes", "file_name" => $file_name));
+        }
+        break;
+
+    case "update_video": {
+            $Upload->validate_video_upload_form();
+            $_POST['videoid'] = trim($_POST['videoid']);
+            if (empty($eh->error_list)) {
+                $cbvid->update_video();
+            }
+            if (error())
+                echo json_encode(array('error' => error('single')));
+            else
+                echo json_encode(array('msg' => msg('single')));
+        }
 }
 
 
-//function used to display error
-function upload_error($error)
-{
-	echo json_encode(array("error"=>$error));
-}
 ?>
