@@ -12,6 +12,8 @@ include('../includes/config.inc.php');
 $request = $_REQUEST;
 $mode = $request['mode'];
 
+$page = mysql_clean($request['page']);
+
 $max_video_limit = 20;
 $videos_limit = 20;
 
@@ -21,7 +23,7 @@ switch($mode)
     case "get_videos":
     default:
     {
-        $page = mysql_clean($_GET['page']);
+        
         $get_limit = create_query_limit($page,$videos_limit);
 
         if($request['limit'] > $max_video_limit || !$request['limit'])
