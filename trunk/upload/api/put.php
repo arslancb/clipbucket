@@ -83,11 +83,10 @@ switch ($mode) {
             }
 
             $comment = $myquery->get_comment($cid);
-            assign('comment', $comment);
-            $template = get_template('single_comment');
+
             $array = array(
                 'msg' => msg(),
-                'comment' => $template,
+                'comment' => $comment,
                 'success' => 'ok',
                 'cid' => $cid
             );
