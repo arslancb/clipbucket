@@ -4,6 +4,10 @@
  * Api Put method to add/upload/insert stuff
  * on ClipBucket website
  */
+
+include('../includes/config.inc.php');
+
+
 $request = $_REQUEST;
 $mode = $request['mode'];
 
