@@ -13,6 +13,7 @@ $request = $_REQUEST;
 $mode = $request['mode'];
 
 $max_video_limit = 20;
+$videos_limit = 20;
 
 switch($mode)
 {
@@ -20,8 +21,14 @@ switch($mode)
     case "get_videos":
     default:
     {
+        $page = mysql_clean($_GET['page']);
+        $get_limit = create_query_limit($page,$videos_limit);
+
         if($request['limit'] > $max_video_limit || !$request['limit'])
-            $request['limit'] = $max_video_limit;
+            $request['limit'] = $videos_limit;
+        else {
+            $request['limit'] = $get_limit;
+        }
         
         $videos = $cbvid->get_videos($request);
         
