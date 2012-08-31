@@ -65,6 +65,9 @@
             drop_element : 'upload-files-dropable',
             url : '{$baseurl}/actions/file_uploader.php?upload=yes',
             flash_swf_url : '/plupload/js/plupload.flash.swf',
+            multipart_params : {
+                file_directory : 'value'
+            },
             dragdrop :  true,
             filters : [
                 { title : "{lang code='Video files'}", extensions : "{$Cbucket->list_extensions()}" },
@@ -85,6 +88,11 @@
 
         uploader.bind('FilesAdded', function(up, files) {
             $.each(files, function(i, file) {
+                
+                
+                
+                
+                var timeStamp  = Math.round((new Date()).getTime() / 1000);
                 var template = get_upload_template(
                 file.id,
                 file.name,
@@ -106,6 +114,12 @@
                 },function(data){
                     
                     filenames[file.id] = data.vid;
+                    up.settings.multipart_params.file_directory = data.file_directory;
+                    up.settings.multipart_params.file_name = data.file_name;
+                    uploader.start();
+            
+                    up.refresh(); // Reposition Flash/Silverlight
+            
                     $('#file-'+file.id+' .status').html('{lang code="uploading"}');
                     
                     
@@ -169,9 +183,7 @@
                 
             });
             
-            uploader.start();
             
-            up.refresh(); // Reposition Flash/Silverlight
         });
         
 

@@ -59,7 +59,13 @@ if($process_running<=$max_processes && $queued_files)
         
         if(file_exists($original_source))
         {
-        
+            
+            if(!$cbvid->hasThumbs($video_info)){
+                
+                //Generate thumbnails first...then move on..
+                 
+            }
+            
             $video_profiles = $cbvid->get_video_profiles();
             $convert = false;
             foreach($video_profiles as $vid_profile)
@@ -122,9 +128,6 @@ if($process_running<=$max_processes && $queued_files)
                     );
                     
                     $cbupload->update_video_file($fid,$fields);
-                    
-                    //Generate Video Thumbnails..
-                    
                     
                     unset($converter);
                     break;

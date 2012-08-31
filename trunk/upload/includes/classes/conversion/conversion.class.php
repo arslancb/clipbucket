@@ -14,9 +14,9 @@
 /*
  * if(!defined('IN_CLIPBUCKET')) exit("Sorry, visitors not allowed");
  */
-define('FFMPEG','D:\wamp\bin\ffmpeg\bin\ffmpeg.exe');
-define('MPLAYER','D:\wamp\bin\mplayer\mplayer.exe');
-define('MEDIAINFO','D:\wamp\bin\mediainfo\MediaInfo.exe');
+define('FFMPEG','/usr/local/bin/ffmpeg');
+define('MPLAYER','/usr/bin/mplayer');
+define('MEDIAINFO','/usr/bin/mediainfo');
 
 
 /**

@@ -1059,3 +1059,19 @@ function video_slug($video) {
 function video_slug_exists($slug) {
     return slug_exists($slug, 'v');
 }
+
+
+/**
+ * checks weather a video has thumb or not
+ * this function is pretty basic for now, will improve it later
+ * it will check weather /path/to/thumbs ... default.jpg exists or not
+ * 
+ * @author Arslan 
+ * @param ARRAY video details
+ * @return Bolean/Array
+ */
+function hasThumbs($video)
+{
+    $file = $video['file_name'];
+    $filepath = $video[''];
+}

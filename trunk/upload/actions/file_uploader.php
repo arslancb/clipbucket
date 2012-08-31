@@ -21,8 +21,10 @@ switch ($mode) {
 
     case "insert_video": {
             $title = getName($_POST['title']);
-            $file_name = $_POST['file_name'];
-
+            $file_name = time().  RandomString(5);
+            
+            $file_directory = createDataFolders();
+            
             $vidDetails = array
                 (
                 'title' => $title,
@@ -30,12 +32,15 @@ switch ($mode) {
                 'tags' => genTags(str_replace(' ', ', ', $title)),
                 'category' => array($cbvid->get_default_cid()),
                 'file_name' => $file_name,
+                'file_directory' => $file_directory,
                 'userid' => userid(),
             );
 
             $vid = $Upload->submit_upload($vidDetails);
 
-            echo json_encode(array('success' => 'yes', 'vid' => $vid));
+            echo json_encode(array('success' => 'yes', 
+                'vid' => $vid,'file_directory'=>$file_directory,
+                'file_name'=>$file_name));
         }
         break;
 
@@ -79,7 +84,7 @@ switch ($mode) {
             header("Cache-Control: post-check=0, pre-check=0", false);
             header("Pragma: no-cache");
 
-
+            pr($_REQUEST);
             $targetDir = TEMP_DIR;
 
             $cleanupTargetDir = true; // Remove old files
@@ -186,13 +191,14 @@ switch ($mode) {
             //die('{"jsonrpc" : "2.0", "result" : null, "id" : "id"}');
 
             //move_uploaded_file($tempFile, $targetFile);
-            $file_name = time() . RandomString(5);
+            $file_name = $_REQUEST['file_name'];
             $targetFileName = $file_name . '.' . getExt($filePath);
             $targetFile = TEMP_DIR . "/" . $targetFileName;
             
             rename($filePath,$targetFile);
-
-            $Upload->add_conversion_queue($targetFileName);
+            
+            $fileDir = $_REQUEST['file_directory'];
+            $Upload->add_conversion_queue($targetFileName,$fileDir);
 
             /* //exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
               if (stristr(PHP_OS, 'WIN')) {
