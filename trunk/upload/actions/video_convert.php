@@ -85,7 +85,6 @@ if($process_running<=$max_processes && $queued_files)
                     $log_file = LOGS_DIR.'/'.$log_file;
 
                     /** All of our new conversion code is written here **/
-                    /** Lets us Prepare the ship, Lets Sail again.. **/
 
                     $converter = new CBConverter($original_source); 
                     $converter->set_log($log_file);

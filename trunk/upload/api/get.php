@@ -26,11 +26,8 @@ switch($mode)
         
         $get_limit = create_query_limit($page,$videos_limit);
 
-        if($request['limit'] > $max_video_limit || !$request['limit'])
-            $request['limit'] = $videos_limit;
-        else {
-            $request['limit'] = $get_limit;
-        }
+        $request['limit'] = $get_limit;
+        
         
         $videos = $cbvid->get_videos($request);
         

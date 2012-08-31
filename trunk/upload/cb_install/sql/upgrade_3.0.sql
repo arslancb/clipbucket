@@ -125,3 +125,6 @@ ALTER TABLE  `{tbl_prefix}users` CHANGE  `status`  `status` ENUM(  'Ok',  'ToAct
 UPDATE {tbl_prefix}users SET status='verified' WHERE status='Ok';
 UPDATE {tbl_prefix}users SET status='unverified' WHERE status='ToActivate';
 ALTER TABLE  `{tbl_prefix}users` CHANGE  `status`  `status` ENUM(  'verified',  'unverified' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'unverified';
+
+-- 8-31-2012
+ALTER TABLE  `{tbl_prefix}conversion_queue` ADD  `file_directory` VARCHAR( 255 ) NOT NULL AFTER  `queue_tmp_ext`;
