@@ -28,8 +28,8 @@ if($process_running<=$max_processes && $queued_files)
     foreach($queued_files as $queue)
     {
         //Creating dated folders
-        $folder = create_dated_folder(NULL,$queue['date_added']);
-        
+        $folder = $queue['file_directory'];
+       
         $original_source = ORIGINAL_DIR.'/'.$folder.'/'.$queue['queue_name'].'.'
         .$queue['queue_ext'];
         
@@ -60,7 +60,7 @@ if($process_running<=$max_processes && $queued_files)
         if(file_exists($original_source))
         {
             
-            if(!$cbvid->hasThumbs($video_info)){
+            if(hasThumbs($queue)){
                 
                 //Generate thumbnails first...then move on..
                  
