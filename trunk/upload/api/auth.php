@@ -65,7 +65,9 @@ switch($mode)
             {
                     $userDetails[$ud] = $userquery->udetails[$ud];
             }
-
+            
+            $userDetails['sess_id'] = $_COOKIE['PHPSESSID'];
+            
             exit(json_encode($userDetails));
         }
     }
