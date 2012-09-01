@@ -55,7 +55,7 @@ switch($mode)
     {
         $userid = userid();
         if(!userid())
-            exit(json_encode(array('status'=>'failed','msg'=>'User is not logged in')));
+            exit(json_encode(array('status'=>'failed','msg'=>'User is not logged in','session'=>$_COOKIE['PHPSESSID'])));
         else
         {
             $uDetails = array('username','userid','email','total_videos','total_photos','total_collections','total_groups');

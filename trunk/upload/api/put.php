@@ -83,7 +83,7 @@ switch ($mode) {
 
 
             if (error()) {
-                exit(json_encode(array('err' => error())));
+                exit(json_encode(array('err' => error(),'session'=>$_COOKIE['PHPSESSID'])));
             }
 
             $comment = $myquery->get_comment($cid);
