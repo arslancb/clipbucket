@@ -1,3 +1,33 @@
+{if $display_method == 'index_photos'}
+    <div class="pull-left photos-index" id="photo-{$photo.photo_id}-{$iteration}">
+        <a href="{$cbphoto->photo_links($photo,'view_photo')}" class="cbv3-index-photo">
+            <div class="index-photo">
+                <span>
+                    {get_photo details=$photo size='t' output='html' style='max-width:none' height='140'}
+                </span>
+            </div>
+            <div class="index-photo large display-none">
+                <span>
+                    {get_photo details=$photo size='l' output='html' style='max-width:none'}
+                </span>
+            </div>
+        </a>
+    </div>
+{/if}
+
+{if $display_method == 'index_sidebar'}
+<div class="video-index-sidebar">
+    <a href="{$cbphoto->photo_links($photo,'view_photo')}" class="block height100" style="overflow: hidden;">
+        {get_photo details=$photo size='m' output='html' width='300' class='valignMid'}
+    </a>
+    <div class="height5"></div>
+    <a href="{$cbcollection->collection_links($photo,'vc')}" class="inlineblock"><h5>{$photo.collection_name|truncate:35}</h5></a>
+    <span class="pull-right font_12 muted">{$photo.views|number_format} {lang code='views'}</span>
+</div>
+<div class="height20"></div>
+{/if}
+
+{if !$display_method}
 <div class="inlineblock valignTop {$photo.photo_id}-photo video-box" id="photo-{$photo.photo_id}-box" style="float:none;">
     <a href="{$cbphoto->photo_links($photo,'view_photo')}" class="thumbnail inlineblock relative">
         {get_photo details=$photo size='m' output='html'}
@@ -6,3 +36,4 @@
     	<div class="title"><a href="{$cbphoto->photo_links($photo,'view_photo')}">{$photo.photo_title}</a></div>
     </div>
 </div>
+{/if}

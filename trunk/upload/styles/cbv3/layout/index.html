@@ -1,0 +1,233 @@
+<div id="index-container" class="relative clearfix">
+    <div class="index-navigation-column pull-left">
+        <div class="cb-widget clearfix">
+            {if $userquery->login_check('',true)}
+                <div class="relative clearfix index-channel-block">
+                    <img src="{avatar details=$userquery->udetails}" class="pull-left channel-profile-image"/>
+                    <ul class="pull-left margin0">
+                        <li><a href="{$userquery->profile_link($userquery->udetails)}" title="{lang code='View Channel'}" class="cb-tooltip"><i class="icon icon-user icon-white"></i></a></li>
+                        <li><a href="{link name='my_account'}" title="{lang code='My Account'}" class="cb-tooltip"><i class="icon icon-lock icon-white"></i></a></li>
+                        <li><a href="edit_account.php?mode=account" title="{lang code='Channel Settings'}" class="cb-tooltip"><i class="icon icon-cog icon-white"></i></a></li>
+                        <li><a href="manage_videos.php" title="{lang code='My Videos'}" class="cb-tooltip"><i class="icon icon-film icon-white"></i></a></li>
+                        <li><a href="manage_photos.php" title="{lang code='My Photos'}" class="cb-tooltip"><i class="icon icon-picture icon-white"></i></a></li>
+                        <li><a href="{link name='logout'}" title="{lang code='Logout'}" class="cb-tooltip"><i class="icon icon-off icon-white"></i></a></li>
+                    </ul>                  
+                </div>
+            {else}
+                <div class="relative clearfix index-channel-block not-logged-in">
+                    <h4 class="marginB10">{lang code='Login to upload videos and much more'}</h4>
+                    <button class="btn btn-inverse btn-large text-center btn-block"  data-target="#login-modal" data-toggle="modal">Login</button>
+                </div>
+            {/if}
+        </div>
+        
+        {if has_sidebar('index-sidebar-left')}
+            {sidebar('index-sidebar-left')}
+        {else}
+            {if $userquery->udetails && $userquery->udetails.total_subscriptions > 0}
+                {$subscriptions=$userquery->get_user_subscriptions($userquery->udetails.userid)}
+                {if $subscriptions}
+                    <div class="cb-widget">
+                        <h2 class="cb-widget-title">{lang code='Subscriptions'}</h2>
+                        <ul class="index-nav-list margin0 cbv3-scroller">
+                            {foreach $subscriptions as $sub}
+                                {include_template_file file="blocks/user.html" user=$sub display_method='index_sidebar' subs='true'}
+                            {/foreach}
+                        </ul>
+                    </div>
+                {/if}
+            {/if}
+            <div class="cb-widget">
+                <h2 class="cb-widget-title">{lang code='Browse'}</h2>
+                {$categories=getCategoryList(['type'=>'video'])}
+
+                {if $categories}
+                <ul class="index-nav-list margin0 cbv3-scroller">
+                    {foreach $categories as $cat}
+                        {if !$cat.parent_id}
+                            <li><a href="{category_link($cat,'video')}">{$cat.category_name}</a></li>
+                        {/if}
+                    {/foreach}
+                </ul>
+                {/if}
+            </div>
+            {$featured_users=get_users(['limit'=>'10','featured'=>'yes'])}
+            {if $featured_users}
+            <div class="cb-widget">
+                <h2 class="cb-widget-title">{lang code='Featured Users'}</h2>
+                <ul class="index-nav-list margin0">
+                    {foreach $featured_users as $feature_user}
+                        {include_template_file file="blocks/user.html" user=$feature_user display_method='index_sidebar' subs='false'}
+                    {/foreach}
+                </ul>
+            </div>
+            {/if}
+        {/if}
+    </div>
+    <div id="index-navgiation-full-height"></div>
+
+    <div class="pull-left">
+    {if is_installed('editorspick')}
+        <div class="marginB10 clear cbv3-editors-pick {if $editor_picks}editor-pick-has-videos{else}editor-pick-no-videos{/if} clearfix">
+            {if $editor_picks}
+            <div id="ep_video_container" style="min-height: 292px;">{include_template_file file="blocks/editor_pick/video_block.html" video=$editor_picks.0}</div>
+                
+                <div class="editor-pick-videos-list cbv3-scroller inlineblock-fix">
+                    {foreach $editor_picks as $video}
+                        {include_template_file file='blocks/editor_pick/index_featured_video.html' video=$video first=$video@first}
+                    {/foreach}
+                </div>
+            {else}
+            <div class="no-videos-message">
+                <span>
+                    There is no video in editor's pick, Please Add Videos In Editor's Pick
+                    <div class="no-video-help">Videos Manager > Add to editor's pick</div>
+                </span>
+            </div>
+            {/if}
+        </div>
+    {/if}
+    <div class="index-sidebar-column pull-right">
+        <div class="cb-widget">
+            <img src="http://placehold.it/300x250" width="300" height="250" />
+        </div>
+        {if has_sidebar('index-sidebar-right')}
+            {sidebar('index-sidebar-right')}
+        {else}
+            {$last_viewed=get_photos(['limit'=>'8','order'=>' last_viewed DESC'])}
+            {if $last_viewed}
+            <div class="cb-widget">
+                <h2 class="cb-widget-title">{lang code='Being Viewed Photos'}</h2>
+                {foreach $last_viewed as $photo}
+                    {include_template_file file="blocks/photo.html" photo=$photo display_method='index_sidebar'}
+                {/foreach}
+            </div>
+            {/if}        
+        {/if}
+    </div>
+
+    <div class="index-content-column pull-left">
+        {$videos=get_videos(['limit'=>16])}
+        {if $videos}
+            {$heading='Latest Videos'}
+            {$more_mode='recent'}
+        {/if}
+        <div class="row-fluid">
+            <div class="span8 pull-left">
+                {if $videos}
+                    <h3 class="marginB10"><a href="{link name=sort sort=$more_mode type=videos}">{$heading}</a></h3>
+                    <div class="carousel slide" id="latest-videos">
+                        <div class="carousel-inner">
+                            {foreach $videos as $video}
+                                {if $video@first || $open_tag=='true'}
+                                    {$open_tag=''}
+                                    <div class="item {if $video@first}active{/if}">
+                                {/if}
+                                {include_template_file file='blocks/video.html' video=$video display_method='index_videos'}
+                                {if $video@iteration % 4 == 0 || $video@last}
+                                    {$open_tag='true'}
+                                    </div>
+                                {/if}
+                            {/foreach}
+                        </div>
+                        <a class="carousel-control left" href="#latest-videos" data-slide="prev">&lsaquo;</a>
+                        <a class="carousel-control right" href="#latest-videos" data-slide="next">&rsaquo;</a>
+                    </div>
+                {/if}
+            </div>
+            
+            <script type="text/javascript">
+                $('.carousel').carousel({
+                    interval: 4000
+                })
+            </script>
+            <div class="span4 pull-right">
+                <h3 class="marginB10">Being Watched</h3>
+                    {$last_viewed=get_videos(['limit'=>'8','order'=>' last_viewed DESC'])}
+                    {if $last_viewed}
+                    <div class="cbv3-scroller">
+                        {foreach $last_viewed as $video}
+                        <div class="block height100 overflow-hidden {if !$video@last}marginB10{/if} popover-classx" title="{$video.title|truncate:25}" data-title="{$video.title|truncate:25}" data-content="<img src='{avatar uid=$video.userid size=small}' class='marginR10 marginB10 pull-left' width='40' height='40' style='vertical-align:top' /><span class='block marginB5 muted' style='font-size:11px; text-transform:uppercase'>{$video.username} - {$video.duration|setTime}</span> {$video.description|truncate:150}" data-placement="top">
+                            <a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" style="width: 100%;" class="block" /></a>
+                        </div>
+                        {/foreach}                        
+                    </div>
+                    {/if}
+            </div>
+        </div>
+        {$featured_videos=get_videos(['limit'=>8,'featured'=>'yes'])}
+        {if $featured_videos}
+        <div class="featured-middle-content" id="featured-videos-wrapper">
+            <h3 class="marginB10">{lang code='Featured Videos'} <small class="marginL10"><a href="{link name=sort sort=featured type=videos}">More Videos</a></small></h3>
+            <div class="carousel slide" id="featured-videos">
+                <div class="carousel-inner">
+                    <div class="inlineblock-fix">
+                        {foreach $featured_videos as $ftvideo}
+                            {$vthumbs=get_thumb($ftvideo,'default',true,false,true,true)}
+                            
+                            {*get only big from array start*}
+                                {$vvthumbs=array()}
+                                {foreach $vthumbs as $vthumb}
+                                    {if strpos($vthumb,'big') !== false}
+                                        {$vvthumbs[]=$vthumb}
+                                    {/if}
+                                {/foreach}
+                                {$vthumbs=$vvthumbs}
+                            {*get only big from array end*}
+                            
+                            {$total_thumbs=count($vthumbs)}
+                            {if $ftvideo@first || $open_tag=='true'}
+                                {$open_tag=''}
+                                <div class="item {if $ftvideo@first}active{/if}">
+                            {/if}
+                            <a href="{videoLink vdetails=$ftvideo}" class="featured-video-block">
+                                <div class="featured-video-inner-block">
+                                    <div class="featured-video-thumb-block thumbs-{count($vthumbs)} {if $total_thumbs == 1}one-thumb{elseif $total_thumbs == 2}two-thumbs{elseif $total_thumbs >= 3}three-thumbs{/if}">
+                                        {$true=shuffle($vthumbs)}
+                                        {foreach $vthumbs as $vthumb}
+                                            {if $vthumb@iteration <= 2}
+                                                <div class="featured-video-thumb small"><img src="{$vthumb}" /></div>
+                                            {/if}
+                                            {if $vthumb@iteration == 3}
+                                                <div class="featured-video-thumb"><img src="{$vthumb}" /></div>
+                                            {/if}
+                                        {/foreach}
+                                    </div>
+                                    <h4>{$ftvideo.title}</h4>
+                                    <p>{$ftvideo.description|description|strip_tags}</p>
+                                </div>
+                            </a>
+                            {if $ftvideo@iteration % 2 == 0 || $ftvideo@last}
+                                {$open_tag='true'}
+                                </div>
+                            {/if}
+                        {/foreach}                
+                    </div>
+                </div>
+                <a class="carousel-control left" href="#featured-videos" data-slide="prev">&lsaquo;</a>
+                <a class="carousel-control right" href="#featured-videos" data-slide="next">&rsaquo;</a>
+            </div>
+        </div>
+        {/if}
+        {AD place='ad_468x60'}
+        
+        {$photos=get_photos(['limit'=>9])}
+        {if $photos}
+            {$heading='Latest Photos'}
+            {$more_mode='recent'}            
+        {/if}
+        
+        {if $photos}            
+            <h3 class="marginB10">
+                <a href="{link name=sort sort=$more_mode type=photos}">{lang code=$heading}</a>
+            </h3>
+            <div id="index-photos-container">
+            {foreach $photos as $photo}
+                {include_template_file file="blocks/photo.html" photo=$photo display_method="index_photos" iteration=$photo@iteration last=$photo@last first=$photo@first}
+            {/foreach}
+            </div>
+        {/if}
+    </div>
+    <div id="index-content-full-height"></div>
+    </div>
+</div>

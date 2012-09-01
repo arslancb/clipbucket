@@ -53,7 +53,7 @@
     
     $(document).ready(function(){
        
-     
+        $('.popover-class').popover();
         //Adding Comment Hover effect
        
         $('.comments').on('mouseenter','.comment',function(){
@@ -126,7 +126,11 @@
        
         //Init Drop Downs
         $('.cb-dropdown').dropdown();
-       
+       $('.cb-tabs-content a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+        
         //Hiding Children Categories
         $('.categories-nav > ul > li > ol').hide();
         //Adding Toggle
@@ -224,7 +228,11 @@
         
         $('.upload_list_container').on('click','.upload_list',function(){
             toggle_upload_list(this);
-        })
+        });
+        
+        $('.cbv3-scroller').lionbars({
+                autohide: true
+        });
     });
 
 </script>

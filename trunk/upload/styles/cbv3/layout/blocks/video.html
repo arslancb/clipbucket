@@ -1,3 +1,4 @@
+{if !$display_method}
 {if !$playlists}
     {$playlists=$cbvid->action->get_playlists()}
 {/if}
@@ -33,4 +34,27 @@
         </div>
     </div>
 </div>
+{/if}
 
+{if $display_method == 'index_sidebar'}
+<div class="video-index-sidebar">
+    <a href="{videoLink vdetails=$video}" class="block height100" style="overflow: hidden;">
+        <img src="{get_thumb vdetails=$video num='big'}" width="300" class="valignMid" />
+    </a>
+    <div class="height5"></div>
+    <a href="{videoLink vdetails=$video}" class="inlineblock"><h5>{$video.title|truncate:35}</h5></a>
+    <span class="pull-right font_12" style="color:#999">{$video.duration|setTime}</span>
+</div>
+<div class="height20"></div>
+{/if}
+
+{if $display_method == 'index_videos'}
+<a href="{videoLink vdetails=$video}" id="video-lastest-{$video.videoid}" class="pull-left index-middle-videos video-box">
+    <div class="height100 block overflow-hidden relative video-thumb">
+        <img src="{getThumb vdetails=$video}" />
+        <span class="duration">{$video.duration|setTime}</span>
+    </div>
+    <div class="height5"></div>
+    <p class="font_12">{$video.title|truncate:50}</p>
+</a>
+{/if}
