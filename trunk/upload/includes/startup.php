@@ -8,4 +8,12 @@
 include(BASEDIR.'/modules/uploader/uploader.php');
 
 
+/***
+ * Adding custom thumb sizes
+ */
+add_thumb_size('120x60');
+add_thumb_size('160x120');
+add_thumb_size('300x250');
+add_thumb_size('640x360');
+
 ?>

@@ -1087,3 +1087,40 @@ function hasThumbs($video)
     else
         return false;
 }
+/**
+ * Alias of hasThumbs
+ */
+function has_thumbs($video){ return hasThumbs($video); }
+
+/**
+ * add thumb size for custom thumb sizes
+ * 
+ * @param STRING $size size dimension wxh
+ * @param STRING $suffix DEFAULT => same as size
+ * you dont have to add "-" for suffix, it will be added by default
+ */
+
+function add_thumb_size($size,$suffix=NULL)
+{
+    if(!$suffix)
+        $suffix = $size;
+    
+    global $Cbucket;
+    
+    $Cbucket->thumb_sizes[] = array('size'=>$size,'suffix'=>$suffix);
+    
+    return true;    
+}
+
+/**
+ * Get thumb sizes registered using add_thumb_size function
+ * 
+ */
+function get_thumb_sizes()
+{
+    global $Cbucket;
+    $sizes = $Cbucket->thumb_sizes;
+    $sizes = apply_filters($sizes, 'thumb_sizes');
+    
+    return $sizes;
+}

@@ -1627,7 +1627,7 @@ class CBConverter
             $CMD .= "' ";
         }
         
-        echo $CMD .= " ".$outputname;
+        //echo $CMD .= " ".$outputname;
         
         $this->exec($CMD);
         return $CMD;
