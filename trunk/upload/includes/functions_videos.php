@@ -1068,10 +1068,22 @@ function video_slug_exists($slug) {
  * 
  * @author Arslan 
  * @param ARRAY video details
- * @return Bolean/Array
+ * @return Boolean/Array
  */
 function hasThumbs($video)
 {
     $file = $video['file_name'];
-    $filepath = $video[''];
+    if(!$file)
+        $file = $video['queue_name'];
+    
+    //Now lets do this,.,....
+    $filepath = $video['file_directory'].'/'.$file;
+    $thumbsDir = THUMBS_DIR.'/'.$filepath;
+    
+    $files = glob($thumbsDir.'*.jpg');
+    
+    if($files)
+        return $files;
+    else
+        return false;
 }

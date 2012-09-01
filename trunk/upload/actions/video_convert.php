@@ -60,7 +60,7 @@ if($process_running<=$max_processes && $queued_files)
         if(file_exists($original_source))
         {
             
-            if(hasThumbs($queue)){
+            if(!hasThumbs($queue)){
                 
                 //Generate thumbnails first...then move on..
                  
