@@ -42,7 +42,7 @@ switch($mode)
                 exit(json_encode(array('status'=>'failed','msg'=>error('single'))));
         }else
         {
-                exit(json_encode(array('status'=>'ok','userid'=>$userquery->userid)));
+                exit(json_encode(array('status'=>'ok','userid'=>$userquery->userid,'sess_id'=> $_COOKIE['PHPSESSID'])));
         }
     }
     break;
