@@ -238,6 +238,7 @@ class CBConverter
             }
             
             $result =  shell_exec( $cmd.$output_cmd);
+            
             if(!$result && $output)
             {
                 //Read output file..
@@ -1627,7 +1628,7 @@ class CBConverter
             $CMD .= "' ";
         }
         
-        //echo $CMD .= " ".$outputname;
+       echo $CMD .= " ".$outputname;
         
         $this->exec($CMD);
         return $CMD;

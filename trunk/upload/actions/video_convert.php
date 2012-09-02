@@ -63,8 +63,8 @@ if ($process_running <= $max_processes && $queued_files) {
 
                     $log_file = $folder . '/' . $queue['queue_name'] . $vid_profile['suffix'] . '-' . $vid_profile['ext'] . '.log';
 
-                    $fid = $cbupload->add_video_file($queue, array('noinfo'), 'p', $vid_profile['profile_id'], $log_file);
-                    $cbupload->update_queue_status($queue, 'u', 'Started conversion using Profile # ' . $vid_profile['profile_id'], true);
+                   $fid = $cbupload->add_video_file($queue, array('noinfo'), 'p', $vid_profile['profile_id'], $log_file);
+                   $cbupload->update_queue_status($queue, 'u', 'Started conversion using Profile # ' . $vid_profile['profile_id'], true);
 
                     $log_file = LOGS_DIR . '/' . $log_file;
 
@@ -80,17 +80,22 @@ if ($process_running <= $max_processes && $queued_files) {
                      */
                     if (!hasThumbs($queue)) {
 
+                        $cbupload->update_queue_status($queue, 'u', 'Generating thumbs...', false);
+
                         //Generate thumbnails first...then move on..
                         $thumb_sizes = get_thumb_sizes();
                         $thumbs_dir = THUMBS_DIR.'/'.$folder;
                         
                         if ($thumb_sizes) {
                             foreach ($thumb_sizes as $thumb_size) {
+                                                        
                                 $size = $thumb_size['size'];
-                                $suffix = $thumb_size['sufix'];
+                                $suffix = $thumb_size['suffix'];
                                 
                                 $outname = $queue['queue_name'].'-'.$suffix;
                                 
+                                $cbupload->update_queue_status($queue, 'u', 'Extacting '.$outname, false);
+                                                                
                                 //Using Multi Thumb Gen function..
                                 //$converter = new CBConverter($original_source);
                                 $converter->extractThumb(NULL, array(
@@ -101,6 +106,8 @@ if ($process_running <= $max_processes && $queued_files) {
                                     'outdir' => $thumbs_dir,
                                     'resize' => 'fit'
                                 ));
+                                
+                                
                             }
                         }
                     }
