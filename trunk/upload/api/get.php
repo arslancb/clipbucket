@@ -146,7 +146,14 @@ switch($mode)
         $items = $cbvid->get_playlist_items($pid);
         
         if($items){
-            echo json_encode($items);
+            $new_videos = array();
+            foreach($items as $video)
+            {
+                $video['thumbs'] = array('default'=>BASEURL.'/api/thumb-sample.php');
+                $video['videos'] = array('mobile' => VIDEOS_URL.'/12345.mp4');
+                $new_videos[] = $video;
+            }
+            echo json_encode($new_videos);
         }else
             echo json_encode(array('err'=>'No items in this playlist'));
     }
