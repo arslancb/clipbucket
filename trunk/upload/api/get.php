@@ -120,6 +120,16 @@ switch($mode)
         echo json_encode($new_groups);
     }
     break;
+    case "get_playlists":
+    case "getPlaylists":
+    {
+        $playlists = $cbvid->action->get_playlists();
+        
+        if($playlists)
+            echo json_encode($playlists);
+        else
+            echo json_encode(array('err'=>'No playlist was found'));
+    }
 }
 
 ?>
