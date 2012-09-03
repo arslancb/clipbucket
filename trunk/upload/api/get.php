@@ -28,10 +28,13 @@ switch($mode)
 
         $request['limit'] = $get_limit;
         
-        $vid = $request['video_id'];
-        $vids = explode(',',$vid);
+        $vids = $request['video_id'];
         
-        $request['videoids'] = $vids;
+        if($vids){
+            $vids = explode(',',$vid);
+
+            $request['videoids'] = $vids;
+        }
         
         $videos = $cbvid->get_videos($request);
         
