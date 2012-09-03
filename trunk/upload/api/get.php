@@ -138,6 +138,7 @@ switch($mode)
             echo json_encode(array('err'=>'No playlist was found'));
     }
     
+    break;
     case "get_playlist_items":
     case "getPlaylistItems":
     {
