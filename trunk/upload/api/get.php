@@ -130,6 +130,18 @@ switch($mode)
         else
             echo json_encode(array('err'=>'No playlist was found'));
     }
+    
+    case "get_playlist_items":
+    case "getPlaylistItems":
+    {
+        $pid = mysql_clean($request['playlist_id']);
+        $items = $cbvid->get_playlist_items($pid);
+        
+        if($items){
+            echo json_encode($items);
+        }else
+            echo json_encode(array('err'=>'No items in this playlist'));
+    }
 }
 
 ?>
