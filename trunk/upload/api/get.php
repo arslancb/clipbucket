@@ -31,7 +31,7 @@ switch($mode)
         $vids = $request['video_id'];
         
         if($vids){
-            $vids = explode(',',$vid);
+            $vids = explode(',',$vids);
 
             $request['videoids'] = $vids;
         }
