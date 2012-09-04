@@ -174,5 +174,16 @@ switch ($mode) {
             }
         }
         break;
+        
+        case "remove_playlist_item":
+        {
+            $item_id = mysql_clean($request['item_id']);
+            $cbvid->action->delete_playlist_item($item_id);
+            if(error())
+                echo json_encode(array('err'=>error()));
+            else
+                echo json_encode(array('success'=>'ok'));
+        }
+        break;
 }
 ?>
