@@ -766,15 +766,20 @@ class CBvideo extends CBCategory {
 
             if (!empty($cond))
                 $cond .= " AND ";
-
+            
+            $meta_query = $this->create_meta_query();
+            
             $result = $db->select(tbl('video')
                     . ' LEFT JOIN ' . tbl('users') . ' ON '
                     . tbl('video.userid') . ' = ' . tbl('users.userid')
                     . ' LEFT JOIN ' . tbl('slugs') . ' ON '
                     . tbl('video.slug_id') . ' = ' . tbl('slugs.slug_id')
-                    , tbl('video.*' . $ufieldq . ',slugs.*'), $cond . " " . tbl("video.userid") . " = " . tbl("users.userid"), $limit, $order);
+                    . ' LEFT JOIN ' . tbl('video_meta') . ' ON '
+                    . tbl('video.videoid') . ' = ' . tbl('video_meta.videoid')
+                    , tbl('video.*' . $ufieldq . ',slugs.*').','.$meta_query, 
+                    $cond . " " . tbl("video.userid") . " = " . tbl("users.userid")." GROUP BY ".tbl('video.videoid'), $limit, $order);
 
-            //echo $db->db_query;
+            echo $db->db_query;
         }
 
 
@@ -2033,6 +2038,50 @@ class CBvideo extends CBCategory {
         $db->execute("DELETE FROM ".tbl('video_meta')." WHERE ".$cond);
         
         return true;
+    }
+    
+    
+    /**
+     * Register metas and can be used when retrieved/updating data
+     * 
+     * metas are extra fields of any video for extended data. This function
+     * will register metas and tells ClipBucket to use them when performing 
+     * an action on a video
+     * 
+     * @param STRING meta_name
+     */
+    function register_meta($name)
+    {
+        $this->metas[] = $name;
+    }
+    
+    
+    /**
+     * create meta concat query
+     * 
+     */
+    function create_meta_query()
+    {
+        $metas = $this->metas;
+        
+        $query = '';
+        
+        if($metas)
+        {
+          
+            foreach($metas as $meta)
+            {
+                if($query)
+                {
+                    $query .=',';
+                }
+                
+                $query .= " CONCAT (if(meta_name='$meta',meta_value,meta_value)) AS '$meta' ";
+            }
+        }
+        
+        return $query;
+                    
     }
 
 }

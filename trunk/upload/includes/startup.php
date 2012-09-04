@@ -16,4 +16,12 @@ add_thumb_size('160x120');
 add_thumb_size('300x250');
 add_thumb_size('640x360');
 add_thumb_size('original');
+
+
+
+/**
+ * Register metas
+ */
+$cbvid->register_meta('thumbs');
+
 ?>
