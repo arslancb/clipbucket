@@ -109,7 +109,7 @@ if ($process_running <= $max_processes && $queued_files) {
                         }
                         
                         //Index thumb..
-                        index_video_thumbs($queue['queue_name']);
+                        $cbvid->index_video_thumbs($queue['queue_name']);
                     }
 
 
