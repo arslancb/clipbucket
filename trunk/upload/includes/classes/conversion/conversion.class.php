@@ -1544,7 +1544,7 @@ class CBConverter
         
         //Setting upt the size
         $size = $params['size'];
-        if($size!='same')
+        if($size!='same' && $size!='original')
         {
             $sizes = explode('x',$size);
             $width = $sizes[0];
