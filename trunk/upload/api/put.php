@@ -151,7 +151,7 @@ switch ($mode) {
         }
         break;
 
-    case "add_playlist_item": {
+        case "add_playlist_item": {
 
             $type = $request['type'];
             $pid = mysql_clean($request['playlist_id']);

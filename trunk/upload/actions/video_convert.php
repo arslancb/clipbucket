@@ -88,12 +88,9 @@ if ($process_running <= $max_processes && $queued_files) {
                         
                         if ($thumb_sizes) {
                             foreach ($thumb_sizes as $thumb_size) {
-                                                        
-                                $size = $thumb_size['size'];
-                                $suffix = $thumb_size['suffix'];
-                                
-                                $outname = $queue['queue_name'].'-'.$suffix;
-                                
+                                $size = $thumb_size;
+                                $suffix = $size;
+                               
                                 $cbupload->update_queue_status($queue, 'u', 'Extacting '.$outname, false);
                                                                 
                                 //Using Multi Thumb Gen function..
@@ -110,6 +107,9 @@ if ($process_running <= $max_processes && $queued_files) {
                                 
                             }
                         }
+                        
+                        //Index thumb..
+                        index_video_thumbs($queue['queue_name']);
                     }
 
 

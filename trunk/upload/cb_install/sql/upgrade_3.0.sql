@@ -128,3 +128,13 @@ ALTER TABLE  `{tbl_prefix}users` CHANGE  `status`  `status` ENUM(  'verified',  
 
 -- 8-31-2012
 ALTER TABLE  `{tbl_prefix}conversion_queue` ADD  `file_directory` VARCHAR( 255 ) NOT NULL AFTER  `queue_tmp_ext`;
+
+-- 9-2-2012
+CREATE TABLE IF NOT EXISTS `cb_video_meta` (
+  `meta_id` int(255) NOT NULL AUTO_INCREMENT,
+  `videoid`  int(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `value` text NOT NULL,
+  `extras` text NOT NULL,
+  PRIMARY KEY (`meta_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

@@ -1096,18 +1096,18 @@ function has_thumbs($video){ return hasThumbs($video); }
  * add thumb size for custom thumb sizes
  * 
  * @param STRING $size size dimension wxh
- * @param STRING $suffix DEFAULT => same as size
- * you dont have to add "-" for suffix, it will be added by default
+ * @param STRING $name DEFAULT => same as size
+ * 
  */
 
-function add_thumb_size($size,$suffix=NULL)
+function add_thumb_size($size,$name=NULL)
 {
-    if(!$suffix)
-        $suffix = $size;
     
     global $Cbucket;
+    if(!$name)
+        $name = $size;
     
-    $Cbucket->thumb_sizes[] = array('size'=>$size,'suffix'=>$suffix);
+    $Cbucket->thumb_sizes[$name] = $size;
     
     return true;    
 }
