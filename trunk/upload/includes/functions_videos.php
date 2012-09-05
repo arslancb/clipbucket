@@ -109,7 +109,45 @@ function duration($time, $pad = true) {
  * @return STRING video thumbnail with/without path or ARRAY list of video thumbs or INT just number of thumbs
  * 
  */
-function get_thumb($vdetails, $num = 'default', $multi = false, $count = false, $return_full_path = true, $return_big = true, $size = NULL) {
+function get_thumb($vdetails, $num = 'default', $multi = false, $count = false, $return_full_path = true, $return_big = true, $size = NULL) 
+{
+    
+    if($vdetails['thumbs'])
+    { 
+        $thumbs = json_decode($vdetails['thumbs'],true);
+        
+        $thumb_size = get_size_by_name($size);
+        if(!$thumb_size)
+            $thumb_size = $size;
+        
+        if(!is_numeric($num) || $num < 1)
+            $num = 1;
+        $img = $thumbs[$thumb_size][$num-1];
+        
+        if(!$img)
+            $img = $thumbs[get_size_by_name('default')][0];
+        
+        if($img)
+        {
+            if($count)
+                return count($thumbs[$thumb_size]);
+            
+            if($multi)
+                if($multi=='all')
+                    return $thumbs;
+                else
+                    return $thumbs[$thumb_size];
+            
+            $folder = '';
+            $folder = $vdetails['file_directory'];
+            if($folder)
+                $folder .= '/';
+            
+            $path = THUMBS_URL.'/'.$folder;  
+            return $path.$img;
+        }
+    }
+    
     global $db, $Cbucket, $myquery;
     $num = $num ? $num : 'default';
     //checking what kind of input we have
@@ -227,6 +265,8 @@ function get_thumb($vdetails, $num = 'default', $multi = false, $count = false, 
         return $thumbs[0];
     }
 }
+
+
 
 /**
  * Check input file is a big thumb or not
@@ -1123,4 +1163,17 @@ function get_thumb_sizes()
     $sizes = apply_filters($sizes, 'thumb_sizes');
     
     return $sizes;
+}
+
+
+/**
+ * Get thumb size from name
+ */
+function get_size_by_name($name)
+{
+    global $Cbucket;
+    $sizes = $Cbucket->thumb_sizes;
+    
+    
+    return $sizes[$name];
 }

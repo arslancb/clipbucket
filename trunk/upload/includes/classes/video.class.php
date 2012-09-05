@@ -779,7 +779,7 @@ class CBvideo extends CBCategory {
                     , tbl('video.*' . $ufieldq . ',slugs.*').','.$meta_query, 
                     $cond . " " . tbl("video.userid") . " = " . tbl("users.userid")." GROUP BY ".tbl('video.videoid'), $limit, $order);
 
-            echo $db->db_query;
+            $db->db_query;
         }
 
 
@@ -1939,7 +1939,7 @@ class CBvideo extends CBCategory {
             $name = getName($thumb);
             $name_arr = explode('-', $name);
 
-            $new_thumbs[$name_arr[1]][] = getname($thumb) . '.';
+            $new_thumbs[$name_arr[1]][] = getname($thumb) . '.jpg';
         }
 
         if ($update_db)

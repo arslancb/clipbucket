@@ -90,6 +90,8 @@ if ($process_running <= $max_processes && $queued_files) {
                             foreach ($thumb_sizes as $thumb_size) {
                                 $size = $thumb_size;
                                 $suffix = $size;
+                                
+                                $outname = $queue['queue_name'].'-'.$suffix;
                                
                                 $cbupload->update_queue_status($queue, 'u', 'Extacting '.$outname, false);
                                                                 
