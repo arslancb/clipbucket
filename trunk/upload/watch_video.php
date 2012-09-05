@@ -63,7 +63,10 @@ if(video_playable($vdo))
 	}	
 	//Calling Functions When Video Is going to play
 	call_watch_video_function($vdo);
-echo json_encode($vdo);
+        
+        $vid_files = $cbvid->get_video_files($vdo['file_name']);
+        
+        pr($vid_files,true);
 	subtitle($vdo['title']);
 	
 }else

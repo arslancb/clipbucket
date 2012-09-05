@@ -2083,6 +2083,35 @@ class CBvideo extends CBCategory {
         return $query;
                     
     }
+    
+    /**
+     * Function used to get list of video files
+     * 
+     * @param STRING $file_name
+     */
+    function get_video_files($file)
+    {
+        global $db;
+        $query = "SELECT * FROM ".
+        $query .= tbl('video_files');
+        $query .= " LEFT JOIN ".tbl('video_profiles');
+        $query .= " ON ".tbl('video_files.profile_id')." = ".tbl('video_profiles.profile_id');
+        $query .= " WHERE ".tbl('video_files.file_name')."='$file'";
+        
+        $data = $db->execute($query);
+        $db->num_rows = $data->_numOfRows;
+        $db->total_queries++;
+        $db->total_queries_sql[] = $query;
+
+        //Now Get Rows and return that data
+        if($db->num_rows > 0)
+        {        
+            return $data->getrows();
+        }
+        else
+            return false;
+	
+    }
 
 }
 
