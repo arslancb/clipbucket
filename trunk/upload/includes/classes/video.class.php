@@ -2106,7 +2106,8 @@ class CBvideo extends CBCategory {
         //Now Get Rows and return that data
         if($db->num_rows > 0)
         {        
-            return $data->getrows();
+            $files = $data->getrows();
+            return $files;
         }
         else
             return false;

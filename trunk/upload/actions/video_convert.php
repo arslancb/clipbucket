@@ -70,6 +70,7 @@ if ($process_running <= $max_processes && $queued_files) {
 
                     /** All of our new conversion code is written here * */
                     $converter = new CBConverter($original_source);
+                    //$converter->set_preset_path('D:\usr\local\share\ffmpeg');
                     $converter->set_log($log_file);
 
 

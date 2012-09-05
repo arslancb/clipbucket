@@ -31,6 +31,20 @@
         assign('configs',$in);
         
         //get the file for video...
+        $files = $in['files'];
+        
+        foreach($files as $file)
+        {
+            if($file['status']=='s' && $file['is_original']!='yes')
+            {
+                $video_file = VIDEOS_URL.'/'.$file['file_directory'].'/';
+                $video_file .= $file['file_name'].$file['suffix'].'.'.$file['ext'];
+            
+                break;
+            }
+        }
+        
+        assign('file',$video_file);
         $player = fetch(VIDEO_JS_DIR.'/player.html',false);
         return $player;
     }

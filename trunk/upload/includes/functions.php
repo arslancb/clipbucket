@@ -2677,14 +2677,12 @@ function add_slug($slug, $id, $type) {
 
     $theSlug = $slug;
     while (1) {
-        if (!slug_exists($theSlug, $type, $id))
+        if (!slug_exists($theSlug, $type))
             break;
         else {
             $counts++;
             $theSlug = $slug . '-' . $counts;
         }
-
-        break;
     }
 
     $db->insert(tbl('slugs'), array('object_id', 'object_type', 'slug'), array($id, $type, $theSlug));

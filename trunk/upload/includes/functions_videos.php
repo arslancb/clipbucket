@@ -126,6 +126,15 @@ function get_thumb($vdetails, $num = 'default', $multi = false, $count = false, 
         
         if(!$img)
             $img = $thumbs[get_size_by_name('default')][0];
+        if(!$img)
+        {
+            foreach($thumbs as $thumb)
+            {
+                $img = $thumb[0];
+                break;
+            }
+        }
+        
         
         if($img)
         {

@@ -14,7 +14,7 @@
 /*
  * if(!defined('IN_CLIPBUCKET')) exit("Sorry, visitors not allowed");
  */
-define('FFMPEG','/usr/local/bin/ffmpeg');
+define('FFMPEG','D:\wamp\bin\ffmpeg\bin\ffmpeg.exe');
 define('MPLAYER','/usr/bin/mplayer');
 define('MEDIAINFO','/usr/bin/mediainfo');
 
@@ -75,6 +75,14 @@ class CBConverter
     //if value set, this file will be used to save outptu.
     var $output_log = false;
     
+    //Preset paths are location where ffmpeg can load
+    //Preset files from, usually we don't need to
+    //Add the path as it is already defined in $HOME variable
+    //But due to limitation on server this variable is quite
+    //$this->set_preset_path() to set the preset path
+    //Helpful.
+    var $preset_path = NULL;
+    
     /**
      * Constructor and sets the input file and get information..
      * @param Video File
@@ -130,6 +138,7 @@ class CBConverter
         $rawOutput  = $this->exec($CMD,true);
         $parsedData = $this->parseData($rawOutput);
         
+        
         //Now Getting information from media info
         $CMD = MEDIAINFO.' '.$input;
         $rawOutput  = $this->exec($CMD,true);
@@ -139,7 +148,7 @@ class CBConverter
         //Merge two arrays
         if($miParsedData)
             $parsedData = array_merge ($parsedData,$miParsedData);
-        
+
         return $parsedData;
     }
     
@@ -1023,7 +1032,12 @@ class CBConverter
             {
                 $f = $params['format'];
                 if($params['preset'])
-                    $cmd_array['vpre'] = $params['preset'];
+                {
+                    if($this->preset_path)
+                        $cmd_array['vpre'] = $this->preset_path.'/'.$vcodec.'-'.$params['preset'].'.ffpreset';
+                    else
+                        $cmd_array['vpre'] = $params['preset'];
+                }
                 
                 /**
                  * - f
@@ -1138,7 +1152,7 @@ class CBConverter
                         if($v)
                         {
                           $CMD .= " -".$opt;
-                          $CMD .= " '".$v."' ";
+                          $CMD .= " \"".$v."\" ";
                           
                         }
                     }
@@ -1150,7 +1164,7 @@ class CBConverter
             }
         }        
         
-        $CMD .= " ".$output_file;
+       echo $CMD .= " ".$output_file;
         
         $log = $this->exec($CMD);
         
@@ -1488,6 +1502,7 @@ class CBConverter
         {
             $input = $this->input;
             $iDetails = $this->inDetails;
+            
         }else
         {
             if(file_exists($input))
@@ -1621,14 +1636,14 @@ class CBConverter
         if($size!='same')
         {
             $CMD .= " -s ".$rinfo['width']."x".$rinfo['height'];
-            $CMD .= " -vf '";
+            $CMD .= " -vf \"";
             $CMD .= "pad=$pad_width:$pad_height";
             $CMD .= ":".$rinfo['pad_x'].":".$rinfo['pad_y'];
             $CMD .= ":".$pad_color;
-            $CMD .= "' ";
+            $CMD .= "\" ";
         }
         
-       echo $CMD .= " ".$outputname;
+        echo $CMD .= " ".$outputname;
         
         $this->exec($CMD);
         return $CMD;
@@ -1679,5 +1694,15 @@ class CBConverter
         $this->output_log = $file;
         return $file;
     }
+    
+    /**
+     * Set the preset path to load presets from
+     * specified directory
+     * 
+     * @param STRING path
+     */
+    function set_preset_path($path){
+        $this->preset_path = $path;
+    } 
 }
 ?>

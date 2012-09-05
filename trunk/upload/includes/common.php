@@ -576,8 +576,14 @@ $Smarty->register_function('load_form','load_form');
 $Smarty->register_function('get_all_video_files',get_all_video_files_smarty);
 $Smarty->register_function('input_value','input_value');
 $Smarty->register_function('userid','userid');
+
+/** Functions deprecated **/
 $Smarty->register_function('FlashPlayer','flashPlayer');
 $Smarty->register_function('HQFlashPlayer','HQflashPlayer');
+/** Above functions deprecated **/
+
+$Smarty->register_function('cb_video_player','cb_video_player');
+
 $Smarty->register_function('link','cblink');
 $Smarty->register_function('show_share_form','show_share_form');
 $Smarty->register_function('show_flag_form','show_flag_form');
