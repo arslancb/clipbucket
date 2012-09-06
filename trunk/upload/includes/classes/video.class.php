@@ -2089,9 +2089,38 @@ class CBvideo extends CBCategory {
      * 
      * @param STRING $file_name
      */
-    function get_video_files($file)
+    function get_video_files($video)
     {
         global $db;
+        
+        $file = $video['file_name'];
+        
+        //Checking if the system is old..
+        
+        $folder = "";
+        if($video['file_directory'])
+        {
+            $folder = '/'.$video['file_directory'];
+        }
+
+        if(file_exists(VIDEOS_DIR.$folder.'/'.$file.'.flv') ||
+                 file_exists(VIDEOS_DIR.$folder.'/'.$file.'.mp4'))
+        {
+            $files = array();
+            if(file_exists(VIDEOS_DIR.$folder.'/'.$file.'.flv'))
+                $files['flv'] = VIDEOS_URL.$folder.'/'.$file.'.flv';
+            
+            if(file_exists(VIDEOS_DIR.$folder.'/'.$file.'.mp4'))
+                $files['mp4'] = VIDEOS_URL.$folder.'/'.$file.'.mp4';
+            
+            //For mobile now..
+            if(file_exists(VIDEOS_DIR.$folder.'/'.$file.'-m.mp4'))
+                $files['mobile'] = VIDEOS_URL.$folder.'/'.$file.'-m.mp4';
+            
+            
+            return $files;
+        }
+        
         $query = "SELECT * FROM ".
         $query .= tbl('video_files');
         $query .= " LEFT JOIN ".tbl('video_profiles');

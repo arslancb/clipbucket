@@ -29,64 +29,84 @@ if(!function_exists('cb_player'))
 	
 	function cb_player($in)
 	{
-		global $cb_player;
-		$cb_player = true;
-		
-		$vdetails = $in['vdetails'];
-		$vid_file = get_video_file($vdetails,true,true);
-		//Checking for YT Referal
+                
+            global $cb_player;
+            $cb_player = true;
 
-		if(function_exists('get_refer_url_from_embed_code'))
-		{
-			$ref_details = get_refer_url_from_embed_code(unhtmlentities(stripslashes($vdetails['embed_code'])));
-			$ytcode = $ref_details['ytcode'];
-		}
-		
-		if($vid_file || $ytcode)
-		{
-			$hd = $data['hq'];
-			
-			if($hd=='yes') $file = get_hq_video_file($vdetails); 
-                        else $file = get_video_file($vdetails,true,true);
-			$hd_file = get_hq_video_file($vdetails);
-			
-			
-			if($ytcode)
-			{
-				assign('youtube',true);
-				assign('ytcode',$ytcode);
-			}
-			
-			if(!strstr($in['width'],"%"))
-				$in['width'] = $in['width'].'px';
-			if(!strstr($in['height'],"%"))
-				$in['height'] = $in['height'].'px';
-		
-			if($in['autoplay'] =='yes' || $in['autoplay']===true || 
-			($_COOKIE['auto_play_playlist'] && ($_GET['play_list'] || $_GET['playlist'])))
-			{
-				$in['autoplay'] = true;
-			}else{
-				$in['autoplay'] = false;
-			}
-			
-			
-			//Logo Placement
-			assign('logo_placement',cb_player_logo_position());
-			assign('logo_margin',config('logo_padding'));
-			
-			//Setting Skin
-			assign('cb_skin','glow/glow.xml');
-			
-			assign('player_data',$in);
-			assign('player_logo',website_logo());
-			assign('normal_vid_file',$vid_file);
-			assign("hq_vid_file",$hd_file);			
-			assign('vdata',$vdetails);
-			Template(CB_PLAYER_DIR.'/cbplayer.html',false);
-			
-			return true;
-		}
+            $vdetails = $in['video'];
+
+            //Checking for YT Referal
+
+            if(function_exists('get_refer_url_from_embed_code'))
+            {
+                    $ref_details = get_refer_url_from_embed_code(unhtmlentities(stripslashes($vdetails['embed_code'])));
+                    $ytcode = $ref_details['ytcode'];
+            }
+
+
+            $files = $in['files'];
+
+            if($files)
+            foreach($files as $key => $file)
+            {
+
+                if($key=='flv' || $key=='mp4' || $key=='mobile')
+                {
+                    $video_file = $file;
+                    break;
+                }
+
+                if($file['status']=='s' && $file['is_original']!='yes')
+                {
+                    $video_file = VIDEOS_URL.'/'.$file['file_directory'].'/';
+                    $video_file .= $file['file_name'].$file['suffix'].'.'.$file['ext'];
+
+                    break;
+                } 
+
+            }
+
+
+            if($video_file || $ytcode)
+            {
+
+
+                if($ytcode)
+                {
+                        assign('youtube',true);
+                        assign('ytcode',$ytcode);
+                }
+
+                if(!strstr($in['width'],"%"))
+                        $in['width'] = $in['width'].'px';
+                if(!strstr($in['height'],"%"))
+                        $in['height'] = $in['height'].'px';
+
+                if($in['autoplay'] =='yes' || $in['autoplay']===true || 
+                ($_COOKIE['auto_play_playlist'] && ($_GET['play_list'] || $_GET['playlist'])))
+                {
+                        $in['autoplay'] = true;
+                }else{
+                        $in['autoplay'] = false;
+                }
+
+
+                //Logo Placement
+                assign('logo_placement',cb_player_logo_position());
+                assign('logo_margin',config('logo_padding'));
+
+                //Setting Skin
+                assign('cb_skin','glow/glow.xml');
+
+                assign('player_data',$in);
+                assign('player_logo',website_logo());
+                assign('normal_vid_file',$video_file);
+                assign("hq_vid_file",$hd_file);			
+                assign('vdata',$vdetails);
+                Template(CB_PLAYER_DIR.'/cbplayer.html',false);
+
+                return true;
+            }
 	}
 	
 	/**

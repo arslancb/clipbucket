@@ -64,7 +64,7 @@ if(video_playable($vdo))
 	//Calling Functions When Video Is going to play
 	call_watch_video_function($vdo);
         
-        $vid_files = $cbvid->get_video_files($vdo['file_name']);
+        $vid_files = $cbvid->get_video_files($vdo);
         assign('video_files',$vid_files);
         
 	subtitle($vdo['title']);

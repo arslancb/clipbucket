@@ -26,11 +26,11 @@ function cb_video_player($param) {
     $key = $param['key'];
     
     $code = $param['code'];
-    $flv_url = $file;
-    $embed = $param['embed'];
-    $code = $param['code'];
-    $height = $param['height'] ? $param['height'] : config('player_height');
-    $width = $param['width'] ? $param['width'] : config('player_width');
+    $flv_url    = $file;
+    $embed      = $param['embed'];
+    $code       = $param['code'];
+    $height     = $param['height'] ? $param['height'] : config('player_height');
+    $width      = $param['width'] ? $param['width'] : config('player_width');
     $param['height'] = $height;
     $param['width'] = $width;
 
@@ -38,6 +38,12 @@ function cb_video_player($param) {
     if (!$param['autoplay'])
         $param['autoplay'] = config('autoplay_video');
 
+    if(!$param['files'])
+    {
+        global $cbvid;
+        $files = $cbvid->get_video_files($param['video']);
+        $param['files'] = $files;
+    }
     assign('player_params', $param);
 
     $param = apply_filters($param, 'play_video');

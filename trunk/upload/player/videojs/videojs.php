@@ -33,15 +33,24 @@
         //get the file for video...
         $files = $in['files'];
         
-        foreach($files as $file)
+        if($files)
+        foreach($files as $key => $file)
         {
+
+            if($key=='flv' || $key=='mp4' || $key=='mobile')
+            {
+                $video_file = $file;
+                break;
+            }
+            
             if($file['status']=='s' && $file['is_original']!='yes')
             {
                 $video_file = VIDEOS_URL.'/'.$file['file_directory'].'/';
                 $video_file .= $file['file_name'].$file['suffix'].'.'.$file['ext'];
             
                 break;
-            }
+            } 
+            
         }
         
         assign('file',$video_file);
