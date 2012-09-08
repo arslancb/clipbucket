@@ -901,9 +901,12 @@ class CBvideo extends CBCategory {
     }
 
     /**
-     * Function used to generate Embed Code
+     * Generates embed code properties
+     * 
+     * @param ARRAY vdetails
+     * @return ARRAY emebd_code_detailss
      */
-    function embed_code($vdetails, $type = 'embed_object') {
+    function embed_code_props($vdetails, $type = 'embed_object') {
         //Checking for video details
         if (!is_array($vdetails)) {
             $vdetails = $this->get_video($vdetails);
@@ -925,36 +928,152 @@ class CBvideo extends CBCategory {
 
 
         if ($type == 'iframe') {
-            $embed_code = '<iframe width="' . config('embed_player_width') . '" height="' . config('embed_player_height') . '" ';
-            $embed_code .= 'src="' . BASEURL . '/player/embed_player.php?vid=' . $vdetails['videoid'] . '&width=' .
-                    config('embed_player_width') . '&height=' . config('embed_player_height') .
-                    '&autoplay=' . config('autoplay_embed') . '" frameborder="0" allowfullscreen></iframe>';
+
+            //Setting up an array in case we dont want an echo
+            //we can give array-output to re-use code even with jS
+            
+            $code_props = array();
+            $code_props['type'] = 'iframe';
+            $code_props['configs']['width']     = config('embed_player_width');
+            $code_props['configs']['height']    = config('embed_player_height');
+            
+            $code_props['src']['url']  = BASEURL . '/player/embed_player.php';
+            $code_props['src']['params'] = array(
+                'vid'       => $vdetails['videoid'],
+                'height'    => config('embed_player_height'),
+                'width'     => config('embed_player_width'),
+                'autoplay'  => config('autoplay_embed')
+            );
+            $code_props['params'] = array(
+                'height'    => config('embed_player_height'),
+                'width'     => config('embed_player_width'),
+                'frameborder' => 0,
+                'allowfullscreen' => true
+            );
+ 
         }
 
-        if (!$embed_code) {
+        //Default ClipBucket Embed Code
+        if (function_exists('default_embed_code')) {
+            $code_props= default_embed_code($vdetails);
+        } else {
+            //return new Embed Code
+            $embed_code = $vdetails['embed_code'];
+            if (!$embed_code || $embed_code=='none') {           
+                $code_props = array();
+                $code_props['type'] = 'embed_object';
+                $code_props['src']['url'] = PLAYER_URL . '/embed_player.php';
+                $code_props['src']['params'] = array(
+                    'vid'     =>   $vdetails['videoid'] ,
+                );
+                $code_props['params'] = array(
+                    'width'     => EMBED_VDO_WIDTH,
+                    'height'    => EMBED_VDO_HEIGHT,
+                    'allowfullscreen' => true,
+                    'allowscriptaccess' => 'always'
+                );
 
-            //Default ClipBucket Embed Code
-            if (function_exists('default_embed_code')) {
-                $embed_code = default_embed_code($vdetails);
             } else {
-                //return new Embed Code
-                $vid_file = get_video_file($vdetails, false, false);
-                if ($vid_file) {
-                    $code = '';
-                    $code .= '<object width="' . EMBED_VDO_WIDTH . '" height="' . EMBED_VDO_HEIGHT . '">';
-                    $code .= '<param name="movie" value="' . PLAYER_URL . '/embed_player.php?vid=' . $vdetails['videoid'] . '"></param>';
-                    $code .= '<param name="allowFullScreen" value="true"></param>';
-                    $code .= '<param name="allowscriptaccess" value="always"></param>';
-                    $code .= '<embed src="' . PLAYER_URL . '/embed_player.php?vid=' . $vdetails['videoid'] . '"';
-                    $code .= 'type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="300" height="250"></embed>';
-                    return $code .= '</object>';
-                } else {
-                    return embeded_code($vdetails);
-                }
+                $code_props['type'] = 'embeded';
+                $code_props['src']  = embeded_code($vdetails);
             }
         }
 
-        return $embed_code;
+        return $code_props;
+    }
+    
+    
+    
+    /**
+     * returns the embed code for the video...
+     * 
+     * @param ARRAY $code_props
+     * @return STRING embed_code
+     */
+    function embed_code($code_props)
+    {
+        $type = $code_props['type'];
+        switch($type)
+        {
+            case "iframe":
+            {
+                $code = '<iframe ';
+                $code .= 'src="'; //opening src attr
+                $code .= $code_props['src']['url'].'?embed=true';
+                
+                if($code_props['src']['params'])
+                {
+                    foreach($code_props['src']['params'] as $attr => $val)
+                        $code .= '&'.$attr.'='.urlencode ($val);
+                }
+                                
+                $code .= '" '; //ending src attr
+                
+                if($code_props['params'])
+                {
+                    foreach($code_props['params'] as $attr => $val)
+                        $code .= $attr.'="'.$val.'" ';
+                }
+                $code .= '>';
+                $code .= '</frame>';
+            }
+            break;
+        
+            case "embed_object":
+            {
+                $code = '<object ';
+                $code .= 'height="'.$code_props['params']['height']."' "; //setting object height
+                $code .= 'width="'.$code_props['params']['width']."' >"; //setting object width
+                
+                //adding src
+                $code .= '<param name="movie" value="';
+                $code .= $code_props['src']['url'].'?embed=true';
+                
+                if($code_props['src']['params'])
+                {
+                    foreach($code_props['src']['params'] as $attr => $val)
+                        $code .= '&'.$attr.'='.urlencode ($val);
+                }
+                                
+                $code .= '"></param>'; //ending src attr
+                
+                if($code_props['params'])
+                {
+                    foreach($code_props['params'] as $attr => $val)
+                        $code .= '<param name="'.$attr.'" value="'.$val.'"></param>';
+                }
+                
+                
+                $code .= '<embed ';
+                $code .= 'src="'; //opening src attr
+                $code .= $code_props['src']['url'].'?embed=true';
+                
+                if($code_props['src']['params'])
+                {
+                    foreach($code_props['src']['params'] as $attr => $val)
+                        $code .= '&'.$attr.'='.urlencode ($val);
+                }
+                                
+                $code .= '" '; //ending src attr
+                
+                if($code_props['params'])
+                {
+                    foreach($code_props['params'] as $attr => $val)
+                        $code .= $attr.'="'.$val.'" ';
+                }
+                $code .= '>';
+                $code .= '</embed>';
+                
+                $code .= '</object>';
+            }
+            break;
+            
+            case "embeded":
+            {
+                return $code_props['src'];
+            }
+            break;
+        }
     }
 
     /**

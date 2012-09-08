@@ -90,6 +90,11 @@
 
 .marginB10 { margin-bottom: 10px; }
 
+.marginT5 { margin-top: 5px;}
+.marginT10 { margin-top: 10px;}
+.marginB20 { margin-bottom: 20px;}
+.marginB0 { margin-bottom: 0px;}
+
 .padding0{padding: 0px}
 
 .moveL{float: left}
@@ -1066,3 +1071,26 @@ body .carousel-control {
     top:50%;
     left: 15px;
 }
+
+
+/* Embed Boxes */
+.dim-box{
+    padding: 3px;
+    display: inline-block; margin-right: 10px;
+    word-spacing: 6px;
+    color: #666; font-size: 11px; border: 1px solid transparent;
+    text-align: center
+}
+
+.dim-box:hover{background-color:#d8e6fb;border: 1px solid #d6ddeb }
+.dim-block{border: 1px solid #d0d0d0;
+background-color: #dddddd; }
+.dim-315{height: 34px; width: 60px}
+.dim-360{height: 38px; width: 66px}
+.dim-480{height: 42px; width: 74px}
+.dim-720{height: 46px; width: 80px}
+.dim-custom{font-size: 13px; word-spacing: normal;}
+.dim-custom label,.dim-custom .controls{width: 40px; display: inline-block; 
+         font-size: 11px; color: #666}
+.dim-custom .control-group{margin: 0px; height: 30px; text-align: left}
+.dim-custom .controls{width: 75px}
