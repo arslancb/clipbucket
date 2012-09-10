@@ -950,6 +950,9 @@ class CBvideo extends CBCategory {
                 'frameborder' => 0,
                 'allowfullscreen' => true
             );
+            
+            
+            return $code_props;
  
         }
 

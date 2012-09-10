@@ -461,7 +461,7 @@ class PHPMailer {
       if ($this->exceptions) {
         throw new phpmailerException($this->Lang('invalid_address').': '.$address);
       }
-      echo $this->Lang('invalid_address').': '.$address;
+      e($this->Lang('invalid_address'.': '.$address),'w');
       return false;
     }
     if ($kind != 'ReplyTo') {
@@ -493,7 +493,8 @@ class PHPMailer {
       if ($this->exceptions) {
         throw new phpmailerException($this->Lang('invalid_address').': '.$address);
       }
-      echo $this->Lang('invalid_address').': '.$address;
+      
+      e($this->Lang('invalid_address'.': '.$address),'w');
       return false;
     }
     $this->From = $address;

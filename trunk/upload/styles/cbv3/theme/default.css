@@ -103,6 +103,8 @@
 
 .overflow-hidden { overflow: hidden; }
 
+.resize-verticle{ resize:vertical; }
+
 .padding_box{ box-sizing: padding-box; -moz-box-sizing: padding-box; -webkit-box-sizing: padding-box;}
 
 .video-details-shadow{background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 100%);
@@ -1079,10 +1081,12 @@ body .carousel-control {
     display: inline-block; margin-right: 10px;
     word-spacing: 6px;
     color: #666; font-size: 11px; border: 1px solid transparent;
-    text-align: center
+    text-align: center;
+    cursor: pointer
 }
 
-.dim-box:hover{background-color:#d8e6fb;border: 1px solid #d6ddeb }
+.dim-box:hover{border: 1px solid #d6ddeb }
+.dim-box-selected{background-color:#d8e6fb;border: 1px solid #d6ddeb }
 .dim-block{border: 1px solid #d0d0d0;
 background-color: #dddddd; }
 .dim-315{height: 34px; width: 60px}
@@ -1094,3 +1098,4 @@ background-color: #dddddd; }
          font-size: 11px; color: #666}
 .dim-custom .control-group{margin: 0px; height: 30px; text-align: left}
 .dim-custom .controls{width: 75px}
+

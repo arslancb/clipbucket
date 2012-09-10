@@ -491,6 +491,80 @@ switch($mode){
     }
     break;
     
+    case 'share_object':
+    {
+
+        $type = strtolower($_POST['type']);
+        switch($type)
+        {
+            case 'v':
+            case 'video':
+            default:
+            {
+                $id = $_POST['id'];
+                $vdo = $cbvid->get_video($id);
+                $cbvid->set_share_email($vdo);
+                $cbvid->action->share_content($vdo['videoid']);
+                if(!error())
+                {
+                    echo json_encode(array(
+                        'success'   => 'ok',
+                        'msg'       => msg(),
+                    ));
+                }else
+                {
+                    echo json_encode(array('err'=>error()));
+                }
+            }
+            break;
+
+            case "p":
+            case "photo":
+            {
+                $id = $_POST['id'];
+                $ph = $cbphoto->get_photo($id);
+                $cbphoto->set_share_email($ph);
+                $cbphoto->action->share_content($ph['photo_id']);
+                if(msg())
+                {
+                    $msg = msg_list();
+                    $msg = '<div class="msg">'.$msg[0].'</div>';
+                }
+                if(error())
+                {
+                    $msg = error_list();
+                    $msg = '<div class="error">'.$msg[0].'</div>';
+                }
+
+                echo $msg;
+            }
+            break;
+
+            case "cl":
+            case "collection":
+            {
+                $id = $_POST['id'];
+                $cl = $cbcollection->get_collection($id);
+                $cbcollection->set_share_mail($cl);
+                $cbcollection->action->share_content($cl['collection_id']);
+                if(msg())
+                {
+                    $msg = msg_list();
+                    $msg = '<div class="msg">'.$msg[0].'</div>';
+                }
+                if(error())
+                {
+                    $msg = error_list();
+                    $msg = '<div class="error">'.$msg[0].'</div>';
+                }
+
+                echo $msg;
+            }
+            break;
+        }
+    }
+    break;
+    
     default:
         exit(json_encode(array('err'=>array(lang('Invalid request')))));
 }

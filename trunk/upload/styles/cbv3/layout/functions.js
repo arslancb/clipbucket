@@ -240,11 +240,11 @@ function toggleBox(bttn,box)
     if($(bttn).hasClass('active'))
     {
         $(box).hide();
-        $(bttn).removeClass('active')
+        $(bttn).removeClass('active').removeClass('pressed');
     }else
     {
         $(box).show();
-        $(bttn).addClass('active')
+        $(bttn).addClass('active').addClass('pressed');
     }
 }
 
@@ -836,4 +836,31 @@ function toggle_upload_tab(obj)
     $(obj).parent().children('.form-btn')
     .removeClass('active').addClass('disabled');
     $(obj).removeClass('disabled').addClass('active');
+}
+
+function share_object(form_id,type,bttn)
+{
+    if(bttn)
+        $(bttn).button('loading')
+    
+    amplify.request('main',{
+        mode : 'share_object',
+        type : type,
+        users : $("#"+form_id+" textarea:#share_users").val(),
+        message : $("#"+form_id+" textarea:#message").val(),
+        id : $("#"+form_id+" input:#objectid").val()
+    },function(data){
+        if(data.err)
+        {
+            displayError(data.err);
+        }else
+        {
+         
+            $('#'+form_id).hide();
+            $('#share_email_success').show();
+        }
+        
+         if(bttn)
+                $(bttn).button('reset');
+    });
 }
