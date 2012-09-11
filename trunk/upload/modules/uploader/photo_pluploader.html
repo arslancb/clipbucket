@@ -1,0 +1,320 @@
+<div class="upload_computer_window">
+    <img src="{$imageurl}/icons/upload-drive.png" />
+    <div class="height20"></div>
+    <a class="btn btn-primary btn-large" id="plupload-pickfiles">{lang code='Select files from your computer'}</a>
+    <div></div>
+    <div class="upload-files-dropable relative">
+        {lang code='Drop your files here'}
+        <div style="width: 100%; height: 100%" id="upload-files-dropable" class="absolute left top"></div>
+    </div>
+</div>
+
+<!-- PLUPLOAD STARTS HERE
+How this should work
+
+1. init plupload with settings according to Photos
+2. If user has overall progress template, bind QueueChanged event so it changes accordingly
+3. bind FilesAdded event. This will include upload list block and upload form block templates, set them up and starts uploading.
+4. This goes back to .php file. After overcoming all hurdles, photo file will be uploaded to target folder and return response containing, filename, file directory and extension
+5. bind FileUploaded event. Get response and insert photo into clipbucket returning photo id and large photo which will be replace default banner above fields
+-->
+
+
+<script type="text/javascript">
+    var photo_extensions_json = {json_encode(,$cbphoto->exts)},
+          unaccpeted_files = [], unaccepted_files_count = 0;
+
+    // Ajax resquest
+    amplify.request.define( "photo_upload", "ajax", {
+        url: baseurl+"/actions/photo_uploader.php",
+        type: "POST",
+        dataType: "json",
+        decoder: function( data, status, xhr, success, error ) {
+            if ( status === "success" ) {
+                success( data );
+            } else {
+                error( data );
+            }
+        }
+    });
+
+    function cb_drag(){
+    //Function is called when a drag occurs...
+    $('#upload-files-dropable').parent().addClass('drag_start');
+    }
+
+    function cb_drag_stop(){
+        $('#upload-files-dropable').parent().removeClass('drag_start');
+    }
+    
+    function time(raw){
+
+        var time = parseInt(raw,10)
+        var minutes = Math.floor(time / 60);
+        var seconds = time % 60;
+        
+        if(minutes<10)
+            minutes = '0'+minutes;
+        if(seconds <10)
+            seconds = '0'+seconds;
+
+        return minutes+":"+seconds;
+    }
+    
+    $(document).ready(function(){
+        var uploader = new plupload.Uploader({
+            runtimes : 'html5,flash',
+            browse_button : 'plupload-pickfiles',
+            container : 'upload-form-container',
+            drop_element : 'upload-files-dropable',
+            url : '{$baseurl}/actions/photo_uploader.php?upload=yes',
+            flash_swf_url : '/plupload/js/plupload.flash.swf',
+            max_file_size : '{config(max_photo_size)}mb',
+            filters : [
+                { title : "{lang code='Photo files'}", extensions : "{implode(',',$cbphoto->exts)}" }
+            ]
+        });
+        
+        
+        uploader.init();
+        
+        var overall_template = $('#upload-overall-template-item').find('.upload-overall').clone();
+        if ( overall_template ) {
+            /* Only bind QueueChanged event if we find overall_template */
+            uploader.bind('QueueChanged', function( up ) {
+                var var_overall_s = (up.files.length > 1) ? 's' : '';
+                overall_template.find('.files_added').text( up.files.length+' file'+var_overall_s+' added');
+                overall_template.find('.total_size').text( plupload.formatSize( up.total.size ) );
+                overall_template.find('.total_uploaded_files').text( up.total.uploaded ? up.total.uploaded : 0 );
+                overall_template.find('.percent_upload').html( '0%' );
+                overall_template.find('.time').html( '00:00' );
+                $('#upload-overall-container').append( overall_template );                
+            });
+        }
+        /* ------- OVERALL UPLOAD BLOCK TEMPLATE END ------- */
+                
+        /* Binding files added event - START */
+        uploader.bind('FilesAdded', function(up, files) {
+            
+            $.each( files, function(i, file) {
+                if ( $.inArray( file.name.split('.').pop().toLowerCase() , photo_extensions_json ) == -1 ) {
+                    // In some browsers user can select other files, even after providing filters.
+                    // If we have some unaccepted files, we'll display a message the amount
+                    // junk files they have provided, if wanted we'll display their names also.
+                    unaccpeted_files.push(file.name);
+                    unaccepted_files_count++;
+                    // Returning to prevent further code execution
+                    return;
+                }
+                var name = file.name.split('.'),
+                     extension = name.pop(),
+                     name_without_extension = name.join('.');
+                      
+                /*
+                 * #upload-list-template-item, for upload list block
+                 * #upload-list-form-item, for upload form block
+                 */
+                var list_template = $('#upload-list-template-item').find('.upload_list').clone();
+                /* 
+                 * Setup ids, title, and filesize using CSS Classes 
+                 * - .upload_list | Wrapper for block | Setup id
+                 * - .title | Name of file | setup filename
+                 * - .total_size | Total size of file | Setup filesize
+                 */
+                list_template.attr({
+                    id : 'file-'+file.id,
+                    rel : file.id
+                });
+                
+                list_template.find('.title, .video-title').text( file.name );
+                list_template.find('.total_size').text( plupload.formatSize( file.size ) );
+                $('#upload_list_container').append( list_template );
+                /* ------- UPLOAD LIST BLOCK TEMPLATE END ------- */
+                
+                var form_template = $('#upload-form-template-item').find('.upload-form').clone();
+                form_template.wrap("<div id='file-form-"+file.id+"' />");
+                form_template = form_template.parent();
+                form_template.find('form').attr('id','form-'+file.id);
+                
+                form_template.find('.title h2').text( file.name );
+                form_template.find('input[name=photo_title]').val( name_without_extension );
+                form_template.find('textarea[name=photo_description]').val( name_without_extension );
+                
+                $('#upload-form-container').append( form_template );
+                /* ------- UPLOAD FORM BLOCK TEMPLATE END ------- */
+                
+                /* Making tabs workable & fixing label, input for each upload 
+                 * & adding a hidden field for photo id
+                 */
+                form_template.find('.form-btn').each(function(){
+                    var $target = $(this).attr('data-target');
+                    $(this).attr('data-target',$target+'-'+file.id);
+                });
+
+                form_template.find('.tab-pane').each(function(){
+                    var $id = $(this).attr('id');
+                    $(this).attr('id',$id+'-'+file.id);
+                });
+                      
+                form_template.find('label[for]').each( function(){
+                    $(this).attr('for', $(this).attr('for')+'-'+file.id );
+                });
+                
+                form_template.find('input,select,textarea').each( function(){
+                    $(this).attr('id', $(this).attr('id')+'-'+file.id );
+                });
+                
+                form_template.find('form').prepend('<input type="hidden" name="photo_id" id="photo_id-'+file.id+'" value="" />');
+                
+                if($('#upload_list_container .upload_list_active').length<1)
+                {
+                    toggle_upload_list($('#upload_list_container .upload_list:first'));
+                }
+                
+                $('.upload-btn-options,#upload-form-template').on('click','.form-btn',function() { 
+                    toggle_upload_tab(this);
+                });
+                
+                // Bind click event on save button to update photo
+                form_template.find('.save, .save-video').on( 'click', function(){
+                    var formdata = form_template.find('form').serialize();
+                          formdata += '&updatePhoto=true';
+                          
+                    alert( formdata );
+                });
+                
+            });
+            
+            uploader.start();
+            
+            if ( unaccpeted_files.length >= 1 && unaccepted_files_count >= 1 ) {
+                var random_id = Math.round(new Date().getTime()*Math.random()+Math.random()*88*88);
+                var var_s = (unaccepted_files_count > 1) ? 's' : ''; var unaccepted_files_string = unaccpeted_files.join(', ');
+                var error_template = "<div class='alert alert-info' id='unaccepted-files-"+random_id+"'><button type='button' class='close' data-dismiss='alert'>×</button><h4>{lang code='Note about selected files'}:</h4>You have selected <a href='#' class='"+random_id+"-class'>"+unaccepted_files_count+" file"+var_s+"</a> that does not match the supported formats[ {implode(', ',$cbphoto->exts)} ]. Those have been excluded from list below.</div>";
+                $('#upload_list_container').before( error_template );
+                $('.'+random_id+'-class').click( function(){
+                    alert( unaccepted_files_string );
+                });
+                
+                // Reseting the variables
+                unaccpeted_files = [];
+                unaccepted_files_count = 0;
+            }
+            
+        });
+        /* Binding files added event - End */
+        
+        /* Binding before upload event - End */
+        uploader.bind('BeforeUpload', function(up, file){
+            // Changing status of file to uploading just before it starts
+            $('#file-'+file.id+' .status').html('{lang code="Uploading"}');
+        });        
+        /* Binding before upload event - End */
+        
+        /* Binding upload progressing event - Start */
+        uploader.bind('UploadProgress', function(up,file) {
+            /* If user have overall progress that update */
+            if ( overall_template ) {
+                var time_left_seconds_overall = Math.round(( up.total.size - up.total.loaded ) / up.total.bytesPerSec );
+                var time_left_overall = time( time_left_seconds_overall );
+                
+                overall_template.find('.progress .bar').width( up.total.percent+'%' );
+                overall_template.find('.percent_upload').html( up.total.percent+'%' );
+                
+                overall_template.find('.time').html( time_left_overall );
+            }
+            
+            var speed = plupload.formatSize( up.total.bytesPerSec );
+            var time_left_seconds = Math.round(( file.size - file.loaded ) / up.total.bytesPerSec );
+            var time_left = time( time_left_seconds );
+            
+            $('#file-'+file.id).find('.speed').text( speed+'/s' );
+            $('#file-'+file.id).find('.time').text( time_left );
+            
+            $('#file-'+file.id).find('.progress .bar').width( file.percent + "%" );
+            $('#file-'+file.id).find('.percent_upload').html( file.percent + "%" );
+            
+        });
+        /* Binding upload progressing event - End */
+        
+        /* Binding file uploaded event - End */
+        uploader.bind('FileUploaded', function(up, file, response) {
+            
+            var res = $.parseJSON( response.response );
+            
+            if ( res.error ) {
+                return;
+            } else if ( res.success ) {
+                
+                $('#file-'+file.id).addClass('upload_list_processing');
+                //$('#file-'+file.id+' .progress').removeClass('active');
+                $('#file-'+file.id+' .progress').addClass('progress-warning');
+                $('#file-'+file.id+' .status').html('{lang code="Processing"}');
+                //$('#file-'+file.id+' .time').html('{lang code="Completed"}');
+                                
+                var formdata = $('#file-form-'+file.id).find('form').serialize();
+                     formdata += '&filename='+res.filename+'&ext='+res.extension;
+                     formdata += '&directory='+res.file_directory+'&insertPhoto=yes';
+                
+                // Disabling form fields
+                disable_form_inputs( 'form-'+file.id );
+                
+                amplify.request('photo_upload', formdata, function ( data ){
+                    // Enabling form fields
+                    enable_form_inputs( 'form-'+file.id );
+                    
+                    if ( data.error ) {
+                        return;
+                    } else if ( data.success ) {
+                        $('#file-form-'+file.id+' form').find('input[name=photo_id]').val( data.photoID );
+                        $('#file-form-'+file.id ).find('img.no-photo-preview').after('<img src="'+data.photoPreview+'" class="new-photo-preview" />').hide();
+                        $('#file-form-'+file.id ).find('img.no-photo-preview').remove();
+                        $('#file-form-'+file.id ).find('img.new-photo-preview').fadeIn('normal');
+                        
+                        $('#file-'+file.id).removeClass('upload_list_processing').addClass('upload_list_success');
+                        $('#file-'+file.id+' .progress').removeClass('active');
+                        $('#file-'+file.id+' .progress').removeClass('progress-warning').addClass('progress-success');
+                        $('#file-'+file.id+' .status').html('{lang code="Success"}');
+                        $('#file-'+file.id+' .time').html('{lang code="Completed"}');
+                        if ( overall_template ) {
+                            overall_template.find('.total_uploaded_files').text( up.total.uploaded ); 
+                        }
+                    }
+                });
+
+            }
+        });
+        /* Binding file uploaded event - End */
+        
+        /* Binding Error event - Start */
+        uploader.bind('Error', function(up, err) {
+            
+            if ( overall_template ) {
+               var total_uploaded_files_span = overall_template.find('.total_uploaded_files');
+               if ( !overall_template.find('#total_failed_files') ) {
+                   total_uploaded_files_span.after('<span id="total_failed_files" class=total_failed_files />');
+               }
+               $('#total_failed_files').html('/'+up.total.failed);
+            }
+            
+            var file = err.file;
+            $('#file-'+file.id).addClass('upload_list_error');
+            $('#file-'+file.id+' .upload-stats').hide();
+            $('#file-'+file.id+' .alert-error').html(err.message).show();
+            
+            $('#file-'+file.id+' .progress').removeClass('active');
+            $('#file-'+file.id+' .progress').addClass('progress-error');
+            up.refresh(); // Reposition Flash/Silverlight
+        });
+        /* Binding Error event - End */
+        
+        /* Bind the following if user have overall_template */
+        if ( overall_template ) {
+            uploader.bind('UploadComplete', function(up, files) {
+                overall_template.find('.progress').removeClass('active').addClass('progress-success');
+                overall_template.find('.time').html('{lang code="Completed"}');
+            });
+        }
+    });
+</script>
+<!-- PLUPLOAD ENDS HERE -->
