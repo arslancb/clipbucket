@@ -24,7 +24,7 @@
                     </div>
                     <button class="btn" onclick="toggleBox(this,'#add-videos-to-playlist');" ><span class="icon-plus" ></span>{lang code='Add to'}</button>
                     <button class="btn" onclick="toggleBox(this,'#share-video-block');" ><span class="icon-share"></span> Share</button>
-                    <button class="btn"><span class="icon-flag"></span> Flag</button>
+                    <button class="btn" data-toggle="modal" data-target="#report_video"><span class="icon-flag"></span> Flag</button>
                 </div>
             </div>
             
@@ -41,6 +41,8 @@
         {include_template_file file='blocks/add_playlist.html' video=$video type=v oid=$video.videoid}
         
         {include_template_file file='blocks/watch_video/share_video.html' video=$video type=v oid=$video.videoid}
+             
+        {include_template_file file='blocks/report.html' type='v' id=$video.videoid title=$video.title}
 
         
         <!-- Video Details -->

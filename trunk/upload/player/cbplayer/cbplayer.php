@@ -103,9 +103,10 @@ if(!function_exists('cb_player'))
                 assign('normal_vid_file',$video_file);
                 assign("hq_vid_file",$hd_file);			
                 assign('vdata',$vdetails);
-                Template(CB_PLAYER_DIR.'/cbplayer.html',false);
+                
+                $player = fetch(CB_PLAYER_DIR.'/cbplayer.html',false);
 
-                return true;
+                return $player;
             }
 	}
 	

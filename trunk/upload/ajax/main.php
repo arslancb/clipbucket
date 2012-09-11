@@ -565,6 +565,70 @@ switch($mode){
     }
     break;
     
+    case 'flag_object':
+    {
+        $type = strtolower($_POST['type']);
+        switch($type)
+        {
+            case 'v':
+            case 'video':
+            default:
+            {
+                    $id = $_POST['id'];
+                    $reported = $cbvideo->action->report_it($id);
+            }
+            break;
+
+            case 'g':
+            case 'group':
+            default:
+            {
+                    $id = $_POST['id'];
+                    $cbgroup->action->report_it($id);
+            }
+            break;
+
+            case 'u':
+            case 'user':
+            default:
+            {
+                    $id = $_POST['id'];
+                    $userquery->action->report_it($id);
+            }
+            break;
+
+            case 'p':
+            case 'photo':
+            {
+                    $id = $_POST['id'];
+                    $cbphoto->action->report_it($id);
+            }
+            break;
+
+            case "cl":
+            case "collection":
+            {
+                    $id = $_POST['id'];
+                    $cbcollection->action->report_it($id);
+            }
+            break;
+
+        }
+
+        if(msg())
+        {
+            $msg = msg_list();
+            echo json_encode(array('success'=>'yes','msg'=>$msg[0]));
+        }
+        if(error())
+        {
+            $msg = error_list();
+            echo json_encode(array('err'=>$msg[0]));
+        }
+
+    }
+    break;
+    
     default:
         exit(json_encode(array('err'=>array(lang('Invalid request')))));
 }

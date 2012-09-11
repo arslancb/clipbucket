@@ -864,3 +864,35 @@ function share_object(form_id,type,bttn)
                 $(bttn).button('reset');
     });
 }
+
+
+function report(obj,bttn)
+{
+    $id = $(obj+' input[name=id]').val();
+    $type = $(obj+' input[name=type]').val();
+    $flag_type = $(obj+' input[name=flag_type]:checked').val();
+    if(bttn)
+        $(bttn).button('loading');
+    
+    
+    $(obj+' .alert').hide().html('');
+    
+    amplify.request('main',{
+        mode : 'flag_object',
+        type : $type,
+        flag_type : $flag_type,
+        id : $id
+    },function(data){
+        if(data.err)
+        {
+            $(obj+' #report-error-msg').show().html(data.err);
+        }else
+        {
+            $(obj+'  #report-success-msg').show().html(data.msg);
+            $(obj).modal('hide');
+        }
+        
+         if(bttn)
+                $(bttn).button('reset');
+    });
+}
