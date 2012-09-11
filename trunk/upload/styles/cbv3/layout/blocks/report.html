@@ -1,0 +1,27 @@
+<div class="modal hide fade" id="report_video">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Flag {$title}</h3>
+    </div>
+    <div class="modal-body">
+        <div id="report-error-msg" class="alert display-none">an error</div>
+        <div id="report-success-msg" class="alert alert-success display-none">msg green</div>
+        Please select the category that most closely reflects your concern about the video, so that we can review it and determine whether it violates our Community Guidelines or isn't appropriate for all viewers. Abusing this feature is also a violation of the Community Guidelines, so don't do it. 
+        <hr>
+        {$flag_options=get_flag_options($type)}
+        {foreach $flag_options as $val => $text}
+        <div>
+            <label class="radio">
+                <input type="radio" name="flag_type" value="{$val}" {if $text@iteration ==1}checked{/if}>
+                {$text}</label>
+        </div>
+        {/foreach}
+
+        <input type="hidden" name="type" value="{$type}" />
+        <input type="hidden" name="id" value="{$id}" />
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:void(0)" data-dismiss="modal" class="btn">Cancel</a>
+        <a href="javascript:void(0)" class="btn btn-primary"  data-loading-text="reporting.." onclick="report('#report_video',this)">Report</a>
+    </div>
+</div>

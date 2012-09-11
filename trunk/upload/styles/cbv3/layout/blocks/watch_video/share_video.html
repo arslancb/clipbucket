@@ -1,0 +1,315 @@
+<script>
+    function email_embed_toggle($case)
+    {
+        if($case=='email')
+        {
+            $('#video-embed-container').hide();
+            $('#share_email').show();
+            $('#share-link-btn').hide();
+            $('#share-embed-btn').show();
+        }else
+        {
+            $('#video-embed-container').show();
+            $('#share_email').hide();
+            $('#share-link-btn').show();
+            $('#share-embed-btn').hide();
+        }
+    }
+    
+    $(document).ready(function(){
+        $('#share_email,#share-embed-btn').hide();
+    })
+</script>
+
+<div class="well share-video-block display-none" id="share-video-block">
+    <div class="share-buttons">
+        <a href="javascript:void(0)" id="share-link-btn" class="btn btn-large" onclick="email_embed_toggle('email')">Email</a>
+        <a href="javascript:void(0)" id="share-embed-btn" class="btn btn-large" onclick="email_embed_toggle('embed')">Embed</a>
+
+
+    </div>
+
+    <div class="video-link marginT10">
+        <div><label><h5 class="marginT5" for="video_link">Video link</h5></label></div>
+        <input type="text" class="span5 resize-verticle"  value="{videoLink($video)}" name="video_link" id="video_link"/>
+    </div>
+    <hr>
+
+    <div id="video-embed-container">
+        <div class="embed-video marginT10">
+            <div>
+                <h5 class="marginT5">Embed video</h5>
+            </div>
+
+            {if $Cbucket->configs.embed_type=='iframe'}
+            {$embed_props=json_encode($cbvid->embed_code_props($vdo,'iframe'))}
+            {$embed_props_alt=json_encode($cbvid->embed_code_props($vdo,'embed_object'))}
+            {else}
+            {$embed_props=json_encode($cbvid->embed_code_props($vdo,'embed_object'))}
+            {$embed_props_alt=json_encode($cbvid->embed_code_props($vdo,'iframe'))}
+            {/if}
+
+            {* Setting up Javascript Code for Better Embed Code Usage *}
+
+            <script>
+            
+            
+                        var embed = {$embed_props};
+                        var embed_alt = {$embed_props_alt};
+            
+                        function getEmbedCode(embed)
+                        {
+                            switch(embed.type)
+                            {
+                                case "iframe":
+                                    {
+                                        var $code = '<iframe ';
+                                        $code += 'src="'; //opening src attr
+                                        $code += embed.src.url+'?embed=true';
+
+                                        if(embed.src.params)
+                                        {  
+                                            $.each(embed.src.params, function(attr,val) {
+                                                $code += '&'+attr+'='+encodeURIComponent (val);
+                                            });     
+                                        }
+
+                                        $code += '" '; //ending src attr
+
+                                        if(embed.params)
+                                        {
+                                            $.each(embed.params, function(attr,val) {
+                                                $code += attr+'="'+(val)+'" ';
+                                            }); 
+                                        }
+                                        $code += '>';
+                                        $code +='</iframe>';
+                        
+                                        return $code;
+                                    }
+                                    break;
+                                case "embed_object":
+                                    {
+                                        $code = '<object ';
+                                        $code += 'height="'+embed.params.height+"' "; //setting object height
+                                        $code += 'width="'+embed.params.width+"' >"; //setting object width
+
+                                        //adding src
+                                        $code += '<param name="movie" value="';
+                                        $code += embed.src.url+'?embed=true';
+
+                                        if(embed.src.params)
+                                        {
+                                            $.each(embed.src.params, function(attr,val) {
+                                                $code += '&'+attr+'='+encodeURIComponent (val);
+                                            });  
+                                        }
+
+                                        $code += '"></param>'; //ending src attr
+
+                                        if(embed.params)
+                                        {
+                                            $.each(embed.params, function(attr,val) {
+                                                $code += '<param name="'+attr+'" value="'+val+'"></param>';
+                                            });     
+                                        }
+
+
+                                        $code += '<embed ';
+                                        $code += 'src="'; //opening src attr
+                                        $code += embed.src.url+'?embed=true';
+
+                                        if(embed.src.params)
+                                        {
+                                            $.each(embed.src.params, function(attr,val) {
+                                                $code += '&'+attr+'='+encodeURIComponent (val);
+                                            });  
+                                        }
+
+                                        $code += '" '; //ending src attr
+
+                                        if(embed.params)
+                                        {
+                                            $.each(embed.params, function(attr,val) {
+                                                $code += attr+'="'+(val)+'" ';
+                                            }); 
+                                        }
+                                        $code += '>';
+                                        $code += '</embed>';
+
+                                        $code += '</object>';
+                        
+                                        return $code;
+                                    }
+                    
+                                    break;
+
+                                case "embeded":
+                                    {
+                                        return $code_props['src'];
+                                    }
+                                    break;
+                            }
+                        }
+            
+                        function embed_code_dim(width,height,obj)
+                        {
+                            if(width && height)
+                            {
+                                embed.params.width = width;
+                                embed.params.height = height;
+                                $('#embed_code').html(getEmbedCode(embed));
+                            }
+                
+                            $('.dim-box-selected').removeClass('dim-box-selected');
+                            $(obj).addClass('dim-box-selected');
+                
+                        }
+            
+                        function update_src_params(name,value)
+                        {
+                            embed.src.params[name]= value;
+                            $('#embed_code').html(getEmbedCode(embed));
+                        }
+            
+                        function toggleEmbedSrc(){
+                            var newEmbed = embed;
+                            embed = embed_alt;
+                            embed_alt = newEmbed;
+                            $('#embed_code').html(getEmbedCode(embed));   
+                        }
+
+            
+                        $(document).ready(function(){
+                            $('#embed_code').html(getEmbedCode(embed));
+                            $('.embed_code_options').on('click',"input[type=checkbox]",function(){
+                
+                                var obj = this;
+                
+              
+                                if($(obj).attr('data-embed')=='yes')
+                                {
+                                    var trueVal = $(obj).val();
+                                    var falseVal = $(obj).attr('data-false-value');
+
+                                    if($(this).is(':checked')){
+                                        update_src_params($(obj).attr('name'),trueVal);
+                                    }else
+                                    {
+                                        update_src_params($(obj).attr('name'),falseVal);
+                                    }
+                                }
+
+               
+                            })
+                
+                
+                                
+               
+                            $('.custom-embed-dim').change(function(){
+                   
+                                var $width = $('#custom-embed-width').val();
+                                var $height  = $('#custom-embed-height').val();
+                   
+                                if(isNaN($width) || !$width) $width = 320;
+                                if(isNaN($height || !$height)) $height = 240;
+                   
+                   
+                                $('#custom-embed-width').val($width);
+                                $('#custom-embed-height').val($height);
+                   
+                   
+                                embed_code_dim($width,$height);
+                            })
+                        });
+            </script>
+
+            <textarea class="span5" rows="2" id="embed_code"></textarea>
+            <div class="inlineblock marginL10">
+                <div class="embed_code_options">
+                    <label class="checkbox">
+                        <input type="checkbox" name="show_related" id="show_related" value="yes" data-embed='yes' data-false-value="no">
+                        Show related videos
+                    </label>
+                    <label class="checkbox">       
+                        <input type="checkbox" name="autoplay" id="autoplay" value="yes" data-false-value="no" data-embed='yes'>
+                        Autoplay
+                    </label>
+                    <label class="checkbox">
+                        <input type="checkbox" name="old_embed_code" id="old_embed_code" value="yes" onclick="toggleEmbedSrc();"
+                               {if $Cbucket->configs.embed_type!='iframe'}checked{/if}>
+                        Old Embed code
+                    </label>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="embed-dimensions">
+            <div class="dim-box" onclick="embed_code_dim('560','335',this);">
+                560 x 135
+                <div class="dim-block dim-315">
+
+                </div>
+            </div>
+
+            <div class="dim-box" onclick="embed_code_dim('640','360',this);">
+                640 x 360
+                <div class="dim-block dim-360">
+
+                </div>
+            </div>
+
+            <div class="dim-box" onclick="embed_code_dim('853','480',this);">
+                853 x 480
+                <div class="dim-block dim-480">
+
+                </div>
+            </div>
+
+            <div class="dim-box" onclick="embed_code_dim('1280','720',this);">
+                1280 x 720
+                <div class="dim-block dim-720">
+
+                </div>
+            </div>
+
+            <div class="dim-box dim-custom valignTop" 
+                 onclick="embed_code_dim(null,null,this);">
+                Custom
+                <div class="height5"></div>
+                <div class="control-group ">
+                    <label class="control-label" for="custom-embed-width">Width</label>
+                    <div class="controls">
+                        <input type="text"  id="custom-embed-width" class="custom-embed-dim input-mini" value="">
+                    </div>
+                </div>
+
+
+                <div class="control-group">
+                    <label class="control-label" for="custom-embed-height">Height</label>
+                    <div class="controls">
+                        <input type="text"  id="custom-embed-height"  class="custom-embed-dim input-mini"  >
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="email-video inlineblock" id="share_email">
+        <h6>To (email addresses or usernames)</h6>
+        <textarea class="span5 resize-verticle" rows="1" id="share_users"></textarea>
+        <h6>Additional Note (optional)</h6>
+        <textarea class="span5 resize-verticle" rows="2" id="message"></textarea>
+        <div></div>
+        <input type="hidden" id="objectid" value="{$video.videoid}" />
+        <button class="btn btn-primary" onclick="share_object('share_email','v',this)"
+                data-loading-text="Sending email...">Send Email</button>        
+    </div>
+
+    <div class="btn-group display-none" id="share_email_success" >
+        <button class="btn btn-success"><i class="icon-check icon-white"></i> Your email has been sent</button>
+        <button class="btn" onclick="$('#share_email').show();$('#share_email_success').hide();">Send another</button>
+    </div>
+
+</div>
