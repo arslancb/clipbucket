@@ -844,8 +844,8 @@ function get_photo_date_folder ( $pid ) {
 	}
 	
 	// First check if we have db date_dir column
-	if( $photo['date_dir'] ) {
-		$date_dir = $photo['date_dir'];	
+	if( $photo['file_directory'] ) {
+		$date_dir = $photo['file_directory'];	
 	}
 	
 	if ( !$date_dir ) {
@@ -853,10 +853,13 @@ function get_photo_date_folder ( $pid ) {
 		$random_string = substr( $photo['filename'], -6, 6 );
 		$time = str_replace( $random_string, '', $photo['filename'] );
 		$date_dir = date('Y/m/d', $time );
-		// Make sure the fi	le exists @PHOTOS_DIR.'/'.$date_dir.'/'.$photo['filename'].'.'.$photo['ext']
+		// Make sure the file exists @PHOTOS_DIR.'/'.$date_dir.'/'.$photo['filename'].'.'.$photo['ext']
 		if ( !file_exists( PHOTOS_DIR.'/'.$date_dir.'/'.$photo['filename'].'.'.$photo['ext'] ) ) {
 			$date_dir = false;	
-		}		
+		} else {
+            // Update the db value
+            //$db->update( tbl('photos'), array('file_directory'), array($date_dir), " photo_id = '".$photo['photo_id']."' " );
+        }		
 	}
 	
 	return $date_dir;
@@ -918,5 +921,8 @@ function cb_some_photo_plugin_links( $links ) {
     return $links;
 }
 
-
+function load_photo_plupload_block() {
+    $template = fetch(MODULES_DIR.'/uploader/photo_pluploader.html',false);
+    return $template;
+}
 ?>

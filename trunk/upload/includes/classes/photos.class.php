@@ -193,6 +193,25 @@ class CBPhotos {
         $Cbucket->links['user_fav_photos'] = array('user_photos.php?mode=favorite&amp;user=', 'user_photos.php?mode=favorite&amp;user=');
        
         // Setting Home Tab
+        add_menu_item('navigation', lang('Photos'), cblink(array("name"=>"photos")), "photos","icon-picture icon-white");
+        
+        // Adding photo upload options
+        register_upload_option( array(
+            'object' => 'photos',
+            'title' => lang('Upload from computer'),
+            'description' => lang('Upload photos from your computer. Supported formats are <i>'.implode( ', ', $this->exts ).'</i>'),
+            'function' => 'load_photo_plupload_block'
+        ) );
+        
+        $plupload_js_files = array(
+            MODULES_URL.'/uploader/plupload/plupload.js',
+            MODULES_URL.'/uploader/plupload/plupload.html5.js',
+            MODULES_URL.'/uploader/plupload/plupload.flash.js',
+            //MODULES_URL.'/uploader/plupload/jquery.plupload.queue/jquery.plupload.queue.js',
+            // MODULES_URL.'/uploader/plupload/jquery.ui.plupload/jquery.ui.plupload.js'
+        );
+        
+        add_js($plupload_js_files,'photo_upload');
     }
 
     /**
@@ -337,6 +356,20 @@ class CBPhotos {
         $tables = "users,photos";
 
         $order = $p['order'];
+        if ( !$order ) {
+            $order = 'date_added DESC';
+        }
+        
+        if ( strpos( $order, ',' ) > 0 ) {
+            $order = explode(',', $order);
+            $order = array_map('trim',$order);
+            foreach( $order as $o ) {
+                $newo[] = tbl('photos.'.$o);
+            }
+            $order = $newo;
+            $order = implode(',', $order);
+        }
+        
         $limit = $p['limit'];
         $cond = "";
 
@@ -483,7 +516,7 @@ class CBPhotos {
         if ( !$p['count_only'] && !$p['show_related'] ) {
             if ( $cond != "" )
                 $cond .= " AND ";
-            $result = $db->select( tbl( $tables ).$join, tbl( "photos.*,users.userid,users.username" ).$alias, $cond . tbl( "photos.userid" ) . " = " . tbl( "users.userid" ), $limit, tbl('photos.'.trim($order) ));
+            $result = $db->select( tbl( $tables ).$join, tbl( "photos.*,users.userid,users.username" ).$alias, $cond . tbl( "photos.userid" ) . " = " . tbl( "users.userid" ), $limit, trim($order) );
             //echo $db->db_query;					  						  	
         }
 
@@ -1167,14 +1200,15 @@ class CBPhotos {
         $title = $array['photo_title'];
         $description = $array['photo_description'];
         $tags = $array['photo_tags'];
-
+        $show_collection = $array['is_avatar'] ? 'no' : 'yes';
+        
         if ( $array['user'] )
             $p['user'] = $array['user'];
         else
             $p['user'] = userid();
 
         $p['type'] = "photos";
-        if ( $array['is_avatar'] == 'no' ) {
+        if ( $show_collection == 'yes' ) {
             $collections = $this->collection->get_collections( $p );
             $cl_array = $this->parse_array( $collections );
             $collection = $array['collection_id'];
@@ -1216,7 +1250,7 @@ class CBPhotos {
                     )
         );
 
-        if ( $array['is_avatar'] == 'no' ) {
+        if ( $show_collection == 'yes' ) {
             $fields['collection'] = array(
                         'title' => lang( 'collection' ),
                         'id' => 'collection_id',

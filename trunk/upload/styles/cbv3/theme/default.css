@@ -718,7 +718,7 @@ border-radius: 3px; border:1px solid #eee; margin-top: 15px}
 .upload_list{opacity: 0.50; cursor: pointer}
 .upload_list_active{opacity: 1.0; box-shadow: 0px 0px 3px #06c}
 
-.upload_list .video-title{font-size: 14px; font-weight: bold; margin-left: 5px; vertical-align: top; display: inline-block; width: 280px;}
+.upload_list .video-title, .upload_list .title{font-size: 14px; font-weight: bold; margin-left: 5px; vertical-align: top; display: inline-block; width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .upload_list .progress{margin: 5px 0px}
 .upload_list .percent_upload{}
 .upload_list .upload-stats{font-size: 11px;}
@@ -742,6 +742,70 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .upload_list_container{display: inline-block; float: left}
 .upload-form-container{ width: 768px; float: left}
 .upload-form{padding: 20px}
+.upload-form .title h2 { word-wrap: break-word; }
+
+.photo-upload-image-preview {
+    border-radius: 3px; background: #E2E2FF;
+    height: 200px; box-shadow: inset 0px 0px 0px 2px white;
+    border: 1px solid #ccccff; position: relative; overflow: hidden;
+}
+
+.photo-upload-preview-outer {
+    border-radius: 3px; background: white;
+    padding: 2px; border: 1px solid #ccccff;
+    margin-bottom: 5px;
+}
+
+.photo-upload-preview-inner {
+    height: 198px; overflow: hidden;
+    background: #e2e2ff; position: relative;
+}
+
+.photo-upload-preview-inner .no-photo-preview {
+    max-width: 176px; opacity: 0.5;
+    position: absolute; left: 50%; margin-left: -88px;
+    top: 50%; margin-top: -57px;
+}
+
+.photo-upload-preview-inner img.new-photo-preview {
+    width: 100%;
+    max-width: none;
+    margin-top: -100px;
+}
+
+/* Overall progress. Total files added, total files uploaded, total size and total progress */
+
+.upload-overall  {
+    margin-top: 10px;
+}
+
+.upload-overall .title h2 {
+    text-transform: uppercase;
+    padding: 0px; margin: 0px;
+    border-bottom: 0px none;
+}
+
+.upload-overall .title h2 small {
+    text-transform: none;
+    font-weight: light;
+    color : #666666;
+}
+
+.upload-overall .progress {
+    position: relative;
+    height: 30px;
+}
+
+.upload-overall .progress .percent_upload {
+    position: absolute; top: 0px;
+    text-align: center; height: 30px;
+    width: 100%; line-height: 30px;
+    font-size: 14px; font-weight: bold;
+}
+
+.upload-overall .progress .bar {
+    height: 100%;
+}
 
 /* Editors Pick */
 .cbv3-editors-pick {

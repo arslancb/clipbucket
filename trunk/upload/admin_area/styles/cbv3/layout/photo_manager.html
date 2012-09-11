@@ -205,13 +205,13 @@
                             <ul class="dropdown-menu">
                                 <li><a href="{$cbphoto->photo_links($photo,'view_photo')}">View Photo</a></li>
                                 {if $photo.is_mature == 'yes'}
-                                    <li><a href="?mode=remove_mature&photo={$photo.photo_id}">Remove Mature Flag</a></li>
+                                    <li><a href="?remove_mature={$photo.photo_id}">Remove Mature Flag</a></li>
                                 {else}
-                                    <li><a href="?mode=add_mature&photo={$photo.photo_id}">Add Mature Flag</a></li>
+                                    <li><a href="?add_mature={$photo.photo_id}">Add Mature Flag</a></li>
                                 {/if}
                                 
                                 {if $photo.featured == 'yes'}
-                                <li><a href="?mode=make_unfeature&photo={$photo.photo_id}">Unfeature It</a></li>
+                                <li><a href="?make_unfeature={$photo.photo_id}">Unfeature It</a></li>
                                 {else}
                                 <li><a href="?make_feature={$photo.photo_id}">Make Featured</a></li>
                                 {/if}

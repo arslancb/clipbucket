@@ -10,11 +10,20 @@
 /**
  * @todo : in sab ko document krna hai =D
  */
+
 /**
  * Register an upload option
+ * ---------------------------------------------------------------------------------------
+ * Updated by Fawaz Tahir on 9th Sep, 2012 
+ * -----------------------------------------------
+ * Introducing object parameter. This way we dont need to make separate
+ * variables for different objects. To make sure right object is provided, we'll
+ * check it against $Cbucket->search_types key. If it exists in variable, we'll
+ * add it.
+ * ---------------------------------------------------------------------------------------
  * 
- * @global type $Cbucket
- * @param type $array
+ * @global OBJECT $Cbucket
+ * @param ARRAY $array
  * @return boolean
  */
 function register_upload_option($array)
@@ -29,14 +38,17 @@ function register_upload_option($array)
      * function -> required , a php callback function to display in upload
      * window.
      */
-    
+
     extract($array);
 
     
     if(!$title || !$description || !function_exists($function) || !$function)
         return false;
     
-    
+    /* $type checking - Added by Fawaz Tahir */
+    if ( !$Cbucket->search_types[$object] ) {
+        return false;
+    }
     
     if(!$id)
         $id = slug ($title);
@@ -52,21 +64,31 @@ function register_upload_option($array)
     
     apply_filters($upload_option, 'register_upload_option');
     
-    $Cbucket->upload_options[] = $upload_option;
-    
+    $Cbucket->upload_options[$object][] = $upload_option;
     return $upload_option;
         
 }
 
+/**
+ * Get upload options for provided object
+ * ---------------------------------------------------------------------------------------
+ * Updated by Fawaz Tahir on 9th Sep, 2012
+ * -----------------------------------------------
+ * Because we have already used this function @upload.html, so we're providing
+ * an defined $object if nothing is passed.
+ * ---------------------------------------------------------------------------------------
+ * @global OBJECT $Cbucket
+ * @param STRING $object Object
+ * @return ARRAY
+ */
 
-function get_upload_options()
+function get_upload_options($object='videos')
 {
     global $Cbucket;
-    $opts =  $Cbucket->upload_options;
+    $opts =  $Cbucket->upload_options[$object];
     
     $opts = apply_filters($opts, 'upload_options');
     
-  
     return $opts;
 }
 

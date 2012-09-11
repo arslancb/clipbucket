@@ -29,6 +29,8 @@ register_upload_option(array(
     'title' => lang('Upload from computer'),
     'description' => lang('upload video files from your computer, supports variety of formats including mp4,mkv,avi and many other.'),
     'function' => 'load_plupload_block',
+    /* Added by Fawaz on 9th Sep, 2012 */
+    'object' => 'videos'
 ));
 
 /**
