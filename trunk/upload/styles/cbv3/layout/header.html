@@ -146,6 +146,40 @@
             </ul>
             
             <ul class="nav pull-right">
+                
+                {if $playlist.playlist_name}
+                <li class="dropdown playlist-dropdown open"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Now Playing : {$playlist.playlist_name} <i class="caret"></i></a>
+                    <div class="dropdown-menu playlist-menu" role="menu" >
+                        <div class="cbv3-scroller playlist-list-container">
+                        
+                        {$playlist_thumb = $cbvid->action->getPlaylistThumb($playlist.playlist_id)}
+
+                            <img src="{$playlist_thumb.0}" class="playlist-thumb" width="50" height="35"/>
+                            {$playlist.playlist_name}
+                            
+                            <hr />
+                            
+                            {foreach $playlist.items as $item}
+                            <div class="playlist-item {if $video.videoid==$item.videoid}item-active{/if}"
+                                  onclick="window.location='{videoLink vdetails=$item}'">                              
+                                <img src="{getThumb vdetails=$item}" class="item-thumb" width="30" height="22"/>
+                                <span>{$item.title}</span>
+                                
+                                <span class="absolute right"><h6>
+                                        {if $video.videoid==$item.videoid}
+                                        playing
+                                        {else}
+                                        {$item.duration|setTime}
+                                    {/if}
+                                    </h6></span>
+                            </div>
+                            {/foreach}
+                            
+                        </div>
+                    </div>
+                </li>
+                {/if}
                 <li><a href="#"><span class="icon-user icon-white"></span></a></li>
                 <li><a href="#"><span class="icon-envelope icon-white"></span></a></li>
                 <li><a href="#"><span class="icon-globe icon-v3-white"></span></a></li>

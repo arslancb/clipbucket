@@ -58,6 +58,13 @@ if(video_playable($vdo))
 	if(!empty($pid))
 	{
 		$plist = $cbvid->action->get_playlist($pid,userid());
+                
+                //Also getting list of playlist items
+                $plist_items = $cbvid->get_playlist_items($pid);
+                
+                $plist['items'] = $plist_items;
+                assign('playlist',$plist);
+                
 		if($plist)
 			$_SESSION['cur_playlist'] = $pid;
 	}	

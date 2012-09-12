@@ -502,7 +502,7 @@ class cbactions
             $array = array();
             
             $items = $this->get_playlist_items($pid,NULL,3);
-            
+
             global $cbvid, $cbaudio;
             $array = array();
             
@@ -734,15 +734,16 @@ class cbactions
 	 */
 	function get_playlist_items($pid,$order=NULL,$limit=NULL)
 	{
-		global $db;
-                if(!$order)
-                    $order = " item_order ASC ";
-		$result = $db->select(tbl($this->playlist_items_tbl),"*","playlist_id='$pid'",$limit,$order);
-              
-		if($db->num_rows>0)
-			return $result;
-		else
-			return false;
+            global $db;
+            if(!$order)
+                $order = " item_order ASC ";
+            $result = $db->select(tbl($this->playlist_items_tbl),"*","playlist_id='$pid'",$limit,$order);
+            
+            
+            if($db->num_rows>0)
+                    return $result;
+            else
+                    return false;
 	}
 	
 	/**
@@ -909,6 +910,8 @@ class cbactions
             else
                     return false;
         }
+        
+        
 }
 
 ?>

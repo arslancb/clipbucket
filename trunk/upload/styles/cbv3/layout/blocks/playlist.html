@@ -4,10 +4,18 @@
 
     <li class="relative thumb">
         <div class="playlist-thumb">
+            
+            
             {$pad=10}
             {foreach $cbvid->action->getPlaylistThumb($playlist.playlist_id) as $pthumb}
             <img src="{$pthumb}" style="top:{$pthumb@index*$pad}px; left:{$pthumb@index*$pad}px"/>
             {/foreach}
+            
+            <a class="play-btn btn btn-inverse absolute"
+            accesskey=""style="top:{$pthumb@index*$pad+40}px; left:{$pthumb@index*$pad+60}px"
+            href="{$cbvid->playPlaylist($playlist.playlist_id)}">
+            <i class="icon-play icon-white"></i></a>
+
         </div>
 
     </li>

@@ -1163,3 +1163,11 @@ background-color: #dddddd; }
 .dim-custom .control-group{margin: 0px; height: 30px; text-align: left}
 .dim-custom .controls{width: 75px}
 
+.playlist-menu{width: 300px; padding: 10px}
+
+.playlist-list-container .playlist-thumb{margin-right: 5px; vertical-align: top}
+.playlist-list-container{color: #333}
+.playlist-list-container .playlist-item{border-bottom: 1px solid #eee; 
+padding-bottom: 5px; margin-bottom: 5px ;font-weight: bold; font-size: 12px; position: relative; cursor: pointer}
+.playlist-list-container .playlist-item .item-thumb{margin-right: 5px; vertical-align: top;}
+.item-active{color:#06c} .item-active h6{font-size: 7px}

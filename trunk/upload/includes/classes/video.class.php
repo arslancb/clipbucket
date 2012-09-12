@@ -110,6 +110,7 @@ class CBvideo extends CBCategory {
             $cond = tbl("video.file_name='$vid'");
 
 
+        $meta_query = $this->create_meta_query();
 
         $results = $db->select(
                 //Joining Slugs and User table
@@ -117,12 +118,14 @@ class CBvideo extends CBCategory {
                 . ' LEFT JOIN ' . tbl('users') . ' ON '
                 . tbl('video.userid') . ' = ' . tbl('users.userid')
                 . ' LEFT JOIN ' . tbl('slugs') . ' ON '
-                . tbl('video.slug_id') . ' = ' . tbl('slugs.slug_id'),
+                . tbl('video.slug_id') . ' = ' . tbl('slugs.slug_id')
+                .' LEFT JOIN ' . tbl('video_meta') . ' ON '
+                . tbl('video.videoid') . ' = ' . tbl('video_meta.videoid'),
                 //Selecting fields
-                tbl("video.*" . $ufieldsQuery . ",slugs.*"),
+                tbl("video.*" . $ufieldsQuery . ",slugs.*").','.$meta_query,
                 //Addind Condition
                 $cond);
-
+        
         if ($db->num_rows > 0) {
             return $results[0];
         } else {
@@ -766,9 +769,9 @@ class CBvideo extends CBCategory {
 
             if (!empty($cond))
                 $cond .= " AND ";
-            
+
             $meta_query = $this->create_meta_query();
-            
+
             $result = $db->select(tbl('video')
                     . ' LEFT JOIN ' . tbl('users') . ' ON '
                     . tbl('video.userid') . ' = ' . tbl('users.userid')
@@ -776,8 +779,7 @@ class CBvideo extends CBCategory {
                     . tbl('video.slug_id') . ' = ' . tbl('slugs.slug_id')
                     . ' LEFT JOIN ' . tbl('video_meta') . ' ON '
                     . tbl('video.videoid') . ' = ' . tbl('video_meta.videoid')
-                    , tbl('video.*' . $ufieldq . ',slugs.*').','.$meta_query, 
-                    $cond . " " . tbl("video.userid") . " = " . tbl("users.userid")." GROUP BY ".tbl('video.videoid'), $limit, $order);
+                    , tbl('video.*' . $ufieldq . ',slugs.*') . ',' . $meta_query, $cond . " " . tbl("video.userid") . " = " . tbl("users.userid") . " GROUP BY " . tbl('video.videoid'), $limit, $order);
 
             $db->db_query;
         }
@@ -931,151 +933,135 @@ class CBvideo extends CBCategory {
 
             //Setting up an array in case we dont want an echo
             //we can give array-output to re-use code even with jS
-            
+
             $code_props = array();
             $code_props['type'] = 'iframe';
-            $code_props['configs']['width']     = config('embed_player_width');
-            $code_props['configs']['height']    = config('embed_player_height');
-            
-            $code_props['src']['url']  = BASEURL . '/player/embed_player.php';
+            $code_props['configs']['width'] = config('embed_player_width');
+            $code_props['configs']['height'] = config('embed_player_height');
+
+            $code_props['src']['url'] = BASEURL . '/player/embed_player.php';
             $code_props['src']['params'] = array(
-                'vid'       => $vdetails['videoid'],
-                'height'    => config('embed_player_height'),
-                'width'     => config('embed_player_width'),
-                'autoplay'  => config('autoplay_embed')
+                'vid' => $vdetails['videoid'],
+                'height' => config('embed_player_height'),
+                'width' => config('embed_player_width'),
+                'autoplay' => config('autoplay_embed')
             );
             $code_props['params'] = array(
-                'height'    => config('embed_player_height'),
-                'width'     => config('embed_player_width'),
+                'height' => config('embed_player_height'),
+                'width' => config('embed_player_width'),
                 'frameborder' => 0,
                 'allowfullscreen' => true
             );
-            
-            
+
+
             return $code_props;
- 
         }
 
         //Default ClipBucket Embed Code
         if (function_exists('default_embed_code')) {
-            $code_props= default_embed_code($vdetails);
+            $code_props = default_embed_code($vdetails);
         } else {
             //return new Embed Code
             $embed_code = $vdetails['embed_code'];
-            if (!$embed_code || $embed_code=='none') {           
+            if (!$embed_code || $embed_code == 'none') {
                 $code_props = array();
                 $code_props['type'] = 'embed_object';
                 $code_props['src']['url'] = PLAYER_URL . '/embed_player.php';
                 $code_props['src']['params'] = array(
-                    'vid'     =>   $vdetails['videoid'] ,
+                    'vid' => $vdetails['videoid'],
                 );
                 $code_props['params'] = array(
-                    'width'     => EMBED_VDO_WIDTH,
-                    'height'    => EMBED_VDO_HEIGHT,
+                    'width' => EMBED_VDO_WIDTH,
+                    'height' => EMBED_VDO_HEIGHT,
                     'allowfullscreen' => true,
                     'allowscriptaccess' => 'always'
                 );
-
             } else {
                 $code_props['type'] = 'embeded';
-                $code_props['src']  = embeded_code($vdetails);
+                $code_props['src'] = embeded_code($vdetails);
             }
         }
 
         return $code_props;
     }
-    
-    
-    
+
     /**
      * returns the embed code for the video...
      * 
      * @param ARRAY $code_props
      * @return STRING embed_code
      */
-    function embed_code($code_props)
-    {
+    function embed_code($code_props) {
         $type = $code_props['type'];
-        switch($type)
-        {
-            case "iframe":
-            {
-                $code = '<iframe ';
-                $code .= 'src="'; //opening src attr
-                $code .= $code_props['src']['url'].'?embed=true';
-                
-                if($code_props['src']['params'])
-                {
-                    foreach($code_props['src']['params'] as $attr => $val)
-                        $code .= '&'.$attr.'='.urlencode ($val);
+        switch ($type) {
+            case "iframe": {
+                    $code = '<iframe ';
+                    $code .= 'src="'; //opening src attr
+                    $code .= $code_props['src']['url'] . '?embed=true';
+
+                    if ($code_props['src']['params']) {
+                        foreach ($code_props['src']['params'] as $attr => $val)
+                            $code .= '&' . $attr . '=' . urlencode($val);
+                    }
+
+                    $code .= '" '; //ending src attr
+
+                    if ($code_props['params']) {
+                        foreach ($code_props['params'] as $attr => $val)
+                            $code .= $attr . '="' . $val . '" ';
+                    }
+                    $code .= '>';
+                    $code .= '</frame>';
                 }
-                                
-                $code .= '" '; //ending src attr
-                
-                if($code_props['params'])
-                {
-                    foreach($code_props['params'] as $attr => $val)
-                        $code .= $attr.'="'.$val.'" ';
+                break;
+
+            case "embed_object": {
+                    $code = '<object ';
+                    $code .= 'height="' . $code_props['params']['height'] . "' "; //setting object height
+                    $code .= 'width="' . $code_props['params']['width'] . "' >"; //setting object width
+                    //adding src
+                    $code .= '<param name="movie" value="';
+                    $code .= $code_props['src']['url'] . '?embed=true';
+
+                    if ($code_props['src']['params']) {
+                        foreach ($code_props['src']['params'] as $attr => $val)
+                            $code .= '&' . $attr . '=' . urlencode($val);
+                    }
+
+                    $code .= '"></param>'; //ending src attr
+
+                    if ($code_props['params']) {
+                        foreach ($code_props['params'] as $attr => $val)
+                            $code .= '<param name="' . $attr . '" value="' . $val . '"></param>';
+                    }
+
+
+                    $code .= '<embed ';
+                    $code .= 'src="'; //opening src attr
+                    $code .= $code_props['src']['url'] . '?embed=true';
+
+                    if ($code_props['src']['params']) {
+                        foreach ($code_props['src']['params'] as $attr => $val)
+                            $code .= '&' . $attr . '=' . urlencode($val);
+                    }
+
+                    $code .= '" '; //ending src attr
+
+                    if ($code_props['params']) {
+                        foreach ($code_props['params'] as $attr => $val)
+                            $code .= $attr . '="' . $val . '" ';
+                    }
+                    $code .= '>';
+                    $code .= '</embed>';
+
+                    $code .= '</object>';
                 }
-                $code .= '>';
-                $code .= '</frame>';
-            }
-            break;
-        
-            case "embed_object":
-            {
-                $code = '<object ';
-                $code .= 'height="'.$code_props['params']['height']."' "; //setting object height
-                $code .= 'width="'.$code_props['params']['width']."' >"; //setting object width
-                
-                //adding src
-                $code .= '<param name="movie" value="';
-                $code .= $code_props['src']['url'].'?embed=true';
-                
-                if($code_props['src']['params'])
-                {
-                    foreach($code_props['src']['params'] as $attr => $val)
-                        $code .= '&'.$attr.'='.urlencode ($val);
+                break;
+
+            case "embeded": {
+                    return $code_props['src'];
                 }
-                                
-                $code .= '"></param>'; //ending src attr
-                
-                if($code_props['params'])
-                {
-                    foreach($code_props['params'] as $attr => $val)
-                        $code .= '<param name="'.$attr.'" value="'.$val.'"></param>';
-                }
-                
-                
-                $code .= '<embed ';
-                $code .= 'src="'; //opening src attr
-                $code .= $code_props['src']['url'].'?embed=true';
-                
-                if($code_props['src']['params'])
-                {
-                    foreach($code_props['src']['params'] as $attr => $val)
-                        $code .= '&'.$attr.'='.urlencode ($val);
-                }
-                                
-                $code .= '" '; //ending src attr
-                
-                if($code_props['params'])
-                {
-                    foreach($code_props['params'] as $attr => $val)
-                        $code .= $attr.'="'.$val.'" ';
-                }
-                $code .= '>';
-                $code .= '</embed>';
-                
-                $code .= '</object>';
-            }
-            break;
-            
-            case "embeded":
-            {
-                return $code_props['src'];
-            }
-            break;
+                break;
         }
     }
 
@@ -1464,20 +1450,47 @@ class CBvideo extends CBCategory {
     /**
      * Function used to get playlist items
      */
-    function get_playlist_items($pid) {
+    function get_playlist_items($pid,$order=NULL,$limit=NULL) {
         global $db;
         $ptbl = tbl($this->action->playlist_items_tbl);
         $vtbl = tbl($this->dbtbl['video']);
-
-        $fields = $ptbl . ".*,$vtbl.title,$vtbl.comments_count,$vtbl.views,$vtbl.userid,$vtbl.date_added,
-		$vtbl.file_name,$vtbl.category,$vtbl.description,$vtbl.videokey,$vtbl.tags,$vtbl.videoid,$vtbl.duration";
-
+        
+        $fields = array(
+            'title',
+            'comments_count',
+            'views',
+            'userid',
+            'date_added',
+            'file_name',
+            'category',
+            'description',
+            'videokey',
+            'tags',
+            'videoid',
+            'duration',
+            'file_directory'
+        );
+        
+        
+        $query_fields = '';
+        
+        foreach($fields as $field)
+        {
+            if($query_fields)
+                $query_fields .= ',';
+            $query_fields .= $vtbl.'.'.$field;
+        }
+        
+        $query_fields = $ptbl . ".*,$query_fields";
+        
+        $meta_query = $this->create_meta_query();
+        
         $result = $db->select(tbl('playlist_items')
                 . ' LEFT JOIN ' . tbl('video') . ' ON '
                 . $ptbl . '.object_id' . ' = ' . tbl('video.videoid')
-                , $fields, $ptbl . '.object_id=' . $vtbl . '.videoid AND ' . $ptbl
-                . ".playlist_id='$pid'", NULL, $ptbl . '.item_order ASC');
-
+                , $query_fields, $ptbl . '.object_id=' . $vtbl . '.videoid AND ' . $ptbl
+                . ".playlist_id='$pid'", $limit, $ptbl . '.item_order ASC');
+        
         if ($db->num_rows > 0)
             return $result;
         else
@@ -2042,7 +2055,7 @@ class CBvideo extends CBCategory {
 
         $video = $arr;
         if (!is_array($video))
-            $video = $this->get_video($video,true);
+            $video = $this->get_video($video, true);
 
         if (!$video)
             return false;
@@ -2065,7 +2078,7 @@ class CBvideo extends CBCategory {
         }
 
         if ($update_db)
-            $this->update_meta($video['videoid'],'thumbs', '|no_mc|' . json_encode($new_thumbs));
+            $this->update_meta($video['videoid'], 'thumbs', '|no_mc|' . json_encode($new_thumbs));
 
         return $new_thumbs;
     }
@@ -2117,52 +2130,45 @@ class CBvideo extends CBCategory {
      * @param STRING value
      * @param STRING extras, some extra valuews for metas..
      */
-    function add_meta($vid, $name, $val, $extras=NULL) {
+    function add_meta($vid, $name, $val, $extras = NULL) {
         global $db;
 
         if (!$this->meta_exists($vid, $name)) {
-            $db->insert(tbl('video_meta'),
-            array('meta_name', 'meta_value', 'videoid', 'extras'),
-            array($name, $val, $vid, $extras));
+            $db->insert(tbl('video_meta'), array('meta_name', 'meta_value', 'videoid', 'extras'), array($name, $val, $vid, $extras));
         }
     }
-    
+
     /**
      * Function remove video metas
      * 
      * @param INT videoid
      * @param STRING default: ALL, othere keys sperated by comma
      */
-    function remove_metas($video,$meta_names=NULL)
-    {
+    function remove_metas($video, $meta_names = NULL) {
         $meta_cond = "";
-        if($meta_names && strtolower($meta_namess)!='all')
-        {
+        if ($meta_names && strtolower($meta_namess) != 'all') {
             $meta_cond = ' AND ( ';
-            $metas = explode(',',$meta_names);
-            if($metas)
-            {
+            $metas = explode(',', $meta_names);
+            if ($metas) {
                 $count = 0;
-                foreach($metas as $meta)
-                {
+                foreach ($metas as $meta) {
                     $count++;
-                    if($count>1)
+                    if ($count > 1)
                         $meta_cond .= " OR ";
                     $meta_cond .= " meta_name='$meta' ";
                 }
             }
-            
+
             $meta_cond .= ' ) ';
         }
-        
-        $cond = " videoid='$video' ".$meta_cond;
-        
-        $db->execute("DELETE FROM ".tbl('video_meta')." WHERE ".$cond);
-        
+
+        $cond = " videoid='$video' " . $meta_cond;
+
+        $db->execute("DELETE FROM " . tbl('video_meta') . " WHERE " . $cond);
+
         return true;
     }
-    
-    
+
     /**
      * Register metas and can be used when retrieved/updating data
      * 
@@ -2172,97 +2178,101 @@ class CBvideo extends CBCategory {
      * 
      * @param STRING meta_name
      */
-    function register_meta($name)
-    {
+    function register_meta($name) {
         $this->metas[] = $name;
     }
-    
-    
+
     /**
      * create meta concat query
      * 
      */
-    function create_meta_query()
-    {
+    function create_meta_query() {
         $metas = $this->metas;
-        
+
         $query = '';
-        
-        if($metas)
-        {
-          
-            foreach($metas as $meta)
-            {
-                if($query)
-                {
+
+        if ($metas) {
+
+            foreach ($metas as $meta) {
+                if ($query) {
                     $query .=',';
                 }
-                
+
                 $query .= " CONCAT (if(meta_name='$meta',meta_value,meta_value)) AS '$meta' ";
             }
         }
-        
+
         return $query;
-                    
     }
-    
+
     /**
      * Function used to get list of video files
      * 
      * @param STRING $file_name
      */
-    function get_video_files($video)
-    {
+    function get_video_files($video) {
         global $db;
-        
+
         $file = $video['file_name'];
-        
+
         //Checking if the system is old..
-        
+
         $folder = "";
-        if($video['file_directory'])
-        {
-            $folder = '/'.$video['file_directory'];
+        if ($video['file_directory']) {
+            $folder = '/' . $video['file_directory'];
         }
 
-        if(file_exists(VIDEOS_DIR.$folder.'/'.$file.'.flv') ||
-                 file_exists(VIDEOS_DIR.$folder.'/'.$file.'.mp4'))
-        {
+        if (file_exists(VIDEOS_DIR . $folder . '/' . $file . '.flv') ||
+                file_exists(VIDEOS_DIR . $folder . '/' . $file . '.mp4')) {
             $files = array();
-            if(file_exists(VIDEOS_DIR.$folder.'/'.$file.'.flv'))
-                $files['flv'] = VIDEOS_URL.$folder.'/'.$file.'.flv';
-            
-            if(file_exists(VIDEOS_DIR.$folder.'/'.$file.'.mp4'))
-                $files['mp4'] = VIDEOS_URL.$folder.'/'.$file.'.mp4';
-            
+            if (file_exists(VIDEOS_DIR . $folder . '/' . $file . '.flv'))
+                $files['flv'] = VIDEOS_URL . $folder . '/' . $file . '.flv';
+
+            if (file_exists(VIDEOS_DIR . $folder . '/' . $file . '.mp4'))
+                $files['mp4'] = VIDEOS_URL . $folder . '/' . $file . '.mp4';
+
             //For mobile now..
-            if(file_exists(VIDEOS_DIR.$folder.'/'.$file.'-m.mp4'))
-                $files['mobile'] = VIDEOS_URL.$folder.'/'.$file.'-m.mp4';
-            
-            
+            if (file_exists(VIDEOS_DIR . $folder . '/' . $file . '-m.mp4'))
+                $files['mobile'] = VIDEOS_URL . $folder . '/' . $file . '-m.mp4';
+
+
             return $files;
         }
-        
-        $query = "SELECT * FROM ".
-        $query .= tbl('video_files');
-        $query .= " LEFT JOIN ".tbl('video_profiles');
-        $query .= " ON ".tbl('video_files.profile_id')." = ".tbl('video_profiles.profile_id');
-        $query .= " WHERE ".tbl('video_files.file_name')."='$file'";
-        
+
+        $query = "SELECT * FROM " .
+                $query .= tbl('video_files');
+        $query .= " LEFT JOIN " . tbl('video_profiles');
+        $query .= " ON " . tbl('video_files.profile_id') . " = " . tbl('video_profiles.profile_id');
+        $query .= " WHERE " . tbl('video_files.file_name') . "='$file'";
+
         $data = $db->execute($query);
         $db->num_rows = $data->_numOfRows;
         $db->total_queries++;
         $db->total_queries_sql[] = $query;
 
         //Now Get Rows and return that data
-        if($db->num_rows > 0)
-        {        
+        if ($db->num_rows > 0) {
             $files = $data->getrows();
             return $files;
         }
         else
             return false;
-	
+    }
+
+    /**
+     * get playlist url...
+     * 
+     * @param INT playlist_id
+     * @return STRING playlist url
+     */
+    function playPlaylist($id) {
+        $items = $this->get_playlist_items($id, NULL, 1);
+
+        if ($items) {
+            $item = $items[0];
+            
+            return videoLink($item);
+        }
     }
 
 }

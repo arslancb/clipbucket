@@ -111,9 +111,13 @@ function duration($time, $pad = true) {
  */
 function get_thumb($vdetails, $num = 'default', $multi = false, $count = false, $return_full_path = true, $return_big = true, $size = NULL) 
 {
-    
+    global $db, $Cbucket, $myquery;
+
+        
+    if(!is_array($vdetails))
+        $vdetails = $myquery->get_video_details($vdetails);
     if($vdetails['thumbs'])
-    { 
+    {
         $thumbs = json_decode($vdetails['thumbs'],true);
         
         $thumb_size = get_size_by_name($size);
@@ -128,6 +132,7 @@ function get_thumb($vdetails, $num = 'default', $multi = false, $count = false, 
             $img = $thumbs[get_size_by_name('default')][0];
         if(!$img)
         {
+            if(is_array($thumbs))
             foreach($thumbs as $thumb)
             {
                 $img = $thumb[0];
@@ -157,7 +162,6 @@ function get_thumb($vdetails, $num = 'default', $multi = false, $count = false, 
         }
     }
     
-    global $db, $Cbucket, $myquery;
     $num = $num ? $num : 'default';
     //checking what kind of input we have
     if (is_array($vdetails)) {
@@ -383,7 +387,7 @@ function video_link($vdetails, $type = NULL) {
     if (SEO == 'yes') {
 
         if ($vdetails['playlist_id'])
-            $plist = '?&play_list=' . $vdetails['playlist_id'];
+            $plist = '?play_list=' . $vdetails['playlist_id'];
 
         switch (config('seo_vido_url')) {
             default:
