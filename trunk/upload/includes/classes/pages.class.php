@@ -25,6 +25,9 @@ class pages{
 	var $pagination_start = 5;
 	var $selected = 1;
         
+        var $pagination_tag = '<li class="#class#" ><a #params#>#page#</a></li>';
+        var $skipper = '<li class="disabled"><a href="#">&hellip;</a></li>';
+        
 	function GetServerUrl()
 	{
 		$serverName = NULL;
@@ -261,7 +264,7 @@ class pages{
 		$pagination_start = $this->pagination_start;
 		$display_page = $this->display_page;
 		$this->selected = $selected = $page;
-		$hellip = '<li class="disabled"><a href="#">&hellip;</a></li>';
+		$hellip = $this->skipper;
 		$first_hellip = '';
 		$second_hellip = '';
 		
@@ -365,27 +368,30 @@ class pages{
 	/**
 	 * Function used to create pagination and assign values that can bee used in template
 	 */
-	function paginate($total,$page,$link=NULL,$extra_params=NULL,$tag='<li class="#class#" ><a #params#>#page#</a></li>')
-	{
-		
-                $tag = apply_filters($tag, 'pagination_tag');
-                
-		$this->pagination = $this->pagination($total,$page,$link,$extra_params,$tag);
-		
-		//Assigning Variable that can be used in templates
-		assign('pagination',$this->pagination);
-		
-		assign('current_page',$page);
-		assign('total_pages',$total);
-		
-		assign('next_link',$this->next_link);
-		assign('pre_link',$this->pre_link);
-		
-		assign('next_page',$page+1);
-		assign('pre_page',$page-1);
-		
-		assign('first_link',$this->first_link);
-		assign('last_link',$this->last_link);
+	function paginate($total,$page,$link=NULL,$extra_params=NULL,$tag=NULL)
+	{   
+            
+            if(!$tag)
+                $tag = $this->pagination_tag;
+            
+            $tag = apply_filters($tag, 'pagination_tag');
+
+            $this->pagination = $this->pagination($total,$page,$link,$extra_params,$tag);
+
+            //Assigning Variable that can be used in templates
+            assign('pagination',$this->pagination);
+
+            assign('current_page',$page);
+            assign('total_pages',$total);
+
+            assign('next_link',$this->next_link);
+            assign('pre_link',$this->pre_link);
+
+            assign('next_page',$page+1);
+            assign('pre_page',$page-1);
+
+            assign('first_link',$this->first_link);
+            assign('last_link',$this->last_link);
 	}
 	
 }

@@ -12,4 +12,7 @@ $array = array(
 
 set_config('template_files',$array);
 
+//Setting the pagination tag
+$pages->pagination_tag = '<a #params# class="btn">#page#</a>';
+$pages->skipper = '<a #params# class="btn disabled">...</a>'
 ?>

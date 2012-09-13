@@ -3,9 +3,11 @@
 {if $pagination}
 
 {if !$commentPagination}
+
+<div class="btn-group inlineblock" >
 {lang code='Pages'} : {if $first_link !=''}
 
-<div class="btn-group inlineblock">
+
     <a class="btn" {$first_link}>&laquo;</a>{/if}  {if $pre_link !=''}
     <a {$pre_link} class="btn"  >&#8249;</a>{/if} {$pagination}  {if $next_link !=''}
     <a class="btn" {$next_link}>&#8250;</a>{/if} {if $last_link !=''}
@@ -26,7 +28,7 @@
 
     {$pagination}  
 
-    {if $next_link !=''}<aclass="btn"  href="javascript:void(0)"  
+    {if $next_link !=''}<a class="btn"  href="javascript:void(0)"  
         onclick="get_comments('{$type}','{$type_id}','{$last_update}','{$next_page}','{$total}','{$object_type}')">&#8250;</a>{/if} 
 
         {if $last_link !=''}
