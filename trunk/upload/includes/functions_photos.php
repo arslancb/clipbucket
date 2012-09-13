@@ -47,12 +47,12 @@ function upload_photo_button($params)
        return $cbphoto->upload_photo_button($params);
 }
 
-//Photo Embed Cides
-function photo_embed_codes($params)
-{
-            global $cbphoto;
-            return $cbphoto->photo_embed_codes($params);   
-}
+//Photo Embed Cides - Dropped
+//function photo_embed_codes($params)
+//{
+//            global $cbphoto;
+//            return $cbphoto->photo_embed_codes($params);   
+//}
 
 //Create download button
 
@@ -285,7 +285,7 @@ function cb_output_img_tag( $src, $attrs = null ) {
  * @param BOOL $sharpit
  * @return array
  */
-function add_custom_photo_size( $code, $width = 0, $height = 0, $crop = 4, $watermark = false, $sharpit = false ) {
+function add_custom_photo_size( $name, $code, $width = 0, $height = 0, $crop = 4, $watermark = false, $sharpit = false ) {
 	global $cbphoto;
 	$sizes = $cbphoto->thumb_dimensions;
 	$code = strtolower( $code );
@@ -299,6 +299,7 @@ function add_custom_photo_size( $code, $width = 0, $height = 0, $crop = 4, $wate
 	}
 	
 	$sizes [ $code ] = array(
+        'name' => $name,
 		'width' => abs( $width ),
 		'height' => abs( $height ),
 		'crop' => $crop,
@@ -865,11 +866,42 @@ function get_photo_date_folder ( $pid ) {
 	return $date_dir;
 }
 
+/**
+ * Alias function to create view photo link
+ * 
+ * @global OBJECT $cbphoto
+ * @param ARRAY $photo
+ * @param STRING $type
+ * @return STRING
+ */
 function view_photo_link( $photo, $type='view_item' ) {
     global $cbphoto;
     return $cbphoto->collection->collection_links( $photo, $type);
 }
 
+/**
+ * This function adds a new link in options for each at photos manager.
+ * Callback is still in not working. I want to register both link and it's callback
+ * using same function. 
+ * 
+ * PROBLEM:-
+ * Problem is calling the callback function for certain link. Even if i figure out
+ * a way to determine which callback to call, it will not be called because these
+ * new links are being added inside display_manager_links() which is being called
+ * inside smarty file.
+ * 
+ * SOLUTION:- ( to me, for the time being )
+ * We don't use filters to add new links. Just calling add_photo_manager_link will
+ * add new link inside $cbphoto->manager_links, so at admin_area/photo_manager.php
+ * every link exists inside manager_links.
+ * 
+ * @global OBJECT $cbphoto
+ * @param STRING $title
+ * @param STRING $link
+ * @param STRING $callback
+ * @param ARRAY $args
+ * @return MIX
+ */
 function add_photo_manager_link( $title, $link, $callback = false, $args = false ) {
     global $cbphoto;
     $random_id = RandomString(8);
@@ -889,6 +921,13 @@ function add_photo_manager_link( $title, $link, $callback = false, $args = false
     return $links;
 }
 
+/**
+ * Display manager links
+ * 
+ * @global OBJECT $cbphoto
+ * @param type $photo
+ * @return string
+ */
 function display_manager_links( $photo ) {
     global $cbphoto;
     $links = $cbphoto->manager_links;
@@ -908,6 +947,12 @@ function display_manager_links( $photo ) {
     }
 }
 
+/**
+ * Registers new manager links in admin_area/edit_photo.php
+ * @global OBJECT $cbphoto
+ * @param type $links
+ * @return type
+ */
 function cb_some_photo_plugin_links( $links ) {
     global $cbphoto;
     $photo = $cbphoto->photo;
@@ -921,8 +966,215 @@ function cb_some_photo_plugin_links( $links ) {
     return $links;
 }
 
+/**
+ * Fetchs photo_plupload template
+ * @return STRING
+ */
 function load_photo_plupload_block() {
     $template = fetch(MODULES_DIR.'/uploader/photo_pluploader.html',false);
     return $template;
+}
+
+/**
+ * Function will be all embed types registered for photos
+ * 
+ * @global OBJECT $cbphoto
+ * @return ARRAY
+ */
+function get_photo_embeds() {
+    global $cbphoto;
+    return $cbphoto->embed_types;
+}
+
+/**
+ * Function will add a new embed type in photo embed_types array.
+ * $name, $id and $callback is required to register successfully. $id
+ * needs to be a unique one. If your embed code is not showing there
+ * are two possibilities. Either $id already exists or $callback function
+ * does not exist.
+ * 
+ * In your callback function you will format your embed code. You
+ * can use few embed code templates given below, related to image:
+ * %IMAGE_URL% - this will be replaced with image url path
+ * %IMAGE_WIDTH% - this will be replaced with image width
+ * %IMAGE_HEIGHT% - this will be replaced with image height.
+ * 
+ * Example of callback:
+ * return "<a href='view_photo_link($photo)' target='_blank'><img src='%IMAGE_URL%' width='%IMAGE_WIDTH%' height='%IMAGE_HEIGHT%' /></a>";
+ * 
+ * @global OBJECT $cbphoto
+ * @param STRING $name
+ * @param STRING $id
+ * @param STRING $callback
+ * @param STRING $description
+ * @return ARRAY
+ */
+function add_photo_embed_type( $name, $id, $callback, $description=null ) {
+    global $cbphoto;
+    $embeds = $cbphoto->embed_types;
+    
+    if ( $embeds[ $id ] || !function_exists( $callback ) ) {
+        //Embed code already exists with given id or
+        // callback function provided does not exist
+        return;
+    }
+    
+    $cbphoto->embed_types[ $id ] = array(
+        'name' => $name,
+        'callback' => $callback,
+        'id' => $id,
+        'description' => $description
+    );
+    
+    return $cbphoto->embed_types;
+}
+
+/**
+ * Previous function has been already with this one.
+ * ---------------------------------------------------------
+ * This function will be construct any arary of embed codes with
+ * there repesctive embed codes. It will also check if photo details
+ * are given, any embed code has registered or not and if photo
+ * has allowed photo embedding and display message accordingly.
+ * 
+ * This will also add embed code in photo_embed_templates array.
+ * These will be used in javascript to change to image url, width 
+ * and height.
+ * 
+ * @global OBJECT $cbphoto
+ * @param ARRAY $params
+ * @return ARRAY
+ */
+function photo_embed_codes( $params=null ) {
+    global $cbphoto;
+    if ( is_array( $params ) ) {
+        $photo = $params['details'];
+    } else {
+        $photo = $params;
+    }
+    
+    
+    $embeds = get_photo_embeds();
+    
+    if ( empty($photo) ) {
+        echo '<p>'.lang("Unable to create embed codes. Photo details not available").'</p>';
+        return;
+    } else if ( empty( $embeds ) ) {
+        echo '<p>'.lang("Unable to create embed codes. No photo embed code registered").'</p>';
+        return;
+    } else if ( $photo['allow_embedding'] == 'no' ) {
+        echo '<p>'.lang("Photo embedding is disabled by user.").'</p>';
+        return;
+    } else {
+        $remove = $params['remove'];
+        if ( $remove ) {
+            $remove = explode( ',', $remove ); // Separate them using ','
+            $remove = array_map( 'trim', $remove ); // Remove any space around string
+            foreach( $remove as $R ) {
+                if ( $embeds[ $R ] ) {
+                    unset( $embeds[ $R ] );
+                }
+            }
+        }
+        
+        foreach ( $embeds as $id => $embed ) {
+            $code = $embed['callback']( $photo );
+            $embeds[ $id ]['code'] = $code;
+            $cbphoto->photo_embed_templates[ $embed['id'] ] = $code;
+        }
+        
+        return $embeds;
+    }
+}
+
+/**
+ * This will list avaiable photo sizes. By default following are created:
+ * Thumb | code - t
+ * Medium | code - m
+ * Large | code - l
+ * Original | code - p
+ * ---------------------------------
+ * If from plugin or @startup.php more thumbs are added and current
+ * photo has custom thumbs, those dimensions will also be displayed here.
+ * 
+ * If photo has custom thumb but it's has been removed from thumb_dimensions
+ * array ( e.g plugin is deactivate ), only it's dimensions will be displayed.
+ * 
+ * @global OBJECT $cbphoto
+ * @param ARRAY $photo
+ * @return ARRAY
+ */
+function display_photo_embed_sizes( $photo ) {
+    global $cbphoto;
+    $dimensions = $cbphoto->thumb_dimensions;
+    $pd = json_decode($photo['photo_details'],true);
+    
+    foreach ( $pd as $code => $size ) {
+        $sort[ $code ] = $size['width'];
+    }
+    
+    asort( $sort, SORT_NUMERIC );
+    
+    foreach( $sort as $code => $width ) {
+        $_pd = $pd[ $code ];
+        $output .= '<li data-url="'.$cbphoto->get_image_file($photo, $code).'" data-code="'.$code.'" data-width="'.$_pd['width'].'" data-height="'.$_pd['height'].'" data-size="'.$_pd['size']['bytes'].'" class="toggle-photo-size"><a href="javascript:void(0)">'.($dimensions[$code]['name'] ? $dimensions[$code]['name'].' - ' : '').''.$_pd['width'].' x '.$_pd['height'].'</a></li>';
+    }
+        
+    return $output;
+}
+
+/**
+ * HTML Embed code callback
+ * @param ARRAY $photo
+ * @return string
+ */
+function photo_html_code( $photo ){
+    $output = "<a href='".  view_photo_link( $photo ) ."' target='_blank'><img src='%IMAGE_URL%' border='0' width='%IMAGE_WIDTH%' height='%IMAGE_HEIGHT%' /></a>";
+    return $output;
+}
+
+/**
+ * BB Embed code callback
+ * @param ARRAY $photo
+ * @return string
+ */
+function photo_bb_code( $photo ) {
+    return "[IMG=%IMAGE_URL%]";
+}
+
+/**
+ * Email Embed code callback
+ * @param ARRAY $photo
+ * @return string
+ */
+function photo_email_code( $photo ) {
+    return view_photo_link( $photo );
+}
+
+/**
+ * BB Linked Embed code callback
+ * @param ARRAY $photo
+ * @return string
+ */
+function photo_bb_code_linked( $photo ) {
+    return "[URL=".  view_photo_link( $photo ) ."][IMG=%IMAGE_URL%][/URL]";
+}
+
+/**
+ * BB Alt Embed code callback
+ * @param ARRAY $photo
+ * @return string
+ */
+function photo_bb_code_alt ( $photo ) {
+    return "[IMG]%IMAGE_URL%[/IMG]";
+}
+
+/**
+ * BB Alt Linked Embed code callback
+ * @param ARRAY $photo
+ * @return string
+ */
+function photo_bb_code_alt_linked ( $photo ) {
+    return "[URL=".  view_photo_link( $photo ). "][IMG]%IMAGE_URL%[/IMG][/URL]";
 }
 ?>

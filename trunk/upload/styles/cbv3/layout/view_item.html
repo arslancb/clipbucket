@@ -1,6 +1,5 @@
 {assign var=pd value=$photo.photo_details|json_decode}
 <h3 class="page-header"><a href="{$cbcollection->collection_links( $c, 'view_collection' )}">{$c.collection_name}</a> &raquo;  {$photo.photo_title}</h3>
-
 <div class="row">
 	<div class="span734">
         <div class="thumbnail inlineblock">
@@ -15,19 +14,23 @@
                         <button class="btn"><span class="icon-dislike"></span></button>
                     </div> 
                     <button class="btn" onclick="toggleBox(this,'#add-videos-to-playlist');" ><span class="icon-plus" ></span>{lang code='Add to'}</button>
-                    <button class="btn"><span class="icon-share"></span> Share</button>
-                    <button class="btn"><span class="icon-flag"></span> Flag</button>               
+                    <button class="btn" onclick="toggleBox(this,'#share-photo-block');"><span class="icon-share"></span> Share</button>
+                    <button class="btn" data-toggle="modal" data-target="#report_video"><span class="icon-flag"></span> Flag</button>               
                 </div>
             </div>
-        </div>
-        
-        <div class="inlineblock pull-right ">
-            <div class="btn-toolbar valignMid">
-                <h3 class="inlineblock valignTop">{$photo.views|number_format} {lang code='views'}</h3>
-                <button class="btn"><span class="icon-v3 icon-stats"></span></button>
+            
+            <div class="inlineblock pull-right ">
+                <div class="btn-toolbar valignMid">
+                    <h3 class="inlineblock valignTop">{$photo.views|number_format} {lang code='views'}</h3>
+                    <button class="btn"><span class="icon-v3 icon-stats"></span></button>
+                </div>
             </div>
+            <div class="clearfix"></div>
         </div>
-        
+              
+        {include_template_file file='blocks/view_item/share_photo.html' photo=$photo type=p pid=$photo.photo_id}
+
+        {include_template_file file='blocks/report.html' type='p' id=$photo.photo_id title=$photo.photo_title}
         <div class="video-details row-fluid">
         	<div class="span9">
             	<div style="height: 60px ;overflow: hidden" id="vid-details" class="relative">

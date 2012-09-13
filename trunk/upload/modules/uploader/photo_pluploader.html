@@ -243,7 +243,8 @@ How this should work
             var res = $.parseJSON( response.response );
             
             if ( res.error ) {
-                return;
+                res.error.file = file;
+                uploader.trigger('error', res.error );            
             } else if ( res.success ) {
                 
                 $('#file-'+file.id).addClass('upload_list_processing');
@@ -291,8 +292,8 @@ How this should work
             
             if ( overall_template ) {
                var total_uploaded_files_span = overall_template.find('.total_uploaded_files');
-               if ( !overall_template.find('#total_failed_files') ) {
-                   total_uploaded_files_span.after('<span id="total_failed_files" class=total_failed_files />');
+               if ( !document.getElementById('total_failed_files') ) {
+                   total_uploaded_files_span.after('<span id="total_failed_files" class="total_failed_files" />');
                }
                $('#total_failed_files').html('/'+up.total.failed);
             }
@@ -303,7 +304,7 @@ How this should work
             $('#file-'+file.id+' .alert-error').html(err.message).show();
             
             $('#file-'+file.id+' .progress').removeClass('active');
-            $('#file-'+file.id+' .progress').addClass('progress-error');
+            $('#file-'+file.id+' .progress').addClass('progress-error progress-danger');
             up.refresh(); // Reposition Flash/Silverlight
         });
         /* Binding Error event - End */

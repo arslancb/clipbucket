@@ -42,7 +42,7 @@ class CBPhotos {
      */
     function CBPhotos() {
         $this->exts = array('jpg', 'png', 'gif', 'jpeg'); // This should be added from Admin Area. may be some people also want to allow BMPs;
-        $this->embed_types = array("html", "forum", "email", "direct");
+        //$this->embed_types = array("html", "forum", "email", "direct");
         $this->set_default_tagger_configs();
     }
 
@@ -58,32 +58,36 @@ class CBPhotos {
         $this->set_photo_max_size();
 		$this->thumb_dimensions = array(
 			't'	=> array(
+                'name' => lang('Thumb'),
 				'width' => config('photo_thumb_width'),
 				'height' => config('photo_thumb_height'),
 				'crop' => (config('photo_crop') == 0 ? -1 : 5 ),
 				'watermark' => false,
-				'shrapit' => true
+				'sharpit' => true
 			),
 			'm'	=> array(
+                'name' => lang('Medium'),
 				'width' => config('photo_med_width'),
 				'height' => config('photo_med_height'),
 				'crop' => (config('photo_crop') == 0 ? -1 : 5 ),
 				'watermark' => false,
-				'shrapit' => false
+				'sharpit' => false
 			),
 			'l'		=> array(
+                'name' => lang('Large'),
 				'width' => config('photo_lar_width'),
 				'height' => 0,
 				'crop' => -1,
 				'watermark' => config('watermark_photo'),
-				'shrapit' => false
+				'sharpit' => false
 			),
 			'o'	=> array(
+                'name' => lang('Original'),
 				'width' => 0,
 				'height' => 0,
 				'crop' => -1,
 				'watermark' => config('watermark_photo'),
-				'shrapit' => false
+				'sharpit' => false
 			)
 		);
     }

@@ -1163,6 +1163,43 @@ background-color: #dddddd; }
 .dim-custom .control-group{margin: 0px; height: 30px; text-align: left}
 .dim-custom .controls{width: 75px}
 
+/* Photo share block */
+#share-photo-block .photo-embed-name {
+    font-size: 15px;
+}
+
+#share-photo-block .control-group {
+    margin-bottom: 12px;
+}
+
+#share-photo-block .photo-embed-code {
+    width: 80%; font-size: 14px;
+    padding: 8px 15px; font-family: Consolas,Monaco,monospace;
+     -webkit-transition: all .2s ease-in-out; -moz-transition: all .2s ease-in-out;
+}
+
+#share-photo-block .photo-embed-code.photo-embed-code-updating {
+    background: #08C;
+    border-color: #04C;
+    color: white;
+}
+
+#share-photo-block .control-group {
+    width: 50%; display: inline-block; vertical-align: top;
+}
+
+#share-photo-block .help-block {
+    margin: 0px;
+    font-size: 12px;
+}
+
+#share-photo-block hr {
+    margin: 0px 0px 12px;
+}
+
+#share-photo-block .toggle-photo-size a {
+    font-size: 14px;
+}
 .playlist-menu{width: 300px; padding: 10px}
 
 .playlist-list-container .playlist-thumb{margin-right: 5px; vertical-align: top}
