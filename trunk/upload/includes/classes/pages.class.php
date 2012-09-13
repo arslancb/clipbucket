@@ -368,6 +368,8 @@ class pages{
 	function paginate($total,$page,$link=NULL,$extra_params=NULL,$tag='<li class="#class#" ><a #params#>#page#</a></li>')
 	{
 		
+                $tag = apply_filters($tag, 'pagination_tag');
+                
 		$this->pagination = $this->pagination($total,$page,$link,$extra_params,$tag);
 		
 		//Assigning Variable that can be used in templates
