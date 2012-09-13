@@ -27,7 +27,12 @@ switch($mode)
         $get_limit = create_query_limit($page,$videos_limit);
 
         $request['limit'] = $get_limit;
+		
+		if(VERSION<3)
+			$request['user'] = $request['userid'];
         
+		//$request['order'] = tbl('video.'.$request['order']);
+		
         $vids = $request['video_id'];
         
         if($vids){
@@ -37,17 +42,24 @@ switch($mode)
         }
         
         $videos = $cbvid->get_videos($request);
-        
+        header('Content-Type: text/html; charset=utf-8');
+
         $new_videos = array();
         if($videos)
+		{
             foreach($videos as $video)
             {
-                $video['thumbs'] = array('default'=>BASEURL.'/api/thumb-sample.php');
-                $video['videos'] = array('mobile' => VIDEOS_URL.'/12345.mp4');
+
+				$video['title'] = utf8_encode($video['title']);
+				$video['description'] = utf8_encode($video['description']);
+                $video['thumbs'] = array('default'=>get_thumb($video));
+                $video['videos'] = array('mobile' =>get_mob_video(array('video'=>$video)));
+				$video['url'] = $video['video_link'] = $video['videoLink'] = videoLink($video);	
                 $new_videos[] = $video;
             }
             
-        
+		}
+		//echo $db->db_query;
         echo json_encode($new_videos);
     }
     break;
@@ -144,18 +156,34 @@ switch($mode)
     {
         $pid = mysql_clean($request['playlist_id']);
         $items = $cbvid->get_playlist_items($pid);
-        
+
         if($items){
             $new_videos = array();
+			
             foreach($items as $video)
             {
-                $video['thumbs'] = array('default'=>BASEURL.'/api/thumb-sample.php');
-                $video['videos'] = array('mobile' => VIDEOS_URL.'/12345.mp4');
+                $video['thumbs'] = array('default'=>get_thumb($video));
+                $video['videos'] = array('mobile' => get_mob_video(array('video'=>$video)));
+				$video['url'] = $video['video_link'] = $video['videoLink'] = videoLink($video);
                 $new_videos[] = $video;
             }
             echo json_encode($new_videos);
         }else
             echo json_encode(array('err'=>'No items in this playlist'));
+    }
+    break;
+    
+    case "getConfigs":
+    case "get_configs":
+    case "configs":
+    {
+        $array = array(
+            'baseurl' =>BASEURL,
+            'title' => TITLE,
+            'file_upload_url', BASEURL.'/actions/file_uploader.php'
+        );
+        
+        echo json_encode($array);
     }
 }
 

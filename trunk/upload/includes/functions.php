@@ -2924,7 +2924,8 @@ function is_comment_spam($comment) {
     /**
      * Checking if spam counts is exceeding the limit.. 
      */
-    if ($comment['spam_votes'] >= config('comment_spam_limit')) {
+    if ($comment['spam_votes'] >= config('comment_spam_limit')
+            && config('comment_spam_limit')) {
         $return['global_spam'] = true;
     }
 

@@ -180,4 +180,38 @@ $items = array(
 );
 
 add_menu( 'navigation', $items );
+
+
+/**
+ * Creating user head menu
+ */
+$items = array(
+    array(
+        'title' => lang('Account'),
+        'link' => cblink(array('name'=>'my_account')),
+        'section' => 'home',
+        'icon' => 'icon-home'
+    ),
+    array(
+        'title' => lang('Videos'),
+        'link' => cblink(array('name'=>'my_videos')),
+        'section' => 'home',
+        'icon' => 'icon-home'
+    ),
+    array(
+        'title' => lang('Photos'),
+        'link' => cblink(array('name'=>'my_photos')),
+        'section' => 'home',
+        'icon' => 'icon-home'
+    ),
+    array(
+        'title' => lang('Settings'),
+        'link' => cblink(array('name'=>'my_photos')),
+        'section' => 'home',
+        'icon' => 'icon-home'
+    ),
+);
+
+add_menu('user_head_menu',$items);
+
 ?>

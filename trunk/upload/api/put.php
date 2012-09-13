@@ -12,7 +12,7 @@ $mode = $request['mode'];
 
 switch ($mode) {
     case "upload_video": {
-            echo json_encode(array('response' => 'ok', $request));
+            echo json_encode($_POST,$_FILES);
         }
         break;
 
@@ -126,13 +126,22 @@ switch ($mode) {
 
             if (!$type)
                 e(lang("Invalid playlist type"));
-
+	
+			if(VERSION>2.6)
+					$rel = get_rel_list();
+					
+					
             if (error()) {
-                echo json_encode(array('err' => error(), 'rel' => get_rel_list()));
+				
+				$rel = array();
+				
+				
+				
+                echo json_encode(array('err' => error(), 'rel' => $rel));
             } else {
                 $playlist = $cbvid->action->get_playlist($pid);
 
-                echo json_encode(array('success' => 'yes', 'rel' => get_rel_list(),
+                echo json_encode(array('success' => 'yes', 'rel' => $rel,
                 'pid' => $pid, 'playlist' => $playlist,
                 'msg' => msg()));
             }
@@ -183,6 +192,31 @@ switch ($mode) {
                 echo json_encode(array('err'=>error()));
             else
                 echo json_encode(array('success'=>'ok'));
+        }
+        break;
+        
+        case "insert_video": {
+            $title = $request['title'];
+            $file_name = time().  RandomString(5);
+            
+            $file_directory = createDataFolders();
+            
+            $vidDetails = array
+                (
+                'title' => $title,
+                'description' => $title,
+                'tags' => genTags(str_replace(' ', ', ', $title)),
+                'category' => array($cbvid->get_default_cid()),
+                'file_name' => $file_name,
+                'file_directory' => $file_directory,
+                'userid' => userid(),
+            );
+
+            $vid = $Upload->submit_upload($vidDetails);
+
+            echo json_encode(array('success' => 'yes', 
+                'vid' => $vid,'file_directory'=>$file_directory,
+                'file_name'=>$file_name));
         }
         break;
 }

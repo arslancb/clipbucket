@@ -8,7 +8,9 @@ its spam count is > then the limit *}
 
 {$is_comment_spam=is_comment_spam($comment)}
 
+{$is_spammed='no'} 
 {if $is_comment_spam.user_spam || $is_comment_spam.global_spam}
+
     {$is_spammed='yes'}
 {/if}
 

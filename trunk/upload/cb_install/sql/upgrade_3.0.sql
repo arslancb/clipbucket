@@ -132,9 +132,9 @@ ALTER TABLE  `{tbl_prefix}conversion_queue` ADD  `file_directory` VARCHAR( 255 )
 -- 9-2-2012
 CREATE TABLE IF NOT EXISTS `cb_video_meta` (
   `meta_id` int(255) NOT NULL AUTO_INCREMENT,
-  `videoid`  int(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `value` text NOT NULL,
+  `meta_name` varchar(255) NOT NULL,
+  `videoid` int(255) NOT NULL,
+  `meta_value` text NOT NULL,
   `extras` text NOT NULL,
   PRIMARY KEY (`meta_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

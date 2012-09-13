@@ -119,11 +119,13 @@
                 
                     <ul class="dropdown-menu" id="#user-dropdown">
                         
-                        {assign var=user_menu_links value=get_user_menu_links()}
+                       {$user_menu=get_menu('user_head_menu')}
+                       
+                       {foreach $user_menu as $menu}
+                       <li><a href="{$menu.link}">{$menu.title}</a></li>
+                       {/foreach}
                         
-                        {foreach $user_menu_links as $menu}
-                            <li><a href="{$menu.link}">{$menu.name}</a></li>
-                        {/foreach}
+                        
                         <li class="divider"></li>
                         <li><a href="#"><i class="icon-off"></i> Logout</a></li>
                     </ul>
@@ -164,7 +166,7 @@
                             <div class="playlist-item {if $video.videoid==$item.videoid}item-active{/if}"
                                   onclick="window.location='{videoLink vdetails=$item}'">                              
                                 <img src="{getThumb vdetails=$item}" class="item-thumb" width="30" height="22"/>
-                                <span>{$item.title}</span>
+                                <span>{$item.title|truncate:40}</span>
                                 
                                 <span class="absolute right"><h6>
                                         {if $video.videoid==$item.videoid}
