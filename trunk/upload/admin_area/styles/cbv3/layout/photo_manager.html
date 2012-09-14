@@ -175,7 +175,7 @@
                     <td width="50"><input type="checkbox" class="check-item" name="check_photo[]" value="{$photo.photo_id}"></td>
                     <td width="70">{$photo.photo_id}</td>
                     {assign var=that_thumb value=$cbphoto->get_image_file($photo,'m')}
-                    <td>{get_photo details=$photo width=60 output='html' extra=" rel='popover' data-content='<center><img style=max-width:230px; src=$that_thumb /></center>' " title="Thumbnail" class="popover-class"}</td>
+                    <td>{get_photo details=$photo width=60 output='html'  title="Thumbnail"}</td>
                     <td>
                         <a href="edit_photo.php?photo={$photo.photo_id}">{$photo.photo_title}</a>
                         <div class="height5"></div>

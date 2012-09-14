@@ -153,6 +153,8 @@ if(isset($_POST['move_to_selected']))
 	//$eh->flush();
 }
 
+photo_manager_link_callbacks();
+
 if(isset($_GET['search']))
 {
 	$array = array(

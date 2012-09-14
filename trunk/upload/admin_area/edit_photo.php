@@ -11,7 +11,7 @@ require'../includes/admin_config.php';
 $userquery->admin_login_check();
 $userquery->login_check('video_moderation');
 $pages->page_redir();
-register_filter('photo_manager_links','cb_some_photo_plugin_links');
+//register_filter('photo_manager_links','cb_some_photo_plugin_links');
 $id = mysql_clean($_GET['photo']);
 
 
@@ -101,6 +101,15 @@ if ( isset($_GET['view']) ) {
     }
 }
 
+// Add photo actions links
+add_photo_manager_link(lang('Recreate Photo'), 'recreate_thumbs.php?mode=single&photo='.$p['photo_id'] );
+if ( $p['collection_id'] != 0 ) {
+    add_photo_manager_link( lang('Edit Collection ('. $p['collection_name'].')'), 'edit_collection.php?collection='.$p['collection_id'] );
+} else {
+    add_photo_manager_link(lang('Photo is orphan'),'javascript:void(0)');
+}
+
+photo_manager_link_callbacks();
 
 $p['user'] = $p['userid'];
 

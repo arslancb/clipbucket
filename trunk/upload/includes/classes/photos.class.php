@@ -2565,8 +2565,8 @@ class CBPhotos {
             else {
                 $filename = $this->get_image_file( $photo['photo_id'], 'o', FALSE, FALSE, FALSE );
                 $returnArray = array(
-                    "file_dir" => PHOTOS_DIR . "/" . $filename,
-                    "file_url" => PHOTOS_URL . "/" . $filename,
+                    "file_dir" => PHOTOS_DIR . "/". get_photo_date_folder( $photo ) ."/" . $filename,
+                    "file_url" => PHOTOS_URL . "/". get_photo_date_folder( $photo ) ."/" . $filename,
                     "filename" => $filename,
                     "details" => $photo
                 );

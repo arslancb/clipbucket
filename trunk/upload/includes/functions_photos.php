@@ -904,21 +904,33 @@ function view_photo_link( $photo, $type='view_item' ) {
  */
 function add_photo_manager_link( $title, $link, $callback = false, $args = false ) {
     global $cbphoto;
-    $random_id = RandomString(8);
-    
+        
     if ( !$title || !$link ) {
         return false;
     }
     
-    $links = array(
+    $random_id = RandomString(8);
+    $links = $cbphoto->manager_links;
+    
+    if ( $callback ) {
+        $callback_id = md5( ($callback ? $callback : $random_id ).$link.SEO(strtolower($title)) );
+    }
+    
+    $links[] = array(
         'title' => $title,
         'id' => $random_id.'-'.SEO(strtolower($title)),
         'link' => $link,
         'args' => $args,
-        'callback' => $callback
+        'callback' => $callback,
+        'callback_id' => $callback_id
     );
-         
-    return $links;
+    
+    // Add callback
+    if ( $callback ) {
+        $cbphoto->manager_link_callbacks[ $callback_id ] = $callback;
+    }
+    
+    return $cbphoto->manager_links = $links;
 }
 
 /**
@@ -931,19 +943,47 @@ function add_photo_manager_link( $title, $link, $callback = false, $args = false
 function display_manager_links( $photo ) {
     global $cbphoto;
     $links = $cbphoto->manager_links;
-    $cbphoto->photo = $photo;
     $links = apply_filters($links, 'photo_manager_links');
-  
+    
     if ( $links ) {
         foreach( $links as $link ) {
-            $output .= '<li><a id="'.$link['id'].'" href="'.$link['link'].'">'.$link['title'].'</a></li>';
-            $callback = $link['callback'];
-            if ( $callback && is_string( $callback ) ) {
-                $cbphoto->manager_link_callbacks[ $link['id'] ] = $callback;
+            // Creating link. Either function or string
+            if ( function_exists($link['link']) && is_string($link['link']) ) {
+                $url = $link['link'] ( $photo );
+            } else {
+                $url = $link['link'];
             }
+            
+            // Appeding callback_id if callback exists
+            if ( $link['callback'] ) {
+                if ( strpos( $url, '?' ) !== false ) {
+                    $url .= '&callback_id='.$link['callback_id'];
+                } else {
+                    $url .= '?callback_id='.$link['callback_id'];
+                }
+            }
+            
+            $output .= '<li><a id="'.$link['id'].'" href="'.$url.'">'.$link['title'].'</a></li>';
         }
        
         return $output;
+    }
+}
+
+function photo_manager_link_callbacks() {
+    global $cbphoto;
+    $callbacks = $cbphoto->manager_link_callbacks;
+    if ( $callbacks ) {
+        // Check if callback id is exists
+        if ( $_GET['callback_id'] ) {
+            $callback_id = mysql_clean( $_GET['callback_id'] );
+            // Get current function callback function
+            if ( !empty( $cbphoto->manager_link_callbacks[ $callback_id ] ) ) {
+                if ( function_exists( $cbphoto->manager_link_callbacks[ $callback_id ] ) ) {
+                    $cbphoto->manager_link_callbacks[$callback_id]();
+                }
+            }
+        }
     }
 }
 
