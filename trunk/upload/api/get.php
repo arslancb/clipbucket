@@ -185,6 +185,19 @@ switch($mode)
         
         echo json_encode($array);
     }
+    
+    break; 
+    
+    case "videoFlagOptions":
+    case "video_flag_options":
+    {
+        $type = $request['type'];
+        $type = $type ? $type : 'v';
+        
+        $flags = get_flag_options($type);
+        
+        echo json_encode($flags);
+    }
 }
 
 ?>

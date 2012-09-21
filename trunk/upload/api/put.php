@@ -219,5 +219,167 @@ switch ($mode) {
                 'file_name'=>$file_name));
         }
         break;
+    
+    case "update_video":{
+        
+            //Setting up the categories..
+            $request['category']        = explode(',',$request['category']);
+            $request['videoid']         = trim($request['videoid']);
+            
+            $_POST = $request;
+            
+            $Upload->validate_video_upload_form();
+            
+            if (empty($eh->error_list)) {
+                $cbvid->update_video();
+            }
+            
+            
+            
+            if (error())
+                echo json_encode(array('error' => error('single')));
+            else
+                echo json_encode(array('msg' => msg('single')));
+        
+    }
+    
+    
+    break;
+    case "rating":
+    {
+        
+        $type = mysql_clean($request['type']);
+        $id = mysql_clean($request['id']);
+        $rating = mysql_clean($request['rating']);
+        
+        switch($type){
+            case "video":
+            case "v":
+            {
+                $result = $cbvid->rate_video($id,$rating);
+                echo json_encode(array('success'=>'ok'));
+            }
+            break;
+
+            case "photo":
+            {
+                $rating = $_POST['rating']*2;
+                $id = $_POST['id'];
+                $result = $cbphoto->rate_photo($id,$rating);
+                $result['is_rating'] = true;
+                $cbvid->show_video_rating($result);
+
+                $funcs = cb_get_functions('rate_photo');	
+                if($funcs)
+                foreach($funcs as $func)
+                {
+                        $func['func']($id);
+                }
+            }
+            break;
+            case "collection":
+            {
+                $rating = $_POST['rating']*2;
+                $id = $_POST['id'];
+                $result = $cbcollection->rate_collection($id,$rating);
+                $result['is_rating'] = true;
+                $cbvid->show_video_rating($result);
+
+                $funcs = cb_get_functions('rate_collection');	
+                if($funcs)
+                foreach($funcs as $func)
+                {
+                        $func['func']($id);
+                }
+            }
+            break;
+
+            case "user":
+            {
+                $rating = $_POST['rating']*2;
+                $id = $_POST['id'];
+                $result = $userquery->rate_user($id,$rating);
+                $result['is_rating'] = true;
+                $cbvid->show_video_rating($result);
+
+                $funcs = cb_get_functions('rate_user');	
+                if($funcs)
+                foreach($funcs as $func)
+                {
+                        $func['func']($id);
+                }
+            }
+            break;
+        }
+    }
+    break;
+    
+    case 'flag_object':
+    {
+        $type = strtolower($request['type']);
+        $id = $request['id'];
+        switch($type)
+        {
+            case 'v':
+            case 'video':
+            default:
+            {
+                    
+                    $reported = $cbvideo->action->report_it($id);
+            }
+            break;
+
+            case 'g':
+            case 'group':
+            default:
+            {
+                   // $id = $_POST['id'];
+                    $cbgroup->action->report_it($id);
+            }
+            break;
+
+            case 'u':
+            case 'user':
+            default:
+            {
+                    //$id = $_POST['id'];
+                    $userquery->action->report_it($id);
+            }
+            break;
+
+            case 'p':
+            case 'photo':
+            {
+                    //$id = $_POST['id'];
+                    $cbphoto->action->report_it($id);
+            }
+            break;
+
+            case "cl":
+            case "collection":
+            {
+                    //$id = $_POST['id'];
+                    $cbcollection->action->report_it($id);
+            }
+            break;
+
+        }
+
+        if(msg())
+        {
+            $msg = msg_list();
+            echo json_encode(array('success'=>'yes','msg'=>$msg[0]));
+        }
+        if(error())
+        {
+            $msg = error_list();
+            echo json_encode(array('err'=>$msg[0]));
+        }
+
+    }
+    break;
+    
+    default:
+        exit(json_encode(array('err'=>array(lang('Invalid request')))));
 }
 ?>

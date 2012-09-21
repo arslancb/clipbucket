@@ -16,18 +16,41 @@ switch($mode)
 {
     case "login":
     {
+        $uDetails = array('username','userid','email','total_videos','total_photos','total_collections','total_groups');
+
+        $userDetails = array();
+        foreach($uDetails as $ud)
+        {
+                $userDetails[$ud] = $userquery->udetails[$ud];
+        }
+
+        $userDetails['sess_id'] = $_COOKIE['PHPSESSID'];
+                
+                
         $username = $request['username'];
         $password = $request['password'];
         
         if($userquery->userid)
         {
-            exit(json_encode(array('status'=>'ok','userid'=>$userquery->userid)));
+            exit(json_encode(array('status'=>'ok','userid'=>$userquery->userid,'details'=>$userDetails)));
         }
 
         function onLoginMobile()
         {
             global $userquery;
-            exit(json_encode(array('status'=>'ok','userid'=>$userquery->userid,'type'=>'custom')));
+            
+            $uDetails = array('username','userid','email','total_videos','total_photos','total_collections','total_groups');
+
+            $userDetails = array();
+            foreach($uDetails as $ud)
+            {
+                    $userDetails[$ud] = $userquery->udetails[$ud];
+            }
+            
+            $userDetails['sess_id'] = $_COOKIE['PHPSESSID'];
+            
+            
+            exit(json_encode(array('status'=>'ok','userid'=>$userquery->userid,'type'=>'custom','details'=>$userDetails)));
         }
 
         $onLogin = 'onLoginMobile';
@@ -42,7 +65,18 @@ switch($mode)
                 exit(json_encode(array('status'=>'failed','msg'=>error('single'))));
         }else
         {
-                exit(json_encode(array('status'=>'ok','userid'=>$userquery->userid,'sess_id'=> $_COOKIE['PHPSESSID'])));
+                $uDetails = array('username','userid','email','total_videos','total_photos','total_collections','total_groups');
+
+                $userDetails = array();
+                foreach($uDetails as $ud)
+                {
+                        $userDetails[$ud] = $userquery->udetails[$ud];
+                }
+
+                $userDetails['sess_id'] = $_COOKIE['PHPSESSID'];
+                
+                
+                exit(json_encode(array('status'=>'ok','userid'=>$userquery->userid,'sess_id'=> $_COOKIE['PHPSESSID'],'details'=>$userDetails)));
         }
     }
     break;

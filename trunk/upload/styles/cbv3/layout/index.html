@@ -1,5 +1,5 @@
-<div id="index-container" class="relative clearfix">
-    <div class="index-navigation-column pull-left">
+<div id="global-container" class="relative clearfix">
+    <div class="global-navigation-column pull-left">
         <div class="cb-widget clearfix">
             {if $userquery->login_check('',true)}
                 <div class="relative clearfix index-channel-block">
@@ -14,7 +14,7 @@
                     </ul>                  
                 </div>
             {else}
-                <div class="relative clearfix index-channel-block not-logged-in">
+                <div class="relative clearfix global-channel-block not-logged-in">
                     <h4 class="marginB10">{lang code='Login to upload videos and much more'}</h4>
                     <button class="btn btn-inverse btn-large text-center btn-block"  data-target="#login-modal" data-toggle="modal">Login</button>
                 </div>
@@ -29,7 +29,7 @@
                 {if $subscriptions}
                     <div class="cb-widget">
                         <h2 class="cb-widget-title">{lang code='Subscriptions'}</h2>
-                        <ul class="index-nav-list margin0 cbv3-scroller">
+                        <ul class="global-nav-list margin0 cbv3-scroller">
                             {foreach $subscriptions as $sub}
                                 {include_template_file file="blocks/user.html" user=$sub display_method='index_sidebar' subs='true'}
                             {/foreach}
@@ -42,7 +42,7 @@
                 {$categories=getCategoryList(['type'=>'video'])}
 
                 {if $categories}
-                <ul class="index-nav-list margin0 cbv3-scroller">
+                <ul class="global-nav-list margin0 cbv3-scroller">
                     {foreach $categories as $cat}
                         {if !$cat.parent_id}
                             <li><a href="{category_link($cat,'video')}">{$cat.category_name}</a></li>
@@ -55,7 +55,7 @@
             {if $featured_users}
             <div class="cb-widget">
                 <h2 class="cb-widget-title">{lang code='Featured Users'}</h2>
-                <ul class="index-nav-list margin0">
+                <ul class="global-nav-list margin0">
                     {foreach $featured_users as $feature_user}
                         {include_template_file file="blocks/user.html" user=$feature_user display_method='index_sidebar' subs='false'}
                     {/foreach}
@@ -64,7 +64,7 @@
             {/if}
         {/if}
     </div>
-    <div id="index-navgiation-full-height"></div>
+    <div id="global-navgiation-full-height"></div>
 
     <div class="pull-left">
     {if is_installed('editorspick')}
@@ -87,7 +87,7 @@
             {/if}
         </div>
     {/if}
-    <div class="index-sidebar-column pull-right">
+    <div class="global-sidebar-column pull-right">
         <div class="cb-widget">
             <img src="http://placehold.it/300x250" width="300" height="250" />
         </div>
@@ -106,7 +106,7 @@
         {/if}
     </div>
 
-    <div class="index-content-column pull-left">
+    <div class="global-content-column pull-left">
         {$videos=get_videos(['limit'=>16])}
         {if $videos}
             {$heading='Latest Videos'}
@@ -228,6 +228,6 @@
             </div>
         {/if}
     </div>
-    <div id="index-content-full-height"></div>
+    <div id="global-content-full-height"></div>
     </div>
 </div>

@@ -165,6 +165,25 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 }
 
 
+.black-gradient{
+color:#fff;
+text-shadow: 1px 1px 0px #000;
+font-size: 11px;
+font-weight: bold;
+width: 100%;
+min-height: 20px;
+box-sizing:padding-box;
+-moz-box-sizing:padding-box; /* Firefox */
+-webkit-box-sizing:padding-box; /* Safari */
+background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65)));
+background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 );
+padding-left:5px;
+}
 
 /* V3 Progress Bars */
 .progress-rating {
@@ -182,7 +201,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', end
 /* Comments */
 .comment{margin-top: 10px; margin-bottom: 10px}
 .comment .comment-text{margin-left: 10px}
-.comment-textarea{margin-left: 10px !important; width: 660px !important}
+.comment-textarea{margin-left: 10px !important; width: 642px !important}
 .comment-options{ top: -6px; right: 100px; display: none}
 .like-dislike{ top: 3px; right: 7px}
 .add-comment-uphoto{width: 62px; height: 62px}
@@ -510,24 +529,24 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
     height: auto;
 }
 
-.index-navigation-column {
+.global-navigation-column {
     width: 200px;
     background:#252525;
     z-index: 10;
     color:white;
 }
 
-.index-sidebar-column {
+.global-sidebar-column {
     width:300px;
     margin-left:10px;
 }
 
-.index-content-column {
+.global-content-column {
     width:570px;
     padding: 10px;
 }
 
-#index-navgiation-full-height, #index-content-full-height {
+#global-navgiation-full-height, #global-content-full-height {
     position: absolute;
     top: 0px;
     left:0px;
@@ -537,19 +556,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
     z-index: -1;
 }
 
-#index-content-full-height {
+#global-content-full-height {
     background : #eeeeee;
     width:590px; left:200px;
 }
 
-.index-navigation-column .cb-widget {
+.global-navigation-column .cb-widget {
     background: #111;
     border-bottom: 1px solid black;
     border-top: 1px solid #222222; 
     position: relative; margin-bottom: 0px;
 }
 
-.index-navigation-column .cb-widget-title {
+.global-navigation-column .cb-widget-title {
     color :#f0f0f0; font-size: 14px;
     box-shadow: none; font-weight: normal;
     border-bottom:0px none; text-shadow: 0px -1px black;
@@ -604,12 +623,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#121212', endColorstr='#0d0d0d',GradientType=0 );
 }
 
-ul.index-nav-list {
+ul.global-nav-list {
     list-style: none;
     border-top: 1px solid black;
 }
 
-ul.index-nav-list li {
+ul.global-nav-list li {
     display: block;
 }
 
@@ -626,7 +645,7 @@ ul.index-nav-list li {
     height: 10px;
 }
 
-ul.index-nav-list li a {
+ul.global-nav-list li a {
     background: #101010;
     background: -moz-linear-gradient(top,  #101010 0%, #0c0c0c 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#101010), color-stop(100%,#0c0c0c));
@@ -641,7 +660,7 @@ ul.index-nav-list li a {
     font-size: 11px; color:#999;
 }
 
-ul.index-nav-list li a:hover {
+ul.global-nav-list li a:hover {
     text-decoration: none;
     background: #0c0c0c;
     background: -moz-linear-gradient(top,  #0c0c0c 0%, #101010 100%);
@@ -654,7 +673,7 @@ ul.index-nav-list li a:hover {
 
 }
 
-ul.index-nav-list li:last-child a {
+ul.global-nav-list li:last-child a {
     border-bottom:0px none;
 }
 
@@ -1208,3 +1227,25 @@ background-color: #dddddd; }
 padding-bottom: 5px; margin-bottom: 5px ;font-weight: bold; font-size: 12px; position: relative; cursor: pointer}
 .playlist-list-container .playlist-item .item-thumb{margin-right: 5px; vertical-align: top;}
 .item-active{color:#06c} .item-active h6{font-size: 7px}
+
+
+/** Groups CSS **/
+.group-block{
+    width: 172px;
+    font-size:12px;
+    color: #7d7d7d;
+    margin-bottom: 20px; margin-left: 5px;
+    border:1px solid transparent;
+    padding: 5px; float: left; height: 190px
+}
+.group-block:hover{background-color: #fff; border : 1px solid #ddd; box-shadow: 0px 0px 3px rgba(0,0,0,0.25)}
+.group-left{width: 170px; margin-right: 10px; margin-bottom: 5px }
+.group-thumb{width: 170px; height: 106px; border: 1px solid #000; }
+.group-right{}
+.group-title{font-size: 17px; font-weight: bold; color: #000}
+.group-desc{font-size: 13px; margin: 5px 0px}
+.group-topics{font-size: 10px; font-weight: bold}
+.group-topics ul{ list-style: none;margin: 0px; padding: 0px; list-style:none}
+.group-topics ul li{list-style: none; list-style-type: none; line-height: 15px}
+.group-topics ul li a{color:#7d7d7d;  text-decoration: underline;}
+.group-left-stat{line-height: 15px; font-size: 10px; font-weight: bold}
