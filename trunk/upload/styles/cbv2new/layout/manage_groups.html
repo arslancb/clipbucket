@@ -117,7 +117,8 @@
  	<h2>{lang code='manage_grp_mems'} - {$group.group_name}</h2>
     
     <!-- Getting List of pending memebrs , if any -->
-    	{assign var=grp_pend_mems value=$cbgroup->get_members($group.group_id,"no")}
+    	{assign var=grp_pend_mems value=$cbgroup
+        ->get_members($group.group_id,"no")}
 
         {if $grp_pend_mems}
         <form name="pending_members" id="pending_members" action="" method="post">

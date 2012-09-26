@@ -8,6 +8,7 @@
 $array = array(
     'single_comment' => 'blocks/comment.html',
     'comments'       => 'blocks/comments.html',
+    'topic'          => 'blocks/groups/topic.html',
 );
 
 set_config('template_files',$array);

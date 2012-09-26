@@ -665,6 +665,13 @@ class CBGroups extends CBCategory
 		validate_cb_form($fields,$array);
 		
 		$user = userid();
+                
+                $gp_details = $this->get_group_details($array['group_id']);
+
+                                
+                //Checking for weather user is allowed to post topics or not
+		if(!$this->validate_posting_previlige($gp_details))
+                    return false;
 		
 		if(!error())
 		{
@@ -704,9 +711,7 @@ class CBGroups extends CBCategory
 			}
 		}
 		
-		$gp_details = $this->get_group_details($array['group_id']);
-		//Checking for weather user is allowed to post topics or not
-		$this->validate_posting_previlige($gp_details);
+		
 
 		if(!error())
 		{
@@ -838,8 +843,8 @@ class CBGroups extends CBCategory
 	 */
 	function validate_posting_previlige($gdetails)
 	{
-		if(is_numeric($getails))
-			$gdetails = $this->get_group_details($getails);
+		if(is_numeric($gdetails))
+			$gdetails = $this->get_group_details($gdetails);
 		
 		if(!$gdetails || empty($gdetails['group_id']))
 			e(lang("grp_exist_error"));
@@ -993,16 +998,36 @@ class CBGroups extends CBCategory
 	/**
 	 * Function used to get group members
 	 */
-	function get_members($gid,$approved=NULL,$limit=NULL)
+	function get_members($gid,$limit=NULL,$approved=NULL)
 	{
 		global $db;
 		
 		$app_query = "";
 		if($approved)
 			$app_query = " AND ".tbl($this->gp_mem_tbl).".active='$approved'"; 
-		$result = $db->select(tbl($this->gp_mem_tbl)." LEFT JOIN ".tbl('users')." ON ".tbl($this->gp_mem_tbl).".userid=".tbl('users').".userid","*"," group_id='$gid' $app_query",$limit);
-
-		if($db->num_rows>0)
+                
+                //List of fields we need from a user table
+                $user_fields = array(
+                    'email','username','status','ban_status'
+                );
+                
+                $user_fields = apply_filters($user_fields, 'get_group_members');
+                
+                $fields_query = '';
+                
+                foreach($user_fields as $field)
+                    $fields_query .= ','.tbl('users').'.'.$field;
+                
+		$result = $db->select(tbl($this->gp_mem_tbl)
+                ." LEFT JOIN ".tbl('users')
+                ." ON ".tbl($this->gp_mem_tbl)
+                .".userid=".tbl('users').".userid"
+                ,tbl($this->gp_mem_tbl).".*".$fields_query
+                ," group_id='$gid' $app_query",$limit);
+                
+                
+                
+                if($db->num_rows>0)
 			return $result;
 		else
 			return false;
@@ -1190,10 +1215,8 @@ class CBGroups extends CBCategory
 			case "activate":
 			case "active":
 			{
-				$db->update(tbl($this->gp_mem_tbl),array("active"),array("yes"),"userid='$memuid' AND group_id='$gid'");
-				$total_members = $this->total_members($group['group_id']);
-				$db->update(tbl($this->gp_tbl),array("total_members"),array($total_members)," group_id='".$gid."'");
-				e(lang("usr_ac_msg"),"m");
+                            $db->update(tbl($this->gp_mem_tbl),array("active"),array("yes"),"userid='$memuid' AND group_id='$gid'");
+                            e(lang("usr_ac_msg"),"m");
 			}
 			break;
 			
@@ -1202,37 +1225,63 @@ class CBGroups extends CBCategory
 			case "unactivate":
 			case "unactive":
 			{
-				$db->update(tbl($this->gp_mem_tbl),array("active"),array("no"),"userid='$memuid' AND group_id='$gid'");
-				$total_members = $this->total_members($group['group_id']);
-				$db->update(tbl($this->gp_tbl),array("total_members"),array($total_members)," group_id='".$gid."'");
-				e(lang("usr_dac_msg"),"m");
+                            $db->update(tbl($this->gp_mem_tbl),array("active"),array("no"),"userid='$memuid' AND group_id='$gid'");
+                            e(lang("usr_dac_msg"),"m");
 			}
 			break;
 			
 			case "delete":
 			{
 				
-				//Delete All Videos oF member
-				$db->delete(tbl($this->gp_vdo_tbl),array("userid","group_id"),array($memuid,gid));
-				//Deleting ALl Topics Of 
-				$this->delete_user_topics($memuid,$gid);
-				//Delete Member
-				$db->delete(tbl($this->gp_mem_tbl),array("userid","group_id"),array($memuid,$gid));
-				
-				$total_members = $this->total_members($gid);
-				$total_videos = $this->total_videos($gid);
-				$count_topics = $this->count_group_topics($gid);
-				
-				//Update Stat
-				$db->update(tbl($this->gp_tbl),array("total_topics","total_members","total_videos"),
-												array($count_topics,$total_members,$total_videos)," group_id='".$gid."'");
+                            //Delete All Videos oF member
+                            $db->delete(tbl($this->gp_vdo_tbl),array("userid","group_id"),array($memuid,gid));
+                            //Deleting ALl Topics Of 
+                            $this->delete_user_topics($memuid,$gid);
+                            //Delete Member
+                            $db->delete(tbl($this->gp_mem_tbl),array("userid","group_id"),array($memuid,$gid));
 
-				e(lang("usr_del_msg"),"m");
+                            $total_members = $this->total_members($gid);
+                            $total_videos = $this->total_videos($gid);
+                            $count_topics = $this->count_group_topics($gid);
+
+                            //Update Stat
+                            $db->update(tbl($this->gp_tbl),array("total_topics","total_members","total_videos"),
+                            array($count_topics,$total_members,$total_videos)," group_id='".$gid."'");
+
+                            e(lang("usr_del_msg"),"m");
 			}
 			break;
+                        case "ban":
+                        {
+                            $db->update(tbl($this->gp_mem_tbl),array("ban"),array("yes"),"userid='$memuid' AND group_id='$gid'");
+                            e(lang("User has been banned from this group"),"m");
+                        }
+                        break;
+                        case "unban":
+                        {
+                            $db->update(tbl($this->gp_mem_tbl),array("ban"),array("no"),"userid='$memuid' AND group_id='$gid'");
+                            e(lang("User ban has been removed"),"m");
+                        }
+                        break;
+                    
 		}
 			
 	}
+        
+        /**
+         * Function will update number of members in the group in groups table
+         * 
+         * @Author Arslan
+         * @param GID
+         * @return BOOLEAN
+         */
+        function update_group_members($gid)
+        {
+            global $db;
+            $total_members = $this->total_members($gid);
+            $db->update(tbl($this->gp_tbl),array("total_members"),array($total_members)," group_id='".$gid."'");
+            return true;
+        }
 	
 	
 	
@@ -1515,6 +1564,7 @@ class CBGroups extends CBCategory
 	function get_topic_icons()
 	{
 		$dir = TOPIC_ICON_DIR;
+                
 		$icons = glob($dir.'/*.png');
 		$new_icons = '';
 		foreach($icons as $icon)
@@ -2261,16 +2311,20 @@ class CBGroups extends CBCategory
 							'checkowner'=>true));
 		
 		if(!error())
-		{
-			$groupAdmins = $group['group_admins'];
-			$groupAdmins = json_decode($groupAdmins,true);
-			$groupAdmins[] = $uid;
-			$groupAdmins = json_encode($groupAdmins);
-			
-			$db->update(tbl("groups"),array("group_admins"),
-			array('|no_mc|'.$groupAdmins)," group_id='".$groupid."'");
-			e(sprintf(lang("%s has been made adminstrator of %s"),$user['username'],$group['group_name']),"m");
-			return true;
+		{                                       
+                    $groupAdmins = $group['group_admins'];
+                    $groupAdmins = json_decode($groupAdmins,true);
+                    $groupAdmins[] = $uid;
+                    $groupAdmins = json_encode($groupAdmins);
+
+                    $db->update(tbl("groups"),array("group_admins"),
+                    array('|no_mc|'.$groupAdmins)," group_id='".$groupid."'");
+                    e(sprintf(lang("%s has been made adminstrator of %s"),$user['username'],$group['group_name']),"m");
+                    
+                    $db->update(tbl($this->gp_mem_tbl),
+                    array("is_admin"),array("yes"),"userid='".$user['userid']."' AND group_id='$groupid'");
+                     
+                    return true;
 		}
 		
 		return false;
@@ -2326,6 +2380,24 @@ class CBGroups extends CBCategory
 		
 		return false;		
 	}
+        
+        function is_group_admin($uid,$group)
+        {
+            global $db;
+            if(is_numeric($group))
+                $group = $this->get_group ($group);
+            
+            $groupAdmins = $group['group_admins'];
+            $groupAdmins = json_decode($groupAdmins,true);
+            
+            if($group['userid']== $uid || in_array($uid,$groupAdmins))
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+        }
 	
 	
 	/**
@@ -2378,7 +2450,10 @@ class CBGroups extends CBCategory
 			$db->update(tbl("groups"),array("group_admins"),
 			array('|no_mc|'.$groupAdmins)," group_id='".$groupid."'");
 			e(sprintf(lang("%s has been removed from adminstrators of %s"),$user['username'],$group['group_name']),"m");
-			return true;
+			 $db->update(tbl($this->gp_mem_tbl),
+                        array("is_admin"),array("no"),"userid='".$user['userid']."' AND group_id='$groupid'");
+                        
+                        return true;
 			
 		}			
 			

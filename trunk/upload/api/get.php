@@ -127,6 +127,7 @@ switch($mode)
             foreach($group['fields'] as $field)
             {
                // foreach($fields as $field)
+                if($field)
                 $new_fields[] = $field;
             }
             

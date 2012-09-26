@@ -1,0 +1,80 @@
+<div id="index-container" class="relative clearfix">
+    <div class="index-navigation-column pull-left">
+        <div class="cb-widget clearfix">
+
+            <div class="relative clearfix index-channel-block not-logged-in">
+                <button class="btn btn-inverse btn-large text-center btn-block"  data-target="#login-modal" data-toggle="modal">Login</button>
+            </div>
+
+        </div>
+
+
+
+        <div class="cb-widget">
+            <h2 class="cb-widget-title">{lang code='Browse'}</h2>
+            {$categories=getCategoryList(['type'=>'group'])}
+
+            {if $categories}
+            <ul class="index-nav-list margin0 cbv3-scroller">
+                {foreach $categories as $cat}
+                {if !$cat.parent_id}
+                <li><a href="{category_link($cat,'video')}">{$cat.category_name}</a></li>
+                {/if}
+                {/foreach}
+            </ul>
+            {/if}
+        </div>
+
+
+    </div>
+    <div id="index-navgiation-full-height"></div>
+
+    <div class="pull-left">
+
+
+        <div class="index-sidebar-column pull-right">
+            s
+        </div>
+
+        <div class="index-content-column pull-left">
+            <div class="listing-controller">
+                <div  class="sorting">
+                    Sort By
+                    <ul>
+
+                        {$sorting_links = sorting_links()}
+                        {foreach $sorting_links as $sort => $name}
+                        <li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=groups}" >{$name}</a></li>
+                        {/foreach}
+                    </ul>
+
+                </div>
+
+                <div  class="sorting">
+                    <div class="time_cont">
+                        {$time_links=time_links()}
+                        {foreach $time_links as $sort => $name}
+                        <a href="{link name=time sort=$sort type=groups}" {if $smarty.get.time==$sort } class="selected"{/if}>{$name}</a> {if !$name@last}|{/if}
+                        {/foreach}
+                    </div>
+                </div>
+
+
+            </div>
+            
+              {if $groups}
+        
+        {foreach $groups as $group}
+            {include_template_file file='blocks/groups/group.html' group=$group}
+        {/foreach}
+        
+        {/if}
+        
+        
+        
+        </div>
+        
+      
+        <div id="index-content-full-height"></div>
+    </div>
+</div>

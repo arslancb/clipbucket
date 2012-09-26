@@ -1,0 +1,24 @@
+<div class="group-block">
+    <div class="group-left relative">
+        <a href="{group_link details=$group}">
+            <img src="{$cbgroup->get_group_thumb($group)}" class="group-thumb"/>
+        </a>
+        <div class="black-gradient absolute bottom">3342 members</div>
+    </div>
+    <div class="group-right">
+        <div class="group-title">
+            <a href="{group_link details=$group}">{$group.group_name}</a>
+        </div>
+        <div class="group-left-stat"></div>
+
+        <div class="group-desc">{$group.group_description}</div>
+        <div class="group-topics">
+            <ul>
+                <li>* <a href="#">Group topic # 1</a></li>
+                <li>* <a href="#">Group topic # 2</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+</div>

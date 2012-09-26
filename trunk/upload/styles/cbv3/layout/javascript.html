@@ -15,6 +15,20 @@
             }
         }
     });
+    
+     //Groups
+    amplify.request.define( "groups", "ajax", {
+        url: ajaxURL+"/groups.php",
+        type: "POST",
+        dataType: "json",
+        decoder: function( data, status, xhr, success, error ) {
+            if ( status === "success" ) {
+                success( data );
+            } else {
+                error( data );
+            }
+        }
+    });
 
    
     //defining up clipbucjet ajax request
@@ -236,7 +250,11 @@
         
         $('.playlist-dropdown.open .dropdown-toggle').dropdown('toggle');
 
-
+        
+        $('.selectable-radio').on('click','input[type=radio]',function(){
+            $('.selectable-radio.active').removeClass('active');
+            $(this).parent('.selectable-radio').addClass('active');
+        })
     });
 
 </script>

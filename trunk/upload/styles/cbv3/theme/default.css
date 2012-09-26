@@ -6,6 +6,12 @@
  * @Rev : $REV$
  */
  
+ @import url("group.css");
+ 
+ 
+ /**bootstrap icon fix**/
+ [class^="icon-"], [class*=" icon-"]{margin-top: -1px}
+ 
  header{
      padding-top: 10px;
  }
@@ -198,6 +204,33 @@ background: linear-gradient(top,  #ff3019 0%,#cf0404 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', endColorstr='#cf0404',GradientType=0 );
 }
 
+
+
+
+
+.white-grad{background: rgb(255,255,255);
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSI0NiUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZWRlZGVkIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
+background: -moz-linear-gradient(top,  rgba(255,255,255,1) 46%, rgba(237,237,237,1) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(46%,rgba(255,255,255,1)), color-stop(100%,rgba(237,237,237,1)));
+background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 46%,rgba(237,237,237,1) 100%);
+background: -o-linear-gradient(top,  rgba(255,255,255,1) 46%,rgba(237,237,237,1) 100%);
+background: -ms-linear-gradient(top,  rgba(255,255,255,1) 46%,rgba(237,237,237,1) 100%);
+background: linear-gradient(to bottom,  rgba(255,255,255,1) 46%,rgba(237,237,237,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+}
+
+.controller{border: 1px solid #ccc;padding: 5px 8px; 
+border-width: 1px 0px; margin-bottom: 10px; }
+.controller .buttons{position: relative; top:1px;}
+.controller-fixed{border-top: none; box-shadow: 0px 1px 1px #CCC}
+.controller-fixed-bottom{border-bottom: none;  box-shadow: 0px -1px 1px #CCC; margin-bottom: 0px}
+
+.buttons .right-button{ position: absolute; right: 0px; top: 0px}
+.buttons .btn-toolbar{margin: 0px}
+
+.input-order{width: 30px}
+.list-block tbody input[type=checkbox]{margin: 0px 10px}
+
 /* Comments */
 .comment{margin-top: 10px; margin-bottom: 10px}
 .comment .comment-text{margin-left: 10px}
@@ -297,12 +330,24 @@ float: left;width: 100px; list-style: none}
 .account-left{width: 220px; margin-right: 30px; float: left}
 .account-left .well{padding: 10px 0px}
 
-.account-right{width: 850px; float: left}
+
 .account-right h2 .label{vertical-align: middle}
 
 .account-heading{position: relative}
 .account-controls-left{width: 45%; float:left}
 .account-controls-right{width: 45%; float:right}
+
+
+.account-inner-nav{
+    float: right; width: 200px; 
+    border-left: 1px solid #ddd; padding-left: 10px
+}
+
+
+.account-right{float: right; width: 850px}
+
+.account-inner-left{width: 625px; float: left; border-right:   1px solid #ddd; padding-right:14px; margin-right: -1px}
+
 
 .playlist-list{margin: 0px; padding: 0px;}
 .playlist-list > li{margin: 0px; list-style: none; float: left; margin-right: 10px;
@@ -1239,13 +1284,34 @@ padding-bottom: 5px; margin-bottom: 5px ;font-weight: bold; font-size: 12px; pos
     padding: 5px; float: left; height: 190px
 }
 .group-block:hover{background-color: #fff; border : 1px solid #ddd; box-shadow: 0px 0px 3px rgba(0,0,0,0.25)}
-.group-left{width: 170px; margin-right: 10px; margin-bottom: 5px }
-.group-thumb{width: 170px; height: 106px; border: 1px solid #000; }
+.group-block .group-left{width: 170px; margin-right: 10px; margin-bottom: 5px }
+.group-block .group-thumb{width: 170px; height: 106px; border: 1px solid #000; }
 .group-right{}
-.group-title{font-size: 17px; font-weight: bold; color: #000}
-.group-desc{font-size: 13px; margin: 5px 0px}
-.group-topics{font-size: 10px; font-weight: bold}
-.group-topics ul{ list-style: none;margin: 0px; padding: 0px; list-style:none}
-.group-topics ul li{list-style: none; list-style-type: none; line-height: 15px}
-.group-topics ul li a{color:#7d7d7d;  text-decoration: underline;}
+.group-block .group-title{font-size: 17px; font-weight: bold; color: #000}
+.group-block .group-desc{font-size: 13px; margin: 5px 0px}
+.group-block .group-topics{font-size: 10px; font-weight: bold}
+.group-block .group-topics ul{ list-style: none;margin: 0px; padding: 0px; list-style:none}
+.group-block .group-topics ul li{list-style: none; list-style-type: none; line-height: 15px}
+.group-block .group-topics ul li a{color:#7d7d7d;  text-decoration: underline;}
 .group-left-stat{line-height: 15px; font-size: 10px; font-weight: bold}
+
+.view-group .group-title{font-size: 16px; text-shadow: 0px 1px 0px #fff; color: #222; font-weight: bold}
+.view-group .nav{
+    margin-top: 10px;
+}
+.view-group .nav-tabs > .active > a, .nav-tabs > .active > a:hover{
+    box-shadow: 0px -2px 2px rgba(0,0,0,0.10);
+    outline: none
+}
+
+.view-group .nav-tabs{
+    color:#000;
+}
+.view-group .nav-tabs > li > a{padding-top:3px; line-height: 15px; padding-bottom: 3px; border-radius: 0px; font-size: 11px}
+
+.selectable-radio{
+    cursor: pointer;
+    border-radius: 3px; -moz-border-radius: 2px; -webkit-border-radius: 3px;
+    display: inline-block; padding: 2px; margin: 3px; border: 2px solid transparent}
+.selectable-radio.active, .selectable-radio:hover{border:2px solid #006699}
+

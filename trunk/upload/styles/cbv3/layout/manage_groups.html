@@ -1,0 +1,109 @@
+{include_template_file file="blocks/account_left.html"}
+
+{if $mode=='manage'}
+<div class="acount-right">
+
+    <div class="account-heading">
+        <h2 >{lang code="Groups"} (<span id="playlists_count">{$total_groups}</span>)</h2>
+    </div>
+
+    <div class="manager-list">
+        <div class="controller scrolltoFixed white-grad">
+            <div class="buttons">
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        <label class="btn check-all"><input type="checkbox"></label>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn" onclick="return false;">First Button</a>
+                        <a class="btn" onclick="return false;">Second Button</a>
+                    </div>
+                </div>
+
+                <div class="right-button">
+                    <a class="btn btn-primary" data-toggle="modal" data-target="#profile-form">
+                        <i class="icon-plus icon-white"></i>
+                        Another Button
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <form name="my-form-name" method="post" id="my-form-id">
+
+            <table id="my-item-list-good-id" class="table table-striped list-block {if !$groups}display-none{/if}">
+                <thead>
+                    <tr>
+                        <th width="50"></th>
+                        <th width="70">#</th>
+                        <th>Name</th>
+                        <th width="70">Members</th>
+
+                        <th width="70">Topics</th>
+                        <th width="70">Active</th>
+                        <th width="200">Date</th>
+                        <th width="120"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    {foreach $groups as $group}
+                    <tr>
+                        <td><input type="checkbox" class="check-item" name="my-items-list[]" value="value"></td>
+                        <td>{$group.group_id}</td>
+                        <td><a href="{$baseurl}/edit_group.php?gid={$group.group_id}">{$group.group_name}</a></td>
+                        <td>{$group.total_members}</td>
+                        <td>{$group.total_topics}</td>
+                        <td>{$group.active}</td>
+                        <td>{$group.date_added|nicetime}</td>
+
+                        <td><a class="btn">hello</a></td>
+                    </tr>
+                    {/foreach}
+                </tbody>
+            </table>
+        </form>  
+
+    </div>
+
+</div>
+
+{/if}
+
+{if ($mode=='manage_members' || $mode=='manage_videos' ) && $group}
+<div class="account-right">
+
+    {* bread_crumb parent=my_account child=edit_group *}
+
+
+    <ul class="breadcrumb">
+        <li><a href="#">My account</a> <span class="divider">/</span></li>
+        <li><a href="#">Library</a> <span class="divider">/</span></li>
+        <li class="active">Data</li>
+    </ul>
+
+    <div class="account-heading">
+        {if $mode=='manage_members'}
+        <h4>Manage "{$group.group_name}" members</h4>
+        {/if}
+    </div>
+
+    <div class="account-inner-left">
+        {if $mode=='manage_members'}
+            {include_template_file file='/blocks/groups/manage_members.html' group=$group}
+        {/if}
+
+
+        {if $mode='manage_videos'}
+            {include_template_file file='/blocks/groups/manage_videos.html' group=$group}
+        {/if}
+    </div>
+    
+    
+    {include_template_file file='blocks/groups/inner_menu.html' group=$group}
+    
+    <div class="clearfix"></div>
+</div>
+
+{/if}

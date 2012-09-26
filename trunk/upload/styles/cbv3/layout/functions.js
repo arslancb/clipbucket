@@ -633,6 +633,7 @@ function cb_confirm(title,text,callback)
     $('#confirm').modal('show');
 }
     
+    
 /**
      * Clears confirm form events and text
      */
@@ -640,6 +641,12 @@ function clear_confirm(){
     $('#confirm .modal-header h3').text('');
     $('#confirm .modal-body').html('');
     $('#confirm-yes').unbind('click');    
+}
+
+function close_confirm(){
+    
+    clear_confirm();
+    $('#confirm').modal('hide');
 }
     
     

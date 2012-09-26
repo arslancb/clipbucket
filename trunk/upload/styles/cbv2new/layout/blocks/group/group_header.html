@@ -8,7 +8,7 @@
         <div class="group_option_container">
         <span class="grp_opt_title">{lang code='group_options'}</span>
           <ul>
-          	{assign var=join_link value=$cbgroup->group_opt_link($group,'join')}
+            {assign var=join_link value=$cbgroup->group_opt_link($group,'join')}
             {if $join_link}<li>{$join_link}</li>{/if}
             
             {assign var=invite_link value=$cbgroup->group_opt_link($group,'invite')}

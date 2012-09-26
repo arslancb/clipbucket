@@ -1,0 +1,69 @@
+<div class="modal hide fade" id="add-topic-modal">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Add group topic {loading_pointer id='add-group-topic'}</h3>
+    </div>
+    <div class="modal-body">
+        
+        <div class="alert display-none"></div>
+        <form name="add-topic-form" id="add-topic-form" method="post" action="{group_link details=$group type=view_topics}" class="form-vertical">
+            <input type="hidden" name="group_id" value="{$group.group_id}" />
+            
+            {assign var='form_fields' value=$cbgroup->load_add_topic_form_fields()}
+
+            {foreach from=$form_fields item=field}
+            <div class="control-group">
+                <label class="control-label" for="{$field.id}">{$field.title}</label>
+                <div class="controls">
+                    {$field.class='span5'}
+
+                    {if $field.type=='checkbox' || $field.type=='radiobutton'}
+                    {$field.sep=' '}
+
+                    {if $field.type=='checkbox'}
+                    {$field.class='checkbox'}
+                    {else}
+                    {$field.class='radio'}
+                    {/if}
+                    {/if}
+
+                    {$formObj->createField($field)}
+
+                    {if $field.hint_2}<p class="help-block">{$field.hint_2}</p>{/if}
+                </div>
+            </div>
+            {/foreach}
+
+            {$topic_icons=$cbgroup->get_topic_icons()}
+            {if $topic_icons}
+
+
+            <div class="control-group">
+                <label class="control-label" for="{$field.id}">{$field.title}</label>
+                <div class="controls">
+                    {foreach from=$topic_icons item=icon}
+
+                    <label class="radio selectable-radio">
+                        <img src="{$icon.url}">
+                        <input type="radio" name="topic_icon" value="{$icon.file}" 
+                               {if $smarty.post.topic_icon ==$icon.file} checked{/if} 
+                               style="display: none" >
+                    </label>
+
+                    {/foreach}
+
+                </div>
+            </div>
+            {/if}
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:void(0)" data-dismiss="modal" class="btn">Close</a>
+        
+        
+        <a href="javascript:void(0)" id="add-topic-bttn" 
+           onclick="add_topic();"
+           data-loading-text="Adding topic..." class="btn btn-primary">Add topic</a>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+/* 
+    Document   : group
+    Created on : Sep 23, 2012, 3:57:42 AM
+    Author     : Arslan
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.group-topic-block{
+    padding-top:10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #fff
+}
+
+.group-topic-block:first{border-top: none}
+.group-topic-block:last{border-bottom: none}
+
+.group-topic-block .group-topic-icon img{
+    border:1px solid #000;
+}
+
+.group-topic-block .group-topic-icon{
+    float: left;
+    margin-right: 10px;
+}
+
+.group-topic-block .group-topic-title{
+    font-weight: bold; font-size: 14px; color: #06c;
+    line-height: 15px;
+}
+
+.group-topic-block .group-topic-desc{
+    font-size: 12px;
+}
+
+.group-topic-block .group-topic-replies{
+    padding: 3px 8px;
+    text-align: center;
+    background-color: #333;
+    top: 10px;
+    color: #fff;
+    text-shadow: 0px 1px 0px #000;
+    border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;
+}
+
+.group-topic-block .group-topic-replies ._replies{font-size: 10px; text-transform: uppercase}
+.group-topic-block .group-topic-replies ._numeric{font-size: 16px; font-weight: bold}
+
+.group-topic-block .group-topic{float: left; width: 435px}
+
+.group-topic-block .group-topic-opts{
+    color:#06c; font-size: 10px;
+}
+
+
+.global-navigation-column .group-thumb
+{
+    border:1px solid #000;
+    margin: 14px;
+    width: 170px
+}
+
+.group-left-buttons{margin-bottom: 10px}
+.group-left-buttons button{
+    width: 170px;
+}

@@ -1,0 +1,142 @@
+{include_template_file file="blocks/account_left.html"}
+
+
+<div class="account-right">
+
+    {* bread_crumb parent=my_account child=edit_group *}
+
+
+    <ul class="breadcrumb">
+        <li><a href="#">My account</a> <span class="divider">/</span></li>
+        <li><a href="#">Library</a> <span class="divider">/</span></li>
+        <li class="active">Data</li>
+    </ul>
+
+    <div class="account-heading">
+        <h4>Editing "{$group.group_name}"</h4>
+    </div>
+
+    <div class="account-inner-left">
+        <form class="form-vertical" method="post" enctype="multipart/form-data" name="edit_video">
+            {* Loading Form Fields *}
+            {assign var='requiredFields' value=$cbgroup->load_required_fields($group,true)}
+            {assign var='optionFields' value=$cbgroup->load_other_fields($group)}
+
+            <fieldset><legend>Group thumbnail</legend></fieldset>
+
+            <div align="center" class="inlineBlock pull-left marginR10 ">
+                <img src="{$cbgroup->get_group_thumb($group)}" />
+            </div>
+
+            <div class="span4">
+                <ul>
+                    <li>{lang code='grp_must_be'} JPG | GIF | PNG</li>
+                    <li>{lang code='grp_90x90'}</li>
+                    <li>{lang code='grp_thumb_warn'}</li>
+                </ul>
+                <input type="file" name="thumb_file" id="thumb_file" />
+            </div>
+
+
+            <div class="clearfix"></div>
+            <div class="height10"></div>
+
+            <fieldset>
+                <legend>Required fields</legend>
+            </fieldset>
+
+            {foreach from=$requiredFields item=field}
+
+            {$field.class='input-xxlarge'}
+
+            {if $field.type=='checkbox' || $field.type=='radiobutton'}
+            {$field.sep=' '}
+
+            {if $field.type=='checkbox'}
+            {$field.class='checkbox'}
+            {else}
+            {$field.class='radio'}
+            {/if}
+            {/if}
+
+
+
+
+            <div class="control-group">
+                <label class="control-label" for="{$field.id}">{$field.title}</label>
+                <div class="controls">
+
+                    {if $field.hint_1}
+                    <span class="help-block">{$field.hint_1}</span>
+                    {/if}
+
+
+
+                    {ANCHOR place=$field.anchor_before}
+                    {$formObj->createField($field)}
+                    {ANCHOR place=$field.anchor_after}
+
+                    {if $field.hint_2}
+                    <span class="help-block">{$field.hint_2}</span>
+                    {/if}
+                </div>
+            </div>
+            {/foreach}
+
+
+            <fieldset><legend>{lang code='Optional fields'}</legend></fieldset>
+
+
+            {foreach from=$optionFields item=field}
+
+            {$field.class='input-xxlarge'}
+
+            {if $field.type=='checkbox' || $field.type=='radiobutton'}
+            {$field.sep=' '}
+
+            {if $field.type=='checkbox'}
+            {$field.class='checkbox'}
+            {else}
+            {$field.class='radio'}
+            {/if}
+            {/if}
+
+
+
+
+            <div class="control-group">
+                <label class="control-label" for="{$field.id}">{$field.title}</label>
+                <div class="controls">
+
+                    {if $field.hint_1}
+                    <span class="help-block">{$field.hint_1}</span>
+                    {/if}
+
+
+
+                    {ANCHOR place=$field.anchor_before}
+                    {$formObj->createField($field)}
+                    {ANCHOR place=$field.anchor_after}
+
+                    {if $field.hint_2}
+                    <span class="help-block">{$field.hint_2}</span>
+                    {/if}
+                </div>
+            </div>
+            {/foreach}
+
+            <input type="hidden" name="group_id" value="{$group.group_id}" />
+            <input type="hidden" name="update_group" value="yes" />
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+
+        </form>
+    </div>
+
+    {include_template_file file='blocks/groups/inner_menu.html'}
+
+
+    <div class="clearfix"></div>
+</div>
