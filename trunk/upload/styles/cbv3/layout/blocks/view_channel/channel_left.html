@@ -1,0 +1,64 @@
+<div class="global-navigation-column pull-left">
+    {if $p.profile_desc}
+    <div class="cb-widget">
+        <h2 class="cb-widget-title">{if $p.profile_title}{$p.profile_title}{else}{lang code='About Me'}{/if}</h2>
+        {$p.profile_desc}
+    </div>
+    {/if}
+    <div class="cb-widget">
+        <h2 class="cb-widget-title">{$u.username}</h2>
+        <dl class="dl-horizontal">
+            <dt>{lang code='Member Since'}</dt>
+            <dd>{$u.doj|niceTime}</dd>
+
+            <dt>{lang code='Last Login'}</dt>
+            <dd>{$u.last_logged|niceTime}</dd>
+
+            <dt>{lang code='Country'}</dt>
+            <dd>{$u.country|country}</dd>
+        </dl>
+    </div>
+    {$user_friends=$userquery->get_contacts($u.userid,'0','yes')}
+     {if $user_friends}
+    <div class="cb-widget">
+        <h2 class="cb-widget-title">{lang code='Friends'}</h2>
+        <ul>
+            {foreach $user_friends as $friend}
+            <li><a href="{$userquery->profile_link( $friend )}" class="clearfix"><img src="{avatar details=$friend size='small'}"  class="pull-left marginR5" /> <div>{$friend.username}</div> <span class="muted">15 videos</span></a></li>
+            {/foreach}
+        </ul>
+    </div>
+     {/if}
+
+    {$avatar_collection=cb_user_avatar_collection($u)}
+    {$collection_limit=config(collection_channel_page)}
+    {$user_collections=get_collections(['user'=>$u.userid,'limit'=>$collection_limit,'date_added DESC'])}
+    {if $user_collections}
+        {$total=array_unshift( $user_collections, $avatar_collection)}
+    {else}
+        {if $avatar_collection}
+            {$user_collections.0=$avatar_collection}
+        {/if}
+    {/if}
+    {if $user_collections}
+
+    <div class="cb-widget">
+        <h2 class="cb-widget-title">{lang code='Collections'}</h2>
+        {foreach from=$user_collections item=u_collection}
+        <a href="{$cbcollection->collection_links( $u_collection, 'vc' )}" class="user-thumb-container user-collections">
+            <div class="user-collection-thumb">
+                <img src="{$cbcollection->get_thumb($u_collection,'small')}" />
+            </div>
+            <div class="user-collection-details">
+                <span class="user-collection-title">{$u_collection.collection_name}</span>
+                {$u_collection.total_objects|number_format} {lang code='photos'}
+            </div>
+            <div class="user-collection-views">
+                {$u_collection.views|number_format} {lang code='views'}
+            </div>
+        </a>
+        {/foreach}
+    </div>
+    {/if}
+</div>
+<div id="global-navgiation-full-height"></div>

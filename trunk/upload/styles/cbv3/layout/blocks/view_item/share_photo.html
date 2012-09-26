@@ -1,0 +1,69 @@
+<div id="share-photo-block" class="well share-photo-block display-none">
+    <div class="video-link">
+        <label><h5 class="marginT5" for="photo_link">{lang code='Photo Link'}</h5></label>
+        <input type="text" class="span5 resize-verticle" value="{view_photo_link($photo)}" name="photo_link" id="photo_link" />
+    </div>
+    <hr>
+    <ul class="nav nav-tabs" style="font-size: 14px;">
+        <li class="active"><a href="#share-with-embeds" data-toggle="tab">{lang code='Embed Codes'}</a></li>
+        <li><a href="#share-with-email" data-toggle="tab">{lang code='Email'}</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="share-with-embeds">
+            {$photo_embeds=photo_embed_codes(['details'=>$photo])}
+            {if $photo_embeds}
+                <h3 class="pull-left">{lang code='Embed Codes'}</h3>
+                <div class="btn-group pull-right">
+                    <button class="btn">{lang code='Photo Sizes'}</button>
+                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu pull-left">
+                       {display_photo_embed_sizes($photo)} 
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+                <div class="height20"></div>
+                <div id="photo-embed-code-blocks" class="photo-embed-code-blocks">
+                    <div class="form-vertical inlineblock-fix">
+                    {foreach $photo_embeds as $embed}
+                        <div class="control-group">
+                            <label for="{$embed.id}" class="control-label photo-embed-name">{$embed.name}</label>
+                            <div class="controls">
+                                <input type="text" id="{$embed.id}" value="{$embed.code}" data-embed-format="{$embed.code}" class="photo-embed-code" />
+                                {if $embed.description}
+                                <p class="help-block photo-embed-description">{$embed.description}</p>
+                                {/if}
+                            </div>
+                        </div>
+                        {if $embed@iteration % 2 == 0 || $embed@last }
+                        <hr>
+                        {/if}
+                    {/foreach}
+                    </div>
+                </div>
+            {/if}
+        </div>
+        
+        <div class="tab-pane" id="share-with-email">
+            <h3>{lang code='Email'}</h3>
+            <div class="height20"></div>
+            <div class="email-photo inlineblock" id="share_email">
+                <h6>To (email addresses or usernames)</h6>
+                <textarea class="span5 resize-verticle" rows="1" id="share_users"></textarea>
+                <h6>Additional Note (optional)</h6>
+                <textarea class="span5 resize-verticle" rows="2" id="message"></textarea>
+                <div></div>
+                <input type="hidden" id="objectid" value="{$photo.photo_id}" />
+                <button class="btn btn-primary" onclick="share_object('share_email','p',this)"
+                        data-loading-text="Sending email...">Send Email</button>        
+            </div>
+
+            <div class="btn-group display-none" id="share_email_success" >
+                <button class="btn btn-success"><i class="icon-check icon-white"></i> Your email has been sent</button>
+                <button class="btn" onclick="$('#share_email').show();$('#share_email_success').hide();">Send another</button>
+            </div>
+        </div>
+    </div>
+    
+</div>

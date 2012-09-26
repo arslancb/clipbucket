@@ -1,0 +1,25 @@
+<div class="view-channel-user-bar clearfix">
+    <div class="user-thumb-container pull-left relative">
+        <a href="{$userquery->profile_link($u)}"><img src="{avatar details=$u size='small'}" /></a>
+        <span class="username">{$u.username}</span>
+    </div>
+
+    <div class="view-channel-user-bar-details-toggler dropdown">
+        <a href="#" data-target="#{$u.userid}-channel-actions" class="dropdown-toggle" data-toggle="dropdown">
+            <span class="bar"></span>
+        </a>
+        <ul aria-labelledby="{$u.userid}-channel-actions" class="dropdown-menu pull-right" role="menu">
+            <li><a href="#" data-text="{lang code='Channel Views'}" data-figure="{$u.profile_hits|number_format}">{lang code='Channel Views'}</a></li>
+            <li><a href="#">{lang code='Subscribers'}</a></li>
+            <li class="divider"></li>
+            <li><a href="#"><i class="icon-user"></i> {lang code='Subscribe'}</a></li>
+        </ul>
+    </div>
+
+    <div class="view-channel-user-bar-details">
+        <h4>{lang code='Channel Views'}</h4>
+        <div class="details">
+            {$u.profile_hits|number_format}
+        </div>
+    </div>
+</div>
