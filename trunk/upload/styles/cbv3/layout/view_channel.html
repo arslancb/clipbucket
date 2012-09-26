@@ -1,0 +1,53 @@
+{lang code='channel' assign='object_type'}
+
+{include file="$style_dir/global_header.html"}
+
+<body class="relative">
+    {display_user_custom_background( $u )}
+    <div class="container view-channel-container">
+        {include_template_file file="header.html" }
+        
+        <div id="global-container" class="relative clearfix">
+            {include_template_file file='blocks/view_channel/channel_left.html' u=$u}
+            
+            <div class="pull-left">
+                {include_template_file file='blocks/view_channel/channel_header.html' u=$u}
+                
+                {include_template_file file='blocks/view_channel/channel_right.html' u=$u}
+                
+                <div class="global-content-column pull-left">
+                    {$user_feeds=$cbfeeds->getUserFeeds($u)}
+                    
+                    <div class="content-box">
+                        <h2>{lang code='Activity'}</h2>
+                        {if $user_feeds}
+                            <div class="cbv3-scroller">
+                            {foreach from=$user_feeds item=user_feed}
+                                {include_template_file file='blocks/feed.html' feed=$user_feed u=$u}
+                            {/foreach}
+                            </div>
+                        {else}
+                            <div class="text-error" style="font-weight: bold; text-align: center; padding: 25px; background: white;">No activity found for {$u.username}</div>
+                        {/if}
+                    </div>
+                    
+                    <div class="content-box clearfix">
+                        <h2>{lang code='Videos'}</h2>
+                        {$user_videos=get_videos(['user'=>$u.userid,'limit'=>6])}
+                        {if $user_videos}
+                            {foreach $user_videos as $video}
+                                {include_template_file file='blocks/video.html' video=$video u=$u display_method='view_channel'}
+                            {/foreach}
+                        {else}
+                            <div class="text-error" style="font-weight: bold; text-align: center; padding: 25px; background: white;">No videos found for {$u.username}</div>
+                        {/if}
+                    </div>
+                </div>
+                <div id="global-content-full-height"></div>
+            </div>
+        </div>
+        
+        {include_template_file file="footer.html"}
+    </div>
+</body>
+</html>
