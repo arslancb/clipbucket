@@ -66,7 +66,8 @@ if ( mysql_clean($_GET['mode']) == 'make_avatar' ) {
 			/* Run set avatar code */
                 $uid = userid();
                 $db->update( tbl('users'), array('avatar'), array( $uid.'_'.$photo['filename'].'.'.$photo['ext'] ), " userid = '".$uid."' " );
-                
+                /* update cover photo of collection */
+                $cbcollection->set_cover_photo( $photo['photo_id'], $photo['collection_id'] );
                 // redirect back to photo
                 redirect_to( $cbphoto->photo_links( $photo, 'view_photo' ) );
 		} else if( isset( $_POST['set_avatar']) ) {

@@ -64,7 +64,9 @@ switch($mode)
 			{
 				$to = $total;
 				e($total." photos image have been recreated.","m");
+                    $stop_loop = "yes";
 				assign("stop_loop","yes");
+                    assign('from',$total);
 			}
 			assign('to',$to);
 			
@@ -72,15 +74,23 @@ switch($mode)
 			{
 				if($photos[$i]['photo_id'])
 				{
-					$cbphoto->generate_photos($photos[$i]['photo_id']);
-					$msg[] = $photos[$i]['photo_id'].": Updating <strong><em>".$photos[$i]['photo_title']."</em></strong>"; 		
+					//$cbphoto->generate_photos($photos[$i]['photo_id']);
+					$msg[] = $photos[$i]['photo_id'].": Re-created '<strong>".$photos[$i]['photo_title']."</strong>'"; 		
 				}
 				$i++;	
 			}
-			e($start_index+1 ." - ".$to."  photos image  have been recreated.","m");
+                
+                if ( $stop_loop != 'yes' ) {
+                    e($start_index+1 ." - ".$to."  photos image  have been recreated.","m");
+                }
+                
 			assign("index_msgs",$msg);
 			assign("indexing","yes");
-			assign('button','mass_recreation');			
+			assign('button','mass_recreation');
+                if ( !$stop_loop ) {
+                    $url = queryString( "loop_size=$loop_size&start_index=$next_index&mass_recreation=yes", array("loop_size", "start_index","button") );
+                    header( "Refresh: 2; url=" . BASEURL . "/admin_area/recreate_thumbs.php$url" );
+                }
 		}
 	}
 	break;

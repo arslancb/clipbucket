@@ -7,7 +7,7 @@
  */
  
  @import url("group.css");
- 
+ @import url("view_channel.css");
  
  /**bootstrap icon fix**/
  [class^="icon-"], [class*=" icon-"]{margin-top: -1px}
@@ -139,7 +139,23 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .icon-down {background-position: -312px -144px;}
 
 
+.item-block, .item-block.light {
+    background: #f8f8f8;
+    background: -moz-linear-gradient(top,  #f8f8f8 0%, #dddddd 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#dddddd));
+    background: -webkit-linear-gradient(top,  #f8f8f8 0%,#dddddd 100%);
+    background: -o-linear-gradient(top,  #f8f8f8 0%,#dddddd 100%);
+    background: -ms-linear-gradient(top,  #f8f8f8 0%,#dddddd 100%);
+    background: linear-gradient(to bottom,  #f8f8f8 0%,#dddddd 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8f8f8', endColorstr='#dddddd',GradientType=0 );
+    box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    display: block;
+}
 
+.item-block:hover, .item-block.light:hover {
+    box-shadow: 0px 1px 0px 0px rgba(0,0,0,0.4);
+}
 
 /* V3 ClipBucket Custom icons */
 .icon-stats {background-position: -0px -0px;}
@@ -1264,6 +1280,7 @@ background-color: #dddddd; }
 #share-photo-block .toggle-photo-size a {
     font-size: 14px;
 }
+
 .playlist-menu{width: 300px; padding: 10px}
 
 .playlist-list-container .playlist-thumb{margin-right: 5px; vertical-align: top}
@@ -1273,6 +1290,7 @@ padding-bottom: 5px; margin-bottom: 5px ;font-weight: bold; font-size: 12px; pos
 .playlist-list-container .playlist-item .item-thumb{margin-right: 5px; vertical-align: top;}
 .item-active{color:#06c} .item-active h6{font-size: 7px}
 
+.user-custom-background { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;  }
 
 /** Groups CSS **/
 .group-block{
@@ -1287,6 +1305,15 @@ padding-bottom: 5px; margin-bottom: 5px ;font-weight: bold; font-size: 12px; pos
 .group-block .group-left{width: 170px; margin-right: 10px; margin-bottom: 5px }
 .group-block .group-thumb{width: 170px; height: 106px; border: 1px solid #000; }
 .group-right{}
+
+.group-title{font-size: 17px; font-weight: bold; color: #000}
+.group-desc{font-size: 13px; margin: 5px 0px}
+.group-topics{font-size: 10px; font-weight: bold}
+.group-topics ul{ list-style: none;margin: 0px; padding: 0px; list-style:none}
+.group-topics ul li{list-style: none; list-style-type: none; line-height: 15px}
+.group-topics ul li a{color:#7d7d7d;  text-decoration: underline;}
+.group-left-stat{line-height: 15px; font-size: 10px; font-weight: bold}
+
 .group-block .group-title{font-size: 17px; font-weight: bold; color: #000}
 .group-block .group-desc{font-size: 13px; margin: 5px 0px}
 .group-block .group-topics{font-size: 10px; font-weight: bold}
@@ -1314,4 +1341,3 @@ padding-bottom: 5px; margin-bottom: 5px ;font-weight: bold; font-size: 12px; pos
     border-radius: 3px; -moz-border-radius: 2px; -webkit-border-radius: 3px;
     display: inline-block; padding: 2px; margin: 3px; border: 2px solid transparent}
 .selectable-radio.active, .selectable-radio:hover{border:2px solid #006699}
-

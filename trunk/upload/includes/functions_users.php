@@ -244,6 +244,7 @@ function upload_new_avatar( $file, $uid ) {
 			$photopath = PHOTOS_DIR.'/'.createDataFolders( PHOTOS_DIR ).'/';
 			if ( validate_image_file( $file['tmp_name'], $ext ) ) {
 				$cid = cb_create_user_avatar_collection( $user );
+        
 				if( move_uploaded_file($file['tmp_name'], $photopath.$filename.'.'.$ext ) ) {
 					$fields = array(
 						'photo_title' => 'Avatar',
@@ -275,7 +276,9 @@ function upload_new_avatar( $file, $uid ) {
 					
 					/* Update user avatar field */
 					$db->update( tbl('users'),array('avatar'), array( $avatar ), " userid = '".$uid."' " );
-					
+					/* Update cover photo of collection */
+                          $cbcollection->set_cover_photo( $photo_id, $cid );
+                            
 					return $avatar;
 				} else {
 					e( lang('Unable to upload file. Please try again') );
@@ -296,7 +299,7 @@ function upload_new_avatar( $file, $uid ) {
 }
 
 function make_new_avatar( $array = null ) {
-    global $cbphoto, $userquery, $photo, $db;
+    global $cbphoto, $userquery, $photo, $db, $cbcollection;
     
     if ( is_null($array) ) {
         $array = $_POST;
@@ -380,7 +383,8 @@ function make_new_avatar( $array = null ) {
 		         
         /* Update user avatar field */
         $db->update( tbl('users'),array('avatar'), array( $avatar ), " userid = '".$uid."' " );
-        
+        /* Update cover photo of collection */
+        $cbcollection->set_cover_photo( $photo_id, $cid );
         /* go back to photo */
         redirect_to( $cbphoto->photo_links($photo, 'view_photo') );
 
@@ -487,4 +491,33 @@ function delete_photo_avatar( $photo ) {
     }
 }
 
+/**
+ * This function includes the file containing user custom background
+ * if uploaded. This code should run after opening html <body> tag.
+ * This will spread the background cross the window.
+ * 
+ * @global OBJECT $userquery
+ * @param MIX $uid
+ * @return custom_background.html Template
+ */
+function display_user_custom_background( $uid = null ) {
+    global $userquery;
+    
+    if ( is_null($uid) ) {
+        return false;
+    }    
+    
+    if ( is_numeric( $uid ) ) {
+        $user = $userquery->get_user_details( $uid );
+    } else {
+        $user = $uid;
+    }
+    
+    if ( empty ($user) ) {
+        return false;
+    }
+    
+    assign('u',$user);
+    Template( STYLES_DIR.'/global/blocks/view_channel/custom_background.html', false );
+}
 ?>

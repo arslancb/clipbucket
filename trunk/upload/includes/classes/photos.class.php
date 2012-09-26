@@ -904,7 +904,7 @@ class CBPhotos {
         foreach ( $dimensions as $code => $dim ) {
             $img->target = $path.$filename."_".$code.".".$extension;
             // Set cropping
-            $img->crop = $dim['crop'];
+            $img->cropping = $dim['crop'];
             $img->_resize( $dim['width'], $dim['height'] );
             
             // Check if we want to sharp this thumb
@@ -1212,7 +1212,7 @@ class CBPhotos {
             $p['user'] = userid();
 
         $p['type'] = "photos";
-        if ( $show_collection == 'yes' ) {
+        {
             $collections = $this->collection->get_collections( $p );
             $cl_array = $this->parse_array( $collections );
             $collection = $array['collection_id'];
@@ -1254,7 +1254,7 @@ class CBPhotos {
                     )
         );
 
-        if ( $show_collection == 'yes' ) {
+        {
             $fields['collection'] = array(
                         'title' => lang( 'collection' ),
                         'id' => 'collection_id',
@@ -1348,11 +1348,11 @@ class CBPhotos {
                 $query_val[] = $array['folder'];
             }
 			
-			if ( $array['is_avatar'] == true ) {
-				$query_field[] = 'is_avatar';
-				$query_val[] = true;
-			}
-			
+            if ( $array['is_avatar'] == true ) {
+              $query_field[] = 'is_avatar';
+              $query_val[] = true;
+            }
+		
             $insert_id = $db->insert( tbl( $this->p_tbl ), $query_field, $query_val );
             $photo = $this->get_photo( $insert_id );
             $this->collection->add_collection_item( $insert_id, $photo['collection_id'] );

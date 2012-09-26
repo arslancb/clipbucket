@@ -436,7 +436,7 @@ function cbphoto_pm_action_link_filter( $links ) {
 	if ( ( $photo['exif_data'] == 'yes' && $photo['view_exif'] == 'yes' ) || ( $photo['userid'] == userid() && $photo['exif_data'] == 'yes' ) ) {
 		$links[] = add_photo_action_link( lang('EXIF Data'), $cbphoto->photo_links( $photo, 'exif_data' ), 'camera' );	
 	}
-	
+	  
 	/* Later we uncomment this, BAM something new to give >:D */
 	//$links[] = add_photo_action_link( lang('View Colors'),'#','tasks', null, array('onclick' => 'show_colors(event)', 'data-photo-id' => $photo['photo_id']) );
 	
@@ -895,6 +895,19 @@ function view_photo_link( $photo, $type='view_item' ) {
  * add new link inside $cbphoto->manager_links, so at admin_area/photo_manager.php
  * every link exists inside manager_links.
  * 
+ * FINAL:-
+ * Like my proposed solution. calling this function will do following
+ *  |- Add new item in manager_links array
+ *  |- Create a callback_id if callback exists using $callback.$link.$title and hashing with md5
+ *  |- Add it's callback_id if exists into manager_link_callbacks array
+ * 
+ * To get details of each photo for link, you must use a function to create the link. Pass any
+ * argument to function and it will hold details of each photo, e.g
+ * 
+ * function create_manager_link( $p ) {
+ *  return '?_key'.$p['photo_key'];
+ * }
+ * 
  * @global OBJECT $cbphoto
  * @param STRING $title
  * @param STRING $link
@@ -934,7 +947,11 @@ function add_photo_manager_link( $title, $link, $callback = false, $args = false
 }
 
 /**
- * Display manager links
+ * Function displays the photo manager links. Here we will check if link
+ * is function or simple string. If function, call it and return the result.
+ * Than if callback exists, append it's id at end of returned result.
+ * 
+ * filter used: photo_manager_links
  * 
  * @global OBJECT $cbphoto
  * @param type $photo
@@ -970,6 +987,13 @@ function display_manager_links( $photo ) {
     }
 }
 
+/**
+ * Function calls the provided callback_id callback function. Using callback_id
+ * insures that no fasool calls are made. Only callacbk is called whos id is provided.
+ * 
+ * callback_id is required to make to call.
+ * @global OBJECT $cbphoto
+ */
 function photo_manager_link_callbacks() {
     global $cbphoto;
     $callbacks = $cbphoto->manager_link_callbacks;
@@ -985,25 +1009,6 @@ function photo_manager_link_callbacks() {
             }
         }
     }
-}
-
-/**
- * Registers new manager links in admin_area/edit_photo.php
- * @global OBJECT $cbphoto
- * @param type $links
- * @return type
- */
-function cb_some_photo_plugin_links( $links ) {
-    global $cbphoto;
-    $photo = $cbphoto->photo;
-    $link = 'recreate_thumbs.php?mode=single&photo='.$photo['photo_id'];
-    $links[] = add_photo_manager_link( lang('Re-create Photo'), $link );
-    if ( $photo['collection_id'] != 0 ) {
-        $links[] = add_photo_manager_link( lang('Edit Collection ('. $photo['collection_name'].')'), 'edit_collection.php?collection='.$photo['collection_id'] );
-    } else {
-        $links[] = add_photo_manager_link(lang('Photo is orphan'),'javascript:void(0)');
-    }
-    return $links;
 }
 
 /**
@@ -1070,9 +1075,9 @@ function add_photo_embed_type( $name, $id, $callback, $description=null ) {
 }
 
 /**
- * Previous function has been already with this one.
+ * Previous function has been replaced with this one.
  * ---------------------------------------------------------
- * This function will be construct any arary of embed codes with
+ * This function will be construct any array of embed codes with
  * there repesctive embed codes. It will also check if photo details
  * are given, any embed code has registered or not and if photo
  * has allowed photo embedding and display message accordingly.
@@ -1092,18 +1097,24 @@ function photo_embed_codes( $params=null ) {
     } else {
         $photo = $params;
     }
-    
+    $params['display_error'] = $params['display_error'] ? $params['display_error'] : 'yes';
     
     $embeds = get_photo_embeds();
     
     if ( empty($photo) ) {
-        echo '<p>'.lang("Unable to create embed codes. Photo details not available").'</p>';
+        if ( $params['display_error'] == 'yes' ) {
+            echo '<p>'.lang("Unable to create embed codes. Photo details not available").'</p>';
+        }
         return;
     } else if ( empty( $embeds ) ) {
-        echo '<p>'.lang("Unable to create embed codes. No photo embed code registered").'</p>';
+        if ( $params['display_error'] == 'yes' ) {
+            echo '<p>'.lang("Unable to create embed codes. No photo embed code registered").'</p>';
+        }
         return;
     } else if ( $photo['allow_embedding'] == 'no' ) {
-        echo '<p>'.lang("Photo embedding is disabled by user.").'</p>';
+        if ( $params['display_error'] == 'yes' ) {
+            echo '<p>'.lang("Photo embedding is disabled by user.").'</p>';
+        }
         return;
     } else {
         $remove = $params['remove'];
@@ -1120,9 +1131,14 @@ function photo_embed_codes( $params=null ) {
         foreach ( $embeds as $id => $embed ) {
             $code = $embed['callback']( $photo );
             $embeds[ $id ]['code'] = $code;
+            // Setting up default size.
+            $size = $params['size'] ? $params['size'] : 'm';
+            $pd = json_decode( $photo['photo_details'], true );
+            $size_details = $pd[ $size ];
+            $embeds[ $id ]['code'] = str_replace( array('%IMAGE_URL%','%IMAGE_WIDTH%','%IMAGE_HEIGHT%'), array( $cbphoto->get_image_file( $photo, $size ), $size_details['width'], $size_details['height'] ), $code );
             $cbphoto->photo_embed_templates[ $embed['id'] ] = $code;
         }
-        
+               
         return $embeds;
     }
 }
@@ -1157,7 +1173,7 @@ function display_photo_embed_sizes( $photo ) {
     
     foreach( $sort as $code => $width ) {
         $_pd = $pd[ $code ];
-        $output .= '<li data-url="'.$cbphoto->get_image_file($photo, $code).'" data-code="'.$code.'" data-width="'.$_pd['width'].'" data-height="'.$_pd['height'].'" data-size="'.$_pd['size']['bytes'].'" class="toggle-photo-size"><a href="javascript:void(0)">'.($dimensions[$code]['name'] ? $dimensions[$code]['name'].' - ' : '').''.$_pd['width'].' x '.$_pd['height'].'</a></li>';
+        $output .= '<li data-url="'.$cbphoto->get_image_file($photo, $code).'" data-code="'.$code.'" data-width="'.$_pd['width'].'" data-height="'.$_pd['height'].'" data-size="'.$_pd['size']['bytes'].'" class="toggle-photo-size"><a href="javascript:void(0)">'.$_pd['width'].' x '.$_pd['height'].'</a></li>';
     }
         
     return $output;
@@ -1216,5 +1232,9 @@ function photo_bb_code_alt ( $photo ) {
  */
 function photo_bb_code_alt_linked ( $photo ) {
     return "[URL=".  view_photo_link( $photo ). "][IMG]%IMAGE_URL%[/IMG][/URL]";
+}
+
+function photo_direct_link( $photo ) {
+    return '%IMAGE_URL%';
 }
 ?>

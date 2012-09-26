@@ -13,6 +13,47 @@
             </div>
             <input type="hidden" name="avatar_file_name" value="{$user.avatar}" />
         </fieldset>
+        <div class="clear"></div>
+        <fieldset class="fieldset">
+<legend>{lang code='user_bg'}</legend>
+<div style="height:15px;"></div>
+<div style="float:left; width:200px;" align="center">
+{if $userquery->getUserBg($user)}<img src="{$userquery->getUserBg($user)}" style="max-width:95px"/>{else}<em><strong>No Bg</strong></em>{/if}
+</div>
+<div style="width:300px; display:block; float:left">
+<strong>{lang code='user_bg_img'}
+  </strong><br />
+  {lang code='please_select_img_file'}
+  <br />
+  <input type="file" name="background_file" id="background_file" />
+  {lang code='or'}
+
+
+  <label for="background_url">{lang code='pelase_enter_image_url'}<br /></label>
+<input name="background_url" type="text" id="background_url" value="{$user.background_url}" />
+
+{lang code='or'}
+<label for="background_color">{lang code='please_enter_bg_color'}</label>
+<input name="background_color" type="text" id="background_color" value="{$user.background_color}" />
+<input type="hidden" name="bg_file_name" value="{$user.background}" />
+
+
+<label for="background_repeat">{lang code='bg_repeat_type'}</label>
+<select name="background_repeat" id="background_repeat" >
+<option value="repeat" {if $user.background_repeat=='repeat'} selected="selected"{/if}>repeat</option>
+<option value="repeat-x" {if $user.background_repeat=='repeat-x'} selected="selected"{/if}>repeat-x</option>
+<option value="repeat-y" {if $user.background_repeat=='repeat-y'} selected="selected"{/if}>repeat-y</option>
+<option value="no-repeat" {if $user.background_repeat=='no-repeat'} selected="selected"{/if}>no-repeat</option>
+</select>
+<br />
+
+<input type="checkbox" {if $user.background_attachement=='yes'} checked="checked"{/if} value="yes" name="background_attachement" id="background_attachement" />
+<label for="background_attachement" style="display:inline">{lang code='fix_bg'}</label>
+{if $userquery->getUserBg($user)}<input name="delete_bg" type="checkbox" id="delete_bg" value="yes" /><label for="delete_bg" style="display:inline">{lang code='delete_this_img'}</label>{/if}
+</div>
+
+<div class="clearfix"></div>
+</fieldset>
         <div>&nbsp;</div>
         <div class="well clearfix">
         	 <input type="submit" name="update_avatar_bg" class="btn btn-large btn-primary moveR" value="{lang code='Save Changes'}" />

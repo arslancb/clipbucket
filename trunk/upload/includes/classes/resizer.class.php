@@ -1,17 +1,42 @@
 <?php
 
 /**
- * CB_Resizer
- * Global Class for image resizing
+ * Clipbucet Global Resizer
+ * ----------------------------------------------------------------------------
+ * All image resizing will be done through this class. It can resize, crop,
+ * flip both ways, rotate image, sharpen image and apply filters(only )
+ * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
+ * @version 1.0
+ * ----------------------------------------------------------------------------
+ * Added : new $cropping CASE 10 on 19th September, 2012
+ * ----------------------------------------------------------------------------
+ *      Example code for using $cropping CASE 10
+ * 
+ *      <code>
+ *          include 'resizer.class.php';
+ *          $resizer = new CB_Resizer( 'image.jpg' );
+ *          //Setting cropping method
+ *          $resizer->cropping = 10;
+ *          // resizing
+ *          $resizer->_resize( 720, 0 );
+ *      </code>
+ * 
+ *      You might have noticed that only width is provided and not height. Normally,
+ *      for cropping to work we need both width and height, so this will resize the image
+ *      not crop it. What changes are made when setting $cropping to 10. Difference is, 
+ *      now this will check which side is bigger of source and set 720 to that side. If height 
+ *      is bigger than width, image height will be set to 720 and width is calculated, this also
+ *      goes the other way. 
  */
 
 class CB_Resizer {
 
     var $source; // filepath to source file
     var $target; // complete filepath where file will be saved
-    var $quality; // image quality, for jpeg
-    var $png_quality; // image quality, for png
-    var $cropping;
+    var $quality; // image quality, for jpeg | default: 90
+    var $png_quality; // image quality, for png | default: 9
+    var $cropping; // cropping method | default: 5
     var $preserve_aspect;
     var $exact_dimensions;
     var $bgcolor = "#FFFFFF";
@@ -23,6 +48,8 @@ class CB_Resizer {
 
     function __construct( $filepath = '' ) {
 		
+        // Increasing memory limit for this proccess
+        // JPG usually takes alot of memory
 		ini_set('memory_limit', '256M');
 		
         $this->quality = 90;
@@ -54,8 +81,17 @@ class CB_Resizer {
             }
 
             if ( $this->preserve_aspect == true || $must_preserve_aspect == true ) {
-
-                if ( $width > 0 && $height == 0 ) {
+                
+                if ( ( $width > 0 && $height == 0 ) && $this->cropping == 10 ) {
+                    if ( $this->source_width > $this->source_height ) {
+                        $aspect_ratio = $this->source_width / ( $width ? $width : $height );
+                    } else {
+                        $aspect_ratio = $this->source_height / ( $height ? $height : $width );
+                    }
+                    
+                    $target_width = round( $this->source_width / $aspect_ratio );
+                    $target_height = round( $this->source_height / $aspect_ratio );
+                } else if ( $width > 0 && $height == 0 ) {
 
                     $aspect_ratio = $this->source_height / $this->source_width;
                     $target_width = $width;
@@ -81,7 +117,7 @@ class CB_Resizer {
                     $x_aspect_ratio = $this->source_width / $width;
                     $y_aspect_ratio = $this->source_height / $height;
 
-                    if ( $this->cropping != -1 || $this->cropping == 10 ) {
+                    if ( $this->cropping != -1 ) {
                         $aspect_ratio = min( $x_aspect_ratio, $y_aspect_ratio );
                     } else {
                         $aspect_ratio = max( $x_aspect_ratio, $y_aspect_ratio );

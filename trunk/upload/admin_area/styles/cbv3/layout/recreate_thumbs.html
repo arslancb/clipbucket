@@ -45,24 +45,16 @@
       </form>
       
         {if $indexing}
-            <div align="right" style="padding:5px">{$from} - {$to} of {$total}</div>
-            <ul>
-            {foreach from=$index_msgs item=themsg}
-            	<li>{$themsg}</li>
-            {/foreach}
-            </ul>
+            <h2 class="page-header">{if $stop_loop != 'yes'}{$from} - {/if}{$to} of {$total}</h2>
             {if  $stop_loop!='yes'}
-				<script type="text/javascript">
-                var start_index = '{$next_index}';
-                var loop_size = '{$smarty.get.loop_size}';
-                var mode = '{$mode}';
-				var button = '{$button}';
-                {literal}$(document).oneTime(2000,function(){$(window.location).attr('href', '?loop_size='+loop_size+'&'+button+'=yes&start_index='+start_index)});{/literal}
-                </script>
-                redirecting....do not close this window
+                <p class="lead"><img src="{$smarty.const.TEMPLATEURL}/images/loaders/1.gif" /> Redirecting .... do not close this window</p>
             {else}
-            	Re-creation of photos have been completed.
+                <p class="lead">Re-creation of photos have been completed.</p>
             {/if}
+            
+            {foreach from=$index_msgs item=themsg}
+            	<p class="text-info">{$themsg}</p>
+            {/foreach}
         {/if}
 {/if}
 
