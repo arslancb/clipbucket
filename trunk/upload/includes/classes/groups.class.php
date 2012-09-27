@@ -910,7 +910,26 @@ class CBGroups extends CBCategory
 	function get_topic_details($topic)
 	{
 		global $db;
-		$result = $db->select(tbl($this->gp_topic_tbl),"*"," topic_id='$topic' ");
+                
+                //user fields
+                $fields = array(
+                    'email','username'
+                );
+                
+                $fields = apply_filters($fields, 'group_topic_user_fields');
+                
+                foreach($fields as $field)
+                    $uquery .= ','.tbl('users.'.$field);
+                
+                
+                $result = db_select("SELECT ".tbl($this->gp_topic_tbl)
+                        .".* $uquery FROM " .tbl($this->gp_topic_tbl)
+                        ." LEFT JOIN ".tbl("users")." ON ".tbl('users.userid')
+                        .'='. tbl($this->gp_topic_tbl.'.userid'));
+                
+		
+                //$result = $db->select(tbl($this->gp_topic_tbl),"*"," topic_id='$topic' ");
+                
 		if($db->num_rows>0)
 			return $result[0];
 		else
@@ -1835,6 +1854,91 @@ class CBGroups extends CBCategory
 		}
 		return false;
 	}
+        
+        
+        /**
+         * returns group links that are displayed in left column of default
+         * template
+         * 
+         * @param ARRAY $group
+         * @param INT $uid
+         * 
+         * @return ARRAY $group_links
+         */
+        function group_links($group,$uid=NULL)
+        {
+            global $userquery;
+            
+            if(!$uid)
+                $uid = userid();
+            
+            $group_links = array();
+            $group_array = 
+            array
+            (
+                    'group'         => $group,
+                    'groupid'       => $group['group_id'],
+                    'uid'           => $uid,
+                    'user'          => $userquery->udetails,
+                    'checkowner'    => 'yes'
+            );
+            
+            $group_owner_links =array();
+            
+            if($this->is_owner($group))
+            {
+                $group_owner_links  = 
+                    array(
+                        'invite_members' => array(
+                            'name' => lang('Invite members'),
+                            'link' => BASEURL.'/invite_group.php?url='.$group['group_url'],
+                            'icon' => 'icon-star' 
+                        )
+                    );
+            }
+            
+            $group_admin_links = array();
+            
+            if($this->is_admin($group_array))
+            {
+                $group_admin_links = array(
+                    'edit_group'    => array(
+                        'name'  => lang('Edit group'),
+                        'link'  => BASEURL.'/edit_group.php?gid='.$group['group_id'],
+                        'icon'  => 'icon-edit'
+                    ),
+                    'manage_videos'    => array(
+                        'name'  => lang('Manage videos'),
+                        'link'  => BASEURL.'/manage_groups.php?mode=manage_videos&gid='.$group['group_id'],
+                        'icon'  => 'icon-tasks'
+                    ),
+                    'manage_members'    => array(
+                        'name'  => lang('Manage members'),
+                        'link'  => BASEURL.'/manage_groups.php?mode=manage_members&gid='.$group['group_id'],
+                        'icon'  => 'icon-tasks'
+                    ),
+                );
+            }
+            
+            $group_members_link = array();
+            
+            if($this->is_member($uid,$group['group_id']))
+            {
+                $group_members_link = array(
+                    'add_videos' => array(
+                        'name'  => lang('Add videos'),
+                        'link'  => BASEURL.'/add_group_videos.php?url='.$group['group_url'],
+                        'icon'  => 'icon-plus'
+                    )
+                );
+            }
+            
+            $group_links = array_merge($group_owner_links,$group_admin_links,$group_members_link);
+            
+            $group_links = apply_filters($group_links, 'group_links');
+            
+            return $group_links;
+        }
 	
 	/**
 	 * Function used to check weather

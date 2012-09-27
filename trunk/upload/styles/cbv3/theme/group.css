@@ -65,3 +65,76 @@
 .group-left-buttons button{
     width: 170px;
 }
+
+
+
+/** Groups CSS **/
+.group-block{
+    width: 172px;
+    font-size:12px;
+    color: #7d7d7d;
+    margin-bottom: 20px; margin-left: 5px;
+    border:1px solid transparent;
+    padding: 5px; float: left; height: 190px
+}
+.group-block:hover{background-color: #fff; border : 1px solid #ddd; box-shadow: 0px 0px 3px rgba(0,0,0,0.25)}
+.group-block .group-left{width: 170px; margin-right: 10px; margin-bottom: 5px }
+.group-block .group-thumb{width: 170px; height: 106px; border: 1px solid #000; }
+.group-right{}
+
+.group-block .group-title{font-size: 17px; font-weight: bold; color: #000}
+.group-block .group-desc{font-size: 13px; margin: 5px 0px}
+.group-block .group-topics{font-size: 10px; font-weight: bold}
+.group-block .group-topics ul{ list-style: none;margin: 0px; padding: 0px; list-style:none}
+.group-block .group-topics ul li{list-style: none; list-style-type: none; line-height: 15px}
+.group-block .group-topics ul li a{color:#7d7d7d;  text-decoration: underline;}
+.group-block .group-left-stat{line-height: 15px; font-size: 10px; font-weight: bold}
+
+.group-block .group-title{font-size: 17px; font-weight: bold; color: #000}
+.group-block .group-desc{font-size: 13px; margin: 5px 0px}
+.group-block .group-topics{font-size: 10px; font-weight: bold}
+.group-block .group-topics ul{ list-style: none;margin: 0px; padding: 0px; list-style:none}
+.group-block .group-topics ul li{list-style: none; list-style-type: none; line-height: 15px}
+.group-block .group-topics ul li a{color:#7d7d7d;  text-decoration: underline;}
+.group-left-stat{line-height: 15px; font-size: 10px; font-weight: bold}
+
+.view-group .group-title{font-size: 16px; text-shadow: 0px 1px 0px #fff; color: #222; font-weight: bold}
+.view-group .nav{
+    margin-top: 10px;
+}
+.view-group .nav-tabs > .active > a, .nav-tabs > .active > a:hover{
+    box-shadow: 0px -2px 2px rgba(0,0,0,0.10);
+    outline: none
+}
+
+.view-group .nav-tabs{
+    color:#000;
+}
+.view-group .nav-tabs > li > a{padding-top:3px; line-height: 15px; padding-bottom: 3px; border-radius: 0px; font-size: 11px}
+.group-head{margin-bottom: 15px}
+
+.view-topic .topic-title{font-size: 15px; font-weight: bold}
+
+.topic-bubble-caret {
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid white;
+  border-top: 8px solid transparent;
+  height: 0;
+  left: -7px;
+  position: absolute;
+  top: 10px;
+  width: 0;
+}
+
+.group-topic-post .topic-content{width: 495px; float: right}
+.group-topic-post .topic-post-thumb img{width: 40px; 
+border-radius: 2px; -moz-border-radius:2px; -webkit-border-radius: 2px;
+box-shadow: 0px 2px 1px rgba(0,0,0,0.16)
+}
+.group-topic-post .topic-post-thumb{margin-right: 10px; float: left;}
+.group-topic-post .topic-title{font-size: 14px; font-weight: bold; }
+.group-topic-post .topic-info{color: #7d7d7d; font-size: 10px}
+
+.group-topic-post .topic-post{font-size: 13px; font-weight: normal}
+.group-topic-post .like-dislike{top: 7px; right: 7px}
+.group-topic-post .topic-options a{font-size: 11px}

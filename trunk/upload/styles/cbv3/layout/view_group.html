@@ -9,22 +9,8 @@
         </div>
 
         <div style="" class="global-content-column pull-left view-group">
-
-            <div class="group-title">An awesome group title</div>
-
-            <ul class="nav nav-tabs">
-                <li><a href="#home" data-toggle="tab">Posts</a></li>
-                <li><a href="#profile" data-toggle="tab">Profile</a></li>
-                <li><a href="#messages" data-toggle="tab">Messages</a></li>
-                <li><a href="#settings" data-toggle="tab">Settings</a></li>
-            </ul>
-
-            <div align="right" class="btn-group"> 
-                <a class="btn btn-mini disabled">Add </a>
-                <a class="btn btn-mini" data-toggle="modal" data-target="#add-topic-modal"><i class="icon-list"></i></a>
-                <a class="btn btn-mini"><i class="icon-film"></i></a>
-                <a class="btn btn-mini"><i class="icon-picture"></i></a>
-            </div>
+            {include_template_file file='blocks/groups/group_head.html'}
+            
 
             {include_template_file file='blocks/groups/add_topic.html' }
 
@@ -32,7 +18,7 @@
             <div id="group-topics">
                 {if $topics}
                 {foreach $topics as $topic}
-                {include_template_file file='blocks/groups/topic.html' topic=$topic}
+                {include_template_file file='blocks/groups/grouo_topic.html' topic=$topic}
                 {/foreach}
                 {/if}
             </div>

@@ -225,6 +225,21 @@ class ADODB_mysql extends ADOConnection {
 		else
 			return false;
 	}
+        
+        function _select($query)
+        { 
+            //Finally Executing	
+            $data = $this->Execute($query);
+            $this->num_rows = $data->_numOfRows;
+            $this->total_queries++;
+            $this->total_queries_sql[] = $query;
+
+            //Now Get Rows and return that data
+            if($this->num_rows > 0)
+                return $data->getrows();
+            else
+                return false;
+        }
 	
 	
 	/**

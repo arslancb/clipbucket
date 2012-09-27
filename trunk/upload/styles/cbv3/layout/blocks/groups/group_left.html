@@ -52,18 +52,26 @@
     checkowner    => 'yes'
     ])}
 
-    {$isGroupAdmin}
-
 
     <div class="cb-widget">
-        <h2 class="cb-widget-title">{lang code='Browse'}</h2>    
+        
+        <ul class="global-nav-list margin0 cbv3-scroller">
+        
+            {$group_links=$cbgroup->group_links($group)}
+            
+            {foreach $group_links as $name=> $group_link}
+            <li><a href="{$group_link.link}"><i class="icon icon-white {$group_link.icon}"></i> {$group_link.name}</a></li>
+            {/foreach}
+            
+        
+        </ul>
     </div>
 
 
-
+    {if $cbgroup->is_member(userid(),$group.group_id) && !$cbgroup->is_owner($group)}
     <div class="cb-widget clearfix">
         <div class="relative clearfix global-channel-block group-left-buttons marginT10" align="center">
-            {if $cbgroup->is_member(userid(),$group.group_id) && !$cbgroup->is_owner($group)}
+            
             <button class="btn btn-danger" onclick="cb_confirm(
                 '{lang code="Confirm leave"}',
                     '{lang code="Are you sure you want to leave {$group_name} ?"}',
@@ -73,10 +81,12 @@
 
                     }
                     );">Leave Group</button>
-            {/if}
+            
         </div>
     </div>
 
-
+    {/if}
+    
+    
 </div>
 <div id="global-navgiation-full-height"></div>

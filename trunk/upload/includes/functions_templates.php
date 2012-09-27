@@ -1124,7 +1124,9 @@ function get_template($file, $type = 'fetch') {
     $defaults = array(
         'single_comment' => 'blocks/comments/comment.html',
         'comments' => 'blocks/comments/comments.html',
-        'pagination' => 'blocks/pagination.html'
+        'pagination' => 'blocks/pagination.html',
+        'topics'    => 'blocks/groups/topics.html',
+        'single_topic'  => 'blocks/groups/topic.html',
     );
 
 

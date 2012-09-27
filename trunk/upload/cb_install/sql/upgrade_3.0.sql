@@ -130,7 +130,7 @@ ALTER TABLE  `{tbl_prefix}users` CHANGE  `status`  `status` ENUM(  'verified',  
 ALTER TABLE  `{tbl_prefix}conversion_queue` ADD  `file_directory` VARCHAR( 255 ) NOT NULL AFTER  `queue_tmp_ext`;
 
 -- 9-2-2012
-CREATE TABLE IF NOT EXISTS `cb_video_meta` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_meta` (
   `meta_id` int(255) NOT NULL AUTO_INCREMENT,
   `meta_name` varchar(255) NOT NULL,
   `videoid` int(255) NOT NULL,
@@ -138,3 +138,7 @@ CREATE TABLE IF NOT EXISTS `cb_video_meta` (
   `extras` text NOT NULL,
   PRIMARY KEY (`meta_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--9-26-2012
+ALTER TABLE  `{tbl_prefix}group_members` ADD  `is_admin` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'no' AFTER  `userid` ,
+ADD  `ban` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'no' AFTER  `is_admin`;

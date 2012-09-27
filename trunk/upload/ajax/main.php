@@ -304,10 +304,15 @@ switch($mode){
         {
             exit(json_encode(array('err'=>error())));
         }
-
+            
             $comment = $myquery->get_comment($cid);
             assign('comment',$comment);
-            $template = get_template('single_comment');
+            
+            if($type=='t')
+                $template = get_template('single_comment');
+            else
+                $template = get_template('single_topic');
+            
             $array = array(
                 'msg' => msg(),
                 'comment' => $template,
@@ -359,7 +364,14 @@ switch($mode){
             exit();
         }else
         {
-            $template = get_template('comments');
+            if($_POST['type']=='t')
+            {
+                $template = get_template('topics');
+            }
+            else {
+                $template = get_template('comments');
+            }
+            
         }
 
         assign('commentPagination','yes');

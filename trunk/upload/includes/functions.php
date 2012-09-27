@@ -785,6 +785,13 @@ function dbselect($tbl, $fields = '*', $cond = false, $limit = false, $order = f
     return $db->dbselect($tbl, $fields, $cond, $limit, $order, $p);
 }
 
+function db_select($query)
+{
+    global $db;
+    return $db->_select($query);
+}
+
+
 /**
  * Function used to count fields in mysql
  * @param TABLE NAME
