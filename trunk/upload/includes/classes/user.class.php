@@ -65,7 +65,7 @@ class userquery extends CBCategory{
 
 		
 //		$this->user_sess = $sess->get('user_sess');
-    	$this->sess_salt = $sess->get('sess_salt');
+                $this->sess_salt = $sess->get('sess_salt');
 		$this->sessions = $this->get_sessions();
 		
 		if($this->sessions['smart_sess'])
@@ -5292,7 +5292,7 @@ function getSubscriptionsUploadsWeek($uid,$limit=20,$uploadsType="both",$uploads
 			}
 		}else
 		{
-			$sess->add_session(0,'guest','guest');
+			//$sess->add_session(0,'guest','guest');
 		}
 		
 		return $new_sessions;

@@ -80,15 +80,14 @@ switch ($mode) {
                     }
                     $cbgroup->update_group_members($gid);
                 }
-                
-                if($_GET['activate'])
-                {
+
+                if ($_GET['activate']) {
                     $uid = mysql_clean($_GET['activate']);
                     $cbgroup->member_actions($gid, $uid, 'activate');
                     $cbgroup->update_group_members($gid);
                 }
-                
-                
+
+
 
                 //Deactivation Members
                 if (isset($_POST['disapprove_members'])) {
@@ -99,13 +98,12 @@ switch ($mode) {
                     }
                     $cbgroup->update_group_members($gid);
                 }
-                if($_GET['deactivate'])
-                {
+                if ($_GET['deactivate']) {
                     $uid = mysql_clean($_GET['deactivate']);
                     $cbgroup->member_actions($gid, $uid, 'deactivate');
                     $cbgroup->update_group_members($gid);
                 }
-                
+
                 //Deleting Members
                 if (isset($_POST['delete_members'])) {
                     $total = count($_POST['users']);
@@ -115,16 +113,15 @@ switch ($mode) {
                     }
                     $cbgroup->update_group_members($gid);
                 }
-                
-                if($_GET['delete'])
-                {
+
+                if ($_GET['delete']) {
                     $uid = mysql_clean($_GET['delete']);
                     $cbgroup->member_actions($gid, $uid, 'delete');
                     $cbgroup->update_group_members($gid);
                 }
-                
-                
-                
+
+
+
                 //Ban Members
                 if (isset($_POST['ban_members'])) {
                     $total = count($_POST['users']);
@@ -134,14 +131,13 @@ switch ($mode) {
                     }
                     $cbgroup->update_group_members($gid);
                 }
-                
-                if($_GET['ban'])
-                {
+
+                if ($_GET['ban']) {
                     $uid = mysql_clean($_GET['ban']);
                     $cbgroup->member_actions($gid, $uid, 'ban');
                     $cbgroup->update_group_members($gid);
                 }
-                
+
                 //unban Members
                 if (isset($_POST['unban_members'])) {
                     $total = count($_POST['users']);
@@ -151,14 +147,13 @@ switch ($mode) {
                     }
                     $cbgroup->update_group_members($gid);
                 }
-                
-                if($_GET['unban'])
-                {
+
+                if ($_GET['unban']) {
                     $uid = mysql_clean($_GET['unban']);
                     $cbgroup->member_actions($gid, $uid, 'unban');
                     $cbgroup->update_group_members($gid);
                 }
-                
+
 
                 //Making Admin
                 if ($_GET['make_admin']) {
@@ -168,7 +163,6 @@ switch ($mode) {
                         $makeAdmins[$uid] = 'yes';
                         assign('makeAdmins', $makeAdmins);
                     }
-                    
                 }
 
                 //Remove Admin
@@ -180,7 +174,7 @@ switch ($mode) {
                         assign('rmAdmins', $rmAdmins);
                     }
                 }
-                
+
 
                 if ($gdetails) {
                     $limit = 30;
@@ -192,21 +186,29 @@ switch ($mode) {
                     //Getting Group Members (Active Only)
                     $gp_mems = $cbgroup->get_members($gdetails['group_id'], $get_limit);
 
-                    
+
 
                     $pending_mems = $cbgroup->get_members($gdetails['group_id'], $get_limit, 'no');
-                    
+
                     assign('pending_members', $pending_mems);
                     assign('group_members', $gp_mems);
-                    assign('group_members_mixed', 
-                    array('all_members'=> $gp_mems,'pending_members'=>$pending_mems));
-                    
+                    assign('group_members_mixed', array('all_members' => $gp_mems, 'pending_members' => $pending_mems));
                 }else
                     e(lang("grp_exist_error"));
             }
         }
         break;
     case 'manage_videos': {
+
+            //assign querystring
+            $queryString = queryString(NULL, array(
+                'disapprove',
+                'approve',
+                'delete'
+            ));
+            
+            assign('queryString', $queryString);
+            
             assign('mode', 'manage_videos');
             $gid = mysql_clean($_GET['gid']);
             $gdetails = $cbgroup->get_group_details($gid);
@@ -224,37 +226,94 @@ switch ($mode) {
             if (!$cbgroup->is_admin($gArray) && !has_access('admin_access', true))
                 e(lang("you_cant_moderate_group"));
             else {
-                //Activating Member Members
+                //Activating videos
                 if (isset($_POST['activate_videos'])) {
                     $total = count($_POST['check_vid']);
                     for ($i = 0; $i < $total; $i++) {
                         if ($_POST['check_vid'][$i] != '')
                             $cbgroup->video_actions($gid, $_POST['check_vid'][$i], 'activate');
                     }
+                    
+                    if(!error() && msg())
+                    {
+                        $eh->flush_msg();
+                        e(lang('Selected videos have approved'),'m');
+                    }
                 }
-                //Deactivation Members
+
+                if ($_GET['approve']) {
+                    $vid = mysql_clean($_GET['approve']);
+                    $cbgroup->video_actions($gid, $vid, 'activate');
+                }
+
+
+                if ($_GET['disapprove']) {
+                    $vid = mysql_clean($_GET['disapprove']);
+                    $cbgroup->video_actions($gid, $vid, 'deactivate');
+                }
+
+                if ($_GET['delete']) {
+                    $vid = mysql_clean($_GET['delete']);
+                    $cbgroup->video_actions($gid, $vid, 'delete');
+                }
+
+
+                //Deactivation videos
                 if (isset($_POST['disapprove_videos'])) {
                     $total = count($_POST['check_vid']);
                     for ($i = 0; $i < $total; $i++) {
                         if ($_POST['check_vid'][$i] != '')
                             $cbgroup->video_actions($gid, $_POST['check_vid'][$i], 'deactivate');
                     }
+                    
+                    if(!error() && msg())
+                    {
+                        $eh->flush_msg();
+                        e(lang('Selected videos have disapproved'),'m');
+                    }
                 }
-                //Deleting Members
+                //Deleting videos
                 if (isset($_POST['delete_videos'])) {
                     $total = count($_POST['check_vid']);
                     for ($i = 0; $i < $total; $i++) {
                         if ($_POST['check_vid'][$i] != '')
                             $cbgroup->video_actions($gid, $_POST['check_vid'][$i], 'delete');
                     }
+                    
+                    if(!error() && msg())
+                    {
+                        $eh->flush_msg();
+                        e(lang('Selected videos have removed from this group'),'m');
+                    }
                 }
 
 
+
                 if ($gdetails) {
+
+                    $video_limit = 20;
+                    $video_limit = apply_filters($video_limit, 'manage_group_videos_limit');
+                    $page = mysql_clean($_GET['page']);
+                    $get_limit = create_query_limit($page, $video_limit);
+
                     assign("group", $gdetails);
                     //Getting Group Videos (Active Only)
-                    $grp_vids = $cbgroup->get_group_videos($gid, "yes");
+                    $grp_vids = $cbgroup->get_group_videos($gid, NULL, $get_limit);
+                    
                     assign('grp_vids', $grp_vids);
+                    assign('videos', $grp_vids);
+
+                    //Getting pending videos
+                    $pending_videos = $cbgroup->get_group_videos($gid, 'no', $get_limit);
+                    assign('pending_videos', $pending_videos);
+
+                    $group_videos = array('all_videos' => $grp_vids, 'pending_videos' => $pending_videos);
+                    assign('group_videos', $group_videos);
+
+
+                    $total_pages = count_pages($gdetails['total_videos'], $video_limit);
+                    //Pagination
+                    $pages->paginate($total_pages, $page);
                 }else
                     e(lang("grp_exist_err"));
             }

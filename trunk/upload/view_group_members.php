@@ -3,7 +3,7 @@
  ****************************************************************
  | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
  | @ Author : ArslanHassan										
- | @ Software : ClipBucket , © PHPBucket.com					
+ | @ Software : ClipBucket , ï¿½ PHPBucket.com					
  ****************************************************************
 */
 
@@ -17,6 +17,11 @@ $url = mysql_clean($_GET['url']);
 
 
 $details = $cbgroup->group_details_url($url);
+
+//Group links
+$group_links = $cbgroup->group_links($details);
+assign('group_links',$group_links);
+
 assign('group',$details);
 
 if($details)

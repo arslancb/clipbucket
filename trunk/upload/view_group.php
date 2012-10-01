@@ -92,8 +92,25 @@ if($details)
 			break;
 		}
 		
+                
+                $topics_limit = 10;
+                $page = mysql_clean($_GET['page']);
+                $get_limit = create_query_limit($page,$topics_limit);
+                
 		//Getting list of topics
-		$topics = $cbgroup->get_topics(array('group'=>$details['group_id']));
+		$topics = $cbgroup->get_topics(array(
+                    'group' =>  $details['group_id'],
+                    'limit'  => $get_limit,
+                ));
+                
+                $total_pages = count_pages($details['total_topics'],$topics_limit);       
+                $pages->paginate($total_pages,$page);
+
+                //Group links
+                $group_links = $cbgroup->group_links($details);
+                assign('group_links',$group_links);
+                
+                assign('total_topic_pages',$total_pages);
 		assign('topics',$topics);
 		assign('mode',$mode);
 		assign('group',$details);

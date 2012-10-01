@@ -1,9 +1,9 @@
 <?php
 /* 
  ****************************************************************************
- | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.						
+ | Copyright (c) 2007-2012 Clip-Bucket.com. All rights reserved.						
  | @ Author : ArslanHassan													
- | @ Software : ClipBucket , © PHPBucket.com								
+ | @ Software : ClipBucket , ï¿½ PHPBucket.com								
  *******************************************************************************
 */
 
@@ -16,6 +16,11 @@ $pages->page_redir();
 $url = mysql_clean($_GET['url']);
 
 $details = $cbgroup->group_details_url($url);
+
+//Group links
+$group_links = $cbgroup->group_links($details);
+assign('group_links',$group_links);
+        
 assign('group',$details);
 
 
@@ -27,19 +32,22 @@ elseif(!$cbgroup->is_member(userid(),$details['group_id']))
 	e(lang("you_not_allowed_add_grp_vids"));
 else
 {	
-
+    
+        $add_group_videos = 24;
+        $add_group_videos = apply_filters($add_group_videos, 'add_group_videos_limit');
 	///Getting User Videos
 	$page = mysql_clean($_GET['page']);
-	$get_limit = create_query_limit($page,28);
+	$get_limit = create_query_limit($page,$add_group_videos);
 
 	$array = array('user'=>userid(),'limit'=>$get_limit);
 	$usr_vids = get_videos($array);
 	//echo $db->db_query;
 	assign('usr_vids',$usr_vids);
+        assign('videos',$usr_vids);
 	
 	$array['count_only'] = true;
 	$total_rows  = get_videos($array);
-	$total_pages = count_pages($total_rows,28);
+	$total_pages = count_pages($total_rows,$add_group_videos);
 	//Pagination
 	$pages->paginate($total_pages,$page);
 
@@ -62,7 +70,10 @@ else
 		$eh->flush_msg();
 		e(lang("sel_vids_updated"),"m");
 	}
-	assign('group',$details);
+	
+        
+        
+        assign('group',$details);
 	
 	subtitle($details['group_name']);
 }

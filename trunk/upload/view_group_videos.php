@@ -17,23 +17,32 @@ $url = mysql_clean($_GET['url']);
 
 
 $details = $cbgroup->group_details_url($url);
+
+//Group links
+$group_links = $cbgroup->group_links($details);
+assign('group_links',$group_links);
 assign('group',$details);
 
 if($details)
 {
+        $group_videos_limit = 18;
+        $group_videos_limit = apply_filters($group_videos_limit, 'group_videos_limit');
+        
 	///Getting User Videos
 	$page = mysql_clean($_GET['page']);
-	$get_limit = create_query_limit($page,28);
+	$get_limit = create_query_limit($page,$group_videos_limit);
 	
 	//Getting List of all videos
 	$videos = $cbgroup->get_group_videos($details['group_id'],"yes",$get_limit);
 	
 	$total_rows  =  $details['total_videos'];
-	$total_pages = count_pages($total_rows,28);
-	//Pagination
+	$total_pages = count_pages($total_rows,$group_videos_limit);
+	
+
+        //Pagination
 	$pages->paginate($total_pages,$page);
 	
-	
+	assign('total_pages',$total_pages);
 	assign("videos",$videos);
 	assign("mode","view_videos");
 	subtitle($details['group_name']);

@@ -320,7 +320,7 @@ background-position: 0px 1px; border-top: 1px solid #d8d8d8; padding: 7px 0px 8p
 .rating-green{color: #006600}
 .rating-red{color: #ed0000}
 
-.video-box .video-thumb .duration{position: absolute; left: 5px; bottom: 5px; 
+.group-video-block .video-thumb .duration, .video-box .video-thumb .duration{position: absolute; left: 5px; bottom: 5px; 
          width: 35px; height: 15px; line-height: 15px; 
          background-image: url("../images/duration-bg.png"); 
          background-repeat: no-repeat;

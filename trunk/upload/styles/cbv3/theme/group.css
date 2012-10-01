@@ -25,7 +25,7 @@
     margin-right: 10px;
 }
 
-.group-topic-block .group-topic-title{
+.group-topic-block .group-topic-title,.group-topic-block .group-topic-title a{
     font-weight: bold; font-size: 14px; color: #06c;
     line-height: 15px;
 }
@@ -49,7 +49,7 @@
 
 .group-topic-block .group-topic{float: left; width: 435px}
 
-.group-topic-block .group-topic-opts{
+.group-topic-block .group-topic-opts,.group-topic-block .group-topic-opts a{
     color:#06c; font-size: 10px;
 }
 
@@ -138,3 +138,32 @@ box-shadow: 0px 2px 1px rgba(0,0,0,0.16)
 .group-topic-post .topic-post{font-size: 13px; font-weight: normal}
 .group-topic-post .like-dislike{top: 7px; right: 7px}
 .group-topic-post .topic-options a{font-size: 11px}
+
+.group-video-block{width: 176px; float: left; margin-right: 20px; }
+
+.group-video-checkable .video-thumb {
+    border:3px #E6E6E6 solid;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+.group-video-checkable label{cursor:pointer}
+
+.group-video-checkable .checked-video {
+  display: inline-block;
+  height: 17px;
+  padding: 0 0 0 2px;
+  position: absolute;
+  right: -1px;
+  top: -1px;
+  width: 15px;
+  border: none;
+  
+}
+
+.group-video-checked .video-thumb{border-color:#06c}
+
+.group-video-block:nth-child(3n){margin-right: 0px}
+.group-video-block .video-thumb img{width: 100%; height:110px;}
+.group-video-info-cont{height: 80px; margin-bottom: 20px}
+.group-video-info-cont .title a{font-size: 12px; color: #333; text-decoration: none; font-weight: bold;}

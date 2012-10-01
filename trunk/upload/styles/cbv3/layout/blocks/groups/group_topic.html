@@ -11,7 +11,8 @@
         </div>
 
         <div class="group-topic-opts">
-            admin  ·  reply ·  {$topic.date_added|niceTime}
+            <a href="{$userquery->profile_link($topic)}">{$topic.username}</a>  ·  
+            <a href="{$cbgroup->topic_link($topic)}">reply</a>  ·  {$topic.date_added|niceTime}
         </div>
     </div>
 

@@ -199,6 +199,7 @@ switch($mode)
         
         echo json_encode($flags);
     }
+
 }
 
 ?>

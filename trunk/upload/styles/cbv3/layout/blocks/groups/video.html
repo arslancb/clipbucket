@@ -1,0 +1,38 @@
+{$videolink=videoLink($video)}
+<div class="{if $checkable}group-video-checkable{/if} {if $checked}group-video-checked{/if} {$video.videoid}-video {$video.videoid} group-video-block">
+    <div class="video-thumb relative">
+        
+        {if !$checkable}
+        <a href="{$videolink}">
+        {else}
+        <label rel="group-video-checkable" class="margin0" >
+        {/if}
+            <input type="checkbox" class="display-none" name="check_video_{$video.videoid}" value="yes"
+                    {if $checked}checked{/if}/>
+            <img src="{getThumb vdetails=$video size='160x120'}" {ANCHOR place="video_thumb" data=$video} />
+        
+        {if !$checkable}
+        </a>
+        {else}
+        </label>
+        {/if}
+        <span class="duration">{$video.duration|duration}</span>
+        
+        {if $checkable}
+        <span class="checked-video btn {if $checked}btn-primary{/if}">
+            <i class="icon icon-check  {if $checked}icon-white{/if}"></i>
+        </span>
+        {/if}
+        
+        
+        
+    </div>
+    <div class="group-video-info-cont relative">
+        <div class="title"><a href="{$videolink}">{$video.title}</a></div>
+        <div class="video-info absolute bottom">
+             <span class="user pull-left">{$video.views|number_format} views</span>
+            <span class="user pull-right">{$video|cbv3_rating:perc}</span>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>

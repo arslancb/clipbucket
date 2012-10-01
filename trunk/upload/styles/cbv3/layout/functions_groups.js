@@ -73,8 +73,57 @@ function groupToggleList($obj,$main,$scnd)
     }
 }
     
-function group_member_action($action)
+function group_action($action)
 {
     $('#action_mode').attr('name',$action);
-    $('#group-members-form').submit();
+    $('#group-form').submit();
+}
+
+
+var topic_page = 1;
+function load_more_topics(gid,max)
+{
+    topic_page = topic_page + 1;
+    
+    $btn = $('a[data-ref=load_more]');
+    $btn.button('loading');
+    
+    amplify.request('groups',{
+        'mode' : 'get_topics',
+        'page' : topic_page,
+        'group_id' : gid
+    },function(data){
+        
+        $('#group-topics').after(data.topics);
+        $btn.button('reset');
+
+        if(topic_page>=max)
+        {
+            $btn.remove();
+        }
+    })
+}
+
+var videos_page = 1;
+function load_more_videos(gid,max)
+{
+    videos_page = videos_page + 1;
+    
+    $btn = $('a[data-ref=load_more]');
+    $btn.button('loading');
+    
+    amplify.request('groups',{
+        'mode' : 'get_videos',
+        'page' : videos_page,
+        'group_id' : gid
+    },function(data){
+        
+        $('#group-videos').after(data.videos);
+        $btn.button('reset');
+
+        if(videos_page>=max)
+        {
+            $btn.remove();
+        }
+    })
 }

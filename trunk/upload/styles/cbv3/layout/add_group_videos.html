@@ -1,0 +1,100 @@
+
+
+{$object_type='topic'}
+<div id="global-container" class="relative clearfix">
+    {include_template_file file='blocks/groups/group_left.html' group=$group}
+
+    <div class="pull-left">
+
+
+        <div class="global-sidebar-column pull-right">
+
+        </div>
+        
+        <div id="global-content-full-height"></div>
+
+
+        <div style="" class="global-content-column pull-left view-group">
+
+            {include_template_file file='blocks/groups/group_head.html'}
+            
+            <ul class="breadcrumb">
+
+                <li><a href="{group_link details=$group}">{$group.group_name}</a> <span class="divider">/</span></li>
+                <li><a href="">{lang code='Videos'}</a> <span class="divider">/</span></li>
+                <li class="active">{lang code='Add video'}</li>
+            </ul>
+            
+            <div class="">
+                
+                <form name="add-group-videos" method="post">
+                    
+                
+                {if $videos}
+                
+                {foreach $videos as $video}
+                
+                    {if $cbgroup->is_group_video($video.videoid,$group.group_id)}
+                            {$checked=true}
+                    {else}
+                            {$checked=false}
+                    {/if}
+
+                    
+                    {include_template_file file='blocks/groups/video.html' video=$video
+                        checkable=true
+                        checked=$checked
+                    }
+                    
+                {/foreach}
+                <input type="hidden" name="add_videos" value="yes" />
+                
+                <div class="height10"></div>
+                <button type="submit" class="btn btn-large btn-block btn-primary" type="button">
+                    {lang code="Add group videos"}
+                </button>
+
+                </form>
+                
+                {include_template_file file='blocks/pagination.html'}
+                
+                {else}
+                <div class="alert">{lang code="You do not have any video"}</div>
+                {/if}
+                
+                <div class="clearfix"></div>
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready()
+    {
+        $('.group-video-checkable').on('click','input[type=checkbox]',function(){
+            
+            console.log('toggle group video');
+            if($(this).is(':checked')){
+                $(this).parents('.group-video-checkable').addClass('group-video-checked');
+                $(this).parents('.video-thumb')
+                .children('.checked-video')
+                .addClass('btn-primary')
+                .children('.icon')
+                .addClass('icon-white');
+
+            }else
+            {
+                $(this).parents('.group-video-checkable').removeClass('group-video-checked');
+                $(this).parents('.video-thumb')
+                .children('.checked-video')
+                .removeClass('btn-primary')
+                .children('.icon')
+                .removeClass('icon-white');
+            }
+
+        })
+    }
+</script>

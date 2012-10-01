@@ -5,26 +5,56 @@
 
 
         <div class="global-sidebar-column pull-right">
-            
+
         </div>
 
         <div style="" class="global-content-column pull-left view-group">
             {include_template_file file='blocks/groups/group_head.html'}
-            
+
 
             {include_template_file file='blocks/groups/add_topic.html' }
 
 
-            <div id="group-topics">
-                {if $topics}
-                {foreach $topics as $topic}
-                {include_template_file file='blocks/groups/grouo_topic.html' topic=$topic}
-                {/foreach}
-                {/if}
-            </div>
+            {if $mode=='view_videos'}
+            <div id="group-videos">
+                {include_template_file file='blocks/groups/view_videos.html'}
 
+
+
+            </div>
+            <div class="clearfix"></div>
+            <div class="height10"></div>
+            <a href="javascript:void(0)" 
+               data-ref="load_more"
+               data-loading-text="{lang code='loading...'}"
+               onclick="load_more_videos('{$group.group_id}',{$total_pages});"
+               class="btn btn-block">{lang code='Load more'}</a>
 
         </div>
-        <div id="global-content-full-height"></div>
+        {else}
+
+
+        <div id="group-topics">
+            {if $topics}
+            {foreach $topics as $topic}
+            {include_template_file file='blocks/groups/group_topic.html' topic=$topic}
+            {/foreach}
+            {/if}
+        </div>
+
+        <div class="height10"></div>
+        <a href="javascript:void(0)" 
+           data-ref="load_more"
+           data-loading-text="{lang code='loading...'}"
+           onclick="load_more_topics('{$group.group_id}',{$total_topic_pages});"
+           class="btn btn-block">{lang code='Load more'}</a>
+
+        {/if}
+
+
+
+
     </div>
+    <div id="global-content-full-height"></div>
+</div>
 </div>

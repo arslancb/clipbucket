@@ -669,6 +669,7 @@ function add_comment()
             displayError(data.err);
         }else
         {
+            $('textarea[name=comment]').val('');
             $('#no_comments').hide();
             $('#latest_comment_container')
             .prepend(data.comment)

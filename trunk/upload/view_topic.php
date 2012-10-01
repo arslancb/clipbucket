@@ -3,7 +3,7 @@
  ****************************************************************************
  | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.					
  | @ Author : ArslanHassan														
- | @ Software : ClipBucket , © PHPBucket.com									
+ | @ Software : ClipBucket , ï¿½ PHPBucket.com									
  ****************************************************************************
 */
 
@@ -19,6 +19,11 @@ $tdetails = $cbgroup->get_topic_details($tid);
 if($tdetails)
 {
 	$grp_details = $cbgroup->get_group_details($tdetails['group_id']);
+        
+        //Group links
+        $group_links = $cbgroup->group_links($grp_details);
+        assign('group_links',$group_links);
+
 	if($grp_details['post_type'] == 1 && !$cbgroup->is_member(userid(),$grp_details['group_id'],TRUE)) {
 		if($cbgroup->is_member(userid(),$grp_details['group_id']))
 			e(lang("view_tp_inactive_user"));			

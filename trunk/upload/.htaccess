@@ -78,7 +78,7 @@ RewriteRule ^categories/?$								categories.php [nc]
 
 #Group Section
 
-RewriteRule ^group/([a-zA-Z0-9].+)					view_group.php?url=$1&%{QUERY_STRING} [L]
+RewriteRule ^group/([a-zA-Z0-9_-]+)/?$					view_group.php?url=$1&%{QUERY_STRING} [L]
 
 RewriteRule ^view_topic/([a-zA-Z0-9].+)_tid_([0-9]+)					view_topic.php?tid=$2&%{QUERY_STRING} [L]
 RewriteRule ^groups/(.*)/(.*)/(.*)/(.*)/(.*) groups.php?cat=$1&sort=$3&time=$4&page=$5&seo_cat_name=$2 [L]

@@ -1122,11 +1122,13 @@ function add_menu_item($name, $item, $link = false, $section = false, $icon = fa
 
 function get_template($file, $type = 'fetch') {
     $defaults = array(
-        'single_comment' => 'blocks/comments/comment.html',
-        'comments' => 'blocks/comments/comments.html',
-        'pagination' => 'blocks/pagination.html',
-        'topics'    => 'blocks/groups/topics.html',
-        'single_topic'  => 'blocks/groups/topic.html',
+        'single_comment'    => 'blocks/comments/comment.html',
+        'comments'          => 'blocks/comments/comments.html',
+        'pagination'        => 'blocks/pagination.html',
+        'topics'            => 'blocks/groups/topics.html',
+        'single_topic'      => 'blocks/groups/topic.html',
+        'group_topic'       => 'blocks/groups/group_topic.html',
+        'group_video'       => 'blocks/groups/video.html'
     );
 
 

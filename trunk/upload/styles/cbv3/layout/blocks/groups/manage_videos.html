@@ -1,6 +1,3 @@
-<script>
-
-</script>
 <div class="manager-list">
     <div class="controller scrolltoFixed white-grad">
         <div class="buttons">
@@ -9,14 +6,12 @@
                     <label class="btn  btn-mini check-all"><input type="checkbox"></label>
                 </div>
                 <div class="btn-group">
-                    <a class="btn btn-mini" onclick="group_member('activate_pending');" >{lang code='Approve'}</a>
-                    <a class="btn btn-mini" onclick="group_member('disapprove_members');">{lang code='Disapprove'}</a>
-                    <a class="btn btn-mini" onclick="group_member('ban_members');">{lang code='Ban'}</a>
-                    <a class="btn btn-mini" onclick="group_member('unban_members');">{lang code='Remove ban'}</a>
+                    <a class="btn btn-mini" onclick="group_action('activate_videos');" >Approve</a>  
+                    <a class="btn btn-mini" onclick="group_action('disapprove_videos');" >Disapprove</a>
                     <a class="btn btn-mini" onclick="
-                        cb_confirm('{lang code="Confirm Delete?"}','{lang code="Are you sure you want to delete selected members from this group?"}'
+                        cb_confirm('{lang code="Confirm Delete?"}','{lang code="Are you sure you want to delete selected videos from this group?"}'
                         ,function(){
-                            group_action('delete_members');
+                            group_action('delete_videos');
                         })
                     
                    ">Delete</a>
@@ -25,12 +20,12 @@
             </div>
 
             <div class="right-button">
-                {if $pending_members}
+                {if $pending_videos}
                 <a class="btn btn-mini btn-inverse"
                    
-                   onclick="groupToggleList(this,'all_members','pending_members');">Pending  
+                   onclick="groupToggleList(this,'all_videos','pending_videos');">{lang code='Pending'}  
                     <span class="badge badge-info">
-                        {$pending_members|count}
+                        {$pending_videos|count}
                     </span>
                 </a>
                 {/if}
@@ -44,8 +39,8 @@
 
         <input type="hidden" name="todo" id="action_mode" value="yes"/>
 
-        <table id="group-members-list" class="table table-striped list-block {if !$group_members}display-none{/if}">
-            <thead style="display: none">
+        <table id="group-members-list" class="table table-striped list-block {if !$videos}display-none{/if}">
+            <thead >
                 <tr>
                     <th width="20"></th>
                     <th width="40"></th>
@@ -55,53 +50,46 @@
             </thead>
 
             {$count=0}
-            {foreach $group_members_mixed as $key => $members}
+            {foreach $group_videos as $key => $videos}
             
             {$count=$count+1}
             <tbody id="{$key}" {if $count==2} class="display-none" {/if}>
 
 
-                   {foreach $members as $user}
+                   {foreach $videos as $video}
+                   {$videolink=videoLink($video)}
                    <tr>
-                    <td><input type="checkbox" class="check-item" name="users[]" value="{$user.userid}"></td>
-                    <td><img src="{$userquery->getuserthumb($user,'small')}" /></td>
+                    <td><input type="checkbox" class="check-item" name="check_vid[]" value="{$video.videoid}"></td>
+                    <td><a href="{$videolink}"><img src="{getThumb vdetails=$video size='120x90'}" width="60" /></a></td>
                     <td>
-                        <a href="">{$user.username}</a>
+                        <a href="{$videolink}">{$video.title}</a>
 
-                        {if $group.userid == $user.userid || $user.is_admin =='yes' }
-                        <span class="badge badge-info">Admin</span>
+                        
+                        {if $video.approved!='yes'}
+                            <span class="badge badge-danger">pending</span>
                         {/if}
-
-                        {if $user.ban=='yes'}
-                        <span class="badge badge-danger">banned</span>
-                        {else}
-                        {if $user.active=='yes'}<span class="badge badge-success">Active</span>
-                        {else}<span class="badge badge-warning" >Pending</span>{/if}
-                        {/if}
+                        
+                        <span class="badge badge-inverse">{$video.duration|SetTime}</span>
                     </td>
                     <td>
-                        {$username=$user.username}
+
                         <div class="dropdown">
                             <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
                                 Actions <i class="caret"></i>
                             </a>
+                            {$video_title=$video.title}
                             <ul class="dropdown-menu">
-                                <li>{if $user.active=='no'}
-                                    <a href="{$queryString}activate={$user.userid}">Approve</a>
+                                <li>{if $video.approved=='no'}
+                                    <a href="{$queryString}approve={$video.videoid}">Approve</a>
                                     {else}
-                                    <a href="{$queryString}deactivate={$user.userid}">Disapprove</a>
+                                    <a href="{$queryString}disapprove={$video.videoid}">Disapprove</a>
                                     {/if}
                                 </li>
 
-                                {if $user.ban=='yes'}
-                                <li><a href="{$queryString}unban={$user.userid}">Remove ban</a></li>
-                                {else}
-                                <li><a href="{$queryString}ban={$user.userid}">Ban</a></li>
-                                {/if}
                                 <li><a href="javascript:void(0)"
                                        onClick="cb_confirm('{lang code='Confirm delete'}',
-                                           '{lang code="Are you sure you want to remove $username from this group"}',function(){
-                                       window.location = '{$queryString}delete={$user.userid}';
+                                           '{lang code="Are you sure you want to remove $video_title from this group"}',function(){
+                                       window.location = '{$queryString}delete={$video.videoid}';
                                        })">Delete</a>
                                 </li>
 
@@ -135,10 +123,10 @@
             {/foreach}
         </table>
 
-        {if !$group_members}
-        <div class="alert">{lang code='There are no members in this group'}</div>
+        {if !$group_videos}
+        <div class="alert">{lang code='There are no videos in this group'}</div>
         {/if}
     </form>  
 
-    {include_template_file file='blocks/pagination.html' }
+    {include_template_file file='blocks/pagination.html'}
 </div>

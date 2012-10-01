@@ -5,7 +5,7 @@
 {if !$commentPagination}
 
 <div class="btn-group inlineblock" >
-{lang code='Pages'} : {if $first_link !=''}
+    {lang code='Pages'} : {if $first_link !=''}
 
 
     <a class="btn" {$first_link}>&laquo;</a>{/if}  {if $pre_link !=''}
@@ -29,13 +29,13 @@
     {$pagination}  
 
     {if $next_link !=''}<a class="btn"  href="javascript:void(0)"  
-        onclick="get_comments('{$type}','{$type_id}','{$last_update}','{$next_page}','{$total}','{$object_type}')">&#8250;</a>{/if} 
+                           onclick="get_comments('{$type}','{$type_id}','{$last_update}','{$next_page}','{$total}','{$object_type}')">&#8250;</a>{/if} 
 
-        {if $last_link !=''}
-        <a class="btn" href="javascript:void(0)"
-           onclick=" get_comments('{$type}','{$type_id}','{$last_update}','{$total_pages}','{$total}','{$object_type}')" >&raquo;</a>
-        {/if}
-        {/if}
+    {if $last_link !=''}
+    <a class="btn" href="javascript:void(0)"
+       onclick=" get_comments('{$type}','{$type_id}','{$last_update}','{$total_pages}','{$total}','{$object_type}')" >&raquo;</a>
+    {/if}
+
 </div>
-
+{/if}
 {/if}
