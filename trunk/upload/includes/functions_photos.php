@@ -79,6 +79,15 @@ function load_photo_controls ( $args ) {
   }
 }
 
+/**
+ * This function returns the untouched/original file
+ * of photo
+ * 
+ * @global OBJECT $cbphoto
+ * @param ARRAY $photo
+ * @param BOOL $with_path
+ * @return STRING
+ */
 function get_original_photo( $photo, $with_path = false ) {
 	global $cbphoto;
 	if ( !is_array($photo) ) {
@@ -95,6 +104,16 @@ function get_original_photo( $photo, $with_path = false ) {
 	}
 }
 
+/**
+ * This will extract the most common colors from photo.
+ * Record it's HEX code, rgb code and percent found in photo,
+ * than before entering database, it runs through json_encode.
+ * 
+ * @global OBJECT $db
+ * @global OBJECT $cbphoto
+ * @param ARRAY $photo
+ * @return type
+ */
 function insert_photo_colors( $photo ) {
 	global $db, $cbphoto;	
 	
@@ -130,6 +149,14 @@ function insert_photo_colors( $photo ) {
 	}
 }
 
+/**
+ * This function inserts EXIF data embedded by cameras.
+ * 
+ * @global OBJECT $db
+ * @global OBJECT $cbphoto
+ * @param ARRAY $photo
+ * @return INT
+ */
 function insert_exif_data( $photo ) {
 	global $db, $cbphoto;
 	
@@ -202,6 +229,15 @@ function insert_exif_data( $photo ) {
 	}
 }
 
+/**
+ * This function takes EXIF data stored in database and make
+ * required indexes that are most important or user usually
+ * looks for these details.
+ * 
+ * @param ARRAY $exif
+ * @param INT $photo
+ * @return ARRAY
+ */
 function ready_exif_data ( $exif, $photo = null ) {
 	if ( empty( $exif ) || !is_array($exif) ) {
 		return false;	
@@ -239,6 +275,13 @@ function ready_exif_data ( $exif, $photo = null ) {
 	return $formatted;
 }
 
+/**
+ * This converts camelCase of EXIF index into
+ * readable string.
+ * 
+ * @param STRING $str
+ * @return STRING
+ */
 function format_exif_camelCase( $str ) {
 	if ( !$str ) {
 		return false;	
@@ -249,6 +292,13 @@ function format_exif_camelCase( $str ) {
 	return implode(' ', $str );
 }
 
+/**
+ * This outputs an img HTML tag. $src is requred.
+ * $attrs is array contains ['attribute name' => attribute value]
+ * @param STRING $src
+ * @param ARRAY $attrs
+ * @return STRING
+ */
 function cb_output_img_tag( $src, $attrs = null ) {
     
     if ( empty( $src ) ) {
@@ -339,6 +389,14 @@ function get_all_custom_size_photos( $id ) {
     }
 }
 
+/**
+ * This gets default photo dimensions. If $filter is true
+ * We'll run photo_dimensions filter to all available dimensions.
+ * 
+ * @global OBJECT $cbphoto
+ * @param BOOL $filter
+ * @return ARRAY
+ */
 function get_photo_dimensions($filter=false) {
     global $cbphoto;
     
@@ -736,7 +794,7 @@ function join_collection_table() {
     $c = tbl ($cbcollection->section_tbl ) ; $p = tbl('photos');
     $join = ' LEFT JOIN '.( $c ).' ON '.( $p.'.collection_id' ). ' = '.( $c.'.collection_id' );
     $alias = ", $p.userid as userid, $p.views as views, $p.allow_comments as allow_comments, $p.allow_rating as allow_rating, $p.total_comments as total_comments, $p.date_added as date_added, $p.rating as rating, $p.rated_by as rated_by, $p.voters as voters, $p.featured as featured, $p.broadcast as broadcast, $p.active as active";
-    $alias .= ", $c.collection_name as collection_name, $c.userid as cuserid, $c.views as cviews, $c.allow_comments as callow_comments, $c.allow_rating as callow_rating, $c.total_comments as ctotal_comments, $c.date_added as cdate_added, $c.rating as crating, $c.rated_by as crated_by, $c.voters as cvoters, $c.featured as cfeatured, $c.broadcast as cbroadcast, $c.active as cactive";
+    $alias .= ", $c.collection_name as collection_name, $c.userid as cuserid, $c.views as cviews, $c.allow_comments as callow_comments, $c.allow_rating as callow_rating, $c.total_comments as ctotal_comments, $c.date_added as cdate_added, $c.rating as crating, $c.rated_by as crated_by, $c.voters as cvoters, $c.featured as cfeatured, $c.broadcast as cbroadcast, $c.active as cactive, $c.cover_photo";
     
     return array( $join, $alias );
 }
@@ -828,7 +886,11 @@ function delete_photo_meta( $photo ) {
 }
 
 /**
- * Function gets the date folder for the current photo.
+ * Function gets the date folder for the current photo. If file_directory index is found
+ * in photo details, we'll extract time from it's filename and format it to check if files
+ * exists in desired folder. If not found false will return, confirming that photo exists
+ * at files/photos dir.
+ * 
  * @param INT|ARRAY $pid, This could either be a photo id or photo array
  * @return STRING 
  */
@@ -912,26 +974,27 @@ function view_photo_link( $photo, $type='view_item' ) {
  * @param STRING $title
  * @param STRING $link
  * @param STRING $callback
- * @param ARRAY $args
+ * @param BOOLEAN $front_end
  * @return MIX
  */
-function add_photo_manager_link( $title, $link, $callback = false, $args = false ) {
+function add_photo_manager_link( $title, $link, $callback = false, $front_end = false ) {
     global $cbphoto;
         
     if ( !$title || !$link ) {
         return false;
     }
     
-    $random_id = RandomString(8);
-    $links = $cbphoto->manager_links;
+    /* Check which end we are adding this link */
+    $which_end = ( $front_end === true ) ? 'front_end' : 'back_end';
     
+    // Create callback id
     if ( $callback ) {
-        $callback_id = md5( ($callback ? $callback : $random_id ).$link.SEO(strtolower($title)) );
+        $callback_id = md5( $callback.$link.$which_end.SEO(strtolower($title)) );
     }
     
-    $links[] = array(
+    $cbphoto->manager_links[$which_end][] = array(
         'title' => $title,
-        'id' => $random_id.'-'.SEO(strtolower($title)),
+        'id' => SEO(strtolower($title)).'-'.time(),
         'link' => $link,
         'args' => $args,
         'callback' => $callback,
@@ -943,7 +1006,7 @@ function add_photo_manager_link( $title, $link, $callback = false, $args = false
         $cbphoto->manager_link_callbacks[ $callback_id ] = $callback;
     }
     
-    return $cbphoto->manager_links = $links;
+    return $cbphoto->manager_links;
 }
 
 /**
@@ -957,9 +1020,10 @@ function add_photo_manager_link( $title, $link, $callback = false, $args = false
  * @param type $photo
  * @return string
  */
-function display_manager_links( $photo ) {
+function display_manager_links( $photo, $front_end = false ) {
     global $cbphoto;
-    $links = $cbphoto->manager_links;
+    $which_end = ( $front_end === true || FRONT_END ) ? 'front_end' : 'back_end';
+    $links = $cbphoto->manager_links[$which_end];
     $links = apply_filters($links, 'photo_manager_links');
     
     if ( $links ) {
@@ -971,6 +1035,40 @@ function display_manager_links( $photo ) {
                 $url = $link['link'];
             }
             
+            if ( !$url ) {
+                continue; // Skip this index
+            }
+            
+            if ( is_array( $url ) ) {
+                /* Sometimes we need to change title according to conditions. Return array with title and link 
+                 * indexes in your function to do so.  For example return result should be like following:
+                 * 
+                 *      function name() {
+                 *          ..........
+                 *          ........
+                 *          ....
+                 *          ..
+                 *          .
+                 *          return array( 'title' => 'New title', 'link' => 'your_link' );
+                 *      }
+                 * 
+                 */
+                $link['title'] = $url['title'] ? $url['title'] : $link['title'];
+                $url = $url['link'];
+            }
+            
+            if ( $_SERVER['QUERY_STRING'] && !preg_match( '/htt(p|s):\/\//', $url ) ) {
+                // QUERY_STRING exists and $url returned has not have http://( means complete url )
+                // append QUERY_STRING before $url
+                $url = ltrim( $url, '?' ); // removing the ? from start of string
+                parse_str( $url, $variables ); // changing $url query string to array
+                if ( $variables ) {
+                  $query_string_variables = array_keys( $variables ); // extracting only names of variables
+                  $query_string = queryString( null, $query_string_variables );
+                  $url = $query_string.$url;
+                }
+            }
+            
             // Appeding callback_id if callback exists
             if ( $link['callback'] ) {
                 if ( strpos( $url, '?' ) !== false ) {
@@ -980,7 +1078,14 @@ function display_manager_links( $photo ) {
                 }
             }
             
-            $output .= '<li><a id="'.$link['id'].'" href="'.$url.'">'.$link['title'].'</a></li>';
+            if ( $link['args'] && is_array( $link['args']) ) {
+                $attributes = '';
+                foreach( $link['args'] as $attribute => $value ) {
+                    $attributes .= $attribute."='".$value."' ";
+                }
+            }
+            
+            $output .= '<li><a id="'.$link['id'].'" href="'.$url.'" '.$attributes.'>'.$link['title'].'</a></li>';
         }
        
         return $output;
@@ -990,8 +1095,8 @@ function display_manager_links( $photo ) {
 /**
  * Function calls the provided callback_id callback function. Using callback_id
  * insures that no fasool calls are made. Only callacbk is called whos id is provided.
- * 
  * callback_id is required to make to call.
+ * 
  * @global OBJECT $cbphoto
  */
 function photo_manager_link_callbacks() {
@@ -1236,5 +1341,45 @@ function photo_bb_code_alt_linked ( $photo ) {
 
 function photo_direct_link( $photo ) {
     return '%IMAGE_URL%';
+}
+
+/**
+ * Gets photo manager orders
+ * 
+ * @return ARRAY
+ */
+function get_photo_manager_orders() {
+    return object_manager_orders('photo');
+}
+
+/**
+ * Adds photo manager order
+ * 
+ * @param STRING $title Title of order
+ * @param STRING $order mySQL order
+ * @param STRING $id Optional
+ * @return MIX
+ */
+function add_photo_manger_order( $title, $order, $id =  false ) {
+    return add_object_manager_order( $title, $order, 'photo', $id );
+}
+
+/**
+ * Displays photo manager order
+ * 
+ * @param STRING $display
+ * @return MIX
+ */
+function display_photo_manger_orders( $display='unselected' ) {
+    return display_manager_orders('photo',$display);
+}
+
+/**
+ * Displays current photo manager order
+ * 
+ * @return STRING
+ */
+function current_photo_order () {
+    return current_object_order('photo');
 }
 ?>

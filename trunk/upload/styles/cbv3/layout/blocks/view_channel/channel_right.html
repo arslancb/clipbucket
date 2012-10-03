@@ -1,9 +1,10 @@
 <div class="global-sidebar-column pull-right">
     <div class="cb-widget">
         <h2 class="cb-widget-title">Playlists</h2>
+        <ul>
         {section loop=3 name=play_loop}
-            <div class="sidebar-block clearfix">
-                <a href="#" class="block-content">
+            <li>
+                <a href="#" class="playlist">
                     {$num=rand(1,4)}
                     {$loop_number=$num}
                     <div class="playlist-items-thumb inlineblock-fix playlist-{$loop_number}-items">
@@ -15,8 +16,9 @@
                     <div class="playlist-name">Playlist Name long name</div>
                     <span class="playlist-count">{$loop_number} videos</span>
                 </a>
-            </div>
+            </li>
         {/section}
+        </ul>
     </div>
     {$featured_users=get_users(['limit'=>'6','featured'=>'yes'])}
     {if $featured_users}

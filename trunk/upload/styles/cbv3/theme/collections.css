@@ -1,0 +1,119 @@
+/* 
+    Document   : collections
+    Created on : Oct 2, 2012, 12:20:54 PM
+    Author     : Fawaz
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+ul.collection-details i {
+    margin-top: 1px;
+}
+
+ul.collection-details li {
+    cursor: default;
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+
+.manage-collection-items {
+    margin: 0px 0px 10px 10px;
+    float: left;
+    position: relative;
+}
+
+.manage-collection-item {
+    width: 205px;
+    height: 205px;
+    background: whitesmoke url('../images/icons/images.png') center center no-repeat;
+    background-size: 40%;
+    position: relative;
+    overflow: hidden;
+     -webkit-transition: all .1s ease-in-out; -moz-transition: all .1s ease-in-out;
+}
+
+.manage-collection-items:nth-child(4n+1) {
+    margin-left: 0px;
+}
+
+.black-gradient.manage-collection-item-details {
+    box-sizing: border-box;
+    font-size: 100%;
+    font-weight: normal;
+    padding: 5px 10px;
+    background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,1)));
+    background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
+    background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
+    background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=0 );
+    opacity: 0;
+    -webkit-transition: opacity .2s ease-in-out; -moz-transition: opacity .2s ease-in-out;
+}
+
+.black-gradient.manage-collection-item-details h4 {
+    font-size: 100%; position: relative;
+    margin: 0px 0px 5px 0px;
+    padding: 0px 0px 5px 0px;
+    border-bottom: 1px solid rgba( 255, 255, 255, 0.25 );
+}
+
+img.manage-collection-item-thumb {
+    min-height: 100%;
+    width: auto;
+    max-width: none;
+    position: relative;
+}
+
+.manage-collection-items:hover .manage-collection-item-details {
+    opacity: 1;
+}
+
+.black-gradient.manage-collection-item-details h4:before, .black-gradient.manage-collection-item-details h4:after {
+    content: '';
+    position: absolute;
+    background: inherit;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+    border: inherit;
+    height: 100%;
+    border-bottom: 1px solid;
+    border-bottom-color: inherit;
+}
+.black-gradient.manage-collection-item-details h4:before { right: 100%; } .black-gradient.manage-collection-item-details h4:after { left: 100%; }
+
+.manage-collection-items .nav-pills {
+    position: absolute; top: 0px; right: 0px; border-bottom: 1px solid black;
+    opacity: 0; background: rgba( 0, 0, 0, 0.65 ); width: 100%; height: 24px;
+     -webkit-transition: opacity .1s ease-in-out; -moz-transition: opacity .1s ease-in-out;
+}
+
+.manage-collection-items .nav-pills > li {
+    padding: 0px; margin: 0px;  float: right;
+}
+
+.manage-collection-items .nav-pills > li > a {
+    margin: 0px; padding: 0px 12px; height: 24px; color: #999;
+    color: #666; border-radius: 0px; line-height: 24px;
+    display: block; font-size: 12px;
+    text-shadow: 0px 1px black;
+}
+
+.manage-collection-items .nav-pills > li > a > i {
+    margin:0px; margin-top: 1px;
+}
+
+.manage-collection-items .nav-pills > li > a:hover {
+    color: white;
+    background: none;
+}
+
+.manage-collection-items:hover .manage-collection-item-details, .manage-collection-items:hover .nav-pills {
+    opacity: 1;
+}
+
+.manage-collection-items .nav-pills .dropdown.open > a {
+    background: black;
+}

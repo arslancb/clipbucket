@@ -120,7 +120,11 @@ class CB_Resizer {
                     if ( $this->cropping != -1 ) {
                         $aspect_ratio = min( $x_aspect_ratio, $y_aspect_ratio );
                     } else {
-                        $aspect_ratio = max( $x_aspect_ratio, $y_aspect_ratio );
+                        /*
+                         * If cropping is disabled and both width & height are
+                         * provided, always use width to resize image.
+                         */
+                        $aspect_ratio = ( $x_aspect_ratio );
                     }
 
                     $target_width = round( $this->source_width / $aspect_ratio );

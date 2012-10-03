@@ -991,7 +991,7 @@ class Collections extends CBCategory
 		$collection = $this->get_collection($cid);
 		if(empty($collection))
 			e(lang("collection_not_exists"));
-		elseif($collection['userid'] != userid() && !has_access('admin_access',true))
+		elseif($collection['userid'] != userid() && !has_access('admin_access',true) || $collection['is_avatar_collection'] == 'yes' )
 			e(lang("cant_perform_action_collect"));
 		else
 		{
@@ -1056,7 +1056,7 @@ class Collections extends CBCategory
 			else
 			{
 				$db->execute("DELETE FROM ".tbl($this->items)." WHERE object_id = $id AND collection_id = $cid");
-				$db->update(tbl($this->section_tbl),array("total_objects"),array("|f|total_objects-1")," collection_id = $cid");
+				$db->update(tbl($this->section_tbl),array("total_objects","last_updated"),array("|f|total_objects-1",NOW())," collection_id = $cid");
 				e(sprintf(lang("collect_item_removed"),$this->objName),"m");	
 			}
 		} else {
@@ -1764,13 +1764,45 @@ class Collections extends CBCategory
 	}
   
 	function set_cover_photo( $pid, $cid ) {
-		global $db;
-		$update = $db->update( tbl('collections'), array('cover_photo'),array($pid), " collection_id = '".$cid."' " );
-		if ( $update ) {
-			return true;
-		} else {
-			return false;	
-		}
+        global $db, $userquery, $cbphoto;
+
+        if ( !$this->collection_exists( $cid ) ) {
+            e( lang('collection_not_exists') );
+            return false;
+        }
+
+        if ( !$this->object_exists( $pid ) ) {
+            e(lang( sprintf( '%s does not exist', $this->objType ) ) );
+            return false;
+        }
+        
+        if ( !$this->object_in_collection( $pid, $cid ) ) {
+            e(sprintf(lang("object_not_in_collect"),$this->objName));
+            return false;
+        }
+        
+        if ( !$this->is_collection_owner( $cid ) || userid() != $cbphoto->get_photo_owner( $pid ) ) {
+            e( lang('cant_perform_action_collect') );
+            return false;
+        }
+        
+        if ( $cid == $userquery->udetails['avatar_collection'] ) {
+            e( lang('Your current avatar will be selected as your cover photo') );
+            return false;
+        }
+        
+        if ( $pid == $this->get_collection_field( $cid, 'cover_photo' ) ) {
+            $update = true;
+        } else {
+            $update = $db->update( tbl('collections'), array('cover_photo'),array($pid), " collection_id = '".$cid."' " );
+        }
+        
+        
+        if ( $update ) {
+          return true;
+        } else {
+          return false;	
+        }
 	}
 }
 

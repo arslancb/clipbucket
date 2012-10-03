@@ -6,10 +6,31 @@
     </div>
     {/if}
     <div class="cb-widget">
+        <h2 class="cb-widget-title">Playlists</h2>
+        <ul>
+        {section loop=3 name=play_loop}
+            <li>
+                <a href="#" class="playlist">
+                    {$num=rand(1,4)}
+                    {$loop_number=$num}
+                    <div class="playlist-items-thumb inlineblock-fix playlist-{$loop_number}-items">
+                        {section loop=$loop_number name=playlist_item}
+                            {cycle values='HWSUABY1XKDU,7SGOR89H7SUA,9HW4G2B89X7D,DGABM1XW4UOB' assign='videokey'}
+                            <div class="item-thumb"><img src="{get_thumb vdetails=$videokey}"  /></div>
+                        {/section}
+                    </div>
+                    <div class="playlist-name">Playlist Name long name</div>
+                    <span class="playlist-count">{$loop_number} videos</span>
+                </a>
+            </li>
+        {/section}
+        </ul>
+    </div>
+    <div class="cb-widget">
         <h2 class="cb-widget-title">{$u.username}</h2>
         <dl class="dl-horizontal">
             <dt>{lang code='Member Since'}</dt>
-            <dd>{$u.doj|niceTime}</dd>
+            <dd>{$u.doj|date_format:"%B %e, %Y"}</dd>
 
             <dt>{lang code='Last Login'}</dt>
             <dd>{$u.last_logged|niceTime}</dd>
@@ -44,20 +65,25 @@
 
     <div class="cb-widget">
         <h2 class="cb-widget-title">{lang code='Collections'}</h2>
+        <ul>
         {foreach from=$user_collections item=u_collection}
-        <a href="{$cbcollection->collection_links( $u_collection, 'vc' )}" class="user-thumb-container user-collections">
-            <div class="user-collection-thumb">
-                <img src="{$cbcollection->get_thumb($u_collection,'small')}" />
-            </div>
-            <div class="user-collection-details">
-                <span class="user-collection-title">{$u_collection.collection_name}</span>
-                {$u_collection.total_objects|number_format} {lang code='photos'}
-            </div>
-            <div class="user-collection-views">
-                {$u_collection.views|number_format} {lang code='views'}
-            </div>
-        </a>
+            <li> 
+                <a href="{$cbcollection->collection_links( $u_collection, 'vc' )}" class="user-thumb-container user-collections">
+                    <div class="user-collection-thumb">
+                        <img src="{$cbcollection->get_thumb($u_collection,'small')}" />
+                    </div>
+                    <div class="user-collection-details">
+                        <div class="user-collection-title">{$u_collection.collection_name}</div>
+                        <span class="muted">{$u_collection.total_objects|number_format} {lang code='photos'}</span>
+                    </div>
+                    <div class="user-collection-views">
+                        {$u_collection.views|number_format} {lang code='views'}
+                    </div>
+                </a>
+            </li>
         {/foreach}
+        </ul>
+        
     </div>
     {/if}
 </div>

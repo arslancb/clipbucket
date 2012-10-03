@@ -1,0 +1,7 @@
+{if $display_method == 'index_sidebar'}
+    {if $subs == 'true'}
+        <li><a href="javascript:void(0)"><img src="{avatar uid=$user.subscribed_to size='small'}" width="25" class="marginR5" /> {$user.username}</a></li>
+    {else}
+        <li><a href="{$userquery->profile_link($user)}"><img src="{avatar uid=$user.userid size='small'}" width="25" class="marginR5" /> {$user.username}</a></li>
+    {/if}
+{/if}

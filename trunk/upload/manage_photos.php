@@ -26,7 +26,11 @@ assign('queryString',queryString(NULL,array('type',
 					'makeProfileItem',
 					'removeProfileItem',
 					'delete_photo')));
-					
+
+photo_manager_link_callbacks();
+
+$orders = object_manager_orders('photo');
+
 switch($mode)
 {
 	case "uploaded":
@@ -63,8 +67,15 @@ switch($mode)
 		{
 			$userquery->removeProfileItem();
 		}
-		
-		$photo_arr = array("user"=>userid(),"limit"=>$get_limit, 'order'=>' date_added DESC');
+            $po = $_GET['omo'] ? mysql_clean($_GET['omo']) : (int)0;
+                      
+           if ( !$orders[$po] ) {
+               $order = tbl('photos.date_added desc');
+           } else {
+               $order = $orders[$po]['order'];
+           }
+           
+		$photo_arr = array("user"=>userid(),"limit"=>$get_limit, 'order'=> $order );
 		
 		if(get('query') != '')
 		{
@@ -72,11 +83,12 @@ switch($mode)
 			$photo_arr['tags']	= mysql_clean(get('query'));
 		}
 		$photos = get_photos($photo_arr);
-		assign('photos',$photos);
-		
+            assign('photos',$photos);
+            
 		//Collecting Data for Pagination
 		$photo_arr['count_only'] = true;
 		$total_rows  = get_photos($photo_arr);
+            assign( 'total_photos', $total_rows );
 		$total_pages = count_pages($total_rows,MAINPLIST);
 		
 		//Pagination
@@ -111,7 +123,7 @@ switch($mode)
 		
 		if(get('query')!='')
 		{
-			$cond = " (photos.photo_title LIKE '%".mysql_clean(get('query'))."%' OR photos.photo_tags LIKE '%".mysql_clean(get('query'))."%' )";
+			$cond = " (".tbl('photos.photo_title')." LIKE '%".mysql_clean(get('query'))."%' OR ".tbl('photos.photo_tags')." LIKE '%".mysql_clean(get('query'))."%' )";
 		}
 		
 		$photo_arr = array('user'=>userid(),"limit"=>$get_limit,"cond"=>$cond);
@@ -120,6 +132,7 @@ switch($mode)
 		
 		$photo_arr['count_only'] = true;
 		$total_rows  = $cbphoto->action->get_favorites($photo_arr);
+            assign('total_photos', $total_rows );
 		$total_pages = count_pages($total_rows,MAINPLIST);
 		
 		//Pagination
@@ -128,6 +141,35 @@ switch($mode)
 	}
 	break;
 	
+    case "avatars":
+    case "my_avatars": {
+        assign('mode', 'avatars');
+        assign( 'total_photos', 0 );
+        $udetails = $userquery->udetails;
+        if ( $udetails['avatar_collection'] ) {
+            $collection = $cbcollection->get_collection( $udetails['avatar_collection'] );
+            if ( $collection ) {
+                $po = $_GET['omo'] ? mysql_clean($_GET['omo']) : (int)0;
+                      
+                if ( !$orders[$po] ) {
+                    $order = tbl('photos.date_added desc');
+                } else {
+                    $order = $orders[$po]['order'];
+                }
+                $photos = $cbphoto->collection->get_collection_items_with_details( $collection['collection_id'], $order );
+                
+                assign( 'collection', $collection );
+                assign( 'avatars', $photos );
+                assign( 'total_photos', $collection['total_objects'] );
+            } else {
+                assign( 'no_avatar_collection', true );
+            }
+        } else {
+            assign( 'no_avatar_collection', true );
+        }
+    }
+    break;
+  
 	case "my_album":
 	{
 			
@@ -184,6 +226,7 @@ switch($mode)
 	}
 	break;
 }
+
 template_files('manage_photos.html');
 display_it();
 ?>

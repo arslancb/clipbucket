@@ -8,7 +8,8 @@
  
  @import url("group.css");
  @import url("view_channel.css");
- 
+  @import url("collections.css");
+  
  /**bootstrap icon fix**/
  [class^="icon-"], [class*=" icon-"]{margin-top: -1px}
  
@@ -53,6 +54,7 @@
 .moveR,.floatR,.float-right{float: right}
 .text-left{text-align: left}
 .text-right{text-align: right}
+.text-center { text-align: center !important; }
 
 .valignTop{vertical-align: top}
 .valignMid{vertical-align: middle}
@@ -113,6 +115,101 @@
 .resize-verticle{ resize:vertical; }
 
 .padding_box{ box-sizing: padding-box; -moz-box-sizing: padding-box; -webkit-box-sizing: padding-box;}
+
+.alert.alert-large {
+    font-size: 20px;
+    padding: 3em;
+    margin: 1em 0;
+    text-align: center;
+}
+
+.alert.alert-large, .alert.alert-large.white {
+    background: whitesmoke;
+    border: 1px solid #dadada;
+    color: #787878;
+    box-shadow: inset 0px 2px 5px -2px rgba(0, 0, 0, 0.2);
+}
+
+.alert.alert-large.inverse {
+    background: #232323;
+    border: 1px solid #121212;
+    color: #e8e8e8;
+    text-shadow: 0px 1px rgba(0, 0, 0, 0.5);
+}
+
+.object-manager-thumb {
+    width: 164px;
+    height: 135px;
+    overflow: hidden;
+    float: left;
+}
+
+.object-manager-thumb img {
+    min-height: 100%;
+    max-width: none;
+    width: auto;
+    margin-left: -15%;
+}
+
+.object-manager-content {
+    float: right;
+    width: 480px;
+    font-size: 12px;
+}
+
+.object-manager-title {
+    display: block;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+}
+
+.object-manager-labels .label {
+    font-weight: normal;
+    font-size: 12px;
+    display: block;
+    text-align: center;
+    clear: both;
+    margin-top:5px;
+    padding: 4px;
+}
+
+.object-manager-details {
+
+}
+
+.object-manager-details ul {
+    list-style: none;
+    margin: 0px;
+    padding: 6px 0px;
+    border-radius: 4px;
+}
+
+.object-manager-details ul li {
+    color: #999;
+}
+
+.object-manager-details ul li:last-child {
+    margin-bottom: 0px;
+}
+
+.object-manager-details ul li i {
+    margin: 0px 0px 0px -17px;
+    opacity: 0;
+    -webkit-transition: all .2s ease-in-out; -moz-transition: all .2s ease-in-out;
+    
+}
+
+.object-manager-details ul li:hover {
+    color: #333;
+    cursor: default;
+}
+.object-manager-details ul li:hover i {
+    margin:0px 0px 0px 2px;
+    opacity: 1;
+}
 
 .video-details-shadow{background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 100%);
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.12)));
@@ -195,9 +292,10 @@ font-size: 11px;
 font-weight: bold;
 width: 100%;
 min-height: 20px;
-box-sizing:padding-box;
--moz-box-sizing:padding-box; /* Firefox */
--webkit-box-sizing:padding-box; /* Safari */
+box-sizing: border-box;
+-moz-box-sizing: border-box; /* Firefox */
+-webkit-box-sizing: border-box; /* Safari */
+
 background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%);
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65)));
 background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
@@ -205,7 +303,12 @@ background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
 background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
 background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 );
+
 padding-left:5px;
+}
+
+.black-gradient a {
+    color : white;
 }
 
 /* V3 Progress Bars */

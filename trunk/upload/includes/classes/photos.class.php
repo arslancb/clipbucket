@@ -180,6 +180,7 @@ class CBPhotos {
         $accountLinks = array(
             lang( 'manage_photos' ) => "manage_photos.php",
             lang( 'manage_favorite_photos' ) => "manage_photos.php?mode=favorite",
+            lang( 'Manage Avatars' ) => "manage_photos.php?mode=avatars",
             lang( 'manage_my_album' ) => "manage_photos.php?mode=my_album",
         );
         if ( isSectionEnabled( 'photos' ) )
@@ -358,7 +359,6 @@ class CBPhotos {
     function get_photos( $p ) {
         global $db;
         $tables = "users,photos";
-
         $order = $p['order'];
         if ( !$order ) {
             $order = 'date_added DESC';
@@ -1461,13 +1461,13 @@ class CBPhotos {
               'default_value'=>'public'
               ), */
             'tagging' => array(
-              'title' => lang('tagging'),
+              'title' => lang('Tagging'),
               'type' => 'radiobutton',
               'id' => 'allow_tagging',
               'name' => 'allow_tagging',
               'db_field' => 'allow_tagging',
               'type' => 'radiobutton',
-              'value' => array('yes' => lang('pic_allow_tagging'),'no' => lang('pic_dallow_tagging')),
+              'value' => array('yes' => lang('Enable photo tagging'),'no' => lang('Disable photo tagging')),
               'checked' => $tagging,
               'validate_function'=>'yes_or_no',
               'display_function' => 'display_sharing_opt',

@@ -164,7 +164,11 @@
 					} else {
 						object = width	
 					}
-															 
+                        
+                            if ( options.allowTagging != 'yes' ) {
+                                return false;
+                            }
+                        
 					/* Adding Tag */
 					var _d = getTagDimensions( object ),
 					

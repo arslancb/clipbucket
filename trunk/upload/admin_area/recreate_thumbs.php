@@ -74,7 +74,7 @@ switch($mode)
 			{
 				if($photos[$i]['photo_id'])
 				{
-					//$cbphoto->generate_photos($photos[$i]['photo_id']);
+					$cbphoto->generate_photos($photos[$i]['photo_id']);
 					$msg[] = $photos[$i]['photo_id'].": Re-created '<strong>".$photos[$i]['photo_title']."</strong>'"; 		
 				}
 				$i++;	
