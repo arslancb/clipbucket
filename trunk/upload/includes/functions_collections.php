@@ -78,6 +78,16 @@ function confirm_collection_type ( $type ) {
     return $cbcollection->types;
 }
 
+/**
+ * This will get only avatar collections
+ * 
+ * @global OBJECT $db
+ * @global OBJECT $cbcollection
+ * @param STRING $cond
+ * @param INT $limit
+ * @param STRING $order
+ * @return MIX
+ */
 function get_avatar_collections( $cond=null, $limit=null, $order=null ) {
     global $db, $cbcollection;
     
@@ -93,6 +103,15 @@ function get_avatar_collections( $cond=null, $limit=null, $order=null ) {
     }
 }
 
+/**
+ * This will be select object from items table
+ * 
+ * @global OBJECT $db
+ * @global OBJECT $cbcollection
+ * @param INT $cid
+ * @param INT $oid
+ * @return MIX
+ */
 function get_collection_item ( $cid, $oid ) {
 	global $db, $cbcollection;
 	$result	= $db->select( tbl( $cbcollection->items ),'*', " collection_id = '".$cid."' AND object_id = '".$oid."' " );
@@ -101,5 +120,51 @@ function get_collection_item ( $cid, $oid ) {
 	} else {
 		return false;	
 	}
+}
+
+/**
+ * Gets photo manager orders
+ * 
+ * @return ARRAY
+ */
+function get_collection_manager_orders() {
+    return object_manager_orders('collection');
+}
+
+/**
+ * Adds photo manager order
+ * 
+ * @param STRING $title Title of order
+ * @param STRING $order mySQL order
+ * @param STRING $id Optional
+ * @return MIX
+ */
+function add_collection_manager_order( $title, $order, $id =  false ) {
+    return add_object_manager_order( $title, $order, 'collection', $id );
+}
+
+/**
+ * Displays photo manager order
+ * 
+ * @param STRING $display
+ * @return MIX
+ */
+function display_collection_manger_orders( $display='unselected' ) {
+    return display_manager_orders('collection',$display);
+}
+
+/**
+ * Displays current photo manager order
+ * 
+ * @return STRING
+ */
+function current_collection_order () {
+    return current_object_order('collection');
+}
+
+function collection_links( $collection, $type = 'vc' ) {
+    global $cbcollection;
+
+    return $cbcollection->collection_links( $collection, $type );
 }
 ?>

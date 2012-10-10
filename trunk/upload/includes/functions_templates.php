@@ -681,12 +681,13 @@ function cbMenu($params = NULL) {
     $menu = get_menu($name);
     $params['show_icons'] = $params['show_icons'] ? $params['show_icons'] : 'yes';
     if ($menu) {
+        
         foreach ($menu as $item) {
             $continue = true;
             if ($item['section'] && !isSectionEnabled($item['section'])) {
                 $continue = false;
             }
-
+            
             if ($continue == true) {
                 $selected = current_page(array('page' => $item['section']));
                 $icon = '';
@@ -706,7 +707,7 @@ function cbMenu($params = NULL) {
                 $output .= "</li>";
             }
         }
-
+        
         if ($params['assign']) {
             assign($params['assign'], $output);
         } else {
@@ -1226,4 +1227,117 @@ function rmdir_recurse($path) {
     rmdir($path);
 }
 
+/**
+ * Get manager order for provided $type
+ * 
+ * @todo Add alias function for different objects
+ * @global OBJECT $Cbucket
+ * @param STRING $type
+ * @return MIX
+ */
+function object_manager_orders ( $type='video' ) {
+    global $Cbucket;
+    $orders = $Cbucket->manager_orders[ $type ];
+    if ( $orders ) {
+        $orders = apply_filters( $orders, 'manager_orders' );
+        return $orders;
+    }
+    
+    return false;
+}
+
+/**
+ * Adds a new order for object
+ * 
+ * @todo Add alias function for different objects
+ * @global OBJECT $Cbucket
+ * @param STRING $title
+ * @param STRING $order
+ * @param STRING $type
+ * @param STRING $id
+ * @return MIX
+ */
+function add_object_manager_order ( $title, $order, $type = 'video' ) {
+    global $Cbucket;
+    
+    if ( !$title || !$order || !$type ) {
+        return false;
+    }
+    
+    $order_array = array(
+        'title' => $title,
+        'order' => $order,
+        'id' => $type.'-'.SEO( strtolower($title) ).'-'.time()
+    );
+    
+    $Cbucket->manager_orders[ trim($type) ][] = $order_array;
+    return $Cbucket->manager_orders;
+}
+
+/**
+ * Displays the current order title 
+ * 
+ * @todo Add alias function for different objects
+ * @param STRING $type
+ * @return MIX
+ */
+function current_object_order( $type = 'video' ) {
+    $current = $_GET['omo'] ? mysql_clean( $_GET['omo'] ) : (int)0;
+    $orders = object_manager_orders( $type );
+    
+    if ( !$orders[$current] ) {
+        $current = 0;
+    }
+        
+    if ( $orders[$current] ) {
+        return $orders[$current]['title'];
+    }
+    
+    return false;
+}
+
+/**
+ * Displays the list of orders for current object. You have option to only
+ * display unselected orders excluding the current order. Set $display to
+ * 'all' to add all orders, adding CSS .active class to current one
+ * 
+ * @todo Add alias function for different objects
+ * @param STRING $type
+ * @param STRING $display
+ * @return MIX
+ */
+function display_manager_orders( $type = 'video', $display = 'unselected' ) {
+    $orders = object_manager_orders( $type );
+    $current_order = $_GET['omo'] ? mysql_clean( $_GET['omo'] ) : (int)0;
+    
+    if ( !$orders[$current_order] ) {
+        $current_order = 0;
+    }
+    
+    $total_order = count( $orders );
+    if ( $_SERVER['QUERY_STRING'] ) {
+        $query_string = queryString(null,'omo');
+    }
+    
+    if ( $orders ) {
+        foreach ( $orders as $key => $order ) {
+            if ( $key == $current_order && $display == 'unselected' && $total_order >= 2 ) {
+                continue; // skip the selected one
+            }
+            
+            $active = '';
+            
+            if ( $key == $current_order ) {
+                $active = ' class="active"';
+            }
+            $output .= '<li'.$active.'>';
+            $output .= '<a href="'.($query_string ? $query_string : '?').'omo='.$key.'" id="'.$order['id'].'" data-order="'.$key.'" data-type="'.$type.'">'.$order['title'].'</a>';
+            $output .= '</li>';
+        }
+        
+        return $output;
+    }
+    
+    return false;
+}
 ?>
