@@ -244,7 +244,7 @@
         {
             global $Cbucket;
 
-            if($Cbucket->filters[$type]);
+            if(isset($Cbucket->filters[$type]));
                 return $Cbucket->filters[$type];
         }
         

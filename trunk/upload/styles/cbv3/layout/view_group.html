@@ -33,7 +33,17 @@
         </div>
         {else}
 
-
+        
+        <div id="group-feeds">
+            {if $feeds}
+                {foreach $feeds as $feed}
+                    {include_template_file file='blocks/groups/group_feed.html' feed=$feed}
+                {/foreach}
+            {else}
+            <div class="alert">{lang code='No feeds were found'}</div>
+            {/if}
+        </div>
+        
         <div id="group-topics">
             {if $topics}
             {foreach $topics as $topic}

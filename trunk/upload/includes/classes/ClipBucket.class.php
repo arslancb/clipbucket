@@ -73,6 +73,9 @@ class ClipBucket
 
         
         var $admin_blocks = array();
+        
+        
+        var $filters = array();
 	 
 	function ClipBucket ()
 	{
@@ -572,6 +575,7 @@ class ClipBucket
                         if(!in_array($clean_gets['time'],$times))
                             $clean_gets['time'] = 'all_time';
                         
+                        $clean_gets['type'] = mysql_clean($_GET['type']);
                         
 			$_GET = $clean_gets;
 		}

@@ -125,7 +125,7 @@ class CBvideo extends CBCategory {
                 tbl("video.*" . $ufieldsQuery . ",slugs.*").','.$meta_query,
                 //Addind Condition
                 $cond);
-        
+        //echo $db->db_query;
         if ($db->num_rows > 0) {
             return $results[0];
         } else {
@@ -1325,7 +1325,7 @@ class CBvideo extends CBCategory {
      * Function used to rate video
      */
     function rate_video($id, $rating) {
-        global $db;
+        global $db,$myquery,$userquery;
 
         if (!is_numeric($rating) || $rating <= 9)
             $rating = 0;
@@ -1366,7 +1366,7 @@ class CBvideo extends CBCategory {
             e(lang("please_login_to_rate"));
         elseif (userid() == $rating_details['userid'] && !config('own_video_rating'))
             e(lang("you_cant_rate_own_video"));
-        elseif (!empty($already_voted))
+        elseif (!empty($already_voted) && !1)
             e(lang("you_hv_already_rated_vdo"));
         elseif (!config('video_rating') || $rating_details['allow_rating'] != 'yes')
             e(lang("vid_rate_disabled"));
@@ -1392,7 +1392,12 @@ class CBvideo extends CBCategory {
             $newrate = ($t + $rating) / $new_by;
             if ($newrate > 10)
                 $newrate = 10;
+            
+            $newrate = round($newrate+0.49,0);
+            
             $db->update(tbl($this->dbtbl['video']), array("rating", "rated_by", "voter_ids"), array($newrate, $new_by, "|no_mc|$voters"), " videoid='$id'");
+           
+            
             $userDetails = array(
                 "object_id" => $id,
                 "type" => "video",
@@ -1403,6 +1408,55 @@ class CBvideo extends CBCategory {
             );
             /* Updating user details */
             update_user_voted($userDetails);
+            
+            
+            $like_array = array(
+                    'userid'    => userid(),
+                    'type'      => 'v',
+                    'object_id' => $id,
+            );
+            
+            if($rating>1)
+            {
+                $myquery->add_like($like_array);
+            }else
+            {
+                $myquery->add_dislike($like_array);
+            }
+            
+            if(isSectionEnabled('feeds'))
+            {
+                
+                //ADding feed
+                global $cbfeeds;
+                if($rating>1)
+                {
+                    $object = $this->get_content($id);
+                    $user = $userquery->udetails;
+                    $feed_array = array(
+                        'userid'        => userid(),
+                        'user'          => $user,
+                        'object'        => $object,
+                        'object_id'     => $id,
+                        'object_type'   => 'video',
+                        'is_activity'   => 'yes',
+                        'action'        => 'like_video',
+                    );
+                    
+                    $cbfeeds->add_feed($feed_array);
+                }else
+                {
+                    $feed_array = array(
+                        'userid'        => userid(),
+                        'object_id'     => $id,
+                        'object_type'   => 'video',
+                        'is_activity'   => 'yes',
+                        'action'        => 'like_video',
+                    );
+                    $cbfeeds->delete_feed($feed_array);
+                }
+            }
+            
             e(lang("thnx_for_voting"), "m");
         }
 
@@ -2273,6 +2327,47 @@ class CBvideo extends CBCategory {
             
             return videoLink($item);
         }
+    }
+    
+    
+    /**
+     * get video content for feed
+     * 
+     * @param INT $id
+     * @param ARRAY $content
+     */
+    function get_content($id,$content=NULL)
+    {
+        if($content)
+        {
+            if($content['title'] && $content['videoid'])
+                $the_content = $content;
+        }
+        
+        if(!$the_content)
+            $the_content = $this->get_video($id);
+        
+        if(!$the_content)
+            return false;
+        
+        $video_feed_fields = array(
+            'title','description','duration','videoid','date_added',
+            'file_server_path','files_thumbs_path','file_directory','file_thumbs_count',
+            'tags','category','privacy','userid','username','email','fullname'
+        );
+        
+        $video_feed_fields = apply_filters($video_feed_fields, 'video_content_fields_unsorted');
+        $video_fields = array();        
+        
+        foreach($video_feed_fields as $vid_field)
+            $video_fields[$vid_field] = $the_content[$vid_field];
+        
+        
+        $video_fields['link'] = VideoLink($the_content);
+        $video_fields['thumb'] = get_thumb($the_content);
+        $video_fields['sub_title'] = setTime($the_content['duration']);
+        
+        return $video_fields;
     }
 
 }

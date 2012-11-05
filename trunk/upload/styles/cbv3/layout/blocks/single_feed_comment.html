@@ -1,0 +1,16 @@
+<div class="feed-comment">
+   
+    <div class="feed-comment-author">
+        <img src="{$userquery->avatar($comment,'small')}" />
+    </div>
+    <div class="feed-comment-text">
+        <a href="{$userquery->profile_link($comment)}" class="feed-comment-author-name">{name($comment)}</a>
+        {$comment.comment}
+        <div class="feed-comment-likes">
+            <!-- @todo finish this -->
+            {what_time($comment.date_added,false)}
+            
+            <!--@tpdp make comments likeable . Like . <i class="icon icon-like"></i> 3 -->
+        </div>
+    </div>
+</div>

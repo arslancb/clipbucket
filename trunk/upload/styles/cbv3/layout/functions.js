@@ -651,8 +651,8 @@ function close_confirm(){
     
     
 /**
-     * Add comment
-     */
+ * Add comment
+ */
 function add_comment()
 {
     var comment_form = '#comment-form';
@@ -868,8 +868,8 @@ function share_object(form_id,type,bttn)
             $('#share_email_success').show();
         }
         
-         if(bttn)
-                $(bttn).button('reset');
+        if(bttn)
+            $(bttn).button('reset');
     });
 }
 
@@ -900,7 +900,15 @@ function report(obj,bttn)
             $(obj).modal('hide');
         }
         
-         if(bttn)
-                $(bttn).button('reset');
+        if(bttn)
+            $(bttn).button('reset');
     });
+}
+
+
+
+
+function nl2br (str, is_xhtml) {   
+    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';    
+    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
 }

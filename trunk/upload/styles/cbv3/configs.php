@@ -7,6 +7,7 @@
 //Template files
 $array = array(
     'single_comment' => 'blocks/comment.html',
+    'single_feed_comment'   => 'blocks/single_feed_comment.html',
     'comments'       => 'blocks/comments.html',
     'topic'          => 'blocks/groups/group_topic.html',
 );

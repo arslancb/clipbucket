@@ -19,23 +19,27 @@ require 'define_php_links.php';
 include_once 'upload_forms.php';
 
 //This Funtion is use to get CURRENT PAGE DIRECT URL
-function curPageURL() {
+function curPageURL()
+{
     $pageURL = 'http';
-    if (@$_SERVER["HTTPS"] == "on") {
+    if (@$_SERVER["HTTPS"] == "on")
+    {
         $pageURL .= "s";
     }
     $pageURL .= "://";
     $pageURL .= $_SERVER['SERVER_NAME'];
     $pageURL .= $_SERVER['PHP_SELF'];
     $query_string = $_SERVER['QUERY_STRING'];
-    if (!empty($query_string)) {
+    if (!empty($query_string))
+    {
         $pageURL .= '?' . $query_string;
     }
     return $pageURL;
 }
 
 //QuotesReplace
-function Replacer($string) {
+function Replacer($string)
+{
     //Wp-Magic Quotes
     $string = preg_replace("/'s/", '&#8217;s', $string);
     $string = preg_replace("/'(\d\d(?:&#8217;|')?s)/", "&#8217;$1", $string);
@@ -56,10 +60,12 @@ function Replacer($string) {
 
 //This Funtion is used to clean a String
 
-function clean($string, $allow_html = false) {
+function clean($string, $allow_html = false)
+{
     //$string = $string;
     //$string = htmlentities($string);
-    if ($allow_html == false) {
+    if ($allow_html == false)
+    {
         $string = strip_tags($string);
         $string = Replacer($string);
     }
@@ -68,7 +74,8 @@ function clean($string, $allow_html = false) {
 }
 
 function cb_clean($string, $array = array('no_html' => true,
-    'mysql_clean' => false)) {
+    'mysql_clean' => false))
+{
     if ($array['no_html'])
         $string = htmlentities($string);
     if ($array['special_html'])
@@ -84,23 +91,28 @@ function cb_clean($string, $array = array('no_html' => true,
 // you may change its combination for security reason but make 
 // sure dont not rechange once you made your script run
 
-function pass_code($string) {
+function pass_code($string)
+{
     $password = md5(md5(sha1(sha1(md5($string)))));
     return $password;
 }
 
 //Mysql Clean Queries
-function sql_free($id) {
-    if (!get_magic_quotes_gpc()) {
+function sql_free($id)
+{
+    if (!get_magic_quotes_gpc())
+    {
         $id = addslashes($id);
     }
     return $id;
 }
 
-function mysql_clean($id, $replacer = true) {
+function mysql_clean($id, $replacer = true)
+{
     //$id = clean($id);
 
-    if (get_magic_quotes_gpc()) {
+    if (get_magic_quotes_gpc())
+    {
         $id = stripslashes($id);
     }
     $id = htmlspecialchars(mysql_real_escape_string($id));
@@ -109,16 +121,25 @@ function mysql_clean($id, $replacer = true) {
     return $id;
 }
 
-function escape_gpc($in) {
-    if (get_magic_quotes_gpc()) {
+function escape_gpc($in)
+{
+    if (get_magic_quotes_gpc())
+    {
         $in = stripslashes($in);
     }
     return $in;
 }
 
+function filter_sql($data)
+{
+    $data = mysql_real_escape_string($data);
+    return $data;
+}
+
 //Redirect Using JAVASCRIPT
 
-function redirect_to($url) {
+function redirect_to($url)
+{
     echo '<script type="text/javascript">
             window.location = "' . $url . '"
             </script>';
@@ -126,7 +147,8 @@ function redirect_to($url) {
 }
 
 //Funtion of Random String
-function RandomString($length) {
+function RandomString($length)
+{
     $string = md5(microtime());
     $highest_startpoint = 32 - $length;
     $randomString = substr($string, rand(0, $highest_startpoint), $length);
@@ -134,24 +156,29 @@ function RandomString($length) {
 }
 
 //This Function Is Used To Display Tags Cloud
-function TagClouds($cloudquery) {
+function TagClouds($cloudquery)
+{
     $tags = array();
     $cloud = array();
     $query = mysql_query($cloudquery);
-    while ($t = mysql_fetch_array($query)) {
+    while ($t = mysql_fetch_array($query))
+    {
         $db = explode(' ', $t[0]);
-        while (list($key, $value) = each($db)) {
+        while (list($key, $value) = each($db))
+        {
             @$keyword[$value] += 1;
         }
     }
-    if (is_array(@$keyword)) {
+    if (is_array(@$keyword))
+    {
         $minFont = 11;
         $maxFont = 22;
         $min = min(array_values($keyword));
         $max = max(array_values($keyword));
         $fix = ($max - $min == 0) ? 1 : $max - $min;
         // Display the tags
-        foreach ($keyword as $tag => $count) {
+        foreach ($keyword as $tag => $count)
+        {
             $size = $minFont + ($count - $min) * ($maxFont - $minFont) / $fix;
             $cloud[] = '<a class=cloudtags style="font-size: ' . floor($size) . 'px;" href="' . BASEURL . search_result . '?query=' . $tag . '" title="Tags: ' . ucfirst($tag) . ' was used ' . $count . ' times"><span>' . mysql_clean($tag) . '</span></a>';
         }
@@ -167,11 +194,15 @@ function TagClouds($cloudquery) {
  * you can extend or replace this function easily
  * read our docs.clip-bucket.com
  */
-function cbmail($array) {
+function cbmail($array)
+{
     $func_array = get_functions('email_functions');
-    if (is_array($func_array)) {
-        foreach ($func_array as $func) {
-            if (function_exists($func)) {
+    if (is_array($func_array))
+    {
+        foreach ($func_array as $func)
+        {
+            if (function_exists($func))
+            {
                 return $func($array);
             }
         }
@@ -188,8 +219,10 @@ function cbmail($array) {
         $content = nl2br($content);
 
     # CHecking Content
-    if (preg_match('/<html>/', $content, $matches)) {
-        if (empty($matches[1])) {
+    if (preg_match('/<html>/', $content, $matches))
+    {
+        if (empty($matches[1]))
+        {
             $content = wrap_email_content($content);
         }
     }
@@ -204,7 +237,8 @@ function cbmail($array) {
     $mail_type = config('mail_type');
 
     //---Setting SMTP ---		
-    if ($mail_type == 'smtp') {
+    if ($mail_type == 'smtp')
+    {
         $mail->IsSMTP(); // telling the class to use SMTP
         $mail->Host = config('smtp_host'); // SMTP server
         if (config('smtp_auth') == 'yes')
@@ -217,18 +251,23 @@ function cbmail($array) {
 
     $mail->SetFrom($from, $from_name);
 
-    if (is_array($to)) {
-        foreach ($to as $name) {
+    if (is_array($to))
+    {
+        foreach ($to as $name)
+        {
             $mail->AddAddress(strtolower($name), $to_name);
         }
-    } else {
+    }
+    else
+    {
         $mail->AddAddress(strtolower($to), $to_name);
     }
 
     $mail->Subject = $subject;
     $mail->MsgHTML($message);
 
-    if (!$mail->Send()) {
+    if (!$mail->Send())
+    {
         if (!DEVELOPMENT_MODE)
             e("Mailer Error: " . $mail->ErrorInfo);
         return false;
@@ -236,7 +275,8 @@ function cbmail($array) {
         return true;
 }
 
-function send_email($from, $to, $subj, $message) {
+function send_email($from, $to, $subj, $message)
+{
     return cbmail(array('from' => $from, 'to' => $to, 'subject' => $subj, 'content' => $message));
 }
 
@@ -244,14 +284,16 @@ function send_email($from, $to, $subj, $message) {
  * Function used to wrap email content in 
  * HTML AND BODY TAGS
  */
-function wrap_email_content($content) {
+function wrap_email_content($content)
+{
     return '<html><body>' . $content . '</body></html>';
 }
 
 /**
  * Function used to get file name
  */
-function GetName($file) {
+function GetName($file)
+{
     if (!is_string($file))
         return false;
     $path = explode('/', $file);
@@ -261,8 +303,10 @@ function GetName($file) {
     return $new_name;
 }
 
-function get_elapsed_time($ts, $datetime = 1) {
-    if ($datetime == 1) {
+function get_elapsed_time($ts, $datetime = 1)
+{
+    if ($datetime == 1)
+    {
         $ts = date('U', strtotime($ts));
     }
     $mins = floor((time() - $ts) / 60);
@@ -285,28 +329,37 @@ function get_elapsed_time($ts, $datetime = 1) {
 }
 
 //Function Used TO Get Extensio Of File
-function GetExt($file) {
+function GetExt($file)
+{
     return strtolower(substr($file, strrpos($file, '.') + 1));
 }
 
 //Simple Validation
-function isValidText($text) {
+function isValidText($text)
+{
     $pattern = "^^[_a-z0-9-]+$";
-    if (eregi($pattern, $text)) {
+    if (eregi($pattern, $text))
+    {
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
 
 //Function Used To Validate Email
 
-function isValidEmail($email) {
+function isValidEmail($email)
+{
     $pattern = "/[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i";
     preg_match($pattern, $email, $matches);
-    if ($matches[0] != '') {
+    if ($matches[0] != '')
+    {
         return true;
-    } else {
+    }
+    else
+    {
         if (!DEVELOPMENT_MODE)
             return false;
         else
@@ -318,9 +371,11 @@ function isValidEmail($email) {
 // INPUT: $text REPRESENTING THE TEXT TO DECODE
 //	  $ent_quotes (OPTIONAL) REPRESENTING WHETHER TO REPLACE DOUBLE QUOTES, ETC
 // OUTPUT: A STRING WITH HTML CHARACTERS DECODED
-if (!function_exists('htmlspecialchars_decode')) {
+if (!function_exists('htmlspecialchars_decode'))
+{
 
-    function htmlspecialchars_decode($text, $ent_quotes = "") {
+    function htmlspecialchars_decode($text, $ent_quotes = "")
+    {
         $text = str_replace("&quot;", "\"", $text);
         $text = str_replace("&#039;", "'", $text);
         $text = str_replace("&lt;", "<", $text);
@@ -334,12 +389,15 @@ if (!function_exists('htmlspecialchars_decode')) {
 //INPUT FILE TYPES
 //OUTPUT FILE TYPE IN PROPER FORMAT
 
-function ListFileTypes($types) {
+function ListFileTypes($types)
+{
     $types_array = preg_replace('/,/', ' ', $types);
     $types_array = explode(' ', $types_array);
     $list = 'Video,';
-    for ($i = 0; $i <= count($types_array); $i++) {
-        if ($types_array[$i] != '') {
+    for ($i = 0; $i <= count($types_array); $i++)
+    {
+        if ($types_array[$i] != '')
+        {
             $list .= '*.' . $types_array[$i];
             if ($i != count($types_array))
                 $list .= ';';
@@ -351,21 +409,28 @@ function ListFileTypes($types) {
 /**
  * Get Directory Size - get_video_file($vdata,$no_video,false);
  */
-function get_directory_size($path) {
+function get_directory_size($path)
+{
     $totalsize = 0;
     $totalcount = 0;
     $dircount = 0;
-    if ($handle = opendir($path)) {
-        while (false !== ($file = readdir($handle))) {
+    if ($handle = opendir($path))
+    {
+        while (false !== ($file = readdir($handle)))
+        {
             $nextpath = $path . '/' . $file;
-            if ($file != '.' && $file != '..' && !is_link($nextpath)) {
-                if (is_dir($nextpath)) {
+            if ($file != '.' && $file != '..' && !is_link($nextpath))
+            {
+                if (is_dir($nextpath))
+                {
                     $dircount++;
                     $result = get_directory_size($nextpath);
                     $totalsize += $result['size'];
                     $totalcount += $result['count'];
                     $dircount += $result['dircount'];
-                } elseif (is_file($nextpath)) {
+                }
+                elseif (is_file($nextpath))
+                {
                     $totalsize += filesize($nextpath);
                     $totalcount++;
                 }
@@ -382,31 +447,41 @@ function get_directory_size($path) {
 //FUNCTION USED TO FORMAT FILE SIZE
 //INPUT BYTES
 //OUTPT MB , Kib
-function formatfilesize($data) {
+function formatfilesize($data)
+{
     // bytes
-    if ($data < 1024) {
+    if ($data < 1024)
+    {
         return $data . " bytes";
     }
     // kilobytes
-    else if ($data < 1024000) {
+    else if ($data < 1024000)
+    {
         return round(( $data / 1024), 1) . "KB";
     }
     // megabytes
-    else if ($data < 1024000000) {
+    else if ($data < 1024000000)
+    {
         return round(( $data / 1024000), 1) . " MB";
-    } else {
+    }
+    else
+    {
         return round(( $data / 1024000000), 1) . " GB";
     }
 }
 
 //TEST EXCEC FUNCTION 
-function test_exec($cmd) {
+function test_exec($cmd)
+{
     echo '<div border="1px">';
     echo '<h1>' . htmlentities($cmd) . '</h1>';
 
-    if (stristr(PHP_OS, 'WIN')) {
+    if (stristr(PHP_OS, 'WIN'))
+    {
         $cmd = $cmd;
-    } else {
+    }
+    else
+    {
         $cmd = "PATH=\$PATH:/bin:/usr/bin:/usr/local/bin bash -c \"$cmd\"";
     }
     $data = shell_exec($cmd);
@@ -418,10 +493,14 @@ function test_exec($cmd) {
 /**
  * Function used to get shell output
  */
-function shell_output($cmd) {
-    if (stristr(PHP_OS, 'WIN')) {
+function shell_output($cmd)
+{
+    if (stristr(PHP_OS, 'WIN'))
+    {
         $cmd = $cmd;
-    } else {
+    }
+    else
+    {
         $cmd = "PATH=\$PATH:/bin:/usr/bin:/usr/local/bin bash -c \"$cmd\"  2>&1";
     }
     $data = shell_exec($cmd);
@@ -431,8 +510,10 @@ function shell_output($cmd) {
 /**
  * Function used to tell ClipBucket that it has closed the script
  */
-function the_end() {
-    if (!$isWorthyBuddy) {
+function the_end()
+{
+    if (!$isWorthyBuddy)
+    {
         echo 'Nothing to do here anymore';
     }
 }
@@ -441,7 +522,8 @@ function the_end() {
  * FUNCTION USED TO GET COMMENTS
  * @param : array();
  */
-function getComments($params = NULL) {
+function getComments($params = NULL)
+{
     global $db;
     $order = $params['order'];
     $limit = $params['limit'];
@@ -451,13 +533,15 @@ function getComments($params = NULL) {
         $type = "v";
     $cond .= tbl("comments.type") . " = '" . $type . "'";
 
-    if ($params['type_id'] && $params['sectionTable']) {
+    if ($params['type_id'] && $params['sectionTable'])
+    {
         if ($cond != "")
             $cond .= " AND ";
         $cond .= tbl("comments.type_id") . " = " . tbl($params['sectionTable'] . "." . $params['type_id']);
     }
 
-    if ($params['cond']) {
+    if ($params['cond'])
+    {
         if ($cond != "")
             $cond .= " AND ";
         $cond .= $params['cond'];
@@ -476,7 +560,8 @@ function getComments($params = NULL) {
         return false;
 }
 
-function out($link) {
+function out($link)
+{
     return BASEURL . '/out.php?l=' . urlencode($link);
 }
 
@@ -488,7 +573,8 @@ function out($link) {
  * @param STRING $page_name
  * @return STRING current_page
  */
-function this_page($page) {
+function this_page($page)
+{
     if (defined('THIS_PAGE'))
         return THIS_PAGE;
     else
@@ -506,11 +592,13 @@ function this_page($page) {
  * 
  * return BOOLEAN
  */
-function isValidToken($token, $method = NULL) {
+function isValidToken($token, $method = NULL)
+{
     $fullToken = getToken($method);
     if ($fullToken != $token)
         return false;
-    else {
+    else
+    {
         return true;
     }
 }
@@ -523,12 +611,14 @@ function isValidToken($token, $method = NULL) {
  * @param STRING $method 
  * @return STRING $token
  */
-function getToken($method = NULL) {
+function getToken($method = NULL)
+{
     $sess = session_id();
     $ip = $_SERVER['REMOTE_ADDR'];
     $webkey = "";
 
-    if (defined('CB_WEBSITE_KEY')) {
+    if (defined('CB_WEBSITE_KEY'))
+    {
         $webkey = CB_WEBSITE_KEY;
     }
 
@@ -550,7 +640,8 @@ function getToken($method = NULL) {
  * all data folders
  * @return string 
  */
-function createDataFolders($headFolder = NULL, $custom_date = NULL) {
+function createDataFolders($headFolder = NULL, $custom_date = NULL)
+{
 
     $time = time();
 
@@ -566,14 +657,18 @@ function createDataFolders($headFolder = NULL, $custom_date = NULL) {
     if ($data)
         return $data;
 
-    if (!$headFolder) {
+    if (!$headFolder)
+    {
         @mkdir(VIDEOS_DIR . '/' . $folder, 0777, true);
         @mkdir(THUMBS_DIR . '/' . $folder, 0777, true);
         @mkdir(ORIGINAL_DIR . '/' . $folder, 0777, true);
         @mkdir(PHOTOS_DIR . '/' . $folder, 0777, true);
         @mkdir(LOGS_DIR . '/' . $folder, 0777, true);
-    } else {
-        if (!file_exists($headFolder . '/' . $folder)) {
+    }
+    else
+    {
+        if (!file_exists($headFolder . '/' . $folder))
+        {
             @mkdir($headFolder . '/' . $folder, 0777, true);
         }
     }
@@ -582,7 +677,8 @@ function createDataFolders($headFolder = NULL, $custom_date = NULL) {
     return $folder;
 }
 
-function create_dated_folder($headFolder = NULL, $custom_date = NULL) {
+function create_dated_folder($headFolder = NULL, $custom_date = NULL)
+{
     return createDataFolders($headFolder, $custom_date);
 }
 
@@ -593,7 +689,8 @@ function create_dated_folder($headFolder = NULL, $custom_date = NULL) {
  * in smarty template, read getComments for more information
  * @return ARRAY $comments 
  */
-function getSmartyComments($params) {
+function getSmartyComments($params)
+{
     global $myquery;
     $comments = $myquery->getComments($params);
 
@@ -613,7 +710,8 @@ function getSmartyComments($params) {
  * place = AD placement code e.g ad_300x250
  * @return string 
  */
-function getAd($params) {
+function getAd($params)
+{
     global $adsObj;
     $data = '';
     if ($params['style'] || $params['class'] || $params['align'])
@@ -628,7 +726,8 @@ function getAd($params) {
  * FUNCTION USED TO GET VIDEO RATING IN SMARTY
  * @param : array(pullRating($videos[$id]['videoid'],false,false,false,'novote');
  */
-function pullSmartyRating($param) {
+function pullSmartyRating($param)
+{
     return pullRating($param['id'], $param['show5'], $param['showPerc'], $aram['showVotes'], $param['static']);
 }
 
@@ -640,13 +739,16 @@ function pullSmartyRating($param) {
  * @param tags text unformatted
  * returns tags formatted
  */
-function genTags($tags, $sep = ',') {
+function genTags($tags, $sep = ',')
+{
     //Remove fazool spaces
     $tags = preg_replace(array('/ ,/', '/, /'), ',', $tags);
     $tags = preg_replace("`[,]+`", ",", $tags);
     $tag_array = explode($sep, $tags);
-    foreach ($tag_array as $tag) {
-        if (isValidtag($tag)) {
+    foreach ($tag_array as $tag)
+    {
+        if (isValidtag($tag))
+        {
             $newTags[] = $tag;
         }
     }
@@ -661,41 +763,48 @@ function genTags($tags, $sep = ',') {
 /**
  * FUNCTION USED TO GET CATEGORY LIST
  */
-function getCategoryList($params = false) {
+function getCategoryList($params = false)
+{
     global $cats;
     $cats = "";
 
     $type = $params['type'];
-    switch ($type) {
-        default: {
+    switch ($type)
+    {
+        default:
+            {
 
                 cb_call_functions('categoryListing', $params);
             }
             break;
 
         case "video":case "videos":
-        case "v": {
+        case "v":
+            {
                 global $cbvid;
                 $cats = $cbvid->cbCategories($params);
             }
             break;
 
         case "users":case "user":
-        case "u": case "channels": case "channels": {
+        case "u": case "channels": case "channels":
+            {
                 global $userquery;
                 $cats = $userquery->cbCategories($params);
             }
             break;
 
         case "group":case "groups":
-        case "g": {
+        case "g":
+            {
                 global $cbgroup;
                 $cats = $cbgroup->cbCategories($params);
             }
             break;
 
         case "collection":case "collections":
-        case "cl": {
+        case "cl":
+            {
                 global $cbcollection;
                 $cats = $cbcollection->cbCategories($params);
             }
@@ -705,11 +814,13 @@ function getCategoryList($params = false) {
     return $cats;
 }
 
-function cb_bottom() {
+function cb_bottom()
+{
     //Woops..its gone
 }
 
-function getSmartyCategoryList($params) {
+function getSmartyCategoryList($params)
+{
     return getCategoryList($params);
 }
 
@@ -720,7 +831,8 @@ function getSmartyCategoryList($params) {
  * @param : values array
  * @param : extra params
  */
-function dbInsert($tbl, $flds, $vls, $ep = NULL) {
+function dbInsert($tbl, $flds, $vls, $ep = NULL)
+{
     global $db;
     $db->insert($tbl, $flds, $vls, $ep);
 }
@@ -733,7 +845,8 @@ function dbInsert($tbl, $flds, $vls, $ep = NULL) {
  * @param : Condition params
  * @params : Extra params
  */
-function dbUpdate($tbl, $flds, $vls, $cond, $ep = NULL) {
+function dbUpdate($tbl, $flds, $vls, $cond, $ep = NULL)
+{
     global $db;
     return $db->update($tbl, $flds, $vls, $cond, $ep);
 }
@@ -745,7 +858,8 @@ function dbUpdate($tbl, $flds, $vls, $cond, $ep = NULL) {
  * @param : values array
  * @params : Extra params
  */
-function dbDelete($tbl, $flds, $vls, $ep = NULL) {
+function dbDelete($tbl, $flds, $vls, $ep = NULL)
+{
     global $db;
     return $db->delete($tbl, $flds, $vls, $ep);
 }
@@ -753,7 +867,8 @@ function dbDelete($tbl, $flds, $vls, $ep = NULL) {
 /**
  * *
  */
-function cbRocks() {
+function cbRocks()
+{
     define("isCBSecured", TRUE);
     //echo cbSecured(CB_SIGN);
 }
@@ -761,7 +876,8 @@ function cbRocks() {
 /**
  * Insert Id
  */
-function get_id($code) {
+function get_id($code)
+{
     global $Cbucket;
     $id = $Cbucket->ids[$code];
     if (empty($id))
@@ -772,7 +888,8 @@ function get_id($code) {
 /**
  * Set Id
  */
-function set_id($code, $id) {
+function set_id($code, $id)
+{
     global $Cbucket;
     return $Cbucket->ids[$code] = $id;
 }
@@ -780,7 +897,8 @@ function set_id($code, $id) {
 /**
  * Function used to select data from database
  */
-function dbselect($tbl, $fields = '*', $cond = false, $limit = false, $order = false, $p = false) {
+function dbselect($tbl, $fields = '*', $cond = false, $limit = false, $order = false, $p = false)
+{
     global $db;
     return $db->dbselect($tbl, $fields, $cond, $limit, $order, $p);
 }
@@ -791,6 +909,89 @@ function db_select($query)
     return $db->_select($query);
 }
 
+function db_update($tbl, $fields, $cond)
+{
+    global $db;
+
+    $count = 0;
+    foreach ($fields as $field => $val)
+    {
+
+        if ($count > 0)
+            $fields_query .= ',';
+        
+        
+        $needle = substr($val, 0, 1);
+
+        if ($needle != '{{')
+            $value = "'" . filter_sql($val) . "'";
+        else
+        {
+            $val = substr($val, 1, strlen($val) - 4);
+            $value = filter_sql($val);
+        }
+        
+        $fields_query .= $field."=$value ";
+        $count++;
+    }
+    
+    //Complete Query
+    $query = "UPDATE $tbl SET $fields_query WHERE $cond $ep";
+    //if(!mysql_query($query)) die($query.'<br>'.mysql_error());
+    $db->total_queries++;
+    $db->total_queries_sql[] = $query;
+    $db->Execute($query);
+    if (mysql_error())
+        die($db->db_query . '<br>' . mysql_error());
+    return $query;
+}
+
+function db_insert($tbl, $fields)
+{
+    global $db;
+
+    $count = 0;
+
+    $query_fields = array();
+    $query_values = array();
+
+
+    foreach ($fields as $field => $val)
+    {
+
+        $query_fields[] = $field;
+
+        $needle = substr($val, 0, 2);
+
+        if ($needle != '{{')
+            $query_values[] = "'" . filter_sql($val) . "'";
+        else
+        {
+            $val = substr($val, 1, strlen($val) - 4);
+            $query_values[] = filter_sql($val);
+        }
+
+        $count++;
+    }
+
+    $fields_query = implode(',', $query_fields);
+    $values_query = implode(',', $query_values);
+
+
+
+
+    //Complete Query
+    $query = "INSERT INTO $tbl ($fields_query) VALUES ($values_query) $ep";
+
+    //if(!mysql_query($query)) die($query.'<br>'.mysql_error());
+    $db->total_queries++;
+    $db->total_queries_sql[] = $query;
+    $db->Execute($query);
+    if (mysql_error())
+        die($db->db_query . '<br>' . mysql_error());
+
+    return $db->insert_id();
+}
 
 /**
  * Function used to count fields in mysql
@@ -798,7 +999,8 @@ function db_select($query)
  * @param Fields
  * @param condition
  */
-function dbcount($tbl, $fields = '*', $cond = false) {
+function dbcount($tbl, $fields = '*', $cond = false)
+{
     global $db;
     if ($cond)
         $condition = " Where $cond ";
@@ -819,7 +1021,8 @@ function dbcount($tbl, $fields = '*', $cond = false) {
  * @param TYPE $type (e for Error, m for Message
  * @param INT $id Any Predefined Message ID
  */
-function e($msg = NULL, $type = 'e', $rel = NULL, $id = NULL) {
+function e($msg = NULL, $type = 'e', $rel = NULL, $id = NULL)
+{
     global $eh;
     if (!empty($msg))
         return $eh->e($msg, $type, $rel, $id);
@@ -830,7 +1033,8 @@ function e($msg = NULL, $type = 'e', $rel = NULL, $id = NULL) {
  * our eh also creates a relative list so that we can
  * 'focus' on textfields in case of error generation 
  */
-function get_rel_list() {
+function get_rel_list()
+{
     global $eh;
     $array = array(
         'err' => $eh->error_rel,
@@ -843,7 +1047,8 @@ function get_rel_list() {
 /**
  * Function used to get subscription template
  */
-function get_subscription_template() {
+function get_subscription_template()
+{
     global $LANG;
     return lang('user_subscribe_message');
 }
@@ -851,10 +1056,12 @@ function get_subscription_template() {
 /**
  * Short form of print_r as pr
  */
-function pr($text, $wrap_pre = false) {
+function pr($text, $wrap_pre = false)
+{
     if (!$wrap_pre)
         print_r($text);
-    else {
+    else
+    {
         echo "<pre>";
         print_r($text);
         echo "</pre>";
@@ -865,7 +1072,8 @@ function pr($text, $wrap_pre = false) {
  * This function is used to call function in smarty template
  * This wont let you pass parameters to the function, but it will only call it
  */
-function FUNC($params) {
+function FUNC($params)
+{
     global $Cbucket;
     //Function used to call functions by
     //{func namefunction_name}
@@ -879,14 +1087,16 @@ function FUNC($params) {
  * Function used to return mysql time
  * @author : Fwhite
  */
-function NOW() {
+function NOW()
+{
     return date('Y-m-d H:i:s', time());
 }
 
 /**
  * This funcion used to call function dynamically in smarty
  */
-function load_form($param) {
+function load_form($param)
+{
     $func = $param['name'];
     if (function_exists($func))
         return $func($param);
@@ -895,7 +1105,8 @@ function load_form($param) {
 /**
  * Function used to get PHP Path
  */
-function php_path() {
+function php_path()
+{
     if (PHP_PATH != '')
         return PHP_PATH;
     else
@@ -905,15 +1116,19 @@ function php_path() {
 /**
  * Functon used to get binary paths
  */
-function get_binaries($path) {
-    if (is_array($path)) {
+function get_binaries($path)
+{
+    if (is_array($path))
+    {
         $type = $path['type'];
         $path = $path['path'];
     }
 
-    if ($type == '' || $type == 'user') {
+    if ($type == '' || $type == 'user')
+    {
         $path = strtolower($path);
-        switch ($path) {
+        switch ($path)
+        {
             case "php":
                 return php_path();
                 break;
@@ -930,9 +1145,12 @@ function get_binaries($path) {
                 return config("ffmpegpath");
                 break;
         }
-    } else {
+    }
+    else
+    {
         $path = strtolower($path);
-        switch ($path) {
+        switch ($path)
+        {
             case "php":
                 $return_path = shell_output("which php");
                 if ($return_path)
@@ -971,7 +1189,8 @@ function get_binaries($path) {
 /**
  * Function in case htmlspecialchars_decode does not exist
  */
-function unhtmlentities($string) {
+function unhtmlentities($string)
+{
     $trans_tbl = get_html_translation_table(HTML_ENTITIES);
     $trans_tbl = array_flip($trans_tbl);
     return strtr($string, $trans_tbl);
@@ -980,12 +1199,16 @@ function unhtmlentities($string) {
 /**
  * Function used to execute command in background
  */
-function bgexec($cmd) {
-    if (substr(php_uname(), 0, 7) == "Windows") {
+function bgexec($cmd)
+{
+    if (substr(php_uname(), 0, 7) == "Windows")
+    {
         //exec($cmd." >> /dev/null &");
         exec($cmd);
         //pclose(popen("start \"bla\" \"" . $exe . "\" " . escapeshellarg($args), "r")); 
-    } else {
+    }
+    else
+    {
         exec($cmd . " > /dev/null &");
     }
 }
@@ -995,9 +1218,12 @@ function bgexec($cmd) {
  * if you know partial value of array and wants to know complete 
  * value of an array, this function is being used then
  */
-function array_find($needle, $haystack) {
-    foreach ($haystack as $item) {
-        if (strpos($item, $needle) !== FALSE) {
+function array_find($needle, $haystack)
+{
+    foreach ($haystack as $item)
+    {
+        if (strpos($item, $needle) !== FALSE)
+        {
             return $item;
             break;
         }
@@ -1008,38 +1234,54 @@ function array_find($needle, $haystack) {
  * Function used to convert input to categories
  * @param input can be an array or #12# like
  */
-function convert_to_categories($input) {
-    if (is_array($input)) {
-        foreach ($input as $in) {
-            if (is_array($in)) {
-                foreach ($in as $i) {
-                    if (is_array($i)) {
-                        foreach ($i as $info) {
+function convert_to_categories($input)
+{
+    if (is_array($input))
+    {
+        foreach ($input as $in)
+        {
+            if (is_array($in))
+            {
+                foreach ($in as $i)
+                {
+                    if (is_array($i))
+                    {
+                        foreach ($i as $info)
+                        {
                             $cat_details = get_category($info);
                             $cat_array[] = array($cat_details['categoryid'], $cat_details['category_name']);
                         }
-                    } elseif (is_numeric($i)) {
+                    }
+                    elseif (is_numeric($i))
+                    {
                         $cat_details = get_category($i);
                         $cat_array[] = array($cat_details['categoryid'], $cat_details['category_name']);
                     }
                 }
-            } elseif (is_numeric($in)) {
+            }
+            elseif (is_numeric($in))
+            {
                 $cat_details = get_category($in);
                 $cat_array[] = array($cat_details['categoryid'], $cat_details['category_name']);
             }
         }
-    } else {
+    }
+    else
+    {
         preg_match_all('/#([0-9]+)#/', $default['category'], $m);
         $cat_array = array($m[1]);
-        foreach ($cat_array as $i) {
+        foreach ($cat_array as $i)
+        {
             $cat_details = get_category($i);
             $cat_array[] = array($cat_details['categoryid'], $cat_details['category_name']);
         }
     }
 
     $count = 1;
-    if (is_array($cat_array)) {
-        foreach ($cat_array as $cat) {
+    if (is_array($cat_array))
+    {
+        foreach ($cat_array as $cat)
+        {
             echo '<a href="' . $cat[0] . '">' . $cat[1] . '</a>';
             if ($count != count($cat_array))
                 echo ', ';
@@ -1051,7 +1293,8 @@ function convert_to_categories($input) {
 /**
  * Function used to get categorie details
  */
-function get_category($id) {
+function get_category($id)
+{
     global $myquery;
     return $myquery->get_category($id);
 }
@@ -1059,8 +1302,10 @@ function get_category($id) {
 /**
  * Sharing OPT displaying
  */
-function display_sharing_opt($input) {
-    foreach ($input as $key => $i) {
+function display_sharing_opt($input)
+{
+    foreach ($input as $key => $i)
+    {
         return $key;
         break;
     }
@@ -1069,7 +1314,8 @@ function display_sharing_opt($input) {
 /**
  * Function used to get error_list
  */
-function error_list() {
+function error_list()
+{
     global $eh;
     return $eh->error_list;
 }
@@ -1077,7 +1323,8 @@ function error_list() {
 /**
  * Function used to get msg_list
  */
-function msg_list() {
+function msg_list()
+{
     global $eh;
     return $eh->message_list;
 }
@@ -1085,23 +1332,28 @@ function msg_list() {
 /**
  * Function used to display hint
  */
-function hint($hint) {
+function hint($hint)
+{
     
 }
 
 /**
  * Function used to check weather erro exists or not
  */
-function error($param = 'array') {
-    if (count(error_list()) > 0) {
-        if ($param != 'array') {
+function error($param = 'array')
+{
+    if (count(error_list()) > 0)
+    {
+        if ($param != 'array')
+        {
             if ($param == 'single')
                 $param = 0;
             $msg = error_list();
             return $msg[$param];
         }
         return error_list();
-    }else {
+    }else
+    {
         return false;
     }
 }
@@ -1109,16 +1361,20 @@ function error($param = 'array') {
 /**
  * Function used to check weather msg exists or not
  */
-function msg($param = 'array') {
-    if (count(msg_list()) > 0) {
-        if ($param != 'array') {
+function msg($param = 'array')
+{
+    if (count(msg_list()) > 0)
+    {
+        if ($param != 'array')
+        {
             if ($param == 'single')
                 $param = 0;
             $msg = msg_list();
             return $msg[$param];
         }
         return msg_list();
-    }else {
+    }else
+    {
         return false;
     }
 }
@@ -1127,16 +1383,19 @@ function msg($param = 'array') {
  * Function used to load plugin
  * please check docs.clip-bucket.com
  */
-function load_plugin() {
+function load_plugin()
+{
     global $cbplugin;
 }
 
 /**
  * Function used to create limit functoin from current page & results
  */
-function create_query_limit($page, $result) {
+function create_query_limit($page, $result)
+{
     $limit = $result;
-    if (empty($page) || $page == 0 || !is_numeric($page)) {
+    if (empty($page) || $page == 0 || !is_numeric($page))
+    {
         $page = 1;
     }
     $from = $page - 1;
@@ -1148,7 +1407,8 @@ function create_query_limit($page, $result) {
 /**
  * Function used to return LANG variable
  */
-function lang($var, $sprintf = false) {
+function lang($var, $sprintf = false)
+{
     global $LANG, $Cbucket;
 
     $array_str = array
@@ -1156,16 +1416,22 @@ function lang($var, $sprintf = false) {
     $array_replace = array
         ($Cbucket->configs['site_title']);
 
-    if ($LANG[$var]) {
+    if ($LANG[$var])
+    {
         $phrase = str_replace($array_str, $array_replace, $LANG[$var]);
-    } else {
+    }
+    else
+    {
         $phrase = str_replace($array_str, $array_replace, $var);
     }
 
-    if ($sprintf) {
+    if ($sprintf)
+    {
         $sprints = explode(',', $sprintf);
-        if (is_array($sprints)) {
-            foreach ($sprints as $sprint) {
+        if (is_array($sprints))
+        {
+            foreach ($sprints as $sprint)
+            {
                 $phrase = sprintf($phrase, $sprint);
             }
         }
@@ -1177,7 +1443,8 @@ function lang($var, $sprintf = false) {
 /**
  * Function used to display an ad
  */
-function ad($in) {
+function ad($in)
+{
     return stripslashes(htmlspecialchars_decode($in));
 }
 
@@ -1186,7 +1453,8 @@ function ad($in) {
  * available function list
  * for special place , read docs.clip-bucket.com
  */
-function get_functions($name) {
+function get_functions($name)
+{
     global $Cbucket;
     $funcs = $Cbucket->$name;
     if (is_array($funcs) && count($funcs) > 0)
@@ -1199,16 +1467,19 @@ function get_functions($name) {
  * Function used to get config value
  * of ClipBucket
  */
-function config($input, $value = false) {
+function config($input, $value = false)
+{
     global $Cbucket, $myquery;
     if (!$value)
         return $Cbucket->configs[$input];
-    else {
+    else
+    {
         $myquery->Set_Website_Details($input, '|no_mc|' . $value);
     }
 }
 
-function get_config($input) {
+function get_config($input)
+{
     return config($input);
 }
 
@@ -1216,29 +1487,37 @@ function get_config($input) {
  * Function used to incream number of view
  * in object
  */
-function increment_views($id, $type = NULL) {
+function increment_views($id, $type = NULL)
+{
     global $db;
-    switch ($type) {
+    switch ($type)
+    {
         case 'v':
         case 'video':
-        default: {
+        default:
+            {
                 $video = get_video_details($id);
-                if (!$video) {
+                if (!$video)
+                {
                     return false;
                 }
 
-                if ($video['active'] != 'yes' || $video['status'] != 'Successful') {
+                if ($video['active'] != 'yes' || $video['status'] != 'Successful')
+                {
                     return false;
                 }
 
-                if (function_exists('vi_user_type')) {
+                if (function_exists('vi_user_type'))
+                {
                     $_user = vi_user_type();
-                    if ($_user['user_type'] == 4) {
+                    if ($_user['user_type'] == 4)
+                    {
                         return false;
                     }
                 }
 
-                if (!isset($_COOKIE['video_' . $id])) {
+                if (!isset($_COOKIE['video_' . $id]))
+                {
                     $db->update(tbl("video"), array("views", "last_viewed"), array("|f|views+1", NOW()), " videoid='$id' OR videokey='$id'");
                     setcookie('video_' . $id, 'watched', time() + 3600);
                 }
@@ -1246,17 +1525,21 @@ function increment_views($id, $type = NULL) {
             break;
         case 'u':
         case 'user':
-        case 'channel': {
+        case 'channel':
+            {
 
-                if (!isset($_COOKIE['user_' . $id])) {
+                if (!isset($_COOKIE['user_' . $id]))
+                {
                     $db->update(tbl("users"), array("profile_hits"), array("|f|profile_hits+1"), " userid='$id'");
                     setcookie('user_' . $id, 'watched', time() + 3600);
                 }
             }
             break;
         case 't':
-        case 'topic': {
-                if (!isset($_COOKIE['topic_' . $id])) {
+        case 'topic':
+            {
+                if (!isset($_COOKIE['topic_' . $id]))
+                {
                     $db->update(tbl("group_topics"), array("total_views"), array("|f|total_views+1"), " topic_id='$id'");
                     setcookie('topic_' . $id, 'watched', time() + 3600);
                 }
@@ -1264,8 +1547,10 @@ function increment_views($id, $type = NULL) {
             break;
             break;
         case 'g':
-        case 'group': {
-                if (!isset($_COOKIE['group_' . $id])) {
+        case 'group':
+            {
+                if (!isset($_COOKIE['group_' . $id]))
+                {
                     $db->update(tbl("groups"), array("total_views"), array("|f|total_views+1"), " group_id='$id'");
                     setcookie('group_' . $id, 'watched', time() + 3600);
                 }
@@ -1273,8 +1558,10 @@ function increment_views($id, $type = NULL) {
             break;
         case "c":
         case "collect":
-        case "collection": {
-                if (!isset($_COOKIE['collection_' . $id])) {
+        case "collection":
+            {
+                if (!isset($_COOKIE['collection_' . $id]))
+                {
                     $db->update(tbl("collections"), array("views"), array("|f|views+1"), " collection_id = '$id'");
                     setcookie('collection_' . $id, 'viewed', time() + 3600);
                 }
@@ -1283,8 +1570,10 @@ function increment_views($id, $type = NULL) {
 
         case "photos":
         case "photo":
-        case "p": {
-                if (!isset($_COOKIE['photo_' . $id])) {
+        case "p":
+            {
+                if (!isset($_COOKIE['photo_' . $id]))
+                {
                     $db->update(tbl('photos'), array("views", "last_viewed"), array("|f|views+1", NOW()), " photo_id = '$id'");
                     setcookie('photo_' . $id, 'viewed', time() + 3600);
                 }
@@ -1292,8 +1581,10 @@ function increment_views($id, $type = NULL) {
     }
 }
 
-function cbdate($format = NULL, $timestamp = NULL) {
-    if (!$format) {
+function cbdate($format = NULL, $timestamp = NULL)
+{
+    if (!$format)
+    {
         $format = config("datE_format");
     }
     if (!$timestamp)
@@ -1307,7 +1598,8 @@ function cbdate($format = NULL, $timestamp = NULL) {
  * @param TOTAL RESULTS NUM
  * @param NUMBER OF RESULTS to DISPLAY NUM
  */
-function count_pages($total, $count) {
+function count_pages($total, $count)
+{
     if ($count < 1)
         $count = 1;
     $records = $total / $count;
@@ -1320,7 +1612,8 @@ function count_pages($total, $count) {
  * @param : last_active time
  * @param : time margin
  */
-function is_online($time, $margin = '5') {
+function is_online($time, $margin = '5')
+{
     $margin = $margin * 60;
     $active = strtotime($time);
     $curr = time();
@@ -1343,8 +1636,10 @@ function is_online($time, $margin = '5') {
  * a past date and a future date. 
  * thanks to yasmary at gmail dot com
  */
-function nicetime($date, $istime = false) {
-    if (empty($date)) {
+function nicetime($date, $istime = false)
+{
+    if (empty($date))
+    {
         return lang('no_date_provided');
     }
 
@@ -1359,28 +1654,34 @@ function nicetime($date, $istime = false) {
         $unix_date = $date;
 
     // check validity of date
-    if (empty($unix_date) || $unix_date < 1) {
+    if (empty($unix_date) || $unix_date < 1)
+    {
         return lang("bad_date");
     }
 
     // is it future date or past date
-    if ($now > $unix_date) {
+    if ($now > $unix_date)
+    {
         //time_ago
         $difference = $now - $unix_date;
         $tense = "time_ago";
-    } else {
+    }
+    else
+    {
         //from_now
         $difference = $unix_date - $now;
         $tense = "a moment ago";
     }
 
-    for ($j = 0; $difference >= $lengths[$j] && $j < count($lengths) - 1; $j++) {
+    for ($j = 0; $difference >= $lengths[$j] && $j < count($lengths) - 1; $j++)
+    {
         $difference /= $lengths[$j];
     }
 
     $difference = round($difference);
 
-    if ($difference != 1) {
+    if ($difference != 1)
+    {
         $periods[$j].= "s";
     }
 
@@ -1391,7 +1692,8 @@ function nicetime($date, $istime = false) {
 /**
  * Function used to format outgoing link
  */
-function outgoing_link($out) {
+function outgoing_link($out)
+{
     preg_match("/http/", $out, $matches);
     if (empty($matches[0]))
         $out = "http://" . $out;
@@ -1401,10 +1703,12 @@ function outgoing_link($out) {
 /**
  * Function used to get country via country code
  */
-function get_country($code) {
+function get_country($code)
+{
     global $db;
     $result = $db->select(tbl("countries"), "name_en,iso2", " iso2='$code' OR iso3='$code'");
-    if ($db->num_rows > 0) {
+    if ($db->num_rows > 0)
+    {
         $flag = '';
         $result = $result[0];
         if (SHOW_COUNTRY_FLAG)
@@ -1422,7 +1726,8 @@ function get_country($code) {
  * ie define("editorspick_install","installed");
  * is_installed('editorspic');
  */
-function is_installed($plugin) {
+function is_installed($plugin)
+{
     if (defined($plugin . "_install"))
         return true;
     else
@@ -1432,7 +1737,8 @@ function is_installed($plugin) {
 /**
  * Function used to get flag options
  */
-function get_flag_options() {
+function get_flag_options()
+{
     $action = new cbactions();
     $action->init();
     return $action->report_opts;
@@ -1441,23 +1747,30 @@ function get_flag_options() {
 /**
  * Function used to display flag type
  */
-function flag_type($id) {
+function flag_type($id)
+{
     $flag_opts = get_flag_options();
     return $flag_opts[$id];
 }
 
-function check_install($type) {
+function check_install($type)
+{
     global $while_installing, $Cbucket;
-    switch ($type) {
-        case "before": {
-                if (file_exists('files/temp/install.me') && !file_exists('includes/clipbucket.php')) {
+    switch ($type)
+    {
+        case "before":
+            {
+                if (file_exists('files/temp/install.me') && !file_exists('includes/clipbucket.php'))
+                {
                     header('Location: ' . get_server_url() . '/cb_install');
                 }
             }
             break;
 
-        case "after": {
-                if (file_exists('files/temp/install.me')) {
+        case "after":
+            {
+                if (file_exists('files/temp/install.me'))
+                {
                     $Cbucket->configs['closed'] = 1;
                 }
             }
@@ -1465,21 +1778,28 @@ function check_install($type) {
     }
 }
 
-function get_server_url() {
+function get_server_url()
+{
     $DirName = dirname($_SERVER['PHP_SELF']);
-    if (preg_match('/admin_area/i', $DirName)) {
+    if (preg_match('/admin_area/i', $DirName))
+    {
         $DirName = str_replace('/admin_area', '', $DirName);
     }
-    if (preg_match('/cb_install/i', $DirName)) {
+    if (preg_match('/cb_install/i', $DirName))
+    {
         $DirName = str_replace('/cb_install', '', $DirName);
     }
     return get_server_protocol() . $_SERVER['HTTP_HOST'] . $DirName;
 }
 
-function get_server_protocol() {
-    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+function get_server_protocol()
+{
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
+    {
         return 'https://';
-    } else {
+    }
+    else
+    {
         $protocol = preg_replace('/^([a-z]+)\/.*$/', '\\1', strtolower($_SERVER['SERVER_PROTOCOL']));
         $protocol .= '://';
         return $protocol;
@@ -1498,11 +1818,15 @@ function get_server_protocol() {
  * @param mixed A string, or an array from a file() function.
  * @return boolean
  */
-function isUTF8($string) {
-    if (is_array($string)) {
+function isUTF8($string)
+{
+    if (is_array($string))
+    {
         $enc = implode('', $string);
         return @!((ord($enc[0]) != 239) && (ord($enc[1]) != 187) && (ord($enc[2]) != 191));
-    } else {
+    }
+    else
+    {
         return (utf8_encode(utf8_decode($string)) == $string);
     }
 }
@@ -1512,19 +1836,22 @@ function isUTF8($string) {
   source: http://www.php.net/manual/en/function.basename.php#89127
  */
 
-function fetch_file_extension($filepath) {
+function fetch_file_extension($filepath)
+{
     preg_match('/[^?]*/', $filepath, $matches);
     $string = $matches[0];
 
     $pattern = preg_split('/\./', $string, -1, PREG_SPLIT_OFFSET_CAPTURE);
 
     # check if there is any extension
-    if (count($pattern) == 1) {
+    if (count($pattern) == 1)
+    {
         // no file extension found
         return;
     }
 
-    if (count($pattern) > 1) {
+    if (count($pattern) > 1)
+    {
         $filenamepart = $pattern[count($pattern) - 1][0];
         preg_match('/[^?]*/', $filenamepart, $matches);
         return $matches[0];
@@ -1536,7 +1863,8 @@ function fetch_file_extension($filepath) {
   source: http://www.php.net/manual/en/function.basename.php#89127
  */
 
-function fetch_filename($filepath) {
+function fetch_filename($filepath)
+{
     preg_match('/[^?]*/', $filepath, $matches);
     $string = $matches[0];
     #split the string by the literal dot in the filename
@@ -1554,7 +1882,8 @@ function fetch_filename($filepath) {
  * Function used to generate
  * embed code of embedded video
  */
-function embeded_code($vdetails) {
+function embeded_code($vdetails)
+{
     $code = '';
     $code .= '<object width="' . EMBED_VDO_WIDTH . '" height="' . EMBED_VDO_HEIGHT . '">';
     $code .= '<param name="allowFullScreen" value="true">';
@@ -1571,7 +1900,8 @@ function embeded_code($vdetails) {
 /**
  * function used to convert input to proper date created formate
  */
-function datecreated($in) {
+function datecreated($in)
+{
 
     $date_els = explode('-', $in);
 
@@ -1598,7 +1928,8 @@ function datecreated($in) {
  * its not my original but its a genuine working copy
  * its still in beta mode 
  */
-function baseurl() {
+function baseurl()
+{
     $protocol = is_ssl() ? 'https://' : 'http://';
     if (!$sub_dir)
         return $base = $protocol . $_SERVER['HTTP_HOST'] . untrailingslashit(stripslashes(dirname(($_SERVER['SCRIPT_NAME']))));
@@ -1606,7 +1937,8 @@ function baseurl() {
         return $base = $protocol . $_SERVER['HTTP_HOST'] . untrailingslashit(stripslashes(dirname(dirname($_SERVER['SCRIPT_NAME']))));
 }
 
-function base_url() {
+function base_url()
+{
     return baseurl();
 }
 
@@ -1626,7 +1958,8 @@ function base_url() {
  * @param string $string What to add the trailing slash to.
  * @return string String with trailing slash added.
  */
-function trailingslashit($string) {
+function trailingslashit($string)
+{
     return untrailingslashit($string) . '/';
 }
 
@@ -1642,7 +1975,8 @@ function trailingslashit($string) {
  * @param string $string What to remove the trailing slash from.
  * @return string String without the trailing slash.
  */
-function untrailingslashit($string) {
+function untrailingslashit($string)
+{
     return rtrim($string, '/');
 }
 
@@ -1653,13 +1987,16 @@ function untrailingslashit($string) {
  *
  * @return bool True if SSL, false if not used.
  */
-function is_ssl() {
-    if (isset($_SERVER['HTTPS'])) {
+function is_ssl()
+{
+    if (isset($_SERVER['HTTPS']))
+    {
         if ('on' == strtolower($_SERVER['HTTPS']))
             return true;
         if ('1' == $_SERVER['HTTPS'])
             return true;
-    } elseif (isset($_SERVER['SERVER_PORT']) && ( '443' == $_SERVER['SERVER_PORT'] )) {
+    } elseif (isset($_SERVER['SERVER_PORT']) && ( '443' == $_SERVER['SERVER_PORT'] ))
+    {
         return true;
     }
     return false;
@@ -1668,22 +2005,28 @@ function is_ssl() {
 /**
  * This will update stats like Favorite count, Playlist count
  */
-function updateObjectStats($type = 'favorite', $object = 'video', $id, $op = '+') {
+function updateObjectStats($type = 'favorite', $object = 'video', $id, $op = '+')
+{
     global $db;
 
-    switch ($type) {
+    switch ($type)
+    {
         case "favorite": case "favourite":
         case "favorites": case "favourties":
-        case "fav": {
-                switch ($object) {
+        case "fav":
+            {
+                switch ($object)
+                {
                     case "video":
-                    case "videos": case "v": {
+                    case "videos": case "v":
+                        {
                             $db->update(tbl('video'), array('favourite_count'), array("|f|favourite_count" . $op . "1"), " videoid = '" . $id . "'");
                         }
                         break;
 
                     case "photo":
-                    case "photos": case "p": {
+                    case "photos": case "p":
+                        {
                             $db->update(tbl('photos'), array('total_favorites'), array("|f|total_favorites" . $op . "1"), " photo_id = '" . $id . "'");
                         }
                         break;
@@ -1699,10 +2042,13 @@ function updateObjectStats($type = 'favorite', $object = 'video', $id, $op = '+'
             break;
 
         case "playlist": case "playList":
-        case "plist": {
-                switch ($object) {
+        case "plist":
+            {
+                switch ($object)
+                {
                     case "video":
-                    case "videos": case "v": {
+                    case "videos": case "v":
+                        {
                             $db->update(tbl('video'), array('playlist_count'), array("|f|playlist_count" . $op . "1"), " videoid = '" . $id . "'");
                         }
                 }
@@ -1716,7 +2062,8 @@ function updateObjectStats($type = 'favorite', $object = 'video', $id, $op = '+'
  *
  * @return BOOLEAN
  */
-function conv_lock_exists() {
+function conv_lock_exists()
+{
     if (file_exists(TEMP_DIR . '/conv_lock.loc'))
         return true;
     else
@@ -1728,13 +2075,15 @@ function conv_lock_exists() {
  * for passing variables to url
  * @input variable_name
  */
-function queryString($var = false, $remove = false) {
+function queryString($var = false, $remove = false)
+{
     $queryString = $_SERVER['QUERY_STRING'];
 
     if ($var)
         $queryString = preg_replace("/&?$var=([\w+\s\b\.?\S]+|)/", "", $queryString);
 
-    if ($remove) {
+    if ($remove)
+    {
         if (!is_array($remove))
             $queryString = preg_replace("/&?$remove=([\w+\s\b\.?\S]+|)/", "", $queryString);
         else
@@ -1758,10 +2107,12 @@ function queryString($var = false, $remove = false) {
  * These function are written by Martin Angelov.
  * Read post here: http://tutorialzine.com/2009/08/creating-a-facebook-like-registration-form-with-jquery/
  */
-function generate_options($params) {
+function generate_options($params)
+{
     $reverse = false;
 
-    if ($params['from'] > $params['to']) {
+    if ($params['from'] > $params['to'])
+    {
         $tmp = $params['from'];
         $params['from'] = $params['to'];
         $params['to'] = $tmp;
@@ -1771,12 +2122,14 @@ function generate_options($params) {
 
 
     $return_string = array();
-    for ($i = $params['from']; $i <= $params['to']; $i++) {
+    for ($i = $params['from']; $i <= $params['to']; $i++)
+    {
         //$return_string[$i] = ($callback?$callback($i):$i);
         $return_string[] = '<option value="' . $i . '">' . ($params['callback'] ? $params['callback']($i) : $i) . '</option>';
     }
 
-    if ($reverse) {
+    if ($reverse)
+    {
         $return_string = array_reverse($return_string);
     }
 
@@ -1784,7 +2137,8 @@ function generate_options($params) {
     return join('', $return_string);
 }
 
-function callback_month($month) {
+function callback_month($month)
+{
     return date('M', mktime(0, 0, 0, $month, 1));
 }
 
@@ -1794,7 +2148,8 @@ function callback_month($month) {
  * @param URL
  * @param destination
  */
-function snatch_it($snatching_file, $destination, $dest_name, $rawdecode = true) {
+function snatch_it($snatching_file, $destination, $dest_name, $rawdecode = true)
+{
     global $curl;
     if ($rawdecode == true)
         $snatching_file = rawurldecode($snatching_file);
@@ -1812,10 +2167,14 @@ function snatch_it($snatching_file, $destination, $dest_name, $rawdecode = true)
 /**
  * Function check curl
  */
-function isCurlInstalled() {
-    if (in_array('curl', get_loaded_extensions())) {
+function isCurlInstalled()
+{
+    if (in_array('curl', get_loaded_extensions()))
+    {
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
@@ -1824,7 +2183,8 @@ function isCurlInstalled() {
  * Function for loading 
  * uploader file url & other configurations
  */
-function uploaderDetails() {
+function uploaderDetails()
+{
     global $uploaderType;
 
     $uploaderDetails = array
@@ -1850,20 +2210,26 @@ function uploaderDetails() {
  * Function isSectionEnabled
  * This function used to check weather INPUT section is enabled or not
  */
-function isSectionEnabled($input, $restrict = false) {
+function isSectionEnabled($input, $restrict = false)
+{
     global $Cbucket;
 
     $section = $Cbucket->configs[$input . 'Section'];
 
-    if (!$restrict) {
+    if (!$restrict)
+    {
         if ($section == 'yes')
             return true;
         else
             return false;
-    }else {
-        if ($section == 'yes' || THIS_PAGE == 'cb_install') {
+    }else
+    {
+        if ($section == 'yes' || THIS_PAGE == 'cb_install')
+        {
             return true;
-        } else {
+        }
+        else
+        {
             template_files('blocked.html');
             display_it();
             exit();
@@ -1871,11 +2237,14 @@ function isSectionEnabled($input, $restrict = false) {
     }
 }
 
-function array_depth($array) {
+function array_depth($array)
+{
     $ini_depth = 0;
 
-    foreach ($array as $arr) {
-        if (is_array($arr)) {
+    foreach ($array as $arr)
+    {
+        if (is_array($arr))
+        {
             $depth = array_depth($arr) + 1;
 
             if ($depth > $ini_depth)
@@ -1889,14 +2258,16 @@ function array_depth($array) {
 /**
  * JSON_ENCODE short
  */
-function je($in) {
+function je($in)
+{
     return json_encode($in);
 }
 
 /**
  * JSON_DECODE short
  */
-function jd($in, $returnClass = false) {
+function jd($in, $returnClass = false)
+{
     if (!$returnClass)
         return json_decode($in, true); else
         return json_decode($in);
@@ -1906,11 +2277,14 @@ function jd($in, $returnClass = false) {
  * function used to update last commented option 
  * so comment cache can be refreshed
  */
-function update_last_commented($type, $id) {
+function update_last_commented($type, $id)
+{
     global $db;
 
-    if ($type && $id) {
-        switch ($type) {
+    if ($type && $id)
+    {
+        switch ($type)
+        {
             case "v":
             case "video":
             case "vdo":
@@ -1959,7 +2333,8 @@ function update_last_commented($type, $id) {
  * this function simple takes ID as input
  * and do the rest seemlessli ;)
  */
-function addFeed($array) {
+function addFeed($array)
+{
     global $cbfeeds, $cbphoto, $userquery;
 
     $action = $array['action'];
@@ -1968,8 +2343,10 @@ function addFeed($array) {
     else
         $userid = userid();
 
-    switch ($action) {
-        case "upload_photo": {
+    switch ($action)
+    {
+        case "upload_photo":
+            {
 
                 $feed['action'] = 'upload_photo';
                 $feed['object'] = 'photo';
@@ -1981,7 +2358,8 @@ function addFeed($array) {
             }
             break;
         case "upload_video":
-        case "add_favorite": {
+        case "add_favorite":
+            {
 
                 $feed['action'] = $action;
                 $feed['object'] = 'video';
@@ -1992,7 +2370,8 @@ function addFeed($array) {
             }
             break;
 
-        case "signup": {
+        case "signup":
+            {
 
                 $feed['action'] = 'signup';
                 $feed['object'] = 'signup';
@@ -2005,7 +2384,8 @@ function addFeed($array) {
             break;
 
         case "create_group":
-        case "join_group": {
+        case "join_group":
+            {
                 $feed['action'] = $action;
                 $feed['object'] = 'group';
                 $feed['object_id'] = $array['object_id'];
@@ -2015,7 +2395,8 @@ function addFeed($array) {
             }
             break;
 
-        case "add_friend": {
+        case "add_friend":
+            {
                 $feed['action'] = 'add_friend';
                 $feed['object'] = 'friend';
                 $feed['object_id'] = $array['object_id'];
@@ -2025,7 +2406,8 @@ function addFeed($array) {
             }
             break;
 
-        case "add_collection": {
+        case "add_collection":
+            {
                 $feed['action'] = 'add_collection';
                 $feed['object'] = 'collection';
                 $feed['object_id'] = $array['object_id'];
@@ -2040,7 +2422,8 @@ function addFeed($array) {
 /**
  * function used to get plugin directory name
  */
-function this_plugin($pluginFile = NULL) {
+function this_plugin($pluginFile = NULL)
+{
     if (!$pluginFile)
         global $pluginFile;
     return basename(dirname($pluginFile));
@@ -2050,7 +2433,8 @@ function this_plugin($pluginFile = NULL) {
  * function used to get user agent details
  * Thanks to ruudrp at live dot nl 28-Nov-2010 11:31 PHP.NET
  */
-function get_browser_details($in = NULL, $assign = false) {
+function get_browser_details($in = NULL, $assign = false)
+{
     //Checking if browser is firefox
     if (!$in)
         $in = $_SERVER['HTTP_USER_AGENT'];
@@ -2061,48 +2445,75 @@ function get_browser_details($in = NULL, $assign = false) {
     $version = "";
 
     //First get the platform?
-    if (preg_match('/linux/i', $u_agent)) {
+    if (preg_match('/linux/i', $u_agent))
+    {
         $platform = 'linux';
-    } elseif (preg_match('/iPhone/i', $u_agent)) {
+    }
+    elseif (preg_match('/iPhone/i', $u_agent))
+    {
         $platform = 'iphone';
-    } elseif (preg_match('/iPad/i', $u_agent)) {
+    }
+    elseif (preg_match('/iPad/i', $u_agent))
+    {
         $platform = 'ipad';
-    } elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
+    }
+    elseif (preg_match('/macintosh|mac os x/i', $u_agent))
+    {
         $platform = 'mac';
-    } elseif (preg_match('/windows|win32/i', $u_agent)) {
+    }
+    elseif (preg_match('/windows|win32/i', $u_agent))
+    {
         $platform = 'windows';
     }
 
-    if (preg_match('/Android/i', $u_agent)) {
+    if (preg_match('/Android/i', $u_agent))
+    {
         $platform = 'android';
     }
 
     // Next get the name of the useragent yes seperately and for good reason
-    if (preg_match('/MSIE/i', $u_agent) && !preg_match('/Opera/i', $u_agent)) {
+    if (preg_match('/MSIE/i', $u_agent) && !preg_match('/Opera/i', $u_agent))
+    {
         $bname = 'Internet Explorer';
         $ub = "MSIE";
-    } elseif (preg_match('/Firefox/i', $u_agent)) {
+    }
+    elseif (preg_match('/Firefox/i', $u_agent))
+    {
         $bname = 'Mozilla Firefox';
         $ub = "Firefox";
-    } elseif (preg_match('/Chrome/i', $u_agent)) {
+    }
+    elseif (preg_match('/Chrome/i', $u_agent))
+    {
         $bname = 'Google Chrome';
         $ub = "Chrome";
-    } elseif (preg_match('/Safari/i', $u_agent)) {
+    }
+    elseif (preg_match('/Safari/i', $u_agent))
+    {
         $bname = 'Apple Safari';
         $ub = "Safari";
-    } elseif (preg_match('/Opera/i', $u_agent)) {
+    }
+    elseif (preg_match('/Opera/i', $u_agent))
+    {
         $bname = 'Opera';
         $ub = "Opera";
-    } elseif (preg_match('/Netscape/i', $u_agent)) {
+    }
+    elseif (preg_match('/Netscape/i', $u_agent))
+    {
         $bname = 'Netscape';
         $ub = "Netscape";
-    } elseif (preg_match('/Googlebot/i', $u_agent)) {
+    }
+    elseif (preg_match('/Googlebot/i', $u_agent))
+    {
         $bname = 'Googlebot';
         $ub = "bot";
-    } elseif (preg_match('/msnbot/i', $u_agent)) {
+    }
+    elseif (preg_match('/msnbot/i', $u_agent))
+    {
         $bname = 'MSNBot';
         $ub = "bot";
-    } elseif (preg_match('/Yahoo\! Slurp/i', $u_agent)) {
+    }
+    elseif (preg_match('/Yahoo\! Slurp/i', $u_agent))
+    {
         $bname = 'Yahoo Slurp';
         $ub = "bot";
     }
@@ -2112,26 +2523,34 @@ function get_browser_details($in = NULL, $assign = false) {
     $known = array('Version', $ub, 'other');
     $pattern = '#(?<browser>' . join('|', $known) .
             ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
-    if (!@preg_match_all($pattern, $u_agent, $matches)) {
+    if (!@preg_match_all($pattern, $u_agent, $matches))
+    {
         // we have no matching number just continue
     }
 
     // see how many we have
     $i = count($matches['browser']);
-    if ($i != 1) {
+    if ($i != 1)
+    {
         //we will have two since we are not using 'other' argument yet
         //see if version is before or after the name
-        if (strripos($u_agent, "Version") < strripos($u_agent, $ub)) {
+        if (strripos($u_agent, "Version") < strripos($u_agent, $ub))
+        {
             $version = $matches['version'][0];
-        } else {
+        }
+        else
+        {
             $version = $matches['version'][1];
         }
-    } else {
+    }
+    else
+    {
         $version = $matches['version'][0];
     }
 
     // check if we have a number
-    if ($version == null || $version == "") {
+    if ($version == null || $version == "")
+    {
         $version = "?";
     }
 
@@ -2154,7 +2573,8 @@ function get_browser_details($in = NULL, $assign = false) {
  * that are created when there is wrong action done
  * on clipbucket ie inavalid username etc
  */
-function ignore_errors() {
+function ignore_errors()
+{
     global $ignore_cb_errors;
     $ignore_cb_errors = TRUE;
 }
@@ -2164,7 +2584,8 @@ function ignore_errors() {
  * back to TRUE so our error catching system
  * can generate errors
  */
-function catch_error() {
+function catch_error()
+{
     global $ignore_cb_errors;
     $ignore_cb_errors = FALSE;
 }
@@ -2172,15 +2593,19 @@ function catch_error() {
 /**
  * Function used to call sub_menu_easily
  */
-function sub_menu() {
+function sub_menu()
+{
     /**
      * Submenu function used to used to display submenu links
      * after navbar
      */
     $funcs = get_functions('sub_menu');
-    if (is_array($funcs) && count($funcs) > 0) {
-        foreach ($funcs as $func) {
-            if (function_exists($func)) {
+    if (is_array($funcs) && count($funcs) > 0)
+    {
+        foreach ($funcs as $func)
+        {
+            if (function_exists($func))
+            {
                 return $func($u);
             }
         }
@@ -2190,7 +2615,8 @@ function sub_menu() {
 /**
  * Function used to load clipbucket title
  */
-function cbtitle($params = false) {
+function cbtitle($params = false)
+{
     global $cbsubtitle;
 
     $sub_sep = $params['sub_sep'];
@@ -2216,14 +2642,16 @@ function cbtitle($params = false) {
  * Simply tells the name of  script owner
  * @return INTELLECTUAL BADASS
  */
-function whos_your_daddy() {
+function whos_your_daddy()
+{
     echo "<h1>Arslan Hassan</h1>";
 }
 
 /**
  * function used to set website subtitle
  */
-function subtitle($title) {
+function subtitle($title)
+{
     global $cbsubtitle;
     $cbsubtitle = $title;
 }
@@ -2232,7 +2660,8 @@ function subtitle($title) {
  * function used to check
  * remote link is valid or not
  */
-function checkRemoteFile($url) {
+function checkRemoteFile($url)
+{
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     // don't download content
@@ -2241,9 +2670,12 @@ function checkRemoteFile($url) {
     curl_setopt($ch, CURLOPT_HEADER, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $result = curl_exec($ch);
-    if ($result !== FALSE) {
+    if ($result !== FALSE)
+    {
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
@@ -2252,7 +2684,8 @@ function checkRemoteFile($url) {
  * function used to get counts from
  * cb_counter table
  */
-function get_counter($section, $query) {
+function get_counter($section, $query)
+{
     if (!config('use_cached_pagin'))
         return false;
 
@@ -2268,7 +2701,8 @@ function get_counter($section, $query) {
     $query_md5 = md5($je_query);
     $select = $db->select(tbl('counters'), "*", "section='$section' AND query_md5='$query_md5' 
 		AND '$validTime' < date_added");
-    if ($db->num_rows > 0) {
+    if ($db->num_rows > 0)
+    {
         return $select[0]['counts'];
     }else
         return false;
@@ -2277,7 +2711,8 @@ function get_counter($section, $query) {
 /**
  * function used to insert or update counter
  */
-function update_counter($section, $query, $counter) {
+function update_counter($section, $query, $counter)
+{
     global $db;
     unset($query['order']);
 
@@ -2293,9 +2728,12 @@ function update_counter($section, $query, $counter) {
     $je_query = json_encode($query);
     $query_md5 = md5($je_query);
     $count = $db->count(tbl('counters'), "*", "section='$section' AND query_md5='$query_md5'");
-    if ($count) {
+    if ($count)
+    {
         $db->update(tbl('counters'), array('counts', 'date_added'), array($counter, strtotime(now())), "section='$section' AND query_md5='$query_md5'");
-    } else {
+    }
+    else
+    {
         $db->insert(tbl('counters'), array('section', 'query', 'query_md5', 'counts', 'date_added'), array($section, '|no_mc|' . $je_query, $query_md5, $counter, strtotime(now())));
     }
 }
@@ -2304,7 +2742,8 @@ function update_counter($section, $query, $counter) {
  * function used to register a module file, that will be later called
  * by load_modules() function
  */
-function register_module($mod_name, $file) {
+function register_module($mod_name, $file)
+{
     global $Cbucket;
     $Cbucket->modules_list[$mod_name][] = $file;
 }
@@ -2312,13 +2751,15 @@ function register_module($mod_name, $file) {
 /**
  * function used to load module files
  */
-function load_modules() {
+function load_modules()
+{
     global $Cbucket, $lang_obj, $signup, $Upload, $cbgroup,
     $adsObj, $formObj, $cbplugin, $eh, $sess, $cblog, $imgObj,
     $cbvideo, $cbplayer, $cbemail, $cbpm, $cbpage, $cbindex,
     $cbcollection, $cbphoto, $cbfeeds, $userquery, $db, $pages, $cbvid;
 
-    foreach ($Cbucket->modules_list as $cbmod) {
+    foreach ($Cbucket->modules_list as $cbmod)
+    {
         foreach ($cbmod as $modfile)
             if (file_exists($modfile))
                 include($modfile);
@@ -2329,15 +2770,19 @@ function load_modules() {
  * FUNCTION Used to convert XML to Array
  * @Author : http://www.php.net/manual/en/function.xml-parse.php#87920
  */
-function xml2array($url, $get_attributes = 1, $priority = 'tag', $is_url = true) {
+function xml2array($url, $get_attributes = 1, $priority = 'tag', $is_url = true)
+{
     $contents = "";
-    if (!function_exists('xml_parser_create')) {
+    if (!function_exists('xml_parser_create'))
+    {
         return false;
     }
     $parser = xml_parser_create('');
 
-    if ($is_url) {
-        if (!($fp = @ fopen($url, 'rb'))) {
+    if ($is_url)
+    {
+        if (!($fp = @ fopen($url, 'rb')))
+        {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.2) Gecko/20070219 Firefox/3.0.0.2');
@@ -2349,11 +2794,14 @@ function xml2array($url, $get_attributes = 1, $priority = 'tag', $is_url = true)
             if (!$contents)
                 return false;
         }
-        while (!feof($fp)) {
+        while (!feof($fp))
+        {
             $contents .= fread($fp, 8192);
         }
         fclose($fp);
-    } else {
+    }
+    else
+    {
         $contents = $url;
     }
 
@@ -2370,46 +2818,57 @@ function xml2array($url, $get_attributes = 1, $priority = 'tag', $is_url = true)
     $arr = array();
     $current = & $xml_array;
     $repeated_tag_index = array();
-    foreach ($xml_values as $data) {
+    foreach ($xml_values as $data)
+    {
 
         unset($attributes, $value);
         extract($data);
         $result = array();
         $attributes_data = array();
-        if (isset($value)) {
+        if (isset($value))
+        {
             if ($priority == 'tag')
                 $result = $value;
             else
                 $result['value'] = $value;
         }
-        if (isset($attributes) and $get_attributes) {
-            foreach ($attributes as $attr => $val) {
+        if (isset($attributes) and $get_attributes)
+        {
+            foreach ($attributes as $attr => $val)
+            {
                 if ($priority == 'tag')
                     $attributes_data[$attr] = $val;
                 else
                     $result['attr'][$attr] = $val; //Set all the attributes in a array called 'attr'
             }
         }
-        if ($type == "open") {
+        if ($type == "open")
+        {
             $parent[$level - 1] = & $current;
-            if (!is_array($current) or (!in_array($tag, array_keys($current)))) {
+            if (!is_array($current) or (!in_array($tag, array_keys($current))))
+            {
                 $current[$tag] = $result;
                 if ($attributes_data)
                     $current[$tag . '_attr'] = $attributes_data;
                 $repeated_tag_index[$tag . '_' . $level] = 1;
                 $current = & $current[$tag];
             }
-            else {
-                if (isset($current[$tag][0])) {
+            else
+            {
+                if (isset($current[$tag][0]))
+                {
                     $current[$tag][$repeated_tag_index[$tag . '_' . $level]] = $result;
                     $repeated_tag_index[$tag . '_' . $level]++;
-                } else {
+                }
+                else
+                {
                     $current[$tag] = array(
                         $current[$tag],
                         $result
                     );
                     $repeated_tag_index[$tag . '_' . $level] = 2;
-                    if (isset($current[$tag . '_attr'])) {
+                    if (isset($current[$tag . '_attr']))
+                    {
                         $current[$tag]['0_attr'] = $current[$tag . '_attr'];
                         unset($current[$tag . '_attr']);
                     }
@@ -2417,39 +2876,52 @@ function xml2array($url, $get_attributes = 1, $priority = 'tag', $is_url = true)
                 $last_item_index = $repeated_tag_index[$tag . '_' . $level] - 1;
                 $current = & $current[$tag][$last_item_index];
             }
-        } elseif ($type == "complete") {
-            if (!isset($current[$tag])) {
+        }
+        elseif ($type == "complete")
+        {
+            if (!isset($current[$tag]))
+            {
                 $current[$tag] = $result;
                 $repeated_tag_index[$tag . '_' . $level] = 1;
                 if ($priority == 'tag' and $attributes_data)
                     $current[$tag . '_attr'] = $attributes_data;
             }
-            else {
-                if (isset($current[$tag][0]) and is_array($current[$tag])) {
+            else
+            {
+                if (isset($current[$tag][0]) and is_array($current[$tag]))
+                {
                     $current[$tag][$repeated_tag_index[$tag . '_' . $level]] = $result;
-                    if ($priority == 'tag' and $get_attributes and $attributes_data) {
+                    if ($priority == 'tag' and $get_attributes and $attributes_data)
+                    {
                         $current[$tag][$repeated_tag_index[$tag . '_' . $level] . '_attr'] = $attributes_data;
                     }
                     $repeated_tag_index[$tag . '_' . $level]++;
-                } else {
+                }
+                else
+                {
                     $current[$tag] = array(
                         $current[$tag],
                         $result
                     );
                     $repeated_tag_index[$tag . '_' . $level] = 1;
-                    if ($priority == 'tag' and $get_attributes) {
-                        if (isset($current[$tag . '_attr'])) {
+                    if ($priority == 'tag' and $get_attributes)
+                    {
+                        if (isset($current[$tag . '_attr']))
+                        {
                             $current[$tag]['0_attr'] = $current[$tag . '_attr'];
                             unset($current[$tag . '_attr']);
                         }
-                        if ($attributes_data) {
+                        if ($attributes_data)
+                        {
                             $current[$tag][$repeated_tag_index[$tag . '_' . $level] . '_attr'] = $attributes_data;
                         }
                     }
                     $repeated_tag_index[$tag . '_' . $level]++; //0 and 1 index is already taken
                 }
             }
-        } elseif ($type == 'close') {
+        }
+        elseif ($type == 'close')
+        {
             $current = & $parent[$level - 1];
         }
     }
@@ -2457,35 +2929,48 @@ function xml2array($url, $get_attributes = 1, $priority = 'tag', $is_url = true)
     return ($xml_array);
 }
 
-function array2xml($array, $level = 1) {
+function array2xml($array, $level = 1)
+{
     $xml = '';
     // if ($level==1) {
     //     $xml .= "<array>\n";
     // }
-    foreach ($array as $key => $value) {
+    foreach ($array as $key => $value)
+    {
         $key = strtolower($key);
-        if (is_object($value)) {
+        if (is_object($value))
+        {
             $value = get_object_vars($value);
         }// convert object to array
 
-        if (is_array($value)) {
+        if (is_array($value))
+        {
             $multi_tags = false;
-            foreach ($value as $key2 => $value2) {
-                if (is_object($value2)) {
+            foreach ($value as $key2 => $value2)
+            {
+                if (is_object($value2))
+                {
                     $value2 = get_object_vars($value2);
                 } // convert object to array
-                if (is_array($value2)) {
+                if (is_array($value2))
+                {
                     $xml .= str_repeat("\t", $level) . "<$key>\n";
                     $xml .= array2xml($value2, $level + 1);
                     $xml .= str_repeat("\t", $level) . "</$key>\n";
                     $multi_tags = true;
-                } else {
-                    if (trim($value2) != '') {
-                        if (htmlspecialchars($value2) != $value2) {
+                }
+                else
+                {
+                    if (trim($value2) != '')
+                    {
+                        if (htmlspecialchars($value2) != $value2)
+                        {
                             $xml .= str_repeat("\t", $level) .
                                     "<$key2><![CDATA[$value2]]>" . // changed $key to $key2... didn't work otherwise.
                                     "</$key2>\n";
-                        } else {
+                        }
+                        else
+                        {
                             $xml .= str_repeat("\t", $level) .
                                     "<$key2>$value2</$key2>\n"; // changed $key to $key2
                         }
@@ -2493,18 +2978,25 @@ function array2xml($array, $level = 1) {
                     $multi_tags = true;
                 }
             }
-            if (!$multi_tags and count($value) > 0) {
+            if (!$multi_tags and count($value) > 0)
+            {
                 $xml .= str_repeat("\t", $level) . "<$key>\n";
                 $xml .= array2xml($value, $level + 1);
                 $xml .= str_repeat("\t", $level) . "</$key>\n";
             }
-        } else {
-            if (trim($value) != '') {
+        }
+        else
+        {
+            if (trim($value) != '')
+            {
                 echo "value=$value<br>";
-                if (htmlspecialchars($value) != $value) {
+                if (htmlspecialchars($value) != $value)
+                {
                     $xml .= str_repeat("\t", $level) . "<$key>" .
                             "<![CDATA[$value]]></$key>\n";
-                } else {
+                }
+                else
+                {
                     $xml .= str_repeat("\t", $level) .
                             "<$key>$value</$key>\n";
                 }
@@ -2521,15 +3013,19 @@ function array2xml($array, $level = 1) {
 /**
  * Function used to get latest ClipBucket version info
  */
-function get_latest_cb_info() {
+function get_latest_cb_info()
+{
     if ($_SERVER['HTTP_HOST'] != 'localhost')
         $url = 'http://clip-bucket.com/versions.xml';
     else
         $url = 'http://localhost/clipbucket/2.x/2/upload/tester/versions.xml';
     $version = xml2array($url);
-    if (!$version) {
+    if (!$version)
+    {
         return false;
-    } else {
+    }
+    else
+    {
         return $version['phpbucket']['clipbucket'][0];
     }
 }
@@ -2537,7 +3033,8 @@ function get_latest_cb_info() {
 /**
  * Function used to generate RSS FEED links
  */
-function rss_feeds($params) {
+function rss_feeds($params)
+{
     /**
      * setting up the feeds arrays..
      * if you want to call em in your functions..simply call the global variable $rss_feeds
@@ -2551,14 +3048,18 @@ function rss_feeds($params) {
     $rss_feeds = apply_filters($rss_feeds, 'rss_feeds');
 
     $funcs = get_functions('rss_feeds');
-    if (is_array($funcs)) {
-        foreach ($funcs as $func) {
+    if (is_array($funcs))
+    {
+        foreach ($funcs as $func)
+        {
             return $func($params);
         }
     }
 
-    if ($params['link_tag']) {
-        foreach ($rss_feeds as $rss_feed) {
+    if ($params['link_tag'])
+    {
+        foreach ($rss_feeds as $rss_feed)
+        {
             echo "<link rel=\"alternate\" type=\"application/rss+xml\"
 				title=\"" . $rss_feed['title'] . "\" href=\"" . $rss_feed['link'] . "\" />\n";
         }
@@ -2568,7 +3069,8 @@ function rss_feeds($params) {
 /**
  * Function used to insert Log
  */
-function insert_log($type, $details) {
+function insert_log($type, $details)
+{
     global $cblog;
     $cblog->insert($type, $details);
 }
@@ -2576,10 +3078,12 @@ function insert_log($type, $details) {
 /**
  * Function used to get db size
  */
-function get_db_size() {
+function get_db_size()
+{
     $result = mysql_query("SHOW TABLE STATUS");
     $dbsize = 0;
-    while ($row = mysql_fetch_array($result)) {
+    while ($row = mysql_fetch_array($result))
+    {
         $dbsize += $row["Data_length"] + $row["Index_length"];
     }
     return $dbsize;
@@ -2588,15 +3092,21 @@ function get_db_size() {
 /**
  * Function used to check weather user has marked comment as spam or not
  */
-function marked_spammed($comment) {
+function marked_spammed($comment)
+{
     $spam_voters = explode("|", $comment['spam_voters']);
     $spam_votes = $comment['spam_votes'];
     $admin_vote = in_array('1', $spam_voters);
-    if (userid() && in_array(userid(), $spam_voters)) {
+    if (userid() && in_array(userid(), $spam_voters))
+    {
         return true;
-    } elseif ($admin_vote) {
+    }
+    elseif ($admin_vote)
+    {
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
@@ -2604,7 +3114,8 @@ function marked_spammed($comment) {
 /**
  * function used to get all time zones
  */
-function get_time_zones() {
+function get_time_zones()
+{
     $timezoneTable = array(
         "-12" => "(GMT -12:00) Eniwetok, Kwajalein",
         "-11" => "(GMT -11:00) Midway Island, Samoa",
@@ -2644,9 +3155,12 @@ function get_time_zones() {
  * Function used to get object type from its code
  * ie v=>video
  */
-function get_obj_type($type) {
-    switch ($type) {
-        case "v": {
+function get_obj_type($type)
+{
+    switch ($type)
+    {
+        case "v":
+            {
                 return "video";
             }
             break;
@@ -2658,12 +3172,14 @@ function get_obj_type($type) {
  * @todo generate slug
  * @param STRING title
  */
-function slug($title) {
+function slug($title)
+{
 
     $title = SEO($title, false, false);
     $title = SEO(clean(str_replace(' ', '-', $title)), false, false);
 
-    if (substr($title, strlen($title) - 1, 1) == '-') {
+    if (substr($title, strlen($title) - 1, 1) == '-')
+    {
         $title = substr($title, 0, strlen($title) - 1);
     }
 
@@ -2678,15 +3194,18 @@ function slug($title) {
  * @param INT object ID
  * @param STRING object type
  */
-function add_slug($slug, $id, $type) {
+function add_slug($slug, $id, $type)
+{
     global $db;
     $counts = 0;
 
     $theSlug = $slug;
-    while (1) {
+    while (1)
+    {
         if (!slug_exists($theSlug, $type))
             break;
-        else {
+        else
+        {
             $counts++;
             $theSlug = $slug . '-' . $counts;
         }
@@ -2705,7 +3224,8 @@ function add_slug($slug, $id, $type) {
  * @param STRING type
  * @return ARRAY slug
  */
-function slug_exists($slug, $type = NULL, $id = NULL) {
+function slug_exists($slug, $type = NULL, $id = NULL)
+{
     global $db;
 
     $typeQuery = "";
@@ -2729,17 +3249,21 @@ function slug_exists($slug, $type = NULL, $id = NULL) {
  * @param STRING ID
  * @param STRING type
  */
-function get_slug($id, $type) {
+function get_slug($id, $type)
+{
     global $db;
     $results = $db->select(tbl('slugs'), '*', "object_id='$id' AND object_type='$type' ");
-    if ($db->num_rows > 0) {
-        foreach ($results as $result) {
+    if ($db->num_rows > 0)
+    {
+        foreach ($results as $result)
+        {
             if ($result['in_use'] == 'yes')
                 return $result;
         }
 
         return $results[0];
-    }else {
+    }else
+    {
         return false;
     }
 }
@@ -2754,17 +3278,21 @@ function get_slug($id, $type) {
  * 
  * @return true
  */
-function set_config($var, $val) {
+function set_config($var, $val)
+{
     global $Cbucket;
     $Cbucket->configs[$var] = $val;
     return true;
 }
 
-if (!function_exists('cb_show_page')) {
+if (!function_exists('cb_show_page'))
+{
 
-    function cb_show_page($var = false) {
+    function cb_show_page($var = false)
+    {
         global $Cbucket;
-        if (gettype($var) != 'boolean' || !is_bool($var)) {
+        if (gettype($var) != 'boolean' || !is_bool($var))
+        {
             $var = false;
         }
         return $Cbucket->show_page = $show;
@@ -2772,72 +3300,93 @@ if (!function_exists('cb_show_page')) {
 
 }
 
-if (!function_exists('cb_filename')) {
+if (!function_exists('cb_filename'))
+{
 
-    function cb_filename() {
+    function cb_filename()
+    {
         $filename = time() . RandomString(6);
         return $filename;
     }
 
 }
 
-if (!function_exists('cb_parse_args_string')) {
+if (!function_exists('cb_parse_args_string'))
+{
 
-    function cb_parse_args_string($string = null) {
+    function cb_parse_args_string($string = null)
+    {
         if (is_null($string))
             return false;
 
         // Breaking string into configurations
         $args = array();
         $configurations = array_map('trim', explode("|", $string));
-        foreach ($configurations as $config) {
+        foreach ($configurations as $config)
+        {
             $values = array_map('trim', explode(":", $config));
-            if (count($values) == 2) {
+            if (count($values) == 2)
+            {
                 $args[$values[0]] = $values[1];
             }
         }
 
-        if (!empty($args)) {
+        if (!empty($args))
+        {
             return $args;
-        } else {
+        }
+        else
+        {
             return false;
         }
     }
 
 }
 
-function validate_image_file($file, $ext = null) {
+function validate_image_file($file, $ext = null)
+{
     global $imgObj;
     return $imgObj->ValidateImage($file, $ext);
 }
 
-function get_mature_thumb($object, $size = null, $output = null) {
+function get_mature_thumb($object, $size = null, $output = null)
+{
 
     /* Calling custom function */
     $funcs = cb_get_functions('mature_thumb');
-    if (is_array($funcs)) {
-        foreach ($funcs as $func) {
-            if (function_exists($func['func'])) {
+    if (is_array($funcs))
+    {
+        foreach ($funcs as $func)
+        {
+            if (function_exists($func['func']))
+            {
                 $thumb = $func['func']($object, $size, $output);
-                if ($thumb) {
+                if ($thumb)
+                {
                     return $thumb;
                 }
             }
         }
     }
 
-    if ($size == 'big') {
+    if ($size == 'big')
+    {
         $size = '-big';
-    } else {
+    }
+    else
+    {
         $size = null;
     }
 
     $name = "unsafe" . $size . ".jpg";
     $path = BASEURL . '/images/' . $name;
 
-    if ($output) {
+    if ($output)
+    {
         return cb_output_img_tag($path);
-    } else {
+    }
+    else
+    {
         return $path;
     }
 }
@@ -2849,13 +3398,17 @@ function get_mature_thumb($object, $size = null, $output = null) {
  * @return STRING $author
  * @Author Arslan
  */
-function comment_author($comment) {
+function comment_author($comment)
+{
     $comment = apply_filters($comment, 'comment_author');
 
-    if ($comment['userid']) {
+    if ($comment['userid'])
+    {
         //means registered user has made a comment..
         return $comment['username'];
-    } else {
+    }
+    else
+    {
         //Shows what guest has put in for name
         return $comment['anonym_name'];
     }
@@ -2866,7 +3419,8 @@ function comment_author($comment) {
  * @param type $comment
  * @return type 
  */
-function get_comment_author($comment) {
+function get_comment_author($comment)
+{
     return comment_author($comment);
 }
 
@@ -2881,14 +3435,16 @@ function get_comment_author($comment) {
  * @return BOOLEAN 
  * @link http://docs.clip-bucket.com/user-manual/developers-guide/functions/can_delete_comment
  */
-function can_delete_comment($comment, $userid = false) {
+function can_delete_comment($comment, $userid = false)
+{
 
     if (!$userid)
         $userid = userid();
 
     if (has_access('admin_del_access')
             OR $comment['userid'] == $userid
-            OR $comment['type_owner_id'] == $userid) {
+            OR $comment['type_owner_id'] == $userid)
+    {
         return true;
     }
 
@@ -2906,7 +3462,8 @@ function can_delete_comment($comment, $userid = false) {
  * @return BOOLEAN
  * 
  */
-function is_comment_spam($comment) {
+function is_comment_spam($comment)
+{
     $comment = apply_filters($comment, 'comment_spam');
 
     $uid = userid();
@@ -2924,7 +3481,8 @@ function is_comment_spam($comment) {
     if (!$voters)
         $voters = array();
 
-    if ($uid && in_array($uid, $voters)) {
+    if ($uid && in_array($uid, $voters))
+    {
         $return['user_spam'] = true;
     }
 
@@ -2932,7 +3490,8 @@ function is_comment_spam($comment) {
      * Checking if spam counts is exceeding the limit.. 
      */
     if ($comment['spam_votes'] >= config('comment_spam_limit')
-            && config('comment_spam_limit')) {
+            && config('comment_spam_limit'))
+    {
         $return['global_spam'] = true;
     }
 
@@ -2956,9 +3515,11 @@ function is_comment_spam($comment) {
  * @param STRING $cond a variable that holds complete condition by
  * deafult global $cond is used, but if param is given, it will overide
  */
-function cond($condition, $operater = 'AND', $var = NULL) {
+function cond($condition, $operater = 'AND', $var = NULL)
+{
 
-    if (!$var) {
+    if (!$var)
+    {
         global $cond;
     }else
         $cond = $var;
@@ -2977,14 +3538,16 @@ function cond($condition, $operater = 'AND', $var = NULL) {
  * @param STRING tbl_name
  * @param ARRAY fields=>values
  */
-function cb_insert($tbl, $array) {
+function cb_insert($tbl, $array)
+{
     global $db;
 
     $fields = array();
     $values = array();
 
 
-    foreach ($array as $index => $val) {
+    foreach ($array as $index => $val)
+    {
         $fields[] = $index;
         $values[] = $val;
     }
@@ -2995,7 +3558,8 @@ function cb_insert($tbl, $array) {
 /**
  * Function used to check weather FFMPEG has Required Modules installed or not
  */
-function get_ffmpeg_codecs($data = false) {
+function get_ffmpeg_codecs($data = false)
+{
     $req_codecs = array
         ('libxvid' => 'Required for DIVX AVI files',
         'libmp3lame' => 'Required for proper Mp3 Encoding',
@@ -3015,12 +3579,14 @@ function get_ffmpeg_codecs($data = false) {
 
     $the_codecs = array();
 
-    foreach ($installed as $inst) {
+    foreach ($installed as $inst)
+    {
         if (empty($req_codecs[$inst]))
             $the_codecs[$inst]['installed'] = 'yes';
     }
 
-    foreach ($req_codecs as $key => $codec) {
+    foreach ($req_codecs as $key => $codec)
+    {
         $the_req_codecs[$key] = array();
         $the_req_codecs[$key]['required'] = 'yes';
         $the_req_codecs[$key]['desc'] = $req_codecs[$key];
@@ -3037,7 +3603,8 @@ function get_ffmpeg_codecs($data = false) {
 /**
  * Function used to cheack weather MODULE is INSTALLED or NOT
  */
-function check_module_path($params) {
+function check_module_path($params)
+{
     $rPath = $path = $params['path'];
 
     if ($path['get_path'])
@@ -3045,8 +3612,10 @@ function check_module_path($params) {
     $array = array();
     $result = shell_output($path . " -version");
 
-    if ($result) {
-        if (strstr($result, 'error') || strstr(($result), 'No such file or directory')) {
+    if ($result)
+    {
+        if (strstr($result, 'error') || strstr(($result), 'No such file or directory'))
+        {
             $error['error'] = $result;
 
             if ($params['assign'])
@@ -3055,15 +3624,20 @@ function check_module_path($params) {
             return false;
         }
 
-        if ($params['assign']) {
+        if ($params['assign'])
+        {
             $array['status'] = 'ok';
             $array['version'] = parse_version($params['path'], $result);
 
             assign($params['assign'], $array);
-        } else {
+        }
+        else
+        {
             return $result;
         }
-    } else {
+    }
+    else
+    {
         if ($params['assign'])
             assign($params['assign']['error'], "error");
         else
@@ -3074,52 +3648,78 @@ function check_module_path($params) {
 /**
  * Function used to parse version from info
  */
-function parse_version($path, $result) {
-    switch ($path) {
-        case 'ffmpeg': {
+function parse_version($path, $result)
+{
+    switch ($path)
+    {
+        case 'ffmpeg':
+            {
                 //Gett FFMPEG SVN version
                 preg_match("/svn-r([0-9]+)/i", strtolower($result), $matches);
                 //pr($matches);
-                if (is_numeric(floatval($matches[1])) && $matches[1]) {
+                if (is_numeric(floatval($matches[1])) && $matches[1])
+                {
                     return 'Svn ' . $matches[1];
                 }
                 //Get FFMPEG version
                 preg_match("/FFmpeg version ([0-9.]+),/i", strtolower($result), $matches);
-                if (is_numeric(floatval($matches[1])) && $matches[1]) {
+                if (is_numeric(floatval($matches[1])) && $matches[1])
+                {
                     return $matches[1];
                 }
 
                 //Get FFMPEG GIT version
                 preg_match("/ffmpeg version n\-([0-9]+)/i", strtolower($result), $matches);
 
-                if (is_numeric(floatval($matches[1])) && $matches[1]) {
+                if (is_numeric(floatval($matches[1])) && $matches[1])
+                {
                     return 'Git ' . $matches[1];
                 }
             }
             break;
-        case 'php': {
+        case 'php':
+            {
                 return phpversion();
             }
             break;
-        case 'flvtool2': {
+        case 'flvtool2':
+            {
                 preg_match("/flvtool2 ([0-9\.]+)/i", $result, $matches);
-                if (is_numeric(floatval($matches[1]))) {
+                if (is_numeric(floatval($matches[1])))
+                {
                     return $matches[1];
-                } else {
+                }
+                else
+                {
                     return false;
                 }
             }
             break;
-        case 'mp4box': {
+        case 'mp4box':
+            {
                 preg_match("/version (.*) \(/Ui", $result, $matches);
                 //pr($matches);
-                if (is_numeric(floatval($matches[1]))) {
+                if (is_numeric(floatval($matches[1])))
+                {
                     return $matches[1];
-                } else {
+                }
+                else
+                {
                     return false;
                 }
             }
     }
+}
+
+/**
+ * Display time and using javascript
+ * update it regularly...
+ */
+function what_time($time, $is_time = true)
+{
+    if (!$is_time)
+        $time = strtotime($time);
+    echo date('D m, Y', $time);
 }
 
 //Including videos functions
@@ -3134,6 +3734,7 @@ include("functions_collections.php");
 include('exif_source.php');
 
 include("functions_upload.php");
+include("functions_feeds.php");
 
 
 include("functions_filters.php");

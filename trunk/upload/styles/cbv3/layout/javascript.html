@@ -16,7 +16,7 @@
         }
     });
     
-     //Groups
+    //Groups
     amplify.request.define( "groups", "ajax", {
         url: ajaxURL+"/groups.php",
         type: "POST",
@@ -48,6 +48,21 @@
     //photos private message
     amplify.request.define( "photos", "ajax", {
         url: ajaxURL+"/photos.php",
+        type: "POST",
+        dataType: "json",
+        decoder: function( data, status, xhr, success, error ) {
+            if ( status === "success" ) {
+                success( data );
+            } else {
+                error( data );
+            }
+        }
+    });
+    
+    
+    //feeds amplify
+    amplify.request.define( "feeds", "ajax", {
+        url: ajaxURL+"/feed.php",
         type: "POST",
         dataType: "json",
         decoder: function( data, status, xhr, success, error ) {
@@ -140,7 +155,7 @@
        
         //Init Drop Downs
         $('.cb-dropdown').dropdown();
-       $('.cb-tabs-content a').click(function (e) {
+        $('.cb-tabs-content a').click(function (e) {
             e.preventDefault();
             $(this).tab('show');
         });
@@ -245,7 +260,7 @@
         });
         
         $('.cbv3-scroller').lionbars({
-                autohide: true
+            autohide: true
         });
         
         $('.playlist-dropdown.open .dropdown-toggle').dropdown('toggle');
@@ -255,6 +270,22 @@
             $('.selectable-radio.active').removeClass('active');
             $(this).parent('.selectable-radio').addClass('active');
         })
+        
+        
+        
+        $('.comment-field').autosize().shiftenter();  
+        
+        $('.comment-field').bind('textchange', function (event, previousText) 
+        {
+            var feedID = $(this).attr('data-feed-id');
+            var text = $(this).val();
+            //text = nl2br(text);
+            $('#comment-backend-'+feedID).html(text);
+        })
+        
     });
 
+
+
+    
 </script>

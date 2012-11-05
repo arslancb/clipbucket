@@ -1121,7 +1121,7 @@ function add_menu_item($name, $item, $link = false, $section = false, $icon = fa
  *  @param type , display | fetch
  */
 
-function get_template($file, $type = 'fetch') {
+function get_template($file, $type = 'fetch',$layout=true) {
     $defaults = array(
         'single_comment'    => 'blocks/comments/comment.html',
         'comments'          => 'blocks/comments/comments.html',
@@ -1145,7 +1145,14 @@ function get_template($file, $type = 'fetch') {
 
         if ($type == 'fetch')
             return fetch($the_file);
-        else
+        if ($type=='path')
+        {
+            $path = $the_file;
+            if($layout)
+                $path = LAYOUT.'/'.$the_file;
+            
+            return $path;
+        }else
             template($the_file);
     }
 }

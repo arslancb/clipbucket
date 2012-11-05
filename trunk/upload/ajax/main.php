@@ -641,6 +641,15 @@ switch($mode){
     }
     break;
     
+    
+    case "get_friends":
+    {
+        $get_json_friends = $userquery->get_json_friends();
+        echo  $get_json_friends;
+    }
+    
+    break;
+    
     default:
         exit(json_encode(array('err'=>array(lang('Invalid request')))));
 }

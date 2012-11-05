@@ -829,13 +829,13 @@ class CBGroups extends CBCategory {
         else
             $limit_query = '';
 
-        $order = ' ORDER BY '.$order;
+        $order = ' ORDER BY ' . $order;
         $results = db_select("SELECT " . tbl('group_topics') . ".*$uquery FROM "
                 . tbl('group_topics') . " LEFT JOIN " . tbl('users') . " ON " . tbl('users.userid')
                 . "=" . tbl('group_topics.userid') . " WHERE " . tbl('group_topics')
                 . ".group_id='$gid' $user_query $order $limit_query  ");
 
-        
+
         if ($db->num_rows > 0)
             return $results;
         else
@@ -2354,6 +2354,163 @@ class CBGroups extends CBCategory {
 
             return true;
         }
+    }
+
+    /**
+     * 
+     * @global type $cbgroup
+     * @param type $array
+     * @return type 
+     */
+    function add_feed($array) {
+        
+        global $userquery;
+        
+        $group_id = $array['group_id'];
+        if (!$group_id)
+            return false;
+        $group = $array['group'];
+        
+        if (!$group)
+            $group = $this->get_group_details($group_id);
+
+        if (!$group)
+            return false;
+        
+        
+        $userid = $array['userid'];
+        if (!$userid)
+        {
+            if(userid())
+            {
+                 $userid = userid();
+                 $user = $userquery->udetails;
+            }
+        }
+        
+        if(!$userid)
+            return false;
+        
+        if(!$user)
+            $user = $array['user'];
+        if(!$user)
+            $user = get_user_details($user);
+        if(!$user)
+            return false;
+
+        
+        if($array['message'])
+            $message = apply_filters($array['message'],'feed_message');
+        
+        if($array['type'])
+            $type = $array['type'];
+        else
+            $type = 'message';
+        
+        
+        $content_id = '';
+        $content = '';
+        $content_type = '';
+        
+        
+        if($array['content_id'])
+        {
+            $content_id = $array['content_id'];
+            $content = $array['content'];
+            $content_type = $array['content_type'];
+        }
+        
+        $action = $array['action'];
+        
+        
+        if($array['icon'])
+            $icon = $array['icon'];
+        else 
+            $icon = '';
+        
+        if($array['action_group_id'])
+            $action_group_id = $array['action_group_id'];
+        
+        $array = array(
+            'message' => $message,
+            'message_attributes' => array(),
+            'userid' => userid(),
+            'user' => $userquery->udetails,
+            'content_id' => $content_id,
+            'content' => $content,
+            'content_type' => $content_type,
+            'object_id' => $group_id,
+            'object' => $group,
+            'object_type' => 'group',
+            'action_group_id' => $action_group_id,
+            'action' => $action,
+            'icon' => $icon,
+        );
+        
+        global $cbfeeds;
+        
+        $cbfeeds->add_feed($array);
+    }
+    
+    
+    /**
+     * Add Group Status..
+     * 
+     * @global type $cbgroup
+     * @param type $array
+     * @return type
+     */
+    
+    function add_group_status($gid,$status)
+    {
+        $array = array(
+            'group_id'  => $gid,
+            'message'   => $status,
+            'action'    => 'post_message'
+        );
+        
+        $this->add_feed($array);
+    }
+    
+    
+    /**
+     * Function used to add a video in a group...
+     */
+    function add_group_video_feed($feed)
+    {
+        global $cbfeeds;
+        $gid = $feed['group_id'];
+        $msg = $feed['message'];
+        
+        $content = $cbfeeds->get_content('v',$feed['videoid'],$feed['video']);
+        
+        $array = array(
+            'group_id'  => $gid,
+            'message'   => $msg,
+            'content'   => $content,
+            'content_type' => 'video',
+            'content_id'    => $feed['videoid'],
+            'action'    => 'share_video'
+        );
+        
+        $this->add_feed($array);
+    }
+    
+    
+    /**
+     * Getting group feeds..
+     * 
+     * @global type $cbgroup
+     * @param type $array
+     * @return type
+     */
+    function get_group_feeds($gid)
+    {   
+        global $cbfeeds;
+        
+        $feeds = $cbfeeds->get_feeds(array('type'=>'group','id'=>$gid));
+        
+        return $feeds;
     }
 
 }

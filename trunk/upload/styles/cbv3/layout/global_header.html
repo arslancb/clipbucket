@@ -20,6 +20,10 @@
 <!-- RSS FEEDS -->
 {rss_feeds link_tag=true}
 
+
+<!--custom jquery css-->
+<link rel="stylesheet" type="text/css" href="{$template_url}/js/bootstrap/jquery-ui-1.8.16.custom.css" />
+
 <!-- Including Normalizer And Bootstrap -->
 <link rel="stylesheet" type="text/css" href="{$layout_url}/normalize.css" />
 <link rel="stylesheet" type="text/css" href="{$template_url}/bootstrap/css/bootstrap.min.css" />
@@ -43,7 +47,6 @@
 
 <!-- Including jquery-ui and its custom boostrap UI theme-->
 <script type="text/javascript" src="{$template_url}/js/jquery-ui.js"></script>
-<link rel="stylesheet" type="text/css" href="{$template_url}/js/bootstrap/jquery-ui-1.8.16.custom.css" />
 
 
 <!-- Including Bootstrap JS 
@@ -59,13 +62,19 @@
 <!-- Lionbar -->
 <script type="text/javascript" src="{$template_url}/lionbars/jquery.lionbars.js"></script>
 <link rel="stylesheet" type="text/css" href="{$template_url}/lionbars/lionbars.css" />
+<link rel="stylesheet" type="text/css" href="{$template_url}/js/css/jquery.shiftenter.css" />
+
 
 <!-- Including Functions -->
 <script type="text/javascript" src="{$layout_url}/functions.js"></script>
 <script type="text/javascript" src="{$layout_url}/functions_groups.js"></script>
+<script type="text/javascript" src="{$layout_url}/functions_feeds.js"></script>
 
 
 <script type="text/javascript" src="{$template_url}/js/jquery.address.js"></script>
+<script type="text/javascript" src="{$template_url}/js/jquery.textchange.js"></script>
+<script type="text/javascript" src="{$template_url}/js/jquery.shiftenter.js"></script>
+<script type="text/javascript" src="{$template_url}/js/jquery.autosize.js"></script>
 
 <!-- Including Javascript written in HTML document -->
 {include file="$layout_dir/javascript.html"}
