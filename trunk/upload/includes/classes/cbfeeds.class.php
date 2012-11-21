@@ -877,7 +877,8 @@ class cbfeeds
         $id = $array['id'];
 
         $results = db_select("SELECT * FROM ".tbl('feeds')
-        ." WHERE object_type='".$type."' AND object_id='$id' ");
+        ." WHERE object_type='".$type."' AND object_id='$id' "
+        . " ORDER BY date_added DESC");
         
         
         return $results;

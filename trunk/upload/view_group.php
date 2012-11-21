@@ -125,7 +125,7 @@ if ($details)
         assign('group', $details);
         
         
-        //$cbgroup->add_group_status($details['group_id'],'Another status');
+        //$cbgroup->add_group_status($details['group_id'],'Yar ye kamal chiz lag rae a?');
         /*$cbgroup->add_group_video_feed(array(
             'videoid' => '1238',
             'group_id' => $details['group_id'],

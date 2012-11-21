@@ -66,3 +66,13 @@ function add_feed_comment(fid)
         }
     })
 }
+
+/**
+ * function used to add a feed
+ */
+
+function add_new_post(type,type_id,content_type,content_id,content)
+{
+    $('#add_new_post').button('loading');
+    
+}

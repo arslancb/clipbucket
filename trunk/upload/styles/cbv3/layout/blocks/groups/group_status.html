@@ -1,0 +1,44 @@
+
+
+{if userid()}
+<div class="new_post_box">
+    <div class="post_user_thumb">
+        <img src="{$userquery->avatar(NULL,'small',userid())}" />
+    </div>
+    
+    
+    
+    <div align="left" class="post_btns btn-group"> 
+        
+        <a class="btn btn-mini active" data-toggle="modal" data-target="#add-topic-modal">
+            <i class="icon-comment"></i> Post Status</a>
+            
+        <a class="btn btn-mini" data-toggle="modal" data-target="#add-topic-modal">
+            <i class="icon-list"></i> Post Topic</a>
+        <a class="btn btn-mini" href="{$group_links.add_videos.link}">
+            <i class="icon-film"></i> Post Video</a>
+        <a class="btn btn-mini"><i class="icon-picture"></i> Post Photo</a>
+    </div>
+    
+    <div class="new_post_container padding_box" id="new_post_container">
+        <div class="post_message_container">
+            <textarea class="post_message" placeholder="{lang code='Post something...'}"
+            rows="1"></textarea>
+        </div>
+        <div id="post_content">
+            
+        </div>
+        <div class="post_options display-none" align="right" id="post_options">
+            <button class="btn btn-primary btn-mini"
+             data-type-id="{$group.group_id}"
+             data-type="g"
+             id="add_new_post"
+             data-loading-text="Loading...">{lang code='Post'}</button>
+        </div>
+        
+        
+    </div>
+    
+</div>
+
+{/if}

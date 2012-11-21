@@ -283,6 +283,26 @@
             $('#comment-backend-'+feedID).html(text);
         })
         
+        
+        $('.post_message_container').on('click','.post_message',function(){
+            $('.post_options').show();
+        });
+        
+        $('.post_message').autosize();  
+        
+        
+        $('#post_options').on('click','#add_new_post',function(){
+            
+            var type_id = $(this).attr('data-type-id');
+            var type = $(this).attr('data-type');
+            
+            var content_id = $('#content_id').val();
+            var content_type = $('#content_type').val();
+            
+            add_new_post(type,type_id,content_type,content_id);
+            
+        });
+        
     });
 
 

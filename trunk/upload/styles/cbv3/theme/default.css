@@ -8,8 +8,9 @@
  
  @import url("group.css");
  @import url("view_channel.css");
-  @import url("collections.css");
-  
+ @import url("collections.css");
+ @import url("feeds.css");
+ 
  /**bootstrap icon fix**/
  [class^="icon-"], [class*=" icon-"]{margin-top: -1px}
  
@@ -1401,101 +1402,3 @@ padding-bottom: 5px; margin-bottom: 5px ;font-weight: bold; font-size: 12px; pos
     border-radius: 3px; -moz-border-radius: 2px; -webkit-border-radius: 3px;
     display: inline-block; padding: 2px; margin: 3px; border: 2px solid transparent}
 .selectable-radio.active, .selectable-radio:hover{border:2px solid #006699}
-
-.feed
-{
-    width: 570px;
-    line-height: 20px;
-}
-
-.feed .feed-author{width: 42px; height: 42px; overflow: hidden;
-border: 1px solid #000; float: left; margin-right: 12px}
-.feed .feed-author{width: 42px; }
-.feed .feed-context{float: left; width: 514px}
-.feed .feed-context .feed-author-name{font-size: 12px; font-weight: bold; line-height: 12px}
-.feed .feed-context .feed-message{font-size:12px }
-.feed .feed-context .feed-content{
-    background-color: #f8f8f8;
-    border: 1px solid #c6c6c6;
-    border-radius: 3px;
-    box-shadow: 0px 1px 0px #fff;
-    padding: 5px; margin-top: 5px;
-    position: relative;
-    padding-left: 135px;
-    font-size: 11px;
-    font-family: Tahoma;
-    line-height: 15px;
-    height: 90px;
-}
-.feed .feed-context .feed-content .content-thumb{
-    position: absolute; left: 5px; overflow: hidden; height: 90px;
-}
-
-.feed .feed-context .feed-content .content-thumb img{
-    max-width: 120px;
-} 
-
-.feed .feed-context .feed-content .content-title a,
-.feed .feed-context .feed-content .content-title{
-    font-weight: bold;
-    text-decoration: none
-}
-.feed .feed-context .feed-content .content-caption a,
-.feed .feed-context .feed-content .content-caption{
-    color: #acacac;
-    text-decoration: none
-}
-
-.feed .feed-context .feed-content .content-description{
-    margin-top: 3px;
-    color: #5c5c5c
-}
-
-.feed .feed-options{font-size: 11px; color: #000; margin-top: 5px}
-.feed .feed-options .feed-action-buttons{float: left;
-display: inline-block; font-weight: bold}
-
-.feed .feed-options .feed-time{float: right;
-display: inline-block}
-
-.feed .feed-interaction{font-size: 11px; line-height: 15px; margin-bottom: 10px}
-.feed .feed-interaction .feed-likes
-{
-    background-color: #f8f8f8; margin-bottom: 1px;
-    padding: 6px; font-size: 11px; font-weight: bold;
-}
-
-.feed .feed-interaction .feed-triangle{
-    width: 0px;
-    height: 0px;
-    border-style: solid;
-    border-width: 0 6.5px 8px 6.5px;
-    border-color: transparent transparent #f8f8f8 transparent;
-    margin-left: 22px;
-}
-
-.feed .feed-comment{
-    font-size: 11px;
-    background-color: #f8f8f8; margin-bottom: 1px;
-    position: relative;
-    padding: 6px;
-    padding-left:43px;
-}
-
-.feed .feed-comment-author{
-    position: absolute; left: 6px; overflow: hidden; 
-}
-.feed .feed-comment-author img{width: 32px}
-
-.feed .feed-comment .feed-comment-likes{margin-top:5px}
-.feed .feed-comment .comment-field{width:97%; height: 20px}
-
-.feed-like-link{text-decoration: none; cursor: pointer}
-
-.add-comment-field{position: relative}
-.comment-field-backend{position: absolute; top: 5px; left: 8px; color:transparent; 
-                       font-size: 14px; line-height: 20px; width: 449px; 
-                       word-wrap: break-word; word-break: break-all;
-                       white-space:pre;
-                       cursor:text}
-.comment-field { background-color: transparent;resize: none;}
