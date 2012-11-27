@@ -29,8 +29,9 @@ button::-moz-focus-inner {
 }
 
 .tagger-input {
-	position : relative; border:1px solid black; width: 175px;
-	left:-50%; background: white;	padding:6px;  top:6px;
+	position : relative; border:1px solid rgba( 0, 0, 0, 0.35 ); width: 175px; font-family: 'Open Sans', Arial, sans-serif;
+	left:-50%; background: rgba( 255, 255, 255, 0.9 ); padding:6px;  top:6px;
+    border-radius: 4px; box-shadow: 0 0px 3px 0 rgba(0, 0, 0, 0.25), 0px 1px 2px 0px rgba(0, 0, 0, 0.05)
 }
 
 .tagger-input input {
@@ -74,66 +75,92 @@ button::-moz-focus-inner {
 }
 
 .tagger-tag .tagger-tag-details {
-	position : absolute; top:95%;
-	left:50%; font-size:11px;
+	position : absolute; top:85%;
+	left:50%; font-size:12px;
+    visibility: hidden;
 }
 
 .tagger-tag .tagger-tag-details i {
-	background: white;
-	border: 1px solid #999;
-	box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+	background: rgba(255, 255, 255, 0.9);
+	border: 1px solid rgba(0, 0, 0, 0.35);
+	box-shadow: 0 0px 3px 0 rgba(0, 0, 0, 0.25), 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 	color: black;
 	display: block;
 	font-style:normal; 
 	left : -50%;
-	padding: 4px;
+	padding: 0.3em 0.8em;
 	position:relative;
 	text-align:center;
-	width : 100px;
+	box-sizing:  border-box;
 	word-wrap: break-word;
+    white-space: nowrap;
+    border-radius: 4px;
+    font-family: 'Open Sans', Arial, sans-serif;
 }
 
 .tagger-up-arrow {
     width: 0; position:absolute;
-    height: 0; top:-6px; left:50%; margin-left:-6px;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 6px solid #ffffff;	
+    height: 0; top:-8px; left:50%; margin-left:-8px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid rgba(255, 255, 255, 0.9);	
 }
 
 .tagger-up-arrow.border {
-   border-bottom-color:#999;
+   border-bottom-color: rgba(0, 0, 0, 0.35);
 }
 
 .tagger-up-arrow.border:before {
     width: 0; position:absolute; content:'';
-    height: 0; top:1px; left:50%; margin-left:-6px;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 6px solid white;
+    height: 0; top:1px; left:50%; margin-left:-7px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid rgba(255, 255, 255, 0.9);
 }
 
 .tagger-input .tagger-up-arrow.border {
-	border-bottom-color: black;
+	border-bottom-color: rgba( 0, 0, 0, 0.35 );
 }
 
 .tagger-tag.tagger-tag-active-hover {
 	box-shadow : none; border-color:transparent;	
 }
 
+.tagger-tag.show-tagger-tag.tagger-tag-active-hover {
+    border:1px solid rgba(0, 0, 0, 0.25);
+    box-shadow:0 0 1px rgba(0, 0, 0, 0.25), 0 1px 5px 3px rgba(0, 0, 0, 0.05);
+}
+
 .tagger-tag.tagger-tag-active-hover .tagger-tag-box {
 	opacity : 0;	
+    display: none;
+}
+
+.tagger-tag.tagger-tag-active-hover .tagger-tag-details {
+    visibility: visible;
+    opacity: 1;
 }
 
 .tagger-tag.tagger-tag-active-label .tagger-tag-details {
 	opacity : 0;
+    display:none;
+}
+
+.tagger-tag.show-tagger-tag .tagger-tag-details {
+    opacity: 0;
+    display: none;
+    top:101%;
+}
+
+.tagger-tag.show-tagger-tag.tagger-tag-active-hover .tagger-tag-details, .tagger-tag.show-tagger-tag.tagger-tag-active-hover .tagger-tag-box {
+    opacity: 1;
+    display: block;
 }
 
 .tagger-tag-label, a .tagger-tag-label .tagger-tag-label-link {
 	color : #333333;
 	text-decoration: none;	
 	position: relative;
-	text-transform : capitalize;
 }
 
 .tagger-tag-label-css-string:after {
@@ -162,7 +189,7 @@ button::-moz-focus-inner {
 
 .tagger-button {
 	background : white; cursor: pointer; padding: 0px; margin: 0;
-	border:0px none; /*font-family: Tahoma, Helvetica, sans-serif;*/
+	border:0px none; font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
 
 .tagger-button:active {
@@ -260,7 +287,22 @@ button::-moz-focus-inner {
 	margin-right: 0.4em;
 }
 
-/* Typeahead - Twitter Bootstrap */
+.tagger-image-wrapper.labels-not-showing .tagger-remove-tag-link {
+    font-size: 11px;
+}
+
+.no-photos-tags-found {
+    font-size: 15px; text-align: center;
+    display: block; font-weight: normal;
+    color: #666; padding: 10px 0px;
+}
+
+img.cb-tagger-internet-explorer {
+    max-width: none;
+    width: 100%;
+}
+
+/* Typeahead - Twitter Bootstrap 
 .typeahead {
 	border-radius:4px 4px 4px 4px;
 	-moz-border-radius:4px 4px 4px 4px;
@@ -294,4 +336,4 @@ button::-moz-focus-inner {
 .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover {
 	background-color : #0088cc;
 	color:white;	
-}
+}*/

@@ -546,12 +546,7 @@ function parse_photo_attachment( $att ) {
 
 /**
  * This is registered at cb_head ANCHOR. This loads photo actions links.
- * You can use photo_action_links filter to new links and
- * photo_action_configs to provide custom configurations.
- * 
- * Right now it has only to configurations.
- * menu_wrapper => <ul></ul>, This one wraps menu_items
- * menu_item => <li></li>, This one wraps the anchor link
+ * You can use photo_action_links filter to new links.
  * 
  * @global object $cbphoto
  * @global array $photo
@@ -564,10 +559,6 @@ function load_photo_actions() {
 		return false;	
 	}
 	$links = array();	
-	$configs = array(
-		'menu_wrapper' => '<ul></ul>',
-		'menu_item' => '<li></li>'
-	);
 	
 	$download = photo_download_button( array('details' => $photo, 'return_url' => true) );	
 	if ( $download ) {
@@ -578,10 +569,30 @@ function load_photo_actions() {
 		);
 	}
 
+  	if ( userid () ) {
+        $user = $userquery->udetails;
+        if ( $photo['collection_id'] != $user['avatar_collection'] ) {
+          $links[] = array(
+            'href' => $cbphoto->photo_links( $photo, 'ma' ),
+            'text' => lang('Make avatar'),
+            'icon' => 'user'
+          );			
+        } else {
+          $links[] = array(
+            'href' => $cbphoto->photo_links( $photo, 'ma' ),
+            'text' => lang('Set as avatar'),
+            'icon' => 'user'
+          );				
+        }
+    }
+  		
+	// Apply Filter to links
+	$links = apply_filters( $links, 'photo_action_links');
+
 	if ( userid() && $photo['userid'] == userid() ) {
 		$links[] = array(
                 'href' => BASEURL.'/edit_photo.php?photo='.$photo['photo_id'],
-                'text' => lang('edit_photo'),
+                'text' => lang('Edit Photo'),
                 'target' => '_blank',
                 'icon' => 'pencil'
 		);
@@ -591,40 +602,56 @@ function load_photo_actions() {
                 'text' => lang('Delete Photo'),
                 'icon' => 'remove',
 				'tags' => array(
-					'onclick' => 'displayConfirm("delete_photo_'.$photo['photo_id'].'","'.lang('Please confirm the photo delete').'", delete_photo_ajax,"'.lang('Delete This Photo').'"); return false;',
+					'onclick' => 'displayConfirm("delete_photo_'.$photo['photo_id'].'","'.lang('Are you sure you want to delete this photo ? This action will delete photo permanently.').'", delete_photo_ajax,"'.lang('Delete This Photo').'"); return false;',
 					'data-toggle' => 'modal',
 					'data-target' => '#delete_photo_'.$photo['photo_id']
 				)
 		);
 	}
+  
+    return $links;
+}
 
-	if ( userid () ) {
-		$user = $userquery->udetails;
-		if ( $photo['collection_id'] != $user['avatar_collection'] ) {
-			$links[] = array(
-				'href' => $cbphoto->photo_links( $photo, 'ma' ),
-				'text' => lang('Make avatar'),
-				'icon' => 'user'
-			);			
-		} else {
-			$links[] = array(
-				'href' => $cbphoto->photo_links( $photo, 'ma' ),
-				'text' => lang('Set as avatar'),
-				'icon' => 'user'
-			);				
-		}
-  }
-
-		
-	// Apply Filter to links
-	$links = apply_filters( $links, 'photo_action_links');
-	// Apply Filter to configs
-	$configs = apply_filters( $configs, 'photo_action_configs' );
-	$configs['menu_items'] = $links;
+function display_photo_actions( $icon = true, $white = false ) {
+    $links = load_photo_actions();
+    if ( $links ) {
+        $output='';
+        foreach( $links as $link ) {
+            if ( $link['href'] ) {
+                $output .= '<li>';
+                $output .= "<a href='".$link['href']."' ";
+                if ( $link['target'] ) {
+                    $output .= "target='".$link['target']."' ";
+                }
+                
+                if ( $link['style'] ) {
+                    $output .= "style='".$link['style']."' ";
+                }
+                
+                // Add attributes
+                if ( $link['tags'] && is_array($link['tags']) ) {
+                    foreach ( $link['tags'] as $attribute => $value ) {
+                        $output .= $attribute."='".$value."'";
+                    }
+                }
+                
+                $output .= ">";
+                // Add icon
+                if ( $link['icon'] && $icon !== false ) {
+                    if ( $white === true ) {
+                        $white_icon = ' icon-white';
+                    }
+                    $output .= "<i class='icon-".$link['icon']."$white_icon'></i> ";
+                }
+                
+                $output .= $link['text'];
+                $output .= "</a>";
+                $output .= '</li>';
+            }
+        }
+    }
     
-	assign('photo_action_configs', json_encode( $configs ) );
-	assign('photo',$photo);
-	Template(STYLES_DIR.'/global/photo_actions.html',false);
+    return $output;
 }
 
 /**
@@ -1054,11 +1081,11 @@ function display_manager_links( $photo, $front_end = false ) {
                  * 
                  */
                 $link['title'] = $url['title'] ? $url['title'] : $link['title'];
-                $url = $url['link'];
+                $url = $url['link'] ? $url['link'] : $link['link'];
             }
             
-            if ( $_SERVER['QUERY_STRING'] && !preg_match( '/htt(p|s):\/\//', $url ) ) {
-                // QUERY_STRING exists and $url returned has not have http://( means complete url )
+            if ( $_SERVER['QUERY_STRING'] && strpos( $url, '.php') === false ) {
+                // QUERY_STRING exists and $url does not have .php
                 // append QUERY_STRING before $url
                 $url = ltrim( $url, '?' ); // removing the ? from start of string
                 parse_str( $url, $variables ); // changing $url query string to array
@@ -1169,7 +1196,7 @@ function add_photo_embed_type( $name, $id, $callback, $description=null ) {
         return;
     }
     
-    $cbphoto->embed_types[ $id ] = array(
+    $cbphoto->embed_types [$id ] = array(
         'name' => $name,
         'callback' => $callback,
         'id' => $id,
@@ -1290,7 +1317,7 @@ function display_photo_embed_sizes( $photo ) {
  * @return string
  */
 function photo_html_code( $photo ){
-    $output = "<a href='".  view_photo_link( $photo ) ."' target='_blank'><img src='%IMAGE_URL%' border='0' width='%IMAGE_WIDTH%' height='%IMAGE_HEIGHT%' /></a>";
+    $output = "<a href='".  view_photo_link( $photo ) ."' target='_blank'><img src='%IMAGE_URL%' border='0' width='%IMAGE_WIDTH%' height='%IMAGE_HEIGHT%' alt='".$photo['photo_title']." by ".$photo['username']." on ".TITLE."' /></a>";
     return $output;
 }
 
@@ -1360,7 +1387,7 @@ function get_photo_manager_orders() {
  * @param STRING $id Optional
  * @return MIX
  */
-function add_photo_manger_order( $title, $order, $id =  false ) {
+function add_photo_manager_order( $title, $order, $id =  false ) {
     return add_object_manager_order( $title, $order, 'photo', $id );
 }
 

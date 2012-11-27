@@ -566,7 +566,7 @@ class Collections extends CBCategory
 	/**
 	 * Function used to get collection items with details
 	 */
-	function get_collection_items_with_details($id,$order=NULL,$limit=NULL,$count_only=FALSE)
+	function get_collection_items_with_details($id,$order=NULL,$limit=NULL, $cond=null, $count_only=FALSE)
 	{
 		global $db;
 		$itemsTbl = tbl($this->items);
@@ -575,7 +575,7 @@ class Collections extends CBCategory
 		
 		if(!$count_only)
 		{
-			$result = $db->select($tables,"$itemsTbl.ci_id,$itemsTbl.collection_id,$objTbl.*,".tbl('users').".username"," $itemsTbl.collection_id = '$id' AND $itemsTbl.object_id = $objTbl.".$this->objFieldID." AND $objTbl.userid = ".tbl('users').".userid",$limit,$order);
+			$result = $db->select($tables,"$itemsTbl.ci_id,$itemsTbl.collection_id,$objTbl.*,".tbl('users').".username"," $itemsTbl.collection_id = '$id' AND $itemsTbl.object_id = $objTbl.".$this->objFieldID." AND $objTbl.userid = ".tbl('users').".userid $cond",$limit,$order);
 			//echo $db->db_query;
 		} else {
 			$result = $db->count($itemsTbl,"ci_id"," collection_id = $id");	
@@ -729,7 +729,7 @@ class Collections extends CBCategory
 									'display_function' => 'display_sharing_opt',
 									'default_value'=>'yes'
 									),
-			'public_upload' => array(
+			/*'public_upload' => array(
 									'title' => lang("collect_allow_public_up"),
 									'type' => 'radiobutton',
 									'id' => 'public_upload',
@@ -741,7 +741,7 @@ class Collections extends CBCategory
 									'validate_function'=>'yes_or_no',
 									'display_function' => 'display_sharing_opt',
 									'default_value'=>'no'
-									)									  								
+									)*/									  								
 		);
 		return $other_fields;	
 	}
@@ -1592,7 +1592,7 @@ class Collections extends CBCategory
 						}
 						break;
 					}
-			} elseif($type == 'load_more' || $type == 'more_items' || $type='moreItems') {
+			} elseif( $type == 'load_more' || $type == 'more_items' || $type=='moreItems') {
 				if(empty($cdetails['page_no']))
 					$cdetails['page_no'] = 2;
 					
@@ -1600,7 +1600,11 @@ class Collections extends CBCategory
 					return "?cid=".$cdetails['collection_id']."&type=".$cdetails['type']."&page=".$cdetails['page_no'];
 				else
 					return 	"?cid=".$cdetails['collection_id']."&type=".$cdetails['type']."&page=".$cdetails['page_no'];
-			}
+			} else if ( $type == 'edit' || $type == 'edit_collection') {
+                    return cblink( array('name' => 'edit_collection') ).$cdetails['collection_id'];
+                } else if ( $type == 'manage_items' ) {
+                    return sprintf( cblink( array( 'name' => 'manage_items') ), $cdetails['collection_id'], $cdetails['type'] );
+                }
 		} else {
 			return BASEURL;	
 		}
@@ -1786,10 +1790,10 @@ class Collections extends CBCategory
             return false;
         }
         
-        if ( $cid == $userquery->udetails['avatar_collection'] ) {
-            e( lang('Your current avatar will be selected as your cover photo') );
-            return false;
-        }
+//        if ( $cid == $userquery->udetails['avatar_collection'] ) {
+//            e( lang('Your current avatar will be selected as your cover photo') );
+//            return false;
+//        }
         
         if ( $pid == $this->get_collection_field( $cid, 'cover_photo' ) ) {
             $update = true;

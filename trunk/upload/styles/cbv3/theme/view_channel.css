@@ -1,3 +1,30 @@
+body.view_channel {
+    background: #eee;
+    overflow-x: hidden;
+}
+
+body.view_channel .view-channel-container header {
+    background: white;
+    position: relative;
+    padding-bottom: 1px;
+    margin-bottom: 25px;
+}
+
+body.view_channel .view-channel-container header:before, body.view_channel .view-channel-container header:after {
+    content: '';
+    position: absolute;
+    background: inherit;
+    bottom: 0px;
+    width: 100%;
+    border: inherit;
+    height: 100%;
+}
+
+body.view_channel .view-channel-container header:before { right: 100%; } body.view_channel .view-channel-container header:after { left: 100%;  }
+.view-channel-container {
+    background: #eee;
+}
+
 .view-channel-container .global-navigation-column { width: 320px; }
 .view-channel-container #global-navgiation-full-height { width: 320px; box-shadow: 15px 0px 0px 0px black; }
 .view-channel-container .global-sidebar-column { width: 230px; padding: 0px 10px; background: #dadada; margin-left: 0px; }
@@ -530,4 +557,321 @@ a.playlist .playlist-items-thumb.playlist-4-items .item-thumb img {
 
 .user-videos .user-video-details .muted {
     color : #666;
+}
+
+.view-channel-column-left {
+    width: 480px;
+    float: left;
+}
+
+.view-channel-column-right {
+    width: 580px;
+    float: right;
+}
+
+.view-channel-box {
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 1px 0px 0px rgba( 170, 170, 170, 0.18);
+    padding: 10px 12px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.view-channel-box .view-channel-box-header {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.view-channel-box .view-channel-box-header .view-channel-box-header-right {
+    position: absolute;
+    right: 0px;
+    bottom: 1px;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.view-channel-box .view-channel-box-header .view-channel-box-header-right a:hover {
+    text-decoration: none;
+}
+
+.view-channel-box .view-channel-box-header h4 {
+    color: #464646;
+    margin: 0px;
+    font-size:16px;
+
+}
+.view-channel-box .view-channel-box-header h4 small {
+    font-size:14px;
+    position: relative;
+    top: -1px;
+    color: #999;
+}
+
+.view-channel-box .new_post_box {
+    margin: 0px;
+}
+
+.view-channel-box .new_post_container, .view-channel-box .new_post_box .post_btns {
+    margin: 0px;
+}
+
+.view-channel-box .new_post_box .post_btns {
+    margin-bottom: -1px;
+}
+
+.user-feed-header {
+    display: block;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.user-feed-header .username {
+    font-size: 13px;
+    line-height: 0px;
+}
+
+.user-feed-header .user-feed-time {
+    font-size: 11px;
+    color: #666666;
+}
+
+.user-feed-avatar {
+    float: left;
+    margin-right: 8px;
+}
+
+.user-feed-box .user-feed-action-links {
+    font-size: 12px;
+    margin: 5px 0px;
+    color: #999;
+}
+
+.user-feed-box .user-feed-box-row {
+    background: #efefef;
+    padding: 5px;
+    margin-bottom: 1px;
+    font-size: 12px;
+}
+
+.user-feed-box .user-feed-box-row .user-feed-comment {
+    float: right;
+    width: 90%;
+}
+.user-feed-box .user-feed-box-row .user-feed-comment textarea {
+    font-size: 12px;
+    width: 100%;
+    resize: none;
+    box-sizing: border-box;
+    margin: 0px;
+}
+.user-feed-box .user-feed-box-row .user-feed-comment .comment {
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+.user-feed-box .user-feed-box-row .user-feed-comment .user-feed-comment-time {
+    font-size: 11px;
+    color: #999;
+}
+
+.user-feed-box-row.user-feed-likes {
+    padding: 2px 5px;
+    color: #666;
+}
+
+.user-feed-box .user-feed-box-row .user-avatar {
+    height: 100%;
+    float: left;
+}
+
+.view-channel-top-row-items {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.view-channel-top-row-items li, .view-channel-top-row-items .view-channel-top-row-item {
+    float: left;
+    margin-right: 10px;
+}
+
+.view-channel-top-row-items li > a {
+    display: block;
+}
+
+.view-channel-top-row-items li > a > span, .view-channel-top-row-items .view-channel-top-row-item > a > span {
+    font-size: 14px;
+    color: #999 !important;
+}
+
+.view-channel-top-row-items li > a:hover > span, .view-channel-top-row-items .view-channel-top-row-item > a:hover > span {
+    color: #333 !important;
+}
+
+.view-channel-top-row-items li > a:hover, .view-channel-top-row-items .view-channel-top-row-item > a:hover {
+    text-decoration: none;
+}
+
+.view-channel-top-row-items .view-channel-top-row-item-block {
+    width: 150px;
+    height: 100px;
+    background-color: whitesmoke;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.view-channel-top-row-items li > a:hover .view-channel-top-row-item-block,
+.view-channel-top-row-items .view-channel-top-row-item > a:hover .view-channel-top-row-item-block {
+    border-color: #aaa;
+}
+
+.view-channel-top-row-items .view-channel-top-row-item-block strong.user-subscribers {
+    display: block;
+    text-align: center;
+    background-color: inherit;
+    background-image: url('../images/icons/rss.png');
+    background-position: -6px 14px;
+    background-repeat: no-repeat;
+    height: 100px;
+    font-size: 42px;
+    line-height: 100px;
+    color: #232323;
+}
+
+.view-channel-top-row-item-block .top-row-content-block img {
+    max-width: none;
+    width: 100%;
+}
+
+.view-channel-top-row-item-block.six-blocks .top-row-content-block {
+    width: 50px; height: 50px; float: left; 
+}
+
+.view-channel-box.user-info-box {
+    background-color: #f8f8f8;
+    box-shadow: 0px 1px 0px 0px rgba( 170, 170, 170, 0.18), inset 0px 1px 1px 0px rgba(0,0,0,0.065);
+    overflow: hidden;
+/*    background-image: -webkit-linear-gradient(-45deg, rgba(0, 0, 0, .008) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, .008) 50%, rgba(0, 0, 0, .008) 75%, transparent 75%, transparent);
+    background-image: -moz-linear-gradient(-45deg, rgba(0, 0, 0, .008) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, .008) 50%, rgba(0, 0, 0, .008) 75%, transparent 75%, transparent);
+    background-image: -ms-linear-gradient(-45deg, rgba(0, 0, 0, .008) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, .008) 50%, rgba(0, 0, 0, .008) 75%, transparent 75%, transparent);
+    background-size: 10px 10px;*/
+}
+
+.user-info-box .user-details {
+    width: 54%;
+    float: left;
+    margin: -10px 0px -10px -12px;
+    padding: 8px;
+}
+
+.user-info-box .user-details dl.dl-horizontal dt {
+    text-align: left;
+    width: 140px;
+}
+
+.user-info-box .user-details dl.dl-horizontal dd {
+    margin-left: 150px;
+}
+
+.user-info-box .user-details .user-details-top {
+    padding: 4px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.user-info-box .user-details .user-details-top h4.username {
+    margin: 0px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.user-info-box .user-profile-item {
+    float:right;
+    width: 480px;
+    height: 280px;
+    background: white;
+    margin: -11px -13px -11px 0px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 0px 4px 4px 0px;
+    box-shadow: inset 0px 0px 8px 0px rgba(0,0,0,0.065);
+}
+
+.user-video-block, .user-photo-block {
+    width: 174px;
+    height: 100px;
+    position: relative;
+    float: left;
+    margin-bottom: 15px;
+}
+
+.user-video-block .user-video-details, .user-photo-block .user-photo-details {
+    position: absolute;
+    width: 260px;
+    height: 180px;
+    background: white;
+    border: 1px solid #aaa;
+    top: 50%;
+    left: 50%;
+    margin-left: -130px;
+    margin-top: -90px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    padding: 8px;
+    visibility: hidden;
+    border-radius: 3px;
+    overflow: hidden; 
+    z-index: -1;
+}
+
+.user-video-details h5.title, .user-photo-details h5.title {
+    margin: 0px; white-space: nowrap; overflow: hidden;
+    text-overflow:  ellipsis; margin-bottom: 5px;
+}
+
+.user-video-details p.description, .user-photo-details p.description {
+    font-size: 11px;
+    color: #666;
+    max-height: 100px;
+}
+
+.user-video-details .info, .user-photo-details .info {
+    position: absolute;
+    background: #eee;
+    bottom: 2px;
+    width: 244px;
+    padding: 3px 5px;
+    left: 2px;
+    font-size: 11px;
+}
+
+.user-video-block:hover .user-video-details, .user-photo-block:hover .user-photo-details {
+    visibility: visible;
+    z-index: 500;
+}
+
+.view-channel-box.user-videos-block .view-channel-box-content {
+    margin-bottom: -10px;
+}
+
+.view-channel-box-content .user-video-block:nth-child(3n+2), .view-channel-box-content .user-photo-block:nth-child(3n+2) {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.user-video-block .user-video-thumb, .user-photo-block .user-photo-thumb {
+    overflow: hidden;
+    height: 100px;
+}
+
+.user-video-block .user-video-thumb img, .user-photo-block .user-photo-thumb img  {
+    max-width: none;
+    width: 100%; 
 }

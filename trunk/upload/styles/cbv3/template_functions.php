@@ -125,4 +125,13 @@ function cbv3_show_rating($rating)
     
 }
 
+function cbv3_photo_tagger_options( $options ) {
+    $options['labelWrapper'] = 'photo-tags';
+    $options['buttonWrapper'] = 'photo-tagger-button';
+    $options['addIcon'] = false;
+
+    return $options;
+}
+
+register_filter( 'tagger_configurations', 'cbv3_photo_tagger_options' );
 ?>

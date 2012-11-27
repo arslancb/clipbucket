@@ -62,14 +62,17 @@
 {/if}
 
 {if $display_method == 'view_channel'}
-<a href="{videoLink vdetails=$video}" class="user-videos item-block ">
+<div class="user-video-block">
     <div class="user-video-thumb">
-        <img src="{getThumb vdetails=$video }" />
+        <img src="{getThumb vdetails=$video}" class="cbv3-center-image" />
     </div>
-    <div class="user-video-details clearfix">
-        <h4>{$video.title}</h4>
-        <span class="muted pull-left"> {$video.username}</span>
-        <span class="muted pull-right"> {$video.views|number_format} {lang code='views'}</span>
+    <div class="user-video-details">
+        <h5 class="title"><a href="{videoLink vdetails=$video}">{$video.title}</a></h5>
+        <p class="description cbv3-scroller">{$video.description|description}</p>
+        <div class="info">
+            <a href="{$userquery->profile_link($video)}">{name($video)}</a>
+            <div class="pull-right">{$video.views|number_format} {lang code='views'}</div>
+        </div>
     </div>
-</a>
+</div>
 {/if}

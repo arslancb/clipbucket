@@ -22,7 +22,7 @@ switch ($mode) {
 		 * --- update user column in which photo id's, in json format, reside which shows on what photos this user was tagged: COLUMN|  
 		 */
 		if( !userid() ) {
-			echo json_encode( array('error' => true, 'error_message' => lang('login_to_add_tag') ) );
+			echo json_encode( array('error' => true, 'error_message' => lang('You must be login to add photo tags') ) );
 		} else {
 			$clean_post = array();
 			foreach( $_POST as $key => $value ) {

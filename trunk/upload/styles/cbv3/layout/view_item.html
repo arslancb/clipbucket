@@ -1,21 +1,53 @@
 {assign var=pd value=$photo.photo_details|json_decode}
-<h3 class="page-header"><a href="{$cbcollection->collection_links( $c, 'view_collection' )}">{$c.collection_name}</a> &raquo;  {$photo.photo_title}</h3>
+<div class="navbar photo-actions-bar">
+    <div class="navbar-inner">
+        <ul class="nav">
+            {if $prev}
+            <li><a href="{view_photo_link($prev)}"><i class="icon-circle-arrow-left margin0"></i></a></li>
+            {/if}
+            <li><a href="#"><i class="icon-plus margin0"></i> {lang code='Add to favorites'}</a></li>
+            <li class="dropdown">
+                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-share margin0"></i> {lang code='Share photo'}</a>
+                <ul class="dropdown-menu">
+                    {if $photo.allow_embedding == 'yes'}
+                    <li><a href="#" data-toggle="modal" data-target="#embed-photo-block"><i class="icon-v3 icon-embed"></i> {lang code='Embed'}</a></li>
+                    {/if}
+                    <li><a href="#" data-toggle="modal" data-target="#email-photo-block"><i class="icon-envelope"></i> {lang code='Email'}</a></li>
+                </ul>
+            </li>
+            <li><a href="#" data-toggle="modal" data-target="#report_video"><i class="icon-flag margin0"></i> {lang code='Flag'}</a></li>
+        </ul>
+        <ul class="nav pull-right">
+            <li id="photo-tagger-button"></li>
+            {$photo_actions=display_photo_actions()}
+            {if $photo_actions}
+                <li class="dropdown">
+                    <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Actions <i class="caret"></i></a>
+                    <ul class="dropdown-menu">
+                        {$photo_actions}
+                    </ul>
+                </li>
+            {/if}
+            {if $next}
+            <li><a href="{view_photo_link($next)}"><i class="icon-circle-arrow-right margin0"></i></a></li>
+            {/if}
+        </ul>
+    </div>
+</div>
 <div class="row">
+    
 	<div class="span734">
         <div class="thumbnail inlineblock">
-            {get_photo details=$object size='l' output='html' width='720' }
+            {get_photo details=$object size='l' output='html' width='720'}
         </div>
-        
         <div class="video-stats">
         	<div class="inlineblock pull-left">
             	<div class="btn-toolbar">
+                    <input class="photo-url marginR10" id="prependedInput" type="text" value="{view_photo_link($photo)}" onclick="$(this).select()" />
                     <div class="btn-group valignMid">
                         <button class="btn"><span class="icon-like"></span> Like</button>
                         <button class="btn"><span class="icon-dislike"></span></button>
-                    </div> 
-                    <button class="btn" onclick="toggleBox(this,'#add-videos-to-playlist');" ><span class="icon-plus" ></span>{lang code='Add to'}</button>
-                    <button class="btn" onclick="toggleBox(this,'#share-photo-block');"><span class="icon-share"></span> Share</button>
-                    <button class="btn" data-toggle="modal" data-target="#report_video"><span class="icon-flag"></span> Flag</button>               
+                    </div>         
                 </div>
             </div>
             
@@ -64,8 +96,22 @@
         </div>
     </div>
     
-    <div class="span336">
-    	<div id="photo_actions" class="well" data-menu-class='nav nav-list' style="padding: 8px 0;">Loading ...</div>
+    <div class="span336 photos-sidebar">
+        <div class="cb-widget cb-widget-photo-tags">
+            <h2 class="cb-widget-title">{lang code='Photo Tags'}</h2>
+            <div id="photo-tags" class="photo-tags"></div>
+        </div>
+        {$other_photos=get_photos(['exclude'=>$photo.photo_id,'user'=>$photo.userid,'limit'=>15,'order'=>'views desc'])}
+        {if $other_photos}
+        <div class="cb-widget">
+            <h2 class="cb-widget-title">{lang code='Other Photos of  '}{$photo.username}</h2>
+            <ul class="cbv3-scroller">
+                {foreach $other_photos as $ophoto}
+                    {include_template_file file='blocks/photo.html' photo=$ophoto display_method='view_item_sidebar'}
+                {/foreach}
+            </ul>
+        </div>
+        {/if}
         {sidebar('view-photo')}
     </div>
 </div>

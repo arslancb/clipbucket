@@ -1027,6 +1027,7 @@ class userquery extends CBCategory
                     ." WHERE ".tbl("contacts.userid") . "='$uid' " .$query." AND " 
                     . tbl("contacts") . ".contact_group_id='$group' " );
             
+            //echo $db->db_query;
             if ($db->num_rows > 0)
                 return $result;
             else
@@ -5297,12 +5298,12 @@ class userquery extends CBCategory
         
         $userid = $this->user_dir($uid);
         
-        $friend_feed_file_path = BASEDIR.'/userdata/'.$userid;
+        $friend_feed_file_path = USERDATA_DIR.'/'.$userid;
         $friends_feed_file = $friend_feed_file_path.'/friends.cbd';
         
         if(file_exists($friends_feed_file))
         {
-            $friends = file_get_contents($friend_feed_file);
+            $friends = file_get_contents($friends_feed_file);
             $friends = json_decode($friends,true);
         }else{
             $friends = $this->get_contacts($uid, 0, 'yes');
@@ -5326,7 +5327,7 @@ class userquery extends CBCategory
                 $jsoned_friends = json_encode($friends_array);
                 
                 //Writing to directory
-                file_put_contents($friend_feed_file, $jsoned_friends);
+                file_put_contents($friends_feed_file, $jsoned_friends);
             }
         }
         
@@ -5361,8 +5362,9 @@ class userquery extends CBCategory
             $final_dir = $first_dir.'/'.$second_dir.'/'.$third_dir.'/'.$uid;
         }
         
-        if(!file_exists($final_dir))
-            mkdir ($final_dir,0777,true);
+        $userdata = USERDATA_DIR;
+        if(!file_exists($userdata.'/'.$final_dir))
+            mkdir ($userdata.'/'.$final_dir,0777,true);
         
         return $final_dir;
     }

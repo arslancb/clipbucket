@@ -224,7 +224,7 @@
                                 <img src="{get_photo details=$avatar size='m'}" class="manage-collection-item-thumb" />
                                 <div class="black-gradient absolute bottom manage-collection-item-details">
                                     <h4><a href="{$cbphoto->collection->collection_links($collection,'vc')}">{$collection.collection_name}</a></h4>
-                                    <div class="pull-left">{$avatar.date_added|date_format:"%B %e, %Y"}</div>
+                                    <div class="pull-left">{$avatar.date_added|date_format}</div>
                                     <div class="pull-right">{$avatar.views|number_format} {lang code='views'}</div>
                                 </div>
                             </div>

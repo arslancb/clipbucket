@@ -48,7 +48,7 @@ function _edit_collection_link( $photo ) {
     global $cbphoto;
         
     if ( $cbphoto->collection->is_collection_owner( $photo['collection_id'] ) ) {
-        return BASEURL.'/edit_collection.php?collection='.$photo['collection_id'];
+        return collection_links( $photo['collection_id'], 'edit_collection' );
     }
     
     return false;
@@ -94,8 +94,8 @@ function _manager_set_avatar_link( $photo ) {
  */
 function _set_cover_photo_link( $photo ) {
     global $cbphoto;
-    
-    if ( $photo['is_avatar'] == 'no' && $photo['photo_id'] != $photo['cover_photo'] && userid() == $cbphoto->get_photo_owner( $photo['userid'] ) ) {
+
+    if ( $photo['is_avatar'] == 'no' && userid() == $cbphoto->get_photo_owner( $photo['photo_id'] ) ) {
         return '?cover='.$photo['photo_id'].'&cid='.$photo['collection_id'];
     }
 }
@@ -131,7 +131,16 @@ add_photo_manager_link( lang('Make collection cover'), '_set_cover_photo_link', 
 /**
  * Adding orders for photo manager
  */
-add_photo_manger_order( lang('Newest'), tbl('photos.date_added desc') );
-add_photo_manger_order( lang('Oldest'), tbl('photos.date_added asc') );
-add_photo_manger_order( lang('Most Viewed'), tbl('photos.views desc') );
+add_photo_manager_order( lang('Newest'), tbl('photos.date_added desc') );
+add_photo_manager_order( lang('Oldest'), tbl('photos.date_added asc') );
+add_photo_manager_order( lang('Most Viewed'), tbl('photos.views desc') );
+
+/**
+ * Adding orders for collection manager
+ */
+add_collection_manager_order( lang('Newest'), tbl('collections.date_added desc') );
+add_collection_manager_order( lang('Oldest'), tbl('collections.date_added asc') );
+add_collection_manager_order( lang('Most Viewed'), tbl('collections.views desc') );
+add_collection_manager_order( lang('Most Photos'), tbl('collections.total_objects desc') );
+add_collection_manager_order( lang('Last Updated'), tbl('collections.last_updated desc') );
 ?>

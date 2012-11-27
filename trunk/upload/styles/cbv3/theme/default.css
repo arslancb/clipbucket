@@ -9,11 +9,16 @@
  @import url("group.css");
  @import url("view_channel.css");
  @import url("collections.css");
+ @import url("photos.css");
  @import url("feeds.css");
+  
+ /**bootstrap icon fix
+ ----------------------------------------
+ It is causing more trouble than sovling it. If navigation is looking fine than
+ we should only target that navigation
  
- /**bootstrap icon fix**/
  [class^="icon-"], [class*=" icon-"]{margin-top: -1px}
- 
+ **/
  header{
      padding-top: 10px;
  }
@@ -30,7 +35,7 @@
  
  footer{margin-top: 15px}
  
-.container{width:1100px; position: relative; }
+.container{width:1100px; }
 
 
 .bold{font-weight: bold}
@@ -117,6 +122,11 @@
 
 .padding_box{ box-sizing: padding-box; -moz-box-sizing: padding-box; -webkit-box-sizing: padding-box;}
 
+.image-not-loaded-background {
+    background: whitesmoke url('../images/icons/images.png') center center no-repeat;
+    background-size: 40%;
+}
+
 .alert.alert-large {
     font-size: 20px;
     padding: 3em;
@@ -149,7 +159,7 @@
     min-height: 100%;
     max-width: none;
     width: auto;
-    margin-left: -15%;
+    margin-left: -15px;
 }
 
 .object-manager-content {
@@ -236,7 +246,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .icon-left {background-position: -264px -144px;}
 .icon-up {background-position: -288px -144px;}
 .icon-down {background-position: -312px -144px;}
+.icon-embed {background-position: -384px 0px; -webkit-transition: none; }
 
+/* Dropdown embed icon */
+ul.dropdown-menu > li > a:hover .icon-v3 {
+    background-image: url('../images/v3icons-white.png');
+}
 
 .item-block, .item-block.light {
     background: #f8f8f8;
@@ -1348,43 +1363,7 @@ background-color: #dddddd; }
 .dim-custom .control-group{margin: 0px; height: 30px; text-align: left}
 .dim-custom .controls{width: 75px}
 
-/* Photo share block */
-#share-photo-block .photo-embed-name {
-    font-size: 15px;
-}
 
-#share-photo-block .control-group {
-    margin-bottom: 12px;
-}
-
-#share-photo-block .photo-embed-code {
-    width: 80%; font-size: 14px;
-    padding: 8px 15px; font-family: Consolas,Monaco,monospace;
-     -webkit-transition: all .2s ease-in-out; -moz-transition: all .2s ease-in-out;
-}
-
-#share-photo-block .photo-embed-code.photo-embed-code-updating {
-    background: #08C;
-    border-color: #04C;
-    color: white;
-}
-
-#share-photo-block .control-group {
-    width: 50%; display: inline-block; vertical-align: top;
-}
-
-#share-photo-block .help-block {
-    margin: 0px;
-    font-size: 12px;
-}
-
-#share-photo-block hr {
-    margin: 0px 0px 12px;
-}
-
-#share-photo-block .toggle-photo-size a {
-    font-size: 14px;
-}
 
 .playlist-menu{width: 300px; padding: 10px}
 

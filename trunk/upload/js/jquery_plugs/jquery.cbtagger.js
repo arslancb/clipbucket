@@ -17,8 +17,8 @@
 			defaultHeight : 100,
 			minWidth : 100,
 			minHeight : 100,
-			maxWidth : 100,
-			maxHeight : 100,
+			maxWidth : 140,
+			maxHeight : 140,
 			
 			// isResizeable
 			resizeable : false,
@@ -68,7 +68,8 @@
 				'remove_tag' : 'Remove Tag',
 				'confirm_tag_remove' : 'Confirm Tag Removal',
 				'pending_tag' : 'Pending',
-				'pending_desc' : 'User has enabled tag modration. Once approved, your tag will be visible publicly'	
+				'pending_desc' : 'User has enabled tag modration. Once approved, your tag will be visible publicly',
+                     'no_tags_found' : 'No photo tags found'
 			}
 		}
 	};
@@ -88,21 +89,32 @@
 			if ( orgParentTag == 'a' ) {
 				element.addClass('tagger-image-has-link');	
 			}
-			var container = element.wrap("<div id='"+getID('wrapper')+"' class='tagger-image-wrapper' />").addClass('tagger-image').parent(),
-					imgContainer = container.find("img[id="+element.attr('id')+"]").wrap("<div style='width:"+element.outerWidth()+"px; height:"+element.outerHeight()+"px; position:relative; margin:auto;' />").parent(),
+			var container = element.wrap("<div id='"+getID('wrapper')+"' class='tagger-image-wrapper' />").addClass('tagger-image ').parent(),
+					imgContainer = container.find("img[id="+element.attr('id')+"]").wrap("<div style='width:"+element.width()+"px; height:"+element.height()+"px; position:relative; margin:auto;' />").parent(),
 					tagContainer = $("<div />").attr({
 						id : getID('tags-wrapper')	
-					}).addClass('tagger-tags-wrapper').appendTo( imgContainer ),
-					labelContainer = $("<div/>").attr({
-						id : getID('label-wrapper')	
-					}).addClass('tagger-label-wrapper');
-					
-			if ( ( element.hasClass('tagger-image-has-link') || orgParentTag == 'a' ) && ( options.labelWrapper == null )  ) {
-				labelContainer.insertAfter( orgParent );
-			} else {
-				labelContainer.appendTo( document.getElementById(options.labelWrapper) ? $('#'+options.labelWrapper) : orgParentTag == 'a' ? orgParent.parent() : container );
-			}
-
+					}).addClass('tagger-tags-wrapper').appendTo( imgContainer );
+          
+                if ( options.showLabels === true ) {
+                    labelContainer = $("<div/>").attr({
+                      id : getID('label-wrapper')	
+                    }).addClass('tagger-label-wrapper');
+                    
+                    if ( ( element.hasClass('tagger-image-has-link') || orgParentTag == 'a' ) && ( options.labelWrapper == null )  ) {
+                      labelContainer.insertAfter( orgParent );
+                    } else {
+                      labelContainer.appendTo( document.getElementById(options.labelWrapper) ? $('#'+options.labelWrapper) : orgParentTag == 'a' ? orgParent.parent() : container );
+                    }
+                }
+                
+                if ( $.browser.msie ) {
+                    element.addClass('cb-tagger-internet-explorer cb-tagger-ie-version-'+$.browser.version);
+                }
+                
+                if ( options.showLabels !== true ) {
+                    container.addClass('labels-not-showing');
+                }
+                
 			if ( options.addButton == true ) {
 				options.buttonID = options.buttonID ? option.buttonID : getID('tagging');
 				if ( options.allowTagging == 'yes' ) {
@@ -136,12 +148,26 @@
 			}	
 
 			// Events: show|hide tag
-			bindingContainer = container.add( labelContainer );
+                bindingContainer = container;
+                if ( options.showLabels === true ) {
+                    bindingContainer = container.add( labelContainer );
+                }
 			bindingContainer.on('mouseenter', '.tagger-tag, .tagger-tag-label',{ options: options }, showTag );
 			bindingContainer.on('mouseleave', '.tagger-tag, .tagger-tag-label',{ options: options }, hideTag );
-			// Event: remove tag
-			labelContainer.on('click','.tagger-remove-tag-link',{ options: options }, removeTag );
-
+                // Event: remove tag
+                bindingContainer.on('click', '.tagger-remove-tag-link',{ options: options }, removeTag );
+			
+                
+                if ( options.showLabels !== true ) {
+                    // Bind event on image
+                    container.on('mouseenter', function(){
+                        container.find('.tagger-tag').addClass('show-tagger-tag').css('opacity','0.5');
+                    });
+                    container.on('mouseleave', function(){
+                        container.find('.tagger-tag').removeClass('show-tagger-tag').css('opacity','0');
+                    });
+                }
+                
 			if ( orgParentTag == 'a' ) {
 				orgParent.click(function(e){
 					if ( imgContainer.hasClass('tagger-tagging-active')) {
@@ -165,9 +191,7 @@
 						object = width	
 					}
                         
-                            if ( options.allowTagging != 'yes' ) {
-                                return false;
-                            }
+                           
                         
 					/* Adding Tag */
 					var _d = getTagDimensions( object ),
@@ -180,7 +204,8 @@
 						height : _d.height+_d.unit,
 						top : _d.top+_d.unit,
 						left : _d.left+_d.unit	,
-						opacity : 0
+						opacity : 0,
+                                position : 'absolute'
 					});
 					
 					if ( object.pending ) {
@@ -195,62 +220,97 @@
 						id : getID( 'tag-details-'+object.id )	
 					}).addClass('tagger-tag-details').html("<i>"+object.label+"</i>").appendTo(thisTag);
 					
+                        thisTagDetails.attr('data-tag-id', object.id );
+                        
+                        if ( object.link && options.showLabels !== true ) {
+                            if ( object.link.search('(http|https)://') != -1 ) {
+                                label = $('<a />').attr({
+                                  href : object.link,
+                                  id : getID('tag-link-'+object.id)
+                                }).addClass('tagger-tag-label-link').html( thisTagDetails.find('i').html() );
+
+                                if ( options.labelsLinkNew == true ) {
+                                  label.attr('target','_blank');	
+                                }
+                                
+                                thisTagDetails.find('i').html( label )
+                            }
+                        }
+                        
 					if ( options.use_arrows ) {
 						$("<b></b>").addClass( options.arrow_class ).appendTo(thisTagDetails.find('i'));	
 					}
 					
+                            // Show delete tag link in tags
+                            if ( options.showLabels !== true && object.canDelete == true ) {
+                                deleteLabel = $('<a />').attr({
+                                      id : getID('remove-tag-link-'+object.id),
+                                      rel : getID('tag-'+object.id),
+                                      href : "#"
+                                    }).addClass('tagger-remove-tag-link').html(options.phrases.remove_tag);
+                                
+                                thisTagDetails.find('i').append( deleteLabel );
+                                thisTagDetails.find('.tagger-remove-tag-link').before('<br/>');
+                            }
+          
 					tagContainer.prepend(thisTag);
 							
-					/* Adding Label */
-					thisLabel = $("<span />").attr({
-						id : getID('tag-label-'+object.id),
-						rel : getID('tag-'+object.id),
-						'data-tag-id' : object.id
-					}).addClass('tagger-tag-label');
-					label = object.label;
-					
-					if ( object.link ) {
-						if ( object.link.search('(http|https)://') != -1 ) {
-							label = $('<a />').attr({
-								href : object.link,
-								id : getID('tag-link-'+object.id)
-							}).addClass('tagger-tag-label-link').html(label);
-							
-							if ( options.labelsLinkNew == true ) {
-								label.attr('target','_blank');	
-							}
-						}
-					}
+                            /* Adding Label if showLabels == true */
+                            if ( options.showLabels === true ) {
+                                thisLabel = $("<span />").attr({
+                                  id : getID('tag-label-'+object.id),
+                                  rel : getID('tag-'+object.id),
+                                  'data-tag-id' : object.id
+                                }).addClass('tagger-tag-label');
+                                label = object.label;
+                                
+                                if ( object.link ) {
+                                    if ( object.link.search('(http|https)://') != -1 ) {
+                                        label = $('<a />').attr({
+                                          href : object.link,
+                                          id : getID('tag-link-'+object.id)
+                                        }).addClass('tagger-tag-label-link').html(label);
 
-					thisLabel.html(label);
-					
-					if ( object.pending ) {
-						$('<i id="'+getID('pending-tag-label-')+object.id+'" title="'+options.phrases.pending_desc+'">'+options.phrases.pending_tag+'</i>').addClass('tagger-pending-tag-label').appendTo(thisLabel);
-					}
-
-					if ( object.canDelete == true ) {
-						thisLabel.html( thisLabel.html()+' ( ' );
-						
-						deleteLabel = $("<a />").attr({
-							id : getID('remove-tag-link-'+object.id),
-							rel : getID('tag-'+object.id),
-							href : "#"
-						}).addClass('tagger-remove-tag-link').html(options.phrases.remove_tag);
-						// I know there is a better way to wrap A with ( ), but for now this will work
-						thisLabel.append( deleteLabel );
-						thisLabel.append(' )');
-					}
-
-					if ( options.makeStringCSS == true && options.makeString == true ) {
-						thisLabel.addClass('tagger-tag-label-css-string');	
-					}
-					
-					$('#'+getID('label-wrapper')).append( thisLabel );
-					
-					if ( options.makeStringCSS == false && options.makeString == true ) {
-						makeStringJS( $('#'+getID('label-wrapper')) );
-					}
-										
+                                        if ( options.labelsLinkNew == true ) {
+                                          label.attr('target','_blank');	
+                                        }
+                                    }
+                                }
+                                
+                                thisLabel.html(label);
+                                
+                                if ( object.pending ) {
+                                    $('<i id="'+getID('pending-tag-label-')+object.id+'" title="'+options.phrases.pending_desc+'">'+options.phrases.pending_tag+'</i>').addClass('tagger-pending-tag-label').appendTo(thisLabel);
+                                }
+                                
+                                if ( object.canDelete == true ) {
+                                    
+                                    deleteLabel = $("<a />").attr({
+                                      id : getID('remove-tag-link-'+object.id),
+                                      rel : getID('tag-'+object.id),
+                                      href : "#"
+                                    }).addClass('tagger-remove-tag-link').html(options.phrases.remove_tag);
+                                    // I know there is a better way to wrap A with ( ), but for now this will work
+                                    thisLabel.append( deleteLabel );
+                                    thisLabel.find('.tagger-remove-tag-link').before(' (').after(')');
+                                }
+                                
+                                if ( options.makeStringCSS == true && options.makeString == true ) {
+                                    thisLabel.addClass('tagger-tag-label-css-string');	
+                                }
+                                if ( document.getElementById( getID('no-tags') ) ) {
+                                    $('#'+getID('label-wrapper')).html( thisLabel );
+                                } else {
+                                    $('#'+getID('label-wrapper')).append( thisLabel );
+                                }
+                                
+                                
+                                if ( options.makeStringCSS == false && options.makeString == true ) {
+                                    makeStringJS( $('#'+getID('label-wrapper')) );
+                                }
+                                
+                            } /* showLabels condition end */
+															
 					_this.hideTagger(e, _this.getImage().parent() );
 
 					return thisTag;
@@ -269,12 +329,14 @@
 
 					var image = _this.getImage(), overlayContainer = image.parent();
 					e.target.innerHTML = _this.getOptions().phrases.stop_tagging;
-					if ( overlayContainer.hasClass('tagger-tagging-active') ) {
-						_this.stop();
+          
+					if ( overlayContainer.hasClass('tagger-tagging-active') || $(e.target).hasClass('tagging-is-active') ) {
+						_this.stop( e );
 						e.target.innerHTML = _this.getOptions().phrases.start_tagging;
 						return;	
 					}
-					
+          
+                            $( e.target ).addClass('tagging-is-active');
 					overlayContainer.addClass('tagger-tagging-active');
 					overlayContainer.on('click',function(e){
 						_this.showTagger(e, overlayContainer);
@@ -282,6 +344,7 @@
 				},
 				stop : function(e) {
 					var image = _this.getImage(), overlayContainer = image.parent();
+                             $(e.target).removeClass('tagging-is-active');
 					overlayContainer.removeClass('tagger-tagging-active');	
 					_this.hideTagger(e, overlayContainer);
 					overlayContainer.off('click');
@@ -305,7 +368,10 @@
 							return;	
 						}
 					}
-					
+                        var image = _this.getImage();
+                        var defaultWidth = ( options.defaultWidth*100 )/image.width();
+                        var defaultHeight = ( options.defaultHeight*100 )/image.height();
+                        
 					parent.addClass('tagger-overlay');
 					var TAGGER = $("<div />").attr({
 						id : getID('tagger')	
@@ -316,9 +382,12 @@
 					});
 					
 					var positions = getTagPosition(e, parent, TAGGER );
+
+                            positions[0] = ( positions[0]*100 )/image.width();
+                            positions[1] = ( positions[1]*100 )/image.height();
 					TAGGER.css({
-						'top' : positions[1]+"px",
-						'left' : positions[0]+"px"	
+						'top' : positions[1]+"%",
+						'left' : positions[0]+"%"	
 					});
 					
 					input_details = $("<div />").attr({
@@ -363,8 +432,8 @@
 							type : 'POST',
 							dataType : 'json',
 							data : {
-								width : options.defaultWidth,
-								height : options.defaultHeight,
+								width : defaultWidth,
+								height : defaultHeight,
 								left : positions[0],
 								top : positions[1],
 								label : label,
@@ -398,7 +467,12 @@
 				$.each( options.defaultTags, function(index, value){
 					_this.addTag( value )
 				});
-			}
+			} else {
+                    $('#'+getID('wrapper')).addClass('photo-has-no-tags');
+                    if ( options.showLabels == true ) {
+                        labelContainer.html( '<span class="no-photos-tags-found" id="'+getID('no-tags')+'">'+options.phrases.no_tags_found+'</span>' );  
+                    }
+                }
 					
 			return _this;
 		});
@@ -408,18 +482,18 @@
 		var options = TaggerSelf().getOptions(), image = TaggerSelf().getImage(),
 		_return = {
 			width : object.width,
-			height : object.height,
+			height :object.height,
 			top : object.top,
 			left : object.left,
-			unit : 'px'	
+			unit : '%'	
 		};
 		
-		if ( options.use_percentage == true ) {
-			_return.width = ( object.width / image.parent().width() )*100;
-			_return.height = ( object.height / image.parent().height() )*100;
-			_return.top = ( object.top / image.parent().height() )*100;
-			_return.left = ( object.left / image.parent().width() )*100;
-			_return.unit = '%';
+		if ( options.use_percentage == false ) {
+			_return.width = ( object.width * image.parent().width() )/100;
+			_return.height = ( object.height * image.parent().height() )/100;
+			_return.top = ( object.top * image.parent().height() )/100;
+			_return.left = ( object.left * image.parent().width() )/100;
+			_return.unit = 'px';
 		} 
 		
 		return _return;
@@ -430,7 +504,7 @@
 		
 		x = Math.max(0, event.pageX - relative.offset().left - (options.defaultWidth/2) );
 		y = Math.max(0, event.pageY - relative.offset().top - (options.defaultHeight/2) );
-		
+		    
 		/*  Making sure that tagger stays inside image*/
 		if( x + tagger.width() > image.width() ) {
 			x = image.width() - tagger.width() - 2; // Removing two pixles of borders	
@@ -451,7 +525,7 @@
 		return getPrefix()+id;	
 	}
 	
-	function showTag () {
+	function showTag (e) {
 		var tag = $(this);
 		if ( tag.hasClass('tagger-tag') ) {
 			tag.addClass('tagger-tag-active-hover');	
@@ -462,7 +536,7 @@
 		tag.css('opacity',1);	
 	}
 	
-	function hideTag() {
+	function hideTag(e) {
 		var tag = $(this);
 		if ( tag.hasClass('tagger-tag') ) {
 			tag.removeClass('tagger-tag-active-hover')		
@@ -471,36 +545,44 @@
 			labelTag.removeClass('tagger-tag-active-label');
 		}
 		
-		tag.css('opacity',0);		
+		tag.css('opacity', ( e.data.options.showLabels === true ) ? 0 : 0.5 );		
 	}
 	
 	function removeTag (e) {
 		e.preventDefault();
 		
-		var link = $(this), options = e.data.options;
-		if ( link.parent().hasClass('tagger-removing-tag') || $('#'+getID('label-wrapper')).hasClass('tagger-removing-tag-in-process') ) {
+		var link = $(this), options = e.data.options, parent_with_id = link.parents('[data-tag-id]');
+           
+           if ( options.showLabels === true ) {
+               tag_wrapper_id = 'label-wrapper';
+           } else {
+               tag_wrapper_id = 'tags-wrapper';
+           }
+           
+		if ( parent_with_id.hasClass('tagger-removing-tag') || $('#'+getID(tag_wrapper_id)).hasClass('tagger-removing-tag-in-process') ) {
 			return;
 		}
-		
+
 		if ( typeof window.confirm_it == 'function ') {
 			action = confirm_it( options.phrases.confirm_tag_remove );	
 		} else {
 			action = confirm( options.phrases.confirm_tag_remove )	
 		}
-
+            
 		if ( action ) {
-			var labelParent = link.parent(), tagID = labelParent.attr('data-tag-id')
+			var tagID = parent_with_id.attr('data-tag-id');
 			
 			$.ajax( options.page,{
 				type : 'POST',
 				dataType : 'json',
 				data : {
 					mode : 'r',
-					id : tagID	
+					id : tagID,
+                          pid : TaggerSelf().getImage().attr('data-tagger-photo-id')
 				},
 				beforeSend : function() {
-					labelParent.addClass('tagger-removing-tag');
-					$('#'+getID('label-wrapper')).addClass('tagger-removing-tag-in-process')	;
+					parent_with_id.addClass('tagger-removing-tag');
+					$('#'+getID(tag_wrapper_id)).addClass('tagger-removing-tag-in-process')	;
 				},
 				success : function(d) {
 						$('#'+getID('label-wrapper')).removeClass('tagger-removing-tag-in-process')	;
@@ -517,7 +599,7 @@
 								Rewrite labels string if options.makeString == true and make sure
 								we are using JS to achieve this task
 							*/
-							if ( options.makeString == true && options.makeStringCSS == false ){
+							if ( options.makeString == true && options.makeStringCSS == false && options.showLabels === true ){
 								makeStringJS( $('#'+getID('label-wrapper')) );
 							}
 						}

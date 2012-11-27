@@ -37,3 +37,41 @@
     </div>
 </div>
 {/if}
+
+{if $display_method == 'view_collection'}
+<div  class="view-collection-photos item-block image-not-loaded-background">
+    <a href="{view_photo_link($photo)}" class="block image-not-loaded-background relative collection-photo">
+        <div class="view-collection-photos-views display-none">{$photo.views|number_format} {lang code='views'}</div>
+        {get_photo details=$photo size='m' output='html'}
+    </a>
+    {if $add_collection_name == true}<h4><a href="{collection_links($photo,'vc')}">{$photo.collection_name}</a></h4>{/if}
+    <a href="{$userquery->profile_link($photo)}" class="user-thumb-container pull-left relative" style="background: url('{avatar uid=$photo.userid size=small}') center center no-repeat;"><span class="username">{$photo.username}</span><span class="date_added">{lang code='Added'}: {$photo.date_added|niceTime}</span></a>
+</div>
+{/if}
+
+{if $display_method == 'view_item_sidebar'}
+<li>
+    <a href="{view_photo_link($photo)}" class="clearfix photo-sidebar">
+        <div class="pull-left photo-sidebar-photo-thumb image-not-loaded-background">
+            {get_photo details=$photo size='t' output='html'}
+        </div>
+        <h5 class="collection-name">{$photo.collection_name}</h5>
+        <span class="muted">{$photo.views|number_format} {lang code='views'}</span>
+    </a>
+</li>
+{/if}
+
+{if $display_method == 'view_channel'}
+<div class="user-photo-block">
+    <div class="user-photo-thumb">
+        {get_photo details=$photo class='cbv3-center-image' output='html' size='m'}
+    </div>
+    <div class="user-photo-details">
+        <h5 class="title"><a href="{collection_links($photo,'vc')}">{$photo.collection_name}</a></h5>
+        <div class="info">
+            <a href="{$userquery->profile_link($photo)}">{name($video)}</a>
+            <div class="pull-right">{$video.views|number_format} {lang code='views'}</div>
+        </div>
+    </div>
+</div>
+{/if}

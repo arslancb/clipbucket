@@ -1,53 +1,168 @@
 {lang code='channel' assign='object_type'}
 
 {include file="$style_dir/global_header.html"}
+{$user_videos=get_videos(['user'=>$u.userid,'limit'=>6])}
+{$user_photos=get_photos(['user'=>$u.userid,'limit'=>6])}
+{$user_contacts=$userquery->get_json_friends($u.userid)}
 
-<body class="relative">
+<body class="relative view_channel">
     {display_user_custom_background( $u )}
     <div class="container view-channel-container">
         {include_template_file file="header.html" }
-        
         <div id="global-container" class="relative clearfix">
-            {include_template_file file='blocks/view_channel/channel_left.html' u=$u}
-            
-            <div class="pull-left">
-                {include_template_file file='blocks/view_channel/channel_header.html' u=$u}
-                
-                {include_template_file file='blocks/view_channel/channel_right.html' u=$u}
-                
-                <div class="global-content-column pull-left">
-                    {$user_feeds=$cbfeeds->getUserFeeds($u)}
-                    
-                    <div class="content-box">
-                        <h2>{lang code='Activity'}</h2>
-                        {if $user_feeds}
-                            <div class="cbv3-scroller">
-                            {foreach from=$user_feeds item=user_feed}
-                                {include_template_file file='blocks/feed.html' feed=$user_feed u=$u}
-                            {/foreach}
-                            </div>
-                        {else}
-                            <div class="text-error" style="font-weight: bold; text-align: center; padding: 25px; background: white;">No activity found for {$u.username}</div>
-                        {/if}
+            <div class="view-channel-box user-info-box clearfix">
+                <div class="user-details">
+                    <div class="user-avatar pull-left">
+                        <img src="{avatar details=$u}" width="200" height="200" class="view-channel-box" style="padding: 4px; margin-bottom: 0px; margin-right: 15px;" />
                     </div>
-                    
-                    <div class="content-box clearfix">
-                        <h2>{lang code='Videos'}</h2>
-                        {$user_videos=get_videos(['user'=>$u.userid,'limit'=>6])}
+                    <div class="pull-left">
+                        <h4>{name($u)}</h4>
+                       <dl class="dl-horizontal">
+                           <dt>From</dt>
+                           <dd>Sialkot</dd>
+                           <dt>From</dt>
+                           <dd>Sialkot</dd>
+                       </dl>                       
+                    </div>
+                </div>
+                <div class="user-profile-item no-profile-item">{cb_video_player width='100%' height='100%' files=$video_files video=$profile_item}</div>
+            </div>
+            
+            <div class="view-channel-box clearfix">
+                <ul class="view-channel-top-row-items">
+                    <li>
+                        <a href="#">
+                            <div class="view-channel-top-row-item-block image-not-loaded-background six-blocks">
+                                {foreach from=$user_contacts item=contact}
+                                <div class="top-row-content-block"><img src="{avatar uid=$contact.userid size='small'}" /></div>
+                                {/foreach}
+                            </div>
+                            <span>{count($user_contacts)} Friends</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="view-channel-top-row-item-block image-not-loaded-background one-block">
+                                {if $user_videos}
+                                {$single_video_index=array_rand($user_videos)}
+                                <img src="{get_thumb vdetails=$user_videos.$single_video_index num='big'}" class="cbv3-center-image" />
+                                {/if}
+                            </div>
+                            <span>{$u.total_videos|number_format} Videos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="view-channel-top-row-item-block image-not-loaded-background one-block">
+                                {if $user_photos}
+                                {$single_photo_index=array_rand($user_photos)}
+                                {get_photo details=$user_photos.$single_photo_index output='html' size='m' class="cbv3-center-image"}
+                                {/if}
+                            </div>
+                            <span>{$u.total_photos|number_format} Photos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="view-channel-top-row-item-block image-not-loaded-background">
+                                <strong class="user-subscribers">{$u.subscribers}</strong>
+                            </div>
+                            <span>Subscribers</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="view-channel-column-left">
+                <div class="new_post_box">
+                    <div align="left" class="post_btns btn-group"> 
+                        <a class="btn btn-mini active" data-toggle="modal" data-target="#add-topic-modal">
+                            <i class="icon-comment"></i> Post Status</a>
+
+                        <a class="btn btn-mini" data-toggle="modal" data-target="#add-topic-modal">
+                            <i class="icon-list"></i> Post Topic</a>
+                        <a class="btn btn-mini" href="http://localhost/cb-sf/upload/add_group_videos.php?url=one_piece">
+                            <i class="icon-film"></i> Post Video</a>
+                        <a class="btn btn-mini"><i class="icon-picture"></i> Post Photo</a>
+                    </div>
+
+                    <div class="new_post_container padding_box" id="new_post_container">
+                        <div class="post_message_container">
+                            <textarea class="post_message" placeholder="Post something..." rows="1" style="overflow: hidden; word-wrap: break-word; resize: none; height: 20px;"></textarea>
+                        </div>
+                        <div id="post_content"></div>
+                        <div class="post_options display-none" align="right" id="post_options" style="display: block;">
+                            <button class="btn btn-primary btn-mini" data-type-id="5" data-type="g" id="add_new_post" data-loading-text="Loading...">Post</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="view-channel-box">
+                    <div class="view-channel-box-content">
+                        <div class="user-feed-box">
+                            <div class="user-feed-header">
+                                <div class="user-feed-avatar"><a href="{$userquery->profile_link($u)}"><img src="{avatar details=$u size='small'}" width="35" height="35" /></a></div>
+                                <a href="{$userquery->profile_link($u)}" class="username">{name($u)}</a>
+                                <div class="user-feed-time">March 12, 2012</div>
+                            </div>
+                            <div class="user-feed-cotent">
+                                Yeh cheez mast lag rahi hai. Something else.
+                            </div>
+                            <div class="user-feed-action-links"><a href="#">Like</a> &#8226; <a href="#">Comment</a> &#8226; <a href="#">Share</a></div>
+                            <div class="user-feed-box-row user-feed-likes">You like this.</div>
+                            <div class="user-feed-comments">
+                                <div class="user-feed-box-row clearfix">
+                                    <div class="user-avatar"><img src="{avatar details=$u size='small'}" width="32" height="32" /></div>
+                                    <div class="user-feed-comment">
+                                        <div class="comment"><a href="#"><strong>{name($u)}</strong></a> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
+                                        <span class="user-feed-comment-time">March 11, 2012</span>
+                                    </div>
+                                </div>
+                                <div class="user-feed-box-row clearfix">
+                                    <div class="user-avatar"><img src="{avatar details=$u size='small'}" width="32" height="32" /></div>
+                                    <div class="user-feed-comment">
+                                        <textarea></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- view-channel-box end -->
+            </div>
+            
+            
+            <div class="view-channel-column-right">
+                <div class="view-channel-box user-videos-block">
+                    <div class="view-channel-box-header">
+                        <h4>Videos <small>({$u.total_videos|number_format})</small></h4>
+                        <div class="view-channel-box-header-right">
+                            <a href="#">See All</a>
+                        </div>
+                    </div>
+                    <div class="view-channel-box-content clearfix">
                         {if $user_videos}
-                            {foreach $user_videos as $video}
-                                {include_template_file file='blocks/video.html' video=$video u=$u display_method='view_channel'}
+                            {foreach $user_videos as $user_video}
+                                {include_template_file file='blocks/video.html' video=$user_video display_method='view_channel'}
                             {/foreach}
-                        {else}
-                            <div class="text-error" style="font-weight: bold; text-align: center; padding: 25px; background: white;">No videos found for {$u.username}</div>
                         {/if}
                     </div>
                 </div>
-                <div id="global-content-full-height"></div>
+                <div class="view-channel-box">
+                    <div class="view-channel-box-header">
+                        <h4>Photos <small>({$u.total_photos|number_format})</small></h4>
+                        <div class="view-channel-box-header-right">
+                            <a href="#">See All</a>
+                        </div>
+                    </div>
+                    <div class="view-channel-box-content clearfix">
+                        {if $user_photos}
+                            {foreach $user_photos as $user_photo}
+                                {include_template_file file='blocks/photo.html' photo=$user_photo display_method='view_channel'}
+                            {/foreach}
+                        {/if}
+                    </div>
+                </div>
             </div>
         </div>
-        
-        {include_template_file file="footer.html"}
     </div>
 </body>
-</html>

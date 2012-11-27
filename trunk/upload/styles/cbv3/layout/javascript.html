@@ -188,7 +188,20 @@
        
         //Executing Tootltip
         $('.cb-tooltip').tooltip();
-        
+      
+      
+      // Center image the vertical and horizontal
+     $('.cbv3-center-image').each( function(index,image){
+         $( image ).load( function(){
+             $(this).css({
+                 'position' : 'relative',
+                 'top' : '50%',
+                 'left' : '50%',
+                 'margin-left' : "-"+( $(this).outerWidth()/2 )+"px",
+                 'margin-top' : "-"+( $(this).outerHeight()/2 )+"px"
+             });
+         });
+     });
       
         //Adding sortablities
         $('#playlist-manage').sortable({
@@ -269,10 +282,18 @@
         $('.selectable-radio').on('click','input[type=radio]',function(){
             $('.selectable-radio.active').removeClass('active');
             $(this).parent('.selectable-radio').addClass('active');
-        })
+        });
         
+        $( '.photo-actions-bar' ).scrollToFixed({
+            preFixed: function() { $(this).addClass('photo-actions-bar-fixed');  },
+            postFixed: function() { $(this).removeClass('photo-actions-bar-fixed'); }
+        });
         
+        /*$('.cb-widget-photo-tags').scrollToFixed({
+            marginTop : 60
+        });*/
         
+
         $('.comment-field,.share_feed_modal_text').autosize().shiftenter();  
         
         $('.comment-field').bind('textchange', function (event, previousText) 

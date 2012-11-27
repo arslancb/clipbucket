@@ -1,17 +1,17 @@
 
 
-{if $pagination}
+{if $pages->pagination}
 
 {if !$commentPagination}
 
-<div class="btn-group inlineblock" >
+<div class="btn-group inlineblock" id="paged-pagination">
     {lang code='Pages'} : {if $first_link !=''}
 
 
-    <a class="btn" {$first_link}>&laquo;</a>{/if}  {if $pre_link !=''}
-    <a {$pre_link} class="btn"  >&#8249;</a>{/if} {$pagination}  {if $next_link !=''}
-    <a class="btn" {$next_link}>&#8250;</a>{/if} {if $last_link !=''}
-    <a class="btn"  {$last_link}>&raquo;</a>{/if}
+    <a class="btn" {$pages->first_link}>&laquo;</a>{/if}  {if $pages->pre_link !=''}
+    <a {$pages->pre_link} class="btn"  >&#8249;</a>{/if} {$pages->pagination}  {if $pages->next_link !=''}
+    <a class="btn next-page-link" {$pages->next_link}>&#8250;</a>{/if} {if $pages->last_link !=''}
+    <a class="btn"  {$pages->last_link}>&raquo;</a>{/if}
 </div>
 {else}
 
