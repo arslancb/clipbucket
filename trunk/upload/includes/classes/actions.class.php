@@ -717,10 +717,14 @@ class cbactions
 	/**
 	 * Function used to get playlists
 	 */
-	function get_playlists()
+	function get_playlists($uid=NULL)
 	{
+                if(!$uid)
+                    $uid = usrid();
+                
 		global $db;
-		$result = $db->select(tbl($this->playlist_tbl),"*"," playlist_type='".$this->type."' AND userid='".userid()."'");
+		$result = $db->select(tbl($this->playlist_tbl),"*",
+                " playlist_type='".$this->type."' AND userid='".mysql_clean($uid)."'");
 		
 		if($db->num_rows>0)
                 {
