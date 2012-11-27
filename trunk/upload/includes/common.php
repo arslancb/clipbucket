@@ -661,11 +661,12 @@ register_action_remove_video('remove_video_log');
 register_action_remove_video('remove_video_files');
 
 
-register_anchor_function('load_tagging', 'cb_head');
-register_anchor_function('load_photo_actions', 'cb_head');
-cb_register_function('delete_photo_avatar', 'delete_photo');
-cb_register_function('delete_photo_tags', 'delete_photo');
-cb_register_function('delete_photo_meta', 'delete_photo');
+register_anchor_function('load_tagging','cb_head');
+//register_anchor_function('load_photo_actions','cb_head');
+cb_register_function('delete_photo_avatar','delete_photo');
+cb_register_function('delete_photo_tags','delete_photo');
+cb_register_function('delete_photo_meta','delete_photo');
+
 
 include('admin.functions.php');
 //error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);

@@ -1,0 +1,137 @@
+{include_template_file file="blocks/account_left.html"}
+{$photo=$p}
+<div class="account-right">
+    <ul class="breadcrumb">
+        <li><a href="#">My account</a> <span class="divider">/</span></li>
+        <li><a href="#">Library</a> <span class="divider">/</span></li>
+        <li class="active">Data</li>
+    </ul>
+    <div class="account-heading">
+        <h4>Editing "{$p.photo_title}"</h4>
+    </div>
+    
+    <div class="account-inner-left">
+        <div class="photo-upload-preview-outer padding_box">
+            <div class="photo-upload-preview-inner">
+                <div class="absolute" style="bottom: 5px; right: 5px; opacity: 0.8; cursor: default;">
+                    {if $photo.photo_id == $photo.cover_photo }<span class="label label-info marginR5">{lang code='Cover photo'}</span>{/if}{if $photo.featured == 'yes'}<span class="label label-success marginR5">{lang code='Featured'}</span>{/if}{if $photo.is_mature == 'yes'}<span class="label label-important" title="{lang code='Login is required to view this photo'}">{lang code='Mature'}</span>{/if}
+                </div>
+                <img src="{get_photo size='l' details=$p}" class="new-photo-preview" />
+            </div>
+        </div>
+        {assign var='reqFields'  value=$cbphoto->load_required_forms( $p )}
+        {assign var='otherFields'  value=$cbphoto->load_other_forms( $p )}
+        <form method="post" action="">
+            <fieldset>
+                <legend>{lang code='Photo Details'}</legend>
+                {foreach $reqFields as $field}
+
+                    {* Formating field for our template *}
+                    {$field.class='input-xxlarge'}
+
+                    {if $field.type=='checkbox' || $field.type=='radiobutton'}
+                    {$field.sep=' '}
+
+                    {if $field.type=='checkbox'}
+                    {$field.class='checkbox'}
+                    {else}
+                    {$field.class='radio'}
+                    {/if}
+                    {/if}
+
+
+                    <div class="control-group"{if $field@first} style="margin-top:0px;"{/if}>
+                        <label class="control-label" for="{$field.id}">{$field.title}
+                            {if $field.hint_before}
+                            <div>{$field.hint_before}</div>
+                            {/if}
+                        </label>
+                        <div class="controls">
+                            {ANCHOR place=$field.anchor_before}
+                            {$formObj->createField($field)}
+                            {ANCHOR place=$field.anchor_after}
+                            {if $field.hint_after}
+                            <p class="help-block">{$field.hint_after}</p>
+                            {/if}
+                        </div>
+                    </div>
+                {/foreach}
+            </fieldset>
+
+            <fieldset>
+                <legend>{lang code='Photo Options'}</legend>
+                {foreach $otherFields as $field}
+
+                    {* Formating field for our template *}
+                    {$field.class='input-xxlarge'}
+
+                    {if $field.type=='checkbox' || $field.type=='radiobutton'}
+                    {$field.sep=' '}
+
+                    {if $field.type=='checkbox'}
+                    {$field.class='checkbox'}
+                    {else}
+                    {$field.class='radio'}
+                    {/if}
+                    {/if}
+
+
+                    <div class="control-group"{if $field@first} style="margin-top:0px;"{/if}>
+                        <label class="control-label" for="{$field.id}">{$field.title}
+                            {if $field.hint_before}
+                            <div>{$field.hint_before}</div>
+                            {/if}
+                        </label>
+                        <div class="controls">
+                            {ANCHOR place=$field.anchor_before}
+                            {$formObj->createField($field)}
+                            {ANCHOR place=$field.anchor_after}
+                            {if $field.hint_after}
+                            <p class="help-block">{$field.hint_after}</p>
+                            {/if}
+                        </div>
+                    </div>
+                {/foreach}
+            </fieldset>
+            <input type="hidden" name="photo_id" id="photo_id" value="{$photo.photo_id}" />
+            <div class="form-actions">
+                <button type="submit" name="update_photo" class="btn btn-primary">{lang code='Save Changes'}</button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="account-inner-nav">
+        <ul class="nav nav-list">
+            <li class="nav-header">{lang code='Available Actions'}</li>
+            <li><a href="{view_photo_link($photo)}">{lang code='View photo'}</a></li>
+            {display_manager_links($photo)}
+            <li class="divider"></li>
+            <li><a href="javascript:void(0)" onclick="cb_confirm('Delete Photo','Are you sure you want to delete this photo ? This action will delete photo permanently.', function(){
+                window.location = '?mode=uploaded&delete_photo={$photo.photo_id}';
+            })">{lang code='Delete photo'}</a></li>
+        </ul>
+        {$pd=json_decode($p.photo_details,true)}
+        {if $pd}
+        <ul class="nav nav-list" id="available_dimensions">
+            <li class="nav-header">{lang code='Available Dimensions'}</li>
+            {display_photo_embed_sizes($p)}
+        </ul>
+        
+        <script type="text/javascript">
+            $(document).ready(function(e){
+                /* Add data-content to each of li's */
+                $('ul#available_dimensions li[data-code]').each(function(i, li){
+                    var li_content = 'Set <code>size</code> parameter to <code>'+$(this).attr('data-code')+'</code> in <code>&#123;get_photo &#125;</code> smarty function.<br/><br/> Size: '+Math.round( $(this).attr('data-size')/1024 )+' KB';
+                    $(this).attr('data-content', li_content );
+                });
+                
+                $('ul#available_dimensions li[data-code]').popover({
+                    'title' : 'How to use',
+                    'placement' : 'left',
+                    'trigger' : 'hover'
+                });
+            });
+        </script>
+        {/if}
+    </div>
+</div>

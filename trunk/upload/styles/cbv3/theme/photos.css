@@ -1,0 +1,347 @@
+/* 
+    Document   : photos
+    Created on : Oct 5, 2012, 4:15:25 PM
+    Author     : Fawaz
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.view-collection-photos.item-block:hover .view-collection-photos-views {
+    display: block;
+}
+
+.view-collection-photos.item-block {
+    width: 265px; vertical-align: top;
+    display: inline-block !important;
+    box-shadow: none;
+    position: relative;
+    margin: 0px 10px 15px 0px;
+    -webkit-transition: all .2s ease-in-out; -moz-transition: all .2s ease-in-out;
+    background: #f2f2f2; /* Old browsers */
+    background: -moz-linear-gradient(top,  #f2f2f2 1%, #dddddd 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#f2f2f2), color-stop(100%,#dddddd)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #f2f2f2 1%,#dddddd 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #f2f2f2 1%,#dddddd 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #f2f2f2 1%,#dddddd 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #f2f2f2 1%,#dddddd 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', endColorstr='#dddddd',GradientType=0 ); /* IE6-9 */
+}
+
+.view-collection-photos.item-block .collection-photo img {
+    min-width: 100%;
+}
+
+.view-collection-photos.item-block .user-thumb-container {
+    background: white;
+    margin: 10px;
+    padding: 0px;
+    border-radius: 20px;
+    box-shadow: 0px 1px 0px rgba(0,0,0,0.2), inset 0px 1px 2px rgba( 0,0,0,0.9 );
+    width: 40px; height: 40px; display: block;
+}
+
+.view-collection-photos.item-block .user-thumb-container .username, .view-collection-photos.item-block .user-thumb-container .date_added {
+    font-size: 12px;
+    font-weight: bold;
+    text-shadow: none;
+    text-transform: uppercase;
+    margin-top: -10px;
+    color: #666;
+    width: 350%;
+    top: 25%;
+}
+
+.view-collection-photos.item-block .user-thumb-container .date_added {
+    top:  70%; position: absolute; text-transform: none;
+    left: 125%; color: #999; font-weight: normal;
+}
+
+.view-collection-photos.item-block h4 {
+    margin: 10px 10px 0px; font-size: 14px; font-weight: bold;
+}
+
+.view-collection-photos.item-block:hover {
+    background: whitesmoke;
+}
+
+.view-collection-photos.item-block .view-collection-photos-views {
+    height: 36px; border: solid black; border-width: 1px 0px; background: rgba( 0, 0, 0, 0.8 );
+    color: white; font-weight: bold; text-shadow: 0px -1px black; font-size: 14px; text-align: center;
+    line-height: 36px; font-family: 'Open Sans', Arial, sans-serif; position: absolute; width:100%; top: 50%; margin-top: -18px;
+}
+
+/* Photo tagger styles */
+#photo-tagger-button .tagger-tagging-button {
+    position: relative;
+    border-radius: 0px;
+    border: 0px none;
+    background: transparent;
+    padding: 10px 15px 10px;
+    box-shadow: none;
+    font-weight: normal;
+    color: #777;
+    font-size: 14px;
+    font-family: inherit;
+    text-shadow: 0 1px 0 white;
+}
+
+.navbar.navbar-inverse #photo-tagger-button .tagger-tagging-button {
+    color : #999;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.navbar #photo-tagger-button .tagger-tagging-button:hover {
+    color: #333;
+}
+
+.navbar.navbar-inverse #photo-tagger-button .tagger-tagging-button:hover {
+    background: transparent;
+    color: white;
+}
+
+.btn-toolbar input.photo-url {
+    transition: all linear .2s;
+    -webkit-transition: all linear .2s;
+    -moz-transition: all linear .2s;
+    -o-transition: all linear .2s;
+    width: 100px;
+    font-size: 12px;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    vertical-align: top; margin-right: 10px;
+}
+
+.btn-toolbar input.photo-url:focus {
+    width: 250px;
+}
+
+.navbar #photo-tagger-button .tagger-tagging-button.tagging-is-active, .navbar-inner li a.active, .navbar-inner li a.pressed,
+.navbar-inner li a.active:hover, .navbar-inner li a.pressed:hover {
+    background: #e5e5e5;
+    color : #555;
+}
+
+.navbar.navbar-inverse #photo-tagger-button .tagger-tagging-button.tagging-is-active {
+    background-color: #131313;
+    color: white;
+}
+
+/* Photo share block */
+#embed-photo-block .photo-embed-name {
+    font-size: 15px;
+}
+
+#embed-photo-block .control-group {
+    margin-bottom: 12px;
+}
+
+#embed-photo-block .photo-embed-code {
+    width: 100%; font-size: 14px; box-sizing: border-box; height: 40px;
+    padding: 0px 15px; font-family: Consolas,Monaco,monospace;
+     -webkit-transition: all .2s ease-in-out; -moz-transition: all .2s ease-in-out;
+}
+
+#embed-photo-block .photo-embed-code.photo-embed-code-updating {
+    background: #08C;
+    border-color: #04C;
+    color: white;
+}
+
+#embed-photo-block .help-block {
+    margin: 0px;
+    font-size: 12px;
+}
+
+#embed-photo-block .toggle-photo-size a {
+    font-size: 14px;
+}
+
+#embed-photo-block.modal {
+    width: 820px;
+    margin-left: -410px;
+}
+
+#embed-photo-block.modal.fade.in {
+    top: 45%;
+}
+
+#photo-embed-code-blocks .table {
+    display: table;
+    margin-bottom: 0px;
+    height: 100%;
+}
+
+#photo-embed-code-blocks .table .table-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#embed-photo-block .modal-body {
+    height: auto;
+    max-height: none;
+}
+
+#embed-photo-block #photo-embed-code-blocks .cbv3-scroller {
+    max-height: 450px;
+}
+
+#embed-photo-block .photo-embed-code-blocks {
+    float: right;
+    width:65%;
+}
+
+#embed-photo-block .photo-embed-object {
+    float: left;
+    width: 33%;
+    height: 400px;
+    overflow: hidden;
+}
+
+#embed-photo-block .photo-embed-sizes {
+    list-style: none; display: block; margin: 0px; 
+    padding: 0px; white-space: nowrap; margin-bottom: 10px;
+    overflow: hidden;
+}
+
+#embed-photo-block .photo-embed-sizes li {
+    display: inline-block;
+}
+
+#embed-photo-block .photo-embed-sizes li a {
+    display: block; font-size: 16px; font-weight: bold;
+    padding: 1em 1.5em; color: #666;
+    border: solid black; border-width: 1px 1px; text-shadow: 0px -1px black;
+    background: #121212; /* Old browsers */
+    background: -moz-linear-gradient(top,  #121212 0%, #232323 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#121212), color-stop(100%,#232323)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #121212 0%,#232323 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #121212 0%,#232323 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #121212 0%,#232323 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #121212 0%,#232323 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#121212', endColorstr='#232323',GradientType=0 ); /* IE6-9 */
+
+}
+
+#embed-photo-block .photo-embed-sizes li:first-child a {
+    border-radius: 4px 0px 0px 4px;
+}
+
+#embed-photo-block .photo-embed-sizes li:last-child a {
+    border-radius: 0px 4px 4px 0px;
+}
+
+#embed-photo-block .photo-embed-sizes li a:hover {
+    text-decoration: none;
+}
+
+#embed-photo-block .photo-embed-sizes li.active a {
+background: rgb(0,0,0); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(0,0,0,1) 0%, rgba(35,35,35,1) 50%, rgba(0,0,0,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,1)), color-stop(50%,rgba(35,35,35,1)), color-stop(100%,rgba(0,0,0,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(0,0,0,1) 0%,rgba(35,35,35,1) 50%,rgba(0,0,0,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(0,0,0,1) 0%,rgba(35,35,35,1) 50%,rgba(0,0,0,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(0,0,0,1) 0%,rgba(35,35,35,1) 50%,rgba(0,0,0,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(0,0,0,1) 0%,rgba(35,35,35,1) 50%,rgba(0,0,0,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+
+    color: white;
+}
+
+/* Fixing actions bar */
+.photo-actions-bar-fixed .navbar-inner {
+    border-width: 0px 0px 1px;
+    border-radius: 0px;
+    box-shadow: 0px 2px 1px -1px rgba( 0, 0, 0, 0.095 );
+    position: relative;
+}
+
+.photo-actions-bar-fixed .navbar-inner::after, .photo-actions-bar-fixed .navbar-inner::before {
+    content: ' ';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: inherit;
+    box-shadow: inherit;
+    border: inherit;
+    display: block;
+    right: 100%;
+    z-index: 1500;
+}
+
+.photo-actions-bar-fixed .navbar-inner::before {
+    left: 100%;
+}
+
+.photos-sidebar .cb-widget {
+    background: whitesmoke;
+    border: 1px solid #bbb;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.095) inset, 0 1px 0px 0 lavender, 0px 2px 0px 0px rgba( 187, 187, 187, 1 );
+    border-radius: 3px;
+}
+
+.photos-sidebar .cb-widget ul {
+    margin: 0px 0px 10px; padding: 0px;
+    list-style: none;
+}
+
+.photos-sidebar .cb-widget li, .photos-sidebar .cb-widget li a { display: block; clear: both; }
+.photos-sidebar li > a {
+    padding: 10px 10px; color: #333; text-shadow: 0px 1px white;
+    background: transparent; border-style: solid; border-color: transparent; border-width: 1px 0px;
+}
+
+.photos-sidebar li > a:hover {
+    background: rgb(255,255,255);
+    background: -moz-linear-gradient(left,  rgba(255,255,255,1) 0%, rgba(245,245,245,1) 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(245,245,245,1)));
+    background: -webkit-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(245,245,245,1) 100%);
+    background: -o-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(245,245,245,1) 100%);
+    background: -ms-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(245,245,245,1) 100%);
+    background: linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(245,245,245,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f5f5f5',GradientType=1 );
+    text-decoration: none;
+
+}
+
+.photos-sidebar li > a:active {
+        border-color: rgba( 0, 0, 0, 0.05 );
+
+}
+
+.photos-sidebar .cb-widget-title {
+    border-bottom: 0px; font-weight: bold; padding: 0px;
+    box-shadow: none; text-transform: uppercase; text-shadow: 0px 1px white;
+    font-size: 14px; color: #333; margin: 10px; line-height: 20px; white-space: nowrap;
+    text-overflow : ellipsis; overflow: hidden;
+}
+
+.photo-sidebar h5 {
+    margin: 0px; font-weight: normal;
+    margin-bottom: 3px;
+}
+
+.photo-sidebar span.muted {
+    font-size: 12px;
+}
+
+.photo-sidebar-photo-thumb {
+    width: 130px;
+    height: 75px;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.photo-sidebar-photo-thumb img {
+    min-height: 100%;
+    max-width: none;
+    width: auto;
+    margin-top: -5px;
+}
+
+/* Photo tags label */
+.photos-sidebar .cb-widget .tagger-label-wrapper {
+    margin: 0px 10px 10px; line-height: 18px;
+}
+
+.photos-sidebar .cb-widget .tagger-tag-label {
+    cursor: default;
+}
