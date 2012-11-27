@@ -1,0 +1,124 @@
+{$feed=feed($feed)}
+<div class="group-feed group-feed-{$feed.feed_id} feed" id="feed-{$feed.feed_id}">
+    <div class="feed-author">
+        <img src="{$userquery->avatar($feed.user,'small')}" />
+    </div>
+    <div class="feed-context">
+        <div class="feed-author-name">
+            {name($feed.user)}
+        </div>
+        
+        {if $feed.message}
+        <div class="feed-message">
+            {feed_message($feed.message)}
+        </div>
+        {/if}
+        
+        
+        {if $feed.content}
+        {$content=$feed.content}
+        <div class="feed-content content-video">
+            {if $content.thumb}
+            <div class="content-thumb">
+                    <img src="{$content.thumb}" />
+            </div>
+            {/if}
+            <div class="content-details">
+                {if $content.title}
+                <div class="content-title">
+                    {$content.title} 
+                    {if $content.sub_title}
+                        - {$content.sub_title}
+                    {/if}
+                </div>
+                {/if}
+                {if $content.caption}
+                <div class="content-caption">
+                    {$content.caption}
+                </div>
+                {/if}
+                
+                {if $content.description}
+                <div class="content-description">
+                    {$content.description|truncate:300}
+                </div>
+                {/if}
+            </div>
+        </div>
+        {/if}
+        
+        {$liked='no'}
+        {if $cbfeeds->is_liked($feed.likes)}
+            {$liked='yes'}
+        {/if}
+        <div class="feed-options">
+            <div class="feed-action-buttons">
+                <a onclick="like_feed('{$feed.feed_id}');" 
+                   id="likeable-{$feed.feed_id}" 
+                   class="feed-like-link" 
+                   {if $liked=='yes'}
+                   data-toggle-text="{lang code='Like'}"
+                   data-like="no"
+                   {else}
+                   data-toggle-text="{lang code='Unlike'}"
+                   data-like="yes"
+                   {/if}
+                   >
+                   {if $liked=='yes'}
+                   {lang code='Unlike'}
+                   {else}
+                   {lang code='Like'}
+                   {/if}
+                </a> . 
+            <a href="" onclick="$('#add-comment-{$feed.feed_id}').focus()">Comment</a> . Share
+            </div>
+            <div class="feed-time">
+               
+                {what_time($feed.time)} <i class="icon-globe icon-v3"></i>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        
+        
+        <div class="feed-interaction">
+            
+            <div class="feed-triangle"></div>
+            
+            <div class="feed-likes" id="like-phrase-{$feed.feed_id}">
+               {get_likes_phrase($feed.likes,$feed.likes_count,$liked)}
+            </div>
+            
+            {if $feed.comments_count > 0}
+            {$feed_comments=feed_comments($feed)}
+            {foreach $feed_comments as $comment}
+                {$comment_tpl=get_template('single_feed_comment','path')}
+                {include file=$comment_tpl comment=$comment}
+            {/foreach}
+            {/if}
+            
+            <div id="new_comment_placeholder_{$feed.feed_id}"></div>
+            
+            <div class="feed-comment">
+                <div class="feed-comment-author">
+                    <img src="{$userquery->avatar($userquery->udetails,'small')}" />
+                </div>
+                <div class="feed-comment-text">
+                    <div class="add-comment-field">
+                        <form id="feed-form-{$feed.feed_id}" onsubmit="add_feed_comment('{$feed.feed_id}'); return false;">
+                        <textarea class="comment-field input" 
+                        name ="comment"
+                         id="add-comment-{$feed.feed_id}" data-feed-id="{$feed.feed_id}"></textarea>
+                        
+                        <div class="comment-field-backend" id="comment-backend-{$feed.feed_id}"
+                        onclick="$('#add-comment-{$feed.feed_id}').focus();"></div>
+                        
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
+<div class="clearfix"></div>

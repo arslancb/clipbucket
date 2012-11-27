@@ -150,6 +150,9 @@ class userquery extends CBCategory
 
         if (isSectionEnabled('channels'))
             $Cbucket->search_types['users'] = "userquery";
+        
+        register_object('u', 'userquery');
+        register_object('user', 'userquery');
     }
 
     /**
@@ -623,7 +626,7 @@ class userquery extends CBCategory
     /**
      * Function used to get user details using userid
      */
-    function get_user_details($id = NULL, $checksess = false, $profile = false)
+    function get_user_details($id = NULL, $checksess = false, $profile = false,$cond=NULL)
     {
         global $db, $sess;
         if ($profile === true)
@@ -654,6 +657,17 @@ class userquery extends CBCategory
                 return false;
         }
     }
+    
+    function get($uid,$cond=NULL)
+    {
+        return $this->get_user_details($uid,false,false,$cond);
+    }
+    
+    /**
+     * 
+     * @param type $id
+     * @return type
+     */
 
     function GetUserData($id = NULL)
     {
@@ -1013,7 +1027,6 @@ class userquery extends CBCategory
                     ." WHERE ".tbl("contacts.userid") . "='$uid' " .$query." AND " 
                     . tbl("contacts") . ".contact_group_id='$group' " );
             
-            echo $db->db_query;
             if ($db->num_rows > 0)
                 return $result;
             else

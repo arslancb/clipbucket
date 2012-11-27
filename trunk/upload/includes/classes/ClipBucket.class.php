@@ -9,6 +9,7 @@
 
 class ClipBucket 
 {
+    
 	var $BASEDIR;
 	var $JSArray = array();
 	var $AdminJSArray = array();
@@ -79,6 +80,7 @@ class ClipBucket
 	 
 	function ClipBucket ()
 	{
+               
 		global $pages;
 		//Assign Configs
 		$this->configs = $this->get_configs();

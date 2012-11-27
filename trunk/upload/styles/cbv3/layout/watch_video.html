@@ -45,6 +45,12 @@
         {include_template_file file='blocks/report.html' type='v' id=$video.videoid title=$video.title}
 
         
+        {get_feed_share_block('video', $video.videoid, $video)}
+        
+        <script>
+            $('#share_feed_modal').modal('show');
+        </script>
+        
         <!-- Video Details -->
         <div class="video-details row-fluid">
             <div class="span9">

@@ -36,7 +36,7 @@ function get_friends()
         mode : "get_friends"
     },function(data){
         
-    })
+        })
 }
 
 
@@ -50,7 +50,7 @@ function add_feed_comment(fid)
     form_data += '&mode=add_feed_comment';
     form_data += '&feed_id='+fid;
     
-   $('#add-comment-'+fid).attr('disabled','disabled');
+    $('#add-comment-'+fid).attr('disabled','disabled');
     
     amplify.request('feeds',form_data,function(data){
         
@@ -71,8 +71,78 @@ function add_feed_comment(fid)
  * function used to add a feed
  */
 
-function add_new_post(type,type_id,content_type,content_id,content)
+function add_new_post(type,type_id,content_type,content_id,post,action)
 {
-    $('#add_new_post').button('loading');
+    amplify.request('feeds',{
+        'post'          : post,
+        'object_type'   : type,
+        'object_id'     : type_id,
+        'content_type'  : content_type,
+        'content_id'    : content_id,
+        //'content'       : content,
+        'mode'          : 'add_feed',
+        'action'        : action
+    },function(data){
+        
+        $('#add_new_post').button('reset');
+        
+        if(data.template)
+        {
+            //Apend the data...
+            $('#group-feeds').prepend(data.template);
+            $('#feed-'+data.fid).hide().fadeIn(1000);
+            $('#post_message').val('');
+            
+            return true;
+        }else
+        {
+            displayError(data.err);
+            return false;
+        }        
+    })
+}
+
+
+function cb_feed_target_select(type)
+{
     
 }
+
+var feedSuggestParamsArr = Array();
+feedSuggestParamsArr['friend']    = '&mode=friends';
+feedSuggestParamsArr['group']     = '&mode=groups';
+var feedSuggestParams = '';
+
+    
+function getFeedParams(type){
+    feedSuggestParams = feedSuggestParamsArr[type];
+}
+
+function genFeedSuggestObj(feedSuggestionMode)
+{
+    $('#feed_suggestion').trigger('reset');
+    
+    getFeedParams(feedSuggestionMode);
+    
+    console.log('init gen feed suggestion');
+    $("#share_feed_target").autoSuggest(baseurl+'/ajax/items.php', { 
+        selectedItemProp: "name", 
+        asHtmlID : 'feed_suggestion',
+        searchObjProps: "name",
+        selectionLimit : 1,
+        limitText : false,
+        selectionAdded : function(){
+            $('input.share_feed_target').hide();
+        },
+        selectionRemoved : function(elem){
+            elem.remove();
+            $('input.share_feed_target').show();
+        },
+        formatList: function(data, elem){
+            var my_image = data.image;
+            var new_elem = elem.html("<img src='"+data.image+"' width='20' height='20'/> "+data.name);
+            return new_elem;
+        }
+    });
+}
+        

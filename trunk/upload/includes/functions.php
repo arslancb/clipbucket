@@ -3719,8 +3719,106 @@ function what_time($time, $is_time = true)
 {
     if (!$is_time)
         $time = strtotime($time);
-    echo date('D m, Y', $time);
+   
+    $date = date('Y-m-d H:i:s', $time);
+    $date = niceTime($date);
+    
+    $final_date= '<span class="cb_time" data-time="'.date("Y-m-d",$time).'T'.date("H:i:s",$time).'Z" >'.$date.'</span>';
+    
+    return $final_date;
 }
+
+
+
+/**
+ * register an object to get data later
+ * 
+ * @param STRING $type
+ * @param OBJECT $obj
+ */
+function register_object($type,$obj)
+{
+    global ${$obj},$Cbucket;
+    
+    $theObj = ${$obj};
+    
+    if($theObj)
+    {
+        $Cbucket->objects[$type] = array('type'=>$type,'obj'=>$obj);
+    }
+}
+
+/**
+ * Get object
+ * 
+ * ${$obj}->get($objectId,$type,$conditions=NULL);
+ * 
+ * @param STRING $type
+ * @param INT $obj_id
+ * @param STRING $condtion
+ */
+function get_object($type,$objId,$cond=NULL)
+{
+    global $Cbucket;
+   
+    if($Cbucket->objects[$type])
+    {
+       
+        $obj = $Cbucket->objects[$type]['obj'];
+        global ${$obj};
+        $theObj = ${$obj};
+
+        if(method_exists($theObj,'get'))
+        {
+            return $theObj->get($objId,$cond);
+        }
+    }
+}
+
+
+/**
+ * Get Content 
+ * 
+ * @global type $Cbucket
+ * @global type $obj
+ * @param type $type of content
+ * @param type $obj of content
+ * @param type $cond if any
+ * @return type
+ */
+function get_content($type,$objContent,$cond=NULL)
+{
+    
+    global $Cbucket;
+
+    if($Cbucket->objects[$type])
+    {
+
+        $obj = $Cbucket->objects[$type]['obj'];
+        global ${$obj};
+        $theObj = ${$obj};
+
+        if(method_exists($theObj,'get'))
+        {
+            return $theObj->get_content($objContent,$cond);
+        }
+    }
+}
+
+/**
+ * Cb error
+ * @param type $e
+ * @throws Exception
+ */
+
+
+
+function cb_error($e)
+{
+    e($e);
+    throw new Exception($e);
+}
+
 
 //Including videos functions
 include("functions_videos.php");

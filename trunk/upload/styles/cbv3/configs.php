@@ -6,10 +6,11 @@
 
 //Template files
 $array = array(
-    'single_comment' => 'blocks/comment.html',
+    'single_comment'        => 'blocks/comment.html',
     'single_feed_comment'   => 'blocks/single_feed_comment.html',
-    'comments'       => 'blocks/comments.html',
-    'topic'          => 'blocks/groups/group_topic.html',
+    'comments'              => 'blocks/comments.html',
+    'topic'                 => 'blocks/groups/group_topic.html',
+    'single_group_feed'     => 'blcoks/groups/group_feed.html'
 );
 
 set_config('template_files',$array);

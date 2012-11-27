@@ -34,6 +34,7 @@ class EH extends ClipBucket
                 
                 if($rel)
                     $this->error_rel[$rel] = $message;
+
 	}
 
 	

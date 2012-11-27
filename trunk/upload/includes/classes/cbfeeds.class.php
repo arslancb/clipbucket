@@ -136,10 +136,8 @@ class cbfeeds
 
         $object = $this->getObject($array['object_type']);
 
-        
         if (!$action || !$object)
             return false;
-
 
         //Setting user feed array
         $feed = $array;
@@ -175,10 +173,19 @@ class cbfeeds
         $feed['last_updated'] = time();
         $feed['time'] = time();
         
-        if(!$this->feed_exists($feed))
-            db_insert(tbl('feeds'), $feed);
+        
+        if(!$this->feed_exists($feed) || 1)
+        {
+            $feed_id = db_insert(tbl('feeds'), $feed);
+            //$feed['feed_id'] = $feed_id;
+            //return $feed;
+            return $feed_id;
+        }else
+        {
+            return false;
+        }
 
-        return $feed;
+       
     }
 
     /**
@@ -491,22 +498,18 @@ class cbfeeds
      * @param STRING id
      * @param ARRAY content 
      */
-    function get_content($type, $id, $content = NULL)
+    function get_content($type, $id=NULL, $content = NULL)
     {
         $the_content = null;
 
         global $cbvid, $cbphoto, $cbgroup;
 
-        switch ($type)
-        {
-            case "v":
-            case "video":
-                {
-                    $the_content = $cbvid->get_content($id, $content = NULL);
-                }
-        }
+        if(!$content)
+            $content = $id;
 
-        $action_array = array('type' => $type, $id => $id, 'content' => $content);
+        $the_content = get_content($type,$content);
+
+        $action_array = array('type' => $type, $id => $id, 'content' => $the_content);
 
         if (!$the_content)
             $the_content = call_actions('get_feed_content', $action_array);
@@ -756,7 +759,7 @@ class cbfeeds
         
         global $db;
         $result = db_select("SELECT * FROM ".tbl('feeds')." WHERE ".$condition);
-        
+        //echo $db->db_query;
         if($db->num_rows>0)
             return $result;
         else

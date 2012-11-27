@@ -22,7 +22,7 @@
     
     <div class="new_post_container padding_box" id="new_post_container">
         <div class="post_message_container">
-            <textarea class="post_message" placeholder="{lang code='Post something...'}"
+            <textarea class="post_message" id="post_message" placeholder="{lang code='Post something...'}"
             rows="1"></textarea>
         </div>
         <div id="post_content">
@@ -31,7 +31,7 @@
         <div class="post_options display-none" align="right" id="post_options">
             <button class="btn btn-primary btn-mini"
              data-type-id="{$group.group_id}"
-             data-type="g"
+             data-type="group"
              id="add_new_post"
              data-loading-text="Loading...">{lang code='Post'}</button>
         </div>

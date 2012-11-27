@@ -1405,6 +1405,13 @@ class CBConverter
         {
             switch($rotation)
             {
+                case "90-vflip":
+                {
+                    $cmd = "transpose=0";
+                }
+                break;
+                
+            
                 case "90":
                 {
                     $cmd = "transpose=1";
@@ -1417,12 +1424,7 @@ class CBConverter
                 }
                 break;
                 
-                case "90-vflip":
-                {
-                    $cmd = "transpose=0";
-                }
-                break;
-                
+              
                 case "270-vflip":
                 {
                     $cmd = "transpose=3";

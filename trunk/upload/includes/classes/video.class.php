@@ -52,6 +52,9 @@ class CBvideo extends CBCategory {
         $Cbucket->clipbucket_footer[] = 'check_cbvideo';
 
         $this->video_delete_functions[] = 'delete_video_from_collection';
+        
+        register_object('v', 'cbvideo');
+        register_object('video', 'cbvideo');
     }
 
     /**
@@ -91,7 +94,7 @@ class CBvideo extends CBCategory {
     /**
      * Function used to get video data
      */
-    function get_video($vid, $file = false) {
+    function get_video($vid, $file = false,$cond=false) {
         global $db;
 
         $userFields = array('userid', 'username', 'avatar', 'avatar_url',
@@ -135,6 +138,10 @@ class CBvideo extends CBCategory {
 
     function getvideo($vid) {
         return $this->get_video($vid);
+    }
+    
+    function get($vid,$cond=false){
+        return $this->get_video($vid,false,$cond);
     }
 
     function get_video_data($vid) {
@@ -2336,13 +2343,18 @@ class CBvideo extends CBCategory {
      * @param INT $id
      * @param ARRAY $content
      */
-    function get_content($id,$content=NULL)
+    function get_content($content,$cond=NULL)
     {
-        if($content)
+        if(is_array($content))
         {
             if($content['title'] && $content['videoid'])
                 $the_content = $content;
-        }
+            elseif($content['videoid'])
+                $id = $content['videoid'];
+            else
+                return false;
+        }else
+            $id = $content;
         
         if(!$the_content)
             $the_content = $this->get_video($id);

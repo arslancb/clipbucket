@@ -1109,7 +1109,14 @@ function add_menu_items($name, $items) {
 function add_menu_item($name, $item, $link = false, $section = false, $icon = false, $id = false, $target = '_self') {
     global $Cbucket;
     if (!is_array($item)) {
-        $item = array('title' => $item, 'link' => $link, 'icon' => $icon, 'target' => $target, 'id' => $id, 'section' => $section);
+        $item = 
+        array(
+            'title' => $item, 
+            'link' => $link, 
+            'icon' => $icon, 
+            'target' => $target, 
+            'id' => $id, 
+            'section' => $section);
     }
     $item['id'] = $item['id'] ? $item['id'] : SEO(strtolower($item['title']));
     $Cbucket->menus[$name][$item['id']] = $item;
@@ -1127,6 +1134,8 @@ function get_template($file, $type = 'fetch',$layout=true) {
         'comments'          => 'blocks/comments/comments.html',
         'pagination'        => 'blocks/pagination.html',
         'topics'            => 'blocks/groups/topics.html',
+        'share_feed_block'  => 'blocks/feed_share_block.html',
+        'single_feed'       => 'blocks/single_feed.html',
         'single_topic'      => 'blocks/groups/topic.html',
         'group_topic'       => 'blocks/groups/group_topic.html',
         'group_video'       => 'blocks/groups/video.html'

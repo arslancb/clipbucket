@@ -142,3 +142,5 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_meta` (
 --9-26-2012
 ALTER TABLE  `{tbl_prefix}group_members` ADD  `is_admin` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'no' AFTER  `userid` ,
 ADD  `ban` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'no' AFTER  `is_admin`;
+
+ALTER TABLE  `{tbll_prefix}_collections` ADD  `last_updated` DATETIME NOT NULL AFTER  `last_commented`;

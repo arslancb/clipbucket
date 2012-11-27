@@ -41,7 +41,10 @@ function feed($feed)
  */
 function feed_message($message)
 {
-    return apply_filters($message, 'feed_message');
+    $message = apply_filters($message, 'feed_message');
+    $message = nl2br(stripcslashes($message));
+    
+    return $message;
 }
 
 /**
@@ -122,5 +125,28 @@ function feed_comments($feed)
 
         return $comments;
     }
+}
+
+
+
+/**
+ * Get sharing block for an object..
+ * 
+ * @param ARRAY $object details
+ * @param STRING $type Objec type
+ * @oaram INT $id of object
+ * @return STRING $template of the sharing box
+ */
+function get_feed_share_block($type,$id=NULL,$object=NULL)
+{
+    global $cbfeeds;
+
+    $content = $cbfeeds->get_content($type,$id,$object);
+    
+    assign('content',$content);
+   
+    $template = get_template('share_feed_block');
+    
+    return $template;
 }
 ?>

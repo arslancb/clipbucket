@@ -39,9 +39,15 @@ class CBGroups extends CBCategory {
         $this->action->check_func = 'group_exists';
         $this->action->type_tbl = $this->gp_tbl;
         $this->action->type_id_field = 'group_id';
-
+        
+        
         if (isSectionEnabled('groups'))
             $Cbucket->search_types['groups'] = "cbgroup";
+        
+        
+        register_object('g','cbgroup');
+        register_object('group','cbgroup');
+       
     }
 
     /**
@@ -61,7 +67,7 @@ class CBGroups extends CBCategory {
      * Function used to get group details
      * @param $ID { groupid  }
      */
-    function get_group($id) {
+    function get_group($id,$cond=NULL) {
         global $db;
         $gp_details = $db->select(tbl($this->gp_tbl), "*", "group_id='$id'");
         if ($db->num_rows > 0) {
@@ -69,6 +75,11 @@ class CBGroups extends CBCategory {
         } else {
             return false;
         }
+    }
+    
+    function get($id,$cond=NULL)
+    {
+        return $this->get_group($id,$cond);
     }
 
     function get_group_details($id) {
@@ -2038,7 +2049,8 @@ class CBGroups extends CBCategory {
         global $db;
         # REF QUERY : SELECT * FROM group_members,groups WHERE group_members.userid = '1' AND group_members.group_id = groups.group_id AND groups_members.userid != groups.userid
         $result = $db->select(tbl($this->gp_tbl) . ',' . tbl($this->gp_mem_tbl), "*", tbl($this->gp_mem_tbl) . ".userid='$uid' AND 
-							  " . tbl($this->gp_mem_tbl) . ".group_id = " . tbl($this->gp_tbl) . ".group_id AND " . tbl($this->gp_mem_tbl) . ".userid != " . tbl($this->gp_tbl) . ".userid", $limit, tbl($this->gp_tbl) . ".group_name");
+        " . tbl($this->gp_mem_tbl) . ".group_id = " . tbl($this->gp_tbl) . ".group_id", $limit, tbl($this->gp_tbl) . ".group_name");
+        
         if ($db->num_rows > 0)
             return $result;
         else
