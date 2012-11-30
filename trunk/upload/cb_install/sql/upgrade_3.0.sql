@@ -143,4 +143,21 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_meta` (
 ALTER TABLE  `{tbl_prefix}group_members` ADD  `is_admin` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'no' AFTER  `userid` ,
 ADD  `ban` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'no' AFTER  `is_admin`;
 
-ALTER TABLE  `{tbll_prefix}_collections` ADD  `last_updated` DATETIME NOT NULL AFTER  `last_commented`;
+--11-28-2012 @author : Arslan
+CREATE TABLE IF NOT EXISTS `tbl_prefix}user_mentions` (
+  `mention_id` int(255) NOT NULL AUTO_INCREMENT,
+  `userid` int(255) NOT NULL,
+  `who_id` int(255) NOT NULL,
+  `who_type` varchar(10) NOT NULL,
+  `feed_id` int(255) NOT NULL,
+  `comment_id` int(255) NOT NULL,
+  `date_added` datetime NOT NULL,
+  `time` int(10) NOT NULL,
+  PRIMARY KEY (`mention_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+RSET=latin1;
+
+--11-29-2012 @author: Arslan
+ALTER TABLE  `{tbl_prefix}comments` ADD  `comment_attributes` TEXT NOT NULL AFTER  `comment`;
+ALTER TABLE  `{tbl_prefix}comments` ADD  `has_children` INT( 50 ) NOT NULL AFTER  `parent_id`;
+ALTER TABLE  `{tbl_prefix}comments` ADD  `thread_id` INT( 100 ) NOT NULL AFTER  `parent_id`;

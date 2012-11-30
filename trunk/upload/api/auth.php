@@ -42,6 +42,7 @@ switch($mode)
         
         if($userquery->userid)
         {
+			$userDetails['avatar'] = $video['user_photo'] = $video['displayPic'] = $userquery->avatar($userDetails);
             exit(json_encode(array('status'=>'ok','userid'=>$userquery->userid,'details'=>$userDetails)));
         }
 
@@ -59,6 +60,7 @@ switch($mode)
             
             $userDetails['sess_id'] = $_COOKIE['PHPSESSID'];
             
+			$userDetails['avatar'] = $video['user_photo'] = $video['displayPic'] = $userquery->avatar($userDetails);
             
             exit(json_encode(array('status'=>'ok','userid'=>$userquery->userid,'type'=>'custom','details'=>$userDetails)));
         }
@@ -85,7 +87,8 @@ switch($mode)
 
                 $userDetails['sess_id'] = $_COOKIE['PHPSESSID'];
                 
-                
+                $userDetails['avatar'] = $video['user_photo'] = $video['displayPic'] = $userquery->avatar($userDetails);
+				
                 exit(json_encode(array('status'=>'ok','userid'=>$userquery->userid,'sess_id'=> $_COOKIE['PHPSESSID'],'details'=>$userDetails)));
         }
     }
@@ -111,7 +114,7 @@ switch($mode)
             }
             
             $userDetails['sess_id'] = $_COOKIE['PHPSESSID'];
-            
+            $userDetails['avatar'] = $video['user_photo'] = $video['displayPic'] = $userquery->avatar($userDetails);
             exit(json_encode($userDetails));
         }
     }

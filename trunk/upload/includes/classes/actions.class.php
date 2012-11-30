@@ -720,7 +720,7 @@ class cbactions
 	function get_playlists($uid=NULL)
 	{
                 if(!$uid)
-                    $uid = usrid();
+                    $uid = userid();
                 
 		global $db;
 		$result = $db->select(tbl($this->playlist_tbl),"*",

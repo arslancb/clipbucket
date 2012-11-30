@@ -10,14 +10,14 @@
         
         {if $feed.message}
         <div class="feed-message">
-            {feed_message($feed.message)}
+            {feed_message($feed)}
         </div>
         {/if}
         
         
         {if $feed.content}
         {$content=$feed.content}
-        <div class="feed-content content-video">
+        <div class="feed-content content-{$content.type}">
             {if $content.thumb}
             <div class="content-thumb">
                     <img src="{$content.thumb}" />
@@ -69,8 +69,8 @@
                    {else}
                    {lang code='Like'}
                    {/if}
-                </a> . 
-            <a href="" onclick="$('#add-comment-{$feed.feed_id}').focus()">Comment</a> . Share
+                </a> &#8226;
+            <a href="javascript:void(0);" onclick="$('#add-comment-{$feed.feed_id}').focus()">Comment</a> &#8226; Share
             </div>
             <div class="feed-time">
                
@@ -88,13 +88,16 @@
                {get_likes_phrase($feed.likes,$feed.likes_count,$liked)}
             </div>
             
-            {if $feed.comments_count > 0}
-            {$feed_comments=feed_comments($feed)}
-            {foreach $feed_comments as $comment}
-                {$comment_tpl=get_template('single_feed_comment','path')}
-                {include file=$comment_tpl comment=$comment}
-            {/foreach}
-            {/if}
+            
+            <div class="feed-comment-content">
+                {if $feed.comments_count > 0}
+                {$feed_comments=feed_comments($feed)}
+                {foreach $feed_comments as $comment}
+                    {$comment_tpl=get_template('single_feed_comment','path')}
+                    {include file=$comment_tpl comment=$comment}
+                {/foreach}
+                {/if}
+            </div>
             
             <div id="new_comment_placeholder_{$feed.feed_id}"></div>
             
@@ -105,13 +108,10 @@
                 <div class="feed-comment-text">
                     <div class="add-comment-field">
                         <form id="feed-form-{$feed.feed_id}" onsubmit="add_feed_comment('{$feed.feed_id}'); return false;">
-                        <textarea class="comment-field input" 
-                        name ="comment"
-                         id="add-comment-{$feed.feed_id}" data-feed-id="{$feed.feed_id}"></textarea>
-                        
-                        <div class="comment-field-backend" id="comment-backend-{$feed.feed_id}"
-                        onclick="$('#add-comment-{$feed.feed_id}').focus();"></div>
-                        
+                        <textarea class="comment-field mention" 
+                        name ="comment_text"
+                        id="add-comment-{$feed.feed_id}" data-feed-id="{$feed.feed_id}"></textarea>
+ 
                         </form>
                     </div>
                 </div>

@@ -50,6 +50,19 @@ function add_feed_comment(fid)
     form_data += '&mode=add_feed_comment';
     form_data += '&feed_id='+fid;
     
+    var post = $('#feed-form-'+fid+' textarea[name=comment_text]');
+    
+    if(post.hasClass('mention'))
+    {
+        post.mentionsInput('val', function(text) {
+        post_val = text;
+        }); 
+    }else
+        post_val = post.val();
+    
+    form_data += '&comment='+post_val;
+    
+    
     $('#add-comment-'+fid).attr('disabled','disabled');
     
     amplify.request('feeds',form_data,function(data){
@@ -71,7 +84,7 @@ function add_feed_comment(fid)
  * function used to add a feed
  */
 
-function add_new_post(type,type_id,content_type,content_id,post,action)
+function add_new_post(post,type,type_id,content_type,content_id,action)
 {
     amplify.request('feeds',{
         'post'          : post,

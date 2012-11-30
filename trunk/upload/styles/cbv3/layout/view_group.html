@@ -48,9 +48,9 @@
         
         <div id="group-topics">
             {if $topics}
-            {foreach $topics as $topic}
-            {include_template_file file='blocks/groups/group_topic.html' topic=$topic}
-            {/foreach}
+                {foreach $topics as $topic}
+                    {include_template_file file='blocks/groups/group_topic.html' topic=$topic}
+                {/foreach}
             {/if}
         </div>
 

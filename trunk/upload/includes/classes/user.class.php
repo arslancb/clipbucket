@@ -5368,6 +5368,71 @@ class userquery extends CBCategory
         
         return $final_dir;
     }
+    
+    /**
+     * 
+     */
+    function get_content($content,$cond=NULL)
+    {
+        if(is_array($content))
+        {
+            if($content['userid']
+            && $content['username']
+            && $content['email'])
+            {
+                $user = $content;
+            }elseif($content['userid'])
+            {
+                $user = $this->get_user_details($content['userid']);
+            }else
+                return false;
+                
+        }else
+        {
+            $user = $this->get_user_details($content);
+        }
+        
+        if(!$user)
+            return false;
+        
+        //Required fields
+        $content_fields = array(
+            'userid','username','email','first_name','last_name','fullname',
+            'dob','doj','active','ban','avatar','avatar_url','total_videos',
+            'profile_hits','sex','status'
+        );
+        
+        $content_fields = apply_filters($content_fields, 'user_content_fields_unsorted');
+        $user_fields = array();        
+        
+        foreach($content_fields as $u_field)
+            $user_fields[$u_field] = $user[$u_field];
+        
+        
+        $user_fields['link']       = $this->profile_link($user);
+        $user_fields['thumb']      = $this->avatar($user);
+        $user_fields['thumb_small']= $this->avatar($user,"small");
+        //$user_fields['sub_title']  = ($the_content['duration']);
+        
+        return $user_fields;
+        
+    }
+    
+    
+    /**
+     * Getting user feeds..
+     * 
+     * @param INT $uid
+     * @return ARRAY $feeds
+     */
+    function get_feeds($uid)
+    {   
+        global $cbfeeds;
+        
+        $feeds = $cbfeeds->get_feeds(array('type'=>'user','id'=>$uid));
+        
+        return $feeds;
+    }
 
 }
 

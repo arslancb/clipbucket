@@ -5,7 +5,7 @@
     </div>
     <div class="feed-comment-text">
         <a href="{$userquery->profile_link($comment)}" class="feed-comment-author-name">{name($comment)}</a>
-        {$comment.comment}
+        {comment($comment)}
         <div class="feed-comment-likes">
             <!-- @todo finish this -->
             {what_time($comment.date_added,false)}

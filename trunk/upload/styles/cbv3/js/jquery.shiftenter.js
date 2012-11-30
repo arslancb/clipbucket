@@ -37,7 +37,7 @@
                 inactiveClass: 'shiftenterInactive',
                 hint: 'Shift+Enter for line break',
                 metaKey: 'shift',     // Meta key that triggers a line-break, allowed values: 'shift', 'ctrl'
-                pseudoPadding: '-15 10' // Pseudo-padding to work around webkit/firefox4 resize handler being hidden, follows the CSS padding style
+                pseudoPadding: '-28 5' // Pseudo-padding to work around webkit/firefox4 resize handler being hidden, follows the CSS padding style
             },
             get_padding: function(padding) {
                 // Parse padding and return right & bottom padding

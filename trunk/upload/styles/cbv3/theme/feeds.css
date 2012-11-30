@@ -71,7 +71,7 @@
     margin-left: 22px;
 }
 
-.feed .feed-comment{
+.feed .feed-comment {
     font-size: 11px;
     background-color: #f8f8f8; margin-bottom: 1px;
     position: relative;
@@ -85,7 +85,6 @@
 .feed .feed-comment-author img{width: 32px}
 
 .feed .feed-comment .feed-comment-likes{margin-top:5px}
-.feed .feed-comment .comment-field{width:97%; height: 20px}
 
 .feed-like-link{text-decoration: none; cursor: pointer}
 
@@ -95,7 +94,7 @@
                        word-wrap: break-word; word-break: break-all;
                        white-space:pre;
                        cursor:text}
-.comment-field { background-color: transparent;resize: none;}
+.comment-field { background-color: transparent;resize: none; padding: 0px}
 
 
 .new_post_box{
@@ -246,3 +245,38 @@ border-bottom-right-radius: 4px;
 
 .share_feed_target_container{width: 340px; display: inline-block;
 vertical-align: top; margin-left: 10px; height: 28px; overflow: hidden}
+
+.post_message_container .mention{
+    padding:0px;
+}
+.post_message_container .mentions-input-box .mentions{
+    top:0px; left: 0px;
+}
+
+
+.add-comment-field .mentions-input-box .mentions{
+    top:0px; left: 0px;
+    font-size:14px; line-height: 20px
+}
+
+
+.add-comment-field .comment-field, .add-comment-field .comment-field:focus{
+    border: none;
+    padding: 0px;
+    box-shadow: none;
+    margin-bottom: 0px !important;
+    height: 20px
+}
+
+.add-comment-field{
+    padding: 5px;
+    border: 1px solid #acacac;
+    border-radius: 3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius: 3px;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+.add-comment-field form{padding: 0px !important; margin: 0px !important}
+
+.share_feed_modal_form .mentions-input-box .mentions{top:0px; left: 0px}

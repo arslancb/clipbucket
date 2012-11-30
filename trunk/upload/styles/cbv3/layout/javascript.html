@@ -190,18 +190,18 @@
         $('.cb-tooltip').tooltip();
       
       
-      // Center image the vertical and horizontal
-     $('.cbv3-center-image').each( function(index,image){
-         $( image ).load( function(){
-             $(this).css({
-                 'position' : 'relative',
-                 'top' : '50%',
-                 'left' : '50%',
-                 'margin-left' : "-"+( $(this).outerWidth()/2 )+"px",
-                 'margin-top' : "-"+( $(this).outerHeight()/2 )+"px"
-             });
-         });
-     });
+        // Center image the vertical and horizontal
+        $('.cbv3-center-image').each( function(index,image){
+            $( image ).load( function(){
+                $(this).css({
+                    'position' : 'relative',
+                    'top' : '50%',
+                    'left' : '50%',
+                    'margin-left' : "-"+( $(this).outerWidth()/2 )+"px",
+                    'margin-top' : "-"+( $(this).outerHeight()/2 )+"px"
+                });
+            });
+        });
       
         //Adding sortablities
         $('#playlist-manage').sortable({
@@ -294,15 +294,15 @@
         });*/
         
 
-        $('.comment-field,.share_feed_modal_text').autosize().shiftenter();  
+       // $('.comment-field,.share_feed_modal_text').shiftenter();
         
-        $('.comment-field').bind('textchange', function (event, previousText) 
+        /*$('.comment-field').bind('textchange', function (event, previousText) 
         {
             var feedID = $(this).attr('data-feed-id');
             var text = $(this).val();
             //text = nl2br(text);
             $('#comment-backend-'+feedID).html(text);
-        })
+        })*/
         
         
         $('.post_message_container').on('click','.post_message',function(){
@@ -310,7 +310,7 @@
         });
         
         $('.post_message').autosize();  
-        
+        $('.comment-field').autosize().shiftenter();  
         
         $('#post_options').on('click','#add_new_post',function(){
             
@@ -320,7 +320,17 @@
             var content_id = $('#content_id').val();
             var content_type = $('#content_type').val();
             
-            add_new_post(type,type_id,content_type,content_id);
+            var post_message = $('#post_message');
+            var post_val = '';
+            if(post_message.hasClass('mention'))
+            {
+               post_message.mentionsInput('val', function(text) {
+                    post_val = text;
+                }); 
+            }else
+                post_val = post_message.val();
+                
+            add_new_post(post_val,type,type_id,content_type,content_id);
             
         });
         
@@ -357,13 +367,38 @@
             var obj_id      = parent.find('input[name=as_values_feed_suggestion]').val();
             var cont_type   = theForm.children('input[name=content_type]').val();
             var cont_id     = theForm.children('input[name=content_id]').val();
-            var post        = theForm.children('textarea[name=share_message]').val();
+            var post        = theForm.find('textarea[name=share_message]');
+            
+            var post_val = '';
+            
+            if(post.hasClass('mention'))
+            {
+                post.mentionsInput('val', function(text) {
+                            post_val = text;
+                }); 
+            }else
+                post_val = post.val();
+            
             var action      = theForm.children('input[name=action]').val();
-            add_new_post(obj_type,obj_id,cont_type,cont_id,post,action)
+            
+            
+            add_new_post(post_val,obj_type,obj_id,cont_type,cont_id,action)
             
             return false;
         })
-            
+        
+        
+        
+        $('textarea.mention').mentionsInput({
+            onDataRequest:function (mode, query, callback) {
+                $.getJSON(baseurl+'/ajax/items.php?mode=mentions', function(responseData) {
+                    responseData = _.filter(responseData, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+                    callback.call(this, responseData);
+                });
+            },
+            elastic : false
+        });
+      
     });
 
 

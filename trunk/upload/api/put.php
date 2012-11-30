@@ -169,6 +169,7 @@ switch ($mode) {
             }
         }
         break;
+		
 
         case "add_playlist_item": {
 

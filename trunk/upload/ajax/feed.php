@@ -62,6 +62,9 @@ switch ($mode)
             $object_type = mysql_clean(post('object_type'));
             $object_id = mysql_clean(post('object_id'));
             
+            if($object_type=='friend')
+                $object_type = 'user';
+            
             if(strstr($object_id, ','))
             {
                 $objects = explode(',',$object_id);

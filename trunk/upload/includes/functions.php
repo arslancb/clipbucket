@@ -2088,7 +2088,9 @@ function queryString($var = false, $remove = false)
             $queryString = preg_replace("/&?$remove=([\w+\s\b\.?\S]+|)/", "", $queryString);
         else
             foreach ($remove as $rm)
+        {
                 $queryString = preg_replace("/&?$rm=([\w+\s\b\.?\S]+|)/", "", $queryString);
+        }
     }
 
     if ($queryString)
@@ -3798,7 +3800,7 @@ function get_content($type,$objContent,$cond=NULL)
         global ${$obj};
         $theObj = ${$obj};
 
-        if(method_exists($theObj,'get'))
+        if(method_exists($theObj,'get_content'))
         {
             return $theObj->get_content($objContent,$cond);
         }
@@ -3820,6 +3822,44 @@ function cb_error($e)
 }
 
 
+/**
+ * get client ip
+ */
+function client_ip()
+{
+    return $_SERVER['REMOTE_ADDR'];
+}
+
+
+function start_where()
+{
+    global $Cbucket;
+    unset($Cbucket->sql_where);
+    $Cbucket->sql_where = '';
+}
+
+function add_where($query,$cond="AND")
+{
+    global $Cbucket;
+    if($Cbucket->sql_where)
+       $Cbucket->sql_where .= " ".$cond;
+    $Cbucket->sql_where .= " ".$query;
+    
+    return $Cbucket->sql_where;
+}
+
+function get_where()
+{
+    global $Cbucket;
+    return $Cbucket->sql_where;
+}
+
+function end_where()
+{
+    global $Cbucket;
+    unset($Cbucket->sql_where);
+}
+
 //Including videos functions
 include("functions_videos.php");
 //Including Users Functions
@@ -3834,7 +3874,7 @@ include('exif_source.php');
 include("functions_upload.php");
 include("functions_feeds.php");
 
-
+include("functions_comments.php");
 include("functions_filters.php");
 include("functions_actions.php");
 include("functions_widgets.php");

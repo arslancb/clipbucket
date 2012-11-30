@@ -92,6 +92,11 @@ if($udetails)
 	$profileItem = $userquery->getProfileItem($udetails['userid'],true);
 	
 	assign('profile_item',$profileItem);
+        
+        //User feeds
+        $feeds = $userquery->get_feeds($udetails['userid']);
+        assign('feeds',$feeds);
+        
 }else{
 	
 	if($_GET['seo_diret']!='yes')

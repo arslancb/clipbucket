@@ -1,0 +1,79 @@
+{$feed=feed($feed)}
+<div class="view-channel-box">
+    <div class="view-channel-box-content">
+        
+        {$single_feed=get_template('single_feed','path')}
+        {include file=$single_feed feed=$feed}
+        
+        <div class="user-feed-box">
+            <div class="user-feed-header">
+                <div class="user-feed-avatar">
+                    <a href="{$userquery->profile_link($feed.user)}">
+                        <img src="{$userquery->avatar($feed.user,'small')}" />
+                    </a></div>
+                <a href="{$userquery->profile_link($feed.user)}" class="username">{name($feed.user)}</a>
+                <div class="user-feed-time">{what_time($feed.time)}</div>
+            </div>
+
+
+            {$liked='no'}
+            {if $cbfeeds->is_liked($feed.likes)}
+            {$liked='yes'}
+            {/if}
+            <div class="user-feed-cotent">
+                {if $feed.message}
+                <div class="feed-message">
+                    {feed_message($feed)}
+                </div>
+                {/if}
+            </div>
+            <div class="user-feed-action-links">
+                <a onclick="like_feed('{$feed.feed_id}');" 
+                   id="likeable-{$feed.feed_id}" 
+                   class="feed-like-link" 
+                   {if $liked=='yes'}
+                   data-toggle-text="{lang code='Like'}"
+                   data-like="no"
+                   {else}
+                   data-toggle-text="{lang code='Unlike'}"
+                   data-like="yes"
+                   {/if}
+                   >
+                   {if $liked=='yes'}
+                   {lang code='Unlike'}
+                   {else}
+                   {lang code='Like'}
+                   {/if}
+            </a> &#8226;     
+            <a href="javascript:void(0);" onclick="$('#add-comment-{$feed.feed_id}').focus()">Comment</a> &#8226; Share    
+        </div>
+        <div class="user-feed-box-row user-feed-likes" id="like-phrase-{$feed.feed_id}">
+            {get_likes_phrase($feed.likes,$feed.likes_count,$liked)}
+        </div>
+        <div class="user-feed-comments">
+            <div class="user-feed-box-row clearfix">
+                <div class="user-avatar"><img src="{avatar details=$u size='small'}" width="32" height="32" /></div>
+                <div class="user-feed-comment">
+                    <div class="comment"><a href="#"><strong>{name($u)}</strong></a> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
+                    <span class="user-feed-comment-time">March 11, 2012</span>
+                </div>
+            </div>
+            
+            {if $feed.comments_count > 0}
+                {$feed_comments=feed_comments($feed)}
+                {foreach $feed_comments as $comment}
+                    {$comment_tpl=get_template('single_feed_comment','path')}
+                    {include file=$comment_tpl comment=$comment}
+                {/foreach}
+            {/if}
+                
+            <div class="user-feed-box-row clearfix">
+                <div class="user-avatar"><img src="{avatar details=$u size='small'}" width="32" height="32" /></div>
+                <div class="user-feed-comment">
+                    <textarea></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div> <!-- view-channel-box end -->

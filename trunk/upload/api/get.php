@@ -62,9 +62,13 @@ switch ($mode)
 
                     $video['title'] = utf8_encode($video['title']);
                     $video['description'] = utf8_encode($video['description']);
-                    $video['thumbs'] = array('default' => get_thumb($video));
+                    $video['thumbs'] = array('default' => get_thumb($video), 'big' => get_thumb($video, 'big'));
                     $video['videos'] = array('mobile' => get_mob_video(array('video' => $video)));
+                    if(has_hq($video)){
+                        $video['videos']['hq'] = get_hq_video_file($video);
+                    }
                     $video['url'] = $video['video_link'] = $video['videoLink'] = videoLink($video);
+                    $video['avatar'] = $video['user_photo'] = $video['displayPic'] = $userquery->avatar($video);
                     $new_videos[] = $video;
                 }
             }
@@ -160,8 +164,21 @@ switch ($mode)
     case "get_playlists":
     case "getPlaylists":
         {
-            $playlists = $cbvid->action->get_playlists();
+            $uid = mysql_clean($request['userid']);
 
+            $playlists = $cbvid->action->get_playlists($uid);
+
+            if (VERSION < 3)
+            {
+                $new_playlists = array();
+                foreach ($playlists as $playlist)
+                {
+                    $playlist['total_items'] = $cbvid->action->count_playlist_items($playlist['playlist_id']);
+                    $new_playlists[] = $playlist;
+                }
+
+                $playlists = $new_playlists;
+            }
             if ($playlists)
                 echo json_encode($playlists);
             else
@@ -181,9 +198,17 @@ switch ($mode)
 
                 foreach ($items as $video)
                 {
+                    if (!$video['email'])
+                    {
+                        $udetails = $userquery->get_user_details($video['userid']);
+                    }
+
+                    $video = array_merge($video, $udetails);
+
                     $video['thumbs'] = array('default' => get_thumb($video));
                     $video['videos'] = array('mobile' => get_mob_video(array('video' => $video)));
                     $video['url'] = $video['video_link'] = $video['videoLink'] = videoLink($video);
+                    $video['avatar'] = $video['user_photo'] = $video['displayPic'] = $userquery->avatar($video);
                     $new_videos[] = $video;
                 }
                 echo json_encode($new_videos);

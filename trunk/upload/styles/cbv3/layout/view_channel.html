@@ -97,37 +97,14 @@
                     </div>
                 </div>
                 
-                <div class="view-channel-box">
-                    <div class="view-channel-box-content">
-                        <div class="user-feed-box">
-                            <div class="user-feed-header">
-                                <div class="user-feed-avatar"><a href="{$userquery->profile_link($u)}"><img src="{avatar details=$u size='small'}" width="35" height="35" /></a></div>
-                                <a href="{$userquery->profile_link($u)}" class="username">{name($u)}</a>
-                                <div class="user-feed-time">March 12, 2012</div>
-                            </div>
-                            <div class="user-feed-cotent">
-                                Yeh cheez mast lag rahi hai. Something else.
-                            </div>
-                            <div class="user-feed-action-links"><a href="#">Like</a> &#8226; <a href="#">Comment</a> &#8226; <a href="#">Share</a></div>
-                            <div class="user-feed-box-row user-feed-likes">You like this.</div>
-                            <div class="user-feed-comments">
-                                <div class="user-feed-box-row clearfix">
-                                    <div class="user-avatar"><img src="{avatar details=$u size='small'}" width="32" height="32" /></div>
-                                    <div class="user-feed-comment">
-                                        <div class="comment"><a href="#"><strong>{name($u)}</strong></a> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
-                                        <span class="user-feed-comment-time">March 11, 2012</span>
-                                    </div>
-                                </div>
-                                <div class="user-feed-box-row clearfix">
-                                    <div class="user-avatar"><img src="{avatar details=$u size='small'}" width="32" height="32" /></div>
-                                    <div class="user-feed-comment">
-                                        <textarea></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- view-channel-box end -->
+                
+                {if $feeds}
+                {foreach $feeds as $feed}
+                    {include_template_file file='blocks/view_channel/feed.html' feed=$feed}
+                {/foreach}
+                {else}
+                    <div class="alert">{lang code='No feeds were found'}</div>
+                {/if}
             </div>
             
             

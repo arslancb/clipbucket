@@ -597,6 +597,7 @@ class myquery
     function add_comment($comment, $obj_id, $reply_to = NULL, $type = 'v', $obj_owner = NULL, $obj_link = NULL, $force_name_email = false)
     {
         global $userquery, $eh, $db, $Cbucket;
+        
         //Checking maximum comments characters allowed
         if (defined("MAX_COMMENT_CHR"))
         {
@@ -642,15 +643,35 @@ class myquery
 
         if (empty($eh->error_list))
         {
-            $db->insert(tbl("comments"), array
-                ('type,comment,type_id,userid,date_added,parent_id,anonym_name,anonym_email', 'comment_ip', 'type_owner_id'), array
-                ($type, $comment, $obj_id, userid(), NOW(), $reply_to, $name, $email, $_SERVER['REMOTE_ADDR'], $obj_owner));
-
+            
+            $attributes = get_message_attributes($comment);
+            
+            
+            
+            if(is_array($attributes))
+                $attributes = json_encode ($attributes);
+            
+            $fields = array(
+                'type'  => $type,
+                'comment'   => $comment,
+                'comment_attributes' => ($attributes),
+                'type_id'   => $obj_id,
+                'userid'    => userid(),
+                'date_added'    => now(),
+                'parent_id' => $reply_to,
+                'anonym_name'   =>$name,
+                'anonym_email'  => $email,
+                'comment_ip'    => mysql_clean(client_ip()),
+                'type_owner_id' => $obj_owner
+            );
+            
+            $cid = db_insert(tbl('comments'), $fields);
+            
             $db->update(tbl("users"), array("total_comments"), array("|f|total_comments+1"), " userid='" . userid() . "'");
 
             e(lang("grp_comment_msg"), "m");
 
-            $cid = $db->insert_id();
+            //$cid = $db->insert_id();
             $own_details = $userquery->get_user_field_only($obj_owner, 'email');
 
 
@@ -694,7 +715,7 @@ class myquery
                 cbmail(array('to' => $own_details, 'from' => WEBSITE_EMAIL, 'subject' => $subj, 'content' => $msg));
             }
 
-
+            add_users_mentioned($comment,NULL,$cid);
             return $cid;
         }
 
@@ -1002,6 +1023,8 @@ class myquery
             return $db->count(tbl("comments"), "comment_id", " type='$type' $typeid_query $cond");
         }
     }
+    
+    
 
     function get_replies($p_id, $type = 'v')
     {

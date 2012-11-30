@@ -149,9 +149,15 @@ class cbfeeds
         //Setting feed object
         $feed['object'] = apply_filters($feed['object'], 'add_feed_object');
         $feed['object'] = json_encode($feed['object']);
+        
+        //Get User details from message and then add it
+        //To message_attributis.
+        
+        $message = $feed['message'];
+        $message_attributes = get_message_attributes($message);
 
         //Feed message attributes
-        $feed['message_attributes'] = apply_filters($feed['message_attributes'], 'add_feed_message_attributes');
+        $feed['message_attributes'] = apply_filters($message_attributes, 'add_feed_message_attributes');
         $feed['message_attributes'] = json_encode($feed['message_attributes']);
 
         //Feed User
@@ -179,6 +185,9 @@ class cbfeeds
             $feed_id = db_insert(tbl('feeds'), $feed);
             //$feed['feed_id'] = $feed_id;
             //return $feed;
+            
+            add_users_mentioned($message,$feed_id);
+            
             return $feed_id;
         }else
         {
@@ -807,9 +816,11 @@ class cbfeeds
         else {
             //Getting Owner Id
             $owner_id = $feed['userid'];
-            $add_comment = $myquery->add_comment($comment, $obj_id, $reply_to, 'f', $owner_id,NULL, $force_name_email);
+            $add_comment = 
             
-            if($add_comment):
+            $myquery->add_comment($comment, $obj_id, $reply_to, 'f', $owner_id,NULL, $force_name_email);
+            
+            if($add_comment && $use_the_static_commenting):
             /*if ($add_comment) {
                 //Updating Number of comments of video
                 $this->update_comments_count($obj_id);
@@ -839,16 +850,19 @@ class cbfeeds
             
 
             $comments[] = $new_comment;
+            
+            
+            endif;
+            
             $total_comments = $feed['comments_count'] + 1;
             
             db_update(tbl('feeds'),array(
             'comments_count'    => $total_comments,
-            'comments'          => json_encode($comments)
             )," feed_id='$obj_id' ");
             
             return $add_comment;
             
-            endif;
+            
         }
     }
     
@@ -873,6 +887,7 @@ class cbfeeds
     
     /**
      * function to get feeds
+     * 
      */
     function get_feeds($array)
     {
@@ -881,11 +896,29 @@ class cbfeeds
 
         $results = db_select("SELECT * FROM ".tbl('feeds')
         ." WHERE object_type='".$type."' AND object_id='$id' "
-        . " ORDER BY date_added DESC");
+        ." ORDER BY date_added DESC");
         
         
-        return $results;
+        if($results)
+        {
+            $the_feeds = array();
+            foreach($results as $result)
+            {
+                //getting comments for each feed then attach it to them...
+                $result['comments'] = get_comments(array(
+                    'type'  => 'f',
+                    'type_id'    => $result['feed_id']
+                ));
+                $the_feeds[] = $result;
+            }
+            
+            return $the_feeds;
+        }
+        
+        return false;
+        
     }
+    
 }
 
 
