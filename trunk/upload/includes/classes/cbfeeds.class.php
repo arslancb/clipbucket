@@ -907,7 +907,8 @@ class cbfeeds
                 //getting comments for each feed then attach it to them...
                 $result['comments'] = get_comments(array(
                     'type'  => 'f',
-                    'type_id'    => $result['feed_id']
+                    'type_id'    => $result['feed_id'],
+                    'order'      => 'date_added ASC'
                 ));
                 $the_feeds[] = $result;
             }

@@ -102,4 +102,10 @@ function upload_window($option)
     }else
         return false;
 }
+
+
+function get_file_uploader_path()
+{
+	return BASEURL . '/actions/file_uploader.php';
+}
 ?>

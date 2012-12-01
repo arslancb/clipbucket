@@ -221,10 +221,16 @@ switch ($mode)
     case "get_configs":
     case "configs":
         {
+			$upload_path = '';
+			
+			if(function_exists('get_file_uploader_path'))
+				$upload_path = get_file_uploader_path();
+				
             $array = array(
                 'baseurl' => BASEURL,
                 'title' => TITLE,
-                'file_upload_url', BASEURL . '/actions/file_uploader.php'
+                'file_upload_url' => BASEURL . '/actions/file_uploader.php',
+				'session'	=> session_id()
             );
 
             echo json_encode($array);
