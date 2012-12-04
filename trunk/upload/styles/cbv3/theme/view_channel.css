@@ -10,6 +10,10 @@ body.view_channel .view-channel-container header {
     margin-bottom: 25px;
 }
 
+body.view_channel .popover {
+    width: 250px;
+}
+
 body.view_channel .view-channel-container header:before, body.view_channel .view-channel-container header:after {
     content: '';
     position: absolute;
@@ -538,7 +542,7 @@ a.playlist .playlist-items-thumb.playlist-4-items .item-thumb img {
 
 .user-videos .user-video-thumb {
     height: 150px; background: whitesmoke;
-    overflow: hidden;
+    overflow: hidden; position: relative;
 }
 
 .user-videos .user-video-thumb img {
@@ -560,7 +564,7 @@ a.playlist .playlist-items-thumb.playlist-4-items .item-thumb img {
 }
 
 .view-channel-column-left {
-    width: 480px;
+    width: 500px;
     float: left;
 }
 
@@ -581,6 +585,18 @@ a.playlist .playlist-items-thumb.playlist-4-items .item-thumb img {
 .view-channel-box .view-channel-box-header {
     position: relative;
     margin-bottom: 10px;
+}
+
+.view-channel-box .view-channel-box-footer {
+    background: #e1ebf3;
+    border-top: 1px solid #CDE3F6;
+    box-shadow: inset 0px 1px 0px whitesmoke;
+    padding: 10px;
+    border-radius: 0px 0px 2px 2px;
+    -moz-border-radius: 0px 0px 2px 2px;
+    -webkit-border-radius: 0px 0px 2px 2px;
+    -o-border-radius: 0px 0px 2px 2px;
+    margin: 10px -11px -9px;
 }
 
 .view-channel-box .view-channel-box-header .view-channel-box-header-right {
@@ -857,7 +873,7 @@ a.playlist .playlist-items-thumb.playlist-4-items .item-thumb img {
     z-index: 500;
 }
 
-.view-channel-box.user-videos-block .view-channel-box-content {
+.view-channel-box.user-videos-block .view-channel-box-content, .view-channel-box.user-photos-block .view-channel-box-content {
     margin-bottom: -10px;
 }
 
@@ -874,4 +890,29 @@ a.playlist .playlist-items-thumb.playlist-4-items .item-thumb img {
 .user-video-block .user-video-thumb img, .user-photo-block .user-photo-thumb img  {
     max-width: none;
     width: 100%; 
+}
+
+ul.user-contacts {
+    margin: 0px; padding: 0px;
+    list-style: none;
+}
+
+ul.user-contacts li {
+    width: 48%;
+    display: inline-block;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    padding: 12px;
+    font-weight: bold;
+}
+
+ul.user-contacts li:nth-child(odd) {
+    margin-right: 38px;
+}
+
+ul.user-contacts li img {
+    margin-right: 10px;
 }

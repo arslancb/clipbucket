@@ -23,7 +23,7 @@ add_thumb_size('original');
  * Register metas
  */
 $cbvid->register_meta('thumbs');
-
+$cbvid->register_meta('thumbs_options');
 /**
  * Registering Photo Embed codes
  */
@@ -63,7 +63,7 @@ function _edit_collection_link( $photo ) {
  */
 function _view_exif_data_link( $photo ) {
     global $cbphoto;
-    if ( ( $photo['exif_data'] == 'yes' && $photo['view_exif'] == 'yes' ) || ( $photo['userid'] == userid() && $photo['exif_data'] == 'yes' )  ) {
+    if ( ( $photo['has_exif'] == 'yes' && $photo['view_exif'] == 'yes' ) || ( $photo['userid'] == userid() && $photo['has_exif'] == 'yes' )  ) {
         return $cbphoto->photo_links( $photo, 'exif_data' );
     }
     return false;
@@ -123,8 +123,28 @@ function _set_cover_photo_callback() {
     }
 }
 
+/**
+ * Make profile item link for photo
+ */
+function _make_profile_item_link( $photo ) {
+    if ( !userid() ) {
+        return false;
+    }
+    
+    global $userquery;
+
+    if ( !$userquery->isProfileItem($photo['photo_id'],'p') ) {
+        $data = array('title' => lang('Make profile item'), 'link' => '?makeProfileItem='.$photo['photo_id'].'&type=p' );
+    } else {
+        $data = array('title' => lang('Remove profile item'), 'link' => '?removeProfileItem='.$photo['photo_id'].'&type=p' );
+    }
+    
+    return $data;
+}
+
 add_photo_manager_link( lang('Exif data'), '_view_exif_data_link', false, true );
 add_photo_manager_link( lang('Edit collection'), '_edit_collection_link', false, true );
+add_photo_manager_link( lang('Make profile item'), '_make_profile_item_link', false, true );
 add_photo_manager_link( lang('Set as avatar'), '_manager_set_avatar_link', false, true );
 add_photo_manager_link( lang('Make collection cover'), '_set_cover_photo_link', '_set_cover_photo_callback', true );
 

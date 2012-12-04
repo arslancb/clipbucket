@@ -143,6 +143,10 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_meta` (
 ALTER TABLE  `{tbl_prefix}group_members` ADD  `is_admin` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'no' AFTER  `userid` ,
 ADD  `ban` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'no' AFTER  `is_admin`;
 
+
+--11-29-2102 @author: Fawaz Tahir
+ALTER TABLE  `{tbl_prefix}photos` CHANGE  `exif_data`  `has_exif` ENUM(  'yes',  'no' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'no'
+
 --11-28-2012 @author : Arslan
 CREATE TABLE IF NOT EXISTS `tbl_prefix}user_mentions` (
   `mention_id` int(255) NOT NULL AUTO_INCREMENT,

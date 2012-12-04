@@ -31,7 +31,7 @@
             <div class="view-channel-box clearfix">
                 <ul class="view-channel-top-row-items">
                     <li>
-                        <a href="#">
+                        <a href="{link name='user_contacts'}{$u.username}">
                             <div class="view-channel-top-row-item-block image-not-loaded-background six-blocks">
                                 {foreach from=$user_contacts item=contact}
                                 <div class="top-row-content-block"><img src="{avatar uid=$contact.userid size='small'}" /></div>
@@ -41,7 +41,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="{link name='user_videos'}{$u.username}">
                             <div class="view-channel-top-row-item-block image-not-loaded-background one-block">
                                 {if $user_videos}
                                 {$single_video_index=array_rand($user_videos)}
@@ -52,7 +52,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="{link name='user_photos'}{$u.username}">
                             <div class="view-channel-top-row-item-block image-not-loaded-background one-block">
                                 {if $user_photos}
                                 {$single_photo_index=array_rand($user_photos)}
@@ -63,7 +63,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="{link name='user_subscribers'}{$u.username}">
                             <div class="view-channel-top-row-item-block image-not-loaded-background">
                                 <strong class="user-subscribers">{$u.subscribers}</strong>
                             </div>
@@ -74,36 +74,34 @@
             </div>
             
             <div class="view-channel-column-left">
-                <div class="new_post_box">
-                    <div align="left" class="post_btns btn-group"> 
-                        <a class="btn btn-mini active" data-toggle="modal" data-target="#add-topic-modal">
-                            <i class="icon-comment"></i> Post Status</a>
-
-                        <a class="btn btn-mini" data-toggle="modal" data-target="#add-topic-modal">
-                            <i class="icon-list"></i> Post Topic</a>
-                        <a class="btn btn-mini" href="http://localhost/cb-sf/upload/add_group_videos.php?url=one_piece">
-                            <i class="icon-film"></i> Post Video</a>
-                        <a class="btn btn-mini"><i class="icon-picture"></i> Post Photo</a>
-                    </div>
-
-                    <div class="new_post_container padding_box" id="new_post_container">
-                        <div class="post_message_container">
-                            <textarea class="post_message" placeholder="Post something..." rows="1" style="overflow: hidden; word-wrap: break-word; resize: none; height: 20px;"></textarea>
-                        </div>
-                        <div id="post_content"></div>
-                        <div class="post_options display-none" align="right" id="post_options" style="display: block;">
-                            <button class="btn btn-primary btn-mini" data-type-id="5" data-type="g" id="add_new_post" data-loading-text="Loading...">Post</button>
+                <div class="view-channel-box">
+                    <div class="new_post_box">
+                        <ul class="post_btns clearfix">
+                            <li class="active"><a href="#"><i class="icon-comment"></i> Status</a></li>
+                            <li><a href="#"><i class="icon-film"></i> Video</a></li>
+                            <li><a href="#"><i class="icon-picture"></i> Photo</a></li>
+                        </ul>
+                        
+                        <div class="new_post_container padding_box" id="new_post_container">
+                            <div class="post_message_container">
+                                <textarea class="post_message" id="post_message" placeholder="Post ..." rows="1" style="overflow: hidden; word-wrap: break-word; resize: none; height: 20px;"></textarea>
+                            </div>
+                            <div id="post_content"></div>
+                            <div class="post_options">
+                                <button class="btn btn-primary btn-mini" data-type-id="{$u.userid}" data-type="u" id="add_new_post" data-loading-text="Loading...">Post</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
+                </div>       
                 
                 {if $feeds}
                 {foreach $feeds as $feed}
                     {include_template_file file='blocks/view_channel/feed.html' feed=$feed}
                 {/foreach}
                 {else}
-                    <div class="alert">{lang code='No feeds were found'}</div>
+                <div class="view-channel-box">
+                    <p class="text-center margin0 text-error">{lang code='No feeds were found'}</p>
+                </div>
                 {/if}
             </div>
             
@@ -113,7 +111,7 @@
                     <div class="view-channel-box-header">
                         <h4>Videos <small>({$u.total_videos|number_format})</small></h4>
                         <div class="view-channel-box-header-right">
-                            <a href="#">See All</a>
+                            <a href="{link name='user_videos'}{$u.username}">See All</a>
                         </div>
                     </div>
                     <div class="view-channel-box-content clearfix">
@@ -124,11 +122,11 @@
                         {/if}
                     </div>
                 </div>
-                <div class="view-channel-box">
+                <div class="view-channel-box user-photos-block">
                     <div class="view-channel-box-header">
                         <h4>Photos <small>({$u.total_photos|number_format})</small></h4>
                         <div class="view-channel-box-header-right">
-                            <a href="#">See All</a>
+                            <a href="{link name='user_photos'}{$u.username}">See All</a>
                         </div>
                     </div>
                     <div class="view-channel-box-content clearfix">

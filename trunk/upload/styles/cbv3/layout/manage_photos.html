@@ -55,8 +55,8 @@
                             <tr>
                                 <td class="text-center"><input type="checkbox" class="check-item" name="check_photo[]" value="{$photo.photo_id}" /></td>
                                 <td>
-                                    <div class="object-manager-thumb">
-                                        <img src="{get_photo details=$photo size='m'}" />
+                                    <div class="object-manager-thumb image-not-loaded-background">
+                                        <img src="{get_photo details=$photo size='m'}" class="cbv3-center-image" />
                                     </div>
                                     <div class="object-manager-content">
                                         <a href="edit_photo.php?photo={$photo.photo_id}" class="object-manager-title">{$photo.photo_title}</a>
@@ -237,7 +237,7 @@
                                         {display_manager_links($avatar)}
                                         <li class="divider"></li>
                                         <li><a href="#" onclick="cb_confirm('Delete Photo', 'Are you sure you want to delete this photo ? This action will delete photo permanently.', function(){
-                                                window.location = '?mode={$mode}&delete_photo={$photo.photo_id}';
+                                                window.location = '?mode={$mode}&delete_photo={$avatar.photo_id}';
                                             });">Delete</a></li>
                                     </ul>
                                 </li>

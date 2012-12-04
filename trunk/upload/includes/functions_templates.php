@@ -1356,4 +1356,23 @@ function display_manager_orders( $type = 'video', $display = 'unselected' ) {
     
     return false;
 }
+
+function return_object_order( $type = null ) {
+    if ( is_null( $type) ) {
+        return false;
+    }
+    
+    $orders = object_manager_orders($type);
+    if ( $orders ) {
+        $current_order = $_GET['omo'] ? mysql_clean( $_GET['omo'] ) : (int)0;
+        if ( !$orders[$current_order] ) {
+            $current_order = 0;
+        }
+        
+        if ( $orders[ $current_order]['order'] ) {
+            return $orders[ $current_order]['order'];
+        }
+    }
+    return false;
+}
 ?>

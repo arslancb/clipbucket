@@ -69,7 +69,7 @@ if ( mysql_clean($_GET['mode']) == 'make_avatar' ) {
                 /* update cover photo of collection */
                 $cbcollection->set_cover_photo( $photo['photo_id'], $photo['collection_id'] );
                 // redirect back to photo
-                redirect_to( $cbphoto->photo_links( $photo, 'view_photo' ) );
+                redirect_to( $userquery->profile_link( $photo['userid'] ) );
 		} else if( isset( $_POST['set_avatar']) ) {
                 /* Run make avatar code */
                 make_new_avatar();

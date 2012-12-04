@@ -129,7 +129,8 @@ function cbv3_photo_tagger_options( $options ) {
     $options['labelWrapper'] = 'photo-tags';
     $options['buttonWrapper'] = 'photo-tagger-button';
     $options['addIcon'] = false;
-
+    $options['autoComplete'] = true;
+    
     return $options;
 }
 

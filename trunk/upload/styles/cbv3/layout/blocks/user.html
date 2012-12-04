@@ -5,3 +5,7 @@
         <li><a href="{$userquery->profile_link($user)}"><img src="{avatar uid=$user.userid size='small'}" width="25" class="marginR5" /> {$user.username}</a></li>
     {/if}
 {/if}
+
+{if $display_method == 'user_contacts'}
+<li><a href="{$userquery->profile_link($user)}"><img src="{avatar details=$user}" width="60" height="60" /></a> <a href="{$userquery->profile_link($user)}">{name($user)}</a></li>
+{/if}

@@ -1,0 +1,42 @@
+{lang code='channel' assign='object_type'}
+{include file="$style_dir/global_header.html"}
+<body class="relative view_channel">
+{display_user_custom_background( $u )}
+    <div class="container view-channel-container">
+        {include_template_file file="header.html" }
+        <div id="global-container" class="relative clearfix">
+            {include file="$style_dir/message.html"}
+            <div class="view-channel-box user-info-box clearfix">
+                <a href="{$userquery->profile_link($u)}"><img src="{avatar size='small' details=$u}" width="30" height="30" /> {name($u)}</a>
+            </div>
+            <div class="view-channel-box clearfix">
+                Here links to other pages will be displayed, for example subscriptions and subscribers
+            </div>
+            <div class="view-channel-box clearfix">
+                {if $mode == '' || $mode == 'contacts'}
+                <div class="view-channel-box-header"><h4>{lang code="%s's Contacts"|sprintf:$u.username}</h4></div>
+                <div class="view-channel-box-content clearfix">
+
+                </div>
+                {else}
+                <div class="view-channel-box-header"><h4>{$heading}</h4></div>
+                <div class="view-channel-box-content clearfix">
+                    {if $userSubs}
+                    <ul class="user-contacts">
+                        {foreach $userSubs as $sub}
+                            {include_template_file file='blocks/user.html' user=$sub display_method='user_contacts'}
+                        {/foreach}
+                    </ul>
+                    {else}
+                    <p class="alert alert-large">{$no_subs_found}</p>
+                    {/if}
+                </div>
+                {/if}
+                <div class="view-channel-box-footer">
+                    this is footer
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

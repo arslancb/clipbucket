@@ -220,7 +220,7 @@ function insert_exif_data( $photo ) {
 				$insert_id = $db->insert( tbl('photosmeta'), array('photo_id','meta_name','meta_value'), array($ph['photo_id'],'exif_data',"|no_mc|$jexif") );
 				if ( $insert_id ) {
 					/* update photo has_exif to yes, so we know that this photo has exif data */
-					$db->update( tbl($cbphoto->p_tbl), array('exif_data'), array('yes'), " photo_id = '".$ph['photo_id']."' " );
+					$db->update( tbl($cbphoto->p_tbl), array('has_exif'), array('yes'), " photo_id = '".$ph['photo_id']."' " );
 					
 					return $insert_id;
 				}
@@ -491,7 +491,7 @@ function cbphoto_pm_action_link_filter( $links ) {
     
 	global $photo, $cbphoto;
 	
-	if ( ( $photo['exif_data'] == 'yes' && $photo['view_exif'] == 'yes' ) || ( $photo['userid'] == userid() && $photo['exif_data'] == 'yes' ) ) {
+	if ( ( $photo['has_exif'] == 'yes' && $photo['view_exif'] == 'yes' ) || ( $photo['userid'] == userid() && $photo['has_exif'] == 'yes' ) ) {
 		$links[] = add_photo_action_link( lang('EXIF Data'), $cbphoto->photo_links( $photo, 'exif_data' ), 'camera' );	
 	}
 	  
@@ -820,10 +820,17 @@ function join_collection_table() {
     global $cbcollection, $cbphoto;
     $c = tbl ($cbcollection->section_tbl ) ; $p = tbl('photos');
     $join = ' LEFT JOIN '.( $c ).' ON '.( $p.'.collection_id' ). ' = '.( $c.'.collection_id' );
-    $alias = ", $p.userid as userid, $p.views as views, $p.allow_comments as allow_comments, $p.allow_rating as allow_rating, $p.total_comments as total_comments, $p.date_added as date_added, $p.rating as rating, $p.rated_by as rated_by, $p.voters as voters, $p.featured as featured, $p.broadcast as broadcast, $p.active as active";
-    $alias .= ", $c.collection_name as collection_name, $c.userid as cuserid, $c.views as cviews, $c.allow_comments as callow_comments, $c.allow_rating as callow_rating, $c.total_comments as ctotal_comments, $c.date_added as cdate_added, $c.rating as crating, $c.rated_by as crated_by, $c.voters as cvoters, $c.featured as cfeatured, $c.broadcast as cbroadcast, $c.active as cactive, $c.cover_photo";
-    
+    //$alias = ", $p.userid as userid, $p.views as views, $p.allow_comments as allow_comments, $p.allow_rating as allow_rating, $p.total_comments as total_comments, $p.date_added as date_added, $p.rating as rating, $p.rated_by as rated_by, $p.voters as voters, $p.featured as featured, $p.broadcast as broadcast, $p.active as active";
+    //$alias .= ", $c.collection_name as collection_name, $c.userid as cuserid, $c.views as cviews, $c.allow_comments as callow_comments, $c.allow_rating as callow_rating, $c.total_comments as ctotal_comments, $c.date_added as cdate_added, $c.rating as crating, $c.rated_by as crated_by, $c.voters as cvoters, $c.featured as cfeatured, $c.broadcast as cbroadcast, $c.active as cactive, $c.cover_photo";
+    $alias = ", $c.collection_name, $c.cover_photo, $c.category";
     return array( $join, $alias );
+}
+
+/**
+ * This function creates LEFT for meta data
+ */
+function join_meta_details() {
+    
 }
 
 /**
@@ -1084,14 +1091,24 @@ function display_manager_links( $photo, $front_end = false ) {
                 $url = $url['link'] ? $url['link'] : $link['link'];
             }
             
-            if ( $_SERVER['QUERY_STRING'] && strpos( $url, '.php') === false ) {
+            if ( $_SERVER['QUERY_STRING'] && strpos( $url, '.php') === false && strpos($url,'?') !== false ) {
                 // QUERY_STRING exists and $url does not have .php
                 // append QUERY_STRING before $url
                 $url = ltrim( $url, '?' ); // removing the ? from start of string
                 parse_str( $url, $variables ); // changing $url query string to array
+                parse_str( $_SERVER['QUERY_STRING'], $server_variables );
                 if ( $variables ) {
                   $query_string_variables = array_keys( $variables ); // extracting only names of variables
-                  $query_string = queryString( null, $query_string_variables );
+                  $server_string_variables = array_keys( $server_variables );
+
+                  if ( $query_string_variables ) {
+                    $query_string_variables = ( array_merge( $query_string_variables, $server_string_variables ) );
+                    $query_string_variables = array_unique( $query_string_variables );
+                    $query_string_variables = array_diff( $query_string_variables, array('omo') );
+                    //pr( $query_string_variables, true );
+                    $query_string = queryString( null, $query_string_variables );
+                  }
+                  //echo $query_string."<br/>";
                   $url = $query_string.$url;
                 }
             }

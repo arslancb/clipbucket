@@ -14,7 +14,7 @@ require 'includes/config.inc.php';
 $userquery->logincheck();
 $udetails = $userquery->get_user_details(userid());
 assign('user',$udetails);
-$order = tbl("collection_items").".date_added DESC";
+//$order = tbl("collection_items").".date_added DESC";
 
 $mode = $_GET['mode'];
 $cid = mysql_clean($_GET['cid']);
@@ -23,7 +23,7 @@ assign("mode",$mode);
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,COLLPP);
 
-$orders = get_collection_manager_orders();
+$order = return_object_order('collection');
 
 switch($mode)
 {
@@ -46,15 +46,6 @@ switch($mode)
           $eh->flush();
           e("selected_collects_del","m");
         }
-
-        $order_id = $_GET['omo'] ? mysql_clean($_GET['omo']) : (int)0;
-
-        if ( !$orders[$order_id] ) {
-           $order = tbl('collections.date_added desc');
-        } else {
-           $order = $orders[$order_id]['order'];
-        }
-
 
         $collectArray = array('user'=>userid(),"limit"=>$get_limit, 'order' => $order );
         if(get('query') != '')
@@ -127,14 +118,7 @@ switch($mode)
 		$collection = $cbcollection->get_collection($cid);
             $type = clean($_GET['type']);
             $type = confirm_collection_type( $type );
-            $orders = get_photo_manager_orders();
-            $order_id = $_GET['omo'] ? mysql_clean($_GET['omo']) : (int)0;
-
-            if ( !$orders[$order_id] ) {
-               $order = tbl('photos.date_added desc');
-            } else {
-               $order = $orders[$order_id]['order'];
-            }
+            $order = return_object_order('photo');
             
             photo_manager_link_callbacks();
             

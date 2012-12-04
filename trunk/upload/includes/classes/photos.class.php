@@ -2189,7 +2189,7 @@ class CBPhotos {
 				
 				case 'exif_data': case 'exif': {
 					if ( SEO == 'yes' ) {
-						$link = BASEURL.'/exif/'.$details['photo_key'];	
+						$link = BASEURL.'/exif.php?id='.$details['photo_key'];
 					} else {
 						$link = BASEURL.'/exif.php?id='.$details['photo_key'];
 					}

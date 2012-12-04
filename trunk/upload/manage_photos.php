@@ -21,15 +21,13 @@ $mode = $_GET['mode'];
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,MAINPLIST);
 
-
 assign('queryString',queryString(NULL,array('type',
 					'makeProfileItem',
 					'removeProfileItem',
 					'delete_photo')));
 
 photo_manager_link_callbacks();
-
-$orders = object_manager_orders('photo');
+$order = return_object_order('photo');
 
 switch($mode)
 {
@@ -67,13 +65,6 @@ switch($mode)
 		{
 			$userquery->removeProfileItem();
 		}
-            $po = $_GET['omo'] ? mysql_clean($_GET['omo']) : (int)0;
-                      
-           if ( !$orders[$po] ) {
-               $order = tbl('photos.date_added desc');
-           } else {
-               $order = $orders[$po]['order'];
-           }
            
 		$photo_arr = array("user"=>userid(),"limit"=>$get_limit, 'order'=> $order );
 		

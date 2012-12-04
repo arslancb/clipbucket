@@ -2080,16 +2080,16 @@ function queryString($var = false, $remove = false)
     $queryString = $_SERVER['QUERY_STRING'];
 
     if ($var)
-        $queryString = preg_replace("/&?$var=([\w+\s\b\.?\S]+|)/", "", $queryString);
+        $queryString = preg_replace("/&?($var)=([\w+\s\b\.?\S])[^&]*/", "", $queryString);
 
     if ($remove)
     {
         if (!is_array($remove))
-            $queryString = preg_replace("/&?$remove=([\w+\s\b\.?\S]+|)/", "", $queryString);
+            $queryString = preg_replace("/&?($remove)=([\w+\s\b\.?\S])[^&]*/", "", $queryString);
         else
             foreach ($remove as $rm)
         {
-                $queryString = preg_replace("/&?$rm=([\w+\s\b\.?\S]+|)/", "", $queryString);
+                $queryString = preg_replace("/&?($rm)=([\w+\s\b\.?\S])[^&]*/", "", $queryString);
         }
     }
 

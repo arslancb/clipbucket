@@ -86,7 +86,7 @@ if ( $cbcollection->is_viewable( $cid ) ) {
                                 $photo = array_merge( $photo, $info[0] );
 								if ( is_photo_viewable( $photo ) ) {
 									increment_views( $photo['photo_id'], 'photo' );
-	
+
 									assign( 'object', $photo );
 									assign( 'user', $userquery->get_user_details( $photo['userid'] ) );
 									assign( 'c', $collect );
@@ -94,7 +94,11 @@ if ( $cbcollection->is_viewable( $cid ) ) {
 									subtitle( $photo['photo_title'] . ' &laquo; ' . $collect['collection_name'] );
 																  
 									register_photo_private_message_field( $photo );	
-									
+									$_next = $cbphoto->collection->get_next_prev_item( $photo['ci_id'], $photo['collection_id'], 'next' );
+                                                assign( 'next', $_next[0] );
+                                                
+                                                $_prev = $cbphoto->collection->get_next_prev_item( $photo['ci_id'], $photo['collection_id'], 'prev' );
+                                                assign( 'prev', $_prev[0] );
 								} else {
 									cb_show_page( false );	
 								}

@@ -176,11 +176,40 @@ How this should work
                 });
                 
                 // Bind click event on save button to update photo
-                form_template.find('.save, .save-video').on( 'click', function(){
+                form_template.find('.save, .save-video').on( 'click', function() {
+                    var save_button = $('.save, .save-video');
+                    if ( save_button.hasClass('disabled') || save_button.attr('disabled') == 'disabled' ) {
+                        return;
+                    }
+                    
                     var formdata = form_template.find('form').serialize();
                           formdata += '&updatePhoto=true';
-                          
-                    alert( formdata );
+                    var update_response = form_template.find('.update-response');
+                    
+                    if ( update_response.css('display') == 'block' ) {
+                        update_response.hide();
+                    }
+                    
+                    $(this).addClass('disabled').attr('disabled','disabled');
+                    
+                    // Disabling form fields
+                    disable_form_inputs( 'form-'+file.id );
+                    
+                    amplify.request('photo_upload', formdata, function ( data ){
+                        
+                        save_button.removeClass('disabled').removeAttr('disabled');
+                        
+                        // Enabling form fields
+                        enable_form_inputs( 'form-'+file.id );
+                        
+                        if ( data.error ) {
+                            update_response.html('<div class="alert alert-error">'+data.error+'</div>');
+                        } else if ( data.success ) {
+                            update_response.html('<div class="alert alert-success">'+data.success+'</div>');
+                        }
+                        
+                        update_response.show();
+                    });
                 });
                 
             });

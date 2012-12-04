@@ -3,7 +3,7 @@
         <a href="{$cbphoto->photo_links($photo,'view_photo')}" class="cbv3-index-photo">
             <div class="index-photo">
                 <span>
-                    {get_photo details=$photo size='t' output='html' style='max-width:none' height='140'}
+                    {get_photo details=$photo size='m' output='html' style='max-width:none' height='140'}
                 </span>
             </div>
             <div class="index-photo large display-none">
@@ -62,16 +62,13 @@
 {/if}
 
 {if $display_method == 'view_channel'}
-<div class="user-photo-block">
+<div class="user-photo-block popover-class" rel="popover" data-title="{$photo.collection_name}" data-content="{$photo.photo_description|truncate:100} <div class='popover-footer'> {name($photo)} <div class='pull-right'>{$photo.views|number_format} {lang code='views'}</div> </div>" data-placement="left" data-trigger="hover" data-delay="500">
+    <a href="{view_photo_link($photo)}">
     <div class="user-photo-thumb">
-        {get_photo details=$photo class='cbv3-center-image' output='html' size='m'}
+        {$pd=json_decode($photo.photo_details,true)}
+        {$psize='m'}
+        <img src="{get_photo details=$photo size=$psize}" width="{$pd.$psize.width}" height="{$pd.$psize.height}" alt="{$photo.photo_title}" />
     </div>
-    <div class="user-photo-details">
-        <h5 class="title"><a href="{collection_links($photo,'vc')}">{$photo.collection_name}</a></h5>
-        <div class="info">
-            <a href="{$userquery->profile_link($photo)}">{name($video)}</a>
-            <div class="pull-right">{$video.views|number_format} {lang code='views'}</div>
-        </div>
-    </div>
+    </a>
 </div>
 {/if}
