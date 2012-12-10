@@ -133,6 +133,7 @@ if ($details)
         ));*/
     }
     subtitle($details['group_name']);
+
 }
 else
 {

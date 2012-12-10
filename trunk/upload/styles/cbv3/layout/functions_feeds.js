@@ -158,4 +158,52 @@ function genFeedSuggestObj(feedSuggestionMode)
         }
     });
 }
+     
+     
+/**
+ * Gets new information..
+ */
+function cb_khabri()
+{
+     
+    amplify.request('feeds',
+    {
+        mode : 'get_updates' 
+    },function(data)
+    {
+        if(data.notifications)
+        {
+            $('#new_notifications_label')
+            .html(data.notifications.total_new);
+            
+            display_notifications(data.notifications);
+        }
+    })
+}
+
+function display_notifications(notifications)
+{
+    //First lets remove existing elements
+    var ids = notifications.ids;
+    
+    $.each(ids,function(index,value){
+        $('#notification-block-'+value).remove();
+    })
+    
+    $('#notifications-container').prepend(notifications.template);
+}
+
+function read_notifications()
+{
+    $('#new_notifications_label')
+    .html('0');
+    
+
+    amplify.request('feeds',
+    {
+        mode : 'read_notification' 
+    },function(data)
+    {
         
+    })
+}

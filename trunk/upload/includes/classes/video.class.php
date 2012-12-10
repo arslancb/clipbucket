@@ -394,7 +394,8 @@ class CBvideo extends CBCategory {
      */
     function delete_video($vid) {
         global $db;
-
+        $vid = mysql_clean($vid);
+        
         if ($this->video_exists($vid)) {
 
             $vdetails = $this->get_video($vid);
@@ -2380,6 +2381,19 @@ class CBvideo extends CBCategory {
         $video_fields['sub_title'] = setTime($the_content['duration']);
         
         return $video_fields;
+    }
+    
+    
+    /**
+     * Get video link
+     * @param type $data
+     * @param type $cond
+     * @return type
+     */
+    
+    function get_link($data,$cond=NULL)
+    {
+        return VideoLink($data);
     }
 
 }

@@ -165,3 +165,27 @@ RSET=latin1;
 ALTER TABLE  `{tbl_prefix}comments` ADD  `comment_attributes` TEXT NOT NULL AFTER  `comment`;
 ALTER TABLE  `{tbl_prefix}comments` ADD  `has_children` INT( 50 ) NOT NULL AFTER  `parent_id`;
 ALTER TABLE  `{tbl_prefix}comments` ADD  `thread_id` INT( 100 ) NOT NULL AFTER  `parent_id`;
+
+
+--12-7-2012 @author : Arslan
+
+ALTER TABLE  `{tbl_prefix}subscriptions` ADD  `type` VARCHAR( 10 ) NOT NULL DEFAULT  'user' AFTER  `subscribed_to` ,
+ADD  `time` INT( 11 ) NOT NULL AFTER  `type`;
+
+
+--12-10-2012 @author : Arslan
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}notifications` (
+  `notification_id` int(11) NOT NULL AUTO_INCREMENT,
+  `feed_id` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `action` varchar(20) NOT NULL DEFAULT 'users',
+  `actor` mediumtext NOT NULL,
+  `actor_id` int(200) NOT NULL,
+  `is_read` enum('yes','no') NOT NULL DEFAULT 'no',
+  `time` bigint(11) NOT NULL,
+  `elements` text NOT NULL,
+  `date_added` datetime NOT NULL,
+  `email_sent` enum('yes','no') NOT NULL DEFAULT 'no',
+  `send_email` enum('yes','no') NOT NULL DEFAULT 'yes',
+  PRIMARY KEY (`notification_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

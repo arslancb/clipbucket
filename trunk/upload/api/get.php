@@ -13,8 +13,8 @@ $mode = $request['mode'];
 
 $page = mysql_clean($request['page']);
 
-$max_video_limit = 20;
-$videos_limit = 20;
+$max_video_limit    = 20;
+$videos_limit       = 20;
 
 
 $api_keys = $Cbucket->api_keys;
@@ -63,9 +63,14 @@ switch ($mode)
                     $video['title'] = utf8_encode($video['title']);
                     $video['description'] = utf8_encode($video['description']);
                     $video['thumbs'] = array('default' => get_thumb($video), 'big' => get_thumb($video, 'big'));
-                    $video['videos'] = array('mobile' => get_mob_video(array('video' => $video)));
-                    if(has_hq($video)){
-                        $video['videos']['hq'] = get_hq_video_file($video);
+
+                    if (function_exists('get_mob_video'))
+                    {
+                        $video['videos'] = array('mobile' => get_mob_video(array('video' => $video)));
+                        if (has_hq($video))
+                        {
+                            $video['videos']['hq'] = get_hq_video_file($video);
+                        }
                     }
                     $video['url'] = $video['video_link'] = $video['videoLink'] = videoLink($video);
                     $video['avatar'] = $video['user_photo'] = $video['displayPic'] = $userquery->avatar($video);
@@ -221,16 +226,16 @@ switch ($mode)
     case "get_configs":
     case "configs":
         {
-			$upload_path = '';
-			
-			if(function_exists('get_file_uploader_path'))
-				$upload_path = get_file_uploader_path();
-				
+            $upload_path = '';
+
+            if (function_exists('get_file_uploader_path'))
+                $upload_path = get_file_uploader_path();
+
             $array = array(
                 'baseurl' => BASEURL,
                 'title' => TITLE,
                 'file_upload_url' => BASEURL . '/actions/file_uploader.php',
-				'session'	=> session_id()
+                'session' => session_id()
             );
 
             echo json_encode($array);
@@ -247,6 +252,100 @@ switch ($mode)
             $flags = get_flag_options($type);
 
             echo json_encode($flags);
+        }
+
+
+        break;
+    case "getSubscribers":
+        {
+            $uid = $request['userid'];
+            if (!$uid)
+                $uid = userid();
+
+            if (!$uid)
+                exit(json_encode(array('err' => lang('Please login'))));
+
+            $subscribers = $userquery->get_user_subscribers_detail($uid);
+
+            if ($subscribers)
+                echo json_encode($subscribers);
+            else
+                echo json_encode(array('err' => lang('no subscribers')));
+
+            exit();
+        }
+        break;
+
+    case "getSubscriptions":
+        {
+            $uid = $request['userid'];
+            if (!$uid)
+                $uid = userid();
+
+            if (!$uid)
+                exit(json_encode(array('err' => lang('Please login'))));
+
+            $subscribers = $userquery->get_user_subscriptions($uid);
+
+            if ($subscribers)
+                echo json_encode($subscribers);
+            else
+                echo json_encode(array('err' => lang('no subscriptions')));
+
+            exit();
+        }
+        break;
+
+
+    case "get_favorite_videos":
+    case "getFavoriteVideos":
+        {
+            $limit = 20;
+
+            $get_limit = create_query_limit($page, $limit);
+            $uid = $request['userid'];
+            if (!$uid)
+                $uid = userid();
+
+            $params = array('userid' => $uid, 'limit' => $get_limit);
+            $videos = $cbvid->action->get_favorites($params);
+            $params['count_only'] = "yes";
+            $total_rows = $cbvid->action->get_favorites($params);
+            $total_pages = count_pages($total_rows, $get_limit);
+
+            if ($total_rows > 0)
+            {
+                echo json_encode($videos);
+            }
+            else
+            {
+                echo json_encode(array('err' => lang('No favorite videos were found')));
+            }
+        }
+        break;
+
+    case "get_users":
+    case "get_channels":
+    case "getChannels":
+    case "getUsers":
+        {
+            $get_limit = create_query_limit($page, $videos_limit);
+
+            $request['limit'] = $get_limit;
+
+            $users = get_users($request);
+
+            $new_users = array();
+            if ($users)
+            {
+                foreach ($users as $user)
+                {
+                    $user['avatar'] = $user['user_photo'] = $userquery->avatar($user);
+                    $new_users[] = $user;
+                }
+            }
+            //echo $db->db_query;
+            echo json_encode($new_users);
         }
 }
 ?>

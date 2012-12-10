@@ -61,98 +61,162 @@ switch ($mode)
         {
             $object_type = mysql_clean(post('object_type'));
             $object_id = mysql_clean(post('object_id'));
-            
-            if($object_type=='friend')
+
+            if ($object_type == 'friend')
                 $object_type = 'user';
-            
-            if(strstr($object_id, ','))
+
+            if (strstr($object_id, ','))
             {
-                $objects = explode(',',$object_id);
-                foreach($objects as $obj)
+                $objects = explode(',', $object_id);
+                foreach ($objects as $obj)
                 {
-                    if($obj)
+                    if ($obj)
                     {
                         $object_id = $obj;
                         break;
                     }
                 }
             }
-            
-            
-            try{
-                
-                if(!userid())
+
+
+            try
+            {
+
+                if (!userid())
                     cb_error(lang('You are not logged in'));
-                
-                $object = get_object($object_type,$object_id);
-                
-                if(!$object)
+
+                $object = get_object($object_type, $object_id);
+
+                if (!$object)
                     cb_error(lang('Invalid object request'));
-                
-                
+
+
                 $content_type = mysql_clean(post('content_type'));
                 $content_id = mysql_clean(post('content_id'));
                 //$content = post('content');
-                
-                if($content_id)
+
+                if ($content_id)
                 {
-                    $content = get_object($content_type,$content_id);
-                    if(!$content)
-                    cb_error(lang('Invalid content request'));
+                    $content = get_object($content_type, $content_id);
+                    if (!$content)
+                        cb_error(lang('Invalid content request'));
                 }
-                
+
                 $post = mysql_clean(post('post'));
-                
-                if(!$content && !$post)
+
+                if (!$content && !$post)
                     cb_error(lang('Please enter something for message'));
-                
-                
+
+
                 $action = mysql_clean(post('action'));
-                if(!$action)
-                    $action = 'post_message';
-                
+                if (!$action)
+                    $action = 'added_status';
+
                 //Lets add the feed....
                 $feed_array = array(
-                    'userid'        => userid(),
-                    'user'          => $userquery->udetails,
-                    'content_id'    => $content_id,
-                    'content'       => $cbfeeds->get_content($content_type,$content_id,$content),
-                    'content_type'  => $content_type,
-                    'object_id'     => $object_id,
-                    'object'        => $object,
-                    'object_type'   => $object_type,
-                    'action'        => $action,
-                    'message'       => $post
+                    'userid' => userid(),
+                    'user' => $userquery->udetails,
+                    'content_id' => $content_id,
+                    'content' => $cbfeeds->get_content($content_type, $content_id, $content),
+                    'content_type' => $content_type,
+                    'object_id' => $object_id,
+                    'object' => $object,
+                    'object_type' => $object_type,
+                    'action' => $action,
+                    'message' => $post
                 );
-                
+
                 $fid = $cbfeeds->add_feed($feed_array);
-                
-                if(error())
+
+                if (error())
                 {
                     $error = error('single');
                     cb_error($error);
                 }
-                
+
                 //return feed result.
                 $feed = $cbfeeds->get_feed($fid);
-                assign('feed',$feed);
-                
+                assign('feed', $feed);
+
                 $template = get_template('single_feed');
                 $array = array(
-                    'success'   => 'ok',
-                    'template'  =>$template,
-                    'fid'       => $fid
+                    'success' => 'ok',
+                    'template' => $template,
+                    'fid' => $fid
                 );
-                
+
                 echo json_encode($array);
-           
-            }catch(Exception $e) {
-                
-                exit(json_encode(array('err'=>array($e->getMessage()))));
             }
-            
+            catch (Exception $e)
+            {
+
+                exit(json_encode(array('err' => array($e->getMessage()))));
+            }
         }
 
+        break;
+
+
+    case "read_notification":
+        {
+            //mark notifications read..
+            $nid = mysql_clean($_POST['nid']);
+            $uid = userid();
+            if ($nid)
+            {
+                $cbfeeds->read_notification($uid, $nid);
+            }
+            else
+            {
+                $cbfeeds->read_notifications($uid);
+            }
+        }
+
+        break;
+
+    case "get_notifications":
+        {
+            $uid = mysql_clean(post('userid'));
+            if (!$uid)
+                $uid = userid();
+
+            $cbfeeds->get_notifications('unread');
+        }
+        break;
+
+    case "get_updates":
+        {
+            $uid = mysql_clean(post('userid'));
+            if (!$uid)
+                $uid = userid();
+
+            $notifications = $cbfeeds->get_notifications('unread');
+            
+            $updates = array();
+            if($notifications)
+            {
+                $total_new = 0;
+                $the_notifications = array();
+                $notification_template = '';
+                foreach($notifications as $notification)
+                {
+                    $the_notifications['ids'][] = $notification['notification_id'];
+                    
+                    //Lets create a template and append to it..
+                    assign('notification',$notification);
+                    $notification_template .= get_template('notification_block');
+                    $total_new++;
+                }
+                
+                $the_notifications['template'] = $notification_template;
+                $updates['notifications'] = $the_notifications;
+
+                $updates['notifications']['total_new'] = $total_new;
+            }
+            
+            
+            echo json_encode($updates);
+        }
         break;
 
     default:

@@ -91,7 +91,9 @@ class pages{
 		
 		if(substr($baseURL,strlen($baseURL)-1,1)=='/')
 			$baseURL = substr($baseURL,0,strlen($baseURL)-1);
-			
+		
+                
+                
 		return $baseURL;
 	}
 	

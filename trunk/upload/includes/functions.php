@@ -3808,6 +3808,27 @@ function get_content($type,$objContent,$cond=NULL)
 }
 
 /**
+ * function used to get content link
+ * 
+ */
+function get_content_link($type,$content,$cond=NULL)
+{
+    global $Cbucket;
+    if($Cbucket->objects[$type])
+    {
+
+        $obj = $Cbucket->objects[$type]['obj'];
+        global ${$obj};
+        $theObj = ${$obj};
+
+        if(method_exists($theObj,'get_link'))
+        {
+            return $theObj->get_link($content,$cond);
+        }
+    }
+}
+
+/**
  * Cb error
  * @param type $e
  * @throws Exception

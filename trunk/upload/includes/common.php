@@ -131,8 +131,11 @@ $clean_base = false;
 if (defined("CLEAN_BASEURL"))
     $clean_base = CLEAN_BASEURL;
 
-//define('BASEURL',$pages->GetBaseUrl($clean_base));
-define('BASEURL', $baseurl);
+if(@$_REQUEST['api']=='yes') 
+{
+    define('BASEURL',$pages->GetBaseUrl($clean_base));
+}else
+    define('BASEURL', $baseurl);
 
 $userquery = new userquery();
 $lang_obj = new language;

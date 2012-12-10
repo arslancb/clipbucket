@@ -11,6 +11,15 @@
 * @Class : formObj
 */
 
+if(!function_exists('escape_quotes'))
+{
+	function escape_quotes($text)
+	{
+		$text = str_replace("\"", "&quot;", $text);
+		$text = str_replace("'", "&#039;", $text);
+		return $text;
+	}
+}
 class formObj 
 {
 	
@@ -54,7 +63,7 @@ class formObj
     function createTextfield( $field, $multi = false ) {
         $output = "<input";
         $type = $field['type'];
-        $value = ( !empty($field['value']) ) ? ' value="'.htmlspecialchars_decode( $field['value'] ).'"' : null;
+        $value = ( !empty($field['value']) ) ? ' value="'.escape_quotes(htmlspecialchars_decode( $field['value'] )).'"' : null;
         $size .= ( !empty($field['size']) ) ? ' size="'.$field['size'].'" ' : null;
         $closing = "/>";
         switch( $type ) {

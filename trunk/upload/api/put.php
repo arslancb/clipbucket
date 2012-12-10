@@ -390,7 +390,94 @@ switch ($mode) {
     }
     break;
     
+    
+    case "removeVideo":
+    case "remove_video":
+    case "deleteVideo":
+    case "delete_video":
+    {
+        $vid = $request['vid'];
+        $vid = mysql_clean($vid);
+        $cbvideo->delete_video($vid);
+        
+        if(error())
+        {
+            $error = error_list();
+            $the_error = $error[0];
+            echo json_encode(array('err'=>$the_error));
+        }else
+        {
+            $msg = msg_list();
+            $the_msg = $msg[0];
+            
+            echo json_encode(array('msg'=>$the_msg,'success'=>'yes'));
+        }
+    }
+    break;
+    
+    case "subscribe":
+    {
+        $to = $request['to'];
+        $to = mysql_clean($to);
+        $subscribe_to = $to;
+        $userquery->subscribe_user($subscribe_to);
+        
+        if(msg())
+        {
+            $msg = msg_list();
+            echo json_encode(array('msg' =>  $msg[0],'success'=>'yes'));
+
+        }
+        if(error())
+        {
+            $msg = error_list();
+            echo json_encode(array('err' => $msg[0]));
+        }
+    }
+    break;
+    
+    case "unsubscribe":
+    {
+        $to = $request['to'];
+        $to = mysql_clean($to);
+        $subscribe_to = $to;
+        $userquery->unsubscribe_user($subscribe_to);
+        
+        if(msg())
+        {
+            $msg = msg_list();
+            echo json_encode(array('msg' =>  $msg[0],'success'=>'yes'));
+
+        }
+        if(error())
+        {
+            $msg = error_list();
+            echo json_encode(array('err' => $msg[0]));
+        }
+    }
+    break;
+    
+    case "edit_video":
+    case "editVideo":
+    {
+        $vid = mysql_clean($request['videoid']);
+        $Upload->validate_video_upload_form();
+        if(empty($eh->error_list))
+        {
+            $_POST = $request;
+            $cbvid->update_video();
+            
+            //$cbvid->set_default_thumb($vid,mysql_clean(post('default_thumb')));
+            $vdetails = $cbvid->get_video_details($vid);
+            echo json_encode(array('success'=>'yes','vdetails'=>$vdetails));
+        }else
+        {
+            echo json_encode(array('err'=>error()));
+        }
+    }
+    break;
+    
     default:
-        exit(json_encode(array('err'=>array(lang('Invalid request')))));
+        exit(json_encode(array('err'=>lang('Invalid request'))));
 }
 ?>

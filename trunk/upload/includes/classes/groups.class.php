@@ -2524,6 +2524,15 @@ class CBGroups extends CBCategory {
         
         return $feeds;
     }
+    
+    
+    /**
+     * Get group link
+     */
+    function get_link($group,$cond=NULL)
+    {
+        return group_link(array('details'=>$group));
+    }
 
 }
 

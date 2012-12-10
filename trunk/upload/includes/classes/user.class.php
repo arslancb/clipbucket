@@ -2028,6 +2028,11 @@ class userquery extends CBCategory
                 return BASEURL . '/user/' . $udetails['username'];
         }
     }
+    
+    function get_link($udetails,$cond=NULL)
+    {
+        return $this->profile_link($udetails);
+    }
 
     function get_user_link($u)
     {
