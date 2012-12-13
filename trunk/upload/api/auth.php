@@ -8,6 +8,7 @@
  */
 
 include('../includes/config.inc.php');
+include('global.php');
 
 $request = $_REQUEST;
 $mode = $request['mode'];

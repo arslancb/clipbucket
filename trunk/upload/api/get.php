@@ -7,6 +7,7 @@
  * New Api for ClipBucket to let other application access data
  */
 include('../includes/config.inc.php');
+include('global.php');
 
 $request = $_REQUEST;
 $mode = $request['mode'];
