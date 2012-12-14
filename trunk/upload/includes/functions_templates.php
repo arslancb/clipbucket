@@ -1134,6 +1134,7 @@ function get_template($file, $type = 'fetch',$layout=true) {
         'comments'          => 'blocks/comments/comments.html',
         'pagination'        => 'blocks/pagination.html',
         'notification_block'=> 'blocks/notifications/notification_block.html',
+        'notifications'     => 'blocks/notifications/notifications.html',
         'topics'            => 'blocks/groups/topics.html',
         'share_feed_block'  => 'blocks/feed_share_block.html',
         'single_feed'       => 'blocks/single_feed.html',

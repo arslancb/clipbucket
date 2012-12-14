@@ -284,15 +284,15 @@ function get_message_attributes($message)
  */
 function add_users_mentioned($message, $fid = NULL, $cid = NULL)
 {
-    global $cbfeeds,$userquery;
+    global $cbfeeds, $userquery;
     if ($message && ($fid || $cid))
     {
-        if($fid)
+        if ($fid)
             $object = $cbfeeds->get_feed_object($fid);
-        
-        if($cid && $fid)
+
+        if ($cid && $fid)
             $object = get_comment_object($cid);
-        
+
         $mentions = get_mentions($message);
         if ($mentions)
         {
@@ -323,17 +323,17 @@ function add_users_mentioned($message, $fid = NULL, $cid = NULL)
                     $notification_action = 'comment_mention';
 
                 $cbfeeds->addNotification(
-                    array(
-                        'action'        => $notification_action,
-                        'feed_id'       => $fid,
-                        'comment_id'    => $cid,
-                        'object_id'     => $object['object_id'],
-                        'object_type'   => $object['object_type'],
-                        'object'        => $object['object'],
-                        'actor_id'      => userid(),
-                        'userid'        => $mention['id'],
-                        'actor'         => get_content('user',$userquery->udetails)
-                    )
+                        array(
+                            'action' => $notification_action,
+                            'feed_id' => $fid,
+                            'comment_id' => $cid,
+                            'object_id' => $object['object_id'],
+                            'object_type' => $object['object_type'],
+                            'object' => $object['object'],
+                            'actor_id' => userid(),
+                            'userid' => $mention['id'],
+                            'actor' => get_content('user', $userquery->udetails)
+                        )
                 );
             }
 
@@ -344,44 +344,46 @@ function add_users_mentioned($message, $fid = NULL, $cid = NULL)
     return false;
 }
 
-
 /**
  * Create notification phrase
  */
 function create_notification_phrase($notification)
 {
     $phrases = array(
-        'feed_mention'  => '{actor} {action} you in a post',
+        'feed_mention'      => '{actor} {action} you in a post',
         'comment_mention'   => '{actor} {action} you in a comment',
-        'liked_post'    => '{actor} has liked your post',
+        'liked_post'        => '{actor} has liked your post',
     );
-    
+
     //Add filters and actions to extend phrases
-    $action     = $notification['action'];
-    $actor      = $notification['actor'];
-    if(!is_array($actor))
-        $actor = json_decode($actor,true);
-    
-    
+    $action = $notification['action'];
+    $actor = $notification['actor'];
+    if (!is_array($actor))
+        $actor = json_decode($actor, true);
+
+
     $actor_name = get_actor_name($actor);
     $action_done = get_real_action($action);
-    
+
     $the_phrase = $phrases[$action];
-    
-    
+
+
     /**
      * {actor} {action} {object}
      */
-    
     $phrase = str_replace(
-    array('{actor}','{action}','{object}'),
-    array($actor_name,$action_done,$object_name),$the_phrase);
-    
+            array('{actor}', 
+            '{action}', 
+            '{object}'), 
+            array(actor_name_wrap($actor_name), $action_done, $object_name), $the_phrase);
+
     return $phrase;
-    
 }
 
-
+function actor_name_wrap($name)
+{
+    return '<span class="actor_name">'.$name.'</span>';
+}
 
 function get_actor_name($actor)
 {
@@ -392,36 +394,32 @@ function get_actor_name($actor)
     //So that more functions can be used
     //to identify the actor name
     $name = '';
-    
-    if($actor['full_name'])
+
+    if ($actor['full_name'])
         $name = $actor['full_name'];
-    
-    if(!$name)
+
+    if (!$name)
         $name = $actor['username'];
-    
-    if(!$name)
+
+    if (!$name)
         $name = $actor['title'];
-    
-    if(!$name)
+
+    if (!$name)
         $name = lang('Someone');
-    
+
     return $name;
 }
-
-
 
 function get_real_action($action)
 {
     $human_actions = array(
-        'feed_mention'  => 'has mentioned',
-        'comment_mention'   => 'has mentioned'
+        'feed_mention' => 'has mentioned',
+        'comment_mention' => 'has mentioned'
     );
-    
+
     $the_action = $human_actions[$action];
     return $the_action;
 }
-
-
 
 /**
  *  Get actor thumb, by default it works very good with user
@@ -433,12 +431,11 @@ function get_real_action($action)
 function get_actor_thumb($actor)
 {
     global $userquery;
-    if($actor['userid'] && $actor['username'])
+    if ($actor['userid'] && $actor['username'])
     {
         return $userquery->avatar($actor);
     }
 }
-
 
 /**
  * Get notification link
@@ -446,21 +443,72 @@ function get_actor_thumb($actor)
  */
 function get_notification_link($notification)
 {
-    $elements       = $notification['elements'];
-    $object_type    = $elements['object_type'];
-    $object         = $elements['object'];
-    
-    $content_link   = get_content_link($object_type, $object);
-   
+    $elements = $notification['elements'];
+    $object_type = $elements['object_type'];
+    $object = $elements['object'];
+
+    $content_link = get_content_link($object_type, $object);
+
     //Appending Feed ID...
-    if($notification['feed_id'])
-        $content_link   .= '#feed_id='.$notification['feed_id'];
-    
+    if ($notification['feed_id'])
+        $content_link .= '#feed_id=' . $notification['feed_id'];
+
     //Appending Comment ID
-    if($elements['comment_id'])
-        $content_link   .= '|='.$elements['comment_id'];
-    
+    if ($elements['comment_id'])
+        $content_link .= '|=' . $elements['comment_id'];
+
     return $content_link;
+}
+
+/**
+ * Get notifications icon
+ */
+function get_notify_icon($notify)
+{
+    $actions = array(
+        'added_video'       => 'icon-film',
+        
+        'liked_video'       => 'icon-thumbs-up',
+        'shared_video'      => 'icon-share-alt',
+        'commented_video'   => 'icon-comment',
+        'favorited_video'   => 'icon-star',
+        
+        'added_photo'       => 'icon-picture',
+        'liked_photo'       => 'icon-thumbs-up',
+        'shared_photo'      => 'icon-share-alt',
+        'commented_photo'   => 'icon-comment',
+        'favorited_photo'   => 'icon-star',
+        
+        'added_group'       => 'icon-th-large',
+        'invited_group'     => 'icon-th-large',
+        'joined_group'      => 'icon-th-large',
+        'favorited_group'   => 'icon-th-large',
+        
+        'added_friend'      => 'icon-user',
+        'accepted_friend'   => 'icon-user',
+        'commented_channel' => 'icon-user',
+        'signup'            => 'icon-user',
+        
+        'added_status'      => 'icon-camera',
+        'commented_status'  => 'icon-camera',
+        'liked_status'      => 'icon-thumbs-up',
+        
+        'feed_mention'      => 'icon-comment',
+        'comment_mention'   => 'icon-comment',
+        
+        'added_album'       => 'icon-camera',
+        'added_playlist'    => 'icon-camera',
+        
+        'commented'         => 'icon-comment',
+        'liked_post'        => 'icon-thumbs-up',
+        'favorited'         => 'icon-camera',
+        'feed'              => 'icon-star',
+    );
+    
+    
+    /** @todo Apply actions and filters */
+    $action = $notify['action'];
+    return $actions[$action];
 }
 
 ?>

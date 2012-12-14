@@ -1,3 +1,13 @@
-<li id="notification-block-{$notification.notification_id}">
-    <a href="{$notification.link}" >{$notification.phrase}</a>
-</li>
+<div id="notification-block-{$notification.notification_id}">
+
+    <div class="notification {if !$last}notification-padding{/if}" >
+        
+        <img src="{$notification.actor_thumb}" class="notify_avatar"/>
+        <div class="notification_data">{$notification.phrase}
+            <div class="notification_time">
+                <i class="{get_notify_icon($notification)}"></i> {what_time($notification.time)}
+            </div>
+        </div>
+        
+    </div>
+</div>

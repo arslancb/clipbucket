@@ -190,7 +190,7 @@ function display_notifications(notifications)
         $('#notification-block-'+value).remove();
     })
     
-    $('#notifications-container').prepend(notifications.template);
+    $('#new_notifications').before(notifications.template);
 }
 
 function read_notifications()

@@ -186,7 +186,7 @@
                     {/if}
                     <li><a href="#"><span class="icon-user icon-white"></span></a></li>
                     <li><a href="#"><span class="icon-envelope icon-white"></span></a></li>
-                    <li class="dropdown">
+                    <li class="dropdown open">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                            onclick="read_notifications();">
                             <span class="icon-globe icon-v3-white"></span>
@@ -194,13 +194,10 @@
                         </a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="drop3"
                             id="notifications-container">
-                            {$notifications=$cbfeeds->get_notifications()}
-                            {if $notifications}
-                            {foreach $notifications as $notification}
-                                {$block=get_template('notification_block','path')}
-                                {include file=$block notification=$notification}
-                            {/foreach}
-                            {/if}
+                            <li>
+                                {$template=get_template('notifications','path')}
+                                {include file=$template notifications=$notifications}
+                            </li>
                         </ul>
                     </li>
                 </ul>

@@ -159,6 +159,7 @@ switch ($mode)
 
     case "read_notification":
         {
+            exit();
             //mark notifications read..
             $nid = mysql_clean($_POST['nid']);
             $uid = userid();
