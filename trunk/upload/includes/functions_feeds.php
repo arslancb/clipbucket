@@ -446,7 +446,7 @@ function get_notification_link($notification)
     $elements = $notification['elements'];
     $object_type = $elements['object_type'];
     $object = $elements['object'];
-
+    
     $content_link = get_content_link($object_type, $object);
 
     //Appending Feed ID...
@@ -456,7 +456,7 @@ function get_notification_link($notification)
     //Appending Comment ID
     if ($elements['comment_id'])
         $content_link .= '|=' . $elements['comment_id'];
-
+    
     return $content_link;
 }
 
