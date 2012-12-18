@@ -1214,10 +1214,22 @@ class CBPhotos {
         $p['type'] = "photos";
         {
             $collections = $this->collection->get_collections( $p );
+            if ( !$collections ) {
+                global $cbcollection;
+                $collection_details['collection_name'] = $collection_details['collection_description'] = lang('Untitled Collection');
+                $collection_details['collection_tags'] = lang('untitled, collection'); $collection_details['category'] =  array ( $cbcollection->get_default_cid() );
+                // Update following to have default values
+                $collection_details['broadcast'] = 'public'; $collection_details['allow_comments'] = 'yes'; $collection_details['public_upload'] = 'no';
+                
+                $collection_insert_id = $cbcollection->create_collection( $collection_details );
+                $collection_details['collection_id'] = $collection_insert_id;
+                $collections[0] = $collection_details;
+                //pr( $collections, true );
+            }
             $cl_array = $this->parse_array( $collections );
             $collection = $array['collection_id'];
         }
-        $this->unique = rand( 0, 9999 );
+
         $fields =
                 array
                     (

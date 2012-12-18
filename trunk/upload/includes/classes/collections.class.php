@@ -866,9 +866,13 @@ class Collections extends CBCategory
 			// active
 			$query_field[] = "active";
 			$query_val[] = "yes";
-
+                
+                // type
+                $query_field[] = 'type';
+                $query_val[] = 'photos';
+      
 			$insert_id = $db->insert(tbl($this->section_tbl),$query_field,$query_val);
-			
+
 			addFeed(array('action'=>'add_collection','object_id' => $insert_id,'object'=>'collection'));
 			
 			//Incrementing usr collection

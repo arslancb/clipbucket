@@ -189,3 +189,6 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}notifications` (
   `send_email` enum('yes','no') NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`notification_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--12-18-2012 @author : Fawaz
+ALTER TABLE  `{tbl_prefix}photos` ADD  `file_directory` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER  `view_exif`
