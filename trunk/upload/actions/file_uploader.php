@@ -37,7 +37,10 @@ switch ($mode) {
             );
 
             $vid = $Upload->submit_upload($vidDetails);
-
+            
+            if(error()){
+                echo json_ecode(array('err'=>error()));
+            }else
             echo json_encode(array('success' => 'yes', 
                 'vid' => $vid,'file_directory'=>$file_directory,
                 'file_name'=>$file_name));
