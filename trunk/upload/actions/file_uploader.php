@@ -41,9 +41,11 @@ switch ($mode) {
             if(error()){
                 echo json_ecode(array('err'=>error()));
             }else
-            echo json_encode(array('success' => 'yes', 
-                'vid' => $vid,'file_directory'=>$file_directory,
-                'file_name'=>$file_name));
+            {
+                echo json_encode(array('success' => 'yes', 
+                    'vid' => $vid,'file_directory'=>$file_directory,
+                    'file_name'=>$file_name));
+            }
         }
         break;
 
@@ -87,7 +89,7 @@ switch ($mode) {
             header("Cache-Control: post-check=0, pre-check=0", false);
             header("Pragma: no-cache");
 
-            pr($_REQUEST);
+            //pr($_REQUEST);
             $targetDir = TEMP_DIR;
 
             $cleanupTargetDir = true; // Remove old files

@@ -43,13 +43,17 @@ class CBGroups extends CBCategory {
         
         if (isSectionEnabled('groups'))
             $Cbucket->search_types['groups'] = "cbgroup";
-        
-        
-        register_object('g','cbgroup');
-        register_object('group','cbgroup');
        
     }
-
+    
+    
+    function init()
+    {
+        register_object('g','cbgroup');
+        register_object('group','cbgroup');
+    }
+    
+    
     /**
      * Function used to check if the provided URL is taken or not
      * @param = $url { URL of group provided by user }

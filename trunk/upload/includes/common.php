@@ -432,7 +432,7 @@ $swfobj = new SWFObject();
 $cbcollection->setting_up_collections();
 $userquery->init();
 $cbvideo->init();
-
+$cbgroup->init();
 $cbphoto->init_photos();
 $thisurl = curPageURL();
 //Setting Up Group Class
