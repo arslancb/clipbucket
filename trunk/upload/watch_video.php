@@ -72,6 +72,8 @@ if(video_playable($vdo))
 	call_watch_video_function($vdo);
         
         $vid_files = $cbvid->get_video_files($vdo);
+        
+        
         assign('video_files',$vid_files);
         
 	subtitle($vdo['title']);

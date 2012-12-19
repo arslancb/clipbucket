@@ -21,7 +21,7 @@ else
     $fileName = false;
 
 $files = get_video_being_processed($fileName);
-
+pr($files,true);
 if (is_array($files))
     foreach ($files as $file)
     {

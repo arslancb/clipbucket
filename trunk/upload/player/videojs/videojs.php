@@ -36,7 +36,7 @@
         if($files)
         foreach($files as $key => $file)
         {
-
+            if($key)
             if($key=='flv' || $key=='mp4' || $key=='mobile')
             {
                 $video_file = $file;

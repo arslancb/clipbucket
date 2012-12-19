@@ -15,7 +15,7 @@
 
  redirect_to($link);
  
- 
+ //out
  exit();
 
 ?>
