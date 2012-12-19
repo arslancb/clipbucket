@@ -16,7 +16,7 @@
  */
 define('FFMPEG',get_binaries('ffmpeg'));
 define('MPLAYER',config('mplayerpath'));
-defune('MP4BOX',get_binaries('MP4Box'));
+define('MP4BOX',get_binaries('MP4Box'));
 define('MEDIAINFO','/usr/bin/mediainfo');
 
 
