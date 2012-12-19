@@ -28,6 +28,7 @@ define('CB_SECRET_KEY', '0?hx4]{o?Wu');
 
 define("DEVELOPMENT_MODE", true);
 define("DEV_INGNORE_SYNTAX", TRUE);
+define("LOG_DB_ERRORS",true);
 
 
 

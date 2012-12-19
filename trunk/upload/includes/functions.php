@@ -987,8 +987,13 @@ function db_insert($tbl, $fields)
     $db->total_queries++;
     $db->total_queries_sql[] = $query;
     $db->Execute($query);
+    
     if (mysql_error())
+    {
+        //if(LOG_DB_ERRORS)
+            
         die($db->db_query . '<br>' . mysql_error());
+    }
 
     return $db->insert_id();
 }

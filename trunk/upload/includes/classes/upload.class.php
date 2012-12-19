@@ -160,7 +160,8 @@ class Upload {
             $query_field[] = 'file_directory';
             $query_val[] = $array['file_directory'];
 
-            $query = "INSERT INTO " . tbl("video") . " (";
+            
+            /*$query = "INSERT INTO " . tbl("video") . " (";
             $total_fields = count($query_field);
 
             //Adding Fields to query
@@ -186,6 +187,15 @@ class Upload {
 
             //Finalzing Query
             $query .= ")";
+            */
+            
+            $the_fields = array();
+            $total_fields = count($query_field);
+            for($i=0;$i<$total_fields;$i++)
+            {
+                $the_fields[$query_field[$i]] = $query_val[$i];
+            }
+            
 
             //exit($query);
 
@@ -196,8 +206,10 @@ class Upload {
 
                 $insert_id = file_name_exists($file_name);
                 if (!$insert_id) {
-                    $db->Execute($query);
-                    $insert_id = $db->insert_id();
+                    
+                    //$db->Execute($query);
+
+                    $insert_id = db_insert(tbl('video'), $the_fields);
 
                     //loggin Upload
                     $log_array = array
