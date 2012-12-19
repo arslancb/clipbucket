@@ -206,6 +206,28 @@ switch ($mode) {
         }
         break;
         
+        case "delete_favorite":
+        {
+            $video_id = mysql_clean($request['videoid']);
+            $cbvid->action->remove_favorite($video_id);
+            if(error())
+                echo json_encode(array('err'=>error()));
+            else
+                echo json_encode(array('success'=>'ok'));
+        }
+        break;
+        
+        case "add_favorite":
+        {
+            $video_id = mysql_clean($request['videoid']);
+            $cbvid->action->add_to_fav($video_id);
+            if(error())
+                echo json_encode(array('err'=>error()));
+            else
+                echo json_encode(array('success'=>'ok'));
+        }
+        break;
+        
         case "insert_video": {
             $title = $request['title'];
             $file_name = time().  RandomString(5);
