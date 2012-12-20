@@ -17,11 +17,11 @@
  if($video)
  {
 	 
-	 if(
-	 ($video['broadcast']=='public' || $video['broadcast'] =="logged")
-	 && $video['subscription_email']=='pending')
-	
-	 $userquery->sendSubscriptionEmail($video,true);
+    if(
+    ($video['broadcast']=='public' || $video['broadcast'] =="logged")
+    && $video['subscription_email']=='pending')
+
+    $userquery->sendSubscriptionEmail($video,true);
  }
 
 ?>

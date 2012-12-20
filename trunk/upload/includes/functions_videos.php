@@ -599,27 +599,46 @@ function get_queued_video($update = TRUE) {
 /**
  * Function used to get video being processed
  */
-function get_video_being_processed($filename = NULL) 
+function get_video_being_processed($filename = NULL,$active='yes') 
 {
     global $db;
     
-    $query = "SELECT * FROM ".tbl('conversion_queue');
-    $query .= "LEFT JOIN ".tbl('video')." ON ";
-    $query .= tbl("video.file_name")."=".tbl('conversion_queue.queue_name');
+    $ct = tbl('conversion_queue');
+    $vt = tbl("video");
+    
+    $fields = $ct.'.*,'.$ct.'.status AS queue_status';
+    $fields .= ",".$vt.".*";
+    
+    $query = "SELECT $fields FROM ".$ct;
+    $query .= " LEFT JOIN ".$vt." ON ";
+    $query .= $vt.".file_name=".$ct.".queue_name";
+    
+    start_where();
     
     if($filename)
-    $query .= " WHERE queue_name='$filename' ";
+        add_where(" queue_name='$filename'  ");
+    
+    if($active)
+        add_where($ct.".active='$active'  ");
+    
+    if(get_where())
+    $query .= " WHERE ".get_where();
+    
     
     $results = db_select($query);
     
-    $queues = array();
+    end_where();
     
+    $queues = array();
+    if($results)
     foreach($results as $queue)
     {
         //Get Files of the qeueue...
         $queue['files'] = get_video_files($filename);
         $queues[] = $queue;
     }
+    
+    return $queues;
 }
 
 
@@ -742,6 +761,7 @@ function get_hq_video_file($vdetails, $return_default = true) {
 /**
  * Function used to update processed video
  * @param Files details
+ * @deprecated 2012 3.0
  */
 function update_processed_video($file_array, $status = 'Successful', $ingore_file_status = false, $failed_status = '') {
     global $db;
@@ -776,6 +796,16 @@ function update_processed_video($file_array, $status = 'Successful', $ingore_fil
 
         $db->update(tbl("video"), array("status", "duration", "failed_reason"), array('Failed', $duration, $failed_status), " file_name='" . $file_name . "'");
     }
+}
+
+function update_video_status($file_name,$status,$reason=NULL)
+{
+    db_update(tbl('video'),array(
+        'status'    => $status,
+        'failed_reason' => $reason
+    )," file_name='$file_name' ");
+    
+    return true;
 }
 
 /**
@@ -1213,4 +1243,19 @@ function get_size_by_name($name)
     
     
     return $sizes[$name];
+}
+
+
+/**
+ * function used to update specific field of the vide
+ * @param INT videoid
+ * @param STRING fieldname
+ * @param STRING value
+ * 
+ * @return TRUE
+ */
+function update_video_data($vid,$field,$val)
+{
+    $vid = mysql_clean($vid);
+    db_update(tbl('video'),array($field=>$val),"videoid='$vid' ");
 }

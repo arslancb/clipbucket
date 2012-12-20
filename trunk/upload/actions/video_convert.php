@@ -188,16 +188,17 @@ if ($process_running <= $max_processes && $queued_files)
                     break;
                 }
             }
-
+            
+            $file_name = $queue['queue_name'];
+            
+            if($file_name)
+                exec(php_path() . " -q " . BASEDIR . "/actions/verify_videos.php $file_name &> /dev/null &");
+            
+            
             if (!$convert)
             {
                 $cbupload->update_queue_status($queue, 's', 'File removed from queue');
             }
-            
-            
-            $file_name = $queue['queue_name'];
-            if($file_name)
-                exec(php_path() . " -q " . BASEDIR . "/actions/verify_videos.php $file_name &> /dev/null &");
         }
 
         break;

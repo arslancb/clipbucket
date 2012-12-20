@@ -1313,6 +1313,17 @@ class Upload {
         else
             return false;
     }
+    
+    
+    /**
+     * deactivate a queue
+     */
+    function deactivate_queue($filename)
+    {
+        db_update(tbl('conversion_queue'),array(
+            'active'    => 'no'
+        )," queue_name='$filename' ");
+    }
 
 }
 
