@@ -1277,7 +1277,7 @@ class Upload {
      */
     function update_video_file($fid, $values) {
         global $db;
-
+      
         db_update(tbl('video_files'),$values,"file_id='$fid' ");
         
         //$db->update(tbl('video_files'), $flds, $vals, "file_id='$fid' ");

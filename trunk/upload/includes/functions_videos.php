@@ -599,16 +599,40 @@ function get_queued_video($update = TRUE) {
 /**
  * Function used to get video being processed
  */
-function get_video_being_processed($fileName = NULL) {
+function get_video_being_processed($filename = NULL) 
+{
     global $db;
-
-    if ($fileName) {
-        $queueName = getName($fileName);
-        $ext = getExt($fileName);
-        $fileNameQuery = " AND cqueue_name ='$queueName' AND cqueue_ext ='$ext' ";
+    
+    $query = "SELECT * FROM ".tbl('conversion_queue');
+    $query .= "LEFT JOIN ".tbl('video')." ON ";
+    $query .= tbl("video.file_name")."=".tbl('conversion_queue.queue_name');
+    
+    if($filename)
+    $query .= " WHERE queue_name='$filename' ";
+    
+    $results = db_select($query);
+    
+    $queues = array();
+    
+    foreach($results as $queue)
+    {
+        //Get Files of the qeueue...
+        $queue['files'] = get_video_files($filename);
+        $queues[] = $queue;
     }
+}
 
-    $results = $db->select(tbl("conversion_queue"), "*", "cqueue_conversion='p' $fileNameQuery");
+
+function get_video_files($filename)
+{
+    $query = "SELECT * FROM " .
+    $query .= tbl('video_files');
+    $query .= " LEFT JOIN " . tbl('video_profiles');
+    $query .= " ON " . tbl('video_files.profile_id') . " = " . tbl('video_profiles.profile_id');
+    $query .= " WHERE " . tbl('video_files.file_name') . "='$filename'";
+    
+    $results = db_select($query);
+    
     return $results;
 }
 

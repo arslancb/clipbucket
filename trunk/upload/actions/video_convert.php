@@ -20,7 +20,7 @@ $max_processes = 5;
 //Get Vido
 $queued_files = $cbupload->get_queued_files();
 
-define('CONV_TEST_MODE', true);
+define('CONV_TEST_MODE', false);
 
 //Total Running proccesses...
 $process_running = $cbupload->conversion_count();
@@ -179,6 +179,8 @@ if ($process_running <= $max_processes && $queued_files)
                         'output_results' => json_encode($output_details),
                         'date_completed' => $time_finished,
                     );
+                    
+                    
 
                     $cbupload->update_video_file($fid, $fields);
 
@@ -191,6 +193,11 @@ if ($process_running <= $max_processes && $queued_files)
             {
                 $cbupload->update_queue_status($queue, 's', 'File removed from queue');
             }
+            
+            
+            $file_name = $queue['queue_name'];
+            if($file_name)
+                exec(php_path() . " -q " . BASEDIR . "/actions/verify_videos.php $file_name &> /dev/null &");
         }
 
         break;

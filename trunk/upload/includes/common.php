@@ -128,15 +128,17 @@ if (count($matches) > 0)
 }
 
 //define('BASEURL',baseurl(BACK_END));
+
 $clean_base = false;
 if (defined("CLEAN_BASEURL"))
     $clean_base = CLEAN_BASEURL;
 
 if(@$_REQUEST['api']=='yes') 
 {
-    define('BASEURL',$pages->GetBaseUrl($clean_base));
-}else
-    define('BASEURL', $baseurl);
+    ///define('BASEURL',$pages->GetBaseUrl($clean_base));
+}
+    
+define('BASEURL', $baseurl);
 
 $userquery = new userquery();
 $lang_obj = new language;

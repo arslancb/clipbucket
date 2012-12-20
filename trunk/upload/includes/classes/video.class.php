@@ -2302,7 +2302,7 @@ class CBvideo extends CBCategory {
         }
 
         $query = "SELECT * FROM " .
-                $query .= tbl('video_files');
+        $query .= tbl('video_files');
         $query .= " LEFT JOIN " . tbl('video_profiles');
         $query .= " ON " . tbl('video_files.profile_id') . " = " . tbl('video_profiles.profile_id');
         $query .= " WHERE " . tbl('video_files.file_name') . "='$file'";

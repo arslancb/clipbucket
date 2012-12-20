@@ -192,3 +192,6 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}notifications` (
 
 --12-18-2012 @author : Fawaz
 ALTER TABLE  `{tbl_prefix}photos` ADD  `file_directory` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER  `view_exif`
+
+--12-20-2012 @author : Arslan
+ALTER TABLE  `{tbl_prefix}video` ADD  `emails_sent` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'no';
