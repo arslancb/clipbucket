@@ -941,9 +941,11 @@ function db_update($tbl, $fields, $cond)
     $db->total_queries++;
     $db->total_queries_sql[] = $query;
     $db->Execute($query);
+    
     if (mysql_error())
         die($db->db_query . '<br>' . mysql_error());
-    return $query;
+    
+    return true;
 }
 
 function db_insert($tbl, $fields)

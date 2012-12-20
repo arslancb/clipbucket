@@ -1278,15 +1278,9 @@ class Upload {
     function update_video_file($fid, $values) {
         global $db;
 
-        $flds = array();
-        $vals = array();
-
-        foreach ($values as $field => $val) {
-            $flds[] = $field;
-            echo $vals[] = $val;
-        }
-
-        $db->update(tbl('video_files'), $flds, $vals, "file_id='$fid' ");
+        db_update(tbl('video_files'),$values,"file_id='$fid' ");
+        
+        //$db->update(tbl('video_files'), $flds, $vals, "file_id='$fid' ");
     }
 
     /**

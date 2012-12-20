@@ -185,6 +185,7 @@ switch ($mode)
 
                 $playlists = $new_playlists;
             }
+            
             if ($playlists)
                 echo json_encode($playlists);
             else
@@ -197,7 +198,7 @@ switch ($mode)
         {
             $pid = mysql_clean($request['playlist_id']);
             $items = $cbvid->get_playlist_items($pid);
-
+            
             if ($items)
             {
                 $new_videos = array();
@@ -271,7 +272,7 @@ switch ($mode)
             if ($subscribers)
                 echo json_encode($subscribers);
             else
-                echo json_encode(array('err' => lang('no subscribers')));
+                echo json_encode(array('err' => lang('No Subscribers')));
 
             exit();
         }
@@ -291,7 +292,7 @@ switch ($mode)
             if ($subscribers)
                 echo json_encode($subscribers);
             else
-                echo json_encode(array('err' => lang('no subscriptions')));
+                echo json_encode(array('err' => lang('No Subscriptions')));
 
             exit();
         }
@@ -316,7 +317,23 @@ switch ($mode)
 
             if ($total_rows > 0)
             {
-                echo json_encode($videos);
+                $new_videos = array();
+                foreach ($videos as $video)
+                {
+                    if (!$video['email'])
+                    {
+                        $udetails = $userquery->get_user_details($video['userid']);
+                    }
+
+                    $video = array_merge($video, $udetails);
+
+                    $video['thumbs'] = array('default' => get_thumb($video));
+                    $video['videos'] = array('mobile' => get_mob_video(array('video' => $video)));
+                    $video['url'] = $video['video_link'] = $video['videoLink'] = videoLink($video);
+                    $video['avatar'] = $video['user_photo'] = $video['displayPic'] = $userquery->avatar($video);
+                    $new_videos[] = $video;
+                }
+                echo json_encode($new_videos);
             }
             else
             {

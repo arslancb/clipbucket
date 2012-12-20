@@ -213,7 +213,7 @@ switch ($mode) {
             if(error())
                 echo json_encode(array('err'=>error()));
             else
-                echo json_encode(array('success'=>'ok'));
+                echo json_encode(array('success'=>'ok','msg' => lang('Video has been removed')));
         }
         break;
         
@@ -224,7 +224,7 @@ switch ($mode) {
             if(error())
                 echo json_encode(array('err'=>error()));
             else
-                echo json_encode(array('success'=>'ok'));
+                echo json_encode(array('success'=>'ok','msg' => lang('Video has been added')));
         }
         break;
         

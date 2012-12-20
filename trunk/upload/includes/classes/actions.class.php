@@ -728,7 +728,16 @@ class cbactions
 		
 		if($db->num_rows>0)
                 {
-                    return $result;
+                    $playlists = $result;
+                    $the_playlists = array();
+                    
+                    foreach($playlists as $playlist)
+                    {
+                        $playlist['thumb'] =  $this->getPlaylistThumb($playlist['playlist_id']);
+                        $the_playlists[] = $playlist;
+                    }
+                    
+                    return $the_playlists;
                 }else
 			return false;
 	}

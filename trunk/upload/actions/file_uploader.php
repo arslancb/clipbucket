@@ -86,7 +86,7 @@ switch ($mode)
 
 
 
-
+            $status_array = array();
 
             // HTTP headers for no cache etc
             header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -221,7 +221,7 @@ switch ($mode)
 
             $fileDir = $_REQUEST['file_directory'];
             $Upload->add_conversion_queue($targetFileName, $fileDir);
-
+            
             //exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
             if (stristr(PHP_OS, 'WIN'))
             {
@@ -229,10 +229,14 @@ switch ($mode)
             }
             else
             {
+                $status_array['rickshaw']       = 'videoconvert';
                 exec(php_path() . " -q " . BASEDIR . "/actions/video_convert.php $targetFileName &> /dev/null &");
             }
+            
+            $status_array['success'] = 'yes';
+            $status_array['file_name'] = $file_name;
 
-            echo json_encode(array("success" => "yes", "file_name" => $file_name));
+            echo json_encode($status_array);
         }
         break;
 
