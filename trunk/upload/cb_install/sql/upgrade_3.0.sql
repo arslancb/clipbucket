@@ -197,3 +197,78 @@ ALTER TABLE  `{tbl_prefix}photos` ADD  `file_directory` VARCHAR( 25 ) CHARACTER 
 --ALTER TABLE  `{tbl_prefix}video` ADD  `emails_sent` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'no';
 
 ALTER TABLE  `{tbl_prefix}conversion_queue` ADD  `active` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'yes' AFTER  `status`;
+
+--12-27-2012 @author : Arslan, @added by : Fawaz
+DROP TABLE IF EXISTS `{tbl_prefix}conversion_queue`;
+CREATE TABLE `{tbl_prefix}conversion_queue` (
+  `queue_id` int(11) NOT NULL AUTO_INCREMENT,
+  `queue_name` varchar(32) CHARACTER SET latin1 NOT NULL,
+  `queue_ext` varchar(5) CHARACTER SET latin1 NOT NULL,
+  `queue_tmp_ext` varchar(3) CHARACTER SET latin1 NOT NULL,
+  `file_directory` varchar(255) NOT NULL,
+  `conversion` enum('yes','no','p') CHARACTER SET latin1 NOT NULL DEFAULT 'no',
+  `conversion_counts` int(10) NOT NULL,
+  `status` enum('u','s','f') NOT NULL DEFAULT 'u',
+  `active` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `messages` text NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `time_started` varchar(32) NOT NULL,
+  `time_completed` varchar(32) NOT NULL,
+  PRIMARY KEY (`queue_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+DROP TABLE IF EXISTS `{tbl_prefix}playlists`;
+CREATE TABLE `{tbl_prefix}playlists` (
+  `playlist_id` int(11) NOT NULL AUTO_INCREMENT,
+  `playlist_name` varchar(225) CHARACTER SET latin1 NOT NULL,
+  `userid` int(11) NOT NULL,
+  `playlist_type` varchar(10) CHARACTER SET latin1 NOT NULL,
+  `description` mediumtext NOT NULL,
+  `tags` mediumtext NOT NULL,
+  `played` bigint(255) NOT NULL,
+  `privacy` enum('public','private','unlisted') NOT NULL DEFAULT 'public',
+  `allow_comments` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `allow_rating` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `total_comments` int(255) NOT NULL,
+  `total_items` bigint(200) NOT NULL,
+  `rating` bigint(3) NOT NULL,
+  `rated_by` int(200) NOT NULL,
+  `voters` text NOT NULL,
+  `last_update` datetime NOT NULL,
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`playlist_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
+
+DROP TABLE IF EXISTS `{tbl_prefix}playlist_items`;
+CREATE TABLE `{tbl_prefix}playlist_items` (
+  `playlist_item_id` int(225) NOT NULL AUTO_INCREMENT,
+  `object_id` int(225) NOT NULL,
+  `playlist_id` int(225) NOT NULL,
+  `item_order` bigint(10) NOT NULL,
+  `item_note` mediumtext NOT NULL,
+  `playlist_item_type` varchar(10) CHARACTER SET latin1 NOT NULL,
+  `userid` int(255) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`playlist_item_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=111 ;
+
+DROP TABLE IF EXISTS `{tbl_prefix}video_files`;
+CREATE TABLE `{tbl_prefix}video_files` (
+  `file_id` int(255) NOT NULL AUTO_INCREMENT,
+  `queue_id` int(255) NOT NULL,
+  `file_name` varchar(32) NOT NULL,
+  `file_directory` varchar(200) NOT NULL,
+  `original_source` varchar(255) NOT NULL,
+  `is_original` enum('yes','no') NOT NULL DEFAULT 'no',
+  `file_ext` varchar(5) NOT NULL,
+  `output_results` text NOT NULL,
+  `status` enum('p','s','f') NOT NULL,
+  `profile_id` int(255) NOT NULL,
+  `log_file` varchar(255) NOT NULL,
+  `log` text NOT NULL,
+  `date_completed` int(12) NOT NULL,
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`file_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+
+ALTER TABLE  `{tbl_prefix}video` ADD  `file_directory` VARCHAR( 25 ) NOT NULL AFTER  `uploader_ip`
