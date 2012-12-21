@@ -236,7 +236,7 @@ switch ($mode)
             $array = array(
                 'baseurl' => BASEURL,
                 'title' => TITLE,
-                'file_upload_url' => BASEURL . '/actions/file_uploader.php',
+                'file_upload_url' => BASEURL . '/api/file_uploader.php',
                 'session' => session_id()
             );
 

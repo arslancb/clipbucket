@@ -229,7 +229,7 @@ switch ($mode)
             }
             else
             {
-                $status_array['rickshaw']       = 'videoconvert';
+                $status_array['rickshaw'] = 'videoconvert';
                 exec(php_path() . " -q " . BASEDIR . "/actions/video_convert.php $targetFileName &> /dev/null &");
             }
             
