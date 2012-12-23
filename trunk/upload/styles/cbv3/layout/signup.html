@@ -1,0 +1,120 @@
+{assign var='required_fields' value=$userquery->load_signup_fields()}
+{assign var='custom_field' value=$userquery->custom_signup_fields}
+
+<div>
+    <div class="signup_login_box">
+        <h3 class="margin0">{lang code="Login!"}</h3>
+        <div class="muted">Already have an account?</div>
+        <div class="height20"></div>
+
+        <form name="login_form" id="login_form" method="post"  {ANCHOR place='cb_login_form_tag'}>
+
+            <div class="control-group signup_field">
+                <div class="controls">
+                    <input type="text" id="login_username" placeholder="Username" name="username">
+                </div>
+            </div>
+
+            <div class="control-group signup_field">
+                <div class="controls">
+                    <input type="password" id="login_password" placeholder="Password" name="password">
+                </div>
+            </div>
+
+            <div align="left"><a href="{$baseurl}/forgot.php">{lang code='user_forgot_password'}</a> | <a href="{$baseurl}/forgot.php?mode=recover_username">{lang code='user_forgot_username'}</a></div>
+
+
+            <div class="height10"></div>
+            {ANCHOR place='before_login_button'}
+            <input type="submit" name="login" class="btn btn-primary btn-large login_signup_bttn" 
+                   value="{lang code='login'}" id="login_signup_bttn" {ANCHOR place='login_signup_bttn'} >
+            {ANCHOR place='after_login_button'}
+
+
+
+            {ANCHOR place='login_form'}
+
+        </form>        
+    </div>
+    <div class="signup_create_new">
+        <h3 class="margin0">{lang code="Sign Up!"}</h3>
+        <div class="muted">create a free clipbucket v3 account</div>
+        <div class="height20"></div>
+        <div class="signup_container">
+            <form name="signup_form" id="signup_form" method="post" class="form-vertical" >
+
+                {foreach $required_fields as $field}
+                {$div_class=''}
+                {$div_control_class=''}
+
+                {if $field.name=='first_name' || $field.name=='last_name'}
+                {$div_class='inline name_field'}
+                {$div_control_class='inline'}
+                {/if}
+
+                {if $field.name=='gender'}
+                {$field.label_class='radio inline'}
+                {/if}
+
+                <div class="control-group {$div_class} signup_field">
+                    <div class="controls {$div_control_class}">
+                        {if $field.hint_before}
+                        <span class="help-block">{$field.hint_before}</span>
+                        {/if}
+                        {ANCHOR place=$field.anchor_before}
+                        {$formObj->createField($field)}
+                        {ANCHOR place=$field.anchor_after}
+                        {if $field.hint_after}
+                        <span class="help-block">{$field.hint_after}</span>
+                        {/if}
+                    </div>
+                </div>
+
+                {if $field.name=='last_name'}
+                <div class="height5"></div>
+                {/if}
+                {/foreach} 
+
+                <!-- Loading Custom Fields -->
+                {foreach from=$custom_field item=field}
+                {include file="$layout_dir/common/form_field.html" }
+                {/foreach} 
+
+                <!-- Loading Captcha if anny -->
+                {assign var=captcha value=get_captcha()}
+                {if $captcha} 
+                {if $captcha.show_field}
+                <label class="label" for="verification_code">Verification Code</label>
+                {load_captcha captcha=$captcha load=field field_params = ' id="verification_code" '}
+                <div class="clearfix"></div>
+                {/if}
+
+                <div align="center">{load_captcha captcha=$captcha load=function}</div>
+
+                {/if}
+                <div class="clear"></div>
+
+                <div class="control-group {$div_class} signup_field">
+                    <div class="controls {$div_control_class}">
+                        <label class="checkbox inline">
+                            <input name="agree" type="checkbox" id="agree" value="yes" checked="checked" />
+                            {$user_i_agree_to_the=lang('user_i_agree_to_the')}
+                            {$user_i_agree_to_the|sprintf:$cbpage->get_page_link(3):$cbpage->get_page_link(2)}
+                        </label>
+                    </div>
+                </div>
+
+
+
+                <div class="input_container">
+                    <input type="submit" name="signup" class="btn-large btn btn-inverse signup_bttn" 
+                    value="{lang code='signup'}" style="margin-top:10px" />
+                </div>
+                <div class="clearfix"></div>
+                {ANCHOR place='signup_form'}
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>

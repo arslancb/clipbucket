@@ -75,6 +75,14 @@ switch ($mode)
                     }
                     $video['url'] = $video['video_link'] = $video['videoLink'] = videoLink($video);
                     $video['avatar'] = $video['user_photo'] = $video['displayPic'] = $userquery->avatar($video);
+                    
+                    /*
+                    if (!$video['fullname'])
+                    {
+                        $video['userDetail'] = $userquery->get_user_details($video['userid']);
+                    }
+                    */
+                    
                     $new_videos[] = $video;
                 }
             }

@@ -271,4 +271,8 @@ CREATE TABLE `{tbl_prefix}video_files` (
   PRIMARY KEY (`file_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
-ALTER TABLE  `{tbl_prefix}video` ADD  `file_directory` VARCHAR( 25 ) NOT NULL AFTER  `uploader_ip`
+ALTER TABLE  `{tbl_prefix}video` ADD  `file_directory` VARCHAR( 25 ) NOT NULL AFTER  `uploader_ip`;
+
+-- 12-24-2012 @ Author Arslan
+ALTER TABLE  `{tbl_prefix}_users` ADD  `first_name` VARCHAR( 50 ) NOT NULL AFTER  `username` ,
+ADD  `last_name` VARCHAR( 50 ) NOT NULL AFTER  `first_name`;

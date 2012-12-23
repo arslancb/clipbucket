@@ -3071,8 +3071,8 @@ class userquery extends CBCategory
          *       class
          *       label
          *       extra_params
-         *       hint_1 [hint before field]
-         *       hint_2 [hint after field]
+         *       hint_before [hint before field]
+         *       hint_after [hint after field]
          *       anchor_before [anchor before field]
          *       anchor_after [anchor after field]
          *      )
@@ -3086,16 +3086,55 @@ class userquery extends CBCategory
         $dob = $default['dob'];
 
         $dob = $dob ? date(config("date_format"), strtotime($dob)) : date(config("date_format"), strtotime('14-10-1989'));
-
+        
+        
         $user_signup_fields = array
             (
+            
+            'first_name' => array(
+                'title' => lang('First name'),
+                'type' => "textfield",
+                'name' => "first_name",
+                'id' => "first_name",
+                'value' => $first_name,
+
+                'db_field' => 'first_name',
+                'required' => 'yes',
+                // 'syntax_type'=> 'username',
+                'validate_function' => 'name_check',
+                'function_error_msg' => lang('First name is not valid'),                
+                'min_length' => 2,
+                'max_length' => 20,
+                //'min_length' => config('min_firstname'),
+                //'max_length' => config('max_firstname'),
+            ),
+            'last_name' => array(
+                'title' => lang('Last name'),
+                'type' => "textfield",
+                'name' => "last_name",
+                'id' => "last_name",
+                'value' => $last_name,
+
+                'db_field' => 'last_name',
+                'required' => 'yes',
+                // 'syntax_type'=> 'username',
+                'validate_function' => 'name_check',
+                'function_error_msg' => lang('Last name is not valid'),
+                
+                
+                'min_length' => 2,
+                'max_length' => 20,
+                //'min_length' => config('min_firstname'),
+                //'max_length' => config('max_firstname'),
+            ),
+            
             'username' => array(
                 'title' => lang('username'),
                 'type' => "textfield",
                 'name' => "username",
                 'id' => "username",
                 'value' => $username,
-                'hint_2' => lang('user_allowed_format'),
+                'hint_after' => lang('user_allowed_format'),
                 'db_field' => 'username',
                 'required' => 'yes',
                 // 'syntax_type'=> 'username',
@@ -3108,7 +3147,7 @@ class userquery extends CBCategory
                 'max_length' => config('max_username'),
             ),
             'email' => array(
-                'title' => lang('email'),
+                'title' => lang('Email'),
                 'type' => "textfield",
                 'name' => "email",
                 'id' => "email",
@@ -3121,7 +3160,7 @@ class userquery extends CBCategory
                 'db_value_err' => lang('usr_email_err3')
             ),
             'password' => array(
-                'title' => lang('password'),
+                'title' => lang('Password'),
                 'type' => "password",
                 'name' => "password",
                 'id' => "password",
@@ -4801,7 +4840,7 @@ class userquery extends CBCategory
                 'type' => "radiobutton",
                 'name' => "allow_subscription",
                 'id' => "allow_subscription",
-                'hint_1' => lang('allow_subscription_hint'),
+                'hint_before' => lang('allow_subscription_hint'),
                 'value' => array('yes' => lang('yes'), 'no' => lang('no')),
                 'checked' => strtolower($default['allow_subscription']),
                 'db_field' => 'allow_subscription',
