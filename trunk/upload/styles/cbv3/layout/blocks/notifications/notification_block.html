@@ -1,4 +1,4 @@
-<div id="notification-block-{$notification.notification_id}">
+<div id="notification-block-{$notification.notification_id}" onclick="window.location='{$notification.link}' ">
     <div class="notification {if !$last}notification-padding{/if}" >
         
         <img src="{$notification.actor_thumb}" class="notify_avatar"/>

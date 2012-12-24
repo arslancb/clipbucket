@@ -7,51 +7,43 @@
  */
 class cbfeeds
 {
-    
+
     var $actions_list = array();
-    
-    
-    function cbfeeds(){
+
+    function cbfeeds()
+    {
         $this->actions_list = array
-        (
+            (
             'added_video',
             'liked_video',
             'shared_video',
             'commented_video',
             'favorited_video',
-            
-            
             'added_photo',
             'liked_photo',
             'shared_photo',
             'commented_photo',
             'favorited_photo',
-            
             'added_group',
             'invited_group',
             'joined_group',
             'favorited_group',
-            
             'added_friend',
             'accepted_friend',
             'commented_channel',
             'signup',
-            
             'added_status',
             'commented_status',
+            'commented_post',
             'liked_status',
-            
             'feed_mention',
             'comment_mention',
-            
             'added_album',
             'added_playlist',
             'commented',
             'liked_post',
             'favorited',
-            
             'feed',
-            
         );
     }
 
@@ -186,6 +178,7 @@ class cbfeeds
         if (!$action || !$object)
             return false;
 
+
         //Setting user feed array
         $feed = $array;
 
@@ -196,10 +189,10 @@ class cbfeeds
         //Setting feed object
         $feed['object'] = apply_filters($feed['object'], 'add_feed_object');
         $feed['object'] = json_encode($feed['object']);
-        
+
         //Get User details from message and then add it
         //To message_attributis.
-        
+
         $message = $feed['message'];
         $message_attributes = get_message_attributes($message);
 
@@ -225,23 +218,23 @@ class cbfeeds
         $feed['date_added'] = now();
         $feed['last_updated'] = time();
         $feed['time'] = time();
-        
-        
-        if(!$this->feed_exists($feed) || 1)
+
+
+        if (!$this->feed_exists($feed) || 1)
         {
             $feed_id = db_insert(tbl('feeds'), $feed);
+
             //$feed['feed_id'] = $feed_id;
             //return $feed;
-            
-            add_users_mentioned($message,$feed_id);
-            
+
+            add_users_mentioned($message, $feed_id);
+
             return $feed_id;
-        }else
+        }
+        else
         {
             return false;
         }
-
-       
     }
 
     /**
@@ -250,8 +243,8 @@ class cbfeeds
      */
     function action($action)
     {
-        $objects =  $this->actions_list;
-        
+        $objects = $this->actions_list;
+
         if (!in_array($action, $objects))
             return false;
         else
@@ -264,6 +257,7 @@ class cbfeeds
      */
     function getObject($object)
     {
+
         $objects = array
             ('signup', 'video', 'photo', 'group',
             'user', 'friend', 'collection');
@@ -548,16 +542,16 @@ class cbfeeds
      * @param STRING id
      * @param ARRAY content 
      */
-    function get_content($type, $id=NULL, $content = NULL)
+    function get_content($type, $id = NULL, $content = NULL)
     {
         $the_content = null;
 
         global $cbvid, $cbphoto, $cbgroup;
 
-        if(!$content)
+        if (!$content)
             $content = $id;
 
-        $the_content = get_content($type,$content);
+        $the_content = get_content($type, $content);
 
         $action_array = array('type' => $type, $id => $id, 'content' => $the_content);
 
@@ -643,9 +637,10 @@ class cbfeeds
     function like_feed($array)
     {
         global $userquery;
-        
-        if(!userid()) return false;
-        
+
+        if (!userid())
+            return false;
+
         $likes_data = $this->get_likes($array['feed_id']);
         $likes = json_decode($likes_data['likes'], true);
         $feed_id = $array['feed_id'];
@@ -669,11 +664,11 @@ class cbfeeds
         }
 
         $total_likes = count($likes);
-        
+
         db_update(tbl('feeds'), array(
-        'likes_count' => $total_likes,
-        'likes' => json_encode($likes)
-        ), " feed_id='$feed_id' ");
+            'likes_count' => $total_likes,
+            'likes' => json_encode($likes)
+                ), " feed_id='$feed_id' ");
 
 
         /*
@@ -734,46 +729,44 @@ class cbfeeds
                     'is_activity' => 'yes',
                     'action' => 'like_post',
                 );
-                
+
 
                 $this->add_feed($feed_array);
-                
-                
-                if(1)
+
+
+                if (1)
                 {
                     //Adding like post notification
                     $ntif_params =
-                        array(
-                            'action'        => 'liked_post',
-                            'feed_id'       => $feed['feed_id'],
-                            'object_id'     => $id,
-                            'object_type'   => $type,
-                            'object'        => $object,
-                            'actor_id'      => userid(),
-                            'userid'        => $feed['userid'],
-                            'actor'         => get_content('user',$userquery->udetails)
-                        );
+                            array(
+                                'action' => 'liked_post',
+                                'feed_id' => $feed['feed_id'],
+                                'object_id' => $id,
+                                'object_type' => $type,
+                                'object' => $object,
+                                'actor_id' => userid(),
+                                'userid' => $feed['userid'],
+                                'actor' => get_content('user', $userquery->udetails)
+                    );
                     $this->addNotification($ntif_params);
                 }
-                
             }
             else
             {
                 $feed_array = array('feed_id' => $feed['feed_id'],
-                'userid'=>userid(),
-                'action'=>'like_post');
+                    'userid' => userid(),
+                    'action' => 'like_post');
                 $this->delete_feed($feed_array);
-                
             }
         }
-        
+
         $result = array(
-            'total_likes'   => $total_likes,
-            'likes_count'   => $total_likes,
-            'likes'         => $likes,
-            'liked'         => $array['liked'],
+            'total_likes' => $total_likes,
+            'likes_count' => $total_likes,
+            'likes' => $likes,
+            'liked' => $array['liked'],
         );
-        
+
         return $result;
     }
 
@@ -794,7 +787,7 @@ class cbfeeds
         else
             return false;
     }
-    
+
     /**
      * feed exists
      * 
@@ -803,60 +796,58 @@ class cbfeeds
      */
     function feed_exists($feed_fields)
     {
-        if(is_numeric($feed_fields))
+        if (is_numeric($feed_fields))
         {
             $fid = mysql_clean($feed_fields);
-            $results = db_select("SELECT count(feed_id) AS total_feeds ".
-            "FROM cb_feeds WHERE feed_id='$fid'");
-            
-            if($results)
+            $results = db_select("SELECT count(feed_id) AS total_feeds " .
+                    "FROM cb_feeds WHERE feed_id='$fid'");
+
+            if ($results)
             {
                 $total_feeds = $results[0]['total_feeds'];
                 return $total_feeds;
             }
-            
+
             return false;
         }
-        
-        if(is_array($feed_fields)):
-            
-        
-        $valid_fields = array(
-            'feed_id','userid','action','content_id','object_id','object_type',
-            'content_type','is_activity','message'
-        );
-        
-        $query_fields = array();
-        
-        foreach($valid_fields as $field)
-        {
-            if($feed_fields[$field])
-            $query_fields[$field] = $feed_fields[$field];
-        }
-        
-        $condition = "";
-        
-        foreach($query_fields as $field => $value)
-        {
-            
-            if($condition)
-                $condition .= ' AND ';
-            $condition .= " ".$field."='$value' ";
-        }
-        
-        global $db;
-        $result = db_select("SELECT * FROM ".tbl('feeds')." WHERE ".$condition);
-        //echo $db->db_query;
-        if($db->num_rows>0)
-            return $result;
-        else
-            return false;
-        
-        
+
+        if (is_array($feed_fields)):
+
+
+            $valid_fields = array(
+                'feed_id', 'userid', 'action', 'content_id', 'object_id', 'object_type',
+                'content_type', 'is_activity', 'message'
+            );
+
+            $query_fields = array();
+
+            foreach ($valid_fields as $field)
+            {
+                if ($feed_fields[$field])
+                    $query_fields[$field] = $feed_fields[$field];
+            }
+
+            $condition = "";
+
+            foreach ($query_fields as $field => $value)
+            {
+
+                if ($condition)
+                    $condition .= ' AND ';
+                $condition .= " " . $field . "='$value' ";
+            }
+
+            global $db;
+            $result = db_select("SELECT * FROM " . tbl('feeds') . " WHERE " . $condition);
+            //echo $db->db_query;
+            if ($db->num_rows > 0)
+                return $result;
+            else
+                return false;
+
+
         endif;
-        
     }
-    
 
     /**
      * function used to chek if feed is liked or not by the logged in user
@@ -867,106 +858,127 @@ class cbfeeds
     function is_liked($likes)
     {
         $userid = userid();
-        
-        if($likes[$userid] && userid())
+
+        if ($likes[$userid] && userid())
             return true;
     }
-    
-    
+
     /**
      * Make a comment on a feed
      * 
      * @param INT | ARRAY $feed
      * @param STRING $comment
      */
+
     /**
      * Function used to add video comment
      */
-    function add_comment($comment, $object, $reply_to = NULL, $force_name_email = false) {
-        global $myquery, $db;
-        
-        
-        if(is_array($object))
+    function add_comment($comment, $object, $reply_to = NULL, $force_name_email = false)
+    {
+        global $myquery, $db, $userquery;
+
+
+        if (is_array($object))
             $feed = $object;
         else
             $feed = $this->get_feed($object);
-        
+
         $obj_id = $feed['feed_id'];
-        
+
         if (!$feed)
             e(lang("Feed does not exist"));
-        else {
+        else
+        {
             //Getting Owner Id
             $owner_id = $feed['userid'];
-            $add_comment = 
-            
-            $myquery->add_comment($comment, $obj_id, $reply_to, 'f', $owner_id,NULL, $force_name_email);
-            
-            if($add_comment && $use_the_static_commenting):
-            /*if ($add_comment) {
-                //Updating Number of comments of video
-                $this->update_comments_count($obj_id);
-            }*/
-            
-            $comments = $feed['comments'];
-            $comments = json_decode($comments,true);
-            
-            
-            $userfields = array(
-                'username','email',
-                'fullname','first_name','last_name',
-                'avatar','avatar_url'
-            );
-            
-            $new_comment = array(
-                'comment_id' => $add_comment,
-                'userid'     => userid(),
-                'comment'    => $comment,
-                'vote'       => 0,
-                'date_added' => now(),
-            );
-            
-            global $userquery;
-            foreach($userfields as $field)
-                $new_comment[$field] = $userquery->udetails[$field];
-            
+            $add_comment =
+            $myquery->add_comment($comment, $obj_id, $reply_to, 'f', $owner_id, NULL, $force_name_email);
 
-            $comments[] = $new_comment;
+            $object = $feed['object'];
+            $object = json_decode($object, true);
+            $type = $feed['object_type'];
+            $id = $feed['object_id'];
+
+            //Adding like post notification
+            $ntif_params =
+                    array(
+                        'action' => 'commented_post',
+                        'feed_id' => $feed['feed_id'],
+                        'object_id' => $id,
+                        'object_type' => $type,
+                        'object' => $object,
+                        'comment_id'    => $add_comment,
+                        'actor_id' => userid(),
+                        'userid' => $feed['userid'],
+                        'actor' => get_content('user', $userquery->udetails)
+            );
             
-            
+            $this->addNotification($ntif_params);
+
+            if ($add_comment && $use_the_static_commenting):
+                /* if ($add_comment) {
+                  //Updating Number of comments of video
+                  $this->update_comments_count($obj_id);
+                  } */
+
+                $comments = $feed['comments'];
+                $comments = json_decode($comments, true);
+
+
+                $userfields = array(
+                    'username', 'email',
+                    'fullname', 'first_name', 'last_name',
+                    'avatar', 'avatar_url'
+                );
+
+                $new_comment = array(
+                    'comment_id' => $add_comment,
+                    'userid' => userid(),
+                    'comment' => $comment,
+                    'vote' => 0,
+                    'date_added' => now(),
+                );
+
+                global $userquery;
+                foreach ($userfields as $field)
+                    $new_comment[$field] = $userquery->udetails[$field];
+
+
+                $comments[] = $new_comment;
+
+
             endif;
-            
+
             $total_comments = $feed['comments_count'] + 1;
-            
-            db_update(tbl('feeds'),array(
-            'comments_count'    => $total_comments,
-            )," feed_id='$obj_id' ");
-            
+
+            db_update(tbl('feeds'), array(
+                'comments_count' => $total_comments,
+                    ), " feed_id='$obj_id' ");
+
             return $add_comment;
-            
-            
         }
     }
-    
+
     /**
      * Function used to update feed comments count
      */
-    function update_comments_count($id) {
+    function update_comments_count($id)
+    {
         global $db;
         $total_comments = $this->count_feed_comments($id);
         $db->update(tbl("feeds"), array("comments_count", "last_commented"), array($total_comments, now()), " feed_id='$id'");
     }
-    
+
     /**
      * Function used to count feed video comments
      */
-    function count_feed_comments($id) {
+    function count_feed_comments($id)
+    {
         global $db;
         $total_comments = $db->count(tbl('comments'), "comment_id", "type='f' AND type_id='$id'");
         return $total_comments;
     }
-    
-    
+
     /**
      * function to get feeds
      * 
@@ -976,87 +988,84 @@ class cbfeeds
         $type = $array['type'];
         $id = $array['id'];
 
-        $results = db_select("SELECT * FROM ".tbl('feeds')
-        ." WHERE object_type='".$type."' AND object_id='$id' "
-        ." ORDER BY date_added DESC");
-        
-        
-        if($results)
+        $results = db_select("SELECT * FROM " . tbl('feeds')
+                . " WHERE object_type='" . $type . "' AND object_id='$id' "
+                . " ORDER BY date_added DESC");
+
+
+        if ($results)
         {
             $the_feeds = array();
-            foreach($results as $result)
+            foreach ($results as $result)
             {
                 //getting comments for each feed then attach it to them...
                 $result['comments'] = get_comments(array(
-                    'type'  => 'f',
-                    'type_id'    => $result['feed_id'],
-                    'order'      => 'date_added ASC'
-                ));
+                    'type' => 'f',
+                    'type_id' => $result['feed_id'],
+                    'order' => 'date_added ASC'
+                        ));
                 $the_feeds[] = $result;
             }
-            
+
             return $the_feeds;
         }
-        
+
         return false;
-        
     }
-    
-    
+
     /**
      * Add a notification for a user
      * @param type $params
      */
     function addNotification($params)
     {
-        $uid        = mysql_clean($params['userid']);
+        $uid = mysql_clean($params['userid']);
         //$message    = mysql_clean($params['message']);
-        $action     = mysql_clean($params['action']);
-        $feedId     = mysql_clean($params['feed_id']);
-        $actor      = ($params['actor']);
-        $actor_id   = mysql_clean($params['actor_id']);
-        
-        $elements     = array(
-            'object_id'         => mysql_clean($params['object_id']),
-            'object_type'       => mysql_clean($params['object_type']),
-            'comment_id'        => mysql_clean($params['comment_id']),
-            'object'            => ($params['object']),
-            'tagged_ids'        => $params['tagged_ids']
+        $action = mysql_clean($params['action']);
+        $feedId = mysql_clean($params['feed_id']);
+        $actor = ($params['actor']);
+        $actor_id = mysql_clean($params['actor_id']);
+
+        $elements = array(
+            'object_id' => mysql_clean($params['object_id']),
+            'object_type' => mysql_clean($params['object_type']),
+            'comment_id' => mysql_clean($params['comment_id']),
+            'object' => ($params['object']),
+            'tagged_ids' => $params['tagged_ids']
         );
-        
-        
-        if(!$actor)
+
+
+        if (!$actor)
             $actor = 'user';
-        
-        if(!$this->action($action))
+
+        if (!$this->action($action))
         {
             e(lang('Invalid action'));
             return false;
         }
-        
-        if($feedId && !$params['comment_id'])
-        if(!$this->feed_exists($feedId))
-        {
-            e(lang('Feed does not exist'));
-            return false;
-        }
+
+        if ($feedId && !$params['comment_id'])
+            if (!$this->feed_exists($feedId))
+            {
+                
+                e(lang('Feed does not exist'));
+                return false;
+            }
         
         $nid = db_insert(tbl('notifications'), array(
-            'feed_id'   => $feedId,
-            'userid'    => $uid,
-            'action'    => $action,
-            'actor'     => json_encode($actor),
-            'actor_id'  => $actor_id,
-            'time'      => time(),
-            'elements'  => json_encode($elements),
-            'date_added'=> now()
-        ));
-        
+            'feed_id' => $feedId,
+            'userid' => $uid,
+            'action' => $action,
+            'actor' => json_encode($actor),
+            'actor_id' => $actor_id,
+            'time' => time(),
+            'elements' => json_encode($elements),
+            'date_added' => now()
+                ));
+
         return $nid;
     }
-    
 
-    
     /**
      * Function used to get list of users to whome to send notification
      * 
@@ -1065,133 +1074,128 @@ class cbfeeds
     {
         
     }
-    
-    
+
     /**
      * Add subscription for notification
      */
     function addSubscription($params)
     {
-        $type   = $params['type'];
-        $id     = $params['id'];
-        $uid    = $params['userid'];
-        
-        if(!$type)
+        $type = $params['type'];
+        $id = $params['id'];
+        $uid = $params['userid'];
+
+        if (!$type)
             return false;
-        
-        if(!$id)
+
+        if (!$id)
             return false;
-        
-        
-        $subs_id = db_insert(tbl('subscriptions'),
-        array(
-            'userid'        => $uid,
-            'type'          => $type,
+
+
+        $subs_id = db_insert(tbl('subscriptions'), array(
+            'userid' => $uid,
+            'type' => $type,
             'subscribed_to' => $id,
-            'time'          => time()
-        ));
-        
-        
+            'time' => time()
+                ));
+
+
         return $subs_id;
-        
     }
-    
-    
+
     /**
      * Mark notification read
      */
-    function read_notification($uid,$nid){
-        
+    function read_notification($uid, $nid)
+    {
+
         $nid = mysql_clean($nid);
         $uid = mysql_clean($uid);
-        
-        db_update(tbl('notifications'),array(
-            'is_read'  => 'yes',
-        )," userid='$uid' AND notification_id='$nid' ");
-        
+
+        db_update(tbl('notifications'), array(
+            'is_read' => 'yes',
+                ), " userid='$uid' AND notification_id='$nid' ");
+
         return true;
     }
-    
+
     /**
      * Mark all users notifications read
      */
     function read_notifications($uid)
     {
         $uid = mysql_clean($uid);
-        
-        db_update(tbl('notifications'),array(
-            'is_read'  => 'yes',
-        )," userid='$uid' AND is_read='no' ");
-        
+
+        db_update(tbl('notifications'), array(
+            'is_read' => 'yes',
+                ), " userid='$uid' AND is_read='no' ");
+
         return true;
     }
-    
-    
+
     /**
      * Get user notifications
      */
-    function get_notifications($case='new',$uid=NULL,$limit=20)
+    function get_notifications($case = 'new', $uid = NULL, $limit = 20)
     {
-        if(!$uid)
+        if (!$uid)
             $uid = userid();
-        if(!$uid)
+        if (!$uid)
             return false;
-        
-        switch($case)
+
+        switch ($case)
         {
             default:
-            {
-                $query = "SELECT * FROM cb_notifications ";
-                $query .= " WHERE userid='$uid' ";
-                $query .= " ORDER BY time DESC ";
-                $query .= " LIMIT ".$limit;
-                $notifications = db_select($query);
-            }
-            break;
-            
+                {
+                    $query = "SELECT * FROM cb_notifications ";
+                    $query .= " WHERE userid='$uid' ";
+                    $query .= " ORDER BY time DESC ";
+                    $query .= " LIMIT " . $limit;
+                    $notifications = db_select($query);
+
+                    
+                }
+                break;
+
             case "unread":
-            {
-                $query = "SELECT * FROM cb_notifications ";
-                $query .= " WHERE userid='$uid' ";
-                $query .= " AND is_read='no'";
-                $query .= " ORDER BY time DESC ";
-                $notifications = db_select($query);
-            }
-            
+                {
+                    $query = "SELECT * FROM cb_notifications ";
+                    $query .= " WHERE userid='$uid' ";
+                    $query .= " AND is_read='no'";
+                    $query .= " ORDER BY time DESC ";
+                    $notifications = db_select($query);
+                }
         }
-        
+
         $the_notifications = array();
-        if($notifications)
-        foreach($notifications as $notification)
-        {
-            $phrase = create_notification_phrase($notification);
-            $elements = json_decode($notification['elements'],true);
-            $notification['elements'] = $elements;
-            
-            if($notification['actor'])
+        if ($notifications)
+            foreach ($notifications as $notification)
             {
-                $actor  = json_decode($notification['actor'],true);
-                $actor_thumb = get_actor_thumb($actor);
+                $phrase = create_notification_phrase($notification);
+                $elements = json_decode($notification['elements'], true);
+                $notification['elements'] = $elements;
+
+                if ($notification['actor'])
+                {
+                    $actor = json_decode($notification['actor'], true);
+                    $actor_thumb = get_actor_thumb($actor);
+                }
+                
+                $notification_link = get_notification_link($notification);
+
+                $the_notification = $notification;
+                $the_notification['phrase'] = $phrase;
+                $the_notification['actor_thumb'] = $actor_thumb;
+                $the_notification['link'] = $notification_link;
+
+                $the_notifications[] = $the_notification;
             }
-            
-            $notification_link = get_notification_link($notification);
-            
-            $the_notification = $notification;
-            $the_notification['phrase'] = $phrase;
-            $the_notification['actor_thumb'] = $actor_thumb;
-            $the_notification['link'] = $notification_link;
-           
-            $the_notifications[] = $the_notification;
-            
-        }
-        
-        if($the_notifications) 
+
+        if ($the_notifications)
             return $the_notifications;
         else
             return false;
     }
-    
-    
+
     /**
      * function used to get feed object
      * 
@@ -1201,25 +1205,23 @@ class cbfeeds
     function get_feed_object($fid)
     {
         $query = "SELECT object_id,object_type,object FROM ";
-        $query .= tbl('feeds')." WHERE feed_id='$fid' ";
+        $query .= tbl('feeds') . " WHERE feed_id='$fid' ";
         $query .= " LIMIT 1";
-        
+
         $results = db_select($query);
-        
-        if($results)
+
+        if ($results)
         {
             $object = $results[0];
-            if($object['object'])
-                $object['object'] = json_decode ($object['object'],true);
-            
+            if ($object['object'])
+                $object['object'] = json_decode($object['object'], true);
+
             return $object;
         }
         else
             return false;
     }
-    
- 
-}
 
+}
 
 ?>

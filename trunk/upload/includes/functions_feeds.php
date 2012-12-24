@@ -352,6 +352,7 @@ function create_notification_phrase($notification)
     $phrases = array(
         'feed_mention'      => '{actor} {action} you in a post',
         'comment_mention'   => '{actor} {action} you in a comment',
+        'commented_post'    => '{actor} has commented on your post',
         'liked_post'        => '{actor} has liked your post',
     );
 
@@ -447,15 +448,22 @@ function get_notification_link($notification)
     $object_type = $elements['object_type'];
     $object = $elements['object'];
     
+    
+    if($object['on'])
+    {
+        $object = $object['on'];
+        $object_type = $object['type'];
+    }
+    
     $content_link = get_content_link($object_type, $object);
-
+    
     //Appending Feed ID...
     if ($notification['feed_id'])
         $content_link .= '#feed_id=' . $notification['feed_id'];
 
     //Appending Comment ID
     if ($elements['comment_id'])
-        $content_link .= '|=' . $elements['comment_id'];
+        $content_link .= '|cid=' . $elements['comment_id'];
     
     return $content_link;
 }
@@ -489,8 +497,9 @@ function get_notify_icon($notify)
         'commented_channel' => 'icon-user',
         'signup'            => 'icon-user',
         
-        'added_status'      => 'icon-camera',
-        'commented_status'  => 'icon-camera',
+        'added_status'      => 'icon-comment',
+        'commented_status'  => 'icon-comment',
+        'commented_post'    => 'icon-comment',
         'liked_status'      => 'icon-thumbs-up',
         
         'feed_mention'      => 'icon-comment',

@@ -132,6 +132,7 @@ if ($details)
             'message' => 'Yar ye tu akheer hi video hai, check kar'
         ));*/
     }
+
     subtitle($details['group_name']);
 
 }
