@@ -1,0 +1,100 @@
+{assign var='requiredFields' value=$cbgroup->load_required_fields()}
+{assign var='optionFields' value=$cbgroup->load_other_fields()}
+{assign var='customFields' value=$cbgroup->custom_group_fields}
+
+
+<h2>{lang code='grp_crt_grp'}</h2>
+<form name="create_group_form form-vertical" class="create_group_form" method="post" action="">
+
+    <!-- Required Fields -->
+    <fieldset>
+        <legend>required fields</legend></fieldset>
+    {foreach from=$requiredFields item=field}
+    {$field.class='input-xxlarge'}
+
+    {if $field.type=='checkbox' || $field.type=='radiobutton'}
+    {$field.sep=' '}
+
+    {if $field.type=='checkbox'}
+    {$field.class='checkbox'}
+    {else}
+    {$field.class='radio'}
+    {/if}
+    {/if}
+
+
+
+
+    <div class="control-group">
+        <label class="control-label" for="{$field.id}">{$field.title}</label>
+        <div class="controls">
+
+            {if $field.hint_1}
+            <span class="help-block">{$field.hint_before}</span>
+            {/if}
+
+
+
+            {ANCHOR place=$field.anchor_before}
+            {$formObj->createField($field)}
+            {ANCHOR place=$field.anchor_after}
+
+            {if $field.hint_2}
+            <span class="help-block">{$field.hint_after}</span>
+            {/if}
+        </div>
+    </div>
+    {/foreach}
+
+
+    <!-- Required Fields -->
+
+    <div id="more_fields" >
+        <!-- MORE Fields -->
+        <fieldset>
+            <legend>{lang code="More options"}</legend>
+        </fieldset>
+        {foreach from=$optionFields item=field}
+
+        {$field.class='input-xxlarge'}
+
+        {if $field.type=='checkbox' || $field.type=='radiobutton'}
+        {$field.sep=' '}
+
+        {if $field.type=='checkbox'}
+        {$field.class='checkbox'}
+        {else}
+        {$field.class='radio'}
+        {/if}
+        {/if}
+        <div class="control-group">
+            <label class="control-label" for="{$field.id}">{$field.title}</label>
+            <div class="controls">
+
+                {if $field.hint_1}
+                <span class="help-block">{$field.hint_before}</span>
+                {/if}
+
+
+
+                {ANCHOR place=$field.anchor_before}
+                {$formObj->createField($field)}
+                {ANCHOR place=$field.anchor_after}
+
+                {if $field.hint_2}
+                <span class="help-block">{$field.hint_after}</span>
+                {/if}
+            </div>
+        </div>
+        {/foreach}
+
+        <!-- MORE Fields -->
+    </div>
+
+
+
+    <div class="form-actions">
+        <input type="submit" name="create_group" 
+        value="{lang code='grp_crt_grp'}" class="btn btn-inverse btn-large">
+    </div>
+</form>
