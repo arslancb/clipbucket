@@ -1,0 +1,54 @@
+#channels-container { }
+
+#channels-container .global-navigation-column { }
+#channels-container .global-content-column { background: #EEE; padding: 0px; border: solid #ccc; border-width: 0px 1px 1px 0px;  padding: 0px 12px 12px; border-radius: 0px 3px 3px 0px; width: 565px }
+
+.user-filter-row { padding: 8px; margin: 0px -12px 12px; border: solid #ccc; border-width: 1px 0px; background: white;  }
+
+.user-block {
+    margin: 0px -12px 0px;
+    padding: 12px 12px;
+    border: solid transparent;
+    border-width: 1px 0px;
+    position: relative;
+}
+
+.user-block .btn-subscribe {
+    position: absolute;
+    top: 12px; right: 12px; 
+}
+
+.users-list .user-block:last-child {
+    margin-bottom: 12px;
+}
+
+.user-block:hover {
+    background: whitesmoke;
+    border-color: #ccc;
+}
+
+.user-block:hover .user-block-avatar img {
+    box-shadow: 0px 0px 6px 0px rgba( 0,0,0,0.045 );
+}
+
+.user-block .user-block-avatar {
+     float: left;
+}
+
+.user-block .user-block-details {
+    margin-left: 150px;
+}
+
+.user-block .user-block-username {
+    font-size: 14px;
+    margin: 0px 0px 6px;
+    color: #666;
+}
+
+.user-block .user-block-username a {
+    color: #333;
+}
+
+.user-block-description {
+    font-size: 13px;
+}

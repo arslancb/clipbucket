@@ -1,0 +1,77 @@
+{assign var=type value='channels'}
+
+<div id="channels-container" class="relative clearfix">
+    <div class="global-navigation-column pull-left">
+                <div class="cb-widget">
+            <h2 class="cb-widget-title">{lang code='Browse'}</h2>
+            {$categories=getCategoryList(['type'=>$type])}
+
+            {if $categories}
+            <ul class="global-nav-list margin0 cbv3-scroller">
+                {foreach $categories as $cat}
+                {if !$cat.parent_id}
+                <li><a href="{category_link($cat, $type)}">{$cat.category_name}</a></li>
+                {/if}
+                {/foreach}
+            </ul>
+            {/if}
+        </div>
+    </div>
+    <div id="global-navgiation-full-height"></div>
+    
+    <div class="pull-left">
+        <div class="global-sidebar-column pull-right">
+            <div class="cb-widget">
+                <h2 class="cb-widget-title">{lang code='Other users'}</h2>
+            </div>
+        </div>   
+        
+        <div class="global-content-column pull-left">
+            <div class="user-filter-row clearfix">
+
+                    <div  class="dropdown sorting btn-group inline pull-left">
+                        <a class="btn">{lang code='Sort' }</a>
+                        <a class="dropdown-toggle btn" data-toggle="dropdown" href="#"> 
+                            {sort_label()} <i class="caret"></i>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="sortingUL">
+
+                            {$sorting_links = sorting_links()}
+                            {foreach $sorting_links as $sort => $name}
+                                <li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=$type}" >{$name}</a></li>
+                            {/foreach}
+                        </ul>
+
+                    </div>
+
+                    <div  class="dropdown sorting btn-group inline pull-right">
+
+                        <a class="dropdown-toggle btn" data-toggle="dropdown" href="#"> 
+                            {time_label()} <i class="caret"></i>
+                        </a>
+
+                         <ul class="dropdown-menu" role="menu" aria-labelledby="sortingUL">
+
+                            {$time_links=time_links()}
+                            {foreach $time_links as $sort => $name}
+                            <li><a href="{link name=time sort=$sort type=$type}" {if $smarty.get.time==$sort } class="selected"{/if}>{$name}</a></li>
+                            {/foreach}
+                        </ul>
+                    </div>
+            </div>
+            {if $users}
+                <div class="users-list">
+                    {foreach $users as $user}
+                        {include_template_file file='blocks/user.html' user=$user}
+                    {/foreach}
+                </div>
+                {get_template('pagination')}
+            {else}
+                <p class="alert alert-large">{lang code='No result found'}</p>
+            {/if}
+            
+        </div>
+        <div id="global-content-full-height"></div>
+    </div>
+</div>

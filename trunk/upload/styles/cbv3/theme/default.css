@@ -6,13 +6,14 @@
  * @Rev : $REV$
  */
  
- @import url("group.css");
- @import url("view_channel.css");
- @import url("collections.css");
- @import url("photos.css");
- @import url("feeds.css");
- @import url("signup.css");
-  
+@import url("group.css");
+@import url("view_channel.css");
+@import url("collections.css");
+@import url("photos.css");
+@import url("feeds.css");
+@import url("signup.css");
+@import url("channels.css");
+   
  /**bootstrap icon fix
  ----------------------------------------
  It is causing more trouble than sovling it. If navigation is looking fine than

@@ -9,3 +9,18 @@
 {if $display_method == 'user_contacts'}
 <li><a href="{$userquery->profile_link($user)}"><img src="{avatar details=$user}" width="60" height="60" /></a> <a href="{$userquery->profile_link($user)}">{name($user)}</a></li>
 {/if}
+
+{if !$display_method || $display_method == 'normal'}
+<div class="user-block clearfix">
+    <div class="user-block-avatar"><a href="{$userquery->profile_link( $user )}"><img src="{avatar uid=$user.userid}" width="140" height="140" /></a></div>
+    <div class="user-block-details">
+        <h4 class="user-block-username"><a href="{$userquery->profile_link( $user )}">{name($user)}</a></h4>
+        <ul class="user-block-description unstyled">
+            <li>{$user.total_videos|number_format} {lang code='videos'}</li>
+            <li>{$user.total_photos|number_format} {lang code='photos'}</li>
+        </ul>
+        
+        <button class="btn btn-small btn-subscribe"><i class="icon-user"></i> Subscribe</button>
+    </div>
+</div>
+{/if}
