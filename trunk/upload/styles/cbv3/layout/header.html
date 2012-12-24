@@ -61,10 +61,14 @@
             </form>
 
 
-            <div class="btn-group inlineblock valignTop">
+            <div class="inlineblock valignTop">
                 {if !userid()}
-                <button class="btn login-box" data-target="#login-modal"  data-toggle="modal"><span class="icon-user"></span> {lang code='Login'}</button>
 
+                <div class="btn-group ">
+                    <button class="btn login-box" data-target="#login-modal"  data-toggle="modal"><span class="icon-user"></span> {lang code='Login'}</button>
+                    <a href="{link name='signup'}" class="btn">Register</a>
+
+                </div>
                 <!-- Login Modal Box -->
                 <div class="modal hide fade" id="login-modal">
                     <div class="modal-header">
@@ -113,27 +117,33 @@
                 </div>
 
 
-                <a href="{link name='signup'}" class="btn">Register</a>
                 {else}
-                <button class="btn cb-dropdown"><span class="icon-user" 
-                                                      data-toggle="dropdown" data-target="#user-dropdown"></span> 
-                    {username()} <i class="caret"></i></button>
 
-                <ul class="dropdown-menu" id="#user-dropdown">
+                <div class="btn-toolbar" style="margin: 0;">
+                    <div class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            <span class="icon-user"></span> {username()}  <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
 
-                    {$user_menu=get_menu('user_head_menu')}
+                            {$user_menu=get_menu('user_head_menu')}
 
-                    {foreach $user_menu as $menu}
-                        <li><a href="{$menu.link}">{$menu.title}</a></li>
-                    {/foreach}
+                            {foreach $user_menu as $menu}
+                            <li><a href="{$menu.link}">{$menu.title}</a></li>
+                            {/foreach}
 
 
-                    <li class="divider"></li>
-                    <li><a href="#"><i class="icon-off"></i> Logout</a></li>
-                </ul>
-
-                <button class="btn btn-primary">Upload
-                    <span class="icon-upload icon-white"></span></button>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="icon-off"></i> Logout</a></li>
+                        </ul>
+                    </div><!-- /btn-group -->
+                    <div class="btn-group">
+                        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Upload <span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="{link name='upload'}">{lang code='Upload video'}</a></li>
+                            <li><a href="{link name='photo_upload'}">{lang code='Upload photo'}</a></li>
+                        </ul>
+                    </div><!-- /btn-group -->
+                </div>
                 {/if}
             </div>
         </div>

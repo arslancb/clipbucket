@@ -1162,13 +1162,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     border-top-color : #000033;
 }
 
-.btn-block {
-    display: block; 
-   
-    padding-right: 0px; 
-    padding-left: 0px; 
-    box-sizing: border-box
-}
+
 
 .featured-middle-content {
     background: white;
