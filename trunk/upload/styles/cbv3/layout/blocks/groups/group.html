@@ -1,23 +1,32 @@
 <div class="group-block">
-    <div class="group-left relative">
+    <div class="group-left">
         <a href="{group_link details=$group}">
-            <img src="{$cbgroup->get_group_thumb($group)}" class="group-thumb"/>
+            <img src="{$cbgroup->get_group_thumb($group,small)}" class="img-circle group-thumb"/>
         </a>
-        <div class="black-gradient absolute bottom">3342 members</div>
     </div>
     <div class="group-right">
         <div class="group-title">
             <a href="{group_link details=$group}">{$group.group_name}</a>
+            
+           
         </div>
-        <div class="group-left-stat"></div>
+        
+        <span class="group-privacy">
+            {if $group.privacy==0}
+            <i class="icon-v3 icon-globe"></i> {lang code='Public'}
+            {elseif $group.privacy==1}
+            <i class="icon-eye-close"></i> {lang code='Protected'}
+            {elseif $group.privacy==2}
+            <i class="icon-lock"></i> {lang code='Private'}
+            {/if}
+        </span>
+        
 
         <div class="group-desc">{$group.group_description}</div>
-        <div class="group-topics">
-            <ul>
-                <li>* <a href="#">Group topic # 1</a></li>
-                <li>* <a href="#">Group topic # 2</a></li>
-            </ul>
-        </div>
+        
+        <div class="group-stat">{$group.total_topics|number_format} topics .
+        {$group.total_videos|number_format} videos . {$group.total_members|number_format} members</div>
+        
     </div>
 
     <div class="clearfix"></div>

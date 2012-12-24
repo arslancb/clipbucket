@@ -757,9 +757,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e3', end
     margin: 5px 8px 0px; line-height: 28px;
 }
 
+.global-channel-block{
+    padding:8px
+}
+
 .index-channel-block {
     padding:8px;
 }
+
 
 .index-channel-block.not-logged-in {
     background: #414141;
@@ -1158,7 +1163,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 
 .btn-block {
     display: block; 
-    width: 100%; 
+   
     padding-right: 0px; 
     padding-left: 0px; 
     box-sizing: border-box

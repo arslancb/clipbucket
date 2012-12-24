@@ -70,31 +70,32 @@
 
 /** Groups CSS **/
 .group-block{
-    width: 172px;
+
     font-size:12px;
     color: #7d7d7d;
-    margin-bottom: 20px; margin-left: 5px;
+    margin: 10px 0px;
     border:1px solid transparent;
-    padding: 5px; float: left; height: 190px
+    padding: 10px; min-height: 100px;
+    position: relative
 }
-.group-block:hover{background-color: #fff; border : 1px solid #ddd; box-shadow: 0px 0px 3px rgba(0,0,0,0.25)}
-.group-block .group-left{width: 170px; margin-right: 10px; margin-bottom: 5px }
-.group-block .group-thumb{width: 170px; height: 106px; border: 1px solid #000; }
-.group-right{}
+.group-block:hover{background-color: #f5f5f5; border : 1px solid #ddd; }
+.group-block .group-left{width: 100px; position: absolute; left: 10px; }
+.group-block .group-thumb{}
+.group-right{padding-left: 110px}
 
-.group-block .group-title{font-size: 17px; font-weight: bold; color: #000}
+.group-block .group-title, .group-block .group-title a{font-size: 14px; font-weight: bold; color: #000}
 .group-block .group-desc{font-size: 13px; margin: 5px 0px}
 .group-block .group-topics{font-size: 10px; font-weight: bold}
 .group-block .group-topics ul{ list-style: none;margin: 0px; padding: 0px; list-style:none}
 .group-block .group-topics ul li{list-style: none; list-style-type: none; line-height: 15px}
 .group-block .group-topics ul li a{color:#7d7d7d;  text-decoration: underline;}
-.group-block .group-left-stat{line-height: 15px; font-size: 10px; font-weight: bold}
+.group-block .group-stat{line-height: 15px; font-size: 10px; font-weight: bold}
 
 .group-block .group-title{font-size: 17px; font-weight: bold; color: #000}
 .group-block .group-desc{font-size: 13px; margin: 5px 0px}
 .group-block .group-topics{font-size: 10px; font-weight: bold}
 .group-block .group-topics ul{ list-style: none;margin: 0px; padding: 0px; list-style:none}
-.group-block .group-topics ul li{list-style: none; list-style-type: none; line-height: 15px}
+.group-block .group-topics ul li{list-style: none; list-style-type: none; line-height: 15px; float: left; margin-right: 15px}
 .group-block .group-topics ul li a{color:#7d7d7d;  text-decoration: underline;}
 .group-left-stat{line-height: 15px; font-size: 10px; font-weight: bold}
 
@@ -134,6 +135,8 @@ box-shadow: 0px 2px 1px rgba(0,0,0,0.16)
 .group-topic-post .topic-post-thumb{margin-right: 10px; float: left;}
 .group-topic-post .topic-title{font-size: 14px; font-weight: bold; }
 .group-topic-post .topic-info{color: #7d7d7d; font-size: 10px}
+
+.group-privacy{position: absolute; right:5px; top: 8px; font-size: 11px}
 
 .group-topic-post .topic-post{font-size: 13px; font-weight: normal}
 .group-topic-post .like-dislike{top: 7px; right: 7px}

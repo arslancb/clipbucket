@@ -60,6 +60,15 @@ function sorting_links()
 	return $array;
 }
 
+function sort_label(){
+    $links = sorting_links();
+    return $links[$_GET['sort']];
+}
+
+function time_label(){
+    $links = time_links();
+    return $links[$_GET['time']];
+}
 function time_links()
 {
 	$array = array
