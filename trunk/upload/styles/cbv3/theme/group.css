@@ -80,7 +80,7 @@
 }
 .group-block:hover{background-color: #f5f5f5; border : 1px solid #ddd; }
 .group-block .group-left{width: 100px; position: absolute; left: 10px; }
-.group-block .group-thumb{}
+.group-block .group-thumb{width:95px; height: 95px}
 .group-right{padding-left: 110px}
 
 .group-block .group-title, .group-block .group-title a{font-size: 14px; font-weight: bold; color: #000}
