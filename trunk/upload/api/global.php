@@ -37,4 +37,9 @@ if (!function_exists('get_mob_video'))
     }
 
 }
+
+
+$blacklist_fields = array(
+    'password', 'video_password', 'avcode', 'session'
+);
 ?>

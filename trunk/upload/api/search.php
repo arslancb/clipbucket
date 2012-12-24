@@ -46,7 +46,10 @@ if ($results)
 
                     if (has_hq($video))
                         $video['videos']['hd'] = $hq_file;
-
+                    
+                    foreach ($blacklist_fields as $field)
+                        unset($video[$field]);
+                    
                     $the_results[] = $video;
                 }
             }
@@ -60,6 +63,10 @@ if ($results)
                 foreach ($results as $user)
                 {
                     $user['avatar'] = $user['user_photo'] = $userquery->avatar($user);
+                    
+                    foreach ($blacklist_fields as $field)
+                        unset($user[$field]);
+                    
                     $the_results[] = $user;
                 }
             }

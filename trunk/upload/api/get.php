@@ -14,8 +14,8 @@ $mode = $request['mode'];
 
 $page = mysql_clean($request['page']);
 
-$max_video_limit    = 20;
-$videos_limit       = 20;
+$max_video_limit = 20;
+$videos_limit = 20;
 
 
 $api_keys = $Cbucket->api_keys;
@@ -33,6 +33,9 @@ switch ($mode)
     case "get_videos":
     default:
         {
+            $blacklist_fields = array(
+                'password', 'video_password', 'avcode', 'session'
+            );
 
             $get_limit = create_query_limit($page, $videos_limit);
 
@@ -75,14 +78,17 @@ switch ($mode)
                     }
                     $video['url'] = $video['video_link'] = $video['videoLink'] = videoLink($video);
                     $video['avatar'] = $video['user_photo'] = $video['displayPic'] = $userquery->avatar($video);
-                    
+
                     /*
-                    if (!$video['fullname'])
-                    {
-                        $video['userDetail'] = $userquery->get_user_details($video['userid']);
-                    }
-                    */
-                    
+                      if (!$video['fullname'])
+                      {
+                      $video['userDetail'] = $userquery->get_user_details($video['userid']);
+                      }
+                     */
+
+                    foreach ($blacklist_fields as $field)
+                        unset($video[$field]);
+
                     $new_videos[] = $video;
                 }
             }
@@ -111,7 +117,23 @@ switch ($mode)
 
             $comments = $myquery->getComments($params);
 
-            echo json_encode($comments);
+            $blacklist_fields = array(
+                'password', 'video_password', 'avcode', 'session'
+            );
+
+            $the_comments = array();
+
+            if ($comments)
+                foreach ($comments as $comment)
+                {
+                    foreach ($blacklist_fields as $field)
+                    {
+                        unset($comment[$field]);
+                    }
+                    $the_comments[] = $comment;
+                }
+
+            echo json_encode($the_comments);
         }
         break;
 
@@ -193,7 +215,7 @@ switch ($mode)
 
                 $playlists = $new_playlists;
             }
-            
+
             if ($playlists)
                 echo json_encode($playlists);
             else
@@ -206,7 +228,11 @@ switch ($mode)
         {
             $pid = mysql_clean($request['playlist_id']);
             $items = $cbvid->get_playlist_items($pid);
-            
+
+            $blacklist_fields = array(
+                'password', 'video_password', 'avcode', 'session'
+            );
+
             if ($items)
             {
                 $new_videos = array();
@@ -224,6 +250,10 @@ switch ($mode)
                     $video['videos'] = array('mobile' => get_mob_video(array('video' => $video)));
                     $video['url'] = $video['video_link'] = $video['videoLink'] = videoLink($video);
                     $video['avatar'] = $video['user_photo'] = $video['displayPic'] = $userquery->avatar($video);
+
+                    foreach ($blacklist_fields as $field)
+                        unset($video[$field]);
+
                     $new_videos[] = $video;
                 }
                 echo json_encode($new_videos);
@@ -278,6 +308,22 @@ switch ($mode)
             $subscribers = $userquery->get_user_subscribers_detail($uid);
 
             if ($subscribers)
+            {
+                $the_subscribers = array();
+                foreach ($subscribers as $subscriber)
+                {
+                    foreach ($blacklist_fields as $field)
+                    {
+                        unset($subscriber[$field]);
+                    }
+                    $the_subscribers = $subscriber;
+                }
+
+                $subscribers = $the_subscribers;
+            }
+
+
+            if ($subscribers)
                 echo json_encode($subscribers);
             else
                 echo json_encode(array('err' => lang('No Subscribers')));
@@ -296,6 +342,21 @@ switch ($mode)
                 exit(json_encode(array('err' => lang('Please login'))));
 
             $subscribers = $userquery->get_user_subscriptions($uid);
+
+            if ($subscribers)
+            {
+                $the_subscribers = array();
+                foreach ($subscribers as $subscriber)
+                {
+                    foreach ($blacklist_fields as $field)
+                    {
+                        unset($subscriber[$field]);
+                    }
+                    $the_subscribers = $subscriber;
+                }
+
+                $subscribers = $the_subscribers;
+            }
 
             if ($subscribers)
                 echo json_encode($subscribers);
@@ -339,6 +400,11 @@ switch ($mode)
                     $video['videos'] = array('mobile' => get_mob_video(array('video' => $video)));
                     $video['url'] = $video['video_link'] = $video['videoLink'] = videoLink($video);
                     $video['avatar'] = $video['user_photo'] = $video['displayPic'] = $userquery->avatar($video);
+                   
+                    foreach ($blacklist_fields as $field)
+                    unset($video[$field]);
+                    
+                    
                     $new_videos[] = $video;
                 }
                 echo json_encode($new_videos);
@@ -370,8 +436,31 @@ switch ($mode)
                     $new_users[] = $user;
                 }
             }
+
+
+            $user_api_fields = array(
+                'username', 'first_name', 'last_name', 'fullname',
+                'avatar', 'avatar_url',
+                'userid', 'email',
+                'total_videos',
+                'total_photos', 'total_collections',
+                'total_groups');
+
+
+            $final_users = array();
+            if ($new_users)
+                foreach ($new_users as $user)
+                {
+                    $final_user = array();
+
+                    foreach ($user_api_fields as $field)
+                        $final_user[$field] = $user[$field];
+
+                    $final_users[] = $final_user;
+                }
+
             //echo $db->db_query;
-            echo json_encode($new_users);
+            echo json_encode($final_users);
         }
 }
 ?>
