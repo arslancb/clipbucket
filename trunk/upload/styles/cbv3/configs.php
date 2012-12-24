@@ -10,7 +10,8 @@ $array = array(
     'single_feed_comment'   => 'blocks/single_feed_comment.html',
     'comments'              => 'blocks/comments.html',
     'topic'                 => 'blocks/groups/group_topic.html',
-    'single_group_feed'     => 'blcoks/groups/group_feed.html'
+    'single_group_feed'     => 'blcoks/groups/group_feed.html',
+    'single_feed_user'      => 'blocks/view_channel/feed.html',
 );
 
 set_config('template_files',$array);

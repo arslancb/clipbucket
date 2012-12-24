@@ -1,6 +1,6 @@
 {$feed=feed($feed)}
 
-<div class="{$feed.content_type}-feed {$feed.content_type}-feed-{$feed.feed_id} feed clearfix" id="feed-{$feed.feed_id}">
+<div class="{$feed.object_type}-feed {$feed.object_type}-feed-{$feed.feed_id} feed clearfix" id="feed-{$feed.feed_id}">
     <div class="feed-header">
         <div class="feed-author">
             <a href="{$userquery->profile_link($feed.user)}"><img src="{avatar uid=$feed.user.userid size='small'}" /></a>

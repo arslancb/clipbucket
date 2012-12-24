@@ -102,7 +102,7 @@ function add_new_post(post,type,type_id,content_type,content_id,action)
         if(data.template)
         {
             //Apend the data...
-            $('#group-feeds').prepend(data.template);
+            $('.cb-feeds').prepend(data.template);
             $('#feed-'+data.fid).hide().fadeIn(1000);
             $('#post_message').val('');
             

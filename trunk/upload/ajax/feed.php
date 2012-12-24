@@ -138,7 +138,15 @@ switch ($mode)
                 $feed = $cbfeeds->get_feed($fid);
                 assign('feed', $feed);
 
+                if($object_type)
+                {
+                    $template = get_template('single_feed_'.$object_type);
+                }
+                
+                if(!$template)
                 $template = get_template('single_feed');
+                
+                
                 $array = array(
                     'success' => 'ok',
                     'template' => $template,

@@ -355,3 +355,27 @@ vertical-align: top; margin-left: 10px; height: 28px; overflow: hidden}
 .notification .actor_name{font-weight: bold}
 .notifications-container{height: 300px;}
 .notifications .all_notifications a{margin: 0px; padding: 0px; text-align: center}
+
+
+
+.group-feed .feed-context{
+    margin: 0px;
+}
+
+
+
+.group-feed{padding: 6px; margin-bottom: 10px; border-bottom: 1px solid #dedddd}
+
+.group-feed .feed-interaction .feed-likes{background-color:#fff}
+.group-feed .feed-row{background-color:#fff}
+.group-feed .feed-triangle{border-color: transparent transparent #fff transparent;}
+.group-feed .feed-context .feed-message{font-size:14px; padding-left: 2px}
+.group-feed .feed-context .feed-content{
+    margin: 0px;
+}
+
+.group-feed .feed-author img{position:absolute; left: 0px}
+.group-feed .feed-author{padding-left:45px}
+.group-feed .feed-header{border-bottom: 0px}
+.group-feed .feed-header .feed-time{right:0px; left: auto}
+.group-feed .feed-context{margin-left: 50px; margin-top: -20px}
