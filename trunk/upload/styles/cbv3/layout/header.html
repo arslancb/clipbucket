@@ -53,10 +53,22 @@
         <!-- Buttons on the right side-->
         <div class="header-top-right">
 
-            <form class="inlineblock form-search" style="margin-right:10px;">
+            <form class="inlineblock form-search" style="margin-right:10px;" action="{link name='search_result'}" data-component="cbsearch">
+                <input type="hidden" name="type" id="searchType" value="{'type'|get_form_val:true}" />
+                {$search_type='type'|get_form_val:true}
                 <div class="inlineblock valignTop input-append input-prepend">
-                    <button class="btn" type="button">Videos <span class='caret'></span></button><input type="text" class="span5"><button 
-                        class="btn"><i class="icon-search"></i></button>                    
+                    <div class="btn-group" data-component="cbsearch">
+                        <button class="btn dropdown-toggle selected-search-type" type="button" data-toggle="dropdown">{$search_type|capitalize} <span class='caret'></span></button>
+                        <ul class="dropdown-menu">
+                            {foreach from=$Cbucket->search_types item=t key=stypes name=SearchTypes}
+                                <li>
+                                <a id="{$stypes}" data-type="{$stypes}" href="#" class="search-type{if $smarty.get.type == $stypes && $smarty.const.THIS_PAGE == "search_result"} active{/if}">{$stypes|capitalize}</a>
+                                </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                    <input type="text" class="span5" value="{'query'|get_form_val:true}" name="query" id="query">
+                    <button class="btn"><i class="icon-search"></i></button>                    
                 </div>
             </form>
 
