@@ -13,7 +13,8 @@
 @import url("feeds.css");
 @import url("signup.css");
 @import url("channels.css");
-   
+@import url("search.css");
+
  /**bootstrap icon fix
  ----------------------------------------
  It is causing more trouble than sovling it. If navigation is looking fine than

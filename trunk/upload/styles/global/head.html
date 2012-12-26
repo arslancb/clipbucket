@@ -595,7 +595,46 @@ $(document).ready(function() {
         {/if}
         {literal}		
     });
+    {/literal}
+    $( document ).ready( function(){
+        var cbsearch_component = $('[data-component=cbsearch]');
+        var selected_search_type = $('[data-component=cbsearch] .selected-search-type').text();
+        var cbsearch_advance_options = $('.search-advance-options');
+        
+        if ( !selected_search_type || selected_search_type == ' ' ) {
+            var default_search_type = $('[data-component=cbsearch] [data-type=videos].search-type');
+            $('[data-component=cbsearch] .selected-search-type').prepend( default_search_type.text()+' ' );
+            default_search_type.addClass('active');
+            default_search_type.parents('form').find('input[name=type]').val( default_search_type.attr('data-type') );
+        }
+        
+        cbsearch_component.find('.search-type').click( function(){
+            var new_selected_type = $(this).attr('id'), new_selected_text = $(this).text(), selected_search_text = $( this ).parents('[data-component=cbsearch]').find('.selected-search-type').text();
+            var new_selected_search = cbsearch_component.find('.selected-search-type').html().replace( selected_search_text, new_selected_text+' ' );
+            cbsearch_component.find('.selected-search-type').html( new_selected_search );
+            cbsearch_component.find('input[name=type]').val( $(this).attr('data-type') );
+            cbsearch_component.find('.search-type.active').removeClass('active');
+            $( this ).addClass('active');
+            
+            if ( cbsearch_advance_options.css('display') == 'block' ) {
+                cbsearch_advance_options.find('.search-advance-option').hide();
+                cbsearch_advance_options.find('[data-type='+$(this).attr('data-type')+']').show();
+            }
+        });
+        
+        cbsearch_component.find('.search-options').click( function(){
+                        
+            if ( cbsearch_advance_options.css('display') == 'block' ) {
+                cbsearch_advance_options.hide();
+            } else {
+                cbsearch_advance_options.find('.search-advance-option').hide();
+                var current_search_type = ( cbsearch_component.find('input[name=type]').val()  );
+                cbsearch_advance_options.find('[data-type='+current_search_type+']').show();
+                cbsearch_advance_options.show();
+            }
+        });
+    });
 </script>
-{/literal}
+
 {ANCHOR place='cb_head'}
 <!-- ClipBucket version {$Cbucket->cbinfo.version} -->
