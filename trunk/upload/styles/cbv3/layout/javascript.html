@@ -161,18 +161,21 @@
         });
         
         //Hiding Children Categories
-        $('.categories-nav > ul > li > ol').hide();
+        $('.categories-nav > li > ol').hide();
+        
         //Adding Toggle
-        $('.categories-nav > ul > li .icon-toggle').click(function(){
-            $('.categories-nav > ul > li > ol').toggle();
+        $('.category-toggle').click(function(){
+            
+            $('.categories-nav > li > ol').toggle();
            
-            if($('.categories-nav > ul > li > ol').css('display')=='none')
+            if($('.categories-nav > li > ol').css('display')=='none')
             {
-                $(this).removeClass('toggle-invert');
+                
+                $(this).removeClass('icon-chevron-up').addClass('icon-chevron-down');
                 $(this).parent().removeClass('active');
             }else
             {
-                $(this).addClass('toggle-invert');
+                $(this).removeClass('icon-chevron-down').addClass('icon-chevron-up');
                 $(this).parent().addClass('active');
             }
         })
