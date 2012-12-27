@@ -274,5 +274,8 @@ CREATE TABLE `{tbl_prefix}video_files` (
 ALTER TABLE  `{tbl_prefix}video` ADD  `file_directory` VARCHAR( 25 ) NOT NULL AFTER  `uploader_ip`;
 
 -- 12-24-2012 @ Author Arslan
-ALTER TABLE  `{tbl_prefix}_users` ADD  `first_name` VARCHAR( 50 ) NOT NULL AFTER  `username` ,
+ALTER TABLE  `{tbl_prefix}users` ADD  `first_name` VARCHAR( 50 ) NOT NULL AFTER  `username` ,
 ADD  `last_name` VARCHAR( 50 ) NOT NULL AFTER  `first_name`;
+
+--12-27-2012 @Author Arslan
+ALTER TABLE  `{tbl_prefix}playlists` ADD  `category` ENUM(  'normal',  'favorites',  'likes',  'history',  'quicklist',  'watch_later' ) NOT NULL DEFAULT  'normal' AFTER  `playlist_type`;

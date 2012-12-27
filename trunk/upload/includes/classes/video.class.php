@@ -33,6 +33,7 @@ class CBvideo extends CBCategory {
      */
 
     function init() {
+       
         global $Cbucket;
         $this->cat_tbl = 'video_categories';
         $this->section_tbl = 'video';
@@ -55,6 +56,21 @@ class CBvideo extends CBCategory {
         
         register_object('v', 'cbvideo');
         register_object('video', 'cbvideo');
+        
+        /**
+         * Setting up the playlists..
+         */
+        
+        if(userid())
+        {   
+            //THis can be improved by saving
+            //Playlists ids in users table
+            //so that a query can be minimized.
+            
+            //@todo : Save IDs in Users table
+            $this->builtin_playlists = 
+            $this->action->builtin_plugins(userid(),true);
+        }
     }
 
     /**
@@ -165,8 +181,10 @@ class CBvideo extends CBCategory {
      */
     function action($case, $vid) {
         global $db, $eh;
+        
+        $vid = mysql_clean($vid);
         $video = $this->get_video_details($vid);
-
+        
         if (!$video)
             return false;
         //Lets just check weathter video exists or not

@@ -150,7 +150,7 @@ class userquery extends CBCategory
 
         if (isSectionEnabled('channels'))
             $Cbucket->search_types['users'] = "userquery";
-        
+
         register_object('u', 'userquery');
         register_object('user', 'userquery');
     }
@@ -626,7 +626,7 @@ class userquery extends CBCategory
     /**
      * Function used to get user details using userid
      */
-    function get_user_details($id = NULL, $checksess = false, $profile = false,$cond=NULL)
+    function get_user_details($id = NULL, $checksess = false, $profile = false, $cond = NULL)
     {
         global $db, $sess;
         if ($profile === true)
@@ -657,18 +657,17 @@ class userquery extends CBCategory
                 return false;
         }
     }
-    
-    function get($uid,$cond=NULL)
+
+    function get($uid, $cond = NULL)
     {
-        return $this->get_user_details($uid,false,false,$cond);
+        return $this->get_user_details($uid, false, false, $cond);
     }
-    
+
     /**
      * 
      * @param type $id
      * @return type
      */
-
     function GetUserData($id = NULL)
     {
         return $this->get_user_details($id);
@@ -1021,12 +1020,12 @@ class userquery extends CBCategory
             $query .= " AND " . tbl("contacts") . ".request_type='$type' ";
         if (!$count_only)
         {
-            
-            $result = db_select("SELECT * from ".tbl('contacts')." LEFT JOIN "
-                    .tbl('users')." ON ".tbl('contacts.contact_userid').' = '.tbl('users.userid')
-                    ." WHERE ".tbl("contacts.userid") . "='$uid' " .$query." AND " 
-                    . tbl("contacts") . ".contact_group_id='$group' " );
-            
+
+            $result = db_select("SELECT * from " . tbl('contacts') . " LEFT JOIN "
+                    . tbl('users') . " ON " . tbl('contacts.contact_userid') . ' = ' . tbl('users.userid')
+                    . " WHERE " . tbl("contacts.userid") . "='$uid' " . $query . " AND "
+                    . tbl("contacts") . ".contact_group_id='$group' ");
+
             //echo $db->db_query;
             if ($db->num_rows > 0)
                 return $result;
@@ -2028,8 +2027,8 @@ class userquery extends CBCategory
                 return BASEURL . '/user/' . $udetails['username'];
         }
     }
-    
-    function get_link($udetails,$cond=NULL)
+
+    function get_link($udetails, $cond = NULL)
     {
         return $this->profile_link($udetails);
     }
@@ -2885,11 +2884,30 @@ class userquery extends CBCategory
             );
 
         if (isSectionEnabled('playlists'))
+        {
             $array[lang('playlists')] = array
                 (
                 lang('manage_playlists') => 'manage_playlists.php',
                 lang('video_playlists') => 'manage_playlists.php?mode=manage_video_playlist',
             );
+
+            global $cbvid;
+            $builtin_playlists = $cbvid->builtin_playlists;
+            if ($builtin_playlists)
+            {
+                foreach ($builtin_playlists as $playlist)
+                {
+                    $pid = $playlist['playlist_id'];
+                    $category = $playlist['category'];
+                    $name = lang($category);
+                    
+                    $array[lang('playlists')][$category] = 'manage_playlists.php?'
+                    . 'mode=edit_playlist'
+                    . '&pid=' . $pid
+                    . '&category=' . $category;
+                }
+            }
+        }
         $array[lang('messages')] = array
             (
             lang('inbox') => 'private_message.php?mode=inbox',
@@ -3086,27 +3104,25 @@ class userquery extends CBCategory
         $dob = $default['dob'];
 
         $dob = $dob ? date(config("date_format"), strtotime($dob)) : date(config("date_format"), strtotime('14-10-1989'));
-        
-        
+
+
         $user_signup_fields = array
             (
-            
             'first_name' => array(
                 'title' => lang('First name'),
                 'type' => "textfield",
                 'name' => "first_name",
                 'id' => "first_name",
                 'value' => $first_name,
-
                 'db_field' => 'first_name',
                 'required' => 'yes',
                 // 'syntax_type'=> 'username',
                 'validate_function' => 'name_check',
-                'function_error_msg' => lang('First name is not valid'),                
+                'function_error_msg' => lang('First name is not valid'),
                 'min_length' => 2,
                 'max_length' => 20,
-                //'min_length' => config('min_firstname'),
-                //'max_length' => config('max_firstname'),
+            //'min_length' => config('min_firstname'),
+            //'max_length' => config('max_firstname'),
             ),
             'last_name' => array(
                 'title' => lang('Last name'),
@@ -3114,20 +3130,16 @@ class userquery extends CBCategory
                 'name' => "last_name",
                 'id' => "last_name",
                 'value' => $last_name,
-
                 'db_field' => 'last_name',
                 'required' => 'yes',
                 // 'syntax_type'=> 'username',
                 'validate_function' => 'name_check',
                 'function_error_msg' => lang('Last name is not valid'),
-                
-                
                 'min_length' => 2,
                 'max_length' => 20,
-                //'min_length' => config('min_firstname'),
-                //'max_length' => config('max_firstname'),
+            //'min_length' => config('min_firstname'),
+            //'max_length' => config('max_firstname'),
             ),
-            
             'username' => array(
                 'title' => lang('username'),
                 'type' => "textfield",
@@ -5332,139 +5344,136 @@ class userquery extends CBCategory
                 $db->update(tbl("users"), array("voted"), array("|no_mc|$votedEncode"), " userid='$userid'");
         }
     }
-    
-    
+
     /**
      * Function used to get friends Feed
      */
-    function get_json_friends($uid=NULL)
+    function get_json_friends($uid = NULL)
     {
-        if(!$uid)
+        if (!$uid)
             $uid = userid();
-        
+
         $userid = $this->user_dir($uid);
-        
-        $friend_feed_file_path = USERDATA_DIR.'/'.$userid;
-        $friends_feed_file = $friend_feed_file_path.'/friends.cbd';
-        
-        if(file_exists($friends_feed_file))
+
+        $friend_feed_file_path = USERDATA_DIR . '/' . $userid;
+        $friends_feed_file = $friend_feed_file_path . '/friends.cbd';
+
+        if (file_exists($friends_feed_file))
         {
             $friends = file_get_contents($friends_feed_file);
-            $friends = json_decode($friends,true);
-        }else{
+            $friends = json_decode($friends, true);
+        }
+        else
+        {
             $friends = $this->get_contacts($uid, 0, 'yes');
-            $friend_fields = array('username','email','userid','dob','doj','fullname');
-            
+            $friend_fields = array('username', 'email', 'userid', 'dob', 'doj', 'fullname');
+
             $friends_array = array();
-            
-            if($friends)
+
+            if ($friends)
             {
-                foreach($friends as $friend)
+                foreach ($friends as $friend)
                 {
-                    foreach($friend_fields as $field)
+                    foreach ($friend_fields as $field)
                     {
                         $new_friend[$field] = $friend[$field];
                     }
                     $friends_array[] = $new_friend;
                 }
-                
+
                 $friends = $friends_array;
-                
+
                 $jsoned_friends = json_encode($friends_array);
-                
+
                 //Writing to directory
                 file_put_contents($friends_feed_file, $jsoned_friends);
             }
         }
-        
+
         return $friends;
-        
     }
-    
-    
+
     /**
      * function userid to directory
      */
     function user_dir($uid)
     {
-        if(strlen($uid)<=5)
+        if (strlen($uid) <= 5)
         {
-            $first_dir = substr($uid, 0,1);
-            $second_dir = substr($uid, 1,1);
-            if(!$second_dir)
+            $first_dir = substr($uid, 0, 1);
+            $second_dir = substr($uid, 1, 1);
+            if (!$second_dir)
                 $second_dir = 0;
-            
-            $final_dir = $first_dir.'/'.$second_dir.'/'.$uid;
+
+            $final_dir = $first_dir . '/' . $second_dir . '/' . $uid;
         }else
         {
-            $first_dir = substr($uid, 0,1);
-            $second_dir = substr($uid, 1,1);
-            if(!$second_dir)
+            $first_dir = substr($uid, 0, 1);
+            $second_dir = substr($uid, 1, 1);
+            if (!$second_dir)
                 $second_dir = 0;
-            $third_dir = substr($uid, 2,1);
-            if(!$third_dir)
+            $third_dir = substr($uid, 2, 1);
+            if (!$third_dir)
                 $third_dir = 0;
-            
-            $final_dir = $first_dir.'/'.$second_dir.'/'.$third_dir.'/'.$uid;
+
+            $final_dir = $first_dir . '/' . $second_dir . '/' . $third_dir . '/' . $uid;
         }
-        
+
         $userdata = USERDATA_DIR;
-        if(!file_exists($userdata.'/'.$final_dir))
-            mkdir ($userdata.'/'.$final_dir,0777,true);
-        
+        if (!file_exists($userdata . '/' . $final_dir))
+            mkdir($userdata . '/' . $final_dir, 0777, true);
+
         return $final_dir;
     }
-    
+
     /**
      * 
      */
-    function get_content($content,$cond=NULL)
+    function get_content($content, $cond = NULL)
     {
-        if(is_array($content))
+        if (is_array($content))
         {
-            if($content['userid']
-            && $content['username']
-            && $content['email'])
+            if ($content['userid']
+                    && $content['username']
+                    && $content['email'])
             {
                 $user = $content;
-            }elseif($content['userid'])
+            }
+            elseif ($content['userid'])
             {
                 $user = $this->get_user_details($content['userid']);
             }else
                 return false;
-                
         }else
         {
             $user = $this->get_user_details($content);
         }
-        
-        if(!$user)
+
+        if (!$user)
             return false;
-        
+
         //Required fields
         $content_fields = array(
-            'userid','username','email','first_name','last_name','fullname',
-            'dob','doj','active','ban','avatar','avatar_url','total_videos',
-            'profile_hits','sex','status'
+            'userid', 'username', 'email', 'first_name', 'last_name', 'fullname',
+            'dob', 'doj', 'active', 'ban', 'avatar', 'avatar_url', 'total_videos',
+            'profile_hits', 'sex', 'status'
         );
-        
+
         $content_fields = apply_filters($content_fields, 'user_content_fields_unsorted');
-        $user_fields = array();        
-        
-        foreach($content_fields as $u_field)
+        $user_fields = array();
+
+        foreach ($content_fields as $u_field)
             $user_fields[$u_field] = $user[$u_field];
-        
-        
-        $user_fields['link']       = $this->profile_link($user);
-        $user_fields['thumb']      = $this->avatar($user);
-        $user_fields['thumb_small']= $this->avatar($user,"small");
+
+
+        $user_fields['link'] = $this->profile_link($user);
+        $user_fields['thumb'] = $this->avatar($user);
+        $user_fields['thumb_small'] = $this->avatar($user, "small");
         //$user_fields['sub_title']  = ($the_content['duration']);
-        
+
         return $user_fields;
-        
     }
-    
-    
+
     /**
      * Getting user feeds..
      * 
@@ -5472,11 +5481,11 @@ class userquery extends CBCategory
      * @return ARRAY $feeds
      */
     function get_feeds($uid)
-    {   
+    {
         global $cbfeeds;
-        
-        $feeds = $cbfeeds->get_feeds(array('type'=>'user','id'=>$uid));
-        
+
+        $feeds = $cbfeeds->get_feeds(array('type' => 'user', 'id' => $uid));
+
         return $feeds;
     }
 

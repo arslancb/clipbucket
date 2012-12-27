@@ -5,35 +5,53 @@ include("../../includes/admin_config.php");
 
 $mode = post('mode');
 
-switch($mode)
+switch ($mode)
 {
     case "add_profile":
-    {
-        $profile_id = $cbvid->add_video_profile($_POST);
-        
-        //$cid = 18;
-        if(error())
         {
-            echo json_encode(array('err'=>error(),'rel'=>get_rel_list()));
-        }else{
-           echo json_encode(array('success'=>'yes','profile_id'=>$profile_id,'rel'=>''));
+            $profile_id = $cbvid->add_video_profile($_POST);
+
+            //$cid = 18;
+            if (error())
+            {
+                echo json_encode(array('err' => error(), 'rel' => get_rel_list()));
+            }
+            else
+            {
+                echo json_encode(array('success' => 'yes', 'profile_id' => $profile_id, 'rel' => ''));
+            }
         }
-    }
-    break;
+        break;
     case "update_profile":
-    {
-        $profile_id = $cbvid->update_video_profile($_POST);
-        
-        //$cid = 18;
-        if(error())
         {
-            echo json_encode(array('err'=>error(),'rel'=>get_rel_list()));
-        }else{
-           echo json_encode(array('success'=>'yes','profile_id'=>$profile_id,'rel'=>''));
+            $profile_id = $cbvid->update_video_profile($_POST);
+
+            //$cid = 18;
+            if (error())
+            {
+                echo json_encode(array('err' => error(), 'rel' => get_rel_list()));
+            }
+            else
+            {
+                echo json_encode(array('success' => 'yes', 'profile_id' => $profile_id, 'rel' => ''));
+            }
         }
-    }
-    break;
-    
-    
+        break;
+
+    case "activate_video":
+        {
+            $videoid = $_POST['videoid'];
+            $cbvid->action('activate', $videoid);
+
+            echo json_encode(array('success' => 'yes'));
+        }
+        break;
+    case "deactivate_video":
+        {
+            $videoid = $_POST['videoid'];
+            $cbvid->action('deactivate', $videoid);
+
+            echo json_encode(array('success' => 'yes'));
+        }
 }
 ?>

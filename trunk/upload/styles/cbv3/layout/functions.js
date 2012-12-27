@@ -426,8 +426,8 @@ function delete_playlist(pid)
 function add_to_playlist(pid,oid,type)
 {
     var mainDiv = '#add-videos-to-playlist';
-
-    loading('playlist-'+pid);
+    console.log('playlist-'+oid+'-'+pid);
+    loading('playlist-'+oid+'-'+pid);
     
     amplify.request('main',{
         'mode'  : 'add_playlist_item',
@@ -438,7 +438,7 @@ function add_to_playlist(pid,oid,type)
     function(data){
         $(mainDiv+' > .alert').hide();
             
-        loading('playlist-'+pid,'hide');
+        loading('playlist-'+oid+'-'+pid,'hide');
         if(data.err)
         {
             $(mainDiv+' .alert-danger')

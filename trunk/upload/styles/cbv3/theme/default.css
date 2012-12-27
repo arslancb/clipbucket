@@ -406,7 +406,7 @@ ul.dropdown-menu > li > a:hover .icon-v3 {
 
 .group-video-block .video-thumb .duration, .video-box .video-thumb .duration{position: absolute; left: 5px; bottom: 5px; 
                                                                              width: 35px; height: 15px; line-height: 15px; 
-                                                                             background-image: url("../images/duration-bg.png"); 
+                                                                             
                                                                              background-repeat: no-repeat;
                                                                              color: #fff; font-size: 10px; text-align: center; font-weight: bold; text-shadow: 1px 1px 0px #000}
 
@@ -465,9 +465,6 @@ ul.dropdown-menu > li > a:hover .icon-v3 {
 .plinfo{width: 500px}
 .playlist-list .pldesc{margin-top: 5px; color: #666; font-size: 11px}
 .playlist-list .subinfo{font-size: 11px; color: #666}
-
-.video-options{right: 5px; bottom: 5px;}
-.video-options .btn{padding: 0px 2px; line-height: normal}
 
 .row-exif { margin-left:0px; border-bottom:1px solid #DDD; padding-top:10px; }
 .row-exif span:first-child { padding-left:5px; }

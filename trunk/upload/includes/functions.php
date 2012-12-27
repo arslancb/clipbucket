@@ -109,6 +109,17 @@ function sql_free($id)
 
 function mysql_clean($id, $replacer = true)
 {
+    if(is_array($id))
+    {
+        $new_array = array();
+        
+        foreach($id as $key => $value)
+        {
+            $new_array[$key] = mysql_clean($value);
+        }
+        
+        return $new_array;
+    }
     //$id = clean($id);
 
     if (get_magic_quotes_gpc())

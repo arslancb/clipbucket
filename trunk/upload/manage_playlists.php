@@ -114,6 +114,7 @@ switch($mode)
 		
 		assign('mode','edit_playlist');
 		$pid = $_GET['pid'];
+                $category = $_GET['category'];
 		
 		if(isset($_POST['edit_playlist']))
 		{
@@ -129,7 +130,7 @@ switch($mode)
 			$cbvid->action->edit_playlist($params);
 		}
 		
-		$playlist = $cbvid->action->get_playlist($pid,userid());
+		$playlist = $cbvid->action->get_playlist($pid,userid(),$category);
 		
 		//Deleting Item
 		if(!empty($_GET['delete_item']))

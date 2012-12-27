@@ -184,7 +184,8 @@
         updatePlaylistPage();
        
         //reset form on showing modal
-        $('#create-playlist-modal').on('show', function () {
+        $('#create-playlist-modal').on('show', function () 
+        {
             $('#create-playlist-modal form')[0].reset();
             $('#create-playlist-error').hide().html('');
         });
@@ -297,7 +298,7 @@
         });*/
         
 
-       // $('.comment-field,.share_feed_modal_text').shiftenter();
+        // $('.comment-field,.share_feed_modal_text').shiftenter();
         
         /*$('.comment-field').bind('textchange', function (event, previousText) 
         {
@@ -327,7 +328,7 @@
             var post_val = '';
             if(post_message.hasClass('mention'))
             {
-               post_message.mentionsInput('val', function(text) {
+                post_message.mentionsInput('val', function(text) {
                     post_val = text;
                 }); 
             }else
@@ -377,7 +378,7 @@
             if(post.hasClass('mention'))
             {
                 post.mentionsInput('val', function(text) {
-                            post_val = text;
+                    post_val = text;
                 }); 
             }else
                 post_val = post.val();
@@ -408,6 +409,11 @@
         setInterval(function(){
             cb_khabri();
         }, 60000);
+        
+        
+        $('.video-options .dropdown-menu a').on('click', function (e) {
+            e.stopPropagation()
+        })
       
     });
 
