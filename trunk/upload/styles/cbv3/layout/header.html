@@ -58,7 +58,7 @@
                 {$search_type='type'|get_form_val:true}
                 <div class="inlineblock valignTop input-append input-prepend">
                     <div class="btn-group" data-component="cbsearch">
-                        <button class="btn dropdown-toggle selected-search-type" type="button" data-toggle="dropdown">{$search_type|capitalize} <span class='caret'></span></button>
+                        <button class="btn dropdown-toggle selected-search-type" type="button" data-toggle="dropdown"><span>{$search_type|capitalize}</span> <i class='caret'></i></button>
                         <ul class="dropdown-menu">
                             {foreach from=$Cbucket->search_types item=t key=stypes name=SearchTypes}
                                 <li>
