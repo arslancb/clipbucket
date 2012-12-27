@@ -72,8 +72,22 @@
 .search-header .selected-search-type {
     max-width: 100px;
     min-width: 100px;
+    position: relative;
+}
+
+.search-header .selected-search-type span {
+    display: block;
+    max-width: 80px;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: left;
+}
+
+.search-header .selected-search-type i {
+    position: absolute;
+    right: 10px;
+    top:50%;
+    margin-top: -1px;
 }
 
 .search-advance-options {

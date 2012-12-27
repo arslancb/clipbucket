@@ -603,14 +603,14 @@ $(document).ready(function() {
         
         if ( !selected_search_type || selected_search_type == ' ' ) {
             var default_search_type = $('[data-component=cbsearch] [data-type=videos].search-type');
-            $('[data-component=cbsearch] .selected-search-type').prepend( default_search_type.text()+' ' );
+            $('[data-component=cbsearch] .selected-search-type span').prepend( default_search_type.text() );
             default_search_type.addClass('active');
             default_search_type.parents('form').find('input[name=type]').val( default_search_type.attr('data-type') );
         }
         
         cbsearch_component.find('.search-type').click( function(){
-            var new_selected_type = $(this).attr('id'), new_selected_text = $(this).text(), selected_search_text = $( this ).parents('[data-component=cbsearch]').find('.selected-search-type').text();
-            var new_selected_search = cbsearch_component.find('.selected-search-type').html().replace( selected_search_text, new_selected_text+' ' );
+            var new_selected_type = $(this).attr('id'), new_selected_text = $(this).text(), selected_search_text = $( this ).parents('[data-component=cbsearch]').find('.selected-search-type span').text();
+            var new_selected_search = cbsearch_component.find('.selected-search-type').html().replace( selected_search_text, new_selected_text );
             cbsearch_component.find('.selected-search-type').html( new_selected_search );
             cbsearch_component.find('input[name=type]').val( $(this).attr('data-type') );
             cbsearch_component.find('.search-type.active').removeClass('active');
