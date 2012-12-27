@@ -3387,7 +3387,7 @@ function get_mature_thumb($object, $size = null, $output = null)
         $size = null;
     }
 
-    $name = "unsafe" . $size . ".jpg";
+    $name = "unsafe" . $size . ".png";
     $path = BASEURL . '/images/' . $name;
 
     if ($output)

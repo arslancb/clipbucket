@@ -1,64 +1,268 @@
 {include_template_file file="blocks/account_left.html"}
 <div class="account-right">
+{if $mode == 'block_users'}
+<div class="account-heading">
+    <h2 >{lang code="Block Users"}</h2>
+</div>
+
+<div class="manager-list">
+    <form class="form-horizontal" action="" method="post">
+
+        <div class="controller scrolltoFixed white-grad clearfix">
+            <div class="buttons">
+                <button class="btn btn-primary pull-right" name="block_users">{lang code='Update blocked list'}</button>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="block_users">{lang code='Block users'}</label>
+            <div class="controls">
+                <textarea name="users" id="block_users" class="input-xxlarge" rows="5">{$user.banned_users}</textarea>
+                <span class="help-block">{lang code='spe_users_by_comma'}</span>
+            </div>
+        </div>
+
+    </form>        
+</div>
+{/if}
+
+{if $mode == 'change_email'}
+<div class="account-heading">
+    <h2 >{lang code="Change Email"}</h2>
+</div>
+<div class="manager-list">
+    <form class="form-horizontal" action="" method="post">
+
+        <div class="controller scrolltoFixed white-grad clearfix">
+            <div class="buttons">
+                <button class="btn btn-primary pull-right" name="change_email">{lang code='Update email'}</button>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="curemail">{lang code='Current email'}</label>
+            <div class="controls">
+                <input type="text" disabled="disabled" value="{$user.email}" id="curemail" class="input-xxlarge">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="new_email">{lang code='New email'}</label>
+            <div class="controls">
+                <input type="text"  value="" id="new_email" name="new_email" class="input-xxlarge">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="cnew_email">{lang code='Confirm email'}</label>
+            <div class="controls">
+                <input type="text" value="" id="cnew_email" name="cnew_email" class="input-xxlarge">
+            </div>
+        </div>
+
+    </form>        
+</div>
+{/if}
+
+{if $mode == 'change_password'}
+<div class="account-heading">
+    <h2 >{lang code="Change Password"}</h2>
+</div>
+<div class="manager-list">
+    <form class="form-horizontal" action="" method="post">
+
+        <div class="controller scrolltoFixed white-grad clearfix">
+            <div class="buttons">
+                <button class="btn btn-primary pull-right" name="change_password">{lang code='Update password'}</button>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="old_pass">{lang code='Current email'}</label>
+            <div class="controls">
+                <input type="password" name="old_pass" id="old_pass" class="input-xxlarge">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="new_pass">{lang code='New password'}</label>
+            <div class="controls">
+                <input type="password"  value="" id="new_pass" name="new_pass" class="input-xxlarge">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="c_new_pass">{lang code='Confirm password'}</label>
+            <div class="controls">
+                <input type="password" value="" id="c_new_pass" name="c_new_pass" class="input-xxlarge">
+            </div>
+        </div>
+
+    </form>        
+</div>
+{/if}
+
+{if $mode == 'profile_settings'}
+
+{$signup_fields=$userquery->load_signup_fields($user)}
+{$cust_signup_fields=$userquery->load_custom_signup_fields($user,false,true)}
+
+
+<form action="" method="post" class="form-horizontal">
+    <div class="account-heading">
+        <h2 >{lang code="Account Settings"}</h2>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label" for="country">{lang code='Country'}</label>
+        {assign var='countries' value=$Cbucket->get_countries(iso2)}
+        <div class="controls">
+            <select name="country" id="country">
+                {foreach from=$countries item=country key=code}
+                  <option value="{$code}" {if $user.country==$code} selected="selected"{/if}>{$country}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+    {include_template_file file='common/form_field.html' field=$signup_fields.cat}
+
+    <div class="control-group">
+        <label class="control-label" for="sex">{lang code='Gender'}</label>
+        <div class="controls">
+            <input type="radio" name="sex" value="male" id="sex_0" {if $user.sex == male} checked="checked"{/if} />
+              {lang code='male'}</label>
+
+            <label>
+              <input type="radio" name="sex" value="female" id="sex_1" {if $user.sex == female} checked="checked"{/if}/>
+              {lang code='female'}</label>
+        </div>
+    </div>
+
+    <div class="account-heading">
+        <h2 >{lang code="Profile Settings"}</h2>
+    </div>
+    {$channel_profile_fields=$userquery->load_user_fields($p)}
+    {foreach $channel_profile_fields as $field_group}
+        <fieldset>
+            <legend>{$field_group.group_name}</legend>
+            {foreach $field_group.fields as $field_array}
+                {include_template_file file='common/form_field.html' field=$field_array}
+            {/foreach}
+        </fieldset>
+    {/foreach}
+    <div class="controller white-grad clearfix">
+        <div class="buttons">
+            <button class="btn btn-primary pull-right" name="update_profile">{lang code='Update'}</button>
+        </div>
+    </div>
+</form>
+{/if}
+
+
 {if $mode == 'avatar_bg'}
-	<h2 class="page-header">{lang code='Avatar &amp; Background'}</h2>
-    <img src="{$userquery->getUserThumb($user)}" class="thumbnail moveL marginR10" />
-    <form method="post" enctype="multipart/form-data" name="edit_profile" class="form-horizontal clearfix moveL">
-    	<fieldset>
-        	<div class="control-group">
-            	<label class="control-label" for="avatar_file">{lang code='Avatar File'}</label>
-                <div class="controls">
-                	<input type="file" name="avatar_file" id="avatar_file"  />
+    <div class="account-heading">
+        <h2 >{lang code="Avatar &amp; Background"}</h2>
+    </div>
+
+<div class="manager-list">
+    <form method="post" enctype="multipart/form-data" name="edit_profile" class="form-horizontal clearfix">
+        <div class="controller white-grad clearfix">
+            <div class="buttons">
+                <button class="btn btn-primary pull-right" name="update_avatar_bg">{lang code='Update'}</button>
+            </div>
+        </div>
+        
+        <fieldset class="clearfix">
+            <legend>{lang code='Avatar'}</legend>
+            <img src="{$userquery->getUserThumb($user)}" class="thumbnail moveL marginR10" />
+            <div class="moveL">
+                <div class="control-group">
+                  <label class="control-label" for="avatar_file">{lang code='Avatar File'}</label>
+                    <div class="controls">
+                      <input type="file" name="avatar_file" id="avatar_file"  />
+                        <input type="hidden" name="avatar_file_name" value="{$user.avatar}" />
+                    </div>
                 </div>
             </div>
-            <input type="hidden" name="avatar_file_name" value="{$user.avatar}" />
         </fieldset>
-        <div class="clear"></div>
-        <fieldset class="fieldset">
-<legend>{lang code='user_bg'}</legend>
-<div style="height:15px;"></div>
-<div style="float:left; width:200px;" align="center">
-{if $userquery->getUserBg($user)}<img src="{$userquery->getUserBg($user)}" style="max-width:95px"/>{else}<em><strong>No Bg</strong></em>{/if}
-</div>
-<div style="width:300px; display:block; float:left">
-<strong>{lang code='user_bg_img'}
-  </strong><br />
-  {lang code='please_select_img_file'}
-  <br />
-  <input type="file" name="background_file" id="background_file" />
-  {lang code='or'}
-
-
-  <label for="background_url">{lang code='pelase_enter_image_url'}<br /></label>
-<input name="background_url" type="text" id="background_url" value="{$user.background_url}" />
-
-{lang code='or'}
-<label for="background_color">{lang code='please_enter_bg_color'}</label>
-<input name="background_color" type="text" id="background_color" value="{$user.background_color}" />
-<input type="hidden" name="bg_file_name" value="{$user.background}" />
-
-
-<label for="background_repeat">{lang code='bg_repeat_type'}</label>
-<select name="background_repeat" id="background_repeat" >
-<option value="repeat" {if $user.background_repeat=='repeat'} selected="selected"{/if}>repeat</option>
-<option value="repeat-x" {if $user.background_repeat=='repeat-x'} selected="selected"{/if}>repeat-x</option>
-<option value="repeat-y" {if $user.background_repeat=='repeat-y'} selected="selected"{/if}>repeat-y</option>
-<option value="no-repeat" {if $user.background_repeat=='no-repeat'} selected="selected"{/if}>no-repeat</option>
-</select>
-<br />
-
-<input type="checkbox" {if $user.background_attachement=='yes'} checked="checked"{/if} value="yes" name="background_attachement" id="background_attachement" />
-<label for="background_attachement" style="display:inline">{lang code='fix_bg'}</label>
-{if $userquery->getUserBg($user)}<input name="delete_bg" type="checkbox" id="delete_bg" value="yes" /><label for="delete_bg" style="display:inline">{lang code='delete_this_img'}</label>{/if}
-</div>
-
-<div class="clearfix"></div>
-</fieldset>
-        <div>&nbsp;</div>
-        <div class="well clearfix">
-        	 <input type="submit" name="update_avatar_bg" class="btn btn-large btn-primary moveR" value="{lang code='Save Changes'}" />
-        </div>
+        
+        <fieldset>
+            <legend>{lang code='Channel Background'}</legend>
+            {if $userquery->getUserBg($user)}
+                <div class="moveL thumbnail marginR10"><img src="{$userquery->getUserBg($user)}" /></div>
+            {else}
+                <div class="moveL thumbnail marginR10" style="min-width: 230px; min-height: 230px; line-height: 230px; text-align: center; text-transform: uppercase; font-weight: bold;">{lang code='No Background'}</div>
+            {/if}
+            <div class="moveL">
+                <div class="control-group">
+                    <label class="control-label" for="background_file">{lang code='Please select image file'}</label>
+                    <div class="controls">
+                        <input type="file" name="background_file" id="background_file" />
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label" for="background_url">{lang code='Please enter image URL'}</label>
+                    <div class="controls">
+                        <input name="background_url" type="text" id="background_url" value="{$user.background_url}" />
+                    </div>
+                </div>
+                                
+                <div class="control-group">
+                    <label class="control-label" for="background_color">{lang code='Please enter background color'}</label>
+                    <div class="controls">
+                        <input name="background_color" type="text" id="background_color" value="{$user.background_color}" />
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label" for="background_repeat">{lang code='Background Repeat'}</label>
+                    <div class="controls">
+                        <select name="background_repeat" id="background_repeat" >
+                            <option value="repeat" {if $user.background_repeat=='repeat'} selected="selected"{/if}>repeat</option>
+                            <option value="repeat-x" {if $user.background_repeat=='repeat-x'} selected="selected"{/if}>repeat-x</option>
+                            <option value="repeat-y" {if $user.background_repeat=='repeat-y'} selected="selected"{/if}>repeat-y</option>
+                            <option value="no-repeat" {if $user.background_repeat=='no-repeat'} selected="selected"{/if}>no-repeat</option>
+                        </select>
+                        <span class="help-block">{lang code='If using image as background'}</span>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label" for="background_attachement">{lang code='Fix Background'}</label>
+                    <div class="controls">
+                        <input type="checkbox" {if $user.background_attachement=='yes'} checked="checked"{/if} value="yes" name="background_attachement" id="background_attachement" />
+                    </div>
+                </div>
+                {if $userquery->getUserBg($user)}
+                    <div class="control-group">
+                        <label class="control-label" for="delete_bg">{lang code='Delete Background'}</label>
+                        <div class="controls">
+                            <input name="delete_bg" type="checkbox" id="delete_bg" value="yes" />
+                            <input type="hidden" name="bg_file_name" value="{$user.background}" />
+                        </div>
+                    </div>
+                {/if}
+            </div>
+        </fieldset>
     </form>
+</div>
+{/if}
+
+{if $mode == 'subs'}
+    <div class="account-heading">
+        <h2 >{lang code="Manage Subscriptions"}</h2>
+    </div>
+    {if $subs}
+        <ul class="user-contacts manage-subscriptions">
+        {foreach $subs as $sub}
+            {include_template_file file='blocks/user.html' user=$sub display_method='manage_subscriptions'}
+        {/foreach}
+        </ul>
+    {else}
+        <p class="alert alert-large">{lang code='No subscriptions found'}</p>
+    {/if}
 {/if}
 
 {if $mode == 'make_avatar'}

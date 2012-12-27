@@ -24,3 +24,11 @@
     </div>
 </div>
 {/if}
+
+{if $display_method == 'manage_subscriptions'}
+    <li>
+        <a href="{$userquery->profile_link($user)}"><img src="{avatar details=$user}" width="60" height="60" /></a> <a href="{$userquery->profile_link($user)}" class="sub-name">{name($user)}</a>
+        <a href="{$userquery->get_user_videos_link($user)}" class="sub-content">{lang code='View videos'}</a>
+        <a href="?mode=subscriptions&delete_subs={$user.subscribed_to}" class="btn btn-small sub-action"><i class="icon icon-remove"></i> {lang code='Remove'}</a>
+    </li>
+{/if}

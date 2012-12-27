@@ -36,8 +36,9 @@ function loadPhotoUploadForm($params)
 //Photo File Fetcher
 function get_photo($params)
 {
-       global $cbphoto;
-       return $cbphoto->getFileSmarty($params);
+    return get_image_file( $params );
+    //global $cbphoto;
+    //return $cbphoto->getFileSmarty($params);
 }
 
 //Photo Upload BUtton
@@ -47,15 +48,7 @@ function upload_photo_button($params)
        return $cbphoto->upload_photo_button($params);
 }
 
-//Photo Embed Cides - Dropped
-//function photo_embed_codes($params)
-//{
-//            global $cbphoto;
-//            return $cbphoto->photo_embed_codes($params);   
-//}
-
 //Create download button
-
 function photo_download_button($params)
 {
             global $cbphoto;
@@ -97,10 +90,10 @@ function get_original_photo( $photo, $with_path = false ) {
 	}
 	
 	if ( is_array($ph) ) {
-		$files = $cbphoto->get_image_file( $ph, 'o', true, null, $with_path, true);
-		$orig = $ph['filename'].'.'.$ph['ext'];
-		$file = array_find( $orig, $files );
-		return $file;			
+        $files = $cbphoto->get_image_file( $ph, 't', true, false, $with_path, true );
+        $orig = $ph['filename'].'.'.$ph['ext'];
+        $file = array_find( $orig, $files );
+        return $file;			
 	}
 }
 
@@ -315,7 +308,7 @@ function cb_output_img_tag( $src, $attrs = null ) {
             if ( strtolower($attr) != 'extra' ) {
               $attributes .= ' '.$attr.' = "'.$value.'" ';  
             } else {
-                $attributes .= $value;
+                $attributes .= ( $value );
             }
         }
     }
@@ -889,8 +882,9 @@ function is_photo_viewable( $pid ) {
 			return true;	
 		}	
 	} else if ( $photo['is_mature'] == 'yes' && !userid() ) {
-		assign('title', $photo['photo_title']);
-		template_files( STYLES_DIR.'/global/blocks/mature_content.html', false, false );
+        assign('title', $photo['photo_title']);
+        assign( 'object', $photo );
+        template_files( STYLES_DIR.'/global/blocks/mature_content.html', false, false );
 	} else {
 		$funcs = cb_get_functions('view_photo');
 		if ( is_array( $funcs ) ) {
@@ -1425,5 +1419,249 @@ function display_photo_manger_orders( $display='unselected' ) {
  */
 function current_photo_order () {
     return current_object_order('photo');
+}
+
+
+/**
+ * This function makes sure that no photo file exists. Sometimes
+ * new thumb dimensions are added using function add_custom_photo_size().
+ * Newly uploaded photo will have this dimension, but previous one will one.
+ * This checks if provided size/code does not exist in cb default thumb dimensions
+ * we'll get url of 'm' ( a default thumb dimension ) size. If exists, we'll show that else
+ * default thumb will be displayed.
+ * 
+ * @param string $photo_url
+ * @param array $params
+ * @return string
+ */
+function _recheck_photo_code( $params ) {
+    global $cbphoto;
+    $sizes = $params['size'] ? $params['size'] : ( $params['code'] ? $params['code'] : 't' );
+    $sizes = explode( ",",$sizes );
+    $sizes = array_map( "trim", $sizes );
+    
+    $cbsizes = $cbphoto->default_thumb_dimensions;
+
+    foreach ( $sizes as $size ) {
+        if ( !in_array( $size, $cbsizes ) ) {
+            $thumb = get_image_url ( $params['photo'], 'm' );
+        }
+    }
+
+    if ( $thumb ) {
+        return array ( $thumb );
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Updated version of getting photo file. In this function
+ * we dont use glob() function to first get all thumbs and
+ * then extract one thumb, instead now we only construct
+ * the url of given code/size, checks if file_exists, if yes return
+ * thumb else return default thumb.
+ */
+function get_image_file ( $params ) {
+    global $cbphoto;
+    $details = $params['details'];
+    $output = $params['output'];
+    $sizes = $params['size'] ? $params['size'] : ( $params['code'] ? $params['code'] : 't' );
+        
+    if ( empty( $details) ) {
+        return $cbphoto->default_thumb( $size, $output );
+    } else {
+        // Call custom functions
+         if ( count( $Cbucket->custom_get_photo_funcs ) > 0 ) {
+            foreach ( $Cbucket->custom_get_photo_funcs as $funcs ) {
+                if ( function_exists( $funcs ) ) {
+                    $func_returned = $funcs( $params );
+                    if ( $func_returned ) {
+                        return $func_returned;
+                    }
+                }
+            }
+        }
+        
+        // Make sure photo exists
+        if ( !is_array( $details ) ) {
+            $photo = $cbphoto->get_photo( $details );
+        } else {
+            $photo = $details;
+        }
+        
+        if ( empty( $photo['photo_id'] ) or empty( $photo['photo_key'] ) ) {
+            return $cbphoto->default_thumb( $size, $output );
+        } else {
+            if ( empty( $photo['filename'] ) or empty( $photo['ext'] ) ) {
+                return $cbphoto->default_thumb( $size, $output );
+            } else {
+                
+                $params['photo'] = $photo;
+                
+                if ( $details['is_mature'] == 'yes' && !userid() ) {
+				return get_mature_thumb( $details, $size, $output );
+			}
+                      
+                $dir = PHOTOS_DIR;
+                $file_directory = get_photo_date_folder( $photo );
+                $with_path = $params['with_path'] = ( $params['with_path'] === false ) ? false : true;
+                
+                if ( $file_directory ) {
+                    $file_directory .= '/';
+                }
+                
+                $path = $dir.'/'.$file_directory;
+                $file_name = $photo['filename'].'%s.'.$photo['ext'];
+                                
+                $sizes = explode( ",", $sizes );
+                if ( $sizes[0] == 'all' and count( $sizes ) == 1 ) {
+                    $sizes = get_photo_dimensions( true );
+                    $sizes = array_keys( $sizes );
+                }
+                $sizes = array_map( "trim", $sizes );
+                
+                if ( phpversion < '5.2.0' ) {
+                    global $json; $js = $json;
+                }
+
+                if ( !empty( $js ) ) {
+                    $image_details = $js->json_decode( $photo['photo_details'], true );
+                } else {
+                    $image_details = json_decode( $photo['photo_details'], true );
+                }
+                
+                foreach ( $sizes as $size ) {
+                    $filename = sprintf( $file_name, "_".$size );
+                    $full_path = $path.$filename;
+                    
+                    if ( isset( $image_details[$size] ) ) {
+                        if ( file_exists( $full_path ) ) {
+                            if ( $with_path ) {
+                                $thumbs[] = PHOTOS_URL.'/'.$file_directory.$filename;
+                            } else {
+                                $thumbs[] = $filename;
+                            }
+                        }
+                    }
+                }
+                
+                if ( $params['with_orig'] === true ) {
+                    if ( $with_path ) {
+                        $thumbs[] = PHOTOS_URL.'/'.$file_directory.sprintf( $file_name, "");
+                    } else {
+                        $thumbs[] = sprintf( $file_name, "");
+                    }
+                }
+                
+                if ( !$thumbs or count($thumbs) <= 0 ) {
+                    $thumbs = _recheck_photo_code( $params );
+                    if ( !$thumbs or !is_array( $thumbs ) ) {
+                        return $cbphoto->default_thumb( $size, $output );  
+                    }
+                }
+                
+                if ( empty( $params['output']) or $params['output'] == 'non_html' ) {
+                    if ( $params['assign'] ) {
+                        assign( $params['assign'], $thumbs );
+                    } else if ( $params['multi'] ) {
+                        return $thumbs;
+                    } else {
+                        return $thumbs[0];
+                    }
+                } else {
+                    $attrs = array();
+                    $src = $thumbs[0];
+                    $size = $cbphoto->get_image_type( $src );
+                    if ( !file_exists( str_replace( PHOTOS_URL, PHOTOS_DIR, $src ) ) ) {
+                        $src = $cbphoto->default_thumb( $size );
+                    }
+
+                    if ( empty( $image_details) or !isset( $image_details[$size] ) ) {
+                        $dem = getimagesize( str_replace( PHOTOS_URL, PHOTOS_DIR, $src ) );
+                        $width = $dem[0];
+                        $height = $dem[1];
+                        /* UPDATEING IMAGE DETAILS */
+                        $cbphoto->update_image_details( $photo );
+                    } else {
+                        $width = $image_details[$size]['width'];
+                        $height = $image_details[$size]['height'];
+                    }
+                    
+                    if ( ( $params['width'] and is_numeric( $params['width'] ) ) and ( $params['height'] and is_numeric( $height  ) ) ) {
+                        $width = $params['width'];
+                        $height = $params['height'];
+                    } else if ( ( $params['width'] and is_numeric( $params['width'] ) ) ) {
+                        $height = round( $params['width'] / $width * $height );
+                        $width = $params['width'];
+                    } else if ( ( $params['height'] and is_numeric( $height  ) ) ) {
+                        $width = round( $params['height'] * $width / $height );
+                        $height = $p['height'];
+                    }
+                    $attrs['width'] = $width;
+                    $attrs['height'] = $height;
+                    
+                    if ( USE_PHOTO_TAGGING && THIS_PAGE == 'view_item' ) {
+                        $id = $cbphoto->get_selector_id()."_".$photo['photo_id'];
+                    } else {
+                        if ( $params['id'] ) {
+                            $id = mysql_clean( $params['id'] )."_".$photo['photo_id'];
+                        } else {
+                            $id = $cbphoto->get_selector_id()."_".$photo['photo_id'];
+                        }                               
+                    }
+                    $attrs['id'] = $id;
+                    
+                    if ( $params['class'] ) {
+                        $attrs['class'] = mysql_clean( $params['class'] );
+                    }
+                    
+                    if ( $params['align'] ) {
+                        $attrs['align'] = mysql_clean( $params['align'] );
+                    }
+                    
+                    $title = $params['title'] ? $params['title'] : $photo['title'];
+                    $attrs['title'] = mysql_clean ($title );
+                    
+                    $alt = $params['alt'] ? $params['alt'] : TITLE.' - '.$photo['title'];
+                    $attrs['alt'] = mysql_clean( $alt );
+                    
+                    $anchor_p = array( "place" => 'photo_thumb', "data" => $photo );
+                    $params['extra'] = ANCHOR( $anchor_p );
+                    
+                    if ( $params['style'] ) {
+                        $attrs['style'] = ( $params['style'] );
+                    }
+                    
+                    if ( $params['extra'] ) {
+                        $attrs['extra'] = ( $params['extra'] );
+                    }
+                    
+                    $image = cb_output_img_tag( $src, $attrs );
+                    
+                    if ( $params['assign'] ) {
+                        assign( $params['assign'], $image );
+                    } else {
+                        return $image;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Function returns the url of photo file
+ * @param Array|Int $photo
+ * @param String $size
+ * @param Bool $multi
+ * @param String $assign
+ * @param Bool $with_path
+ * @param Bool $with_orig
+ * @return String
+ */
+function get_image_url( $photo, $size='t', $multi = false, $assign = null, $with_path = true, $with_orig = false ) {
+    $params = array( "details" => $photo, "size" => $size, "multi" => $multi, "assign" => $assign, "with_path" => $with_path, "with_orig" => $with_orig );
+    return get_image_file( $params );
 }
 ?>

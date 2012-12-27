@@ -4422,6 +4422,7 @@ class userquery extends CBCategory
                     {
                         $photo = $cbphoto->get_photo($profileItem['id']);
                         $photo['type'] = 'p';
+                        $photo['id'] = $photo['photo_id'];
                         if ($photo)
                             return $photo;
                     }
@@ -4430,6 +4431,7 @@ class userquery extends CBCategory
                     {
                         $video = $cbvid->get_video($profileItem['id']);
                         $video['type'] = 'v';
+                        $video['id'] = $video['videoid'];
                         if ($video)
                             return $video;
                     }

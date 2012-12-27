@@ -56,40 +56,42 @@ class CBPhotos {
         $this->photos_admin_menu();
         $this->setting_other_things();
         $this->set_photo_max_size();
-		$this->thumb_dimensions = array(
-			't'	=> array(
-                'name' => lang('Thumb'),
-				'width' => config('photo_thumb_width'),
-				'height' => config('photo_thumb_height'),
-				'crop' => (config('photo_crop') == 0 ? -1 : 5 ),
-				'watermark' => false,
-				'sharpit' => true
-			),
-			'm'	=> array(
-                'name' => lang('Medium'),
-				'width' => config('photo_med_width'),
-				'height' => config('photo_med_height'),
-				'crop' => (config('photo_crop') == 0 ? -1 : 5 ),
-				'watermark' => false,
-				'sharpit' => false
-			),
-			'l'		=> array(
-                'name' => lang('Large'),
-				'width' => config('photo_lar_width'),
-				'height' => 0,
-				'crop' => -1,
-				'watermark' => config('watermark_photo'),
-				'sharpit' => false
-			),
-			'o'	=> array(
-                'name' => lang('Original'),
-				'width' => 0,
-				'height' => 0,
-				'crop' => -1,
-				'watermark' => config('watermark_photo'),
-				'sharpit' => false
-			)
-		);
+        $this->thumb_dimensions = array(
+          't'	=> array(
+                    'name' => lang('Thumb'),
+            'width' => config('photo_thumb_width'),
+            'height' => config('photo_thumb_height'),
+            'crop' => (config('photo_crop') == 0 ? -1 : 5 ),
+            'watermark' => false,
+            'sharpit' => true
+          ),
+          'm'	=> array(
+                    'name' => lang('Medium'),
+            'width' => config('photo_med_width'),
+            'height' => config('photo_med_height'),
+            'crop' => (config('photo_crop') == 0 ? -1 : 5 ),
+            'watermark' => false,
+            'sharpit' => false
+          ),
+          'l'		=> array(
+                    'name' => lang('Large'),
+            'width' => config('photo_lar_width'),
+            'height' => 0,
+            'crop' => -1,
+            'watermark' => config('watermark_photo'),
+            'sharpit' => false
+          ),
+          'o'	=> array(
+                    'name' => lang('Original'),
+            'width' => 0,
+            'height' => 0,
+            'crop' => -1,
+            'watermark' => config('watermark_photo'),
+            'sharpit' => false
+          )
+        );
+        
+        $this->default_thumb_dimensions = array( 't', 'm', 'l', 'o' );
     }
 
     /**
@@ -516,7 +518,13 @@ class CBPhotos {
             $cond .= ' '.tbl('photos.is_avatar').' = "no" ';
         }
         list ( $join, $alias ) = join_collection_table();
-		
+        
+//        if ( $cond ) {
+//            $cond .= " AND ";
+//        }
+        
+        //$cond .= ' '.tbl('collections.broadcast').' = "public" ';
+        
         if ( !$p['count_only'] && !$p['show_related'] ) {
             if ( $cond != "" )
                 $cond .= " AND ";
@@ -1748,6 +1756,9 @@ class CBPhotos {
      * Used to get image file
      */
     function get_image_file( $pid, $size = 't', $multi = false, $assign = NULL, $with_path = true, $with_orig = false ) {
+        
+        return get_image_url( $pid, $size, $multi, $assign, $with_path, $with_orig );
+        
         $params = array("details" => $pid, "size" => $size, "multi" => $multi, "assign" => $assign, "with_path" => $with_path, "with_orig" => $with_orig);
         return $this->getFileSmarty( $params );
     }
@@ -1803,11 +1814,11 @@ class CBPhotos {
                 return $this->default_thumb( $size, $output );
             else {
                 if ( !empty( $photo['filename'] ) && !empty( $photo['ext'] ) ) {
-					/* Enhacing the code to work with date folder structure */
-					$date_dir = get_photo_date_folder( $photo );
-					if ( $date_dir ) {
-						$date_dir .= '/';	
-					}
+                    /* Enhacing the code to work with date folder structure */
+                    $date_dir = get_photo_date_folder( $photo );
+                    if ( $date_dir ) {
+                      $date_dir .= '/';	
+                    }
 					
                     $files = glob( PHOTOS_DIR . "/". $date_dir . $photo['filename'] . "*." . $photo['ext'] );
                     if ( !empty( $files ) && is_array( $files ) ) {

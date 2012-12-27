@@ -909,6 +909,32 @@ ul.user-contacts li {
     font-weight: bold;
 }
 
+ul.user-contacts.manage-subscriptions li {
+    width: 100%;
+    position: relative;
+}
+
+ul.user-contacts.manage-subscriptions li a.sub-name {
+    top: -10px;
+    position: relative;
+}
+
+ul.user-contacts.manage-subscriptions li a.sub-content {
+    font-weight: normal;
+    color: #666;
+    position: absolute;
+    top: 43px;
+    left: 86px;
+    font-size: 12px;
+}
+
+ul.user-contacts.manage-subscriptions li a.sub-action {
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    margin-top: -14px;
+}
+
 ul.user-contacts li:nth-child(odd) {
     margin-right: 38px;
 }
@@ -916,3 +942,4 @@ ul.user-contacts li:nth-child(odd) {
 ul.user-contacts li img {
     margin-right: 10px;
 }
+
