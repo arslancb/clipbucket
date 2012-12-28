@@ -79,11 +79,15 @@ switch($mode)
 		
 		if(isset($_POST['add_collection']))
 		{
-			$cbcollection->create_collection($_POST);
-			
-			if(!error()) $_POST = '';
+			$collection_id = $cbcollection->create_collection($_POST);
+                $collection['collection_id'] = $collection_id;
+                
+                if ( !error() ) {
+                    redirect_to( $cbphoto->photo_links( $collection, 'upload_more' ) );
+                }
 		}
 		
+    
 		subtitle(lang("create_collection"));
 	}
 	break;

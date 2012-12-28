@@ -1535,7 +1535,7 @@ function get_image_file ( $params ) {
                     $filename = sprintf( $file_name, "_".$size );
                     $full_path = $path.$filename;
                     
-                    if ( isset( $image_details[$size] ) ) {
+                    {
                         if ( file_exists( $full_path ) ) {
                             if ( $with_path ) {
                                 $thumbs[] = PHOTOS_URL.'/'.$file_directory.$filename;
@@ -1553,7 +1553,7 @@ function get_image_file ( $params ) {
                         $thumbs[] = sprintf( $file_name, "");
                     }
                 }
-                
+                //pr ( $thumbs, true );
                 if ( !$thumbs or count($thumbs) <= 0 ) {
                     $thumbs = _recheck_photo_code( $params );
                     if ( !$thumbs or !is_array( $thumbs ) ) {

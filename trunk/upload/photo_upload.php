@@ -17,8 +17,26 @@ subtitle(lang('photos_upload'));
 
 if(isset($_GET['collection']))
 {
-	$c = $cbphoto->decode_key($_GET['collection']);
-	assign('c',$cbphoto->collection->get_collection($c));	
+    $cid = $cbphoto->decode_key($_GET['collection']);
+    $collection = $cbphoto->collection->get_collection( $cid );
+    if ( $collection ) {
+        $js_var = sha1( $_GET['collection'].RandomString( 8 ) );
+        $start = rand( 5, 10 );
+        $js_var = substr( $js_var, $start, 8 );
+        assign( 'collection', $collection );
+        assign( 'js_var', $js_var );
+        
+        function _add_collection_id_js() {
+            global $collection, $js_var;
+            $output = '<script type="text/javascript">';
+            $output .= 'var js_'.$js_var.' = '.$collection['collection_id'].';';
+            $output .= '</script>';
+            
+            echo $output;
+        }
+        
+        register_anchor_function( '_add_collection_id_js', 'cb_head' );
+    }
 }
 
 if(isset($_POST['EnterInfo']))

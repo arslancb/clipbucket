@@ -163,4 +163,7 @@ add_collection_manager_order( lang('Oldest'), tbl('collections.date_added asc') 
 add_collection_manager_order( lang('Most Viewed'), tbl('collections.views desc') );
 add_collection_manager_order( lang('Most Photos'), tbl('collections.total_objects desc') );
 add_collection_manager_order( lang('Last Updated'), tbl('collections.last_updated desc') );
+
+register_filter( 'dashboard_widgets', '_order_dashboard_widgets_to_position' );
+
 ?>

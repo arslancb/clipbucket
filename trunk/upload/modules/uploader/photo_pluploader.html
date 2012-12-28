@@ -61,7 +61,7 @@ How this should work
         return minutes+":"+seconds;
     }
     
-    $(document).ready(function(){
+    $(document).ready( function(){
         var uploader = new plupload.Uploader({
             runtimes : 'html5,flash',
             browse_button : 'plupload-pickfiles',
@@ -75,7 +75,10 @@ How this should work
             ]
         });
         
-        
+        if ( window['js_{$js_var}'] ) {
+            var collection_id = window['js_{$js_var}'];
+        }
+                
         uploader.init();
         
         var overall_template = $('#upload-overall-template-item').find('.upload-overall').clone();
@@ -139,6 +142,10 @@ How this should work
                 form_template.find('.title h2').text( file.name );
                 form_template.find('input[name=photo_title]').val( name_without_extension );
                 form_template.find('textarea[name=photo_description]').val( name_without_extension );
+                
+                if ( collection_id ) {
+                    form_template.find('select[name=collection_id]').val( collection_id );
+                }
                 
                 $('#upload-form-container').append( form_template );
                 /* ------- UPLOAD FORM BLOCK TEMPLATE END ------- */

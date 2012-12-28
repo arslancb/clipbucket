@@ -2,6 +2,34 @@
 
 
 <div class="account-right">
+    
+{if $mode == 'add_new'}
+<div class="account-heading">
+    <h2>{lang code='Add new collection'}</h2>
+    <div class="manager-list">
+        <form action="" method="post" class="form-horizontal">
+            <fieldset>
+                <legend>{lang code='Required fields'}</legend>
+                {foreach from=$fields item=field}
+                    {include_template_file file='common/form_field.html' field=$field}
+                {/foreach}
+            </fieldset>
+            
+            <fieldset>
+                <legend>{lang code='Other options'}</legend>
+                {foreach from=$other_fields item=field}
+                    {include_template_file file='common/form_field.html' field=$field}
+                {/foreach}
+            </fieldset>
+            
+            <div class="form-actions">
+                <button name="add_collection" id="add_collection" class="btn btn-primary">{lang code='Add new collection'}</button>
+            </div>
+        </form>
+    </div>
+</div>
+{/if}
+
 {if $mode == "manage" || $mode == ""}
     <div class="account-heading">
         <h2>{lang code='Manage Collections'} ({$total_collections})</h2> 
@@ -160,7 +188,7 @@
                         {foreach $objs as $avatar}
                         <div class="manage-collection-items">
                             <div class="manage-collection-item">
-                                <img src="{get_photo details=$avatar size='m'}" class="manage-collection-item-thumb" />
+                                <img src="{get_photo details=$avatar size='m'}" class="manage-collection-item-thumb cbv3-center-image" />
                                 <div class="black-gradient absolute bottom manage-collection-item-details">
                                     <h4><a href="{$cbphoto->collection->collection_links($collection,'vc')}">{$collection.collection_name}</a></h4>
                                     <div class="pull-left">{$avatar.date_added|date_format}</div>
