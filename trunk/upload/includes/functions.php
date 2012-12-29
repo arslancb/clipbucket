@@ -3921,4 +3921,5 @@ include("functions_photos.php");
 include("functions_forms.php");
 include("functions_templates.php");
 include("functions_players.php");
+include("functions_dashboard.php");
 ?>
