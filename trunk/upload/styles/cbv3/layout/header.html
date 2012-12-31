@@ -61,135 +61,135 @@
                         <button class="btn dropdown-toggle selected-search-type" type="button" data-toggle="dropdown"><span>{$search_type|capitalize}</span> <i class='caret'></i></button>
                         <ul class="dropdown-menu">
                             {foreach from=$Cbucket->search_types item=t key=stypes name=SearchTypes}
-                                <li>
+                            <li>
                                 <a id="{$stypes}" data-type="{$stypes}" href="#" class="search-type{if $smarty.get.type == $stypes && $smarty.const.THIS_PAGE == "search_result"} active{/if}">{$stypes|capitalize}</a>
                                 </li>
-                            {/foreach}
-                        </ul>
-                    </div>
-                    <input type="text" class="span5" value="{'query'|get_form_val:true}" name="query" id="query">
-                    <button class="btn"><i class="icon-search"></i></button>                    
-                </div>
-            </form>
-
-
-            <div class="inlineblock valignTop">
-                {if !userid()}
-
-                <div class="btn-group ">
-                    <button class="btn login-box" data-target="#login-modal"  data-toggle="modal"><span class="icon-user"></span> {lang code='Login'}</button>
-                    <a href="{link name='signup'}" class="btn">Register</a>
-
-                </div>
-                <!-- Login Modal Box -->
-                <div class="modal hide fade" id="login-modal">
-                    <div class="modal-header">
-                        <button class="close" data-dismiss="modal">×</button>
-                        <h3>{lang code='user_mem_login'}</h3>
-                    </div>
-                    <div class="modal-body">
-                        <div class="moveL login-modal-left">
-                            <form class="" method="post" action="{link name='signup'}">
-                                <input type="text" class="modal-username" 
-                                       placeholder="{lang code='Email'}" name="username">
-                                <div></div>
-                                <input type="password" class="modal-password" 
-                                       placeholder="{lang code='Password'}" name="password">
-
-                                <div class="inlineblock moveL">
-                                    <label class="checkbox">
-                                        <input type="checkbox" id="rememberme" class="rememberme" value="yes">
-                                        {lang code='remember_me'}
-                                    </label>
-                                </div>
-                                <div class="inlineblock moveR">
-                                    <button class="btn btn-inverse">{lang code='Login'}</button>
-                                </div>
-                                <div class="clearfix"></div>
-                                <input type="hidden" name="login" value="do"/>
-                            </form>
+                                {/foreach}
+                            </ul>
                         </div>
-                        <div class="moveL login-modal-right" align="center">
+                        <input type="text" class="span5" value="{'query'|get_form_val:true}" name="query" id="query">
+                        <button class="btn"><i class="icon-search"></i></button>                    
+                    </div>
+                </form>
 
-                            <h4>{lang code="Don't have an account?"}</h4>
 
-                            <a href="{link name='signup'}" class="btn btn-primary btn-large">
-                                {lang code="Create one now!"}
-                            </a>
-                            <div class="height10"></div>
-                            <div class="terms-text">{lang code="ready_ours_terms_privacy"}</div>
+                <div class="inlineblock valignTop">
+                    {if !userid()}
+
+                    <div class="btn-group ">
+                        <button class="btn login-box" data-target="#login-modal"  data-toggle="modal"><span class="icon-user"></span> {lang code='Login'}</button>
+                        <a href="{link name='signup'}" class="btn">Register</a>
+
+                    </div>
+                    <!-- Login Modal Box -->
+                    <div class="modal hide fade" id="login-modal">
+                        <div class="modal-header">
+                            <button class="close" data-dismiss="modal">×</button>
+                            <h3>{lang code='user_mem_login'}</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="moveL login-modal-left">
+                                <form class="" method="post" action="{link name='signup'}">
+                                    <input type="text" class="modal-username" 
+                                           placeholder="{lang code='Email'}" name="username">
+                                    <div></div>
+                                    <input type="password" class="modal-password" 
+                                           placeholder="{lang code='Password'}" name="password">
+
+                                    <div class="inlineblock moveL">
+                                        <label class="checkbox">
+                                            <input type="checkbox" id="rememberme" class="rememberme" value="yes">
+                                            {lang code='remember_me'}
+                                        </label>
+                                    </div>
+                                    <div class="inlineblock moveR">
+                                        <button class="btn btn-inverse">{lang code='Login'}</button>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <input type="hidden" name="login" value="do"/>
+                                </form>
+                            </div>
+                            <div class="moveL login-modal-right" align="center">
+
+                                <h4>{lang code="Don't have an account?"}</h4>
+
+                                <a href="{link name='signup'}" class="btn btn-primary btn-large">
+                                    {lang code="Create one now!"}
+                                </a>
+                                <div class="height10"></div>
+                                <div class="terms-text">{lang code="ready_ours_terms_privacy"}</div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="modal-footer" style="text-align: left" >
+                                <a class="btn btn-mini">{lang code='user_forgot_message'}</a> or
+                                <a class="btn btn-mini">{lang code='user_forgot_username'}</a>
+                            </div>
                         </div>
 
-                        <div class="clearfix"></div>
+
+                        {else}
+
+                        <div class="btn-toolbar" style="margin: 0;">
+                        <div class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                <span class="icon-user"></span> {username()}  <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+
+                                {$user_menu=get_menu('user_head_menu')}
+
+                                {foreach $user_menu as $menu}
+                                <li><a href="{$menu.link}">{$menu.title}</a></li>
+                                {/foreach}
+
+
+                                <li class="divider"></li>
+                                <li><a href="#"><i class="icon-off"></i> Logout</a></li>
+                            </ul>
+                        </div><!-- /btn-group -->
+                        <div class="btn-group">
+                            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Upload <span class="caret"></span></button>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="{link name='upload'}">{lang code='Upload video'}</a></li>
+                                <li><a href="{link name='photo_upload'}">{lang code='Upload photo'}</a></li>
+                            </ul>
+                        </div><!-- /btn-group -->
                     </div>
-                    <div class="modal-footer" style="text-align: left" >
-                        <a class="btn btn-mini">{lang code='user_forgot_message'}</a> or
-                        <a class="btn btn-mini">{lang code='user_forgot_username'}</a>
-                    </div>
+                    {/if}
                 </div>
-
-
-                {else}
-
-                <div class="btn-toolbar" style="margin: 0;">
-                    <div class="btn-group">
-                        <button class="btn dropdown-toggle" data-toggle="dropdown">
-                            <span class="icon-user"></span> {username()}  <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-
-                            {$user_menu=get_menu('user_head_menu')}
-
-                            {foreach $user_menu as $menu}
-                            <li><a href="{$menu.link}">{$menu.title}</a></li>
-                            {/foreach}
-
-
-                            <li class="divider"></li>
-                            <li><a href="#"><i class="icon-off"></i> Logout</a></li>
-                        </ul>
-                    </div><!-- /btn-group -->
-                    <div class="btn-group">
-                        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Upload <span class="caret"></span></button>
-                        <ul class="dropdown-menu pull-right">
-                            <li><a href="{link name='upload'}">{lang code='Upload video'}</a></li>
-                            <li><a href="{link name='photo_upload'}">{lang code='Upload photo'}</a></li>
-                        </ul>
-                    </div><!-- /btn-group -->
-                </div>
-                {/if}
             </div>
         </div>
-    </div>
 
-    <nav class="navbar navbar-inverse">
-        <div class="navbar-inner">
-
+        <nav class="navbar navbar-inverse">
+            <div class="navbar-inner">
 
 
-            <div class="container">
-                <ul class="nav">
-                    {cbMenu}
-                </ul>
 
-                <ul class="nav pull-right">
+                <div class="container">
+                    <ul class="nav">
+                        {cbMenu}
+                    </ul>
 
-                    {if $playlist.playlist_name}
-                    <li class="dropdown playlist-dropdown open"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Now Playing : {$playlist.playlist_name} <i class="caret"></i></a>
-                        <div class="dropdown-menu playlist-menu" role="menu" >
-                            <div class="cbv3-scroller playlist-list-container">
+                    <ul class="nav pull-right">
 
-                                {$playlist_thumb = $cbvid->action->getPlaylistThumb($playlist.playlist_id)}
+                        {if $playlist.playlist_name}
+                        <li class="dropdown playlist-dropdown open"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Now Playing : {$playlist.playlist_name} <i class="caret"></i></a>
+                            <div class="dropdown-menu playlist-menu" role="menu" >
+                                <div class="cbv3-scroller playlist-list-container">
 
-                                <img src="{$playlist_thumb.0}" class="playlist-thumb" width="50" height="35"/>
-                                {$playlist.playlist_name}
+                                    {$playlist_thumb = $cbvid->action->getPlaylistThumb($playlist.playlist_id)}
 
-                                <hr />
+                                    <img src="{$playlist_thumb.0}" class="playlist-thumb" width="50" height="35"/>
+                                    {$playlist.playlist_name}
 
-                                {foreach $playlist.items as $item}
-                                <div class="playlist-item {if $video.videoid==$item.videoid}item-active{/if}"
-                                     onclick="window.location='{videoLink vdetails=$item}'">                              
-                                    <img src="{getThumb vdetails=$item}" class="item-thumb" width="30" height="22"/>
+                                    <hr />
+
+                                    {foreach $playlist.items as $item}
+                                    <div class="playlist-item {if $video.videoid==$item.videoid}item-active{/if}"
+                                         onclick="window.location='{videoLink vdetails=$item}'">                              
+                                        <img src="{getThumb vdetails=$item}" class="item-thumb" width="30" height="22"/>
                                     <span>{$item.title|truncate:40}</span>
 
                                     <span class="absolute right"><h6>
@@ -206,15 +206,30 @@
                         </div>
                     </li>
                     {/if}
-                    <li><a href="#"><span class="icon-user icon-white"></span></a></li>
-                    <li><a href="#"><span class="icon-envelope icon-white"></span></a></li>
+                    <li>
+                        <a href="#"><span class="icon-user icon-white"></span>               
+                            <span class="badge badge-important" id="new_friends_lable">{$new_friends|number_format}</span>
+                        </a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                           onclick="read_notifications();">
+                           onclick="read_notifications('msgs',true);"><span class="icon-envelope icon-white"></span>
+                            <span class="badge badge-important" id="new_msgs_label">{$new_msgs|number_format}</span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu" 
+                            id="notifications-container">
+                            <li>
+                                {$template=get_template('msgs_notifications','path')}
+                                {include file=$template notifications=$notifications}
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                           onclick="get_notifications(true);">
                             <span class="icon-globe icon-v3-white"></span>
                             <span class="badge badge-important" id="new_notifications_label">{$new_notifications|number_format}</span>
                         </a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="drop3"
+                        <ul class="dropdown-menu" role="menu" 
                             id="notifications-container">
                             <li>
                                 {$template=get_template('notifications','path')}

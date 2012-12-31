@@ -55,7 +55,7 @@ function add_feed_comment(fid)
     if(post.hasClass('mention'))
     {
         post.mentionsInput('val', function(text) {
-        post_val = text;
+            post_val = text;
         }); 
     }else
         post_val = post.val();
@@ -160,26 +160,6 @@ function genFeedSuggestObj(feedSuggestionMode)
 }
      
      
-/**
- * Gets new information..
- */
-function cb_khabri()
-{
-     
-    amplify.request('feeds',
-    {
-        mode : 'get_updates' 
-    },function(data)
-    {
-        if(data.notifications)
-        {
-            $('#new_notifications_label')
-            .html(data.notifications.total_new);
-            
-            display_notifications(data.notifications);
-        }
-    })
-}
 
 function display_notifications(notifications)
 {
@@ -193,17 +173,30 @@ function display_notifications(notifications)
     $('#new_notifications').before(notifications.template);
 }
 
-function read_notifications()
-{
-    $('#new_notifications_label')
-    .html('0');
-    
 
+/**
+ * Get notifications 
+ */
+function get_notifications(read)
+{
+    if(read)
+    {
+        $('#new_notifications_label')
+        .html('0');
+    }
+    
     amplify.request('feeds',
     {
-        mode : 'read_notification' 
+        mode : 'get_notifications',
+        read : read
     },function(data)
     {
-        
+        if(data.notifications)
+        {
+            $('#new_notifications_label')
+            .html(data.notifications.total_new);
+            
+            display_notifications(data.notifications);
+        }
     })
 }

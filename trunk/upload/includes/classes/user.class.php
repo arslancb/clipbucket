@@ -153,6 +153,75 @@ class userquery extends CBCategory
 
         register_object('u', 'userquery');
         register_object('user', 'userquery');
+
+        /**
+         * get user latest notifications counts
+         */
+        $new_notifications = $this->get_new_notifications();
+
+        $this->new_messages = $new_notifications['new_messages'];
+        $this->new_notifications = $new_notifications['new_notifications'];
+        $this->new_friend_requests = $new_notifications['new_friend_requests'];
+    }
+
+    /**
+     * get latest notifications COUNTS from cb_user_notifications table
+     * if row does not exist, create it...
+     */
+    function get_new_notifications($uid = NUll)
+    {
+        if (!$uid)
+            $uid = userid();
+
+        $query = "SELECT * FROM " . tbl("user_notifications");
+        $query .= " WHERE userid='$uid' ";
+        $query .= " LIMIT 1";
+
+        $results = db_select($query);
+
+        global $db;
+
+        if ($db->num_rows > 0)
+        {
+            $results = $results[0];
+            return $results;
+        }
+        else
+        {
+            $fields = array(
+                'userid' => $uid,
+            );
+
+            db_insert(tbl('user_notifications'), $fields);
+
+            return array(
+                'new_notifications' => 0,
+                'new_msgs' => 0,
+                'new_friends_requests' => 0
+            );
+        }
+    }
+
+    /**
+     * increment in a new notification ;)
+     * 
+     * @param INT userid
+     * @param STRING field
+     * 
+     */
+    function new_notify($uid, $field)
+    {
+        $uid = mysql_clean($uid);
+        $field = mysql_clean($field);
+
+        $array = array(
+            $field => '{{' . $field . '+1' . '}}'
+        );
+
+        db_update(tbl('user_notifications'), $array, "userid='$uid' ");
+
+        global $db;
+        return true;
     }
 
     /**
@@ -604,12 +673,18 @@ class userquery extends CBCategory
         }else
         {
             if (is_numeric($id))
-                $result = $db->count(tbl($this->dbtbl['users']), "userid", " userid='" . $id . "'");
-            else
-                $result = $db->count(tbl($this->dbtbl['users']), "userid", " username='" . $id . "'");
-            if ($result > 0)
             {
-                return true;
+                $query = " SELECT userid FROM ".tbl('users'). " WHERE userid='$id' LIMIT 1";
+            }else
+            {
+                $query = " SELECT userid FROM ".tbl('users'). " WHERE username='$id' LIMIT 1";
+            }
+            
+            $results = db_select($query);
+            
+            if ($results)
+            {
+                return $results[0]['userid'];
             }
             else
             {
@@ -2900,11 +2975,11 @@ class userquery extends CBCategory
                     $pid = $playlist['playlist_id'];
                     $category = $playlist['category'];
                     $name = lang($category);
-                    
+
                     $array[lang('playlists')][$category] = 'manage_playlists.php?'
-                    . 'mode=edit_playlist'
-                    . '&pid=' . $pid
-                    . '&category=' . $category;
+                            . 'mode=edit_playlist'
+                            . '&pid=' . $pid
+                            . '&category=' . $category;
                 }
             }
         }
@@ -5489,6 +5564,82 @@ class userquery extends CBCategory
         return $feeds;
     }
 
+    /**
+     * get user updates from cb_user_notifications Table
+     * 
+     * @param INT userid
+     * @param ARRAY $notifications_array
+     */
+    function get_updates($uid)
+    {
+        $query = "SELECT new_msgs,new_notifications,new_friend_requests";
+        $query .=" FROM " . tbl('user_notifications');
+        $query .=" WHERE userid='$uid' ";
+        $query .= " LIMIT 1";
+
+        $results = db_select($query);
+
+        if ($results)
+            return $results[0];
+        else
+            return false;
+    }
+
+    /**
+     * Set notifications count to zero for user_notifications table
+     * 
+     * @param INT userid
+     * @param STRING type (name of the field)
+     */
+    function read_notification($uid, $field)
+    {
+        $where = "";
+
+        switch ($field)
+        {
+            case "notification":
+            case "notifications":
+            case "new_notifications":
+                {
+                    $fields = array(
+                        'new_notifications' => 0
+                    );
+                }
+                break;
+            
+            case "messages":
+            case "msgs":
+            case "new_msgs":
+            case "new_messages":
+                {
+                    $fields = array(
+                        'new_msgs' => 0
+                    );
+                }
+                break;
+            
+            case "friends":
+            case "new_firends":
+            case "friend_requests":
+                {
+                    $fields = array(
+                        'new_friend_requests' => 0
+                    );
+                }
+                break;
+        }
+        
+        $where = " userid='$uid' ";
+        
+        if($fields)
+        {
+            db_update(tbl('user_notifications'), $fields, $where);
+            
+            return true;
+        }
+        
+        return false;
+    }
 }
 
 ?>

@@ -109,15 +109,15 @@ function sql_free($id)
 
 function mysql_clean($id, $replacer = true)
 {
-    if(is_array($id))
+    if (is_array($id))
     {
         $new_array = array();
-        
-        foreach($id as $key => $value)
+
+        foreach ($id as $key => $value)
         {
             $new_array[$key] = mysql_clean($value);
         }
-        
+
         return $new_array;
     }
     //$id = clean($id);
@@ -930,32 +930,32 @@ function db_update($tbl, $fields, $cond)
 
         if ($count > 0)
             $fields_query .= ',';
-        
-        
-        $needle = substr($val, 0, 1);
+
+
+        $needle = substr($val, 0, 2);
 
         if ($needle != '{{')
             $value = "'" . filter_sql($val) . "'";
         else
         {
-            $val = substr($val, 1, strlen($val) - 4);
+            $val = substr($val, 2, strlen($val) - 4);
             $value = filter_sql($val);
         }
-        
-        $fields_query .= $field."=$value ";
+
+        $fields_query .= $field . "=$value ";
         $count++;
     }
-    
+
     //Complete Query
     $query = "UPDATE $tbl SET $fields_query WHERE $cond $ep";
     //if(!mysql_query($query)) die($query.'<br>'.mysql_error());
     $db->total_queries++;
     $db->total_queries_sql[] = $query;
     $db->Execute($query);
-    
+
     if (mysql_error())
         die($db->db_query . '<br>' . mysql_error());
-    
+
     return true;
 }
 
@@ -980,7 +980,7 @@ function db_insert($tbl, $fields)
             $query_values[] = "'" . filter_sql($val) . "'";
         else
         {
-            $val = substr($val, 1, strlen($val) - 4);
+            $val = substr($val, 2, strlen($val) - 4);
             $query_values[] = filter_sql($val);
         }
 
@@ -1000,11 +1000,71 @@ function db_insert($tbl, $fields)
     $db->total_queries++;
     $db->total_queries_sql[] = $query;
     $db->Execute($query);
-    
+
     if (mysql_error())
     {
         //if(LOG_DB_ERRORS)
-            
+
+        die($db->db_query . '<br>' . mysql_error());
+    }
+
+    return $db->insert_id();
+}
+
+function db_multi_insert($tbl, $multi_fields)
+{
+    global $db;
+
+    $count = 0;
+
+    if ($multi_fields)
+    {
+
+        foreach ($multi_fields as $fields)
+        {
+            $query_fields = array();
+            $query_values = array();
+
+            foreach ($fields as $field => $val)
+            {
+
+                $query_fields[] = $field;
+
+                $needle = substr($val, 0, 2);
+
+                if ($needle != '{{')
+                    $query_values[] = "'" . filter_sql($val) . "'";
+                else
+                {
+                    $val = substr($val, 2, strlen($val) - 4);
+                    $query_values[] = filter_sql($val);
+                }
+
+                $count++;
+            }
+
+            $fields_query = implode(',', $query_fields);
+            $values_query[] = '(' . implode(',', $query_values) . ')';
+        }
+
+        $values_query_multi = implode(',', $values_query);
+    }
+
+
+
+
+    //Complete Query
+    $query = "INSERT INTO $tbl ($fields_query) VALUES $values_query_multi ";
+
+    //if(!mysql_query($query)) die($query.'<br>'.mysql_error());
+    $db->total_queries++;
+    $db->total_queries_sql[] = $query;
+    $db->Execute($query);
+
+    if (mysql_error())
+    {
+        //if(LOG_DB_ERRORS)
+
         die($db->db_query . '<br>' . mysql_error());
     }
 
@@ -2106,9 +2166,9 @@ function queryString($var = false, $remove = false)
             $queryString = preg_replace("/&?($remove)=([\w+\s\b\.?\S])[^&]*/", "", $queryString);
         else
             foreach ($remove as $rm)
-        {
+            {
                 $queryString = preg_replace("/&?($rm)=([\w+\s\b\.?\S])[^&]*/", "", $queryString);
-        }
+            }
     }
 
     if ($queryString)
@@ -3739,16 +3799,14 @@ function what_time($time, $is_time = true)
 {
     if (!$is_time)
         $time = strtotime($time);
-   
+
     $date = date('Y-m-d H:i:s', $time);
     $date = niceTime($date);
-    
-    $final_date= '<span class="cb_time" data-time="'.date("Y-m-d",$time).'T'.date("H:i:s",$time).'Z" >'.$date.'</span>';
-    
+
+    $final_date = '<span class="cb_time" data-time="' . date("Y-m-d", $time) . 'T' . date("H:i:s", $time) . 'Z" >' . $date . '</span>';
+
     return $final_date;
 }
-
-
 
 /**
  * register an object to get data later
@@ -3756,15 +3814,15 @@ function what_time($time, $is_time = true)
  * @param STRING $type
  * @param OBJECT $obj
  */
-function register_object($type,$obj)
+function register_object($type, $obj)
 {
-    global ${$obj},$Cbucket;
-    
+    global ${$obj}, $Cbucket;
+
     $theObj = ${$obj};
-    
-    if($theObj)
+
+    if ($theObj)
     {
-        $Cbucket->objects[$type] = array('type'=>$type,'obj'=>$obj);
+        $Cbucket->objects[$type] = array('type' => $type, 'obj' => $obj);
     }
 }
 
@@ -3777,24 +3835,23 @@ function register_object($type,$obj)
  * @param INT $obj_id
  * @param STRING $condtion
  */
-function get_object($type,$objId,$cond=NULL)
+function get_object($type, $objId, $cond = NULL)
 {
     global $Cbucket;
-   
-    if($Cbucket->objects[$type])
+
+    if ($Cbucket->objects[$type])
     {
-       
+
         $obj = $Cbucket->objects[$type]['obj'];
         global ${$obj};
         $theObj = ${$obj};
 
-        if(method_exists($theObj,'get'))
+        if (method_exists($theObj, 'get'))
         {
-            return $theObj->get($objId,$cond);
+            return $theObj->get($objId, $cond);
         }
     }
 }
-
 
 /**
  * Get Content 
@@ -3806,21 +3863,21 @@ function get_object($type,$objId,$cond=NULL)
  * @param type $cond if any
  * @return type
  */
-function get_content($type,$objContent,$cond=NULL)
+function get_content($type, $objContent, $cond = NULL)
 {
-    
+
     global $Cbucket;
 
-    if($Cbucket->objects[$type])
+    if ($Cbucket->objects[$type])
     {
 
         $obj = $Cbucket->objects[$type]['obj'];
         global ${$obj};
         $theObj = ${$obj};
 
-        if(method_exists($theObj,'get_content'))
+        if (method_exists($theObj, 'get_content'))
         {
-            return $theObj->get_content($objContent,$cond);
+            return $theObj->get_content($objContent, $cond);
         }
     }
 }
@@ -3829,19 +3886,19 @@ function get_content($type,$objContent,$cond=NULL)
  * function used to get content link
  * 
  */
-function get_content_link($type,$content,$cond=NULL)
+function get_content_link($type, $content, $cond = NULL)
 {
     global $Cbucket;
-    if($Cbucket->objects[$type])
+    if ($Cbucket->objects[$type])
     {
 
         $obj = $Cbucket->objects[$type]['obj'];
         global ${$obj};
         $theObj = ${$obj};
 
-        if(method_exists($theObj,'get_link'))
+        if (method_exists($theObj, 'get_link'))
         {
-            return $theObj->get_link($content,$cond);
+            return $theObj->get_link($content, $cond);
         }
     }
 }
@@ -3851,15 +3908,11 @@ function get_content_link($type,$content,$cond=NULL)
  * @param type $e
  * @throws Exception
  */
-
-
-
 function cb_error($e)
 {
     e($e);
     throw new Exception($e);
 }
-
 
 /**
  * get client ip
@@ -3869,7 +3922,6 @@ function client_ip()
     return $_SERVER['REMOTE_ADDR'];
 }
 
-
 function start_where()
 {
     global $Cbucket;
@@ -3877,13 +3929,13 @@ function start_where()
     $Cbucket->sql_where = '';
 }
 
-function add_where($query,$cond="AND")
+function add_where($query, $cond = "AND")
 {
     global $Cbucket;
-    if($Cbucket->sql_where)
-       $Cbucket->sql_where .= " ".$cond;
-    $Cbucket->sql_where .= " ".$query;
-    
+    if ($Cbucket->sql_where)
+        $Cbucket->sql_where .= " " . $cond;
+    $Cbucket->sql_where .= " " . $query;
+
     return $Cbucket->sql_where;
 }
 
@@ -3922,4 +3974,5 @@ include("functions_forms.php");
 include("functions_templates.php");
 include("functions_players.php");
 include("functions_dashboard.php");
+include("functions_pm.php");
 ?>

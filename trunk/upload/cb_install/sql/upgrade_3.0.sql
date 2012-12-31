@@ -279,3 +279,78 @@ ADD  `last_name` VARCHAR( 50 ) NOT NULL AFTER  `first_name`;
 
 --12-27-2012 @Author Arslan
 ALTER TABLE  `{tbl_prefix}playlists` ADD  `category` ENUM(  'normal',  'favorites',  'likes',  'history',  'quicklist',  'watch_later' ) NOT NULL DEFAULT  'normal' AFTER  `playlist_type`;
+
+--12-31-2012 @Author Arslan
+
+DROP TABLE IF EXISTS `{tbl_prefix}messages`;
+CREATE TABLE `{tbl_prefix}messages` (
+  `message_id` int(225) NOT NULL AUTO_INCREMENT,
+  `thread_id` bigint(255) NOT NULL,
+  `userid` int(255) NOT NULL,
+  `message` mediumtext NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `seen_by` mediumtext NOT NULL,
+  `date_added` datetime NOT NULL,
+  `time_added` int(11) NOT NULL,
+  PRIMARY KEY (`message_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cb_recipients`
+--
+
+DROP TABLE IF EXISTS `{tbl_prefix}recipients`;
+CREATE TABLE `{tbl_prefix}recipients` (
+  `recipient_id` bigint(255) NOT NULL AUTO_INCREMENT,
+  `userid` int(255) NOT NULL,
+  `thread_id` bigint(20) NOT NULL,
+  `unread_msgs` int(10) NOT NULL,
+  `last_message_time` int(11) NOT NULL,
+  `date_added` datetime NOT NULL,
+  `time_added` int(11) NOT NULL,
+  PRIMARY KEY (`recipient_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cb_threads`
+--
+
+DROP TABLE IF EXISTS `{tbl_prefix}threads`;
+CREATE TABLE `{tbl_prefix}threads` (
+  `thread_id` bigint(255) NOT NULL AUTO_INCREMENT,
+  `thread_type` enum('private','public') NOT NULL DEFAULT 'private',
+  `userid` int(11) NOT NULL,
+  `recipient_md5` varchar(32) NOT NULL,
+  `total_recipients` bigint(100) NOT NULL,
+  `total_messages` bigint(100) NOT NULL,
+  `last_message_id` int(255) NOT NULL,
+  `last_userid` int(255) NOT NULL,
+  `last_message_date` datetime NOT NULL,
+  `is_archived` enum('yes','no') NOT NULL DEFAULT 'no',
+  `date_added` datetime NOT NULL,
+  `time_added` int(11) NOT NULL,
+  PRIMARY KEY (`thread_id`),
+  UNIQUE KEY `recipient_md5` (`recipient_md5`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cb_user_notifications`
+--
+
+DROP TABLE IF EXISTS `{tbl_prefix}user_notifications`;
+CREATE TABLE `{tbl_prefix}user_notifications` (
+  `notification_id` int(255) NOT NULL AUTO_INCREMENT,
+  `userid` int(255) NOT NULL,
+  `new_msgs` int(20) NOT NULL,
+  `new_notifications` int(20) NOT NULL,
+  `new_friend_requests` int(20) NOT NULL,
+  `date_updated` datetime NOT NULL,
+  `time_updated` int(11) NOT NULL,
+  PRIMARY KEY (`notification_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;

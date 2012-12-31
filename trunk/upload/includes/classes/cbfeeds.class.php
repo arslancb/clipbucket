@@ -892,7 +892,7 @@ class cbfeeds
             //Getting Owner Id
             $owner_id = $feed['userid'];
             $add_comment =
-            $myquery->add_comment($comment, $obj_id, $reply_to, 'f', $owner_id, NULL, $force_name_email);
+                    $myquery->add_comment($comment, $obj_id, $reply_to, 'f', $owner_id, NULL, $force_name_email);
 
             $object = $feed['object'];
             $object = json_decode($object, true);
@@ -907,12 +907,12 @@ class cbfeeds
                         'object_id' => $id,
                         'object_type' => $type,
                         'object' => $object,
-                        'comment_id'    => $add_comment,
+                        'comment_id' => $add_comment,
                         'actor_id' => userid(),
                         'userid' => $feed['userid'],
                         'actor' => get_content('user', $userquery->udetails)
             );
-            
+
             $this->addNotification($ntif_params);
 
             if ($add_comment && $use_the_static_commenting):
@@ -1019,6 +1019,7 @@ class cbfeeds
      */
     function addNotification($params)
     {
+        global $userquery;
         $uid = mysql_clean($params['userid']);
         //$message    = mysql_clean($params['message']);
         $action = mysql_clean($params['action']);
@@ -1047,11 +1048,11 @@ class cbfeeds
         if ($feedId && !$params['comment_id'])
             if (!$this->feed_exists($feedId))
             {
-                
+
                 e(lang('Feed does not exist'));
                 return false;
             }
-        
+
         $nid = db_insert(tbl('notifications'), array(
             'feed_id' => $feedId,
             'userid' => $uid,
@@ -1062,7 +1063,9 @@ class cbfeeds
             'elements' => json_encode($elements),
             'date_added' => now()
                 ));
-
+        
+        $userquery->new_notify($uid, 'new_notifications');
+        
         return $nid;
     }
 
@@ -1151,8 +1154,6 @@ class cbfeeds
                     $query .= " ORDER BY time DESC ";
                     $query .= " LIMIT " . $limit;
                     $notifications = db_select($query);
-
-                    
                 }
                 break;
 
@@ -1179,7 +1180,7 @@ class cbfeeds
                     $actor = json_decode($notification['actor'], true);
                     $actor_thumb = get_actor_thumb($actor);
                 }
-                
+
                 $notification_link = get_notification_link($notification);
 
                 $the_notification = $notification;

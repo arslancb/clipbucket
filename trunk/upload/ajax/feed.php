@@ -77,6 +77,12 @@ switch ($mode)
                     }
                 }
             }
+            
+            if($object_type=='self')
+            {
+                $object_type = 'user';
+                $object_id = userid();
+            }
 
 
             try
@@ -138,15 +144,15 @@ switch ($mode)
                 $feed = $cbfeeds->get_feed($fid);
                 assign('feed', $feed);
 
-                if($object_type)
+                if ($object_type)
                 {
-                    $template = get_template('single_feed_'.$object_type);
+                    $template = get_template('single_feed_' . $object_type);
                 }
-                
-                if(!$template)
-                $template = get_template('single_feed');
-                
-                
+
+                if (!$template)
+                    $template = get_template('single_feed');
+
+
                 $array = array(
                     'success' => 'ok',
                     'template' => $template,
@@ -165,23 +171,6 @@ switch ($mode)
         break;
 
 
-    case "read_notification":
-        {
-            exit();
-            //mark notifications read..
-            $nid = mysql_clean($_POST['nid']);
-            $uid = userid();
-            if ($nid)
-            {
-                $cbfeeds->read_notification($uid, $nid);
-            }
-            else
-            {
-                $cbfeeds->read_notifications($uid);
-            }
-        }
-
-        break;
 
     case "get_notifications":
         {
@@ -189,45 +178,42 @@ switch ($mode)
             if (!$uid)
                 $uid = userid();
 
-            $cbfeeds->get_notifications('unread');
-        }
-        break;
-
-    case "get_updates":
-        {
-            $uid = mysql_clean(post('userid'));
-            if (!$uid)
-                $uid = userid();
-
             $notifications = $cbfeeds->get_notifications('unread');
-            
+
             $updates = array();
-            if($notifications)
+            if ($notifications)
             {
                 $total_new = 0;
                 $the_notifications = array();
                 $notification_template = '';
-                foreach($notifications as $notification)
+                foreach ($notifications as $notification)
                 {
                     $the_notifications['ids'][] = $notification['notification_id'];
-                    
+
                     //Lets create a template and append to it..
-                    assign('notification',$notification);
+                    assign('notification', $notification);
                     $notification_template .= get_template('notification_block');
                     $total_new++;
                 }
-                
+
                 $the_notifications['template'] = $notification_template;
                 $updates['notifications'] = $the_notifications;
 
                 $updates['notifications']['total_new'] = $total_new;
             }
             
+            //Read notifications
+            if($_POST['read'])
+            {
+                $userquery->read_notification($uid, 'notification');
+                $cbfeeds->read_notifications($uid);
+            }
             
             echo json_encode($updates);
         }
         break;
 
+    
     default:
         exit(json_encode(array('err' => array(lang('Invalid request')))));
 }

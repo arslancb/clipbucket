@@ -328,6 +328,7 @@
         });
         
         $('.post_message').autosize();  
+        $('.pm_message').autosize(); 
         $('.comment-field').autosize().shiftenter();  
         
         $('#post_options').on('click','#add_new_post',function(){
@@ -400,8 +401,10 @@
             var action      = theForm.children('input[name=action]').val();
             
             
-            add_new_post(post_val,obj_type,obj_id,cont_type,cont_id,action)
+            add_new_post(post_val,obj_type,obj_id,cont_type,cont_id,action);
             
+            //Cloase modal..
+            $('#share_feed_modal').modal('hide');
             return false;
         })
         

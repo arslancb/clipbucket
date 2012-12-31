@@ -45,7 +45,7 @@ function get_users($param)
 function user_exists($user)
 {
     global $userquery;
-    return $userquery->username_exists($user);
+    return $userquery->user_exists($user);
 }
 
 /**
@@ -596,6 +596,8 @@ function name($user,$field=NULL)
     
         if($user['fullname'])
             $name = $user['fullname'];
+        elseif($user['first_name'])
+            $name = $user['first_name'].' '.$user['last_name'];
         elseif($user['username'])
             $name = $user['username'];
     }

@@ -21,6 +21,7 @@ if(is_installed('editorspick'))
 
 //i love coding :) 2012
 
+
 //Displaying The Template
 template_files('index.html');
 display_it();

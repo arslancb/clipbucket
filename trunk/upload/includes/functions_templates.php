@@ -7,18 +7,24 @@
  * @param type $inside
  * @return type 
  */
+function Fetch($name, $layout = true)
+{
 
 
-function Fetch($name, $layout = true) {
-
-    
-    if (file_exists($name) && !is_dir($name)) {
+    if (file_exists($name) && !is_dir($name))
+    {
         $fileName = $name;
-    } elseif ($layout === true) {
+    }
+    elseif ($layout === true)
+    {
         $fileName = LAYOUT . '/' . $name;
-    } elseif ($layout) {
+    }
+    elseif ($layout)
+    {
         $fileName = $layout . $name;
-    } else {
+    }
+    else
+    {
         $fileName = $name;
     }
 
@@ -34,25 +40,30 @@ function Fetch($name, $layout = true) {
  * @param type $template
  * @param type $layout 
  */
-function Template($template, $layout = true) {
+function Template($template, $layout = true)
+{
 
     global $admin_area, $Cbucket;
 
 
     //Getting list of variables and classes to make them global..
-    if ($Cbucket->templateClasses) {
-        foreach ($Cbucket->templateClasses as $tClasskey) {
+    if ($Cbucket->templateClasses)
+    {
+        foreach ($Cbucket->templateClasses as $tClasskey)
+        {
             global ${$tClasskey};
         }
     }
 
-    if ($Cbucket->template_details['php'] != 'on') {
+    if ($Cbucket->template_details['php'] != 'on')
+    {
 
         if ($layout)
             CBTemplate::display(LAYOUT . '/' . $template);
         else
             CBTemplate::display($template);
-    }else {
+    }else
+    {
         if ($layout)
             $template_file = LAYOUT . '/' . $template;
         else
@@ -69,7 +80,8 @@ function Template($template, $layout = true) {
  * @param type $name
  * @param type $value 
  */
-function Assign($name, $value) {
+function Assign($name, $value)
+{
     global $Cbucket;
     $CBucket->templateVars[$name] = $value;
     CBTemplate::assign($name, $value);
@@ -85,7 +97,8 @@ function Assign($name, $value) {
  * variable or not, if show_page is set to false and follow is true, this template will not load
  * otherwise there it WILL
  */
-function template_files($file, $folder = false, $follow_show_page = true) {
+function template_files($file, $folder = false, $follow_show_page = true)
+{
     global $ClipBucket;
     if (!$folder)
         $ClipBucket->template_files[] = array('file' => $file, 'follow_show_page' => $follow_show_page);
@@ -97,26 +110,35 @@ function template_files($file, $folder = false, $follow_show_page = true) {
 /**
  * Function used to include file
  */
-function include_template_file($params) {
+function include_template_file($params)
+{
     $file = $params['file'];
 
     //Assign Vars
-    if ($params) {
-        foreach ($params as $name => $value) {
-            if ($name != 'file') {
+    if ($params)
+    {
+        foreach ($params as $name => $value)
+        {
+            if ($name != 'file')
+            {
                 assign($name, $value);
             }
         }
     }
 
 
-    if (file_exists(LAYOUT . '/' . $file)) {
+    if (file_exists(LAYOUT . '/' . $file))
+    {
         echo '<!-- Including ' . $file . ' -->';
         Template($file);
-    } elseif (file_exists($file)) {
+    }
+    elseif (file_exists($file))
+    {
         echo '<!-- Including ' . $file . ' -->';
         Template($file, false);
-    } elseif (file_exists(STYLES_DIR . '/global/' . $file)) {
+    }
+    elseif (file_exists(STYLES_DIR . '/global/' . $file))
+    {
         echo '<!-- Including ' . $file . ' -->';
         Template(STYLES_DIR . '/global/' . $file, false);
     }
@@ -155,20 +177,27 @@ function fetch_template_file( $params ) {
 /**
  * Function used to call display
  */
-function display_it() {
+function display_it()
+{
 
     global $ClipBucket;
     $dir = LAYOUT;
 
-    foreach ($ClipBucket->template_files as $file) {
-        if (file_exists(LAYOUT . '/' . $file) || is_array($file)) {
+    foreach ($ClipBucket->template_files as $file)
+    {
+        if (file_exists(LAYOUT . '/' . $file) || is_array($file))
+        {
 
-            if (!$ClipBucket->show_page && $file['follow_show_page']) {
+            if (!$ClipBucket->show_page && $file['follow_show_page'])
+            {
                 
-            } else {
+            }
+            else
+            {
                 if (!is_array($file))
                     $new_list[] = $file;
-                else {
+                else
+                {
                     if ($file['folder'] && file_exists($file['folder'] . '/' . $file['file']))
                         $new_list[] = $file['folder'] . '/' . $file['file'];
                     else
@@ -185,12 +214,14 @@ function display_it() {
     footer();
 }
 
-function showpagination($total, $page, $link, $extra_params = NULL, $tag = '<a #params#>#page#</a>') {
+function showpagination($total, $page, $link, $extra_params = NULL, $tag = '<a #params#>#page#</a>')
+{
     global $pages;
     return $pages->pagination($total, $page, $link, $extra_params, $tag);
 }
 
-function smarty_lang($param) {
+function smarty_lang($param)
+{
     if ($param['assign'] == '')
         return lang($param['code'], $param['sprintf']);
     else
@@ -200,7 +231,8 @@ function smarty_lang($param) {
 /**
  * Function used to get player logo
  */
-function website_logo() {
+function website_logo()
+{
     $logo_file = config('player_logo_file');
     if (file_exists(BASEDIR . '/images/' . $logo_file) && $logo_file)
         return BASEURL . '/images/' . $logo_file;
@@ -211,35 +243,43 @@ function website_logo() {
 /**
  * Function used to assign link
  */
-function cblink($params) {
+function cblink($params)
+{
     global $ClipBucket;
     $name = $params['name'];
     $ref = $param['ref'];
 
-    if ($name == 'category') {
+    if ($name == 'category')
+    {
         return category_link($params['data'], $params['type']);
     }
-    if ($name == 'sort') {
+    if ($name == 'sort')
+    {
         return sort_link($params['sort'], 'sort', $params['type']);
     }
-    if ($name == 'time') {
+    if ($name == 'time')
+    {
         return sort_link($params['sort'], 'time', $params['type']);
     }
-    if ($name == 'tag') {
+    if ($name == 'tag')
+    {
         return BASEURL . '/search_result.php?query=' . urlencode($params['tag']) . '&type=' . $params['type'];
     }
-    if ($name == 'category_search') {
+    if ($name == 'category_search')
+    {
         return BASEURL . '/search_result.php?category[]=' . $params['category'] . '&type=' . $params['type'];
     }
 
 
-    if (SEO != 'yes') {
+    if (SEO != 'yes')
+    {
         preg_match('/http:\/\//', $ClipBucket->links[$name][0], $matches);
         if ($matches)
             $link = $ClipBucket->links[$name][0];
         else
             $link = BASEURL . '/' . $ClipBucket->links[$name][0];
-    }else {
+    }else
+    {
         preg_match('/http:\/\//', $ClipBucket->links[$name][1], $matches);
         if ($matches)
             $link = $ClipBucket->links[$name][1];
@@ -248,11 +288,15 @@ function cblink($params) {
     }
 
     $param_link = "";
-    if (!empty($params['extra_params'])) {
+    if (!empty($params['extra_params']))
+    {
         preg_match('/\?/', $link, $matches);
-        if (!empty($matches[0])) {
+        if (!empty($matches[0]))
+        {
             $param_link = '&' . $params['extra_params'];
-        } else {
+        }
+        else
+        {
             $param_link = '?' . $params['extra_params'];
         }
     }
@@ -271,7 +315,8 @@ function cblink($params) {
  * ratings : number of rating
  * total : total rating or out of
  */
-function show_rating($params) {
+function show_rating($params)
+{
     $class = $params['class'] ? $params['class'] : 'rating_stars';
     $rating = $params['rating'];
     $ratings = $params['ratings'];
@@ -290,9 +335,11 @@ function show_rating($params) {
 
     $perc = $perc . '%';
     $disperc = $disperc . "%";
-    switch ($style) {
+    switch ($style)
+    {
         case "percentage": case "percent":
-        case "perc": default: {
+        case "perc": default:
+            {
                 $likeClass = "UserLiked";
                 if (str_replace('%', '', $perc) < '50')
                     $likeClass = 'UserDisliked';
@@ -307,7 +354,8 @@ function show_rating($params) {
             }
             break;
 
-        case "bars": case "Bars": case "bar": {
+        case "bars": case "Bars": case "bar":
+            {
                 $ratingTemplate = '<div class="' . $class . '">
                                 <div class="ratingContainer">
                                         <div class="LikeBar" style="width:' . $perc . '"></div>
@@ -318,7 +366,8 @@ function show_rating($params) {
             break;
 
         case "numerical": case "numbers":
-        case "number": case "num": {
+        case "number": case "num":
+            {
                 $likes = round($ratings * $perc / 100);
                 $dislikes = $ratings - $likes;
 
@@ -333,9 +382,11 @@ function show_rating($params) {
             }
             break;
 
-        case "custom": case "own_style": {
+        case "custom": case "own_style":
+            {
                 $file = LAYOUT . "/" . $params['file'];
-                if (!empty($params['file']) && file_exists($file)) {
+                if (!empty($params['file']) && file_exists($file))
+                {
                     // File exists, lets start assign things
                     assign("perc", $perc);
                     assign("disperc", $disperc);
@@ -346,7 +397,9 @@ function show_rating($params) {
                     assign("likes", $likes);
                     assign("dislikes", $dislikes);
                     Template($file, FALSE);
-                } else {
+                }
+                else
+                {
                     $params['style'] = "percent";
                     return show_rating($params);
                 }
@@ -368,7 +421,8 @@ function show_rating($params) {
  * if there is nothing to play or to show
  * then show a blank screen
  */
-function blank_screen($data) {
+function blank_screen($data)
+{
     global $swfobj;
     $code = '<div class="blank_screen" align="center">No Player or Video File Found - Unable to Play Any Video</div>';
     $swfobj->EmbedCode(unhtmlentities($code), $data['player_div']);
@@ -384,18 +438,23 @@ function blank_screen($data) {
  * @return type 
  * @since 2.6
  */
-function add_js($files, $scope = 'global') {
+function add_js($files, $scope = 'global')
+{
     global $Cbucket;
-    if ($files) {
-        if (is_array($scope)) {
-            foreach ($scope as $sc) {
+    if ($files)
+    {
+        if (is_array($scope))
+        {
+            foreach ($scope as $sc)
+            {
                 if (is_array($files))
                     foreach ($files as $file)
                         $Cbucket->JSArray[$sc][] = $file;
                 else
                     $Cbucket->JSArray[$sc][] = $files;
             }
-        }else {
+        }else
+        {
             if (is_array($files))
                 foreach ($files as $file)
                     $Cbucket->JSArray[$scope][] = $file;
@@ -414,25 +473,39 @@ function add_js($files, $scope = 'global') {
  * @param STRING $file CSS FILE
  * @param STRING $scope File Scope, read more about scope on http://docs.clip-bucket.com/ 
  */
-function add_css($files, $scope) {
+function add_css($files, $scope)
+{
     global $Cbucket;
-    if ($files) {
-        if (is_array($scope)) {
-            foreach ($scope as $sc) {
-                if (is_array($files)) {
-                    foreach ($files as $file) {
+    if ($files)
+    {
+        if (is_array($scope))
+        {
+            foreach ($scope as $sc)
+            {
+                if (is_array($files))
+                {
+                    foreach ($files as $file)
+                    {
                         $Cbucket->CSSArray[$sc][] = $file;
                     }
-                } else {
+                }
+                else
+                {
                     $Cbucket->CSSArray[$sc][] = $files;
                 }
             }
-        } else {
-            if (is_array($files)) {
-                foreach ($files as $file) {
+        }
+        else
+        {
+            if (is_array($files))
+            {
+                foreach ($files as $file)
+                {
                     $Cbucket->CSSArray[$scope][] = $file;
                 }
-            } else {
+            }
+            else
+            {
                 $Cbucket->CSSArray[$scope][] = $files;
             }
         }
@@ -447,12 +520,14 @@ function add_css($files, $scope) {
  * for specific page array('page'=>'file') 
  * ie array('uploadactive'=>'datepicker.js')
  */
-function add_header($files) {
+function add_header($files)
+{
     global $Cbucket;
     return $Cbucket->add_header($files);
 }
 
-function add_admin_header($files) {
+function add_admin_header($files)
+{
     global $Cbucket;
     return $Cbucket->add_admin_header($files);
 }
@@ -460,7 +535,8 @@ function add_admin_header($files) {
 /**
  * Function used to show sharing form
  */
-function show_share_form($array) {
+function show_share_form($array)
+{
 
     assign('params', $array);
     Template('blocks/share_form.html');
@@ -469,7 +545,8 @@ function show_share_form($array) {
 /**
  * Function used to show flag form
  */
-function show_flag_form($array) {
+function show_flag_form($array)
+{
     assign('params', $array);
     Template('blocks/flag_form.html');
 }
@@ -477,7 +554,8 @@ function show_flag_form($array) {
 /**
  * Function used to show flag form
  */
-function show_playlist_form($array) {
+function show_playlist_form($array)
+{
     global $cbvid;
     assign('params', $array);
 
@@ -490,11 +568,13 @@ function show_playlist_form($array) {
 /**
  * Function used to show collection form
  */
-function show_collection_form($params) {
+function show_collection_form($params)
+{
     global $db, $cbcollection;
     if (!userid())
         $loggedIn = "not";
-    else {
+    else
+    {
         $collectArray = array("order" => " collection_name ASC", "type" => "videos", "user" => userid());
         $collections = $cbcollection->get_collections($collectArray);
 
@@ -507,8 +587,10 @@ function show_collection_form($params) {
  * Function used to check weather tempalte file exists or not
  * input path to file
  */
-function template_file_exists($file, $dir) {
-    if (!file_exists($dir . '/' . $file) && !empty($file) && !file_exists($file)) {
+function template_file_exists($file, $dir)
+{
+    if (!file_exists($dir . '/' . $file) && !empty($file) && !file_exists($file))
+    {
         echo sprintf(lang("temp_file_load_err"), $file, $dir);
         return false;
     }else
@@ -519,9 +601,12 @@ function template_file_exists($file, $dir) {
  * Category Link is used to return
  * Category based link
  */
-function category_link($data, $type) {
-    switch ($type) {
-        case 'video':case 'videos':case 'v': {
+function category_link($data, $type)
+{
+    switch ($type)
+    {
+        case 'video':case 'videos':case 'v':
+            {
 
 
                 if (SEO == 'yes')
@@ -531,7 +616,8 @@ function category_link($data, $type) {
             }
             break;
 
-        case 'channels':case 'channel':case'c':case'user': {
+        case 'channels':case 'channel':case'c':case'user':
+            {
 
                 if (SEO == 'yes')
                     return BASEURL . '/channels/' . $data['category_id'] . '/' . SEO($data['category_name']) . '/' . $_GET['sort'] . '/' . $_GET['time'] . '/';
@@ -540,12 +626,14 @@ function category_link($data, $type) {
             }
             break;
 
-        default: {
+        default:
+            {
 
                 if (THIS_PAGE == 'photos')
                     $type = 'photos';
 
-                if (defined("IN_MODULE")) {
+                if (defined("IN_MODULE"))
+                {
                     $url = 'cat=' . $data['category_id'] . '&sort=' . $_GET['sort'] . '&time=' . $_GET['time'] . '&page=' . $_GET['page'] . '&seo_cat_name=' . $_GET['seo_cat_name'];
                     global $prefix_catlink;
                     $url = $prefix_catlink . $url;
@@ -571,11 +659,14 @@ function category_link($data, $type) {
  * Sorting Links is used to return
  * Sorting based link
  */
-function sort_link($sort, $mode = 'sort', $type) {
-    switch ($type) {
+function sort_link($sort, $mode = 'sort', $type)
+{
+    switch ($type)
+    {
         case 'video':
         case 'videos':
-        case 'v': {
+        case 'v':
+            {
                 if (!isset($_GET['cat']))
                     $_GET['cat'] = 'all';
                 if (!isset($_GET['time']))
@@ -604,7 +695,8 @@ function sort_link($sort, $mode = 'sort', $type) {
             break;
 
         case 'channels':
-        case 'channel': {
+        case 'channel':
+            {
                 if (!isset($_GET['cat']))
                     $_GET['cat'] = 'all';
                 if (!isset($_GET['time']))
@@ -633,7 +725,8 @@ function sort_link($sort, $mode = 'sort', $type) {
             break;
 
 
-        default: {
+        default:
+            {
                 if (!isset($_GET['cat']))
                     $_GET['cat'] = 'all';
                 if (!isset($_GET['time']))
@@ -657,7 +750,8 @@ function sort_link($sort, $mode = 'sort', $type) {
                 if (THIS_PAGE == 'photos')
                     $type = 'photos';
 
-                if (defined("IN_MODULE")) {
+                if (defined("IN_MODULE"))
+                {
                     $url = 'cat=' . $_GET['cat'] . '&sort=' . $sorting . '&time=' . $time . '&page=' . $_GET['page'] . '&seo_cat_name=' . $_GET['seo_cat_name'];
                     $plugURL = queryString($url, array("cat", "sort", "time", "page", "seo_cat_name"));
                     return $plugURL;
@@ -675,12 +769,16 @@ function sort_link($sort, $mode = 'sort', $type) {
 /**
  * function used to call clipbucket footers
  */
-function footer() {
+function footer()
+{
     $funcs = get_functions('clipbucket_footer');
 
-    if (is_array($funcs) && count($funcs) > 0) {
-        foreach ($funcs as $func) {
-            if (function_exists($func)) {
+    if (is_array($funcs) && count($funcs) > 0)
+    {
+        foreach ($funcs as $func)
+        {
+            if (function_exists($func))
+            {
                 $func();
             }
         }
@@ -690,7 +788,8 @@ function footer() {
 /**
  * FUnction used to get head menu
  */
-function head_menu($params = NULL) {
+function head_menu($params = NULL)
+{
     global $Cbucket;
     return $Cbucket->head_menu($params);
 }
@@ -703,35 +802,43 @@ function head_menu($params = NULL) {
  * @param array $params
  * @return string 
  */
-function cbMenu($params = NULL) {
+function cbMenu($params = NULL)
+{
     global $Cbucket;
     $name = $params['name'];
-    if (!$name) {
+    if (!$name)
+    {
         $name = 'navigation';
     }
 
     $menu = get_menu($name);
     $params['show_icons'] = $params['show_icons'] ? $params['show_icons'] : 'yes';
-    if ($menu) {
-        
-        foreach ($menu as $item) {
+    if ($menu)
+    {
+
+        foreach ($menu as $item)
+        {
             $continue = true;
-            if ($item['section'] && !isSectionEnabled($item['section'])) {
+            if ($item['section'] && !isSectionEnabled($item['section']))
+            {
                 $continue = false;
             }
-            
-            if ($continue == true) {
+
+            if ($continue == true)
+            {
                 $selected = current_page(array('page' => $item['section']));
                 $icon = '';
                 $output .= '<li';
                 $output .= " id='" . SEO(strtolower($name)) . "-" . $item['id'] . "' ";
                 $classes = $params['class'] ? $params['class'] : '';
-                if ($selected) {
+                if ($selected)
+                {
                     $classes .= ' active';
                 }
 
                 $output .= " class='$classes'  ";
-                if ($item['icon'] && $params['show_icons'] == 'yes') {
+                if ($item['icon'] && $params['show_icons'] == 'yes')
+                {
                     $icon = "<i class='" . $item['icon'] . "'></i> ";
                 }
                 $output .= "" . $params['extra_params'] ? $params['extra_params'] : '' . ">";
@@ -739,10 +846,13 @@ function cbMenu($params = NULL) {
                 $output .= "</li>";
             }
         }
-        
-        if ($params['assign']) {
+
+        if ($params['assign'])
+        {
             assign($params['assign'], $output);
-        } else {
+        }
+        else
+        {
             return $output;
         }
     }
@@ -753,7 +863,8 @@ function cbMenu($params = NULL) {
 /**
  * FUnction used to get foot menu
  */
-function foot_menu($params = NULL) {
+function foot_menu($params = NULL)
+{
     global $Cbucket;
     return $Cbucket->foot_menu($params);
 }
@@ -765,16 +876,19 @@ function foot_menu($params = NULL) {
  * then compare its type with THIS_PAGE constant
  * if header has TYPE of THIS_PAGE then it will be inlucded
  */
-function include_header($params) {
+function include_header($params)
+{
     $file = $params['file'];
     $type = $params['type'];
 
-    if ($file == 'global_header') {
+    if ($file == 'global_header')
+    {
         Template(BASEDIR . '/styles/global/head.html', false);
         return false;
     }
 
-    if ($file == 'admin_bar') {
+    if ($file == 'admin_bar')
+    {
         if (has_access('admin_access', TRUE))
             Template(BASEDIR . '/styles/global/admin_bar.html', false);
         return false;
@@ -797,10 +911,12 @@ function include_header($params) {
  * it will return true
  * otherwise FALSE
  */
-function is_includeable($array) {
+function is_includeable($array)
+{
     if (!is_array($array))
         $array = array($array);
-    if (in_array(THIS_PAGE, $array) || in_array('global', $array)) {
+    if (in_array(THIS_PAGE, $array) || in_array('global', $array))
+    {
         return true;
     }else
         return false;
@@ -814,18 +930,22 @@ function is_includeable($array) {
  */
 $the_js_files = array();
 
-function include_js($params) {
+function include_js($params)
+{
     global $the_js_files;
 
     $file = $params['file'];
     $type = $params['type'];
 
-    if (!in_array($file, $the_js_files)) {
+    if (!in_array($file, $the_js_files))
+    {
         $the_js_files[] = $file;
         if ($type == 'global')
             return '<script src="' . JS_URL . '/' . $file . '" type="text/javascript"></script>';
-        elseif (is_array($type)) {
-            foreach ($type as $t) {
+        elseif (is_array($type))
+        {
+            foreach ($type as $t)
+            {
                 if ($t == THIS_PAGE)
                     return '<script src="' . JS_URL . '/' . $file . '" type="text/javascript"></script>';
             }
@@ -840,7 +960,8 @@ function include_js($params) {
  * function used to get theme options
  * @todo Write documentation
  */
-function theme_config($name) {
+function theme_config($name)
+{
     global $Cbucket;
 
     if ($Cbucket->theme_configs)
@@ -856,7 +977,8 @@ function theme_config($name) {
  * @global type $Cbucket
  * @return type
  */
-function theme_configs() {
+function theme_configs()
+{
     global $Cbucket;
 
     $value = config($Cbucket->template . '-options');
@@ -877,10 +999,12 @@ function theme_configs() {
  *
  * @todo Write documentation
  */
-function add_admin_menu($params, $name = false, $link = false, $plug_folder = false, $is_player_file = false) {
+function add_admin_menu($params, $name = false, $link = false, $plug_folder = false, $is_player_file = false)
+{
     global $Cbucket;
 
-    if (!is_array($params)) {
+    if (!is_array($params))
+    {
         $params = _add_admin_menu($params, $name, $link, $plug_folder, $is_player_file);
         add_admin_sub_menu($params);
         return true;
@@ -901,8 +1025,10 @@ function add_admin_menu($params, $name = false, $link = false, $plug_folder = fa
 /**
  * add multiple admin menus
  */
-function add_admin_menus($menus) {
-    if (is_array($menus)) {
+function add_admin_menus($menus)
+{
+    if (is_array($menus))
+    {
         foreach ($menus as $menu)
             add_admin_menu($menu);
     }
@@ -911,7 +1037,8 @@ function add_admin_menus($menus) {
 /**
  * @todo write documentation
  */
-function add_admin_sub_menu($params) {
+function add_admin_sub_menu($params)
+{
     global $Cbucket;
     $defaults = array(
         'parent_id' => 'tool-box',
@@ -920,7 +1047,8 @@ function add_admin_sub_menu($params) {
 
     $params = array_merge($defaults, $params);
 
-    if ($params['title']) {
+    if ($params['title'])
+    {
         $id = $params['id'];
         if (!$id)
             $id = SEO($params['title']);
@@ -934,20 +1062,27 @@ function add_admin_sub_menu($params) {
             'icon' => $params['icon'],
         );
 
-        if ($Cbucket->AdminMenu[$params['parent_id']]) {
+        if ($Cbucket->AdminMenu[$params['parent_id']])
+        {
             $Cbucket->AdminMenu[$params['parent_id']]['sub_menu'][] = $menu;
-        } else {
+        }
+        else
+        {
             //Add menu to misc menu
             $Cbucket->AdminMenu['miscellaneous']['sub_menu'][] = $menu;
         }
     }
 }
 
-function add_admin_sub_menus($params) {
-    if (is_array($params)) {
-        foreach ($params as $parent => $child) {
+function add_admin_sub_menus($params)
+{
+    if (is_array($params))
+    {
+        foreach ($params as $parent => $child)
+        {
 
-            foreach ($child as $ch) {
+            foreach ($child as $ch)
+            {
                 $ch['parent_id'] = $parent;
                 add_admin_sub_menu($ch);
             }
@@ -955,7 +1090,8 @@ function add_admin_sub_menus($params) {
     }
 }
 
-function _add_admin_menu($header = 'Tool Box', $name = false, $link = false, $plug_folder = false, $is_player_file = false) {
+function _add_admin_menu($header = 'Tool Box', $name = false, $link = false, $plug_folder = false, $is_player_file = false)
+{
     global $Cbucket;
 
     //Get Menu
@@ -986,7 +1122,8 @@ function _add_admin_menu($header = 'Tool Box', $name = false, $link = false, $pl
  * 
  * @todo Write documentation
  */
-function get_admin_menu() {
+function get_admin_menu()
+{
     global $Cbucket;
 
     $array = $Cbucket->AdminMenu;
@@ -1000,13 +1137,17 @@ function get_admin_menu() {
 /**
  * get list of icons in category-icons folder
  */
-function get_category_icons() {
+function get_category_icons()
+{
     //Check if there is a folder
     //template for category icons
-    if (file_exists(FRONT_TEMPLATEDIR . '/category-icons')) {
+    if (file_exists(FRONT_TEMPLATEDIR . '/category-icons'))
+    {
         $dir = FRONT_TEMPLATEDIR . '/category-icons';
         $dir_url = FRONT_TEMPLATEURL . '/category-icons';
-    } else {
+    }
+    else
+    {
         $dir = BASEDIR . '/images/category-icons';
         $dir_url = BASEURL . '/images/category-icons';
     }
@@ -1015,12 +1156,15 @@ function get_category_icons() {
     //Blank list of images
     $images = array();
 
-    if (file_exists($dir)) {
+    if (file_exists($dir))
+    {
         //Only get PNGs
         $imgList = glob($dir . '/*.png');
 
-        if ($imgList) {
-            foreach ($imgList as $img) {
+        if ($imgList)
+        {
+            foreach ($imgList as $img)
+            {
                 list($width, $height, $type, $attr) = getimagesize($img);
                 if ($width && $height)
                     $images[] = $img;
@@ -1029,8 +1173,10 @@ function get_category_icons() {
     }
 
     $final_images = array();
-    if ($images) {
-        foreach ($images as $image) {
+    if ($images)
+    {
+        foreach ($images as $image)
+        {
             $imagearr = explode('/', $image);
             $imageName = $imagearr[count($imagearr) - 1];
 
@@ -1052,7 +1198,8 @@ function get_category_icons() {
  * @param ID String
  * @return Image wraped in img tag with ID and hidden by default 
  */
-function loading_pointer($params) {
+function loading_pointer($params)
+{
     $id = $params['place'] ? $params['place'] : $params['id'];
 
     $img = TEMPLATEURL . '/images/loaders/1.gif';
@@ -1070,9 +1217,12 @@ function loading_pointer($params) {
  * @param INT $numbers
  * @return STRING $shortened
  */
-function shortify($numbers) {
-    if (is_numeric($numbers)) {
-        if ($numbers > 1000) {
+function shortify($numbers)
+{
+    if (is_numeric($numbers))
+    {
+        if ($numbers > 1000)
+        {
             $new = round($numbers / 1000, 1);
             return $new . 'K';
         }
@@ -1093,34 +1243,44 @@ function shortify($numbers) {
  * balke jitne registered functions hote hain unko call krta aur bich
  * me hi echo hota
  */
-function showRating($rating) {
+function showRating($rating)
+{
     $rating = apply_filters($rating, 'show-rating');
     cb_call_functions('show_rating', $rating);
 }
 
-function get_menu($name) {
+function get_menu($name)
+{
     global $Cbucket;
     $menu = $Cbucket->menus[$name];
 
-    if ($menu) {
+    if ($menu)
+    {
         $menu = apply_filters($menu, 'filter_menu');
         return $menu;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
 
-function add_menu($name, $items = null) {
+function add_menu($name, $items = null)
+{
     global $Cbucket;
-    if (!get_menu($name) && !is_null($items) && is_array($items)) {
+    if (!get_menu($name) && !is_null($items) && is_array($items))
+    {
         $Cbucket->menus[$name] = array();
         add_menu_items($name, $items);
     }
 }
 
-function add_menu_items($name, $items) {
-    if (is_array($items)) {
-        foreach ($items as $item) {
+function add_menu_items($name, $items)
+{
+    if (is_array($items))
+    {
+        foreach ($items as $item)
+        {
             add_menu_item($name, $item);
         }
     }
@@ -1138,17 +1298,19 @@ function add_menu_items($name, $items) {
  * @param $id STRING, Unique id for this item
  * @param $target STRING, Set a target for current item
  */
-function add_menu_item($name, $item, $link = false, $section = false, $icon = false, $id = false, $target = '_self') {
+function add_menu_item($name, $item, $link = false, $section = false, $icon = false, $id = false, $target = '_self')
+{
     global $Cbucket;
-    if (!is_array($item)) {
-        $item = 
-        array(
-            'title' => $item, 
-            'link' => $link, 
-            'icon' => $icon, 
-            'target' => $target, 
-            'id' => $id, 
-            'section' => $section);
+    if (!is_array($item))
+    {
+        $item =
+                array(
+                    'title' => $item,
+                    'link' => $link,
+                    'icon' => $icon,
+                    'target' => $target,
+                    'id' => $id,
+                    'section' => $section);
     }
     $item['id'] = $item['id'] ? $item['id'] : SEO(strtolower($item['title']));
     $Cbucket->menus[$name][$item['id']] = $item;
@@ -1160,40 +1322,47 @@ function add_menu_item($name, $item, $link = false, $section = false, $icon = fa
  *  @param type , display | fetch
  */
 
-function get_template($file, $type = 'fetch',$layout=true) {
+function get_template($file, $type = 'fetch', $layout = true)
+{
     $defaults = array(
-        'single_comment'    => 'blocks/comments/comment.html',
-        'comments'          => 'blocks/comments/comments.html',
-        'pagination'        => 'blocks/pagination.html',
-        'notification_block'=> 'blocks/notifications/notification_block.html',
-        'notifications'     => 'blocks/notifications/notifications.html',
-        'topics'            => 'blocks/groups/topics.html',
-        'share_feed_block'  => 'blocks/feed_share_block.html',
-        'single_feed'       => 'blocks/single_feed.html',
-        'single_topic'      => 'blocks/groups/topic.html',
-        'group_topic'       => 'blocks/groups/group_topic.html',
-        'group_video'       => 'blocks/groups/video.html'
+        'single_comment' => 'blocks/comments/comment.html',
+        'comments' => 'blocks/comments/comments.html',
+        'pagination' => 'blocks/pagination.html',
+        'notification_block' => 'blocks/notifications/notification_block.html',
+        'notifications' => 'blocks/notifications/notifications.html',
+        'msgs_notifications' => 'blocks/pm/notifications.html',
+        'msgs_notifications_block' => 'blocks/pm/notification_block.html',
+        'topics' => 'blocks/groups/topics.html',
+        'share_feed_block' => 'blocks/feed_share_block.html',
+        'single_feed' => 'blocks/single_feed.html',
+        'single_topic' => 'blocks/groups/topic.html',
+        'group_topic' => 'blocks/groups/group_topic.html',
+        'group_video' => 'blocks/groups/video.html'
     );
 
 
     $files = config('template_files');
 
-    if ($files[$file]) {
+    if ($files[$file])
+    {
         $the_file = $files[$file];
-    } else {
+    }
+    else
+    {
         $the_file = $defaults[$file];
     }
 
-    if ($the_file) {
+    if ($the_file)
+    {
 
         if ($type == 'fetch')
             return fetch($the_file);
-        if ($type=='path')
+        if ($type == 'path')
         {
             $path = $the_file;
-            if($layout)
-                $path = LAYOUT.'/'.$the_file;
-            
+            if ($layout)
+                $path = LAYOUT . '/' . $the_file;
+
             return $path;
         }else
             template($the_file);
@@ -1207,19 +1376,25 @@ function get_template($file, $type = 'fetch',$layout=true) {
  * 
  * @return js files wrappded in script tag
  */
-function cb_load_js() {
+function cb_load_js()
+{
     global $Cbucket;
     $js_array = $Cbucket->JSArray;
 
     $js_array = apply_filters($js_array, 'js_array');
 
-    if (is_array($js_array)) {
-        foreach ($js_array as $scope => $js_files) {
+    if (is_array($js_array))
+    {
+        foreach ($js_array as $scope => $js_files)
+        {
 
             if ((defined('THIS_PAGE') && $scope == THIS_PAGE) OR
-                    $scope == 'global' || !defined('THIS_PAGE')) {
-                foreach ($js_files as $file) {
-                    if (!strstr($file, 'http')) {
+                    $scope == 'global' || !defined('THIS_PAGE'))
+            {
+                foreach ($js_files as $file)
+                {
+                    if (!strstr($file, 'http'))
+                    {
                         $file = JS_URL . '/' . $file;
                     }
 
@@ -1237,19 +1412,24 @@ function cb_load_js() {
  * 
  * @return CSS files...
  */
-function cb_load_css() {
+function cb_load_css()
+{
 
     global $Cbucket;
     $css_array = $Cbucket->CSSArray;
 
     $css_array = apply_filters($css_array, '$css_array');
 
-    if (is_array($css_array)) {
-        foreach ($css_array as $scope => $css_files) {
+    if (is_array($css_array))
+    {
+        foreach ($css_array as $scope => $css_files)
+        {
 
             if ((defined('THIS_PAGE') && $scope == THIS_PAGE) OR
-                    $scope == 'global' || !defined('THIS_PAGE')) {
-                foreach ($css_files as $file) {
+                    $scope == 'global' || !defined('THIS_PAGE'))
+            {
+                foreach ($css_files as $file)
+                {
                     echo '<link rel="stylesheet" type="text/css" href="' . $file . '" /> ';
                     echo "\n";
                 }
@@ -1262,11 +1442,14 @@ function cb_load_css() {
  * Source: http://www.barattalo.it/2010/02/02/recursive-remove-directory-rmdir-in-php/
  * @param string $path
  */
-function rmdir_recurse($path) {
+function rmdir_recurse($path)
+{
     $path = rtrim($path, '/') . '/';
     $handle = opendir($path);
-    while (false !== ($file = readdir($handle))) {
-        if ($file != '.' and $file != '..') {
+    while (false !== ($file = readdir($handle)))
+    {
+        if ($file != '.' and $file != '..')
+        {
             $fullpath = $path . $file;
             if (is_dir($fullpath))
                 rmdir_recurse($fullpath); else
@@ -1285,14 +1468,16 @@ function rmdir_recurse($path) {
  * @param STRING $type
  * @return MIX
  */
-function object_manager_orders ( $type='video' ) {
+function object_manager_orders($type = 'video')
+{
     global $Cbucket;
-    $orders = $Cbucket->manager_orders[ $type ];
-    if ( $orders ) {
-        $orders = apply_filters( $orders, 'manager_orders' );
+    $orders = $Cbucket->manager_orders[$type];
+    if ($orders)
+    {
+        $orders = apply_filters($orders, 'manager_orders');
         return $orders;
     }
-    
+
     return false;
 }
 
@@ -1307,20 +1492,22 @@ function object_manager_orders ( $type='video' ) {
  * @param STRING $id
  * @return MIX
  */
-function add_object_manager_order ( $title, $order, $type = 'video' ) {
+function add_object_manager_order($title, $order, $type = 'video')
+{
     global $Cbucket;
-    
-    if ( !$title || !$order || !$type ) {
+
+    if (!$title || !$order || !$type)
+    {
         return false;
     }
-    
+
     $order_array = array(
         'title' => $title,
         'order' => $order,
-        'id' => $type.'-'.SEO( strtolower($title) ).'-'.time()
+        'id' => $type . '-' . SEO(strtolower($title)) . '-' . time()
     );
-    
-    $Cbucket->manager_orders[ trim($type) ][] = $order_array;
+
+    $Cbucket->manager_orders[trim($type)][] = $order_array;
     return $Cbucket->manager_orders;
 }
 
@@ -1331,18 +1518,21 @@ function add_object_manager_order ( $title, $order, $type = 'video' ) {
  * @param STRING $type
  * @return MIX
  */
-function current_object_order( $type = 'video' ) {
-    $current = $_GET['omo'] ? mysql_clean( $_GET['omo'] ) : (int)0;
-    $orders = object_manager_orders( $type );
-    
-    if ( !$orders[$current] ) {
+function current_object_order($type = 'video')
+{
+    $current = $_GET['omo'] ? mysql_clean($_GET['omo']) : (int) 0;
+    $orders = object_manager_orders($type);
+
+    if (!$orders[$current])
+    {
         $current = 0;
     }
-        
-    if ( $orders[$current] ) {
+
+    if ($orders[$current])
+    {
         return $orders[$current]['title'];
     }
-    
+
     return false;
 }
 
@@ -1356,38 +1546,45 @@ function current_object_order( $type = 'video' ) {
  * @param STRING $display
  * @return MIX
  */
-function display_manager_orders( $type = 'video', $display = 'unselected' ) {
-    $orders = object_manager_orders( $type );
-    $current_order = $_GET['omo'] ? mysql_clean( $_GET['omo'] ) : (int)0;
-    
-    if ( !$orders[$current_order] ) {
+function display_manager_orders($type = 'video', $display = 'unselected')
+{
+    $orders = object_manager_orders($type);
+    $current_order = $_GET['omo'] ? mysql_clean($_GET['omo']) : (int) 0;
+
+    if (!$orders[$current_order])
+    {
         $current_order = 0;
     }
-    
-    $total_order = count( $orders );
-    if ( $_SERVER['QUERY_STRING'] ) {
-        $query_string = queryString(null,'omo');
+
+    $total_order = count($orders);
+    if ($_SERVER['QUERY_STRING'])
+    {
+        $query_string = queryString(null, 'omo');
     }
-    
-    if ( $orders ) {
-        foreach ( $orders as $key => $order ) {
-            if ( $key == $current_order && $display == 'unselected' && $total_order >= 2 ) {
+
+    if ($orders)
+    {
+        foreach ($orders as $key => $order)
+        {
+            if ($key == $current_order && $display == 'unselected' && $total_order >= 2)
+            {
                 continue; // skip the selected one
             }
-            
+
             $active = '';
-            
-            if ( $key == $current_order ) {
+
+            if ($key == $current_order)
+            {
                 $active = ' class="active"';
             }
-            $output .= '<li'.$active.'>';
-            $output .= '<a href="'.($query_string ? $query_string : '?').'omo='.$key.'" id="'.$order['id'].'" data-order="'.$key.'" data-type="'.$type.'">'.$order['title'].'</a>';
+            $output .= '<li' . $active . '>';
+            $output .= '<a href="' . ($query_string ? $query_string : '?') . 'omo=' . $key . '" id="' . $order['id'] . '" data-order="' . $key . '" data-type="' . $type . '">' . $order['title'] . '</a>';
             $output .= '</li>';
         }
-        
+
         return $output;
     }
-    
+
     return false;
 }
 
@@ -1400,16 +1597,19 @@ function return_object_order( $type = null ) {
     if ( is_null( $type) ) {
         return false;
     }
-    
+
     $orders = object_manager_orders($type);
-    if ( $orders ) {
-        $current_order = $_GET['omo'] ? mysql_clean( $_GET['omo'] ) : (int)0;
-        if ( !$orders[$current_order] ) {
+    if ($orders)
+    {
+        $current_order = $_GET['omo'] ? mysql_clean($_GET['omo']) : (int) 0;
+        if (!$orders[$current_order])
+        {
             $current_order = 0;
         }
-        
-        if ( $orders[ $current_order]['order'] ) {
-            return $orders[ $current_order]['order'];
+
+        if ($orders[$current_order]['order'])
+        {
+            return $orders[$current_order]['order'];
         }
     }
     return false;
