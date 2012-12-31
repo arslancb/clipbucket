@@ -12,8 +12,6 @@ define("PARENT_PAGE",'home');
 require 'includes/config.inc.php';
 $userquery->logincheck();
 
-setup_myaccount_dashboard();
-
 subtitle(lang("my_account"));
 assign('user',$userquery->get_user_details(userid()));
 template_files('myaccount.html');

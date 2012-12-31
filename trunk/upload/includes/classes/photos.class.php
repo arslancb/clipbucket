@@ -905,9 +905,10 @@ class CBPhotos {
 		$date_dir = get_photo_date_folder( $p );
 		$path = PHOTOS_DIR . "/".$date_dir.'/';
         /* Updating resizes code. From static, we'll load code, dimensions, watermark and sharpit from thumb_dimensions array */
-        apply_filters( null, 'photo_dimensions' );
-        $dimensions = $this->thumb_dimensions;
-                
+//        apply_filters( null, 'photo_dimensions' );
+//        $dimensions = $this->thumb_dimensions;
+        $dimensions = get_photo_dimensions( true );
+        
         $img = new CB_Resizer( $path.$filename.".".$extension );
         foreach ( $dimensions as $code => $dim ) {
             $img->target = $path.$filename."_".$code.".".$extension;
@@ -962,7 +963,8 @@ class CBPhotos {
             $p = $this->get_photo( $photo );
 
         if ( !empty( $photo ) ) {
-            $images = $this->get_image_file( $p, NULL, TRUE, NULL, FALSE );
+            $images = $this->get_image_file( $p, 'all', true, null, false );
+            
             if ( $images ) {
                 foreach ( $images as $image ) {
                     $imageFile = PHOTOS_DIR . "/" . get_photo_date_folder( $p ).'/'. $image;
@@ -2085,7 +2087,7 @@ class CBPhotos {
                 else
                     return $result;
             }
-
+            
             if ( empty( $output ) || $output == "button" ) {
                 $result .= '<button type="button"';
                 $link = "'" . $this->photo_links( $details, 'upload_more' ) . "'";

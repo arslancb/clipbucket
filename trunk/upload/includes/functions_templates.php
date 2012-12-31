@@ -123,6 +123,36 @@ function include_template_file($params) {
 }
 
 /**
+ * Function used to fetch file
+ */
+function fetch_template_file( $params ) {
+    $file = $params[ 'file' ];
+
+    if ( $params ) {
+        foreach ($params as $name => $value) {
+            if ($name != 'file') {
+                assign( $name, $value );
+            }
+        }
+    }
+    
+    if ( file_exists( LAYOUT . '/' . $file ) ) {
+        $output = "<!-- fetching layout/$file -->";
+        $output .= Fetch( $file );
+    } else if ( file_exists( $file ) ) {
+        $output = "<!-- fetching $file -->";
+        $output .= Fetch ( $file, false );
+    } else if ( file_exists( STYLES_DIR . '/global/' . $file ) ) {
+        $output = "<!-- fetching global/$file -->";
+        $output .= Fetch ( STYLES_DIR . '/global/' . $file, false );
+    } else {
+        $output = "<!-- fetching $file, No file found -->";
+    }
+    
+    return $output;
+}
+
+/**
  * Function used to call display
  */
 function display_it() {
@@ -1361,6 +1391,11 @@ function display_manager_orders( $type = 'video', $display = 'unselected' ) {
     return false;
 }
 
+/**
+ * This function returns mySQL for given type
+ * @param string $type
+ * @return string
+ */
 function return_object_order( $type = null ) {
     if ( is_null( $type) ) {
         return false;
@@ -1379,4 +1414,5 @@ function return_object_order( $type = null ) {
     }
     return false;
 }
+
 ?>

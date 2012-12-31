@@ -1,5 +1,11 @@
 <?php
 
+function init_dashboard_js() {
+    if ( userid() ) {
+        echo '<script type="text/javascript" src="'.JS_URL.'/functions_dashboard.js"></script>';
+    }
+}
+
 /**
  * Function loads default levels of important for dashboard
  * widgets. Uses <em>dashboard_widget_importance</em> filter
@@ -116,7 +122,7 @@ function dashboard_widget_exists( $id, $place, $importance = 'normal' ) {
  * @param string $callback
  * @return boolean
  */
-function add_dashboard_widget( $place, $id, $name, $display_callback, $importance = 'normal', $description = null, $callback = null ) {
+function add_dashboard_widget( $place, $id, $name, $display_callback, $importance = 'normal', $callback = null ) {
     if ( !dashboard_widget_exists( $id, $place, $importance ) ) {
         
         if ( !function_exists( $display_callback ) ) {
@@ -158,18 +164,23 @@ function display_dashboard( $place = null ) {
     
     $dashboard = get_dashboard( $place );
     if ( $dashboard ) {
-        $output = ''; // Dashboard widgets output
         $importance = get_dashboard_widget_importance();
-
+        $dashboard['place'] = $place;
+        $dashboard = apply_filters( $dashboard, 'dashboard' );
+        $closed = get_closed_boxes( $place );
+        
+        $output = '<div id="dashboard-container" class="dashboard-container" data-place="'.$place.'">'; // Dashboard widgets output
         foreach ( $importance as $important ) {
             if ( isset( $dashboard[ $important ] ) ) {
                 $dashboard_widgets = $dashboard[ $important ];
-                $dashboard_widgets = apply_filters( $dashboard_widgets, 'dashboard_widgets' );
                 $total_dashboard_widgets = count( $dashboard_widgets );
                 if ( $dashboard_widgets ) {
-                    $output .= '<div id="'.$place.'-'.$important.'-importance" class="dashboard-widgets dashboard-widgets-'.$important.'-importance '.$place.'-widgets has-'.$total_dashboard_widgets.'-widgets" data-importance="'.$important.'" data-palce="'.$place.'">';
+                    $output .= '<div id="'.$place.'-'.$important.'-importance" class="dashboard-widgets dashboard-widgets-'.$important.'-importance '.$place.'-widgets has-'.$total_dashboard_widgets.'-widgets" data-importance="'.$important.'">';
                     foreach ( $dashboard_widgets as $dashboard_widget ) {
-                        $output .= '<div id="'.$dashboard_widget['id'].'-'.$dashboard_widget['importance'].'" class="dashboard-widget '.SEO( strtolower( $dashboard_widget['name'] ) ).' '.$dashboard_widget['id'].' is-'.$important.'">';
+                        $hidden = ( $closed ? ( in_array( $dashboard_widget['id'], $closed ) ) ? ' closed' : '' : '' );
+                        $output .= '<div id="'.$dashboard_widget['id'].'-'.$dashboard_widget['importance'].'" class="dashboard-widget '.SEO( strtolower( $dashboard_widget['name'] ) ).' '.$dashboard_widget['id'].' is-'.$important.''.$hidden.'" data-id="'.$dashboard_widget['id'].'">';
+                        $output .= '<div class="dashboard-widget-toggler"> <b></b> </div>';
+                        $output .= '<div class="dashboard-widget-handler"><b></b></div>';
                         $output .= '<h3 class="dashboard-widget-name">'.$dashboard_widget['name'].'</h3>';
                         if ( $dashboard_widget['description'] ) {
                             $output .= '<div class="dashboard-widget-description">'.$dashboard_widget['description'].'</div>';
@@ -183,6 +194,7 @@ function display_dashboard( $place = null ) {
                 }
             }
         }
+        $output .= "</div>";
         return $output;
     }
     return false;
@@ -193,39 +205,217 @@ function display_dashboard( $place = null ) {
  * to their positions.
  * 
  * @todo Make positioning of widgets work
- * @param array $widgets
+ * @param array $dashboard
  * @return array
  */
-function _order_dashboard_widgets_to_position( $widgets ) {
-    
-    foreach ( $widgets as $widget ) {
-        $tmp_arr[ $widget['position'] ] = $widget['id'];
+function _order_dashboard_widgets_positions( $dashboard ) {
+    $user_positions = get_user_dashboard_widget_positions();
+    if ( $user_positions ) {
+        $upos = $user_positions[ $dashboard['place'] ];
+        $place = $dashboard['place']; unset( $dashboard['place'] );
+        if ( $upos ) {
+            $importance = get_dashboard_widget_importance();
+            
+            foreach ( $importance as $imp ) {
+                $usort = $upos[ $imp ];
+                if ( $usort ) {
+                    foreach ( $usort as $usort_id ) {
+                        if ( $dashboard[ $imp ][ $usort_id ] ) {
+                            $new_dashboard[ $imp ][ $usort_id ] = $dashboard[ $imp ][ $usort_id ];
+                        }
+                    }
+                    
+                    $dash_keys = array_keys ( $dashboard[ $imp ] );
+                    if ( $dash_keys ) {
+                        foreach ( $dash_keys as $id ) {
+                            if ( isset( $new_dashboard[ $imp ][ $id ] ) ) {
+                                continue;
+                            }
+                            
+                            $new_dashboard[ $imp ][ $id ] = $dashboard[ $imp ][ $id ];
+                        }
+                    }
+                    
+                } else if ( $dashboard[ $imp ] ) {
+                    $new_dashboard[ $imp ] = $dashboard[ $imp ];
+                }
+
+            }
+            
+        }
     }
     
-    ksort( $tmp_arr );
-        
-    foreach ( $tmp_arr as $tmp ) {
-        $ordered_widgets[ $tmp ] = $widgets[ $tmp ];
-    }
-    
-    return $ordered_widgets;
+    return $new_dashboard ? $new_dashboard : $dashboard;
 }
+
+function get_user_dashboard_widget_states() {
+    if ( userid() ) {
+        $user_states = config('dashboard_states');
+        if ( $user_states ) {
+            $user_states = json_decode( $user_states, true );
+            return $user_states[ userid() ];
+        }
+    }
+    return false;  
+}
+
+function get_user_dashboard_widget_positions() {
+    if ( userid() ) {
+        $user_positions = config('dashboard_positions');
+        if ( $user_positions ) {
+            $user_positions = json_decode( $user_positions, true );
+            return $user_positions[ userid() ];
+        }
+    }
+    return false;
+}
+
+function __update_dashboard_widget_positions() {
+    $dashboard_positions = config('dashboard_positions');
+    $userid = userid();
+    
+    if ( $dashboard_positions ) {
+        $dashboard_positions = json_decode( $dashboard_positions, true );
+    }
+    
+    $importance = post('importance');
+    
+    if ( $importance ) {
+        foreach ( $importance as $importance => $widget_ids ) {
+            $dashboard_positions[ $userid ][ post('place') ][ $importance ] = ( $widget_ids ? array_map("trim", explode(",", $widget_ids )) : '' );
+        }
+    }
+    
+    if ( config('dashboard_positions', json_encode( $dashboard_positions ) ) ) {
+        return json_encode( array('success' => true ) );
+    } else {
+        return json_encode( array('err' => error('single') ) );
+    }
+}
+
+function __update_dashboard_widget_states() {
+    $dashboard_states = config('dashboard_states');
+    if ( $dashboard_states ) {
+        $dashboard_states = json_decode( $dashboard_states, true );
+    }
+    
+    $closed = '';
+    
+    if ( post('closed') ) {
+         $closed = array_map("trim", explode(",", post('closed') ));
+    }
+    
+    $dashboard_states[ userid() ][ post('place') ] = $closed;
+    
+    if ( config('dashboard_states', json_encode( $dashboard_states ) ) ) {
+        return json_encode( array('success' => true ) );
+    } else {
+        return json_encode( array('err' => error('single') ) );
+    }
+}
+
+function get_closed_boxes( $place ) {
+    $user_data = config('dashboard_states');
+    if ( $user_data ) {
+        $userid = userid();
+        $user_data = json_decode( $user_data, true );
+        if ( $user_data[ $userid ][ $place ] ) {
+            return $user_data[ $userid ][ $place ];
+        }
+    }
+}
+
 
 function setup_myaccount_dashboard() {
-    add_dashboard_widget('myaccount','account_dashboard_videos','Videos','account_dashboard_videos');
-    add_dashboard_widget('myaccount','account_dashboard_photos','Photos','account_dashboard_photos');
-    add_dashboard_widget('myaccount','account_dashboard_messages','Messages','account_dashboard_messages', 'highest');
-}
-
-function account_dashboard_videos( $widget ) {
-    return $widget['name'];
-}
-
-function account_dashboard_photos ( $widget ) {
-    return $widget['name'];
+    add_dashboard_widget( 'myaccount','account_dashboard_messages','Messages','account_dashboard_messages' );
+    add_dashboard_widget( 'myaccount','account_dashboard_user_content','Your Content','account_dashboard_user_content' );
+    add_dashboard_widget( 'myaccount','account_dashboard_recent_video_comments','Recent Video Comments','account_dashboard_recent_video_comments' );
 }
 
 function account_dashboard_messages( $widget ) {
-    return $widget['name'];
+    global $cbpm;
+    
+    $file = 'blocks/account/dashboard_messages.html';
+    $uid = userid();
+    
+    $params['inbox'] = $cbpm->get_user_inbox_messages( $uid, true );
+    $params['outbox'] = $cbpm->get_user_outbox_messages( $uid, true );
+    $params['notifications'] = $cbpm->get_user_notification_messages( $uid, true );
+    $params['new_messages'] = $cbpm->get_new_messages ( $uid );
+    $params['new_notifications'] = $cbpm->get_new_messages( $uid, 'notification' );
+    
+    $params['file'] = $file;
+    $params[ 'widget' ] = $widget;
+    
+     return fetch_template_file( $params );
+}
+
+function account_dashboard_user_content( $widget ) {
+    global $userquery;
+    $file = 'blocks/account/dashboard_your_content.html';
+    
+    $params['file'] = $file;
+    $params['widget'] = $widget;
+    $params['user'] = $userquery->udetails;
+    
+    return fetch_template_file( $params );
+}
+
+function account_dashboard_recent_video_comments ( $widget ) {
+    global $userquery;
+    
+    if ( !userid() ){
+        return false;
+    }
+    
+    if ( $userquery->udetails['total_videos'] > 0 ) {
+        $video_fields = array('videoid','videokey','title','description','views','date_added');
+        $video_fields_query = tbl('video.%s');
+
+        //List of user fields we need to show with the comment
+        $userfields = array('username', 'email', 'userid','avatar', 'avatar_url');
+        $user_fields_query = tbl('users.%s');
+        
+        //Applying filters...
+        $userfields = apply_filters($userfields, 'comment_user_fields');
+        foreach ($userfields as $userfield)
+        {
+            $ufields .= ',';
+            $ufields .= sprintf( $user_fields_query, $userfield );
+        }
+        
+        foreach( $video_fields as $video_field ) {
+            $vfields .= ",";
+            $vfields .= sprintf( $video_fields_query, $video_field );
+            if ( $video_field == 'date_added' ) {
+                $vfields .= ' as vdate_added';
+            }
+        }
+
+        $query = "SELECT ".tbl('comments.*').$vfields.$ufields." FROM ".tbl('comments')." ";
+        $query .= "LEFT JOIN ".tbl('video')." ON ".tbl('comments.type_id')." = ".tbl('video.videoid')." ";
+        $query .= "LEFT JOIN ".tbl('users')." ON ".tbl('comments.userid')." = ".tbl('users.userid')." ";
+        
+        start_where();
+        add_where(" ".tbl('comments.type_owner_id')." = ".userid());
+        add_where(" ".tbl('comments.type')." = 'v' ");
+        add_where( " ".tbl('comments.userid')." <> ".userid() );
+        add_where(" ".tbl('comments.date_added')." BETWEEN SYSDATE() - INTERVAL 30 DAY AND SYSDATE() ");
+        if ( get_where() ) {
+            $query .= " WHERE ".get_where();
+        }    
+        end_where();
+
+        $query .= " ORDER BY ".tbl('comments.date_added')." DESC LIMIT 20";
+        $comments = db_select( $query );    
+    }
+        
+    // Comment Template
+    $params['file'] = 'blocks/account/dashboard_comments.html';
+    $params['widget'] = $widget;
+    $params['comments'] = $comments;
+
+    return fetch_template_file( $params );
+   
 }
 ?>

@@ -164,6 +164,12 @@ add_collection_manager_order( lang('Most Viewed'), tbl('collections.views desc')
 add_collection_manager_order( lang('Most Photos'), tbl('collections.total_objects desc') );
 add_collection_manager_order( lang('Last Updated'), tbl('collections.last_updated desc') );
 
-register_filter( 'dashboard_widgets', '_order_dashboard_widgets_to_position' );
+/**
+ * Dashboard Function
+ */
+register_filter( 'dashboard', '_order_dashboard_widgets_positions' );
+register_filter( 'dashboard_widgets', '_test_function_ordering' );
 
+register_anchor_function( 'init_dashboard_js', 'cb_head' );
+setup_myaccount_dashboard();
 ?>
