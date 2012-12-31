@@ -979,3 +979,28 @@ function read_notifications(type,read)
         
         })
 }
+
+
+/**
+ * add friend function 
+ */
+function add_friend(fid,obj)
+{
+    amplify.request('main',
+    {
+        mode : 'add_friend',
+        uid : fid
+    },function(data)
+    {
+        if(data.error)
+        {
+            displayError(data.error);
+        }else
+        {
+            if(obj)
+                {
+                    $(obj).text('Requst sent');
+                }
+        }
+    })
+}

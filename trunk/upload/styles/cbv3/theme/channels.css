@@ -17,6 +17,10 @@
     position: absolute;
     top: 12px; right: 12px; 
 }
+.user-block .btn-add-friend {
+    position: absolute;
+    top: 45px; right: 12px; 
+}
 
 .users-list .user-block:last-child {
     margin-bottom: 12px;

@@ -1332,6 +1332,8 @@ function get_template($file, $type = 'fetch', $layout = true)
         'notifications' => 'blocks/notifications/notifications.html',
         'msgs_notifications' => 'blocks/pm/notifications.html',
         'msgs_notifications_block' => 'blocks/pm/notification_block.html',
+        'friends_notifications' => 'blocks/contacts/notifications.html',
+        'friends_notifications_block' => 'blocks/contacts/notification_block.html',
         'topics' => 'blocks/groups/topics.html',
         'share_feed_block' => 'blocks/feed_share_block.html',
         'single_feed' => 'blocks/single_feed.html',

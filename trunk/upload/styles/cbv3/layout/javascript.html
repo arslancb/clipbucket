@@ -431,6 +431,15 @@
         $('.video-options .dropdown-menu a').on('click', function (e) {
             e.stopPropagation()
         })
+        
+        $('.friend-requests-dd .dropdown-menu a').on('click', function (e) {
+            e.stopPropagation()
+        })
+        
+        
+        $('.btn-add-friend').click(function(){
+            add_friend($(this).attr('data-userid'),this);
+        })
       
     });
 

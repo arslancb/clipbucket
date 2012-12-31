@@ -667,21 +667,56 @@ switch ($mode)
 
     case "read_notification":
         {
-            
+
             //mark notifications read..
             $type = mysql_clean($_POST['type']);
             $uid = userid();
             if ($uid)
             {
                 $userquery->read_notification($uid, $type);
-                
-                if($type=='notifications')
-                $cbfeeds->read_notification($uid);
+
+                if ($type == 'notifications')
+                    $cbfeeds->read_notification($uid);
             }
-            
         }
 
         break;
+
+    case 'add_friend':
+        {
+            $friend = $_POST['uid'];
+            $userid = userid();
+
+            if ($userid)
+            {
+                $userquery->add_contact($userid, $friend);
+
+                if (msg())
+                {
+                    $msg = msg_list();
+                    $msg = $msg[0] ;
+                    
+                    echo json_encode(array('success'=>'ok','msg'=>$msg));
+                }
+                if (error())
+                {
+                    $msg = error_list();
+                   
+                    echo json_encode(array('error'=>$msg));
+                }
+                $msg;
+            }else
+            {
+                echo json_encode(array('error'=>lang('You are not logged in')));
+            }
+        }
+        break;
+        
+        
+        case 'confirm_friend':
+        {
+            
+        }
 
     default:
         exit(json_encode(array('err' => array(lang('Invalid request')))));

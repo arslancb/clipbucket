@@ -1120,11 +1120,41 @@ class userquery extends CBCategory
     function get_pending_contacts($uid, $group = 0, $count_only = false)
     {
         global $db;
-
+        
+        $fields_arr = array(
+            'c' => array(
+                'contact_id','userid','contact_userid','date_added'
+            ),
+            'u' => array(
+                'userid','username','email','first_name','last_name','avatar',
+                'avatar_url'
+            ),
+        );
+        
+        $fields = '';
+        foreach($fields_arr as $tbl => $tbl_fields)
+        {            
+            foreach($tbl_fields as $tbl_field)
+            {
+                if($fields)
+                $fields .=', ';
+                
+                $fields .= $tbl.'.'.$tbl_field;
+            }
+        }
+        
+        
         if (!$count_only)
         {
-            $result = $db->select(tbl("contacts,users"), tbl("contacts.userid,contacts.confirmed,contacts.request_type ,users.*"), tbl("contacts.contact_userid") . "='$uid' AND " . tbl("users.userid") . "=" . tbl("contacts.userid") . "
-			AND " . tbl("contacts.confirmed") . "='no' AND " . tbl("contacts") . ".contact_group_id='$group' ");
+            $query = "SELECT ".$fields." FROM ".tbl('contacts')." AS c ";
+            $query .= " LEFT JOIN ".tbl('users')." AS u";
+            $query .= " ON c.userid = u.userid ";
+            $query .= " WHERE c.contact_userid='$uid' ";
+            $query .= " AND c.confirmed='no' AND c.contact_group_id='$group' ";
+            
+            
+            $result = db_select($query);
+            
             if ($db->num_rows > 0)
                 return $result;
             else

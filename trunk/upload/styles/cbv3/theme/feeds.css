@@ -338,6 +338,12 @@ vertical-align: top; margin-left: 10px; height: 28px; overflow: hidden}
     padding: 5px; position: relative;
     font-size: 12px;
 }
+
+.notifications .btn-confirm{
+    position: absolute;
+    right: 5px; top: 5px
+}
+
 .notifications .notification-padding{
     border-bottom: 1px solid #ddd;
 }

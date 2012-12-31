@@ -1,6 +1,15 @@
 
 {include_template_file file="blocks/account_left.html"}
 
+{if $smarty.get.mid}
+<script>
+    $(document).ready(function(){
+        //Scroll to message
+        $('#message-{$smarty.get.mid}').scrollTo();
+    }
+</script>
+{/if}
+
 <div class="account-right">
     {if $mode =='inbox'}
     <h2 class="page-header">{lang code='private_messages'} &raquo; {lang code='inbox'}</h2>
@@ -36,9 +45,9 @@
             <p class="alert alert-large">{lang code='No conversation selected'}</p>
             {else}
 
-            <div class="msgs_container cbv3-scroller"">
+            <div class="msgs_container cbv3-scroller">
                 {foreach $messages as $message}
-                <div class="msg_container">
+                <div class="msg_container" id="message-{$message.message_id}">
                     <div class="msg_author_thumb">
                         <img src="{$userquery->avatar($message,small)}" />
                     </div>
@@ -129,7 +138,7 @@
                     <textarea placeholder="Enter your message" id="message" name="message" class="pm_message  auto-height"></textarea>
                 </div>
             </div>
-            
+
             <div class="form-actions" align="right">
                 <input type="submit" class="btn btn-primary" name="send_message" value="Send message">
             </div>

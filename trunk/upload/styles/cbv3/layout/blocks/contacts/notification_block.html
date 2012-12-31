@@ -1,0 +1,17 @@
+<div id="request-block-{$friend.contact_id}">
+    <div class="notification {if !$last}notification-padding{/if}" >
+
+        <img src="{$userquery->avatar($friend)}" class="notify_avatar"/>
+        <div class="notification_data">
+            <strong>{name($friend)}</strong>
+            <div>{$thread.thread.message}</div>
+            <div class="notification_time">
+                <i class="{get_notify_icon($notification)}"></i> {what_time($friend.date_added,false)}
+            </div>
+
+
+        </div>
+        <button class="btn btn-mini btn-confirm" type="button"
+        onclick="window.location=baseurl+'/manage_contacts.php?confirm={$friend.userid}&mode=confirm' ">Confirm</button>
+    </div>
+</div>
