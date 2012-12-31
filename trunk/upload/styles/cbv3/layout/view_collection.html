@@ -19,9 +19,13 @@
             <li>{$c.last_updated|niceTime} <i>{lang code='Updated'}</i></li>
             <li>{$c.views|number_format} <i>{lang code='Views'}</i></li>
             <li>{$c.total_objects|number_format} <i>{lang code='Photos'}</i></li>
+            <li>{$cbphoto->upload_photo_button(['details' => $c])}</li>
         </ul>
+         
     </div>
+   
 </div>
+
 {if $objects}
 <div class="inlineblock-fix" id="collection-photos-container">
     <div class="collection-rating">

@@ -107,41 +107,32 @@
     </div>
 
     <div class="global-content-column pull-left">
-        {$videos=get_videos(['limit'=>16])}
+        {$videos=get_videos(['limit'=>15])}
         {if $videos}
             {$heading='Latest Videos'}
             {$more_mode='recent'}
         {/if}
         <div class="row-fluid">
-            <div class="span8 pull-left">
+            <div>
                 {if $videos}
                     <h3 class="marginB10"><a href="{link name=sort sort=$more_mode type=videos}">{$heading}</a></h3>
+                    
                     <div class="carousel slide" id="latest-videos">
-                        <div class="carousel-inner">
-                            {foreach $videos as $video}
-                                {if $video@first || $open_tag=='true'}
-                                    {$open_tag=''}
-                                    <div class="item {if $video@first}active{/if}">
-                                {/if}
-                                {include_template_file file='blocks/video.html' video=$video display_method='index_videos'}
-                                {if $video@iteration % 4 == 0 || $video@last}
-                                    {$open_tag='true'}
-                                    </div>
-                                {/if}
-                            {/foreach}
-                        </div>
-                        <a class="carousel-control left" href="#latest-videos" data-slide="prev">&lsaquo;</a>
-                        <a class="carousel-control right" href="#latest-videos" data-slide="next">&rsaquo;</a>
+                        {foreach $videos as $video}
+                            {include_template_file file='blocks/video.html' video=$video display_method=''}
+                        {/foreach}
                     </div>
+                   
                 {/if}
             </div>
             
-            <script type="text/javascript">
+            <!-- <script type="text/javascript">
                 $('.carousel').carousel({
                     interval: 4000
                 })
             </script>
-            <div class="span4 pull-right">
+            -->
+   <!--         <div class="span4 pull-right">
                 <h3 class="marginB10">Being Watched</h3>
                     {$last_viewed=get_videos(['limit'=>'8','order'=>' last_viewed DESC'])}
                     {if $last_viewed}
@@ -153,7 +144,7 @@
                         {/foreach}                        
                     </div>
                     {/if}
-            </div>
+            </div> -->
         </div>
         {$featured_videos=get_videos(['limit'=>8,'featured'=>'yes'])}
         {if $featured_videos}

@@ -646,6 +646,8 @@ ul.dropdown-menu > li > a:hover .icon-v3 {
 .photos-index:nth-child(6n-2) { float: right; }
 
 #latest-videos .item { height: 290px; overflow: hidden; }
+#latest-videos .video-box { width: 180px; margin-right: 15px; }
+#latest-videos .video-box:nth-child(3n+0) { margin-right: 0px;  }
 .index-middle-videos {
     width: 185px;
     height: 145px;
