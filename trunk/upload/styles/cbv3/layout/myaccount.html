@@ -1,6 +1,8 @@
 {include_template_file file="blocks/account_left.html"}
 <div class="account-right">
-    <div class="account-dashboard-container clearfix">
-        {display_dashboard()}
-    </div>
+    <a href="{$userquery->profile_link( $userquery->udetails )}" class="marginB20 block">
+        <img src="{avatar uid=userid()}" width="100" height="100" class="marginR10" />
+        <strong style="text-transform: uppercase">{name($userquery->udetails)}</strong>
+    </a>
+    {display_dashboard()}
 </div>

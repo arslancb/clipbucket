@@ -73,6 +73,20 @@
             }
         }
     });
+    
+    //Dashboard
+    amplify.request.define( "dashboards", "ajax", {
+        url: ajaxURL+"/dashboards.php",
+        type: "POST",
+        dataType: "json",
+        decoder: function( data, status, xhr, success, error ) {
+            if ( status === "success" ) {
+                success( data );
+            } else {
+                error( data );
+            }
+        }
+    });
 </script>
 
 
