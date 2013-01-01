@@ -354,3 +354,7 @@ CREATE TABLE `{tbl_prefix}user_notifications` (
   `time_updated` int(11) NOT NULL,
   PRIMARY KEY (`notification_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+
+--1-1-2013 @Author Arslan
+ALTER TABLE  `{tbl_prefix}users` ADD  `active` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'yes' AFTER  `status`;

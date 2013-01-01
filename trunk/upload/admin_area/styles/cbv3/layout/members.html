@@ -16,6 +16,10 @@ Manage your members here, read more about managing members here. {*@todo:Put gui
                     <a class="btn dropdown-toggle" data-toggle="dropdown">More options <i class="caret"></i></a>
 
                     <ul class="dropdown-menu pull-right">
+                           <li><a onclick="$('#mode').val('verify');
+                            $('#manage-members-form').submit();">Mark verified</a></li>
+                                <li><a  onclick="$('#mode').val('unverify');
+                            $('#manage-members-form').submit();">Mark Unverified</a></li>
                            <li><a onclick="$('#mode').val('featured');
                             $('#manage-members-form').submit();">Make Featured</a></li>
                                 <li><a  onclick="$('#mode').val('unfeature');
@@ -90,10 +94,15 @@ Manage your members here, read more about managing members here. {*@todo:Put gui
                             <a href="javascript:void(0)" class="btn dropdown-toggle" data-toggle="dropdown"><i class="caret"></i></a>
 
                             <ul class="dropdown-menu">
-                                {if $u.status == 'verified'}
+                                {if $u.active == 'yes'}
                                 <li><a href="?deactivate={$u.userid}">Deactivate</a></li>
-                                {elseif $u.status == 'unverified'}
+                                {else}
                                 <li><a href="?activate={$u.userid}">Activate</a></li>
+                                {/if}
+                                {if $u.status == 'unverified'}
+                                <li><a href="?verify={$u.userid}">Verify</a></li>
+                                {elseif $u.status == 'verified'}
+                                <li><a href="?unverify={$u.userid}">Unverify</a></li>
                                 {/if}
                                 {if $u.ban_status == yes} 
                                 <li><a href="?unban={$u.userid}">Unban Member</a> </li>

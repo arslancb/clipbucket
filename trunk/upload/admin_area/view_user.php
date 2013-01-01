@@ -27,6 +27,18 @@ if($udetails)
 		$userquery->action('activate',$uid);
 		$udetails = $userquery->get_user_details($uid);
 	}
+	//Unverifing User
+	if(isset($_GET['unverify']))
+	{
+		$userquery->action('unverify',$uid);
+		$udetails = $userquery->get_user_details($uid);
+	}
+	//Verifying User
+	if(isset($_GET['verify']))
+	{
+		$userquery->action('verify',$uid);
+		$udetails = $userquery->get_user_details($uid);
+	}
 	//Banning User
 	if(isset($_GET['ban']))
 	{

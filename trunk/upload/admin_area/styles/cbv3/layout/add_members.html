@@ -47,11 +47,20 @@
         </div>
         
         <div class="control-group">
-            <label class="control-label" for="cpass">Status</label>
+            <label class="control-label" for="status">Status</label>
+            <div class="controls">
+                <select name="status" id="status" class="input-xlarge">
+                    <option value="verified">Verified</option>
+                    <option value="unverified">Unverified</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="cpass">Active</label>
             <div class="controls">
                 <select name="active" id="active" class="input-xlarge">
-                    <option value="verified">Active</option>
-                    <option value="unverified">Inactive</option>
+                    <option value="yes">yes</option>
+                    <option value="no">no</option>
                 </select>
             </div>
         </div>

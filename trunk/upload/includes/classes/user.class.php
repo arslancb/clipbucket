@@ -269,7 +269,9 @@ class userquery extends CBCategory
         elseif (!$udetails)
             $msg[] = e(lang('usr_login_err'));
         elseif (strtolower($udetails['status']) != 'verified')
-            $msg[] = e(lang('user_inactive_msg'));
+            $msg[] = e(lang('Your account is not verified, please verify it by going to activation page'));
+        elseif (strtolower($udetails['active']) != 'yes')
+            $msg[] = e(lang('Your account is not active and requires admin approval'));
         elseif ($udetails['ban_status'] == 'yes')
             $msg[] = e(lang('usr_ban_err'));
         else
@@ -375,6 +377,13 @@ class userquery extends CBCategory
                     e(lang('usr_ban_err'));
                 return false;
             }
+            //Now Check logged in user is active or not
+            elseif ($this->udetails['active'] != 'yes')
+            {
+                if (!$check_only)
+                    e(lang('Your account is deactivated'));
+                return false;
+            }
         }
 
         //Now user have passed all the stages, now checking if user has level access or not
@@ -474,7 +483,7 @@ class userquery extends CBCategory
     function get_user_with_pass($username, $pass)
     {
         global $db;
-        $results = $db->select(tbl("users"), "userid,email,level,status,user_session_key,user_session_code", "(username='$username' OR userid='$username') AND password='$pass'");
+        $results = $db->select(tbl("users"), "userid,email,level,status,user_session_key,user_session_code,active", "(username='$username' OR userid='$username') AND password='$pass'");
         if ($db->num_rows > 0)
         {
             return $results[0];
@@ -3443,10 +3452,18 @@ class userquery extends CBCategory
                 $status = 'verified';
                 $welcome_email = 'yes';
             }
+            
+            if(config('user_moderation')=='yes')
+            {
+                $active = 'no';
+            }else
+            {
+                $active = 'yes';
+            }
 
             if (has_access('admin_access', true))
             {
-                if ($array['active'] == 'verified')
+                if ($array['status'] == 'verified')
                 {
                     $status = 'verified';
                     $welcome_email = 'yes';
@@ -3456,6 +3473,15 @@ class userquery extends CBCategory
                     $status = 'unverified';
                     $welcome_email = 'no';
                 }
+                
+                if ($array['active'] == 'yes')
+                {
+                    $active = 'yes';
+                }
+                else
+                {
+                    $active = 'yes';
+                }
 
                 $query_field[] = "level";
                 $query_val[] = $array['level'];
@@ -3463,6 +3489,9 @@ class userquery extends CBCategory
 
             $query_field[] = "status";
             $query_val[] = $status;
+            
+            $query_field[] = "active";
+            $query_val[] = $active;
 
             $query_field[] = "	welcome_email_sent";
             $query_val[] = $welcome_email;
@@ -3857,7 +3886,7 @@ class userquery extends CBCategory
             case 'a':
                 {
                     $avcode = RandomString(10);
-                    $db->update($tbl, array('status', 'avcode'), array('verified', $avcode), " userid='$uid' ");
+                    $db->update($tbl, array('active', 'avcode'), array('yes', $avcode), " userid='$uid' ");
                     e(lang("User has been activated"), 'm');
                 }
                 break;
@@ -3868,8 +3897,28 @@ class userquery extends CBCategory
             case "d":
                 {
                     $avcode = RandomString(10);
-                    $db->update($tbl, array('status', 'avcode'), array('unverified', $avcode), " userid='$uid' ");
+                    $db->update($tbl, array('active', 'avcode'), array('no', $avcode), " userid='$uid' ");
                     e(lang("User has been deactivated"), 'm');
+                }
+                break;
+            //Verifying a user
+            case 'verify':
+            case 'v':
+
+                {
+                    $avcode = RandomString(10);
+                    $db->update($tbl, array('status', 'avcode'), array('verified', $avcode), " userid='$uid' ");
+                    e(lang("User has been set as verified"), 'm');
+                }
+                break;
+
+            //Unverifying a user
+            case "unverify":
+            case "uv":
+                {
+                    $avcode = RandomString(10);
+                    $db->update($tbl, array('status', 'avcode'), array('unverified', $avcode), " userid='$uid' ");
+                    e(lang("User has been set as unverified"), 'm');
                 }
                 break;
 

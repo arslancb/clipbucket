@@ -1138,6 +1138,14 @@
                        <p class="help-block"></p>
             </div>
         </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="email_verification">Moderation</label>
+            <div class="controls">
+                <input name="user_moderation" type="checkbox" id="user_moderation" value="yes" {if $row.user_moderation=='yes'}checked="checked"{/if} class="input-xlarge" />
+                       <p class="help-block">Requires admin approval</p>
+            </div>
+        </div>
 
         <div class="control-group">
             <label class="control-label" for="captcha_type">Image verification (captcha)</label>

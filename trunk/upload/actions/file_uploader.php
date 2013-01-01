@@ -42,7 +42,7 @@ switch ($mode)
 
             if (error())
             {
-                echo json_ecode(array('err' => error()));
+                echo json_encode(array('err' => error()));
             }
             else
             {

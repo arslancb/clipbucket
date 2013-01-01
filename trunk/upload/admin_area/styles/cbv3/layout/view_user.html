@@ -5,9 +5,7 @@
 
 <div class="height10"></div>
 
-<td ><ul class="admin_links">
 
-    </ul></td>
 
 <div class="controller scrolltoFixed white-grad">
     <div class="buttons">
@@ -22,10 +20,15 @@
 
                 <ul class="dropdown-menu">
                     <li ><a href="login_as_user.php?uid={$u.userid}">Login as user</a></li>
-                    {if $u.usr_status=="Ok"}
+                    {if $u.active=="yes"}
                     <li><a href="?uid={$u.userid}&amp;deactivate=yes">Deactivate</a></li>
                     {else}
                     <li><a href="?uid={$u.userid}&amp;activate=yes">Activate</a></li>
+                    {/if}
+                    {if $u.status=="verified"}
+                    <li><a href="?uid={$u.userid}&amp;unverify=yes">Unverify</a></li>
+                    {else}
+                    <li><a href="?uid={$u.userid}&amp;verify=yes">Verify</a></li>
                     {/if}
                     {if $u.ban_status=="yes"}
                     <li><a href="?uid={$u.userid}&amp;unban=yes">Unban</a></li>

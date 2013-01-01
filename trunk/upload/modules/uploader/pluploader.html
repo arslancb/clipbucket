@@ -89,7 +89,7 @@
         uploader.bind('FilesAdded', function(up, files) {
             $.each(files, function(i, file) {
                 
-                
+                console.log('test');
                 
                 
                 var timeStamp  = Math.round((new Date()).getTime() / 1000);
@@ -122,9 +122,9 @@
                     //filenames[file.id].vid = data.vid;
                     filenames[file.id] = my_array;
                     
-                    //console.log(filenames);
+                    console.log(filenames);
                     
-                    //console.log(data.file_name);
+                    console.log(data.file_name);
                     
                     uploader.start();
             
@@ -210,7 +210,7 @@
         });
         
         uploader.bind('BeforeUpload',function(up,file){
-            //console.log('Before upload called '+filenames[file.id]['file_name']);
+            console.log('Before upload called '+filenames[file.id]['file_name']);
                     
             up.settings.multipart_params.file_directory = filenames[file.id]['file_directory'];
             up.settings.multipart_params.file_name = filenames[file.id]['file_name'];

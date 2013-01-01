@@ -39,6 +39,16 @@ if(isset($_GET['deactivate'])){
 	$user = mysql_clean($_GET['deactivate']);
 	$userquery->action('deactivate',$user);
 }
+//Verify User
+if(isset($_GET['verify'])){
+	$user = mysql_clean($_GET['verify']);
+	$userquery->action('verify',$user);
+}
+//Unverify User
+if(isset($_GET['unverify'])){
+	$user = mysql_clean($_GET['unverify']);
+	$userquery->action('unverify',$user);
+}
 
 //Using Multple Action
 if($mode=='activate'){
@@ -54,6 +64,20 @@ if($mode=='deactivate'){
 	}
 	$eh->flush();
 	e("Selected users have been deactivated","m");
+}
+if($mode=='verify'){
+	for($id=0;$id<=count($_POST['check_user']);$id++){
+		$userquery->action('verify',$_POST['check_user'][$id]);
+	}
+	$eh->flush();
+	e("Selected users have been verified","m");
+}
+if($mode=='unverify'){
+	for($id=0;$id<=count($_POST['check_user']);$id++){
+		$userquery->action('unverify',$_POST['check_user'][$id]);
+	}
+	$eh->flush();
+	e("Selected users have been unverified","m");
 }
 			
 //Make User Featured

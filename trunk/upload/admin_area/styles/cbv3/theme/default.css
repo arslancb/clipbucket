@@ -251,6 +251,7 @@ border-width: 1px 0px; margin-bottom: 10px; }
 
 .buttons .right-button{ position: absolute; right: 0px; top: 2px}
 .buttons .btn-toolbar{margin: 0px}
+.buttons .active a{box-shadow:inset 0px 3px 3px rgba(0,0,0,0.05)}
 
 .input-order{width: 30px}
 .list-block tbody input[type=checkbox]{margin: 0px 10px}
