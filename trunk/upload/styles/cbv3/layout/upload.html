@@ -37,11 +37,13 @@
 
 <div id="upload-form-template">
     <div class="upload-form display-none">
-        <div class="title"><h2></h2></div>
-        {$upload_fields=$Upload->load_video_fields(false)}
+        
+        
+        {$upload_fields=$Upload->load_video_fields(['category'=>[$cbvid->get_default_cid()]])}
 
         <div class="upload-btn-options gradient">
-
+            <div class="title"><h2></h2></div>
+            <div class="alert display-none"></div>
             <div class="btn-group">
                 {foreach $upload_fields as $field_group}           
                 <a class="btn form-group form-btn btn-primary
@@ -57,7 +59,7 @@
                         {foreach from=$field_group.fields item=field}
 
                         {* Formating field for our template *}
-                        {$field.class='input-xxlarge'}
+                        {$field.class='input-xlarge'}
 
                         {if $field.type=='checkbox' || $field.type=='radiobutton'}
                         {$field.sep=' '}
@@ -78,8 +80,8 @@
                             </label>
                             <div class="controls">
                                 {ANCHOR place=$field.anchor_before}
-                                {$formObj->createField($field)}
-                                {ANCHOR place=$field.anchor_after}
+                                    {$formObj->createField($field)}
+                                    {ANCHOR place=$field.anchor_after}
                                 {if $field.hint_after}
                                 <p class="help-block">{$field.hint_after}</p>
                                 {/if}

@@ -113,9 +113,19 @@
                     file_name : filename
                 },function(data){
                     
-                    filenames[file.id] = data.vid;
-                    up.settings.multipart_params.file_directory = data.file_directory;
-                    up.settings.multipart_params.file_name = data.file_name;
+                    var my_array = Array();
+                    
+                    my_array.vid = data.vid;
+                    my_array.file_name = data.file_name;
+                    my_array.file_directory = data.file_directory;
+                    
+                    //filenames[file.id].vid = data.vid;
+                    filenames[file.id] = my_array;
+                    
+                    //console.log(filenames);
+                    
+                    //console.log(data.file_name);
+                    
                     uploader.start();
             
                     up.refresh(); // Reposition Flash/Silverlight
@@ -161,8 +171,21 @@
                         
                         amplify.request('upload',
                         formdata,function(data){
+                            var msg_div = $('#file-form-'+file.id+' .alert');
+                            if(data.error)
+                            {
+                                msg_div.addClass('danger')
+                                .html(data.error)
+                                .show();
+                            }
                             
-                        
+                            if(data.msg)
+                            {
+                                msg_div.removeClass('danger')
+                                .html(data.msg)
+                                .show();
+                            }
+                            
                         });
                     })
                     
@@ -186,13 +209,20 @@
             
         });
         
+        uploader.bind('BeforeUpload',function(up,file){
+            //console.log('Before upload called '+filenames[file.id]['file_name']);
+                    
+            up.settings.multipart_params.file_directory = filenames[file.id]['file_directory'];
+            up.settings.multipart_params.file_name = filenames[file.id]['file_name'];
 
+                    
+        });
         uploader.bind('UploadProgress', function(up, file) {
             
             var $size = plupload.formatSize(up.total.bytesPerSec);            
             var $rawTime = (up.total.size-up.total.loaded)/up.total.bytesPerSec; 
             
-            console.log($rawTime);
+            //console.log($rawTime);
             
             var $time = time($rawTime);
             
@@ -221,6 +251,7 @@
         });
 
         uploader.bind('FileUploaded', function(up, file) {
+            console.log(file.name+' Uploaded');
             $('#file-'+file.id+' .progress').removeClass('active');
             $('#file-'+file.id+' .progress').addClass('progress-success');
             $('#file-'+file.id+' .status').html('{lang code="success"}');

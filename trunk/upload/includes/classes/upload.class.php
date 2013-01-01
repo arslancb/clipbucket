@@ -1171,15 +1171,19 @@ class Upload {
             $queue = $qid;
             $qid = $queue['queue_id'];
         } else {
-            $queue = $this->get_queue_details($qid);
+            //$queue = $this->get_queue_details($qid);
         }
+        $queue = $this->get_queue_details($qid);
+       
 
         //Messages Array
         $messages = $queue['messages'];
         $messages = json_decode($messages, true);
+        
         $messages[] = $message;
+        
         $messages = '|no_mc|' . json_encode($messages);
-
+       
         $fields = array('conversion', 'status', 'messages', 'conversion_counts', 'time_completed');
         $tbl = tbl('conversion_queue');
 
@@ -1191,7 +1195,9 @@ class Upload {
 
         switch ($status) {
             case "u": {
+                
                     $db->update($tbl, $fields, array('p', 'u', $messages, $conv_count, time()), "queue_id='$qid'");
+                    
                 }
                 break;
 
@@ -1205,6 +1211,8 @@ class Upload {
                 }
                 break;
         }
+        
+
     }
 
     /**
