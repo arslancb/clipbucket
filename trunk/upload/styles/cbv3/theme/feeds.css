@@ -359,7 +359,8 @@ vertical-align: top; margin-left: 10px; height: 28px; overflow: hidden}
 
 .notification_time{font-size: 12px; color: #ccc; color: #999}
 .notification .actor_name{font-weight: bold}
-.notifications-container{height: 300px;}
+.notifications-container{}
+.no_notifications{padding-left: 10px}
 .notifications .all_notifications a{margin: 0px; padding: 0px; text-align: center}
 
 
@@ -385,3 +386,4 @@ vertical-align: top; margin-left: 10px; height: 28px; overflow: hidden}
 .group-feed .feed-header{border-bottom: 0px}
 .group-feed .feed-header .feed-time{right:0px; left: auto}
 .group-feed .feed-context{margin-left: 50px; margin-top: -20px}
+

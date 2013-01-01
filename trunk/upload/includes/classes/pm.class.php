@@ -1035,6 +1035,7 @@ class cb_pm
         $results = db_select($query);
 
         $the_results = array();
+        if($results)
         foreach ($results as $result)
         {
             $the_results[$result['thread_id']]['thread'] = $result;

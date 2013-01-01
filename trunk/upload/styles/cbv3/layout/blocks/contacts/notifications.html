@@ -1,11 +1,12 @@
 {$friends=$userquery->get_pending_contacts(userid(),0)}
-{if $friends}
+
 <div class="notifications">
     <div class="notify_title">{lang code='Friends Requests'}</div>
     <div class="seperator"></div>
 
     <div class="notifications-container  cbv3-scroller">
-        <div id="new_notifications"></div>
+        <div id="new_friends"></div>
+        {if $friends}
         {foreach $friends as $friend}
         {if $friend}
 
@@ -15,9 +16,11 @@
         {include file=$block friend=$friend last=$last}
         {/if}
         {/foreach}
+        {else}
+        <div class="no_notifications">No friend requests</div>
+        {/if}
     </div>
 
     <div class="seperator"></div>
-    <div class="all_notifications"><a href="">Show all Messages</a></div>
+    <div class="all_notifications"><a href="">Show all Requests</a></div>
 </div>  
-{/if}

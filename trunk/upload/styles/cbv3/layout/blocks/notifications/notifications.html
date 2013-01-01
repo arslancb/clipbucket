@@ -1,11 +1,12 @@
 {$notifications=$cbfeeds->get_notifications()}
-{if $notifications}
+
 <div class="notifications">
     <div class="notify_title">{lang code='Notifications'}</div>
     <div class="seperator"></div>
 
     <div class="notifications-container  cbv3-scroller">
         <div id="new_notifications"></div>
+        {if $notifications}
         {foreach $notifications as $notification}
         {if $notification}
         
@@ -15,9 +16,11 @@
         {include file=$block notification=$notification last=$last}
         {/if}
         {/foreach}
+        {else}
+        <div class="no_notifications">No notification</div>
+        {/if}
     </div>
 
     <div class="seperator"></div>
     <div class="all_notifications"><a href="">Show all notifications</a></div>
 </div>  
-{/if}
