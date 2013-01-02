@@ -799,13 +799,17 @@ class CBvideo extends CBCategory {
             $meta_query = $this->create_meta_query();
 
             $result = $db->select(tbl('video')
-                    . ' LEFT JOIN ' . tbl('users') . ' ON '
-                    . tbl('video.userid') . ' = ' . tbl('users.userid')
-                    . ' LEFT JOIN ' . tbl('slugs') . ' ON '
-                    . tbl('video.slug_id') . ' = ' . tbl('slugs.slug_id')
-                    . ' LEFT JOIN ' . tbl('video_meta') . ' ON '
-                    . tbl('video.videoid') . ' = ' . tbl('video_meta.videoid')
-                    , tbl('video.*' . $ufieldq . ',slugs.*') . ',' . $meta_query, $cond . " " . tbl("video.userid") . " = " . tbl("users.userid") . " GROUP BY " . tbl('video.videoid'), $limit, $order);
+            . ' LEFT JOIN ' . tbl('users') . ' ON '
+            . tbl('video.userid') . ' = ' . tbl('users.userid')
+            . ' LEFT JOIN ' . tbl('slugs') . ' ON '
+            . tbl('video.slug_id') . ' = ' . tbl('slugs.slug_id')
+            . ' LEFT JOIN ' . tbl('video_meta') . ' ON '
+            . tbl('video.videoid') . ' = ' . tbl('video_meta.videoid')
+            , tbl('video.*' . $ufieldq . ',slugs.*') . ',' 
+            . $meta_query, $cond . " " 
+            . tbl("video.userid") . " = " 
+            . tbl("users.userid") . " GROUP BY " 
+            . tbl('video.videoid'), $limit, $order);
 
             $db->db_query;
         }
