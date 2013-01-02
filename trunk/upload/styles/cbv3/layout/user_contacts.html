@@ -9,14 +9,33 @@
             <div class="view-channel-box user-info-box clearfix">
                 <a href="{$userquery->profile_link($u)}"><img src="{avatar size='small' details=$u}" width="30" height="30" /> {name($u)}</a>
             </div>
-            <div class="view-channel-box clearfix">
-                Here links to other pages will be displayed, for example subscriptions and subscribers
+            <div class="view-channel-box user-pages-navigation-container clearfix">
+                <div class="user-pages-navigation">
+                    <ul class="user-pages-list">
+                        <li{if $mode == '' || $mode == 'contacts'} class="active"{/if}><a href="{link name='user_contacts'}{$u.username}">{lang code='Contacts'}<span>{count($friends)}</span></a></li>
+                        <li{if $mode == 'subscriptions'} class="active"{/if}><a href="{link name='user_subscriptions'}{$u.username}">{lang code='Subscriptions'}<span>{$u.total_subscriptions}</span></a></li>
+                        <li{if $mode == 'subscribers'} class="active"{/if}><a href="{link name='user_subscribers'}{$u.username}">{lang code='Subscribers'}<span>{$u.subscribers|number_format}</span></a></li>
+                    </ul>
+                </div>
             </div>
             <div class="view-channel-box clearfix">
                 {if $mode == '' || $mode == 'contacts'}
                 <div class="view-channel-box-header"><h4>{lang code="%s's Contacts"|sprintf:$u.username}</h4></div>
                 <div class="view-channel-box-content clearfix">
-
+                    {if $friends}
+                        <ul class="user-contacts">
+                            {foreach $friends as $friend}
+                                {if $u.userid!=$friend.userid}
+                                    {assign var=user_detail value=$userquery->get_user_details($friend.userid)}
+                                {else}
+                                    {assign var=user_detail value=$userquery->get_user_details($friend.contact_userid)}
+                                {/if}
+                                {include_template_file file='blocks/user.html' user=$user_detail display_method='user_contacts'}
+                            {/foreach}
+                        </ul>
+                    {else}
+                        <p class="alert alert-large">This user has no contacts</p>
+                    {/if}
                 </div>
                 {else}
                 <div class="view-channel-box-header"><h4>{$heading}</h4></div>

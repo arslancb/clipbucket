@@ -130,14 +130,11 @@ function add_dashboard_widget( $place, $id, $name, $display_callback, $importanc
         }
         
         $importance = _check_widget_importance( $importance );
-        $position = get_last_dashboard_widget_position( $place, $importance );
         $dashboard_widget[ $id ] = array(
             'id' => $id,
             'name' => $name,
             'display_callback' => $display_callback,
             'importance' => $importance,
-            'description' => $description,
-            'position' => $position ? ( $position+1 ) : (int)1,
             'callback' => $callback
         );
                 
@@ -248,6 +245,12 @@ function _order_dashboard_widgets_positions( $dashboard ) {
     return $new_dashboard ? $new_dashboard : $dashboard;
 }
 
+/**
+ * Return the states of all dashboard widgets for 
+ * current user
+ * 
+ * @return array
+ */
 function get_user_dashboard_widget_states() {
     if ( userid() ) {
         $user_states = config('dashboard_states');
@@ -259,6 +262,12 @@ function get_user_dashboard_widget_states() {
     return false;  
 }
 
+/**
+ * Return the positions of all dashboard widgets for
+ * current user
+ * 
+ * @return array
+ */
 function get_user_dashboard_widget_positions() {
     if ( userid() ) {
         $user_positions = config('dashboard_positions');
@@ -270,6 +279,11 @@ function get_user_dashboard_widget_positions() {
     return false;
 }
 
+/**
+ * Function to update the widget positions
+ * 
+ * @return json encoded string
+ */
 function __update_dashboard_widget_positions() {
     $dashboard_positions = config('dashboard_positions');
     $userid = userid();
@@ -293,6 +307,10 @@ function __update_dashboard_widget_positions() {
     }
 }
 
+/**
+ * Function update widget states
+ * @return json encoded string
+ */
 function __update_dashboard_widget_states() {
     $dashboard_states = config('dashboard_states');
     if ( $dashboard_states ) {
@@ -314,6 +332,13 @@ function __update_dashboard_widget_states() {
     }
 }
 
+/**
+ * Gets the boxes that user have closed for current
+ * placement
+ * 
+ * @param string $place
+ * @return array
+ */
 function get_closed_boxes( $place ) {
     $user_data = config('dashboard_states');
     if ( $user_data ) {
@@ -325,13 +350,22 @@ function get_closed_boxes( $place ) {
     }
 }
 
-
+/**
+ * Setup for dashboard for my account
+ */
 function setup_myaccount_dashboard() {
     add_dashboard_widget( 'myaccount','account_dashboard_messages','Messages','account_dashboard_messages' );
     add_dashboard_widget( 'myaccount','account_dashboard_user_content','Your Content','account_dashboard_user_content' );
     add_dashboard_widget( 'myaccount','account_dashboard_recent_video_comments','Recent Video Comments','account_dashboard_recent_video_comments' );
 }
 
+/**
+ * myaccount dashboard, messages widget
+ * 
+ * @global object $cbpm
+ * @param array $widget
+ * @return string
+ */
 function account_dashboard_messages( $widget ) {
     global $cbpm;
     
@@ -350,6 +384,13 @@ function account_dashboard_messages( $widget ) {
      return fetch_template_file( $params );
 }
 
+/**
+ * myaccount dashboard, user content widget
+ * 
+ * @global object $userquery
+ * @param array $widget
+ * @return string
+ */
 function account_dashboard_user_content( $widget ) {
     global $userquery;
     $file = 'blocks/account/dashboard_your_content.html';
@@ -361,6 +402,13 @@ function account_dashboard_user_content( $widget ) {
     return fetch_template_file( $params );
 }
 
+/**
+ * myaccount dashboard, recent video comments widget
+ * 
+ * @global object $userquery
+ * @param array $widget
+ * @return string
+ */
 function account_dashboard_recent_video_comments ( $widget ) {
     global $userquery;
     

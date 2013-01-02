@@ -147,7 +147,7 @@ add_photo_manager_link( lang('Edit collection'), '_edit_collection_link', false,
 add_photo_manager_link( lang('Make profile item'), '_make_profile_item_link', false, true );
 add_photo_manager_link( lang('Set as avatar'), '_manager_set_avatar_link', false, true );
 add_photo_manager_link( lang('Make collection cover'), '_set_cover_photo_link', '_set_cover_photo_callback', true );
-
+$Cbucket->custom_get_photo_funcs[] = 'get_private_photo_thumb';
 /**
  * Adding orders for photo manager
  */

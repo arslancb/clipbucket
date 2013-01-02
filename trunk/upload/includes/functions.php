@@ -3429,6 +3429,34 @@ function validate_image_file($file, $ext = null)
     return $imgObj->ValidateImage($file, $ext);
 }
 
+function get_private_thumb( $object, $output = null ) {
+    /* Calling custom function */
+    $funcs = cb_get_functions('private_thumb');
+    if (is_array($funcs))
+    {
+        foreach ($funcs as $func)
+        {
+            if (function_exists($func['func']))
+            {
+                $thumb = $func['func']($object, $size, $output);
+                if ($thumb)
+                {
+                    return $thumb;
+                }
+            }
+        }
+    }
+    
+    $name = 'private.png';
+    $src = BASEURL.'/images/'.$name;
+    
+    if  ( $output ) {
+        return cb_output_img_tag( $src );
+    } else {
+        return $src;
+    }
+}
+
 function get_mature_thumb($object, $size = null, $output = null)
 {
 

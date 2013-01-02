@@ -599,6 +599,13 @@ a.playlist .playlist-items-thumb.playlist-4-items .item-thumb img {
     margin: 10px -11px -9px;
 }
 
+.view-channel-box-connector {
+    background: #ccc;
+    height: 18px;
+    width: 3px;
+    margin: -11px auto -1px;
+}
+
 .view-channel-box .view-channel-box-header .view-channel-box-header-right {
     position: absolute;
     right: 0px;
@@ -890,6 +897,64 @@ a.playlist .playlist-items-thumb.playlist-4-items .item-thumb img {
 .user-video-block .user-video-thumb img, .user-photo-block .user-photo-thumb img  {
     max-width: none;
     width: 100%; 
+}
+
+.view-channel-box.user-pages-navigation-container {
+    padding: 10px 0px;
+}
+
+.user-pages-navigation {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 3px;
+    margin: -10px 0px;
+}
+
+.user-pages-navigation .user-pages-list {
+    display: table-row;
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+.user-pages-navigation .user-pages-list li {
+    display: table-cell;
+    font-family: 'Open Sans', "Helvetica Neue",Helvetica,Arial,sans-serif;
+    position: relative;
+}
+
+.user-pages-navigation .user-pages-list li a {
+    display: block;
+    padding: 14px 18px;
+    color: #666;
+    font-size: 18px;
+    font-weight: lighter;
+}
+
+.user-pages-navigation .user-pages-list li a:hover, .user-pages-navigation .user-pages-list li.active a {
+    text-decoration: none;
+    background: rgba( 0, 109, 204, 0.5 );
+    color: white;
+}
+
+.user-pages-navigation .user-pages-list li.active a {
+    background : rgb(2, 142, 207);
+}
+
+.user-pages-navigation .user-pages-list li:first-child a {
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.user-pages-navigation .user-pages-list li:last-child a {
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.user-pages-navigation .user-pages-list li a span {
+    position: absolute;
+    right: 25px; 
 }
 
 ul.user-contacts {

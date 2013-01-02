@@ -519,12 +519,6 @@ class CBPhotos {
         }
         list ( $join, $alias ) = join_collection_table();
         
-//        if ( $cond ) {
-//            $cond .= " AND ";
-//        }
-        
-        //$cond .= ' '.tbl('collections.broadcast').' = "public" ';
-        
         if ( !$p['count_only'] && !$p['show_related'] ) {
             if ( $cond != "" )
                 $cond .= " AND ";

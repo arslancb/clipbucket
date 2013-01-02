@@ -8,7 +8,6 @@
 
 .search-header {
     position: relative;
-    z-index: 1000;
 }
 
 .search-header button.btn {
@@ -101,6 +100,7 @@
     position: absolute;
     width: 100%;
     box-sizing: border-box;
+    z-index: 1;
 }
 
 .search-advance-options input[type=text], .search-advance-options select {

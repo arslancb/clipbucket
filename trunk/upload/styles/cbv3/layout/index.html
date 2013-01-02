@@ -1,24 +1,18 @@
 <div id="global-container" class="relative clearfix">
     <div class="global-navigation-column pull-left">
         <div class="cb-widget clearfix">
-            {if $userquery->login_check('',true)}
-                <div class="relative clearfix index-channel-block">
-                    <img src="{avatar details=$userquery->udetails}" class="pull-left channel-profile-image"/>
-                    <ul class="pull-left margin0">
-                        <li><a href="{$userquery->profile_link($userquery->udetails)}" title="{lang code='View Channel'}" class="cb-tooltip"><i class="icon icon-user icon-white"></i></a></li>
-                        <li><a href="{link name='my_account'}" title="{lang code='My Account'}" class="cb-tooltip"><i class="icon icon-lock icon-white"></i></a></li>
-                        <li><a href="edit_account.php?mode=account" title="{lang code='Channel Settings'}" class="cb-tooltip"><i class="icon icon-cog icon-white"></i></a></li>
-                        <li><a href="manage_videos.php" title="{lang code='My Videos'}" class="cb-tooltip"><i class="icon icon-film icon-white"></i></a></li>
-                        <li><a href="manage_photos.php" title="{lang code='My Photos'}" class="cb-tooltip"><i class="icon icon-picture icon-white"></i></a></li>
-                        <li><a href="{link name='logout'}" title="{lang code='Logout'}" class="cb-tooltip"><i class="icon icon-off icon-white"></i></a></li>
-                    </ul>                  
-                </div>
-            {else}
-                <div class="relative clearfix global-channel-block not-logged-in">
-                    <h4 class="marginB10">{lang code='Login to upload videos and much more'}</h4>
-                    <button class="btn btn-inverse btn-large text-center btn-block"  data-target="#login-modal" data-toggle="modal">Login</button>
-                </div>
-            {/if}
+            {$is_user=$userquery->login_check('',true)}
+            <div class="relative clearfix index-channel-block">
+                <div style="height: 161px; width: 161px;"><img src="{avatar details=$userquery->udetails}" class="pull-left channel-profile-image" width="161" height="161" /></div>
+                <ul class="pull-left margin0">
+                    <li><a href="{if $is_user}{$userquery->profile_link($userquery->udetails)}{else}{link name='login'}{/if}" title="{lang code='View Channel'}" class="cb-tooltip"><i class="icon icon-user icon-white"></i></a></li>
+                    <li><a href="{if $is_user}{link name='my_account'}" title="{lang code='My Account'}{else}{link name='login'}{/if}" class="cb-tooltip"><i class="icon icon-lock icon-white"></i></a></li>
+                    <li><a href="{if $is_user}edit_account.php?mode=account{else}{link name='login'}{/if}" title="{lang code='Channel Settings'}" class="cb-tooltip"><i class="icon icon-cog icon-white"></i></a></li>
+                    <li><a href="{if $is_user}manage_videos.php{else}{link name='login'}{/if}" title="{lang code='My Videos'}" class="cb-tooltip"><i class="icon icon-film icon-white"></i></a></li>
+                    <li><a href="{if $is_user}manage_photos.php{else}{link name='login'}{/if}" title="{lang code='My Photos'}" class="cb-tooltip"><i class="icon icon-picture icon-white"></i></a></li>
+                    <li class="{if $is_user}user-logged-in{else}user-logged-out{/if}"><a href="{if $is_user}{link name='logout'}{else}{link name='login'}{/if}" title="{if $is_user}{lang code='Logout'}{else}{lang code='Login'}{/if}" class="cb-tooltip"><i class="icon icon-off icon-white"></i></a></li>
+                </ul>                  
+            </div>
         </div>
         
         {if has_sidebar('index-sidebar-left')}
@@ -66,9 +60,9 @@
     </div>
     <div id="global-navgiation-full-height"></div>
 
-    <div class="pull-left">
+    <div class="pull-left" style="width: 900px;">
     {if is_installed('editorspick')}
-        <div class="marginB10 clear cbv3-editors-pick {if $editor_picks}editor-pick-has-videos{else}editor-pick-no-videos{/if} clearfix">
+        <div class="marginB10 clear cbv3-editors-pick {if $editor_picks}editor-pick-has-videos{else}editor-pick-no-videos{/if} clearfix relative">
             {if $editor_picks}
             <div id="ep_video_container" style="min-height: 292px;">{include_template_file file="blocks/editor_pick/video_block.html" video=$editor_picks.0}</div>
                 
@@ -85,11 +79,34 @@
                 </span>
             </div>
             {/if}
+            
+            <div class="absolute editor-pick-advertisment">
+                {AD place='ad_300x250'}
+            </div>
         </div>
     {/if}
+    
+    {$videos=get_videos(['limit'=>15])}
+    {if $videos}
+        {$heading='Latest Videos'}
+        {$more_mode='recent'}
+    {/if}
+    <div style="padding-left: 10px; background: whitesmoke; border-bottom: 8px solid white; margin-top: -10px;" class="clearfix">
+        {if $videos}
+            <h3 class="marginB10"><a href="{link name=sort sort=$more_mode type=videos}">{$heading}</a></h3>
+
+            <div class="carousel slide" id="latest-videos">
+                {foreach $videos as $video}
+                    {include_template_file file='blocks/video.html' video=$video display_method=''}
+                {/foreach}
+            </div>
+
+        {/if}
+    </div>
+    
     <div class="global-sidebar-column pull-right">
         <div class="cb-widget">
-            <img src="http://placehold.it/300x250" width="300" height="250" />
+            {AD place=ad_300x600}
         </div>
         {if has_sidebar('index-sidebar-right')}
             {sidebar('index-sidebar-right')}
@@ -107,45 +124,7 @@
     </div>
 
     <div class="global-content-column pull-left">
-        {$videos=get_videos(['limit'=>15])}
-        {if $videos}
-            {$heading='Latest Videos'}
-            {$more_mode='recent'}
-        {/if}
-        <div class="row-fluid">
-            <div>
-                {if $videos}
-                    <h3 class="marginB10"><a href="{link name=sort sort=$more_mode type=videos}">{$heading}</a></h3>
-                    
-                    <div class="carousel slide" id="latest-videos">
-                        {foreach $videos as $video}
-                            {include_template_file file='blocks/video.html' video=$video display_method=''}
-                        {/foreach}
-                    </div>
-                   
-                {/if}
-            </div>
-            
-            <!-- <script type="text/javascript">
-                $('.carousel').carousel({
-                    interval: 4000
-                })
-            </script>
-            -->
-   <!--         <div class="span4 pull-right">
-                <h3 class="marginB10">Being Watched</h3>
-                    {$last_viewed=get_videos(['limit'=>'8','order'=>' last_viewed DESC'])}
-                    {if $last_viewed}
-                    <div class="cbv3-scroller">
-                        {foreach $last_viewed as $video}
-                        <div class="block height100 overflow-hidden {if !$video@last}marginB10{/if} popover-classx" title="{$video.title|truncate:25}" data-title="{$video.title|truncate:25}" data-content="<img src='{avatar uid=$video.userid size=small}' class='marginR10 marginB10 pull-left' width='40' height='40' style='vertical-align:top' /><span class='block marginB5 muted' style='font-size:11px; text-transform:uppercase'>{$video.username} - {$video.duration|setTime}</span> {$video.description|truncate:150}" data-placement="top">
-                            <a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" style="width: 100%;" class="block" /></a>
-                        </div>
-                        {/foreach}                        
-                    </div>
-                    {/if}
-            </div> -->
-        </div>
+        
         {$featured_videos=get_videos(['limit'=>8,'featured'=>'yes'])}
         {if $featured_videos}
         <div class="featured-middle-content" id="featured-videos-wrapper">
@@ -154,38 +133,18 @@
                 <div class="carousel-inner">
                     <div class="inlineblock-fix">
                         {foreach $featured_videos as $ftvideo}
-                            {$vthumbs=get_thumb($ftvideo,'default',true,false,true,true)}
-                            
-                            {*get only big from array start*}
-                                {$vvthumbs=array()}
-                                {foreach $vthumbs as $vthumb}
-                                    {if strpos($vthumb,'big') !== false}
-                                        {$vvthumbs[]=$vthumb}
-                                    {/if}
-                                {/foreach}
-                                {$vthumbs=$vvthumbs}
-                            {*get only big from array end*}
-                            
-                            {$total_thumbs=count($vthumbs)}
+
                             {if $ftvideo@first || $open_tag=='true'}
                                 {$open_tag=''}
                                 <div class="item {if $ftvideo@first}active{/if}">
                             {/if}
                             <a href="{videoLink vdetails=$ftvideo}" class="featured-video-block">
                                 <div class="featured-video-inner-block">
-                                    <div class="featured-video-thumb-block thumbs-{count($vthumbs)} {if $total_thumbs == 1}one-thumb{elseif $total_thumbs == 2}two-thumbs{elseif $total_thumbs >= 3}three-thumbs{/if}">
-                                        {$true=shuffle($vthumbs)}
-                                        {foreach $vthumbs as $vthumb}
-                                            {if $vthumb@iteration <= 2}
-                                                <div class="featured-video-thumb small"><img src="{$vthumb}" /></div>
-                                            {/if}
-                                            {if $vthumb@iteration == 3}
-                                                <div class="featured-video-thumb"><img src="{$vthumb}" /></div>
-                                            {/if}
-                                        {/foreach}
+                                    <div class="featured-video-thumb-block thumbs-1 one-thumb">
+                                        <img src="{getThumb vdetails=$ftvideo size='300x250' num='big'}" class="featured-video-thumb small" />
                                     </div>
                                     <h4>{$ftvideo.title}</h4>
-                                    <p>{$ftvideo.description|description|strip_tags}</p>
+                                    <p>{$ftvideo.description|description|strip_tags|truncate:70}</p>
                                 </div>
                             </a>
                             {if $ftvideo@iteration % 2 == 0 || $ftvideo@last}
@@ -200,8 +159,7 @@
             </div>
         </div>
         {/if}
-        {AD place='ad_468x60'}
-        
+                
         {$photos=get_photos(['limit'=>9])}
         {if $photos}
             {$heading='Latest Photos'}

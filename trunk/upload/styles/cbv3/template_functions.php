@@ -135,4 +135,5 @@ function cbv3_photo_tagger_options( $options ) {
 }
 
 register_filter( 'tagger_configurations', 'cbv3_photo_tagger_options' );
+
 ?>

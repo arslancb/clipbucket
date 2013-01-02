@@ -16,7 +16,7 @@
                 <div class="absolute" style="bottom: 5px; right: 5px; opacity: 0.8; cursor: default;">
                     {if $photo.photo_id == $photo.cover_photo }<span class="label label-info marginR5">{lang code='Cover photo'}</span>{/if}{if $photo.featured == 'yes'}<span class="label label-success marginR5">{lang code='Featured'}</span>{/if}{if $photo.is_mature == 'yes'}<span class="label label-important" title="{lang code='Login is required to view this photo'}">{lang code='Mature'}</span>{/if}
                 </div>
-                <img src="{get_photo size='l' details=$p}" class="new-photo-preview" />
+                <img src="{get_photo size='l' details=$p}" class="new-photo-preview cbv3-center-image" />
             </div>
         </div>
         {assign var='reqFields'  value=$cbphoto->load_required_forms( $p )}

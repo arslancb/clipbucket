@@ -1455,6 +1455,30 @@ function _recheck_photo_code( $params ) {
     }
 }
 
+function get_private_photo_thumb( $params ) {
+    global $userquery;
+    $private = false;
+    $output = $params['output'];
+    
+    if ( $params['photo'] || $params['details'] ) {
+        $photo = $params['photo'] ? $params['photo'] : $params['details'];
+
+        if ( $photo['broadcast'] == 'private' ) {
+            if ( !userid() ) {
+                $private = true;
+            } else if ( userid() && userid() != $photo['userid'] && !$userquery->is_confirmed_friend( $photo['userid'], userid() ) ) {
+                $private = true;
+            } else if ( userid() && userid() == $photo['userid'] ) {
+                $private = false;
+            }
+        }
+    }
+    
+    if ( $private ) {
+        return get_private_thumb( $photo, $output );
+    }
+}
+
 /**
  * Updated version of getting photo file. In this function
  * we dont use glob() function to first get all thumbs and
@@ -1463,7 +1487,7 @@ function _recheck_photo_code( $params ) {
  * thumb else return default thumb.
  */
 function get_image_file ( $params ) {
-    global $cbphoto;
+    global $cbphoto,$Cbucket;
     $details = $params['details'];
     $output = $params['output'];
     $sizes = $params['size'] ? $params['size'] : ( $params['code'] ? $params['code'] : 't' );
@@ -1471,21 +1495,9 @@ function get_image_file ( $params ) {
     if ( empty( $details) ) {
         return $cbphoto->default_thumb( $size, $output );
     } else {
-        // Call custom functions
-         if ( count( $Cbucket->custom_get_photo_funcs ) > 0 ) {
-            foreach ( $Cbucket->custom_get_photo_funcs as $funcs ) {
-                if ( function_exists( $funcs ) ) {
-                    $func_returned = $funcs( $params );
-                    if ( $func_returned ) {
-                        return $func_returned;
-                    }
-                }
-            }
-        }
-        
         // Make sure photo exists
         if ( !is_array( $details ) ) {
-            $photo = $cbphoto->get_photo( $details );
+            $photo = $cbphoto->get_photo( $details, true );
         } else {
             $photo = $details;
         }
@@ -1498,6 +1510,18 @@ function get_image_file ( $params ) {
             } else {
                 
                 $params['photo'] = $photo;
+
+                // Call custom functions
+                if ( count( $Cbucket->custom_get_photo_funcs ) > 0 ) {
+                   foreach ( $Cbucket->custom_get_photo_funcs as $funcs ) {
+                       if ( function_exists( $funcs ) ) {
+                           $func_returned = $funcs( $params );
+                           if ( $func_returned ) {
+                               return $func_returned;
+                           }
+                       }
+                   }
+               }
                 
                 if ( $details['is_mature'] == 'yes' && !userid() ) {
 				return get_mature_thumb( $details, $size, $output );

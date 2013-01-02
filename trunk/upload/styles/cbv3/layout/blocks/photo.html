@@ -40,7 +40,7 @@
 
 {if $display_method == 'view_collection'}
 <div  class="view-collection-photos item-block image-not-loaded-background">
-    <a href="{view_photo_link($photo)}" class="block image-not-loaded-background relative collection-photo">
+    <a href="{view_photo_link($photo)}" class="block relative collection-photo">
         <div class="view-collection-photos-views display-none">{$photo.views|number_format} {lang code='views'}</div>
         {get_photo details=$photo size='m' output='html'}
     </a>

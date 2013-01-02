@@ -43,7 +43,7 @@ if($udetails)
 			$total_rows = get_videos(array('user'=>$udetails['userid'],'count_only'=>true));
 			subtitle(sprintf(lang("users_videos"),$udetails['username']));
 			$total_pages = count_pages($total_rows,config('videos_items_uvid_page'));
-
+                assign('mode','uploaded');
 		}
 		break;
 		case 'favorites':
@@ -56,6 +56,7 @@ if($udetails)
 			$total_rows = $cbvid->action->get_favorites($params);
 			subtitle(sprintf(lang("title_usr_fav_vids"),$udetails['username']));
 			$total_pages = count_pages($total_rows,config('videos_items_ufav_page'));
+                assign('mode','favorite');
 		}
 	}
 	

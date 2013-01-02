@@ -41,6 +41,7 @@ if($user)
 			$photos = get_photos(array("limit"=>$limit,"user"=>$user['userid']));
 			$total_rows = get_photos(array("count_only"=>true,"user"=>$user['userid']));
 			$total_pages = count_pages($total_rows,config('photo_user_photos'));
+                assign('mode','uploaded');
 		}
 		break;
 		
@@ -55,6 +56,7 @@ if($user)
 			$favP['count_only'] = true;
 			$total_rows = $cbphoto->action->get_favorites($favP);
 			$total_pages = count_pages($total_rows,config('photo_user_favorites'));
+                assign('mode','favorite');
 		}
 		break;
 	}
