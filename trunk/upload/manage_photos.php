@@ -140,13 +140,13 @@ switch($mode)
         if ( $udetails['avatar_collection'] ) {
             $collection = $cbcollection->get_collection( $udetails['avatar_collection'] );
             if ( $collection ) {
-                $po = $_GET['omo'] ? mysql_clean($_GET['omo']) : (int)0;
-                      
-                if ( !$orders[$po] ) {
-                    $order = tbl('photos.date_added desc');
-                } else {
-                    $order = $orders[$po]['order'];
+                
+                if( isset($_GET['delete_photo']) )
+                {
+                  $id = mysql_clean($_GET['delete_photo']);
+                  $cbphoto->delete_photo( $id );	
                 }
+                
                 $photos = $cbphoto->collection->get_collection_items_with_details( $collection['collection_id'], $order );
                 
                 assign( 'collection', $collection );
