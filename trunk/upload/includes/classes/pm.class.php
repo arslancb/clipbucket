@@ -1148,9 +1148,10 @@ class cb_pm
         $thread_id = $tid;
 
         $query = "  SELECT $the_fields FROM " . tbl('recipients') . " as r";
-        $query .= " INNER JOIN " . tbl('threads') . ' as t ON ';
+        $query .= " INNER JOIN ( SELECT * FROM " . tbl('threads') ." WHERE thread_id='$tid' LIMIT 1) as t ON ";
         $query .= ' t.thread_id=r.thread_id ';
-        $query .= " INNER JOIN ( SELECT * FROM " . tbl('messages') . ' ORDER BY date_added ASC LIMIT 1)';
+        $query .= " INNER JOIN ( SELECT * FROM " . tbl('messages')." WHERE thread_id='$tid' "; 
+        $query .= ' ORDER BY date_added ASC LIMIT 1)';
         $query .= '  as m ON t.thread_id=m.thread_id ';
         $query .= " INNER JOIN " . tbl('recipients') . " as tr ON ";
         $query .= " t.thread_id = tr.thread_id";
@@ -1170,13 +1171,15 @@ class cb_pm
             return false;
         }
         
+
+        
         if(get_where())
             $query .= " WHERE ".get_where();
         
         end_where();
         
         $results = db_select($query);
-
+        
         $the_results = array();
         foreach ($results as $result)
         {
