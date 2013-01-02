@@ -20,7 +20,7 @@ $u = $u ? $u : $_GET['username'];
 $u = $u ? $u : $_GET['uid'];
 $u = $u ? $u : $_GET['u'];
 
-$user = $userquery->get_user_details($u);
+$user = $udetails = $userquery->get_user_details($u);
 $page = mysql_clean($_GET['page']);
 
 if($user)

@@ -1569,7 +1569,7 @@ class userquery extends CBCategory
 
 
         if (file_exists($thumb_file) && $thumbnail)
-            $thumb_file = USER_THUMBS_URL . '/' . $thumbnail;
+            $thumb = USER_THUMBS_URL . '/' . $thumbnail;
         elseif (!empty($udetails['avatar_url']))
         {
             $thumb = $udetails['avatar_url'];
@@ -1614,9 +1614,9 @@ class userquery extends CBCategory
         if (!$remote)
         {
             if (!empty($size) && !$thumb)
-                $thumb = USER_THUMBS_URL . '/' . $file . '-' . $size . '.' . $ext;
+                $thumb = $this->get_default_thumb('small');
             elseif (!$thumb)
-                $thumb = USER_THUMBS_URL . '/' . $file . '.' . $ext;
+                $thumb = $this->get_default_thumb();
         }
 
         if ($just_file)
@@ -1639,7 +1639,7 @@ class userquery extends CBCategory
         {
             return TEMPLATEURL . '/images/thumbs/no_avatar-small.png';
         }
-        elseif (file_exists(TEMPLATEDIR . '/images/thumbs/no_avatar.png') && !$size)
+        elseif ( file_exists(TEMPLATEDIR . '/images/thumbs/no_avatar.png') && !$size )
         {
             return TEMPLATEURL . '/images/thumbs/no_avatar.png';
         }
