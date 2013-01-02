@@ -3,7 +3,7 @@
 {include file="$style_dir/global_header.html"}
 {$user_videos=get_videos(['user'=>$u.userid,'limit'=>6])}
 {$user_photos=get_photos(['user'=>$u.userid,'limit'=>6])}
-{$user_contacts=$userquery->get_json_friends($u.userid)}
+{$user_contacts=$userquery->get_contacts($u.userid, 0, "yes")}
 
 <body class="relative view_channel">
     {display_user_custom_background( $u )}
