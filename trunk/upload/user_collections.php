@@ -37,7 +37,7 @@ if($user)
 		default:
 		{
 			$limit = create_query_limit($page,config('collection_user_collections'));
-			assign("the_title",$user['username']." ".lang('collections'));
+			assign("the_title",name( $udetails )." ".lang('collections'));
 			$collections = get_collections(array("limit"=>$limit,"user"=>$user['userid']));
 			$total_rows = get_collections(array("count_only"=>true,"user"=>$user['userid']));
 			$total_pages = count_pages($total_rows,config('collection_user_collections'));
@@ -55,7 +55,7 @@ if($user)
 		case "favorite":
 		{
 			$limit = create_query_limit($page,config('collection_user_favorites'));
-			assign("the_title",$user['username']." ".lang('favorite')." ".lang('collections'));
+			assign("the_title",name( $udetails )." ".lang('favorite')." ".lang('collections'));
 			$favC = array("user"=>$user['userid'],"limit",$limit);
 			$collections = $cbcollection->action->get_favorites($favC);
 			$favC['count_only'] = true;

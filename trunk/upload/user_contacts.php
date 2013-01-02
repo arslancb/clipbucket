@@ -37,7 +37,7 @@ if($udetails)
 			assign('p',$userquery->get_user_profile($udetails['userid']));
 			assign('mode',$mode);
 			assign('friends',$userquery->get_contacts($udetails['userid'],0,"yes"));
-                subtitle(sprintf(lang("users_contacts"),$udetails['username']));
+                subtitle(sprintf(lang("users_contacts"),name( $udetails )));
 		}
 		break;
 		
@@ -48,7 +48,7 @@ if($udetails)
                 assign('the_title',sprintf(lang('user_subscriptions'),$udetails['username']));
 			assign('userSubs',$userquery->get_user_subscriptions($udetails['userid'],NULL));
                 assign('no_subs_found', lang('User has no subscriptions') );
-                subtitle(sprintf(lang('user_subscriptions'),$udetails['username']));
+                subtitle(sprintf(lang('user_subscriptions'),name( $udetails )));
 		}
 		break;
 		
@@ -59,7 +59,7 @@ if($udetails)
                 assign('the_title',sprintf(lang('users_subscribers'),$udetails['username']));
 			assign('userSubs',$userquery->get_user_subscribers_detail($udetails['userid'],NULL));
                 assign('no_subs_found', lang('User has no subscribers') );
-                subtitle(sprintf(lang('users_subscribers'),$udetails['username']));
+                subtitle(sprintf(lang('users_subscribers'),name( $udetails )));
 		}
 		break;
 	}

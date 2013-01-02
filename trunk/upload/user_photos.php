@@ -37,7 +37,7 @@ if($user)
 		default:
 		{
 			$limit = create_query_limit($page,config('photo_user_photos'));
-			assign("the_title",$user['username']." ".lang('photos'));
+			assign("the_title",name( $udetails )." ".lang('photos'));
 			$photos = get_photos(array("limit"=>$limit,"user"=>$user['userid']));
 			$total_rows = get_photos(array("count_only"=>true,"user"=>$user['userid']));
 			$total_pages = count_pages($total_rows,config('photo_user_photos'));
@@ -50,7 +50,7 @@ if($user)
 		case "favorite":
 		{
 			$limit = create_query_limit($page,config('photo_user_favorites'));
-			assign("the_title",$user['username']." ".lang('Favorite')." ".lang('photos'));
+			assign("the_title",name( $udetails )." ".lang('Favorite')." ".lang('photos'));
 			$favP = array("user"=>$user['userid'],"limit",$limit);
 			$photos = $cbphoto->action->get_favorites($favP);
 			$favP['count_only'] = true;
