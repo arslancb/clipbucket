@@ -683,14 +683,15 @@ class userquery extends CBCategory
         {
             if (is_numeric($id))
             {
-                $query = " SELECT userid FROM ".tbl('users'). " WHERE userid='$id' LIMIT 1";
-            }else
-            {
-                $query = " SELECT userid FROM ".tbl('users'). " WHERE username='$id' LIMIT 1";
+                $query = " SELECT userid FROM " . tbl('users') . " WHERE userid='$id' LIMIT 1";
             }
-            
+            else
+            {
+                $query = " SELECT userid FROM " . tbl('users') . " WHERE username='$id' LIMIT 1";
+            }
+
             $results = db_select($query);
-            
+
             if ($results)
             {
                 return $results[0]['userid'];
@@ -897,9 +898,16 @@ class userquery extends CBCategory
 
     /**
      * Function used to add contact
+     * 
+     * @deprecated since 3
      */
     function add_contact($uid, $fid)
     {
+
+        return $this->add_friend_request($uid, $fid);
+
+        // Deprecated
+
         global $cbemail, $db;
 
         $friend = $this->get_user_details($fid);
@@ -961,13 +969,25 @@ class userquery extends CBCategory
     }
 
     /**
-     * function used to check weather users are firends or not
+     * function used to check friend
+     * 
+     * @global type $db
+     * @param type $uid
+     * @param type $fid
+     * @return boolean
      */
     function is_friend($uid, $fid)
     {
-        global $db;
-        $count = $db->count(tbl($this->dbtbl['contacts']), "contact_id", " (userid='$uid' AND contact_userid='$fid') OR (userid='$fid' AND contact_userid='$uid')");
-        if ($count[0] > 0)
+        $uid = mysql_clean($uid);
+        $fid = mysql_clean($fid);
+
+        $query = "SELECT contact_id FROM " . tbl('contacts');
+        $query .= " WHERE userid='$uid' AND contact_userid='$fid' ";
+        $query .= " LIMIT 1";
+
+        $results = db_select($query);
+
+        if ($results)
             return true;
         else
             return false;
@@ -975,6 +995,8 @@ class userquery extends CBCategory
 
     /**
      * Function used to check weather user has already requested friendship or not
+     * 
+     * @deprecated since v3
      */
     function is_requested_friend($uid, $fid, $type = 'out', $confirm = NULL)
     {
@@ -998,75 +1020,182 @@ class userquery extends CBCategory
 
     /**
      * Function used to confirm friend
+     * 
+     * @param INT $uid Userid of one who is confirming
+     * @param INT $rid Request ID
+     * 
+     * @return INT $cid Contact ID
      */
     function confirm_friend($uid, $rid, $msg = TRUE)
     {
         global $cbemail, $db;
-        if (!$this->is_requested_friend($rid, $uid, 'out', 'no'))
+        
+        $uid = mysql_clean($uid);
+        
+        $request = $this->get_request($rid);
+        
+        if (!$request)
         {
             if ($msg)
-                e(lang("friend_confirm_error"));
-        }else
-        {
-            addFeed(array('action' => 'add_friend', 'object_id' => $rid, 'object' => 'friend', 'uid' => $uid));
-            addFeed(array('action' => 'add_friend', 'object_id' => $uid, 'object' => 'friend', 'uid' => $rid));
-
-            $db->insert(tbl($this->dbtbl['contacts']), array('userid', 'contact_userid', 'date_added', 'request_type', 'confirmed'), array($uid, $rid, now(), 'in', 'yes'));
-            $db->update(tbl($this->dbtbl['contacts']), array('confirmed'), array("yes"), " userid='$rid' AND contact_userid='$uid' ");
-            if ($msg)
-                e(lang("friend_confirmed"), "m");
-            //Sending friendship confirmation email
-            $tpl = $cbemail->get_template('friend_confirmation_email');
-
-            $friend = $this->get_user_details($rid);
-            $sender = $this->get_user_details($uid);
-
-            $more_var = array
-                (
-                '{reciever}' => $friend['username'],
-                '{sender}' => $sender['username'],
-                '{sender_link}' => $this->profile_link($sender),
-            );
-            if (!is_array($var))
-                $var = array();
-            $var = array_merge($more_var, $var);
-            $subj = $cbemail->replace($tpl['email_template_subject'], $var);
-            $msg = nl2br($cbemail->replace($tpl['email_template'], $var));
-
-
-            //Now Finally Sending Email
-            cbmail(array('to' => $friend['email'], 'from' => WEBSITE_EMAIL, 'subject' => $subj, 'content' => $msg));
-
-
-            //Loggin Friendship
-
-            $log_array = array
-                (
-                'success' => 'yes',
-                'action_obj_id' => $friend['userid'],
-                'details' => "friend with " . $friend['username']
-            );
-
-            insert_log('add_friend', $log_array);
-
-            $log_array = array
-                (
-                'success' => 'yes',
-                'username' => $friend['username'],
-                'userid' => $friend['userid'],
-                'userlevel' => $friend['level'],
-                'useremail' => $friend['email'],
-                'action_obj_id' => $insert_id,
-                'details' => "friend with " . userid()
-            );
-
-            //Login Upload
-            insert_log('add_friend', $log_array);
+                e(lang("There was no friend request"));
+            
+            return false;
         }
+        
+        if($request['friend_id']!=$uid)
+        {
+            if($msg)
+                e(lang('Friend request was not for you'));
+            
+            return false;
+        }
+        
+        //Get friend information
+        $fid = $request['userid'];
+        $friend = get_basic_user_details($fid);
+        
+        if($uid==userid())
+            $me = $this->udetails;
+        else
+            $me = get_basic_user_details($uid);
+        
+        if(!$friend)
+        {
+            if($msg)
+                e(lang('Friend seems missing'));
+            return false;
+        }
+        
+        //Our system will add two rows..
+        
+        $me_fields = array(
+            'userid'    => $uid,
+            'contact_userid'    => $friend['userid'],
+            'confirmed'     => 'yes',
+            'request_type'  => 'in',
+            'date_added'     => now()
+        );
+        
+        $cid = db_insert(tbl('contacts'),$me_fields);
+        
+        $friend_fields = array(
+            'userid'    => $friend['userid'],
+            'contact_userid'    => $uid,
+            'confirmed'     => 'yes',
+            'request_type'  => 'out',
+            'date_added'     => now()
+        );
+        
+        db_insert(tbl('contacts'),$friend_fields);
+        
+        //Now we are going add a feed
+        global $cbfeeds;
+        $me_feed = array(
+            'action'    => 'added_friend',
+            'user'      => $me,
+            'userid'    => $uid,
+            
+            'object'    => $friend,
+            'object_id' => $fid,
+            'object_type' => 'user',
+            
+            'is_activity'   => 'yes'
+        );
+        
+        $me_feed_id = $cbfeeds->add_feed($me_feed);
+        
+        //Now add feed for other user..
+        
+        $friend_feed = array(
+            'action'    => 'added_friend',
+            'user'      => $friend,
+            'userid'    => $fid,
+            
+            'object'    => $me,
+            'object_id' => $uid,
+            'object_type' => 'user',
+            
+            'is_activity'   => 'yes'
+        );
+        
+        $friend_feed_id = $cbfeeds->add_feed($friend_feed);
+        
+        //Now send notification to the friend that me has accepted your friend request
+        $notify_array = array(
+            'userid'    => $fid,
+            'actor'     => $me,
+            'actor_id'  => $uid,
+            'action'   => 'confirmed_friend'
+        );
+        
+        $cbfeeds->add_notification($notify_array);
+        
+        //Now finally remove any friend requests...
+        
+        $query = " DELETE FROM ".tbl('friend_requests');
+        $query .= " WHERE (userid='$fid' AND friend_id='$uid') OR ";
+        $query .= " (friend_id='$fid' AND userid='$uid' ) ";
+        
+        $db->execute($query);
+        
+        if($msg)
+            e(sprintf(lang('%s has been confirmed as friend'),name($friend)),'m');
+        
+        if($cid)
+        {
+            return $cid;
+        }
+        
+    }
+    
+    
+    /**
+     * Ingnoring a friend request...hmm hide it basically
+     * 
+     * @param INT $uid User ID of one who is ignoring
+     * @param INT $rid Request ID
+     * @return BOOLEAN 
+     */
+    function ignore_friend($uid,$rid)
+    {
+        $uid = mysql_clean($uid);
+        
+        $request = $this->get_request($rid);
+        
+        if (!$request)
+        {
+            if ($msg)
+                e(lang("There was no friend request"));
+            
+            return false;
+        }
+        
+        if($request['friend_id']!=$uid)
+        {
+            if($msg)
+                e(lang('Friend request was not for you'));
+            
+            return false;
+        }
+        
+        $fields = array(
+            'ignored'    => 'yes'
+        );
+        
+        $fid = $request['userid'];
+        
+        db_update(tbl('friend_requests'),$fields," userid='$fid' AND friend_id='$uid' ");
+        
+        e(lang('Request will be hidden now'),"m");
+        
+        return true;
     }
 
     /**
      * Function used to confirm request
+     * 
+     * @deprecated since v3
+     * use this::confirm_friend(); instead
      */
     function confirm_request($rid, $uid = NULL)
     {
@@ -1096,23 +1225,42 @@ class userquery extends CBCategory
     function get_contacts($uid, $group = 0, $confirmed = NULL, $count_only = false, $type = NULL)
     {
         global $db;
+        
+        $uid = mysql_clean($uid);
+        $group = mysql_clean($group);
+        
+        if(!$confirmed)
+            $confirmed = 'yes';
 
         $query = "";
         if ($confirmed)
-            $query .= " AND " . tbl("contacts") . ".confirmed='$confirmed' ";
+            $query_cond .= " AND c.confirmed='$confirmed' ";
         if ($type)
-            $query .= " AND " . tbl("contacts") . ".request_type='$type' ";
+            $query_cond .= " AND c.request_type='$type' ";
+        
         if (!$count_only)
         {
-
-            $result = db_select("SELECT * from " . tbl('contacts') . " LEFT JOIN "
-                    . tbl('users') . " ON " . tbl('contacts.contact_userid') . ' = ' . tbl('users.userid')
-                    . " WHERE " . tbl("contacts.userid") . "='$uid' " . $query . " AND "
-                    . tbl("contacts") . ".contact_group_id='$group' ");
-
+            
+            $fields_arr = array(
+                'c' => array('contact_userid','confirmed','date_added','contact_group_id'),
+                'u' => get_user_fields(),
+            );
+            
+            $fields = tbl_fields($fields_arr);
+            
+            
+            $query = " SELECT ".$fields." FROM ".tbl('contacts')." AS c";
+            $query .= " LEFT JOIN " .tbl('users')." AS u ";
+            $query .= " ON c.contact_userid=u.userid ";
+            
+            $query .= " WHERE c.userid='$uid' $query_cond ";
+            $query .= " AND c.contact_group_id='$group' ";
+            
+            $results = db_select($query);
+            
             //echo $db->db_query;
             if ($db->num_rows > 0)
-                return $result;
+                return $results;
             else
                 return false;
         }else
@@ -1125,45 +1273,47 @@ class userquery extends CBCategory
 
     /**
      * Function used to get pending contacts
+     * 
+     * @deprecated since v3
      */
     function get_pending_contacts($uid, $group = 0, $count_only = false)
     {
         global $db;
-        
+
         $fields_arr = array(
             'c' => array(
-                'contact_id','userid','contact_userid','date_added'
+                'contact_id', 'userid', 'contact_userid', 'date_added'
             ),
             'u' => array(
-                'userid','username','email','first_name','last_name','avatar',
+                'userid', 'username', 'email', 'first_name', 'last_name', 'avatar',
                 'avatar_url'
             ),
         );
-        
+
         $fields = '';
-        foreach($fields_arr as $tbl => $tbl_fields)
-        {            
-            foreach($tbl_fields as $tbl_field)
+        foreach ($fields_arr as $tbl => $tbl_fields)
+        {
+            foreach ($tbl_fields as $tbl_field)
             {
-                if($fields)
-                $fields .=', ';
-                
-                $fields .= $tbl.'.'.$tbl_field;
+                if ($fields)
+                    $fields .=', ';
+
+                $fields .= $tbl . '.' . $tbl_field;
             }
         }
-        
-        
+
+
         if (!$count_only)
         {
-            $query = "SELECT ".$fields." FROM ".tbl('contacts')." AS c ";
-            $query .= " LEFT JOIN ".tbl('users')." AS u";
+            $query = "SELECT " . $fields . " FROM " . tbl('contacts') . " AS c ";
+            $query .= " LEFT JOIN " . tbl('users') . " AS u";
             $query .= " ON c.userid = u.userid ";
             $query .= " WHERE c.contact_userid='$uid' ";
             $query .= " AND c.confirmed='no' AND c.contact_group_id='$group' ";
-            
-            
+
+
             $result = db_select($query);
-            
+
             if ($db->num_rows > 0)
                 return $result;
             else
@@ -1191,22 +1341,68 @@ class userquery extends CBCategory
 
     /**
      * Function used to remove user from contact list
-     * @param fid {id of friend that user wants to remove}
-     * @param uid {id of user who is removing other from friendlist}
+     * 
+     * @param INT fid {id of friend that user wants to remove}
+     * @param INT uid {id of user who is removing other from friendlist}
+     * 
      */
     function remove_contact($fid, $uid = NULL)
     {
         global $db;
+        
+        $fid = mysql_clean($fid);
+        if($uid)
+            $uid = mysql_clean($uid);
+        
+        $friend = get_basic_user_details($fid);
+        
+        if(!$friend)
+        {
+            e(lang('Invalid user'));
+            return false;
+        }
+        
         if (!$uid)
             $uid = userid();
+        
         if (!$this->is_friend($fid, $uid))
-            e(lang("user_no_in_contact_list"));
+        {
+             e(sprintf(lang('You and %s are not friends'),name($friend)));
+             return false;
+        }
+        
         else
         {
-            $db->Execute("DELETE from " . tbl($this->dbtbl['contacts']) . " WHERE 
-						(userid='$uid' AND contact_userid='$fid') OR (userid='$fid' AND contact_userid='$uid')");
-            e(lang("user_removed_from_contact_list"), "m");
+            $query = " DELETE FROM ".tbl('contacts');
+            $query .= " WHERE (userid='$uid' AND contact_userid='$fid')";
+            $query .= " OR  (userid='$fid' AND contact_userid='$uid') ";
+            $db->execute($query);
+            //Concating Notification Query
+            
+            $query =" DELETE FROM ".tbl('notifications');
+            $query .= " WHERE action='confirmed_friend' ";
+            $query .= " AND ((actor_id='$uid' AND userid='$fid')) ";
+            $query .= " OR ((actor_id='$fid' AND userid='$uid')) ";
+            //$query .= " LIMIT 1;";
+            $db->execute($query);
+            
+            //Concating Feeds query
+            
+            $query =" DELETE FROM ".tbl('feeds');
+            $query .= " WHERE action='added_friend' ";
+            $query .= " AND ((userid='$uid' AND object_id='$fid' AND object_type='user')) ";
+            $query .= " OR ((userid='$fid' AND object_id='$uid' AND object_type='user')) ";
+            //$query .= " LIMIT 2;";
+            $db->execute($query);
+            
+            
+            return true;
         }
+    }
+    
+    function unfriend($fid,$uid)
+    {
+        return $this->remove_contact($fid,$uid);
     }
 
     /**
@@ -1639,7 +1835,7 @@ class userquery extends CBCategory
         {
             return TEMPLATEURL . '/images/thumbs/no_avatar-small.png';
         }
-        elseif ( file_exists(TEMPLATEDIR . '/images/thumbs/no_avatar.png') && !$size )
+        elseif (file_exists(TEMPLATEDIR . '/images/thumbs/no_avatar.png') && !$size)
         {
             return TEMPLATEURL . '/images/thumbs/no_avatar.png';
         }
@@ -3452,11 +3648,12 @@ class userquery extends CBCategory
                 $status = 'verified';
                 $welcome_email = 'yes';
             }
-            
-            if(config('user_moderation')=='yes')
+
+            if (config('user_moderation') == 'yes')
             {
                 $active = 'no';
-            }else
+            }
+            else
             {
                 $active = 'yes';
             }
@@ -3473,7 +3670,7 @@ class userquery extends CBCategory
                     $status = 'unverified';
                     $welcome_email = 'no';
                 }
-                
+
                 if ($array['active'] == 'yes')
                 {
                     $active = 'yes';
@@ -3489,7 +3686,7 @@ class userquery extends CBCategory
 
             $query_field[] = "status";
             $query_val[] = $status;
-            
+
             $query_field[] = "active";
             $query_val[] = $active;
 
@@ -3904,7 +4101,6 @@ class userquery extends CBCategory
             //Verifying a user
             case 'verify':
             case 'v':
-
                 {
                     $avcode = RandomString(10);
                     $db->update($tbl, array('status', 'avcode'), array('verified', $avcode), " userid='$uid' ");
@@ -5685,7 +5881,7 @@ class userquery extends CBCategory
                     );
                 }
                 break;
-            
+
             case "messages":
             case "msgs":
             case "new_msgs":
@@ -5696,7 +5892,7 @@ class userquery extends CBCategory
                     );
                 }
                 break;
-            
+
             case "friends":
             case "new_firends":
             case "friend_requests":
@@ -5707,18 +5903,204 @@ class userquery extends CBCategory
                 }
                 break;
         }
-        
+
         $where = " userid='$uid' ";
-        
-        if($fields)
+
+        if ($fields)
         {
             db_update(tbl('user_notifications'), $fields, $where);
-            
+
             return true;
         }
-        
+
         return false;
     }
+
+    /**
+     * Function used to add a friend request 
+     * 
+     * @param INT userid (one who is rquesting)
+     * @param INT friend_id (one whos userid is requesting)
+     * 
+     */
+    function add_friend_request($array)
+    {
+        $uid = $array['userid'];
+        $fid = $array['friend_id'];
+        $msg = $array['message'];
+        
+        if($fid==$uid && $uid)
+        {
+            e(lang('You cannot send friend request to yourself'));
+            return false;
+        }
+           
+        
+        iF(!userid())
+        {
+            e(lang('You are not logged in'));
+            return false;
+        }
+        
+        $friend = get_basic_user_details($fid);
+        $user = get_basic_user_details($uid);
+        
+        if(!$friend)
+        {
+            e(lang('Unknown user'));
+            return false;
+        }
+        
+        $fname = name($friend);
+        
+        if ($this->is_friend($uid, $fid))
+        {
+            e(sprintf(lang('You and %s are already friends'), $fname));
+            return false;
+        }
+        
+        if($this->is_friend_requested($uid,$fid))
+        {
+            e(sprintf(lang('You have already sent a friend request to %s'), $fname));
+            return false;
+        }
+        
+        //@todo : add restricions on sending requst >.<
+        
+        $db_fields = array(
+            'userid'    => $uid,
+            'message'   => $msg,
+            'friend_id' => $fid,
+            'time_added'    => time()
+        );
+        
+        $req_id = db_insert(tbl('friend_requests'),$db_fields);
+        
+        //Add Friend notification..
+        $this->new_notify($fid, 'new_friend_requests');
+        
+        e(sprintf(lang('Your friend request has been sent to %s'),$fname),'m');
+        
+        return $req_id;
+        
+    }
+    
+    /**
+     * Checking if user has requested friendship already or not
+     * 
+     * @param INT userid
+     * @param INT friendid
+     * 
+     */
+    function is_friend_requested($uid,$fid)
+    {
+        $uid = mysql_clean($uid);
+        $fid = mysql_clean($fid);
+        
+        $query = " SELECT req_id FROM ".tbl('friend_requests');
+        $query .= " WHERE userid='$uid' AND friend_id='$fid' ";
+        $query .= " LIMIT 1 ";
+        
+        $results = db_select($query);
+        
+        if($results)
+            return $results[0]['req_id'];
+        
+        
+    }
+    
+    
+    /**
+     * Get user friend requests
+     * 
+     * @param INT userid
+     * 
+     */
+    function get_friend_requests($uid,$params=NULL)
+    {
+        $uid = mysql_clean($uid);
+        
+        if(isset($params['ignored']))
+            $ignored = mysql_clean($params['ignored']);
+        if(isset($params['seen']))
+            $seen = mysql_clean($params['seen']);
+        
+        $fields_arr = array(
+            'r' => array('friend_id' ,'message','seen','ignored','time_added','req_id'),
+            'u' => get_user_fields(),
+        );
+        
+        $fields = tbl_fields($fields_arr);
+        
+        $query = "SELECT ".$fields." FROM ".tbl('friend_requests')." AS r";
+        $query .= " LEFT JOIN ".tbl('users')." AS u";
+        $query .= " ON u.userid=r.userid ";
+        $query .= " WHERE r.friend_id='$uid' ";
+        
+        if($ignored)
+            $query .= " AND r.ignored='$ignored' ";
+        if($seen)
+            $query .= " AND r.seen='$seen' ";
+        
+        $results = db_select($query);
+        
+        
+        if($results)
+            return $results;
+        else
+            return false;
+        
+    }
+    
+    
+    /**
+     * get request info from table
+     * 
+     * @param INT $rid Request ID
+     * @return ARRAY $req Request Details Array
+     */
+    function get_request($rid)
+    {
+        $rid = mysql_clean($rid);
+        
+        $fields_arr = array(
+            'userid', 'friend_id','message','seen','ignored','time_added'
+        );
+        
+        $fields = tbl_fields($fields_arr);
+        
+        $query = "SELECT ".$fields." FROM ".tbl('friend_requests');
+        $query .= " WHERE req_id='".$rid."' LIMIT 1";
+        
+        $results = db_select($query);
+        
+        if($results)
+        {
+            return $results[0];
+        }else{
+            return false;
+        }
+    }
+    
+    
+    /**
+     * Mark friend requests as seen
+     * 
+     * @param INT $uid Userid
+     */
+    function mark_requests_seen($uid)
+    {
+        global $db;
+        
+        $uid = mysql_clean($uid);
+        
+        db_update(tbl('friend_requests'),array(
+            'seen'  => 'yes'
+        )," userid='$uid' ");
+        
+        return true;
+    }
+
 }
 
 ?>

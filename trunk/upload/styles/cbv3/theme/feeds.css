@@ -339,9 +339,8 @@ vertical-align: top; margin-left: 10px; height: 28px; overflow: hidden}
     font-size: 12px;
 }
 
-.notifications .btn-confirm{
-    position: absolute;
-    right: 5px; top: 5px
+.notifications .btn-container{
+    position: absolute; right: 5px; top: 0px
 }
 
 .notifications .notification-padding{
@@ -354,7 +353,14 @@ vertical-align: top; margin-left: 10px; height: 28px; overflow: hidden}
     position: absolute;
     padding-left: 60px;
     left: 0px; top: 0px;
-    color: #333
+    color: #333;
+}
+.notifications .freind_requests_data {
+    padding-top: 5px
+}
+.notifications .message{
+    font-size: 12px;
+    color: #999;
 }
 
 .notification_time{font-size: 12px; color: #ccc; color: #999}
@@ -386,4 +392,3 @@ vertical-align: top; margin-left: 10px; height: 28px; overflow: hidden}
 .group-feed .feed-header{border-bottom: 0px}
 .group-feed .feed-header .feed-time{right:0px; left: auto}
 .group-feed .feed-context{margin-left: 50px; margin-top: -20px}
-

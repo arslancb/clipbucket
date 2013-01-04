@@ -578,33 +578,32 @@ function display_user_custom_background($uid = null)
     Template(STYLES_DIR . '/global/blocks/view_channel/custom_background.html', false);
 }
 
-
 /**
  * Function used to return a name of a user
  * 
  * @param ARRAY userdetails
  * @return STRING name
  */
-function name($user,$field=NULL)
+function name($user, $field = NULL)
 {
-    if($field)
+    if ($field)
     {
-        if($user[$field])
+        if ($user[$field])
             $name = $user[$field];
     }else
     {
-    
-        if($user['fullname'])
+
+        if ($user['fullname'])
             $name = $user['fullname'];
-        elseif($user['first_name'])
-            $name = $user['first_name'].' '.$user['last_name'];
-        elseif($user['username'])
+        elseif ($user['first_name'])
+            $name = $user['first_name'] . ' ' . $user['last_name'];
+        elseif ($user['username'])
             $name = $user['username'];
     }
-    
-    if($name)
-        $name = apply_filters ($name, 'user_name');
-    
+
+    if ($name)
+        $name = apply_filters($name, 'user_name');
+
     return $name;
 }
 
@@ -619,6 +618,48 @@ function get_user_details($uid)
     global $userquery;
 
     return $userquery->get_user_details($uid);
+}
+
+/**
+ * get user basic fields
+ * 
+ * @return ARRAY list of basic fields for users table
+ */
+function get_user_fields($extra_fields=NULL)
+{
+    $fields = array(
+        'userid', 'username', 'email',
+        'first_name', 'last_name', 'avatar',
+        'avatar_url', 'sex', 'dob'
+    );
+
+    if ($extra_fields)
+        $fields = array_merge($fields, $extra_fields);
+
+    return $fields;
+}
+
+/* * *
+ * get user basic details
+ */
+
+function get_basic_user_details($uid)
+{
+    $uid = mysql_clean($uid);
+    $fields = get_user_fields();
+
+    $fields = tbl_fields($fields, 'users');
+    
+    $query = " SELECT ".$fields." FROM ".tbl('users');
+    $query .= " WHERE userid='".$uid."' ";
+    $query .= " LIMIT 1";
+    
+
+    $results = db_select($query);
+    
+    if($results)
+        return $results[0];
+    
 }
 
 ?>

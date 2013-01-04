@@ -3429,7 +3429,8 @@ function validate_image_file($file, $ext = null)
     return $imgObj->ValidateImage($file, $ext);
 }
 
-function get_private_thumb( $object, $output = null ) {
+function get_private_thumb($object, $output = null)
+{
     /* Calling custom function */
     $funcs = cb_get_functions('private_thumb');
     if (is_array($funcs))
@@ -3446,13 +3447,16 @@ function get_private_thumb( $object, $output = null ) {
             }
         }
     }
-    
+
     $name = 'private.png';
-    $src = BASEURL.'/images/'.$name;
-    
-    if  ( $output ) {
-        return cb_output_img_tag( $src );
-    } else {
+    $src = BASEURL . '/images/' . $name;
+
+    if ($output)
+    {
+        return cb_output_img_tag($src);
+    }
+    else
+    {
         return $src;
     }
 }
@@ -3977,6 +3981,50 @@ function end_where()
 {
     global $Cbucket;
     unset($Cbucket->sql_where);
+}
+
+/**
+ * Format array into table fields
+ * 
+ * @param ARRAY
+ * @return STRING
+ */
+function tbl_fields($array, $tbl = false)
+{
+    $the_fields = "";
+    
+    
+    if ($array)
+    {
+        foreach ($array as $key => $_fields)
+        {
+            
+            if (is_array($_fields))
+            {
+                foreach ($_fields as $field)
+                {
+                    if ($the_fields)
+                        $the_fields .=", ";
+                    $the_fields .= $key . '.' . $field;
+                }
+            }else
+            {
+                $field = $_fields;
+
+                if ($the_fields)
+                    $the_fields .=", ";
+
+                if ($tbl)
+                    $the_tbl = tbl($tbl). '.' ;
+                else
+                    $the_tbl = '';
+
+               $the_fields .= $the_tbl . $field;
+            }
+        }
+    }
+    
+    if($the_fields) return $the_fields;
 }
 
 //Including videos functions

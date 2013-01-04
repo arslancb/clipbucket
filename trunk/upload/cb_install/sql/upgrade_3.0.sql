@@ -358,3 +358,16 @@ CREATE TABLE `{tbl_prefix}user_notifications` (
 
 --1-1-2013 @Author Arslan
 ALTER TABLE  `{tbl_prefix}users` ADD  `active` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'yes' AFTER  `status`;
+
+--1-4-2013 @Author Arslan
+DROP TABLE IF EXISTS `{tbl_prefix}friend_requests`;
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}friend_requests` (
+  `req_id` int(100) NOT NULL AUTO_INCREMENT,
+  `userid` int(255) NOT NULL,
+  `friend_id` int(255) NOT NULL,
+  `message` varchar(200) NOT NULL,
+  `seen` enum('yes','no') NOT NULL DEFAULT 'no',
+  `ignored` enum('yes','no') NOT NULL DEFAULT 'no',
+  `time_added` int(11) NOT NULL,
+  PRIMARY KEY (`req_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;

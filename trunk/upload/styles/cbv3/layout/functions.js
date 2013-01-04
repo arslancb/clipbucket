@@ -955,6 +955,12 @@ function cb_khabri()
             $('#new_msgs_label')
             .html(data.new_msgs);
         }
+        
+        if(data.new_friend_requests)
+        {
+            $('#new_friends_label')
+            .html(data.new_friend_requests);
+        }
     })
 }
 
@@ -998,9 +1004,112 @@ function add_friend(fid,obj)
         }else
         {
             if(obj)
-                {
-                    $(obj).text('Requst sent');
-                }
+            {
+                $(obj).text('Requst sent');
+            }
         }
     })
+}
+
+
+function confirm_friend(rid,btn)
+{
+    $(btn).button('loading');
+    
+    amplify.request('main',{
+        'mode'  : 'confirm_friend',
+        'rid'   : rid
+    },function(data)
+    {           
+        if(data.err)
+        {
+            $('#request-block-'+rid).find('.message').hide();
+            $(btn).button('reset');
+            $('#request-block-'+rid).find('.label').show().text(data.err);
+        }else
+        {
+            $(btn).button('complete');
+            $('.btn-ignore-friend[data-rid='+rid+']')
+            .hide()
+            .removeClass('btn-confirm-friend');
+        }
+        
+    })    
+}
+
+function unfriend(fid)
+{
+
+    amplify.request('main',{
+        'mode'  : 'unfriend',
+        'fid'   : fid
+    },function(data)
+    {           
+        if(data.err)
+        {
+            displayError(data.err);
+        }else
+        {
+            $('.friend-row-'+fid).fadeOut('slow');
+        }
+        
+    })    
+}
+
+function ignore_friend(rid,btn)
+{
+    $(btn).button('loading');
+  
+    amplify.request('main',{
+        'mode'  : 'ignore_friend',
+        'rid'   : rid
+    },function(data)
+    {           
+        if(data.err)
+        {
+            $('#request-block-'+rid).find('.message').hide();
+            $(btn).button('reset');
+            $('#request-block-'+rid).find('.label').show().text(data.err);
+        }else
+        {
+            $(btn).button('complete');
+            $('.btn-confirm-friend[data-rid='+rid+']')
+            .hide()
+            .removeClass('btn-ignore-friend');
+            
+            $('#request-block-'+rid).fadeOut('slow');
+        }
+        
+    })    
+}
+
+
+function get_new_friends()
+{
+    var type = 'friends';
+
+    if($('#new_friends_label').text()>0)
+    {
+        $('#new_friends_label').html('0');
+    
+        amplify.request('main',
+        {
+            mode : 'get_new_friends'
+        },function(data)
+        {
+            //First lets remove existing elements
+            
+            if(data.ids)
+            {
+                var ids = data.ids;
+
+                $.each(ids,function(index,value){
+                    $('#request-block-'+value).remove();
+                })
+
+                $('#new_friends').before(data.template);
+            }
+        })
+    }
+    
 }

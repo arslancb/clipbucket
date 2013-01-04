@@ -432,13 +432,38 @@
             e.stopPropagation()
         })
         
-        $('.friend-requests-dd .dropdown-menu a').on('click', function (e) {
+        $('.friend-requests-dd .dropdown-menu').on('click', function (e) {
             e.stopPropagation()
         })
         
         
         $('.btn-add-friend').click(function(){
             add_friend($(this).attr('data-userid'),this);
+        })
+        
+        
+        
+        $('.notifications-container').on('click','.btn-confirm-friend',function(){
+            $(this).attr('data-loading-text','confirming...');
+            $(this).attr('data-complete-text','<i class="icon-ok"></i> Friends');
+            confirm_friend($(this).attr('data-rid'),this);
+        })
+        
+        $('.notifications-container').on('click','.btn-ignore-friend',function(){
+            $(this).attr('data-loading-text','ignoring...');
+            $(this).attr('data-complete-text','<i class="icon-ok"></i> Ignored');
+            ignore_friend($(this).attr('data-rid'),this);
+        })
+        
+        $('.friend-actions').on('click','.btn-unfriend',function(){
+           
+            var fid = $(this).attr('data-friend-id')
+            var name = $(this).attr('data-name');
+            cb_confirm('Confirm remove','Are you sure you want to remove '
+            +name+' From your friends',function(){
+                unfriend(fid);
+                close_confirm();
+            })
         })
       
     });

@@ -678,46 +678,138 @@ switch ($mode)
                 if ($type == 'notifications')
                     $cbfeeds->read_notification($uid);
             }
+
+            //Makring friendship as seen
+            if ($type == 'friends')
+            {
+                $userquery->mark_requests_seen($uid);
+            }
         }
 
         break;
 
     case 'add_friend':
         {
-            $friend = $_POST['uid'];
+            $friend = post('uid');
             $userid = userid();
+            
+            $message = post('message');
 
             if ($userid)
             {
-                $userquery->add_contact($userid, $friend);
+                $userquery->add_friend_request(array(
+                    'userid'    => $userid,
+                    'friend_id' => $friend,
+                    'message'   => $message
+                ));
 
                 if (msg())
                 {
                     $msg = msg_list();
-                    $msg = $msg[0] ;
-                    
-                    echo json_encode(array('success'=>'ok','msg'=>$msg));
+                    $msg = $msg[0];
+
+                    echo json_encode(array('success' => 'ok', 'msg' => $msg));
                 }
                 if (error())
                 {
                     $msg = error_list();
-                   
-                    echo json_encode(array('error'=>$msg));
+
+                    echo json_encode(array('error' => $msg));
                 }
                 $msg;
-            }else
+            }
+            else
             {
-                echo json_encode(array('error'=>lang('You are not logged in')));
+                echo json_encode(array('error' => array(lang('You are not logged in'))));
             }
         }
         break;
-        
-        
-        case 'confirm_friend':
+
+
+    case 'confirm_friend':
         {
-            
+            $rid = $_POST['rid'];
+            $uid = userid();
+            $cid = $userquery->confirm_friend($uid, $rid);
+
+            if (error())
+            {
+                $error = error('single');
+                echo json_encode(array('err' => $error));
+            }
+            else
+            {
+                $msg = msg('single');
+                echo json_encode(array('success' => 'yes', 'msg' => $msg, 'cid' => $cid));
+            }
+
+            exit();
+        }
+    case 'ignore_friend':
+        {
+            $rid = $_POST['rid'];
+            $uid = userid();
+            $cid = $userquery->ignore_friend($uid, $rid);
+
+            if (error())
+            {
+                $error = error('single');
+                echo json_encode(array('err' => $error));
+            }
+            else
+            {
+                $msg = msg('single');
+                echo json_encode(array('success' => 'yes', 'msg' => $msg, 'cid' => $cid));
+            }
+
+            exit();
         }
 
+    case "get_new_friends":
+        {
+            $uid = userid();
+            $requests = $userquery->get_friend_requests($uid, array('seen' => 'no'));
+            $userquery->mark_requests_seen($uid);
+            $userquery->read_notification($uid, 'friends');
+
+            if ($requests)
+            {
+                $requests_template = '';
+                $the_requests = array();
+
+                foreach ($requests as $request)
+                {
+                    $the_requests['ids'][] = $request['req_id'];
+
+                    $template = assign('request', $request);
+                    $requests_template .= get_template('friends_notifications_block');
+                }
+
+                $the_requests['template'] = $requests_template;
+                $the_requests['new_requests'] = count($requests);
+
+                if ($the_requests)
+                    echo json_encode($the_requests);
+            }
+        }
+        break;
+
+    case "unfriend":
+        {
+            $fid = post('fid');
+            $uid = userid();
+            
+            $userquery->unfriend($fid,$uid);
+            
+            if(error())
+            {
+                echo json_encode(array('err'=>error()));
+            }else
+            {
+                echo json_encode(array('success'=>'yes','msg'=>msg()));
+            }
+        }
+        break;
     default:
         exit(json_encode(array('err' => array(lang('Invalid request')))));
 }

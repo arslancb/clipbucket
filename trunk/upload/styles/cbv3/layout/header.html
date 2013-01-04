@@ -208,8 +208,8 @@
                     {/if}
                     <li class="dropdown friend-requests-dd">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                           onclick="read_notifications('friends',true);"><span class="icon-user icon-white"></span>               
-                            <span class="badge badge-important" id="new_friends_lable">{$new_friends|number_format}</span>
+                           onclick="get_new_friends();"><span class="icon-user icon-white"></span>               
+                            <span class="badge badge-important" id="new_friends_label">{$new_friends|number_format}</span>
                         </a>
                         <ul class="dropdown-menu" role="menu" 
                             id="notifications-container">

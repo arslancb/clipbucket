@@ -1,0 +1,41 @@
+{include_template_file file="blocks/account_left.html"}
+
+{if $mode=='manage'}
+<div class="account-right">
+
+    <div class="account-heading">
+        <h2 >{lang code="Manage contacts"}</h2>
+    </div>
+
+    <hr />
+        Pending (5) | Hidden (2)
+    <hr />
+    
+    <!-- Get Friends list -->
+    
+    {$friends=$userquery->get_contacts(userid())}
+    
+    {if !$friends}
+    <div class="alert alert-large">{lang code='You do not have any contacts'}</div>
+    {else}
+        {foreach $friends as $friend}
+        <div class="friend-row-{$friend.userid} friend-row">
+            <div class="friend-avatar">
+                <img src="{$userquery->avatar($friend,'small')}" class="img-polaroid"/>
+            </div>
+            <div class="friend-name">
+                {name($friend)}
+            </div>
+            <div class="friend-actions">
+                <div class="btn-group">
+                    <a class="btn btn-small ">List <i class="caret"></i></a>
+                    <a class="btn btn-small btn-danger btn-unfriend" data-friend-id="{$friend.userid}" data-name="{name($friend)}">{lang code='Unfriend'}</a>
+                </div>
+            </div>
+        </div>
+        {/foreach}
+    {/if}
+    
+</div>
+{/if}
+

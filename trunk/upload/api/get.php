@@ -167,6 +167,13 @@ switch ($mode)
                     {
                         $categories = $cbgroup->getCbCategories(arraY('indexes_only' => true));
                     }
+                    
+                case "p":
+                case "photo":
+                case "photos":
+                    {
+                        $categories = $cbcollection->getCbCategories(arraY('indexes_only' => true));
+                    }
             }
             echo json_encode($categories);
         }
@@ -462,5 +469,44 @@ switch ($mode)
             //echo $db->db_query;
             echo json_encode($final_users);
         }
+        
+        case "getPhotos":
+        case "get_photos":
+        {
+
+            $get_limit = create_query_limit($page, $videos_limit);
+
+            $request['limit'] = $get_limit;
+
+            if (VERSION < 3)
+                $request['user'] = $request['userid'];
+
+            //$request['order'] = tbl('video.'.$request['order']);
+
+            $photos = $cbphoto->get_photos($request);
+            header('Content-Type: text/html; charset=utf-8');
+
+            $new_photos = array();
+            if ($photos)
+            {
+                foreach ($photos as $photo)
+                {
+
+                    $photo['photo_title'] = utf8_encode($photo['photo_title']);
+                    $photo['photo_description'] = utf8_encode($photo['photo_description']);
+                    $photo['photo_link'] = $cbphoto->photo_links($photo,'view_photo');
+                    $photo['photo_thumb'] = get_image_file(array(
+                        
+                    ));
+                            
+                    //$photo['thumbs'] = array('default' => get_thumb($photo), 'big' => get_thumb($photo, 'big'));
+
+                    $new_photos[] = $photo;
+                }
+            }
+            //echo $db->db_query;
+            echo json_encode($new_photos);
+        }
+        break;
 }
 ?>

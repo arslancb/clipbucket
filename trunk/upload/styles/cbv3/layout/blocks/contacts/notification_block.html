@@ -1,17 +1,20 @@
-<div id="request-block-{$friend.contact_id}">
+<div id="request-block-{$request.req_id}">
     <div class="notification {if !$last}notification-padding{/if}" >
 
-        <img src="{$userquery->avatar($friend)}" class="notify_avatar"/>
-        <div class="notification_data">
-            <strong>{name($friend)}</strong>
-            <div>{$thread.thread.message}</div>
-            <div class="notification_time">
-                <i class="{get_notify_icon($notification)}"></i> {what_time($friend.date_added,false)}
-            </div>
+        <img src="{$userquery->avatar($request)}" class="notify_avatar"/>
+        <div class="notification_data freind_requests_data">
+            <strong>{name($request)}</strong>
+            <div class="message">{$request.message}</div>
 
-
+            <div><span class="label label-important display-none"></span></div>
         </div>
-        <button class="btn btn-mini btn-confirm" type="button"
-        onclick="window.location=baseurl+'/manage_contacts.php?confirm={$friend.userid}&mode=confirm' ">Confirm</button>
+        <div class="btn-container">
+            <button class="btn btn-mini btn-confirm-friend" data-rid="{$request.req_id}">
+                {lang code='Confirm'}
+            </button>
+            <button class="btn btn-mini btn-ignore-friend" data-rid="{$request.req_id}">
+                {lang code='Ignore'}
+            </button>
+        </div>
     </div>
 </div>

@@ -1,4 +1,4 @@
-{$friends=$userquery->get_pending_contacts(userid(),0)}
+{$requests=$userquery->get_friend_requests(userid())}
 
 <div class="notifications">
     <div class="notify_title">{lang code='Friends Requests'}</div>
@@ -6,14 +6,14 @@
 
     <div class="notifications-container  cbv3-scroller">
         <div id="new_friends"></div>
-        {if $friends}
-        {foreach $friends as $friend}
-        {if $friend}
+        {if $requests}
+        {foreach $requests as $request}
+        {if $request}
 
-        {if $friend@last}{$last=true}{else}{$last=false}{/if}
+        {if $request@last}{$last=true}{else}{$last=false}{/if}
 
         {$block=get_template('friends_notifications_block','path')}
-        {include file=$block friend=$friend last=$last}
+        {include file=$block request=$request last=$last}
         {/if}
         {/foreach}
         {else}

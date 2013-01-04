@@ -29,6 +29,7 @@ class cbfeeds
             'joined_group',
             'favorited_group',
             'added_friend',
+            'confirmed_friend',
             'accepted_friend',
             'commented_channel',
             'signup',
@@ -1062,11 +1063,16 @@ class cbfeeds
             'time' => time(),
             'elements' => json_encode($elements),
             'date_added' => now()
-                ));
-        
+        ));
+
         $userquery->new_notify($uid, 'new_notifications');
-        
+
         return $nid;
+    }
+
+    function add_notification($params)
+    {
+        return $this->addNotification($params);
     }
 
     /**

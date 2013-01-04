@@ -17,7 +17,7 @@
     define("VIDEO_JS_URL",PLAYER_URL.'/'.VIDEO_JS_DIR_NAME);
     
     /* CONFIGS */
-    define('USE_VIDEOJS_CDN',true);
+    define('USE_VIDEOJS_CDN',false);
     
     /**
      * PLayer video in video-js player
@@ -62,11 +62,11 @@
     
     if(USE_VIDEOJS_CDN)
     {
-        add_js('http://vjs.zencdn.net/c/video.js','watch_video');
-        add_css('http://vjs.zencdn.net/c/video-js.css','watch_video');
+        add_js('http://vjs.zencdn.net/c/video.js','global');
+        add_css('http://vjs.zencdn.net/c/video-js.css','global');
     }else
     {
-        add_js(VIDEO_JS_URL.'/video.min.js','watch_video');
-        add_css(VIDEO_JS_URL.'/video-js.css','watch_video');
+        add_js(VIDEO_JS_URL.'/video.min.js','global');
+        add_css(VIDEO_JS_URL.'/video-js.css','global');
     }
 ?>

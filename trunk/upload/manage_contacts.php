@@ -12,10 +12,6 @@ define("PARENT_PAGE","channels");
 
 require 'includes/config.inc.php';
 $userquery->logincheck();
-$udetails = $userquery->get_user_details(userid());
-assign('user',$udetails);
-assign('p',$userquery->get_user_profile($udetails['userid']));
-
 
 $mode = $_GET['mode'];
 
@@ -27,6 +23,7 @@ switch($mode)
 	case 'manage':
 	default:
 	{
+            
 		if($mode="request" && isset($_GET['confirm']))
 		{
 			$confirm = mysql_clean($_GET['confirm']);

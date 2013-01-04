@@ -354,6 +354,7 @@ function create_notification_phrase($notification)
         'comment_mention'   => '{actor} {action} you in a comment',
         'commented_post'    => '{actor} has commented on your post',
         'liked_post'        => '{actor} has liked your post',
+        'confirmed_friend'   => '{actor} has confirmed you as friend'
     );
 
     //Add filters and actions to extend phrases

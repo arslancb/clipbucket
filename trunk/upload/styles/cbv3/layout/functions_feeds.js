@@ -179,24 +179,27 @@ function display_notifications(notifications)
  */
 function get_notifications(read)
 {
-    if(read)
+    if($('#new_notifications_label').text()>0)
     {
-        $('#new_notifications_label')
-        .html('0');
-    }
-    
-    amplify.request('feeds',
-    {
-        mode : 'get_notifications',
-        read : read
-    },function(data)
-    {
-        if(data.notifications)
+        if(read)
         {
             $('#new_notifications_label')
-            .html(data.notifications.total_new);
-            
-            display_notifications(data.notifications);
+            .html('0');
         }
-    })
+    
+        amplify.request('feeds',
+        {
+            mode : 'get_notifications',
+            read : read
+        },function(data)
+        {
+            if(data.notifications)
+            {
+                $('#new_notifications_label')
+                .html(data.notifications.total_new);
+            
+                display_notifications(data.notifications);
+            }
+        })
+    }
 }
