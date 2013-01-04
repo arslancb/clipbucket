@@ -59,7 +59,7 @@
 
         {if $friends}
         {foreach $friends as $friend}
-        <div class="friend-row-{$friend.userid} friend-row request-block-{$friend.req_id}">
+        <div class="friend-row-{$friend.userid} friend-row request-block-{$friend.req_id} request-block">
             <div class="friend-avatar">
                 <img src="{$userquery->avatar($friend,'small')}" class="img-polaroid"/>
             </div>
@@ -87,7 +87,7 @@
             $(this).hide();$('#hidden-requests').show();$('.alert-no-requests').hide()">{lang code='Show hidden requests'}</button>
         <div class="display-none" id="hidden-requests">
             {foreach $hidden_requests as $friend}
-            <div class="friend-row-{$friend.userid} friend-row request-block-{$friend.req_id}">
+            <div class="friend-row-{$friend.userid} friend-row request-block-{$friend.req_id} request-block">
                 <div class="friend-avatar">
                     <img src="{$userquery->avatar($friend,'small')}" class="img-polaroid"/>
                 </div>

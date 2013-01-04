@@ -443,13 +443,13 @@
         
         
         
-        $('body').on('click','.btn-confirm-friend',function(){
+        $('.request-block').on('click','.btn-confirm-friend',function(){
             $(this).attr('data-loading-text','confirming...');
             $(this).attr('data-complete-text','<i class="icon-ok"></i> Friends');
             confirm_friend($(this).attr('data-rid'),this);
         })
         
-        $('body').on('click','.btn-ignore-friend',function(){
+        $('.request-block').on('click','.btn-ignore-friend',function(){
             $(this).attr('data-loading-text','ignoring...');
             $(this).attr('data-complete-text','<i class="icon-ok"></i> Ignored');
             ignore_friend($(this).attr('data-rid'),this);

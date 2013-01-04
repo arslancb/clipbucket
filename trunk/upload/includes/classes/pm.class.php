@@ -833,8 +833,16 @@ class cb_pm
         
 
         db_update(tbl('threads'), $fields, " thread_id='$thread_id' ");
-
-
+        
+        //Increment unread message
+        db_update(tbl('recipients'),
+        array(
+            'unread_msgs'=>'{{unread_msgs+1}}',
+            'unseen_msgs'=>'{{unseen_msgs+1}}'
+        ),
+        "thread_id='$thread_id' AND userid !='$userid' ");
+   
+        
         global $userquery;
 
         //if($message_id)
@@ -1019,6 +1027,16 @@ class cb_pm
             return false;
         }
         
+        if(isset($o['unread']))
+        {
+            add_where(" r.unread_msgs>0 ");
+        }
+        
+        if(isset($o['unseen']))
+        {
+            add_where(" r.unseen_msgs>0 ");
+        }
+        
         if(get_where())
             $query .= " WHERE ".get_where();
         
@@ -1044,7 +1062,30 @@ class cb_pm
         
         return $the_results;
     }
-
+    
+    
+    /**
+     * Mark User messages seen
+     * 
+     * This will set unseen_msgs to 0 when user clicks 
+     * on icon to get new messages or visits PM/Inbox page
+     * 
+     * @param INT 
+     */
+    function mark_messages_seen($uid)
+    {
+        if($uid) return false;
+        
+        $uid = mysql_clean($uid);
+        
+        db_update(tbl('recipients'),array(
+            'unseen_msgs'   => 0
+        )," userid='$uid' ");
+        
+        return true;
+    }
+    
+    
     /**
      * get messages
      * 

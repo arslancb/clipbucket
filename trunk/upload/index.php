@@ -21,6 +21,7 @@ if(is_installed('editorspick'))
 //i love coding :) 2012
 //$userquery->add_friend_request(array('userid'=>userid(),'friend_id'=>2,'message'=>'This is a test message'));
 
+
 //Displaying The Template
 template_files('index.html');
 display_it();

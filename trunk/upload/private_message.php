@@ -77,6 +77,7 @@ switch ($mode)
             if (isset($_GET['thread_id']))
             {
                 $tid = mysql_clean($_GET['thread_id']);
+                
 
                 $messages = $cbpm->get_messages(array(
                     'thread_id' => $tid
@@ -88,6 +89,7 @@ switch ($mode)
 
                 assign('thread', $thread);
                 assign('messages', $messages);
+                assign('thread_id',$tid);
             }
 
             assign('mode', 'inbox');

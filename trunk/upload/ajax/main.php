@@ -793,6 +793,36 @@ switch ($mode)
             }
         }
         break;
+    case "get_new_msgs":
+        {
+            $uid = userid();
+            
+            $threads = $cbpm->get_threads(array('unseen'=>'yes'));
+            
+            $cbpm->mark_messages_seen($uid);
+            $userquery->read_notification($uid, 'msgs');
+            
+            if ($threads)
+            {
+                $thread_template = '';
+                $the_threads = array();
+
+                foreach ($threads as $thread)
+                {
+                    $the_threads['ids'][] = $thread['thread']['thread_id'];
+
+                    $template = assign('thread', $thread);
+                    $thread_template .= get_template('msgs_notifications_block');
+                }
+
+                $the_threads['template'] = $thread_template;
+                $the_threads['new_requests'] = count($threads);
+
+                if ($the_threads)
+                    echo json_encode($the_threads);
+            }
+        }
+        break;
 
     case "unfriend":
         {

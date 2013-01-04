@@ -1,4 +1,4 @@
-<div id="thread-block-{$thread.thread_id}" onclick="window.location='{get_thread_link($thread)}' ">
+<div id="thread-block-{$thread.thread.thread_id}" onclick="window.location='{get_thread_link($thread)}' ">
     <div class="notification {if !$last}notification-padding{/if}" >
 
         <img src="{$userquery->avatar($thread)}" class="notify_avatar"/>

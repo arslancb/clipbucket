@@ -359,14 +359,14 @@ switch ($mode)
                     {
                         unset($subscriber[$field]);
                     }
-                    $the_subscribers = $subscriber;
+                    $the_subscribers[] = $subscriber;
                 }
 
                 $subscribers = $the_subscribers;
             }
 
-            if ($subscribers)
-                echo json_encode($subscribers);
+            if ($the_subscribers)
+                echo json_encode($the_subscribers);
             else
                 echo json_encode(array('err' => lang('No Subscriptions')));
 
@@ -469,6 +469,7 @@ switch ($mode)
             //echo $db->db_query;
             echo json_encode($final_users);
         }
+        break;
 
     case "getPhotos":
     case "get_photos":

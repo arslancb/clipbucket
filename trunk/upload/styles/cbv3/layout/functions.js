@@ -1114,3 +1114,33 @@ function get_new_friends()
     }
     
 }
+function get_new_msgs()
+{
+    var type = 'msgs';
+
+    if($('#new_msgs_label').text()>0)
+    {   
+        $('.no_msgs_notifications').hide();
+        $('#new_msgs_label').html('0');
+    
+        amplify.request('main',
+        {
+            mode : 'get_new_msgs'
+        },function(data)
+        {
+            //First lets remove existing elements
+            
+            if(data.ids)
+            {
+                var ids = data.ids;
+
+                $.each(ids,function(index,value){
+                    $('#thread-block-'+value).remove();
+                })
+
+                $('#new_msgs').before(data.template);
+            }
+        })
+    }
+    
+}
