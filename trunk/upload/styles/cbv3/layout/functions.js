@@ -1023,9 +1023,9 @@ function confirm_friend(rid,btn)
     {           
         if(data.err)
         {
-            $('#request-block-'+rid).find('.message').hide();
+            $('.request-block-'+rid).find('.message').hide();
             $(btn).button('reset');
-            $('#request-block-'+rid).find('.label').show().text(data.err);
+            $('.request-block-'+rid).find('.label').show().text(data.err);
         }else
         {
             $(btn).button('complete');
@@ -1067,9 +1067,9 @@ function ignore_friend(rid,btn)
     {           
         if(data.err)
         {
-            $('#request-block-'+rid).find('.message').hide();
+            $('.request-block-'+rid).find('.message').hide();
             $(btn).button('reset');
-            $('#request-block-'+rid).find('.label').show().text(data.err);
+            $('.request-block-'+rid).find('.label').show().text(data.err);
         }else
         {
             $(btn).button('complete');
@@ -1077,7 +1077,7 @@ function ignore_friend(rid,btn)
             .hide()
             .removeClass('btn-ignore-friend');
             
-            $('#request-block-'+rid).fadeOut('slow');
+            $('.request-block-'+rid).fadeOut('slow');
         }
         
     })    
@@ -1089,7 +1089,8 @@ function get_new_friends()
     var type = 'friends';
 
     if($('#new_friends_label').text()>0)
-    {
+    {   
+        $('.no_requests_notifications').hide();
         $('#new_friends_label').html('0');
     
         amplify.request('main',

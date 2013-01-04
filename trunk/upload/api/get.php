@@ -167,7 +167,7 @@ switch ($mode)
                     {
                         $categories = $cbgroup->getCbCategories(arraY('indexes_only' => true));
                     }
-                    
+
                 case "p":
                 case "photo":
                 case "photos":
@@ -407,11 +407,11 @@ switch ($mode)
                     $video['videos'] = array('mobile' => get_mob_video(array('video' => $video)));
                     $video['url'] = $video['video_link'] = $video['videoLink'] = videoLink($video);
                     $video['avatar'] = $video['user_photo'] = $video['displayPic'] = $userquery->avatar($video);
-                   
+
                     foreach ($blacklist_fields as $field)
-                    unset($video[$field]);
-                    
-                    
+                        unset($video[$field]);
+
+
                     $new_videos[] = $video;
                 }
                 echo json_encode($new_videos);
@@ -469,9 +469,9 @@ switch ($mode)
             //echo $db->db_query;
             echo json_encode($final_users);
         }
-        
-        case "getPhotos":
-        case "get_photos":
+
+    case "getPhotos":
+    case "get_photos":
         {
 
             $get_limit = create_query_limit($page, $videos_limit);
@@ -494,11 +494,21 @@ switch ($mode)
 
                     $photo['photo_title'] = utf8_encode($photo['photo_title']);
                     $photo['photo_description'] = utf8_encode($photo['photo_description']);
-                    $photo['photo_link'] = $cbphoto->photo_links($photo,'view_photo');
-                    $photo['photo_thumb'] = get_image_file(array(
-                        
-                    ));
-                            
+                    $photo['photo_link'] = $cbphoto->photo_links($photo, 'view_photo');
+
+                    $photo['photo_thumb'] = array(
+                        'm' => get_image_file(array(
+                            'details' => $photo,
+                            'size' => 'm',
+                            'output' => 'non_html'
+                        )),
+                        'l' => get_image_file(array(
+                            'details' => $photo,
+                            'size' => 'l',
+                            'output' => 'non_html'
+                        ))
+                    );
+
                     //$photo['thumbs'] = array('default' => get_thumb($photo), 'big' => get_thumb($photo, 'big'));
 
                     $new_photos[] = $photo;

@@ -365,7 +365,7 @@ ul.dropdown-menu > li > a:hover .icon-v3 {
 
 .controller{border: 1px solid #ccc;padding: 5px 8px; 
             border-width: 1px 0px; margin-bottom: 10px; }
-.controller .buttons{position: relative; top:1px;}
+.controller .buttons{position: relative; top:1px; min-height: 33px}
 .controller-fixed{border-top: none; box-shadow: 0px 1px 1px #CCC}
 .controller-fixed-bottom{border-bottom: none;  box-shadow: 0px -1px 1px #CCC; margin-bottom: 0px}
 

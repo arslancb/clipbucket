@@ -1,4 +1,4 @@
-{$requests=$userquery->get_friend_requests(userid())}
+{$requests=$userquery->get_friend_requests(userid(),['ignored'=>'no'])}
 
 <div class="notifications">
     <div class="notify_title">{lang code='Friends Requests'}</div>
@@ -17,10 +17,10 @@
         {/if}
         {/foreach}
         {else}
-        <div class="no_notifications">No friend requests</div>
+        <div class="no_requests_notifications">{lang code='No friend requests'}</div>
         {/if}
     </div>
 
     <div class="seperator"></div>
-    <div class="all_notifications"><a href="">Show all Requests</a></div>
+    <div class="all_notifications"><a href="{$baseurl}/manage_contacts.php?mode=requests">{lang code='Show all Requests'}</a></div>
 </div>  

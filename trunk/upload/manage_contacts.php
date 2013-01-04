@@ -17,27 +17,30 @@ $mode = $_GET['mode'];
 
 switch($mode)
 {
-	case 'request':
+	case 'requests':
 	case 'normal':
 	case 'view':
 	case 'manage':
 	default:
 	{
             
-		if($mode="request" && isset($_GET['confirm']))
+		if($mode=="request" && isset($_GET['confirm']))
 		{
 			$confirm = mysql_clean($_GET['confirm']);
 			$userquery->confirm_request($confirm);
 		}
 		
-		if($mode="delete" && isset($_GET['userid']))
+		if($mode=="delete" && isset($_GET['userid']))
 		{
 			$userid = mysql_clean($_GET['userid']);
 			$userquery->remove_contact($userid);
 		}
 		
-		assign("mode","manage");
-		
+                if($mode=='requests')
+                    assign('mode','requests');
+                else
+                    assign("mode","manage");
+                		
 	}
 	break;
 }
