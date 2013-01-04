@@ -61,10 +61,10 @@
 .thread_active .thread_subject{color:#fff}
 .thread_active .thread_time{color:#fff}
 
-.msg_container{margin-bottom: 20px; position: relative; padding-left: 50px; font-family: Tahoma}
+.msg_container{margin-bottom: 20px; position: relative; padding-left: 50px; font-family: Tahoma; }
 .msg_container .msg_author_thumb{position: absolute; left: 0px; top: 0px;}
 .msg_container .msg_author_thumb img{width: 40px;}
-.msg_container .msg_time{position: absolute; right: 0px; top: 0px; font-size: 11px;}
+.msg_container .msg_time{position: absolute; right: 20px; top: 0px; font-size: 11px;}
 
 .msg_container .msg_author_name{font-weight: bold}
 
@@ -100,7 +100,7 @@ right: 3px; top: 3px}
 }
 
 .new_msg_actions{position: relative; margin-top: 5px; height: 35px}
-.new_msg_actions .btn{position: absolute; right: 0px}
+.new_msg_actions .btn{position: absolute; left: 0px}
 .new_msg_container .msg_subject{
     display: block;
     width: 100%;
@@ -109,12 +109,26 @@ right: 3px; top: 3px}
     background: transparent; color: inherit
 }
 
-.msgs_container{height: 300px; padding-bottom: 20px}
+
+.messages-container { width: 515px; height: 300px; padding-right: 10px; padding-bottom: 10px; 
+box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1); padding-top: 10px}
+
+.nano {width: 500px; height: 500px; }
+.nano .content { background-color: #fff}
+
+.nano .pane {background: #555;width: 8px;right: 1px;margin: 5px;}
+
+.nano .slider {
+	background: #111;
+}
 
 
 .compose_new_form .as-selections{
 
 }
 .compose_new_form .as-selections input{box-shadow: none !important; border: none}
-.compose_new_form .pm_subject{width: 98%; padding: inherit 1%}
-.compose_new_form .pm_message{width: 98%; padding: inherit 1%}
+.compose_new_form .pm_subject{width: 98%; padding: 1%}
+.compose_new_form .pm_message{width: 98%; padding: 1%}
+
+.thread_head .thread_recipients{font-size: 18px;}
+.thread_head{padding-bottom: 10px;  border-bottom: 1px solid #bbb; box-shadow: 0px 1px 1px #ededed}

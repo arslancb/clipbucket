@@ -1,14 +1,9 @@
 
 {include_template_file file="blocks/account_left.html"}
 
-{if $smarty.get.mid}
-<script>
-    $(document).ready(function(){
-        //Scroll to message
-        $('#message-{$smarty.get.mid}').scrollTo();
-    }
-</script>
-{/if}
+
+
+
 
 <div class="account-right">
     {if $mode =='inbox'}
@@ -18,23 +13,23 @@
         <div class="pm_left_column">
             {if $threads}
             {foreach $threads as $_thread}
-            {$thread=$_thread.thread}
+            {$the_thread=$_thread}
             <div class="thread_container gradient 
-                 {if $smarty.get.thread_id==$thread.thread_id}thread_active{/if}
+                 {if $smarty.get.thread_id==$the_thread.thread_id}thread_active{/if}
                  "
-                 onclick="window.location='{$query_string}thread_id={$thread.thread_id}'"
+                 onclick="window.location='{$query_string}thread_id={$the_thread.thread_id}'"
                  >
                 <div class="thread_author_image">
-                    <img src="{$userquery->avatar($thread,'small')}" />
+                    <img src="{$userquery->avatar($the_thread,'small')}" />
                 </div>
                 <div class="thread_author_name">
                     {list_thread_recipients($_thread)}
                 </div>
                 <div class="thread_subject">
-                    {$thread.message|truncate:35}
+                    {$the_thread.last_message|truncate:35}
                 </div>
                 <span class="thread_time">
-                    {$thread.time_added|date_format:'%H:%M:%S'}
+                    {$the_thread.time_added|date_format:'%H:%M:%S'}
                 </span>
             </div> 
             {/foreach}
@@ -44,38 +39,39 @@
             {if !$messages}
             <p class="alert alert-large">{lang code='No conversation selected'}</p>
             {else}
-
-            <div class="msgs_container cbv3-scroller">
-                {foreach $messages as $message}
-                <div class="msg_container" id="message-{$message.message_id}">
-                    <div class="msg_author_thumb">
-                        <img src="{$userquery->avatar($message,small)}" />
+            <div class="thread_head">
+                
+                <div class="thread_recipients">{list_thread_recipients($thread)}</div>
+                <div class="thread_subject">{$thread.subject}</div>
+            </div>
+            
+            <div class="messages-container">
+                <div class="nano">
+                    <div class="content">
+                        {foreach $messages as $message}
+                        {$message_template=get_template('single_message','path')}
+                        {include file=$message_template message=$message}
+                        {/foreach}
+                        <div id="new-message-spot"></div>
                     </div>
-                    <div class="msg_author_name">
-                        {name($message)}
-                    </div>
-                    <div class="msg_content">
-                        {$message.message|nl2br}
-                    </div>
-                    <span class="msg_time">{what_time($message.time_added)}</span>
                 </div>
-                <div class="clearfix"></div>
-                {/foreach}
             </div>
 
             <div class="new_msg_container">
-                <form method="post">
+                <form method="post" id="thread_message" onsubmit="cb_send_message('#thread_message','#send_message_btn'); return false;">
                     <div class="new_msg_subj">
-                        <input type="text" class="msg_subject" name="subject" placeholder="RE:{$thread.subject}" />
+                        <input type="text" class="msg_subject" name="subject" placeholder="Re: {$thread.subject}" />
                     </div>
                     <div class="new_msg_textfield_container">
-                        <textarea name="message"></textarea>
+                        <textarea name="message" class="add_message_textarea" ></textarea>
                         <i class="icon-eye-open msg_smiley"></i>
                         <input type="hidden" name="thread_id" value="{$thread_id}">
                         <input type="hidden" name="add_message" value="yes"/>
                     </div>
                     <div class="new_msg_actions">
-                        <button class="btn btn-primary">Send</button>
+                        <span class="label label-important display-none" id="send-message-error"></span>
+                        <button class="btn btn-primary" id="send_message_btn"
+                                data-loading-text="Sending.." onclick="cb_send_message('#thread_message',this)">Send</button>
                     </div>
                 </form>
             </div>
@@ -84,6 +80,29 @@
 
         <div class="clearfix"></div>
     </div>
+
+    <script>
+        $(document).ready(function(){
+            
+            $('.add_message_textarea').autosize().shiftenter();  
+            
+            
+            msg_time = '{time()}';
+            //Scroll to message
+            {if $mid}
+            $(".nano").nanoScroller({ scrollTo: $('#message-{$mid}') });
+            {else}
+            $(".nano").nanoScroller({ scroll: 'bottom' });
+            {/if}
+            
+            //Keep an eye on thread :D
+            setInterval(function(){
+                fetch_new_msgs({$thread_id});
+            }, 5000);
+            
+        });
+    </script>
+
     {/if} <!-- Ending Inbox -->
 
 

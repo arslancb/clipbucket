@@ -1144,3 +1144,72 @@ function get_new_msgs()
     }
     
 }
+
+function cb_send_message(obj,btn)
+{
+    var msgobj = $(obj).find('textarea[name=message]');
+    var thread_id = $(obj).find('input[name=thread_id]').val();
+    var subject = $(obj).find('input[name=subject]').val();
+    
+    msgobj.attr('disabled','disabled');
+    $(btn).button('loading');
+    
+    amplify.request('main',{
+        'mode' : 'send_message',
+        'message' : msgobj.val(),
+        'thread_id' : thread_id,
+        'subject'   : subject
+    },function(data){
+        msgobj.removeAttr('disabled');
+        $(btn).button('reset');
+        
+        if(data.err)
+           // $('#send-message-error').show().text(data.err[0]);
+               displayError(data.err);
+        else
+        {
+            $('#send-message-error').hide();
+            if(data.template)
+            {
+                msgobj.val('');
+                $('#new-message-spot').before(data.template);
+                $('.nano').nanoScroller({
+                    scroll:'bottom'
+                });
+            }
+        }
+    })
+    
+}
+
+
+var msg_time = '';
+
+function fetch_new_msgs(tid)
+{
+    amplify.request('main',{
+        'mode'  : 'fetch_new_msgs',
+        'thread_id'   : tid,
+        'time'  : msg_time
+    },function(data){
+        if(data)
+        {
+            if(data.ids)
+            {
+                var ids = data.ids;
+
+                $.each(ids,function(index,value){
+                    $('#message-'+value).remove();
+                })
+
+                $('#new-message-spot').before(data.template);
+                $('.nano').nanoScroller({
+                    scroll:'bottom'
+                });
+                
+                msg_time = data.time;
+            }
+        }
+        
+    })
+}

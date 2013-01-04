@@ -301,16 +301,24 @@ CREATE TABLE `{tbl_prefix}messages` (
 -- Table structure for table `cb_recipients`
 --
 
+
 DROP TABLE IF EXISTS `{tbl_prefix}recipients`;
 CREATE TABLE `{tbl_prefix}recipients` (
   `recipient_id` bigint(255) NOT NULL AUTO_INCREMENT,
   `userid` int(255) NOT NULL,
   `thread_id` bigint(20) NOT NULL,
   `unread_msgs` int(10) NOT NULL,
+  `unseen_msgs` int(20) NOT NULL,
   `last_message_time` int(11) NOT NULL,
   `date_added` datetime NOT NULL,
   `time_added` int(11) NOT NULL,
-  PRIMARY KEY (`recipient_id`)
+  PRIMARY KEY (`recipient_id`),
+  KEY `thread_id` (`thread_id`),
+  KEY `userid` (`userid`),
+  KEY `userid_2` (`userid`),
+  KEY `userid_3` (`userid`),
+  KEY `thread_id_2` (`thread_id`),
+  KEY `thread_id_3` (`thread_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -320,14 +328,17 @@ CREATE TABLE `{tbl_prefix}recipients` (
 --
 
 DROP TABLE IF EXISTS `{tbl_prefix}threads`;
-CREATE TABLE `{tbl_prefix}threads` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}threads` (
   `thread_id` bigint(255) NOT NULL AUTO_INCREMENT,
   `thread_type` enum('private','public') NOT NULL DEFAULT 'private',
   `userid` int(11) NOT NULL,
   `recipient_md5` varchar(32) NOT NULL,
   `total_recipients` bigint(100) NOT NULL,
+  `main_recipients` mediumtext NOT NULL,
   `total_messages` bigint(100) NOT NULL,
   `last_message_id` int(255) NOT NULL,
+  `last_message` tinytext NOT NULL,
+  `subject` tinytext NOT NULL,
   `last_userid` int(255) NOT NULL,
   `last_message_date` datetime NOT NULL,
   `is_archived` enum('yes','no') NOT NULL DEFAULT 'no',
@@ -335,7 +346,7 @@ CREATE TABLE `{tbl_prefix}threads` (
   `time_added` int(11) NOT NULL,
   PRIMARY KEY (`thread_id`),
   UNIQUE KEY `recipient_md5` (`recipient_md5`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -370,4 +381,23 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}friend_requests` (
   `ignored` enum('yes','no') NOT NULL DEFAULT 'no',
   `time_added` int(11) NOT NULL,
   PRIMARY KEY (`req_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+-- Adding new message structure
+DROP TABLE IF EXISTS `{tbl_prefix}messages`;
+CREATE TABLE IF NOT EXISTS `cb_messages` (
+  `message_id` int(225) NOT NULL AUTO_INCREMENT,
+  `thread_id` bigint(255) NOT NULL,
+  `userid` int(255) NOT NULL,
+  `message` mediumtext NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `seen_by` mediumtext NOT NULL,
+  `date_added` datetime NOT NULL,
+  `time_added` int(11) NOT NULL,
+  PRIMARY KEY (`message_id`),
+  KEY `userid` (`userid`),
+  KEY `thread_id` (`thread_id`),
+  KEY `time_added` (`time_added`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+

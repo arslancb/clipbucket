@@ -1,0 +1,13 @@
+<div class="msg_container msg-author-{$message.userid}" id="message-{$message.message_id}">
+    <div class="msg_author_thumb">
+        <img src="{$userquery->avatar($message,small)}" />
+    </div>
+    <div class="msg_author_name">
+        {name($message)}
+    </div>
+    <div class="msg_content">
+        {message($message.message)}
+    </div>
+    <span class="msg_time">{what_time($message.time_added)}</span>
+</div>
+<div class="clearfix"></div>

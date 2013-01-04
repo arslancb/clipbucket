@@ -91,6 +91,11 @@ switch ($mode)
                 assign('messages', $messages);
                 assign('thread_id',$tid);
             }
+            
+            if(isset($_GET['mid']))
+            {
+                assign('mid',clean($_GET['mid']));
+            }
 
             assign('mode', 'inbox');
 

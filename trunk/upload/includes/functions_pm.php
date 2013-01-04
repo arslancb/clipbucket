@@ -2,12 +2,11 @@
 
 function list_thread_recipients($thread)
 {
-    $total_recipients = $thread['thread']['total_recipients'];
-    $recipients = $thread['recipients'];
+    $total_recipients = $thread['total_recipients'];
+
+    $recipients = json_decode($thread['main_recipients'],true);
 
     $list = "";
-    
-    
     
     switch ($total_recipients)
     {
@@ -74,10 +73,16 @@ function list_thread_recipients($thread)
  */
 function get_thread_link($thread)
 {
-    if($thread['thread'])
-        $thread = $thread['thread'];
-    
     return BASEURL.'/private_message.php?mode=inbox&thread_id='.$thread['thread_id'];
+}
+
+/**
+ * Function applies on a message..
+ */
+
+function message($in)
+{
+    return nl2br($in);
 }
 
 

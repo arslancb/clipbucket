@@ -19,20 +19,16 @@ $videos_limit = 20;
 
 
 $api_keys = $Cbucket->api_keys;
-if ($api_keys)
-{
-    if (!in_array($request['api_key'], $api_keys))
-    {
+if ($api_keys) {
+    if (!in_array($request['api_key'], $api_keys)) {
         exit(json_encode(array('err' => 'App authentication error')));
     }
 }
 
-switch ($mode)
-{
+switch ($mode) {
     case "getVideos":
     case "get_videos":
-    default:
-        {
+    default: {
             $blacklist_fields = array(
                 'password', 'video_password', 'avcode', 'session'
             );
@@ -48,8 +44,7 @@ switch ($mode)
 
             $vids = $request['video_id'];
 
-            if ($vids)
-            {
+            if ($vids) {
                 $vids = explode(',', $vids);
 
                 $request['videoids'] = $vids;
@@ -59,20 +54,16 @@ switch ($mode)
             header('Content-Type: text/html; charset=utf-8');
 
             $new_videos = array();
-            if ($videos)
-            {
-                foreach ($videos as $video)
-                {
+            if ($videos) {
+                foreach ($videos as $video) {
 
                     $video['title'] = utf8_encode($video['title']);
                     $video['description'] = utf8_encode($video['description']);
                     $video['thumbs'] = array('default' => get_thumb($video), 'big' => get_thumb($video, 'big'));
 
-                    if (function_exists('get_mob_video'))
-                    {
+                    if (function_exists('get_mob_video')) {
                         $video['videos'] = array('mobile' => get_mob_video(array('video' => $video)));
-                        if (has_hq($video))
-                        {
+                        if (has_hq($video)) {
                             $video['videos']['hq'] = get_hq_video_file($video);
                         }
                     }
@@ -97,8 +88,7 @@ switch ($mode)
         }
         break;
 
-    case "getComments":
-        {
+    case "getComments": {
             $params = array();
             $limit = config('comments_per_page');
             $page = $request['page'];
@@ -124,38 +114,36 @@ switch ($mode)
             $the_comments = array();
 
             if ($comments)
-                foreach ($comments as $comment)
-                {
-                    foreach ($blacklist_fields as $field)
-                    {
-                        unset($comment[$field]);
+                foreach ($comments['comments'] as $comment) {
+                    if ($comment) {
+
+                        foreach ($blacklist_fields as $field) {
+                            unset($comment[$field]);
+                        }
+                        $the_comments[] = $comment;
                     }
-                    $the_comments[] = $comment;
                 }
+
 
             echo json_encode($the_comments);
         }
         break;
 
     case "getCategory":
-    case "getCategories":
-        {
+    case "getCategories": {
             $type = $request['type'];
-            switch ($type)
-            {
+            switch ($type) {
                 case "v":
                 case "video":
                 case "videos":
-                default:
-                    {
+                default: {
                         $categories = $cbvid->getCbCategories(arraY('indexes_only' => true));
                     }
                     break;
 
                 case "u":
                 case "user":
-                case "users":
-                    {
+                case "users": {
                         $categories = $userquery->getCbCategories(arraY('indexes_only' => true));
                     }
 
@@ -163,15 +151,13 @@ switch ($mode)
 
                 case "g":
                 case "group":
-                case "groups":
-                    {
+                case "groups": {
                         $categories = $cbgroup->getCbCategories(arraY('indexes_only' => true));
                     }
 
                 case "p":
                 case "photo":
-                case "photos":
-                    {
+                case "photos": {
                         $categories = $cbcollection->getCbCategories(arraY('indexes_only' => true));
                     }
             }
@@ -180,17 +166,14 @@ switch ($mode)
         break;
 
     case 'getFields':
-    case 'get_fields':
-        {
+    case 'get_fields': {
             $groups = $Upload->load_video_fields(null);
 
             $new_groups = array();
-            foreach ($groups as $group)
-            {
+            foreach ($groups as $group) {
                 $new_fields = array();
 
-                foreach ($group['fields'] as $field)
-                {
+                foreach ($group['fields'] as $field) {
                     // foreach($fields as $field)
                     if ($field)
                         $new_fields[] = $field;
@@ -205,17 +188,14 @@ switch ($mode)
         }
         break;
     case "get_playlists":
-    case "getPlaylists":
-        {
+    case "getPlaylists": {
             $uid = mysql_clean($request['userid']);
 
             $playlists = $cbvid->action->get_playlists($uid);
 
-            if (VERSION < 3)
-            {
+            if (VERSION < 3) {
                 $new_playlists = array();
-                foreach ($playlists as $playlist)
-                {
+                foreach ($playlists as $playlist) {
                     $playlist['total_items'] = $cbvid->action->count_playlist_items($playlist['playlist_id']);
                     $new_playlists[] = $playlist;
                 }
@@ -231,8 +211,7 @@ switch ($mode)
 
         break;
     case "get_playlist_items":
-    case "getPlaylistItems":
-        {
+    case "getPlaylistItems": {
             $pid = mysql_clean($request['playlist_id']);
             $items = $cbvid->get_playlist_items($pid);
 
@@ -240,14 +219,11 @@ switch ($mode)
                 'password', 'video_password', 'avcode', 'session'
             );
 
-            if ($items)
-            {
+            if ($items) {
                 $new_videos = array();
 
-                foreach ($items as $video)
-                {
-                    if (!$video['email'])
-                    {
+                foreach ($items as $video) {
+                    if (!$video['email']) {
                         $udetails = $userquery->get_user_details($video['userid']);
                     }
 
@@ -271,8 +247,7 @@ switch ($mode)
 
     case "getConfigs":
     case "get_configs":
-    case "configs":
-        {
+    case "configs": {
             $upload_path = '';
 
             if (function_exists('get_file_uploader_path'))
@@ -291,8 +266,7 @@ switch ($mode)
         break;
 
     case "videoFlagOptions":
-    case "video_flag_options":
-        {
+    case "video_flag_options": {
             $type = $request['type'];
             $type = $type ? $type : 'v';
 
@@ -303,8 +277,7 @@ switch ($mode)
 
 
         break;
-    case "getSubscribers":
-        {
+    case "getSubscribers": {
             $uid = $request['userid'];
             if (!$uid)
                 $uid = userid();
@@ -314,24 +287,21 @@ switch ($mode)
 
             $subscribers = $userquery->get_user_subscribers_detail($uid);
 
-            if ($subscribers)
-            {
+            if ($subscribers) {
                 $the_subscribers = array();
-                foreach ($subscribers as $subscriber)
-                {
-                    foreach ($blacklist_fields as $field)
-                    {
+                foreach ($subscribers as $subscriber) {
+                    foreach ($blacklist_fields as $field) {
                         unset($subscriber[$field]);
                     }
-                    $the_subscribers = $subscriber;
+                    $the_subscribers[] = $subscriber;
                 }
 
                 $subscribers = $the_subscribers;
             }
 
 
-            if ($subscribers)
-                echo json_encode($subscribers);
+            if ($the_subscribers)
+                echo json_encode($the_subscribers);
             else
                 echo json_encode(array('err' => lang('No Subscribers')));
 
@@ -339,8 +309,7 @@ switch ($mode)
         }
         break;
 
-    case "getSubscriptions":
-        {
+    case "getSubscriptions": {
             $uid = $request['userid'];
             if (!$uid)
                 $uid = userid();
@@ -350,13 +319,10 @@ switch ($mode)
 
             $subscribers = $userquery->get_user_subscriptions($uid);
 
-            if ($subscribers)
-            {
+            if ($subscribers) {
                 $the_subscribers = array();
-                foreach ($subscribers as $subscriber)
-                {
-                    foreach ($blacklist_fields as $field)
-                    {
+                foreach ($subscribers as $subscriber) {
+                    foreach ($blacklist_fields as $field) {
                         unset($subscriber[$field]);
                     }
                     $the_subscribers[] = $subscriber;
@@ -376,8 +342,7 @@ switch ($mode)
 
 
     case "get_favorite_videos":
-    case "getFavoriteVideos":
-        {
+    case "getFavoriteVideos": {
             $limit = 20;
 
             $get_limit = create_query_limit($page, $limit);
@@ -391,13 +356,10 @@ switch ($mode)
             $total_rows = $cbvid->action->get_favorites($params);
             $total_pages = count_pages($total_rows, $get_limit);
 
-            if ($total_rows > 0)
-            {
+            if ($total_rows > 0) {
                 $new_videos = array();
-                foreach ($videos as $video)
-                {
-                    if (!$video['email'])
-                    {
+                foreach ($videos as $video) {
+                    if (!$video['email']) {
                         $udetails = $userquery->get_user_details($video['userid']);
                     }
 
@@ -415,9 +377,7 @@ switch ($mode)
                     $new_videos[] = $video;
                 }
                 echo json_encode($new_videos);
-            }
-            else
-            {
+            } else {
                 echo json_encode(array('err' => lang('No favorite videos were found')));
             }
         }
@@ -426,8 +386,7 @@ switch ($mode)
     case "get_users":
     case "get_channels":
     case "getChannels":
-    case "getUsers":
-        {
+    case "getUsers": {
             $get_limit = create_query_limit($page, $videos_limit);
 
             $request['limit'] = $get_limit;
@@ -435,10 +394,8 @@ switch ($mode)
             $users = get_users($request);
 
             $new_users = array();
-            if ($users)
-            {
-                foreach ($users as $user)
-                {
+            if ($users) {
+                foreach ($users as $user) {
                     $user['avatar'] = $user['user_photo'] = $userquery->avatar($user);
                     $new_users[] = $user;
                 }
@@ -456,8 +413,7 @@ switch ($mode)
 
             $final_users = array();
             if ($new_users)
-                foreach ($new_users as $user)
-                {
+                foreach ($new_users as $user) {
                     $final_user = array();
 
                     foreach ($user_api_fields as $field)
@@ -472,8 +428,7 @@ switch ($mode)
         break;
 
     case "getPhotos":
-    case "get_photos":
-        {
+    case "get_photos": {
 
             $get_limit = create_query_limit($page, $videos_limit);
 
@@ -488,10 +443,8 @@ switch ($mode)
             header('Content-Type: text/html; charset=utf-8');
 
             $new_photos = array();
-            if ($photos)
-            {
-                foreach ($photos as $photo)
-                {
+            if ($photos) {
+                foreach ($photos as $photo) {
 
                     $photo['photo_title'] = utf8_encode($photo['photo_title']);
                     $photo['photo_description'] = utf8_encode($photo['photo_description']);

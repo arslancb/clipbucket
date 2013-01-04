@@ -302,13 +302,13 @@ class cb_pm
     {
         $id = mysql_clean($id);
         $query = "SELECT message_id,thread_id,userid,message,subject";
-        $query .= " FROM ".tbl('messages');
+        $query .= " FROM " . tbl('messages');
         $query .= " WHERE message_id='$id' ";
         $query .= " LIMIT 1";
-        echo $query; 
+        echo $query;
         $results = db_select($query);
-        
-        if($results)
+
+        if ($results)
             return $results[0];
         else
             return false;
@@ -647,34 +647,55 @@ class cb_pm
     }
 
     /**
-     * Function used to get new messages
+     * Function updated for V3
+     * 
+     * Get new messages from a thread w.r.t to time
+     * @param ARRAY ( INT ThreadId , INT time)
      */
-    function get_new_messages($uid = NULL, $type = 'pm')
+    function get_new_messages($param)
     {
-        if (!$uid)
-            $uid = userid();
-        global $db;
-        switch ($type)
-        {
-            case 'pm':
-            default:
-                {
-                    $count = $db->count(tbl($this->tbl), "message_id", " message_to LIKE '%#$uid#%' AND message_box='in' AND message_type='pm' AND 	message_status='unread'");
-                }
-                break;
+        $thread_id = mysql_clean($param['thread_id']);
+        $time = mysql_clean($param['time']);
 
-            case 'notification':
-            default:
-                {
-                    $count = $db->count(tbl($this->tbl), "message_id", " message_to LIKE '%#$uid#%' AND message_box='in' AND message_type='notification' AND message_status='unread'");
-                }
-                break;
+        if (isset($param['userid']))
+        {
+            $uid = $param['userid'];
+        }
+        else
+        {
+            $uid = userid();
         }
 
-        if ($count > 0)
-            return $count;
+        $fields_array = array(
+            'm' => array(
+                'message_id', 'thread_id', 'message', 'subject', 'seen_by',
+                'time_added'
+            ),
+            'u' => array(
+                'username', 'email', 'first_name', 'last_name', 'userid',
+                'avatar', 'avatar_url'
+            )
+        );
+
+        $the_fields = tbl_fields($fields_array);
+
+        $query = " SELECT " . $the_fields . " FROM " . tbl('messages'). " AS m";
+        $query .= " LEFT JOIN " . tbl('users') . ' AS u ON  ';
+        $query .= 'm.userid = u.userid ';
+
+        $query .= " WHERE thread_id='$thread_id' ";
+        $query .= " AND m.time_added > '".$time."'";
+        $query .= " AND m.userid!='$uid' ";
+        $query .= " ORDER BY m.time_added ASC ";
+
+        $results = db_select($query);
+        
+
+        if($results)
+            return $results;
         else
-            return "0";
+            return false;
+        
     }
 
     /**
@@ -716,8 +737,20 @@ class cb_pm
         arsort($recipients);
         $total_recipients = count($recipients);
         
+        if($subject)
+            $subject = strip_tags(replacer($subject));
+
         $recipients_imploded = implode('|', $recipients);
         $recipient_md5 = md5($recipients_imploded);
+
+        //Make first three MAIN recipients
+        $main_limit = 3;
+        $main_recipients = array();
+        for ($i = 0; $i < $main_limit; $i++)
+        {
+            if ($recipients[$i])
+                $main_recipients[] = get_basic_user_details($recipients[$i]);
+        }
 
         $thread_id = $this->get_thread_from_md5($recipient_md5);
 
@@ -727,8 +760,10 @@ class cb_pm
                 'thread_type' => $thread_type,
                 'userid' => $userid,
                 'recipient_md5' => $recipient_md5,
-                'total_recipients'  => $total_recipients,
+                'total_recipients' => $total_recipients,
                 'date_added' => now(),
+                'subject'       => $subject,
+                'main_recipients' => json_encode($main_recipients),
                 'time_added' => time()
             );
 
@@ -803,6 +838,14 @@ class cb_pm
             return false;
         }
 
+        $message = strip_tags(replacer($message));
+        $subject = strip_tags(replacer($subject));
+
+        if (!$message)
+        {
+            e(lang('Message was empty'));
+            return false;
+        }
 
         //Add message and send emnail...
 
@@ -823,30 +866,29 @@ class cb_pm
             'last_userid' => $userid,
             'last_message_id' => $message_id,
             'last_message_date' => now(),
+            'last_message' => $message,
             'total_messages' => '{{total_messages+1}}'
         );
-        
-        
+
+
         //Exlude sender
         $exclude_notifiers = array($userid);
-        $this->add_message_notifications($thread_id,$exclude_notifiers);
-        
+        $this->add_message_notifications($thread_id, $exclude_notifiers);
+
 
         db_update(tbl('threads'), $fields, " thread_id='$thread_id' ");
-        
+
         //Increment unread message
-        db_update(tbl('recipients'),
-        array(
-            'unread_msgs'=>'{{unread_msgs+1}}',
-            'unseen_msgs'=>'{{unseen_msgs+1}}'
-        ),
-        "thread_id='$thread_id' AND userid !='$userid' ");
-   
-        
+        db_update(tbl('recipients'), array(
+            'unread_msgs' => '{{unread_msgs+1}}',
+            'unseen_msgs' => '{{unseen_msgs+1}}'
+                ), "thread_id='$thread_id' AND userid !='$userid' ");
+
+
         global $userquery;
 
         //if($message_id)
-        
+
 
         return $message_id;
     }
@@ -946,51 +988,19 @@ class cb_pm
     function get_threads($options = NULL)
     {
         $o = $options;
-        
+
         $fields_array = array(
             't' => array(
                 'thread_id', 'total_recipients', 'total_messages',
-                'date_added', 'time_added', 'last_message_date'
+                'date_added', 'time_added', 'last_message_date',
+                'main_recipients', 'last_message','subject'
             ),
-            'u' => array(
-                'username', 'email', 'first_name', 'last_name', 'userid',
-                'avatar', 'avatar_url'
-            ),
-            'r' => array(
-                'recipient_id',
-            ),
-            'm' => array(
-                'message_id', 'thread_id', 'message', 'subject', 'seen_by',
-                'time_added'
-            ),
+            'r' => 'recipient_id'
         );
 
-        $the_fields = '';
-        foreach ($fields_array as $table => $fields)
-        {
-            if ($fields)
-            {
-                foreach ($fields as $field)
-                {
-                    if ($the_fields)
-                        $the_fields .= ",";
+        $the_fields = tbl_fields($fields_array);
 
-                    $the_fields .= ($table . '.' . $field);
-                }
-            }
-        }
 
-        $users_fields = '';
-        foreach ($fields_array['u'] as $field)
-        {
-
-            if ($users_fields)
-                $users_fields .= ",";
-
-            $users_fields .= ('u.' . $field);
-        }
-
-        
         /**
          * How this query works..
          * 
@@ -1002,68 +1012,81 @@ class cb_pm
          * with the recipients as you can see its name is tr
          * ON threads.thread_id = tr.thread_id
          * 
+         * This query is not used anymore because of its complexity
+
+
+          $query = "  SELECT $the_fields FROM " . tbl('recipients') . " as r";
+          $query .= " INNER JOIN " . tbl('threads') . ' as t ON ';
+          $query .= ' t.thread_id=r.thread_id ';
+          $query .= " INNER JOIN " . tbl('messages') . ' as m ON ';
+          $query .= ' t.last_message_id=m.message_id ';
+          $query .= " INNER JOIN " . tbl('recipients') . " as tr ON ";
+          $query .= " t.thread_id = tr.thread_id";
+          $query .= " INNER JOIN (SELECT * FROM ".tbl('users')." LIMIT 3 ) AS u on ";
+          $query .= " u.userid = tr.userid";
+
+         * 
          */
-        
+        /** Simplified query * */
         $query = "  SELECT $the_fields FROM " . tbl('recipients') . " as r";
         $query .= " INNER JOIN " . tbl('threads') . ' as t ON ';
         $query .= ' t.thread_id=r.thread_id ';
-        $query .= " INNER JOIN " . tbl('messages') . ' as m ON ';
-        $query .= ' t.last_message_id=m.message_id ';
-        $query .= " INNER JOIN " . tbl('recipients') . " as tr ON ";
-        $query .= " t.thread_id = tr.thread_id";
-        $query .= " INNER JOIN (SELECT * FROM ".tbl('users')." LIMIT 3 ) AS u on ";
-        $query .= " u.userid = tr.userid";
-        
+
+
         start_where();
-        
-        if($o['userid'])
+
+        if ($o['userid'])
         {
-            add_where("r.userid='".$o['userid']."'");
-        }elseif(userid())
+            add_where("r.userid='" . $o['userid'] . "'");
+        }
+        elseif (userid())
         {
-            add_where("r.userid='".userid()."'");
-        }else
+            add_where("r.userid='" . userid() . "'");
+        }
+        else
         {
             return false;
         }
-        
-        if(isset($o['unread']))
+
+        if (isset($o['unread']))
         {
             add_where(" r.unread_msgs>0 ");
         }
-        
-        if(isset($o['unseen']))
+
+        if (isset($o['unseen']))
         {
             add_where(" r.unseen_msgs>0 ");
         }
-        
-        if(get_where())
-            $query .= " WHERE ".get_where();
-        
+
+        if (get_where())
+            $query .= " WHERE " . get_where();
+
         end_where();
-        
-        if(!$o['order'])
+
+        if (!$o['order'])
             $query .= " ORDER BY last_message_date DESC ";
         else
-            $query .= " ORDER BY ".$o['order'];
-        
-        if($o['limit'])
-            $query .= " LIMIT ".$o['limit'];
-        
+            $query .= " ORDER BY " . $o['order'];
+
+        if ($o['limit'])
+            $query .= " LIMIT " . $o['limit'];
+
         $results = db_select($query);
 
         $the_results = array();
-        if($results)
-        foreach ($results as $result)
-        {
-            $the_results[$result['thread_id']]['thread'] = $result;
-            $the_results[$result['thread_id']]['recipients'][] = $result;
-        }
-        
+        if ($results)
+            foreach ($results as $result)
+            {
+                $the_results[] = $result;
+                //$the_results[$result['thread_id']]['thread'] = $result;
+                //$the_results[$result['thread_id']]['recipients'][] = $result;
+            }
+
+
+
         return $the_results;
     }
-    
-    
+
     /**
      * Mark User messages seen
      * 
@@ -1074,18 +1097,18 @@ class cb_pm
      */
     function mark_messages_seen($uid)
     {
-        if($uid) return false;
-        
+        if ($uid)
+            return false;
+
         $uid = mysql_clean($uid);
-        
-        db_update(tbl('recipients'),array(
-            'unseen_msgs'   => 0
-        )," userid='$uid' ");
-        
+
+        db_update(tbl('recipients'), array(
+            'unseen_msgs' => 0
+                ), " userid='$uid' ");
+
         return true;
     }
-    
-    
+
     /**
      * get messages
      * 
@@ -1094,42 +1117,28 @@ class cb_pm
     function get_messages($array = NULL)
     {
         $fields_array = array(
-            'messages' => array(
+            'm' => array(
                 'message_id', 'thread_id', 'message', 'subject', 'seen_by',
                 'time_added'
             ),
-            'users' => array(
+            'u' => array(
                 'username', 'email', 'first_name', 'last_name', 'userid',
                 'avatar', 'avatar_url'
             )
         );
 
-        $the_fields = "";
+        $the_fields = tbl_fields($fields_array);
+        
         $thread_id = $array['thread_id'];
 
-        foreach ($fields_array as $table => $fields)
-        {
-            if ($fields)
-            {
-                foreach ($fields as $field)
-                {
-                    if ($the_fields)
-                        $the_fields .= ",";
 
-                    $the_fields .= tbl($table . '.' . $field);
-                }
-            }
-        }
-
-        $query = " SELECT " . $the_fields . " FROM " . tbl('messages');
-        $query .= " LEFT JOIN " . tbl('users') . ' ON  ';
-        $query .= tbl('messages.userid') . ' = ' . tbl('users.userid');
+        $query = " SELECT " . $the_fields . " FROM " . tbl('messages'). " AS m";
+        $query .= " LEFT JOIN " . tbl('users') . ' AS u ON  ';
+        $query .= 'm.userid = u.userid ';
 
         $query .= " WHERE thread_id='$thread_id' ";
         $query .= " ORDER BY time_added ASC ";
-
-
-
+        
         $results = db_select($query);
 
         return $results;
@@ -1143,122 +1152,85 @@ class cb_pm
      */
     function get_thread($tid)
     {
+        $tid = mysql_clean($tid);
+
         $fields_array = array(
             't' => array(
                 'thread_id', 'total_recipients', 'total_messages',
-                'date_added', 'time_added', 'last_message_date'
-            ),
-            'u' => array(
-                'username', 'email', 'first_name', 'last_name', 'userid',
-                'avatar', 'avatar_url'
+                'date_added', 'time_added', 'last_message_date',
+                'main_recipients', 'last_message','subject'
             ),
             'r' => array(
                 'recipient_id',
             ),
-            'm' => array(
-                'message_id', 'thread_id', 'message', 'subject', 'seen_by',
-                'time_added'
-            ),
         );
 
-        $the_fields = '';
-        foreach ($fields_array as $table => $fields)
-        {
-            if ($fields)
-            {
-                foreach ($fields as $field)
-                {
-                    if ($the_fields)
-                        $the_fields .= ",";
-
-                    $the_fields .= ($table . '.' . $field);
-                }
-            }
-        }
-
-        $users_fields = '';
-        foreach ($fields_array['u'] as $field)
-        {
-
-            if ($users_fields)
-                $users_fields .= ",";
-
-            $users_fields .= ('u.' . $field);
-        }
+        $the_fields = tbl_fields($fields_array);
 
         $thread_id = $tid;
 
         $query = "  SELECT $the_fields FROM " . tbl('recipients') . " as r";
-        $query .= " INNER JOIN ( SELECT * FROM " . tbl('threads') ." WHERE thread_id='$tid' LIMIT 1) as t ON ";
+        $query .= " INNER JOIN " . tbl('threads') . ' as t ON ';
         $query .= ' t.thread_id=r.thread_id ';
-        $query .= " INNER JOIN ( SELECT * FROM " . tbl('messages')." WHERE thread_id='$tid' "; 
-        $query .= ' ORDER BY date_added ASC LIMIT 1)';
-        $query .= '  as m ON t.thread_id=m.thread_id ';
-        $query .= " INNER JOIN " . tbl('recipients') . " as tr ON ";
-        $query .= " t.thread_id = tr.thread_id";
-        $query .= " INNER JOIN (SELECT * FROM ".tbl('users')." LIMIT 3 ) AS u on ";
-        $query .= " u.userid = tr.userid";
-        
+
         start_where();
-        
-        if($o['userid'])
+
+        if ($o['userid'])
         {
-            add_where("r.userid='".$o['userid']."'");
-        }elseif(userid())
+            add_where("r.userid='" . $o['userid'] . "'");
+        }
+        elseif (userid())
         {
-            add_where("r.userid='".userid()."'");
-        }else
+            add_where("r.userid='" . userid() . "'");
+        }
+        else
         {
             return false;
         }
-        
 
-        
-        if(get_where())
-            $query .= " WHERE ".get_where();
-        
+        add_where("r.thread_id='" . $tid . "'");
+
+
+        if (get_where())
+            $query .= " WHERE " . get_where();
+
         end_where();
-        
+
+        $query .= " LIMIT 1 ";
+
         $results = db_select($query);
-        
-        $the_results = array();
-        foreach ($results as $result)
-        {
-            $the_results[$result['thread_id']]['thread'] = $result;
-            $the_results[$result['thread_id']]['recipients'][] = $result;
-        }
-        
-        
-        return $the_results;
-        
+
+        if ($results)
+            return $results[0];
+        else
+            return false;
     }
 
-    
     /**
      * Add message notification
      */
-    function add_message_notifications($thread_id,$exclude=NULL)
+    function add_message_notifications($thread_id, $exclude = NULL)
     {
         global $userquery;
-        
-        $query = "SELECT userid FROM ".tbl('recipients');
+
+        $query = "SELECT userid FROM " . tbl('recipients');
         $query .= " WHERE thread_id='$thread_id' ";
-        
+
         $results = db_select($query);
-        
-        if(!is_array($exclude))
+
+        if (!is_array($exclude))
             $exclude = array();
-        
-        if($results)
+
+        if ($results)
         {
-            foreach($results as $user)
-            {   if(!in_array($user['userid'], $exclude))
-                $userquery->new_notify($user['userid'], 'new_msgs');
+            foreach ($results as $user)
+            {
+                if (!in_array($user['userid'], $exclude))
+                    $userquery->new_notify($user['userid'], 'new_msgs');
             }
         }
-        
     }
-    
+
 }
 
 ?>

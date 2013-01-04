@@ -1,12 +1,12 @@
-<div id="thread-block-{$thread.thread.thread_id}" onclick="window.location='{get_thread_link($thread)}' ">
+<div id="thread-block-{$thread.thread_id}" onclick="window.location='{get_thread_link($thread)}' ">
     <div class="notification {if !$last}notification-padding{/if}" >
-
+        
         <img src="{$userquery->avatar($thread)}" class="notify_avatar"/>
         <div class="notification_data">
             <strong>{list_thread_recipients($thread)}</strong>
-            <div>{$thread.thread.message}</div>
+            <div>{$thread.last_message}</div>
             <div class="notification_time">
-                <i class="{get_notify_icon($notification)}"></i> {what_time($thread.thread.time_added)}
+                {what_time($thread.time_added)}
             </div>
         </div>
 

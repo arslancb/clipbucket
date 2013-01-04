@@ -692,15 +692,15 @@ switch ($mode)
         {
             $friend = post('uid');
             $userid = userid();
-            
+
             $message = post('message');
 
             if ($userid)
             {
                 $userquery->add_friend_request(array(
-                    'userid'    => $userid,
+                    'userid' => $userid,
                     'friend_id' => $friend,
-                    'message'   => $message
+                    'message' => $message
                 ));
 
                 if (msg())
@@ -796,12 +796,12 @@ switch ($mode)
     case "get_new_msgs":
         {
             $uid = userid();
-            
-            $threads = $cbpm->get_threads(array('unseen'=>'yes'));
-            
+
+            $threads = $cbpm->get_threads(array('unseen' => 'yes'));
+
             $cbpm->mark_messages_seen($uid);
             $userquery->read_notification($uid, 'msgs');
-            
+
             if ($threads)
             {
                 $thread_template = '';
@@ -828,15 +828,75 @@ switch ($mode)
         {
             $fid = post('fid');
             $uid = userid();
-            
-            $userquery->unfriend($fid,$uid);
-            
-            if(error())
+
+            $userquery->unfriend($fid, $uid);
+
+            if (error())
             {
-                echo json_encode(array('err'=>error()));
-            }else
+                echo json_encode(array('err' => error()));
+            }
+            else
             {
-                echo json_encode(array('success'=>'yes','msg'=>msg()));
+                echo json_encode(array('success' => 'yes', 'msg' => msg()));
+            }
+        }
+        break;
+
+
+    case "send_message":
+        {
+            $msg = post('message');
+            $tid = post('thread_id');
+            $subj = post('subject');
+
+            $mid = $cbpm->send_message(array(
+                'message' => $msg,
+                'thread_id' => $tid,
+                'subject' => $suj
+                    ));
+
+            if (error())
+            {
+                echo json_encode(array('err' => error()));
+            }
+            else
+            {
+                $message = $userquery->udetails;
+                $message['message_id'] = $mid;
+                $message['message'] = message(strip_tags(replacer($msg)));
+                $message['time_added'] = time();
+                $message['thread_id'] = $tid;
+                assign('message', $message);
+                $template = get_template('single_message');
+                echo json_encode(array('success' => 'yes', 'template' => $template));
+            }
+        }
+        break;
+        
+        case "fetch_new_msgs":
+        {
+            $tid = post('thread_id');
+            $time = post('time');
+            
+            $messages = $cbpm->get_new_messages(array(
+                'thread_id' => $tid,
+                'time'      => $time
+            ));
+            
+            $the_array = array();
+            $template = '';
+            if($messages){
+                foreach($messages as $msg)
+                {
+                    assign('message', $msg);
+                    $template .= get_template('single_message');
+                    $the_array['ids'][] = $msg['message_id'];
+                }
+                
+                $the_array['time'] = time();
+                $the_array['template'] = $template;
+                
+                echo json_encode($the_array);
             }
         }
         break;
