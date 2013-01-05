@@ -69,6 +69,59 @@ class user_content {
         return $this->GROUPS = $groups;
     }
     
+    function __get_current_object_name( $name = true ) {
+        $lists = $this->__filter_user_object_content();
+        $index = $this->_build_index_object_content();
+        if ( $lists ) {
+            if ( !$index || !$lists[ $index ] ) {
+                $index = key( $lists );
+            }
+            
+            if( $name === true ) {
+                $k = $this->__extract_key_details( $index );
+                $name = apply_filters( $k[0], 'object_name' );
+                return $name;
+            } else {
+                $list[ $index ] = $lists[ $index ];
+                return $list;
+            }
+        }
+        
+        return false;
+    }
+    
+    function __get_current_object_content_type_name( $name = true ) {
+        $list = $this->__get_current_object_name( false );
+        
+        if ( $list ) {
+            $index = key ( $list );
+            if ( strpos( $index, 'is_content') === false ) {
+                $content_type = mysql_clean( get('content_type') );
+                if ( !$content_type ) {
+                    $content_type = key( $list[ $index ] );
+                }
+                
+                $content_type = $this->_build_index_object_content( $content_type );
+                
+                if ( !$content_type ) {
+                    $content_type = key( $list[ $index ] );
+                }
+                
+                if ( $name === true ) {
+                    $name = $list[ $index ][ $content_type ]['content_type'];
+                    $name = apply_filters( $name, 'object_name' );
+                    return $name;
+                } else {
+                    $content_type[ $content_type ] = $list[ $index ][ $content_type ];
+                    return $content_type;
+                }
+                
+            }
+        }
+        
+        return false;
+    }
+    
     /**
      * Get details of user whose content is being
      * viewed
@@ -286,9 +339,9 @@ class user_content {
      * @param string $return
      * @return array
      */
-    function __filter_user_object_content( $_group = null, $return = false ) {
+    function __filter_user_object_content( $_group = null, $return = false, $cache = false ) {
         
-        if( $this->__get_filtered_content() ) {
+        if( $this->__get_filtered_content() && $cache === false ) {
             return $this->__get_filtered_content();
         }
         
@@ -357,7 +410,7 @@ class user_content {
                     $filtered_content[ $key ] = $value;
                 }
             }
-            $this->active_group = $group;
+            
             return ( $return ) ? $filtered_content : $this->__set_filtered_content( $filtered_content );
         }
     }
@@ -379,7 +432,7 @@ class user_content {
         if ( !$object || !$odetails[ $object_group ][ $object ] ) {
             $object = key( $odetails[ $object_group ] );
         }
-
+        
         if ( $object_group && $object ) {
             if ( $odetails[$object_group][$object] ) {
                 return ( $odetails[$object_group][$object][ $build ] ? implode("", $odetails[$object_group][$object][ $build ] ) : false );
@@ -401,7 +454,13 @@ class user_content {
         
         if ( $content ) {
             $keys = array_keys( $content );
-            
+            if ( !$content[ $keys[0] ]['group'] ) {
+                $first_key = key( $content[ $keys[0] ] );
+                $group = $content[ $keys[0] ][ $first_key ]['group'];
+            } else {
+                $group = $content[ $keys[0] ]['group'];
+            }
+
             foreach ( $keys as $key ) {
                 $active = '';
                 if ( $index == $key ) {
@@ -410,7 +469,7 @@ class user_content {
                 $k = $this->__extract_key_details( $key );
                 $name = apply_filters( $k[0], 'object_name' );
                 $name = apply_filters( $name, $k[0].'_name_filter' );
-                $output .= '<li class="user-objects-list user-object-'.$k[0].$active.'"><a href="'.make_user_content_link( $user['username'], $this->active_group, $k[0] ).'">'.$name.'</a></li>';
+                $output .= '<li class="user-objects-list user-object-'.$k[0].$active.'"><a href="'.make_user_content_link( $user['username'], $group, $k[0] ).'">'.$name.'</a></li>';
             }
             
             return $output;
@@ -434,7 +493,7 @@ class user_content {
             unset( $groups[ $active_group ] );
             $total_groups =  count( $groups ); $group_count = 0;
             foreach ( $groups as $group => $group_content ) {
-                $group_content = $this->__filter_user_object_content( $group, true );
+                $group_content = $this->__filter_user_object_content( $group, true, true );
                 if ( $group_content ) {
                     $keys = array_keys( $group_content );
                     
@@ -467,6 +526,7 @@ class user_content {
         $content = $this->__filter_user_object_content();
         $index = $this->_build_index_object_content();
         $user = $this->__get_current_user();
+        
         if ( $content[ $index ] ) {
             
             if ( strpos( $index, ':is_content') !== false ) {
@@ -493,7 +553,7 @@ class user_content {
                 }
                 $name = apply_filters( $object_content['content_type'], 'content_type_name' );
                 $name = apply_filters( $name, $object_content['object'].'_'.$type.'_name_filter' );
-                $output .= '<li class="user-object-content-type user-object-content-'.$object_content['content_type'].' user-object-'.$object_content['object'].'-'.$object_content['content_type'].$active.'"><a href="'.  make_user_content_link( $user['username'], $this->active_group, $object_content['object'], $object_content['content_type'] ).'">'.$name.'</a></li>';               
+                $output .= '<li class="user-object-content-type user-object-content-'.$object_content['content_type'].' user-object-'.$object_content['object'].'-'.$object_content['content_type'].$active.'"><a href="'.  make_user_content_link( $user['username'], $object_content['group'], $object_content['object'], $object_content['content_type'] ).'">'.$name.'</a></li>';               
             }
             
             return $output;
@@ -570,6 +630,17 @@ class user_content {
                 
         return $output;
     }
+    
+    function _get_subtitle() {
+        $user = $this->get_current_user();
+        $object = $this->__get_current_object_name();
+        $content_type = $this->__get_current_object_content_type_name();
+        $name = sprintf( '%s\'s ', name( $user ) );
+        $subtitle = $name.' '.( $content_type ? $content_type.' ' : '' ).$object;
+        $subtitle = apply_filters( $subtitle, 'content_heading' );
+        
+        return $subtitle;
+    }
 }
 
 /**
@@ -595,9 +666,8 @@ function display_other_objects_list() {
     return $usercontent->_display_other_objects_list();
 }
 
-/**
- * Adding functions for usercontent
- */
+
+/* STARTING USERCONTENT FUNCTIONS */
 
 /**
  * This makes string readable
@@ -637,6 +707,13 @@ function make_user_content_link( $user = null, $group = null, $object = null, $c
     
     return $link;
 }
+
+function get_current_object_heading() {
+    global $usercontent;
+    return $usercontent->_get_subtitle();
+}
+
+/* ENDING USERCONTENT FUNCTIONS */
 
 /**
  * Following are default callbacks for user content
@@ -686,7 +763,7 @@ function cb_get_user_uploaded_videos ( $content, $key ) {
     $params['total_videos'] = $total_rows;
     $params['mode'] = 'uploaded';
     
-    subtitle(sprintf(lang("users_videos"),name( $udetails ) ));
+    subtitle( sprintf(lang("users_videos"),name( $udetails ) ));
     
     return fetch_template_file($params);
 }
@@ -714,15 +791,15 @@ function cb_get_user_uploaded_photos( $content, $key ) {
 }
 
 function cb_get_user_favorite_photos() {
-    global $usercontent, $pages, $cbphoto;
+    global $usercontent, $pages, $cbphoto, $db;
     
     $user = $usercontent->get_current_user();
     $page = mysql_clean( get('page') );
     $limit = create_query_limit($page,config('photo_user_favorites'));
-    
-    $photos = $cbphoto->action->get_favorites( array("user"=>$user['userid'],"limit"=>$limit) );
-    
-    $total_rows = $cbphoto->action->get_favorites( array("user"=>$user['userid'],"limit"=>$limit, "count_only" => true ) );
+
+    $photos = $cbphoto->action->get_favorites( array("userid"=>$user['userid'],"limit"=>$limit) );
+
+    $total_rows = $cbphoto->action->get_favorites( array("userid"=>$user['userid'],"limit"=>$limit, "count_only" => true ) );
     $total_pages = count_pages( $total_rows,config('photo_user_favorites') );
     $pages->paginate( $total_pages, $page );
     

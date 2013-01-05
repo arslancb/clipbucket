@@ -22,7 +22,9 @@ $udetails = $userquery->get_user_details( $u, false, true );
 
 if ( $udetails ) {
     $usercontent->__set_current_user( $udetails );
-    assign("u",$udetails);
+    
+    assign("u",$udetails);    
+    subtitle( get_current_object_heading() );
 } else {
     	e(lang("usr_exist_err"));
 	$Cbucket->show_page = false;
