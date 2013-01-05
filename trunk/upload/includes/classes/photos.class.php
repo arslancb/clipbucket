@@ -196,8 +196,8 @@ class CBPhotos {
         $Cbucket->links['photo_upload'] = array('photo_upload.php', 'photo_upload');
         $Cbucket->links['manage_favorite_photos'] = array('manage_photos.php?mode=favorite', 'manage_photos.php?mode=favorite');
         $Cbucket->links['manage_orphan_photos'] = array('manage_photos.php?mode=orphan', 'manage_photos.php?mode=orphan');
-        $Cbucket->links['user_photos'] = array('user_photos.php?mode=uploaded&amp;user=', 'user_photos.php?mode=uploaded&amp;user=');
-        $Cbucket->links['user_fav_photos'] = array('user_photos.php?mode=favorite&amp;user=', 'user_photos.php?mode=favorite&amp;user=');
+        $Cbucket->links['user_photos'] = array('user_content.php?object_group=content&object=photos&user=', 'user_content.php?object_group=content&object=photos&user=');
+        $Cbucket->links['user_fav_photos'] = array('user_content.php?object_group=content&object=photos&content_type=favorite&user=', 'user_content.php?object_group=content&object=photos&content_type=favorite&user=');
        
         // Setting Home Tab
         add_menu_item('navigation', lang('Photos'), cblink(array("name"=>"photos")), "photos","icon-picture icon-white");

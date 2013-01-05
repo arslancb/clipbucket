@@ -1,48 +1,14 @@
-{lang code='channel' assign='object_type'}
-{include file="$style_dir/global_header.html"}
-<body class="relative view_channel">
-{display_user_custom_background( $u )}
-    <div class="container view-channel-container">
-        {include_template_file file="header.html" }
-        <div id="global-container" class="relative clearfix">
-            {include file="$style_dir/message.html"}
-            <div class="view-channel-box user-info-box clearfix">
-                <a href="{$userquery->profile_link($u)}"><img src="{avatar size='small' details=$u}" width="30" height="30" /> {name($u)}</a>
-            </div>
-            <div class="view-channel-box user-pages-navigation-container clearfix">
-                <div class="user-pages-navigation">
-                    <ul class="user-pages-list">
-                        <li class="active"><a href="{link name='user_videos'}{$u.username}">{lang code='Videos'}<span>{$u.total_videos|number_format}</span></a></li>
-                        <li><a href="{link name='user_photos'}{$u.username}">{lang code='Photos'}<span>{$u.total_photos|number_format}</span></a></li>
-                        <li><a href="{link name='user_collections'}{$u.username}">{lang code='Collections'}<span>{$u.total_collections|number_format}</span></a></li>
-                    </ul>
-                </div>
-            </div>
             
-            <div class="view-channel-box-connector"></div>
-            
-            <div class="view-channel-box user-pages-navigation-container clearfix">
-                <div class="user-pages-navigation">
-                    <ul class="user-pages-list">
-                        <li{if !$mode || $mode == 'uploaded'} class="active"{/if}><a href="{link name='user_videos'}{$u.username}">{lang code='Uploaded'}</a></li>
-                        <li{if $mode == 'favorite'} class="active"{/if}><a href="{link name='user_favorites'}{$u.username}">{lang code='Favorite'}</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="view-channel-box clearfix">
-                <div class="view-channel-box-header"><h4>{$the_title}</h4></div>
-                <div class="view-channel-box-content clearfix">
-                    {if $videos}
-                        {foreach $videos as $video}
-                            {include_template_file file='blocks/video.html' video=$video}
-                        {/foreach}
-                    {else}
-                        <p class="alert alert-large">{lang code='No videos found'}</p>
-                    {/if}
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+<div class="view-channel-box-header"><h4>{$the_title}</h4></div>
+<div class="view-channel-box-content clearfix">
+    {if $videos}
+        {foreach $videos as $video}
+            {include_template_file file='blocks/video.html' video=$video}
+        {/foreach}
+    {else}
+        <p class="alert alert-large">{lang code='No videos found'}</p>
+    {/if}
+</div>
+<div class="view-channel-box-footer">
+    {get_template('pagination')}
+</div>

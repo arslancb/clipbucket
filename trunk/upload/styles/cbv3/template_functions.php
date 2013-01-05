@@ -136,4 +136,45 @@ function cbv3_photo_tagger_options( $options ) {
 
 register_filter( 'tagger_configurations', 'cbv3_photo_tagger_options' );
 
+
+function show_total_videos ( $name ) {
+    global $usercontent;
+    $user = $usercontent->get_current_user();
+    $total_videos = number_format( $user['total_videos'] );
+    return $name." <span>$total_videos</span>";
+}
+
+function show_total_photos ( $name ) {
+    global $usercontent;
+    $user = $usercontent->get_current_user();
+    $total_videos = number_format( $user['total_photos'] );
+    return $name." <span>$total_videos</span>";
+}
+
+function show_total_subscribers( $name ) {
+    global $usercontent;
+    $user = $usercontent->get_current_user();
+    return $name." <span>".number_format( $user['subscribers'] )."</span>";
+}
+
+function show_total_subscriptions ( $name ) {
+     global $usercontent;
+    $user = $usercontent->get_current_user();
+    return $name." <span>".number_format( $user['total_subscriptions'] )."</span>";   
+}
+
+function show_total_friends( $name ) {
+    global $usercontent, $userquery;
+    $user = $usercontent->get_current_user();
+    
+    $total_contacts = $userquery->get_contacts( $user['userid'], 0, 'yes', true );
+    return $name." <span>".number_format( $total_contacts )."</span>";  
+}
+
+register_filter( 'videos_name_filter', 'show_total_videos' );
+register_filter( 'photos_name_filter', 'show_total_photos' );
+
+register_filter('subscribers_name_filter', 'show_total_subscribers');
+register_filter('subscriptions_name_filter', 'show_total_subscriptions');
+register_filter('friends_name_filter', 'show_total_friends');
 ?>

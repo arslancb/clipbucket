@@ -93,6 +93,7 @@
                     </tbody>
                 </table>
             </form>
+            {get_template('pagination')}
             {/if}
             {if !$photos}
             <p class="alert alert-large">{lang code='No founds photos'}{if $smarty.get.query},{lang code='matching this keyword'}{/if}.</p>

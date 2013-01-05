@@ -6,7 +6,7 @@
  */
 
 include(BASEDIR.'/modules/uploader/uploader.php');
-
+include('classes/usercontent.class.php');
 
 /***
  * Adding custom thumb sizes
@@ -172,4 +172,76 @@ register_filter( 'dashboard_widgets', '_test_function_ordering' );
 
 register_anchor_function( 'init_dashboard_js', 'cb_head' );
 setup_myaccount_dashboard();
+
+/**
+ * User Content Setup
+ */
+
+register_filter( 'object_name', 'usercontent_make_label' );
+register_filter( 'content_type_name', 'usercontent_make_label' );
+
+register_filter( 'object_name','lang' );
+register_filter( 'content_type_name', 'lang' );
+
+$usercontent = new user_content();
+
+$usercontent->object_group = 'content';
+$usercontent->object = 'videos';
+$usercontent->section = true;
+$usercontent->content_type = 'uploaded';
+$usercontent->get_callback = 'cb_get_user_uploaded_videos';
+$usercontent->permissions = 'show_my_videos';
+$usercontent->add_new_content();
+
+$usercontent->object_group = 'content';
+$usercontent->object = 'videos';
+$usercontent->section = true;
+$usercontent->content_type = 'favorite';
+$usercontent->get_callback = 'cb_get_user_favorite_videos';
+$usercontent->permissions = 'show_my_videos';
+$usercontent->add_new_content();
+
+$usercontent->object_group = 'content';
+$usercontent->object = 'photos';
+$usercontent->section = true;
+$usercontent->content_type = 'uploaded';
+$usercontent->get_callback = 'cb_get_user_uploaded_photos';
+$usercontent->permissions = 'show_my_photos';
+$usercontent->add_new_content();
+
+$usercontent->object_group = 'content';
+$usercontent->object = 'photos';
+$usercontent->section = true;
+$usercontent->content_type = 'favorite';
+$usercontent->get_callback = 'cb_get_user_favorite_photos';
+$usercontent->permissions = 'show_my_photos';
+$usercontent->add_new_content();
+
+$usercontent->object_group = 'content';
+$usercontent->object = 'photos';
+$usercontent->section = true;
+$usercontent->content_type = 'tagged_in';
+$usercontent->get_callback = 'cb_get_user_favorite_photos';
+$usercontent->permissions = 'show_my_photos';
+$usercontent->add_new_content();
+
+$usercontent->object_group = 'connections';
+$usercontent->object = 'friends';
+$usercontent->get_callback = 'cb_get_user_friends';
+$usercontent->permissions = 'show_my_friends';
+$usercontent->add_new_content();
+
+$usercontent->object_group = 'connections';
+$usercontent->object = 'subscriptions';
+$usercontent->get_callback = 'cb_get_user_subscriptions';
+$usercontent->permissions = 'show_my_subscriptions';
+$usercontent->add_new_content();
+
+$usercontent->object_group = 'connections';
+$usercontent->object = 'subscribers';
+$usercontent->get_callback = 'cb_get_user_subscribers';
+$usercontent->permissions = 'show_my_subscribers';
+$usercontent->add_new_content();
+
+
 ?>

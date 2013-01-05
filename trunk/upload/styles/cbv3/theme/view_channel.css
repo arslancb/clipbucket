@@ -929,7 +929,6 @@ a.playlist .playlist-items-thumb.playlist-4-items .item-thumb img {
     padding: 14px 18px;
     color: #666;
     font-size: 18px;
-    font-weight: lighter;
 }
 
 .user-pages-navigation .user-pages-list li a:hover, .user-pages-navigation .user-pages-list li.active a {
@@ -1008,3 +1007,9 @@ ul.user-contacts li img {
     margin-right: 10px;
 }
 
+.name-avatar { position: relative; }
+.name-avatar:hover { text-decoration: none; }
+.name-avatar .avatar { max-width: 40px; position: absolute; }
+.name-avatar .name { margin-left: 48px; line-height: 40px; font-weight: bold; }
+
+.user-other-objects-container { float: right; padding-top: 5px; }

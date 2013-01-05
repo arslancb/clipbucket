@@ -28,11 +28,11 @@ $cbLinks = array
 'search_result'		=>array('search_result.php','search_result.php'),
 'signup'		=>array('signup.php','signup'),
 'upload'		=>array('upload.php','upload'),
-'user_contacts' 	=>array('user_contacts.php?user=','user_contacts.php?user='),
-'user_subscriptions'    =>array('user_contacts.php?mode=subscriptions&user=','user_contacts.php?mode=subscriptions&user='),
-'user_subscribers' 	=>array('user_contacts.php?mode=subscribers&user=','user_contacts.php?mode=subscribers&user='),
-'user_favorites'	=>array('user_videos.php?mode=favorites&user=','user_videos.php?mode=favorites&user='),
-'user_videos' 		=>array('user_videos.php?user=','user_videos.php?user='),
+'user_contacts' 	=>array('user_content.php?object_group=connections&user=','user_content.php?object_group=connections&user='),
+'user_subscriptions'    =>array('user_content.php?object_group=connections&object=subscriptions&user=','user_content.php?object_group=connections&object=subscriptions&user='),
+'user_subscribers' 	=>array('user_content.php?object_group=connections&object=subscribers&user=','user_content.php?object_group=connections&object=subscribers&user='),
+'user_favorites'	=>array('user_content.php?object_group=content&object=videos&content_type=favorites&user=','user_content.php?object_group=content&object=videos&content_type=favorites&user='),
+'user_videos' 		=>array('user_content.php?object_group=content&object=videos&content_type=uploaded&user=','user_content.php?object_group=content&object=videos&content_type=uploaded&user='),
 'videos'		=>array('videos.php','videos/'),
 
 );

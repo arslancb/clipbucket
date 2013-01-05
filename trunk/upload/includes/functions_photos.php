@@ -1625,15 +1625,12 @@ function get_image_file ( $params ) {
                     $attrs['width'] = $width;
                     $attrs['height'] = $height;
                     
-                    if ( USE_PHOTO_TAGGING && THIS_PAGE == 'view_item' ) {
-                        $id = $cbphoto->get_selector_id()."_".$photo['photo_id'];
+                    if ( $params['id'] ) {
+                        $id = mysql_clean( $params['id'] )."_".$photo['photo_id'];
                     } else {
-                        if ( $params['id'] ) {
-                            $id = mysql_clean( $params['id'] )."_".$photo['photo_id'];
-                        } else {
-                            $id = $cbphoto->get_selector_id()."_".$photo['photo_id'];
-                        }                               
-                    }
+                        $id = "photo_".$photo['photo_id'];
+                    }                               
+                    
                     $attrs['id'] = $id;
                     
                     if ( $params['class'] ) {
@@ -1644,11 +1641,15 @@ function get_image_file ( $params ) {
                         $attrs['align'] = mysql_clean( $params['align'] );
                     }
                     
-                    $title = $params['title'] ? $params['title'] : $photo['title'];
+                    $title = $params['title'] ? $params['title'] : $photo['photo_title'];
                     $attrs['title'] = mysql_clean ($title );
                     
-                    $alt = $params['alt'] ? $params['alt'] : TITLE.' - '.$photo['title'];
+                    $alt = $params['alt'] ? TITLE.' - '.$params['alt'] : TITLE.' - '.$photo['photo_title'];
                     $attrs['alt'] = mysql_clean( $alt );
+                    
+                    if ( add_tagging_attribute( $photo ) ) {
+                        $attrs['cb-tagger-photo'] = 'yes';
+                    }
                     
                     $anchor_p = array( "place" => 'photo_thumb', "data" => $photo );
                     $params['extra'] = ANCHOR( $anchor_p );
@@ -1687,5 +1688,27 @@ function get_image_file ( $params ) {
 function get_image_url( $photo, $size='t', $multi = false, $assign = null, $with_path = true, $with_orig = false ) {
     $params = array( "details" => $photo, "size" => $size, "multi" => $multi, "assign" => $assign, "with_path" => $with_path, "with_orig" => $with_orig );
     return get_image_file( $params );
+}
+
+/**
+ * Makes sure if photo tagging can be
+ * added or not
+ * 
+ * @param array $photo
+ * @return boolean
+ */
+function add_tagging_attribute( $photo ) {
+    if ( $photo ) {
+        // Make sure current photo is being viewed
+        // and photo tagging is enabled globally
+        if ( $photo['photo_key'] == mysql_clean(get('item')) && USE_PHOTO_TAGGING === true ) {
+            // Make sure photo has enabled tagging
+            if ( $photo['allow_tagging'] == 'yes' ) {
+                return true;
+            }
+        }
+    }
+    
+    return false;
 }
 ?>

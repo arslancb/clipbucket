@@ -86,7 +86,7 @@
         </div>
     {/if}
     
-    {$videos=get_videos(['limit'=>15])}
+    {$videos=get_videos(['limit'=>15,'order'=>'date_added desc'])}
     {if $videos}
         {$heading='Latest Videos'}
         {$more_mode='recent'}

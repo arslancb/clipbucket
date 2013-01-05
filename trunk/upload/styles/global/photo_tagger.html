@@ -4,7 +4,7 @@
 {literal}
 var CBTAGGER;
 $( document ).ready( function() {
-    CBTAGGER = $('#{/literal}{$cbphoto->get_selector_id()}_{$object.photo_id}{literal}').cbtag({/literal}{$tagger_configs}{literal}).data("cbtagger");
+    CBTAGGER = $('img[cb-tagger-photo=yes]').cbtag({/literal}{$tagger_configs}{literal}).data("cbtagger");
 })
 {/literal}
 </script>
