@@ -255,6 +255,9 @@ class cbfeeds
 
         if (!$this->feed_exists($feed) || 1)
         {
+            unset($feed['content']);
+            unset($feed['object']);
+            
             $feed_id = db_insert(tbl('feeds'), $feed);
 
             //$feed['feed_id'] = $feed_id;
@@ -1037,6 +1040,8 @@ class cbfeeds
         $query .= " ON f.object_cached_id=o.object_id ";
         $query .= " LEFT JOIN ".tbl('objects_cache')." AS c ";
         $query .= " ON f.content_cached_id=c.object_id ";
+        
+        $query .= " ORDER BY time_added DESC ";
 
         $results = db_select($query);
         if ($results)
