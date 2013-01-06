@@ -6044,9 +6044,9 @@ class userquery extends CBCategory
             $query .= " friend_id='$uid' ";
 
             if ($ignored)
-                $query .= " AND r.ignored='$ignored' ";
+                $query .= " AND ignored='$ignored' ";
             if ($seen)
-                $query .= " AND r.seen='$seen' ";
+                $query .= " AND seen='$seen' ";
 
             $results = db_select($query);
 

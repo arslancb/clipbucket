@@ -769,8 +769,8 @@ switch ($mode)
         {
             $uid = userid();
             $requests = $userquery->get_friend_requests($uid, array('seen' => 'no'));
-            //$userquery->mark_requests_seen($uid);
-            //$userquery->read_notification($uid, 'friends');
+            $userquery->mark_requests_seen($uid);
+            $userquery->read_notification($uid, 'friends');
 
             if ($requests)
             {

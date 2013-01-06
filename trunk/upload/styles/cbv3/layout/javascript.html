@@ -446,13 +446,13 @@
         
         
         
-        $('.request-block').on('click','.btn-confirm-friend',function(){
+        $('#friend-requests').on('click','.btn-confirm-friend',function(){
             $(this).attr('data-loading-text','confirming...');
             $(this).attr('data-complete-text','<i class="icon-ok"></i> Friends');
             confirm_friend($(this).attr('data-rid'),this);
         })
         
-        $('.request-block').on('click','.btn-ignore-friend',function(){
+        $('#friend-requests').on('click','.btn-ignore-friend',function(){
             $(this).attr('data-loading-text','ignoring...');
             $(this).attr('data-complete-text','<i class="icon-ok"></i> Ignored');
             ignore_friend($(this).attr('data-rid'),this);
@@ -467,14 +467,9 @@
                 unfriend(fid);
                 close_confirm();
             })
-        })
+        });
       
     });
-
-
-    
-    
-
 
     
 </script>
