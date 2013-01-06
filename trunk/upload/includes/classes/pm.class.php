@@ -705,10 +705,11 @@ class cb_pm
     {
         $default_values = array(
             'userid' => userid(),
+            'subject'   => "",
             'thread_type' => 'private',
             'recipients' => array()
         );
-
+        
         $data = array_merge($default_values, $params);
         $the_data = array(); //Keep only specific indexes
         foreach ($default_values as $key => $value)
@@ -739,7 +740,7 @@ class cb_pm
         
         if($subject)
             $subject = strip_tags(replacer($subject));
-
+        
         $recipients_imploded = implode('|', $recipients);
         $recipient_md5 = md5($recipients_imploded);
 
@@ -753,7 +754,7 @@ class cb_pm
         }
 
         $thread_id = $this->get_thread_from_md5($recipient_md5);
-
+        
         if (!$thread_id)
         {
             $insert_array = array(

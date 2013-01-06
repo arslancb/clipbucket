@@ -194,7 +194,7 @@ switch ($mode)
                 if($mid)
                 {
                     $message_details = $cbpm->get_message($mid);
-                    pr($message_details,true);
+                    //pr($message_details,true);
                     //$tid = thread id
                     $tid = $message_details['thread_id'];
                     //Redirect to thread..@todo work on this section
