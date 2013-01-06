@@ -170,25 +170,8 @@ ALTER TABLE  `{tbl_prefix}comments` ADD  `thread_id` INT( 100 ) NOT NULL AFTER  
 --12-7-2012 @author : Arslan
 
 ALTER TABLE  `{tbl_prefix}subscriptions` ADD  `type` VARCHAR( 10 ) NOT NULL DEFAULT  'user' AFTER  `subscribed_to` ,
-ADD  `time` INT( 11 ) NOT NULL AFTER  `type`;
+ADD  `time_added` INT( 11 ) NOT NULL AFTER  `type`;
 
-
---12-10-2012 @author : Arslan
-CREATE TABLE IF NOT EXISTS `{tbl_prefix}notifications` (
-  `notification_id` int(11) NOT NULL AUTO_INCREMENT,
-  `feed_id` int(11) NOT NULL,
-  `userid` int(11) NOT NULL,
-  `action` varchar(20) NOT NULL DEFAULT 'users',
-  `actor` mediumtext NOT NULL,
-  `actor_id` int(200) NOT NULL,
-  `is_read` enum('yes','no') NOT NULL DEFAULT 'no',
-  `time` bigint(11) NOT NULL,
-  `elements` text NOT NULL,
-  `date_added` datetime NOT NULL,
-  `email_sent` enum('yes','no') NOT NULL DEFAULT 'no',
-  `send_email` enum('yes','no') NOT NULL DEFAULT 'yes',
-  PRIMARY KEY (`notification_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --12-18-2012 @author : Fawaz
 ALTER TABLE  `{tbl_prefix}photos` ADD  `file_directory` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER  `view_exif`
@@ -348,24 +331,6 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}threads` (
   UNIQUE KEY `recipient_md5` (`recipient_md5`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `cb_user_notifications`
---
-
-DROP TABLE IF EXISTS `{tbl_prefix}user_notifications`;
-CREATE TABLE `{tbl_prefix}user_notifications` (
-  `notification_id` int(255) NOT NULL AUTO_INCREMENT,
-  `userid` int(255) NOT NULL,
-  `new_msgs` int(20) NOT NULL,
-  `new_notifications` int(20) NOT NULL,
-  `new_friend_requests` int(20) NOT NULL,
-  `date_updated` datetime NOT NULL,
-  `time_updated` int(11) NOT NULL,
-  PRIMARY KEY (`notification_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
 
 --1-1-2013 @Author Arslan
 ALTER TABLE  `{tbl_prefix}users` ADD  `active` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'yes' AFTER  `status`;
@@ -401,3 +366,78 @@ CREATE TABLE IF NOT EXISTS `cb_messages` (
   KEY `time_added` (`time_added`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
+
+
+DROP TABLE IF EXISTS `{tbl}feeds`;
+CREATE TABLE IF NOT EXISTS `{tbl}feeds` (
+  `feed_id` int(255) NOT NULL AUTO_INCREMENT,
+  `message` text NOT NULL,
+  `message_attributes` mediumtext NOT NULL,
+  `userid` int(255) NOT NULL,
+  `user` text NOT NULL,
+  `content_id` int(255) NOT NULL,
+  `content_cached_id` int(255) NOT NULL,
+  `content_type` varchar(50) NOT NULL,
+  `object_id` int(255) NOT NULL,
+  `object_cached_id` int(255) NOT NULL,
+  `object_type` varchar(50) NOT NULL,
+  `icon` varchar(255) NOT NULL,
+  `action` varchar(200) NOT NULL,
+  `action_group_id` int(11) NOT NULL,
+  `is_activity` enum('yes','no') NOT NULL DEFAULT 'no',
+  `privacy` varchar(200) NOT NULL,
+  `comments_count` bigint(255) NOT NULL,
+  `comments` text NOT NULL,
+  `likes_count` bigint(255) NOT NULL,
+  `likes` text NOT NULL,
+  `date_added` datetime NOT NULL,
+  `time_added` int(11) NOT NULL,
+  `last_commented` datetime NOT NULL,
+  `last_updated` varchar(200) NOT NULL,
+  PRIMARY KEY (`feed_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cb_notifications`
+--
+
+DROP TABLE IF EXISTS `{tbl}notifications`;
+CREATE TABLE IF NOT EXISTS `{tbl}notifications` (
+  `notification_id` int(11) NOT NULL AUTO_INCREMENT,
+  `feed_id` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `action` varchar(20) NOT NULL DEFAULT 'users',
+  `actor` mediumtext NOT NULL,
+  `actor_id` int(200) NOT NULL,
+  `is_read` enum('yes','no') NOT NULL DEFAULT 'no',
+  `time_added` int(11) NOT NULL,
+  `elements` text NOT NULL,
+  `date_added` datetime NOT NULL,
+  `email_sent` enum('yes','no') NOT NULL DEFAULT 'no',
+  `send_email` enum('yes','no') NOT NULL DEFAULT 'yes',
+  PRIMARY KEY (`notification_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cb_objects_cache`
+--
+
+DROP TABLE IF EXISTS `{tbl}objects_cache`;
+CREATE TABLE IF NOT EXISTS `cb_objects_cache` (
+  `object_id` int(255) NOT NULL AUTO_INCREMENT,
+  `type_id` int(255) NOT NULL,
+  `type` varchar(5) NOT NULL,
+  `content` text NOT NULL,
+  `last_updated` int(11) NOT NULL,
+  `time_added` int(11) NOT NULL,
+  PRIMARY KEY (`object_id`),
+  KEY `object_type_id` (`type_id`),
+  KEY `object_type_id_2` (`type_id`),
+  KEY `object_type` (`type`),
+  KEY `type_id` (`type_id`),
+  KEY `type` (`type`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
