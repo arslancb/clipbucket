@@ -428,7 +428,7 @@
         cb_khabri();
         setInterval(function(){
             cb_khabri();
-        }, 60000);
+        }, 30000);
         
         
         $('.video-options .dropdown-menu a').on('click', function (e) {
@@ -446,13 +446,13 @@
         
         
         
-        $('#friend-requests').on('click','.btn-confirm-friend',function(){
+        $('.request-block, #friend-requests').on('click','.btn-confirm-friend',function(){
             $(this).attr('data-loading-text','confirming...');
             $(this).attr('data-complete-text','<i class="icon-ok"></i> Friends');
             confirm_friend($(this).attr('data-rid'),this);
         })
         
-        $('#friend-requests').on('click','.btn-ignore-friend',function(){
+        $('.request-block, #friend-requests').on('click','.btn-ignore-friend',function(){
             $(this).attr('data-loading-text','ignoring...');
             $(this).attr('data-complete-text','<i class="icon-ok"></i> Ignored');
             ignore_friend($(this).attr('data-rid'),this);

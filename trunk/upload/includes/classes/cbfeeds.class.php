@@ -106,7 +106,7 @@ class cbfeeds
         $ufeed['object'] = $object;
         $ufeed['object_id'] = $feed['object_id'];
         $ufeed['userid'] = $uid;
-        $ufeed['time'] = time();
+        $ufeed['time_added'] = time();
 
         //Unsetting feed array
         unset($feed);
@@ -185,11 +185,43 @@ class cbfeeds
 
         //Setting content
         $feed['content'] = apply_filters($feed['content'], 'add_feed_content');
+        
+        if($feed['content'])
+        {
+            //Get content cached ID
+            $cntnt_id = $feed['content_id'];
+            $cntnt_type = $feed['content_type'];
+            $cntnt = $feed['content'];
+            
+            $content_cached_id  = $this->add_object_cache($cntnt_id,$cntnt_type,$cntnt);
+            
+            if($content_cached_id)
+            {
+                $feed['content_cached_id'] = $content_cached_id;
+            }
+        }
+        
         $feed['content'] = json_encode($feed['content']);
 
         //Setting feed object
         $feed['object'] = apply_filters($feed['object'], 'add_feed_object');
         $feed['object'] = json_encode($feed['object']);
+        
+        if($feed['object'])
+        {
+            //Get content cached ID
+            $obj_id = $feed['object_id'];
+            $obj_type = $feed['object_type'];
+            $obj = $feed['object'];
+            
+            $object_cached_id  = $this->add_object_cache($obj_id,$obj_type,$obj);
+            
+            if($content_cached_id)
+            {
+                $feed['object_cached_id'] = $object_cached_id;
+            }
+            
+        }
 
         //Get User details from message and then add it
         //To message_attributis.
@@ -218,7 +250,7 @@ class cbfeeds
 
         $feed['date_added'] = now();
         $feed['last_updated'] = time();
-        $feed['time'] = time();
+        $feed['time_added'] = time();
 
 
         if (!$this->feed_exists($feed) || 1)
@@ -986,14 +1018,27 @@ class cbfeeds
      */
     function get_feeds($array)
     {
+        
         $type = $array['type'];
         $id = $array['id'];
+        
+        $fields_arr = array(
+            'f' => $this->_get_fields(),
+            'o' => array('type_id AS object_type_id',
+                        'content as object'),
+            'c' => array('type_id AS content_type_id',
+                        'content as content')
+        );
+        
+        $fields = tbl_fields($fields_arr);
+        
+        $query = " SELECT ".$fields." FROM ".tbl('feeds')." AS f";
+        $query .= " LEFT JOIN ".tbl('objects_cache')." AS o ";
+        $query .= " ON f.object_cached_id=o.object_id ";
+        $query .= " LEFT JOIN ".tbl('objects_cache')." AS c ";
+        $query .= " ON f.content_cached_id=c.object_id ";
 
-        $results = db_select("SELECT * FROM " . tbl('feeds')
-                . " WHERE object_type='" . $type . "' AND object_id='$id' "
-                . " ORDER BY date_added DESC");
-
-
+        $results = db_select($query);
         if ($results)
         {
             $the_feeds = array();
@@ -1060,7 +1105,7 @@ class cbfeeds
             'action' => $action,
             'actor' => json_encode($actor),
             'actor_id' => $actor_id,
-            'time' => time(),
+            'time_added' => time(),
             'elements' => json_encode($elements),
             'date_added' => now()
         ));
@@ -1104,8 +1149,8 @@ class cbfeeds
             'userid' => $uid,
             'type' => $type,
             'subscribed_to' => $id,
-            'time' => time()
-                ));
+            'time_added' => time()
+        ));
 
 
         return $subs_id;
@@ -1157,7 +1202,7 @@ class cbfeeds
                 {
                     $query = "SELECT * FROM cb_notifications ";
                     $query .= " WHERE userid='$uid' ";
-                    $query .= " ORDER BY time DESC ";
+                    $query .= " ORDER BY time_added DESC ";
                     $query .= " LIMIT " . $limit;
                     $notifications = db_select($query);
                 }
@@ -1168,7 +1213,7 @@ class cbfeeds
                     $query = "SELECT * FROM cb_notifications ";
                     $query .= " WHERE userid='$uid' ";
                     $query .= " AND is_read='no'";
-                    $query .= " ORDER BY time DESC ";
+                    $query .= " ORDER BY time_added DESC ";
                     $notifications = db_select($query);
                 }
         }
@@ -1211,8 +1256,18 @@ class cbfeeds
      */
     function get_feed_object($fid)
     {
-        $query = "SELECT object_id,object_type,object FROM ";
-        $query .= tbl('feeds') . " WHERE feed_id='$fid' ";
+        $fields_arr = array(
+            'f' => array('object_id','object_type'),
+            'o' => array('content AS object')
+        );
+        
+        $fields = tbl_fields($fields_arr);
+        
+        $query = "SELECT $fields FROM ";
+        $query .= tbl('feeds') . " AS f ";
+        $query .= " LEFT JOIN ".tbl('objects_cache')." AS o ";
+        $query .= " ON f.object_cached_id=o.object_id ";
+        $query .= " WHERE f.feed_id='$fid' ";
         $query .= " LIMIT 1";
 
         $results = db_select($query);
@@ -1227,6 +1282,76 @@ class cbfeeds
         }
         else
             return false;
+    }
+    
+    /**
+     * function will get cached content ID from cb_objects_cache table
+     * 
+     * @param INT $ID ID of the content
+     * @param STRING $type Type of the content
+     * @return INT ID of the cached object
+     */
+    function get_cached_id($id,$type)
+    {
+        if(!$id || !$type) return false;
+        
+        $id = mysql_clean($id);
+        $type = mysql_clean($type);
+        
+        $query = "SELECT object_id FROM ".tbl('objects_cache');
+        $query .= " WHERE type_id='$id' AND type='$type' ";
+        
+        $results = db_select($query);
+        
+        if($results)
+            return $results[0]['object_id'];
+        else
+            return false;
+    }
+    
+    /**
+     * Insert an object into cb_objects_cache table
+     * to retrieve data fast
+     * 
+     * @param INT $ID ID of the content
+     * @param STRING $type Type of the content
+     * @return INT ID of the cached object
+     */
+    function add_object_cache($id,$type,$content)
+    {
+        if(!$id || !$type || !$content) return false;
+            
+        if(is_array($content)) $content = json_encode($content);
+        $cid = $this->get_cached_id($id,$type);
+        
+        if($cid) return $cid;
+        
+        $fields = array(
+            'type' => $type,
+            'type_id'=>$id,
+            'last_updated' => now(),
+            'time_added' => now(),
+            'content'=> ($content)
+        );
+        
+        $insert_id = db_insert(tbl('objects_cache'), $fields);
+        return $insert_id;
+    }
+    
+    /**
+     * Returns feed fields
+     */
+    private function _get_fields()
+    {
+        $array = array(
+           'feed_id','message','message_attributes',
+            'userid','user','icon','action','action_group_id','is_activity',
+            'privacy','likes_count','likes','date_added','time_added'
+        );
+        
+        
+        return $array;
+        
     }
 
 }

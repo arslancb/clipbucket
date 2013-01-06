@@ -4041,8 +4041,13 @@ class userquery extends CBCategory
 
         if ($params['join_profile'] != "no")
         {
-            @$join_profile = " LEFT JOIN " . tbl("user_profile") . " ON " . tbl("users.userid") . " = " . tbl("user_profile.userid");
+            @$join_profile = " LEFT JOIN " 
+            . tbl("user_profile") 
+            . " ON " 
+            . tbl("users.userid") . " = " 
+            . tbl("user_profile.userid");
         }
+        $join_profile = "";
 
         if (!$params['count_only'])
         {

@@ -1199,7 +1199,7 @@ function fetch_new_msgs(tid)
                 var ids = data.ids;
 
                 $.each(ids,function(index,value){
-                    $('#message-'+value).remove();
+                    $('#thread-'+value).remove();
                 })
 
                 $('#new-message-spot').before(data.template);

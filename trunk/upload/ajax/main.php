@@ -809,7 +809,7 @@ switch ($mode)
 
                 foreach ($threads as $thread)
                 {
-                    $the_threads['ids'][] = $thread['thread']['thread_id'];
+                    $the_threads['ids'][] = $thread['thread_id'];
 
                     $template = assign('thread', $thread);
                     $thread_template .= get_template('msgs_notifications_block');
