@@ -105,6 +105,19 @@ function add_new_post(post,type,type_id,content_type,content_id,action)
             $('.cb-feeds').prepend(data.template);
             $('#feed-'+data.fid).hide().fadeIn(1000);
             $('#post_message').val('');
+            $('.comment-field').autosize().shiftenter();  
+           
+            $('textarea.mention').mentionsInput({
+                onDataRequest:function (mode, query, callback) {
+                    $.getJSON(baseurl+'/ajax/items.php?mode=mentions', function(responseData) {
+                        responseData = _.filter(responseData, function(item) {
+                            return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1
+                        });
+                        callback.call(this, responseData);
+                    });
+                },
+                elastic : false
+            });
             
             return true;
         }else
