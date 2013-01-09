@@ -1491,7 +1491,7 @@ function get_image_file ( $params ) {
     $details = $params['details'];
     $output = $params['output'];
     $sizes = $params['size'] ? $params['size'] : ( $params['code'] ? $params['code'] : 't' );
-        
+    
     if ( empty( $details) ) {
         return $cbphoto->default_thumb( $size, $output );
     } else {
@@ -1510,7 +1510,7 @@ function get_image_file ( $params ) {
             } else {
                 
                 $params['photo'] = $photo;
-
+                
                 // Call custom functions
                 if ( count( $Cbucket->custom_get_photo_funcs ) > 0 ) {
                    foreach ( $Cbucket->custom_get_photo_funcs as $funcs ) {
@@ -1710,5 +1710,76 @@ function add_tagging_attribute( $photo ) {
     }
     
     return false;
+}
+
+/**
+ * 
+ * @global OBJECT $cbphoto
+ * @param array $array
+ * @return string
+ */
+function is_collection_cover_mature( $array ) {
+    $photo = $array['photo'];
+    if ( $photo['is_collection_cover'] == true && !$photo['is_mature'] ) {
+        global $cbphoto;
+        $is_mature = $cbphoto->get_photo_field( $photo['photo_id'], 'is_mature' );
+        if ( $is_mature == 'yes' && !userid() ) {
+            return get_mature_thumb( $photo );
+        }
+    }
+}
+
+/**
+ * 
+ * @param array $photo
+ * @return boolean
+ */
+function is_collection_cover( $photo ) {
+    $cover_photo = json_decode( $photo['cover_photo'], true );
+    if ( $cover_photo ) {
+        if ( $cover_photo['photo_id'] == $photo['photo_id'] ) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+/**
+ * returns most common and required fields to display
+ * common details and photo thumb
+ * 
+ * @param array $extra
+ * @return array
+ */
+function get_photo_fields( $extra = null ) {
+    
+    // Following fileds are required to view
+    // photo file
+    $fields = array(
+        'photo_id', 'photo_key', 'photo_title',
+        'is_mature', 'filename', 'ext', 'photo_details',
+        'is_avatar'
+    );
+    
+    if( !is_null( $extra) && is_array( $extra ) ) {
+        $fields = array_merge( $fields, $extra );
+    }
+    
+    return $fields;
+}
+
+function show_profile_item_photo( $id ) {
+    global $cbphoto;
+    $photo = $cbphoto->get_photo( $id, true );
+    
+    if ( $photo ) {
+        $params['file'] = 'blocks/view_channel/photo_item.html';
+        $params['photo'] = $photo;
+        
+        return fetch_template_file( $params );
+    } else {
+        return false;
+    }
 }
 ?>

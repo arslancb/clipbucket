@@ -814,7 +814,8 @@ a.playlist .playlist-items-thumb.playlist-4-items .item-thumb img {
 }
 
 .user-info-box .user-profile-item {
-    float:right;
+    float: right;
+    position: relative;
     width: 480px;
     height: 280px;
     background: white;
@@ -823,6 +824,20 @@ a.playlist .playlist-items-thumb.playlist-4-items .item-thumb img {
     padding: 5px;
     border-radius: 0px 4px 4px 0px;
     box-shadow: inset 0px 0px 8px 0px rgba(0,0,0,0.065);
+}
+
+.user-profile-item.no-profile-item {
+    display: block;
+}
+
+.user-profile-item .no-profile-item-message {
+    font-size: 24px;
+    color: #ccc;
+    text-align: center;
+    display: block;
+    height: 100%;
+    line-height: 280px;
+    font-family: 'Open Sans', "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .user-video-block, .user-photo-block {

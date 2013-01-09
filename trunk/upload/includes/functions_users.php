@@ -662,4 +662,44 @@ function get_basic_user_details($uid)
     
 }
 
+function add_profile_item_type_callback( $type, $callback ) {
+    global $cb_profile_item_callbacks;
+    
+    if ( !$type or !$callback or !function_exists( $callback ) or isset( $cb_profile_item_callbacks[ $type ] ) ) {
+        return false;
+    }
+    
+    return $cb_profile_item_callbacks[ $type ] = $callback;
+}
+
+function display_profile_item( $uid = null ) {
+    global $cb_profile_item_callbacks;
+    
+    if ( !$cb_profile_item_callbacks ) {
+        return false;
+    }
+    
+    if ( is_null( $uid ) ) {
+        $uid = userid();
+    }
+    
+    $query = "SELECT pro.profile_item FROM ".tbl('user_profile')." as pro ";
+    $query .= " WHERE pro.userid = '".mysql_clean( $uid )."' ";
+    
+    $result = db_select( $query );
+    
+    if ( $result ) {
+        $result = $result[0];
+        
+        $item = json_decode( $result['profile_item'], true );
+        // Database item is here, time to check if callback exists
+        if ( isset( $cb_profile_item_callbacks[ $item['type'] ] ) and function_exists( $cb_profile_item_callbacks[ $item['type'] ] ) ) {
+            return $cb_profile_item_callbacks[ $item['type'] ]( $item['id'] );
+            
+        }
+    } else {
+        return false;
+    }
+}
+
 ?>

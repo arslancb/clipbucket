@@ -151,6 +151,13 @@ function show_total_photos ( $name ) {
     return $name." <span>$total_videos</span>";
 }
 
+function show_total_collections ( $name ) {
+    global $usercontent;
+    $user = $usercontent->get_current_user();
+    $total_collections = number_format( $user['total_collections'] );
+    return $name." <span>$total_collections</span>";
+}
+
 function show_total_subscribers( $name ) {
     global $usercontent;
     $user = $usercontent->get_current_user();
@@ -173,6 +180,7 @@ function show_total_friends( $name ) {
 
 register_filter( 'videos_name_filter', 'show_total_videos' );
 register_filter( 'photos_name_filter', 'show_total_photos' );
+register_filter( 'collections_name_filter', 'show_total_collections' );
 
 register_filter('subscribers_name_filter', 'show_total_subscribers');
 register_filter('subscriptions_name_filter', 'show_total_subscriptions');

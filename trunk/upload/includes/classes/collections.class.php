@@ -124,8 +124,10 @@ class Collections extends CBCategory
 	 */
 	function init_search()
 	{
-		$this->search = new cbsearch;
-		$this->search->db_tbl = "collections";
+            $this->search = new cbsearch;
+            $this->search->db_tbl = "collections";
+          $this->search->use_match_method = TRUE;
+          
 		$this->search->columns = array(
 			array("field"=>"collection_name","type"=>"LIKE","var"=>"%{KEY}%"),
 			array("field"=>"collection_tags","type"=>"LIKE","var"=>"%{KEY}%","op"=>"OR")
@@ -136,7 +138,9 @@ class Collections extends CBCategory
 		$this->search->display_template = LAYOUT.'/blocks/collection.html';
 		$this->search->template_var = 'collection';
 		$this->search->has_user_id = true;
-			
+            $this->search->add_cond( tbl( 'collections.total_objects' ) . " > 0 " );
+		$this->search->add_cond( tbl( 'collections.is_avatar_collection' ) . " = 'no' " );
+    
 		$sorting	= 	array(
 						'date_added'=> lang("date_added"),
 						'views'		=> lang("views"),
@@ -158,7 +162,7 @@ class Collections extends CBCategory
 		$sort = $default['sort'];
 		
 		$this->search->search_type['collections'] = array('title'=>lang('collections'));
-		$this->search->results_per_page = config('videos_items_search_page');
+		$this->search->results_per_page = config('collection_search_result');
 		
 		$fields = array(
 		'query'	=> array(
@@ -292,7 +296,7 @@ class Collections extends CBCategory
 		$cond = "";
 		
 		if(!has_access('admin_access',TRUE) && $p['user'] != userid())
-			$cond .= " ".tbl('collections.active')." = 'yes'";
+			$cond .= " ".tbl('collections.active')." = 'yes' AND ".tbl('collections.broadcast')." = 'public' ";
 		elseif($p['user'] == userid())
 			$cond .= " ".tbl('collections.active')." = 'yes'";	
 		else
@@ -575,8 +579,48 @@ class Collections extends CBCategory
 		
 		if(!$count_only)
 		{
-			$result = $db->select($tables,"$itemsTbl.ci_id,$itemsTbl.collection_id,$objTbl.*,".tbl('users').".username"," $itemsTbl.collection_id = '$id' AND $itemsTbl.object_id = $objTbl.".$this->objFieldID." AND $objTbl.userid = ".tbl('users').".userid $cond",$limit,$order);
-			//echo $db->db_query;
+                    $result = $db->select($tables,"$itemsTbl.ci_id,$itemsTbl.collection_id,$objTbl.*,".tbl('users').".username"," $itemsTbl.collection_id = '$id' AND $itemsTbl.object_id = $objTbl.".$this->objFieldID." AND $objTbl.userid = ".tbl('users').".userid".$cond,$limit,$order);
+                    /*
+                     * even though following code much more efficient ran only in 1.5ms,
+                     * but this method is used in different places where order uses
+                     * tbl() function. If i update method to following, a lot of places will
+                     * break in clipbucket. So right now, we'll just use above code.
+                     */
+//                $the_fields = tbl_fields( array(
+//                    'p' => get_photo_fields( array('views') ),
+//                    'c' => get_collection_fields(),
+//                    'u' => get_user_fields(),
+//                    'i' => array( 'ci_id', 'object_id', 'date_added' )
+//                ));
+//                                
+//                $query = 'SELECT '.$the_fields.' FROM '.$itemsTbl.' as i ';
+//                $query .= ' LEFT JOIN '.tbl('collections').' as c ON i.collection_id = c.collection_id';
+//                $query .= ' LEFT JOIN '.tbl('photos').' as p ON i.object_id = p.photo_id';
+//                $query .= ' LEFT JOIN '.tbl('users').' as u ON i.userid = u.userid';
+//                
+//                start_where();
+//                
+//                add_where(" c.collection_id = '".$id."' ");
+//                
+//                if ( get_where() ) {
+//                    $query .= " WHERE ".get_where();
+//                    if ( $cond ) {
+//                        $query .= " AND ".$cond;
+//                    }
+//                }
+//                
+//                end_where();
+//                                
+//                if ( $order ) {
+//                    $query .= " ORDER BY $order ";
+//                }
+//                
+//                if ( $limit ) {
+//                    $query .= " LIMIT $limit";
+//                }
+//
+//               $result = db_select( $query );
+
 		} else {
 			$result = $db->count($itemsTbl,"ci_id"," collection_id = $id");	
 		}
@@ -1771,7 +1815,7 @@ class Collections extends CBCategory
 		return $this->avatar_collection;
 	}
   
-	function set_cover_photo( $pid, $cid ) {
+	function set_cover_photo( $pid, $cid, $myaccount = false ) {
         global $db, $userquery, $cbphoto;
 
         if ( !$this->collection_exists( $cid ) ) {
@@ -1794,23 +1838,59 @@ class Collections extends CBCategory
             return false;
         }
         
-//        if ( $cid == $userquery->udetails['avatar_collection'] ) {
-//            e( lang('Your current avatar will be selected as your cover photo') );
-//            return false;
-//        }
+        $fields = tbl_fields (
+            array(
+                'p' => get_photo_fields(),
+                'c' => get_collection_fields()
+            )
+        );
         
-        if ( $pid == $this->get_collection_field( $cid, 'cover_photo' ) ) {
+        $query = ' SELECT '.$fields.' FROM '.tbl('collections').' as c';
+        $query .= " LEFT JOIN ".tbl('photos')." as p ON c.collection_id = p.collection_id ";
+        
+        start_where();
+        
+        add_where(" c.collection_id = '$cid' ");
+        add_where(" p.photo_id = '$pid' ");
+        if ( get_where() ) {
+            $query .= ' WHERE '.get_where();
+        }
+        
+        end_where();
+        
+        $result = db_select( $query );
+        
+        if ( $myaccount ) {
+            if ( $result['is_avatar'] == 'yes' || $result['is_avatar_collection'] == 'yes' ) {
+                return false;
+            }
+        }
+        
+        $cover_photo = json_decode( $result['cover_photo'], true );
+        
+        if ( $pid == $cover_photo['photo_id'] ) {
             $update = true;
         } else {
-            $update = $db->update( tbl('collections'), array('cover_photo'),array($pid), " collection_id = '".$cid."' " );
+            //Create array so we can reduce one query per collection YOSH !!!
+            $result = $result[0];
+            $cover_photo['photo_id'] = $result['photo_id'];
+            $cover_photo['photo_key'] = $result['photo_key'];
+            $cover_photo['filename'] = $result['filename'];
+            $cover_photo['ext'] = $result['ext'];
+            $cover_photo['is_collection_cover'] = true; // This flag will help us make a query to get is_mature for cover photo while displaying
+            $jecp = ( json_encode( $cover_photo ) );
+            
+            $field = array( 'cover_photo' => $jecp );
+            
+            $update = db_update( tbl('collections'), $field, " collection_id = '".$result['collection_id']."' " );
+            
         }
-        
         
         if ( $update ) {
-          return true;
+            return $cover_photo;
         } else {
-          return false;	
-        }
+            return false;
+        }        
 	}
 }
 

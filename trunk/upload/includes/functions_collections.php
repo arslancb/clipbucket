@@ -167,4 +167,86 @@ function collection_links( $collection, $type = 'vc' ) {
 
     return $cbcollection->collection_links( $collection, $type );
 }
+
+function get_collection_thumb ( $cid, $size = null ) {
+     global $cbcollection;
+     
+     if ( is_null( $cid ) ) {
+         $collection = $cbcollection->get_collection( $cid );
+         $cid = $collection['collection_id'];
+     } else {
+         $collection = $cid;
+         $cid = $collection['collection_id'];
+     }
+     
+     $cover_photo = $collection['cover_photo'];
+
+     if ( $cover_photo ) {
+         $cover_photo = json_decode( $cover_photo, true );
+         if ( !$cover_photo['photo_id'] ) {           
+             if ( $cover_photo != 0 ) {
+                 $item = $cbcollection->get_collection_items_with_details( $cid, null, 1, " AND ".tbl('photos.photo_id')." = '".$cover_photo."' " );
+                 $item = $item ? $item[0] : '';
+             } else {
+                 $item = $cbcollection->get_collection_items_with_details( $cid, null, 1 );
+                 $item = $item ? $item[0] : '';
+             }
+         } else {
+             $item = $cover_photo;
+         }
+         //$item = $cbcollection->get_collection_items_with_details( $cid, null, 1, " AND ".tbl('photos.photo_id')." = '".$ph['object_id']."' " );
+     } else {
+         //$item = $cbcollection->get_collection_items_with_details( $cid, null, 1 );
+     }
+
+     $type = $item['type'];
+     switch( $type ) {
+         case 'v' : {
+             $thumb = $cbcollection->get_default_thumb( $size );
+         }
+         break;
+         
+        case 'p':
+        default: {
+             $thumb = get_image_url( ( $item['photo_id'] ? $item : $item['object_id'] ), $size );
+         }
+         break;
+     }
+     
+     if ( $thumb ) {
+         return $thumb;
+     } else {
+         $exts = array();
+        foreach($exts as $ext)
+        {
+            if($size=="small") {
+                $s = "-small";
+            }
+            
+            if(file_exists(COLLECT_THUMBS_DIR."/".$cid.$s.".".$ext)) {
+                return COLLECT_THUMBS_URL."/".$cid.$s.".".$ext;	
+            }
+        }
+     }
+     
+     return $cbcollection->get_default_thumb($size);
+}
+
+function get_collection_fields( $extra = null ) {
+    
+    // Following fileds are required to view
+    // photo file
+    $fields = array(
+        'collection_id', 'collection_name', 'active',
+        'broadcast', 'cover_photo', 'total_objects',
+        'is_avatar_collection'
+    );
+    
+    if( !is_null( $extra) && is_array( $extra ) ) {
+        $fields = array_merge( $fields, $extra );
+    }
+    
+    return $fields;
+}
+
 ?>

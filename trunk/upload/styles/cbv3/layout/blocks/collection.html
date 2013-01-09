@@ -1,0 +1,9 @@
+<div class="{$collection.collection_id}-collection {$collection.collection_id} collection-box">
+    <div class="collection-thumb{if $collection.cover_photo != 0} collection-cover-photo{/if}"><img src="{get_collection_thumb( $collection, 'm')}" /></div>
+    <span class="duration top right">{$collection.total_objects|number_format} {lang code='photos'}</span>
+    <div class="black-gradient absolute bottom manage-collection-item-details">
+        <h4><a href="{collection_links( $collection )}">{$collection.collection_name}</a></h4>
+        <div class="pull-left">{$collection.date_added|date_format}</div>
+        <div class="pull-right">{$collection.views|number_format} {lang code='views'}</div>
+    </div>
+</div>

@@ -866,4 +866,62 @@ function cb_get_user_subscribers() {
     
     return fetch_template_file( $params );
 }
+
+function cb_get_user_collections() {
+    global $usercontent, $pages, $cbcollection;
+    
+    $user= $usercontent->get_current_user();
+    $page = mysql_clean( get('page') );
+    
+    $limit = create_query_limit( $page,config('collection_user_collections') );
+    $collections = get_collections(array("limit"=>$limit,"user"=>$user['userid'], "order" => "last_updated desc") );
+    $avatar_collection = cb_user_avatar_collection( $user );
+    $is_viewable = $cbcollection->is_viewable( $avatar_collection['collection_id'] );
+    
+    if ( is_array( $collections ) && $avatar_collection && $is_viewable ) {
+        array_unshift( $collections, $avatar_collection );
+    } else {
+        if ( $is_viewable ) {
+            $collections = $avatar_collection;
+        }
+    }
+    
+    $total_rows = get_collections(array("count_only"=>true,"user"=>$user['userid']));
+    $total_pages = count_pages($total_rows,config('collection_user_collections'));
+    
+    $pages->paginate( $total_pages, $page );	
+    
+    $params['file'] = 'user_collections.html';
+    $params['collections'] = $collections;
+    $params['mode'] = 'created';
+    $params['total_collections'] = $total_rows;
+    $params['the_title'] = $params['heading'] = name( $user )." ".lang('collections');
+    
+    return fetch_template_file( $params );
+}
+
+function cb_get_user_favorite_collections() {
+    global $usercontent, $pages, $cbcollection, $db;
+    
+    $user= $usercontent->get_current_user();
+    $page = mysql_clean( get('page') );
+    $limit = create_query_limit($page,config('collection_user_favorites'));
+    
+    $favC = array("userid"=>$user['userid'],"limit",$limit);
+    $collections = $cbcollection->action->get_favorites($favC);
+
+    $favC['count_only'] = true;
+    $total_rows = $cbcollection->action->get_favorites($favC);
+    $total_pages = count_pages($total_rows,config('collection_user_favorites'));
+    
+    $pages->paginate($total_pages,$page);
+    
+    $params['file'] = 'user_collections.html';
+    $params['the_title'] = $params['heading'] = name( $user )." ".lang('favorite')." ".lang('collections');
+    $params['collections'] = $collections;
+    $params['mode'] = 'favorite';
+    $params['total_collections'] = $total_rows;
+    
+    return fetch_template_file( $params );
+}
 ?>

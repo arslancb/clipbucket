@@ -122,7 +122,7 @@ function dashboard_widget_exists( $id, $place, $importance = 'normal' ) {
  * @param string $callback
  * @return boolean
  */
-function add_dashboard_widget( $place, $id, $name, $display_callback, $importance = 'normal', $callback = null ) {
+function add_dashboard_widget( $place, $id, $name, $display_callback, $callback = null, $importance = 'normal' ) {
     if ( !dashboard_widget_exists( $id, $place, $importance ) ) {
         
         if ( !function_exists( $display_callback ) ) {
@@ -130,6 +130,7 @@ function add_dashboard_widget( $place, $id, $name, $display_callback, $importanc
         }
         
         $importance = _check_widget_importance( $importance );
+                
         $dashboard_widget[ $id ] = array(
             'id' => $id,
             'name' => $name,
@@ -182,7 +183,7 @@ function display_dashboard( $place = null ) {
                         if ( $dashboard_widget['description'] ) {
                             $output .= '<div class="dashboard-widget-description">'.$dashboard_widget['description'].'</div>';
                         }
-                        $output .= '<div class="dashboard-content">';
+                        $output .= '<div class="dashboard-content" id="'.$place.'-'.$dashboard_widget['importance'].'-'.$dashboard_widget['id'].'">';
                         $output .= $dashboard_widget['display_callback'] ( $dashboard_widget );
                         $output .= '</div>';
                         $output .= '</div>';         
@@ -448,13 +449,14 @@ function account_dashboard_recent_video_comments ( $widget ) {
         add_where(" ".tbl('comments.type_owner_id')." = ".userid());
         add_where(" ".tbl('comments.type')." = 'v' ");
         add_where( " ".tbl('comments.userid')." <> ".userid() );
-        add_where(" ".tbl('comments.date_added')." BETWEEN SYSDATE() - INTERVAL 30 DAY AND SYSDATE() ");
+        add_where(" ".tbl('comments.date_added')." BETWEEN SYSDATE() - INTERVAL 7 DAY AND SYSDATE() ");
         if ( get_where() ) {
             $query .= " WHERE ".get_where();
         }    
         end_where();
 
         $query .= " ORDER BY ".tbl('comments.date_added')." DESC LIMIT 20";
+        
         $comments = db_select( $query );    
     }
         

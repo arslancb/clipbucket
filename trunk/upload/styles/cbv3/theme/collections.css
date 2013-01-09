@@ -6,6 +6,25 @@
         Purpose of the stylesheet follows.
 */
 
+.collection-box {
+    width: 263px;
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+    float: left;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+.collection-box .collection-thumb {
+
+}
+
+.collection-box .collection-thumb img {
+    min-width:  100%;
+    min-height: 100%;
+}
+
 ul.collection-details i {
     margin-top: 1px;
 }
@@ -66,7 +85,7 @@ img.manage-collection-item-thumb {
     position: relative;
 }
 
-.manage-collection-items:hover .manage-collection-item-details {
+.manage-collection-items:hover .manage-collection-item-details, .collection-box:hover .manage-collection-item-details {
     opacity: 1;
 }
 

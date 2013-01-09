@@ -1462,3 +1462,15 @@ function get_video_menu($video)
 
     return $menu;
 }
+
+function show_profile_item_video( $id ) {
+    global $cbvid;
+    $video = $cbvid->get_video_details( $id );
+    if ( $video ) {
+        $params['file'] = 'blocks/view_channel/video_item.html';
+        $params['video'] = $video;
+        return fetch_template_file( $params );
+    } else {
+        return false;
+    }
+}

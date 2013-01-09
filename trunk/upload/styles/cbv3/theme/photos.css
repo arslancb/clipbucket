@@ -345,3 +345,24 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 .photos-sidebar .cb-widget .tagger-tag-label {
     cursor: default;
 }
+
+.user-profile-photo-item img {
+    min-height: 100%;
+    display: block;
+    margin: auto;
+}
+
+.user-profile-photo-item {
+    position: relative;
+}
+
+.user-profile-photo-item.collection-box {
+    width: auto;
+    height: auto;
+    margin: auto;
+    float: none;
+}
+
+.user-profile-photo-item .black-gradient {
+    padding-bottom: 10px; 
+}

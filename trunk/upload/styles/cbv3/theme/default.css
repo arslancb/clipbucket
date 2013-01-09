@@ -1420,8 +1420,8 @@ body .carousel-control {
 .duration {
     position: absolute;
     display: block;
-    bottom: 2px;
-    right: 2px;
+    bottom: 5px;
+    right: 5px;
     font-size: 11px;
     background: rgba(0,0,0,0.6);
     padding: 2px 5px;
@@ -1432,20 +1432,20 @@ body .carousel-control {
 
 .duration.left {
     right: auto;
-    left: 2px;
+    left: 5px;
 }
 
 .duration.top {
     bottom: auto;
-    top: 2px;
+    top: 5px;
 }
 
 .duration.right {
-    right: 2px;
+    right: 5px;
     left: auto;
 }
 
 .duration.bottom {
     top: auto;
-    bottom: 2px;
+    bottom: 5px;
 }

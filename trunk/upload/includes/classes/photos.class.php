@@ -242,6 +242,7 @@ class CBPhotos {
         $this->search->results_per_page = config( 'photo_search_result' );
         $this->search->search_type['photos'] = array('title' => lang( 'photos' ));
         $this->search->add_cond( tbl( 'photos.collection_id' ) . " <> 0" );
+        $this->search->add_cond( tbl( 'photos.is_avatar' ) . " = 'no' " );
 
         $sorting = array(
             'date_added' => lang( "date_added" ),
@@ -2070,7 +2071,7 @@ class CBPhotos {
         else
             $details = $cid;
 
-        if ( $details['type'] == 'photos' && $details['userid'] == user_id() ) {
+        if ( $details['type'] == 'photos' && $details['userid'] == user_id() && $details['is_avatar_collection'] == 'no' ) {
             $output = $arr['output'];
             if ( $arr['return_url'] ) {
                 $result = $this->photo_links( $details, 'upload_more' );
