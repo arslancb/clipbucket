@@ -441,3 +441,12 @@ CREATE TABLE IF NOT EXISTS `cb_objects_cache` (
   KEY `type_id` (`type_id`),
   KEY `type` (`type`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Altering table structure for table `cb_collections`
+-- 1/8/2012
+-- @aithor: Fawaz Tahir
+--
+ALTER TABLE  `{tbl_prefix}collections` CHANGE  `cover_photo`  `cover_photo` TEXT NOT NULL
