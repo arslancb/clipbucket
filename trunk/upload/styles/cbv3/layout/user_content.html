@@ -7,6 +7,8 @@
             {include file="$style_dir/message.html"}
             <div class="view-channel-box user-info-box clearfix" style=" overflow: visible; ">
                 <a href="{$userquery->profile_link($u)}" class="name-avatar"><img src="{avatar uid=$u.userid}" class="avatar" /> <span class="name">{name($u)}</span></a>
+                {$other_objects=display_other_objects_list()}
+                {if $other_objects}
                 <div class="user-other-objects-container">
                     <div class="btn-group">
                         <a class="btn dropdown-toggle btn-primary" data-toggle="dropdown" href="#">
@@ -18,8 +20,11 @@
                         </ul>
                     </div>
                 </div>
+                {/if}
             </div>
-
+            
+            {$objects=display_objects_list()}
+            {if $objects}
             <div class="view-channel-box user-pages-navigation-container clearfix">
                 <div class="user-pages-navigation">
                     <ul class="user-pages-list">
@@ -27,6 +32,7 @@
                     </ul>
                 </div>
             </div>
+            {/if}
             
             {$content_types=display_content_type_list()}
             {if $content_types}
@@ -41,7 +47,12 @@
             {/if}
             
             <div class="view-channel-box clearfix">
-                {display_object_content()}
+                {$content=display_object_content()}
+                {if $content}
+                    {$content}
+                {else}
+                    <div class="alert alert-large">{lang code='Nothing to display'}</div>
+                {/if}
             </div>
             
         </div>
