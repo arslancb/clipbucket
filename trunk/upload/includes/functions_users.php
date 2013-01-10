@@ -765,7 +765,7 @@ function get_profile_item( $uid = null ) {
     $result = db_select( $query );
     
     if ( $result ) {
-        return json_decode( $result[0]['profile_item'], true );
+        return  $result[0];
     } else {
         return false;
     }
@@ -782,6 +782,7 @@ function get_profile_item( $uid = null ) {
  */
 function is_profile_item( $id, $type, $uid = null ) {
     $item = get_profile_item ( $uid );
+    $item = json_decode( $item['profile_item'], true );
     
     if ( $item['id'] == $id and $item['type'] == $type ) {
         return true;
