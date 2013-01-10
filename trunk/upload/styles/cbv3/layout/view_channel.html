@@ -1,8 +1,8 @@
 {lang code='channel' assign='object_type'}
 
 {include file="$style_dir/global_header.html"}
-{$user_videos=get_videos(['user'=>$u.userid,'limit'=>6])}
-{$user_photos=get_photos(['user'=>$u.userid,'limit'=>6])}
+{$user_videos=get_videos(['user'=>$u.userid,'limit'=>9])}
+{$user_photos=get_photos(['user'=>$u.userid,'limit'=>9])}
 {$user_contacts=$userquery->get_contacts($u.userid, 0, "yes")}
 
 <body class="relative view_channel">
@@ -25,7 +25,13 @@
                         </dl>                       
                     </div>
                 </div>
-                <div class="user-profile-item no-profile-item">{cb_video_player width='100%' height='100%' files=$video_files video=$profile_item}</div>
+                {$profile_item=display_profile_item( $u.userid )}
+                <div class="user-profile-item {if !$profile_item}no-profile-item{/if}">
+                    {if $profile_item}
+                        {$profile_item}
+                    {else}
+                        <span class="no-profile-item-message">{lang code='No profile item set'}</span>
+                    {/if}</div>
             </div>
 
             <div class="view-channel-box clearfix">
@@ -45,7 +51,7 @@
                             <div class="view-channel-top-row-item-block image-not-loaded-background one-block">
                                 {if $user_videos}
                                 {$single_video_index=array_rand($user_videos)}
-                                <img src="{get_thumb vdetails=$user_videos.$single_video_index num='big'}" class="cbv3-center-image" />
+                                <img src="{get_thumb vdetails=$user_videos.$single_video_index num='big'}" />
                                 {/if}
                             </div>
                             <span>{$u.total_videos|number_format} Videos</span>
@@ -56,7 +62,7 @@
                             <div class="view-channel-top-row-item-block image-not-loaded-background one-block">
                                 {if $user_photos}
                                 {$single_photo_index=array_rand($user_photos)}
-                                {get_photo details=$user_photos.$single_photo_index output='html' size='m' class="cbv3-center-image"}
+                                {get_photo details=$user_photos.$single_photo_index output='html' size='m'}
                                 {/if}
                             </div>
                             <span>{$u.total_photos|number_format} Photos</span>
@@ -68,6 +74,15 @@
                                 <strong class="user-subscribers">{$u.subscribers}</strong>
                             </div>
                             <span>Subscribers</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="{make_user_content_link($u.username,'comments','comments')}">
+                            <div class="view-channel-top-row-item-block image-not-loaded-background">
+                                <strong class="user-comments">{$u.comments_count|number_format}</strong>
+                            </div>
+                            <span>{lang code='Comments'}</span>
                         </a>
                     </li>
                 </ul>
