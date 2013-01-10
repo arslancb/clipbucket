@@ -30,7 +30,7 @@
                         {if $c.featured == 'yes'}
                         <li><a href="?mode=mcuf&collection={$c.collection_id}">Unfeature It</a></li>
                         {else}
-                        <li><a href="?mode=mcf&photo={$c.collection_id}">Make Featured</a></li>
+                        <li><a href="?mode=mcf&collection={$c.collection_id}">Make Featured</a></li>
                         {/if}
 
                         {if $c.active == 'yes'}
@@ -41,7 +41,7 @@
 
                         <li class="divider"></li>
                         <li><a href="#" onclick=" cb_confirm('Delete Collection','Are you sure you want to delete this collection ?', function(){
-                            window.location = 'collection_manager.php?delete_collection={$photo.photo_id}'
+                            window.location = 'collection_manager.php?delete_collection={$c.collection_id}'
                         }); return false;">Delete Collection</a></li>
                     </ul>
                 </div>

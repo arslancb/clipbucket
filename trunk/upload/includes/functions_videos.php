@@ -1463,6 +1463,32 @@ function get_video_menu($video)
     return $menu;
 }
 
+/**
+ * Checks if video profile item exists and user is owner
+ * @global object $cbvid
+ * @param int $id
+ * @return boolean
+ */
+function checking_profile_item_video( $id ) {
+    global $cbvid;
+    if ( $cbvid->video_exists( $id ) ) {
+        if ( userid() != $cbvid->get_video_owner( $id, true ) ) {
+            e( lang('Unable to set video as profile item.') );
+            return false;
+        }
+        return true;
+    } else {
+        e( lang('Video does not exists') );
+        return false;
+    }
+}
+
+/**
+ * Show profile item
+ * @global object $cbvid
+ * @param int $id
+ * @return boolean
+ */
 function show_profile_item_video( $id ) {
     global $cbvid;
     $video = $cbvid->get_video_details( $id );

@@ -86,7 +86,7 @@
                                         </ul>                                      
                                     </div>
 
-                                    <div class="object-manager-labels">{if $photo.photo_id == $photo.cover_photo}<span class="label label-info">{lang code='Cover photo'}</span>{/if}{if $photo.featured == 'yes'}<span class="label label-success">{lang code='Featured'}</span>{/if}{if $photo.is_mature == 'yes'}<span class="label label-important" title="{lang code='Login is required to view this photo'}"> {lang code='Mature'}</span>{/if}</div>
+                                    <div class="object-manager-labels">{if is_collection_cover( $photo )}<span class="label label-info">{lang code='Cover photo'}</span>{/if}{if is_profile_item($photo.photo_id,'p')}<span class="label label-info">{lang code='Profile Item'}</span>{/if}{if $photo.featured == 'yes'}<span class="label label-success">{lang code='Featured'}</span>{/if}{if $photo.is_mature == 'yes'}<span class="label label-important" title="{lang code='Login is required to view this photo'}"> {lang code='Mature'}</span>{/if}</div>
                                 </td>
                             </tr>
                         {/foreach}

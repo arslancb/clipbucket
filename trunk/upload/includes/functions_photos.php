@@ -1081,8 +1081,9 @@ function display_manager_links( $photo, $front_end = false ) {
                  *      }
                  * 
                  */
+                $remove_query_variables = $url['remove_query_variables'];
                 $link['title'] = $url['title'] ? $url['title'] : $link['title'];
-                $url = $url['link'] ? $url['link'] : $link['link'];
+                $url = $url['link'] ? $url['link'] : $link['link'];                
             }
             
             if ( $_SERVER['QUERY_STRING'] && strpos( $url, '.php') === false && strpos($url,'?') !== false ) {
@@ -1090,19 +1091,18 @@ function display_manager_links( $photo, $front_end = false ) {
                 // append QUERY_STRING before $url
                 $url = ltrim( $url, '?' ); // removing the ? from start of string
                 parse_str( $url, $variables ); // changing $url query string to array
-                parse_str( $_SERVER['QUERY_STRING'], $server_variables );
+
                 if ( $variables ) {
                   $query_string_variables = array_keys( $variables ); // extracting only names of variables
-                  $server_string_variables = array_keys( $server_variables );
 
                   if ( $query_string_variables ) {
-                    $query_string_variables = ( array_merge( $query_string_variables, $server_string_variables ) );
-                    $query_string_variables = array_unique( $query_string_variables );
-                    $query_string_variables = array_diff( $query_string_variables, array('omo') );
-                    //pr( $query_string_variables, true );
+                      if ( $remove_query_variables && is_array( $remove_query_variables ) ) {
+                          $query_string_variables = array_merge( $query_string_variables, $remove_query_variables );
+                          $query_string_variables = array_unique( $query_string_variables );
+                      }
                     $query_string = queryString( null, $query_string_variables );
                   }
-                  //echo $query_string."<br/>";
+
                   $url = $query_string.$url;
                 }
             }
@@ -1737,7 +1737,11 @@ function is_collection_cover_mature( $array ) {
 function is_collection_cover( $photo ) {
     $cover_photo = json_decode( $photo['cover_photo'], true );
     if ( $cover_photo ) {
-        if ( $cover_photo['photo_id'] == $photo['photo_id'] ) {
+        if ( $cover_photo['photo_id'] ) {
+            if ( $cover_photo['photo_id'] == $photo['photo_id'] ) {
+                return true;
+            }
+        } else if ( is_numeric( $cover_photo ) and $cover_photo = $photo['photo_id'] ) {
             return true;
         }
     }
@@ -1769,6 +1773,32 @@ function get_photo_fields( $extra = null ) {
     return $fields;
 }
 
+/**
+ * Checks if photo profile item exists and user is owner
+ * @global object $cbphoto
+ * @param int $id
+ * @return boolean
+ */
+function checking_profile_item_photo( $id ) {
+    global $cbphoto;
+    if ( $cbphoto->photo_exists( $id ) ) {
+        if ( userid() != $cbphoto->get_photo_owner( $id ) ) {
+            e( lang('Unable to set photo as profile item') );
+            return false;
+        }
+        return true;
+    } else {
+        e( lang('Photo does not exists') );
+        return false;
+    }
+}
+
+/**
+ * Show profile item
+ * @global object $cbphoto
+ * @param int $id
+ * @return boolean
+ */
 function show_profile_item_photo( $id ) {
     global $cbphoto;
     $photo = $cbphoto->get_photo( $id, true );

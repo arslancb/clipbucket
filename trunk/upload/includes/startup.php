@@ -18,6 +18,12 @@ add_thumb_size('640x360');
 add_thumb_size('original');
 
 
+/**
+ * Users
+ */
+$cb_profile_item_callbacks = array();
+add_profile_item_type_callback( 'v','checking_profile_item_video', 'show_profile_item_video' );
+add_profile_item_type_callback( 'p','checking_profile_item_photo', 'show_profile_item_photo' );
 
 /**
  * Register metas
@@ -95,8 +101,8 @@ function _manager_set_avatar_link( $photo ) {
 function _set_cover_photo_link( $photo ) {
     global $cbphoto;
 
-    if ( $photo['is_avatar'] == 'no' && userid() == $cbphoto->get_photo_owner( $photo['photo_id'] ) ) {
-        return '?cover='.$photo['photo_id'].'&cid='.$photo['collection_id'];
+    if ( $photo['is_avatar'] == 'no' && userid() == $cbphoto->get_photo_owner( $photo['photo_id'] ) && !is_collection_cover( $photo ) ) {
+        return '?cover='.$photo['photo_id'].'&cid='.$photo['collection_id'].'&from=myaccount';
     }
 }
 
@@ -110,13 +116,14 @@ function _set_cover_photo_callback() {
     global $cbcollection;
     $pid = mysql_clean( $_GET['cover'] );
     $cid = mysql_clean( $_GET['cid'] );
+    $myaccount = mysql_clean( get('from') );
     
     if ( !$pid || !$cid ) {
         e( lang('Unable to update collection cover photo.') );
         return false;
     }
     
-    if ( $cbcollection->set_cover_photo( $pid, $cid ) ) {
+    if ( $cbcollection->set_cover_photo( $pid, $cid, $myaccount ) ) {
         e( lang('Collection cover photo has been updated.'), 'm' );
     } else {
         e( lang('Unable to update collection cover photo.') );
@@ -131,23 +138,48 @@ function _make_profile_item_link( $photo ) {
         return false;
     }
     
-    global $userquery;
-
-    if ( !$userquery->isProfileItem($photo['photo_id'],'p') ) {
-        $data = array('title' => lang('Make profile item'), 'link' => '?makeProfileItem='.$photo['photo_id'].'&type=p' );
-    } else {
-        $data = array('title' => lang('Remove profile item'), 'link' => '?removeProfileItem='.$photo['photo_id'].'&type=p' );
-    }
+    /* Need to figure out a automated way to remove duplicate entries, for time time will work*/
+    $remove_query_variables = array( 'profile_item', 'type', 'profile_remove_item', 'callback_id' );
     
+    if ( !is_profile_item( $photo['photo_id'], 'p' ) ) {
+        $data = array('title' => lang('Make profile item'), 'link' => '?profile_item='.$photo['photo_id'].'&type=p', 'remove_query_variables' =>  $remove_query_variables );
+    } else {
+        $data = array('title' => lang('Remove profile item'), 'link' => '?profile_remove_item='.$photo['photo_id'].'&type=p', 'remove_query_variables' => $remove_query_variables );
+    }
+
     return $data;
 }
 
+/**
+ * Callback for profile item
+ */
+function _make_profile_item_callback() {
+    global $userquery;
+    
+    $make_item = mysql_clean( get('profile_item') );
+    $remove_item = mysql_clean( get('profile_remove_item') );
+    $type = mysql_clean( get('type') );
+    if ( $make_item && is_numeric( $make_item) && $type ) {
+        set_user_profile_item( $make_item, $type );
+        return true;
+    } else if ( $remove_item && is_numeric( $remove_item ) && $type ) {
+        remove_profile_item();
+        return true;
+    }
+    
+    e( lang('Invalid action') );
+    return false;
+}
+
+
 add_photo_manager_link( lang('Exif data'), '_view_exif_data_link', false, true );
 add_photo_manager_link( lang('Edit collection'), '_edit_collection_link', false, true );
-add_photo_manager_link( lang('Make profile item'), '_make_profile_item_link', false, true );
+add_photo_manager_link( lang('Make profile item'), '_make_profile_item_link', '_make_profile_item_callback', true );
 add_photo_manager_link( lang('Set as avatar'), '_manager_set_avatar_link', false, true );
 add_photo_manager_link( lang('Make collection cover'), '_set_cover_photo_link', '_set_cover_photo_callback', true );
 $Cbucket->custom_get_photo_funcs[] = 'get_private_photo_thumb';
+$Cbucket->custom_get_photo_funcs[] = 'is_collection_cover_mature';
+
 /**
  * Adding orders for photo manager
  */
@@ -218,30 +250,44 @@ $usercontent->permissions = 'show_my_photos';
 $usercontent->add_new_content();
 
 $usercontent->object_group = 'content';
-$usercontent->object = 'photos';
+$usercontent->object = 'collections';
 $usercontent->section = true;
-$usercontent->content_type = 'tagged_in';
-$usercontent->get_callback = 'cb_get_user_favorite_photos';
-$usercontent->permissions = 'show_my_photos';
+$usercontent->content_type = 'created';
+$usercontent->get_callback = 'cb_get_user_collections';
+$usercontent->permissions = 'show_my_collections';
+$usercontent->add_new_content();
+
+$usercontent->object_group = 'content';
+$usercontent->object = 'collections';
+$usercontent->section = true;
+$usercontent->content_type = 'favorite';
+$usercontent->get_callback = 'cb_get_user_favorite_collections';
+$usercontent->permissions = 'show_my_collections';
 $usercontent->add_new_content();
 
 $usercontent->object_group = 'connections';
 $usercontent->object = 'friends';
+$usercontent->section = 'channels';
 $usercontent->get_callback = 'cb_get_user_friends';
 $usercontent->permissions = 'show_my_friends';
 $usercontent->add_new_content();
 
 $usercontent->object_group = 'connections';
 $usercontent->object = 'subscriptions';
+$usercontent->section = 'channels';
 $usercontent->get_callback = 'cb_get_user_subscriptions';
 $usercontent->permissions = 'show_my_subscriptions';
 $usercontent->add_new_content();
 
 $usercontent->object_group = 'connections';
 $usercontent->object = 'subscribers';
+$usercontent->section = 'channels';
 $usercontent->get_callback = 'cb_get_user_subscribers';
 $usercontent->permissions = 'show_my_subscribers';
 $usercontent->add_new_content();
 
-
+$usercontent->object_group = 'comments';
+$usercontent->object = 'comments';
+$usercontent->get_callback = 'cb_get_user_channel_comments';
+$usercontent->add_new_content();
 ?>

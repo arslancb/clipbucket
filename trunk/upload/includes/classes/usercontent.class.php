@@ -924,4 +924,16 @@ function cb_get_user_favorite_collections() {
     
     return fetch_template_file( $params );
 }
+
+function cb_get_user_channel_comments() {
+    global $usercontent;
+    
+    $user = $usercontent->get_current_user();
+    
+    $params['file'] = 'blocks/view_channel/channel_comments.html';
+    $params['the_title'] = $params['heading'] = sprintf( lang("Comments on %s's channel"), name($user) );
+    $params['user'] = $user;
+    
+    return fetch_template_file ( $params );
+}
 ?>

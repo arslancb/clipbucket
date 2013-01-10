@@ -662,23 +662,99 @@ function get_basic_user_details($uid)
     
 }
 
-function add_profile_item_type_callback( $type, $callback ) {
+/**
+ * This function sets the user profile item.
+ * 
+ * @global array $cb_profile_item_callbacks
+ * @param int $id
+ * @param string $type
+ * @param int $uid
+ * @return boolean
+ */
+function set_user_profile_item( $id, $type, $uid = null ) {
     global $cb_profile_item_callbacks;
     
-    if ( !$type or !$callback or !function_exists( $callback ) or isset( $cb_profile_item_callbacks[ $type ] ) ) {
-        return false;
+    if ( is_null( $uid ) ) {
+        $uid = userid();
     }
     
-    return $cb_profile_item_callbacks[ $type ] = $callback;
+    if ( $uid ) { 
+        if ( $id or $type ) {
+            if ( isset( $cb_profile_item_callbacks[ $type ] ) and isset( $cb_profile_item_callbacks[ $type ][0] ) and function_exists( $cb_profile_item_callbacks[ $type ][0] ) ) {
+                $result = $cb_profile_item_callbacks[ $type ][0] ( $id );
+                if ( $result ) {
+                    $profile_item['type'] = $type;
+                    $profile_item['id'] = $id;
+
+                    $jepi = json_encode( $profile_item );
+                    $field = array( 'profile_item' => $jepi );
+                    
+                    if ( is_profile_item( $id, $type ) ) {
+                        $update = true;
+                    } else {
+                        $update = db_update( tbl('user_profile'), $field, " userid = '".userid()."' " );
+                    }
+                    
+                    if ( $update ) {
+                      e( lang('Profile item has been updated.'), 'm' );
+                      return true;
+                    } else {
+                        e( lang('Unable to update profile item.') );
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+        }   
+    }
+    
+    e( lang('Invalid action') );
+    return false;
 }
 
-function display_profile_item( $uid = null ) {
+/**
+ * Function adds a new profile item type and it's required callbacks.
+ * <em>$type</em> should be unique if already exists this will be not add.
+ * 
+ * <em>$exists</em>, this callback should check if item exists or not. Profile item
+ * will not update untill this callback returns true. item id is passed to this callback
+ * 
+ * <em>$display</em>, this callback should get details of item using $id passed to
+ * callback. Use fetch_template_file to return html template.
+ * 
+ * @global array $cb_profile_item_callbacks
+ * @param string $type
+ * @param string $exists
+ * @param string $display
+ * @return boolean|array
+ * 
+ */
+function add_profile_item_type_callback( $type, $exists, $display ) {
     global $cb_profile_item_callbacks;
     
-    if ( !$cb_profile_item_callbacks ) {
+    if (
+            ( !$type or isset( $cb_profile_item_callbacks[ $type ] ) ) or
+            ( !$exists or !function_exists( $exists ) ) or
+            ( !$display or !function_exists( $display ) )
+       ) {
         return false;
     }
     
+    $callbacks[] = $exists;
+    $callbacks[] = $display;
+    
+    return $cb_profile_item_callbacks[ $type ] = $callbacks;
+}
+
+/**
+ * Get profile item of provided $uid, if null
+ * current loggedin userid is used
+ * 
+ * @param int $uid
+ * @return array|boolean
+ */
+function get_profile_item( $uid = null ) {
     if ( is_null( $uid ) ) {
         $uid = userid();
     }
@@ -689,13 +765,65 @@ function display_profile_item( $uid = null ) {
     $result = db_select( $query );
     
     if ( $result ) {
-        $result = $result[0];
-        
+        return json_decode( $result[0]['profile_item'], true );
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Checks if provided id and type is current
+ * profile item or not
+ * 
+ * @param int $id
+ * @param string $type
+ * @param int $uid
+ * @return boolean
+ */
+function is_profile_item( $id, $type, $uid = null ) {
+    $item = get_profile_item ( $uid );
+    
+    if ( $item['id'] == $id and $item['type'] == $type ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Remove profile item of user
+ * 
+ * @global OBJECT $userquery
+ * @param int $uid
+ */
+function remove_profile_item( $uid=null ) {
+    global $userquery;
+    
+    $userquery->removeProfileItem( $uid );
+}
+
+/**
+ * Displays the profile item of user
+ * 
+ * @global array $cb_profile_item_callbacks
+ * @param int $uid
+ * @param array $assign
+ * @return boolean
+ */
+function display_profile_item( $uid = null, $assign = array() ) {
+    global $cb_profile_item_callbacks;
+    
+    if ( !$cb_profile_item_callbacks ) {
+        return false;
+    }
+    
+    $result = get_profile_item( $uid );
+    
+    if ( $result ) {        
         $item = json_decode( $result['profile_item'], true );
         // Database item is here, time to check if callback exists
-        if ( isset( $cb_profile_item_callbacks[ $item['type'] ] ) and function_exists( $cb_profile_item_callbacks[ $item['type'] ] ) ) {
-            return $cb_profile_item_callbacks[ $item['type'] ]( $item['id'] );
-            
+        if ( isset( $cb_profile_item_callbacks[ $item['type'] ][1] ) and function_exists( $cb_profile_item_callbacks[ $item['type'] ][1] ) ) {
+            return $cb_profile_item_callbacks[ $item['type'] ][1]( $item['id'], $assign );
         }
     } else {
         return false;

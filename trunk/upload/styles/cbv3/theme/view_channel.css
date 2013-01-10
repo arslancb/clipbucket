@@ -752,17 +752,24 @@ a.playlist .playlist-items-thumb.playlist-4-items .item-thumb img {
     border-color: #aaa;
 }
 
-.view-channel-top-row-items .view-channel-top-row-item-block strong.user-subscribers {
+.view-channel-top-row-items .view-channel-top-row-item-block strong.user-subscribers,
+.view-channel-top-row-items .view-channel-top-row-item-block strong.user-comments {
     display: block;
     text-align: center;
     background-color: inherit;
-    background-image: url('../images/icons/rss.png');
+    /*background-image: url('../images/icons/rss.png');
     background-position: -6px 14px;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat;*/
     height: 100px;
     font-size: 42px;
     line-height: 100px;
     color: #232323;
+}
+
+.view-channel-top-row-items .view-channel-top-row-item-block strong.user-comments {
+    /*background-image: url('../images/icons/comments.png');
+    background-size: 70%; */
+    background-position: -5px 20px;
 }
 
 .view-channel-top-row-item-block .top-row-content-block img {
