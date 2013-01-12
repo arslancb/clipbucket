@@ -885,7 +885,7 @@ function cb_get_user_collections() {
             $collections = $avatar_collection;
         }
     }
-    
+
     $total_rows = get_collections(array("count_only"=>true,"user"=>$user['userid']));
     $total_pages = count_pages($total_rows,config('collection_user_collections'));
     

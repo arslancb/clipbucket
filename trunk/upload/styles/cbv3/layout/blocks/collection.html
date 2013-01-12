@@ -1,4 +1,5 @@
-<div class="{$collection.collection_id}-collection {$collection.collection_id} collection-box">
+{if !$display_method || $display_method=='user_collections'}
+<div class="collection-{$collection.collection_id} {$collection.collection_id} collection-box">
     <div class="collection-thumb{if $collection.cover_photo != 0} collection-cover-photo{/if}"><img src="{get_collection_thumb( $collection, 'm')}" /></div>
     <span class="duration top right">{$collection.total_objects|number_format} {lang code='photos'}</span>
     <div class="black-gradient absolute bottom manage-collection-item-details">
@@ -7,3 +8,11 @@
         <div class="pull-right">{$collection.views|number_format} {lang code='views'}</div>
     </div>
 </div>
+{/if}
+
+{if $display_method == 'view_channel'}
+<div class="collection-{$collection.collection_id} {$collection.collection_id} view-channel-collection-box" onclick="window.location='{collection_links($collection)}'">
+    <div class="view-channel-collection-thumb{if $collection.cover_photo != 0} collection-cover-photo{/if}"><img src="{get_collection_thumb( $collection, '150x150')}" /></div>
+    <span class="view-channel-collection-name black-gradient">{$collection.collection_name}</span>
+</div>
+{/if}

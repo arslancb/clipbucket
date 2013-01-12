@@ -1618,4 +1618,158 @@ function return_object_order( $type = null ) {
     return false;
 }
 
+/**
+ * 
+ * @param array $extra
+ * @return array
+ */
+function get_template_fields( $extra = null ) {
+    $fields = array( 'name','author','version','released','website','dir' );
+    if ( is_null( $extra ) and is_array( $extra ) ) {
+        $fields = array_merge( $fields, $extra );
+    }
+    
+    return $fields;
+}
+
+/**
+ * Display template changer for users if it is
+ * allowed by administrator
+ * 
+ * @global $cbtpl;
+ */
+function display_template_changer() {
+    if ( ALLOW_STYLE_SELECT ) {
+        global $cbtpl;
+
+        $templates = $cbtpl->get_templates();
+
+        // Arrange templates according to name
+        // A - Z
+        if ( $templates ) {
+            ksort( $templates );
+            $list = '';
+            
+            $fields = get_template_fields();
+            $active_template = get_active_template();
+            
+            foreach( $templates as $template ) {
+                // Only get commonly used fields
+                foreach( $fields as $field ) {
+                    if ( $template[ $field ] ) {
+                        $tem[ $field ] = $template[ $field ];
+                    }
+                }
+
+                $tem = apply_filters( $tem, 'template_selection' );    
+                if ( !$tem['name'] or !$template['dir'] ) {
+                    continue;
+                }
+                
+                $active = ( $active_template == $template['dir'] ) ? ' active' : '';
+                
+                $list .= '<li class="template-item'.$active.'" data-template="'.$template['dir'].'">';
+                $list .= '<a href="'.queryString( 'set_the_template='.$template['dir'].'', array('set_the_template') ).'">';
+                $list .= $tem['name'];
+                $list .= '</a>';
+                $list .= '</li>';
+            }
+        }
+                
+        $params['file'] = 'blocks/template_changer.html';
+        $params['templates_list'] = $list;
+        
+        return fetch_template_file( $params );
+    }
+    
+    return false;
+}
+
+/**
+ * This filter template details that should be enough
+ * for user
+ * 
+ * @param array $details
+ * @return array
+ */
+function get_template_info_for_user( $details ) {
+    if ( $details ) {
+        $fields = get_template_fields();
+        
+        foreach( $fields as $field ) {
+            if ( $details[ $field ] ) {
+                $to_user[ $field ] = $details[ $field ];
+            }
+        }
+        
+        if ( $to_user ) {
+            return $to_user;
+        } else {
+            return false;
+        }
+        
+    }
+}
+
+/**
+ * Get current template
+ * @global type $Cbucket
+ * @return string
+ */
+function get_active_template() {
+    global $Cbucket;
+    return $Cbucket->template;
+}
+
+function get_active_template_details() {
+    global $Cbucket;
+    return $Cbucket->template_details;
+}
+
+/**
+ * Get template name
+ * @param array $tem
+ * @return string
+ */
+function get_template_name( $tem ) {
+    return get_template_detail( $tem, 'name' );
+}
+
+/**
+ * Get given detail of given template
+ * @global object $cbtpl
+ * @param array $tem
+ * @param string $detail
+ * @return string
+ */
+function get_template_detail( $tem, $detail = 'name' ) {
+    global $cbtpl;
+    $details = $cbtpl->get_template_details( $tem );
+    
+    if ( $details ) {
+        $to_user_details = get_template_info_for_user( $details );
+        if ( $to_user_details and $to_user_details[ $detail ] ) {
+            return $to_user_details[ $detail ];
+        }
+    }
+}
+
+/**
+ * Get name of active template
+ * @return string
+ */
+function get_active_template_name() {
+    $active = get_active_template();
+    return get_template_name( $active );
+}
+
+function can_change_template() {
+    $is_allowed = ALLOW_STYLE_SELECT;
+    
+    if ( !$is_allowed or !has_access('admin_access') ) {
+        return false;
+    }
+    
+    return true;
+}
 ?>

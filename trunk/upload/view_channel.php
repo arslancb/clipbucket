@@ -89,9 +89,9 @@ if($udetails)
 		subtitle(sprintf(lang('user_s_channel'),$udetails['username']));
 	
 	//Setting profilte item
-	$profileItem = $userquery->getProfileItem($udetails['userid'],true);
+	//$profileItem = $userquery->getProfileItem($udetails['userid'],true);
 	
-	assign('profile_item',$profileItem);
+	//assign('profile_item',$profileItem);
         
         //User feeds
         $feeds = $userquery->get_feeds($udetails['userid']);

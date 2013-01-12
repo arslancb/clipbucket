@@ -1449,3 +1449,91 @@ body .carousel-control {
     top: auto;
     bottom: 5px;
 }
+
+.templates-list {
+    background: #eee;
+    border: solid #ccc;
+    border-width: 1px 0px;
+    display: block;
+    position: relative;
+    padding-top: 20px;
+    box-shadow: inset 0px 1px 0px 0px white, inset 0px -1px 0px 0px white;
+    margin-top: 15px;
+}
+
+.templates-list li {
+    display: inline-block;
+    width: 33%;
+    height: 92px;
+    margin-bottom: 20px;
+}
+
+.templates-list li.active {
+    background: rgb(2, 142, 207);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.templates-list li.active a {
+    color: white;
+}
+
+.templates-list li.active a span.template-author {
+    color: #ccc;
+}
+
+.templates-list li a {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    text-overflow: clip;
+    height: 100%;
+}
+
+.templates-list li a:hover {
+    text-decoration: none;
+}
+
+.templates-list li a .template-thumb {
+    position: absolute;
+    max-width: 120px;
+}
+
+.templates-list li a span.template-name {
+    display: block;
+    font-weight: bold;
+    margin-left: 130px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:hidden;
+    margin-top: 15px;
+}
+
+.templates-list li a span.template-author {
+    margin-left: 130px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 13px;
+    color: #666;
+}
+
+.templates-list:before, .templates-list:after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    background: inherit;
+    width: 100%;
+    height: 100%;
+    left: -100%;
+    border-color: inherit;
+    border-width: inherit;
+    border-style: inherit;
+    box-shadow: inherit;
+}
+
+.templates-list:after {
+    right: -100%;
+    left: auto;
+}

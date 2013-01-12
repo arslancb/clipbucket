@@ -127,9 +127,29 @@
 
 
             <div class="view-channel-column-right">
+                <div class="view-channel-box user-collections-block">
+                    <div class="view-channel-box-header">
+                        <h4>{lang code='Collections'} <small>({$u.total_collections|number_format})</small></h4>
+                        <div class="view-channel-box-header-right">
+                            <a href="{link name='user_collections'}{$u.username}">See All</a>
+                        </div>
+                    </div>
+                    {$avatar_collection=cb_user_avatar_collection($u)}
+                    <div class="view-channel-box-content clearfix">
+                        {include_template_file file='blocks/collection.html' collection=$avatar_collection display_method='view_channel'}
+                        {$collection_limit=config(collection_channel_page)}
+                        {$user_collections=get_collections(['user'=>$u.userid,'limit'=>$collection_limit,'date_added DESC'])}
+                        {if $user_collections}
+                            {foreach $user_collections as $user_collection}
+                                {include_template_file file='blocks/collection.html' collection=$user_collection display_method='view_channel'}
+                            {/foreach}
+                        {/if}
+                    </div>
+                </div>
+                
                 <div class="view-channel-box user-videos-block">
                     <div class="view-channel-box-header">
-                        <h4>Videos <small>({$u.total_videos|number_format})</small></h4>
+                        <h4>{lang code='Videos'} <small>({$u.total_videos|number_format})</small></h4>
                         <div class="view-channel-box-header-right">
                             <a href="{link name='user_videos'}{$u.username}">See All</a>
                         </div>
@@ -144,7 +164,7 @@
                 </div>
                 <div class="view-channel-box user-photos-block">
                     <div class="view-channel-box-header">
-                        <h4>Photos <small>({$u.total_photos|number_format})</small></h4>
+                        <h4>{lang code='Photos'} <small>({$u.total_photos|number_format})</small></h4>
                         <div class="view-channel-box-header-right">
                             <a href="{link name='user_photos'}{$u.username}">See All</a>
                         </div>

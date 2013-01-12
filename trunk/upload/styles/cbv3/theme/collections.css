@@ -248,3 +248,44 @@ img.manage-collection-item-thumb {
     border-radius: 4px;
     text-align: center;
 }
+
+.user-collections-block .view-channel-box-content {
+    margin-bottom: -3px;
+}
+
+.view-channel-collection-box {
+    float: left;
+    position: relative;
+    margin-left: 3px;
+    margin-bottom: 3px;
+    overflow: hidden;
+    text-overflow : ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.view-channel-collection-thumb {
+    max-width: 136px;
+
+}
+
+.view-channel-collection-box:nth-child(4n+1) {
+    margin-left: 0px;
+}
+
+.view-channel-collection-name {
+    position: absolute;
+    color: white;
+    font-family: Tahoma, "Helvetica Neue",Helvetica,Arial,sans-serif;
+    display: block;
+    overflow: hidden;
+    text-overflow : ellipsis;
+    white-space: nowrap;
+    font-size: 11px;
+    bottom: 0px;
+    left: 0px;
+}
+
+.view-channel-collection-name.black-gradient {
+    font-weight: normal;
+}
