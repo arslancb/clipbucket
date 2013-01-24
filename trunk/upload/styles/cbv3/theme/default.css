@@ -1537,3 +1537,6 @@ body .carousel-control {
     right: -100%;
     left: auto;
 }
+
+.notification-msg{cursor:pointer}
+.notification-msg:hover{background-color: #eee}
