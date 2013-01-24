@@ -740,6 +740,14 @@ class CBvideo extends CBCategory {
                 $cond .= ' AND ';
             $cond .= " " . tbl('video.duration') . " " . $duration_op . " '" . $params['duration'] . "' ";
         }
+        
+        
+        if ($params['has_mobile']) {
+            
+            if ($cond != '')
+                $cond .= ' AND ';
+            $cond .= " " . tbl('video.has_mobile') . "='".$params['has_mobile']."'";
+        }
 
         //Filename
 

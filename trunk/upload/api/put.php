@@ -492,10 +492,69 @@ switch ($mode) {
             //$cbvid->set_default_thumb($vid,mysql_clean(post('default_thumb')));
             $vdetails = $cbvid->get_video_details($vid);
             echo json_encode(array('success'=>'yes','vdetails'=>$vdetails));
-        }else
+        }
+        else
         {
             echo json_encode(array('err'=>error()));
         }
+    }
+    break;
+    
+    
+    case addFriend:
+    case add_friend:
+    {
+        $uid = mysql_clean($request['userid']);
+        $fid = mysql_clean($request['fid']);
+        $message = mysql_clean($request['message']);
+        
+        if (!$uid)
+            $uid = userid();
+        
+        if (!$uid)
+            exit(json_encode(array('err' => lang('Please Login'))));
+        
+        if (!$fid)
+            exit(json_encode(array('err' => lang('Please Select a User'))));
+        
+        
+        $params = array('userid'=>$uid,'friend_id'=>$fid,'message'=>$message);
+        
+        $request_id = $userquery->add_friend_request($params);
+        
+        if ($request_id)
+            echo json_encode(array('success'=>'yes','request_id'=>$request_id));
+        else
+            echo json_encode(array('err'=> lang(error('single'))));
+    }
+    break;
+    
+    case removeFriend:
+    case remove_friend:
+    case unFriend:
+    case unfriend:    
+    {
+        $uid = mysql_clean($request['userid']);
+        $fid = mysql_clean($request['fid']);
+        
+        if (!$uid)
+            $uid = userid();
+        
+        if (!$uid)
+            exit(json_encode(array('err' => lang('Please Login'))));
+        
+        if (!$fid)
+            exit(json_encode(array('err' => lang('Please Select a User'))));
+        
+        if ($fid == $uid)
+            exit(json_encode(array('err' => lang('Invalid User'))));
+        
+        $response = $userquery->unfriend($fid,$uid);
+        
+        if ($response)
+            echo json_encode(array('success'=>'yes','msg'=>'Removed from Friends'));
+        else
+            echo json_encode(array('err'=> lang(error('single'))));
     }
     break;
     

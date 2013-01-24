@@ -1,5 +1,8 @@
 <?php
 
+
+define('DEFAULT_FEEDS_LIMIT',NULL); //Null will make it limitless
+
 /**
  * This file is used
  * to create user feeds
@@ -648,8 +651,19 @@ class cbfeeds
         }
 
         global $db;
-
-        $db->Execute("DELETE from " . tbl('feeds') . " WHERE " . $cond_query);
+        
+        //Fetch Feed ID
+        
+        $query = " SELECT feed_id FROM ".tbl('feeds')." WHERE $cond_query ";
+        $feed = db_select($query);
+        
+        if($feed)
+        {
+            $feedId = $feed[0]['feed_id'];
+            $db->Execute("DELETE from " . tbl('feeds') . " WHERE feed_id='$feedId'");
+            
+        }else
+            return false;
 
         return true;
     }
@@ -1022,8 +1036,21 @@ class cbfeeds
     function get_feeds($array)
     {
         
-        $type = $array['type'];
-        $id = $array['id'];
+        $type = mysql_clean($array['type']);
+        $id = mysql_clean($array['id']);
+        
+        if(!$type || !$id) return false;
+        
+        if(isset($array['order']))
+            $order = mysql_clean($array['order']);
+        else
+            $order = 'time_added DESC';
+        
+        
+        if(isset($array['limit']))
+            $limit = mysql_clean($array['limit']);
+        else
+            $limit = DEFAULT_FEEDS_LIMIT;
         
         $fields_arr = array(
             'f' => $this->_get_fields(),
@@ -1035,13 +1062,16 @@ class cbfeeds
         
         $fields = tbl_fields($fields_arr);
         
-        $query = " SELECT ".$fields." FROM ".tbl('feeds')." AS f";
+        $query  = " SELECT ".$fields." FROM ".tbl('feeds')." AS f";
         $query .= " LEFT JOIN ".tbl('objects_cache')." AS o ";
         $query .= " ON f.object_cached_id=o.object_id ";
         $query .= " LEFT JOIN ".tbl('objects_cache')." AS c ";
-        $query .= " ON f.content_cached_id=c.object_id ";
+        $query .= " ON f.content_cached_id=c.object_id ";     
+        $query .= " WHERE f.object_id='$id' AND f.object_type='$type' ";      
+        $query .= " ORDER BY ".$order;
         
-        $query .= " ORDER BY time_added DESC ";
+        if($limit)
+            $query .= " LIMIT ".mysql_clean($limit);
 
         $results = db_select($query);
         if ($results)
@@ -1054,7 +1084,7 @@ class cbfeeds
                     'type' => 'f',
                     'type_id' => $result['feed_id'],
                     'order' => 'date_added ASC'
-                        ));
+                ));
                 $the_feeds[] = $result;
             }
 
@@ -1351,14 +1381,13 @@ class cbfeeds
         $array = array(
            'feed_id','message','message_attributes',
             'userid','user','icon','action','action_group_id','is_activity',
-            'privacy','likes_count','likes','date_added','time_added'
+            'privacy','likes_count','likes','date_added','time_added','comments_count'
         );
         
         
         return $array;
         
     }
-
 }
 
 ?>

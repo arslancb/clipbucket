@@ -16,6 +16,8 @@ $page = mysql_clean($request['page']);
 
 $max_video_limit = 20;
 $videos_limit = 20;
+$content_limit = 20;
+
 
 
 $api_keys = $Cbucket->api_keys;
@@ -49,6 +51,9 @@ switch ($mode) {
 
                 $request['videoids'] = $vids;
             }
+			
+			if($is_mobile)
+				$request['has_mobile'] = 'yes';
 
             $videos = $cbvid->get_videos($request);
             header('Content-Type: text/html; charset=utf-8');
@@ -470,6 +475,88 @@ switch ($mode) {
             }
             //echo $db->db_query;
             echo json_encode($new_photos);
+        }
+        break;
+        
+        case "getFriends": 
+        {
+            $uid = $request['userid'];
+            if (!$uid)
+                $uid = userid();
+
+            if (!$uid)
+                exit(json_encode(array('err' => lang('Please Login'))));
+
+            $friends = $userquery->get_contacts($uid);
+
+            if ($friends)
+                echo json_encode($friends);
+            else
+                echo json_encode(array('err' => error('single')));
+        }
+        break;
+        
+        case "get_groups":
+        case "getGroups":
+        {
+            $get_limit = create_query_limit($page, $content_limit);
+
+            $request['limit'] = $get_limit;
+
+            $groups = $cbgroup->get_groups($request);
+
+            if ($groups)
+                echo json_encode($groups);
+            else
+                echo json_encode(array('err' => error('single')));
+        }
+        break;
+        
+        
+        case "get_topics":
+        case "getTopics":
+        {
+            $gid = mysql_clean($request['group_id']);
+            $page = mysql_clean($request['page']);
+
+            $topics_limit = 20;
+            $get_limit = create_query_limit($page, $topics_limit);
+
+            $params = array('group' => $gid,'limit' => $get_limit);
+            $topics = $cbgroup->get_group_topics($params);
+
+            if ($topics)
+                echo json_encode($topics);
+            else
+                echo json_encode(array('err' => error()));
+        }
+        break;
+        
+        case "get_feeds":
+        case "getFeeds":
+        {
+            $id = mysql_clean($request['id']);
+            $page = mysql_clean($request['page']);
+            $type = mysql_clean($request['type']);
+
+            $limit = 20;
+            $get_limit = create_query_limit($page, $limit);
+
+            $params = array('id' => $id,'limit' => $get_limit,'type'=> $type);
+            $feeds = $cbfeeds->get_feeds($params);
+            $the_feeds = array();
+            if ($feeds)
+            {
+                foreach ($feeds as $feed) 
+                {
+                    $feed['comments'] = json_encode($feed['comments']);
+                    $the_feeds[] = $feed;                
+                }
+                echo json_encode($the_feeds);
+            }
+                
+            else
+                echo json_encode(array('err' => error()));
         }
         break;
 }
