@@ -188,7 +188,7 @@ class CBConverter
      * @param STRING type (e,w,m) for (errors,warnings and messages) res..
      * @return ARRAY of log
      */
-    function log($msg = NULL, $type = e, $index = null)
+    function log($msg = NULL, $type = 'e', $index = null)
     {
         if (!$msg)
             return $this->log;

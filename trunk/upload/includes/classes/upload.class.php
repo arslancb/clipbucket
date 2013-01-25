@@ -1194,8 +1194,15 @@ class Upload {
         }
 
         switch ($status) {
-            case "u": {
+            case "u":
+            case "started":
+                {
                 
+                    if($status=='started')
+                    {
+                        $fields[] = 'time_started';
+                        $db->update($tbl, $fields, array('p', 'u', $messages, $conv_count, time(),time()), "queue_id='$qid'");
+                    }else
                     $db->update($tbl, $fields, array('p', 'u', $messages, $conv_count, time()), "queue_id='$qid'");
                     
                 }
@@ -1268,7 +1275,7 @@ class Upload {
 
         if (!$profile_id) {
             $fields[] = 'date_completed';
-            $values[] = now();
+            $values[] = time();
         }
 
         $db->insert(tbl('video_files'), $fields, $values);

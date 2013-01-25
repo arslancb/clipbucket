@@ -1130,8 +1130,11 @@ class cb_pm
 
         $the_fields = tbl_fields($fields_array);
         
-        $thread_id = $array['thread_id'];
+        $thread_id = mysql_clean($array['thread_id']);
 
+        if(isset($array['limit']))
+        $limit = $array['limit'];
+        
 
         $query = " SELECT " . $the_fields . " FROM " . tbl('messages'). " AS m";
         $query .= " LEFT JOIN " . tbl('users') . ' AS u ON  ';
@@ -1139,6 +1142,9 @@ class cb_pm
 
         $query .= " WHERE thread_id='$thread_id' ";
         $query .= " ORDER BY time_added ASC ";
+        
+        if($limit)
+            $query .= " LIMIT ".mysql_clean($limit);
         
         $results = db_select($query);
 

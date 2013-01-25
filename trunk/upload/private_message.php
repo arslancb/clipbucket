@@ -130,30 +130,6 @@ switch ($mode)
 
         break;
 
-    case 'notification':
-        {
-            assign('mode', 'notification');
-
-            //Deleting Message
-            if ($_GET['delete_mid'])
-            {
-                $mid = mysql_clean($_GET['delete_mid']);
-                $cbpm->delete_msg($mid, userid());
-            }
-
-            //Getting Message
-            if ($_GET['mid'])
-            {
-                $mid = mysql_clean($_GET['mid']);
-                assign('pr_msg', $cbpm->get_inbox_message($mid, userid()));
-            }
-
-            //Get User Messages
-            assign('user_msgs', $cbpm->get_user_notification_messages(userid()));
-
-            subtitle(lang("my_notifications"));
-        }
-        break;
 
     case 'new_msg':
     case 'compose':

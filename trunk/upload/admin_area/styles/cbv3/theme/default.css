@@ -151,6 +151,7 @@ padding:5px; border:1px dashed #ccc}
 .header-bottom ul{margin: 0px; padding: 0px;}
 .header-bottom ul li{float: left; display: inline-block; border-right: 1px solid #222;
 border-left: 1px solid #4b4b4b; padding: 5px 10px; color: #fff; font-size: 11px; font-weight: bold}
+.header-bottom ul li a{color:#fff}
 
 footer{background-color:#161616; padding: 0px 0px}
 footer ul{padding: 0px; margin: 0px;}
@@ -451,3 +452,12 @@ border-top: 1px solid rgba(255, 255, 255, 0.2)
 .note-textarea,.note-add-btn{width:100%; box-sizing:padding-box; -moz-box-sizing: padding-box; -webkit-box-sizing: padding-box}
 .note-add-btn{width: 100% !important; margin-bottom: 10px}
 .awein{background-color: #000; padding: 10px}
+
+.file_info{padding-left: 30px; padding-bottom: 10px; padding-top: 10px; border-bottom:1px solid #ccc ; position:relative; cursor:pointer}
+.file_iteration{position:absolute; left:3px}
+
+.log_data{max-height:400px; margin-right:10px}
+.file_info_active{
+    background-color:#258dc8; color:#fff; text-shadow: 0px 1px 0px #000; border-bottom:none
+}
+.file_output{max-height:400px;}

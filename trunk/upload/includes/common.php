@@ -304,7 +304,7 @@ define('FLVPLAYER', $row['player_file']);
 define('SUBTITLE', $row['code_dev']);
 //Javascript Directory Name
 define('ADMINDIR', 'admin_area');
-define('ADMINBASEDIR', BASEDIR . '/admin_area');       //Admin Accissble Folder
+define('ADMINBASEDIR', BASEDIR . '/'.ADMINDIR);       //Admin Accissble Folder
 define('ADMIN_BASEURL', BASEURL . '/' . ADMINDIR);
 define('MODULEDIR', BASEDIR . '/modules');      //Modules Directory
 ADMIN_BASEURL;
@@ -397,6 +397,8 @@ define('FRONT_TEMPLATEDIR', BASEDIR . '/' . TEMPLATEFOLDER . '/' . $Cbucket->tem
 define('FRONT_TEMPLATEURL', BASEURL . '/' . TEMPLATEFOLDER . '/' . $Cbucket->template);
 
 
+
+define('MSG_LIMIT_PER_REQ',5);
 
 //SETTING PHOTO SETTING
 define('USE_PHOTO_TAGGING', true);

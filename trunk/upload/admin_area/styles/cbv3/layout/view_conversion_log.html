@@ -1,77 +1,196 @@
-{if $data.File}
+
+
 <script>
-{literal}
-/*
- * zClip :: jQuery ZeroClipboard v1.1.1
- * http://steamdev.com/zclip
- *
- * Copyright 2011, SteamDev
- * Released under the MIT license.
- * http://www.opensource.org/licenses/mit-license.php
- *
- * Date: Wed Jun 01, 2011
- */
-
-(function(a){a.fn.zclip=function(c){if(typeof c=="object"&&!c.length){var b=a.extend({path:baseurl+"/js/jquery_plugs/ZeroClipboard.swf",copy:null,beforeCopy:null,afterCopy:null,clickAfter:true,setHandCursor:true,setCSSEffects:true},c);return this.each(function(){var e=a(this);if(e.is(":visible")&&(typeof b.copy=="string"||a.isFunction(b.copy))){ZeroClipboard.setMoviePath(b.path);var d=new ZeroClipboard.Client();if(a.isFunction(b.copy)){e.bind("zClip_copy",b.copy)}if(a.isFunction(b.beforeCopy)){e.bind("zClip_beforeCopy",b.beforeCopy)}if(a.isFunction(b.afterCopy)){e.bind("zClip_afterCopy",b.afterCopy)}d.setHandCursor(b.setHandCursor);d.setCSSEffects(b.setCSSEffects);d.addEventListener("mouseOver",function(f){e.trigger("mouseenter")});d.addEventListener("mouseOut",function(f){e.trigger("mouseleave")});d.addEventListener("mouseDown",function(f){e.trigger("mousedown");if(!a.isFunction(b.copy)){d.setText(b.copy)}else{d.setText(e.triggerHandler("zClip_copy"))}if(a.isFunction(b.beforeCopy)){e.trigger("zClip_beforeCopy")}});d.addEventListener("complete",function(f,g){if(a.isFunction(b.afterCopy)){e.trigger("zClip_afterCopy")}else{if(g.length>500){g=g.substr(0,500)+"...\n\n("+(g.length-500)+" characters not shown)"}e.removeClass("hover");alert("Copied text to clipboard:\n\n "+g)}if(b.clickAfter){e.trigger("click")}});d.glue(e[0],e.parent()[0]);a(window).bind("load resize",function(){d.reposition()})}})}else{if(typeof c=="string"){return this.each(function(){var f=a(this);c=c.toLowerCase();var e=f.data("zclipId");var d=a("#"+e+".zclip");if(c=="remove"){d.remove();f.removeClass("active hover")}else{if(c=="hide"){d.hide();f.removeClass("active hover")}else{if(c=="show"){d.show()}}}})}}}})(jQuery);var ZeroClipboard={version:"1.0.7",clients:{},moviePath:"ZeroClipboard.swf",nextId:1,$:function(a){if(typeof(a)=="string"){a=document.getElementById(a)}if(!a.addClass){a.hide=function(){this.style.display="none"};a.show=function(){this.style.display=""};a.addClass=function(b){this.removeClass(b);this.className+=" "+b};a.removeClass=function(d){var e=this.className.split(/\s+/);var b=-1;for(var c=0;c<e.length;c++){if(e[c]==d){b=c;c=e.length}}if(b>-1){e.splice(b,1);this.className=e.join(" ")}return this};a.hasClass=function(b){return !!this.className.match(new RegExp("\\s*"+b+"\\s*"))}}return a},setMoviePath:function(a){this.moviePath=a},dispatch:function(d,b,c){var a=this.clients[d];if(a){a.receiveEvent(b,c)}},register:function(b,a){this.clients[b]=a},getDOMObjectPosition:function(c,a){var b={left:0,top:0,width:c.width?c.width:c.offsetWidth,height:c.height?c.height:c.offsetHeight};if(c&&(c!=a)){b.left+=c.offsetLeft;b.top+=c.offsetTop}return b},Client:function(a){this.handlers={};this.id=ZeroClipboard.nextId++;this.movieId="ZeroClipboardMovie_"+this.id;ZeroClipboard.register(this.id,this);if(a){this.glue(a)}}};ZeroClipboard.Client.prototype={id:0,ready:false,movie:null,clipText:"",handCursorEnabled:true,cssEffects:true,handlers:null,glue:function(d,b,e){this.domElement=ZeroClipboard.$(d);var f=99;if(this.domElement.style.zIndex){f=parseInt(this.domElement.style.zIndex,10)+1}if(typeof(b)=="string"){b=ZeroClipboard.$(b)}else{if(typeof(b)=="undefined"){b=document.getElementsByTagName("body")[0]}}var c=ZeroClipboard.getDOMObjectPosition(this.domElement,b);this.div=document.createElement("div");this.div.className="zclip";this.div.id="zclip-"+this.movieId;$(this.domElement).data("zclipId","zclip-"+this.movieId);var a=this.div.style;a.position="absolute";a.left=""+c.left+"px";a.top=""+c.top+"px";a.width=""+c.width+"px";a.height=""+c.height+"px";a.zIndex=f;if(typeof(e)=="object"){for(addedStyle in e){a[addedStyle]=e[addedStyle]}}b.appendChild(this.div);this.div.innerHTML=this.getHTML(c.width,c.height)},getHTML:function(d,a){var c="";var b="id="+this.id+"&width="+d+"&height="+a;if(navigator.userAgent.match(/MSIE/)){var e=location.href.match(/^https/i)?"https://":"http://";c+='<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="'+e+'download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" width="'+d+'" height="'+a+'" id="'+this.movieId+'" align="middle"><param name="allowScriptAccess" value="always" /><param name="allowFullScreen" value="false" /><param name="movie" value="'+ZeroClipboard.moviePath+'" /><param name="loop" value="false" /><param name="menu" value="false" /><param name="quality" value="best" /><param name="bgcolor" value="#ffffff" /><param name="flashvars" value="'+b+'"/><param name="wmode" value="transparent"/></object>'}else{c+='<embed id="'+this.movieId+'" src="'+ZeroClipboard.moviePath+'" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="'+d+'" height="'+a+'" name="'+this.movieId+'" align="middle" allowScriptAccess="always" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="'+b+'" wmode="transparent" />'}return c},hide:function(){if(this.div){this.div.style.left="-2000px"}},show:function(){this.reposition()},destroy:function(){if(this.domElement&&this.div){this.hide();this.div.innerHTML="";var a=document.getElementsByTagName("body")[0];try{a.removeChild(this.div)}catch(b){}this.domElement=null;this.div=null}},reposition:function(c){if(c){this.domElement=ZeroClipboard.$(c);if(!this.domElement){this.hide()}}if(this.domElement&&this.div){var b=ZeroClipboard.getDOMObjectPosition(this.domElement);var a=this.div.style;a.left=""+b.left+"px";a.top=""+b.top+"px"}},setText:function(a){this.clipText=a;if(this.ready){this.movie.setText(a)}},addEventListener:function(a,b){a=a.toString().toLowerCase().replace(/^on/,"");if(!this.handlers[a]){this.handlers[a]=[]}this.handlers[a].push(b)},setHandCursor:function(a){this.handCursorEnabled=a;if(this.ready){this.movie.setHandCursor(a)}},setCSSEffects:function(a){this.cssEffects=!!a},receiveEvent:function(d,f){d=d.toString().toLowerCase().replace(/^on/,"");switch(d){case"load":this.movie=document.getElementById(this.movieId);if(!this.movie){var c=this;setTimeout(function(){c.receiveEvent("load",null)},1);return}if(!this.ready&&navigator.userAgent.match(/Firefox/)&&navigator.userAgent.match(/Windows/)){var c=this;setTimeout(function(){c.receiveEvent("load",null)},100);this.ready=true;return}this.ready=true;try{this.movie.setText(this.clipText)}catch(h){}try{this.movie.setHandCursor(this.handCursorEnabled)}catch(h){}break;case"mouseover":if(this.domElement&&this.cssEffects){this.domElement.addClass("hover");if(this.recoverActive){this.domElement.addClass("active")}}break;case"mouseout":if(this.domElement&&this.cssEffects){this.recoverActive=false;if(this.domElement.hasClass("active")){this.domElement.removeClass("active");this.recoverActive=true}this.domElement.removeClass("hover")}break;case"mousedown":if(this.domElement&&this.cssEffects){this.domElement.addClass("active")}break;case"mouseup":if(this.domElement&&this.cssEffects){this.domElement.removeClass("active");this.recoverActive=false}break}if(this.handlers[d]){for(var b=0,a=this.handlers[d].length;b<a;b++){var g=this.handlers[d][b];if(typeof(g)=="function"){g(this,f)}else{if((typeof(g)=="object")&&(g.length==2)){g[0][g[1]](this,f)}else{if(typeof(g)=="string"){window[g](this,f)}}}}}}};
-{/literal}
-</script>
-<h2>Converion Log for file {$data.file_name}.{$data.file_ext}</h2>
-
-<p>
-  Reading Conversion log for file {$data.file_name}
-</p>
-
-
-
-
-<div class="cb_title">Conversion details</div>
-
-<div style="padding:5px" class="cb_form">
-{foreach from=$data item=value key=field}
-    {if $field !='conversion_log' }
-    <div class="cb_field_cont">
-    	<div class="cb_fieldL" style="width:160px;text-transform:capitalize"><strong>{$field|replace:'_':' '}</strong></div>
-        <div class="cb_fieldR" style="width:600px">{$value}</div>
-    	<div class="clear clearfix"></div>
-    </div>
-    {/if}
-{/foreach}
-</div>
-
-<div class="cb_title">Complete conversion log</div>
-
-<div align="left"  style="" class="cb_title">
-{literal}
-	<a href="javascript:void(0)" onClick="$('#log-div').css({'height':'auto'});
-    $(this).hide();$('#contract').show()" id="expand">Expand</a>
-    
-    <a href="javascript:void(0)" onClick="$('#log-div').css({'height':'300px'});
-    $(this).hide();$('#expand').show()" id="contract" style="display:none">Contract</a>
-    
-    |
-    <a href="javascript:void(0)" id="copy">Copy</a>
-    
-	 <script type="application/x-javascript">
-	$(document).ready(function() {
-		 $('#copy').zclip({
-			
-			 copy:$('#log-div').text(),
-			 clickAfter:false,
-			 afterCopy:function(){ $('#copied').show(); $('#copied').fadeOut(5000)}
- 		});
-	});
-	</script>
-    
-    <span id="copied" style="display:none">Log has been copied...</span>
+    $('.conversion-status').lionbars({
+        autohide: true
+    });
  
-{/literal}
+    $(document).ready(function(){
+        
+        $('.file_info').click(function(){
+            
+            var $id = $(this).attr('data-id');
+            
+            var $current = $('.file_info_active');
+            
+            var current_id = $current.attr('data-id');
+            
+            $('#'+current_id+'-messages').hide();
+            $('#'+current_id+'-log').hide();
+            
+            
+            
+            $current.removeClass('file_info_active');
+            
+            $('#'+$id+'-messages').show();
+            $('#'+$id+'-log').show();
+            $(this).addClass('file_info_active');
+            
+        })
+        
+        $('.log_data,.file_output').hide();
+        
+        $('.file_info:first').trigger('click');
+    })
+
+</script>
+
+{if $video}
+
+<h4>Video Log for {$video.file_name} - {$video.title}</h4>
+
+<div class="height10"></div>
+<div class="row-fluid ">
+    <div class="span4">
+        {if $video_files}
+        {foreach $video_files as $file}
+        {if $file.name}
+        <div class="file_info" data-id="{$file.file_id}">
+            <span class="file_iteration">#{$file.profile_id}</span>
+            <strong>{$file.name} - {$file.format}</strong>
+            <div class="">{$file.date_added}</div>
+        </div>
+        {/if}
+        {/foreach}
+        {/if}
+    </div>
+    <div class="span4" style="border-left:1px solid #ccc; min-height:350px; margin-left:-1px; padding-left:15px;">
+
+        {foreach $video_files as $file}
+        {if $file.name}
+      
+            <div class="file_output"  id="{$file.file_id}-messages">
+                {$log=json_decode($file.log,true)}
+
+                <div align="center"><h5>Ouput Details</h5></div>
+
+                {$output=json_decode($file.output_results,true)}
+
+
+                <dl class="dl-horizontal">
+                    {foreach $output as $key => $value}
+                    <dt>{$key|ucfirst|replace:'_':' '}</dt>
+                    <dd>{$value}<dd>
+                        {/foreach}
+                </dl>
+
+
+                {$msgs=$log.m}
+                {$errs=$log.e}
+
+
+                <strong>Messages</strong>
+
+                {if $msgs}
+                {foreach $msgs as $key => $msg}
+                {if $key!='conversion'}
+                <div>{$msg}</div>
+                {/if}
+                {/foreach}
+                {/if}
+
+                <div class="height20"></div>
+                <strong>Errors / Warnings</strong>
+
+                {if $errs}
+                {foreach $errs as $key => $err}
+                <div>{$err}</div>
+                {/foreach}
+                {/if}
+
+
+                 
+        </div>
+        {/if}
+        {/foreach}
+    </div>
+    <div class="span4">
+        <div class="well well-small conversion-status" align="center" >
+            <h5>Conversion Details</h5>
+
+            <dl class="dl-horizontal">
+                <dt>Current Status</dt>
+                <dd>
+                    {$qstatus=$video.queue_status}
+                    {if $qstatus=='u'}Processing{/if}
+                    {if $qstatus=='f'}Failed{/if}
+                    {if $qstatus=='s'}Completed{/if}
+                </dd>
+
+
+                {if $video.date_added}
+
+                <dt>Created On</dt>
+                <dd>{$video.date_added}</dd>
+
+                {/if}
+
+                {if $video.time_started}
+
+                <dt>Started On</dt>
+                <dd>{$video.time_started|date_format:"%d-%m-%Y %H:%M:%S"}</dd>
+
+                {/if}
+
+                {if $video.time_completed}
+
+                <dt>Completed On</dt>
+                <dd>{$video.time_completed|date_format:"%d-%m-%Y %H:%M:%S"}</dd>
+
+                {/if}
+
+                {if $video.conversion_counts}
+
+                <dt>Total Conversions</dt>
+                <dd>{$video.conversion_counts}</dd>
+
+                {/if}
+            </dl>
+            <!--<strong  style="cursor:pointer" onclick="$(this).hide();$('#conv_msg').show()">View messages</strong>-->
+
+            <div id="conv_msg">
+                <hr />            
+                <div align="left">
+                    <strong>Messages</strong>    
+                    {$msgs=json_decode($video.messages,true)}
+                    {foreach $msgs as $msg}
+                    <div>{$msg@iteration}. {$msg}</div>
+                    {/foreach}
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
 
+<div class="controller white-grad">
+    <div class="buttons">
+        <strong>Conversion Log</strong>
 
-<div style="background-color:#F3F3F3;
- border:none; height:300px; overflow:auto; padding:5px " id="log-div">
-{$data.conversion_log|nl2br}</div>
+        <div class="right-button">
 
+            <a href="javascript:void(0);" class="btn btn-primary" id="copy-button" data-clipboard-text="copy me">
+                <i class="icon-book icon-white"></i> Copy
+            </a>
 
-{else} <em style="margin-left:10px">Log file was not found</em>
-{/if}
+        </div>
+    </div>
+</div>
+
+<div id="log-div" >
+    {if $video_files}
+    {foreach $video_files as $file}
+    {if $file.name}
+
+    {$msgs=json_decode($file.log,true)}
+    <pre class="log_data" id="{$file.file_id}-log" >
+
+        {$msgs.m.conversion}
+
+    </pre>
+    {/if}
+    {/foreach}
+    {/if}
+    {/if}
+
+</div>

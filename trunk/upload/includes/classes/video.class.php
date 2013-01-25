@@ -2425,6 +2425,50 @@ class CBvideo extends CBCategory {
     {
         return VideoLink($data);
     }
+    
+    
+    /**
+     * function usedt to get all the details of a video from database
+     * including conversion status and profile statuses.
+     */
+    function get_video_conversion_status($file_name)
+    {
+        $fields_arr = array(
+            'v' => array('title','userid'),
+            'u' => array('username','first_name','last_name'),
+            'cq' => array(
+                'queue_name','queue_ext','queue_tmp_ext','file_directory',
+                'conversion','conversion_counts','status AS queue_status','active','messages',
+                'date_added','time_started','time_completed'
+            ),
+            'vp' => array('name','format','suffix','ext'), 
+            'vf' => array('*'),
+        );
+        
+        $fields = tbl_fields($fields_arr);
+        
+        $query  = " SELECT ".$fields;
+        $query .= " FROM ".tbl('video').' AS v ';
+        $query .= " LEFT JOIN ".tbl('users').' AS u ';
+        $query .= " ON v.userid = u.userid ";
+        $query .= " LEFT JOIN ".tbl('conversion_queue')." AS cq ";
+        $query .= " ON v.file_name = cq.queue_name ";
+        $query .= " LEFT JOIN ".tbl('video_files')." AS vf ";
+        $query .= " ON v.file_name = vf.file_name ";
+        $query .= " LEFT JOIN ".tbl('video_profiles')." AS vp ";
+        $query .= " ON vf.profile_id = vp.profile_id ";
+        
+        $query .= " WHERE v.file_name = '$file_name' ";
+        
+        
+        $result = db_select($query);
+        
+        if($result)
+            return $result;
+        else
+            return false;
+        
+    }
 
 }
 

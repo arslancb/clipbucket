@@ -48,6 +48,7 @@ if ($process_running <= $max_processes && $queued_files)
             if (!file_exists($original_source))
             {
                 echo "Cannot make use of original file...(Err 1)";
+                $cbupload->update_queue_status($queue, 's', 'Cannot make use of original file...(Err 1)');
             }
             else
             {
@@ -61,9 +62,10 @@ if ($process_running <= $max_processes && $queued_files)
                 }
                 else
                 {
-
                     if (!CONV_TEST_MODE)
                         $cbupload->add_video_file($queue, $video_info, 's');
+                    
+                    $cbupload->update_queue_status($queue, 'started', 'Video info extracted');
                 }
             }
         }
@@ -77,6 +79,7 @@ if ($process_running <= $max_processes && $queued_files)
             {
                 if (!$cbupload->video_file_exists($queue['queue_name'], $queue['queue_id'], $vid_profile['profile_id']))
                 {
+                    
                     $convert = true;
 
                     $output_name = $queue['queue_name'] . $vid_profile['suffix'] . '.' . $vid_profile['ext'];

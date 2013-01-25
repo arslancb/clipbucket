@@ -61,6 +61,7 @@ Assign('layout_url', TEMPLATEURL . '/layout');
 assign('layout_dir', TEMPLATEDIR . '/layout');
 Assign('theme', TEMPLATEURL . '/theme');
 Assign('style_dir', LAYOUT);
+Assign('admin_baseurl', ADMIN_BASEURL);
 
 
 Assign('logged_user', @$_SESSION['username']);

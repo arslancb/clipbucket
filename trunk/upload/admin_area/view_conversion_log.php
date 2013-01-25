@@ -13,13 +13,20 @@ $userquery->login_check('video_moderation');
 $pages->page_redir();
 
 $file_name = mysql_clean($_GET['file_name']);
+
+$conv_data = $cbvid->get_video_conversion_status($file_name);
+
+assign('video',$conv_data[0]);
+assign('video_files',$conv_data);
+
+/*
 $file_details = $myquery->file_details($file_name);
 $file_details['file_name'] = getname($file_details['File']);
 $file_details['file_ext'] = getext($file_details['File']);
 if($file_details)
 {
 	assign('data',$file_details);
-}
+}*/
 
 
 subtitle("Conversion Log");
