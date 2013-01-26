@@ -118,7 +118,7 @@ if($_POST['mode']=='activate' || $_POST['mode']=='deactivate')
 $formats = array('flv','mp4','webm','f4v','m4v');
 $vcodecs = array(''=>'none','libx264'=>'X264 - libx264','libvpx' => 'Webm - libvpx','flv'=>'FLV - flv','mpeg4'=>'Mpeg4 - mpeg4');
 $acodecs = array(''=>'none','libfaac'=>'FAAC - libfaac','libmp3lame' => 'MP3 - libmp3lame ','libvorbis'=>'Vorbis - libvorbis');;
-$resizes = array(''=>'none','max'=>'Max','fit'=>'Fit','wxh','WxH');
+$resizes = array(''=>'none','max'=>'Max','fit'=>'Fit','wxh'=>'WxH');
 $presets = array(''=>'none','low'=>'low  - 240','normal'=>'normal - 480','hq'=>'hq - 720','max'=>'max - 1080');
 
 assign('formats',$formats);

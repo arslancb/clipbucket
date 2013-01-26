@@ -456,7 +456,7 @@ border-top: 1px solid rgba(255, 255, 255, 0.2)
 .file_info{padding-left: 30px; padding-bottom: 10px; padding-top: 10px; border-bottom:1px solid #ccc ; position:relative; cursor:pointer}
 .file_iteration{position:absolute; left:3px}
 
-.log_data{max-height:400px; margin-right:10px}
+.log_data{max-height:400px;}
 .file_info_active{
     background-color:#258dc8; color:#fff; text-shadow: 0px 1px 0px #000; border-bottom:none
 }

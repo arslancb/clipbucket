@@ -35,6 +35,7 @@ switch ($mode)
             {
                 echo json_encode(array('success' => 'yes', 'profile_id' => $profile_id, 'rel' => ''));
             }
+            
         }
         break;
 

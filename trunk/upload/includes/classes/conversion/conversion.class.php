@@ -293,7 +293,7 @@ class CBConverter
         $args = $this->pregMatch('bitrate: ([0-9]+) kb\/s', $content);
         if ($args)
         {
-            $info['bitrate'] = $args[1] * 1000 / 8;
+            $info['bitrate'] = $args[1] * 1000 ;
         }
 
         #Checking fps
@@ -758,6 +758,8 @@ class CBConverter
             $params = array_merge($defaults, $params);
         elseif ($defaults)
             $params = $defaults;
+        
+        
 
         $output_file = $params['output_file'];
 
@@ -776,7 +778,8 @@ class CBConverter
 
         $resizedInfo = $this->calculateResize($dimInfo);
 
-
+        
+        
         /**
          * Here we will preset everything before checking for which
          * format we are going to convert into..
@@ -827,7 +830,7 @@ class CBConverter
         $bitrate = $params['bitrate'];
         $in_bitrate = $this->getVideoBitrate();
 
-        $bitrate = min($bitrate, $in_bitrate);
+        echo $bitrate = min($bitrate, $in_bitrate);
         if ($bitrate > $this->max_bitrate)
             $bitrate = $this->max_bitrate;
 
@@ -871,6 +874,7 @@ class CBConverter
             'abitrate' => $abitrate,
         );
 
+        
 
         //Setting the input option array which will later become
         //String/command to make things more easier
@@ -1122,10 +1126,13 @@ class CBConverter
             }
         }
 
-        $CMD .= " " . $output_file;
+        echo $CMD .= " " . $output_file;
 
-        $log = $this->exec($CMD,true);
+        //$log = $this->exec($CMD,true);
+        
+        $this->log($CMD,'m','conversion_cmd');
         $this->log($log,'m','conversion');
+        
         return $log;
     }
 

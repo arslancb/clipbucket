@@ -83,7 +83,7 @@
 
                 {if $msgs}
                 {foreach $msgs as $key => $msg}
-                {if $key!='conversion'}
+                {if $key!='conversion' && $key!='conversion_cmd'}
                 <div>{$msg}</div>
                 {/if}
                 {/foreach}
@@ -183,11 +183,19 @@
     {if $file.name}
 
     {$msgs=json_decode($file.log,true)}
-    <pre class="log_data" id="{$file.file_id}-log" >
+    
+    <div class="log_data"  id="{$file.file_id}-log" >
+    {if $msgs.m.conversion_cmd}
+    <div>Command</div>
+    <pre>{$msgs.m.conversion_cmd}</pre>
+    {/if}
+    <div class="height10"></div>
+    <pre class="pre-scrollable">
 
         {$msgs.m.conversion}
 
     </pre>
+    </div>
     {/if}
     {/foreach}
     {/if}

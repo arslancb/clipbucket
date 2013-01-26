@@ -2050,7 +2050,7 @@ class CBvideo extends CBCategory {
         }
 
         if (!in_array($array['resize'], $valid_resizes))
-            $array['resize'] = 'none';
+           $array['resize'] = 'none';
 
 
         /* Finally adding our preset */
@@ -2065,14 +2065,17 @@ class CBvideo extends CBCategory {
             $values = apply_filters($values, 'video_profile_values');
 
             //Adding order
-            $order = $this->get_latest_profile_order();
+            /*$order = $this->get_latest_profile_order();
             $order = $order + 1;
 
             $profile_id = $array['profile_id'];
 
             $fields[] = 'profile_order';
-            $values[] = $order;
-
+            $values[] = $order;*/
+            
+           
+            
+            
             $db->update(tbl('video_profiles'), $fields, $values, " profile_id='$profile_id' ");
 
             return $profile_id;
