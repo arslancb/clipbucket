@@ -194,9 +194,9 @@ function get_collection_thumb ( $cid, $size = null ) {
          } else {
              $item = $cover_photo;
          }
-         //$item = $cbcollection->get_collection_items_with_details( $cid, null, 1, " AND ".tbl('photos.photo_id')." = '".$ph['object_id']."' " );
      } else {
-         //$item = $cbcollection->get_collection_items_with_details( $cid, null, 1 );
+        $item = $cbcollection->get_collection_items_with_details( $cid, null, 1 );
+        $item = $item ? $item[0] : '';
      }
 
      $type = $item['type'];

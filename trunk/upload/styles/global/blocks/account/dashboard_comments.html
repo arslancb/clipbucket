@@ -1,5 +1,5 @@
 {if $comments}
-<p>{lang code='Following are video comments within last 7 days'}</p>
+<p>{lang code='Following are video comments within last %s days'|sprintf:$configs.number_of_days}</p>
 <ul class="dashboard-lists cbv3-scroller clearfix">
     {foreach $comments as $comment}
     <li class="dashboard-list-item clearfix">
@@ -16,7 +16,7 @@
     {/foreach}
 </ul>
 {else}
-<div class="alert alert-error">
+<div class="alert alert-error" style="margin: 0px;">
     {lang code='No recent comments found'}
 </div>
 {/if}

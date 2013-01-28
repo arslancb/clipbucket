@@ -12,11 +12,13 @@
     position: relative;
 }
 
-.dashboard-widget:hover .dashboard-widget-toggler, .dashboard-widget:hover .dashboard-widget-handler {
+.dashboard-widget:hover .dashboard-widget-toggler, 
+.dashboard-widget:hover .dashboard-widget-handler,
+.dashboard-widget:hover .configure-dashboard-widget {
     visibility: visible;
 }
 
-.dashboard-widget-toggler, .dashboard-widget-handler {
+.dashboard-widget-toggler, .dashboard-widget-handler, .configure-dashboard-widget {
     position: absolute;
     width: 40px;
     height: 40px;
@@ -237,6 +239,39 @@ ul.dashboard-lists li.dashboard-list-item .details > p {
 
 ul.dashboard-lists li.dashboard-list-item:last-child {
     border-radius: 0px 0px 3px 3px;
+}
+
+.configure-dashboard-widget {
+    position: absolute;
+    top: 0px; right: 82px;
+    width: auto;
+    line-height: 40px;
+    border-radius: 0px;
+}
+
+.configure-dashboard-widget a {
+    display: block;
+    padding: 0px 10px;
+}
+
+.configure-dashboard-widget a:hover {
+    text-decoration: none;
+}
+
+.dashboard-widget-configure-form-actions {
+    background: snow;
+    margin: 10px -10px -30px;
+    border-radius: 0px 0px 3px 3px;
+    padding: 0px;
+    text-align: right;
+    border-top-color: #ccc;
+}
+
+.dashboard-widget-configure-form-actions .dashboard-widget-configure-button {
+    border: 0px;
+    border-radius: 0px 0px 3px 0px;
+    border-left: 1px solid #ccc;
+    padding: 6px 12px;
 }
 
 .friend-row{

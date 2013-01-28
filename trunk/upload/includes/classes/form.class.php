@@ -541,7 +541,7 @@ class formObj
                 $fieldOpts .='<option value="' . $key . '" ' . $checked . ' ' . $field['extra_tags'] . '>' . $value . '</option>';
             }
         $ddFieldEnd = '</select>';
-        echo $ddFieldStart . $fieldOpts . $ddFieldEnd;
+        return $ddFieldStart . $fieldOpts . $ddFieldEnd;
     }
 
     /**

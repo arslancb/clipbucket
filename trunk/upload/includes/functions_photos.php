@@ -696,7 +696,6 @@ function load_tagging() {
 	}
 	
 	$options = $cbphoto->get_default_tagger_configs();
-	$options['allowTagging'] = $photo['allow_tagging'];
       $phrases = $options['phrases'];
       /* User does not need phrases in apply_filters() function */
       unset( $options['phrases'] );
@@ -704,6 +703,7 @@ function load_tagging() {
       $options = apply_filters( $options, 'tagger_configurations');
       /* Put back phrases in $options, over-wrtting JS Plugin Phrases */
       $options['phrases'] = $phrases;
+      $options['allowTagging'] = $photo['allow_tagging'];
 	$tags = $cbphoto->get_photo_tags( $photo['photo_id'] );
 	$autoComplete = $options['autoComplete'];
 	$uid = userid();
@@ -1436,7 +1436,7 @@ function current_photo_order () {
  */
 function _recheck_photo_code( $params ) {
     global $cbphoto;
-    $sizes = $params['size'] ? $params['size'] : ( $params['code'] ? $params['code'] : 't' );
+    $sizes = $params['size'] ? $params['size'] : ( $params['code'] ? $params['code'] : 'm' );
     $sizes = explode( ",",$sizes );
     $sizes = array_map( "trim", $sizes );
     

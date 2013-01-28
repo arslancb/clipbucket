@@ -136,7 +136,9 @@
                     </div>
                     {$avatar_collection=cb_user_avatar_collection($u)}
                     <div class="view-channel-box-content clearfix">
-                        {include_template_file file='blocks/collection.html' collection=$avatar_collection display_method='view_channel'}
+                        {if $avatar_collection}
+                            {include_template_file file='blocks/collection.html' collection=$avatar_collection display_method='view_channel'}
+                        {/if}
                         {$collection_limit=config(collection_channel_page)}
                         {$user_collections=get_collections(['user'=>$u.userid,'limit'=>$collection_limit,'date_added DESC'])}
                         {if $user_collections}

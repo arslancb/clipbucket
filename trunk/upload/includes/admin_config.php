@@ -40,11 +40,11 @@ define('RESULTS', $admin_pages);
 Assign('admin_pages', $admin_pages);
 
 //Do No Edit Below This Line
-define('TEMPLATE', 'cbv3');
-define('TEMPLATEDIR', BASEDIR . '/' . ADMINDIR . '/' . TEMPLATEFOLDER . '/' . TEMPLATE);
+define('ADMIN_TEMPLATE', 'cbv3');
+define('TEMPLATEDIR', BASEDIR . '/' . ADMINDIR . '/' . TEMPLATEFOLDER . '/' . ADMIN_TEMPLATE);
 
 define('SITETEMPLATEDIR', BASEDIR . '/' . TEMPLATEFOLDER . '/' . $row['template_dir']);
-define('TEMPLATEURL', BASEURL . '/' . ADMINDIR . '/' . TEMPLATEFOLDER . '/' . TEMPLATE);
+define('TEMPLATEURL', BASEURL . '/' . ADMINDIR . '/' . TEMPLATEFOLDER . '/' . ADMIN_TEMPLATE);
 define('LAYOUT', TEMPLATEDIR . '/layout');
 
 define('TEMPLATEFOLDER', 'styles');

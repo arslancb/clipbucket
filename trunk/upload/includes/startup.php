@@ -138,8 +138,13 @@ function _make_profile_item_link( $photo ) {
         return false;
     }
     
+    global $cbphoto;
     /* Need to figure out a automated way to remove duplicate entries, for time time will work*/
     $remove_query_variables = array( 'profile_item', 'type', 'profile_remove_item', 'callback_id' );
+    
+    if ( userid() != $photo['userid'] ) {
+        return false;
+    }
     
     if ( !is_profile_item( $photo['photo_id'], 'p' ) ) {
         $data = array('title' => lang('Make profile item'), 'link' => '?profile_item='.$photo['photo_id'].'&type=p', 'remove_query_variables' =>  $remove_query_variables );

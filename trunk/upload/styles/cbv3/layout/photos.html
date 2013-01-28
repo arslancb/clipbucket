@@ -1,12 +1,17 @@
 {assign var=type value='p'}
 <div id="collection-photos-container">
+
 {foreach $photos as $photo}
    {include_template_file file="blocks/photo.html" photo=$photo display_method='view_collection' add_collection_name=true}
 {/foreach}
 
 </div>
 <div class="height100 clearfix"></div>
-{include_template_file file='/blocks/pagination.html'}
+
+<div id="paged-pagination">
+    {get_template('pagination')}
+</div>
+
 <script type="text/javascript">
     $( document ).ready(function(){
         var $container = $('#collection-photos-container');

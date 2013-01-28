@@ -254,19 +254,21 @@ img.manage-collection-item-thumb {
 }
 
 .view-channel-collection-box {
-    float: left;
     position: relative;
-    margin-left: 3px;
+    margin-left: -1px;
     margin-bottom: 3px;
     overflow: hidden;
     text-overflow : ellipsis;
     white-space: nowrap;
     cursor: pointer;
+    display:inline-block;
+    width:136px;
+    height: 136px;
+    vertical-align: top;
 }
 
 .view-channel-collection-thumb {
-    max-width: 136px;
-
+    
 }
 
 .view-channel-collection-box:nth-child(4n+1) {

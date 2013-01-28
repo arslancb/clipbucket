@@ -130,13 +130,25 @@ function add_dashboard_widget( $place, $id, $name, $display_callback, $callback 
         }
         
         $importance = _check_widget_importance( $importance );
-                
+        
+        if ( !is_null( $callback )  /* and function_exists( $callback ) */ ) {
+            $widget_id = mysql_clean( $_GET['configure'] );
+            if ( $widget_id == $id ) {
+                $switch_link = '<div class="configure-dashboard-widget cancel-configuration configure-'.$id.' cancel-configure-'.$id.'"><a href=" '.queryString( '', array('configure') ).' ">'.lang('Cancel').'</a></div>';
+                $display_callback = '__dashboard_widget_options_callback';  
+            } else {
+                $switch_link = '<div class="configure-dashboard-widget configure-'.$id.'"><a href=" '.queryString( 'configure='.$id, array('configure') ).'#'.$id.'-'.$importance.' ">'.lang('Configure').'</a></div>';
+            }
+        }
+        
         $dashboard_widget[ $id ] = array(
+            'place' => $place, 
             'id' => $id,
             'name' => $name,
             'display_callback' => $display_callback,
             'importance' => $importance,
-            'callback' => $callback
+            'callback' => $callback,
+            'switch_link' => $switch_link
         );
                 
         return set_dashboard( $place, $dashboard_widget, $importance );
@@ -173,17 +185,19 @@ function display_dashboard( $place = null ) {
                 $dashboard_widgets = $dashboard[ $important ];
                 $total_dashboard_widgets = count( $dashboard_widgets );
                 if ( $dashboard_widgets ) {
-                    $output .= '<div id="'.$place.'-'.$important.'-importance" class="dashboard-widgets dashboard-widgets-'.$important.'-importance '.$place.'-widgets has-'.$total_dashboard_widgets.'-widgets" data-importance="'.$important.'">';
+                    $output .= '<div id="'.$place.'-'.$important.'-importance" class="dashboard-widgets dashboard-widgets-'.$important.'-importance '.$place.'-widgets has-widgets widgets-'.$total_dashboard_widgets.'" data-importance="'.$important.'">';
                     foreach ( $dashboard_widgets as $dashboard_widget ) {
                         $hidden = ( $closed ? ( in_array( $dashboard_widget['id'], $closed ) ) ? ' closed' : '' : '' );
                         $output .= '<div id="'.$dashboard_widget['id'].'-'.$dashboard_widget['importance'].'" class="dashboard-widget '.SEO( strtolower( $dashboard_widget['name'] ) ).' '.$dashboard_widget['id'].' is-'.$important.''.$hidden.'" data-id="'.$dashboard_widget['id'].'">';
                         $output .= '<div class="dashboard-widget-toggler"> <b></b> </div>';
                         $output .= '<div class="dashboard-widget-handler"><b></b></div>';
-                        $output .= '<h3 class="dashboard-widget-name">'.$dashboard_widget['name'].'</h3>';
-                        if ( $dashboard_widget['description'] ) {
-                            $output .= '<div class="dashboard-widget-description">'.$dashboard_widget['description'].'</div>';
-                        }
+                        $output .= '<h3 class="dashboard-widget-name">'.$dashboard_widget['name'].'</h3>';                        
                         $output .= '<div class="dashboard-content" id="'.$place.'-'.$dashboard_widget['importance'].'-'.$dashboard_widget['id'].'">';
+                                                
+                        if ( $dashboard_widget['switch_link'] ) {
+                            $output .= $dashboard_widget['switch_link'];
+                        }
+                        
                         $output .= $dashboard_widget['display_callback'] ( $dashboard_widget );
                         $output .= '</div>';
                         $output .= '</div>';         
@@ -352,12 +366,168 @@ function get_closed_boxes( $place ) {
 }
 
 /**
+ * Calls the callback of widget provided
+ * @param array $widget
+ * @return string
+ */
+function __call_widget_options_callback( $widget ) {
+    if ( $widget['callback'] and function_exists( $widget['callback'] ) ) {
+        $fields = $widget['callback']( $widget );
+        return __dashboard_widget_options_fields( $widget, $fields );  
+    }
+}
+
+/**
+ * Display form fields of widget configurations
+ * @global object $formObj
+ * @param array $widget
+ * @param array $fields
+ * @return string
+ */
+function __dashboard_widget_options_fields( $widget, $fields ) {
+    global $formObj;
+    
+    if ( $fields ) {
+        $output = '';
+        foreach( $fields as $field ) {
+            $name = $widget['id'].'['.($field['db_field'] ? $field['db_field'] : $field['name']).']';
+            $field['name'] = $field['id'] = $name;           
+            $output .= '<div class="control-group">';
+            $output .= '<label class="control-label" for="'.$name.'">'.$field['title'].'</label>';
+            $output .= '<div class="controls">';
+            $output .= $formObj->createField( $field );
+            if ( $field['hint_1'] ) {
+                $output .= ' <span class="help-block">'.$field['hint_1'].'</span>';
+            }
+            $output .= '</div>';
+            $output .= '</div>';
+        }
+        
+        return $output;
+    } else {
+        return '<center>No configurations found</center>';
+    }
+    
+}
+
+/**
+ * Display form for widget configuration
+ * @param array $widget
+ * @return string
+ */
+function __dashboard_widget_options_callback( $widget ) {    
+    $output = '<form action="" method="post" name="configure_widget" id="'.$widget['id'].'-configurations" class="dashboard-widget-configure-form form-horizontal">';
+    $output .= __call_widget_options_callback( $widget ); 
+    $output .= '<div class="form-actions dashboard-widget-configure-form-actions"><button class="btn dashboard-widget-configure-button" name="save_dashboard_widget_configs" id="save_dashboard_widget_configs">'.lang('Save Changes').'</button></div>';
+    $output .= '<input type="hidden" name="id" value="'.$widget['id'].'" />';
+    $output .= '<input type="hidden" name="importance" value="'.$widget['importance'].'" />';
+    $output .= '<input type="hidden" name="place" value="'.$widget['place'].'" />';
+    $output .= '</form>';
+    
+    return $output;    
+}
+
+/**
+ * This function gets configuration for provided widget id
+ * @param string $id
+ * @return boolean
+ */
+function get_dashboard_widget_configs( $id ) {
+    $user_configs = config('dashboard_configs');
+    if ( $user_configs ) {
+        $userid = userid();
+        if ( $userid ) {
+            $user_configs = json_decode( $user_configs, true );
+            if ( $user_configs[ $userid ][ $id ] ) {
+                return $user_configs[ $userid ][ $id ];
+            }
+        }
+    }
+    
+    return false;
+}
+
+/**
+ * This function updates dashboard widget configuration
+ * @param array $configs
+ * @return boolean
+ */
+function update_dashboard_widget_configs( $configs ) {
+    
+    if ( confirm_config_form_submission() ) {
+        $widget_name = mysql_clean( post('id') );
+        $db_configs = config('dashboard_configs');
+        if ( $db_configs ) {
+            $db_configs = json_decode( $db_configs, true );
+        }
+        
+        $userid = userid();
+        
+        if ( !$db_configs ) {
+            $db_configs = array();
+        }
+
+        if ( !$db_configs[ $userid ] ) {
+            $db_configs[ $userid ] = array();
+        }
+
+        if ( !$db_configs[ $userid ][ $widget_name ] ) {
+            $db_configs[ $userid ][ $widget_name ] = array();
+        }
+        
+        foreach ( $configs as $name => $value ) {
+            $db_configs[ $userid ][ $widget_name ][ $name ] = $value;
+        }
+        
+        config( 'dashboard_configs', json_encode( $db_configs ) );
+        
+        return true;
+    } else {
+        return false;
+    }
+    
+}
+
+/**
+ * This function confirms that configuration form was submitted or not
+ * @return boolean
+ */
+function confirm_config_form_submission() { 
+    if ( $_SERVER['REQUEST_METHOD'] == 'POST' and isset( $_POST['save_dashboard_widget_configs'] ) ) {  
+        if ( !userid() ) {
+            return false;
+        }
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
  * Setup for dashboard for my account
  */
 function setup_myaccount_dashboard() {
+    
     add_dashboard_widget( 'myaccount','account_dashboard_messages','Messages','account_dashboard_messages' );
     add_dashboard_widget( 'myaccount','account_dashboard_user_content','Your Content','account_dashboard_user_content' );
-    add_dashboard_widget( 'myaccount','account_dashboard_recent_video_comments','Recent Video Comments','account_dashboard_recent_video_comments' );
+    add_dashboard_widget( 'myaccount','account_dashboard_recent_video_comments','Recent Video Comments','account_dashboard_recent_video_comments', 'account_dashboard_recent_video_comments_callback' );
+    
+    
+    /* Handle form submission here */
+    if ( confirm_config_form_submission() ) {
+        $place = mysql_clean( post('place') );
+        $id = mysql_clean( post('id') );
+        $importance = mysql_clean( post('importance') );
+        if ( $place and $id and $importance ) {
+            $dashboard = get_dashboard( $place );
+            if ( $dashboard[ $importance ] and $dashboard[ $importance ][ $id ] ) {
+                $widget = $dashboard[ $importance ][ $id ];
+                __call_widget_options_callback( $widget );
+                redirect_to( queryString( '', array('configure') ) );
+                exit('Redirecting ...');
+            }
+        }
+    }
 }
 
 /**
@@ -417,46 +587,36 @@ function account_dashboard_recent_video_comments ( $widget ) {
         return false;
     }
     
+    $configs = get_dashboard_widget_configs( $widget['id'] );
+    
+    $no_of_comments = $configs['number_of_comments'] ? $configs['number_of_comments'] : 15;
+    $no_of_days = $configs['number_of_days'] ? $configs['number_of_days'] : 8;
+    
     if ( $userquery->udetails['total_videos'] > 0 ) {
-        $video_fields = array('videoid','videokey','title','description','views','date_added');
-        $video_fields_query = tbl('video.%s');
-
-        //List of user fields we need to show with the comment
-        $userfields = array('username', 'email', 'userid','avatar', 'avatar_url');
-        $user_fields_query = tbl('users.%s');
         
-        //Applying filters...
-        $userfields = apply_filters($userfields, 'comment_user_fields');
-        foreach ($userfields as $userfield)
-        {
-            $ufields .= ',';
-            $ufields .= sprintf( $user_fields_query, $userfield );
-        }
+        $fields = array(
+            'video' => array('videoid','videokey','title','description','views'),
+            'users' => get_user_fields(),
+            'comments' => array( 'comment_id','type','comment','userid','type_id','type_owner_id','date_added' )
+        );
         
-        foreach( $video_fields as $video_field ) {
-            $vfields .= ",";
-            $vfields .= sprintf( $video_fields_query, $video_field );
-            if ( $video_field == 'date_added' ) {
-                $vfields .= ' as vdate_added';
-            }
-        }
+        $fields = tbl_fields( $fields );
 
-        $query = "SELECT ".tbl('comments.*').$vfields.$ufields." FROM ".tbl('comments')." ";
-        $query .= "LEFT JOIN ".tbl('video')." ON ".tbl('comments.type_id')." = ".tbl('video.videoid')." ";
-        $query .= "LEFT JOIN ".tbl('users')." ON ".tbl('comments.userid')." = ".tbl('users.userid')." ";
+        $query = "SELECT $fields  FROM ".tbl('comments')." AS comments ";
+        $query .= "LEFT JOIN ".tbl('video')." AS video ON ".('comments.type_id')." = ".('video.videoid')." ";
+        $query .= "LEFT JOIN ".tbl('users')." AS users ON ".('comments.userid')." = ".('users.userid')." ";
         
         start_where();
-        add_where(" ".tbl('comments.type_owner_id')." = ".userid());
-        add_where(" ".tbl('comments.type')." = 'v' ");
-        add_where( " ".tbl('comments.userid')." <> ".userid() );
-        add_where(" ".tbl('comments.date_added')." BETWEEN SYSDATE() - INTERVAL 7 DAY AND SYSDATE() ");
+        add_where(" ".('comments.type_owner_id')." = ".userid());
+        add_where(" ".('comments.type')." = 'v' ");
+        add_where( " ".('comments.userid')." <> ".userid() );
+        add_where(" ". ('comments.date_added')." BETWEEN SYSDATE() - INTERVAL $no_of_days DAY AND SYSDATE() ");
         if ( get_where() ) {
             $query .= " WHERE ".get_where();
         }    
         end_where();
 
-        $query .= " ORDER BY ".tbl('comments.date_added')." DESC LIMIT 20";
-        
+        $query .= " ORDER BY ".('comments.date_added')." DESC LIMIT $no_of_comments";
         $comments = db_select( $query );    
     }
         
@@ -464,8 +624,44 @@ function account_dashboard_recent_video_comments ( $widget ) {
     $params['file'] = 'blocks/account/dashboard_comments.html';
     $params['widget'] = $widget;
     $params['comments'] = $comments;
-
+    $params['configs'] = $configs;
+    
     return fetch_template_file( $params );
    
+}
+
+function account_dashboard_recent_video_comments_callback( $widget ) {
+    $config = get_dashboard_widget_configs( $widget['id'] );
+    $no_of_comments = $config['number_of_comments'] ? $config['number_of_comments'] : 15;
+    $no_of_days = $config['number_of_days'] ? $config['number_of_days'] : 8;
+    
+    if ( confirm_config_form_submission() ) {
+        $no_of_comments = mysql_clean( $_POST[$widget['id']]['number_of_comments']  );
+        $no_of_days = mysql_clean( $_POST[$widget['id']]['number_of_days']  );
+        
+        $config['number_of_comments'] = abs( intval( $no_of_comments ) );
+        $config['number_of_days'] = abs( intval( $no_of_days ) );
+        
+        update_dashboard_widget_configs( $config );
+    }
+    
+    $fields[] = array(
+        'title' => lang('Number of comments'),
+        'type' => 'textfield',
+        'value' => $no_of_comments,
+        'db_field' => 'number_of_comments',
+        'name' => 'number_of_comments'
+    );
+
+    $fields[] = array(
+        'title' => lang('Number of days'),
+        'type' => 'dropdown',
+        'value' => array( '6' => lang('Last 6 Days'), '8' => lang('Last 8 Days'), '10' => lang('Last 10 Days'), '12' => lang('Last 12 Days'), '15' => lang('Last 15 Days') ),
+        'checked' => $no_of_days,
+        'db_field' => 'number_of_days',
+        'name' => 'number_of_days'
+    );
+        
+    return $fields;
 }
 ?>

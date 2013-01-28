@@ -1300,67 +1300,7 @@ class Collections extends CBCategory
 	 */
 	function get_thumb($cdetails,$size=NULL,$return_c_thumb=false)
 	{
-		
-		if(is_numeric($cdetails))
-		{
-			$cdetails = $this->get_collection($cdetails);
-			$cid = $cdetails['collection_id'];	
-		} else
-			$cid = $cdetails['collection_id'];
-				
-		$exts = array("jpg","png","gif","jpeg");
-					
-		if($return_c_thumb)
-		{
-			foreach($exts as $ext)
-			{
-				if($size=="small")
-					$s = "-small";
-				if(file_exists(COLLECT_THUMBS_DIR."/".$cid.$s.".".$ext))
-					return COLLECT_THUMBS_URL."/".$cid.$s.".".$ext;	
-			}
-		} else {
-			
-			$cover_photo = $cdetails['cover_photo'];
-			if ( $cover_photo != 0 && $ph = $this->object_in_collection( $cover_photo, $cid ) ) {
-				$item[0] = $ph;	
-			} else {
-				$item = $this->get_collection_items($cid,'ci_id DESC',1);
-			}
-			
-			$type = $item[0]['type'];
-			switch($type)
-			{
-				case "v":
-				{
-					$thumb = $this->get_default_thumb( $size );
-//					global $cbvideo;
-//					$thumb = get_thumb($cbvideo->get_video_details($item[0]['object_id']));						
-				}
-				break;
-				
-				case "p":
-				{
-					global $cbphoto;
-					$thumb = $cbphoto->get_image_file( $cbphoto->get_photo( $item[0]['object_id'] ) );	
-				}
-			}
-			
-			if($thumb)
-				return $thumb;
-			else
-			{
-				foreach($exts as $ext)
-				{
-					if($size=="small")
-						$s = "-small";
-					if(file_exists(COLLECT_THUMBS_DIR."/".$cid.$s.".".$ext))
-						return COLLECT_THUMBS_URL."/".$cid.$s.".".$ext;	
-				}				
-			}
-		}
-		
-		return $this->get_default_thumb($size);
+        return get_collection_thumb( $cdetails, $size );
 	}
 	
 	
