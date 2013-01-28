@@ -1,7 +1,7 @@
 <?php
 /* 
  ****************************************************************
- | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
+ | Copyright (c) 2007-2013 Clip-Bucket.com. All rights reserved.
  | @ Author	   : ArslanHassan									
  | @ Software  : ClipBucket , © PHPBucket.com					
  ****************************************************************
@@ -39,7 +39,11 @@ if($vdetails['userid'] != userid())
 		}
 	}
 	
+    $vid_files = $cbvid->get_video_files($vdetails);
+    
+    assign('video_files',$vid_files);
 	assign('v',$vdetails);
+	assign('video',$vdetails);
 }
 
 subtitle(lang("vdo_edit_vdo"));

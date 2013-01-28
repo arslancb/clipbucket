@@ -77,6 +77,7 @@ switch($mode)
 		$videos = get_videos($vid_array);
 		
 		Assign('uservids', $videos);	
+		Assign('videos', $videos);	
 		
 		//Collecting Data for Pagination
 		$vid_array['count_only'] = true;

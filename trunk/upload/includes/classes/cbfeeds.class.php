@@ -37,6 +37,7 @@ class cbfeeds
             'commented_channel',
             'signup',
             'added_status',
+            'posted_status',
             'commented_status',
             'commented_post',
             'liked_status',
@@ -172,7 +173,10 @@ class cbfeeds
             return false;
 
 
-
+        //Changing status if someone else post on a wall...
+        if($array['action']=='added_status' && $uid != $array['object_id'])
+            $array['action'] = 'posted_status';
+        
         //Verifying feed action and object
         $action = $this->action($array['action']);
 
@@ -225,7 +229,10 @@ class cbfeeds
             }
             
         }
-
+        
+        
+        
+        
         //Get User details from message and then add it
         //To message_attributis.
 

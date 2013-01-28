@@ -31,7 +31,7 @@ switch ($mode) {
             switch ($type) {
                 case 'v':
                 case 'video':
-                default: {
+                    {
                         $id = mysql_clean($request['obj_id']);
                         $comment = $request['comment'];
                         if ($comment == 'undefined')
@@ -88,6 +88,23 @@ switch ($mode) {
                         $cid = $cbphoto->add_comment($comment, $id, $reply_to);
                     }
                     break;
+                    
+               case 'f':
+               case 'feed': {
+
+                        $id = mysql_clean($request['obj_id']);
+                        $comment = $request['comment'];
+                        if ($comment == 'undefined')
+                            $comment = '';
+                        $reply_to = $request['reply_to'];
+
+                        $cid = $cbfeeds->add_comment($comment, $id, $reply_to);
+                    }
+                    break;     
+               default:
+                   echo json_encode(array('err' => 'Invalid Type'));
+                   exit();
+                   break;
             }
 
 
@@ -557,6 +574,20 @@ switch ($mode) {
             echo json_encode(array('err'=> lang(error('single'))));
     }
     break;
+    
+    case "like_feed":
+    case "addLike":
+        {
+            $liked = mysql_clean($request['liked']);
+            $feed_id = mysql_clean($request['feed_id']);
+            
+            $response = $cbfeeds->like_feed(array('feed_id' => $feed_id, 'liked' => $liked));
+            if ($response)
+                echo json_encode(array('success'=>'yes','msg'=>'Like/Unlike saved'));
+            else
+                echo json_encode(array('err'=> lang(error('single'))));
+        }
+        break;
     
     default:
         exit(json_encode(array('err'=>lang('Invalid request'))));

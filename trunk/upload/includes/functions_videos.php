@@ -116,13 +116,38 @@ function get_thumb($vdetails, $num = 'default', $multi = false, $count = false, 
 {
     global $db, $Cbucket, $myquery;
 
-
     if (!is_array($vdetails))
         $vdetails = $myquery->get_video_details($vdetails);
     if ($vdetails['thumbs'])
     {
-        $thumbs = json_decode($vdetails['thumbs'], true);
+        if($return_full_path)
+        {
+            $folder = '';
+            $folder = $vdetails['file_directory'];
+            if ($folder)
+                $folder .= '/';
 
+            if(!isset($vdetails['files_thumbs_path']))
+                $path = $vdetails['files_thumbs_path'] . '/' . $folder;
+            else
+                $path = THUMBS_URL . '/' . $folder;
+        }else
+            $path = '';
+            
+        $thumbs = json_decode($vdetails['thumbs'], true);
+        $_thumbs = array();
+        if($thumbs)
+        {
+            foreach($thumbs as $the_size => $thumbs)
+            {
+                foreach($thumbs as $thumb)
+                $_thumbs[$the_size][] = $path.$thumb;
+            }
+            
+            $thumbs = $_thumbs;
+        }
+        
+        
         $thumb_size = get_size_by_name($size);
         if (!$thumb_size)
             $thumb_size = $size;
@@ -145,23 +170,21 @@ function get_thumb($vdetails, $num = 'default', $multi = false, $count = false, 
 
 
         if ($img)
-        {
+        {            
             if ($count)
                 return count($thumbs[$thumb_size]);
 
             if ($multi)
+            {
                 if ($multi == 'all')
                     return $thumbs;
                 else
                     return $thumbs[$thumb_size];
-
-            $folder = '';
-            $folder = $vdetails['file_directory'];
-            if ($folder)
-                $folder .= '/';
-
-            $path = THUMBS_URL . '/' . $folder;
-            return $path . $img;
+            }
+            
+            
+            
+            return  $img;
         }
     }
 
@@ -299,6 +322,34 @@ function get_thumb($vdetails, $num = 'default', $multi = false, $count = false, 
         return $thumbs[0];
     }
 }
+
+
+/**
+ * function used to get list of thumbs of a video
+ * 
+ * for v3, it will read the index $video[thumbs] which is json_encoded 
+ * we will decode it and use it
+ * 
+ * for prior to v3 , it will read the directory for files/thumbs 
+ * fetch all the files, compile them into an array and then return
+ * 
+ * @param ARRAY $video
+ * @return ARRAY $video_thumbs
+ *
+ */
+function get_video_thumbs($video,$multi='all')
+{
+    
+    return get_thumb($video,'default',$multi,false,true,true,$multi);
+    /**
+     * @todo : Write code fo CBV2.6 or earlier
+     */
+}
+
+/**
+ * Alias of get_video_thumbs
+ */
+function get_thumbs($video,$multi='all'){ return get_video_thumbs($video,$multi);}
 
 /**
  * Check input file is a big thumb or not
@@ -1499,4 +1550,53 @@ function show_profile_item_video( $id ) {
     } else {
         return false;
     }
+}
+
+
+/**
+ * Count likes of a video using rating and rated by and then create a percentage
+ * 
+ * @param ARRAY $video['rating'] $video['rated_by']
+ * @return INT $total_likes (if $just_likes = true)
+ * @return ARRAY $likes[likes'] $likes['dislikes'] (if $just_likes = false)
+ */
+function count_likes($video,$just_likes=false)
+{
+    $likes = 0;
+    $dislikes = 0;
+    $rating = 0;
+    $total = 0;
+    
+    
+    $rating = $video['rating'];
+    $rated_by = $vidoe['rated_by'];
+    
+    if($rating > 0 && $rated_by > 0)
+    {
+        $calc = $rated_by * ($rating*10) / 100;
+        $likes = round($calc,0);
+
+        $dislikes = $rated_by - $likes;
+
+        if($dislikes<1)
+            $dislikes = 0;
+
+        if($likes<1)
+            $likes = 0;
+    }
+    
+    if($just_likes)
+        return $likes;
+    else
+    {
+        $array = array(
+            'likes' => $likes,
+            'dislikes'  => $dislikes,
+            'rating'    => $rating,
+            'rated_by' => $total
+        );
+        
+        return $array;
+    }
+    
 }

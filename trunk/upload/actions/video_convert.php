@@ -20,7 +20,7 @@ $max_processes = 5;
 //Get Vido
 $queued_files = $cbupload->get_queued_files();
 
-define('CONV_TEST_MODE', true);
+define('CONV_TEST_MODE', false);
 
 //Total Running proccesses...
 $process_running = $cbupload->conversion_count();
