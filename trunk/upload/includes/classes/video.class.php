@@ -2348,6 +2348,8 @@ class CBvideo extends CBCategory {
         //Now Get Rows and return that data
         if ($db->num_rows > 0) {
             $files = $data->getrows();
+            
+           
             return $files;
         }
         else
@@ -2471,6 +2473,28 @@ class CBvideo extends CBCategory {
         else
             return false;
         
+    }
+    
+    
+    /**
+     * update video broadcast option
+     * 
+     * @param INT videoid
+     * @param STRING broadcast
+     * 
+     * @return BOOLEAN
+     */
+    function update_broadcast($vid,$brd)
+    {
+        if(!is_valid_broadcast($brd))
+            e(lang('Invalid broadcast option'));
+        else
+        {
+            if ($this->is_video_owner($vid, userid()) || has_access('admin_access', TRUE))
+                db_update(tbl('video'), array('broadcast'=>mysql_clean($brd)), " videoid='$vid' ");
+            else
+                e(lang('You cannot update this video'),true);
+        }
     }
 
 }

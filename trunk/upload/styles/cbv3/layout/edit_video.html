@@ -1,0 +1,170 @@
+{extends file="$layout_dir/myaccount.html"}
+
+
+
+{block "myaccount_head"}
+<div class="edit_video_head">
+    <h4>Editing video - <a href="#">{$video.title}</a></h4>
+
+    <div class="buttons">
+        <button class="btn btn-primary" onclick="$('#edit_video').submit();">Save Changes</button>
+        <a href="{$baseurl}/manage_videos.php" class="btn"><i class="icon-reply"></i></a>
+    </div>
+</div>
+<hr/>
+{/block}
+
+{block "myaccount_body"}
+
+
+{if $Cbucket->configs.embed_type=='iframe'}
+{$embed_props=json_encode($cbvid->embed_code_props($vdo,'iframe'))}
+{else}
+{$embed_props=json_encode($cbvid->embed_code_props($vdo,'embed_object'))}
+{/if}
+
+<script>
+    
+    var embed = {$embed_props};
+    
+    function switch_thumb($id)
+    {
+        
+        $('.edit_video_thumbs .selected').removeClass('selected');
+        $('.thumb[data-id='+$id+']')
+        .addClass('selected');
+        
+        $('input[name=default_thumb]')
+        .val($id);
+    }
+    
+    $(document).ready(function(){
+        $('.edit_video_thumbs').on('click','.thumb',function(){
+           
+            var $id = $(this).attr('data-id');
+            switch_thumb($id);
+        });
+        
+        $('#embed_code').val(getEmbedCode(embed));
+    })
+    
+</script>
+<div id="edit_video_page">
+    <form method="post" name="edit_video" id="edit_video">
+        <div class="edit_video_player">
+            {cb_video_player width='400' height='300' files=$video_files video=$video}
+        </div>
+        <div class="edit_video_thumbs">
+            {$video_thumbs=get_thumbs($video,'120x60')}
+
+            {if $video_thumbs}
+            {foreach $video_thumbs as $thumb}
+            <div class="thumb {if $thumb@iteration == $video.default_thumb}selected{/if}" data-id="{$thumb@iteration}">
+                <img src="{$thumb}" />
+                <div class="select_text">
+                    {lang code='Set as thumbnail'}
+                </div>
+            </div>
+            {/foreach}
+            {/if}
+
+            <input type="hidden" name="default_thumb" value="{$video.default_thumb}" />
+        </div>
+
+        <div class="edit_video_info well well-small">
+            <h5>{lang code='Video information'}</h5>
+            <dl class="dl-horizontal">
+                <dt>{lang code='Uploaded'}</dt>
+                <dd>{$video.date_added}</dd>
+
+                <dt>{lang code='Duration'}</dt>
+                <dd>{$video.duration|setTime}</dd>
+
+
+                <dt>{lang code='Views'}</dt>
+                <dd><i class=" icon-bar-chart"></i> {$video.views|number_format}</dd>
+
+                {$likes=count_likes($video)}
+                <dt>{lang code='Likes'}</dt>
+                <dd><i class="icon-thumbs-up"></i> {$likes.likes|number_format}</dd>
+
+                <dt>{lang code='Dislikes'}</dt>
+                <dd><i class="icon-thumbs-down"></i> {$likes.dislikes|number_format}</dd>
+
+                <dt>{lang code='Comments'}</dt>
+                <dd><i class="icon-comment"></i> {$likes.comments_count|number_format}</dd>
+
+            </dl>
+            <hr/>
+            <div class="video_info_input">
+
+                <div>{lang code='Video link'}</div>
+                <input class="input info-input" value="{videoLink vdetails=$video}" />
+                <div>{lang code='Embed code'}</div>
+
+                <input class="input info-input"  id="embed_code"/>
+
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        {assign var='video_fields' value=$Upload->load_video_fields($video)}
+
+        <ul class="nav nav-tabs">
+            {foreach $video_fields as $video_field}
+            <li class="{if $video_field@iteration==1}active{/if}"><a href="#{$video_field.group_id}" data-toggle="tab">{$video_field.group_name}</a></li>
+            {/foreach}
+        </ul>
+
+        <div class="tab-content">
+            {foreach $video_fields as $field_group} 
+            <div class="tab-pane {if $field_group@iteration==1}active{/if}" id="{$field_group.group_id}">
+                {foreach from=$field_group.fields item=field}
+
+                {* Formating field for our template *}
+                {$field.class='input-xxlarge'}
+
+                {if $field.type=='checkbox' || $field.type=='radiobutton'}
+                {$field.sep=' '}
+
+                {if $field.type=='checkbox'}
+                {$field.class='checkbox'}
+                {else}
+                {$field.class='radio'}
+                {/if}
+                {/if}
+
+
+
+                <div class="control-group{if $field.name=='category[]'} category-group{/if}">
+                    <label class="control-label" for="{$field.id}">{$field.title}
+                        {if $field.hint_before}
+                        <div>{$field.hint_before}</div>
+                        {/if}
+                    </label>
+                    <div class="controls">
+                        {ANCHOR place=$field.anchor_before}
+                        {$formObj->createField($field)}
+                        {ANCHOR place=$field.anchor_after}
+                        {if $field.hint_after}
+                        <p class="help-block">{$field.hint_after}</p>
+                        {/if}
+                    </div>
+                </div>
+                {/foreach}
+            </div>
+            {/foreach}
+        </div>
+
+        <input type="hidden" name="update_video" value="yes" />
+        <input type="hidden" name="videoid" value="{$video.videoid}" />
+
+        <div class="form-actions">
+            <button class="btn btn-primary ">Save Changes</button>
+            <a href="{$baseurl}/manage_videos.php" class="btn"><i class="icon-reply"></i></a>
+        </div>
+    </form>
+</div>
+
+{/block}

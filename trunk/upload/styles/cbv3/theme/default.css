@@ -286,6 +286,9 @@ ul.dropdown-menu > li > a:hover .icon-v3 {
 .icon-groups {background-position: -96px -0px;}
 .icon-add-user {background-position: -120px -0px;}
 .icon-remove-user {background-position: -144px -0px;}
+.icon-gauges {background-position: -168px -0px;}
+.icon-gauge {background-position: -192px -0px;}
+.icon-stats-bars {background-position: -216px -0px;}
 
 
 /* For inverting Toggle */

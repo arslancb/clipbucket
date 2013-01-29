@@ -103,7 +103,7 @@
 .view-group .nav{
     margin-top: 10px;
 }
-.view-group .nav-tabs > .active > a, .nav-tabs > .active > a:hover{
+.view-group .nav-tabs > .active > a, .view-group  .nav-tabs > .active > a:hover{
     box-shadow: 0px -2px 2px rgba(0,0,0,0.10);
     outline: none
 }

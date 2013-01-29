@@ -1128,7 +1128,7 @@ class CBConverter
 
         echo $CMD .= " " . $output_file;
 
-        //$log = $this->exec($CMD,true);
+        $log = $this->exec($CMD,true);
         
         $this->log($CMD,'m','conversion_cmd');
         $this->log($log,'m','conversion');

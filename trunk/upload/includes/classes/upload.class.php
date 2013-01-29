@@ -460,8 +460,7 @@ class Upload {
                 'type' => 'radiobutton',
                 'name' => 'broadcast',
                 'id' => 'broadcast',
-                'value' => array('public' => lang('vdo_br_opt1'), 'private' => lang('vdo_br_opt2')
-                    , 'unlisted' => lang('vdo_broadcast_unlisted'), 'logged' => lang("logged_users_only")),
+                'value' => get_broadcast_options("upload_fields"),
                 'checked' => $broadcast,
                 'db_field' => 'broadcast',
                 'required' => 'no',

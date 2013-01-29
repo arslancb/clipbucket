@@ -220,6 +220,7 @@ function showpagination($total, $page, $link, $extra_params = NULL, $tag = '<a #
     return $pages->pagination($total, $page, $link, $extra_params, $tag);
 }
 
+
 function smarty_lang($param)
 {
     if ($param['assign'] == '')

@@ -87,6 +87,8 @@
             }
         }
     });
+    
+    
 </script>
 
 
@@ -98,6 +100,8 @@
        
         $('.popover-class').popover();
         //Adding Comment Hover effect
+        
+        $('*[rel=tooltip]').tooltip();
        
         $('.comments').on('mouseenter','.comment',function(){
             $(this).find('.comment-options').show();
@@ -250,6 +254,19 @@
         });
         
         
+        $('.manager-list').on('click','.check-all',function(){
+            if($(this).find('input[type=checkbox]').is(':checked'))
+            {
+                $(this).parents('.manager-list')
+                .find('.table input[type=checkbox]')
+                .prop("checked",true);
+            }else
+            {
+                $(this).parents('.manager-list')
+                .find('.table input[type=checkbox]')
+                .prop("checked",false);
+            }
+        });
             
     
         $('.save-plst-text').click(function(){
@@ -295,7 +312,10 @@
         });
         
 
-        
+        $( '.scrolltoFixed' ).scrollToFixed({
+            preFixed: function() { $(this).addClass('controller-fixed')},
+            postFixed: function() { $(this).removeClass('controller-fixed'); }
+        });
         
         $('.playlist-dropdown.open .dropdown-toggle').dropdown('toggle');
 
