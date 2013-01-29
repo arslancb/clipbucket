@@ -127,3 +127,50 @@ function load_more_videos(gid,max)
         }
     })
 }
+
+
+function group_action(action)
+{
+    var gids = new Array();
+        
+    $('input.check-item').each(function(index,obj)
+    {
+        if($(obj).prop('checked'))
+        {
+             console.log(index);   
+            if($(obj).val())
+                gids[index] = $(obj).val();
+        }
+    });
+        
+    switch(action){
+            
+        case "delete":
+        {
+
+                
+            amplify.request('groups',{
+                mode:"delete_groups",
+                gids : gids
+            },function(data)
+            {
+                if(data.err)
+                {
+                    displayError(data.err);
+                }else
+                {
+                    $.each(gids,function(index,value)
+                    {
+                        $('.group-box-'+value).fadeOut(250,function(){
+                            $(this).remove();
+                        });
+                    });
+                }
+            });
+        }
+        break;
+            
+    }
+        
+    close_confirm();
+}

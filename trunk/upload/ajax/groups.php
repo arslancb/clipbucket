@@ -80,7 +80,7 @@ switch ($mode) {
 
             $group_videos_limit = 18;
             $group_videos_limit = apply_filters($group_videos_limit, 'group_videos_limit');
-            
+
             $get_limit = create_query_limit($page, $group_videos_limit);
 
             $videos = $cbgroup->get_group_videos($gid, "yes", $get_limit);
@@ -96,6 +96,30 @@ switch ($mode) {
         }
 
         break;
+
+    case "delete_groups" : {
+            try {
+
+                $gids = post('gids');
+                
+                if(!$gids || !is_array($gids)) cb_error(lang("No group was selected"));
+
+                foreach ($gids as $gid) {
+                    if ($gid) {
+                        $cbgroup->delete_group($gid);
+                    }
+                }
+                
+                if (error())
+                    cb_error(error('single'));
+
+                exit(json_encode(array('success' => 'yes')));
+                
+            } catch (Exception $e) {
+
+                exit(json_encode(array('err' => array($e->getMessage()))));
+            }
+        }
     default:
         exit(json_encode(array('err' => array(lang('Invalid request')))));
 }

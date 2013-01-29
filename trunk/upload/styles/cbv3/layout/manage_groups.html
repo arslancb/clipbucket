@@ -10,59 +10,129 @@
     <div class="manager-list">
         <div class="controller scrolltoFixed white-grad">
             <div class="buttons">
-                <div class="btn-toolbar">
+                <div class="btn-toolbar">             
+                    <label class="check-all"><input type="checkbox"></label>
+
                     <div class="btn-group">
-                        <label class="btn check-all"><input type="checkbox"></label>
-                    </div>
-                    <div class="btn-group">
-                        <a class="btn" onclick="return false;">First Button</a>
-                        <a class="btn" onclick="return false;">Second Button</a>
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                            {lang code='Actions'}
+                            <span class="caret"></span>
+                        </a>
+                        {$confirm_del_msg=lang('Are you sure you want to delete selected group(s)')}
+                        <ul class="dropdown-menu">
+                            <li><a href="#" 
+                                   onclick="cb_confirm('{lang code='Confirm Delete'}',
+                                       '{$confirm_del_msg}',function(){
+                                           group_action('delete');
+                                       })">{lang code='Delete Groups'}</a></li>
+                            
+                        </ul>
                     </div>
                 </div>
 
+
                 <div class="right-button">
-                    <a class="btn btn-primary" data-toggle="modal" data-target="#profile-form">
-                        <i class="icon-plus icon-white"></i>
-                        Another Button
-                    </a>
+                    <div class="btn-toolbar">
+
+                        <div class="btn-group">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                {lang code='Sorting'}
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li {if get('order')=='newest'} class="active"{/if}>
+                                    <a href="{$baseurl}/manage_groups.php{queryString('order')}=newest">{lang code='Newest'}</a>
+                                </li>
+                                <li {if get('order')=='oldest'} class="active"{/if}>
+                                    <a href="{$baseurl}/manage_groups.php{queryString('order')}=oldest">{lang code='Oldest'}</a></li>
+                                <li class="divider"></li>
+                       
+                                
+                            </ul>
+                        </div>
+
+                        <div class="btn-group">
+                            <a class="btn btn-primary" href="{cblink(['name'=>'create_group'])}">
+                                <i class="icon-plus icon-white"></i>
+                                {lang code='Create new group'}
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <form name="my-form-name" method="post" id="my-form-id">
-
-            <table id="my-item-list-good-id" class="table table-striped list-block {if !$groups}display-none{/if}">
-                <thead>
-                    <tr>
-                        <th width="50"></th>
-                        <th width="70">#</th>
-                        <th>Name</th>
-                        <th width="70">Members</th>
-
-                        <th width="70">Topics</th>
-                        <th width="70">Active</th>
-                        <th width="200">Date</th>
-                        <th width="120"></th>
-                    </tr>
-                </thead>
+        <form name="manage-groups-form" method="post" id="manage-groups-form">
+            
+            {if $groups}
+            <table id="manage-groups" class="table table-striped list-block {if !$groups}display-none{/if}">
                 <tbody>
-
-
                     {foreach $groups as $group}
-                    <tr>
-                        <td><input type="checkbox" class="check-item" name="my-items-list[]" value="value"></td>
-                        <td>{$group.group_id}</td>
-                        <td><a href="{$baseurl}/edit_group.php?gid={$group.group_id}">{$group.group_name}</a></td>
-                        <td>{$group.total_members}</td>
-                        <td>{$group.total_topics}</td>
-                        <td>{$group.active}</td>
-                        <td>{$group.date_added|nicetime}</td>
+                    <tr class="group-box-{$group.group_id}">
+                        <td><input type="checkbox" class="check-item" name="groups-list[]" value="{$group.group_id}"></td>
+                        <td>
+                            <div class="manage-group-div">
+                                <div class="manage-group-thumb">
+                                    <img src="{$cbgroup->get_group_thumb($group,small)}" class="img-circle" />
+                                    <a class="img-circle edit-group-text" href="{$baseurl}/edit_group.php?gid={$group.group_id}">
+                                        {lang code='Edit group'}
+                                    </a>
+                                </div>
+                                <div class="manage-group-title">
+                                    <a href="{$baseurl}/edit_group.php?gid={$group.group_id}">{$group.group_name}</a>
+                                </div>
+                                <div class="muted">Created {$group.date_added|niceTime}</div>
 
-                        <td><a class="btn">hello</a></td>
+                                <div class="manage-group-labels">
+                                    {if $group.active!='yes'}
+                                    <span class="label label-important">{lang code='Inactive'}</span>
+                                    {/if}
+                                </div>
+
+                                <div class="manage-group-options">
+                                    {if $group.group_privacy=='0'}
+                                    <span class="broadcast-label"><i class="icon-globe icon-v3"></i> {lang code='Public'}</span>
+                                    {elseif $group.group_privacy=='1'}
+                                    <span class="broadcast-label"><i class="icon-eye-close"></i> {lang code='Protected'}</span>
+                                    {else}
+                                    <span class="broadcast-label"><i class="icon-lock"></i> {lang code='Private'}</span>
+                                    {/if}
+                                </div>
+                                
+                                <div class="manage-group-admin">
+                                    
+                                    {$admins=$cbgroup->get_group_admins($group.group_id)}
+                                    
+                                    {if $admins}
+                                    {lang code='Admins'}
+                                    {foreach $admins as $admin}
+                                    <a href="{$userquery->profile_link($admin)}" rel="tooltip" title='{name($admin)}'>
+                                        <img src="{$userquery->avatar($admin,'small')}" class="admin-thumb img-rounded" />
+                                    </a>
+                                    {/foreach}
+                                    {/if}
+                                </div>
+
+                            </div>
+
+                            <div class="manage-group-details">
+                                <div><i class="icon-eye-open"></i> {$group.total_views|number_format}  {lang code='views'}</div>
+                                <div><i class="icon-comments"></i> {$group.total_topics|number_format} {lang code='topics'}</div>
+                                <div><i class="icon-user"></i> {$group.total_members|number_format} {lang code='members'}</div>
+                            </div>    
+
+                        </td>
                     </tr>
                     {/foreach}
                 </tbody>
             </table>
+            
+            {else}
+            
+            <div class="alert alert-large">
+                {lang code='There are no groups for you to administrate'}
+            </div>
+            {/if}
         </form>  
 
     </div>
@@ -91,18 +161,18 @@
 
     <div class="account-inner-left">
         {if $mode=='manage_members'}
-            {include_template_file file='/blocks/groups/manage_members.html' group=$group}
+        {include_template_file file='/blocks/groups/manage_members.html' group=$group}
         {/if}
 
 
         {if $mode=='manage_videos'}
-            {include_template_file file='/blocks/groups/manage_videos.html' group=$group}
+        {include_template_file file='/blocks/groups/manage_videos.html' group=$group}
         {/if}
     </div>
-    
-    
+
+
     {include_template_file file='blocks/groups/inner_menu.html' group=$group}
-    
+
     <div class="clearfix"></div>
 </div>
 

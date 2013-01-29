@@ -121,4 +121,27 @@
 				return BASEURL."/view_group.php?url=".$url."&mode=view_report_form";	
 		}
 	}
+    
+    
+    
+    /**
+     * function used to get group fields
+     * 
+     * @param ARARY $extra_fields
+     */
+    function get_group_fields($extra=NULL)
+    {
+        $fields = array(
+                'group_name','userid','group_url','category','total_views','total_videos','total_members','total_topics'
+        );
+        
+        if(isset($extra) && !is_array($extra))
+            $fields[] = $extra;
+        elseif(isset($extra))
+            $fields = array_merge($fields,$extra);
+        
+        $fields = apply_filters($fields, 'get_group_fields');
+        
+        return $fields;
+    }
 ?>

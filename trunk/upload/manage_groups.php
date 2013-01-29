@@ -33,10 +33,24 @@ switch ($mode) {
             }
 
             assign('mode', 'manage');
-            $usr_groups = $cbgroup->get_groups(array('user' => userid()));
 
-            assign('total_groups', count($usr_groups));
+
+            $order_by = 'date_added DESC';
+
+            if (isset($_GET['order'])) {
+                $order = get('order');
+                if ($order == 'oldest')
+                    $order_by = 'date_added ASC';
+            }
+
+
+            assign('total_groups', 0);
+            $usr_groups = $cbgroup->get_groups(array('user' => userid(), 'order' => $order_by));
+            
             assign('usr_groups', $usr_groups);
+            if($usr_groups)
+            assign('total_groups', count($usr_groups));
+
             assign('groups', $usr_groups);
         }
         break;
@@ -205,10 +219,10 @@ switch ($mode) {
                 'disapprove',
                 'approve',
                 'delete'
-            ));
-            
+                    ));
+
             assign('queryString', $queryString);
-            
+
             assign('mode', 'manage_videos');
             $gid = mysql_clean($_GET['gid']);
             $gdetails = $cbgroup->get_group_details($gid);
@@ -233,11 +247,10 @@ switch ($mode) {
                         if ($_POST['check_vid'][$i] != '')
                             $cbgroup->video_actions($gid, $_POST['check_vid'][$i], 'activate');
                     }
-                    
-                    if(!error() && msg())
-                    {
+
+                    if (!error() && msg()) {
                         $eh->flush_msg();
-                        e(lang('Selected videos have approved'),'m');
+                        e(lang('Selected videos have approved'), 'm');
                     }
                 }
 
@@ -265,11 +278,10 @@ switch ($mode) {
                         if ($_POST['check_vid'][$i] != '')
                             $cbgroup->video_actions($gid, $_POST['check_vid'][$i], 'deactivate');
                     }
-                    
-                    if(!error() && msg())
-                    {
+
+                    if (!error() && msg()) {
                         $eh->flush_msg();
-                        e(lang('Selected videos have disapproved'),'m');
+                        e(lang('Selected videos have disapproved'), 'm');
                     }
                 }
                 //Deleting videos
@@ -279,11 +291,10 @@ switch ($mode) {
                         if ($_POST['check_vid'][$i] != '')
                             $cbgroup->video_actions($gid, $_POST['check_vid'][$i], 'delete');
                     }
-                    
-                    if(!error() && msg())
-                    {
+
+                    if (!error() && msg()) {
                         $eh->flush_msg();
-                        e(lang('Selected videos have removed from this group'),'m');
+                        e(lang('Selected videos have removed from this group'), 'm');
                     }
                 }
 
@@ -299,7 +310,7 @@ switch ($mode) {
                     assign("group", $gdetails);
                     //Getting Group Videos (Active Only)
                     $grp_vids = $cbgroup->get_group_videos($gid, NULL, $get_limit);
-                    
+
                     assign('grp_vids', $grp_vids);
                     assign('videos', $grp_vids);
 

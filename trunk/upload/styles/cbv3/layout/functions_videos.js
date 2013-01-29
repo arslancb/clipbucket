@@ -121,69 +121,69 @@ function toggleEmbedSrc(){
 }
 
 function videos_action(action,broadcast)
+{
+    var vids = new Array();
+        
+    $('input.check-item').each(function(index,obj)
     {
-        var vids = new Array();
-        
-        $('input.check-item').each(function(index,obj)
+        if($(obj).prop('checked'))
         {
-            if($(obj).prop('checked'))
-            {
                 
-                if($(obj).val())
-                    vids[index] = $(obj).val();
-            }
-        });
+            if($(obj).val())
+                vids[index] = $(obj).val();
+        }
+    });
         
-        switch(action){
+    switch(action){
             
-            case "delete":
-                {
+        case "delete":
+        {
 
                 
-                    amplify.request('videos',{
-                        mode:"delete_videos",
-                        vids : vids
-                    },function(data)
+            amplify.request('videos',{
+                mode:"delete_videos",
+                vids : vids
+            },function(data)
+            {
+                if(data.err)
+                {
+                    displayError(data.err);
+                }else
+                {
+                    $.each(vids,function(index,value)
                     {
-                        if(data.err)
-                        {
-                            displayError(data.err);
-                        }else
-                        {
-                            $.each(vids,function(index,value)
-                            {
-                                $('.video-box-'+value).fadeOut(250,function(){
-                                    $(this).remove();
-                                });
-                            });
-                        }
+                        $('.video-box-'+value).fadeOut(250,function(){
+                            $(this).remove();
+                        });
                     });
                 }
-                break;
-            
-            case "broadcast":
-                {
-                    amplify.request('videos',{
-                            mode:"update_broadcast",
-                            vids : vids,
-                            type : broadcast
-                        },function(data)
-                        {
-                            if(data.err)
-                            {
-                                displayError(data.err);
-                            }else
-                            {
-                                $.each(vids,function(index,value)
-                                {
-                                    $('.video-box-'+value+' .broadcast-label')
-                                    .html(broadcast_icons[broadcast]+' '+data.label);
-                                });
-                            }
-                        });
-                }
-                break;
+            });
         }
-        
-        close_confirm();
+        break;
+            
+        case "broadcast":
+        {
+            amplify.request('videos',{
+                mode:"update_broadcast",
+                vids : vids,
+                type : broadcast
+            },function(data)
+            {
+                if(data.err)
+                {
+                    displayError(data.err);
+                }else
+                {
+                    $.each(vids,function(index,value)
+                    {
+                        $('.video-box-'+value+' .broadcast-label')
+                        .html(broadcast_icons[broadcast]+' '+data.label);
+                    });
+                }
+            });
+        }
+        break;
     }
+        
+    close_confirm();
+}

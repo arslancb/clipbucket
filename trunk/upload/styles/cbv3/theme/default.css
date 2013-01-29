@@ -1546,16 +1546,3 @@ body .carousel-control {
 
 .btn input[type="radio"], .btn input[type="checkbox"]{margin:0px}
 
-.manage-video-div{position:relative; padding-left:130px; 
-min-height: 90px;width:500px; float:left; border-right:1px solid #ddd; font-size:12px;}
-.manage-video-div a{font-weight:bold}
-.manage-vid-thumb{position:absolute; left:0px; width: 120px}
-
-.manage-video-details{float:left; width:140px; padding-left:10px; font-size:11px; position:relative }
-.manage-video-details .rating-down{position: absolute; right:0px}
-.manage-video-labels{position: absolute; bottom:0px; left:130px}
-.manage-video-title{display:block; width:400px}
-.manage-video-options{position:absolute; right: 10px; top:0px; font-size:11px}
-.manage-video-div a .manage-vid-edit-icon{display:none; margin-left:10px}
-.manage-video-div a:hover .manage-vid-edit-icon{display:inline-block}
-.manage-video-div a:hover{text-decoration:none}

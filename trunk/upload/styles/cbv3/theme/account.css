@@ -342,3 +342,35 @@ color: #aaa;}
     display: inline-block;
     padding: 0px 10px
 }
+
+.manage-group-div, .manage-video-div{position:relative; padding-left:130px; 
+min-height: 90px;width:500px; float:left; border-right:1px solid #ddd; font-size:12px;}
+.manage-video-div a{font-weight:bold}
+.manage-group-thumb,.manage-vid-thumb{position:absolute; left:0px; width: 120px}
+
+.manage-group-details, .manage-video-details{float:left; width:140px; padding-left:10px; font-size:11px; position:relative }
+.manage-video-details .rating-down{position: absolute; right:0px}
+.manage-group-labels, .manage-video-labels{position: absolute; bottom:0px; left:130px}
+.manage-group-title, .manage-video-title{display:block; width:400px}
+.manage-group-options, .manage-video-options{position:absolute; right: 10px; top:0px; font-size:11px}
+.manage-video-div a .manage-vid-edit-icon{display:none; margin-left:10px}
+.manage-video-div a:hover .manage-vid-edit-icon{display:inline-block}
+.manage-video-div a:hover{text-decoration:none}
+.manage-group-labels{left:105px}
+
+.manage-group-div{padding-left:105px; }
+.manage-group-thumb{width: 95px;}
+.manage-group-div .edit-group-text{
+display: none;
+position: absolute;
+top: 0px;
+left: 0px;
+height: 95px;
+width: 95px;
+text-align: center; line-height: 95px; color: #fff; text-shadow: 0px 1px 0px #000; font-weight: bold;
+background-color: rgba(0,0,0,0.5);}
+
+.manage-group-thumb:hover .edit-group-text{display:block}
+.manage-group-admin{font-size:10px; font-weight:bold; color:#aaa}
+.manage-group-admin .admin-thumb {width:25px; height:25px; }
+.manage-group-admin{position:absolute; right:10px; bottom: 0px;}

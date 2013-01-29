@@ -1005,9 +1005,7 @@ class CBGroups extends CBCategory {
             $app_query = " AND " . tbl($this->gp_mem_tbl) . ".active='$approved'";
 
         //List of fields we need from a user table
-        $user_fields = array(
-            'email', 'username', 'status', 'ban_status'
-        );
+        $user_fields = get_user_fields();
 
         $user_fields = apply_filters($user_fields, 'get_group_members');
 
@@ -1024,6 +1022,48 @@ class CBGroups extends CBCategory {
                 , " group_id='$gid' $app_query", $limit);
 
 
+
+        if ($db->num_rows > 0)
+            return $result;
+        else
+            return false;
+    }
+    
+    /**
+     * Function used to get group admins
+     * 
+     * @param $gid
+     */
+    function get_group_admins($gid) {
+        global $db;
+        
+        $gid = mysql_clean($gid);
+        
+        $app_query = "";
+
+        $app_query = " AND " . tbl($this->gp_mem_tbl) . ".active='$approved'";
+
+        //List of fields we need from a user table
+        $user_fields = get_user_fields();
+
+        $user_fields = apply_filters($user_fields, 'get_group_members');
+        
+        
+        $fields_arr = array(
+           // 'groups'    => $fields,
+            'users'     => $user_fields,
+            'members' => array('is_admin','ban','active')
+        );
+        
+        $fields = tbl_fields($fields_arr);
+        
+        $query = " SELECT ".$fields." FROM ".tbl('group_members')." AS members ";
+        $query .= " LEFT JOIN ".tbl('users'). " AS users ON ";
+        $query .= " users.userid = members.userid ";
+        $query .= " WHERE members.group_id='$gid' AND members.is_admin='yes' ";
+        
+        
+        $result = db_select($query);
 
         if ($db->num_rows > 0)
             return $result;
@@ -1893,7 +1933,7 @@ class CBGroups extends CBCategory {
         global $db;
 
         $limit = $params['limit'];
-        $order = $params['order'];
+        $order = tbl('groups.'.$params['order']);
 
         $cond = "";
         if (!has_access('admin_access', TRUE) && !$force_admin)
@@ -2005,6 +2045,7 @@ class CBGroups extends CBCategory {
         if (!$params['count_only']) {
             if (!empty($cond))
                 $cond .= " AND ";
+            
             $result = $db->select(tbl($this->gp_tbl . ",users"), '' . tbl($this->gp_tbl) . '.*, ' . tbl("users") . '.username, ' . tbl("users") . '.userid', $cond . " " . tbl("groups.userid") . " = " . tbl("users.userid") . " ", $limit, $order);
         }
 
@@ -2312,6 +2353,7 @@ class CBGroups extends CBCategory {
         $groupAdmins = $group['group_admins'];
         $groupAdmins = json_decode($groupAdmins, true);
 
+        if(!$groupAdmins) return false;
         if ($group['userid'] == $uid || in_array($uid, $groupAdmins)) {
             return true;
         } else {
