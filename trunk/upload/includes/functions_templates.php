@@ -1671,7 +1671,7 @@ function display_template_changer() {
                 
                 $list .= '<li class="template-item'.$active.'" data-template="'.$template['dir'].'">';
                 $list .= '<a href="'.queryString( 'set_the_template='.$template['dir'].'', array('set_the_template') ).'">';
-                $list .= $tem['name'];
+                $list .= ( $tem['output'] ) ? $tem['output'] : $tem['name'];
                 $list .= '</a>';
                 $list .= '</li>';
             }
@@ -1722,9 +1722,15 @@ function get_active_template() {
     return $Cbucket->template;
 }
 
+/**
+ * Get current template details
+ * @global type $Cbucket
+ * @return type
+ */
 function get_active_template_details() {
     global $Cbucket;
-    return $Cbucket->template_details;
+    $details = get_template_info_for_user( $Cbucket->template_details );
+    return $details;
 }
 
 /**
@@ -1767,8 +1773,12 @@ function get_active_template_name() {
 function can_change_template() {
     $is_allowed = ALLOW_STYLE_SELECT;
     
-    if ( !$is_allowed or !has_access('admin_access') ) {
-        return false;
+    if ( !$is_allowed ) {
+        if ( has_access('admin_access') ) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     return true;

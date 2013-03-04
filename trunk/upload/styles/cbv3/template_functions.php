@@ -130,7 +130,7 @@ function cbv3_photo_tagger_options( $options ) {
     $options['buttonWrapper'] = 'photo-tagger-button';
     $options['addIcon'] = false;
     $options['autoComplete'] = true;
-    
+
     return $options;
 }
 
@@ -151,7 +151,8 @@ function show_template_preview( $template ) {
     
     return $template;
 }
-//register_filter( 'template_selection', 'show_template_preview' );
+
+register_filter( 'template_selection', 'show_template_preview' );
 
 function show_total_videos ( $name ) {
     global $usercontent;

@@ -507,55 +507,58 @@
 {if $object.photo_id}
 <meta property="og:title" content="{$object.photo_title}" />
 <meta property="og:description" content="{$object.photo_description|description}" />
-<meta property="og:image" content="{get_photo details=$object size='m' output='non_html' alt=$object.photo_title}" />
+<meta property="og:image" content="{get_photo details=$object size='m' }" />
 <meta name="medium" content="image" />
 {/if}
 
 {if $smarty.const.THIS_PAGE == 'view_item'}
 
-{$photo_embeds=photo_embed_codes(['details'=>$object,'display_error'=>'no'])}
-{if $photo_embeds}
-<script type="text/javascript">
-var photo_url = '{view_photo_link($object,"view")}';
-var embed_format_templates = {json_encode($cbphoto->photo_embed_templates)};
+{if is_photo_viewable( $object ) }
+    {$photo_embeds=photo_embed_codes(['details'=>$object,'display_error'=>'no'])}
+    {if $photo_embeds}
+    <script type="text/javascript">
+    var photo_url = '{view_photo_link($object,"view")}';
+    var embed_format_templates = {json_encode($cbphoto->photo_embed_templates)};
 
-function update_photo_size( object ) {
-    if ( object.length ) {
-        object.siblings().removeClass('active').end().addClass('active');
+    function update_photo_size( object ) {
+        if ( object.length ) {
+            object.siblings().removeClass('active').end().addClass('active');
 
-        $('#photo-embed-code-blocks .photo-embed-code').each( function( index, obj ){
-            $( obj ).addClass( 'photo-embed-code-updating' );
-            var photo_embed_code = embed_format_templates[$(obj).attr('id')];
-            if ( !photo_embed_code ) {
-                photo_embed_code = $(obj).attr('data-embed-format');
-            }
+            $('#photo-embed-code-blocks .photo-embed-code').each( function( index, obj ){
+                $( obj ).addClass( 'photo-embed-code-updating' );
+                var photo_embed_code = embed_format_templates[$(obj).attr('id')];
+                if ( !photo_embed_code ) {
+                    photo_embed_code = $(obj).attr('data-embed-format');
+                }
 
-            photo_embed_code = photo_embed_code.replace('%PHOTO_URL%', photo_url );
-            photo_embed_code = photo_embed_code.replace('%IMAGE_URL%', object.attr('data-url') );
-            photo_embed_code = photo_embed_code.replace('%IMAGE_WIDTH%', object.attr('data-width') );
-            photo_embed_code = photo_embed_code.replace('%IMAGE_HEIGHT%', object.attr('data-height') );
+                photo_embed_code = photo_embed_code.replace('%PHOTO_URL%', photo_url );
+                photo_embed_code = photo_embed_code.replace('%IMAGE_URL%', object.attr('data-url') );
+                photo_embed_code = photo_embed_code.replace('%IMAGE_WIDTH%', object.attr('data-width') );
+                photo_embed_code = photo_embed_code.replace('%IMAGE_HEIGHT%', object.attr('data-height') );
 
-            $( obj ).val( photo_embed_code );
-            setTimeout( function(){
-                $( obj ).removeClass( 'photo-embed-code-updating' );
-            },150 );
-        });
+                $( obj ).val( photo_embed_code );
+                setTimeout( function(){
+                    $( obj ).removeClass( 'photo-embed-code-updating' );
+                },150 );
+            });
+        }
     }
-}
 
-$(document).ready(function() {
-    update_photo_size( $('li.toggle-photo-size[data-code=m]') );
+    $(document).ready(function() {
+        update_photo_size( $('li.toggle-photo-size[data-code=m]') );
 
-    $('li.toggle-photo-size').click( function(){
-        update_photo_size( $(this) );
+        $('li.toggle-photo-size').click( function(){
+            update_photo_size( $(this) );
+        });
+
+        $('#photo-embed-code-blocks .photo-embed-code').click( function(){
+           $(this).select(); 
+        });
     });
-
-    $('#photo-embed-code-blocks .photo-embed-code').click( function(){
-       $(this).select(); 
-    });
-});
-</script>
+    </script>
+    {/if}
 {/if}
+
 {/if}
 
 {literal}

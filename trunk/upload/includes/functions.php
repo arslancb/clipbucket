@@ -2153,22 +2153,30 @@ function conv_lock_exists()
  * for passing variables to url
  * @input variable_name
  */
-function queryString($var = false, $remove = false)
+function queryString($var = false, $remove = false, $value = false )
 {
     $queryString = $_SERVER['QUERY_STRING'];
-
+   
     if ($var)
         $queryString = preg_replace("/&?($var)=([\w+\s\b\.?\S])[^&]*/", "", $queryString);
 
+    
+    if ( $value !== false ) {
+        $pattren = $value;
+    } else {
+        $pattren = '[\w+\s\b\.?\S]';
+    }
+        
     if ($remove)
     {
-        if (!is_array($remove))
-            $queryString = preg_replace("/&?($remove)=([\w+\s\b\.?\S])[^&]*/", "", $queryString);
-        else
+        if (!is_array($remove)) {
+            $queryString = preg_replace("/&?($remove)=($pattren)[^&]*/", "", $queryString);
+        } else {
             foreach ($remove as $rm)
             {
-                $queryString = preg_replace("/&?($rm)=([\w+\s\b\.?\S])[^&]*/", "", $queryString);
+                $queryString = preg_replace("/&?($rm)=($pattren)[^&]*/", "", $queryString);
             }
+        }
     }
 
     if ($queryString)
@@ -3492,10 +3500,12 @@ function get_mature_thumb($object, $size = null, $output = null)
 
     $name = "unsafe" . $size . ".png";
     $path = BASEURL . '/images/' . $name;
-
+    
+    $attrs['class'] = 'cb-mature-thumb';
+    
     if ($output)
     {
-        return cb_output_img_tag($path);
+        return cb_output_img_tag( $path, $attrs );
     }
     else
     {
@@ -3983,6 +3993,10 @@ function end_where()
     unset($Cbucket->sql_where);
 }
 
+
+include("functions_menu.php");
+
+
 /**
  * Format array into table fields
  * 
@@ -4026,6 +4040,7 @@ function tbl_fields($array, $tbl = false)
     
     if($the_fields) return $the_fields;
 }
+
 
 //Including videos functions
 include("functions_videos.php");

@@ -281,6 +281,10 @@ class ClipBucket
 		global $cbtpl,$myquery;
 		$template = $this->template;
 		
+            if ( !can_change_template() and FRONT_END ) {
+                return false;
+            } 
+    
 		if(isset($_SESSION['the_template']) && $cbtpl->is_template($_SESSION['the_template']))
 			$template = $_SESSION['the_template'];
 		if($_GET['template'])
@@ -301,7 +305,7 @@ class ClipBucket
 			exit("Unable to find any template, please goto <a href='http://clip-bucket.com/no-template-found'><strong>ClipBucket Support!</strong></a>");
 		
 		
-		if($_GET['set_template'])
+		if( $_GET['set_template'] )
 		{
 			$myquery->set_template($template);
 		}
