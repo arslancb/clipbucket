@@ -1455,9 +1455,11 @@ function rmdir_recurse($path)
         if ($file != '.' and $file != '..')
         {
             $fullpath = $path . $file;
-            if (is_dir($fullpath))
-                rmdir_recurse($fullpath); else
+            if ( is_dir($fullpath) ) {
+                rmdir_recurse($fullpath); 
+            } else {
                 unlink($fullpath);
+            }
         }
     }
     closedir($handle);
@@ -1467,6 +1469,7 @@ function rmdir_recurse($path)
 /**
  * Get manager order for provided $type
  * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
  * @todo Add alias function for different objects
  * @global OBJECT $Cbucket
  * @param STRING $type
@@ -1488,6 +1491,7 @@ function object_manager_orders($type = 'video')
 /**
  * Adds a new order for object
  * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
  * @todo Add alias function for different objects
  * @global OBJECT $Cbucket
  * @param STRING $title
@@ -1518,6 +1522,7 @@ function add_object_manager_order($title, $order, $type = 'video')
 /**
  * Displays the current order title 
  * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
  * @todo Add alias function for different objects
  * @param STRING $type
  * @return MIX
@@ -1545,6 +1550,7 @@ function current_object_order($type = 'video')
  * display unselected orders excluding the current order. Set $display to
  * 'all' to add all orders, adding CSS .active class to current one
  * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
  * @todo Add alias function for different objects
  * @param STRING $type
  * @param STRING $display
@@ -1594,6 +1600,8 @@ function display_manager_orders($type = 'video', $display = 'unselected')
 
 /**
  * This function returns mySQL for given type
+ * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
  * @param string $type
  * @return string
  */
@@ -1620,7 +1628,9 @@ function return_object_order( $type = null ) {
 }
 
 /**
+ * Get fileds that you should be enough for end user
  * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
  * @param array $extra
  * @return array
  */
@@ -1637,13 +1647,14 @@ function get_template_fields( $extra = null ) {
  * Display template changer for users if it is
  * allowed by administrator
  * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
  * @global $cbtpl;
  */
 function display_template_changer() {
     if ( ALLOW_STYLE_SELECT ) {
         global $cbtpl;
 
-        $templates = $cbtpl->get_templates();
+        $templates = $cbtpl->get_templates( true );
 
         // Arrange templates according to name
         // A - Z
@@ -1667,17 +1678,19 @@ function display_template_changer() {
                     continue;
                 }
                 
-                $active = ( $active_template == $template['dir'] ) ? ' active' : '';
+                $params_item['file'] = 'blocks/template_changer/item.html';
+                $params_item['template'] = $tem;
                 
-                $list .= '<li class="template-item'.$active.'" data-template="'.$template['dir'].'">';
+                $active = ( $active_template == $template['dir'] ) ? ' active' : '';
+                $list .= '<li class="template-item'.$active.'" id="template-'.$template['dir'].'" data-template="'.$template['dir'].'">';
                 $list .= '<a href="'.queryString( 'set_the_template='.$template['dir'].'', array('set_the_template') ).'">';
-                $list .= ( $tem['output'] ) ? $tem['output'] : $tem['name'];
+                $list .= fetch_template_file( $params_item );
                 $list .= '</a>';
                 $list .= '</li>';
             }
         }
                 
-        $params['file'] = 'blocks/template_changer.html';
+        $params['file'] = 'blocks/template_changer/template_changer.html';
         $params['templates_list'] = $list;
         
         return fetch_template_file( $params );
@@ -1690,6 +1703,7 @@ function display_template_changer() {
  * This filter template details that should be enough
  * for user
  * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
  * @param array $details
  * @return array
  */
@@ -1714,6 +1728,8 @@ function get_template_info_for_user( $details ) {
 
 /**
  * Get current template
+ * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
  * @global type $Cbucket
  * @return string
  */
@@ -1724,6 +1740,8 @@ function get_active_template() {
 
 /**
  * Get current template details
+ * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
  * @global type $Cbucket
  * @return type
  */
@@ -1735,6 +1753,8 @@ function get_active_template_details() {
 
 /**
  * Get template name
+ * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
  * @param array $tem
  * @return string
  */
@@ -1744,6 +1764,8 @@ function get_template_name( $tem ) {
 
 /**
  * Get given detail of given template
+ * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
  * @global object $cbtpl
  * @param array $tem
  * @param string $detail
@@ -1763,6 +1785,8 @@ function get_template_detail( $tem, $detail = 'name' ) {
 
 /**
  * Get name of active template
+ * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
  * @return string
  */
 function get_active_template_name() {
@@ -1770,17 +1794,226 @@ function get_active_template_name() {
     return get_template_name( $active );
 }
 
+/**
+ * Function confirms that user can change template or not
+ * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
+ * @return boolean
+ */
 function can_change_template() {
     $is_allowed = ALLOW_STYLE_SELECT;
     
     if ( !$is_allowed ) {
         if ( has_access('admin_access') ) {
-            return true;
+            $can_change =  true;
         } else {
-            return false;
+            $can_change = false;
         }
     }
     
-    return true;
+    $hidden = get_hidden_templates();
+
+    if ( $hidden ) {
+        $the_template = mysql_clean( $_GET['set_the_template'] );
+        if ( in_array( $the_template, $hidden ) ) {
+            if ( has_access('admin_access') ) {
+                $can_change =  true;
+            } else {
+                $can_change = false;
+            }
+        } else {
+            $can_change = true;
+        }
+    }
+
+    return $can_change;
+}
+
+/**
+ * Function gets the list of hidden tempaltes.
+ * $details can be set to true, if we want there details
+ * as-well
+ * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
+ * @param boolean $details
+ * @return boolean
+ */
+function get_hidden_templates( $details = false ) {
+    $hidden = config('hidden_templates');
+    if ( $hidden ) {
+        $hidden = json_decode( $hidden, true );
+        if ( $details == true ) {
+            $hidden_details = array();
+            foreach( $hidden as $tpl_dir ) {
+                $tpl_details = CBTemplate::get_template_details( $tpl_dir );
+                if( $tpl_details && $tpl_details['name'] != '' ) {
+				$hidden_details[$tpl_details['name']] = $tpl_details;
+                }
+            }
+            
+            $hidden = ( count( $hidden_details ) > 0 ) ? $hidden_details : false;
+        }
+        
+        return $hidden;
+    }
+    
+    return false;
+}
+
+/**
+ * Checks whether template is hidden or not
+ * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
+ * @param string $template
+ * @return boolean
+ */
+function is_template_hidden( $template ) {
+    $hidden = get_hidden_templates();
+    if ( $hidden ) {
+        if ( in_array( $template, $hidden ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Function hides the template from end user
+ * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
+ * @global object $cbtpl
+ * @param string $dir
+ */
+function hide_the_template( $dir ) {
+    global $cbtpl;
+    
+    $details = $cbtpl->get_template_details( $dir );
+    if ( $details ) {
+        $hidden = get_hidden_templates();
+        if ( $hidden and in_array( $details['dir'], $hidden ) ) {
+            return;
+        }
+
+        $hidden[] = $details['dir'];
+        config( 'hidden_templates', json_encode( $hidden ) );
+        e( lang( $details['name']." is now hidden from user." ), "m" );
+
+    } else {
+        e( lang('This template is not Clipbucket compatible or template does not exist') );
+    }
+}
+
+/**
+ * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
+ * @global object $cbtpl
+ * @param type $dir
+ */
+function show_the_template ( $dir ) {
+    global $cbtpl;
+    
+    $details = $cbtpl->get_template_details( $dir );
+    if ( $details ) {
+        $hidden = get_hidden_templates();
+        if ( $hidden ) {
+            $tpl_index = array_search( $details['dir'], $hidden );
+            if ( $hidden[ $tpl_index ] ) {
+                unset( $hidden[ $tpl_index ] );
+                config( 'hidden_templates', json_encode( $hidden ) );
+                e( lang( $details['name']." is now visible to user." ), "m" );
+            }
+        }
+        
+        return;
+    } else {
+        e( lang('This template is not Clipbucket compatible or template does not exist') );
+    }
+}
+
+/**
+ * Function uploads a new theme
+ * 
+ * @author Fawaz Tahir <fawaz.cb@gmail.com>
+ * @param array $theme_file
+ * @return array $messages
+ */
+function upload_new_theme ( $theme_file ) {
+    global $cbtpl;
+    
+    $messages = array();
+    $back_link = "<a href='templates.php'>Please go back</a>";
+    
+    if ( $theme_file ) {
+        $name = $theme_file['name'];
+        $extension = strtolower( end( explode(".", $name) ) );
+        $messages[] = "<i class='icon-info-sign'></i> Confirming file extension ...";
+        
+        if ( "zip" != ( $extension ) ) {
+            $messages[] = "<strong>Error</strong>: Unknown format provided. Only <code>ZIP</code> file is allowed. ".$back_link;
+        } else {
+            $messages[] = "<i class='icon-ok-sign'></i> Extension confirmed ...";
+            
+            {                
+                // extracting can take a lot of memeory
+                ini_set('memory_limit', '256M');
+                
+                include( 'classes/pclzip.class.php' );
+                $arc = new PclZip( $theme_file['tmp_name'] );
+                
+                $zip_files = $arc->listContent();
+                $template_name = $zip_files[0]['filename'];
+                $template_name = rtrim( $template_name, "/" );
+                
+                if ( file_exists( STYLES_DIR."/".$template_name ) ) {
+                    $messages[] = "<i class='icon-remove-sign'></i> <strong>Error:</strong> Can not upload template. It already exists. ".$back_link;
+                } else {
+                    $messages[] = "<i class='icon-info-sign'></i> Unpacking file ...";
+                    
+                    if ( $arc->extract( PCLZIP_OPT_PATH, STYLES_DIR  ) ) {
+                        $messages[] = "<i class='icon-ok-sign'></i> File successfully unpacked ...";
+                        $messages[] = "<i class='icon-info-sign'></i> Checking required files and folders ... ";
+                        $remove_template = false;
+                        $theme_dir = STYLES_DIR."/".$template_name;
+                                                
+                        if ( !file_exists( $theme_dir."/template.xml" ) ) {
+                            $messages[] = "<i class='icon-remove-sign'></i> <strong>Error</strong>: Can not upload template. <code>template.xml</code> is missing. ".$back_link;
+                            $remove_template = true;
+                        } else if ( !file_exists( $theme_dir."/images" ) or !file_exists( $theme_dir."/layout" ) or !file_exists( $theme_dir."/theme" ) ) {
+                            $messages[] = "<i class='icon-remove-sign'></i> <strong>Error</strong>: Can not upload template. <code>layout</code>, <code>theme</code> and <code>images</code> folders are required. Some are missing. ".$back_link;
+                            $remove_template = true;
+                        } else {
+                            $messages[] = "<i class='icon-ok-sign'></i> Required files and folders are present ...";
+                            $messages[] = "<i class='icon-info-sign'></i> Getting template details ... ";
+                            $details = $cbtpl->get_template_details( $template_name );
+                            if ( $details ) {
+                                $messages[] = "<i class='icon-ok-sign'></i> <strong>".$details['name']."</strong> has been successfully added to your available templates list. <a href='templates.php?change=".$details['dir']."'>Activate template</a> or <a href='templates.php'>go back</a>";
+                            } else {
+                                $messages[] = "<i class='icon-remove-sign'></i> <strong>Error:</strong> Can not upload template. Unable to find template details. ".$back_link;
+                                $remove_template = true;
+                            }
+                        }
+                    } else {
+                        $messages[] = "<i class='icon-remove-sign'></i> <strong>Error:</strong> ".$arc->errorInfo( true ).". ".$back_link;
+                    }  
+                }  
+            }
+        }
+    } else {
+        $messages[] = "<strong>Error</strong>: No theme file was selected. ".$back_link;
+    }
+    
+    if ( file_exists( $theme_file['tmp_name'] ) ) {
+        unlink( $theme_file['tmp_name'] );
+    }
+    
+    if ( $remove_template === true ) {
+        if ( is_dir( $theme_dir ) ) {
+            rmdir_recurse( $theme_dir );
+        } elseif ( is_file( $theme_dir ) ) {
+            unlink( $theme_dir );
+        }
+    }
+    
+    return $messages;
 }
 ?>

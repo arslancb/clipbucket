@@ -21,7 +21,37 @@ if ( $_GET['delete'] ) {
 
 if($_GET['change'])
 {
-	$myquery->set_template($_GET['change']);
+    $myquery->set_template($_GET['change']);
+    $dir = mysql_clean( $_GET['change'] );
+      if ( is_template_hidden( $dir ) ) {
+          show_the_template( $dir );
+      }
+}
+
+if ( $_GET['hide'] ) {
+    $tpl_dir = mysql_clean( $_GET['hide'] );
+    hide_the_template( $tpl_dir );
+}
+
+if ( $_GET['show'] ) {
+    $tpl_dir = mysql_clean( $_GET['show'] );
+    show_the_template( $tpl_dir );
+}
+
+if ( $_POST['do-action'] ) {
+    $do_action = mysql_clean( $_POST['do-action'] );
+    switch( $do_action ) {
+        case "upload-theme":
+        default: 
+        {
+            assign( "uploading_theme", true );
+            $theme_file = $_FILES['theme-file'];
+            $messages = upload_new_theme( $theme_file );
+        }
+        break;
+    }
+    
+    assign( 'messages', $messages );
 }
 
 if ( isset($_POST['delete_selected']) ) {

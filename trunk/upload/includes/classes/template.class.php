@@ -124,7 +124,7 @@ class CBTemplate {
 	/**
 	 * Function used to get available templates
 	 */
-	function get_templates()
+	function get_templates( $visible = false )
 	{
 		$dir = STYLES_DIR;
 		//Scaning Dir
@@ -136,10 +136,19 @@ class CBTemplate {
 		}
 		//Now Checking for template template.xml
 		$tpls = array();
+            
 		foreach($tpl_dirs as $tpl_dir)
 		{
+                if ( $visible == true ) {
+                    $hidden = get_hidden_templates();
+                    if ( $hidden ) {
+                        if ( in_array( $tpl_dir, $hidden ) ) {
+                            continue;
+                        }
+                    }
+                }
+                
 			$tpl_details = CBTemplate::get_template_details($tpl_dir);
-			
 			if($tpl_details && $tpl_details['name']!='')
 				$tpls[$tpl_details['name']] = $tpl_details;
 		}
@@ -270,7 +279,7 @@ class CBTemplate {
 	 */
 	function get_any_template()
 	{
-		$templates = $this->get_templates();
+		$templates = $this->get_templates(true);
 		if(is_array($templates))
 		{
 			foreach($templates as $template)
@@ -374,6 +383,11 @@ class CBTemplate {
             e( lang('You cannot delete current active template.') );
         } else {
             if ( $template = $this->is_template( $dir ) ) {
+                
+                if ( is_template_hidden( $template['dir'] ) ) {
+                    show_the_template( $template['dir'] );
+                }
+                
                 $path = STYLES_DIR.'/'.$template['dir'];
                 rmdir_recurse( $path );
                 return true;

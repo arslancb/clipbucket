@@ -51,7 +51,7 @@
     <div class="span8 relative">
         {if $templates}
             <form name="select_template" action="" method="get" class="form-horizontal pull-right marginB0 absolute" style="right:0px; top:-7px;">
-                      <select name="dir" id="template_to_edit">
+                      <select name="dir" id="template_to_edit" class="span2">
                           {foreach from=$templates item=template}
                           <option value="{$template.dir}" {if $sel_dir==$template.dir} selected{/if}>{$template.name}</option>
                           {/foreach}
@@ -59,7 +59,10 @@
                         <input type="submit" name="select" value="Select" class="btn btn-primary" />
             </form>
         {/if}
-        <h4 class="inlineblock" style="vertical-align: middle">{$tpl.name}: {if $smarty.get.folder}{$smarty.get.folder}/{else}layout/{/if}{if $smarty.get.file}{$smarty.get.file}{else}index.html{/if}</h4>
+        <dl style="margin:0px; font-size:18px;">            
+            <dt style="display:none">File</dt>
+            <dd>{$sel_dir}/{if $smarty.get.folder}{$smarty.get.folder}/{else}layout/{/if}{if $smarty.get.file}{$smarty.get.file}{else}index.html{/if}</dd>
+        </dl>
         <div class="height10"></div>
         <form name="file_content" action="" method="post">
             <textarea name="thecontent" class="border-box file_content">{if $content}{$content}{else}No File Selected{/if}</textarea>

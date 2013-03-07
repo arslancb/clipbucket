@@ -1,15 +1,13 @@
+{if !$uploading_theme}
 <h2>Templates Manager</h2>
 <p>Here you can manage your available templates.</p>
 {assign var="selected" value=$Cbucket->configs.template_dir}
 {assign var="curtpl" value=$cbtpl->get_template_details($selected)}
+
 <div class="manager-list">
     <div class="controller scrolltoFixed white-grad">
         <div class="buttons">
             <div class="btn-toolbar">
-                <div class="btn-group">
-                    <label class="btn check-all"><input type="checkbox" /></label>
-                </div>
-
                 <div class="btn-group">
                     <a href="#" class="btn btn-danger" onclick="cb_confirm('Delete Selected Templates','Are you sure you want to delete selected templates ?', function(){
                         $('#do-action').attr('name','delete_selected'); $('#template_manager').submit();
@@ -19,7 +17,7 @@
             
             <div class="right-button">
                 <div class="btn-group">
-                    <a href="#" class="btn btn-primary"><i class="icon-upload icon-white"></i> Upload</a>
+                    <a href="#upload-theme" class="btn btn-primary" data-toggle="modal"><i class="icon-upload icon-white"></i> Upload</a>
                 </div>
             </div>
         </div>
@@ -40,30 +38,32 @@
     </fieldset>
     <div class="height20 clear"></div>
     {* Listing All Avilable Templates *}    
-    {assign var='templates' value=$cbtpl->get_templates()}
-
-    {if $templates}
+    {assign var='templates' value=$cbtpl->get_templates(true)}
+    {$hidden_templates=get_hidden_templates(true)}
+    
+    {if $hidden_templates}
     <form name="template_manager" id="template_manager" method="post" action="">
         <fieldset>
-            <legend>Available Templates</legend>
+            <legend>Hidden Templates</legend>
+            Hidden templates are not visible to end user, when selecting from 'Template Changer'. To disallow users to change template, <a href="main.php#allow_template_change">turn off <strong>Allow Template Change</strong> setting</a>
             <div class="height20"></div>
             <div class="row show-grid list-block">
                     <input type="hidden" name="" value="do" id="do-action" />
-                    {foreach $templates as $template}
+                    {foreach $hidden_templates as $template}
                     {if $template.dir != $selected}
-                        <div class="span3 thumbnail marginB20 relative">
+                        <div class="span2 thumbnail marginB20 relative">
                             <input type="checkbox" class="absolute check-item" value="{$template.dir}" name="check_template[]"  />
-                            <img src="{$cbtpl->get_preview_thumb($template.dir)}" class="width270" />
-                            <div class="caption">
-                                <h4>{$template.name}</h4>
-                                <div class="font_12 clearfix marginT5">
-                                    By {$template.author}
-                                    <div class="btn-group pull-right">
-                                        <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown" href="#">Options <span class="caret"></span></a>
+                            <img src="{$cbtpl->get_preview_thumb($template.dir)}" />
+                            <div class="caption" style="padding: 2px;">
+                                <h6 style="margin: 0px; margin-bottom: 2px;">{$template.name}</h6>
+                                <div class="font_12 clearfix">
+                                    <div class="btn-group dropup">
+                                        <a class="btn dropdown-toggle btn-mini btn-block" data-toggle="dropdown" href="#">Options <span class="caret"></span></a>
                                         <ul class="dropdown-menu">
                                             <li><a href="templates.php?change={$template.dir}">Activate</a></li>
                                             <li><a href="{$baseurl}?template={$template.dir}">Preview</a></li>
                                             <li><a href="template_editor.php?dir={$template.dir}">Open in editor</a></li>
+                                            <li><a href="templates.php?show={$template.dir}">Show</a></li>
                                             <li class="divider"></li>
                                             <li><a href="#" onclick="cb_confirm('Delete Template','Are you sure you want to delete this template ? ', function(){
                                                 window.location = '?delete={$template.dir}';
@@ -82,10 +82,85 @@
                     {/if}
                     {/foreach}
             </div>
+        </fieldset>
+    </form>
+    {/if}
+    
+    {if $templates}
+    <form name="template_manager" id="template_manager" method="post" action="">
+        <fieldset>
+            <legend>Available Templates</legend>
+            <div class="height20"></div>
+            <div class="row show-grid list-block">
+                    <input type="hidden" name="" value="do" id="do-action" />
+                    {foreach $templates as $template}
+                        {if $template.dir != $selected}
+                            <div class="span3 thumbnail marginB20 relative" id="template-{$template.dir}">
+                                <input type="checkbox" class="absolute check-item" value="{$template.dir}" name="check_template[]"  />
+                                <img src="{$cbtpl->get_preview_thumb($template.dir)}" class="width270" />
+                                <div class="caption">
+                                    <h4>{$template.name}</h4>
+                                    <div class="font_12 clearfix marginT5">
+                                        By {$template.author}
+                                        <div class="btn-group pull-right">
+                                            <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown" href="#">Options <span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="templates.php?change={$template.dir}">Activate</a></li>
+                                                <li><a href="{$baseurl}?template={$template.dir}">Preview</a></li>
+                                                <li><a href="template_editor.php?dir={$template.dir}">Open in editor</a></li>
+                                                <li><a href="templates.php?hide={$template.dir}">Hide{if !$hidden_templates} <span class="icon icon-info-sign pull-right" rel="tooltip" title="Hidden templates will not be shown for users" style="margin-top: 3px;"></span>{/if}</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="#" onclick="cb_confirm('Delete Template','Are you sure you want to delete this template ? ', function(){
+                                                    window.location = '?delete={$template.dir}';
+                                                }); return false;">Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="font_12 clearfix marginT10 display-none" id="{$template@iteration}{$template@index}_details">
+                                        <p class="font_12"><strong>Version: </strong>{$template.version}</p>
+                                        <p class="font_12">{$template.description}</p>
+                                        <p class="font_12">All of this template’s files are located in <code>{$template.path}</code></p>
+                                    </div>
+                                </div>
+                            </div>
+                        {/if}
+                    {/foreach}
+            </div>
         </form>
     </fieldset>
 
     {else}
       <div class="alert">No New Template Found</div>
     {/if}
+    
+    <div id="upload-theme" class="modal hide fade">
+        <div class="modal-header">
+            <h3>Upload New Theme</h3>
+        </div>
+        
+        <div class="modal-body">
+            If you have Clipbucket compatible template in .zip format, you can upload in from here.
+            <form action="" method="post" name="theme-upload" id="theme-upload" class="form-horizontal" enctype="multipart/form-data" style="margin: 0px; margin-top: 15px;">
+                <input type="hidden" name="do-action" id="upload-do-action" value="upload-theme" />
+                <input type="file" name="theme-file" id="theme-file" />
+                <p class="help-block">You can get Free Templates from <a href="http://clip-bucket.com/free-themes" target="_blank">our website</a></p>
+            </form>
+        </div>
+        
+        <div class="modal-footer">
+            <button class="btn btn-primary disabled" id="theme-upload-btn" type="button">Upload</button>
+            <button class="btn" type="button" data-dismiss="modal">Close</button>
+        </div>
+    </div>
 </div>
+{else}
+    <h2>Uploading Theme</h2>
+    {if $messages}
+        {foreach $messages as $message}
+            <p>{$message}</p>
+        {/foreach}
+    {else}
+    <p>Nothing to display</p>
+    {/if}
+{/if}

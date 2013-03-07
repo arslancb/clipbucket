@@ -92,12 +92,32 @@ $(document).ready(function(){
                 $('input[id="'+word+'_height"]').val(newHeight);	
 		}
 	});
+  
+    $('#theme-upload input[type=file]').change( function() {
+        var value = $( this ).val();
+        
+        if ( value != '' || value != 'undefined' ) {
+            $('#theme-upload-btn').removeClass('disabled');
+        }
+    });
+    
+    $('#theme-upload-btn').click(function(){
+        var value = $('#theme-upload input[type=file]').val();
+        
+        if ( value == '' || value == 'undefined' ) {
+            return false;
+        }
+        
+        $('#theme-upload input[type=file]').attr('readonly','readonly');
+        $( this ).addClass('disabled').text('Uploading ...')
+        $('#theme-upload').submit();
+    });
 });
 </script>
 {/literal}
 
 <!--Adding Fonts -->
-<link href='http://fonts.googleapis.com/css?family=Squada+One|PT+Sans:400,700|Open+Sans:400,700|Dosis:400,700' rel='stylesheet' type='text/css'>
+<!-- <link href='http://fonts.googleapis.com/css?family=Squada+One|PT+Sans:400,700|Open+Sans:400,700|Dosis:400,700' rel='stylesheet' type='text/css'> -->
 
 
 <!-- Including Bootstrap -->
