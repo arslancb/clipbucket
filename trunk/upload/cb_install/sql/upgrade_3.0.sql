@@ -96,7 +96,7 @@ CHANGE  `cqueue_name`  `queue_name` VARCHAR( 32 ) CHARACTER SET latin1 COLLATE l
 CHANGE  `cqueue_ext`  `queue_ext` VARCHAR( 5 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ,
 CHANGE  `cqueue_tmp_ext`  `queue_tmp_ext` VARCHAR( 3 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
 
-ALTER TABLE  `{tbl_prefix}conversion_queue` ADD  `status` ENUM(  'u',  's',  'f' ) NOT NULL DEFAULT  'u' AFTER  `conversion_counts`;
+ALTER TABLE  `{tbl_prefix}conversion_queue` ADD  `status` ENUM(  'u',  's',  'f' ) NOT NULL DEFAULT  'u' ;
 ALTER TABLE  `{tbl_prefix}conversion_queue` ADD  `messages` TEXT AFTER  `status`;
 
 DROP TABLE IF EXISTS `{tbl_prefix}video_files`;
@@ -124,7 +124,7 @@ ALTER TABLE  `{tbl_prefix}users` CHANGE  `usr_status`  `status` ENUM(  'Ok',  'T
 ALTER TABLE  `{tbl_prefix}users` CHANGE  `status`  `status` ENUM(  'Ok',  'ToActivate',  'verified',  'unverified' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'unverified';
 UPDATE {tbl_prefix}users SET status='verified' WHERE status='Ok';
 UPDATE {tbl_prefix}users SET status='unverified' WHERE status='ToActivate';
-ALTER TABLE  `{tbl_prefix}users` CHANGE  `status`  `status` ENUM(  'verified',  'unverified' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'unverified';
+--ALTER TABLE  `{tbl_prefix}users` CHANGE  `status`  `status` ENUM(  'verified',  'unverified' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'unverified';
 
 -- 8-31-2012
 ALTER TABLE  `{tbl_prefix}conversion_queue` ADD  `file_directory` VARCHAR( 255 ) NOT NULL AFTER  `queue_tmp_ext`;
@@ -145,10 +145,10 @@ ADD  `ban` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'no' AFTER  `is_admin`;
 
 
 --11-29-2102 @author: Fawaz Tahir
-ALTER TABLE  `{tbl_prefix}photos` CHANGE  `exif_data`  `has_exif` ENUM(  'yes',  'no' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'no'
+ALTER TABLE  `{tbl_prefix}photos` CHANGE  `exif_data`  `has_exif` ENUM(  'yes',  'no' ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'no';
 
 --11-28-2012 @author : Arslan
-CREATE TABLE IF NOT EXISTS `tbl_prefix}user_mentions` (
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_mentions` (
   `mention_id` int(255) NOT NULL AUTO_INCREMENT,
   `userid` int(255) NOT NULL,
   `who_id` int(255) NOT NULL,
@@ -159,7 +159,6 @@ CREATE TABLE IF NOT EXISTS `tbl_prefix}user_mentions` (
   `time` int(10) NOT NULL,
   PRIMARY KEY (`mention_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-RSET=latin1;
 
 --11-29-2012 @author: Arslan
 ALTER TABLE  `{tbl_prefix}comments` ADD  `comment_attributes` TEXT NOT NULL AFTER  `comment`;
@@ -174,7 +173,7 @@ ADD  `time_added` INT( 11 ) NOT NULL AFTER  `type`;
 
 
 --12-18-2012 @author : Fawaz
-ALTER TABLE  `{tbl_prefix}photos` ADD  `file_directory` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER  `view_exif`
+ALTER TABLE  `{tbl_prefix}photos` ADD  `file_directory` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER  `view_exif`;
 
 --12-20-2012 @author : Arslan [Cancelled]
 --ALTER TABLE  `{tbl_prefix}video` ADD  `emails_sent` ENUM(  'yes',  'no' ) NOT NULL DEFAULT  'no';
@@ -403,7 +402,7 @@ CREATE TABLE IF NOT EXISTS `{tbl}feeds` (
 -- Table structure for table `cb_notifications`
 --
 
-DROP TABLE IF EXISTS `{tbl}notifications`;
+DROP TABLE IF EXISTS `{tbl_prefix}notifications`;
 CREATE TABLE IF NOT EXISTS `{tbl}notifications` (
   `notification_id` int(11) NOT NULL AUTO_INCREMENT,
   `feed_id` int(11) NOT NULL,
@@ -426,8 +425,8 @@ CREATE TABLE IF NOT EXISTS `{tbl}notifications` (
 -- Table structure for table `cb_objects_cache`
 --
 
-DROP TABLE IF EXISTS `{tbl}objects_cache`;
-CREATE TABLE IF NOT EXISTS `cb_objects_cache` (
+DROP TABLE IF EXISTS `{tbl_prefix}objects_cache`;
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}objects_cache` (
   `object_id` int(255) NOT NULL AUTO_INCREMENT,
   `type_id` int(255) NOT NULL,
   `type` varchar(5) NOT NULL,
@@ -447,6 +446,27 @@ CREATE TABLE IF NOT EXISTS `cb_objects_cache` (
 --
 -- Altering table structure for table `cb_collections`
 -- 1/8/2012
--- @aithor: Fawaz Tahir
+-- @author: Fawaz Tahir
 --
-ALTER TABLE  `{tbl_prefix}collections` CHANGE  `cover_photo`  `cover_photo` TEXT NOT NULL
+ALTER TABLE  `{tbl_prefix}collections` CHANGE  `cover_photo`  `cover_photo` TEXT NOT NULL;
+
+--
+-- Table structure for table `cb_user_notifications`
+-- 3/21/2012
+-- @author: Arslan Hassan
+--
+
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}user_notifications` (
+  `notification_id` int(255) NOT NULL AUTO_INCREMENT,
+  `userid` int(255) NOT NULL,
+  `new_msgs` int(20) NOT NULL,
+  `new_notifications` int(20) NOT NULL,
+  `new_friend_requests` int(20) NOT NULL,
+  `date_updated` datetime NOT NULL,
+  `time_updated` int(11) NOT NULL,
+  PRIMARY KEY (`notification_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+
+

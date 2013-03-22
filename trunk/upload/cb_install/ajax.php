@@ -2,6 +2,9 @@
 define("THIS_PAGE","cb_install");
 include('clipbucket.php');
 
+
+
+
 /**
  * ClipBucket v2.1 Installat Ajax
  */
@@ -228,6 +231,10 @@ include('clipbucket.php');
 	 include("functions.php");
 	 $files = getUpgradeFiles();
 	 
+     $upgrade_err_log = TEMP_DIR.'/upgrade_errors.log';
+     
+     $log_file = fopen($upgrade_err_log,'w+');
+     
 	 if($files)
 	 {
 		 $step = $_POST['step'];
@@ -256,6 +263,7 @@ include('clipbucket.php');
 		 	$status = 'Importing upgrade_'.$files[$next].'.sql';
 		 
 		 $sqlfile = BASEDIR."/cb_install/sql/upgrade_".$files[$index].".sql";
+         
 		 if(file_exists($sqlfile))
 		 {
 			 
@@ -269,7 +277,10 @@ include('clipbucket.php');
 					{
 						@$templine = preg_replace("/{tbl_prefix}/",TABLE_PREFIX,$templine);
 						$templine;
-						mysql_query($templine);
+						
+                        if(!mysql_query($templine))
+                            fwrite ($log_file,"Mysql Error : ". mysql_error()."\n--Query : ".$templine."\n");
+                        
 						$templine = '';
 					}
 				}
