@@ -1,6 +1,0 @@
-{$likes=$rating.likes|number_format}
-{$dislikes=$rating.dislikes|number_format}
-<div class="progress progress-rating progress-success">
-    <div class="bar" style="width: {$rating.rating_perc}%;"></div>
-</div>
-<h6>{lang code='%d likes'|sprintf:$likes}, {lang code='%d dislikes'|sprintf:$dislikes} {loading_pointer place='rating'}</h6>

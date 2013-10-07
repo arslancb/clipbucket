@@ -1,7 +1,0 @@
-
-<div class="{$video.videoid}-video {$video.videoid} editor-pick-videos{if $first} selected{/if} clearfix" onclick="$(this).siblings().removeClass('selected').end().addClass('selected'); get_ep_video('{$video.videoid}');">
-    <div class="editor-video-details-wrapper">
-        <img src="{getThumb vdetails=$video size='160x120'}" width="50" height="38" class="marginR5" />
-        <span style="font-size: 11px;">{$video.title|truncate:25}</span>
-    </div>
-</div>

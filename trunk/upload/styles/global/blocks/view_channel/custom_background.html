@@ -1,6 +1,0 @@
-<!-- User custom background start -->
-{$background_exists=$userquery->getUserBg($u, true)}
-{if $background_exists}
-<div class="user-custom-background" style="z-index: -1; background-position: center;{if $userquery->getUserBg($u)} background-image:url('{$userquery->getUserBg($u)}'); background-repeat: {$u.background_repeat};{/if}{if $u.background_color != ''} background-color: {$u.background_color};{/if}{if $u.background_attachment == 'yes'}background-attachment:fixed;{/if}"></div>
-{/if}
-<!-- User custom background end -->

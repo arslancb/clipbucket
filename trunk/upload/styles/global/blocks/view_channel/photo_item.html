@@ -1,9 +1,0 @@
-<div class="user-profile-photo-item collection-box">
-    {$pd=json_decode($photo.photo_details,true)}
-    <div class="cbv3-scroller"><img src="{get_image_url($photo,'l')}" onload="$(this).parent().lionbars({ autohide: true }); " /></div>
-    <div class="black-gradient absolute bottom manage-collection-item-details">
-        <h4><a href="{collection_links( $photo )}">{$photo.collection_name}</a></h4>
-        <div class="pull-left"><a href="{view_photo_link($photo)}">{lang code='View Photo'}</a></div>
-        <div class="pull-right">{$photo.views|number_format} {lang code='views'}</div>
-    </div>
-</div>

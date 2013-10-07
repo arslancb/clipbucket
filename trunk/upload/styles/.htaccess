@@ -1,4 +1,0 @@
-<FilesMatch "\.(html)$">
-order allow,deny
-satisfy all
-</FilesMatch>
