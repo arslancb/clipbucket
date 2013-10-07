@@ -1,0 +1,100 @@
+<div style="font-size:13px; padding:5px 5px 0px 5px">
+{lang code='link_video_msg'}
+</div>
+{assign var='video_fields' value=$Upload->load_video_fields($input)}
+
+
+<div class="upload_info" id="upload_form{$objId}" style="margin-top:10px; border:none">
+	      
+    <form name="linkUploadForm{$objId}" class="upload_form" id="linkUploadForm{$objId}" method="post" action="{link name='upload'}#currnet_{$divid}" enctype="multipart/form-data">
+      
+      {* Adding Remote File Form *}
+      <fieldset>
+      <span class="form_head">Remote video details</span>
+     	 <div class="field">
+            <label for="remote_play_url" class="label">Video URL</label>
+            <input type="text" name="remote_play_url" id="remote_play_url" size="15"  class="upload_input" value="{"remote_play_url"|post|form_val}"/>
+            <div class="hint">can be flv, mp4, m4v, ogg</div>
+         </div>
+         
+         
+     	 <div class="field">
+            <label class="label">Video duration<br />
+            <input type="text" name="duration" id="duration" size="15"  class="upload_input" value="{"duration"|post|form_val}"/></label>
+            <div class="hint">duration format is hours:minutes:seconds</div>
+         </div>
+         
+         <div class="field">
+         	 <label for="thumb_file" class="label">Thumb file</label>
+			<input name="thumb_file" type="file"  class="upload_input filefield" id="thumb_file" />
+         </div>
+      </fieldset>
+      
+    {foreach from=$video_fields item=field_group}
+     <fieldset>
+      	{* Hide fields if group is not required *}
+          {if $field_group.group_id!='required_fields'} 
+            <span class="form_head" 
+                onclick="$('#more_fields_{$field_group.group_id}{$objId}').slideToggle()"
+                    style="cursor:pointer">{$field_group.group_name}</span>
+            <div id="more_fields_{$field_group.group_id}{$objId}" style="display:none">
+          {else}
+            <span class="form_head">{$field_group.group_name}</span>
+          {/if}
+    
+        
+           <div {if $field_group.group_id=='required_fields'} style="width:400px; float:left"{/if}>
+            {foreach from=$field_group.fields item=field}
+            
+            {if $field.name!='category[]'}
+                <div class="field">
+                <label for="{$field.id}" class="label">{$field.title}</label>
+                {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}
+                {ANCHOR place=$field.anchor_before}
+                {$formObj->createField($field)}
+				{ANCHOR place=$field.anchor_after}
+                {if $field.hint_2}<br>
+                <div class="hint">{$field.hint_2}</div>{/if}
+                </div>
+            {else}
+                {assign var='category_array' value=$field}
+            {/if}
+            
+            {/foreach}
+            </div>
+            
+            {* Loading Category in a seperate dive so they can fit properly*}
+            {if $category_array}
+            <div style="float:left; width:200px; margin-left:10px;">
+                <div class="field">
+                <label for="{$field.id}" class="label">{$category_array.title}</label>
+                {if $category_array.hint_1}<div class="hint">{$category_array.hint_1}</div><br>{/if}
+                {ANCHOR place=$field.anchor_before}
+                <div style="overflow:auto; height:100%">
+                    {$formObj->createField($category_array)}
+                </div>
+				{ANCHOR place=$field.anchor_after}
+                {if $category_array.hint_2}<br>
+                <div class="hint">{$category_array.hint_2}</div>{/if}
+                </div>
+            </div>
+            
+            
+            {assign var='category_array' value=''}
+            {/if}
+
+			{if $field_group.group_id=='required_fields'}<div class="clearfix"></div>{/if}
+         
+        {* Closing Div for hidden fields *}   
+        {if $field_group.group_id!='required_fields'} 
+        </div>
+        {/if}
+      </fieldset>
+    {/foreach}	
+
+	<input name="submit_upload" type="hidden" value="just_do_it">
+    <div align="right" style="margin-top:10px">
+    <input type="button" name="embed_upload" id="embed_upload" value="Upload" onClick="check_file_url('{$objId}')" class="cbSubmitUpload"/></div>
+    </form>
+    
+</div>

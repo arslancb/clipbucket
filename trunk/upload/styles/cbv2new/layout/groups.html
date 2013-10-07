@@ -1,0 +1,50 @@
+
+<!-- Listing Categories -->
+	{include file="$style_dir/blocks/category_list.html" type='groups'}
+<!-- Listing Categories End -->
+
+
+<div style="width:620px; float:left" class="vid_page_conainer" >
+<div class="sort_cont">
+
+<ul>
+	<li>{lang code='sort_by'} :</li>
+    {assign var=sorting_links value=func->sorting_links()}
+    {foreach from=$sorting_links item=name key=sort}
+    	<li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=groups}" >{$name}</a></li>
+    {/foreach}
+</ul>
+
+
+</div>
+
+<div class="time_cont">
+{assign var=time_links value=func->time_links()}
+{foreach from=$time_links item=name key=sort name=times}
+    <a href="{link name=time sort=$sort type=groups}" {if $smarty.get.time==$sort } class="selected"{/if}>{$name}</a> {if !$smarty.foreach.times.last}|{/if}
+{/foreach}
+</div>
+
+<div class="time_cont" align="right">
+<span class="cb_fb_style_button"><a href="{link name='create_group'}">{lang code='user_create_group'}</a></span>
+</div>
+
+{section name=glist loop=$groups}
+	{include file="$style_dir/blocks/group.html" group=$groups[glist]}
+{sectionelse}
+    	{lang code='no_results_found'}
+{/section}
+
+</div>
+
+
+<div class="vert_add_box">
+<div style="width:160px; margin:auto; margin-top:5px">
+   {AD place='ad_160x600'}
+</div>
+
+</div>
+
+<div class="clearfix" style="margin-bottom:10px"></div>
+
+{include file="$style_dir/blocks/pagination.html"}

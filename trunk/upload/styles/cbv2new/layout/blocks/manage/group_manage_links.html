@@ -1,0 +1,16 @@
+<div class="grp_manage_links">
+  <ul>
+    <li><a href="{$baseurl}/edit_group.php?gid={$group.group_id}">{lang code='grp_edit_grp_title'}</a></li>
+    <li><a href="{group_link details=$group}">{lang code='view_group'}</a></li>
+    <li><a href="{$baseurl}/manage_groups.php?mode=manage_members&gid={$group.group_id}">
+      {lang code='grp_manage_mems'}</a></li>
+    <li><a href="{$baseurl}/manage_groups.php?mode=manage_videos&gid={$group.group_id}">{lang code='com_manage_vids'}</a></li>
+    
+    {if $group.userid == userid()}
+    <li><a href="javascript:void(0)" onClick="
+    	  if (confirm('{lang code='are_you_sure_del_grp'}'))
+				document.location = '{$baseurl}/manage_groups.php??mode=delete&gid={$group.group_id}';">{lang code='grp_del_group_title'}</a></li>
+    {/if}
+  </ul>
+  <div class="clearfix"></div>
+</div>

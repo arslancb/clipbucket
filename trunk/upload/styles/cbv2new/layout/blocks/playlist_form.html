@@ -1,0 +1,26 @@
+<!-- Add To Playlist This {$type} -->
+<div id="playlist_form" class="action_box" style="display:none" >
+	<div class="action_box_title">Add this {$params.type} to playlist &#8212; <span class="cancel"><a href="javascript:void(0)" onclick="$('#playlist_form').slideUp();">cancel</a></span></div>
+    <div class="form_container" align="center">
+    
+     <div class="form_result" id="playlist_form_result" style="display:none"></div>
+     
+    <form id="add_playlist_form" name="playlist_form" method="post" action="" class="">
+    Please select playlist name from following<br>
+	<select name="playlist_id" id="playlist_id">
+        {section name=plist loop=$playlists}
+            <option value="{$playlists[plist].playlist_id}">{$playlists[plist].playlist_name}</option>
+        {/section}
+    </select> or <a href="javascript:void(0)" onClick="$('#add_playlist_form').css('display','none');$('#new_playlist_form').css('display','block')">create new playlist </a><br>
+
+    <input type="button" name="add_to_playlist" value="Add to playlist" class="cb_button" onclick="add_playlist('add','{$params.id}','add_playlist_form','{$type}')"/>
+    </form>
+    
+    <form id="new_playlist_form" name="new_playlist_form" method="post" action="" class="" style="display:none">
+        <label for="playlist_name">Enter Playlist name</label>
+        <input name="playlist_name" type="text" class="left_text_area" id="playlist_name" value="" size="45"  style="width:300px"/> or <a href="javascript:void(0)"  onClick="$('#add_playlist_form').css('display','block');$('#new_playlist_form').css('display','none')">Select from list </a><br>
+        <input type="button" name="add_new_playlist" value="Add new playlist" class="cb_button" onclick="add_playlist('new','{$params.id}','new_playlist_form','{$type}')"/>
+    </form>
+    </div>
+</div>
+<!-- Add To Playlist This {$type} -->

@@ -1,0 +1,23 @@
+<div class="header_grey_bar">
+	<img src="{$imageurl}/dot.gif" class="cbicon" />{$title}
+    <div class="welcome" style="float:right">
+    	Hello {$userquery->username} <a href="logout.php"><img src="{$imageurl}/dot.gif" border="0" class="logout_button" /></a>
+	</div>
+</div>
+
+<div class="header_menu clearfix">
+  <ul>
+    <li><a href="{$baseurl}/admin_area">{$userquery->permission.user_level_name} Home</a></li>
+    <li><a href="{$baseurl}">Website Home</a></li>
+  </ul>
+  <div class="dp_opts"><a href="javascript:void(0)" onclick="$('#dp_opts').slideToggle()">Display Options</a></div>
+</div>
+<div class="header_menu_after">
+<div id="dp_opts">
+  <form id="display_opts" name="display_opts" method="post" action="">
+  	Results Per Page : 
+  	<input name="admin_pages" type="text" style="width:50px" value="{$Cbucket->configs.admin_pages}"/>
+    <input type="submit" name="update_dp_options" id="button" value="Update"  class="button"/>
+  </form>
+</div>
+</div>

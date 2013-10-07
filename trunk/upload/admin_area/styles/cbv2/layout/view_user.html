@@ -1,0 +1,343 @@
+<span class="page_title">Edit User</span>
+
+{assign var='signup_fields' value=$userquery->load_signup_fields($u)}
+{assign var='channel_profile_fields' value=$userquery->load_user_fields($p)}
+
+<form action="" method="post" enctype="multipart/form-data" name="form1" id="form1" class="cbform">
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" >
+  <tr>
+    <td><table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="15" align="center" valign="middle" class="left_head">&nbsp;</td>
+        <td class="head">User Info</td>
+        <td width="50" class="right_head">&nbsp;</td>
+      </tr>
+    </table></td>
+    <td><table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="15" align="center" valign="middle" class="left_head">&nbsp;</td>
+        <td class="head">ACtions</td>
+        <td width="50" class="right_head">&nbsp;</td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+<td width="50%" valign="top">
+
+<fieldset class="fieldset">
+  <legend>ClipBucket User Info</legend>
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+    <tr>
+      <td width="200"><strong>User Id</strong></td>
+      <td>
+        <input disabled="disabled" name="uid" type="text" id="uid" value="{$u.userid}" />
+        <input name="userid" type="hidden" id="userid" value="{$u.userid}" size="45" />
+      </td>
+    </tr>
+    <tr>
+      <td width="200"><strong>User name</strong></td>
+      <td>
+        <input name="username" type="text" id="username" value="{$u.username}" />
+        <input name="dusername" type="hidden" id="dusername" value="{$u.username}" />
+        <input name="admin_manager" type="hidden" value="yes" />
+      </td>
+    </tr>
+    <tr>
+      <td width="200"><strong>Email</strong></td>
+      <td><input name="email" type="text" id="email" value="{$u.email}" /><input name="demail" type="hidden" id="demail" value="{$u.email}" /></td>
+    </tr>
+    <tr>
+      <td><strong>Change Password</strong></td>
+      <td><input name="pass" type="text" id="pass" /></td>
+    </tr>
+    <tr>
+      <td><strong>Confirm Password</strong></td>
+      <td><input name="cpass" type="text" id="cpass" /></td>
+    </tr>
+    <tr>
+      <td><strong>User Level</strong></td>
+      <td><label for="level"></label>
+        <select name="level" id="level">
+        {assign var=levels value=$userquery->get_levels()}
+        {foreach from=$levels item=level}
+        	<option value="{$level.user_level_id}" {if $u.level==$level.user_level_id} selected="selected"{/if}>{$level.user_level_name}</option>
+        {/foreach}
+        </select></td>
+    </tr>
+    <tr>
+      <td><strong>Country</strong></td>
+      <td>
+        <select name="country" id="country">
+        {assign var='countries' value=$Cbucket->get_countries(iso2)}
+        {foreach from=$countries item=country key=code}
+        <option value="{$code}" {if $u.country==$code} selected="selected"{/if}>{$country}</option>
+        {/foreach}
+        </select></td>
+    </tr>
+    <tr>
+      <td><strong>Gender</strong></td>
+      <td>
+        <label>
+          <input type="radio" name="sex" value="male" id="sex_0" {if $u.sex == male} checked="checked"{/if} />
+          Male</label>
+        
+        <label>
+          <input type="radio" name="sex" value="female" id="sex_1" {if $u.sex == female} checked="checked"{/if}/>
+          Female</label>
+        
+      </p></td>
+    </tr>
+    <tr>
+      <td><strong>Category</strong></td>
+      <td>{ANCHOR place=$signup_fields.cat.anchor_before}{$formObj->createField($signup_fields.cat)}{ANCHOR place=$signup_fields.cat.anchor_after}</td>
+    </tr>
+    
+    {assign var=cust_signup value=$userquery->load_custom_signup_fields($u,true)}
+    {if $cust_signup}
+    	{foreach from=$cust_signup item=field}
+            <tr>
+              <td ><strong>{$field.title}</strong></td>
+              <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+            <br>
+            {$field.hint_2}</td>
+            </tr>
+          {/foreach}
+    {/if}
+
+  </table>
+</fieldset>
+
+{foreach from=$channel_profile_fields item=field_group}
+<fieldset class="fieldset">
+  <legend>{$field_group.group_name}</legend>
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+    		{foreach from=$field_group.fields item=field}
+            <tr>
+              <td width="200"><strong>{$field.title}</strong></td>
+              <td>{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+            <br>
+            {$field.hint_2}</td>
+            </tr>
+          {/foreach}
+          
+        </table>
+</fieldset>
+{/foreach}
+
+
+
+
+
+
+
+
+</td>
+<td width="50%" align="left" valign="top"><fieldset class="fieldset">
+  <legend>User Links</legend>
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+    <tr>
+      <td ><ul class="admin_links">
+         <li ><a href="{$userquery->profile_link($u)}">View {$u.username} channel</a></li>
+        <li ><a href="login_as_user.php?uid={$u.userid}">Login as user</a></li>
+        {if $u.usr_status=="Ok"}
+        <li><a href="?uid={$u.userid}&amp;deactivate=yes">Deactivate</a></li>
+        {else}
+        <li><a href="?uid={$u.userid}&amp;activate=yes">Activate</a></li>
+		{/if}
+        {if $u.ban_status=="yes"}
+        <li><a href="?uid={$u.userid}&amp;unban=yes">Unban</a></li>
+        {else}
+        <li><a href="?uid={$u.userid}&amp;ban=yes">Ban</a></li>
+        {/if}
+        <li><a href="?uid={$u.userid}&amp;delete=yes">Delete</a></li>
+        <li><a href="?uid={$u.userid}&amp;delete_vids=yes">Delete Videos</a></li>
+        <li><a href="?uid={$u.userid}&amp;delete_contacts=yes">Delete Contacts</a></li>
+        <li><a href="?uid={$u.userid}&amp;delete_pm=yes">Delete Private Messages</a></li>
+      </ul></td>
+    </tr>
+    </table>
+</fieldset>
+
+
+<fieldset class="fieldset">
+  <legend>User Activity</legend>
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+    <tr>
+      <td width="200"><strong>Date of birth</strong></td>
+      <td><input name="dob" type="text" id="dob" value="{$u.dob}" />
+        YYYY-MM-DD</td>
+    </tr>
+    <tr>
+      <td><strong>Joined - IP</strong></td>
+      <td><input name="doj" type="text" id="doj" value="{$u.doj}" /> 
+        - {$u.signup_ip}</td>
+    </tr>
+    <tr>
+      <td><strong>Last Login - Login IP</strong></td>
+      <td>{$u.last_logged} - {$u.ip}</td>
+    </tr>
+    <tr>
+      <td><strong>Last Active - Online </strong></td>
+      <td>{$u.last_active} - {$u.last_active|is_online}</td>
+    </tr>
+    <tr>
+      <td><strong>Profile Views</strong></td>
+      <td><label for="profile_hits"></label>
+        <input name="profile_hits" type="text" id="profile_hits" value="{$u.profile_hits}" /></td>
+    </tr>
+    <tr>
+      <td><strong>Videos Watched</strong></td>
+      <td><input name="total_watched" type="text" id="total_watched" value="{$u.total_watched}" /></td>
+    </tr>
+    <tr>
+      <td><strong>Videos Uploaded</strong></td>
+      <td><input name="total_videos" type="text" id="total_watched2" value="{$u.total_videos}" /></td>
+    </tr>
+    <tr>
+      <td><strong>Comments Made</strong></td>
+      <td><input name="total_comments" type="text" id="total_watched3" value="{$u.total_comments}" /></td>
+    </tr>
+    <tr>
+      <td><strong>Profile Comments</strong></td>
+      <td><input name="comments_count" type="text" id="comments_count" value="{$u.comments_count}" /></td>
+    </tr>
+    <tr>
+      <td><strong>Profile Rating</strong></td>
+      <td><input name="rating" type="text" id="total_watched4" value="{$p.rating}" />
+        0-10</td>
+    </tr>
+    <tr>
+      <td><strong>Profile Rated by</strong></td>
+      <td><input name="rated_by" type="text" id="total_watched5" value="{$p.rated_by}" /></td>
+    </tr>
+    <tr>
+      <td><strong>Subscribers</strong></td>
+      <td><input name="subscribers" type="text" id="total_watched6" value="{$u.subscribers}" /></td>
+    </tr>
+  </table>
+</fieldset><fieldset class="fieldset">
+  <legend>Recent Activity Log</legend>
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="40" align="center" valign="middle" class="left_head">ID</td>
+    <td width="50" class="head_sep_left">UID</td>
+    <td width="100" class="head"><div class="head_sep_left" style="width:100px">Username</div></td>
+    <td width="100" class="head"><div class="head_sep_left" style="width:100px">Date</div></td>
+    <td class="head"><div class="head_sep_left" style="width:100px">Detail</div></td>
+    <td width="10" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+{assign var="logs" value=$userquery->get_user_action_log($u.userid,10)}
+{section loop=$logs name=log}
+
+  <tr>
+    <td width="40" align="center" valign="middle" class="">{$logs[log].action_id}</td>
+    <td width="50" class="" style="padding-left:10px">{$logs[log].action_userid}</td>
+    <td width="100" class=""><div class="" style="width:100px">{$logs[log].action_username}</div></td>
+    <td width="100" class=""><div class="" style="width:100px">{$logs[log].date_added}</div></td>
+    <td class=""><div class="">Type : {$logs[log].action_type} &#8211;{if $logs[log].action_details!=''}{$logs[log].action_details} &#8211;{/if} Success : {$logs[log].action_success} &#8211 {$logs[log].action_ip}</div></td>
+    </tr>
+{sectionelse}
+	<!--<tr><td><em>No user action log found</em></td></tr>-->
+{/section}
+</table>
+  
+  </fieldset><fieldset class="fieldset">
+  <legend>User Avatar and Background</legend><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="100" align="center" valign="top"><img src="{$userquery->getUserThumb($u)}" class="mid_user_thumb" style="max-width:95px"/><br />
+      <input name="delete_avatar" type="checkbox" id="delete_avatar" value="yes" />
+      <label for="delete_avatar">Delete This Image - (if user has profile pic)</label></td>
+    <td valign="top"><strong>User Avatar/Profile Pic</strong><br />
+      Please select image file<br />
+      <label for="avatar_file"></label>
+      <input type="file" name="avatar_file" id="avatar_file" />
+      OR<br />
+      Please Enter Image URL<br />
+      <label for="avatar_url"></label>
+      <input name="avatar_url" type="text" id="avatar_url" value="{$u.avatar_url}" />
+      
+      <input type="hidden" name="avatar_file_name" value="{$u.avatar}" />
+<br />
+      <input name="remove_avatar_url" type="checkbox" id="remove_avatar_url" value="yes" />
+      <label for="remove_avatar_url">Remote avatar url</label>
+      </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center" style="border-bottom:1px solid #CCC">&nbsp;</td>
+    </tr>
+  <tr>
+    <td height="125" align="center" valign="top">{if $userquery->getUserBg($u)}<img src="{$userquery->getUserBg($u)}" style="max-width:95px"/>{else}No Bg{/if}</td>
+    <td valign="top"><strong>User Background Image
+      </strong><br />
+      Please Select Image File
+      <br />
+      <input type="file" name="background_file" id="background_file" />
+OR<br />
+Please Enter Image URL<br />
+<label for="avatar_url"></label>
+<input name="background_url" type="text" id="background_url" value="{$u.background_url}" />
+OR<br />
+Please Enter Background Color<br />
+<input name="background_color" type="text" id="background_color" value="{$u.background_color}" />
+
+<input type="hidden" name="bg_file_name" value="{$u.background}" />
+<br />
+Background Repeat Type (if using image as a background)<br />
+<label for="background_repeat"></label>
+<select name="background_repeat" id="background_repeat" >
+  <option value="repeat" {if $u.background_repeat=='repeat'} selected="selected"{/if}>repeat</option>
+  <option value="repeat-x" {if $u.background_repeat=='repeat-x'} selected="selected"{/if}>repeat-x</option>
+  <option value="repeat-y" {if $u.background_repeat=='repeat-y'} selected="selected"{/if}>repeat-y</option>
+  <option value="no-repeat" {if $u.background_repeat=='no-repeat'} selected="selected"{/if}>no-repeat</option>
+</select>
+<br />
+
+{if $userquery->getUserBg($u)}<input name="delete_bg" type="checkbox" id="delete_bg" value="yes" /><label for="delete_bg">Delete This Image</label>{/if}</td>
+  </tr>
+  </table>
+</fieldset>
+
+
+</td>
+</tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><label for="update_user"></label>
+      <input type="submit" name="update_user" id="update_user" value="Submit" /></td>
+    <td>&nbsp;</td>
+  </tr>
+
+</table>
+<br />
+  <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+     
+    <tr>
+       <td colspan="2" align="center">&nbsp;</td>
+    </tr>
+    <tr>
+    <td colspan="2" align="center">
+    <div id="comments"></div>
+    {assign var='object_type' value='channel'}
+    <script>
+	
+	$(document).ready(function()
+	{ldelim}
+		page = baseurl+'/ajax.php';
+		getComments('c','{$u.userid}','{$u.last_commented}',1,'{$u.comments_count}','{$object_type}','yes')
+	{rdelim}
+	);
+    </script>
+    
+    
+    </td>
+  </tr>
+  </table>
+  <br />
+  
+</form>

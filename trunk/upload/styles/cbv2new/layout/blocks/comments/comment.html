@@ -1,0 +1,65 @@
+{if marked_spammed($comment)}
+	{assign var='comment_attr' value='style="display:none"'}
+    {assign var='spam_attr' value='style="display:block"'}
+{else}
+{assign var='comment_attr' value=''}
+    {assign var='spam_attr' value='style="display:none"'}
+{/if}
+    
+	<div id="comment_{$comment.comment_id}" class="comment clearfix" {$comment_attr}>
+    <div class="user_com_thumb_con">
+    	<img src="{$userquery->getuserthumb($comment)}" class="user_com_thumb"  />
+    </div>
+    <div class="comm_other">
+    	<div class="user_bar">
+        <div style="width:70%; float:left">
+        {lang code='user_commented_time' assign='user_commented_time'}
+        {assign var="nicetime" value=$comment.date_added|niceTime}
+        {if $comment.userid !='' && $comment.userid!=0}
+        	{assign var="comm_link" value=$userquery->profile_link($comment)}
+            {assign var="comm_owner" value=$comment.username}
+        {else}
+        	{assign var="comm_id" value="#comment_"}
+         	{assign var="comm_link" value=$comment.comment_id}
+            {assign var="comm_owner" value=$comment.anonym_name}       
+        {/if}
+    	
+        {$user_commented_time|sprintf:"$comm_id$comm_link":$comm_owner:$nicetime}
+
+        </div>
+        <div style="width:28%; float:right" align="right"><a href="javascript:void(0)" onclick="to_reply('{$comment.comment_id}')">{lang code='reply'}</a> | <a href="javascript:void(0)" onclick="spam_comment('{$comment.comment_id}','{$type}','{$type_id}')">{lang code='spam'}</a>
+        
+        {if has_access('admin_del_access') || $comment.userid==userid() || $comment.type_owner_id==userid()} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}','{$type}','{$type_id}')">{lang code='delete'}</a>{/if}</div>
+        </div>
+        
+        <div class="comment_cont">
+        
+        {if $comment.parent_id}
+       		{assign var=parentid value=$comment.parent_id}
+            {assign var=thisParent value=$parents.$parentid}
+            
+            {if $thisParent}
+        	<div style="padding:3px; margin:5px; background-color:#CCC">
+            	
+                {if $thisParent.username}@{$thisParent.username} : 
+                {/if}{$thisParent.comment|comment}
+            </div>
+            {/if}
+        {/if}
+        
+        {$comment.comment|comment}
+        
+        </div>
+
+        {if $type=='video' && $comments_voting=='yes' && $Cbucket->configs.comment_rating}
+        <div class="comment_rating_cont"><span class="thumb_up" onclick="rate_comment('{$comment.comment_id}','up','{$type}','{$type_id}')">Thumbs Up</span><span class="thumb_down" onclick="rate_comment('{$comment.comment_id}','down','{$type}','{$type_id}')">Thumbs Down</span><span id="comment_rating_{$comment.comment_id}" class="comment_rating">{$comment.vote|comment_rating}</span></div>
+        {/if}
+        
+    </div>
+    </div>
+    
+    <div id="spam_comment_{$comment.comment_id}" class="spam" {$spam_attr} >
+    	{lang code='marked_as_spam_comment_by_user' assign='marked_as_spam_comment_by_user'}
+        
+    	{if $comment.username}{$marked_as_spam_comment_by_user|sprintf:$comment.username}{else}{$marked_as_spam_comment_by_user|sprintf:$comment.anonym_name}{/if} | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}')">{lang code='delete'}</a>
+    </div>

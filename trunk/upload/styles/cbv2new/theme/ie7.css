@@ -1,0 +1,35 @@
+/* 
+	Stylesheet to make Clipbucket V2 Compatible with Shitty IE7
+	If you are reading this, I beg you please update your browser to Firefox or Chrome or Safari or Opera. If you still insists using on Internet Explorer, please use Internet Explorer 8
+*/
+
+body,html{overflow-x:hidden}
+.clearfix { display:inline-block; }
+.foot_s_con { margin:10px auto 0; padding:0px; }
+.foot_s_con input[type=submit] { background:url(../images/foot_search.png) top repeat-x; border:1px solid #555555; height:35px; padding:0px 6px; margin:1px 0px 0px; color:#FFF; font-family:Verdana,Tahoma,Arial,sans-serif; }
+
+.searchbar { background:url(../images/dot.gif); width:200px; border:none; margin:2px 0px 0px 0px; font-size:11px; color:#323232; font-family:Verdana,Tahoma,sans-serif; padding:6px 5px 7px; float:left; border-right:1px solid #ccc; display:inline; }
+.searchbutton { background:url(../images/dot.gif); text-indent:-5000px; border:0px; width:64px; height:26px; line-height:18px; cursor:pointer; margin-top:2px; margin-left:5px; font-weight:bold; font-family:tahoma; font-size:11px; display:block;   }
+.s_type { background:url(../images/dot.gif) repeat; float:left; margin:7px 9px 0px 1px; padding:0px 0px; font-size:10px; font-family:Verdana,Arial,sans-serif; border:0px none; color:#323232;  }
+
+
+
+#add_comment h2, #commentsContainer h2, .group_view h2  { font-size:14px; margin:0px; padding:0px }
+#commentsContainer h2, .group_view h2 { margin:10px 0; }
+
+.search_field_button{background:url(../images/blocks.png); width:25px; height:22px; border:0px; background-position:-160px -180px; padding:0px; margin:0px; text-indent:-50000000px; float:left; cursor:pointer; outline:none; }
+
+.top_tabs { z-index:100; position:relative; }
+.collectItemBox { display:inline; zoom:1; }
+#selectedSearch { position:relative; width:82px; margin:0px; padding:9px 0px 5px 0px; text-align:center; font:bold 11px Tahoma; overflow:hidden; color:#000;}
+#selectedSearch:hover { cursor:pointer; }
+#searchSelectWrapper { padding:0px; margin:0px; position:relative; display:none;}
+#searchSelectWrapper ul { position:absolute; background:#EEE; width:104%; top:1px; text-align:center; list-style:none; z-index:999999; padding:0px; margin:0px; border:1px solid #ccc; border-top:0px none; left:-1px;  }
+#searchSelectWrapper ul li { padding:5px 0px; list-style:none; margin:0px; color:#000; display:block; float:none; border:0px none; position:relative; border:1px solid transparent; margin:0 -1px -1px -1px; }
+#searchSelectWrapper ul li a { margin:0px; font:normal 11px Tahoma; color:#000; text-transform:none; display:block; }
+#searchSelectWrapper ul li:hover, #searchSelectWrapper ul li.selected { background:#333; border-color:#000; }
+#searchSelectWrapper ul li:hover a, #searchSelectWrapper ul li.selected a { color:#FFF; }
+
+/* 
+	I'm still at your mercy please update your browsers T_T PLEASE 
+*/

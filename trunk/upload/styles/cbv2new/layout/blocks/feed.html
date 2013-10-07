@@ -1,0 +1,131 @@
+
+{literal}
+<script>
+function deleteFeed(uid,file)
+{
+	$('#feedload-'+file).html(loading_img);
+	$.post(page,
+		{mode:"delete_feed",uid:uid,file:file},
+		function(data)
+		{
+			$('#feedload-'+file).html('');
+			if(data.msg)
+				$('#feed-'+file).html('<div class="cb_error">'+data.msg+"</div>");
+			else
+				$('#feed-'+file).prepend('<div class="cb_error" style="color:#ed0000">'+data.err+"</div>");
+		},
+	'json');
+}
+</script>
+<style>
+
+.userFeed{margin-bottom:10px; border-bottom:1px solid #E9E9E9; margin-bottom:5px; padding-bottom:5px}
+.userFeed .feedUser
+{ 
+	display:inline-block;
+	border:1px solid #CCC;
+	float:left; margin-right:5px
+}
+
+.userFeed .feed{float:left; width:630px}
+
+.userFeed .feedTitle {margin-bottom:5px; font-size:12px}
+.userFeed .feedTitle a
+{
+	font-size:12px; font-weight:bold;
+	color:#06c; text-decoration:none;
+}
+
+.userFeed .feedContent a
+{
+	font-size:11px; font-weight:bold;
+	color:#06c; text-decoration:none;
+}
+
+.userFeed .feedContent .feedThumb{border:1px solid #999; padding:2px; float:left; margin-right:5px}
+
+.userFeed .feedState {margin-top:5px;}
+.userFeed .feedState img{display:inline-block; float:left; margin-right:5px}
+.userFeed .feedState span{display:inline-block; color:#999; text-transform:lowercase}
+.userFeed .feedState span a{text-decoration:none}
+.userFeed .feedState .dot{ border:1px solid #999; width:0px;
+text-indent:-500000; overflow:hidden; display:inline-block; height:0px}
+.userFeed .feedText .objectContent{color:#999}
+</style>
+{/literal}
+
+
+<div class="userFeed" id="feed-{$feed.file}">
+	<div align="right">
+	<span id="feedload-{$feed.file}"></span>
+    {if $u.userid==userid() || has_access('admin_access',true)}
+    <a href="javascript:void(0)" onclick="deleteFeed('{$feed.user.userid}','{$feed.file}')">
+    <img src="{$imageurl}/icons/delete.png" border="0" /></a>
+    {/if}
+    </div>
+    <div class="feedUser">
+        <a href="{$userquery->profile_link($feed.user)}" title="{$feed.user.username}">
+        <img src="{avatar details=$feed.user size='small'}" alt="{$feed.user.username}" 
+        style="padding:1px; vertical-align:middle;" /></a>
+    </div>
+    <div class="feed">
+    	<div class="feedTitle">
+        	{if !$feed.action_title}
+        		<a href="{$userquery->profile_link($feed.user)}">{$feed.user.username}</a>
+            {else}
+            	{$feed.action_title}
+            {/if}
+        </div>
+        
+        <div class="feedContent">
+        	
+            {if $feed.thumb}
+            	{if $feed.link}
+                	<a href="{$feed.link}">
+                {/if}
+                	<img src="{$feed.thumb}" class="feedThumb">                
+                {if $feed.link}
+                	</a>
+                {/if}
+            {/if}
+            
+            <div class="feedText">
+                {if $feed.link}
+                    <a href="{$feed.link}">{$feed.title}</a>
+                {elseif $feed.title}
+                   {$feed.title}
+                {/if}
+                
+                {if $feed.object_content}
+                <div class="objectContent">
+                	{$feed.object_content}
+                </div>
+                {/if}
+            </div>
+            
+            
+            <div class="clear"></div>
+        </div>
+        
+        
+        <div class="feedState">
+        {if $feed.icon}
+    		<img src="{$imageurl}/icons/{$feed.icon}"> 
+        {/if}
+        <span>{$feed.datetime}</span>
+        
+        {if $feed.links}
+        	{foreach from=$feed.links item=link}
+       	    <span class="dot">.</span>
+        	<span>{if $link.link}<a href="{$link.link}">{/if}{$link.text}{if $link.link}</a>{/if}</span>
+            {/foreach}
+        {/if}
+        
+        <div class="clear"></div></div>
+                
+    </div>   
+    <div class="clear"></div>
+    
+    
+</div>
+

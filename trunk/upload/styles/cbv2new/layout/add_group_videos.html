@@ -1,0 +1,41 @@
+{include file="$style_dir/blocks/group/group_left.html"}
+<div class="groupContent">
+	<div class="groupTitle clearfix">{$group.group_name}</div>
+    <div style="padding:0px 5px">
+	<ul class="groupsBar clearfix" style="border-color:#aaa; border-width:0px 0px 1px;">
+    	<li  {if $mode == "" || $mode == "main"}class="selected"{/if}><a href="{group_link details=$group}" onClick="groupsAjax(event,this);" id="gpViewInfo"><img src="{$imageurl}/dot.gif" class="blueDoc"/> {lang code="info"}</a></li>
+        <li {if $mode == "view_topics"}class="selected"{/if}><a href="{group_link details=$group type='view_topics'}" onClick="groupsAjax(event,this);" id="gpViewTopics"><img src="{$imageurl}/dot.gif" class="ballonBox"/> {lang code="grp_topics_title"}</a></li>
+        <li {if $mode == "view_members"}class="selected"{/if}><a href="{group_link details=$group type='view_members'}" id="gpAllMembers" onClick="groupsAjax(event,this);"><img src="{$imageurl}/dot.gif" class="blackUser"/>  {lang code="members"}</a></li>
+        <li {if $mode == "view_videos"}class="selected"{/if}><a href="{group_link details=$group type='view_videos'}" id="gpAllVideos" onClick="groupsAjax(event,this);"><img src="{$imageurl}/dot.gif" class="camCorder"/>  {lang code="videos"}</a></li>
+        <li {if $mode == "view_report_form"}class="selected"{/if}><a href="{group_link details=$group type='view_report_form'}" onClick="groupsAjax(event,this);" id="gpAllReport"><img src="{$imageurl}/dot.gif" class="redShield"/>  Report</a></li>
+    </ul>
+    <div id="ajaxGroupResultContainer">
+     {if $usr_vids}
+        <div class="groupSep"><span class="SepText">{lang code='grp_add_vdo_msg'}</span></div>
+            <form name="add_group_videos" id="add_group_videos" method="post" action="">     
+           
+                {foreach from=$usr_vids item=video}
+                	{if $cbgroup->is_group_video($video.videoid,$group.group_id)}
+                		{assign var='check_this' value='yes'}
+                	{else}
+                		{assign var='check_this' value=''}
+                	{/if}
+                	{include file="$style_dir/blocks/video.html" video=$video display_type='add_type'}    
+                {/foreach}
+		
+                <div class="clear"></div>
+                {include file="$style_dir/blocks/pagination.html"}
+                <div align="center">
+                <input type="submit" name="add_videos" id="add_videos" value="{lang code='grp_add_vdos'}" class="cb_button">
+                </div>
+            </form>
+          
+     {else}
+     <div align="center" style="font-weight:bold;;font-style:italic">{lang code='you_dont_have_any_videos'}</div>
+     {/if}
+     
+     </div>  
+ </div>   
+</div>
+
+{include file="$style_dir/blocks/group/group_right.html"}  

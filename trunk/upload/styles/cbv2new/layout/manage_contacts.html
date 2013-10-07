@@ -1,0 +1,96 @@
+<div>
+ {include file="$style_dir/blocks/manage/account_left.html"}
+ <div class="account_box">
+ {include file="$style_dir/blocks/manage/account_head.html" user=$user}
+ 
+ <h2>{lang code='user_manage_contacts'}</h2>
+ <h3>{lang code='friends'}</h3>
+ {assign var=friends value=$userquery->get_contacts($user.userid,0)}
+ {if $friends}
+ 	
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="manage_contacts_tbl_head">
+      <tr>
+        <td width="15"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+        <td width="50">&nbsp;</td>
+        <td>{lang code='username'}</td>
+        <td width="100">{lang code='views'}</td>
+        <td width="100">&nbsp;</td>
+        <td width="50">&nbsp;</td>
+      </tr>
+    </table>
+    
+   {foreach from=$friends item=friend}
+   
+
+   {assign var=user_detail value=$friend}
+
+    
+   <div class="manage_contacts_tbl">
+   <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="15"><input type="checkbox" name="friend[]" id="check_userd-{$user_detail.userid}" value="{$user_detail.userid}" /></td>
+        <td width="50" height="50" align="center" valign="middle"><a href="{$userquery->profile_link($user_detail)}"><img src="{$userquery->getUserThumb($user_detail)}" alt="{$user_detail.username}" width="40" height="40" border="0"></a></td>
+        <td><a href="{$userquery->profile_link($user_detail)}">{$user_detail.username}</a></td>
+        <td width="100">{$user_detail.profile_hits|number_format}</td>
+        <td width="100">
+        {if $friend.confirmed!='yes'}
+        <span class="cb_pending">{lang code='pending'}</span>
+        {/if}
+        </td>
+        <td width="50" align="center" valign="middle"><a href="?mode=delete&userid={$user_detail.userid}"><img src="{$imageurl}/cancel.png" width="16" height="16" border="0" /></a></td>
+      </tr>
+    </table>
+    </div>
+   {/foreach}
+{else}
+<div><em><strong>{lang code='no_contacts'}</strong></em></div>
+{/if}
+
+
+<h3>{lang code='pending_requests'}</h3>
+ {assign var=friends value=$userquery->get_pending_contacts($user.userid,0)}
+ {if $friends}
+ 	
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="manage_contacts_tbl_head">
+      <tr>
+        <td width="15"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+        <td width="50">&nbsp;</td>
+        <td>{lang code='username'}</td>
+        <td width="100">{lang code='views'}</td>
+        <td width="100">&nbsp;</td>
+        <td width="50">&nbsp;</td>
+      </tr>
+    </table>
+    
+   {foreach from=$friends item=friend}
+   
+
+   {assign var=user_detail value=$friend}
+
+    
+   <div class="manage_contacts_tbl">
+   <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="15"><input type="checkbox" name="friend[]" id="check_userd-{$user_detail.userid}" value="{$user_detail.userid}" /></td>
+        <td width="50" height="50" align="center" valign="middle"><a href="{$userquery->profile_link($user_detail)}"><img src="{$userquery->getUserThumb($user_detail)}" alt="{$user_detail.username}" width="40" height="40" border="0"></a></td>
+        <td><a href="{$userquery->profile_link($user_detail)}">{$user_detail.username}</a></td>
+        <td width="100">{$user_detail.profile_hits|number_format}</td>
+        <td width="100">
+		{if $friend.confirmed!='yes'}
+        <span class="cb_fb_style_button"><a href="?mode=requests&confirm={$friend.userid}">{lang code='confirm'}</a></span>{/if}
+        
+        </td>
+        <td width="50" align="center" valign="middle"><a href="?mode=delete&userid={$user_detail.userid}"><img src="{$imageurl}/cancel.png" width="16" height="16" border="0" /></a></td>
+      </tr>
+    </table>
+    </div>
+   {/foreach}
+{else}
+<div><em><strong>{lang code='no_contacts'}</strong></em></div>
+{/if}
+ 
+ 
+ </div>
+ 
+
+</div>

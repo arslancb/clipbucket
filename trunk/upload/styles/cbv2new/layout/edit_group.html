@@ -1,0 +1,91 @@
+<div>
+ {include file="$style_dir/blocks/manage/account_left.html"}
+ 
+ <div class="account_box">
+ {include file="$style_dir/blocks/manage/account_head.html" user=$user}
+ 
+ 
+ <!-- EDITING {$v.title} -->
+ <h2>{lang code='grp_edit_grp_title'}</h2>
+ 
+ {* Loading Form Fields *}
+ {assign var='requiredFields' value=$cbgroup->load_required_fields($group,true)}
+ {assign var='optionFields' value=$cbgroup->load_other_fields($group)}
+
+ 
+ 
+ <div class="account_form" id="ajaxGroupResultContainer">
+ <form method="post" enctype="multipart/form-data" name="edit_video">
+ 
+ {* GETTING THUMBS INFO *}
+ <fieldset class="fieldset">
+    <legend>Thumbs</legend>
+    <div style="width:140px; float:left" align="center">
+        <img src="{$cbgroup->get_group_thumb($group)}" border="1" style="margin:4px;max-height:120px; max-width:120px;" />
+    </div>
+    <div style="width:500px; float:left">
+        <li>{lang code='grp_must_be'} JPG | GIF | PNG</li>
+        <li>{lang code='grp_90x90'}</li>
+        <li>{lang code='grp_thumb_warn'}</li>
+        <input type="file" name="thumb_file" id="thumb_file" />
+    </div>
+    <div class="clearfix"></div>
+ </fieldset>
+
+ 
+ {* GROUP THUMBS ENDS *} 
+
+ {* Group Information Starts *}
+    <fieldset class="fieldset">
+    <legend>{lang code='grp_info_all_fields_req'}</legend>
+    {foreach from=$requiredFields item=field}
+    <div class="account_field_block">
+    <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
+    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
+    <br>
+    {$field.hint_2}</div>
+    <div class="clearfix"></div>
+    </div>
+    
+    {/foreach}
+    
+    </fieldset>
+
+
+ 
+ {* Group Information Ends *}
+ 
+ 
+ {* Others Information Starts *}
+
+    <fieldset class="fieldset">
+    <legend>{lang code='vdo_share_opt'}</legend>
+    {foreach from=$optionFields item=field}
+    <div class="account_field_block">
+    <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
+    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
+    <br>
+    {$field.hint_2}</div>
+    <div class="clearfix"></div>
+    </div>
+    
+    {/foreach}
+    
+    </fieldset>
+    
+ {* Others Information Ends *}
+ 
+ <div align="right"><button name="update_group" id="button" value="submit" class="cb_button">{lang code='update_group'}</button></div>
+
+ </form> 
+ </div>
+ 
+ 
+ 
+ 
+ <!-- ENDING EDITING {$v.title} -->
+ 
+ 
+ </div>
+ <div class="clearfix"></div>
+</div>

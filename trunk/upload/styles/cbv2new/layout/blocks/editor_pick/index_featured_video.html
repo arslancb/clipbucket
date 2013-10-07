@@ -1,0 +1,8 @@
+<div onclick="get_ep_video('{$video.videoid}')" class="featured_vid_con clearfix">
+<div class="video_thumb">
+<img src="{getThumb vdetails=$video}" width="64" height="42" border="0" {ANCHOR place="video_thumb" data=$video} />
+</div> <!--VIDEO_THUMB END-->
+<div class="details_block">
+<div class="title"><a href="#">{$video.title|truncate:19}</a><br />{$video.description|description|truncate:30}</div>
+</div> <!--DETAILS_BLOCK END-->
+</div>

@@ -1,0 +1,34 @@
+<div class="channel_inner_box" id="result_cont" style="display:none; background:#eee; margin-bottom:10px"></div><div style="width:300px;float:left"><div class="clearfix channelBox">
+	
+	<div class="viewChannelProfileThumb_outline"><div class="channelHeading" style="margin:0 0 5px 0;"><a href="{$userquery->profile_link($u)}">
+    {assign var=category value=$userquery->get_category($u.category)}
+    {$u.username}</a> ({$category.category_name})</div><div class="viewChannelProfileThumb" align="center"><a href="{$userquery->profile_link($u)}">
+    <img src="{avatar details=$u}" style="border:1px solid #ccc; padding:1px; margin-right:5px;" /></a></div></div>
+ 
+    <div style="height:10px"></div>
+    				 
+</div>
+
+
+
+</div>
+<div style="width:700px; float:left">
+<ul class="channel_action_links">			
+    				
+                    
+                    
+                    {*if $isBlocked!='yes'*}
+                    {assign var='channel_action_links' value=$userquery->get_channel_action_links($u)}
+                    {foreach from=$channel_action_links item=link key=link_title}
+                        <li><a href="{$link.link}" {if $link.onclick}onClick="{$link.onclick}"{/if}>{$link_title}</a></li>
+                    {/foreach}
+                      {*/if*}
+                    {if $userquery->userid!=$u.userid}
+ <li>
+    <a href="javascript:void(0)" onClick="$('#flag_item').slideToggle()">{lang code='report_this_user'}</a>
+</li>
+
+</ul> 
+{/if}
+                   {show_flag_form id=$u.userid type=User} </div>
+                    <div class="clear"></div>

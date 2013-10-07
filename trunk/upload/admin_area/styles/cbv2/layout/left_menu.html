@@ -1,0 +1,25 @@
+
+<div class="{$left_menu_class}" id="left_column">
+
+<img src="{$imageurl}/dot.gif" class="menu_toggle_arrow" alt="Toggle Menu" title="Toggle Menu" onClick="toggle_menu()"/>
+<img src="{$imageurl}/dot.gif" class="menu_toggle" alt="Toggle Menu" title="Toggle Menu" onClick="toggle_menu()"/>
+
+
+{assign var='menu' value = $Cbucket->AdminMenu}
+{foreach from=$menu key=name item=menu}
+  <!-- *********************************Start {$name} Menu****************************** -->
+ <div class="mainDiv" >
+    <div class="topItem"  >{$name}</div>
+    <div class="dropMenu" >          
+      <div class="subMenu">
+        {foreach from=$menu key=sub_menu item=sub_link}
+        	<div class="subItem"><a href="{$sub_link}">{$sub_menu}</a></div>
+        {/foreach}
+      </div>
+    </div>
+  </div>
+  <!-- *********************************End {$name} Menu****************************** -->
+{/foreach}
+ <!-- *********************************End Menu****************************** -->
+</div>
+<script type="text/javascript" src="{$js}/slidemenu.js"></script>

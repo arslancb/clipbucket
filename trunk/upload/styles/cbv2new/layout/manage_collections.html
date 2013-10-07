@@ -1,0 +1,166 @@
+<div>
+    {include file="$style_dir/blocks/manage/account_left.html"}
+    <div class="account_box">
+    {include file="$style_dir/blocks/manage/account_head.html" user=$user}
+    <form action="" method="post" class="upload_form" name="form1" enctype="multipart/form-data">
+    {if $mode == "manage" || $mode == ""}
+    <h2>{lang code='manage_collections'}</h2>
+    <div style="margin-bottom:10px;">
+    	<img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-right:10px;" /><input type="submit" name="delete_selected" id="delete_selected" value="{lang code='delete'}" class="small_button" />
+    </div>
+     <div class="account_table">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+ 	      </td>
+ 	    <td>{lang code='collection_name'}</td>
+ 	    <td width="100">{lang code='date_added'}</td>
+ 	    <td width="100">{lang code='views'}</td>
+ 	    <td width="100">{lang code='total_items'}</td>
+        <td width="100">{lang code='type'}</td>
+ 	    <td width="100" class="last_td">{lang code='active'}</td>
+ 	    </tr>
+ 	  </table>
+     </div>
+     
+     {section loop=$usr_collects name=clist}
+		{include file="$style_dir/blocks/manage/account_collections.html" collection=$usr_collects[clist]}
+     {sectionelse}
+     	<div align="center" style="font:bold 11px Tahoma; margin:5px 0px;">{lang code="no_collection_found"}</div>   
+     {/section}
+     
+      {include file="$style_dir/blocks/manage/user_account_pagination.html"}
+    {/if}
+    
+    {if $mode == "edit_collection"}
+   
+    <h2> {lang code='edit_type_collection'  sprintf=$c.collection_name}</h2>
+    <input type="hidden" value="{$c.collection_id}" name="collection_id" id="collection_id"  />
+    <div class="upload_info">
+        <div class="account_form">
+            <div class="field clearfix">
+                <label for="collection_thumb" class="label">{lang code=collection_thumb"}</label>
+                <div style="width:140px; float:left" align="center">
+               		<img src="{$cbcollection->get_thumb($c,NULL)}" style="max-width:120px"  />
+                </div>
+                <div style="width:500px; float:left; margin-left:15px;">
+                    <li>{lang code='grp_must_be'} JPG | GIF | PNG</li>
+                    <li>{lang code='grp_90x90'}</li>
+                    <li>{lang code='grp_thumb_warn'}</li>
+                    <input type="file" name="collection_thumb" id="collection_thumb" />
+                </div>
+            </div>
+            
+        {foreach from=$fields item=field}
+                <div class="field">
+                    <label for="{$field.id}" class="label">{$field.title}</label>
+                    {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}
+                    {ANCHOR place=$field.anchor_before}
+                    {$formObj->createField($field)}
+                    {if $field.hint_2}<br>
+                    <div class="hint">{$field.hint_2}</div>{/if}
+                </div>
+            {/foreach}
+            
+            {foreach from=$other_fields item=field}
+                <div class="field">
+                    <label for="{$field.id}" class="label">{$field.title}</label>
+                    {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}
+                    {ANCHOR place=$field.anchor_before}
+                    {$formObj->createField($field)}
+                    {if $field.hint_2}<br>
+                    <div class="hint">{$field.hint_2}</div>{/if}
+                </div>
+            {/foreach}          
+        </div> <!-- account_form -->
+        <div align="right" style="margin-top:10px"><input type="submit" name="update_collection" class="cb_button_2" value="{lang code='update_collection'}"></div>
+    </div> <!-- upload_info -->    
+    {/if}
+    
+    {if $mode == "add_new"}
+    	<h2>{lang code='add_new_collection'}</h2>
+        <div class="upload_info">
+        <div class="account_form">
+        	
+            	{foreach from=$fields item=field}
+                    <div class="field">
+                        <label for="{$field.id}" class="label">{$field.title}</label>
+                        {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}
+                        {ANCHOR place=$field.anchor_before}
+                        {$formObj->createField($field)}
+                        {if $field.hint_2}<br>
+                        <div class="hint">{$field.hint_2}</div>{/if}
+                    </div>
+                {/foreach}
+                
+                {foreach from=$other_fields item=field}
+                    <div class="field">
+                        <label for="{$field.id}" class="label">{$field.title}</label>
+                        {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}
+                        {ANCHOR place=$field.anchor_before}
+                        {$formObj->createField($field)}
+                        {if $field.hint_2}<br>
+                        <div class="hint">{$field.hint_2}</div>{/if}
+                    </div>
+                {/foreach}            
+        </div>
+        <div align="right" style="margin-top:10px"><input type="submit" name="add_collection" class="cb_button_2" value="{lang code='add_new_collection'}"></div>
+        </div>
+    {/if}
+    
+    {if $mode == "manage_items" || $mode == "collection_items"}
+    <h2>{lang code='manage_items'} - {$c.collection_name}</h2>
+    <div style="margin-bottom:10px;">
+    	<img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-right:10px;" /><input type="submit" name="delete_selected" id="delete_selected" value="{lang code='delete'}" class="small_button" />
+    </div>
+     <div class="account_table">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+ 	      </td>
+ 	    <td>{lang code='title'}</td>
+ 	    <td width="100" align="center">{lang code='date_added'}</td>
+ 	    <td width="100" align="center">{lang code='views'}</td>
+ 	    <td width="100" class="last_td" align="center">{lang code='remove'}</td>
+ 	    </tr>
+ 	  </table>
+     </div>
+     
+    {section loop=$objs name=olist}
+    	{include file="$style_dir/blocks/manage/account_collections.html" display_type="items" collection=$objs[olist]}
+    {sectionelse}
+    	<div align="center" style="font:bold 11px Tahoma; margin-top:5px;">{lang code="no_items_found_in_collect"}</div>
+    {/section}    
+    {/if}
+    
+    {if $mode == "favorite"}
+    	<h2>{lang code="manage_favorite_collections"}</h2>
+        <div style="margin-bottom:10px;">
+        <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-right:10px;" /><input type="submit" name="remove_selected_favs" id="remove_selected_favs" value="{lang code='remove'}" class="small_button" />
+        </div>
+        <div class="account_table">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+                      </td>
+                    <td>{lang code='title'}</td>
+                    <td width="100">{lang code='date_added'}</td>
+                    <td width="100" class="last_td">{lang code='type'}</td>
+                    <td width="100" class="last_td">{lang code='views'}</td>
+                </tr>
+            </table>
+        </div>
+    {section loop=$collections name=list}
+    	{include file="$style_dir/blocks/manage/account_collections.html" display_type="favorite" collection=$collections[list]}
+    {sectionelse}
+    	<div align="center" style="font:bold 11px Tahoma; margin:5px 0px;">{lang code="you_dont_have_fav_collections"}</div>
+    {/section}
+    
+     {include file="$style_dir/blocks/manage/user_account_pagination.html"}        
+    {/if}
+    </form>
+   
+    </div> <!-- account_box end -->
+    
+    
+</div>

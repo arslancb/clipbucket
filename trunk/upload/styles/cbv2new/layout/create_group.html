@@ -1,0 +1,47 @@
+{assign var='requiredFields' value=$cbgroup->load_required_fields()}
+{assign var='optionFields' value=$cbgroup->load_other_fields()}
+{assign var='customFields' value=$cbgroup->custom_group_fields}
+
+<div class="upload_left" style="margin-bottom:10px">
+<div class="upload_info">
+		<h2>{lang code='grp_crt_grp'}</h2>
+        <form name="upload_form" class="upload_form" method="post" action="">
+        
+        <!-- Required Fields -->
+        <fieldset>
+        <span class="form_head">required fields</span>
+            {foreach from=$requiredFields item=field}
+            <div class="field">
+            <label for="{$field.id}" class="label">{$field.title}</label>
+            {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+            {if $field.hint_2}<br>
+            <div class="hint">{$field.hint_2}</div>{/if}
+            </div>
+            {/foreach}
+        
+        </fieldset>
+        <!-- Required Fields -->
+        
+        <div id="more_fields" style="display:none">
+        <!-- MORE Fields -->
+        <fieldset>
+        <span class="form_head">more options</span>
+            {foreach from=$optionFields item=field}
+            <div class="field">
+            <label for="{$field.id}" class="label">{$field.title}</label>
+            {if $field.hint_1}<div class="hint">{$field.hint_1}</div><br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+            {if $field.hint_2}<br>
+            <div class="hint">{$field.hint_2}</div>{/if}
+            </div>
+            {/foreach}
+        </fieldset>
+        <!-- MORE Fields -->
+        </div>
+        
+        <span class="more_button"><a href="javascript:void()" onClick="$('#more_fields').slideToggle();$('.more_button').toggleClass('more_button_up');">{lang code='more_options'}</a></span>
+        
+        
+        <div align="right" style="margin-top:10px"><input type="submit" name="create_group" value="{lang code='grp_crt_grp'}" class="cb_button_2"></div>
+        </form>
+    </div>
+</div>

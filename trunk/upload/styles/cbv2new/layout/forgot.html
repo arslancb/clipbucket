@@ -1,0 +1,71 @@
+{if $pass_recover=='success'}
+
+
+{lang code='pass_changed_success'}
+
+{else}
+
+<div style="width:900px; margin:auto">
+
+	{if $mode=='' || $mode=='reset_pass' }  
+    <div class="simple_container">
+      <h2>{lang code='user_forgot_message'}<span class="h2_inner_link"> &#8212; <a href="{$baseurl}/forgot.php?mode=recover_username">{lang code='click_here_to_recover_user'}</a></span></h2>
+        <hr align="center" width="100%" size="1" noshade="noshade" />
+        <div style="margin-bottom:10px">{lang code=user_pass_forgot_msg'}</div>
+        <form action="" method="post" name="Actvation Code" id="Actvation Code" class="cbform">
+          <label for="forgot_username" class="label">{lang code='username'}</label>
+            <input type="text" name="forgot_username" id="forgot_username" /><br />
+    <div class="clearfix"></div>
+        {assign var=captcha value=func->get_captcha()}
+        {if $captcha} 
+            {if $captcha.show_field}
+                <label class="label" for="verification_code">{lang code='user_veri_code'}</label>
+                    {load_captcha captcha=$captcha load=field field_params = ' id="verification_code" '}
+            {/if}
+            <div class="clearfix"></div>
+            <label class="label">&nbsp;</label>
+            <div style="display:block; float:left; margin-bottom:10px">
+            {load_captcha captcha=$captcha load=function}
+            </div>
+		{/if}
+          
+    <div class="clearfix"></div>
+        <label class="label">&nbsp;</label>
+        <input name="reset" type="submit" class="cb_button_2" id="reset" value="{lang code='user_reset'}" />
+        </form>
+    </div>
+   {/if} 
+  
+  {if $mode=='recover_username'}  
+    <!-- Forgot Username --->
+    
+    <div class="simple_container">
+      <h2>{lang code='user_reocover_user'}<span class="h2_inner_link"> &#8212; <a href="{$baseurl}/forgot.php?mode=reset_pass">{lang code='click_here_reset_pass'}</a></span></h2>
+      <form action="" method="post" name="Actvation Code" id="Actvation Code" class="cbform">
+    <label for="forgot_email" class="label">{lang code='<span class="tips">email</span>'}</label>
+            <input type="text" name="forgot_email" id="forgot_email" /><br />
+    <div class="clearfix"></div>
+        {assign var=captcha value=func->get_captcha()}
+        {if $captcha} 
+            {if $captcha.show_field}
+                <label class="label" for="verification_code">{lang code='user_veri_code'}</label>
+                    {load_captcha captcha=$captcha load=field field_params = ' id="verification_code" '}
+            {/if}
+            <div class="clearfix"></div>
+            <label class="label">&nbsp;</label>
+            <div style="display:block; float:left; margin-bottom:10px">
+            {load_captcha captcha=$captcha load=function}
+            </div>
+		{/if}
+          
+    <div class="clearfix"></div>
+        <label class="label">&nbsp;</label>
+        <input name="recover_username" type="submit" class="cb_button_2" id="recover_username" value="{lang code='user_recover'}" />
+      </form>
+  </div>
+  {/if}
+    
+</div>
+
+
+{/if}

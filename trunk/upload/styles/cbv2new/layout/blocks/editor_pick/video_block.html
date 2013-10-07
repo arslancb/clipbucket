@@ -1,0 +1,8 @@
+<div class="feature_heading">{$video.title}</div>
+<div class="featured_video_player">
+    {FlashPlayer vdetails = $video height='250' width='440' }
+</div>
+<div class="featured_video_details">
+    <div style="float:left; width:50%">{lang code='views'} : {$video.views}</div><div style="float:right; width:50px">{show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}</div>
+  <div class="clearfix"></div>
+{$video.description|description|truncate:125} - <a href="{videoLink vdetails=$video}">{lang code='view_video'}</a></div>

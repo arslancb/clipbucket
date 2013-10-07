@@ -1,0 +1,113 @@
+{assign var='required_fields' value=$userquery->load_signup_fields()}
+{assign var='custom_field' value=$userquery->custom_signup_fields}
+
+{if $mode == 'signup_success'}
+<div class="simple_container">
+    	{if $udetails.usr_status !='Ok'}
+        	{lang code='signup_success_usr_ok'}
+    	{else}
+    		{lang code='signup_success_usr_emailverify' assign='signupsuccessusremailverify'}
+            {link name='login' assign='login_link'}
+            {$signupsuccessusremailverify|sprintf:$login_link}
+{/if} </div>
+{else}    
+<div class="signup_left">
+	<h2>{lang code='user_mem_login'}</h2>
+	{lang code='if_you_already_hv_account'}
+	<div class="signup_container">
+    	<form name="login_form" id="login_form" method="post" action="" {ANCHOR place='cb_login_form_tag'}>
+        
+       	  <label for="login_username" class="label">{lang code='username'} : </label>
+            <div class="input_container">
+        		<input name="username" type="text" id="cb_login_username" size="30" >
+            </div>
+            <div class="clearfix"></div>
+          <label for="login_password" class="label">{lang code='password'} : </label>
+            <div class="input_container">
+            <input name="password" type="password" id="cb_login_password" size="30" >
+            </div>
+            <div class="clearfix"></div>
+            <label for="" class="label">&nbsp;</label>
+            <div class="input_container">
+            {ANCHOR place='before_login_button'}
+            <input type="submit" name="login" class="cb_button_2" value="{lang code='login'}" id="login_signup_bttn" {ANCHOR place='login_signup_bttn'} >
+            {ANCHOR place='after_login_button'}
+            </div>
+            <div class="clear"></div>
+            <div align="center"><a href="{$baseurl}/forgot.php">{lang code='user_forgot_password'}</a> | <a href="{$baseurl}/forgot.php?mode=recover_username">{lang code='user_forgot_username'}</a></div>
+            
+            {ANCHOR place='login_form'}
+           
+        </form>        
+        
+  </div>
+    
+   {lang code='signup_message_under_login'}
+</div>
+<div class="signup_right">
+	<h2>{lang code='new_mems_signup_here'}</h2>
+    {lang code='register_as_our_website_member'}
+    <div class="signup_container">
+    	<form name="login_form" id="login_form" method="post" action="" >
+        	{foreach from=$required_fields item=field}
+            	<label for="{$field.id}" class="label">{$field.title}</label>
+                <div class="input_container">
+                {if $field.hint_1}
+                <div class="hint">{$field.hint_1}</div>
+                {/if}
+                {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
+                {if $field.hint_2}
+                <div class="hint">{$field.hint_2}</div>
+                {/if}
+                </div>
+                <div class="clearfix"></div>
+               
+                
+            {/foreach} 
+            
+            <!-- Loading Custom Fields -->
+            {foreach from=$custom_field item=field}
+            	<label for="{$field.id}" class="label">{$field.title}</label>
+                <div class="input_container">
+                {if $field.hint_1}
+                <div class="hint">{$field.hint_1}</div>
+                {/if}
+                {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
+                {if $field.hint_2}
+                <div class="hint">{$field.hint_2}</div>
+                {/if}
+                </div>
+                <div class="clearfix"></div>
+               
+                
+            {/foreach} 
+            
+            <!-- Loading Captcha if anny -->
+            {assign var=captcha value=func->get_captcha()}
+            {if $captcha} 
+                {if $captcha.show_field}
+                    <label class="label" for="verification_code">Verification Code</label>
+                        {load_captcha captcha=$captcha load=field field_params = ' id="verification_code" '}
+                   <div class="clearfix"></div>
+                {/if}
+
+                	<div align="center">{load_captcha captcha=$captcha load=function}</div>
+
+            {/if}
+            <div class="clear"></div>
+            <div align="center">
+                <input name="agree" type="checkbox" id="agree" value="yes" checked="checked" />
+                {lang code='user_i_agree_to_the' assign='user_i_agree_to_the'}
+                - {$user_i_agree_to_the|sprintf:$cbpage->get_page_link(3):$cbpage->get_page_link(2)}</a>
+          </div>
+            <label for="" class="label">&nbsp;</label>
+            <div class="input_container">
+            <input type="submit" name="signup" class="cb_button_2" value="{lang code='signup'}" style="margin-top:10px" />
+            </div>
+            <div class="clearfix"></div>
+            {ANCHOR place='signup_form'}
+        </form>
+    </div>
+</div>
+{/if}    
+<div class="clearfix"></div>

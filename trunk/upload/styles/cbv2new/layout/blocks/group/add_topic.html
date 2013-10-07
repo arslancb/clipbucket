@@ -1,0 +1,14 @@
+<div class="add_topic_container">
+  <form name="form1" method="post" action="{group_link details=$group type=view_topics}" class="topic_form">
+    {assign var='form_fields' value=$cbgroup->load_add_topic_form_fields()}
+    
+    {foreach from=$form_fields item=field}
+    <div class="channelRow">
+    	<div class="channelLabel"><label for="{$field.id}">{$field.title}</label></div>
+        <div class="channelDetail">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}</div>
+	</div>        
+    {/foreach}
+    
+    <div align="right" style="padding:5px 0px"><button name="add_topic" id="add_topic" value="submit" class="cb_button_2">{lang code='grp_add_new_topic'}</button></div>
+  </form>
+</div>

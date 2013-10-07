@@ -1,0 +1,38 @@
+{if $block_type == '' || $block_type=='normal'}
+<div class="user_block" id="user-{$user.userid}">
+<div class="thumb_container" ><a href="{$userquery->profile_link($user)}"><img src="{$userquery->getuserthumb($user)}" border="0" class="user_thumb_normal"></a>
+</div>
+<div class="prof_title"><a href="{$userquery->profile_link($user)}">{$user.username}</a></div>
+{if isSectionEnabled('videos')}{$user.total_videos|number_format} {lang code="videos"}{/if} {$user.profile_hits|number_format} {lang code="views"}<br />
+{$user.subscribers|number_format} {lang code="subscribers"} 
+{if isSectionEnabled('photos')}{$user.total_photos|number_format} {lang code="photos"}{/if}
+<br />
+{lang code="last_active"} : {$user.last_active|nicetime} </div>
+{/if}
+
+{if $block_type =='small'}
+<div class="user_block_small" id="user-{$user.userid}" align="center">
+<div><a href="{$userquery->profile_link($user)}">{$user.username}</a></div>
+<a href="{$userquery->profile_link($user)}"><img src="{$userquery->getuserthumb($user)}" border="0" class="user_mid_thumb"></a>
+</div>
+{/if}
+
+{if $block_type =='medium'}
+<div class="user_block_med" id="user-{$user.userid}">
+<div class="thumb_container_medium" ><a href="{$userquery->profile_link($user)}"><img src="{$userquery->getuserthumb($user)}" border="0" class="user_thumb_medium"></a>
+</div>
+<div class="prof_title"><a href="{$userquery->profile_link($user)}">{$user.username}</a></div>
+{$user.total_videos|number_format} {lang code="videos"} {$user.profile_hits|number_format} {lang code="views"}</div>
+{/if}
+
+{if $block_type == "friends"}
+	<div style="float:left; margin:0 0px 2px 0;" id="user-{$user.userid}">
+    	<a href="{$userquery->profile_link($user)}" title="{$user.username}"><img src="{avatar details=$user size='small'}" alt="{$user.username}" style="padding:1px; vertical-align:middle;" /></a>
+    </div> <!-- friend_{$user.userid} end -->
+{/if}
+
+{if $block_type == "topic_view"}
+	<div class="topicStarterAvatar moveL">
+		<i class="topicStarterAvatarBG" style="background:url({avatar details=$user }) center no-repeat; width:56px; height:56px;"><a href="{$userquery->profile_link($user)}">{$user.username}</a></i>
+    </div>
+{/if}

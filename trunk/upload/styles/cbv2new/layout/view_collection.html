@@ -1,0 +1,208 @@
+{literal}
+<script>
+    function become_contributor(cid,uid){
+        
+        $.post(page, 
+        { 	
+            mode : 'become_contributor',
+            cid : cid,
+            uid : uid
+        },
+        function(data)
+        {
+            if(!data)
+                alert("No data");
+            else
+            {
+
+                if(data.msg)
+                {
+                   
+                    $('#btn-become-contributor').hide();
+                    $('#btn-remove-contributor').show();
+                    
+                     alert(data.msg);
+        
+                }
+                if(data.err)
+                    alert(data.err);
+            }
+        },'json');
+    }
+    
+    
+    function remove_contributor(cid,uid){
+        
+        $.post(page, 
+        { 	
+            mode : 'remove_contributor',
+            cid : cid,
+            uid : uid
+        },
+        function(data)
+        {
+            if(!data)
+                alert("No data");
+            else
+            {
+
+                if(data.msg)
+                {
+                    
+                    
+                    $('#btn-become-contributor').show();
+                    $('#btn-remove-contributor').hide();
+                    
+                    alert(data.msg);
+                }
+                if(data.err)
+                    alert(data.err);
+            }
+        },'json');
+    }
+</script>
+{/literal}
+
+<!-- Defining object type-->
+{lang code='collection' assign='object_type'}
+
+<div style="width:990px; margin:0px auto">
+{uploadButton details=$c output='link' target="_blank" class='moveR small_button non_button'}
+	<div class="video_title" style="padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;">{$c.collection_name} </div>
+        
+        
+    
+    <div style="font:normal 10px Tahoma; color:#333; padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;">{lang code="by"|capitalize} <a href="{$userquery->profile_link($c)}">{$c.username|capitalize}</a> - <a href="{link name='user_videos'}{$c.username}">{lang code="view"|capitalize} {$c.username|capitalize} {lang code="videos"|capitalize}</a> {if $c.userid == $userquery->userid} - <a href="{link name='edit_collection'}{$c.collection_id}">{lang code="edit_collection"}</a> - {link name='manage_items' assign='miLink'} <a href="{$miLink|sprintf:$c.collection_id:$c.type}">{lang code="manage_items"}</a>{/if}</div>
+       
+    <div style="clear:both;"></div>
+   <!-- <div style="height:1px; border-bottom:1px solid #ccc; margin:5px 0;"></div>-->
+    <div class="moveL video_title" style="font-size:14px; clear:both; margin-bottom:5px;">{$c.type|capitalize} ({$c.total_objects})</div>
+
+    <div class="clear"></div>
+    <div class="clearfix" style="padding:10px; background:#f7f7f7; border:1px solid #ccc;">
+    	<div class="collectionTable">
+            <div id="collectionItemsList" class="clearfix">
+                {section name=list loop=$objects}
+                    {include file="$style_dir/blocks/collection.html" object=$objects[list] display_type=view_collection type=$c.type}
+                {sectionelse}
+                    <div align="center" style="font:bold 11px Tahoma;">{$c.collection_name} has 0 items.</div>    
+                {/section}   
+            </div>
+        </div>
+    </div>
+    
+    <div id="NewPagination" class="moveR">{include file="$style_dir/blocks/new_pagination.html"}</div>
+    
+   <!--{include file="$style_dir/blocks/pagination.html"}-->
+    <div style="padding-bottom:5px; height:1px; margin-bottom:5px; clear:both; border-bottom:1px solid #ccc;"></div>
+    <div class="moveL" style="width:170px; font:normal 11px Tahoma;">
+        
+        
+        {if $c.userid != userid()}
+        {if !$cbcollection->is_contributor($c.collection_id,userid())}
+           <button class="LoadMoreButton" id="btn-become-contributor" onclick="become_contributor('{$c.collection_id}','{$userquery->userid}');" type="button">Become Contributor</button> 
+            <button class="LoadMoreButton" style="display: none" id="btn-remove-contributor" onclick="remove_contributor('{$c.collection_id}','{$userquery->userid}');" type="button">Leave contribution</button> 
+                   
+        {else}
+        
+        <button class="LoadMoreButton" style="display: none" id="btn-become-contributor" onclick="become_contributor('{$c.collection_id}','{$userquery->userid}');" type="button">Become Contributor</button> 
+        <button class="LoadMoreButton"  id="btn-remove-contributor" onclick="remove_contributor('{$c.collection_id}','{$userquery->userid}');" type="button">Leave contribution</button> 
+           
+        
+        {/if}
+        
+        {/if}
+        
+     
+        
+        
+        <div></div>
+        <span style="color:#333; font-weight:bold;">{lang code="date_added"}</span>
+        <div style="height:2px; clear:both;"></div>
+        {$c.date_added|niceTime}
+        <div style="height:8px; clear:both;"></div>
+        
+        <span style="color:#333; font-weight:bold;">{lang code="views"}</span>
+        <div style="height:2px; clear:both;"></div>
+        {$c.views|number_format} {lang code="views"}
+        <div style="height:8px; clear:both;"></div>
+            
+    	<span style="color:#333; font-weight:bold;">{lang code="categories"}</span>
+        <div style="height:2px; clear:both;"></div>
+        {$c.category|categories:collections}
+        <div style="height:8px; clear:both;"></div>
+        
+        <span style="color:#333; font-weight:bold;">{lang code="tags"}</span>
+        <div style="height:2px; clear:both;"></div>
+        {$c.collection_tags|tags:collections}
+        
+        
+
+    </div> <!-- moveL end -->
+    
+    <div class="clearfix" style="width:820px; float:left;">
+    	<span style="font:normal 11px Tahoma">{$c.collection_description|description}</span>
+        <div class="borderLine"></div>
+        <div class="video_actions_cont clearfix">
+        	{assign var=rating value=$cbcollection->collection_rating($c.collection_id,'collection')}
+            
+            {if $Cbucket->configs.collection_rating}
+                <div class="rating_container">
+                    {show_video_rating  rating=$c.rating ratings=$c.rated_by total='10' id=$c.collection_id type=collection}
+                </div>
+            {/if}
+            <div class="actions clearfix" style="float:left; margin:8px 0 0 15px; padding:0px;">
+            <ul>
+            <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#video_action_result_cont');add_to_fav('collection','{$c.collection_id}');"><img src="{$imageurl}/dot.gif" class="add_to_fav" />{lang code='add_to_favs'}</a></li>
+            <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#share_form');$('#share_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="add_to_play" />{lang code='share_this'}</a></li>
+            <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#flag_item');$('#flag_item').slideToggle();"><img src="{$imageurl}/dot.gif" class="report_this" />{lang code='report_this'}</a></li>
+            
+            </ul>            
+            </div>
+            
+            
+        </div> <!-- video_actions_cont -->
+        <div style="margin-top:15px">{AD place=ad_728x90}</div>
+        <div class="video_action_result_boxes">
+            {show_share_form id=$c.collection_id type=Collection}
+            {show_flag_form id=$c.collection_id type=Collection}
+            <div class="action_box" style="display:none" id="video_action_result_cont"></div>
+        </div>
+        </div> <!-- IN-LINE DIV END -->
+        
+       {if $myquery->is_commentable($c,'collection')}
+    <div style="height:15px; clear:both;"></div>
+    <div class="" style="font-size:12px; padding-bottom:5px; margin-bottom:5px; border-bottom:1px solid #ccc;"><h2 class="commentHead">{lang code="comments"} ({$c.total_comments})</h2></div>  
+    <div class="moveL" style="width:650px">
+    
+        <div id="collectionComments">
+        	
+            <div id="comments"></div>
+			<script>
+                $(document).ready(function()
+                {ldelim}		
+                    comments_voting = 'no';	
+                    getComments('cl','{$c.collection_id}','{$c.last_commented}',1,'{$c.total_comments}','{$object_type}')
+                {rdelim}
+                );
+            </script>
+        </div>
+      </div>
+      {else}
+      <div align="center" class="moveL no_comments" style="width:650px">
+    	{lang code='comm_disabled_for_collection'}
+   	 </div>
+      
+      {/if}
+      
+      <div class="moveR collectionComments" style="width:330px">
+     
+       
+            {if $myquery->is_commentable($c,'collection')}
+             <div style="height:5px;"></div>
+                {include file="$style_dir/blocks/comments/add_comment.html" id=$c.collection_id type='cl'}
+            {/if}
+            
+         <div align="center" style="margin:5px auto">{AD place=ad_300x250}</div>  
+       </div>  
+</div>

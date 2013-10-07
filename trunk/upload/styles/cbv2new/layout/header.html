@@ -1,0 +1,104 @@
+<div class="topHead">
+<div id="container" class="container clearfix">
+<!-- Loading Quicklist Box -->
+<div id="quicklist_box"></div>
+
+<div id="header">
+	<div>
+    <a href="{$baseurl}"><img src="{$imageurl}/dot.gif" alt="{cbtitle}" name="logo_icon" width="180" height="50" border="0" id="logo_icon" title="{cbtitle}"  class="logo"></a>
+</div> <!--LOGO END-->
+
+
+	{ANCHOR place='mature_content'}
+
+
+	{ANCHOR place='premium_button'}
+
+    <div class="login_con clearfix">
+        <div class="user_login clearfix">
+        {if !$userquery->login_check('',true)}
+        	<a href="{$baseurl}/forgot.php" class="forget" title="Forget Username/Password, Click Here"></a>
+            <form action="{link name='login'}" method="post" name="login" style="margin:0px; padding:0px;" {ANCHOR place='cb_login_form_tag'}>
+                <input type="text" value="Username" id="cb_head_username" name="username" onfocus="if(this.defaultValue == this.value) this.value = ''" onblur="if(this.value == '') this.value = this.defaultValue"  />
+                <input type="password" value="Password" id="cb_head_password" name="password" onfocus="if(this.defaultValue == this.value) this.value = ''" onblur="if(this.value == '') this.value = this.defaultValue"  />                
+                <input type="submit" value="Login" id="login_head_bttn" name="login" {ANCHOR place='login_head_bttn'} />
+                <input type="checkbox" name="rememberme" id="rememberme"  /> <span class="remember">{lang code='remember_me'}</span>
+                {ANCHOR place='login_form'}
+			</form> 
+        {else}
+        	<div class="avatar">
+            	<div style="width:40px; height:40px; background:#EEE; margin:0px; padding:0px;"><img src="{$userquery->getUserThumb($userquery->udetails,'small')}" class="mid_user_thumb" style="max-height:40px; max-width:40px" /></div>
+            </div>
+            <div class="txt">
+            {lang code='howdy_user' assign='howdyuser'}
+            {$howdyuser|sprintf:$userquery->username}
+      		| <a href="{link name='logout'}">{lang code='logout'}</a></div>
+            <div class="links"><a href="{link name='inbox'}">{lang code='messages'} ({$cbpm->get_new_messages()})</a> | <a href="{link name='notifications'}">{lang code='notifications'} ({$cbpm->get_new_messages('','notification')})</a> | <a href="{link name='my_account'}">{lang code='account'}</a></div>
+        {/if} 
+        </div> <!--USER_LOGIN CLASS END-->
+      
+         <div id="user_login">
+            <a href="javascript:void(0)">
+            {if !$userquery->login_check('',true)}
+            	Login
+            {else}
+            	My Info
+            {/if}    
+            </a>
+        </div> <!--USER_LOGIN ID END--><div class="updatedUpload">
+   	 <a href="{link name='upload'}">Upload video</a> | <a href="{link name='photo_upload'}">Upload Photo</a>       
+    </div>
+    </div> <!--LOGIN_CON END-->
+    
+        
+</div> <!--HEADER ID END-->
+</div>
+<div class="top_tabs clearfix">
+    <ul>
+    	{cbMenu echo='yes'}
+    </ul>
+	
+</div> <!--TOP_TABS END-->
+
+<div class="navi">
+        <ul>
+        {if !$userquery->login_check('',true)}
+        {lang code='after_meny_guest_msg' assign='guestmsg'}
+        {link name=login assign='loginlink'}
+        	<li>{$guestmsg|sprintf:$loginlink:$loginlink}</li>
+        {else}
+        	<li><a href="{link name='my_account'}">{lang code='com_my_account'}</a></li>          	
+        	<li><a href="{$userquery->profile_link($userquery->udetails)}">{lang code='com_my_channel'}</a></li>
+        	<li><a href="{link name='my_videos'}">{lang code='com_my_videos'}</a></li>
+        	<li><a href="{link name='my_favorites'}">{lang code='Favorites'}</a></li>
+        	<li><a href="{link name='my_playlists'}">{lang code='playlists'}</a></li>
+        	<li><a href="{link name='my_contacts'}">{lang code='friend_requests'} ({$userquery->get_pending_contacts($userquery->userid,0,true)})</a></li>  
+        {/if}     
+         </ul>
+<div class="search_con">
+    <div class="s_bg">	
+        <form action="{link name='search_result'}" method="get" name="search" id="search" style="margin:0px; padding:0px;">               
+            <input name="query" id="query" type="text" class="searchbar" value="{'query'|get_form_val:true}" />
+            <input type="hidden" name="type" id="searchType" value="{$smarty.get.type}" />                      
+            <div class="moveL">
+            	<div id="selectedSearch" class="clearfix" onclick="$('#searchSelectWrapper').toggle();">
+                	<span id="selectedText">{$smarty.get.type|capitalize}</span>
+                </div>
+                <div id="searchSelectWrapper">
+                <ul>
+                    {foreach from=$Cbucket->search_types item=t key=stypes name=SearchTypes}
+                        <li{if $smarty.get.type == $stypes && $smarty.const.THIS_PAGE == "search_result"} class="selected"{/if}>
+                        <a id="{$stypes}" href="#">{$stypes|capitalize}</a>
+                        </li>
+                    {/foreach}
+                </ul>    
+                </div>
+            </div>                                
+            <input name="submit" type="submit" class="searchbutton" value="Search" />
+        </form>
+    </div> <!--S_BG END-->    
+</div> <!--SEARCH_CON END-->
+    </div></div>
+    
+    
+    {ANCHOR place='anything'}

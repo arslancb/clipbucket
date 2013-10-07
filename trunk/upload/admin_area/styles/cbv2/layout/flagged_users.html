@@ -1,0 +1,155 @@
+
+{if $mode=='view'}
+<span class="page_title">Flagged Users Manager</span>
+<!-- DIsplaying Videos -->
+<form name="flagged_video" method="post" id="flagged_video">
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+     		<input type="submit" name="activate_selected" value="Activate"  class="button"/>
+            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+            <input type="submit" name="delete_selected" value="Delete Users"  class="button" onclick="return confirm_it('Are you sure you want to delete these users(s)')"/>
+            
+            <input type="submit" name="delete_flags" value="Delete Flags"  class="button" onclick="return confirm_it('Are you sure you want to delete flags of selected users(s)')"/>
+    
+    </td>
+    </tr>
+</table>
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="40" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="50" class="head">UID</td>
+    <td class="head">User Details</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+
+
+{if $users}
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+
+{foreach from=$users item=u}
+<tr class="video_opt_td"  bgcolor="{$bgcolor}">
+    <td width="40" align="center" valign="top" class="video_opt_td">    <input name="check_user[]" type="checkbox" id="check_user" value="{$u.userid}" /></td>
+    <td width="50" align="left" valign="top" class="video_opt_td">{$u.userid}</td>
+    <td valign="top"  class="video_opt_td" 
+    onmouseover="$('#usr_opt-{$u.userid}').show()" 
+    onmouseout="$('#usr_opt-{$u.userid}').hide()" >
+    <div style="float:left; width:35px;"><img src="{$userquery->getUserThumb($u,'small')}" class="mid_user_thumb" /></div>
+    <a href="#" target="_blank" style="text-indent:10px">
+    {$u.username}
+    </a> &#8212;
+    <span class="vdo_sets">Email:<strong><span style="text-transform:none">{$u.email}</span> </strong> &#8226;
+    Status:<strong>{$u.usr_status}</strong>  &#8226;
+    Level:<strong>{$u.level|get_user_level}</strong> &#8226;
+    Last Active:<strong>{$u.last_active}</strong> 
+    </span>
+    
+    <br />
+    <div id="usr_opt-{$u.userid}"  class="vid_opts" style="display:none">
+   	 
+    <a href="view_user.php?uid={$u.userid}">View</a> or 
+    <a href="view_user.php?uid={$u.userid}">Edit</a> |
+    {if $u.usr_status == Ok}
+    <a href="?deactivate={$u.userid}">Deactivate</a>
+    {elseif $u.usr_status == ToActivate}
+    <a href="?activate={$u.userid}">Activate</a>
+    {/if}  | 
+    <a href="?delete_user={$u.userid}">Delete</a> |
+      <a href="?mode=view_flags&uid={$u.userid}">View Flags</a> |
+      <a href="?delete_flags={$u.userid}">Delete Flags</a>
+    </div>
+    </td>
+    <td width="50" valign="top" class="video_opt_td">&nbsp;</td>
+  </tr>
+{if $bgcolor == ""}
+{assign var = bgcolor value = "#EEEEEE"}
+{else}
+{assign var = bgcolor value = ""}
+{/if}  
+{/foreach}
+
+
+
+
+
+
+
+  
+</table>
+
+
+
+
+
+{else}
+  <div align="center"><strong><em>NO USER FOUND</em></strong></div>
+{/if}
+
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return_invert.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+     <input type="submit" name="activate_selected" value="Activate"  class="button"/>
+            <input type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+            <input type="submit" name="delete_selected" value="Delete Users"  class="button" onclick="return confirm_it('Are you sure you want to delete these users(s)')"/>
+            
+            <input type="submit" name="delete_flags" value="Delete Flags"  class="button" onclick="return confirm_it('Are you sure you want to delete flags of selected users(s)')"/>
+    
+    </td>
+    </tr>
+</table>
+
+</form>
+
+<!-- DIsplaying Videos Ends-->
+{include file="$style_dir/blocks/pagination.html" }
+
+{/if}
+
+
+{if $mode=='view_flags'}
+      
+<span class="page_title">Viewing {$user.username} flags</span> &#8212; <a href="view_user.php?uid={$user.userid}">View User</a> &#8226; <a href="view_user.php?uid={$user.userid}">Edit User</a> &#8226; <a href="?delete_flags={$user.userid}">Delete Flags</a> &#8226; <a href="?delete_group={$user.user}">Delete User</a>
+<div  style="margin-bottom:10px"></div>
+<!-- DIsplaying Videos -->
+<form name="video_manage" method="post">
+
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">&nbsp;</td>
+    <td class="head">Flag Details</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+
+
+
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+{assign var = bgcolor value = ""}
+{section name=list loop=$flags}
+<tr class="video_opt_td"  bgcolor="{$bgcolor}">
+    <td width="30" align="left" valign="top" class="video_opt_td">{$smarty.section.list.iteration}</td>
+    <td align="left" valign="top" class="video_opt_td">Reported as "{$flags[list].flag_type|flag_type}" by {$flags[list].userid|get_username} {$flags[list].date_added|niceTime}</td>
+    <td width="50" valign="top" class="video_opt_td">&nbsp;</td>
+    </tr>
+    {if $bgcolor == ""}
+    {assign var = bgcolor value = "#EEEEEE"}
+    {else}
+    {assign var = bgcolor value = ""}
+    {/if}
+        
+{/section}
+</table>
+</form>
+
+{/if}

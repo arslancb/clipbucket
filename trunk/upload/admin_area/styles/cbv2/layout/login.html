@@ -1,0 +1,41 @@
+<body>
+
+<div class="header_grey_bar">
+	<img src="{$imageurl}/dot.gif" class="cbicon" /> {$title} &#8212; <a href="{$baseurl}">Back To Main Website</a>
+	<div class="clearfix"></div>
+</div>
+
+{include file="$style_dir/msg.html" }
+
+<div style="height:400px; background-image:url({$imageurl}/bgs/login.png); background-repeat:repeat-x" align="center">
+<div id="login_box">
+  <form name="form1" method="post" action="">
+    <table width="78%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="left"><label for="username">Username</label></td>
+      </tr>
+      <tr>
+        <td align="left">
+          <input type="text" name="username" id="username" class="textfield">
+        </td>
+      </tr>
+      <tr>
+        <td align="left"><label for="password">Password</label></td>
+      </tr>
+      <tr>
+        <td>
+          <input type="password" name="password" id="password" class="textfield">
+        </td>
+      </tr>
+      <tr>
+        <td align="center"><label>
+          <input type="submit" name="login" class="button" value="    Login    ">
+        </label></td>
+      </tr>
+    </table>
+  </form>
+</div>
+</div>
+<div align="center" class="login_footer">&copy; ClipBucket Copyright 2007 &#8211; {$smarty.now|date_format:"%Y"} | Arslan Hassan</div>
+</body>
+</html>

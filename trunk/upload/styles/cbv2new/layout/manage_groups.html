@@ -1,0 +1,296 @@
+<div>
+ {include file="$style_dir/blocks/manage/account_left.html"}
+ <div class="account_box">
+ {include file="$style_dir/blocks/manage/account_head.html" user=$user}
+ 
+ <!-- Manage Groups -->
+ {if $mode=='manage'}
+ <h2>{lang code='grp_groups_title'}</h2>
+ 	
+    <div align="right" style="float:right; display:inline">
+   <form id="form1" name="form1" method="get" action="">
+    <input name="query" type="text" class="search_field" id="query" value="{$smarty.get.query|form_val}" />
+    <input name="input" type="submit" class="search_field_button" value="{lang code='search'}"/> 
+    <input name="mode" value="{$mode}" type="hidden" />
+   </form>
+  <div class="clearfix"></div>
+  </div>
+ 
+ <form name="videos_manager" method="post">
+ <div style="float:left; width:300px">
+   <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" /><input type="submit" name="delete_videos" id="delete_videos" value="{lang code='delete'}" class="small_button" />
+ </div>
+ 
+ <div class="clear"></div>
+ 
+ 
+ <div class="account_table">
+   
+     <table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+ 	      </td>
+ 	    <td>{lang code='title'}</td>
+ 	    <td width="100">{lang code='date_added'}</td>
+ 	    <td width="100">{lang code='members'}</td>
+ 	    <td width="100">{lang code='topics'}</td>
+ 	    <td width="100" class="last_td">{lang code='active'}</td>
+ 	    </tr>
+ 	  </table>
+ </div>
+ 
+ {assign var='bg' value='fff'}
+ {section name=ugrps loop=$usr_groups}
+	{include file="$style_dir/blocks/manage/account_group.html" group=$usr_groups[ugrps] control='full' bg=$bg}
+ {if $bg=='fff'}
+ 	{assign var='bg' value='EFF5F8'}
+ {else}
+ 	{assign var='bg' value='fff'}
+ {/if}
+ 
+ {sectionelse}
+ 	<div align="center" style="padding:5px"><strong><em>{lang code='you_dont_hv_any_grp'}</em></strong></div>
+ {/section}
+ {include file="$style_dir/blocks/manage/user_account_pagination.html"}
+ 
+ 
+ 
+  </form>
+ {/if}
+ 
+ <!-- Manage Groups Ends Here-->
+
+
+
+
+ <!-- Manage Joined Groups -->
+ {if $mode=='joined'}
+ <h2>{lang code='grp_groups_title'}</h2>
+ 
+ <form name="videos_manager" method="post">
+ <div style="float:left; width:300px">
+   <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" /><input type="submit" name="leave_groups" id="delete_videos" value="{lang code='leave_groups'}" class="small_button" />
+ </div>
+ 
+ <div class="clearfix" style="margin-bottom:10px"></div>
+ 
+ 
+ <div class="account_table">
+   
+     <table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+ 	      </td>
+ 	    <td>{lang code='title'}</td>
+ 	    <td width="100">{lang code='date_added'}</td>
+ 	    <td width="100">{lang code='members'}</td>
+ 	    <td width="100" class="last_td">{lang code='topics'}</td>
+ 	    </tr>
+ 	  </table>
+ </div>
+ 
+ {assign var='bg' value='fff'}
+ {section name=ugrps loop=$usr_groups}
+	{include file="$style_dir/blocks/manage/account_group.html" group=$usr_groups[ugrps] control='basic' bg=$bg}
+ {if $bg=='fff'}
+ 	{assign var='bg' value='EFF5F8'}
+ {else}
+ 	{assign var='bg' value='fff'}
+ {/if}
+ 
+ {sectionelse}
+ 	<div align="center" style="padding:5px"><strong><em>{lang code='you_dont_hv_any_grp'}</em></strong></div>
+ {/section}
+ {include file="$style_dir/blocks/manage/user_account_pagination.html"}
+ 
+ 
+ 
+  </form>
+ {/if}
+ <!-- Manage Groups Ends Here -->
+
+
+
+ <!-- Manage Group $group.group_name Members-->
+ {if $mode=='manage_members' && $group}
+ {include file="$style_dir/blocks/manage/group_manage_links.html"}
+ 	<h2>{lang code='manage_grp_mems'} - {$group.group_name}</h2>
+    
+    <!-- Getting List of pending memebrs , if any -->
+    	{assign var=grp_pend_mems value=$cbgroup->get_members($group.group_id,"no")}
+
+        {if $grp_pend_mems}
+        <form name="pending_members" id="pending_members" action="" method="post">
+       <h2>{lang code='pending_mems'} ({$grp_pend_mems|@count})</h2>
+       
+       <div style="float:left; width:300px">
+           <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" />
+         <input type="submit" name="activate_pending" id="activate_pending" value="{lang code='approve'}" class="small_button" />
+  		   <input type="submit" name="delete_members" id="delete_members" value="{lang code='delete'}" class="small_button" />
+         </div>
+  		<div class="clearfix" style="margin-bottom:10px"></div>
+        
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="manage_contacts_tbl_head">
+          <tr>
+            <td width="15"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+            <td width="50">&nbsp;</td>
+            <td>{lang code='username'}</td>
+            <td width="100">views</td>
+            <td width="100">&nbsp;</td>
+            <td width="50">&nbsp;</td>
+          </tr>
+        </table>
+            {section name=pmems loop=$grp_pend_mems}
+            	{include file="$style_dir/blocks/manage/account_user.html" user=$grp_pend_mems[pmems] status='pending'}
+            {/section}
+        </form>
+        {/if}
+    <!-- Ending listing pending members -->
+    
+    
+    <!-- Listing ALl Active Members -->
+   {if $gp_mems}
+    <form name="pending_members" id="pending_members" action="" method="post">
+   	<h2>{lang code='active_mems'} ({$gp_mems|@count})</h2>
+    <div style="float:left; width:300px">
+           <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" />
+        <input type="submit" name="disapprove_members" id="disapprove_members" value="{lang code='disapprove'}" class="small_button" />
+  		   <input type="submit" name="delete_members" id="delete_members" value="{lang code='delete'}" class="small_button" />
+         </div>
+  		<div class="clearfix" style="margin-bottom:10px"></div>
+        
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="manage_contacts_tbl_head">
+          <tr>
+            <td width="15"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+            <td width="50">&nbsp;</td>
+            <td>{lang code='username'}</td>
+            <td width="100">{lang code='views'}</td>
+            <td width="100">&nbsp;</td>
+            <td width="50">&nbsp;</td>
+          </tr>
+        </table>
+    {section name=amems loop=$gp_mems}
+    	{assign var=makeAdmin value='no'}
+        {assign var=removeAdmin value='no'}
+    	{isGroupAdmin assign=isAdmin group=$group gid=$group.group_id user=$gp_mems[amems] uid=$gp_mems[amems].userid
+        	assign=isGroupAdmin checkowner=true}
+        {if !$isGroupAdmin}
+        	{assign var=makeAdmin value='yes'}
+        {/if}
+        {if $group.userid != $gp_mems[amems].userid && $isGroupAdmin} 
+            {assign var=removeAdmin value='yes'}
+        {/if}
+        
+    	{include file="$style_dir/blocks/manage/account_user.html" user=$gp_mems[amems] status='active'}
+    {/section}
+    </form>
+   {/if}  
+    <!-- Ending Listing all active members -->
+    
+ {/if}
+ <!-- Manage Group $group.group_name Members End -->
+ 
+ 
+ 
+ 
+ 
+  <!-- Manage Group $group.group_name Videos -->
+ {if $mode=='manage_videos' && $group}
+ {include file="$style_dir/blocks/manage/group_manage_links.html" }
+ 	<h2>{lang code='manage_grp_vids'} - {$group.group_name}</h2>
+    
+    <!-- Getting List of pending videos , if any -->
+    	{assign var=grp_pend_videos value=$cbgroup->get_group_videos($group.group_id,"no")}
+
+        {if $grp_pend_videos}
+        <form name="pending_members" id="pending_members" action="" method="post">
+        <h2>{lang code='pending_vids'} ({$grp_pend_videos|@count})</h2>
+        <div style="float:left; width:300px">
+               <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" />
+          <input type="submit" name="activate_videos" id="activate_videos" value="{lang code='approve'}" class="small_button" />
+               <input type="submit" name="delete_videos" id="delete_videos" value="{lang code='delete'}" class="small_button" />
+         </div>
+        <div class="clearfix" style="margin-bottom:10px"></div>
+        <div class="account_table">
+   
+             <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+                  </td>
+                <td>{lang code='title'}</td>
+                <td width="100">{lang code='date_added'}</td>
+                <td width="100">{lang code='views'}</td>
+                <td width="100">{lang code='comments'}</td>
+                </tr>
+              </table>
+              
+          </div>     
+            {assign var='bg' value='fff'}
+            {if $grp_pend_videos}
+            {section name=plist loop=$grp_pend_videos}
+                {include file="$style_dir/blocks/manage/account_video.html" video=$grp_pend_videos[plist] bg=$bg control="basic" }
+            {if $bg=='fff'}
+            {assign var='bg' value='EFF5F8'}
+            {else}
+            {assign var='bg' value='fff'}
+            {/if}
+            
+            {/section}
+            {else}
+            	<div align="center" style="padding:5px"><strong><em>{lang code='no_pending_vids'}</em></strong></div>
+            {/if}
+</form>
+        {/if}
+    <!-- Ending listing pending videos -->
+    
+    <!-- Listing ALl Active Members -->
+    {if $grp_vids}
+    <form name="pending_members" id="pending_members" action="" method="post">
+   	<h2>{lang code='active_videos'} ({$grp_vids|@count})</h2>
+    <div style="float:left; width:300px">
+           <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" />
+        <input type="submit" name="disapprove_videos" id="disapprove_videos" value="{lang code='disapprove'}" class="small_button" />
+  		   <input type="submit" name="delete_videos" id="delete_videos" value="{lang code='delete'}" class="small_button" />
+     </div>
+    <div class="clearfix" style="margin-bottom:10px"></div>
+    <div class="account_table">
+
+         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+              </td>
+            <td>{lang code='title'}</td>
+            <td width="100">{lang code='date_added'}</td>
+            <td width="100">{lang code='views'}</td>
+            <td width="100">{lang code='comments'}</td>
+            </tr>
+          </table>
+          
+      </div>     
+        {assign var='bg' value='fff'}
+        {if $grp_vids}
+        {section name=plist loop=$grp_vids}
+            {include file="$style_dir/blocks/manage/account_video.html" video=$grp_vids[plist] bg=$bg control="basic" }
+        {if $bg=='fff'}
+        {assign var='bg' value='EFF5F8'}
+        {else}
+        {assign var='bg' value='fff'}
+        {/if}
+        
+        {/section}
+        {else}
+        <div align="center" style="padding:5px"><strong><em>{lang code='no_active_videos'}</em></strong></div>
+        {/if}
+    </form>
+    {/if}
+    <!-- Ending Listing all active members -->
+    
+ {/if}
+  <!-- Manage Group $group.group_name Videos -->
+
+ </div>
+ 
+ 
+ 
+ 
+</div>

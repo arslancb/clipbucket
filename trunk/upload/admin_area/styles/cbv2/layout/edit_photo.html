@@ -1,0 +1,150 @@
+<form action="" method="post" name="edit_photo" id="edit_photo">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+        <td width="50%" valign="top">
+            <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td align="left" class="left_head" style="padding-left:10px"><div class="head">Editing {$data.photo_title}</div></td>
+                <td width="20" align="right" class="right_head">&nbsp;</td>
+            </tr>
+            </table>
+            <div style="width:98%; margin:auto; padding:10px">
+                <ul class="admin_links" style="font:bold 11px Tahoma;">
+                	{if $data.collection_id != 0}
+                	<li><a href="edit_collection.php?collection={$data.collection_id}">Edit Collection ({$data.collection_id|get_collection_field})</a></li>
+                    {else}
+                    <li><a href="#collection_id">Photo is orpahn</a></li>
+                    {/if}
+                    {if $data.featured!='yes'}
+                    <li><a href="edit_photo.php?photo={$data.photo_id}&amp;mode=fp">Make Featured</a></li>
+                    {else}
+                    <li><a href="edit_photo.php?photo={$data.photo_id}&amp;mode=ufp">Make Unfeatured</a></li>
+                    {/if}
+                    <li><a href="recreate_thumbs.php?mode=single&amp;photo={$data.photo_id}">Re-create Photo</a></li>
+                    <li><a href="javascript:void(0)" onClick="javascript:Confirm_Delete('photo_manager.php?delete_photo={$data.photo_id}')">Delete This Photo</a></li>
+                </ul>
+            </div>
+            
+<input name="admin" type="hidden" id="admin" value="true" />
+<input name="photo_id" type="hidden"  value="{$data.photo_id}" />
+
+<fieldset class="fieldset">
+	<legend>User Information</legend>
+     <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+    <tr>
+      <td width="200"><strong>Useid</strong></td>
+      <td><a href="view_user.php?uid={$data.userid}">{$data.userid|get_username}</a></td>
+    </tr>
+  </table>
+</fieldset>
+
+<fieldset class="fieldset">
+	<legend>Important Details</legend>
+    <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+    	<tr>
+        	<td width="200"><strong>Photo ID</strong></td>
+            <td>
+                <input disabled="disabled" name="photoid" type="text" id="photoid" value="{$data.photo_id}" size="45" />
+            </td>
+        </tr>
+        <tr>
+        	<td width="200"><strong>Photo Key</strong></td>
+            <td>
+                <input disabled="disabled" name="photokey" type="text" id="photokey" value="{$data.photo_key}" size="45" />
+            </td>
+        </tr>
+        <tr>
+        	<td width="200"><strong>Filename</strong></td>
+            <td>
+                <input disabled="disabled" name="filename" type="text" id="filename" value="{$data.filename}" size="45" />
+            </td>
+        </tr>
+        <tr>
+        	<td width="200"><strong>Extension</strong></td>
+            <td>
+                <input disabled="disabled" name="extension" type="text" id="extension" value="{$data.ext}" size="45" />
+            </td>
+        </tr>
+    </table>
+</fieldset>
+
+<fieldset class="fieldset">
+	<legend>Photo Details</legend>
+    <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+        {foreach from=$requiredFields item=field}
+        <tr>
+            <td width="200" ><strong>{$field.title} :</strong></td>
+            <td>{$field.hint_1}<br />
+            {$formObj->createField($field)} 
+            {$field.hint_2}</td>
+        </tr>
+        {/foreach}
+    </table>
+</fieldset>
+
+<fieldset class="fieldset">
+	<legend>Photo Stats</legend>
+    <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+    	<tr>
+        	<td width="200"><strong>Views:</strong></td>
+            <td><input name="views" id="views" value="{$data.views}" /></td>
+        </tr>
+        <tr>
+        	<td width="200"><strong>Total Favorites:</strong></td>
+            <td><input name="total_favorites" id="total_favorites" value="{$data.total_favorites}" /></td>
+        </tr>
+        <tr>
+        	<td width="200"><strong>Total Comments:</strong></td>
+            <td><input name="total_comments" id="total_comments" value="{$data.total_comments}" /></td>
+        </tr>        
+        <tr>
+        	<td width="200"><strong>Total Downloads:</strong></td>
+            <td><input name="downloaded" id="downloaded" value="{$data.downloaded}" /></td>
+        </tr>
+        <tr>
+        	<td width="200"><strong>Rating:</strong></td>
+            <td><input name="rating" id="rating" disabled="disabled" value="{$data.rating}" /></td>
+        </tr>
+        <tr>
+        	<td width="200"><strong>Rated By:</strong></td>
+            <td><input name="rated_by" id="rated_by" disabled="disabled" value="{$data.rated_by}" /></td>
+        </tr>
+        <tr>
+        	<td width="200"><strong>Voters:</strong></td>
+            <td><textarea name="voters" id="voters" disabled="disabled">{$data.voters}</textarea></td>
+        </tr>
+    </table>
+</fieldset>
+<input type="submit" class="button" value="Update Photo Details" style="margin:15px 0px 0px 15px" name="update">
+        </td>
+        
+        <td width="50%" valign="top">
+        	<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td align="left" class="left_head" style="padding-left:10px"><div class="head">Photo Preview</div></td>
+                <td width="20" align="right" class="right_head">&nbsp;</td>
+            </tr>
+            </table>
+            <div style="padding:5px">
+            	<div align="center">{get_photo details=$data size='l' output='html' style='max-width:600px'}</div>       
+            </div>
+            
+            <fieldset class="fieldset">
+            	<legend>Other Fields</legend>
+                <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+                {foreach from=$otherFields item=field}
+                    <tr>
+                        <td width="200" ><strong>{$field.title} :</strong></td>
+                        <td>{$field.hint_1}<br />
+                        {$formObj->createField($field)} 
+                        {$field.hint_2}</td>
+                    </tr>
+                {/foreach}
+                </table>
+            </fieldset>
+        </td>
+    </tr>
+    </table>
+</table>
+
+</form>

@@ -1,0 +1,52 @@
+<h2>Edit template</h2>
+<div style="margin-right:10px">
+
+
+<div align="right">
+	
+	{assign var='templates' value=$cbtpl->get_templates()}
+    {if $templates}
+    	<form name="select_template" action="" method="get">
+<label>Select Theme To Edit
+    	<select name="dir">
+        	{foreach from=$templates item=template}
+        		<option value="{$template.dir}" {if $sel_dir==$template.dir} selected{/if}>{$template.name}</option>
+            {/foreach}
+        </select></label><input type="submit" name="select" value="Select" />
+</form>
+        
+    {/if}
+</div>
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="200"><div align="left" style="width:200px">
+	<h3>Layout Files</h3>
+    <ul>
+	{foreach from=$tpl_files item=tplfile key=folder}
+    	{if !is_array($tplfile)}
+        	<li {if $smarty.get.file==$tplfile} class="sel_file"{/if}><a href="?dir={$sel_dir}&file={$tplfile}&folder=layout">{$tplfile}</a></li>
+        {/if}
+    {/foreach}
+    </ul>
+    
+    <h3>CSS Files</h3>
+    <ul>
+    {foreach from=$css_files item=cssfile}
+    	{if !is_array($cssfile)}
+        	<li {if $smarty.get.file==$cssfile} class="sel_file"{/if}><a href="?dir={$sel_dir}&file={$cssfile}&folder=theme">{$cssfile}</a></li>
+        {/if}
+    {/foreach}
+    </ul>
+</div>
+</td>
+    <td align="center" valign="top"><form name="file_content" action="" method="post">
+<div class="file_content"><textarea name="thecontent" class="file_content">{if $content}{$content}{else}<em>No File Selected</em>{/if}</textarea></div><br><div align="center">{if $writeable=='no'}This file is not writeable, please set <em><strong>{$smarty.get.file}</strong></em> permissions to 0777 - <a href="http://docs.clip-bucket.com/clipbucket-docs/files-folder-permissions" target="_blank"><strong>More Details</strong></a></div>
+{else}
+	<div align="right"><input type="submit" value="Update File" name="update_file" class="button"></div>
+{/if}
+</form></td>
+  </tr>
+</table>
+</div>

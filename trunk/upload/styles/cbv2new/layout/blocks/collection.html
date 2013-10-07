@@ -1,0 +1,41 @@
+{if $display_type == "" || $display_type == "normal"}
+<div class="moveL grid_view" id="collection_{$collection.collection_id}">
+	<div class="vid_thumb">
+		<a href="{$cbcollection->collection_links($collection,'view')}"><img src="{$cbcollection->get_thumb($collection,'small')}" /></a>
+        <span class="vid_time" style="font:normal 10px Tahoma; padding:2px 4px;">{$collection.total_objects|number_format} {$collection.type|capitalize}</span>
+    </div>
+     <div class="vid_info_wrap">
+     	<h2 class="title" style="font-family:Tahoma;"><a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name|truncate:30}</a></h2>
+        <p class="vid_info">{$collection.views} {lang code="views"}</p>
+        <p class="vid_info"><a href="{$userquery->profile_link($collection)}" title="{$collection.username}">{$collection.username|truncate:16}</a></p>
+        
+        <div class="CollectionRating">{show_rating class='rating' rating=$collection.rating ratings=$collection.rated_by total='10'}</div>
+     </div>
+</div>    
+{/if}
+
+{if $display_type == "view_collection"}
+<div class="collectItemBox">
+	{if $type == "videos"}
+    <div class="collect_grid">
+        <a class="CollectThumb" href="{$cbphoto->photo_links($object,'view_item')}">
+            <img src="{getThumb vdetails=$object}" alt="{$object.title}" width="120" height="70" />
+        </a>
+    </div> <!-- collection_{$collection.videokey} end -->
+    {/if}
+    
+    {if $type == "photos"}
+    <div class="collect_grid">
+        <a class="CollectThumb" href="{$cbphoto->photo_links($object,'view_item')}">
+            {get_photo details=$object size='t' output='html' alt=$object.photo_title}
+        </a>        
+    </div> <!-- collection_{$object.photo_key} end -->    
+    {/if}
+</div>  
+{/if}
+
+{if $display_type == "user_collections"}
+	<div class="moveL" style="width:47px; height:47px; padding:2px; margin:0 0px 0px 0px;">
+   		<a href="{$cbcollection->collection_links($collection,'view')}" style="width:47px; height:47px;" title="{$collection.collection_name}"><img src="{$imageurl}/dot.gif" width="47" height="47" style="background:url({$cbcollection->get_thumb($collection,'small')}) center top no-repeat;" /></a>
+    </div>
+{/if}

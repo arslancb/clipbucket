@@ -1,0 +1,91 @@
+<span class="page_title">Re-index Clipbucket <img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="Re-index simples means to recount everything and update it." /></span>
+<div style="height:3px;"></div>
+Here you can re-index your videos, users or groups statistics. From below select which thing you want to re-index.
+
+<div style="height:25px; clear:both"></div>
+
+<table width="600" border="0" cellpadding="2" cellspacing="2" class="reindex_tbl">
+    <tr>
+      <td align="left"><h4>Loop Size</h4>
+      number of items to reindex at once</td>
+      <td align="right">
+      <input type="text" name="textfield" style="width:60px" value="{$loop_size}" id="the_loop_size" /></td>
+    </tr>
+    <tr>
+        <td align="left"><h4>Reindex Videos</h4>
+        this will reindex total playlists, total favorites and total comments made on video</td>
+        <td align="right">
+        <form name="reindex_videos" method="get" action="">
+        	<input type="hidden" name="loop_size" value="" id="loop_start" />
+        	<input type="submit" name="index_vids" id="index_vids" value="Reindex Videos" class="button" 
+            onclick="$('#loop_start').val($('#the_loop_size').val())"/>
+        </form></td>
+    </tr>
+    
+    <tr>
+        <td align="left"><h4>Reindex Users</h4>
+          This will reindex total videos, total comments, total comments made, total subscribers and subscriptions, total groups owned, </td>
+        <td align="right">
+        <form name="reindex_users" method="get" action="">
+        	<input type="hidden" name="loop_size" value="" id="loop_start_user" />
+        	<input type="submit" name="index_usrs" id="index_usrs" value="Reindex Users" class="button"
+            onclick="$('#loop_start_user').val($('#the_loop_size').val())"/>
+        </form></td>
+    </tr>
+    
+    <tr>
+        <td align="left"><h4>Reindex Groups
+      </h4>
+        this will reindex all groups , update total members, total videos , total topics</td>
+        <td align="right">
+        <form name="reindex_groups" method="get" action="">
+        	<input type="hidden" name="loop_size" value="" id="loop_start_gp" />
+        	<input type="submit" name="index_gps" id="index_gps" value="Reindex Groups" class="button"
+            onclick="$('#loop_start_gp').val($('#the_loop_size').val())"/>
+        </form></td>
+    </tr>
+    
+    <tr>
+        <td align="left"><h4>Reindex Collections
+      </h4>
+        this will reindex all collections , update total objects, total comments</td>
+        <td align="right">
+        <form name="reindex_collections" method="get" action="">
+        	<input type="hidden" name="loop_size" value="" id="loop_start_cl" />
+        	<input type="submit" name="index_collections" id="index_collections" value="Reindex Collections" class="button"
+            onclick="$('#loop_start_gp').val($('#the_loop_size').val())"/>
+        </form></td>
+    </tr>
+    
+     <tr>
+        <td align="left"><h4>Reindex Photos
+      </h4>
+        this will reindex all photos , update total favorites, total comments</td>
+        <td align="right">
+        <form name="reindex_photos" method="get" action="">
+        	<input type="hidden" name="loop_size" value="" id="loop_start_ph" />
+        	<input type="submit" name="index_photos" id="index_photos" value="Reindex Photos" class="button"
+            onclick="$('#loop_start_gp').val($('#the_loop_size').val())"/>
+        </form></td>
+    </tr>               
+</table>
+
+{if $indexing}
+<div align="right" style="padding:5px">{$from} - {$to} of {$total}</div>
+	<ul>
+	{foreach from=$index_msgs item=themsg}
+    	<li>{$themsg}</li>
+    {/foreach}
+    </ul>
+{if  $stop_loop!='yes'}
+<script type="text/javascript">
+var start_index = '{$next_index}';
+var loop_size = '{$smarty.get.loop_size}';
+var mode = '{$mode}';
+{literal}$(document).oneTime(2000,function(){$(window.location).attr('href', '?loop_size='+loop_size+'&'+mode+'=yes&start_index='+start_index)});{/literal}
+</script>
+redirecting....do not close this window
+{else}
+	Indexing has been completed.
+{/if}
+{/if}

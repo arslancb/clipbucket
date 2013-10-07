@@ -1,0 +1,35 @@
+{assign var=msg value=$eh->message_list}
+{assign var=err value=$eh->error_list}
+{assign var=war value=$eh->warning_list}
+
+{if $err.0 neq '' || $err.1 neq ''}
+
+<div class="msg error">
+    <ul>
+    {foreach from=$err item=show_msg}
+   		<li><img src="{$imageurl}/cross.png" />{$show_msg}</li>
+    {/foreach}
+    </ul>
+</div>
+
+{/if}
+
+{if $msg.0 neq ''}
+<div class="msg blue">
+	<ul>
+        {foreach from=$msg item=show_msg}
+        	<li><img src="{$imageurl}/ok.png" />{$show_msg}</li>
+        {/foreach}
+    </ul>
+</div>
+{/if}
+
+{if $war.0 neq ''}
+<div class="msg blue">
+	<ul>
+        {foreach from=$war item=show_msg}
+        	<li><img src="{$imageurl}/error.png" />{$show_msg}</li>
+        {/foreach}
+    </ul>
+</div>
+{/if}

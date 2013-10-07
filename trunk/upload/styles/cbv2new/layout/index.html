@@ -1,0 +1,153 @@
+
+<div class="content_con clearfix">
+	<!--FEATURE_CON--> 
+    {if is_installed('editorspick')}
+    <div class="feature_con clearfix">
+    	<div class="feature_left" id="ep_video_container">
+        	{section name=e_list loop=$editor_picks max=1}
+            	{include file="$style_dir/blocks/editor_pick/video_block.html" video=$editor_picks[e_list]}
+            {sectionelse}
+            	<div style="font-size:11px;padding:10px;">
+                	There is no video in editor's pick, Please Add Videos In Editor's Pick<br />
+					Videos Manager > Add to editor's pick
+                </div>
+            {/section}
+        </div>
+        <div class="feature_right">
+        	{section name=e_list loop=$editor_picks}
+            	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
+            {/section}
+        </div>
+    </div>
+    <div class="feature_shadow" ></div>
+    <!--FEATURE_CON END-->
+    {/if}
+    
+    <div class="ad">{AD place='ad_468x60'}</div>
+    
+    {if isSectionEnabled('videos') ||  isSectionEnabled('photos')}
+    	{include file="$style_dir/blocks/subscriptions.html"}
+  	{/if}
+    
+    {if isSectionEnabled('videos')}
+    <div class="tabs">
+        <ul>
+            <li class="selected"><a href="javascript:void(0)" id="watched" onclick="get_video('recent_viewed_vids','#index_vid_container')">{lang code='being_watched'}</a></li>
+            <li><a href="javascript:void(0)" id="most_watched" onclick="get_video('most_viewed','#index_vid_container')">{lang code='most_viewed'}</a></li>
+            <li><a href="javascript:void(0)" id="recently_watched" onclick="get_video('recently_added','#index_vid_container')">{lang code='recently_added'}</a></li>
+       </ul>    	
+    </div> <!--TABS END-->
+    <div class="main_vids clearfix">
+    	<div id="style_change">
+			<div id="grid" onclick="ToggleView(this);" title="Change To Grid Style"></div> 
+			<div id="list" onclick="ToggleView(this);" title="Change to List Style"></div>
+			{lang code='change_style_of_listing'} 
+		</div> <!--STYLE_CHANGE END-->
+             
+       <div id="index_vid_container">
+       
+       </div>
+        
+
+    </div> <!--MAIN_VIDS END-->
+    <div class="main_vid_shadow"></div>
+    <div style="height:5px;"></div>
+    {/if}
+    {if isSectionEnabled('photos')}
+     <div class="tabs">
+        <ul>
+            <li class="selected"><a href="javascript:void(0)" id="watched" onclick="getAjaxPhoto('last_viewed','#index_pho_container')">{lang code='being_watched'}</a></li>
+            <li><a href="javascript:void(0)" id="most_watched" onclick="getAjaxPhoto('most_viewed','#index_pho_container')">{lang code='most_viewed'}</a></li>
+            <li><a href="javascript:void(0)" id="recently_watched" onclick="getAjaxPhoto('most_recent','#index_pho_container')">{lang code='recently_added'}</a></li>
+            <li><a href="javascript:void(0)" id="recently_watched" onclick="getAjaxPhoto('most_downloaded','#index_pho_container')">{lang code='most_downloaded'}</a></li>
+       </ul>    	
+    </div> <!--TABS END-->
+    <div class="main_vids clearfix">
+    
+       <div id="index_pho_container">
+       
+       </div>
+        
+
+    </div> <!--MAIN_VIDS END-->
+     <div class="main_vid_shadow"></div>
+     <div style="height:5px;"></div>
+    {/if}
+</div> <!--CONTENT_CON END-->
+
+<div class="side_con">
+
+	<!-- Displaying 300x250 Advertisment -->
+    {AD place=ad_300x250}   
+    
+	{if !$userquery->login_check('',true)}
+    <div class="login">
+        	<div class="login_title">{lang code='website_members' assign='websitemems'}{$websitemems|sprintf:$title}</div>
+            <div class="some_info">{lang code='guest_homeright_msg'}</div>
+            <div class="regist_link"><a href="{link name='signup'}">{lang code='reg_for_free'}</a></div>
+            <div class="login_link"><a href="{link name='signup'}">{lang code='login'}</a></div>
+    </div> <!--BOX END-->
+    {/if}
+ 
+
+    
+    
+    {if isSectionEnabled('videos')}
+    <!-- Getting Random videos -->
+    {assign var=videos_items_columns value=func->config(videos_items_columns)}
+    {get_videos assign=ran_vids limit=$videos_items_columns order=RAND()}
+    
+    {if $ran_vids}
+    <div style="width:300px; margin:auto">
+    <span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#rand_vids").slideToggle("fast")'>{lang code='rand_vids'}</span>
+    <div class="watch_vids_cont" id="rand_vids" style="background-color:#FFF">
+    {section name=uvlist loop=$ran_vids}
+        {include file="$style_dir/blocks/watch_video/video_box.html" video=$ran_vids[uvlist]}
+    {/section}
+    <div class="clearfix"></div>
+    </div>
+    <div style="height:10px"></div>
+    </div>
+    {/if}
+    {/if}
+    
+    {if isSectionEnabled('photos')}
+    <!-- Getting Random videos -->
+    {assign var=limit value=func->config(photo_other_limit)}
+    {get_photos assign=ran_ph limit=$limit order=RAND()}
+    
+    {if $ran_ph}
+    <div style="width:300px; margin:auto">
+    <span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#rand_fotos").slideToggle("fast")'>{lang code='rand_photos'}</span>
+    <div class="watch_vids_cont" id="rand_fotos" style="background-color:#FFF">
+    {section name=plist loop=$ran_ph}
+        {include file="$style_dir/blocks/photo.html" photo=$ran_ph[plist] display_type="side_photos"}
+    {/section}
+    <div class="clearfix"></div>
+    </div>
+    <div style="height:10px"></div>
+    </div>
+    {/if}
+    {/if} 
+    
+    {if isSectionEnabled('channels')}
+	<div class="box">
+   	  <div class="top_bg">
+        	<h2>{lang code='t_10_users'}</h2>
+            {get_users assign=topusers limit=10 order=' total_videos DESC '}
+
+            {section name=tusers loop=$topusers}
+        <div class="top_user">
+        <div class="user_no">{$smarty.section.tusers.iteration}</div>
+                <div class="avatar"><a href="{$userquery->profile_link($topusers[tusers])}"><img src="{$userquery->getuserthumb($topusers[tusers],'small')}" width="30" height="30" border="0" class="vsmall_thumb" /></a></div>
+                <div class="utitle"><a href="{$userquery->profile_link($topusers[tusers])}">{$topusers[tusers].username}</a>{lang code='views'} : {$topusers[tusers].profile_hits|number_format} - {lang code='videos'} : {$topusers[tusers].total_videos|number_format}
+				</div>
+            <div class="clearfix"></div>  
+            </div>
+            {/section}            
+        </div>
+    </div>
+    {/if}
+     <!--BOX END-->
+    
+</div> <!--SIDE_CON END-->

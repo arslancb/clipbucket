@@ -1,0 +1,28 @@
+<h2>Notification Settings</h2>
+<div style="height:5px; clear:both"></div>
+<form action="" method="post" enctype="multipart/form-data">
+<div class="main_page_div clearfix">
+	
+    	<fieldset class="fieldset" style="border:0px; display:block;">
+            <div style="float:left; width:800px;">
+              <legend>Notification Settings</legend>
+                <table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
+                      <tr>
+                        <td width="301" valign="top"><strong>Enable Notification</strong></td>
+                        <td width="813" valign="top"><input name="notification_option" id="notification_option" type="checkbox" value="1"{if $row.notification_option == '1'} checked{/if} ></td>
+                      </tr>
+                      <tr>
+                        <td valign="top">&nbsp;</td>
+                        <td valign="top">&nbsp;</td>
+                      </tr>
+                      <tr> 
+                        <td valign="top"><input type="submit" name="update_notification" class="button" value="Update Settings" id="update_notification" /></td>
+                        <td valign="top">&nbsp;</td>
+                      </tr>
+                </table>
+                <div style="height:5px; clear:both"></div>
+             </div>        
+        </fieldset>
+	
+</div> <!-- main_page_div end -->
+</form>

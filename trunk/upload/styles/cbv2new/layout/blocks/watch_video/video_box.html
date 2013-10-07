@@ -1,0 +1,21 @@
+
+<!-- Video Box -->
+{if $display_type =='normal' || $display_type==''}
+<div class="watch_video_box">
+    <div class="watch_video_box_thumb" align="center"> 
+        <a href="{videoLink vdetails=$video}" alt="{$video.title}" title="{$video.title}">
+        <img src="{getThumb vdetails=$video}" width="82" height="48" border="0" {ANCHOR place="video_thumb" data=$video} /></a>
+        <div class="duration">{$video.duration|SetTime}</div>
+        <img src="{$imageurl}/dot.gif" class="add_icon" onclick="add_quicklist(this,'{$video.videoid}')" title="add {$video.title} to qucklist" alt="quicklist">
+    </div> 
+   	<div class="watch_video_box_details">
+    <a href="{videoLink vdetails=$video}">{$video.title|truncate:30}</a><br>
+{lang code='views'}: {$video.views|number_format}<br>
+
+<a href="{$userquery->profile_link($video)}" title="{$video.username}" alt="{$video.username}">{$video.username}</a>
+
+</div>
+    <!--VIDEO_THUMB END-->  
+</div>
+{/if}
+<!-- Video Box -->

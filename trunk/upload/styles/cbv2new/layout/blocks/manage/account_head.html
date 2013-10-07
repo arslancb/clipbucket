@@ -1,0 +1,30 @@
+<div class="account_head_container clearfix">
+  <div class="account_thumb_container" align="center">
+	<img src="{$userquery->getUserThumb($user)}" alt="{$user.username}" class="account_thumb"><br />
+    <a href="{$userquery->profile_link($user)}">{lang code='com_view_channel'}</a></div>
+    <div class="stats">
+    	<span class="account_stat">{lang code='username'} : <strong>{$user.username}</strong></span>
+        <span class="account_stat">{lang code='joined'} : <strong>{$user.doj|date_format}</strong></span>
+        <span class="account_stat">{lang code='last_logged_in'} : <strong>{$user.last_logged|nicetime}</strong></span>
+        <span class="account_stat">{lang code='total_logins'} : <strong>{$user.num_visits|number_format}</strong></span>
+        <span class="account_stat">{lang code='profile_views'}: <strong>{$user.profile_hits|number_format}</strong></span>
+        <span class="account_stat">{lang code='total_videos'}: <strong>{$user.total_videos|number_format}</strong></span>
+        <span class="account_stat">{lang code='total_videos_watched'}: <strong>{$user.total_watched|number_format}</strong></span>
+        
+        <span class="account_stat">{lang code='total_collections'}: <strong>{$user.total_collections|number_format}</strong></span>
+        <span class="account_stat">{lang code='total_photos'}: <strong>{$user.total_photos|number_format}</strong></span>
+        
+        <span class="account_stat">{lang code='comments_made'}: <strong>{$user.total_comments|number_format}</strong></span>
+        <span class="account_stat">{lang code='subscribers'} : <strong>{$user.subscribers|number_format}</strong></span>
+        
+        {assign var=category value=$userquery->get_category($user.category)}
+        <span class="account_stat">{lang code='category'}: <strong>{$category.category_name}</strong></span>
+</div>
+    <div class="account_head_right">
+    	<div class="pm_box">
+         <span class="messages">{lang code='messages'}</span>
+         {$cbpm->get_new_messages()}
+        </div>
+    </div>
+
+</div>

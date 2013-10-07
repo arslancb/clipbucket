@@ -1,0 +1,107 @@
+/* $Id: rating_style.css 235 2009-08-25 12:39:17Z fwhite $ */
+.rating_container{width:140px; border-right:1px solid #CCC; height:40px; padding-right:10px}
+.rating_container #rating_result_container{font-size:10px; font-weight:bold; color:#333}
+.rating_container #rating_result_container .error{ color:#ed0000;}
+.rating_container #rating_result_container .msg{ color:#0099cc;}
+
+.big_stars,
+.big_stars a:hover,
+.big_stars a:active,
+.big_stars .current-rating{
+	background: url(../images/big_stars.png) left -1000px repeat-x;
+}
+.big_stars{
+	position:relative;
+	width:140px;
+	height:28px;
+	overflow:hidden;
+	list-style:none;
+	margin:0;
+	padding:0;
+	background-position: left bottom;
+}
+.big_stars li{
+	display: inline;
+}
+.big_stars a, 
+.big_stars .current-rating{
+	position:absolute;
+	top:0;
+	left:0;
+	text-indent:-1000em;
+	height:28px;
+	line-height:28px;
+	outline:none;
+	overflow:hidden;
+	border: none;
+
+}
+
+.big_stars a:hover{
+	background-position: left center;
+}
+.big_stars a.one-star{
+	width:20%;
+	z-index:6;
+}
+.big_stars a.two-stars{
+	width:40%;
+	z-index:5;
+}
+.big_stars a.three-stars{
+	width:60%;
+	z-index:4;
+}
+.big_stars a.four-stars{
+	width:80%;
+	z-index:3;
+}
+.big_stars a.five-stars{
+	width:100%;
+	z-index:2;
+}
+.big_stars .current-rating{
+	z-index:1;
+	background-position: left top;
+}
+
+.disabled a:hover{
+	background: url(../images/big_stars.png) left -1000px repeat-x;!important width:inherit;!important
+}
+
+/*  Following is styles of new like and dislike buttons*/
+.newRating { border:1px solid #ccc; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; 	background-color:#f3f3f3; 
+	background-image: -webkit-gradient(linear,left bottom,left top,from(#eeeeee),to(#ffffff));
+	background-image: -moz-linear-gradient(bottom, #eeeeee, #ffffff);
+	background-image: -o-linear-gradient(bottom, #eeeeee, #ffffff);
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#ffffff, endColorStr=#eeeeee); }
+.newLike, .newDislike { background:none; border:0px; padding:0px; margin:0px; text-indent:-90000px; width:14px; height:14px; padding:5px; display:block;}
+.newLike { background:url(../images/thumbs.png) -1px 1px no-repeat; float:left; border-right:1px solid #ccc; }
+.newLike:hover { cursor:pointer; background-position:-1px -21px; }
+.newLike:active { background-position:-1px -20px; }
+
+.newDislike { background:url(../images/thumbs.png) -31px 0px no-repeat; float:right; border-left:1px solid #ccc; }
+.newDislike:hover {   cursor:pointer; background-position:-31px -22px; }
+.newDislike:active { background-position:-31px -21px; }
+.greenBar { height:50%; 	background-color:#156200; 
+	background-image: -webkit-gradient(linear,left bottom,left top,from(#156200),to(#1e8c01));
+	background-image: -moz-linear-gradient(bottom, #156200, #1e8c01);
+	background-image: -o-linear-gradient(bottom, #156200, #1e8c01);
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#1e8c01, endColorStr=#156200); float:left; position:relative; border-right:1px solid white; }
+	
+	
+.redBar { height:50%; 	background-color:#990000; 
+	background-image: -webkit-gradient(linear,left bottom,left top,from(#990000),to(#c40000));
+	background-image: -moz-linear-gradient(bottom, #990000, #c40000);
+	background-image: -o-linear-gradient(bottom, #990000, #c40000);
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr=#c40000, endColorStr=#990000); float:left; position:relative; margin-right:-1px; }
+	
+.ratingText { font:normal 11px Arial; }
+.UserDisliked, .UserLiked { background:url(../images/thumbs.png) -36px -28px no-repeat; width:14px; height:14px; display:inline-block; *display:inline;  }
+.UserLiked { background-position:-6px -26px; }
+
+.ratingContainer .LikeBar { height:4px; background:#060; margin-bottom:1px;  }
+.ratingContainer .DislikeBar { height:4px; background:#C00;  }
+
+.LikeText, .DislikeText { display:block; margin-bottom:1px; }
+.LikeText { color:green; } .DislikeText { color:red; }

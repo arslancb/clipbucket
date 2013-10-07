@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- ClipBucket v2 -->
+<meta name="copyright" content="ClipBucket - PHPBucket ClipBucket 2007 - {$smarty.now|date_format:"%Y"}" />
+<meta name="author" content="Arslan Hassan - http://clip-bucket.com/arslan-hassan" />
+<link rel="shortcut icon" href="{$baseurl}/favicon.ico">
+<link rel="icon" type="image/ico" href="{$baseurl}/favicon.ico" />
+
+<!-- RSS FEEDS -->
+{rss_feeds link_tag=true}
+
+<meta name="keywords" content="{$Cbucket->configs.keywords}" />
+<meta name="description" content="{$Cbucket->configs.description}" />
+<meta name="distribution" content="global" />
+
+
+<title>{cbtitle}</title>
+
+<link href="{$theme}/main.css" rel="stylesheet" type="text/css" />
+
+<!-- Setting Template Variables -->
+{php}
+	if(!$_COOKIE['current_style'])
+    	$_COOKIE['current_style'] = 'grid_view';
+{/php}
+<!-- Setting Template Variables -->
+
+
+<script type="text/javascript">
+
+{if $upload_form_name !=''}
+	var upload_form_name = '{$upload_form_name}';
+	function submit_upload_form()
+	{literal}
+	{
+	{/literal}
+		document.{$upload_form_name}.submit();
+	{literal}
+	}
+	{/literal}
+{/if}
+</script>
+
+
+{include_header file='global_header'}
+
+
+{if $smarty.const.THIS_PAGE =='private_message' && $smarty.get.mid}
+<script type="text/javascript">
+var mid  = {$smarty.get.mid};
+{literal}
+		window.onload = function() {
+			$('#messages_container').scrollTo( '#message-'+mid, 800 );
+		}
+{/literal}
+</script>
+{/if}
+
+<!-- Including Common Js -->
+
+<!-- End Including Common Js -->
+
+{literal}
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+	{/literal}
+	{if $smarty.get.query == ""}
+	{literal}
+		$("#searchSelectWrapper ul li a").filter('#videos').parent().addClass('selected');	
+		$('#selectedText').text($("#searchSelectWrapper ul li a").filter('#videos').text());
+		$('#searchType').val($("#searchSelectWrapper ul li a").filter('#videos').attr('id'));
+	{/literal}
+	{else}
+	{literal}
+	
+	{/literal}	
+	{/if}
+	{literal}						   
+	$('.user_login').hide();					   
+	
+	$('#user_login').toggle(
+		function() {
+			$('.user_login').slideDown('normal');
+		},
+		function() {
+			$('.user_login').slideUp('normal');
+		}
+								
+	);
+	$("#searchSelectWrapper ul li a").bind({
+		click : function(event) {
+			event.preventDefault();
+			$("#searchType").val($(this).attr('id'));
+			$('#selectedText').text($(this).text());
+			$(this).parent().parent().children().removeClass('selected');
+			$(this).parent().addClass('selected')
+			$('#searchSelectWrapper').hide();
+		}
+	});
+	/*$('.tabs li').click(
+		function() {
+			$('.tabs li').removeClass('selected')
+			$(this).addClass('selected');
+		}
+	);*/
+	
+	$('.tabs li').each(function(index, value){
+		$(value).click(function(){
+			{	
+				$(this).parent().children().filter('.selected').removeClass('selected');
+				$(this).addClass('selected');
+			}
+		})
+	});
+	$('#lang_selector').click(function(){
+  	//do redirection
+	});
+	
+		$('#lang_selector').change(function(){
+		  var optionSelectedValue = $('#lang_selector option:selected').val();
+		  if(optionSelectedValue)
+		  {
+		  		var $currentLocation = window.location.href,
+						matchedElement = $currentLocation.match(/\?/);
+						
+				if(matchedElement == null)
+				{
+					window.location = "?set_site_lang="+optionSelectedValue;	
+				} else {
+					window.location = window.location+"&set_site_lang="+optionSelectedValue;	
+				}
+				
+		  }
+		});
+		{/literal}
+		{if isSectionEnabled('videos') && $smarty.const.THIS_PAGE=='index'}
+			get_video('recent_viewed_vids','#index_vid_container');
+		{/if}
+		{if isSectionEnabled('photos') && $smarty.const.THIS_PAGE=='index'}
+			getAjaxPhoto('last_viewed','#index_pho_container');
+		{/if}
+	
+	
+	{literal}		
+	});
+	
+	function ToggleView(obj) {
+		var obj = $(obj),
+			obj_id = obj.attr('id'),
+			parent = obj.parent().attr('id'),
+			target = $("#"+parent).next().attr('id');
+			//alert('#'+parent+' #'+target+' .grid_view');
+			if(obj_id == "grid") {
+				$('#'+parent+' + #'+target+' .grid_view').removeClass('list_view');
+				$.cookie("current_style","grid_view")
+				$('.vid_sp').hide();		
+				$('.truncatedtitle').hide();	
+				$('.fulltitle').show();	
+			} else {
+				$('#'+parent+' + #'+target+' .grid_view').addClass('list_view');
+				$.cookie("current_style","list_view")
+				$('.vid_sp').show();
+				$('.truncatedtitle').show();	
+				$('.fulltitle').hide();			
+			}
+	}
+
+</script>
+{/literal}
+{literal}
+<!--[if lte IE 6]>
+<style type="text/css">
+.clearfix { height: 1%; }
+</style>
+<![endif]-->
+{/literal}
+<!--[if IE 7]>
+<link href="{$theme}/ie7.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+{literal}
+<script type="text/javascript">
+function bookmarkSite(title, url) {
+	if (window.sidebar) { // firefox
+		window.sidebar.addPanel(title, url,"");
+		return false;
+	} else if( document.all ) { //MSIE
+		window.external.AddFavorite( url, title);
+		return false;
+	} else if(window.opera && window.print) {
+		alert("Your using Opera. Press Shift+Ctrl+D to add '"+title+"' in bookmarks");
+		return false;
+	} else if(navigator.userAgent.toLowerCase().indexOf('webkit') > -1) {
+		alert("Your using either Chrome or Safari. Press Ctrl+D to add '"+title+"' in bookmarks.")	
+	} else {
+		alert("Sorry, your browser doesn't support this");	
+	}
+}
+</script>
+{/literal}
+
+</head>
+
+<!-- Global Header Ends Here -->

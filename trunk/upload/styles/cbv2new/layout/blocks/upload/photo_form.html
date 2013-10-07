@@ -1,0 +1,43 @@
+{assign var='reqFields'  value=$cbphoto->load_required_forms($photoArray)}
+{assign var='otherFields'  value=$cbphoto->load_other_forms($photoArray)}
+
+<!-- always keep id same of FORM TAG and always keep ONSUBMIT Attribute -->
+<form action="" method="post" name="Form{$uniqueID}" style="margin-top:10px;" onsubmit="return false;" id="Form{$uniqueID}"> 
+<input type="hidden" value="{$photoArray.server_url}" name="server_url" id="server_url" />
+<div id="{$uniqueID}BOX" class="photoBox clearfix"> <!-- always keep id same -->
+    <div class="photoDetailsBox clearfix" style="position:relative;">
+        <div class="moveL" style="width:60%;">
+            {foreach from=$reqFields item=item}
+                <div class="field clearfix">
+                    <div class="moveL"><label class="label">{$item.title}</label></div>
+                    {$formObj->createField($item)}
+                    {if $item.hint_1}
+                        <div class="clear"></div>
+                        <span class="hint">{$item.hint_1}</span>
+                    {/if}
+                </div>
+            {/foreach}
+        </div>
+       
+        <div class="moveR">
+            <div class="photoThumbBox"> <!-- Wrap below inside a Parent DIV -->
+                 <img src="{get_photo details=$photoArray size='m'}" id="{$uniqueID}Preview" /> <!-- always keep id same -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="OptionalSettings clearfix" style="">
+        <div class="Heading">
+            <a href="#" onclick="$('#{$uniqueID}_Settings').slideToggle(); return false;">{lang code="Optional"} {lang code="Settings"}</a></div>
+        <div class="OptionalBox clearfix" style="display:none; padding-bottom:5px; border-bottom:1px solid #ccc;" id="{$uniqueID}_Settings">
+            {foreach from=$otherFields item=field}
+                <div style="float:left; margin-right:15px;">
+                <strong>{$field.title}</strong><br />
+                {$formObj->createField($field)}
+                </div>
+            {/foreach}
+        </div>
+    </div>
+    <button type="button" id="cbSubmitUpload{$uniqueID}" class="LoadMoreButton moveR" style="margin:5px;" disabled="disabled">{lang code="Uploading"}</button> <!-- always keep id same and for PHOTOS always use BUTTON TAG -->   
+</div> 
+</form>

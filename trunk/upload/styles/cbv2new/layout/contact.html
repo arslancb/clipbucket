@@ -1,0 +1,30 @@
+<div style="margin:auto; width:98%"><h2>{lang code="contact_us"}</h2>
+
+<p>{lang code="contact_us_msg"}</p>
+<form id="form1" name="form1" method="post" action="" class="contact_form">
+  <label for="name">{lang code="name"}</label>
+  <input type="text" name="name" id="name" />
+  <div style="height:10px;"></div>
+  <label for="email">{lang code="email"|capitalize}</label>
+  <input type="text" name="email" id="email" />
+  <div style="height:10px;"></div>
+  <label for="reason">{lang code="pelase_enter_reason"}</label>
+  <input type="text" name="reason" id="reason" />
+  <div style="height:10px;"></div>
+  <label for="message">{lang code="message"}</label>
+  <textarea name="message" id="message" cols="45" rows="5"></textarea>
+  <div style="height:10px;"></div>
+  
+{assign var=captcha value=func->get_captcha()}
+{if $captcha} 
+    {if $captcha.show_field}
+        <label for="verification_code">Verification Code</label>
+            {load_captcha captcha=$captcha load=field field_params = ' id="verification_code" '}
+    {/if}
+   <div align="right" style="width:480px">&nbsp;{load_captcha captcha=$captcha load=function}</div>
+{/if}
+
+ <div align="right" style="width:480px; padding-top:10px"> <input type="submit" name="contact" id="button" value="Contact Us" class="cb_button" /> </div>           
+</form>
+<p>&nbsp;</p>
+</div>

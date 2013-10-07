@@ -1,0 +1,30 @@
+{include file="$style_dir/global_header.html"}
+<body>
+{include file="$style_dir/blocks/view_channel/channel_global.html" }
+<div id="container" class="container clearfix" style="background-color:none">
+	{include file="$style_dir/header.html"}
+    <div style="height:10px;"></div>
+    {include file="$style_dir/message.html"}
+    <div class="channel_inner_box" id="result_cont" style="display:none; background:#eee;"></div>
+    <div class="moveL clearfix" style="width:270px; padding:0px 5px;">
+    	{include file="$style_dir/blocks/view_channel/channel_left.html"}
+    </div> <!-- this is left side -->
+	 <div class="moveL clearfix" style="width:700px; padding:0px 5px; ">
+     	<div id="channelDetailsBox" class="clearfix channelBox" style="border:1px solid #ccc; padding:0px 6px 6px;">
+         <h2>{$the_title}</h2>
+        	{section name=c_list loop=$collections}
+       		 {include file="$style_dir/blocks/collection.html" collection=$collections[c_list]}
+    		{/section}
+            <div class="clearfix"></div>
+            {include file="$style_dir/blocks/pagination.html"}       
+        </div>
+     </div> <!-- this is right side -->
+</div> <!-- container end -->
+<div class="clearfix" style="height:10px"></div>
+<div id="footer" class="clearfix" style="margin-top:0px;">
+    <div class="footer">
+        &copy; {$title} {$smarty.now|date_format:"%Y"}
+    </div>
+</div> 
+</body>
+</html>

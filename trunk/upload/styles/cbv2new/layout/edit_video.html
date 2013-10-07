@@ -1,0 +1,80 @@
+{assign var='video_fields' value=$Upload->load_video_fields($v)}
+<div>
+ {include file="$style_dir/blocks/manage/account_left.html"}
+ 
+ <div class="account_box">
+ {include file="$style_dir/blocks/manage/account_head.html" user=$user}
+ 
+ 
+ <!-- EDITING {$v.title} -->
+ <h2>Edit Video</h2> 
+ 
+ 
+ <div class="account_form">
+ <form method="post" name="edit_video">
+ {* GETTING THUMBS INFO *}
+ 
+ <fieldset class="fieldset">
+    <legend>Thumbs</legend>
+ {assign var=vidthumbs value=func->get_thumb($v,1,TRUE,false,true,false)}
+ {foreach from=$vidthumbs item=vid_thumb}
+    	<div style="width:140px; float:left" align="center">
+    	<label for="{$vid_thumb|getname}"><img src="{$vid_thumb}" border="1" style="margin:4px" /><br />
+        <input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $v.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />{lang code='default'}</label><br />
+ </div>
+ {/foreach}
+ </fieldset>
+
+ 
+ {* VIDEO THUMB ENDS *} 
+
+ {foreach from=$video_fields item=field_group}
+ <fieldset class="fieldset">
+ <legend>{$field_group.group_name}</legend>
+ 
+ {if $field_group.group_id == 'required_fields'}
+ 
+ <div class="account_field_block">
+ <div class="account_field_label" align="right"><strong><label for="videoLink">{lang code='video_link'}</label></strong></div>
+ <div class="account_field"><textarea onclick="this.select()"  >{videoLink vdetails=$v}</textarea></div>
+ <div class="clearfix"></div>
+ </div>
+ 
+ {/if}
+ {foreach from=$field_group.fields item=field}
+ <div class="account_field_block">
+ <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
+ <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
+ <br>
+ {$field.hint_2}</div>
+ <div class="clearfix"></div>
+ </div>
+ 
+ {if $field.name=='broadcast'}
+ 
+ <div class="account_field_block">
+ <div class="account_field_label" align="right"><strong><label for="videoLink">{lang code='video_link'}</label></strong></div>
+ <div class="account_field"><textarea onclick="this.select()"  >{videoLink vdetails=$v}</textarea></div>
+ <div class="clearfix"></div>
+ </div>
+ 
+ {/if}
+
+ {/foreach}
+
+ </fieldset>
+ {/foreach}
+
+ 
+ <div align="right"><button name="update_video" id="button" value="submit" class="cb_button">{lang code='update_video'}</button></div>
+
+ </form> 
+ </div>
+ 
+ 
+ <!-- ENDING EDITING {$v.title} -->
+ 
+ 
+ </div>
+ <div class="clearfix"></div>
+</div>

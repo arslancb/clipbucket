@@ -1,0 +1,110 @@
+<!-- Defining object type-->
+{lang code='photo' assign='object_type'}
+ <!-- onClick="get_item(this,'{$object.ci_id}','{$object.collection_id}','{$type}','next');"-->
+<div class="moveL" style="width:65%; margin:0px 10px;">
+{assign var=json value=$photo.photo_details|json_decode}
+    <div style="background:#f3f3f3; border:1px solid #ccc; padding:10px 0px;">
+        <div align="center"><a {if $nextLink} {assign var='nextItem' value=$nextLink} {else}  {assign var='nextItem' value=$preLink} {/if}
+        href="{$cbphoto->photo_links($nextItem.0,'view_item')}" 
+       >{get_photo details=$photo size='l' output='html'}</a></div>        
+    </div>
+        {ANCHOR place="video_bookmarks" data=$photo}
+    <div style="height:10px;"></div>
+    <div class="video_actions_cont clearfix">
+        <div class="rating_container">
+        	{show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}
+        </div>
+        <div style="float:left; margin-left:5px;" class="actions clearfix">
+        <ul>
+            <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#video_action_result_cont');add_to_fav('photo','{$photo.photo_id}');"><img src="{$imageurl}/dot.gif" class="add_to_fav" />{lang code='add_to_favs'}</a></li>
+            <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#share_form');$('#share_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="share_this" />{lang code='share_this'}</a></li>
+            <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#embed_codes');$('#embed_codes').slideToggle();"><img src="{$imageurl}/dot.gif" class="photo_embed_code" />{lang code='Embed Codes'}</a></li>
+                        <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#flag_item');$('#flag_item').slideToggle();"><img src="{$imageurl}/dot.gif" class="report_this" />{lang code='report_this'}</a></li>
+
+        </ul>
+        </div>
+    </div>
+    <div class="video_action_result_boxes">
+        {show_share_form id=$photo.photo_id type=Photo}
+        {show_flag_form id=$photo.photo_id type=Photo}
+        <div class="action_box" style="display:none" id="video_action_result_cont"></div>
+        <div class="action_box clearfix" style="display:none" id="embed_codes">
+        <div class="action_box_title">Embed Codes &#8212; <span class="cancel"><a href="javascript:void(0)" onclick="$('#embed_codes').slideUp();">cancel</a></span></div>
+        <div class="form_container">
+        {embedCodes assign='codes' type='all' with_url=TRUE details=$photo}
+        {foreach from=$codes item=item}
+        <div style="width:48%; display:inline-block; margin-top:5px;">
+        	<label style="text-transform:uppercase; font:bold 11px Tahoma;" for="{$item.type}">{$item.name}</label>
+            <input style="padding:4px; font:normal 11px Tahoma; border:1px solid #ccc; width:95%" onFocus="this.select();" value="{$item.code}" id="{$item.type}" />
+		</div>            
+        {/foreach}
+        </div>
+        </div>
+    </div>
+    <div class="borderLine"></div>
+    <div style="clear:both;">
+    <h2>{lang code='comments'}</h2>
+
+    <div id="comments"></div>
+    <script>
+		$(document).ready(function()
+		{ldelim}		
+			comments_voting = 'no';	
+			getComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}')
+		{rdelim}
+		);
+	</script>
+    {if $myquery->is_commentable($photo,'p')}
+    	{include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
+    {else}
+    	<div class="disable_msg" align="center">{lang code='Comments disabled for this photo'}</div>
+    {/if}
+    </div>
+</div>
+
+<div style="width:300px; margin-right:10px;" class="moveR">
+<div class="clearfix" style="background:#f3f3f3; border:1px solid #ccc; padding:10px; margin-bottom:5px;">
+<a href="{$userquery->profile_link($user)}" class="moveL" style="padding:1px; border:1px solid #ccc; margin-right:5px;"><img style="max-width:60px;" src="{avatar details=$user}" /></a> <a href="{$userquery->profile_link($user)}" style="text-decoration:none; font:bold 11px Tahoma, Geneva, sans-serif;">{$user.username}</a> <div style="height:3px;">&nbsp;</div>
+	<span style="font:normal 11px Tahoma, Geneva, sans-serif;">
+    	<a style="color:#7b7b7b; text-decoration:none;" href="{link name='user_videos'}{$user.username}">{lang code="videos"}</a> | <a style="color:#7b7b7b; text-decoration:none;" href="{link name='user_favorites'}{$user.username}">{lang code="favorites"}</a> | <a style="color:#7b7b7b; text-decoration:none;" href="{link name='user_contacts'}{$user.username}">{lang code='contacts'}</a>
+    </span>
+    <div style="height:5px;">&nbsp;</div>
+    <button class="LoadMoreButton" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>
+    <div class="clear"></div>
+    <div class="action_box" id="video_detail_result_cont" style="display:none"></div>
+</div>
+<div style="background:#f3f3f3; border:1px solid #ccc; padding:10px; margin-bottom:5px;">
+	<div class="video_title">{$photo.photo_title}</div>
+    <div class="borderLine"></div>
+    {$photo.photo_description}
+    <div class="borderLine"></div>
+    <div style="font:normal 10px Tahoma;">{$photo.photo_tags|tags:photos}</div>
+</div>
+{AD place="ad_300x250"}
+<div style="height:5px; clear:both"></div>
+{if $userquery->userid == $photo.userid}
+	<a href="{$baseurl}/edit_photo.php?photo={$photo.photo_id}" style="text-decoration:none;" class="LoadMoreButton">Edit Photo</a>
+{/if}
+{DownloadButtonP details=$photo class='LoadMoreButton' style='display:inline-block; *display:inline; margin-left:5px;' output='div'}
+{get_photos assign=uphotos user=$photo.userid exclude=$photo.photo_id order=RAND() limit='5'}
+{if $uphotos}
+<div style="height:5px; clear:both"></div>
+<div class="PhotoHeading hover" onclick="$('#morePhotos').slideToggle('fast');">More Photos From {$user.username}</div>
+<div id="morePhotos">
+{section name=list loop=$uphotos}
+	{include file="$style_dir/blocks/photo.html" display_type="related_photos" photo=$uphotos[list]}
+{/section}
+</div>
+{/if}
+
+{get_photos assign=related collection=$photo.collection_id show_related=TRUE title=$photo.photo_title tags=$photo.photo_tags exclude=$photo.photo_id limit='5'}
+{if $related}
+<div style="height:5px; clear:both"></div>
+<div class="PhotoHeading hover" onclick="$('#relatedPhotos').slideToggle('fast');">Related Photos</div>
+<div id="relatedPhotos">
+{section name=list loop=$related}
+	{include file="$style_dir/blocks/photo.html" display_type="related_photos" photo=$related[list]}
+{/section}
+</div>
+{/if}    
+</div>

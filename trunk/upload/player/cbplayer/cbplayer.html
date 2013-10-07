@@ -1,0 +1,114 @@
+<div id="mediaplayer">Loading player, please wait....</div>
+<script type="text/javascript">
+var cb_player_file = '{$cb_player_url}/player.swf';
+var cb_player_url = '{$cb_player_url}';
+var player_logo = '{$player_logo}';
+var hq_video_file = '{$hq_vid_file}';
+var normal_video_file = '{$normal_vid_file}';
+var ytcode = '{$ytcode}';
+var pre_item = "";
+var next_item = "";
+var preview_img = '{getThumb vdetails=$vdata size="big"}';
+var embed_type = '{$Cbucket->configs.embed_type}';
+
+
+		jwplayer("mediaplayer").setup({ldelim}
+		flashplayer: cb_player_file,
+		skin : cb_player_url+'/skins/{$cb_skin}',
+		{if $ytcode}
+		file: 'http://www.youtube.com/watch?v={$ytcode}',
+		{else}
+		file: normal_video_file,
+		{/if}
+		image: preview_img,
+		width: '{$player_data.width}',
+		height:'{$player_data.height}',
+		autostart : '{$player_data.autoplay}',
+		
+		<!-- Setting Pseudo Streaming -->
+		{if $Cbucket->configs.pseudostreaming=='yes'}provider: 'http',{/if}
+		
+		<!-- Setting Plugins -->
+		'plugins':
+		{ldelim}
+			
+			<!-- Loading HQ Plugin -->
+			'hd-2':
+			{ldelim}
+				'file':hq_video_file
+			{rdelim},
+			<!-- End Loading HQ Plugin -->
+			
+			<!-- Loading Related Plugin -->
+			'{$cb_player_url}/plugins/related/related.swf':
+			
+			{ldelim}
+            	file: cb_player_url+'/plugins/related/related_videos.php'+
+				'?vid={$vdo.videoid}&title={$vdo.title|urlencode}&tags={$vdo.tags|urlencode}',
+				usedock :false,
+				heading :'More suggested videos'
+        	{rdelim}
+			<!-- End Loading Related plugin -->
+			
+			<!-- Adding Extra Plugin Files -->
+			
+			<!-- Adding Extra Plugin Files -->
+		{rdelim}
+		,
+		
+		<!-- For Licensensed Players -->
+  		<!-- Setting Logo -->
+		'logo':{ldelim}
+			file :player_logo ,
+			link :baseurl,
+			margin : '{$logo_margin}',
+			position : '{$logo_placement}',
+			timeout : '3',
+			over :'1',
+			out :'0.5'
+		{rdelim},
+		<!-- Ending Logo Settings-->
+		<!-- Setting context menu -->
+		'abouttext' : '{$Cbucket->configs.pakplayer_contextmsg}',
+		'aboutlink' : baseurl,
+		<!-- Setting context menu ends -->
+		
+		
+		<!-- Events And JS Api -->
+		events:{ldelim}
+			onComplete:function()
+			{ldelim}
+				if(next_item)
+				{ldelim}
+					if($.cookie('auto_play_playlist'))
+					window.location = next_item;
+				{rdelim}
+			{rdelim}
+		{rdelim}
+	{rdelim});
+
+
+
+	<!-- Writing Quality Toggle function which will work outside the player -->
+	{literal}
+	var video_quality = 'normal';
+	function cb_toggle_quality()
+	{
+		jwplayer().stop();
+		if(video_quality=='normal')
+		{
+			video_quality = 'hq';
+			jwplayer().load(hq_video_file);
+			jwplayer().play();
+		}else
+		{
+			video_quality = 'normal';
+			jwplayer().load(normal_video_file);
+			jwplayer().play();
+		}
+	}
+	has_hq_function = true;
+	hq_function = cb_toggle_quality;
+	{/literal}
+	<!-- Toggle quality video ends -->
+</script>

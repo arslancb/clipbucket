@@ -1,0 +1,45 @@
+<!-- Listing Categories -->
+	{include file="$style_dir/blocks/category_list.html" type='collections'}
+<!-- Listing Categories End -->
+
+<div style="width:620px; float:left" class="vid_page_conainer" >
+
+<div class="sort_cont">
+<ul>
+	<li>{lang code='sort_by'} :</li>
+    {assign var=sorting_links value=$cbcollection->sorting_links()}
+    {foreach from=$sorting_links item=name key=sort}
+    	<li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type='collections'}">{$name}</a></li>
+    {/foreach}
+</ul>
+</div>
+
+
+<div class="time_cont">
+{assign var=time_links value=func->time_links()}
+{foreach from=$time_links item=name key=sort name=times}
+    <a href="{link name=time sort=$sort type='collections'}" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a> {if !$smarty.foreach.times.last}|{/if}
+{/foreach}
+</div>
+
+<div class="time_cont" align="right">
+<span class="cb_fb_style_button"><a href="{$baseurl}/manage_collections.php?mode=add_new">{lang code='add_new_collection'}</a></span>
+</div>
+
+{section name=c_list loop=$collections}
+    {include file="$style_dir/blocks/collection.html" collection=$collections[c_list]}
+{sectionelse}
+    {lang code='no_results_found'}
+{/section}
+</div>
+
+<div class="vert_add_box">
+<div style="width:160px; margin:auto; margin-top:5px">
+   {AD place='ad_160x600'}
+</div>
+
+</div>
+
+<div class="clearfix" style="margin-bottom:10px"></div>
+
+{include file="$style_dir/blocks/pagination.html"}

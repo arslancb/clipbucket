@@ -1,0 +1,115 @@
+<h2>Manage Items - <a href="{$baseurl}/admin_area/edit_collection.php?collection={$data.collection_id}">{$data.collection_name}</a></h2>
+<form action="" method="post">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+            <input type="submit" name="remove_selected" value="Remove Selected"  class="button"/>
+            <input type="submit" name="move_selected" value="Move Selected"  class="button"/>
+            <select name="collection_id" id="collection_id">
+            	{foreach from=$c item=item}
+                		<option value="{$item.collection_id}"{if $smarty.get.collection == $item.collection_id} selected="selected"{/if}>{$item.collection_name}</option>
+                {/foreach}
+            </select>
+            <br />
+    </td>
+    </tr>
+</table>
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="75" align="center" valign="middle" class="head">Object ID</td>
+    <td class="head">Details</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+{if $obj}
+{if $type == ''}
+	<div align="center"><strong><em>Unknown Type</em></strong></div>
+{else}
+{if $type == 'photos'}
+	<li class="clearfix myAdminList" style="background:#f3f3f3; border:1px solid #ccc; margin-top:5px; font:bold 11px Tahoma;">
+        <div class="clearfix PhotoDetails" style=" text-align:center; min-height:10px;">
+        	<a style="font-size:11px" href="{$baseurl}/admin_area/recreate_thumbs.php?mode=collection&amp;cid={$data.collection_id}">Re-create photos</a>. This will re-create photos found in the collection.
+        </div>
+    </li>
+{/if}    
+{section name=list loop=$obj}
+	{if $type == 'photos'}
+    <li id="collectionItem_{$obj[list].photo_id}" class="clearfix myAdminList" style="background:#{cycle values='FFFFFF,EEEEEE'}" 
+        OnMouseOver="$('#vid_opt-{$obj[list].photo_id}').show()"
+        OnMouseOut="$('#vid_opt-{$obj[list].photo_id}').hide()">	
+    <div class="moveL PhotoCheckBox">
+    	<div align="center"><input name="check_obj[]" type="checkbox" id="check_obj" value="{$obj[list].photo_id}" /></div>
+    </div>
+    <div class="moveL PhotoID">{$obj[list].photo_id}</div>
+    <div class="moveL clearfix PhotoDetails" style="width:88%;">
+    	<div class="moveL AdminPhotoThumb">
+        	<img src="{get_photo details=$obj[list]}" id="photo" style="padding:2px; border:1px solid #ccc" />
+        </div>
+        <div class="moveL">
+        	<a href="{$baseurl}/admin_area/edit_photo.php?photo={$obj[list].photo_id}" target="_blank">{$obj[list].photo_title}</a>
+            <div style="height:4px;"></div>
+            <span class="vdo_sets">
+                Featured:<strong>{$obj[list].featured} </strong> &#8226;
+                Collection:<strong><a title="Edit Collection" href="edit_collection.php?collection={$obj[list].collection_id}">{$obj[list].collection_id|get_collection_field}</a></strong>  &#8226;
+                Uploaded:<strong>{$obj[list].date_added|niceTime}</strong>  &#8226;
+                User:<strong><a href="view_user.php?uid={$obj[list].userid}">{$obj[list].username}</a></strong>
+            </span>
+            <div style="height:4px;"></div>
+            <div id="vid_opt-{$obj[list].photo_id}" style="display:none" class="AdminPhotoActions">
+            	<a target="_blank" href="{$cbcollection->collection_links($obj[list],'view_item')}">View</a>
+            </div>
+        </div>
+    </div>
+    </li>
+    {/if}
+    
+    {if $type == 'videos'}
+<li id="collectionItem_{$obj[list].videoid}" class="clearfix myAdminList" style="background:#{cycle values='FFFFFF,EEEEEE'}" 
+        OnMouseOver="$('#vid_opt-{$obj[list].videoid}').show()"
+        OnMouseOut="$('#vid_opt-{$obj[list].videoid}').hide()">	
+    <div class="moveL PhotoCheckBox">
+    	<div align="center"><input name="check_obj[]" type="checkbox" id="check_obj" value="{$obj[list].videoid}" /></div>
+    </div>
+    <div class="moveL PhotoID">{$obj[list].videoid}</div>
+    <div class="moveL clearfix PhotoDetails" style="width:88%;">
+    	<div class="moveL AdminPhotoThumb">
+        	<img src="{get_thumb vdetails=$obj[list]}" width="120" height="70" id="video_{$obj[list].videoid}" style="padding:2px; border:1px solid #ccc" />
+        </div>
+        <div class="moveL">
+        	<a href="{$baseurl}/admin_area/edit_video.php?video={$obj[list].videoid}" target="_blank">{$obj[list].title}</a>
+            <div style="height:4px;"></div>
+            <span class="vdo_sets">
+                Featured:<strong>{$obj[list].featured} </strong> &#8226;
+                Active:<strong>{$obj[list].active}</strong>  &#8226;
+                Uploaded:<strong>{$obj[list].date_added|niceTime}</strong>  &#8226;
+                User:<strong><a href="view_user.php?uid={$obj[list].userid}">{$obj[list].username}</a></strong>
+            </span>
+            <div style="height:4px;"></div>
+            <div id="vid_opt-{$obj[list].videoid}" style="display:none" class="AdminPhotoActions">
+            	<a target="_blank" href="{$cbcollection->collection_links($obj[list],'view_item')}">View</a>
+            </div>
+        </div>
+    </div>
+    </li>	
+    
+    {/if}
+{/section}
+{/if}
+{else}
+	<div align="center"><strong><em>No Object Found</em></strong></div>
+{/if}
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+            <input type="submit" name="remove_selected" value="Remove Selected"  class="button"/>
+            <input type="submit" name="move_selected" value="Move Selected"  class="button"/>
+            <br />
+    </td>
+    </tr>
+</table>
+</form>

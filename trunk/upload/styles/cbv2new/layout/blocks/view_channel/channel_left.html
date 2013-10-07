@@ -1,0 +1,81 @@
+<div class="clearfix channelBox">
+	
+	<div class="viewChannelProfileThumb_outline"><div class="channelHeading" style="margin:0 0 5px 0;"><a href="{$userquery->profile_link($u)}">
+    {assign var=category value=$userquery->get_category($u.category)}
+    
+   
+    
+    {$u.username}</a> ({$category.category_name})</div> {if $userquery->perm_check('admin_access')=='yes'}<div>{ANCHOR place=view_channel_admin_options data=$u}</div>{/if}<div class="viewChannelProfileThumb" align="center"><a href="{$userquery->profile_link($u)}">
+    <img src="{avatar details=$u}" style="border:1px solid #ccc; padding:1px; margin-right:5px;" /></a></div></div>
+    
+	{assign var=isSubscribed value=$userquery->is_subscribed($u.userid)}
+    <div style="height:10px"></div>
+    				<ul class="channel_action_links">			
+    {if !$isSubscribed && $p.allow_subscription!='no'}
+                    <li><a href="javascript:void(0)" 
+                    onClick="subscriber('{$u.userid}','subscribe_user','result_cont')">{lang code='subscribe'}</a></li>
+                    
+                    {elseif $isSubscribed}
+                   <li><a href="javascript:void(0)" 
+                    onClick="subscriber('{$u.userid}','unsubscribe_user','result_cont')">{lang code='unsubscribe'}</a></li>
+                    {/if}
+                    
+                    {assign var='channel_action_links' value=$userquery->get_channel_action_links($u)}
+                    
+                    {foreach from=$channel_action_links item=link key=link_title}
+                        <li><a href="{$link.link}" {if $link.onclick}onClick="{$link.onclick}"{/if}>{$link_title}</a></li>
+                    {/foreach}
+                    </ul>    
+</div>
+
+{if $p.show_my_friends!='no'}
+<div class="clearfix channelBox">
+	<div class="channelHeading">{lang code="friends"} <small><a href="{link name='user_contacts'}{$u.username}">{lang code="view_all"}</a></small></div>
+    {assign var=userFriends value=$userquery->get_contacts($u.userid,'0','yes')}
+    {if $userFriends}
+    	{foreach from=$userFriends item=friend}
+        	{include file="$style_dir/blocks/user.html" user=$friend block_type="friends"}
+        {/foreach}     
+    {else}
+    	<em>User dont any friends yet.</em>
+    {/if}
+</div>
+{/if}
+
+{if isSectionEnabled('collections') && $p.show_my_collections!='no'}
+<div class="clearfix channelBox">
+	<div class="channelHeading">{lang code="Collections"}</div>
+    {assign var=climit value=func->config(collection_channel_page)}
+    {get_collections assign=userCollections user=$u.userid limit=10 order=" date_added DESC" limit=$climit}
+    {if $userCollections}
+    	{foreach from=$userCollections item=collection}
+        	{include file="$style_dir/blocks/collection.html" collection=$collection display_type="user_collections"}
+        {/foreach}
+        <div align="right" class="clearfix" style="clear:both;display:block;margin-top:2px;"><a href="{link name='user_collections'}{$u.username}">{lang code='more'}</a> | <a href="{link name='user_fav_collections'}{$u.username}">{lang code='Favorites'}</a></div>
+    {else}
+    	<em>{lang code='user_doesnt_any_collection'}</em>
+    {/if}
+</div>
+{/if}
+
+{if $p.show_my_subscriptions!='no'}
+<div class="clearfix channelBox">
+	<div class="channelHeading">{lang code='user_subscriptions' assign='users_videos'}{$users_videos|sprintf:$u.username}</div>
+    {assign var=users_items_subscriptions value=func->config(users_items_subscriptions)}
+    {assign var='usr_subs' value=$userquery->get_user_subscriptions($u.userid,$users_items_subscriptions)}
+    {if $usr_subs}
+    	{foreach from=$usr_subs item=sub}
+        	{include file="$style_dir/blocks/user.html" user=$sub block_type="friends"}   
+        {/foreach}
+    {else}
+    	<em>{lang code='user_no_subscriptions' assign='user_subs'}{$user_subs|sprintf:$u.username}</em>
+    {/if}
+</div>
+{/if}
+
+{if $userquery->userid!=$u.userid}
+<div class="clearfix channelBox">
+    <a href="javascript:void(0)" onClick="$('#flag_item').slideToggle()">{lang code='report_this_user'}</a>
+</div>
+{/if}
+{show_flag_form id=$u.userid type=User}

@@ -1,0 +1,117 @@
+.left_menu
+{
+width: 232px; /*Width of left column*/
+padding-left: 5px;
+position:relative;
+} 
+
+.left_menu_0
+{
+width: 15px; /*Width of left column*/
+overflow:hidden;
+padding-left: 0px;
+margin-left:1px;
+
+} 
+
+#left_column{
+float: left;
+margin-left: -100%;
+z-index:5001;
+position:relative;
+}
+
+.left_menu .mainDiv
+{
+	margin-top:3px;
+	width:211px;
+	margin-bottom:5px
+}
+.left_menu_0  .mainDiv
+{
+	margin-top:3px;
+	width:0px;
+	visibility:hidden;
+	margin-bottom:5px
+
+}
+.topItem,.topItemOver,.topItemClose,.topItemCloseOver
+{
+	letter-spacing: 0;
+	background-position:center center;
+	background-repeat:no-repeat;
+	border: none;
+	width: 211px;
+	height: 26px;
+	color: #FFFFFF;
+	cursor:pointer;
+	text-indent:10px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	line-height:26px;
+}
+.topItem{background: url("../images/bgs/left_menu_head.png") no-repeat 0 -26px;}
+.topItemOver{background: url("../images/bgs/left_menu_head.png") no-repeat 0 -52px;}
+
+.topItemClose{background: url("../images/bgs/left_menu_head.png") no-repeat 0 0;}
+.topItemCloseOver{background: url("../images/bgs/left_menu_head.png") no-repeat 0 -78px;}
+
+
+
+.dropMenu
+{
+	font: bold 11px tahoma,verdana,sans-serif;
+	color: #000;
+	filter:alpha(opacity=100);
+	background-position:bottom;
+	background-repeat:no-repeat;
+	padding-bottom:10px;
+	border:1px solid #0066cc;
+	overflow:hidden;
+}
+
+.subMenu
+{
+   display:block;
+}
+
+.subItem,.subItemOver
+{
+   font: 12px tahoma,verdana,sans-serif;	
+   text-decoration:none;
+   color: #215dc6;
+   background-color:#f8f8f8;
+   border-bottom:1px solid #ccc; height:25px;
+   
+}
+.subItem:nth-child(2n),.subItemOver:nth-child(2n)
+{
+	background-color:#f3f3f3
+}
+
+.subItem a,.subItemOver  a
+{
+	font:bold 11px tahoma,verdana,sans-serif;
+	color:#333;
+	display:block;
+	padding-left:10px;
+	text-decoration:none;
+	font-family:Arial, Helvetica, sans-serif;
+	 height:25px; line-height:25px;
+}
+.subItem a:hover,.subItemOver  a:hover{
+background-color:#e9f6ff;
+color:#2b495d;
+}
+
+.drop
+{
+   border-left:1px solid black;
+   border-right:1px solid black;	
+}
+
+.menu_toggle{ background-image:url(../images/slide_toggle_2.png);position:absolute; right:0px; top:0px; z-index:5002; width:9px; height:100%; cursor:e-resize; border:1px solid #aaa;}
+.menu_toggle_arrow{ background:url(../images/slide_toggle_3.png) left no-repeat; position:absolute; right:0px; top:35px; z-index:5003; width:13px; height:51px; cursor:pointer}
+.left_menu .menu_toggle_arrow:hover { background:url(../images/slide_toggle_3.png) -13px no-repeat; }
+.left_menu_0 .menu_toggle_arrow:hover { background:url(../images/slide_toggle_3.png) right no-repeat; }

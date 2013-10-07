@@ -1,0 +1,86 @@
+
+
+<form name="videos_manager" method="post">
+ <div style="float:left; width:300px">
+   <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" /><input type="submit" name="delete_pm" id="delete_fav_videos" value="{lang code='delete'}" class="small_button" />
+ </div>
+ 
+  
+  <div class="clearfix"></div>
+<div style="height:10px"></div>
+<div class="account_table" style="width:780px">
+   
+     <table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+ 	      </td>
+ 	    {if $show_from}<td width="100">{lang code='from'}</td>{/if}
+        {if $show_to}<td width="100">{lang code='to'}</td>{/if}
+ 	    <td>{lang code='subject'}</td>
+ 	    <td width="100" class="last_td">{lang code='date_sent'}</td>
+ 	    </tr>
+ 	  </table>
+ </div>
+
+<div class="messages_container" id="messages_container">
+	 
+  <div style="width:780px">
+  
+   
+ {assign var='bg' value='fff'}
+ {section name=msg loop=$user_msgs}
+ {if $user_msgs[msg].message_id == $smarty.get.mid}
+ {assign var='bg' value='c6d7e0'}
+ {/if}
+ <div class="account_vid_list{if $user_msgs[msg].message_status=='unread'} unread_msg{else} read_msg{/if}" style="background-color:#{$bg}" id="message-{$user_msgs[msg].message_id}">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="25"><input type="checkbox" name="msg_id[]" id="msg_id" value="{$user_msgs[msg].message_id}" />
+     </td>
+    {if $show_from}<td width="100"><a href="?mode={$mode}&mid={$user_msgs[msg].message_id}">{$user_msgs[msg].message_from_user}</a></td>{/if}
+    {if $show_to}<td width="100"><a href="?mode={$mode}&mid={$user_msgs[msg].message_id}">{$user_msgs[msg].to_usernames}</a></td>{/if}
+    <td><a href="?mode={$mode}&mid={$user_msgs[msg].message_id}">{$user_msgs[msg].message_subject|truncate:70}</a></td>
+    <td width="50"><a id="delete_icon-{$pr_msg.message_id}" href="?mode={$mode}&delete_mid={$user_msgs[msg].message_id}"><img src="{$imageurl}/dot.gif" border="0" class="delete_icon" /></a>
+</td>
+    <td width="100" style="text-indent:0px; padding-left:5px">{$user_msgs[msg].date_added}</td>
+    </tr>
+  </table>
+  </div>
+ {if $bg=='fff'}
+ {assign var='bg' value='EFF5F8'}
+ {else}
+ {assign var='bg' value='fff'}
+ {/if}
+ 
+ {sectionelse}
+ 	<div align="center" style="padding:5px"><strong><em>{lang code='you_dont_hv_any_pm'}</em></strong></div>
+ {/section}
+ </div>
+  
+</div>
+
+</form>
+
+
+
+
+{if $pr_msg !=''}
+
+<div class="private_message_container" align="center">
+<div style="padding:5px" align="right">
+<a id="delete_icon-{$pr_msg.message_id}" href="?mode={$mode}&delete_mid={$pr_msg.message_id}"><img src="{$imageurl}/dot.gif" border="0" class="delete_icon" /></a>
+<a id="reply_icon-{$pr_msg.message_id}" href="?mode=new_msg&reply={$pr_msg.message_id}"><img src="{$imageurl}/dot.gif" border="0" class="reply_icon" title="Reply!" /></a>
+</div>
+ <div class="pm_message_top" align="left">
+  <div class="pm_line">{lang code='from'} : <strong><a href="{$userquery->profile_link($pr_msg)}">{$pr_msg.username}</a></strong> - {$pr_msg.date_added|date_format:"%A, %B %e, %Y %I:%M %p"}</div>
+  <div class="pm_line">{lang code='Subject'} : <strong>{$pr_msg.message_subject}</strong></div>
+ </div>
+ <hr width="100%" size="1" noshade="noshade" />
+ <div align="left">
+ 	{private_message pm=$pr_msg}
+ </div>
+</div>
+
+{/if}
+
+<div class="clearfix" style="height:10px"></div>

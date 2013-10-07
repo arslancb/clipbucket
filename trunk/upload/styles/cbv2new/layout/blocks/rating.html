@@ -1,0 +1,34 @@
+<!-- <div id="rating_container">
+<ul class="big_stars {$disable}" id="rating_container_{$id}">
+<li class="current-rating" style="width:{$perc}"></li>
+<li>
+
+<a href="javascript:void(0)" class="one-star" {if !$disable}onclick="rate('{$id}','1','{$type}')"{/if} onMouseOver="rating_over('Poor','{$disable}')" onmouseout="rating_out('Rate this {$type}','{$disable}')"> </a>
+</li>
+<li>
+<a href="javascript:void(0)" class="two-stars" {if !$disable}onclick="rate('{$id}','2','{$type}')"{/if} onMouseOver="rating_over('Bad','{$disable}')" onmouseout="rating_out('Rate this {$type}','{$disable}')"> </a>
+</li>
+<li>
+<a href="javascript:void(0)" class="three-stars" {if !$disable}onclick="rate('{$id}','3','{$type}')"{/if} onMouseOver="rating_over('Average','{$disable}')" onmouseout="rating_out('Rate this {$type}','{$disable}')"> </a>
+</li>
+<li>
+<a href="javascript:void(0)" class="four-stars" {if !$disable}onclick="rate('{$id}','4','{$type}')"{/if} onMouseOver="rating_over('Good','{$disable}')" onmouseout="rating_out('Rate this {$type}','{$disable}')"> </a>
+</li>
+<li>
+<a href="javascript:void(0)" class="five-stars" {if !$disable}onclick="rate('{$id}','5','{$type}')"{/if} onMouseOver="rating_over('Excellent','{$disable}')" onmouseout="rating_out('Rate this {$type}','{$disable}')"> </a>
+</li>
+</ul>
+<div id="rating_result_container" align="center">{if $rating_msg}{$rating_msg}{else}Rate this {$type}{/if}</div>
+</div> -->
+
+<div id="rating_container">
+<div class="newRating clearfix">
+    <div{if !$disable} onclick="rate('{$id}','5','{$type}')"{/if} onMouseOver="rating_over('Like this {$type}','{$disable}')" onmouseout="rating_out('{$likes} Likes, {$dislikes} Dislikes','{$disable}')" class="newLike">Like</div>
+    <div style="width:88px; float:left; height:14px; margin-top:8px">
+    	<div class="greenBar" style="width:{$perc}"></div>
+        <div class="redBar" style="width:{$disperc}"></div>
+    </div>
+    <div{if !$disable} onclick="rate('{$id}','1','{$type}')"{/if} onMouseOver="rating_over('Dislike this {$type}','{$disable}')" onmouseout="rating_out('{$likes} Likes, {$dislikes} Dislikes','{$disable}')" class="newDislike">Dislike</div>
+</div>
+<div id="rating_result_container" style="margin-top:4px;" align="center">{if $rating_msg}{$rating_msg}{else}{$likes} Likes, {$dislikes} Dislikes{/if}</div>
+</div>

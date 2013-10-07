@@ -1,0 +1,20 @@
+{if $comments}
+<div style="height:10px"></div>
+    {foreach from=$comments.comments item=comment}
+        {include file="$style_dir/blocks/comments/comment.html" comment=$comment type=$type parents=$comments.parents}
+    {/foreach}
+    
+    <div style="height:10px"></div>
+  
+   
+{else}
+	<div id="latest_comment_container">
+	<div align="center" class="no_comments">
+    	{lang code='no_comments' assign=no_comments} {$no_comments|sprintf:$object_type}
+    </div>
+    </div>
+    
+{/if}
+{if $comments}
+<div id="latest_comment_container"></div>
+{/if}

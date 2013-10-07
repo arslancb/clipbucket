@@ -1,0 +1,269 @@
+<!-- Defining object type-->
+{lang code='video' assign='object_type'}
+
+<!-- Getting Related videos -->
+{assign var=videos_items_columns value=func->config(videos_items_columns)}
+{get_videos nonuser=$vdo.userid exclude=$vdo.videoid limit=$videos_items_columns order="date_added ASC" assign=related_vids show_related=yes title=$vdo.title tags=$vdo.tags}
+
+<div class="vid_top_container">
+    <div class="video_title">{$vdo.title}</div>
+    {if $userquery->perm_check('admin_access')=='yes'}<div>{ANCHOR place=watch_admin_options data=$vdo}</div>{/if}
+
+    <!-- START before_watch_player plugin -->
+        {ANCHOR place="before_watch_player" data=$vdo }
+    <!-- END before_watch_player plugin anchor -->
+    
+    {if has_hq($vdo)}
+    <span id="hq" class="hq_button_cont">
+    <a href="javascript:void(0)" onclick="hq_toggle('#normal_player_cont','#hd_player_cont'); $('#hq_button').toggleClass('hq_button_sel')">
+    	<img src="{$imageurl}/dot.gif" class="hq_button" border="0" id="hq_button" />
+    </a>
+    </span>
+    {/if}
+</div>
+
+
+<div class="watch_left">
+<!-- Player -->
+<div class="player_container" id="normal_player_cont">
+    {FlashPlayer vdetails = $vdo}
+</div>
+
+
+<!-- Actions -->
+<div class="video_actions_cont clearfix">
+    <div class="rating_container">
+    {show_video_rating  rating=$vdo.rating ratings=$vdo.rated_by total='10' id=$vdo.videoid type=video}
+    </div>
+    <div class="actions clearfix">
+    <ul>
+    <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#video_action_result_cont');add_to_fav('video','{$vdo.videoid}');"><img src="{$imageurl}/dot.gif" class="add_to_fav" />{lang code='add_to_favs'}</a></li>
+      
+      <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#share_form');$('#share_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="share_this" />{lang code='share_embed'}</a></li>
+      <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#playlist_form');$('#playlist_form').slideToggle();"><img src="{$imageurl}/dot.gif" class="add_to_play" />{lang code='add_to_playlist'}</a></li>
+      
+      <li><a href="javascript:void(0)" onclick="slide_up_watch_video('#flag_item');$('#flag_item').slideToggle();"><img src="{$imageurl}/dot.gif" class="report_this" />{lang code='report_this'}</a></li>
+    </ul>
+
+    </div>
+
+</div>
+<!-- Actions End-->
+
+<!-- Action Result Container-->
+<div class="video_action_result_boxes">
+	{show_share_form id=$vdo.videoid type=Video}
+    {show_flag_form id=$vdo.videoid type=Video}
+    <div class="action_box" style="display:none" id="video_action_result_cont"></div>
+    {show_playlist_form id=$vdo.videoid type=Video}
+</div>
+<!-- Action Result Container End-->
+
+<!-- Video Stats-->
+<div class="video_details clearfix">
+<div  class="action_box"  id="video_detail_result_cont" style="margin-top:0px; margin-bottom:5px; display:none"></div>
+
+	<div class="vd_user_container" align="center">
+   		<a href="{$userquery->profile_link($vdo)}"><img src="{$userquery->getUserThumb($vdo)}" alt="{$vdo.username}" class="account_thumb" /></a>
+        <ul>
+        	<li><a href="{$userquery->profile_link($vdo)}">{lang code='view_profile'}</a></li>
+        	<li><a href="{$userquery->get_user_videos_link($vdo)}">{lang code='grp_view_vdos'}</a></li>
+        </ul>
+        <div align="center"><span class="small_button non_button" onclick="subscriber('{$vdo.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</span></div>
+    </div>
+    
+    <div class="vd_details">{ANCHOR place="video_bookmarks" data=$vdo}
+    <div class="uploading_detail">
+    {lang code='uploaded_by_s' assign='uploaded_by_s'}
+    	<a href="{$userquery->profile_link($vdo)}">{$uploaded_by_s|sprintf:$vdo.username} &#8212; {$vdo.date_added|nicetime}</a>
+    </div>
+    <div class="vd_stats">
+        <ul>
+          <li>{lang code='views'} : <strong>{$vdo.views|number_format}</strong></li>
+          <li>{lang code='duration'} : <strong>{$vdo.duration|SetTime}</strong></li>
+          <li>{lang code='comments'} :<strong> {$vdo.comments_count|number_format}</strong></li>
+        </ul>
+    <div class="clearfix"></div>    
+    </div>
+    
+    	<div class="desc_cont">
+    	<div class="less_desc" id="less_desc">
+        	 <span class="upper_quote"></span>{$vdo.description|description|truncate:200}{if strlen($vdo.description)>200}<a href="javascript:void(0)" onclick="$('#less_desc').css('display','none');$('#more_desc').css('display','block');">{lang code='more'}</a>{/if}
+        </div>
+        <div class="more_desc" id="more_desc" style="display:none">
+        	 <span class="upper_quote"></span>{$vdo.description|description} <a href="javascript:void(0)" onclick="$('#more_desc').css('display','none');$('#less_desc').css('display','block');">Less</a>
+        </div>
+        
+        </div>
+        
+        
+        <div class="tags_cats">
+    <div class="tags">{$vdo.tags|tags:videos}</div>
+    <div class="category">Category : {$vdo.category|categories:video}</div>
+    </div>
+    
+    </div>
+    
+</div>
+<!-- Video Sttas-->
+
+
+<!-- Video Comments -->
+<div id="commentsContainer">
+	<h2 class="commentHead">{lang code='comments'} ({$vdo.comments_count})</h2>
+    
+    <div id="comments"></div>
+    <script>
+		$(document).ready(function()
+		{ldelim}		
+			comments_voting = '{$vdo.comment_voting}';	
+			getComments('{$type}','{$vdo.videoid}','{$vdo.last_commented}',1,'{$vdo.comments_count}','{$object_type}')
+		{rdelim}
+		);
+	</script>
+    
+    {if $myquery->is_commentable($vdo,'v')}
+    	{include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
+    {else}
+    	<div class="disable_msg" align="center">{lang code='comm_disabled_for_vid'}</div>
+    {/if}
+    <div class="clearfix"></div>
+</div>
+<!-- Video Comments -->
+</div>
+
+
+
+<!-- Watch Right -->
+
+<div class="watch_right">
+	<div class="ads">{AD place=ad_300x250}</div>    
+    
+    
+    {if $Cbucket->configs.video_download==1 && $cbvid->downloadable($vdo)}<div class="video_details" align="left">
+     <label><a href="{videoLink vdetails=$vdo type=download}">{lang code='click_to_download_video'}</a></label>
+     
+</div> {/if}
+	
+    {ANCHOR place="watch_video_right" data=$vdo}
+
+
+{if $open_collection}
+	<!-- Loading items from collection -->
+		<span class="watch_vids_head" 
+		onclick='$(this).toggleClass("watch_vids_head_closed");$("#collectionItems").slideToggle("fast")'>{$c.collection_name}</span>
+		<div class="watch_vids_cont" id="collectionItems">
+		
+		<div class="NextPrevButtons clearfix">
+		{assign var=objctid value=$vdo.ci_id}
+		{assign var=collid value=$vdo.collection_id}
+		 <li class="moveL">
+			{assign var=preLink value=$cbvid->collection->get_next_prev_item($objctid,$collid,'prev')}
+			<a href="{$cbphoto->photo_links($preLink.0,'view_item')}" >Previous</a>
+		</li>
+		<li class="moveR">
+			{assign var=nextLink value=$cbvid->collection->get_next_prev_item($objctid,$collid,'next')}
+			<a href="{$cbphoto->photo_links($nextLink.0,'view_item')}" >Next</a>
+		</li>
+		</div>
+			
+			<div style="max-height:200px; overflow:auto">
+			{foreach from=$items item=item}
+				{if $bg=='fff'}
+					{assign var='bg' value='EFF5F8'}
+				{else}
+					{assign var='bg' value='fff'}
+				{/if}
+				
+				{include file="$style_dir/blocks/quicklist/video_block.html" video=$item selected=$vdo.videoid bg=$bg 
+					videoLink=$cbphoto->photo_links($item,'view_item')}
+				
+				{if $vdo.videoid==$item.videoid}
+				{assign var='pre_lock' value='yes'}
+				{else}
+					{if !$pre_lock}
+						{videoLink vdetails=$item assign='pre_vid'}
+					{else}
+						{if !$next_lock}
+							 {videoLink vdetails=$item assign='next_vid'}
+							 {assign var='next_lock' value='yes'}
+						{/if}
+					{/if}
+				{/if}
+	
+	
+			{/foreach}
+			</div>
+		</div>
+	<!-- Loading items ends -->
+{/if}
+
+<!-- Collections -->
+{if userid()}
+	<span class="watch_vids_head watch_vids_head_closed" 
+	onclick='$(this).toggleClass("watch_vids_head_closed");$("#vid_collections").slideToggle("fast")'>{lang code='collections'}</span>
+	<div class="watch_vids_cont" id="vid_collections" style="display:none">
+	
+	{assign var=collections value=$cbvid->collection->getCollectionFromItem($vdo.videoid)}
+	
+	{if $collections}
+	{lang code='this_video_found_in_no_collection'}
+	{foreach from=$collections item=collection name=collect}
+		<div class="watch_collect_item">
+			{$smarty.foreach.collect.iteration}. <a href="{$cbcollection->collection_links($collection.collection_id,'view')}">{$collection.collection_name}</a>
+		</div>
+	{/foreach}
+{/if}
+
+<div class="clearfix"></div>
+	
+    <div align="right"><a href="javascript:void(0)"
+    	 onclick="$('#addCollectionCont').toggle()"
+         	style="text-decoration:none"><strong>+ {lang code='add_to_my_collection'}</strong></a></div>
+    <div id="addCollectionCont" style="display:none">{show_collection_form id=$vdo.videoid type=Video}</div>
+
+</div>
+{/if}
+<!-- Collections -->
+
+<!-- Playlist -->
+	{include file="$style_dir/blocks/watch_video/playlist_box.html" selected=$vdo.videoid }
+<!-- Playlist End-->
+
+
+
+<!-- Getting List user videos -->
+{assign var=videos_items_columns value=func->config(videos_items_columns)}
+{get_videos user=$vdo.userid limit=$videos_items_columns assign=user_vids exclude=$vdo.videoid}
+{if $user_vids}
+<span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#user_vids").slideToggle("fast")'>
+
+{lang code='more_from' assign='more_from'}
+{$more_from|sprintf:$vdo.username}</span>
+<div class="watch_vids_cont" id="user_vids">
+{section name=uvlist loop=$user_vids}
+	{include file="$style_dir/blocks/watch_video/video_box.html" video=$user_vids[uvlist]}
+{/section}
+<div class="clearfix"></div>
+</div>
+{/if}
+<!-- Getting List user videos -->
+
+<!-- Related Videos based on category, please remove * and also above smarty function -->
+{* get_videos category=$vid_cat nonuser=$vdo.userid exclude=$vdo.videoid limit=$videos_items_columns order="date_added ASC" assign=related_vids show_related=yes title=$vdo.title*}
+
+
+{if $related_vids}
+<span class="watch_vids_head" onclick='$(this).toggleClass("watch_vids_head_closed");$("#related_vids").slideToggle("fast")'>{lang code='related_videos'}</span>
+<div class="watch_vids_cont" id="related_vids">
+{section name=uvlist loop=$related_vids}
+	{include file="$style_dir/blocks/watch_video/video_box.html" video=$related_vids[uvlist]}
+{/section}
+<div class="clearfix"></div>
+</div>
+{/if}
+<!-- Getting Related videos -->
+
+</div>
+
+<div class="clearfix"></div>

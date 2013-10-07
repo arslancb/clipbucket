@@ -1,0 +1,47 @@
+<div>
+	{include file="$style_dir/blocks/manage/account_left.html"}
+	<div class="account_box clearfix">
+        {include file="$style_dir/blocks/manage/account_head.html" user=$user}    
+        <h2 style=" display:inline-block; *display:inline;">Edit Photo</h2> - <div style=" display:inline-block;*display:inline;"><a href="{$cbphoto->photo_links($p,'view_item')}" style="text-decoration:none; margin-top:10px;" target="_blank" class="LoadMoreButton">View Photo</a></div> -  <button class="LoadMoreButton" type="button" onClick="viewRatings(this,'{$p.photo_id}');">View Ratings</button>
+        {assign var='requiredFields' value=$cbphoto->load_required_forms($p)}
+        {assign var='optionFields' value=$cbphoto->load_other_forms($p)}
+        <div class="clear"></div>
+        <div class="account_form">
+        <form name="edit_photo" id="edit_photo" method="post">
+        <input type="hidden" value="{$p.photo_id}" id="photo_id" name="photo_id" />
+        	<fieldset class="fieldset">
+            	<legend>Preview</legend>
+                <div class="account_field_block clearfix">
+                	{get_photo details=$p output='html' size='m' class='photoThumbBox moveL'}
+                </div>
+            </fieldset>
+            <fieldset class="fieldset">
+            <legend>Photo Details</legend>
+            {foreach from=$requiredFields item=field}
+                <div class="account_field_block">
+                <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
+                <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
+                <br>
+                {$field.hint_2}</div>
+                <div class="clearfix"></div>
+                </div>        
+            {/foreach}       
+            </fieldset>
+
+            <fieldset class="fieldset">
+                <legend>Other Options</legend>
+                {foreach from=$optionFields item=field}
+                    <div class="account_field_block">
+                    <div class="account_field_label" align="right"><strong><label for="{$field.id}">{$field.title}</label></strong></div>
+                    <div class="account_field">{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
+                    <br>
+                    {$field.hint_2}</div>
+                    <div class="clearfix"></div>
+                    </div>
+                    {/foreach}
+            </fieldset>
+           <div class="moveR"><button name="update_photo" id="button" value="submit" class="cb_button">{lang code='Update Photo'}</button></div>
+        </form>            
+        </div>
+    </div>
+</div>

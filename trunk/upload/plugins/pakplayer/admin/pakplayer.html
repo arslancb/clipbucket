@@ -1,0 +1,40 @@
+<h2>Pakplayer License</h2><br />
+<div id="tabbed_div" class="clearfix">
+	<div class="main_page_div">
+<div style="width:490px; margin-right:10px; float:left">
+
+<div id="something">
+    <div id="picker"></div>
+</div>
+<form name="subs_config" action="" method="post"><fieldset class="fieldset" style="border:none">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="block">
+<tr>
+  <td width="250" align="left" valign="top">Pakplayer license</td>
+  <td width="250" valign="top"><input name="pak_license" type="text" id="pak_license" value="{$configs.pak_license}" size="50" /></td>
+</tr>
+{foreach from=$pakconfigs item=config key=name}
+<tr>
+  <td valign="top">{$config.title}</td>
+  <td valign="top">
+  <div style="position:relative">
+      <input type="text" value="{$config.default}" size="50" {if $config.isColor}class="colorPicker" style="background-color:{$config.default}" {/if}/>
+  </div>
+  </td>
+</tr>
+{/foreach}
+<tr>
+  <td valign="top">&nbsp;</td>
+  <td valign="top">&nbsp;</td>
+</tr>
+<tr>
+  <td valign="top"><input type="submit" name="update" id="update" value="Update" class="button" /></td>
+  <td valign="top">&nbsp;</td>
+</tr>
+</table></fieldset>
+</form>
+</div>
+<div style="width:520px; margin-left:5px; float:left">
+
+{FlashPlayer width="520" height="300"}
+</div>
+<div class="clearfix"></div></div></div>

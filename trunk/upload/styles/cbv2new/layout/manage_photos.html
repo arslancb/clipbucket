@@ -1,0 +1,134 @@
+<div>
+    {include file="$style_dir/blocks/manage/account_left.html"}
+    <div class="account_box">
+    {include file="$style_dir/blocks/manage/account_head.html" user=$user}
+    {if $mode == 'uploaded'}
+        <h2>{lang code="Manage Photos"}</h2>
+        <div align="right" style="float:right; display:inline">
+            <form id="form1" name="form1" method="get" action="">
+                <input name="query" type="text" class="search_field" id="query" value="{$smarty.get.query|form_val}" />
+                <input name="input" type="submit" class="search_field_button" value="{lang code='search'}"/> 
+                <input name="mode" value="{$mode}" type="hidden" />
+            </form>
+        <div class="clearfix"></div></div>
+        <form name="photos_manager" method="post">
+        <div style="float:left; width:300px">
+        <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" /><input type="submit" name="delete_photos" id="delete_photos" value="{lang code='delete'}" class="small_button" />
+        </div>
+        
+         <div class="clear"></div>
+        <div class="account_table">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+                  </td>
+                <td>{lang code='title'}</td>
+                <td width="100">{lang code='date_added'}</td>
+                <td width="100">{lang code='views'}</td>
+                <td width="100">{lang code='comments'}</td>
+                <td width="100" class="last_td">{lang code='favorites'}</td>
+            </tr>
+        </table>       
+        </div>
+        
+        {section name=p_list loop=$photos}
+        	{include file="$style_dir/blocks/manage/account_photo.html" photo=$photos[p_list] control='full'}
+        {sectionelse}
+        	<div align="center" style="padding:5px"><strong><em>{lang code='You dont have any photos'}</em></strong></div>
+        {/section}
+        
+        </form>    
+    {/if}
+    
+    {if $mode == "favorite"}
+    	<h2>{lang code="manage_favorite_photos"}</h2>
+        <div align="right" style="float:right; display:inline">
+            <form id="form1" name="form1" method="get" action="">
+            <input name="query" type="text" class="search_field" id="query" value="{$smarty.get.query|form_val}" />
+            <input name="input" type="submit" class="search_field_button" value="{lang code='search'}"/> 
+            <input name="mode" value="{$mode}" type="hidden" />
+        </form>
+        <div class="clearfix"></div>
+        </div>
+        <form name="photos_manager" method="post">
+        <div style="float:left; width:300px">
+        <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" /><input type="submit" name="remove_fav_photos" id="remove_fav_photos" value="{lang code='delete'}" class="small_button" />
+        </div>
+        
+        <div class="clear"></div>
+        <div class="account_table">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+                  </td>
+                <td>{lang code='title'}</td>
+                <td width="100">{lang code='date_added'}</td>
+                <td width="100">{lang code='views'}</td>
+                <td width="100">{lang code='comments'}</td>
+                <td width="100" class="last_td">{lang code='favorites'}</td>
+            </tr>
+        </table>       
+        </div>
+        
+        {section name=p_list loop=$photos}
+        	{include file="$style_dir/blocks/manage/account_photo.html" photo=$photos[p_list] control='partail'}
+        {sectionelse}
+        	<div align="center" style="padding:5px"><strong><em>{lang code='You dont have any favorite photos'}</em></strong></div>
+        {/section}        
+        </form>
+    {/if}
+    
+    {if $mode == 'orphan'}
+     	<h2 style="margin-bottom:5px;">{lang code="manage_my_album"}</h2>
+        <div align="right">
+        Make my album <label>
+        <input type="radio" name="my_album_privacy" value="public" {if $user.album_privacy =='public'} checked="checked" {/if} 
+    	 onclick="window.location = '{$albumPrivacyUrl}album_privacy=public'"
+         /> Public</label>
+        
+        <label><input type="radio" name="my_album_privacy" value="private" {if $user.album_privacy =='private'} checked="checked" {/if} 
+        onclick="window.location = '{$albumPrivacyUrl}album_privacy=private'"/> Private</label>
+
+        <label><input type="radio" name="my_album_privacy" value="friends" {if $user.album_privacy =='friends'} checked="checked" {/if} 
+        onclick="window.location = '{$albumPrivacyUrl}album_privacy=friends'"/>For friends</label>
+        </div>
+        <div style="font:normal 10px Tahoma; color:#666; margin-bottom:15px;"> All the photos uploaded are dependent on their collections/albums. When you remove some photo from collection/album, this will not delete photo permenently. It will move photo here. You can also use this to make your photos private. Direct link is available for you to share with your friends.</div>
+        <div align="right" style="float:right; display:inline">
+            <form id="form1" name="form1" method="get" action="">
+            <input name="query" type="text" class="search_field" id="query" value="{$smarty.get.query|form_val}" />
+            <input name="input" type="submit" class="search_field_button" value="{lang code='search'}"/> 
+            <input name="mode" value="{$mode}" type="hidden" />
+        </form>
+        <div class="clearfix"></div>
+        </div>
+        <form name="photos_manager" method="post">
+        <div style="float:left; width:300px">
+        <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" /><input type="submit" name="delete_orphan_photos" id="delete_orphan_photos" value="{lang code='delete'}" class="small_button" />
+        </div>
+        
+        <div class="clear"></div>
+        <div class="account_table">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+                  </td>
+                <td>{lang code='title'}</td>
+                <td width="100">{lang code='date_added'}</td>
+                <td width="100">{lang code='views'}</td>
+                <td width="100">{lang code='comments'}</td>
+                <td width="100" class="last_td">{lang code='favorites'}</td>
+            </tr>
+        </table>       
+        </div>
+        
+        {section name=p_list loop=$photos}
+        	{include file="$style_dir/blocks/manage/account_photo.html" photo=$photos[p_list] control='orphan'}
+        {sectionelse}
+        	<div align="center" style="padding:5px"><strong><em>{lang code='you_dont_have_orphan_photos'}</em></strong></div>
+        {/section}   
+    
+    {/if}
+    
+    {include file="$style_dir/blocks/manage/user_account_pagination.html"}
+    </div>
+</div>

@@ -1,0 +1,203 @@
+{if $show=='oyeaaa'}
+{assign var='requiredFields' value=$Upload->loadRequiredFields($data)}
+{assign var='optionFields' value=$Upload->loadOptionFields($data)}
+{assign var='locationFields' value=$Upload->loadLocationFields($data)}
+
+{assign var='custom_fields' value=$Upload->load_custom_upload_fields($data,TRUE)}
+{assign var='custom_form_fields' value=$Upload->load_custom_form_fields($data,TRUE)}
+
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="200" align="left" class="left_head" style="text-indent:10px">Viewing {$data.title}</td>
+    <td class="head">&nbsp;</td>
+    <td width="200" align="right" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+
+<div style="width:98%; margin:auto; padding:10px">
+<input type="button" onClick="window.open('{videoLink vdetails=$data}')" class="button" value="Watch this video" />
+<input type="button" onClick="location.href='edit_video.php?video={$data.videoid}'" class="button" value="Edit this video" />
+</div>
+
+
+
+<table width="100%" border="0" align="center" cellpadding="1" cellspacing="1">
+  <tr>
+    <td width="40%"><table width="100%" border="0" cellpadding="0" cellspacing="1" class="block">
+      <tr>
+        <td colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="head_title">Information</td>
+        </tr>
+     {foreach from=$requiredFields item=field}
+      <tr>
+        <td>{$field.title}</td>
+        <td>{ANCHOR place=$field.anchor_before}{input_value input=$field}</td>
+      </tr>
+      {/foreach}
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="head_title">Important Details and Files information</td>
+        </tr>
+      <tr>
+        <td>Video Id</td>
+        <td>{$data.videoid}</td>
+      </tr>
+      <tr>
+        <td>Video Key</td>
+        <td>{$data.videokey}</td>
+      </tr>
+      <tr>
+        <td>File Name</td>
+        <td>{$data.file_name}</td>
+      </tr>
+      <tr>
+        <td> Video Files</td>
+        <td>{get_all_video_files vdetails=$data count_only=true}</td>
+      </tr>
+      <tr>
+        <td>Thumb Files </td>
+        <td>{get_thumb vdetails=$data count_only=true}</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>{assign var=vidthumbs value=func->get_thumb($data,1,TRUE)}
+
+    {foreach from=$vidthumbs item=vid_thumb}
+    	<div style="width:60px; float:left" align="center">
+    	<img src="{$vid_thumb}" width="50" height="50" border="1" style="margin:4px" /><br />
+        {if $data.default_thumb==$vid_thumb|get_thumb_num}Default{/if}
+    	</div>
+    {/foreach}
+    
+    </td>
+      </tr>
+      <tr>
+        <td height="25" colspan="2" align="center"><a href="view_conversion_log.php?file_name={$data.file_name}"><strong>View File Details and Conversion Log</strong></a></td>
+        </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="head_title">Sharing Options</td>
+      </tr>
+      {foreach from=$optionFields item=field}
+      <tr>
+        <td>{$field.title}</td>
+        <td>{ANCHOR place=$field.anchor_before}{input_value input=$field}</td>
+      </tr>
+      {/foreach}
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td height="21" colspan="2" class="head_title">Stats</td>
+        </tr>
+      <tr>
+        <td>Views</td>
+                    <td>{$data.views}</td>
+        </tr>
+                  <tr>
+                    <td>Rating</td>
+                    <td>{$data.rating} 
+                    of 10 </td>
+                  </tr>
+                  <tr>
+                    <td>RatedBy</td>
+                    <td>{$data.rated_by}</td>
+      </tr>
+        <tr>
+                    <td>Duration</td>
+                    <td>{$data.duration|SetTime}</td>
+        </tr>
+
+        <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+
+      <tr>
+        <td colspan="2" class="head_title">Custom Upload Options</td>
+        </tr>
+        
+        {foreach from=$custom_fields item=field}
+      <tr>
+    
+        <td>{$field.title}</td>
+        <td>{$field.value|form_val}</td>
+      </tr>
+      {foreachelse}
+       <tr>
+    
+        <td colspan="2" align="center">No Custom Fields</td>
+        </tr>
+      {/foreach}
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="head_title">Custom Form Fields</td>
+        </tr>
+     {foreach from=$custom_form_fields item=field}
+      <tr>
+    
+        <td>{$field.title}</td>
+        <td>{$field.value|form_val}</td>
+      </tr>
+      {foreachelse}
+       <tr>
+    
+        <td colspan="2" align="center">No Custom Fields</td>
+        </tr>
+      {/foreach}
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="head_title">User Information</td>
+        </tr>
+      <tr>
+        <td>User id</td>
+        <td>{$udata.userid}</td>
+      </tr>
+      <tr>
+        <td>User name</td>
+        <td>{$udata.username}</td>
+      </tr>
+      <tr>
+        <td>Videos Uploaded</td>
+        <td>{$userquery->get_user_vids($data.userid,'',true)}</td>
+      </tr>
+    </table></td>
+    <td width="60%" align="center" valign="top"><div id="{$player_div_id}">
+				This content requires JavaScript and Macromedia Flash Player 7 or higher. <a href=http://www.macromedia.com/go/getflash/>Get Flash</a><br/><br/>
+			</div>
+<script language="javascript">
+	{FlashPlayer vdetails = $videos}
+</script></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2" class="head_title">Video Comments</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">{assign var=id value=$data.videoid}{include file="$style_dir/blocks/comments.html" type=v id=$data.videoid link="video=$id"}</td>
+  </tr>
+</table>
+<br />
+<br />
+{else}
+<h2>Page moved</h2>
+{/if}

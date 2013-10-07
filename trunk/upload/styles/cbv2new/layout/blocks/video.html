@@ -1,0 +1,87 @@
+{if $cur_class==''}
+{assign var=cur_class value=$smarty.cookies.current_style}
+{/if}
+
+
+{if $display_type =='normal' || $display_type==''}
+<!-- Video Box -->
+<div id="vid_wrap_{$video.videoid}" class="{if $video_view}{$video_view}{else}grid_view {if $cur_class == 'grid_view'}{else}{$cur_class}{/if}{/if}">
+	<div class="vid_thumb">
+    	<a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" title="{$video.title}" alt="{$video.title}" {ANCHOR place="video_thumb" data=$video} /></a>
+        <span class="vid_time">{$video.duration|SetTime}</span>
+		<img src="{$imageurl}/dot.gif" class="add_icon" onclick="add_quicklist(this,'{$video.videoid}')" title="Add {$video.title} to Quicklist" alt="Quicklist" />   
+        {if $video.broadcast=='private'}
+        	<a href="{videoLink vdetails=$video}"><span class="private_video">&nbsp;</span></a>
+        {/if}
+        {ANCHOR place='in_video_thumb' data=$video}    
+    </div> <!--VID_THUMB END-->
+    <div class="vid_info_wrap">
+        <h2 class="title truncatedtitle"><a href="{videoLink vdetails=$video}" title="{$video.title}">{$video.title|truncate:40}</a></h2>
+        <h2 class="title fulltitle" style="display:none"><a href="{videoLink vdetails=$video}">{$video.title}</a></h2>
+        <div class="list_rating">
+        	{show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10' }
+		</div>            
+        <p id="desc" class="vid_info">{$video.description|description|truncate:100}</p>
+        <p class="vid_info">{$video.views} View(<strong>s</strong>) <span class="list_commnets"> | {$video.comments_count} Comment(<strong>s</strong>)</span></p>
+        <p class="vid_info"><span class="info_list">Uploaded By </span><a href="{$userquery->profile_link($video)}">{$video.username}</a> <span class="list_up_time">({$video.date_added|niceTime})</span></p>
+    </div> <!--VID_INFO_WRAP END-->
+</div> <!--VID_WRAP END-->
+
+{if $only_once}
+    <div class="clearfix"></div>
+{/if}
+<!-- Video Box -->
+{/if}
+
+
+{if $display_type == "channel_page"}
+	<li class="itemBox" onclick="loadObject(this,'videos','{$video.videoid}','viewingArea')">
+    	<div align="center"><img src="{getThumb vdetails=$video}" alt="{$video.title}" width="110" height="64" /></div>
+    </li> <!-- itemBox {$video.videokey} end -->
+{/if}
+
+{if $display_type=='add_type'}
+<div class="vertical">
+    <div class="video_thumb">
+    	{ANCHOR place='in_video_thumb' data=$video}
+        <label for="check_video_{$video.videoid}"><img src="{getThumb vdetails=$video}" width="110" height="66" border="0"  /></label>
+        {if $check_type=='array'}
+        <input type="checkbox" name="check_video[]" id="check_video_{$video.videoid}" style="position:absolute; bottom:0px; left:0px" {if $check_this} checked="checked"{/if} value="{$video.videoid}" />
+        {else}
+        <input type="checkbox" name="check_video_{$video.videoid}" id="check_video_{$video.videoid}" style="position:absolute; bottom:0px; left:0px" {if $check_this} checked="checked"{/if} value="yes" />
+        {/if}
+        <div class="duration">{$video.duration|SetTime}</div>
+        
+</div> <!--VIDEO_THUMB END-->
+    <div class="details_block">
+        <div class="lvl1 clearfix">
+            <div class="title"><a href="{videoLink vdetails=$video}">{$video.title|truncate:30}</a></div>
+            
+            {show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}
+           
+        </div> <!--LVL1 END-->
+        
+        <div class="lvl2 clearfix">
+            <div class="desc">{$video.description|description|strip_tags|truncate:100}</div>
+            <div class="length">Time: <span>{$video.duration|SetTime:false}</span></div>
+        </div> <!--LVL2 END-->
+        
+        <div class="lvl3 clearfix">
+            <div class="views"><span>{$video.views}</span> view(<strong>s</strong>)</div>
+        </div> <!--LVL3 END-->
+        
+        <div class="lvl4 clearfix">
+            <div class="uploaded">
+             <a href="{$userquery->profile_link($video)}">{$video.username}</a>
+            </div>
+        </div> <!--LVL4 END-->
+        
+            
+    </div> <!--DETAILS_BLOCK END-->
+    <div class="clearfix"></div>
+ </div>  
+{if $only_once}
+    <div class="clearfix"></div>
+{/if}
+
+{/if}

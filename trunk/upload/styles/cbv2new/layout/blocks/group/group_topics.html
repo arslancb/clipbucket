@@ -1,0 +1,29 @@
+<!-- Getting list of topics -->
+{if !$topics}
+    {assign var=topics value=$cbgroup->get_group_topics($group.group_id)}
+{/if}
+
+{if $topics}
+{foreach from=$topics item=topic}
+{assign var=user value=$userquery->get_user_details($topic.userid)}
+{if $topic.last_poster}
+	{assign var=last_poster value=$userquery->get_user_details($topic.last_poster)}
+{else}
+	{assign var=last_poster value=''}
+{/if}
+<li class="topicRow clearfix">
+	<div class="topicStarterAvatar moveL">
+		<i class="topicStarterAvatarBG" style="background:url({avatar details=$user }) center no-repeat; width:48px; height:48px;"><a href="{$userquery->profile_link($user)}">{$user.username}</a></i>
+    </div>
+    <div class="moveR" style="width:90%;">
+    	<h2 class="topicStarter"><a href="{$userquery->profile_link($user)}">{$user.username}</a></h2>
+            <div class="topicPreviewContainer clearfix">
+            <h4 class="topicTitle"><a href="{$cbgroup->topic_link($topic)}">{$topic.topic_title}</a></h4>
+            <div style="height:2px;"></div>
+            <div class="topicPreview">{$topic.topic_post|description|strip_tags|truncate:100}</div>
+        </div>
+        <span style="font:normal 10px Tahoma; color:#464646">{$topic.date_added|niceTime} &ndash; {if $last_poster}{lang code="last_reply"} {lang code="by"} <a href="{$userquery->profile_link($last_poster)}">{$last_poster.username}</a> ({$topic.last_post_time|niceTime}){else}<a href="{$cbgroup->topic_link($topic)}">Participate</a>{/if} {if has_access('admin_access') || $topic.userid == $userquery->userid} &ndash; <a href="javascript:void(0)" id="delete_topic-{$topic.topic_id}" onmousedown="delete_item('delete_topic','{$topic.topic_id}','{lang code="tp_del_confirm"}','?mode=view_topics&amp;topic_action=delete&amp;topic_id={$topic.topic_id}&amp;url={$group.group_url}');">Delete</a>{/if}</span>
+    </div>
+</li>
+{/foreach}
+{/if}

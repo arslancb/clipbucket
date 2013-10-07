@@ -1,0 +1,46 @@
+<div id="collectionItemView"> 
+	<!-- this div is required for Ajax to work properly -->
+	<div style="width:65%; margin-left:10px;" class="moveL">
+    	<div style="font:bold 11px Tahoma;  padding:6px 0px; margin-bottom:5px;">
+        <a href="{$baseurl}" style="text-decoration:none;">{lang code="Home"}</a> &raquo; <a href="{$cbcollection->collection_links($object.collection_id,'main')}" style="text-decoration:none;">{lang code="Collections"}</a> &raquo; <a href="{$cbcollection->collection_links($object.collection_id,'view')}" style="text-decoration:none;">{$object.collection_id|get_collection_field}</a>
+        </div>
+    </div>
+    <div class="moveR" style="width:30%; margin-right:10px;">  
+	{if $type !='videos'} 
+	
+	
+   <!-- <div class="NextPrevButtons clearfix">
+        <li class="moveL">
+        	<a href="javascript:void(0)" onClick="get_item(this,'{$object.ci_id}','{$object.collection_id}','{$type}','prev');">Previous</a>
+        </li>
+        <li class="moveR">
+        	<a href="javascript:void(0)" onClick="get_item(this,'{$object.ci_id}','{$object.collection_id}','{$type}','next');">Next</a>
+        </li>
+    </div>-->
+	
+	<div class="NextPrevButtons clearfix">
+	{assign var=objctid value=$object.ci_id}
+	{assign var=collid value=$object.collection_id}
+	 <li class="moveL">
+	 	{assign var=preLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'prev')}
+		<a href="{$cbphoto->photo_links($preLink.0,'view_item')}" >Previous</a>
+	</li>
+	<li class="moveR">
+		{assign var=nextLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'next')}
+		<a href="{$cbphoto->photo_links($nextLink.0,'view_item')}" >Next</a>
+	</li>
+	</div>
+	
+	
+	{/if}
+    </div>
+    <div class="clearfix"></div>
+        {if $type == 'photos'}
+            {include file="$style_dir/view_photo.html" photo=$object user=$user}
+        {/if}
+        
+        {if $type == 'videos'}
+            {include file="$style_dir/watch_video.html" vdo=$object user=$user}
+        {/if}
+    
+</div>

@@ -1,0 +1,61 @@
+<div class="add_comment_box" id="add_comment">
+<h2 style="margin:0px">{lang code='grp_add_comment'}</h2>
+
+
+<div id="add_comment_result" class="add_comment_result" style="display:none"></div>
+{if $userquery->login_check('',true) || $Cbucket->configs.anonym_comments == 'yes'}
+<form name="comment_form" method="post" action="" id="comment_form">
+	<input type="hidden" name="reply_to" id="reply_to" value="0">
+    <input type="hidden" name="obj_id" id="obj_id" value="{$id}">
+	
+	{if !$userquery->login_check('',true) && $Cbucket->configs.anonym_comments == 'yes'}
+    <label for="name" class="label">{lang code='name'}</label>
+    <br>
+    <input type="text" name="name" id="name" class="input"><br>
+    <label for="email" class="label">{lang code='email_wont_display'}</label>
+    <br>
+    <input type="text" name="email" id="email"  class="input"><br>
+    {else}
+    Name : {$userquery->username}<br>
+    {/if}
+            
+    {ANCHOR place='before_compose_box'}
+    <textarea name="comment" id="comment_box" cols="45" rows="5"  class="input" style="width:97%" ></textarea>
+
+	<div style="height:10px"></div>
+	
+    
+	  {if config('comments_captcha')=='all' || ( config('comments_captcha')=='guests' && !$userquery->login_check('',true) )}
+      
+      <div style="width:auto; float:left; ">
+	<strong>{lang code='please_enter_confimation_ode'}</strong>
+    
+    	{assign var=captcha value=func->get_captcha()}
+		{if $captcha} 
+			{if $captcha.show_field}
+				<label class="label" for="captcha">Verification Code</label><br />
+					{load_captcha captcha=$captcha load=field field_params = ' id="captcha" class="input" '}
+			   <div class="clearfix"></div>
+			{/if}
+			<label class="label">&nbsp;</label>
+			
+				{load_captcha captcha=$captcha load=function}
+	
+			<div class="clearfix"></div>
+		{/if}
+        
+        </div>
+    {/if}
+	
+	<div style="width:auto; float:left;padding-left:10px; padding-bottom:10px">{ANCHOR place='after_compose_box'}</div>
+	
+	<div class="clear"></div>
+	
+    <input type="hidden" name="type" value="{$type}" />
+    <div style="margin-top:2px" ><input type="button" name="add_comment" id="add_comment_button" value="{lang code='user_add_comment'}" 
+    class="cb_button" onclick="add_comment_js('comment_form','{$type}'){ANCHOR place='onClickAddComment'}"></div>
+</form>
+{else}
+	{lang code='please_login_to_comment'}
+{/if}
+</div>

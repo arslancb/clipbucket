@@ -1,0 +1,121 @@
+<div>
+ {include file="$style_dir/blocks/manage/account_left.html"}
+ <div class="account_box">
+ {include file="$style_dir/blocks/manage/account_head.html" user=$user}
+ 
+ {if $mode =='uploaded'}
+ <h2>{lang code='com_manage_vids'}</h2>
+ 
+ 
+ <!-- Manage Uploaded Videos Start -->
+ <div align="right" style="float:right; display:inline">
+   <form id="form1" name="form1" method="get" action="">
+    <input name="query" type="text" class="search_field" id="query" value="{$smarty.get.query|form_val}" />
+    <input name="input" type="submit" class="search_field_button" value="{lang code='search'}"/> 
+    <input name="mode" value="{$mode}" type="hidden" />
+   </form>
+  <div class="clearfix"></div></div>
+ <form name="videos_manager" method="post">
+ <div style="float:left; width:300px">
+   <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" /><input type="submit" name="delete_videos" id="delete_videos" value="{lang code='delete'}" class="small_button" />
+ </div>
+ 
+  
+  <div class="clear"></div>
+  
+  
+   <div class="account_table">
+   
+     <table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+ 	      </td>
+ 	    <td>{lang code='title'}</td>
+ 	    <td width="100">{lang code='date_added'}</td>
+ 	    <td width="100">{lang code='views'}</td>
+ 	    <td width="100">{lang code='comments'}</td>
+ 	    <td width="100" class="last_td">{lang code='status'}</td>
+ 	    </tr>
+ 	  </table>
+ </div>
+ {assign var='bg' value='fff'}
+ {section name=uvid loop=$uservids}
+	{include file="$style_dir/blocks/manage/account_video.html" video=$uservids[uvid] control='full' bg=$bg}
+ {if $bg=='fff'}
+ {assign var='bg' value='EFF5F8'}
+ {else}
+ {assign var='bg' value='fff'}
+ {/if}
+ 
+ {sectionelse}
+ 	<div align="center" style="padding:5px"><strong><em>{lang code='you_dont_hv_fav_vids'}</em></strong></div>
+ {/section}
+ 
+ {include file="$style_dir/blocks/manage/user_account_pagination.html"}
+ 
+ 
+ 
+  </form>
+ {/if}
+ <!-- Manage Uploaded Videos End -->
+ 
+ 
+ 
+ <!-- Manage Favorite Videos -->
+ {if $mode =='favorites'}
+ 	<h2>{lang code='com_manage_fav'}</h2>
+ 
+ 
+ <!-- Manage Uploaded Videos Start -->
+ <div align="right" style="float:right; display:inline">
+   <form id="form1" name="form1" method="get" action="">
+    <input name="query" type="text" class="search_field" id="query" value="{$smarty.get.query|form_val}" />
+    <input name="input" type="submit" class="search_field_button" value="{lang code='search'}"/> 
+    <input name="mode" value="{$mode}" type="hidden" />
+   </form>
+  <div class="clearfix"></div></div>
+ <form name="videos_manager" method="post">
+ <div style="float:left; width:300px">
+   <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" /><input type="submit" name="delete_fav_videos" id="delete_fav_videos" value="{lang code='delete'}" class="small_button" />
+ </div>
+ 
+  
+  <div class="clearfix"></div>
+  
+  
+   <div class="account_table">
+   
+     <table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+ 	      </td>
+ 	    <td>{lang code='title'}</td>
+ 	    <td width="100">{lang code='date_added'}</td>
+ 	    <td width="100">{lang code='views'}</td>
+ 	    <td width="100" class="last_td">{lang code='comments'}</td>
+ 	    </tr>
+ 	  </table>
+ </div>
+ {assign var='bg' value='fff'}
+ {section name=uvid loop=$uservids}
+   {include file="$style_dir/blocks/manage/account_video.html" video=$uservids[uvid] bg=$bg}
+ {if $bg=='fff'}
+ {assign var='bg' value='EFF5F8'}
+ {else}
+ {assign var='bg' value='fff'}
+ {/if}
+ 
+ {sectionelse}
+ 	<div align="center" style="padding:5px"><strong><em>{lang code='you_dont_hv_fav_vids'}</em></strong></div>
+ {/section}
+ {include file="$style_dir/blocks/manage/user_account_pagination.html"}
+ 
+ 
+ 
+  </form>
+ {/if}
+ <!-- Manage Favorite Videos END-->
+ </div>
+ 
+
+</div>

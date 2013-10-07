@@ -1,0 +1,29 @@
+<div class="footer">
+	<div class="footer_copyr">
+    	&copy; {$title} {$smarty.now|date_format:"%Y"}
+   	</div>
+    <ul class="clearfix">
+    
+    	{foot_menu assign='foot_menu'}
+        
+        {foreach from=$foot_menu item=fm}
+        	{if $fm.name!=''}
+            	<li><a href="{$fm.link}" {if $fm.target} target="{$fm.target}"{/if} {if $fm.onclick} onclick="{$fm.onclick}" {/if}>{$fm.name}</a></li>
+            {/if}
+        {/foreach}
+    </ul>
+    <div class="clearfix"></div>
+    
+    <div class="footer_sp"></div>
+    
+    <div align="center">
+     	
+        <!-- Forged by ClipBucket -->
+    	<!-- Please do not remove this unless you have license -->
+    		Forged by <a href="http://clip-bucket.com/">ClipBucket</a>
+        <!-- Forged by ClipBucket ends -->
+        
+        
+        {$Cbucket->footer()}</div>
+  
+</div>

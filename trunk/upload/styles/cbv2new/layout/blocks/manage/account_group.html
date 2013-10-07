@@ -1,0 +1,38 @@
+{if $control =='full'}
+<div class="account_vid_list" style="background-color:#{$bg}">
+   	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="check_gid[]" id="check_gid-{$group.group_id}" value="{$group.group_id}" />
+ 	      <label for="checkbox"></label></td>
+ 	    <td valign="middle">
+        <div style="padding-left:10px; float:left;width:290px">
+        <img src="{$cbgroup->get_group_thumb($group,small)}" width="40" height="30" border="0" class="acc_usr_video_thumb"  />{$group.group_name|truncate:100}<br />
+<span class="video_control"><a href="{group_link details=$group}">{lang code='view'}</a> - <a href="{$baseurl}/edit_group.php?gid={$group.group_id}">{lang code='edit'}</a>- <a href="{$baseurl}/manage_groups.php?mode=manage_members&gid={$group.group_id}">{lang code='manage'}</a> - <a href="javascript:void(0)"  onmousedown="delete_item('delete_icon_a','{$group.group_id}','{lang code='are_you_sure_rm_grp'}','?mode=manage&amp;gid_delete={$group.group_id}')"  id="delete_icon_a-{$group.group_id}">{lang code='delete'}</a></span>
+        <div class="clearfix"></div></div></td>
+ 	    <td width="100">{$group.date_added|date_format}</td>
+ 	    <td width="100">{$group.total_members|number_format}</td>
+ 	    <td width="100">{$group.total_topics|number_format}</td>
+ 	    <td width="100" class="last_td">{$group.active}</td>
+ 	    </tr>
+ 	  </table>
+   </div>
+{/if}
+
+{if $control =='basic'}
+<div class="account_vid_list" style="background-color:#{$bg}">
+   	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="check_gid[]" id="check_gid-{$group.group_id}" value="{$group.group_id}" />
+ 	      <label for="checkbox"></label></td>
+ 	    <td valign="middle">
+        <div style="padding-left:10px; float:left;width:290px">
+        <img src="{$cbgroup->get_group_thumb($group,small)}" width="40" height="30" border="0" class="acc_usr_video_thumb"  />{$group.group_name|truncate:100}<br />
+<span class="video_control"><a href="{group_link details=$group}">{lang code='view'}</a></span>
+        <div class="clearfix"></div></div></td>
+ 	    <td width="100">{$group.date_added|date_format}</td>
+ 	    <td width="100">{$group.total_members|number_format}</td>
+ 	    <td width="100">{$group.total_topics|number_format}</td>
+ 	    </tr>
+ 	  </table>
+   </div>
+{/if}

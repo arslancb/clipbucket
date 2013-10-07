@@ -1,0 +1,38 @@
+{if userid()}
+<div class="main_vids clearfix" style="border-top:1px solid #CCC">
+	<span class="subsription"><a href="{$baseurl}/edit_account.php?mode=subscriptions">{lang code='subscriptions'}</a></span>
+  
+   <div>
+   <!-- Listing Subscriptions-->
+   {* assign var=subs_vids value=$userquery->get_subscribed_videos($userquery->userid,10)* }
+   {assign var=subs_uploads value=$userquery->getSubscriptionsUploadsWeek($userquery->userid,10)}
+   {if $subs_uploads}
+   	{foreach from=$subs_uploads item=item key=type}
+    	{if $type == 'videos'}
+        	<div class="clearfix">
+                <h2 style="font-size:12px; padding:0 5px 5px; color:#333; margin-bottom:5px; border-bottom:1px solid #e8e8e8">{$item.title} ({$item.total} {$type})</h2>
+                {foreach from=$item.items item=videos}
+                    {include file="$style_dir/blocks/video.html" video=$videos}
+                {/foreach}
+            </div>        
+        {/if}
+    	{if $type == 'photos'}
+        	<div class="clearfix">
+                <h2 style="font-size:12px; padding:0 5px 5px; color:#333; margin-bottom:5px; border-bottom:1px solid #e8e8e8">{$item.title} ({$item.total} {$type})</h2>
+                {foreach from=$item.items item=photos}
+                    {include file="$style_dir/blocks/photo.html" photo=$photos display_type = "subscription"}
+                {/foreach}
+            </div>
+		{/if}	
+    {/foreach}
+   {else}
+   <em>{lang code='no_new_subs_video'}</em>
+   {/if}
+   <!-- End Listing Subscriptions -->
+   </div>
+    
+
+</div>
+<div class="feature_shadow" ></div>
+  <div class="ad">{AD place='ad_468x60'}</div>
+{/if}

@@ -1,0 +1,66 @@
+<h2>ClipBucket Queue Manager</h2> {if conv_lock_exists()}<span class="button" style="padding:5px; margin-left:10px" onclick="window.location='?delete_lock=yes'">Delete Conversion Lock</span>{/if}
+<div></div>
+do not try to change the things here, can cause problems to your Clipbucket conversion system.
+
+
+<!-- DIsplaying Videos -->
+<form name="video_manage" method="post">
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return.png" width="25" height="25"></td>
+    <td height="50" style="padding-left:15px">
+    <input type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are your sure you want to remove these items')"/>
+    <input name="processed" type="submit" class="button" id="processed" value="Set as processed" />
+    <input name="pending" type="submit" class="button" id="pending" value="Set as pending" /></td>
+    </tr>
+</table>
+
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="50" class="head">ID</td>
+    <td class="head">Details</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+{if $queues}
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+{foreach from=$queues item=queue}
+<tr bgcolor="{$bgcolor}">
+	<td width="30" align="center"valign="top" class="video_opt_td" style="height:25px">
+    <input name="check_queue[]" type="checkbox"  value="{$queue.cqueue_id}" /></td>
+    <td width="50"valign="top" class="video_opt_td" style="height:25px">
+    	{$queue.cqueue_id}
+    </td>
+    <td valign="top" class="video_opt_td" style="height:25px">
+      <a href="{$baseurl}/{$smarty.const.ADMINDIR}/view_conversion_log.php?file_name={$queue.cqueue_name}" target="_blank">{$queue.cqueue_name}</a> - 
+      <span class="vdo_sets">
+        File Type : <strong>{$queue.cqueue_ext}</strong> &#8226; 
+        Temp Ext : <strong>{$queue.cqueue_tmp_ext}</strong> &#8226;
+        Conversion Process : <strong>{$queue.cqueue_conversion|conv_status}</strong> &#8226;
+        {if $queue.time_started}
+        Started : <strong>{"Y-m-d H:i:s"|date:$queue.time_started}</strong> &#8226;
+        {/if}
+        {if $queue.time_completed}
+        Completed : <strong>{"Y-m-d H:i:s"|date:$queue.time_completed}</strong>
+        {/if}
+        </span>    </td>
+    </tr>
+	
+{if $bgcolor == ""}
+{assign var = bgcolor value = "#EEEEEE"}
+{else}
+{assign var = bgcolor value = ""}
+{/if}
+{/foreach}
+</table>
+{else}
+	<div align="center"><strong>No Conversion Queue File Found</strong></div>
+{/if}
+</form>
+
+{include file="$style_dir/blocks/pagination.html" }

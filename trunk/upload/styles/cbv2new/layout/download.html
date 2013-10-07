@@ -1,0 +1,25 @@
+
+<script>
+var download_file = '{$vdo.download_file}';
+{literal}
+/*	$(document).ready
+	(function()
+	  {
+		setTimeout("location.href='"+download_file+"'",3000);				   
+	  }
+	)
+*/	
+{/literal}
+</script>
+
+<div style="width:98%; margin:auto">
+
+{lang code='downloading_string' assign='downloadingstring'}
+
+<h2>{$downloadingstring|sprintf:$vdo.title}</h2>
+
+{lang code='download_redirect_msg' assign='redirectmsg'}
+{videoLink vdetails=$vdo assign='vidlink'}
+{assign value=$vdo.download_file var='downloadfile'}
+
+<p>{$redirectmsg|sprintf:$downloadfile:$vidlink}</p></div>

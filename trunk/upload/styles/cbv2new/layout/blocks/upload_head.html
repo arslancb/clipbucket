@@ -1,0 +1,67 @@
+{if $c}
+	{if $cbphoto->is_addable($c)}
+    	<div class="clearfix photoBox">
+        	<div style="background:#FFF; text-align:center; border-bottom:1px solid #ccc; color:#666; padding:8px; font:normal 11px Tahoma;">You are about to add new photos in <strong>{$c.collection_name}</strong></div>
+            <div class="clearfix" style="padding:8px">
+    		<div class="moveL">
+            	<img src="{$cbcollection->get_thumb($c,'small',TRUE)}" style="padding:2px; border:1px solid #ccc; background:#FFF;" />
+            </div>
+            <div class="moveL" style="margin-left:10px;">
+            	<div class="photoTitle"><a href="{$cbcollection->collection_links($c,'view')}" style="text-transform:uppercase;">{$c.collection_name}</a></div>
+                <div style="height:5px;"></div>
+                <div style="color:#666; font:normal 10px Tahoma, Geneva, sans-serif;">
+                	Total Items: {$c.total_objects} <div style="height:3px;"></div>
+                    Views: {$c.views|number_format} <div style="height:3px;"></div>
+                    Date Added: {$c.date_added|niceTime}
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="clearfix"></div>
+	{else}
+    	<div class="clearfix photoBox">
+    		<div style="background:#FFF; text-align:center; border-bottom:1px solid #ccc; color:#666; padding:8px; font:normal 11px Tahoma;">You can not add new photos in collection because of following reasons:</div>
+            <div style="padding:8px; font:normal 11px Tahoma; color:#666;">
+                <li style="list-style:none">Collection does not exist.</li>
+                <li style="list-style:none">It is unactive.</li>
+                <li style="list-style:none">It is private.</li>
+                <li style="list-style:none">Your are not owner of collection.</li>
+                <li style="list-style:none; margin-top:5px; font-weight:bold;">You can select collection once your photos have been uploaded.</li>
+            </div>            
+        </div> 
+    {/if}
+{else}
+
+	<div class="photoBox clearfix">
+            	<div style="background:#FFF; text-align:center; border-bottom:1px solid #ccc; color:#666; padding:8px; font:bold 11px Tahoma;"><a href="#" onclick="$('#SelectionDIV').show();$('#CollectionDIV').hide(); return false">Select Collection</a> | <a href="#" onclick="$('#CollectionDIV').show();$('#SelectionDIV').hide(); return false">Create Collection</a></div> 
+<div class="CollectionResult clearfix" id="CollectionResult" style="display:none; margin-bottom:5px;"></div> <!-- Keep id. This will display error/success message -->
+                              
+        <div id="SelectionDIV" style="padding:8px;">
+   			<div class="field clearfix" style="margin-bottom:3px;">
+            	<label style="font:bold 11px Tahoma; width:100px; display:inline-block; *display:inline;" >Select Collection</label>
+                <select onchange="update_collection_selection(this)" id="collectionSelection" name="collectionSelection" style="font:normal 11px Tahoma; padding:4px; border:1px solid #ccc; margin-right:15px;">
+                    {if $collections}
+                        {foreach from=$collections item=item}
+                            <option value="{$item.collection_id}">{$item.collection_name}</option>
+                        {/foreach}
+                    {else}
+                        <option value="0">No Collection Found</option>
+                    {/if}
+                </select>
+            </div>
+        </div>       
+        <div class="clearfix" style="padding:8px; display:none;" id="CollectionDIV" >  <!-- Also keep this id. After addition this will slideUp --> 
+        {assign var='reqFields' value=$cbcollection->load_required_fields()}    
+        {foreach from=$reqFields item=field}
+        {if $field.id != 'type'}
+            <div class="field clearfix" style="margin-bottom:3px;">
+            <label for="{$field.id}" style="font:bold 11px Tahoma; padding-top:3px; width:100px;" class="moveL">{$field.title}</label>
+            <div class="moveL">{$formObj->createField($field)}</div>       
+            </div>
+        {/if}
+        {/foreach}
+        <div class="moveR"><button type="button" onclick="ajax_add_collection(this);" class="LoadMoreButton">Add Collection</button></div>
+        </div>
+    </div>
+
+{/if}
