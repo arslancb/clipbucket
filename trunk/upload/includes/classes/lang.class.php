@@ -49,8 +49,10 @@ class language
 				setcookie('cb_lang',$lang,time()+3600,'/');
 		}
 	
-		
-		$lang_details = $this->lang_exists($lang);
+
+        if ( isset( $lang ) and !empty( $lang ) ) {
+		    $lang_details = $this->lang_exists($lang);
+        }
 
 		if(isset($lang) && $lang_details)
 		{

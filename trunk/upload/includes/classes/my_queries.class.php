@@ -36,24 +36,6 @@
  * @param : table name
  * @return : prefix_table_name;
  */
- 
-
-function tbl($tbl)
-{
-	global $DBNAME;
-	$prefix = TABLE_PREFIX;
-	$tbls = explode(",",$tbl);
-	$new_tbls = "";
-	foreach($tbls as $ntbl)
-	{
-		if(!empty($new_tbls))
-			$new_tbls .= ",";
-		$new_tbls .= "`".$DBNAME."`.".$prefix.$ntbl."";
-	}
-
-	return $new_tbls;
-}
-
 
 class myquery {
 

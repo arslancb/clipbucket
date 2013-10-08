@@ -50,7 +50,10 @@ class userquery extends CBCategory{
 					   );
 	
 	var $udetails = array();
-	
+
+    private $basic_fields = array();
+    private $extra_fields = array();
+
 	function userquery()
 	{
 		$this->cat_tbl = 'user_categories';
@@ -96,7 +99,10 @@ class userquery extends CBCategory{
 		
 		if($this->userid)
 			$udetails = $this->get_user_details($this->userid,true);
-		
+
+
+
+
 		if($udetails)
 		{			
 			
@@ -105,7 +111,7 @@ class userquery extends CBCategory{
 			$this->level = $this->udetails['level'];
 			$this->permission = $this->get_user_level(userid());
 			//exit();
-			
+
 			//Calling Logout Functions
 			$funcs = $this->init_login_functions;
 			if(is_array($funcs) && count($funcs)>0)
@@ -170,7 +176,77 @@ class userquery extends CBCategory{
 		$code = rand(10000,99999);
 		return $code;
 	}
-	
+
+    /**
+     * @return array
+     */
+    function get_basic_fields() {
+        return $this->basic_fields;
+    }
+
+    function set_basic_fields( $fields = array() ) {
+        return $this->basic_fields = $fields;
+    }
+
+    function basic_fields_setup() {
+
+        # Set basic video fields
+        $basic_fields = array(
+            'userid', 'username', 'email', 'avatar', 'sex', 'avatar_url',
+            'dob', 'level', 'usr_status', 'user_session_key'
+        );
+
+        return $this->set_basic_fields( $basic_fields );
+    }
+
+    function get_extra_fields() {
+        return $this->extra_fields;
+    }
+
+    function set_extra_fields( $fields = array() ) {
+        return $this->extra_fields = $fields;
+    }
+
+    function get_user_db_fields( $extra_fields = array() ) {
+        $fields = $this->get_basic_fields();
+        $extra = $this->get_extra_fields();
+
+        if ( empty( $fields ) ) {
+            $fields = $this->basic_fields_setup();
+        }
+
+        if ( !empty( $extra ) ) {
+            $fields = array_merge( $fields, $extra );
+        }
+
+        if ( !empty( $extra_fields ) ) {
+            if ( is_array( $extra_fields ) ) {
+                $fields = array_merge( $fields, $extra_fields );
+            } else {
+                $fields[] = $extra_fields;
+            }
+        }
+
+        # Do make array unqiue, otherwise we might get duplicate
+        # fields
+        $fields = array_unique( $fields );
+
+        return $fields;
+    }
+
+    function add_user_field( $field ) {
+        $extra_fields = $this->get_extra_fields();
+
+        if ( is_array( $field ) ) {
+            $extra_fields = array_merge( $extra_fields, $field );
+        } else {
+            $extra_fields[] = $field;
+        }
+
+
+        return $this->set_extra_fields( $extra_fields );
+    }
+
 	/**
 	 * Neat and clean function to login user
 	 * this function was made for v2.x with User Level System
@@ -624,33 +700,42 @@ class userquery extends CBCategory{
 	/**
 	 * Function used to get user details using userid
 	 */
-	function get_user_details($id=NULL,$checksess=false)
+	function get_user_details( $id=NULL, $checksess=false )
 	{
 		global $db,$sess;
 		/*if(!$id)
 			$id = userid();*/
-		if(is_numeric($id))	
-			$results = $db->select(tbl('users'),'*'," userid='$id'");
-		else
-			$results = $db->select(tbl('users'),'*'," username='".$id."' OR email='".$id."'");
-		$udetails = $results[0];	
-		
-		if(!$checksess)
-			return $udetails;
-		else
-		{
-			$session = $this->sessions['smart_sess'];
-			$udetails['user_session_key'];
-			$smart_sess = md5($udetails['user_session_key'].$sess->get('sess_salt'));
-			
-			if($smart_sess==$session['session_value'])
-			{
-				$this->is_login = true;
-				return $udetails;
-			}else
-			return false;
-		}
-			
+
+
+        $is_email = ( strpos( $id , '@' ) !== false ) ? true : false;
+        $select_field = ( !$is_email and !is_numeric( $id ) ) ? 'username' : ( !is_numeric( $id ) ? 'email' : 'userid' );
+
+        $fields = tbl_fields( array( 'users' => array( '*' ) ) );
+
+        $query = "SELECT $fields FROM ".cb_sql_table( 'users' );
+        $query .= " WHERE users.$select_field = '$id'";
+
+        $result = select( $query );
+
+        if ( $result ) {
+            $details = $result[ 0 ];
+
+            if ( !$checksess ) {
+                return apply_filters( $details, 'get_user' );
+            } else {
+                $session = $this->sessions['smart_sess'];
+                $smart_sess = md5($details['user_session_key'] . $sess->get('sess_salt'));
+                if ( $smart_sess == $session['session_value'] ) {
+                    $this->is_login = true;
+                    return apply_filters( $details, 'get_user' );
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        return false;
+
 	}function GetUserData($id=NULL){ return $this->get_user_details($id); }
 	
 
@@ -1619,8 +1704,13 @@ class userquery extends CBCategory{
 		{
 			$level = $this->udetails['level'];
 		}
-		
-		
+
+        if ( $level == userid() or $level == $this->udetails[ 'level' ] ) {
+            if ( $this->permission ) {
+                return $this->permission;
+            }
+        }
+
 		$result = $db->select(tbl('user_levels,user_levels_permissions'),'*',
 							  tbl("user_levels_permissions.user_level_id")."='".$level."' 
 							  AND ".tbl("user_levels_permissions.user_level_id")." = ".tbl("user_levels.user_level_id"));
@@ -3443,17 +3533,17 @@ class userquery extends CBCategory{
 		
 		$cond = "";
 		if(!has_access('admin_access',TRUE) && !$force_admin)
-			$cond .= " 	usr_status='Ok' AND ban_status ='no' ";
+			$cond .= " 	users.usr_status='Ok' AND users.ban_status ='no' ";
 		else
 		{
 			if($params['ban'])
-				$cond .= " ban_status ='".$params['ban']."'";
+				$cond .= " users.ban_status ='".$params['ban']."'";
 				
 			if($params['status'])
 			{
 				if($cond!='')
 					$cond .=" AND ";
-				$cond .= " 	usr_status='".$params['status']."'";
+				$cond .= " 	users.usr_status='".$params['status']."'";
 			}
 
 		}
@@ -3482,7 +3572,7 @@ class userquery extends CBCategory{
 				$count ++;
 				if($count>1)
 				$cond .=" OR ";
-				$cond .= " category LIKE '%$cat_params%' ";
+				$cond .= " users.category LIKE '%$cat_params%' ";
 			}
 			
 			$cond .= ")";
@@ -3493,7 +3583,7 @@ class userquery extends CBCategory{
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " ".cbsearch::date_margin("doj",$params['date_span']);
+			$cond .= " ".cbsearch::date_margin("users.doj",$params['date_span']);
 		}
 		
 		/*//uid 
@@ -3551,7 +3641,7 @@ class userquery extends CBCategory{
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " featured = '".$params['featured']."' ";
+			$cond .= " users.featured = '".$params['featured']."' ";
 		}
 		
 		//Email
@@ -3559,7 +3649,7 @@ class userquery extends CBCategory{
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " username = '".$params['username']."' ";
+			$cond .= " users.username = '".$params['username']."' ";
 		}
 		
 		//Email
@@ -3567,7 +3657,7 @@ class userquery extends CBCategory{
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " email = '".$params['email']."' ";
+			$cond .= " users.email = '".$params['email']."' ";
 		}
 		
 		//Exclude Users
@@ -3575,7 +3665,7 @@ class userquery extends CBCategory{
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " userid <> '".$params['exclude']."' ";
+			$cond .= " users.userid <> '".$params['exclude']."' ";
 		}
 		
 		//Getting specific User
@@ -3583,7 +3673,7 @@ class userquery extends CBCategory{
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " userid = '".$params['userid']."' ";
+			$cond .= " users.userid = '".$params['userid']."' ";
 		}
 		
 		//Sex
@@ -3591,7 +3681,7 @@ class userquery extends CBCategory{
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " sex = '".$params['gender']."' ";
+			$cond .= " users.sex = '".$params['gender']."' ";
 		}
 		
 		//Level
@@ -3599,7 +3689,7 @@ class userquery extends CBCategory{
 		{
 			if($cond!='')
 				$cond .= ' AND ';
-			$cond .= " level = '".$params['level']."' ";
+			$cond .= " users.level = '".$params['level']."' ";
 		}
 		
 		if($params['cond'])
@@ -3611,23 +3701,30 @@ class userquery extends CBCategory{
                 
                 
 		if(!$params['count_only'])
-                {
-                    
-                    $query = " SELECT ".tbl("users").".*,profile.rating FROM ".tbl('users')." LEFT JOIN ".tbl('user_profile'). " AS profile ";
-                    $query .= " ON ".tbl('users.userid')." = profile.userid ";
-                    
-                    $query .= " WHERE ".$cond;
-                    
-                    if($order)
-                        $query .= " ORDER BY ".$order;
-                    
-                    if($limit)
-                        $query .= " LIMIT  ".$limit;
-                    
-			//$result = $db->select(tbl('users'),'*',$cond,$limit,$order);
-                    
-                    $result = db_select($query);
-                }
+        {
+
+            $fields = array(
+                'users' => get_user_fields(),
+                'profile' => array( 'rating', 'rated_by', 'voters', 'first_name', 'last_name' )
+            );
+
+            $query = " SELECT ".tbl_fields( $fields )." FROM ".table( 'users' );
+            $query .= " LEFT JOIN ".table( 'user_profile', 'profile' )." ON users.userid = profile.userid ";
+
+            if ( $cond ) {
+                $query .= " WHERE ".$cond;
+            }
+
+            if( $order )
+                $query .= " ORDER BY ".$order;
+
+            if( $limit )
+                $query .= " LIMIT  ".$limit;
+
+    //$result = $db->select(tbl('users'),'*',$cond,$limit,$order);
+
+            $result = select( $query );
+        }
 		
 		
 		if($params['count_only'])

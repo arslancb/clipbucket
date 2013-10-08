@@ -33,6 +33,10 @@ class CBPhotos
 	var $share_email_vars;
 	//var $max_uploads = MAX_PHOTO_UPLOAD;  Max number of uploads at once
 	var $search;
+
+    private $basic_fields = array();
+    private $extra_fields = array();
+
 	/**
 	 * __Constructor of CBPhotos
 	 */
@@ -42,7 +46,85 @@ class CBPhotos
 		$this->embed_types = array("html","forum","email","direct");
 			
 	}
-	
+
+    /**
+     * @return array
+     */
+    function get_basic_fields() {
+        return $this->basic_fields;
+    }
+
+    function set_basic_fields( $fields = array() ) {
+        return $this->basic_fields = $fields;
+    }
+
+    function basic_fields_setup() {
+
+        # Set basic video fields
+        $basic_fields = array(
+            'photo_id', 'photo_key', 'userid', 'photo_title', 'photo_description', 'photo_tags', 'collection_id',
+            'photo_details', 'date_added', 'filename', 'ext', 'active', 'broadcast'
+        );
+
+        return $this->set_basic_fields( $basic_fields );
+    }
+
+    function get_extra_fields() {
+        return $this->extra_fields;
+    }
+
+    function set_extra_fields( $fields = array() ) {
+        return $this->extra_fields = $fields;
+    }
+
+    function get_photo_fields( $extra_fields = array() ) {
+        $fields = $this->get_basic_fields();
+        $extra = $this->get_extra_fields();
+
+        if ( empty( $fields ) ) {
+            $fields = $this->basic_fields_setup();
+        }
+
+        if ( !empty( $extra ) ) {
+            $fields = array_merge( $fields, $extra );
+        }
+
+        if ( !empty( $extra_fields ) ) {
+            if ( is_array( $extra_fields ) ) {
+                $fields = array_merge( $fields, $extra_fields );
+            } else {
+                $fields[] = $extra_fields;
+            }
+        }
+
+        # Do make array unqiue, otherwise we might get duplicate
+        # fields
+        $fields = array_unique( $fields );
+
+        return $fields;
+    }
+
+    function get_fields( $extra_fields = array() ) {
+        return $this->get_photo_fields();
+    }
+
+    function add_field( $field ) {
+        $extra_fields = $this->get_extra_fields();
+
+        if ( is_array( $field ) ) {
+            $extra_fields = array_merge( $extra_fields, $field );
+        } else {
+            $extra_fields[] = $field;
+        }
+
+
+        return $this->set_extra_fields( $extra_fields );
+    }
+
+    function add_photo_field( $field ) {
+        return $this->add_field( $field );
+    }
+
 	/**
 	 * Setting up Photos Section
 	 */
@@ -274,9 +356,26 @@ class CBPhotos
 	/**
 	 * Get Photo
 	 */
-	function get_photo($pid)
+	function get_photo( $pid )
 	{
 		global $db;
+
+
+        $select_field = is_numeric( $pid ) ? 'photo_id' : 'photo_key';
+        $fields = array(
+            'photos' => array( '*' ),
+            'users' => get_user_fields(),
+            'collections' => array( 'collection_name', 'type', 'category', 'views as collection_views', 'date_added as collection_added' )
+        );
+
+        $string = tbl_fields( $fields );
+
+        $query = "SELECT $string FROM ".table( 'photos' );
+        $query .= " LEFT JOIN ".table( 'collections' )." ON photos.collection_id = collections.collection_id";
+        $query .= " LEFT JOIN ".table( 'users' )." ON collections.collection_id = users.userid";
+        $query .= " WHERE photos.$select_field = '$pid' ";
+
+
 		if(is_numeric($pid))
 			$result = $db->select(tbl($this->p_tbl),"*"," photo_id = '$pid'");
 		else
@@ -302,16 +401,16 @@ class CBPhotos
 		
 		if(!has_access('admin_access',TRUE))
 		{
-			$cond = " ".tbl('photos.broadcast')." = 'public' AND ".tbl('photos.active')." = 'yes'";	
+			$cond = " ".('photos.broadcast')." = 'public' AND ".('photos.active')." = 'yes'";
 		} else {
 			if($p['active'])
-				$cond .= " ".tbl('photos.active')." = '".$p['active']."'";
+				$cond .= " ".('photos.active')." = '".$p['active']."'";
 				
 			if($p['broadcast'])
 			{
 				if($cond != "")
 					$cond .= " AND ";
-				$cond .= " ".tbl('photos.broadcast')." = '".$p['broadcast']."'";		
+				$cond .= " ".('photos.broadcast')." = '".$p['broadcast']."'";
 			}
 		}
 		
@@ -326,14 +425,14 @@ class CBPhotos
 		{
 			if($cond != "")
 				$cond .= " AND ";
-			$cond .= " ".tbl('photos.photo_key')." = '".$p['key']."'";		
+			$cond .= " ".('photos.photo_key')." = '".$p['key']."'";
 		}
 		
 		if($p['filename'])
 		{
 			if($cond != "")
 				$cond .= " AND ";
-			$cond .= " ".tbl('photos.filename')." = '".$p['filename']."'";		
+			$cond .= " ".('photos.filename')." = '".$p['filename']."'";
 		}
 		
 		if($p['extension'])
@@ -344,7 +443,7 @@ class CBPhotos
 				{
 					if($cond != "")
 						$cond .= " AND ";
-					$cond .= " ".tbl('photos.ext')." = '".$p['extension']."'";		
+					$cond .= " ".('photos.ext')." = '".$p['extension']."'";
 				}
 			}
 		}
@@ -353,14 +452,14 @@ class CBPhotos
 		{
 			if($cond != "")
 				$cond .= " AND ";
-			$cond .= " ".cbsearch::date_margin("date_added",$p['date_span']);		
+			$cond .= " ".cbsearch::date_margin("photos.date_added",$p['date_span']);
 		}
 		
 		if($p['featured'])
 		{
 			if($cond != "")
 				$cond .= " AND ";
-			$cond .= " ".tbl('photos.featured')." = '".$p['featured']."'";		
+			$cond .= " ".('photos.featured')." = '".$p['featured']."'";
 		}
 		
 		if($p['user'])
@@ -395,7 +494,7 @@ class CBPhotos
 				$loop = 1;
 				foreach($tags as $tag)
 				{
-					$title_tag .= " ".tbl('photos.photo_tags')." LIKE '%$tag%'";
+					$title_tag .= " ".('photos.photo_tags')." LIKE '%$tag%'";
 					if($loop<$total)
 						$title_tag .= " OR ";
 					$loop++;		
@@ -403,7 +502,7 @@ class CBPhotos
 			} else {
 				if($title_tag != '')
 					$title_tag .= " OR ";
-				$title_tag .= " ".tbl('photos.photo_tags')." LIKE '%".$p['tags']."%'";		
+				$title_tag .= " ".('photos.photo_tags')." LIKE '%".$p['tags']."%'";
 			}
 		}
 		
@@ -429,7 +528,7 @@ class CBPhotos
 		}
 		
 		if($p['get_orphans'])
-			$p['collection'] = "\0";
+			$p['collection'] = (string)"0";
 			
 		if($p['collection'])
 		{
@@ -439,22 +538,43 @@ class CBPhotos
 		} else {
 			if($cond != "")
 				$cond .= " AND ";
-			$cond .= " ".tbl('photos.collection_id')." <> '0'";
+			$cond .= " ".('photos.collection_id')." <> '0'";
 		}
-					
+
+
+        $fields = array(
+            'photos' => $this->get_fields(),
+            'users' => get_user_fields(),
+            'collections' => array( 'collection_name', 'type', 'category', 'views as collection_views', 'date_added as collection_added' )
+        );
+
+        $string = tbl_fields( $fields );
+
+        $main_query = "SELECT $string FROM ".table( 'photos' );
+        $main_query .= " LEFT JOIN ".table( 'collections' )." ON photos.collection_id = collections.collection_id";
+        $main_query .= " LEFT JOIN ".table( 'users' )." ON collections.userid = users.userid";
+
+        $order = $order ? " ORDER BY ".$order : false;
+        $limit = $limit ? " LIMIT ".$limit : false;
+
 		if(!$p['count_only'] && !$p['show_related'])
 		{
-			if($cond != "")
-				$cond .= " AND ";
-			$result = $db->select(tbl($tables),
-								  tbl("photos.*,users.userid,users.username"),
-								  $cond.tbl("photos.userid")." = ".tbl("users.userid"),$limit,$order);
-			//echo $db->db_query;					  						  	
+            $query = $main_query;
+            if ( $cond ) {
+                $query .= " WHERE ".$cond;
+            }
+
+            $query .= $order;
+            $query .= $limit;
+
+            $result = select( $query );
 		}
 		
 		if($p['show_related'])
 		{
-			$cond = "MATCH(".tbl('photos.photo_title,photos.photo_tags').")";
+            $query = $main_query;
+
+			$cond = "MATCH(".('photos.photo_title,photos.photo_tags').")";
 			$cond .= " AGAINST ('".cbsearch::set_the_key($p['title'])."' IN BOOLEAN MODE)";
 			if($p['exclude'])
 			{
@@ -476,17 +596,24 @@ class CBPhotos
 					$cond .= " AND ";
 				$cond .= $p['extra_cond'];		
 			}
-			$result = $db->select(tbl($tables),tbl("photos.*,users.userid,users.username"),
-						  $cond." AND ".tbl('photos.collection_id')." <> '0' AND ".tbl("photos.userid")." = ".tbl("users.userid"),$limit,$order);
-			//echo $db->db_query;
+
+            $where = " WHERE ".$cond." AND photos.collection_id <> 0";
+
+            $query .= $where;
+            $query .= $order;
+            $query .= $limit;
+
+            $result = select( $query );
 									  
 			// We found nothing from TITLE of Photos, let's try TAGS
 			if($db->num_rows == 0)
 			{
+                $query = $main_query;
+
 				$tags = cbsearch::set_the_key($p['tags']);
 				$tags = str_replace('+','',$tags);
 
-				$cond = "MATCH(".tbl('photos.photo_title,photos.photo_tags').")";
+				$cond = "MATCH(".('photos.photo_title,photos.photo_tags').")";
 				$cond .= " AGAINST ('".$tags."' IN BOOLEAN MODE)";
 				
 				if($p['exclude'])
@@ -509,9 +636,14 @@ class CBPhotos
 						$cond .= " AND ";
 					$cond .= $p['extra_cond'];		
 				}
-				$result = $db->select(tbl($tables),tbl("photos.*,users.userid,users.username"),
-							  $cond." AND ".tbl('photos.collection_id')." <> '0' AND ".tbl("photos.userid")." = ".tbl("users.userid"),$limit,$order);
-				//echo $db->db_query;
+
+
+                $where = " WHERE ".$cond." AND photos.collection_id <> 0";
+                $query .= $where;
+                $query .= $order;
+                $query .= $limit;
+
+                $result = select( $query );
 			}
 		}
 		
@@ -525,7 +657,9 @@ class CBPhotos
 			}
 			$result = $db->count(tbl("photos"),"photo_id",$cond);	
 		}
-		
+
+        #pr( $query, true );
+
 		if($p['assign'])
 			assign($p['assign'],$result);
 		else
@@ -554,7 +688,7 @@ class CBPhotos
 			{
 				if($count>0)
 					$cond .= " ".($params['operator']?$params['operator']:'AND')." ";
-				$cond .= "".tbl('photos.'.($params['column']?$params['column']:'photo_id'))." ".($params['sign']?$params['sign']:'=')." '".$id."'";
+				$cond .= "".('photos.'.($params['column']?$params['column']:'photo_id'))." ".($params['sign']?$params['sign']:'=')." '".$id."'";
 				$count++;	
 			}
 		}
