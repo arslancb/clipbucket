@@ -31,6 +31,7 @@ function flashPlayer($param)
         $param['autoplay'] = config('autoplay_video');
 
     assign('player_params',$param);
+
     if(count($Cbucket->actions_play_video)>0)
     {
         foreach($Cbucket->actions_play_video as $funcs )

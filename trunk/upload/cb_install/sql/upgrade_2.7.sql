@@ -15,3 +15,6 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}collection_contributors` (
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`contributor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- Adding File Directory for Photos
+ALTER TABLE  `{tbl_prefix}photos` ADD  `file_directory` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER  `filename`;

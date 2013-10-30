@@ -63,7 +63,7 @@ class CBPhotos
         # Set basic video fields
         $basic_fields = array(
             'photo_id', 'photo_key', 'userid', 'photo_title', 'photo_description', 'photo_tags', 'collection_id',
-            'photo_details', 'date_added', 'filename', 'ext', 'active', 'broadcast'
+            'photo_details', 'date_added', 'filename', 'ext', 'active', 'broadcast', 'file_directory'
         );
 
         return $this->set_basic_fields( $basic_fields );
@@ -816,13 +816,14 @@ class CBPhotos
 		else
 			$photo = $id;
 			
-		$pid = $photo['photo_id'];	
-		$files = $this->get_image_file($pid,'t',TRUE,NULL,FALSE,TRUE);
+		$pid = $photo['photo_id'];
+        $files = get_image_file( array( 'details' => $photo, 'size' => 't', 'multi' => true, 'with_orig' => true, 'with_path' => false ) );
+		#$files = $this->get_image_file($pid,'t',TRUE,NULL,FALSE,TRUE);
 		if(!empty($files))
 		{
 			foreach($files as $file)
 			{
-				$file_dir = PHOTOS_DIR."/".$file;
+				$file_dir = PHOTOS_DIR.'/'.$file;
 				if(file_exists($file_dir))
 					unlink($file_dir);	
 			}
@@ -966,12 +967,15 @@ class CBPhotos
 	{
 		global $db;
 		$path = PHOTOS_DIR."/";
-		
+
 		if(!is_array($array))
 			$p = $this->get_photo($array);
 		else
 			$p = $array;
-			
+
+
+        $path .= get_photo_date_folder( $p ).'/';
+
 		$filename = $p['filename'];
 		$extension = $p['ext'];
 				
@@ -1007,12 +1011,15 @@ class CBPhotos
 			
 		if(!empty($photo))
 		{
-			$images = $this->get_image_file($p,NULL,TRUE,NULL,FALSE);
+			$images = get_image_file( array( 'details' => $photo, 'size' => 't', 'multi' => true, 'with_path' => false ) );
+
 			if($images)
 			{
+
 				foreach($images as $image)
 				{
 					$imageFile = PHOTOS_DIR."/".$image;
+
 					if(file_exists($imageFile))
 					{
 						$imageDetails = getimagesize($imageFile); $imageSize = filesize($imageFile);
@@ -1028,7 +1035,7 @@ class CBPhotos
 						);	
 					}						
 				}
-				
+
 				if(is_array($data) && !empty($data))
 				{
 					if(phpversion() < "5.2.0")
@@ -1036,7 +1043,8 @@ class CBPhotos
 					else
 						$encodedData = stripslashes(json_encode($data));
 						
-					$db->update(tbl('photos'),array("photo_details"),array("|no_mc|$encodedData")," photo_id = '".$p['photo_id']."' ");				
+					$db->update(tbl('photos'),array("photo_details"),array("|no_mc|$encodedData")," photo_id = '".$p['photo_id']."' ");
+
 				}
 			}
 		}
@@ -1235,7 +1243,17 @@ class CBPhotos
 	 */
 	function loadUploadForm($params)
 	{
-		$p = $params;
+        $p = $params; $output = '';
+        $should_include = $p['includeHeader'] ? $p['includeHeader'] : true;
+
+        if( file_exists( LAYOUT."/blocks/upload_head.html" ) and $should_include == true ) {
+            $output .= Fetch( "blocks/upload_head.html" );
+        }
+
+        $output .= Fetch( "blocks/upload/photo_upload.html" );
+
+        return $output;
+
 		$should_include = $p['includeHeader'] ? $p['includeHeader'] : TRUE;
 		$output = '<form action="" method="post"';
 		if($p['formName'])
@@ -1828,8 +1846,9 @@ class CBPhotos
 	 */
 	function get_image_file($pid,$size='t',$multi=false,$assign=NULL,$with_path=true,$with_orig=false)
 	{
+
 		$params = array("details"=>$pid,"size"=>$size,"multi"=>$multi,"assign"=>$assign,"with_path"=>$with_path,"with_orig"=>$with_orig);
-		return $this->getFileSmarty($params);
+		return get_image_file($params);
 	}
 	
 	/**

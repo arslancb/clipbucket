@@ -1015,3 +1015,36 @@ a.CollectThumb { border:1px solid #ccc; display:inline-block; background:#FFF; }
 .play_now a{display:inline-block; padding:2px; text-decoration:none; float:right; margin:4px; background-color:#333; color:#fff; padding:5px; border:1px solid #000;border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px; cursor:pointer; }
 
 .topic_comments .comm_other{width:88% !important}
+
+/* PLUPLOAD */
+.photo-filename {
+    display: inline-block;
+    max-width: 75%;
+    margin: 0px;
+    margin-right: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+.photo_upload_header {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.photo-progress-bar {
+    height: 15px;
+    background: #fafafa;
+    margin: 5px 0px;
+    box-shadow: inset 0px 2px 3px 0px rgba( 0,0,0,0.065 );
+    position: relative;
+}
+
+.photo-progressed-bar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: rgba( 0, 0, 255, 0.4 );
+    height: 100%;
+}

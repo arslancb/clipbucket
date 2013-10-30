@@ -56,4 +56,5 @@ isSectionEnabled(PARENT_PAGE,true);
 //setting quicklist
 assign('total_quicklist',$cbvid->total_quicklist());
 
+cb_call_functions( 'clipbucket_init_completed' );
 ?>

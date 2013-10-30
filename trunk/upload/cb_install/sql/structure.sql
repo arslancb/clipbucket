@@ -512,6 +512,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}photos` (
   `rated_by` int(25) NOT NULL,
   `voters` mediumtext NOT NULL,
   `filename` varchar(100) NOT NULL,
+  `file_directory` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `ext` char(5) NOT NULL,
   `downloaded` bigint(255) NOT NULL,
   `server_url` text NOT NULL,

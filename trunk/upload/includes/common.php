@@ -570,7 +570,7 @@ $Smarty->register_function('get_binaries','get_binaries');
 $Smarty->register_function('check_module_path','check_module_path');
 $Smarty->register_function('rss_feeds','rss_feeds');
 $Smarty->register_function('website_logo','website_logo');
-$Smarty->register_function('get_photo','get_photo');
+$Smarty->register_function('get_photo','get_image_file');
 $Smarty->register_function('uploadButton','upload_photo_button');
 $Smarty->register_function('embedCodes','photo_embed_codes');
 $Smarty->register_function('DownloadButtonP','photo_download_button');
@@ -617,6 +617,9 @@ register_action_remove_video('remove_video_thumbs');
 register_action_remove_video('remove_video_log');
 register_action_remove_video('remove_video_files');
 
+
+register_anchor_function( 'add_photo_plupload_javascript_block', 'cb_head' );
+cb_register_function( 'plupload_photo_uploader', 'uploaderDetails' );
 
 include('admin.functions.php');
 //error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);

@@ -4441,25 +4441,7 @@
 			global $pluginFile;
 		return basename(dirname($pluginFile));
 	}
-	
-	/**
-	 * function used to create folder for video
-	 * and files
-	 */
-	function createDataFolders()
-	{
-		$year = date("Y");
-		$month = date("m");
-		$day  = date("d");
-		$folder = $year.'/'.$month.'/'.$day;
-		@mkdir(VIDEOS_DIR.'/'.$folder,0777,true);
-		@mkdir(THUMBS_DIR.'/'.$folder,0777,true);
-		@mkdir(ORIGINAL_DIR.'/'.$folder,0777,true);
-		@mkdir(PHOTOS_DIR.'/'.$folder,0777,true);
-		
-		return $folder;
-	}
-	
+
 	
 	/**
 	 * function used to get user agent details
@@ -4716,8 +4698,7 @@
             
             return false;
         }
-        
-        
+
         include( 'functions_db.php' );
         include( 'functions_database.php' );
         include( 'functions_filter.php' );

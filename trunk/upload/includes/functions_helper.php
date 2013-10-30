@@ -44,3 +44,79 @@ function website_logo()
 
     return BASEURL.'/images/logo.png';
 }
+
+/**
+ * createDataFolders()
+ *
+ * create date folders with respect to date. so that no folder gets overloaded
+ * with number of files.
+ *
+ * @param string FOLDER, if set to null, sub-date-folders will be created in
+ * all data folders
+ * @return string
+ */
+function createDataFolders($headFolder = NULL, $custom_date = NULL)
+{
+
+    $time = time();
+
+    if ($custom_date)
+        $time = strtotime($custom_date);
+
+    $year = date("Y", $time);
+    $month = date("m", $time);
+    $day = date("d", $time);
+    $folder = $year . '/' . $month . '/' . $day;
+
+    $data = cb_call_functions('dated_folder');
+    if ($data)
+        return $data;
+
+    if (!$headFolder)
+    {
+        @mkdir(VIDEOS_DIR . '/' . $folder, 0777, true);
+        @mkdir(THUMBS_DIR . '/' . $folder, 0777, true);
+        @mkdir(ORIGINAL_DIR . '/' . $folder, 0777, true);
+        @mkdir(PHOTOS_DIR . '/' . $folder, 0777, true);
+        @mkdir(LOGS_DIR . '/' . $folder, 0777, true);
+    }
+    else
+    {
+        if (!file_exists($headFolder . '/' . $folder))
+        {
+            @mkdir($headFolder . '/' . $folder, 0777, true);
+        }
+    }
+
+    $folder = apply_filters($folder, 'dated_folder');
+    return $folder;
+}
+
+function create_dated_folder($headFolder = NULL, $custom_date = NULL)
+{
+    return createDataFolders($headFolder, $custom_date);
+}
+
+function cb_create_html_tag( $tag = 'p', $self_closing = false, $attrs = array(), $content = null ) {
+
+    $open = '<'.$tag;
+    $close = ( $self_closing === true ) ? '/>' : '>'.( !is_null( $content ) ? $content : '' ).'</'.$tag.'>';
+
+    $attributes = '';
+
+    if( is_array( $attrs ) and count( $attrs ) > 0 ) {
+
+        foreach( $attrs as $attr => $value ) {
+
+            if( strtolower( $attr ) == 'extra' ) {
+                $attributes .= ( $value );
+            } else {
+                $attributes .= ' '.$attr.' = "'.$value.'" ';
+            }
+
+        }
+
+    }
+
+    return $open.$attributes.$close;
+}

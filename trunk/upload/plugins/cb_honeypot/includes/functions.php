@@ -75,9 +75,20 @@ function cb_verify_honeypot() {
             $honeypot_name = cb_honeypot_hash_fieldname( 'cb_honeypot', $salt );
             $honeypot = mysql_clean( post( $honeypot_name ) );
 
-            if ( !$honeypot OR ( $honeypot != CB_HONEYPOT_DEFAULT_VALUE ) ) {
-                e( lang( 'Someone is tampering with forms. Can not process further.' ) );
-                return false;
+            if( CB_HONEYPOT_DEFAULT_VALUE == '' ) {
+
+                if( $honeypot != '' ) {
+                    e( lang( 'Someone is tampering with forms. Can not process further.' ) );
+                    return false;
+                }
+
+            } else {
+
+                if ( !$honeypot OR ( $honeypot != CB_HONEYPOT_DEFAULT_VALUE ) ) {
+                    e( lang( 'Someone is tampering with forms. Can not process further.' ) );
+                    return false;
+                }
+
             }
 
             return true;

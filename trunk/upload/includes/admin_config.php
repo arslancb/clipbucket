@@ -73,6 +73,7 @@
 	include('flv_player.php');
 	
 	
-$Smarty->assign_by_ref('cbmass',$cbmass)	
-	
+$Smarty->assign_by_ref( 'cbmass',$cbmass );
+
+cb_call_functions( 'clipbucket_init_completed' );
 ?>
