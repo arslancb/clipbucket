@@ -56,7 +56,15 @@ class userquery extends CBCategory{
 
 	function userquery()
 	{
+        global $cb_columns;
 		$this->cat_tbl = 'user_categories';
+
+        $basic_fields = array(
+            'userid', 'username', 'email', 'avatar', 'sex', 'avatar_url',
+            'dob', 'level', 'usr_status', 'user_session_key'
+        );
+
+        $cb_columns->object( 'users' )->register_columns( $basic_fields );
 	}
 	
 	

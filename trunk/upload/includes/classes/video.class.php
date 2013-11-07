@@ -39,7 +39,7 @@ class CBvideo extends CBCategory
 	 */	
 	function init()
 	{
-		global $Cbucket;
+		global $Cbucket, $cb_columns;
 		$this->cat_tbl = 'video_categories';
 		$this->section_tbl = 'video';
 		$this->use_sub_cats = TRUE;
@@ -57,7 +57,15 @@ class CBvideo extends CBCategory
 		
 		$this->video_delete_functions[] = 'delete_video_from_collection';
 
-        $this->basic_fields_setup();
+        $basic_fields = array(
+            'videoid', 'videokey', 'userid', 'title', 'description', 'tags', 'category',
+            'active', 'date_added', 'broadcast', 'rating', 'file_server_path', 'files_thumbs_path',
+            'file_thumbs_count', 'duration', 'has_hq', 'has_mobile', 'views', 'file_name', 'rated_by',
+            'default_thumb', 'comments_count', 'last_viewed'
+        );
+
+        $cb_columns->object( 'videos' )->register_columns( $basic_fields );
+        #$this->basic_fields_setup();
 	}
 
     /**

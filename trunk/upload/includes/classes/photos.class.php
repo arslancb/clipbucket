@@ -42,9 +42,17 @@ class CBPhotos
 	 */
 	function CBPhotos()
 	{
+        global $cb_columns;
+
 		$this->exts = array('jpg','png','gif','jpeg'); // This should be added from Admin Area. may be some people also want to allow BMPs;
 		$this->embed_types = array("html","forum","email","direct");
-			
+
+        $basic_fields = array(
+            'photo_id', 'photo_key', 'userid', 'photo_title', 'photo_description', 'photo_tags', 'collection_id',
+            'photo_details', 'date_added', 'filename', 'ext', 'active', 'broadcast', 'file_directory'
+        );
+
+        $cb_columns->object( 'photos' )->register_columns( $basic_fields );
 	}
 
     /**
@@ -392,7 +400,7 @@ class CBPhotos
 	 */
 	function get_photos($p)
 	{
-		global $db;
+		global $db, $cb_columns;
 		$tables = "photos,users";
 		
 		$order = $p['order'];
@@ -543,7 +551,7 @@ class CBPhotos
 
 
         $fields = array(
-            'photos' => $this->get_fields(),
+            'photos' => get_photo_fields(),
             'users' => get_user_fields(),
             'collections' => array( 'collection_name', 'type', 'category', 'views as collection_views', 'date_added as collection_added' )
         );

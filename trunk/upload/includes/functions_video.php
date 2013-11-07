@@ -8,8 +8,8 @@
  */
 
 function get_video_fields( $extra = null ) {
-    global $cbvid;
-    return $cbvid->get_video_fields( $extra );
+    global $cb_columns;
+    return $cb_columns->set_object( 'videos' )->get_columns( $extra );
 }
 
 /**

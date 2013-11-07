@@ -38,6 +38,8 @@ class Collections extends CBCategory
 	 */
 	function Collections()
 	{
+        global $cb_columns;
+
 		$this->cat_tbl = "collection_categories";
 		$this->section_tbl = "collections";
 		$this->types = array('videos' => lang("Videos"),'photos' => lang("Photos"));
@@ -45,6 +47,11 @@ class Collections extends CBCategory
 		$this->setting_up_collections();
 		$this->init_actions();
 
+        $fields = array( 'collection_id', 'collection_name', 'collection_description',
+            'collection_tags', 'userid', 'type', 'category', 'views', 'date_added',
+            'active', 'rating', 'rated_by', 'voters', 'total_objects' );
+
+        $cb_columns->object( 'collections' )->register_columns( $fields );
 	}
 	
 	/**

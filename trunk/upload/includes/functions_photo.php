@@ -8,9 +8,9 @@
  */
 
 
-function get_photo_fields( $extra = null ) {
-    global $cbphoto;
-    return $cbphoto->get_fields( $extra );
+function get_photo_fields() {
+    global $cb_columns;
+    return $cb_columns->object( 'photos' )->get_columns();
 }
 
 /**

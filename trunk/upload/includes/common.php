@@ -53,15 +53,17 @@ if(!@$in_bg_cron)
     check_install('before');
 	require_once('dbconnect.php');
 	require_once('classes/ClipBucket.class.php');
-	
+    require_once('classes/columns.class.php');
+
 	require_once('classes/my_queries.class.php');
 	require_once('classes/actions.class.php');
 	require_once('classes/category.class.php');
 	require_once('classes/user.class.php');
 	require_once('classes/lang.class.php');
 	require_once('classes/pages.class.php');
-	
-	
+
+    $cb_columns = new cb_columns();
+
 	$myquery 	= new myquery();
 	$row 		= $myquery->Get_Website_Details();
 	
@@ -157,7 +159,8 @@ if(!@$in_bg_cron)
 	require_once('classes/photos.class.php');
 	require_once('classes/menuhandler.class.php');
 	require_once('classes/cbfeeds.class.php');
-	
+
+
 	//Adding Gravatar
 	require_once('classes/gravatar.class.php');
 
@@ -193,6 +196,7 @@ if(!@$in_bg_cron)
 	
 	$cbfeeds 	= new cbfeeds();
 //	$cbmenu		= new MenuHandler();
+
 	check_install('after');
 	require 'defined_links.php';
 	

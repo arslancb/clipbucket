@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-function get_user_fields( $extra = null ) {
-    global $userquery;
-    return $userquery->get_user_db_fields();
+function get_user_fields() {
+    global $cb_columns;
+    return $cb_columns->object( 'users' )->get_columns();
 }
