@@ -22,7 +22,7 @@ if(isset($_POST['delete_selected']))   //HACK : delete_selected in place of dele
 {
         
 	$total = count($_POST['check_photo']);  //HACK Add count
-	for($i=0;$i<$total;$i++)g	
+	for($i=0;$i<$total;$i++)
 {
 		$cbphoto->delete_photo($_POST['check_photo'][$i],true); //HACK : Add true
 	}

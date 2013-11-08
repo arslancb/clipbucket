@@ -3,7 +3,7 @@
  ***************************************************************
  | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
  | @ Author	   : ArslanHassan									
- | @ Software  : ClipBucket , © PHPBucket.com					
+ | @ Software  : ClipBucket , ï¿½ PHPBucket.com					
  ****************************************************************
 */
 
