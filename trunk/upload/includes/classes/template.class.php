@@ -12,7 +12,7 @@ class CBTemplate {
         }
     }
 
-    function create() {
+    static function create() {
         global $Smarty;
         $Smarty = new Smarty();
         $Smarty->compile_check = true;
@@ -39,7 +39,7 @@ class CBTemplate {
         $Smarty->type = $type;
     }
 
-    function assign($var, $value) {
+    static function assign($var, $value) {
         global $Smarty;
         if (!isset($Smarty)) {
             CBTemplate::create();
@@ -87,7 +87,7 @@ class CBTemplate {
         return $Smarty->template_dir;
     }
 
-    function display($filename) {
+    static function display($filename) {
         global $Smarty;
         if (!isset($Smarty)) {
             CBTemplate::create();
@@ -95,7 +95,7 @@ class CBTemplate {
         $Smarty->display($filename);
     }
 
-    function fetch($filename) {
+    static function fetch($filename) {
         global $Smarty;
         if (!isset($Smarty)) {
             CBTemplate::create();
