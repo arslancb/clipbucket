@@ -153,8 +153,13 @@ class CBTemplate {
 			preg_match('/<released>(.*)<\/released>/',$content,$released);
 			preg_match('/<description>(.*)<\/description>/',$content,$description);
 			preg_match('/<website title="(.*)">(.*)<\/website>/',$content,$website_arr);
-			
-			$name = $name[1];
+
+            /* For 2.7 and Smarty v3 Support */
+            preg_match('/<min_version>(.*)<\/min_version>/',$content,$version);
+            preg_match('/<version>(.*)<\/version>/',$content,$version);
+
+
+            $name = $name[1];
 			$author = $author[1];
 			$version = $version[1];
 			$released = $released[1];

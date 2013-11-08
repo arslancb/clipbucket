@@ -232,6 +232,7 @@ class language
 	function get_default_language()
 	{
 		global $db;
+
 		$result = $db->select(tbl('languages'),"*"," language_default='yes' ");
 		$result = $result[0];
 		return $result;

@@ -428,7 +428,7 @@ class ClipBucket
 
         if (isset($_SESSION['the_template']) && $cbtpl->is_template($_SESSION['the_template']))
             $template = $_SESSION['the_template'];
-        if ($_GET['template'])
+        if ($_GET['template']) //@todo : add permission
         {
             if (is_dir(STYLES_DIR . '/' . $_GET['template']) && $_GET['template'])
                 $template = $_GET['template'];

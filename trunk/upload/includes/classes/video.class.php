@@ -665,7 +665,7 @@ class CBvideo extends CBCategory
 				$column = $params['date_span_column'];
 			else
 				$column = 'date_added';
-				
+
 			$cond .= " ".cbsearch::date_margin($column,$params['date_span']);
 		}
 		
@@ -925,7 +925,8 @@ class CBvideo extends CBCategory
 			#$result = $db->select(tbl('video,users'),tbl('video.*,users.userid,users.username'),$cond." ".tbl("video.userid")." = ".tbl("users.userid"),$limit,$order);
 			//echo $db->db_query;
 		}
-	
+
+        global $cbsearch;
 		
 		if($params['show_related'])
 		{
@@ -934,7 +935,7 @@ class CBvideo extends CBCategory
 				$cond = $superCond." AND ";
 			
 			$cond .= "MATCH(".("video.title,video.tags").")
-			AGAINST ('".cbsearch::set_the_key($params['title'])."' IN BOOLEAN MODE) ";
+			AGAINST ('".$params['title']."' IN BOOLEAN MODE) ";
 
 			if($params['exclude'])
 			{
@@ -966,7 +967,7 @@ class CBvideo extends CBCategory
 					$cond = $superCond." AND ";
 				//Try Finding videos via tags
 				$cond .= "MATCH(".("video.title,video.tags").")
-				AGAINST ('".cbsearch::set_the_key($params['tags'])."' IN BOOLEAN MODE) ";
+				AGAINST ('".($params['tags'])."' IN BOOLEAN MODE) ";
 				if($params['exclude'])
 				{
 					if($cond!='')

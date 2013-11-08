@@ -26,7 +26,10 @@ class Session
 	}
 	
 	/**
-	 * Function used to add session*/
+	 * Function used to add session
+     * @todo: Find a proper solution to avoid database crashing because of sessions insertion and updation
+     */
+
 	function add_session($user,$name,$value=false,$reg=false)
 	{
 		global $db,$pages;
@@ -78,6 +81,8 @@ class Session
 	
 	/**
 	 * Function used to get sessins
+     *
+     * @todo : They are updated on every page refresh, highly  critical for performance.
 	 */
 	function get_sessions()
 	{

@@ -54,8 +54,8 @@ class myquery {
 	function Get_Website_Details()
 	{
 		
-		$query = mysql_query("SELECT * FROM ".tbl("config"));
-		while($row = mysql_fetch_array($query))
+		$query = db_select("SELECT * FROM ".tbl("config"));
+		foreach($query as $row)
 		{
 			$name = $row['name'];
 			$data[$name] = $row['value'];

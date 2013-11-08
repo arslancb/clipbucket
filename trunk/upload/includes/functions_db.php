@@ -38,9 +38,11 @@ function db_update($tbl, $fields, $cond)
     //Complete Query
     $query = "UPDATE $tbl SET $fields_query WHERE $cond $ep";
     //if(!mysql_query($query)) die($query.'<br>'.mysql_error());
-    $db->total_queries++;
-    $db->total_queries_sql[] = $query;
-    $db->Execute($query);
+    //$db->total_queries++;
+    //$db->total_queries_sql[] = $query;
+    //$db->Execute($query);
+
+    mysqli_query($query);
 
     if (mysql_error())
         die($db->db_query . '<br>' . mysql_error());
@@ -113,21 +115,8 @@ function filter_sql($data)
  */
 function dbcount($tbl, $fields = '*', $cond = false)
 {
-    global $db;
-    if ($cond)
-        $condition = " Where $cond ";
-    $query = "Select Count($fields) From $tbl $condition";
-    $result = $db->Execute($query);
-    $db->total_queries++;
-    $db->total_queries_sql[] = $query;
-    $fields = $result->fields;
-
-    if ($fields)
-    {
-        foreach ($fields as $field)
-            return $field;
-    }
-    return false;
+   global $db;
+    return $db->count($tbl,$fields,$cond);
 }
 
 ?>

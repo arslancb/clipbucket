@@ -1753,7 +1753,9 @@ class userquery extends CBCategory{
 	{
 		global $db;
 		$results = $db->select(tbl("user_levels"),"*",NULL,NULL," user_level_id ASC" );
-		if($db->num_rows > 0)
+
+
+        if($db->num_rows > 0)
 		{
 			return $results;
 		}else{

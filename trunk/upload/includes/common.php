@@ -49,9 +49,16 @@ if(!@$in_bg_cron)
 
     //Required Files
 
+    /**
+     * Setting up database and exception
+     */
+    require_once('classes/exceptions/db_exception.php');
+    require_once('classes/db.class.php');
+    require_once('dbconnect.php');
+
     require_once('functions.php');
     check_install('before');
-	require_once('dbconnect.php');
+
 	require_once('classes/ClipBucket.class.php');
     require_once('classes/columns.class.php');
 
@@ -129,14 +136,22 @@ if(!@$in_bg_cron)
 	
 	$userquery 	= new userquery();
 	$lang_obj	= new language;
-		
-	
-	//Setting Time Zone date_default_timezone_set()
-	
-	require_once('classes/search.class.php');
-	
+
+
+    /**
+     * Setting up rest of exceptions
+     */
+
+    require_once('classes/exceptions/cb_exception.php');
+
+
+
+         //Setting Time Zone date_default_timezone_set
+    require_once('classes/search.class.php');
+
 	
 	require_once('classes/calcdate.class.php');
+
 	require_once('classes/signup.class.php');
 	require_once('classes/image.class.php');
 	require_once('classes/upload.class.php');
@@ -391,7 +406,10 @@ if(!@$in_bg_cron)
 	
 	define("EMBED_VDO_WIDTH",$row['embed_player_width']);
 	define("EMBED_VDO_HEIGHT",$row['embed_player_height']);
-	
+
+
+    //Checking Website Template
+    $Cbucket->set_the_template();
 
 	include 'plugin.functions.php';
 	include 'plugins_functions.php';
@@ -400,7 +418,10 @@ if(!@$in_bg_cron)
 	require BASEDIR.'/includes/classes/objects.class.php';
 	
 	require BASEDIR.'/includes/active.php';
-	
+
+
+
+
 	$cbtpl = new CBTemplate();
 	$cbobjects = new CBObjects();
 	$swfobj		= new SWFObject();
@@ -497,8 +518,7 @@ if(!@$in_bg_cron)
 require('modules.php');	
 
 
-//Checking Website Template
-$Cbucket->set_the_template();
+
 
 /*
 REGISTER OBJECTS FOR SMARTY

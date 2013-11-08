@@ -187,6 +187,7 @@ class AdsManager
 			WHERE ad_placement = '".$placement_code."'
 			AND ad_status='1'
 			";
+
 			$code_array 	= $db->GetRow($query.$query_param.$order.$limit_query);
 			
 			//Checking If there is no code, then try to get duplicate ad
