@@ -30,21 +30,22 @@ function Fetch($name,$inside=FALSE)
 //Simple Template Displaying Function
 
 function Template($template,$layout=true){
-    global $admin_area;
+    global $admin_area,$cbtpl;
     if($layout)
-        CBTemplate::display(LAYOUT.'/'.$template);
+        $cbtpl->display(LAYOUT.'/'.$template);
     else
-        CBTemplate::display($template);
+        $cbtpl->display($template);
 
     if($template == 'footer.html' && $admin_area !=TRUE){
-        CBTemplate::display(BASEDIR.'/includes/templatelib/'.$template);
+        $cbtpl->display(BASEDIR.'/includes/templatelib/'.$template);
     }
     if($template == 'header.html'){
-        CBTemplate::display(BASEDIR.'/includes/templatelib/'.$template);
+        $cbtpl->display(BASEDIR.'/includes/templatelib/'.$template);
     }
 }
 
 function Assign($name,$value)
 {
-    CBTemplate::assign($name,$value);
+    global $cbtpl;
+    $cbtpl->assign($name,$value);
 }

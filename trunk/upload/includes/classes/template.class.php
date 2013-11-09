@@ -5,20 +5,40 @@ class CBTemplate {
 	/**
 	 * Function used to set Smarty Functions
 	 */
-   function CBTemplate() {
+   function init() {
         global $Smarty;
         if (!isset($Smarty)) {
-            $Smarty = new Smarty;
+
+           $this->load_smarty();
         }
     }
 
-    static function create() {
+
+    function load_smarty()
+    {
+
         global $Smarty;
-        $Smarty = new Smarty();
+        if($this->smarty_version < 3)
+            $Smarty = new Smarty;
+        else
+            $Smarty = new SmartyBC;
+
+
         $Smarty->compile_check = true;
         $Smarty->debugging = false;
         $Smarty->template_dir = BASEDIR."/styles";
         $Smarty->compile_dir  = BASEDIR."/cache";
+
+    }
+
+    function create() {
+        global $Smarty;
+
+        if (!isset($Smarty)) {
+            $this->load_smarty();
+        }
+
+
 
         return true;
     }
@@ -26,7 +46,7 @@ class CBTemplate {
     function setCompileDir($dir_name) {
         global $Smarty;
         if (!isset($Smarty)) {
-            CBTemplate::create();
+            $this->create();
         }
         $Smarty->compile_dir = $dir_name;
     }
@@ -34,15 +54,15 @@ class CBTemplate {
     function setType($type) {
         global $Smarty;
         if (!isset($Smarty)) {
-            CBTemplate::create();
+            $this->create();
         }
         $Smarty->type = $type;
     }
 
-    static function assign($var, $value) {
+    function assign($var, $value) {
         global $Smarty;
         if (!isset($Smarty)) {
-            CBTemplate::create();
+            $this->create();
         }
         $Smarty->assign($var, $value);
     }
@@ -50,7 +70,7 @@ class CBTemplate {
     function setTplDir($dir_name = null) {
         global $Smarty;
         if (!isset($Smarty)) {
-            CBTemplate::create();
+            $this->create();
         }
         if (!$dir_name) {
             $Smarty->template_dir = BASEDIR."/styles/clipbucketblue";
@@ -62,7 +82,7 @@ class CBTemplate {
     function setModule($module) {
         global $Smarty;
         if (!isset($Smarty)) {
-            CBTemplate::create();
+            $this->create();
         }
         $Smarty->theme = $module;
         $Smarty->type  = "module";
@@ -71,7 +91,7 @@ class CBTemplate {
     function setTheme($theme) {
         global $Smarty;
         if (!isset($Smarty)) {
-            CBTemplate::create();
+            $this->create();
         }
         $Smarty->template_dir = BASEDIR."/styles/" . $theme;
         $Smarty->compile_dir  = BASEDIR."/styles/" . $theme;
@@ -82,23 +102,23 @@ class CBTemplate {
     function getTplDir() {
         global $Smarty;
         if (!isset($Smarty)) {
-            CBTemplate::create();
+            $this->create();
         }
         return $Smarty->template_dir;
     }
 
-    static function display($filename) {
+     function display($filename) {
         global $Smarty;
         if (!isset($Smarty)) {
-            CBTemplate::create();
+            $this->create();
         }
         $Smarty->display($filename);
     }
 
-    static function fetch($filename) {
+    function fetch($filename) {
         global $Smarty;
         if (!isset($Smarty)) {
-            CBTemplate::create();
+            $this->create();
         }
         return $Smarty->fetch($filename);
     }
@@ -106,7 +126,7 @@ class CBTemplate {
     function getVars() {
         global $Smarty;
         if (!isset($Smarty)) {
-            CBTemplate::create();
+            $this->create();
         }
         return $Smarty->get_template_vars();
     }
@@ -155,8 +175,8 @@ class CBTemplate {
 			preg_match('/<website title="(.*)">(.*)<\/website>/',$content,$website_arr);
 
             /* For 2.7 and Smarty v3 Support */
-            preg_match('/<min_version>(.*)<\/min_version>/',$content,$version);
-            preg_match('/<version>(.*)<\/version>/',$content,$version);
+            preg_match('/<min_version>(.*)<\/min_version>/',$content,$min_version);
+            preg_match('/<smarty_version>(.*)<\/smarty_version>/',$content,$smarty_version);
 
 
             $name = $name[1];
@@ -164,6 +184,8 @@ class CBTemplate {
 			$version = $version[1];
 			$released = $released[1];
 			$description = $description[1];
+            $min_version = $min_version[1];
+            $smarty_version = $smarty_version[1];
 
 			$website = array('title'=>$website_arr[1],'link'=>$website_arr[2]);
 			
@@ -176,6 +198,8 @@ class CBTemplate {
 			 'description'=>$description,
 			 'website'=>$website,
 			 'dir'=>$temp,
+			 'min_version'=>$min_version,
+			 'smarty_version'=>$smarty_version,
 			 'path'=>TEMPLATEFOLDER.'/'.$temp
 			 );
 			

@@ -105,6 +105,7 @@ class SmartyBC extends Smarty
         $this->registerPlugin('function', $function, $function_impl, $cacheable, $cache_attrs);
     }
 
+
     /**
      * Unregisters custom function
      *

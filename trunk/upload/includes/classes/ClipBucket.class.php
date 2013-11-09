@@ -451,7 +451,9 @@ class ClipBucket
             $myquery->set_template($template);
         }
 
-        //
+        //$this->smarty_version
+        $template_details = $cbtpl->get_template_details($template);
+        $cbtpl->smarty_version = $template_details['smarty_version'];
         return $this->template = $template;
     }
 
