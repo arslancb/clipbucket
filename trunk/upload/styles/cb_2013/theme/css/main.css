@@ -1,0 +1,84 @@
+/**
+ * @author : Arslan Hassan (@arslancb), Fawaz Tahir (@fawazcb)
+ * @ClipBucket : 2.7
+ * @Theme Name : ClipBucket 2013 Fall
+ */
+body {
+  background-color: #e8e8e8;
+  color: #000000;
+  font-family: Sintony, "Segoe UI", "Helvetica neue", Helvetica, sans-serif;
+  font-size: 14px;
+}
+html,
+body {
+  height: 100%;
+}
+.container {
+  width: 1170px;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -60px;
+}
+.bold {
+  font-weight: bold;
+}
+/* Importing Navigation CSS */
+.navbar-container {
+  max-width: 1170px;
+  margin: auto;
+}
+.navbar-container .navbar-form {
+  width: 300px !important;
+  line-height: 37px;
+  margin-left: 50px;
+}
+.navbar-container .cb-logo {
+  background: url('../../images/logo.png') no-repeat;
+  width: 188px;
+  height: 36px;
+  text-indent: -500000px;
+  display: inline-block;
+  margin-top: 9px;
+}
+@media (min-width: 768px) {
+  .navbar-container .main-nav {
+    margin-left: 25px;
+  }
+  .navbar-container .myaccount-dd a {
+    padding-top: 6px;
+  }
+}
+.navbar {
+  line-height: 70px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+.navbar-default .navbar-nav > li > a {
+  color: #0099cc;
+  outline: none;
+}
+/* Importing Form CSS */
+/* Importing Footer */
+#footer {
+  width: 1170px;
+  margin: auto;
+}
+#footer ul {
+  maring: 0px;
+  padding: 0px;
+}
+#footer ul li {
+  display: inline-block;
+  margin-right: 15px;
+}
+#push,
+footer {
+  height: 60px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  background: #fff;
+}

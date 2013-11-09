@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+
+<html>
+
+
+<head>
+
+    {if in_dev()}
+        {$cache_buster=microtime(true)}
+    {else}
+        {$cache_buster=$Cbucket->version}
+    {/if}
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <!-- ClipBucket v{$Cbucket->version} -->
+    <meta name="copyright" content="ClipBucket - Integrated Units 2007 - {$smarty.now|date_format:"%Y"}" />
+    <meta name="author" content="Arslan Hassan - http://clip-bucket.com/arslan-hassan" />
+    <meta name="author" content="Fawaz Tahir - http://clip-bucket.com/fawaz-tahir" />
+    <link rel="shortcut icon" href="{$baseurl}/favicon.ico">
+    <link rel="icon" type="image/ico" href="{$baseurl}/favicon.ico" />
+
+    <!-- RSS FEEDS -->
+    {rss_feeds link_tag=true}
+
+    <meta name="keywords" content="{$Cbucket->configs.keywords}" />
+    <meta name="description" content="{$Cbucket->configs.description}" />
+    <meta name="distribution" content="global" />
+
+
+    <title>{cbtitle}</title>
+
+
+    <link href='http://fonts.googleapis.com/css?family=Sintony:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{$theme}/css/bootstrap.min.css?cache={$cache_buster}" />
+    <link rel="stylesheet" href="{$theme}/css/main.css?cache={$cache_buster}" />
+
+    {if in_dev()}
+    <link rel="stylesheet/less" href="{$theme}/less/main.less?cache={$cache_buster}" />
+    <script src="{$js}/less.min.js"></script>
+    {/if}
+
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="{$theme}/js/bootstrap.min.js"></script>
+
+</head>

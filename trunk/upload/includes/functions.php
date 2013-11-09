@@ -4699,6 +4699,20 @@
             return false;
         }
 
+
+        /**
+         * Checks development mode
+         *
+         * @return Boolean
+         */
+        function in_dev()
+        {
+            if(defined(DEVELOPMENT_MODE) || DEVELOPMENT_MODE)
+                return DEVELOPMENT_MODE;
+            else
+                return false;
+        }
+
         include( 'functions_db.php' );
         include( 'functions_database.php' );
         include( 'functions_filter.php' );
