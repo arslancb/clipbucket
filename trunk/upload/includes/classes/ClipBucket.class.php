@@ -454,6 +454,9 @@ class ClipBucket
         //$this->smarty_version
         $template_details = $cbtpl->get_template_details($template);
         $cbtpl->smarty_version = $template_details['smarty_version'];
+
+        define('SMARTY_VERSION',$cbtpl->smarty_version);
+
         return $this->template = $template;
     }
 
@@ -499,9 +502,14 @@ class ClipBucket
             return $this->head_menu;
     }
 
+
+
     function cbMenu($params = NULL)
     {
         $this->head_menu($params);
+
+
+
         if (!$params['tag'])
         //$params['tag'] = 'li';
             if (!$params['class'])
@@ -539,39 +547,74 @@ class ClipBucket
                 }
             }
 
-            $output = '';
-            //if(($params['tag']))
-            //		$output .= "<".$params['tag'].">";
-            foreach ($headMenu as $menu) {
+
+            $main_menu = array();
+            foreach($headMenu as $menu)
+            {
                 if (isSectionEnabled($menu['this']))
                 {
+
                     $selected = current_page(array("page" => $menu['this']));
+                    if($selected)
+                        $menu['active'] = true;
 
-                    $output .= "<li ";
-                    $output .= "id = 'cb" . $menu['name'] . "Tab'";
-
-                    $output .= " class = '";
-                    if ($params['class'])
-                        $output .= $params['class'];
-                    if ($selected)
-                        $output .= " selected";
-                    $output .= "'";
-
-                    if ($params['extra_params'])
-                        $output .= ($params['extra_params']);
-                    $output .= ">";
-                    $output .= "<a href='" . $menu['link'] . "'>";
-                    $output .= $menu['name'] . "</a>";
-                    $output .= "</li>";
+                    $main_menu[] = $menu;
                 }
+
             }
+
+
+            $output = "";
+            //if(($params['tag']))
+            //		$output .= "<".$params['tag'].">";
+            foreach ($main_menu as $menu)
+            {
+
+                $selected = $menu['active'];
+                $output .= "<li ";
+                $output .= "id = 'cb" . $menu['name'] . "Tab'";
+
+                $output .= " class = '";
+                if ($params['class'])
+                    $output .= $params['class'];
+                if ($selected)
+                    $output .= " selected";
+                $output .= "'";
+
+                if ($params['extra_params'])
+                    $output .= ($params['extra_params']);
+                $output .= ">";
+                $output .= "<a href='" . $menu['link'] . "'>";
+                $output .= $menu['name'] . "</a>";
+                $output .= "</li>";
+            }
+
+
             //if(($params['tag']))
             //		$output .= "</".$params['tag'].">";
 
-            if ($params['echo'])
-                echo $output;
-            else
-                return $output;
+
+
+            if(SMARTY_VERSION<3)
+            {
+
+                if ($params['echo'])
+                {
+                    echo $output;
+                }else
+                {
+                    return $output;
+                }
+            }else
+            {
+                if ($params['echo'])
+                {
+                    echo $output;
+                }else
+                {
+                    return $main_menu;
+                }
+            }
         }
     }
 

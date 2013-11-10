@@ -10,6 +10,8 @@
 	/**
 	 * FUNCTION USED TO REGISTER ACTIONS THAT ARE TO APPLIED
 	 * ON COMMENTS , TITLE, DESCRIPTIONS etc
+     *
+     * @deprecated : Since v2.7
 	 */
 	function register_action($name,$type=NULL)
 	{
@@ -498,8 +500,10 @@
 		$params = array("section"=>$section,"page"=>$page,"extra"=>$extra);
 		return create_module_link($params);
 	}
-	
-	
+
+
+
+
 	/**
 	 * function used to get remote url function
 	 */

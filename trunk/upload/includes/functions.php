@@ -4723,4 +4723,5 @@
         include( 'functions_video.php' );
         include( 'functions_user.php' );
         include( 'functions_photo.php' );
+        include('functions_actions.php');
 ?>

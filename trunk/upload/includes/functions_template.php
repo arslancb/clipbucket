@@ -49,3 +49,12 @@ function Assign($name,$value)
     global $cbtpl;
     $cbtpl->assign($name,$value);
 }
+
+
+/**
+ * Return Head menu of CLipBucket front-end
+ *
+ * @param Array $params
+ * @return Array
+ */
+function cb_menu($params=NULL){ global $Cbucket; return $Cbucket->cbMenu($params); }

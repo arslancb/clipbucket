@@ -1,7 +1,12 @@
 {include file="$style_dir/global_header.html"}
     <body>
     {include file="$style_dir/header.html" }
-    <div class="container">
+    <div id="container">
+
+        {foreach from=$template_files item=file}
+            {include_template_file file=$file}
+        {/foreach}
+
         <div id="push"></div>
     </div>
     {include file="$style_dir/footer.html" }

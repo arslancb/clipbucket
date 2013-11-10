@@ -33,7 +33,10 @@
 
     <link href='http://fonts.googleapis.com/css?family=Sintony:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{$theme}/css/bootstrap.min.css?cache={$cache_buster}" />
+
+    {if !in_dev()}
     <link rel="stylesheet" href="{$theme}/css/main.css?cache={$cache_buster}" />
+    {/if}
 
     {if in_dev()}
     <link rel="stylesheet/less" href="{$theme}/less/main.less?cache={$cache_buster}" />
