@@ -31,7 +31,9 @@
     <title>{cbtitle}</title>
 
 
-    <link href='http://fonts.googleapis.com/css?family=Sintony:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Rambla:400,700|Roboto:400,700' rel='stylesheet' type='text/css'>
+    
+    
     <link rel="stylesheet" href="{$theme}/css/bootstrap.min.css?cache={$cache_buster}" />
 
     {if !in_dev()}
@@ -45,5 +47,24 @@
 
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="{$theme}/js/bootstrap.min.js"></script>
+    <script src="{$theme}/js/masonary.desandro.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            var container = document.querySelector('.row');
+            var msnry = new Masonry( container, {
+                // options
+                
+                itemSelector: '.the-item',
+                stamp : '.ad-box'
+                
+            });
+
+            less.watch({
+            poll : 300
+            });
+        })
+
+    </script>
 
 </head>

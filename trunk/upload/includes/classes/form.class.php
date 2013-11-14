@@ -204,8 +204,21 @@ class formObj
 			
 			if($count>0)
 			echo $field['sep'];
-			echo '<label><input name="'.$field_name.'" type="checkbox" value="'.$key.'" '.$field_id.' '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;			
-		}
+
+            if($field['wrapper_class'])
+                echo '<div class="'.$field['wrapper_class'].'">';
+
+            $label_class = "";
+
+            if($field['label_class'])
+                $label_class = 'class="'.$field['label_class'].'"';
+
+			echo '<label '.$label_class.'> <input name="'.$field_name.'" type="checkbox" value="'.$key.'" '.$field_id.' '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;
+
+            if($field['wrapper_class'])
+                echo '</div>';
+
+        }
 	}
 	
 	function listCategoryCheckBoxCollapsed($in,$multi)
@@ -344,9 +357,22 @@ class formObj
 				$field_name = $field['name'];
 			else
 				$field_name = $field['name'].'[]';
-				
-			echo '<label><input name="'.$field_name .'" type="radio" value="'.$key.'" '.$field_id.' '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;
-			echo $sep;
+
+            if($field['wrapper_class'])
+                echo '<div class="'.$field['wrapper_class'].'">';
+
+
+            $label_class = "";
+            if($field['label_class'])
+                $label_class = 'class="'.$field['label_class'].'"';
+
+
+			echo '<label '.$label_class.'> <input name="'.$field_name .'" type="radio" value="'.$key.'" '.$field_id.' '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;
+
+            if($field['wrapper_class'])
+                echo '</div>';
+
+            echo $sep;
 		}
 	}
 	

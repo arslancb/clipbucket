@@ -3248,8 +3248,24 @@ class userquery extends CBCategory{
 							 'category_type'=>'user',
 							 )
 		  );
-		  
-		 return $user_signup_fields;
+
+
+         $new_array = array();
+
+         foreach($user_signup_fields as $id => $fields)
+         {
+             $the_array = $fields;
+             if($the_array['hint_1'])
+                 $the_array['hint_before'] = $the_array['hint_1'];
+
+             if($the_array['hint_2'])
+                 $the_array['hint_after'] = $the_array['hint_2'];
+
+             $new_array[] = $the_array;
+
+         }
+
+		 return $new_array;
 	}
 	
 	
