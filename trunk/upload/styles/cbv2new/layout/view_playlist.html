@@ -1,0 +1,25 @@
+<h2>{$playlist.playlist_name}</h2>
+
+<p>
+    {if $playlist.description}
+        {$playlist.description}
+    {else}
+        <em>{lang code='No description'}</em>
+    {/if}
+</p>
+
+<p>
+    {$playlist.runtime|setTime} <br/>
+    {$playlist.date_added|niceTime} <br/>
+    {$playlist.last_update|niceTime} <br/>
+    {$playlist.played|number_format} {lang code='views'} <br/>
+    {$playlist.total_items|number_format} {lang code='videos'}
+</p>
+
+<p>
+    <h2>Videos</h2>
+
+    {foreach from=$playlist.videos item=video}
+        {$video.title} <br/>
+    {/foreach}
+</p>

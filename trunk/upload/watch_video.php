@@ -51,13 +51,15 @@ if(video_playable($vdo))
 	}
 	
 	//Checking for playlist
+
 	$pid = $_GET['play_list'];
 	if(!empty($pid))
 	{
-		$plist = $cbvid->action->get_playlist($pid,userid());
-		if($plist)
-			$_SESSION['cur_playlist'] = $pid;
-	}	
+		$plist = get_playlist( $pid );
+		if ( $plist ) {
+            assign( 'playlist', $plist );
+        }
+	}
 	//Calling Functions When Video Is going to play
 	call_watch_video_function($vdo);
 	

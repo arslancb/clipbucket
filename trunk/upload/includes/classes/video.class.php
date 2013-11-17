@@ -1557,20 +1557,42 @@ class CBvideo extends CBCategory
 	/**
 	 * Function used to get playlist items
 	 */
-	function get_playlist_items($pid)
-	{		
-		global $db;
-		$ptbl = tbl($this->action->playlist_items_tbl);
-		$vtbl = tbl($this->dbtbl['video']);
-		
-		$tbls = $ptbl.','.$vtbl;
-		$fields = $ptbl.".*,$vtbl.title,$vtbl.comments_count,$vtbl.views,$vtbl.userid,$vtbl.date_added,
-		$vtbl.file_name,$vtbl.category,$vtbl.description,$vtbl.videokey,$vtbl.tags,$vtbl.videoid,$vtbl.duration";
-		$result = $db->select($tbls,$fields,"playlist_id='$pid' AND ".$vtbl.".videoid=".$ptbl.".object_id");
-		if($db->num_rows>0)
-			return $result;
-		else
-			return false;
+	function get_playlist_items( $playlist_id, $order = null, $limit = -1 )
+	{
+        global $db, $cb_columns;
+
+        $fields = array(
+            'playlist_items' => $cb_columns->object( 'playlist_items' )->temp_change( 'date_added', 'item_added' )->get_columns(),
+            'playlists' => $cb_columns->object( 'playlists' )->temp_remove( 'first_item,cover' )->temp_change( 'date_added,description,tags,category', 'playlist_added,playlist_description,playlist_tags,playlist_category' )->get_columns(),
+            'video' => $cb_columns->object( 'videos' )->get_columns()
+        );
+
+
+        $query = "SELECT ".table_fields( $fields )." FROM ".table( 'playlist_items' );
+        $query .= " LEFT JOIN ".table( 'playlists' )." ON playlist_items.playlist_id = playlists.playlist_id";
+        $query .= " LEFT JOIN ".table( 'video' )." ON playlist_items.object_id = video.videoid";
+
+        $query .= " WHERE playlist_items.playlist_id = '".$playlist_id."' ";
+
+        if ( !is_null( $order ) ) {
+            $query .= "ORDER BY ".$order;
+        }
+
+        if ( $limit > 0 ) {
+            $query .= " LIMIT ".$limit;
+        }
+
+        $data = cb_do_action( 'get_playlist_items', array( 'query' => $query ) );
+
+        if ( $data ) {
+            return $data;
+        }
+
+
+        $data = select( $query );
+
+        return ( !empty( $data ) ) ? $data : false;
+
 	}	
 	
 	/**

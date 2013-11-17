@@ -102,7 +102,7 @@ switch($mode)
 				}else
 				{
 					$eh->flush();
-					e(lang("playlist_item_doesnt_exist"));
+					e(lang("playlist_item_doesnt_exis2222t"));
 				}
 				
 			}else
@@ -114,8 +114,9 @@ switch($mode)
 		
 		if(isset($_POST['edit_playlist']))
 		{
-			$params = array('name'=>mysql_clean($_POST['name']),'pid'=>mysql_clean($pid));
-			$cbvid->action->edit_playlist($params);
+			#$params = array('name'=>mysql_clean($_POST['name']),'pid'=>mysql_clean($pid));
+            $_POST[ 'list_id' ] = $pid;
+			$cbvid->action->edit_playlist();
 		}
 		
 		$playlist = $cbvid->action->get_playlist($pid,userid());

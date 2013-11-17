@@ -4724,4 +4724,5 @@
         include( 'functions_user.php' );
         include( 'functions_photo.php' );
         include('functions_actions.php');
+        include('functions_playlist.php');
 ?>

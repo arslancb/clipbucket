@@ -75,12 +75,20 @@
     <form method="post" name="edit_profile">
     <fieldset class="fieldset">
     <legend>{lang code='edit_playlist'}</legend>
-    
-    <div class="account_field_block clearfix">
-    <div class="account_field_label" align="right"><strong><label for="old_pass">{lang code='playlist_name'}</label></strong></div>
-    <div class="account_field"><input name="name" type="text" id="name" style="margin-bottom:10px" value="{$playlist.playlist_name}"></div>
+    {assign var='playlist_fields' value=$cbvid->action->load_playlist_fields($playlist)}
 
-    </div>
+    {foreach from=$playlist_fields item=group}
+        {foreach from=$group.fields item=field}
+            <div class="account_field_block clearfix">
+                <div class="account_field_label" align="right">
+                    <strong><label for="{$field.id}">{$field.title}</label></strong>
+                </div>
+                <div class="account_field">
+                    {$formObj->createField($field)}
+                </div>
+            </div>
+        {/foreach}
+    {/foreach}
 	
     <div align="right"><button name="edit_playlist" id="button" value="submit" class="cb_button_2">{lang code='edit_playlist'}</button></div>
 

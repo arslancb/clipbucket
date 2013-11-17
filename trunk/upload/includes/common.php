@@ -318,7 +318,10 @@ if(!@$in_bg_cron)
 	define('CON_DIR',FILES_DIR.'/conversion_queue');
 	define('MASS_UPLOAD_DIR',FILES_DIR.'/mass_uploads');
 	define('LOGS_DIR',FILES_DIR.'/logs');
-	
+
+    define( 'IMAGES_DIR', BASEDIR.'/images' );
+    define( 'IMAGES_URL', BASEURL.'/images' );
+
 	define("USER_THUMBS_DIR",BASEDIR.'/images/avatars');
 	define("USER_BG_DIR",BASEDIR.'/images/backgrounds');
 	
@@ -503,9 +506,15 @@ if(!@$in_bg_cron)
 	
 	assign('icons_url',ICONS_URL);
 	
-	
-	
-	
+
+
+    define( 'PLAYLIST_COVERS_DIR', IMAGES_DIR.'/playlist_covers' );
+    define( 'PLAYLIST_COVERS_URL', IMAGES_URL.'/playlist_covers' );
+
+    if ( !file_exists( PLAYLIST_COVERS_DIR ) ) {
+        mkdir( PLAYLIST_COVERS_DIR, 0777 );
+    }
+
 	$ClipBucket->upload_opt_list = array
 	(
 	 'file_upload_div'	=>	array(

@@ -59,6 +59,7 @@ class cb_columns {
      * Register columns for current object
      *
      * @param mixed $columns
+     * @return object $this
      */
     function register_columns( $columns ) {
         $num_of_args = func_num_args();
