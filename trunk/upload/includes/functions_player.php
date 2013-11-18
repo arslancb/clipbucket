@@ -52,11 +52,15 @@ function flashPlayer($param)
 
     if(function_exists('cbplayer') && empty($player_code))
         $player_code = cbplayer($param,true);
+    elseif(function_exists('cbplayer'))
+        return $player_code;
+
+
 
     global $pak_player;
 
     if($player_code)
-        if(!$pak_player && $show_player)
+        if(!$pak_player && $show_player && $show_player!==true)
         {
             assign("player_js_code",$player_code);
             Template(PLAYER_DIR.'/player.html',false);

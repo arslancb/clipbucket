@@ -81,6 +81,7 @@ if(!@$in_bg_cron)
 	{
 		case 0:
 		{
+
 			error_reporting(0);
 			ini_set('display_errors', '0');
 		}
@@ -88,23 +89,23 @@ if(!@$in_bg_cron)
 		case 1:
 		{
 			error_reporting(E_ALL);
-			ini_set('display_errors', '1');
+			ini_set('display_errors', 'on');
 		}
 		break;
 		
 		case 2:
 		default:
 		{
-			
+
 			if(phpversion() >= '5.3.0')
 			{
 				error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);
-				ini_set('display_errors', '1');
+				ini_set('display_errors', 'on');
 			}
 			else
 			{
 				error_reporting(E_ALL ^E_NOTICE);
-				ini_set('display_errors', '1');
+				ini_set('display_errors', 'on');
 			}
 		}
 	}

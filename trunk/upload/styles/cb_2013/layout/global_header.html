@@ -40,18 +40,25 @@
     <link rel="stylesheet" href="{$theme}/css/main.css?cache={$cache_buster}" />
     {/if}
 
+    <link rel="stylesheet" href="{$theme}/css/font-awesome.min.css">
+
+
     {if in_dev()}
     <link rel="stylesheet/less" href="{$theme}/less/main.less?cache={$cache_buster}" />
     <script src="{$js}/less.min.js"></script>
     {/if}
 
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="{$theme}/js/readmore.min.js"></script>
     <script src="{$theme}/js/bootstrap.min.js"></script>
     <script src="{$theme}/js/masonary.desandro.min.js"></script>
 
+
     <script>
         $(document).ready(function(){
-            var container = document.querySelector('.row');
+
+            loading = '<i class="fa fa-spinner fa-spin"></i> {lang code="loading"}...';
+           /* var container = document.querySelector('.the_');
             var msnry = new Masonry( container, {
                 // options
                 
@@ -59,12 +66,16 @@
                 stamp : '.ad-box'
                 
             });
+*/
+//            less.watch({
+//            poll : 300
+//            });
 
-            less.watch({
-            poll : 300
-            });
         })
 
     </script>
+
+
+    {include_header file='global_header'}
 
 </head>

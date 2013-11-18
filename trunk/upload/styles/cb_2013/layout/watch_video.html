@@ -1,0 +1,185 @@
+{$video=$vdo}
+{$type='video'}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div class="cb-box pad-bottom-sm">
+                <div id="cb_player" class="no-pad">
+                    {FlashPlayer vdetails=$video width='100%' height='100%'}
+                </div>
+
+                <div class="cb-item-title-container">
+                    <div class="cb-item-thumb">
+                        <img src="{$userquery->avatar($video)}" class="img-circle" />
+                    </div>
+                    <div class="cb-item-title">
+                        {$video.title}
+                    </div>
+                    <div class="cb-item-user">
+                        <a href="{$userquery->profile_link($video)}">{$video.username}</a>
+                    </div>
+
+                    <a class="btn btn-xs btn-primary">
+                        {lang('Subscribe')}
+                    </a>
+                    <div class="cb-item-date">
+                        {$video.date_added|niceTime}
+                    </div>
+
+
+                    <div class="cb-item-rating">
+                        <span class="cb-rating-span cb-rating-up">
+                            <span class="cb-rating-digit">34</span>
+                            <i class="glyphicon glyphicon-thumbs-up"></i>
+                            {lang code='Like'}
+                        </span>
+                        <span class="cb-rating-span cb-rating-down">
+                            <span class="cb-rating-digit">-4</span>
+                            <i class="glyphicon glyphicon-thumbs-down"></i>
+                            {lang code='Dislike'}
+                        </span>
+                    </div>
+                </div>
+
+
+                <div class="cb-item-desc-container">
+
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#cb-item-info" data-toggle="tab">Info</a></li>
+                        <li><a href="#cb-item-share" data-toggle="tab">Share</a></li>
+                        <li><a href="#cb-item-addto" data-toggle="tab">Add to</a></li>
+                        <li><a href="#cb-item-report" data-toggle="tab">Report</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane " id="cb-item-info">
+
+                            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+
+                                <div class="cb-item-description">
+                                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                <div class="lead">2,556 views</div>
+                                <div>
+                                    <span class="cb-item-social-icon twitter">
+                                        <i class="fa fa-twitter"></i>
+                                    </span>
+                                    <span class="cb-item-social-icon googlep">
+                                        <i class="fa fa-google-plus"></i>
+                                    </span>
+                                    <span class="cb-item-social-icon facebook">
+                                        <i class="fa fa-facebook"></i>
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="cb-item-share">
+                            {show_share_form id=$vdo.videoid type=Video}
+                        </div>
+
+                        <div class="tab-pane active" id="cb-item-addto">
+                            {show_playlist_form id=$vdo.videoid type=Video}
+                        </div>
+
+                        <div class="tab-pane" id="cb-item-report">
+                            {show_flag_form id=$vdo.videoid type=Video}
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="cb-box pad-bottom">
+
+                <h4>{lang('Comments')}</h4>
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 cb-item-add-comment">
+                    <form class="form-inline">
+                        <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 form-group">
+                            <input type="text" class="form-control" />
+                        </div>
+                        <button type="submit" class="hidden-xs hidden-sm  btn btn-primary">{lang('Comment')}</button>
+
+                        <div class="hidden-lg hidden-md pl15 pr15">
+                            <button type="submit" class="btn btn-block btn-primary">{lang('Comment')}</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="clearfix"></div>
+
+
+
+                <div class="cb-item-comments-container">
+
+                    <div class="cb-item-comment">
+                        <img src="http://lorempixel.com/output/fashion-q-c-60-60-10.jpg" class="img-circle cb-comment-author-img" />
+                        <div class="cb-comment-author">
+                            Arslan Hassan <span class="cb-comment-date"> &ndash; 3 Days ago</span>
+
+                            <div class="cb-comment-rating-cont">
+                                <span class="comment-rating">+2</span>
+                                <span class="comment-like">Like</span>
+                                <span class="comment-dislike">Unlike</span>
+                            </div>
+                        </div>
+                        <div class="cb-comment-text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                        </div>
+                        <div class="cb-comment-actions">Edit | Delete | Reply</div>
+
+                    </div>
+
+
+                    <div class="cb-item-comment">
+                        <img src="http://lorempixel.com/output/fashion-q-c-60-60-10.jpg" class="img-circle cb-comment-author-img" />
+                        <div class="cb-comment-author">
+                            Arslan Hassan <span class="cb-comment-date"> &ndash; 3 Days ago</span>
+
+                            <div class="cb-comment-rating-cont">
+                                <span class="comment-rating">+2</span>
+                                <span class="comment-like">Like</span>
+                                <span class="comment-dislike">Unlike</span>
+                            </div>
+                        </div>
+                        <div class="cb-comment-text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                        </div>
+                        <div class="cb-comment-actions">Edit | Delete | Reply</div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 visible-lg visible-md">
+            <div class="cb-box"></div>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    var aspect_ratio = 1.77778
+    var $cb_player = $("#cb_player");
+
+    $(document).ready(function(){
+        $cb_player.height( $cb_player.width() / aspect_ratio );
+
+        $('.cb-item-description').readmore({
+            speed: 75,
+            maxHeight: 60
+        });
+
+    });
+// Resize #my_div on browser resize
+    $(window).resize(function() {
+        $cb_player.height( $cb_player.width() / aspect_ratio );
+    });
+
+</script>
+

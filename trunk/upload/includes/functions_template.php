@@ -58,3 +58,47 @@ function Assign($name,$value)
  * @return Array
  */
 function cb_menu($params=NULL){ global $Cbucket; return $Cbucket->cbMenu($params); }
+
+
+/**
+ * Function used to call display
+ */
+function display_it()
+{
+    try
+    {
+        global $ClipBucket, $db;
+        $dir = LAYOUT;
+        foreach($ClipBucket->template_files as $file)
+        {
+            if(file_exists(LAYOUT.'/'.$file) || is_array($file))
+            {
+
+                if(!$ClipBucket->show_page && $file['follow_show_page'])
+                {
+
+                }else
+                {
+                    if(!is_array($file))
+                        $new_list[] = $file;
+                    else
+                    {
+                        if($file['folder'] && file_exists($file['folder'].'/'.$file['file']))
+                            $new_list[] = $file['folder'].'/'.$file['file'];
+                        else
+                            $new_list[] = $file['file'];
+                    }
+                }
+            }
+        }
+
+        assign('template_files',$new_list);
+
+        Template('body.html');
+
+        footer();
+    }catch(SmartyException $e)
+    {
+        show_cb_error($e);
+    }
+}

@@ -1519,42 +1519,7 @@
 	}
 	
 	
-	/** 
-	 * Function used to call display
-	 */
-	function display_it()
-	{
-		global $ClipBucket, $db;
-		$dir = LAYOUT;
-		foreach($ClipBucket->template_files as $file)
-		{
-			if(file_exists(LAYOUT.'/'.$file) || is_array($file))
-			{
-				
-				if(!$ClipBucket->show_page && $file['follow_show_page'])
-				{
-					
-				}else
-				{
-					if(!is_array($file))
-						$new_list[] = $file;
-					else
-					{
-						if($file['folder'] && file_exists($file['folder'].'/'.$file['file']))
-							$new_list[] = $file['folder'].'/'.$file['file'];
-						else
-							$new_list[] = $file['file'];
-					}
-				}							
-			}
-		}
-		
-		assign('template_files',$new_list);
 
-		Template('body.html');
-		
-		footer();
-	}
 	
 	
 	/**
@@ -2213,7 +2178,11 @@
 	{
 		
 		assign('params',$array);
-		Template('blocks/share_form.html');
+        if(SMARTY_VERSION>2)
+            Template('blocks/common/share.html');
+        else
+            Template('blocks/share_form.html');
+
 	}
 	
 	/**
@@ -2222,7 +2191,10 @@
 	function show_flag_form($array)
 	{
 		assign('params',$array);
-		Template('blocks/flag_form.html');
+        if(SMARTY_VERSION>2)
+            Template('blocks/common/report.html');
+        else
+            Template('blocks/flag_form.html');
 	}
 	
 	/**
@@ -2235,8 +2207,11 @@
 		
 		$playlists = $cbvid->action->get_playlists();
 		assign('playlists',$playlists);
-		
-		Template('blocks/playlist_form.html');
+
+        if(SMARTY_VERSION>2)
+            Template('blocks/common/playlist.html');
+        else
+            Template('blocks/playlist_form.html');
 	}
 	
 	/**
@@ -4711,6 +4686,23 @@
                 return DEVELOPMENT_MODE;
             else
                 return false;
+        }
+
+
+        /**
+         * displays a runtime error
+         *
+         * @param Object $e
+         */
+        function show_cb_error($e)
+        {
+            echo $e->getMessage();
+            echo '<br>';
+            echo 'On Line Number ';
+            echo $e->getLine();
+            echo '<br>';
+            echo 'In file ';
+            echo $e->getFile();
         }
 
         include( 'functions_db.php' );
