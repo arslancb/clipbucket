@@ -1430,8 +1430,12 @@ class CBvideo extends CBCategory
 		assign("likes",$likes);
 		assign("dislikes",($ratings-$likes));
 		assign('disable',$params['disable']);
-		
-		Template('blocks/rating.html');
+
+
+        if(SMARTY_VERSION>2)
+            Template('blocks/common/rating.html');
+        else
+		    Template('blocks/rating.html');
 		
 	}
 	
