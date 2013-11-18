@@ -202,11 +202,26 @@ class CBvideo extends CBCategory
         }
 
         $query .= 'LIMIT 1';
+        $query_id = cb_query_id ( $query );
+
+        $data = cb_do_action( 'select_video', array( 'query_id' => $query_id, 'videoid' => $vid ) );
+
+        if ( $data ) {
+            return $data;
+        }
 
         $result = select( $query );
 
         if ( $result ) {
-            return apply_filters( $result[ 0 ], 'get_video' );
+
+            $result = apply_filters( $result[ 0 ], 'get_video' );
+
+            cb_do_action( 'return_video', array(
+                'query_id' => $query_id,
+                'results' => $result
+            ) );
+
+            return $result;
         } else {
             return false;
         }
@@ -1582,7 +1597,9 @@ class CBvideo extends CBCategory
             $query .= " LIMIT ".$limit;
         }
 
-        $data = cb_do_action( 'get_playlist_items', array( 'query' => $query ) );
+        $query_id = cb_query_id( $query );
+
+        $data = cb_do_action( 'select_playlist_items', array( 'query_id' => $query_id, 'playlist_id' => $playlist_id ) );
 
         if ( $data ) {
             return $data;
@@ -1591,7 +1608,17 @@ class CBvideo extends CBCategory
 
         $data = select( $query );
 
-        return ( !empty( $data ) ) ? $data : false;
+        if ( $data ) {
+
+            cb_do_action( 'return_playlist_items', array(
+                'query_id' => $query_id,
+                'results' => $data
+            ) );
+
+            return $data;
+        }
+
+        return false;
 
 	}	
 	

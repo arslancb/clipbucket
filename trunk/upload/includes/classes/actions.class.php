@@ -640,7 +640,9 @@ class cbactions
 
         $query .= " LIMIT 1";
 
-        $data = cb_do_action( 'get_playlist', array( 'query' => $query ) );
+        $query_id = cb_query_id( $query );
+
+        $data = cb_do_action( 'select_playlist', array( 'query_id' => $query_id, 'playlist_id' => $id ) );
 
         if ( $data ) {
             return $data;
@@ -664,6 +666,11 @@ class cbactions
                     $data[ 'cover' ] = $cover;
                 }
             }
+
+            cb_do_action( 'return_playlist', array(
+                'query_id' => $query_id,
+                'results' => $data
+            ) );
 
             return $data;
         }
@@ -827,13 +834,6 @@ class cbactions
 	{
 		global $db, $cb_columns;
 
-        $data = cb_do_action( 'get_playlist_item', array( 'playlist_item_id' => $id ) );
-
-        if ( isset( $data ) and $data ) {
-            return $data;
-        }
-
-
         $fields = array(
             'playlist_items' => $cb_columns->object( 'playlist_items' )->get_columns()
         );
@@ -850,9 +850,23 @@ class cbactions
 
         $query .= " WHERE playlist_items.playlist_item_id = '$id' LIMIT 1";
 
+        $query_id = cb_query_id( $query );
+
+        $data = cb_do_action( 'select_playlist_item', array( 'playlist_item_id' => $id, 'query_id' => $query_id ) );
+
+        if ( $data ) {
+            return $data;
+        }
+
         $data = select( $query );
 
         if ( $data ) {
+
+            cb_do_action( 'return_playlist_item', array(
+                'query_id' => $query_id,
+                'results' => $data[ 0 ]
+            ));
+
             return $data[ 0 ];
         } else {
             return false;
@@ -1061,9 +1075,25 @@ class cbactions
 
 
         $query .= $order.$limit;
+        $query_id = cb_query_id( $query );
+
+        $action_array = array( 'query_id' => $query_id );
+
+        $data = cb_do_action( 'select_playlists', array_merge( $action_array, $params ) );
+
+        if ( $data ) {
+            return $data;
+        }
+
         $results = select( $query );
 
         if ( !empty( $results ) ) {
+
+            cb_do_action( 'return_playlists', array(
+                'query_id' => $query_id,
+                'results' => $results
+            ));
+
             return $results;
         }
 

@@ -119,4 +119,8 @@ function dbcount($tbl, $fields = '*', $cond = false)
     return $db->count($tbl,$fields,$cond);
 }
 
+function cb_query_id( $query ) {
+    return md5( $query );
+}
+
 ?>

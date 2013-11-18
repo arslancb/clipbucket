@@ -26,7 +26,7 @@ function cb_register_action($func_name,$place,$extra_params=Array(),$scope=array
 
     $actions_list = $Cbucket->actions_list;
     $actions_list[$place][] = array(
-        'action' => $place,
+        'action' => $func_name,
         'params' => $extra_params,
         'scope' => $scope
     );

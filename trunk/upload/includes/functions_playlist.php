@@ -96,3 +96,42 @@ function get_playlist_thumb ( $playlist ) {
 function get_playlist_default_thumb() {
     return false;
 }
+
+function view_playlist( $playlist_id ) {
+
+    $playlist_link = BASEURL;
+
+    if ( is_array( $playlist_id ) and isset( $playlist_id[ 'playlist_id' ] ) ) {
+        $playlist = $playlist_id;
+    } else {
+        $playlist = get_playlist( $playlist_id );
+    }
+
+    if ( empty( $playlist  ) ) {
+        return BASEURL;
+    }
+
+    $is_seo = SEO;
+
+
+    $data = cb_do_action( 'view_playlist_link', array( 'playlist' => $playlist, 'seo_enabled' => $is_seo ) );
+
+    if ( $is_seo ) {
+        $playlist_link .= '/list/'.$playlist[ 'playlist_id' ].'/'.SEO( $playlist[ 'playlist_name' ] );
+    } else {
+        $playlist_link .= '/view_playlist.php?list='.$playlist_id;
+    }
+
+
+    $data = cb_do_action( 'view_playlist_link', array(
+        'playlist' => $playlist,
+        'seo_enabled' => $is_seo,
+        'playlist_link' => $playlist_link
+    ) );
+
+    if ( $data ) {
+        return $data;
+    }
+
+    return $playlist_link;
+}
