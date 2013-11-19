@@ -11,10 +11,11 @@ include('../includes/config.inc.php');
 include('global.php');
 
 $request = $_REQUEST;
-$mode = $request['mode'];
+$mode = strtolower($request['mode']);
 
 
 $api_keys = $Cbucket->api_keys;
+
 if($api_keys)
 {
     if(!in_array($request['api_key'],$api_keys))
@@ -95,12 +96,13 @@ switch($mode)
     }
     break;
     
-    case "getUser":
+    case "getuser":
     case "check_auth":
     case "is_logged_in":
-    case "checkAuth": 
-    case "isLoggedIn":
+    case "checkauth":
+    case "isloggedin":
     {
+
         $userid = userid();
         if(!userid())
             exit(json_encode(array('status'=>'failed','msg'=>'User is not logged in','session'=>$_COOKIE['PHPSESSID'])));

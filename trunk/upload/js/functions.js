@@ -616,7 +616,7 @@ var loading = loading_img+" Loading...";
 				if(data.cid)
 				{
 					get_the_comment(data.cid,"#latest_comment_container");
-					$("#"+form_id).slideUp();
+					//$("#"+form_id).slideUp();
 				}
 			}
 		},'json');

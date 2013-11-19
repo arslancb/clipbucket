@@ -1383,7 +1383,8 @@ if(!empty($mode))
 			$params['type'] = mysql_clean($_POST['type']);
 			$params['type_id'] = mysql_clean($_POST['type_id']);
 			$params['last_update'] = mysql_clean($_POST['last_update']);
-			$params['limit'] = create_query_limit($page,$limit);	
+			$params['limit'] = create_query_limit($page,$limit);
+            $params['cache'] = 'no';
 			
 			$admin = "";
 			if($_POST['admin']=='yes' && has_access('admin_access',true))
@@ -1414,7 +1415,11 @@ if(!empty($mode))
 			Template('blocks/comments/comments.html');
 			
 			assign('commentPagination','yes');
-			Template('blocks/pagination.html');
+
+            if(SMARTY_VERSION > 2 )
+                Template('blocks/common/pagination.html');
+            else
+			    Template('blocks/pagination.html');
 		}
 		break;
 		
