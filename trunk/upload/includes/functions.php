@@ -103,12 +103,12 @@
 	
 	function mysql_clean($id,$replacer=true){
 		//$id = clean($id);
-		
+		global $db;
 		if (get_magic_quotes_gpc())
 		{
 			$id = stripslashes($id);
 		}
-		$id = htmlspecialchars(mysql_real_escape_string($id));
+		$id = htmlspecialchars(mysqli_real_escape_string($db->mysqli,$id));
 		if($replacer)
 			$id = Replacer($id);
 		return $id;
