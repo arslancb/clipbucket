@@ -175,7 +175,7 @@ if(!@$in_bg_cron)
 	require_once('classes/photos.class.php');
 	require_once('classes/menuhandler.class.php');
 	require_once('classes/cbfeeds.class.php');
-
+    require_once('classes/resizer.class.php');
 
 	//Adding Gravatar
 	require_once('classes/gravatar.class.php');
@@ -670,6 +670,9 @@ register_action_remove_video('remove_video_files');
 
 register_anchor_function( 'add_photo_plupload_javascript_block', 'cb_head' );
 cb_register_function( 'plupload_photo_uploader', 'uploaderDetails' );
+
+
+cb_register_action( 'increment_playlist_played', 'view_playlist' );
 
 include('admin.functions.php');
 //error_reporting(E_ALL ^E_NOTICE ^E_DEPRECATED);

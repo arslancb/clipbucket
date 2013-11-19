@@ -14,8 +14,34 @@ function get_playlist ( $list_id, $user = null ) {
 
 function is_playlist_viewable( $list_id ) {
 
-    return true;
+    if ( is_array( $list_id ) ) {
+        $playlist = $list_id;
+    } else {
+        $playlist = get_playlist( $list_id );
+    }
 
+    if ( isset( $playlist[ 'playlist_id' ] ) ) {
+
+        if ( $playlist[ 'privacy' ] == 'private' and $playlist[ 'userid' ] != userid() ) {
+            e( lang( 'User has made this playlist private.' ) );
+            return false;
+        }
+
+        $data = cb_do_action( 'is_playlist_viewable', array( 'playlist' => $playlist ) );
+
+        if ( $data ) {
+            return $data;
+        }
+
+        return true;
+    }
+
+    return true;
+}
+
+function get_playlists( $args = array() ) {
+    global $cbvid;
+    return $cbvid->action->get_playlists( $args );
 }
 
 function get_playlist_items( $list_id, $limit = -1, $order = "playlist_items.playlist_item_id DESC" ) {
@@ -56,19 +82,19 @@ function playlist_runtime ( $playlist ) {
     return $string;
 }
 
-function get_playlist_cover ( $playlist ) {
+function get_playlist_cover ( $playlist, $return_default = false ) {
     $cover = $playlist[ 'cover' ];
     $playlist_dir = PLAYLIST_COVERS_DIR;
 
     if ( empty( $cover ) ) {
-        return false;
+        return ( $return_default == true ) ? get_playlist_default_thumb() : false;
     }
 
     if ( file_exists( $playlist_dir.'/'.$cover ) ) {
         return PLAYLIST_COVERS_URL.'/'.$cover;
     }
 
-    return false;
+    return ( $return_default == true ) ? get_playlist_default_thumb() : false;
 }
 
 function get_playlist_thumb ( $playlist ) {
@@ -94,7 +120,17 @@ function get_playlist_thumb ( $playlist ) {
 }
 
 function get_playlist_default_thumb() {
-    return false;
+    $name = 'playlist_thumb.png';
+    $template = TEMPLATEDIR;
+    $images = IMAGES_URL;
+
+    $url = $images.'/'.$name;
+
+    if ( file_exists( $template.'/images/'.$name ) ) {
+        $url = TEMPLATEURL.'/images/'.$name;
+    }
+
+    return $url;
 }
 
 function view_playlist( $playlist_id ) {
@@ -135,3 +171,53 @@ function view_playlist( $playlist_id ) {
 
     return $playlist_link;
 }
+
+function playlist_upload_cover ( $args ) {
+    global $db;
+
+    $filename = $args[ 'playlist_id' ];
+    $extension = GetExt( $args[ 'name' ] );
+    $folder = create_dated_folder( PLAYLIST_COVERS_DIR );
+    $uploaded_file = PLAYLIST_COVERS_DIR.'/'.$folder.'/'.$filename.'.'.$extension;
+
+    if ( !empty( $filename ) ) {
+
+        if ( move_uploaded_file( $args[ 'tmp_name' ], $uploaded_file ) ) {
+
+            $cover_name = $filename.'.'.$extension;
+
+            $resizer = new CB_Resizer( $uploaded_file );
+            $resizer->target = $uploaded_file;
+            $resizer->resize( 1280, 800 );
+            $resizer->save();
+
+
+            $db->update( tbl( 'playlists' ), array( 'cover' ), array( $folder.'/'.$cover_name ), " playlist_id = '".$filename."' " );
+
+            return true;
+        }
+
+    }
+
+    return false;
+}
+
+function increment_playlist_played( $args = array() ) {
+    global $db;
+
+    if ( isset( $args[ 'playlist' ] ) ) {
+
+        $cookie = 'playlist_played_'.$args[ 'playlist' ][ 'playlist_id' ];
+
+        if ( !isset( $_COOKIE[ $cookie ] ) ) {
+
+            $db->update( tbl( 'playlists' ), array( 'played' ), array( '|f|played+1' ), " playlist_id = '".$args[ 'playlist' ][ 'playlist_id' ]."' " );
+            setcookie( $cookie, true, time()+3600 );
+
+        }
+
+    }
+
+}
+
+# BASEURL/show/SHOW-NAME/

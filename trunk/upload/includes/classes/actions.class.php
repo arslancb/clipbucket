@@ -563,22 +563,76 @@ class cbactions
 	 * Function used to create new playlist
 	 * @param ARRAY
 	 */
-	function create_playlist($params)
+	function create_playlist( $array = null )
 	{
 		global $db;
-		$name = mysql_clean($params['name']);
+
+        if ( is_null( $array ) ) {
+            $array = $_POST;
+        }
+
+		$name = mysql_clean( $array['name'] );
 		if(!userid())
 			e(lang("please_login_create_playlist"));
-		elseif(empty($name))
-			e(lang("please_enter_playlist_name"));
+		/*elseif(empty($name))
+			e(lang("please_enter_playlist_name"));*/
 		elseif($this->playlist_exists($name,userid(),$this->type))
 			e(sprintf(lang("play_list_with_this_name_arlready_exists"),$name));
 		else
 		{
-			$db->insert(tbl($this->playlist_tbl),array("playlist_name","userid","date_added","playlist_type"),
-									  array($name,userid(),now(),$this->type));
-			e(lang("new_playlist_created"),"m");
-			$pid = $db->insert_id();
+
+            $upload_fields = $this->load_playlist_fields( $array );
+            $fields = array();
+
+            foreach( $upload_fields as $group ) {
+
+                $fields = array_merge( $fields, $group[ 'fields' ] );
+
+            }
+
+            validate_cb_form( $fields, $array );
+
+            if ( !error() ) {
+
+                foreach($fields as $field)
+                {
+                    $name = formObj::rmBrackets($field['name']);
+                    $val = $array[ $name ];
+
+                    if($field['use_func_val'])
+                        $val = $field['validate_function']($val);
+
+                    if(is_array($val))
+                    {
+                        $new_val = '';
+                        foreach($val as $v)
+                        {
+                            $new_val .= "#".$v."# ";
+                        }
+                        $val = $new_val;
+                    }
+                    if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
+                        $val = ($val);
+                    else
+                        $val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
+
+                    if(!empty($field['db_field']))
+                        $query_values[ $name ] = $val;
+                }
+
+
+                $query_values[ 'date_added' ] = NOW();
+                $query_values[ 'userid' ] = $array[ 'userid' ] ? $array[ 'userid' ] : userid();
+                $query_values[ 'playlist_type' ] = $this->type;
+
+                $db->insert( tbl( $this->playlist_tbl ), array_keys( $query_values ), array_values( $query_values ) );
+                e(lang("new_playlist_created"),"m");
+
+                return true;
+            }
+
+
+			/*$pid = $db->insert_id();
 			
 			//Logging Playlist			
 			$log_array = array
@@ -591,6 +645,7 @@ class cbactions
 			insert_log('add_playlist',$log_array);
 					
 			return $pid;
+			*/
 		}
 		
 		return false;
@@ -916,6 +971,8 @@ class cbactions
 			e(lang("playlist_not_exist"));
 		elseif(!userid())
 			e(lang("you_not_logged_in"));
+        elseif($this->playlist_exists($name,userid(),$this->type))
+            e(sprintf(lang("play_list_with_this_name_arlready_exists"),$name));
 		else
 		{
 
@@ -1066,6 +1123,11 @@ class cbactions
             $condition .= " playlists.userid = '".$params[ 'user' ]."' ";
         }
 
+        if ( $params[ 'has_items' ] ) {
+            $condition .= ( $condition ) ? " AND " : "";
+            $condition .= " playlists.total_items > '0' ";
+        }
+
         if ( $condition ) {
             $query .= " WHERE ".$condition;
         }
@@ -1075,15 +1137,16 @@ class cbactions
 
 
         $query .= $order.$limit;
+
         $query_id = cb_query_id( $query );
 
         $action_array = array( 'query_id' => $query_id );
 
         $data = cb_do_action( 'select_playlists', array_merge( $action_array, $params ) );
 
-        if ( $data ) {
+        /*if ( $data ) {
             return $data;
-        }
+        }*/
 
         $results = select( $query );
 

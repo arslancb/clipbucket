@@ -67,8 +67,7 @@ switch($mode)
 		//Adding New Playlist
 		if(isset($_POST['add_playlist']))
 		{
-			$params = array('name'=>mysql_clean($_POST['name']));
-			$cbvid->action->create_playlist($params);
+			$cbvid->action->create_playlist();
 		}
 		
 		assign('mode','manage_playlist');
@@ -102,7 +101,7 @@ switch($mode)
 				}else
 				{
 					$eh->flush();
-					e(lang("playlist_item_doesnt_exis2222t"));
+					e(lang("playlist_item_doesnt_exist"));
 				}
 				
 			}else
@@ -118,7 +117,20 @@ switch($mode)
             $_POST[ 'list_id' ] = $pid;
 			$cbvid->action->edit_playlist();
 		}
-		
+
+        if ( isset( $_POST[ 'upload_playlist_cover' ] ) ) {
+            $cover = $_FILES[ 'playlist_cover' ];
+            $cover[ 'playlist_id' ] = $pid;
+
+            if ( playlist_upload_cover( $cover ) ) {
+                e( lang( 'Playlist cover has been uploaded' ), 'm' );
+            }
+
+            if ( file_exists( $cover[ 'tmp_name' ] ) ) {
+                unlink( $cover[ 'tmp_name' ] );
+            }
+        }
+
 		$playlist = $cbvid->action->get_playlist($pid,userid());
 		
 		//Deleting Item

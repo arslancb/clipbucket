@@ -63,7 +63,11 @@ class Clipbucket_db
 
         $this->num_rows = $result->num_rows ;
         $data = array();
-        for ($row_no = $result->num_rows - 1; $row_no >= 0; $row_no--) {
+
+
+        #pr( $result, true );
+
+        for ($row_no = 0; $row_no < $this->num_rows; $row_no++) {
             $result->data_seek($row_no);
             $data[] = $result->fetch_assoc();
         }
@@ -329,6 +333,17 @@ class Clipbucket_db
 
     }
 
+    /**
+     * Returns last insert id.
+     *
+     * Always use this right after calling insert method or before
+     * making another mysqli query.
+     *
+     * @return mixed
+     */
+    function insert_id() {
+        return $this->mysqli->insert_id;
+    }
 
     /**
      * Clean variable for mysql

@@ -475,12 +475,12 @@ class myquery {
 						 ('type,comment,type_id,userid,date_added,parent_id,anonym_name,anonym_email','comment_ip','type_owner_id'),
 						 array
 						 ($type,$comment,$obj_id,userid(),NOW(),$reply_to,$name,$email,$_SERVER['REMOTE_ADDR'],$obj_owner));
-			
+            $cid = $db->insert_id();
 			$db->update(tbl("users"),array("total_comments"),array("|f|total_comments+1")," userid='".userid()."'");
 			
 			e(lang("grp_comment_msg"),"m");
 			
-			$cid = $db->insert_id();	
+
 			$own_details = $userquery->get_user_field_only($obj_owner,'email');
 			
 			
