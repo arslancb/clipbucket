@@ -265,15 +265,31 @@ if (!function_exists('validate_embed_code'))
                     '/<b>(.*<\/b>)?/','/width\: ?([0-9]+)px/','/height: ?([0-9]+)px/',
                     '/width=([0-9]+)/','/height=([0-9]+)/'
                 );
-                
+
+
+                $width_px_replace = $data['width'].'px';
+                $height_px_replace = $data['width'].'px';
+                $width_replace = $data['width'];
+                $height_replace = $data['width'];
+
+                if(strstr($data['width'],'%'))
+                    $width_px_replace = $data['width'];
+
+                if(strstr($data['height'],'%'))
+                    $height_px_replace = $data['height'];
+
                 $preg_repalce = array(
                     '',
-                    'width:'.$data['width'].'px',
-                    'height:'.$data['height'].'px',
-                    'width='.$data['width'],
-                    'height='.$data['height']
+                    'width:'.$width_px_replace,
+                    'height:'.$height_px_replace,
+                    'width='.$width_replace,
+                    'height='.$height_replace
                 );
-                        
+
+
+
+
+
                 $embed_code = str_replace($h_w_p, $h_w_r, $embed_code);
                 $embed_code = unhtmlentities($embed_code);
                 $embed_code = preg_replace($preg_match, $preg_repalce, $embed_code);

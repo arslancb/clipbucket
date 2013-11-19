@@ -388,9 +388,9 @@ var loading = loading_img+" Loading...";
 		{ 	
 			mode : 'share_object',
 			type : type,
-			users : $("#"+form_id+" input:#ShareUsers").val(),
-			message : $("#"+form_id+" textarea:#message").val(),
-			id : $("#"+form_id+" input:#objectid").val()
+			users : $("#ShareUsers").val(),
+			message : $("#message").val(),
+			id : $("#objectid").val()
 		},
 		function(data)
 		{
@@ -413,7 +413,7 @@ var loading = loading_img+" Loading...";
 		{ 	
 			mode : 'flag_object',
 			type : type,
-			flag_type : $("#"+form_id+" select:#flag_type").val(),
+			flag_type : $("#"+form_id+" select option:selected").val(),
 			id : id
 		},
 		function(data)
@@ -690,7 +690,7 @@ var loading = loading_img+" Loading...";
 					mode : 'add_new_playlist',
 					id : vid,
 					objtype : objtype,
-					plname : $("#"+form_id+" input:#playlist_name").val()
+					plname : $("#playlist_name").val()
 		},
 				function(data)
 				{

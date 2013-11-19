@@ -60,13 +60,14 @@ function flashPlayer($param)
     global $pak_player;
 
     if($player_code)
-        if(!$pak_player && $show_player && $show_player!==true)
+        if(!$pak_player && $show_player && !is_bool($player_code))
         {
             assign("player_js_code",$player_code);
             Template(PLAYER_DIR.'/player.html',false);
             return false;
         }else
         {
+
             return false;
         }
 
