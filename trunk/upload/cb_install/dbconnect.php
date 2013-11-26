@@ -18,6 +18,12 @@
 	//Setting Table Prefix
 	define('TABLE_PREFIX','_TABLE_PREFIX_');
 
+
+    $db = new Clipbucket_db();
+
+    $db->connect($DBHOST,$DBNAME,$DBUSER,$DBPASS);
+
+/*
 	require 'adodb/adodb.inc.php';
 
 	$db             = ADONewConnection($BDTYPE);
@@ -35,5 +41,6 @@
 	$db->Execute('SET NAMES utf8');
 	$db->Execute('SET CHARACTER SET utf8');
 	$db->Execute('SET COLLATION_CONNECTION="utf8_general_ci"');
+*/
 
 ?>

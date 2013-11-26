@@ -61,7 +61,7 @@ class CBvideo extends CBCategory
             'videoid', 'videokey', 'userid', 'title', 'description', 'tags', 'category',
             'active', 'date_added', 'broadcast', 'rating', 'file_server_path', 'files_thumbs_path',
             'file_thumbs_count', 'duration', 'has_hq', 'has_mobile', 'views', 'file_name', 'rated_by',
-            'default_thumb', 'comments_count', 'last_viewed', 'featured', 'featured_date'
+            'default_thumb', 'comments_count', 'last_viewed', 'featured', 'featured_date', 'status'
         );
 
         $cb_columns->object( 'videos' )->register_columns( $basic_fields );

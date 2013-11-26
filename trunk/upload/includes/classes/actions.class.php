@@ -1023,6 +1023,8 @@ class cbactions
 
                 }
 
+                $query_values[ 'last_update' ] = NOW();
+
                 $db->update( tbl( 'playlists' ), array_keys( $query_values ), array_values( $query_values ), " playlist_id = '".$pdetails[ 'playlist_id' ]."' " );
             }
 
@@ -1144,9 +1146,9 @@ class cbactions
 
         $data = cb_do_action( 'select_playlists', array_merge( $action_array, $params ) );
 
-        /*if ( $data ) {
+        if ( $data ) {
             return $data;
-        }*/
+        }
 
         $results = select( $query );
 

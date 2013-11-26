@@ -655,7 +655,7 @@ class Upload{
 		for($i=1;$i<32;$i++) $day_array[$i] = $i;
 		for($i=date("Y",time());$i>1900;$i--) $year_array[$i] = $i;
 		
-		if($date['value']==NULL)
+		if( isset( $data[ 'value' ] ) and $date['value'] == null )
 		{
 			$d_month = $_POST['month'];
 			$d_day = $_POST['day'];

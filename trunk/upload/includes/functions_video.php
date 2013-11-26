@@ -800,7 +800,8 @@ function parse_duration($log)
  */
 function get_thumb_num($name)
 {
-    $list = end(explode('-',$name));
+    $list = explode( '-', $name);
+    $list = end( $list );
     $list = explode('.',$list);
     return  $list[0];
 }
