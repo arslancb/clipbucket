@@ -218,7 +218,9 @@ class CBvideo extends CBCategory
 
             cb_do_action( 'return_video', array(
                 'query_id' => $query_id,
-                'results' => $result
+                'results' => $result,
+                'object_id' => $vid,
+                'videoid' => $vid
             ) );
 
             return $result;
@@ -469,6 +471,12 @@ class CBvideo extends CBCategory
 				//pr($upload_fields);	
 	
 				$db->update(tbl('video'),$query_field,$query_val," videoid='$vid'");
+
+                cb_do_action( 'update_video', array(
+                    'object_id' => $vid,
+                    'results' => $array
+                ));
+
 				//echo $db->db_query;
 				e(lang("class_vdo_update_msg"),'m');
 			}

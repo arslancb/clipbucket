@@ -697,7 +697,7 @@ class cbactions
 
         $query_id = cb_query_id( $query );
 
-        $data = cb_do_action( 'select_playlist', array( 'query_id' => $query_id, 'playlist_id' => $id ) );
+        $data = cb_do_action( 'select_playlist', array( 'query_id' => $query_id, 'object_id' => $id ) );
 
         if ( $data ) {
             return $data;
@@ -724,7 +724,8 @@ class cbactions
 
             cb_do_action( 'return_playlist', array(
                 'query_id' => $query_id,
-                'results' => $data
+                'results' => $data,
+                'object_id' => $id
             ) );
 
             return $data;
@@ -1026,6 +1027,13 @@ class cbactions
                 $query_values[ 'last_update' ] = NOW();
 
                 $db->update( tbl( 'playlists' ), array_keys( $query_values ), array_values( $query_values ), " playlist_id = '".$pdetails[ 'playlist_id' ]."' " );
+
+                $array[ 'playlist_id' ] = $array['pid'] ? $array['pid'] : $array['list_id'];
+
+                cb_do_action( 'update_playlist', array(
+                    'object_id' => $array['pid'] ? $array['pid'] : $array['list_id'],
+                    'results' => $array
+                ));
             }
 
 			/*$db->update(tbl($this->playlist_tbl),array("playlist_name"),
