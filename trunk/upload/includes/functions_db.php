@@ -42,10 +42,14 @@ function db_update($tbl, $fields, $cond)
     //$db->total_queries_sql[] = $query;
     //$db->Execute($query);
 
-    mysqli_query($query);
-
-    if (mysql_error())
-        die($db->db_query . '<br>' . mysql_error());
+    try
+    {
+        $db->mysqli->query($query);
+    }
+    catch(DB_Exception $e)
+    {
+        $e->getError();
+    }
 
     return true;
 }
@@ -89,13 +93,13 @@ function db_insert($tbl, $fields)
     //if(!mysql_query($query)) die($query.'<br>'.mysql_error());
     $db->total_queries++;
     $db->total_queries_sql[] = $query;
-    $db->Execute($query);
-
-    if (mysql_error())
+    try
     {
-        //if(LOG_DB_ERRORS)
-
-        die($db->db_query . '<br>' . mysql_error());
+        $db->mysqli->query($query);
+    }
+    catch(DB_Exception $e)
+    {
+        $e->getError();
     }
 
     return $db->insert_id();
@@ -103,7 +107,8 @@ function db_insert($tbl, $fields)
 
 function filter_sql($data)
 {
-    $data = mysql_real_escape_string($data);
+    global $db;
+    $data = mysqli_real_escape_string($db->mysqli, $data);
     return $data;
 }
 
