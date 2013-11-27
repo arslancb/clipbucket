@@ -4706,7 +4706,6 @@
         }
 
         include( 'functions_db.php' );
-        include( 'functions_database.php' );
         include( 'functions_filter.php' );
         include( 'functions_player.php' );
         include( 'functions_template.php' );
