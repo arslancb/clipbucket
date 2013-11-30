@@ -168,7 +168,16 @@ class Clipbucket_db
      */
     function Execute($query)
     {
-        return $this->mysqli->query($query);
+
+        try
+        {
+            return $this->mysqli->query($query);
+        }
+        catch(DB_Exception $e)
+        {
+            $e->getError();
+        }
+
     }
 
     /**
