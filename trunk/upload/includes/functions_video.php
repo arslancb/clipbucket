@@ -540,28 +540,28 @@ function get_video_being_processed($fileName=NULL)
 }
 
 function get_video_details( $vid = null, $basic = false ) {
-    #global $cbvid;
+    global $cbvid;
 
     if( $vid === null ) {
         return false;
     }
 
-    return CBVideo::get_video( $vid, false, $basic );
+    return $cbvid->get_video( $vid, false, $basic );
 }
 
 function get_video_basic_details( $vid ) {
     global $cbvid;
-    return CBVideo::get_video( $vid, false, true );
+    return $cbvid->get_video( $vid, false, true );
 }
 
 function get_video_details_from_filename( $filename, $basic = false ) {
     global $cbvid;
-    return CBVideo::get_video( $filename, true, $basic );
+    return $cbvid->get_video( $filename, true, $basic );
 }
 
 function get_basic_video_details_from_filename( $filename ) {
     global $cbvid;
-    return CBVideo::get_video( $filename, true, true );
+    return $cbvid->get_video( $filename, true, true );
 }
 
 /**
