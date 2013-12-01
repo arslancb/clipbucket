@@ -1,4 +1,5 @@
 <?php
+//test comment
 /* 
  ***************************************************************
  | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.
