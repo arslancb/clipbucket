@@ -3297,6 +3297,9 @@ class userquery extends CBCategory{
 	function signup_user($array=NULL,$send_signup_email=true)
 	{
 		global $LANG,$db,$userquery;
+		//die();
+		
+
 		if($array==NULL)
 			$array = $_POST;
 		
@@ -3307,9 +3310,26 @@ class userquery extends CBCategory{
 		//checking terms and policy agreement
 		if($array['agree']!='yes' && !has_access('admin_access',true))
 			e(lang('usr_ament_err'));
-		
-		if(!verify_captcha())
-					e(lang('usr_ccode_err'));
+
+		// first checking if captha plugin is enabled
+		// do not depend on the form cb_captcha_enabled value
+		if(get_captcha()){
+			//var_dump(get_captcha());
+			//var_dump(!error());
+			//echo "<pre>";
+			//var_dump($array);
+			//echo "</pre>";
+			// now checking if the user posted captha value is not empty and cb_captcha_enabled == yes
+			if(!isset($array['cb_captcha_enabled']) || $array['cb_captcha_enabled'] == 'no'){
+				e(lang('usr_ccode_err'));
+				//echo "wrong captha input";
+			}
+
+			if(!verify_captcha()){
+				e(lang('usr_ccode_err'));
+			
+			}
+		}
 		if(!error())
 		{
 			$signup_fields = $this->load_signup_fields($array);
