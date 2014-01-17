@@ -16,6 +16,4 @@
  define("RELEASED","6-21-2011");
  define("AUTHORS","ARSLAN HASSAN,FAWAZ TAHIR");
 
-
- define("DEVELOPMENT_MODE",true);
 ?>

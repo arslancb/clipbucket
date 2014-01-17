@@ -10,17 +10,19 @@
 	//Database Host
 	$DBHOST = 'localhost';
 	//Database Name
-	$DBNAME = 'clipbucket_27';
+	$DBNAME = 'clipbucket';
 	//Database Username
 	$DBUSER = 'root';
 	//Database Password
-	$DBPASS = '';
+	$DBPASS = 'fine';
 	//Setting Table Prefix
 	define('TABLE_PREFIX','cb_');
+
 
     $db = new Clipbucket_db();
 
     $db->connect($DBHOST,$DBNAME,$DBUSER,$DBPASS);
+
 /*
 	require 'adodb/adodb.inc.php';
 
@@ -34,11 +36,11 @@
 	}
 	$db->Connect($DBHOST, $DBUSER, $DBPASS, $DBNAME);
 	
-        
         $db->SetFetchMode(ADODB_FETCH_ASSOC); 
         
 	$db->Execute('SET NAMES utf8');
 	$db->Execute('SET CHARACTER SET utf8');
-	$db->Execute('SET COLLATION_CONNECTION="utf8_general_ci"');*/
+	$db->Execute('SET COLLATION_CONNECTION="utf8_general_ci"');
+*/
 
 ?>

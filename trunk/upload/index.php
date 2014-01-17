@@ -7,8 +7,8 @@
  | @ Software  : ClipBucket , � PHPBucket.com					
  ****************************************************************
 */
-
 define('THIS_PAGE','index');
+
 require 'includes/config.inc.php';
 
 $pages->page_redir();

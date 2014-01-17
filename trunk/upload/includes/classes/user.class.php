@@ -3111,9 +3111,17 @@ class userquery extends CBCategory{
 	}
 	
 	
-	function load_signup_fields($default=NULL)
+	function load_signup_fields($input=NULL)
 	{
 		global $LANG,$Cbucket;
+
+		$default = array();
+
+		if(isset($input)){
+			$default = $input;
+		}else{
+			//return false;
+		}
 		/**
 		 * this function will create initial array for user fields
 		 * this will tell 
@@ -3133,139 +3141,153 @@ class userquery extends CBCategory{
 		 *       anchor_after [anchor after field]
 		 *      )
 		 */
-		 
+		// ini_set('display_errors',1);
+		// ini_set('display_startup_errors',1);
+		// error_reporting(-1);
 		
-		if(empty($default))
-			$default = $_POST;
+
+		
+			if(empty($default))
+				$default = $_POST;
 			
-		$username = $default['username'];
-		$email = $default['email'];
-		$dcountry = $default['country'] ? $default['country'] : $Cbucket->configs['default_country_iso2'];
-		$dob = $default['dob'];
+			if(empty($default))
+				$default = $_POST;
 			
-		 $dob =  $dob ? date(config("date_format"),strtotime($dob)) : date(config("date_format"),strtotime('14-10-1989'));
-		 
-		 $user_signup_fields = array
-		 (
-		  'username' => array(
-							  'title'=> lang('username'),
-							  'type'=> "textfield",
-							  'name'=> "username",
-							  'id'=> "username",
-							  'value'=> $username,
-							  'hint_2'=> lang('user_allowed_format'),
-							  'db_field'=>'username',
-							  'required'=>'yes',
-							 // 'syntax_type'=> 'username',
-							  'validate_function'=> 'username_check',
-							  'function_error_msg' => lang('user_contains_disallow_err'),
-							  'db_value_check_func'=> 'user_exists',
-							  'db_value_exists'=>false,
-							  'db_value_err'=>lang('usr_uname_err2'),
-							  'min_length'	=> config('min_username'),
-							  'max_length' => config('max_username'),
-							  ),
-		  'email' => array(
-							  'title'=> lang('email'),
-							  'type'=> "textfield",
-							  'name'=> "email",
-							  'id'=> "email",
-							  'value'=> $email,
-							  'db_field'=>'email',
-							  'required'=>'yes',
-							  'syntax_type'=> 'email',
-							  'db_value_check_func'=> 'email_exists',
-							  'db_value_exists'=>false,
-							  'db_value_err'=>lang('usr_email_err3')
-							  ),
-		  'password' => array(
-							  'title'=> lang('password'),
-							  'type'=> "password",
-							  'name'=> "password",
-							  'id'=> "password",
-							  'db_field'=>'password',
-							  'required'=>'yes',
-							  'invalid_err'=>lang('usr_pass_err2'),
-							  'relative_to' => 'cpassword',
-							  'relative_type' => 'exact',
-							  'relative_err' => lang('usr_pass_err3'),
-							  'validate_function' => 'pass_code',
-							  'use_func_val'=>true
-							  ),
-		  'cpassword' => array(
-							  'title'=> lang('user_confirm_pass'),
-							  'type'=> "password",
-							  'name'=> "cpassword",
-							  'id'=> "cpassword",
-							  'required'=>'no',
-							  'invalid_err'=>lang('usr_cpass_err'),
-							  ),
-		  'country'	=> array(
-							 'title'=> lang('country'),
-							 'type' => 'dropdown',
-							 'value' => $Cbucket->get_countries(iso2),
-							 'id'	=> 'country',
-							 'name'	=> 'country',
-							 'checked'=> $dcountry,
-							 'db_field'=>'country',
+			$username = (isset($default['username'])) ? $default['username'] : "";
+			$email = (isset($default['email'])) ? $default['email'] : "";
+			if(isset($default['country'])){
+				$dcountry = (isset($default['country'])) ? $default['country'] : $Cbucket->configs['default_country_iso2'];
+			}else{
+				$dcountry = "";
+			}
+			$dob = (isset($default['dob'])) ? $default['dob'] : "";
+			//var_dump($_POST);
+			//die();
+			 $dob =  $dob ? date(config("date_format"),strtotime($dob)) : date(config("date_format"),strtotime('14-10-1989'));
+				
+					 
+			 $user_signup_fields = array
+			 (
+			  'username' => array(
+								  'title'=> lang('username'),
+								  'type'=> "textfield",
+								  'name'=> "username",
+								  'id'=> "username",
+								  'value'=> $username,
+								  'hint_2'=> lang('user_allowed_format'),
+								  'db_field'=>'username',
+								  'required'=>'yes',
+								 // 'syntax_type'=> 'username',
+								  'validate_function'=> 'username_check',
+								  'function_error_msg' => lang('user_contains_disallow_err'),
+								  'db_value_check_func'=> 'user_exists',
+								  'db_value_exists'=>false,
+								  'db_value_err'=>lang('usr_uname_err2'),
+								  'min_length'	=> config('min_username'),
+								  'max_length' => config('max_username'),
+								  ),
+			  'email' => array(
+								  'title'=> lang('email'),
+								  'type'=> "textfield",
+								  'name'=> "email",
+								  'id'=> "email",
+								  'value'=> $email,
+								  'db_field'=>'email',
+								  'required'=>'yes',
+								  'syntax_type'=> 'email',
+								  'db_value_check_func'=> 'email_exists',
+								  'db_value_exists'=>false,
+								  'db_value_err'=>lang('usr_email_err3')
+								  ),
+			  'password' => array(
+								  'title'=> lang('password'),
+								  'type'=> "password",
+								  'name'=> "password",
+								  'id'=> "password",
+								  'db_field'=>'password',
+								  'required'=>'yes',
+								  'invalid_err'=>lang('usr_pass_err2'),
+								  'relative_to' => 'cpassword',
+								  'relative_type' => 'exact',
+								  'relative_err' => lang('usr_pass_err3'),
+								  'validate_function' => 'pass_code',
+								  'use_func_val'=>true
+								  ),
+			  'cpassword' => array(
+								  'title'=> lang('user_confirm_pass'),
+								  'type'=> "password",
+								  'name'=> "cpassword",
+								  'id'=> "cpassword",
+								  'required'=>'no',
+								  'invalid_err'=>lang('usr_cpass_err'),
+								  ),
+			  'country'	=> array(
+								 'title'=> lang('country'),
+								 'type' => 'dropdown',
+								 'value' => $Cbucket->get_countries(iso2),
+								 'id'	=> 'country',
+								 'name'	=> 'country',
+								 'checked'=> $dcountry,
+								 'db_field'=>'country',
+								 'required'=>'yes',
+								 ),
+			  'gender' => array(
+								'title' => lang('gender'),
+								'type' => 'radiobutton',
+								'name' => 'gender',
+								'id' => 'gender',
+								'value' => array('Male'=>lang('male'),'Female'=>lang('female')),
+								'sep'=> '&nbsp;',
+								'checked'=>'Male',
+								'db_field'=>'sex',
+								'required'=>'yes',
+								),
+			  'dob'	=> array(
+							 'title' => lang('user_date_of_birth'),
+							 'type' => 'textfield',
+							 'name' => 'dob',
+							 'id' => 'dob',
+							 'class'=>'date_field',
+							 'anchor_after' => 'date_picker',
+							 'value'=> $dob,
+	                                                  'validate_function' => 'verify_age',
+							 'db_field'=>'dob',
 							 'required'=>'yes',
+	                                                 'invalid_err'=>lang('You must be atleast '.config('min_age_reg').' to register'),
 							 ),
-		  'gender' => array(
-							'title' => lang('gender'),
-							'type' => 'radiobutton',
-							'name' => 'gender',
-							'id' => 'gender',
-							'value' => array('Male'=>lang('male'),'Female'=>lang('female')),
-							'sep'=> '&nbsp;',
-							'checked'=>'Male',
-							'db_field'=>'sex',
-							'required'=>'yes',
-							),
-		  'dob'	=> array(
-						 'title' => lang('user_date_of_birth'),
-						 'type' => 'textfield',
-						 'name' => 'dob',
-						 'id' => 'dob',
-						 'class'=>'date_field',
-						 'anchor_after' => 'date_picker',
-						 'value'=> $dob,
-                                                  'validate_function' => 'verify_age',
-						 'db_field'=>'dob',
-						 'required'=>'yes',
-                                                 'invalid_err'=>lang('You must be atleast '.config('min_age_reg').' to register'),
-						 ),
-						 						 					 
-		  'cat'		=> array('title'=> lang('Category'),
-							 'type'=> 'dropdown',
-							 'name'=> 'category',
-							 'id'=> 'category',
-							 'value'=> array('category',$default['category']),
-							 'db_field'=>'category',
-							 'checked'=>$default['category'],
-							 'required'=>'yes',
-							 'invalid_err'=>lang("Please select your category"),
-							 'display_function' => 'convert_to_categories',
-							 'category_type'=>'user',
-							 )
-		  );
+							 						 					 
+			  'cat'		=> array('title'=> lang('Category'),
+								 'type'=> 'dropdown',
+								 'name'=> 'category',
+								 'id'=> 'category',
+								 'value'=> array('category', isset($default['category'])),
+								 'db_field'=>'category',
+								 'checked'=> isset($default['category']),
+								 'required'=>'yes',
+								 'invalid_err'=>lang("Please select your category"),
+								 'display_function' => 'convert_to_categories',
+								 'category_type'=>'user',
+								 )
+			  );
 
 
-         $new_array = array();
+	         $new_array = array();
 
-         foreach($user_signup_fields as $id => $fields)
-         {
-             $the_array = $fields;
-             if($the_array['hint_1'])
-                 $the_array['hint_before'] = $the_array['hint_1'];
+	         foreach($user_signup_fields as $id => $fields)
+	         {
+	             $the_array = $fields;
+	             if(isset($the_array['hint_1']))
+	                 $the_array['hint_before'] = $the_array['hint_1'];
 
-             if($the_array['hint_2'])
-                 $the_array['hint_after'] = $the_array['hint_2'];
+	             if(isset($the_array['hint_2']))
+	                 $the_array['hint_after'] = $the_array['hint_2'];
 
-             $new_array[] = $the_array;
+	             $new_array[] = $the_array;
 
-         }
-
-		 return $new_array;
+	         }
+	         //die();
+			 return $new_array;
+		 
 	}
 	
 	
@@ -3297,6 +3319,10 @@ class userquery extends CBCategory{
 	function signup_user($array=NULL,$send_signup_email=true)
 	{
 		global $LANG,$db,$userquery;
+		// echo "<pre>";
+		// var_dump($array);
+		// echo "</pre>";
+		
 		//die();
 		
 
@@ -3313,7 +3339,7 @@ class userquery extends CBCategory{
 
 		// first checking if captha plugin is enabled
 		// do not depend on the form cb_captcha_enabled value
-		if(get_captcha()){
+		if(get_captcha() && !$userquery->admin_login_check()){
 			//var_dump(get_captcha());
 			//var_dump(!error());
 			//echo "<pre>";

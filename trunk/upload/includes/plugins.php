@@ -58,7 +58,7 @@ if($Cbucket->configs['player_file'] !='')
  * Adding Inactive sign on vdeo
  */
 
-function display_inactive_sign($vdo)
+function display_inactive_sign($vdo = array())
 {
 	if($vdo['active']=='no')
 	{
@@ -66,7 +66,7 @@ function display_inactive_sign($vdo)
 	}
 }
 
-function show_pending_alert($data)
+function show_pending_alert($data = array())
 {
 	if($data['active'] == 'pen')
 	{

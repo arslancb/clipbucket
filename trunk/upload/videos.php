@@ -11,6 +11,10 @@ define("PARENT_PAGE",'videos');
 require 'includes/config.inc.php';
 $pages->page_redir();
 $userquery->perm_check('view_videos',true);
+// echo "<pre>";
+// var_dump($GLOBALS);
+// echo "</pre>";
+
 
 //Setting Sort
 $sort = $_GET['sort'];
