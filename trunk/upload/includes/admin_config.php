@@ -43,10 +43,11 @@
 	Assign('admin_pages',$admin_pages);
 	
  	//Do No Edit Below This Line
+ 	define('ADMIN_TEMPLATE', 'cb_2014');
  	
-	define('TEMPLATEDIR',BASEDIR.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/cbv2');
+	define('TEMPLATEDIR',BASEDIR.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.ADMIN_TEMPLATE);
 	define('SITETEMPLATEDIR',BASEDIR.'/'.TEMPLATEFOLDER.'/'.$row['template_dir']);
-	define('TEMPLATEURL',BASEURL.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/cbv2');
+	define('TEMPLATEURL',BASEURL.'/'.ADMINDIR.'/'.TEMPLATEFOLDER.'/'.ADMIN_TEMPLATE);
 	define('LAYOUT',TEMPLATEDIR.'/layout');
         
         define('TEMPLATE',$row['template_dir']);
@@ -56,9 +57,13 @@
 	Assign('baseurl',BASEURL);
 	Assign('admindir',ADMINDIR);
 	Assign('imageurl',TEMPLATEURL.'/images');
+	Assign('image_url',TEMPLATEURL.'/layout');
 	Assign('layout',TEMPLATEURL.'/layout');
+	Assign('layout_url',TEMPLATEURL.'/layout');
 	Assign('theme',TEMPLATEURL.'/theme');
+	Assign('theme_url',TEMPLATEURL.'/theme');
 	Assign('style_dir',LAYOUT);
+	Assign('layout_dir', LAYOUT);
 	
 	
 	Assign('logged_user',@$_SESSION['username']);

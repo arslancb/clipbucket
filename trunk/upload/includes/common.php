@@ -29,6 +29,8 @@ define('COOKIE_TIMEOUT',86400*1); // 1
 define('GARBAGE_TIMEOUT',COOKIE_TIMEOUT);
 define("REMBER_DAYS",7);
 
+date_default_timezone_set("Asia/Karachi");
+
 
 if(!@$in_bg_cron)
 {

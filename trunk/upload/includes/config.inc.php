@@ -8,7 +8,7 @@ define("BACK_END",FALSE);
 if(!defined('PARENT_PAGE'))
 	define("PARENT_PAGE","home");
 	
-date_default_timezone_set("Asia/Karachi");
+
 
 include('common.php');
 
