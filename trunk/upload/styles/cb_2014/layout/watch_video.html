@@ -1,0 +1,174 @@
+{$video=$vdo}
+{$type='video'}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div class="cb-box pad-bottom-sm">
+                <div id="cb_player" class="no-pad">
+                    {FlashPlayer vdetails=$video width='100%' height='100%'}
+                </div>
+
+                <div class="cb-item-title-container">
+                    <div class="cb-item-thumb">
+                        <img src="{$userquery->avatar($video)}" class="img-circle" />
+                    </div>
+                    <div class="cb-item-title">
+                        {$video.title}
+                    </div>
+                    <div class="cb-item-user">
+                        <a href="{$userquery->profile_link($video)}">{$video.username}</a>
+                    </div>
+
+                    <a class="btn btn-xs btn-primary">
+                        {lang('Subscribe')}
+                    </a>
+                    <div class="cb-item-date">
+                        {$video.date_added|niceTime}
+                    </div>
+
+
+                    {show_video_rating  rating=$vdo.rating ratings=$vdo.rated_by total='10' id=$vdo.videoid type=video file='blocks/common/rating.html'}
+
+
+
+                </div>
+
+
+                <div class="cb-item-desc-container">
+
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#cb-item-info" data-toggle="tab">{lang('Info')}</a>
+                        </li>
+                        <li>
+                            <a href="#cb-item-share" data-toggle="tab">{lang('Share')}</a>
+                        </li>
+                        <li>
+                            <a href="#cb-item-addto" data-toggle="tab">{lang('Add to')}</a>
+                        </li>
+                        <li>
+                            <a href="#cb-item-report" data-toggle="tab">{lang('Report')}</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="cb-item-info">
+
+                            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+
+                                <div class="cb-item-description">
+                                    {description($video.description)}
+
+                                    <div class="mtm">
+                                        <strong>{lang('Category')}</strong>
+                                        <div>{$vdo.category|categories:video}</div>
+                                    </div>
+                                    <div class="mtm">
+                                        <strong>{lang('Tags')}</strong>
+                                        <div>{$vdo.tags|tags:videos}</div>
+                                    </div>
+
+                                    <div class="mtm">
+                                        <strong>{lang code='views'}</strong> : {$vdo.views|number_format} &ndash;
+                                        <strong>{lang code='duration'}</strong> : {$vdo.duration|SetTime} &ndash;
+                                            <strong>{lang code='comments'}</strong> : {$vdo.comments_count|number_format}
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                <div class="lead">{$video.views|number_format} {lang('views')}</div>
+                                <div>
+                                    <a class="cb-item-social-icon twitter" href="{$video.title|title} {videoLink($video)}http://twitter.com/home?status=%7Bvideo.title%7Ctitle%7D%20%7BvideoLink($video)%7D" target="_blank">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                    <a class="cb-item-social-icon googlep" href="https://plus.google.com/share?url={urlencode(videolink($video))}" target="_blank">
+                                        <i class="fa fa-google-plus"></i>
+                                    </a>
+                                    <a class="cb-item-social-icon facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="cb-item-share">
+                            {show_share_form id=$vdo.videoid type=video}
+                        </div>
+
+                        <div class="tab-pane" id="cb-item-addto">
+                            {show_playlist_form id=$vdo.videoid type=video}
+                        </div>
+
+                        <div class="tab-pane" id="cb-item-report">
+                            {show_flag_form id=$vdo.videoid type=video}
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="cb-box pad-bottom">
+
+                <h4>{lang('Comments')} ({$vdo.comments_count})</h4>
+
+                {if $myquery->is_commentable($vdo,'v')}
+                    {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
+                {else}
+                <div class="disable_msg" align="center">{lang code='comm_disabled_for_vid'}</div>
+                {/if}
+
+
+
+
+                <div class="clearfix"></div>
+
+                <div id="comments"></div>
+
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 visible-lg visible-md">
+            <div class="cb-box"></div>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    var aspect_ratio = 1.77778
+    var $cb_player = $("#cb_player");
+
+    $(document).ready(function(){
+        $cb_player.height( $cb_player.width() / aspect_ratio );
+
+        comments_voting = '{$vdo.comment_voting}';
+        getComments
+        (
+                '{$type}',
+                '{$vdo.videoid}',
+                '{$vdo.last_commented}',1,
+                '{$vdo.comments_count}',
+                '{$object_type}'
+        );
+
+
+        $('.cb-item-description').readmore({
+            speed: 75,
+            maxHeight: 120,
+            moreLink : '<a href="#" class="btn btn-min btn-block btn-primary"><i class="glyphicon glyphicon-arrow-down"></i> {lang("Read more")}</a>',
+            lessLink : '<a href="#" class="btn btn-min btn-block btn-default">{lang("Close")}</a>'
+        });
+
+    });
+
+    $(window).resize(function() {
+        $cb_player.height( $cb_player.width() / aspect_ratio );
+    });
+
+</script>
+

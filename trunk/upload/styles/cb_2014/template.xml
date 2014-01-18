@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>ClipBucket 2013 Fall</name>
+	<author>Fawaz Tahir, Arslan Hassan</author>
+	<min_version>2.7</min_version>
+	<smarty_version>3</smarty_version>
+	<version>1</version>
+	<released>Fri, 8 November 2013 06:00:00 +0000</released>
+	<description>ClipBucket v2.7 Theme</description>
+	<website title="ClipBucket">http://clip-bucket.com</website>
+	<license>Attribute Assurance License</license>
+</template>

@@ -1,0 +1,84 @@
+<h2>Email Settings</h2>
+<form action="" method="post" enctype="multipart/form-data" name="player_settings">
+  <fieldset class="fieldset" style="border:none">
+
+    <div class="form-group">
+      <label for="mail_type">Mailer <br />Select Mailer Type php Mail() or SMTP</label>
+      <select class="form-control" name="mail_type" id="mail_type">
+        <option value="mail" {if $row.mail_type=='mail'} selected="selected"{/if}>PHP mail()</option>
+        <option value="smtp" {if $row.mail_type=='smtp'} selected="selected"{/if}>smtp</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="smtp_host">SMTP Host<br />if using smtp, Set SMTP server port</label>
+      <input class="form-control" type="text" name="smtp_host" id="smtp_host" value="{$row.smtp_host}" />
+    </div>
+    <div class="form-group">
+      <label for="smtp_user">SMTP Username<br />if using smtp, please enter SMTP username</label>
+      <input type="text" class="form-control" name="smtp_user" id="smtp_user" value="{$row.smtp_user}" />  
+    </div>
+
+    <div class="form-group">
+      <label for="smtp_pass">SMTP Password<br />Enter SMTP password</label>
+      <input type="password" class="form-control" name="smtp_pass" id="smtp_pass" value="{$row.smtp_pass}" />
+    </div>
+    <div class="form-group">
+      <label for="smtp_auth">SMTP Auth<br />Enable SMTP Authentication</label>
+      <select class="form-control" name="smtp_auth" id="smtp_auth">
+        <option value="yes" {if $row.smtp_auth=='yes'} selected="selected"{/if}>yes</option>
+        <option value="no" {if $row.smtp_auth=='no'} selected="selected"{/if}>no</option>
+      </select>
+    </div>
+    <div class="form-grou">
+      <label for=""></label>
+    </div>
+  <input type="submit" class="btn btn-info" value="Update" name="update_settings" />
+  </fieldset>
+
+</form>
+
+
+<h2>Email Templates Settings</h2>
+
+<div>
+{assign var=templates value=$cbemail->get_templates()}
+
+{if $templates}
+<form name="email_templates" method="post">
+  <ul class="optionsLists" >
+    
+      {foreach from=$templates item=template name=etemp}
+        <li {if $smarty.foreach.etemp.iteration=='1'} class="selected"{/if}
+            onclick="
+                $('.tempselected').removeClass('selected').hide();
+                $('#template-{$template.email_template_id}').show().addClass('tempselected');
+                
+                  $('.selected').removeClass('selected');
+                $(this).toggleClass('selected');
+                  
+                  ">{$template.email_template_name}</li>
+      {/foreach}
+
+  </ul>
+<div class="optionsListsCont">
+  {foreach from=$templates item=template name=etemp}
+      <div id="template-{$template.email_template_id}" 
+          {if $smarty.foreach.etemp.iteration!='1'} style="display:none" {else}class="tempselected"{/if}>  
+          <label for="subject{$template.email_template_id}">Email Subject</label>
+          <div class="templateCodeCont" style="padding:3px">
+            <input type="text" name="subject{$template.email_template_id}" id="subject{$template.email_template_id}"
+            value="{$template.email_template_subject|form_val}" style="border:0px; background:none; width:100%" />
+          </div>
+          <br />    
+          <label for="message{$template.email_template_id}">Email message</label>
+          <div class="templateCodeCont">
+            <textarea class="form-control" name="message{$template.email_template_id}" cols="60" rows="8" id="message{$template.email_template_id}" class="templateCode">{$template.email_template|form_val}</textarea>
+          </div>   
+      </div>     
+    {/foreach}
+    <div align="right" style="margin-top:5px">
+      <input type="submit" class="btn btn-info" value="Save Templates" name="update" /></div>
+    </div>
+  </form>
+{/if}
+</div>

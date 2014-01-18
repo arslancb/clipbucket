@@ -1,0 +1,98 @@
+.navbar-container{
+ // max-width : @container-width;
+  margin : auto;
+
+
+   .navbar-search{
+      width: 300px !important;
+      line-height:37px;
+      margin-left: 20px;
+   }
+
+
+    .cb-logo
+    {
+      background: url(@logo-path) no-repeat;
+      width: @logo-width;
+      height: @logo-height;
+      text-indent: -500000px;
+      display: inline-block;
+      margin-top:12px;
+    }
+
+    @media (min-width:768px)
+    {
+      .main-nav{margin-left: 25px;}
+
+      .myaccount-dd a{
+        padding-top: 6px;
+      }
+    }
+
+    .navbar-nav > li > a{
+      line-height: 31px;
+    }
+
+
+    .nav-login-btns,
+    .nav-login-dd,
+    .nav-collapse-btn,
+    //.navbar-sm-search,
+    .navbar-search{display:none}
+
+    @media(min-width:1145px)
+    {
+      .nav-login-btns,.navbar-search{
+        display:inline-block !important;
+      }
+    }
+
+    @media(min-width:768px) and ( max-width:1144px)
+    {
+      .nav-login-dd{
+        display:inline-block;
+
+        li
+        {
+          .dropdown-menu
+          {
+            max-width: 900px;
+            min-width: 300px;
+            margin-left: 20px;
+            padding: 10px;
+            line-height: 1.5;
+          }
+        }
+
+      }
+    }
+
+    @media(max-width:767px)
+    {
+      .nav-collapse-btn{display: inline-block}
+    }
+
+
+    @media(min-width:767px)
+    {
+      .navbar-sm-search{display: none !important}
+      .navbar-sm-login-links{display: none !important}
+    }
+
+    .nav-toggle{
+      line-height: 12px;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+}
+
+
+.navbar{
+  line-height: 60px;
+  .box-shadow(0px;0px;10px;rgba(0,0,0,0.2));
+  padding: 0px 20px;
+}
+
+.navbar-default .navbar-nav>li>a{color:@link-color; outline: none;}
+
+

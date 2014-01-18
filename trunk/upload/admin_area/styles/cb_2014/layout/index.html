@@ -1,0 +1,200 @@
+
+	
+<table width="100%" border="0" class="index_table">
+  <tr>
+    <td valign="top" style="padding-right:13px">
+    
+<div class="widgets-wrap" id="column1">
+	 
+     
+     <div class="dragbox" id="cbstats" >
+        <h2>{$title} Quick Stats</h2>
+        <div class="dragbox-content" >
+            <div class="item clearfix">
+            	<div class="stats_subitem">Videos</div>
+                <div class="stats_subitem_d">Total : <strong>{get_videos count_only=yes}</strong> | Active : <strong>{get_videos count_only=yes active="yes"}</strong> | Flagged : <strong>{$cbvid->action->count_flagged_objects()}</strong> | Processing : <strong>{get_videos count_only=yes status='Processing'}</strong></div>
+            </div>
+            
+             <div class="item clearfix">
+            	<div class="stats_subitem">Groups</div>
+                <div class="stats_subitem_d">Total : <strong>{get_groups count_only=yes}</strong> | Active : <strong>{get_groups count_only=yes active='yes'}</strong> | Flagged : <strong>{$cbgroup->action->count_flagged_objects()}</strong></div>
+            </div>
+            
+             <div class="item clearfix">
+            	<div class="stats_subitem">Members</div>
+                <div class="stats_subitem_d">Total : <strong>{get_users count_only=yes}</strong> | Active : <strong>{get_users count_only=yes status='Ok'}</strong> | Flagged : <strong>{$userquery->action->count_flagged_objects()}</strong> | Banned : <strong>{get_users count_only=yes ban='yes'}</strong></div>
+            </div>
+            
+            
+            
+            <div class="item clearfix">
+            	<div class="stats_subitem">Photos</div>
+                <div class="stats_subitem_d">Total : <strong>{get_photos count_only=yes}</strong> | Active : <strong>{get_photos count_only=yes active='yes'}</strong> | Flagged : <strong>{$cbphoto->action->count_flagged_objects()}</strong> </div>
+            </div>
+            
+            
+            
+             <div class="item clearfix">
+            	<div class="stats_subitem">Collections</div>
+                <div class="stats_subitem_d">Total : <strong>{get_collections count_only=yes}</strong> | Active : <strong>{get_collections count_only=yes active='yes'}</strong> 
+                | Flagged : <strong>{$cbcollection->action->count_flagged_objects()} </strong>
+                | Videos : <strong>{get_collections count_only=yes type='videos'}</strong> | Photos : <strong>{get_collections count_only=yes type='photos'}</strong>
+                </strong> </div>
+            </div>
+            
+            
+            <div class="item">
+            {assign var=users value=$userquery->get_online_users()}
+            <strong><a href="online_users.php">Online Users({$userquery->get_online_users(false,true)})</a></strong><br />
+            
+            {if $users}
+            	{foreach from=$users item=user name=onlines}
+                {if $user.username!=""}
+               	 <strong><a href="{$userquery->profile_link($user)}" target="_blank">{$user.username}{if $user.logins>1}({$user.logins}){/if}</a>{if !$smarty.foreach.onlines.last}, {/if}</strong>			{/if}
+                {/foreach}
+               
+               
+                {foreach from=$users item=user name=onlines}
+                    {if $user.session_string=='guest'}
+                        <strong>and {$user.logins} guest{if $user.logins>1}s{/if}</strong>
+                     {/if}
+                {/foreach}
+                
+            {else}
+            	No User is Online
+            {/if}    
+            
+            
+            </div>
+            
+            <div class="item subitem">
+            	{if $Cbucket->cbinfo.new_available}
+                	<div class="stats_subitem" style="width:60%; color:#060">Currently you are running <strong>{$ClipBucket->cbinfo.version} {$ClipBucket->cbinfo.state}</strong><br />
+Latest Version <strong>{$Cbucket->cbinfo.latest.version} {$Cbucket->cbinfo.latest.state} </strong></div>
+               		<div class="stats_subitem" style="width:39%"><span class="simple_button"><a href="{$Cbucket->cbinfo.latest.link}">Update Now</a></span></div>
+                	<div class="clearfix"></div>
+                {else}
+            		<div>
+                    Currently you are running <strong>{$Cbucket->cbinfo.version} {$Cbucket->cbinfo.state}</strong> - No New Version Available</div>
+                {/if}
+            </div>
+        </div>
+    </div>
+    
+       
+    <div class="dragbox" id="cbnews" >
+        <h2>ClipBucket News</h2>
+        <div class="dragbox-content" >
+        	<div  id="clipbucket_news"></div>
+        </div>
+    </div>
+    
+    <div style="height:20px;"></div>
+    <div style="font-size:12px">
+    <h2>Words from ClipBucket!</h2>
+    <p>ClipBucket is  developed by <strong><a href="http://arslanhassan.com">Arslan Hassan</a></strong> and <strong><a href="http://clip-bucket.com/fawaz-tahir">Fawaz Tahir</a></strong>, we started with a small website application with only functionality of serving videos to the community later on we decided to add every possible social networking feature to make social communities more interactive. We didn't have any milestones, no road map, no charts, no nothing. Only thing we had was a vision as of our captain <strong><a href="http://clip-bucket.com/jahanzeb-hassan">Jahanzeb Hassan</a></strong> and plenty of hard work. </p>
+    <p>We also have two more members named <a href="http://clip-bucket.com/ruman-malik">Ruman Malik</a> and <a href="http://clip-bucket.com/zomail-tahir">Zomail Tahir</a> who manage sales and support department.</p>
+    <p><strong>ClipBucket team gives special thanks to</strong><br />
+      <br />
+      * Frank White for helping us knowing the basics of professional application development<br />
+      * Christian Russemen for keep our community active<br />
+      * BigStack for his great forum support
+      <br />
+      * You for using ClipBucket.</p>
+    <h3>What lies head?</h3>
+    <p>* Easy ClipBucket integeration with other applications<br />
+      * Make more secured, fast and optimized<br />
+      * HTML5 ready with mobile support<br />
+      * Full documentation of our source code
+    </p>
+    <h3>Where in the world we belong to?</h3>
+    <p>We belong to <a href="http://clip-bucket.com/pakistan">Islamic Republic of Pakistan</a> :) you may have seen many negative news about Pakistan on television but there are still <a href="http://clip-bucket.com/pakistan#the_truth">some facts</a> you should know about. Its a great country for us and we will always love it.<br />
+      <strong>Pakistan Zindabad </strong><br />
+  <strong><br />
+</strong></p></div>
+</div>    
+    
+    </td>
+    <td width="210" valign="top">
+
+
+   
+<div class="widgets-wrap" style="width:210px" id="column2">
+
+    <!-- Admin Todo List -->  
+    <div class="dragbox" id="todo_list" >
+        <h2>Todo List</h2>
+        <div class="dragbox-content" >
+        	<div class="item"><a href="video_manager.php?search=search&active=no">Approve Videos ({get_videos active='no' count_only=true})</a></div>
+            <div class="item"><a href="members.php?search=yes&amp;status=ToActivate">Approve Members ({get_users status='ToActivate' count_only=true})</a></div>
+            <div class="item"><a href="groups_manager.php?active=no&amp;search=yes">Approve Groups ({get_groups active='no' count_only=true})</a></div>
+	    </div>
+    </div>
+    <!-- Admin Todo List -->
+    
+    <!-- Admin Todo List -->  
+    <div class="dragbox" id="quick_actions" >
+        <h2>Quick Action</h2>
+        <div class="dragbox-content" >
+        	<div class="item"><a href="main.php">Website Settings</a></div>
+            <div class="item"><a href="add_member.php">Add Members</a></div>
+            <div class="item"><a href="add_group.php">Add Group</a></div>
+            <div class="item"><a href="cb_mod_check.php">Check Video Modules</a></div>          
+	    </div>
+    </div>
+    <!-- Admin Todo List -->  
+
+
+    <!-- Admin personal Note Widget -->
+	<div class="dragbox" id="private_notes" >
+        <h2>Personal Notes</h2>
+        <div class="dragbox-content" >
+        {assign var=notes value=$myquery->get_notes()}
+        
+        <div id="the_notes">
+        {if $notes}
+       		<div id="no_note"></div>
+            {foreach from=$notes item=note}
+            	<div class="item" id="note-{$note.note_id}">
+                	<img src="{$imageurl}/cross.png" class="delete_note" onclick="delete_note('{$note.note_id}');" />
+                    {$note.note|nl2br}
+                </div>
+            {/foreach}
+        {else}
+        	<div id="no_note" align="center"><strong><em>No notes</em></strong></div>
+        {/if}
+        </div>
+        <form method="post">
+        	<textarea name="personal_note" id="personal_note" style="width:90%; height:50px; margin:5px; border:1px solid #999"></textarea>
+            <div align="right" style="padding-right:10px"><a href="javascript:void(0)" 
+            onclick="add_note('#personal_note')">Add Note</a></div>
+        </form>
+	    </div>
+    </div>
+    <!-- Admin personal Note Widget -->
+    
+    
+</div>
+    
+    
+    </td>
+  </tr>
+</table>
+
+
+<script>
+{literal}
+$(document).ready(function(){
+	$.ajax({
+	  url :  baseurl+'/ajax.php',
+	  type: "POST",
+	  dataType : 'text',
+	  data : {'mode':'get_news'},
+	  success : function(news){ $('#clipbucket_news').html(news) },
+	  timeout : 5000,
+	  error  :  function(err) { $('#clipbucket_news').html(' <div align="center"><em><strong>Unable to fetch news</strong></em></div>')},
+	  
+	});
+});
+{/literal}
+</script>

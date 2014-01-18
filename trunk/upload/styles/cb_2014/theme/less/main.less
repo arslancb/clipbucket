@@ -1,0 +1,109 @@
+/**
+ * @author : Arslan Hassan (@arslancb), Fawaz Tahir (@fawazcb)
+ * @ClipBucket : 2.7
+ * @Theme Name : ClipBucket 2013 Fall
+ */
+
+
+@background : #e8e8e8;
+@font-color : #000;
+@link-color : #09c;
+
+@font-family :  "Roboto", "Segoe UI", "Helvetica neue",Helvetica, sans-serif;
+@font-size : 14px;
+
+@container-width : 1170px;
+
+@box-border : 3px;
+@btn-border : 3px;
+
+@image-path : '../../images';
+
+@logo-path : '@{image-path}/logo.png';
+@logo-width:188px;
+@logo-height:36px;
+
+@border-color : #09c;
+
+@footer-height : 60px;
+
+
+body{
+  background-color: @background;
+  color : @font-color;
+  font-family: @font-family;
+  font-size:@font-size;
+  padding-top: 85px;
+}
+
+img {max-width:100%; }
+html,body{  height: 100%; }
+
+
+#container{
+  //width : @container-width;
+  min-height: 100%;
+  height: auto !important;
+  /*min-height: 100%;*/
+  /* Negative indent footer by it's height */
+  margin: 0 auto -@footer-height;
+  position: relative;
+}
+#container:after {
+  content: "";
+  display: block;
+}
+
+
+.item { width: 25%; background-color: #05e;}
+.item.w2 { width: 50%;  background-color: #05e;}
+
+
+.box-shadow (@x: 0; @y: 0; @blur: 1px; @color: #000) {
+  box-shadow: @arguments;
+  -moz-box-shadow: @arguments;
+  -webkit-box-shadow: @arguments;
+}
+
+
+
+.bold{font-weight: bold}
+
+
+.test_bg{
+  background-color: #aaa;
+
+  &.bg1{
+    background-color: #356635;
+  }
+}
+
+.no-padding{padding: 0px;}
+
+
+.absolute{position: absolute}
+.relative{position: relative}
+
+@import 'essentials.less';
+
+@import 'elements.less';
+
+/* Importing Navigation CSS */
+@import 'nav.less';
+
+/* Importing Form CSS */
+@import 'form.less';
+
+/* Importing Footer */
+@import 'footer.less';
+
+/* Importing Components */
+@import 'objects.less';
+
+
+/* Importing video css */
+@import 'video.less';
+
+/* Importing upload css */
+@import 'upload.less';
+
