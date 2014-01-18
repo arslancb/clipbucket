@@ -442,12 +442,21 @@ if(!@$in_bg_cron)
 
     $Cbucket->set_the_template();
 
-    if($cbtpl->smarty_version < 3 )
-         require BASEDIR.'/includes/templatelib/Template.class.php';
-    else
-    {
-        //require BASEDIR.'/includes/smartyv3/Smarty.class.php';
+    /**
+     * For back end, force smartyv3
+     */
+    if ( BACK_END ) {
+        $cbtpl->smarty_version = 3;
         require BASEDIR.'/includes/smartyv3/SmartyBC.class.php';
+    } else {
+
+        if( $cbtpl->smarty_version < 3 )
+            require BASEDIR.'/includes/templatelib/Template.class.php';
+        else
+        {
+            require BASEDIR.'/includes/smartyv3/SmartyBC.class.php';
+        }
+
     }
 
     $cbtpl->init();
@@ -542,9 +551,6 @@ if(!@$in_bg_cron)
 	
 //Add Modules
 require('modules.php');	
-
-
-
 
 /*
 REGISTER OBJECTS FOR SMARTY
