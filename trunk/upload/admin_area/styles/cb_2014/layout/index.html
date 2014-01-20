@@ -181,16 +181,16 @@ Latest Version <strong>{$Cbucket->cbinfo.latest.version} {$Cbucket->cbinfo.lates
 <script>
 {literal}
 $(document).ready(function(){
-	$.ajax({
-	  url :  baseurl+'/ajax.php',
-	  type: "POST",
-	  dataType : 'text',
-	  data : {'mode':'get_news'},
-	  success : function(news){ $('#clipbucket_news').html(news) },
-	  timeout : 5000,
-	  error  :  function(err) { $('#clipbucket_news').html(' <div align="center"><em><strong>Unable to fetch news</strong></em></div>')},
+	// $.ajax({
+	//   url :  baseurl+'/ajax.php',
+	//   type: "POST",
+	//   dataType : 'text',
+	//   data : {'mode':'get_news'},
+	//   success : function(news){ $('#clipbucket_news').html(news) },
+	//   timeout : 5000,
+	//   error  :  function(err) { $('#clipbucket_news').html(' <div align="center"><em><strong>Unable to fetch news</strong></em></div>')},
 	  
-	});
+	// });
 });
 {/literal}
 </script>
