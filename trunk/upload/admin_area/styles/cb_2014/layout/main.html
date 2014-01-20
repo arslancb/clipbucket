@@ -294,7 +294,7 @@
         <div class="form-group">
           <div class="checkbox">
             <label>
-              <input class="form-control" name="video_comments" type="checkbox" id="video_comments" value="1" {if $row.video_comments=='1'}checked="checked"{/if} />
+              <input name="video_comments" type="checkbox" id="video_comments" value="1" {if $row.video_comments=='1'}checked="checked"{/if} />
               Allow video comments
             </label>
           </div>
@@ -656,7 +656,7 @@
 
     <div class="form-group">
       <label class="checkbox">
-        <input class="form-control" name="hq_output" type="checkbox" id="hq_output" value="yes" {if $row.hq_output} checked="checked"{/if} />Mp4 HQ Output
+        <input name="hq_output" type="checkbox" id="hq_output" value="yes" {if $row.hq_output} checked="checked"{/if} />Mp4 HQ Output
         <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" alt="info" border="0" class="tipsy_tip" title="if enabled, ClipBucket will generate Highh Quality mp4 video if possible" /></a>
       </label>
     </div>
@@ -1042,13 +1042,13 @@
 
     <div class="form-group">
       <label class="checkbox">
-        <input class="form-control" name="allow_registeration" type="checkbox" id="allow_registeration" value="1" {if $row.allow_registeration=='1'}checked="checked"{/if} />Turn on registrations
+        <input name="allow_registeration" type="checkbox" id="allow_registeration" value="1" {if $row.allow_registeration=='1'}checked="checked"{/if} />Turn on registrations
       </label>
     </div>
 
     <div class="form-group">
       <label class="checkbox">
-        <input class="form-control" name="email_verification" type="checkbox" id="email_verification" value="1" {if $row.email_verification=='1'}checked="checked"{/if} />Email verification
+        <input name="email_verification" type="checkbox" id="email_verification" value="1" {if $row.email_verification=='1'}checked="checked"{/if} />Email verification
       </label>
     </div>
 
