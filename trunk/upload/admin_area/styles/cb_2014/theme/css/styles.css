@@ -1,8 +1,18 @@
 .widgets-wrap .dragbox {
-    background: none repeat scroll 0 0 #F8F8F8;
-    border: 1px solid #146194;
-    margin: 0 2px 20px;
-    position: relative;
+	padding: 10px;
+	border: solid 1px #ccc;
+	margin-bottom: 10px;
+}
+
+.widgets-wrap .dragbox .item{
+	margin-bottom: 5px;
+	border: solid 1px #ddd;
+	padding: 5px;
+}
+
+.widgets-wrap .dragbox .stats_subitem{
+	font-weight: normal;
+	font-size: 1.3em;
 }
 
 ul.mainTabs{
