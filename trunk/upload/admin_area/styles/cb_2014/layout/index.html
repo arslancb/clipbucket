@@ -25,14 +25,10 @@
                 <div class="stats_subitem_d">Total : <strong>{get_users count_only=yes}</strong> | Active : <strong>{get_users count_only=yes status='Ok'}</strong> | Flagged : <strong>{$userquery->action->count_flagged_objects()}</strong> | Banned : <strong>{get_users count_only=yes ban='yes'}</strong></div>
             </div>
             
-            
-            
             <div class="item clearfix">
             	<div class="stats_subitem">Photos</div>
                 <div class="stats_subitem_d">Total : <strong>{get_photos count_only=yes}</strong> | Active : <strong>{get_photos count_only=yes active='yes'}</strong> | Flagged : <strong>{$cbphoto->action->count_flagged_objects()}</strong> </div>
             </div>
-            
-            
             
              <div class="item clearfix">
             	<div class="stats_subitem">Collections</div>

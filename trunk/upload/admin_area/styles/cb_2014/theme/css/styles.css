@@ -4,3 +4,33 @@
     margin: 0 2px 20px;
     position: relative;
 }
+
+ul.mainTabs{
+	height: 50px;
+	margin-bottom: 20px;
+}
+
+.main_page_div .form-group{
+	border: solid 1px #ccc;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+.horizontalTabs > li{
+	margin: 0 0 10px 0;
+	width: 100%;
+	text-align: center;
+}
+
+
+.vdo_sets{
+
+}
+
+.vdo_sets strong{
+	padding: 5px;
+}
+
+.vdo_sets span{
+	padding: 5px;
+}
