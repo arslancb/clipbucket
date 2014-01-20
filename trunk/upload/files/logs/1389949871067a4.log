@@ -1,125 +1,0 @@
-Started on 2014-01-17 09:11:11 - 2014 Jan 17
-
-Checking File ....
-File : /var/www/clipbucket/files/conversion_queue/1389949871067a4.mp4
-File Exists : Yes
-
-Preparing file...
-format : mov,mp4,m4a,3gp,3g2,mj2
-duration : 220.44
-size : 9301702
-bitrate : 329
-video_width : 640
-video_height : 360
-video_wh_ratio : 1.7777777777778
-video_codec : h264
-video_rate : 25
-video_bitrate : 216
-video_color : N/A
-audio_codec : aac
-audio_bitrate : 109
-audio_rate : 48000
-audio_channels : stereo
-path : /var/www/clipbucket/files/conversion_queue/1389949871067a4.mp4
-
-Converting Video
-Conversion Command : /usr/local/bin/ffmpeg -i /var/www/clipbucket/files/conversion_queue/1389949871067a4.mp4  -f flv  -vcodec libx264 -vpre normal  -r 25  -b 512000 -s 640x360 -aspect  1.7777777777778 -vf  pad=0:0:0:0:black -acodec libfaac -ab 128000  -ar 22050  /var/www/clipbucket/files/videos/1389949871067a4.flv  2> /var/www/clipbucket/files/temp/138994987243ea3.tmp
-
-
-Conversion Details
-
-ffmpeg version 0.9.1, Copyright (c) 2000-2012 the FFmpeg developers
-  built on Jan 16 2014 12:51:58 with gcc 4.8.1
-  configuration: --prefix=/usr/local/ffmpeg --extra-libs=-ldl --enable-gpl --enable-libass --enable-libmp3lame --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libx264 --enable-nonfree --enable-x11grab --enable-libfaac
-  libavutil    51. 32. 0 / 51. 32. 0
-  libavcodec   53. 42. 4 / 53. 42. 4
-  libavformat  53. 24. 2 / 53. 24. 2
-  libavdevice  53.  4. 0 / 53.  4. 0
-  libavfilter   2. 53. 0 /  2. 53. 0
-  libswscale    2.  1. 0 /  2.  1. 0
-  libpostproc  51.  2. 0 / 51.  2. 0
-Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/var/www/clipbucket/files/conversion_queue/1389949871067a4.mp4':
-  Metadata:
-    major_brand     : mp42
-    minor_version   : 0
-    compatible_brands: mp42mp41isomavc1
-    creation_time   : 2014-01-13 11:41:37
-  Duration: 00:03:40.44, start: 0.000000, bitrate: 337 kb/s
-    Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p, 640x360 [SAR 1:1 DAR 16:9], 221 kb/s, 25 fps, 25 tbr, 25 tbn, 50 tbc
-    Metadata:
-      creation_time   : 2014-01-13 11:41:37
-      handler_name    : L-SMASH Video Handler
-    Stream #0:1(und): Audio: aac (mp4a / 0x6134706D), 48000 Hz, stereo, s16, 112 kb/s
-    Metadata:
-      creation_time   : 2014-01-13 11:41:37
-      handler_name    : L-SMASH Audio Handler
-Please use -b:a or -b:v, -b is ambiguous
-[buffer @ 0x287e580] w:640 h:360 pixfmt:yuv420p tb:1/1000000 sar:1/1 sws_param:
-[pad @ 0x2879c00] w:640 h:360 -> w:640 h:360 x:0 y:0 color:0x108080FF[yuva]
-[libx264 @ 0x287ab00] using SAR=1/1
-[libx264 @ 0x287ab00] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX
-[libx264 @ 0x287ab00] profile High, level 3.0
-[libx264 @ 0x287ab00] 264 - core 140 r2 1ca7bb9 - H.264/MPEG-4 AVC codec - Copyleft 2003-2013 - http://www.videolan.org/x264.html - options: cabac=1 ref=2 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=6 psy=0 mixed_ref=0 me_range=16 chroma_me=1 trellis=0 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=0 threads=6 lookahead_threads=1 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=0 b_adapt=1 b_bias=0 direct=3 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=abr mbtree=1 bitrate=512 ratetol=1.0 qcomp=0.60 qpmin=10 qpmax=51 qpstep=4 ip_ratio=1.40 aq=1:1.00
-Output #0, flv, to '/var/www/clipbucket/files/videos/1389949871067a4.flv':
-  Metadata:
-    major_brand     : mp42
-    minor_version   : 0
-    compatible_brands: mp42mp41isomavc1
-    creation_time   : 2014-01-13 11:41:37
-    encoder         : Lavf53.24.2
-    Stream #0:0(und): Video: h264 ([7][0][0][0] / 0x0007), yuv420p, 640x360 [SAR 1:1 DAR 16:9], q=10-51, 512 kb/s, 1k tbn, 25 tbc
-    Metadata:
-      creation_time   : 2014-01-13 11:41:37
-      handler_name    : L-SMASH Video Handler
-    Stream #0:1(und): Audio: aac ([10][0][0][0] / 0x000A), 22050 Hz, stereo, s16, 128 kb/s
-    Metadata:
-      creation_time   : 2014-01-13 11:41:37
-      handler_name    : L-SMASH Audio Handler
-Stream mapping:
-  Stream #0:0 -> #0:0 (h264 -> libx264)
-  Stream #0:1 -> #0:1 (aac -> libfaac)
-Press [q] to stop, [?] for help
-frame=  193 fps=  0 q=10.0 size=      54kB time=00:00:05.68 bitrate=  78.2kbits/s    frame=  283 fps=279 q=10.0 size=     286kB time=00:00:09.28 bitrate= 252.8kbits/s    frame=  351 fps=231 q=10.0 size=     575kB time=00:00:12.00 bitrate= 392.7kbits/s    frame=  421 fps=208 q=10.0 size=     763kB time=00:00:14.80 bitrate= 422.2kbits/s    frame=  502 fps=197 q=10.0 size=    1008kB time=00:00:18.04 bitrate= 457.7kbits/s    frame=  596 fps=196 q=10.0 size=    1284kB time=00:00:21.80 bitrate= 482.7kbits/s    frame=  700 fps=197 q=10.0 size=    1555kB time=00:00:25.96 bitrate= 490.8kbits/s    frame=  754 fps=186 q=10.0 size=    1675kB time=00:00:28.12 bitrate= 487.9kbits/s    frame=  863 fps=189 q=10.0 size=    1892kB time=00:00:32.48 bitrate= 477.1kbits/s    frame=  969 fps=191 q=10.0 size=    2097kB time=00:00:36.72 bitrate= 467.8kbits/s    frame= 1086 fps=195 q=10.0 size=    2333kB time=00:00:41.40 bitrate= 461.7kbits/s    frame= 1207 fps=198 q=10.0 size=    2543kB time=00:00:46.24 bitrate= 450.6kbits/s    frame= 1324 fps=201 q=10.0 size=    2764kB time=00:00:50.92 bitrate= 444.7kbits/s    frame= 1402 fps=198 q=10.0 size=    3053kB time=00:00:54.04 bitrate= 462.7kbits/s    frame= 1462 fps=193 q=10.0 size=    3473kB time=00:00:56.44 bitrate= 504.1kbits/s    frame= 1522 fps=188 q=10.0 size=    3929kB time=00:00:58.84 bitrate= 547.0kbits/s    frame= 1584 fps=184 q=10.0 size=    4262kB time=00:01:01.32 bitrate= 569.3kbits/s    frame= 1644 fps=180 q=10.0 size=    4664kB time=00:01:03.72 bitrate= 599.7kbits/s    frame= 1710 fps=178 q=13.0 size=    5161kB time=00:01:06.36 bitrate= 637.1kbits/s    frame= 1766 fps=174 q=16.0 size=    5657kB time=00:01:08.60 bitrate= 675.5kbits/s    frame= 1827 fps=172 q=18.0 size=    6068kB time=00:01:11.04 bitrate= 699.7kbits/s    frame= 1910 fps=171 q=19.0 size=    6381kB time=00:01:14.36 bitrate= 702.9kbits/s    frame= 1994 fps=171 q=19.0 size=    6605kB time=00:01:17.72 bitrate= 696.2kbits/s    frame= 2095 fps=172 q=19.0 size=    6821kB time=00:01:21.76 bitrate= 683.4kbits/s    frame= 2191 fps=173 q=19.0 size=    7093kB time=00:01:25.60 bitrate= 678.8kbits/s    frame= 2286 fps=174 q=19.0 size=    7312kB time=00:01:29.40 bitrate= 670.0kbits/s    frame= 2364 fps=173 q=19.0 size=    7508kB time=00:01:32.52 bitrate= 664.8kbits/s    frame= 2459 fps=173 q=19.0 size=    7721kB time=00:01:36.32 bitrate= 656.7kbits/s    frame= 2585 fps=176 q=18.0 size=    7922kB time=00:01:41.36 bitrate= 640.2kbits/s    frame= 2709 fps=178 q=17.0 size=    8142kB time=00:01:46.32 bitrate= 627.4kbits/s    frame= 2815 fps=179 q=16.0 size=    8351kB time=00:01:50.56 bitrate= 618.7kbits/s    frame= 2912 fps=180 q=16.0 size=    8613kB time=00:01:54.44 bitrate= 616.5kbits/s    frame= 3033 fps=181 q=15.0 size=    8814kB time=00:01:59.28 bitrate= 605.3kbits/s    frame= 3107 fps=180 q=15.0 size=    9095kB time=00:02:02.24 bitrate= 609.5kbits/s    frame= 3170 fps=179 q=16.0 size=    9399kB time=00:02:04.76 bitrate= 617.2kbits/s    frame= 3241 fps=178 q=17.0 size=    9719kB time=00:02:07.60 bitrate= 624.0kbits/s    frame= 3325 fps=178 q=17.0 size=   10017kB time=00:02:10.96 bitrate= 626.6kbits/s    frame= 3423 fps=178 q=17.0 size=   10271kB time=00:02:14.88 bitrate= 623.8kbits/s    frame= 3493 fps=177 q=17.0 size=   10477kB time=00:02:17.68 bitrate= 623.4kbits/s    frame= 3556 fps=176 q=17.0 size=   10655kB time=00:02:20.20 bitrate= 622.6kbits/s    frame= 3628 fps=175 q=18.0 size=   10934kB time=00:02:23.08 bitrate= 626.0kbits/s    frame= 3697 fps=174 q=18.0 size=   11234kB time=00:02:25.84 bitrate= 631.0kbits/s    frame= 3768 fps=173 q=19.0 size=   11490kB time=00:02:28.68 bitrate= 633.1kbits/s    frame= 3834 fps=172 q=19.0 size=   11768kB time=00:02:31.32 bitrate= 637.1kbits/s    frame= 3915 fps=172 q=19.0 size=   12021kB time=00:02:34.56 bitrate= 637.1kbits/s    frame= 3992 fps=171 q=19.0 size=   12273kB time=00:02:37.64 bitrate= 637.8kbits/s    frame= 4080 fps=172 q=20.0 size=   12575kB time=00:02:41.16 bitrate= 639.2kbits/s    frame= 4158 fps=171 q=20.0 size=   12798kB time=00:02:44.28 bitrate= 638.2kbits/s    frame= 4236 fps=171 q=20.0 size=   13045kB time=00:02:47.40 bitrate= 638.4kbits/s    frame= 4314 fps=171 q=20.0 size=   13299kB time=00:02:50.52 bitrate= 638.9kbits/s    frame= 4428 fps=172 q=20.0 size=   13572kB time=00:02:55.08 bitrate= 635.0kbits/s    frame= 4548 fps=173 q=19.0 size=   13782kB time=00:02:59.88 bitrate= 627.6kbits/s    frame= 4665 fps=174 q=19.0 size=   14030kB time=00:03:04.56 bitrate= 622.7kbits/s    frame= 4782 fps=175 q=18.0 size=   14244kB time=00:03:09.24 bitrate= 616.6kbits/s    frame= 4886 fps=176 q=18.0 size=   14557kB time=00:03:13.40 bitrate= 616.6kbits/s    frame= 4952 fps=175 q=19.0 size=   14783kB time=00:03:16.04 bitrate= 617.7kbits/s    frame= 5012 fps=174 q=19.0 size=   15028kB time=00:03:18.44 bitrate= 620.4kbits/s    frame= 5083 fps=173 q=19.0 size=   15319kB time=00:03:21.28 bitrate= 623.5kbits/s    frame= 5169 fps=173 q=19.0 size=   15531kB time=00:03:24.72 bitrate= 621.5kbits/s    frame= 5223 fps=172 q=19.0 size=   15733kB time=00:03:26.88 bitrate= 623.0kbits/s    frame= 5276 fps=171 q=20.0 size=   15933kB time=00:03:29.00 bitrate= 624.5kbits/s    frame= 5376 fps=172 q=19.0 size=   16118kB time=00:03:33.00 bitrate= 619.9kbits/s    frame= 5511 fps=174 q=17.0 Lsize=   16134kB time=00:03:40.40 bitrate= 599.7kbits/s    
-video:13988kB audio:1958kB global headers:0kB muxing overhead 1.172309%
-[libx264 @ 0x287ab00] frame I:29    Avg QP:10.24  size: 21378
-[libx264 @ 0x287ab00] frame P:1640  Avg QP:10.83  size:  4828
-[libx264 @ 0x287ab00] frame B:3842  Avg QP:12.29  size:  1506
-[libx264 @ 0x287ab00] consecutive B-frames:  4.7%  6.5%  1.9% 87.0%
-[libx264 @ 0x287ab00] mb I  I16..4: 32.5% 36.1% 31.4%
-[libx264 @ 0x287ab00] mb P  I16..4:  4.9%  5.6%  2.2%  P16..4: 38.0% 11.4%  7.6%  0.0%  0.0%    skip:30.2%
-[libx264 @ 0x287ab00] mb B  I16..4:  1.2%  0.9%  0.1%  B16..8: 17.7%  9.7%  1.2%  direct: 8.4%  skip:60.8%  L0:45.3% L1:47.8% BI: 6.9%
-[libx264 @ 0x287ab00] final ratefactor: 11.01
-[libx264 @ 0x287ab00] 8x8 transform intra:42.6% inter:33.7%
-[libx264 @ 0x287ab00] direct mvs  spatial:96.1% temporal:3.9%
-[libx264 @ 0x287ab00] coded y,uvDC,uvAC intra: 44.8% 48.4% 25.0% inter: 8.9% 15.5% 1.0%
-[libx264 @ 0x287ab00] i16 v,h,dc,p: 25% 24% 20% 31%
-[libx264 @ 0x287ab00] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu: 20% 26% 33%  3%  4%  3%  5%  3%  4%
-[libx264 @ 0x287ab00] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 28% 27% 23%  3%  6%  4%  5%  2%  3%
-[libx264 @ 0x287ab00] i8c dc,h,v,p: 65% 19% 14%  3%
-[libx264 @ 0x287ab00] Weighted P-Frames: Y:18.1% UV:1.3%
-[libx264 @ 0x287ab00] ref P L0: 75.4%  4.3% 19.6%  0.7%
-[libx264 @ 0x287ab00] kb/s:519.81
-sh: 1: /usr/local/bin/flvtool2: not found
-
-
-output_format : flv
-output_duration : 220.53
-output_size : 16520746
-output_bitrate : 585
-output_video_width : 640
-output_video_height : 360
-output_video_wh_ratio : 1.7777777777778
-output_video_codec : h264
-output_video_rate : 24.989797306489
-output_video_bitrate : 507
-output_video_color : N/A
-output_audio_codec : aac
-output_audio_bitrate : 71
-output_audio_rate : 22050
-output_audio_channels : stereo
-output_path : /var/www/clipbucket/files/videos/1389949871067a4.flv
-
-
-Time Took : 31.8263 seconds
-
-conversion_status : completed
