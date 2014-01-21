@@ -1,0 +1,142 @@
+
+{if $mode=='view'}
+<h2>Flagged Users Manager</h2>
+<!-- DIsplaying Videos -->
+<form name="flagged_video" method="post" id="flagged_video">
+
+    <div class="btn-group">
+        <input class="btn btn-default btn-sm" type="submit" name="activate_selected" value="Activate"  class="button"/>
+        <input class="btn btn-default btn-sm" type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+        <input class="btn btn-default btn-sm" type="submit" name="delete_selected" value="Delete Users"  class="button" onclick="return confirm_it('Are you sure you want to delete these users(s)')"/>       
+        <input class="btn btn-default btn-sm" type="submit" name="delete_flags" value="Delete Flags"  class="button" onclick="return confirm_it('Are you sure you want to delete flags of selected users(s)')"/>
+    </div>
+
+    <table class="table table-bordered">
+      <tr>
+        <td width="40" align="center" valign="middle" class="left_head">
+        <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+        <td width="50" class="head">UID</td>
+        <td class="head">User Details</td>
+      </tr>
+    </table>
+
+
+
+{if $users}
+<table class="table table-bordered table-striped">
+
+{foreach from=$users item=u}
+    <tr>
+        <td width="40" align="center" valign="top" class="video_opt_td">
+            <input name="check_user[]" type="checkbox" id="check_user" value="{$u.userid}" />
+        </td>
+        <td width="50" align="left" valign="top" class="video_opt_td">{$u.userid}</td>
+        <td class="clearfix flaggedUser" >
+            <img src="{$userquery->getUserThumb($u,'small')}" class="img-thumbnail oneUserImage pull-left" />
+            <div class="flaggedUserInfo">
+                <div class="userInfo">
+                    <a href="{$userquery->profile_link($u)}" target="_blank" class="oneUserName">
+                      {$u.username}
+                    </a>
+                    <span class="label label-info"><span>{$u.level|get_user_level}</span></span>
+                </div>
+                <div class="userStatus">
+                  <span class="label label-primary"><span>{$u.email}</span></span>
+                  <span class="label {if $u.usr_status == Ok}label-success{else}label-warning{/if}"><span>Status</span>:<span>{$u.usr_status}</span></span>
+                  <span class="label"><span>Last Active</span>:<span>{$u.last_active}</span></span> 
+                </div>
+            </div>
+    </td>
+    <td>
+        <div class="dropdown">
+            <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions<i class="icon-angle-down icon-on-right"></i></button>
+            <ul class="dropdown-menu addCategoryActions" aria-labelledby="dropdownMenu1" role="menu">
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="view_user.php?uid={$u.userid}">View</a>
+                </li>
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="view_user.php?uid={$u.userid}">Edit</a>
+                </li>
+                {if $u.usr_status == Ok}
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="?deactivate={$u.userid}">Deactivate</a>
+                </li>
+                {elseif $u.usr_status == ToActivate}
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="?activate={$u.userid}">Activate</a>
+                </li>
+                {/if}
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="?mode=view_flags&uid={$u.userid}">View Flags</a>
+                </li>
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="?delete_flags={$u.userid}">Delete flags</a>
+                </li>
+            </ul>
+        </div>
+    </td>
+  </tr>  
+{/foreach}
+</table>
+
+
+{else}
+  <div align="center"><strong><em>NO USER FOUND</em></strong></div>
+{/if}
+
+
+<div class="btn-group">
+    <input class="btn btn-default btn-sm" type="submit" name="activate_selected" value="Activate"  class="button"/>
+    <input class="btn btn-default btn-sm" type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+    <input class="btn btn-default btn-sm" type="submit" name="delete_selected" value="Delete Users"  class="button" onclick="return confirm_it('Are you sure you want to delete these users(s)')"/>       
+    <input class="btn btn-default btn-sm" type="submit" name="delete_flags" value="Delete Flags"  class="button" onclick="return confirm_it('Are you sure you want to delete flags of selected users(s)')"/>
+</div>
+
+</form>
+
+<!-- DIsplaying Videos Ends-->
+{include file="$style_dir/blocks/pagination.html" }
+
+{/if}
+
+
+{if $mode=='view_flags'}
+      
+<h2 class="page_title">Viewing {$user.username} flags</h2>
+<div class="btn-group">
+    <a class="btn btn-info btn-sm" href="view_user.php?uid={$user.userid}">View User</a>
+    <a class="btn btn-info btn-sm" href="view_user.php?uid={$user.userid}">Edit User</a>
+    <a class="btn btn-info btn-sm" href="?delete_flags={$user.userid}">Delete Flags</a>
+    <a class="btn btn-info btn-sm" href="?delete_group={$user.user}">Delete User</a>    
+</div>
+
+<div style="margin-bottom:10px"></div>
+<!-- DIsplaying Videos -->
+<form name="video_manage" method="post">
+
+
+<table class="table table-bordered border-striped">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">&nbsp;</td>
+    <td class="head">Flag Details</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+
+
+
+
+<table class="table table-bordered border-striped">
+{assign var = bgcolor value = ""}
+{section name=list loop=$flags}
+<tr class="video_opt_td">
+    <td width="30" align="left" valign="top" class="video_opt_td">{$smarty.section.list.iteration}</td>
+    <td align="left" valign="top" class="video_opt_td">Reported as "{$flags[list].flag_type|flag_type}" by {$flags[list].userid|get_username} {$flags[list].date_added|niceTime}</td>
+    <td width="50" valign="top" class="video_opt_td">&nbsp;</td>
+    </tr>
+{/section}
+</table>
+</form>
+
+{/if}

@@ -109,7 +109,43 @@ ul.mainTabs{
 	margin-bottom: 10px;
 }
 
-.addCategoryActions li{
-	list-style-type: none;
-	line-height: 28px;
+
+.flaggedUser{
+	overflow: hidden;
 }
+
+.flaggedUser .flaggedUserInfo{
+	width: 90%;
+}
+
+.flaggedUser .flaggedUserInfo > img{
+	float: left;
+	margin-right: 5px;
+}
+
+.flaggedUser .flaggedUserInfo{
+	float: left;
+	overflow: hidden;
+}
+
+.flaggedUser .flaggedUserInfo .userInfo{
+	margin-left: 5px;
+	padding-bottom: 5px;
+	width: 100%;
+}
+.flaggedUser .flaggedUserInfo .userInfo span.label{
+	float: right;
+}
+
+.flaggedUser .flaggedUserInfo .userStatus{
+	padding: 0 0 0 5px;
+}
+
+
+
+
+
+
+
+
+
