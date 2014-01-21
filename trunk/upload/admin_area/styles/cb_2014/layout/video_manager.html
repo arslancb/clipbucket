@@ -105,13 +105,12 @@
             <td width="50" valign="top" class="video_opt_td">
           <img src="{getThumb vdetails=$videos[list]}" width="130" height="80" id="thumbs_{$videos[list].videoid}"title="<img src='{getThumb vdetails=$videos[list] num=1}'  /> <img src='{getThumb vdetails=$videos[list] num=2}'  /> <img src='{getThumb vdetails=$videos[list] num=3}'  />" /></td>
             <td valign="top"  class="video_opt_td">
-                <div style="position:relative; min-height: 133px">
+                <div style="position:relative; min-height: 80px">
 
                 <div class="videoTitle row">
                     <div class="col-md-10">
                         <a href="edit_video.php?video={$videos[list].videoid}" target="_blank" style="text-indent:10px">
                             {$videos[list].title|truncate:80}
-
                         </a>({if $videos[list].duration>1}{$videos[list].duration|SetTime}{else}00:00{/if})
                     </div>
                     <div class="col-md-2">
@@ -131,7 +130,7 @@
                 </div>
                 <td>
                 <div id="vid_opt-{$videos[list].videoid}" class="dropdown">
-                    <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Options</button>
+                    <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions</button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_video.php?video={$videos[list].videoid}" class="">Edit</a> </li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="{$baseurl}/watch_video.php?v={$videos[list].videokey}" target="_blank">Watch</a> {if $videos[list].featured == yes} </li>

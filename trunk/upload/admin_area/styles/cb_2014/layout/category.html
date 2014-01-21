@@ -1,0 +1,186 @@
+<h2>Video Categories</h2>
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td width="200" align="left" valign="middle" class="left_head" style="text-indent:10px">Manage Video Categories</td>
+        <td class="head">&nbsp;</td>
+        <td width="100" class="right_head">&nbsp;</td>
+    <tr>
+        <td class="td_body">&nbsp;</td>
+        <td align="right" class="td_body">* are required fields</td>
+    </tr>
+    </tr>
+</table>
+
+
+{if $edit_category != "show"}
+<form action="category.php" method="post" enctype="multipart/form-data" name="add_category" id="Add Category">
+
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="block">
+        <tr>
+            <div class="form-group">
+                <label>Category Name*</label>
+                <input type="text" id="name" name="name" class="form-control"  value="{'name'|post_form_val}">
+            </div>
+        </tr>
+        <tr>
+            <div class="form-group">
+                <label>Category Description*</label>
+                <textarea name="desc" id="desc" cols="33" rows="5" class="form-control">{'desc'|post_form_val}</textarea>
+            </div>
+        </tr>
+        {assign var=useSubs value=config(use_subs)}
+        {if $useSubs == 1}
+        <tr>
+            <div class="form-group">
+                <label>Make Default Category</label>
+                <br>
+                <input type="radio" name="default" id="default_0" value="yes" checked="checked">yes
+                <input type="radio" name="default" id="default_1" value="no" >no
+            </div>
+
+        </tr>
+        <tr>
+            <div class="form-group">
+                <label>Parent Category</label>
+                {cbCategories output="dropdown" name="parent_cat" id="parent_cat" blank_option=TRUE echo=TRUE type="video"}
+            </div>
+        </tr>
+        {/if}
+        <div class="form-group">
+            <label>Category Thumb</label>
+            <input type="file" name="cat_thumb" id="cat_thumb" />
+        </div>
+        <tr>
+            <div class="form-group">
+                <input type="submit"  class="btn btn-primary btn-sm btn-block" name="add_cateogry" id="button" value="Add Category" onclick="return validate_category_form(add_category)" class="button"/>
+            </div>
+
+        </tr>
+    </table>
+</form>
+{/if}
+{if $edit_category == "show"}
+<form action="" method="post" enctype="multipart/form-data" name="edit_category" id="Edit Category">
+    <input name="cid" value="{$cat_details.category_id}" type="hidden" />
+    <input name="cur_name" value="{$cat_details.category_name}" type="hidden" />
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+
+        <tr>
+            <td class="td_body">&nbsp;</td>
+            <td align="right" class="td_body">* are required fields</td>
+        </tr>
+        <tr>
+            <td valign="top" class="td_body">Category Name*</td>
+            <td class="td_body"><label>
+                <input name="name" type="text" id="name" value="{$cat_details.category_name}" size="45" />
+            </label></td>
+        </tr>
+        <tr>
+            <td valign="top" class="td_body">Category Description*</td>
+            <td class="td_body"><textarea name="desc" id="desc" cols="33" rows="5">{$cat_details.category_desc}</textarea></td>
+        </tr>
+        <tr>
+            <td valign="top" class="td_body">Parent Category</td>
+            <td class="td_body">
+                {cbCategories output="dropdown" selected=$cat_details.parent_id name="parent_cat" id="parent_cat" blank_option=TRUE type="video" echo=TRUE}
+            </td>
+        </tr>
+        <tr>
+            <td valign="top" class="td_body">Make Default Category</td>
+            <td class="td_body"><p>
+                <label>
+                    <input type="radio" name="default" value="yes" id="default_0" {if $cat_details.isdefault=='yes'} checked="checked"{/if} />
+                    Yes</label>
+                <label>
+                    <input name="default" type="radio" id="default_1" value="no" {if $cat_details.isdefault=='no'} checked="checked"{/if} />
+                    No</label>
+                <br />
+            </p></td>
+        </tr>
+        <tr>
+            <td class="td_body">Category Thumb</td>
+            <td class="td_body"><label>
+                <input type="file" name="cat_thumb" id="cat_thumb" />
+            </label></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right" class="tr_head"><label>
+                <input type="submit" name="update_category" id="button" value="Update Category" onclick="return validate_category_form(edit_category)" class="button"/>
+            </label></td>
+        </tr>
+    </table>
+</form>
+{/if}
+
+
+<div style="margin:10px 0px 10px 0px">
+    <span class="page_title">Category List</span>
+</div>
+
+{if $total != 0}
+<form name="category" action="?update_order" method="post">
+
+    <table class="table table-bordered" width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="225" class="left_head" style="text-indent:10px">Category Name</td>
+            <td width="75" align="left" class="head">Order</td>
+            <td width="225" align="left" class="head">Parent Category</td>
+            <td width="250" class="head">Description</td>
+            <td width="100" class="head">Default</td>
+            <td width="150" class="head">Action</td>
+
+        </tr>
+        {assign var = bgcolor value = ""}
+        {section name=list loop=$category}
+        <script type="text/javascript">
+            cat_div = "#thumbs_{$category[list].category_id}";
+            {literal}
+            $(function() { {/literal}
+                $("#thumbs_{$category[list].category_id}").tooltip({literal}{showURL: false,delay: 0});
+            });
+            {/literal}
+        </script>
+        <tr bgcolor="{$bgcolor}" class="item_listing">
+            <td style="text-indent:10px">{$category[list].category_name} - <a id="thumbs_{$category[list].category_id}"  title="<img src='{$cbvid->get_category_thumb($category[list])}'  />" href="javascript:void(0)">View Thumb</a></td>
+            <td >
+                <input name="category_order_{$category[list].category_id}" type="text" id="order" style="border:1px solid #999; padding:2px; width:30px" value="{$category[list].category_order}" size="5" maxlength="5" /></td>
+            {if $category[list].parent_id == "0"}
+            {assign var=p_name value="None"}
+            {else}
+            {assign var=p_name value=$cbvid->get_category_field($category[list].parent_id,'category_name')}
+            {/if}
+            <td>{$p_name}</td>
+            <td>{if $category[list].category_desc}{$category[list].category_desc}{else}<em>N/A</em>{/if}</td>
+            <td>{$category[list].isdefault}</td>
+            <td>
+                <div>
+                    <div style="position:relative; min-height: 100px">
+                <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Options</button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="?category={$category[list].category_id}">Edit</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:Confirm_Delete('?delete_category={$category[list].category_id}')">Delete</a>
+                {if $category[list].isdefault!="yes"}</li>
+                <li><a href="?make_default={$category[list].category_id}">Make Default</a></li>{/if}
+                    </ul>
+            </td>
+
+        </tr>
+        {if $bgcolor == ""}
+        {assign var = bgcolor value = "#EEEEEE"}
+        {else}
+        {assign var = bgcolor value = ""}
+        {/if}
+
+        {/section}
+
+    </table>
+
+
+    <div><input type="submit" value="Update" name="update_order" class="btn btn-primary btn-sm"  style="margin-top:10px"/></div>
+</form>
+
+{else}
+No Category Has Been Created Yet
+{/if}
