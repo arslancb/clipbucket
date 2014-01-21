@@ -64,3 +64,30 @@ ul.mainTabs{
 .vid_opts{
 	padding-left: 10px;
 }
+
+/* Users Styles */
+
+.manageUsersTable{
+
+}
+
+.manageUsersTable .dropdown{
+	text-align: center;
+	padding-right: 0;
+}
+
+.manageUsersTable .dropdown > ul{
+	text-align: left;
+}
+
+.manageUsersTable .oneUserName{
+	font-size: 1.5em;
+}
+
+.manageUsersTable .oneUserImage{
+	margin-bottom: 5px;
+}
+
+.usersMenuButtons{
+	margin-bottom: 10px;
+}
