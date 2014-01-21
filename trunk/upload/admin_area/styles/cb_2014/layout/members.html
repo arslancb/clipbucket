@@ -107,19 +107,19 @@
     <td class="video_opt_td">
       {$u.userid}
     </td>
-    <td class="video_opt_td" onmouseover="//$('#usr_opt-{$u.userid}').show()" onmouseout="//$('#usr_opt-{$u.userid}').hide()" >
-      <div class="clearfix">
-        <img src="{$userquery->getUserThumb($u,'small')}" class="img-thumbnail oneUserImage" />
-        <a href="{$userquery->profile_link($u)}" target="_blank" class="oneUserName pull-right">
+    <td class="clearfix" >
+      <img src="{$userquery->getUserThumb($u,'small')}" class="img-thumbnail oneUserImage" />
+      <div class="userInfo">
+        <a href="{$userquery->profile_link($u)}" target="_blank" class="oneUserName">
           {$u.username}
         </a>
+        <span class="label label-info"><span>{$u.level|get_user_level}</span></span>
       </div> 
     <div class="userStatus">
-      <span class="label label-primary"><span>Email</span>:<span>{$u.email}</span></span>
+      <span class="label label-primary"><span>{$u.email}</span></span>
       <span class="label {if $u.usr_status == Ok}label-success{else}label-warning{/if}"><span>Status</span>:<span>{$u.usr_status}</span></span>
-      <span class="label label-info"><span>Level</span>:<span>{$u.level|get_user_level}</span></span>
       <span class="label"><span>Last Active</span>:<span>{$u.last_active}</span></span> 
-    </span>
+    </div>
     </td>
     <td>
       <div id="usr_opt-{$u.userid}" class="dropdown">
@@ -157,20 +157,7 @@
 {assign var = bgcolor value = ""}
 {/if}  
 {/foreach}
-
-
-
-
-
-
-
-  
 </table>
-
-
-
-
-
 {else}
 	<div align="center"><strong><em>NO USER FOUND</em></strong></div>
 {/if}

@@ -81,11 +81,28 @@ ul.mainTabs{
 }
 
 .manageUsersTable .oneUserName{
-	font-size: 1.5em;
+	font-size: 1.3em;
 }
 
 .manageUsersTable .oneUserImage{
-	margin-bottom: 5px;
+	margin: 0 5px 5px 0px;
+	float: left;
+	width: 70px;
+}
+
+.manageUsersTable .userInfo{
+	padding: 0px 5px 15px 5px;
+}
+
+.manageUsersTable .userInfo span{
+	float: right;
+}
+
+.manageUsersTable .userStatus{
+
+}
+.manageUsersTable .userStatus span{
+	padding: 3px;
 }
 
 .usersMenuButtons{
