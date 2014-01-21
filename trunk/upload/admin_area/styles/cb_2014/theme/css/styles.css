@@ -108,3 +108,8 @@ ul.mainTabs{
 .usersMenuButtons{
 	margin-bottom: 10px;
 }
+
+.addCategoryActions li{
+	list-style-type: none;
+	line-height: 28px;
+}
