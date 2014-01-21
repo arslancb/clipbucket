@@ -44,3 +44,23 @@ ul.mainTabs{
 .vdo_sets span{
 	padding: 5px;
 }
+
+.commentsMenu{
+	overflow: hidden;
+}
+
+.commentsMenu > ul{
+	margin-left: 0;
+}
+
+.formOptions{
+	margin: 10px 0;
+}
+
+.edit_comment{
+	padding-left: 10px;
+}
+
+.vid_opts{
+	padding-left: 10px;
+}
