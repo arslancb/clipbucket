@@ -16,7 +16,7 @@
   
     {foreach from=$required_fields item=field}
     {*pr($field, true)*}
-
+    {$field.class = 'form-control'}
     <div class="form-group">
       <label for="{$field.id}">{$field.title}</label>
         {if $field.hint_1}{$field.hint_1}<br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}{if $field.hint_2}{$field.hint_2}{/if}
