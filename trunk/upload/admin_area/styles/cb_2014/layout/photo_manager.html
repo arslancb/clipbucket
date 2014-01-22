@@ -1,0 +1,169 @@
+<h2>Photo Manager</h2>
+<img src="{$imageurl}/dot.gif" class="sarch_button" onclick="toggle_search('searchdiv')" />
+<div class="search_box" id="searchdiv" {if $smarty.cookies.show_searchdiv_search!='show'} style="display:none"{/if}>
+  <form action="photo_manager.php" method="get" name="search_photos">
+    <table class="table table-bordered table-striped">
+        <tr>
+          <td width="106" align="right"><label for="title">Photo title</label></td>
+          <td width="280"><input name="title" type="text" class="input" id="title" value="{'title'|get_form_val:true}" //></td>
+        </tr>
+        <tr>
+          <td align="right"><label for="photokey">Photo key</label></td>
+          <td><input name="photokey" type="text" class="input" id="photokey" value="{'photokey'|get_form_val:true}" //></td>
+        </tr>
+        <tr>
+          <td align="right"><label for="photoid">Photo id</label></td>
+          <td><input name="photoid" type="text" class="input" id="photoid" value="{'photoid'|get_form_val:true}" //></td>
+        </tr>
+        <tr>
+          <td align="right"><label for="tags">Photo tags</label></td>
+          <td><input name="tags" type="text" class="input" id="tags" value="{'tags'|get_form_val:true}" /></td>
+        </tr>
+        <tr>
+          <td align="right">Userid</td>
+          <td><input name="userid" type="text" class="input" id="userid" value="{'userid'|get_form_val:true}" /></td>
+        </tr>
+        <tr>
+          <td align="right">Featured</td>
+          <td><label for="featured"></label>
+            <select name="featured" id="featured" class="input">
+              <option value="" ></option>
+              <option value="yes" {if $smarty.get.featured=='yes'} selected="selected"{/if}>Yes</option>
+              <option value="no" {if $smarty.get.featured=='no'} selected="selected"{/if}>No</option>
+            </select></td>
+        </tr>   
+        <tr>
+          <td align="right">Extension</td>
+          <td>
+          <select name="extension" id="extension">
+          	<option value="" ></option>
+          	{foreach from=$cbphoto->exts item=ext}
+            	<option value="{$ext}"{if $smarty.get.extension == $ext} selected="selected"{/if}>{$ext|capitalize}</option>
+            {/foreach}
+          </select>
+          </td>
+        </tr>
+        <tr>
+          <td align="right">Order</td>
+          <td>
+          <select name="order" id="order">
+          	<option value="" ></option>
+            <option value="photo_id" {if $smarty.get.order == 'photo_id'}selected="selected"{/if}>ID</option>
+    		<option value="photo_title" {if $smarty.get.order == 'photo_title'}selected="selected"{/if}>Name</option>        
+            <option value="views" {if $smarty.get.order == 'views'}selected="selected"{/if}>Views</option>
+          </select>
+          </td>
+        </tr>
+    </table>
+    <input class="btn btn-primary" type="submit" name="search" id="search" value="Search Form"/>
+  </form>
+</div>
+<form name="photo_manager" method="post">
+  <div class="btn-group">
+    <input type="submit" name="make_featured_selected" value="Make Featured" class="btn btn-primary btn-sm"/>
+    <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured" class="btn btn-primary btn-sm"/>
+    <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-sm" onclick="return confirm_it('Are you sure you want to delete selected photos(s). This will permanently delete these photos from website.')"/>
+  </div>
+
+
+
+<table class="table table-bordered table-striped">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="75" align="center" valign="middle" class="head">Photo ID</td>
+    <td class="head">Details</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+
+
+
+{if $photos}
+
+{section name=list loop=$photos}
+<tr>
+	<td class="moveL PhotoCheckBox">
+  	<div align="center">
+      <input name="check_photo[]" type="checkbox" id="check_photo" value="{$photos[list].photo_id}" />
+    </div>
+  </td>
+    
+    <td>{$photos[list].photo_id}</td>
+    <td>
+      <div class="row">
+        <div class="AdminPhotoThumb col-md-3">
+            {get_photo details=$photos[list] id='photo' style='padding:2px; border:1px solid #ccc' output='html'}
+        </div>
+        <div class="col-md-9">
+          
+            <div class="vdo_sets">
+                <h4>
+                  <a class="block" href="{$baseurl}/admin_area/edit_photo.php?photo={$photos[list].photo_id}">{$photos[list].photo_title}</a>
+                </h4>
+                <span class="label">Featured:<strong>{$photos[list].featured} </strong></span>
+                <span class="label">
+                  {if $photos[list].collection_id}
+                    Collection:<strong><a title="Edit Collection" href="edit_collection.php?collection={$photos[list].collection_id}">{$photos[list].collection_id|get_collection_field}</a></strong>
+                  {else}
+                    Photo is Orphan
+                  {/if}
+                </span>
+                <span class="label">
+                  Uploaded:<strong>{$photos[list].date_added|niceTime}</strong>
+                </span>
+                <span class="label">
+                  User:<strong><a href="view_user.php?uid={$photos[list].userid}">{$photos[list].username}</a></strong>
+                </span>
+            </div>
+        </div>
+      </div>
+    </td>
+    <td>
+      <div class="dropdown">
+        <button class="btn btn-primary btn-xs dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Actions<i class="icon-angle-down icon-on-right"></i></button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+          <li>
+            <a href="edit_photo.php?photo={$photos[list].photo_id}">Edit</a>
+          </li>
+          <li>
+            <a href="{$baseurl}/view_item.php?item={$photos[list].photo_key}&amp;type=photos&amp;collection={$photos[list].collection_id}" target="_blank">View</a>
+          </li>
+          {if $photos[list].featured == yes}
+          <li>
+            <a href="?make_unfeature={$photos[list].photo_id}">Make Unfeatured</a>
+          </li>
+          {/if}
+          {if $photos[list].featured == no} 
+          <li>
+            <a href="?make_feature={$photos[list].photo_id}">Make Featured</a>
+          </li>
+          {/if}
+          <li>
+            <a href="javascript:void(0);" id="delete-{$photos[list].photo_id}" onmousedown="delete_item('delete','{$photos[list].photo_id}','Are you sure you want to delete? This will permanently delete {$photos[list].photo_title} from website.','?delete_photo={$photos[list].photo_id}');">
+              Delete
+            </a>
+          </li>
+        </ul>
+      </div>
+    </td>
+</tr>
+{/section}
+
+</table>
+
+
+<div class="btn-group">
+  <input type="submit" name="move_to_selected" value="Move To" class="btn btn-primary btn-sm"/>
+  <input type="submit" name="make_featured_selected" value="Make Featured" class="btn btn-primary btn-sm"/>
+  <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured" class="btn btn-primary btn-sm"/>
+  <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-sm" onclick="return confirm_it('Are you sure you want to delete selected photos(s)')"/>
+</div>
+    
+
+
+</form>
+{else}
+	<div align="center"><strong><em>No Photo Found</em></strong></div>
+{/if}
+
+{include file="$style_dir/blocks/pagination.html" }    

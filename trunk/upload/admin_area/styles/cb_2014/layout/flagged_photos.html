@@ -1,0 +1,120 @@
+{if $mode == 'view'}
+<h2>Flagged Photos Manager</h2>
+<form name="flagged_photo" method="post" id="flagged_photo">
+    <div class="btn-group">
+        <input type="submit" name="delete_selected" value="Delete Photos" class="btn btn-primary btn-sm" onclick="return confirm_it('Are you sure you want to delete these photo(s)')"/>    
+        <input type="submit" name="delete_flags" value="Delete Flags" class="btn btn-primary btn-sm" onclick="return confirm_it('Are you sure you want to delete flags of selected photo(s)')"/>
+    </div>
+
+<table class="table table-bordered table-striped">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="75" align="left" class="head">Photo-ID</td>
+    <td class="head">Details</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+
+{if $photos}
+{section name=list loop=$photos}
+
+<tr>
+    <td class="moveL PhotoCheckBox">
+        <div align="center">
+        <input name="check_photo[]" type="checkbox" id="check_photo" value="{$photos[list].photo_id}" />
+        </div>
+    </td>
+    <td>{$photos[list].photo_id}</td>
+    <td>
+      <div class="row">
+        <div class="AdminPhotoThumb col-md-3">
+            {get_photo details=$photos[list] id='photo' style='padding:2px; border:1px solid #ccc' output='html'}
+        </div>
+        <div class="col-md-9">
+          
+            <div class="vdo_sets">
+                <h4>
+                  <a class="block" href="{$baseurl}/admin_area/edit_photo.php?photo={$photos[list].photo_id}">{$photos[list].photo_title}</a>
+                </h4>
+                <span class="label">Featured:<strong>{$photos[list].featured} </strong></span>
+                <span class="label">
+                  {if $photos[list].collection_id}
+                    Collection:<strong><a title="Edit Collection" href="edit_collection.php?collection={$photos[list].collection_id}">{$photos[list].collection_id|get_collection_field}</a></strong>
+                  {else}
+                    Photo is Orphan
+                  {/if}
+                </span>
+                <span class="label">
+                  Uploaded:<strong>{$photos[list].date_added|niceTime}</strong>
+                </span>
+                <span class="label">
+                  User:<strong><a href="view_user.php?uid={$photos[list].userid}">{$photos[list].username}</a></strong>
+                </span>
+            </div>
+        </div>
+      </div>
+    </td>
+    <td>
+      <div class="dropdown">
+        <button class="btn btn-primary btn-xs dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Actions<i class="icon-angle-down icon-on-right"></i></button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li>
+                <a href="edit_photo.php?photo={$photos[list].photo_id}">Edit</a>
+            </li>
+            <li>
+                <a href="{$baseurl}/view_item.php?item={$photos[list].photo_key}&amp;type=photos&amp;collection={$photos[list].collection_id}" target="_blank">View</a>
+            </li>
+            <li>
+                <a href="?mode=view_flags&pid={$photos[list].photo_id}">View Flags</a>     
+            </li>
+            <li>
+                <a href="?delete_flags={$photos[list].photo_id}">Delete Flags</a>
+            </li>
+            <li>
+                <a href="?delete_photo={$photos[list].photo_id}">Delete Photo</a>
+            </li>
+        </ul>
+      </div>
+    </td>
+</tr>
+
+{/section}
+
+{else}
+	<tr align="center"><td>&nbsp;</td><td>&nbsp;</td><td>No Flags Found</td></tr>
+{/if}
+</table>
+    <div class="btn-group">
+        <input type="submit" name="delete_selected" value="Delete Photos" class="btn btn-primary btn-sm" onclick="return confirm_it('Are you sure you want to delete these photo(s)')"/>    
+        <input type="submit" name="delete_flags" value="Delete Flags" class="btn btn-primary btn-sm" onclick="return confirm_it('Are you sure you want to delete flags of selected photo(s)')"/>
+    </div>
+
+</form>
+
+{include file="$style_dir/blocks/pagination.html" }
+{/if}
+
+<!-- view flags still needs to be done -->
+
+{if $mode == 'view_flags'}
+<span class="page_title">Viewing {$photo.photo_title} flags</span> &#8212; <a href="{$cbcollection->collection_links($photo,'view_item')}">View Photo</a> &#8226; <a href="edit_photo.php?photo={$photo.photo_id}">Edit Photo</a> &#8226; <a href="?delete_flags={$photo.photo_id}">Delete Flags</a> &#8226; <a href="?delete_photo={$photo.photo_id}">Delete Photo</a>
+<div  style="margin-bottom:10px"></div>
+<form name="video_manage" method="post">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">&nbsp;</td>
+    <td class="head">Flag Details</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+
+{section name=list loop=$flags}
+<li class="clearfix myAdminList" style="background:#{cycle values='FFFFFF,EEEEEE'}">
+	<div class="moveL PhotoID" style="width:30px;">{$smarty.section.list.iteration}</div>
+    <div class="moveL">
+    	Reported as "{$flags[list].flag_type|flag_type}" by {$flags[list].userid|get_username} {$flags[list].date_added|niceTime}
+    </div>
+</li>
+{/section}
+</form>
+{/if}

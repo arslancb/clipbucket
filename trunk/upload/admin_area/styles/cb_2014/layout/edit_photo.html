@@ -1,0 +1,134 @@
+<form action="" method="post" name="edit_photo" id="edit_photo">
+    <h2>Editing {$data.photo_title}</h2>
+
+    <div class="btn-group">
+        {if $data.collection_id != 0}
+        <a class="btn btn-primary btn-sm" href="edit_collection.php?collection={$data.collection_id}">
+            Edit Collection ({$data.collection_id|get_collection_field})
+        </a>
+        {else}
+        <a class="btn btn-primary btn-sm" href="#collection_id">
+            Photo is orpahn
+        </a>
+        {/if}
+        {if $data.featured!='yes'}
+        <a class="btn btn-primary btn-sm" href="edit_photo.php?photo={$data.photo_id}&amp;mode=fp">
+            Make Featured
+        </a>
+        {else}
+        <a class="btn btn-primary btn-sm" href="edit_photo.php?photo={$data.photo_id}&amp;mode=ufp">
+            Make Unfeatured
+        </a>
+        {/if}
+        <a class="btn btn-primary btn-sm" href="recreate_thumbs.php?mode=single&amp;photo={$data.photo_id}">
+            Re-create Photo
+        </a>
+        <a class="btn btn-primary btn-sm" href="javascript:void(0)" onClick="javascript:Confirm_Delete('photo_manager.php?delete_photo={$data.photo_id}')">
+            Delete This Photo
+        </a>
+        <input name="admin" type="hidden" id="admin" value="true" />
+        <input name="photo_id" type="hidden"  value="{$data.photo_id}" />
+    </div>
+
+
+    <div class="userInformation">
+        <h3>User Information</h3>
+        <div class="">
+            <h4>UserId : <a href="view_user.php?uid={$data.userid}">{$data.userid|get_username}</a></h4>
+        </div>
+    </div>
+
+    <div class="photoPreview">
+        <h3>Photo Preview</h3>
+        {get_photo details=$data size='l' output='html' style='max-width:600px'}
+
+    </div>
+
+    <div class="importantDetails">
+        <h3>Important Details</h3>
+        <div class="form-group">
+            <label for="photoid">Photo id</label>
+            <input class="form-control" disabled="disabled" name="photoid" type="text" id="photoid" value="{$data.photo_id}" size="45" />
+        </div>
+
+        <div class="form-group">
+            <label for="photokey">Photo Key</label>
+            <input class="form-control" disabled="disabled" name="photokey" type="text" id="photokey" value="{$data.photo_key}" size="45" />
+        </div>
+        <div class="form-group">
+            <label for="filename">File name</label>
+            <input class="form-control" disabled="disabled" name="filename" type="text" id="filename" value="{$data.filename}" size="45" />
+        </div>
+        <div class="form-group">
+            <label for="extension">Extension</label>
+            <input class="form-control" disabled="disabled" name="extension" type="text" id="extension" value="{$data.ext}" size="45" />
+        </div>
+    </div>
+
+    <div class="photoDetails">
+        <h3>Photo Details</h3>
+        {foreach from=$requiredFields item=field}
+            <div class="form-group">
+                {$field.class = 'form-control'}
+                <label for="{$field.id}">{$field.title}</label>
+                {$field.hint_1}
+                {$formObj->createField($field)} 
+                {$field.hint_2}
+            </div>
+        
+        {/foreach}
+
+    </div>
+
+    <div class="photoStats">
+        <h3>Photo Stats</h3>
+        <div class="form-group">
+            <label for="views">Views</label>
+            <input class="form-control" name="views" id="views" value="{$data.views}" />
+        </div>
+        <div class="form-group">
+            <label for="total_favorites">Total favorites</label>
+            <input class="form-control" name="total_favorites" id="total_favorites" value="{$data.total_favorites}" />
+        </div>
+        <div class="form-group">
+            <label for="total_comments">Total comments</label>
+            <input class="form-control" name="total_comments" id="total_comments" value="{$data.total_comments}" />
+        </div>
+        <div class="form-group">
+            <label for="downloaded">Total download</label>
+            <input class="form-control" name="downloaded" id="downloaded" value="{$data.downloaded}" />
+        </div>
+        <div class="form-group">
+            <label for="rating">Rating</label>
+            <input class="form-control" name="rating" id="rating" disabled="disabled" value="{$data.rating}" />
+        </div>
+        <div class="form-group">
+            <label for="rated_by">Rated by</label>
+            <input class="form-control" name="rated_by" id="rated_by" disabled="disabled" value="{$data.rated_by}" />
+        </div>
+        <div class="form-group">
+            <label for="voters">Voters</label>
+            <textarea class="form-control" name="voters" id="voters" disabled="disabled">{$data.voters}</textarea>
+        </div>
+    </div>
+
+    <div class="otherFields">
+        <h3>Other fields</h3>
+        
+            {foreach from=$otherFields item=field}
+                <div class="form-group">        
+                    <label><strong>{$field.title}</strong></label>
+                    {$field.hint_1}
+                    <div class="radio">
+                        {$formObj->createField($field)} 
+                    {$field.hint_2}
+                    </div>
+                </div>        
+            {/foreach}
+        
+    </div>
+
+<input type="submit" class="btn btn-primary" value="Update Photo Details" name="update">
+
+
+</form>
