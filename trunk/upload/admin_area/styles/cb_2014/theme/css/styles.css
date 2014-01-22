@@ -141,6 +141,20 @@ ul.mainTabs{
 	padding: 0 0 0 5px;
 }
 
+.channelSettings label{
+	display: block;
+}
+
+.channelSettings input[type="radio"]{
+	margin-right: 10px;
+	position: relative;
+	top: 2px;
+}
+
+.oneUserImage{
+	width: 60px;
+	float: left;
+}
 
 
 

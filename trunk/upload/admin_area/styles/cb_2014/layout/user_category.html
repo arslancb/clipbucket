@@ -116,8 +116,9 @@ Manage User Categories</td>
   {/literal}
 </script>
   <tr class="item_listing">
-    <td>
-      {$category[list].category_name} - <a id="thumbs_{$category[list].category_id}"  title="<img src='{$userquery->get_category_thumb($category[list])}' />" href="javascript:void(0)">View Thumb</a>
+    <td class="clearfix">
+      {$category[list].category_name}
+      <a href="javascript:void(0)" title="<img src='{$userquery->get_category_thumb($category[list])}' />" data-rel="tooltip" class="btn btn-xs gtn-primary pull-right" data-original-title="View Thumb">View Thumb</a>
     </td>
     <td>
       <input name="category_order_{$category[list].category_id}" type="text" id="order" style="border:1px solid #999; padding:2px; width:30px" value="{$category[list].category_order}" />
@@ -145,11 +146,18 @@ Manage User Categories</td>
 </table>
 
 
-<div class="form-group"><input class="btn btn-success" type="submit" value="Update" name="update_order" class="button" style="margin-top:10px" /></div>
+<div class="form-group"><input class="btn btn-primary" type="submit" value="Update" name="update_order" class="button" style="margin-top:10px" /></div>
 </form>
 {else}
 No Category Has Been Created Yet
 {/if}
-<br />
-<br />
+
+
+{literal}
+<script>
+  $(document).ready(function(){
+    $('[data-rel=tooltip]').tooltip();
+  });
+</script>
+{/literal}
 

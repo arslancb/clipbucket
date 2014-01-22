@@ -69,36 +69,28 @@
 
 
 <form name="user_manage" method="post">
-<table class="">
-  <tr>
-    <td>
-        <div class="usersMenuButtons">
-          <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate" />
-          <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" />
-          <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured" />
-          <input class="btn btn-primary btn-xs" type="submit" name="ban_selected2" value="Make Unfeatured" id="ban_selected2"/>
-          <input class="btn btn-primary btn-xs" type="submit" name="ban_selected" value="Ban Selected" id="ban_selected"/>
-          <input class="btn btn-primary btn-xs" type="submit" name="unban_selected" value="Unban Selected" id="unban_selected"/>
-          <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete" onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
-        </div>
-    </td>
-    </tr>
-</table>
 
-<table class="table table-bordered">
-  <tr>
-    <td width="40" align="center" valign="middle" class="left_head">
-    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
-    <td width="50" class="head">UID</td>
-    <td class="head">User Details</td>
-  </tr>
-</table>
+  <div class="usersMenuButtons btn-group">
+    <input class="btn btn-primary btn-sm" type="submit" name="activate_selected" value="Activate" />
+    <input class="btn btn-primary btn-sm" type="submit" name="deactivate_selected" value="Deactivate" />
+    <input class="btn btn-primary btn-sm" type="submit" name="make_featured_selected" value="Make Featured" />
+    <input class="btn btn-primary btn-sm" type="submit" name="ban_selected2" value="Make Unfeatured" id="ban_selected2"/>
+    <input class="btn btn-primary btn-sm" type="submit" name="ban_selected" value="Ban Selected" id="ban_selected"/>
+    <input class="btn btn-primary btn-sm" type="submit" name="unban_selected" value="Unban Selected" id="unban_selected"/>
+    <input class="btn btn-primary btn-sm" type="submit" name="delete_selected" value="Delete" onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
+  </div>
 
 
 
 {if $users}
 <table class="table table-bordered table-striped manageUsersTable">
-
+<tr>
+    <td width="40" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="50" class="head">UID</td>
+    <td class="head">User Details</td>
+    <td>&nbsp;</td>
+  </tr>
 {foreach from=$users item=u}
 <tr class="video_opt_td">
     <td class="video_opt_td">
@@ -123,7 +115,9 @@
     </td>
     <td>
       <div id="usr_opt-{$u.userid}" class="dropdown">
-      <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Options</button>
+      <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+        Actions<i class="icon-angle-down icon-on-right"></i>
+      </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
         <li role="presentation"><a role="menuitem" tabindex="-1" href="view_user.php?uid={$u.userid}">View</a></li>
         <li role="presentation"><a role="menuitem" tabindex="-1" href="view_user.php?uid={$u.userid}">Edit</a></li>
@@ -162,21 +156,15 @@
 	<div align="center"><strong><em>NO USER FOUND</em></strong></div>
 {/if}
 
-<table class="">
-  <tr>
-    <td>
-        <div class="usersMenuButtons">
-          <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate" />
-          <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" />
-          <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured" />
-          <input class="btn btn-primary btn-xs" type="submit" name="ban_selected2" value="Make Unfeatured" id="ban_selected2"/>
-          <input class="btn btn-primary btn-xs" type="submit" name="ban_selected" value="Ban Selected" id="ban_selected"/>
-          <input class="btn btn-primary btn-xs" type="submit" name="unban_selected" value="Unban Selected" id="unban_selected"/>
-          <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete" onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
-        </div>
-    </td>
-    </tr>
-</table>
+<div class="usersMenuButtons btn-group">
+    <input class="btn btn-primary btn-sm" type="submit" name="activate_selected" value="Activate" />
+    <input class="btn btn-primary btn-sm" type="submit" name="deactivate_selected" value="Deactivate" />
+    <input class="btn btn-primary btn-sm" type="submit" name="make_featured_selected" value="Make Featured" />
+    <input class="btn btn-primary btn-sm" type="submit" name="ban_selected2" value="Make Unfeatured" id="ban_selected2"/>
+    <input class="btn btn-primary btn-sm" type="submit" name="ban_selected" value="Ban Selected" id="ban_selected"/>
+    <input class="btn btn-primary btn-sm" type="submit" name="unban_selected" value="Unban Selected" id="unban_selected"/>
+    <input class="btn btn-primary btn-sm" type="submit" name="delete_selected" value="Delete" onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
+  </div>
 </form>
 
 <!-- DIsplaying Videos Ends-->

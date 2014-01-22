@@ -116,25 +116,30 @@
 
 
 <div style="height:30px"></div>
-<div class="cb_title">
+<h3 class="cb_title">
 	Mass email campaigns
-</div>
+</h3>
 {if $emails}
+<table class="table table-striped table-bordered">
+    <tr>
+        <td>Subject</td>
+        <td>&nbsp;</td>
+    </tr>
     {foreach from=$emails item=email}
-    <div class="cb_row">
-        <div>
-            <strong>{$email.email_subj}</strong> &#8212; 
-          <a href="?send_email={$email.id}">Send Email</a> | 
-          <a href="?delete={$email.id}">Delete</a> | <a href="javascript:void(0)" onclick="$('#mytest').dialog('open')">View</a><br />
-            <span style="font-size:11px; color:#666"><strong>From</strong> 
-            : {$email.email_from} &#8226; <strong>Method</strong> : {$email.method}
-          &#8226; <strong>Sent</strong> : {$email.sent} &#8226; <strong>Status</strong> : {$email.status}</span><br />
-            {$email.date_added|niceTime}
-      </div>
-        <div id="mytest" style="display:none" class="email_content">{$email.email_msg|nl2br}</div>
-        <div class="clear clearfix"></div>
-    </div>
+            <tr>
+                <td><strong>{$email.email_subj}</strong></td>
+                <td>
+                    <a href="?send_email={$email.id}">Send Email</a> | 
+                    <a href="?delete={$email.id}">Delete</a> | <a href="javascript:void(0)" onclick="$('#mytest').dialog('open')">View</a><br />
+                    <span style="font-size:11px; color:#666"><strong>From</strong> 
+                    : {$email.email_from} &#8226; <strong>Method</strong> : {$email.method}
+                    &#8226; <strong>Sent</strong> : {$email.sent} &#8226; <strong>Status</strong> : {$email.status}</span><br />
+                    {$email.date_added|niceTime}
+                    <div id="mytest" style="display:none" class="email_content">{$email.email_msg|nl2br}</div>  
+                </td>
+            </tr> 
     {/foreach}
+</table>
 {else}
 <div class="cb_row">
 	<span style="font-weight:bold">No email campaign was  found</span>
@@ -150,27 +155,31 @@
 
 {else}
 
-<div class="cb_title">
-Sending emails &#8212; <a href="mass_email.php">Go back to mass email page</a></div>
-{if $send_email}
-{assign var=email value=$send_email}
-    <div class="cb_row">
-        <div>
-            <strong>{$email.email_subj}</strong> &#8212; 
-           	<a href="javascript:void(0)" onclick="$('#mytest').dialog('open')">View</a><br />
-            <span style="font-size:11px; color:#666"><strong>From</strong> 
-            : {$email.email_from} &#8226; <strong>Method</strong> : {$email.method}
-          &#8226; <strong>Sent</strong> : {$email.sent} &#8226; <strong>Status</strong> : {$email.status}</span><br />
-            {$email.date_added|niceTime}
-      </div>
-        <div id="mytest" style="display:none" class="email_content">{$email.email_msg|nl2br}</div>
-        <div class="clear clearfix"></div>
-    </div>
+
+    <h3>Sending emails</h3>
+    {if $send_email}
+    {assign var=email value=$send_email}
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td>
+                <h5>{$email.email_subj}</h5>
+            </td>
+            <td>
+                <strong>From</strong> : {$email.email_from} &#8226; <strong>Method</strong> : {$email.method}
+                &#8226; <strong>Sent</strong> : {$email.sent} &#8226; <strong>Status</strong> : {$email.status}
+                <br />
+                {$email.date_added|niceTime}
+                <div id="mytest" style="display:none" class="email_content ">{$email.email_msg|nl2br}</div>
+            </td>
+            <td>
+                <a class="btn btn-info btn-sm" href="javascript:void(0)" onclick="$('#mytest').dialog('open')">View</a>
+            </td>
+        </tr>
+    </table>
+
+    <a class="btn btn-primary" href="mass_email.php">Go back to mass email page</a></div>
     
-   
-    
-    <div style="height:10px"></div>
-     {$eh->message_list.0}
+    {$eh->message_list.0}
     {if $msgs}
     <ul>
     	{foreach from=$msgs item=msg}
@@ -181,18 +190,22 @@ Sending emails &#8212; <a href="mass_email.php">Go back to mass email page</a></
     
     
     {if ($email.total==$email.sent && $email.sent>0)|| $email.status=='completed'}
-<div style="background-color:#fff9e3; border:1px solid #e1d5a8; padding:8px; font-size:12px; margin-left:5px">
-    	Email has been sent to {$email.total} users
-</div>
+    <div class="alert alert-success">
+        Email has been sent to {$email.total} users
+    </div>
     {else} 
-    <div style="background-color:#fff9e3; border:1px solid #e1d5a8; padding:8px; font-size:12px; margin-left:5px">
-    	Pelase wait, do not close this window... 
-        
-        (<a href="javascript:void(0);" id="pause" onclick="pause=true; $('#pause,#resume').toggle()">pause</a><a href="javascript:void(0);" onclick="$(window.location).attr('href', '?send_email='+email_id+'&index='+start_index); $('#pause,#resume').toggle()" id="resume" style="display:none">resume</a>)
-        
+    <div class="alert alert-info">
+        Pelase wait, do not close this window... (
+        <a href="javascript:void(0);" id="pause" onclick="pause=true; $('#pause,#resume').toggle()">
+            pause
+        </a>
+        <a href="javascript:void(0);" onclick="$(window.location).attr('href', '?send_email='+email_id+'&index='+start_index); $('#pause,#resume').toggle()" id="resume" style="display:none">
+            resume
+        </a>
+        )
     </div>
     
-<script>
+    <script>
 		var start_index = '{$email.start_index}';
 		var email_id = '{$email.id}';
 		var pause = false;
@@ -201,7 +214,6 @@ Sending emails &#8212; <a href="mass_email.php">Go back to mass email page</a></
 			$(window.location).attr('href', '?send_email='+email_id+'&index='+start_index)});{/literal}
 	</script>
     {/if}
-
 {/if}
 
 {literal}
@@ -209,6 +221,4 @@ Sending emails &#8212; <a href="mass_email.php">Go back to mass email page</a></
 	$( ".email_content" ).dialog({autoOpen:false,modal:true});
 </script>
 {/literal}
-
-
 {/if}
