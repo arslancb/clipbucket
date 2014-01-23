@@ -1,0 +1,66 @@
+<table width="98%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="200" align="left" valign="middle" class="left_head" style="text-indent:10px">Add New Group</td>
+    <td class="head">&nbsp;</td>
+    <td width="100" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+<form name="add_group" action="" method="post" enctype="multipart/form-data">
+<table width="98%" border="0" cellpadding="0" cellspacing="0" class="block">
+  <tr>
+      <td class="td_body">&nbsp;</td>
+      <td align="right" class="td_body">* are required fields</td>
+    </tr>
+    <tr>
+      <td valign="top" class="td_body">Select User *</td>
+      <td class="td_body"><select name="users" tabindex="1" style="padding:4px; border:1px solid #CCC; width:350px; font-size:12px;">
+	<option>Select User</option>
+	{section name=u_list loop=$users}
+    	<option value="{$users[u_list].userid}">{$users[u_list].username}</option>
+	{/section}
+</select></td>
+    </tr>
+    <tr>
+      <td valign="top" class="td_body">Group Title *</td>
+      <td class="td_body"><input name="title" id="title" tabindex="2" style="padding:4px; border:1px solid #CCC; width:350px; font-size:12px;" /></td>
+    </tr>
+    <tr>
+      <td valign="top" class="td_body">Group Description *</td>
+      <td class="td_body"><p>
+        <textarea name="description" id="description" rows="5"  tabindex="3" style="padding:4px; border:1px solid #CCC; width:350px; font-size:12px;"></textarea>
+        <br />
+      </p></td>
+    </tr>
+    <tr>
+      <td class="td_body">Group Tags *</td>
+      <td align="left" class="td_body"><input name="tags" id="tags" tabindex="4" style="padding:4px; border:1px solid #CCC; width:350px; font-size:12px;" /></td>
+    </tr>
+    <tr>
+      <td class="td_body">Group Url *</td>
+      <td align="left" class="td_body"><input name="gp_url" id="gp_url" tabindex="5" style="padding:4px; border:1px solid #CCC; width:350px; font-size:12px;" /> <small>Only these characters are allowed. a-z, 0-9, hypen(-), underscore(_), period(.)</small></td>
+    </tr>
+    <tr>
+      <td class="td_body">Group Type</td>
+      <td align="left" class="td_body"><input name="gptype" type="radio" value="0" tabindex="6" checked="checked">Public<BR/> <input name="gptype" type="radio" tabindex="7" value="1">Private<BR/> <input name="gptype" type="radio" tabindex="8" value="2">Only Invited Members</td>
+    </tr>
+    <tr>
+      <td class="td_body">Group Category *</td>
+      <td align="left" class="td_body">
+      <select name="category" tabindex="9" style="padding:4px; border:1px solid #CCC; width:350px; font-size:12px;">
+		<option>Choose A Category</option>
+	{section name=cat_list loop=$category}
+    	<option value="{$category[cat_list].category_id}">{$category[cat_list].category_name}</option>
+	{/section}
+</select></td>
+    </tr>
+    <tr>
+      <td class="td_body">Group Thumb</td>
+      <td align="left" class="td_body">
+      <input type="file" name="gpThumb" id="gpThumb" tabindex="10"  style="padding:4px; border:1px solid #CCC; width:350px; font-size:12px;"/></td>
+    </tr>
+    <tr>
+      <td class="td_body">&nbsp;</td>
+      <td align="right" class="td_body"><input type="submit" tabindex="11" name="create_group" id="create_group" value="Add Group" class="button"/></td>
+    </tr>
+</table>
+</form>

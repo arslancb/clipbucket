@@ -117,20 +117,20 @@
                         <a href="view_user.php?uid={$videos[list].userid}">{$videos[list].username}</a>
                     </div>
                 </div>
-                <span class="label"><span>Uploaded:</span><strong>{$videos[list].date_added|niceTime}</strong> </span>
-                <span class="label"><li>{lang code='views'} : <strong>{$vdo.views|number_format}</strong></li></span>
+                <span class=""><span></span><strong>{$videos[list].date_added|niceTime}</strong> </span>
+                <span class="">{lang code='views'} : <strong>{$vdo.views|number_format}</strong></span>
 
 
                     <div class="labels" style="position: absolute; bottom: 0px;">
-                        <span class="label label-primary"><span>Featured:</span><strong>{$videos[list].featured} </strong></span>
-                        <span class="label {if $u.usr_status == Ok}label-success{else}label-success{/if}"><span>Active:</span><strong>{$videos[list].active}</strong> </span>
-                        <span class="label label-info"><span>Status:</span><strong>{$videos[list].status}</strong> </span>
+                        <span class="label label-primary"><strong>{if $videos[list].featured=='yes'}Featured{else}UnFeatured{/if}</strong></span>
+                        <span class="label {if $u.usr_status == Ok}label-success{else}label-success{/if}"><strong>{if $videos[list].Active=='Yes'}NotActive{else}Active{/if}</strong> </span>
+                        <span class="label label-info"><strong>{$videos[list].status}</strong> </span>
 
                     </div>
                 </div>
                 <td>
                 <div id="vid_opt-{$videos[list].videoid}" class="dropdown">
-                    <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions</button>
+                    <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions<i class="caret"></i></button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_video.php?video={$videos[list].videoid}" class="">Edit</a> </li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="{$baseurl}/watch_video.php?v={$videos[list].videokey}" target="_blank">Watch</a> {if $videos[list].featured == yes} </li>

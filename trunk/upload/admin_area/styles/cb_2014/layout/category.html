@@ -18,8 +18,8 @@
 <form action="category.php" method="post" enctype="multipart/form-data" name="add_category" id="Add Category">
 
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="block">
+        <div class="form-group">
         <tr>
-            <div class="form-group">
                 <label>Category Name*</label>
                 <input type="text" id="name" name="name" class="form-control"  value="{'name'|post_form_val}">
             </div>
@@ -36,14 +36,14 @@
             <div class="form-group">
                 <label>Make Default Category</label>
                 <br>
-                <input type="radio" name="default" id="default_0" value="yes" checked="checked">yes
-                <input type="radio" name="default" id="default_1" value="no" >no
+                <input type="radio" class="pull-left" name="default" id="default_0" value="yes" checked="checked">Yes
+                <input type="radio" name="default" id="default_1" value="no" >No
             </div>
 
         </tr>
         <tr>
             <div class="form-group">
-                <label>Parent Category</label>
+                <label>Parent Category</label><br>
                 {cbCategories output="dropdown" name="parent_cat" id="parent_cat" blank_option=TRUE echo=TRUE type="video"}
             </div>
         </tr>
@@ -155,9 +155,8 @@
             <td>{if $category[list].category_desc}{$category[list].category_desc}{else}<em>N/A</em>{/if}</td>
             <td>{$category[list].isdefault}</td>
             <td>
-                <div>
-                    <div style="position:relative; min-height: 100px">
-                <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Options</button>
+                <div class="lead dropdown">
+                <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Options<i class="caret"></i></button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="?category={$category[list].category_id}">Edit</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:Confirm_Delete('?delete_category={$category[list].category_id}')">Delete</a>
