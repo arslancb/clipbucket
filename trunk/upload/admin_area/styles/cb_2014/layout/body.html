@@ -4,11 +4,30 @@
 	{include file="$layout_dir/global_header.html" }
 </head>
 <body>
+	{*
+	<div class="navbar navbar-default" id="navbar">
+		<div id="navbar-container" class="navbar-container container">
+			navbar
+		</div>
+	</div>
+
+	<div class="main-container container" id="main-container">
+		<div class="main-container-inner">
+			<div id="sidebar" class="sidebar">
+				sidebar
+			</div>
+			<div class="page-content">
+				abc
+			</div>
+		</div>
+	</div>
+	*}
+	
 	{include file="$layout_dir/header.html"}
 		<div class="main-container container" id="main-container">
 			<div class="main-container-inner">
 				<div class="sidebar" id="sidebar">
-					{include file="$layout_dir/left_menu.html"}		
+					{include file="$layout_dir/left_menu.html"}
 				</div>
 				<div class="main-content">
 					<div id="breadcrumbs" class="breadcrumbs">
@@ -43,5 +62,7 @@
 			</div>
 			{include file="$layout_dir/footer.html" }
 		</div>
+
+		
 </body>
 </html>

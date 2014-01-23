@@ -110,12 +110,6 @@
             </label>
         </div>
 
-
-
-
-
-
-
         <input type="submit" name="update" class="btn btn-primary" value="Update Settings" id="udpate" />
     </div>
 
@@ -127,77 +121,70 @@
 {if $mode == 'watermark_settings'}
 <h2>Watermark Settings</h2>
 <form action="" method="post" enctype="multipart/form-data">
-    <div class="main_page_div clearfix">
-        	<fieldset>
-            <div>
-    			<legend>Watermark Settings</legend>
-                <table width="100%" border="0" cellpadding="2" cellspacing="0" class="block">
-                	<tr>
-                    	<td width="200" valign="top">Enable Watermark</td>
-                        <td valign="top"><input name="watermark_photo" id="watermark_photo" type="checkbox" value="1"{if $row.watermark_photo == '1'} checked{/if} ></td>
-                    </tr>
-                    
-                    <tr>
-                    	<td width="200" valign="top">Maximum Width <span class="smallText">Maximum Width of watermark image. Recommended is 120.</span></td>
-                        <td valign="top"><input name="watermark_max_width" id="watermark_max_width" type="text" value="{$row.watermark_max_width}" ></td>
-                    </tr>
-                    
-                    <tr>
-                    	<td width="200" valign="top">Watermark Placement</td>
-                        <td valign="top">
-                        <div style="float:left; width:150px;">
-                        	<input type="radio" name="watermark_placement" id="top_left" value="left:top"{if $row.watermark_placement == 'left:top'} checked{/if} />
-                            <label for="top_left">Top - Left</label><br/>
-                            <input type="radio" name="watermark_placement" id="top_right" value="right:top"{if $row.watermark_placement == 'right:top'} checked{/if} />
-                            <label for="top_right">Top - Right</label><br/>
-                            <input type="radio" name="watermark_placement" id="top_center" value="center:top"{if $row.watermark_placement == 'center:top'} checked{/if} />
-                            <label for="top_center">Top - Center</label><br/><br/>
-                       </div>
-                       
-                        <div style="float:left; width:150px;">     
-                            <input type="radio" name="watermark_placement" id="bottom_left" value="left:bottom"{if $row.watermark_placement == 'left:bottom'} checked{/if} />
-                            <label for="bottom_left">Bottom - Left</label><br/>
-                            <input type="radio" name="watermark_placement" id="bottom_right" value="right:bottom"{if $row.watermark_placement == 'right:bottom'} checked{/if} />
-                            <label for="bottom_right">Bottom - Right</label><br/>
-                            <input type="radio" name="watermark_placement" id="bottom_center" value="center:bottom"{if $row.watermark_placement == 'center:bottom'} checked{/if} />
-                            <label for="bottom_center">Bottom - Center</label><br/><br/>
-                        </div>
-                        <div style="float:left; width:150px;">    
-                            <input type="radio" name="watermark_placement" id="left" value="left:center"{if $row.watermark_placement == 'left:center'} checked{/if} />
-                            <label for="left">Left</label><br/>
-                            <input type="radio" name="watermark_placement" id="right" value="right:center"{if $row.watermark_placement == 'right:center'} checked{/if} />
-                            <label for="right">Right</label><br/>
-                            <input type="radio" name="watermark_placement" id="center" value="center:center"{if $row.watermark_placement == 'center:center'} checked{/if} />
-                            <label for="center">Center</label><br/>
-    					</div>                        
-                        </td>
-                    </tr>
-                </table>
-                
-                <div style="height:5px; clear:both"></div>
-                <legend>Upload New Watermark</legend>
-                <span class="smallText" style="font-size:11px;">This will over-write your existing watermark file, if exists.</span>
-    			<div style="height:5px; clear:both"></div>
-                <input type="file" name="watermark_file" id="watermark_file" >
-            </div>
-            
-            <div class="main_page_div" style="float:right; width:200px; text-align:center; height:auto; min-height:0px;">
-            	<legend style="width:100%;">Current Watermark</legend>
-                <div style="height:5px; clear:both"></div>
-                {assign var=file value=$cbphoto->watermark_file()}
-                {if $file}
-                	<img src="{$cbphoto->watermark_file()}" />
-                {else}
-                	<strong>Watermark not found</strong>
-                {/if}    
-    		</div>            
-            </fieldset>
-    </div> <!-- main_page_div end -->
-    <div align="right"class="main_page_div" style="padding:5px; min-height:0px; margin-top:10px">
-        <label>
-        	<input type="submit" name="update_watermark" class="button" value="Update Settings" id="update_watermark" />
-        </label>
-    </div>
+    <div class="watermarSettings">
+        <div class="form-group">
+            <label for="watermark_photo" class="radio">
+                <input name="watermark_photo" id="watermark_photo" type="checkbox" value="1"{if $row.watermark_photo == '1'} checked{/if} >
+                Enable Watermark
+            </label>
+        </div>
+        <div class="form-group">
+            <label for="watermark_maximum_width">Maximum Width of watermark<br><small>Recommended is 120</small></label>
+            <input class="form-control" name="watermark_max_width" id="watermark_max_width" type="text" value="{$row.watermark_max_width}" >
+        </div>
+
+
+        <div class="form-group">
+            <label for="top_left">Watermark placement</label>
+            <label for="" class="radio">
+                <input type="radio" name="watermark_placement" id="top_left" value="left:top"{if $row.watermark_placement == 'left:top'} checked{/if} />Top - Left
+            </label>
+            <label for="" class="radio">
+                <input type="radio" name="watermark_placement" id="top_right" value="right:top"{if $row.watermark_placement == 'right:top'} checked{/if} />Top - Right
+            </label>
+            <label for="" class="radio">
+                <input type="radio" name="watermark_placement" id="top_center" value="center:top"{if $row.watermark_placement == 'center:top'} checked{/if} />Top - Center
+            </label>
+            <label for="" class="radio">
+                <input type="radio" name="watermark_placement" id="bottom_left" value="left:bottom"{if $row.watermark_placement == 'left:bottom'} checked{/if} />Bottom - Left
+            </label>
+            <label for="" class="radio">
+                <input type="radio" name="watermark_placement" id="bottom_right" value="right:bottom"{if $row.watermark_placement == 'right:bottom'} checked{/if} />Bottom - Right
+            </label>
+            <label for="" class="radio">
+                <input type="radio" name="watermark_placement" id="bottom_center" value="center:bottom"{if $row.watermark_placement == 'center:bottom'} checked{/if} />Bottom - Center
+            </label>
+            <label for="" class="radio">
+                <input type="radio" name="watermark_placement" id="left" value="left:center"{if $row.watermark_placement == 'left:center'} checked{/if} />Left
+            </label>
+            <label for="" class="radio">
+                <input type="radio" name="watermark_placement" id="right" value="right:center"{if $row.watermark_placement == 'right:center'} checked{/if} />Right
+            </label>
+            <label for="" class="radio">
+                <input type="radio" name="watermark_placement" id="center" value="center:center"{if $row.watermark_placement == 'center:center'} checked{/if} />Center
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label for="watermark_file">Upload New Watermark<br><small>
+                This will over-write your existing watermark file, if exists.
+            </small></label>
+            <input type="file" name="watermark_file" id="watermark_file" >
+        </div>
+
+        <div class="currentWatermark">
+            <h4>Current Watermark</h4>
+            {assign var=file value=$cbphoto->watermark_file()}
+            {if $file}
+                <img src="{$cbphoto->watermark_file()}" />
+            {else}
+                <p>Watermark not found</p>
+            {/if}
+        </div>
+        <div class="form-group">
+            <input type="submit" name="update_watermark" class="btn btn-primary" value="Update Settings" id="update_watermark" />
+        </div>
+    </div> <!-- watermarkSettings end -->
 </form>
 {/if}
 
