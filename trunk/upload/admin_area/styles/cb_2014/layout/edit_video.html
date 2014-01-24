@@ -123,7 +123,7 @@
                         {foreach from=$field_group.fields item=field}
                         <div class="form-group">
                             {$field.class='form-control'}
-                            <label for="{$field.id}">{$field.title} </label>
+                            <label for="{$field.id}">{$field.title} </label><br>
                             {if $field.type=='radio'}
                             {$field.class='radio'}
                             {else}{$field.class='form-control'}

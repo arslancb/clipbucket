@@ -4,13 +4,7 @@
 {assign var='requiredFields' value=$cbgroup->load_required_fields($group,true)}
 {assign var='optionFields' value=$cbgroup->load_other_fields($group)}
 
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="10" align="left" valign="middle" class="left_head" style="text-indent:10px">&nbsp;</td>
-    <td class="head">Editing {$group.title}</td>
-    <td width="100" class="right_head">&nbsp;</td>
-  </tr>
-</table>
+<div class="head">Editing {$group.title}</div>
 <form name="edit_group" method="post">
 <fieldset class="fieldset">
     <legend>Thumbs</legend>
@@ -25,75 +19,49 @@
     </div>
     <div class="clearfix"></div>
  </fieldset>
-<fieldset class="fieldset">
   <legend>Required Details</legend>
-  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
    {foreach from=$requiredFields item=field}
-                  <tr>
-                    <td width="200"><strong>{$field.title} </strong></td>
-                    <td >{if $field.hint_1}{$field.hint_1}<br />{/if}
+                  <div class="form-group">
+                      {$field.class='form-control'}
+                    <label for="$field.id">{$field.title} </label>
+                    {if $field.hint_1}{$field.hint_1}<br />{/if}
 {if $field.anchor_before}{ANCHOR place=$field.anchor_before}<br />{/if}
 {$formObj->createField($field)} <br />
 
-{$field.hint_2}</td>
+{$field.hint_2}
     </tr>
                 {/foreach}
-  </table>
-</fieldset>
-<fieldset class="fieldset">
+</div>
     <legend>Group Stats</legend>
-  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-      <tr>
           <div class="form-group">
-                    <td width="200" valign="top"><strong>Total Views</strong></td>
-                    <td valign="top">
-                    <input name="total_views" class="form-control" type="text" id="total_views" value="{$group.total_views}" /></td>
+                    <label for="total_views">Total Views</label>
+                    <input name="total_views" class="form-control" type="text" id="total_views" value="{$group.total_views}" />
               </div>
-    </tr>
-
-                  <tr>
                       <div class="form-group">
-                    <td valign="top"><strong>Total Members</strong></td>
-                    <td valign="top" >
-                    <input name="total_members" class="form-control" type="text" id="total_members" value="{$group.total_members}" /></td>
+                    <label for="total_members">Total Members</label>
+                    <input name="total_members" class="form-control" type="text" id="total_members" value="{$group.total_members}" />
                           </div>
-                  </tr>
-                  <tr>
-
                       <div class="form-group">
-                    <td valign="top"><strong>Total Videos</strong></td>
-                    <td valign="top" >
-                    <input name="total_videos" class="form-control" type="text" id="total_views4" value="{$group.total_videos}" /></td>
+                    <label for="total_videos">Total Videos</label>
+                    <input name="total_videos" class="form-control" type="text" id="total_views4" value="{$group.total_videos}" />
                           </div>
-                  </tr>
-                  <tr>
                       <div class="form-group">
-                    <td valign="top"><strong>Total Topics</strong></td>
-                    <td valign="top" >
-                    <input name="total_topics" class="form-control" type="text" id="total_views5" value="{$group.total_topics}" /></td>
+              <label for="total_topics">Total Topics</label>
+                    <input name="total_topics" class="form-control" type="text" id="total_views5" value="{$group.total_topics}" />
                           </div>
-                  </tr>
-
-
-  </table>
-</fieldset>
-
-
-<fieldset class="fieldset">
   <legend>Other Details</legend>
-  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
    {foreach from=$optionFields item=field}
-                  <tr>
-                    <td width="200"><strong>{$field.title} </strong></td>
-                    <td >{if $field.hint_1}{$field.hint_1}<br />{/if}
+    {$field.class='form-control'}
+                 <div class="form-group">
+                    <label class="text-muted $field.id">{$field.title} </label><br>
+                    {if $field.hint_1}{$field.hint_1}<br />{/if}
 {if $field.anchor_before}{ANCHOR place=$field.anchor_before}<br />{/if}
 {$formObj->createField($field)} <br />
 
-{$field.hint_2}</td>
-    </tr>
+{$field.hint_2}
+
                 {/foreach}
-  </table>
-</fieldset>
+</div>
 
 <div style="width:100%; margin:auto">
 <input type="submit" class="btn btn-primary" value="Update Group details" style="margin:5px 0px 15px 0px" name="update_group" id="update_group">
