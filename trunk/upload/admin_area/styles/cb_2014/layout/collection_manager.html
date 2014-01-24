@@ -1,0 +1,174 @@
+<h2>Collection Manager</h2>
+<img src="{$imageurl}/dot.gif" class="sarch_button" onclick="toggle_search('searchdiv')" />
+<div class="search_box" id="searchdiv" {if $smarty.cookies.show_searchdiv_search!='show'} style="display:none"{/if}>
+<form action="collection_manager.php" method="get" name="search_collections">
+<table width="400" border="0" cellpadding="2" cellspacing="2">
+<tr>
+      <td width="106" align="right"><label for="title">Collection name</label></td>
+      <td width="280"><input name="title" type="text" class="input" id="title" value="{'title'|get_form_val:true}" //></td>
+    </tr>
+    <tr>
+      <td align="right"><label for="collectionid">Collection id</label></td>
+      <td><input name="collectionid" type="text" class="input" id="collectionid" value="{'collectionid'|get_form_val:true}" //></td>
+    </tr>
+    <tr>
+      <td align="right"><label for="tags">Collection tags</label></td>
+      <td><input name="tags" type="text" class="input" id="tags" value="{'tags'|get_form_val:true}" /></td>
+    </tr>
+    <tr>
+      <td align="right">Userid</td>
+      <td><input name="userid" type="text" class="input" id="userid" value="{'userid'|get_form_val:true}" /></td>
+    </tr>
+    <tr>
+      <td align="right">Active</td>
+      <td><label for="active"></label>
+        <select name="active" id="active" class="input">
+          <option value="" ></option>
+          <option value="yes" {if $smarty.get.active=='yes'} selected="selected"{/if}>Yes</option>
+          <option value="no" {if $smarty.get.active=='no'} selected="selected"{/if}>No</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td align="right">Broadcast</td>
+      <td><label for="broadcast"></label>
+        <select name="broadcast" id="broadcast" class="input">
+          <option value="" ></option>
+          <option value="public" {if $smarty.get.broadcast=='public'} selected="selected"{/if}>Public</option>
+          <option value="private" {if $smarty.get.broadcast=='private'} selected="selected"{/if}>Private</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td align="right">Featured</td>
+      <td><label for="featured"></label>
+        <select name="featured" id="featured" class="input">
+          <option value="" ></option>
+          <option value="yes" {if $smarty.get.featured=='yes'} selected="selected"{/if}>Yes</option>
+          <option value="no" {if $smarty.get.featured=='no'} selected="selected"{/if}>No</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td align="right">Type</td>
+      <td>
+      <select name="collection_type" id="collection_type">
+      	<option value="" ></option>
+        {foreach from=$cbcollection->types item=name key=type}
+        	<option value="{$type}" {if $smarty.get.collection_type == $type}selected="selected"{/if}>{$name}</option>
+        {/foreach}
+      </select>
+      </td>
+    </tr>  
+    <tr>
+      <td align="right">Order</td>
+      <td>
+      <select name="order" id="order">
+      	<option value="" ></option>
+        <option value="collection_id" {if $smarty.get.order == 'collection_id'}selected="selected"{/if}>ID</option>
+        <option value="total_objects" {if $smarty.get.order == 'total_objects'}selected="selected"{/if}>Total Items</option>
+		<option value="collection_name" {if $smarty.get.order == 'collection_name'}selected="selected"{/if}>Name</option>        
+        <option value="views" {if $smarty.get.order == 'views'}selected="selected"{/if}>Views</option>
+      </select>
+      </td>
+    </tr>
+</table>
+<br />
+  <input type="submit" name="search" id="search" value="Search Form" class="button"/>
+</form>
+</div>
+
+<form name="video_manage" method="post">
+<table>
+  <tr>
+    <td>
+
+     		<input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="button"/>
+            <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+            <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
+            <input class="btn btn-primary btn-xs" type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
+            <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected collection(s)')"/>
+    </td>
+    </tr>
+</table>
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+    <table class="table table-bordered">
+  <tr>
+    <td width="30" align="center" valign="middle" class="left_head">
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <td width="75" class="head">Collection ID</td>
+    <td class="head">Details</td>
+    <td width="50" class="right_head">&nbsp;</td>
+  </tr>
+</table>
+    <table class="table table-bordered table-striped manageUsersTable">
+    <tr class="video_opt_td">
+        <td width="30" align="center" valign="top" class="video_opt_td">    <input name="check_collection[]" type="checkbox" id="check_collection" value="{$c[list].collection_id}" /></td>
+        <td width="50" align="left" valign="top" class="video_opt_td">{$c[list].collection_id}</td>
+        <td width="50" valign="top" class="video_opt_td">
+            <img src="{$cbcollection->get_thumb($c[list],'small',TRUE)}" style="padding:2px; border:1px solid #ccc" /></td>
+        <td valign="top"  class="video_opt_td">
+            <div style="position:relative; min-height: 80px">
+                {if $c}
+                {section name=list loop=$c}
+                <div class="videoTitle row">
+                    <div class="col-md-10">
+                        <a style="font-size:12px;" href="{$baseurl}/admin_area/edit_collection.php?collection={$c[list].collection_id}">{$c[list].collection_name}</a> ({$c[list].total_objects} {$c[list].type})
+                        </a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="view_user.php?uid={$c[list].userid}">{$c[list].username}</a>
+                    </div>
+                </div>
+                <div class="labels" style="position: absolute; bottom: 0px;">
+                    <span class="label label-primary"><strong>{if $c[list].featured=='yes'}Featured{else}UnFeatured{/if}</strong></span>
+                    <span class="label {if $u.usr_status == Ok}label-success{else}label-success{/if}"><strong>{if $c[list].Active=='Yes'}NotActive{else}Active{/if}</strong> </span>
+                    <span class="label label-info"><strong>{$c[list].type}</strong>Type </span>
+                    <span class="label label-info"><strong>{$c[list].date_added|niceTime}</strong> </span>
+
+                </div>
+            </div>
+        <td>
+            <div id="vid_opt-{$videos[list].videoid}" class="dropdown">
+                <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions<i class="caret"></i></button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$c[list].collection_id}" class="">Edit</a> </li>
+
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{$baseurl}/view_collection.php?cid={$c[list].collection_id}">View</a> </li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?make_unfeature={$c[list].collection_id}">Make Unfeatured</a>{if $videos[list].featured == yes}</li> {/if}
+                    {if $c[list].featured == no}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?make_feature={$c[list].collection_id}">Make Featured</a></li> {/if}
+                    {if $c[list].active == yes}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?deactivate={$c[list].collection_id}">Deactivate</a></li> {else}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?activate={$c[list].collection_id}">Activate</a> </li>{/if}
+
+                    <li class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_collection={$c[list].collection_id}">Delete</a></li>
+                    {foreach from=$cbvid->video_manager_links item=links}
+                    {$cbvid->video_manager_link($links,$videos[list])}
+                    {/foreach}
+                </ul>
+            </div>
+        </td>
+    </tr>
+        {/section}
+        {else}
+        <div align="center"><strong><em>No Photo Found</em></strong></div>
+        {/if}
+
+
+
+<table>
+  <tr>
+    <td>
+
+        <div class= "usersMenuButtons‏">
+     		<input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="button"/>
+            <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="button" />
+            <input class="btn btn-primary btn-xs" type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
+            <input class="btn btn-primary btn-xs" type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
+            <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected collection(s)')"/>
+    </td>
+    </tr>
+</table>	
+</form>
+
+{include file="$style_dir/blocks/pagination.html" }
