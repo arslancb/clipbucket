@@ -1,25 +1,20 @@
 <h2>Group Categories</h2>
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<table>
   <tr>
-    <td width="200" align="left" valign="middle" class="left_head" style="text-indent:10px">Manage Group Categories</td>
-    <td class="head">&nbsp;</td>
-    <td width="100" class="right_head">&nbsp;</td>
+    <td width="200">Manage Group Categories</td>
   </tr>
     <tr>
-        <td class="td_body">&nbsp;</td>
-        <td align="right" class="td_body">* are required fields</td>
+        <p class="alert alert-info">* are required fields</p>
     </tr>
-</table>
 {if $edit_category != "show"}
+
 <form action="group_category.php" method="post" enctype="multipart/form-data" name="add_category" id="Add Category">
-<table width="100%" border="0" cellpadding="0" cellspacing="0" class="block">
-<tr>
-    <div class="form-group">
         <tr>
+            <div class="form-group">
             <label>Category Name*</label>
             <input type="text" id="name" name="name" class="form-control"  value="{'name'|post_form_val}">
     </div>
-</tr>
+  </tr>
 <tr>
     <div class="form-group">
         <label>Category Description*</label>
@@ -29,12 +24,10 @@
 <tr>
     <div class="form-group">
         <label>Make Default Category</label>
-        <br>
         <input type="radio" name="default" id="default_0" value="yes" checked="checked">Yes
         <input type="radio" name="default" id="default_1" value="no" >No
     </div>
 </tr>
-
 <tr>
     <div class="form-group">
         <label>Category Thumb</label>
@@ -42,65 +35,62 @@
     </div>
 </tr>
     <tr>
-      <td>
         <div class="form-group">
-      <input type="submit" name="add_cateogry" id="button" value="Add Category" onclick="return validate_category_form(add_category)" class="btn btn-primary btn-sm btn-block"/></div></td>
+      <input type="submit" name="add_cateogry" id="button" value="Add Category" onclick="return validate_category_form(add_category)" class="btn btn-primary btn-sm btn-block"/></div>
         </tr>
+    </form>
     </table>
-</form>
 {/if}
 {if $edit_category == "show"}
 <form action="" method="post" enctype="multipart/form-data" name="edit_category" id="Edit Category">
 <input name="cid" value="{$cat_details.category_id}" type="hidden" />
 <input name="cur_name" value="{$cat_details.category_name}" type="hidden" />
-  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-    
-
+  <table>
     <tr>
-      <td valign="top" class="td_body">Category Name*</td>
-      <td class="td_body"><label>
-        <input name="name" type="text" id="name" value="{$cat_details.category_name}" size="45" />
-      </label></td>
+      <td>Category Name*</td>
+      <td>
+          <label><input name="name" type="text" id="name" value="{$cat_details.category_name}" size="45" />
+      </label>
+      </td>
     </tr>
     <tr>
-      <td valign="top" class="td_body">Category Description*</td>
-      <td class="td_body"><textarea name="desc" id="desc" cols="33" rows="5">{$cat_details.category_desc}</textarea></td>
+      <td>Category Description*</td>
+      <td><textarea name="desc" id="desc" cols="33" rows="5">{$cat_details.category_desc}</textarea>
+      </td>
     </tr>
-     <tr>
-      <td valign="top" class="td_body">Make Default Category</td>
-      <td class="td_body"><p>
+    <tr>
+      <td>Make Default Category</td>
+      <td>
         <label>
           <input type="radio" name="default" value="yes" id="default_0" {if $cat_details.isdefault=='yes'} checked="checked"{/if} />
           Yes</label>
         <label>
           <input name="default" type="radio" id="default_1" value="no" {if $cat_details.isdefault=='no'} checked="checked"{/if} />
           No</label>
-        <br />
-      </p></td>
+      </td>
     </tr>
     <tr>
-      <td class="td_body">Category Thumb</td>
-      <td class="td_body"><label>
-        <input type="file" name="cat_thumb" id="cat_thumb" />
-      </label></td>
+      <td>Category Thumb</td>
+      <td>
+          <label> <input type="file" name="cat_thumb" id="cat_thumb" />
+      </label>
+      </td>
     </tr>
     <tr>
-      <td colspan="2" align="right" class="tr_head"><label>
-        <input type="submit" name="update_category" id="button" value="Update Category" onclick="return validate_category_form(edit_category)" class="button"/>
-      </label></td>
+      <td>
+          <label><input type="submit" name="update_category" id="button" value="Update Category" onclick="return validate_category_form(edit_category)" class="button"/>
+      </label>
+      </td>
     </tr>
   </table>
 </form>
 {/if}
-
-
-<div style="margin:10px 0px 10px 0px">
+<div>
 <span class="page_title">Category List</span>
 </div>
-
 {if $total != 0}
 <form name="category" action="?update_order" method="post">
-<table table class="table table-bordered" width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
+<table table class="table table-bordered" >
   <tr>
     <td width="250" class="left_head" style="text-indent:10px">Category Name</td>
     <td width="50" align="left" class="head">Order</td>
@@ -109,7 +99,6 @@
     <td width="150" class="head">Action</td>
     <td width="20" align="left" class="right_head">&nbsp;</td>
   </tr>
-{assign var = bgcolor value = ""}
 {section name=list loop=$category}
 <script type="text/javascript">
 cat_div = "#thumbs_{$category[list].category_id}";
@@ -119,39 +108,32 @@ cat_div = "#thumbs_{$category[list].category_id}";
 	});
   {/literal}
 </script>
-  <tr bgcolor="{$bgcolor}" class="item_listing">
-    <td style="text-indent:10px">{$category[list].category_name} - <a id="thumbs_{$category[list].category_id}"  title="<img src='{$cbgroup->get_category_thumb($category[list])}'  />" href="javascript:void(0)">View Thumb</a></td>
-    <td >
-    <input name="category_order_{$category[list].category_id}" type="text" id="order" style="border:1px solid #999; padding:2px; width:30px" value="{$category[list].category_order}" size="5" maxlength="5" /></td>
-  
+  <tr>
+    <td style="text-indent:10px">{$category[list].category_name} - <a id="thumbs_{$category[list].category_id}"  title="<img src='{$cbgroup->get_category_thumb($category[list])}'  />" href="javascript:void(0)">View Thumb</a>
+    </td>
+    <td>
+    <input name="category_order_{$category[list].category_id}" type="text" id="order" style="border:1px solid #999; padding:2px; width:30px" value="{$category[list].category_order}" size="5" maxlength="5" />
+    </td>
     <td>{if $category[list].category_desc}{$category[list].category_desc}{else}<em>N/A</em>{/if}</td>
     <td>{$category[list].isdefault}</td>
     <td>
         <div class="lead dropdown">
-            <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Options<i class="caret"></i></button>
+            <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Options <i class="caret"></i></button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="?category={$category[list].category_id}">Edit</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:Confirm_Delete('?delete_category={$category[list].category_id}')">Delete</a></li>
      {if $category[list].isdefault!="yes"}<li role="presentation"><a role="menuitem" tabindex="-1" href="?make_default={$category[list].category_id}">Make Default</a></li>{/if}
+         </ul>
+      </div>
     </td>
   </tr>
- {if $bgcolor == ""}
- 	 {assign var = bgcolor value = "#EEEEEE"}
- {else}
-	 {assign var = bgcolor value = ""}
- {/if}
- 
 {/section}
-
 </table>
-
-
 <div><input type="submit" value="Update" name="update_order" class="btn btn-primary btn-sm" style="margin-top:10px" /></div>
 </form>
 {else}
 No Category Has Been Created Yet
 {/if}
-<br />
-<br />
+
 
 
