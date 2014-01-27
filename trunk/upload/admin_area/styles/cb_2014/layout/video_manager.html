@@ -69,7 +69,7 @@
     <table class="">
         <tr>
             <td>
-                <div class= "usersMenuButtons‏">
+                <div class="btn-group">
                 <input class="btn btn-primary btn-xs"  type="submit" name="activate_selected" value="Activate"  class="button"/>
                 <input class="btn btn-primary btn-xs"  type="submit" name="deactivate_selected" value="Deactivate" class="button" />
                 <input class="btn btn-primary btn-xs"  type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
@@ -117,20 +117,20 @@
                         <a href="view_user.php?uid={$videos[list].userid}">{$videos[list].username}</a>
                     </div>
                 </div>
-                <span class=""><span></span><strong>{$videos[list].date_added|niceTime}</strong> </span>
-                <span class="">{lang code='views'} : <strong>{$vdo.views|number_format}</strong></span>
+                <span class=""><span></span>{$videos[list].date_added|niceTime} </span>
+                <span class="">{lang code='views'} : {$vdo.views|number_format}</span>
 
 
-                    <div class="labels" style="position: absolute; bottom: 0px;">
-                        <span class="label label-primary"><strong>{if $videos[list].featured=='yes'}Featured{else}UnFeatured{/if}</strong></span>
-                        <span class="label {if $u.usr_status == Ok}label-success{else}label-success{/if}"><strong>{if $videos[list].Active=='Yes'}NotActive{else}Active{/if}</strong> </span>
-                        <span class="label label-info"><strong>{$videos[list].status}</strong> </span>
+                    <div class="labels">
+                        <span class="label label-primary">{if $videos[list].featured=='yes'}Featured{else}UnFeatured{/if}</span>
+                        <span class="label {if $u.usr_status == Ok}label-success{else}label-success{/if}">{if $videos[list].Active=='Yes'}NotActive{else}Active{/if} </span>
+                        <span class="label label-info">{$videos[list].status} </span>
 
                     </div>
                 </div>
                 <td>
                 <div id="vid_opt-{$videos[list].videoid}" class="dropdown">
-                    <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions<i class="caret"></i></button>
+                    <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions  <i class="caret"></i></button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_video.php?video={$videos[list].videoid}" class="">Edit</a> </li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="{$baseurl}/watch_video.php?v={$videos[list].videokey}" target="_blank">Watch</a> {if $videos[list].featured == yes} </li>
@@ -163,20 +163,14 @@
     <div align="center"><strong><em>No Video Found</em></strong></div>
     {/if}
 
-    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-        <tr>
-            <td width="30" align="center" valign="middle"><img src="{$imageurl}/arrow_return_invert.png" width="25" height="25"></td>
-            <td height="50" style="padding-left:15px">
-                <div class= "usersMenuButtons‏">
+                <div class="btn-group">
                 <input class="btn btn-primary btn-xs"  type="submit" name="activate_selected" value="Activate"  class="button"/>
                 <input class="btn btn-primary btn-xs"  type="submit" name="deactivate_selected" value="Deactivate" class="button" />
                 <input class="btn btn-primary btn-xs"  type="submit" name="make_featured_selected" value="Make Featured"  class="button"/>
                 <input class="btn btn-primary btn-xs"  type="submit" name="make_unfeatured_selected" value="Make Unfeatured"  class="button"/>
                 <input class="btn btn-primary btn-xs"  type="submit" name="delete_selected" value="Delete"  class="button" onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
 
-            </td>
-        </tr>
-    </table>
+    </div>
 
 </form>
 
