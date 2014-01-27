@@ -171,6 +171,21 @@ ul.mainTabs{
 }
 
 
+/* Video manager pages */
+
+.videoTitle{
+    margin-bottom: 8px;
+}
+.labels {
+    margin-top: 7px;
+    min-height: 20px;
+}
+
+.status {
+
+    margin-top:70px;
+
+}
 
 
 
