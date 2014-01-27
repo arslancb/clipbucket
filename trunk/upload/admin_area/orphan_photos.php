@@ -11,6 +11,14 @@ $userquery->admin_login_check();
 $userquery->login_check('video_moderation');
 $pages->page_redir();
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Photos');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'Orphan Photos');
+}
+
 if(isset($_GET['delete_photo']))
 {
 	$id = mysql_clean($_GET['delete_photo']);

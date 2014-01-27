@@ -6,6 +6,14 @@
  */
 require'../includes/admin_config.php';
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Tool Box');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'Conversion Lab &alpha;');
+}
+
 
 //Getting list of available testing videos
 $testVidsDir = ADMINBASEDIR.'/lab_resources/testing_videos';

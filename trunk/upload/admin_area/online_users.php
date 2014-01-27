@@ -11,6 +11,14 @@ require'../includes/admin_config.php';
 $userquery->admin_login_check();
 $pages->page_redir();
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Tool Box');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'View online users');
+}
+
 if($_GET['kick'])
 {
 	if($sess->kick(mysql_clean($_GET['kick'])))

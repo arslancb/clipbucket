@@ -1,0 +1,79 @@
+{if $Cbucket->show_page == true}
+<script type="text/javascript" src="{$js}/popup_image.js"></script>
+
+<!-- Adding Placement Form -->
+<form name="AddPlacement" id="AddPlacement" method="post" action="">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="10" class="left_head">&nbsp;</td>
+    <td class="head">Add Placement </td>
+    <td width="10" class="right_head">&nbsp;</td>
+  </tr>
+  </table>
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+
+  <tr>
+    <td colspan="3" class="td_body">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3" class="td_body"><strong><label for="placement_name">Placement Name</label> </strong></td>
+  </tr>
+  <tr>
+    <td colspan="3" class="td_body"><input name="placement_name" id="placement_name" value="" /></td>
+  </tr>
+  <tr>
+    <td colspan="3" class="td_body"><strong><label for="placement_code">Placement Code</label>     </strong></td>
+  </tr>
+  <tr>
+    <td colspan="3" class="td_body"><input name="placement_code" value="" id="placement_code"/></td>
+  </tr>
+  <tr>
+    <td colspan="3" class="td_body">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3" class="td_body">
+      <label>
+      <input type="submit" name="AddPlacement" value="Submit" id="button"/>
+    </label></td>
+  </tr>
+</table>
+</form>
+<em><strong><br />
+<br />
+
+<!-- Adding Placement Form -->
+ <span class="tr_head">Note: if you delete any placement, all ads under it will be deleted</span>
+<!-- Listing Placements Stars -->
+<br />
+<br />
+
+</strong></em>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="30" class="left_head"><div  style="width:30px; padding-left:5px">ID</div></td>
+    <td class="head" ><div class="head_sep_left" style="width:150px">PlacementName</div></td>
+    <td width="20%" class="head"><div class="head_sep_left" style="width:150px">PlacementCode</div></td>
+    <td width="15%" class="head"><div class="head_sep_left" style="width:150px">TotalAds</div></td>
+    <td width="15%" class="right_head" ><div class="head_sep_left" style="width:100px">Action</div></td>
+  </tr>
+</table>
+{section name=a_list loop=$ads_placements}
+{if $ads_placements[a_list].placement_name !=''}
+            <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="{$bgcolor}">
+              <tr>
+                <td width="30" align="center"><div style="padding-left:15px">{$ads_placements[a_list].placement_id}</div></td>
+                <td ><div style="padding-left:15px">{$ads_placements[a_list].placement_name}</div></td>
+                <td width="20%"><div style="padding-left:15px"><strong>{literal}{AD place={/literal}{$ads_placements[a_list].placement}{literal}}{/literal}</strong></div></td>
+                <td width="15%"><div style="padding-left:15px">{$ads_placements[a_list].total_ads}</div></td>
+                <td width="15%"><div style="padding-left:15px">{if $ads_placements[a_list].disable == no}<a href="?remove={$ads_placements[a_list].placement}">Remove</a>{else}Default Placement{/if}</div></td>
+              </tr>
+</table>
+            {if $bgcolor == ""}
+ 	 {assign var = bgcolor value = "#EEEEEE"}
+ {else}
+	 {assign var = bgcolor value = ""}
+ {/if}
+{/if}
+{/section}
+<!-- Listing Placements End -->   
+{/if}

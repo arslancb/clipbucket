@@ -12,6 +12,13 @@ $userquery->admin_login_check();
 $userquery->login_check('video_moderation');
 $pages->page_redir();
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Collections');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'Manage Categories');
+}
 
 //Form Processing
 if(isset($_POST['add_cateogry'])){

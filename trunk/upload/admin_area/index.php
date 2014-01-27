@@ -9,7 +9,10 @@
 
 require'../includes/admin_config.php';
 $userquery->admin_login_check();
-
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Dashboard');
+}
 
 //	$latest = get_latest_cb_info();
 	$Cbucket->cbinfo['latest'] = $latest;

@@ -11,6 +11,16 @@ require_once '../includes/admin_config.php';
 $userquery->admin_login_check();
 $pages->page_redir();
 $userquery->perm_check('group_moderation',true);
+
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Groups');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'Manage Categories');
+}
+
+
 //Form Processing
 if(isset($_POST['add_cateogry'])){
 	$cbgroup->add_category($_POST);

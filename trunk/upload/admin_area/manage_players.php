@@ -12,6 +12,17 @@ $userquery->admin_login_check();
 $pages->page_redir();
 $userquery->login_check('admin_access');
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Templates And Players');
+}
+if(!defined('SUB_PAGE')){
+	if($_GET['mode'] == 'show_settings')
+		define('SUB_PAGE', 'Player Settings');
+	else	
+	define('SUB_PAGE', 'Players Manager');
+}
+
 //Set Mode
 assign('mode',$_GET['mode']);
 

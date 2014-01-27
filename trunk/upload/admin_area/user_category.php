@@ -12,6 +12,14 @@ $userquery->admin_login_check();
 $userquery->login_check('admin_access');
 $pages->page_redir();
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Users');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'Manage categories');
+}
+
 
 //Form Processing
 if(isset($_POST['add_cateogry'])){

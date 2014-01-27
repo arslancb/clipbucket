@@ -13,6 +13,14 @@ $userquery->admin_login_check();
 $userquery->perm_check('manage_template_access',true);
 
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Templates And Players');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'Templates Editor');
+}
+
 /**
  * Getting List Of Templates
  */

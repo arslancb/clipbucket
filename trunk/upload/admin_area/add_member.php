@@ -14,6 +14,14 @@ $userquery->admin_login_check();
 $userquery->login_check('member_moderation');
 $pages->page_redir();
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Users');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'Add Member');
+}
+
 if(isset($_POST['add_member']))
 {
 	if($userquery->signup_user($_POST))

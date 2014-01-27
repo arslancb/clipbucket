@@ -3,6 +3,14 @@ require'../includes/admin_config.php';
 $userquery->admin_login_check();
 $pages->page_redir();
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Stats And Configurations');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'Manage Comments');
+}
+
 if(empty($_GET['type']))
 	$type = "v";
 else

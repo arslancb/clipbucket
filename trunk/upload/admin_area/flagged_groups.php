@@ -12,6 +12,14 @@ $userquery->admin_login_check();
 $pages->page_redir();
 $userquery->perm_check('group_moderation',true);
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Groups');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'View Reported Groups');
+}
+
 $mode = $_GET['mode'];
 
 

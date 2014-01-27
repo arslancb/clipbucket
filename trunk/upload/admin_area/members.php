@@ -12,6 +12,20 @@ $userquery->admin_login_check();
 $userquery->login_check('member_moderation');
 $pages->page_redir();
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Users');
+}
+if(!defined('SUB_PAGE')){
+	if($_GET['view'] == 'search')
+		define('SUB_PAGE', 'Search Members');
+	elseif($_GET['search'] == 'yes' && $_GET['status'] == 'ToActivate')
+		define('SUB_PAGE', 'Inactive Only');
+	elseif($_GET['search'] == 'yes' && $_GET['status'] == 'Ok')
+		define('SUB_PAGE', 'Active Only');
+	else
+		define('SUB_PAGE', 'Manage Members');
+}
 
 //Delete User
 if(isset($_GET['deleteuser'])){

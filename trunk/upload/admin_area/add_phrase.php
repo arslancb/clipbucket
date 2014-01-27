@@ -12,6 +12,14 @@ $userquery->admin_login_check();
 $userquery->login_check('web_config_access');
 $pages->page_redir();
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Stats And Configurations');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'Add New Phrases');
+}
+
 if(isset($_POST['add_phrase']))
 {
 	$name = mysql_clean($_POST['name']);

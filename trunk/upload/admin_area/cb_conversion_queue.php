@@ -10,6 +10,13 @@ require'../includes/admin_config.php';
 $userquery->admin_login_check();
 $pages->page_redir();
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Tool Box');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'Conversion Queue Manager');
+}
 
 if($_GET['delete_lock'])
 {

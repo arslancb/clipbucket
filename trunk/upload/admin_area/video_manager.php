@@ -13,6 +13,17 @@ $userquery->admin_login_check();
 $userquery->login_check('video_moderation');
 $pages->page_redir();
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Videos');
+}
+if(!defined('SUB_PAGE')){
+	if($_GET['active'] == 'no')
+		define('SUB_PAGE', 'List Inactive Videos');
+	else
+		define('SUB_PAGE', 'Videos Manager');
+}
+
 //Feature / UnFeature Video
 if(isset($_GET['make_feature'])){
 	$video = mysql_clean($_GET['make_feature']);

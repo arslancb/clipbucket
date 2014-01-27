@@ -10,6 +10,14 @@ require'../includes/admin_config.php';
 $userquery->admin_login_check();
 $userquery->login_check('web_config_access');
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Tool Box');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'Repair video duration');
+}
+
 $params = array('duration'=>'1','duration_op'=>'<=','status'=>'Successful');
 $videos = get_videos($params);
 $fixed_array = array();

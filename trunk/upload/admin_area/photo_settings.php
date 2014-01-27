@@ -12,6 +12,17 @@ $userquery->admin_login_check();
 $userquery->login_check('video_moderation');
 $pages->page_redir();
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Photos');
+}
+if(!defined('SUB_PAGE')){
+	if($_GET['mode'] == 'watermark_settings')
+		define('SUB_PAGE', 'Watermark Settings');
+	else	
+		define('SUB_PAGE', 'Photo Settings');
+}
+
 $mode = $_GET['mode'];
 assign('mode',$mode);
 

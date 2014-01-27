@@ -12,6 +12,14 @@ $userquery->admin_login_check();
 $userquery->login_check('member_moderation');
 $pages->page_redir();
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Users');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'Mass Email');
+}
+
 if(!empty($_GET['email'])){
 	Assign('email',$_GET['email']);
 }

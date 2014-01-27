@@ -11,6 +11,14 @@ require_once '../includes/admin_config.php';
 $userquery->admin_login_check();
 $userquery->login_check('video_moderation');
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Users');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'Reported Users');
+}
+
 $mode = $_GET['mode'];
 
 

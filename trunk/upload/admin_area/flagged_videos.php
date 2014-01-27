@@ -11,6 +11,14 @@ require_once '../includes/admin_config.php';
 $userquery->admin_login_check();
 $userquery->login_check('video_moderation');
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Videos');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'List Flagged Videos');
+}
+
 $mode = $_GET['mode'];
 
 

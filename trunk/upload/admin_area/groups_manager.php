@@ -12,6 +12,17 @@ $userquery->admin_login_check();
 $pages->page_redir();
 $userquery->perm_check('group_moderation',true);
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Groups');
+}
+if(!defined('SUB_PAGE')){
+	if($_GET['search'] == 'yes' && $_GET['active'] == 'no')
+		define('SUB_PAGE', 'View Inactive Groups');
+	else	
+	define('SUB_PAGE', 'Manage Groups');
+}
+
 	// Deactivate Group
 	if(isset($_GET['deactivate'])) {
 		$cbgroup->grp_actions('deactivate',mysql_clean($_GET['deactivate']));

@@ -11,6 +11,14 @@ require_once '../includes/admin_config.php';
 $userquery->admin_login_check();
 $pages->page_redir();
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Videos');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'Upload Videos');
+}
+
 
 if(isset($_POST['mass_upload_video']))
 {

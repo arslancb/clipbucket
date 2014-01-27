@@ -12,6 +12,14 @@ $userquery->admin_login_check();
 $pages->page_redir();
 $userquery->perm_check('ad_manager_access',true);
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Advertisement');
+}
+if(!defined('SUB_PAGE')){
+	define('SUB_PAGE', 'Manage Placements');
+}
+
 //Removing Placement
 if(isset($_GET['remove'])){
 	$placement = mysql_clean($_GET['remove']);
