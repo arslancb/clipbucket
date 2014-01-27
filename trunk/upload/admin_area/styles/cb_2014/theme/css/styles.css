@@ -36,6 +36,11 @@ ul.mainTabs{
 }
 
 
+.btn-group{
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
 .vdo_sets{
 
 }
@@ -157,6 +162,12 @@ ul.mainTabs{
 .oneUserImage{
 	width: 60px;
 	float: left;
+}
+
+/* search box styling */
+
+.search_box{
+	margin-top: 10px;
 }
 
 
