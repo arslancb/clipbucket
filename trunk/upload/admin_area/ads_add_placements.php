@@ -3,7 +3,7 @@
  ****************************************************************************************************
  | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.											|
  | @ Author 	: ArslanHassan																		|
- | @ Software 	: ClipBucket , © PHPBucket.com														|
+ | @ Software 	: ClipBucket , ï¿½ PHPBucket.com														|
  ****************************************************************************************************
 */
 
@@ -28,9 +28,8 @@ if(isset($_POST['AddPlacement'])){
 
 //Getting List Of Placement
 $sql = "SELECT * FROM ".tbl("ads_placements");
-$ads_exec = $db->Execute($sql);
-$ads_placements = $ads_exec->getrows();
-$total_placements = $ads_exec->recordcount() + 0;
+$ads_placements = db_select($sql);
+$total_placements = $db->num_rows;
 //Getting total Ads in each placement
 for($id=0;$id<=$total_placements;$id++)
 {
