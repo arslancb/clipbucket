@@ -1,0 +1,74 @@
+<h2>Website Maintenance</h2>
+
+<p>Remove inactive sessions, user access logs, comments cache, more options will be available soon</p>
+
+<div class="form-group">
+    <a class="btn btn-primary btn-sm" href="?mode=remove_sessions">
+        Remove inactive sessions
+    </a>
+    <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="$('#access_remove_form').show()">
+        Remove user access log
+    </a>
+    <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="$('#activity_remove_form').show()">
+        Remove user activity feed
+    </a>
+</div>
+
+<div class="formPlaceHolder">
+    <span style="display:none" id="access_remove_form">
+         <form method="get">
+            <div class="form-group">
+                <label for="days">Older than</label>
+                <input name="mode" value="remove_access_log" type="hidden" />
+                <input class="form-control" name="days" type="text" value="30"/>    
+                Days
+            </div>
+            <input class="btn btn-primary" type="submit" value="remove" />
+         </form>
+     </span>
+     <span style="display:none" id="activity_remove_form">
+         <form method="get">
+            <div class="form-group">
+                <label for="days">Older than</label> 
+                <input name="mode" value="remove_activity_feed" type="hidden" />
+                <input class="form-control" name="days" type="text" value="30"/>
+                days
+            </div>
+            <div class="form-group">
+                <label for="loop_size">With loop size of</label>
+                <input class="form-control" name="loop_size" type="text" value="100"/>
+                users
+            </div>
+            <div class="form-group">
+                <input class="btn btn-primary" type="submit" value="remove" />
+            </div>
+         </form>
+     </span>
+</div>
+
+{if $smarty.get.mode =='remove_activity_feed'}
+{if $indexing}
+<h4>{$from} - {$to} of {$total}</h4>
+    <ul>
+    {foreach from=$index_msgs item=themsg}
+        <li>{$themsg}</li>
+    {/foreach}
+    </ul>
+    {if  $stop_loop!='yes'}
+    <script type="text/javascript">
+        var start_index = '{$next_index}';
+        var loop_size = '{$smarty.get.loop_size}';
+        var mode = '{$mode}';
+    	var days = '{$smarty.get.days}';
+        {literal}
+        $(document).oneTime(2000,function(){
+    	   $(window.location).attr('href', '?loop_size='+loop_size+'&mode='+mode+'&start_index='+start_index+'&days'+days)
+        });
+        {/literal}
+    </script>
+    <h5>redirecting....do not close this window</h5>
+    {else}
+        <h5>Indexing has been completed.</h5>
+    {/if}
+    {/if}
+{/if}

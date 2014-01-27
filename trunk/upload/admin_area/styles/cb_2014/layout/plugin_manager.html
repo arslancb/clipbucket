@@ -3,105 +3,121 @@
 {if $installed_plugin_list}
 
 <form name="installed_plugins" id="installed_plugins" method="post" action="plugin_manager.php">
-    <div class="btn-group">
-     		<input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="button"/>
-            <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="button" />
-            <input class="btn btn-primary btn-xs" type="submit" name="uninstall_selected" value="Uninstall"  class="button" onclick="return confirm_it('Are you sure you want to uninstall selected plugin(s)')" id="uninstall_selected"/>
- </div>
-    <table class="table table-bordered">
-        <div class="form-group">
-<tr>
-    <td width="30" align="center" valign="middle" class="left_head">
-    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
-    <td class="head">Plugin Details</td>
-            </tr>
-</div>
-{assign var = bgcolor value = ""}
-{foreach from=$installed_plugin_list item=plug name=item}
-    <table class="table table-bordered">
-<tr class="video_opt_td"  bgcolor="{$bgcolor}">
-    <td width="30" align="center" valign="top" class="video_opt_td"><input name="check_plugin[]" type="checkbox"  value="{$smarty.foreach.item.iteration}" />
-    <input type="hidden" name="plugin_file_{$smarty.foreach.item.iteration}" value="{$plug.plugin_file}" />
-    <input type="hidden" name="plugin_folder_{$smarty.foreach.item.iteration}" value="{$plug.folder}" />
-    </td>
-    <td valign="top"  class="video_opt_td">
-    <div style="position:relative; min-height: 30px">
-        <div class="videoTitle row">
-            <div class="col-md-10">
-            <label>{$plug.description}</label>
-            <span class="label {if $plugin.plugin_active == Ok}label- {else}label-success{/if}"><span></span><strong>{if $plug[plugin_active].Active=='Yes'}Active{else}Active{/if}</strong></span>
+  <div class="btn-group">
+ 		<input class="btn btn-primary btn-sm" type="submit" name="activate_selected" value="Activate" />
+    <input class="btn btn-primary btn-sm" type="submit" name="deactivate_selected" value="Deactivate" />
+    <input class="btn btn-primary btn-sm" type="submit" name="uninstall_selected" value="Uninstall" onclick="return confirm_it('Are you sure you want to uninstall selected plugin(s)')" id="uninstall_selected"/>
+  </div>
+  <table class="table table-bordered table-striped">
+    <tr>
+      <td width="30">
+        <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+      </td>
+      <td>Plugin Details</td>
+      <td>&nbsp;</td>
+    </tr>
+    {assign var = bgcolor value = ""}
+    {foreach from=$installed_plugin_list item=plug name=item}
+    <tr>
+        <td width="30">
+          <input name="check_plugin[]" type="checkbox"  value="{$smarty.foreach.item.iteration}" />
+          <input type="hidden" name="plugin_file_{$smarty.foreach.item.iteration}" value="{$plug.plugin_file}" />
+          <input type="hidden" name="plugin_folder_{$smarty.foreach.item.iteration}" value="{$plug.folder}" />
+        </td>
+        <td>
+          <strong>{$plug.name}</strong>
+          <p>{$plug.description}</p>
+          <div class="pluginStatus">
+            <span class="label {if $plugin.plugin_active == Ok}label- {else}label-success{/if}">
+              <strong>{if $plug[plugin_active].Active=='Yes'}Active{else}Active{/if}</strong>
+            </span>
             <span class="label label-danger"><span>Author:</span><strong>{$plug.author}</strong></span>
             <span class="label label-info"><span>Ver.</span><strong>{$plug.version}</strong></span>
-            </span>
-                <strong>{$plug.name}</strong> &#8212;
-<td>
-                <div class="dropdown">
-                    <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions <i class="caret"></i></button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
-      {if $plug.plugin_active == 'yes'} <li role="presentation"><a role="menuitem" tabindex="-1" href="?deactivate={$plug.plugin_file}{if $plug.folder!=''}&f={$plug.folder}{/if}">Deactivate</a>{else}<li role="presentation"><a role="menuitem" tabindex="-1" href="?activate={$plug.plugin_file}{if $plug.folder!=''}&f={$plug.folder}{/if}">Activate</a></li>{/if}
-                      </li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:Confirm_Uninstall('?uninstall={$plug.plugin_file}{if $plug.folder!=''}&f={$plug.folder}{/if}')">Uninstall</a></span>
-                       </li>
-                    </ul>
-                </div>
-            </td>
-    {if $bgcolor == ""}
-    {assign var = bgcolor value = "#EEEEEE"}
-    {else}
-    {assign var = bgcolor value = ""}
-    {/if}
-{/foreach}
-</table>
-    <div class="btn-group">
-     <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="button"/>
-            <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="button" />
-            <input class="btn btn-primary btn-xs" type="submit" name="uninstall_selected" value="Uninstall"  class="button" onclick="return confirm_it('Are you sure you want to delete selected video(s)')" id="uninstall_selected"/>
-   </div>
+          </div>
+        </td>
+        <td>
+          <div class="dropdown">
+            <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions <i class="caret"></i></button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+            {if $plug.plugin_active == 'yes'}
+              <li role="presentation">
+                <a role="menuitem" tabindex="-1" href="?deactivate={$plug.plugin_file}{if $plug.folder!=''}&f={$plug.folder}{/if}">
+                  Deactivate
+                </a>
+            {else}
+              <li role="presentation">
+                <a role="menuitem" tabindex="-1" href="?activate={$plug.plugin_file}{if $plug.folder!=''}&f={$plug.folder}{/if}">
+                  Activate
+                </a>
+              </li>
+            {/if}
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:Confirm_Uninstall('?uninstall={$plug.plugin_file}{if $plug.folder!=''}&f={$plug.folder}{/if}')">
+                Uninstall
+                </a>
+              </li>
+            </ul>
+          </div>
+        </td>
+    {/foreach}
+    </tr>
+  </table>
+  <div class="btn-group">
+      <input class="btn btn-primary btn-sm" type="submit" name="activate_selected" value="Activate" />
+      <input class="btn btn-primary btn-sm" type="submit" name="deactivate_selected" value="Deactivate" />
+      <input class="btn btn-primary btn-sm" type="submit" name="uninstall_selected" value="Uninstall" onclick="return confirm_it('Are you sure you want to uninstall selected plugin(s)')" id="uninstall_selected"/>
+  </div>
 </form>
 {else}
-<div align="center"><strong><em>No Installed Plugin Found</em></strong></div>
+<div>
+  <strong><em>No Installed Plugin Found</em></strong>
+</div>
 {/if}
 {* Listing New Plugins *}
 <h2>Available Plugins </h2>
-{if $new_plugin_list}<form name="available_plugins" id="available_plugins" action="plugin_manager.php" method="post">
-<div class="form-group">
-    <input class="btn btn-primary btn-xs pull-right" type="submit" name="install_selected" value="Install"  onclick="return confirm_it('Are you sure you want to install selected plugin(s)')" id="install_selected"/>
-</div>
-    <table class="table table-bordered">
-  <tr>
-    <td width="30" align="center" valign="middle" class="left_head">
-    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
-    <td class="head">Plugin Details</td>
-  </tr>
-</table>
-    <table class="table table-bordered">
-{assign var = bgcolor value = ""}
-{foreach from=$new_plugin_list item=plug name=item}
-<tr class="video_opt_td"  bgcolor="{$bgcolor}">
-    <td width="30" align="center" valign="top" class="video_opt_td">
-   <input name="check_plugin[]" type="checkbox"  value="{$smarty.foreach.item.iteration}" />
-    <input type="hidden" name="plugin_file_{$smarty.foreach.item.iteration}" value="{$plug.file}" />
-    <input type="hidden" name="plugin_folder_{$smarty.foreach.item.iteration}" value="{$plug.folder}" /></td>
-    <td valign="top"  class="video_opt_td" >
-        <strong>{$plug.name}</strong> &#8212;
-      <span class="vdo_sets">
-      <strong>{$plug.plugin_active}</strong><br> &#8226;
-      Author:<strong><a href="{$plug.website}">{$plug.author}</a></strong> <br>&#8226;
-      Version:<strong>{$plug.version}</strong></span>
-      <div style="margin-bottom:10px"> {$plug.description}</div>
-      <span class="vdo_sets"><a class="btn btn-default btn-xs" href="?install_plugin={$plug.file}{if $plug.folder!=''}&f={$plug.folder}{/if}">Install Plugin</a></span>
-    <div style="height:5px"></div>
-    </td>
-  </tr>
-    {if $bgcolor == ""}
-    {assign var = bgcolor value = "#EEEEEE"}
-    {else}
+{if $new_plugin_list}
+<form name="available_plugins" id="available_plugins" action="plugin_manager.php" method="post">
+  <table class="table table-bordered table-striped">
+    <tr>
+      <td width="30" align="center" valign="middle" class="left_head">
+      <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+      <td class="head">Plugin Details</td>
+      <!-- <td>
+        <div class="form-group">
+          <input class="btn btn-primary btn-xs pull-right" type="submit" name="install_selected" value="Install"  onclick="return confirm_it('Are you sure you want to install selected plugin(s)')" id="install_selected"/>
+        </div>
+      </td> -->
+    </tr>
     {assign var = bgcolor value = ""}
-    {/if}
-{/foreach}
-</table>
-<div class="form-group">
-<input class="btn btn-primary btn-xs pull-right" type="submit" name="install_selected" value="Install"   onclick="return confirm_it('Are you sure you want to install selected plugin(s)')" id="install_selected"/>
+    {foreach from=$new_plugin_list item=plug name=item}
+    <tr>
+      <td width="30">
+        <input name="check_plugin[]" type="checkbox" value="{$smarty.foreach.item.iteration}" />
+        <input type="hidden" name="plugin_file_{$smarty.foreach.item.iteration}" value="{$plug.file}" />
+        <input type="hidden" name="plugin_folder_{$smarty.foreach.item.iteration}" value="{$plug.folder}" />
+      </td>
+      <td>
+        <strong>{$plug.name}</strong>
+        <span class="vdo_sets">
+          <strong>{$plug.plugin_active}</strong><br>
+          Author : 
+          <strong>
+            <a href="{$plug.website}">{$plug.author}</a>
+          </strong><br>
+          Version : <strong>{$plug.version}</strong>
+        </span>
+        <p>{$plug.description}</p>
+        <span>
+          <a class="btn btn-info btn-xs" href="?install_plugin={$plug.file}{if $plug.folder!=''}&f={$plug.folder}{/if}">
+            Install Plugin
+          </a>
+        </span>
+      </td>
+    </tr>
+    {/foreach}
+  </table>
+  <div class="form-group clearfix">
+    <input class="btn btn-primary btn-sm pull-right" type="submit" name="install_selected" value="Install"   onclick="return confirm_it('Are you sure you want to install selected plugin(s)')" id="install_selected"/>
+  </div>
 </form>
  {else}
 <div align="center"><strong><em>No Plugin is available</em></strong></div>
