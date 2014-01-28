@@ -190,8 +190,8 @@ ul.mainTabs{
 /* conversion log styles */
 
 
-th.conversion {
-    width: 150px;
+.conversion_log td {
+    word-break: break-all;
 
 }
 
