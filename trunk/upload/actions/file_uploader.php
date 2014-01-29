@@ -5,6 +5,7 @@
  */
 include('../includes/config.inc.php');
 
+//var_dump($_FILES);die();
 
 if($_FILES['Filedata'])
 	$mode = "upload";
@@ -63,7 +64,14 @@ switch($mode)
 		assign("objId",$_POST['objId']);
 		
 		assign('input',$vidDetails);
-		Template('blocks/upload/form.html');
+
+		$videoFields = $Upload->load_video_fields($vidDetails);
+		//$requiredFields = array_shift($videoFields);
+		// echo "<pre>";
+		// var_dump($videoFields[0]);
+		// echo "</pre>";
+		echo json_encode($videoFields);
+		//Template('blocks/upload/form.html');
 	}
 	break;
 	
@@ -142,11 +150,12 @@ switch($mode)
 			if (stristr(PHP_OS, 'WIN')) {
 				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName");
 			} else {
-				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName &> /dev/null &");
+				// for ubuntu
+				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName > /dev/null &");
 			}
 		}
 		
-		echo json_encode(array("success"=>"yes","file_name"=>$file_name));
+		echo json_encode(array("success"=>"yes","file_name"=>$file_name, 'phpos' => PHP_OS));
 		
 	}
 	break;
