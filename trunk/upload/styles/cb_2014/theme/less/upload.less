@@ -1,4 +1,10 @@
-.upload-container {
+.uploadFormDiv{
+
+  label{
+    font-weight: normal;
+    font-size: 16px;
+  }
+
   p {
     font-size: 14px;
   }
@@ -89,5 +95,62 @@
         }
       }
     }
+  }
+
+
+  .fileUploaderForm{
+      padding: 20px;
+  }
+  .fileUploaderForm a{
+      margin-bottom: 10px;
+  }
+  .uploadedFilesList{
+      /*padding: 5px;*/
+      /*background-color: #eee;*/
+      margin-bottom: 10px;
+  }
+  .uploadedFilesList ul{
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  }
+  .uploadedFilesList ul li{
+      background-color: #ccc;
+      padding: 10px;
+      border: solid 1px #aaa;
+      font-size: 12px;
+  }
+  #fileUploadProgress{
+      margin-bottom: 10px;
+  }
+  #fileUploadProgress progress{
+      width: 100%;
+  }
+  #updateVideoInfo{
+      margin: 15px 5px 5px;
+      text-transform: capitalize;
+      border: none;
+  }
+
+  #updateVideoInfo .requiredFields{
+    padding: 10px;
+  }
+
+
+
+}
+
+.uploadFormSidebarDiv{
+  label{
+    font-weight: normal;
+    font-size: 14px;
+  }
+  .sharingOptions{
+    padding: 5px;
+    border: none;
+  }
+
+  .sharingOptions .panel-content{
+    padding: 10px;
   }
 }
