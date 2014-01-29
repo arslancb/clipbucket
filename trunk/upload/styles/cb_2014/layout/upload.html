@@ -1,4 +1,12 @@
-<div class="container upload-container">
+
+{$videoFields = $Upload->load_video_fields($input)}
+{$requiredFields = $videoFields[0]}
+{$sharingOptions = $videoFields[1]}
+{$dateAndLocation = $videoFields[2]}
+
+
+
+<div class="container">
     <div class="row">
         <div class="col-md-8">
             <div class="cb-box pad-bottom-sm progress-container">
@@ -23,131 +31,90 @@
                     <li><a href="#remote-play" data-toggle="tab">Remote Play</a></li>
                     <li><a href="#embed-code" data-toggle="tab">Embed Code</a></li>
                 </ul>
-                <div class="tab-content">
+                <div class="tab-content uploadFormDiv">
                     <div class="tab-pane fade in active clearfix" id="file-upload">
-
+                        <div id="uploadMessage" class=""></div>
                         <div class="form-group">
-                            <div class="upload-area col-md-12">Upload form here</div>
-                        </div>
-
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Title" />
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control" rows="3" placeholder="Add Description"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Add Keyword (seprate with comma)" />
-                        </div>
-                        <div class="form-group clearfix">
-                            <label for="upload-link" class="col-sm-3 control-label light">Upload Link:</label>
-                            <div class="col-sm-9">
-                                <input type="email" class="form-control" id="upload-link" placeholder="Email">
+                            <div class="upload-area col-md-12">
+                                <div class="fileUploaderForm">
+                                    <a id="selectFiles" href="javascript:;" class="btn btn-primary">Select Files</a>
+                                    <div id="selectedFiles" class="uploadedFilesList">
+                                        <h4>Selected Files</h4>
+                                        <div id="files">
+                                            <ul>
+                                                <li>no files selected</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div id="fileUploadProgress">
+                                        <h5></h5>
+                                        <progress value="0" style="display:none"></progress>
+                                    </div>
+                                    <a id="uploadFiles" class="btn btn-success" href="javascript:;">Upload</a>
+                                </div>
                             </div>
+                            <form action="#" id="updateVideoInfoForm">
+                                <div class="panel panel-primary" id="updateVideoInfo">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">{$requiredFields.group_name}</h3>
+                                    </div>
+                                    <div class="requiredFields">
+                                        {foreach $requiredFields.fields as $field}
+                                            <div class="form-group">
+                                            {$field.class='form-control'}
+                                            {$field.notShowSeprator='yes'}
+                                            {if $field.type == 'radiobutton'}
+                                                {$field.label_class='radio'}
+                                                {$field.class=''}
+                                                {$formObj->createField($field)}
+                                            {elseif $field.type == 'checkbox'}
+                                                <h4>{$field.title}</h4>
+                                                {$field.label_class='checkbox'}
+                                                {$field.class='checkbox'}
+                                                {$formObj->createField($field)}
+                                            {else}
+                                                <label for="{$field.id}">{$field.title}</label>
+                                                {$formObj->createField($field)}
+                                            {/if}
+                                            </div>
+                                        {/foreach}
+                                    </div>
+                                </div>
+                                <div class="pad-bottom-sm text-right">
+                                    <button class="btn btn-primary btn-lg">Submit Now</button>
+                                </div>
                         </div>
-                        <div class="form-group clearfix">
-                            <label for="embed-code" class="col-sm-3 control-label light">Embed Code:</label>
-                            <div class="col-sm-9">
-                                <input type="email" class="form-control" id="embed-code" placeholder="Email">
-                            </div>
-                        </div>
-
                     </div>
                     <div class="tab-pane fade" id="remote-upload">remote upload</div>
                     <div class="tab-pane fade" id="remote-play">remote play</div>
                     <div class="tab-pane fade" id="embed-code">embed code</div>
                 </div>
             </div>
-
         </div>
-        <div class="col-md-4">
-
-            <div class="pad-bottom-sm submit-container">
-                <button class="btn btn-primary btn-lg">Submit Now</button>
-            </div>
-
-            <div class="cb-box pad-bottom-sm download-container">
-                <div class="checkbox">
-                    <label>
-                        <span><input type="checkbox"></span>
-                        <span class="glyphicon glyphicon-cloud-download"></span>
-                        <span>Allow Download</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="cb-box pad-bottom-sm">
-                <div class="form-group">
-                    <label for="categories">Categories</label>
-                    <select class="form-control" id="categories">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="cb-box pad-bottom-sm sharing-contatiner">
-                <div class="form-group">
-                    <label>Sharing Options</label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="sharing-options" id="sharing-options-1" value="option1" checked>
-                        Public - Upload can be seen by everyone
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="sharing-options" id="sharing-options-2" value="option2">
-                        Private - Upload can be seen only by you
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="sharing-options" id="sharing-options-3" value="option3">
-                        Unlisted - Only people with password can see
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="sharing-options" id="sharing-options-4" value="option4">
-                        Members only - Only members can see
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label for="protected_password" class="light">Set Password</label>
-                    <input type="password" class="form-control" id="protected_password" placeholder="Enter password to make it protected">
-                </div>
-                <div class="form-group">
-                    <label for="allowed_users" class="light">Allowed Users</label>
-                    <input type="password" class="form-control" id="allowed_users" placeholder="Enter users who can watch this video">
-                </div>
-                <div class="checkbox">
-                    <label class="light">
-                        <input type="checkbox" value="">
-                        Allow comments
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label class="light">
-                        <input type="checkbox" value="">
-                        Allow comment voting
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label class="light">
-                        <input type="checkbox" value="">
-                        Allow rating
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label class="light">
-                        <input type="checkbox" value="">
-                        Allow embedding on other websites
-                    </label>
+        <div class="col-md-4 uploadFormSidebarDiv">
+            <div id="sharingOptions" class="cb-box pad-bottom-sm sharing-contatiner">
+                <div id="sharingOptionsRadio">
+                    <div class="panel panel-primary sharingOptions">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">{$sharingOptions.group_name}</h3>
+                        </div>
+                        <div class="panel-content">
+                            {foreach $sharingOptions.fields as $field}
+                                <div class="form-group">
+                                {$field.class='form-control'}
+                                {$field.notShowSeprator='yes'}
+                                {if $field.type == 'radiobutton'}
+                                    {$field.label_class='radio'}
+                                    {$field.class=''}
+                                    {$formObj->createField($field)}
+                                {else}
+                                    <label for="{$field.id}">{$field.title}</label>
+                                    {$formObj->createField($field)}
+                                {/if}
+                                </div>
+                            {/foreach}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="cb-box pad-bottom terms-contatiner">
@@ -171,5 +138,140 @@
                 </div>
             </div>
         </div>
+    </form>
     </div>
 </div>
+<div>
+</div>
+<script type="text/javascript">
+    (function(window){
+        $(document).ready(function(){
+            var baseurl = '{$baseurl}';
+            $.get("{$theme}/js/plupload/js/plupload.full.min.js", function(e){
+                var uploader = new plupload.Uploader({
+                    browse_button: 'selectFiles',
+                    runtimes : 'html5,flash,silverlight,html4',
+                    url : baseurl + "/actions/file_uploader.php",
+                    file_data_name : "Filedata",
+                });
+                uploader.init();
+                uploader.bind('FilesAdded', function(up, files) {
+                    var oneFile = files[0];
+                    var ul = document.createElement('ul');
+                    var li = false;
+                    plupload.each(files, function(file) {
+                        li = document.createElement('li');
+                        li.id = file.id;
+                        li.innerHTML = file.name + " (" + plupload.formatSize(file.size) + ")<b></b>";
+                        ul.appendChild(li);
+                    });
+
+                    var filesDiv = document.getElementById('files');
+                    filesDiv.innerHTML = "";
+                    document.getElementById('files').appendChild(ul);
+
+                    // updating file title in the form
+                    $("#updateVideoInfo #title").val(oneFile.name);
+
+
+                });
+
+                uploader.bind('UploadProgress', function(up, file) {
+                    var progressContainer = document.getElementById("fileUploadProgress");
+                    var progressBar = progressContainer.getElementsByTagName("progress")[0];
+                    progressBar.style.display = "block";
+                    var fileName = progressContainer.getElementsByTagName('h5')[0];
+                    fileName.innerHTML = "Uploading "+file.name;
+                    progressBar.value = file.percent/100;
+                });
+
+                uploader.bind('FileUploaded', function(plupload, fileDetails, response){
+                    //$(".fileUploaderForm").css("display", "none");
+                    var serverResponse = $.parseJSON(response.response);
+                    var fileName = serverResponse.file_name;
+                    var uploadForm = $("#updateVideoInfoForm"); 
+
+                    
+                    // inserting video
+                    var fileId = false;
+                    $.ajax({
+                        url : baseurl + "/actions/file_uploader.php",
+                        type : "post",
+                        data : {
+                            insertVideo : "yes",
+                            title : fileDetails.name,
+                            file_name : fileName
+                        }
+                    }).success(function(msg){
+                        fileId = msg;
+                        
+                        // creating the hidden form fields
+                        var hiddenVideoIdField = document.createElement('input');
+                        hiddenVideoIdField.name = 'videoid';
+                        hiddenVideoIdField.type = 'hidden';
+                        hiddenVideoIdField.value =  fileId;
+
+                        var hiddenVideoNameField = document.createElement('input');
+                        hiddenVideoNameField.name = 'file_name';
+                        hiddenVideoNameField.type = 'hidden';
+                        hiddenVideoNameField.value =  fileName;
+
+                        var hiddenUploadVideoFlagField = document.createElement('input');
+                        hiddenUploadVideoFlagField.type = 'hidden';
+                        hiddenUploadVideoFlagField.name = 'updateVideo';
+                        hiddenUploadVideoFlagField.value = 'yes';
+
+                        
+                        uploadForm.append(hiddenVideoIdField);
+                        uploadForm.append(hiddenVideoNameField);
+                        uploadForm.append(hiddenUploadVideoFlagField);
+                        uploadForm.find("#cbSubmitUpload").removeAttr('disabled').val('Upload').addClass('btn-success');
+
+
+
+                    });
+
+
+                    $(uploadForm).on({
+                        submit: function(e){
+                            e.preventDefault();
+                            var self = this;
+                            var data = $(this).serialize();
+                            $.ajax({
+                                url : baseurl + "/actions/file_uploader.php",
+                                type : "post",
+                                data : data
+                            }).success(function(msg){
+                                console.log(msg);
+                                msg = $.parseJSON(msg);
+                                if(msg.error){
+                                    $("#uploadMessage").html(msg.error).attr("class", "alert alert-danger");
+                                }else{
+                                    $("#uploadMessage").html(msg.msg).attr("class", "alert alert-success");
+                                }
+                            }).fail(function(err){
+                                console.log(err);
+                            });
+                        }
+                    });
+
+                });
+
+                // uploader.bind('Error', function(up, err) {
+                //     document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+                // });
+
+                document.getElementById('uploadFiles').onclick = function() {
+                    uploader.start();
+                };
+            });
+        });
+    })(window);
+</script>
+
+
+
+
+
+
+

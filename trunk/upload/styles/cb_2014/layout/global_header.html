@@ -1,81 +1,78 @@
 <!DOCTYPE HTML>
 
 <html>
+    <head>
+        {if in_dev()}
+            {$cache_buster=microtime(true)}
+        {else}
+            {$cache_buster=$Cbucket->version}
+        {/if}
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <!-- ClipBucket v{$Cbucket->version} -->
+        <meta name="copyright" content="ClipBucket - Integrated Units 2007 - {$smarty.now|date_format:"%Y"}" />
+        <meta name="author" content="Arslan Hassan - http://clip-bucket.com/arslan-hassan" />
+        <meta name="author" content="Fawaz Tahir - http://clip-bucket.com/fawaz-tahir" />
+        <link rel="shortcut icon" href="{$baseurl}/favicon.ico">
+        <link rel="icon" type="image/ico" href="{$baseurl}/favicon.ico" />
+
+        <!-- RSS FEEDS -->
+        {rss_feeds link_tag=true}
+
+        <meta name="keywords" content="{$Cbucket->configs.keywords}" />
+        <meta name="description" content="{$Cbucket->configs.description}" />
+        <meta name="distribution" content="global" />
 
 
-<head>
-
-    {if in_dev()}
-        {$cache_buster=microtime(true)}
-    {else}
-        {$cache_buster=$Cbucket->version}
-    {/if}
-
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-    <!-- ClipBucket v{$Cbucket->version} -->
-    <meta name="copyright" content="ClipBucket - Integrated Units 2007 - {$smarty.now|date_format:"%Y"}" />
-    <meta name="author" content="Arslan Hassan - http://clip-bucket.com/arslan-hassan" />
-    <meta name="author" content="Fawaz Tahir - http://clip-bucket.com/fawaz-tahir" />
-    <link rel="shortcut icon" href="{$baseurl}/favicon.ico">
-    <link rel="icon" type="image/ico" href="{$baseurl}/favicon.ico" />
-
-    <!-- RSS FEEDS -->
-    {rss_feeds link_tag=true}
-
-    <meta name="keywords" content="{$Cbucket->configs.keywords}" />
-    <meta name="description" content="{$Cbucket->configs.description}" />
-    <meta name="distribution" content="global" />
+        <title>{cbtitle}</title>
 
 
-    <title>{cbtitle}</title>
+        <link href='http://fonts.googleapis.com/css?family=Rambla:400,700|Roboto:400,700' rel='stylesheet' type='text/css'>
+        
+        
+        <link rel="stylesheet" href="{$theme}/css/bootstrap.min.css?cache={$cache_buster}" />
+
+        {if !in_dev()}
+        <link rel="stylesheet" href="{$theme}/css/main.css?cache={$cache_buster}" />
+        {/if}
+
+        <link rel="stylesheet" href="{$theme}/css/font-awesome.min.css">
 
 
-    <link href='http://fonts.googleapis.com/css?family=Rambla:400,700|Roboto:400,700' rel='stylesheet' type='text/css'>
-    
-    
-    <link rel="stylesheet" href="{$theme}/css/bootstrap.min.css?cache={$cache_buster}" />
+        {if in_dev()}
+        <link rel="stylesheet/less" href="{$theme}/less/main.less?cache={$cache_buster}" />
+        <script src="{$js}/less.min.js"></script>
+        {/if}
 
-    {if !in_dev()}
-    <link rel="stylesheet" href="{$theme}/css/main.css?cache={$cache_buster}" />
-    {/if}
-
-    <link rel="stylesheet" href="{$theme}/css/font-awesome.min.css">
-
-
-    {if in_dev()}
-    <link rel="stylesheet/less" href="{$theme}/less/main.less?cache={$cache_buster}" />
-    <script src="{$js}/less.min.js"></script>
-    {/if}
-
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="{$theme}/js/readmore.min.js"></script>
-    <script src="{$theme}/js/bootstrap.min.js"></script>
-    <script src="{$theme}/js/masonary.desandro.min.js"></script>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="{$theme}/js/readmore.min.js"></script>
+        <script src="{$theme}/js/bootstrap.min.js"></script>
+        <script src="{$theme}/js/masonary.desandro.min.js"></script>
 
 
-    <script>
-        $(document).ready(function(){
+        <script>
+            $(document).ready(function(){
 
-            loading = '<i class="fa fa-spinner fa-spin"></i> {lang code="loading"}...';
-           /* var container = document.querySelector('.the_');
-            var msnry = new Masonry( container, {
-                // options
-                
-                itemSelector: '.the-item',
-                stamp : '.ad-box'
-                
-            });
-*/
-//            less.watch({
-//            poll : 300
-//            });
+                loading = '<i class="fa fa-spinner fa-spin"></i> {lang code="loading"}...';
+               /* var container = document.querySelector('.the_');
+                var msnry = new Masonry( container, {
+                    // options
+                    
+                    itemSelector: '.the-item',
+                    stamp : '.ad-box'
+                    
+                });
+    */
+    //            less.watch({
+    //            poll : 300
+    //            });
 
-        })
+            })
 
-    </script>
+        </script>
 
 
-    {include_header file='global_header'}
+        {include_header file='global_header'}
 
-</head>
+    </head>
