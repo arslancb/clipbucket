@@ -574,7 +574,6 @@ class CBPhotos
 
             $query .= $order;
             $query .= $limit;
-
             $result = select( $query );
 		}
 		

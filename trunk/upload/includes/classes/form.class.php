@@ -304,8 +304,13 @@ class formObj
 				//checking value
 				if(in_array('|'.$cat['category_id'].'|',$newVals))
 					$checked = 'checked';
-				echo $field['sep'];
-				echo '<label><input name="'.$field_name.'" type="checkbox" value="'.$cat['category_id'].'" '.$field_id.'
+
+				$label_class = '';
+				if($field['label_class'])
+                	$label_class = 'class="'.$field['label_class'].'"';
+                if(!isset($field['notShowSeprator']))
+					echo $field['sep'];
+				echo '<label '.$label_class.'><input name="'.$field_name.'" type="checkbox" value="'.$cat['category_id'].'" '.$field_id.'
 				 '.$checked.' '.$field['extra_tags'].'>'.$cat['category_name'].'</label>'	;
 				 if($cat['children'])
 				 {
@@ -372,7 +377,7 @@ class formObj
             if($field['wrapper_class'])
                 echo '</div>';
 
-            echo $sep;
+            echo (isset($field['notShowSeprator'])) ? '' : $sep;
 		}
 	}
 	
