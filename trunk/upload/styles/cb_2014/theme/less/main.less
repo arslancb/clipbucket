@@ -84,6 +84,73 @@ html,body{  height: 100%; }
 .absolute{position: absolute}
 .relative{position: relative}
 
+
+.userAccountMenu{
+  ul.navbar-nav{
+    padding: 18px;
+    >li{
+      >a{
+        padding: 5px;
+        color: #555;
+        margin-right: 20px;
+        font-size: 0.95em;
+      }
+    }
+  }
+}
+
+.userPicContainer{
+  a{
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 8px 40px 8px 8px;
+    img{
+      width: 50px;
+      margin-right: 10px;
+    }
+  }
+}
+
+/* sidebar styles */
+
+.leftSidebar{
+  border-right: solid 1px #eee;
+  a:hover{
+    text-decoration: none;
+  }
+  >ul{
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    width: 95%;
+    >li{
+      border: solid 1px #0789F4;
+      border-bottom: none;
+      margin-bottom: 10px;
+      >a{
+          padding: 4px;
+          background-color: #0671C9;
+          display: block;
+          color: #fff;
+          font-size: 1.2em;
+      }
+      >ul{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        >li{
+          >a{
+            font-size: 0.9em;
+            display: block;
+            padding: 5px;
+            border-bottom: solid 1px #0789F4;
+          }
+        }
+      }
+    }
+  }
+}
+
 @import 'essentials.less';
 
 @import 'elements.less';
