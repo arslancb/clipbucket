@@ -1,6 +1,6 @@
 
 #allUploadForms{
-  padding: 20px 40px;
+  padding: 0px 36px 20px;
 }
 
 
@@ -8,7 +8,7 @@
   margin-bottom: 10px;
 }
 .fileUploaderForm{
-      padding: 20px;
+      padding: 20px 20px 0;
   
   .fileUploaderForm a{
       margin-bottom: 10px;
@@ -16,22 +16,34 @@
   .uploadedFilesList{
       /*padding: 5px;*/
       /*background-color: #eee;*/
-      margin-bottom: 10px;
+      margin-bottom: 0px;
   }
   .uploadedFilesList ul{
       list-style: none;
       padding: 0;
       margin: 0;
+      border-top: none;
+      overflow: hidden;
   }
   .uploadedFilesList ul li{
-      background-color: #ccc;
+      background-color: #8DB9DD;
       padding: 10px;
-      border: solid 1px #aaa;
+      // border: solid 2px #fff;
+      // border-bottom: none;
       font-size: 12px;
+      float: left;
+      // width: auto;
+      cursor: pointer;
+      margin-right: 3px;
+      margin-left: 1px;
+      text-align: center;
+      color: #eee;
+      border-radius: 5px 5px 0 0;
   }
 
   .uploadedFilesList ul li.selectedFile{
-        background-color: yellowgreen;
+        background-color: #0671C9;
+        color:  #fff;
     }
   #fileUploadProgress{
       margin-bottom: 10px;
@@ -57,7 +69,7 @@
 #mainUploadContainer .uploadFormContainer{
   
   padding: 20px 10px 10px;
-  border-top: solid 1px #ccc;
+  border-top: solid 5px #0671C9;
   margin-bottom: 10px;
   display: none;
 
@@ -175,4 +187,14 @@
       padding: 10px;
     }
   }
+}
+
+#uploadMessage{
+  position: fixed;
+  width: 50%;
+  margin-left: 25%;
+  text-align: center;
+  top: 30%;
+  z-index: 10000;
+  font-size: 1.5em;
 }

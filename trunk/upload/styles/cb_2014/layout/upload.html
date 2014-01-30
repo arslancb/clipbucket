@@ -3,18 +3,17 @@
 {$requiredFields = $videoFields[0]}
 {$sharingOptions = $videoFields[1]}
 {$dateAndLocation = $videoFields[2]}
-
-
+<div id="uploadMessage" class=""></div>
 
 <div class="container uploadVideos">
     <div class="cb-box pad-bottom-sm progress-container">    
         <div class="row">
-            <div class="col-md-2">
-                <p>Uploading 1 of 2</p>
+            <div class="col-md-2" id="uploadedFilesInfo">
+                <p>Uploaded 0 of 2</p>
             </div>
             <div class="col-md-10">
                 <div class="progress">
-                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                    <div id="overallProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
                         <span class="sr-only">40% Complete (success)</span>
                     </div>
                 </div>
@@ -33,7 +32,7 @@
             </ul>
             <div class="tab-content uploadFormDiv">
                 <div class="tab-pane fade in active clearfix" id="file-upload">
-                    <div class="form-group">
+                    <div class="">
                         <div class="upload-area col-md-12">
                             <div class="fileUploaderForm">
                                 <a id="selectFiles" href="javascript:;" class="btn btn-primary">Select Files</a>
@@ -51,127 +50,126 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>   
+                    </div>
+                    <div id="allUploadForms">
+                        <div id="uploadFormContainer0" class="uploadFormContainer">
+                            <form action="#" id="updateVideoInfoForm">
+                                
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="" id="updateVideoInfo">
+                                            <fieldset class="">
+                                                <legend class="">{$requiredFields.group_name}</legend>
+                                            </fieldset>
+                                            <div class="requiredFields">
+                                                {foreach $requiredFields.fields as $field}
+                                                    <div class="form-group">
+                                                    {$field.class='form-control'}
+                                                    {$field.notShowSeprator='yes'}
+                                                    {if $field.type == 'radiobutton'}
+                                                        {$field.label_class='radio'}
+                                                        {$field.class=''}
+                                                        {$formObj->createField($field)}
+                                                    {elseif $field.type == 'checkbox'}
+                                                        <h4>{$field.title}</h4>
+                                                        {$field.label_class='checkbox'}
+                                                        {$field.class='checkbox'}
+                                                        {$formObj->createField($field)}
+                                                    {else}
+                                                        <label for="{$field.id}">{$field.title}</label>
+                                                        {$formObj->createField($field)}
+                                                    {/if}
+                                                    </div>
+                                                {/foreach}
+                                            </div>
+
+                                             <fieldset class="">
+                                                <legend class="">{$dateAndLocation.group_name}</legend>
+                                            </fieldset>
+                                            <div class="requiredFields">
+                                                {foreach $dateAndLocation.fields as $field}
+                                                    <div class="form-group">
+                                                    {$field.class='form-control'}
+                                                    {$field.notShowSeprator='yes'}
+                                                    {if $field.type == 'radiobutton'}
+                                                        {$field.label_class='radio'}
+                                                        {$field.class=''}
+                                                        {$formObj->createField($field)}
+                                                    {elseif $field.type == 'checkbox'}
+                                                        <h4>{$field.title}</h4>
+                                                        {$field.label_class='checkbox'}
+                                                        {$field.class='checkbox'}
+                                                        {$formObj->createField($field)}
+                                                    {else}
+                                                        <label for="{$field.id}">{$field.title}</label>
+                                                        {$formObj->createField($field)}
+                                                    {/if}
+                                                    </div>
+                                                {/foreach}
+                                            </div>
+
+                                            <div class="pad-bottom-sm text-right">
+                                                <button class="btn btn-primary btn-lg">Submit Now</button>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 uploadFormSidebarDiv">
+                                        <div id="sharingOptions" class="cb-box pad-bottom-sm sharing-contatiner">
+                                            <div id="sharingOptionsRadio">
+                                                <div class="panel panel-primary sharingOptions">
+                                                    <div class="panel-heading">
+                                                      <h3 class="panel-title">{$sharingOptions.group_name}</h3>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        {foreach $sharingOptions.fields as $field}
+                                                            <div class="form-group">
+                                                            {$field.class='form-control'}
+                                                            {$field.notShowSeprator='yes'}
+                                                            {if $field.type == 'radiobutton'}
+                                                                {$field.label_class='radio'}
+                                                                {$field.class=''}
+                                                                {$formObj->createField($field)}
+                                                            {else}
+                                                                <label for="{$field.id}">{$field.title}</label>
+                                                                {$formObj->createField($field)}
+                                                            {/if}
+                                                            </div>
+                                                        {/foreach}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="cb-box pad-bottom terms-contatiner">
+                                            <div class="checkbox">
+                                                <label class="light">
+                                                    <input type="checkbox" value="">
+                                                    I have read and agree to submission policy
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label class="light">
+                                                    <input type="checkbox" value="">
+                                                    I have read and agree to terms and conditions
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label class="light">
+                                                    <input type="checkbox" value="">
+                                                    Remember these settings
+                                                </label>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                            
                     </div>
                 </div>
                 <div class="tab-pane fade" id="remote-upload">remote upload</div>
                 <div class="tab-pane fade" id="remote-play">remote play</div>
                 <div class="tab-pane fade" id="embed-code">embed code</div>
-            </div>
-        </div>
-        <div id="uploadMessage" class=""></div>
-        <div id="allUploadForms">
-            <div id="uploadFormContainer0" class="uploadFormContainer">
-                <form action="#" id="updateVideoInfoForm">
-                    
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="" id="updateVideoInfo">
-                                <fieldset class="">
-                                    <legend class="">{$requiredFields.group_name}</legend>
-                                </fieldset>
-                                <div class="requiredFields">
-                                    {foreach $requiredFields.fields as $field}
-                                        <div class="form-group">
-                                        {$field.class='form-control'}
-                                        {$field.notShowSeprator='yes'}
-                                        {if $field.type == 'radiobutton'}
-                                            {$field.label_class='radio'}
-                                            {$field.class=''}
-                                            {$formObj->createField($field)}
-                                        {elseif $field.type == 'checkbox'}
-                                            <h4>{$field.title}</h4>
-                                            {$field.label_class='checkbox'}
-                                            {$field.class='checkbox'}
-                                            {$formObj->createField($field)}
-                                        {else}
-                                            <label for="{$field.id}">{$field.title}</label>
-                                            {$formObj->createField($field)}
-                                        {/if}
-                                        </div>
-                                    {/foreach}
-                                </div>
-
-                                 <fieldset class="">
-                                    <legend class="">{$dateAndLocation.group_name}</legend>
-                                </fieldset>
-                                <div class="requiredFields">
-                                    {foreach $dateAndLocation.fields as $field}
-                                        <div class="form-group">
-                                        {$field.class='form-control'}
-                                        {$field.notShowSeprator='yes'}
-                                        {if $field.type == 'radiobutton'}
-                                            {$field.label_class='radio'}
-                                            {$field.class=''}
-                                            {$formObj->createField($field)}
-                                        {elseif $field.type == 'checkbox'}
-                                            <h4>{$field.title}</h4>
-                                            {$field.label_class='checkbox'}
-                                            {$field.class='checkbox'}
-                                            {$formObj->createField($field)}
-                                        {else}
-                                            <label for="{$field.id}">{$field.title}</label>
-                                            {$formObj->createField($field)}
-                                        {/if}
-                                        </div>
-                                    {/foreach}
-                                </div>
-
-                                <div class="pad-bottom-sm text-right">
-                                    <button class="btn btn-primary btn-lg">Submit Now</button>
-                                </div>  
-                            </div>
-                        </div>
-                        <div class="col-md-4 uploadFormSidebarDiv">
-                            <div id="sharingOptions" class="cb-box pad-bottom-sm sharing-contatiner">
-                                <div id="sharingOptionsRadio">
-                                    <div class="panel panel-primary sharingOptions">
-                                        <div class="panel-heading">
-                                          <h3 class="panel-title">{$sharingOptions.group_name}</h3>
-                                        </div>
-                                        <div class="panel-content">
-                                            {foreach $sharingOptions.fields as $field}
-                                                <div class="form-group">
-                                                {$field.class='form-control'}
-                                                {$field.notShowSeprator='yes'}
-                                                {if $field.type == 'radiobutton'}
-                                                    {$field.label_class='radio'}
-                                                    {$field.class=''}
-                                                    {$formObj->createField($field)}
-                                                {else}
-                                                    <label for="{$field.id}">{$field.title}</label>
-                                                    {$formObj->createField($field)}
-                                                {/if}
-                                                </div>
-                                            {/foreach}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <div class="cb-box pad-bottom terms-contatiner">
-                                <div class="checkbox">
-                                    <label class="light">
-                                        <input type="checkbox" value="">
-                                        I have read and agree to submission policy
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label class="light">
-                                        <input type="checkbox" value="">
-                                        I have read and agree to terms and conditions
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label class="light">
-                                        <input type="checkbox" value="">
-                                        Remember these settings
-                                    </label>
-                                </div>
-                            </div> -->
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
@@ -195,6 +193,12 @@
                     runtimes : 'html5,flash,silverlight,html4',
                     url : baseurl + "/actions/file_uploader.php",
                     file_data_name : "Filedata",
+                    filters: {
+                      mime_types : [
+                        { title : "Image files", extensions : "jpg,gif,png,jpeg" },
+                        { title : "Video files", extensions : "mp4,flv,avi" }
+                      ]
+                    }
                 });
                 uploader.init();
                 uploader.bind('FilesAdded', function(up, uploadedFiles) {
@@ -202,7 +206,7 @@
                     for(var i = 0; i < uploadedFiles.length; i++){
                         files.push(uploadedFiles[i]);
                     }
-                    console.log(files);
+                    //console.log(files);
                     // creating the selected files list
                     var ul = document.createElement('ul');
                     ul.id = "selectedFilesList";
@@ -260,10 +264,16 @@
                     // updating file title in the form
                 });
 
+                uploader.bind("BeforeUpload", function(){
+                    $("#fileUploadProgress").removeClass("hidden");
+                })
+
                 /*
                 This is the event handler for UploadProgress,
                 It fires regularly after a certain amount of time when the the files are being uploaded
                 */
+
+                var filesUploaded = 0;
 
                 uploader.bind('UploadProgress', function(up, file) {
                     var progressContainer = document.getElementById("fileUploadProgress");
@@ -271,7 +281,8 @@
                     progressBar.style.display = "block";
                     var fileName = progressContainer.getElementsByTagName('h5')[0];
                     fileName.innerHTML = "Uploading "+file.name;
-                    progressBar.value = file.percent/100;
+                    var percent = file.percent/100;
+                    progressBar.value = percent;
                 });
 
 
@@ -284,6 +295,8 @@
 
                 uploader.bind('FileUploaded', function(plupload, fileDetails, response){
                     //$(".fileUploaderForm").css("display", "none");
+                    $("#overallProgress").css("width", ((100/files.length)*(++filesUploaded))+"%");
+                    $("#overallProgress").parents(".row").find("#uploadedFilesInfo").text("Uploaded " + (filesUploaded) + " of " + files.length);
                     var serverResponse = $.parseJSON(response.response);
                     var fileName = serverResponse.file_name;
                     var uploadForm = $("#uploadFormContainer"+currentFileIndex+" form");
@@ -344,11 +357,15 @@
                             }).success(function(msg){
                                 console.log(msg);
                                 msg = $.parseJSON(msg);
+                                $("#uploadMessage").removeClass("hidden");
                                 if(msg.error){
                                     $("#uploadMessage").html(msg.error).attr("class", "alert alert-danger");
                                 }else{
                                     $("#uploadMessage").html(msg.msg).attr("class", "alert alert-success");
                                 }
+                                setTimeout(function(){
+                                    $("#uploadMessage").addClass("hidden");
+                                }, 5000);
                             }).fail(function(err){
                                 console.log(err);
                             });
@@ -359,18 +376,33 @@
 
                 });
 
-                // uploader.bind('Error', function(up, err) {
-                //     document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
-                // });
+                uploader.bind("UploadComplete", function(plupload, files){
+                    $("#fileUploadProgress").addClass("hidden");
+                    uploader.refresh();
+                });
+
+                uploader.bind('Error', function(up, err) {
+                    $("#uploadMessage").removeClass("hidden");
+                    if(err){
+                        $("#uploadMessage").html(err.message).attr("class", "alert alert-danger");
+                    }
+                    setTimeout(function(){
+                        $("#uploadMessage").addClass("hidden");
+                    }, 8000);
+                    //console.log(err);
+                });
 
                 $('#uploadFiles').on({
                     click : function(e){
                         e.preventDefault();
+                        $("#overallProgress").parents(".row").find("#uploadedFilesInfo").text("Uploaded " + (filesUploaded) + " of " + files.length);
                         uploader.start();
                     }
                 });
             });
         });
+
+
     })(window);
 </script>
 
