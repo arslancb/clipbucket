@@ -1,0 +1,60 @@
+{$myAccountLinks = $userquery->my_account_links()}
+{$topMenuLinks = array_slice($myAccountLinks, 0, 6)}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
+<div class="container">
+    <div class="userAccountMenu navbar navbar-default cb-box">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="userPicContainer">
+                <a class="navbar-brand" href="#">
+                    <img src="http://cb.dev/images/avatars/no_avatar.png" alt="">
+                    My Account
+                </a>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                {foreach $topMenuLinks as $key => $value}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{$key}<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            {foreach $value as $subKey => $subValue}
+                                <li><a href="{$subValue}">{$subKey}</a></li>
+                            {/foreach}
+                        </ul>
+                    </li>
+                {/foreach}
+            </ul>
+            <div class="pull-right">
+                <a class="btn btn-info" href="{$userquery->profile_link($userquery->udetails)}">{lang code='com_my_channel'}</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="leftSidebar col-md-3 cb-box ">
+            <ul class="">
+                {foreach $leftMenuLinks as $key => $value}
+                    <li class="">
+                        <a href="#" class="" data-toggle="dropdown">{$key}</a>
+                        <ul class="">
+                            {foreach $value as $subKey => $subValue}
+                                <li><a href="{$subValue}">{$subKey}</a></li>
+                            {/foreach}
+                        </ul>
+                    </li>
+                {/foreach}
+            </ul>
+        </div>
+        <div class="mainContent col-md-9">
+            <div class="cb-box">
+                <h1>Content div</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
