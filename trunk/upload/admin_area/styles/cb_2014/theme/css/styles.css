@@ -177,8 +177,10 @@ ul.mainTabs{
     margin-bottom: 8px;
 }
 .labels {
+
     margin-top: 7px;
     min-height: 20px;
+    padding-left: 30px;
 }
 
 .status {
@@ -194,6 +196,13 @@ ul.mainTabs{
     word-break: break-all;
 
 }
+
+/* video manager*/
+
+.stats {
+    padding-left: 30px;
+}
+
 
 
 
