@@ -6,13 +6,14 @@
         <div class="lead dropdown">Editing {$data.title}
             <a class="btn btn-primary btn-sm dropdown-toggle pull-right" data-toggle="dropdown" href="">Actions <i class="caret"></i></a>
             <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="{videoLink vdetails=$data}">Watch this video</a> </li>
                 {if $data.active!='yes'}
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_video.php?video={$data.videoid}&amp;mode=activate">Activate</a> </li>
                 {else}
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_video.php?video={$data.videoid}&amp;mode=deactivate">Deactivate</a> </li>
                 {/if}
                 {if $data.featured!='yes'}
-                <a role="menuitem" tabindex="-1" href="edit_video.php?video={$data.videoid}&amp;mode=featured">Make Featured</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_video.php?video={$data.videoid}&amp;mode=featured">Make Featured</a></li>
                 {else}
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_video.php?video={$data.videoid}&amp;mode=unfeature">Make Unfeatured</a></li>
                 {/if}
@@ -61,18 +62,26 @@
                         </li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="upload_thumbs.php?video={$data.videoid}">Manage</a></li>
                     </ul>
-                    {assign var=vidthumbs value=get_thumb($data,1,TRUE,FALSE,TRUE,FALSE)}
-                    {foreach from=$vidthumbs item=vid_thumb}
-                    <div class="form-group pull-right">
-                        <label for="{$vid_thumb|getname}">
-                            <img src="{$vid_thumb}" ><br/>
-                            <input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $data.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />Default</label><br/>
-                        {if $vid_thumb|getname!='processing'}
-                        <a href="?video={$data.videoid}&delete={$vid_thumb|getname}.{$vid_thumb|getext}">Delete</a>
-                        {/if}
-                    </div>
+                 </div>
+            <div class="row">
+                {assign var=vidthumbs value=get_thumb($data,1,TRUE,FALSE,TRUE,FALSE)}
+                {foreach from=$vidthumbs item=vid_thumb}
+                <div class="col-md-3">
+                    <ul class="ace-thumbnails">
+                        <li>
+                            <img src="{$vid_thumb}" width="100" height="100">
+                            <div class="tools">
+                                <input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $data.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />
+                                {if $vid_thumb|getname!='processing'}
+                                    <a href="?video={$data.videoid}&delete={$vid_thumb|getname}.{$vid_thumb|getext}">
+                                    <i class="icon-remove red"></i></a>
+                                </div>
+                            </li>
+                        </ul>
+                    {/if}
                 </div>
-                {/foreach}
+            {/foreach}
+            </div>
                 {foreach from=$requiredFields item=field}
                 {/foreach}
                 <div class="form-group">
@@ -138,7 +147,6 @@
     </div>
 
     <div class="form-group">
-
         {assign var=id value=$data.videoid}{include file="$style_dir/blocks/comments.html" type=v id=$data.videoid link="video=$id"}
         </div>
 </form>
