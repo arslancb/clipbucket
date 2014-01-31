@@ -19,10 +19,14 @@ function redirect_to($url){
 //Test function to return template file
 function Fetch($name,$inside=FALSE)
 {
-    if($inside)
-        $file = CBTemplate::fetch($name);
-    else
-        $file = CBTemplate::fetch(LAYOUT.'/'.$name);
+    global $cbtpl;
+    if($inside){
+        $file = $cbtpl->fetch($name);
+    }
+    else{
+        //var_dump($name);die();
+        $file = $cbtpl->fetch(LAYOUT.'/'.$name);
+    }
 
     return $file;
 }

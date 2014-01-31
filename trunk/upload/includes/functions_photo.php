@@ -74,7 +74,7 @@ function photo_download_button($params)
 
 function add_photo_plupload_javascript_block() {
     if( THIS_PAGE == 'photo_upload' ) {
-        echo Fetch( JS_DIR.'/plupload/uploaders/photo.plupload.html', true );
+        return Fetch( JS_DIR.'/plupload/uploaders/photo.plupload.html', true );
     }
 }
 
@@ -192,6 +192,8 @@ function get_image_file( $params ) {
         }
     }
 
+
+
     $path = PHOTOS_DIR;
     $directory = get_photo_date_folder( $photo );
     $with_path = $params['with_path'] = ( $params['with_path'] === false ) ? false : true;
@@ -208,10 +210,13 @@ function get_image_file( $params ) {
 
     $files = glob( $path.sprintf( $filename, '*' ) );
 
+
+
     if ( !empty( $files ) ) {
 
         foreach( $files as $file ) {
-            $thumb_name = end( explode( "/", $file ) );
+
+            //$thumb_name = end( explode( "/", $file ) );
             $thumb_type = $cbphoto->get_image_type( $thumb_name );
 
             if( $with_original ) {
