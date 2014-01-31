@@ -53,6 +53,12 @@ $msg[] = clean($_GET['msg']);
 		$msg[] = lang('class_vdo_del_err');
 	}
 
+    $type = "v";
+    $comment_cond = array();
+    $comment_cond['order'] = " comment_id DESC";
+    $comments = getComments($comment_cond);
+    assign("comments",$comments);
+
 subtitle("Edit Video");
 template_files('edit_video.html');
 display_it();
