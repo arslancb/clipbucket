@@ -203,6 +203,16 @@ ul.mainTabs{
     padding-left: 30px;
 }
 
+/* Thumbs Manage */
+
+.cbthumbs {
+    width: 140px;
+    float: left;
+}
+.thumbs {
+    background-color: #0000ff;
+}
+
 
 
 
