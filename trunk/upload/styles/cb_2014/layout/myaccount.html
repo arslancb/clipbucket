@@ -52,7 +52,33 @@
         </div>
         <div class="mainContent col-md-9">
             <div class="cb-box">
-                <h1>Content div</h1>
+                <div class="alert alert-info">
+                     <span class="messages">{lang code='messages'}</span>
+                     {$cbpm->get_new_messages()}
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src="{$userquery->getUserThumb($user)}" alt="{$user.username}" class="img-thumbnail show">
+                        <a href="{$userquery->profile_link($user)}">{lang code='com_view_channel'}</a>
+                    </div>
+                    <div class="col-md-9">
+                        <ul>
+                            <li><span>{lang code='username'} : <strong>{$user.username}</strong></span></li>
+                            <li><span>{lang code='joined'} : <strong>{$user.doj|date_format}</strong></span></li>
+                            <li><span>{lang code='last_logged_in'} : <strong>{$user.last_logged|nicetime}</strong></span></li>
+                            <li><span>{lang code='total_logins'} : <strong>{$user.num_visits|number_format}</strong></span></li>
+                            <li><span>{lang code='profile_views'} : <strong>{$user.profile_hits|number_format}</strong></span></li>
+                            <li><span>{lang code='total_videos'} : <strong>{$user.total_videos|number_format}</strong></span></li>
+                            <li><span>{lang code='total_videos_watched'} : <strong>{$user.total_watched|number_format}</strong></span></li>
+                            <li><span>{lang code='total_collections'} : <strong>{$user.total_collections|number_format}</strong></span></li>
+                            <li><span>{lang code='total_photos'} : <strong>{$user.total_photos|number_format}</strong></span></li>
+                            <li><span>{lang code='comments_made'} : <strong>{$user.total_comments|number_format}</strong></span></li>
+                            <li><span>{lang code='subscribers'} : <strong>{$user.subscribers|number_format}</strong></span></li>
+                            {assign var=category value=$userquery->get_category($user.category)}
+                            <li><span>{lang code='category'} : <strong>{$category.category_name}</strong></span></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
