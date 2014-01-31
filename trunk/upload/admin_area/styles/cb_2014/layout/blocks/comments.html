@@ -1,40 +1,38 @@
 {assign var=bgcolor value =F2F2F2}
 {if $comments}
-<table width="99%" border="0" cellpadding="2" cellspacing="1" style="color:#fff">
-    <tr>
-        <td width="35" height="30" bgcolor="#0066cc">CID</td>
-        <td width="35" height="30" bgcolor="#0066cc">UID</td>
-        <td width="100" height="30" bgcolor="#0066cc">Username</td>
-        <td width="150" height="30" bgcolor="#0066cc">Email</td>
-        <td height="30" bgcolor="#0066cc">Comment</td>
-        <td width="200" height="30" bgcolor="#0066cc" >Date</td>
-        <td width="70" height="30" bgcolor="#0066cc">Votes</td>
-        <td width="100" height="30" bgcolor="#0066cc">&nbsp;</td>
-    </tr>
-</table>
-<div>
-    {foreach from=$comments.comments item=comment}
-    <table width="99%" border="0" cellpadding="2" cellspacing="1" >
-        <tr style="background-color:#{$bgcolor}">
-            <td width="35" align="left">{$comment.comment_id}</td>
-            <td width="35" align="left">{$comment.userid}</td>
-            <td width="100" align="left">{if $comment.anonym_name}{$comment.anonym_name}{else}{$comment.username}{/if}</td>
-            <td  width="150" align="left">{if $comment.anonym_email}{$comment.anonym_email}{else}{$comment.email}{/if}</td>
-            <td ><div class="edit_comment" id="{$comment.comment_id}">{$comment.comment}</div></td>
-            <td width="200" align="left" >{$comment.date_added|date_format}</td>
-            <td width="70" align="left" >{$comment.vote}</td>
-            <td width="100" ><a href="?{$link}&amp;delete_comment={$comment.comment_id}">Delete</a></td>
-        </tr>
-
-        {if $bgcolor == 'F2F2F2'}
-        {assign var=bgcolor value =FFF}
-        {elseif $bgcolor == 'FFF'}
-        {assign var=bgcolor value =F2F2F2}
-        {/if}
-
-        {/foreach}
-    </table>
-</div>
+    <div class="cb-box">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr>
+                <th><input type="checkbox" class="form-control"></th>
+                <th>CID</th>
+                <th>UID</th>
+                <th>Email</th>
+                <th>Comment</th>
+                <th>Date</th>
+                <th>Votes</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach from=$comments item=comment}
+            <tr>
+                <td class="center">
+                        <input type="checkbox" class="ace" />
+                        <span class="lbl"></span>
+                </td>
+                <td>{$comment.comment_id}</td>
+                <td>{$comment.userid}</td>
+                <td>{if $comment.anonym_email}{$comment.anonym_email}{else}{$comment.email}{/if}</td>
+                <td>{if $comment.comment}{$comment.comment}{else}{$comment.username}{/if}</td>
+                <td>{$comment.date_added|date_format}</td>
+                <td>{$comment.vote}</td>
+                <td><a href="?{$link}&amp;delete_comment={$comment.comment_id}">Delete</a></td>
+            </tr>
+            {/foreach}
+            </tbody>
+            </table>
+        </div>
 {else}
 <div align="center"><em>No User Comments</em></div>
 {/if}
