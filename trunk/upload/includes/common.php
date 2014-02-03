@@ -77,7 +77,7 @@ if(!@$in_bg_cron)
 	$row 		= $myquery->Get_Website_Details();
 	
 	
-	define('DEBUG_LEVEL', 2);
+	define('DEBUG_LEVEL', 0);
 
 	switch(DEBUG_LEVEL)
 	{
