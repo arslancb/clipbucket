@@ -15,7 +15,7 @@
                         <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
                     <td width="50">GP-ID</td>
                     <td class="head">Details</td>
-                    <td>&nbsp;</td>
+                    <td>Options</td>
                 </tr>
                 {section name=gp_list loop=$groups}
                 <tr>
@@ -31,13 +31,13 @@
                                 </a>
                             </div>
                             <div class="col-md-2">
-                                Owner <a href="view_user.php?uid={$groups[gp_list].userid}">{$groups[gp_list].userid|get_username}</a></strong>
+                                Owner: <a href="view_user.php?uid={$groups[gp_list].userid}">{$groups[gp_list].userid|get_username}</a></strong>
                             </div>
                             </div>
-                        </div>
                             <div class="labels">
+                                {if $groups[gp_list].featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
                                 <span class="label"><span>Members:</span>{$groups[gp_list].total_members|number_format}</span>
-                                <span class="label {if $u.usr_status == Ok}label- {else}label-success{/if}"><span></span>{if
+                                <span class="label {if $groups[gp_list].active=='yes'}label-success{else}label-warning{/if}"><span></span>{if
                                     $groups[gp_list].active=="yes"} Active{else}Inactive{/if}</span>
                                 <span class="label label-info"> {if $groups[gp_list].group_privacy =="0"}Public{elseif $groups[gp_list].group_privacy =="1"}Private{else}Invited{/if}</span>
                                 </div>
