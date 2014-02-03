@@ -14,7 +14,7 @@
                 <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
                 <td width="60">GP-ID</td>
                 <td class="head">Details</td>
-                <td>&nbsp;</td>
+                <td>Options</td>
         </tr>
         {section name=gp_list loop=$groups}
         <tr>
@@ -37,8 +37,8 @@
                 </div>
                 <div class="labels">
                     <span class="label">{if $groups[gp_list].group_privacy =="0"}Public{elseif $groups[gp_list].group_privacy =="1"}Private{else}Invited{/if}</span>
-                    <span class="label"><span></span>{if $groups[gp_list].active=="yes"} Active{else}Inactive{/if}</span>
-                                <span class="label {if $u.usr_status == Ok}label- {else}label-success{/if}"><span>Members</span>{$groups[gp_list].total_members|number_format}</span>
+                    <span class="label {if $groups[gp_list].active=='yes'}label-success{else}label-warning{/if}"><span></span>{if $groups[gp_list].active=="yes"} Active{else}Inactive{/if}</span>
+                                <span class="label label-info"><span>Members</span>{$groups[gp_list].total_members|number_format}</span>
                     <span class="label label-info"><span>Flags</span> {$groups[gp_list].total_flags}</span>
                 </div>
             </td>
@@ -50,15 +50,6 @@
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="{group_link details=$groups[gp_list]}"target="_blank">View</a></li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_group.php?group_id={$groups[gp_list].group_id}">Edit</a>
                         </li>
-                        {if $groups[gp_list].featured == yes}
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?unfeature={$groups[gp_list].group_id}">Make
-                            Unfeatured</a> {/if}
-                        </li>
-                        {if $groups[gp_list].featured == no}
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?feature={$groups[gp_list].group_id}">Make
-                            Featured</a> {/if}
-                        </li>
-
                         {if $groups[gp_list].active == yes}
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="?deactivate={$groups[gp_list].group_id}">Deactivate</a>
                             {else}
