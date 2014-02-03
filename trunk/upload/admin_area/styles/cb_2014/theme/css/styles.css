@@ -173,14 +173,10 @@ ul.mainTabs{
 
 /* Video manager pages */
 
-.videoTitle{
-    margin-bottom: 8px;
-}
+
 .labels {
 
-    margin-top: 7px;
-    min-height: 20px;
-    padding-left: 30px;
+    margin-top: 4px;
 }
 
 .status {
@@ -213,7 +209,10 @@ ul.mainTabs{
     background-color: #0000ff;
 }
 
-
+.reports {
+    padding-right: 50px;
+    padding-left: 50px;
+}
 
 
 
