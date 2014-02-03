@@ -320,6 +320,7 @@
                            msg = $.parseJSON(msg);
                            //creating the hidden form fields
                           $("#allUploadForms #uploadFormContainer"+fileIndex+ " form img").attr("src", msg.photoPreview);
+                          $("#allUploadForms #uploadFormContainer"+fileIndex+ " form .submitPhoto").removeAttr("disabled");
                            var hiddenPhotoIdField = document.createElement('input');
                            hiddenPhotoIdField.name = 'photo_id';
                            hiddenPhotoIdField.type = 'hidden';
