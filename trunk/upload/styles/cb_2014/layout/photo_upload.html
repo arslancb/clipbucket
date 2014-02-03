@@ -153,7 +153,9 @@
                                </div>
                            </div>   
                        </div>
-                        {include file="$style_dir/blocks/upload/photo_form.html" }
+                       <div id="allUploadForms">
+                         {include file="$style_dir/blocks/upload/photo_form.html" }
+                       </div>
                        </div>
                    </div>
                    <div class="tab-pane fade" id="remote-upload">remote upload</div>
@@ -242,6 +244,10 @@
                                //console.log(oneFileForm);
                            }
                        }
+                       $("#allUploadForms form").each(function(index, value){
+                        $(value).find("#title").val(files[index].name);
+                        //console.log(value);
+                       })
 
                        // setTimeout(function(){
                        //     uploader.start();
@@ -313,7 +319,7 @@
                        }).success(function(msg){
                            msg = $.parseJSON(msg);
                            //creating the hidden form fields
-                          $("#photoPreview img").attr("src", msg.photoPreview);
+                          $("#allUploadForms #uploadFormContainer"+fileIndex+ " form img").attr("src", msg.photoPreview);
                            var hiddenPhotoIdField = document.createElement('input');
                            hiddenPhotoIdField.name = 'photo_id';
                            hiddenPhotoIdField.type = 'hidden';
@@ -355,14 +361,15 @@
                                    data : data
                                }).success(function(msg){
                                    //console.log(msg);
-                                   msg = $.parseJSON(msg);
-                                   console.log(msg.success);
+                                   //msg = $.parseJSON(msg);
+                                   // console.log(msg);
+                                   // return this;
                                    //return this;
                                    $("#uploadMessage").removeClass("hidden");
                                    // if(msg.error){
                                    //     $("#uploadMessage").html(msg.error).attr("class", "alert alert-danger");
                                    // }else{
-                                       $("#uploadMessage").html(msg.success).attr("class", "alert alert-success");
+                                  $("#uploadMessage").html("Picture details are successfully updated").attr("class", "alert alert-success");
                                    //}
                                    setTimeout(function(){
                                        $("#uploadMessage").addClass("hidden");
@@ -406,7 +413,7 @@
                       e.preventDefault();
                       var formData = $(this).parents("form").serialize();
                       formData += "&mode=add_collection";
-                      console.log(formData);
+                      var collectionName = $(this).parents("form").find("#collection_name").val();
                       $.ajax({
                         type: "post",
                         url: baseurl + "/ajax.php",
@@ -414,6 +421,11 @@
                       }).success(function(msg){
                         msg = $.parseJSON(msg);
                         if(msg.err === null){
+                          var newCollectionElement = document.createElement('option');
+                          newCollectionElement.value = parseInt(msg.id);
+                          newCollectionElement.innerHTML = collectionName;
+                          newCollectionElement.selected = true;
+                          $("#collectionSelection").get(0).appendChild(newCollectionElement);
                           $("#CollectionDIV").toggle("slow");
                           $("#uploadMessage").html(msg.msg).attr("class", "alert alert-success").removeClass("hidden");
                           setTimeout(function(){
