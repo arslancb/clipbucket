@@ -152,6 +152,8 @@ function get_photo_default_thumb( $size = null, $output = null ) {
 }
 
 function get_image_file( $params ) {
+
+
     global $cbphoto, $Cbucket;
     //var_dump($params);
     $details = $params[ 'details' ];
@@ -161,7 +163,7 @@ function get_image_file( $params ) {
     $thumbs = array();
 
     if( !$details ) {
-        var_dump("get default 1");
+        //var_dump("get default 1");
         return get_photo_default_thumb( $size, $output );
     }
 
@@ -172,12 +174,12 @@ function get_image_file( $params ) {
     }
 
     if ( empty( $photo[ 'photo_id' ] ) or empty( $photo[ 'photo_key' ] ) ) {
-        var_dump("get default 2");
+        //var_dump("get default 2");
         return get_photo_default_thumb( $size, $output );
     }
 
     if( empty( $photo[ 'filename' ] ) or empty( $photo[ 'ext' ] ) ) {
-        var_dump("get default 3");
+        //var_dump("get default 3");
         return get_photo_default_thumb( $size, $output );
     }
 
@@ -219,7 +221,7 @@ function get_image_file( $params ) {
 
         foreach( $files as $file ) {
 
-            //$thumb_name = end( explode( "/", $file ) );
+            $thumb_name = end( explode( "/", $file ) );
             $thumb_type = $cbphoto->get_image_type( $thumb_name );
 
             if( $with_original ) {
@@ -242,6 +244,7 @@ function get_image_file( $params ) {
                 $return_thumb = array_find( $search_name, $thumbs );
 
                 if( empty( $return_thumb ) ) {
+
                     return get_photo_default_thumb( $size, $output );
                 } else {
 
@@ -257,8 +260,10 @@ function get_image_file( $params ) {
         }
 
         if ( $output == 'html' ) {
+
             $search_name = sprintf( $filename, "_".$size );
             $src = array_find( $search_name, $thumbs );
+
             $src = ( empty( $src ) ) ? get_photo_default_thumb( $size ) : $src;
             $attrs = array( 'src' => $src );
 
