@@ -334,10 +334,11 @@ class Clipbucket_db
         try
         {
             $this->mysqli->query($query);
+            return $this->mysqli->insert_id;
         }
         catch(DB_Exception $e)
         {
-            $e->getError();
+            echo $e->getError();
         }
 
     }

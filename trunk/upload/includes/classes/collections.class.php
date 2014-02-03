@@ -844,11 +844,12 @@ class Collections extends CBCategory
 			$query_val[] = "yes";
 
 			$insert_id = $db->insert(tbl($this->section_tbl),$query_field,$query_val);
-			
 			addFeed(array('action'=>'add_collection','object_id' => $insert_id,'object'=>'collection'));
+
 			
 			//Incrementing usr collection
 			$db->update(tbl("users"),array("total_collections"),array("|f|total_collections+1")," userid='".$userid."'");
+			//$insert_id = mysql_insert_id();
 			
 			e(lang("collect_added_msg"),"m");
 			return $insert_id;	

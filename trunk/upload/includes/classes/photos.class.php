@@ -1121,7 +1121,9 @@ class CBPhotos
 			imagedestroy($image_r);
 		} else {
 			if(!file_exists($to) || $force_copy === true)
-				copy($from,$to);	
+				if(!is_dir($from)){
+					copy($from,$to);
+				}
 		}
 	}
 	
@@ -1447,7 +1449,6 @@ class CBPhotos
 				$query_field[] = "file_directory";
 				$query_val[] = $array['folder'];
 			}
-			
 			$insert_id = $db->insert(tbl($this->p_tbl),$query_field,$query_val);
 			$photo = $this->get_photo($insert_id);
 			$this->collection->add_collection_item($insert_id,$photo['collection_id']);
@@ -1462,6 +1463,8 @@ class CBPhotos
 			
 			//Adding Photo Feed
 			addFeed(array('action' => 'upload_photo','object_id' => $insert_id,'object'=>'photo'));
+
+			//var_dump($insert_id);
 			
 			return $insert_id;
 		}

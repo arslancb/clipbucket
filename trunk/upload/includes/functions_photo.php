@@ -153,7 +153,7 @@ function get_photo_default_thumb( $size = null, $output = null ) {
 
 function get_image_file( $params ) {
     global $cbphoto, $Cbucket;
-
+    //var_dump($params);
     $details = $params[ 'details' ];
     $output = $params[ 'output' ];
     $size = $params[ 'size' ];
@@ -161,6 +161,7 @@ function get_image_file( $params ) {
     $thumbs = array();
 
     if( !$details ) {
+        var_dump("get default 1");
         return get_photo_default_thumb( $size, $output );
     }
 
@@ -171,10 +172,12 @@ function get_image_file( $params ) {
     }
 
     if ( empty( $photo[ 'photo_id' ] ) or empty( $photo[ 'photo_key' ] ) ) {
+        var_dump("get default 2");
         return get_photo_default_thumb( $size, $output );
     }
 
     if( empty( $photo[ 'filename' ] ) or empty( $photo[ 'ext' ] ) ) {
+        var_dump("get default 3");
         return get_photo_default_thumb( $size, $output );
     }
 
