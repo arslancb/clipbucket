@@ -536,9 +536,11 @@ class CBPhotos
 		}
 		
 		if($p['get_orphans'])
+		{
 			$p['collection'] = (string)"0";
+		}
 			
-		if($p['collection'])
+		if($p['collection'] || $p['get_orphans'])
 		{
 			if($cond != "")
 				$cond .= " AND ";
