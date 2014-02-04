@@ -28,26 +28,31 @@
                         {$videos[list].videoid}</td>
                     <td>
                     <div>
-                        <div class="videoTitle row">
-                        <div class="col-md-10">
-                            <img src="{getThumb vdetails=$videos[list]}" width="130" height="80" id="thumbs_{$videos[list].videoid}">
-                                <a href="edit_video.php?video={$videos[list].videoid}" target="_blank" style="text-indent:10px">
-                                    {$videos[list].title|truncate:80}
-                                </a>({if $videos[list].duration>1}{$videos[list].duration|SetTime}{else}00:00{/if})
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="row">
+                                     <div class="col-md-3">
+                                        <img src="{getThumb vdetails=$videos[list]}" width="130" height="80" id="thumbs_{$videos[list].videoid}">
+                            </div>
+                                <div class="col-md-9 labels1">
+                                <a href="edit_video.php?video={$videos[list].videoid}" target="_blank" >
+                                    {$videos[list].title|truncate:80}</a>-({if $videos[list].duration>1}{$videos[list].duration|SetTime}{else}00:00{/if})<br>
+                         <span class="labels1">{$videos[list].date_added|niceTime}
+                                {lang code='views'} : {$videos.views|number_format}</span>
+                                    <div class="labels">
+                                        <span class="label {if $video.status == Ok}label-success{else}label-warning{/if}">{if $video.active=='yes'}Active{else}InActive{/if}</span>
+                                        <span class="label {if $video_status == Ok}label-success{else}label-success{/if}">{$videos[list].status}</span>
+                                        <span class="label label-info"><span>Flags:{$videos[list].total_flags}</span>
+                                        </span>
+                                    </div>
+                                  </div>
                                 </div>
+                            </div>
                                 <div class="col-md-2">
                                 <a href="view_user.php?uid={$videos[list].userid}">{$videos[list].username}</a>
                             </div>
                         </div>
-                        <div class="stats">
-                        <span><strong>{$videos[list].date_added|niceTime}</strong>
-                        {lang code='views'} : <strong>{$vdo.views|number_format}</strong></span>
-                            </div>
-    <div class="labels">
-    <span class="label {if $video.status == Ok}label-success{else}label-success{/if}"><strong>{if $video.active=='yes'}Active{else}NotActive{/if}</strong></span>
-    <span class="label {if $u.usr_status == Ok}label-success{else}label-success{/if}"><strong>{$videos[list].status}</strong></span>
-    <span class="label label-info"><span>Flags:<strong>{$videos[list].total_flags}</strong></span>
-    </span>
+                    </td>
                <td>
                 <div id="vid_opt-{$videos[list].videoid}" class="dropdown">
                     <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions <i class="caret"></i></button>
@@ -84,32 +89,32 @@
 {/if}
 
 {if $mode=='view_flags'}
-<span class="page_title">Viewing {$video.title} flags</span> &#8212; <a href="{$baseurl}/watch_video.php?v={$video.videokey}">View video</a> &#8226; <a href="edit_video.php?video={$video.videoid}">Edit video</a> &#8226; <a href="?delete_flags={$video.videoid}">Delete Flags</a> &#8226; <a href="?delete_video={$video.videoid}">Delete Video</a>
-<div  style="margin-bottom:10px"></div>
+<span class="lead">Viewing {$video.title} flags</span>
+        <div class="dropdown">
+            <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle pull-right" data-toggle="dropdown">Actions <i class="caret"></i></button>
+            <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
+
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="{$baseurl}/watch_video.php?v={$video.videokey}">View video</a>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_video.php?video={$video.videoid}">Edit video</a>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_flags={$video.videoid}">Delete Flags</a>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_video={$video.videoid}">Delete Video</a>
+                </li>
+                </ul>
+            </div><br><br>
+
 <!-- DIsplaying Videos -->
 
 <form name="video_manage" method="post">
-
-
-    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+    <table class="table table-bordered table-striped manageUsersTable">
         <tr>
-            <td width="30" align="center" valign="middle" class="left_head">&nbsp;</td>
+            <td width="30" align="center" valign="middle" class="left_head">Fid</td>
             <td class="head">Flag Details</td>
-            <td width="50" class="right_head">&nbsp;</td>
         </tr>
-    </table>
-
-
-
-
-
-    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
         {assign var = bgcolor value = ""}
         {section name=list loop=$flags}
-        <tr class="video_opt_td"  bgcolor="{$bgcolor}">
-            <td width="30" align="left" valign="top" class="video_opt_td">{$smarty.section.list.iteration}</td>
-            <td align="left" valign="top" class="video_opt_td">Reported as "{$flags[list].flag_type|flag_type}" by {$flags[list].userid|get_username} {$flags[list].date_added|niceTime}</td>
-            <td width="50" valign="top" class="video_opt_td">&nbsp;</td>
+        <tr bgcolor="{$bgcolor}">
+            <td>{$smarty.section.list.iteration}</td>
+            <td>Reported as "{$flags[list].flag_type|flag_type}" by<strong>{$flags[list].userid|get_username}</strong> {$flags[list].date_added|niceTime}</td>
         </tr>
         {if $bgcolor == ""}
         {assign var = bgcolor value = "#EEEEEE"}
