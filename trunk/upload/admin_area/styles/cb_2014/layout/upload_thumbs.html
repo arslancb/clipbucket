@@ -16,17 +16,17 @@
             <div class="row-fluid">
                 <ul class="ace-thumbnails">
                     <li>
-                        <label class="thumbs"><input type="checkbox">
-                        <img alt="170x170" src="{$vid_thumb}"  /></label>
+                        <span><img src="{$vid_thumb}" border="2px"/></span>
                         <div class="tools">
+                            <input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}"  name="default_thumb" {if $data.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />
                             {if $vid_thumb|getname!='processing'}
-                            {/if}
                             <a href="?video={$data.videoid}&delete={$vid_thumb|getname}.{$vid_thumb|getext}">
                                 <i class="icon-remove red"></i>
                             </a>
                         </div>
                     </li>
                  </ul>
+                {/if}
             </div>
         </div>
         {/foreach}

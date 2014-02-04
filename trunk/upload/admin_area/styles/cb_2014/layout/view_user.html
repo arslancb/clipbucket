@@ -1,12 +1,31 @@
 <h2>Edit User</h2>
-
 {assign var='signup_fields' value=$userquery->load_signup_fields($u)}
 {assign var='channel_profile_fields' value=$userquery->load_user_fields($p)}
-
-
+<div class="row">
+<div class="lead dropdown">Editing {$u.username}
+<a class="btn btn-primary btn-sm dropdown-toggle pull-right" data-toggle="dropdown" href="">Actions <i class="caret"></i></a>
+<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+    <li><a role="menuitem" tabindex="-1" href="{$userquery->profile_link($u)}">View {$u.username} channel</a></li>
+    <li><a role="menuitem" tabindex="-1" href="login_as_user.php?uid={$u.userid}">Login as user</a></li>
+    {if $u.usr_status=="Ok"}
+    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;deactivate=yes">Deactivate</a></li>
+    {else}
+    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;activate=yes">Activate</a></li>
+    {/if}
+    {if $u.ban_status=="yes"}
+    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;unban=yes">Unban</a></li>
+    {else}
+    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;ban=yes">Ban</a></li>
+    {/if}
+    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete=yes">Delete</a></li>
+    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_vids=yes">Delete Videos</a></li>
+    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_contacts=yes">Delete Contacts</a></li>
+    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_pm=yes">Delete Private Messages</a></li>
+</ul>
+</div>
+<div class="col-sm-6 col-md-6 col-lg-6 col x1-12">
 <form action="" method="post" enctype="multipart/form-data" name="form1" id="form1" class="cbform">
-
-<div class="userInfoSettings well">
+<div class="userInfoSettings">
   <h3>User Info</h3>
   <div class="form-group">
     <label for="uid">User id</label>
@@ -56,11 +75,9 @@
       {/foreach}
     </select>
   </div>
-  
 
   <div class="form-group">
     <h4>Gender</h4>
-    <div>
       <label class="radio">
         <input type="radio" name="sex" value="male" id="sex_0" {if $u.sex == male} checked="checked"{/if} />
         Male
@@ -70,7 +87,6 @@
         Female
       </label>
     </div>
-  </div>
 
   <div class="form-group">
     <label for="">Category</label>
@@ -79,7 +95,7 @@
 </div>
 
 
-<div class="custSignup well">
+<div class="custSignup">
   {assign var=cust_signup value=$userquery->load_custom_signup_fields($u,true)}
     {if $cust_signup}
       {foreach from=$cust_signup item=field}
@@ -94,7 +110,7 @@
 </div>
 
 
-<div class="channelSettings well">
+<div class="channelSettings">
   {foreach from=$channel_profile_fields item=field_group}
   <h3>{$field_group.group_name}</h3>
     {foreach from=$field_group.fields item=field}
@@ -107,33 +123,12 @@
     {/foreach}
   {/foreach}
 </div>
+</form>
+</div>
 
-
+<div class="col-sm-6 col-md-6 col-lg-6 col x1-12 pull-right">
 <div class="actionsSettings">
-  <h2>Actions</h2>
-  <h3>User Links</h3>
-
-    <div class="btn-group">
-        <a class="btn btn-primary btn-sm" href="{$userquery->profile_link($u)}">View {$u.username} channel</a>
-        <a class="btn btn-primary btn-sm" href="login_as_user.php?uid={$u.userid}">Login as user</a>
-        {if $u.usr_status=="Ok"}
-        <a class="btn btn-primary btn-sm" href="?uid={$u.userid}&amp;deactivate=yes">Deactivate</a>
-        {else}
-        <a class="btn btn-primary btn-sm" href="?uid={$u.userid}&amp;activate=yes">Activate</a>
-        {/if}
-        {if $u.ban_status=="yes"}
-        <a class="btn btn-primary btn-sm" href="?uid={$u.userid}&amp;unban=yes">Unban</a>
-        {else}
-        <a class="btn btn-primary btn-sm" href="?uid={$u.userid}&amp;ban=yes">Ban</a>
-        {/if}
-        <a class="btn btn-primary btn-sm" href="?uid={$u.userid}&amp;delete=yes">Delete</a>
-        <a class="btn btn-primary btn-sm" href="?uid={$u.userid}&amp;delete_vids=yes">Delete Videos</a>
-        <a class="btn btn-primary btn-sm" href="?uid={$u.userid}&amp;delete_contacts=yes">Delete Contacts</a>
-        <a class="btn btn-primary btn-sm" href="?uid={$u.userid}&amp;delete_pm=yes">Delete Private Messages</a>
-    </div>
-
-    
-    <div class="userActivity well">
+    <div class="userActivity">
       <h3>User Activity</h3>
       <div class="form-group">
         <label for="dob">Date of birth</label>
@@ -193,23 +188,23 @@
       </div>
     </div>
 
-    <div class="recentActivityLog well">
+    <div class="recentActivityLog">
       <h3>Recent Activity Log</h3>
       <table class="table table-bordered table-striped">
         <tr>
-          <td width="40" align="center" valign="middle" class="left_head">ID</td>
-          <td width="50" class="head_sep_left">UID</td>
-          <td width="100" class="head"><div class="head_sep_left" style="width:100px">Username</div></td>
-          <td width="100" class="head"><div class="head_sep_left" style="width:100px">Date</div></td>
-          <td class="head"><div class="head_sep_left" style="width:100px">Detail</div></td>
+          <td>ID</td>
+          <td>UID</td>
+          <td>Username</td>
+          <td>Date</td>
+          <td>Detail</td>
         </tr>
         {assign var="logs" value=$userquery->get_user_action_log($u.userid,10)}
         {section loop=$logs name=log}
         <tr>
-          <td width="40" align="center" valign="middle" class="">{$logs[log].action_id}</td>
-          <td width="50" class="" style="padding-left:10px">{$logs[log].action_userid}</td>
-          <td width="100" class="">{$logs[log].action_username}</td>
-          <td width="100" class="">{$logs[log].date_added}</td>
+          <td>{$logs[log].action_id}</td>
+          <td>{$logs[log].action_userid}</td>
+          <td>{$logs[log].action_username}</td>
+          <td>{$logs[log].date_added}</td>
           <td>
             Type : {$logs[log].action_type} &#8211;{if $logs[log].action_details!=''}{$logs[log].action_details} &#8211;{/if} Success : {$logs[log].action_success} &#8211 {$logs[log].action_ip}
           </td>
@@ -224,7 +219,7 @@
       
       <h3>User Avatar and Background</h3>
 
-      <div class="changeAvatar row well">
+      <div class="changeAvatar row">
         <div class="showAvatar col-md-3">
           <img src="{$userquery->getUserThumb($u)}" class="mid_user_thumb" style="max-width:95px"/><br />
           <input name="delete_avatar" type="checkbox" id="delete_avatar" value="yes" />
@@ -251,7 +246,7 @@
         </div>
       </div>
 
-      <div class="changeBackground row well">
+      <div class="changeBackground row">
         <h3>User Background Image</h3>
         <div class="showBackground col-md-3">
           {if $userquery->getUserBg($u)}
@@ -288,17 +283,17 @@
         {if $userquery->getUserBg($u)}
           <div>
             <label class="checkbox" for="delete_bg"><input name="delete_bg" type="checkbox" id="delete_bg" value="yes" /><label for="delete_bg">Delete this image</label>
+                </label>
           </div>
-          
         {/if}
         <input type="hidden" name="bg_file_name" value="{$u.background}" />
       </div>
     </div>
 
     <div class="form-group">
-      <input class="btn btn-primary" type="submit" name="update_user" id="update_user" value="Submit" />
+      <input class="btn btn-primary btn-lg pull-right" type="submit" name="update_user" id="update_user" value="Submit" />
     </div>
-
+</div>
 </div>
 
 {assign var='object_type' value='channel'}
@@ -309,10 +304,13 @@
     var baseurl = "";
   }
   page = baseurl +'/ajax.php';
-  //getComments('c','{$u.userid}','{$u.last_commented}',1,'{$u.comments_count}','{$object_type}','yes')
+  getComments('c','{$u.userid}','{$u.last_commented}',1,'{$u.comments_count}','{$object_type}','yes')
   {rdelim}
   );
 </script>
-
-
 </form>
+</div>
+</div>
+<div class="form-group">
+    {assign var=id value=$data.videoid}{include file="$style_dir/blocks/comments.html" type=u id=$data.userid link="user=$id"}
+</div>

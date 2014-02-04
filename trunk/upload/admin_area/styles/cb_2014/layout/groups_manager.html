@@ -24,23 +24,29 @@
                     </td>
                     <td width="50" >{$groups[gp_list].group_id}</td>
                     <td>
-                        <div class="videoTitle row">
+                        <div class="row">
                         <div class="col-md-10">
+                            <div class="row">
+                            <div class="col-md-3">
                             <img src="{$cbgroup->get_group_thumb($groups[gp_list])}"  width="50" height="50"/>
+                                </div>
+                            <div class="col-md-9">
                                 <a href="{$baseurl}/view_group.php?url={$groups[gp_list].group_url}" target="_blank"> {$groups[gp_list].group_name}
                                 </a>
-                            </div>
-                            <div class="col-md-2">
-                                Owner: <a href="view_user.php?uid={$groups[gp_list].userid}">{$groups[gp_list].userid|get_username}</a></strong>
-                            </div>
-                            </div>
-                            <div class="labels">
-                                {if $groups[gp_list].featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
-                                <span class="label"><span>Members:</span>{$groups[gp_list].total_members|number_format}</span>
+                                <div class="labels">
+                                    {if $groups[gp_list].featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
+                                    <span class="label"><span>Members:</span>{$groups[gp_list].total_members|number_format}</span>
                                 <span class="label {if $groups[gp_list].active=='yes'}label-success{else}label-warning{/if}"><span></span>{if
                                     $groups[gp_list].active=="yes"} Active{else}Inactive{/if}</span>
-                                <span class="label label-info"> {if $groups[gp_list].group_privacy =="0"}Public{elseif $groups[gp_list].group_privacy =="1"}Private{else}Invited{/if}</span>
+                                    <span class="label label-info"> {if $groups[gp_list].group_privacy =="0"}Public{elseif $groups[gp_list].group_privacy =="1"}Private{else}Invited{/if}</span>
                                 </div>
+                            </div>
+                            </div>
+                        </div>
+                            <div class="col-md-2">
+                               Owner: <a href="view_user.php?uid={$groups[gp_list].userid}">{$groups[gp_list].userid|get_username}</a></strong>
+                            </div>
+                        </div>
                 </td>
                     <td>
                         <div id="vid_opt-{$groups[gp_list].group_id}" class="dropdown">

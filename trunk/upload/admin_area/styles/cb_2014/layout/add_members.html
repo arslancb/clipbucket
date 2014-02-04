@@ -1,19 +1,11 @@
 {assign var='required_fields' value=$userquery->load_signup_fields()}
 {assign var='custom_field' value=$userquery->custom_signup_fields}
-
 <h2>Add New Member</h2>
-<table>
-  <tr>
-    <td width="10" align="center" valign="middle" class="left_head">&nbsp;</td>
-    <td class="head">Required Member Details</td>
-    <td width="10" class="right_head">&nbsp;</td>
-  </tr>
-</table>
+
+    <p class="alert alert-info">Required Member Details</td>
+
 
 <form action="" method="post">
-  
-    <h3>User Information</h3>
-  
     {foreach from=$required_fields item=field}
     {*pr($field, true)*}
     {$field.class = 'form-control'}

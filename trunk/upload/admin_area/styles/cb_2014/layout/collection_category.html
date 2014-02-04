@@ -2,10 +2,6 @@
 
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="200" align="left" valign="middle" class="left_head" style="text-indent:10px">Manage Collection Categories</td>
-    <td class="head">&nbsp;</td>
-  </tr>
     <tr>
         <td class="td_body">&nbsp;</td>
         <td align="right" class="td_body">* are required fields</td>
@@ -40,7 +36,7 @@
     <tr>
         <div class="form-group">
             <label>Category Thumb</label>
-            <input type="file" name="cat_thumb" id="cat_thumb" />
+            <input type="file" name="cat_thumb" id="cat_thumb" class="form-control" />
         </div>
     <tr>
       <td>
@@ -56,26 +52,19 @@
 <form action="" method="post" enctype="multipart/form-data" name="edit_category" id="Edit Category">
 <input name="cid" value="{$cat_details.category_id}" type="hidden" />
 <input name="cur_name" value="{$cat_details.category_name}" type="hidden" />
-  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
-    
-    <tr>
-      <td class="td_body">&nbsp;</td>
-      <td align="right" class="td_body">* are required fields</td>
-    </tr>
-    <tr>
-      <td valign="top" class="td_body">Category Name*</td>
-      <td class="td_body"><label>
-        <input name="name" type="text" id="name" value="{$cat_details.category_name}" size="45" />
-      </label></td>
-    </tr>
-    <tr>
-      <td valign="top" class="td_body">Category Description*</td>
-      <td class="td_body"><textarea name="desc" id="desc" cols="33" rows="5">{$cat_details.category_desc}</textarea></td>
-    </tr>
+
+
+   <div class="form-group">
+      <label for="categorname">Category Name*</label>
+        <input name="name" type="text" id="name" class="form-control" value="{$cat_details.category_name}" size="45" />
+      </div>
+    <div class="form-group">
+      <label for="categporydesc">Category Description*</label>
+      <textarea name="desc" id="desc" class="form-control" cols="33" rows="5">{$cat_details.category_desc}</textarea>
+    </div>
    
-     <tr>
-      <td valign="top" class="td_body">Make Default Category</td>
-      <td class="td_body"><p>
+     <div class="form-group">
+      <label for="mdcategory">Make Default Category</label>
         <label>
           <input type="radio" name="default" value="yes" id="default_0" {if $cat_details.isdefault=='yes'} checked="checked"{/if} />
           Yes</label>
@@ -83,21 +72,16 @@
           <input name="default" type="radio" id="default_1" value="no" {if $cat_details.isdefault=='no'} checked="checked"{/if} />
           No</label>
         <br />
-      </p></td>
-    </tr>
-    <tr>
-      <td class="td_body">Category Thumb</td>
-      <td class="td_body"><label>
+      </div>
 
-        <input type="file" name="cat_thumb" id="cat_thumb" />
-      </label></td>
-    </tr>
-    <tr>
-      <td colspan="2" align="right" class="tr_head"><label>
-        <input type="submit" name="update_category" id="button" value="Update Category" onclick="return validate_category_form(edit_category)" class="button"/>
-      </label></td>
-    </tr>
-  </table>
+    <div class="form-group">
+      <label for="cat-thumb">Category Thumb</label>
+        <input type="file" name="cat_thumb" id="cat_thumb" class="form-control" />
+      </div>
+
+    <div class="button">
+        <input type="submit" name="update_category" id="button" value="Update Category" onclick="return validate_category_form(edit_category)" class="btn btn-primary"/>
+      </div>
 </form>
 {/if}
 
@@ -116,7 +100,6 @@
     <td width="250" class="head">Description</td>
     <td width="100" class="head">Default</td>
     <td width="150" class="head">Action</td>
-    <td width="20" align="left" class="right_head">&nbsp;</td>
   </tr>
 {assign var = bgcolor value = ""}
 {section name=list loop=$category}
@@ -142,13 +125,14 @@ cat_div = "#thumbs_{$category[list].category_id}";
     <td>{$category[list].isdefault}</td>
     <td>
         <div class="lead dropdown">
-            <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions<i class="caret"></i></button>
+            <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions <i class="caret"></i></button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="?category={$category[list].category_id}">Edit</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:Confirm_Delete('?delete_category={$category[list].category_id}')">Delete</a></li>
      {if $category[list].isdefault!="yes"}<li role="presentation"><a role="menuitem" tabindex="-1"href="?make_default={$category[list].category_id}">Make Default</a></li>{/if}
+            </ul>
+        </div>
     </td>
-    <td>&nbsp;</td>
   </tr>
  {if $bgcolor == ""}
  	 {assign var = bgcolor value = "#EEEEEE"}

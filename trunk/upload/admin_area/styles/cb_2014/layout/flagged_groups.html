@@ -23,23 +23,27 @@
             </td>
             <td>{$groups[gp_list].group_id}</td>
             <td>
-                <div class="videoTitle row">
+                <div class="row">
                     <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-3">
                         <img src="{$cbgroup->get_group_thumb($groups[gp_list])}"  width="50" height="50"/>
-                        <a href="{$baseurl}/view_group.php?url={$groups[gp_list].group_url}" target="_blank"> {$groups[gp_list].group_name}
+                                </div>
+                        <div class="col-md-9">
+                            <a href="{$baseurl}/view_group.php?url={$groups[gp_list].group_url}" target="_blank"> {$groups[gp_list].group_name}
                         </a>
-                    </div>
-
-                    <div class="col-md-2">
-                        Owner <a href="view_user.php?uid={$groups[gp_list].userid}">{$groups[gp_list].userid|get_username}</a></strong>
-                    </div>
-                </div>
-                </div>
-                <div class="labels">
-                    <span class="label">{if $groups[gp_list].group_privacy =="0"}Public{elseif $groups[gp_list].group_privacy =="1"}Private{else}Invited{/if}</span>
-                    <span class="label {if $groups[gp_list].active=='yes'}label-success{else}label-warning{/if}"><span></span>{if $groups[gp_list].active=="yes"} Active{else}Inactive{/if}</span>
+                            <div class="labels">
+                                <span class="label">{if $groups[gp_list].group_privacy =="0"}Public{elseif $groups[gp_list].group_privacy =="1"}Private{else}Invited{/if}</span>
+                                <span class="label {if $groups[gp_list].active=='yes'}label-success{else}label-warning{/if}"><span></span>{if $groups[gp_list].active=="yes"} Active{else}Inactive{/if}</span>
                                 <span class="label label-info"><span>Members</span>{$groups[gp_list].total_members|number_format}</span>
-                    <span class="label label-info"><span>Flags</span> {$groups[gp_list].total_flags}</span>
+                                <span class="label label-info"><span>Flags</span> {$groups[gp_list].total_flags}</span>
+                            </div>
+                    </div>
+                         </div>
+                        </div>
+                    <div class="col-md-2">
+                        Owner: <a href="view_user.php?uid={$groups[gp_list].userid}">{$groups[gp_list].userid|get_username}</a></strong>
+                    </div>
                 </div>
             </td>
             <td>
