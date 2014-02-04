@@ -1,0 +1,28 @@
+<div class="pagination" align="center"> 
+{if $pagination}
+
+	{if !$commentPagination}
+       {lang code='Pages'} : {if $first_link !=''}<a {$first_link}>&laquo;</a>{/if}  {if $pre_link !=''}<a {$pre_link} >&#8249;</a>{/if} {$pagination}  {if $next_link !=''}<a {$next_link}>&#8250;</a>{/if} {if $last_link !=''}<a {$last_link}>&raquo;</a>{/if}
+      
+    {else}
+    
+      {lang code='Pages'} : {if $first_link !=''}
+        <a href="javascript:void(0)" onclick="getComments('{$type}','{$type_id}','{$last_update}','1','{$total}','{$object_type}')">&laquo;</a>
+      {/if}  
+      
+      {if $pre_link !=''}<a href="javascript:void(0)" 
+       onclick="getComments('{$type}','{$type_id}','{$last_update}','{$pre_page}','{$total}','{$object_type}')" >&#8249;</a>{/if} 
+      
+      {$pagination}  
+      
+      {if $next_link !=''}<a href="javascript:void(0)"  
+      onclick="getComments('{$type}','{$type_id}','{$last_update}','{$next_page}','{$total}','{$object_type}')">&#8250;</a>{/if} 
+      
+      {if $last_link !=''}
+        <a href="javascript:void(0)"
+        onclick=" getComments('{$type}','{$type_id}','{$last_update}','{$total_pages}','{$total}','{$object_type}')" >&raquo;</a>
+      {/if}
+    {/if}
+  
+{/if}
+</div>

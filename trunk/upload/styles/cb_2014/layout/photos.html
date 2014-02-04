@@ -1,0 +1,32 @@
+
+<div class="container">
+	<div class="cb-box">
+		<h2>Photos</h2>
+		<div class="clearfix">
+			<div class="btn-group ">
+				{$time_links = time_links()}
+				{foreach from=$time_links item=name key=sort name=times}
+				    <a href="{link name=time sort=$sort type=photos}" {if $smarty.get.time==$sort} class="btn btn-primary btn-sm selected"{/if} class="btn btn-primary btn-sm">{$name}</a> 
+				{/foreach}
+			</div>
+			<div class="btn-group show">
+				{$sorting_links = sorting_links()}
+				{foreach from=$sorting_links item=name key=sort}
+					<a {if $smarty.get.sort==$sort} class="btn btn-primary btn-xs selected"{else} class="btn btn-primary btn-xs" {/if} href="{link name=sort sort=$sort type=photos}">{$name}</a></li>
+				{/foreach}
+			</div>	
+		</div>
+		
+
+		<div class="row">
+			{section name=p_list loop=$photos}
+			   {include file="$style_dir/blocks/photo.html" photo=$photos[p_list]}
+			{sectionelse}
+			   {lang code='no_results_found'}
+			{/section}
+		</div>
+	</div>	
+</div>
+
+
+{include file="$style_dir/blocks/pagination.html"}

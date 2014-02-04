@@ -4,7 +4,9 @@
         <div class="form_result" id="flag_form_result" style="display:none"></div>
 
         <form id="flag_form" name="flag_form" method="post" action="" class="">
-            {sprintf(lang("Please select the category that most closely reflects your concern about the %s, so that we can review it and determine whether it violates our Community Guidelines or isn't appropriate for all viewers. Abusing this feature is also a violation of the Community Guidelines, so don't do it."),$params.type)}
+            <div class="alert alert-info">
+                {sprintf(lang("Please select the category that most closely reflects your concern about the %s, so that we can review it and determine whether it violates our Community Guidelines or isn't appropriate for all viewers. Abusing this feature is also a violation of the Community Guidelines, so don't do it."),$params.type)}
+            </div>
             {$flag_options=get_flag_options($type)}
 
             <div class="form-group mtm mbm">

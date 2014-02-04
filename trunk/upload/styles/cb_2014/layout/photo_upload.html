@@ -95,8 +95,8 @@
             </div>
       {/if}
    </div>
-   <div class="container uploadVideos">
-       <div class="cb-box pad-bottom-sm progress-container">    
+
+  <div class="cb-box progress-container overallProgressContainer">    
            <div class="row">
                <div class="col-md-2" id="uploadedFilesInfo">
                    <p>Uploaded 0 of 0</p>
@@ -110,6 +110,9 @@
                </div>
            </div>
        </div>
+
+
+   <div class="container uploadVideos">
 
 
        <div class="cb-box" id="mainUploadContainer">
@@ -193,7 +196,6 @@
                        for(var i = 0; i < uploadedFiles.length; i++){
                            files.push(uploadedFiles[i]);
                        }
-                       //console.log(files);
                        // creating the selected files list
                        var ul = document.createElement('ul');
                        ul.id = "selectedFilesList";
@@ -228,12 +230,10 @@
                        document.getElementById('files').appendChild(ul);
 
                        var totalFiles = files.length;
-                       //console.log(totalFiles);
                        var oneFile = false;
                        
                        $("#uploadFormContainer"+filesIndex).addClass("selectedFileDiv").find("#photo_title, #photo_description").val(files[filesIndex].name);
                        var loop = totalFiles - uploadedFiles.length;
-                       //console.log("totalFiles:"+ totalFiles + ", loop:"+loop);
                        for( var i = loop; i < totalFiles; i++ ){
                            oneFile = files[i];
                            oneFileForm = $(oneFileFormDiv).clone();//.addClass("selectedFileDiv");
@@ -241,12 +241,10 @@
                                $(oneFileForm)
                                .attr("id", "uploadFormContainer" + i)
                                .appendTo("#allUploadForms");
-                               //console.log(oneFileForm);
                            }
                        }
                        $("#allUploadForms form").each(function(index, value){
                         $(value).find("#title").val(files[index].name);
-                        //console.log(value);
                        })
 
                        // setTimeout(function(){
@@ -285,7 +283,6 @@
                    var currentFileIndex = 0;
 
                    uploader.bind('FileUploaded', function(plupload, fileDetails, response){
-                       //$(".fileUploaderForm").css("display", "none");
                        $("#overallProgress").css("width", ((100/files.length)*(++filesUploaded))+"%");
                        $("#overallProgress").parents(".row").find("#uploadedFilesInfo").text("Uploaded " + (filesUploaded) + " of " + files.length);
                        var serverResponse = $.parseJSON(response.response);
@@ -298,7 +295,6 @@
                        database which will be sent with the final form
                        */
                        var fileId = false;
-                       //var data = $("").serialize();
                        var fileIndex = 0;
                        for(var i = 0; i < files.length; i++){
                         if(files[i] === fileDetails){
@@ -309,7 +305,6 @@
                        var data = $("#allUploadForms #uploadFormContainer"+fileIndex+ " form")
                        .serialize();
                        data += "&insertPhoto=yes";
-                       //data += "&ext=jpeg";
                        data += "&filename="+serverResponse.filename;
                        data += "&ext="+serverResponse.extension;
                        $.ajax({
@@ -326,21 +321,7 @@
                            hiddenPhotoIdField.type = 'hidden';
                            hiddenPhotoIdField.value =  msg.photoID;
 
-                           // var hiddenVideoNameField = document.createElement('input');
-                           // hiddenVideoNameField.name = 'file_name';
-                           // hiddenVideoNameField.type = 'hidden';
-                           // hiddenVideoNameField.value =  fileName;
-
-                           // var hiddenUploadVideoFlagField = document.createElement('input');
-                           // hiddenUploadVideoFlagField.type = 'hidden';
-                           // hiddenUploadVideoFlagField.name = 'updateVideo';
-                           // hiddenUploadVideoFlagField.value = 'yes';
-
-                           
                            uploadForm.append(hiddenPhotoIdField);
-                           // uploadForm.append(hiddenVideoNameField);
-                           // uploadForm.append(hiddenUploadVideoFlagField);
-                           // uploadForm.find("#cbSubmitUpload").removeAttr('disabled').val('Upload').addClass('btn-success');
                        });
 
                        /* 
@@ -360,24 +341,15 @@
                                    url : baseurl + "/actions/photo_uploader.php",
                                    type : "post",
                                    data : data
-                               }).success(function(msg){
-                                   //console.log(msg);
-                                   //msg = $.parseJSON(msg);
-                                   // console.log(msg);
-                                   // return this;
-                                   //return this;
-                                   $("#uploadMessage").removeClass("hidden");
-                                   // if(msg.error){
-                                   //     $("#uploadMessage").html(msg.error).attr("class", "alert alert-danger");
-                                   // }else{
+                                }).success(function(msg){
+                                  $("#uploadMessage").removeClass("hidden");
                                   $("#uploadMessage").html("Picture details are successfully updated").attr("class", "alert alert-success");
-                                   //}
-                                   setTimeout(function(){
-                                       $("#uploadMessage").addClass("hidden");
-                                   }, 5000);
-                               }).fail(function(err){
+                                  setTimeout(function(){
+                                    $("#uploadMessage").addClass("hidden");
+                                  }, 5000);
+                                }).fail(function(err){
                                    console.log(err);
-                               });
+                                });
                            }
                        });
 
@@ -398,7 +370,6 @@
                        setTimeout(function(){
                            $("#uploadMessage").addClass("hidden");
                        }, 8000);
-                       //console.log(err);
                    });
 
                    $('#uploadFiles').on({
@@ -468,8 +439,6 @@
                     
                });
            });
-
-
        })(window);
    </script>
 

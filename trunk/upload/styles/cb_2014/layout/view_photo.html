@@ -1,0 +1,252 @@
+{lang code='photo' assign='object_type'}
+<div class="row">
+    <div class="col-md-9">
+        <div class="">
+            {$json = $photo.photo_details|json_decode}
+            <div class="onePhoto">
+                <a {if $nextLink} {assign var='nextItem' value=$nextLink} {else}  {assign var='nextItem' value=$preLink} {/if} href="{$cbphoto->photo_links($nextItem.0,'view_item')}" >
+                    {get_photo details=$photo size='l' output='html' title='' class="img-rounded"}
+                </a>
+            </div>
+            {ANCHOR place="video_bookmarks" data=$photo}
+            <div class="cb-box">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="userInfoOnOnePhoto clearfix">
+                            <a href="#" class="pull-left">
+                                <img class="img-thumbnail" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" alt="user image">
+                            </a>
+                            <h4>{$photo.photo_title}</h4>
+                            <span>
+                                <i>by <strong>{$user.username}</strong></i>
+                                <small class="date">{$photo.date_added}</small>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 ratingContainer clearfix">
+                        {show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <p class="photoDescription">
+                            {$photo.photo_description}
+                        <a href="#">read more</a>
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="shareButtonConainer clearfix">
+                            <span class="shareButton">Share</span>
+                            <a href="#" class="shareButton"><i class="glyphicon glyphicon-circle-arrow-up"></i></a>
+                            <a href="#" class="shareButton"><i class="glyphicon glyphicon-hand-up"></i></a>
+                            <a href="#" class="shareButton"><i class="glyphicon glyphicon-paperclip"></i></a>
+                        </div>
+                        <div class="editControlsContainer clearfix">
+                            <a href="#" class="shareButton"><i class="glyphicon glyphicon-trash"></i></a>
+                            {if $userquery->userid == $photo.userid}
+                                <a href="{$baseurl}/edit_photo.php?photo={$photo.photo_id}" class="shareButton"><i class="glyphicon glyphicon-edit"></i></a>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group show photoStats">
+                    <a href="#" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')"><i class="glyphicon glyphicon-ok"></i>Follow</a>
+                    <a href="#"><i class="glyphicon glyphicon-plus"></i>Add to</a>
+                    <a href="#"><i class="glyphicon glyphicon-stats"></i>Stats</a>
+                    <a href="#" onclick="slide_up_watch_video('#flagPhoto');$('#flagPhoto').slideToggle();"><i class="glyphicon glyphicon-flag"></i>Report</a>
+                </div>
+
+
+
+                <!-- <div class="btn-group">
+                    <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="slide_up_watch_video('#video_action_result_cont');add_to_fav('photo','{$photo.photo_id}');">
+                        <img src="{$imageurl}/dot.gif" class="add_to_fav" />{lang code='add_to_favs'}
+                    </a>
+                    <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="slide_up_watch_video('#share_form');$('#share_form').slideToggle();">
+                        <img src="{$imageurl}/dot.gif" class="share_this" />
+                        {lang code='share_this'}
+                    </a>
+                    <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="slide_up_watch_video('#embed_codes');$('#embed_codes').slideToggle();">
+                        <img src="{$imageurl}/dot.gif" class="photo_embed_code" />
+                        {lang code='Embed Codes'}
+                    </a>
+                    <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="slide_up_watch_video('#flag_item');$('#flag_item').slideToggle();">
+                        <img src="{$imageurl}/dot.gif" class="report_this" />
+                        {lang code='report_this'}
+                    </a>
+                </div> -->
+            </div>
+
+            <div class="hidden" id="flagPhoto">
+                {show_share_form id=$photo.photo_id type=Photo}
+                {show_flag_form id=$photo.photo_id type=Photo}
+                <div class="action_box clearfix" style="display:block" id="embed_codes">
+                    <div class="">
+                        Embed Codes &#8212; <span class="cancel"><a href="javascript:void(0)" onclick="$('#embed_codes').slideUp();">cancel</a></span>
+                    </div>
+                    <div class="">
+                        {embedCodes assign='codes' type='all' with_url=TRUE details=$photo}
+                        {foreach from=$codes item=item}
+                        <div>
+                            <label for="{$item.type}">{$item.name}</label>
+                            <input onFocus="this.select();" value="{$item.code}" id="{$item.type}" />
+                        </div>
+                        {/foreach}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cb-box marginTop marginBottom">
+            <div class="addComment clearfix">
+                <h3>{lang code='comments'}</h3>
+                <script>
+                    $(document).ready(function()
+                    {ldelim}        
+                        comments_voting = 'no'; 
+                        getComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}')
+                    {rdelim}
+                    );
+                </script>
+                {if $myquery->is_commentable($photo,'p')}
+                    {include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
+                {else}
+                <div class="alert alert-warning">{lang code='Comments disabled for this photo'}</div>
+                {/if}
+            </div>
+            <div class="userComments">
+                <ul>
+                    <li>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <a href="#">
+                                            <img class="img-thumbnail" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <a class="commentorName" href="#">Commenter name</a>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil, ratione, fuga, id nemo perspiciatis voluptatibus accusantium placeat eum eligendi totam excepturi officiis odit perferendis magni dicta et porro. Fuga, eaque!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <a href="#">
+                                            <img class="img-thumbnail" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <a class="commentorName" href="#">Commenter name</a>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil, ratione, fuga, id nemo perspiciatis voluptatibus accusantium placeat eum eligendi totam excepturi officiis odit perferendis magni dicta et porro. Fuga, eaque!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <a href="#">
+                                            <img class="img-thumbnail" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <a class="commentorName" href="#">Commenter name</a>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil, ratione, fuga, id nemo perspiciatis voluptatibus accusantium placeat eum eligendi totam excepturi officiis odit perferendis magni dicta et porro. Fuga, eaque!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- <div class="well">
+                <a href="{$userquery->profile_link($user)}">
+                    <img src="{avatar details=$user}" />
+                </a>
+                <a href="{$userquery->profile_link($user)}">
+                    {$user.username}
+                </a>
+                <div class="btn-group">
+                    <a class="btn btn-primary" href="{link name='user_videos'}{$user.username}">
+                        {lang code="videos"}
+                    </a>
+                    <a class="btn btn-primary" href="{link name='user_favorites'}{$user.username}">
+                        {lang code="favorites"}
+                    </a>
+                    <a class="btn btn-primary" href="{link name='user_contacts'}{$user.username}">
+                        {lang code='contacts'}
+                    </a>
+                </div>
+                <button class="btn btn-success btn-lg" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>
+            </div> -->
+            <!-- <div>
+                <div class="">{$photo.photo_title}</div>
+                {$photo.photo_description}
+                <div>{$photo.photo_tags|tags:photos}</div>
+            </div> -->
+            {AD place="ad_300x250"}
+            
+            {get_photos assign=uphotos user=$photo.userid exclude=$photo.photo_id order=RAND() limit='5'}
+            {if $uphotos}
+            <div class="PhotoHeading hover" onclick="$('#morePhotos').slideToggle('fast');">
+                More Photos From {$user.username}
+            </div>
+            <div id="morePhotos">
+            {section name=list loop=$uphotos}
+                {include file="$style_dir/blocks/photo.html" display_type="related_photos" photo=$uphotos[list]}
+            {/section}
+            </div>
+            {/if}
+
+            {get_photos assign=related collection=$photo.collection_id show_related=TRUE title=$photo.photo_title tags=$photo.photo_tags exclude=$photo.photo_id limit='5'}
+            {if $related}
+            <div class="PhotoHeading hover" onclick="$('#relatedPhotos').slideToggle('fast');">
+                Related Photos
+            </div>
+            <div id="relatedPhotos">
+            {section name=list loop=$related}
+                {include file="$style_dir/blocks/photo.html" display_type="related_photos" photo=$related[list]}
+            {/section}
+            </div>
+            {/if} 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="">
+            <a href="#">
+                <img src="http://www.wallibs.com/gudang/big-cats-the-animal-kingdom.jpg" alt="ad">
+            </a>
+        </div>
+        <div class="cb-box marginTop">
+            <i class=" glyphicon glyphicon-download-alt"></i>
+            {DownloadButtonP details=$photo class='LoadMoreButton' style='cursor:pointer;display:inline;' output='div'}
+        </div>
+        <div class="row">
+            <div class="relatedPhotos col-md-6 marginTop">
+                <a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' width='120' class='photoThumbBox moveL' style='margin-right:5px;'}</a>
+            </div>
+            <div class="relatedPhotos col-md-6 marginTop">
+                <a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' width='120' class='photoThumbBox moveL' style='margin-right:5px;'}</a>
+            </div>
+            <div class="relatedPhotos col-md-6 marginTop">
+                <a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' width='120' class='photoThumbBox moveL' style='margin-right:5px;'}</a>
+            </div>
+            <div class="relatedPhotos col-md-6 marginTop">
+                <a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' width='120' class='photoThumbBox moveL' style='margin-right:5px;'}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        
