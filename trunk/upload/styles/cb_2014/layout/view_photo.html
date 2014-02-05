@@ -246,9 +246,23 @@
         </div>
     </div>
     <div class="col-md-3">
+        <div class="row marginBottom">
+            <div class="col-md-12 col-md-offset-2">
+                {assign var=objctid value=$object.ci_id}
+                {assign var=collid value=$object.collection_id}
+                    {assign var=preLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'prev')}
+                    <a class="btn btn-primary ptn-lg" href="{$cbphoto->photo_links($preLink.0,'view_item')}">
+                        Previous
+                    </a>
+                    {assign var=nextLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'next')}
+                    <a class="btn btn-primary ptn-lg" href="{$cbphoto->photo_links($nextLink.0,'view_item')}">
+                        Next
+                    </a>
+            </div>
+        </div>
         <div class="">
             <a href="#">
-                <img src="http://www.wallibs.com/gudang/big-cats-the-animal-kingdom.jpg" alt="ad">
+                <img src="http://www.bbddwood.com/wp-content/uploads/2013/06/wood-floor6.jpg" alt="ad">
             </a>
         </div>
         <div class="cb-box marginTop">

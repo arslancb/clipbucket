@@ -1,23 +1,33 @@
-<div>
-    <div class="account_box">
+<div class="container">
+    <div class="cb-box marginBottom">
     
     {if $mode == 'uploaded'}
         <h2>{lang code="Manage Photos"}</h2>
-        <div align="right" style="float:right; display:inline">
-            <form id="form1" name="form1" method="get" action="">
-                <input name="query" type="text" class="search_field" id="query" value="{$smarty.get.query|form_val}" />
-                <input name="input" type="submit" class="search_field_button" value="{lang code='search'}"/> 
-                <input name="mode" value="{$mode}" type="hidden" />
+        <div>
+            <form clasws="form-inline" id="form1" name="form1" method="get" action="">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="col-md-11">
+                            <div class="form-group">
+                                <input name="query" type="text" class="form-control" id="query" value="{$smarty.get.query|form_val}" />
+                            </div>  
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group text-right">
+                                <input name="input" type="submit" class="btn btn-primary" value="{lang code='search'}"/> 
+                                <input name="mode" value="{$mode}" type="hidden" />
+                            </div>  
+                        </div>
+                    </div>
+                </div>
             </form>
-        <div class="clearfix"></div></div>
         <form name="photos_manager" method="post">
-        <div style="float:left; width:300px">
-        <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" /><input type="submit" name="delete_photos" id="delete_photos" value="{lang code='delete'}" class="small_button" />
+        <div class="marginBottom">
+            <img src="{$imageurl}/dot.gif" class="arrow_pointing" />
+                <input type="submit" name="delete_photos" id="delete_photos" value="{lang code='delete'}" class="btn btn-primary btn-sm" />
         </div>
-        
-         <div class="clear"></div>
         <div class="account_table">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <table class="table table-bordered table-striped">
             <tr>
                 <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
                   </td>
@@ -27,15 +37,15 @@
                 <td width="100">{lang code='comments'}</td>
                 <td width="100" class="last_td">{lang code='favorites'}</td>
             </tr>
-        </table>       
-        </div>
+        
         
         {section name=p_list loop=$photos}
         	{include file="$style_dir/blocks/manage/account_photo.html" photo=$photos[p_list] control='full'}
         {sectionelse}
         	<div align="center" style="padding:5px"><strong><em>{lang code='You dont have any photos'}</em></strong></div>
         {/section}
-        
+        </table>       
+        </div>
         </form>    
     {/if}
     
