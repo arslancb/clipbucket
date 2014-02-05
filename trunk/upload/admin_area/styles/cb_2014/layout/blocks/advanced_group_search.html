@@ -1,0 +1,79 @@
+<a href="#" class="btn btn-info" onclick="$('#groupsearchdiv').toggle();return false;">
+    Advanced Search
+    <i class="glyphicon glyphicon-search"></i>
+</a>
+<div class="search_box" id="groupsearchdiv" {if $smarty.cookies.show_groupsearchdiv_search!='show'} style="display:none"{/if}>
+<form id="group_search" name="group_search" method="get" action="groups_manager.php" >
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td>
+                <label for="title">Group title</label>
+            </td>
+            <td>
+                <div class="form-group">
+                <input name="title" type="text" class="form-control" id="title" value="{'title'|get_form_val:true}" />
+               </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="groupid">Group id</label>
+            </td>
+            <td>
+                <div class="form-group">
+                <input name="group_id" type="text" class="form-control" id="groupid" value="{'group_id'|get_form_val:true}" />
+               </div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="tags">Group tags</label>
+            </td>
+            <td>
+                <div class="form-group">
+                <input name="tags" type="text" class="form-control" id="tags" value="{'tags'|get_form_val:true}"/>
+               </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Featured</td>
+            <td>
+                <div class="form-group">
+                <label for="featured"></label>
+                <select name="featured" id="featured" class="form-control">
+                    <option value=""></option>
+                    <option value="yes"{if $smarty.get.featured=='yes'} selected="selected"{/if}>Yes</option>
+                    <option value="no"{if $smarty.get.featured=='no'} selected="selected"{/if}>No</option>
+                </select>
+               </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Active</td>
+            <td>
+                <div class="form-group">
+                <select name="active" id="active" class="form-control">
+                <option value=""></option>
+                <option class="f" value="yes" {if $smarty.get.active=='yes'} selected="selected"{/if}>Yes</option>
+                <option class="f" value="no" {if $smarty.get.active=='no'} selected="selected"{/if}>No</option>
+                   </select>
+               </div>
+            </td>
+        </tr>
+      <tr>
+            <td>Userid</td>
+            <td>
+                <div clas="form-group">
+                <input name="userid" type="text" class="form-control" id="userid" value="{'userid'|get_form_val:true}"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Category</td>
+            <td>
+                {$formObj->createField($cat_array)}
+            </td>
+        </tr>
+    </table>
+    <input type="submit" name="search" id="search" value="Search Form" class="btn btn-primary"/>
+</form>
+</div>

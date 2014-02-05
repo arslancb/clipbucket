@@ -1,0 +1,59 @@
+<a href="#" class="btn btn-info" onclick="$('#membersearchdiv').toggle();return false;">
+    Advanced Search
+    <i class="glyphicon glyphicon-search"></i>
+</a>
+<div class="search_box" id="membersearchdiv" {if $smarty.cookies.show_memsearchdiv_search!='show'} style="display:none"{/if}>
+<form id="user_search" name="user_search" method="get" action="members.php" class="video_search">
+        <div class="form-group">
+            <label for="userid">Userid</label>
+            <input name="userid" type="text" class="form-control" id="userid" value="{'userid'|get_form_val:true}" />
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input name="username" type="text" class="form-control" id="username" value="{$user.username}" />
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input name="email" type="text" class="form-control" id="email" value="{'email'|get_form_val:true}" />
+        </div>
+        <div class="form-group">
+            <label for="status">Status</label>
+                <select name="status" id="status" class="form-control">
+                <option value="" ></option>
+                <option value="Ok" {if $smarty.get.status=='Ok'} selected="selected"{/if}>OK</option>
+                <option value="ToActivate" {if $smarty.get.status=='ToActivate'} selected="selected"{/if}>Inactive</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="banned">Banned</label>
+                <select name="ban" id="ban" class="form-control">
+                    <option value="yes" {if $smarty.get.ban=='yes'} selected="selected"{/if}>Yes</option>
+                    <option value="no" {if $smarty.get.ban=='no'} selected="selected"{/if}>No</option>
+                </select>
+            </div>
+        <div class="form-group">
+            <label for="featured">Featured</label>
+            <select name="featured" id="featured" class="form-control">
+                <option value="Yes" {if $smarty.get.featured=='Yes'} selected="selected"{/if}>Yes</option>
+                <option value="No" {if $smarty.get.featured=='No'} selected="selected"{/if}>No</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="level">Level</label>
+                <select name="level" id="level" class="form-control">
+                    <option value="">------</option>
+                    {assign var=levels value=$userquery->get_levels()}
+                    {foreach from=$levels item=level}
+                    <option value="{$level.user_level_id}" {if $smarty.get.level==$level.user_level_id} selected="selected"{/if}>{$level.user_level_name}</option>
+                    {/foreach}
+                </select>
+            </div>
+        <div class="form-group">
+            <label for="category">Category</label>
+                {$formObj->createField($cat_array)}
+        </div>
+    <div class="button">
+    <input type="submit" name="search" id="search" value="Search Form" class="btn btn-primary"/>
+        </div>
+</form>
+</div>
