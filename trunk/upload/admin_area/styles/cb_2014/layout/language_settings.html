@@ -84,21 +84,23 @@
     </label>
   </form>
 </div>
-<table class="table table-responsive">
-  <tr>
-    <th><strong>Phrase Code</strong></th>
-    <th class="pull-right"><strong>Phrase</strong></th>
-</tr>
-    </table>
-{section name=p_list loop=$lang_phrases}
-    <table class="table table-responsive table-striped">
-  <tr>
-    <td>{$lang_phrases[p_list].varname}</td>
-    <td class="pull-right">{$lang_phrases[p_list].text}</td>
-  </tr>
+
+
+<table class="table table-bordered table-striped manageUsersTable">
+    <tr>
+        <td><legend>Phrase Code</legend></td>
+        <td><legend>Phrase</legend></td>
+    </tr>
+    {section name=p_list loop=$lang_phrases}
+    <tr>
+        <td>{$lang_phrases[p_list].varname}</td>
+        <td>{$lang_phrases[p_list].text}</td>
+    </tr>
+    {/section}
 </table>
 
-{/section}
+
+
 
 <!-- DIsplaying Videos Ends-->
 {include file="$style_dir/blocks/pagination.html" }
