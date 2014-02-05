@@ -1,0 +1,27 @@
+<div class="alert alert-info">
+     <span class="messages">{lang code='messages'}</span>
+     {$cbpm->get_new_messages()}
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <img src="{$userquery->getUserThumb($user)}" alt="{$user.username}" class="img-thumbnail show">
+        <a href="{$userquery->profile_link($user)}">{lang code='com_view_channel'}</a>
+    </div>
+    <div class="col-md-9">
+        <table class="table table-bordered table-striped" style="font-size:0.9em;">
+            <tr><td>{lang code='username'}</td><td>{$user.username}</td></tr>
+            <tr><td>{lang code='joined'}</td><td>{$user.doj|date_format}</td></tr>
+            <tr><td>{lang code='last_logged_in'}</td><td>{$user.last_logged|nicetime}</td></tr>
+            <tr><td>{lang code='total_logins'}</td><td>{$user.num_visits|number_format}</td></tr>
+            <tr><td>{lang code='profile_views'}</td><td>{$user.profile_hits|number_format}</td></tr>
+            <tr><td>{lang code='total_videos'}</td><td>{$user.total_videos|number_format}</td></tr>
+            <tr><td>{lang code='total_videos_watched'}</td><td>{$user.total_watched|number_format}</td></tr>
+            <tr><td>{lang code='total_collections'}</td><td>{$user.total_collections|number_format}</td></tr>
+            <tr><td>{lang code='total_photos'}</td><td>{$user.total_photos|number_format}</td></tr>
+            <tr><td>{lang code='comments_made'}</td><td>{$user.total_comments|number_format}</td></tr>
+            <tr><td>{lang code='subscribers'}</td><td>{$user.subscribers|number_format}</td></tr>
+            {assign var=category value=$userquery->get_category($user.category)}
+            <tr><td>{lang code='category'}</td><td>{$category.category_name}</td></tr>
+        </table>
+    </div>
+</div>

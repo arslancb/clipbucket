@@ -39,7 +39,18 @@ body{
 img {max-width:100%; }
 html,body{  height: 100%; }
 
+.box{
+  border-bottom: solid 1px #ccc;
+  // border-left: solid 1px #ccc;
+  
+  padding: 15px 0;
+}
+
 .marginTop{
+  margin-top: 15px;
+}
+
+.paddingTop{
   margin-top: 15px;
 }
 
@@ -388,6 +399,27 @@ html,body{  height: 100%; }
       }
     }
   }
+}
+
+/* categories menu */
+
+.catigoriesList{
+  list-style: none;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.catigoriesList li{
+  margin: 5px 0 0 0;
+  padding: 0;
+  border: solid 1px #ccc;
+}
+.catigoriesList li a{
+  display: block;
+  background-color: #eee;
+  color: #444;
+  padding: 10px;
 }
 
 @import 'essentials.less';

@@ -36,7 +36,6 @@
     	<a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' width='120' class='photoThumbBox moveL' style='margin-right:5px;'}</a>
         <div class="photoTitle" style="margin-bottom:5px;"><a href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">{$photo.photo_title|truncate:15}</a></div>
         <span class="photoInfo">{$photo.views|number_format} {lang code="views"} <br/> {$photo.total_comments} {lang code="comments"}</span>
-        <div style="height:5px;"></div>
         {show_rating rating=$photo.rating total='10' class='rating moveL'}
     </div>
 {/if}

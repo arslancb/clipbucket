@@ -23,7 +23,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-4 ratingContainer clearfix">
+                    <div class="col-md-4 ratingContainer clearfix" id="rating_container">
                         {show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                             <a href="#" class="shareButton"><i class="glyphicon glyphicon-paperclip"></i></a>
                         </div>
                         <div class="editControlsContainer clearfix">
-                            <a href="#" class="shareButton"><i class="glyphicon glyphicon-trash"></i></a>
+                            <!-- <a href="#" class="shareButton"><i class="glyphicon glyphicon-trash"></i></a> -->
                             {if $userquery->userid == $photo.userid}
                                 <a href="{$baseurl}/edit_photo.php?photo={$photo.photo_id}" class="shareButton"><i class="glyphicon glyphicon-edit"></i></a>
                             {/if}
@@ -51,64 +51,42 @@
                 </div>
 
                 <div class="btn-group show photoStats">
-                    <a href="#" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')"><i class="glyphicon glyphicon-ok"></i>Follow</a>
-                    <a href="#"><i class="glyphicon glyphicon-plus"></i>Add to</a>
-                    <a href="#"><i class="glyphicon glyphicon-stats"></i>Stats</a>
-                    <a href="#" onclick="slide_up_watch_video('#flagPhoto');$('#flagPhoto').slideToggle();"><i class="glyphicon glyphicon-flag"></i>Report</a>
+                    <a href="#" id="subscribeUser"><i class="glyphicon glyphicon-ok"></i>Follow</a>
+                    <a href="#" id="addToFav"><i class="glyphicon glyphicon-plus"></i>Add to</a>
+                    <a href="#" id="embedCodes"><i class="glyphicon glyphicon-share"></i>Embed</a>
+                    <a href="#" id="flagPhotoButton"><i class="glyphicon glyphicon-flag"></i>Report</a>
                 </div>
 
+                <div class="alert alert-info" style="display:none" id="messageFav"></div>
 
-
-                <!-- <div class="btn-group">
-                    <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="slide_up_watch_video('#video_action_result_cont');add_to_fav('photo','{$photo.photo_id}');">
-                        <img src="{$imageurl}/dot.gif" class="add_to_fav" />{lang code='add_to_favs'}
-                    </a>
-                    <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="slide_up_watch_video('#share_form');$('#share_form').slideToggle();">
-                        <img src="{$imageurl}/dot.gif" class="share_this" />
-                        {lang code='share_this'}
-                    </a>
-                    <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="slide_up_watch_video('#embed_codes');$('#embed_codes').slideToggle();">
-                        <img src="{$imageurl}/dot.gif" class="photo_embed_code" />
-                        {lang code='Embed Codes'}
-                    </a>
-                    <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="slide_up_watch_video('#flag_item');$('#flag_item').slideToggle();">
-                        <img src="{$imageurl}/dot.gif" class="report_this" />
-                        {lang code='report_this'}
-                    </a>
-                </div> -->
-            </div>
-
-            <div class="hidden" id="flagPhoto">
-                {show_share_form id=$photo.photo_id type=Photo}
-                {show_flag_form id=$photo.photo_id type=Photo}
-                <div class="action_box clearfix" style="display:block" id="embed_codes">
+                <div class="" style="display:none" id="embed_codes">
                     <div class="">
-                        Embed Codes &#8212; <span class="cancel"><a href="javascript:void(0)" onclick="$('#embed_codes').slideUp();">cancel</a></span>
+                        Embed Codes<span style="padding-left:10px" class="cancel"><a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="$('#embed_codes').slideUp();">cancel</a></span>
                     </div>
                     <div class="">
+                        {var_dump($codes)}
                         {embedCodes assign='codes' type='all' with_url=TRUE details=$photo}
                         {foreach from=$codes item=item}
-                        <div>
+                        <div class="form-group">
                             <label for="{$item.type}">{$item.name}</label>
-                            <input onFocus="this.select();" value="{$item.code}" id="{$item.type}" />
+                            <input class="form-control" onFocus="this.select();" value="{$item.code}" id="{$item.type}" />
                         </div>
                         {/foreach}
                     </div>
                 </div>
+
+                <div id="flagPhoto">
+                    {*show_share_form id=$photo.photo_id type=Photo*}
+                    {show_flag_form id=$photo.photo_id type=Photo}
+                </div>
             </div>
+            
+            
         </div>
 
         <div class="cb-box marginTop marginBottom">
             <div class="addComment clearfix">
                 <h3>{lang code='comments'}</h3>
-                <script>
-                    $(document).ready(function()
-                    {ldelim}        
-                        comments_voting = 'no'; 
-                        getComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}')
-                    {rdelim}
-                    );
-                </script>
                 {if $myquery->is_commentable($photo,'p')}
                     {include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
                 {else}
@@ -116,60 +94,105 @@
                 {/if}
             </div>
             <div class="userComments">
-                <ul>
-                    <li>
-                        <div class="row">
-                            <div class="col-md-11">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <a href="#">
-                                            <img class="img-thumbnail" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <a class="commentorName" href="#">Commenter name</a>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil, ratione, fuga, id nemo perspiciatis voluptatibus accusantium placeat eum eligendi totam excepturi officiis odit perferendis magni dicta et porro. Fuga, eaque!</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="row">
-                            <div class="col-md-11">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <a href="#">
-                                            <img class="img-thumbnail" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <a class="commentorName" href="#">Commenter name</a>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil, ratione, fuga, id nemo perspiciatis voluptatibus accusantium placeat eum eligendi totam excepturi officiis odit perferendis magni dicta et porro. Fuga, eaque!</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="row">
-                            <div class="col-md-11">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <a href="#">
-                                            <img class="img-thumbnail" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <a class="commentorName" href="#">Commenter name</a>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil, ratione, fuga, id nemo perspiciatis voluptatibus accusantium placeat eum eligendi totam excepturi officiis odit perferendis magni dicta et porro. Fuga, eaque!</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+                <ul id="userCommentsList">
                 </ul>
             </div>
+            <script>
+                $(document).ready(function(){
+                    function getAllComments(type,type_id,last_update,pageNum,total,object_type,admin){
+                        $('#userCommentsList').html("<div style='padding:5px 0px;'>"+loading+"</div>");
+                        $.ajax({
+                          type: 'POST',
+                          url: page,
+                          data:  {
+                            mode:'getComments',
+                              page:pageNum,type:type,
+                              type_id:type_id,
+                              object_type : object_type,
+                              last_update : last_update,
+                              total_comments : total,
+                              comments_voting : comments_voting,admin : admin
+                          },
+                          success: function(comments)
+                          {
+                            $("#userCommentsList").html(comments);
+                          },
+                          dataType: 'text'
+                        });
+                    }
+
+                    function addToFav(type,id){
+                        $('#messageFav').show();
+                        $.post(page, {   
+                            mode : 'add_to_fav',
+                            type : type,
+                            id : id
+                        },
+                        function(data){
+                            if(!data){
+                                alert("No data");
+                            }else{
+                                $("#messageFav").html(data);
+                                setTimeout(function(){
+                                    $('#messageFav').hide();
+                                }, 5000);
+                            }
+                        },'text');
+                    }
+
+                        function subscribeToChannel(user,type,result_cont){
+                            $('#messageFav').show();
+                            $.post(page, {  
+                                mode : type,
+                                subscribe_to : user
+                            },
+                            function(data){
+                                if(!data){
+                                    alert("No data");
+                                }
+                                else{
+                                    $("#messageFav").html(data);
+                                    setTimeout(function(){
+                                        $('#messageFav').hide();
+                                    }, 5000);
+                                }
+                            },'text');
+                        }
+
+
+
+                    comments_voting = 'no'; 
+                    getAllComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}');
+
+                    $("#addToFav").on({
+                        click: function(e){
+                            e.preventDefault();
+                            addToFav('photo','{$photo.photo_id}');
+                        }
+                    });
+
+                    $("#embedCodes").on({
+                        click: function(e){
+                            e.preventDefault();
+                            $('#embed_codes').toggle();
+                        },
+                    });
+
+                    $("#subscribeUser").on({
+                        click: function(e){
+                            e.preventDefault();
+                            subscribeToChannel('{$user.userid}','subscribe_user','video_detail_result_cont');
+                        }
+                    });
+
+                    $("#flagPhotoButton").on({
+                        click: function(e){
+                            e.preventDefault();
+                            $('#flag_item').toggle();
+                        }
+                    });
+                });
+            </script>
             <!-- <div class="well">
                 <a href="{$userquery->profile_link($user)}">
                     <img src="{avatar details=$user}" />

@@ -1,0 +1,95 @@
+{if $control=='' || $control =='view'}
+{if $mode ==''}{assign var='mode' value='favorites'}{/if}
+<div class="account_vid_list" style="background-color:#{$bg}">
+   	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="check_vid[]" id="check_vid-{$video.videoid}" value="{$video.videoid}" />
+ 	      <label for="checkbox"></label></td>
+ 	    <td valign="middle">
+        <div style="padding-left:10px; float:left;width:300px">
+        <img src="{getThumb vdetails=$video}" width="40" height="30" border="0" class="acc_usr_video_thumb" />{$video.title|truncate:100}<br />
+<span class="video_control"><a href="{videoLink vdetails=$video}">{lang code='view'}</a> - <a href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$video.videoid}','{lang code="remove_fav_video_confirm"}','?mode={$mode}&amp;vid_delete={$video.videoid}')" id="delete_icon_a-{$video.videoid}">{lang code='delete'}</a></span>
+        <div class="clearfix"></div></div>
+        <a href="javascript:void(0)"  onmousedown="delete_video('delete_icon','{$video.videoid}','{lang code="remove_fav_video_confirm"}','?mode={$mode}&amp;vid_delete={$video.videoid}')" id="delete_icon-{$video.videoid}"><img src="{$imageurl}/dot.gif" border="0" class="delete_icon" /></a>
+        </td>
+ 	    <td width="100">{$video.date_added|date_format}</td>
+ 	    <td width="100">{$video.views|number_format}</td>
+ 	    <td width="100" class="last_td">{$video.comments_count|number_format}</td>
+
+ 	    </tr>
+ 	  </table>
+   </div>
+{/if}
+
+{if $control =='full'}
+<div class="account_vid_list" style="background-color:#{$bg}">
+   	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="check_vid[]" id="check_vid-{$video.videoid}" value="{$video.videoid}" />
+ 	      <label for="checkbox"></label></td>
+ 	    <td valign="middle">
+        <div style="padding-left:10px; float:left;width:320px">
+        <img src="{getThumb vdetails=$video}" width="40" height="30" border="0" class="acc_usr_video_thumb" /><div>{$video.title|truncate:100}</div>
+<span class="video_control"><a href="{videoLink vdetails=$video}">view</a> - <a href="{$baseurl}/edit_video.php?vid={$video.videoid}">edit</a> - <a href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$video.videoid}','{lang code="confirm_del_video"}','?mode=uploaded&amp;vid_delete={$video.videoid}')"  id="delete_icon_a-{$video.videoid}">delete</a> - 
+		
+        {if !$userquery->isProfileItem($video.videoid,'v')}
+        	<a href="{$queryString}makeProfileItem={$video.videoid}&type=v">{lang code='make_profile_item'}</a>
+        {else}
+        	<a href="{$queryString}removeProfileItem={$video.videoid}&type=v">{lang code='remove_profile_item'}</a>
+        {/if}
+        
+        </span>
+        <div class="clearfix"></div></div>
+        
+       </td>
+ 	    <td width="100">{$video.date_added|date_format}</td>
+ 	    <td width="100">{$video.views|number_format}</td>
+ 	    <td width="100">{$video.comments_count}</td>
+ 	    <td width="100" class="last_td">{$video.status|lang}</td>
+ 	    </tr>
+ 	  </table>
+   </div>
+{/if}
+
+
+{if $control=='playlist'}
+
+<div class="account_vid_list" style="background-color:#{$bg}">
+   	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="check_playlist_items[]" id="check_vid-{$video.playlist_item_id}" value="{$video.playlist_item_id}" />
+ 	      <label for="checkbox"></label></td>
+ 	    <td valign="middle">
+        <div style="padding-left:10px; float:left;width:300px">
+        <img src="{getThumb vdetails=$video}" width="40" height="30" border="0" class="acc_usr_video_thumb" />{$video.title|truncate:100}<br />
+<span class="video_control"><a href="{videoLink vdetails=$video}">view</a> - <a href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$video.playlist_item_id}','{lang code="remove_playlist_item_confirm"}','?mode=edit_playlist&pid={$pid}&amp;delete_item={$video.playlist_item_id}')" id="delete_icon_a-{$video.playlist_item_id}">delete</a></span>
+        <div class="clearfix"></div></div>
+        <a href="javascript:void(0)"  onmousedown="delete_video('delete_icon','{$video.playlist_item_id}','{lang code="remove_playlist_item_confirm"}','?mode=edit_playlist&pid={$pid}&amp;delete_item={$video.playlist_item_id}')" id="delete_icon-{$video.playlist_item_id}"><img src="{$imageurl}/dot.gif" border="0" class="delete_icon" /></a>
+        </td>
+ 	    <td width="100">{$video.date_added|date_format}</td>
+ 	    <td width="100">{$video.views|number_format}</td>
+ 	    <td width="100">{$video.comments_count|number_format}</td>
+ 	    </tr>
+ 	  </table>
+   </div>
+{/if}
+
+
+{if $control=='basic'}
+
+<div class="account_vid_list" style="background-color:#{$bg}">
+   	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+ 	  <tr>
+ 	    <td width="25"><input type="checkbox" name="check_vid[]" id="check_vid-{$video.videoid}" value="{$video.videoid}" />
+ 	      <label for="checkbox"></label></td>
+ 	    <td valign="middle">
+        <div style="padding-left:10px; float:left;width:300px">
+        <a href="{videoLink vdetails=$video}"><img src="{getThumb vdetails=$video}" width="40" height="30" border="0" class="acc_usr_video_thumb" />{$video.title|truncate:100}</a><br />
+        <div class="clearfix"></div></div></td>
+ 	    <td width="100">{$video.date_added|date_format}</td>
+ 	    <td width="100">{$video.views|number_format}</td>
+ 	    <td width="100">{$video.comments_count|number_format}</td>
+ 	    </tr>
+ 	  </table>
+   </div>
+{/if}

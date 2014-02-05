@@ -1,0 +1,71 @@
+{if $display_type == "" || $display_type == "normal"}
+
+    <div class="col-md-2 marginTop text-center box" id="collection_{$collection.collection_id}">
+        <div class="vid_thumb">
+            <a class="show" href="{$cbcollection->collection_links($collection,'view')}">
+                <img class="img-thumbnail" style="height: 80px" src="{$cbcollection->get_thumb($collection,'small')}" />
+            </a>
+            <span class="vid_time">{$collection.total_objects|number_format} {$collection.type|capitalize}</span>
+        </div>
+         <div class="vid_info_wrap">
+            <a href="{$cbcollection->collection_links($collection,'view')}">
+                {$collection.collection_name|truncate:10}
+            </a>
+            <small class="show">
+                <span class="show">{$collection.views} {lang code="views"}</span>
+                <a class="show" href="{$userquery->profile_link($collection)}" title="{$collection.username}">
+                    {$collection.username|truncate:16}
+                </a>
+                {show_rating class='show' rating=$collection.rating ratings=$collection.rated_by total='10'}
+            </small>
+            
+         </div>
+    </div>    
+{/if}
+
+{if $display_type == "view_collection"}
+
+
+
+
+
+
+<div class="collectItemBox">
+	{if $type == "videos"}
+
+    <div class="the_item col-md-2 col-lg-2 col-sm-4 col-xs-6">
+        <div class="onePhotoContainer">
+            <div class="onePhotoTitle">
+                <a href="{$cbphoto->photo_links($object,'view_item')}">{$object.video_title|truncate:15}</a>
+            </div>
+
+            <a href="{$cbphoto->photo_links($object,'view_item')}">
+                <img src="{getThumb vdetails=$object}" alt="{$object.title}" />
+            </a>
+        </div>
+
+    </div>
+    {/if}
+    
+    {if $type == "photos"}
+    <div class="the_item col-md-2 col-lg-2 col-sm-4 col-xs-6">
+        <div class="onePhotoContainer">
+            <div class="onePhotoTitle">
+                <a href="{$cbphoto->photo_links($object,'view_item')}">{$object.video_title|truncate:15}</a>
+            </div>
+
+            <a href="{$cbphoto->photo_links($object,'view_item')}">
+                {get_photo details=$object size='t' output='html' alt=$object.photo_title}
+            </a>
+        </div>
+
+    </div>
+    {/if}
+</div>  
+{/if}
+
+{if $display_type == "user_collections"}
+	<div class="moveL" style="width:47px; height:47px; padding:2px; margin:0 0px 0px 0px;">
+   		<a href="{$cbcollection->collection_links($collection,'view')}" style="width:47px; height:47px;" title="{$collection.collection_name}"><img src="{$imageurl}/dot.gif" width="47" height="47" style="background:url({$cbcollection->get_thumb($collection,'small')}) center top no-repeat;" /></a>
+    </div>
+{/if}

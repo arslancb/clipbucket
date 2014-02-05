@@ -5,6 +5,26 @@
 {assign var='comment_attr' value=''}
     {assign var='spam_attr' value='style="display:none"'}
 {/if}
+<li>
+    <div class="row">
+        <div class="col-md-11">
+            <div class="row">
+                <div class="col-md-2">
+                    {$user_link='#'}
+                    {if $comment.username}{$user_link=$userquery->profile_link($comment)}{/if}
+                    <a href="{$user_link}">
+                        <img class="img-thumbnail" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" alt="">
+                    </a>
+                </div>
+                <div class="col-md-10">
+                    <a class="commentorName" href="{$user_link}">{name($comment)}</a>
+                    <p>{$comment.comment|comment}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>
+{*
 
 <div id="comment_{$comment.comment_id}" class="cb-item-comment" {$comment_attr}>
     <img src="{$userquery->getuserthumb($comment)}" class="img-circle cb-comment-author-img" />
@@ -65,3 +85,4 @@
         | <a href="javascript:void(0)" onclick="delete_comment('{$comment.comment_id}')">{lang code='delete'}</a>
     {/if}
 </div>
+*}
