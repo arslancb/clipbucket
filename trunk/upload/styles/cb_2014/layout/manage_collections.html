@@ -1,4 +1,6 @@
+
 {$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
 <div class="container">
     {include file="$style_dir/blocks/manage/account_left.html"}
     {$leftMenuLinks = array_slice($myAccountLinks, 7)}

@@ -1,0 +1,14 @@
+<div class="add_topic_container">
+  <form name="form1" method="post" action="{group_link details=$group type=view_topics}" class="topic_form">
+    {assign var='form_fields' value=$cbgroup->load_add_topic_form_fields()}
+    {foreach from=$form_fields item=field}
+      <div class="form-group">
+        <label for="{$field.id}">{$field.title}</label>
+        <small class="show">{$field.hint_1}</small>
+        {$field.class = 'form-control'}
+        {$formObj->createField($field)}
+      </div>
+    {/foreach}
+    <button name="add_topic" id="add_topic" value="submit" class="btn btn-primary">{lang code='grp_add_new_topic'}</button>
+  </form>
+</div>

@@ -1,0 +1,35 @@
+
+<div class="container">
+	<div class="cb-box marginBottom">
+		<h2>Groups</h2>
+		{foreach $groups as $key => $group}
+			<div class="row">
+				<div class="col-md-3 text-center">
+					<a href="{group_link details=$group}">
+						<img src="{$cbgroup->get_group_thumb($group)}" class="group_thumb" />
+					</a>
+				</div>
+				<div class="col-md-9">
+					<h3><a href="{group_link details=$group}">{$group.group_name}</a></h3>
+					<table class="table table-bordered table-striped" style="font-size:0.9em">
+						<tr>
+							<td>{lang code='views'}</td><td>{$group.total_views|number_format}</td>
+						</tr>
+						<tr>
+							<td>{lang code='total_members'}</td><td>{$group.total_members|number_format}</td>
+						</tr>
+						<tr>
+							<td>{lang code='total_videos'}</td><td>{$group.total_videos|number_format}</td>
+						</tr>
+						<tr>
+							<td>{lang code='total_topics'}</td><td>{$group.total_topics|number_format}</td>
+						</tr>
+						<tr>
+							<td>{lang code='owner'}</td><td><a href="{$userquery->profile_link($group)}">{$group.username}</a></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		{/foreach}
+	</div>
+</div>

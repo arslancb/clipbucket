@@ -83,7 +83,9 @@
                                         cid: cid
                                     },
                                 }).success(function(comment){
+                                    console.log("comment is here");
                                     comments = $("#userCommentsList").html();
+                                    console.log(comments);
                                     $("#userCommentsList").html(comment + comments);
                                 });
                             }

@@ -7,19 +7,18 @@
                 <div id="cb_player" class="no-pad">
                     {FlashPlayer vdetails=$video width='100%' height='100%'}
                 </div>
-
                 <div class="cb-item-title-container">
                     <div class="cb-item-thumb">
                         <img src="{$userquery->avatar($video)}" class="img-circle" />
                     </div>
-                    <div class="cb-item-title">
+                    <div class="cb-item-title marginBottom">
                         {$video.title}
                     </div>
                     <div class="cb-item-user">
                         <a href="{$userquery->profile_link($video)}">{$video.username}</a>
                     </div>
 
-                    <a class="btn btn-xs btn-primary">
+                    <a id="subscribeUser" class="btn btn-xs btn-primary">
                         {lang('Subscribe')}
                     </a>
                     <div class="cb-item-date">
@@ -28,12 +27,7 @@
 
 
                     {show_video_rating  rating=$vdo.rating ratings=$vdo.rated_by total='10' id=$vdo.videoid type=video file='blocks/common/rating.html'}
-
-
-
                 </div>
-
-
                 <div class="cb-item-desc-container">
 
                     <ul class="nav nav-tabs">
@@ -47,7 +41,7 @@
                             <a href="#cb-item-addto" data-toggle="tab">{lang('Add to')}</a>
                         </li>
                         <li>
-                            <a href="#cb-item-report" data-toggle="tab">{lang('Report')}</a>
+                            <a id="reportVideo" href="#cb-item-report" data-toggle="tab">{lang('Report')}</a>
                         </li>
                     </ul>
 
@@ -107,32 +101,29 @@
 
                     </div>
                 </div>
-
                 <div class="clearfix"></div>
+                <div id="messageFav" class="alert alert-info marginTop" style="display:none"></div>
             </div>
 
             <div class="cb-box pad-bottom">
-
-                <h4>{lang('Comments')} ({$vdo.comments_count})</h4>
-
-                {if $myquery->is_commentable($vdo,'v')}
-                    {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
-                {else}
-                <div class="disable_msg" align="center">{lang code='comm_disabled_for_vid'}</div>
-                {/if}
-
-
-
-
-                <div class="clearfix"></div>
-
-                <div id="comments"></div>
-
-
+                <div class="addComment clearfix">
+                    <h3>{lang('Comments')} ({$vdo.comments_count})</h3>
+                    {if $myquery->is_commentable($vdo,'v')}
+                        {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
+                    {else}
+                    <div class="alert alert-warning">{lang code='comm_disabled_for_vid'}</div>
+                    {/if}
+                </div>
+                <div class="userComments">
+                    <ul id="userCommentsList">
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-4 visible-lg visible-md">
-            <div class="cb-box"></div>
+            <div class="cb-box">
+                <h3>Sidebar</h3>
+            </div>
         </div>
 
 
@@ -143,27 +134,79 @@
     var aspect_ratio = 1.77778
     var $cb_player = $("#cb_player");
 
+    function getAllComments(type,type_id,last_update,pageNum,total,object_type,admin){
+        $('#userCommentsList').html("<div style='padding:5px 0px;'>"+loading+"</div>");
+        $.ajax({
+          type: 'POST',
+          url: page,
+          data:  {
+            mode:'getComments',
+              page:pageNum,type:type,
+              type_id:type_id,
+              object_type : object_type,
+              last_update : last_update,
+              total_comments : total,
+              comments_voting : comments_voting,admin : admin
+          },
+          success: function(comments)
+          {
+            $("#userCommentsList").html(comments);
+          },
+          dataType: 'text'
+        });
+    }
+
+    function subscribeToChannel(user,type,result_cont){
+            $('#messageFav').show();
+            $.post(page, {  
+                mode : type,
+                subscribe_to : user
+            },
+            function(data){
+                if(!data){
+                    alert("No data");
+                }
+                else{
+                    $("#messageFav").html(data);
+                    setTimeout(function(){
+                        $('#messageFav').hide();
+                    }, 5000);
+                }
+            },'text');
+    }
+
     $(document).ready(function(){
         $cb_player.height( $cb_player.width() / aspect_ratio );
 
         comments_voting = '{$vdo.comment_voting}';
-        getComments
-        (
-                '{$type}',
-                '{$vdo.videoid}',
-                '{$vdo.last_commented}',1,
-                '{$vdo.comments_count}',
-                '{$object_type}'
+        getAllComments(
+            '{$type}',
+            '{$vdo.videoid}',
+            '{$vdo.last_commented}',1,
+            '{$vdo.comments_count}',
+            '{$object_type}'
         );
 
 
-        $('.cb-item-description').readmore({
-            speed: 75,
-            maxHeight: 120,
-            moreLink : '<a href="#" class="btn btn-min btn-block btn-primary"><i class="glyphicon glyphicon-arrow-down"></i> {lang("Read more")}</a>',
-            lessLink : '<a href="#" class="btn btn-min btn-block btn-default">{lang("Close")}</a>'
+        // $('.cb-item-description').readmore({
+        //     speed: 75,
+        //     maxHeight: 120,
+        //     moreLink : '<a href="#" class="btn btn-min btn-block btn-primary"><i class="glyphicon glyphicon-arrow-down"></i> {lang("Read more")}</a>',
+        //     lessLink : '<a href="#" class="btn btn-min btn-block btn-default">{lang("Close")}</a>'
+        // });
+        $("#reportVideo").on({
+            click : function(e){
+                e.preventDefault();
+                $("#flag_item").show();
+            }
         });
 
+        $("#subscribeUser").on({
+            click: function(e){
+                e.preventDefault();
+                subscribeToChannel('{$video.userid}','subscribe_user','video_detail_result_cont');
+            }
+        });
     });
 
     $(window).resize(function() {

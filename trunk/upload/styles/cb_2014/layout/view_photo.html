@@ -37,9 +37,20 @@
                     <div class="col-md-4">
                         <div class="shareButtonConainer clearfix">
                             <span class="shareButton">Share</span>
-                            <a href="#" class="shareButton"><i class="glyphicon glyphicon-circle-arrow-up"></i></a>
+                            <!-- <a href="#" class="shareButton"><i class="glyphicon glyphicon-circle-arrow-up"></i></a>
                             <a href="#" class="shareButton"><i class="glyphicon glyphicon-hand-up"></i></a>
-                            <a href="#" class="shareButton"><i class="glyphicon glyphicon-paperclip"></i></a>
+                            <a href="#" class="shareButton"><i class="glyphicon glyphicon-paperclip"></i></a> -->
+
+
+                            <a class="cb-item-social-icon twitter shareButton" href="{$video.title|title} {videoLink($video)}http://twitter.com/home?status=%7Bvideo.title%7Ctitle%7D%20%7BvideoLink($video)%7D" target="_blank">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                            <a class="cb-item-social-icon googlep shareButton" href="https://plus.google.com/share?url={urlencode(videolink($video))}" target="_blank">
+                                <i class="fa fa-google-plus"></i>
+                            </a>
+                            <a class="cb-item-social-icon facebook shareButton" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank">
+                                <i class="fa fa-facebook"></i>
+                            </a>
                         </div>
                         <div class="editControlsContainer clearfix">
                             <!-- <a href="#" class="shareButton"><i class="glyphicon glyphicon-trash"></i></a> -->
