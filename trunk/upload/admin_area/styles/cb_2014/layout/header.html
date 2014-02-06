@@ -2,11 +2,87 @@
 	<div id="navbar-container" class="navbar-container container">
 		<div class="navbar-header pull-left">
 			<a class="navbar-brand" href="#">
-				<small>
-					<i class="icon-leaf"></i>
-					ClipBucket
-				</small>
-			</a><!-- /.brand -->
-		</div><!-- /.navbar-header -->
-	</div><!-- /.container -->
-</div>
+				<small><i class="icon-leaf"></i>ClipBucket</small>
+            </a>
+		</div>
+        <div class="navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+                <li class="blue">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <i class="glyphicon glyphicon-arrow-down"></i>
+                        <span class="badge badge-important">Display Option</span>
+                    </a>
+            <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                <li class="dropdown-header">
+                      <i class="icon-info-sign"></i>
+                            <form id="display_opts" name="display_opts" method="post" action="">
+                                Results Per Page :
+                                <input name="admin_pages" type="text" style="width:50px" value="{$Cbucket->configs.admin_pages}"/>
+                                <input type="submit" name="update_dp_options" id="button" value="Update"  class="btn btn-primary btn-xs"/>
+                            </form>
+                        </li>
+                        </ul>
+                </li>
+                <li class="blue">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <i class="glyphicon glyphicon-home"></i>
+                        <span class="badge badge-success">Home</span>
+                    </a>
+                    <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <li class="dropdown-header">
+                            <a href="{$baseurl}/admin_area">{$userquery->permission.user_level_name} Home</a>
+                            <a href="{$baseurl}">Website Home</a>
+                        </ul>
+                        </li>
+                <li class="blue">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        <img src="{$userquery->getUserThumb($u)}" class="mid_user_thumb" width="25" height="25"/>
+								<span class="user-info">
+									<small>Welcome,</small>
+									{$userquery->username}
+								</span>
+                        <i class="icon-caret-down"></i>
+                    </a>
+                    <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <li>
+                            <a href="#">
+                                <i class="icon-cog"></i>
+                                Settings
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="icon-user"></i>
+                                Profile
+                            </a>
+                        </li>
+
+                        <li class="divider"></li>
+
+                        <li>
+                            <a href="logout.php">
+                                <i class="icon-off"></i>
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                   </li>
+                 </ul>
+              </div>
+            </div>
+        </div>                <!-- /.navbar-header -->
+<!-- /.container -->
+
+
+
+
+
+
+
+
+
+
+
+
+
