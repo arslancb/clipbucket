@@ -1,0 +1,10 @@
+
+<div class="group_block">
+<a href="{group_link details=$group}"><img src="{$cbgroup->get_group_thumb($group)}" class="group_thumb" /></a>
+    <span class="group_name"><strong><a href="{group_link details=$group}">{$group.group_name}</a></strong></span>
+    <span> {lang code='views'} : <strong>{$group.total_views|number_format}</strong></span>
+    <span>{lang code="total_members"}:<strong>{$group.total_members|number_format}</strong></span>
+    <span>{lang code="total_videos"} : <strong>{$group.total_videos|number_format}</strong></span>
+    <span>{lang code="total_topics"} : <strong>{$group.total_topics|number_format}</strong></span>
+    <span>{lang code="owner"} : <strong><a href="{$userquery->profile_link($group)}">{$group.username}</a></strong></span>
+</div>

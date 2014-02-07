@@ -1,0 +1,50 @@
+{$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
+
+<div class="container marginBottom">
+   {include file="$style_dir/blocks/manage/account_left.html"}
+
+	<div class="row cb-box">
+		<div class="leftSidebar col-md-3">
+         <ul class="">
+             {foreach $leftMenuLinks as $key => $value}
+                 <li class="">
+                     <a href="#" class="" data-toggle="dropdown">{$key}</a>
+                     <ul class="">
+                         {foreach $value as $subKey => $subValue}
+                             <li><a href="{$subValue}">{$subKey}</a></li>
+                         {/foreach}
+                     </ul>
+                 </li>
+             {/foreach}
+         </ul>
+         {include file="$style_dir/blocks/category_list.html" type='user'}
+     	</div>
+		<div class="col-md-9">
+			<div>
+				<div class="btn-group">
+						<a href="#" class="btn btn-primary disabled">{lang code='sort_by'}</a>
+						{assign var=sorting_links value=sorting_links()}
+						{foreach from=$sorting_links item=name key=sort}
+						<a class="btn btn-primary" {if $smarty.get.sort==$sort} class="btn btn-primary selected"{/if} href="{link name=sort sort=$sort type=channel}" >{$name}</a>
+						{/foreach}
+					</ul>
+				</div>
+
+				<div class="time_cont">
+					{assign var=time_links value=time_links()}
+					{foreach from=$time_links item=name key=sort name=times}
+						{if !$smarty.foreach.times.last}{/if}
+					{/foreach}
+				</div>
+				{section name=u_list loop=$users}
+					{include file="$style_dir/blocks/user.html" user=$users[u_list]}
+				{sectionelse}
+					{lang code='no_results_found'}
+				{/section}
+			</div>
+			<div class="marginTop marginBottom" align="center">{AD place='ad_160x600'}</div>
+			{include file="$style_dir/blocks/pagination.html"}
+		</div>
+	</div>
+</div>

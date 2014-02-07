@@ -1,0 +1,88 @@
+
+{literal}
+<script>
+// function deleteFeed(uid,file)
+// {
+// 	$('#feedload-'+file).html(loading_img);
+// 	$.post(page,
+// 		{mode:"delete_feed",uid:uid,file:file},
+// 		function(data)
+// 		{
+// 			$('#feedload-'+file).html('');
+// 			if(data.msg)
+// 				$('#feed-'+file).html('<div class="cb_error">'+data.msg+"</div>");
+// 			else
+// 				$('#feed-'+file).prepend('<div class="cb_error" style="color:#ed0000">'+data.err+"</div>");
+// 		},
+// 	'json');
+// }
+</script>
+{/literal}
+
+
+<div class="well" id="feed-{$feed.file}">
+	<div class="row">
+        <div class="col-md-3">
+            <div class="">
+                <a href="{$userquery->profile_link($feed.user)}" title="{$feed.user.username}">
+                    <img src="{avatar details=$feed.user size='small'}" alt="{$feed.user.username}" class="img-thumbnail" />
+                </a>
+            </div>
+            <div class="feedTitle">
+                {if !$feed.action_title}
+                    <a href="{$userquery->profile_link($feed.user)}">{$feed.user.username}</a>
+                {else}
+                    {$feed.action_title}
+                {/if}
+            </div>
+            <span id="feedload-{$feed.file}"></span>
+            {if $u.userid==userid() || has_access('admin_access',true)}
+                <a href="javascript:void(0)" onclick="deleteFeed('{$feed.user.userid}','{$feed.file}')" class="btn btn-primary">
+                    delete
+                </a>
+            {/if}
+        </div>
+        <div class="col-md-9">
+            <div class="feed">
+        <div class="feedContent">
+            {if $feed.thumb}
+                {if $feed.link}
+                    <a href="{$feed.link}">
+                {/if}
+                    <img src="{$feed.thumb}" class="img-thumbnail">                
+                {if $feed.link}
+                    </a>
+                {/if}
+            {/if}
+            <div class="feedText">
+                {if $feed.link}
+                    <a href="{$feed.link}">{$feed.title}</a>
+                {elseif $feed.title}
+                   {$feed.title}
+                {/if}
+                {if $feed.object_content}
+                <div class="objectContent">
+                    {$feed.object_content}
+                </div>
+                {/if}
+            </div>
+        </div>
+        <div class="feedState">
+            {if $feed.icon}
+                <img src="{$imageurl}/icons/{$feed.icon}"> 
+            {/if}
+            <span>{$feed.datetime}</span>
+            
+            {if $feed.links}
+                {foreach from=$feed.links item=link}
+                <span class="show">
+                    {if $link.link}<a href="{$link.link}">{/if}{$link.text}{if $link.link}</a>{/if}
+                </span>
+                {/foreach}
+            {/if}
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+

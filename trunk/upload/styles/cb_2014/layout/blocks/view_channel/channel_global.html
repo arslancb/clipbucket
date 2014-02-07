@@ -1,0 +1,12 @@
+<div 
+	{if $userquery->getUserBg($u,true)}
+    style="background-position:center;background-image:
+    	{if $userquery->getUserBg($u)}
+        	url('{$userquery->getUserBg($u)}');background-repeat: {$u.background_repeat};
+        {/if}
+        {if $u.background_color!=''}
+        	background-color:{$u.background_color}{/if}; 
+        {if $u.background_attachement=='yes'}
+        	background-attachment:fixed
+        {/if}"
+    {/if}>

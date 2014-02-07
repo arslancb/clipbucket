@@ -1,7 +1,7 @@
 
 {$block_type}
 {if $block_type == '' || $block_type=='normal'}
-	<div class="row user_block" id="user-{$user.userid}">
+	<div class="row user_block marginBottom" id="user-{$user.userid}">
 		<div class="col-md-3 thumb_container" >
 			<a href="{$userquery->profile_link($user)}">
 				<img src="{$userquery->getuserthumb($user)}" class="img-thumbnail">
