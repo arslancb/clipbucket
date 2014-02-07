@@ -60,10 +60,12 @@ switch($mode)
 			$response['photoID'] = $insert_id;
 			
 			$details = $cbphoto->get_photo($insert_id);
-			
+			//var_dump($details);
 			$params = array("details"=>$details,"size"=>"m");
-			$response['photoPreview'] = get_photo($params);	
+			//var_dump($params);
+			$response['photoPreview'] = get_photo($params);
 		}
+		//var_dump($response);
 		
 		echo json_encode($response);
 	}
