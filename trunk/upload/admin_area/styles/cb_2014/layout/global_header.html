@@ -38,3 +38,22 @@
 <![endif]-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+        <!-- for popovers -->
+<script>
+    $(function (){
+        $("#thumbs_1").popover();
+    });
+
+</script>
+
+<!-- bootstrap x-editable -->
+<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.xedit').editable({
+            mode: 'inline'
+        });
+    });
+</script>

@@ -93,16 +93,18 @@
     </tr>
     {section name=p_list loop=$lang_phrases}
     <tr>
+        <div class="phrase">
         <td>{$lang_phrases[p_list].varname}</td>
-        <td>{$lang_phrases[p_list].text}</td>
+            <td align="left"><div class="xedit" data-type="text"  data-pk="{$lang_phrases[p_list].id}" data-url="{$baseurl}/actions/update_phrase.php" ><b>{$lang_phrases[p_list].text}</b></div></td>
+            </div>
     </tr>
     {/section}
 </table>
-
-
-
-
 <!-- DIsplaying Videos Ends-->
 {include file="$style_dir/blocks/pagination.html" }
 
 {/if}
+
+
+
+
