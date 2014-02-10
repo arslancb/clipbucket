@@ -1,54 +1,67 @@
-<div class="container">
-    <div class="cb-box">
-        <div class="row">
-            <div class="col-md-2 marginTop">
-                {include file="$style_dir/blocks/category_list.html" type='collections'}
-            </div>
-            <div class="col-md-10">
-                <div class="row">
-                    <h2 class="col-md-9">Collections</h2>
-                    <div class="show col-md-3">
-                        <a class="btn btn-success paddingTop marginBottom" href="{$baseurl}/manage_collections.php?mode=add_new">
-                            {lang code='add_new_collection'}
-                        </a>
-                    </div>
-                </div>
-                <div>
-
-                    <div class="btn-group">
-                            <a class="btn btn-primary btn-sm disabled" href="#">{lang code='sort_by'}</a>
-                            {assign var=sorting_links value=$cbcollection->sorting_links()}
-                            {foreach from=$sorting_links item=name key=sort}
-                                <a {if $smarty.get.sort==$sort} class="btn btn-primary btn-sm selected"{else} class="btn btn-primary btn-sm"{/if} href="{link name=sort sort=$sort type='collections'}">{$name}</a>
+{$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
+<div class="container marginBottom">
+    {include file="$style_dir/blocks/manage/account_menu.html"}
+    <div class="row cb-box">
+        <div class="col-md-3 leftSidebar">
+            <ul class="">
+                {foreach $leftMenuLinks as $key => $value}
+                    <li class="">
+                        <a href="#" class="" data-toggle="dropdown">{$key}</a>
+                        <ul class="">
+                            {foreach $value as $subKey => $subValue}
+                                <li><a href="{$subValue}">{$subKey}</a></li>
                             {/foreach}
-                    </div>
-
-
-                    <div class="btn-group show clearfix">
-                        {assign var=time_links value=time_links()}
-                        {foreach from=$time_links item=name key=sort name=times}
-                            <a href="{link name=time sort=$sort type='collections'}" {if $smarty.get.time==$sort} class="btn btn-primary btn-xs selected"{else} class="btn btn-primary btn-xs"{/if}>
-                                {$name}
-                            </a>
-                            {if !$smarty.foreach.times.last}{/if}
-                        {/foreach}
-                    </div>
-
-                    <div class="row">
-                        {section name=c_list loop=$collections}
-                            {include file="$style_dir/blocks/collection.html" collection=$collections[c_list]}
-                        {sectionelse}
-                            {lang code='no_results_found'}
-                        {/section}
-                    </div>
+                        </ul>
+                    </li>
+                {/foreach}
+            </ul>
+            {include file="$style_dir/blocks/category_list.html" type='collections'}
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <h2 class="col-md-9">Collections</h2>
+                <div class="show col-md-3">
+                    <a class="btn btn-success paddingTop marginBottom" href="{$baseurl}/manage_collections.php?mode=add_new">
+                        {lang code='add_new_collection'}
+                    </a>
                 </div>
-                <div class="vert_add_box">
-                    <div style="width:160px; margin:auto; margin-top:5px">
-                       {AD place='ad_160x600'}
-                    </div>
-                </div>
-                {include file="$style_dir/blocks/pagination.html"}
             </div>
+            <div>
+
+                <div class="btn-group">
+                        <a class="btn btn-primary btn-sm disabled" href="#">{lang code='sort_by'}</a>
+                        {assign var=sorting_links value=$cbcollection->sorting_links()}
+                        {foreach from=$sorting_links item=name key=sort}
+                            <a {if $smarty.get.sort==$sort} class="btn btn-primary btn-sm selected"{else} class="btn btn-primary btn-sm"{/if} href="{link name=sort sort=$sort type='collections'}">{$name}</a>
+                        {/foreach}
+                </div>
+
+
+                <div class="btn-group show clearfix">
+                    {assign var=time_links value=time_links()}
+                    {foreach from=$time_links item=name key=sort name=times}
+                        <a href="{link name=time sort=$sort type='collections'}" {if $smarty.get.time==$sort} class="btn btn-primary btn-xs selected"{else} class="btn btn-primary btn-xs"{/if}>
+                            {$name}
+                        </a>
+                        {if !$smarty.foreach.times.last}{/if}
+                    {/foreach}
+                </div>
+
+                <div class="row">
+                    {section name=c_list loop=$collections}
+                        {include file="$style_dir/blocks/collection.html" collection=$collections[c_list]}
+                    {sectionelse}
+                        {lang code='no_results_found'}
+                    {/section}
+                </div>
+            </div>
+            <div class="vert_add_box">
+                <div style="width:160px; margin:auto; margin-top:5px">
+                   {AD place='ad_160x600'}
+                </div>
+            </div>
+            {include file="$style_dir/blocks/pagination.html"}
         </div>
     </div>
 </div>

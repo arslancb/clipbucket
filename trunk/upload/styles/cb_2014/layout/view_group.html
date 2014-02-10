@@ -1,28 +1,43 @@
+{$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
 <div class="container">
+    {include file="$style_dir/blocks/manage/account_menu.html"}
     <div class="cb-box marginBottom">
         {include file="$style_dir/blocks/group/group_left.html"}
-
-    <div class="groupContent">
-        <h2>{$group.group_name|htmlspecialchars_decode}</h2>
-        <div class="btn-group">   
-            <a class="btn btn-primary" {if $mode == "" || $mode == "main"}class="btn btn-primary selected"{/if} href="{group_link details=$group}" onClick="groupsAjax(event,this);" id="gpViewInfo">
-                {lang code="info"}
-            </a>
-            <a class="btn btn-primary" {if $mode == "view_topics"}class="btn btn-primary selected"{/if} href="{group_link details=$group type=view_topics}" onClick="groupsAjax(event,this);" id="gpViewTopics">
-                {lang code="grp_topics_title"}
-            </a>
-            <a class="btn btn-primary" {if $mode == "view_members"}class="btn btn-primary selected"{/if} href="{group_link details=$group type='view_members'}" id="gpAllMembers" onClick="groupsAjax(event,this);">
-                {lang code="members"}
-            </a>
-            <a class="btn btn-primary" {if $mode == "view_videos"}class="btn btn-primary selected"{/if} href="{group_link details=$group type='view_videos'}" id="gpAllVideos" onClick="groupsAjax(event,this);">
-                {lang code="videos"}
-            </a>
-            <a class="btn btn-primary" {if $mode == "view_report_form"}class="btn btn-primary selected"{/if} href="{group_link details=$group}{if config('seo')=='yes'}?{else}&{/if}mode=view_report_form" onClick="groupsAjax(event,this);" id="gpAllReport">
-                {lang code='report'}
-            </a>
+    <div class="row">
+        <div class="col-md-3 leftSidebar">
+            <ul class="">
+                {foreach $leftMenuLinks as $key => $value}
+                    <li class="">
+                    <a href="#" class="" data-toggle="dropdown">{$key}</a>
+                    <ul class="">
+                    {foreach $value as $subKey => $subValue}
+                    <li><a href="{$subValue}">{$subKey}</a></li>
+                    {/foreach}
+                    </ul>
+                    </li>
+                {/foreach}
+            </ul>
         </div>
-
-
+        <div class="col-md-9">
+            <h2>{$group.group_name|htmlspecialchars_decode}</h2>
+            <div class="btn-group">   
+                <a class="btn btn-primary" {if $mode == "" || $mode == "main"}class="btn btn-primary selected"{/if} href="{group_link details=$group}" onClick="groupsAjax(event,this);" id="gpViewInfo">
+                    {lang code="info"}
+                </a>
+                <a class="btn btn-primary" {if $mode == "view_topics"}class="btn btn-primary selected"{/if} href="{group_link details=$group type=view_topics}" onClick="groupsAjax(event,this);" id="gpViewTopics">
+                    {lang code="grp_topics_title"}
+                </a>
+                <a class="btn btn-primary" {if $mode == "view_members"}class="btn btn-primary selected"{/if} href="{group_link details=$group type='view_members'}" id="gpAllMembers" onClick="groupsAjax(event,this);">
+                    {lang code="members"}
+                </a>
+                <a class="btn btn-primary" {if $mode == "view_videos"}class="btn btn-primary selected"{/if} href="{group_link details=$group type='view_videos'}" id="gpAllVideos" onClick="groupsAjax(event,this);">
+                    {lang code="videos"}
+                </a>
+                <a class="btn btn-primary" {if $mode == "view_report_form"}class="btn btn-primary selected"{/if} href="{group_link details=$group}{if config('seo')=='yes'}?{else}&{/if}mode=view_report_form" onClick="groupsAjax(event,this);" id="gpAllReport">
+                    {lang code='report'}
+                </a>
+            </div>
             <div id="ajaxGroupResultContainer"> <!-- dont you dare touch this. If you did Zeus will personally kick your ASS --> 
                 {if $mode == "" || $mode == "main"}
                     <h3>{lang code="basic_info"}</h3>
@@ -143,8 +158,9 @@
                     <div class="groupSep"><span class="SepText">{lang code="Report"} {lang code="group"}</span></div>
                     {show_flag_form id=$group.group_id type=Group display="block"}
                 {/if}
-            </div>                               
+            </div>
+            {include file="$style_dir/blocks/group/group_right.html"}                                 
         </div>
-        {include file="$style_dir/blocks/group/group_right.html"}  
+    </div>
     </div>
 </div>

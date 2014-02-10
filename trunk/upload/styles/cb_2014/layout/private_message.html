@@ -1,0 +1,48 @@
+{$myAccountLinks = $userquery->my_account_links()}
+<div class="container marginBottom">
+  {include file="$style_dir/blocks/manage/account_menu.html"}
+  <div class="account_box">
+    <div class="row cb-box">
+      <div class="col-md-3 leftSidebar">
+        {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+      </div>
+      <div class="col-md-9">
+        {if $mode =='inbox'}
+          <h2>{lang code='private_messages'} &raquo; {lang code='inbox'}</h2>
+          {include file="$style_dir/blocks/pm/messages.html" show_from='true'}
+        {/if}
+        
+        {if $mode =='notification'}
+          <h2>{lang code='private_messages'} &raquo; {lang code='notifications'}</h2>
+          {include file="$style_dir/blocks/pm/messages.html" show_from='true'}
+        {/if}
+
+        {if $mode =='sent'}
+          <h2>{lang code='private_messages'} &raquo; {lang code='sent'}</h2>
+          {include file="$style_dir/blocks/pm/messages.html" show_to='true'}
+        {/if}
+
+        {if $mode =='new_msg'}
+          <h2>{lang code='private_messages'} &raquo; {lang code='title_crt_new_msg'}</h2>
+          {assign var='form_fields' value=$cbpm->load_compose_form()}
+          <div class="account_form">
+          <form id="pm_msg" name="pm_msg" method="post" action="">
+          
+          <h3>{lang code='new_private_msg'}</h3>
+          {foreach from=$form_fields item=field}
+            <div class="form-group">
+              <label for="{$field.id}">{$field.title}</label>
+              {$field.hint_1}
+              {$field.class='form-control'}
+              {$formObj->createField($field)}
+              {$field.hint_2}
+            </div>
+          {/foreach}
+          <button name="send_message" id="send_message" value="submit" class="btn btn-primary">{lang code='com_send_message'}</button>
+          </form>
+          </div>
+        {/if}
+      </div>
+    </div>
+  </div>
+</div>

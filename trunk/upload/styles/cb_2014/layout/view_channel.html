@@ -5,7 +5,7 @@
 {*include file="$style_dir/blocks/view_channel/channel_global.html" *}
 <div id="container" class="container">
     
-    {include file="$style_dir/blocks/manage/account_left.html"}   
+    {include file="$style_dir/blocks/manage/account_menu.html"}   
     <div class="row cb-box">
         <div class="col-md-3 leftSidebar">
 
@@ -23,7 +23,7 @@
             </ul>
 
             {if isSectionEnabled('photos') || isSectionEnabled('videos')}
-
+                <h1>blah blah blah, blah blah</h1>
                 {if $p.show_my_photos !='no'}
                     {get_photos assign=latestP order=" date_added DESC" limit=10 user=$u.userid}
                 {/if}
@@ -242,7 +242,7 @@
 
                 <div class="videos" style="display:none">
                     <h3>Videos</h3>
-                    <div id="videosContainer" class="well">
+                    <div id="videosContainer" class="">
                     </div>
                 </div>
 
@@ -259,7 +259,6 @@
                 <div class="channelInnerPadding well" id="commentsDIV">
                     <legend class="channelLegend">{lang code="comments"}</legend>
                     <ul id="userCommentsList"></ul>
-                    <p id="noCommentsFound">no comments found</p>
                     <script>
                         function getAllComments(type,type_id,last_update,pageNum,total,object_type,admin){
                             $('#userCommentsList').html("<div style='padding:5px 0px;'>"+loading+"</div>");

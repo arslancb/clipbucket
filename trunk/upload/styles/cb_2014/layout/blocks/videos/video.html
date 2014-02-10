@@ -1,23 +1,19 @@
-<div class="cb_item item_video">
-    
-    <div class="cb_item_container text-center">
-        <div class="item_title">
-           <a href="{videoLink($video)}">{$video.title|title}</a>
+<div class="row text-center">
+    <div class="col-md-10 col-md-offset-1 videoThumbBox">
+        <div class="text-center">
+            <h4>
+                <a title="{$video.title|title}" href="{videoLink($video)}">{$video.title|title|truncate:10}</a>
+            </h4>
+            <small>
+                <a class="show" href="{$userquery->profile_link($video)}">{$video.username}</a>
+            </small>
+            <p>
+                {$vide.description}
+            </p>
         </div>
-        <div class="item_user">
-           <a href="{$userquery->profile_link($video)}">{$video.username}</a>
-        </div>
-        <div class="item_text">
-            {$vide.description}
-        </div>
-        
-        <span class="item_icon item_video"></span>
-        <span class="item_date">{$video.date_added|niceTime}</span>
-    
+        <a href="{videoLink($video)}" title="{$video.title|title}">
+            <img class="" src="{getThumb vdetails=$video}"/>
+        </a>
+        <small class="show">{$video.date_added|niceTime}</small>
     </div>
-    
-    <div class="cb_item_thumb video_thumb">
-        <img src="{$imageurl}/preview_240.png"/>
-    </div>
-    
 </div>

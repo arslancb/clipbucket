@@ -1,35 +1,55 @@
-
+{$myAccountLinks = $userquery->my_account_links()}
+{$leftMenuLinks = array_slice($myAccountLinks, 7)}
 <div class="container">
-	<div class="cb-box marginBottom">
-		<h2>Groups</h2>
-		{foreach $groups as $key => $group}
-			<div class="row">
-				<div class="col-md-3 text-center">
-					<a href="{group_link details=$group}">
-						<img src="{$cbgroup->get_group_thumb($group)}" class="group_thumb" />
-					</a>
-				</div>
-				<div class="col-md-9">
-					<h3><a href="{group_link details=$group}">{$group.group_name}</a></h3>
-					<table class="table table-bordered table-striped" style="font-size:0.9em">
-						<tr>
-							<td>{lang code='views'}</td><td>{$group.total_views|number_format}</td>
-						</tr>
-						<tr>
-							<td>{lang code='total_members'}</td><td>{$group.total_members|number_format}</td>
-						</tr>
-						<tr>
-							<td>{lang code='total_videos'}</td><td>{$group.total_videos|number_format}</td>
-						</tr>
-						<tr>
-							<td>{lang code='total_topics'}</td><td>{$group.total_topics|number_format}</td>
-						</tr>
-						<tr>
-							<td>{lang code='owner'}</td><td><a href="{$userquery->profile_link($group)}">{$group.username}</a></td>
-						</tr>
-					</table>
-				</div>
+	{include file="$style_dir/blocks/manage/account_menu.html"}
+	<div class="row cb-box marginBottom">
+		<div class="col-md-3 leftSidebar">
+			<ul class="">
+                {foreach $leftMenuLinks as $key => $value}
+                    <li class="">
+                        <a href="#" class="" data-toggle="dropdown">{$key}</a>
+                        <ul class="">
+                            {foreach $value as $subKey => $subValue}
+                                <li><a href="{$subValue}">{$subKey}</a></li>
+                            {/foreach}
+                        </ul>
+                    </li>
+                {/foreach}
+            </ul>
+		</div>
+		<div class="col-md-9">
+			<div class="">
+				<h2>Groups</h2>
+				{foreach $groups as $key => $group}
+					<div class="row">
+						<div class="col-md-3 text-center">
+							<a href="{group_link details=$group}">
+								<img src="{$cbgroup->get_group_thumb($group)}" class="group_thumb" />
+							</a>
+						</div>
+						<div class="col-md-9">
+							<h3><a href="{group_link details=$group}">{$group.group_name}</a></h3>
+							<table class="table table-bordered table-striped" style="font-size:0.9em">
+								<tr>
+									<td>{lang code='views'}</td><td>{$group.total_views|number_format}</td>
+								</tr>
+								<tr>
+									<td>{lang code='total_members'}</td><td>{$group.total_members|number_format}</td>
+								</tr>
+								<tr>
+									<td>{lang code='total_videos'}</td><td>{$group.total_videos|number_format}</td>
+								</tr>
+								<tr>
+									<td>{lang code='total_topics'}</td><td>{$group.total_topics|number_format}</td>
+								</tr>
+								<tr>
+									<td>{lang code='owner'}</td><td><a href="{$userquery->profile_link($group)}">{$group.username}</a></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				{/foreach}
 			</div>
-		{/foreach}
+		</div>
 	</div>
 </div>
