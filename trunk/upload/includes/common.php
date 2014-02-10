@@ -634,6 +634,7 @@ $Smarty->register_function('embedCodes','photo_embed_codes');
 $Smarty->register_function('DownloadButtonP','photo_download_button');
 $Smarty->register_function('loadPhotoUploadForm','loadPhotoUploadForm');
 $Smarty->register_function('cbCategories','getSmartyCategoryList');
+$Smarty->register_function('getCbCategories','getSmartyCategoryList');
 $Smarty->register_function('getComments','getSmartyComments');
 $Smarty->register_function('fb_embed_video','fb_embed_video');
 $Smarty->register_function('cbMenu','cbMenu');

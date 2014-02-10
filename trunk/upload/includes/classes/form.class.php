@@ -203,7 +203,8 @@ class formObj
 				$field_id = ' id="'.$field['id'].'" ';
 			
 			if($count>0)
-			echo $field['sep'];
+			if(!isset($field['notShowSeprator']))
+					echo $field['sep'];
 
             if($field['wrapper_class'])
                 echo '<div class="'.$field['wrapper_class'].'">';
@@ -212,6 +213,8 @@ class formObj
 
             if($field['label_class'])
                 $label_class = 'class="'.$field['label_class'].'"';
+
+             
 
 			echo '<label '.$label_class.'> <input name="'.$field_name.'" type="checkbox" value="'.$key.'" '.$field_id.' '.$checked.' '.$field['extra_tags'].'>'.$value.'</label>'	;
 

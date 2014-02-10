@@ -591,7 +591,6 @@ class cbactions
             }
 
             validate_cb_form( $fields, $array );
-
             if ( !error() ) {
 
                 foreach($fields as $field)

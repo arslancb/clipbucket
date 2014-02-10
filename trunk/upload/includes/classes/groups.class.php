@@ -1696,6 +1696,7 @@ class CBGroups extends CBCategory
 			'user'	=> $userquery->udetails,
 			'checkowner' => 'yes'
 		);
+		$class = "class='btn btn-primary'";
 		switch($type)
 		{
 			case 'join':
@@ -1703,9 +1704,9 @@ class CBGroups extends CBCategory
 				if($this->is_joinable($group))
 				{
 					if(SEO=="yes")
-						return '<a href="'.group_link(array('details'=>$group)).'?join=yes">'.lang('join').'</a>';
+						return '<a '.$class.' href="'.group_link(array('details'=>$group)).'?join=yes">'.lang('join').'</a>';
 					else
-						return '<a href="'.group_link(array('details'=>$group)).'&join=yes">'.lang('join').'</a>';
+						return '<a '.$class.' href="'.group_link(array('details'=>$group)).'&join=yes">'.lang('join').'</a>';
 				}else
 					return false;
 			}
@@ -1715,7 +1716,7 @@ class CBGroups extends CBCategory
 			{
 				if($this->is_owner($group))
 				{
-					return '<a href="'.BASEURL.'/invite_group.php?url='.$group['group_url'].'">'.lang('invite').'</a>';
+					return '<a '.$class.' href="'.BASEURL.'/invite_group.php?url='.$group['group_url'].'">'.lang('invite').'</a>';
 				}
 			}
 			break;
@@ -1725,9 +1726,9 @@ class CBGroups extends CBCategory
 				if($this->is_member(userid(),$group['group_id']) && !$this->is_owner($group))
 				{
 					if(SEO=="yes")
-						return '<a href="'.group_link(array('details'=>$group)).'?leave=yes">'.lang('leave').'</a>';
+						return '<a '.$class.' href="'.group_link(array('details'=>$group)).'?leave=yes">'.lang('leave').'</a>';
 					else
-						return '<a href="'.group_link(array('details'=>$group)).'&leave=yes">'.lang('leave').'</a>';
+						return '<a '.$class.' href="'.group_link(array('details'=>$group)).'&leave=yes">'.lang('leave').'</a>';
 				}
 			}
 			break;
@@ -1738,7 +1739,7 @@ class CBGroups extends CBCategory
 				{
 					$gpID = $group['group_id']; $message = lang('are_you_sure_del_grp');
 					$url = BASEURL.'/manage_groups.php?mode=manage&gid_delete='.$gpID;
-					return "<a href='javascript:void(0)' id='delete_group-".$gpID."' onmousedown='delete_item(\"delete_group\",\"$gpID\",\"$message\",\"$url\")'>".lang('grp_remove_group')."</a>";
+					return "<a {$class} href='javascript:void(0)' id='delete_group-".$gpID."' onmousedown='delete_item(\"delete_group\",\"$gpID\",\"$message\",\"$url\")'>".lang('grp_remove_group')."</a>";
 				}
 			}
 			break;
@@ -1748,7 +1749,7 @@ class CBGroups extends CBCategory
 				
 				if($this->is_admin($gArray))
 				{
-					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage_members&gid='.$group['group_id'].'">'.lang('grp_manage_mems').'</a>';
+					return '<a '.$class.' href="'.BASEURL.'/manage_groups.php?mode=manage_members&gid='.$group['group_id'].'">'.lang('grp_manage_mems').'</a>';
 				}
 			}
 			break;
@@ -1757,7 +1758,7 @@ class CBGroups extends CBCategory
 			{
 				if($this->is_admin($gArray))
 				{
-					return '<a href="'.BASEURL.'/manage_groups.php?mode=manage_videos&gid='.$group['group_id'].'">'.lang('com_manage_vids').'</a>';
+					return '<a '.$class.' href="'.BASEURL.'/manage_groups.php?mode=manage_videos&gid='.$group['group_id'].'">'.lang('com_manage_vids').'</a>';
 				}
 			}
 			break;
@@ -1767,7 +1768,7 @@ class CBGroups extends CBCategory
 			{
 				if($this->is_member(userid(),$group['group_id']))
 				{
-					return '<a href="'.BASEURL.'/add_group_videos.php?url='.$group['group_url'].'">'.lang('grp_add_vdos').'</a>';
+					return '<a '.$class.' href="'.BASEURL.'/add_group_videos.php?url='.$group['group_url'].'">'.lang('grp_add_vdos').'</a>';
 				}
 			}
 			break;
@@ -1776,7 +1777,7 @@ class CBGroups extends CBCategory
 			{
 				if($this->is_admin($gArray))
 				{
-					return '<a href="'.BASEURL.'/edit_group.php?gid='.$group['group_id'].'">'.lang('grp_edit_grp_title').'</a>';
+					return '<a '.$class.' href="'.BASEURL.'/edit_group.php?gid='.$group['group_id'].'">'.lang('grp_edit_grp_title').'</a>';
 				}
 			}
 			break;

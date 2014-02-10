@@ -362,10 +362,8 @@ abstract class CBCategory
 		{
 			$categories = $this->getCbCategories($p);
 			
-			if($categories)
-			{
-				if($p['echo'] == TRUE)
-				{
+			if($categories){
+				if($p['echo'] == TRUE){
 					$html = $this->displayOutput($categories,$p);			
 					if($p['assign'])
 						assign($p['assign'],$html);
@@ -377,8 +375,9 @@ abstract class CBCategory
 					else
 						return $categories;	
 				}
-			} else 
+			}else{
 				return false;
+			}
 		}
 	}
 	
