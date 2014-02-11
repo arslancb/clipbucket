@@ -2,7 +2,7 @@
 <form name="add_group" action="" method="post" enctype="multipart/form-data">
      <p class="alert alert-info">* are required fields</p>
      <div class="form-group">
-        <label for="users"><legend>Select User *</legend></label>
+        <label for="users">Select User *</label>
         <select class="form-control" name="users" tabindex="1">
             <option>Select User</option>
             {section name=u_list loop=$users}
@@ -11,35 +11,35 @@
         </select>
     </div>
   <div class="form-group">
-      <label for="title"><legend>Group Title *</legend></label>
+      <label for="title">Group Title *</label>
       <input class="form-control" name="title" id="titile" tabindex="2">
       </div>
 
   <div class="form-group">
-      <label for="description"><legend>Group Description *</legend></label>
+      <label for="description">Group Description *</label>
       <textarea class="form-control" name="descriptio" id="description" rows="5" tabindex="3"></textarea>
       </div>
 
     <div class="form-group">
-        <label for="tags"><legend>Group Tags *</legend></label>
+        <label for="tags">Group Tags *</label>
         <input class="form-control" name="tags" id="tag" tabindex="4">
         </div>
 
     <div class="form-group">
-        <label for="gp_url"><legend>Group Url *</legend></label>
+        <label for="gp_url">Group Url *</label>
         <input class="form-control" name="gp_url" id="gp_url" tabindex="5">
         <small>Only these characters are allowed. a-z, 0-9, Hypen (-), Underscore(_), Period(.)</small>
         </div>
 
     <div class="form-group">
-        <label for="gptype"><legend>Group Type </legend></label>
+        <label for="gptype">Group Type </label>
         <input name="gptype" class="radio-inline" type="radio" tabindex="7" value="1">Public
         <input name="gptype" class="radio-inline"type="radio" tabindex="8" value="2">Only Invited Members
         <input name="gptype" class="radio-inline" type="radio" tabindex="7" value="1">Private
         </div>
 
     <div class="form-group">
-        <label for="category"><legend>Group Category *</legend></label>
+        <label for="category">Group Category *</label>
         <select class="form-control" name="category" tabindex="9">
             <option>Choose A Category</option>
             {section name=cat_list loop=$category}
@@ -48,7 +48,7 @@
         </select>
     </div>
     <div class="form-group">
-        <label for="gpthumb"><legend>Group Thumb</legend></label>
+        <label for="gpthumb">Group Thumb</label>
         <input class="form-control" type="file" name="gpThumb" id="gpThumb" tabindex="10">
     </div>
     <div class="form-group">
