@@ -6,7 +6,7 @@
 <table class="table table-bordered table-striped manageUsersTable">
     <tr>
         <td>
-            <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+            <input type="checkbox" name="checkall" onclick="_cb.checkUncheckAll(this);"/></td>
         <td>ID</td>
         <td>Package Name</td>
         <td>Options</td>
@@ -31,7 +31,7 @@
                 <li role="presentation"><a role="menuitem" tabindex="-1"
                                            href="?edit_language={$language_list[l_list].language_id}">Edit</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1"
-                                           href="javascript:void(0)" onclick="if(confirm_it('Are you sure you want to delete \'{$language_list[l_list].language_name}\' pack')) window.location = '?delete={$language_list[l_list].language_id}'">Delete</a>
+                                           href="javascript:void(0)" onclick="if(_cb.confirm_it('Are you sure you want to delete \'{$language_list[l_list].language_name}\' pack')) window.location = '?delete={$language_list[l_list].language_id}'">Delete</a>
                 <li role="presentation"><a role="menuitem" tabindex="-1"
                                            href="?download={$language_list[l_list].language_id}" target="_blank">Export</a></li>
                 {if $language_list[l_list].language_active!='yes'}

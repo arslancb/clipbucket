@@ -11,12 +11,12 @@
         <input class="btn btn-primary btn-xs" type="submit" name="make_unfeatured_selected" value="Make Unfeatured"
                class="button"/>
         <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete" class="button"
-               onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
+               onclick="return _cb.confirm_it('Are you sure you want to delete selected video(s)')"/>
     </div>
     <table class="table table-bordered table-striped manageUsersTable">
         <tr>
             <td>
-                <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+                <input type="checkbox" name="checkall" onclick="_cb.checkUncheckAll(this);"/></td>
             <td>VID</td>
             <td>Videos Details</td>
             <td>&nbsp;</td>
@@ -65,8 +65,7 @@
                             href="{$baseurl}/watch_video.php?v={$video.videokey}"target="_blank">Watch</a>
                             {if $video.featured == yes}
                         </li>
-                        <li><a role="menuitem" tabindex="-1"
-                                                   href="javascript:Confirm_Delete('?delete_video={$video.videoid}')">Delete</a>
+                        <li><a role="menuitem" tabindex="-1" href="javascript:_cb.Confirm_Delete('?delete_video={$video.videoid}')">Delete</a>
                         </li>
                         <li><a role="menuitem" tabindex="-1"
                                                    href="?make_unfeature={$video.videoid}">Make Unfeatured</a></li>
@@ -106,7 +105,7 @@
         <input class="btn btn-primary btn-xs" type="submit" name="make_unfeatured_selected" value="Make Unfeatured"
                class="button"/>
         <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete" class="button"
-               onclick="return confirm_it('Are you sure you want to delete selected video(s)')"/>
+               onclick="return _cb.confirm_it('Are you sure you want to delete selected video(s)')"/>
     </div>
 </form>
 

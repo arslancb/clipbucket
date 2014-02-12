@@ -4,13 +4,13 @@
 <div class="btn-group">
     <input type="submit" name="make_featured_selected" value="Make Featured" class="btn btn-primary btn-sm"/>
     <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured" class="btn btn-primary btn-sm"/>
-    <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-sm" onclick="return confirm_it('Are you sure you want to delete selected photos(s)')"/>
+    <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-sm" onclick="return _cb.confirm_it('Are you sure you want to delete selected photos(s)')"/>
 </div>
 
 <table class="table table-bordered table-striped">
   <tr>
     <td width="30" align="center" valign="middle" class="left_head">
-    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <input type="checkbox" name="checkall" onclick="_cb.checkUncheckAll(this);"/></td>
     <td width="75" align="center" valign="middle" class="head">Photo ID</td>
     <td class="head">Details</td>
     <td width="50" class="right_head">&nbsp;</td>
@@ -62,7 +62,7 @@
                 <a href="edit_photo.php?photo={$photos[list].photo_id}">Edit</a>
               </li>
               <li>
-                <a href="javascript:void(0);" id="delete-{$photos[list].photo_id}" onmousedown="delete_item('delete','{$photos[list].photo_id}','Are you sure you want to delete? This will permanently delete {$photos[list].photo_title} from website.','?delete_photo={$photos[list].photo_id}');">
+                <a href="javascript:void(0);" id="delete-{$photos[list].photo_id}" onmousedown="_cb.delete_item('delete','{$photos[list].photo_id}','Are you sure you want to delete? This will permanently delete {$photos[list].photo_title} from website.','?delete_photo={$photos[list].photo_id}');">
                   Delete
                 </a>
               </li>
@@ -77,7 +77,7 @@
 <div class="btn-group">
     <input type="submit" name="make_featured_selected" value="Make Featured" class="btn btn-primary btn-sm"/>
     <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured" class="btn btn-primary btn-sm"/>
-    <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-sm" onclick="return confirm_it('Are you sure you want to delete selected photos(s)')"/>
+    <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-sm" onclick="return _cb.confirm_it('Are you sure you want to delete selected photos(s)')"/>
 </div>
 
 </form>

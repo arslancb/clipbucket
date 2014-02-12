@@ -33,7 +33,7 @@
   </div>
 
   <div class="form-group">
-    <input class="btn btn-info" type="submit" name="add_cateogry" id="button" value="Add Category" onclick="return validate_category_form(add_category)" class="button"/>
+    <input class="btn btn-info" type="submit" name="add_cateogry" id="button" value="Add Category" onclick="return _cb.validate_category_form(add_category)" class="button"/>
   </div>
 </form>
 
@@ -78,7 +78,7 @@
     </tr>
     <tr>
     <td colspan="2" align="right" class="tr_head"><label>
-    <input type="submit" name="update_category" id="button" value="Update Category" onclick="return validate_category_form(edit_category)" class="button"/>
+    <input type="submit" name="update_category" id="button" value="Update Category" onclick="return _cb.validate_category_form(edit_category)" class="button"/>
     </label></td>
     </tr>
   </table>
@@ -127,7 +127,7 @@
         <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions<i class="icon-angle-down icon-on-right"></i></button>
         <ul class="dropdown-menu addCategoryActions" aria-labelledby="dropdownMenu1" role="menu">
           <li><a class="" href="?category={$category[list].category_id}">Edit</a></li>
-          <li><a class="" href="javascript:Confirm_Delete('?delete_category={$category[list].category_id}')">Delete</a></li>
+          <li><a class="" href="javascript:_cb.Confirm_Delete('?delete_category={$category[list].category_id}')">Delete</a></li>
           {if $category[list].isdefault!="yes"}
           <li><a class="" href="?make_default={$category[list].category_id}">Make Default</a></li>
           {/if}

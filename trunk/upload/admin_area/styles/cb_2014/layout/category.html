@@ -29,7 +29,7 @@
                 <input type="file" class="form-control" name="cat_thumb" id="cat_thumb" />
              </div>
         <div class="form-group">
-                <input type="submit"  class="btn btn-primary btn-sm btn-block" name="add_cateogry" id="button" value="Add Category" onclick="return validate_category_form(add_category)" class="button"/>
+                <input type="submit"  class="btn btn-primary btn-sm btn-block" name="add_cateogry" id="button" value="Add Category" onclick="return _cb.validate_category_form(add_category)" class="button"/>
              </div>
 </form>
 {/if}
@@ -68,7 +68,7 @@
             </div>
         <div class="form-group">
             <label>
-                <input type="submit" class="btn btn-primary" name="update_category" id="button" value="Update Category" onclick="return validate_category_form(edit_category)"/>
+                <input type="submit" class="btn btn-primary" name="update_category" id="button" value="Update Category" onclick="return _cb.validate_category_form(edit_category)"/>
             </label>
             </div>
 </form>
@@ -116,7 +116,7 @@
                 <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Options <i class="caret"></i></button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="?category={$category[list].category_id}">Edit</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:Confirm_Delete('?delete_category={$category[list].category_id}')">Delete</a>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:_cb.Confirm_Delete('?delete_category={$category[list].category_id}')">Delete</a>
                 {if $category[list].isdefault!="yes"}</li>
                 <li><a href="?make_default={$category[list].category_id}">Make Default</a></li>{/if}
                     </ul>

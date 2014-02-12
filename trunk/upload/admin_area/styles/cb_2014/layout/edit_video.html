@@ -17,7 +17,7 @@
                 {else}
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_video.php?video={$data.videoid}&amp;mode=unfeature">Make Unfeatured</a></li>
                 {/if}
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)"   onClick="javascript:Confirm_Delete('video_manager.php?delete_video={$data.videoid}')">Delete This Video</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)"   onClick="javascript:_cb.Confirm_Delete('video_manager.php?delete_video={$data.videoid}')">Delete This Video</a></li>
             </ul>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6 col x1-12">

@@ -56,7 +56,7 @@
      	  <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="btn"/>
           <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="btn" />
           <input class="btn btn-primary btn-xs" type="submit" name="update_order" value="Update order" class="btn" />
-          <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="btn" onclick="return confirm_it('Are you sure you want to delete selected page(s)')"/>
+          <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="btn" onclick="return _cb.confirm_it('Are you sure you want to delete selected page(s)')"/>
     </div>
     <div class="form-group">
     <input type="button" value="Create New Page" class="btn btn-primary pull-right" onClick="window.location='?mode=new'"/>
@@ -64,7 +64,7 @@
 <table class="table table-bordered">
   <tr>
     <td width="30" align="center" valign="middle" class="left_head">
-    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+    <input type="checkbox" name="checkall" onclick="_cb.checkUncheckAll(this);"/></td>
     <td width="50" class="head_sep_left">PID</td>
     <td width="50" class="head_sep_left">Order</td>
     <td class="head"><div class="head_sep_left" style="width:250px">Details</div></td>
@@ -146,7 +146,7 @@
      	<input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="btn"/>
       <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="btn" />
       <input class="btn btn-primary btn-xs" type="submit" name="update_order" value="Update order" class="btn" />
-      <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="btn" onclick="return confirm_it('Are you sure you want to delete selected page(s)')"/>
+      <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="btn" onclick="return _cb.confirm_it('Are you sure you want to delete selected page(s)')"/>
     </div>
 
 </form>
