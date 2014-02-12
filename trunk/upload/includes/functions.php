@@ -615,10 +615,26 @@
 				$cond .= " AND ";
 			$cond .= $params['cond'];
 		}
-				
+
+
+        $query = "SELECT * FROM ".tbl("comments".($params['sectionTable']?",".$params['sectionTable']:NULL));
+
+        if($cond)
+            $query .= " WHERE ".$cond;
+        if($order)
+            $query .=" ORDER BY ".$order;
+
+        if($limit)
+            $query .=" LIMIT ".$limit;
+
 		if(!$params['count_only'])
-			$result = $db->select(tbl("comments".($params['sectionTable']?",".$params['sectionTable']:NULL)),"*",$cond,$limit,$order);
-			
+        {
+   
+            $result = db_select($query);
+            //$result = db_select(tbl("comments".($params['sectionTable']?",".$params['sectionTable']:NULL)),"*",$cond,$limit,$order);
+        }
+
+
 		//echo $db->db_query;	
 		if($params['count_only'])
 			$result = $db->count(tbl("comments"),"*",$cond);
@@ -3590,17 +3606,18 @@
 	/**
 	 * Function used to get db size
 	 */
+
 	function get_db_size()
 	{
 		$result = mysql_query("SHOW TABLE STATUS");
 		$dbsize = 0;
 		while( $row = mysql_fetch_array( $result ) )
-		{  
+		{
 			$dbsize += $row[ "Data_length" ] + $row[ "Index_length" ];
 		}
 		return $dbsize;
 	}
-	
+
 	
 	/**
 	 * Function used to check weather user has marked comment as spam or not
