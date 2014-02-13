@@ -231,6 +231,9 @@ var loading = loading_img+" Loading...";
 	
 	var hasLoaded = false;
 	var perc_download = 0;
+
+	/* done */
+
 	function status_update()
 	{
 		
@@ -1588,13 +1591,12 @@ function decode64(input) {
 			dataType : 'json',
 			timeout : 8000,
 			data  : ({ vid : vid}),
-			success : function(msg)
-								{
-									if(!msg.data)
-										alert("No data");
-									else
-										$("#ep_video_container").html(msg.data);
-								}
+			success : function(msg){
+					if(!msg.data)
+						alert("No data");
+					else
+						$("#ep_video_container").html(msg.data);
+				}
 			});
 
 	}

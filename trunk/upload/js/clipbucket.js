@@ -1265,7 +1265,7 @@
 		this.showAdvanceSearch = function(simple,advance,expandClass,collapseClass){
 			var simpleObj = $("#"+simple); var advanceObj = $("#"+advance);
 			var	value = $('#SearchType').val();
-			simpleObj.toggle();
+			//simpleObj.toggle();
 			advanceObj.toggle();
 			if(advanceObj.css('display') == 'block')	
 				advanceObj.children().hide().filter('#'+value).show();

@@ -25,4 +25,5 @@ function display_tab(Li,divid)
 	
 	current_tab = Li;
 	current_div = divid;
+	return false;
 }
