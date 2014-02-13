@@ -19,8 +19,6 @@
                 <a class="navbar-brand cb-logo" href="#">{$website_title}</a>
             </div>
 
-
-
                 {$head_menu=cb_menu()}
 
                 <div class="navbar-collapse navbar-sm-search collapse" id="navbar-search-collapse">
@@ -87,11 +85,9 @@
                     <li class="dropdown myaccount-dd">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img class="img-circle" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" /> Dropdown <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
+                            <li><a href="{$base_url}/myaccount.php">{lang code="my_account"}</a></li>
                             <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                            <li><a href="{$base_url}/logout.php">Logout</a></li>
                         </ul>
                     </li>
                     {else}

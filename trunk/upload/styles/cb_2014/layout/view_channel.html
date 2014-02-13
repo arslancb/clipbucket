@@ -260,26 +260,6 @@
                     <legend class="channelLegend">{lang code="comments"}</legend>
                     <ul id="userCommentsList"></ul>
                     <script>
-                        function getAllComments(type,type_id,last_update,pageNum,total,object_type,admin){
-                            $('#userCommentsList').html("<div style='padding:5px 0px;'>"+loading+"</div>");
-                            $.ajax({
-                              type: 'POST',
-                              url: page,
-                              data:  {
-                                mode:'getComments',
-                                  page:pageNum,type:type,
-                                  type_id:type_id,
-                                  object_type : object_type,
-                                  last_update : last_update,
-                                  total_comments : total,
-                                  comments_voting : comments_voting,admin : admin
-                              },
-                              success: function(comments){
-                                $("#userCommentsList").html(comments);
-                              },
-                              dataType: 'text'
-                            });
-                        }
                         $(document).ready(function(){
                             {ldelim}
                             
@@ -291,7 +271,7 @@
 
                             {if $myquery->is_commentable($p,'u')}
                             comments_voting = 'no'; 
-                            getAllComments('c','{$u.userid}','{$u.last_commented}',1,'{$u.comments_count}','{$object_type}')
+                            _cb.getAllComments('c','{$u.userid}','{$u.last_commented}',1,'{$u.comments_count}','{$object_type}')
                             {/if}
                             {rdelim}
                         });
@@ -354,5 +334,4 @@
             }
         });
     });
-
 </script>

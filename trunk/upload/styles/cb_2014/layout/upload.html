@@ -21,7 +21,6 @@
         </div>
     </div>
 
-
     <div class="cb-box" id="mainUploadContainer">
         <div class="pad-bottom video-info-container">
             <ul class="nav nav-tabs">
@@ -355,7 +354,7 @@
                                 type : "post",
                                 data : data
                             }).success(function(msg){
-                                console.log(msg);
+                                //console.log(msg);
                                 msg = $.parseJSON(msg);
                                 $("#uploadMessage").removeClass("hidden");
                                 if(msg.error){
@@ -401,8 +400,6 @@
                 });
             });
         });
-
-
     })(window);
 </script>
 

@@ -134,52 +134,11 @@
     var aspect_ratio = 1.77778
     var $cb_player = $("#cb_player");
 
-    function getAllComments(type,type_id,last_update,pageNum,total,object_type,admin){
-        $('#userCommentsList').html("<div style='padding:5px 0px;'>"+loading+"</div>");
-        $.ajax({
-          type: 'POST',
-          url: page,
-          data:  {
-            mode:'getComments',
-              page:pageNum,type:type,
-              type_id:type_id,
-              object_type : object_type,
-              last_update : last_update,
-              total_comments : total,
-              comments_voting : comments_voting,admin : admin
-          },
-          success: function(comments)
-          {
-            $("#userCommentsList").html(comments);
-          },
-          dataType: 'text'
-        });
-    }
-
-    function subscribeToChannel(user,type,result_cont){
-            $('#messageFav').show();
-            $.post(page, {  
-                mode : type,
-                subscribe_to : user
-            },
-            function(data){
-                if(!data){
-                    alert("No data");
-                }
-                else{
-                    $("#messageFav").html(data);
-                    setTimeout(function(){
-                        $('#messageFav').hide();
-                    }, 5000);
-                }
-            },'text');
-    }
-
     $(document).ready(function(){
         $cb_player.height( $cb_player.width() / aspect_ratio );
 
         comments_voting = '{$vdo.comment_voting}';
-        getAllComments(
+        _cb.getAllComments(
             '{$type}',
             '{$vdo.videoid}',
             '{$vdo.last_commented}',1,
@@ -204,14 +163,16 @@
         $("#subscribeUser").on({
             click: function(e){
                 e.preventDefault();
-                subscribeToChannel('{$video.userid}','subscribe_user','video_detail_result_cont');
+                _cb.subscribeToChannel('{$video.userid}','subscribe_user','video_detail_result_cont');
             }
         });
     });
 
-    $(window).resize(function() {
+    var resizePlayer =  _cb.debounce(function() {
         $cb_player.height( $cb_player.width() / aspect_ratio );
-    });
+    }, 500, false);
+
+    $(window).resize(resizePlayer);
 
 </script>
 

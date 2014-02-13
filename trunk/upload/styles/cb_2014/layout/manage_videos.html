@@ -19,97 +19,99 @@
         </ul>
       </div>
       <div class="col-md-9">
+
         {if $mode =='uploaded'}
-        <h2>{lang code='com_manage_vids'}</h2>
-        <div>
-        <form clasws="form-inline" id="form1" name="form1" method="get" action="">
-          <div class="row">
-              <div class="col-md-6 col-md-offset-3">
-                  <div class="col-md-11">
-                      <div class="form-group">
-                          <input name="query" type="text" class="form-control" id="query" value="{$smarty.get.query|form_val}" />
-                      </div>  
-                  </div>
-                  <div class="col-md-1">
-                      <div class="form-group text-right">
-                          <input name="input" type="submit" class="btn btn-primary" value="{lang code='search'}"/> 
-                          <input name="mode" value="{$mode}" type="hidden" />
-                      </div>  
-                  </div>
-              </div>
-          </div>
-        </form>
-        </div>
-       <form name="videos_manager" method="post">
-        <div>
-          <img src="{$imageurl}/dot.gif" class="arrow_pointing" />
-          <input type="submit" name="delete_videos" id="delete_videos" value="{lang code='delete'}" class="btn btn-danger" />
-        </div>
-        <table class="table table-striped table-bordered marginTop">
-          <tr>
-            <td width="25">
-            <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
-            </td>
-            <td>{lang code='title'}</td>
-            <td width="100">{lang code='date_added'}</td>
-            <td width="100">{lang code='views'}</td>
-            <td width="100">{lang code='comments'}</td>
-            <td width="100" class="last_td">{lang code='status'}</td>
-          </tr>
-          {section name=uvid loop=$uservids}
-            {include file="$style_dir/blocks/manage/account_video.html" video=$uservids[uvid] control='full' bg=$bg}
-          {sectionelse}
-            <div><strong><em>{lang code='you_dont_hv_fav_vids'}</em></strong></div>
-          {/section}
-        </table>
-        {include file="$style_dir/blocks/manage/user_account_pagination.html"}
-        </form>
-      {/if}
-      {if $mode =='favorites'}
-        <h2>{lang code='com_manage_fav'}</h2>
-        <!-- Manage Uploaded Videos Start -->
-        <div>
+          <h2>{lang code='com_manage_vids'}</h2>
+          <div>
           <form clasws="form-inline" id="form1" name="form1" method="get" action="">
             <div class="row">
-              <div class="col-md-6 col-md-offset-3">
-                <div class="col-md-11">
-                  <div class="form-group">
-                    <input name="query" type="text" class="form-control" id="query" value="{$smarty.get.query|form_val}" />
-                  </div>  
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="col-md-11">
+                        <div class="form-group">
+                            <input name="query" type="text" class="form-control" id="query" value="{$smarty.get.query|form_val}" />
+                        </div>  
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group text-right">
+                            <input name="input" type="submit" class="btn btn-primary" value="{lang code='search'}"/> 
+                            <input name="mode" value="{$mode}" type="hidden" />
+                        </div>  
+                    </div>
                 </div>
-                <div class="col-md-1">
-                  <div class="form-group text-right">
-                    <input name="input" type="submit" class="btn btn-primary" value="{lang code='search'}"/> 
-                    <input name="mode" value="{$mode}" type="hidden" />
-                  </div>  
-                </div>
-              </div>
             </div>
           </form>
-        </div>
-        <form name="videos_manager" method="post">
-          <div>
-            <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" />
-            <input type="submit" name="delete_fav_videos" id="delete_fav_videos" value="{lang code='delete'}" class="btn btn-danger" />
           </div>
-          <table class="table table-bordered table-striped">
-            <tr>
-              <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
-              </td>
-              <td>{lang code='title'}</td>
-              <td width="100">{lang code='date_added'}</td>
-              <td width="100">{lang code='views'}</td>
-              <td width="100" class="last_td">{lang code='comments'}</td>
-            </tr>
-            {section name=uvid loop=$uservids}
-              {include file="$style_dir/blocks/manage/account_video.html" video=$uservids[uvid] bg=$bg}
-            {sectionelse}
-              <div><strong><em>{lang code='you_dont_hv_fav_vids'}</em></strong></div>
-            {/section}
-          </table>
+          <form name="videos_manager" method="post">
+            <div>
+              <img src="{$imageurl}/dot.gif" class="arrow_pointing" />
+              <input type="submit" name="delete_videos" id="delete_videos" value="{lang code='delete'}" class="btn btn-danger" />
+            </div>
+            <table class="table table-striped table-bordered marginTop">
+              <tr>
+                <td width="25">
+                <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+                </td>
+                <td>{lang code='title'}</td>
+                <td width="100">{lang code='date_added'}</td>
+                <td width="100">{lang code='views'}</td>
+                <td width="100">{lang code='comments'}</td>
+                <td width="100" class="last_td">{lang code='status'}</td>
+              </tr>
+              {section name=uvid loop=$uservids}
+                {include file="$style_dir/blocks/manage/account_video.html" video=$uservids[uvid] control='full' bg=$bg}
+              {sectionelse}
+                <div><strong><em>{lang code='you_dont_hv_fav_vids'}</em></strong></div>
+              {/section}
+            </table>
+          </form>
           {include file="$style_dir/blocks/manage/user_account_pagination.html"}
-        </form>
-      {/if}
+        {/if}
+
+        {if $mode =='favorites'}
+          <h2>{lang code='com_manage_fav'}</h2>
+          <!-- Manage Uploaded Videos Start -->
+          <div>
+            <form clasws="form-inline" id="form1" name="form1" method="get" action="">
+              <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                  <div class="col-md-11">
+                    <div class="form-group">
+                      <input name="query" type="text" class="form-control" id="query" value="{$smarty.get.query|form_val}" />
+                    </div>  
+                  </div>
+                  <div class="col-md-1">
+                    <div class="form-group text-right">
+                      <input name="input" type="submit" class="btn btn-primary" value="{lang code='search'}"/> 
+                      <input name="mode" value="{$mode}" type="hidden" />
+                    </div>  
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <form name="videos_manager" method="post">
+            <div>
+              <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" />
+              <input type="submit" name="delete_fav_videos" id="delete_fav_videos" value="{lang code='delete'}" class="btn btn-danger" />
+            </div>
+            <table class="table table-bordered table-striped">
+              <tr>
+                <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
+                </td>
+                <td>{lang code='title'}</td>
+                <td width="100">{lang code='date_added'}</td>
+                <td width="100">{lang code='views'}</td>
+                <td width="100" class="last_td">{lang code='comments'}</td>
+              </tr>
+              {section name=uvid loop=$uservids}
+                {include file="$style_dir/blocks/manage/account_video.html" video=$uservids[uvid] bg=$bg}
+              {sectionelse}
+                <div><strong><em>{lang code='you_dont_hv_fav_vids'}</em></strong></div>
+              {/section}
+            </table>
+            {include file="$style_dir/blocks/manage/user_account_pagination.html"}
+          </form>
+        {/if}
       </div>
     </div>
   </div>

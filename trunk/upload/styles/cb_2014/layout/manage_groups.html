@@ -6,79 +6,70 @@
             {include file="$style_dir/blocks/manage/userMenuLeft.html"}
         </div>
         <div class="col-md-9">
-            
             <h2>{lang code='grp_edit_grp_title'}</h2>
             {* Loading Form Fields *}
             {assign var='requiredFields' value=$cbgroup->load_required_fields($group,true)}
             {assign var='optionFields' value=$cbgroup->load_other_fields($group)}
             <div class="" id="ajaxGroupResultContainer">
-            <form method="post" enctype="multipart/form-data" name="edit_video">
+                <form method="post" enctype="multipart/form-data" name="edit_video">
 
-                <h3>Thumbs</h3>
-                <div class="marginBottom">
-                    <img src="{$cbgroup->get_group_thumb($group)}" class="img-thumbnail" />
-                    <small>
-                        <p>{lang code='grp_must_be'} JPG | GIF | PNG</p>
-                        <p>{lang code='grp_90x90'}</p>
-                        <p>{lang code='grp_thumb_warn'}</p>
-                    </small>
-                    <input type="file" name="thumb_file" id="thumb_file" />
-                </div>
-                
-                {* GROUP THUMBS ENDS *} 
-                {* Group Information Starts *}
-                <h3>{lang code='grp_info_all_fields_req'}</h3>
-                {foreach from=$requiredFields item=field}
-                    <div class="form-group">
-                        <label for="{$field.id}">{$field.title}</label>
-                        {$field.hint_1}
-                        {$field.class = 'form-control'}
-                        {if $field.type == 'checkbox'}
-                            {$field.class = ''}
-                            {$field.label_class = 'checkbox'}
-                        {/if}
-                        {if $field.type == 'radiobutton'}
-                            {$field.class = ''}
-                            {$field.label_class = 'radio'}
-                        {/if}
-                        {$formObj->createField($field)}
-                        <small>{$field.hint_2}</small>
+                    <h3>Thumbs</h3>
+                    <div class="marginBottom">
+                        <img src="{$cbgroup->get_group_thumb($group)}" class="img-thumbnail" />
+                        <small>
+                            <p>{lang code='grp_must_be'} JPG | GIF | PNG</p>
+                            <p>{lang code='grp_90x90'}</p>
+                            <p>{lang code='grp_thumb_warn'}</p>
+                        </small>
+                        <input type="file" name="thumb_file" id="thumb_file" />
                     </div>
-                {/foreach}
+                    
+                    {* GROUP THUMBS ENDS *} 
+                    {* Group Information Starts *}
+                    <h3>{lang code='grp_info_all_fields_req'}</h3>
+                    {foreach from=$requiredFields item=field}
+                        <div class="form-group">
+                            <label for="{$field.id}">{$field.title}</label>
+                            {$field.hint_1}
+                            {$field.class = 'form-control'}
+                            {if $field.type == 'checkbox'}
+                                {$field.class = ''}
+                                {$field.label_class = 'checkbox'}
+                            {/if}
+                            {if $field.type == 'radiobutton'}
+                                {$field.class = ''}
+                                {$field.label_class = 'radio'}
+                            {/if}
+                            {$formObj->createField($field)}
+                            <small>{$field.hint_2}</small>
+                        </div>
+                    {/foreach}
 
-                {* Group Information Ends *}
+                    {* Group Information Ends *}
 
 
-                {* Others Information Starts *}
+                    {* Others Information Starts *}
 
-                
-                <h3>{lang code='vdo_share_opt'}</h3>
-                {foreach from=$optionFields item=field}
-                    <div class="form-group">
-                        <label for="{$field.id}">{$field.title}</label>
-                        {$field.notShowSeprator = true}
-                        {if $field.type == 'radiobutton'}
-                            {$field.class = ''}
-                            {$field.label_class = 'radio'}
-                        {/if}
-                        {$field.hint_1}
-                        {$formObj->createField($field)}
-                        {$field.hint_2}
-                    </div>
-                {/foreach}
-                {* Others Information Ends *}
+                    
+                    <h3>{lang code='vdo_share_opt'}</h3>
+                    {foreach from=$optionFields item=field}
+                        <div class="form-group">
+                            <label for="{$field.id}">{$field.title}</label>
+                            {$field.notShowSeprator = true}
+                            {if $field.type == 'radiobutton'}
+                                {$field.class = ''}
+                                {$field.label_class = 'radio'}
+                            {/if}
+                            {$field.hint_1}
+                            {$formObj->createField($field)}
+                            {$field.hint_2}
+                        </div>
+                    {/foreach}
+                    {* Others Information Ends *}
 
-                <button name="update_group" id="button" value="submit" class="btn btn-primary">{lang code='update_group'}</button>
-            </form> 
+                    <button name="update_group" id="button" value="submit" class="btn btn-primary">{lang code='update_group'}</button>
+                </form> 
+            </div>
         </div>
     </div>
-
-
-
-
-<!-- ENDING EDITING {$v.title} -->
-
-
-</div>
-<div class="clearfix"></div>
 </div>

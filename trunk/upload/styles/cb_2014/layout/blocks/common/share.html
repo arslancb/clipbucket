@@ -110,7 +110,7 @@
     $(document).ready(function(){
         $('body').on('submit','#cb_share_item',function(e){
             e.preventDefault();
-            submit_share_form('share_form','{$params.type}');return false;
+            _cb.submit_share_form('share_form','{$params.type}');return false;
         })
     })
 </script>

@@ -10,10 +10,10 @@
             <p>
                 {$vide.description}
             </p>
+            <small class="show">{$video.date_added|niceTime}</small>
         </div>
         <a href="{videoLink($video)}" title="{$video.title|title}">
             <img class="" src="{getThumb vdetails=$video}"/>
         </a>
-        <small class="show">{$video.date_added|niceTime}</small>
     </div>
 </div>

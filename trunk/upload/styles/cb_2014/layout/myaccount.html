@@ -1,26 +1,12 @@
 {$myAccountLinks = $userquery->my_account_links()}
-{$leftMenuLinks = array_slice($myAccountLinks, 7)}
-<div class="container">
+<div class="container marginBottom">
     {include file="$style_dir/blocks/manage/account_menu.html"}
-    <div class="row">
-        <div class="leftSidebar col-md-3 cb-box">
-            <ul class="">
-                {foreach $leftMenuLinks as $key => $value}
-                    <li class="">
-                        <a href="#" class="" data-toggle="dropdown">{$key}</a>
-                        <ul class="">
-                            {foreach $value as $subKey => $subValue}
-                                <li><a href="{$subValue}">{$subKey}</a></li>
-                            {/foreach}
-                        </ul>
-                    </li>
-                {/foreach}
-            </ul>
+    <div class="row cb-box">
+        <div class="leftSidebar col-md-3">
+            {include file="$style_dir/blocks/manage/userMenuLeft.html"}
         </div>
         <div class="mainContent col-md-9">
-            <div class="cb-box">
-                {include file="$style_dir/blocks/manage/account_head.html" user=$user}
-            </div>
+            {include file="$style_dir/blocks/manage/account_head.html" user=$user}
         </div>
     </div>
 </div>

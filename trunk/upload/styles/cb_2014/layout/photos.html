@@ -33,8 +33,6 @@
 					{/foreach}
 				</div>	
 			</div>
-			
-
 			<div class="row">
 				{section name=p_list loop=$photos}
 				   {include file="$style_dir/blocks/photo.html" photo=$photos[p_list]}
@@ -44,7 +42,5 @@
 			</div>
 		</div>
 	</div>	
+	{include file="$style_dir/blocks/pagination.html"}
 </div>
-
-
-{include file="$style_dir/blocks/pagination.html"}

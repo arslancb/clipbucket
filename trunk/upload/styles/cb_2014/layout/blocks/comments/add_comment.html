@@ -6,14 +6,14 @@
         <input type="hidden" name="obj_id" id="obj_id" value="{$id}">
         {if !$userquery->login_check('',true) && $Cbucket->configs.anonym_comments == 'yes'}
 
-        <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 form-group">
+        <div class="form-group">
             <label for="comment_name">
                 {lang code='name'}
             </label>
             <input type="text" name="name" id="comment_name" class="form-control">
         </div>
 
-        <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 form-group">
+        <div class="form-group">
             <label for="comment_email">
                 {lang code='email_wont_display'}
             </label>
@@ -31,7 +31,7 @@
 
         {if config('comments_captcha')=='all' || ( config('comments_captcha')=='guests' && !$userquery->login_check('',true) )}
 
-            <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 form-group">
+            <div class="form-group">
 
             {assign var=captcha value=get_captcha()}
             {if $captcha}
@@ -83,7 +83,7 @@
                                         cid: cid
                                     },
                                 }).success(function(comment){
-                                    console.log("comment is here");
+                                    //console.log("comment is here");
                                     comments = $("#userCommentsList").html();
                                     console.log(comments);
                                     $("#userCommentsList").html(comment + comments);

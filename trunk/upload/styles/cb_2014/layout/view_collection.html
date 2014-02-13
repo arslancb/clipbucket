@@ -1,68 +1,68 @@
 <div class="container">
     <div class="cb-box marginBottom">
         {literal}
-        <script>
-            function become_contributor(cid,uid){
-                
-                $.post(page, 
-                {   
-                    mode : 'become_contributor',
-                    cid : cid,
-                    uid : uid
-                },
-                function(data)
-                {
-                    if(!data)
-                        alert("No data");
-                    else
+            <script>
+                function become_contributor(cid,uid){
+                    
+                    $.post(page, 
+                    {   
+                        mode : 'become_contributor',
+                        cid : cid,
+                        uid : uid
+                    },
+                    function(data)
                     {
-
-                        if(data.msg)
+                        if(!data)
+                            alert("No data");
+                        else
                         {
-                           
-                            $('#btn-become-contributor').hide();
-                            $('#btn-remove-contributor').show();
-                            
-                             alert(data.msg);
-                
+
+                            if(data.msg)
+                            {
+                               
+                                $('#btn-become-contributor').hide();
+                                $('#btn-remove-contributor').show();
+                                
+                                 alert(data.msg);
+                    
+                            }
+                            if(data.err)
+                                alert(data.err);
                         }
-                        if(data.err)
-                            alert(data.err);
-                    }
-                },'json');
-            }
-            
-            
-            function remove_contributor(cid,uid){
+                    },'json');
+                }
                 
-                $.post(page, 
-                {   
-                    mode : 'remove_contributor',
-                    cid : cid,
-                    uid : uid
-                },
-                function(data)
-                {
-                    if(!data)
-                        alert("No data");
-                    else
+                
+                function remove_contributor(cid,uid){
+                    
+                    $.post(page, 
+                    {   
+                        mode : 'remove_contributor',
+                        cid : cid,
+                        uid : uid
+                    },
+                    function(data)
                     {
-
-                        if(data.msg)
+                        if(!data)
+                            alert("No data");
+                        else
                         {
-                            
-                            
-                            $('#btn-become-contributor').show();
-                            $('#btn-remove-contributor').hide();
-                            
-                            alert(data.msg);
+
+                            if(data.msg)
+                            {
+                                
+                                
+                                $('#btn-become-contributor').show();
+                                $('#btn-remove-contributor').hide();
+                                
+                                alert(data.msg);
+                            }
+                            if(data.err)
+                                alert(data.err);
                         }
-                        if(data.err)
-                            alert(data.err);
-                    }
-                },'json');
-            }
-        </script>
+                    },'json');
+                }
+            </script>
         {/literal}
 
         <!-- Defining object type-->

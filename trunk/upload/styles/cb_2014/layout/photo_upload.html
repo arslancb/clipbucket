@@ -1,8 +1,8 @@
 <div class="container">
-   <div class="upload_info">
-   {if $step == 1 || $step == ""}
-   <div id="uploadMessage" class=""></div>
-   <div class="container cb-box manageCollection">
+  <div class="upload_info">
+  {if $step == 1 || $step == ""}
+    <div id="uploadMessage" class=""></div>
+    <div class="container cb-box manageCollection">
       {if $c}
           {if $cbphoto->is_addable($c)}
               <div class="photoBox">
@@ -40,10 +40,7 @@
       {else}
             <div class="row">
               <div class="col-md-4 text-center">
-                 <!-- <a href="#" class="btn btn-primary">
-                    Select Collection
-                 </a> -->
-                 <a href="#" class="btn btn-success" id="createNewCollection">
+                 <a href="#" class="btn btn-success marginTop" id="createNewCollection">
                     Create New Collection
                  </a>
               </div> 
@@ -94,78 +91,84 @@
               </form>
             </div>
       {/if}
-   </div>
-
-  <div class="cb-box progress-container overallProgressContainer">    
-           <div class="row">
-               <div class="col-md-2" id="uploadedFilesInfo">
-                   <p>Uploaded 0 of 0</p>
-               </div>
-               <div class="col-md-10">
-                   <div class="progress">
-                       <div id="overallProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                           <span class="sr-only">40% Complete (success)</span>
-                       </div>
-                   </div>
-               </div>
-           </div>
-       </div>
-
+    </div>
+    <div class="cb-box progress-container overallProgressContainer">    
+      <div class="row">
+        <div class="col-md-10">
+          <div class="col-md-2" id="uploadedFilesInfo">
+            <p>Uploaded 0 of 0</p>
+          </div>
+          <div class="col-md-10">
+            <div class="progress">
+              <div id="overallProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                <span class="sr-only">40% Complete (success)</span>
+              </div>
+            </div>
+          </div>  
+        </div>
+        <div class="col-md-2">
+          <a id="selectFiles" href="javascript:;" class="btn btn-primary">
+            Select Files
+          </a>
+          <a id="uploadFiles" class="btn btn-success" href="javascript:;">
+            Upload
+          </a>
+        </div>
+      </div>
+    </div>
 
    <div class="container uploadVideos">
 
 
-       <div class="cb-box" id="mainUploadContainer">
-           <h2>Select Photo Files</h2>
-           <div class="pad-bottom video-info-container">
-               <ul class="nav nav-tabs">
-                   <li class="active"><a href="#file-upload" data-toggle="tab">Photo Upload</a></li>
-                   <li><a href="#remote-upload" data-toggle="tab">Remote Upload</a></li>
-                   <li><a href="#embed-code" data-toggle="tab">Embed Code</a></li>
-               </ul>
-               <div class="tab-content uploadFormDiv">
-                   <div class="tab-pane fade in active clearfix" id="file-upload">
-                       <div class="">
-                           <div class="createCollection">
-                               
-                           </div>
-                           <div class="upload-area col-md-12">
-                               <div class="fileUploaderForm">
-                                   <div class="instructions alert alert-info">
-                                       {lang code='upload_right_guide_photo'}
-                                   </div>
+    <div class="cb-box" id="mainUploadContainer">
+      <h2>Select Photo Files</h2>
+      <div class="pad-bottom video-info-container">
+            <ul class="nav nav-tabs">
+               <li class="active"><a href="#file-upload" data-toggle="tab">Photo Upload</a></li>
+               <li><a href="#remote-upload" data-toggle="tab">Remote Upload</a></li>
+               <li><a href="#embed-code" data-toggle="tab">Embed Code</a></li>
+            </ul>
+            <div class="tab-content uploadFormDiv">
+               <div class="tab-pane fade in active clearfix" id="file-upload">
+                   <div class="">
+                       <div class="createCollection"></div>
+                       <div class="upload-area col-md-12">
+                           <div class="fileUploaderForm">
+                               <div class="instructions alert alert-info">
+                                   {lang code='upload_right_guide_photo'}
+                               </div>
 
-                                   <a id="selectFiles" href="javascript:;" class="btn btn-primary">
-                                       Select Files
-                                   </a>
-                                   <a id="uploadFiles" class="btn btn-success" href="javascript:;">
-                                       Upload
-                                   </a>
-                                   <div id="fileUploadProgress">
-                                       <h5></h5>
-                                       <progress value="0" style="display:none"></progress>
-                                   </div>
-                                   <div id="selectedFiles" class="uploadedFilesList">
-                                       <h4>Selected Files</h4>
-                                       <div id="files">
-                                           <ul>
-                                               <li>no files selected</li>
-                                           </ul>
-                                       </div>
+                               <!-- <a id="selectFiles" href="javascript:;" class="btn btn-primary">
+                                   Select Files
+                               </a>
+                               <a id="uploadFiles" class="btn btn-success" href="javascript:;">
+                                   Upload
+                               </a> -->
+                               <div id="fileUploadProgress">
+                                   <h5></h5>
+                                   <progress value="0" style="display:none"></progress>
+                               </div>
+                               <div id="selectedFiles" class="uploadedFilesList">
+                                   <h4>Selected Files</h4>
+                                   <div id="files">
+                                       <ul>
+                                           <li>no files selected</li>
+                                       </ul>
                                    </div>
                                </div>
-                           </div>   
-                       </div>
-                       <div id="allUploadForms">
-                         {include file="$style_dir/blocks/upload/photo_form.html" }
-                       </div>
-                       </div>
+                           </div>
+                       </div>   
                    </div>
-                   <div class="tab-pane fade" id="remote-upload">remote upload</div>
-                   <div class="tab-pane fade" id="embed-code">embed code</div>
-               </div>
-           </div>
-       </div>     
+                   <div id="allUploadForms">
+                     {include file="$style_dir/blocks/upload/photo_form.html" }
+                   </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="remote-upload">remote upload</div>
+            <div class="tab-pane fade" id="embed-code">embed code</div>
+      </div>
+       </div>
+    </div>     
    </div>
 
    <script type="text/javascript">
@@ -190,6 +193,7 @@
                          ]
                        }
                    });
+
                    uploader.init();
                    uploader.bind('FilesAdded', function(up, uploadedFiles) {
 

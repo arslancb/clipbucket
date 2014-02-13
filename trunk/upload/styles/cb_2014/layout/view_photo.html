@@ -90,9 +90,7 @@
                     {*show_share_form id=$photo.photo_id type=Photo*}
                     {show_flag_form id=$photo.photo_id type=Photo}
                 </div>
-            </div>
-            
-            
+            </div>     
         </div>
 
         <div class="cb-box marginTop marginBottom">
@@ -110,75 +108,18 @@
             </div>
             <script>
                 $(document).ready(function(){
-                    function getAllComments(type,type_id,last_update,pageNum,total,object_type,admin){
-                        $('#userCommentsList').html("<div style='padding:5px 0px;'>"+loading+"</div>");
-                        $.ajax({
-                          type: 'POST',
-                          url: page,
-                          data:  {
-                            mode:'getComments',
-                              page:pageNum,type:type,
-                              type_id:type_id,
-                              object_type : object_type,
-                              last_update : last_update,
-                              total_comments : total,
-                              comments_voting : comments_voting,admin : admin
-                          },
-                          success: function(comments)
-                          {
-                            $("#userCommentsList").html(comments);
-                          },
-                          dataType: 'text'
-                        });
-                    }
 
-                    function addToFav(type,id){
-                        $('#messageFav').show();
-                        $.post(page, {   
-                            mode : 'add_to_fav',
-                            type : type,
-                            id : id
-                        },
-                        function(data){
-                            if(!data){
-                                alert("No data");
-                            }else{
-                                $("#messageFav").html(data);
-                                setTimeout(function(){
-                                    $('#messageFav').hide();
-                                }, 5000);
-                            }
-                        },'text');
-                    }
-
-                        function subscribeToChannel(user,type,result_cont){
-                            $('#messageFav').show();
-                            $.post(page, {  
-                                mode : type,
-                                subscribe_to : user
-                            },
-                            function(data){
-                                if(!data){
-                                    alert("No data");
-                                }
-                                else{
-                                    $("#messageFav").html(data);
-                                    setTimeout(function(){
-                                        $('#messageFav').hide();
-                                    }, 5000);
-                                }
-                            },'text');
-                        }
+                    
 
 
 
                     comments_voting = 'no'; 
-                    getAllComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}');
+                    _cb.getAllComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}');
 
                     $("#addToFav").on({
                         click: function(e){
                             e.preventDefault();
-                            addToFav('photo','{$photo.photo_id}');
+                            _cb.addToFav('photo','{$photo.photo_id}');
                         }
                     });
 
@@ -192,7 +133,7 @@
                     $("#subscribeUser").on({
                         click: function(e){
                             e.preventDefault();
-                            subscribeToChannel('{$user.userid}','subscribe_user','video_detail_result_cont');
+                            _cb.subscribeToChannel('{$user.userid}','subscribe_user','video_detail_result_cont');
                         }
                     });
 
