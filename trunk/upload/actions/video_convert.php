@@ -115,7 +115,7 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 		'use_audio_bit_rate' => true,
 		'use_audio_codec' => true,
 		'use_video_codec'	=> true,
-		'format' => 'flv',
+		'format' => 'mp4',
 		'video_codec'=> config('video_codec'),
 		'audio_codec'=> config('audio_codec'),
 		'audio_rate'=> config("srate"),
@@ -129,8 +129,6 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 		'res43' => $res43,
 		'resize'=>'max'
 	);
-
-		
 
 	
 	/**
@@ -155,8 +153,8 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 	$ffmpeg->big_thumb_dim = config('big_thumb_width')."x".config('big_thumb_height');
 	$ffmpeg->tmp_dir = TEMP_DIR;
 	$ffmpeg->input_ext = $ext;
-	$ffmpeg->output_file = VIDEOS_DIR.'/'.$tmp_file.'.flv';
-	$ffmpeg->hq_output_file = VIDEOS_DIR.'/'.$tmp_file.'.mp4';
+	$ffmpeg->output_file = VIDEOS_DIR.'/'.$tmp_file.'-sd.mp4';
+	$ffmpeg->hq_output_file = VIDEOS_DIR.'/'.$tmp_file.'-hd.mp4';
 	$ffmpeg->log_file = LOGS_DIR.'/'.$tmp_file.'.log';
 	//$ffmpeg->remove_input = TRUE;
 	$ffmpeg->keep_original = config('keep_original');
