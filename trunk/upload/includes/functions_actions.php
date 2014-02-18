@@ -23,17 +23,17 @@
 function cb_register_action($func_name,$place,$extra_params=Array(),$scope=array('global'))
 {
     global $Cbucket;
+    if(isset($Cbucket->actions_list)){
+        $actions_list = $Cbucket->actions_list;
+        $actions_list[$place][] = array(
+            'action' => $func_name,
+            'params' => $extra_params,
+            'scope' => $scope
+        );
 
-    $actions_list = $Cbucket->actions_list;
-    $actions_list[$place][] = array(
-        'action' => $func_name,
-        'params' => $extra_params,
-        'scope' => $scope
-    );
 
-
-    $Cbucket->actions_list = $actions_list;
-
+        $Cbucket->actions_list = $actions_list;
+    }
 }
 
 

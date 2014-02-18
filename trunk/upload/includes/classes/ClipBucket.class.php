@@ -186,8 +186,11 @@ class ClipBucket
     function get_anchor_codes($place)
     {
         //Geting list of codes available for $place
-        $list = $this->anchorList[$place];
-        return $list;
+        if(isset($this->anchorList[$place])){
+            $list = $this->anchorList[$place];
+            return $list;
+        }
+        return false;
     }
 
     /**
@@ -364,7 +367,7 @@ class ClipBucket
 
         if ($per['web_config_access'] == "yes")
             $NewMenu['Tool Box']['Maintenance'] = 'maintenance.php';
-        return $NewMenu;
+        return (isset($NewMenu)) ? $NewMenu : false;
     }
 
     /**
@@ -428,7 +431,7 @@ class ClipBucket
 
         if (isset($_SESSION['the_template']) && $cbtpl->is_template($_SESSION['the_template']))
             $template = $_SESSION['the_template'];
-        if ($_GET['template']) //@todo : add permission
+        if (isset($_GET['template'])) //@todo : add permission
         {
             if (is_dir(STYLES_DIR . '/' . $_GET['template']) && $_GET['template'])
                 $template = $_GET['template'];
@@ -446,7 +449,7 @@ class ClipBucket
             exit("Unable to find any template, please goto <a href='http://clip-bucket.com/no-template-found'><strong>ClipBucket Support!</strong></a>");
 
 
-        if ($_GET['set_template'])
+        if (isset($_GET['set_template']))
         {
             $myquery->set_template($template);
         }
@@ -516,22 +519,22 @@ class ClipBucket
                 $params['class'] = '';
 
 
-        if (!$params['getSubTab'])
+        if (!isset($params['getSubTab']))
             $params['getSubTab'] = '';
 
-        if (!$params['parentTab'])
+        if (!isset($params['parentTab']))
             $params['parentTab'] = '';
 
-        if (!$params['selectedTab'])
+        if (!isset($params['selectedTab']))
             $params['selectedTab'] = '';
         {
             $headMenu = $this->head_menu;
 
-            $custom = $this->custom_menu;
+            $custom = (isset($this->custom_menu)) ? $this->custom_menu : false;
             if (is_array($custom))
                 $headMenu = array_merge($headMenu, $custom);
             /* Excluding tabs from menu */
-            if ($params['exclude'])
+            if (isset($params['exclude']))
             {
                 if (is_array($params['exclude']))
                     $exclude = $params['exclude'];
@@ -570,7 +573,7 @@ class ClipBucket
             foreach ($main_menu as $menu)
             {
 
-                $selected = $menu['active'];
+                $selected = getArrayValue($menu, 'active');
                 $output .= "<li ";
                 $output .= "id = 'cb" . $menu['name'] . "Tab'";
 
@@ -581,7 +584,7 @@ class ClipBucket
                     $output .= " selected";
                 $output .= "'";
 
-                if ($params['extra_params'])
+                if (isset($params['extra_params']))
                     $output .= ($params['extra_params']);
                 $output .= ">";
                 $output .= "<a href='" . $menu['link'] . "'>";
@@ -607,7 +610,7 @@ class ClipBucket
                 }
             }else
             {
-                if ($params['echo'])
+                if (isset($params['echo']))
                 {
                     echo $output;
                 }else

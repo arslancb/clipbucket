@@ -38,21 +38,21 @@ class CBLogs
 		$a = $details_array;
 		$ip = $_SERVER['REMOTE_ADDR'];
 		$agent = $_SERVER['HTTP_USER_AGENT'];
-		$userid = $a['userid'];
+		$userid = getArrayValue($a, 'userid');
 		$username = $a['username'];
-		$useremail = $a['useremail'];
-		$userlevel = $a['userlevel'];
+		$useremail = getArrayValue($a, 'useremail');
+		$userlevel = getArrayValue($a, 'userlevel');
 		
-		$action_obj_id = $a['action_obj_id'];
-		$action_done_id = $a['action_done_id'];
+		$action_obj_id = getArrayValue($a, 'action_obj_id');
+		$action_done_id = getArrayValue($a, 'action_done_id');
 		
 		$userid = $userid ? $userid : $userquery->udetails['userid'];
 		$username = $username ? $username : $userquery->udetails['username'];
 		$useremail = $useremail ? $useremail : $userquery->udetails['email'];
-		$userlevel = $userlevel ? $userlevel : $userquery->udetails['level'];
+		$userlevel = $userlevel ? $userlevel : getArrayValue($userquery->udetails, 'level');
 		
 		$success = $a['success'];
-		$details = $a['details'];
+		$details = getArrayValue($a, 'details');
 		 
 		$db->insert(tbl('action_log'),
 		array

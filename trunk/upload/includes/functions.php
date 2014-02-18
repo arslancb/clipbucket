@@ -1081,7 +1081,7 @@
 	function has_access($access,$check_only=TRUE,$verify_logged_user=true)
 	{
 		global $userquery;
-		
+		//dump($userquery->login_check($access,$check_only,$verify_logged_user));
 		return $userquery->login_check($access,$check_only,$verify_logged_user);
 	}
 	
@@ -1749,7 +1749,7 @@
 		$array_replace = array
 		( $Cbucket->configs['site_title'] );
 		
-		if($LANG[$var])
+		if(isset($LANG[$var]))
 		{
 			$phrase =  str_replace($array_str,$array_replace,$LANG[$var]);
 		}else
@@ -1774,12 +1774,29 @@
 	}
 	function smarty_lang($param)
 	{
-		if($param['assign']=='')
-			return lang($param['code'],$param['sprintf']);
+		if(getArrayValue($param, 'assign')=='')
+			return lang($param['code'],getArrayValue($param, 'sprintf'));
 		else
 			assign($param['assign'],lang($param['code'],$param['sprintf']));
 	}
 
+
+	function getArrayValue($array = array(), $key = false){
+		if(!empty($array) && $key){
+			if(isset($array[$key])){
+				return $array[$key];
+			}else{
+				return false;
+			}
+		}
+		return false;
+	}
+
+	function getConstant($constantName = false){
+		if($constantName && defined($constantName))
+			return constant($constantName);
+		return false;
+	}
 
 	/**
 	 * Function used to assign link
@@ -1787,8 +1804,8 @@
 	function cblink($params)
 	{
 		global $ClipBucket;
-		$name = $params['name'];
-		$ref = $param['ref'];
+		$name = getArrayValue($params, 'name');
+		$ref = getArrayValue($params, 'ref');
 		
 		if($name=='category')
 		{
@@ -1840,7 +1857,7 @@
 			}
 		}
 		
-		if($params['assign'])
+		if(isset($params['assign']))
 			assign($params['assign'],$link.$param_link);
 		else
 			return $link.$param_link;
@@ -1970,11 +1987,13 @@
 	function get_functions($name)
 	{
 		global $Cbucket;
-		$funcs = $Cbucket->$name;
-		if(is_array($funcs) && count($funcs)>0)
-			return $funcs;
-		else
-			return false;
+		if(isset($Cbucket->$name)){
+			$funcs = $Cbucket->$name;
+			if(is_array($funcs) && count($funcs)>0)
+				return $funcs;
+			else
+				return false;
+		}
 	}
 	
 	
@@ -2923,7 +2942,7 @@
 	{
 		global $cbsubtitle;
 		
-		$sub_sep = $params['sub_sep'];
+		$sub_sep = getArrayValue($params, 'sub_sep');
 		if(!$sub_sep)
 			$sub_sep = '-';
 			
@@ -3304,8 +3323,8 @@
 	 */
 	function include_header($params)
 	{
-		$file = $params['file'];
-		$type = $params['type'];
+		$file = getArrayValue($params, 'file');
+		$type = getArrayValue($params, 'type');
 		
 		if($file=='global_header')
 		{
@@ -4699,10 +4718,16 @@
          */
         function in_dev()
         {
-            if(defined(DEVELOPMENT_MODE) || DEVELOPMENT_MODE)
+            if(defined('DEVELOPMENT_MODE'))
                 return DEVELOPMENT_MODE;
             else
                 return false;
+        }
+
+        function dump($data){
+        	echo "<pre>";
+        	var_dump($data);
+        	echo "</pre>";
         }
 
 

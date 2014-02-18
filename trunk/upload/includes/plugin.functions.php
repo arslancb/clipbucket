@@ -72,7 +72,7 @@
 				{
 					if(function_exists($func))
 					{
-						if($params['data'])
+						if(isset($params['data']))
 							$func($params['data']);
 						else
 							$func();
@@ -371,11 +371,13 @@
 	function cb_get_functions($place)
 	{
 		global $Cbucket;
-		if(count($Cbucket->clipbucket_functions[$place])>0)
-		{
-			return $Cbucket->clipbucket_functions[$place];
-		}else
-			return false;
+		if(isset($Cbucket->clipbucket_functions[$place])){
+			if(count($Cbucket->clipbucket_functions[$place])>0)
+			{
+				return $Cbucket->clipbucket_functions[$place];
+			}else
+				return false;
+		}
 	}
 	
 	/**

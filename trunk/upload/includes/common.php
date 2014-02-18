@@ -90,7 +90,7 @@ if(!@$in_bg_cron)
 		break;
 		case 1:
 		{
-			error_reporting(E_ALL);
+			error_reporting(E_ALL ^ E_NOTICE);
 			ini_set('display_errors', 'on');
 		}
 		break;
@@ -236,9 +236,9 @@ if(!@$in_bg_cron)
 
 //Website Details
 
-    define('CB_VERSION', $row['version']);
-    define('TITLE',$row['site_title']);
-	define('SLOGAN',$row['site_slogan']);
+   define('CB_VERSION', $row['version']);
+   define('TITLE',$row['site_title']);
+	if(!defined('SLOGAN')) define('SLOGAN',$row['site_slogan']);
 	
 	
 
@@ -249,7 +249,7 @@ if(!@$in_bg_cron)
  //Registration & Email Settings
  
  	define('EMAIL_VERIFICATION',$row['email_verification']);	
-	define('ALLOW_REG',$row['allow_registration']);
+	define('ALLOW_REG',getArrayValue($row, 'allow_registration'));
 	define('WEBSITE_EMAIL',$row['website_email']);
 	define('SUPPORT_EMAIL',$row['support_email']);
 	define('WELCOME_EMAIL',$row['welcome_email']);
@@ -427,9 +427,9 @@ if(!@$in_bg_cron)
 
 
 
-
 	$cbtpl = new CBTemplate();
-
+	// STOP CACHING
+	$cbtpl->caching = 0;
 	$cbobjects = new CBObjects();
 	$swfobj		= new SWFObject();
 	//Initializng Userquery class
@@ -477,17 +477,17 @@ if(!@$in_bg_cron)
 	
  	//Assigning Smarty Tags & Values
     Assign('CB_VERSION',CB_VERSION);
-    Assign('FFMPEG_FLVTOOLS_BINARY',FFMPEG_FLVTOOLS_BINARY);
-    Assign('FFMPEG_MPLAYER_BINARY',FFMPEG_MPLAYER_BINARY);
+    Assign('FFMPEG_FLVTOOLS_BINARY',getConstant('FFMPEG_FLVTOOLS_BINARY'));
+    Assign('FFMPEG_MPLAYER_BINARY',getConstant('FFMPEG_MPLAYER_BINARY'));
     Assign('PHP_PATH',PHP_PATH);
-    Assign('FFMPEG_BINARY',FFMPEG_BINARY);
-    Assign('FFMPEG_MENCODER_BINARY',FFMPEG_MENCODER_BINARY);
+    Assign('FFMPEG_BINARY',getConstant('FFMPEG_BINARY'));
+    Assign('FFMPEG_MENCODER_BINARY',getConstant('FFMPEG_MENCODER_BINARY'));
     Assign('js',JS_URL);
 	Assign('title',TITLE);
 	Assign('slogan',SLOGAN);	
 	Assign('flvplayer',FLVPLAYER);
 	Assign('avatardir',BASEURL.'/images/avatars');
-	Assign('whatis',$row['whatis']);
+	Assign('whatis',getArrayValue($row, 'whatis'));
 	Assign('category_thumbs',CAT_THUMB_URL);
 	Assign('gp_thumbs_url',GP_THUMB_URL);
 	Assign('video_thumbs',THUMBS_URL);
@@ -497,7 +497,7 @@ if(!@$in_bg_cron)
 	Assign('group_thumb',BASEURL.'/images/groups_thumbs');
 	Assign('bg_dir',BASEURL.'/images/backgrounds');
 	Assign('captcha_type',$row['captcha_type']);
-	Assign('languages',$languages);
+	Assign('languages',(isset($languages)) ? $languages : false);
 	
 	Assign('module_dir',MODULEDIR);
 	
@@ -541,15 +541,15 @@ if(!@$in_bg_cron)
 							  )
 	 );
 	Assign('LANG',$LANG);
-	Assign('langf',LANG);
-    Assign('lang_count',count($languages));
+	Assign('langf',getConstant('LANG'));
+    Assign('lang_count',(isset($languages)) ? count($languages) : false);
 	
 
 //Assign Player Div Id
 	Assign('player_div_id',$row['player_div_id']);
 
 //Asigning Page
-	Assign('page',PAGE);
+	Assign('page',getConstant('PAGE'));
 	
 //Add Modules
 require('modules.php');	
@@ -599,7 +599,8 @@ $Smarty->register_function('ANCHOR','ANCHOR');
 $Smarty->register_function('FUNC','FUNC');
 $Smarty->register_function('avatar','avatar');
 $Smarty->register_function('load_form','load_form');
-$Smarty->register_function('get_all_video_files',get_all_video_files_smarty);
+//getConstant('get_all_video_files_smarty')
+$Smarty->register_function('get_all_video_files', 'get_all_video_files_smarty');
 $Smarty->register_function('input_value','input_value');
 $Smarty->register_function('userid','userid');
 $Smarty->register_function('FlashPlayer','flashPlayer');

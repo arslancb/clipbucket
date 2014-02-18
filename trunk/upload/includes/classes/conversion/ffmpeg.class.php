@@ -142,6 +142,7 @@ class ffmpeg
 		# file format
 		if(isset($p['format']))
 			$opt_av .= " -f {$p['format']} ";
+			//$opt_av .= " -f mp4 ";
 			
 		# video codec
 		if(isset($p['video_codec']))
@@ -237,6 +238,7 @@ class ffmpeg
 		//$opt_av .= '-'.$this->vconfigs['map_meta_data']." ".$this->output_file.":".$this->input_file;
 	
 		$this->raw_command = $command = $this->ffmpeg." -i ".$this->input_file." $opt_av ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
+		file_put_contents("/home/sajjad/Desktop/ffmpegLog.txt", $this->raw_command);
 		
 		//Updating DB
 		//$db->update($this->tbl,array('command_used'),array($command)," id = '".$this->row_id."'");
@@ -868,6 +870,7 @@ class ffmpeg
 				/*End*/
 				$hr = $this->configs['high_res'];
 				$this->configs['video_width'] = $res[$nr][0];
+				$this->configs['format'] = 'mp4';
 				$this->configs['video_height'] = $res[$nr][1];
 				$this->configs['hq_video_width'] = $res[$hr][0];
 				$this->configs['hq_video_height'] = $res[$hr][1];

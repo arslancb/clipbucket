@@ -100,7 +100,7 @@ class Modules
 $Modules = new Modules();
 
 	//Ading and Displaying Module
-	
+	$module_list = array();
 	$moduleQuery = @mysql_query("SELECT * FROM modules  WHERE active ='yes'");
 	while($moduleData = @mysql_fetch_array($moduleQuery)){
 		$module = $Modules->GetModuleDetails($moduleData['module_name']);

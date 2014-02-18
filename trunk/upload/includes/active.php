@@ -16,7 +16,7 @@ function current_page($params)
 {
 	global $this_page,$parent_page;
 	$page = $params['page'];
-	$class = $params['class'];
+	$class = getArrayValue($params, 'class');
 	
 	if($class =='')
 		$class = "selected";

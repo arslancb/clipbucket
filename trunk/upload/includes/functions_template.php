@@ -75,7 +75,7 @@ function display_it()
         $dir = LAYOUT;
         foreach($ClipBucket->template_files as $file)
         {
-            if(file_exists(LAYOUT.'/'.$file) || is_array($file))
+            if(file_exists(LAYOUT.'/'.$file['file']) || is_array($file))
             {
 
                 if(!$ClipBucket->show_page && $file['follow_show_page'])
@@ -87,7 +87,7 @@ function display_it()
                         $new_list[] = $file;
                     else
                     {
-                        if($file['folder'] && file_exists($file['folder'].'/'.$file['file']))
+                        if(isset($file['folder']) && file_exists($file['folder'].'/'.$file['file']))
                             $new_list[] = $file['folder'].'/'.$file['file'];
                         else
                             $new_list[] = $file['file'];

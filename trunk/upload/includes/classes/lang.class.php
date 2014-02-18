@@ -39,7 +39,7 @@ class language
 	 */
 	function init()
 	{
-		$lang = mysql_clean($_COOKIE['cb_lang']);
+		$lang = mysql_clean(getArrayValue($_COOKIE, 'cb_lang'));
 		
 		//Setting Language
 		if(isset($_GET['set_site_lang']))
@@ -54,7 +54,7 @@ class language
 		    $lang_details = $this->lang_exists($lang);
         }
 
-		if(isset($lang) && $lang_details)
+		if(isset($lang) && isset($lang_details))
 		{
 			$default = $lang_details ;
 		}else

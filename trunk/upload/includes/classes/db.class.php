@@ -201,7 +201,7 @@ class Clipbucket_db
             $val = ($vls[$i]);
             preg_match('/\|no_mc\|/',$val,$matches);
             //pr($matches);
-            if($matches[0]!='')
+            if(getArrayValue($matches, 0)!='')
                 $val = preg_replace('/\|no_mc\|/','',$val);
             else
                 $val = $this->clean_var($val);
@@ -222,7 +222,7 @@ class Clipbucket_db
         $query = "UPDATE $tbl SET $fields_query WHERE $cond $ep";
 
         //if(!mysql_query($query)) die($query.'<br>'.mysql_error());
-        $this->total_queries++;
+        if(isset($this->total_queries)) $this->total_queries++;
         $this->total_queries_sql[] = $query;
 
         try
@@ -244,6 +244,7 @@ class Clipbucket_db
 
         global $db ;
         $total_fields = count($flds);
+        $fields_query = "";
         $count = 0;
         for($i=0;$i<$total_fields;$i++)
         {
@@ -263,7 +264,7 @@ class Clipbucket_db
         //Complete Query
         $query = "DELETE FROM $tbl WHERE $fields_query $ep";
         //if(!mysql_query($query)) die(mysql_error());
-        $this->total_queries++;
+        if(isset($this->total_queries)) $this->total_queries++;
         $this->total_queries_sql[] = $query;
 
 
@@ -306,7 +307,7 @@ class Clipbucket_db
 
             preg_match('/\|no_mc\|/',$value,$matches);
             //pr($matches);
-            if($matches[0]!='')
+            if(getArrayValue($matches, 0)!='')
                 $val = preg_replace('/\|no_mc\|/','',$value);
             else
                 $val = $this->clean_var($value);
@@ -329,7 +330,7 @@ class Clipbucket_db
         $query = "INSERT INTO $tbl ($fields_query) VALUES ($values_query) $ep";
         $this->total_queries_sql[] = $query;
         //if(!mysql_query($query)) die(mysql_error());
-        $this->total_queries++;
+        if(isset($this->total_queries)) $this->total_queries++;
 
         try
         {

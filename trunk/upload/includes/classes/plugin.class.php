@@ -260,10 +260,11 @@ class CBPlugin extends ClipBucket
 			 );
 			foreach ($details_array as $detail)
 			{
-				$plugin_array[$detail]=${$detail}[1];
+				$plugin_array[$detail]= (isset(${$detail}[1])) ? ${$detail}[1] : false;
 			}
 			$plugin_array['file'] = $plug_file;
-			$plugin_array['code'] = preg_replace('/\s/', '', $code[1]);
+			if(isset($code[1]))
+				$plugin_array['code'] = preg_replace('/\s/', '', $code[1]);
 			
 			return $plugin_array;
 		}else{
