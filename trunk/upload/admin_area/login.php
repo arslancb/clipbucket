@@ -14,6 +14,8 @@ if($userquery->is_admin_logged_as_user())
 	redirect_to(BASEURL.'/admin_area');
 }
 
+//var_dump($userquery->is_admin_logged_as_user($userquery->admin_login_check(TRUE)));
+
 if($userquery->admin_login_check(TRUE))
 {
 	redirect_to(BASEURL."/".ADMINDIR."/index.php");
