@@ -1,196 +1,401 @@
+<h3>ClipBucket V2.7 Quick Stats</h3>
+<div class="row">
+<div class="col-xs-12 col-sm-8">
+    <div class="widget-box">
+        <div class="widget-header">
+            <h5><i class="glyphicon glyphicon-stats"></i>Weekly Activity</h5>
+            <div class="widget-toolbar">
+                <a href="#" data-action="collapse">
+                    <i class="icon-chevron-down"></i>
+                </a>
+                <a href="#" data-action="close">
+                    <i class="icon-remove"></i>
+                </a>
+            </div>
+        </div>
+        <div class="widget-body">
+            <div class="widget-main">
+                <b>November 2013 to December 2013</b>
+            <p class="pull-right">.Videos .Photos .Users</p>
+                <hr>
+                <table class="table table-stripped table-bordered">
+                    <tr>
+                    <td>
+                    <div class="stats_subitem_d">Total Videos : <strong>200000000</strong> </div>
+                        </td>
+                    <td>
+                    <div class="stats_subitem_d">Total Groups : <strong>{get_groups count_only=yes}</strong> </div>
+                    </td>
+                        <td>
+                            <div class="stats_subitem_d">Total Collection : <strong>{get_collections count_only=yes}</strong> </div>
+                        </td>
+                        <td>
+                            <div class="stats_subitem_d">Total Members : <strong>{get_users count_only=yes}</strong> </div>
+                        </td>
+                        <td>
+                            <div class="stats_subitem_d">Total Photos : <strong>{get_photos count_only=yes}</strong> </div>
+                        </td>
+                </table>
 
-	
-<table width="100%" border="0" class="index_table">
-  <tr>
-    <td valign="top" style="padding-right:13px">
-    
-<div class="widgets-wrap" id="column1">
-	 
-     
-     <div class="dragbox" id="cbstats" >
-        <h2>{$title} Quick Stats</h2>
-        <div class="dragbox-content" >
-            <div class="item clearfix">
-            	<div class="stats_subitem">Videos</div>
-                <div class="stats_subitem_d">Total : <strong>{get_videos count_only=yes}</strong> | Active : <strong>{get_videos count_only=yes active="yes"}</strong> | Flagged : <strong>{$cbvid->action->count_flagged_objects()}</strong> | Processing : <strong>{get_videos count_only=yes status='Processing'}</strong></div>
-            </div>
-            
-             <div class="item clearfix">
-            	<div class="stats_subitem">Groups</div>
-                <div class="stats_subitem_d">Total : <strong>{get_groups count_only=yes}</strong> | Active : <strong>{get_groups count_only=yes active='yes'}</strong> | Flagged : <strong>{$cbgroup->action->count_flagged_objects()}</strong></div>
-            </div>
-            
-             <div class="item clearfix">
-            	<div class="stats_subitem">Members</div>
-                <div class="stats_subitem_d">Total : <strong>{get_users count_only=yes}</strong> | Active : <strong>{get_users count_only=yes status='Ok'}</strong> | Flagged : <strong>{$userquery->action->count_flagged_objects()}</strong> | Banned : <strong>{get_users count_only=yes ban='yes'}</strong></div>
-            </div>
-            
-            <div class="item clearfix">
-            	<div class="stats_subitem">Photos</div>
-                <div class="stats_subitem_d">Total : <strong>{get_photos count_only=yes}</strong> | Active : <strong>{get_photos count_only=yes active='yes'}</strong> | Flagged : <strong>{$cbphoto->action->count_flagged_objects()}</strong> </div>
-            </div>
-            
-             <div class="item clearfix">
-            	<div class="stats_subitem">Collections</div>
-                <div class="stats_subitem_d">Total : <strong>{get_collections count_only=yes}</strong> | Active : <strong>{get_collections count_only=yes active='yes'}</strong> 
-                | Flagged : <strong>{$cbcollection->action->count_flagged_objects()} </strong>
-                | Videos : <strong>{get_collections count_only=yes type='videos'}</strong> | Photos : <strong>{get_collections count_only=yes type='photos'}</strong>
-                </strong> </div>
-            </div>
-            
-            
-            <div class="item">
-            {assign var=users value=$userquery->get_online_users()}
-            <strong><a href="online_users.php">Online Users({$userquery->get_online_users(false,true)})</a></strong><br />
-            
-            {if $users}
-            	{foreach from=$users item=user name=onlines}
-                {if $user.username!=""}
-               	 <strong><a href="{$userquery->profile_link($user)}" target="_blank">{$user.username}{if $user.logins>1}({$user.logins}){/if}</a>{if !$smarty.foreach.onlines.last}, {/if}</strong>			{/if}
-                {/foreach}
-               
-               
-                {foreach from=$users item=user name=onlines}
-                    {if $user.session_string=='guest'}
-                        <strong>and {$user.logins} guest{if $user.logins>1}s{/if}</strong>
-                     {/if}
-                {/foreach}
-                
-            {else}
-            	No User is Online
-            {/if}    
-            
-            
-            </div>
-            
-            <div class="item subitem">
-            	{if $Cbucket->cbinfo.new_available}
-                	<div class="stats_subitem" style="width:60%; color:#060">Currently you are running <strong>{$ClipBucket->cbinfo.version} {$ClipBucket->cbinfo.state}</strong><br />
-Latest Version <strong>{$Cbucket->cbinfo.latest.version} {$Cbucket->cbinfo.latest.state} </strong></div>
-               		<div class="stats_subitem" style="width:39%"><span class="simple_button"><a href="{$Cbucket->cbinfo.latest.link}">Update Now</a></span></div>
-                	<div class="clearfix"></div>
-                {else}
-            		<div>
-                    Currently you are running <strong>{$Cbucket->cbinfo.version} {$Cbucket->cbinfo.state}</strong> - No New Version Available</div>
-                {/if}
             </div>
         </div>
     </div>
-    
-       
-    <div class="dragbox" id="cbnews" >
-        <h2>ClipBucket News</h2>
-        <div class="dragbox-content" >
-        	<div  id="clipbucket_news"></div>
-        </div>
-    </div>
-    
-    <div style="height:20px;"></div>
-    <div style="font-size:12px">
-    <h2>Words from ClipBucket!</h2>
-    <p>ClipBucket is  developed by <strong><a href="http://arslanhassan.com">Arslan Hassan</a></strong> and <strong><a href="http://clip-bucket.com/fawaz-tahir">Fawaz Tahir</a></strong>, we started with a small website application with only functionality of serving videos to the community later on we decided to add every possible social networking feature to make social communities more interactive. We didn't have any milestones, no road map, no charts, no nothing. Only thing we had was a vision as of our captain <strong><a href="http://clip-bucket.com/jahanzeb-hassan">Jahanzeb Hassan</a></strong> and plenty of hard work. </p>
-    <p>We also have two more members named <a href="http://clip-bucket.com/ruman-malik">Ruman Malik</a> and <a href="http://clip-bucket.com/zomail-tahir">Zomail Tahir</a> who manage sales and support department.</p>
-    <p><strong>ClipBucket team gives special thanks to</strong><br />
-      <br />
-      * Frank White for helping us knowing the basics of professional application development<br />
-      * Christian Russemen for keep our community active<br />
-      * BigStack for his great forum support
-      <br />
-      * You for using ClipBucket.</p>
-    <h3>What lies head?</h3>
-    <p>* Easy ClipBucket integeration with other applications<br />
-      * Make more secured, fast and optimized<br />
-      * HTML5 ready with mobile support<br />
-      * Full documentation of our source code
-    </p>
-    <h3>Where in the world we belong to?</h3>
-    <p>We belong to <a href="http://clip-bucket.com/pakistan">Islamic Republic of Pakistan</a> :) you may have seen many negative news about Pakistan on television but there are still <a href="http://clip-bucket.com/pakistan#the_truth">some facts</a> you should know about. Its a great country for us and we will always love it.<br />
-      <strong>Pakistan Zindabad </strong><br />
-  <strong><br />
-</strong></p></div>
-</div>    
-    
-    </td>
-    <td width="210" valign="top">
-
-
-   
-<div class="widgets-wrap" style="width:210px" id="column2">
-
-    <!-- Admin Todo List -->  
-    <div class="dragbox" id="todo_list" >
-        <h2>Todo List</h2>
-        <div class="dragbox-content" >
-        	<div class="item"><a href="video_manager.php?search=search&active=no">Approve Videos ({get_videos active='no' count_only=true})</a></div>
-            <div class="item"><a href="members.php?search=yes&amp;status=ToActivate">Approve Members ({get_users status='ToActivate' count_only=true})</a></div>
-            <div class="item"><a href="groups_manager.php?active=no&amp;search=yes">Approve Groups ({get_groups active='no' count_only=true})</a></div>
-	    </div>
-    </div>
-    <!-- Admin Todo List -->
-    
-    <!-- Admin Todo List -->  
-    <div class="dragbox" id="quick_actions" >
-        <h2>Quick Action</h2>
-        <div class="dragbox-content" >
-        	<div class="item"><a href="main.php">Website Settings</a></div>
-            <div class="item"><a href="add_member.php">Add Members</a></div>
-            <div class="item"><a href="add_group.php">Add Group</a></div>
-            <div class="item"><a href="cb_mod_check.php">Check Video Modules</a></div>          
-	    </div>
-    </div>
-    <!-- Admin Todo List -->  
-
-
-    <!-- Admin personal Note Widget -->
-	<div class="dragbox" id="private_notes" >
-        <h2>Personal Notes</h2>
-        <div class="dragbox-content" >
-        {assign var=notes value=$myquery->get_notes()}
-        
-        <div id="the_notes">
-        {if $notes}
-       		<div id="no_note"></div>
-            {foreach from=$notes item=note}
-            	<div class="item" id="note-{$note.note_id}">
-                	<img src="{$imageurl}/cross.png" class="delete_note" onclick="delete_note('{$note.note_id}');" />
-                    {$note.note|nl2br}
-                </div>
-            {/foreach}
-        {else}
-        	<div id="no_note" align="center"><strong><em>No notes</em></strong></div>
-        {/if}
-        </div>
-        <form method="post">
-        	<textarea name="personal_note" id="personal_note" style="width:90%; height:50px; margin:5px; border:1px solid #999"></textarea>
-            <div align="right" style="padding-right:10px"><a href="javascript:void(0)" 
-            onclick="add_note('#personal_note')">Add Note</a></div>
-        </form>
-	    </div>
-    </div>
-    <!-- Admin personal Note Widget -->
-    
-    
 </div>
-    
-    
-    </td>
-  </tr>
-</table>
+    <div class="col-xs-12 col-md-4">
+        <div class="widget-box">
+            <div class="widget-header">
+                <h5><i class="glyphicon glyphicon-book"></i>ClipBucket News</h5>
+                <div class="widget-toolbar">
+                    <a href="#" data-action="collapse">
+                        <i class="icon-chevron-down"></i>
+                    </a>
 
+                    <a href="#" data-action="close">
+                        <i class="icon-remove"></i>
+                    </a>
+                </div>
+            </div>
 
-<script>
-{literal}
-$(document).ready(function(){
-	// $.ajax({
-	//   url :  baseurl+'/ajax.php',
-	//   type: "POST",
-	//   dataType : 'text',
-	//   data : {'mode':'get_news'},
-	//   success : function(news){ $('#clipbucket_news').html(news) },
-	//   timeout : 5000,
-	//   error  :  function(err) { $('#clipbucket_news').html(' <div align="center"><em><strong>Unable to fetch news</strong></em></div>')},
-	  
-	// });
-});
-{/literal}
-</script>
+            <div class="widget-body">
+                <div class="widget-main">
+                    <p>Words from ClipBucket!</p>
+                    <hr>
+                       <li> <small>Head's Up its Clipbucket</small></li>
+
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-8 widget-container-span">
+        <div class="widget-box">
+            <div class="widget-header">
+                <h5><i class="glyphicon glyphicon-user"></i>New Users</h5>
+                <div class="widget-toolbar">
+                    <a href="#" data-action="collapse">
+                        <i class="icon-chevron-down"></i>
+                    </a>
+                    <a href="#" data-action="close">
+                        <i class="icon-remove"></i>
+                    </a>
+                </div>
+                </div>
+            <div class="widget-body">
+                <div class="widget-main">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-2">
+                        <a href="view_user.php?uid={$u.userid}"> <img src="{$userquery->getUserThumb($u,'small')}" class="img-thumbnail oneUserImage" />
+                        </a>
+                    </div>
+                        <div class="col-md-10">
+                            <a href="view_user.php?uid={$u.userid}" target="_blank">User Full Name        </a>(username@username.com)
+                            <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle pull-right" data-toggle="dropdown">
+                                <i class="glyphicon glyphicon-cog"></i><i class="icon-angle-down icon-on-right"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
+                                <li><a role="menuitem" tabindex="-1"
+                                       href="" class="">Add link</a></li>
+                                <li><a role="menuitem" tabindex="-1"
+                                       href=""target="_blank">Add link 2</a>
+                                </li>
+                                </ul>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <a href="view_user.php?uid={$u.userid}"> <img src="{$userquery->getUserThumb($u,'small')}" class="img-thumbnail oneUserImage" />
+                            </a>
+                        </div>
+                        <div class="col-md-10">
+                            <a href="view_user.php?uid={$u.userid}" target="_blank">User Full Name        </a>(username@username.com)
+                            <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle pull-right" data-toggle="dropdown">
+                                <i class="glyphicon glyphicon-cog"></i><i class="icon-angle-down icon-on-right"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
+                                <li><a role="menuitem" tabindex="-1"
+                                       href="" class="">Add here</a></li>
+                                <li><a role="menuitem" tabindex="-1"
+                                       href=""target="_blank">Add here 2</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+            </div>
+        </div>
+<div class="col-xs-12 col-md-4 widget-container-span">
+<div class="widget-box">
+    <div class="widget-header">
+        <h5><i class="glyphicon glyphicon-list-alt"></i>ToDo List</h5>
+        <div class="widget-toolbar">
+            <a href="#" data-action="collapse">
+                <i class="icon-chevron-down"></i>
+            </a>
+            <a href="#" data-action="close">
+                <i class="icon-remove"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+    <p class="xedit">This is task 1 and some one has to do it</p>
+    <p class="xedit">This is task 2 and some one has to do it</p>
+    <p class="xedit">This is task 3 and some one has to do it</p>
+    <p class="xedit">This is task 4 and some one has to do it</p>
+    </div>
+</div>
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="col-xs-10 col-sm-6 widget-container-span">
+        <div class="widget-box">
+            <div class="widget-header">
+                <h5><i class="glyphicon glyphicon-eye-open"></i>Most Viewed Videos</h5>
+                <div class="widget-toolbar">
+                    <a href="#" data-action="collapse">
+                        <i class="icon-chevron-down"></i>
+                    </a>
+                    <a href="#" data-action="close">
+                        <i class="icon-remove"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="{getThumb vdetails=$video}" width="130" height="80" id="thumbs_{$video.videoid}" title=""/>
+                        </div>
+                        <div class="col-md-9">
+                            <a href="">
+                                Title of the video comes here........ </a>
+                            <strong class="btn btn-primary btn-xs pull-right"> {lang code='views'} : {$video.views|number_format}</strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="{getThumb vdetails=$video}" width="130" height="80" id="thumbs_{$video.videoid}" title=""/>
+                        </div>
+                        <div class="col-md-9">
+                            <a href="">
+                                Title of the video comes here........ </a>
+                            <strong class="btn btn-primary btn-xs pull-right"> {lang code='views'} : {$video.views|number_format}</strong>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="{getThumb vdetails=$video}" width="130" height="80" id="thumbs_{$video.videoid}" title=""/>
+                        </div>
+                        <div class="col-md-9">
+                            <a href="">
+                                Title of the video comes here........ </a>
+                            <strong class="btn btn-primary btn-xs pull-right"> {lang code='views'} : {$video.views|number_format}</strong>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+    <div class="col-xs-12 col-md-6 widget-container-span">
+        <div class="widget-box">
+            <div class="widget-header">
+                <h5><i class="icon-comment"></i>Recent Comments</h5>
+                <div class="widget-toolbar">
+                    <a href="#" data-action="collapse">
+                        <i class="icon-chevron-down"></i>
+                    </a>
+
+                    <a href="#" data-action="close">
+                        <i class="icon-remove"></i>
+                    </a>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main">
+                        <div class="widget-box transparent">
+                            <div class="widget-header widget-header-small">
+
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-body">
+                                    <div class="widget-main no-padding">
+                                        <div class="slimScrollDiv">
+                                            <div class="itemdiv dialogdiv">
+                                                <div class="user">
+                                                    <img alt="Alexa's Avatar" src="{$userquery->getUserThumb($u,'small')}">
+                                                </div>
+                                                <div class="body">
+                                                    <div class="time">
+                                                        <i class="icon-time"></i>
+                                                        <span class="green">4 sec</span>
+                                                    </div>
+                                                    <div class="name">
+                                                        <a href="#">Ahmed</a>
+                                                    </div>
+                                                    <div class="text">First Comment</div>
+                                                    <div class="tools">
+                                                        <a href="#" class="btn btn-minier btn-info">
+                                                            <i class="icon-only icon-share-alt"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="itemdiv dialogdiv">
+                                                <div class="user">
+                                                    <img alt="John's Avatar" src="{$userquery->getUserThumb($u,'small')}">
+                                                </div>
+                                                <div class="body">
+                                                    <div class="time">
+                                                        <i class="icon-time"></i>
+                                                        <span class="blue">38 sec</span>
+                                                    </div>
+                                                    <div class="name">
+                                                        <a href="#">Naveed</a>
+                                                    </div>
+                                                    <div class="text">Second Comment</div>
+
+                                                    <div class="tools">
+                                                        <a href="#" class="btn btn-minier btn-info">
+                                                            <i class="icon-only icon-share-alt"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="itemdiv dialogdiv">
+                                                <div class="user">
+                                                    <img alt="Bob's Avatar" src="{$userquery->getUserThumb($u,'small')}">
+                                                </div>
+
+                                                <div class="body">
+                                                    <div class="time">
+                                                        <i class="icon-time"></i>
+                                                        <span class="orange">2 min</span>
+                                                    </div>
+
+                                                    <div class="name">
+                                                        <a href="#">Arslan</a>
+                                                    </div>
+                                                    <div class="text">3rd comment</div>
+                                                    <div class="tools">
+                                                        <a href="#" class="btn btn-minier btn-info">
+                                                            <i class="icon-only icon-share-alt"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="itemdiv dialogdiv">
+                                                <div class="user">
+                                                    <img alt="Jim's Avatar" src="{$userquery->getUserThumb($u,'small')}">
+                                                </div>
+
+                                                <div class="body">
+                                                    <div class="time">
+                                                        <i class="icon-time"></i>
+                                                        <span class="grey">3 min</span>
+                                                    </div>
+
+                                                    <div class="name">
+                                                        <a href="#">Omer</a>
+                                                    </div>
+                                                    <div class="text">4th Comment</div>
+
+                                                    <div class="tools">
+                                                        <a href="#" class="btn btn-minier btn-info">
+                                                            <i class="icon-only icon-share-alt"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="itemdiv dialogdiv">
+                                                <div class="user">
+                                                    <img alt="Alexa's Avatar" src="{$userquery->getUserThumb($u,'small')}">
+                                                </div>
+
+                                                <div class="body">
+                                                    <div class="time">
+                                                        <i class="icon-time"></i>
+                                                        <span class="green">4 min</span>
+                                                    </div>
+
+                                                    <div class="name">
+                                                        <a href="#">Sonia</a>
+                                                    </div>
+                                                    <div class="text">5th comment.</div>
+
+                                                    <div class="tools">
+                                                        <a href="#" class="btn btn-minier btn-info">
+                                                            <i class="icon-only icon-share-alt"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /widget-main -->
+                               </div>
+                        </div>
+                    </div>
+                </div>
+           </div>
+    </div>
+</div>
+        <div class="col-xs-12 col-md-12 widget-container-span">
+            <div class="widget-box">
+                <div class="widget-header">
+                    <h5><i class="glyphicon glyphicon-file"></i>Personal Note</h5>
+                    <div class="widget-toolbar">
+                        <a href="#" data-action="collapse">
+                            <i class="icon-chevron-down"></i>
+                        </a>
+
+                        <a href="#" data-action="close">
+                            <i class="icon-remove"></i>
+                        </a>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main">
+                       <textarea class="form-control" cols="3" rows="5"></textarea><br>
+                            <input type="button" class="btn btn-primary btn-xs" value="Add note">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+<div class="well">
+<p>ClipBucket is  developed by <strong><a href="http://arslanhassan.com">Arslan Hassan</a></strong> and <strong><a href="http://clip-bucket.com/fawaz-tahir">Fawaz Tahir</a></strong>, we started with a small website application with only functionality of serving videos to the community later on we decided to add every possible social networking feature to make social communities more interactive. We didn't have any milestones, no road map, no charts, no nothing. Only thing we had was a vision as of our captain <strong><a href="http://clip-bucket.com/jahanzeb-hassan">Jahanzeb Hassan</a></strong> and plenty of hard work. </p>
+<p>We also have two more members named <a href="http://clip-bucket.com/ruman-malik">Ruman Malik</a> and <a href="http://clip-bucket.com/zomail-tahir">Zomail Tahir</a> who manage sales and support department.</p>
+<p><strong>ClipBucket team gives special thanks to</strong><br />
+    <br />
+    * Frank White for helping us knowing the basics of professional application development<br />
+    * Christian Russemen for keep our community active<br />
+    * BigStack for his great forum support
+    <br />
+    * You for using ClipBucket.</p>
+<h3>What lies head?</h3>
+<p>* Easy ClipBucket integeration with other applications<br />
+    * Make more secured, fast and optimized<br />
+    * HTML5 ready with mobile support<br />
+    * Full documentation of our source code
+</p>
+<h3>Where in the world we belong to?</h3>
+<p>We belong to <a href="http://clip-bucket.com/pakistan">Islamic Republic of Pakistan</a> :) you may have seen many negative news about Pakistan on television but there are still <a href="http://clip-bucket.com/pakistan#the_truth">some facts</a> you should know about. Its a great country for us and we will always love it.<br />
+    <strong>Pakistan Zindabad </strong></p>
+    </div>
