@@ -1,77 +1,71 @@
-/*@import url("main.css");*/
 .main-content, .breadcrumbs{
-	/*overflow: hidden;*/
+    overflow: hidden;
 }
 .widgets-wrap .dragbox {
-	padding: 10px;
-	border: solid 1px #ccc;
-	margin-bottom: 10px;
+    padding: 10px;
+    border: solid 1px #ccc;
+    margin-bottom: 10px;
 }
 
 .widgets-wrap .dragbox .item{
-	margin-bottom: 5px;
-	border: solid 1px #ddd;
-	padding: 5px;
+    margin-bottom: 5px;
+    border: solid 1px #ddd;
+    padding: 5px;
 }
 
 .widgets-wrap .dragbox .stats_subitem{
-	font-weight: normal;
-	font-size: 1.3em;
+    font-weight: normal;
+    font-size: 1.3em;
 }
 
 ul.mainTabs{
-	height: 50px;
-	margin-bottom: 20px;
+    height: 50px;
+    margin-bottom: 20px;
 }
 
 .main_page_div .form-group{
-	border: solid 1px #ccc;
-	margin-bottom: 10px;
-	padding: 10px;
+    border: solid 1px #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
 }
 
 .horizontalTabs > li{
-	margin: 0 0 10px 0;
-	width: 100%;
-	text-align: center;
+    margin: 0 0 10px 0;
+    width: 100%;
+    text-align: center;
 }
 
-
-.btn-group{
-	margin-bottom: 10px;
-	margin-top: 10px;
-}
 
 .vdo_sets{
 
 }
 
 .vdo_sets strong{
-	padding: 5px;
+    padding: 5px;
 }
 
 .vdo_sets span{
-	padding: 5px;
+    padding: 5px;
 }
 
 .commentsMenu{
-	overflow: hidden;
+    overflow: hidden;
 }
 
 .commentsMenu > ul{
-	margin-left: 0;
+    margin-left: 0;
 }
 
 .formOptions{
-	margin: 10px 0;
+    margin: 10px 0;
 }
 
 .edit_comment{
-	padding-left: 10px;
+    padding-left: 10px;
 }
 
 .vid_opts{
-	padding-left: 10px;
+    padding-left: 10px;
 }
 
 /* Users Styles */
@@ -81,152 +75,93 @@ ul.mainTabs{
 }
 
 .manageUsersTable .dropdown{
-	text-align: center;
-	padding-right: 0;
+    text-align: center;
+    padding-right: 0;
 }
 
 .manageUsersTable .dropdown > ul{
-	text-align: left;
+    text-align: left;
 }
 
 .manageUsersTable .oneUserName{
-	font-size: 1.3em;
+    font-size: 1.3em;
 }
 
 .manageUsersTable .oneUserImage{
-	margin: 0 5px 5px 0px;
-	float: left;
-	width: 70px;
+    margin: 0 5px 5px 0px;
+    float: left;
+    width: 70px;
 }
 
 .manageUsersTable .userInfo{
-	padding: 0px 5px 15px 5px;
+    padding: 0px 5px 15px 5px;
 }
 
 .manageUsersTable .userInfo span{
-	float: right;
+    float: right;
 }
 
 .manageUsersTable .userStatus{
 
 }
 .manageUsersTable .userStatus span{
-	padding: 3px;
+    padding: 3px;
 }
 
 .usersMenuButtons{
-	margin-bottom: 10px;
+    margin-bottom: 10px;
+    <<<<<<< .mine
 }
 
 
 .flaggedUser{
-	overflow: hidden;
+    overflow: hidden;
 }
 
 .flaggedUser .flaggedUserInfo{
-	width: 90%;
+    width: 90%;
 }
 
 .flaggedUser .flaggedUserInfo > img{
-	float: left;
-	margin-right: 5px;
+    float: left;
+    margin-right: 5px;
 }
 
 .flaggedUser .flaggedUserInfo{
-	float: left;
-	overflow: hidden;
+    float: left;
+    overflow: hidden;
 }
 
 .flaggedUser .flaggedUserInfo .userInfo{
-	margin-left: 5px;
-	padding-bottom: 5px;
-	width: 100%;
+    margin-left: 5px;
+    padding-bottom: 5px;
+    width: 100%;
 }
 .flaggedUser .flaggedUserInfo .userInfo span.label{
-	float: right;
+    float: right;
 }
 
 .flaggedUser .flaggedUserInfo .userStatus{
-	padding: 0 0 0 5px;
+    padding: 0 0 0 5px;
 }
 
 .channelSettings label{
-	display: block;
+    display: block;
 }
 
 .channelSettings input[type="radio"]{
-	margin-right: 10px;
-	position: relative;
-	top: 2px;
+    margin-right: 10px;
+    position: relative;
+    top: 2px;
 }
 
 .oneUserImage{
-	width: 60px;
-	float: left;
-}
-
-/* search box styling */
-
-.search_box{
-	margin-top: 10px;
-}
-
-
-/* Video manager pages */
-
-
-.labels {
-
-    margin-top: 4px;
-}
-
-.status {
-
-    margin-top:70px;
-
-}
-
-/* conversion log styles */
-
-
-.conversion_log td {
-    word-break: break-all;
-
-}
-
-/* video manager*/
-
-.stats {
-    padding-left: 30px;
-}
-
-/* Thumbs Manage */
-
-.cbthumbs {
-    width: 140px;
+    width: 60px;
     float: left;
 }
-.thumbs {
-    background-color: #0000ff;
+
+
+
+.main-container {
+    width: 100%;
 }
-
-.reports {
-    padding-right: 50px;
-    padding-left: 50px;
-}
-.block tr:hover {
-    background-color: #F8F8F8;
-}
-.msg {
-   padding: 5px;
-
-    margin: 5px;
-}
-.error {
-     background-color: #FFF7F7;
-     border: 1px solid #ED0000;
- }
-
-
-
-
