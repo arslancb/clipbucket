@@ -133,6 +133,8 @@ class ffmpeg
 		
 
 		$p = $this->configs;
+
+		//file_put_contents("/home/sajjad/Desktop/ffmpegLog.txt", $p);
 		$i = $this->input_details;
 		
 		# Prepare the ffmpeg command to execute
@@ -238,7 +240,7 @@ class ffmpeg
 		//$opt_av .= '-'.$this->vconfigs['map_meta_data']." ".$this->output_file.":".$this->input_file;
 	
 		$this->raw_command = $command = $this->ffmpeg." -i ".$this->input_file." $opt_av ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
-		file_put_contents("/home/sajjad/Desktop/ffmpegLog.txt", $this->raw_command);
+		file_put_contents("/home/sajjad/Desktop/ffmpegLog.txt", $content." =============== ".$this->raw_command);
 		
 		//Updating DB
 		//$db->update($this->tbl,array('command_used'),array($command)," id = '".$this->row_id."'");
@@ -1132,7 +1134,7 @@ class ffmpeg
 			
 			
 			$command = $this->ffmpeg." -i ".$this->input_file." $opt_av  $dimensions -acodec libfaac -vcodec libx264 -vpre hq -crf 22 -threads 0 ".$this->hq_output_file."  2> ".TEMP_DIR."/output.tmp ";	
-
+			file_put_contents("/home/sajjad/Desktop/ffmpegLog.txt", $content);
 			
 			if(KEEP_MP4_AS_IS=="yes" && getExt($this->input_file)=='mp4')
 				copy($this->input_file,$this->hq_output_file);
