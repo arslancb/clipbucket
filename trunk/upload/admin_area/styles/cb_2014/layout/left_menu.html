@@ -1,6 +1,5 @@
 
 {$adminMenu = $Cbucket->AdminMenu}
-
 <ul class="nav nav-list" id="sidebar">
     {if $smarty.const.MAIN_PAGE == 'Dashboard'}
     <li class="active open">
@@ -13,6 +12,7 @@
         </a>
     </li>
 {foreach from=$adminMenu key=name item=oneMenuItem}
+
     {if $smarty.const.MAIN_PAGE == $name}
     <li class="active open">
     {else}
@@ -28,9 +28,11 @@
         {else}
         <ul class="submenu">
         {/if}
-        
+
         {foreach from=$oneMenuItem key=name item=oneSubMenuItem}
+
             {if $smarty.const.SUB_PAGE == $name}
+
             <li class="active">
             {else}
             <li>

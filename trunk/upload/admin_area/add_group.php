@@ -13,9 +13,9 @@ if(!defined('SUB_PAGE')){
 	define('SUB_PAGE', 'Add Group');
 }
 
-if(isset($_POST['add_group']))
+if(isset($_POST['create_group']))
 {
-    if($userquery->signup_user($_POST))
+    if($cbgroup->create_group($_POST,userid(),true))
     {
         e(lang("new_mem_added"),"m");
         $_POST = '';

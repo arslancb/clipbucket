@@ -94,6 +94,8 @@
 <form name="category" action="?update_order" method="post">
 <table class="table table-striped table-bordered">
   <tr>
+      <td width="40" align="center" valign="middle" class="left_head">
+          <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
     <td width="250" class="left_head" style="text-indent:10px">Category Name</td>
     <td width="50" align="left" class="head">Order</td>
     <td width="250" class="head">Description</td>
@@ -111,15 +113,27 @@
   {/literal}
 </script>
   <tr class="item_listing">
+      <td>
+          <input name="category_user[]" type="checkbox" id="category_user" value="{$category[list].category_id}" />
+      </td >
     <td class="clearfix">
+        <p style="white-space:nowrap;
+width:12em;
+overflow:hidden;">
       {$category[list].category_name}
+</p><img src='{$userquery->get_category_thumb($category[list])}' />
       <a href="javascript:void(0)" title="<img src='{$userquery->get_category_thumb($category[list])}' />" data-rel="tooltip" class="btn btn-xs gtn-primary pull-right" data-original-title="View Thumb">View Thumb</a>
     </td>
     <td>
       <input name="category_order_{$category[list].category_id}" type="text" id="order" style="border:1px solid #999; padding:2px; width:30px" value="{$category[list].category_order}" />
     </td>
-    <td>
+    <td >
+       <p style="white-space:nowrap;
+width:12em;
+overflow:hidden;">
       {if $category[list].category_desc}{$category[list].category_desc}{else}<em>N/A</em>{/if}
+        </p>
+
     </td>
     <td>{$category[list].isdefault}</td>
     <td>

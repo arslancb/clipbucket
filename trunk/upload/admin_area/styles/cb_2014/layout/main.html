@@ -757,15 +757,14 @@
     </div>
   
     <h3>Change only if you have good knowledge of video conversion <a href="http://docs.clip-bucket.com/clipbucket-docs/video-conversion-settings" target="_blank"><img src="{$imageurl}/help.png" alt="info" border="0" class="tipsy_tip" title="Video Conversion Info - Click For More Details" /></a></h3>
-
     <div class="form-group">
-      <label for="convProfile">Select profile</label>
+      <label for="convProfile">Select profile </label>
       <select class="form-control" name="convProfile" id="convProfile">
         <option selected="selected" value="0">Choose from list</option>
-        <option value="1">H.264, AAC - Youtube like</option>
-        <option value="3">High Configurations with H264</option>
-        <option value="2">Normal Configurations</option>
-        <option value="4">Low Configurations</option>
+        <option {if $smarty.post.convProfile=='1'} selected="selected"{/if} value="1">H.264, AAC - Youtube like</option>
+        <option {if $smarty.post.convProfile=='3'} selected="selected"{/if} value="3">High Configurations with H264</option>
+        <option {if $smarty.post.convProfile=='2'} selected="selected"{/if}  value="2">Normal Configurations</option>
+        <option {if $smarty.post.convProfile=='4'} selected="selected"{/if}  value="4">Low Configurations</option>
       </select>
     </div>
 
@@ -802,7 +801,7 @@
 
   <div id="div_3" class="main_page_div" >
 
-    <div class="" style="overflow:hidden;">
+    <!--<div class="" style="overflow:hidden;">
       <div class="row">
         <div class="col-md-4">Current Template</div>
         <div class="col-md-8"><a href="manage_players.php">manage flv players</a></div>
@@ -811,7 +810,7 @@
         <div class="col-md-4">Current FLV Player</div>
         <div class="col-md-8"><a href="manage_players.php">manage flv players</a></div>
       </div>
-    </div>
+    </div>-->
 
     <h2>Main Settings</h2>
 

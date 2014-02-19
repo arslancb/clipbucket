@@ -11,6 +11,33 @@ if(!defined('SUB_PAGE')){
 	define('SUB_PAGE', 'Manage Comments');
 }
 
+/*
+delete comments
+*/
+if($_POST['delete_selected']){
+
+	for($id=0;$id<=count($_POST['check_comments']);$id++)
+		$myquery->delete_comment($_POST['check_comments'][$id]);
+}
+
+/*
+Make spam 
+*/
+if($_POST['not_spam']){
+	
+	for($id=0;$id<=count($_POST['check_comments']);$id++)
+		$myquery->spam_comment($_POST['check_comments'][$id]);
+}
+/*
+Remove Make spam 
+*/
+if($_POST['mark_spam']){
+	
+	for($id=0;$id<=count($_POST['check_comments']);$id++)
+		$myquery->remove_spam($_POST['check_comments'][$id]);
+}
+
+
 if(empty($_GET['type']))
 	$type = "v";
 else

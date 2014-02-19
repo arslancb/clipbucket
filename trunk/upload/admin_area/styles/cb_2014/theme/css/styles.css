@@ -1,3 +1,4 @@
+/*@import url("main.css");*/
 .main-content, .breadcrumbs{
 	/*overflow: hidden;*/
 }
@@ -213,7 +214,18 @@ ul.mainTabs{
     padding-right: 50px;
     padding-left: 50px;
 }
+.block tr:hover {
+    background-color: #F8F8F8;
+}
+.msg {
+   padding: 5px;
 
+    margin: 5px;
+}
+.error {
+     background-color: #FFF7F7;
+     border: 1px solid #ED0000;
+ }
 
 
 

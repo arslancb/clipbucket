@@ -26,6 +26,12 @@ if(isset($_POST['make_default']))
 	$id = mysql_clean($_POST['make_default']);
 	$lang_obj->make_default($id);
 }
+//Making Language Default
+if(isset($_GET['make_default']))
+{
+    $id = mysql_clean($_GET['make_default']);
+    $lang_obj->make_default($id);
+}
 
 //Importing language
 if(isset($_POST['add_language']))
@@ -116,10 +122,15 @@ if($lang_obj->lang_exists(mysql_clean($_GET['edit_language'])))
 	$total_phrases = $lang_obj->count_phrases($edit_id,$extra_param);
 	
 	assign('lang_phrases',$lang_phrases);
+
+    //Collecting Data for Pagination
+    //echo 'id='.$edit_id.',toalal='.$total_phrases;
 	
 	$total_pages = $total_phrases/$limit;
 	$total_pages = round($total_pages+0.49,0);
-	$pages->paginate($total_pages,$current_page);
+	//Pagination
+	$pages->paginate($total_pages-2,$current_page);
+
 }
 
 

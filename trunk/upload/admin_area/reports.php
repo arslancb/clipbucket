@@ -33,6 +33,15 @@ assign('user_bg',$user_bg);
 assign('grp_thumbs',$grp_thumbs);
 assign('cat_thumbs',$cat_thumbs);
 
+if(!defined('MAIN_PAGE')){
+    define('MAIN_PAGE', 'Stats And Configurations');
+}
+if(!defined('SUB_PAGE')){
+    if($_GET['view'] == 'search')
+        define('SUB_PAGE', 'Search Members');
+    else
+        define('SUB_PAGE', 'Reports & Stats');
+}
 assign('db_size',formatfilesize(get_db_size()));
 
 template_files('reports.html');

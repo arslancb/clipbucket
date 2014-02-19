@@ -1,6 +1,6 @@
 {if $ad_data.ad_name !=''}
 <h2>Edit Advertisement</h2>
-<p class="alert alert-info">all fiels are required</p>
+<p class="alert alert-info">all fields are required</p>
 <form id="form1" name="form1" method="post" action="">
   <input type="hidden" name="ad_id" value="{$ad_data.ad_id}" /> 
   <div class="form-group">
@@ -48,7 +48,7 @@
 {if $edit_ad != "show"}
 <h2>Add Advertisement</h2>
 <form id="form1" name="form1" method="post" action="ads_manager.php">
-  <h4>all fields are required</h4>
+    <p class="alert alert-info">all fields are required</p>
   <div class="form-group">
     <label for="name">Advertisement Name</label>
     <input class="form-control" name="name" type="text" id="name" />

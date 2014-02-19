@@ -121,24 +121,31 @@
 </h3>
 {if $emails}
 <table class="table table-striped table-bordered">
-    <tr>
-        <td>Subject</td>
-        <td>&nbsp;</td>
-    </tr>
-    {foreach from=$emails item=email}
-            <tr>
-                <td><strong>{$email.email_subj}</strong></td>
-                <td>
-                    <a href="?send_email={$email.id}">Send Email</a> | 
-                    <a href="?delete={$email.id}">Delete</a> | <a href="javascript:void(0)" onclick="$('#mytest').dialog('open')">View</a><br />
-                    <span style="font-size:11px; color:#666"><strong>From</strong> 
-                    : {$email.email_from} &#8226; <strong>Method</strong> : {$email.method}
-                    &#8226; <strong>Sent</strong> : {$email.sent} &#8226; <strong>Status</strong> : {$email.status}</span><br />
-                    {$email.date_added|niceTime}
-                    <div id="mytest" style="display:none" class="email_content">{$email.email_msg|nl2br}</div>  
-                </td>
-            </tr> 
-    {/foreach}
+    <form name="email_manage" method="post">
+        <tr>
+            <td width="40" align="center" valign="middle" class="left_head">
+                <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+            <td>Subject</td>
+            <td>&nbsp;</td>
+        </tr>
+        {foreach from=$emails item=email}
+                <tr>
+                    <td>
+                        <input name="check_email[]" type="checkbox" id="check_email" value="{$email.id}" />
+                    </td>
+                    <td><strong>{$email.email_subj}</strong></td>
+                    <td>
+                        <a href="?send_email={$email.id}">Send Email</a> |
+                        <a href="?delete={$email.id}">Delete</a> | <a href="javascript:void(0)" onclick="alert($('#mytest_{$email.id}').html())">View</a><br />
+                        <span style="font-size:11px; color:#666"><strong>From</strong>
+                        : {$email.email_from} &#8226; <strong>Method</strong> : {$email.method}
+                        &#8226; <strong>Sent</strong> : {$email.sent} &#8226; <strong>Status</strong> : {$email.status}</span><br />
+                        {$email.date_added|niceTime}
+                        <div id="mytest_{$email.id}" style="display:none" class="email_content">{$email.email_msg|nl2br}</div>
+                    </td>
+                </tr>
+        {/foreach}
+    </form>
 </table>
 {else}
 <div class="cb_row">
@@ -172,7 +179,7 @@
                 <div id="mytest" style="display:none" class="email_content ">{$email.email_msg|nl2br}</div>
             </td>
             <td>
-                <a class="btn btn-info btn-sm" href="javascript:void(0)" onclick="$('#mytest').dialog('open')">View</a>
+                <a class="btn btn-info btn-sm" href="javascript:void(0)" onclick="alert($('#mytest').html())" >View</a>
             </td>
         </tr>
     </table>

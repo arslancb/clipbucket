@@ -34,11 +34,12 @@ assign('upload_max_size',ini_get('upload_max_filesize'));
 
 if(isset($_POST['update'])){
 	$configs = $Cbucket->configs;
-	
+
 	$rows = array(
 				  	'allowed_types',
 				  	'allow_language_change',
 					'allow_unicode_usernames',
+					'allow_username_spaces',
 				  	'allow_registeration',
 					'allow_template_change',
 					'allow_upload',
@@ -286,6 +287,7 @@ if(isset($_POST['update'])){
 					);
 	foreach($rows as $field)
 	{
+		//echo $field;
 		$value = ($_POST[$field]);
 		if(in_array($field,$num_array))
 		{
