@@ -1083,20 +1083,31 @@ class ffmpeg
 			
 			$output_file = $this->hq_output_file;
 			
-			# video rate
-			if($p['use_video_rate'])
-			{
-				if(isset($p['video_rate']))
-					$vrate = $p['video_rate'];
-				elseif(isset($i['video_rate']))
-					$vrate = $i['video_rate'];
-				if(isset($p['video_max_rate']) && !empty($vrate))
-					$vrate = min($p['video_max_rate'],$vrate);
-				if(!empty($vrate))
-					$opt_av .= " -r $vrate ";
-			}
-			
 			# video bitrate
+          if($p['use_video_bit_rate'])
+          {
+              if(isset($p['video_bitrate']))
+                  $vbrate = $p['video_bitrate'];
+              elseif(isset($i['video_bitrate']))
+                  $vbrate = $i['video_bitrate'];
+              if(!empty($vbrate))
+                  $opt_av .= " -b $vbrate ";
+          }
+
+			# video rate
+          if($p['use_video_rate'])
+          {
+              if(isset($p['video_rate']))
+                  $vrate = $p['video_rate'];
+              elseif(isset($i['video_rate']))
+                  $vrate = $i['video_rate'];
+              if(isset($p['video_max_rate']) && !empty($vrate))
+                  $vrate = min($p['video_max_rate'],$vrate);
+              if(!empty($vrate))
+                  $opt_av .= " -r $vrate ";
+          }
+			
+
 			if($p['use_audio_bit_rate'])
 			{
 				if(isset($p['audio_bitrate']))
@@ -1134,7 +1145,7 @@ class ffmpeg
 			
 			
 			$command = $this->ffmpeg." -i ".$this->input_file." $opt_av  $dimensions -acodec libfaac -vcodec libx264 -vpre hq -crf 22 -threads 0 ".$this->hq_output_file."  2> ".TEMP_DIR."/output.tmp ";	
-			file_put_contents("/home/sajjad/Desktop/ffmpegLog.txt", $content);
+			file_put_contents("/home/sajjad/Desktop/ffmpegLog.txt", $command);
 			
 			if(KEEP_MP4_AS_IS=="yes" && getExt($this->input_file)=='mp4')
 				copy($this->input_file,$this->hq_output_file);
