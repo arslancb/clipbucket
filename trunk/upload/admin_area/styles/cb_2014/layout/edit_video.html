@@ -34,7 +34,8 @@
             <legend>Important Details</legend>
             <div class="form-group">
                 <label for="videoid">Video Id</label>
-                <input class="form-control" disabled="disabled" name="videoid" type="text" id="videoid"  value="{$data.videoid}" size="45"/>
+                <input class="form-control" disabled="disabled" name="videoid1" type="text" id="videoid"  value="{$data.videoid}" size="45"/>
+                <input class="form-control" name="videoid" type="hidden" id="videoid"  value="{$data.videoid}"/>
             </div>
             <div class="form-group">
                 <label for="videokey">Video Key</label>
@@ -58,7 +59,7 @@
                     <a class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" href="">Thumbs  <i class="caret"></i></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
                         {if $data.embeded !=yes}
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="upload_thumbs.php?video={$data.videoid};gen_more=true">Regenerate</a>{/if}
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="upload_thumbs.php?video={$data.videoid}&gen_more=true">Regenerate</a>{/if}
                         </li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="upload_thumbs.php?video={$data.videoid}">Manage</a></li>
                     </ul>
@@ -127,21 +128,26 @@
             <div class="head">Viewing {$data.title}
                 {FlashPlayer vdetails = $data width='100%' autoplay='false'}
                 {foreach from=$video_fields item=field_group}
-                <legend>{$field_group.group_name}</legend>
-                {foreach from=$field_group.fields item=field}
-                <div class="form-group">
-                    {$field.class='form-control'}
-                    <label><strong>{$field.title}</strong></label> <br>
-                    {if $field.type=='radio'}
-                    {$field.class='form-control'}
-                    {else}{$field.class='form-control'}
-                    {/if}
-                    {if $field.hint_1}{$field.hint_1}<br/>{/if}
-                    {$formObj->createField($field)}
-                    {if $field.hint_2}<br/>{$field.hint_2}{/if}
-                    </div>
+                    <legend>{$field_group.group_name}</legend>
+                    {foreach from=$field_group.fields item=field}
+                        <div class="form-group">
+                            {$field.class='form-control'}
+                            <label><strong>{$field.title}</strong></label> <br>
+                            {if $field.type=='radio'}
+                                {$field.class='form-control'}
+                            {else}
+                                {$field.class='form-control'}
+                            {/if}
+                            {if $field.hint_1}
+                                {$field.hint_1}<br/>
+                            {/if}
+                            {$formObj->createField($field)}
+                            {if $field.hint_2}<br/>
+                                {$field.hint_2}
+                            {/if}
+                        </div>
                     {/foreach}
-                    {/foreach}
+                {/foreach}
             </div>
         </div>
     </div>

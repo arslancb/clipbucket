@@ -16,7 +16,7 @@ if(!defined('MAIN_PAGE')){
 	define('MAIN_PAGE', 'Videos');
 }
 if(!defined('SUB_PAGE')){
-	define('SUB_PAGE', 'Upload Videos');
+	define('SUB_PAGE', 'Mass Upload Videos');
 }
 
 
@@ -74,7 +74,14 @@ if(count($error_lists)>0)
 		e($e);
 }
 
+//Collecting Data for Pagination
+$total_rows=count($cbmass->get_video_files());	
+$total_pages = $total_rows/$limit;
+$total_pages = round($total_pages+0.49,0);
+$pages->paginate($total_pages,$page);
+
 subtitle("Mass Uploader");
+
 template_files("mass_uploader.html");
 display_it();
 ?>

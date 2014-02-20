@@ -14,7 +14,7 @@
     <table class="table table-bordered table-striped manageUsersTable">
         <tr>
             <td>
-                <input type="checkbox" name="checkall" onclick="_cb.checkUncheckAll(this);"/></td>
+                <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
             <td>VID</td>
             <td>Details</td>
             <td>&nbsp;</td>
@@ -40,7 +40,7 @@
                          <span class="labels1">{$videos[list].date_added|niceTime}
                                 {lang code='views'} : {$videos.views|number_format}</span>
                                     <div class="labels">
-                                        <span class="label {if $video.status == Ok}label-success{else}label-warning{/if}">{if $video.active=='yes'}Active{else}InActive{/if}</span>
+                                        <span class="label {if $videos[list].active=='yes'}label-success{else}label-warning{/if}">{if $videos[list].active=='yes'}Active{else}InActive{/if}</span>
                                         <span class="label {if $video_status == Ok}label-success{else}label-success{/if}">{$videos[list].status}</span>
                                         <span class="label label-info"><span>Flags:{$videos[list].total_flags}</span>
                                         </span>
@@ -61,8 +61,18 @@
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_video.php?video={$videos[list].videoid}">Edit</a></li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="?mode=view_flags&vid={$videos[list].videoid}">View Flags</a></li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_video={$videos[list].videoid}">Delete Video</a></li>
+                        {if $videos[list].active == yes}
+                        <li><a role="menuitem" tabindex="-1" href="?deactivate={$videos[list].videoid}">Deactivate</a>
+                        </li>
+                        {else}
+                        <li><a role="menuitem" tabindex="-1" href="?activate={$videos[list].videoid}">Activate</a>
+                        </li>
+                        {/if}
                         <li class="divider"></li>
+                        
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_flags={$videos[list].videoid}">Delete Flags</a></li>
+
+
                 </div>
         </tr>
         {if $bgcolor == ""}

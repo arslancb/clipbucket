@@ -82,6 +82,7 @@
 <form name="category" action="?update_order" method="post">
     <table class="table table-bordered" width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
         <tr>
+            <td><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
             <td width="225" class="left_head" style="text-indent:10px">Category Name</td>
             <td width="75" align="left" class="head">Order</td>
             <td width="225" align="left" class="head">Parent Category</td>
@@ -100,6 +101,9 @@
         </script>
 
         <tr bgcolor="{$bgcolor}" class="item_listing">
+            <td>
+      <input name="check_user[]" type="checkbox" id="check_user" value="{$u.userid}" />
+    </td>
             <td style="text-indent:10px">{$category[list].category_name} - <a id="thumbs_{$category[list].category_id}"  title="<img src='{$cbvid->get_category_thumb($category[list])}'  />" href="javascript:void(0)">View Thumb</a></td>
             <td >
                 <input name="category_order_{$category[list].category_id}" type="text" id="order" style="border:1px solid #999; padding:2px; width:30px" value="{$category[list].category_order}" size="5" maxlength="5" /></td>
@@ -116,10 +120,11 @@
                 <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Options <i class="caret"></i></button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="?category={$category[list].category_id}">Edit</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:_cb.Confirm_Delete('?delete_category={$category[list].category_id}')">Delete</a>
-                {if $category[list].isdefault!="yes"}</li>
-                <li><a href="?make_default={$category[list].category_id}">Make Default</a></li>{/if}
-                    </ul>
+                {if $category[list].isdefault!="yes"}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:_cb.Confirm_Delete('?delete_category={$category[list].category_id}')">Delete</a>
+                </li>
+                    <li><a href="?make_default={$category[list].category_id}">Make Default</a></li>{/if}
+                </ul>
                 </div>
             </td>
         </tr>

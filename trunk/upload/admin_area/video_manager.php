@@ -158,7 +158,7 @@ if(isset($_POST['delete_selected']))
 					'hint_1'=>  lang('vdo_cat_msg'),
 					'display_function' => 'convert_to_categories');
 	assign('cat_array',$cat_array);
-
+//echo $db->db_query;
 subtitle("Video Manager");
 template_files('video_manager.html');
 display_it();

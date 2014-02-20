@@ -11,6 +11,15 @@ require_once '../includes/admin_config.php';
 $userquery->admin_login_check();
 $pages->page_redir();
 
+
+
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Videos');
+}
+if(!defined('SUB_PAGE')){
+		define('SUB_PAGE', "Editor's Pick");
+}
+
 //Removing
 if(isset($_GET['remove'])){
 	$id = mysql_clean($_GET['remove']);

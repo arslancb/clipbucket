@@ -12,6 +12,17 @@ $userquery->admin_login_check();
 $userquery->login_check('video_moderation');
 $pages->page_redir();
 
+
+if(!defined('MAIN_PAGE')){
+	define('MAIN_PAGE', 'Videos');
+}
+if(!defined('SUB_PAGE')){
+	if($_GET['active'] == 'no')
+		define('SUB_PAGE', 'List Inactive Videos');
+	else
+		define('SUB_PAGE', 'Videos Manager');
+}
+
 if(@$_GET['msg']){
 $msg[] = clean($_GET['msg']);
 }	
@@ -21,6 +32,7 @@ $msg[] = clean($_GET['msg']);
 
 	//Updating Video Details
 	if(isset($_POST['update'])){
+		
 		$Upload->validate_video_upload_form();
 		if(empty($eh->error_list))
 		{

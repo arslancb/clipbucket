@@ -8,10 +8,10 @@
     {assign var='locationFields' value=$Upload->loadLocationFields($file)}
     {assign var='cust_fields'  value=$Upload->custom_form_fields}
     <input class="lead" type="hidden" name="mass_up[]" value="{$file.title}" />
-<div class="well">
-    <h5><b>{$file.title}</b></h5>
-    <p class="well" onclick="$(this).next().toggle();return false;"><button class="btn btn-primary btn-xs" value="Enter Details">Enter Details {$smarty.foreach.mass_files.iteration}</button></p>
-    <div class="well clearfix">
+<div class="well" >
+    <h5 class="pull-left" style="padding-right:10px;">{$smarty.foreach.mass_files.iteration} - <b>{$file.title}</b></h5>
+    <spam class="label label-primary" style="cursor: pointer;" onclick="$(this).next().toggle();return false;">Enter Details {$smarty.foreach.mass_files.iteration}</spam>
+    <div class="well clearfix" style="display:none">
         {foreach from=$requiredFields item=field}
         <div class="form-group">
             <label for="{$field.id}">{$field.name}</label>
@@ -32,3 +32,5 @@
 </div>
 
 {/if}
+
+{include file="$style_dir/blocks/pagination.html" }
