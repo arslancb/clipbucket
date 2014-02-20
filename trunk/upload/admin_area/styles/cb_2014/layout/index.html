@@ -2,7 +2,7 @@
 <div class="row">
 <div class="col-xs-12 col-sm-8">
     <div class="widget-box">
-        <div class="widget-header">
+        <div class="widget-header header-color-blue">
             <h5><i class="glyphicon glyphicon-stats"></i>Weekly Activity</h5>
             <div class="widget-toolbar">
                 <a href="#" data-action="collapse">
@@ -21,7 +21,7 @@
                 <table class="table table-stripped table-bordered">
                     <tr>
                     <td>
-                    <div class="stats_subitem_d">Total Videos : <strong>200000000</strong> </div>
+                    <div class="stats_subitem_d">Total Videos : <strong>{get_videos|number_format count_only=yes}</strong> </div>
                         </td>
                     <td>
                     <div class="stats_subitem_d">Total Groups : <strong>{get_groups count_only=yes}</strong> </div>
@@ -43,7 +43,7 @@
 </div>
     <div class="col-xs-12 col-md-4">
         <div class="widget-box">
-            <div class="widget-header">
+            <div class="widget-header header-color-red2">
                 <h5><i class="glyphicon glyphicon-book"></i>ClipBucket News</h5>
                 <div class="widget-toolbar">
                     <a href="#" data-action="collapse">
@@ -58,10 +58,18 @@
 
             <div class="widget-body">
                 <div class="widget-main">
-                    <p>Words from ClipBucket!</p>
-                    <hr>
-                       <li> <small>Head's Up its Clipbucket</small></li>
-
+                    <div class="alert alert-info">
+                    <p class="alert-info"><b>Words from ClipBucket!</b></p>
+                        <hr>
+                     <small><b>Head's Up its Clipbucket</b></small>
+                     <li>What lies head?</li>
+                    <p>
+                    * Easy ClipBucket integeration with other applications
+                    * Make more secured, fast and optimized<br>
+                    * HTML5 ready with mobile support<br>
+                    * Full documentation of our source code
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -71,7 +79,7 @@
 <div class="row">
     <div class="col-xs-12 col-sm-8 widget-container-span">
         <div class="widget-box">
-            <div class="widget-header">
+            <div class="widget-header header-color-blue">
                 <h5><i class="glyphicon glyphicon-user"></i>New Users</h5>
                 <div class="widget-toolbar">
                     <a href="#" data-action="collapse">
@@ -84,15 +92,18 @@
                 </div>
             <div class="widget-body">
                 <div class="widget-main">
+                    {if $users}
+                    {foreach from=$users item=u}
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-2">
+
                         <a href="view_user.php?uid={$u.userid}"> <img src="{$userquery->getUserThumb($u,'small')}" class="img-thumbnail oneUserImage" />
                         </a>
                     </div>
                         <div class="col-md-10">
-                            <a href="view_user.php?uid={$u.userid}" target="_blank">User Full Name        </a>(username@username.com)
+                            <a href="view_user.php?uid={$u.userid}" target="_blank">{$u.username}        </a>({$u.email})
                             <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle pull-right" data-toggle="dropdown">
                                 <i class="glyphicon glyphicon-cog"></i><i class="icon-angle-down icon-on-right"></i>
                             </button>
@@ -103,39 +114,21 @@
                                        href=""target="_blank">Add link 2</a>
                                 </li>
                                 </ul>
-                    </div>
-                    </div>
-                </div>
 
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <a href="view_user.php?uid={$u.userid}"> <img src="{$userquery->getUserThumb($u,'small')}" class="img-thumbnail oneUserImage" />
-                            </a>
-                        </div>
-                        <div class="col-md-10">
-                            <a href="view_user.php?uid={$u.userid}" target="_blank">User Full Name        </a>(username@username.com)
-                            <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle pull-right" data-toggle="dropdown">
-                                <i class="glyphicon glyphicon-cog"></i><i class="icon-angle-down icon-on-right"></i>
-                            </button>
-                            <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
-                                <li><a role="menuitem" tabindex="-1"
-                                       href="" class="">Add here</a></li>
-                                <li><a role="menuitem" tabindex="-1"
-                                       href=""target="_blank">Add here 2</a>
-                                </li>
-                            </ul>
-                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
+              {/foreach}
+                    {/if}
             </div>
         </div>
             </div>
         </div>
+
 <div class="col-xs-12 col-md-4 widget-container-span">
 <div class="widget-box">
-    <div class="widget-header">
+    <div class="widget-header header-color-grey">
         <h5><i class="glyphicon glyphicon-list-alt"></i>ToDo List</h5>
         <div class="widget-toolbar">
             <a href="#" data-action="collapse">
@@ -147,20 +140,21 @@
         </div>
     </div>
     <div class="widget-body">
-        <div class="widget-main">
-    <p class="xedit">This is task 1 and some one has to do it</p>
-    <p class="xedit">This is task 2 and some one has to do it</p>
-    <p class="xedit">This is task 3 and some one has to do it</p>
-    <p class="xedit">This is task 4 and some one has to do it</p>
+        <div class="widget-main aler alert-danger">
+    <p class="xedit"><b>This is task 1 and some one has to do it</b></p>
+    <p class="xedit"><b>This is task 2 and some one has to do it</b></p>
+    <p class="xedit"><b>This is task 3 and some one has to do it</b></p>
+    <p class="xedit"><b>This is task 4 and some one has to do it</b></p>
     </div>
 </div>
     </div>
     </div>
 
+
     <div class="row">
     <div class="col-xs-10 col-sm-6 widget-container-span">
         <div class="widget-box">
-            <div class="widget-header">
+            <div class="widget-header header-color-blue">
                 <h5><i class="glyphicon glyphicon-eye-open"></i>Most Viewed Videos</h5>
                 <div class="widget-toolbar">
                     <a href="#" data-action="collapse">
@@ -173,38 +167,21 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main">
+                    {if $videos}
+                    {foreach from=$videos item=video}
                     <div class="row">
                         <div class="col-md-3">
                             <img src="{getThumb vdetails=$video}" width="130" height="80" id="thumbs_{$video.videoid}" title=""/>
                         </div>
                         <div class="col-md-9">
                             <a href="">
-                                Title of the video comes here........ </a>
+                                {$video.title} </a>
                             <strong class="btn btn-primary btn-xs pull-right"> {lang code='views'} : {$video.views|number_format}</strong>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <img src="{getThumb vdetails=$video}" width="130" height="80" id="thumbs_{$video.videoid}" title=""/>
-                        </div>
-                        <div class="col-md-9">
-                            <a href="">
-                                Title of the video comes here........ </a>
-                            <strong class="btn btn-primary btn-xs pull-right"> {lang code='views'} : {$video.views|number_format}</strong>
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <img src="{getThumb vdetails=$video}" width="130" height="80" id="thumbs_{$video.videoid}" title=""/>
-                        </div>
-                        <div class="col-md-9">
-                            <a href="">
-                                Title of the video comes here........ </a>
-                            <strong class="btn btn-primary btn-xs pull-right"> {lang code='views'} : {$video.views|number_format}</strong>
-
-                        </div>
-                    </div>
+                    <hr>
+                    {/foreach}
+                    {/if}
                 </div>
             </div>
             </div>
@@ -212,8 +189,248 @@
 
     <div class="col-xs-12 col-md-6 widget-container-span">
         <div class="widget-box">
-            <div class="widget-header">
+            <div class="widget-header header-color-orange">
                 <h5><i class="icon-comment"></i>Recent Comments</h5>
+                <div class="widget-toolbar">
+                    <a href="#" data-action="collapse">
+                        <i class="icon-chevron-down"></i>
+                    </a>
+                    <a href="#" data-action="close">
+                        <i class="icon-remove"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body well">
+                <div class="widget-main">
+                    <div class="widget-box transparent">
+                        <div class="widget-header widget-header-small">
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-body">
+                                <div class="widget-main no-padding">
+                                    <div class="slimScrollDiv">
+                                        {if $comments}
+                                        {foreach from=$comments item=comment}
+                                        <div class="itemdiv dialogdiv">
+                                            {foreach from=$users item=u}
+                                            <div class="user">
+                                                <img alt="Alexa's Avatar" src="{$userquery->getUserThumb($u,'small')}">
+                                            </div>
+                                            {/foreach}
+                                            <div class="body">
+                                                <div class="time">
+                                                    <i class="icon-time"></i>
+                                                    <span class="green">{$comment.date_added|date_format}</span>
+                                                </div>
+                                                <div class="name">
+                                                    <a href="#">{$comment.anonym_name}</a>
+                                                </div>
+                                                <div class="text">{$comment.comment}</div>
+                                                <div class="tools">
+                                                    <a href="#" class="btn btn-minier btn-info">
+                                                        <i class="icon-only icon-share-alt"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/foreach}
+                                        {/if}
+                                    </div>
+                                </div><!-- /widget-main -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-sm-7">
+    <div class="widget-box">
+    <div class="widget-header header-color-blue2">
+        <h5><i class="glyphicon glyphicon-flag"></i>Flagged Objects</h5>
+        <div class="widget-toolbar">
+            <a href="#" data-action="collapse">
+                <i class="icon-chevron-down"></i>
+            </a>
+
+            <a href="#" data-action="close">
+                <i class="icon-remove"></i>
+            </a>
+        </div>
+
+        <div class="widget-toolbar no-border">
+            <ul class="nav nav-tabs" id="recent-tab">
+                <li class="active">
+                    <a data-toggle="tab" href="#task-tab">Videos</a>
+                </li>
+
+                <li class="photos">
+                    <a data-toggle="tab" href="#member-tab">Photos</a>
+                </li>
+
+                <li class="users">
+                    <a data-toggle="tab" href="#comment-tab">Users</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="widget-body">
+    <div class="widget-main padding-4">
+    <div class="tab-content padding-8 overflow-visible">
+    <div id="task-tab" class="tab-pane active">
+        <ul id="tasks" class="item-list ui-sortable">
+            <li class="item-default clearfix">
+                <label class="inline">
+                    <span class="flaggedvideos">
+                        <div class="row">
+                            {section name=list loop=$flagedVideos}
+                            <div class="col-md-3">
+                                <img src="{getThumb vdetails=$flagedVideos[list]}" width="85" height="70" id="thumbs_{$flagedVideos[list].videoid}" title=""/>
+                            </div>
+                            <div class="col-md-9">
+                                    {$flagedVideos[list].title}
+                                <a href="">
+                                    </a>
+                                 <span class="labels"><b>{$flagedVideos[list].date_added|niceTime}
+                                {lang code='views'} : {$flagedVideos.views|number_format}</b></span>
+                                <strong class="btn btn-primary btn-xs pull-right"> Flags:{$flagedVideos[list].total_flags}</strong>
+                                {/section}
+                            </div>
+                        </div>
+                    </span>
+                </label>
+
+                <div class="inline pull-right position-relative dropdown-hover">
+                    <button class="btn btn-minier bigger btn-primary">
+                        <i class="glyphicon glyphicon-cog"></i>
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-caret dropdown-close pull-right">
+                        <li>
+                            <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Mark&nbsp;as&nbsp;done">
+																					<span class="green">
+																						<i class="icon-ok bigger-110"></i>
+																					</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="tooltip-error" data-rel="tooltip" title="" data-original-title="Delete">
+																					<span class="red">
+																						<i class="icon-trash bigger-110"></i>
+																					</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+
+    <div id="member-tab" class="tab-pane">
+        <div class="clearfix">
+            <ul id="tasks" class="item-list ui-sortable">
+                <li class="item-default clearfix">
+                    <label class="inline">
+                    <span class="flaggedvideos">
+                        <div class="row">
+                            {section name=list loop=$flagedPhotos}
+                            {var_dump($flagedPhotos[list])}
+                            <div class="col-md-3">
+                                <img src="{getThumb vdetails=$video}" width="85" height="70" id="thumbs_{$video.videoid}" title=""/>
+                            </div>
+                            <div class="col-md-9">
+                                <a href="">
+                                    Title of the Photo comes here........ </a>
+                                <strong class="btn btn-primary btn-xs pull-right"> {lang code='Flags'} : {$photo.flags|number_format}</strong>
+                            </div>
+                            {/section}
+                        </div>
+                    </span>
+                    </label>
+
+                    <div class="inline pull-right position-relative dropdown-hover">
+                        <button class="btn btn-minier bigger btn-primary">
+                            <i class="glyphicon glyphicon-cog"></i>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-caret dropdown-close pull-right">
+                            <li>
+                                <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Mark&nbsp;as&nbsp;done">
+																					<span class="green">
+																						<i class="icon-ok bigger-110"></i>
+																					</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="tooltip-error" data-rel="tooltip" title="" data-original-title="Delete">
+																					<span class="red">
+																						<i class="icon-trash bigger-110"></i>
+																					</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div><!-- member-tab -->
+    <div id="comment-tab" class="tab-pane">
+        <div class="slimScrollDiv">
+            <div class="comments">
+                <div class="row">
+                    {foreach from=$flagedUsers item=u}
+                    <div class="col-md-2">
+                        <a href="view_user.php?uid={$u.userid}"> <img src="{$userquery->getUserThumb($u,'small')}" class="img-thumbnail oneUserImage" />
+                        </a>
+                    </div>
+                    <div class="col-md-10">
+
+                        <a href="view_user.php?uid={$u.userid}" target="_blank">{$u.username} </a>({$u.email})
+                        <span class="label"><span>Last Active  </span>{$u.last_active|niceTime}</span>
+                        <strong class="btn btn-primary btn-xs"> {lang code='Flags'} : {$u.flag_type}</strong>
+                        <div class="inline pull-right position-relative dropdown-hover">
+                            <button class="btn btn-minier bigger btn-primary">
+                                <i class="glyphicon glyphicon-cog"></i>
+                            </button>
+                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-caret dropdown-close pull-right">
+                            <li>
+                                <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Mark&nbsp;as&nbsp;done">
+																					<span class="green">
+																						<i class="icon-ok bigger-110"></i>
+																					</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="tooltip-error" data-rel="tooltip" title="" data-original-title="Delete">
+																					<span class="red">
+																						<i class="icon-trash bigger-110"></i>
+																					</span>
+                                </a>
+                            </li>
+                        </ul>
+                            </div>
+                        {/foreach}
+                    </div>
+                </div>
+            </div>
+           </div>
+
+    </div>
+    </div>
+    </div><!-- /widget-main -->
+    </div><!-- /widget-body -->
+    </div><!-- /widget-box -->
+    </div>
+    <div class="col-xs-12 col-sm-4 widget-container-span">
+        <div class="widget-box">
+            <div class="widget-header header-color-dark">
+                <h5><i class="glyphicon glyphicon-file"></i>Personal Note</h5>
                 <div class="widget-toolbar">
                     <a href="#" data-action="collapse">
                         <i class="icon-chevron-down"></i>
@@ -225,177 +442,26 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main">
-                        <div class="widget-box transparent">
-                            <div class="widget-header widget-header-small">
 
-                            </div>
-                            <div class="widget-body">
-                                <div class="widget-body">
-                                    <div class="widget-main no-padding">
-                                        <div class="slimScrollDiv">
-                                            <div class="itemdiv dialogdiv">
-                                                <div class="user">
-                                                    <img alt="Alexa's Avatar" src="{$userquery->getUserThumb($u,'small')}">
-                                                </div>
-                                                <div class="body">
-                                                    <div class="time">
-                                                        <i class="icon-time"></i>
-                                                        <span class="green">4 sec</span>
-                                                    </div>
-                                                    <div class="name">
-                                                        <a href="#">Ahmed</a>
-                                                    </div>
-                                                    <div class="text">First Comment</div>
-                                                    <div class="tools">
-                                                        <a href="#" class="btn btn-minier btn-info">
-                                                            <i class="icon-only icon-share-alt"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="itemdiv dialogdiv">
-                                                <div class="user">
-                                                    <img alt="John's Avatar" src="{$userquery->getUserThumb($u,'small')}">
-                                                </div>
-                                                <div class="body">
-                                                    <div class="time">
-                                                        <i class="icon-time"></i>
-                                                        <span class="blue">38 sec</span>
-                                                    </div>
-                                                    <div class="name">
-                                                        <a href="#">Naveed</a>
-                                                    </div>
-                                                    <div class="text">Second Comment</div>
-
-                                                    <div class="tools">
-                                                        <a href="#" class="btn btn-minier btn-info">
-                                                            <i class="icon-only icon-share-alt"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="itemdiv dialogdiv">
-                                                <div class="user">
-                                                    <img alt="Bob's Avatar" src="{$userquery->getUserThumb($u,'small')}">
-                                                </div>
-
-                                                <div class="body">
-                                                    <div class="time">
-                                                        <i class="icon-time"></i>
-                                                        <span class="orange">2 min</span>
-                                                    </div>
-
-                                                    <div class="name">
-                                                        <a href="#">Arslan</a>
-                                                    </div>
-                                                    <div class="text">3rd comment</div>
-                                                    <div class="tools">
-                                                        <a href="#" class="btn btn-minier btn-info">
-                                                            <i class="icon-only icon-share-alt"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="itemdiv dialogdiv">
-                                                <div class="user">
-                                                    <img alt="Jim's Avatar" src="{$userquery->getUserThumb($u,'small')}">
-                                                </div>
-
-                                                <div class="body">
-                                                    <div class="time">
-                                                        <i class="icon-time"></i>
-                                                        <span class="grey">3 min</span>
-                                                    </div>
-
-                                                    <div class="name">
-                                                        <a href="#">Omer</a>
-                                                    </div>
-                                                    <div class="text">4th Comment</div>
-
-                                                    <div class="tools">
-                                                        <a href="#" class="btn btn-minier btn-info">
-                                                            <i class="icon-only icon-share-alt"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="itemdiv dialogdiv">
-                                                <div class="user">
-                                                    <img alt="Alexa's Avatar" src="{$userquery->getUserThumb($u,'small')}">
-                                                </div>
-
-                                                <div class="body">
-                                                    <div class="time">
-                                                        <i class="icon-time"></i>
-                                                        <span class="green">4 min</span>
-                                                    </div>
-
-                                                    <div class="name">
-                                                        <a href="#">Sonia</a>
-                                                    </div>
-                                                    <div class="text">5th comment.</div>
-
-                                                    <div class="tools">
-                                                        <a href="#" class="btn btn-minier btn-info">
-                                                            <i class="icon-only icon-share-alt"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div><!-- /widget-main -->
-                               </div>
-                        </div>
-                    </div>
-                </div>
-           </div>
-    </div>
-</div>
-        <div class="col-xs-12 col-md-12 widget-container-span">
-            <div class="widget-box">
-                <div class="widget-header">
-                    <h5><i class="glyphicon glyphicon-file"></i>Personal Note</h5>
-                    <div class="widget-toolbar">
-                        <a href="#" data-action="collapse">
-                            <i class="icon-chevron-down"></i>
-                        </a>
-
-                        <a href="#" data-action="close">
-                            <i class="icon-remove"></i>
-                        </a>
-                    </div>
-                    <div class="widget-body">
-                        <div class="widget-main">
-                       <textarea class="form-control" cols="3" rows="5"></textarea><br>
-                            <input type="button" class="btn btn-primary btn-xs" value="Add note">
-                        </div>
+                        <textarea class="form-control" cols="3" rows="5"></textarea><br>
+                        <input type="button" class="btn btn-primary btn-xs" value="Add note">
                     </div>
                 </div>
             </div>
         </div>
-        </div>
     </div>
-<div class="well">
-<p>ClipBucket is  developed by <strong><a href="http://arslanhassan.com">Arslan Hassan</a></strong> and <strong><a href="http://clip-bucket.com/fawaz-tahir">Fawaz Tahir</a></strong>, we started with a small website application with only functionality of serving videos to the community later on we decided to add every possible social networking feature to make social communities more interactive. We didn't have any milestones, no road map, no charts, no nothing. Only thing we had was a vision as of our captain <strong><a href="http://clip-bucket.com/jahanzeb-hassan">Jahanzeb Hassan</a></strong> and plenty of hard work. </p>
-<p>We also have two more members named <a href="http://clip-bucket.com/ruman-malik">Ruman Malik</a> and <a href="http://clip-bucket.com/zomail-tahir">Zomail Tahir</a> who manage sales and support department.</p>
-<p><strong>ClipBucket team gives special thanks to</strong><br />
-    <br />
-    * Frank White for helping us knowing the basics of professional application development<br />
-    * Christian Russemen for keep our community active<br />
-    * BigStack for his great forum support
-    <br />
-    * You for using ClipBucket.</p>
-<h3>What lies head?</h3>
-<p>* Easy ClipBucket integeration with other applications<br />
-    * Make more secured, fast and optimized<br />
-    * HTML5 ready with mobile support<br />
-    * Full documentation of our source code
-</p>
-<h3>Where in the world we belong to?</h3>
-<p>We belong to <a href="http://clip-bucket.com/pakistan">Islamic Republic of Pakistan</a> :) you may have seen many negative news about Pakistan on television but there are still <a href="http://clip-bucket.com/pakistan#the_truth">some facts</a> you should know about. Its a great country for us and we will always love it.<br />
-    <strong>Pakistan Zindabad </strong></p>
+    </div>
+    <div class="well">
+        <p>ClipBucket is  developed by <strong><a href="http://arslanhassan.com">Arslan Hassan</a></strong> and <strong><a href="http://clip-bucket.com/fawaz-tahir">Fawaz Tahir</a></strong>, we started with a small website application with only functionality of serving videos to the community later on we decided to add every possible social networking feature to make social communities more interactive. We didn't have any milestones, no road map, no charts, no nothing. Only thing we had was a vision as of our captain <strong><a href="http://clip-bucket.com/jahanzeb-hassan">Jahanzeb Hassan</a></strong> and plenty of hard work. </p>
+        <p>We also have two more members named <a href="http://clip-bucket.com/ruman-malik">Ruman Malik</a> and <a href="http://clip-bucket.com/zomail-tahir">Zomail Tahir</a> who manage sales and support department.</p>
+        <p><strong>ClipBucket team gives special thanks to</strong><br />
+            <br />
+            * Frank White for helping us knowing the basics of professional application development<br />
+            * Christian Russemen for keep our community active<br />
+            * BigStack for his great forum support
+            <br />
+            * You for using ClipBucket.</p>
+        <h3>Where in the world we belong to?</h3>
+        <p>We belong to <a href="http://clip-bucket.com/pakistan">Islamic Republic of Pakistan</a> :) you may have seen many negative news about Pakistan on television but there are still <a href="http://clip-bucket.com/pakistan#the_truth">some facts</a> you should know about. Its a great country for us and we will always love it.<br />
+            <strong>Pakistan Zindabad </strong></p>
     </div>
