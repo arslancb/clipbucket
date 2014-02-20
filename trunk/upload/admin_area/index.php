@@ -3,7 +3,7 @@
  ****************************************************************************************************
  | Copyright (c) 2007-2010 Clip-Bucket.com. All rights reserved.									|
  | @ Author : ArslanHassan																			|
- | @ Software : ClipBucket , © PHPBucket.com														|
+ | @ Software : ClipBucket , ï¿½ PHPBucket.com														|
  ****************************************************************************************************
 */
 
@@ -18,8 +18,49 @@ if(!defined('MAIN_PAGE')){
 	$Cbucket->cbinfo['latest'] = $latest;
 	if($Cbucket->cbinfo['version'] < $Cbucket->cbinfo['latest']['version'])
 		$Cbucket->cbinfo['new_available'] = true;
-		
-	
+
+
+$result_array = $array;
+//Getting Video List
+$result_array['limit'] = $get_limit;
+if(!$array['order'])
+    $result_array['order'] = " doj DESC LIMIT 5  ";
+
+$users = get_users($result_array);
+
+Assign('users', $users);
+
+
+if(!$array['order'])
+    $result_array['order'] = " views DESC LIMIT 8 ";
+$videos = get_videos($result_array);
+
+Assign('videos', $videos);
+
+
+
+$comments = getComments($comment_cond);
+assign("comments",$comments);
+
+$get_limit = create_query_limit($page,5);
+$videos = $cbvid->action->get_flagged_objects($get_limit);
+Assign('flagedVideos', $videos);
+
+
+$get_limit = create_query_limit($page,5);
+$users = $userquery->action->get_flagged_objects($get_limit);
+Assign('flagedUsers', $users);
+
+
+$get_limit = create_query_limit($page,5);
+$photos = $cbphoto->action->get_flagged_objects($get_limit);
+assign('flagedPhotos', $photos);
+
 template_files('index.html');
 display_it();
 ?>
+
+
+
+
+
