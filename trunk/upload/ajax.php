@@ -1031,20 +1031,28 @@ if(!empty($mode))
 			$tags = (genTags($_POST['collection_tags']));
 			$cat  = ($_POST['category']);
 			$type = "photos";
-			$CollectParams = 
-			array("collection_name"=>$name,"collection_description"=>$desc,"collection_tags"=>$tags,"category"=>$cat,"type"=>$type,"allow_comments"=>"yes","broadcast"=>"public","public_upload"=>"yes");
+			$CollectParams = array(
+				"collection_name"=>$name,
+				"collection_description"=>$desc,
+				"collection_tags"=>$tags,
+				"category"=>$cat,
+				"type"=>$type,
+				"allow_comments"=>"yes",
+				"broadcast"=>"public",
+				"public_upload"=>"yes"
+				);
 			$insert_id = $cbcollection->create_collection($CollectParams);
 			
 			if(msg())
 			{
 				$msg = msg_list();
-				$msg = '<div class="msg">'.$msg[0].'</div>';	
+				$msg = $msg[0];	
 			}
 			
 			if(error())
 			{
 				$err = error_list();
-				$err = '<div class="error">'.$err[0].'</div>';	
+				$err = $err[0];	
 			}
 			
 			$ajax['msg'] = $msg;
@@ -1147,12 +1155,14 @@ if(!empty($mode))
 					
 					if($videos)
 					{
+						$content['html'] = "<div class='row'>";
 						foreach($videos as $video)
 						{
 							assign('video',$video);
 							assign('channelVideo',true);
 							$content['html'] .= Fetch("/blocks/video.html");
 						}
+						$content['html'] .= "</div>";
 						$content['html'] .= '<div align="right" class="clearfix channelAjaxMoreLink videosMoreLink" style="clear:both; display:block;">';
 						$content['html'] .= '<a href="'.cblink(array("name"=>"user_videos")).$u['username'].'">'.lang('more').'</a> | <a href="'.cblink(array("name"=>"user_favorites")).$u['username'].'">'.lang('Favorites').'</a>';
 						$content['html'] .= '</div>';
@@ -1184,6 +1194,7 @@ if(!empty($mode))
 				
 				case "groups":
 				{
+
 					$groups = get_groups(array("user"=>$u['userid'],"order"=>" date_added DESC","limit"=>config('photo_channel_page')));
 					if($groups)
 					{
