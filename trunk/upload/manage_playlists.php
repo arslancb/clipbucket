@@ -31,6 +31,7 @@ switch($mode)
 	{
 		
 		//Deleting Playlist
+		
 		if(!empty($_GET['delete_pl']))
 		{
 			$plid = mysql_clean($_GET['delete_pl']);
@@ -74,7 +75,6 @@ switch($mode)
 		//Getting List of available playlists
 		$playlists = $cbvid->action->get_playlists( array( 'order' => 'playlists.date_added DESC' ) );
 		assign('playlists',$playlists);
-		
 		
 	}
 	break;
