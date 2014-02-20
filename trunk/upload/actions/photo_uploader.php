@@ -48,6 +48,7 @@ switch($mode)
 		$_POST['photo_description'] = genTags(str_replace(array('_','-'),' ',$_POST['photo_description']));
 		$_POST['photo_tags'] = genTags(str_replace(array(' ','_','-'),', ',$_POST['photo_tags']));
 		$_POST['server_url'] = mysql_clean($_POST['server_url']);
+		$_POST['active'] = 'no';
 		$_POST['folder'] = str_replace('..','',mysql_clean($_POST['folder']));
 		
 		$insert_id = $cbphoto->insert_photo();
