@@ -41,7 +41,7 @@ if(!defined('SUB_PAGE')){
 
 $row = $myquery->Get_Website_Details();
 assign('row',$row);
-
+subtitle("Notification Settings");
 template_files('notification_settings.html');
 display_it();
 

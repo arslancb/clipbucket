@@ -26,10 +26,7 @@
         {if $videos}
         {*$smarty.post|print_r*}    
         {foreach from=$videos item=video}
-        <!--<pre>
-        {$video|print_r}
-        </pre>
-        <hr/>-->
+        
         <tr>
             <td>
                 <input name="check_video[]" type="checkbox" id="check_video" value="{$video.videoid}"/>
@@ -98,6 +95,9 @@
                         <li class="divider"></li>
                         <li><a role="menuitem" tabindex="-1" href="?delete_video={$video.videoid}">Delete</a>
                         </li>
+                        {foreach from=$cbvid->video_manager_links item=links}
+                        {$cbvid->video_manager_link($links,$video)}
+                        {/foreach}
                     </ul>
                 </div>
             </td>

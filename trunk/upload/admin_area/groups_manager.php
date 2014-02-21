@@ -45,8 +45,9 @@ if(!defined('SUB_PAGE')){
 
 	//Multiple Activate
 	if(isset($_POST['activate_selected'])) {
+		
 		for($i=0; $i<count($_POST['check_group']); $i++) {
-			$cbgroup->grp_actions('activate',$_POST['check_group'][$i],true);
+			$cbgroup->grp_actions('activate',$_POST['check_group'][$i]);
 		}
 		$eh->flush();
 		e(lang('Selected Groups are activated.'),'m');
@@ -54,8 +55,10 @@ if(!defined('SUB_PAGE')){
 
 	//Multiple Deactivate
 	if(isset($_POST['deactivate_selected'])) {
+
 		for($i=0; $i<count($_POST['check_group']); $i++) {
-			$cbgroup->grp_actions('decativate',$_POST['check_group'][$i],true);
+		   
+			$cbgroup->grp_actions('deactivate',$_POST['check_group'][$i]);
 		}
 		$eh->flush();
 		e(lang('Selected Groups are deactivated.'),'m');
