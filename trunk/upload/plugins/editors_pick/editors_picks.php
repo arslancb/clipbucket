@@ -108,11 +108,11 @@ if(!function_exists('editors_pick'))
 	function video_manager_ep_link($vid)
 	{
 		if(is_video_in_editors_pick($vid['videoid']))
-			return '| <a href="'.queryString(NULL,
-			array('remove_editor_pick','add_editor_pick','mode')).'remove_editor_pick='.$vid['videoid'].'">Remove From Editor\'s Pick</a>';
+			return '<li><a role="menuitem" tabindex="-1" href="'.queryString(NULL,
+			array('remove_editor_pick','add_editor_pick','mode')).'remove_editor_pick='.$vid['videoid'].'">Remove From Editor\'s Pick</a><li>';
 		else
-			return '| <a href="'.queryString(NULL,
-			array('remove_editor_pick','add_editor_pick','mode')).'add_editor_pick='.$vid['videoid'].'">Add To Editor\'s Pick</a>';
+			return '<li><a role="menuitem" tabindex="-1" href="'.queryString(NULL,
+			array('remove_editor_pick','add_editor_pick','mode')).'add_editor_pick='.$vid['videoid'].'">Add To Editor\'s Pick</a></li>';
 	}
 	
 	
@@ -122,8 +122,11 @@ if(!function_exists('editors_pick'))
 	function get_ep_videos()
 	{
 		global $db;
-		$results = $db->select(tbl('editors_picks,video,users'),tbl('editors_picks.*,video.*,users.userid,users.username')," ".tbl('editors_picks').".videoid = ".tbl('video').".videoid AND ".tbl('video.active')." = 'yes' AND ".tbl('video.broadcast')." = 'public' AND ".tbl('video.status')." = 'Successful' AND ".tbl("video.userid")." = ".tbl("users.userid")." ORDER BY ".tbl('editors_picks').".sort ASC");
-		
+		//$results = $db->select(tbl('editors_picks,video,users'),tbl('editors_picks.*,video.*,users.userid,users.username')," ".tbl('editors_picks').".videoid = ".tbl('video').".videoid AND ".tbl('video.active')." = 'yes' AND ".tbl('video.broadcast')." = 'public' AND ".tbl('video.status')." = 'Successful' AND ".tbl("video.userid")." = ".tbl("users.userid")." ORDER BY ".tbl('editors_picks').".sort ASC");
+		//$results = $db->select(tbl('editors_picks,video,users'),tbl('editors_picks.*,video.*,users.userid,users.username')," ".tbl('editors_picks').".videoid = ".tbl('video').".videoid AND ".tbl('video.active')." = 'yes' ORDER BY ".tbl('editors_picks').".sort ASC");
+		$results = $db->select(tbl('editors_picks,video,users'),tbl('editors_picks.*,video.*,users.userid,users.username')," ".tbl('editors_picks').".videoid = ".tbl('video').".videoid AND ".tbl('video.active')." = 'yes' AND ".tbl('video.broadcast')." = 'public' AND ".tbl("video.userid")." = ".tbl("users.userid")." ORDER BY ".tbl('editors_picks').".sort ASC");
+		//echo $db->db_query;
+		//pr($results,true);
 		return $results;
 	}
 	
