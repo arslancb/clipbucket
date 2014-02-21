@@ -779,6 +779,73 @@ class Collections extends CBCategory
 	/**
 	 * Function used to create collections
 	 */
+	function create_default_collection($array = null){
+		global $db;
+		$fields = $this->load_required_fields($array);
+			$collection_fields = array_merge($fields,$this->load_other_fields($array));
+
+			
+			if(count($this->custom_collection_fields) > 0)
+				$collection_fields = array_merge($collection_fields,$this->custom_collection_fields);
+				
+			foreach($collection_fields as $field)
+			{
+				$name = formObj::rmBrackets($field['name']);
+				$val = $array[$name];
+				
+				if($field['use_func_val'])
+					$val = $field['validate_function']($val);
+				
+				if(!empty($field['db_field']))
+					$query_field[] = $field['db_field'];
+				
+				if(is_array($val))
+				{
+					$new_val = '';
+					foreach($val as $v)
+					{
+						$new_val .= "#".$v."# ";
+					}
+					$val = $new_val;
+				}
+				if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
+					$val = ($val);
+				else
+					$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
+
+				if(!empty($field['db_field']))
+					$query_val[] = $val;	
+			}
+			
+
+
+			// date_added
+			$query_field[] = "date_added";
+			$query_val[] = NOW();
+			
+			// user
+			$query_field[] = "userid";
+			$query_val[] = $userid = $array['userid'];
+				
+			// active
+			$query_field[] = "active";
+			$query_val[] = "yes";
+
+			//dump($query_field);dump($query_val);
+
+			$insert_id = $db->insert(tbl($this->section_tbl),$query_field,$query_val);
+			//dump($insert_id);die();
+			addFeed(array('action'=>'add_collection','object_id' => $insert_id,'object'=>'collection'));
+
+			
+			//Incrementing usr collection
+			$db->update(tbl("users"),array("total_collections"),array("|f|total_collections+1")," userid='".$userid."'");
+			//$insert_id = mysql_insert_id();
+			
+			e(lang("collect_added_msg"),"m");
+			return $insert_id;
+	}
+
 	function create_collection($array=NULL)
 	{
 		global $db, $userquery;
@@ -790,7 +857,6 @@ class Collections extends CBCategory
 			$array = array_merge($array,$_FILES);
 			
 		$this->validate_form_fields($array);
-		
 		if(!error())
 		{
 			$fields = $this->load_required_fields($array);
@@ -798,7 +864,7 @@ class Collections extends CBCategory
 			
 			if(count($this->custom_collection_fields) > 0)
 				$collection_fields = array_merge($collection_fields,$this->custom_collection_fields);
-	
+				
 			foreach($collection_fields as $field)
 			{
 				$name = formObj::rmBrackets($field['name']);
