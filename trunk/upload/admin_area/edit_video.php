@@ -71,6 +71,29 @@ $msg[] = clean($_GET['msg']);
     $comments = getComments($comment_cond);
     assign("comments",$comments);
 
+
+if(!$array['order'])
+    $result_array['order'] = " doj DESC LIMIT 5  ";
+
+$users = get_users($result_array);
+
+Assign('users', $users);
+
+
+if(!$array['order'])
+    $result_array['order'] = " views DESC LIMIT 8 ";
+$videos = get_videos($result_array);
+
+Assign('videos', $videos);
+
+
+$get_limit = create_query_limit($page,5);
+$videos = $cbvid->action->get_flagged_objects($get_limit);
+Assign('flagedVideos', $videos);
+
+$comments = getComments($comment_cond);
+assign("comments",$comments);
+
 subtitle("Edit Video");
 template_files('edit_video.html');
 display_it();
