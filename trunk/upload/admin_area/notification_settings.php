@@ -7,9 +7,10 @@
  ***************************************************************
 */
 
+
 require_once '../includes/admin_config.php';
 $userquery->admin_login_check();
-$pages->page_redir();
+$userquery->login_check('video_moderation');
 
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
@@ -18,6 +19,7 @@ if(!defined('MAIN_PAGE')){
 if(!defined('SUB_PAGE')){
 	define('SUB_PAGE', 'Notification settings');
 }
+$mode = $_GET['mode'];
 
 
 		if($_POST['update_notification'])
