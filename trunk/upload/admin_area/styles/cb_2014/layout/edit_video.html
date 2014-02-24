@@ -20,12 +20,6 @@
                             Uploader Information
                         </a>
                     </li>
-                    <li class="">
-                        <a data-toggle="tab" href="#videostats">
-                            Video Stats
-                            <span class="glyphicon glyphicon-stats"></span>
-                        </a>
-                    </li>
                 </ul>
 
                 <div class="tab-content">
@@ -66,9 +60,13 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="widget-header">
-                            <h5><b>Video Thumbnails</b></h5>
-                            </div>
+                        <table class="table">
+                            <tr>
+                            <td class="alert-info">
+                            <b>Video Thumbnails</b>
+                                </td>
+                                </tr>
+                            </table>
                         <br>
                         <div class="dropdown">
                             <a class="btn btn-primary btn-sm dropdown-toggle pull-right" data-toggle="dropdown" href="">Manage Thumbs  <i class="caret"></i></a>
@@ -119,13 +117,57 @@
                             </div>
                         </div>
 
-                    </div>
+                            <legend>Video Stats</legend>
+                            <div class="table-responsive">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <label for="views">Views:</label>
+                                        </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control" name="views" type="text" id="views" value="{$data.views|number_format}" size="45"/>
+                                        </div>
+                                    <div class="col-md-1">
+                                            <label for="rating">Rating:</label>
+                                        </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control" name="rating" type="text" id="rating" value="{$data.rating|number_format}" size="5"/>
+                                        </div>
+                                    <div class="col-md-2">
+                                            <label for="rated_by">RatedBy:</label>
+                                        </div>
+                                    <div class="col-md-2">
+                                        <input class="form-control" name="rated_by" type="text" id="rated_by" value="{$data.rated_by|number_format}" size="45"/>
+                                        </div>
+                                    </div>
+                                <br><br>
+                                <legend>Custom Upload Fields</legend>
+                                {foreach from=$custom_upload_fields item=field}
+                                <div class="form-group">
+                                    <table class="table">
+                                        <tr>
+                                            <td class="alert-info">
+                                    <label>{$field.title}</label></td>
+                                            </tr>
+                                        </table>
+                                    {$field.class='form-control'}
+                                    {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                                    <br>
+                                    {$field.hint_2}
+                                </div>
+                                {/foreach}
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-primary btn-sm" value="Update video details" style="margin:5px 0px 15px 0px" name="update">
+                                </div>
+                            </div>
+                        </div>
+
                     <div id="uinformation" class="tab-pane">
                         <legend>Uploader Information</legend>
                         <div class="form-group">
                             <img src="{$userquery->getUserThumb($u,'small')}" class="btn btn-app btn-primary btn-xs" />
                         </div>
                         <div class="table-responsive">
+                            {foreach from=$users item=u}
                             <table class="table table-bordered">
                                 <tr>
                                     <td class="alert-info"><label class="alert-info">User Id</label></td>
@@ -140,51 +182,22 @@
                                     <td><input class="form-control" disabled="disabled" type="text" value="{$u.dob|niceTime}"></td>
                                 </tr>
                                 <tr>
-                                    <td class="alert-info"><label class="alert-info">Joined</label></td>
-                                    <td><input class="form-control" disabled="disabled" type="text" value="{$u.doj|niceTime}"></td>
+                                    <td class="alert-info"><label class="alert-info">Email</label></td>
+                                    <td><input class="form-control" disabled="disabled" type="text" value="{$u.email}"></td>
                                 </tr>
                                 <tr>
-                                    <td class="alert-info"><label class="alert-info">Last Online</label></td>
-                                    <td><input class="form-control" disabled="disabled" type="text" value="{$data.userid|get_username}"></td>
+                                    <td class="alert-info"><label class="alert-info">Gender</label></td>
+                                    <td><input class="form-control" disabled="disabled" type="text" value="{$u.sex}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="alert-info"><label class="alert-info">Rating</label></td>
+                                    <td><input class="form-control" disabled="disabled" type="text" value="{$u.rating}"></td>
                                 </tr>
                             </table>
+                            {/foreach}
                         </div>
                     </div>
-                    <div id="videostats" class="tab-pane">
-                        <legend>Video Stats</legend>
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <tr>
-                                <td class="alert-info">
-                                    <label for="views">Views</label></td>
-                                    <td><input class="form-control" name="views" type="text" id="views" value="{$data.views}" size="45"/></td>
-                                </tr>
-                                <tr>
-                                <td class="alert-info">
-                                    <label for="rating">Rating</label></td>
-                                    <td><input class="form-control" name="rating" type="text" id="rating" value="{$data.rating}" size="5"/>
-                                    of 10</td>
-                                </tr>
-                                <tr>
-                                    <td class="alert-info">
-                                    <label for="rated_by">RatedBy</label></td>
-                                    <td><input class="form-control" name="rated_by" type="text" id="rated_by" value="{$data.rated_by}" size="45"/></td>
-                                </tr>
-                                </table>
-                                <legend>Custom Upload Fields</legend>
-                                {foreach from=$custom_upload_fields item=field}
-                                <div class="form-group">
-                                    <label>{$field.title}</label>
-                                    {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-                                    <br>
-                                    {$field.hint_2}
-                                </div>
-                                {/foreach}
-                                <div class="form-group">
-                                    <input type="submit" class="btn btn-primary btn-sm" value="Update video details" style="margin:5px 0px 15px 0px" name="update">
-                                </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
             </div>
@@ -240,7 +253,72 @@
             <div class="head">Viewing {$data.title}
                 {FlashPlayer vdetails=$video width='100%' height='100%'}
                 {foreach from=$video_fields item=field_group}
-                <legend>{$field_group.group_name}</legend>
+                {if $field_group.group_name=='Sharing and privacy options'}
+                <div class="tabbable">
+                <ul class="nav nav-tabs" id="myTab3">
+                    <li class="active">
+                        <a data-toggle="tab" href="#privacyoption">
+                            Sharing and Privacy Options
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#datelocation">
+                            Date Recorder & Location
+                        </a>
+                    </li>
+                </ul>
+
+
+                    <div class="tab-content">
+                        <div id="privacyoption" class="tab-pane in active">
+                    {foreach from=$field_group.fields item=field}
+                        <div class="table">
+                            {$field.class='form-control'}
+                            <label><strong>{$field.title}</strong></label><br>
+                            {if $field.type=='radio'}
+                            {$field.class='form-control'}
+                            {else}
+                            {$field.class='form-control'}
+                            {/if}
+                            {if $field.hint_1}
+                            {$field.hint_1}<br/>
+                            {/if}
+                            {$formObj->createField($field)}
+                            {if $field.hint_2}<br/>
+                            {$field.hint_2}
+                            {/if}
+                        </div>
+                    {/foreach}
+                </div>
+                {continue}
+                {/if}
+                {if $field_group.group_name=='Date recorded &amp; Location'}
+
+
+                    <div id="datelocation" class="tab-pane">
+                    {foreach from=$field_group.fields item=field}
+                    <div class="table">
+                        {$field.class='form-control'}
+                        <label><strong>{$field.title}</strong></label><br>
+                        {if $field.type=='radio'}
+                        {$field.class='form-control'}
+                        {else}
+                        {$field.class='form-control'}
+                        {/if}
+                        {if $field.hint_1}
+                        {$field.hint_1}<br/>
+                        {/if}
+                        {$formObj->createField($field)}
+                        {if $field.hint_2}<br/>
+                        {$field.hint_2}
+                        {/if}
+                    </div>
+                    {/foreach}
+                </div>
+                    </div>
+                    </div>
+                {continue}
+                {/if}
                 {foreach from=$field_group.fields item=field}
                 <div class="table">
                     {$field.class='form-control'}
@@ -266,7 +344,7 @@
 </form>
 
 <div class="widget-box">
-    <div class="widget-header">
+    <div class="widget-header header-color-blue2">
 
         <h5>{$data.title}- <b>Comments</b></h5>
 
