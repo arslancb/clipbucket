@@ -165,3 +165,9 @@ ul.mainTabs{
 .main-container {
     width: 100%;
 }
+
+.scroll-box {
+    overflow: scroll;
+    width: 100%;
+    height: 100px;
+}
