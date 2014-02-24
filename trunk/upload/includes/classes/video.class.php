@@ -333,6 +333,8 @@ class CBvideo extends CBCategory
 	 */
 	function update_video($array=NULL)
 	{
+
+		//print_r($array);
 		global $eh,$Cbucket,$db,$Upload;		
 			 
 		$Upload->validate_video_upload_form(NULL,TRUE);
@@ -369,7 +371,6 @@ class CBvideo extends CBCategory
 			
 			if(!$array)
 			 $array = $_POST;
-			 
 			$vid = $array['videoid'];
 
 			if(is_array($_FILES))
@@ -920,11 +921,14 @@ class CBvideo extends CBCategory
 				}
 			}
 		}
-
+        
         $fields = array(
             'video' => get_video_fields(),
-            'users' => get_user_fields()
+            //'users' => get_user_fields(array('add' =>'name' , 'remove' => 'featured' ))
+            'users' => array_diff(get_user_fields(), array('featured'))
         );
+
+        //pr($fields,ture);
 
         $fields = tbl_fields( $fields );
 		
@@ -1366,7 +1370,7 @@ class CBvideo extends CBCategory
 		{
 			if(!empty($link['title']) && !empty($link['link']))
 			{
-				return '<a href="'.$link['link'].'">'.$link['title'].'</a>';
+				return '<li><a role="menuitem" tabindex="-1" href="'.$link['link'].'">'.$link['title'].'</a></li>';
 			}
 		}
 	}

@@ -61,7 +61,7 @@ class userquery extends CBCategory{
 
         $basic_fields = array(
             'userid', 'username', 'email', 'avatar', 'sex', 'avatar_url',
-            'dob', 'level', 'usr_status', 'user_session_key'
+            'dob', 'level', 'usr_status', 'user_session_key','featured','ban_status'
         );
 
         $cb_columns->object( 'users' )->register_columns( $basic_fields );
@@ -662,6 +662,11 @@ class userquery extends CBCategory{
 	function DeleteUser($id){
 		return $this->delete_user($id);
 	}
+
+	//Count Inactive users
+	function CountUsers(){
+		
+	} 
 		
 	//Check User Exists or Not
 	function Check_User_Exists($id,$global=false){
@@ -3326,17 +3331,17 @@ class userquery extends CBCategory{
 		// echo "<pre>";
 		// var_dump($array);
 		// echo "</pre>";
-		
+
 		//die();
-		
+
 
 		if($array==NULL)
 			$array = $_POST;
-		
+
 		if(is_array($_FILES))
 			$array = array_merge($array,$_FILES);
 		$this->validate_form_fields($array);
-		
+
 		//checking terms and policy agreement
 		if($array['agree']!='yes' && !has_access('admin_access',true))
 			e(lang('usr_ament_err'));
@@ -3357,29 +3362,29 @@ class userquery extends CBCategory{
 
 			if(!verify_captcha()){
 				e(lang('usr_ccode_err'));
-			
+
 			}
 		}
 		if(!error())
 		{
 			$signup_fields = $this->load_signup_fields($array);
-			
+
 			//Adding Custom Signup Fields
 			if(count($this->custom_signup_fields)>0)
 				$signup_fields = array_merge($signup_fields,$this->custom_signup_fields);
-			
+
 			foreach($signup_fields as $field)
 			{
 				$name = formObj::rmBrackets($field['name']);
 				$val = $array[$name];
-				
+
 				if($field['use_func_val'])
 					$val = $field['validate_function']($val);
-				
-				
+
+
 				if(!empty($field['db_field']))
 				$query_field[] = $field['db_field'];
-				
+
 				if(is_array($val))
 				{
 					$new_val = '';
@@ -3393,12 +3398,12 @@ class userquery extends CBCategory{
 					$val = mysql_clean($val);
 				else
 					$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
-				
+
 				if(!empty($field['db_field']))
 				$query_val[] = $val;
-				
+
 			}
-			
+
 			// Setting Verification type
 			if(EMAIL_VERIFICATION == '1'){
 				$usr_status = 'ToActivate';
@@ -3407,7 +3412,7 @@ class userquery extends CBCategory{
 				$usr_status = 'Ok';
 				$welcome_email = 'yes';
 			}
-			
+
 			if(has_access('admin_access',true))
 			{
 				if($array['active']=='Ok')
@@ -3418,7 +3423,7 @@ class userquery extends CBCategory{
 					$usr_status = 'ToActivate';
 					$welcome_email = 'no';
 				}
-				
+
 				$query_field[] = "level";
 				$query_val[] = $array['level'];
 			}
@@ -3428,46 +3433,46 @@ class userquery extends CBCategory{
 
 			$query_field[] = "	welcome_email_sent";
 			$query_val[] = $welcome_email;
-			
+
 			//Creating AV Code
 			$avcode		= RandomString(10);
 			$query_field[] = "avcode";
 			$query_val[] = $avcode;
-			
-			
-			
+
+
+
 			//Signup IP
 			$signup_ip	= $_SERVER['REMOTE_ADDR'];
 			$query_field[] = "signup_ip";
 			$query_val[] = $signup_ip;
-			
+
 			//Date Joined
 			$now = NOW();
 			$query_field[] = "doj";
 			$query_val[] = $now;
-			
-			
+
+
 			/**
 			 * A VERY IMPORTANT PART OF
 			 * OUR SIGNUP SYSTEM IS
 			 * SESSION KEY AND CODE
 			 * WHEN A USER IS LOGGED IN
 			 * IT IS ONLY VALIDATED BY
-			 * ITS SIGNUP KEY AND CODE 
+			 * ITS SIGNUP KEY AND CODE
 			 *
 			 */
 			$sess_key = $this->create_session_key($_COOKIE['PHPSESSID'],$array['password']);
 			$sess_code = $this->create_session_code();
-			
+
 			$query_field[] = "user_session_key";
 			$query_val[] = $sess_key;
-			
+
 			$query_field[] = "user_session_code";
 			$query_val[] = $sess_code;
-			
+
 			$query = "INSERT INTO ".tbl("users")." (";
 			$total_fields = count($query_field);
-			
+
 			//Adding Fields to query
 			$i = 0;
 			foreach($query_field as $qfield)
@@ -3477,9 +3482,9 @@ class userquery extends CBCategory{
 				if($i<$total_fields)
 				$query .= ',';
 			}
-			
+
 			$query .= ") VALUES (";
-			
+
 			$i = 0;
 			//Adding Fields Values to query
 			foreach($query_val as $qval)
@@ -3489,14 +3494,14 @@ class userquery extends CBCategory{
 				if($i<$total_fields)
 				$query .= ',';
 			}
-			
+
 			//Finalzing Query
 			$query .= ")";
-			
+
 			$db->Execute($query);
 			$insert_id = $db->insert_id();
 			$db->insert(tbl($userquery->dbtbl['user_profile']),array("userid"),array($insert_id));
-			
+
 			if(!has_access('admin_access',true) && EMAIL_VERIFICATION && $send_signup_email)
 			{
 				global $cbemail;
@@ -3512,7 +3517,7 @@ class userquery extends CBCategory{
 				$var = array_merge($more_var,$var);
 				$subj = $cbemail->replace($tpl['email_template_subject'],$var);
 				$msg = nl2br($cbemail->replace($tpl['email_template'],$var));
-				
+
 				//Now Finally Sending Email
 				cbmail(array('to'=>post('email'),'from'=>WEBSITE_EMAIL,'subject'=>$subj,'content'=>$msg));
 			}
@@ -3520,7 +3525,7 @@ class userquery extends CBCategory{
 			{
 				$this->send_welcome_email($insert_id);
 			}
-			
+
 			$log_array = array
 			('username'	=> $array['username'],
 			 'userid'	=> $insert_id,
@@ -3528,20 +3533,20 @@ class userquery extends CBCategory{
 			 'useremail'=> $array['email'],
 			 'success'=>'yes',
 			 'details'=> sprintf("%s signed up",$array['username']));
-			 
+
 			//Login Signup
 			insert_log('signup',$log_array);
-			
-			
+
+
 			//Adding User has Signup Feed
 			addFeed(array('action' => 'signup','object_id' => $insert_id,'object'=>'signup','uid'=>$insert_id));
-			
+
 			return $insert_id;
 		}
-		
+
 		return false;
 	}
-	
+
 	
 	
 		
@@ -3803,8 +3808,16 @@ class userquery extends CBCategory{
         }
 		
 		
-		if($params['count_only'])
-			return $result = $db->count(tbl('users'),'userid',$cond);
+		if($params['count_only']){
+            
+            if(strpos($cond,'users.usr_status') == false){
+            	$result = $db->count(tbl('users'),'userid',$cond);
+            }
+            else{
+            	$result = $db->count(tbl('users'),'userid',' usr_status="ToActivate"');
+            } 
+			return $result;
+		}
 		if($params['assign'])
 			assign($params['assign'],$result);
 		else
