@@ -19,7 +19,7 @@ class userquery extends CBCategory{
 	var $userid = '';
 	var $username = '';
 	var $level = '';
-	var $permission = '';
+	var $permissions = '';
 	var $access_type_list = array(); //Access list
 	var $usr_levels = array();
 	var $signup_plugins = array(); //Signup Plugins
@@ -77,7 +77,7 @@ class userquery extends CBCategory{
     	$this->sess_salt = $sess->get('sess_salt');
 		$this->sessions = $this->get_sessions();
 		
-		if(getArrayValue($this->sessions, 'smart_sess'))
+		if($this->sessions['smart_sess'])
 		{
 			$this->userid = $this->sessions['smart_sess']['session_user'];
 		}
@@ -121,7 +121,7 @@ class userquery extends CBCategory{
 			//exit();
 
 			//Calling Logout Functions
-			$funcs = (isset($this->init_login_functions)) ? $this->init_login_functions : false;
+			$funcs = $this->init_login_functions;
 			if(is_array($funcs) && count($funcs)>0)
 			{
 				foreach($funcs as $func)
@@ -153,12 +153,12 @@ class userquery extends CBCategory{
 		$this->action->type_tbl = $this->dbtbl['users'];
 		$this->action->type_id_field = 'userid';
 		
-		if(!defined('AVATAR_SIZE')) define('AVATAR_SIZE',config('max_profile_pic_width'));
-		if(!defined('AVATAR_SMALL_SIZE')) define('AVATAR_SMALL_SIZE',40);
-		if(!defined('BG_SIZE')) define('BG_SIZE',config('max_bg_width'));
-		if(!defined('BACKGROUND_URL')) define('BACKGROUND_URL',config('background_url'));
-		if(!defined('USE_GAVATAR')) define("USE_GAVATAR",config('gravatars') ? config('gravatars') : false); //Use Gavatar
-		if(!defined('BACKGROUND_COLOR')) define('BACKGROUND_COLOR',config('background_color'));
+		define('AVATAR_SIZE',config('max_profile_pic_width'));
+		define('AVATAR_SMALL_SIZE',40);
+		define('BG_SIZE',config('max_bg_width'));
+		define('BACKGROUND_URL',config('background_url'));
+		define("USE_GAVATAR",config('gravatars') ? config('gravatars') : false); //Use Gavatar
+		define('BACKGROUND_COLOR',config('background_color'));
 		
 		if(isSectionEnabled('channels'))
 		$Cbucket->search_types['users'] = "userquery";
@@ -271,7 +271,7 @@ class userquery extends CBCategory{
 		
 		//Inerting Access Log
 		$log_array = array('username'=>$username);
-		$msg = array();
+		
 		//First we will check weather user is already logged in or not
 		if($this->login_check(NULL,true))
 			$msg[] = e(lang('you_already_logged'));
@@ -281,16 +281,16 @@ class userquery extends CBCategory{
 			$msg[] = e(lang('usr_login_err'));
 		elseif(strtolower($udetails['usr_status']) != 'ok')
 			$msg[] = e(lang('user_inactive_msg'));
-		elseif(getArrayValue($udetails,'ban_status') == 'yes')
+		elseif($udetails['ban_status'] == 'yes')
 			$msg[] = e(lang('usr_ban_err'));
 		else
 		{
-			//dump($udetails);
+			
 			$log_array['userid'] = $userid  = $udetails['userid'];
 			$log_array['useremail'] = $udetails['email'];
 			$log_array['success'] = 1;
+			
 			$log_array['level'] = $level  = $udetails['level'];
-			//dump($log_array);die();
 
 			//Adding Sessing In Database 
 			//$sess->add_session($userid,'logged_in');
@@ -320,7 +320,7 @@ class userquery extends CBCategory{
 			
 			//Setting Vars
 			$this->userid = $udetails['userid'];
-			$this->username = getArrayValue($udetails, 'username');
+			$this->username = $udetails['username'];
 			$this->level = $udetails['level'];
 			
 			//Updating User last login , num of visist and ip
@@ -334,6 +334,7 @@ class userquery extends CBCategory{
 						"userid='".$userid."'"
 						);
 			
+			
 			$this->init();
 			//Logging Actiong
 			$cblog->insert('login',$log_array);
@@ -345,11 +346,10 @@ class userquery extends CBCategory{
 		if(!empty($msg))
 		{
 			//Loggin Action
-			$log_array['success'] = 'no';
+			$log_array['success'] = no;
 			$log_array['details'] = $msg[0];
 			$cblog->insert('login',$log_array);
 		}
-		return false;
 	}
 	
 	
@@ -400,13 +400,10 @@ class userquery extends CBCategory{
 		}
 
 		//Now user have passed all the stages, now checking if user has level access or not
-
 		if($access)
 		{	
 			//$access_details = $this->get_user_level(userid());
 			$access_details = $this->permission;
-			//echo "permissions";
-			//dump($this->permission);
 			if(is_numeric($access))
 			{
 				if($access_details['level_id'] == $access)
@@ -419,7 +416,8 @@ class userquery extends CBCategory{
 					$Cbucket->show_page(false);
 					return false;
 				}
-			}else{
+			}else
+			{
 				if($access_details[$access] == 'yes')
 				{
 					
@@ -525,14 +523,13 @@ class userquery extends CBCategory{
 	{
 		return $this->login_check('admin_access');
 	}
- 
+
 	/**
 	 * Function used to check user is admin or not
 	 * @param BOOLEAN if true, after checcking user will be redirected to login page if needed
 	 */
 	function admin_login_check($check_only=false)
 	{
-		//dump(has_access('admin_access',true));die();
 		if(!has_access('admin_access',true))
 		{
 			if($check_only==FALSE)
@@ -1718,11 +1715,11 @@ class userquery extends CBCategory{
 		}
 		else
 		{
-			$level = getArrayValue($this->udetails, 'level');
+			$level = $this->udetails['level'];
 		}
 
-        if ( $level == userid() or $level == getArrayValue($this->udetails, 'level')) {
-            if ( isset($this->permission) && $this->permission ) {
+        if ( $level == userid() or $level == $this->udetails[ 'level' ] ) {
+            if ( $this->permission ) {
                 return $this->permission;
             }
         }
@@ -1748,7 +1745,6 @@ class userquery extends CBCategory{
 		
 		//Now Merging the two arrays
 		$user_level = $result[0];
-
 		//pr($user_level);
 		return $user_level;
 	}
