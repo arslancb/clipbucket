@@ -1,0 +1,31 @@
+<h2>Notification Settings</h2>
+<table class="table table-bordered table-striped manageUsersTable">
+        <tr>
+            <td>Videos</td>
+            <td>Users</td>
+            <td>Groups</td>
+            <td>Total</td>
+        </tr>
+{foreach from=$row item=note}
+        
+        
+        {/foreach}
+    
+ <!-- Admin Todo List -->  
+    <tr>
+    	<td class="item"><a href="video_manager.php?search=search&active=no">Waiting for Approve Videos ({get_videos active='no' count_only=true})</a>
+    		<br/><a href="flagged_videos.php">Flagged Videos ({$cbvid->action->count_flagged_objects()})</a>
+    	</td>
+    	
+        <td class="item"><a href="members.php?search=yes&amp;status=ToActivate">Waiting for Approve Members ({$userquery->getUserData()|print_r})</a>
+        	<br/><a href="flagged_users.php">Reposrted Users ({$userquery->action->count_flagged_objects()})</a>
+        </td>
+        <td class="item"><a href="groups_manager.php?active=no&amp;search=yes">Waiting for Approve Groups ({get_groups active='no' count_only=true})</a>
+        <br/><a href="flagged_groups.php">Reposrted Groupes ({$cbgroup->action->count_flagged_objects()})</a>
+        </td>
+        <td>{$CBnotification->count_total_notification()}</td>
+    </tr>
+    <!-- Admin Todo List -->
+    </table>
+
+    {*$cbvid->action->count_flagged_objects()*}
