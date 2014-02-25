@@ -16,6 +16,7 @@ function get_video_fields( $extra = null ) {
  * Function used to check video is playlable or not
  * @param vkey,vid
  */
+
 function video_playable($id)
 {
     global $cbvideo,$userquery;
@@ -178,8 +179,14 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
     }
 
     #get all possible thumbs of video
-    if($vdetails['file_name'])
-        $vid_thumbs = glob(THUMBS_DIR."/".$vdetails['file_name']."*");
+    $thumbDir = (isset($vdetails['file_directory'])) ? $vdetails['file_directory'] : "";
+    //echo($thumbDir);
+
+    $justDate = explode(" ", $vdetails['date_added']);
+    $dateAdded = implode("/", explode("-", array_shift($justDate)));
+    if(isset($vdetails['file_name']) && isset($dateAdded))
+        $vid_thumbs = glob(THUMBS_DIR."/". $dateAdded . "/" .$vdetails['file_name']."*");
+
     #replace Dir with URL
     if(is_array($vid_thumbs))
         foreach($vid_thumbs as $thumb)
@@ -192,7 +199,7 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
                 if(!is_big($thumb_file) || $return_big)
                 {
                     if($return_full_path)
-                        $thumbs[] = THUMBS_URL.'/'.$thumb_file;
+                        $thumbs[] = THUMBS_URL.'/'. $dateAdded . "/" . $thumb_file;
                     else
                         $thumbs[] = $thumb_file;
                 }
@@ -602,10 +609,17 @@ function get_video_file($vdetails,$return_default=true,$with_path=true,$multi=fa
                     return $func_returned;
             }
 
-    #Now there is no function so lets continue as
-    if($vdetails['file_name'])
-        $vid_files = glob(VIDEOS_DIR."/".$vdetails['file_name']."*");
 
+            $fileDirectory = "";
+            if(isset($vdetails['file_directory']) && !empty($vdetails['file_directory'])){
+                $fileDirectory = "{$vdetails['file_directory']}/";
+            }
+            //dump($vdetails['file_name']);
+
+    #Now there is no function so lets continue as
+    if(isset($vdetails['file_name']))
+        $vid_files = glob(VIDEOS_DIR."/".$fileDirectory . $vdetails['file_name']."*");
+    
     #replace Dir with URL
     if(is_array($vid_files))
         foreach($vid_files as $file)
@@ -614,15 +628,17 @@ function get_video_file($vdetails,$return_default=true,$with_path=true,$multi=fa
             $video_file = $files_part[count($files_part)-1];
 
             if($with_path)
-                $files[]	= VIDEOS_URL.'/'.$video_file;
+                $files[]	= VIDEOS_URL.'/' . $fileDirectory . $video_file;
             else
                 $files[]	= $video_file;
         }
+
 
     if(count($files)==0 && !$multi && !$count_only)
     {
         if($return_default)
         {
+
             if($with_path)
                 return VIDEOS_URL.'/no_video.flv';
             else
