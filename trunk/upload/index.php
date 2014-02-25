@@ -18,8 +18,8 @@ if(is_installed('editorspick'))
 	assign('editor_picks',get_ep_videos());
 }
 
-$videos = get_videos($vlist);
-Assign('videos', $videos);	
+//$videos = get_videos($vlist);
+//Assign('videos', $videos);	
 
 //i love coding :)
 
