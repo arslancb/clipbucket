@@ -97,7 +97,6 @@ class ffmpeg
 		
 		//Get File info
 		$this->input_details = $this->get_file_info();
-		
 		//Loging File Details
 		$this->log .= "\nPreparing file...\n";
 		$this->log_file_info();
@@ -130,11 +129,12 @@ class ffmpeg
 			$this->input_file = $file;
 		
 		$this->log .= "\r\nConverting Video\r\n";
-		
+		$fileDetails = json_encode($this->input_details);
+		file_put_contents("/home/sajjad/Desktop/inputFileDetails.txt", $fileDetails);
 
 		$p = $this->configs;
 
-		//file_put_contents("/home/sajjad/Desktop/ffmpegLog.txt", $p);
+		
 		$i = $this->input_details;
 		
 		# Prepare the ffmpeg command to execute
@@ -153,7 +153,6 @@ class ffmpeg
 			$opt_av .= " -vcodec ".$i['video_codec'];
 		if($p['video_codec'] == 'libx264')
 			$opt_av .= " -vpre normal ";
-			
                 # video rate
                 if($p['use_video_rate'])
                 {
@@ -175,7 +174,7 @@ class ffmpeg
                     elseif(isset($i['video_bitrate']))
                         $vbrate = $i['video_bitrate'];
                     if(!empty($vbrate))
-                        $opt_av .= " -b $vbrate ";
+                        $opt_av .= " -b:v $vbrate ";
                 }
                 
                 
@@ -342,11 +341,11 @@ class ffmpeg
 	 * Function used to get file information using FFMPEG
 	 * @param FILE_PATH
 	 */
-	 function get_file_info( $path_source =NULL) {
+	function get_file_info( $path_source =NULL) {
 		
 		if(!$path_source)
-			$path_source = $this->input_file;
-			
+		$path_source = $this->input_file;
+
 		# init the info to N/A
 		$info['format']			= 'N/A';
 		$info['duration']		= 'N/A';
@@ -364,19 +363,19 @@ class ffmpeg
 		$info['audio_rate']		= 'N/A';
 		$info['audio_channels']	= 'N/A';
 		$info['path']			= $path_source;
-		
+
 		# get the file size
 		$stats = @stat( $path_source );
 		if( $stats === false )
-			$this->log .= "Failed to stat file $path_source!\n";
+		$this->log .= "Failed to stat file $path_source!\n";
 		$info['size'] = (integer)$stats['size'];
 		$this->ffmpeg." -i $path_source -acodec copy -vcodec copy -f null /dev/null 2>&1";
 		$this->raw_output = $output = $this->exec( $this->ffmpeg." -i $path_source -acodec copy -vcodec copy -y -f null /dev/null 2>&1" );
-		
+
 		$this->raw_info = $info;
 		# parse output
 		if( $this->parse_format_info( $output ) === false )
-			return false;
+		return false;
 		$info = $this->raw_info;
 		return $info;
 	}
@@ -1001,7 +1000,6 @@ class ffmpeg
 		}
 		
 		rmdir($tmpDir);
-
 	}
 	
 	
@@ -1053,6 +1051,7 @@ class ffmpeg
 		if(!$i)
 			$i = $this->input_details;
 		$convert  = true;
+		file_put_contents("/home/sajjad/Desktop/ffmpegLog1.txt", var_dump($i));
 		//Checkinf for HD or Not
 		$opt_av = '';
 
@@ -1083,6 +1082,10 @@ class ffmpeg
 			
 			$output_file = $this->hq_output_file;
 			
+			# file format
+			if(isset($p['format']))
+				$opt_av .= " -f {$p['format']} ";
+
 			# video bitrate
           if($p['use_video_bit_rate'])
           {
@@ -1091,7 +1094,7 @@ class ffmpeg
               elseif(isset($i['video_bitrate']))
                   $vbrate = $i['video_bitrate'];
               if(!empty($vbrate))
-                  $opt_av .= " -b $vbrate ";
+                  $opt_av .= " -b:v $vbrate ";
           }
 
 			# video rate
@@ -1144,13 +1147,14 @@ class ffmpeg
 			$dimensions = "-s {$width}x{$height} -aspect  $ratio ";
 			
 			
-			$command = $this->ffmpeg." -i ".$this->input_file." $opt_av  $dimensions -acodec libfaac -vcodec libx264 -vpre hq -crf 22 -threads 0 ".$this->hq_output_file."  2> ".TEMP_DIR."/output.tmp ";	
-			file_put_contents("/home/sajjad/Desktop/ffmpegLog.txt", $command);
+			$command = $this->ffmpeg." -i ".$this->input_file."   $dimensions -acodec libfaac -vcodec libx264 -vpre hq $opt_av -crf 22 -threads 0 ".$this->hq_output_file."  2> ".TEMP_DIR."/output.tmp ";	
 			
+			/* HD is not converted here */
 			if(KEEP_MP4_AS_IS=="yes" && getExt($this->input_file)=='mp4')
 				copy($this->input_file,$this->hq_output_file);
-			else
+			else{
 				$output = $this->exec($command);
+			}
 				
 			if(file_exists(TEMP_DIR.'/output.tmp'))
 			{
@@ -1171,8 +1175,11 @@ class ffmpeg
 			 * load whole video before playing it
 			 */
 			$mp4_output = "";
+			/* testing the other command */
 			$command = $this->mp4box." -inter 0.5 ".$this->hq_output_file." -tmp ".$this->tmp_dir." 2> ".TEMP_DIR."/mp4_output.tmp ";
+			
 			$mp4_output .= $this->exec($command);
+			file_put_contents("/home/sajjad/Desktop/ffmpegLog1.txt", $command . " ===\n=== " . $mp4_output);
 			if(file_exists(TEMP_DIR.'/mp4_output.tmp'))
 			{
 				$mp4_output = $mp4_output ? $mp4_output : join("", file(TEMP_DIR.'/mp4_output.tmp'));
