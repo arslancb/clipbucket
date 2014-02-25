@@ -2,8 +2,7 @@
 
 	define("BACK_END",TRUE);
 	define("FRONT_END",FALSE);
-	define("SLOGAN","Administration Panel");
-        
+	define("SLOGAN","Administration Panel");        
         
 	//Admin Area
 	$admin_area	=	TRUE;
