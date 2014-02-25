@@ -26,6 +26,7 @@ function flashPlayer($param)
     $width 		= $param['width'] ? $param['width'] : config('player_width');
     $param['height'] = $height;
     $param['width'] = $width ;
+    //dump($code);
 
     if(!$param['autoplay'])
         $param['autoplay'] = config('autoplay_video');
