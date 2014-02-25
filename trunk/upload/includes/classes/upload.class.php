@@ -138,6 +138,10 @@ class Upload{
 			//ADding Video Key
 			$query_field[] = "videokey";
 			$query_val[] = $this->video_keygen();
+
+			$query_field[] = "file_directory";
+			$file_directory = mysql_clean($array['file_directory']);
+			$query_val[] = $file_directory;
 			
 			
 			//Userid
