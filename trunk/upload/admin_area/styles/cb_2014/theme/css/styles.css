@@ -166,8 +166,15 @@ ul.mainTabs{
     width: 100%;
 }
 
-.scroll-box {
-    overflow: scroll;
-    width: 100%;
-    height: 100px;
+.scroll {
+    overflow:auto;
+    width:100%;
+    height:100px;
+    border: 1px;
+    background-color:#fff;
+    font-size:12px;
+    text-align:left
+}
+.addgroup {
+    width: 400px;
 }
