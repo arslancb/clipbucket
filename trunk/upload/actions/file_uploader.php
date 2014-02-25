@@ -23,7 +23,8 @@ switch($mode)
 	{
 		$title 	= getName($_POST['title']);
 		$file_name	= $_POST['file_name'];
-		
+		$file_directory = createDataFolders();
+		//dump($file_directory);
 		$vidDetails = array
 		(
 			'title' => $title,
@@ -31,6 +32,7 @@ switch($mode)
 			'tags' => genTags(str_replace(' ',', ',$title)),
 			'category' => array($cbvid->get_default_cid()),
 			'file_name' => $file_name,
+			'file_directory' => $file_directory,
 			'userid' => userid(),
 		);
 		
@@ -148,10 +150,10 @@ switch($mode)
 		{
 			//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
 			if (stristr(PHP_OS, 'WIN')) {
-				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName");
+				exec(php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName");
 			} else {
 				// for ubuntu
-				exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName > /dev/null &");
+				exec(php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName > /dev/null &");
 			}
 		}
 		
