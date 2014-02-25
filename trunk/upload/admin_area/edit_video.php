@@ -73,7 +73,7 @@ $msg[] = clean($_GET['msg']);
 
 
 if(!$array['order'])
-    $result_array['order'] = " doj DESC LIMIT 5  ";
+    $result_array['order'] = " doj DESC LIMIT 1  ";
 
 $users = get_users($result_array);
 
@@ -86,6 +86,16 @@ $videos = get_videos($result_array);
 
 Assign('videos', $videos);
 
+
+$numbers = array(100,1000,15141,3421);
+function format_number($number) {
+    if($number >= 1000) {
+        return $number/1000 . "k";   // NB: you will want to round this
+    }
+    else {
+        return $number;
+    }
+}
 
 $get_limit = create_query_limit($page,5);
 $videos = $cbvid->action->get_flagged_objects($get_limit);
