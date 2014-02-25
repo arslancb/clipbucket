@@ -148,3 +148,7 @@
 	word-spacing: 2px;
 	color: #333;
 }
+
+p{
+	text-align: justify;
+}
