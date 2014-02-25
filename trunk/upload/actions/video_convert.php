@@ -21,59 +21,56 @@
 
 	$server_friendly = config('server_friendly_conversion');
 	$use_crons = config('use_crons');
-	
-	if($server_friendly=='yes' && $use_crons=='yes')
-	{
-		/**
-		 *
-		 * Thanks to Erickson Reyes ercbluemonday at yahoo dot com | so processes dont overlap
-		 * ref : http://www.php.net/manual/en/function.getmypid.php#94531*/	
-		 
+	if($server_friendly=='yes' && $use_crons=='yes'){
+		/*
+		  Thanks to Erickson Reyes ercbluemonday at yahoo dot com | so processes dont overlap
+		  ref : http://www.php.net/manual/en/function.getmypid.php#94531
+		*/
+
 		// Initialize variables
-		$found            = 0;
-		$file                 = basename(__FILE__);
-		$commands    = array();
-		
-			// Get running processes.
+		$found = 0;
+		$file = basename(__FILE__);
+		$commands = array();
+
+		// Get running processes.
 		exec("ps w", $commands);
-		
-			// If processes are found
+
+		// If processes are found
 		if (count($commands) > 0) {
-		
 			foreach ($commands as $command) {
 				if (strpos($command, $file) === false) {
-								   // Do nothin'
+					// Do nothin'
 				}
 				else {
-								   // Let's count how many times the file is found.
+					// Let's count how many times the file is found.
 					$found++;
 				}
 			}
 		}
-		
-			// If the instance of the file is found more than once.
+
+		// If the instance of the file is found more than once.
 		if ($found > 1) {
 			echo "Another process is running.\n";
 			die();
 		}
 	}
 
-$SYSTEM_OS = $row['sys_os'] ? $row['sys_os'] : 'linux';
+	$SYSTEM_OS = $row['sys_os'] ? $row['sys_os'] : 'linux';
 	
-//Including FFMPEG CLASS
-require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
+	//Including FFMPEG CLASS
+	require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
 
-if($argv[1])
-	$fileName = $argv[1];
-else
-	$fileName = false;
+	if($argv[1])
+		$fileName = $argv[1];
+	else
+		$fileName = false;
 
-if($argv[2] == 'sleep')
-	$dosleep = 'sleep';
-else
-	$dosleep = '';
+	if($argv[2] == 'sleep')
+		$dosleep = 'sleep';
+	else
+		$dosleep = '';
 
-//Get Vido
+//Get Video
 $queue_details = get_queued_video(TRUE,$fileName);
 if(!$queue_details)
 	exit("Nothing to do");
@@ -94,7 +91,7 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 	rename($temp_file,$orig_file);
 
 	$res169 = array();
-	$res169['240'] = array('427','240');
+	$res169['240'] = array('428','240');
 	$res169['360'] = array('640','360');
 	$res169['480'] = array('853','480');
 	$res169['720'] = array('1280','720');
