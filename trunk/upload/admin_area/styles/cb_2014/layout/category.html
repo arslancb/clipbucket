@@ -1,7 +1,14 @@
 <div class="form-group">
-<h2>Video Categories <button class="btn btn-default pull-right">Add New Category<i class="caret"></i></button></h2>
+
+<h2>Video Categories
+    <div class="dropdown pull-right">
+        <button id="hideshow" class="btn btn-default pull-right dropdown-toggle" data-toggle="dropdown">
+            Add new Category <i class="caret"></i></button>
         </div>
-        <hr>
+</h2>
+    </div>
+
+<div id="content" style="display: none">
 {if $edit_category != "show"}
 <form action="category.php" method="post" enctype="multipart/form-data" name="add_category" id="Add Category">
     <div class="row">
@@ -24,9 +31,12 @@
                 </select>
         </div>
         </div>
-
-<br>
-    <div id="summernote">Hello Summernote</div>
+<div class="row">
+    <div class="col-md-2"></div>
+<div class="col-md-8">
+    <div id="summernote">Add Category Description here.</div>
+    </div>
+    </div>
 
 
 <br>
@@ -41,7 +51,7 @@
             </div>
     {/if}
     </form>
-
+</div>
 
 {/if}
 {if $edit_category == "show"}
@@ -65,8 +75,12 @@
                 </select>
             </div>
             </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
            <div id="summernote">{$cat_details.category_desc}</div>
-
+            </div>
+        </div>
     <br>
     <div class="row">
         <div class="col-md-6">
@@ -141,5 +155,17 @@ No Category Has Been Created Yet
     });
 </script>
 
+<script>
+    var button = document.getElementById('hideshow'); // Assumes element with id='button'
 
+    button.onclick = function() {
+        var div = document.getElementById('content');
+        if (div.style.display !== 'none') {
+            div.style.display = 'none';
+        }
+        else {
+            div.style.display = 'block';
+        }
+    };
+</script>
 
