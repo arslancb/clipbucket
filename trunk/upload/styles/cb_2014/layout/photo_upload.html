@@ -185,8 +185,8 @@
                    var uploader = new plupload.Uploader({
                        browse_button: 'selectFiles',
                        runtimes : 'html5,flash,silverlight,html4',
-                       url : baseurl + "/actions/photo_uploader.php",
-                       file_data_name : "photoUpload",
+                       url : uploadScriptPath,
+                       //file_data_name : "photoUpload",
                        filters: {
                          mime_types : [
                            { title : "Image files", extensions : photo_extensions },
@@ -309,7 +309,7 @@
                        var data = $("#allUploadForms #uploadFormContainer"+fileIndex+ " form")
                        .serialize();
                        data += "&insertPhoto=yes";
-                       data += "&filename="+serverResponse.filename;
+                       data += "&filename="+serverResponse.file_name;
                        data += "&ext="+serverResponse.extension;
                        $.ajax({
                            url : baseurl + "/actions/photo_uploader.php",
