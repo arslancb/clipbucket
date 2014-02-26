@@ -8,8 +8,9 @@
 </h2>
     </div>
 
-<div id="content" style="display: none">
+
 {if $edit_category != "show"}
+<div id="content" style="display: none">
 <form action="category.php" method="post" enctype="multipart/form-data" name="add_category" id="Add Category">
     <div class="row">
         <div class="col-md-4">
@@ -53,7 +54,10 @@
     </form>
 </div>
 
+
+
 {/if}
+<div id="content">
 {if $edit_category == "show"}
 <form action="" method="post" enctype="multipart/form-data" name="edit_category" id="Edit Category">
     <input name="cid" value="{$cat_details.category_id}" type="hidden" />
@@ -93,6 +97,8 @@
     </div>
     {/if}
 </form>
+    </div>
+
 
 <div style="margin:10px 0px 10px 0px">
     <legend>Category List</legend>
@@ -168,4 +174,7 @@ No Category Has Been Created Yet
         }
     };
 </script>
+
+
+
 
