@@ -1,4 +1,3 @@
-<h2>Edit User</h2>
 {assign var='signup_fields' value=$userquery->load_signup_fields($u)}
 {assign var='channel_profile_fields' value=$userquery->load_user_fields($p)}
 <div class="row">
@@ -25,170 +24,341 @@
 </div>
 <form action="" method="post" enctype="multipart/form-data" name="form1" id="form1" class="cbform">
 <div class="col-sm-6 col-md-6 col-lg-6 col x1-12">
+<div class="tabbable">
+    <ul class="nav nav-tabs" id="myTab">
+        <li class="active">
+            <a data-toggle="tab" href="#userinfo">
+                User Information
 
-<div class="userInfoSettings">
-  <h3>User Info</h3>
-  <div class="form-group">
-    <label for="uid">User id</label>
-    <input class="form-control" disabled="disabled" name="uid" type="text" id="uid" value="{$u.userid}" />
-    <input name="userid" type="hidden" id="userid" value="{$u.userid}" size="45" />
-  </div>
+            </a>
+        </li>
+        <li class="">
+            <a data-toggle="tab" href="#channelsetting">
 
-  <div class="form-group">
-    <label for="username">User name</label>
-    <input class="form-control" name="username" type="text" id="username" value="{$u.username}" />
-      <input name="dusername" type="hidden" id="dusername" value="{$u.username}" />
-      <input name="admin_manager" type="hidden" value="yes" />
-  </div>
+                Channel Settings
+            </a>
+        </li>
+        <li class="">
+            <a data-toggle="tab" href="#basicinfo">
 
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input class="form-control" name="email" type="text" id="email" value="{$u.email}" />
-    <input name="demail" type="hidden" id="demail" value="{$u.email}" />
-  </div>
+                Basic Info
+            </a>
+        </li>
+        <li class="">
+            <a data-toggle="tab" href="#location">
 
-  <div class="form-group">
-    <label for="pass">Change password</label>
-    <input class="form-control" name="pass" type="text" id="pass" />
-  </div>
+               location
+            </a>
+        </li>
+        <li class="">
+            <a data-toggle="tab" href="#education">
 
-  <div class="form-group">
-    <label for="cpass">Confirm password</label>
-    <input class="form-control" name="cpass" type="text" id="cpass" />
-  </div>
+                Education, Hobbies, etc
+            </a>
+        </li>
+    </ul>
+<div class="tab-content">
+    <div class="custSignup">
+        {assign var=cust_signup value=$userquery->load_custom_signup_fields($u,true)}
+        {if $cust_signup}
+        {foreach from=$cust_signup item=field}
+        <div class="form-group">
+            {$field.class="form-control"}
+            <label for="{$field.id}">{$field.title}</label>
+            {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+            {$field.hint_2}
+        </div>
+        {/foreach}
+        {/if}
+    </div>
+    <div id="userinfo" class="tab-pane active">
+        <div class="userInfoSettings">
+            <h3>User Info</h3>
+            <div class="form-group">
+                <img src="{$userquery->getUserThumb($u,'small')}" class="btn btn-app btn-primary btn-xs" />
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tr>
+                        <td class="alert-info"><label class="alert-info">User Id</label></td>
+                        <td><input type="text" value="{$u.userid}" disabled="disabled" class="form-control"></label></td>
+                    </tr>
+                    <tr>
+                        <td class="alert-info"><label class="alert-info">User Name</label></td>
+                        <td><input class="form-control" disabled="disabled" type="text" value="{$u.username}"></td>
+                    </tr>
+                    <tr>
+                        <td class="alert-info"><label class="alert-info">Email</label></td>
+                        <td><input class="form-control" name="email" type="text" id="email" value="{$u.email}" /></td>
+                    </tr>
+                    <tr>
+                        <td class="alert-info"><label for="pass">Change password</label></td>
+                        <td><input class="form-control" name="pass" type="text" id="pass" /></td>
+                    </tr>
+                    <tr>
+                        <td class="alert-info"><label for="cpass">Confirm password</label></td>
+                        <td><input class="form-control" name="cpass" type="text" id="cpass" /></td>
+                    </tr>
+                    <tr>
+                        <td class="alert-info"> <label for="laevel">User level</label></td>
+                        <td> <select class="form-control" name="level" id="level">
+                            {assign var=levels value=$userquery->get_levels()}
+                            {foreach from=$levels item=level}
+                            <option value="{$level.user_level_id}" {if $u.level==$level.user_level_id} selected="selected"{/if}>{$level.user_level_name}</option>
+                            {/foreach}
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td class="alert-info"><label for="country">Country</label></td>
+                        <td>
+                            <select class="form-control" name="country" id="country">
+                                {assign var='countries' value=$Cbucket->get_countries(iso2)}
+                                {foreach from=$countries item=country key=code}
+                                <option value="{$code}" {if $u.country==$code} selected="selected"{/if}>{$country}</option>
+                                {/foreach}
+                            </select></td>
+                    </tr>
+                    <tr>
+                        <td class="alert-info"><label for="gender">Gender</label></td>
+                        <td>
+                            <select>
+                                <option name="sex" value="male" id="sex_0" {if $u.sex == male} checked="checked"{/if}>
+                                Male</option>
+                                <option name="sex" value="female" id="sex_1" {if $u.sex == female} checked="checked"{/if}>
+                                Female</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
-  <div class="form-group">
-    <label for="laevel">User level</label>
-    <select class="form-control" name="level" id="level">
-      {assign var=levels value=$userquery->get_levels()}
-      {foreach from=$levels item=level}
-        <option value="{$level.user_level_id}" {if $u.level==$level.user_level_id} selected="selected"{/if}>{$level.user_level_name}</option>
-      {/foreach}
-    </select>
-  </div>
+            <div class="custSignup">
+                {assign var=cust_signup value=$userquery->load_custom_signup_fields($u,true)}
+                {if $cust_signup}
+                {foreach from=$cust_signup item=field}
+                <div class="form-group">
+                    {$field.class="form-control"}
+                    <label for="{$field.id}">{$field.title}</label>
+                    {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    {$field.hint_2}
+                </div>
+                {/foreach}
+                {/if}
+            </div>
+            <div class="form-group">
+                <label for="">Category</label>
+                {ANCHOR place=$signup_fields.cat.anchor_before}{$formObj->createField($signup_fields.cat)}{ANCHOR place=$signup_fields.cat.anchor_after}
+            </div>
+        </div>
+    </div>
+    <div id="channelsetting" class="tab-pane">
+        <div class="form-group">
+            <h2>Channel Settings</h2>
+            {foreach from=$channel_profile_fields item=field_group}
 
-  <div class="form-group">
-    <label for="country">Country</label>
-    <select class="form-control" name="country" id="country">
-      {assign var='countries' value=$Cbucket->get_countries(iso2)}
-      {foreach from=$countries item=country key=code}
-      <option value="{$code}" {if $u.country==$code} selected="selected"{/if}>{$country}</option>
-      {/foreach}
-    </select>
-  </div>
+            {if $field_group.group_name=='Channel settings'}
 
-  <div class="form-group">
-    <h4>Gender</h4>
-      <label class="radio">
-        <input type="radio" name="sex" value="male" id="sex_0" {if $u.sex == male} checked="checked"{/if} />
-        Male
-      </label>
-      <label class="radio">
-        <input type="radio" name="sex" value="female" id="sex_1" {if $u.sex == female} checked="checked"{/if}/>
-        Female
-      </label>
+            {foreach from=$field_group.fields item=field}
+            {$field.class='form-control'}
+
+            <table class="table-bordered" width="600">
+                <tr>
+                    <td class="alert alert-info" width="150">
+                        <label for="{$field.id}">{$field.title}</label></td>
+                    <td>
+                        {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                        {$field.hint_2}
+                    </td>
+                </tr>
+            </table>
+            {/foreach}
+        </div>
+        {/if}
+    </div>
+    <div id="basicinfo" class="tab-pane">
+        <div class="form-group">
+            <h2>Basic Info</h2>
+            {foreach from=$channel_profile_fields item=field_group}
+            {foreach from=$field_group.fields item=field}
+            {if $field_group.group_name=='Basic info'}
+            {$field.class='form-control'}
+            <table class="table-bordered" width="600">
+                <tr>
+                    <td class="alert alert-info" width="150">
+                        <label for="{$field.id}">{$field.title}</label></td>
+                    <td>
+                        {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                        {$field.hint_2}
+                    </td>
+                </tr>
+            </table>
+            {/if}
+            {/foreach}
+            {/foreach}
+        </div>
+    </div>
+    <div id="location" class="tab-pane">
+        <div class="form-group">
+            <h2>Location</h2>
+            {foreach from=$channel_profile_fields item=field_group}
+            {foreach from=$field_group.fields item=field}
+            {if $field_group.group_name=='Location'}
+            {$field.class='form-control'}
+
+            <table class="table-bordered" width="600">
+                <tr>
+                    <td class="alert alert-info" width="150">
+                        <label for="{$field.id}">{$field.title}</label></td>
+                    <td>
+                        {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                        {$field.hint_2}
+                    </td>
+                </tr>
+            </table>
+            {/if}
+            {/foreach}
+            {/foreach}
+        </div>
+    </div>
+    <div id="education" class="tab-pane">
+        <div class="form-group">
+            <h2>Education, Hobbies, etc</h2>
+            {foreach from=$channel_profile_fields item=field_group}
+            {foreach from=$field_group.fields item=field}
+            {if $field_group.group_name=='Education, Hobbies, etc'}
+            {$field.class='form-control'}
+
+            <table class="table-bordered" width="600">
+                <tr>
+                    <td class="alert alert-info" width="150">
+                        <label for="{$field.id}">{$field.title}</label></td>
+                    <td>
+                        {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+
+                    </td>
+                </tr>
+            </table>
+            {/if}
+            {/foreach}
+            {/foreach}
+        </div>
+
+        {/foreach}
+
+    </div>
+</div>
     </div>
 
-  <div class="form-group">
-    <label for="">Category</label>
-    {ANCHOR place=$signup_fields.cat.anchor_before}{$formObj->createField($signup_fields.cat)}{ANCHOR place=$signup_fields.cat.anchor_after}
-  </div>
-</div>
 
 
-<div class="custSignup">
-  {assign var=cust_signup value=$userquery->load_custom_signup_fields($u,true)}
-    {if $cust_signup}
-      {foreach from=$cust_signup item=field}
-        <div class="form-group">
-          {$field.class="form-control"}
-          <label for="{$field.id}">{$field.title}</label>
-          {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-          {$field.hint_2}
-        </div>
-      {/foreach}
-    {/if}
-</div>
 
 
-<div class="channelSettings">
-  {foreach from=$channel_profile_fields item=field_group}
-  <h3>{$field_group.group_name}</h3>
-    {foreach from=$field_group.fields item=field}
-      {$field.class='form-control'}
-      <div class="form-group">
-        <label for="{$field.id}">{$field.title}</label>
-        {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-        {$field.hint_2}
-      </div>
-    {/foreach}
-  {/foreach}
-</div>
 
-</div>
+
+
+
+
+
+
+
+
+
+
+   </div>
+
 
 <div class="col-sm-6 col-md-6 col-lg-6 col x1-12 pull-right">
 <div class="actionsSettings">
     <div class="userActivity">
       <h3>User Activity</h3>
-      <div class="form-group">
-        <label for="dob">Date of birth</label>
-        <input class="form-control" name="dob" type="text" id="dob" value="{$u.dob}" />
-        YYYY-MM-DD
-      </div>
 
-      <div class="form-group">
-        <label for="doj">Joined - IP</label>
-        <input class="form-control" name="doj" type="text" id="doj" value="{$u.doj}" /> 
-        {$u.signup_ip}
-      </div>
+            <table class="table-bordered">
+                <tr>
+                    <td class="alert alert-info"><label for="dob">Date of birth</label></td>
+       <td width="500"> <input name="dob" type="text" id="dob" value="{$u.dob} YYYY-MM-DD" class="form-control" />
+        </td>
+                </tr>
 
-      <p>Last Login - Login IP : {$u.last_logged} - {$u.ip}</p>
+                <tr>
+                    <td class="alert alert-info"> <label for="doj">Joined - IP</label></td>
+                    <td width="500">    <input class="form-control" name="doj" type="text" id="doj" value="{$u.doj}" />
+                        {$u.signup_ip}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="alert alert-info"> <label for="doj">Last-Login IP</label></td>
+                    <td width="500"> {$u.last_logged} - {$u.ip}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="alert alert-info"> <label for="doj">Last-Active Online</label></td>
+                    <td width="500"> {$u.last_active} - {$u.last_active|is_online}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="alert alert-info"><label for="profile_hits">Profile Views</label></td>
+                    <td width="500"><input class="form-control" name="profile_hits" type="text" id="profile_hits" value="{$u.profile_hits}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="alert alert-info"><label for="total_watched">Videos Watched</label></td>
+                    <td width="500"><input class="form-control" name="total_watched" type="text" id="total_watched" value="{$u.total_watched}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="alert alert-info">  <label for="total_watched3">Comments made</label></td>
+                    <td width="500"> <input class="form-control" name="total_comments" type="text" id="total_watched3" value="{$u.total_comments}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="alert alert-info"><label for="comments_count">Profile comments</label></td>
+                    <td width="500">   <input class="form-control" name="comments_count" type="text" id="comments_count" value="{$u.comments_count}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="alert alert-info"><label for="tatal_watched4">Profile rating</label></td>
+                    <td width="500">   <input class="form-control" name="rating" type="text" id="total_watched4" value="{$p.rating}" />
+                        0-10
+                    </td>
+                </tr>
+                <tr>
+                    <td class="alert alert-info"><label for="total_watched5">Profile rated by</label></td>
+                    <td width="500">    <input class="form-control" name="rated_by" type="text" id="total_watched5" value="{$p.rated_by}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="alert alert-info"><label for="total_watched6">Subscribers</label></td>
+                    <td width="500"> <input class="form-control" name="subscribers" type="text" id="total_watched6" value="{$u.subscribers}" />
+                    </td>
+                </tr>
+                </table>
+            </div>
 
-      <p>Last Active - Online : {$u.last_active} - {$u.last_active|is_online}</p>
+<hr>
 
-      <div class="form-group">
-        <label for="profile_hits">Profile Views</label>
-        <input class="form-control" name="profile_hits" type="text" id="profile_hits" value="{$u.profile_hits}" />
-      </div>
-      
-      <div class="form-group">
-        <label for="total_watched">Videos Watched</label>
-        <input class="form-control" name="total_watched" type="text" id="total_watched" value="{$u.total_watched}" />
-      </div>
+    <div class="tabbable">
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active">
+                <a data-toggle="tab" href="#recent">
+                    Recent Activity Log
 
-      <div class="form-group">
-        <label for="total_watched2">Videos Watched</label>
-        <input class="form-control" name="total_videos" type="text" id="total_watched2" value="{$u.total_videos}" />
-      </div>
-      
-      <div class="form-group">
-        <label for="total_watched3">Comments made</label>
-        <input class="form-control" name="total_comments" type="text" id="total_watched3" value="{$u.total_comments}" />
-      </div>
+                </a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#avatar">
+                    User Avatar & Background
 
-      <div class="form-group">
-        <label for="comments_count">Profile comments</label>
-        <input class="form-control" name="comments_count" type="text" id="comments_count" value="{$u.comments_count}" />
-      </div>
-      
-      <div class="form-group">
-        <label for="tatal_watched4">Profile rating</label>
-        <input class="form-control" name="rating" type="text" id="total_watched4" value="{$p.rating}" />
-        0-10
-      </div>
+                </a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#background">
+                    User Background image
 
-      <div class="form-group">
-        <label for="total_watched5">Profile rated by</label>
-        <input class="form-control" name="rated_by" type="text" id="total_watched5" value="{$p.rated_by}" />
-      </div>
-
-      <div class="form-group">
-        <label for="total_watched6">Subscribers</label>
-        <input class="form-control" name="subscribers" type="text" id="total_watched6" value="{$u.subscribers}" />
-      </div>
-    </div>
-
+                </a>
+            </li>
+            </ul>
+        <div class="tab-content">
+            <div id="recent" class="tab-pane active">
     <div class="recentActivityLog">
       <h3>Recent Activity Log</h3>
       <table class="table table-bordered table-striped">
@@ -204,8 +374,8 @@
         <tr>
           <td>{$logs[log].action_id}</td>
           <td>{$logs[log].action_userid}</td>
-          <td>{$logs[log].action_username}</td>
-          <td>{$logs[log].date_added}</td>
+          <td width="100" class="">{$logs[log].action_username}</td>
+          <td width="100" class="">{$logs[log].date_added}</td>
           <td>
             Type : {$logs[log].action_type} &#8211;{if $logs[log].action_details!=''}{$logs[log].action_details} &#8211;{/if} Success : {$logs[log].action_success} &#8211 {$logs[log].action_ip}
           </td>
@@ -215,9 +385,11 @@
         {/section}
       </table>
     </div>
+                </div>
 
+            <div id="avatar" class="tab-pane">
     <div class="useAvatar">
-      
+
       <h3>User Avatar and Background</h3>
 
       <div class="changeAvatar row">
@@ -246,7 +418,9 @@
           </div>
         </div>
       </div>
-
+        </div>
+                </div>
+                <div id="background" class="tab-pane">
       <div class="changeBackground row">
         <h3>User Background Image</h3>
         <div class="showBackground col-md-3">
@@ -290,28 +464,28 @@
         <input type="hidden" name="bg_file_name" value="{$u.background}" />
       </div>
     </div>
+                    </div>
+                </div>
+        <br>
 
     <div class="form-group">
       <input class="btn btn-primary btn-lg pull-right" type="submit" name="update_user" id="update_user" value="Submit" />
     </div>
 </div>
 </div>
-
-{assign var='object_type' value='channel'}
-<script>
-  $(document).ready(function()
-  {ldelim}
-  if(!baseurl){
-    var baseurl = "";
-  }
-  page = baseurl +'/ajax.php';
-  getComments('c','{$u.userid}','{$u.last_commented}',1,'{$u.comments_count}','{$object_type}','yes')
-  {rdelim}
-  );
-</script>
+</div>
 </form>
 </div>
-</div>
+
+<div id="comments"></div>
+{assign var='object_type' value='channel'}
+<script>
+
+</script>
+
 <div class="form-group">
-    {assign var=id value=$data.videoid}{include file="$style_dir/blocks/comments.html" type=u id=$data.userid link="user=$id"}
+    {assign var=id value=$u.userid}{include file="$style_dir/blocks/comments.html" type=u id=$u.userid link="user=$id"}
 </div>
+
+
+
