@@ -160,8 +160,6 @@ ul.mainTabs{
     float: left;
 }
 
-
-
 .main-container {
     width: 100%;
 }
@@ -177,4 +175,8 @@ ul.mainTabs{
 }
 .addgroup {
     width: 400px;
+}
+
+.note-editable {
+    height: 200px;
 }
