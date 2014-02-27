@@ -13,16 +13,14 @@ if(!defined('SUB_PAGE')){
 	define('SUB_PAGE', 'Add Group');
 }
 
-if(isset($_POST['create_group']))
-{
-    if($cbgroup->create_group($_POST,userid(),true))
-    {
-        e(lang("new_mem_added"),"m");
-        $_POST = '';
-    }
+
+// Creating Group if button is pressed
+if(isset($_POST['create_group'])) {
+    $cbgroup->create_group($_POST,userid(),true);
 }
 
-subtitle("Add New group");
+subtitle(lang('grp_crt_grp'));
+
 template_files('add_group.html');
 display_it();
 ?>
