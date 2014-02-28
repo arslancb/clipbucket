@@ -1,51 +1,46 @@
 {if $mode == '' || $mode == 'photo_settings'}
-
 <h2>Photo Settings</h2>
-
 <form name="form1" method="post" id="photo_settings">
-    <div class="photoResizing">
         <h3>Photo Resizing</h3>
-        <div class="form-group">
+    <div class="row">
+        <div class="col-md-4">
             <label for="radio_id">
                 Photo Ratio
                 <P><small>
                     Your photo thumb and medium size thumb will be resized according to these ratios
                 </small></P>
             </label>
-            <label class="radio">
-                <input name="photo_ratio" id="ratio_1" value="4:3" type="radio"{if $row.photo_ratio == '4:3'} checked{/if} />4:3
-            </label> 
-            <label class="radio">
-                <input name="photo_ratio" id="ratio_3" value="16:9" type="radio"{if $row.photo_ratio == '16:9'} checked{/if} />16:9
-            </label>
-            <label class="radio">
-                <input name="photo_ratio" id="ratio_2" value="16:10" type="radio"{if $row.photo_ratio == '16:10'} checked{/if} />16:10
-            </label>
+            <select class="form-control">
+                <option class="form-control" name="photo_ratio" id="ratio_1" {if $row.photo_ratio == '4:3'} checked{/if} >4:3</option>
+                <option class="form-control" name="photo_ratio" id="ratio_3" {if $row.photo_ratio == '16:9'} checked{/if}>16:9</option>
+                <option class="form-control" name="photo_ratio" id="ratio_2" {if $row.photo_ratio == '16:10'} checked{/if}>16:10</option>
+            </select>
         </div>
-    </div>
-
-    <div class="photoBehaviour">
-        <h3>Photo Behavior</h3>
-        <div class="form-group">
+        <div class="col-md-4">
             <label for="multi_photo">
                 Multi-upload
                 <p>
-                    <small>Number of photos, user can upload at once.</small>
+                    <small>Number of photos, user can upload at once.<br>
+                    eg. 10 or 20
+                    </small>
                 </p>
             </label>
             <input class="form-control" type="text" name="photo_multi_upload" id="multi_photo" value="{$row.photo_multi_upload}" >
         </div>
-
-        <div class="form-group">
+        <div class="col-md-4">
             <label for="max_photo_size">Max photo size
                 <p>
-                    <small>Maximum allowed photo size, in MBs.</small>
+                    <small>Maximum allowed photo size, in MBs.<br>
+                    Megabytes
+                    </small>
                 </p>
             </label>
             <input class="form-control" type="text" name="max_photo_size" id="max_photo_size" value="{$row.max_photo_size}" >
         </div>
-
-        <div class="form-group">
+        </div>
+    <br>
+    <div class="row">
+        <div class="col-md-4">
             <label class="checkbox">
                 <input type="checkbox" name="photo_download" id="photo_download" value="1" {if $row.photo_download == '1'}checked{/if}>
                 Enable Photo Downloading
@@ -63,8 +58,7 @@
                 User can rate his own photo
             </label>
         </div>
-        
-        <div class="form-group">
+        <div class="col-md-4">
             <label for="image_width">
                 Photo Width
                 <p>
@@ -74,8 +68,7 @@
             <input class="form-control" maxlength="3" type="text" name="photo_thumb_width" title="Thumb Width" id="image_width" value="{$row.photo_thumb_width}" />
             <input class="form-control" maxlength="3" title="Thumb Height" type="text" name="photo_thumb_height" id="image_height" value="{$row.photo_thumb_height}" readonly>    
         </div>
-
-        <div class="form-group">
+        <div class="col-md-4">
             <label for="med_width">
                 Thumb Dimensions
                 <p>
@@ -87,92 +80,73 @@
             <input class="form-control" maxlength="3" title="Medium Thumb Width" type="text" name="photo_med_width" id="med_width" value="{$row.photo_med_width}" />
             <input class="form-control" maxlength="3" title="Medium Thumb Height" type="text" name="photo_med_height" id="med_height" value="{$row.photo_med_height}" readonly>
         </div>
-
-        <div class="form-group">
+        </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
             <label for="lar_width">Large photo width</label>
             <input class="form-control" type="text" maxlength="3" name="photo_lar_width" id="lar_width" value="{$row.photo_lar_width}" />
         </div>
-
-        <div class="form-group">
+        <div class="col-md-6">
             <label for="crop_yes">
                 Crop Image
-                <p>
-                    <small>
-                        If Enable, your thumb and medium size will be cropped excatly to above dimensions if required.
-                    </small>
-                </p>
             </label>
-            <label class="radio">
-                <input value="1" type="radio" name="photo_crop" id="crop_yes" {if $row.photo_crop == '1'}checked{/if} />Enable
-            </label>
-            <label class="radio">
-                <input value="0" type="radio" name="photo_crop" id="crop_no" {if $row.photo_crop == '0'}checked{/if}/>Disable    
-            </label>
+            <select class="form-control">
+                <option class="form-control" name="photo_crop" id="crop_yes" {if $row.photo_crop == '1'}checked{/if}>Enable</option>
+                <option class="form-control" name="photo_crop"id="crop_no" {if $row.photo_crop == '0'}checked{/if}>Disable</option>
+            </select>
+            <small>
+                If Enable, your thumb and medium size will be cropped excatly to above dimensions if required.
+            </small>
         </div>
-
-        <input type="submit" name="update" class="btn btn-primary" value="Update Settings" id="udpate" />
-    </div>
-
+        </div>
+        <div class="button">
+        <input type="submit" name="update" class="btn btn-primary btn-sm" value="Update Settings" id="udpate" />
+        </div>
 </form>
-
 {/if}
-
-
 {if $mode == 'watermark_settings'}
 <h2>Watermark Settings</h2>
 <form action="" method="post" enctype="multipart/form-data">
+    <div class="row">
     <div class="watermarSettings">
-        <div class="form-group">
+        <div class="col-md-4">
             <label for="watermark_photo" class="radio">
                 <input name="watermark_photo" id="watermark_photo" type="checkbox" value="1"{if $row.watermark_photo == '1'} checked{/if} >
                 Enable Watermark
             </label>
         </div>
-        <div class="form-group">
+        <div class="col-md-4">
             <label for="watermark_maximum_width">Maximum Width of watermark<br><small>Recommended is 120</small></label>
             <input class="form-control" name="watermark_max_width" id="watermark_max_width" type="text" value="{$row.watermark_max_width}" >
         </div>
-
-
-        <div class="form-group">
-            <label for="top_left">Watermark placement</label>
-            <label for="" class="radio">
-                <input type="radio" name="watermark_placement" id="top_left" value="left:top"{if $row.watermark_placement == 'left:top'} checked{/if} />Top - Left
+        <div class="col-md-4">
+            <label for="top_left">Watermark placement<br>
+                <small>Set your Placement</small>
             </label>
-            <label for="" class="radio">
-                <input type="radio" name="watermark_placement" id="top_right" value="right:top"{if $row.watermark_placement == 'right:top'} checked{/if} />Top - Right
-            </label>
-            <label for="" class="radio">
-                <input type="radio" name="watermark_placement" id="top_center" value="center:top"{if $row.watermark_placement == 'center:top'} checked{/if} />Top - Center
-            </label>
-            <label for="" class="radio">
-                <input type="radio" name="watermark_placement" id="bottom_left" value="left:bottom"{if $row.watermark_placement == 'left:bottom'} checked{/if} />Bottom - Left
-            </label>
-            <label for="" class="radio">
-                <input type="radio" name="watermark_placement" id="bottom_right" value="right:bottom"{if $row.watermark_placement == 'right:bottom'} checked{/if} />Bottom - Right
-            </label>
-            <label for="" class="radio">
-                <input type="radio" name="watermark_placement" id="bottom_center" value="center:bottom"{if $row.watermark_placement == 'center:bottom'} checked{/if} />Bottom - Center
-            </label>
-            <label for="" class="radio">
-                <input type="radio" name="watermark_placement" id="left" value="left:center"{if $row.watermark_placement == 'left:center'} checked{/if} />Left
-            </label>
-            <label for="" class="radio">
-                <input type="radio" name="watermark_placement" id="right" value="right:center"{if $row.watermark_placement == 'right:center'} checked{/if} />Right
-            </label>
-            <label for="" class="radio">
-                <input type="radio" name="watermark_placement" id="center" value="center:center"{if $row.watermark_placement == 'center:center'} checked{/if} />Center
-            </label>
+            <select class="form-control">
+                <option class="form-control" name="watermark_placement" id="top_left" {if $row.watermark_placement == 'left:top'} checked{/if}>Top - Left</option>
+                <option class="form-control" name="watermark_placement" id="top_right" {if $row.watermark_placement == 'right:top'} checked{/if}>Top - Right</option>
+                <option class="form-control" name="watermark_placement" id="top_center" {if $row.watermark_placement == 'center:top'} checked{/if}>Top - Center</option>
+                <option class="form-control" name="watermark_placement" id="bottom_left" {if $row.watermark_placement == 'left:bottom'} checked{/if} >Bottom - Left</option>
+                <option class="form-control" name="watermark_placement" id="bottom_right" {if $row.watermark_placement == 'righ:bottom'} checked{/if} >Bottom - Right</option>
+                <option class="form-control" name="watermark_placement" id="bottom_center" {if $row.watermark_placement == 'center:bottom'} checked{/if}>Bottom - Center</option>
+                <option class="form-control" name="watermark_placement" id="left" {if $row.watermark_placement == 'left:center'} checked{/if}>Left</option>
+                <option class="form-control" name="watermark_placement" id="right" {if $row.watermark_placement == 'right:center'} checked{/if}>Right</option>
+                <option class="form-control" name="watermark_placement" id="center" {if $row.watermark_placement == 'center:center'} checked{/if}>Center</option>
+            </select>
         </div>
-
-        <div class="form-group">
+        </div>
+        </div>
+    <br>
+        <div class="row">
+        <div class="col-md-4">
             <label for="watermark_file">Upload New Watermark<br><small>
                 This will over-write your existing watermark file, if exists.
             </small></label>
-            <input type="file" name="watermark_file" id="watermark_file" >
+            <input type="file" class="form-control" name="watermark_file" id="watermark_file" >
         </div>
-
-        <div class="currentWatermark">
+        <div class="col-md-4">
             <h4>Current Watermark</h4>
             {assign var=file value=$cbphoto->watermark_file()}
             {if $file}
@@ -181,9 +155,10 @@
                 <p>Watermark not found</p>
             {/if}
         </div>
-        <div class="form-group">
-            <input type="submit" name="update_watermark" class="btn btn-primary" value="Update Settings" id="update_watermark" />
+        <div class="col-md-4">
+            <input type="submit" name="update_watermark" class="btn btn-primary btn-sm" value="Update Settings" id="update_watermark" />
         </div>
+            </div>
     </div> <!-- watermarkSettings end -->
 </form>
 {/if}
