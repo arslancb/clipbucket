@@ -6,20 +6,21 @@
  
 <fieldset class="fieldset" style="padding:10px;">
         	<legend style="font:bold 11px Tahoma; text-transform:uppercase; background:#FFF; padding:0 20px;">Settings on which photos will be re-created</legend>
-            <li class="clearfix myAdminList" style="padding-bottom:5px;">
-            	<div class="moveL PhotoID" style="width:10%">Ratio</div>
-                <div class="moveL"><input disabled="disabled" value="{$Cbucket->configs.photo_ratio}" class="disabled" /></div>
-            </li>
-            <li class="clearfix myAdminList" style="padding-bottom:5px;">
-            	<div class="moveL PhotoID" style="width:10%">Thumb Size</div>
-                <div class="moveL"><input disabled="disabled" value="{$Cbucket->configs.photo_thumb_width}" class="disabled" /> x <input disabled="disabled" value="{$Cbucket->configs.photo_thumb_height}" class="disabled" /></div>
-            </li>
+    <div class="row">
+        <div class="col-md-4">
+    Ratio
+                <input disabled="disabled" value="{$Cbucket->configs.photo_ratio}" class="disabled" />
 
-            <li class="clearfix myAdminList" style="padding-bottom:5px;">
-            	<div class="moveL PhotoID" style="width:10%">Medium Size</div>
-                <div class="moveL"><input disabled="disabled" value="{$Cbucket->configs.photo_med_width}" class="disabled" /> x <input disabled="disabled" value="{$Cbucket->configs.photo_med_height}" class="disabled" /></div>
-            </li>
-
+            </div>
+        <div class="col-md-4">
+            	Thumb Size
+               <input disabled="disabled" value="{$Cbucket->configs.photo_thumb_width}" class="disabled" /> x <input disabled="disabled" value="{$Cbucket->configs.photo_thumb_height}" class="disabled" />
+            </div>
+        <div class="col-md-4">
+            	Medium Size
+                <div class="moveL"><input disabled="disabled" value="{$Cbucket->configs.photo_med_width}" class="disabled" /> x <input disabled="disabled" value="{$Cbucket->configs.photo_med_height}" class="disabled" />
+            </div>
+        </div>
             <li class="clearfix myAdminList" style="padding-bottom:5px;">
             	<div class="moveL PhotoID" style="width:10%">Large Size</div>
                 <div class="moveL"><input disabled="disabled" value="{$Cbucket->configs.photo_lar_width}" class="disabled" /></div>
@@ -77,27 +78,30 @@
     <p class="alert alert-warning">Take caution while using Mass Recreation. Use MAX of 5 photos per GO.</p>
     <div class="recreationSettings">
         <h3>Settings on which photos will be re-created</h3>
-        <div class="form-group">
+        <div class="row">
+        <div class="col-md-4">
             <label for="photo_radio">Ratio</label>
             <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_ratio}" class="disabled" />
         </div>
-        <div class="form-group">
+        <div class="col-md-4">
             <label for="thumb_size">Thumb size</label>
             <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_thumb_width}" class="disabled" />
             <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_thumb_height}" class="disabled" />
         </div>
 
-        <div class="form-group">
+        <div class="col-md-4">
             <label for="medium_size">Medium size</label>
             <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_med_width}" class="disabled" />
             <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_med_height}" class="disabled" />
         </div>
-
-        <div class="form-group">
+            </div>
+        <br>
+        <div class="row">
+        <div class="col-md-4">
             <label for="large_size">Large size</label>
             <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_lar_width}" class="disabled" />
         </div>
-
+            <div class="col-md-4">
         <p>
             Cropping 
             {assign var=cropping value=$Cbucket->configs.photo_crop}
@@ -107,9 +111,9 @@
                 <strong class="label">Disabled</strong>
             {/if}
         </p>
-
         <p>
             Watermarking
+
             {assign var=watermark value=$Cbucket->configs.watermark_photo}
             {if $watermark == 1}
                 <div class="form-group">
@@ -122,27 +126,27 @@
                 <strong class="label">Disabled</strong>
             {/if}
         </p>
+            </div>
 
-        <p class="alert alert-info">
-            Update settings if they are not according to your needs.
-        </p>
-
-        <div class="form-group">
+        <div class="col-md-4">
             <label for="the_loop_size">Loop size</label>
             <input class="form-control" type="text" name="textfield" value="{$loop_size}" id="the_loop_size" />
             <small>
                 Number of photos to re-create in one go.
             </small>
         </div>
+        </div>
         <form name="mass_recreation" method="get" action="">
             <input type="hidden" name="loop_size" value="" id="loop_start" />
-            <input type="submit" name="mass_recreation" id="mass_recreation" value="Start Recreation" class="btn btn-primary" 
+            <input type="submit" name="mass_recreation" id="mass_recreation" value="Start Recreation" class="btn btn-primary btn-sm"
             onclick="$('#loop_start').val($('#the_loop_size').val())"/>
       </form>
     </div>
 
-     
-      
+<br>
+<p class="alert alert-info">
+    Update settings if they are not according to your needs.
+</p>
         {if $indexing}
             <div align="right" style="padding:5px">{$from} - {$to} of {$total}</div>
             <ul>
