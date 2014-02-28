@@ -1,8 +1,9 @@
-<a href="#" class="btn btn-info" onclick="$('#collectionsearchdiv').toggle();return false;">
+<a href="#" class="btn btn-primary btn-sm pull-right" onclick="$('#collectionsearchdiv').toggle();return false;">
     Advanced Search
     <i class="glyphicon glyphicon-search"></i>
 </a>
 <div class="search_box" id="collectionsearchdiv" {if $smarty.cookies.show_searchdiv_search!='show'} style="display:none"{/if}>
+<br>
 <form action="collection_manager.php" method="get" name="search_collections">
     <div class="form-group">
             <label for="title">Collection name</label>
@@ -63,7 +64,7 @@
         </div>
     <br />
     <div class="button">
-    <input type="submit" name="search" id="search" value="Search Form" class="btn btn-primary"/>
+    <input type="submit" name="search" id="search" value="Search Form" class="btn btn-primary btn-sm"/>
         </div>
 </form>
 </div>
