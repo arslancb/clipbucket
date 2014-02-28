@@ -1,8 +1,9 @@
-<a href="#" class="btn btn-info" onclick="$('#groupsearchdiv').toggle();return false;">
+<a href="#" class="btn btn-primary btn-sm pull-right" onclick="$('#groupsearchdiv').toggle();return false;">
     Advanced Search
     <i class="glyphicon glyphicon-search"></i>
 </a>
 <div class="search_box" id="groupsearchdiv" {if $smarty.cookies.show_groupsearchdiv_search!='show'} style="display:none"{/if}>
+        <br><br>
 <form id="group_search" name="group_search" method="get" action="groups_manager.php" >
     <table class="table table-bordered table-striped">
         <tr>
@@ -74,6 +75,6 @@
             </td>
         </tr>
     </table>
-    <input type="submit" name="search" id="search" value="Search Form" class="btn btn-primary"/>
+    <input type="submit" name="search" id="search" value="Search Form" class="btn btn-primary btn-sm"/>
 </form>
 </div>
