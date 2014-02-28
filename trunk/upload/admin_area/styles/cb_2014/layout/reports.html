@@ -1,9 +1,18 @@
+<style type="text/css">
+.flot_chart{
+  height: 200px;
+  width: 800px;
+}
+</style>
+<div class="clearfix"></div>
+<div id="my_chart">
+</div>
 
-<div id="my_chart"></div>
 <script type="text/javascript">
 var daily_activity = "{$baseurl}/admin_area/charts/daily_activity.php";
-swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "my_chart", "99%", "300", "9.0.0", "expressInstall.swf",{literal} {"data-file":daily_activity}{/literal} );
+//swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "my_chart", "99%", "300", "9.0.0", "expressInstall.swf",{literal} {"data-file":daily_activity}{/literal} );
 </script>
+<div style="height:20px"></div>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -13,9 +22,8 @@ swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "my_chart", "99%", 
             </tr>
             <tr>
               <td width="120">All Time</td>
-              <td>Total <strong>{get_videos count_only=yes}</strong> &#8211; Active <strong>{get_videos count_only=yes active="yes"}</strong> &#8211; Processing <strong>{get_videos count_only=yes status='Processing'}</strong></td>
-              
-        </tr>
+              <td>Total <strong>{get_videos count_only=yes}</strong> &#8211; Active <strong>{get_videos count_only=yes active="yes"}</strong> &#8211; Processing <strong>{get_videos count_only=yes status='Processing'}</strong></td>           
+            </tr>
             <tr>
               <td width="120">Todays Videos</td>
               <td>Total <strong>{get_videos count_only=yes date_span=today}</strong> &#8211; Active <strong>{get_videos count_only=yes active="yes" date_span=today}</strong> &#8211; Processing <strong>{get_videos count_only=yes status='Processing' date_span=today}</strong></td>
@@ -45,10 +53,20 @@ swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "my_chart", "99%", 
               <td>&nbsp;</td>
             </tr>
     </table></td>
-    <td width="50%" valign="top"><div id="videos_stats"></div>
+    <td width="50%" valign="top"><div id="videos_stats">
+      <div>
+      <h3 class="pull-left inline">Today</h3>
+      <h3 class="pull-left inline">
+        <input type="checkbox" class="ace ace-switch ace-switch-5" id="enableTooltipDaily">
+        <span class="lbl"></span>
+        <small class="muted">Enable Tooltip</small></h3></div>
+     <div class="clearfix"></div>
+    <div id="daily_chart_id" class="flot_chart">
+    <img class="loading-image" src="./styles/cb_2014/images/ajax-loader.gif"/></div>
+    </div>
 <script type="text/javascript">
 var daily_activity = "{$baseurl}/admin_area/charts/videos_activity.php";
-swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "videos_stats", "98%", "200", "9.0.0", "expressInstall.swf",{literal} {"data-file":daily_activity}{/literal} );
+//swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "videos_stats", "98%", "200", "9.0.0", "expressInstall.swf",{literal} {"data-file":daily_activity}{/literal} );
 </script></td>
   </tr>
 </table>
@@ -65,7 +83,8 @@ swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "videos_stats", "98
             </tr>
             <tr>
               <td width="120">All Time</td>
-              <td>Total <strong>{get_users count_only=yes}</strong> &#8211; Active <strong>{get_users count_only=yes status='Ok'}</strong> &#8211; Inactive <strong>{get_users count_only=yes status='ToActivate'}</strong></td>
+              <td>Total <strong>{get_users count_only=yes}</strong> &#8211; Active <strong>{get_users count_only=yes status='Ok'}</strong> &#8211; Inactive <strong>
+                {get_users count_only=yes status='ToActivate'}</strong></td>
               
         </tr>
             <tr>
@@ -89,10 +108,20 @@ swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "videos_stats", "98
               <td>Total <strong>{get_users count_only=yes date_span='last_month'}</strong> &#8211; Active <strong>{get_users count_only=yes status='Ok' date_span='last_month'}</strong> &#8211; Inactive <strong>{get_users count_only=yes status='ToActivate' date_span='last_month'}</strong></td>
             </tr>
     </table></td>
-    <td width="50%" valign="top"><div id="user_stats"></div>
+    <td width="50%" valign="top"><div id="user_stats">
+    <div>
+      <h3 class="pull-left inline">This week</h3>
+      <h3 class="pull-left inline">
+        <input type="checkbox" class="ace ace-switch ace-switch-5" id="enableTooltipWeekly">
+        <span class="lbl"></span>
+        <small class="muted">Enable Tooltip</small></h3></div>
+     <div class="clearfix"></div>
+    <div id="weekly_chart_id" class="flot_chart"><img class="loading-image" src="./styles/cb_2014/images/ajax-loader.gif"/></div>
+    
+    </div>
 <script type="text/javascript">
 var daily_activity = "{$baseurl}/admin_area/charts/users_activity.php";
-swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "user_stats", "98%", "200", "9.0.0", "expressInstall.swf",{literal} {"data-file":daily_activity}{/literal} );
+//swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "user_stats", "98%", "200", "9.0.0", "expressInstall.swf",{literal} {"data-file":daily_activity}{/literal} );
 </script></td>
   </tr>
 </table>
@@ -149,14 +178,22 @@ swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "user_stats", "98%"
               Inactive <strong> {get_groups count_only=yes active='no' date_span=last_month}</strong></td>
             </tr>
     </table></td>
-    <td width="50%" valign="top"><div id="group_stats"></div>
+    <td width="50%" valign="top"><div id="group_stats">
+      <div>
+      <h3 class="pull-left inline">This Month</h3>
+      <h3 class="pull-left inline">
+        <input type="checkbox" class="ace ace-switch ace-switch-5" id="enableTooltipMonthly">
+        <span class="lbl"></span>
+        <small class="muted">Enable Tooltip</small></h3></div>
+     <div class="clearfix"></div>
+      <div id="monthly_chart_id"  class="flot_chart"><img class="loading-image" src="./styles/cb_2014/images/ajax-loader.gif"/></div>
+    </div>
 <script type="text/javascript">
 var daily_activity = "{$baseurl}/admin_area/charts/groups_activity.php";
-swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "group_stats", "98%", "200", "9.0.0", "expressInstall.swf",{literal} {"data-file":daily_activity}{/literal} );
+//swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "group_stats", "98%", "200", "9.0.0", "expressInstall.swf",{literal} {"data-file":daily_activity}{/literal} );
 </script></td>
   </tr>
 </table>
-
 
 <div style="height:25px"></div>
 
@@ -190,11 +227,7 @@ swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "group_stats", "98%
   </tr>
 </table>
 
-
-
-
 <div style="height:25px"></div>
-
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="block">
   <tr>
@@ -213,3 +246,281 @@ swfobject.embedSWF("{$baseurl}/player/open-flash-chart.swf", "group_stats", "98%
     </ul></td>
   </tr>
 </table>
+
+<script type="text/javascript">
+
+    $(function() {
+
+        var options = {
+                        
+                          series: {
+                              bars: {
+                              show: true,
+                              steps: true,
+                              barWidth: 0.6,
+                              align: "center"
+                                },
+                              points: { show: true },
+                              lines: { show: true }
+                          },
+                          xaxis: {
+                              mode: "categories",
+                              tickLength: 0
+                          },
+                          grid: { hoverable: true, clickable: true }
+
+                    };
+
+       // $.plot("#placeholder", data, options);
+
+        var iteration = 0;
+
+        function fetchData() {
+
+            //++iteration;
+           // Daily Data //
+
+            function onDataReceveDaily(series_daily){
+                
+                data =  series_daily;
+                //$.plot("#placeholder", data, options);
+                $.plot("#daily_chart_id", data, options);
+                tooltip("#daily_chart_id","#enableTooltipDaily");
+            }
+
+            $.ajax({
+                url: "charts/reports/daily_activity_reports.php",
+                type: "POST",
+                data:"videos=videos",
+                dataType: "json",
+                success: onDataReceveDaily ,
+                error: function() {
+                $("#daily_chart_id").html("error");
+                alert('error');
+            },
+            complete: function(){
+            $('#daily_chart_id .loading-image').hide();
+            }
+            });
+
+            // !Daily Data //
+
+            // Week Data //
+
+            function onDataReceivedWeekly(series_weekly) {
+
+                data =  series_weekly ;
+
+                $.plot("#weekly_chart_id", data, options);
+                tooltip("#weekly_chart_id","#enableTooltipWeekly");
+            }
+
+            $.ajax({
+                url: "charts/reports/weekly_activity_reports.php",
+                type: "POST",
+                data:"videos=videos",
+                dataType: "json",
+                success: onDataReceivedWeekly ,
+                error: function() {
+                $("#weekly_chart_id").html("error");
+                alert('error');
+            },
+            complete: function(){
+            $('#weekly_chart_id .loading-image').hide();
+            }
+            });
+            // !Week Data //
+            // Monthly Data //
+
+            function onDataReceveMonthly(series_monthly){
+                
+                data =  series_monthly;
+                //$.plot("#placeholder", data, options);
+                $.plot("#monthly_chart_id", data, options);
+                tooltip("#monthly_chart_id","#enableTooltipMonthly");
+            }
+
+            $.ajax({
+                url: "charts/reports/monthly_activity_reports.php",
+                type: "POST",
+                data:"videos=videos",
+                dataType: "json",
+                success: onDataReceveMonthly ,
+                error: function() {
+                $("#monthly_chart_id").html("error");
+                alert('error');
+            },
+            complete: function(){
+            $('#monthly_chart_id .loading-image').hide();
+            }
+            });
+
+            // !Monthly Data //
+
+            /*if (iteration < 5) {
+                setTimeout(fetchData, 10000);
+            } else {
+                data = [];
+                alreadyFetched = {};
+            }*/
+        }
+        fetchData();
+        //setTimeout(fetchData, 10000);
+
+    function showTooltip(x, y, contents) {
+        $('<div id="tooltip">' + contents + '</div>').css( {
+            position: 'absolute',
+            display: 'none',
+            top: y + 5,
+            left: x + 5,
+            border: '1px solid #fdd',
+            padding: '2px',
+            'background-color': '#fee',
+            opacity: 0.80
+        }).appendTo("body").fadeIn(200);
+    }
+
+    var previousPoint = null;
+   function tooltip(chart_id,tooltip_id){
+
+    $(chart_id).bind("plothover", function (event, pos, item) {
+        $("#x").text(pos.x.toFixed(2));
+        $("#y").text(pos.y.toFixed(2));
+
+        if ($(tooltip_id).is(':checked')) {
+            if (item) {
+                if (previousPoint != item.dataIndex) {
+                    previousPoint = item.dataIndex;
+                    
+                    $("#tooltip").remove();
+                    var x = item.datapoint[0].toFixed(2),
+                        y = item.datapoint[1].toFixed(2);
+                    
+                    showTooltip(item.pageX, item.pageY,
+                                item.series.label + " = " + y);
+                }
+            }
+            else {
+                $("#tooltip").remove();
+                previousPoint = null;            
+            }
+        }
+    });
+}
+    });
+/*$(document).ready(function() {
+       
+    //get the daily activities
+    $.ajax({                                      
+      url: 'charts/daily_activity.php',              
+      dataType: 'json',                
+      beforeSend: function() {
+        $('#my_chart .loading-image').show();
+          //$('#my_chart').html('gtegfgdf');
+          },
+      success: function(data) {
+                //$("#my_chart").html('Videos'+data);
+                //arr = data.split("spliter");
+                //$("#videos_stats").html(arr[0]);
+                //$("#user_stats").html(arr[1]);
+                //$("#group_stats").html(arr[2]);
+                
+                //data = [["uploads","2"],["processing","1"],["active","5"],["views","15"],["comments","2"],];
+                //alert(arr[0]);
+                //data = ["label":"Video","data":[["1999",3],["2000",3.9],["2001",2],["2002",1.2]]];
+                data = JSON.stringify(data);
+                alert(JSON.stringify(data));
+                $.plot("#placeholder", [ data ], {
+                        
+                          series: {
+                              bars: {
+                              show: true,
+                              barWidth: 0.6,
+                              align: "center"
+                                }
+                            },
+                          xaxis: {
+                              mode: "categories",
+                              tickLength: 0
+                          }
+
+                    });
+            },
+      error: function() {
+                $("#my_chart").html("error");
+                alert('error');
+            },
+            complete: function(){
+        $('#my_chart .loading-image').hide();
+      }
+   });
+/*
+    //get the videos stats
+    $.ajax({                                      
+      url: 'charts/videos_activity.php',              
+      dataType: 'html',                
+      beforeSend: function() {
+          //$('#videos_stats').html("Videos loading..");
+          $('#videos_stats .loading-image').show();
+          },
+      success: function(data) {
+                $("#videos_stats").html(data);
+                //alert(JSON.stringify(data));
+            },
+      error: function() {
+                $("#videos_stats").html("error");
+                alert('error');
+            },
+            complete: function(){
+        $('#videos_stats .loading-image').hide();
+      }
+   });
+
+   //get the users stats
+   $.ajax({                                      
+      url: 'charts/users_activity.php',              
+      dataType: 'html',                
+      beforeSend: function() {
+                $('#user_stats .loading-image').show();
+            //$('#user_stats').html("Users loading..");
+          },
+      success: function(data) {
+                $("#user_stats").html(data);
+                //alert(JSON.stringify(data));
+            },
+      error: function() {
+                $("#users_stats").html("error");
+                alert('error');
+            },
+            complete: function(){
+        $('#user_stats .loading-image').hide();
+      }
+   });
+
+   //get the gorups stats
+   $.ajax({                                      
+      url: 'charts/groups_activity.php',              
+      dataType: 'html',                
+      beforeSend: function() {
+        $('#group_stats .loading-image').show();
+          //$('#group_stats').html("Groups loading..");
+          },
+      success: function(data) {
+                $("#group_stats").html(data);
+                //alert(JSON.stringify(data));
+            },
+      error: function() {
+                $("#group_stats").html("error");
+                alert('error');
+            },
+            complete: function(){
+        $('#group_stats .loading-image').hide();
+      }
+   }); 
+   
+   // set the data for flot charts
+    
+
+    // Add the Flot version string to the footer
+});*/
+</script>
