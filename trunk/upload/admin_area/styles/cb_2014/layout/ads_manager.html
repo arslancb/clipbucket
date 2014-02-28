@@ -2,14 +2,15 @@
 <h2>Edit Advertisement</h2>
 <p class="alert alert-info">all fields are required</p>
 <form id="form1" name="form1" method="post" action="">
-  <input type="hidden" name="ad_id" value="{$ad_data.ad_id}" /> 
-  <div class="form-group">
+  <input type="hidden" name="ad_id" value="{$ad_data.ad_id}" />
+    <div class="row">
+  <div class="col-md-6">
     <label for="name">Advertisement name</label>
     <input class="form-control" name="name" type="text" id="name" value="{$ad_data.ad_name}" />
     e.g Home Banner
   </div>
 
-  <div class="form-group">
+  <div class="col-md-6">
     <label for="placement">Advertisement placement</label>
     <select class="form-control" name="placement" id="placement">
       {assign var='ads_placements' value=$adsObj->get_placements()}
@@ -21,27 +22,23 @@
     </select>
     <a href="ads_add_placements.php">Add More Placements</a>
   </div>
-
-  <div class="form-group">
+    </div>
+    <div class="row">
+  <div class="col-md-6">
     <label for="code">Advertisement code</label>
     <textarea class="form-control" name="code" id="code">{$ad_data.ad_code}</textarea>
   </div>
 
-  <div class="form-group">
-    <label for="status">Status</label>
-    <label class="radio">
-      <input name="status" type="radio" value="1" {if $ad_data.ad_status=='1'}checked="checked" {/if} />
-      Active
-    </label>
-    <label class="radio">
-        <input type="radio" name="status" value="0"{if $ad_data.ad_status=='0'}checked="checked"{/if} />
-        Inactive
-    </label>
+  <div class="col-md-6">
+      <label for="status">Status</label>
+      <select class="form-control">
+          <option class="form-control" name="status" value="1"  {if $ad_data.ad_status=='1'}checked="checked" {/if}>Active</option>
+          <option class="form-control" name="status" value="0"{if $ad_data.ad_status=='0'}checked="checked"{/if}>Inactive</option>
+      </select>
   </div>
-
-  <div class="form-group">
-    <input type="submit" name="update" class="btn btn-primary" value="Update Advertisement" onclick="return _cb.validate_ad_form(add_adv)"/>
-  </div>
+        <br><br><br><br>
+    <input type="submit" name="update" class="btn btn-primary pull-right" value="Update Advertisement" onclick="return _cb.validate_ad_form(add_adv)"/>
+    </div>
 </form>
 
 {else}
@@ -49,12 +46,13 @@
 <h2>Add Advertisement</h2>
 <form id="form1" name="form1" method="post" action="ads_manager.php">
     <p class="alert alert-info">all fields are required</p>
-  <div class="form-group">
+    <div class="row">
+  <div class="col-md-6">
     <label for="name">Advertisement Name</label>
     <input class="form-control" name="name" type="text" id="name" />
     e.g Home Banner
   </div>
-  <div class="form-group">
+  <div class="col-md-6">
     <label for="placement">Advertisement Placement</label>
     <select class="form-control" name="placement" id="placement">
       {assign var='ads_placements' value=$adsObj->get_placements()}
@@ -66,26 +64,23 @@
     </select>
     <a href="ads_add_placements.php">Add More Placements</a>
   </div>
-
-  <div class="form-group">
+        </div>
+    <div class="row">
+  <div class="col-md-6">
     <label for="code">Advertisement code</label>
     <textarea class="form-control" name="code" id="code"></textarea>
   </div>
 
-  <div class="form-group">
+  <div class="col-md-6">
     <label for="status">Status</label>
-    <label class="radio">
-      <input name="status" type="radio" value="1" checked="checked" />
-        Active
-    </label>
-    <label class="radio">
-        <input type="radio" name="status" value="0" />
-      Inactive
-    </label>
+      <select class="form-control">
+          <option class="form-control" name="status" value="1">Active</option>
+          <option class="form-control" name="status" value="0">Inactive</option>
+      </select>
+      <br><br>
+      <input type="submit" name="add" class="btn btn-primary pull-right" value="Add Advertisement" onclick="return _cb.validate_ad_form(add_adv)"/>
   </div>
-  <div class="form-group">
-    <input type="submit" name="add" class="btn btn-primary" value="Add Advertisement" onclick="return _cb.validate_ad_form(add_adv)"/>
-  </div>
+        </div>
 </form>
  {/if}
 
@@ -138,3 +133,10 @@
   {/if}
 </table>
 {/if}
+
+
+<script>
+    $(document).ready(function() {
+        $('#code').summernote();
+    });
+</script>
