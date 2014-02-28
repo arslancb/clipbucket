@@ -1,8 +1,9 @@
-<a href="#" class="btn btn-info" onclick="$('#searchdiv').toggle();return false;">
+<a href="#" class="btn btn-primary btn-sm pull-right" onclick="$('#searchdiv').toggle();return false;">
     Advanced Search
     <i class="glyphicon glyphicon-search"></i>
 </a>
 <div class="search_box" id="searchdiv" {if $smarty.cookies.show_searchdiv_search!='show'} style="display:none"{/if}>
+<br><br>
     <form id="video_search" name="video_search" method="get" action="video_manager.php" class="video_search">
         <table class="table table-bordered table-striped">
             <tr>
@@ -98,7 +99,7 @@
             </tr>
         </table>
         <div class="form-group">
-            <input type="submit" name="search" id="search" value="Search Form" class="btn btn-primary"/>
+            <input type="submit" name="search" id="search" value="Search Form" class="btn btn-primary btn-sm"/>
         </div>
     </form>
 </div>

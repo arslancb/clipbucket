@@ -1,8 +1,9 @@
-<a href="#" class="btn btn-info" onclick="$('#searchdiv').toggle();return false;">
+<a href="#" class="btn btn-primary btn-sm pull-right" onclick="$('#searchdiv').toggle();return false;">
     Advanced Search
     <i class="glyphicon glyphicon-search"></i>
 </a>
 <div class="search_box" id="searchdiv" {if $smarty.cookies.show_searchdiv_search!='show'} style="display:none"{/if}>
+<br>
   <form action="photo_manager.php" method="get" name="search_photos">
     <div class="form-group">
       <label for="title">Photo title</label>
@@ -56,7 +57,7 @@
       </select>
     </div>
     <div class="form-group">
-      <input class="btn btn-primary" type="submit" name="search" id="search" value="Search Form"/>
+      <input class="btn btn-primary btn-sm" type="submit" name="search" id="search" value="Search Form"/>
     </div>
   </form>
 </div>
