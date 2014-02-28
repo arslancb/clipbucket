@@ -1,9 +1,10 @@
-<a href="#" class="btn btn-info" onclick="$('#membersearchdiv').toggle();return false;">
+<a href="#" class="btn btn-primary btn-sm pull-right" onclick="$('#membersearchdiv').toggle();return false;">
     Advanced Search
     <i class="glyphicon glyphicon-search"></i>
 </a>
 <div class="search_box" id="membersearchdiv" {if $smarty.cookies.show_memsearchdiv_search!='show'} style="display:none"{/if}>
-<form id="user_search" name="user_search" method="get" action="members.php" class="video_search">
+<br>
+<form id="user_search" name="user_search" method="get" action="members.php" class="member_search">
         <div class="form-group">
             <label for="userid">Userid</label>
             <input name="userid" type="text" class="form-control" id="userid" value="{'userid'|get_form_val:true}" />
@@ -53,7 +54,7 @@
                 {$formObj->createField($cat_array)}
         </div>
     <div class="button">
-    <input type="submit" name="search" id="search" value="Search Form" class="btn btn-primary"/>
+    <input type="submit" name="search" id="search" value="Search Form" class="btn btn-primary btn-sm"/>
         </div>
 </form>
 </div>
