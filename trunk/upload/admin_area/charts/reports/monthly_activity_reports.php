@@ -2,7 +2,7 @@
 
 error_reporting(E_ALL);
 //required_once '../../includes/admin_config.php';
-require_once('../../includes/admin_config.php'); 
+require_once('../../../includes/admin_config.php'); 
 //include 'ofc-library/open-flash-chart.php';
 
 
@@ -50,42 +50,40 @@ echo $_post['videos'];
 if(isset($_post['videos'])){
 
 }
-//Geting the data for Flot Charts
 
-//videos
-$videos['uploads'] = $cbvid->get_videos(array("count_only"=>true,"date_added"=>"'%$date_pattern%'"),TRUE);
-$videos['processing'] = $cbvid->get_videos(array("count_only"=>true,"status"=>"Processing","date_added"=>"'%$date_pattern%'"),TRUE);
-$videos['active'] = $cbvid->get_videos(array("count_only"=>true,"active"=>"yes","date_added"=>"'%$date_pattern%'"),TRUE);
+$videos['uploads'] = $cbvid->get_videos(array("count_only"=>true,"date_span"=>"this_month"),TRUE);
+$videos['processing'] = $cbvid->get_videos(array("count_only"=>true,"status"=>"Processing","date_span"=>"this_month"),TRUE);
+$videos['active'] = $cbvid->get_videos(array("count_only"=>true,"active"=>"yes","date_span"=>"this_month"),TRUE);
 $V = array(array('uploads',$videos['uploads']),array('processing',$videos['processing']),array('active',$videos['active'])); 
 
 //Users
-$users['signups'] = $userquery->get_users(array("count_only"=>true,"date_added"=>"'%$date_pattern%'"));
-$users['inactive'] = $userquery->get_users(array("count_only"=>true,"date_added"=>"'%$date_pattern%'","status"=>'ToActivate'));
-$users['active'] = $userquery->get_users(array("count_only"=>true,"date_added"=>"'%$date_pattern%'","status"=>'Ok'));
+$users['signups'] = $userquery->get_users(array("count_only"=>true,"date_span"=>"this_month"));
+$users['inactive'] = $userquery->get_users(array("count_only"=>true,"date_span"=>"this_month","status"=>'ToActivate'));
+$users['active'] = $userquery->get_users(array("count_only"=>true,"date_span"=>"this_month","status"=>'Ok'));
 //Views
 $user_views = $db->select(tbl("users"),"SUM(profile_hits) as total_views"," doj LIKE '%$date_pattern%'");
-$users['views'] = $user_views[0]['total_views'];
+//$users['views'] = $user_views[0]['total_views'];
 //Total Comments
 $user_comments = $db->select(tbl("users"),"SUM(comments_count) as total_comments"," doj LIKE '%$date_pattern%'");
-$users['comments'] = $user_comments[0]['total_comments'];
+//$users['comments'] = $user_comments[0]['total_comments'];
 
 $U = array(array('signups',$users['signups']),array('inactive',$users['inactive']),array('Active User',$users['active']),array('views User',$users['views']),array('comments User',$users['comments'])); 
 
 //Groups
-$groups['created'] = $cbgroup->get_groups(array("count_only"=>true,"date_added"=>"'%$date_pattern%'"));
-$groups['active'] = $cbgroup->get_groups(array("count_only"=>true,"date_added"=>"'%$date_pattern%'","active"=>"yes"));
+$groups['created'] = $cbgroup->get_groups(array("count_only"=>true,"date_span"=>"this_month"));
+$groups['active'] = $cbgroup->get_groups(array("count_only"=>true,"date_span"=>"this_month","active"=>"yes"));
 //Total Views
 $group_views = $db->select(tbl("groups"),"SUM(total_views) as the_views"," date_added LIKE '%$date%'");
-$groups['views'] = $group_views[0]['the_views'];
+//$groups['views'] = $group_views[0]['the_views'];
 //Total Discussion
 $group_topics = $db->select(tbl("groups"),"SUM(total_topics) as the_topics"," date_added LIKE '%$date%'");
-$groups['total_topics'] = $group_topics[0]['the_topics'];
+//$groups['total_topics'] = $group_topics[0]['the_topics'];
 //TOtal Comments
 $group_discussions = $db->select(tbl("group_topics"),"SUM(total_replies) as the_discussions"," date_added LIKE '%$date%'");
-$groups['total_discussions'] = $group_discussions[0]['the_discussions'];
+//$groups['total_discussions'] = $group_discussions[0]['the_discussions'];
 
 
-$G = array(array('created',$groups['created']),array('Groups views',$groups['views']),
+$G = array(array('created',$groups['created']),array('Active',$groups['active']),
 	array('total_topics',$groups['total_topics']),array('total_discussions',$groups['total_discussions'])); 
 //Make arrays for json
 $array_video = array('label' => 'Videos','data'=>$V);
