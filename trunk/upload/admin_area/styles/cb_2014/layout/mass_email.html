@@ -12,27 +12,121 @@
 </h3>
 
 <div class="cb_form">
-	<div class="form-group">
+    <div class="row">
+	<div class="col-md-4">
         <label for="loop_size">Email to send at once<br /><small>loop size of emails when mass emails are sent</small></label>
         <input class="form-control" id="loop_size" name="loop_size" type="text" value="500"/>
     </div>
     
 
-    <div class="form-group">
+    <div class="col-md-4">
         <label for="from">From<br /><small>Enter email address to tell user who sent it</small></label>
         <input class="form-control" type="text" name="from" value="{'from'|post}"/>
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
         <label for="subject">Subject<small><br />Enter your email subject</small></label>
         <input class="form-control" type="text" name="subject" value="{'subject'|post}" />
     </div>
-    
-    <div class="form-group">
+    </div>
+    <div class="row">
+        <div class="col-md-6">
         <label for="message">Message<small><br />Enter your email message</small></label>
-        <textarea class="form-control" name="message" cols="50" rows="5" draggable="false"></textarea>
+        <textarea class="form-control" name="message" id="desc" cols="50" rows="5" draggable="false"></textarea>
         {literal}You can use {username}, {userid}, {email}, {datejoined},{avcode} in your message{/literal}
     </div>
+        <div class="col-md-6">
+            <h3>More options</h3>
+            <div class="tabbable">
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active">
+                        <a data-toggle="tab" href="#activestatus">
+                            Active Status
+                        </a>
+                    </li>
+                    <li class="">
+                        <a data-toggle="tab" href="#bannedstatus">
+                            Banned Status
+                        </a>
+                    </li>
+                    <li class="">
+                        <a data-toggle="tab" href="#userlevel">
+                            User level
+                        </a>
+                    </li>
+                    <li class="">
+                        <a data-toggle="tab" href="#usercategory">
+                            User category
+                        </a>
+                    </li>
+                    </ul>
+
+                <div class="tab-content">
+                    <div id="activestatus" class="tab-pane active">
+                    <h4>Active status<br /><small>Choose whether to send to active users or non active</small></h4>
+                    <label class="radio">
+                        <input name="active" type="radio" value="yes" checked="checked" />Yes
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="active" value="no" />No
+                    </label>
+                    <label class="radio">
+                        <input name="active" type="radio" value="any" />Any
+                    </label>
+                </div>
+
+                    <div id="bannedstatus" class="tab-pane">
+                    <h4>Banned status<br /><small>Send email to banned users</small></h4>
+                    <label class="radio">
+                        <input type="radio" name="ban" value="yes" />Yes
+                    </label>
+                    <label class="radio">
+                        <input name="ban" type="radio" value="no" checked="checked" />No
+                    </label>
+                    <label class="radio">
+                        <input name="ban" type="radio" value="any" />Any
+                    </label>
+                </div>
+
+                    <div id="userlevel" class="tab-pane">
+                    <h4>User level<br><small>Choose which user level to send email</small></h4>
+                    {assign var=levels value=$userquery->get_levels()}
+                    {foreach from=$levels item=level}
+                    {if $level.user_level_id !='4'}
+                    <label class="checkbox-inline">
+                        <input type='checkbox' name="level[]" value="{$level.user_level_id}" checked="checked"/>{$level.user_level_name}
+                    </label>
+                    {/if}
+                    {/foreach}
+                </div>
+
+                    <div id="usercategory" class="tab-pane">
+                    <h4>User category<br><small>User category</small></h4>
+                    {assign var=cats value=$userquery->get_categories()}
+                    {foreach from=$cats item=cat}
+                    <label class="checkbox-inline">
+                        <input type='checkbox' name="cat[]" value="{$cat.category_id}" checked="checked"/>{$cat.category_name}</label>
+                    {/foreach}
+                </div>
+                    </div>
+
+
+                <!-- <div class="cb_field_cont" style="display:none">
+                    <div class="cb_fieldL"><strong>Send to specified users</strong>
+                    <br />Enter emails or usernames, seperate by commas,leave blank to follow criteria given above</div>
+                    <div class="cb_fieldR"><textarea name="users" cols="50" rows="5" draggable="true" id="users"></textarea></div>
+                    <div class="clear clearfix"></div>
+                </div> -->
+
+
+                <div class="form-group">
+                    <input class="btn btn-primary" name="create_email" type="submit" class="button" id="create" value="Create email" />
+                </div>
+
+            </div>
+            </div>
+
+</form>
 
 
     
@@ -46,73 +140,7 @@
     
 </div>
     
-    <h3>More options</h3>
 
-<div style="padding:5px" class="cb_form">    
-
-    <div class="form-group">
-        <h4>Active status<br /><small>Choose whether to send to active users or non active</small></h4>
-        <label class="radio">
-            <input name="active" type="radio" value="yes" checked="checked" />Yes
-        </label>
-        <label class="radio">
-            <input type="radio" name="active" value="no" />No
-        </label>
-        <label class="radio">
-            <input name="active" type="radio" value="any" />Any
-        </label>
-    </div>
-    
-    <div class="form-group">
-        <h4>Banned status<br /><small>Send email to banned users</small></h4>
-        <label class="radio">
-            <input type="radio" name="ban" value="yes" />Yes
-        </label>
-        <label class="radio">
-            <input name="ban" type="radio" value="no" checked="checked" />No
-        </label>
-        <label class="radio">
-            <input name="ban" type="radio" value="any" />Any
-        </label>
-    </div>
-
-    <div class="form-group">
-        <h4>User level<br><small>Choose which user level to send email</small></h4>
-        {assign var=levels value=$userquery->get_levels()}
-        {foreach from=$levels item=level}
-            {if $level.user_level_id !='4'}
-            <label class="checkbox-inline">
-                <input type='checkbox' name="level[]" value="{$level.user_level_id}" checked="checked"/>{$level.user_level_name}
-            </label>
-            {/if}
-        {/foreach}
-    </div>
-    
-    <div class="form-group">
-        <h4>User category<br><small>User category</small></h4>
-        {assign var=cats value=$userquery->get_categories()}
-        {foreach from=$cats item=cat}
-            <label class="checkbox-inline">
-            <input type='checkbox' name="cat[]" value="{$cat.category_id}" checked="checked"/>{$cat.category_name}</label>
-        {/foreach}
-    </div>
-    
-    
-    <!-- <div class="cb_field_cont" style="display:none">
-        <div class="cb_fieldL"><strong>Send to specified users</strong>
-        <br />Enter emails or usernames, seperate by commas,leave blank to follow criteria given above</div>
-        <div class="cb_fieldR"><textarea name="users" cols="50" rows="5" draggable="true" id="users"></textarea></div>
-        <div class="clear clearfix"></div>
-    </div> -->
-    
-    
-    <div class="form-group">
-    	<input class="btn btn-primary" name="create_email" type="submit" class="button" id="create" value="Create email" />
-    </div>
-    
-</div>
-
-</form>
 
 
 <div style="height:30px"></div>
@@ -211,7 +239,7 @@
         </a>
         )
     </div>
-    
+
     <script>
 		var start_index = '{$email.start_index}';
 		var email_id = '{$email.id}';
@@ -229,3 +257,9 @@
 </script>
 {/literal}
 {/if}
+
+<script>
+    $(document).ready(function() {
+        $('#desc').summernote();
+    });
+</script>
