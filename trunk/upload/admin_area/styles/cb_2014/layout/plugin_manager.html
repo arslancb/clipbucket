@@ -28,8 +28,8 @@
           <strong>{$plug.name}</strong>
           <p>{$plug.description}</p>
           <div class="pluginStatus">
-            <span class="label {if $plugin.plugin_active == Ok}label- {else}label-success{/if}">
-              <strong>{if $plug[plugin_active].Active=='Yes'}Active{else}Active{/if}</strong>
+            <span class="label {if $plugin.plugin_active == active}label-success {else}label-warning{/if}">
+              <strong>{if $plug.plugin_active =='active'}Active{else}InActive{/if}</strong>
             </span>
             <span class="label label-danger"><span>Author:</span><strong>{$plug.author}</strong></span>
             <span class="label label-info"><span>Ver.</span><strong>{$plug.version}</strong></span>
@@ -39,7 +39,7 @@
           <div class="dropdown">
             <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions <i class="caret"></i></button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
-            {if $plug.plugin_active == 'yes'}
+            {if $plug.plugin_active == 'active'}
               <li role="presentation">
                 <a role="menuitem" tabindex="-1" href="?deactivate={$plug.plugin_file}{if $plug.folder!=''}&f={$plug.folder}{/if}">
                   Deactivate
