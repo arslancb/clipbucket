@@ -3785,8 +3785,8 @@ class userquery extends CBCategory{
                 'profile' => array( 'rating', 'rated_by', 'voters', 'first_name', 'last_name' )
             );
 
-            $query = " SELECT ".tbl_fields( $fields )." FROM ".table( 'users' );
-            $query .= " LEFT JOIN ".table( 'user_profile', 'profile' )." ON users.userid = profile.userid ";
+            $query = " SELECT ".tbl_fields( $fields )." FROM ".tbl( 'users'  )." AS users ";
+            $query .= " LEFT JOIN ".table( 'user_profile', 'profile ' )." ON users.userid = profile.userid ";
 
             if ( $cond ) {
                 $query .= " WHERE ".$cond;
@@ -3805,23 +3805,17 @@ class userquery extends CBCategory{
 		
 		
 		if($params['count_only']){
-            
-            if(strpos($cond,'users.usr_status') == false){
-            	$result = $db->count(tbl('users'),'userid',$cond);
-            }
-            else{
-            	$result = $db->count(tbl('users'),'userid',' usr_status="ToActivate"');
-            } 
-			return $result;
+
+            //$cond= substr($cond,8);
+			$result = $db->count(tbl('users')." AS users ",'userid',$cond);
+            //echo $cond;
+            //return $result;
 		}
 		if($params['assign'])
 			assign($params['assign'],$result);
 		else
 			return $result;
 	}
-	
-	
-	
 	
 	/**
 	 * Function used to perform several actions with a video
