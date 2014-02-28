@@ -11,14 +11,14 @@
                 {/foreach}
             </select>        
         </div>
-    <input class="btn btn-primary" type="submit" name="select" value="Select" />
+    <input class="btn btn-primary btn-xs" type="submit" name="select" value="Select" />
     </form>
     {/if}
 
 <div class="row">
     <div class="col-md-3">
         <h3>Layout Files</h3>
-        <ul class="nav nav-tabs horizontalTabs">
+        <ul class="nav nav-pills nav-stacked tabs ">
             {foreach from=$tpl_files item=tplfile key=folder}
                 {if !is_array($tplfile)}
                     <li {if $smarty.get.file == $tplfile} class = "sel_file"{/if}><a href="?dir={$sel_dir}&file={$tplfile}&folder=layout">{$tplfile}</a></li>
@@ -26,7 +26,7 @@
             {/foreach}
         </ul>
         <h3>CSS Files</h3>
-        <ul class="nav nav-tabs horizontalTabs">
+        <ul class="nav nav-pills nav-stacked tabs horizontalTabs">
         {foreach from=$css_files item=cssfile}
             {if !is_array($cssfile)}
                 <li {if $smarty.get.file == $cssfile} class="sel_file"{/if}><a href="?dir={$sel_dir}&file={$cssfile}&folder=theme">{$cssfile}</a></li>
@@ -38,7 +38,7 @@
         <form name="file_content" action="" method="post">
             <div class="form-group">
                 <label for="file_content"><h3>Edit Template</h3></label>
-                <textarea rows="30" class="form-control" name="thecontent" class="file_content">
+                <textarea rows="30" class="form-control" name="thecontent" class="file_content" id="desc">
                     {if $content}{$content}{else}<em>No File Selected</em>{/if}
                 </textarea>
             </div>
@@ -53,8 +53,13 @@
                 </a>
             </div>
         {else}
-            <input type="submit" value="Update File" name="update_file" class="btn btn-primary" />
+            <input type="submit" value="Update File" name="update_file" class="btn btn-primary btn-sm" />
         {/if}
         </form>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#desc').summernote();
+    });
+</script>
