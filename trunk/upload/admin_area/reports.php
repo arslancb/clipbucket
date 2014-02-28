@@ -46,4 +46,5 @@ assign('db_size',formatfilesize(get_db_size()));
 
 template_files('reports.html');
 display_it();
+
 ?>
