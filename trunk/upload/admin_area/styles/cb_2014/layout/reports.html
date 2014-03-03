@@ -215,6 +215,7 @@
                 <tbody class="reports">
                 <tr>
                     <td>
+                    <ul>
                     <li><span class="show">Total Files: <strong>{$vid_dir.count|number_format}</strong></span></li>
                     <li><span class="show">Total Thumbs: <strong>{$thumb_dir.count|number_format}</strong></span> </li>
                     <li><span class="show">Original Video Files: <strong>{$orig_dir.count|number_format}</strong></span> </li>
@@ -223,8 +224,10 @@
                     <li><span class="show">Groups Thumb Files: <strong>{$grp_thumbs.count|number_format}</strong></span></li>
                     <li><span class="show">Category Thumb Files: <strong>{$cat_thumbs.count|number_format}</strong></span></li>
                     <li><span class="show">DataBase Size: <strong>{$db_size}</strong></span></li>
+                    </ul>
                     </td>
                     <td>
+                    <ul>
                         <li><span class="show">Folder Size: <strong>{$vid_dir.size|formatfilesize}</strong></span></li>
                         <li><span class="show">Folder Size: <strong>{$thumb_dir.size|formatfilesize}</strong></span> </li>
                         <li><span class="show">Folder Size: <strong>{$orig_dir.size|formatfilesize}</strong></span> </li>
@@ -233,6 +236,7 @@
                         <li><span class="show">Folder Size: <strong>{$grp_thumbs.size|formatfilesize}</strong></span></li>
                         <li><span class="show">Folder Size: <strong>{$cat_thumbs.size|formatfilesize}</strong></span></li>
                         <li><span class="show">Folder Size: <strong>{$db_size}</strong></span></li>
+                    </ul>
                     </td>
                 </tr>
                 </tbody>
