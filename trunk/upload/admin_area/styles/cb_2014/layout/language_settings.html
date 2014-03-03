@@ -57,35 +57,49 @@
             <tr>
               <td>Browse ClipBucket Language File ( must be .xml format ) 
               <input type="file" name="lang_file" id="lang_file" class="form-control" />
-              <input type="submit" name="add_language" id="add_language" value="Add Language" class="btn btn-primary" /></td>
+              <input type="submit" name="add_language" id="add_language" value="Add Language" class="btn btn-primary btn-sm" /></td>
             </tr>
             </table>
             </form>
    </div>
 {else}
 <span class="lead">Editing {$lang_details.language_name}</span>
-<div class="form-group">
+<div class="row">
     <form id="form1" name="form1" method="post" action="">
+        <div class="col-md-4">
         Language Name <input name="name" type="text" class="form-control" id="name" value="{$lang_details.language_name}" />
+            </div>
+        <div class="col-md-4">
         Language Code<input name="code" type="text" class="form-control" id="code" value="{$lang_details.language_code}" />
+            </div>
+        <div class="col-md-4">
         anguage Regex<input name="regex" type="text" class="form-control" id="regex" value="{$lang_details.language_regex}" />
-        <input type="submit" name="update_language" class="btn btn-primary" value="Update"  id="update_language"/>
+            <br>
+            <input type="submit" name="update_language" class="btn btn-primary btn-sm pull-right" value="Update"  id="update_language"/>
+            </div>
 </form>
 </div>
 
 <legend>Editing {$lang_details.language_name} Phrases</legend>
-<div class="form-group>
+<div class="row">
 <form id="form1" name="form1" method="get" action="?">
+        <div class="col-md-6">
     Phrase Code - Name<input name="varname" type="text" class="form-control" id="varname" value="{$smarty.get.varname|form_val}" />
+            </div>
+        <div class="col-md-6">
                       <input name="edit_language" type="hidden" value="{$smarty.get.edit_language}" />
     Phrase Text       <input name="text" class="form-control" type="text" id="text" value="{$smarty.get.text|form_val}" />
-    <label>
-      <input type="submit" name="search_phrase" class="btn btn-primary" value="Submit"   id="search_phrase"/>
-    </label>
+            <br>
+            <input type="submit" name="search_phrase" class="btn btn-primary btn-sm pull-right" value="Submit"   id="search_phrase"/>
+            </div>
   </form>
+
+
+<div class="dropdown col-md-4">
+    <button id="hideshow" class="btn btn-default pull-left dropdown-toggle" data-toggle="dropdown">
+        Edit Phrases <i class="caret"></i></button>
 </div>
-
-
+        <div id="content" style="display: none">
 <table class="table table-bordered table-striped manageUsersTable">
     <tr>
         <td><legend>Phrase Code</legend></td>
@@ -105,6 +119,19 @@
 
 {/if}
 
+</div>
+</div>
 
+<script>
+    var button = document.getElementById('hideshow'); // Assumes element with id='button'
 
-
+    button.onclick = function() {
+        var div = document.getElementById('content');
+        if (div.style.display !== 'none') {
+            div.style.display = 'none';
+        }
+        else {
+            div.style.display = 'block';
+        }
+    };
+</script>
