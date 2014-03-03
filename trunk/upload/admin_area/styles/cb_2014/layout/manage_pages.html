@@ -3,14 +3,15 @@
 <form method="post">
   <fieldset class="fieldset cbform">
     <legend>Add New Page</legend>
-    <div class="form-group">
+      <div class="row">
+    <div class="col-md-6">
       <label for="page_name">Page Name</label>
         <input name="page_name" class="form-control" type="text" id="page_name" value="{'page_name'|post}">
         </div>
-
-      <div class="form-group">
+      <div class="col-md-6">
       <label for="page_title">Page Title</label>
         <input type="text" class="form-control" name="page_title" id="page_title" value="{'page_title'|post}" />
+          </div>
           </div>
       <div class="form-group">
       <label for="page_content">Page Content</label>
@@ -20,7 +21,7 @@
       {literal}new nicEditor({fullPanel : true,maxHeight:350}).panelInstance('page_content');{/literal}
       </script>
       <div class="form-group">
-          <input type="submit" name="add_page" id="add_page" value="Create new page" class="btn btn-primary"/>
+          <input type="submit" name="add_page" id="add_page" value="Create new page +" class="btn btn-primary btn-sm"/>
           </div>
   </fieldset>
 </form>
@@ -59,7 +60,7 @@
           <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="btn" onclick="return _cb.confirm_it('Are you sure you want to delete selected page(s)')"/>
     </div>
     <div class="form-group">
-    <input type="button" value="Create New Page" class="btn btn-primary pull-right" onClick="window.location='?mode=new'"/>
+    <input type="button" value="Create New Page +" class="btn btn-primary btn-sm pull-right" onClick="window.location='?mode=new'"/>
     </div><br><br>
 <table class="table table-bordered">
   <tr>
@@ -110,7 +111,7 @@
     
     <td>
       <div class="dropdown">
-          <button class="btn btn-primary btn-xs dropdown-toggle pull-right" type="button" id="dropdownMenu1" data-toggle="dropdown">
+          <button class="btn btn-primary btn-xs dropdown-toggle pull-right" type="button"  id="dropdownMenu1" data-toggle="dropdown">
             Actions <i class="caret"></i>
           </button>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -121,7 +122,7 @@
           {else}
           <li role="presentation"><a role="menuitem" tabindex="-1" href="?activate={$cbpages[list].page_id}">Activate</a></li>
           {/if}
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete={$cbpages[list].page_id}">Delete</a></li> 
+          <li role="presentation"><a class="disabled" role="menuitem" tabindex="-1" href="#">Delete</a></li>
           {if $cbpages[list].display!='yes'}
             <li role="presentation"><a role="menuitem" tabindex="-1" href="?display={$cbpages[list].page_id}">Display in footer</a></li>
           {else}
@@ -149,3 +150,8 @@
 
 </form>
 {/if}
+<script>
+    $(document).ready(function() {
+        $('#page_content').summernote();
+    });
+</script>
