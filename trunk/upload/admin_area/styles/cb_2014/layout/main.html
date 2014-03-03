@@ -121,15 +121,16 @@
   
   <div id="tabbed_div">
       <div id="div_1" class="main_page_div">
-        <div class="form-group">
+      <div class="row">
+        <div class="col-md-4">
           <label for="site_title">Website title</label>
           <input class="form-control" name="site_title" type="text" id="site_title" value="{$row.site_title}" size="45">
         </div>
-        <div class="form-group">
+        <div class="col-md-4">
           <label for="site_slogan">Website slogan</label>
           <input class="form-control" name="site_slogan" type="text" id="site_slogan" value="{$row.site_slogan}" size="45">
         </div>
-        <div class="form-group">
+        <div class="col-md-4">
           <label for="select">Website closed</label>
           <select class="form-control" name="closed" id="select">
             <option value="1"  
@@ -145,19 +146,23 @@
             </option>
           </select>
         </div>
-        <div class="form-group">
+        </div>
+      <div class="row">
+        <div class="col-md-4">
           <label for="closed_msg">Closed message</label>
           <textarea class="form-control" name="closed_msg" id="closed_msg" cols="45" rows="5">{$row.closed_msg}</textarea>
         </div>
-        <div class="form-group">
+        <div class="col-md-4">
           <label for="description">Meta Description</label>
           <textarea class="form-control" name="description" id="description" cols="45" rows="5">{$row.description}</textarea>
         </div>
-        <div class="form-group">
+        <div class="col-md-4">
           <label for="keywords">Meta Keywords</label>
           <input class="form-control" name="keywords" type="text" id="keywords" value="{$row.keywords}" size="45" /></td>
         </div>
-        <div class="form-group">
+        </div>
+      <div class="row">
+        <div class="col-md-4">
           <label for="select2">SEO Urls</label>
           <select class="form-control" name="seo" id="select2">
             <option value="yes"
@@ -174,7 +179,7 @@
             </option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="col-md-4">
           <label for="allow_template_change">Allow template change</label>
           <select class="form-control" name="allow_template_change" id="allow_template_change">
           <option value="1"  
@@ -189,7 +194,7 @@
           >No</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="col-md-4">
           <label for="allow_language_change">Allow language change</label>
           <select class="form-control" name="allow_language_change" id="allow_language_change">
           <option value="1"
@@ -204,11 +209,13 @@
           >No</option>
           </select>
         </div>
-        <div class="form-group">
+        </div>
+      <div class="row">
+        <div class="col-md-4">
           <label for="date_format">Date Format</label>
           <input class="form-control" name="date_format" type="text" id="date_format" value="{$row.date_format}" size="45" />
         </div>
-        <div class="form-group">
+        <div class="col-md-4">
           <label for="default_time_zone">Default time zone</label>
           <select class="form-control" name="default_time_zone" id="default_time_zone">
           {*assign var='tzs' value=$func->get_time_zones()*}
@@ -217,7 +224,7 @@
           {/foreach}
           </select>
         </div>
-        <div class="form-group">
+        <div class="col-md-4">
           <label for="default_country_iso2">Default Country</label>
           <select class="form-control" name="default_country_iso2" id="default_country_iso2">
           {assign var=countries value=$Cbucket->get_countries(iso2)}
@@ -228,7 +235,9 @@
           {/foreach}
           </select>
         </div>
-        <div class="form-group">
+        </div>
+      <div class="row">
+        <div class="col-md-6">
           <label for="use_subs">Use Sub-Categories</label>
           <select class="form-control" name="use_subs" id="use_subs">
           <option value="1"
@@ -243,7 +252,7 @@
           >No</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="col-md-6">
           <label for="show_collapsed_checkboxes">Collpase Category Checkboxes</label>
           <select class="form-control" name="show_collapsed_checkboxes" id="show_collapsed_checkboxes">
           <option value="1"
@@ -259,273 +268,343 @@
           </select>
             <span class="smallText" style="font-size:11px;">If selected <strong>YES</strong>, Categories shown while uploading <strong>video</strong> will be collapsed.</span>
         </div>
+        </div>
+<hr>
+      <div class="tabbable">
+      <ul class="nav nav-tabs" id="myTab">
+          <li class="active">
+              <a data-toggle="tab" href="#esettings">
+                  Email Settings
 
-        <div class="title"><h2>Emails</h2></div>
+              </a>
+          </li>
+          <li class="">
+              <a data-toggle="tab" href="#comments">
 
-        <div class="form-group">
-          <label for="website_email">Website Email</label>
-          <input class="form-control" name="website_email" type="text" id="website_email" value="{$row.website_email}" size="45" />
-        </div>
-        <div class="form-group">
-          <label for="support_email">Support Email</label>
-          <input class="form-control" name="support_email" type="text" id="support_email" value="{$row.support_email}" size="45" />
-        </div>
-        <div class="form-group">
-          <label for="welcome_email">Welcome Email</label>
-          <input class="form-control" name="welcome_email" type="text" id="welcome_email" value="{$row.welcome_email}" size="45" />
-        </div>
-        <div class="form-group">
-          <label for="send_comment_notification">Send Comment Notification</label>
-          <select class="form-control" name="send_comment_notification" id="send_comment_notification">
-            <option value="yes" {if $row.send_comment_notification=='yes'} selected="selected"{/if}>Yes</option>
-            <option value="no" {if $row.send_comment_notification=='no'} selected="selected"{/if}>No</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="approve_video_notification">Send Video Approve Notification</label>
-          <select class="form-control" name="approve_video_notification" id="approve_video_notification">
-            <option value="yes" {if $row.approve_video_notification=='yes'} selected="selected"{/if}>Yes</option>
-            <option value="no" {if $row.approve_video_notification=='no'} selected="selected"{/if}>No</option>
-          </select>
-        </div>
+                  Comments
+              </a>
+          </li>
+          <li class="">
+              <a data-toggle="tab" href="#videos">
 
-        <div class="title"><h2>Comments</h2></div>
+                  Video Settings
+              </a>
+          </li>
+          <li class="">
+              <a data-toggle="tab" href="#channelsphotos">
 
-        <div class="form-group">
+                  Channels & Photos
+              </a>
+          </li>
+          <li class="">
+              <a data-toggle="tab" href="#groups">
+
+                  Groups
+              </a>
+          </li>
+          <li class="">
+              <a data-toggle="tab" href="#general">
+
+                  General
+              </a>
+          </li>
+      </ul>
+      <div class="tab-content">
+      <div id="esettings" class="tab-pane active">
+          <h2>Emails</h2>
+            <div class="row">
+          <div class="col-md-4">
+              <label for="website_email">Website Email</label>
+              <input class="form-control" name="website_email" type="text" id="website_email" value="{$row.website_email}" size="45" />
+          </div>
+          <div class="col-md-4">
+              <label for="support_email">Support Email</label>
+              <input class="form-control" name="support_email" type="text" id="support_email" value="{$row.support_email}" size="45" />
+          </div>
+          <div class="col-md-4">
+              <label for="welcome_email">Welcome Email</label>
+              <input class="form-control" name="welcome_email" type="text" id="welcome_email" value="{$row.welcome_email}" size="45" />
+          </div>
+                </div>
+          <div class="row">
+          <div class="col-md-6">
+              <label for="send_comment_notification">Send Comment Notification</label>
+              <select class="form-control" name="send_comment_notification" id="send_comment_notification">
+                  <option value="yes" {if $row.send_comment_notification=='yes'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.send_comment_notification=='no'} selected="selected"{/if}>No</option>
+              </select>
+          </div>
+          <div class="col-md-6">
+              <label for="approve_video_notification">Send Video Approve Notification</label>
+              <select class="form-control" name="approve_video_notification" id="approve_video_notification">
+                  <option value="yes" {if $row.approve_video_notification=='yes'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.approve_video_notification=='no'} selected="selected"{/if}>No</option>
+              </select>
+          </div>
+              </div>
+      </div>
+
+      <div id="comments" class="tab-pane">
+          <h2>Comments</h2>
+            <div class="row">
+          <div class="col-md-4">
+              <div class="checkbox">
+                  <label>
+                      <input name="video_comments" type="checkbox" id="video_comments" value="1" {if $row.video_comments=='1'}checked="checked"{/if} />
+                      Allow video comments
+                  </label>
+              </div>
+
+              <label>
+                  <input name="channel_comments" type="checkbox" id="channel_comments" value="1" {if $row.channel_comments=='1'}checked="checked"{/if} /> Allow channel comments
+              </label>
+                <br>
+              <label>
+                  <input name="anonym_comments" type="checkbox" id="anonym_comments" value="yes" {if $row.anonym_comments=='yes'}checked{/if} /> Allow guests to comment
+              </label>
+              <br>
+              <label>
+                  <input name="comment_rating" type="checkbox" id="comment_rating" value="1" {if $row.comment_rating=='1'}checked="checked"{/if} /> Allow comments rating
+              </label>
+          </div>
+          <div class="col-md-4">
+              <label for="max_comment_chr">Maximum Comment Characters</label>
+              <input class="form-control" name="max_comment_chr" type="text" id="max_comment_chr" value="{$row.max_comment_chr}" size="15" maxlength="5" />
+          </div>
+
+          <div class="col-md-4">
+              <label for="comments_captha">Comments captcha</label>
+              <div class="radio">
+                  <label>
+                      <input type="radio" name="comments_captcha" value="all" id="comments_captcha_0"
+                      {if $row.comments_captcha==all} checked="checked"{/if} />
+                      For Everyone
+                  </label>
+              </div>
+              <div class="radio">
+                  <label>
+                      <input type="radio" name="comments_captcha" value="guests" id="comments_captcha_1"
+                      {if $row.comments_captcha==guests} checked="checked"{/if} />
+                      For Guests Only
+                  </label>
+              </div>
+              <div class="radio">
+                  <label>
+                      <input type="radio" name="comments_captcha" value="none" id="comments_captcha_2"
+                      {if $row.comments_captcha==none} checked="checked"{/if} />
+                      Disable
+                  </label>
+              </div>
+          </div>
+              </div>
+      </div>
+
+      <div id="videos" class="tab-pane">
+          <h2>Videos</h2>
+          <div class="row">
+          <div class="col-md-4">
+              <label for="videoSelection">Enable video selection</label>
+              <select name="videosSection" id="videosSection" class="form-control">
+                  <option value="yes" {if $row.videosSection!='no'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.videosSection=='no'} selected="selected"{/if}>No</option>
+              </select>
+          </div>
+
+          <div class="col-md-4">
+              <label for="facebook_embed">Enable facebook embed</label>
+              <select name="videosSection" id="facebook embed" class="form-control">
+                  <option value="yes" {if $row.facebook_embed!='no'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.facebook_embed=='no'} selected="selected"{/if}>No</option>
+              </select>
+          </div>
+            <div class="col-md-4">
           <div class="checkbox">
-            <label>
-              <input name="video_comments" type="checkbox" id="video_comments" value="1" {if $row.video_comments=='1'}checked="checked"{/if} />
-              Allow video comments
-            </label>
+              <label for="video_embed">
+                  <input name="video_embed" type="checkbox" id="video_embed" value="1" {if $row.video_embed=='1'} checked="checked"{/if} />Allow video embedding</label>
           </div>
-        </div>
-        <div class="form-group">
-          <label>
-            <input name="channel_comments" type="checkbox" id="channel_comments" value="1" {if $row.channel_comments=='1'}checked="checked"{/if} /> Allow channel comments
-          </label>
-        </div>
-        <div class="form-group">
-          <label>
-            <input name="anonym_comments" type="checkbox" id="anonym_comments" value="yes" {if $row.anonym_comments=='yes'}checked{/if} /> Allow guests to comment
-          </label>
-        </div>
-        <div class="form-group">
-          <label for="max_comment_chr">Maximum Comment Characters</label>
-          <input class="form-control" name="max_comment_chr" type="text" id="max_comment_chr" value="{$row.max_comment_chr}" size="15" maxlength="5" />
-        </div>
-        <div class="form-group">
-          <label>
-            <input name="comment_rating" type="checkbox" id="comment_rating" value="1" {if $row.comment_rating=='1'}checked="checked"{/if} /> Allow comments rating
-          </label>
-        </div>
 
-        <div class="form-group">
-          <label for="comments_captha">Comments captcha</label>
-          <div class="radio">
-            <label>
-              <input type="radio" name="comments_captcha" value="all" id="comments_captcha_0" 
-              {if $row.comments_captcha==all} checked="checked"{/if} />
-              For Everyone
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input type="radio" name="comments_captcha" value="guests" id="comments_captcha_1"
-              {if $row.comments_captcha==guests} checked="checked"{/if} />
-              For Guests Only
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input type="radio" name="comments_captcha" value="none" id="comments_captcha_2" 
-              {if $row.comments_captcha==none} checked="checked"{/if} />
-              Disable
-            </label>
-          </div>
-        </div>
-
-        <div class="title"><h2>Videos</h2></div>
-        <div class="form-group">
-          <label for="videoSelection">Enable video selection</label>
-          <select name="videosSection" id="videosSection" class="form-control">
-              <option value="yes" {if $row.videosSection!='no'} selected="selected"{/if}>Yes</option>
-              <option value="no" {if $row.videosSection=='no'} selected="selected"{/if}>No</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="facebook_embed">Enable facebook embed</label>
-          <select name="videosSection" id="facebook embed" class="form-control">
-              <option value="yes" {if $row.facebook_embed!='no'} selected="selected"{/if}>Yes</option>
-              <option value="no" {if $row.facebook_embed=='no'} selected="selected"{/if}>No</option>
-          </select>
-        </div>
-
-        <div class="checkbox">
-          <label for="video_embed">
-            <input name="video_embed" type="checkbox" id="video_embed" value="1" {if $row.video_embed=='1'} checked="checked"{/if} />Allow video embedding</label>
-        </div>
-
-        <div class="checkbox">
-          <label for="video_download">
-            <input name="video_download" type="checkbox" id="video_download" value="1" {if $row.video_download=='1'}checked="checked"{/if} />Allow video download
-          </label>
-        </div>
-
-        <div class="form-group">
-          <label for="php_path8">Max categories for each video</label>
-          <input class="form-control" name="video_categories" type="text" id="php_path8" value="{$row.video_categories}" size="15" maxlength="5" />
-        </div>
-
-        <div class="form-group">
-          <label for="vid_cat_width">Category Width</label>
-          <input class="form-control" type="text" name="vid_cat_width" id="vid_cat_width" value="{$row.vid_cat_width}" />
-          <label for="vid_cat_height">Category height</label>
-          <input class="form-control" type="text" name="vid_cat_height" id="vid_cat_height" value="{$row.vid_cat_height}"/>
-        </div>
-
-        <div class="form-group">
-          <label for="embed_type">Embed Type</label>
-          <select class="form-control" name="embed_type" id="embed_type">
-              <option value="iframe" {if $row.embed_type=='iframe'} selected="selected"{/if}>Iframe</option>
-              <option value="embed_object" {if $row.embed_type=='embed_object'} selected="selected"{/if}>Embed object</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <h4>Seo video url pattern</h4>
-          <div class="radio">
-            <label>
-              <input type="radio" name="seo_vido_url" value="0" id="seo_vido_url_0"
-                {if !$row.seo_vido_url || $row.seo_vido_url==0} checked="checked"{/if}  />
-                {$baseurl}/video/ABCDXYZ/video-title
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input type="radio" name="seo_vido_url" value="1" id="seo_vido_url_1"
-              {if $row.seo_vido_url==1} checked="checked"{/if}/>
-              {$baseurl}/video-title-v123
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input type="radio" name="seo_vido_url" value="2" id="seo_vido_url_2"
-              {if $row.seo_vido_url==2} checked="checked"{/if}/>
-              {$baseurl}/video/123/video-title
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-            <input type="radio" name="seo_vido_url" value="3" id="seo_vido_url_3"
-              {if $row.seo_vido_url==3} checked="checked"{/if}/>
-              {$baseurl}/video/123_video-title
-            </label>
-          </div>
-        </div>
-
-        <h2>Channels</h2>
-        <div class="form-group">
-          <label for="channelSelection">Enable Channels</label>
-          <select class="form-control" name="channelsSection" id="channelsSection">
-              <option value="yes" {if $row.channelsSection!='no'} selected="selected"{/if}>Yes</option>
-              <option value="no" {if $row.channelsSection=='no'} selected="selected"{/if}>No</option>
-          </select>
-        </div>
-
-        <h2>Groups</h2>
-
-        <div class="form-group">
-          <label for="groupsSelection">Enable group selection</label>
-          <select class="form-control" name="groupsSection" id="groupsSection">
-              <option value="yes" {if $row.groupsSection!='no'} selected="selected"{/if}>Yes</option>
-              <option value="no" {if $row.groupsSection=='no'} selected="selected"{/if}>No</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="grp_thumb_height">Group Thumb Height</label>
-          <input name="grp_thumb_height" type="text" id="grp_thumb_height" value="{$row.grp_thumb_height}" size="15" maxlength="5" />
-        </div>
-
-        <div class="form-group">
-          <label for="grp_thumb_width">Group Thumb Width</label>
-          <input name="grp_thumb_width" type="text" id="grp_thumb_width" value="{$row.grp_thumb_width}" size="15" maxlength="5" />
-        </div>
-
-        <div class="form-group">
-          <label for="grp_max_title">Group max title</label>
-          <input class="form-control" name="grp_max_title" type="text" id="grp_max_title" value="{$row.grp_max_title}" size="15" maxlength="5" />
-        </div>
-        <div class="form-group">
-          <label for="grp_max_desc">Group max description</label>
-          <input class="form-control" name="grp_max_desc" type="text" id="grp_max_desc" value="{$row.grp_max_desc}" size="15" maxlength="5" />
-        </div>
-
-        <div class="form-group">
-          <label for="max_topic_lenght">Max group topic length</label>
-          <input class="form-control" name="max_topic_length" type="text" id="max_topic_length" value="{$row.max_topic_length}" size="15" maxlength="5" />
-        </div>
-
-        <div class="form-group">
-          <label for="grp_categories">Max categories for each group</label>
-          <input class="form-control" name="grp_categories" type="text" id="grp_categories" value="{$row.grp_categories}" size="15" maxlength="5" />
-        </div>
-        
-        <h2>Photos</h2>
-        <div class="form-group">
-          <label for="photosSelection">Enable photos</label>
-          <select class="form-control" name="photosSection" id="photosSection">
-              <option value="yes" {if $row.photosSection!='no'} selected="selected"{/if}>Yes</option>
-              <option value="no" {if $row.photosSection=='no'} selected="selected"{/if}>No</option>
-          </select>
-        </div>
-
-        <h2>General</h2>
-        <div class="form-group">
-          <label for="collectionsSelection">Enable Collections</label>
-          <select class="form-control" name="collectionsSection" id="collectionsSection">
-              <option value="yes" {if $row.collectionsSection!='no'} selected="selected"{/if}>Yes</option>
-              <option value="no" {if $row.collectionsSection=='no'} selected="selected"{/if}>No</option>
-          </select>
-        </div>
-
-        <div class="form-group">
           <div class="checkbox">
-            <label for="video_rating">
-              <input name="video_rating" type="checkbox" id="video_rating" value="1" {if $row.video_rating=='1'}checked="checked"{/if} />Allow  videos ratings
-            </label>
+              <label for="video_download">
+                  <input name="video_download" type="checkbox" id="video_download" value="1" {if $row.video_download=='1'}checked="checked"{/if} />Allow video download
+              </label>
           </div>
-          <div class="checkbox">
-            <label for="own_video_rating">
-              <input name="own_video_rating" type="checkbox" id="own_video_rating" value="1" {if $row.own_video_rating=='1'}checked="checked"{/if} />Allow user to rate own videos
-            </label>
+            </div>
+          <div class="col-md-4">
+              <label for="php_path8">Max categories for each video</label>
+              <input class="form-control" name="video_categories" type="text" id="php_path8" value="{$row.video_categories}" size="15" maxlength="5" />
           </div>
-          <div class="checkbox">
-            <label for="collection_rating">
-              <input name="collection_rating" type="checkbox" id="collection_rating" value="1" {if $row.collection_rating=='1'}checked="checked"{/if} />Allow collection ratings
-            </label>
-          </div><div class="checkbox">
-            <label for="own_collection_rating">
-              <input name="own_collection_rating" type="checkbox" id="own_collection_rating" value="1" {if $row.own_collection_rating=='1'}checked="checked"{/if} />Allow user to rate own collections
-            </label>
+              </div>
+            <div class="row">
+          <div class="col-md-4">
+              <label for="vid_cat_width">Category Width</label>
+              <input class="form-control" type="text" name="vid_cat_width" id="vid_cat_width" value="{$row.vid_cat_width}" />
+              <label for="vid_cat_height">Category height</label>
+              <input class="form-control" type="text" name="vid_cat_height" id="vid_cat_height" value="{$row.vid_cat_height}"/>
           </div>
-          <div class="checkbox">
-            <label for="channel_rating">
-              <input name="channel_rating" type="checkbox" id="channel_rating" value="1" {if $row.channel_rating=='1'}checked="checked"{/if} />Allow channel ratings
-            </label>
+
+          <div class="col-md-4">
+              <label for="embed_type">Embed Type</label>
+              <select class="form-control" name="embed_type" id="embed_type">
+                  <option value="iframe" {if $row.embed_type=='iframe'} selected="selected"{/if}>Iframe</option>
+                  <option value="embed_object" {if $row.embed_type=='embed_object'} selected="selected"{/if}>Embed object</option>
+              </select>
           </div>
-          <div class="checkbox">
-            <label for="own_channel_rating">
-              <input name="own_channel_rating" type="checkbox" id="own_channel_rating" value="1" {if $row.own_channel_rating=='1'}checked="checked"{/if} />Allow users to rate own channels
-            </label>
+
+          <div class="col-md-4">
+              <h4>Seo video url pattern</h4>
+              <div class="radio">
+                  <label>
+                      <input type="radio" name="seo_vido_url" value="0" id="seo_vido_url_0"
+                      {if !$row.seo_vido_url || $row.seo_vido_url==0} checked="checked"{/if}  />
+                      {$baseurl}/video/ABCDXYZ/video-title
+                  </label>
+              </div>
+              <div class="radio">
+                  <label>
+                      <input type="radio" name="seo_vido_url" value="1" id="seo_vido_url_1"
+                      {if $row.seo_vido_url==1} checked="checked"{/if}/>
+                      {$baseurl}/video-title-v123
+                  </label>
+              </div>
+              <div class="radio">
+                  <label>
+                      <input type="radio" name="seo_vido_url" value="2" id="seo_vido_url_2"
+                      {if $row.seo_vido_url==2} checked="checked"{/if}/>
+                      {$baseurl}/video/123/video-title
+                  </label>
+              </div>
+              <div class="radio">
+                  <label>
+                      <input type="radio" name="seo_vido_url" value="3" id="seo_vido_url_3"
+                      {if $row.seo_vido_url==3} checked="checked"{/if}/>
+                      {$baseurl}/video/123_video-title
+                  </label>
+              </div>
+              </div>
           </div>
-        </div>
-  </div>
-    
+          </div>
+      <div id="channelsphotos" class="tab-pane">
+          <div class="row">
+              <div class="col-md-6">
+          <h2>Channels</h2>
+          <div class="form-group1">
+              <label for="channelSelection">Enable Channels</label>
+              <select class="form-control" name="channelsSection" id="channelsSection">
+                  <option value="yes" {if $row.channelsSection!='no'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.channelsSection=='no'} selected="selected"{/if}>No</option>
+              </select>
+          </div>
+                  </div>
+            <div class="col-md-6">
+          <h2>Photos</h2>
+          <div class="form-group1">
+              <label for="photosSelection">Enable photos</label>
+              <select class="form-control" name="photosSection" id="photosSection">
+                  <option value="yes" {if $row.photosSection!='no'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.photosSection=='no'} selected="selected"{/if}>No</option>
+              </select>
+          </div>
+                </div>
+      </div>
+          </div>
+      <div id="groups" class="tab-pane">
+          <h2>Groups</h2>
+            <div class="row">
+          <div class="col-md-4">
+              <label for="groupsSelection">Enable group selection</label>
+              <select class="form-control" name="groupsSection" id="groupsSection">
+                  <option value="yes" {if $row.groupsSection!='no'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.groupsSection=='no'} selected="selected"{/if}>No</option>
+              </select>
+          </div>
+
+          <div class="col-md-4">
+              <label for="grp_thumb_height">Group Thumb Height</label>
+              <input name="grp_thumb_height" type="text" id="grp_thumb_height" class="form-control" value="{$row.grp_thumb_height}" size="15" maxlength="5" />
+          </div>
+
+          <div class="col-md-4">
+              <label for="grp_thumb_width">Group Thumb Width</label>
+              <input name="grp_thumb_width" type="text" id="grp_thumb_width" class="form-control" value="{$row.grp_thumb_width}" size="15" maxlength="5" />
+          </div>
+                </div>
+          <div class="row">
+
+          <div class="col-md-4">
+              <label for="grp_max_title">Group max title</label>
+              <input class="form-control" name="grp_max_title" type="text" id="grp_max_title" value="{$row.grp_max_title}" size="15" maxlength="5" />
+          </div>
+          <div class="col-md-4">
+              <label for="grp_max_desc">Group max description</label>
+              <input class="form-control" name="grp_max_desc" type="text" id="grp_max_desc" value="{$row.grp_max_desc}" size="15" maxlength="5" />
+          </div>
+
+          <div class="col-md-4">
+              <label for="max_topic_lenght">Max group topic length</label>
+              <input class="form-control" name="max_topic_length" type="text" id="max_topic_length" value="{$row.max_topic_length}" size="15" maxlength="5" />
+          </div>
+              </div>
+
+          <div class="form-group1">
+              <label for="grp_categories">Max categories for each group</label>
+              <input class="form-control" name="grp_categories" type="text" id="grp_categories" value="{$row.grp_categories}" size="15" maxlength="5" />
+          </div>
+
+
+      </div>
+      <div id="general" class="tab-pane">
+          <h2>General</h2>
+          <div class="row">
+          <div class="col-md-6">
+              <label for="collectionsSelection">Enable Collections</label>
+              <select class="form-control" name="collectionsSection" id="collectionsSection">
+                  <option value="yes" {if $row.collectionsSection!='no'} selected="selected"{/if}>Yes</option>
+                  <option value="no" {if $row.collectionsSection=='no'} selected="selected"{/if}>No</option>
+              </select>
+          </div>
+
+          <div class="col-md-6">
+              <div class="checkbox">
+                  <label for="video_rating">
+                      <input name="video_rating" type="checkbox" id="video_rating" value="1" {if $row.video_rating=='1'}checked="checked"{/if} />Allow  videos ratings
+                  </label>
+              </div>
+              <div class="checkbox">
+                  <label for="own_video_rating">
+                      <input name="own_video_rating" type="checkbox" id="own_video_rating" value="1" {if $row.own_video_rating=='1'}checked="checked"{/if} />Allow user to rate own videos
+                  </label>
+              </div>
+              <div class="checkbox">
+                  <label for="collection_rating">
+                      <input name="collection_rating" type="checkbox" id="collection_rating" value="1" {if $row.collection_rating=='1'}checked="checked"{/if} />Allow collection ratings
+                  </label>
+              </div><div class="checkbox">
+              <label for="own_collection_rating">
+                  <input name="own_collection_rating" type="checkbox" id="own_collection_rating" value="1" {if $row.own_collection_rating=='1'}checked="checked"{/if} />Allow user to rate own collections
+              </label>
+          </div>
+              <div class="checkbox">
+                  <label for="channel_rating">
+                      <input name="channel_rating" type="checkbox" id="channel_rating" value="1" {if $row.channel_rating=='1'}checked="checked"{/if} />Allow channel ratings
+                  </label>
+              </div>
+              <div class="checkbox">
+                  <label for="own_channel_rating">
+                      <input name="own_channel_rating" type="checkbox" id="own_channel_rating" value="1" {if $row.own_channel_rating=='1'}checked="checked"{/if} />Allow users to rate own channels
+                  </label>
+              </div>
+          </div>
+      </div>
+          </div>
+      </div>
+      </div>
+</div>
+
+
+
   <div id="div_2" class="main_page_div">
-    
-    <div class="form-group">
+  <div class="row">
+    <div class="col-md-4">
       <label for="">Upload Options</label>
       <div class="checkboxes">
         {foreach from=$opt_list item=opt}
@@ -537,7 +616,7 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <h5>Use Crons</h5>
       <label class="radio-inline">
         <input type="radio" name="use_crons" value="yes" id="use_crons_0" {if $row.use_crons =='yes'} checked="checked"{/if} />Yes
@@ -548,14 +627,15 @@
       </label>
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="ffmpegpath">FFMPEG Path</label>
       <input class="form-control" name="ffmpegpath" type="text" id="ffmpegpath" value="{$row.ffmpegpath}" size="45" />
       <a href="http://docs.clip-bucket.com/clipbucket-docs/ffmpeg" target="_blank">
       <img src="{$imageurl}/help.png" alt="FFMPEG Details" border="0" class="tipsy_tip" title="FFMPEG Binary Paths - Click For More Details" /></a>
     </div>
-
-    <div class="form-group">
+    </div>
+  <div class="row">
+    <div class="col-md-4">
       <h5>Turn on VF</h5>
       <label class="radio-inline">
         <input type="radio" name="use_ffmpeg_vf" value="yes" id="use_ffmpeg_vf_0" {if $row.use_ffmpeg_vf=='yes'} checked{/if} />
@@ -568,40 +648,42 @@
       <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" alt="VF information" border="0" class="tipsy_tip" title="In latest releases of FFMPEG (greator than 20000) Pad flag has been changed from pad* to vf , if your ffmpeg is greator than r20000 please check YES " /></a>
     </div>
     
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="php_path">PHP Path</label>
       <input class="form-control" name="php_path" type="text" id="php_path" value="{$row.php_path}" size="45" />
       <a href="http://docs.clip-bucket.com/clipbucket-docs/php" target="_blank">
       <img src="{$imageurl}/help.png" alt="PHP Path info" border="0" class="tipsy_tip" title="PHP Binary Paths - Click For More Details" /></a>
     </div>
     
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="mp4boxpath">MP4Box Path</label>
       <input class="form-control" name="mp4boxpath" type="text" id="mp4boxpath" value="{$row.mp4boxpath}" size="45" />
       <a href="http://docs.clip-bucket.com/clipbucket-docs/mp4box" target="_blank">
       <img src="{$imageurl}/help.png" alt="MP4Box info" border="0" class="tipsy_tip" title="MP4Box Binary Paths - Click For More Details" /></a>
     </div>
-
-    <div class="form-group">
+    </div>
+        <div class="row">
+    <div class="col-md-4">
       <label for="flvtool2path">Flvtool2 Path</label>
       <input class="form-control" name="flvtool2path" type="text" id="flvtool2path" value="{$row.flvtool2path}" size="45" />
       <a href="http://docs.clip-bucket.com/clipbucket-docs/flvtool2" target="_blank">
       <img src="{$imageurl}/help.png" alt="FLVTool2 info" border="0" class="tipsy_tip" title="FLVTool2 Binary Paths - Click For More Details" /></a>
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="mplayerpath">Mplayer Path</label>
       <input class="form-control" name="mplayerpath" type="text" id="mplayerpath" value="{$row.mplayerpath}" size="45" />
       <a href="http://docs.clip-bucket.com/clipbucket-docs/mplayer" target="_blank"><img src="{$imageurl}/help.png" alt="Mplayer info" border="0" class="tipsy_tip" title="MPlayer - Highly efficient library for generating thumbs from a video" /></a>
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="flvtoolpp">Flvtoo++ Path</label>
       <input class="form-control" name="flvtoolpp" type="text" id="flvtoolpp" value="{$row.flvtoolpp}" size="45" />
       <a href="http://docs.clip-bucket.com/clipbucket-docs/mplayer" target="_blank"><img src="{$imageurl}/help.png" alt="Flvtool++ info" border="0" class="tipsy_tip" title="FLVTool++ - Flv Meta Data Injector from Facebook, flvtool2 can take upto an hour which flvtool++ can do it in minutes, or sometimes seconds" /></a>
     </div>
-
-    <div class="form-group">
+    </div>
+  <div class="row">
+    <div class="col-md-4">
       <h5>Quickk Conversion</h5>
       <label class="checkbox" for="quick_conv">
         <input type="checkbox" name="quick_conv" id="quick_conv" value="yes" {if $row.quick_conv=='yes'} checked="checked"{/if}/>
@@ -610,7 +692,7 @@
       </label>
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <h5>Server Friendly Conversion</h5>
       <label for="server_friendly_conversion">
         <input type="checkbox" name="server_friendly_conversion" id="server_friendly_conversion" {if $row.server_friendly_conversion=='yes'} checked="checked"{/if} value="yes"/>
@@ -619,190 +701,237 @@
       </label>
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="max_conversion">Max video Processes at once</label>
       <input class="form-control" name="max_conversion" type="text" id="max_conversion" value="{$row.max_conversion}" size="45" />
     </div>
-
-    <div class="form-group">
+    </div>
+        <div class="row">
+    <div class="col-md-4">
       <label for="allowed_types">Allowed extensions</label>
       <textarea class="form-control" name="allowed_types" id="allowed_types" cols="45" rows="5">{$row.allowed_types}</textarea>
       Sperate by comma [case insensitive]
     </div>
 
-    <div class="form-group">
+            <div class="col-md-4">
       <label for="max_time_wait">Max time wait after max processess</label>
       <input class="form-control" name="max_time_wait" type="text" id="max_time_wait" value="{$row.max_time_wait}" size="45" />
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="max_upload_size">Max upload file size</label>
       <input class="form-control" name="max_upload_size" type="text" id="max_upload_size" value="{$row.max_upload_size}" size="15" maxlength="5" />
       in MegaBytes <br />
       Default PHP Max Upload size is <strong>{$upload_max_size}</strong> and Post max size is <strong>{$post_max_size}</strong>, if you set max upload file size larger than this, it will be override by default, however, if set lower than default, it will work fine.
     </div>
-    
-    <div class="form-group">
+            </div>
+    <div class="row">
+    <div class="col-md-6">
       <label for="max_video_duration">Max upload durations</label>
       <input class="form-control" name="max_video_duration" type="text" id="max_video_duration" value="{$row.max_video_duration}" size="15" maxlength="5" /> 
       in minutes
-    </div>
-
-    <div class="form-group">
+        </div>
+        <div class="col-md-6">
+    <div class="form-group1">
       <label class="checkbox">
         <input name="keep_original" type="checkbox" id="keep_original" value="1" {if $row.keep_original} checked="checked"{/if} />Save original file
       </label>
     </div>
 
-    <div class="form-group">
+    <div class="form-group1">
       <label class="checkbox">
         <input name="hq_output" type="checkbox" id="hq_output" value="yes" {if $row.hq_output} checked="checked"{/if} />Mp4 HQ Output
         <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" alt="info" border="0" class="tipsy_tip" title="if enabled, ClipBucket will generate Highh Quality mp4 video if possible" /></a>
       </label>
     </div>
 
-    <div class="form-group">
+    <div class="form-group1">
       <label class="checkbox">
         <input name="keep_mp4_as_is" type="checkbox" id="keep_mp4_as_is" value="yes" {if $row.keep_mp4_as_is} checked="checked"{/if} />Keep Mp4 As Is
         <a href="javascript:void(0)" alt="info" target="_blank"><img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="if enabled, ClipBucket will keep mp4 vieo as is and will be playable as HQ video" /></a>
       </label>
     </div>
 
-    <div class="form-group">
+    <div class="form-group1">
       <label class="checkbox">
         <input name="activation" type="checkbox" id="activation" value="1" {if $row.activation==1} checked="checked"{/if} />
         Activation required
       </label>
     </div>
+            </div>
+        </div>
 
-    <h2>Video Upload Form Settings</h2>
-    <div class="form-group">
-      <h5>Video Ttile</h5>
-      <div class="form-group">
-        <label for="min_video_title">Min</label>
-        <input class="form-control" name="min_video_title" type="text" id="min_video_title" value="{$row.min_video_title}" size="20" />
+<hr>
+  <div class="tabbable">
+  <ul class="nav nav-tabs" id="myTab">
+      <li class="active">
+          <a data-toggle="tab" href="#videouploadsettings">
+              Video Upload Settings
+          </a>
+      </li>
+      <li class="">
+          <a data-toggle="tab" href="#conversionsetttings">
+              Conversion Settings
+          </a>
+      </li>
+      <li class="">
+          <a data-toggle="tab" href="#videoconversion">
+              Video Conversion
+          </a>
+      </li>
+  </ul>
+
+  <div class="tab-content">
+  <div id="videouploadsettings" class="tab-pane active">
+      <h2>Video Upload Form Settings</h2>
+
+          <h5>Video Ttile</h5>
+      <div class="row">
+          <div class="col-md-6">
+              <label for="min_video_title">Min</label>
+              <input class="form-control" name="min_video_title" type="text" id="min_video_title" value="{$row.min_video_title}" size="20" />
+          </div>
+          <div class="col-md-6">
+              <label for="max_video_title">Max</label>
+              <input class="form-control" name="max_video_title" type="text" id="max_video_title" value="{$row.max_video_title}" size="20" />
+          </div>
+          </div>
+
+
+          <h5>Video description</h5>
+      <div class="row">
+          <div class="col-md-6">
+              <label for="min_video_desc">Min</label>
+              <input class="form-control" name="min_video_desc" type="text" id="min_video_desc" value="{$row.min_video_desc}" size="20" />
+          </div>
+          <div class="col-md-6">
+              <label for="max_video_desc">Max</label>
+              <input class="form-control" name="max_video_desc" type="text" id="php_path5" value="{$row.max_video_desc}" size="20" />
+          </div>
+          </div>
+
+
+
+          <h5>Video Tags</h5>
+            <div class="row">
+          <div class="col-md-6">
+              <label for="php_path_6">Min</label>
+              <input class="form-control" name="min_video_tags" type="text" id="php_path6" value="{$row.min_video_tags}" size="20" />
+          </div>
+          <div class="col-md-6">
+              <label for="php_path7">Max</label>
+              <input class="form-control" name="max_video_tags" type="text" id="php_path7" value="{$row.max_video_tags}" size="20" />
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="max_video_title">Max</label>
-        <input class="form-control" name="max_video_title" type="text" id="max_video_title" value="{$row.max_video_title}" size="20" />  
+
+
+      <div id="conversionsetttings" class="tab-pane">
+          <h2>Conversion Settings</h2>
+            <div class="row">
+          <div class="col-md-4">
+              <label for="normal_resolution">Normal video resolution</label>
+              <select class="form-control" name="normal_resolution" id="normal_resolution">
+                  <option value="240" {if $row.normal_resolution=='240'} selected="selected"{/if}>240p</option>
+                  <option value="320" {if $row.normal_resolution=='320'} selected="selected"{/if}>320p</option>
+                  <option value="480" {if $row.normal_resolution=='480'} selected="selected"{/if}>480p</option>
+              </select>
+          </div>
+
+          <div class="col-md-4">
+              <label for="high_resolution">HQ video resolution</label>
+              <select class="form-control" name="high_resolution" id="high_resolution">
+                  <option value="720" {if $row.high_resolution=='720'} selected="selected"{/if}>720p</option>
+                  <option value="1080" {if $row.high_resolution=='1080'} selected="selected"{/if}>1080p</option>
+              </select>
+          </div>
+
+          <div class="col-md-4">
+              <label for="thumb_width">Thumb Width</label>
+              <input class="form-control" name="thumb_width" type="text" id="thumb_width" value="{$row.thumb_width}" size="45" />
+          </div>
+                </div>
+          <div class="row">
+          <div class="col-md-4">
+              <label for="thumb_height">Thumb Height</label>
+              <input class="form-control" name="thumb_height" type="text" id="thumb_height" value="{$row.thumb_height}" size="45" />
+          </div>
+
+          <div class="col-md-4">
+              <label for="num_thumbs">Number of thumbs</label>
+              <input class="form-control" name="num_thumbs" type="text" id="num_thumbs" value="{$row.num_thumbs}" size="45" />
+          </div>
+
+          <div class="col-md-4">
+              <label for="big_thumb_width">Big thumb width</label>
+              <input class="form-control" name="big_thumb_width" type="text" id="big_thumb_width" value="{$row.big_thumb_width}" size="45" />
+          </div>
+              </div>
+
+          <div class="form-group1">
+              <label for="big_thumb_height">Big thumb height</label>
+              <input class="form-control" name="big_thumb_height" type="text" id="big_thumb_height" value="{$row.big_thumb_height}" size="45" />
+          </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <h5>Video description</h5>
-      <div class="form-group">
-        <label for="min_video_desc">Min</label>
-        <input class="form-control" name="min_video_desc" type="text" id="min_video_desc" value="{$row.min_video_desc}" size="20" />
+
+      <div id="videoconversion" class="tab-pane">
+          <h3>Change only if you have good knowledge of video conversion <a href="http://docs.clip-bucket.com/clipbucket-docs/video-conversion-settings" target="_blank"><img src="{$imageurl}/help.png" alt="info" border="0" class="tipsy_tip" title="Video Conversion Info - Click For More Details" /></a></h3>
+        <div class="row">
+          <div class="col-md-4">
+              <label for="convProfile">Select profile </label>
+              <select class="form-control" name="convProfile" id="convProfile">
+                  <option selected="selected" value="0">Choose from list</option>
+                  <option {if $smarty.post.convProfile=='1'} selected="selected"{/if} value="1">H.264, AAC - Youtube like</option>
+                  <option {if $smarty.post.convProfile=='3'} selected="selected"{/if} value="3">High Configurations with H264</option>
+                  <option {if $smarty.post.convProfile=='2'} selected="selected"{/if}  value="2">Normal Configurations</option>
+                  <option {if $smarty.post.convProfile=='4'} selected="selected"{/if}  value="4">Low Configurations</option>
+              </select>
+          </div>
+
+          <div class="col-md-4">
+              <label for="video_codec">Video Codec</label>
+              <input class="form-control" name="video_codec" type="text" id="video_codec" value="{$row.video_codec}" size="45" />
+          </div>
+
+          <div class="col-md-4">
+              <label for="audio_codec">Audio Codec</label>
+              <input class="form-control" name="audio_codec" type="text" id="audio_codec" value="{$row.audio_codec}" size="45" />
+          </div>
+            </div>
+          <div class="row">
+          <div class="col-md-4">
+              <label for="vrate">Video Rate</label>
+              <input class="form-control" name="vrate" type="text" id="vrate" value="{$row.vrate}" size="45" />
+          </div>
+
+          <div class="col-md-4">
+              <label for="vbrate">Video Bitrate</label>
+              <input class="form-control" name="vbrate" type="text" id="vbrate" value="{$row.vbrate}" size="45" />
+          </div>
+
+          <div class="col-md-4">
+              <label for="vbrate">Video Bitrate For Hd</label>
+              <input class="form-control" name="vbrate_hd" type="text" id="vbrate_hd" value="{$row.vbrate_hd}" size="45" />
+          </div>
+              </div>
+            <div class="row">
+          <div class="col-md-6">
+              <label for="srate">Audio Rate</label>
+              <input class="form-control" name="srate" type="text" id="srate" value="{$row.srate}" size="45" />
+          </div>
+
+          <div class="col-md-6">
+              <label for="sbrate">Audio Bitrate</label>
+              <input class="form-control" name="sbrate" type="text" id="sbrate" value="{$row.sbrate}" size="45" />
+          </div>
+                </div>
       </div>
-      <div class="form-group">
-        <label for="max_video_desc">Max</label>
-        <input class="form-control" name="max_video_desc" type="text" id="php_path5" value="{$row.max_video_desc}" size="20" />  
       </div>
-    </div>
-
-    <div class="form-group">
-      <h5>Video Tags</h5>
-      <div class="form-group">
-        <label for="php_path_6">Min</label>
-        <input class="form-control" name="min_video_tags" type="text" id="php_path6" value="{$row.min_video_tags}" size="20" />
       </div>
-      <div class="form-group">
-        <label for="php_path7">Max</label>
-        <input class="form-control" name="max_video_tags" type="text" id="php_path7" value="{$row.max_video_tags}" size="20" />
       </div>
-    </div>
 
-    <h2>Conversion Settings</h2>
 
-    <div class="form-group">
-      <label for="normal_resolution">Normal video resolution</label>
-      <select class="form-control" name="normal_resolution" id="normal_resolution">
-        <option value="240" {if $row.normal_resolution=='240'} selected="selected"{/if}>240p</option>
-        <option value="320" {if $row.normal_resolution=='320'} selected="selected"{/if}>320p</option>
-        <option value="480" {if $row.normal_resolution=='480'} selected="selected"{/if}>480p</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="high_resolution">HQ video resolution</label>
-      <select class="form-control" name="high_resolution" id="high_resolution">
-        <option value="720" {if $row.high_resolution=='720'} selected="selected"{/if}>720p</option>
-        <option value="1080" {if $row.high_resolution=='1080'} selected="selected"{/if}>1080p</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="thumb_width">Thumb Width</label>
-      <input class="form-control" name="thumb_width" type="text" id="thumb_width" value="{$row.thumb_width}" size="45" />
-    </div>
-
-    <div class="form-group">
-      <label for="thumb_height">Thumb Height</label>
-      <input class="form-control" name="thumb_height" type="text" id="thumb_height" value="{$row.thumb_height}" size="45" />
-    </div>
-
-    <div class="form-group">
-      <label for="num_thumbs">Number of thumbs</label>
-      <input class="form-control" name="num_thumbs" type="text" id="num_thumbs" value="{$row.num_thumbs}" size="45" />
-    </div>
-
-    <div class="form-group">
-      <label for="big_thumb_width">Big thumb width</label>
-      <input class="form-control" name="big_thumb_width" type="text" id="big_thumb_width" value="{$row.big_thumb_width}" size="45" />
-    </div>
-
-    <div class="form-group">
-      <label for="big_thumb_height">Big thumb height</label>
-      <input class="form-control" name="big_thumb_height" type="text" id="big_thumb_height" value="{$row.big_thumb_height}" size="45" />
-    </div>
-  
-    <h3>Change only if you have good knowledge of video conversion <a href="http://docs.clip-bucket.com/clipbucket-docs/video-conversion-settings" target="_blank"><img src="{$imageurl}/help.png" alt="info" border="0" class="tipsy_tip" title="Video Conversion Info - Click For More Details" /></a></h3>
-    <div class="form-group">
-      <label for="convProfile">Select profile </label>
-      <select class="form-control" name="convProfile" id="convProfile">
-        <option selected="selected" value="0">Choose from list</option>
-        <option {if $smarty.post.convProfile=='1'} selected="selected"{/if} value="1">H.264, AAC - Youtube like</option>
-        <option {if $smarty.post.convProfile=='3'} selected="selected"{/if} value="3">High Configurations with H264</option>
-        <option {if $smarty.post.convProfile=='2'} selected="selected"{/if}  value="2">Normal Configurations</option>
-        <option {if $smarty.post.convProfile=='4'} selected="selected"{/if}  value="4">Low Configurations</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="video_codec">Video Codec</label>
-      <input class="form-control" name="video_codec" type="text" id="video_codec" value="{$row.video_codec}" size="45" />
-    </div>
-  
-    <div class="form-group">
-      <label for="audio_codec">Audio Codec</label>
-      <input class="form-control" name="audio_codec" type="text" id="audio_codec" value="{$row.audio_codec}" size="45" />
-    </div>
-
-    <div class="form-group">
-      <label for="vrate">Video Rate</label>
-      <input class="form-control" name="vrate" type="text" id="vrate" value="{$row.vrate}" size="45" />
-    </div>
-
-    <div class="form-group">
-      <label for="vbrate">Video Bitrate</label>
-      <input class="form-control" name="vbrate" type="text" id="vbrate" value="{$row.vbrate}" size="45" />
-    </div>
-
-    <div class="form-group">
-      <label for="vbrate">Video Bitrate For Hd</label>
-      <input class="form-control" name="vbrate_hd" type="text" id="vbrate_hd" value="{$row.vbrate_hd}" size="45" />
-    </div>
-
-    <div class="form-group">
-      <label for="srate">Audio Rate</label>
-      <input class="form-control" name="srate" type="text" id="srate" value="{$row.srate}" size="45" />
-    </div>
-
-    <div class="form-group">
-      <label for="sbrate">Audio Bitrate</label>
-      <input class="form-control" name="sbrate" type="text" id="sbrate" value="{$row.sbrate}" size="45" />
-    </div>
-  </div>
 
   <div id="div_3" class="main_page_div" >
 
@@ -816,10 +945,9 @@
         <div class="col-md-8"><a href="manage_players.php">manage flv players</a></div>
       </div>
     </div>-->
-
     <h2>Main Settings</h2>
-
-    <div class="form-group">
+    <div class="row">
+    <div class="col-md-6">
       <label for="use_cached_pagin">Use cached pagination</label>
         <select class="form-control" name="use_cached_pagin" id="use_cached_pagin">
           <option value="yes" {if $row.use_cached_pagin==yes}
@@ -831,232 +959,289 @@
         </select>
     </div>
 
-    <div class="form-group">
+    <div class="col-md-6">
       <label for="cached_pagin_time">Pagination caching time</label>
       <input class="form-control" name="cached_pagin_time" type="text" id="cached_pagin_time" value="{$row.cached_pagin_time}" size="45" /> 
       in minutes
     </div>
-
-    <h2>Video Listings</h2>
-
-    <div class="form-group">
-      <label for="videos_list_per_page">Videos Page</label>
-      <input class="form-contorl" name="videos_list_per_page" type="text" id="videos_list_per_page" value="{$row.videos_list_per_page}" size="6" maxlength="3" />
-      'videos' page
     </div>
 
-    <div class="form-group">
-      <label for="videos_item_channel_page">Channel page</label>
-      <input class="form-control" name="videos_item_channel_page" type="text" id="videos_item_channel_page" value="{$row.videos_item_channel_page}"size="6" maxlength="3" />
-      'view channel' page
+<hr>
+    <div class="tabbable">
+    <ul class="nav nav-tabs" id="myTab">
+        <li class="active">
+            <a data-toggle="tab" href="#videolistings">
+                Video Listings
+            </a>
+        </li>
+        <li class="">
+            <a data-toggle="tab" href="#photolistings">
+                Photos Listings
+            </a>
+        </li>
+        <li class="">
+            <a data-toggle="tab" href="#collectionsettings">
+                Collection Listings
+            </a>
+        </li>
+        <li class="">
+            <a data-toggle="tab" href="#usersettings">
+                User Listings
+            </a>
+        </li>
+        <li class="">
+            <a data-toggle="tab" href="#groupsgeneral">
+                Groups & General
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+    <div id="videolistings" class="tab-pane active">
+        <h2>Video Listings</h2>
+            <div class="row">
+        <div class="col-md-4">
+            <label for="videos_list_per_page">Videos Page</label>
+            <input class="form-control" name="videos_list_per_page" type="text" id="videos_list_per_page" value="{$row.videos_list_per_page}" size="6" maxlength="3" />
+            'videos' page
+        </div>
+
+        <div class="col-md-4">
+            <label for="videos_item_channel_page">Channel page</label>
+            <input class="form-control" name="videos_item_channel_page" type="text" id="videos_item_channel_page" value="{$row.videos_item_channel_page}"size="6" maxlength="3" />
+            'view channel' page
+        </div>
+
+        <div class="col-md-4">
+            <label for="videos_items_uvid_page">User Videos</label>
+            <input class="form-control" name="videos_items_uvid_page" type="text" id="videos_items_uvid_page" value="{$row.videos_items_uvid_page}" size="6" maxlength="3" />
+            - 'user videos' page
+        </div>
+                </div>
+        <div class="row">
+        <div class="col-md-4">
+            <label for="videos_items_ufav_page">User Favorite</label>
+            <input class="form-control" name="videos_items_ufav_page"  type="text" id="videos_items_ufav_page" value="{$row.videos_items_ufav_page}" size="6" maxlength="3" />
+            'user favorits' page
+        </div>
+
+        <div class="col-md-4">
+            <label for="videos_items_grp_page">Group Page</label>
+            <input class="form-control" name="videos_items_grp_page" type="text" id="videos_items_grp_page" value="{$row.videos_items_grp_page}" size="6" maxlength="3" />
+            videos display in view group page
+        </div>
+
+        <div class="col-md-4">
+            <label for="videos_items_hme_page">Home Tabs</label>
+            <input class="form-control" name="videos_items_hme_page" type="text" id="videos_items_hme_page" value="{$row.videos_items_hme_page}" size="6" maxlength="3" />
+            videos display in home tab
+        </div>
+            </div>
+        <div class="row">
+        <div class="col-md-4">
+            <label for="videos_items_search_page">Search Page</label>
+            <input class="form-control" name="videos_items_search_page" type="text" id="videos_items_search_page" value="{$row.videos_items_search_page}" size="6" maxlength="3" />
+            videos display in search page
+        </div>
+
+        <div class="col-md-4">
+            <label for="videos_items_columns">Video Columns</label>
+            <input class="form-control" name="videos_items_columns" type="text" id="videos_items_columns" value="{$row.videos_items_columns}" size="6" maxlength="3" />
+            videos display in right columns ie (Random, Related etc)
+        </div>
+        </div>
     </div>
 
-    <div class="form-group">
-      <label for="videos_items_uvid_page">User Videos</label>
-      <input class="form-control" name="videos_items_uvid_page" type="text" id="videos_items_uvid_page" value="{$row.videos_items_uvid_page}" size="6" maxlength="3" />
-      - 'user videos' page
-    </div>
 
-    <div class="form-group">
-      <label for="videos_items_ufav_page">User Favorite</label>
-      <input class="form-control" name="videos_items_ufav_page" type="text" id="videos_items_ufav_page" value="{$row.videos_items_ufav_page}" size="6" maxlength="3" />
-      'user favorits' page
-    </div>
+    <div id="photolistings" class="tab-pane">
 
-    <div class="form-group">
-      <label for="videos_items_grp_page">Group Page</label>
-      <input class="form-control" name="videos_items_grp_page" type="text" id="videos_items_grp_page" value="{$row.videos_items_grp_page}" size="6" maxlength="3" />
-      videos display in view group page
-    </div>
+        <h2>Photos Listings</h2>
+        <div class="row">
+        <div class="col-md-4">
+            <label for="photo_main_list">Main Limit</label>
+            <input class="form-control" name="photo_main_list" type="text" id="photo_main_list" value="{$row.photo_main_list}" size="6" maxlength="3" />
+            <span class="">We use this limit in most of place where photo is displayed like, My Account, Manage Photos, Manage Favotires Photos etc.</span>
+        </div>
 
-    <div class="form-group">
-      <label for="videos_items_hme_page">Home Tabs</label>
-      <input class="form-control" name="videos_items_hme_page" type="text" id="videos_items_hme_page" value="{$row.videos_items_hme_page}" size="6" maxlength="3" />
-      videos display in home tab
-    </div>
+        <div class="col-md-4">
+            <label for="photo_home_tabs">Home Tabs</label>
+            <input class="form-control" name="photo_home_tabs" type="text" id="photo_home_tabs" value="{$row.photo_home_tabs}" size="6" maxlength="3" />
+            <span class="">Number of photos to display on Homepage.</span>
+        </div>
 
-    <div class="form-group">
-      <label for="videos_items_search_page">Search Page</label>
-      <input class="form-control" name="videos_items_search_page" type="text" id="videos_items_search_page" value="{$row.videos_items_search_page}" size="6" maxlength="3" />
-      videos display in search page
-    </div>
+        <div class="col-md-4">
+            <label for="photo_search_result">Search Result</label>
+            <input class="form-control" name="photo_search_result" type="text" id="photo_search_result" value="{$row.photo_search_result}" size="6" maxlength="3" />
+            <span class="">Number of photos to display on Search page.</span>
+        </div>
+            </div>
+        <div class="row">
+        <div class="col-md-4">
+            <label for="photo_channel_page">Channel Page</label>
+            <input class="form-control" name="photo_channel_page" type="text" id="photo_channel_page" value="{$row.photo_channel_page}" size="6" maxlength="3" />
+            <span class="">Number of photos to display on User's page.</span>
+        </div>
 
-    <div class="form-group">
-      <label for="videos_items_columns">Video Columns</label>
-      <input class="form-control" name="videos_items_columns" type="text" id="videos_items_columns" value="{$row.videos_items_columns}" size="6" maxlength="3" />
-      videos display in right columns ie (Random, Related etc)
-    </div>
-      
-    <h2>Photos Listings</h2>
+        <div class="col-md-4">
+            <label for="photo_user_photos">User Photos</label>
+            <input class="form-control" name="photo_user_photos" type="text" id="photo_user_photos" value="{$row.photo_user_photos}" size="6" maxlength="3" />
+            <span>Number of photos to display on User's photos page.</span>
+        </div>
 
-    <div class="form-group">
-      <label for="photo_main_list">Main Limit</label>
-      <input class="form-control" name="photo_main_list" type="text" id="photo_main_list" value="{$row.photo_main_list}" size="6" maxlength="3" />
-      <span class="">We use this limit in most of place where photo is displayed like, My Account, Manage Photos, Manage Favotires Photos etc.</span>
-    </div>
+        <div class="col-md-4">
+            <label for="photo_user_favorites">User favorites</label>
+            <input class="form-control" name="photo_user_favorites" type="text" id="photo_user_favorites" value="{$row.photo_user_favorites}" size="6" maxlength="3" />
+            <span>Number of photos to display on User's favorites page.</span>
+        </div>
+            </div>
 
-    <div class="form-group">
-      <label for="photo_home_tabs">Home Tabs</label>
-      <input class="form-control" name="photo_home_tabs" type="text" id="photo_home_tabs" value="{$row.photo_home_tabs}" size="6" maxlength="3" />
-      <span class="">Number of photos to display on Homepage.</span>
-    </div>
 
-    <div class="form-group">
-      <label for="photo_search_result">Search Result</label>
-      <input class="form-control" name="photo_search_result" type="text" id="photo_search_result" value="{$row.photo_search_result}" size="6" maxlength="3" />
-      <span class="">Number of photos to display on Search page.</span>
-    </div>
-    
-    <div class="form-group">
-      <label for="photo_channel_page">Channel Page</label>
-      <input class="form-control" name="photo_channel_page" type="text" id="photo_channel_page" value="{$row.photo_channel_page}" size="6" maxlength="3" />
-      <span class="">Number of photos to display on User's page.</span>
-    </div>
+        <div class="form-group1">
+            <label for="photo_other_limit">Other Limit</label>
+            <input class="form-control" name="photo_other_limit" type="text" id="photo_other_limit" value="{$row.photo_other_limit}" size="6" maxlength="3" />
+            <span>Use anywhere you want.</span>
+        </div>
+        </div>
 
-    <div class="form-group">
-      <label for="photo_user_photos">User Photos</label>
-      <input class="form-control" name="photo_user_photos" type="text" id="photo_user_photos" value="{$row.photo_user_photos}" size="6" maxlength="3" />
-      <span>Number of photos to display on User's photos page.</span>
-    </div>
-    
-    <div class="form-group">
-      <label for="photo_user_favorites">User favorites</label>
-      <input class="form-control" name="photo_user_favorites" type="text" id="photo_user_favorites" value="{$row.photo_user_favorites}" size="6" maxlength="3" />
-      <span>Number of photos to display on User's favorites page.</span>
-    </div>
+    <div id="collectionsettings" class="tab-pane">
+        <h2>Collection Listing</h2>
+        <div class="row">
+        <div class="col-md-4">
+            <label for="collection_per_page">Collection Page</label>
+            <input class="form-control" name="collection_per_page" type="text" id="collection_per_page" value="{$row.collection_per_page}" size="6" maxlength="3" />
+            <span>Number of collections to display on Collections page.</span>
+        </div>
 
-    <div class="form-group">
-      <label for="photo_other_limit">Other Limit</label>
-      <input class="form-control" name="photo_other_limit" type="text" id="photo_other_limit" value="{$row.photo_other_limit}" size="6" maxlength="3" />
-      <span>Use anywhere you want.</span>
+        <div class="col-md-4">
+            <label for="collection_home_page">Home Page</label>
+            <input class="form-control" name="collection_home_page" type="text" id="collection_home_page" value="{$row.collection_home_page}" size="6" maxlength="3" />
+            <span>Number of collections to display on Homepage.</span>
+        </div>
+
+        <div class="col-md-4">
+            <label for="collection_items_page">Items Page</label>
+            <input class="form-control" name="collection_items_page" type="text" id="collection_items_page" value="{$row.collection_items_page}" size="6" maxlength="3" />
+            <span>Number of items to display in a Collection.</span>
+        </div>
+            </div>
+        <div class="row">
+        <div class="col-md-4">
+            <label for="collection_search_result">Search Result</label>
+            <input class="form-control" name="collection_search_result" type="text" id="collection_search_result" value="{$row.collection_search_result}" size="6" maxlength="3" /><span>Number of collections to display on Homepage.</span>
+        </div>
+
+        <div class="col-md-4">
+            <label for="collection_channel_page">Channel Page</label>
+            <input class="form-control" name="collection_channel_page" type="text" id="collection_channel_page" value="{$row.collection_channel_page}" size="6" maxlength="3" /><span>Number of collections to display on Channel page</span>
+        </div>
+
+        <div class="col-md-4">
+            <label for="collection_user_collections">User Collections</label>
+            <input class="form-control" name="collection_user_collections" type="text" id="collection_user_collections" value="{$row.collection_user_collections}" size="6" maxlength="3" /><span>Number of collections to display on User's collection page</span>
+        </div>
+            </div>
+        <div class="form-group1">
+            <label for="collection_user_favorites">User Favorites</label>
+            <input class="form-control" name="collection_user_favorites" type="text" id="collection_user_favorites" value="{$row.collection_user_favorites}" size="6" maxlength="3" /><span>Number of collections to display on User's favorite page</span>
+        </div>
     </div>
+    <div id="usersettings" class="tab-pane">
+        <h2>Users Listing</h2>
+        <div class="row">
+        <div class="col-md-4">
+            <label for="channels_list_per_page">User list per page</label>
+            <input class="form-control" name="channels_list_per_page" type="text" id="channels_list_per_page" value="{$row.channels_list_per_page}" size="6" maxlength="3" />'users' page
+        </div>
 
-    <h2>Collection Listing</h2>
+        <div class="col-md-4">
+            <label for="users_items_subscribers">Subscribers in channel view</label>
+            <input class="form-control" name="users_items_subscibers" type="text" id="users_items_subscibers" value="{$row.users_items_subscibers}" size="6" maxlength="3" />subscribers in view channel page
+        </div>
 
-    <div class="form-group">
-      <label for="collection_per_page">Collection Page</label>
-      <input class="form-control" name="collection_per_page" type="text" id="collection_per_page" value="{$row.collection_per_page}" size="6" maxlength="3" />
-      <span>Number of collections to display on Collections page.</span>
+        <div class="col-md-4">
+            <label for="">Subscriptions in channel view</label>
+            <input class="form-control" name="users_items_subscriptions" type="text" id="users_items_subscriptions" value="{$row.users_items_subscriptions}" size="6" maxlength="3" />subscriptions in view channel page
+        </div>
+            </div>
+            <div class="row">
+        <div class="col-md-4">
+            <label for="users_items_contacts_channel">Users contacts in channel view</label>
+            <input class="form-control" name="users_items_contacts_channel" type="text" id="users_items_contacts_channel" value="{$row.users_items_contacts_channel}" size="6" maxlength="3" />
+            users contacts in view channel
+        </div>
+
+        <div class="col-md-4">
+            <label for="users_items_group_page">View Group Page</label>
+            <input class="form-control" name="users_items_group_page" type="text" id="users_items_group_page" value="{$row.users_items_group_page}" size="6" maxlength="3" />users in view group page
+        </div>
+
+        <div class="col-md-4">
+            <label for="users_items_search_page">Search Page</label>
+            <input class="form-control" name="users_items_search_page" type="text" id="users_items_search_page" value="{$row.users_items_search_page}" size="6" maxlength="3" />
+            users in search page
+        </div>
+                </div>
     </div>
+    <div id="groupsgeneral" class="tab-pane">
+        <h2>Groups</h2>
+        <div class="row">
+        <div class="col-md-6">
+            <label for="groups_list_per_page">Groups Page</label>
+            <input class="form-control" name="groups_list_per_page" type="text" id="groups_list_per_page" value="{$row.groups_list_per_page}" size="6" maxlength="3" />'groups' page
+        </div>
 
-    <div class="form-group">
-      <label for="collection_home_page">Home Page</label>
-      <input class="form-control" name="collection_home_page" type="text" id="collection_home_page" value="{$row.collection_home_page}" size="6" maxlength="3" />
-      <span>Number of collections to display on Homepage.</span>
+        <div class="col-md-6">
+            <label for="grps_items_search_page">Search Page</label>
+            <input class="form-control" name="grps_items_search_page" type="text" id="grps_items_search_page" value="{$row.grps_items_search_page}" size="6" maxlength="3" />groups in search page
+        </div>
+        </div>
+        <h2>General</h2>
+       <div class="row">
+        <div class="col-md-4">
+            <label for="search_list_per_page">Search results per page</label>
+            <input class="form-control" name="search_list_per_page" type="text" id="search_list_per_page" value="{$row.search_list_per_page}" size="6" maxlength="3" />other search results
+        </div>
+
+        <div class="col-md-4">
+            <label for="recently_viewed_limit">Recently viewed videos</label>
+            <input class="form-control" name="recently_viewed_limit" type="text" id="recently_viewed_limit" value="{$row.recently_viewed_limit}" size="6" maxlength="3" />recently viewed videos
+        </div>
+
+        <div class="col-md-4">
+            <label for="comments_per_page">Comments per page</label>
+            <input class="form-control" name="comments_per_page" type="text" id="comments_per_page" value="{$row.comments_per_page}" size="6" maxlength="3" />
+        </div>
     </div>
-    
-    <div class="form-group">
-      <label for="collection_items_page">Items Page</label>
-      <input class="form-control" name="collection_items_page" type="text" id="collection_items_page" value="{$row.collection_items_page}" size="6" maxlength="3" />
-      <span>Number of items to display in a Collection.</span>
+        </div>
     </div>
-
-    <div class="form-group">
-      <label for="collection_search_result">Search Result</label>
-      <input class="form-control" name="collection_search_result" type="text" id="collection_search_result" value="{$row.collection_search_result}" size="6" maxlength="3" /><span>Number of collections to display on Homepage.</span>
     </div>
+</div>
 
-    <div class="form-group">
-      <label for="collection_channel_page">Channel Page</label>
-      <input class="form-control" name="collection_channel_page" type="text" id="collection_channel_page" value="{$row.collection_channel_page}" size="6" maxlength="3" /><span>Number of collections to display on Channel page</span>
-    </div>
 
-    <div class="form-group">
-      <label for="collection_user_collections">User Collections</label>
-      <input class="form-control" name="collection_user_collections" type="text" id="collection_user_collections" value="{$row.collection_user_collections}" size="6" maxlength="3" /><span>Number of collections to display on User's collection page</span>
-    </div>
 
-    <div class="form-group">
-      <label for="collection_user_favorites">User Favorites</label>
-      <input class="form-control" name="collection_user_favorites" type="text" id="collection_user_favorites" value="{$row.collection_user_favorites}" size="6" maxlength="3" /><span>Number of collections to display on User's favorite page</span>
-    </div>
 
-    <h2>Users Listing</h2>
 
-    <div class="form-group">
-      <label for="channels_list_per_page">User list per page</label>
-      <input class="form-control" name="channels_list_per_page" type="text" id="channels_list_per_page" value="{$row.channels_list_per_page}" size="6" maxlength="3" />'users' page
-    </div>
 
-    <div class="form-group">
-      <label for="users_items_subscribers">Subscribers in channel view</label>
-      <input class="form-control" name="users_items_subscibers" type="text" id="users_items_subscibers" value="{$row.users_items_subscibers}" size="6" maxlength="3" />subscribers in view channel page
-    </div>
-    
-    <div class="form-group">
-      <label for="">Subscriptions in channel view</label>
-      <input class="form-control" name="users_items_subscriptions" type="text" id="users_items_subscriptions" value="{$row.users_items_subscriptions}" size="6" maxlength="3" />subscriptions in view channel page
-    </div>
 
-    <div class="form-group">
-      <label for="users_items_contacts_channel">Users contacts in channel view</label>
-      <input class="form-control" name="users_items_contacts_channel" type="text" id="users_items_contacts_channel" value="{$row.users_items_contacts_channel}" size="6" maxlength="3" />
-      users contacts in view channel
-    </div>
 
-    <div class="form-group">
-      <label for="users_items_group_page">View Group Page</label>
-      <input class="form-control" name="users_items_group_page" type="text" id="users_items_group_page" value="{$row.users_items_group_page}" size="6" maxlength="3" />users in view group page
-    </div>
-
-    <div class="form-group">
-      <label for="users_items_search_page">Search Page</label>
-      <input class="form-control" name="users_items_search_page" type="text" id="users_items_search_page" value="{$row.users_items_search_page}" size="6" maxlength="3" />
-      users in search page
-    </div>
-
-    <h2>Groups</h2>
-
-    <div class="form-group">
-      <label for="groups_list_per_page">Groups Page</label>
-      <input class="form-control" name="groups_list_per_page" type="text" id="groups_list_per_page" value="{$row.groups_list_per_page}" size="6" maxlength="3" />'groups' page
-    </div>
-
-    <div class="form-group">
-      <label for="grps_items_search_page">Search Page</label>
-      <input class="form-control" name="grps_items_search_page" type="text" id="grps_items_search_page" value="{$row.grps_items_search_page}" size="6" maxlength="3" />groups in search page
-    </div>
-
-    <h2>General</h2>
-
-    <div class="form-group">
-      <label for="search_list_per_page">Search results per page</label>
-      <input class="form-control" name="search_list_per_page" type="text" id="search_list_per_page" value="{$row.search_list_per_page}" size="6" maxlength="3" />other search results
-    </div>
-
-    <div class="form-groups">
-      <label for="recently_viewed_limit">Recently viewed videos</label>
-      <input class="form-control" name="recently_viewed_limit" type="text" id="recently_viewed_limit" value="{$row.recently_viewed_limit}" size="6" maxlength="3" />recently viewed videos
-    </div>
-
-    <div class="form-group">
-      <label for="comments_per_page">Comments per page</label>
-      <input class="form-control" name="comments_per_page" type="text" id="comments_per_page" value="{$row.comments_per_page}" size="6" maxlength="3" />
-    </div>
-  </div>
-    
   <div id="div_4" class="main_page_div" >
-
-    
-    <div class="form-group">
+      <div class="row">
+    <div class="col-md-4">
       <label for="anonymous_id">Anonymous UserID</label>
       <input class="form-control" name="anonymous_id" type="text" id="anonymous_id" value="{$row.anonymous_id}" size="6" maxlength="3" />
       <a href="http://docs.clip-bucket.com/clipbucket-v2/anonymous-user" target="_blank"><img src="{$imageurl}/help.png" border="0" alt="info" class="tipsy_tip" title="Set Anoymous Userid, Click For More Details" /></a>
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label class="checkbox">
         <input name="allow_registeration" type="checkbox" id="allow_registeration" value="1" {if $row.allow_registeration=='1'}checked="checked"{/if} />Turn on registrations
       </label>
-    </div>
-
-    <div class="form-group">
       <label class="checkbox">
         <input name="email_verification" type="checkbox" id="email_verification" value="1" {if $row.email_verification=='1'}checked="checked"{/if} />Email verification
       </label>
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="varification_captcha">Image verification (captcha)</label>
       <select class="form-control" name="captcha_type">
         <option value="0" {if $row.captcha_type == 0}
@@ -1070,52 +1255,54 @@
         {/if}>Secured</option>
       </select>
     </div>
+          </div>
+      <div class="row">
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="user_max_chr">Username maximum characters</label>
       <input class="form-control" name="user_max_chr" type="text" id="user_max_chr" value="{$row.user_max_chr}" size="6" maxlength="3" />
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="disallowed_usernames">Disallowed usernames</label>
       <textarea class="form-control" name="disallowed_usernames" id="disallowed_usernames" cols="45" rows="5">{$row.disallowed_usernames}</textarea>
       sperate by commas
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label class="checkbox">
         <input name="allow_unicode_usernames" type="checkbox" 
       id="allow_unicode_usernames" value="yes" {if $row.allow_unicode_usernames=='yes'}checked="checked"{/if} />
       Allow Special Characters in usernames
       </label>
-    </div>
-
-    <div class="form-group">
       <label class="checkbox">
         <input name="allow_username_spaces" type="checkbox" 
       id="allow_username_spaces" value="yes" {if $row.allow_username_spaces=='yes'}checked="checked"{/if} />
       Allow spaces in usernames
       </label>
     </div>
-
-    <div class="form-group">
+          </div>
+      <div class="row">
+    <div class="col-md-4">
       <label for="min_username">Minimum Username Length</label>
       <input class="form-control" name="min_username" type="text" id="min_username" value="{$row.min_username|form_val}" />
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="max_username">Maximum Username Length</label>
       <input class="form-control" name="max_username" type="text" id="max_username" value="{$row.max_username|form_val}" />
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="min_age_reg">Minimum age for registration</label>
       <input class="form-control" name="min_age_reg" type="text" id="min_age_reg" value="{$row.min_age_reg}" size="6" maxlength="3" />leave blank to disable this option
     </div>
+          </div>
+      <hr>
 
     <h2>Profile Pictures &amp; Background</h2>
-
-    <div class="form-group">
+    <div class="row">
+    <div class="col-md-4">
       <label for="gravatars">Use Avatars</label>
       <select class="form-control" name="gravatars" id="gravatars">
         <option value="yes"
@@ -1129,17 +1316,17 @@
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="max_profile_pic_size">Max profile pic size</label>
       <input class="form-control" name="max_profile_pic_size" type="text" id="max_profile_pic_size" value="{$row.max_profile_pic_size}" size="6" maxlength="10" />KBs
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="max_profile_pic_width">Max profile pic dimension</label>
       <input class="form-control" name="max_profile_pic_width" type="text" id="max_profile_pic_width" value="{$row.max_profile_pic_width}" size="6" maxlength="10" />
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="select4">Allow picture URL</label>
       <select class="form-control" name="picture_url" id="select4">
         <option value="yes" 
@@ -1151,8 +1338,9 @@
         {/if}>No</option>
       </select>
     </div>
-
-    <div class="form-group">
+        </div>
+        <div class="row">
+    <div class="col-md-4">
       <label for="select5">Allow picture upload</label>
       <select class="form-control" name="picture_upload" id="select5">
         <option value="yes" {if $row.picture_upload == yes}
@@ -1164,19 +1352,20 @@
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="max_bg_size">Max Background Size</label>
       <input class="form-control" name="max_bg_size" type="text" id="max_bg_size" value="{$row.max_bg_size}" size="6" maxlength="10" />
       KBs
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="max_bg_width">Max Background Dimension</label>
       <input class="form-control" name="max_bg_width" type="text" id="max_bg_width" value="{$row.max_bg_width}" size="6" maxlength="10" />
       Pixels
     </div>
-
-    <div class="form-group">
+            </div>
+        <div class="row">
+    <div class="col-md-4">
       <label for="select6">Allow Background URL</label>
       <select class="form-control" name="background_url" id="select6">
         <option value="yes" {if $row.background_url == yes}
@@ -1188,7 +1377,7 @@
       </select>
     </div>
     
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="select7">Allow background upload</label>
       <select class="form-control" name="background_upload" id="select7">
         <option value="yes" {if $row.background_upload == yes}
@@ -1200,7 +1389,7 @@
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="col-md-4">
       <label for="background_color">Allow background color</label>
       <select class="form-control" name="background_color" id="background_color">
         <option value="yes" {if $row.background_color == yes}
@@ -1213,9 +1402,10 @@
     </div>
   </div>
 </div>
+      </div>
   
 <div align="right"class="main_page_div" style="padding:5px; min-height:0px; margin-top:10px"><label>
-  <input type="submit" name="update" class="btn btn-success" value="Update Settings" id="udpate" />
+  <input type="submit" name="update" class="btn btn-primary btn-sm" value="Update Settings" id="udpate" />
 </label>
 </div>
 </form>
