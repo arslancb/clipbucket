@@ -14,12 +14,48 @@
     <span class="label label-danger" style="cursor: pointer;" onclick="$(this).next().toggle();return false;"><b>{$file.title}</b>{$smarty.foreach.mass_files}</span>
     <div class="" style="display:none">
         {foreach from=$requiredFields item=field}
-        <div class="form-group">
-            <label for="{$field.id}"><b style="color: #000000">{$field.name}</b></label>
+        {$field.class='form-control'}
+        {if $field.title=='Title'}
+        <div class="row">
+            <div class="col-md-6">
+                <label for="{$field.id}"><b style="color: #000000">{$field.name}</b></label>
+                {$formObj->createField($field, true)}
+            </div>
+            {/if}
+            {/foreach}
+            {foreach from=$requiredFields item=field}
             {$field.class='form-control'}
-         {$formObj->createField($field, true)}
+            {if $field.title=='Description'}
+                <div class="col-md-6">
+                    <label for="{$field.id}"><b style="color: #000000">{$field.name}</b></label>
+                    {$formObj->createField($field, true)}
+                </div>
+            {/if}
+            {/foreach}
         </div>
-        {/foreach}
+        <div class="row">
+            {foreach from=$requiredFields item=field}
+            {$field.class='form-control'}
+            {if $field.title=='Video Category'}
+            <div class="col-md-6">
+                <label for="{$field.id}"><b style="color: #000000">{$field.name}</b></label>
+                <div class="scroll">
+                {$formObj->createField($field, true)}
+                    </div>
+            </div>
+            {/if}
+            {/foreach}
+            {foreach from=$requiredFields item=field}
+            {$field.class='form-control'}
+            {if $field.title=='Tags'}
+            <div class="col-md-6">
+                <label for="{$field.id}"><b style="color: #000000">{$field.name}</b></label>
+                {$formObj->createField($field, true)}
+            </div>
+            {/if}
+            {/foreach}
+        </div>
+
     </div>
 </div>
     </div>
