@@ -11,9 +11,7 @@
             <label for="language">Language</label>
             <select name="lang_code" id="lang_code" class="form-control">
                 {assign var=language value=$lang_obj->get_langs()}
-
                 {section name=l_list loop=$language}
-
                 <option value="{$language[l_list].language_code}">{$language[l_list].language_name}</option>
                 {/section}
             </select>
@@ -24,7 +22,6 @@
         <label for="phrasetext">Phrase Text</label>
         <textarea name="text" class="form-control" id="text" cols="45" rows="5"></textarea>
         </div>
-
 
     </fieldset>
     <div class="form-group">
