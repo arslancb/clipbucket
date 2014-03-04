@@ -10,16 +10,12 @@
     <input class="lead" type="hidden" name="mass_up[]" value="{$file.title}" />
 
 <div class="alert alert-info">
-
-
-<div class="well" >
-    <h5 class="pull-left" style="padding-right:10px;">{$smarty.foreach.mass_files.iteration} - <b>{$file.title}</b></h5>
-    <spam class="label label-primary" style="cursor: pointer;" onclick="$(this).next().toggle();return false;">Enter Details {$smarty.foreach.mass_files.iteration}</spam>
-    <div class="well clearfix" style="display:none">
-
+<div class="">
+    <span class="label label-danger" style="cursor: pointer;" onclick="$(this).next().toggle();return false;"><b>{$file.title}</b>{$smarty.foreach.mass_files}</span>
+    <div class="" style="display:none">
         {foreach from=$requiredFields item=field}
         <div class="form-group">
-            <label for="{$field.id}">{$field.name}</label>
+            <label for="{$field.id}"><b style="color: #000000">{$field.name}</b></label>
             {$field.class='form-control'}
          {$formObj->createField($field, true)}
         </div>
