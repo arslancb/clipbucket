@@ -22,38 +22,175 @@
         <div class="col-sm-6 col-md-6 col-lg-6 col x1-12">
         <input class="form-control" name="admin" type="hidden" id="admin" value="true" />
         <input name="collection_id" type="hidden"  value="{$data.collection_id}" />
-        <div class="form-group">
-            <legend>User Information</legend>
-            <img src="{$userquery->getUserThumb($u,'small')}" class="img-thumbnail oneUserImage" />
-            <label>Useid</label>
-            <a href="view_user.php?uid={$data.userid}">{$data.userid|get_username}</a>
-    </div>
-        <div class="form-group">
-	    <legend>Collection Details</legend>
-        <label for="collecionID">Collection ID</label>
-        <input disabled="disabled" class="form-control" name="collecionID" type="text" id="collecionID" value="{$data.collection_id}" size="45" />
-    </div>
-        {foreach from=$requiredFields item=field}
-        {$field.class='form-control'}
-    <div class="form-group">
-        <label>{$field.title} :</label>
-        <td>{$field.hint_1}<br />
-        {$formObj->createField($field)}<br/> 
-        {$field.hint_2}</td>
-    </div>
-        {/foreach}
-        <div class="form-group">
-	    <legend>Collection Stats</legend>
+
+            <div class="tabbable">
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active">
+                        <a data-toggle="tab" href="#cldetails">
+                            Collection Details
+                        </a>
+                    </li>
+                    <li class="">
+                        <a data-toggle="tab" href="#uinformation">
+                            <i class="glyphicon glyphicon-user"></i>
+                            Uploader Information
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="cldetails" class="tab-pane active">
+                        <div class="table-responsive">
+                            <legend>Collection Details</legend>
+                            <table class="table-bordered">
+                                <tr>
+                            <td class="alert-info ecollection"><label for="collecionID">Collection ID</label></td>
+                            <td class="ecollection1"><input disabled="disabled" class="form-control" name="collecionID" type="text" id="collecionID" value="{$data.collection_id}"  />
+                            </td>
+                                </tr>
+                                </table>
+                        </div>
+                        {foreach from=$requiredFields item=field}
+                        {$field.class='form-control'}
+                        {if $field.title=='Collection name'}
+                        <table>
+                            <tr>
+                            <td class="alert-info ecollection">{$field.title}</td>
+                            <td class="ecollection1">{$formObj->createField($field)}</td>
+                            </tr>
+                            {/if}
+                            {/foreach}
+                            {foreach from=$requiredFields item=field}
+                            {if $field.title=='Collection description'}
+                            {$field.class='form-control'}
+                            <tr>
+                                <td class="alert-info ecollection">{$field.title}</td>
+                                <td class="ecollection1">{$formObj->createField($field)}</td>
+                            </tr>
+                            {/if}
+                            {/foreach}
+                            {foreach from=$requiredFields item=field}
+                            {if $field.title=='Collection tags'}
+                            {$field.class='form-control'}
+                            <tr>
+                                <td class="alert-info ecollection">{$field.title}</td>
+                                <td class="ecollection1">{$formObj->createField($field)}</td>
+                            </tr>
+                            {/if}
+                            {/foreach}
+                            {foreach from=$requiredFields item=field}
+                            {if $field.title=='Collection type'}
+                            {$field.class='form-control'}
+                            <tr>
+                                <td class="alert-info ecollection">{$field.title}</td>
+                                <td class="ecollection1">{$formObj->createField($field)}</td>
+                            </tr>
+                            {/if}
+                            {/foreach}
+                            </table>
+                        <hr>
+                        {foreach from=$requiredFields item=field}
+                        {if $field.title=='Collection category'}
+
+                        <label>{$field.title}</label>
+                        <div class="tab-content scroll">
+                            {$formObj->createField($field)}
+                        </div>
+                        {/if}
+                        {/foreach}
+
+                    </div>
+                    <div id="uinformation" class="tab-pane">
+                        <legend>Uploader Information</legend>
+                        <div class="form-group">
+                            <img src="{$userquery->getUserThumb($u,'small')}" class="btn btn-app btn-primary btn-xs" />
+                        </div>
+                        <div class="table-responsive">
+
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td class="alert-info"><label class="alert-info">User Id</label></td>
+                                    <td><input type="text" value="{$data.userid}" disabled="disabled" class="form-control"></label></td>
+                                </tr>
+                                <tr>
+                                    <td class="alert-info"><label class="alert-info">User Name</label></td>
+                                    <td><input class="form-control" disabled="disabled" type="text" value="{$data.userid|get_username}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="alert-info"><label class="alert-info">DOB</label></td>
+                                    <td><input class="form-control" disabled="disabled" type="text" value="{$data.dob}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="alert-info"><label class="alert-info">Email</label></td>
+                                    <td><input class="form-control" disabled="disabled" type="text" value="{$data.email}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="alert-info"><label class="alert-info">Gender</label></td>
+                                    <td><input class="form-control" disabled="disabled" type="text" value="{$data.sex}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="alert-info"><label class="alert-info">Rating</label></td>
+                                    <td><input class="form-control" disabled="disabled" type="text" value="{$data.rating}"></td>
+                                </tr>
+                            </table>
+
+                        </div>
+                </div>
+                    </div>
+                <br>
+        <div class="row">
+            <legend>Collection Stats</legend>
+        <div class="col-md-6">
         <label for="total_objects">Total Objects</label>
         <input class="form-control" name="total_objects" type="text" id="total_objects" value="{$data.total_objects}" />
     </div>
-        <div class="form-group">
+        <div class="col-md-6">
         <label for="total_comments">Total Comments</label>
         <input name="total_comments" class="form-control"  type="text" id="total_comments" value="{$data.total_comments}" />
     </div>
+            </div>
         <input type="submit" class="btn btn-primary" value="Update Collection Details" style="margin:15px 0px 0px 15px" name="update_collection">
     </div>
+            </div>
         <div class="col-sm-6 col-md-6 col-lg-6 col x1-12 pull-right">
+                <span class="btn btn-app btn-sm btn-light no-hover">
+													<span class="line-height-1 bigger-170 blue">{$data.views|number_format}</span>
+													<br>
+													<span class="line-height-1 smaller-90"> Views </span>
+												</span>
+            <span class="btn btn-app btn-sm btn-yellow no-hover">
+													<span class="line-height-1 bigger-170"> {$data.comments_count} </span>
+
+													<br>
+													<span class="line-height-1 smaller-90"> Comments </span>
+												</span>
+            <span class="btn btn-app btn-sm btn-pink no-hover">
+													<span class="line-height-1 bigger-170"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok"></span>
+                                                        {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+													<br>
+													<span class="line-height-1 smaller-90"> Active </span>
+												</span>
+                </span>
+            <span class="btn btn-app btn-sm btn-grey no-hover">
+													<span class="line-height-1 bigger-170">{if $data.featured=='yes'}<span class="glyphicon glyphicon-ok"></span>
+                                                        {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+													<br>
+													<span class="line-height-1 smaller-90"> Featured </span>
+												</span>
+                </span>
+            <span class="btn btn-app btn-sm btn-success no-hover">
+													<span class="line-height-1 bigger-170"> {$data.editorpick} </span>
+
+													<br>
+													<span class="line-height-1 smaller-90"> Editor Pick </span>
+												</span>
+            <span class="btn btn-app btn-sm btn-primary no-hover">
+                {section name=list loop=$flagedVideos}
+													<span class="line-height-1 bigger-170"> {$flagedVideos[list].total_flags} </span>
+                {/section}
+													<br>
+													<span class="line-height-1 smaller-90"> Flagged </span>
+												</span>
         <div class="head">Items</div>
         {if $objects}
         {section name=list loop=$objects}
@@ -69,19 +206,38 @@
                         {else}
                     	Collection has 0 items
                         {/if}
+
+            <div class="tabbable">
+                <ul class="nav nav-tabs" id="myTab3">
+                    <li class="active">
+                        <a data-toggle="tab" href="#fields">
+                            Other Fields
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#clpreview">
+                            Collection Preview
+                        </a>
+                    </li>
+                </ul>
+
+
+                <div class="tab-content">
+                    <div id="fields" class="tab-pane in active">
             	<legend>Other Fields</legend>
                 <div class="form-group">
-
                     {foreach from=$otherFields item=field}
-                    <label for="{$field.id}">{$field.title} :</label>
+                    <label class="label label-danger" for="{$field.id}">{$field.title} :</label>
                     {$field.hint_1}<br />
                     {$formObj->createField($field)}<br/>
                     {$field.hint_2}
                     {/foreach}
                     </div>
+                        </div>
+                    <div id="clpreview" class="tab-pane">
             	<legend>Collection Preview</legend>
                 <div class="form-group">
-                        <label>Collection Preview :</label>
+                        <label class="label label-danger">Collection Preview :</label>
                         <img style="padding:2px; border:1px solid #ccc;" src="{$cbcollection->get_thumb($data,NULL,TRUE)}" />
                         <input class="forum-control" type="checkbox" value="{$data.collection_id}" name="delete_preview" id="del_{$data.collection_id}_preview" /><label for="del_{$data.collection_id}_preview">Delete Preview</label>
           </div>
@@ -91,5 +247,7 @@
           </div>
           </div>
           </div>
-
+            </div>
+            </div>
+        </div>
          </form>
