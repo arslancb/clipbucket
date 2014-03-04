@@ -1,5 +1,7 @@
 {assign var='signup_fields' value=$userquery->load_signup_fields($u)}
 {assign var='channel_profile_fields' value=$userquery->load_user_fields($p)}
+
+
 <div class="row">
 <div class="lead dropdown">Editing {$u.username}
 <a class="btn btn-primary btn-sm dropdown-toggle pull-right" data-toggle="dropdown" href="">Actions <i class="caret"></i></a>
@@ -22,6 +24,7 @@
     <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_pm=yes">Delete Private Messages</a></li>
 </ul>
 </div>
+
 <form action="" method="post" enctype="multipart/form-data" name="form1" id="form1" class="cbform">
 <div class="col-sm-6 col-md-6 col-lg-6 col x1-12">
 <div class="tabbable">
@@ -145,10 +148,7 @@
                 {/foreach}
                 {/if}
             </div>
-            <div class="form-group">
-                <label for="">Category</label>
-                {ANCHOR place=$signup_fields.cat.anchor_before}{$formObj->createField($signup_fields.cat)}{ANCHOR place=$signup_fields.cat.anchor_after}
-            </div>
+
         </div>
     </div>
     <div id="channelsetting" class="tab-pane">
@@ -268,6 +268,45 @@
 
 
 <div class="col-sm-6 col-md-6 col-lg-6 col x1-12 pull-right">
+<span class="btn btn-app btn-sm btn-light no-hover">
+													<span class="line-height-1 bigger-170 blue">{$u.num_visits}</span>
+													<br>
+													<span class="line-height-1 smaller-90"> Views </span>
+												</span>
+            <span class="btn btn-app btn-sm btn-yellow no-hover">
+													<span class="line-height-1 bigger-170"> {$u.total_comments} </span>
+
+													<br>
+													<span class="line-height-1 smaller-90"> Comments </span>
+												</span>
+            <span class="btn btn-app btn-sm btn-pink no-hover">
+													<span class="line-height-1 bigger-170"> {if $u.usr_status=='Ok'}<span class="glyphicon glyphicon-ok"></span>
+                                                        {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+													<br>
+													<span class="line-height-1 smaller-90"> Active </span>
+												</span>
+                </span>
+            <span class="btn btn-app btn-sm btn-grey no-hover">
+													<span class="line-height-1 bigger-170">{if $u.featured=='Yes'}<span class="glyphicon glyphicon-ok"></span>
+                                                        {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+													<br>
+													<span class="line-height-1 smaller-90"> Featured </span>
+												</span>
+                </span>
+            <span class="btn btn-app btn-sm btn-success no-hover">
+													<span class="line-height-1 bigger-170">  </span>
+
+													<br>
+													<span class="line-height-1 smaller-90"> Editor Pick </span>
+												</span>
+            <span class="btn btn-app btn-sm btn-primary no-hover">
+
+													<span class="line-height-1 bigger-170"> {$u.total_flags} </span>
+
+													<br>
+													<span class="line-height-1 smaller-90"> Flagged </span>
+												</span>
+
 <div class="actionsSettings">
     <div class="userActivity">
       <h3>User Activity</h3>
@@ -486,6 +525,4 @@
 <div class="form-group">
     {assign var=id value=$u.userid}{include file="$style_dir/blocks/comments.html" type=u id=$u.userid link="user=$id"}
 </div>
-
-
 
