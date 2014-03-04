@@ -15,12 +15,14 @@ $Cbucket->upload_opt_list['embed_code_div'] =
             'title' => 'Embed Code',
             'load_func' => 'load_embed_form',
 );
-if (post('verify_embed'))
+//dump($_POST);
+/*if (post('embed_code'))
 {
     $embed_code = post('embed_code');
     if ($embed_code)
         $_POST ['embed_code'] = base64_decode($embed_code);
-}
+}*/
+//dump($_POST);die();
 
 if (!function_exists('validate_embed_code'))
 {
@@ -81,12 +83,14 @@ if (!function_exists('validate_embed_code'))
      */
     function validate_embed_code($val)
     {
-
+        // This is the culprit
+        //dump($val);
         if (empty($val) || $val == 'none')
         {
             return 'none';
         } else
         {
+            return $val;
             //$val = base64_decode($val);
             //Striping Slasshes as they are not required
             $val = stripslashes($val);
@@ -117,8 +121,9 @@ if (!function_exists('validate_embed_code'))
                 ('width="{Width}"', 'width="{Width}"', 'height="{Height}"', 'height="{Height}"',
                 'width:{Width}px', 'height:{Height}px');
 
+            //    dump($val);
             $val = preg_replace($pattern, $replace, $val);
-
+            //dump($val);die();
             return $val;
         }
     }
@@ -194,13 +199,13 @@ if (!function_exists('validate_embed_code'))
             $file = $array['name'];
             $ext = getExt($file);
             $image = new ResizeImage();
-
+            $file_directory = createDataFolders();
             if (!empty($file) && file_exists($array['tmp_name']) && !error())
             {
                 if ($image->ValidateImage($array['tmp_name'], $ext))
                 {
-                    $file = BASEDIR . '/files/thumbs/' . $_POST['file_name'] . '.' . $ext;
-                    $bfile = BASEDIR . '/files/thumbs/' . $_POST['file_name'] . '.-big.' . $ext;
+                    $file = BASEDIR . '/files/thumbs/' . $file_directory . '/' . $_POST['file_name'] . '.' . $ext;
+                    $bfile = BASEDIR . '/files/thumbs/' . $file_directory . '/'  . $_POST['file_name'] . '.-big.' . $ext;
                     if (!file_exists($file))
                     {
                         move_uploaded_file($array['tmp_name'], $file);
