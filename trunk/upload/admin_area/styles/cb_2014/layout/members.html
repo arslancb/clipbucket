@@ -41,7 +41,8 @@
                         <span>({$u.email})</span>
                         <div class="labels">
                             {if $u.usr.featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
-                            <span class="label {if $u.usr_status == ok}label-success{else}label-warning{/if}"><span>{if $u.usr.status=='yes'}Active{else}InActive{/if}</span></span>
+                            <span class="label {if $u.usr_status=='Ok'}label-success{else}label-warning{/if}">
+                                        {if $u.usr_status=='Ok'}Active{else}InActive{/if} </span>
                             <span class="label label-info"><span>{$u.level|get_user_level}</span></span>
                             <span class="label"><span>Last Active  </span>{$u.last_active|niceTime}</span>
                     </div>
