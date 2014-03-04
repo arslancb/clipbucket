@@ -40,7 +40,8 @@
                     <a href="{$userquery->profile_link($u)}" target="_blank" class="oneUserName">{$u.username}</a>
                             <span>{$u.email}</span>
                             <div class="labels">
-                                <span class="label {if $u.usr_status == yes}label-success{else}label-warning{/if}"><span>{if $u.usr.status=='yes'}Active{else}InActive{/if}</span></span>
+                                <span class="label {if $u.usr_status=='Ok'}label-success{else}label-warning{/if}">
+                                        {if $u.usr_status=='Ok'}Active{else}InActive{/if} </span>
                                 <span class="label label-info"><span>{$u.level|get_user_level}</span></span>
                                 <span class="label"><span>Last Active  </span>{$u.last_active|niceTime}</span>
                                <a href="?mode=view_flags&uid={$u.userid}"><span class="label label-info"><span>Flags</span>:<span>{$u.flag_type}</span></span>
