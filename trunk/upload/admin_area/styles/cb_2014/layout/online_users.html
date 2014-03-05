@@ -1,10 +1,8 @@
 <h2>{$total} users are online</h2>
-
-
 <table class="table table-bordered table-striped">
   <tr>
     <td width="150">User</td>
-    <td>Browsing</td>
+    <td>Details</td>
     <td width="150">Access time</td>
     <td width="100">IP</td>
   </tr>
@@ -15,26 +13,51 @@
     <tr>
       <td width="150">
         {if $user.username}
-        <a href="view_user?uid={$user.userid}">{$user.username}</a>
+          <a href="view_user?uid={$user.userid}"><label class="label label-success">{$user.username}</label></a>
+          <br>
+          <a href="view_user.php?uid={$u.userid}"> <img src="{$userquery->getUserThumb($u,'small')}" class="img-thumbnail oneUserImage" />
+          </a>
         {else}
         {$user.session_string}
         {/if}
         <img class="tipsy_tip browser {$theBrowser.bname}" src="{$imageurl}/dot.gif" title="{$theBrowser.name} {$theBrowser.version} on {$theBrowser.platform}" />
       </td>
       <td>
-        <a href="{$user.current_page}">{$user.current_page|truncate:40:'..':false:true}</a>
+          <button id="hideshow" class="btn btn-primary btn-xs" value="See Details">See Details</button>
+              <div id="content" style="display: none">
+                  <b>Right Now</b>      <a href="{$user.current_page}">{$user.current_page|truncate:40:'..':false:true}</a>
         {if $user.referer}
         <sub class="tipsy_tip" title="{$user.referer}">
           <a href="{$user.referer}" target="_blank" >view referer</a>
+            <br>
+            <label class="label label-info">{$user.email}</label>
+              <span class="label label-info">
+                                       Viewed {$video.last_viewed|niceTime}</span>
         </sub>
         {/if}
+                  </div>
       </td>
       <td width="150">
-        {$user.session_date|niceTime}<br>
-        <a href="{$queryString}kick={$user.session_id}" class="kick" title="This will make user force logout">KICK</a>
+        <b>{$user.session_date|niceTime}</b><br>
+        <a href="{$queryString}kick={$user.session_id}" class="kick" title="This will make user force logout"><label class="label label-danger">KICK</label></a>
       </td>
-      <td width="100">{$user.ip}</td>
+      <td width="100"><b>{$user.ip}</b></td>
     </tr>
   {/foreach}
   {/if}
 </table>
+
+
+<script>
+    var button = document.getElementById('hideshow'); // Assumes element with id='button'
+
+    button.onclick = function() {
+        var div = document.getElementById('content');
+        if (div.style.display !== 'none') {
+            div.style.display = 'none';
+        }
+        else {
+            div.style.display = 'block';
+        }
+    };
+</script>
