@@ -1217,19 +1217,23 @@
     </div>
 </div>
 
-
-
-
-
-
-
-
   <div id="div_4" class="main_page_div" >
       <div class="row">
     <div class="col-md-4">
       <label for="anonymous_id">Anonymous UserID</label>
       <input class="form-control" name="anonymous_id" type="text" id="anonymous_id" value="{$row.anonymous_id}" size="6" maxlength="3" />
       <a href="http://docs.clip-bucket.com/clipbucket-v2/anonymous-user" target="_blank"><img src="{$imageurl}/help.png" border="0" alt="info" class="tipsy_tip" title="Set Anoymous Userid, Click For More Details" /></a>
+    </div>
+
+    <div class="col-md-4">
+      <h5>Store guest Session</h5>
+      <label class="radio-inline">
+        <input type="radio" name="store_guest_session" value="yes" id="store_guest_session_0" {if $row.store_guest_session =='yes'} checked="checked"{/if} />Yes
+      </label>
+      
+      <label class="radio-inline">
+        <input type="radio" name="store_guest_session" value="no" id="store_guest_session_1" {if $row.store_guest_session =='no'} checked="checked"{/if} />No    
+      </label>
     </div>
 
     <div class="col-md-4">
