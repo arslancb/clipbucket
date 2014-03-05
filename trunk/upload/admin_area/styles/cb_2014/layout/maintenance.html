@@ -1,50 +1,66 @@
 <h2>Website Maintenance</h2>
-
 <p>Remove inactive sessions, user access logs, comments cache, more options will be available soon</p>
+<div class="tabbable">
+    <ul class="nav nav-tabs" id="myTab3">
+        <li class="active">
+            <a data-toggle="tab" href="#risession">
+                Remove InActive sessions
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#ruserlog">
+                Remove user access log
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#ruactivity">
+               Remove user activity feed
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div id="risession" class="tab-pane in active">
+            <a class="btn btn-primary btn-xs btn-danger" href="?mode=remove_sessions">
+                Remove inactive sessions
+            </a>
+            </div>
+        <div id="ruserlog" class="tab-pane">
+            <form method="get">
+                <div class="row">
+                <div class="col-md-6">
+                    <label for="days">Older than</label>
+                    <input name="mode" value="remove_access_log" type="hidden" />
+                    <input class="form-control" name="days" type="text" value="30 Days"/>
+                    <br>
+                <input class="btn btn-primary btn-xs btn-danger" type="submit" value="remove" />
+                        </div>
+                </div>
+            </form>
+        </div>
+        <div id="ruactivity" class="tab-pane">
+            <form method="get">
+                <div class="row">
+                <div class="col-md-6">
+                    <label for="days">Older than</label>
+                    <input name="mode" value="remove_activity_feed" type="hidden" />
+                    <input class="form-control" name="days" type="text" value="30 days"/>
+                </div>
+                <div class="col-md-6">
+                    <label for="loop_size">With loop size of</label>
+                    <input class="form-control" name="loop_size" type="text" value="100 users"/>
+                </div>
+                    </div>
+                <br>
+                <div class="form-group">
+                    <input class="btn btn-primary btn-xs btn-danger" type="submit" value="remove" />
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
 
-<div class="form-group">
-    <a class="btn btn-primary btn-sm" href="?mode=remove_sessions">
-        Remove inactive sessions
-    </a>
-    <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="$('#access_remove_form').show()">
-        Remove user access log
-    </a>
-    <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="$('#activity_remove_form').show()">
-        Remove user activity feed
-    </a>
-</div>
 
-<div class="formPlaceHolder">
-    <span style="display:none" id="access_remove_form">
-         <form method="get">
-            <div class="form-group">
-                <label for="days">Older than</label>
-                <input name="mode" value="remove_access_log" type="hidden" />
-                <input class="form-control" name="days" type="text" value="30"/>    
-                Days
-            </div>
-            <input class="btn btn-primary" type="submit" value="remove" />
-         </form>
-     </span>
-     <span style="display:none" id="activity_remove_form">
-         <form method="get">
-            <div class="form-group">
-                <label for="days">Older than</label> 
-                <input name="mode" value="remove_activity_feed" type="hidden" />
-                <input class="form-control" name="days" type="text" value="30"/>
-                days
-            </div>
-            <div class="form-group">
-                <label for="loop_size">With loop size of</label>
-                <input class="form-control" name="loop_size" type="text" value="100"/>
-                users
-            </div>
-            <div class="form-group">
-                <input class="btn btn-primary" type="submit" value="remove" />
-            </div>
-         </form>
-     </span>
-</div>
+
 
 {if $smarty.get.mode =='remove_activity_feed'}
 {if $indexing}
