@@ -226,7 +226,7 @@ if(isset($_POST['update'])){
 					'website_email',
 					'welcome_email',
 					'vbrate_hd',
-					
+					'store_guest_session',
 					
 					);
 	
