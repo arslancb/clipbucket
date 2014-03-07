@@ -1,3 +1,4 @@
+
 <h3>ClipBucket V2.7 Dashboard</h3>
         <div class="row">
             <div class="col-md-6">
@@ -577,8 +578,333 @@
 
 <style type="text/css">
     .flot_chart1{
-        height: 200px;
+        height: 400px;
         width: 500px;
     }
 </style>
 
+
+<script type="text/javascript">
+
+$(function() {
+
+    var options = {
+
+        series: {
+            bars: {
+                show: true,
+                steps: true,
+                barWidth: 0.6,
+                align: "center"
+            },
+            points: { show: true },
+            lines: { show: true }
+        },
+        xaxis: {
+            mode: "categories",
+            tickLength: 0
+        },
+        grid: { hoverable: true, clickable: true }
+
+    };
+
+    // $.plot("#placeholder", data, options);
+
+    var iteration = 0;
+
+    function fetchData() {
+
+        //++iteration;
+        // Daily videos Data //
+
+        function onVideosDataReceveDaily(series_daily){
+
+            data =  series_daily;
+            //$.plot("#placeholder", data, options);
+            $.plot("#videos_daily_chart_id", data, options);
+            tooltip("#videos_daily_chart_id","#enableTooltipDaily");
+        }
+
+        $.ajax({
+            url: "charts/reports/videos_daily_reports.php",
+            type: "POST",
+            data:"videos=videos",
+            dataType: "json",
+            success: onVideosDataReceveDaily ,
+            error: function() {
+                $("#videos_daily_chart_id").html("error");
+                alert('error');
+            },
+            complete: function(){
+                $('#videos_daily_chart_id .loading-image').hide();
+            }
+        });
+
+        // !Daily videos Data //
+
+        // Daily users Data //
+
+        function onUserDataReceveDaily(series_daily){
+
+            data =  series_daily;
+            //$.plot("#placeholder", data, options);
+            $.plot("#daily_users_chart_id", data, options);
+            tooltip("#daily_users_chart_id","#enableTooltipDaily");
+        }
+
+        $.ajax({
+            url: "charts/reports/users_daily_reports.php",
+            type: "POST",
+            data:"videos=videos",
+            dataType: "json",
+            success: onUserDataReceveDaily ,
+            error: function() {
+                $("#daily_users_chart_id").html("error");
+                alert('error');
+            },
+            complete: function(){
+                $('#daily_users_chart_id .loading-image').hide();
+            }
+        });
+
+        // !Daily users Data //
+
+        // Daily Data //
+
+        function onDataReceveDaily(series_daily){
+
+            data =  series_daily;
+            //$.plot("#placeholder", data, options);
+            $.plot("#daily_chart_id", data, options);
+            tooltip("#daily_chart_id","#enableTooltipDaily");
+        }
+
+        $.ajax({
+            url: "charts/reports/daily_activity_reports.php",
+            type: "POST",
+            data:"videos=videos",
+            dataType: "json",
+            success: onDataReceveDaily ,
+            error: function() {
+                $("#daily_chart_id").html("error");
+                alert('error');
+            },
+            complete: function(){
+                $('#daily_chart_id .loading-image').hide();
+            }
+        });
+
+        // !Daily Data //
+
+
+        //users Week Data //
+
+        function onUsersDataReceivedWeekly(series_weekly) {
+
+            data =  series_weekly ;
+
+            $.plot("#users_weekly_chart_id", data, options);
+            tooltip("#users_weekly_chart_id","#enableTooltipWeekly");
+        }
+
+        $.ajax({
+            url: "charts/reports/users_week_activity.php",
+            type: "POST",
+            data:"videos=videos",
+            dataType: "json",
+            success: onUsersDataReceivedWeekly ,
+            error: function() {
+                $("#users_weekly_chart_id").html("error");
+                alert('error');
+            },
+            complete: function(){
+                $('#users_weekly_chart_id .loading-image').hide();
+            }
+        });
+        //users Week Data //
+
+        //videos Week Data //
+
+        function onVideosDataReceivedWeekly(series_weekly) {
+
+            data =  series_weekly ;
+
+            $.plot("#videos_weekly_chart_id", data, options);
+            tooltip("#videos_weekly_chart_id","#enableTooltipWeekly");
+        }
+
+        $.ajax({
+            url: "charts/reports/videos_weekly_reports.php",
+            type: "POST",
+            data:"videos=videos",
+            dataType: "json",
+            success: onVideosDataReceivedWeekly ,
+            error: function() {
+                $("#videos_weekly_chart_id").html("error");
+                alert('error');
+            },
+            complete: function(){
+                $('#videos_weekly_chart_id .loading-image').hide();
+            }
+        });
+        //videos Week Data //
+
+
+        // Week Data //
+
+        function onDataReceivedWeekly(series_weekly) {
+
+            data =  series_weekly ;
+
+            $.plot("#weekly_chart_id", data, options);
+            tooltip("#weekly_chart_id","#enableTooltipWeekly");
+        }
+
+        $.ajax({
+            url: "charts/reports/weekly_activity_reports.php",
+            type: "POST",
+            data:"videos=videos",
+            dataType: "json",
+            success: onDataReceivedWeekly ,
+            error: function() {
+                $("#weekly_chart_id").html("error");
+                alert('error');
+            },
+            complete: function(){
+                $('#weekly_chart_id .loading-image').hide();
+            }
+        });
+        // !Week Data //
+        //users Monthly Data //
+
+        function onUsersDataReceveMonthly(series_monthly){
+
+            data =  series_monthly;
+            //$.plot("#placeholder", data, options);
+            $.plot("#users_monthly_chart_id", data, options);
+            tooltip("#users_monthly_chart_id","#enableTooltipMonthly");
+        }
+
+        $.ajax({
+            url: "charts/reports/users_monthly_reports.php",
+            type: "POST",
+            data:"videos=videos",
+            dataType: "json",
+            success: onUsersDataReceveMonthly ,
+            error: function() {
+                $("#users_monthly_chart_id").html("error");
+                alert('error');
+            },
+            complete: function(){
+                $('#users_monthly_chart_id .loading-image').hide();
+            }
+        });
+
+        //users Monthly Data //
+
+        // Monthly Data //
+
+        function onDataReceveMonthly(series_monthly){
+
+            data =  series_monthly;
+            //$.plot("#placeholder", data, options);
+            $.plot("#monthly_chart_id", data, options);
+            tooltip("#monthly_chart_id","#enableTooltipMonthly");
+        }
+
+        $.ajax({
+            url: "charts/reports/monthly_activity_reports.php",
+            type: "POST",
+            data:"videos=videos",
+            dataType: "json",
+            success: onDataReceveMonthly ,
+            error: function() {
+                $("#monthly_chart_id").html("error");
+                alert('error');
+            },
+            complete: function(){
+                $('#monthly_chart_id .loading-image').hide();
+            }
+        });
+
+        // !Monthly Data //
+
+        //videos Monthly Data //
+
+        function onVideosDataReceveMonthly(series_monthly){
+
+            data =  series_monthly;
+            //$.plot("#placeholder", data, options);
+            $.plot("#videos_monthly_chart_id", data, options);
+            tooltip("#videos_monthly_chart_id","#enableTooltipMonthly");
+        }
+
+        $.ajax({
+            url: "charts/reports/videos_monthly_reports.php",
+            type: "POST",
+            data:"videos=videos",
+            dataType: "json",
+            success: onVideosDataReceveMonthly ,
+            error: function() {
+                $("#videos_monthly_chart_id").html("error");
+                alert('error');
+            },
+            complete: function(){
+                $('#videos_monthly_chart_id .loading-image').hide();
+            }
+        });
+
+        //videos  !Monthly Data //
+
+        /*if (iteration < 5) {
+         setTimeout(fetchData, 10000);
+         } else {
+         data = [];
+         alreadyFetched = {};
+         }*/
+    }
+    fetchData();
+    //setTimeout(fetchData, 10000);
+
+    function showTooltip(x, y, contents) {
+        $('<div id="tooltip">' + contents + '</div>').css( {
+            position: 'absolute',
+            display: 'none',
+            top: y + 5,
+            left: x + 5,
+            border: '1px solid #fdd',
+            padding: '2px',
+            'background-color': '#fee',
+            opacity: 0.80
+        }).appendTo("body").fadeIn(200);
+    }
+
+    var previousPoint = null;
+    function tooltip(chart_id,tooltip_id){
+
+        $(chart_id).bind("plothover", function (event, pos, item) {
+            $("#x").text(pos.x.toFixed(2));
+            $("#y").text(pos.y.toFixed(2));
+
+            if ($(tooltip_id).is(':checked')) {
+                if (item) {
+                    if (previousPoint != item.dataIndex) {
+                        previousPoint = item.dataIndex;
+
+                        $("#tooltip").remove();
+                        var x = item.datapoint[0].toFixed(2),
+                                y = item.datapoint[1].toFixed(2);
+
+                        showTooltip(item.pageX, item.pageY,
+                                item.series.label + " = " + y);
+                    }
+                }
+                else {
+                    $("#tooltip").remove();
+                    previousPoint = null;
+                }
+            }
+        });
+    }
+});
+</script>
