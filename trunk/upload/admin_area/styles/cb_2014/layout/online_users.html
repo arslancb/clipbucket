@@ -15,7 +15,7 @@
         {if $user.username}
           <a href="view_user?uid={$user.userid}"><label class="label label-success">{$user.username}</label></a>
           <br>
-          <a href="view_user.php?uid={$u.userid}"> <img src="{$userquery->getUserThumb($u,'small')}" class="img-thumbnail oneUserImage" />
+          <a href="view_user.php?uid={$u.userid}"> <img src="{$userquery->getUserThumb($user,'small')}" class="img-thumbnail oneUserImage" />
           </a>
         {else}
         {$user.session_string}
@@ -23,22 +23,24 @@
         <img class="tipsy_tip browser {$theBrowser.bname}" src="{$imageurl}/dot.gif" title="{$theBrowser.name} {$theBrowser.version} on {$theBrowser.platform}" />
       </td>
       <td>
-          <button id="hideshow" class="btn btn-primary btn-xs" value="See Details">See Details..</button>
-          <br>
-          <div class="" title="{$user.referer}">
+          <div class="dropdown">
+          <button id="hideshow" class="btn btn-primary btn-xs drop" value="See Details">See Details..</button>
+              </div>
+
+          <span class="" title="{$user.referer}">
               <b>Right Now</b>      <a href="{$user.current_page}">{$user.current_page|truncate:40:'..':false:true}</a>
               {if $user.referer}
               <a href="{$user.referer}" target="_blank" ><label class="label label-warning">View Referer</label></a>
               {/if}
-
-              </div>
+              </span>
               <div id="content" style="display: none">
             <label class="label label-info">{$user.email}</label>
               <span class="label label-info">
                                        Viewed <b>{$user.last_active|niceTime}</b></span>
                      <span class="label label-info">
                                        Session Started <b>{$user.session_date|niceTime}</b></span>
-
+                     <span class="label label-danger">
+                                       <b>{$user.agent}</b></span>
                   </div>
       </td>
       <td width="150">
@@ -52,16 +54,3 @@
 </table>
 
 
-<script>
-    var button = document.getElementById('hideshow'); // Assumes element with id='button'
-
-    button.onclick = function() {
-        var div = document.getElementById('content');
-        if (div.style.display !== 'none') {
-            div.style.display = 'none';
-        }
-        else {
-            div.style.display = 'block';
-        }
-    };
-</script>
