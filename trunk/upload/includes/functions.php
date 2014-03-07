@@ -2345,7 +2345,7 @@
 	function validate_cb_form($input,$array)
 	{
 		
-		//Check the Collpase Category Checkboxes
+		//Check the Collpase Category Checkboxes 
 		
 		if($input['cat']['title']=='Video Category'){
 			global $db;
