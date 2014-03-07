@@ -38,7 +38,6 @@ $videos = get_videos($result_array);
 Assign('videos', $videos);
 
 
-
 $comments = getComments($comment_cond);
 assign("comments",$comments);
 
@@ -55,6 +54,17 @@ Assign('flagedUsers', $users);
 $get_limit = create_query_limit($page,5);
 $photos = $cbphoto->action->get_flagged_objects($get_limit);
 assign('flagedPhotos', $photos);
+
+$numbers = array(100,1000,15141,3421);
+function format_number($number) {
+    if($number >= 1000) {
+        return $number/1000 . "k";   // NB: you will want to round this
+    }
+    else {
+        return $number;
+    }
+}
+
 
 template_files('index.html');
 display_it();
