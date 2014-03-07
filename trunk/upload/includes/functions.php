@@ -2345,6 +2345,20 @@
 	function validate_cb_form($input,$array)
 	{
 		
+		//Check the Collpase Category Checkboxes
+		
+		if($input['cat']['title']=='Video Category'){
+			global $db;
+			$query = "SELECT * FROM ".tbl("config")." WHERE configid=234";
+			$row=db_select($query);
+			$row[0]['value'].$input['cat']['title'];
+
+			if($row[0]['value']=='0')
+			{
+				unset($input['cat']);	
+			}
+		}
+		
 		if(is_array($input))
 		foreach($input as $field)
 		{
