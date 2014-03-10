@@ -84,15 +84,18 @@
                 <table class="table table-bordered">
                     <tr>
                         <td class="alert-info"><label class="alert-info">User Id</label></td>
-                        <td><input type="text" value="{$u.userid}" disabled="disabled" class="form-control"></label></td>
+                        <td><input type="text" value="{$u.userid}" disabled="disabled" class="form-control">
+                            <input name="userid" type="hidden" id="userid" value="{$u.userid}" size="45" /></label></td>
                     </tr>
                     <tr>
                         <td class="alert-info"><label class="alert-info">User Name</label></td>
-                        <td><input class="form-control" disabled="disabled" type="text" value="{$u.username}"></td>
+                        <td><input class="form-control" disabled="disabled" type="text" value="{$u.username}">
+                            <input name="username" type="hidden" id="username" value="{$u.username}" />
+                            <input name="admin_manager" type="hidden" value="yes" /></td>
                     </tr>
                     <tr>
                         <td class="alert-info"><label class="alert-info">Email</label></td>
-                        <td><input class="form-control" name="email" type="text" id="email" value="{$u.email}" /></td>
+                        <td><input class="form-control" name="email" type="text" id="email" value="{$u.email}" /><input name="demail" type="hidden" id="demail" value="{$u.email}" /></td>
                     </tr>
                     <tr>
                         <td class="alert-info"><label for="pass">Change password</label></td>
