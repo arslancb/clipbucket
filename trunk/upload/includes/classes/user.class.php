@@ -2412,8 +2412,8 @@ class userquery extends CBCategory{
 			//Checking Username
 			if(empty($array['username']))
 				e(lang('usr_uname_err'));
-			elseif($array['dusername'] != $array['username'] && $this->username_exists($array['username']))
-				e(lang('usr_uname_err2'));
+			//elseif($array['dusername'] != $array['username'] && $this->username_exists($array['username']))
+				//e(lang('usr_uname_err2'));
 			elseif(!username_check($array['username']))
 				e(lang('usr_uname_err3'));
 			else
