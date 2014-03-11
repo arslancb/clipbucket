@@ -3,11 +3,12 @@
 {if $vid_files}
 <form name="mass_upload" method="post" class="cbform">
     {foreach from=$vid_files item=file name=mass_files}
+    <input class="lead" type="hidden" name="mass_up[]" value="{$file.title}" />
     {assign var='requiredFields' value=$Upload->loadRequiredFields($file)}
     {assign var='optionFields' value=$Upload->loadOptionFields($file)}
     {assign var='locationFields' value=$Upload->loadLocationFields($file)}
     {assign var='cust_fields'  value=$Upload->custom_form_fields}
-    <input class="lead" type="hidden" name="mass_up[]" value="{$file.title}" />
+    
 
 <div class="alert alert-info">
 <div class="">
