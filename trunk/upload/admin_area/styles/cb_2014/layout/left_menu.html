@@ -40,6 +40,9 @@
     {elseif $name=='Photos'}
     {$class='glyphicon glyphicon-picture'}
     {/if}
+    {if $name=='Global Announcement'}
+    {$class='glyphicon glyphicon-globe'}
+    {/if}
 
     {if $smarty.const.MAIN_PAGE == $name}
     <li class="active open">
