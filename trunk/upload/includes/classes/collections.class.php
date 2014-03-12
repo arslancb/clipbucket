@@ -70,7 +70,7 @@ class Collections extends CBCategory
 	} 
 	
 	/**
-	 * Setting links up in my account
+	 * Setting links up in my account Edited on 12 march 2014 for collections links
 	 */
 	function setting_up_collections()
 	{
@@ -79,9 +79,9 @@ class Collections extends CBCategory
 		// Adding My Account Links	
 		if(isSectionEnabled('collections'))
 		$userquery->user_account[lang('Collections')] = array(
-											lang('add_new_collection') => "manage_collections.php?mode=add_new",
-											lang('manage_collections') => "manage_collections.php",
-											lang('manage_favorite_collections') => "manage_collections.php?mode=favorite"
+											lang('add_new_collection') => cblink(array('name'=>'manage_collections','extra_params'=>'mode=add_new')),
+											lang('manage_collections') => cblink(array('name'=>'manage_collections')),
+											lang('manage_favorite_collections') => cblink(array('name'=>'manage_collections','extra_params'=>'mode=favorite'))
 											);
 		
 		// Adding Search Type

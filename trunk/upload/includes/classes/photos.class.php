@@ -218,7 +218,7 @@ class CBPhotos
 	
 	
 	/**
-	 * Setting other things
+	 * Setting other things Edited on 12 march 2014 for photo links
 	 */
 	function setting_other_things()
 	{
@@ -226,17 +226,6 @@ class CBPhotos
 		// Search type
 		if(isSectionEnabled('photos'))
 		$Cbucket->search_types['photos'] = "cbphoto";
-		
-		// My account links
-		$accountLinks = array();
-		$accountLinks = array(
-							lang('manage_photos') => "manage_photos.php",
-							lang('manage_favorite_photos') => "manage_photos.php?mode=favorite",
-							lang('manage_my_album') => "manage_photos.php?mode=my_album",
-							);
-		if(isSectionEnabled('photos'))
-		$userquery->user_account[lang('Photos')] = $accountLinks;
-											
 		//Setting Cbucket links
 
 		$Cbucket->links['photos'] = array('photos.php','photos/');
@@ -247,7 +236,18 @@ class CBPhotos
 		$Cbucket->links['manage_orphan_photos'] = array('manage_photos.php?mode=orphan','manage_photos.php?mode=orphan');
 		$Cbucket->links['user_photos'] = array('user_photos.php?mode=uploaded&amp;user=','user_photos.php?mode=uploaded&amp;user=');
 		$Cbucket->links['user_fav_photos'] = array('user_photos.php?mode=favorite&amp;user=','user_photos.php?mode=favorite&amp;user=');
-		
+
+		// My account links
+		$accountLinks = array();
+		$accountLinks = array(
+							lang('manage_photos') =>  cblink(array('name'=>'manage_photos')),
+							lang('manage_favorite_photos') => cblink(array('name'=>'manage_photos','extra_params'=>'mode=favorite')),
+							lang('manage_my_album') => cblink(array('name'=>'manage_photos','extra_params'=>'mode=my_album')),
+							);
+		if(isSectionEnabled('photos'))
+		$userquery->user_account[lang('Photos')] = $accountLinks;
+											
+				
 		// Setting Home Tab
 			
 	}
