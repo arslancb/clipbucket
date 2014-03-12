@@ -34,6 +34,8 @@ $cbLinks = array
 'user_favorites'=>array('user_videos.php?mode=favorites&user=','user_videos.php?mode=favorites&user='),
 'user_videos' 	=>array('user_videos.php?user=','user_videos.php?user='),
 'videos'		=>array('videos.php','videos/'),
+'messages'      =>array('private_message.php','private_message.php'),
+'edit_account'	=>array('edit_account.php','edit_account.php'),
 
 );
 
