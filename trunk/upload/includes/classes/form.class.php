@@ -238,7 +238,7 @@ class formObj
 		{
 			$fieldName = $field['name'];
 			$fieldName = $this->rmBrackets($fieldName);
-			$fieldName = $fieldName.$multi_cat_id.'[]';
+			$fieldName = $fieldName.$this->multi_cat_id.'[]';//$fieldName = $fieldName.$multi_cat_id.'[]';
 		}
 		$display = "none";
 		$values = $field['value'][1][0];
