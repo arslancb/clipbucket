@@ -24,151 +24,33 @@
     <div class="cb-box" id="mainUploadContainer">
         <div class="pad-bottom video-info-container">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#file-upload" data-toggle="tab">File Upload</a></li>
-                <li><a href="#remote-upload" data-toggle="tab">Remote Upload</a></li>
-                <li><a href="#remote-play" data-toggle="tab">Remote Play</a></li>
-                <li><a href="#embed-code" data-toggle="tab">Embed Code</a></li>
+                {assign var=opt_list value=$Upload->load_upload_options()} 
+                {$counter = 1}
+                {foreach from=$opt_list item=opt key=divid}
+                    {if $counter == 1}{$class = "active"}{else}{$class = ""}{/if}
+                    {* Checking weather to show uploadin option to user or not *}
+                    {assign var=uploadOptId value=$opt.load_func}
+                    {if $Cbucket->configs.$uploadOptId=='yes'}
+                        {assign var='no_upload' value='no'}
+                        <li class="{$class}"><a href="#{$divid}" data-toggle="tab">{$opt.title}</a></li>
+                    {/if}
+                    {$counter = $counter + 1}
+                {/foreach}
             </ul>
             <div class="tab-content uploadFormDiv">
-                <div class="tab-pane fade in active clearfix" id="file-upload">
-                    <div class="">
-                        <div class="upload-area col-md-12">
-                            <div class="fileUploaderForm">
-                                <a id="selectFiles" href="javascript:;" class="btn btn-primary">Select Files</a>
-                                <a id="uploadFiles" class="btn btn-success" href="javascript:;">Upload</a>
-                                <div id="fileUploadProgress">
-                                    <h5></h5>
-                                    <progress value="0" style="display:none"></progress>
-                                </div>
-                                <div id="selectedFiles" class="uploadedFilesList">
-                                    <h4>Selected Files</h4>
-                                    <div id="files">
-                                        <ul>
-                                            <li>no files selected</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>   
+
+                {$counter = 1}
+                {foreach from=$opt_list item=opt key=divid}     
+                    {* Checking weather to show uploadin option to user or not *}
+                    {assign var=uploadOptId value=$opt.load_func}
+                    {if $Cbucket->configs.$uploadOptId=='yes'} 
+                    {if $counter == 1}{$class = "active"}{else}{$class = ""}{/if}
+                    <div class="tab-pane fade in clearfix {$class}" id="{$divid}">
+                        {load_form name=$opt.load_func button_class='cb_button_2' class='upload_form'} 
                     </div>
-                    <div id="allUploadForms">
-                        <div id="uploadFormContainer0" class="uploadFormContainer">
-                            <form action="#" id="updateVideoInfoForm">
-                                
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="" id="updateVideoInfo">
-                                            <fieldset class="">
-                                                <legend class="">{$requiredFields.group_name}</legend>
-                                            </fieldset>
-                                            <div class="requiredFields">
-                                                {foreach $requiredFields.fields as $field}
-                                                    <div class="form-group">
-                                                    {$field.class='form-control'}
-                                                    {$field.notShowSeprator='yes'}
-                                                    {if $field.type == 'radiobutton'}
-                                                        {$field.label_class='radio'}
-                                                        {$field.class=''}
-                                                        {$formObj->createField($field)}
-                                                    {elseif $field.type == 'checkbox'}
-                                                        <h4>{$field.title}</h4>
-                                                        {$field.label_class='checkbox'}
-                                                        {$field.class='checkbox'}
-                                                        {$formObj->createField($field)}
-                                                    {else}
-                                                        <label for="{$field.id}">{$field.title}</label>
-                                                        {$formObj->createField($field)}
-                                                    {/if}
-                                                    </div>
-                                                {/foreach}
-                                            </div>
-
-                                             <fieldset class="">
-                                                <legend class="">{$dateAndLocation.group_name}</legend>
-                                            </fieldset>
-                                            <div class="requiredFields">
-                                                {foreach $dateAndLocation.fields as $field}
-                                                    <div class="form-group">
-                                                    {$field.class='form-control'}
-                                                    {$field.notShowSeprator='yes'}
-                                                    {if $field.type == 'radiobutton'}
-                                                        {$field.label_class='radio'}
-                                                        {$field.class=''}
-                                                        {$formObj->createField($field)}
-                                                    {elseif $field.type == 'checkbox'}
-                                                        <h4>{$field.title}</h4>
-                                                        {$field.label_class='checkbox'}
-                                                        {$field.class='checkbox'}
-                                                        {$formObj->createField($field)}
-                                                    {else}
-                                                        <label for="{$field.id}">{$field.title}</label>
-                                                        {$formObj->createField($field)}
-                                                    {/if}
-                                                    </div>
-                                                {/foreach}
-                                            </div>
-
-                                            <div class="pad-bottom-sm text-right">
-                                                <button class="btn btn-primary btn-lg">Submit Now</button>
-                                            </div>  
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 uploadFormSidebarDiv">
-                                        <div id="sharingOptions" class="cb-box pad-bottom-sm sharing-contatiner">
-                                            <div id="sharingOptionsRadio">
-                                                <div class="panel panel-primary sharingOptions">
-                                                    <div class="panel-heading">
-                                                      <h3 class="panel-title">{$sharingOptions.group_name}</h3>
-                                                    </div>
-                                                    <div class="panel-content">
-                                                        {foreach $sharingOptions.fields as $field}
-                                                            <div class="form-group">
-                                                            {$field.class='form-control'}
-                                                            {$field.notShowSeprator='yes'}
-                                                            {if $field.type == 'radiobutton'}
-                                                                {$field.label_class='radio'}
-                                                                {$field.class=''}
-                                                                {$formObj->createField($field)}
-                                                            {else}
-                                                                <label for="{$field.id}">{$field.title}</label>
-                                                                {$formObj->createField($field)}
-                                                            {/if}
-                                                            </div>
-                                                        {/foreach}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- <div class="cb-box pad-bottom terms-contatiner">
-                                            <div class="checkbox">
-                                                <label class="light">
-                                                    <input type="checkbox" value="">
-                                                    I have read and agree to submission policy
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label class="light">
-                                                    <input type="checkbox" value="">
-                                                    I have read and agree to terms and conditions
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label class="light">
-                                                    <input type="checkbox" value="">
-                                                    Remember these settings
-                                                </label>
-                                            </div>
-                                        </div> -->
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="remote-upload">remote upload</div>
-                <div class="tab-pane fade" id="remote-play">remote play</div>
-                <div class="tab-pane fade" id="embed-code">embed code</div>
+                    {/if}
+                    {$counter = $counter + 1}
+                {/foreach}
             </div>
         </div>
     </div>
