@@ -8,7 +8,7 @@
     <button data-dismiss="alert" class="close" type="button">
     <i class="icon-remove bigger-110"></i></button>
     {foreach from=$err item=show_msg}
-   		<p><i class="icon-remove"></i>{$show_msg}</p>
+   		<p><i class="icon-remove"></i> {$show_msg}</p>
     {/foreach}
 </div>
 
@@ -18,7 +18,7 @@
 <div class="alert alert-block alert-success"><button class="close" data-dismiss="alert" type="button">
 <i class="icon-remove"></i></button>
     {foreach from=$msg item=show_msg}
-    	<p ><i class="icon-ok bigger-110 green"></i>{$show_msg}</p>
+    	<p ><i class="icon-ok bigger-110 green"></i> {$show_msg}</p>
     {/foreach}
 </div>
 {/if}
@@ -27,7 +27,7 @@
 <div class="alert alert-warning"><button data-dismiss="alert" class="close" type="button">
     <i class="icon-remove"></i></button>
     {foreach from=$war item=show_msg}
-    	<p><strong>Warning!</strong>{$show_msg}</p>
+    	<p><strong>Warning!</strong> {$show_msg}</p>
     {/foreach}   
 </div>
 {/if}
