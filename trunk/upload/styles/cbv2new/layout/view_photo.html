@@ -67,6 +67,7 @@
 <a href="{$userquery->profile_link($user)}" class="moveL" style="padding:1px; border:1px solid #ccc; margin-right:5px;"><img style="max-width:60px;" src="{avatar details=$user}" /></a> <a href="{$userquery->profile_link($user)}" style="text-decoration:none; font:bold 11px Tahoma, Geneva, sans-serif;">{$user.username}</a> <div style="height:3px;">&nbsp;</div>
 	<span style="font:normal 11px Tahoma, Geneva, sans-serif;">
     	<a style="color:#7b7b7b; text-decoration:none;" href="{link name='user_videos'}{$user.username}">{lang code="videos"}</a> | <a style="color:#7b7b7b; text-decoration:none;" href="{link name='user_favorites'}{$user.username}">{lang code="favorites"}</a> | <a style="color:#7b7b7b; text-decoration:none;" href="{link name='user_contacts'}{$user.username}">{lang code='contacts'}</a>
+        
     </span>
     <div style="height:5px;">&nbsp;</div>
     <button class="LoadMoreButton" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>

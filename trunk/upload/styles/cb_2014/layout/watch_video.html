@@ -137,7 +137,7 @@
         $cb_player.height( $cb_player.width() / aspect_ratio );
 
         var videoInfo = $("#videoDescription").text();
-        var newInfo = videoInfo.replace(/(((https?:\/\/)|([\s\t]))(www.)?([a-z0-9]+)\.[a-z]+)/g, '<a href="$1">$1</a>');
+        var newInfo = videoInfo.replace(/(((https?:\/\/)|([\s\t]))(www.)?([a-z0-9\-]+)\.[a-z]+)/g, '<a href="$1">$1</a>');
         $("#videoDescription").html(newInfo);
 
         comments_voting = '{$vdo.comment_voting}';
