@@ -107,6 +107,7 @@ class ADODB_mysql extends ADOConnection {
 	{
 		$total_fields = count($flds);
 		$count = 0;
+		var_dump($total_fields);
 		for($i=0;$i<$total_fields;$i++)
 		{
 			$count++;
@@ -133,6 +134,7 @@ class ADODB_mysql extends ADOConnection {
 		}
 		//Complete Query
 		$query = "UPDATE $tbl SET $fields_query WHERE $cond $ep";
+
 		//if(!mysql_query($query)) die($query.'<br>'.mysql_error());
 		$this->total_queries++;
 		$this->total_queries_sql[] = $query;
@@ -212,8 +214,7 @@ class ADODB_mysql extends ADOConnection {
 			$query_params .= " LIMIT $limit ";
 			
 		$query = " SELECT $fields FROM $tbl $query_params $ep ";
-
-		//Finally Executing	
+		//Finally Executing
 		$data = $this->Execute($query);
 		$this->num_rows = $data->_numOfRows;
 		$this->total_queries++;

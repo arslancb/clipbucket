@@ -2195,6 +2195,79 @@
 		}
 		
 	}
+
+	function increment_views_new($id,$type=NULL)
+	{
+		global $db;
+		switch($type)
+		{
+			case 'v':
+			case 'video':
+			default:
+			{
+				if(!isset($_COOKIE['video_'.$id])){
+					$db->update(tbl("video_views"),array("views","video_id"),array("|f|views+1",NOW())," videoid='$id' OR videokey='$id'");
+					setcookie('video_'.$id,'watched',time()+3600);
+				}
+			}
+			break;
+			case 'u':
+			case 'user':
+			case 'channel':
+
+			{
+				
+				if(!isset($_COOKIE['user_'.$id])){
+					$db->update(tbl("users"),array("profile_hits"),array("|f|profile_hits+1")," userid='$id'");
+					setcookie('user_'.$id,'watched',time()+3600);
+				}
+			}
+			break;
+			case 't':
+			case 'topic':
+
+			{
+				if(!isset($_COOKIE['topic_'.$id])){
+					$db->update(tbl("group_topics"),array("total_views"),array("|f|total_views+1")," topic_id='$id'");
+					setcookie('topic_'.$id,'watched',time()+3600);
+				}
+			}
+			break;
+			break;
+			case 'g':
+			case 'group':
+
+			{
+				if(!isset($_COOKIE['group_'.$id])){
+					$db->update(tbl("groups"),array("total_views"),array("|f|total_views+1")," group_id='$id'");
+					setcookie('group_'.$id,'watched',time()+3600);
+				}
+			}
+			break;
+			case "c":
+			case "collect":
+			case "collection":
+			{
+				if(!isset($_COOKIE['collection_'.$id])){
+					$db->update(tbl("collections"),array("views"),array("|f|views+1")," collection_id = '$id'");
+					setcookie('collection_'.$id,'viewed',time()+3600);
+				}
+			}
+			break;
+			
+			case "photos":
+			case "photo":
+			case "p":
+			{
+				if(!isset($_COOKIE['photo_'.$id]))
+				{
+					$db->update(tbl('photos'),array("views","last_viewed"),array("|f|views+1",NOW())," photo_id = '$id'");
+					setcookie('photo_'.$id,'viewed',time()+3600);
+				}
+			}
+		}
+		
+	}
 	
 	
 	/**

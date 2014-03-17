@@ -281,7 +281,6 @@ class pages{
 				$start_last = $i;
 			}
 			
-			
 			//Starring Last
 			for($i=$total_pages-$display_page;$i<=$total_pages;$i++)
 			{

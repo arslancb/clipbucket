@@ -1426,7 +1426,13 @@ class CBPhotos
 			
 			$query_field[] = "date_added";
 			$query_val[] = NOW();
+
+			/*$query_field[] = "file_directory";
+			$query_val[] = $array['file_directory'];*/
 			
+			$query_field[] = "active";
+			$query_val[] = 'no';
+
 			$query_field[] = "owner_ip";
 			$query_val[] = $_SERVER['REMOTE_ADDR'];
 			

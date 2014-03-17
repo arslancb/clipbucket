@@ -47,6 +47,10 @@ class Upload{
 			if(count($this->custom_form_fields)>0)
 				$upload_fields = array_merge($upload_fields,$this->custom_form_fields);
 				
+
+		/*dump($array);
+		dump($upload_fields);
+		die();*/
 		validate_cb_form($upload_fields,$array);
 		
 	}
@@ -67,10 +71,13 @@ class Upload{
 		if(!$array)
 			$array = $_POST;
 			
+
+		// $_POST['embed_code'] = htmlspecialchars($_POST['embed_code']);
 		$this->validate_video_upload_form($array,TRUE);
 		
 		if(empty($eh->error_list))
 		{
+
 			$required_fields = $this->loadRequiredFields($array);
 			$location_fields = $this->loadLocationFields($array);
 			$option_fields = $this->loadOptionFields($array);

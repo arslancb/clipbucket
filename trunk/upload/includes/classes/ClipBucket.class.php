@@ -713,6 +713,7 @@ class ClipBucket
             $_POST = $clean_posts;
         }
 
+
         //Cleaning get..
         if (is_array($gets) && count($gets) > 0)
         {
@@ -742,6 +743,8 @@ class ClipBucket
             }
             $_REQUEST = $clean_request;
         }
+
+        //dump($_POST);
     }
 
 }

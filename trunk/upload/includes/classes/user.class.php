@@ -3344,7 +3344,7 @@ class userquery extends CBCategory{
 
 		// first checking if captha plugin is enabled
 		// do not depend on the form cb_captcha_enabled value
-		if(get_captcha() && !$userquery->admin_login_check()){
+		if(get_captcha() && !$userquery->admin_login_check(true)){
 			//var_dump(get_captcha());
 			//var_dump(!error());
 			//echo "<pre>";
