@@ -1392,7 +1392,7 @@ class CBPhotos
 			foreach($FullForms as $field)
 			{
 				$name = formObj::rmBrackets($field['name']);
-				$val = $_POST[$name];
+				$val = $array[$name];
 	
 				if($field['use_func_val'])
 					$val = $field['validate_function']($val);
