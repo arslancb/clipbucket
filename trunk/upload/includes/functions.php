@@ -2133,8 +2133,20 @@
 			default:
 			{
 				if(!isset($_COOKIE['video_'.$id])){
-					$db->update(tbl("video"),array("views","last_viewed"),array("|f|views+1",NOW())," videoid='$id' OR videokey='$id'");
-					setcookie('video_'.$id,'watched',time()+3600);
+					/*$db->update(tbl("video"),array("views","last_viewed"),array("|f|views+1",NOW())," videoid='$id' OR videokey='$id'");
+					setcookie('video_'.$id,'watched',time()+3600);*/
+					$videoViewsRecord = $db->select(tbl("video_views"), "id, video_views", " video_id={$id}");
+					if($videoViewsRecord){
+						$currentTime = time();
+						file_put_contents("/home/sajjad/Desktop/log.txt", json_encode($videoViewsRecord));
+						$views = (int)$videoViewsRecord["video_views"] + 1;
+						$db->update(tbl("video_views"),array("video_views","last_updated"),array($views,$currentTime)," video_id='$id' OR videokey='$id'");
+						setcookie('video_'.$id,'watched',time()+3600);
+					}else{
+						$db->insert(tbl("video_views"), array(
+							"video_id", "video_views", "last_updated",
+							), array($id, 1, time(),));
+					}
 				}
 			}
 			break;
@@ -2206,7 +2218,8 @@
 			default:
 			{
 				if(!isset($_COOKIE['video_'.$id])){
-					$db->update(tbl("video_views"),array("views","video_id"),array("|f|views+1",NOW())," videoid='$id' OR videokey='$id'");
+					$currentTime = time();
+					$db->update(tbl("video_views"),array("video_views","video_id", "last_updated"),array("|f|views+1",$currentTime)," videoid='$id' OR videokey='$id'");
 					setcookie('video_'.$id,'watched',time()+3600);
 				}
 			}

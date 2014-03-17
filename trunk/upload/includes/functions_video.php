@@ -729,10 +729,11 @@ function update_processed_video($file_array,$status='Successful',$ingore_file_st
 function activate_video_with_file($vid)
 {
     global $db;
-    $vdetails = get_basic_video_details( $vid );
+    $vdetails = get_video_basic_details( $vid );
     $file_name = $vdetails['file_name'];
     $results = $db->select(tbl("conversion_queue"),"*"," cqueue_name='$file_name' AND cqueue_conversion='yes'");
     $result = $results[0];
+
     update_processed_video($result);
 }
 
