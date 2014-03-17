@@ -50,7 +50,7 @@ switch($mode)
 		$_POST['server_url'] = mysql_clean($_POST['server_url']);
 		$_POST['active'] = 'no';
 		$_POST['folder'] = str_replace('..','',mysql_clean($_POST['folder']));
-		
+		$_POST['folder'] = createDataFolders(PHOTOS_DIR);
 		$insert_id = $cbphoto->insert_photo();
 		
 		if(error())
