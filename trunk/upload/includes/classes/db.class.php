@@ -366,6 +366,14 @@ class Clipbucket_db
         return $var;
     }
 
+    /**
+     * Get effect rows
+     */
+    function Affected_Rows()
+    {
+        return $this->mysqli->affected_rows;
+    }
+
 }
 
 ?>
