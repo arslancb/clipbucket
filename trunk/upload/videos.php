@@ -103,7 +103,10 @@ if(!$counter)
 
 $total_pages = count_pages($counter,VLISTPP);
 //Pagination
-$pages->paginate($total_pages,$page);
+$link==NULL;
+$extra_params=NULL;
+$tag='<li><a #params#>#page#</a><li>';
+$pages->paginate($total_pages,$page,$link,$extra_params,$tag);
 
 subtitle(lang('videos'));
 //Displaying The Template
