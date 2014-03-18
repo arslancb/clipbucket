@@ -18,17 +18,18 @@
       <input type="text" class="form-control" name="smtp_user" id="smtp_user" value="{$row.smtp_user}" />  
     </div>
     </div>
+      <hr>
       <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
       <label for="smtp_pass">SMTP Password<br />Enter SMTP password</label>
       <input type="password" class="form-control" name="smtp_pass" id="smtp_pass" value="{$row.smtp_pass}" />
     </div>
-    <div class="col-md-6">
-      <label for="smtp_auth">SMTP Auth<br />Enable SMTP Authentication</label>
-      <select class="form-control" name="smtp_auth" id="smtp_auth">
-        <option value="yes" {if $row.smtp_auth=='yes'} selected="selected"{/if}>yes</option>
-        <option value="no" {if $row.smtp_auth=='no'} selected="selected"{/if}>no</option>
-      </select>
+    <div class="col-md-4">
+      <label for="smtp_auth">SMTP Auth</label>
+
+            <input id="id-button-borders" checked="checked" name="smtp_auth" id="smtp_auth" type="checkbox" class="ace ace-switch ace-switch-5">
+            <span class="lbl" value="yes" {if $row.smtp_auth=='yes'} selected="selected"{/if}></span>
+            <span class="lbl" value="no" {if $row.smtp_auth=='no'} selected="selected"{/if}></span>
     </div>
           </div>
     <div class="form-group">
