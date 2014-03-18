@@ -18,13 +18,13 @@
 		global $file_name;
 		if($params['class'])
 			$class = ' '.$params['class'];
-		echo '<div style="font-size:12px; padding:5px">
+		echo '<div class="alert alert-info marginTop">
 			'.lang('upload_remote_video_msg').'
 			</div>';
 		echo
-		'<div class="upload_form_div clearfix'.$class.'" id="remoteUploadFormDiv">
+		'<div class="upload_form_div clearfix form-group'.$class.'" id="remoteUploadFormDiv">
         <label for="remote_file_url" class="label">'.lang('please_enter_remote_file_url').'</label>
-        <input name="remote_file_url" type="textfield"  class="remoteUrlInput" 
+        <input name="remote_file_url" type="textfield"  class="remoteUrlInput form-control" 
         id="remote_file_url" value="'.lang('remote_upload_example').'"
         onclick="if($(this).val()==\''.lang('remote_upload_example').'\') $(this).val(\'\')"/>
         <input name="submit_upload" type="hidden" value="'.lang('upload_data_now').'">
