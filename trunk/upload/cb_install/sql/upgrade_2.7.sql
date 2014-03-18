@@ -16,6 +16,16 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}collection_contributors` (
   PRIMARY KEY (`contributor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+-- Adding video views table
+
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_views` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `video_id` varchar(255) NOT NULL,
+  `video_views` int(11) NOT NULL,
+  `last_updated` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 -- Adding File Directory for Photos
 ALTER TABLE  `{tbl_prefix}photos` ADD  `file_directory` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER  `filename`;
 
@@ -36,3 +46,4 @@ ALTER TABLE  `{tbl_prefix}playlists` ADD  `last_update` text CHARACTER SET utf8 
 ALTER TABLE  `{tbl_prefix}playlists` ADD  `runtime` int(200) NOT NULL AFTER  `last_update`;
 ALTER TABLE  `{tbl_prefix}playlists` ADD  `first_item` text CHARACTER SET utf8 NOT NULL AFTER  `runtime`;
 ALTER TABLE  `{tbl_prefix}playlists` ADD  `cover` text CHARACTER SET utf8 NOT NULL AFTER  `first_item`;
+
