@@ -1,10 +1,10 @@
 <div id="navbar" class="navbar navbar-default">
-	<div id="navbar-container" class="navbar-container container">
+	<div id="navbar" class="navbar-container container">
 		<div class="navbar-header pull-left">
 			<a class="navbar-brand" href="#">
-				<small><i class="icon-leaf"></i>ClipBucket</small>
+				<small><img src="{$baseurl}/images/logo.png" width="185" height="29"></small>
             </a>
-		</div>
+		   </div>
         <div class="navbar-header pull-right" role="navigation">
             <ul class="nav ace-nav">
                 <li class="purple">
@@ -18,7 +18,6 @@
                                     <i class="icon-warning-sign"></i>
                                     {math equation="x + a + b + c + d + e" x={get_videos active='no' count_only=true} a={get_groups active='no' count_only=true} b=$cbgroup->action->count_flagged_objects() c=$cbvid->action->count_flagged_objects() d=$userquery->action->count_flagged_objects() e={get_users status='ToActivate' count_only=true}} Notifications
                                 </li>
-
                                 <li>
                                     <a href="video_manager.php?search=search&active=no">
                                         <div class="clearfix">
@@ -74,59 +73,7 @@
                                 </li>
                             </ul>
                         </li>
-                <!--<li class="purple">
-                  <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <i class="glyphicon glyphicon-bell"></i>
-                        <span class="badge badge-important">{math equation="x + a + b + c + d + e" x={get_videos active='no' count_only=true} a={get_groups active='no' count_only=true} b=$cbgroup->action->count_flagged_objects() c=$cbvid->action->count_flagged_objects() d=$userquery->action->count_flagged_objects() e={get_users count_only=yes status='ToActivate'}}</span>
-                    </a>
-                    <ul class="user-menu pull-right popover-title dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-                        
-                        <li role="presentation"> <h3 class="popover-title left purple" style="font-weight: bold; font-size: 14px;"><i class="glyphicon purple glyphicon-warning-sign"></i> {math equation="x + a + b + c + d + e" x={get_videos active='no' count_only=true} a={get_groups active='no' count_only=true} b=$cbgroup->action->count_flagged_objects() c=$cbvid->action->count_flagged_objects() d=$userquery->action->count_flagged_objects() e={get_users status='ToActivate' count_only=true}} Notifications</h3></li>
-                        
-                        <li role="presentation" class="popover-title">
-                            
-                            <a href="video_manager.php?search=search&active=no" tabindex="-1" role="menuitem">
-                                
-                                <i class="glyphicon red glyphicon-facetime-video"></i>
-                                Approve Videos 
-                                <span class="badge badge-success">{get_videos active='no' count_only=true} 
-                                </span>
-                                
-                            </a>
-                        </li>
 
-                         <li role="presentation" class="popover-title">
-                            <a href="members.php?search=yes&amp;status=ToActivate" tabindex="-1" role="menuitem">
-                                <i class="glyphicon blue glyphicon-user"></i> 
-                                Approve Members
-                                <span class="badge badge-success">{get_users status='ToActivate' count_only=true}  
-                                </span>
-                            </a>
-                        </li>
-
-                          <li role="presentation" class="popover-title">
-                            <a href="groups_manager.php?active=no&amp;search=yes" tabindex="-1" role="menuitem">
-                                <i class="glyphicon green glyphicon-plus"></i>
-                                 Approve Groups 
-                                 <span class="badge badge-success">{get_groups active='no' count_only=true} 
-                                 </span>
-                             </a>
-                         </li>
-
-                           <li role="presentation" class="popover-title">
-                            <a href="flagged_videos.php" tabindex="-1" role="menuitem">
-                                <i class="glyphicon light-blue glyphicon-flag"></i> 
-                                Flagged
-                                <span class="badge badge-success">  {math equation="x + y + z" x=$cbgroup->action->count_flagged_objects() y=$cbvid->action->count_flagged_objects() z=$userquery->action->count_flagged_objects()}  
-                                </span>
-                            </a>
-                        </li>
-
-                        <li role="presentation" class="center bigger-110"><a href="{$baseurl}/admin_area/notification_settings.php" class="light-blue" tabindex="-1" role="menuitem">See all notifications  <span class="glyphicon glyphicon-arrow-right dark"></span></a></li>
-    
-                    </ul>        
-
-                </li>-->
                 <li class="blue">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <i class="glyphicon glyphicon-arrow-down"></i>
@@ -143,10 +90,13 @@
                         </li>
                         </ul>
                 </li>
+
+
+
                 <li class="blue">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <i class="glyphicon glyphicon-home"></i>
-                        <span class="badge badge-success">Home</span>
+                        <span class="badge badge-success"></span>
                     </a>
                     <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <li class="dropdown-header">
@@ -156,23 +106,26 @@
                 </li>
                 <li class="blue">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                        <img src="{$userquery->getUserThumb($u)}" class="mid_user_thumb" width="25" height="25"/>
+                        <img src="{$userquery->getUserThumb($u)}" class="img-circle" width="25" height="25"/>
 								<span class="user-info">
-									<small>Welcome,</small>
-									{$userquery->username}
+									{$userquery->username}<br>
+                                    {assign var=levels value=$userquery->get_levels()}
+                                        {section name=l loop=$levels}
+                                    {$levels[l].user_level_name}
+                                    {/section}
 								</span>
                         <i class="icon-caret-down"></i>
                     </a>
                     <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <li>
-                            <a href="#">
+                            <a href="main.php">
                                 <i class="icon-cog"></i>
                                 Settings
                             </a>
                         </li>
 
                         <li>
-                            <a href="#">
+                            <a href="index.php">
                                 <i class="icon-user"></i>
                                 Profile
                             </a>
@@ -188,10 +141,11 @@
                         </li>
                     </ul>
                    </li>
-                 </ul>
-              </div>
+                </ul>
             </div>
-        </div>                <!-- /.navbar-header -->
+    </div>
+    </div>
+                        <!-- /.navbar-header -->
 <!-- /.container -->
 
 
