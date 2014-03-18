@@ -155,11 +155,12 @@ if($_POST['youtube'])
 	'tags'=>$vid_array['tags'])));	
 }
 
+$logDetails = array();
  
  
 function callback($download_size, $downloaded, $upload_size, $uploaded)
 {
-	global $curl,$log_file,$file_name,$ext;
+	global $curl,$log_file,$file_name,$ext, $logDetails;
 	
 	$fo = fopen($log_file,'w+');
 	//Elapsed time CURLINFO_TOTAL_TIME
@@ -185,6 +186,7 @@ function callback($download_size, $downloaded, $upload_size, $uploaded)
 	'file_name' => $file_name.'.'.$ext
 	);
 	fwrite($fo,json_encode($curl_info));
+	$logDetails = $curl_info;
 	fclose($fo);
 }
 
@@ -193,6 +195,9 @@ function callback($download_size, $downloaded, $upload_size, $uploaded)
 
 $file = $_POST['file'];
 $file_name = mysql_clean($_POST['file_name']);
+
+// $file = "http://clipbucket.dev/You.mp4";
+// $file_name = "you";
 
 $log_file = TEMP_DIR.'/'.$file_name.'_curl_log.cblog';
 //For PHP < 5.3.0
@@ -271,8 +276,8 @@ fclose($temp_fo);
 
 
 sleep(10);
-$details =  file_get_contents($log_file);
-$details = json_decode($details,true);
+$details =  $logDetails;//file_get_contents($log_file);
+//$details = json_decode($details,true);
 $Upload->add_conversion_queue($details['file_name']);
 
 if(file_exists($log_file))
@@ -295,7 +300,10 @@ $vidDetails = array
 	'category' => array($cbvid->get_default_cid()),
 	'file_name' => $file_name,
 	'userid' => userid(),
+	'file_directory' => createDataFolders()
 );
+
+
 
 $vid = $Upload->submit_upload($vidDetails);
 
@@ -306,9 +314,9 @@ if($quick_conv=='yes' || $use_crons=='no')
 	$targetFileName = $details['file_name'];
 	//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
 	if (stristr(PHP_OS, 'WIN')) {
-			exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName sleep");
+			exec(php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName sleep");
 		} else {
-			exec(php_path()." -q ".BASEDIR."/actions/video_convert.php $targetFileName sleep&> /dev/null &");
+			exec(php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName sleep&> /dev/null &");
 	}
 }
 	

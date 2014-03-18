@@ -12,7 +12,7 @@
  */
 
 //When we need 
-define(TEMP_DIR,dirname(__FILE__).'/../files/temp');
+define("TEMP_DIR",dirname(__FILE__).'/../files/temp');
 error_reporting(E_ALL ^E_NOTICE);
 
 $file_name = $_POST['file_name'];
