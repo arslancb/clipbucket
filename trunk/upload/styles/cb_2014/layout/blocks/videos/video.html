@@ -1,4 +1,31 @@
-<div class="row text-center">
+<div class="cb_item item_video">
+    
+    <div class="cb_item_container">
+        <div class="item_title">
+           <a href="{videoLink($video)}">{$video.title|title|truncate:20}</a>
+        </div>
+        <div class="item_user">
+           <a href="{$userquery->profile_link($video)}">{$video.username}</a>
+        </div>
+        <div class="item_text">
+            {$vide.description}
+        </div>
+        
+        <span class="item_icon item_video"></span>
+        <span class="item_date">{$video.date_added|niceTime}</span>
+    
+    </div>
+    
+    <div class="cb_item_thumb video_thumb">
+        <a href="{videoLink($video)}" title="{$video.title|title}">
+            <img class="" src="{getThumb vdetails=$video}"/>
+        </a>
+        
+    </div>
+    
+</div>
+
+<!--<div class="row text-center">
     <div class="col-md-10 col-md-offset-1 videoThumbBox">
         <div class="text-center">
             <h4>
@@ -16,4 +43,4 @@
             <img class="" src="{getThumb vdetails=$video}"/>
         </a>
     </div>
-</div>
+</div>-->

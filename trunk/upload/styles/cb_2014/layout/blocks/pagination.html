@@ -1,8 +1,17 @@
-<div class="pagination" align="center"> 
+ <ul class="pagination">
 {if $pagination}
 
 	{if !$commentPagination}
-       {lang code='Pages'} : {if $first_link !=''}<a {$first_link}>&laquo;</a>{/if}  {if $pre_link !=''}<a {$pre_link} >&#8249;</a>{/if} {$pagination}  {if $next_link !=''}<a {$next_link}>&#8250;</a>{/if} {if $last_link !=''}<a {$last_link}>&raquo;</a>{/if}
+        {if $first_link ==''}
+        <li><span>1</span></li>
+        {/if}
+        {if $first_link !=''}<li class="previous">
+            
+        <a {$first_link}><span class="glyphicon glyphicon-fast-backward"></span></a></li>{/if}  {if $pre_link !=''}<li><a {$pre_link} ><span class="glyphicon glyphicon-step-backward"></span></i></a></li>{/if} 
+        
+        {$pagination} 
+
+        {if $next_link !=''}<li><a {$next_link}><span class="glyphicon glyphicon-step-forward"></span></i></a></li>{/if} {if $last_link !=''}<li class="next"><a {$last_link}><span class="glyphicon glyphicon-fast-forward"></a></li>{/if}
       
     {else}
     
@@ -25,4 +34,4 @@
     {/if}
   
 {/if}
-</div>
+</ul>
