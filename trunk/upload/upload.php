@@ -11,8 +11,16 @@
 define("THIS_PAGE","upload");
 define("PARENT_PAGE","upload");
 
+
+/*if(isset($_POST['embed_code'])){
+	$_POST['embed_code'] = base64_encode($_POST['embed_code']);
+}*/
+
+//var_dump($_POST);die();
+
 require 'includes/config.inc.php';
 
+//var_dump($_POST);die();
 $pages->page_redir();
 subtitle('upload');
 
@@ -28,6 +36,15 @@ if(has_access('allow_video_upload',false,$verify_logged_user))
 	assign('file_name',$file_name);
 			
 	$step = 1;
+	/*if(!empty($_POST)){
+			
+			foreach ($_POST as $key => $value) {
+				echo "{$key} : ";
+				dump(($value));
+			}
+			
+		}*/
+
 	if(isset($_POST['submit_data']))
 	{
 		$Upload->validate_video_upload_form();
@@ -39,17 +56,17 @@ if(has_access('allow_video_upload',false,$verify_logged_user))
 	
 	if(isset($_POST['submit_upload']))
 	{
+
 		if(!$_POST['file_name'])
 			$_POST['file_name'] = time().RandomString(5);
-
 		//$Upload->validate_video_upload_form(NULL,TRUE);
-		if(empty($eh->error_list))
+		/*dump($_POST);
+		die();*/
 		{
 			$vid = $Upload->submit_upload();
 			//echo $db->db_query;
 			//Call file so it can activate video
 			$Upload->do_after_video_upload($vid);
-			
 			if(!error())
 			$step=3;
 		}
