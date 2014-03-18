@@ -215,25 +215,29 @@
 													<span class="line-height-1 smaller-90"> Comments </span>
 												</span>
             <span class="btn btn-app btn-sm btn-pink no-hover">
-													<span class="line-height-1 bigger-170"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok"></span>
+													<span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok"></span>
                                                         {else}<span class="glyphicon glyphicon-remove">{/if}</span>
 													<br>
-													<span class="line-height-1 smaller-90"> Active </span>
+													<span class="line-height-1 smaller-90"> Active</span>
 												</span>
                 </span>
             <span class="btn btn-app btn-sm btn-grey no-hover">
-													<span class="line-height-1 bigger-170">{if $data.featured=='yes'}<span class="glyphicon glyphicon-ok"></span>
+
+													<span class="line-height-1"> {if $data.featured=='No'}<span class="glyphicon glyphicon-ok"></span>
                                                         {else}<span class="glyphicon glyphicon-remove">{/if}</span>
 													<br>
-													<span class="line-height-1 smaller-90"> Featured </span>
+
+													<span class="line-height-1 smaller-90">Featured</span>
 												</span>
                 </span>
+                    <a href="?add_editor_pick={$data.videoid}">
             <span class="btn btn-app btn-sm btn-success no-hover">
-													<span class="line-height-1 bigger-170"> {$data.editorpick} </span>
+													<span class="line-height-1 bigger-140">Add</span>
 
 													<br>
 													<span class="line-height-1 smaller-90"> Editor Pick </span>
 												</span>
+                    </a>
             <span class="btn btn-app btn-sm btn-primary no-hover">
                 {section name=list loop=$flagedVideos}
 													<span class="line-height-1 bigger-170"> {$flagedVideos[list].total_flags} </span>
@@ -323,6 +327,7 @@
                         {/if}
                         <div class="tab-content scroll">
                             {if $field.type=='radio'}
+                            {$field.class='form-control'}
                             {$field.class='form-control'}
                             {else}
                             {$field.class='form-control'}
