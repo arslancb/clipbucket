@@ -108,9 +108,12 @@ if($udetails)
 	}
 }
 add_js(array('jquery_plugs/compressed/jquery.jCarousel.js'=>'view_channel'));
-
-if($Cbucket->show_page)
-	Template('view_channel.html');
+if($Cbucket->show_page){
+	//Template('view_channel.html');
+	template_files('view_channel.html');
+	display_it();
+	//var_dump($udetails);
+}
 else
 {
 	$Cbucket->show_page = true;
