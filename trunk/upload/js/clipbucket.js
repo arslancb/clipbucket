@@ -173,12 +173,12 @@
 				  beforeSend : function(){
 					  status_update();
 					  var remoteFileName = getName(file);
-					 $("#loading").html('<div style="float: left; display: inline-block;"><img src="'+this.imageurl+'/ajax-loader.gif"></div><div style="float: left; line-height: 16px; padding-left:5px">'+lang.remoteUploadFile+'</div><div class="clear"></div>');
+					 $("#loading").html('<div style="float: left; display: inline-block;"><img src="'+self.imageurl+'/ajax-loader.gif"></div><div style="float: left; line-height: 16px; padding-left:5px">'+lang.remoteUploadFile+'</div><div class="clear"></div>');
 					 $('#remoteFileName').replaceWith('"'+remoteFileName+'"');
 				  },
 				  success: function(data){
 					if(data.error){		  
-					this.force_stop = true;
+					self.force_stop = true;
 					$('#remoteUploadBttn').attr('disabled','');
 					$('#ytUploadBttn').attr("disabled","");
 					alert(data.error);
@@ -186,22 +186,21 @@
 					$("#loading").html('');
 
 					var vid = data.vid;
-
 					$.post(
-						this.baseurl+'/actions/file_uploader.php',
+						self.baseurl+'/actions/file_uploader.php',
 						{
 							"getForm":"get_form",
 							"title":$("#remote_file_url").val(),
-							"objId":this.remoteObjID
+							"objId":self.remoteObjID
 						},function(data){
 						   $('#remoteUploadBttnStop').hide();
 							$('#ytUploadBttn').hide();
 							$('#remoteForm').append(data);
-							$('#cbSubmitUpload'+this.remoteObjID)
+							$('#cbSubmitUpload'+self.remoteObjID)
 							.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
 							.attr("disabled","")
 							.attr("value",lang.saveData)
-							.attr("onClick","doUpdateVideo('#uploadForm"+this.remoteObjID+"','"+this.remoteObjID+"')")
+							.attr("onClick","doUpdateVideo('#uploadForm"+self.remoteObjID+"','"+self.remoteObjID+"')")
 							.after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
 							.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
 						},'text');
