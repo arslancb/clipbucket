@@ -37,7 +37,9 @@ switch($mode)
 		);
 		
 		$vid = $Upload->submit_upload($vidDetails);
-		
+		// inserting into video views as well
+		$query = "INSERT INTO " . tbl("video_views") . " (video_id, video_views, last_updated) VALUES({$vid}, 0, " . time() . ")";
+		$db->Execute($query);
 		echo $vid;
 	}
 	break;
