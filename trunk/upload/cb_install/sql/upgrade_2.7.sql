@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}video_views` (
 
 -- Adding File Directory for Photos
 ALTER TABLE  `{tbl_prefix}photos` ADD  `file_directory` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER  `filename`;
+ALTER TABLE  `{tbl_prefix}video` ADD  `file_directory` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER  `file_name`;
 
 -- Updating playlist tables
 ALTER TABLE  `{tbl_prefix}playlists` ADD  `catgory` enum('normal','favorites','likes','history','quicklist','watch_later') NOT NULL DEFAULT 'normal' AFTER  `playlist_type`;
