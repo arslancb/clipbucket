@@ -42,7 +42,7 @@
 			<input type="button" name="ytUploadBttn" id="ytUploadBttn" 
 			value="'.lang('grab_from_youtube').'" onClick="youtube_upload()" class="cbSubmitUpload">
             <input type="button" name="remoteUploadBttn" id="remoteUploadBttn" value="'.lang('upload').'" 
-			onClick="'.get_remote_url_function().'" class="cbSubmitUpload">
+			onClick="_cb.'.get_remote_url_function().'" class="cbSubmitUpload">
             <input type="button" name="remoteUploadBttnStop" id="remoteUploadBttnStop" value="'.lang('cancel').'"   
 			class="cbSubmitUpload" style="display:none"/>
         </div>

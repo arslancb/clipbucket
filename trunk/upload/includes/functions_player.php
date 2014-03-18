@@ -13,7 +13,6 @@
 function flashPlayer($param)
 {
     global $Cbucket,$swfobj;
-
     $param['player_div'] = $param['player_div'] ? $param['player_div'] : 'videoPlayer';
 
     $key 		= $param['key'];
