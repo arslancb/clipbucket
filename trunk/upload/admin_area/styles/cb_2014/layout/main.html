@@ -130,22 +130,16 @@
           <label for="site_slogan">Website slogan</label>
           <input class="form-control" name="site_slogan" type="text" id="site_slogan" value="{$row.site_slogan}" size="45">
         </div>
-        <div class="col-md-4">
-          <label for="select">Website closed</label>
-          <select class="form-control" name="closed" id="select">
-            <option value="1"  
-            {if $row.closed == 1}
-            selected="selected"
-            {/if}
-            >Yes</option>
-            <option value="0"
-            {if $row.closed == 0}
-            selected="selected"
-            {/if}
-            >No
-            </option>
-          </select>
-        </div>
+          <div class="col-md-4">
+              <label for="select">Website closed</label>
+              <label class="pull-right inline">
+                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
+                  {if $row.closed == 1}
+                  selected="selected"
+                  {/if}<span class="lbl"></span>
+              </label>
+              <hr>
+              </div>
         </div>
       <div class="row">
         <div class="col-md-4">
@@ -156,59 +150,66 @@
           <label for="description">Meta Description</label>
           <textarea class="form-control" name="description" id="description" cols="45" rows="5">{$row.description}</textarea>
         </div>
-        <div class="col-md-4">
-          <label for="keywords">Meta Keywords</label>
-          <input class="form-control" name="keywords" type="text" id="keywords" value="{$row.keywords}" size="45" /></td>
+          <div class="col-md-4">
+              <label for="select2">SEO Urls</label>
+              <label class="pull-right inline">
+                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
+                  {if $row.seo == yes}
+                  selected="selected"
+                  {/if}<span class="lbl"></span>
+              </label>
+              <hr>
+              <label for="use_subs">Use Sub-Categories</label>
+              <label class="pull-right inline">
+                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
+                  {if $row.use_subs == 1}
+                  {/if}<span class="lbl"></span>
+              </label>
+              <hr>
+              <label for="show_collapsed_checkboxes">Collpase Category Checkboxes</label>
+              <label class="pull-right inline">
+                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
+                  {if $row.show_collapsed_checkboxes == 1}
+                  {/if}<span class="lbl"></span>
+              </label>
+              <span class="smallText" style="font-size:11px;">If selected <strong>YES</strong>, Categories shown while uploading <strong>video</strong> will be collapsed.</span>
+              <hr>
+          </div>
         </div>
-        </div>
+
+
       <div class="row">
         <div class="col-md-4">
-          <label for="select2">SEO Urls</label>
-          <select class="form-control" name="seo" id="select2">
-            <option value="yes"
-            {if $row.seo == yes}
-            selected="selected"
-            {/if}
-            >Yes
-            </option>
-            <option value="no"
-            {if $row.seo == no}
-            selected="selected"
-            {/if}
-            >No
-            </option>
-          </select>
+            <label for="keywords">Meta Keywords</label>
+            <input class="form-control" name="keywords" type="text" id="keywords" value="{$row.keywords}" size="45" /></td>
         </div>
         <div class="col-md-4">
-          <label for="allow_template_change">Allow template change</label>
-          <select class="form-control" name="allow_template_change" id="allow_template_change">
-          <option value="1"  
-          {if $row.allow_template_change == 1}
-          selected="selected"
-          {/if}
-          >Yes</option>
-          <option value="0"
-          {if $row.allow_template_change == 0}
-          selected="selected"
-          {/if}
-          >No</option>
-          </select>
+            <label for="default_country_iso2">Default Country</label>
+            <select class="form-control" name="default_country_iso2" id="default_country_iso2">
+                {assign var=countries value=$Cbucket->get_countries(iso2)}
+                {foreach from=$countries item=country key=code}
+                <option  {if $code == $row.default_country_iso2} selected="selected" {/if} value="{$code}">
+                {$country}
+                </option>
+                {/foreach}
+            </select>
         </div>
-        <div class="col-md-4">
-          <label for="allow_language_change">Allow language change</label>
-          <select class="form-control" name="allow_language_change" id="allow_language_change">
-          <option value="1"
-          {if $row.allow_language_change == 1}
-          selected="selected"
-          {/if}
-          >Yes</option>
-          <option value="0"
-          {if $row.allow_language_change == 0}
-          selected="selected"
-          {/if}
-          >No</option>
-          </select>
-        </div>
+          <div class="col-md-4">
+              <label for="allow_language_change">Allow language change</label>
+              <label class="pull-right inline">
+                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
+                  {if $row.allow_language_change == 1}
+                  {/if}<span class="lbl"></span>
+              </label>
+              <hr>
+              <label for="allow_template_change">Allow template change</label>
+              <label class="pull-right inline">
+                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
+                  {if $row.allow_template_change == 1}
+                  {/if}<span class="lbl"></span>
+
+              </label>
+          </div>
         </div>
       <div class="row">
         <div class="col-md-4">
@@ -224,52 +225,10 @@
           {/foreach}
           </select>
         </div>
-        <div class="col-md-4">
-          <label for="default_country_iso2">Default Country</label>
-          <select class="form-control" name="default_country_iso2" id="default_country_iso2">
-          {assign var=countries value=$Cbucket->get_countries(iso2)}
-          {foreach from=$countries item=country key=code}
-            <option  {if $code == $row.default_country_iso2} selected="selected" {/if} value="{$code}">
-                {$country}
-              </option>
-          {/foreach}
-          </select>
+
         </div>
-        </div>
-      <div class="row">
-        <div class="col-md-6">
-          <label for="use_subs">Use Sub-Categories</label>
-          <select class="form-control" name="use_subs" id="use_subs">
-          <option value="1"
-          {if $row.use_subs == 1}
-          selected="selected"
-          {/if}
-          >Yes</option>
-          <option value="0"
-          {if $row.use_subs == 0}
-          selected="selected"
-          {/if}
-          >No</option>
-          </select>
-        </div>
-        <div class="col-md-6">
-          <label for="show_collapsed_checkboxes">Collpase Category Checkboxes</label>
-          <select class="form-control" name="show_collapsed_checkboxes" id="show_collapsed_checkboxes">
-          <option value="1"
-          {if $row.show_collapsed_checkboxes == 1}
-          selected="selected"
-          {/if}
-          >Yes</option>
-          <option value="0"
-          {if $row.show_collapsed_checkboxes == 0}
-          selected="selected"
-          {/if}
-          >No</option>
-          </select>
-            <span class="smallText" style="font-size:11px;">If selected <strong>YES</strong>, Categories shown while uploading <strong>video</strong> will be collapsed.</span>
-        </div>
-        </div>
-<hr>
+      <hr>
+
       <div class="tabbable">
       <ul class="nav nav-tabs" id="myTab">
           <li class="active">
@@ -326,20 +285,21 @@
               <input class="form-control" name="welcome_email" type="text" id="welcome_email" value="{$row.welcome_email}" size="45" />
           </div>
                 </div>
+          <br>
           <div class="row">
-          <div class="col-md-6">
-              <label for="send_comment_notification">Send Comment Notification</label>
-              <select class="form-control" name="send_comment_notification" id="send_comment_notification">
-                  <option value="yes" {if $row.send_comment_notification=='yes'} selected="selected"{/if}>Yes</option>
-                  <option value="no" {if $row.send_comment_notification=='no'} selected="selected"{/if}>No</option>
-              </select>
+          <div class="col-md-4">
+              <label for="send_comment_notification">Send Comment Notification
+                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
+                  {if $row.allow_language_change == 1}
+                  {/if}<span class="lbl"></span>
+              </label>
           </div>
-          <div class="col-md-6">
-              <label for="approve_video_notification">Send Video Approve Notification</label>
-              <select class="form-control" name="approve_video_notification" id="approve_video_notification">
-                  <option value="yes" {if $row.approve_video_notification=='yes'} selected="selected"{/if}>Yes</option>
-                  <option value="no" {if $row.approve_video_notification=='no'} selected="selected"{/if}>No</option>
-              </select>
+          <div class="col-md-4">
+              <label for="approve_video_notification">Send Video Approve Notification
+                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
+                  {if $row.allow_language_change == 1}
+                  {/if}<span class="lbl"></span>
+              </label>
           </div>
               </div>
       </div>
