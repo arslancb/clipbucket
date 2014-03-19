@@ -85,11 +85,9 @@ if (!function_exists('validate_embed_code'))
     {
         // This is the culprit
         //dump($val);
-        if (empty($val) || $val == 'none')
-        {
+        if (empty($val) || $val == 'none'){
             return 'none';
-        } else
-        {
+        } else {
             return $val;
             //$val = base64_decode($val);
             //Striping Slasshes as they are not required

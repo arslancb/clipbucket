@@ -36,7 +36,22 @@ function check_file_url(objid)
 		}else{
 			$("#linkUploadForm"+objid).submit();
 		}
-	}, "json");}
+	}, "json");
+	return false;
+}
+
+
+  
+    $("#embed_video_upload_btn").css("border", "solid 2px red");
+    $("#embed_video_upload_btn").on({
+      click: function(e){
+        e.preventDefault();
+        console.log("ok");
+        var objId = $("#embed_upload_id").val();
+        console.log(objId);
+        //check_file_url(objId);
+      }
+    });
 	
 {/literal}
 </script>
