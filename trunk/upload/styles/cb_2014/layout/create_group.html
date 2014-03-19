@@ -6,14 +6,15 @@
 
 <div class="container marginBottom">
    {include file="$style_dir/blocks/manage/account_menu.html"}
-    <div class="cb-box">
+
    
         <div class="row">
-            <div class="leftSidebar col-md-3">
+            {include file="$style_dir/blocks/manage/left_side_bar.html"}
+            <!--<div class="leftSidebar col-md-3">
                {include file="$style_dir/blocks/manage/userMenuLeft.html"}
-           </div>
+           </div>-->
             <div class="col-md-9">
-               <div class="">
+               <div class="cb-box">
                <div class="upload_info">
                    <h2>{lang code='grp_crt_grp'}</h2>
                    <form name="upload_form" class="upload_form" method="post" action="">
@@ -72,5 +73,5 @@
            </div>  
             </div>
         </div>  
-    </div>
+
 </div>

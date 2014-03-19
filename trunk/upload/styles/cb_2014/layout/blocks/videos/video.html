@@ -1,27 +1,29 @@
 <div class="cb_item item_video">
-    
-    <div class="cb_item_container">
-        <div class="item_title">
-           <a href="{videoLink($video)}">{$video.title|title|truncate:20}</a>
-        </div>
-        <div class="item_user">
-           <a href="{$userquery->profile_link($video)}">{$video.username}</a>
-        </div>
-        <div class="item_text">
-            {$vide.description}
-        </div>
-        
-        <span class="item_icon item_video"></span>
-        <span class="item_date">{$video.date_added|niceTime}</span>
-    
-    </div>
-    
-    <div class="cb_item_thumb video_thumb">
+   {*$video|print_r*}
+    <div class="cb_item_container clearfix">
+        <div class="cb_item_thumb video_thumb" >
         <a href="{videoLink($video)}" title="{$video.title|title}">
-            <img class="" src="{getThumb vdetails=$video}"/>
+            <span class="video_time">{$video.duration}</span>
+            <img class="" src="{getThumb vdetails=$video}" border="1" height="100" width="100"/>
         </a>
         
     </div>
+        <!--<div class="item_title">
+           <a href="{videoLink($video)}">{$video.title|title|truncate:20}</a>
+        </div>-->
+        <!--<div class="item_user">
+           <a href="{$userquery->profile_link($video)}">{$video.username}</a>
+        </div>-->
+        <div class="item_text">
+           <a href="{videoLink($video)}">{$video.description|truncate:100}</a>
+        </div>
+        
+        <span class="pull-left"><h6><small>{$video.views} views</small></h6></span>
+        <span class="pull-right"><h6><small>{$video.date_added|niceTime}</small></h6></span>
+    
+    </div>
+    
+    
     
 </div>
 

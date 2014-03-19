@@ -2,16 +2,14 @@
 {if $pagination}
 
 	{if !$commentPagination}
-        {if $first_link ==''}
-        <li><span>1</span></li>
-        {/if}
+       
         {if $first_link !=''}<li class="previous">
             
-        <a {$first_link}><span class="glyphicon glyphicon-fast-backward"></span></a></li>{/if}  {if $pre_link !=''}<li><a {$pre_link} ><span class="glyphicon glyphicon-step-backward"></span></i></a></li>{/if} 
+        <a {$first_link}><span class="glyphicon glyphicon-fast-backward"></span></a></li>{/if}  {if $pre_link !=''}<li><a {$pre_link} ><span class="glyphicon glyphicon-step-backward"></span></a></li>{/if} 
         
         {$pagination} 
 
-        {if $next_link !=''}<li><a {$next_link}><span class="glyphicon glyphicon-step-forward"></span></i></a></li>{/if} {if $last_link !=''}<li class="next"><a {$last_link}><span class="glyphicon glyphicon-fast-forward"></a></li>{/if}
+        {if $next_link !=''}<li><a {$next_link}><span class="glyphicon glyphicon-step-forward"></span></a></li>{/if} {if $last_link !=''}<li class="next"><a {$last_link}><span class="glyphicon glyphicon-fast-forward"></a></li>{/if}
       
     {else}
     
