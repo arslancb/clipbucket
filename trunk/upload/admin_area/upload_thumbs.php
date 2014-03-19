@@ -30,10 +30,9 @@ if($myquery->VideoExists($video)){
 	
 	$data = get_video_details($video);;
 	$vid_file = VIDEOS_DIR.'/'.get_video_file($data,false,false);
-	
 	# Uploading Thumbs
 	if(isset($_POST['upload_thumbs'])){
-		$Upload->upload_thumbs($data['file_name'],$_FILES['vid_thumb']);
+		$Upload->upload_thumbs($data['file_name'],$_FILES['vid_thumb'],$data['file_directory']);
 	}
 	
 //	# Uploading Big Thumb
