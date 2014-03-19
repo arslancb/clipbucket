@@ -936,14 +936,11 @@ footer {
 .navbar-stacked li:hover{
    border-left: 5px solid #0099CC;
 }
-.wv_heading,{
+.wv_heading{
     background-color: rgba(0, 0, 0, 0.8);
     color: #FFFFFF;
 }
-.navbar-stacked .wv_heading:hover{
-background-color: rgba(0, 0, 0, 0.8);
-    color: #FFFFFF; 
-}
+
 .wv_heading a{
 color: #fff;
 }
