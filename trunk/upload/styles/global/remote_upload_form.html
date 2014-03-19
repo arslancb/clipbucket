@@ -1,0 +1,63 @@
+<div class="alert alert-info marginTop">
+	{lang('upload_remote_video_msg')}
+</div>
+{$class = ""}
+{if $params.class}
+{$class = $params.class}
+{/if}
+
+
+<div class="upload_form_div clearfix form-group {$class}" id="remoteUploadFormDiv">
+	<label for="remote_file_url" class="label">{lang('please_enter_remote_file_url')}</label>
+	<input name="remote_file_url" type="textfield"  class="remoteUrlInput form-control" id="remote_file_url" value="{lang('remote_upload_example')}" onclick="if($(this).val()=='{lang('remote_upload_example')}') $(this).val('')"/>
+	<input name="submit_upload" type="hidden" value="{lang('upload_data_now')}">
+
+	<div id="remote_upload_result_cont"></div>
+	<div class="progress">
+	  <div id="prog_bar" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+	    <span class="sr-only">60% Complete</span>
+	  </div>
+	</div>
+
+	<div align="center" id="loading" style=""></div>
+	<div>
+	{lang('remoteDownloadStatusDiv')}
+	</div>                
+	<div>
+		<input type="button" name="ytUploadBttn" id="ytUploadBttn" value="{lang('grab_from_youtube')}" onClick="youtube_upload()" class="cbSubmitUpload">
+		<input type="button" name="remoteUploadBttn" id="remoteUploadBttn" value="{lang('upload')}" onClick="_cb.{get_remote_url_function()}" class="cbSubmitUpload">
+		<input type="button" name="remoteUploadBttnStop" id="remoteUploadBttnStop" value="{lang('cancel')}"   class="cbSubmitUpload" style="display:none"/>
+	</div>
+</div>
+<div id="remoteForm"></div>
+
+{literal}
+<style>
+	.remoteDownloadStatus{
+		padding: 10px;
+		border: solid 1px #ddd;
+		margin-bottom: 10px;
+	}
+	.remoteDownloadStatus > span{
+		display: block;
+		margin-top: 2px;
+	}
+</style>
+{/literal}
+{$videoFields = $Upload->load_video_fields($input)}
+{$requiredFields = $videoFields[0]}
+{$sharingOptions = $videoFields[1]}
+{$dateAndLocation = $videoFields[2]}
+<div id="remoteUploadFormContainer" class="uploadFormContainer">
+     
+</div>
+
+{literal}
+<script>
+	
+	$(document).ready(function(){
+		
+	});
+
+</script>
+{/literal}

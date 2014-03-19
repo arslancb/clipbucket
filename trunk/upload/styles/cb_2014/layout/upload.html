@@ -1,5 +1,9 @@
 
-
+{if $msg}
+<div class="alert alert-info">
+    {$msg}
+</div>
+{/if}
 <div id="uploadMessage" class=""></div>
 <div class="container uploadVideos">
     <div class="cb-box pad-bottom-sm progress-container">    
@@ -34,7 +38,6 @@
                 {/foreach}
             </ul>
             <div class="tab-content uploadFormDiv">
-
                 {$counter = 1}
                 {foreach from=$opt_list item=opt key=divid}     
                     {* Checking weather to show uploadin option to user or not *}
