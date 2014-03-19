@@ -34,7 +34,7 @@ if(isset($_POST['check_url']))
 		echo json_encode(array('err'=>'Invalid remote url'));
 	exit();
 }
-
+error_reporting(E_ALL);
 
 /**
  * Call back function of cURL handlers
@@ -72,7 +72,7 @@ if($_POST['youtube'])
 			
 	$content = xml2array('http://gdata.youtube.com/feeds/api/videos/'.$YouTubeId);
 	$content = $content['entry'];
-/*	$match_arr = 
+	/*	$match_arr = 
 	array
 	(
 		"title"=>"/<meta name=\"title\" content=\"(.*)\">/",
@@ -117,13 +117,13 @@ if($_POST['youtube'])
 	$vid_array['userid'] = userid();
 	
 	$duration = $vid_array['duration'];
-/*	$duration = explode(":",$duration);
-	$sep = count($duration);
-	if($sep==3)
-		$duration = ($duration[0]*60*60)+($duration[1]*60)+($duration[2]);
-	else
-		$duration = ($duration[0]*60)+($duration[1]);
-*/
+	/*	$duration = explode(":",$duration);
+		$sep = count($duration);
+		if($sep==3)
+			$duration = ($duration[0]*60*60)+($duration[1]*60)+($duration[2]);
+		else
+			$duration = ($duration[0]*60)+($duration[1]);
+	*/
 	$vid = $Upload->submit_upload($vid_array);
 	
 	if(error())
@@ -158,36 +158,35 @@ if($_POST['youtube'])
 $logDetails = array();
  
  
-function callback($download_size, $downloaded, $upload_size, $uploaded)
-{
+function callback($resource, $download_size, $downloaded, $upload_size, $uploaded){
 	global $curl,$log_file,$file_name,$ext, $logDetails;
 	
 	$fo = fopen($log_file,'w+');
-	//Elapsed time CURLINFO_TOTAL_TIME
 	
 	$info = curl_getinfo($curl->m_handle);
-	
+
 	$download_bytes = $download_size - $downloaded;
 	$cur_speed = $info['speed_download'];
-	if($cur_speed>0)
-	$time_eta = $download_bytes/$cur_speed;
+	if($cur_speed > 0)
+		$time_eta = $download_bytes/$cur_speed;
 	else
-	$time_eta = 0;
-	
+		$time_eta = 0;
+	//$download_size = (int) $download_size;
 	$time_took = $info['total_time'];
 	
-	$curl_info = 
-	array(
+	$curl_info = array(
 	'total_size' => $download_size,
 	'downloaded' => $downloaded,
 	'speed_download' => $info['speed_download'],
 	'time_eta' => $time_eta,
 	'time_took'=> $time_took,
-	'file_name' => $file_name.'.'.$ext
+	'file_name' => ($file_name.'.'.$ext),
 	);
 	fwrite($fo,json_encode($curl_info));
 	$logDetails = $curl_info;
+	//echo $log_file;
 	fclose($fo);
+	//file_put_contents($log_file, json_encode($curl_info));
 }
 
 
@@ -195,9 +194,8 @@ function callback($download_size, $downloaded, $upload_size, $uploaded)
 
 $file = $_POST['file'];
 $file_name = mysql_clean($_POST['file_name']);
-
-// $file = "http://clipbucket.dev/You.mp4";
-// $file_name = "you";
+// $file = "http://clipbucket.dev/abc.mp4";
+// $file_name = "abc";
 
 $log_file = TEMP_DIR.'/'.$file_name.'_curl_log.cblog';
 //For PHP < 5.3.0
@@ -209,6 +207,7 @@ $svfile = TEMP_DIR.'/'.$file_name.'.'.$ext;
 //Checking for the url
 if(empty($file))
 {
+	echo "error";
 	$array['error'] = "Please enter file url";
 	echo json_encode($array);
 	exit();
@@ -239,6 +238,7 @@ if(!is_numeric($curl->file_size) || $curl->file_size == '')
 
 if(phpversion() < '5.3.0')
 {
+	echo "in less than 5.3";
 	//Here we will get file size and write it in a file
 	//called dummy_log
 	$darray = array(
@@ -254,6 +254,7 @@ if(phpversion() < '5.3.0')
 
 //Opening video file
 $temp_fo = fopen($svfile,'w+');
+$curlOpt = "";
 $curl->setopt(CURLOPT_FILE, $temp_fo);
 
 // Set up the callback
@@ -273,7 +274,7 @@ if ($theError = $curl->hasError())
 
 //Finish Writing File
 fclose($temp_fo);
-
+//var_dump($curlOpt);
 
 sleep(10);
 $details =  $logDetails;//file_get_contents($log_file);
@@ -283,7 +284,7 @@ $Upload->add_conversion_queue($details['file_name']);
 if(file_exists($log_file))
 unlink($log_file);
 if(file_exists($dummy_file))
-unlink($dummy_file);
+	unlink($dummy_file);
 $quick_conv = config('quick_conv');
 $use_crons = config('use_crons');
 
@@ -319,6 +320,5 @@ if($quick_conv=='yes' || $use_crons=='no')
 			exec(php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName sleep&> /dev/null &");
 	}
 }
-	
 
 ?>

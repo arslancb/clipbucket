@@ -41,7 +41,7 @@ switch($mode)
 		validate_embed_code($embed_code);
 		validate_duration($duration);
 		
-		if(empty($thumb_file) || ( $ext != 'jpg' && $ext != 'png' && $ext !='gif'))
+		if(empty($thumb_file) || ( $ext != 'jpg' && $ext != 'png' && $ext !='gif' && $ext !='jpeg'))
 			e(lang("pelase_select_img_file_for_vdo"));
 		if(count($eh->error_list>0))
 			$array['err'] = $eh->error_list[0];
