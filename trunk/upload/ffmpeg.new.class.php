@@ -376,8 +376,16 @@ class FFMpeg{
 		//logData($duration);
 		$tmpDir = TEMP_DIR.'/'.getName($input_file);
 		//logData($input_file);
-		//logData("Thumbs");
+		/*
+			The format of $this->options["outputPath"] should be like this
+			year/month/day/ 
+			the trailing slash is important in creating directories for thumbs
+		*/
+		if(substr($this->options["outputPath"], strlen($this->options["outputPath"]) - 1) !== "/"){
+			$this->options["outputPath"] .= "/";
+		}
 		mkdir($tmpDir,0777);
+
 
 		$output_dir = THUMBS_DIR;
 		$dimension = '';
