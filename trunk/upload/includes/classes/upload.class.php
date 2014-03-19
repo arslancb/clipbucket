@@ -41,7 +41,7 @@ class Upload{
 		$upload_fields = array_merge($required_fields,$location_fields,$option_fields);
 		
 		//Adding Custom Upload Fields
-			if(count($this->custom_upload_fields)>0 && $is_upload)
+			if(count($this->custom_upload_fields )>0 && $is_upload)
 				$upload_fields = array_merge($upload_fields,$this->custom_upload_fields);
 			//Adding Custom Form Fields
 			if(count($this->custom_form_fields)>0)
@@ -266,8 +266,9 @@ class Upload{
 	}
 	
 	
-	function upload_thumb($file_name,$file_array,$key=0)
+	function upload_thumb($file_name,$file_array,$key=0,$files_dir=NULL)
 	{
+
 		global $imgObj,$LANG;
 		$file = $file_array;
 		if(!empty($file['name'][$key]))
@@ -276,8 +277,17 @@ class Upload{
 			$ext = getExt($file['name'][$key]);
 			if($imgObj->ValidateImage($file['tmp_name'][$key],$ext))
 			{
+				if($files_dir!=NULL){
+
+				$file_path = THUMBS_DIR.'/'.$files_dir.'/'.$file_name.'-'.$file_num.'.'.$ext;
+				$big_file_path = THUMBS_DIR.'/'.$files_dir.'/'.$file_name.'-big-'.$file_num.'.'.$ext;	
+				
+				}
+				else{
 				$file_path = THUMBS_DIR.'/'.$file_name.'-'.$file_num.'.'.$ext;
 				$big_file_path = THUMBS_DIR.'/'.$file_name.'-big-'.$file_num.'.'.$ext;
+				}
+
 				move_uploaded_file($file['tmp_name'][$key],$file_path);
 				
 				$imgObj->CreateThumb($file_path,$big_file_path,config('big_thumb_width'),$ext,config('big_thumb_height'),false);
@@ -314,23 +324,24 @@ class Upload{
 	 * @param $_FILES array name
 	 */
 	
-	function upload_thumbs($file_name,$file_array)
+	function upload_thumbs($file_name,$file_array,$files_dir=NULL)
 	{
 		global $LANG;
 		if(count($file_array[name])>1)
 		{
 			for($i=0;$i<count($file_array['name']);$i++)
 			{
-				$this->upload_thumb($file_name,$file_array,$i);
+				$this->upload_thumb($file_name,$file_array,$i,$files_dir);
 			}
 			e(lang('upload_vid_thumbs_msg'),'m');
 		}else{
 			$file = $file_array;
-			$this->upload_thumb($file_name,$file);
+			$this->upload_thumb($file_name,$file,$key=0,$files_dir);
 		}
 	}
 	
 	function UploadThumb($flv,$thumbid){
+
 		$file = $_FILES["upload_thumb_$thumbid"]['tmp_name'];
 		$ext = GetExt($_FILES["upload_thumb_$thumbid"]['name']);
 		if(!empty($file) && $ext =='jpg'){
