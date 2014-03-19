@@ -16,8 +16,11 @@
 	function load_remote_upload_form($params=NULL)
 	{
 		global $file_name;
-		if($params['class'])
-			$class = ' '.$params['class'];
+		assign('params',$params);
+    	Template(STYLES_DIR.'/global/remote_upload_form.html',false);
+		return false;
+
+		
 		echo '<div class="alert alert-info marginTop">
 			'.lang('upload_remote_video_msg').'
 			</div>';
