@@ -72,7 +72,9 @@
 			}
 		}
 
-
+		this.setRemoteId = function(){
+			this.remoteObjID = this.randomString();
+		};
 
 		this.Confirm_Delete = function(delUrl){
 			var self = this;
@@ -171,42 +173,107 @@
 				  data: ({file:file,file_name:file_name}),
 				  dataType : 'json',
 				  beforeSend : function(){
-					  status_update();
-					  var remoteFileName = getName(file);
-					 $("#loading").html('<div style="float: left; display: inline-block;"><img src="'+self.imageurl+'/ajax-loader.gif"></div><div style="float: left; line-height: 16px; padding-left:5px">'+lang.remoteUploadFile+'</div><div class="clear"></div>');
+					  self.status_update();
+					  var remoteFileName = self.getName(file);
+					 //$("#loading").html('<div style="float: left; display: inline-block;"><img src="'+self.imageurl+'/ajax-loader.gif"></div><div style="float: left; line-height: 16px; padding-left:5px">'+lang.remoteUploadFile+'</div><div class="clear"></div>');
+					 $("#loading").html("Loading");
 					 $('#remoteFileName').replaceWith('"'+remoteFileName+'"');
 				  },
 				  success: function(data){
-					if(data.error){		  
+					if(data.error){	  
 					self.force_stop = true;
 					$('#remoteUploadBttn').attr('disabled','');
 					$('#ytUploadBttn').attr("disabled","");
 					alert(data.error);
 					}				  
 					$("#loading").html('');
-
 					var vid = data.vid;
 					$.post(
-						self.baseurl+'/actions/file_uploader.php',
+						self.baseurl+'/actions/getVideoDetails.php',
 						{
-							"getForm":"get_form",
-							"title":$("#remote_file_url").val(),
-							"objId":self.remoteObjID
+							"file_name":file_name,
+							//"title":$("#remote_file_url").val(),
+							//"objId":self.remoteObjID,
+							"vid" : vid,
 						},function(data){
+							var oneFileForm = $("#uploadFormContainer0").clone();
 						   $('#remoteUploadBttnStop').hide();
 							$('#ytUploadBttn').hide();
-							$('#remoteForm').append(data);
+							$(oneFileForm).find("input[name=title]").val(data.title);
+							$(oneFileForm).find("input[name=desc]").val(data.description);
+							$(oneFileForm).find("input[name=videoid]").val(vid);
+							$(oneFileForm).find("input[name=fileName]").val(file_name);
+							$("#remoteDownloadStatus").css("display", "none");
+							$("#submitRemoteUpload").css("display", "block");
+
+
+							// creating the hidden form fields
+                        var hiddenVideoIdField = document.createElement('input');
+                        hiddenVideoIdField.name = 'videoid';
+                        hiddenVideoIdField.type = 'hidden';
+                        hiddenVideoIdField.value =  vid;
+
+                        var hiddenVideoNameField = document.createElement('input');
+                        hiddenVideoNameField.name = 'file_name';
+                        hiddenVideoNameField.type = 'hidden';
+                        hiddenVideoNameField.value =  file_name;
+
+                        
+                        $(oneFileForm).find("form").append(hiddenVideoIdField);
+                        $(oneFileForm).find("form").append(hiddenVideoNameField);
+
+
+
+							 $(oneFileForm)
+                      .attr("id", "uploadFormContainer_remote")
+                      .appendTo("#remoteUploadFormContainer");
+
+                      $(oneFileForm).find("form").on({
+                      	submit: function(e){
+                      		e.preventDefault();
+									//$("#uploadFormContainer0").html("");
+									var form = $(this);
+
+									var formData = $(form).serialize();
+									formData += "&updateVideo=yes";
+
+									/*var title = $(form).find("#title").val();
+									var desc = $(form).find("#desc").val();
+									formData += "&title="+title;
+									formData += "&description="+desc;
+									formData += "&videoid="+videoid;
+									formData += "&file_name="+fileName;*/
+									$.ajax({
+					               url : baseurl + "/actions/file_uploader.php",
+					               type : "post",
+					               data : formData,
+					           }).success(function(data){
+					           		msg = $.parseJSON(data);
+										$("#uploadMessage").removeClass("hidden");
+										if(msg.error){
+										   $("#uploadMessage").html(msg.error).attr("class", "alert alert-danger");
+										}else{
+										   $("#uploadMessage").html(msg.msg).attr("class", "alert alert-success");
+										}
+										setTimeout(function(){
+										   $("#uploadMessage").addClass("hidden");
+										}, 5000);
+					           });
+                      	}
+                      });
+
+                     //$("#uploadFormContainer_remote").find("button").;
+							/*$('#remoteForm').append(data);
 							$('#cbSubmitUpload'+self.remoteObjID)
 							.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
 							.attr("disabled","")
 							.attr("value",lang.saveData)
 							.attr("onClick","doUpdateVideo('#uploadForm"+self.remoteObjID+"','"+self.remoteObjID+"')")
 							.after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
-							.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
-						},'text');
+							.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');*/
+						},'json');
 					}
-			   }
-			);
+			});
 			
 			$('#remoteUploadBttnStop').click(function() { 
 			ajaxCall.abort(); this.force_stop=true; $("#loading").html('');$('#remoteDownloadStatus').hide(); $(this).hide();$('#remoteUploadBttn').attr('disabled','').show(); });
@@ -278,50 +345,55 @@
 			var self = this;
 			
 			var ajaxCall = $.ajax({
-					  url: self.result_page,
-					  type: "POST",
-					  data:({file_name:file_name}),
-					  dataType: "json",
-					  success: function(data){
-					
-					  if(data){
-						  var total = data.total_size;
-						  var download = data.downloaded;
-						  var total_fm = data.total_size_fm;
-						  var download_fm = data.downloaded_fm;
-						  var speed = data.speed_download;
-						  var eta = data.time_eta;
-						  var eta_fm = data.time_eta_fm;
-						  var time_took = data.time_took;
-						  var time_took_fm = data.time_took_fm;
-						   
-						  if(speed/1024/1024>1){
+				url: self.result_page,
+				type: "POST",
+				data:({file_name:file_name}),
+				dataType: "json",
+				success: function(data){
+					if(data){
+						var total = parseFloat(data.total_size);
+						var download = parseFloat(data.downloaded);
+						var total_fm = parseFloat(data.total_size_fm);
+						var download_fm = parseFloat(data.downloaded_fm);
+						var speed = parseFloat(data.speed_download);
+						var eta = parseFloat(data.time_eta);
+						var eta_fm = parseFloat(data.time_eta_fm);
+						var time_took = parseFloat(data.time_took);
+						var time_took_fm = parseFloat(data.time_took_fm);
+						if(speed/1024/1024 > 1){
 							var theSpeed = Math.round(speed / 1024/1024) + " Mbps";
-						  }else{
-						  	var theSpeed = Math.round(speed/ 1024 ) + " Kbps";
-						  }
-						  
-						this.perc_download = Math.round(download/total*100);
-						
-						$('#remoteDownloadStatus').show();
-						//$('#prog_bar').width(this.perc_download+'%');
-						$('#prog_bar').animate({width:this.perc_download+'%'},1000);
-						$('#prog_bar').html(this.perc_download+'%');
-						$('#dspeed').html(theSpeed);
-						$('#eta').html(eta_fm);
-						$('#status').html(download_fm+' of '+total_fm);
-					  }
-						
-						var intval = this.status_refesh*1000;
-						if(this.perc_download<100 && !this.force_stop){
-							setTimeout(function(){status_update()},intval);
+						}else{
+							var theSpeed = Math.round(speed/ 1024 ) + " Kbps";
 						}
-						else if(this.perc_download==100 && total>1){
-							$('#time_took').html('Time Took : '+time_took_fm);
+						self.perc_download = Math.round(download/total*100);
+						if(isNaN(download_fm)){
+							$('#remoteDownloadStatus').show();
+							$('#prog_bar').html('Loading');
+							$('#dspeed').html('Loading');
+							$('#eta').html('Loading');
+							$('#status').html('Loading');
+						}else{
+							$('#remoteDownloadStatus').show();
+							//$('#prog_bar').width(this.perc_download+'%');
+							$('#prog_bar').animate({width:self.perc_download+'%'},1000);
+							$('#prog_bar').html(self.perc_download+'%');
+							$('#dspeed').html(theSpeed);
+							$('#eta').html(eta_fm);
+							$('#status').html(download_fm+' of '+total_fm);
 						}
-					  }
-				   }
-			);
+					}
+					var intval = self.status_refesh*1000;
+					if(self.perc_download > 99){
+						self.force_stop = true;
+					}
+					if(!self.force_stop){
+						setTimeout(function(){self.status_update()},intval);
+					}
+					else if(self.perc_download==100 && total>1){
+						$('#time_took').html('Time Took : '+ time_took_fm);
+					}
+				}
+			});
 		};
 
 		this.upload_file = function(Val,file_name){
@@ -1219,10 +1291,10 @@
 		};
 
 		this.getName = function(File){
+			var self = this;
 			var url = File;
 			var filename = url.substring(url.lastIndexOf('/')+1);
 			return filename;
-			var self = this;
 		};
 
 		this.viewRatings = function(object,pid){
@@ -1647,5 +1719,6 @@
 	};
 
 	window._cb = new _cb();
+	window._cb.setRemoteId();
 
 })(window);
