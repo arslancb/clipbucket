@@ -753,8 +753,8 @@ function get_file_details($file_name)
     if(file_exists($file))
     {
         $data = file_get_contents($file);
+        return $data;
         //$file = file_get_contents('1260270267.log');
-
         preg_match_all('/(.*) : (.*)/',trim($data),$matches);
 
         $matches_1 = ($matches[1]);

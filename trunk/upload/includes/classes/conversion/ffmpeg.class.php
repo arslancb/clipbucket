@@ -239,7 +239,6 @@ class ffmpeg
 		//$opt_av .= '-'.$this->vconfigs['map_meta_data']." ".$this->output_file.":".$this->input_file;
 	
 		$this->raw_command = $command = $this->ffmpeg." -i ".$this->input_file." $opt_av ".$this->output_file."  2> ".TEMP_DIR."/".$tmp_file;
-		file_put_contents("/home/sajjad/Desktop/ffmpegLog.txt", $content." =============== ".$this->raw_command);
 		
 		//Updating DB
 		//$db->update($this->tbl,array('command_used'),array($command)," id = '".$this->row_id."'");
