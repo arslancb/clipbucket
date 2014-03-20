@@ -11,6 +11,9 @@ class FFMpeg{
 	private $mp4BoxPath = MP4Box_BINARY;
 	private $flvTool2 = FLVTool2_BINARY;
 	private $videosDirPath = VIDEOS_DIR;
+	private $log = "";
+	private $logDir = "";
+	private $logFile = "";
 	private $resolution16_9 = array(
 		'240' => array('428','240'),
 		'360' => array('640','360'),
@@ -53,10 +56,12 @@ class FFMpeg{
 		}else{
 			$this->setOptions($this->defaultOptions);
 		}
+		$this->logDir = BASEDIR . "/files/logs/";
 	}
 
 	public function convertVideo($inputFile = false, $options = array(), $isHd = false){
-		//logData("Starting Conversion \n ============================");
+		$this->startLog($this->getInputFileName($inputFile));
+		$this->logData("Starting Conversion \n ============================");
 		if($inputFile){
 			if(!empty($options)){
 				$this->setOptions($options);
@@ -67,11 +72,11 @@ class FFMpeg{
 			$videoDetails = $this->getVideoDetails($inputFile);
 			//logData($videoDetails);
 
-			//logData("Starting Thumbs Generation \n ================================");
+			$this->logData("Starting Thumbs Generation \n ================================");
 			try{
 				$this->generateThumbs($this->inputFile, $videoDetails['duration']);
 			}catch(Exception $e){
-				//logData("Error Occured : ". $e->getMessage());
+				$this->logData("Error Occured : ". $e->getMessage());
 			}
 
 			/*
@@ -83,37 +88,37 @@ class FFMpeg{
 			*/
 			$this->convertToHightResolutionVideo($videoDetails);
 		}else{
-			//logData("no input file");
+			$this->logData("no input file");
 		}
 	}
 
 	private function convertToLowResolutionVideo($videoDetails = false){
 		if($videoDetails){
-			//logData("Generating low resolution video \n ===============================");
+			$this->logData("============================== Generating low resolution video \n ===============================");
 			$fullCommand = $this->ffMpegPath . " -i {$this->inputFile}" . $this->generateCommand($videoDetails, false) . " {$this->outputFile}-sd.{$this->options['format']}";
 			//logData($fullCommand);
 			$conversionOutput = $this->executeCommand($fullCommand);
 			//logData($conversionOutput);
-			//logData("Mp4Box Starting \n ==============================");
+			$this->logData("============================== Mp4Box Starting \n ==============================");
 			$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->outputFile}-sd.{$this->options['format']}";
 			$output = $this->executeCommand($fullCommand);
-			//logData($fullCommand);
-			//logData($output);
+			$this->logData($output);
+			file_put_contents("/home/sajjad/Desktop/log.txt", $output);
+			
 		}
 	}
 
 	private function convertToHightResolutionVideo($videoDetails = false){
 		if($videoDetails && ((int)$videoDetails['video_height'] >= "720")){
-			//logData("Generating high resolution video \n ===============================");
+			$this->logData("============================== Generating high resolution video \n ===============================");
 			$fullCommand = $this->ffMpegPath . " -i {$this->inputFile}" . $this->generateCommand($videoDetails, true) . " {$this->outputFile}-hd.{$this->options['format']}";
 			//logData($fullCommand);
 			$conversionOutput = $this->executeCommand($fullCommand);
 			//logData($conversionOutput);
-			//logData("Mp4Box Starting \n ==============================");
+			$this->logData("============================== Mp4Box Starting \n ==============================");
 			$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->outputFile}-hd.{$this->options['format']}";
 			$output = $this->executeCommand($fullCommand);
-			//logData($fullCommand);
-			//logData($output);
+			$this->logData($output);
 		}
 		return false;
 	}	
@@ -217,7 +222,8 @@ class FFMpeg{
 	}
 
 	private function executeCommand($command = false){
-		if($command) return shell_exec($command);
+		// the last 2>&1 is for forcing the shell_exec to return the output 
+		if($command) return shell_exec($command . " 2>&1");
 		return false;
 	}
 
@@ -423,8 +429,8 @@ class FFMpeg{
 				
 				$command = $this->ffMpegPath." -i $input_file -an -ss $time -an -r 1 $dimension -y -f image2 -vframes 1 $file_path ";
 				
-				$this->executeCommand($command);	
-
+				$output = $this->executeCommand($command);	
+				$this->logData($output);
 				//checking if file exists in temp dir
 				if(file_exists($tmpDir.'/00000001.jpg'))
 				{
@@ -433,11 +439,12 @@ class FFMpeg{
 				$count = $count+1;
 			}
 		}else{
-			//logData("in elese");
+			$this->logData("in elese");
 			$file_name = getName($input_file).".jpg";
 			$file_path = THUMBS_DIR.'/' . $this->options['outputPath'] . "/" . $file_name;
 			$command = $this->ffMpegPath." -i $input_file -an -s $dim -y -f image2 -vframes $num $file_path ";
-			$this->executeCommand($command);
+			$output = $this->executeCommand($command);
+			$this->logData($output);
 		}
 		
 		rmdir($tmpDir);
@@ -466,6 +473,21 @@ class FFMpeg{
 				$time .= date("i:s",$duration);
 			}
 			return $time;
+		}
+	}
+
+	private function startLog($logFileName){
+		$this->logFile = $this->logDir . $logFileName . ".log";
+		$handle = fopen($this->logFile, "w+");
+		fclose($handle);
+	}
+
+	private function logData($data = false){
+		if($data){
+			if(is_array($data)) $data = json_encode($data);
+			$handle = fopen($this->logFile, "a+");
+			fwrite($handle, $data);
+			fclose($handle);
 		}
 	}
 
