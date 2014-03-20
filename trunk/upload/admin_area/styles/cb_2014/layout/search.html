@@ -1,0 +1,77 @@
+<div style="width:98%; margin:auto">
+
+	<div id="simple_search" class="simple_container" style="border:none">
+    	<div class="quick_search">
+        <form name="search-form" method="get" action="">
+            <span class='title'>{$title} &#8250; {lang code='search'} &#8211;</span>
+          <input type="text" name="query" value="{'query'|get_form_val:true}" id="query" />
+            type
+            <select id="SearchType" name="type">
+            	{foreach from=$Cbucket->search_types item=t key=stypes}
+                	<option value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
+                {/foreach}
+            </select>
+            <input type="submit" name="cbsearch" id="cbsearch" value="{lang code='search'}" class="cb_button" />
+        </form>
+    	</div>
+    </div>
+	<div class="simple_container clearfix" style="min-height:400px; overflow:visible; display:none" id="advance_search">
+	{foreach from=$Cbucket->search_types item=search_type key=search_type_key}
+    
+      {if $search_type}
+      
+		{assign var='type' value=$cbsearch->init_search($search_type_key)}
+        	
+          {if $type}
+            {assign var='types' value=$type->search_type}
+            
+            {foreach from=$types key=stype item=search}
+             <div id="{$stype}" class="search_type">
+             {lang code='search_for_s' assign='searchfor'}
+                <h2>{$searchfor|sprintf:$search.title}</h2>
+                <div>
+                <form name="search-form-{$search.title}" method="get" action="">
+                <input type="hidden" name="type" value="{$stype}" />
+                    {foreach from=$search.fields item=field}
+                    	<div>
+                        <label class="label">{$field.title}</label>
+                        {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}
+                        </div>
+                    {/foreach}
+                    <label for="button"></label>
+                    <input type="submit" name="cbsearch" id="cbsearch" value="Search" class="cb_button" />
+                </form>
+                </div>
+              </div>
+            {/foreach}
+          {/if}
+      {/if}
+	{/foreach}
+    </div>
+<span class="more_button" style="margin-bottom:10px"><a href="javascript:void(0)" onClick="showAdvanceSearch('simple_search','advance_search','more_button','more_button_up');">{lang code='more_options'}</a></span>
+
+<div>
+    <div class="heading">{$search_type_title}</div>
+    <div style="height:10px"></div>
+    
+    <div style="width:810px; float:left">
+    {if $results}
+        {foreach item=result from=$results}
+        {assign var=$template_var value =$result}
+        	{include file="$display_template" }
+        {/foreach}
+    {else}
+    	{lang code='no_results_found'}
+    {/if}
+    <div class="clearfix"></div>
+    
+    </div>
+    <div style="width:160px; float:right">
+    {AD place='ad_160x600'}
+    </div>
+    
+    <div class="clearfix"></div>
+</div>
+
+{include file="$style_dir/blocks/pagination.html"}
+</div>
