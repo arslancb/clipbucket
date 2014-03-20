@@ -21,49 +21,10 @@
 </p>
 <p class="text-info">Conversion details</p>
 <div class="row conversion_log">
-    <div class="col-md-6">
-        <table class="table table-bordered">
-            <tr>
-                <td width="160"><strong>Name</strong></td>
-                <td><strong>Details</strong></td>
-            </tr>
-            {foreach from=$data item=value key=field}
-            <tr>
-                {if $field !='conversion_log' }
-                <td><strong>{$field|replace:'_':' '}</strong></td>
-                <td>{$value} </td>
-                {/if}
-            </tr>
-            {/foreach}
-        </table>
+    <div class="col-md-12">
+        {$data}
     </div>
-    <script type="application/x-javascript">
-        $(document).ready(function() {
-            $('#copy').zclip({
-
-                copy:$('#log-div').text(),
-                clickAfter:false,
-                afterCopy:function(){ $('#copied').show(); $('#copied').fadeOut(5000)}
-            });
-        });
-    </script>
-        <div class="col-md-6 pull-right">
-            <div style="background-color:#F3F3F3;
- border:none; height:300px; overflow:auto; padding:5px " id="log-div">
-                {$data.conversion_log|nl2br}</div>
-            <p class="text-info">Complete conversion log</p>
-                {literal}
-                <a class="btn btn-primary btn-xs" href="javascript:void(0)" onClick="$('#log-div').css({'height':'auto'});
-                $(this).hide();$('#contract').show()" id="expand">Expand</a>
-
-                <a class="btn btn-primary btn-xs" href="javascript:void(0)" onClick="$('#log-div').css({'height':'300px'});
-                $(this).hide();$('#expand').show()" id="contract" style="display:none">Contract</a>
-
-                <a class="btn btn-primary btn-xs" href="javascript:void(0)" id="copy">Copy</a>
-            <span id="copied" style="display:none">Log has been copied...</span>
-            {/literal}
-        </div>
-    </div>
+</div>
 
 
 
