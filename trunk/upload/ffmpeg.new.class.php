@@ -14,10 +14,12 @@ class FFMpeg{
 	private $logDir = "";
 	private $log = false;
 	private $logFile = "";
+	private $sdFile = false;
+	private $hdFile = false;
 	private $resolution16_9 = array(
 		'240' => array('428','240'),
 		'360' => array('640','360'),
-		'480' => array('854','480'),
+		'480' => array('853','480'),
 		'720' => array('1280','720'),
 		'1080' => array('1920','1080'),
 		);
@@ -95,6 +97,8 @@ class FFMpeg{
 			*/
 			$this->log->newSection("High Resolution Conversion");
 			$this->convertToHightResolutionVideo($videoDetails);
+
+
 		}else{
 			//$this->logData("no input file");
 		}
@@ -103,7 +107,8 @@ class FFMpeg{
 	private function convertToLowResolutionVideo($videoDetails = false){
 		if($videoDetails){
 			$this->log->writeLine("Generating low resolution video", "Starting");
-			$fullCommand = $this->ffMpegPath . " -i {$this->inputFile}" . $this->generateCommand($videoDetails, false) . " {$this->outputFile}-sd.{$this->options['format']}";
+			$this->sdFile = "{$this->outputFile}-sd.{$this->options['format']}";
+			$fullCommand = $this->ffMpegPath . " -i {$this->inputFile}" . $this->generateCommand($videoDetails, false) . " {$this->sdFile}";
 
 			$this->log->writeLine("command", $fullCommand);
 
@@ -122,7 +127,8 @@ class FFMpeg{
 	private function convertToHightResolutionVideo($videoDetails = false){
 		if($videoDetails && ((int)$videoDetails['video_height'] >= "720")){
 			$this->log->writeLine("Generating high resolution video", "Starting");
-			$fullCommand = $this->ffMpegPath . " -i {$this->inputFile}" . $this->generateCommand($videoDetails, true) . " {$this->outputFile}-hd.{$this->options['format']}";
+			$this->hdFile = "{$this->outputFile}-hd.{$this->options['format']}";
+			$fullCommand = $this->ffMpegPath . " -i {$this->inputFile}" . $this->generateCommand($videoDetails, true) . " {$this->hdFile}";
 			$this->log->writeLine("Command", $fullCommand);
 			$conversionOutput = $this->executeCommand($fullCommand);
 			$this->log->writeLine("ffmpeg output", $conversionOutput);
@@ -491,6 +497,17 @@ class FFMpeg{
 	private function startLog($logFileName){
 		$this->logFile = $this->logDir . $logFileName . ".log";
 		$this->log->setLogFile($this->logFile);
+	}
+
+	public function isConversionSuccessful(){
+		if($this->sdFile){
+			if($this->hdFile){
+				return file_exists($this->sdFile) && file_exists($this->hdFile);
+			}else{
+				return file_exists($this->sdFile);
+			}
+		}
+		return false;
 	}
 
 }
