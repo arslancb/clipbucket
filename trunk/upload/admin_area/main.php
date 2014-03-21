@@ -287,6 +287,49 @@ if(isset($_POST['update'])){
 					'collection_user_favorites',
 					'collection_channel_page',					
 					);
+
+
+    if (isset($_POST['seo']) != "yes") {
+        $_POST['seo']= "no";
+
+    }
+    if (isset($_POST['send_comment_notification']) != "yes") {
+        $_POST['send_comment_notification']= "no";
+
+    }
+    if (isset($_POST['approve_video_notification']) != "yes") {
+        $_POST['approve_video_notification']= "no";
+
+    }
+    if (isset($_POST['use_cached_pagin']) != "yes") {
+        $_POST['use_cached_pagin']= "no";
+
+    }
+    if (isset($_POST['gravatars']) != "yes") {
+        $_POST['gravatars']= "no";
+
+    }
+    if (isset($_POST['select5']) != "yes") {
+        $_POST['select5']= "no";
+
+    }
+    if (isset($_POST['select6']) != "yes") {
+        $_POST['select5']= "no";
+
+    }
+    if (isset($_POST['select4']) != "yes") {
+        $_POST['select5']= "no";
+
+    }
+    if (isset($_POST['background_color']) != "yes") {
+        $_POST['background_color']= "no";
+
+    }
+    if (isset($_POST['select7']) != "yes") {
+        $_POST['select7']= "no";
+
+    }
+
 	foreach($rows as $field)
 	{
 		//echo $field;
