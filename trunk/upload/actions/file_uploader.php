@@ -81,10 +81,13 @@ switch($mode)
 	
 	case "upload":
 	{
+
 		$file_name	= time().RandomString(5);
 		$tempFile = $_FILES['Filedata']['tmp_name'];
 		$targetFileName = $file_name.'.'.getExt( $_FILES['Filedata']['name']);
 		$targetFile = TEMP_DIR."/".$targetFileName;
+		$logFile = $file_name . ".log";
+		
 		
 		$max_file_size_in_bytes = config('max_upload_size')*1024*1024;
 		$types = strtolower(config('allowed_types'));
@@ -146,7 +149,6 @@ switch($mode)
 		
 		$Upload->add_conversion_queue($targetFileName);
 		$quick_conv = config('quick_conv');
-		
 		$use_crons = config('use_crons');
 		if($quick_conv=='yes' || $use_crons=='no')
 		{

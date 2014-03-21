@@ -3,7 +3,7 @@
 // This script runs only via command line
 
 include(dirname(__FILE__)."/../includes/config.inc.php");
-
+require_once(dirname(dirname(__FILE__))."/includes/classes/sLog.php");
 define("MP4Box_BINARY",get_binaries('MP4Box'));
 define("FLVTool2_BINARY",get_binaries('flvtool2'));
 define('FFMPEG_BINARY', get_binaries('ffmpeg'));
@@ -12,11 +12,15 @@ define('FFMPEG_BINARY', get_binaries('ffmpeg'));
 	getting the aguments
 	$argv[1] => first argument, in our case its the path of the file
 */
+$log = new SLog();
 
+error_reporting(E_ALL);
 
 $fileName = (isset($argv[1])) ? $argv[1] : false;
 $dosleep = (isset($argv[2])) ? $argv[2] : '';
-
+//$fileName = "/home/sajjad/Desktop/abc.mp4";
+$log->newSection("Starting Conversion Log");
+$log->writeLine("File to be converted", $fileName, false);
 
 /*
 	Getting the videos which are currently in our queue
@@ -24,8 +28,6 @@ $dosleep = (isset($argv[2])) ? $argv[2] : '';
 */
 
 $queue_details = get_queued_video(TRUE,$fileName);
-
-//logData($queue_details);
 
 $fileDir = $queue_details["date_added"];
 $dateAdded = explode(" ", $fileDir);
@@ -51,7 +53,6 @@ $orig_file = CON_DIR.'/'.$tmp_file.'.'.$ext;
 	and move it into the conversion queue directory for conversion
 */
 rename($temp_file,$orig_file);
-		
 
 /*
 	Preparing the configurations for video conversion from database
@@ -73,18 +74,12 @@ $configs = array(
 	'outputPath' => $fileDir,
 );
 
-
-
-/*logData($temp_file);
-logData($orig_file);
-logData($configs);*/
-
 require_once(BASEDIR.'/ffmpeg.new.class.php');
 
-$ffmpeg = new FFMpeg($configs);
+$ffmpeg = new FFMpeg($configs, $log);
 $ffmpeg->convertVideo($orig_file);
 	
 unlink($orig_file);
 }
 
-
+$log->writeLog();
