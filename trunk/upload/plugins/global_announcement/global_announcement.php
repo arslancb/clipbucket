@@ -8,6 +8,12 @@
 	Website: http://labguru.com/
 */
 
+if(!defined('MAIN_PAGE')){
+    define('MAIN_PAGE', 'Global Announcement');
+}
+if(!defined('SUB_PAGE')){
+    define('SUB_PAGE', 'Edit Announcement');
+}
 
 
 if(!function_exists('global_announcement'))
