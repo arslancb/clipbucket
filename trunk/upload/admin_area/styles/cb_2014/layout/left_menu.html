@@ -45,7 +45,9 @@
     {elseif $name=='ClipBucket Helper'}
     {$class='glyphicon glyphicon-header'}
     {/if}
-
+    {if $name=='Audio'}
+    {$class='glyphicon glyphicon-music'}
+    {/if}
     {if $smarty.const.MAIN_PAGE == $name}
     <li class="active open">
         {else}
