@@ -81,5 +81,9 @@ $ffmpeg->convertVideo($orig_file);
 	
 unlink($orig_file);
 }
-
+if($ffmpeg->isConversionSuccessful()){
+	$log->writeLine("Conversion Result", "Successful");
+}else{
+	$log->writeLine("Conversion Result", "Failure");
+}
 $log->writeLog();
