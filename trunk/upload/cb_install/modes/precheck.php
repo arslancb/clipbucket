@@ -10,7 +10,7 @@ Clipbucket requires following modules in order to work properly, we are performi
 
 <dl>
     <dt>PHP</dt>
-    	<?php $php_ver = check_module('php'); var_dump($php_ver)  ?>
+    	<?php $php_ver = check_module('php');  ?>
     	<dd><?php echo msg_arr($php_ver);?></dd>
     <dt>FFMPEG</dt>
     	<?php $ffmpeg_ver = check_module('ffmpeg'); ?>
