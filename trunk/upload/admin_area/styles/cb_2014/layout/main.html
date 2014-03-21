@@ -133,10 +133,8 @@
           <div class="col-md-4">
               <label for="select">Website closed</label>
               <label class="pull-right inline">
-                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
-                  {if $row.closed == 1}
-                  selected="selected"
-                  {/if}<span class="lbl"></span>
+                  <input value="1" id="select" {if $row.closed == '1'}checked="checked"{/if}  name="closed"  type="checkbox" class="ace ace-switch ace-switch-5 bootstrap-switch-on">
+                  <span class="lbl"></span>
               </label>
               <hr>
               </div>
@@ -151,26 +149,23 @@
           <textarea class="form-control" name="description" id="description" cols="45" rows="5">{$row.description}</textarea>
         </div>
           <div class="col-md-4">
-              <label for="select2">SEO Urls</label>
+              <label for="">SEO Urls</label>
               <label class="pull-right inline">
-                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
-                  {if $row.seo == yes}
-                  selected="selected"
-                  {/if}<span class="lbl"></span>
+                  {$row.seo}
+                  <input value="yes"  name="seo" id="select2" {if $row.seo == 'yes'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+                <span class="lbl"></span>
               </label>
               <hr>
               <label for="use_subs">Use Sub-Categories</label>
               <label class="pull-right inline">
-                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
-                  {if $row.use_subs == 1}
-                  {/if}<span class="lbl"></span>
+                  <input value="1" name="use_subs" id="use_subs" {if $row.use_subs == '1'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+                  <span class="lbl"></span>
               </label>
               <hr>
               <label for="show_collapsed_checkboxes">Collpase Category Checkboxes</label>
               <label class="pull-right inline">
-                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
-                  {if $row.show_collapsed_checkboxes == 1}
-                  {/if}<span class="lbl"></span>
+                  <input value="1"  name="show_collapsed_checkboxes" id="show_collapsed_checkboxes" {if $row.show_collapsed_checkboxes == '1'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+               <span class="lbl"></span>
               </label>
               <span class="smallText" style="font-size:11px;">If selected <strong>YES</strong>, Categories shown while uploading <strong>video</strong> will be collapsed.</span>
               <hr>
@@ -197,17 +192,14 @@
           <div class="col-md-4">
               <label for="allow_language_change">Allow language change</label>
               <label class="pull-right inline">
-                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
-                  {if $row.allow_language_change == 1}
-                  {/if}<span class="lbl"></span>
+                  <input value="1" name="allow_language_change" id="allow_language_change" {if $row.allow_language_change == '1'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+                  <span class="lbl"></span>
               </label>
               <hr>
               <label for="allow_template_change">Allow template change</label>
               <label class="pull-right inline">
-                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
-                  {if $row.allow_template_change == 1}
-                  {/if}<span class="lbl"></span>
-
+                  <input value="1" name="allow_template_change" id="allow_template_change" {if $row.allow_template_change == 1}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+                  <span class="lbl"></span>
               </label>
           </div>
         </div>
@@ -289,16 +281,16 @@
           <div class="row">
           <div class="col-md-4">
               <label for="send_comment_notification">Send Comment Notification
-                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
-                  {if $row.allow_language_change == 1}
-                  {/if}<span class="lbl"></span>
+                  {$row.send_comment_notification}
+                  <input value="yes" name="send_comment_notification" id="send_comment_notification"  {if $row.send_comment_notification=='yes'} checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+                 <span class="lbl"></span>
               </label>
           </div>
           <div class="col-md-4">
               <label for="approve_video_notification">Send Video Approve Notification
-                  <input id="select" name="closed" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
-                  {if $row.allow_language_change == 1}
-                  {/if}<span class="lbl"></span>
+                  {$row.approve_video_notification}
+                  <input value="yes" name="approve_video_notification" id="approve_video_notification" {if $row.approve_video_notification=='yes'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+                    <span class="lbl"></span>
               </label>
           </div>
               </div>
@@ -908,15 +900,11 @@
     <h2>Main Settings</h2>
     <div class="row">
     <div class="col-md-6">
-      <label for="use_cached_pagin">Use cached pagination</label>
-        <select class="form-control" name="use_cached_pagin" id="use_cached_pagin">
-          <option value="yes" {if $row.use_cached_pagin==yes}
-          selected="selected"
-          {/if}>Yes</option>
-          <option value="no" {if $row.use_cached_pagin!=yes}
-          selected="selected"
-          {/if}>No</option>
-        </select>
+      <label for="use_cached_pagin">Use cached pagination
+        <label class="pull-right inline">
+            <input value="yes"  name="use_cached_pagin" id="use_cached_pagin" {if $row.use_cached_pagin == 'yes'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+            <span class="lbl"></span></label>
+        </label>
     </div>
 
     <div class="col-md-6">
@@ -1267,104 +1255,71 @@
     <h2>Profile Pictures &amp; Background</h2>
     <div class="row">
     <div class="col-md-4">
-      <label for="gravatars">Use Avatars</label>
-      <select class="form-control" name="gravatars" id="gravatars">
-        <option value="yes"
-        {if $row.gravatars == yes}
-        selected="selected"
-        {/if}>Yes</option>
-        <option value=""
-        {if $row.gravatars == ''}
-        selected="selected"
-        {/if}>No</option>
-      </select>
+      <label for="gravatars">User Avatars</label>
+        <label class="pull-right inline">
+            {$row.gravatars}
+            <input value="yes"  name="gravatars" id="gravatars" {if $row.gravatars == 'yes'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+            <span class="lbl"></span>
+        </label>
+        <hr>
+        <label for="select4">Allow picture URL</label>
+        <label class="pull-right inline">
+            {$row.picture_url}
+            <input value="yes"  name="picture_url" id="select4" {if $row.picture_url == 'yes'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+            <span class="lbl"></span>
+        </label>
+        <hr>
+        <label for="select5">Allow picture upload</label>
+        <label class="pull-right inline">
+            {$row.picture_upload}
+            <input value="yes"  name="picture_upload" id="select5" {if $row.picture_upload == 'yes'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+            <span class="lbl"></span>
+        </label>
+        <hr>
+        <label for="backgroundurl">Allow Background URL</label>
+        <label class="pull-right inline">
+            {$row.background_url}
+            <input value="yes"  name="background_url" id="select6" {if $row.background_url == 'yes'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+            <span class="lbl"></span>
+        </label>
+        <hr>
+        <label for="backgroundupload">Allow background upload</label>
+        <label class="pull-right inline">
+            {$row.background_upload}
+            <input value="yes"  name="background_upload" id="select7" {if $row.background_upload == 'yes'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+            <span class="lbl"></span>
+        </label>
+        <hr>
+        <label for="background_color">Allow background color</label>
+        <label class="pull-right inline">
+            {$row.background_color}
+            <input value="yes" name="background_color" id="background_color" {if $row.background_color == 'yes'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+            <span class="lbl"></span>
+        </label>
+
     </div>
 
     <div class="col-md-4">
       <label for="max_profile_pic_size">Max profile pic size</label>
       <input class="form-control" name="max_profile_pic_size" type="text" id="max_profile_pic_size" value="{$row.max_profile_pic_size}" size="6" maxlength="10" />KBs
+    <br>
+        <label for="max_bg_size">Max Background Size</label>
+        <input class="form-control" name="max_bg_size" type="text" id="max_bg_size" value="{$row.max_bg_size}" size="6" maxlength="10" />
+        KBs
     </div>
 
     <div class="col-md-4">
       <label for="max_profile_pic_width">Max profile pic dimension</label>
       <input class="form-control" name="max_profile_pic_width" type="text" id="max_profile_pic_width" value="{$row.max_profile_pic_width}" size="6" maxlength="10" />
+    <br>
+        <label for="max_bg_width">Max Background Dimension</label>
+        <input class="form-control" name="max_bg_width" type="text" id="max_bg_width" value="{$row.max_bg_width}" size="6" maxlength="10" />
+        Pixels
     </div>
 
-    <div class="col-md-4">
-      <label for="select4">Allow picture URL</label>
-      <select class="form-control" name="picture_url" id="select4">
-        <option value="yes" 
-        {if $row.picture_url == yes}
-        selected="selected"
-        {/if}>Yes</option>
-        <option value="no" {if $row.picture_url == no}
-        selected="selected"
-        {/if}>No</option>
-      </select>
-    </div>
         </div>
-        <div class="row">
-    <div class="col-md-4">
-      <label for="select5">Allow picture upload</label>
-      <select class="form-control" name="picture_upload" id="select5">
-        <option value="yes" {if $row.picture_upload == yes}
-        selected="selected"
-        {/if}>Yes</option>
-        <option value="no" {if $row.picture_upload == no}
-        selected="selected"
-        {/if}>No</option>
-      </select>
-    </div>
 
-    <div class="col-md-4">
-      <label for="max_bg_size">Max Background Size</label>
-      <input class="form-control" name="max_bg_size" type="text" id="max_bg_size" value="{$row.max_bg_size}" size="6" maxlength="10" />
-      KBs
-    </div>
 
-    <div class="col-md-4">
-      <label for="max_bg_width">Max Background Dimension</label>
-      <input class="form-control" name="max_bg_width" type="text" id="max_bg_width" value="{$row.max_bg_width}" size="6" maxlength="10" />
-      Pixels
-    </div>
-            </div>
-        <div class="row">
-    <div class="col-md-4">
-      <label for="select6">Allow Background URL</label>
-      <select class="form-control" name="background_url" id="select6">
-        <option value="yes" {if $row.background_url == yes}
-        selected="selected"
-        {/if}>Yes</option>
-        <option value="no" {if $row.background_url == no}
-        selected="selected"
-        {/if}>No</option>
-      </select>
-    </div>
-    
-    <div class="col-md-4">
-      <label for="select7">Allow background upload</label>
-      <select class="form-control" name="background_upload" id="select7">
-        <option value="yes" {if $row.background_upload == yes}
-        selected="selected"
-        {/if}>Yes</option>
-        <option value="no" {if $row.background_upload == no}
-        selected="selected"
-        {/if}>No</option>
-      </select>
-    </div>
-
-    <div class="col-md-4">
-      <label for="background_color">Allow background color</label>
-      <select class="form-control" name="background_color" id="background_color">
-        <option value="yes" {if $row.background_color == yes}
-        selected="selected"
-        {/if}>Yes</option>
-        <option value="no" {if $row.background_color == no}
-        selected="selected"
-        {/if}>No</option>
-      </select>
-    </div>
-  </div>
 </div>
       </div>
   
