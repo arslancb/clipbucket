@@ -1,0 +1,22 @@
+<div class="feature_heading2">{$video.title|truncate:35}</div>
+<div class="featured_video_player2">
+    {FlashPlayer vdetails = $video height='250' width='440' }
+</div>
+<div class="featured_video_details2">
+    <div style="float:left; width:70%">
+    {$video.description|description|truncate:35}</div>
+    
+    <div style="float:left; width:30%;">
+<div class="vid_stats" style="float:left; width:75%; margin:0; padding:0; margin-top:-7px;">
+        <ul>
+          <li class="views_icon" style="float:left"><strong>{$video.views|number_format}</strong></li>
+          <li class="duration_icon" style="float:left"><strong>{$video.duration|SetTime}</strong></li>
+          <li class="comments_icon" style="float:left"><strong>{$video.comments_count|number_format}</strong></li>
+        </ul>
+</div>
+		<div style="float:right; width:50px; text-align:center">{show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10'}</div>
+	</div>
+
+  <div class="clearfix"></div>
+ <!-- - <a href="{*videoLink vdetails=$video*}">{*lang code='view_video'*}</a> //-->
+ </div>
