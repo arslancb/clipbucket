@@ -25,7 +25,6 @@ class FFMpeg{
 		'1080' => array('1920','1080'),
 		);
 	// this is test comment
-	// another
 
 	private $resolution4_3 = array(
 		'240' => array('320','240'),
