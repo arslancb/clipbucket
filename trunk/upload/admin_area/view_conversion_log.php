@@ -18,8 +18,12 @@ $file_details = $myquery->file_details($file_name);
 // $file_details['file_ext'] = getext($file_details['File']);
 if($file_details)
 {
-	$file_details = implode("<br>", explode("\n", $file_details));
+	$fileDetailsArray = explode("\n", $file_details);
+	$file_details = implode("<br>", $fileDetailsArray);
+	$videoDetails = json_decode($fileDetailsArray[187]);
+	$videoDetails->file_name = $file_name;
 	assign('data',$file_details);
+	assign('videoDetails',$videoDetails);
 }
 
 
