@@ -1,15 +1,312 @@
 <div class="container">
-    <div class="row cb-box marginBottom">
-    	<h1 class="alert alert-info">Hello, how do you do ...... ?</h1>
-        <div class="col-md-12">
-            <h2>Latest Videos</h2>
-            <div class="row">
-                {foreach $videos as $video}
-                    <div class="col-md-3 marginBottom">
-                        {include file="$style_dir/blocks/videos/video.html"}
-                    </div>
-                {/foreach}
-            </div>
+	<div class="row cb-box marginBottom">
+		<!-- Global Announcement START //-->
+        <h1 class="alert alert-info" style="margin-top: 5px; font-size:16px;">Welome to new interface</h1>
+        <!-- Global Announcement END //-->
+        
+		<!-- Editor Pick START //-->
+		<div class="row">
+			
+		<div class="col-md-8 nopadding-right">
+			<!-- Editor Pick Video Main Container START //-->
+			<div id="ep_video_container">
+				{if is_installed('editorspick')}
+				{section name=e_list loop=$editor_picks max=1}
+				{include file="$style_dir/blocks/editor_pick/video_block.html" video=$editor_picks[e_list]}
+				{sectionelse}
+				There is no video in editor's pick, Please Add Videos In Editor's Pick<br />Videos Manager > Add to editor's pick
+				{/section}
+				{/if}
+			</div>
+			<!-- Editor Pick Video Main Container END //-->
         </div>
-    </div>
+
+		<!-- Editor Pick Videos Slider Container START //-->
+        <div id="slide" class="col-md-4 nopadding-left">
+				{section name=e_list loop=$editor_picks}
+            	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
+				{/section}
+        </div>
+        
+		<div class="col-md-4 nopadding-left">
+		<a href="#" class="col-md-6 btn btn-primary" id="slide_prev" style="margin-bottom:5px; margin-top:15px;">
+		<img src="{$baseurl}/styles/cb_2014/images/m_arrow_up.png" />
+		</a>
+		<a href="#" class="col-md-6 btn btn-primary" id="slide_next" style="margin-bottom:5px; margin-top:15px;">
+		<img src="{$baseurl}/styles/cb_2014/images/m_arrow_down.png" />
+		</a>
+		</div>
+		<!-- Editor Pick Videos Slider Container END //-->
+
+        <script type="text/javascript">
+            $(function() {						
+                $('#slide').ulslide({
+                    width: 375,
+                    height: 90,
+					effect: {
+						type: 'carousel', // slide or fade
+                        axis: 'y',        // x, y
+						showCount: 4
+					},
+                    nextButton: '#slide_next',
+                    prevButton: '#slide_prev',
+                    duration: 800,
+                    /*autoslide: 2000,*/
+					easing: 'easeOutBounce'
+                });
+            });
+        </script>
+		</div>
+		<!-- Editor Pick END //-->
+        
+		<!-- Latest Videos START //-->
+		<div class="row">
+		<div class="col-md-12">
+
+		<div class="col-md-8">
+			<h2 class="myHeading">Latest Videos</h2>
+			<div class="col-md-12">
+
+			<div class="col-md-8 text-center nopadding-left">
+				<div class="col-md-12 text-center" style="border:1px solid #CCC; margin-bottom:10px;">
+				{foreach from=$videos_01 item=video_01}
+				<div class="col-md-12 text-center">
+				<a href="{videoLink vdetails=$video_01}" title="{$video_01.title}">
+				<img src="{getThumb vdetails=$video_01}" width="600" height="285" border="0" {ANCHOR place="video_thumb" data=$video_01} />
+				</a>
+				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.12); ">{$video_01.title|truncate:30}</div>
+				</div>
+				{/foreach}
+				</div>
+
+				<div class="col-md-12 text-center">
+				{foreach from=$videos_02 item=video_02}
+				<div class="col-md-6 text-center nopadding-left">
+				<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
+				<img src="{getThumb vdetails=$video_02}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_02} />
+				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_02.title|truncate:10}</div>
+				</a>
+				</div>
+				{/foreach}
+				</div>
+                
+            </div>
+		
+        		<div class="col-md-4 text-center nopadding-left">
+				{foreach from=$videos_04 item=video_04}
+				<div class="col-md-12 text-center"  style="margin-bottom:10px;">
+				<a href="{videoLink vdetails=$video_04}" title="{$video_04.title}">
+				<img src="{getThumb vdetails=$video_04}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_04} />
+				</a>
+				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_04.title|truncate:10}</div>
+				</div>
+				{/foreach}
+				</div>
+                
+			</div>
+
+		<div class="clearfix"></div>
+		<!-- Latest Videos END //-->
+
+		<!-- Videos START //-->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="hmtabs">
+					<ul>
+						<li class="selected col-md-4 text-center nopadding">
+						{lang code='being_watched'}
+						</li>
+                        
+						<li class="selected col-md-4 text-center nopadding-left">
+						{lang code='most_viewed'}
+						</li>
+                        
+						<li class="selected col-md-4 text-center nopadding">
+						{lang code='recently_added'}
+						</li>
+					</ul>    	
+				</div> <!--TABS END-->    
+			</div>
+		</div>
+
+		<div class="clearfix"></div>
+        <div class="clearfix"></div>
+		
+		<script>
+		jQuery(document).ready(function ($) {
+		{ldelim}
+			var options = { $AutoPlay: true };
+			var jssor_slider1 = new $JssorSlider$('slider1_container', options);
+			var jssor_slider2 = new $JssorSlider$('slider2_container', options);
+			var jssor_slider3 = new $JssorSlider$('slider3_container', options);		
+		{rdelim}
+		});
+		
+		var _hidediv = null;
+		function showdiv(id) {
+			if(_hidediv)
+			hidediv();
+			
+			var div = document.getElementById(id);
+			div.style.display = 'block';
+			_hidediv = function () { div.style.display = 'none'; };
+		}
+        </script>
+        
+		<div class="col-md-4">
+			<div id="slider1_container" style="float:left; position: relative; top: 0px; left: 0px; width: 220px; height: 90px;">
+				<div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 220px; height: 100px;">
+				{foreach from=$videos_06_lv item=video_06_lv}
+				<div class="col-md-12 text-center">
+				<a href="{videoLink vdetails=$video_06_lv}" title="{$video_06_lv.title}">
+				<img src="{getThumb vdetails=$video_06_lv}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_lv} />
+				</a>
+				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_04.title|truncate:10}</div>
+				</div>
+                {/foreach}
+				</div>
+			</div>
+		</div>
+        
+		<div class="col-md-4">
+			<div id="slider2_container" style="float:left; position: relative; top: 0px; left: 0px; width: 220px; height: 90px;">
+				<div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 220px; height: 100px;">
+				{foreach from=$videos_06_v item=video_06_v}
+				<div class="col-md-12 text-center">
+				<a href="{videoLink vdetails=$video_06_v}" title="{$video_06_v.title}">
+				<img src="{getThumb vdetails=$video_06_v}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_v} />
+				</a>
+				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_04.title|truncate:10}</div>
+				</div>
+                {/foreach}
+                </div>
+			</div>
+		</div>
+        
+		<div class="col-md-4">
+			<div id="slider3_container" style="float:left; position: relative; top: 0px; left: 0px; width: 220px; height: 90px;">
+				<div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 220px; height: 100px;">
+				{foreach from=$videos_06_da item=video_06_da}
+                <div class="col-md-12 text-center">
+				<a href="{videoLink vdetails=$video_06_da}" title="{$video_06_da.title}">
+				<img src="{getThumb vdetails=$video_06_da}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_da} />
+				</a>
+				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_04.title|truncate:10}</div>
+				</div>
+                {/foreach}
+				</div>
+			</div>
+		</div>
+		<!-- Videos END //-->
+        
+        <div class="clearfix"></div>
+        
+        <!-- Photos START //-->
+		<script>
+		$(document).ready(function()
+		{ldelim}
+		getAjaxPhoto('most_viewed','#most_viewed_pho_container');
+		getAjaxPhoto('most_recent','#most_recent_pho_container');
+		getAjaxPhoto('most_download','#most_down_pho_container');
+		{rdelim}
+		);
+		</script>
+        
+        <div class="row">
+			<div class="col-md-12">
+			<div class="hmtabs">
+			<ul>
+				<li class="selected col-md-4 text-center nopadding" style="margin-right:5px; margin-bottom: 10px;">
+				<a href="javascript:void(0)" id="most_viewed" style="padding-left:0px; text-decoration:none;">
+				{lang code='Most Viewed'}
+				</a>
+				</li>
+				<div id="most_viewed_pho_container" style="padding-left:10px;"></div>
+                
+				<li class="col-md-4 text-center nopadding" style="margin-right:5px; margin-bottom: 10px;">
+				<a href="javascript:void(0)" id="most_recent" style="padding-left:0px; text-decoration:none;">
+				{lang code='Recently Added'}
+				</a>
+				</li>
+				<div id="most_recent_pho_container" style="padding-left:10px;"></div>
+                
+				<li class="col-md-4 text-center nopadding" style="margin-right:5px; margin-bottom: 10px;">
+				<a href="javascript:void(0)" id="most_download" style="padding-left:0px; text-decoration:none;">
+				{lang code='Top Downloaded'}
+				</a>
+				</li>
+				<div id="most_down_pho_container" style="padding-left:10px;"></div>
+			</ul>
+			</div>
+			</div>
+		</div>
+		</div>
+		<!-- Photos END //-->
+        
+		<!-- Advertisement Block START //-->
+		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
+		<h2 class="myHeading" style="margin-top:0;">Advertisement</h2>
+			<div class="col-md-12" style="margin-top: 5px; font-size:18px; border:1px solid #CCC; background:#FFF;">
+			Ad Box
+			</div>
+		</div>
+		<!-- Advertisement Block END //-->
+        
+        <!-- User Block START //-->
+		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
+		<h2 class="myHeading" style="margin-top:0;">Featured Users</h2>
+		{section name=users loop=$users}
+        	
+		<div class="col-md-12 cb-item-title-container" style="min-height:75px; margin-top:10px; margin-bottom:10px; padding-bottom: 15px; border-bottom: 1px solid #CCC;">
+			<div class="cb-item-thumb">
+			<img src="{$userquery->getuserthumb($users[users],'small')}" width="65" height="65" class="img-circle" />
+			</div>
+			<div class="cb-item-user" style="font-size:12px; margin-top:3px;">
+			<a href="{$userquery->profile_link($users[users])}">{$users[users].username}</a>
+			<BR />
+			{lang code='User Profile views'}: {$users[users].profile_hits|number_format}
+			&nbsp;&nbsp; / &nbsp;&nbsp;
+			{lang code='User Videos'}: {$users[users].total_videos|number_format}
+			</div>
+			<div style="float:right; margin-top: 15px;">
+			<a href="{$userquery->profile_link($users[users])}">
+			<img src="{$baseurl}/styles/cb_2014/images/user_next_icon.png" width="25" height="25" />
+			</a>
+			</div>
+		</div>
+		{/section}
+		</div>
+		<!-- User Block END //-->
+
+		<!-- Comments Block START //-->
+		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
+		<h2 class="myHeading" style="margin-top:0;">Most Commented</h2>
+		<div class="col-md-12 nopadding-right">
+		{foreach from=$comments item=comment}
+		<div class="col-md-12 nopadding-right">
+		<div style="margin-top:5px; padding:5px; color: #000; background:#FFF; border: 1px solid #CCC; border-radius:5px; font-size:12px;">{$comment.comment|truncate:30}</div>
+		</div>
+		{/foreach}
+		</div>
+		</div>
+		<!-- Comments Block END //-->
+        
+        <!-- FB Block START //-->
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) return;
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=1403898473202427";
+		fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+
+		<div class="col-md-4">
+		<div class="fb-like-box" data-href="https://www.facebook.com/Tunepkofficial" data-width="350" data-height="320" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true"></div>
+		</div>
+		<!-- FB Block END //-->
+
+		</div>
+		</div>
+	</div>
 </div>
