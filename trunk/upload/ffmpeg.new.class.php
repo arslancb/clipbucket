@@ -3,6 +3,7 @@
 class FFMpeg{
 	private $command = "";
 	public $defaultOptions = array();
+	public $videoDetails = array();
 	private $options = array();
 	private $outputFile = false;
 	private $inputFile = false;
@@ -76,6 +77,7 @@ class FFMpeg{
 			$this->outputFile = $this->videosDirPath . '/'. $this->options['outputPath'] . '/' . $this->getInputFileName($inputFile);
 			$this->log->writeLine("outputFile", $this->outputFile);
 			$videoDetails = $this->getVideoDetails($inputFile);
+			$this->videoDetails = $videoDetails;
 			$this->log->writeLine("videoDetails", $videoDetails);
 
 
@@ -97,7 +99,7 @@ class FFMpeg{
 			*/
 			$this->log->newSection("High Resolution Conversion");
 			$this->convertToHightResolutionVideo($videoDetails);
-
+			$this->log->writeLine("videoDetails", $videoDetails);
 
 		}else{
 			//$this->logData("no input file");
@@ -139,7 +141,7 @@ class FFMpeg{
 			$this->log->writeLine("output", $output);
 		}
 		return false;
-	}	
+	}
 
 	private function getPadding($padding = array()){
 		if(!empty($padding)){
