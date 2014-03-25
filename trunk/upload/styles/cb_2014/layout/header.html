@@ -83,11 +83,12 @@
 
                     {if userid()}
                     <li class="dropdown myaccount-dd">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img class="img-circle" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" /> Dropdown <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img class="img-circle" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" /> Member's Menu <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{$base_url}/myaccount.php">{lang code="my_account"}</a></li>
+                            <li><a href="myaccount.php">{lang code="my_account"}</a></li>
+                            <li><a href="upload.php">Upload</a></li>
                             <li class="divider"></li>
-                            <li><a href="{$base_url}/logout.php">Logout</a></li>
+                            <li><a href="logout.php">Logout</a></li>
                         </ul>
                     </li>
                     {else}
@@ -100,6 +101,20 @@
                     </li>
                     {/if}
                 </ul>
+                <!-- Ends -->
+
+
+                <!-- Shown to Large displays only Start -->
+                    <div class="btn-group" style="margin-left:25px;">
+					<button class="btn btn-primary btn-sm visible-md visible-lg">Uploads</button>
+					<button class="btn btn-primary btn-sm dropdown-toggle visible-md visible-lg" data-toggle="dropdown">
+					<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a href="upload.php">Upload Video</a></li>
+						<li><a href="upload.php">Upload Photo</a></li>
+					</ul>
+					</div>
                 <!-- Ends -->
 
 
