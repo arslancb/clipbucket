@@ -20,7 +20,7 @@ class FFMpeg{
 	private $resolution16_9 = array(
 		'240' => array('428','240'),
 		'360' => array('640','360'),
-		'480' => array('853','480'),
+		'480' => array('854','480'),
 		'720' => array('1280','720'),
 		'1080' => array('1920','1080'),
 		);
@@ -504,9 +504,9 @@ class FFMpeg{
 	public function isConversionSuccessful(){
 		if($this->sdFile){
 			if($this->hdFile){
-				return file_exists($this->sdFile) && file_exists($this->hdFile);
+				return (file_exists($this->sdFile) && (filesize($this->sdFile)  > 0)) && (file_exists($this->hdFile) && (filesize($this->hdFile)  > 0));
 			}else{
-				return file_exists($this->sdFile);
+				return (file_exists($this->sdFile) && (filesize($this->sdFile)  > 0));
 			}
 		}
 		return false;
