@@ -42,7 +42,7 @@ $fileDir = implode("/", explode("-", $dateAdded));
 $tmp_file = $queue_details['cqueue_name'];
 $tmp_ext =  $queue_details['cqueue_tmp_ext'];
 $ext =  $queue_details['cqueue_ext'];
-
+$outputFileName = $tmp_file;
 if(!empty($tmp_file)){
 
 $temp_file = TEMP_DIR.'/'.$tmp_file.'.'.$tmp_ext;
@@ -81,9 +81,21 @@ $ffmpeg->convertVideo($orig_file);
 	
 unlink($orig_file);
 }
+$status = "Failure";
+$duration = 0;
 if($ffmpeg->isConversionSuccessful()){
-	$log->writeLine("Conversion Result", "Successful");
+	$videoDetails = $ffmpeg->videoDetails;
+	if(count($videoDetails) > 0){
+		$duration = $videoDetails["duration"];
+		$status = "Successful";
+		$log->writeLine("Conversion Result", "Successful");
+	}else{
+		$log->writeLine("Conversion Result", "Failure");
+	}
 }else{
 	$log->writeLine("Conversion Result", "Failure");
 }
 $log->writeLog();
+
+// update the video details in the database as successful conversion or not and video duration
+$db->update(tbl('video'), array("duration", "status"), array($duration, $status), " file_name = '{$outputFileName}'");
