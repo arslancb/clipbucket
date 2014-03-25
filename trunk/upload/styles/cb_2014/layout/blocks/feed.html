@@ -20,28 +20,45 @@
 {/literal}
 
 
-<div class="well" id="feed-{$feed.file}">
+<div class=""  id="feed-{$feed.file}">
 	<div class="row">
-        <div class="col-md-3">
-            <div class="">
+        <div class="col-md-14">
+            <div class="col-md-12 pull-left font">
                 <a href="{$userquery->profile_link($feed.user)}" title="{$feed.user.username}">
-                    <img src="{avatar details=$feed.user size='small'}" alt="{$feed.user.username}" class="img-thumbnail" />
+                    <img class="img-circle" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg">
+                    <!--<img src="{avatar details=$feed.user size='small'}" alt="{$feed.user.username}" class="img-circle" />-->
                 </a>
-            </div>
-            <div class="feedTitle">
                 {if !$feed.action_title}
-                    <a href="{$userquery->profile_link($feed.user)}">{$feed.user.username}</a>
+                <a href="{$userquery->profile_link($feed.user)}">{$feed.user.username}</a>
                 {else}
-                    {$feed.action_title}
+                {$feed.action_title}
                 {/if}
+                <br>
+                <span class="padding36 new1"><i class="glyphicon glyphicon-time"></i>  {$feed.datetime}</span>
+                <hr>
             </div>
-            <span id="feedload-{$feed.file}"></span>
-            {if $u.userid==userid() || has_access('admin_access',true)}
-                <a href="javascript:void(0)" onclick="deleteFeed('{$feed.user.userid}','{$feed.file}')" class="btn btn-primary">
-                    delete
-                </a>
-            {/if}
+            <!--<div class="feedTitle col-md-12 pull-right">-->
+
+                <!--<span id="feedload-{$feed.file}"></span>-->
+                <!--&lt;!&ndash;{if $u.userid==userid() || has_access('admin_access',true)}&ndash;&gt;-->
+                <!--&lt;!&ndash;<a href="javascript:void(0)" onclick="deleteFeed('{$feed.user.userid}','{$feed.file}')" class="btn btn-primary btn-xs">&ndash;&gt;-->
+                    <!--&lt;!&ndash;delete&ndash;&gt;-->
+                <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="feedState pull-right">&ndash;&gt;-->
+                    <!--&lt;!&ndash;{if $feed.links}&ndash;&gt;-->
+                    <!--&lt;!&ndash;{foreach from=$feed.links item=link}&ndash;&gt;-->
+                <!--&lt;!&ndash;<span class="show">&ndash;&gt;-->
+                    <!--&lt;!&ndash;{if $link.link}<a class="font" href="{$link.link}">{/if}{$link.text}{if $link.link}</a>{/if}&ndash;&gt;-->
+                <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;{/foreach}&ndash;&gt;-->
+                    <!--&lt;!&ndash;{/if}&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--<hr>-->
+            <!--</div>-->
+
         </div>
+
         <div class="col-md-9">
             <div class="feed">
         <div class="feedContent">
@@ -49,38 +66,25 @@
                 {if $feed.link}
                     <a href="{$feed.link}">
                 {/if}
-                    <img src="{$feed.thumb}" class="img-thumbnail">                
+                    <!--<img src="{$feed.thumb}" class="img-thumbnail">                -->
                 {if $feed.link}
                     </a>
                 {/if}
             {/if}
-            <div class="feedText">
-                {if $feed.link}
-                    <a href="{$feed.link}">{$feed.title}</a>
-                {elseif $feed.title}
-                   {$feed.title}
-                {/if}
-                {if $feed.object_content}
-                <div class="objectContent">
-                    {$feed.object_content}
-                </div>
-                {/if}
-            </div>
+            <!--<div class="feedText">-->
+                <!--{if $feed.link}-->
+                <!--<a href="{$feed.link}">{$feed.title}</a>-->
+                <!--{elseif $feed.title}-->
+                <!--{$feed.title}-->
+                <!--{/if}-->
+                <!--{if $feed.object_content}-->
+                <!--<div class="objectContent">-->
+                    <!--{$feed.object_content}-->
+                <!--</div>-->
+                <!--{/if}-->
+            <!--</div>-->
         </div>
-        <div class="feedState">
-            {if $feed.icon}
-                <img src="{$imageurl}/icons/{$feed.icon}"> 
-            {/if}
-            <span>{$feed.datetime}</span>
-            
-            {if $feed.links}
-                {foreach from=$feed.links item=link}
-                <span class="show">
-                    {if $link.link}<a href="{$link.link}">{/if}{$link.text}{if $link.link}</a>{/if}
-                </span>
-                {/foreach}
-            {/if}
-        </div>
+
     </div>
         </div>
     </div>
