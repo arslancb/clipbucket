@@ -4,47 +4,95 @@
 <div class="container marginBottom">
    {include file="$style_dir/blocks/manage/account_menu.html"}
 
-	<div class="row cb-box">
-		<div class="leftSidebar col-md-3">
-         <ul class="">
-             {foreach $leftMenuLinks as $key => $value}
-                 <li class="">
-                     <a href="#" class="" data-toggle="dropdown">{$key}</a>
-                     <ul class="">
-                         {foreach $value as $subKey => $subValue}
-                             <li><a href="{$subValue}">{$subKey}</a></li>
-                         {/foreach}
-                     </ul>
-                 </li>
-             {/foreach}
-         </ul>
-         {include file="$style_dir/blocks/category_list.html" type='user'}
-     	</div>
-		<div class="col-md-9">
-			<div>
-				<div class="btn-group">
-						<a href="#" class="btn btn-primary disabled">{lang code='sort_by'}</a>
-						{assign var=sorting_links value=sorting_links()}
-						{foreach from=$sorting_links item=name key=sort}
-						<a class="btn btn-primary" {if $smarty.get.sort==$sort} class="btn btn-primary selected"{/if} href="{link name=sort sort=$sort type=channel}" >{$name}</a>
-						{/foreach}
-					</ul>
-				</div>
+	<div class="cb-box clearfix row">
+    <!-- Listing Categories -->
+        
+        {include file="$style_dir/blocks/category_list.html" type='channels'}
+        
+        <!-- Listing Categories End -->
+		<div class="col-md-7 clearfix">
+			
+				<div class="page-hidding">
+                {assign var=sorting_links value=sorting_links()}
+                <h4 class="smaller lighter pull-left">Browsing All Categories: 
+                    <small>
+                    {if isset($smarty.get.sort)}
+                    {foreach from=$sorting_links item=name key=sort}
+                        {if $smarty.get.sort==$sort} 
+                           <!--<span class="glyphicon glyphicon-sort"></span> Most {$name}-->
+                        {/if}
+                    {/foreach}
+                    {/if}
+                    </small>
 
-				<div class="time_cont">
+                </h4>
+                <div class="pull-left">
+                    <div class="btn-group">
+                        <button class="btn btn-default" type="button">Recent</button>
+                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                        <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                      <ul role="menu" class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                      </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-default" type="button">All Time</button>
+                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                        <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                      <ul role="menu" class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                      </ul>
+                    </div>
+                </div>
+
+            </div>
+                <div class="clearfix" style="margin-right: -100px;">
+					<div class="time_cont">
 					{assign var=time_links value=time_links()}
 					{foreach from=$time_links item=name key=sort name=times}
 						{if !$smarty.foreach.times.last}{/if}
 					{/foreach}
 				</div>
 				{section name=u_list loop=$users}
+				<div class="col-md-5 marginBottom grid_view list_view channels-view">
 					{include file="$style_dir/blocks/user.html" user=$users[u_list]}
+				</div>	
 				{sectionelse}
 					{lang code='no_results_found'}
 				{/section}
-			</div>
-			<div class="marginTop marginBottom" align="center">{AD place='ad_160x600'}</div>
-			{include file="$style_dir/blocks/pagination.html"}
+			    </div>
+				<div align="center">
+                {*include file="$style_dir/blocks/pagination.html"*}
+                <ul class="pagination">
+
+	       
+        <li class="previous">
+            
+        <a href="?page=1"><span class="glyphicon glyphicon-fast-backward"></span></a></li>  <li><a href="?page=2"><span class="glyphicon glyphicon-step-backward"></span></a></li> 
+        
+         <li><a href="?page=1">1</a></li><li>  </li><li><a href="?page=2">2</a></li><li>  <span class="selected">3</span>  </li><li><a href="?page=4">4</a></li><li>  </li><li><a href="?page=5">5</a></li><li>  </li><li><a href="?page=6">6</a></li><li>  </li><li><a href="?page=7">7</a></li><li>  
+
+        </li><li><a href="?page=4"><span class="glyphicon glyphicon-step-forward"></span></a></li> <li class="next"><a href="?page=7"><span class="glyphicon glyphicon-fast-forward"></span></a></li>      
+      
+</ul>
+        </div>
 		</div>
+
+		<div class="col-md-2 fill" style="  background-color: #E8E8E8;
+    height: 75em;
+    min-height: 100%;">{AD place='ad_160x600'}</div>
 	</div>
 </div>
+<div style="height:20px"> </div>

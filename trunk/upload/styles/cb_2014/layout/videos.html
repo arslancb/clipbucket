@@ -59,41 +59,6 @@
                     </div>
                 </div>
 
-                <!--<div class="pull-right ">
-                    <div class="btn-group marginTop"  style="margin-top: -10px;">
-                    <ul Style="list-style:none">
-                        <li class="dropdown pull-left">
-                            <a data-toggle="dropdown" class="dropdown-toggle btn btn-info" href="#">{lang code='sort_by'}<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                               {foreach from=$sorting_links item=name key=sort}
-                            <li><a  href="{link name=sort sort=$sort type=videos}" >{$name}</a></li>
-                            {/foreach}
-                            </ul>
-                        </li>
-                        <li class="dropdown pull-right ">
-                            <a data-toggle="dropdown" class="dropdown-toggle btn btn-info" href="#">Sort By<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                               
-                            <li><a  href="#today" >Today</a></li>
-                            <li><a  href="#today" >This Week</a></li>
-                            <li><a  href="#today" >This Month</a></li>
-                            <li><a  href="#today" >A -> Z</a></li>
-                            <li><a  href="#today" >Z -> A</a></li>
-                            
-                            </ul>
-                        </li>   
-                    </ul>
-                
-                    </div>
-                <a href="#" id="list" onclick="ToggleView(this);" title="Change To List Style"><span class="glyphicon glyphicon-th-list"></span>&nbsp;</a>
-                <a href="#" id="grid"  onclick="ToggleView(this);" title="Change to Grid Style"><span class="glyphicon glyphicon-th"></span>&nbsp;</a>
-                    <div class="time_cont">
-                    {assign var=time_links value=time_links()}
-                    {foreach from=$time_links item=name key=sort name=times}
-                        {if !$smarty.foreach.times.last}{/if}
-                    {/foreach}
-                    </div>
-                </div>-->
             </div>
             
             <div class="row">
