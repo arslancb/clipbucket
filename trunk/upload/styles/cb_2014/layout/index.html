@@ -255,21 +255,21 @@
         <!-- User Block START //-->
 		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
 		<h2 class="myHeading" style="margin-top:0;">Featured Users</h2>
-		{section name=users loop=$users}
+		{section name=result_users loop=$result_users}
         	
 		<div class="col-md-12 cb-item-title-container" style="min-height:75px; margin-top:10px; margin-bottom:10px; padding-bottom: 15px; border-bottom: 1px solid #CCC;">
 			<div class="cb-item-thumb">
-			<img src="{$userquery->getuserthumb($users[users],'small')}" width="65" height="65" class="img-circle" />
+			<img src="{$userquery->getuserthumb($result_users[result_users],'small')}" width="65" height="65" class="img-circle" />
 			</div>
 			<div class="cb-item-user" style="font-size:12px; margin-top:3px;">
-			<a href="{$userquery->profile_link($users[users])}">{$users[users].username}</a>
+			<a href="{$userquery->profile_link($result_users[result_users])}">{$result_users[result_users].username}</a>
 			<BR />
-			{lang code='User Profile views'}: {$users[users].profile_hits|number_format}
+			{lang code='User Profile views'}: {$result_users[result_users].profile_hits|number_format}
 			&nbsp;&nbsp; / &nbsp;&nbsp;
-			{lang code='User Videos'}: {$users[users].total_videos|number_format}
+			{lang code='User Videos'}: {$result_users[result_users].total_videos|number_format}
 			</div>
 			<div style="float:right; margin-top: 15px;">
-			<a href="{$userquery->profile_link($users[users])}">
+			<a href="{$userquery->profile_link($result_users[result_users])}">
 			<img src="{$baseurl}/styles/cb_2014/images/user_next_icon.png" width="25" height="25" />
 			</a>
 			</div>
@@ -281,16 +281,30 @@
 		<!-- Comments Block START //-->
 		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
 		<h2 class="myHeading" style="margin-top:0;">Most Commented</h2>
-		<div class="col-md-12 nopadding-right">
-		{foreach from=$comments item=comment}
-		<div class="col-md-12 nopadding-right">
-		<div style="margin-top:5px; padding:5px; color: #000; background:#FFF; border: 1px solid #CCC; border-radius:5px; font-size:12px;">{$comment.comment|truncate:30}</div>
+
+		<div class="col-md-12 nopadding">
+			{foreach from=$result_comments item=comment}
+
+			<div class="col-md-2 nopadding-right" style=" margin-top: 5px;">
+			{section name=result_comments_users loop=$result_comments_users max=1}
+			<img src="{$userquery->getuserthumb($result_comments_users[result_comments_users],'small')}" width="35" height="35" class="img-rounded" />
+            <span style="display:block; font-size:11px; color:#FFF; background:#F00; width: 35px; height:20px; text-align:center; border:1px solid #F00; border-radius:5px; margin-top: 5px;">{$result_comments_users[result_comments_users].total_comments|number_format}</span>
+			{/section}
+			</div>
+
+        	<div class="col-md-10 nopadding">
+			<div style="margin-top:5px; padding:5px; color: #000; background:#FFF; border: 1px solid #CCC; border-radius:5px; font-size:14px;">{$comment.comment|truncate:30}<BR /><BR /><span style="font-size:11px; color:#999;">{$comment.date_added|truncate:30}</span>
+            </div>
+
+			</div>
+			{/foreach}
 		</div>
-		{/foreach}
-		</div>
+
 		</div>
 		<!-- Comments Block END //-->
-        
+
+		<div class="clearfix"></div>     
+
         <!-- FB Block START //-->
 		<div id="fb-root"></div>
 		<script>(function(d, s, id) {
@@ -301,7 +315,7 @@
 		fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>
 
-		<div class="col-md-4">
+		<div class="col-md-4 col-md-push-8">
 		<div class="fb-like-box" data-href="https://www.facebook.com/Tunepkofficial" data-width="350" data-height="320" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true"></div>
 		</div>
 		<!-- FB Block END //-->
