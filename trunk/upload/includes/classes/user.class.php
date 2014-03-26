@@ -2723,6 +2723,49 @@ class userquery extends CBCategory{
 		e(lang("usr_avatar_bg_update"),'m');
 
 	}
+
+	/* Written by Sajjad Ashraf */
+
+	public function updateCover($array = array()){
+		if(!empty($array)){
+			if(isset($array["coverPhoto"])){
+				$photoType = $array["coverPhoto"]["type"];
+				if($photoType == "image/jpeg" || $photoType == "image/png" || $photoType == "image/jpg"){
+					$name = $array["userid"];
+					$coverPhoto = $array["coverPhoto"]["tmp_name"];
+					$ext = $this->getImageExt($array["coverPhoto"]["name"]);
+					if (!file_exists(COVERS_DIR . "/{$name}")) {
+					    mkdir(COVERS_DIR . "/{$name}", 0777, true);
+					}
+					$files = glob(COVERS_DIR . "/{$name}/{$name}.*"); // get all file names
+					foreach($files as $file){ // iterate files
+					  if(is_file($file))
+					    unlink($file); // delete file
+					}
+					move_uploaded_file($coverPhoto, COVERS_DIR . "/{$name}/{$name}.{$ext}");
+				}
+			}
+		}
+	}
+
+	public function getCover($userId = false){
+		if(!$userId){
+			$userId = userid();
+		}
+		$coverPath = COVERS_DIR . "/{$userId}";
+		$files = scandir($coverPath);
+		array_shift($files); array_shift($files);
+		$coverPhoto = array_shift($files);
+		return BASEURL . "/files/cover_photos/{$userId}/$coverPhoto";
+	}
+
+	public function getImageExt($imageName = false){
+		if($imageName){
+			$nameParts = explode(".", $imageName);
+			$ext = array_pop($nameParts);
+			return $ext;
+		}
+	}
 	
 	
 	/**
@@ -3343,22 +3386,15 @@ class userquery extends CBCategory{
 			e(lang('usr_ament_err'));
 
 		// first checking if captha plugin is enabled
-		// do not depend on the form cb_captcha_enabled value
+		// do not trust the form cb_captcha_enabled value
 		if(get_captcha() && !$userquery->admin_login_check(true)){
-			//var_dump(get_captcha());
-			//var_dump(!error());
-			//echo "<pre>";
-			//var_dump($array);
-			//echo "</pre>";
 			// now checking if the user posted captha value is not empty and cb_captcha_enabled == yes
 			if(!isset($array['cb_captcha_enabled']) || $array['cb_captcha_enabled'] == 'no'){
 				e(lang('usr_ccode_err'));
 				//echo "wrong captha input";
 			}
-
 			if(!verify_captcha()){
 				e(lang('usr_ccode_err'));
-
 			}
 		}
 		if(!error())
