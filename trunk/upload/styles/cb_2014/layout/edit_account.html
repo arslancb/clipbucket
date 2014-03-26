@@ -113,12 +113,14 @@
         {include file="$style_dir/blocks/manage/userMenuLeft.html"}
       </div>
       <div class="col-md-9">
-        <img src="{$coverPhoto}" alt="coverPhoto" class="img-thumbnail">
+        <div class="coverPhotoContainer">
+          <img src="{$coverPhoto}" alt="coverPhoto" id="coverPhoto" class="img-thumbnail">
+        </div>
         <div class="avatar_bg">
-        <form method="post" enctype="multipart/form-data">
-          <input type="file" name="coverPhoto">
-          <button class="btn btn-primary">Submit</button>
-        </form>
+        <!-- <form method="post" enctype="multipart/form-data"> -->
+          <input type="file" name="coverPhoto" style="display:none">
+          <a href="javascript:none" id="selectCover" class="btn btn-primary">Select Cover</a>
+        <!-- </form> -->
           {*
             <legend>{lang code='user_user_avatar'}</legend>
           <div>
@@ -360,3 +362,53 @@
     </div>
   {/if}
 </div>
+
+<script>
+(function(window){
+  $(document).ready(function(){
+    var extensions = "{$extensions}";
+    var baseurl = '{$baseurl}';
+    extensions = (extensions.substring(0, extensions.length - 1)) + ",png,jpeg";
+    $.get("{$theme}/js/plupload/js/plupload.full.min.js", function(e){
+      var uploader = new plupload.Uploader({
+          browse_button: 'selectCover',
+          runtimes : 'html5,flash,silverlight,html4',
+          url : baseurl + "/edit_account.php?mode=avatar_bg",
+          file_data_name : "coverPhoto",
+          filters: {
+            mime_types : [
+              { title : "Image files", extensions : extensions },
+            ],
+            max_file_size: "2mb",
+            prevent_duplicates: true,
+          }
+      });
+      window.uploader = uploader;
+      uploader.init();
+      uploader.bind("FilesAdded", function(up, uploadedFiles){
+        $("#coverPhoto").attr("src", "{$baseurl}/images/loading.png");
+        console.log("{$baseurl}/images/loading.png");
+        up.start();
+      });
+      uploader.bind('UploadComplete', function(plupload, files, response){
+        
+      });
+
+      uploader.bind("FileUploaded", function(plupload, files, response){
+        var response = $.parseJSON(response.response);
+        console.log(response);
+        if(response.status == true){
+          $("#coverPhoto").attr("src", response.url);
+        }else{
+          alert(response.msg);
+        }
+      });
+
+      uploader.bind("Error", function(plupload, error){
+        alert(error.message);
+      });
+
+    });
+  });
+})(window);
+</script>
