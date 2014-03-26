@@ -481,6 +481,19 @@ class ClipBucket
         return $new_form;
     }
 
+    function get_extensions()
+    {
+        $exts = $this->configs['allowed_types'];
+        $exts = preg_replace('/ /', '', $exts);
+        $exts = explode(',', $exts);
+        $new_form = '';
+        foreach ($exts as $ext) {
+            $new_form .= "$ext,";
+        }
+
+        return $new_form;
+    }
+
     /**
      * Function used to load head menu
      */
