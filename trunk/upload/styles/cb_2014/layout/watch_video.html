@@ -24,8 +24,6 @@
                     <div class="cb-item-date">
                         {$video.date_added|niceTime}
                     </div>
-
-
                     {show_video_rating  rating=$vdo.rating ratings=$vdo.rated_by total='10' id=$vdo.videoid type=video file='blocks/common/rating.html'}
                 </div>
                 <div class="cb-item-desc-container">
@@ -70,8 +68,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                <div class="lead">{$video.views|number_format} {lang('views')}</div>
-                                <div>
+                                <div class="pull-right">
                                     <a class="cb-item-social-icon twitter" href="{$video.title|title} {videoLink($video)}http://twitter.com/home?status=%7Bvideo.title%7Ctitle%7D%20%7BvideoLink($video)%7D" target="_blank">
                                         <i class="fa fa-twitter"></i>
                                     </a>
@@ -114,22 +111,23 @@
                     {/if}
                 </div>
                 <div class="userComments">
-                    <ul id="userCommentsList">
+                    <ul class="list-unstyled" id="userCommentsList">
                     </ul>
-                </div>
             </div>
         </div>
-        <!--Side bar-->        
+        
+    </div>
+    <!--Side bar-->        
         <div class="col-lg-4 col-md-4 visible-lg visible-md side-video">
             <div class="cb-box">
                 <h3>Most Popular</h3>
-                {for $foo=1 to 15}
+                {for $foo=1 to 12}
                 <div class="col-md-13 marginBottom grid_view list_view item_video_pop">
                         <div class="item_video">
                             <div class="cb_item_container clearfix">
                                 <div class="cb_item_thumb video_thumb col-md-6 row">
                                     <a href="http://dev.clipbucket.com/upload/watch_video.php?v=DGA3M9XWS5O3" title="sdasd">
-                                        <span class="video_time">305</span>
+                                        <span class="video_duration">305</span>
                                         <img width="100" border="1" height="100" class="" src="http://dev.clipbucket.com/upload/files/thumbs/2014/03/19/1395225020e7963.-big.png">
                                     </a>
                                 </div>
@@ -150,11 +148,11 @@
             </div>
         </div>
         <!-- /Side bar-->
-    </div>
 </div>
 
 <script>
-    var aspect_ratio = 1.77778
+    //var aspect_ratio = 1.77778
+    var aspect_ratio = 2.2
     var $cb_player = $("#cb_player");
 
     $(document).ready(function(){

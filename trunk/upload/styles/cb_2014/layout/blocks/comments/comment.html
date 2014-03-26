@@ -5,7 +5,7 @@
 {assign var='comment_attr' value=''}
     {assign var='spam_attr' value='style="display:none"'}
 {/if}
-<li>
+<!--<li>
     <div class="row">
         <div class="col-md-11">
             <div class="row">
@@ -23,7 +23,33 @@
             </div>
         </div>
     </div>
-</li>
+
+</li>-->
+<div class="itemdiv dialogdiv">
+    {*$comment|print_r*}
+    <div class="user">
+        {$user_link='#'}
+                    {if $comment.username}{$user_link=$userquery->profile_link($comment)}{/if}
+        <a href="{$user_link}">
+            <img class="img-circle" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" alt="">
+        </a>
+    </div>
+    <div class="body">
+        <div class="time">
+            <i class="glyphicon glyphicon-time"></i>
+            <span class="small">{$comment.date_added|niceTime}</span>
+        </div>
+        <div class="name">
+            <a class="commentorName" href="{$user_link}">{name($comment)}</a>
+        </div>
+        <div class="text">{$comment.comment|comment}</div>
+        <div class="tools blue">
+            <a class="btn btn-minier btn-info" href="#">
+                <i class="glyphicon glyphicon-share-alt"></i>
+            </a>
+        </div>
+    </div>
+</div>
 {*
 
 <div id="comment_{$comment.comment_id}" class="cb-item-comment" {$comment_attr}>
