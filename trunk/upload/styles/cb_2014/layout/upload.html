@@ -62,7 +62,7 @@
     (function(window){
         $(document).ready(function(){
             var baseurl = '{$baseurl}';
-
+            var extensions = "{$extensions}";
             /* files uploading */
             $.get("{$theme}/js/plupload/js/plupload.full.min.js", function(e){
                 var files = [];
@@ -75,8 +75,8 @@
                     file_data_name : "Filedata",
                     filters: {
                       mime_types : [
-                        { title : "Image files", extensions : "jpg,gif,png,jpeg" },
-                        { title : "Video files", extensions : "mp4,flv,avi" }
+                        { title : "Image files", extensions : extensions },
+                        { title : "Video files", extensions : extensions }
                       ]
                     }
                 });
