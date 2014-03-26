@@ -2729,8 +2729,11 @@ class userquery extends CBCategory{
 	public function updateCover($array = array()){
 		if(!empty($array)){
 			if(isset($array["coverPhoto"])){
-				$photoType = $array["coverPhoto"]["type"];
-				if($photoType == "image/jpeg" || $photoType == "image/png" || $photoType == "image/jpg"){
+				$coverPhoto = $array["coverPhoto"];
+				$photoType = $coverPhoto["type"];
+				$photoSize = (int) $coverPhoto["size"]; // in kbs
+				$maxPhotoSize = 2048; // in kbs
+				if($photoType){
 					$name = $array["userid"];
 					$coverPhoto = $array["coverPhoto"]["tmp_name"];
 					$ext = $this->getImageExt($array["coverPhoto"]["name"]);
@@ -2744,9 +2747,17 @@ class userquery extends CBCategory{
 					}
 					move_uploaded_file($coverPhoto, COVERS_DIR . "/{$name}/{$name}.{$ext}");
 					$this->resizeImage(COVERS_DIR . "/{$name}/{$name}.{$ext}", COVERS_DIR . "/{$name}/{$name}.{$ext}");
+					return array(
+						"status" => true,
+						"msg" => "Succesfully Uploaded",
+						);
 				}
 			}
 		}
+		return array(
+			"status" => false,
+			"msg" => "no data was sent",
+			);
 	}
 
 	public function getCover($userId = false){
@@ -2805,16 +2816,6 @@ class userquery extends CBCategory{
 	    imagedestroy($thumbnail_gd_image);
 	    return true;
 	}
-
-
-
-
-
-
-
-
-
-
 	
 	
 	/**
