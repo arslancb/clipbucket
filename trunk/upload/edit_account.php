@@ -6,6 +6,7 @@
  | @ Software  : ClipBucket , © PHPBucket.com					
  ****************************************************************
 */
+
 define("THIS_PAGE","edit_account");
 
 require 'includes/config.inc.php';
@@ -30,7 +31,15 @@ if(isset($_POST['update_avatar_bg']))
 if(isset($_FILES["coverPhoto"])){
 	$array = $_FILES;
 	$array['userid'] = userid();
-	$userquery->updateCover($array);
+	$coverUpload = $userquery->updateCover($array);
+	$timeStamp = time();
+	$response = array(
+		"status" => $coverUpload["status"],
+		"msg" => $coverUpload["msg"],
+		"url" => $userquery->getCover(userid()) . "?{$timeStamp}",
+		);
+	echo json_encode($response);
+	die();
 }
 
 //Changing Email
@@ -74,6 +83,8 @@ switch($mode)
 	
 	case 'avatar_bg':
 	{
+
+		Assign('extensions', $Cbucket->get_extensions());
 		assign("coverPhoto", $userquery->getCover(userid()));
 		assign('mode','avatar_bg');
 	}
