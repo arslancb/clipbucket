@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<link rel="stylesheet" href="{$html5_player_url}/style.css" />
+<script type="text/javascript" src="{$html5_player_url}/jquery.js"></script>
+<script type="text/javascript" src="{$html5_player_url}/html5_player.js"></script>
+
+</head>
+
+
+
+
+
+
+
+<body>
+
+
+
+<div class="videoContainer">
+  <div class="qualityopt">
+        <ul class="list">
+
+        <li class="list1"><a href="#">720</a></li>
+        <li class="list1"><a href="#">480</a></li>
+        <li class="list1"><a href="#">360</a></li>
+        <li class="list1"><a href="#">240</a></li>
+       </ul>
+    </div>
+  
+  <video id="myVideo"   preload="auto" width="700" height="370" >
+     <source src="{$vdata}" type="video/mp4">
+     <source src="{$vdata}" type="video/webm">
+     <source src="{$vdata}" type="video/ogg">
+   
+    
+     <p>Your browser does not support the video tag.</p>
+
+
+      <!-- Fallback to Flash. -->
+      <!-- Add 24px to the height for the video player -->
+
+     <object width="800" height="374" type="application/x-shockwave-flash" data="{$html5_player_url}/fallback.swf">
+
+  <!-- Firefox uses the `data` attribute above, IE/Safari uses the param below -->
+
+     <param name="movie" value="{$html5_player_url}/player.swf"/>
+     <param name="allowFullScreen" value="true"/>
+     <param name="flashvars" value="autostart=true&amp;file={$vdata}"/>
+
+     </object>
+
+
+   </video>
+
+
+  <div class="caption">video_name</br>Uploaded by {if $userquery->login_check('',true)} {$test1} {else} Anonymous User {/if}
+  </div>
+
+  
+  <div class="control">
+
+    <div class="topControl">
+      <div class="progress">
+        <span class="bufferBar"></span>
+        <span class="timeBar"></span>
+      </div>
+      
+    </div>
+    
+    <div class="btmControl">
+      <div class="btnPlay btn" title="Play/Pause video"></div>
+      <div class="sound sound2 btn" title="Mute/Unmute sound"></div>
+      <div class="volume" title="Set volume">
+        <span class="volumeBar"></span>
+      </div>
+      <div class="time">
+        <span class="current"></span> 
+        <span class="duration"></span> 
+      </div>
+      
+      <div class="btnFS btn" title="Switch to full screen"></div>
+
+      <div class="smallscr largescr btn" title="enlarge size"></div>
+       
+         <div class="quality btn" title="quality settings"></div>
+
+      <div class="logo btn" title="CB logo">
+      <a href="http://www.clipbucket.com/‎" ></a>
+      </div>
+      
+     
+    </div>
+    
+  </div>
+
+  <div class="loading"></div>
+</div>
+
+ 
+
+</body>
+</html>
