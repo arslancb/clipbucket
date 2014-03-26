@@ -3,6 +3,9 @@
     {include file="$style_dir/header.html" }
     <div id="container">
 
+        <!-- Message -->
+        {include file="$style_dir/message.html"}
+
         {foreach from=$template_files item=file}
             {include_template_file file=$file}
         {/foreach}

@@ -36,6 +36,9 @@
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <div class="cb-box signup-box">
+                {if $allow_registeration}
+                    {$allow_registeration}
+                {else}
                 <h3>Signup!</h3>
                 <form name="signup_form" id="signup_form" method="post" action="" >
                     {foreach from=$required_fields item=field}
@@ -115,6 +118,7 @@
                     <input type="submit" name="signup" class="btn btn-success btn-block" value="{lang code='signup'}"  />
                     {ANCHOR place='signup_form'}
                 </form>
+                {/if}
             </div>
         </div>
     </div>

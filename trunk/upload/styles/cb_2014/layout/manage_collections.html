@@ -6,7 +6,8 @@
     {$leftMenuLinks = array_slice($myAccountLinks, 7)}
     <div class="marginBottom">
         <div class="row">
-            <div class="leftSidebar col-md-3 cb-box">
+            {include file="$style_dir/blocks/manage/left_side_bar.html"}
+            <!--<div class="leftSidebar col-md-3 cb-box">
                 <ul class="">
                     {foreach $leftMenuLinks as $key => $value}
                         <li class="">
@@ -19,7 +20,8 @@
                         </li>
                     {/foreach}
                 </ul>
-            </div>
+            </div>-->
+
             <div class="col-md-9">
                 <div class="cb-box">
                     {*include file="$style_dir/blocks/manage/account_head.html" user=$user*}

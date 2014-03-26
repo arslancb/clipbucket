@@ -1,0 +1,132 @@
+<link rel="stylesheet" href="{$baseurl}/styles/cb_2014/theme/css/sb-admin.css">
+
+<div class="leftSidebar col-md-3 cb-box">
+<nav role="navigation" class="navbar-default navbar-static-side">
+      <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+      </div>
+    <div class="sidebar-collapse clearfix">
+
+        <ul id="side-menu" class="nav list-group">
+
+            {foreach $leftMenuLinks as $key => $value}
+            <li class="">
+                <a href="#" class="tgl" data-toggle="dropdown" style="background: none repeat scroll 0% 0% rgb(231, 231, 231); border-bottom: 1px solid rgb(204, 204, 204);"><!--<i class="fa fa-files-o fa-fw"></i>-->{$key}<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    {foreach $value as $subKey => $subValue}
+                    <li><a href="{$subValue}" style="font-weight: normal">{$subKey}</a></li>
+                    {/foreach}
+                </ul>
+            </li>
+            {/foreach}
+
+        </ul>
+        <!-- /#side-menu -->
+    </div>
+    <!-- /.sidebar-collapse -->
+</nav>
+
+</div>
+
+    
+<!--<div class="leftSidebar col-md-3">
+    <ul class="">
+        {foreach $leftMenuLinks as $key => $value}
+        <li class="">
+            <a href="#" class="" data-toggle="dropdown">{$key}</a>
+            <ul class="">
+                {foreach $value as $subKey => $subValue}
+                <li><a href="{$subValue}">{$subKey}</a></li>
+                {/foreach}
+            </ul>
+        </li>
+        {/foreach}
+    </ul>
+</div>-->
+        <script>
+        $('#sidebar > a').on('click', function (e) {
+    e.preventDefault();
+
+    if(!$(this).hasClass("active")){
+        var lastActive = $(this).closest("#sidebar").children(".active");
+        lastActive.removeClass("active");
+        lastActive.next('div').collapse('hide');
+        $(this).addClass("active");
+        $(this).next('div').collapse('show');
+
+    }
+
+});
+           ;(function ($, window, document, undefined) {
+
+                var pluginName = "metisMenu",
+                        defaults = {
+                            toggle: false
+                        };
+
+                function Plugin(element, options) {
+                    this.element = element;
+                    this.settings = $.extend({}, defaults, options);
+                    this._defaults = defaults;
+                    this._name = pluginName;
+                    this.init();
+                }
+
+                Plugin.prototype = {
+                    init: function () {
+
+                        var $this = $(this.element),
+                                $toggle = this.settings.toggle;
+
+                        $this.find('li.active').has('ul').children('ul').addClass('collapse in');
+                        $this.find('li').not('.active').has('ul').children('ul').addClass('collapse');
+
+                        $this.find('li').has('ul').children('a').on('click', function (e) {
+                            e.preventDefault();
+
+                            $(this).parent('li').toggleClass('active').children('ul').collapse('toggle');
+
+                            if ($toggle) {
+                                $(this).parent('li').siblings().removeClass('active').children('ul.in').collapse('hide');
+                            }
+                        });
+                    }
+                };
+
+                $.fn[ pluginName ] = function (options) {
+                    return this.each(function () {
+                        if (!$.data(this, "plugin_" + pluginName)) {
+                            $.data(this, "plugin_" + pluginName, new Plugin(this, options));
+                        }
+                    });
+                };
+
+            })(jQuery, window, document);
+
+            $(function() {
+
+                $('#side-menu').metisMenu();
+
+            });
+
+            //Loads the correct sidebar on window load,
+            //collapses the sidebar on window resize.
+            $(function() {
+                $(window).bind("load resize", function() {
+                    console.log($(this).width())
+                    if ($(this).width() < 768) {
+                        $('div.sidebar-collapse').addClass('collapse')
+                    } else {
+                       // alert($(this).width());
+                        $('div.sidebar-collapse').removeClass('collapse')
+                    }
+                })
+            })
+           /*$('li a.tgl').click(function(){
+               $('a.tgl ul.nav li').toggle();
+           });*/
+        </script>

@@ -1,5 +1,6 @@
 
 <footer>
+
     <div id="footer" class="row">
         <div class="col-md-6">
             <ul>
@@ -7,16 +8,24 @@
                 <li><a href="#">Good Page</a></li>
                 <li><a href="#">Bad Page</a></li>
                 <li><a href="#">Faqs Page</a></li>
-            </ul>
+                {foot_menu assign='foot_menu'}
+                {foreach from=$foot_menu item=fm}
+                {if $fm.name!=''}
+                <li><a href="{$fm.link}" {if $fm.target} target="{$fm.target}"{/if} {if $fm.onclick} onclick="{$fm.onclick}" {/if}>{$fm.name}</a></li>
+                {/if}
+                {/foreach}
+            </ul>   
         </div>
         <div class="col-md-6">
             <ul class="pull-right">
                 <li><a href="#">Terms of Use</a></li>
                 <li><a href="#">Privacy Policy</a></li>
                 <li><a href="#">Bad Page</a></li>
-                <li><a href="#">&copy; 2013 Clipbucket.com</a></li>
+                <li><a href="#">&copy; {$smarty.now|date_format:"%Y"} Clipbucket.com</a></li>
+                
             </ul>
         </div>
     </div>
 </footer>
+
 {$Cbucket->footer()}
