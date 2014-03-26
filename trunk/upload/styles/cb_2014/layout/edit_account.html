@@ -113,9 +113,14 @@
         {include file="$style_dir/blocks/manage/userMenuLeft.html"}
       </div>
       <div class="col-md-9">
+        <img src="{$coverPhoto}" alt="coverPhoto" class="img-thumbnail">
         <div class="avatar_bg">
-        <form method="post" enctype="multipart/form-data" name="edit_profile">
-          <legend>{lang code='user_user_avatar'}</legend>
+        <form method="post" enctype="multipart/form-data">
+          <input type="file" name="coverPhoto">
+          <button class="btn btn-primary">Submit</button>
+        </form>
+          {*
+            <legend>{lang code='user_user_avatar'}</legend>
           <div>
             <img src="{$userquery->getUserThumb($user)}" class="img-thumbnail" />
           </div>
@@ -200,7 +205,8 @@
               {lang code='update'}
             </button>
           </div>
-        </form>
+          *}
+        
       </div>
       </div>
     </div>

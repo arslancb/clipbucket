@@ -9,7 +9,7 @@
 <div id="container" class="container">
     {include file="$style_dir/blocks/manage/account_menu.html"}
     <div class="row cb-box">
-    <div class="relative1" style="background: #000000" >
+    <div class="relative1" style="background: url({$coverPhoto}) center #000000" >
       <div class="row">
           <div class="col-md-4 pull-right btn-group">
               <br>
@@ -69,7 +69,7 @@
                       <p class="duration1"><b>({if
                           $video.duration>1}{$video.duration|SetTime}{else}00:00{/if})</b></p>
                       <h5><a href="">{$video.title|truncate:22}</a></h5>
-                      <small class="font1 new1"><b>{lang code='views'} :{$video.views|format_number}</b></small>
+                      <small class="font1 new1"><b>{lang code='views'} :{$video.views}</b></small>
                       <small class="font2 new1"><b>{$video.date_added|niceTime}</b></small>
                   </div>
 
