@@ -11,18 +11,18 @@
     <div class="row cb-box">
     <div class="relative1" style="background: url({$coverPhoto}) center #000000" >
       <div class="row">
-          <div class="col-md-4 pull-right btn-group">
+          <div class="col-md-4 pull-right btn-group" style="padding-left: 40px">
               <br>
-              <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-plus-sign"></i>  Add as Friend</button>
-              <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-envelope"></i>  Send Message</button>
-              <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-plus-sign"></i>  Subscribe</button>
+              <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-plus-sign white"></i>  Add as Friend</button>
+              <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-envelope white"></i>  Send Message</button>
+              <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="icon-rss icon-spin white"></i>  Subscribe</button>
           </div>
     </div>
 
     <div class="row">
         <div class="col-md-2">
             <a class="navbar-brand" href="#">
-                <img class="relative2" src="http://www.hootpile.com/img/facebook-default-no-profile-pic.jpg" width="140" height="140">
+                <img class="relative2" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/t1/1507832_703523793013304_277980919_t.jpg" width="140" height="140">
             </a>
         </div>
 
@@ -30,22 +30,22 @@
             <h3 class="cname">Clipbucket Channel Name</h3>
         </div>
         <div class="col-md-4 pull-right padding34">
-            <button class="btn btn-primary new" style="background-color: #000000">
+            <button class="btn btn-primary new1" style="background-color: #000000;color: white">
                 <span class="line-height-1 bigger-170 blue">1k</span>
                 <br>
                 <span class="line-height-1 smaller-90 new1"> Videos </span>
             </button>
-            <span class="btn btn-primary new" style="background-color: #000000">
+            <span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
 													<span class="line-height-1 bigger-170 blue">30</span>
 													<br>
 													<span class="line-height-1 smaller-90 new1"> Photos </span>
 												</span>
-            <span class="btn btn-primary new" style="background-color: #000000">
+            <span class="btn btn-primary new1" style="background-color: #000000; color: #ffffff">
 													<span class="line-height-1 bigger-170 blue">3300</span>
 													<br>
 													<span class="line-height-1 smaller-90 new1"> Views </span>
 												</span>
-            <span class="btn btn-primary new" style="background-color: #000000">
+            <span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
 													<span class="line-height-1 bigger-170 blue">50</span>
 													<br>
 													<span class="line-height-1 smaller-90 new1"> Contacts </span>
@@ -58,19 +58,23 @@
             <button class="btn btn-primary btn-sm" style="width: 300px"><i class="glyphicon glyphicon-thumbs-up"></i>  <b>Do you like this channel ?</b></button>
         </div>
     </div>
-        <br><br><br><br>
+        <div class="clearfix"></div>
+        <br><br>
       <div class="row">
           <div class="col-md-6">
               <iframe width="700" height="350" src="http://tune.pk/player/embed_player.php?vid=2519813&folder=2014/03/20/&width=550&height=350&autoplay=no" frameborder="0" allowfullscreen scrolling="no"></iframe>
-              <hr>
+              <hr class="hr">
               {foreach from=$videos item=video}
                   <div class="col-md-4">
-                      <img src="{getThumb vdetails=$video}"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/>
-                      <p class="duration1"><b>({if
-                          $video.duration>1}{$video.duration|SetTime}{else}00:00{/if})</b></p>
-                      <h5><a href="">{$video.title|truncate:22}</a></h5>
+
+                      <img src="http://vigilantcitizen.com/wp-content/uploads/2011/09/425.topgun.cruise.tom_.lc_.042710.jpg"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/>
+                      <!--<img src="{getThumb vdetails=$video}"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/>-->
+                      <p class="duration1"><b class="color">{if
+                          $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</b></p>
+                      <h5><a href=""><b>{$video.title|truncate:22}</b></a></h5>
                       <small class="font1 new1"><b>{lang code='views'} :{$video.views}</b></small>
                       <small class="font2 new1"><b>{$video.date_added|niceTime}</b></small>
+                      <hr>
                   </div>
 
                   {/foreach}
@@ -85,10 +89,9 @@
               </ul>
               </div>
           <div class="col-md-6">
-              <h4>Recent Activities</h4>
-                  <i class="icon-rss orange"></i>
+              <h4><i class="icon-rss"></i>  Recent Activities</h4>
+              <hr class="hr">
                       <div id="content_1" class="content">
-                          <hr>
                       <div class="feeds1" id="selectedDiv">
                           <div id="userFeeds" >
                               {if isSectionEnabled('feeds')}
@@ -111,7 +114,7 @@
               <br>
               <h4><i class="glyphicon glyphicon-film"></i>  Popular Channels</h4>
               <div id="popular" class="content1">
-              <hr>
+              <hr class="hr">
               {section name=u_list loop=$users}
               {include file="$style_dir/blocks/channels.html" user=$users[u_list]}
               {sectionelse}
@@ -124,5 +127,5 @@
 </div>
 
 
-
+{include file="$style_dir/footer.html" }
 
