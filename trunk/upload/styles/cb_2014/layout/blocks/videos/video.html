@@ -6,43 +6,11 @@
             <span class="video_duration">{$video.duration}</span>
             <img class="" src="{getThumb vdetails=$video}" border="1" height="100" width="100"/>
         </a>
-        
     </div>
-        <!--<div class="item_title">
-           <a href="{videoLink($video)}">{$video.title|title|truncate:20}</a>
-        </div>-->
-        <!--<div class="item_user">
-           <a href="{$userquery->profile_link($video)}">{$video.username}</a>
-        </div>-->
         <div class="item_text">
            <a href="{videoLink($video)}">{$video.description|truncate:100}</a>
         </div>
-        
         <span class="pull-left"><h5><small>{$video.views} views</small></h5></span>
         <span class="pull-right"><h5><small>{$video.date_added|niceTime}</small></h5></span>
-    
     </div>
-    
-    
-    
 </div>
-
-<!--<div class="row text-center">
-    <div class="col-md-10 col-md-offset-1 videoThumbBox">
-        <div class="text-center">
-            <h4>
-                <a title="{$video.title|title}" href="{videoLink($video)}">{$video.title|title|truncate:10}</a>
-            </h4>
-            <small>
-                <a class="show" href="{$userquery->profile_link($video)}">{$video.username}</a>
-            </small>
-            <p>
-                {$vide.description}
-            </p>
-            <small class="show">{$video.date_added|niceTime}</small>
-        </div>
-        <a href="{videoLink($video)}" title="{$video.title|title}">
-            <img class="" src="{getThumb vdetails=$video}"/>
-        </a>
-    </div>
-</div>-->
