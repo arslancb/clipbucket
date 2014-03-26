@@ -1,9 +1,9 @@
-<div class="cb_item item_video">
+<div class="item_video">
    {*$video|print_r*}
     <div class="cb_item_container clearfix">
         <div class="cb_item_thumb video_thumb" >
         <a href="{videoLink($video)}" title="{$video.title|title}">
-            <span class="video_time">{$video.duration}</span>
+            <span class="video_duration">{$video.duration}</span>
             <img class="" src="{getThumb vdetails=$video}" border="1" height="100" width="100"/>
         </a>
         
