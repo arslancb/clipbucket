@@ -86,7 +86,7 @@ if(has_access('allow_video_upload',false,$verify_logged_user))
 }
 
 Assign('step',$step);
-
+Assign('extensions', $Cbucket->get_extensions());
 subtitle(lang('upload'));
 //Displaying The Template
 template_files('upload.html');
