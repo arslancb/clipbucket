@@ -61,6 +61,15 @@ if($udetails)
     Assign('users', $users);
 
 
+    //Getting Video List
+    $result_array['limit'] = $get_limit;
+    if(!$array['order'])
+        $result_array['order'] = " videoid DESC ";
+    $videos = get_videos($result_array);
+
+    Assign('videos', $videos);
+
+
     //Checking Profile permissions
 	
 	$perms = $p['show_profile'];
