@@ -281,22 +281,26 @@
 		<!-- Comments Block START //-->
 		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
 		<h2 class="myHeading" style="margin-top:0;">Most Commented</h2>
-
-		<div class="col-md-12 nopadding">
+		
+        <div class="col-md-12 nopadding">
 			{foreach from=$result_comments item=comment}
-
 			<div class="col-md-2 nopadding-right" style=" margin-top: 10px;">
-			{section name=result_comments_users loop=$result_comments_users max=1}
-			<img src="{$userquery->getuserthumb($result_comments_users[result_comments_users],'small')}" width="35" height="35" class="img-rounded" />
+			<img src="images/avatars/{$comment.userid}-small.jpg" width="35" height="35" class="img-rounded" />
 			</div>
-
-        	<div class="col-md-10 nopadding" style="z-index:2;"><p class="mycommentboxarrow"></p>
-			<div style="min-height:100px; margin-top:10px; padding:5px; color: #000; background:#FFF; border: 1px solid #CCC; border-radius:5px; font-size:14px;">{$comment.comment|truncate:150}<div style="position:absolute; bottom:5px; font-size:11px; color:#666;">Updated: {$comment.date_added|niceTime}</div>
-<div style="position:absolute; bottom:5px; right:5px; font-size:11px; font-size:10px; color:#FFF; background:#F00; width: 30px; height:16px; text-align:center; border:1px solid #F00; border-radius:5px;">{$result_comments_users[result_comments_users].total_comments|number_format}</div>
-			{/section}
+			
+            <!-- Displaying User Comment Box //-->
+        	<div class="col-md-10 nopadding" style="z-index:2;">
+	            <p class="mycommentboxarrow"></p>
+	            <div style="min-height:100px; margin-top:10px; padding:5px; color: #000; background:#FFF; border: 1px solid #CCC; border-radius:5px; font-size:14px;">
+	            {$comment.comment|truncate:150}
+	            <div style="position:absolute; bottom:5px; font-size:11px; color:#666;">
+	            Updated: {$comment.date_added|niceTime}
+	            </div>
+	            <div style="position:absolute; bottom:5px; right:5px; font-size:11px; font-size:10px; color:#FFF; background:#F00; width: 30px; height:16px; text-align:center; border:1px solid #F00; border-radius:5px;">
+	            {$result_comments[result_comments].total_comments|number_format}
+	            </div>
+				</div>
             </div>
-
-			</div>
 			{/foreach}
 		</div>
 
