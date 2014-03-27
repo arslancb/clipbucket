@@ -134,6 +134,59 @@
     left: 10px;
   }
 </style>
+
+<script>
+(function(window){
+  $(document).ready(function(){
+    var extensions = "{$extensions}";
+    var baseurl = '{$baseurl}';
+    extensions = (extensions.substring(0, extensions.length - 1)) + ",png,jpeg";
+    $.get("{$theme}/js/plupload/js/plupload.full.min.js", function(e){
+      var uploader = new plupload.Uploader({
+          browse_button: 'changeCover',
+          runtimes : 'html5,flash,silverlight,html4',
+          url : baseurl + "/edit_account.php?mode=avatar_bg",
+          file_data_name : "coverPhoto",
+          filters: {
+            mime_types : [
+              { title : "Image files", extensions : extensions },
+            ],
+            max_file_size: "2mb",
+            prevent_duplicates: false,
+          }
+      });
+      window.uploader = uploader;
+      uploader.init();
+      uploader.bind("FilesAdded", function(up, uploadedFiles){
+        $("#coverConainer").css("background", "url({$baseurl}/images/loading.png) center #000000");
+        up.start();
+      });
+      uploader.bind('UploadComplete', function(plupload, files, response){
+        
+      });
+
+      uploader.bind("FileUploaded", function(plupload, files, response){
+        var response = $.parseJSON(response.response);
+        if(response.status == true){
+          $("#coverConainer").css("background", "url(" + response.url + ") center #000000");
+        }else{
+          alert(response.msg);
+        }
+      });
+
+      uploader.bind("Error", function(plupload, error){
+        alert(error.message);
+      });
+    });
+    $("#coverConainer").hover(function(e){
+      $("#changeCover").removeClass("sr-only");
+    }, function(e){
+      $("#changeCover").addClass("sr-only");
+    });
+  });
+})(window);
+</script>
+
 {include file="$style_dir/footer.html" }
 
 
