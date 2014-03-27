@@ -68,7 +68,9 @@
         <br><br>
       <div class="row">
           <div class="col-md-6">
-              <iframe width="700" height="350" src="http://tune.pk/player/embed_player.php?vid=2519813&folder=2014/03/20/&width=550&height=350&autoplay=no" frameborder="0" allowfullscreen scrolling="no"></iframe>
+                <div id="cb_player" class="no-pad">
+                    {FlashPlayer vdetails=$firstVideo width='95%' height='70%'}
+                </div>
               <hr class="hr">
               {foreach from=$videos item=video}
                   <div class="col-md-4">
