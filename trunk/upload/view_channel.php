@@ -64,6 +64,7 @@ if($udetails)
 
     //Getting Video List
     $result_array['limit'] = $get_limit;
+    $result_array['user'] = $udetails["userid"];
     if(!$array['order'])
         $result_array['order'] = " videoid DESC ";
     $videos = get_videos($result_array);
