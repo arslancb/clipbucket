@@ -73,7 +73,7 @@ if($udetails)
 
     $firstVideo = isset($videos[0]) ? $videos[0] : false;
     //$firstVideo = $cbvid->get_video($firstVideo['videoid']);
-    echo "hm";
+    //echo "hm";
     Assign('firstVideo', $firstVideo);
     //Collecting Data for Pagination
     $vcount = $vid_cond;
