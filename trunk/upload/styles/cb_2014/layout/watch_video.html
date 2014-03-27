@@ -122,34 +122,13 @@
             <div class="cb-box">
                 <h3>Most Popular</h3>
                 {foreach $videos as $video}
-                <div class="col-md-13 marginBottom grid_view list_view item_video_pop">
-                        <div class="item_video">
-                            <div class="cb_item_container clearfix">
-                                <div class="cb_item_thumb video_thumb col-md-6 row">
-                                    <a href="http://dev.clipbucket.com/upload/watch_video.php?v=DGA3M9XWS5O3" title="sdasd">
-                                        <span class="video_duration">305</span>
-                                        <img width="100" border="1" height="100" class="" src="http://dev.clipbucket.com/upload/files/thumbs/2014/03/19/1395225020e7963.-big.png">
-                                    </a>
-                                </div>
-                                <div class="pull-right col-md-7 padding-top-5">
-                                    <div class="item_text">
-                                        <a href="http://dev.clipbucket.com/upload/watch_video.php?v=DGA3M9XWS5O3">Rio 2 | Official Trailer 2 | Official Trailer 2 </a>
-                                    </div>
-                                    <div class="row small col-md-10 padding-top-5">
-                                        <span class="pull-left"><small><span class="glyphicon glyphicon-eye-open"></span> 102,762</small></span>
-                                        <span class="pull-right"><small><span class="glyphicon glyphicon-thumbs-up"></span> 4k</small></span>
-                                    </div>
-                                </div>
-                       
-                            </div>
-                        </div>    
-                </div>
+                 {include file="$style_dir/blocks/videos/video_popular.html"}
                 {/foreach}
             </div>
         </div>
         <!-- /Side bar-->
 </div>
-
+<div style="height:20px"> </div>
 <script>
     //var aspect_ratio = 1.77778
     var aspect_ratio = 2.2
