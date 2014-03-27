@@ -1157,3 +1157,9 @@ ALTER TABLE  `{tbl_prefix}playlists` ADD  `runtime` int(200) NOT NULL AFTER  `la
 ALTER TABLE  `{tbl_prefix}playlists` ADD  `first_item` text CHARACTER SET utf8 NOT NULL AFTER  `runtime`;
 ALTER TABLE  `{tbl_prefix}playlists` ADD  `cover` text CHARACTER SET utf8 NOT NULL AFTER  `first_item`;
 
+ALTER TABLE `{tbl_prefix}users` ADD `likes` `likes` INT( 11 ) NOT NULL DEFAULT '0';
+ALTER TABLE `{tbl_prefix}users` CHANGE `voted` `voted` INT( 11 ) NOT NULL DEFAULT '0';
+
+
+
+
