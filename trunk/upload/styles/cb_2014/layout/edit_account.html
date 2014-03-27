@@ -107,7 +107,7 @@
       );
     </script>
   {/if}
-  {if $mode == 'avatar_bg'}
+  {if $mode == "change_cover"}
     <div class="row cb-box">
       <div class="col-md-3 leftSidebar">
         {include file="$style_dir/blocks/manage/userMenuLeft.html"}
@@ -121,8 +121,19 @@
           <input type="file" name="coverPhoto" style="display:none"> 
           
           <a href="javascript:none" id="selectCover" class="btn btn-primary">Select Cover</a>
-        <!-- </form> -->
-          {*
+        
+      </div>
+      </div>
+    </div>
+  {/if}
+  {if $mode == 'avatar_bg'}
+    <div class="row cb-box">
+      <div class="col-md-3 leftSidebar">
+        {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+      </div>
+      <div class="col-md-9">
+        <div class="avatar_bg">
+          <form method="post" enctype="multipart/form-data">
             <legend>{lang code='user_user_avatar'}</legend>
           <div>
             <img src="{$userquery->getUserThumb($user)}" class="img-thumbnail" />
@@ -208,7 +219,7 @@
               {lang code='update'}
             </button>
           </div>
-          *}
+          </form>
         
       </div>
       </div>
