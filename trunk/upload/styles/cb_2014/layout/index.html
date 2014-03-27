@@ -70,9 +70,9 @@
 			<div class="col-md-12">
 
 			<div class="col-md-8 text-center nopadding-left">
-				<div class="col-md-12 text-center" style="border:1px solid #CCC; margin-bottom:10px;">
+				<div class="col-md-12 text-center nopadding" style="border:1px solid #CCC; margin-bottom:10px;">
 				{foreach from=$videos_01 item=video_01}
-				<div class="col-md-12 text-center">
+				<div class="col-md-12 text-center nopadding">
 				<a href="{videoLink vdetails=$video_01}" title="{$video_01.title}">
 				<img src="{getThumb vdetails=$video_01}" width="600" height="285" border="0" {ANCHOR place="video_thumb" data=$video_01} />
 				</a>
@@ -80,8 +80,8 @@
 				</div>
 				{/foreach}
 				</div>
-
-				<div class="col-md-12 hidden-sm hidden-xs  text-center">
+				<BR />
+				<div class="col-md-12 hidden-sm hidden-xs text-center">
 				{foreach from=$videos_02 item=video_02}
 				<div class="col-md-6 text-center nopadding-left">
 				<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
