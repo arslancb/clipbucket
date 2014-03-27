@@ -59,6 +59,8 @@ if($udetails)
     $users = get_users($result_array);
 
     Assign('users', $users);
+    $udetails = $userquery->get_user_details(userid());
+		Assign('user', $udetails);
 
 
     //Getting Video List
