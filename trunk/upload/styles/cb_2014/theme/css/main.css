@@ -2333,3 +2333,7 @@ H3.myHeading{font-family: "Roboto", "Segoe UI", "Helvetica neue", Helvetica, san
 .userPicContainer img{
   width: 15%;
 }
+
+.pagination {
+    padding-top: 50px;
+}
