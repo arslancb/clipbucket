@@ -24,9 +24,10 @@ $u = $u ? $u : $_GET['u'];
 $u = mysql_clean($u);
 
 $udetails = $userquery->get_user_details($u);
+
 if($udetails)
 {
-	
+	Assign('user', $udetails);
 	//Subscribing User
 	if($_GET['subscribe'])
 	{
@@ -46,7 +47,7 @@ if($udetails)
 	//Getting profile details
 	$p = $userquery->get_user_profile($udetails['userid']);
 	assign('p',$p);
-	assign('coverPhoto', $userquery->getCover());
+	assign('coverPhoto', $userquery->getCover($udetails["userid"]));
 	Assign('extensions', $Cbucket->get_extensions());
 
 
@@ -59,8 +60,6 @@ if($udetails)
     $users = get_users($result_array);
 
     Assign('users', $users);
-    $udetails = $userquery->get_user_details(userid());
-		Assign('user', $udetails);
 
 
     //Getting Video List
