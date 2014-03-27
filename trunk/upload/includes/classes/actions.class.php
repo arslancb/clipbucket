@@ -44,7 +44,7 @@ class cbactions
 	
 	var $type_tbl = 'videos';
 	var $type_id_field = 'videoid';
-	
+	var $notifications = 'notifications';
 	/**
 	 * Class variable ie $somevar = SomeClass;
 	 * $obj_class = 'somevar';
@@ -1216,6 +1216,8 @@ class cbactions
 			return $db->count(tbl($this->playlist_items_tbl),"playlist_item_id"," playlist_item_type='".$this->type."'");
 		}
 	}
+
+	
 }
 
 ?>

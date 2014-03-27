@@ -310,7 +310,7 @@ class ClipBucket
                 'Videos Manager' => 'video_manager.php',
                 'Manage Categories' => 'category.php',
                 'List Flagged Videos' => 'flagged_videos.php',
-                'Upload Videos' => 'mass_uploader.php',
+                'Mass Upload Videos' => 'mass_uploader.php',
                 'List Inactive Videos' => 'video_manager.php?search=search&active=no',
                 'Notification settings' => 'notification_settings.php'
             );
