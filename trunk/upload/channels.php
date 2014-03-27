@@ -73,7 +73,11 @@ if(!$counter)
 
 $total_pages = count_pages($counter,CLISTPP);
 //Pagination
-$pages->paginate($total_pages,$page);
+$link==NULL;
+$extra_params=NULL;
+$tag='<li><a #params#>#page#</a><li>';
+$pages->paginate($total_pages,$page,$link,$extra_params,$tag);
+//$pages->paginate($total_pages,$page);
 
 subtitle(lang('channels'));
 template_files('channels.html');
