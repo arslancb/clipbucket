@@ -78,6 +78,14 @@
 				</a>
 				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.12); ">{$video_01.title|truncate:30}</div>
 				</div>
+
+	            <div style="position:absolute; top:5px; right:5px; font-size:11px; font-size:11px; color:#000; background: rgba(0, 0, 0, 0.12); width: 40px; height:16px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;">
+	            {$video_01.duration|number_format}
+	            </div>
+	            <div style="position:absolute; top:5px; left:5px; font-size:11px; font-size:11px; color:#000; background: rgba(0, 0, 0, 0.12); width: 100px; height:18px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;">
+	            By: {$video_01.username}
+	            </div>
+
 				{/foreach}
 				</div>
 				<BR />
@@ -88,6 +96,11 @@
 				<img src="{getThumb vdetails=$video_02}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_02} />
 				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_02.title|truncate:10}</div>
 				</a>
+
+	            <div style="position:absolute; top:5px; right:20px; font-size:11px; font-size:11px; color:#000; background: rgba(0, 0, 0, 0.12); width: 40px; height:16px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;">
+	            {$video_02.duration|number_format}
+	            </div>
+                
 				</div>
 				{/foreach}
 				</div>
@@ -99,8 +112,13 @@
 				<div class="col-md-12 hidden-sm hidden-xs text-center"  style="margin-bottom:10px;">
 				<a href="{videoLink vdetails=$video_04}" title="{$video_04.title}">
 				<img src="{getThumb vdetails=$video_04}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_04} />
-				</a>
 				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_04.title|truncate:10}</div>
+				</a>
+
+	            <div style="position:absolute; top:5px; right:20px; font-size:11px; font-size:11px; color:#000; background: rgba(0, 0, 0, 0.12); width: 40px; height:16px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;">
+	            {$video_04.duration|number_format}
+	            </div>
+                
 				</div>
 				{/foreach}
 				</div>
@@ -162,8 +180,13 @@
 				<div class="col-md-12 text-center">
 				<a href="{videoLink vdetails=$video_06_lv}" title="{$video_06_lv.title}">
 				<img src="{getThumb vdetails=$video_06_lv}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_lv} />
-				</a>
 				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_06_lv.title|truncate:10}</div>
+				</a>
+
+	            <div style="position:absolute; top:5px; right:20px; font-size:11px; font-size:11px; color:#000; background: rgba(0, 0, 0, 0.12); width: 40px; height:16px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;">
+	            {$video_06_lv.duration|number_format}
+	            </div>
+
 				</div>
                 {/foreach}
 				</div>
@@ -177,8 +200,13 @@
 				<div class="col-md-12 text-center">
 				<a href="{videoLink vdetails=$video_06_v}" title="{$video_06_v.title}">
 				<img src="{getThumb vdetails=$video_06_v}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_v} />
-				</a>
 				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_06_v.title|truncate:10}</div>
+				</a>
+
+	            <div style="position:absolute; top:5px; right:20px; font-size:11px; font-size:11px; color:#000; background: rgba(0, 0, 0, 0.12); width: 40px; height:16px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;">
+	            {$video_06_v.duration|number_format}
+	            </div>
+
 				</div>
                 {/foreach}
                 </div>
@@ -192,8 +220,13 @@
                 <div class="col-md-12 text-center">
 				<a href="{videoLink vdetails=$video_06_da}" title="{$video_06_da.title}">
 				<img src="{getThumb vdetails=$video_06_da}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_da} />
-				</a>
 				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_06_da.title|truncate:10}</div>
+				</a>
+
+	            <div style="position:absolute; top:5px; right:20px; font-size:11px; font-size:11px; color:#000; background: rgba(0, 0, 0, 0.12); width: 40px; height:16px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;">
+	            {$video_06_da.duration|number_format}
+	            </div>
+
 				</div>
                 {/foreach}
 				</div>
