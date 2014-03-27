@@ -48,9 +48,20 @@ if($udetails)
 	assign('p',$p);
 	assign('coverPhoto', $userquery->getCover());
 	Assign('extensions', $Cbucket->get_extensions());
-	
-	
-	//Checking Profile permissions
+
+
+
+    //Getting users channel List
+    $result_array['limit'] = $get_limit;
+    if(!$array['order'])
+        $result_array['order'] = " doj DESC ";
+
+    $users = get_users($result_array);
+
+    Assign('users', $users);
+
+
+    //Checking Profile permissions
 	
 	$perms = $p['show_profile'];
 	if(userid()!=$udetails['userid'])
