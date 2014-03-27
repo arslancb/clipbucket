@@ -3025,7 +3025,7 @@ class userquery extends CBCategory{
 					 lang('account_settings') => cblink(array('name'=>'edit_account','extra_params'=>'mode=account')),
 					 lang('user_profile_settings') => cblink(array('name'=>'edit_account','extra_params'=>'mode=profile')),
 					 lang('change_avatar') 	=> cblink(array('name'=>'edit_account','extra_params'=>'mode=avatar_bg')),
-					 lang('change_bg') => cblink(array('name'=>'edit_account','extra_params'=>'mode=avatar_bg')),
+					 lang('change_cover') => cblink(array('name'=>'edit_account','extra_params'=>'mode=change_cover')),
 					 );
 		
 		if(isSectionEnabled('videos'))
