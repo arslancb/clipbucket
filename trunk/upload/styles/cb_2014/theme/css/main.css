@@ -2080,7 +2080,7 @@ border-right: none;
     height: 0;
     margin-left: 2px;
     margin-top: 8px;
-    position: absolute;
+    position: inherit;
     right: 10px;
     top: 10px;
     vertical-align: middle;
