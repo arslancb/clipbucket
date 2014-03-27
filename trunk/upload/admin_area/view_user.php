@@ -13,8 +13,7 @@ $uid = $_GET['uid'];
 $udetails = $userquery->get_user_details($uid);
 
 if($udetails)
-{
-	
+{	
 	//Deactivating User
 	if(isset($_GET['deactivate']))
 	{
