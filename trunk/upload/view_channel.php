@@ -47,6 +47,7 @@ if($udetails)
 	$p = $userquery->get_user_profile($udetails['userid']);
 	assign('p',$p);
 	assign('coverPhoto', $userquery->getCover());
+	Assign('extensions', $Cbucket->get_extensions());
 	
 	
 	//Checking Profile permissions
