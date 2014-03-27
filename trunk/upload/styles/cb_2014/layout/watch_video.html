@@ -121,7 +121,7 @@
         <div class="col-lg-4 col-md-4 visible-lg visible-md side-video">
             <div class="cb-box">
                 <h3>Most Popular</h3>
-                {for $foo=1 to 12}
+                {foreach $videos as $video}
                 <div class="col-md-13 marginBottom grid_view list_view item_video_pop">
                         <div class="item_video">
                             <div class="cb_item_container clearfix">
@@ -144,7 +144,7 @@
                             </div>
                         </div>    
                 </div>
-                {/for}
+                {/foreach}
             </div>
         </div>
         <!-- /Side bar-->
