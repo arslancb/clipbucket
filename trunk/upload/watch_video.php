@@ -78,6 +78,9 @@ $video_cat = $v_cat[1];
 $video_cat = $v_cat[1].$v_cat[2];}
 $vid_cat = str_replace('%#%','',$video_cat);
 assign('vid_cat',$vid_cat);
+$vid_cond['order'] = " date_added DESC ";
+$vlist = $vid_cond;
+$vlist['limit'] = 15;
 $videos = get_videos($vlist);
 Assign('videos', $videos);
 
