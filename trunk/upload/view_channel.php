@@ -55,7 +55,7 @@ if($udetails)
     //Getting users channel List
     $result_array['limit'] = $get_limit;
     if(!$array['order'])
-        $result_array['order'] = " doj DESC ";
+        $result_array['order'] = " num_visits DESC limit 6 ";
 
     $users = get_users($result_array);
 
@@ -66,10 +66,27 @@ if($udetails)
     $result_array['limit'] = $get_limit;
     $result_array['user'] = $udetails["userid"];
     if(!$array['order'])
-        $result_array['order'] = " videoid DESC ";
+        $result_array['order'] = " username DESC limit 9  ";
     $videos = get_videos($result_array);
 
     Assign('videos', $videos);
+
+
+    //Collecting Data for Pagination
+    $vcount = $vid_cond;
+    $counter = get_counter('video',$count_query);
+    if(!$counter)
+    {
+        $vcount['count_only'] = true;
+        $total_rows  = get_videos($vcount);
+        $total_pages = count_pages($total_rows,VLISTPP);
+        $counter = $total_rows;
+        update_counter('video',$count_query,$counter);
+    }
+
+    $total_pages = count_pages($counter,VLISTPP);
+//Pagination
+    $pages->paginate($total_pages,$page);
 
 
     //Checking Profile permissions
