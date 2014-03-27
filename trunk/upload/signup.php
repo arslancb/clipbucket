@@ -26,35 +26,23 @@ if($userquery->login_check('',true)){
 	/**
 	 * Signing up new user
 	 */
+	if(!config('allow_registeration')){
+		assign('allow_registeration',lang('usr_reg_err'));
+        //
+	}
+			
 	if(isset($_POST['signup'])){
-		if(!(bool)config('allow_registeration'))
+		
+		if(!config('allow_registeration')){
 			e(lang('usr_reg_err'));
+		}
+			
 		else
 		{
-			$signup = $userquery->signup_user($_POST, false);
+			$signup = $userquery->signup_user($_POST);
 			if($signup)
 			{
 				$udetails = $userquery->get_user_details($signup);
-				// Adding a new collection to the user profile
-				$name = ($_POST['username']);
-				$desc = ($_POST['username']);
-				$tags = "no-tag";
-				$cat  = "";
-				$type = "photos";
-				$CollectParams = array(
-					"collection_name"=>$name,
-					"collection_description"=>$desc,
-					"collection_tags"=>$tags,
-					"category"=>"#1#",
-					"type"=>$type,
-					"allow_comments"=>"yes",
-					"broadcast"=>"public",
-					"public_upload"=>"yes",
-					"userid" => $udetails['userid'],
-					);
-				$collectionId = $cbcollection->create_default_collection($CollectParams);
-
-
 				$eh->flush();
 				assign('udetails',$udetails);
 				assign('mode','signup_success');
