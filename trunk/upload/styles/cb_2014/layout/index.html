@@ -318,7 +318,11 @@
         <div class="col-md-12 nopadding">
 			{foreach from=$result_comments item=comment}
 			<div class="col-md-2 nopadding-right" style=" margin-top: 10px;">
-            <img src="images/avatars/{$comment.userid}-small.jpg" width="35" height="35" class="img-rounded" />
+			{if isset($comment.userid)}
+			<img src="images/avatars/{$comment.userid}-small.jpg" width="35" height="35" class="img-rounded" />
+            {else}
+            <img src="images/avatars/no_avatar-small.png" width="35" height="35" class="img-rounded" />
+			{/if}
             </div>
 			
             <!-- Displaying User Comment Box //-->
