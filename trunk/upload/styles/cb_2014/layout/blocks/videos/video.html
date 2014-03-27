@@ -6,8 +6,8 @@
             <img class="" src="{getThumb vdetails=$video}" border="1" height="100" width="100"/>
         </a>
     </div>
-        <div class="item_text">
-           <a href="{videoLink($video)}">{$video.description|truncate:100}</a>
+        <div class="item_text"  style="height: 45px;">
+           <a href="{videoLink($video)}">{$video.description|truncate:30}</a>
         </div>
         <span class="pull-left"><h5><small>{$video.views} views</small></h5></span>
         <span class="pull-right"><h5><small>{$video.date_added|niceTime}</small></h5></span>
