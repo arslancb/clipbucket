@@ -7,9 +7,11 @@
  * To change this template use File | Settings | File Templates.
  */
 
-function get_user_fields() {
+function get_user_fields($array=NULL) {
+    
     global $cb_columns;
     return $cb_columns->object( 'users' )->get_columns();
+    
 }
 
 
@@ -37,3 +39,4 @@ function name($user_array)
 
     return $name;
 }
+

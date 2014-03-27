@@ -99,4 +99,19 @@ function cb_get_actions($place,$scope=array('global'))
     }
 }
 
+/**
+     * Function used to count total notifications
+     */
+    function count_total_notification($item=false)
+    {
+        global $db;
+        $type = $this->type;
+        $results = $db->count(tbl('notifications'),"*");
+        echo  $db->query;                  
+        if($db->num_rows>0)
+            return $results;
+        else
+            return false;
+    }
+
 ?>
