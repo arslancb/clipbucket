@@ -65,7 +65,6 @@ if(isset($_POST['block_users']))
 }
 
 $mode = $_GET['mode'];
-
 switch($mode)
 {
 	case 'account':
@@ -83,10 +82,18 @@ switch($mode)
 	
 	case 'avatar_bg':
 	{
-
 		Assign('extensions', $Cbucket->get_extensions());
 		assign("coverPhoto", $userquery->getCover(userid()));
 		assign('mode','avatar_bg');
+	}
+	break;
+
+	case 'change_cover':
+	{
+
+		Assign('extensions', $Cbucket->get_extensions());
+		assign("coverPhoto", $userquery->getCover(userid()));
+		assign('mode','change_cover');
 	}
 	break;
 	
