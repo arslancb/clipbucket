@@ -3,7 +3,7 @@
 <div class="container">
 	{include file="$style_dir/blocks/manage/account_menu.html"}
 	<div class="row cb-box marginBottom">
-		<div class="col-md-3 leftSidebar">
+		<!--<div class="col-md-3 leftSidebar">
 			<ul class="">
                 {foreach $leftMenuLinks as $key => $value}
                     <li class="">
@@ -16,10 +16,57 @@
                     </li>
                 {/foreach}
             </ul>
-		</div>
+		</div>-->
+		 <!-- Listing Categories -->
+        
+        {include file="$style_dir/blocks/category_list.html" type='group'}
+        
+        <!-- Listing Categories End -->
 		<div class="col-md-9">
-			<div class="">
-				<h2>Groups</h2>
+				<div class="page-hidding">
+                {assign var=sorting_links value=sorting_links()}
+                <h4 class="smaller lighter pull-left">Browsing All Categories: 
+                    <small>
+                    {if isset($smarty.get.sort)}
+                    {foreach from=$sorting_links item=name key=sort}
+                        {if $smarty.get.sort==$sort} 
+                           <!--<span class="glyphicon glyphicon-sort"></span> Most {$name}-->
+                        {/if}
+                    {/foreach}
+                    {/if}
+                    </small>
+                </h4>
+                <div class="pull-left">
+                    <div class="btn-group">
+                        <button class="btn btn-default" type="button">Recent</button>
+                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                        <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                      <ul role="menu" class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                      </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-default" type="button">All Time</button>
+                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                        <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                      <ul role="menu" class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
 				{foreach $groups as $key => $group}
 					<div class="row">
 						<div class="col-md-3 text-center">
@@ -49,7 +96,6 @@
 						</div>
 					</div>
 				{/foreach}
-			</div>
 		</div>
 	</div>
 </div>
