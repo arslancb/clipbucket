@@ -72,11 +72,11 @@
               <hr class="hr">
               {foreach from=$videos item=video}
                   <div class="col-md-4">
-
-                      <img src="{getThumb vdetails=$video}"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/>
+                      <a href="{videoLink($video)}" title="{$video.title|title}">
+                      <img src="{getThumb vdetails=$video}"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/></a>
                       <p class="duration1"><b class="color">{if
                           $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</b></p>
-                      <h5><a href=""><b>{$video.title|truncate:22}</b></a></h5>
+                      <h5><a href="{videoLink($video)}" title="{$video.title|title}"><b>{$video.title|truncate:22}</b></a></h5>
                       <small class="font1 new1"><b>{lang code='views'} :{$video.views}</b></small>
                       <small class="font2 new1"><b>{$video.date_added|niceTime}</b></small>
                       <hr>
