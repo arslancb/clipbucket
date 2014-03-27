@@ -14,7 +14,7 @@ cb_call_functions('update_cb_stats_cron');
 
 
 //Now Gathering All Data
-$date = date("Y-m-d");
+$date = date("Y-m-d H:i:s");
 
 //Videos
 $videos['uploads'] = $cbvid->get_videos(array("count_only"=>true,"date_span"=>"today"),TRUE);
@@ -31,8 +31,9 @@ $videos['comments'] = $vid_comments[0]['total_comments'];
 /**
  * Testing
  * * PASSED
+ *  echo json_encode($videos);
  */
- echo json_encode($videos);
+
  
 
 //Users
@@ -49,7 +50,7 @@ $users['comments'] = $user_comments[0]['total_comments'];
 
 /**
  * Testing
- * echo json_encode($users);
+ *echo json_encode($users); 
  * PASSED
  */
  
@@ -73,15 +74,38 @@ $groups['total_discussions'] = $group_discussions[0]['the_discussions'];
  * PASSED 
  */
 
-$fields = array('video_stats','user_stats','group_stats');
-$values = array('|no_mc|'.json_encode($videos),'|no_mc|'.json_encode($users),'|no_mc|'.json_encode($groups));
+$video="[";
+foreach ($videos as $key => $value) {
+	$video .= '["'.$key .'","'. $value.'"],';
+}
+$video .="]";
 
+$user="[";
+foreach ($users as $key => $value) {
+	$user .= '["'.$key .'","'. $value.'"],';
+}
+$user .="]";
+
+$group="[";
+foreach ($groups as $key => $value) {
+	$group .= '["'.$key .'","'. $value.'"],';
+}
+$group .="]";
+
+
+$fields = array('video_stats','user_stats','group_stats');
+
+$values = array('|no_mc|'.json_encode($videos),'|no_mc|'.json_encode($users),'|no_mc|'.json_encode($groups));
+//$values = array('|no_mc|'.$video,'|no_mc|'.$user,'|no_mc|'.$group);
+
+pr($values,true);
 //Checking If there is already a row of the same date, then update it otherwise insert data
 $result = $db->select(tbl("stats"),"stat_id"," date_added LIKE '%$date%'");
 if($db->num_rows>0)
 {
 	$result = $result[0];
 	$db->update(tbl("stats"),$fields,$values," stat_id='".$result['stat_id']."'");
+	//eccho $db->quiry();
 }else
 {
 	$fields[] = 'date_added';
