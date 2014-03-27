@@ -26,107 +26,67 @@ $u = mysql_clean($u);
 $udetails = $userquery->get_user_details($u);
 if($udetails)
 {
-
-    //Subscribing User
-    if($_GET['subscribe'])
-    {
-        $userquery->subscribe_user($udetails['userid']);
-    }
-
-    //Adding Comment
-    if(isset($_POST['add_comment']))
-    {
-        $userquery->add_comment($_POST['comment'],$udetails['userid']);
-    }
-    //Calling view channel functions
-    call_view_channel_functions($udetails);
-
-    assign("u",$udetails);
-
-    //Getting profile details
-    $p = $userquery->get_user_profile($udetails['userid']);
-    assign('p',$p);
-
-    //Checking Profile permissions
-
-    $perms = $p['show_profile'];
-    if(userid()!=$udetails['userid'])
-    {
-        if(($perms == 'friends' || $perms == 'members') && !userid())
-        {
-            e(lang('you_cant_view_profile'));
-
-            if(!has_access('admin_access',true))
-                $Cbucket->show_page = false;
-        }elseif($perms == 'friends' && !$userquery->is_confirmed_friend($udetails['userid'],userid()))
-        {
-            e(sprintf(lang('only_friends_view_channel'),$udetails['username']));
-
-            if(!has_access('admin_access',true))
-                $Cbucket->show_page = false;
-        }
-
-        //Checking if user is not banned by admin
-        if(userid())
-        {
-            if($userquery->is_user_banned(username(),$udetails['userid'],$udetails['banned_users']))
-            {
-                e(sprintf(lang('you_are_not_allowed_to_view_user_channel'),$udetails['username']));
-                assign('isBlocked','yes');
-                if(!has_access('admin_access',true))
-                    $Cbucket->show_page = false;
-            }
-        }
-    }
-
-
-    //Getting User List
-    $page = mysql_clean($_GET['page']);
-    $get_limit = create_query_limit($page,CLISTPP);
-    $count_query = $ulist = $u_cond;
-    $ulist['limit'] = $get_limit;
-    $users = get_users($ulist);
-    Assign('users', $users);
-
-    $counter = get_counter('channel',$count_query);
-
-    if(!$counter)
-    {
-        //Collecting Data for Pagination
-        $ucount = $u_cond;
-        $ucount['count_only'] = true;
-        $total_rows  = get_users($ucount);
-        $counter = $total_rows;
-        update_counter('channel',$count_query,$counter);
-    }
-
-
-    $numbers = array(100,1000,15141,3421);
-    function format_number($number) {
-        if($number >= 1000) {
-            return $number/1000 . "k";   // NB: you will want to round this
-        }
-        else {
-            return $number;
-        }
-    }
-
-
-
-    //Getting Video List
-    $result_array['limit'] = $get_limit;
-    if(!$array['order'])
-        $result_array['order'] = " videoid DESC ";
-    $videos = get_videos($result_array);
-
-    Assign('videos', $videos);
-
-    subtitle(sprintf(lang('user_s_channel'),$udetails['username']));
-
-    //Setting profilte item
-    $profileItem = $userquery->getProfileItem($udetails['userid'],true);
-
-    assign('profile_item',$profileItem);
+	
+	//Subscribing User
+	if($_GET['subscribe'])
+	{
+		$userquery->subscribe_user($udetails['userid']);
+	}
+	
+	//Adding Comment
+	if(isset($_POST['add_comment']))
+	{
+		$userquery->add_comment($_POST['comment'],$udetails['userid']);
+	}
+	//Calling view channel functions
+	call_view_channel_functions($udetails);
+	
+	assign("u",$udetails);
+	
+	//Getting profile details
+	$p = $userquery->get_user_profile($udetails['userid']);
+	assign('p',$p);
+	
+	
+	//Checking Profile permissions
+	
+	$perms = $p['show_profile'];
+	if(userid()!=$udetails['userid'])
+	{
+		if(($perms == 'friends' || $perms == 'members') && !userid())
+		{
+			e(lang('you_cant_view_profile'));
+			
+			if(!has_access('admin_access',true))
+				$Cbucket->show_page = false;
+		}elseif($perms == 'friends' && !$userquery->is_confirmed_friend($udetails['userid'],userid()))
+		{
+			e(sprintf(lang('only_friends_view_channel'),$udetails['username']));
+			
+			if(!has_access('admin_access',true))
+				$Cbucket->show_page = false;
+		}
+		
+		//Checking if user is not banned by admin
+		if(userid())
+		{
+			if($userquery->is_user_banned(username(),$udetails['userid'],$udetails['banned_users']))
+			{
+				e(sprintf(lang('you_are_not_allowed_to_view_user_channel'),$udetails['username']));
+				assign('isBlocked','yes');
+				if(!has_access('admin_access',true))
+					$Cbucket->show_page = false;
+			}
+		}
+	}
+	
+	
+	subtitle(sprintf(lang('user_s_channel'),$udetails['username']));
+	
+	//Setting profilte item
+	$profileItem = $userquery->getProfileItem($udetails['userid'],true);
+	
+	assign('profile_item',$profileItem);
 }else{
 
     if($_GET['seo_diret']!='yes')
