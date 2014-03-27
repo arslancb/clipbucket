@@ -2,7 +2,7 @@
 	var _cb = function(){
 		var self = this;
 		// bootstrapping
-		this.baseurl = "http://clipbucket.dev";
+		this.baseurl = baseurl;
 		this.imageurl = "";
 		this.page = this.baseurl+'/ajax.php';
 		this.loading_img = "<img style='vertical-align:middle' src='" + this.imageurl + "/ajax-loader.gif'>";
