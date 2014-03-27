@@ -46,6 +46,7 @@ if($udetails)
 	//Getting profile details
 	$p = $userquery->get_user_profile($udetails['userid']);
 	assign('p',$p);
+	assign('coverPhoto', $userquery->getCover());
 	
 	
 	//Checking Profile permissions
