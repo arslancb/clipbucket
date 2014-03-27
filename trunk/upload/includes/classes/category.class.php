@@ -283,8 +283,20 @@ abstract class CBCategory
 				
 						
 			if($params['class'])
-				$class = $params['class'];		
-			$html .= "<li class='cbCategoryItem ".$class.$selected."'";
+				$class = $params['class'];
+				if($cat['children']){
+				$add_class= ' dropdown ';
+				$toggle = 'dropdown-toggle';
+				$data_toggle = ' data-toggle="dropdown" ';
+				$add_caret = '<b class="caret"></b>';
+				}
+				else{
+				$toggle = '';
+				$add_class= '';
+				$data_toggle = '';
+				$add_caret = '';
+				}						
+			$html .= "<li class='cbCategoryItem ".$class.$selected.$add_class."'";
 			if($params['id'])
 				$html .= " id = '".$params['id']."'";					
 			$html .= ">";
@@ -298,20 +310,20 @@ abstract class CBCategory
 				$display = "none";	
 			}	
 			if($cat['children'])		
-				$html .= "<span id='".$cat['category_id']."_toggler' alt='".$cat['category_id']."_categories' class='CategoryToggler ".$display."' onclick='toggleCategory(this);'>&nbsp;</span>";
+			$html .= "";
+			//$html .= "<span id='".$cat['category_id']."_toggler' alt='".$cat['category_id']."_categories' class='CategoryToggler ".$display."' onclick='toggleCategory(this);'>&nbsp;</span>";
 							
-			$html .= "<a href='".cblink(array("name"=>"category","data"=>$cat,"type"=>$params['type']))."'>".$cat['category_name']."</a>";
+			$html .= "<a class='".$toggle."' '".$data_toggle."' href='".cblink(array("name"=>"category","data"=>$cat,"type"=>$params['type']))."'>".$cat['category_name'].$add_caret."</a>";
 			
 
 			
 			if($cat['children'])
 			{
-				
-
-				$html .= "<ul id='".$catID."_categories' class='sub_categories' style='display:".($display)."'>";
+				$html .= "<ul id='".$catID."_categories' class='sub_categories dropdown-menu' >";
 				$html .= $this->displayCollpasedListCateogry($cat['children'],$params);
 				$html .= "</ul>";
 			}
+
 			$html .= "</li>";			
 		}
 		
