@@ -2086,6 +2086,7 @@ border-right: none;
     vertical-align: middle;
     width: 0;
     z-index: 9;
+    cursor: zoom-in;
 }
 .padding-left-right-zero{
 padding-left: 0px;
