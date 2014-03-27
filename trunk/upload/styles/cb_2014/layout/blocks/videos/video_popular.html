@@ -1,0 +1,21 @@
+<div class="col-md-13 marginBottom grid_view list_view item_video_pop">
+    <div class="item_video">
+        <div class="cb_item_container clearfix">
+            <div class="cb_item_thumb video_thumb col-md-6 row">
+               <a href="{videoLink($video)}" title="{$video.title|title}" >
+                    <span class="video_duration">{$video.duration}</span>
+                    <img class="" src="{getThumb vdetails=$video}" border="1" height="100" width="100"/>
+                </a>
+            </div>
+            <div class="pull-right col-md-7 padding-top-5">
+                <div class="item_text"  style="height: 45px;">
+                    <a href="{videoLink($video)}">{$video.description|truncate:30}</a>
+                </div>
+                <div class="row small col-md-10 padding-top-5">
+                    <span class="pull-left"><small><span class="glyphicon glyphicon-eye-open"></span> {$video.views}</small></span>
+                    <span class="pull-right"><small><span class="glyphicon glyphicon-thumbs-up"></span> 4k</small></span>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
