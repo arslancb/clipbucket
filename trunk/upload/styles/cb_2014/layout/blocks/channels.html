@@ -3,28 +3,30 @@
 <div class="row" id="user-{$user.userid}">
     <div class="col-md-2">
         <a href="{$userquery->profile_link($user)}">
-            <img src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" width="60" height="60">
+            <img class="border" src="http://st.depositphotos.com/1742172/1313/v/950/depositphotos_13135344-Smiling-boy-in-yellow-thumbs-up-cartoon.jpg" width="60" height="60">
             <!--<img src="{$userquery->getuserthumb($user)}" class="img-circle">-->
         </a>
         </div>
-    <div class="col-md-7">
-        <b>Most Popular Channel</b> {$user.username}  <a href="{$userquery->profile_link($user)}">  </a>
+    <div class="col-md-7 channels1">
+        <b>Most Popular {$user.username}</b>   <a href="{$userquery->profile_link($user)}">  </a>
     </div>
 
     <div class="col-md-9 prof_title">
-            <div class="row">
-                <div class="col-md-3">
+            <div class="row pchannels">
+                <div class="col-md-3 channels ">
                     {if isSectionEnabled('videos')}
-                    {lang code="videos"}  {$user.total_videos|number_format}
+                    {lang code="videos"}:  {$user.total_videos|number_format}
                     {/if}
                 </div>
-                <div class="col-md-6">
-                    {lang code="subscribers"}  {$user.subscribers|number_format}
+                <div class="col-md-6  channels">
+                    {lang code="subscribers"}:  {$user.subscribers|number_format}
                 </div>
             </div>
-        <button class="btn btn-primary btn-xs">Subscribe</button>
+        <button class="btn btn-primary btn-xs channels1">Subscribe</button>
     </div>
+
 </div>
+
 
 <hr>
 {/if}
