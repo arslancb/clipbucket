@@ -151,9 +151,10 @@ class language
 		if(empty($lang_code))
 			$lang_code = $this->lang;
 		
-		$results = $db->select(tbl("phrases"),"COUNT(id)"," lang_iso = '".$lang_code."' $extra_param");
+		$results = $db->select(tbl("phrases"),"COUNT(id) as total"," lang_iso = '".$lang_code."' $extra_param");
+		//print_r($results);
 		if($db->num_rows>0)
-			return $results[0][0];
+			return $results[0]['total'];
 		else
 			return 0;
 		

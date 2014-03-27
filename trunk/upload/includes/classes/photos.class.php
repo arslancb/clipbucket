@@ -706,7 +706,7 @@ class CBPhotos
 		return $cond;		
 	}
 	
-	/**
+	/***
 	 * Used to construct Exclude Query 
 	function exclude_query($array)
 	{
@@ -2766,4 +2766,4 @@ class CBPhotos
 
 }
  
- ?>
+?>
