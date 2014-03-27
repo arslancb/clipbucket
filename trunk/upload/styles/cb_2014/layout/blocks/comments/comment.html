@@ -31,7 +31,7 @@
         {$user_link='#'}
                     {if $comment.username}{$user_link=$userquery->profile_link($comment)}{/if}
         <a href="{$user_link}">
-            <img class="img-circle" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" alt="">
+            <img src="{$userquery->avatar($video)}" class="img-circle" />
         </a>
     </div>
     <div class="body">
