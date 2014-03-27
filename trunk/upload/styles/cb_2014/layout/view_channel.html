@@ -78,18 +78,12 @@
                       <small class="font2 new1"><b>{$video.date_added|niceTime}</b></small>
                       <hr>
                   </div>
-
                   {/foreach}
-              <ul class="pagination padding37">
-                  <li><a href="#">&laquo;</a></li>
-                  <li class="active"><a href="#">1</a></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">4</a></li>
-                  <li><a href="#">5</a></li>
-                  <li><a href="#">&raquo;</a></li>
-              </ul>
+              <div class="col-md-4">
+                  {include file="$style_dir/blocks/pagination.html"}
               </div>
+              </div>
+
           <div class="col-md-6">
               <h4><i class="icon-rss"></i>  Recent Activities</h4>
               <hr class="hr">
@@ -188,6 +182,7 @@
   });
 })(window);
 </script>
+
 
 {include file="$style_dir/footer.html" }
 
