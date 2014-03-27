@@ -3,7 +3,7 @@
 <div class="row" id="user-{$user.userid}">
     <div class="col-md-2">
         <a href="{$userquery->profile_link($user)}">
-            <img class="border" src="http://st.depositphotos.com/1742172/1313/v/950/depositphotos_13135344-Smiling-boy-in-yellow-thumbs-up-cartoon.jpg" width="60" height="60">
+            <img class="border" src="{$userquery->getUserThumb($user)}" width="60" height="60">
             <!--<img src="{$userquery->getuserthumb($user)}" class="img-circle">-->
         </a>
         </div>
