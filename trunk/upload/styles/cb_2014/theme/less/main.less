@@ -438,6 +438,18 @@ ul{
   padding: 10px;
 }
 
+/* Mixin */
+.border-radius (@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+/* Implementation */
+.row #small-img li img{
+  .border-radius(10px);
+}
+
 @import 'essentials.less';
 
 @import 'elements.less';
