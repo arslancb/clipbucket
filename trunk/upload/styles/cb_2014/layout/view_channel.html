@@ -16,7 +16,7 @@
           <div class="col-md-4 pull-right btn-group" style="padding-left: 40px">
               <br>
               <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-plus-sign white"></i>  Add as Friend</button>
-              <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><a href="private_message.php?mode=new_msg&to=admin"><i class="glyphicon glyphicon-envelope white"></i></a>  Send Message</button>
+              <a href="private_message.php?mode=new_msg&to=admin" style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-envelope white"></i>  Send Message</a>
               <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="icon-rss icon-spin white"></i>  Subscribe</button>
           </div>
     </div>
@@ -57,11 +57,9 @@
         </div>
     </div>
         <div class="btn-group col-md-6 channel">
-            <form method="post" action="actions/vote_channel.php">
             <h6 class="padding35"><b>2 people like this channel out of 2</b></h6>
             <button onclick="alert('No')" class="btn btn-danger btn-sm" style="width: 50px"><i class="glyphicon glyphicon-thumbs-down"></i><b>  No</b></button>
             <button onclick="alert('Yes')" class="btn btn-primary btn-sm" style="width: 300px"><i class="glyphicon glyphicon-thumbs-up"></i>  <b>Do you like this channel ?</b></button>
-                </form>
         </div>
     </div>
         <div class="clearfix"></div>
@@ -75,8 +73,7 @@
               {foreach from=$videos item=video}
                   <div class="col-md-4">
 
-                      <img src="http://vigilantcitizen.com/wp-content/uploads/2011/09/425.topgun.cruise.tom_.lc_.042710.jpg"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/>
-                      <!--<img src="{getThumb vdetails=$video}"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/>-->
+                      <img src="{getThumb vdetails=$video}"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/>
                       <p class="duration1"><b class="color">{if
                           $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</b></p>
                       <h5><a href=""><b>{$video.title|truncate:22}</b></a></h5>
