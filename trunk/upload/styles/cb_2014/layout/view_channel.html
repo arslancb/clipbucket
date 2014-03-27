@@ -57,9 +57,9 @@
         </div>
     </div>
         <div class="btn-group col-md-6 channel">
-            <h6 class="padding35"><b>2 people like this channel out of 2</b></h6>
-            <button onclick="alert('No')" class="btn btn-danger btn-sm" style="width: 50px"><i class="glyphicon glyphicon-thumbs-down"></i><b>  No</b></button>
-            <button onclick="alert('Yes')" class="btn btn-primary btn-sm" style="width: 300px"><i class="glyphicon glyphicon-thumbs-up"></i>  <b>Do you like this channel ?</b></button>
+            <h6 class="padding35"><b><span id="likes">{$user["likes"]}</span> people like this channel out of <span id="totalVotes">{$user["voted"]}</span></b></h6>
+            <button class="btn btn-danger btn-sm" id="channelVoteDown" style="width: 50px"><i class="glyphicon glyphicon-thumbs-down"></i><b>  No</b></button>
+            <button id="channelVoteUp" class="btn btn-primary btn-sm" style="width: 300px"><i class="glyphicon glyphicon-thumbs-up"></i>  <b>Do you like this channel ?</b></button>
         </div>
     </div>
         <div class="clearfix"></div>
@@ -138,6 +138,7 @@
   $(document).ready(function(){
     var extensions = "{$extensions}";
     var baseurl = '{$baseurl}';
+    var channelId = "{$user['userid']}";
     extensions = (extensions.substring(0, extensions.length - 1)) + ",png,jpeg";
     $.get("{$theme}/js/plupload/js/plupload.full.min.js", function(e){
       var uploader = new plupload.Uploader({
@@ -182,6 +183,28 @@
     }, function(e){
       $("#changeCover").addClass("sr-only");
     });
+    $("#channelVoteUp, #channelVoteDown").on({
+      click: function(e){
+        var vote = "";
+        var id = "" + this.id;
+        var likes = parseInt($("#likes").text());
+        var totalVotes = parseInt($("#totalVotes").text()) + 1;
+        if(this.id == "channelVoteDown"){
+          vote  = "no";
+        }else{
+          vote = "yes";
+          likes = likes + 1;
+        }
+        $.ajax({
+          type: "POST",
+          url: "{$baseurl}/actions/vote_channel.php",
+          data: { vote: vote, channelId : channelId}
+        }).success(function(data){
+          $("#likes").text(likes);
+          $("#totalVotes").text(totalVotes);
+        });
+      }
+    })
   });
 })(window);
 </script>
