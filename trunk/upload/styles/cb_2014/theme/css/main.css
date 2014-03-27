@@ -2324,4 +2324,4 @@ H3.myHeading{font-family: "Roboto", "Segoe UI", "Helvetica neue", Helvetica, san
 
 .mycommentboxarrow {position: relative; z-index: -1;}
 
-.mycommentboxarrow:before{content: ""; position: absolute; top: -20px; left:-10px; height:20px; width:20px; background:#F00; border: 1px solid #FFF; transform:rotate(45deg); -ms-transform:rotate(45deg); -webkit-transform:rotate(45deg); z-index: -1;}
+.mycommentboxarrow:before{content: ""; position: absolute; top: 20px; left:-5px; height:20px; width:20px; background:#F00; border: 1px solid #FFF; transform:rotate(45deg); -ms-transform:rotate(45deg); -webkit-transform:rotate(45deg); z-index: -1;}
