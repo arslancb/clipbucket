@@ -2335,3 +2335,6 @@ H3.myHeading{font-family: "Roboto", "Segoe UI", "Helvetica neue", Helvetica, san
 .pagination {
     /*padding-top: 50px;*/
 }
+.dropdown-menu li,.dropdown-menu li:hover{
+border: none;
+}
