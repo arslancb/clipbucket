@@ -1,9 +1,9 @@
- <ul class="pagination">
+
 {if $pagination}
 
 	{if !$commentPagination}
 
-     <div class="dataTables_paginate paging_bootstrap pagination">
+     <div class="dataTables_paginate paging_bootstrap">
          <ul class="pagination">
              <li class="prev disabled">
                  <a href="#">
@@ -15,10 +15,6 @@
          </ul>
 
      </div>
-
-
-
-
      <!--{if $first_link !=''}<li class="previous">-->
             <!---->
         <!--<a {$first_link}><span class="glyphicon glyphicon-fast-backward"></span></a></li>{/if}  {if $pre_link !=''}<li><a {$pre_link} ><span class="glyphicon glyphicon-step-backward"></span></a></li>{/if} -->
@@ -48,4 +44,3 @@
     <!--{/if}-->
   
 {/if}
-</ul>
