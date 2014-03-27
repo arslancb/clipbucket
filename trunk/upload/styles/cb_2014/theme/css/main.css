@@ -2065,7 +2065,8 @@ border-right: none;
 .cbCategoryItem ul li{
   padding: 7px;
 }
-.cbCategoryItem ul li:hover{
+.nav > li > a:hover, .nav > li > a:focus
+.cbCategoryItem > ul > li > a:hover,.cbCategoryItem > ul > li > a:focus{
   background-color: #EEEEEE;
   text-decoration: none;
   
