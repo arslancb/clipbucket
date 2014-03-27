@@ -2740,17 +2740,27 @@ class userquery extends CBCategory{
 					if (!file_exists(COVERS_DIR . "/{$name}")) {
 					    mkdir(COVERS_DIR . "/{$name}", 0777, true);
 					}
-					$files = glob(COVERS_DIR . "/{$name}/{$name}.*"); // get all file names
-					foreach($files as $file){ // iterate files
-					  if(is_file($file))
-					    unlink($file); // delete file
+					list($width, $height, $type, $attr) = getimagesize($coverPhoto);
+					$width = (int) $width;
+					$height = (int) $height;
+					if(($width > 1100 && $width < 1200) && ($height > 200 && $height < 240)){
+						$files = glob(COVERS_DIR . "/{$name}/{$name}.*"); // get all file names
+						foreach($files as $file){ // iterate files
+						  if(is_file($file))
+						    unlink($file); // delete file
+						}
+						move_uploaded_file($coverPhoto, COVERS_DIR . "/{$name}/{$name}.{$ext}");
+						$this->resizeImage(COVERS_DIR . "/{$name}/{$name}.{$ext}", COVERS_DIR . "/{$name}/{$name}.{$ext}");
+						return array(
+							"status" => true,
+							"msg" => "Succesfully Uploaded",
+							);
+					}else{
+						return array(
+							"status" => false,
+							"msg" => "Only 1150 x 220 images are allowed {$width} x {$height} provided",
+							);
 					}
-					move_uploaded_file($coverPhoto, COVERS_DIR . "/{$name}/{$name}.{$ext}");
-					$this->resizeImage(COVERS_DIR . "/{$name}/{$name}.{$ext}", COVERS_DIR . "/{$name}/{$name}.{$ext}");
-					return array(
-						"status" => true,
-						"msg" => "Succesfully Uploaded",
-						);
 				}
 			}
 		}
