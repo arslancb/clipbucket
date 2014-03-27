@@ -32,26 +32,28 @@
             <h3 class="cname">Clipbucket Channel Name</h3>
         </div>
         <div class="col-md-4 pull-right padding34">
+            {if $user.userid == userid()}
             <button class="btn btn-primary new1" style="background-color: #000000;color: white">
-                <span class="line-height-1 bigger-170 blue">1k</span>
+                <span class="line-height-1 bigger-170 blue">{$user.total_videos}</span>
                 <br>
                 <span class="line-height-1 smaller-90 new1"> Videos </span>
             </button>
             <span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
-													<span class="line-height-1 bigger-170 blue">30</span>
+													<span class="line-height-1 bigger-170 blue">{$user.total_photos}</span>
 													<br>
 													<span class="line-height-1 smaller-90 new1"> Photos </span>
 												</span>
             <span class="btn btn-primary new1" style="background-color: #000000; color: #ffffff">
-													<span class="line-height-1 bigger-170 blue">3300</span>
+													<span class="line-height-1 bigger-170 blue">{$user.profile_hits}</span>
 													<br>
 													<span class="line-height-1 smaller-90 new1"> Views </span>
 												</span>
             <span class="btn btn-primary new1" style="background-color: #000000;color: #ffffff">
-													<span class="line-height-1 bigger-170 blue">50</span>
+													<span class="line-height-1 bigger-170 blue">{$user.subscribers}</span>
 													<br>
 													<span class="line-height-1 smaller-90 new1"> Contacts </span>
 												</span>
+            {/if}
         </div>
     </div>
         <div class="btn-group col-md-6 channel">
