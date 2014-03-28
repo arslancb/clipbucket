@@ -109,7 +109,7 @@
 		
         		<div class="col-md-4 text-center nopadding-left">
 				{foreach from=$videos_04 item=video_04}
-				<div class="col-md-12 hidden-sm hidden-xs text-center"  style="margin-bottom:10px;">
+				<div class="col-md-12 hidden-sm hidden-xs text-center"  style="margin-bottom:15px;">
 				<a href="{videoLink vdetails=$video_04}" title="{$video_04.title}">
 				<img src="{getThumb vdetails=$video_04}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_04} />
 				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_04.title|truncate:10}</div>
