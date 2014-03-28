@@ -2375,3 +2375,35 @@ H3.myHeading{font-family: "Roboto", "Segoe UI", "Helvetica neue", Helvetica, san
 .pagination {
     /*padding-top: 50px;*/
 }
+/*Groups View*/
+.groups-view{
+    border-bottom: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
+    margin: -11px 0 10px;
+    min-height: 160px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-top: 10px;
+}
+.groups-view h4 a {
+    color: #444444;
+}
+.groups-view ul li {
+    color: #A5A5A5;
+    float: left;
+    font-size: 15px;
+}
+.small{
+color: #A5A5A5;
+}
+.groups-view img {
+    border: 1px solid #DDDDDD;
+    padding: 0;
+    width: 100%;
+}
+.groups-view .min-height-35{
+  height: 35px;
+}
+.margin-bottom-10{
+  margin-bottom: 10px;
+}
