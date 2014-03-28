@@ -1684,7 +1684,7 @@ class CBGroups extends CBCategory
 	/**
 	 * function and show otpion links
 	 */
-	function group_opt_link($group,$type)
+	function group_opt_link($group,$type,$attr='')
 	{
 		global $userquery;
 		$gArray = 
@@ -1696,17 +1696,22 @@ class CBGroups extends CBCategory
 			'user'	=> $userquery->udetails,
 			'checkowner' => 'yes'
 		);
-		$class = "class='btn btn-primary'";
+
+		if(!$attr)
+			$attr = " class='btn btn-primary' ";
+		
 		switch($type)
 		{
 			case 'join':
 			{
+
+
 				if($this->is_joinable($group))
 				{
 					if(SEO=="yes")
-						return '<a '.$class.' href="'.group_link(array('details'=>$group)).'?join=yes">'.lang('join').'</a>';
+						return '<a '.$attr.' href="'.group_link(array('details'=>$group)).'?join=yes">'.lang('join').'</a>';
 					else
-						return '<a '.$class.' href="'.group_link(array('details'=>$group)).'&join=yes">'.lang('join').'</a>';
+						return '<a '.$attr.' href="'.group_link(array('details'=>$group)).'&join=yes">'.lang('join').'</a>';
 				}else
 					return false;
 			}
