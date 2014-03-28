@@ -26,6 +26,10 @@ $result_array_02['order'] = " RAND() LIMIT 2";
 $videos_02 = get_videos($result_array_02);
 Assign('videos_02', $videos_02);
 
+$result_array_03['order'] = " RAND() LIMIT 3";
+$videos_03 = get_videos($result_array_03);
+Assign('videos_03', $videos_03);
+
 $result_array_04['order'] = " RAND() LIMIT 4";
 $videos_04 = get_videos($result_array_04);
 Assign('videos_04', $videos_04);
