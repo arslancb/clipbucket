@@ -67,16 +67,16 @@
 
 		<div class="col-md-8">
 			<h2 class="myHeading">Latest Videos</h2>
-			<div class="col-md-12">
+			<div class="col-md-12 nopadding">
 
-			<div class="col-md-8 text-center nopadding-left">
-				<div class="col-md-12 text-center nopadding" style="border:1px solid #CCC; margin-bottom:10px;">
+			<div class="col-md-12 text-center nopadding">
+				<div class="col-md-8 text-center nopadding" style="border:1px solid #CCC; margin-bottom:10px;">
 				{foreach from=$videos_01 item=video_01}
 				<div class="col-md-12 text-center nopadding">
 				<a href="{videoLink vdetails=$video_01}" title="{$video_01.title}">
-				<img src="{getThumb vdetails=$video_01}" width="600" height="285" border="0" {ANCHOR place="video_thumb" data=$video_01} />
+				<img src="{getThumb vdetails=$video_01}" width="475" height="372" border="0" {ANCHOR place="video_thumb" data=$video_01} />
 				</a>
-				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.12); ">{$video_01.title|truncate:30}</div>
+				<div class="cbHomeVidTitle">{$video_01.title|truncate:30}</div>
 				</div>
 
 	            <div style="position:absolute; top:5px; right:5px; font-size:11px; font-size:11px; color:#FFF; background:#333; width: 40px; height:18px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;">
@@ -88,17 +88,17 @@
 
 				{/foreach}
 				</div>
-				<BR />
-				<div class="col-md-12 hidden-sm hidden-xs text-center">
-				{foreach from=$videos_02 item=video_02}
-				<div class="col-md-6 text-center nopadding-left">
-				<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
-				<img src="{getThumb vdetails=$video_02}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_02} />
-				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_02.title|truncate:10}</div>
+
+				<div class="col-md-4 hidden-sm hidden-xs text-center nopadding-right" style="padding-left:8px;">
+				{foreach from=$videos_03 item=video_03}
+				<div class="col-md-12 text-center nopadding">
+				<a href="{videoLink vdetails=$video_03}" title="{$video_02.title}">
+				<img src="{getThumb vdetails=$video_03}" width="240" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_03} />
+				<div class="cbHomeVidTitle" style="margin-bottom:8px;">{$video_03.title|truncate:10}</div>
 				</a>
 
-	            <div style="position:absolute; top:5px; right:20px; font-size:10px; font-size:10px; color:#FFF; background:#333; width: 40px; height:18px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;">
-	            {$video_02.duration|number_format}
+	            <div class="cbHomeVidDuration">
+	            {$video_03.duration|number_format}
 	            </div>
                 
 				</div>
@@ -107,16 +107,18 @@
                 
             </div>
 		
-        		<div class="col-md-4 text-center nopadding-left">
-				{foreach from=$videos_04 item=video_04}
-				<div class="col-md-12 hidden-sm hidden-xs text-center"  style="margin-bottom:15px;">
-				<a href="{videoLink vdetails=$video_04}" title="{$video_04.title}">
-				<img src="{getThumb vdetails=$video_04}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_04} />
-				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_04.title|truncate:10}</div>
+        <div class="clearfix"></div>
+        
+        		<div class="col-md-12 text-center nopadding">
+				{foreach from=$videos_03 item=video_03}
+				<div class="col-md-4 hidden-sm hidden-xs text-center nopadding-left"  style="margin-bottom:15px; padding-right:4px;">
+				<a href="{videoLink vdetails=$video_03}" title="{$video_02.title}">
+				<img src="{getThumb vdetails=$video_03}" width="242" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_03} />
+				<div class="cbHomeVidTitle">{$video_03.title|truncate:10}</div>
 				</a>
 
-	            <div style="position:absolute; top:5px; right:20px; font-size:10px; font-size:10px; color:#FFF; background:#333; width: 40px; height:18px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;">
-	            {$video_04.duration|number_format}
+	            <div class="cbHomeVidDuration">
+	            {$video_03.duration|number_format}
 	            </div>
                 
 				</div>
@@ -125,7 +127,7 @@
                 
 			</div>
 
-		<div class="clearfix"></div><BR />
+		<div class="clearfix"></div>
 		<!-- Latest Videos END //-->
 
 		<!-- Videos START //-->
@@ -150,8 +152,6 @@
 			</div>
 		</div>
 
-		<div class="clearfix"></div>
-		
 		<script>
 		jQuery(document).ready(function ($) {
 		{ldelim}
@@ -173,17 +173,17 @@
 		}
         </script>
         
-		<div class="col-md-4">
-			<div id="slider1_container" style="float:left; position: relative; top: 0px; left: 0px; width: 220px; height: 90px;">
-				<div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 220px; height: 100px;">
+		<div class="col-md-4 nopadding">
+			<div id="slider1_container" class="cbHomeSldVidCont">
+				<div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 240px; height: 120px;">
 				{foreach from=$videos_06_lv item=video_06_lv}
-				<div class="col-md-12 text-center">
+				<div class="col-md-12 text-center nopadding">
 				<a href="{videoLink vdetails=$video_06_lv}" title="{$video_06_lv.title}">
-				<img src="{getThumb vdetails=$video_06_lv}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_lv} />
+				<img src="{getThumb vdetails=$video_06_lv}" width="240" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_lv} />
 				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_06_lv.title|truncate:10}</div>
 				</a>
 
-	            <div style="position:absolute; top:5px; right:20px; font-size:11px; font-size:10px; color:#FFF; background:#333; width: 40px; height:18px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;">
+	            <div class="cbHomeVidDuration">
 	            {$video_06_lv.duration|number_format}
 	            </div>
 
@@ -193,17 +193,17 @@
 			</div>
 		</div>
         
-		<div class="col-md-4">
-			<div id="slider2_container" style="float:left; position: relative; top: 0px; left: 0px; width: 220px; height: 90px;">
-				<div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 220px; height: 100px;">
+		<div class="col-md-4 nopadding">
+			<div id="slider2_container" class="cbHomeSldVidCont">
+				<div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 240px; height: 120px;">
 				{foreach from=$videos_06_v item=video_06_v}
-				<div class="col-md-12 text-center">
+				<div class="col-md-12 text-center nopadding">
 				<a href="{videoLink vdetails=$video_06_v}" title="{$video_06_v.title}">
-				<img src="{getThumb vdetails=$video_06_v}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_v} />
-				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_06_v.title|truncate:10}</div>
+				<img src="{getThumb vdetails=$video_06_v}" width="240" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_v} />
+				<div class="cbHomeVidTitle">{$video_06_v.title|truncate:10}</div>
 				</a>
 
-	            <div style="position:absolute; top:5px; right:20px; font-size:10px; font-size:10px; color:#FFF; background:#333; width: 40px; height:18px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;">
+	            <div class="cbHomeVidDuration">
 	            {$video_06_v.duration|number_format}
 	            </div>
 
@@ -213,17 +213,17 @@
 			</div>
 		</div>
         
-		<div class="col-md-4">
-			<div id="slider3_container" style="float:left; position: relative; top: 0px; left: 0px; width: 220px; height: 90px;">
-				<div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 220px; height: 100px;">
+		<div class="col-md-4 nopadding">
+			<div id="slider3_container" class="cbHomeSldVidCont">
+				<div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 240px; height: 120px;">
 				{foreach from=$videos_06_da item=video_06_da}
-                <div class="col-md-12 text-center">
+                <div class="col-md-12 text-center nopadding">
 				<a href="{videoLink vdetails=$video_06_da}" title="{$video_06_da.title}">
-				<img src="{getThumb vdetails=$video_06_da}" width="200" height="90" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_da} />
-				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_06_da.title|truncate:10}</div>
+				<img src="{getThumb vdetails=$video_06_da}" width="240" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_da} />
+				<div class="cbHomeVidTitle">{$video_06_da.title|truncate:10}</div>
 				</a>
 
-	            <div style="position:absolute; top:5px; right:20px; font-size:11px; font-size:10px; color:#FFF; background:#333; width: 40px; height:18px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;">
+	            <div class="cbHomeVidDuration">
 	            {$video_06_da.duration|number_format}
 	            </div>
 
@@ -234,7 +234,7 @@
 		</div>
 		<!-- Videos END //-->
         
-        <div class="clearfix"></div><BR />
+        <div class="clearfix"></div>
         
         <!-- Photos START //-->
 		<script>
@@ -310,7 +310,6 @@
 		</div>
 		<!-- User Block END //-->
 
-
         <!-- FB Block START //-->
 		<div id="fb-root"></div>
 		<script>(function(d, s, id) {
@@ -321,11 +320,10 @@
 		fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>
 
-		<div class="col-md-4 col-md-pull-0">
-		<div class="fb-like-box" data-href="https://www.facebook.com/Tunepkofficial" data-width="350" data-height="320" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true"></div>
+		<div class="col-md-4">
+		<div class="fb-like-box" data-href="https://www.facebook.com/Tunepkofficial" data-width="350" data-height="275" data-colorscheme="light" data-show-faces="true" data-header="true" data-stream="false" data-show-border="true"></div>
 		</div>
 		<!-- FB Block END //-->
-
 
 		<!-- Comments Block START //-->
 		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
@@ -339,7 +337,7 @@
             {else}
             <img src="images/avatars/no_avatar-small.png" width="35" height="35" class="img-rounded" />
 			{/if}
-            </div>
+			</div>
 			
             <!-- Displaying User Comment Box //-->
         	<div class="col-md-10 nopadding" style="z-index:2;">
@@ -349,7 +347,7 @@
 	            <div style="position:absolute; bottom:5px; font-size:11px; color:#666;">
 	            Updated: {$comment.date_added|niceTime}
 	            </div>
-	            <div style="position:absolute; bottom:5px; right:5px; font-size:11px; font-size:10px; color:#FFF; background:#F00; width: 30px; height:16px; text-align:center; border:1px solid #F00; border-radius:5px;">
+	            <div class="cbHomeCommCount">
 	            {$result_comments[result_comments].total_comments|number_format}
 	            </div>
 				</div>
@@ -359,8 +357,6 @@
 
 		</div>
 		<!-- Comments Block END //-->
-
-		<div class="clearfix"></div>
 
 		</div>
 		</div>
