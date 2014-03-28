@@ -1,13 +1,26 @@
-{$leftMenuLinks = array_slice($myAccountLinks, 7)}
-<ul class="">
-    {foreach $leftMenuLinks as $key => $value}
-        <li class="">
-            <a href="#" class="" data-toggle="dropdown">{$key}</a>
-            <ul class="">
-                {foreach $value as $subKey => $subValue}
-                    <li><a href="{$subValue}">{$subKey}</a></li>
-                {/foreach}
-            </ul>
-        </li>
-    {/foreach}
-</ul>
+{$topMenuLinks = array_slice($myAccountLinks, 0, 6)}
+
+<div class="col-md-3 column margintop20">
+    <ul class="nav nav-pills nav-stacked">
+        {foreach $topMenuLinks as $key => $value}
+        <tr>
+        <td>
+        <li class="active"><a href="#">{$key}</a></li>
+            </td>
+            </tr>
+
+
+
+        {foreach $value as $subKey => $subValue}
+        <li class="leftmenu"><a  href="{$subValue}">{$subKey}</a></li>
+            {/foreach}
+        {/foreach}
+    </ul>
+</div>
+
+
+
+
+
+
+
