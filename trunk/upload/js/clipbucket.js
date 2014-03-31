@@ -182,8 +182,8 @@
 				  success: function(data){
 					if(data.error){	  
 					self.force_stop = true;
-					$('#remoteUploadBttn').attr('disabled','');
-					$('#ytUploadBttn').attr("disabled","");
+					$('#remoteUploadBttn').removeAttr('disabled').val("Upload");
+					$('#ytUploadBttn').removeAttr("disabled");
 					alert(data.error);
 					return false;
 					}				  
