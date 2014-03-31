@@ -576,7 +576,6 @@ class CBPhotos
 
             $query .= $order;
             $query .= $limit;
-            echo $query;
             $result = select( $query );
 		}
 		
@@ -652,6 +651,7 @@ class CBPhotos
                 $query .= $where;
                 $query .= $order;
                 $query .= $limit;
+
                 $result = select( $query );
 			}
 		}
