@@ -2350,6 +2350,7 @@ H3.myHeading{font-family: "Roboto", "Segoe UI", "Helvetica neue", Helvetica, san
     width: 250px;
     margin-top:-10px;
     margin-left: -40px;
+    margin-right: 20px;
 
 }
 
@@ -2468,4 +2469,24 @@ a:hover {
 }
 .padding38 {
     padding-top: -70px;
+}
+
+.position {
+    position: absolute;
+    top: 130px;
+    left: 40px;
+    right: 100px;
+}
+
+.pphotogposition {
+    width: 215px;
+    height: 40px;
+    position: absolute;
+    top: 120px;
+    left: 28px;
+    right: 100px;
+}
+
+.gmargin {
+    margin-bottom: -60px;
 }
