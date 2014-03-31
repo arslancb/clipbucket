@@ -205,8 +205,6 @@
 							$(oneFileForm).find("input[name=desc]").val(data.description);
 							$(oneFileForm).find("input[name=videoid]").val(vid);
 							$(oneFileForm).find("input[name=fileName]").val(file_name);
-							$(".uploadFormContainer").css("display", "block");
-							$("#uploadFormContainer_remote").css("display", "block");
 							$("#remoteDownloadStatus").css("display", "none");
 							$("#submitRemoteUpload").css("display", "block");
 
@@ -231,7 +229,7 @@
 							 $(oneFileForm)
                       .attr("id", "uploadFormContainer_remote")
                       .appendTo("#remoteUploadFormContainer");
-
+                      $(".uploadFormContainer").css("display", "block");
                       $(oneFileForm).find("form").on({
                       	submit: function(e){
                       		e.preventDefault();
