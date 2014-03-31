@@ -182,8 +182,8 @@
 				  success: function(data){
 					if(data.error){	  
 					self.force_stop = true;
-					$('#remoteUploadBttn').removeAttr('disabled');
-					$('.cbSubmitUpload').val('Upload');
+					$('#remoteUploadBttn').removeAttr('disabled').val("Upload").toggle("display");
+					$("#remoteUploadBttn").toggle("display");
 					$('#ytUploadBttn').removeAttr("disabled");
 					alert(data.error);
 					return false;
