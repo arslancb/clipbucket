@@ -3,63 +3,92 @@
 {if $mode ==''}{assign var='mode' value='favorites'}{/if}
 
 
-<tr>
-<td>
-  <input type="checkbox" name="check_vid[]" id="check_vid-{$video.videoid}" value="{$video.videoid}" />
-</td>
-<td valign="middle">
-<div>
-  <img class="img-thumbnail show" src="{getThumb vdetails=$video}" />
-    <p class="marginTop">{$video.title|truncate:100}</p>
-    <div class="btn-group marginTop">
-      <a class="btn btn-primary btn-sm" href="{videoLink vdetails=$video}">{lang code='view'}</a>
-      <a class="btn btn-primary btn-sm" href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$video.videoid}','{lang code="remove_fav_video_confirm"}','?mode={$mode}&amp;vid_delete={$video.videoid}')" id="delete_icon_a-{$video.videoid}">
-        {lang code='delete'}
-      </a>
-    </div>
-</div>
-  <a href="javascript:void(0)"  onmousedown="delete_video('delete_icon','{$video.videoid}','{lang code="remove_fav_video_confirm"}','?mode={$mode}&amp;vid_delete={$video.videoid}')" id="delete_icon-{$video.videoid}">
-    <img src="{$imageurl}/dot.gif" border="0" class="delete_icon" />
-  </a>
-</td>
-<td>{$video.date_added|date_format}</td>
-<td>{$video.views|number_format}</td>
-<td class="last_td">{$video.comments_count|number_format}</td>
-
-</tr>
-
 {/if}
 
 {if $control =='full'}
-
 <tr>
-<td>
-  <input type="checkbox" name="check_vid[]" id="check_vid-{$video.videoid}" value="{$video.videoid}" />
-</td>
-<td valign="middle">
-  <div>
-    <img src="{getThumb vdetails=$video}" class="img-thumbnail show" />
-    <p class="marginTop">{$video.title|truncate:100}</p>
-    <div class="btn-group show marginTop">
-      <a class="btn btn-primary btn-sm" href="{videoLink vdetails=$video}">view</a>
-      <a class="btn btn-primary btn-sm" href="{$baseurl}/edit_video.php?vid={$video.videoid}">edit</a>
-      <a class="btn btn-primary btn-sm" href="javascript:void(0)"  onmousedown="delete_video('delete_icon_a','{$video.videoid}','{lang code="confirm_del_video"}','?mode=uploaded&amp;vid_delete={$video.videoid}')"  id="delete_icon_a-{$video.videoid}">delete</a>
-      {if !$userquery->isProfileItem($video.videoid,'v')}
-        <a class="btn btn-primary btn-sm" href="{$queryString}makeProfileItem={$video.videoid}&type=v">{lang code='make_profile_item'}</a>
-      {else}
-        <a class="btn btn-primary btn-sm" href="{$queryString}removeProfileItem={$video.videoid}&type=v">{lang code='remove_profile_item'}</a>
-      {/if}
-    </div>
-  </div>
-
-</td>
-<td>{$video.date_added|date_format}</td>
-<td>{$video.views|number_format}</td>
-<td>{$video.comments_count}</td>
-<td class="last_td">{$video.status|lang}</td>
+    <td>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src="{getThumb vdetails=$video}" width="130" height="80" id="thumbs_{$video.videoid}" class="vthumb" title=""/>
+                        <p class="duration">({if
+                            $video.duration>1}{$video.duration|SetTime}{else}00:00{/if})</p>
+                    </div>
+                    <div class="col-md-9">
+                        <a href="edit_video.php?video={$video.videoid}">
+                            {$video.title|truncate:80} </a><br>
+                         <span class="maccountlabels"> <strong>{$video.date_added|niceTime}</strong>
+                            {lang code='views'} : <strong>{$video.views|number_format}</strong></span>
+                        <div class="labels">
+                            {if $video.featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
+                                    <span class="label {if $video.active=='yes'}label-success{else}label-warning{/if} mlabel">
+                                        {if $video.active=='yes'}Active{else}InActive{/if}</span>
+                                    <span class="label {if $video.status=='Successful'}label-success{else}label-warning{/if}">
+                                        {if $video.status=='Successful'}Successful{else}Processing{/if}</span>
+                                    <span class="label label-info">
+                                       Viewed {$video.last_viewed|niceTime}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="row">
+                    {if $video.broadcast=='public'}
+                    <div class="col-md-1"><i class="icon-globe"></i></div>
+                    {elseif $video.broadcast!='public'}
+                    <div class="col-md-1"><i class="icon-lock"></i></div>
+                    {/if}
+                </div>
+                <a href="view_user.php?uid={$video.userid}">{$video.username}</a>
+            </div>
+        </div>
+    </td>
+    <td>
+        <div class="dropdown">
+            <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                Actions <i class="caret"></i></button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+                <li><a role="menuitem" tabindex="-1"
+                       href="/edit_video.php?vid={$video.videoid}" class="">Edit</a></li>
+                <li><a role="menuitem" tabindex="-1"
+                       href="{$baseurl}/watch_video.php?v={$video.videokey}"target="_blank">Watch</a>
+                    {if $video.featured == yes}
+                </li>
+                <li><a role="menuitem" tabindex="-1" href="javascript:_cb.Confirm_Delete('?delete_video={$video.videoid}')">Delete</a>
+                </li>
+                <li><a role="menuitem" tabindex="-1"
+                       href="?make_unfeature={$video.videoid}">Make Unfeatured</a></li>
+                {/if}
+                {if $video.featured == no}
+                <li><a role="menuitem" tabindex="-1" href="?make_feature={$video.videoid}">Make
+                    Featured</a></li>
+                {/if}
+                {if $video.active == yes}
+                <li><a role="menuitem" tabindex="-1" href="?deactivate={$video.videoid}">Deactivate</a>
+                </li>
+                {else}
+                <li><a role="menuitem" tabindex="-1" href="?activate={$video.videoid}">Activate</a>
+                </li>
+                {/if}
+                <li><a role="menuitem" tabindex="-1"
+                       href="/view_conversion_log.php?file_name={$video.file_name}">File
+                    conversion details</a></li>
+                <li class="divider"></li>
+                <li><a role="menuitem" tabindex="-1" href="/?delete_video={$video.videoid}">Delete</a>
+                </li>
+                {foreach from=$cbvid->video_manager_links item=links}
+                {$cbvid->video_manager_link($links,$video)}
+                {/foreach}
+            </ul>
+        </div>
+    </td>
 </tr>
+    {/if}
 
-{/if}
+
+
 
 
 {if $control=='playlist'}
