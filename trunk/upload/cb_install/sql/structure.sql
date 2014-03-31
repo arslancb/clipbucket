@@ -1160,6 +1160,8 @@ ALTER TABLE  `{tbl_prefix}playlists` ADD  `cover` text CHARACTER SET utf8 NOT NU
 ALTER TABLE `{tbl_prefix}users` ADD `likes` `likes` INT( 11 ) NOT NULL DEFAULT '0';
 ALTER TABLE `{tbl_prefix}users` CHANGE `voted` `voted` INT( 11 ) NOT NULL DEFAULT '0';
 
+ALTER TABLE `{tbl_prefix}photos` ADD `photo_details` `photo_details` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+
 
 
 
