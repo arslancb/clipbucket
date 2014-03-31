@@ -6,20 +6,6 @@
 {/if}
 <div id="uploadMessage" class=""></div>
 <div class="container uploadVideos">
-    <div class="cb-box pad-bottom-sm progress-container">    
-        <div class="row">
-            <div class="col-md-2" id="uploadedFilesInfo">
-                <p>Uploaded 0 of 0</p>
-            </div>
-            <div class="col-md-10">
-                <div class="progress">
-                    <div id="overallProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                        <span class="sr-only">40% Complete (success)</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="cb-box" id="mainUploadContainer">
         <div class="pad-bottom video-info-container">
@@ -45,6 +31,22 @@
                     {if $Cbucket->configs.$uploadOptId=='yes'} 
                     {if $counter == 1}{$class = "active"}{else}{$class = ""}{/if}
                     <div class="tab-pane fade in clearfix {$class}" id="{$divid}">
+                        {if $counter == 1}
+                            <div class="cb-box pad-bottom-sm progress-container hidden">    
+                                <div class="row">
+                                    <div class="col-md-2" id="uploadedFilesInfo">
+                                        <p>Uploaded 0 of 0</p>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="progress">
+                                            <div id="overallProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                                <span class="sr-only">40% Complete (success)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {/if}
                         {load_form name=$opt.load_func button_class='cb_button_2' class='upload_form'} 
                     </div>
                     {/if}
@@ -157,6 +159,7 @@
 
                 uploader.bind("BeforeUpload", function(){
                     $("#fileUploadProgress").removeClass("hidden");
+                    $(".progress-container").removeClass("hidden");
                 })
 
                 /*
