@@ -155,18 +155,18 @@
 
 		this.check_remote_url = function(){
 			var self = this;
+			var file = $("#remote_file_url").val();
+			this.force_stop = false;
+			if(file.match(/^e.g/) || typeof file === "undefined" || file.length === 0){
+				alert("Please enter file url");
+				return false;
+				// $('#remoteUploadBttn').attr('disabled','').show();
+				// $('#remoteUploadBttnStop').attr("disabled","disabled").hide();
+				// $('#ytUploadBttn').attr("disabled","");
+			}
 			$('#remoteUploadBttn').attr("disabled","disabled").hide();
 			$('#ytUploadBttn').attr("disabled","disabled");
 			$('#remoteUploadBttnStop').show();
-			var file = $("#remote_file_url").val();
-			this.force_stop = false;		
-			if(!file || file=='undefined'){
-				alert("Please enter file url");
-				$('#remoteUploadBttn').attr('disabled','').show();
-				$('#remoteUploadBttnStop').attr("disabled","disabled").hide();
-				$('#ytUploadBttn').attr("disabled","");
-				return false;
-			}
 			var ajaxCall = $.ajax({
 				  url: self.download_page,
 				  type: "POST",
