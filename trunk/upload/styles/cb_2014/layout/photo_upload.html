@@ -250,7 +250,7 @@
                        $(".uploadFormContainer").each(function(index, value){
                         $(value).find("input[name='photo_title']").val(files[index].name);
                         $(value).find("textarea").val(files[index].name);
-                       })
+                       });
 
                        setTimeout(function(){
                           $(".overallProgressContainer").css("display", "block");
