@@ -183,7 +183,7 @@
 					if(data.error){	  
 					self.force_stop = true;
 					$('#remoteUploadBttn').removeAttr('disabled').val("Upload").toggle("display");
-					$("#remoteUploadBttn").toggle("display");
+					$("#remoteUploadBttnStop").toggle("display");
 					$('#ytUploadBttn').removeAttr("disabled");
 					alert(data.error);
 					return false;
