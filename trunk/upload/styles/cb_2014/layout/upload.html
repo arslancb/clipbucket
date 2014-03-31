@@ -270,6 +270,10 @@
                 uploader.bind("UploadComplete", function(plupload, files){
                     $("#fileUploadProgress").addClass("hidden");
                     uploader.refresh();
+                    $("#uploadMessage").html("All Files are uploaded Successfully").attr("class", "alert alert-success");            
+                    setTimeout(function(){
+                        $("#uploadMessage").addClass("hidden");
+                    }, 5000);
                 });
 
                 uploader.bind('Error', function(up, err) {
