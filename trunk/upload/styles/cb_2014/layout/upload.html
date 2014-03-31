@@ -170,13 +170,13 @@
                 var filesUploaded = 0;
 
                 uploader.bind('UploadProgress', function(up, file) {
-                    // var progressContainer = document.getElementById("fileUploadProgress");
-                    // var progressBar = progressContainer.getElementsByTagName("progress")[0];
-                    // progressBar.style.display = "block";
-                    // var fileName = progressContainer.getElementsByTagName('h5')[0];
-                    // fileName.innerHTML = "Uploading "+file.name;
-                    // var percent = file.percent/100;
-                    // progressBar.value = percent;
+                    var progressContainer = document.getElementById("fileUploadProgress");
+                    var progressBar = progressContainer.getElementsByTagName("progress")[0];
+                    progressBar.style.display = "block";
+                    var fileName = progressContainer.getElementsByTagName('h5')[0];
+                    fileName.innerHTML = "Uploading "+file.name;
+                    var percent = file.percent/100;
+                    progressBar.value = percent;
                 });
 
 
