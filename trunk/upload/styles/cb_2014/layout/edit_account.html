@@ -1,6 +1,7 @@
 {$myAccountLinks = $userquery->my_account_links()}
 <div class="container marginBottom">
   {include file="$style_dir/blocks/manage/account_menu.html"}
+
   {if $mode=='profile_settings'}
     <div class="cb-box row">
       <div class="col-md-3 leftSidebar">
@@ -24,7 +25,6 @@
                   <div id="cpsetting" class="tab-pane active">
                       <form method="post" class="accountForm">
                           <div class="channelSettings col-md-10">
-
                               {$channel_profile_fields = $userquery->load_user_fields($p)}
                               {foreach from=$channel_profile_fields item=field_group}
                               <legend>{$field_group.group_name}</legend>
@@ -57,6 +57,7 @@
                           </form>
                   </div>
                   <div id="asettings" class="tab-pane">
+                      <form method="post" class="accountForm">
                       <div  class="accountSettings col-md-6">
                           <!--- CHANGING USER ACCOUNT AND PROFILE -->
                           {$signup_fields = $userquery->load_signup_fields($user)}
@@ -107,28 +108,13 @@
                           {/foreach}
                           {/if}
                       </div>
-
-                      </form>
+                          </form>
                   </div>
               </div>
           </div>
-
-
       </div>
     </div>
-    <script>
-      $(document).ready(function()
-      {ldelim}
-        {if $on=='account'}
-          $('#accountSettings').toggle(); 
-          $('#accntSettingHead').toggleClass('accntSettingHeadarrowup')
-        {else}
-          $('#accntProfileSettings').toggle(); 
-          $('#accntProfileSettingHead').toggleClass('accntSettingHeadarrowup')
-        {/if}
-      {rdelim}
-      );
-    </script>
+
   {/if}
   {if $mode == "change_cover"}
     <div class="row cb-box">
@@ -156,7 +142,7 @@
       </div>
       <div class="col-md-9">
       <div class="tabbable">
-      <ul class="nav nav-tabs" id="myTab">
+      <ul class="nav nav-tabs" id="myTab1">
           <li class="active">
               <a data-toggle="tab" href="#uavatar">
                   <h5>{lang code='User Avatar'}</h5>
@@ -172,15 +158,15 @@
           <div id="uavatar" class="tab-pane active">
               <form method="post" enctype="multipart/form-data">
                   <legend>{lang code='user_user_avatar'}</legend>
-                  <div>
+                  <div class="show-image">
                       <img src="{$userquery->getUserThumb($user)}" class="img-thumbnail" />
+                      <input type="file" name="avatar_file" id="avatar_file" class="the-buttons btn btn-danger pphotogposition"  />
                   </div>
                   <div class="form-group">
                       <label for="avatar_file">
                           <h4>{lang code='user_user_avatar'}</h4>
                           {lang code='please_select_img_file'}
                       </label>
-                      <input type="file" name="avatar_file" id="avatar_file"  />
                   </div>
                   <h3>{lang code='or'}</h3>
                   <div class="form-group">
@@ -195,7 +181,7 @@
                       <input type="hidden" name="avatar_file_name" value="{$user.avatar}" />
                   </div>
                   <div class="form-group">
-                      <button name="update_avatar_bg" id="button" value="submit" class="btn btn-primary">
+                      <button name="update_avatar_bg" id="button1" value="submit" class="btn btn-primary">
                           {lang code='update'}
                       </button>
                   </div>
@@ -206,20 +192,15 @@
               <div class="avatar_bg">
 
                   <legend>{lang code='user_bg'}</legend>
-                  <div>
+                  <div class="show-image">
                       {if $userquery->getUserBg($user)}
                       <img src="{$userquery->getUserBg($user)}" class="img-thumbnail"/>
+                      <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn btn-danger position"  />
                       {else}
                       <em><strong>No Bg</strong></em>
                       {/if}
                   </div>
-                  <div class="form-group">
-                      <label for="background_file">
-                          <h4>{lang code='user_bg_img'}</h4>
-                          {lang code='please_select_img_file'}
-                      </label>
-                      <input type="file" name="background_file" id="background_file" />
-                  </div>
+
                   <h3>{lang code='or'}</h3>
                   <div class="form-group">
                       <label for="background_url">{lang code='pelase_enter_image_url'}</label>
@@ -263,7 +244,7 @@
                       {/if}
                   </div>
                   <div class="form-group">
-                      <button name="update_avatar_bg" id="button" value="submit" class="btn btn-primary">
+                      <button name="update_avatar_bg" id="button2" value="submit" class="btn btn-primary">
                           {lang code='update'}
                       </button>
                   </div>
@@ -274,161 +255,152 @@
           </div>
           </div>
           </div>
-
-
-
-
-
       </div>
-    </div>
-  {/if}
-  {if $mode == 'change_email'}
-
-    <!--- CHANGING USER EMAIL -->
-    <div class="cb-box row">
+ {elseif $mode != 'profile_settings'}
+  <div class="cb-box row">
       <div class="col-md-3 leftSidebar">
-        {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+          {include file="$style_dir/blocks/manage/userMenuLeft.html"}
       </div>
-      <div class="col-md-6 well pull-right md6">
-        <div class="account_form">
-          <h2>{lang code='user_change_email'}</h2>
-          <form method="post" name="edit_profile">
-              <div class="form-group">
-                <label for="curemail">{lang code='current_email'}</label>
-                <input class="form-control" type="text" disabled value="{$user.email}" id="curemail">
-              </div>
-              
+      <div class="col-md-8">
+          <div class="tabbable">
+              <ul class="nav nav-tabs" id="myTab2">
+                  <li class="active">
+                      <a data-toggle="tab" href="#busers">
+                          <h5>{lang code='Block Users'}</h5>
+                      </a>
+                  </li>
+                  <li class="">
 
-              <div class="form-group">
-                <label for="new_email">{lang code='user_new_email'}</label>
-                <input type="text" class="form-control" name="new_email" id="new_email">
-              </div>
+                      <a data-toggle="tab" href="#cpassword">
+                          <h5>{lang code='Change Password'}</h5>
+                      </a>
 
-              <div class="form-group">
-                <label for="cnew_email">{lang code='confirm_new_email'}</label>
-                <input class="form-control" type="text" name="cnew_email" id="cnew_email">
-              </div>
-              
-              <div class="form-group">
-                <button name="change_email" id="button" value="submit" class="btn btn-primary">
-                  {lang code='user_change_email'}
-                </button>
-              </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <!-- END CHANGIN USER EMAIL -->
-  {/if}
-  {if $mode == 'change_password'}
+                  </li>
+                  <li class="">
+                      <a data-toggle="tab" href="#cemail">
+                          <h5>{lang code='Change Email'}</h5>
+                      </a>
+                  </li>
+                  <li class="">
+                      <a data-toggle="tab" href="#msubscription">
+                          <h5>{lang code='Manage  Subscription'}</h5>
+                      </a>
+                  </li>
+              </ul>
+              <div class="tab-content">
+                  <div id="busers" class="tab-pane active">
 
-    <div class="row cb-box">
-      <div class="col-md-3 leftSidebar">
-        {include file="$style_dir/blocks/manage/userMenuLeft.html"}
-      </div>
-      <div class="col-md-6 well pull-right md6">
-        <!-- CHANGING USER PASSWORD -->
-        <div class="account_form ">
-          <h2>{lang code='user_change_pass'}</h2>
-          <form method="post" name="edit_profile">
-              <div class="form-group">
-                <label for="old_pass">{lang code='user_old_pass'}</label>
-                <input class="form-control" name="old_pass" type="password" id="old_pass">
-              </div>
+                      <h2>{lang code='block_users'}</h2>
+                      <form method="post" name="ban_users">
+                          <div class="form-group">
+                              <label for="users">{lang code='block_users'}</label>
+                              <textarea class="form-control" name="users" id="users">{$user.banned_users}</textarea>
+                              {lang code='spe_users_by_comma'}
+                          </div>
+                          <div class="form-group">
+                              <button name="block_users" id="button5" value="submit" class="btn btn-primary">
+                                  {lang code='update_blocked_user_list'}
+                              </button>
+                          </div>
+                      </form>
+
+                  </div>
+                  <div id="cpassword" class="tab-pane">
+                      <h2>{lang code='user_change_pass'}</h2>
+                      <form method="post" name="edit_profile">
+                          <div class="form-group">
+                              <label for="old_pass">{lang code='user_old_pass'}</label>
+                              <input class="form-control" name="old_pass" type="password" id="old_pass">
+                          </div>
 
 
-              <div class="form-group">
-                <label for="new_pass">{lang code='user_new_pass'}</label>
-                <input class="form-control" name="new_pass" type="password" id="new_pass" />
-              </div>
+                          <div class="form-group">
+                              <label for="new_pass">{lang code='user_new_pass'}</label>
+                              <input class="form-control" name="new_pass" type="password" id="new_pass" />
+                          </div>
 
-              <div class="form-group">
-                <label for="c_new_pass">{lang code='user_c_new_pass'}</label>
-                <input class="form-control" name="c_new_pass" type="password" id="c_new_pass" />
-              </div>
-              <div class="form-group">
-                <button name="change_password" id="button" value="submit" class="btn btn-primary">
-                  {lang code='user_change_pass'}
-                </button>
-              </div>
-          </form>
-        </div>
-        <!-- END CHANGING USER PASSWORD -->
-      </div>
-    </div>
-  {/if}
-  {if $mode == 'block_users'}
+                          <div class="form-group">
+                              <label for="c_new_pass">{lang code='user_c_new_pass'}</label>
+                              <input class="form-control" name="c_new_pass" type="password" id="c_new_pass" />
+                          </div>
+                          <div class="form-group">
+                              <button name="change_password" id="button4" value="submit" class="btn btn-primary">
+                                  {lang code='user_change_pass'}
+                              </button>
+                          </div>
+                      </form>
+                  </div>
+                  <div id="cemail" class="tab-pane">
+                      <h2>{lang code='user_change_email'}</h2>
+                      <form method="post" name="edit_profile">
+                          <div class="form-group">
+                              <label for="curemail">{lang code='current_email'}</label>
+                              <input class="form-control" type="text" disabled value="{$user.email}" id="curemail">
+                          </div>
 
-    <div class="cb-box row">
-      <div class="col-md-3 leftSidebar">
-        {include file="$style_dir/blocks/manage/userMenuLeft.html"}
-      </div>
-      <div class="col-md-6 well pull-right md6">
-        <!-- Banning Users -->
-        <div class="account_form">
-          <h2>{lang code='block_users'}</h2>
-          <form method="post" name="ban_users">
-              <div class="form-group">
-                <label for="users">{lang code='block_users'}</label>
-                <textarea class="form-control" name="users" id="users">{$user.banned_users}</textarea>
-                {lang code='spe_users_by_comma'}
+
+                          <div class="form-group">
+                              <label for="new_email">{lang code='user_new_email'}</label>
+                              <input type="text" class="form-control" name="new_email" id="new_email">
+                          </div>
+
+                          <div class="form-group">
+                              <label for="cnew_email">{lang code='confirm_new_email'}</label>
+                              <input class="form-control" type="text" name="cnew_email" id="cnew_email">
+                          </div>
+
+                          <div class="form-group">
+                              <button name="change_email" id="button3" value="submit" class="btn btn-primary">
+                                  {lang code='user_change_email'}
+                              </button>
+                          </div>
+                      </form>
+                  </div>
+                  <div id="msubscription" class="tab-pane">
+                      <h2>{lang code='com_manage_subs'}</h2>
+                      {if $subs}
+                      <table class="table table-striped table-bordered">
+                          <tr>
+                              <td width="15">
+                                  <input type="checkbox" name="checkall"/>
+                              </td>
+                              <td width="50">&nbsp;</td>
+                              <td>Username</td>
+                              <td width="100">views</td>
+                              <td width="50">&nbsp;</td>
+                          </tr>
+                          {foreach from=$subs item=sub}
+                          <tr>
+                              <td>
+                                  <input type="checkbox" name="sub[]" id="check_userd-{$user_detail.userid}" value="{$sub.subscribed_to}" />
+                              </td>
+                              <td>
+                                  <a href="{$userquery->profile_link($sub)}"><img src="{$userquery->getUserThumb($sub)}" alt="{$sub.username}" width="40" height="40" border="0"></a>
+                              </td>
+                              <td>
+                                  <a href="{$userquery->profile_link($sub)}">{$sub.username}</a> | <a href="{$userquery->get_user_videos_link($sub)}">{lang code='grp_view_vdos'}</a></td>
+                              <td width="100">{$sub.profile_hits|number_format}
+                              </td>
+                              <td>
+                                  <a href="?mode=subscriptions&delete_subs={$sub.subscribed_to}">
+                                      <img src="{$imageurl}/cancel.png" width="16" height="16" border="0" />
+                                  </a>
+                              </td>
+                          </tr>
+                          {/foreach}
+                      </table>
+                      {else}
+                      <div><em><strong>{lang code='no_subs_found'}</strong></em></div>
+                      {/if}
+                  </div>
               </div>
-              <div class="form-group">
-                <button name="block_users" id="button" value="submit" class="btn btn-primary">
-                  {lang code='update_blocked_user_list'}
-                </button>
-              </div>
-          </form>
-        </div>
-        <!-- Banning Users End-->
+          </div>
       </div>
-    </div>
-  {/if}
-  {if $mode=='subs'}
-    <div class="row cb-box">
-      <div class="col-md-3 leftSidebar">
-        {include file="$style_dir/blocks/manage/userMenuLeft.html"}
-      </div>
-      <div class="col-md-6 well pull-right md6">
-        <h2>{lang code='com_manage_subs'}</h2>
-        {if $subs}
-          <table class="table table-striped table-bordered">
-            <tr>
-              <td width="15">
-                <input type="checkbox" name="checkall"/>
-              </td>
-              <td width="50">&nbsp;</td>
-              <td>Username</td>
-              <td width="100">views</td>
-              <td width="50">&nbsp;</td>
-            </tr>
-            {foreach from=$subs item=sub}
-              <tr>
-                <td>
-                  <input type="checkbox" name="sub[]" id="check_userd-{$user_detail.userid}" value="{$sub.subscribed_to}" />
-                </td>
-                <td>
-                  <a href="{$userquery->profile_link($sub)}"><img src="{$userquery->getUserThumb($sub)}" alt="{$sub.username}" width="40" height="40" border="0"></a>
-                </td>
-                <td>
-                  <a href="{$userquery->profile_link($sub)}">{$sub.username}</a> | <a href="{$userquery->get_user_videos_link($sub)}">{lang code='grp_view_vdos'}</a></td>
-                <td width="100">{$sub.profile_hits|number_format}
-                </td>
-                <td>
-                  <a href="?mode=subscriptions&delete_subs={$sub.subscribed_to}">
-                    <img src="{$imageurl}/cancel.png" width="16" height="16" border="0" />
-                  </a>
-                </td>
-              </tr>
-            {/foreach}
-          </table>
-        {else}
-          <div><em><strong>{lang code='no_subs_found'}</strong></em></div>
-        {/if}
-      </div>
-    </div>
-  {/if}
+  </div>
 </div>
+
+{/if}
+
 
 <script>
 (function(window){
@@ -480,3 +452,31 @@
   });
 })(window);
 </script>
+<script>
+    $(document).ready(function()
+    {ldelim}
+    {if $on=='account'}
+        $('#accountSettings').toggle();
+        $('#accntSettingHead').toggleClass('accntSettingHeadarrowup')
+        {else}
+        $('#accntProfileSettings').toggle();
+        $('#accntProfileSettingHead').toggleClass('accntSettingHeadarrowup')
+        {/if}
+            {rdelim}
+        );
+</script>
+
+
+
+        <script>
+            jQuery(function() {                                              // <== Doc ready
+
+                jQuery(".the-buttons").hide();                  // Initially hide all buttons
+
+                jQuery('.show-image').hover(function() {
+                    jQuery(this).find('.the-buttons').fadeIn(1500);         // use .find() !
+                }, function() {
+                    jQuery(this).find('.the-buttons').fadeOut(1500);         // use .find() !
+                });
+            });
+        </script>
