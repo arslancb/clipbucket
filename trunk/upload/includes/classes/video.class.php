@@ -620,7 +620,6 @@ class CBvideo extends CBCategory
 	function get_videos($params)
 	{
 		global $db;
-		
 		$limit = $params['limit'];
 		$order = $params['order'];
 		
