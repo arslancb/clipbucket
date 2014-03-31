@@ -185,6 +185,7 @@
 					$('#remoteUploadBttn').attr('disabled','');
 					$('#ytUploadBttn').attr("disabled","");
 					alert(data.error);
+					return false;
 					}				  
 					$("#loading").html('');
 					var vid = data.vid;
