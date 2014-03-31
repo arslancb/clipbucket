@@ -92,9 +92,9 @@
             </div>
       {/if}
     </div>
-    <div class="cb-box progress-container overallProgressContainer">    
+    <div class="cb-box progress-container overallProgressContainer" style="display:none">    
       <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
           <div class="col-md-2" id="uploadedFilesInfo">
             <p>Uploaded 0 of 0</p>
           </div>
@@ -106,14 +106,11 @@
             </div>
           </div>  
         </div>
-        <div class="col-md-2">
-          <a id="selectFiles" href="javascript:;" class="btn btn-primary">
-            Select Files
-          </a>
-          <!-- <a id="uploadFiles" class="btn btn-success" href="javascript:;">
+        <!-- <div class="col-md-2">
+          <a id="uploadFiles" class="btn btn-success" href="javascript:;">
             Upload
-          </a> -->
-        </div>
+          </a>
+        </div> -->
       </div>
     </div>
 
@@ -122,6 +119,7 @@
 
     <div class="cb-box" id="mainUploadContainer">
       <h2>Select Photo Files</h2>
+      <a id="selectFiles" href="javascript:;" class="btn btn-primary">Select Files</a>
       <div class="pad-bottom video-info-container">
             <ul class="nav nav-tabs">
                <li class="active"><a href="#file-upload" data-toggle="tab">Photo Upload</a></li>
@@ -255,6 +253,7 @@
                        })
 
                        setTimeout(function(){
+                          $(".overallProgressContainer").css("display", "block");
                            uploader.start();
                        }, 1000);
                        // updating file title in the form
