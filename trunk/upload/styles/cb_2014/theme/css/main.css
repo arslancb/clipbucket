@@ -2284,10 +2284,10 @@ footer {
 .feature_right ul li { padding:0px; margin:0px; margin-bottom:3px; color:#193f77; font-size:9px; }
 .feature_right .sp { background:url(../images/line_sps.png) top repeat-x; margin:5px 0px; padding:0px; height:2px; }.feature_right .details_block { float:left; width:50%; margin:0px; padding:0px; color:#999 }
 .feature_right .title a{font-size:9px; font-weight:bold; text-decoration:none; color:#fff}
-.feature_right .title { font-size:10px; clear:both; padding:0px; overflow:hidden}
-.featured_vid_con{cursor:pointer; background:#FFF url(../images/nav_grads.png) -0px -260px; padding:5px; border: 1px solid #CCC; /* border-radius:5px 0px 0px 5px;-moz-border-radius:5px 0px 0px 5px; -webkit-border-top-left-radius:5px; */ -webkit-border-bottom-left-radius:5px; background-color:#FFF; margin:3px 0px 3px; font-size:14px;}
+.feature_right .title { font-size:10px; clear:both; padding:0px; overflow:hidden; color:#000}
+.featured_vid_con{cursor:pointer; /* background:#FFF url(../images/nav_grads.png) -0px -260px; */ padding:5px; border: 1px solid #CCC; /* border-radius:5px 0px 0px 5px;-moz-border-radius:5px 0px 0px 5px; -webkit-border-top-left-radius:5px; */ -webkit-border-bottom-left-radius:5px; background:#F2F2F2; margin:3px 0px 3px; font-size:14px;}
 .featured_vid_con .video_thumb{border:0px; padding:0px; float:left; }
-.featured_vid_con:hover{cursor:pointer; background:#EEEEEE; border-left:5px solid #F00;}
+.featured_vid_con:hover{cursor:pointer; background:#E2E2E2; border-left:5px solid #F00;}
 .featured_vid_con .video_thumb{border:1px solid #CCCCCC; padding:0px; float:left; margin-right: 10px; }
 .featured_vid_con:hover{background-position:-0px -338px; }
 .featured_video_details{width:735px; border-radius:0px;-moz-border-radius:5px;-webkit-border-radius:5px; background-color:#fff; padding:5px; margin:5px;}
@@ -2314,11 +2314,13 @@ footer {
 .hmtabs ul li a {padding:5px 10px; text-decoration:none; padding-bottom:5px; }
 .hmtabs ul li a:hover {text-decoration:none; border-bottom: 5px solid #D20000;}
 
-H1.myHeading{font-family: "Roboto", "Segoe UI", "Helvetica neue", Helvetica, sans-serif; font-size: 24px;}
+H1.myHeading{font-family: "Roboto", "Segoe UI", "Helvetica neue", Helvetica, sans-serif; font-size: 28px; color: #075fab;}
 
-H2.myHeading{font-family: "Roboto", "Segoe UI", "Helvetica neue", Helvetica, sans-serif; font-size: 22px; border-bottom: 2px solid #999; line-height: 30px; margin-top: 10px; margin-bottom: 10px;}
+H2.myHeading{font-family: "Roboto", "Segoe UI", "Helvetica neue", Helvetica, sans-serif; font-size: 24px; border-bottom: 1px solid #999; line-height: 30px; margin-top: 10px; margin-bottom: 10px; color: #075fab;}
 
-H3.myHeading{font-family: "Roboto", "Segoe UI", "Helvetica neue", Helvetica, sans-serif; font-size: 20px;}
+H2.myHeadingBLK{font-family: "Roboto", "Segoe UI", "Helvetica neue", Helvetica, sans-serif; font-size: 24px; border-bottom: 1px solid #999; line-height: 30px; margin-top: 10px; margin-bottom: 10px; color: #000;}
+
+H3.myHeading{font-family: "Roboto", "Segoe UI", "Helvetica neue", Helvetica, sans-serif; font-size: 22px; color: #075fab;}
 
 .btn_arr_down{position:relative; background: url(../../images/m_arrow_down.png) no-repeat;}
 
