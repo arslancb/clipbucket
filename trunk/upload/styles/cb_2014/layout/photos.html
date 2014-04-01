@@ -3,9 +3,9 @@
 <div class="container">
 	{include file="$style_dir/blocks/manage/account_menu.html"}
 	<div class="cb-box row">
+        {assign var=sorting_links value=sorting_links()}
         <h4 class="smaller lighter pull-left">Browsing All Photos: </h4>
         <div class="photopadding col-md-6">
-            <!--Sorting By View-->
             <div class="btn-group">
                 {if $smarty.get.sorting}
                 {foreach from=$sorting_links item=name key=sort}
