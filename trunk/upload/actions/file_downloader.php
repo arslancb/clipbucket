@@ -290,10 +290,10 @@ $details =  $logDetails;//file_get_contents($log_file);
 //$details = json_decode($details,true);
 $Upload->add_conversion_queue($details['file_name']);
 
-// if(file_exists($log_file))
-// unlink($log_file);
-// if(file_exists($dummy_file))
-// 	unlink($dummy_file);
+if(file_exists($log_file))
+unlink($log_file);
+if(file_exists($dummy_file))
+	unlink($dummy_file);
 $quick_conv = config('quick_conv');
 $use_crons = config('use_crons');
 
