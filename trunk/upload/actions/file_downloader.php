@@ -179,15 +179,27 @@ function callback($resource, $download_size, $downloaded, $upload_size, $uploade
 		$time_eta = 0;
 	//$download_size = (int) $download_size;
 	$time_took = $info['total_time'];*/
-	
-	$curl_info = array(
-	'total_size' => $download_size,
-	'downloaded' => $downloaded,
-	//'speed_download' => $info['speed_download'],
-	//'time_eta' => $time_eta,
-	//'time_took'=> $time_took,
-	//'file_name' => ($file_name.'.'.$ext),
-	);
+
+	if(is_object($resource)){
+		$curl_info = array(
+		'total_size' => $download_size,
+		'downloaded' => $downloaded,
+		//'speed_download' => $info['speed_download'],
+		//'time_eta' => $time_eta,
+		//'time_took'=> $time_took,
+		//'file_name' => ($file_name.'.'.$ext),
+		);
+	}else{
+		// for some curl extensions
+		$curl_info = array(
+		'total_size' => $resource,
+		'downloaded' => $download_size,
+		//'speed_download' => $info['speed_download'],
+		//'time_eta' => $time_eta,
+		//'time_took'=> $time_took,
+		//'file_name' => ($file_name.'.'.$ext),
+		);
+	}
 	fwrite($fo,json_encode($curl_info));
 	$logDetails = $curl_info;
 	//echo $log_file;
