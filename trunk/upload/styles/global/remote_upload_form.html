@@ -18,11 +18,18 @@
 	    <span class="sr-only">60% Complete</span>
 	  </div>
 	</div>
-
+	<div id="downloadStatus">
+		<span>Downloaded </span>
+		<span id="downloaded">0.00 Mb</span>
+		<span> of </span>
+		<span id="totalSize">0.00 Mb</span>
+	</div>
 	<div align="center" id="loading" style=""></div>
-	<div>
-	{lang('remoteDownloadStatusDiv')}
-	</div>                
+	{*
+		<div>
+		{lang('remoteDownloadStatusDiv')}
+		</div>                
+	*}
 	<div>
 		<input type="button" name="ytUploadBttn" id="ytUploadBttn" value="{lang('grab_from_youtube')}" onClick="youtube_upload()" class="cbSubmitUpload">
 		<input type="button" name="remoteUploadBttn" id="remoteUploadBttn" value="{lang('upload')}" onClick="_cb.{get_remote_url_function()}" class="cbSubmitUpload">
