@@ -63,6 +63,16 @@ $result_comments = getComments($result_array_comments);
 foreach ($result_comments as $result_comment)
 $result_comments_users = get_users(array("userid"=>$result_comments['userid']));
 
+$result_array_photos_01 = $array;
+$result_array_photos_01['order'] = " photo_id DESC LIMIT 1";
+$result_photos_01 = get_photos($result_array_photos_01);
+Assign('result_photos_01', $result_photos_01);
+
+$result_array_photos_08 = $array;
+$result_array_photos_08['order'] = " photo_id DESC LIMIT 8";
+$result_photos_08 = get_photos($result_array_photos_08);
+Assign('result_photos_08', $result_photos_08);
+
 Assign('result_comments_users', $result_comments_users);
 Assign('result_comments', $result_comments);
 
