@@ -2490,3 +2490,29 @@ a:hover {
 .gmargin {
     margin-bottom: -60px;
 }
+.photopadding {
+    padding-left: 52px;
+}
+.photopaddin1 {
+    margin-right: -22px;
+    padding-left: 120px;
+}
+
+.photothumbs {
+    height: 100%;
+    width: 100%;
+    border: solid 1px;
+    border-color: #ffffff;
+}
+
+.photoname {
+    background-color: #000000;
+    color: #ffffff;
+    opacity: 0.8;
+    position: absolute;
+    top: 103px;
+    left: 20px;
+    width: 195px;
+    display: none;
+
+}
