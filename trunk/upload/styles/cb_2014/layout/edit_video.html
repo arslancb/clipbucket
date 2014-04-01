@@ -17,11 +17,11 @@
                             {assign var=vidthumbs value=get_thumb($v,1,TRUE,false,true,false)}
                             {foreach from=$vidthumbs item=vid_thumb}
                             <div class="col-md-3">
-                                <div class="form-group text-center">
-                                    <label class="" for="{$vid_thumb|getname}"><img class="img-thumbnail" src="{$vid_thumb}" />
-                                        <input class="show" style="margin: 5px auto" type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $v.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />{lang code='default'}</label>
-                                </div>
+                            <div class="form-group text-center">
+                                <label class="" for="{$vid_thumb|getname}"><img class="img-thumbnail" src="{$vid_thumb}" />
+                                    <input class="show" style="margin: 5px auto" type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $v.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />{lang code='default'}</label>
                             </div>
+                        </div>
                             {/foreach}
                         </div>
 
