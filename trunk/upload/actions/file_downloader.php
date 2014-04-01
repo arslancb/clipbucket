@@ -14,7 +14,7 @@
 
 include("../includes/config.inc.php");
 include("../includes/classes/curl/class.curl.php");
-error_reporting(E_ALL ^E_NOTICE);/**/
+//error_reporting(E_ALL ^E_NOTICE);/**/
 
 if(isset($_POST['check_url']))
 {
@@ -31,7 +31,7 @@ if(isset($_POST['check_url']))
 		echo json_encode(array('err'=>'Invalid remote url'));
 	exit();
 }
-error_reporting(E_ALL); /**/
+//error_reporting(E_ALL); /**/
 
 /**
  * Call back function of cURL handlers
@@ -54,7 +54,7 @@ if(!isCurlInstalled())
 if(!userid())
 	exit(json_encode(array('error'=>'You are not logged in')));
 
-if($_POST['youtube'])
+if(isset($_POST['youtube']))
 {
 	$youtube_url = $_POST['file'];
 	$filename = $_POST['file_name'];	
@@ -169,7 +169,7 @@ function callback($resource, $download_size, $downloaded, $upload_size, $uploade
 	
 	$fo = fopen($log_file,'w+');
 	
-	$info = curl_getinfo($curl->m_handle);
+	$info = curl_getinfo($resource);
 
 	/*$download_bytes = $download_size - $downloaded;
 	$cur_speed = $info['speed_download'];
@@ -288,7 +288,8 @@ fclose($temp_fo);
 sleep(2);
 $details =  $logDetails;//file_get_contents($log_file);
 //$details = json_decode($details,true);
-$Upload->add_conversion_queue($details['file_name']);
+$targetFileName = $file_name . '.' . $ext;
+$Upload->add_conversion_queue($targetFileName);
 
 if(file_exists($log_file))
 unlink($log_file);
@@ -319,9 +320,9 @@ $vid = $Upload->submit_upload($vidDetails);
 
 echo json_encode(array('vid'=>$vid));
 
+
 if($quick_conv=='yes' || $use_crons=='no')
 {
-	$targetFileName = $details['file_name'];
 	//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
 	if (stristr(PHP_OS, 'WIN')) {
 			exec(php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName sleep");

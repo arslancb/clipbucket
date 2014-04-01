@@ -14,7 +14,7 @@ define('FFMPEG_BINARY', get_binaries('ffmpeg'));
 */
 $log = new SLog();
 
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 
 $fileName = (isset($argv[1])) ? $argv[1] : false;
 $dosleep = (isset($argv[2])) ? $argv[2] : '';
