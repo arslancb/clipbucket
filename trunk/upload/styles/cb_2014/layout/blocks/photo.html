@@ -1,35 +1,47 @@
 {if $display_type == ""}
 
-    <div class="the_item col-md-3 col-sm-4 col-xs-6">
-        <div class="onePhotoContainer">
+<div class="show-image">
 
-            <div class="onePhotoTitle">
-                <a href="{$cbphoto->photo_links($photo,'view_item')}">{$photo.photo_title|truncate:15}</a>
-            </div>
-
-            <a href="{$cbphoto->photo_links($photo,'view_item')}">
-                {get_photo details=$photo output='html' width='110' class='photoThumbBox moveL'}
-            </a>
-        </div>
-
+    <div class="col-md-3 col-sm-4 col-xs-6">
+        <a href="{$cbphoto->photo_links($photo,'view_item')}">
+            {get_photo details=$photo output='html' width='100%'  class='photothumbs'}
+        </a>
+        <p>
+            <a href="{$cbphoto->photo_links($photo,'view_item')}" class="photoname"  name="avatar1_file" id="avatar1_file">{$photo.photo_title|truncate:15}</a>
+        </p>
     </div>
+</div>
 
 
-
-<!-- 	<div class="clearfix photo_block">
-    	<a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' width="110" class='photoThumbBox moveL'}</a>
-        <div class="photoTitle" style="font:bold 12px Arial; width:110px; margin-bottom:1px;">
-        <a href="{$cbphoto->photo_links($photo,'view_item')}" title="{$photo.photo_title}">{$photo.photo_title|truncate:20}</a></div>
-        <span class="vid_info" style="font-size:10px;">
-        	{$photo.views|number_format} {lang code="views"}
-        </span>
-        <br />
-        {assign var=cName value=$photo.collection_id|get_collection_field}
-        <a href="{$cbcollection->collection_links($photo.collection_id,'view')}" title="{$cName}">{$cName|truncate:30}</a> 
-        <div style="clear:both; height:3px;"></div>
-        <div class="vid_info"><a style="font:bold 10px Tahoma; text-decoration:none;" href="{$userquery->profile_link($photo)}">{$photo.username}</a></div>      
-    </div> -->
 {/if}
+
+
+<script>
+    jQuery(function() {                                              // <== Doc ready
+
+        jQuery(".avatar1_file").hide();                  // Initially hide all buttons
+
+        jQuery('.show-image').hover(function() {
+            jQuery(this).find('#avatar1_file').fadeIn(1500);
+        }, function() {
+            jQuery(this).find('#avatar1_file').fadeOut(1500);
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 {if $display_type == 'related_photos'}
 	<div class="relatedPhotos clearfix">
