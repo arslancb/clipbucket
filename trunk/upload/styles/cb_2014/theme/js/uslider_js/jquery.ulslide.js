@@ -644,7 +644,8 @@
             effect: {
                 type: 'slide', // slide, fade, crossfade, flip3D, cube3D or carousel (use showCount for carousel)
                 axis: 'x',     // x, y, r (r - random)
-                distance: 20   // Distance between frames
+//                distance: 20   // Distance between frames
+                distance: -2   // Distance between frames
             },
             perspective: 1000, // Perspective for 3D effects
             duration: 600,     // Changing duration
@@ -700,7 +701,8 @@
             settings['height'] = thisObj.height();
         
         if (typeof settings['effect']['distance'] == 'undefined') 
-            settings['effect']['distance'] = 20;
+//            settings['effect']['distance'] = 20;
+            settings['effect']['distance'] = -2;
             
         settings['fwidth'] = settings['width'] + settings['effect']['distance'];
         settings['fheight'] = settings['height'] + settings['effect']['distance'];
