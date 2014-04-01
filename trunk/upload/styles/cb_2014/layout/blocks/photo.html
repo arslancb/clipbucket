@@ -22,34 +22,6 @@
 
 {/if}
 
-
-<script>
-    jQuery(function() {                                              // <== Doc ready
-
-        jQuery(".avatar1_file").hide();                  // Initially hide all buttons
-
-        jQuery('.show-image').hover(function() {
-            jQuery(this).find('#avatar1_file').fadeIn(1500);
-        }, function() {
-            jQuery(this).find('#avatar1_file').fadeOut(1500);
-        });
-    });
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {if $display_type == 'related_photos'}
 	<div class="relatedPhotos clearfix">
     	<a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' width='120' class='photoThumbBox moveL' style='margin-right:5px;'}</a>
@@ -90,3 +62,17 @@
 {/if}
 
 
+
+
+<script>
+    jQuery(function() {                                              // <== Doc ready
+
+        jQuery(".avatar1_file").hide();                  // Initially hide all buttons
+
+        jQuery('.show-image').hover(function() {
+            jQuery(this).find('#avatar1_file').fadeIn(1500);
+        }, function() {
+            jQuery(this).find('#avatar1_file').fadeOut(1500);
+        });
+    });
+</script>
