@@ -2505,14 +2505,25 @@ a:hover {
     border-color: #ffffff;
 }
 
+.photothumbs1 {
+    height: 100%;
+    width: 100%;
+    border: solid 1px;
+    border-color: #ffffff;
+}
+
 .photoname {
     background-color: #000000;
     color: #ffffff;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
     opacity: 0.8;
     position: absolute;
-    top: 103px;
-    left: 20px;
+    top: 100px;
+    left: 19px;
     width: 195px;
+    height: 25px;
     display: none;
 
 }
+
