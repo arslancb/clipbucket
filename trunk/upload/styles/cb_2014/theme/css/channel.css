@@ -1044,3 +1044,66 @@ footer {
     margin-left: -15px;
     margin-top: -2px;
 }
+/*View Channels*/
+.channels-view{
+    border-bottom: 1px solid #DDDDDD;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    padding-bottom: 10px;
+}
+.channels-view ul li{
+    float: left;
+    font-size: 12px;
+    color: #a5a5a5;
+    width: 43%;
+}
+.channels-view h4 a{
+    color: #444;
+}
+.user-arow{
+    background-color: #a5a5a5;
+    color: #FFFFFF;
+    font-size: 9px;
+    padding: 2px 3px;
+    position: relative;
+    right: -14px;
+    top: -40px;
+}
+/*View Groups*/
+.groups-view {
+    border-bottom: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
+    margin-bottom: 10px;
+    margin-top: -10px;
+    min-height: 150px;
+    padding-bottom: 10px;
+    padding-top: 10px;  
+}
+.groups-view ul li{
+    float: left;
+    font-size: 12px;
+    color: #a5a5a5;
+    width: 43%;
+}
+.groups-view h4 a{
+    color: #444;
+}
+.small{
+     color: #999999;
+}
+.groups-view img {
+    border: 2px solid #DDDDDD;
+    padding: 0;
+    width: 100%;
+}
+.min-height-40{
+min-height: 30px;
+}
+.groups-view:nth-of-type(odd)
+{
+border-right: none;
+}
+.groups-view:nth-of-type(even)
+{
+
+}

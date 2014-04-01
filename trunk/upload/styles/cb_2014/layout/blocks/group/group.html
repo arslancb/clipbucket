@@ -1,16 +1,16 @@
-<div class="col-md-6 row marginBottom grid_view list_view groups-view">
-    <div id="group-" class="row user_block marginBottom">
+<div class="col-md-6 marginBottom grid_view list_view groups-view">
+    <div id="group-" class="user_block marginBottom">
         <div class="padding-left-right-zero pull-left col-md-4">
                            <a href="{group_link details=$group}">
                                 <img src="{$cbgroup->get_group_thumb($group)}" class="group_thumb" />
                             </a>
         </div>
-        <div class="col-md-8 prof_title padding-right-zero">
+        <div class="col-md-8 prof_title padding-right-zero small">
             <div class="pull-left">
                 <h4><a href="{group_link details=$group}">{$group.group_name}</a></h4>
-                <div class="small min-height-35">{$group.group_description}</div>
+                <div class="small min-height-40">{$group.group_description}</div>
                 <div class="list-unstyled padding-top-5 small">
-                    <span class="glyphicon glyphicon-group"></span>{$group.total_members|number_format}
+                    <span class="glyphicon glyphicon-user"></span>{$group.total_members|number_format}
                         {lang code='members'} 
                 </div>
                 <div class="padding-top-5">
