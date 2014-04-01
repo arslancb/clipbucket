@@ -6,7 +6,6 @@
  * in prior version, this file was not so reliable
  * this time it has complete set of instruction 
  * and proper downloader
- 
  * @Author : Arslan Hassan
  * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  * @Since : 01 July 2009
@@ -15,9 +14,7 @@
 
 include("../includes/config.inc.php");
 include("../includes/classes/curl/class.curl.php");
-error_reporting(E_ALL ^E_NOTICE);
-
-
+error_reporting(E_ALL ^E_NOTICE);/**/
 
 if(isset($_POST['check_url']))
 {
@@ -34,7 +31,7 @@ if(isset($_POST['check_url']))
 		echo json_encode(array('err'=>'Invalid remote url'));
 	exit();
 }
-error_reporting(E_ALL);
+error_reporting(E_ALL); /**/
 
 /**
  * Call back function of cURL handlers
@@ -51,6 +48,7 @@ if(!isCurlInstalled())
 {
 	exit(json_encode(array("error"=>"Sorry, we do not support remote upload")));
 }
+
 
 //checking if user is logged in or not
 if(!userid())
@@ -156,8 +154,16 @@ if($_POST['youtube'])
 }
 
 $logDetails = array();
- 
- 
+
+
+/*
+A callback accepting five parameters. The first is the cURL resource, 
+the second is the total number of bytes expected to be downloaded in 
+this transfer, the third is the number of bytes downloaded so far, 
+the fourth is the total number of bytes expected to be uploaded in 
+this transfer, and the fifth is the number of bytes uploaded so far. 
+*/
+
 function callback($resource, $download_size, $downloaded, $upload_size, $uploaded){
 	global $curl,$log_file,$file_name,$ext, $logDetails;
 	
@@ -165,22 +171,22 @@ function callback($resource, $download_size, $downloaded, $upload_size, $uploade
 	
 	$info = curl_getinfo($curl->m_handle);
 
-	$download_bytes = $download_size - $downloaded;
+	/*$download_bytes = $download_size - $downloaded;
 	$cur_speed = $info['speed_download'];
 	if($cur_speed > 0)
 		$time_eta = $download_bytes/$cur_speed;
 	else
 		$time_eta = 0;
 	//$download_size = (int) $download_size;
-	$time_took = $info['total_time'];
+	$time_took = $info['total_time'];*/
 	
 	$curl_info = array(
 	'total_size' => $download_size,
 	'downloaded' => $downloaded,
-	'speed_download' => $info['speed_download'],
-	'time_eta' => $time_eta,
-	'time_took'=> $time_took,
-	'file_name' => ($file_name.'.'.$ext),
+	//'speed_download' => $info['speed_download'],
+	//'time_eta' => $time_eta,
+	//'time_took'=> $time_took,
+	//'file_name' => ($file_name.'.'.$ext),
 	);
 	fwrite($fo,json_encode($curl_info));
 	$logDetails = $curl_info;
@@ -198,8 +204,10 @@ $file_name = mysql_clean($_POST['file_name']);
 // $file_name = "abc";
 
 $log_file = TEMP_DIR.'/'.$file_name.'_curl_log.cblog';
+
 //For PHP < 5.3.0
 $dummy_file = TEMP_DIR.'/'.$file_name.'_curl_dummy.cblog';
+
 
 $ext = getExt($file);
 $svfile = TEMP_DIR.'/'.$file_name.'.'.$ext;
@@ -227,6 +235,7 @@ if(!in_array($ext,$extension_whitelist))
 
 $curl = new curl($file);
 $curl->setopt(CURLOPT_FOLLOWLOCATION, true) ;
+
 
 //Checking if file size is not that goood
 if(!is_numeric($curl->file_size) || $curl->file_size == '')
@@ -276,15 +285,15 @@ if ($theError = $curl->hasError())
 fclose($temp_fo);
 //var_dump($curlOpt);
 
-sleep(10);
+sleep(2);
 $details =  $logDetails;//file_get_contents($log_file);
 //$details = json_decode($details,true);
 $Upload->add_conversion_queue($details['file_name']);
 
-if(file_exists($log_file))
-unlink($log_file);
-if(file_exists($dummy_file))
-	unlink($dummy_file);
+// if(file_exists($log_file))
+// unlink($log_file);
+// if(file_exists($dummy_file))
+// 	unlink($dummy_file);
 $quick_conv = config('quick_conv');
 $use_crons = config('use_crons');
 
