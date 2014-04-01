@@ -30,7 +30,7 @@
                 {/if}
                 <ul role="menu" class="dropdown-menu">
                     {foreach from=$sorting_links item=name key=sort}
-                    <li><a href="{link name=time sort=$sort type=photos}&sorting=dkfs" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
+                    <li><a href="{link name=sort sort=$sort type=photos}" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
                     {/foreach}
                 </ul>
             </div>
