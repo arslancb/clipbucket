@@ -198,7 +198,7 @@
 				url: self.download_page,
 				type: "POST",
 				data: ({file:file,file_name:file_name}),
-				//dataType : 'json',
+				dataType : 'json',
 				beforeSend : function(){
 					self.remoteUploadStatusUpdate();
 					var remoteFileName = self.getName(file);
