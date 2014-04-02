@@ -1,7 +1,10 @@
+{$videoFields = $Upload->load_video_fields($input)}
+{$requiredFields = $videoFields[0]}
+{$sharingOptions = $videoFields[1]}
+{$dateAndLocation = $videoFields[2]}
 <div class="alert alert-info">
 {lang code='embed_video_msg'}
 </div>
-{assign var='video_fields' value=$Upload->load_video_fields($input)}
 
 <div class="upload_info" id="upload_form{$objId}" style="margin-top:10px;border:none">
 	      
@@ -10,96 +13,146 @@
       {* Adding Embed Form *}
       
       <h3>Embed video details</h3>
-     <div class="form-group">
-        <label for="embed_code">Embed Code</label>
-        <textarea name="embed_code" id="embed_code" class="form-control">{"embed_code"|post|form_val}</textarea>
-        <small class="hint">supports embed, object and iframes</small>
-     </div>
-         
-         
-   	 <div class="form-group">
-        <label for="duration">Video duration</label>
-        <input type="text" name="duration" id="duration" class="form-control" value="{"duration"|post|form_val}"/>
-        <small class="hint">duration format is hours:minutes:seconds</small>
-     </div>
+
+      <div class="row">
+        <div class="col-md-8">
+          <div class="form-group">
+          <label for="embed_code">Embed Code</label>
+          <textarea name="embed_code" id="embed_code" class="form-control">{"embed_code"|post|form_val}</textarea>
+          <small class="hint">supports embed, object and iframes</small>
+        </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="duration">Video duration</label>
+            <input type="text" name="duration" id="duration" class="form-control" value="{"duration"|post|form_val}"/>
+            <small class="hint">duration format is hours:minutes:seconds</small>
+          </div>
+        </div>
+      </div>
        
     <div class="form-group">
       <label for="thumb_file">Thumb file</label>
       <input name="thumb_file" type="file"  class="btn" id="thumb_file" />
     </div>
-      
-      
-    {foreach from=$video_fields item=field_group}
-     
-      	{* Hide fields if group is not required *}
-          {if $field_group.group_id!='required_fields'} 
-            <h3>{$field_group.group_name}</h3>
-            <div id="more_fields_{$field_group.group_id}{$objId}">
-          {else}
-            <h3>{$field_group.group_name}</h3>
-          {/if}
     
-        
-           <div {if $field_group.group_id=='required_fields'}{/if}>
-            {foreach from=$field_group.fields item=field}
-            
-            {if $field.name!='category[]'}
-            {$field.class = "form-control"}
-              {if $field.type == 'radiobutton'}
-                  <label for="">{$field.title}</label>
-                  <label for="{$field.id}" class="radio">
-                    {$formObj->createField($field)}
-                  </label>
-                  {continue}
-              {/if}
-              {if $field.type == 'checkbox'}
-                
-              {/if}
-                <div class="form-group" id="field-{$field.id}">
-                  <label for="{$field.id}">{$field.title}</label>
-                  {if $field.hint_1}<p>{$field.hint_1}</p>{/if}
-                  {$formObj->createField($field)}
-                  {if $field.hint_2}
-                  <small>{$field.hint_2}</small>{/if}
-                </div>
-            {else}
-                {assign var='category_array' value=$field}
-            {/if}
-            
-            {/foreach}
-            </div>
-            
-            {* Loading Category in a seperate dive so they can fit properly*}
-            {if $category_array}
-            <div>
-                <div class="form-group">
-                  <label for="{$field.id}">{$category_array.title}</label>
-                  {if $category_array.hint_1}<div>{$category_array.hint_1}</div>{/if}
-                  <div>
-                      {$category_array.label_class = "checkbox"}
-                      {$formObj->createField($category_array)}
-                  </div>
-                  {if $category_array.hint_2}
-                  <small>{$category_array.hint_2}</small>{/if}
-                </div>
-            </div>
-            
-            
-            {assign var='category_array' value=''}
-            {/if}
 
-			{if $field_group.group_id=='required_fields'}<div class="clearfix"></div>{/if}
-         
-        {* Closing Div for hidden fields *}   
-        {if $field_group.group_id!='required_fields'} 
+
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="" id="updateVideoInfo">
+                <fieldset class="">
+                    <legend class="">{$requiredFields.group_name}</legend>
+                </fieldset>
+                <div class="requiredFields">
+                    {foreach $requiredFields.fields as $field}
+                        <div class="form-group">
+                        {$field.class='form-control'}
+                        {$field.notShowSeprator='yes'}
+                        {if $field.type == 'radiobutton'}
+                            {$field.label_class='radio'}
+                            {$field.class=''}
+                            {$formObj->createField($field)}
+                        {elseif $field.type == 'checkbox'}
+                            {$categories = $field}
+                        {else}
+                            <label for="{$field.id}">{$field.title}</label>
+                            {$formObj->createField($field)}
+                        {/if}
+                        </div>
+                    {/foreach}
+                </div>
+
+                <div class="formSection clear">
+                    <h4>{$dateAndLocation.group_name} <i class="glyphicon glyphicon-chevron-down pull-right"></i></h4>
+                    <div class="sectionContent hidden">
+                        {foreach $dateAndLocation.fields as $field}
+                        <div class="form-group">
+                        {$field.class='form-control'}
+                            {$field.notShowSeprator='yes'}
+                            {if $field.type == 'radiobutton'}
+                                {$field.label_class='radio'}
+                                {$field.class=''}
+                                {$formObj->createField($field)}
+                            {elseif $field.type == 'checkbox'}
+                                <h4>{$field.title}</h4>
+                                {$field.label_class='checkbox'}
+                                {$field.class='checkbox'}
+                                {$formObj->createField($field)}
+                            {else}
+                                <label for="{$field.id}">{$field.title}</label>
+                                {$formObj->createField($field)}
+                            {/if}
+                            </div>
+                        {/foreach}    
+                    </div>
+                </div>
+  
+                <div class="formSection clear">
+                    <h4>{$sharingOptions.group_name}<i class="glyphicon glyphicon-chevron-down pull-right"></i></h4>
+                    <div class="sectionContent hidden">
+                        {foreach $sharingOptions.fields as $field}
+                            <div class="form-group">
+                            {$field.class='form-control'}
+                            {$field.notShowSeprator='yes'}
+                            {if $field.type == 'radiobutton'}
+                                {$field.label_class='radio'}
+                                {$field.class=''}
+                                {$formObj->createField($field)}
+                            {else}
+                                <label for="{$field.id}">{$field.title}</label>
+                                {$formObj->createField($field)}
+                            {/if}
+                            </div>
+                        {/foreach}
+                    </div>
+                </div>
+
+                <div class="pad-bottom-sm text-right">
+                    <button class="btn btn-primary btn-lg">Submit Now</button>
+                </div>  
+            </div>
         </div>
-        {/if}
-      
-    {/foreach}	
+        <div class="col-md-4 uploadFormSidebarDiv">
+            <h4>{$categories.title}</h4>
+            <small>{$categories.hint_1}</small>
+            <div class="categoriesContainer">
+                {$categories.label_class='checkbox'}
+                {$categories.class='checkbox'}
+                {$formObj->createField($categories)}
+            </div>
+        </div>
+    </div>
 
-	 <input name="submit_upload" type="hidden" value="just_do_it">
+
+
+
+    <input name="submit_upload" type="hidden" value="just_do_it">
     <div>
-      <input type="button" name="embed_upload" id="embed_upload" value="Upload" onClick="check_embed_code('{$objId}')" class="btn btn-primary"/></div>
+      <input type="button" name="embed_upload" id="embed_upload" value="Upload" onClick="check_embed_code('{$objId}')" class="btn btn-primary"/>
+    </div>
     </form>
     
 </div>
+
+
+
+<script>
+  
+  $(document).ready(function(){
+    $(".formSection h4").on({
+                        click: function(e){
+                            e.preventDefault();
+                            if($(this).find("i").hasClass("glyphicon-chevron-down")){
+                                $(this).find("i").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+                                $(this).next().toggleClass("hidden");
+                            }else{
+                                $(this).find("i").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+                                $(this).next().toggleClass("hidden");
+                            }
+                        }
+                    });
+  });
+
+</script>
