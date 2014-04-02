@@ -297,7 +297,8 @@
                             $.ajax({
                                 url : baseurl + "/actions/file_uploader.php",
                                 type : "post",
-                                data : data
+                                data : data,
+                                dataType: "JSON",
                             }).success(function(msg){
                                 msg = $.parseJSON(msg);
                                 $("#uploadMessage").removeClass("hidden");
