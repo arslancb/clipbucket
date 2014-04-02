@@ -1,4 +1,3 @@
-
 {if $msg}
 <div class="alert alert-info">
     {$msg}
@@ -6,10 +5,23 @@
 {/if}
 <div id="uploadMessage" class=""></div>
 <div class="container uploadVideos">
-
+    <div class="cb-box pad-bottom-sm progress-container allProgress">  
+        <div class="row">
+            <div class="col-md-2" id="uploadedFilesInfo">
+                <p>Uploaded 0 of 0</p>
+            </div>
+            <div class="col-md-10">
+                <div class="progress">
+                    <div id="overallProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                        <span class="sr-only">40% Complete (success)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="cb-box" id="mainUploadContainer">
         <div class="pad-bottom video-info-container">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs uploaderTabs">
                 {assign var=opt_list value=$Upload->load_upload_options()} 
                 {$counter = 1}
                 {foreach from=$opt_list item=opt key=divid}
@@ -24,34 +36,18 @@
                 {/foreach}
             </ul>
             <div class="tab-content uploadFormDiv">
-                {$counter = 1}
-                {foreach from=$opt_list item=opt key=divid}     
-                    {* Checking weather to show uploadin option to user or not *}
-                    {assign var=uploadOptId value=$opt.load_func}
-                    {if $Cbucket->configs.$uploadOptId=='yes'} 
-                    {if $counter == 1}{$class = "active"}{else}{$class = ""}{/if}
-                    <div class="tab-pane fade in clearfix {$class}" id="{$divid}">
-                        {if $counter == 1}
-                            <div class="cb-box pad-bottom-sm progress-container hidden">    
-                                <div class="row">
-                                    <div class="col-md-2" id="uploadedFilesInfo">
-                                        <p>Uploaded 0 of 0</p>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <div class="progress">
-                                            <div id="overallProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                                                <span class="sr-only">40% Complete (success)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    {$counter = 1}
+                    {foreach from=$opt_list item=opt key=divid}     
+                        {* Checking weather to show uploadin option to user or not *}
+                        {assign var=uploadOptId value=$opt.load_func}
+                        {if $Cbucket->configs.$uploadOptId=='yes'} 
+                        {if $counter == 1}{$class = "active"}{else}{$class = ""}{/if}
+                        <div class="tab-pane fade in clearfix {$class} uploadForm" id="{$divid}">
+                            {load_form name=$opt.load_func button_class='cb_button_2' class='upload_form'} 
+                        </div>
                         {/if}
-                        {load_form name=$opt.load_func button_class='cb_button_2' class='upload_form'} 
-                    </div>
-                    {/if}
-                    {$counter = $counter + 1}
-                {/foreach}
+                        {$counter = $counter + 1}
+                    {/foreach}
             </div>
         </div>
     </div>
@@ -89,21 +85,26 @@
                     for(var i = 0; i < uploadedFiles.length; i++){
                         files.push(uploadedFiles[i]);
                     }
-                    //console.log(files);
                     // creating the selected files list
                     var ul = document.createElement('ul');
                     ul.id = "selectedFilesList";
+                    ul.className = "nav nav-tabs";
                     var li = false;
                     var index = 0;
                     plupload.each(files, function(file) {
                         li = document.createElement('li');
                         if(index === 0){
-                            li.className = "selectedFile btn btn-primary";
+                            li.className = "active";
                         }else{
-                            li.className = "btn btn-primary";
+                            li.className = "";
                         }
+                        var link = document.createElement("a");
+                        link.href = "#tab"+index;
+                        link.setAttribute("data-toggle", "tab");
+                        // link.innerHTML = file.name + " (" + plupload.formatSize(file.size) + ")";
+                        link.innerHTML = "(" + (index + 1) + ") " + file.name;
                         li.id = index++;
-                        li.innerHTML = file.name + " (" + plupload.formatSize(file.size) + ")<b></b>";
+                        li.appendChild(link);
                         ul.appendChild(li);
                     });
 
@@ -130,8 +131,31 @@
                     var totalFiles = files.length;
                     
                     var oneFile = false;
+
+                    var uploadForm = $("#updateVideoInfoForm").clone();
+                    var uploadForms = [];
+                    for (var i = 0; i < totalFiles; i++ ){
+                        var oneUploadForm = $(uploadForm).clone().get(0);
+                        var wrapperDiv = document.createElement("div");
+                        if(i == 0){
+                            wrapperDiv.className = "tab-pane active uploadFormContainer";
+                        }else{
+                            wrapperDiv.className = "tab-pane uploadFormContainer";
+                        }
+                        wrapperDiv.id = "tab"+i;
+                        oneUploadForm.className = "";
+                        $(oneUploadForm).find("input[name='title']").val(files[i].name);
+                        $(oneUploadForm).find("textarea#desc").val(files[i].name);
+                        $(oneUploadForm).find("input[name='category[]']:first").attr('checked', 'checked');
+                        wrapperDiv.appendChild(oneUploadForm);   
+                        uploadForms.push(wrapperDiv);
+                    }
+
+                    $("#allUploadForms").append(uploadForms);
+
+
                     
-                    $("#uploadFormContainer"+filesIndex).addClass("selectedFileDiv").find("input[name='title']").val(files[filesIndex].name);
+                    /*$("#uploadFormContainer"+filesIndex).addClass("selectedFileDiv").find("input[name='title']").val(files[filesIndex].name);
                     $("#uploadFormContainer"+filesIndex).find("textarea#desc").val(files[filesIndex].name);
                     $("#uploadFormContainer"+filesIndex).find("input[name='category[]']:first").attr('checked', 'checked');
                     var loop = totalFiles - uploadedFiles.length;
@@ -149,9 +173,24 @@
                             //console.log(oneFileForm);
                         }
                        
-                    }
+                    }*/
+
+                    $(".formSection h4").on({
+                        click: function(e){
+                            e.preventDefault();
+                            if($(this).find("i").hasClass("glyphicon-chevron-down")){
+                                $(this).find("i").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+                                $(this).next().toggleClass("hidden");
+                            }else{
+                                $(this).find("i").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+                                $(this).next().toggleClass("hidden");
+                            }
+                        }
+                    });
 
                     setTimeout(function(){
+                        $("#uploaderContainer").toggleClass("hidden");
+                        $("#uploadDataContainer").toggleClass("hidden");
                         uploader.start();
                     }, 1000);
                     // updating file title in the form
@@ -160,7 +199,7 @@
                 uploader.bind("BeforeUpload", function(){
                     $("#fileUploadProgress").removeClass("hidden");
                     $(".progress-container").removeClass("hidden");
-                })
+                });
 
                 /*
                 This is the event handler for UploadProgress,
@@ -170,13 +209,17 @@
                 var filesUploaded = 0;
 
                 uploader.bind('UploadProgress', function(up, file) {
-                    var progressContainer = document.getElementById("fileUploadProgress");
-                    var progressBar = progressContainer.getElementsByTagName("progress")[0];
-                    progressBar.style.display = "block";
-                    var fileName = progressContainer.getElementsByTagName('h5')[0];
-                    fileName.innerHTML = "Uploading "+file.name;
-                    var percent = file.percent/100;
-                    progressBar.value = percent;
+                    // var progressContainer = document.getElementById("fileUploadProgress");
+                    // var progressBar = progressContainer.getElementsByTagName("progress")[0];
+                    // progressBar.style.display = "block";
+                    // var fileName = progressContainer.getElementsByTagName('h5')[0];
+                    // fileName.innerHTML = "Uploading "+file.name;
+                    // var percent = file.percent/100;
+                    // progressBar.value = percent;
+                    var overallProgress = $("#overallProgress");
+                    var totalFiles = files.length;
+                    var percent = file.percent/(100*totalFiles);
+                    $("#overallProgress").css("width", (percent)+"%");
                 });
 
 
@@ -188,12 +231,11 @@
                 var currentFileIndex = 0;
 
                 uploader.bind('FileUploaded', function(plupload, fileDetails, response){
-                    //$(".fileUploaderForm").css("display", "none");
                     $("#overallProgress").css("width", ((100/files.length)*(++filesUploaded))+"%");
                     $("#overallProgress").parents(".row").find("#uploadedFilesInfo").text("Uploaded " + (filesUploaded) + " of " + files.length);
                     var serverResponse = $.parseJSON(response.response);
                     var fileName = serverResponse.file_name;
-                    var uploadForm = $("#uploadFormContainer"+currentFileIndex+" form");
+                    var uploadForm = $("#tab"+currentFileIndex+" form");
 
                     
                     /*
@@ -239,7 +281,7 @@
                     Submit the form with all the video details and options 
                     to update the video information in the system
                     */
-                    $("#mainUploadContainer form").on({
+                    $(uploadForm).on({
                         submit: function(e){
                             e.preventDefault();
                             var self = this;
@@ -249,7 +291,6 @@
                                 type : "post",
                                 data : data
                             }).success(function(msg){
-                                //console.log(msg);
                                 msg = $.parseJSON(msg);
                                 $("#uploadMessage").removeClass("hidden");
                                 if(msg.error){
@@ -290,49 +331,24 @@
                     //console.log(err);
                 });
 
-                $('#uploadFiles').on({
+                /*$('#uploadFiles').on({
                     click : function(e){
                         e.preventDefault();
                         $("#overallProgress").parents(".row").find("#uploadedFilesInfo").text("Uploaded " + (filesUploaded) + " of " + files.length);
                         uploader.start();
                     }
+                });*/
+
+                $("#files a").click(function(e){
+                    e.preventDefault();
+                    $(this).tab("show");
                 });
+
             });
+
         });
     })(window);
 </script>
-<style>
-    .uploadFormContainer{
-        display: none;
-    }
-
-    .selectedFileDiv{
-        display: block;
-    }
-    
-    .uploadedFilesList ul{
-        overflow: hidden;
-    }
-
-    .uploadedFilesList li{
-    /*background-color: #CCCCCC;
-    font-size: 0.9em;
-    margin-right: 10px;
-    padding: 6px;*/
-    cursor: pointer;
-    display: block;
-    margin-right: 10px;
-    float: left;
-    width: auto;
-    margin-bottom: 5px;
-  }
-
-  .uploadedFilesList li.selectedFile{
-    /*background-color: #aaa;*/
-    background-color: #3276B1;
-  }
-
-</style>
 
 
 
