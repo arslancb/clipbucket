@@ -6,8 +6,8 @@
 		 <!-- Listing Categories -->
         {include file="$style_dir/blocks/category_list.html" type='groups'}
         <!-- Listing Categories End -->
-		<div class="col-md-9">
-				<!-- Page Heading -->
+		<div class="col-md-7 clearfix">
+			<!-- Page Heading -->
             <div class="page-hidding margin-bottom-10">
                 {assign var=sorting_links value=sorting_links()}
                 <h4 class="smaller lighter pull-left">Browsing All Categories: </h4>
@@ -85,12 +85,16 @@
 				{foreach $groups as $key => $group}
                 {include file="$style_dir/blocks/group/group.html"}
 				{/foreach}
-		</div>
-        <!--Pagination-->
+            <!--Pagination-->
+            <div class="clearfix"></div>
             <div align="center">
                 {include file="$style_dir/blocks/pagination.html"}
             </div> 
             <!-- /Pagination-->
+        </div>
+        <div class="col-md-2 fill" style="min-height: 45em; background-color: rgb(232, 232, 232);">
+                {AD place='ad_160x600'}
+        </div>
 	</div>
 </div>
 <div style="height:20px"> </div>

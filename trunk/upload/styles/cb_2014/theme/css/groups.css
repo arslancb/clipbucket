@@ -4,7 +4,7 @@
     border-right: 1px solid #DDDDDD;
     margin-bottom: 10px;
     margin-top: -10px;
-    min-height: 150px;
+    min-height: 122px;
     padding-bottom: 10px;
     padding-top: 10px;  
 }
@@ -25,8 +25,8 @@
     padding: 0;
     width: 100%;
 }
-.min-height-40{
-min-height: 30px;
+.min-height-25{
+min-height: 25px;
 }
 .groups-view:nth-of-type(odd)
 {
@@ -35,4 +35,14 @@ border-right: none;
 .groups-view:nth-of-type(even)
 {
 padding-left: 2px;
+}
+.nomargin
+{
+    margin: 0px !important;
+}
+.line-height-1{
+    line-height:1 !important;
+}
+.margin-bottom-10{
+margin-bottom: 10px;
 }
