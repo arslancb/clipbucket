@@ -201,7 +201,7 @@
                     $("#fileUploadProgress").removeClass("hidden");
                     $(".progress-container").removeClass("hidden");
                 });
-
+                var totalUploaded = 0;
                 /*
                 This is the event handler for UploadProgress,
                 It fires regularly after a certain amount of time when the the files are being uploaded
@@ -217,6 +217,8 @@
                     // fileName.innerHTML = "Uploading "+file.name;
                     // var percent = file.percent/100;
                     // progressBar.value = percent;
+                    $("#progressNumber").text(file.percent + "%");
+                    $("#videoNumber").text(filesUploaded+1);
 
                 });
 
@@ -227,6 +229,7 @@
                 */
 
                 var currentFileIndex = 0;
+                
 
                 uploader.bind('FileUploaded', function(plupload, fileDetails, response){
                     $("#overallProgress").css("width", ((100/files.length)*(++filesUploaded))+"%");
@@ -234,7 +237,7 @@
                     var serverResponse = $.parseJSON(response.response);
                     var fileName = serverResponse.file_name;
                     var uploadForm = $("#tab"+currentFileIndex+" form");
-                    
+                    totalUploaded++;
                     /*
                     Insert the video in the database and get the video db id from the
                     database which will be sent with the final form
