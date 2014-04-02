@@ -1,6 +1,6 @@
 <div class="groupLeftSide">
 	<div class="groupThumb" align="center">
-    	<span class="groupThumbBG"><a href="{group_link details=$group}"><img src="{$cbgroup->get_group_thumb($group)}" border="0" /></a></span>
+    	<span class="groupThumbBG"><a href="{group_link details=$group}"><img class="cb_img_thum" src="{$cbgroup->get_group_thumb($group)}" border="0" /></a></span>
     </div>
     
     {isGroupAdmin 
@@ -33,3 +33,47 @@
     </ul>
     {/if}
 </div>
+<div class="well well-sm margin-top-25">
+<h5 class="nomargin">{lang code="Group Members"}</h5>
+    <div class="friendsBox clearfix marginBottom">
+        {assign var=users_items_group_page value=config(users_items_group_page)}
+        {assign var=members value=$cbgroup->get_members($group.group_id,"yes",$users_items_group_page)}
+        {if $members}
+            <div class="marginBottom">
+                {foreach from=$members item=member}
+                    {include file="$style_dir/blocks/user.html" user=$member block_type='friends'}
+                {/foreach}
+            </div>
+        {/if}
+    </div>
+</div>
+<div class="well well-sm margin-top-25">
+  <h5 class="nomargin">{lang code="Options"}</h5>
+   <ul class="nav nav-pills ">
+    
+        {assign var=join_link value=$cbgroup->group_opt_link($group,'join')}
+        {if $join_link}
+            <li>{$join_link}</li>
+        {/if}
+        
+        {assign var=invite_link value=$cbgroup->group_opt_link($group,'invite')}
+        {if $invite_link}
+            {* onClick="groupsAjax(event,this);" *}
+            <li>{$invite_link}</li>
+        {/if}
+        
+        {assign var=leave_link value=$cbgroup->group_opt_link($group,'leave')}
+        {if $leave_link}
+            <li>{$leave_link}</li>
+        {/if}
+        {if isSectionEnabled('videos')}
+            {assign var=add_videos_link value=$cbgroup->group_opt_link($group,'add_videos')}
+            {if $add_videos_link}
+                <li>{$add_videos_link}</li>
+            {/if}
+        {/if}                    
+    </ul>
+
+</div>
+
+

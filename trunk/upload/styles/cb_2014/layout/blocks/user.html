@@ -49,9 +49,9 @@
 {/if}
 
 {if $block_type == "friends"}
-	<div class="pull-left marginLeft" id="user-{$user.userid}">
+	<div class="pull-left marginLeft group_thumb_member" id="user-{$user.userid}">
 		<a href="{$userquery->profile_link($user)}" title="{$user.username}">
-			<img class="img-thumbnail" src="{avatar details=$user size='small'}" alt="{$user.username}" />
+			<img class="group_thumb " src="{avatar details=$user size='small'}" alt="{$user.username}" />
 		</a>
 	</div>
 {/if}

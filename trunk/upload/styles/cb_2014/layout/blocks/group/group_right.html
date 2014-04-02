@@ -1,38 +1,29 @@
-<div class="groupRightSide">	
-	<h3>{lang code="members"}</h3>
-    <div class="channelBox clearfix marginBottom">
-        {assign var=users_items_group_page value=config(users_items_group_page)}
-        {assign var=members value=$cbgroup->get_members($group.group_id,"yes",$users_items_group_page)}
-        {if $members}
-            <div class="marginBottom">
-                {foreach from=$members item=member}
-                    {include file="$style_dir/blocks/user.html" user=$member block_type='friends'}
-                {/foreach}
-            </div>
-        {/if}
+<div class="well well-sm clearfix">	
+	
+	<h5 class="nomargin">{lang code="Suggested Groups"}</h5>
+    {foreach $groups as $key => $group}
+        <div class="marginBottom grid_view list_view  clearfix user_on_right">
+    <div id="group-" class="user_block marginBottom">
+        <div class="padding-left-right-zero pull-left col-md-3">
+                           <a href="{group_link details=$group}">
+                                <img src="{$cbgroup->get_group_thumb($group)}" class="group_thumb" style="" />
+                            </a>
+        </div>
+        <div class="col-md-9 prof_title padding-right-zero small">
+            <div class="pull-left">
+                <h5 class="nomargin "><a class="theme_color" href="{group_link details=$group}">{$group.group_name}</a></h5>
+                <div class="list-unstyled small">
+                    {$group.total_members|number_format}
+                        {lang code='members'} 
+                </div>
+                <div class="">
+                    {$join_link=$cbgroup->group_opt_link($group,'join'," class='btn btn-primary btn-sm line-height-1' ")}
+                    {if $join_link}{$join_link}{/if}
+                </div>
+            </div>  
+        </div>
     </div>
-	<h3>{lang code="Options"}</h3>
-    <ul class="btn-group">
-        {assign var=join_link value=$cbgroup->group_opt_link($group,'join')}
-        {if $join_link}
-            {$join_link}
-        {/if}
-        
-        {assign var=invite_link value=$cbgroup->group_opt_link($group,'invite')}
-        {if $invite_link}
-            {* onClick="groupsAjax(event,this);" *}
-            {$invite_link}
-        {/if}
-        
-        {assign var=leave_link value=$cbgroup->group_opt_link($group,'leave')}
-        {if $leave_link}
-            {$leave_link}
-        {/if}
-        {if isSectionEnabled('videos')}
-            {assign var=add_videos_link value=$cbgroup->group_opt_link($group,'add_videos')}
-            {if $add_videos_link}
-                {$add_videos_link}
-            {/if}
-        {/if}                    
-    </ul>   
+</div>
+    {/foreach}
+       
 </div>

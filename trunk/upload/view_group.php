@@ -104,6 +104,12 @@ if($details)
 	e(lang("grp_exist_error"));
 	$Cbucket->show_page = false;
 }
+//pr($details,true);
+//exit;
+$glist['exclude'] = $details['group_id'];
+$glist['limit'] = 10;
+$groups = $cbgroup->get_groups($glist);
+Assign('groups', $groups);
 
 
 template_files('view_group.html');

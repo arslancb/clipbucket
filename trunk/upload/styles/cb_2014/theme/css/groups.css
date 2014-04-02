@@ -39,10 +39,44 @@ padding-left: 2px;
 .nomargin
 {
     margin: 0px !important;
+    color: #5a595a;
+
 }
 .line-height-1{
     line-height:1 !important;
 }
 .margin-bottom-10{
 margin-bottom: 10px;
+}
+.user_on_right{
+
+padding-bottom: 5px;
+padding-top: 5px;
+border-bottom: 1px solid #DDDDDD;
+
+}
+.theme_color , .theme_color a {
+    color: #0099CC !important;
+}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
+    color: #5a595a;
+}
+.group_thumb_member{
+    height: 34px;
+    margin: 1px;
+    width: 34px;
+}
+.friendsBox{
+    margin-top: 7px;
+}
+.cb_img_thum{
+    border: 2px solid #DDDDDD;
+    padding: 0;
+    width: 100%;
+}
+.margin-top-25{
+    margin-top: 25px !important;
+}
+.basic-color{
+   color: #5a595a; 
 }

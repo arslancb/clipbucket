@@ -2,25 +2,14 @@
 {$leftMenuLinks = array_slice($myAccountLinks, 7)}
 <div class="container">
     {include file="$style_dir/blocks/manage/account_menu.html"}
-    <div class="cb-box marginBottom">
-        {include file="$style_dir/blocks/group/group_left.html"}
+    <div class="cb-box marginBottom row">
+        
         <div class="row">
-            <div class="col-md-3 leftSidebar">
-                <ul class="">
-                    {foreach $leftMenuLinks as $key => $value}
-                        <li class="">
-                        <a href="#" class="" data-toggle="dropdown">{$key}</a>
-                        <ul class="">
-                        {foreach $value as $subKey => $subValue}
-                        <li><a href="{$subValue}">{$subKey}</a></li>
-                        {/foreach}
-                        </ul>
-                        </li>
-                    {/foreach}
-                </ul>
+            <div class="col-md-2 leftSidebar">
+               {include file="$style_dir/blocks/group/group_left.html"}
             </div>
-            <div class="col-md-9">
-                <h2>{$group.group_name|htmlspecialchars_decode}</h2>
+            <div class="col-md-7 nopadding ">
+                <div class="well well-sm margin-bottom-10"><a class="theme_color" href="#">{$group.group_name|htmlspecialchars_decode}</a></div>
                 <div class="btn-group">   
                     <a class="btn btn-primary" {if $mode == "" || $mode == "main"}class="btn btn-primary selected"{/if} href="{group_link details=$group}" onClick="groupsAjax(event,this);" id="gpViewInfo">
                         {lang code="info"}
@@ -38,7 +27,7 @@
                         {lang code='report'}
                     </a>
                 </div>
-                <div id="ajaxGroupResultContainer"> <!-- dont you dare touch this. If you did Zeus will personally kick your ASS --> 
+                <div id="ajaxGroupResultContainer" class="margin-top-25 basic-color"> <!-- dont you dare touch this. If you did Zeus will personally kick your ASS --> 
                     {if $mode == "" || $mode == "main"}
                         <h3>{lang code="basic_info"}</h3>
                         <table class="table table-bordered table-striped">
@@ -52,7 +41,7 @@
                             </tr>
                             <tr>
                                 <td>{lang code="category"}</td>
-                                <td>{$group.category|categories:group}</td>
+                                <td class="theme_color">{$group.category|categories:group}</td>
                             </tr> 
                             <tr>
                                 <td>{lang code="tags"}</td>
@@ -158,9 +147,12 @@
                         <div class="groupSep"><span class="SepText">{lang code="Report"} {lang code="group"}</span></div>
                         {show_flag_form id=$group.group_id type=Group display="block"}
                     {/if}
-                </div>
-                {include file="$style_dir/blocks/group/group_right.html"}                                 
+                </div>                                    
+            </div>
+            <div class="col-md-3">
+                {include file="$style_dir/blocks/group/group_right.html" group=$groups}
             </div>
         </div>
     </div>
 </div>
+<div style="height:20px"> </div>
