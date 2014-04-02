@@ -2,10 +2,21 @@
 {lang code='photo' assign='object_type'}
         <div class="row">
             {assign var=json value=$photo.photo_details|json_decode}
-            <div class="col-md-8 cb-box">
+            <div class="col-md-8 cb-box show-image nplinks">
                 <a {if $nextLink} {assign var='nextItem' value=$nextLink} {else}  {assign var='nextItem' value=$preLink} {/if}
                 href="{$cbphoto->photo_links($nextItem.0,'view_item')}"
                 >{get_photo details=$photo size='l' class='photoimg' output='html'}</a>
+                {assign var=objctid value=$object.ci_id}
+                {assign var=collid value=$object.collection_id}
+                {assign var=preLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'prev')}
+                <a class="the-buttons btn btn-danger btn-lg btns1" id="button1" name="button1" href="{$cbphoto->photo_links($preLink.0,'view_item')}">
+                 <i class="glyphicon glyphicon-chevron-left"></i>Previous
+                </a>
+                {assign var=nextLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'next')}
+                <a class="the-buttons btn btn-primary btn-lg btns" id="button2" name="button2" href="{$cbphoto->photo_links($nextLink.0,'view_item')}">
+                   Next<i class="glyphicon glyphicon-chevron-right"> </i>
+                </a>
+
                 <hr>
                 <div class="row fonts">
                     <div class="tabbable">
@@ -77,18 +88,6 @@
             </div>
 
             <div class="col-md-4 cb-box">
-                <div class="row nplinks">
-                    {assign var=objctid value=$object.ci_id}
-                    {assign var=collid value=$object.collection_id}
-                    {assign var=preLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'prev')}
-                    <a class="btn btn-danger btn-lg" href="{$cbphoto->photo_links($preLink.0,'view_item')}">
-                        Previous
-                    </a>
-                    {assign var=nextLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'next')}
-                    <a class="btn btn-primary btn-lg btns" href="{$cbphoto->photo_links($nextLink.0,'view_item')}">
-                        Next
-                    </a>
-                </div>
                 <div class="media padding40">
                     <a class="pull-left" href="#">
                         <img class="media-object imgobject imgborder" src="{$userquery->getUserThumb($user)}" width="142" alt="...">
@@ -121,3 +120,17 @@
 
 
 
+<script>
+    jQuery(function() {                                              // <== Doc ready
+
+        jQuery(".the-buttons").hide();                  // Initially hide all buttons
+
+        jQuery('.show-image').hover(function() {
+            jQuery(this).find('#button1').fadeIn(1500);
+            jQuery(this).find('#button2').fadeIn(1500);
+        }, function() {
+            jQuery(this).find('#button1').fadeOut(1500);
+            jQuery(this).find('#button2').fadeOut(1500);
+        });
+    });
+</script>
