@@ -2576,7 +2576,20 @@ a:hover {
 }
 
 .btns {
-    width: 106px;
+    padding-left: 30px;
+    width: 100px;
+    position: absolute;
+    top: 163px;
+    right: 0px;
+    left: 663px;
+}
+.btns1 {
+    padding-left: 4px;
+    width: 100px;
+    position: absolute;
+    top: 163px;
+    right: 0px;
+    left:  15px;
 }
 
 .fsize {
