@@ -1,241 +1,121 @@
+<!-- Defining object type-->
 {lang code='photo' assign='object_type'}
-<div class="row">
-    <div class="col-md-9">
-        <div class="">
-            {$json = $photo.photo_details|json_decode}
-            <div class="onePhoto">
-                <a {if $nextLink} {assign var='nextItem' value=$nextLink} {else}  {assign var='nextItem' value=$preLink} {/if} href="{$cbphoto->photo_links($nextItem.0,'view_item')}" >
-                    {get_photo details=$photo size='l' output='html' title='' class="img-rounded"}
-                </a>
-            </div>
-            {ANCHOR place="video_bookmarks" data=$photo}
-            <div class="cb-box">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="userInfoOnOnePhoto clearfix">
-                            <a href="#" class="pull-left">
-                                <img class="img-thumbnail" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" alt="user image">
-                            </a>
-                            <h4>{$photo.photo_title}</h4>
-                            <span>
-                                <i>by <strong>{$user.username}</strong></i>
-                                <small class="date">{$photo.date_added}</small>
-                            </span>
+        <div class="row">
+            {assign var=json value=$photo.photo_details|json_decode}
+            <div class="col-md-8 cb-box">
+                <a {if $nextLink} {assign var='nextItem' value=$nextLink} {else}  {assign var='nextItem' value=$preLink} {/if}
+                href="{$cbphoto->photo_links($nextItem.0,'view_item')}"
+                >{get_photo details=$photo size='l' output='html'}</a>
+                <hr>
+                <div class="row fonts">
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs" id="myTab2">
+                            <li class="active">
+                                <a data-toggle="tab" href="#pinfo">
+                                    <h5>Info</h5>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a data-toggle="tab" href="#pshare">
+                                    <h5>Share</h5>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a data-toggle="tab" href="#pcode">
+                                    <h5>Embed Code</h5>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a data-toggle="tab" href="#preport">
+                                    <h5>Report</h5>
+                                </a>
+                            </li>
+                            {show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}
+                        </ul>
+                        <div class="tab-content">
+                            <div id="pinfo" class="tab-pane active">
+                                <h4><small>{lang code='Title:'}{$photo.photo_title}</small></h4>
+                                <hr>
+                                <h4><small>{lang code='Description:'}{$photo.photo_description}</small></h4><hr>
+                                <h4><small>{lang code='Tags:'}{$photo.photo_tags|tags:photos}</small></h4>
+                                </div>
+                            <div id="pshare" class="tab-pane">
+                                {show_share_form id=$photo.photo_id type=Photo}
+                            </div>
+                            <div id="pcode" class="tab-pane">
+                               3
+                            </div>
+                            <div id="preport" class="tab-pane">
+                                    <br>
+                                <button class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="slide_up_watch_video('#flag_item');$('#flag_item').slideToggle();">{lang code='report_this'}</button>
+                                    {show_flag_form id=$photo.photo_id type=Photo}
+                            </div>
+
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4 ratingContainer clearfix" id="rating_container">
-                        {show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}
-                    </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-8">
-                        <p class="photoDescription">
-                            {$photo.photo_description}
-                        <a href="#">read more</a>
-                        </p>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="shareButtonConainer clearfix">
-                            <span class="shareButton">Share</span>
-                            <!-- <a href="#" class="shareButton"><i class="glyphicon glyphicon-circle-arrow-up"></i></a>
-                            <a href="#" class="shareButton"><i class="glyphicon glyphicon-hand-up"></i></a>
-                            <a href="#" class="shareButton"><i class="glyphicon glyphicon-paperclip"></i></a> -->
-
-
-                            <a class="cb-item-social-icon twitter shareButton" href="{$video.title|title} {videoLink($video)}http://twitter.com/home?status=%7Bvideo.title%7Ctitle%7D%20%7BvideoLink($video)%7D" target="_blank">
-                                <i class="fa fa-twitter"></i>
-                            </a>
-                            <a class="cb-item-social-icon googlep shareButton" href="https://plus.google.com/share?url={urlencode(videolink($video))}" target="_blank">
-                                <i class="fa fa-google-plus"></i>
-                            </a>
-                            <a class="cb-item-social-icon facebook shareButton" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank">
-                                <i class="fa fa-facebook"></i>
-                            </a>
-                        </div>
-                        <div class="editControlsContainer clearfix">
-                            <!-- <a href="#" class="shareButton"><i class="glyphicon glyphicon-trash"></i></a> -->
-                            {if $userquery->userid == $photo.userid}
-                                <a href="{$baseurl}/edit_photo.php?photo={$photo.photo_id}" class="shareButton"><i class="glyphicon glyphicon-edit"></i></a>
-                            {/if}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="btn-group show photoStats">
-                    <a href="#" id="subscribeUser"><i class="glyphicon glyphicon-ok"></i>Follow</a>
-                    <a href="#" id="addToFav"><i class="glyphicon glyphicon-plus"></i>Add to</a>
-                    <a href="#" id="embedCodes"><i class="glyphicon glyphicon-share"></i>Embed</a>
-                    <a href="#" id="flagPhotoButton"><i class="glyphicon glyphicon-flag"></i>Report</a>
-                </div>
-
-                <div class="alert alert-info" style="display:none" id="messageFav"></div>
-
-                <div class="" style="display:none" id="embed_codes">
-                    <div class="">
-                        Embed Codes<span style="padding-left:10px" class="cancel"><a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="$('#embed_codes').slideUp();">cancel</a></span>
-                    </div>
-                    <div class="">
-                        {var_dump($codes)}
-                        {embedCodes assign='codes' type='all' with_url=TRUE details=$photo}
-                        {foreach from=$codes item=item}
-                        <div class="form-group">
-                            <label for="{$item.type}">{$item.name}</label>
-                            <input class="form-control" onFocus="this.select();" value="{$item.code}" id="{$item.type}" />
-                        </div>
-                        {/foreach}
-                    </div>
-                </div>
-
-                <div id="flagPhoto">
-                    {*show_share_form id=$photo.photo_id type=Photo*}
-                    {show_flag_form id=$photo.photo_id type=Photo}
-                </div>
-            </div>     
-        </div>
-
-        <div class="cb-box marginTop marginBottom">
-            <div class="addComment clearfix">
-                <h3>{lang code='comments'}</h3>
-                {if $myquery->is_commentable($photo,'p')}
-                    {include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
-                {else}
-                <div class="alert alert-warning">{lang code='Comments disabled for this photo'}</div>
-                {/if}
             </div>
-            <div class="userComments">
-                <ul id="userCommentsList">
-                </ul>
-            </div>
-            <script>
-                $(document).ready(function(){
 
-                    
-
-
-
-                    comments_voting = 'no'; 
-                    _cb.getAllComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}');
-
-                    $("#addToFav").on({
-                        click: function(e){
-                            e.preventDefault();
-                            _cb.addToFav('photo','{$photo.photo_id}');
-                        }
-                    });
-
-                    $("#embedCodes").on({
-                        click: function(e){
-                            e.preventDefault();
-                            $('#embed_codes').toggle();
-                        },
-                    });
-
-                    $("#subscribeUser").on({
-                        click: function(e){
-                            e.preventDefault();
-                            _cb.subscribeToChannel('{$user.userid}','subscribe_user','video_detail_result_cont');
-                        }
-                    });
-
-                    $("#flagPhotoButton").on({
-                        click: function(e){
-                            e.preventDefault();
-                            $('#flag_item').toggle();
-                        }
-                    });
-                });
-            </script>
-            <!-- <div class="well">
-                <a href="{$userquery->profile_link($user)}">
-                    <img src="{avatar details=$user}" />
-                </a>
-                <a href="{$userquery->profile_link($user)}">
-                    {$user.username}
-                </a>
-                <div class="btn-group">
-                    <a class="btn btn-primary" href="{link name='user_videos'}{$user.username}">
-                        {lang code="videos"}
-                    </a>
-                    <a class="btn btn-primary" href="{link name='user_favorites'}{$user.username}">
-                        {lang code="favorites"}
-                    </a>
-                    <a class="btn btn-primary" href="{link name='user_contacts'}{$user.username}">
-                        {lang code='contacts'}
-                    </a>
-                </div>
-                <button class="btn btn-success btn-lg" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>
-            </div> -->
-            <!-- <div>
-                <div class="">{$photo.photo_title}</div>
-                {$photo.photo_description}
-                <div>{$photo.photo_tags|tags:photos}</div>
-            </div> -->
-            {AD place="ad_300x250"}
-            
-            {get_photos assign=uphotos user=$photo.userid exclude=$photo.photo_id order=RAND() limit='5'}
-            {if $uphotos}
-            <div class="PhotoHeading hover" onclick="$('#morePhotos').slideToggle('fast');">
-                More Photos From {$user.username}
-            </div>
-            <div id="morePhotos">
-            {section name=list loop=$uphotos}
-                {include file="$style_dir/blocks/photo.html" display_type="related_photos" photo=$uphotos[list]}
-            {/section}
-            </div>
-            {/if}
-
-            {get_photos assign=related collection=$photo.collection_id show_related=TRUE title=$photo.photo_title tags=$photo.photo_tags exclude=$photo.photo_id limit='5'}
-            {if $related}
-            <div class="PhotoHeading hover" onclick="$('#relatedPhotos').slideToggle('fast');">
-                Related Photos
-            </div>
-            <div id="relatedPhotos">
-            {section name=list loop=$related}
-                {include file="$style_dir/blocks/photo.html" display_type="related_photos" photo=$related[list]}
-            {/section}
-            </div>
-            {/if} 
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="row marginBottom">
-            <div class="col-md-12 col-md-offset-2">
-                {assign var=objctid value=$object.ci_id}
-                {assign var=collid value=$object.collection_id}
+            <div class="col-md-4 cb-box">
+                <div class="row nplinks">
+                    {assign var=objctid value=$object.ci_id}
+                    {assign var=collid value=$object.collection_id}
                     {assign var=preLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'prev')}
-                    <a class="btn btn-primary ptn-lg" href="{$cbphoto->photo_links($preLink.0,'view_item')}">
+                    <a class="btn btn-danger btn-lg" href="{$cbphoto->photo_links($preLink.0,'view_item')}">
                         Previous
                     </a>
                     {assign var=nextLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'next')}
-                    <a class="btn btn-primary ptn-lg" href="{$cbphoto->photo_links($nextLink.0,'view_item')}">
+                    <a class="btn btn-primary btn-lg btns" href="{$cbphoto->photo_links($nextLink.0,'view_item')}">
                         Next
                     </a>
+                </div>
+                <div class="media padding40">
+                    <a class="pull-left" href="#">
+                        <img class="media-object imgobject imgborder" src="{$userquery->getUserThumb($user)}" width="142" alt="...">
+                    </a>
+                    <div class="media-body">
+                        <div class="row">
+                            <div class="col-md-8 procolor">
+                                <h4 class="media-heading headcolor photoprofile">{$user.username}  ({assign var=category value=$userquery->get_category($user.category)}
+                                    {$category.category_name})</h4>
+                                <b>{lang code='Since:'}</b> ({$user.doj|date_format})
+                                <b>{lang code='Login:'}</b> ({$user.last_logged|nicetime})
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <button class="btn btn-info btn-sm btn-xs" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>
+                                    </div>
+                                    <div class="col-md-2 padding39">
+                                        <button class="btn btn-info btn-sm btn-xs">{lang code='View Channel'}</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 well cb-box"><small>Advertisement</small><img src="http://farm4.staticflickr.com/3377/3639506612_fb0e13ce92.jpg">
             </div>
         </div>
-        <div class="">
-            <a href="#">
-                <img src="" alt="ad">
-            </a>
-        </div>
-        <div class="cb-box marginTop">
-            <i class=" glyphicon glyphicon-download-alt"></i>
-            {DownloadButtonP details=$photo class='LoadMoreButton' style='cursor:pointer;display:inline;' output='div'}
-        </div>
-        <div class="row">
-            <div class="relatedPhotos col-md-6 marginTop">
-                <a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' width='120' class='photoThumbBox moveL' style='margin-right:5px;'}</a>
-            </div>
-            <div class="relatedPhotos col-md-6 marginTop">
-                <a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' width='120' class='photoThumbBox moveL' style='margin-right:5px;'}</a>
-            </div>
-            <div class="relatedPhotos col-md-6 marginTop">
-                <a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' width='120' class='photoThumbBox moveL' style='margin-right:5px;'}</a>
-            </div>
-            <div class="relatedPhotos col-md-6 marginTop">
-                <a href="{$cbphoto->photo_links($photo,'view_item')}">{get_photo details=$photo output='html' width='120' class='photoThumbBox moveL' style='margin-right:5px;'}</a>
-            </div>
-        </div>
-    </div>
+<hr>
+<div class="col-md-8 cb-box commentmargin">
+<h2>{lang code='comments'}</h2>
+
+<div id="comments"></div>
+<script>
+    $(document).ready(function()
+    {ldelim}
+    comments_voting = 'no';
+    getComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}')
+    {rdelim}
+    );
+</script>
+{if $myquery->is_commentable($photo,'p')}
+{include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
+{else}
+<div class="disable_msg" align="center">{lang code='Comments disabled for this photo'}</div>
+{/if}
 </div>
 
-        
+
