@@ -19,6 +19,7 @@
     background-color: #F3F3F3;
     padding: 10px;
     border-radius: 5px;
+    margin-bottom: 10px;
   }
 
   .selectedFileDiv{
@@ -124,4 +125,12 @@
   font-size: 1em;
   color: #666;
   cursor: pointer;
+}
+
+.align-right{
+  text-align: right;
+}
+
+.uploadMoreVideos{
+  margin-bottom: 10px;
 }

@@ -191,7 +191,7 @@
                     setTimeout(function(){
                         $("#uploaderContainer").toggleClass("hidden");
                         $("#uploadDataContainer").toggleClass("hidden");
-                        $(".uploadingProgressContainer").hide();
+                        $(".uploadingProgressContainer").show();
                         uploader.start();
                     }, 1000);
                     // updating file title in the form
@@ -231,11 +231,9 @@
                 uploader.bind('FileUploaded', function(plupload, fileDetails, response){
                     $("#overallProgress").css("width", ((100/files.length)*(++filesUploaded))+"%");
                     $("#overallProgress").parents(".row").find("#uploadedFilesInfo").text("Uploaded " + (filesUploaded) + " of " + files.length);
-                    $(".uploadingProgressContainer").hide();
                     var serverResponse = $.parseJSON(response.response);
                     var fileName = serverResponse.file_name;
                     var uploadForm = $("#tab"+currentFileIndex+" form");
-                    filesUploaded++;
                     
                     /*
                     Insert the video in the database and get the video db id from the
@@ -312,6 +310,7 @@
 
                 uploader.bind("UploadComplete", function(plupload, files){
                     $("#fileUploadProgress").addClass("hidden");
+                    $(".uploadingProgressContainer").hide();
                     uploader.refresh();
                     $("#uploadMessage").html("All Files are uploaded Successfully").attr("class", "alert alert-success");            
                     setTimeout(function(){
@@ -341,6 +340,15 @@
                 $("#files a").click(function(e){
                     e.preventDefault();
                     $(this).tab("show");
+                });
+
+                $("#uploadMoreVideos").on({
+                    click: function(e){
+                        e.preventDefault();
+                        $("#uploaderContainer").removeClass("hidden");
+                        $("#uploadDataContainer").addClass("hidden");
+                        //$(this).addClass("hidden");
+                    }
                 });
 
             });

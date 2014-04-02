@@ -2,7 +2,6 @@
 {$requiredFields = $videoFields[0]}
 {$sharingOptions = $videoFields[1]}
 {$dateAndLocation = $videoFields[2]}
-
 <div class="uploaderContainer" id="uploaderContainer">
     <div class="upload-area col-md-12">
         <div class="fileUploaderForm">
@@ -23,6 +22,9 @@
         <div class="alert alert-info">
             <p><b>Selected Files</b> Uploading in progress</p>
         </div>
+    </div>
+    <div class="align-right">
+        <a href="#" class="btn btn-primary uploadMoreVideos" id="uploadMoreVideos">Upload More Videos</a>
     </div>
     <div id="files"></div>
     <div id="allUploadForms" class="tab-content allUploadForms"></div>
