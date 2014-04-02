@@ -134,3 +134,18 @@
 .uploadMoreVideos{
   margin-bottom: 10px;
 }
+
+.remoteDownloadStatus{
+    padding: 10px;
+    border: solid 1px #ddd;
+    margin-bottom: 10px;
+  }
+  .remoteDownloadStatus > span{
+    display: block;
+    margin-top: 2px;
+  }
+
+  .marginTop{
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
