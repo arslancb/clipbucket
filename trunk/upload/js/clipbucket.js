@@ -200,7 +200,7 @@
 				url: self.download_page,
 				type: "POST",
 				data: ({file:file,file_name:file_name}),
-				dataType : 'json',
+				dataType : 'JSON',
 				beforeSend : function(){
 					self.remoteUploadStatusUpdate();
 					var remoteFileName = self.getName(file);
@@ -226,8 +226,6 @@
 							$(oneFileForm).find("input[name=title]").val(data.title);
 							$(oneFileForm).find("textarea#desc").val(data.description);
 							$(oneFileForm).find("input[name='category[]']:first").attr('checked', 'checked');
-							$(oneFileForm).find("input[name=videoid]").val(vid);
-							$(oneFileForm).find("input[name=fileName]").val(file_name);
 
 
 							// creating the hidden form fields
@@ -242,8 +240,8 @@
 							hiddenVideoNameField.value =  file_name;
 
 
-							$(oneFileForm).find("form").append(hiddenVideoIdField);
-							$(oneFileForm).find("form").append(hiddenVideoNameField);
+							$(oneFileForm).append(hiddenVideoIdField);
+							$(oneFileForm).append(hiddenVideoNameField);
 
 
 							$("#remoteForm").html("");
@@ -300,16 +298,17 @@
                                 data : data,
                                 dataType: "JSON",
                             }).success(function(msg){
-                                msg = $.parseJSON(msg);
-                                $("#uploadMessage").removeClass("hidden");
-                                if(msg.error){
-                                    $("#uploadMessage").html(msg.error).attr("class", "alert alert-danger");
-                                }else{
-                                    $("#uploadMessage").html(msg.msg).attr("class", "alert alert-success");
+                                if(msg){
+                                	$("#uploadMessage").removeClass("hidden");
+	                                if(msg.error){
+	                                    $("#uploadMessage").html(msg.error).attr("class", "alert alert-danger");
+	                                }else{
+	                                    $("#uploadMessage").html(msg.msg).attr("class", "alert alert-success");
+	                                }
+	                                setTimeout(function(){
+	                                    $("#uploadMessage").addClass("hidden");
+	                                }, 5000);
                                 }
-                                setTimeout(function(){
-                                    $("#uploadMessage").addClass("hidden");
-                                }, 5000);
                             }).fail(function(err){
                                 console.log(err);
                             });
