@@ -2536,3 +2536,45 @@ a:hover {
     font-size: 12px;
     opacity: 0.8;
 }
+
+
+.photoprofile {
+    width: 150px;
+}
+
+.imgborder {
+    border: solid   1px;
+    color: #000000;
+}
+
+.padding39 {
+    padding-left: 60px;
+}
+
+.padding40 {
+   padding-left:  25px
+}
+
+.fonts {
+    font: 12px/18px Arial, sans-serif;
+    color: #333;
+    margin: 0;
+
+}
+
+.nplinks {
+    padding-left: 95px;
+}
+
+.padding41 {
+    padding-left: 120px;
+}
+
+.commentmargin {
+    margin-left: -15px;
+    width: 780px;
+}
+
+.btns {
+    width: 106px;
+}
