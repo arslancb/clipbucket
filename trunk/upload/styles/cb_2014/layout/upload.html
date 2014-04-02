@@ -5,7 +5,7 @@
 {/if}
 <div id="uploadMessage" class=""></div>
 <div class="container uploadVideos">
-    <div class="cb-box pad-bottom-sm progress-container allProgress">  
+    <div class="cb-box pad-bottom-sm progress-container allProgress hidden">  
         <div class="row">
             <div class="col-md-2" id="uploadedFilesInfo">
                 <p>Uploaded 0 of 0</p>
@@ -193,6 +193,7 @@
                         $("#uploaderContainer").toggleClass("hidden");
                         $("#uploadDataContainer").toggleClass("hidden");
                         $(".uploadingProgressContainer").show();
+                        $(".allProgress").removeClass("hidden");
                         uploader.start();
                     }, 1000);
                     // updating file title in the form
