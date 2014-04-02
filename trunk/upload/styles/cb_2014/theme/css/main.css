@@ -2578,3 +2578,11 @@ a:hover {
 .btns {
     width: 106px;
 }
+
+.fsize {
+   font-size:  10px
+}
+
+.photoimg {
+    width: 100%;
+}
