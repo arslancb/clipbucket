@@ -1,24 +1,23 @@
 {if $display_type == ""}
-
 <div class="show-image">
-    <script type="text/javascript" src="//likebtn.com/js/widget.js" async="async"></script>
     <div class="col-md-3 col-sm-4 col-xs-6">
         <a href="{$cbphoto->photo_links($photo,'view_item')}">
             {get_photo details=$photo output='html' width='100%'  class='photothumbs'}
         </a>
             <div class="row">
-                <span class="likebtn-wrapper like" data-lang="en"></span>
-                <!--<div class="col-md-2 like"><i class="glyphicon glyphicon-thumbs-up"><b class="like">2</b></i></div>-->
-                <!--<div class="col-md-2 like"><i class="glyphicon glyphicon-thumbs-down ipadding"><b class="like">4</b></i></div>-->
+                <div class="col-md-2">
+                    <h4><small> <i class="glyphicon glyphicon-thumbs-up lfont"><b>2</b></i></small></h4>
                 </div>
-
+                <div class="col-md-2 like">
+                    <h4><small> <i class="glyphicon glyphicon-thumbs-down lfont"><b>4</b></i></small></h4>
+                </div>
+                </div>
         <p>
             <a href="{$cbphoto->photo_links($photo,'view_item')}" class="photoname"  name="avatar1_file" id="avatar1_file">{$photo.photo_title|truncate:15}</a>
         </p>
         <hr class="hrred">
     </div>
 </div>
-
 
 {/if}
 
