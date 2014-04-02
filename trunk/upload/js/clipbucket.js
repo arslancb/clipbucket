@@ -292,13 +292,14 @@
                             e.preventDefault();
                             var self = this;
                             var data = $(this).serialize();
+                            data += "&updateVideo=yes";
                             $.ajax({
                                 url : baseurl + "/actions/file_uploader.php",
                                 type : "post",
                                 data : data,
                                 dataType: "JSON",
                             }).success(function(msg){
-                                if(msg){
+                                
                                 	$("#uploadMessage").removeClass("hidden");
 	                                if(msg.error){
 	                                    $("#uploadMessage").html(msg.error).attr("class", "alert alert-danger");
@@ -308,7 +309,7 @@
 	                                setTimeout(function(){
 	                                    $("#uploadMessage").addClass("hidden");
 	                                }, 5000);
-                                }
+                                
                             }).fail(function(err){
                                 console.log(err);
                             });
