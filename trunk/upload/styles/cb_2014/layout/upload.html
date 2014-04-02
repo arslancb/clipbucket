@@ -126,9 +126,8 @@
                         }
                     });
 
-                    var filesDiv = document.getElementById('files');
-                    filesDiv.innerHTML = "";
-                    document.getElementById('files').appendChild(ul);
+                    $("#files").html("");
+                    $("#files").append(ul);
 
                     var totalFiles = files.length;
                     
@@ -152,7 +151,7 @@
                         wrapperDiv.appendChild(oneUploadForm);   
                         uploadForms.push(wrapperDiv);
                     }
-
+                    $("#allUploadForms").html("");
                     $("#allUploadForms").append(uploadForms);
 
 
