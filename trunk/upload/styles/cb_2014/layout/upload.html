@@ -207,7 +207,7 @@
                 */
 
                 var filesUploaded = 0;
-
+                var totalPercentage = 0;
                 uploader.bind('UploadProgress', function(up, file) {
                     // var progressContainer = document.getElementById("fileUploadProgress");
                     // var progressBar = progressContainer.getElementsByTagName("progress")[0];
@@ -216,9 +216,10 @@
                     // fileName.innerHTML = "Uploading "+file.name;
                     // var percent = file.percent/100;
                     // progressBar.value = percent;
+
                     var overallProgress = $("#overallProgress");
                     var totalFiles = files.length;
-                    var percent = file.percent/(100*totalFiles);
+                    var percent = (file.percent/totalFiles)*100;
                     $("#overallProgress").css("width", (percent)+"%");
                 });
 
@@ -236,7 +237,7 @@
                     var serverResponse = $.parseJSON(response.response);
                     var fileName = serverResponse.file_name;
                     var uploadForm = $("#tab"+currentFileIndex+" form");
-
+                    filesUploaded++;
                     
                     /*
                     Insert the video in the database and get the video db id from the
