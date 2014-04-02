@@ -534,7 +534,7 @@ body {
 }
 #container:after,
 footer {
-    height: 60px;
+    height: 75px;
 }
 footer {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -1075,5 +1075,8 @@ footer {
     background: none repeat scroll 0 0 #FFFFFF;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding-top: 20px;
+}
+footer ul li{
+float: left;    
 }
 
