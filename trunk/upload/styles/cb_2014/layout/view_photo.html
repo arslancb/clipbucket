@@ -5,7 +5,7 @@
             <div class="col-md-8 cb-box">
                 <a {if $nextLink} {assign var='nextItem' value=$nextLink} {else}  {assign var='nextItem' value=$preLink} {/if}
                 href="{$cbphoto->photo_links($nextItem.0,'view_item')}"
-                >{get_photo details=$photo size='l' output='html'}</a>
+                >{get_photo details=$photo size='l' class='photoimg' output='html'}</a>
                 <hr>
                 <div class="row fonts">
                     <div class="tabbable">
@@ -53,6 +53,26 @@
 
                             </div>
                         </div>
+                    <div class="col-md-8 commentmargin">
+                        <hr>
+                        <h2>{lang code='comments'}</h2>
+
+                        <div id="comments"></div>
+                        <script>
+                            $(document).ready(function()
+                            {ldelim}
+                            comments_voting = 'no';
+                            getComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}')
+                            {rdelim}
+                            );
+                        </script>
+                        {if $myquery->is_commentable($photo,'p')}
+                        {include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
+                        {else}
+                        <div class="disable_msg" align="center">{lang code='Comments disabled for this photo'}</div>
+                        {/if}
+                    </div>
+
                 </div>
             </div>
 
@@ -75,7 +95,7 @@
                     </a>
                     <div class="media-body">
                         <div class="row">
-                            <div class="col-md-8 procolor">
+                            <div class="col-md-8 procolor fsize">
                                 <h4 class="media-heading headcolor photoprofile">{$user.username}  ({assign var=category value=$userquery->get_category($user.category)}
                                     {$category.category_name})</h4>
                                 <b>{lang code='Since:'}</b> ({$user.doj|date_format})
@@ -98,24 +118,6 @@
             <div class="col-md-4 well cb-box"><small>Advertisement</small><img src="http://farm4.staticflickr.com/3377/3639506612_fb0e13ce92.jpg">
             </div>
         </div>
-<hr>
-<div class="col-md-8 cb-box commentmargin">
-<h2>{lang code='comments'}</h2>
 
-<div id="comments"></div>
-<script>
-    $(document).ready(function()
-    {ldelim}
-    comments_voting = 'no';
-    getComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}')
-    {rdelim}
-    );
-</script>
-{if $myquery->is_commentable($photo,'p')}
-{include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
-{else}
-<div class="disable_msg" align="center">{lang code='Comments disabled for this photo'}</div>
-{/if}
-</div>
 
 
