@@ -1079,4 +1079,6 @@ footer {
 footer ul li{
 float: left;    
 }
-
+footer ul li a{
+    color: #777777;
+}
