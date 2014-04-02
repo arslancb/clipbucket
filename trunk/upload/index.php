@@ -34,6 +34,10 @@ $result_array_04['order'] = " RAND() LIMIT 4";
 $videos_04 = get_videos($result_array_04);
 Assign('videos_04', $videos_04);
 
+$result_array_06_feat['order'] = " featured LIMIT 6";
+$videos_06_feat = get_videos($result_array_06_feat);
+Assign('videos_06_feat', $videos_06_feat);
+
 $result_array_06_lv['order'] = " last_viewed LIMIT 6";
 $videos_06_lv = get_videos($result_array_06_lv);
 Assign('videos_06_lv', $videos_06_lv);
@@ -60,18 +64,29 @@ $result_array_comments = $array;
 $result_array_comments['order'] = " comment_id DESC LIMIT 5";
 $result_comments = getComments($result_array_comments);
 
-foreach ($result_comments as $result_comment)
-$result_comments_users = get_users(array("userid"=>$result_comments['userid']));
+$result_comments_users = get_users($result_comments_user);
 
-$result_array_photos_01 = $array;
-$result_array_photos_01['order'] = " photo_id DESC LIMIT 1";
-$result_photos_01 = get_photos($result_array_photos_01);
-Assign('result_photos_01', $result_photos_01);
+$result_array_photos1_01 = $array;
+$result_array_photos1_01['order'] = " RAND() LIMIT 1";
+$result_photos1_01 = get_photos($result_array_photos1_01);
+Assign('result_photos1_01', $result_photos1_01);
 
-$result_array_photos_08 = $array;
-$result_array_photos_08['order'] = " photo_id DESC LIMIT 8";
-$result_photos_08 = get_photos($result_array_photos_08);
-Assign('result_photos_08', $result_photos_08);
+$result_array_photos1_08 = $array;
+$result_array_photos1_08['order'] = " photo_id DESC LIMIT 8";
+$result_photos1_08 = get_photos($result_array_photos1_08);
+Assign('result_photos1_08', $result_photos1_08);
+
+
+$result_array_photos2_01 = $array;
+$result_array_photos2_01['order'] = " RAND() LIMIT 1";
+$result_photos2_01 = get_photos($result_array_photos2_01);
+Assign('result_photos2_01', $result_photos2_01);
+
+$result_array_photos2_08 = $array;
+$result_array_photos2_08['order'] = " photo_id ASC LIMIT 8";
+$result_photos2_08 = get_photos($result_array_photos2_08);
+Assign('result_photos2_08', $result_photos2_08);
+
 
 Assign('result_comments_users', $result_comments_users);
 Assign('result_comments', $result_comments);
