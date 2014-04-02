@@ -289,6 +289,31 @@
                             }
                         }
                     });
+							$(oneFileForm).on({
+                        submit: function(e){
+                            e.preventDefault();
+                            var self = this;
+                            var data = $(this).serialize();
+                            $.ajax({
+                                url : baseurl + "/actions/file_uploader.php",
+                                type : "post",
+                                data : data
+                            }).success(function(msg){
+                                msg = $.parseJSON(msg);
+                                $("#uploadMessage").removeClass("hidden");
+                                if(msg.error){
+                                    $("#uploadMessage").html(msg.error).attr("class", "alert alert-danger");
+                                }else{
+                                    $("#uploadMessage").html(msg.msg).attr("class", "alert alert-success");
+                                }
+                                setTimeout(function(){
+                                    $("#uploadMessage").addClass("hidden");
+                                }, 5000);
+                            }).fail(function(err){
+                                console.log(err);
+                            });
+                        }
+                    });
 						},'json');
 					}
 				});
