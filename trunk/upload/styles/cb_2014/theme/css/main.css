@@ -2295,16 +2295,16 @@ footer {
 .vertical .details_block { float:left; width:100%;  }
 
 .nopadding {
-    padding: 0 !important;
-    margin: 0 !important;
+   padding: 0 !important;
+   margin: 0 !important;
 }
 .nopadding-left {
-    padding-left: 0 !important;
-    margin-left: 0 !important;
+   padding-left: 0 !important;
+   margin-left: 0 !important;
 }
 .nopadding-right {
-    padding-right: 0 !important;
-    margin-right: 0 !important;
+   padding-right: 0 !important;
+   margin-right: 0 !important;
 }
 
 /* HOME TABS STYLE */
@@ -2327,6 +2327,54 @@ H3.myHeading{font-family: "Roboto", "Segoe UI", "Helvetica neue", Helvetica, san
 .mycommentboxarrow {position: relative; z-index: -1;}
 
 .mycommentboxarrow:before{content: ""; position: absolute; top: 20px; left:-5px; height:20px; width:20px; background:#F00; border: 1px solid #FFF; transform:rotate(45deg); -ms-transform:rotate(45deg); -webkit-transform:rotate(45deg); z-index: -1;}
+
+.cbHomeVidDuration{position:absolute; top:5px; right:8px; font-size:10px; color:#FFF; background:#333; width: 40px; height:18px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;}
+
+.cbHomeVidTitle{position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.12);}
+
+.cbHomeCommCount{position:absolute; bottom:5px; right:5px; font-size:11px; font-size:10px; color:#FFF; background:#F00; width: 30px; height:16px; text-align:center; border:1px solid #F00; border-radius:5px;}
+
+.cbHomeSldVidCont{float:left; position: relative; top: 0px; left: 0px; width: 240px; height: 120px;}
+
+
+.captionOrange, .captionBlack{color: #fff; font-size: 20px; line-height: 30px; text-align: center; border-radius: 4px;}
+.captionOrange{background: #EB5100; background-color: rgba(235, 81, 0, 0.6);}
+.captionBlack{font-size:16px; background: #000; background-color: rgba(0, 0, 0, 0.4);}\
+a.captionOrange, A.captionOrange:active, A.captionOrange:visited{color: #ffffff; text-decoration: none;}
+a.captionOrange:hover{color: #eb5100; text-decoration: underline; background-color: #eeeeee; background-color: rgba(238, 238, 238, 0.7);}
+.bricon{background: url(../img/browser-icons.png);}
+
+/* jssor slider navigator skin 03 css */
+/*
+.jssorn03 div (normal)
+.jssorn03 div:hover (normal mouseover)
+.jssorn03 .av (active)
+.jssorn03 .av:hover (active mouseover)
+.jssorn03 .dn (mousedown)
+*/
+.jssorn03 div, .jssorn03 div:hover, .jssorn03 .av{background: url(../img/n03.png) no-repeat; overflow:hidden; cursor: pointer;}
+.jssorn03 div {background-position: -5px -4px;}
+.jssorn03 div:hover, .jssorn03 .av:hover {background-position: -35px -4px;}
+.jssorn03 .av {background-position: -65px -4px;}
+.jssorn03 .dn, .jssorn03 .dn:hover {background-position: -95px -4px;}
+
+/* jssor slider direction navigator skin 03 css */
+/*
+.jssord03l (normal)
+.jssord03r (normal)
+.jssord03l:hover (normal mouseover)
+.jssord03r:hover (normal mouseover)
+.jssord03ldn (mousedown)
+.jssord03rdn (mousedown)
+*/
+.jssord03l, .jssord03r, .jssord03ldn, .jssord03rdn{position: absolute; cursor: pointer; display: block; background: url(../img/d03.png) no-repeat; overflow:hidden;}
+.jssord03l {background-position: -3px -33px;}
+.jssord03r {background-position: -63px -33px;}
+.jssord03l:hover {background-position: -123px -33px;}
+.jssord03r:hover {background-position: -183px -33px;}
+.jssord03ldn {background-position: -243px -33px;}
+.jssord03rdn {background-position: -303px -33px;}
+
 
 .userPicContainer{
 
