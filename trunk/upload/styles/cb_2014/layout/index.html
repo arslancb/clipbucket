@@ -1,11 +1,20 @@
 <div class="container">
 	<div class="row cb-box marginBottom">
-		<!-- Global Announcement START //-->
-        <h1 class="alert alert-info" style="margin-top: 5px; font-size:16px;">Welome to new interface</h1>
-        <!-- Global Announcement END //-->
-        
-        
-		<!-- Editor Pick START //-->
+
+        <!-- ******************************************* //-->
+		<!-- ******** GLOBAL ANNOUNCEMENT START ******** //-->
+        <!-- ******************************************* //-->
+        <h1 class="alert alert-info" style="margin-top: 5px; font-size:16px;">
+        Welome to new interface
+        </h1>
+        <!-- ******************************************* //-->
+		<!-- ********* GLOBAL ANNOUNCEMENT END ********* //-->
+        <!-- ******************************************* //-->
+
+
+        <!-- ******************************************* //-->
+		<!-- ************ EDITORS BLOCK START ********** //-->
+        <!-- ******************************************* //-->
 		<div class="row">
 			
 		<div class="col-md-8 nopadding-right">
@@ -58,10 +67,14 @@
             });
         </script>
 		</div>
-		<!-- Editor Pick END //-->
-        
-        
-		<!-- Latest Videos START //-->
+        <!-- ******************************************* //-->
+		<!-- ************ EDITORS BLOCK END ************ //-->
+        <!-- ******************************************* //-->
+
+
+        <!-- ******************************************* //-->
+		<!-- *********** LATEST VIDEOS START *********** //-->
+        <!-- ******************************************* //-->
 		<div class="row">
 		<div class="col-md-12">
 
@@ -127,154 +140,239 @@
                 
 			</div>
 
-		<div class="clearfix"></div>
-		<!-- Latest Videos END //-->
+		<!-- ******************************************* //-->
+        <!-- ************ LATEST VIDEOS END ************ //-->
+		<!-- ******************************************* //-->
 
-		<!-- Videos START //-->
-		<div class="row">
-			<div class="col-md-12">
-        	<h2 class="myHeading">Videos</h2>
-				<div class="hmtabs hidden-sm hidden-xs">
-					<ul>
-						<li class="selected col-md-4 text-center nopadding">
-						{lang code='being_watched'}
-						</li>
-                        
-						<li class="selected col-md-4 text-center nopadding-left">
-						{lang code='most_viewed'}
-						</li>
-                        
-						<li class="selected col-md-4 text-center nopadding">
-						{lang code='recently_added'}
-						</li>
-					</ul>    	
-				</div> <!--TABS END-->    
-			</div>
-		</div>
+        <div class="clearfix"></div><BR />
 
-		<script>
-		jQuery(document).ready(function ($) {
-		{ldelim}
-			var options = { $AutoPlay: true };
-			var jssor_slider1 = new $JssorSlider$('slider1_container', options);
-			var jssor_slider2 = new $JssorSlider$('slider2_container', options);
-			var jssor_slider3 = new $JssorSlider$('slider3_container', options);		
-		{rdelim}
-		});
+		<!-- ******************************************* //-->
+        <!-- *************** VIDEOS START ************** //-->
+        <!-- ******************************************* //-->
+        <div class="row nopadding">
+        <h2 class="myHeading">Videos</h2>
+        <div class="col-md-12" style="display:block; height:160px; padding:5px;">
 		
-		var _hidediv = null;
-		function showdiv(id) {
-			if(_hidediv)
-			hidediv();
+		<script>
+		jssor_slider1_starter = function (containerId) {
+			var options = {
+				$AutoPlay: true,
+				//[Optional] Whether to auto play, default value is false
+				
+				$AutoPlaySteps: 3,
+				//[Optional] Steps for each navigation
+				
+				$AutoPlayInterval: 4000,
+				//[Optional] Interval (in milliseconds)
+				
+				$PauseOnHover: 0,
+				// [Optional] Whether to pause when mouse over,
+				// 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device
+				
+				$ArrowKeyNavigation: true,
+				//[Optional] Allows keyboard (arrow key) navigationdefault value is false
+				
+				$SlideDuration: 300,
+				//[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
+				
+				$MinDragOffsetToSlide: 20,
+				//[Optional] Minimum drag offset to trigger slide , default value is 20
+				
+				$SlideWidth: 235,
+				//[Optional] Width of every slide in pixels, default value is width of 'slides' container
+				//$SlideHeight: 150,
+				//[Optional] Height of every slide in pixels, default value is height of 'slides' container
+				
+				$SlideSpacing: 8,
+				//[Optional] Space between each slide in pixels, default value is 0
+				
+				$DisplayPieces: 4,
+				//[Optional] Number of pieces to display
+				//(the slideshow would be disabled if the value is set to greater than 1)
+				// the default value is 1
+				
+				$ParkingPosition: 0,
+				//[Optional] The offset position to park slide
+				//(this options applys only when slideshow disabled), default value is 0.
+				
+				$UISearchMode: 1,
+				// [Optional] The way (0 parellel, 1 recursive, default value is 1)
+				// to search UI components
+				// (slides container, loading screen, navigator container,
+				// direction navigator container, thumbnail navigator container etc).
+				
+				$PlayOrientation: 1,
+				// [Optional] Orientation to play slide
+				// (for auto play, navigation), 1 horizental, 2 vertical, default value is 1
+				
+				$DragOrientation: 1,
+				// [Optional] Orientation to drag slide,
+				// 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1
+				// (Note that the $DragOrientation should be the same as $PlayOrientation
+				// when $DisplayPieces is greater than 1, or parking position is not 0)
+				
+				$NavigatorOptions: {
+				//[Optional] Options to specify and enable navigator or not
+				$Class: $JssorNavigator$,
+				//[Required] Class to create navigator instance
+				$ChanceToShow: 2,
+				//[Required] 0 Never, 1 Mouse Over, 2 Always
+				$AutoCenter: 0,
+				// [Optional] Auto center navigator in parent container,
+				// 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+				
+				$Steps: 1,
+				//[Optional] Steps to go for each navigation request, default value is 1
+				
+				$Lanes: 1,
+				//[Optional] Specify lanes to arrange items, default value is 1
+				
+				$SpacingX: 0,
+				//[Optional] Horizontal space between each item in pixel, default value is 0
+				
+				$SpacingY: 0,
+				//[Optional] Vertical space between each item in pixel, default value is 0
+				
+				$Orientation: 1
+				//[Optional] The orientation of the navigator, 1 horizontal, 2 vertical, default value is 1
+				},
+				
+				$DirectionNavigatorOptions: {
+					$Class: $JssorDirectionNavigator$,
+					//[Requried] Class to create direction navigator instance
+					$ChanceToShow: 1,
+					//[Required] 0 Never, 1 Mouse Over, 2 Always
+					$AutoCenter: 2,
+					// [Optional] Auto center navigator in parent container,
+					// 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+					$Steps: 3
+					//[Optional] Steps to go for each navigation request, default value is 1
+				}
+			};
 			
-			var div = document.getElementById(id);
-			div.style.display = 'block';
-			_hidediv = function () { div.style.display = 'none'; };
-		}
+			var jssor_slider1 = new $JssorSlider$(containerId, options);
+			
+			//responsive code begin
+			//you can remove responsive code if you don't want the slider scales while window resizes
+			function ScaleSlider() {
+				var bodyWidth = document.body.clientWidth;
+				if (bodyWidth)
+					jssor_slider1.$SetScaleWidth(Math.min(bodyWidth, 725));
+				else
+					window.setTimeout(ScaleSlider, 30);
+			}
+			
+			ScaleSlider();
+			$JssorUtils$.$AddEvent(window, "load", ScaleSlider);
+			
+			if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile)/)) {
+				$JssorUtils$.$OnWindowResize(window, ScaleSlider);
+			}
+			//responsive code end
+		};
         </script>
         
-		<div class="col-md-4 nopadding">
-			<div id="slider1_container" class="cbHomeSldVidCont">
-				<div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 240px; height: 120px;">
-				{foreach from=$videos_06_lv item=video_06_lv}
-				<div class="col-md-12 text-center nopadding">
-				<a href="{videoLink vdetails=$video_06_lv}" title="{$video_06_lv.title}">
-				<img src="{getThumb vdetails=$video_06_lv}" width="240" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_lv} />
-				<div style="position:relative; z-index:100; margin-top:-25px; color: #000; background: rgba(0, 0, 0, 0.1);">{$video_06_lv.title|truncate:10}</div>
-				</a>
-
-	            <div class="cbHomeVidDuration">
-	            {$video_06_lv.duration|number_format}
-	            </div>
-
-				</div>
-                {/foreach}
-				</div>
-			</div>
+        <div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 725px; height: 120px;">
+        
+        <!-- Loading Screen -->
+        <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+        	<div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block; background-color: #000; top: 0px; left: 0px;width: 100%;height:100%;">
+            </div>
+            <div style="position: absolute; display: block; background: url(../img/loading.gif) no-repeat center center; top: 0px; left: 0px;width: 100%; height:100%;">
+            </div>
 		</div>
         
-		<div class="col-md-4 nopadding">
-			<div id="slider2_container" class="cbHomeSldVidCont">
-				<div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 240px; height: 120px;">
-				{foreach from=$videos_06_v item=video_06_v}
-				<div class="col-md-12 text-center nopadding">
-				<a href="{videoLink vdetails=$video_06_v}" title="{$video_06_v.title}">
-				<img src="{getThumb vdetails=$video_06_v}" width="240" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_v} />
-				<div class="cbHomeVidTitle">{$video_06_v.title|truncate:10}</div>
-				</a>
-
-	            <div class="cbHomeVidDuration">
-
-	            {$video_06_v.duration|number_format}
-	            </div>
-
-				</div>
-                {/foreach}
+        <!-- Slides Container -->
+        <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 725px; height: 120px; overflow: hidden;">
+        {foreach from=$videos_06_da item=video_06_da}
+        	<div class="col-md-12 text-center nopadding">
+            	<a href="{videoLink vdetails=$video_06_da}" title="{$video_06_da.title}">
+                <img src="{getThumb vdetails=$video_06_da}" width="240" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_da} />
+                <div class="cbHomeVidTitle">{$video_06_da.title|truncate:10}</div>
+                </a>
+                <div class="cbHomeVidDuration">
+                {$video_06_da.duration|number_format}
                 </div>
 			</div>
+		{/foreach}
 		</div>
         
-		<div class="col-md-4 nopadding">
-			<div id="slider3_container" class="cbHomeSldVidCont">
-				<div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 240px; height: 120px;">
-				{foreach from=$videos_06_da item=video_06_da}
-                <div class="col-md-12 text-center nopadding">
-				<a href="{videoLink vdetails=$video_06_da}" title="{$video_06_da.title}">
-				<img src="{getThumb vdetails=$video_06_da}" width="240" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_da} />
-				<div class="cbHomeVidTitle">{$video_06_da.title|truncate:10}</div>
-				</a>
-
-	            <div class="cbHomeVidDuration">
-	            {$video_06_da.duration|number_format}
-	            </div>
-
-				</div>
-                {/foreach}
-				</div>
-			</div>
-		</div>
-		<!-- Videos END //-->
+        <!-- navigator container -->
+        <div u="navigator" class="jssorn03" style="position: absolute; bottom: -25px; left: 50%;">
+        <!-- navigator item prototype -->
+        <div u="prototype" style="position: absolute; width: 21px; height: 21px; text-align:center; line-height:21px; color:#000; font-size:12px;">
+        <NumberTemplate></NumberTemplate>
+        </div>
+        </div>
+        <!-- Navigator Skin End -->       
         
+        <!-- Arrow Left -->
+        <span u="arrowleft" class="jssord03l" style="width: 55px; height: 55px; top: 123px; left: 8px;"></span>
+        <!-- Arrow Right -->
+        <span u="arrowright" class="jssord03r" style="width: 55px; height: 55px; top: 123px; right: 8px"></span>        
+        
+        <!-- Direction Navigator Skin End -->
+        <a style="display: none" href="http://www.jssor.com">jQuery Image Slider</a>
+        <!-- Trigger -->
+		
+		<script>
+		jssor_slider1_starter('slider1_container');
+        </script>
+        </div>
+        
+        </div>
+        </div>
+		<!-- ******************************************* //-->
+        <!-- *************** VIDEOS END ************** //-->
+        <!-- ******************************************* //-->
+
         <div class="clearfix"></div><BR />
-        
-        <!-- Photos START //-->
+
+		<!-- ******************************************* //-->
+        <!-- *********** FIRST PHOTOS START ************ //-->
+        <!-- ******************************************* //-->
         <div class="row nopadding">
 		<h2 class="myHeading">Photos</h2>
+        
 		<div class="col-md-12" style="display:block; height:320px; padding:5px;">
 			<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
-			{foreach from=$result_photos_01 item=result_photo_01}
-            	<a href="{$cbphoto->photo_links($result_photo_01,'view_item')}">
-            	{get_photo details=$result_photo_01 output='html' width="460" height="300"}
+			{foreach from=$result_photos1_01 item=result_photo1_01}
+            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
+            	{get_photo details=$result_photo1_01 output='html' width="460" height="300"}
             	</a>
             {/foreach}
             </div>
             
             <div class="col-md-4 nopadding" style="display:block; height:80px;">
-			{foreach from=$result_photos_08 item=result_photo_08}
+			{foreach from=$result_photos1_08 item=result_photo1_08}
 				<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
-            	<a href="{$cbphoto->photo_links($result_photo_08,'view_item')}">
-            	{get_photo details=$result_photo_08 output='html' width="105" class='photoThumbBox moveL'}
+            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
+            	{get_photo details=$result_photo1_08 output='html' width="105" class='photoThumbBox moveL'}
             	</a>
             {if $photos@iteration > 1}{break}{/if}
        	    </div>
             {/foreach}
 			</div>
+		
+        </div>
 		</div>
-		</div>
+		<!-- ******************************************* //-->
+        <!-- *********** FIRST PHOTOS END ************ //-->
+        <!-- ******************************************* //-->
 
 
-		<!-- Photos END //-->
 
-        
-        <!-- Photos START //-->
+		<!-- ******************************************* //-->
+        <!-- *********** SECOND PHOTOS START ************ //-->
+        <!-- ******************************************* //-->
         <div class="row nopadding">
 		<div class="col-md-12" style="display:block; height:320px; padding:5px;">
             
             <div class="col-md-4 nopadding" style="display:block; height:80px;">
-			{foreach from=$result_photos_08 item=result_photo_08}
+			{foreach from=$result_photos2_08 item=result_photo2_08}
 				<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
-            	<a href="{$cbphoto->photo_links($result_photo_08,'view_item')}">
-            	{get_photo details=$result_photo_08 output='html' width="105" class='photoThumbBox moveL'}
+            	<a href="{$cbphoto->photo_links($result_photo2_08,'view_item')}">
+            	{get_photo details=$result_photo2_08 output='html' width="105" class='photoThumbBox moveL'}
             	</a>
             {if $photos@iteration > 1}{break}{/if}
        	    </div>
@@ -282,34 +380,39 @@
 			</div>
 
 			<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
-			{foreach from=$result_photos_01 item=result_photo_01}
-            	<a href="{$cbphoto->photo_links($result_photo_01,'view_item')}">
-            	{get_photo details=$result_photo_01 output='html' width="460" height="300"}
+			{foreach from=$result_photos2_01 item=result_photo2_01}
+            	<a href="{$cbphoto->photo_links($result_photo2_01,'view_item')}">
+            	{get_photo details=$result_photo2_01 output='html' width="460" height="300"}
             	</a>
             {/foreach}
             </div>
-
-
+			</div>
+            
 		</div>
 		</div>
-</div>
+		<!-- ******************************************* //-->
+        <!-- *********** SECOND PHOTOS END ************ //-->
+        <!-- ******************************************* //-->
 
-		<!-- Photos END //-->
 
 
-    
-        
-		<!-- Advertisement Block START //-->
+		<!-- ******************************************* //-->
+        <!-- ******** ADVERTISEMENT BLOCK START ******** //-->
+        <!-- ******************************************* //-->
 		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
 		<h2 class="myHeadingBLK" style="margin-top:0;">Advertisement</h2>
-			<div class="col-md-12" style="font-size:18px; border:1px solid #CCC; background:#FFF; display:block; height: 200px; width: 350px; line-height: 200px; text-align:center;">
+			<div class="col-md-12 text-center nopadding" style="font-size:18px; border:1px solid #CCC; background:#FFF; display:block; height: 250px; width: 300px; line-height: 200px; text-align:center; left:7%;">
 			Ad Box 300 x 250
 			</div>
 		</div>
-		<!-- Advertisement Block END //-->
-     
-        
-        <!-- User Block START //-->
+		<!-- ******************************************* //-->
+        <!-- ******** ADVERTISEMENT BLOCK END ******** //-->
+        <!-- ******************************************* //-->
+
+
+		<!-- ******************************************* //-->
+        <!-- ************* USER BLOCK START ************ //-->
+        <!-- ******************************************* //-->
 		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
 		<h2 class="myHeadingBLK" style="margin-top:0;">Featured Users</h2>
 		{section name=result_users loop=$result_users}
@@ -333,18 +436,28 @@
 		</div>
 		{/section}
 		</div>
-		<!-- User Block END //-->
+		<!-- ******************************************* //-->
+        <!-- ************* USER BLOCK END ************ //-->
+        <!-- ******************************************* //-->
 
-		<!-- Advertisement Block START //-->
+
+		<!-- ******************************************* //-->
+        <!-- ********** FACEBOOK BLOCK START *********** //-->
+        <!-- ******************************************* //-->
 		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
 		<h2 class="myHeadingBLK" style="margin-top:0;">Facebook Like Box</h2>
 			<div class="col-md-12" style="font-size:18px; border:1px solid #CCC; background:#FFF; display:block; height: 200px; width: 350px; line-height: 200px; text-align:center;">
 			Facebook Like Box
 			</div>
 		</div>
-		<!-- Advertisement Block END //-->
+		<!-- ******************************************* //-->
+        <!-- ********** FACEBOOK BLOCK END *********** //-->
+        <!-- ******************************************* //-->
 
-		<!-- Comments Block START //-->
+
+		<!-- ******************************************* //-->
+        <!-- ********** COMMENTS BLOCK START *********** //-->
+        <!-- ******************************************* //-->
 		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px; margin-top:10px;">
 		<h2 class="myHeadingBLK" style="margin-top:0;">Most Commented</h2>
 		
@@ -375,7 +488,9 @@
 		</div>
 
 		</div>
-		<!-- Comments Block END //-->
+		<!-- ******************************************* //-->
+        <!-- *********** COMMENTS BLOCK END ************ //-->
+        <!-- ******************************************* //-->
 
 		</div>
 		</div>
