@@ -222,15 +222,12 @@
 						"file_name":file_name,
 						"vid" : vid,
 						},function(data){
-							var oneFileForm = $("#uploadFormContainer0").clone();
-							// $('#remoteUploadBttnStop').hide();
-							// $('#ytUploadBttn').hide();
+							var oneFileForm = $("#updateVideoInfoForm").clone();
 							$(oneFileForm).find("input[name=title]").val(data.title);
-							$(oneFileForm).find("input[name=desc]").val(data.description);
+							$(oneFileForm).find("textarea#desc").val(data.description);
+							$(oneFileForm).find("input[name='category[]']:first").attr('checked', 'checked');
 							$(oneFileForm).find("input[name=videoid]").val(vid);
 							$(oneFileForm).find("input[name=fileName]").val(file_name);
-							$("#remoteDownloadStatus").css("display", "none");
-							$("#submitRemoteUpload").css("display", "block");
 
 
 							// creating the hidden form fields
@@ -249,11 +246,10 @@
 							$(oneFileForm).find("form").append(hiddenVideoNameField);
 
 
-
-							$(oneFileForm)
+							$("#remoteForm").html("");
+							$(oneFileForm).removeClass("hidden")
 							.attr("id", "uploadFormContainer_remote")
-							.appendTo("#remoteUploadFormContainer");
-							$(".uploadFormContainer").css("display", "block");
+							.appendTo("#remoteForm");
 							$(oneFileForm).find("form").on({
 								submit: function(e){
 									e.preventDefault();
@@ -281,6 +277,18 @@
 									});
 								}
 							});
+							 $(".formSection h4").on({
+                        click: function(e){
+                            e.preventDefault();
+                            if($(this).find("i").hasClass("glyphicon-chevron-down")){
+                                $(this).find("i").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+                                $(this).next().toggleClass("hidden");
+                            }else{
+                                $(this).find("i").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+                                $(this).next().toggleClass("hidden");
+                            }
+                        }
+                    });
 						},'json');
 					}
 				});
