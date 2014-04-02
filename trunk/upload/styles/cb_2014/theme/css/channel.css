@@ -1069,3 +1069,11 @@ footer {
     right: -14px;
     top: -40px;
 }
+
+/*Footer Design*/
+footer {
+    background: none repeat scroll 0 0 #FFFFFF;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding-top: 20px;
+}
+
