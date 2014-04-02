@@ -191,6 +191,7 @@
                     setTimeout(function(){
                         $("#uploaderContainer").toggleClass("hidden");
                         $("#uploadDataContainer").toggleClass("hidden");
+                        $(".uploadingProgressContainer").hide();
                         uploader.start();
                     }, 1000);
                     // updating file title in the form
@@ -217,10 +218,6 @@
                     // var percent = file.percent/100;
                     // progressBar.value = percent;
 
-                    var overallProgress = $("#overallProgress");
-                    var totalFiles = files.length;
-                    var percent = (file.percent/totalFiles)*100;
-                    $("#overallProgress").css("width", (percent)+"%");
                 });
 
 
@@ -234,6 +231,7 @@
                 uploader.bind('FileUploaded', function(plupload, fileDetails, response){
                     $("#overallProgress").css("width", ((100/files.length)*(++filesUploaded))+"%");
                     $("#overallProgress").parents(".row").find("#uploadedFilesInfo").text("Uploaded " + (filesUploaded) + " of " + files.length);
+                    $(".uploadingProgressContainer").hide();
                     var serverResponse = $.parseJSON(response.response);
                     var fileName = serverResponse.file_name;
                     var uploadForm = $("#tab"+currentFileIndex+" form");
