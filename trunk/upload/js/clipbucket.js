@@ -174,6 +174,7 @@
 					$youtubeButton.attr("disabled","disabled");
 					//$cancelButton.show();
 				}else{
+					$(".downloadStatusContainer").removeClass("hidden");
 					$uploadButton.attr("disabled","disabled").hide();
 					$youtubeButton.attr("disabled","disabled");
 					$cancelButton.show();
@@ -186,6 +187,7 @@
 					$youtubeButton.removeAttr("disabled");
 					$uploadButton.removeAttr("disabled").show();
 				}else{
+					$(".downloadStatusContainer").addClass("hidden");
 					$cancelButton.removeAttr("disabled").hide();
 					$youtubeButton.removeAttr("disabled");
 					$uploadButton.removeAttr("disabled").show();
