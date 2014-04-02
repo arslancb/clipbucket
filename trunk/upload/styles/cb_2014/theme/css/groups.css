@@ -57,6 +57,7 @@ border-bottom: 1px solid #DDDDDD;
 }
 .theme_color , .theme_color a {
     color: #0099CC !important;
+    cursor: pointer;
 }
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
     color: #5a595a;

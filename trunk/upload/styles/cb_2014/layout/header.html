@@ -83,9 +83,11 @@
 
                     {if userid()}
                     <li class="dropdown myaccount-dd">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img class="img-circle" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg" /> Member's Menu <b class="caret"></b></a>
+                        <span class="dropdown-toggle theme_color col-md-12" data-toggle="dropdown"> <img class="img-circle" src="{$userquery->getUserThumb('','small',userid())}" style="width: 40px; height: 40px;"/> {$userquery->username}<b class="caret"></b></span>
                         <ul class="dropdown-menu">
                             <li><a href="myaccount.php">{lang code="my_account"}</a></li>
+                            <li><a href="manage_videos.php">{lang code="Manage Videos"}</a></li>
+                            <li><a href="channels.php">View Channels</a></li>
                             <li><a href="upload.php">Upload</a></li>
                             <li class="divider"></li>
                             <li><a href="logout.php">Logout</a></li>
