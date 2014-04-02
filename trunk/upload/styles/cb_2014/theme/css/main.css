@@ -2530,6 +2530,9 @@ a:hover {
 }
 
 .like {
-  padding-left: 156px;
+    padding-left: 156px;
 }
-
+.lfont {
+    font-size: 12px;
+    opacity: 0.8;
+}
