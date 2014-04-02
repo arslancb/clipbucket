@@ -69,6 +69,8 @@
                 var oneFileFormDiv = $("#uploadFormContainer0").clone();
                 var uploader = new plupload.Uploader({
                     browse_button: 'selectFiles',
+                    dragdrop: true,
+                    drop_element: "dragDrop",
                     runtimes : 'html5,flash,silverlight,html4',
                     url : baseurl + "/actions/file_uploader.php",
                     file_data_name : "Filedata",
