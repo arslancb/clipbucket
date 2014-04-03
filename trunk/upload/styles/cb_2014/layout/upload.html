@@ -245,6 +245,8 @@
                         uploadForm.append(hiddenVideoNameField);
                         uploadForm.append(hiddenUploadVideoFlagField);
                         uploadForm.find("#cbSubmitUpload").removeAttr('disabled').val('Upload').addClass('btn-success');
+
+                        $(uploadForm).find("#saveVideoDetails").removeAttr("disabled");
                     });
 
                     /* 
