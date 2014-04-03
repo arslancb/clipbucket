@@ -238,7 +238,8 @@
                    setTimeout(function(){
                       $("#uploaderContainer").toggleClass("hidden");
                         $("#uploadDataContainer").removeClass("hidden");
-                        $(".uploadingProgressContainer").show();
+                        $(".uploadingProgressContainer").removeClass("hidden");
+                        $("#uploadedFilesInfo").text("Uploaded 0 of " + files.length);
                         $(".allProgress").removeClass("hidden");
                        uploader.start();
                    }, 1000);
@@ -249,6 +250,7 @@
                uploader.bind("BeforeUpload", function(){
                    $("#fileUploadProgress").removeClass("hidden");
                     $(".progress-container").removeClass("hidden");
+
                })
 
                /*
