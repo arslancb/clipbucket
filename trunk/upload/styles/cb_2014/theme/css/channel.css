@@ -1179,4 +1179,7 @@ div.small-photo:nth-of-type(even)
 {
 padding-left: 2px;
 }
+.fill-background div{
+background-color: #f8f8f8;
+}
 
