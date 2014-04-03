@@ -27,16 +27,21 @@
                        <!---->
                        <!---->
                        <!---->
-                        {foreach from=$Cbucket->search_types item=t key=stypes}
-                        <li class=""  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} ><a href="#">{$stypes}</a></li>
-                        {/foreach}
+                        <!--{foreach from=$Cbucket->search_types item=t key=stypes}-->
+                        <!--<li class=""  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} ><a href="#">{$stypes}</a></li>-->
+                        <!--{/foreach}-->
+                        <select id="SearchType" name="type" class="form-control searchselect">
+                            {foreach from=$Cbucket->search_types item=t key=stypes}
+                            <option  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
+                            {/foreach}
+                        </select>
                     </ul>
                     <form class="navbar-form navbar-left searchform" role="search">
 
                         <form name="search-form" method="get" action="">
 
                         <div class="form-group">
-                            <input type="text" class="form-control searchtextbar" name="query" value="{'query'|get_form_val:true}" id="query" />
+                            <input type="text" class="form-control searchtextbar"  name="query" value="{'query'|get_form_val:true} Search here" id="query" />
                         </div>
                             <input type="submit" name="cbsearch" id="cbsearch" value="{lang code='search'}" class="btn btn-default" />
                     </form>
