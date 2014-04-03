@@ -14,31 +14,6 @@
       </div>
     </div>
   </div>
-  <div class="manageCollection">
-    <div id="CollectionDIV" style="display:none">
-      <form action="#" type="post">
-        <h3>Create New Collection</h3>
-        {assign var='reqFields' value=$cbcollection->load_required_fields()}    
-        {foreach from=$reqFields item=field}
-        {if $field.id != 'type'}
-          <div class="form-group">
-             <label for="{$field.id}">{$field.title}</label>
-             {$field.class = 'form-control'}
-             {if $field.type == 'checkbox'}
-             {$field.label_class = 'checkbox'}
-             {/if}
-             {$formObj->createField($field)}
-          </div>
-        {/if}
-        {/foreach}
-        <div class="moveR">
-          <button type="button" id="addNewCollection" class="btn btn-success">
-             Add Collection
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
   <div class="cb-box progress-container overallProgressContainer" style="display:none">    
     <div class="row">
       <div class="col-md-12">
@@ -98,8 +73,37 @@
                    <a href="#" class="btn btn-success" id="createNewCollection">
                       Create New Collection
                    </a>
-                   <div class="createCollection"></div>
                 </div> 
+              </div>
+              <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                  <div class="manageCollection">
+                    <div id="CollectionDIV" style="display:none">
+                      <form action="#" type="post">
+                        <h3>Create New Collection</h3>
+                        {assign var='reqFields' value=$cbcollection->load_required_fields()}    
+                        {foreach from=$reqFields item=field}
+                        {if $field.id != 'type'}
+                          <div class="form-group">
+                             <label for="{$field.id}">{$field.title}</label>
+                             {$field.class = 'form-control'}
+                             {if $field.type == 'checkbox'}
+                              {$field.label_class = 'checkbox'}
+                              {$field.notShowSeprator = true}
+                             {/if}
+                             {$formObj->createField($field)}
+                          </div>
+                        {/if}
+                        {/foreach}
+                        <div class="moveR">
+                          <button type="button" id="addNewCollection" class="btn btn-success">
+                             Add Collection
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="upload-area col-md-12 clearfix">
                 <div class="fileUploaderForm">
