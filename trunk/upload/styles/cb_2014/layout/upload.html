@@ -112,20 +112,6 @@
 
 
 
-                    $(ul).find("li").on({
-                        click: function(e){
-                            e.preventDefault();
-                            $(this).parent().find(".selectedFile").toggleClass('selectedFile');
-                            $(this).toggleClass("selectedFile");
-                            var id = $(this).attr("id");
-                            $("#mainUploadContainer .selectedFileDiv").removeClass("selectedFileDiv");
-                            $("#uploadFormContainer"+id)
-                            .toggleClass("selectedFileDiv");
-                            // .find("#title")
-                            // .val(files[id].name);
-                        }
-                    });
-
                     $("#files").html("");
                     $("#files").append(ul);
 
@@ -153,28 +139,6 @@
                     }
                     $("#allUploadForms").html("");
                     $("#allUploadForms").append(uploadForms);
-
-
-                    
-                    /*$("#uploadFormContainer"+filesIndex).addClass("selectedFileDiv").find("input[name='title']").val(files[filesIndex].name);
-                    $("#uploadFormContainer"+filesIndex).find("textarea#desc").val(files[filesIndex].name);
-                    $("#uploadFormContainer"+filesIndex).find("input[name='category[]']:first").attr('checked', 'checked');
-                    var loop = totalFiles - uploadedFiles.length;
-                    //console.log("totalFiles:"+ totalFiles + ", loop:"+loop);
-                    for( var i = loop; i < totalFiles; i++ ){
-                        oneFile = files[i];
-                        oneFileForm = $(oneFileFormDiv).clone();//.addClass("selectedFileDiv");
-                        $(oneFileForm).find("input[name='title']").val(files[i].name);
-                        $(oneFileForm).find("textarea#desc").val(files[i].name);
-                        $(oneFileForm).find("input[name='category[]']:first").attr('checked', 'checked');
-                        if(i > 0){
-                            $(oneFileForm)
-                            .attr("id", "uploadFormContainer" + i)
-                            .appendTo("#allUploadForms");
-                            //console.log(oneFileForm);
-                        }
-                       
-                    }*/
 
                     $(".formSection h4").on({
                         click: function(e){
@@ -331,16 +295,7 @@
                     setTimeout(function(){
                         $("#uploadMessage").addClass("hidden");
                     }, 8000);
-                    //console.log(err);
                 });
-
-                /*$('#uploadFiles').on({
-                    click : function(e){
-                        e.preventDefault();
-                        $("#overallProgress").parents(".row").find("#uploadedFilesInfo").text("Uploaded " + (filesUploaded) + " of " + files.length);
-                        uploader.start();
-                    }
-                });*/
 
                 $("#files a").click(function(e){
                     e.preventDefault();

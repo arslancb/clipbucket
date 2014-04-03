@@ -149,3 +149,11 @@
     margin-top: 10px;
     margin-bottom: 0;
   }
+
+  .photoFormContainer{
+    display: none;
+  }
+
+  .paddingTop{
+    padding-top: 10px;
+  }
