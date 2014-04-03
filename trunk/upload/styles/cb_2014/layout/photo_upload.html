@@ -1,38 +1,26 @@
 {if $step == 1 || $step == ""}
   <div id="uploadMessage" class=""></div>
-  <div class="container cb-box progress-container allProgress">  
-    <div class="row">
-      <div class="col-md-2" id="uploadedFilesInfo">
-        <p>Uploaded 0 of 0</p>
-      </div>
-      <div class="col-md-10">
-        <div class="progress">
-          <div id="overallProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-          <span class="sr-only">40% Complete (success)</span>
+  <div class="container">
+    <div class="cb-box progress-container overallProgressContainer hidden" id="overallProgressContainer">    
+      <div class="row">
+        <div class="col-md-12">
+          <div class="col-md-2" id="uploadedFilesInfo">
+            <p>Uploaded 0 of 0</p>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="cb-box progress-container overallProgressContainer" style="display:none">    
-    <div class="row">
-      <div class="col-md-12">
-        <div class="col-md-2" id="uploadedFilesInfo">
-          <p>Uploaded 0 of 0</p>
-        </div>
-        <div class="col-md-10">
-          <div class="progress">
-            <div id="overallProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-              <span class="sr-only">40% Complete (success)</span>
+          <div class="col-md-10">
+            <div class="progress">
+              <div id="overallProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                <span class="sr-only">40% Complete (success)</span>
+              </div>
             </div>
-          </div>
-        </div>  
+          </div>  
+        </div>
+        <!-- <div class="col-md-2">
+          <a id="uploadFiles" class="btn btn-success" href="javascript:;">
+            Upload
+          </a>
+        </div> -->
       </div>
-      <!-- <div class="col-md-2">
-        <a id="uploadFiles" class="btn btn-success" href="javascript:;">
-          Upload
-        </a>
-      </div> -->
     </div>
   </div>
 
@@ -117,7 +105,7 @@
               </div>
             </div>
             <div id="uploadDataContainer" class="uploadDataContainer clearfix marginTop">
-              <div class="uploadingProgressContainer clearfix">
+              <div class="uploadingProgressContainer clearfix hidden">
                   <div class="alert alert-info">
                       <p><b>Selected Files</b> Uploading in progress <small><span id="progressNumber">0%</span> Complete of Photo <span id="videoNumber"></span></small></p>
                   </div>
@@ -241,6 +229,7 @@
                         $(".uploadingProgressContainer").removeClass("hidden");
                         $("#uploadedFilesInfo").text("Uploaded 0 of " + files.length);
                         $(".allProgress").removeClass("hidden");
+                        $("#overallProgressContainer").removeClass("hidden");
                        uploader.start();
                    }, 1000);
                    // updating file title in the form
