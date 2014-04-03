@@ -99,106 +99,107 @@
             </div>
             </div>
             <hr>
-            <!--<div class="col-md-15 table-bordered">-->
-                <!--<table class="table">-->
-                    <!--<tr>-->
-                        <!--<td class="alert-info">-->
-                            <!--<b>Video Thumbnails</b>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                <!--</table>-->
-                <!--<div class="dropdown">-->
-                    <!--<a class="btn btn-primary btn-sm dropdown-toggle pull-right" data-toggle="dropdown" href="">Manage Thumbs  <i class="caret"></i></a>-->
-                    <!--<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu">-->
-                        <!--{if $data.embeded !=yes}-->
-                        <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="upload_thumbs.php?video={$data.videoid}&gen_more=true">Regenerate</a>{/if}-->
-                        <!--</li>-->
-                        <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="upload_thumbs.php?video={$data.videoid}">Manage</a></li>-->
-                    <!--</ul>-->
-                <!--</div>-->
-                <!--<br><br>-->
-                <!--<div class="row videotable">-->
-                    <!--<div class="col-md-12">-->
-                        <!--{assign var=vidthumbs value=get_thumb($data,1,TRUE,FALSE,TRUE,FALSE)}-->
-                        <!--{foreach from=$vidthumbs item=vid_thumb}-->
-                        <!--<div class="col-md-2">-->
-                            <!--<ul class="ace-thumbnails">-->
-                                <!--<li>-->
-                                    <!--<img src="{$vid_thumb}" width="100" height="100">-->
-                                    <!--<div class="tools">-->
-                                        <!--<input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $data.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />-->
-                                        <!--{if $vid_thumb|getname!='processing'}-->
-                                        <!--<a href="?video={$data.videoid}&delete={$vid_thumb|getname}.{$vid_thumb|getext}">-->
-                                            <!--<i class="icon-remove red"></i></a>-->
-                                    <!--</div>-->
-                                <!--</li>-->
-                            <!--</ul>-->
-                            <!--{/if}-->
-                        <!--</div>-->
-                        <!--{/foreach}-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<br>-->
-                <!--<div class="row">-->
-                    <!--<div class="col-md-6">-->
-                        <!--<div class="table">-->
-                            <!--<label class="status">Status</label>-->
-                            <!--<select class="form-control" name="status">-->
-                                <!--<option class="form-control" value="Successful" {if $data.status=='Successful'} selected {/if}>Successfull</option>-->
-                                <!--<option class="form-control" value="processing" {if $data.status=='Processing'} selected {/if}>Processing</option>-->
-                                <!--<option class="form-control" value="Failed"{if $data.status=='Failed'} selected {/if}>Failed</option>-->
-                            <!--</select>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-5">-->
-                        <!--<label for="duration">Duration:</label>-->
-                        <!--<input type="text" class="form-control" value="{$data.duration}    (Seconds) ">-->
-                    <!--</div>-->
-                <!--</div>-->
+        <div class="col-md-12 table-bordered">
+            <table class="table">
+                <tr>
+                    <td class="alert-info">
+                        <b>Video Thumbnails</b>
+                    </td>
+                </tr>
+            </table>
+            <div class="dropdown">
+                <a class="btn btn-primary btn-sm dropdown-toggle pull-right" data-toggle="dropdown" href="">Manage Thumbs  <i class="caret"></i></a>
+                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu">
+                    {if $data.embeded !=yes}
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="upload_thumbs.php?video={$data.videoid}&gen_more=true">Regenerate</a>{/if}
+                    </li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="upload_thumbs.php?video={$data.videoid}">Manage</a></li>
+                </ul>
+            </div>
 
-                <!--<legend>Video Stats</legend>-->
-                <!--<div class="table-responsive">-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-md-1">-->
-                            <!--<label for="views">Views:</label>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-2">-->
-                            <!--<input class="form-control" name="views" type="text" id="views" value="{$data.views|number_format}" size="45"/>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-1">-->
-                            <!--<label for="rating">Rating:</label>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-2">-->
-                            <!--<input class="form-control" name="rating" type="text" id="rating" value="{$data.rating|number_format}" size="5"/>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-2">-->
-                            <!--<label for="rated_by">RatedBy:</label>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-2">-->
-                            <!--<input class="form-control" name="rated_by" type="text" id="rated_by" value="{$data.rated_by|number_format}" size="45"/>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<br><br>-->
-                    <!--<legend>Custom Upload Fields</legend>-->
-                    <!--{foreach from=$custom_upload_fields item=field}-->
-                    <!--<div class="form-group">-->
-                        <!--<table class="table">-->
-                            <!--<tr>-->
-                                <!--<td class="alert-info">-->
-                                    <!--<label><b>{$field.title|truncate:80}</b></label></td>-->
-                            <!--</tr>-->
-                        <!--</table>-->
-                        <!--{$field.class='form-control'}-->
-                        <!--{$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}-->
-                        <!--<br>-->
-                        <!--{$field.hint_2}-->
-                    <!--</div>-->
-                    <!--{/foreach}-->
-                    <!--<div class="form-group">-->
-                        <!--<input type="submit" class="btn btn-primary btn-sm" value="Update video details" style="margin:5px 0px 15px 0px" name="update">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+            <div class="row videotable">
+                <div class="col-md-12">
+                    {assign var=vidthumbs value=get_thumb($data,1,TRUE,FALSE,TRUE,FALSE)}
+                    {foreach from=$vidthumbs item=vid_thumb}
+                    <div class="col-md-2">
+                        <ul class="ace-thumbnails">
+                            <li>
+                                <img src="{$vid_thumb}" width="100" height="100">
+                                <div class="tools">
+                                    <input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $data.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />
+                                    {if $vid_thumb|getname!='processing'}
+                                    <a href="?video={$data.videoid}&delete={$vid_thumb|getname}.{$vid_thumb|getext}">
+                                        <i class="icon-remove red"></i></a>
+                                </div>
+                            </li>
+                        </ul>
+                        {/if}
+                    </div>
+                    {/foreach}
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="table">
+                        <label class="status">Status</label>
+                        <select class="form-control" name="status">
+                            <option class="form-control" value="Successful" {if $data.status=='Successful'} selected {/if}>Successfull</option>
+                            <option class="form-control" value="processing" {if $data.status=='Processing'} selected {/if}>Processing</option>
+                            <option class="form-control" value="Failed"{if $data.status=='Failed'} selected {/if}>Failed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label for="duration">Duration:</label>
+                    <input type="text" class="form-control" value="{$data.duration}    (Seconds) ">
+                </div>
+            </div>
+
+            <legend>Video Stats</legend>
+            <div class="table-responsive">
+                <div class="row">
+                    <div class="col-md-1">
+                        <label for="views">Views:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" name="views" type="text" id="views" value="{$data.views|number_format}" size="45"/>
+                    </div>
+                    <div class="col-md-1">
+                        <label for="rating">Rating:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" name="rating" type="text" id="rating" value="{$data.rating|number_format}" size="5"/>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="rated_by">RatedBy:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" name="rated_by" type="text" id="rated_by" value="{$data.rated_by|number_format}" size="45"/>
+                    </div>
+                </div>
+                <br><br>
+                <legend>Custom Upload Fields</legend>
+                {foreach from=$custom_upload_fields item=field}
+                <div class="form-group">
+                    <table class="table">
+                        <tr>
+                            <td class="alert-info">
+                                <label><b>{$field.title|truncate:80}</b></label></td>
+                        </tr>
+                    </table>
+                    {$field.class='form-control'}
+                    {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                    <br>
+                    {$field.hint_2}
+                </div>
+                {/foreach}
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary btn-sm" value="Update video details" style="margin:5px 0px 15px 0px" name="update">
+                </div>
+            </div>
+        </div>
+    </div>
             </div>
 
 
@@ -245,10 +246,10 @@
 													<br>
 													<span class="line-height-1 smaller-90"> Flagged </span>
 												</span>
-    <div class="head">
-        <div class="cb-box">
+
         {FlashPlayer vdetails = $data width='100%' class='flashplayer' autoplay='false'}
-            </div>
+
+    <div class="head">
         {foreach from=$video_fields item=field_group}
         {if $field_group.group_name=='Sharing and privacy options'}
         <div class="tabbable">
@@ -430,17 +431,6 @@
 
 </div>
 {/if}
-
-
-
-
-
-
-
-
-
-
-
 
 
 
