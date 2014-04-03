@@ -46,14 +46,18 @@ $result_array_06_v['order'] = " views DESC LIMIT 6";
 $videos_06_v = get_videos($result_array_06_v);
 Assign('videos_06_v', $videos_06_v);
 
-$result_array_06_da['order'] = " date_added DESC LIMIT 6";
-$videos_06_da = get_videos($result_array_06_da);
-Assign('videos_06_da', $videos_06_da);
+$result_array_10_da['order'] = " date_added DESC LIMIT 10";
+$videos_10_da = get_videos($result_array_10_da);
+Assign('videos_10_da', $videos_10_da);
 
 $parr = $array;
 $parr['order'] = " date_added DESC LIMIT 6";
 $photos = $cbphoto->get_photos($parr);
 Assign('photos', $photos);
+$parr = $array;
+$parr['order'] = " date_added DESC LIMIT 10";
+$photos_viewd = $cbphoto->get_photos($parr);
+Assign('photos_viewd', $photos_viewd);
 
 $result_array = $array;
 $result_array['order'] = " doj DESC LIMIT 5";
