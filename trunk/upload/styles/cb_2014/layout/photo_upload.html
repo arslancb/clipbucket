@@ -35,7 +35,7 @@
             <div class="instructions alert alert-info">
                {lang code='upload_right_guide_photo'}
             </div>
-            <div class="clearfix">
+            <div class="clearfix" id="uploaderContainer">
               <h4>Select Collection</h4>
               <div class="row">
                 <div id="SelectionDIV" class="col-md-9">
@@ -110,22 +110,22 @@
                       <p><b>Selected Files</b> Uploading in progress <small><span id="progressNumber">0%</span> Complete of Photo <span id="videoNumber"></span></small></p>
                   </div>
               </div>
-              <!-- <div class="align-right">
-                  <a href="#" class="btn btn-primary uploadMoreVideos" id="uploadMoreVideos">Upload More Videos</a>
-              </div> -->
+              <div class="align-right hidden" id="uploadMore">
+                  <a href="#" class="btn btn-primary uploadMoreVideos" id="uploadMoreVideos">Upload More Photos</a>
+              </div>
+              <div class="marginTop">
+                <div id="files" class=""></div>
+                <div id="allUploadForms" class="tab-content allUploadForms"></div>
+              </div>
             </div>
-          </div>
-          <div class="marginTop">
-            <div id="files" class=""></div>
-            <div id="allUploadForms" class="tab-content allUploadForms"></div>
-          </div>
           </div>
         </div>
       </div>
     </div>
-    <div id="photoForm" class="hidden">
-      {include file="$style_dir/blocks/upload/photo_form.html" }
-    </div>
+  </div>
+  <div id="photoForm" class="hidden">
+    {include file="$style_dir/blocks/upload/photo_form.html" }
+  </div>
   </div>
 
   <script type="text/javascript">
@@ -162,7 +162,7 @@
                    }
 
                    $("#selectedFiles").toggle("display");
-
+                   $("#uploadMore").addClass("hidden");
 
                    // creating the selected files list
                    var ul = document.createElement('ul');
@@ -228,7 +228,7 @@
 
 
                    setTimeout(function(){
-                      $("#uploaderContainer").toggleClass("hidden");
+                      $("#uploaderContainer").addClass("hidden");
                         $("#uploadDataContainer").removeClass("hidden");
                         $(".uploadingProgressContainer").removeClass("hidden");
                         $("#uploadedFilesInfo").text("Uploaded 0 of " + files.length);
@@ -349,6 +349,7 @@
 
                uploader.bind("UploadComplete", function(plupload, files){
                    $("#fileUploadProgress").addClass("hidden");
+                   $("#uploadMore").removeClass("hidden");
                     $(".uploadingProgressContainer").addClass("hidden");
                     uploader.refresh();
                     $("#uploadMessage").html("All Files are uploaded Successfully").attr("class", "alert alert-success");            
@@ -429,6 +430,15 @@
                       });
                     }
                   }
+                });
+
+                $("#uploadMoreVideos").on({
+                    click: function(e){
+                        e.preventDefault();
+                        $("#uploaderContainer").removeClass("hidden");
+                        $("#uploadDataContainer").addClass("hidden");
+                        //$(this).addClass("hidden");
+                    }
                 });
                 
            });

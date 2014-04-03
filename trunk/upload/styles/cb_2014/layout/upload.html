@@ -87,6 +87,7 @@
                     for(var i = 0; i < uploadedFiles.length; i++){
                         files.push(uploadedFiles[i]);
                     }
+                    $("#uploadMore").addClass("hidden");
                     // creating the selected files list
                     var ul = document.createElement('ul');
                     ul.id = "selectedFilesList";
@@ -285,6 +286,7 @@
 
                 uploader.bind("UploadComplete", function(plupload, files){
                     $("#fileUploadProgress").addClass("hidden");
+                    $("#uploadMore").removeClass("hidden");
                     $(".uploadingProgressContainer").hide();
                     uploader.refresh();
                     $("#uploadMessage").html("All Files are uploaded Successfully").attr("class", "alert alert-success");            
