@@ -47,10 +47,12 @@ switch($mode)
 		$_POST['photo_title'] = genTags(str_replace(array('_','-'),' ',$_POST['photo_title']));
 		$_POST['photo_description'] = genTags(str_replace(array('_','-'),' ',$_POST['photo_description']));
 		$_POST['photo_tags'] = genTags(str_replace(array(' ','_','-'),', ',$_POST['photo_tags']));
+		$_POST['collection_id'] = $_POST['collection_id'];
 		$_POST['server_url'] = mysql_clean($_POST['server_url']);
 		$_POST['active'] = 'no';
 		$_POST['folder'] = str_replace('..','',mysql_clean($_POST['folder']));
 		$_POST['folder'] = createDataFolders(PHOTOS_DIR);
+		$_POST['filename'] = mysql_clean($_POST['file_name']);
 		$insert_id = $cbphoto->insert_photo();
 		
 		if(error())
@@ -61,6 +63,9 @@ switch($mode)
 			$response['photoID'] = $insert_id;
 			
 			$details = $cbphoto->get_photo($insert_id);
+			$details["filename"] = $_POST["file_name"];
+			$details["ext"] = getExt($_POST["title"]);
+			$cbphoto->generate_photos($details);
 			//var_dump($details);
 			$params = array("details"=>$details,"size"=>"m");
 			//var_dump($params);
@@ -175,7 +180,6 @@ switch($mode)
 
     case 'plupload': {
         $status_array = array();
-
         // HTTP headers for no cache etc
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
         header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
