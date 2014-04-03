@@ -1105,6 +1105,21 @@ footer ul li a{
     top: 25px;
     z-index: 9;  
 }
+#slide_prev1{
+    left: 0;
+    position: absolute;
+    top: 27px;
+    z-index: 9;
+    background-color: rgba(0, 0, 0, 0.6);
+
+}
+#slide_next1{
+   background-color: rgba(0, 0, 0, 0.6);
+    position: relative;
+    right: 15px;
+    top: 25px;
+    z-index: 9;  
+}
 .cb_img_thum{
     cursor: pointer;
 }

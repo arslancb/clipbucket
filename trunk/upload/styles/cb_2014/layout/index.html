@@ -51,6 +51,20 @@
 		<!-- Editor Pick Videos Slider Container START //-->
         <div class="col-md-3 nopadding-left">
         	<div class="bs-callout-info highlight thumbnail min-height-120 no-border-radius fill">
+        		<!--<a href="#" class="pull-left" id="slide_prev1">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+					</a>
+        		<div id="slide1" class="pull-left" >
+				{*section name=e_list loop=$editor_picks*}
+            		
+            	{*include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]*}
+						
+				{*/section*}
+
+				</div>
+				<a href="#" class="pull-left " id="slide_next1" >
+					<span class="glyphicon glyphicon-chevron-right"></span>
+				</a>-->
 	  			<h3>Video Name.............</h3>
 	  			<div class="small min-height-40">Video Description.....................</div>
 	    		<input type="submit" class="no-border-radius btn btn-primary btn-block" value="{lang code='View Video'}" name="view_video">
@@ -74,6 +88,20 @@
 					},
                     nextButton: '#slide_next',
                     prevButton: '#slide_prev',
+                    duration: 800,
+                    /*autoslide: 2000,*/
+					easing: 'easeOutBounce'
+                });
+                $('#slide1').ulslide({
+                    width: 200,
+                    height: 75,
+					effect: {
+						type: 'fade', // slide or fade or carousel
+                        axis: 'x',        // x, y
+						showCount: 6
+					},
+                    nextButton: '#slide_next1',
+                    prevButton: '#slide_prev1',
                     duration: 800,
                     /*autoslide: 2000,*/
 					easing: 'easeOutBounce'
@@ -121,7 +149,7 @@
 		 		<div class="clearfix"></div><BR />
 <!-- *********** PHOTOS START ************ //-->
 		<div class="row nopadding">
-        			<div class="col-md-8 nopadding">
+        			<div class="col-md-9 nopadding">
         				<h3 class="theme_color">{lang code="Latest Photos"}</h3>
 						<hr>
         				<!-- *********** FIRST PHOTOS START ************ //-->
@@ -129,7 +157,7 @@
 							<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
 							{foreach from=$result_photos1_01 item=result_photo1_01}
 				            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
-				            	{get_photo details=$result_photo1_01 output='html' width="460" height="300"}
+				            	{get_photo details=$result_photo1_01 output='html' width="545" height="300" class="cb_img_thum"}
 				            	</a>
 				            {/foreach}
 				            </div>
@@ -138,7 +166,7 @@
 							{foreach from=$result_photos1_08 item=result_photo1_08}
 								<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
 				            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
-				            	{get_photo details=$result_photo1_08 output='html' width="105" class='photoThumbBox moveL'}
+				            	{get_photo details=$result_photo1_08 output='html' width="125" height="65" class='photoThumbBox moveL cb_img_thum'}
 				            	</a>
 				            {if $photos@iteration > 1}{break}{/if}
 				       	    </div>
@@ -153,7 +181,7 @@
 						{foreach from=$result_photos2_08 item=result_photo2_08}
 							<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
 				        	<a href="{$cbphoto->photo_links($result_photo2_08,'view_item')}">
-				        	{get_photo details=$result_photo2_08 output='html' width="105" class='photoThumbBox moveL'}
+				        	{get_photo details=$result_photo2_08 output='html' width="125" height="65" class='photoThumbBox moveL cb_img_thum'}
 				        	</a>
 				        {if $photos@iteration > 1}{break}{/if}
 				   	    </div>
@@ -163,7 +191,7 @@
 						<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
 						{foreach from=$result_photos2_01 item=result_photo2_01}
 				        	<a href="{$cbphoto->photo_links($result_photo2_01,'view_item')}">
-				        	{get_photo details=$result_photo2_01 output='html' width="460" height="300"}
+				        	{get_photo details=$result_photo2_01 output='html' width="545" height="300" class="cb_img_thum"}
 				        	</a>
 				        {/foreach}
 				        </div>
@@ -173,13 +201,13 @@
 			        <!-- ************* USER BLOCK START ************ //-->
 			        <!-- ******************************************* //-->
     				</div>
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<h3 class="theme_color">{lang code="Being Viewed Photos"}</h3>
 						<hr>
 					
 						{foreach from=$photos_viewd item=photo_viewd}
 				        	<a href="{$cbphoto->photo_links($photo_viewd,'view_item')}">
-				        	{include file="$style_dir/blocks/photo.html" photo=$photo_viewd display_type='side_photos'}
+				        	{include file="$style_dir/blocks/photo.html" photo=$photo_viewd display_type='side_photos_viewed'}
 				        	</a>
 				        {/foreach}
 					</div>
