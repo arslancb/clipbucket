@@ -1,26 +1,27 @@
 {if $display_type == "" || $display_type == "normal"}
 
-    <div class="col-md-2 marginTop text-center box" id="collection_{$collection.collection_id}">
-        <div class="vid_thumb">
-            <a class="show" href="{$cbcollection->collection_links($collection,'view')}">
-                <img class="img-thumbnail" style="height: 80px" src="{$cbcollection->get_thumb($collection,'small')}" />
-            </a>
-            <span class="vid_time">{$collection.total_objects|number_format} {$collection.type|capitalize}</span>
-        </div>
-         <div class="vid_info_wrap">
-            <a href="{$cbcollection->collection_links($collection,'view')}">
-                {$collection.collection_name|truncate:10}
-            </a>
-            <small class="show">
-                <span class="show">{$collection.views} {lang code="views"}</span>
-                <a class="show" href="{$userquery->profile_link($collection)}" title="{$collection.username}">
-                    {$collection.username|truncate:16}
+<div class="row">
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="{$cbcollection->get_thumb($collection,'small',TRUE)}"/>
+            </div>
+            <div class="col-md-9">
+                <a href="{$baseurl}/admin_area/edit_collection.php?collection={$collection.collection_id}">{$collection.collection_name}</a> ({$collection.total_objects} {$collection.type})
                 </a>
-                {show_rating class='show' rating=$collection.rating ratings=$collection.rated_by total='10'}
-            </small>
-            
-         </div>
-    </div>    
+                <div class="labels">
+                    {if $collection.featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
+                    <span class="label {if $collection.active=='yes'}label-success{else}label-warning{/if}">{if $collection.active=='yes'}Active{else}NotActive{/if}</span>
+                    <span class="label label-info"><strong>Type</strong>      {$collection.type}</span>
+                    <span class="label label-info"><strong>{$collection.date_added|niceTime}</strong> </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <a href="view_user.php?uid={$collection.userid}">{$collection.username}</a>
+    </div>
+</div>
 {/if}
 
 {if $display_type == "view_collection"}
