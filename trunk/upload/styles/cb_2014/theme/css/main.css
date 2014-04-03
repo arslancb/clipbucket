@@ -1962,6 +1962,7 @@ footer {
     top: 30px;
     left: 140px;
     right: 100px;
+    width: 10px;
 }
 /*videos page*/
 .item_video{
@@ -2646,4 +2647,27 @@ a:hover {
 
 .photoimg {
     width: 100%;
+}
+
+.searchpage {
+    margin-top: -44px;
+}
+
+.searchnav {
+    margin-top: 44px;
+}
+
+.searchform {
+    margin-top: 35px;
+}
+.searchdrop {
+    margin-top: 50px;
+}
+
+.padding42 {
+    margin-top: 12px;
+}
+
+.searchtextbar {
+    width: 275px ;
 }
