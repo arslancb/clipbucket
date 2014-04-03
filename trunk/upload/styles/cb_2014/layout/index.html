@@ -19,7 +19,7 @@
 			
 		<div class="col-md-9 nopadding-right">
 			<!-- Editor Pick Video Main Container START //-->
-			<div id="ep_video_container">
+			<div id="ep_video_container" class="min-height-355 clearfix">
 				{if is_installed('editorspick')}
 				{section name=e_list loop=$editor_picks max=1}
 				{include file="$style_dir/blocks/editor_pick/video_block.html" video=$editor_picks[e_list]}
@@ -40,6 +40,7 @@
             	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
 						
 				{/section}
+
 				</div>
 				<a href="#" class="pull-left " id="slide_next" >
 					<span class="glyphicon glyphicon-chevron-right"></span>
@@ -175,9 +176,10 @@
 					<div class="col-md-4">
 						<h3 class="theme_color">{lang code="Being Viewed Photos"}</h3>
 						<hr>
+					
 						{foreach from=$photos_viewd item=photo_viewd}
 				        	<a href="{$cbphoto->photo_links($photo_viewd,'view_item')}">
-				        	{get_photo details=$photo_viewd output='html' width="460" height="300"}
+				        	{include file="$style_dir/blocks/photo.html" photo=$photo_viewd display_type='side_photos'}
 				        	</a>
 				        {/foreach}
 					</div>
