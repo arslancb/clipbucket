@@ -21,12 +21,15 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse searchpage" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav searchnav">
-                        <li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} class="active"><a  href="search_result.php?query=&type=videos&cbsearch=Search">Videos</a></li>
-                        <li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} class=""><a href="search_result.php?query=&type=photos&cbsearch=Search">Photos</a></li>
-                        <li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} class=""><a href="search_result.php?query=&type=channels&cbsearch=Search">Channels</a></li>
-                        <!--{foreach from=$Cbucket->search_types item=t key=stypes}-->
-                        <!--<li class=""  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} ><a href="#">{$stypes}</a></li>-->
-                        <!--{/foreach}-->
+                        <!--<li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} class="active"><a  href="search_result.php?query=&type=videos&cbsearch=Search">Videos</a></li>-->
+                        <!--<li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} class=""><a href="search_result.php?query=&type=photos&cbsearch=Search">Photos</a></li>-->
+                        <!--<li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} class=""><a href="search_result.php?query=&type=channels&cbsearch=Search">Channels</a></li>-->
+                       <!---->
+                       <!---->
+                       <!---->
+                        {foreach from=$Cbucket->search_types item=t key=stypes}
+                        <li class=""  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} ><a href="#">{$stypes}</a></li>
+                        {/foreach}
                     </ul>
                     <form class="navbar-form navbar-left searchform" role="search">
 
