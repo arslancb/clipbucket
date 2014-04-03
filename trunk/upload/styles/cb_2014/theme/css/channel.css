@@ -1078,7 +1078,8 @@ footer {
 }
 footer ul li{
 float: left;
-border-right: 1px solid #DDDDDD;    
+border-right: 1px solid #DDDDDD; 
+margin-top: 10px;   
 }
 footer ul li:last-child
 {
@@ -1086,5 +1087,5 @@ border-right: none;
 } 
 footer ul li a{
     color: #777777;
-    padding: 5px 15px !important;
+    padding: 0px 15px 0px 15px !important;
 }
