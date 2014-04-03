@@ -104,7 +104,11 @@
                         link.href = "#tab"+index;
                         link.setAttribute("data-toggle", "tab");
                         // link.innerHTML = file.name + " (" + plupload.formatSize(file.size) + ")";
-                        link.innerHTML = "(" + (index + 1) + ") " + file.name;
+                        if(files.length < 8){
+                          link.innerHTML = "(" + (index + 1) + ") " + file.name.substring(0, 10);
+                        }else{
+                          link.innerHTML = "(" + (index + 1) + ") ";
+                        }
                         li.id = index++;
                         li.appendChild(link);
                         ul.appendChild(li);
