@@ -274,3 +274,7 @@ ul#stickies li:hover {
 .navbar-container {
     width: 100%;
 }
+
+.videotable {
+    padding-left: 20px;
+}
