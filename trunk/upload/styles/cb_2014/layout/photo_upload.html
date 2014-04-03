@@ -101,7 +101,7 @@
                    <div class="createCollection"></div>
                 </div> 
               </div>
-              <div class="upload-area col-md-12">
+              <div class="upload-area col-md-12 clearfix">
                 <div class="fileUploaderForm">
                     <div class="dragDropContainer" id="dragDrop">
                         Drag &amp; Drop Files Here
@@ -121,11 +121,11 @@
               <!-- <div class="align-right">
                   <a href="#" class="btn btn-primary uploadMoreVideos" id="uploadMoreVideos">Upload More Videos</a>
               </div> -->
-              <div id="files"></div>
-              <div id="allUploadForms" class="tab-content allUploadForms"></div>
           </div>
-            <div id="files"></div>
+          <div class="marginTop">
+            <div id="files" class=""></div>
             <div id="allUploadForms" class="tab-content allUploadForms"></div>
+          </div>
           </div>
         </div>
       </div>
@@ -216,6 +216,9 @@
                         $(oneUploadForm).find("input[name='photo_title']").val(files[i].name);
                         $(oneUploadForm).find("textarea#photo_description").val(files[i].name);
                         $(oneUploadForm).find("input[name='category[]']:first").attr('checked', 'checked');
+                        if(typeof files[i]['photoThumb'] !== "undefined"){
+                          $(oneUploadForm).find("img").attr("src", files[i]['photoThumb']);
+                        }
                         wrapperDiv.appendChild(oneUploadForm);   
                         uploadForms.push(wrapperDiv);
                     }
@@ -229,7 +232,7 @@
 
                    setTimeout(function(){
                       $("#uploaderContainer").toggleClass("hidden");
-                        $("#uploadDataContainer").toggleClass("hidden");
+                        $("#uploadDataContainer").removeClass("hidden");
                         $(".uploadingProgressContainer").show();
                         $(".allProgress").removeClass("hidden");
                        uploader.start();
@@ -297,7 +300,10 @@
                        //creating the hidden form fields
                       $(uploadForm).find("img").attr("src", msg.photoPreview);
                       $(uploadForm).find(".submitPhoto").removeAttr("disabled");
-
+                      
+                      if(typeof files[(currentFileIndex - 1)] !== "undefined"){
+                        files[(totalUploaded-1)]['photoThumb'] = msg.photoPreview;
+                      }
                        var hiddenPhotoIdField = document.createElement('input');
                        hiddenPhotoIdField.name = 'photo_id';
                        hiddenPhotoIdField.type = 'hidden';
