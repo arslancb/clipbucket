@@ -987,7 +987,6 @@ class CBPhotos
 
 		$filename = $p['filename'];
 		$extension = $p['ext'];
-				
 		$this->createThumb($path.$filename.".".$extension,$path.$filename."_o.".$extension,$extension);	
 		$this->createThumb($path.$filename.".".$extension,$path.$filename."_t.".$extension,$extension,$this->thumb_width,$this->thumb_height);
 		$this->createThumb($path.$filename.".".$extension,$path.$filename."_m.".$extension,$extension,$this->mid_width,$this->mid_height);

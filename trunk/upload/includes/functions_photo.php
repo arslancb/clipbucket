@@ -161,7 +161,6 @@ function get_image_file( $params ) {
     $size = $params[ 'size' ];
     $default = array( 't', 'm', 'l', 'o' );
     $thumbs = array();
-
     if( !$details ) {
         //var_dump("get default 1");
         return get_photo_default_thumb( $size, $output );
@@ -172,6 +171,7 @@ function get_image_file( $params ) {
     } else {
         $photo = $details;
     }
+
 
     if ( empty( $photo[ 'photo_id' ] ) or empty( $photo[ 'photo_key' ] ) ) {
         //var_dump("get default 2");
