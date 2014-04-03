@@ -60,7 +60,6 @@
                     </table>
                 </div>
                 </div>
-
             <div id="uinformation1" class="tab-pane">
                 <legend>Uploader Information</legend>
                 <div class="form-group">
@@ -96,6 +95,7 @@
                     </table>
 
                 </div>
+            </div>
             </div>
             </div>
             <hr>
@@ -202,9 +202,8 @@
             </div>
             </div>
 
-    </div>
-    <div class="col-md-6">
-         <span class="btn btn-app btn-sm btn-light no-hover">
+<div class="col-sm-6 col-md-6 col-lg-6 col x1-12 pull-right">
+    <span class="btn btn-app btn-sm btn-light no-hover">
 													<span class="line-height-1 bigger-170 blue">{$data.views|format_number}</span>
 													<br>
 													<span class="line-height-1 smaller-90"> Views </span>
@@ -231,14 +230,14 @@
 													<span class="line-height-1 smaller-90">Featured</span>
 												</span>
                 </span>
-        <a href="?add_editor_pick={$data.videoid}">
+    <a href="?add_editor_pick={$data.videoid}">
             <span class="btn btn-app btn-sm btn-success no-hover">
 													<span class="line-height-1 bigger-140">Add</span>
 
 													<br>
 													<span class="line-height-1 smaller-90"> Editor Pick </span>
 												</span>
-        </a>
+    </a>
             <span class="btn btn-app btn-sm btn-primary no-hover">
                 {section name=list loop=$flagedVideos}
 													<span class="line-height-1 bigger-170"> {$flagedVideos[list].total_flags} </span>
@@ -246,8 +245,6 @@
 													<br>
 													<span class="line-height-1 smaller-90"> Flagged </span>
 												</span>
-    </div>
-<div class="col-sm-6 col-md-6 col-lg-6 col x1-12 pull-right">
     <div class="head">
         {FlashPlayer vdetails = $data width='100%' autoplay='false'}
         {foreach from=$video_fields item=field_group}
