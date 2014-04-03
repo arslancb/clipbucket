@@ -20,7 +20,7 @@
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse searchpage" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav searchnav">
+                    <!--<ul class="nav navbar-nav searchnav">-->
                         <!--<li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} class="active"><a  href="search_result.php?query=&type=videos&cbsearch=Search">Videos</a></li>-->
                         <!--<li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} class=""><a href="search_result.php?query=&type=photos&cbsearch=Search">Photos</a></li>-->
                         <!--<li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} class=""><a href="search_result.php?query=&type=channels&cbsearch=Search">Channels</a></li>-->
@@ -30,15 +30,16 @@
                         <!--{foreach from=$Cbucket->search_types item=t key=stypes}-->
                         <!--<li class=""  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} ><a href="#">{$stypes}</a></li>-->
                         <!--{/foreach}-->
+                        <form class="navbar-form navbar-left searchform" role="search">
+
+                            <form name="search-form" method="get" action="">
                         <select id="SearchType" name="type" class="form-control searchselect">
                             {foreach from=$Cbucket->search_types item=t key=stypes}
                             <option  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
                             {/foreach}
                         </select>
-                    </ul>
-                    <form class="navbar-form navbar-left searchform" role="search">
+                    <!--</ul>-->
 
-                        <form name="search-form" method="get" action="">
 
                         <div class="form-group">
                             <input type="text" class="form-control searchtextbar"  name="query" value="{'query'|get_form_val:true} Search here" id="query" />
