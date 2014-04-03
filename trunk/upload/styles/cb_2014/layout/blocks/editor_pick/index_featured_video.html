@@ -1,9 +1,11 @@
-<div onclick="get_ep_video('{$video.videoid}')" class="featured_vid_con clearfix">
-	<div class="video_thumb">
-	<img src="{getThumb vdetails=$video}" width="125" height="75" border="0" {ANCHOR place="video_thumb" data=$video} />
+
+<div onclick="get_ep_video('{$video.videoid}')" class="clearfix">
+	<div class="cb_img_thum">
+	<img src="{getThumb vdetails=$video}" width="140" height="70" border="0" {ANCHOR place="video_thumb" data=$video} />
+	<span class="glyphicon glyphicon-play"></span>
 	</div> <!--VIDEO_THUMB END-->
 
-<div class="details_block">
+<!--<div class="details_block">
 	<div class="title" style="font-family:Tahoma, Geneva, sans-serif; font-weight:normal;">
 	<a href="#" style="color:#000; text-decoration:none; font-weight:bold; font-size:12px;">{$video.title|truncate:20}</a>
     </div>
@@ -13,6 +15,8 @@
 	<div style="padding-top: 20px; font-size:11px; font-family:'Trebuchet MS', Arial, Helvetica, sans-serif; font-weight:normal;">
     {$video.duration|SetTime}
 	</div>
-</div>
+</div>-->
 
-</div> <!--DETAILS_BLOCK END-->
+</div> 
+
+<!--DETAILS_BLOCK END-->

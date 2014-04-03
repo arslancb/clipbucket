@@ -4,9 +4,9 @@
         <!-- ******************************************* //-->
 		<!-- ******** GLOBAL ANNOUNCEMENT START ******** //-->
         <!-- ******************************************* //-->
-        <h1 class="alert alert-info" style="margin-top: 5px; font-size:16px;">
-        Welome to new interface
-        </h1>
+        <div class="alert alert-info">
+      	<strong>Welome </strong>  to new interface
+    	</div>
         <!-- ******************************************* //-->
 		<!-- ********* GLOBAL ANNOUNCEMENT END ********* //-->
         <!-- ******************************************* //-->
@@ -17,7 +17,7 @@
         <!-- ******************************************* //-->
 		<div class="row">
 			
-		<div class="col-md-8 nopadding-right">
+		<div class="col-md-9 nopadding-right">
 			<!-- Editor Pick Video Main Container START //-->
 			<div id="ep_video_container">
 				{if is_installed('editorspick')}
@@ -29,34 +29,46 @@
 				{/if}
 			</div>
 			<!-- Editor Pick Video Main Container END //-->
+			<div  class="col-md-12 hidden-sm hidden-xs nopadding-left">
+				<a href="#" class="pull-left" id="slide_prev">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+					</a>
+				<div id="slide" class="pull-left" >
+				{section name=e_list loop=$editor_picks}
+            		
+            	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
+						
+				{/section}
+				</div>
+				<a href="#" class="pull-left " id="slide_next" >
+					<span class="glyphicon glyphicon-chevron-right"></span>
+				</a>
+        	</div>
         </div>
 
 		<!-- Editor Pick Videos Slider Container START //-->
-        <div id="slide" class="col-md-4 hidden-sm hidden-xs nopadding-left">
-				{section name=e_list loop=$editor_picks}
-            	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
-				{/section}
-        </div>
-        
-		<div class="col-md-4 hidden-sm hidden-xs">
-		<a href="#" class="col-md-6 btn btn-primary" id="slide_prev" style="margin-bottom:5px; margin-top:15px; margin-right: 10px; width:47%;">
-		<img src="{$baseurl}/styles/cb_2014/images/m_arrow_up.png" />
-		</a>
-		<a href="#" class="col-md-6 btn btn-primary" id="slide_next" style="margin-bottom:5px; margin-top:15px; width:47%;">
-		<img src="{$baseurl}/styles/cb_2014/images/m_arrow_down.png" />
-		</a>
+        <div class="col-md-3 nopadding-left">
+        	<div class="bs-callout-info highlight thumbnail min-height-120 no-border-radius fill">
+	  			<h3>Video Name.............</h3>
+	  			<div class="small min-height-40">Video Description.....................</div>
+	    		<input type="submit" class="no-border-radius btn btn-primary btn-block" value="{lang code='View Video'}" name="view_video">
+			</div>
+			<div>
+				<img src="{$theme}/assets/images/add320x250.png"  style="height: 235px;">
+			</div>
+			
 		</div>
 		<!-- Editor Pick Videos Slider Container END //-->
 
         <script type="text/javascript">
             $(function() {						
                 $('#slide').ulslide({
-                    width: 375,
-                    height: 90,
+                    width: 141,
+                    height: 75,
 					effect: {
-						type: 'carousel', // slide or fade
-                        axis: 'y',        // x, y
-						showCount: 4
+						type: 'carousel', // slide or fade or carousel
+                        axis: 'x',        // x, y
+						showCount: 6
 					},
                     nextButton: '#slide_next',
                     prevButton: '#slide_prev',
@@ -71,428 +83,111 @@
 		<!-- ************ EDITORS BLOCK END ************ //-->
         <!-- ******************************************* //-->
 
-
+        <div class="clearfix min-height-25"></div>
         <!-- ******************************************* //-->
 		<!-- *********** LATEST VIDEOS START *********** //-->
         <!-- ******************************************* //-->
 		<div class="row">
-		<div class="col-md-12">
+			<div class="col-md-12">
+				<div class="">
+				<h3 class="theme_color">{lang code="Latest Videos"}</h3>
+				<hr>
+				<div class="col-md-12 nopadding">
 
-		<div class="col-md-8">
-			<h2 class="myHeading">Latest Videos</h2>
-			<div class="col-md-12 nopadding">
+					{foreach from=$videos_10_da item=video}
+						<div class="item_video col-md-2 well no-border-radius no-margin">
+				    		<div class="cb_item_container clearfix">
+						        <div class="cb_item_thumb video_thumb" >
+							        <a href="{videoLink($video)}" title="{$video.title|title}">
+							        	<img class="" src="{getThumb vdetails=$video}" border="1" height="100" width="100"/>
+							        </a>
+						    	</div>
+						        <div class="item_text"  style="height: 45px;">
+						           <a href="{videoLink($video)}">{$video.description|truncate:30}</a>
+						        </div>
+				        		<span class="pull-left"><h5><small>{lang code="Views"} {$video.views}</small></h5></span>
+				        		<span class="pull-right"><h5><small><small>4k <span class="glyphicon glyphicon-thumbs-up"></span></small></small></h5></span>
+				   			</div>
+						</div>
+					{/foreach}
 
-			<div class="col-md-12 text-center nopadding">
-				<div class="col-md-8 text-center nopadding" style="border:1px solid #CCC; margin-bottom:10px;">
-				{foreach from=$videos_01 item=video_01}
-				<div class="col-md-12 text-center nopadding">
-				<a href="{videoLink vdetails=$video_01}" title="{$video_01.title}">
-				<img src="{getThumb vdetails=$video_01}" width="475" height="372" border="0" {ANCHOR place="video_thumb" data=$video_01} />
-				</a>
-				<div class="cbHomeVidTitle">{$video_01.title|truncate:30}</div>
+			    	<div class="clearfix"></div>	            
 				</div>
-
-	            <div style="position:absolute; top:5px; right:5px; font-size:11px; font-size:11px; color:#FFF; background:#333; width: 40px; height:18px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;">
-	            {$video_01.duration|number_format}
-	            </div>
-	            <div style="position:absolute; top:5px; left:5px; font-size:11px; font-size:10px; color:#FFF; background:#333; width: 100px; height:18px; text-align:center; border:1px solid rgba(0, 0, 0, 0.12); border-radius:5px;">
-	            By: {$video_01.username}
-	            </div>
-
-				{/foreach}
-				</div>
-
-				<div class="col-md-4 hidden-sm hidden-xs text-center nopadding-right" style="padding-left:8px;">
-				{foreach from=$videos_03 item=video_03}
-				<div class="col-md-12 text-center nopadding">
-				<a href="{videoLink vdetails=$video_03}" title="{$video_02.title}">
-				<img src="{getThumb vdetails=$video_03}" width="240" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_03} />
-				<div class="cbHomeVidTitle" style="margin-bottom:8px;">{$video_03.title|truncate:10}</div>
-				</a>
-
-	            <div class="cbHomeVidDuration">
-	            {$video_03.duration|number_format}
-	            </div>
-                
-				</div>
-				{/foreach}
-				</div>
-                
-            </div>
-		
-        <div class="clearfix"></div>
-        
-        		<div class="col-md-12 text-center nopadding">
-				{foreach from=$videos_03 item=video_03}
-				<div class="col-md-4 hidden-sm hidden-xs text-center nopadding-left"  style="margin-bottom:15px; padding-right:4px;">
-				<a href="{videoLink vdetails=$video_03}" title="{$video_02.title}">
-				<img src="{getThumb vdetails=$video_03}" width="242" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_03} />
-				<div class="cbHomeVidTitle">{$video_03.title|truncate:10}</div>
-				</a>
-
-	            <div class="cbHomeVidDuration">
-	            {$video_03.duration|number_format}
-	            </div>
-                
-				</div>
-				{/foreach}
-				</div>
-                
-			</div>
-
 		<!-- ******************************************* //-->
         <!-- ************ LATEST VIDEOS END ************ //-->
 		<!-- ******************************************* //-->
-
-        <div class="clearfix"></div><BR />
-
-		<!-- ******************************************* //-->
-        <!-- *************** VIDEOS START ************** //-->
-        <!-- ******************************************* //-->
-        <div class="row nopadding">
-        <h2 class="myHeading">Videos</h2>
-        <div class="col-md-12" style="display:block; height:160px; padding:5px;">
-		
-		<script>
-		jssor_slider1_starter = function (containerId) {
-			var options = {
-				$AutoPlay: true,
-				//[Optional] Whether to auto play, default value is false
-				
-				$AutoPlaySteps: 3,
-				//[Optional] Steps for each navigation
-				
-				$AutoPlayInterval: 4000,
-				//[Optional] Interval (in milliseconds)
-				
-				$PauseOnHover: 0,
-				// [Optional] Whether to pause when mouse over,
-				// 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device
-				
-				$ArrowKeyNavigation: true,
-				//[Optional] Allows keyboard (arrow key) navigationdefault value is false
-				
-				$SlideDuration: 300,
-				//[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
-				
-				$MinDragOffsetToSlide: 20,
-				//[Optional] Minimum drag offset to trigger slide , default value is 20
-				
-				$SlideWidth: 235,
-				//[Optional] Width of every slide in pixels, default value is width of 'slides' container
-				//$SlideHeight: 150,
-				//[Optional] Height of every slide in pixels, default value is height of 'slides' container
-				
-				$SlideSpacing: 8,
-				//[Optional] Space between each slide in pixels, default value is 0
-				
-				$DisplayPieces: 4,
-				//[Optional] Number of pieces to display
-				//(the slideshow would be disabled if the value is set to greater than 1)
-				// the default value is 1
-				
-				$ParkingPosition: 0,
-				//[Optional] The offset position to park slide
-				//(this options applys only when slideshow disabled), default value is 0.
-				
-				$UISearchMode: 1,
-				// [Optional] The way (0 parellel, 1 recursive, default value is 1)
-				// to search UI components
-				// (slides container, loading screen, navigator container,
-				// direction navigator container, thumbnail navigator container etc).
-				
-				$PlayOrientation: 1,
-				// [Optional] Orientation to play slide
-				// (for auto play, navigation), 1 horizental, 2 vertical, default value is 1
-				
-				$DragOrientation: 1,
-				// [Optional] Orientation to drag slide,
-				// 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1
-				// (Note that the $DragOrientation should be the same as $PlayOrientation
-				// when $DisplayPieces is greater than 1, or parking position is not 0)
-				
-				$NavigatorOptions: {
-				//[Optional] Options to specify and enable navigator or not
-				$Class: $JssorNavigator$,
-				//[Required] Class to create navigator instance
-				$ChanceToShow: 2,
-				//[Required] 0 Never, 1 Mouse Over, 2 Always
-				$AutoCenter: 0,
-				// [Optional] Auto center navigator in parent container,
-				// 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
-				
-				$Steps: 1,
-				//[Optional] Steps to go for each navigation request, default value is 1
-				
-				$Lanes: 1,
-				//[Optional] Specify lanes to arrange items, default value is 1
-				
-				$SpacingX: 0,
-				//[Optional] Horizontal space between each item in pixel, default value is 0
-				
-				$SpacingY: 0,
-				//[Optional] Vertical space between each item in pixel, default value is 0
-				
-				$Orientation: 1
-				//[Optional] The orientation of the navigator, 1 horizontal, 2 vertical, default value is 1
-				},
-				
-				$DirectionNavigatorOptions: {
-					$Class: $JssorDirectionNavigator$,
-					//[Requried] Class to create direction navigator instance
-					$ChanceToShow: 1,
-					//[Required] 0 Never, 1 Mouse Over, 2 Always
-					$AutoCenter: 2,
-					// [Optional] Auto center navigator in parent container,
-					// 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
-					$Steps: 3
-					//[Optional] Steps to go for each navigation request, default value is 1
-				}
-			};
-			
-			var jssor_slider1 = new $JssorSlider$(containerId, options);
-			
-			//responsive code begin
-			//you can remove responsive code if you don't want the slider scales while window resizes
-			function ScaleSlider() {
-				var bodyWidth = document.body.clientWidth;
-				if (bodyWidth)
-					jssor_slider1.$SetScaleWidth(Math.min(bodyWidth, 725));
-				else
-					window.setTimeout(ScaleSlider, 30);
-			}
-			
-			ScaleSlider();
-			$JssorUtils$.$AddEvent(window, "load", ScaleSlider);
-			
-			if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile)/)) {
-				$JssorUtils$.$OnWindowResize(window, ScaleSlider);
-			}
-			//responsive code end
-		};
-        </script>
+		 		<div class="clearfix"></div><BR />
+<!-- *********** PHOTOS START ************ //-->
+		<div class="row nopadding">
+        			<div class="col-md-8 nopadding">
+        				<h3 class="theme_color">{lang code="Latest Photos"}</h3>
+						<hr>
+        				<!-- *********** FIRST PHOTOS START ************ //-->
+						<div class="col-md-12" style="display:block; height:320px; padding:5px;">
+							<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
+							{foreach from=$result_photos1_01 item=result_photo1_01}
+				            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
+				            	{get_photo details=$result_photo1_01 output='html' width="460" height="300"}
+				            	</a>
+				            {/foreach}
+				            </div>
+				            
+				            <div class="col-md-4 nopadding" style="display:block; height:80px;">
+							{foreach from=$result_photos1_08 item=result_photo1_08}
+								<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
+				            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
+				            	{get_photo details=$result_photo1_08 output='html' width="105" class='photoThumbBox moveL'}
+				            	</a>
+				            {if $photos@iteration > 1}{break}{/if}
+				       	    </div>
+				            {/foreach}
+							</div>
+						</div>
+			        <!-- *********** FIRST PHOTOS END ************ //-->
+			        <!-- *********** SECOND PHOTOS START ************ //-->
+    				<div class="col-md-12" style="display:block; height:320px; padding:5px;">
         
-        <div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 725px; height: 120px;">
-        
-        <!-- Loading Screen -->
-        <div u="loading" style="position: absolute; top: 0px; left: 0px;">
-        	<div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block; background-color: #000; top: 0px; left: 0px;width: 100%;height:100%;">
-            </div>
-            <div style="position: absolute; display: block; background: url(../img/loading.gif) no-repeat center center; top: 0px; left: 0px;width: 100%; height:100%;">
-            </div>
-		</div>
-        
-        <!-- Slides Container -->
-        <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 725px; height: 120px; overflow: hidden;">
-        {foreach from=$videos_06_da item=video_06_da}
-        	<div class="col-md-12 text-center nopadding">
-            	<a href="{videoLink vdetails=$video_06_da}" title="{$video_06_da.title}">
-                <img src="{getThumb vdetails=$video_06_da}" width="240" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_da} />
-                <div class="cbHomeVidTitle">{$video_06_da.title|truncate:10}</div>
-                </a>
-                <div class="cbHomeVidDuration">
-                {$video_06_da.duration|number_format}
-                </div>
-			</div>
-		{/foreach}
-		</div>
-        
-        <!-- navigator container -->
-        <div u="navigator" class="jssorn03" style="position: absolute; bottom: -25px; left: 50%;">
-        <!-- navigator item prototype -->
-        <div u="prototype" style="position: absolute; width: 21px; height: 21px; text-align:center; line-height:21px; color:#000; font-size:12px;">
-        <NumberTemplate></NumberTemplate>
-        </div>
-        </div>
-        <!-- Navigator Skin End -->       
-        
-        <!-- Arrow Left -->
-        <span u="arrowleft" class="jssord03l" style="width: 55px; height: 55px; top: 123px; left: 8px;"></span>
-        <!-- Arrow Right -->
-        <span u="arrowright" class="jssord03r" style="width: 55px; height: 55px; top: 123px; right: 8px"></span>        
-        
-        <!-- Direction Navigator Skin End -->
-        <a style="display: none" href="http://www.jssor.com">jQuery Image Slider</a>
-        <!-- Trigger -->
-		
-		<script>
-		jssor_slider1_starter('slider1_container');
-        </script>
-        </div>
-        
-        </div>
-        </div>
-		<!-- ******************************************* //-->
-        <!-- *************** VIDEOS END ************** //-->
-        <!-- ******************************************* //-->
-
-        <div class="clearfix"></div><BR />
-
-		<!-- ******************************************* //-->
-        <!-- *********** FIRST PHOTOS START ************ //-->
-        <!-- ******************************************* //-->
-        <div class="row nopadding">
-		<h2 class="myHeading">Photos</h2>
-        
-		<div class="col-md-12" style="display:block; height:320px; padding:5px;">
-			<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
-			{foreach from=$result_photos1_01 item=result_photo1_01}
-            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
-            	{get_photo details=$result_photo1_01 output='html' width="460" height="300"}
-            	</a>
-            {/foreach}
-            </div>
-            
-            <div class="col-md-4 nopadding" style="display:block; height:80px;">
-			{foreach from=$result_photos1_08 item=result_photo1_08}
-				<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
-            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
-            	{get_photo details=$result_photo1_08 output='html' width="105" class='photoThumbBox moveL'}
-            	</a>
-            {if $photos@iteration > 1}{break}{/if}
-       	    </div>
-            {/foreach}
-			</div>
-		
-        </div>
-		</div>
-		<!-- ******************************************* //-->
-        <!-- *********** FIRST PHOTOS END ************ //-->
-        <!-- ******************************************* //-->
-
-
-
-		<!-- ******************************************* //-->
-        <!-- *********** SECOND PHOTOS START ************ //-->
-        <!-- ******************************************* //-->
-        <div class="row nopadding">
-		<div class="col-md-12" style="display:block; height:320px; padding:5px;">
-            
-            <div class="col-md-4 nopadding" style="display:block; height:80px;">
-			{foreach from=$result_photos2_08 item=result_photo2_08}
-				<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
-            	<a href="{$cbphoto->photo_links($result_photo2_08,'view_item')}">
-            	{get_photo details=$result_photo2_08 output='html' width="105" class='photoThumbBox moveL'}
-            	</a>
-            {if $photos@iteration > 1}{break}{/if}
-       	    </div>
-            {/foreach}
-			</div>
-
-			<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
-			{foreach from=$result_photos2_01 item=result_photo2_01}
-            	<a href="{$cbphoto->photo_links($result_photo2_01,'view_item')}">
-            	{get_photo details=$result_photo2_01 output='html' width="460" height="300"}
-            	</a>
-            {/foreach}
-            </div>
-			</div>
-            
-		</div>
-		</div>
-		<!-- ******************************************* //-->
+				        <div class="col-md-4 nopadding" style="display:block; height:80px;">
+						{foreach from=$result_photos2_08 item=result_photo2_08}
+							<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
+				        	<a href="{$cbphoto->photo_links($result_photo2_08,'view_item')}">
+				        	{get_photo details=$result_photo2_08 output='html' width="105" class='photoThumbBox moveL'}
+				        	</a>
+				        {if $photos@iteration > 1}{break}{/if}
+				   	    </div>
+				        {/foreach}
+						</div>
+						
+						<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
+						{foreach from=$result_photos2_01 item=result_photo2_01}
+				        	<a href="{$cbphoto->photo_links($result_photo2_01,'view_item')}">
+				        	{get_photo details=$result_photo2_01 output='html' width="460" height="300"}
+				        	</a>
+				        {/foreach}
+				        </div>
+					</div>
         <!-- *********** SECOND PHOTOS END ************ //-->
         <!-- ******************************************* //-->
-
-
-
-		<!-- ******************************************* //-->
-        <!-- ******** ADVERTISEMENT BLOCK START ******** //-->
-        <!-- ******************************************* //-->
-		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
-		<h2 class="myHeadingBLK" style="margin-top:0;">Advertisement</h2>
-			<div class="col-md-12 text-center nopadding" style="font-size:18px; border:1px solid #CCC; background:#FFF; display:block; height: 250px; width: 300px; line-height: 200px; text-align:center; left:7%;">
-			Ad Box 300 x 250
+			        <!-- ************* USER BLOCK START ************ //-->
+			        <!-- ******************************************* //-->
+    				</div>
+					<div class="col-md-4">
+						<h3 class="theme_color">{lang code="Being Viewed Photos"}</h3>
+						<hr>
+						{foreach from=$photos_viewd item=photo_viewd}
+				        	<a href="{$cbphoto->photo_links($photo_viewd,'view_item')}">
+				        	{get_photo details=$photo_viewd output='html' width="460" height="300"}
+				        	</a>
+				        {/foreach}
+						
+					</div>
+						<!-- ******************************************* //-->
+				        <!-- ************* USER BLOCK END ************ //-->
+				        <!-- ******************************************* //-->
+		</div>
+<!-- ***********  PHOTOS END ************ //-->
 			</div>
-		</div>
-		<!-- ******************************************* //-->
-        <!-- ******** ADVERTISEMENT BLOCK END ******** //-->
-        <!-- ******************************************* //-->
-
-
-		<!-- ******************************************* //-->
-        <!-- ************* USER BLOCK START ************ //-->
-        <!-- ******************************************* //-->
-		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
-		<h2 class="myHeadingBLK" style="margin-top:0;">Featured Users</h2>
-		{section name=result_users loop=$result_users}
-        	
-		<div class="col-md-12 cb-item-title-container" style="min-height:75px; margin-top:10px; margin-bottom:10px; padding-bottom: 15px; border-bottom: 1px solid #CCC;">
-			<div class="cb-item-thumb">
-			<img src="{$userquery->getuserthumb($result_users[result_users],'small')}" width="65" height="65" class="img-circle" />
-			</div>
-			<div class="cb-item-user" style="font-size:12px; margin-top:3px;">
-			<a href="{$userquery->profile_link($result_users[result_users])}">{$result_users[result_users].username}</a>
-			<BR />
-			{lang code='User Profile views'}: {$result_users[result_users].profile_hits|number_format}
-			&nbsp;&nbsp; / &nbsp;&nbsp;
-			{lang code='User Videos'}: {$result_users[result_users].total_videos|number_format}
-			</div>
-			<div style="position:absolute; top: 25%; right:5px;">
-			<a href="{$userquery->profile_link($result_users[result_users])}">
-			<img src="{$baseurl}/styles/cb_2014/images/user_next_icon.png" width="25" height="25" />
-			</a>
-			</div>
-		</div>
-		{/section}
-		</div>
-		<!-- ******************************************* //-->
-        <!-- ************* USER BLOCK END ************ //-->
-        <!-- ******************************************* //-->
-
-
-		<!-- ******************************************* //-->
-        <!-- ********** FACEBOOK BLOCK START *********** //-->
-        <!-- ******************************************* //-->
-		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
-		<h2 class="myHeadingBLK" style="margin-top:0;">Facebook Like Box</h2>
-			<div class="col-md-12" style="font-size:18px; border:1px solid #CCC; background:#FFF; display:block; height: 200px; width: 350px; line-height: 200px; text-align:center;">
-			Facebook Like Box
-			</div>
-		</div>
-		<!-- ******************************************* //-->
-        <!-- ********** FACEBOOK BLOCK END *********** //-->
-        <!-- ******************************************* //-->
-
-
-		<!-- ******************************************* //-->
-        <!-- ********** COMMENTS BLOCK START *********** //-->
-        <!-- ******************************************* //-->
-		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px; margin-top:10px;">
-		<h2 class="myHeadingBLK" style="margin-top:0;">Most Commented</h2>
-		
-        <div class="col-md-12 nopadding">
-			{foreach from=$result_comments item=comment}
-			<div class="col-md-2 nopadding-right" style=" margin-top: 10px;">
-			{if ($comment.userid!=0)}
-			<img src="images/avatars/{$comment.userid}-small.jpg" width="35" height="35" class="img-rounded" />
-            {else}
-            <img src="images/avatars/no_avatar-small.png" width="35" height="35" class="img-rounded" />
-			{/if}
-			</div>
-			
-            <!-- Displaying User Comment Box //-->
-        	<div class="col-md-10 nopadding" style="z-index:2;">
-	            <p class="mycommentboxarrow"></p>
-	            <div style="min-height:100px; margin-top:10px; padding:5px; color: #000; background:#FFF; border: 1px solid #CCC; border-radius:5px; font-size:14px; word-wrap: break-word;">
-	            {$comment.comment|truncate:150}
-	            <div style="position:absolute; bottom:5px; font-size:11px; color:#666;">
-	            Updated: {$comment.date_added|niceTime}
-	            </div>
-	            <div class="cbHomeCommCount">
-	            {$result_comments[result_comments].total_comments|number_format}
-	            </div>
-				</div>
-            </div>
-			{/foreach}
-		</div>
-
-		</div>
-		<!-- ******************************************* //-->
-        <!-- *********** COMMENTS BLOCK END ************ //-->
-        <!-- ******************************************* //-->
-
-		</div>
 		</div>
 	</div>
+</div>
 </div>
