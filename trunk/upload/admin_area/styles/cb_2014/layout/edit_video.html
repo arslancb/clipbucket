@@ -99,7 +99,7 @@
             </div>
             </div>
             <hr>
-        <div class="col-md-12 table-bordered">
+        <div>
             <table class="table">
                 <tr>
                     <td class="alert-info">
@@ -115,30 +115,25 @@
                     </li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="upload_thumbs.php?video={$data.videoid}">Manage</a></li>
                 </ul>
-            </div>
 
-            <div class="row videotable">
-                <div class="col-md-12">
-                    {assign var=vidthumbs value=get_thumb($data,1,TRUE,FALSE,TRUE,FALSE)}
-                    {foreach from=$vidthumbs item=vid_thumb}
-                    <div class="col-md-2">
-                        <ul class="ace-thumbnails">
-                            <li>
-                                <img src="{$vid_thumb}" width="100" height="100">
-                                <div class="tools">
-                                    <input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $data.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />
-                                    {if $vid_thumb|getname!='processing'}
-                                    <a href="?video={$data.videoid}&delete={$vid_thumb|getname}.{$vid_thumb|getext}">
-                                        <i class="icon-remove red"></i></a>
-                                </div>
-                            </li>
-                        </ul>
+            </div>
+            <div class="row table-bordered">
+            {assign var=vidthumbs value=get_thumb($data,1,TRUE,FALSE,TRUE,FALSE)}
+            {foreach from=$vidthumbs item=vid_thumb}
+            <ul class="ace-thumbnails">
+                <li>
+                    <img src="{$vid_thumb}" width="100" height="100">
+                    <div class="tools">
+                        <input type="radio" value="{$vid_thumb|getname}.{$vid_thumb|getext}" id="{$vid_thumb|getname}" name="default_thumb" {if $data.default_thumb==$vid_thumb|get_thumb_num} checked="checked"{/if} />
+                        {if $vid_thumb|getname!='processing'}
+                        <a href="?video={$data.videoid}&delete={$vid_thumb|getname}.{$vid_thumb|getext}">
+                            <i class="icon-remove red"></i></a>
                         {/if}
                     </div>
-                    {/foreach}
+                </li>
+            </ul>
+            {/foreach}
                 </div>
-            </div>
-            <br>
             <div class="row">
                 <div class="col-md-6">
                     <div class="table">
@@ -155,7 +150,6 @@
                     <input type="text" class="form-control" value="{$data.duration}    (Seconds) ">
                 </div>
             </div>
-
             <legend>Video Stats</legend>
             <div class="table-responsive">
                 <div class="row">
@@ -199,8 +193,10 @@
                 </div>
             </div>
         </div>
-    </div>
-            </div>
+        </div>
+
+
+
 
 
 <div class="col-sm-6 col-md-6 col-lg-6 col x1-12">
@@ -430,6 +426,7 @@
 
 
 </div>
+</form>
 {/if}
 
 
