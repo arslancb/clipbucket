@@ -110,8 +110,9 @@
                 </div>
 
                 <div class="pad-bottom-sm text-right">
-                    <button class="btn btn-primary btn-lg">Submit Now</button>
-                </div>  
+                    <input name="submit_upload" type="hidden" value="just_do_it">
+                    <input type="button" name="embed_upload" id="embed_upload" value="Upload" onClick="check_embed_code('{$objId}')" class="btn btn-primary btn-lg"/>  
+                </div> 
             </div>
         </div>
         <div class="col-md-4 uploadFormSidebarDiv">
@@ -128,10 +129,7 @@
 
 
 
-    <input name="submit_upload" type="hidden" value="just_do_it">
-    <div>
-      <input type="button" name="embed_upload" id="embed_upload" value="Upload" onClick="check_embed_code('{$objId}')" class="btn btn-primary"/>
-    </div>
+    
     </form>
     
 </div>
