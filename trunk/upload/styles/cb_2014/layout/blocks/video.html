@@ -2,37 +2,21 @@
 {assign var=cur_class value=$smarty.cookies.current_style}
 {/if}
 
-
 {if $display_type =='normal' || $display_type==''}
 <!-- Video Box -->
-<div id="vid_wrap_{$video.videoid}" class="col-md-6 text-center">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1 well">
-            <div class="vid_thumb">
-                <a href="{videoLink vdetails=$video}">
-                    <img src="{getThumb vdetails=$video}" class="img-thumbnail" title="{$video.title}" alt="{$video.title}" data=$video} />
-                </a>
-                <p class="vid_time">{$video.duration|SetTime}</p>
-                {if $video.broadcast=='private'}
-                    <a href="{videoLink vdetails=$video}"><span class="private_video">&nbsp;</span></a>
-                {/if}
-                {ANCHOR place='in_video_thumb' data=$video}    
-            </div>
-            <div class="">
-                <h4 class="">
-                    <a href="{videoLink vdetails=$video}" title="{$video.title}">{$video.title|truncate:40}</a>
-                </h4>
-                <span>
-                    {show_rating class='rating' rating=$video.rating ratings=$video.rated_by total='10' }
-                </span>            
-                <p id="desc" class="vid_info">{$video.description|description|truncate:100}</p>
-                <p class="vid_info">{$video.views} View(<strong>s</strong>) <span class="list_commnets"> | {$video.comments_count} Comment(<strong>s</strong>)</span></p>
-                <p class="vid_info"><span class="info_list">Uploaded By </span><a href="{$userquery->profile_link($video)}">{$video.username}</a> <span class="list_up_time">({$video.date_added|niceTime})</span></p>
-            </div>
-        </div>
-    </div>
 
+<div class="col-md-3">
+    <a href="{videoLink($video)}" title="{$video.title|title}">
+        <img src="{getThumb vdetails=$video}"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/></a>
+    <p class="duration1"><b class="color">{if
+        $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</b></p>
+    <h5><a href="{videoLink($video)}" title="{$video.title|title}"><b>{$video.title|truncate:22}</b></a></h5>
+    <small class="font1 new1"><b>{lang code='views'} :{$video.views}</b></small>
+    <small class="font2 new1"><b>{$video.date_added|niceTime}</b></small>
+    <hr>
 </div>
+
+
 
 {if $only_once}
     <div class="clearfix"></div>
@@ -57,7 +41,8 @@
         {else}
         <input type="checkbox" name="check_video_{$video.videoid}" id="check_video_{$video.videoid}" style="position:absolute; bottom:0px; left:0px" {if $check_this} checked="checked"{/if} value="yes" />
         {/if}
-        <div class="duration">{$video.duration|SetTime}</div>
+
+        <div class="duration color">{$video.duration|SetTime}</div>
         
 </div> <!--VIDEO_THUMB END-->
     <div class="details_block">
