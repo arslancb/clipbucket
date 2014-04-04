@@ -2688,3 +2688,9 @@ a:hover {
 .admargin {
     margin-right: -43px;
 }
+
+.hrred {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background: red;
+}
