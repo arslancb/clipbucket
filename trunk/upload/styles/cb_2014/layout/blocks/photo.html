@@ -2,7 +2,7 @@
 <div class="show-image">
     <div class="col-md-4 col-sm-4 col-xs-6">
         <a href="{$cbphoto->photo_links($photo,'view_item')}">
-            {if $photo.counter%4}
+            {if $photo.counter%1}
             {get_photo details=$photo output='html' class='photothumbs'}
             {else}
             {get_photo details=$photo output='html' class='photothumbs1'}
