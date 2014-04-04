@@ -1,0 +1,194 @@
+{if $slider !=''}
+
+<div id="slide1">
+{foreach from=$videos_06_da item=video_06_da}
+<div class="col-md-2 text-center nopadding">
+<div class="col-md-11 text-center nopadding">
+	<a href="{videoLink vdetails=$video_06_da}" title="{$video_06_da.title}">
+    <img class="cb_img_thum" src="{getThumb vdetails=$video_06_da}" width="135" height="75"  {ANCHOR place="video_thumb" data=$video_06_da} />
+    <div class="cbHomeVidTitle cbHomeVidTitle_slid-title">{$video_06_da.title|truncate:10}</div>
+    </a>
+    <div class="cbHomeVidDuration cbHomeVidDuration_slide">
+    {$video_06_da.duration|number_format}
+    </div>
+</div>
+</div>
+{/foreach}
+</div>
+<div class="nxt-pre">
+		<a href="#" class="circle" id="slide_prev1">
+		<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+		<a href="#" class="circle" id="slide_next1">
+		<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+		</div>
+{/if}
+
+{if $slider2!=''}
+<script>
+        jssor_slider1_starter = function (containerId) {
+            var options = {
+                $AutoPlay: true,
+                //[Optional] Whether to auto play, default value is false
+                
+                $AutoPlaySteps: 3,
+                //[Optional] Steps for each navigation
+                
+                $AutoPlayInterval: 4000,
+                //[Optional] Interval (in milliseconds)
+                
+                $PauseOnHover: 0,
+                // [Optional] Whether to pause when mouse over,
+                // 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device
+                
+                $ArrowKeyNavigation: true,
+                //[Optional] Allows keyboard (arrow key) navigationdefault value is false
+                
+                $SlideDuration: 300,
+                //[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
+                
+                $MinDragOffsetToSlide: 20,
+                //[Optional] Minimum drag offset to trigger slide , default value is 20
+                
+                $SlideWidth: 235,
+                //[Optional] Width of every slide in pixels, default value is width of 'slides' container
+                //$SlideHeight: 150,
+                //[Optional] Height of every slide in pixels, default value is height of 'slides' container
+                
+                $SlideSpacing: 8,
+                //[Optional] Space between each slide in pixels, default value is 0
+                
+                $DisplayPieces: 4,
+                //[Optional] Number of pieces to display
+                //(the slideshow would be disabled if the value is set to greater than 1)
+                // the default value is 1
+                
+                $ParkingPosition: 0,
+                //[Optional] The offset position to park slide
+                //(this options applys only when slideshow disabled), default value is 0.
+                
+                $UISearchMode: 1,
+                // [Optional] The way (0 parellel, 1 recursive, default value is 1)
+                // to search UI components
+                // (slides container, loading screen, navigator container,
+                // direction navigator container, thumbnail navigator container etc).
+                
+                $PlayOrientation: 1,
+                // [Optional] Orientation to play slide
+                // (for auto play, navigation), 1 horizental, 2 vertical, default value is 1
+                
+                $DragOrientation: 1,
+                // [Optional] Orientation to drag slide,
+                // 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1
+                // (Note that the $DragOrientation should be the same as $PlayOrientation
+                // when $DisplayPieces is greater than 1, or parking position is not 0)
+                
+                $NavigatorOptions: {
+                //[Optional] Options to specify and enable navigator or not
+                $Class: $JssorNavigator$,
+                //[Required] Class to create navigator instance
+                $ChanceToShow: 2,
+                //[Required] 0 Never, 1 Mouse Over, 2 Always
+                $AutoCenter: 0,
+                // [Optional] Auto center navigator in parent container,
+                // 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                
+                $Steps: 1,
+                //[Optional] Steps to go for each navigation request, default value is 1
+                
+                $Lanes: 1,
+                //[Optional] Specify lanes to arrange items, default value is 1
+                
+                $SpacingX: 0,
+                //[Optional] Horizontal space between each item in pixel, default value is 0
+                
+                $SpacingY: 0,
+                //[Optional] Vertical space between each item in pixel, default value is 0
+                
+                $Orientation: 1
+                //[Optional] The orientation of the navigator, 1 horizontal, 2 vertical, default value is 1
+                },
+                
+                $DirectionNavigatorOptions: {
+                    $Class: $JssorDirectionNavigator$,
+                    //[Requried] Class to create direction navigator instance
+                    $ChanceToShow: 1,
+                    //[Required] 0 Never, 1 Mouse Over, 2 Always
+                    $AutoCenter: 2,
+                    // [Optional] Auto center navigator in parent container,
+                    // 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                    $Steps: 3
+                    //[Optional] Steps to go for each navigation request, default value is 1
+                }
+            };
+            
+            var jssor_slider1 = new $JssorSlider$(containerId, options);
+            
+            //responsive code begin
+            //you can remove responsive code if you don't want the slider scales while window resizes
+            function ScaleSlider() {
+                var bodyWidth = document.body.clientWidth;
+                if (bodyWidth)
+                    jssor_slider1.$SetScaleWidth(Math.min(bodyWidth, 725));
+                else
+                    window.setTimeout(ScaleSlider, 30);
+            }
+            
+            ScaleSlider();
+            $JssorUtils$.$AddEvent(window, "load", ScaleSlider);
+            
+            if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile)/)) {
+                $JssorUtils$.$OnWindowResize(window, ScaleSlider);
+            }
+            //responsive code end
+        };
+        </script>
+  <div id="slider1_container" >
+        
+        <!-- Loading Screen -->
+        <div u="loading" >
+        	<div style="filter: alpha(opacity=70); opacity:0.7; display: block; background-color: #000; top: 0px; left: 0px;width: 100%;height:100%;">
+            </div>
+            <div style="display: block; background: url(../img/loading.gif) no-repeat center center; top: 0px; left: 0px;width: 100%; height:100%;">
+            </div>
+		</div>
+        
+        <!-- Slides Container -->
+        <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 725px; height: 120px; overflow: hidden;">
+        {foreach from=$videos_06_da item=video_06_da}
+        	<div class="col-md-12 text-center nopadding">
+            	<a href="{videoLink vdetails=$video_06_da}" title="{$video_06_da.title}">
+                <img src="{getThumb vdetails=$video_06_da}" width="240" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_06_da} />
+                <div class="cbHomeVidTitle">{$video_06_da.title|truncate:10}</div>
+                </a>
+                <div class="cbHomeVidDuration">
+                {$video_06_da.duration|number_format}
+                </div>
+			</div>
+		{/foreach}
+		</div>
+        
+        <!-- navigator container -->
+        <div u="navigator" class="jssorn03" style="position: absolute; bottom: -25px; left: 50%;">
+        <!-- navigator item prototype -->
+        <div u="prototype" style="position: absolute; width: 21px; height: 21px; text-align:center; line-height:21px; color:#000; font-size:12px;">
+        <NumberTemplate></NumberTemplate>
+        </div>
+        </div>
+        <!-- Navigator Skin End -->       
+        
+        <!-- Arrow Left -->
+        <span u="arrowleft" class="jssord03l" style="width: 55px; height: 55px; top: 123px; left: 8px;"></span>
+        <!-- Arrow Right -->
+        <span u="arrowright" class="jssord03r" style="width: 55px; height: 55px; top: 123px; right: 8px"></span>        
+        
+        <!-- Direction Navigator Skin End -->
+        <a style="display: none" href="http://www.jssor.com">jQuery Image Slider</a>
+        <!-- Trigger -->
+		
+		<script>
+		jssor_slider1_starter('slider1_container');
+        </script>
+        </div>
+{/if}

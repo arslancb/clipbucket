@@ -4,9 +4,9 @@
         <!-- ******************************************* //-->
 		<!-- ******** GLOBAL ANNOUNCEMENT START ******** //-->
         <!-- ******************************************* //-->
-        <div class="alert alert-info">
-      	<strong>Welome </strong>  to new interface
-    	</div>
+        <h1 class="alert alert-info" style="margin-top: 5px; font-size:16px;">
+        Welome to new interface
+        </h1>
         <!-- ******************************************* //-->
 		<!-- ********* GLOBAL ANNOUNCEMENT END ********* //-->
         <!-- ******************************************* //-->
@@ -17,9 +17,9 @@
         <!-- ******************************************* //-->
 		<div class="row">
 			
-		<div class="col-md-9 nopadding-right">
+		<div class="col-md-8 nopadding-right">
 			<!-- Editor Pick Video Main Container START //-->
-			<div id="ep_video_container" class="min-height-355 clearfix">
+			<div id="ep_video_container">
 				{if is_installed('editorspick')}
 				{section name=e_list loop=$editor_picks max=1}
 				{include file="$style_dir/blocks/editor_pick/video_block.html" video=$editor_picks[e_list]}
@@ -29,62 +29,36 @@
 				{/if}
 			</div>
 			<!-- Editor Pick Video Main Container END //-->
-			<div class="clearfix"></div>
-			<div  class="col-md-12 hidden-sm hidden-xs nopadding-left">
-				<a href="#" class="pull-left" id="slide_prev">
-					<span class="glyphicon glyphicon-chevron-left"></span>
-					</a>
-				<div id="slide" class="pull-left" >
-				{section name=e_list loop=$editor_picks}
-            		
-            	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
-						
-				{/section}
-
-				</div>
-				<a href="#" class="pull-left " id="slide_next" >
-					<span class="glyphicon glyphicon-chevron-right"></span>
-				</a>
-        	</div>
         </div>
 
 		<!-- Editor Pick Videos Slider Container START //-->
-        <div class="col-md-3 nopadding-left">
-        	<div class="bs-callout-info highlight thumbnail min-height-120 no-border-radius fill">
-        		<!--<a href="#" class="pull-left" id="slide_prev1">
-					<span class="glyphicon glyphicon-chevron-left"></span>
-					</a>
-        		<div id="slide1" class="pull-left" >
-				{*section name=e_list loop=$editor_picks*}
-            		
-            	{*include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]*}
-						
-				{*/section*}
-
-				</div>
-				<a href="#" class="pull-left " id="slide_next1" >
-					<span class="glyphicon glyphicon-chevron-right"></span>
-				</a>-->
-	  			<h3>Video Name.............</h3>
-	  			<div class="small min-height-40">Video Description.....................</div>
-	    		<input type="submit" class="no-border-radius btn btn-primary btn-block" value="{lang code='View Video'}" name="view_video">
-			</div>
-			<div>
-				<img src="{$theme}/assets/images/add320x250.png"  style="height: 235px;">
-			</div>
-			
+        <div class="col-md-4 hidden-sm hidden-xs nopadding-left">
+        <div id="slide">
+				{section name=e_list loop=$editor_picks}
+            	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
+				{/section}
+        
+        </div>
+        <div class="next_pre_hold">
+		<a href="#" class="col-md-6 btn btn-primary" id="slide_prev">
+		<span class="glyphicon glyphicon-chevron-up"></span>
+		</a>
+		<a href="#" class="col-md-6 btn btn-primary" id="slide_next">
+		<span class="glyphicon glyphicon-chevron-down"></span>
+		</a>
 		</div>
-		<!-- Editor Pick Videos Slider Container END //-->
+		</div>
+        <!-- Editor Pick Videos Slider Container END //-->
 
         <script type="text/javascript">
             $(function() {						
                 $('#slide').ulslide({
-                    width: 141,
-                    height: 75,
+                    width: 375,
+                    height: 90,
 					effect: {
-						type: 'carousel', // slide or fade or carousel
-                        axis: 'x',        // x, y
-						showCount: 6
+						type: 'carousel', // slide or fade
+                        axis: 'y',        // x, y
+						showCount: 4
 					},
                     nextButton: '#slide_next',
                     prevButton: '#slide_prev',
@@ -93,12 +67,12 @@
 					easing: 'easeOutBounce'
                 });
                 $('#slide1').ulslide({
-                    width: 200,
-                    height: 75,
+                    width: 150,
+                    height: 80,
 					effect: {
-						type: 'fade', // slide or fade or carousel
+						type: 'carousel', // slide or fade
                         axis: 'x',        // x, y
-						showCount: 6
+						showCount: 5
 					},
                     nextButton: '#slide_next1',
                     prevButton: '#slide_prev1',
@@ -113,111 +87,284 @@
 		<!-- ************ EDITORS BLOCK END ************ //-->
         <!-- ******************************************* //-->
 
-        <div class="clearfix min-height-25"></div>
+
         <!-- ******************************************* //-->
 		<!-- *********** LATEST VIDEOS START *********** //-->
         <!-- ******************************************* //-->
 		<div class="row">
-			<div class="col-md-12">
-				<div class="">
-				<h3 class="theme_color">{lang code="Latest Videos"}</h3>
-				<hr>
-				<div class="col-md-12 nopadding">
+		<div class="col-md-12">
 
-					{foreach from=$videos_10_da item=video}
-						<div class="item_video col-md-2 well no-border-radius no-margin">
-				    		<div class="cb_item_container clearfix">
-						        <div class="cb_item_thumb video_thumb" >
-							        <a href="{videoLink($video)}" title="{$video.title|title}">
-							        	<img class="" src="{getThumb vdetails=$video}" border="1" height="100" width="100"/>
-							        </a>
-						    	</div>
-						        <div class="item_text"  style="height: 45px;">
-						           <a href="{videoLink($video)}">{$video.description|truncate:30}</a>
-						        </div>
-				        		<span class="pull-left"><h5><small>{lang code="Views"} {$video.views}</small></h5></span>
-				        		<span class="pull-right"><h5><small><small>4k <span class="glyphicon glyphicon-thumbs-up"></span></small></small></h5></span>
-				   			</div>
-						</div>
-					{/foreach}
+		<div class="col-md-8 nopadding padding-right-10">
+			<h2 class="myHeading">{lang code="Featured Videos"}</h2>
+			<div class="col-md-12 nopadding">
 
-			    	<div class="clearfix"></div>	            
+			<div class="col-md-12 text-center nopadding">
+				<div class="col-md-8 text-center nopadding" style=" margin-bottom:10px;">
+				{foreach from=$videos_01 item=video_01}
+				<div class="col-md-12 text-center nopadding">
+				<a href="{videoLink vdetails=$video_01}" title="{$video_01.title}">
+				<img class="cb_img_thum" src="{getThumb vdetails=$video_01}" width="500" height="285" border="0" {ANCHOR place="video_thumb" data=$video_01} />
+				</a>
+				<div class="cbHomeVidTitle cbHomeVidTitle_Big">{$video_01.title|truncate:30}</div>
 				</div>
+
+	            <div class="cbHomeVidDuration">
+	            {$video_01.duration|number_format}
+	            </div>
+	            <div class="cbHomeVidDuration_left">
+	            By: {$video_01.username}
+	            </div>
+
+				{/foreach}
+				</div>
+
+				<div class="col-md-4 hidden-sm hidden-xs text-center nopadding-right" style="padding-left:8px;">
+				{foreach from=$videos_02 item=video_02}
+				<div class="col-md-12 text-center nopadding">
+				<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
+				<img class="cb_img_thum" src="{getThumb vdetails=$video_02}" width="240" height="130" {ANCHOR place="video_thumb" data=$video_03} />
+				<div class="cbHomeVidTitle" style="margin-bottom:8px;">{$video_02.title|truncate:10}</div>
+				</a>
+
+	            <div class="cbHomeVidDuration">
+	            {$video_02.duration|number_format}
+	            </div>
+                
+				</div>
+				<div class="clearfix"  style="height: 18px;"></div>
+				{/foreach}
+				</div>
+                
+            </div>
+		
+        		<div class="clearfix"></div>
+        
+        		<div class="col-md-12 text-center nopadding">
+				{foreach from=$videos_03 item=video_03}
+				<div class="col-md-4 hidden-sm hidden-xs text-center nopadding-left"  style="margin-bottom:15px; padding-right:4px;">
+				<a href="{videoLink vdetails=$video_03}" title="{$video_02.title}">
+				<img src="{getThumb vdetails=$video_03}" width="242" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_03} />
+				<div class="cbHomeVidTitle cbHomeVidTitle_small">{$video_03.title|truncate:10}</div>
+				</a>
+
+	            <div class="cbHomeVidDuration cbHomeVidDuration_more">
+	            {$video_03.duration|number_format}
+	            </div>
+                
+				</div>
+				{/foreach}
+				</div>
+                
+			</div>
+
 		<!-- ******************************************* //-->
         <!-- ************ LATEST VIDEOS END ************ //-->
 		<!-- ******************************************* //-->
-		 		<div class="clearfix"></div><BR />
-<!-- *********** PHOTOS START ************ //-->
-		<div class="row nopadding">
-        			<div class="col-md-9 nopadding ">
-        				<h3 class="theme_color">{lang code="Latest Photos"}</h3>
-						<hr>
-        				<!-- *********** FIRST PHOTOS START ************ //-->
-						<div class="col-md-12 fill-background" style="display:block; height:320px; padding:5px;">
-							<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
-							{foreach from=$result_photos1_01 item=result_photo1_01}
-				            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
-				            	{get_photo details=$result_photo1_01 output='html' width="545" height="300" class="cb_img_thum"}
-				            	</a>
-				            {/foreach}
-				            </div>
-				            
-				            <div class="col-md-4 nopadding" style="display:block; height:80px;">
-							{foreach from=$result_photos1_08 item=result_photo1_08}
-								<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
-				            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
-				            	{get_photo details=$result_photo1_08 output='html' width="125" height="65" class='photoThumbBox moveL cb_img_thum'}
-				            	</a>
-				            {if $photos@iteration > 1}{break}{/if}
-				       	    </div>
-				            {/foreach}
-							</div>
-						</div>
-			        <!-- *********** FIRST PHOTOS END ************ //-->
-			        <!-- *********** SECOND PHOTOS START ************ //-->
-    				<div class="col-md-12" style="display:block; height:320px; padding:5px;">
+
+        <div class="clearfix"></div><BR />
+
+		<!-- ******************************************* //-->
+        <!-- *************** VIDEOS START ************** //-->
+        <!-- ******************************************* //-->
+        <div class="row nopadding">
+ 		<hr>
+        <div class="col-md-12" style="display:block; height:160px; padding:5px;">
+			<div class="bs-example bs-example-tabs">
+			    <ul class="nav nav-tabs" id="myTab">
+			      <li class="active"><a data-toggle="tab" href="#recent_video">Recent videos</a></li>
+			      <li class=""><a data-toggle="tab" href="#being_viewed">Being viewed</a></li>
+			    </ul>
+			    <div class="tab-content" id="myTabContent">
+			      <div id="recent_video" class="tab-pane fade active in" style="padding-top: 25px;">
+        				{include file="$style_dir/blocks/videos/video-home-sliders.html" video_06_da=$videos_06_da slider='slider'}
+			      </div>
+			      <div id="being_viewed" class="tab-pane fade">
+			        {foreach from=$videos_06_da item=video_06_da}
+        				{include file="$style_dir/blocks/videos/video-home-sliders.html" video_06_da=$video_06_da slider2='slider2'}
+					{/foreach}
+			      </div>
+			    </div>
+	  		</div>
+		</div>
+        </div>
+		<!-- ******************************************* //-->
+        <!-- *************** VIDEOS END ************** //-->
+        <!-- ******************************************* //-->
+
+        <div class="clearfix"></div><BR />
+
+		<!-- ******************************************* //-->
+        <!-- *********** FIRST PHOTOS START ************ //-->
+        <!-- ******************************************* //-->
+        <div class="row nopadding">
+		<h2 class="myHeading">Photos</h2>
         
-				        <div class="col-md-4 nopadding" style="display:block; height:80px;">
-						{foreach from=$result_photos2_08 item=result_photo2_08}
-							<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
-				        	<a href="{$cbphoto->photo_links($result_photo2_08,'view_item')}">
-				        	{get_photo details=$result_photo2_08 output='html' width="125" height="65" class='photoThumbBox moveL cb_img_thum'}
-				        	</a>
-				        {if $photos@iteration > 1}{break}{/if}
-				   	    </div>
-				        {/foreach}
-						</div>
-						
-						<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
-						{foreach from=$result_photos2_01 item=result_photo2_01}
-				        	<a href="{$cbphoto->photo_links($result_photo2_01,'view_item')}">
-				        	{get_photo details=$result_photo2_01 output='html' width="545" height="300" class="cb_img_thum"}
-				        	</a>
-				        {/foreach}
-				        </div>
-					</div>
+		<div class="col-md-12" style="display:block; height:320px; padding:5px;">
+			<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
+			{foreach from=$result_photos1_01 item=result_photo1_01}
+            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
+            	{get_photo details=$result_photo1_01 output='html' width="460" height="300"}
+            	</a>
+            {/foreach}
+            </div>
+            
+            <div class="col-md-4 nopadding" style="display:block; height:80px;">
+			{foreach from=$result_photos1_08 item=result_photo1_08}
+				<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
+            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
+            	{get_photo details=$result_photo1_08 output='html' width="105" class='photoThumbBox moveL'}
+            	</a>
+            {if $photos@iteration > 1}{break}{/if}
+       	    </div>
+            {/foreach}
+			</div>
+		
+        </div>
+		</div>
+		<!-- ******************************************* //-->
+        <!-- *********** FIRST PHOTOS END ************ //-->
+        <!-- ******************************************* //-->
+
+
+
+		<!-- ******************************************* //-->
+        <!-- *********** SECOND PHOTOS START ************ //-->
+        <!-- ******************************************* //-->
+        <div class="row nopadding">
+		<div class="col-md-12" style="display:block; height:320px; padding:5px;">
+            
+            <div class="col-md-4 nopadding" style="display:block; height:80px;">
+			{foreach from=$result_photos2_08 item=result_photo2_08}
+				<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
+            	<a href="{$cbphoto->photo_links($result_photo2_08,'view_item')}">
+            	{get_photo details=$result_photo2_08 output='html' width="105" class='photoThumbBox moveL'}
+            	</a>
+            {if $photos@iteration > 1}{break}{/if}
+       	    </div>
+            {/foreach}
+			</div>
+
+			<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
+			{foreach from=$result_photos2_01 item=result_photo2_01}
+            	<a href="{$cbphoto->photo_links($result_photo2_01,'view_item')}">
+            	{get_photo details=$result_photo2_01 output='html' width="460" height="300"}
+            	</a>
+            {/foreach}
+            </div>
+			</div>
+            
+		</div>
+		</div>
+		<!-- ******************************************* //-->
         <!-- *********** SECOND PHOTOS END ************ //-->
         <!-- ******************************************* //-->
-			        <!-- ************* USER BLOCK START ************ //-->
-			        <!-- ******************************************* //-->
-    				</div>
-					<div class="col-md-3">
-						<h3 class="theme_color">{lang code="Being Viewed Photos"}</h3>
-						<hr>
-					
-						{foreach from=$photos_viewd item=photo_viewd}
-				        	<a href="{$cbphoto->photo_links($photo_viewd,'view_item')}">
-				        	{include file="$style_dir/blocks/photo.html" photo=$photo_viewd display_type='side_photos_viewed'}
-				        	</a>
-				        {/foreach}
-					</div>
-						<!-- ******************************************* //-->
-				        <!-- ************* USER BLOCK END ************ //-->
-				        <!-- ******************************************* //-->
-		</div>
-<!-- ***********  PHOTOS END ************ //-->
+
+
+
+		<!-- ******************************************* //-->
+        <!-- ******** ADVERTISEMENT BLOCK START ******** //-->
+        <!-- ******************************************* //-->
+		<!--<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
+		<h2 class="myHeadingBLK" style="margin-top:0;">Advertisement</h2>
+			<div class="col-md-12 text-center nopadding" style="font-size:18px; border:1px solid #CCC; background:#FFF; display:block; height: 250px; width: 300px; line-height: 200px; text-align:center; left:7%;">
+			Ad Box 300 x 250
+			</div>
+		</div>-->
+		<!-- ******************************************* //-->
+        <!-- ******** ADVERTISEMENT BLOCK END ******** //-->
+        <!-- ******************************************* //-->
+
+
+		<!-- ******************************************* //-->
+        <!-- ************* USER BLOCK START ************ //-->
+        <!-- ******************************************* //-->
+		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
+		<h2 class="myHeadingBLK" >{lang code="Featured Users"}</h2>
+		{section name=result_users loop=$result_users}
+        	
+		<div class="col-md-12 nopadding clearfix user-view-home" style="font-size:12px; margin-top:3px;">
+			<div class="col-md-3 nopadding">
+			<img src="{$userquery->getuserthumb($result_users[result_users],'small')}" width="65" height="65" class="img-circle" />
+			</div>
+			<div class="col-md-9 nopadding" style="font-size:12px; margin-top:3px;">
+			<div class="min-height-35">
+				<h4 class="nopadding "><a href="{$userquery->profile_link($result_users[result_users])}">{$result_users[result_users].username}</a></h4>
+			</div>
+			<div class=" nopadding col-md-7 min-height-20">
+				<div class="pull-left small">{$result_users[result_users].profile_hits|number_format} {lang code='views'}</div>
+				<div class="pull-right small">{$result_users[result_users].total_videos|number_format}{lang code='Videos'}</div>
+			</div>
+				<div class="col-md-12 nopadding progress no-border-radius">
+      				<div style="width: 40%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-success">
+        			<span class="sr-only">40% Complete (success)</span>
+  					</div>
+    			</div>
+			</div>
+			<div style="position:absolute; top: 25%; right:5px;">
+			<a href="{$userquery->profile_link($result_users[result_users])}">
+			<img src="{$baseurl}/styles/cb_2014/images/user_next_icon.png" width="25" height="25" />
+			</a>
 			</div>
 		</div>
+		{/section}
+		</div>
+		<!-- ******************************************* //-->
+        <!-- ************* USER BLOCK END ************ //-->
+        <!-- ******************************************* //-->
+
+
+		<!-- ******************************************* //-->
+        <!-- ********** FACEBOOK BLOCK START *********** //-->
+        <!-- ******************************************* //-->
+		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
+		<h2 class="myHeadingBLK" style="margin-top:0;">Facebook Like Box</h2>
+			<div class="col-md-12" style="font-size:18px; border:1px solid #CCC; background:#FFF; display:block; height: 200px; width: 350px; line-height: 200px; text-align:center;">
+			Facebook Like Box
+			</div>
+		</div>
+		<!-- ******************************************* //-->
+        <!-- ********** FACEBOOK BLOCK END *********** //-->
+        <!-- ******************************************* //-->
+
+
+		<!-- ******************************************* //-->
+        <!-- ********** COMMENTS BLOCK START *********** //-->
+        <!-- ******************************************* //-->
+		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px; margin-top:10px;">
+		<h2 class="myHeadingBLK" style="margin-top:0;">Most Commented</h2>
+		
+        <div class="col-md-12 nopadding">
+			{foreach from=$result_comments item=comment}
+			<div class="col-md-2 nopadding-right" style=" margin-top: 10px;">
+			{if ($comment.userid!=0)}
+			<img src="images/avatars/{$comment.userid}-small.jpg" width="35" height="35" class="img-rounded" />
+            {else}
+            <img src="images/avatars/no_avatar-small.png" width="35" height="35" class="img-rounded" />
+			{/if}
+			</div>
+			
+            <!-- Displaying User Comment Box //-->
+        	<div class="col-md-10 nopadding" style="z-index:2;">
+	            <p class="mycommentboxarrow"></p>
+	            <div style="min-height:100px; margin-top:10px; padding:5px; color: #000; background:#FFF; border: 1px solid #CCC; border-radius:5px; font-size:14px; word-wrap: break-word;">
+	            {$comment.comment|truncate:150}
+	            <div style="position:absolute; bottom:5px; font-size:11px; color:#666;">
+	            Updated: {$comment.date_added|niceTime}
+	            </div>
+	            <div class="cbHomeCommCount">
+	            {$result_comments[result_comments].total_comments|number_format}
+	            </div>
+				</div>
+            </div>
+			{/foreach}
+		</div>
+
+		</div>
+		<!-- ******************************************* //-->
+        <!-- *********** COMMENTS BLOCK END ************ //-->
+        <!-- ******************************************* //-->
+
+		</div>
+		</div>
 	</div>
-</div>
 </div>
