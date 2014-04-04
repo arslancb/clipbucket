@@ -2548,7 +2548,7 @@ a:hover {
 }
 
 .photothumbs {
-    height: 150px;
+    height: 100%;
     width: 100%;
 }
 
@@ -2567,7 +2567,7 @@ a:hover {
     padding-left: 8px;
     opacity: 0.7;
     position: absolute;
-    top: 123px;
+    top: 100px;
     left: 17px;
     width: 198px;
     height: 25px;
