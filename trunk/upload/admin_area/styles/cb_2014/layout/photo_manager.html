@@ -89,10 +89,10 @@
 
 
 
-        
+
       <div class="dropdown">
         <button class="btn btn-primary btn-xs dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Actions<i class="icon-angle-down icon-on-right"></i></button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
           <li>
             {if $photos[list]['active'] == 'yes'}
               <a href="?deactivate={$photos[list].photo_id}">Deactivate</a>
@@ -106,12 +106,12 @@
           <li>
             <a href="{$baseurl}/view_item.php?item={$photos[list].photo_key}&amp;type=photos&amp;collection={$photos[list].collection_id}" target="_blank">View</a>
           </li>
-          {if $photos[list].featured == yes}
+          {if $photos[list].featured == 'yes'}
           <li>
             <a href="?make_unfeature={$photos[list].photo_id}">Make Unfeatured</a>
           </li>
           {/if}
-          {if $photos[list].featured == no}
+          {if $photos[list].featured == 'no'}
           <li>
             <a href="?make_feature={$photos[list].photo_id}">Make Featured</a>
           </li>
