@@ -66,6 +66,7 @@ function format_number($number) {
 }
 
 
+
 template_files('index.html');
 display_it();
 ?>
