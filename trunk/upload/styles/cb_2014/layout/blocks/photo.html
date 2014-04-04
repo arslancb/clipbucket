@@ -1,8 +1,12 @@
 {if $display_type == ""}
 <div class="show-image">
-    <div class="col-md-3 col-sm-4 col-xs-6">
+    <div class="col-md-4 col-sm-4 col-xs-6">
         <a href="{$cbphoto->photo_links($photo,'view_item')}">
+            {if $photo.counter%4}
             {get_photo details=$photo output='html' class='photothumbs'}
+            {else}
+            {get_photo details=$photo output='html' class='photothumbs1'}
+            {/if}
         </a>
         <br><br>
         <hr class="hrred">
