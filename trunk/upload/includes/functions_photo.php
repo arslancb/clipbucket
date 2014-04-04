@@ -299,8 +299,8 @@ function get_image_file( $params ) {
                 $height = $params['height'];
             }
 
-            $attrs[ 'width' ] = $width;
-            $attrs[ 'height' ] = $height;
+            //$attrs[ 'width' ] = $width;
+            //$attrs[ 'height' ] = $height;
             $attrs[ 'id' ] = ( ( $params[ 'id' ] ) ? $params[ 'id' ].'_' : 'photo_' ).$photo[ 'photo_id' ];
 
             if( $params[ 'class' ] ) {
