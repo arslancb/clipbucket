@@ -2554,7 +2554,7 @@ a:hover {
 
 .photothumbs1 {
     height: 147px;
-    width: 284px;
+    width: 358px;
     border: solid 1px;
     border-color: #ffffff;
 }
@@ -2569,7 +2569,7 @@ a:hover {
     position: absolute;
     top: 119px;
     left: 17px;
-    width: 274px;
+    width: 311px;
     height: 25px;
 }
 
@@ -2682,5 +2682,9 @@ a:hover {
 }
 
 .photomargin {
-    margin-left: -38px;
+    margin-left: 0px;
+}
+
+.admargin {
+    margin-right: -43px;
 }
