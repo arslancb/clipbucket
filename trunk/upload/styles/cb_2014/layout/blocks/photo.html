@@ -1,12 +1,12 @@
 {if $display_type == ""}
-<div class="">
+<div class="show-image">
     <div class="col-md-3 col-sm-4 col-xs-6">
         <a href="{$cbphoto->photo_links($photo,'view_item')}">
             {get_photo details=$photo output='html' class='photothumbs'}
         </a>
         <br><br>
         <hr class="hrred">
-        <span class="photoname" >{$photo.photo_title|truncate:15}</span>
+        <span class="photoname" id="avatar1_file" >{$photo.photo_title|truncate:15}</span>
             <!--<div class="row">-->
                 <!--<div class="col-md-2">-->
                     <!--<h4><small> <i class="glyphicon glyphicon-thumbs-up lfont"><b>2</b></i></small></h4>-->
