@@ -1349,3 +1349,7 @@ margin-right: 10px;
     border-radius:0px;
     border: 1px solid #5293C4;
 }
+.comment_home .itemdiv.dialogdiv:before{
+    border: 0px none;
+    background-color:#F0F0F0;
+}
