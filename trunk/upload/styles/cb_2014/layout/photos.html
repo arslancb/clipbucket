@@ -82,9 +82,12 @@
         </div>
         </div>
     <div class="cb-box row">
-        <div class="col-md-10">
+        <div class="col-md-10 photomargin">
+            {$counter=0}
             {section name=p_list loop=$photos}
+            {$photos[p_list].counter=$counter}
             {include file="$style_dir/blocks/photo.html" photo=$photos[p_list]}
+            {$counter=$counter+1}
             {sectionelse}
             {lang code='no_results_found'}
             {/section}
@@ -93,7 +96,9 @@
             <img src="http://www.ryangiggs.cc/system/files/banner-160x600-pride-tee_0.jpg">
         </div>
     </div>
-    {include file="$style_dir/blocks/pagination.html"}
+    <div align="center">
+        {include file="$style_dir/blocks/pagination.html"}
+    </div>
 </div>
 
 
