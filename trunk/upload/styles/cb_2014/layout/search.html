@@ -24,9 +24,19 @@
 
                         <form name="search-form" method="get" action="">
                     <ul class="nav navbar-nav searchnav" id="cbsearchtype">
-                        <li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} class="active"><a  href="search_result.php?query=&type=videos&cbsearch=Search">Videos</a></li>
-                        <li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} class=""><a href="search_result.php?query=&type=photos&cbsearch=Search">Photos</a></li>
-                        <li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} class=""><a href="search_result.php?query=&type=channels&cbsearch=Search">Channels</a></li>
+                        {$counter = 1}
+                        {foreach from=$Cbucket->search_types item=t key=stypes}
+                            {if $counter == 1}
+                                <li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} class="active">
+                                    <a  href="#">{$stypes}</a>
+                                </li>
+                            {else}
+                                <li value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>
+                                    <a  href="#">{$stypes}</a>
+                                </li>
+                            {/if}
+                            {$counter = $counter + 1}
+                        {/foreach}
 
                        <!---->
                        <!---->
@@ -34,7 +44,7 @@
                         <!--<li class=""  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} ><a href="#">{$stypes}</a></li>-->
                         <!--{/foreach}-->
 
-                        <select id="SearchType" name="type" class="form-control searchselect">
+                        <select id="SearchType" name="type" class="form-control searchselect sr-only">
                             {foreach from=$Cbucket->search_types item=t key=stypes}
                             <option  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
                             {/foreach}
@@ -166,12 +176,18 @@
 
         <script>
             $(document).ready(function(){
-                $("#cbsearchtype").on({
+                $("#cbsearchtype a").on({
                     click: function(e){
                     e.preventDefault();
-                       var searchtype=$("#SearchType").val();
-                        alert(searchtype);
+                    var searchtype = $("#SearchType").val();
+                    var buttonText = $(this).text().toLowerCase();
+                    if($("#SearchType option[value='"+ buttonText +"']").length > 0){
+                        $("#SearchType option:selected").removeAttr("selected");
+                        $("#SearchType option[value='"+ buttonText +"']").attr("selected" , "selected");
+                        $(this).parents("ul").find(".active").removeClass("active");
+                        $(this).parent().addClass("active");
 
+                    }
                 }
                 });
 
