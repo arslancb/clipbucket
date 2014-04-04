@@ -179,13 +179,18 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
     }
 
     #get all possible thumbs of video
-    $thumbDir = (isset($vdetails['file_directory'])) ? $vdetails['file_directory'] : "";
+    $thumbDir = (isset($vdetails['file_directory']) && $vdetails['file_directory']) ? $vdetails['file_directory'] : "";
     //echo($thumbDir);
 
-    $justDate = explode(" ", $vdetails['date_added']);
-    $dateAdded = implode("/", explode("-", array_shift($justDate)));
-    if(isset($vdetails['file_name']) && isset($dateAdded))
-        $vid_thumbs = glob(THUMBS_DIR."/". $dateAdded . "/" .$vdetails['file_name']."*");
+    //$justDate = explode(" ", $vdetails['date_added']);
+    //$dateAdded = implode("/", explode("-", array_shift($justDate)));
+    
+    $file_dir ="";
+    if(isset($vdetails['file_name']) && $thumbDir)
+    {
+       $file_dir =  "/" . $thumbDir;
+    }
+    $vid_thumbs = glob(THUMBS_DIR."/" .$file_dir.$vdetails['file_name']."*");
 
     #replace Dir with URL
     if(is_array($vid_thumbs))
@@ -400,7 +405,7 @@ function VideoLink($vdetails,$type=NULL)
 
 function videoSmartyLink($params)
 {
-    $link  =	VideoLink($params['vdetails'],$params['type']);
+    $link  =    VideoLink($params['vdetails'],$params['type']);
     if(!$params['assign'])
         return $link;
     else
@@ -628,9 +633,9 @@ function get_video_file($vdetails,$return_default=true,$with_path=true,$multi=fa
             $video_file = $files_part[count($files_part)-1];
 
             if($with_path)
-                $files[]	= VIDEOS_URL.'/' . $fileDirectory . $video_file;
+                $files[]    = VIDEOS_URL.'/' . $fileDirectory . $video_file;
             else
-                $files[]	= $video_file;
+                $files[]    = $video_file;
         }
 
 
@@ -701,7 +706,7 @@ function update_processed_video($file_array,$status='Successful',$ingore_file_st
 
         //$duration = $stats['output_duration'];
         //if(!$duration)
-        //	$duration = $stats['duration'];
+        //  $duration = $stats['duration'];
 
         $duration = parse_duration(LOGS_DIR.'/'.$file_array['cqueue_name'].'.log');
 
@@ -713,7 +718,7 @@ function update_processed_video($file_array,$status='Successful',$ingore_file_st
 
         //$duration = $stats['output_duration'];
         //if(!$duration)
-        //	$duration = $stats['duration'];
+        //  $duration = $stats['duration'];
 
         $duration = parse_duration(LOGS_DIR.'/'.$file_array['cqueue_name'].'.log');
 
