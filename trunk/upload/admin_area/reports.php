@@ -12,6 +12,20 @@ $userquery->admin_login_check();
 $userquery->login_check('web_config_access');
 
 
+
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+    define('MAIN_PAGE', 'Stats And Configuration');
+}
+if(!defined('SUB_PAGE')){
+    if($_GET['active'] == 'no')
+        define('SUB_PAGE', 'Stats');
+    else
+        define('SUB_PAGE', 'Reports');
+}
+
+
+
 $vid_dir = get_directory_size(VIDEOS_DIR);
 $thumb_dir = get_directory_size(THUMBS_DIR);
 $orig_dir = get_directory_size(ORIGINAL_DIR);
@@ -21,7 +35,6 @@ $user_bg = get_directory_size(USER_BG_DIR);
 
 $grp_thumbs = get_directory_size(GP_THUMB_DIR);
 $cat_thumbs = get_directory_size(CAT_THUMB_DIR);
-
 
 assign('vid_dir',$vid_dir);
 assign('thumb_dir',$thumb_dir);
