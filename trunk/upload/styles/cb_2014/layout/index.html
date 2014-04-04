@@ -77,8 +77,22 @@
                     nextButton: '#slide_next1',
                     prevButton: '#slide_prev1',
                     duration: 800,
-                    /*autoslide: 2000,*/
-					easing: 'easeOutBounce'
+                    autoslide: 2000
+					/*easing: 'easeOutBounce'*/
+                });
+                $('#slide3').ulslide({
+                    width: 150,
+                    height: 80,
+					effect: {
+						type: 'carousel', // slide or fade
+                        axis: 'x',        // x, y
+						showCount: 5
+					},
+                    nextButton: '#slide_next3',
+                    prevButton: '#slide_prev3',
+                    duration: 800,
+                    autoslide: 2000
+					/*easing: 'easeOutBounce'*/
                 });
             });
         </script>
@@ -180,7 +194,7 @@
 			      </div>
 			      <div id="being_viewed" class="tab-pane fade">
 			        {foreach from=$videos_06_da item=video_06_da}
-        				{include file="$style_dir/blocks/videos/video-home-sliders.html" video_06_da=$video_06_da slider2='slider2'}
+        				{include file="$style_dir/blocks/videos/video-home-sliders2.html" video_06_da=$video_06_da slider3='slider3'}
 					{/foreach}
 			      </div>
 			    </div>
@@ -196,31 +210,65 @@
 		<!-- ******************************************* //-->
         <!-- *********** FIRST PHOTOS START ************ //-->
         <!-- ******************************************* //-->
-        <div class="row nopadding">
-		<h2 class="myHeading">Photos</h2>
+        	<div class="row nopadding">
+        			<div class="col-md-12 nopadding ">
+        				<h3 class="theme_color">{lang code="Featured Photos"}</h3>
+						<hr>
+        				<!-- *********** FIRST PHOTOS START ************ //-->
+						<div class="col-md-12 fill-background" style="display:block; height:320px; padding:5px;">
+							<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
+							{foreach from=$result_photos1_01 item=result_photo1_01}
+				            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
+				            	{get_photo details=$result_photo1_01 output='html' width="545" height="300" class="cb_img_thum"}
+				            	</a>
+				            {/foreach}
+				            </div>
+				            
+				            <div class="col-md-4 nopadding" style="display:block; height:80px;">
+							{foreach from=$result_photos1_08 item=result_photo1_08}
+								<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
+				            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
+				            	{get_photo details=$result_photo1_08 output='html' width="125" height="65" class='photoThumbBox moveL cb_img_thum'}
+				            	</a>
+				            {if $photos@iteration > 1}{break}{/if}
+				       	    </div>
+				            {/foreach}
+							</div>
+						</div>
+			        <!-- *********** FIRST PHOTOS END ************ //-->
+			        <!-- *********** SECOND PHOTOS START ************ //-->
+    				<div class="col-md-12" style="display:block; height:320px; padding:5px;">
         
-		<div class="col-md-12" style="display:block; height:320px; padding:5px;">
-			<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
-			{foreach from=$result_photos1_01 item=result_photo1_01}
-            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
-            	{get_photo details=$result_photo1_01 output='html' width="460" height="300"}
-            	</a>
-            {/foreach}
-            </div>
-            
-            <div class="col-md-4 nopadding" style="display:block; height:80px;">
-			{foreach from=$result_photos1_08 item=result_photo1_08}
-				<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
-            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
-            	{get_photo details=$result_photo1_08 output='html' width="105" class='photoThumbBox moveL'}
-            	</a>
-            {if $photos@iteration > 1}{break}{/if}
-       	    </div>
-            {/foreach}
-			</div>
-		
-        </div>
+				        <div class="col-md-4 nopadding" style="display:block; height:80px;">
+						{foreach from=$result_photos2_08 item=result_photo2_08}
+							<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
+				        	<a href="{$cbphoto->photo_links($result_photo2_08,'view_item')}">
+				        	{get_photo details=$result_photo2_08 output='html' width="125" height="65" class='photoThumbBox moveL cb_img_thum'}
+				        	</a>
+				        {if $photos@iteration > 1}{break}{/if}
+				   	    </div>
+				        {/foreach}
+						</div>
+						
+						<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
+						{foreach from=$result_photos2_01 item=result_photo2_01}
+				        	<a href="{$cbphoto->photo_links($result_photo2_01,'view_item')}">
+				        	{get_photo details=$result_photo2_01 output='html' width="545" height="300" class="cb_img_thum"}
+				        	</a>
+				        {/foreach}
+				        </div>
+					</div>
+        <!-- *********** SECOND PHOTOS END ************ //-->
+        <!-- ******************************************* //-->
+			        <!-- ************* USER BLOCK START ************ //-->
+			        <!-- ******************************************* //-->
+    				</div>
+					
+						<!-- ******************************************* //-->
+				        <!-- ************* USER BLOCK END ************ //-->
+				        <!-- ******************************************* //-->
 		</div>
+        
 		<!-- ******************************************* //-->
         <!-- *********** FIRST PHOTOS END ************ //-->
         <!-- ******************************************* //-->
@@ -230,30 +278,7 @@
 		<!-- ******************************************* //-->
         <!-- *********** SECOND PHOTOS START ************ //-->
         <!-- ******************************************* //-->
-        <div class="row nopadding">
-		<div class="col-md-12" style="display:block; height:320px; padding:5px;">
-            
-            <div class="col-md-4 nopadding" style="display:block; height:80px;">
-			{foreach from=$result_photos2_08 item=result_photo2_08}
-				<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
-            	<a href="{$cbphoto->photo_links($result_photo2_08,'view_item')}">
-            	{get_photo details=$result_photo2_08 output='html' width="105" class='photoThumbBox moveL'}
-            	</a>
-            {if $photos@iteration > 1}{break}{/if}
-       	    </div>
-            {/foreach}
-			</div>
-
-			<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
-			{foreach from=$result_photos2_01 item=result_photo2_01}
-            	<a href="{$cbphoto->photo_links($result_photo2_01,'view_item')}">
-            	{get_photo details=$result_photo2_01 output='html' width="460" height="300"}
-            	</a>
-            {/foreach}
-            </div>
-			</div>
-            
-		</div>
+       
 		</div>
 		<!-- ******************************************* //-->
         <!-- *********** SECOND PHOTOS END ************ //-->
@@ -316,11 +341,8 @@
 		<!-- ******************************************* //-->
         <!-- ********** FACEBOOK BLOCK START *********** //-->
         <!-- ******************************************* //-->
-		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;">
-		<h2 class="myHeadingBLK" style="margin-top:0;">Facebook Like Box</h2>
-			<div class="col-md-12" style="font-size:18px; border:1px solid #CCC; background:#FFF; display:block; height: 200px; width: 350px; line-height: 200px; text-align:center;">
-			Facebook Like Box
-			</div>
+		<div class="col-md-4 nopadding" >
+			<img src="{$theme}/assets/images/likebox.png" style="height:385px;" />
 		</div>
 		<!-- ******************************************* //-->
         <!-- ********** FACEBOOK BLOCK END *********** //-->
@@ -330,32 +352,34 @@
 		<!-- ******************************************* //-->
         <!-- ********** COMMENTS BLOCK START *********** //-->
         <!-- ******************************************* //-->
-		<div class="col-md-4" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px; margin-top:10px;">
+		<div class="col-md-4 comment_home" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px; margin-top:10px;">
 		<h2 class="myHeadingBLK" style="margin-top:0;">Most Commented</h2>
 		
         <div class="col-md-12 nopadding">
+
 			{foreach from=$result_comments item=comment}
-			<div class="col-md-2 nopadding-right" style=" margin-top: 10px;">
-			{if ($comment.userid!=0)}
+			<div class="itemdiv dialogdiv">
+    
+    <div class="user">
+                                    
+           {if ($comment.userid!=0)}
 			<img src="images/avatars/{$comment.userid}-small.jpg" width="35" height="35" class="img-rounded" />
             {else}
             <img src="images/avatars/no_avatar-small.png" width="35" height="35" class="img-rounded" />
 			{/if}
-			</div>
+        
+    </div>
+    <div class="body clearfix">
+        <div class="text">{$comment.comment|truncate:150}</div>
+        <div class="time pull-left">
+            <span class="small"> Updated: {$comment.date_added|niceTime}</span>
+        </div>
+        <div class=" pull-right">
+        <span class="small">{$result_comments[result_comments].total_comments|number_format}</span>
+        </div>
+    </div>
+</div>
 			
-            <!-- Displaying User Comment Box //-->
-        	<div class="col-md-10 nopadding" style="z-index:2;">
-	            <p class="mycommentboxarrow"></p>
-	            <div style="min-height:100px; margin-top:10px; padding:5px; color: #000; background:#FFF; border: 1px solid #CCC; border-radius:5px; font-size:14px; word-wrap: break-word;">
-	            {$comment.comment|truncate:150}
-	            <div style="position:absolute; bottom:5px; font-size:11px; color:#666;">
-	            Updated: {$comment.date_added|niceTime}
-	            </div>
-	            <div class="cbHomeCommCount">
-	            {$result_comments[result_comments].total_comments|number_format}
-	            </div>
-				</div>
-            </div>
 			{/foreach}
 		</div>
 
