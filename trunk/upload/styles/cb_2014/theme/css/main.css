@@ -2067,9 +2067,7 @@ footer {
 .dropdown-submenu>a:after{display:block;content:" ";float:right;width:0;height:0;border-color:transparent;border-style:solid;border-width:5px 0 5px 5px;border-left-color:#cccccc;margin-top:5px;margin-right:-10px;}
 .dropdown-submenu:hover>a:after{border-left-color:#ffffff;}
 .dropdown-submenu.pull-left{float:none;}.dropdown-submenu.pull-left>.dropdown-menu{left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}
-<<<<<<< .mine
->>>>>>> .r1464
-=======
+
 /*View Channels*/
 .channels-view{
     border-bottom: 1px solid #DDDDDD;
@@ -2550,10 +2548,8 @@ a:hover {
 }
 
 .photothumbs {
-    height: 100%;
+    height: 150px;
     width: 100%;
-    border: solid 1px;
-    border-color: #000000;
 }
 
 .photothumbs1 {
@@ -2566,16 +2562,15 @@ a:hover {
 .photoname {
     background-color: #000000;
     color: #ffffff;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 12px;
-    opacity: 0.8;
+    font-family: cursive;
+    font-size: 13px;
+    padding-left: 8px;
+    opacity: 0.7;
     position: absolute;
-    top: 158px;
-    left: 13px;
-    width: 205px;
+    top: 123px;
+    left: 17px;
+    width: 198px;
     height: 25px;
-    display: none;
-
 }
 
 .like {
