@@ -1,21 +1,20 @@
 {if $display_type == ""}
-<div class="show-image">
+<div class="">
     <div class="col-md-3 col-sm-4 col-xs-6">
         <a href="{$cbphoto->photo_links($photo,'view_item')}">
-            {get_photo details=$photo output='html' width='100%'  class='photothumbs'}
+            {get_photo details=$photo output='html' class='photothumbs'}
         </a>
-            <div class="row">
-                <div class="col-md-2">
-                    <h4><small> <i class="glyphicon glyphicon-thumbs-up lfont"><b>2</b></i></small></h4>
-                </div>
-                <div class="col-md-2 like">
-                    <h4><small> <i class="glyphicon glyphicon-thumbs-down lfont"><b>4</b></i></small></h4>
-                </div>
-                </div>
-        <p>
-            <a href="{$cbphoto->photo_links($photo,'view_item')}" class="photoname"  name="avatar1_file" id="avatar1_file">{$photo.photo_title|truncate:15}</a>
-        </p>
+        <br><br>
         <hr class="hrred">
+        <span class="photoname" >{$photo.photo_title|truncate:15}</span>
+            <!--<div class="row">-->
+                <!--<div class="col-md-2">-->
+                    <!--<h4><small> <i class="glyphicon glyphicon-thumbs-up lfont"><b>2</b></i></small></h4>-->
+                <!--</div>-->
+                <!--<div class="col-md-2 like">-->
+                    <!--<h4><small> <i class="glyphicon glyphicon-thumbs-down lfont"><b>4</b></i></small></h4>-->
+                <!--</div>-->
+                <!--</div>-->
     </div>
 </div>
 
@@ -86,3 +85,6 @@
         });
     });
 </script>
+
+
+
