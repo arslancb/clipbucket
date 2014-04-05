@@ -3,21 +3,16 @@
 	Player Name: Html5_videoplayer 1.0
 	Description: New html5 ClipBucket Player with all required features
 	Author: Arslan Hassan
-	ClipBucket Version: 2
-	Plugin Version: 1.0
+	ClipBucket Version: 2.7
 	
- * This file is used to instruct ClipBucket
- * for how to operate Flow player
- * from docs.clip-bucket.com
- *
+	
+ 
+ 
  * @Author : Arslan Hassan
  * @Script : ClipBucket v2
  * @License : Attribution Assurance License -- http://www.opensource.org/licenses/attribution.php
  * @Since : September 15 2009
- *
- * Pakplayer is originated from Flowplayer so all things that works with flowplayer
- * will ultimately work with Pakplayer
- * Pakplayer license comes under AAL(OSI) please read our license agreement carefully
+ 
  */
 
 $html5_player = false;
@@ -80,6 +75,17 @@ if(!function_exists('html5_player'))
 			//Setting Skin
 			//assign('cb_skin','glow/glow.xml');
 			
+			$v_details = extract($vdetails);
+		    $v_details;
+            assign('v_details',$v_details);
+            $jquery = BASEDIR.'/js/jquery.js';
+            assign('jquery',$jquery);
+
+          
+            assign('username',$username);
+            assign('title',$title);
+            assign('thumb',$default_thumb);
+
 			assign('player_data',$in);
 			assign('player_logo',website_logo());
 			assign('normal_vid_file',$vid_file);
@@ -125,24 +131,12 @@ if(!function_exists('html5_player'))
    
 	register_actions_play_video('html5_player');
 
-	$Cbucket->add_header(HTML5_PLAYER_DIR.'/html5_player.html');
-	$Cbucket->add_admin_header(HTML5_PLAYER_DIR.'/html5_player_header.html');
-
+	
 }
 
-if($userquery->login_check('',true)){
-
-        global $db;
-	    $results = $db->select(tbl('users'),'*',"userid='".userid()."'");
-        foreach($results as $result){
-        $username =  $result['username'];
-        }
 
 
- 
-        assign('test1',$username);
 
-}
  
 
 ?>

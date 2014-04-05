@@ -1,44 +1,50 @@
+
 $(document).ready(function(){
 	//INITIALIZE
 	var video = $('#myVideo');
-	
+	var container = $('.videoContainer');
+	var test = $(".videoContainer,.myVideo");
 	//remove default control when JS loaded
+
+
+
 	video[0].removeAttribute("controls");
 	$('.control').show().css({'bottom':-60});
+	$('.caption').show().css({'top':-200});
 	$('.loading').fadeIn(500);
 	$('.caption').fadeIn(500);
  
 	//before everything get started
-	video.on('loadedmetadata', function() {
-		$('.caption').animate({'top':-60},370);
-			
-		//set video properties
-		$('.current').text(timeFormat(0));
-		$('.duration').text(timeFormat(video[0].duration));
+	    video.on('loadedmetadata', function() {
+		
+		//set video properties	
+		$('.fcurrent').text(timeFormat(0));
+		$('.fduration').text(timeFormat(video[0].duration));
 		updateVolume(0, 0.7);
-			
-		//start to get video buffering data 
-		setTimeout(startBuffer, 150);
+		$('.buffer').hide();
 			
 		//bind video events
 		$('.videoContainer')
-		.append('<div id="init"></div>')
 		.hover(function() {
 			$('.control').stop().animate({'bottom':0}, 100);
 			$('.caption').stop().animate({'top':-7}, 600);
 		}, function() {
 			if(!volumeDrag && !timeDrag){
-				$('.control').stop().animate({'bottom':-45}, 500);
-				$('.caption').stop().animate({'top':-60}, 500);
+				$('.control').stop().animate({'bottom':-48}, 500);
+				$('.caption').stop().animate({'top':-200}, 500);
 			}
 		})
 		.on('click', function() {
-			$('#init').remove();
+			$('.init').hide();
 			$('.btnPlay').addClass('paused');
 			$(this).unbind('click');
 			video[0].play();
-		});
-		$('#init').fadeIn(200);
+			$('.buffer').show();
+			//set video properties
+		    //start to get video buffering data 
+		    setTimeout(startBuffer, 150);
+			});
+		$('.init').fadeIn(2500);
 	});
 	
 	//display video buffering bar
@@ -49,7 +55,7 @@ $(document).ready(function(){
 		$('.bufferBar').css('width',perc+'%');
 			
 		if(currentBuffer < maxduration) {
-			setTimeout(startBuffer, 500);
+			setTimeout(startBuffer, 2000);
 		}
 	};	
 	
@@ -59,19 +65,25 @@ $(document).ready(function(){
 		var maxduration = video[0].duration;
 		var perc = 100 * currentPos / maxduration;
 		$('.timeBar').css('width',perc+'%');	
-		$('.current').text(timeFormat(currentPos));	
+		$('.fcurrent').text(timeFormat(currentPos));	
 	});
 	
 	//CONTROLS EVENTS
 	//video screen and play button clicked
 	video.on('click', function() { playpause(); } );
 	$('.btnPlay').on('click', function() { playpause(); } );
+    $('.caption').on('click', function() { playpause(); } ); 
+    $('.init').on('click', function() { playpause(); } ); 
 	var playpause = function() {
 		if(video[0].paused || video[0].ended) {
+            $('.init').hide();
 			$('.btnPlay').addClass('paused');
 			video[0].play();
+			
 		}
 		else {
+
+			 $('.init').show();
 			$('.btnPlay').removeClass('paused');
 			video[0].pause();
 		}
@@ -93,49 +105,107 @@ $(document).ready(function(){
 		updatebar($('.progress').offset().left);
 		video[0].pause();
 	});
-	
-	//fullscreen button clicked
-	$('.btnFS').on('click', function() {
-		if($.isFunction(video[0].webkitEnterFullscreen)) {
-			video[0].webkitEnterFullscreen();
-		}	
-		else if ($.isFunction(video[0].mozRequestFullScreen)) {
-			video[0].mozRequestFullScreen();
-		}
-		else {
-			alert('Your browsers doesn\'t support fullscreen');
-		}
-	});
-	
-	/*//light bulb button clicked
-	$('.btnLight').click(function() {
-		$(this).toggleClass('lighton');
+
+                     
+
+
+$('.btnFS').on('click', function() {
+$(this).toggleClass('enterbtnFS');
+    if($.isFunction(container[0].webkitRequestFullScreen)) {
+              if($(this).hasClass("enterbtnFS")) 
+                   {
+                     container[0].webkitRequestFullScreen(); 
+                     $('.caption').hide();
+                 	 $(".largescr").hide();
+                 	 }   
+
+                                     
+              else 
+                   { 
+                     document.webkitCancelFullScreen(); 
+                     $('.caption').show();
+               	   	 $(".largescr").show();
+               	   	
+            	    
+                    
+                	  
+                     }  
+                 
+    }  
+    else if ($.isFunction(container[0].mozRequestFullScreen)) {
+              if($(this).hasClass("enterbtnFS"))
+                  { 
+                 	 container[0].mozRequestFullScreen();
+                     $('.caption').hide();
+                 	 $(".largescr").hide();
+                  }
+               else 
+                  {  
+                     document.mozCancelFullScreen();
+               	     $('.caption').show();
+               	   	 $(".largescr").show();
+               	   	
+               	   	  
+                 } 
+    
+    }
+
+    else { 
+           alert('Your browsers doesn\'t support fullscreen');
+    }
+});
+
+
+
+$(document).on('keydown',function(e)
+{ 
+    var key = e.charCode || e.keyCode;
+    if( key == 122 )
+        {   alert('test');
+        	e.preventDefault();
+        
+        }
+    else
+        {}
+});
+                    
+
+
+
+
+
+//HD on/off button clicked
+$(".hdon").on('click', function() {
+$(this).toggleClass('hdoff');
+    $('.myVideo').removeClass('init');
+    $('source', '#myVideo').eq(1).prependTo('#myVideo');
+    $('#myVideo')[0].load();
+    $('#myVideo')[0].play();
+    
+
+    $('.btnPlay').addClass('paused');
+    video[0].pause();
+    
+});
+
+	/*
+	//
+	$('.hdon').click(function() {
+		$(this).toggleClass('hdoff');
 		
 		//if lightoff, create an overlay
-		if(!$(this).hasClass('lighton')) {
-			$('body').append('<div class="overlay"></div>');
-			$('.overlay').css({
-				'position':'absolute',
-				'width':100+'%',
-				'height':$(document).height(),
-				'background':'#000',
-				'opacity':0.9,
-				'top':0,
-				'left':0,
-				'z-index':999
-			});
-			$('.videoContainer').css({
-				'z-index':1000
-			});
+		if(!$(this).hasClass('hdoff')) {
+       
+			$(this).removeClass('normal');
+			
 		}
-		//if lighton, remove overlay
+		
 		else {
-			$('.overlay').remove();
+
+			
 		}
 	});
-
-*/
-	
+	*/
 	//sound button clicked
 	$('.sound').click(function() {
 		video[0].muted = !video[0].muted;
@@ -282,24 +352,38 @@ $(document).ready(function(){
 
 
 $(".largescr").toggle(function(){
-$(".videoContainer,#myVideo").height($(".videoContainer,#myVideo").height()+150);
+$(".videoContainer,#myVideo").height($(".videoContainer,#myVideo").height()+220);
+
 },function(){
-$(".videoContainer,#myVideo").height($(".videoContainer,#myVideo").height()-150);
+$(".videoContainer,#myVideo").height($(".videoContainer,#myVideo").height()-220);
 
 });
 $(".largescr").toggle(function(){
-$(".videoContainer,#myVideo").width($(".videoContainer,#myVideo").width()+200);
+$(".videoContainer,#myVideo").width($(".videoContainer,#myVideo").width()+390);
+$(".col-lg-8,.col-md-8").width($(".col-lg-8,.col-md-8").width()+390);
+$('.cb-item-title-container').css({'margin-top':+250});
+
 },function(){
-$(".videoContainer,#myVideo").width($(".videoContainer,#myVideo").width()-200);
+$(".videoContainer,#myVideo").width($(".videoContainer,#myVideo").width()-390);
+$(".col-lg-8,.col-md-8").width($(".col-lg-8,.col-md-8").width()-390);
+$('.cb-item-title-container').css({'margin-top':+22});
 
 });
 
 
 
-	//Time format converter - 00:00
+
+
+
+
+
+
+
+//Time format converter - 00:00
 	var timeFormat = function(seconds){
 		var m = Math.floor(seconds/60)<10 ? "0"+Math.floor(seconds/60) : Math.floor(seconds/60);
 		var s = Math.floor(seconds-(m*60))<10 ? "0"+Math.floor(seconds-(m*60)) : Math.floor(seconds-(m*60));
 		return m+":"+s;
 	};
 });
+
