@@ -2695,12 +2695,12 @@ a:hover {
 
 
 
-#photos.loading {
+.photos.loading {
     padding: 3px;
     min-height: 250px;
     background: transparent url(images/loader.gif) no-repeat center center;
 }
-#photos .photo {
+.photos .photo {
     padding: 10px;
     box-shadow: #222 3px 3px 3px;
     width: 240px;
@@ -2712,14 +2712,14 @@ a:hover {
     margin-bottom: 20px;
     display: none;
 }
-#photos .photo:hover {
+.photos .photo:hover {
     box-shadow: #000 3px 3px 3px;
     background: #FFFFFF;
 }
-#photos .photo img {
+.photos .photo img {
     max-width: 100%;
 }
-#photos .photo .title {
+.photos .photo .title {
     padding: 8px 8px 0 0;
     font-style: italic;
     font-weight: bold;
