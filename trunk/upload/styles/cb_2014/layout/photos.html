@@ -104,6 +104,19 @@
     </div>
 </div>
 
+
+        <script>
+            jQuery(function() {                                              // <== Doc ready
+
+                jQuery(".avatar1_file").hide();                  // Initially hide all buttons
+
+                jQuery('.show-image').hover(function() {
+                    jQuery(this).find('#avatar1_file').fadeIn(1500);
+                }, function() {
+                    jQuery(this).find('#avatar1_file').fadeOut(1500);
+                });
+            });
+        </script>
 <script type="text/javascript">
     $(document).ready(function() {
 
@@ -137,17 +150,5 @@
             }
         });
 
-    });
-
-
-    jQuery(function() {                                              // <== Doc ready
-
-        jQuery(".avatar1_file").hide();                  // Initially hide all buttons
-
-        jQuery('.show-image').hover(function() {
-            jQuery(this).find('#avatar1_file').fadeIn(1500);
-        }, function() {
-            jQuery(this).find('#avatar1_file').fadeOut(1500);
-        });
     });
 </script>
