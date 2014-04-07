@@ -41,7 +41,6 @@
 
                 </div>
             </div>
-
         </td>
         <td>
           <div class="dropdown">
@@ -50,11 +49,7 @@
               <li>
                 <a href="edit_photo.php?photo={$photos[list].photo_id}">Edit</a>
               </li>
-              <li>
-                <a href="javascript:void(0);" id="delete-{$photos[list].photo_id}" onmousedown="_cb.delete_item('delete','{$photos[list].photo_id}','Are you sure you want to delete? This will permanently delete {$photos[list].photo_title} from website.','?delete_photo={$photos[list].photo_id}');">
-                  Delete
-                </a>
-              </li>
+                <li><a role="menuitem" tabindex="-1" id="delete-{$photos[list].photo_id}" href="?delete_photo={$photos[list].photo_id}">Delete</a></li>
             </ul>
           </div>
         </td>
