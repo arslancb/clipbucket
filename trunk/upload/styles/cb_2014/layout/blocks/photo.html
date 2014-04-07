@@ -1,10 +1,20 @@
 {if $display_type == ""}
-<div class="show-image col-md-4 col-sm-4 col-xs-6 loading " id="photos">
+
+
+
+
+<div class="show-image col-md-4 col-sm-4 col-xs-6" style="padding: 0px">
+    <div class="loading" id="photos">
     <span class="photoname" id="avatar1_file" >{$photo.photo_title|truncate:15}</span>
    <a href="{$cbphoto->photo_links($photo,'view_item')}" >
         {get_photo details=$photo size='l' class='' output='html'}
     </a>
+        </div>
     </div>
+
+
+
+
 <!--<a class="fancybox-button" rel="fancybox-button" href="http://farm4.staticflickr.com/3787/9028269192_9b4ddf345d_b.jpg" title="Tolpis barbata (mariluzpicado)">-->
     <!--<img src="http://farm4.staticflickr.com/3787/9028269192_9b4ddf345d_m.jpg" alt="" />-->
 <!--</a>-->
