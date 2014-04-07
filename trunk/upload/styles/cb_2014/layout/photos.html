@@ -2,7 +2,10 @@
 {$leftMenuLinks = array_slice($myAccountLinks, 7)}
 <div class="container">
 	{include file="$style_dir/blocks/manage/account_menu.html"}
-	<div class="cb-box row" style="width: 1300px; margin-left: -89px">
+    <script type="text/javascript" src="{$baseurl}/masonry.js"></script>
+    <script type="text/javascript" src="{$baseurl}/jquery.fancybox.pack.js"></script>
+    <script type="text/javascript" src="{$baseurl}/imagesloaded.pkgd.js"></script>
+	<div class="cb-box row">
         {assign var=sorting_links value=sorting_links()}
         <h4 class="smaller lighter pull-left">Browsing All Photos: </h4>
         <div class="photopadding col-md-6">
@@ -81,7 +84,7 @@
             </div>
         </div>
         </div>
-    <div class="cb-box row" style="width: 1300px; margin-left: -89px">
+    <div class="cb-box row">
         <div class="col-md-10 photomargin">
             {$counter=0}
             {section name=p_list loop=$photos}
@@ -92,7 +95,7 @@
             {lang code='no_results_found'}
             {/section}
         </div>
-        <div class="col-md-2 pull-right admargin">
+        <div class="col-md-2 pull-right">
             <img src="http://www.ryangiggs.cc/system/files/banner-160x600-pride-tee_0.jpg">
         </div>
     </div>
@@ -101,9 +104,50 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $('#photos .photo').hide();    // Use jQuery to hide all photos temporarily
+
+        var $container = $('#photos'); // Create a reference to the image container
+
+        // Use the imagesLoaded callback function to activate the Masonry plugin
+        $container.imagesLoaded(function(){
+            $container.masonry({
+                itemSelector : '.photo', // The selector of the thumbnail divs
+                isAnimated : true,       // Animate (with javascript) the layout when changing window size
+                // Set to false if you'd rather animate with CSS3 transitions
+                // Or toggle with Modernizr like this: isAnimated : !Modernizr.csstransitions
+                columnWidth: 260,        // Width of the thumbnail including any padding and borders
+                gutterWidth: 5          // The gap between thumbnails
+            });
+            $container.find('.photo').fadeIn('fast'); // Fade back in the thumbnails when the layout is complete
+            $container.removeClass('loading');        // Remove the loading class from the container
+        });
+
+        // Optionally use your favourite fancyBox configuration
+        $(".fancybox").fancybox({
+            openEffect	: 'elastic',
+            closeEffect	: 'elastic',
+            padding : 10,
+            helpers : {
+                title : {
+                    type : 'outside'
+                }
+            }
+        });
+
+    });
 
 
+    jQuery(function() {                                              // <== Doc ready
 
+        jQuery(".avatar1_file").hide();                  // Initially hide all buttons
 
-
-
+        jQuery('.show-image').hover(function() {
+            jQuery(this).find('#avatar1_file').fadeIn(1500);
+        }, function() {
+            jQuery(this).find('#avatar1_file').fadeOut(1500);
+        });
+    });
+</script>
