@@ -113,7 +113,6 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
             #check for videoid
             if(empty($vdetails['videoid']) && empty($vdetails['vid']) && empty($vdetails['videokey']))
             {
-                dump($multi);
                 if($multi)
                     return $dthumb[0] = default_thumb();
                 return default_thumb();
@@ -143,6 +142,7 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
         }
     }
 
+
     #checking if we have vid , so fetch the details
     if(!empty($vid))
         $vdetails = get_video_details($vid);
@@ -153,6 +153,8 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
             return default_thumb();
         return default_thumb();
     }
+
+
 
     #Checking if there is any custom function for
     if(count($Cbucket->custom_get_thumb_funcs) > 0)
@@ -177,25 +179,26 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
             }
         }
     }
-
+    // echo "hooooo";
     #get all possible thumbs of video
     $thumbDir = (isset($vdetails['file_directory']) && $vdetails['file_directory']) ? $vdetails['file_directory'] : "";
-    //echo($thumbDir);
+    if(!isset($vdetails['file_directory'])){
+        $justDate = explode(" ", $vdetails['date_added']);
+        $thumbDir = implode("/", explode("-", array_shift($justDate)));
+    }
     if(substr($thumbDir, (strlen($thumbDir) - 1)) !== "/"){
         $thumbDir .= "/";
     }
 
-
     //$justDate = explode(" ", $vdetails['date_added']);
     //$dateAdded = implode("/", explode("-", array_shift($justDate)));
     
-    $file_directory ="";
+    $file_dir ="";
     if(isset($vdetails['file_name']) && $thumbDir)
     {
-       $file_directory =  "/" . $thumbDir;
+       $file_dir =  "/" . $thumbDir;
     }
-    $vid_thumbs = glob(THUMBS_DIR."/" .$file_directory.$vdetails['file_name']."*");
-
+    $vid_thumbs = glob(THUMBS_DIR."/" .$file_dir.$vdetails['file_name']."*");
     #replace Dir with URL
     if(is_array($vid_thumbs))
         foreach($vid_thumbs as $thumb)
@@ -208,7 +211,7 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
                 if(!is_big($thumb_file) || $return_big)
                 {
                     if($return_full_path)
-                        $thumbs[] = THUMBS_URL.'/'. $file_directory . $thumb_file;
+                        $thumbs[] = THUMBS_URL.'/'. $thumbDir . $thumb_file;
                     else
                         $thumbs[] = $thumb_file;
                 }
