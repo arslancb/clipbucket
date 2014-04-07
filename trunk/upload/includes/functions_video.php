@@ -113,6 +113,7 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
             #check for videoid
             if(empty($vdetails['videoid']) && empty($vdetails['vid']) && empty($vdetails['videokey']))
             {
+                dump($multi);
                 if($multi)
                     return $dthumb[0] = default_thumb();
                 return default_thumb();
@@ -141,7 +142,6 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
             return default_thumb();
         }
     }
-
 
     #checking if we have vid , so fetch the details
     if(!empty($vid))
@@ -181,16 +181,20 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
     #get all possible thumbs of video
     $thumbDir = (isset($vdetails['file_directory']) && $vdetails['file_directory']) ? $vdetails['file_directory'] : "";
     //echo($thumbDir);
+    if(substr($thumbDir, (strlen($thumbDir) - 1)) !== "/"){
+        $thumbDir .= "/";
+    }
+
 
     //$justDate = explode(" ", $vdetails['date_added']);
     //$dateAdded = implode("/", explode("-", array_shift($justDate)));
     
-    $file_dir ="";
+    $file_directory ="";
     if(isset($vdetails['file_name']) && $thumbDir)
     {
-       $file_dir =  "/" . $thumbDir;
+       $file_directory =  "/" . $thumbDir;
     }
-    $vid_thumbs = glob(THUMBS_DIR."/" .$file_dir.$vdetails['file_name']."*");
+    $vid_thumbs = glob(THUMBS_DIR."/" .$file_directory.$vdetails['file_name']."*");
 
     #replace Dir with URL
     if(is_array($vid_thumbs))
@@ -204,7 +208,7 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
                 if(!is_big($thumb_file) || $return_big)
                 {
                     if($return_full_path)
-                        $thumbs[] = THUMBS_URL.'/'. $dateAdded . "/" . $thumb_file;
+                        $thumbs[] = THUMBS_URL.'/'. $file_directory . $thumb_file;
                     else
                         $thumbs[] = $thumb_file;
                 }
