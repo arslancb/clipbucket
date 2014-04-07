@@ -22,8 +22,8 @@
             <div class="AdminPhotoThumb col-md-3">
                 {get_photo details=$photos[list] id='photo' style='padding:2px; border:1px solid #ccc' output='html'}
             </div>
+        <td>
             <div class="col-md-9">
-                <div class="vdo_sets">
                     <h4>
                       <a class="block" href="{$baseurl}/admin_area/edit_photo.php?photo={$photos[list].photo_id}">{$photos[list].photo_title}</a>
                     </h4>
@@ -38,12 +38,10 @@
                     <span class="label label-info">
                       Uploaded:<strong>{$photos[list].date_added|niceTime}</strong>
                     </span>
-                    <span class="label label-success">
-                      <strong><a href="view_user.php?uid={$photos[list].userid}">{$photos[list].username}</a></strong>
-                    </span>
+
                 </div>
             </div>
-          </div>
+
         </td>
         <td>
           <div class="dropdown">
