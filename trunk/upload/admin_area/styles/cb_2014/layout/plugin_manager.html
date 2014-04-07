@@ -18,6 +18,8 @@
     </tr>
     {assign var = bgcolor value = ""}
     {foreach from=$installed_plugin_list item=plug name=item}
+
+
     <tr>
         <td width="30">
           <input name="check_plugin[]" type="checkbox"  value="{$smarty.foreach.item.iteration}" />
@@ -28,9 +30,9 @@
           <strong>{$plug.name}</strong>
           <p>{$plug.description}</p>
           <div class="pluginStatus">
-            <span class="label {if $plugin.plugin_active == active}label-success {else}label-warning{/if}">
-              <strong>{if $plug.plugin_active =='active'}Active{else}InActive{/if}</strong>
-            </span>
+              {if $plug.plugin_active == 'Active'}
+            <span class="label label-success">Active </span>
+                {elseif $plug.plugin_active == 'NotActive'}  <span class="label label-warning">NotActive {/if}</span>
             <span class="label label-danger"><span>Author:</span><strong>{$plug.author}</strong></span>
             <span class="label label-info"><span>Ver.</span><strong>{$plug.version}</strong></span>
           </div>
@@ -39,7 +41,7 @@
           <div class="dropdown">
             <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions <i class="caret"></i></button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
-            {if $plug.plugin_active == 'active'}
+            {if $plug.plugin_active == 'Active'}
               <li role="presentation">
                 <a role="menuitem" tabindex="-1" href="?deactivate={$plug.plugin_file}{if $plug.folder!=''}&f={$plug.folder}{/if}">
                   Deactivate
