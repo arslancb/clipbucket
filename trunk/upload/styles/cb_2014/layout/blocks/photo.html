@@ -1,18 +1,10 @@
 {if $display_type == ""}
-<div class="show-image col-md-4 col-sm-4 col-xs-6 loading" id="photos">
+<div class="show-image col-md-4 col-sm-4 col-xs-6 loading " id="photos">
     <span class="photoname" id="avatar1_file" >{$photo.photo_title|truncate:15}</span>
    <a href="{$cbphoto->photo_links($photo,'view_item')}" >
         {get_photo details=$photo size='l' class='' output='html'}
     </a>
     </div>
-
-
-
-
-
-
-
-
 <!--<a class="fancybox-button" rel="fancybox-button" href="http://farm4.staticflickr.com/3787/9028269192_9b4ddf345d_b.jpg" title="Tolpis barbata (mariluzpicado)">-->
     <!--<img src="http://farm4.staticflickr.com/3787/9028269192_9b4ddf345d_m.jpg" alt="" />-->
 <!--</a>-->
@@ -96,25 +88,6 @@
     	{get_photo details=$photo output='html' width='110' height='64' size='m' style='display:block;margin:0px auto;'}
     </li> <!-- itemBox {$photo.photo_key} end -->
 {/if}
-
-
-
-
-<script>
-    jQuery(function() {                                              // <== Doc ready
-
-        jQuery(".avatar1_file").hide();                  // Initially hide all buttons
-
-        jQuery('.show-image').hover(function() {
-            jQuery(this).find('#avatar1_file').fadeIn(1500);
-        }, function() {
-            jQuery(this).find('#avatar1_file').fadeOut(1500);
-        });
-    });
-</script>
-
-
-
 
 
 
