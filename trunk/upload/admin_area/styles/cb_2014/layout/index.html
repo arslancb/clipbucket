@@ -168,11 +168,14 @@
                                                     <i class="glyphicon glyphicon-cog"></i><i class="icon-angle-down icon-on-right"></i>
                                                 </button>
                                                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
-                                                    <li><a role="menuitem" tabindex="-1"
-                                                           href="" class="">Add link</a></li>
-                                                    <li><a role="menuitem" tabindex="-1"
-                                                           href=""target="_blank">Add link 2</a>
-                                                    </li>
+                                                    {if $u.ban_status == yes}
+                                                    <li><a role="menuitem" tabindex="-1" href="?unban={$u.userid}">Unban Member</a></li>
+                                                    {/if}
+                                                    {if $u.ban_status == no}
+                                                    <li><a role="menuitem" tabindex="-1" href="?ban={$u.userid}">Ban Member</a></li>
+                                                    {/if}
+                                                    <li><a role="menuitem" tabindex="-1" href="view_user.php?uid={$u.userid}">Edit</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="?deleteuser={$u.userid}">Delete</a></li>
                                                 </ul>
 
                                             </div>
@@ -232,8 +235,6 @@
                                     <div id="vtoday" class="tab-pane">
                                         <div id="videos_daily_chart_id" class="flot_chart1"><img class="loading-image" src="./styles/cb_2014/images/ajax-loader.gif"/></div>
                                     </div>
-
-
                                 </div>
                             </div>
                             <div class="widget-main">
@@ -244,7 +245,7 @@
                                         <img src="{getThumb vdetails=$video}" width="130" height="80" id="thumbs_{$video.videoid}" title=""/>
                                     </div>
                                     <div class="col-md-9">
-                                        <a href="">
+                                        <a href="{$baseurl}/watch_video.php?v={$video.videokey}"target="_blank">
                                             {$video.title|truncate:45} </a>
                                         <strong class="btn btn-primary btn-xs pull-right"> {lang code='views'} : {$video.views|format_number}</strong>
                                     </div>
