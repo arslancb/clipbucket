@@ -2567,9 +2567,9 @@ a:hover {
     padding-left: 8px;
     opacity: 0.7;
     position: absolute;
-    top: 119px;
+    top: 9px;
     left: 17px;
-    width: 311px;
+    width: 280px;
     height: 25px;
 }
 
@@ -2685,12 +2685,44 @@ a:hover {
     margin-left: 0px;
 }
 
-.admargin {
-    margin-right: -43px;
-}
 
 .hrred {
     margin-top: 5px;
     margin-bottom: 5px;
     background: red;
+}
+
+
+
+
+#photos.loading {
+    padding: 3px;
+    min-height: 250px;
+    background: transparent url(images/loader.gif) no-repeat center center;
+}
+#photos .photo {
+    padding: 10px;
+    box-shadow: #222 3px 3px 3px;
+    width: 240px;
+    font-size: 87%;
+    background: #F5F5F5;
+    display: block;
+    text-decoration: none;
+    float: left;
+    margin-bottom: 20px;
+    display: none;
+}
+#photos .photo:hover {
+    box-shadow: #000 3px 3px 3px;
+    background: #FFFFFF;
+}
+#photos .photo img {
+    max-width: 100%;
+}
+#photos .photo .title {
+    padding: 8px 8px 0 0;
+    font-style: italic;
+    font-weight: bold;
+    display: block;
+    color: #333333;
 }
