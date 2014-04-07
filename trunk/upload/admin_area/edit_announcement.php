@@ -3,6 +3,16 @@
  * @since : 2009
  * @author : Arslan Hassan
  */
+
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+    define('MAIN_PAGE', 'Global Announcement');
+}
+if(!defined('SUB_PAGE')){
+    define('SUB_PAGE', 'Edit Announcement');
+}
+
+
 require_once '../includes/admin_config.php';
 $userquery->admin_login_check();
 $userquery->login_check('admin_access');
