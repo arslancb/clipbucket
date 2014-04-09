@@ -130,7 +130,7 @@ $photos = get_photos($clist);
 
 Assign('photos', $photos);
 
-/* CREATING LIMIT */
+/* CREATING LIMIT1 */
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,RESULTS);
 
