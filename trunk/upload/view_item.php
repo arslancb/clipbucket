@@ -112,7 +112,7 @@ if($cbcollection->is_viewable($cid))
 
 
 
-//Getting Collection List
+//Getting Collection Lists
 $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,COLLPP);
 $clist = $cond;
