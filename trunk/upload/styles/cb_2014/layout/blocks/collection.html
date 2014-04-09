@@ -1,15 +1,25 @@
 {if $display_type == "" || $display_type == "normal"}
-
+<!--<div class="show-image col-md-4 col-sm-4 col-xs-6" style="padding: 0px">-->
+    <!--<div class="loading" id="photos">-->
+        <!--<span class="photoname col-md-4" id="avatar1_file" >{$collection.collection_name}</span>-->
+        <!--({$collection.total_objects} {$collection.type})-->
+        <!--<a href="{$cbphoto->photo_links($photo,'view_item')}" >-->
+            <!--<img src="{$cbcollection->get_thumb($collection,'small',TRUE)}"/>-->
+        <!--</a>-->
+    <!--</div>-->
+<!--</div>-->
 <div class="row">
     <div class="col-md-10">
         <div class="row">
             <div class="col-md-3">
-                <img src="{$cbcollection->get_thumb($collection,'small',TRUE)}"/>
+               <a href="">
+                   <a href="{$cbcollection->collection_links($collection,'view')}"><img src="{$cbcollection->get_thumb($collection,'small')}" /></a>
+                   </a>
             </div>
-            <div class="col-md-9">
-                <a href="{$baseurl}/admin_area/edit_collection.php?collection={$collection.collection_id}">{$collection.collection_name}</a> ({$collection.total_objects} {$collection.type})
-                </a>
-                <div class="labels">
+            <div class="col-md-9 show-image">
+                <a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name}</a> ({$collection.total_objects} {$collection.type})
+
+                <div class="labels" id="collection" style="display: none">
                     {if $collection.featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
                     <span class="label {if $collection.active=='yes'}label-success{else}label-warning{/if}">{if $collection.active=='yes'}Active{else}NotActive{/if}</span>
                     <span class="label label-info"><strong>Type</strong>      {$collection.type}</span>
@@ -17,9 +27,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-2">
-        <a href="view_user.php?uid={$collection.userid}">{$collection.username}</a>
+        <hr>
     </div>
 </div>
 {/if}
@@ -67,3 +75,19 @@
         </a>
     </div>
 {/if}
+
+
+<script>
+    jQuery(function() {                                              // <== Doc ready
+
+        jQuery(".collection").hide();                  // Initially hide all buttons
+
+        jQuery('.show-image').hover(function() {
+            jQuery(this).find('#collection').fadeIn(1500);
+        }, function() {
+            jQuery(this).find('#collection').fadeOut(1500);
+        });
+    });
+</script>
+
+
