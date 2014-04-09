@@ -1475,7 +1475,7 @@ height: 300px !important;
      list-style: none;
 }
 .item{
-    width: 100%;
+   /* width: 100%;*/
 }
 .thumbnail_new img { width:100%; height:auto; } /* to keep proportions */
 .thumbnails_new p { text-align: center; padding: 10px; } /* captions can be styled with an inline element */
