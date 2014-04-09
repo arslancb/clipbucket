@@ -1211,13 +1211,13 @@ background-color: #f8f8f8;
 }
 /*// New One for Home Page///*/
 .cbHomeVidTitle {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.7);
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
     color: #FFFFFF;
     font-size: 11px;
     margin-left: 1.5px;
     margin-top: -23px;
     padding: 3px 5px;
-    position: relative;
+    position: absolute;
     text-align: left;
     width: 98.8%;
     z-index: 100;
@@ -1237,8 +1237,10 @@ background-color: #f8f8f8;
 }
 .cbHomeVidTitle_slid-title{
     font-size: 7px;
-    margin-top: -20px;  
-    padding: 2px 5px; 
+    margin-left: 2px;
+    margin-top: -16px;
+    padding: 2px 5px;
+    width: 97.8%;
 }
 .cbHomeVidDuration {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
@@ -1279,11 +1281,10 @@ right: 15px;
 h2.myHeading {
      border-bottom: 1px solid #DDDDDD;
     color: #0099CC;
-    
     font-size: 20px;
     line-height: 30px;
-    margin-bottom: 20px;
-    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-top: 0;
     padding-bottom: 10px;
 }
 h2.myHeadingBLK {
@@ -1352,4 +1353,63 @@ margin-right: 10px;
 .comment_home .itemdiv.dialogdiv:before{
     border: 0px none;
     background-color:#F0F0F0;
+}
+/*Bootstrap slider*/
+.carousel {
+    height: 400px;
+    overflow: hidden;
+}
+.carousel .item {
+    -webkit-transition: opacity 1s;
+    -moz-transition: opacity 1s;
+    -ms-transition: opacity 1s;
+    -o-transition: opacity 1s;
+    transition: opacity 1s;
+}
+.carousel .active.left, .carousel .active.right {
+    left:0;
+    opacity:0;
+    z-index:2;
+}
+.carousel .next, .carousel .prev {
+    left:0;
+    opacity:1;
+    z-index:1;
+}
+.mouse_hover:hover  .mouse_hover_on{
+    display: block;
+}
+.mouse_hover_on{
+    display: none;
+}
+.mouse_hover1:hover  .mouse_hover_on1{
+    display: block;
+}
+.mouse_hover_on1{
+    display: none;
+}
+.opacity_low {
+opacity: 0.8;
+}
+.opacity_low:hover {
+opacity: 1;
+}
+.comment_home .body .text{
+    margin-bottom: 5px;
+}
+.red{
+ color: #f00 !important;   
+}
+.details_block .title{
+  color: #696969;  
+}
+.paly_on{
+    font-size: 22px;
+    left: 16%;
+    position: absolute;
+    top: 40%;
+    display: none;
+}
+.featured_vid_con:hover .paly_on{
+display: block;
 }

@@ -2,13 +2,13 @@
 
 <div id="slide1">
 {foreach from=$videos_06_da item=video_06_da}
-<div class="col-md-2 text-center nopadding">
+<div class="col-md-2 text-center nopadding mouse_hover">
 <div class="col-md-11 text-center nopadding">
 	<a href="{videoLink vdetails=$video_06_da}" title="{$video_06_da.title}">
     <img class="cb_img_thum" src="{getThumb vdetails=$video_06_da}" width="135" height="75"  {ANCHOR place="video_thumb" data=$video_06_da} />
-    <div class="cbHomeVidTitle cbHomeVidTitle_slid-title">{$video_06_da.title|truncate:10}</div>
+    <div class="cbHomeVidTitle cbHomeVidTitle_slid-title mouse_hover_on">{$video_06_da.title|truncate:10}</div>
     </a>
-    <div class="cbHomeVidDuration cbHomeVidDuration_slide">
+    <div class="cbHomeVidDuration cbHomeVidDuration_slide mouse_hover_on">
     {$video_06_da.duration|number_format}
     </div>
 </div>

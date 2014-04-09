@@ -1,5 +1,7 @@
+
 <div onclick="get_ep_video('{$video.videoid}')" class="featured_vid_con clearfix">
 	<div class="video_thumb">
+		<span class="glyphicon glyphicon-play-circle white paly_on"></span>
 	<img src="{getThumb vdetails=$video}" width="135" height="75" border="0" {ANCHOR place="video_thumb" data=$video} />
 	</div> <!--VIDEO_THUMB END-->
 
@@ -10,9 +12,10 @@
 	<div class="title" style="font-family:Tahoma, Geneva, sans-serif; font-size:12px; font-weight:normal;">
 	{$video.description|description|truncate:30}
 	</div>
-	<div style="padding-top: 20px; font-size:11px; font-family:'Trebuchet MS', Arial, Helvetica, sans-serif; font-weight:normal;">
-    {$video.duration|SetTime}
+	<div class="small" style="padding-top: 20px; font-size:11px; font-family:'Trebuchet MS', Arial, Helvetica, sans-serif; font-weight:normal;">
+    {$video.date_added|niceTime}
 	</div>
 </div>
 
 </div> <!--DETAILS_BLOCK END-->
+ 	

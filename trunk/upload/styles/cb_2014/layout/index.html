@@ -112,20 +112,20 @@
 			<h2 class="myHeading">{lang code="Featured Videos"}</h2>
 			<div class="col-md-12 nopadding">
 
-			<div class="col-md-12 text-center nopadding">
-				<div class="col-md-8 text-center nopadding" style=" margin-bottom:10px;">
+			<div class="col-md-12 text-center nopadding ">
+				<div class="col-md-8 text-center nopadding mouse_hover" style=" margin-bottom:10px;">
 				{foreach from=$videos_01 item=video_01}
-				<div class="col-md-12 text-center nopadding">
+				<div class="col-md-12 text-center nopadding ">
 				<a href="{videoLink vdetails=$video_01}" title="{$video_01.title}">
 				<img class="cb_img_thum" src="{getThumb vdetails=$video_01}" width="500" height="285" border="0" {ANCHOR place="video_thumb" data=$video_01} />
 				</a>
-				<div class="cbHomeVidTitle cbHomeVidTitle_Big">{$video_01.title|truncate:30}</div>
+				<div class="cbHomeVidTitle cbHomeVidTitle_Big mouse_hover_on">{$video_01.title|truncate:30}</div>
 				</div>
 
-	            <div class="cbHomeVidDuration">
+	            <div class="cbHomeVidDuration mouse_hover_on">
 	            {$video_01.duration|number_format}
 	            </div>
-	            <div class="cbHomeVidDuration_left">
+	            <div class="cbHomeVidDuration_left mouse_hover_on">
 	            By: {$video_01.username}
 	            </div>
 
@@ -134,13 +134,13 @@
 
 				<div class="col-md-4 hidden-sm hidden-xs text-center nopadding-right" style="padding-left:8px;">
 				{foreach from=$videos_02 item=video_02}
-				<div class="col-md-12 text-center nopadding">
+				<div class="col-md-12 text-center nopadding mouse_hover1">
 				<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
-				<img class="cb_img_thum" src="{getThumb vdetails=$video_02}" width="240" height="130" {ANCHOR place="video_thumb" data=$video_03} />
-				<div class="cbHomeVidTitle" style="margin-bottom:8px;">{$video_02.title|truncate:10}</div>
+				<img class="cb_img_thum" src="{getThumb vdetails=$video_02}" width="240" height="133" {ANCHOR place="video_thumb" data=$video_03} />
+				<div class="cbHomeVidTitle mouse_hover_on1" style="margin-bottom:8px;">{$video_02.title|truncate:10}</div>
 				</a>
 
-	            <div class="cbHomeVidDuration">
+	            <div class="cbHomeVidDuration mouse_hover_on1">
 	            {$video_02.duration|number_format}
 	            </div>
                 
@@ -155,13 +155,13 @@
         
         		<div class="col-md-12 text-center nopadding">
 				{foreach from=$videos_03 item=video_03}
-				<div class="col-md-4 hidden-sm hidden-xs text-center nopadding-left"  style="margin-bottom:15px; padding-right:4px;">
+				<div class="col-md-4 hidden-sm hidden-xs text-center nopadding-left mouse_hover"  style="margin-bottom:15px; padding-right:4px;">
 				<a href="{videoLink vdetails=$video_03}" title="{$video_02.title}">
 				<img src="{getThumb vdetails=$video_03}" width="242" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_03} />
-				<div class="cbHomeVidTitle cbHomeVidTitle_small">{$video_03.title|truncate:10}</div>
+				<div class="cbHomeVidTitle cbHomeVidTitle_small mouse_hover_on">{$video_03.title|truncate:10}</div>
 				</a>
 
-	            <div class="cbHomeVidDuration cbHomeVidDuration_more">
+	            <div class="cbHomeVidDuration cbHomeVidDuration_more mouse_hover_on">
 	            {$video_03.duration|number_format}
 	            </div>
                 
@@ -175,7 +175,7 @@
         <!-- ************ LATEST VIDEOS END ************ //-->
 		<!-- ******************************************* //-->
 
-        <div class="clearfix"></div><BR />
+        <div class="clearfix"></div>
 
 		<!-- ******************************************* //-->
         <!-- *************** VIDEOS START ************** //-->
@@ -193,27 +193,26 @@
         				{include file="$style_dir/blocks/videos/video-home-sliders.html" video_06_da=$videos_06_da slider='slider'}
 			      </div>
 			      <div id="being_viewed" class="tab-pane fade">
-			        {foreach from=$videos_06_da item=video_06_da}
         				{include file="$style_dir/blocks/videos/video-home-sliders2.html" video_06_da=$video_06_da slider3='slider3'}
-					{/foreach}
 			      </div>
 			    </div>
 	  		</div>
+	  		<div style="height: 18px;" class="clearfix"></div>
 		</div>
         </div>
 		<!-- ******************************************* //-->
         <!-- *************** VIDEOS END ************** //-->
         <!-- ******************************************* //-->
 
-        <div class="clearfix"></div><BR />
+        <div class="clearfix"></div>
 
 		<!-- ******************************************* //-->
         <!-- *********** FIRST PHOTOS START ************ //-->
         <!-- ******************************************* //-->
         	<div class="row nopadding">
         			<div class="col-md-12 nopadding ">
-        				<h3 class="theme_color">{lang code="Featured Photos"}</h3>
-						<hr>
+        				<h2 class="myHeading theme_color">{lang code="Featured Photos"}</h2>
+						
         				<!-- *********** FIRST PHOTOS START ************ //-->
 						<div class="col-md-12 fill-background" style="display:block; height:320px; padding:5px;">
 							<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
@@ -319,15 +318,15 @@
 				<div class="pull-left small">{$result_users[result_users].profile_hits|number_format} {lang code='views'}</div>
 				<div class="pull-right small">{$result_users[result_users].total_videos|number_format}{lang code='Videos'}</div>
 			</div>
-				<div class="col-md-12 nopadding progress no-border-radius">
+				<!--<div class="col-md-12 nopadding progress no-border-radius">
       				<div style="width: 40%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-success">
         			<span class="sr-only">40% Complete (success)</span>
   					</div>
-    			</div>
+    			</div>-->
 			</div>
 			<div style="position:absolute; top: 25%; right:5px;">
 			<a href="{$userquery->profile_link($result_users[result_users])}">
-			<img src="{$baseurl}/styles/cb_2014/images/user_next_icon.png" width="25" height="25" />
+			<img class="opacity_low" src="{$baseurl}/styles/cb_2014/images/user_next_icon.png" width="25" height="25" />
 			</a>
 			</div>
 		</div>
@@ -370,12 +369,13 @@
         
     </div>
     <div class="body clearfix">
-        <div class="text">{$comment.comment|truncate:150}</div>
+        <div class="text min-height-35">{$comment.comment|truncate:150}</div>
         <div class="time pull-left">
             <span class="small"> Updated: {$comment.date_added|niceTime}</span>
         </div>
         <div class=" pull-right">
-        <span class="small">{$result_comments[result_comments].total_comments|number_format}</span>
+        <span class="small red">{$result_comments[result_comments].total_comments|number_format}
+        	<span class="glyphicon glyphicon-comment"></span></span>
         </div>
     </div>
 </div>
