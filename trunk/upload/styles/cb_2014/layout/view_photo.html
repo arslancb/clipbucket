@@ -16,45 +16,105 @@
                 <a class="the-buttons btn btn-primary btn-lg btns" id="button2" name="button2" href="{$cbphoto->photo_links($nextLink.0,'view_item')}">
                    Next<i class="glyphicon glyphicon-chevron-right"> </i>
                 </a>
-
                 <hr>
+                <div class="row">
+                    <div class="col-md-2">
+                        <a class="pull-left" href="#">
+                            <img class="img-circle ImgColor" src="{$userquery->getUserThumb($user)}" width="142">
+                        </a>
+                    </div>
+                    <div class="col-md-8">
+                        <h2><small class="smallColor">{$photo.photo_title}</small></h2>
+                    </div>
+                </div>
+                    <div class="row ViewphotoPadding">
+                        <div class="col-md-1">
+                            <a href>
+                            {$user.username}
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-primary btn-sm btn-xs" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>
+                            <div class="action_box" id="video_detail_result_cont" style="display:none"></div>
+                        </div>
+                    </div>
+                <div class="procolor fsize">
+                    <b>{lang code='Since:'}</b> ({$user.doj|date_format})
+                    <b>{lang code='Login:'}</b> ({$user.last_logged|nicetime})
+                </div>
+                    <br>
+                <!--<div class="col-md-4 cb-box">-->
+                    <!--<div class="media padding40">-->
+
+                        <!--<div class="media-body">-->
+                            <!--<div class="row">-->
+                                <!--<div class="col-md-8 procolor fsize">-->
+                                    <!--<h4 class="media-heading headcolor photoprofile">{$user.username}  ({assign var=category value=$userquery->get_category($user.category)}-->
+                                        <!--{$category.category_name})</h4>-->
+                                    <!--<b>{lang code='Since:'}</b> ({$user.doj|date_format})-->
+                                    <!--<b>{lang code='Login:'}</b> ({$user.last_logged|nicetime})-->
+                                    <!--<hr>-->
+                                    <!--<div class="row">-->
+                                        <!--<div class="col-md-2">-->
+                                            <!--<button class="btn btn-info btn-sm btn-xs" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>-->
+                                        <!--</div>-->
+                                        <!--<div class="col-md-2 padding39">-->
+                                            <!--<button class="btn btn-info btn-sm btn-xs">{lang code='View Channel'}</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="action_box" id="video_detail_result_cont" style="display:none"></div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
                 <div class="row fonts">
                     <div class="tabbable">
                         <ul class="nav nav-tabs" id="myTab2">
                             <li class="active">
                                 <a data-toggle="tab" href="#pinfo">
-                                    <h5>Info</h5>
+                                    <h5 class="PhotoColor">Info</h5>
                                 </a>
                             </li>
                             <li class="">
                                 <a data-toggle="tab" href="#pshare">
-                                    <h5>Share</h5>
+                                    <h5 class="PhotoColor">Share</h5>
                                 </a>
                             </li>
                             <li class="">
                                 <a data-toggle="tab" href="#pcode">
-                                    <h5>Embed Code</h5>
+                                    <h5 class="PhotoColor">Embed Code</h5>
                                 </a>
                             </li>
                             <li class="">
                                 <a data-toggle="tab" href="#preport">
-                                    <h5>Report</h5>
+                                    <h5 class="PhotoColor">Report</h5>
                                 </a>
                             </li>
                             {show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}
                         </ul>
                         <div class="tab-content">
                             <div id="pinfo" class="tab-pane active">
-                                <h4><small>{lang code='Title:'}{$photo.photo_title}</small></h4>
-                                <hr>
-                                <h4><small>{lang code='Description:'}{$photo.photo_description}</small></h4><hr>
-                                <h4><small>{lang code='Tags:'}{$photo.photo_tags|tags:photos}</small></h4>
+                                <h2><small class="smallColor">{lang code='Category:'}({assign var=category value=$userquery->get_category($user.category)}</small></h2>
+                                <h2><small class="smallColor">{lang code='Description:'}{$photo.photo_description}</small></h2>
+                                <h2><small class="smallColor">{lang code='Tags:'}{$photo.photo_tags|tags:photos}</small></h2>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <h2><small class="smallColor">{lang code="views:"}{$photo.views|number_format}</small></h2>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <h2><small class="smallColor">{lang code="Comments:"}{$photo.total_comments} </small></h2>
+
+                                </div>
+                            </div>
                                 </div>
                             <div id="pshare" class="tab-pane">
                                 {show_share_form id=$photo.photo_id type=Photo}
                             </div>
                             <div id="pcode" class="tab-pane">
-                               3
+                                {embedCodes assign='codes' type='all' with_url=TRUE details=$photo}
                             </div>
                             <div id="preport" class="tab-pane">
                                     <br>
@@ -88,33 +148,21 @@
             </div>
 
             <div class="col-md-4 cb-box">
-                <div class="media padding40">
-                    <a class="pull-left" href="#">
-                        <img class="media-object imgobject imgborder" src="{$userquery->getUserThumb($user)}" width="142" alt="...">
-                    </a>
-                    <div class="media-body">
-                        <div class="row">
-                            <div class="col-md-8 procolor fsize">
-                                <h4 class="media-heading headcolor photoprofile">{$user.username}  ({assign var=category value=$userquery->get_category($user.category)}
-                                    {$category.category_name})</h4>
-                                <b>{lang code='Since:'}</b> ({$user.doj|date_format})
-                                <b>{lang code='Login:'}</b> ({$user.last_logged|nicetime})
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <button class="btn btn-info btn-sm btn-xs" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>
-                                    </div>
-                                    <div class="col-md-2 padding39">
-                                        <button class="btn btn-info btn-sm btn-xs">{lang code='View Channel'}</button>
-                                    </div>
-                                </div>
-                                <div class="action_box" id="video_detail_result_cont" style="display:none"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <h2 class="smallColor1"><small>{lang code='Most Popular'}</small></h2>
+
+                {section name=p_list loop=$photos}
+                {include file="$style_dir/blocks/PopularPhotos.html" photo=$photos[p_list]}
+                {sectionelse}
+                {lang code='no_results_found'}
+                {/section}
             </div>
-            <div class="col-md-4 well cb-box"><small>Advertisement</small><img src="http://farm4.staticflickr.com/3377/3639506612_fb0e13ce92.jpg">
+            <div class="col-md-4 cb-box">
+                <h2><small class="smallColor1">{lang code='Top Collections'}</small></h2>
+                {section name=c_list loop=$collections}
+                {include file="$style_dir/blocks/topCollection.html" collection=$collections[c_list]}
+                {sectionelse}
+                {lang code='no_results_found'}
+                {/section}
             </div>
         </div>
 
@@ -134,3 +182,8 @@
         });
     });
 </script>
+
+
+{section name=list loop=$uphotos}
+{include file="$style_dir/blocks/photo.html" display_type="related_photos" photo=$uphotos[list]}
+{/section}
