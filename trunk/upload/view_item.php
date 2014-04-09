@@ -126,7 +126,7 @@ $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,MAINPLIST);
 $clist = $cond;
 $clist['limit'] = $get_limit;
-$clist ['order']  = " last_viewed DESC ";
+$clist ['order']  = " last_viewed DESC LIMIT 8 ";
 $photos = get_photos($clist);
 
 Assign('photos', $photos);
