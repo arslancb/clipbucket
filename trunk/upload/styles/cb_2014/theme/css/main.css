@@ -2567,9 +2567,9 @@ a:hover {
     padding-left: 8px;
     opacity: 0.8;
     position: absolute;
-    top: 4px;
-    left: 4px;
-    width: 301px;
+    top: 128px;
+    left: 20px;
+    width: 289px;
     height: 41px;
     display: none;
 }
@@ -2683,7 +2683,7 @@ a:hover {
 }
 
 .photomargin {
-    margin-left: 0px;
+    margin-left: -35px;
 }
 
 
@@ -2693,38 +2693,17 @@ a:hover {
     background: red;
 }
 
-
-
-
-#photos.loading {
-    padding: 3px;
-    min-height: 250px;
-    background: transparent url(images/loader.gif) no-repeat center center;
-}
-#photos .photo {
-    padding: 10px;
-    box-shadow: #222 3px 3px 3px;
-    width: 240px;
-    font-size: 87%;
-    background: #F5F5F5;
-    display: block;
-    text-decoration: none;
-    float: left;
-    margin-bottom: 20px;
-    display: none;
-}
-#photos .photo:hover {
-    box-shadow: #000 3px 3px 3px;
-    background: #FFFFFF;
-}
-#photos .photo img {
-    max-width: 100%;
-}
-#photos .photo .title {
-    padding: 8px 8px 0 0;
-    font-style: italic;
-    font-weight: bold;
-    display: block;
-    color: #333333;
+.loading {
+    margin: 2px;
+    height: 170px;
+    width:  301px
 }
 
+
+.cpadding {
+    padding-left: 280px;
+}
+
+.sidebarpadding {
+    padding-left: 0px;
+}
