@@ -216,7 +216,7 @@
 						
         				<!-- *********** FIRST PHOTOS START ************ //-->
 						<div class="col-md-12 fill-background" style="display:block; height:320px; padding:5px;">
-							<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
+							<div class="col-md-8 big_img" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
 							{foreach from=$result_photos1_01 item=result_photo1_01}
 				            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
 				            	{get_photo details=$result_photo1_01 output='html' width="545" height="300" size="l" class="cb_img_thum"}
@@ -250,7 +250,7 @@
 				        {/foreach}
 						</div>
 						
-						<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
+						<div class="col-md-8 big_img" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
 						{foreach from=$result_photos2_01 item=result_photo2_01}
 				        	<a href="{$cbphoto->photo_links($result_photo2_01,'view_item')}">
 				        	{get_photo details=$result_photo2_01 output='html' width="545" height="300" size="l"  class="cb_img_thum"}

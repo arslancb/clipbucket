@@ -1457,3 +1457,6 @@ ul#myTab_home li:first-child {
 ul#myTab_home li:first-child + li {
      padding-left: 20px;    
 }
+.big_img img{
+height: 300px !important;
+}
