@@ -1111,7 +1111,7 @@ footer ul li a{
     left: 15px;
     padding: 5px;
     position: absolute;
-    top: 100px;
+    top: 90px;
     z-index: 9;
     color: #FFFFFF;
 
@@ -1122,7 +1122,7 @@ footer ul li a{
     left: 15px;
     padding: 5px;
     position: absolute;
-    top: 100px;
+    top: 90px;
     z-index: 9;
     color: #FFFFFF;
 
@@ -1134,7 +1134,7 @@ footer ul li a{
     padding: 5px;
     position: absolute;
     right: 30px;
-    top: 100px;
+    top: 90px;
     z-index: 9;
 }
 #slide_next3{
@@ -1144,7 +1144,7 @@ footer ul li a{
     padding: 5px;
     position: absolute;
     right: 30px;
-    top: 100px;
+    top: 90px;
     z-index: 9;
 }
 .cb_img_thum{
