@@ -126,7 +126,7 @@ $page = mysql_clean($_GET['page']);
 $get_limit = create_query_limit($page,MAINPLIST);
 $clist = $cond;
 $clist['limit'] = $get_limit;
-$clist ['order']  = " last_viewed DESC LIMIT 8 ";
+$clist ['order']  = " last_viewed DESC";
 $photos = get_photos($clist);
 
 Assign('photos', $photos);
@@ -139,7 +139,7 @@ $carray['limit'] = $get_limit;
 if(!empty($carray['order']))
     $carray['order'] = $carray['order']." DESC";
 else
-    $carray['order'] = " collection_id DESC";
+    $carray['order'] = "DESC";
 
 $collections = $cbcollection->get_collections($carray);
 assign('c',$collections);
