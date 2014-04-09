@@ -1,18 +1,35 @@
 {if $display_type == ""}
 
+<div class="show-image">
+    <div class="col-md-4 col-sm-4 col-xs-6" style="padding-right: 0px">
+        <span class="photoname" id="avatar1_file" >{$photo.photo_title|truncate:15}</span>
+        <a href="{$cbphoto->photo_links($photo,'view_item')}" title="Tolpis barbata (mariluzpicado)">
+            {get_photo details=$photo size='l' class='loading' output='html'}
+        </a>
 
-
-
-<div class="show-image col-md-4 col-sm-4 col-xs-6" style="padding: 0px">
-    <div class="loading" id="photos">
-    <span class="photoname" id="avatar1_file" >{$photo.photo_title|truncate:15}</span>
-   <a href="{$cbphoto->photo_links($photo,'view_item')}" >
-        {get_photo details=$photo size='l' class='' output='html'}
-    </a>
-        </div>
     </div>
+</div>
+            <!--<div class="col-md-8">-->
+                <!--<a class="fancybox" rel="gallery1" href="http://farm6.staticflickr.com/5471/9036958611_fa1bb7f827_b.jpg" title="Westfield Waterfalls - Middletown CT Lower (Graham_CS)">-->
+                    <!--{get_photo details=$photo output='html'}-->
+                <!--</a>-->
+
+            <!--</div>-->
 
 
+
+
+
+<!--<div class="show-image col-md-4 col-sm-4 col-xs-6" style="padding: 0px">-->
+    <!--<div class="" id="">-->
+    <!--<span class="photoname col-md-4" id="avatar1_file" >{$photo.photo_title|truncate:15}</span>-->
+   <!--<a href="{$cbphoto->photo_links($photo,'view_item')}" >-->
+        <!--{get_photo details=$photo size='l' class='' output='html'}-->
+    <!--</a>-->
+        <!--</div>-->
+    <!--</div>-->
+
+{include file="$style_dir/blocks/pagination.html"}
 
 
 <!--<a class="fancybox-button" rel="fancybox-button" href="http://farm4.staticflickr.com/3787/9028269192_9b4ddf345d_b.jpg" title="Tolpis barbata (mariluzpicado)">-->
@@ -29,23 +46,16 @@
 <!--</a>-->
 
 
-<!--<div class="show-image">-->
-    <!--<div class="col-md-3 col-sm-4 col-xs-6 loading" id="photos">-->
 
-        <!--&lt;!&ndash;<span class="photoname" id="avatar1_file" >{$photo.photo_title|truncate:15}</span>&ndash;&gt;-->
-        <!--<a class="fancybox-button" rel="fancybox-button" href="{$cbphoto->photo_links($photo,'view_item')}" title="Tolpis barbata (mariluzpicado)">-->
-            <!--{get_photo details=$photo size='l' class='' output='html'}-->
-        <!--</a>-->
-            <!--&lt;!&ndash;<div class="row">&ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="col-md-2">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<h4><small> <i class="glyphicon glyphicon-thumbs-up lfont"><b>2</b></i></small></h4>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="col-md-2 like">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<h4><small> <i class="glyphicon glyphicon-thumbs-down lfont"><b>4</b></i></small></h4>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-    <!--</div>-->
-<!--</div>-->
+            <!--<div class="row">-->
+                <!--<div class="col-md-2">-->
+                    <!--<h4><small> <i class="glyphicon glyphicon-thumbs-up lfont"><b>2</b></i></small></h4>-->
+                <!--</div>-->
+                <!--<div class="col-md-2 like">-->
+                    <!--<h4><small> <i class="glyphicon glyphicon-thumbs-down lfont"><b>4</b></i></small></h4>-->
+                <!--</div>-->
+                <!--</div>-->
+
 
 {/if}
 
@@ -98,8 +108,6 @@
     	{get_photo details=$photo output='html' width='110' height='64' size='m' style='display:block;margin:0px auto;'}
     </li> <!-- itemBox {$photo.photo_key} end -->
 {/if}
-
-
 
 
 
