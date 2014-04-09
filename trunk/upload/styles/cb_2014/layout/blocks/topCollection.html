@@ -1,0 +1,13 @@
+{if $display_type == "" || $display_type == "normal"}
+
+        <div class="row">
+            <div class="col-md-5">
+               <a href="">
+                   <a href="{$cbcollection->collection_links($collection,'view')}"><img  src="{$cbcollection->get_thumb($collection,'small')}" /></a>
+                   </a>
+                </div>
+            <div class="col-md-6">
+                {$collection.collection_name|truncate:15}</a> ({$collection.total_objects} {$collection.type})
+            </div>
+        </div>
+{/if}
