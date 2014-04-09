@@ -146,7 +146,6 @@
 
                 </div>
             </div>
-
             <div class="col-md-4 cb-box">
                 <h2 class="smallColor1"><small>{lang code='Most Popular'}</small></h2>
 
@@ -156,13 +155,16 @@
                 {lang code='no_results_found'}
                 {/section}
             </div>
+
             <div class="col-md-4 cb-box">
-                <h2><small class="smallColor1">{lang code='Top Collections'}</small></h2>
+                <h2 class="smallColor1"><small>{lang code='Top Collections'}</small></h2>
                 {section name=c_list loop=$collections}
                 {include file="$style_dir/blocks/topCollection.html" collection=$collections[c_list]}
                 {sectionelse}
                 {lang code='no_results_found'}
                 {/section}
+            </div>
+            <div class="col-md-4 cb-box pull-right"><small>Facebook</small><h1>Like Box</h1>
             </div>
         </div>
 
