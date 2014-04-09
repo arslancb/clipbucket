@@ -184,7 +184,7 @@
  		<hr>
         <div class="col-md-12" style="display:block; height:160px; padding:5px;">
 			<div class="bs-example bs-example-tabs">
-			    <ul class="nav nav-tabs" id="myTab">
+			    <ul class="nav nav-tabs" id="myTab_home">
 			      <li class="active"><a data-toggle="tab" href="#recent_video">Recent videos</a></li>
 			      <li class=""><a data-toggle="tab" href="#being_viewed">Being viewed</a></li>
 			    </ul>
@@ -192,8 +192,9 @@
 			      <div id="recent_video" class="tab-pane fade active in" style="padding-top: 25px;">
         				{include file="$style_dir/blocks/videos/video-home-sliders.html" video_06_da=$videos_06_da slider='slider'}
 			      </div>
-			      <div id="being_viewed" class="tab-pane fade">
-        				{include file="$style_dir/blocks/videos/video-home-sliders2.html" video_06_da=$video_06_da slider3='slider3'}
+			      <div id="being_viewed" class="tab-pane fade" style="padding-top: 25px;">
+			      	{include file="$style_dir/blocks/videos/video-home-sliders.html" video_06_da=$videos_06_da slider='slider'}
+    				{*include file="$style_dir/blocks/videos/video-home-sliders2.html" video_06_da=$video_06_da slider3='slider3'*}
 			      </div>
 			    </div>
 	  		</div>
@@ -218,7 +219,7 @@
 							<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
 							{foreach from=$result_photos1_01 item=result_photo1_01}
 				            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
-				            	{get_photo details=$result_photo1_01 output='html' width="545" height="300" class="cb_img_thum"}
+				            	{get_photo details=$result_photo1_01 output='html' width="545" height="300" size="l" class="cb_img_thum"}
 				            	</a>
 				            {/foreach}
 				            </div>
@@ -252,7 +253,7 @@
 						<div class="col-md-8" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
 						{foreach from=$result_photos2_01 item=result_photo2_01}
 				        	<a href="{$cbphoto->photo_links($result_photo2_01,'view_item')}">
-				        	{get_photo details=$result_photo2_01 output='html' width="545" height="300" class="cb_img_thum"}
+				        	{get_photo details=$result_photo2_01 output='html' width="545" height="300" size="l"  class="cb_img_thum"}
 				        	</a>
 				        {/foreach}
 				        </div>
@@ -352,7 +353,21 @@
         <!-- ********** COMMENTS BLOCK START *********** //-->
         <!-- ******************************************* //-->
 		<div class="col-md-4 comment_home" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px; margin-top:10px;">
-		<h2 class="myHeadingBLK" style="margin-top:0;">Most Commented</h2>
+			<h2 class="myHeadingBLK" style="margin-top:0;">{lang code="Top Collections"}</h2>
+			{foreach from=$collections item=collection}
+				<div class="collection_home mouse_hover">
+					<a href="{$baseurl}/admin_area/edit_collection.php?collection={$collection.collection_id}" title="{$collection.collection_name}">
+					<div class="details mouse_hover_on">
+						<div align="center" class="collection_name">{$collection.collection_name}</div>
+						<div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>
+					</div>
+					</a>
+				<img class="cb_img_thum" src="{$cbcollection->get_thumb($collection,'',TRUE)}"/>
+				</div>
+			{/foreach}
+		</div>
+		<!--<div class="col-md-4 comment_home" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px; margin-top:10px;">
+		<h2 class="myHeadingBLK" style="margin-top:0;">{lang code="Featured Users"}</h2>
 		
         <div class="col-md-12 nopadding">
 
@@ -383,7 +398,7 @@
 			{/foreach}
 		</div>
 
-		</div>
+		</div>-->
 		<!-- ******************************************* //-->
         <!-- *********** COMMENTS BLOCK END ************ //-->
         <!-- ******************************************* //-->

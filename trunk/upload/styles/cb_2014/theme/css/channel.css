@@ -1377,10 +1377,13 @@ margin-right: 10px;
     z-index:1;
 }
 .mouse_hover:hover  .mouse_hover_on{
+    opacity: 1;
     display: block;
 }
 .mouse_hover_on{
     display: none;
+    -webkit-transition: opacity 1s ease-out;
+    opacity: 0;  
 }
 .mouse_hover1:hover  .mouse_hover_on1{
     display: block;
@@ -1394,6 +1397,7 @@ opacity: 0.8;
 .opacity_low:hover {
 opacity: 1;
 }
+
 .comment_home .body .text{
     margin-bottom: 5px;
 }
@@ -1412,4 +1416,44 @@ opacity: 1;
 }
 .featured_vid_con:hover .paly_on{
 display: block;
+}
+.collection_home{
+    margin-bottom: 5px;
+}
+.collection_home img{
+    height: 125px;
+}
+.collection_home .details{
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
+    color: #FFFFFF;
+    padding-bottom: 11%;
+    padding-top: 11%;
+    position: absolute;
+    width: 92%;
+}
+.collection_home .details .collection_name{
+
+}
+.collection_home .details .collection_total{
+    font-size: 13px;
+}
+
+ul#myTab_home{
+  border-bottom: 0px solid #DDDDDD;
+}
+
+ul#myTab_home li.active a{
+    border-bottom: 5px solid #0099CC !important;
+}
+ul#myTab_home li a{
+    border: 0px !important;
+    padding: 0px;
+    font-size: 20px;    
+}
+ul#myTab_home li:first-child {
+     padding-right: 20px;    
+    border-right: 1px solid #DDDDDD !important;
+}
+ul#myTab_home li:first-child + li {
+     padding-left: 20px;    
 }
