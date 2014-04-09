@@ -56,7 +56,11 @@ $get_limit = create_query_limit($page,MAINPLIST);
 $clist = $cond;
 $clist['limit'] = $get_limit;
 $photos = get_photos($clist);
-Assign('photos', $photos);	
+Assign('photos', $photos);
+
+
+
+
 
 //Collecting Data for Pagination
 $ccount = $cond;
