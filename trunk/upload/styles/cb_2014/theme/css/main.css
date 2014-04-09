@@ -2638,7 +2638,8 @@ a:hover {
 }
 
 .fsize {
-   font-size:  10px
+   font-size:  10px;
+    padding-left: 108px;
 }
 
 .photoimg {
@@ -2711,3 +2712,24 @@ a:hover {
     padding-left: 0px;
 }
 
+.smallColor {
+    color: #000000;
+}
+.smallColor1 {
+    margin-top: -15px;
+    color: #a9a9a9;
+    font-family: cursive;
+}
+
+.ViewphotoPadding {
+    padding-left: 130px;
+}
+
+.ImgColor {
+    border: solid   1px;
+    color: darkblue;
+}
+
+.PhotoColor {
+    color: dodgerblue;
+}
