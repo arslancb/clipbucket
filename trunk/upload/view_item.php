@@ -110,6 +110,40 @@ if($cbcollection->is_viewable($cid))
 } else 
 	$Cbucket->show_page = false;
 
+
+
+//Getting Collection List
+$page = mysql_clean($_GET['page']);
+$get_limit = create_query_limit($page,COLLPP);
+$clist = $cond;
+$clist['limit'] = $get_limit;
+$collections = $cbcollection->get_collections($clist);
+
+Assign('collections', $collections);
+
+//Getting Photo List
+$page = mysql_clean($_GET['page']);
+$get_limit = create_query_limit($page,MAINPLIST);
+$clist = $cond;
+$clist['limit'] = $get_limit;
+$photos = get_photos($clist);
+
+Assign('photos', $photos);
+
+/* CREATING LIMIT */
+$page = mysql_clean($_GET['page']);
+$get_limit = create_query_limit($page,RESULTS);
+
+$carray['limit'] = $get_limit;
+if(!empty($carray['order']))
+    $carray['order'] = $carray['order']." DESC";
+else
+    $carray['order'] = " collection_id DESC";
+
+$collections = $cbcollection->get_collections($carray);
+assign('c',$collections);
+
+
 template_files('view_item.html');
 display_it();
 ?>
