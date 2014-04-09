@@ -91,6 +91,10 @@ $result_array_photos2_08['order'] = " photo_id ASC LIMIT 8";
 $result_photos2_08 = get_photos($result_array_photos2_08);
 Assign('result_photos2_08', $result_photos2_08);
 
+$clist['limit'] = 5;
+$collections = $cbcollection->get_collections($clist);
+
+Assign('collections', $collections);
 
 Assign('result_comments_users', $result_comments_users);
 Assign('result_comments', $result_comments);
