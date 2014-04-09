@@ -51,7 +51,8 @@
         <!-- Editor Pick Videos Slider Container END //-->
 
         <script type="text/javascript">
-            $(function() {						
+            $(function() {
+            	$('.carousel').carousel();						
                 $('#slide').ulslide({
                     width: 375,
                     height: 90,
@@ -194,7 +195,7 @@
 			      </div>
 			      <div id="being_viewed" class="tab-pane fade" style="padding-top: 25px;">
 			      	{include file="$style_dir/blocks/videos/video-home-sliders.html" video_06_da=$videos_06_da slider3='slider3'}
-    				{*include file="$style_dir/blocks/videos/video-home-sliders2.html" video_06_da=$video_06_da slider3='slider3'*}
+    				
 			      </div>
 			    </div>
 	  		</div>
@@ -356,7 +357,8 @@
 			<h2 class="myHeadingBLK" style="margin-top:0;">{lang code="Top Collections"}</h2>
 			{foreach from=$collections item=collection}
 				<div class="collection_home mouse_hover">
-					<a href="{$baseurl}/admin_area/edit_collection.php?collection={$collection.collection_id}" title="{$collection.collection_name}">
+
+					<a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
 					<div class="details mouse_hover_on">
 						<div align="center" class="collection_name">{$collection.collection_name}</div>
 						<div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>
@@ -405,5 +407,6 @@
 
 		</div>
 		</div>
+		{*include file="$style_dir/blocks/videos/video-home-sliders2.html" video_06_da=$video_06_da slider3='slider3'*}
 	</div>
 </div>

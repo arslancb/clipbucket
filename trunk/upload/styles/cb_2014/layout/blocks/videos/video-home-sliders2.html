@@ -1,46 +1,89 @@
-{if $slider3 !=''}
-<div style="height: 18px;" class="clearfix"></div>
+<div class="container well well-large">
 
-    <div id="myCarousel" class="carousel slide">
-  <!-- Dot Indicators -->
-  <ol class="carousel-indicators">
-    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#myCarousel" data-slide-to="1"></li>
-    <li data-target="#myCarousel" data-slide-to="2"></li>
-  </ol>
-  <!-- Items -->
-  <div class="carousel-inner">
-    <div class="active item"><img src="assets/img/slide1.jpg" alt="" /></div>
-    <div class="item"><img src="assets/img/slide2.jpg" alt="" /></div>
-    <div class="item"><img src="assets/img/slide3.jpg" alt="" /></div>
-  </div>
-  <!-- Navigation -->
-  <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-  <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
-</div>
-<div style="height: 18px;" class="clearfix"></div>
-<!--<div id="slide3">
-{foreach from=$videos_06_da item=video_06_da}
-<div class="col-md-2 text-center nopadding">
-<div class="col-md-11 text-center nopadding">
-	<a href="{videoLink vdetails=$video_06_da}" title="{$video_06_da.title}">
-    <img class="cb_img_thum" src="{getThumb vdetails=$video_06_da}" width="135" height="75"  {ANCHOR place="video_thumb" data=$video_06_da} />
-    <div class="cbHomeVidTitle cbHomeVidTitle_slid-title">{$video_06_da.title|truncate:10}</div>
-    </a>
-    <div class="cbHomeVidDuration cbHomeVidDuration_slide">
-    {$video_06_da.duration|number_format}
+      <h2 class="text-center">Here we can scroll through a couple of item clusters.</h2>
+      <p class="text-center">Captions are still supported, too!</p>
+      <hr>
+      <h3>New Products</h3>
+
+        <div class="row-fluid">
+            <div id="myCarousel" class="carousel slide">
+                <div class="carousel-inner">
+                  <div class="item active">
+                        <ul class="thumbnails">
+                            <li class="span3">
+                                <div class="thumbnail">
+                                    <img alt="" src="assets/img/thumb1.jpg">
+                                </div>
+                                <p>First item<br>
+                                <small class="red">$19.99</small><br>
+                                <a class="btn btn-success" href="#">Buy Now</a></p>
+                            </li>
+                            <li class="span3">
+                                <div class="thumbnail">
+                                    <img alt="" src="assets/img/thumb2.jpg">
+                                </div>
+                                <p>This is second<br>
+                                <small class="red">$19.99</small><br>
+                                <a class="btn btn-success" href="#">Buy Now</a></p>
+                            </li>
+                            <li class="span3">
+                                <div class="thumbnail">
+                                    <img alt="" src="assets/img/thumb3.jpg">
+                                </div>
+                                <p>Third product<br>
+                                <small class="red">$19.99</small><br>
+                                <a class="btn btn-success" href="#">Buy Now</a></p>
+                            </li>
+                            <li class="span3">
+                                <div class="thumbnail">
+                                    <img alt="" src="assets/img/thumb4.jpg">
+                                </div>
+                                <p>And the fourth<br>
+                                <small class="red">$19.99</small><br>
+                                <a class="btn btn-success" href="#">Buy Now</a></p>
+                            </li>
+                        </ul>
+                  </div>
+                  <div class="item">
+                        <ul class="thumbnails">
+                            <li class="span3">
+                                <div class="thumbnail">
+                                    <img alt="" src="assets/img/thumb5.jpg">
+                                </div>
+                                <p>Another caption<br>
+                                <small class="red">$19.99</small><br>
+                                <a class="btn btn-success" href="#">Buy Now</a></p>
+                            </li>
+                            <li class="span3">
+                                <div class="thumbnail">
+                                    <img alt="" src="assets/img/thumb6.jpg">
+                                </div>
+                                <p>Another caption<br>
+                                <small class="red">$19.99</small><br>
+                                <a class="btn btn-success" href="#">Buy Now</a></p>
+                            </li>
+                            <li class="span3">
+                                <div class="thumbnail">
+                                    <img alt="" src="assets/img/thumb7.jpg">
+                                </div>
+                                <p>Another caption<br>
+                                <small class="red">$19.99</small><br>
+                                <a class="btn btn-success" href="#">Buy Now</a></p>
+                            </li>
+                            <li class="span3">
+                                <div class="thumbnail">
+                                    <img alt="" src="assets/img/thumb8.jpg">
+                                </div>
+                                <p>Another caption<br>
+                                <small class="red">$19.99</small><br>
+                                <a class="btn btn-success" href="#">Buy Now</a></p>
+                            </li>
+                        </ul>
+                  </div>
+                </div>
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
+            </div>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis ante ac enim aliquet sagittis rhoncus in ipsum. Aenean iaculis suscipit nisi, nec placerat lacus semper vel. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec tristique ultrices bibendum. Integer pulvinar lorem ut lacus tempus consectetur. Nunc suscipit felis ut turpis egestas suscipit. Mauris nisl dolor, eleifend nec blandit quis, eleifend in ante. Quisque scelerisque fermentum laoreet.</p>
     </div>
-</div>
-</div>
-{/foreach}
-</div>
-<div class="nxt-pre">
-	<a href="#" class="circle" id="slide_prev3">
-	<span class="glyphicon glyphicon-chevron-left"></span>
-	</a>
-	<a href="#" class="circle" id="slide_next3">
-	<span class="glyphicon glyphicon-chevron-right"></span>
-	</a>
-</div>-->
-{/if}
-
