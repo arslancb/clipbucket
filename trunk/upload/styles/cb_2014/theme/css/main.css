@@ -2568,8 +2568,8 @@ a:hover {
     opacity: 0.8;
     position: absolute;
     top: 129px;
-    left: 18px;
-    width: 292px;
+    left: 21px;
+    width: 285px;
     height: 41px;
     display: none;
 }
@@ -2696,7 +2696,10 @@ a:hover {
 .loading {
     margin: 2px;
     height: 170px;
-    width:  301px
+    width:  301px;
+    border: solid   2px;
+    border-color: #e1e1e1;
+
 }
 
 
@@ -2708,6 +2711,3 @@ a:hover {
     padding-left: 0px;
 }
 
-.marginBottom {
-    margin-bottom: 0px;
-}
