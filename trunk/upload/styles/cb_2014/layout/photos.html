@@ -2,9 +2,11 @@
 {$leftMenuLinks = array_slice($myAccountLinks, 7)}
 <div class="container">
 	{include file="$style_dir/blocks/manage/account_menu.html"}
-    <script type="text/javascript" src="{$baseurl}/masonry.js"></script>
-    <script type="text/javascript" src="{$baseurl}/jquery.fancybox.pack.js"></script>
-    <script type="text/javascript" src="{$baseurl}/imagesloaded.pkgd.js"></script>
+
+    <script src="{$baseurl}/libs/jquery.js"></script>
+    <script src="{$baseurl}/libs/jquery.masonry.min.js"></script>
+    <script src="{$baseurl}/base.js" type="text/javascript"></script>
+    <link href="{$baseurl}/base.css" rel="stylesheet">
 	<div class="cb-box row">
         {assign var=sorting_links value=sorting_links()}
         <h4 class="smaller lighter pull-left">Browsing All Photos: </h4>
@@ -99,11 +101,10 @@
             <img src="http://www.ryangiggs.cc/system/files/banner-160x600-pride-tee_0.jpg">
         </div>
     </div>
-    <div align="center">
+    </div>
+    <div>
         {include file="$style_dir/blocks/pagination.html"}
     </div>
-</div>
-
 
         <script>
             jQuery(function() {                                              // <== Doc ready
@@ -117,38 +118,3 @@
                 });
             });
         </script>
-<script type="text/javascript">
-    $(document).ready(function() {
-
-        $('#photos .photo').hide();    // Use jQuery to hide all photos temporarily
-
-        var $container = $('#photos'); // Create a reference to the image container
-
-        // Use the imagesLoaded callback function to activate the Masonry plugin
-        $container.imagesLoaded(function(){
-            $container.masonry({
-                itemSelector : '.photo', // The selector of the thumbnail divs
-                isAnimated : true,       // Animate (with javascript) the layout when changing window size
-                // Set to false if you'd rather animate with CSS3 transitions
-                // Or toggle with Modernizr like this: isAnimated : !Modernizr.csstransitions
-                columnWidth: 260,        // Width of the thumbnail including any padding and borders
-                gutterWidth: 5          // The gap between thumbnails
-            });
-            $container.find('.photo').fadeIn('fast'); // Fade back in the thumbnails when the layout is complete
-            $container.removeClass('loading');        // Remove the loading class from the container
-        });
-
-        // Optionally use your favourite fancyBox configuration
-        $(".fancybox").fancybox({
-            openEffect	: 'elastic',
-            closeEffect	: 'elastic',
-            padding : 10,
-            helpers : {
-                title : {
-                    type : 'outside'
-                }
-            }
-        });
-
-    });
-</script>
