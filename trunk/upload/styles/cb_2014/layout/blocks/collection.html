@@ -1,4 +1,17 @@
 {if $display_type == "" || $display_type == "normal"}
+<div class="col-md-4 comment_home" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px; margin-top:10px;">
+
+    <div class="collection_home mouse_hover">
+        <a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
+            <div class="details mouse_hover_on">
+                <div align="center" class="collection_name">{$collection.collection_name}</div>
+                <div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>
+            </div>
+        </a>
+        <img class="cb_img_thum" src="{$cbcollection->get_thumb($collection,'',TRUE)}"/>
+    </div>
+
+</div>
 <!--<div class="show-image col-md-4 col-sm-4 col-xs-6" style="padding: 0px">-->
     <!--<div class="loading" id="photos">-->
         <!--<span class="photoname col-md-4" id="avatar1_file" >{$collection.collection_name}</span>-->
@@ -8,28 +21,26 @@
         <!--</a>-->
     <!--</div>-->
 <!--</div>-->
-<div class="row">
-    <div class="col-md-10">
-        <div class="row">
-            <div class="col-md-3">
-               <a href="">
-                   <a href="{$cbcollection->collection_links($collection,'view')}"><img src="{$cbcollection->get_thumb($collection,'small')}" /></a>
-                   </a>
-            </div>
-            <div class="col-md-9 show-image">
-                <a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name}</a> ({$collection.total_objects} {$collection.type})
+<!--<div class="row">-->
+    <!--<div class="col-md-10">-->
+        <!--<div class="row">-->
+            <!--<div class="col-md-5">-->
+                   <!--<a href="{$cbcollection->collection_links($collection,'view')}"><img class="loading"  src="{$cbcollection->get_thumb($collection,'small')}" /></a>-->
+            <!--</div>-->
+            <!--<div class="col-md-9 show-image">-->
+                <!--<a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name}</a> ({$collection.total_objects} {$collection.type})-->
 
-                <div class="labels" id="collection" style="display: none">
-                    {if $collection.featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
-                    <span class="label {if $collection.active=='yes'}label-success{else}label-warning{/if}">{if $collection.active=='yes'}Active{else}NotActive{/if}</span>
-                    <span class="label label-info"><strong>Type</strong>      {$collection.type}</span>
-                    <span class="label label-info"><strong>{$collection.date_added|niceTime}</strong> </span>
-                </div>
-            </div>
-        </div>
-        <hr>
-    </div>
-</div>
+                <!--<div class="labels" id="collection" style="display: none">-->
+                    <!--{if $collection.featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>-->
+                    <!--<span class="label {if $collection.active=='yes'}label-success{else}label-warning{/if}">{if $collection.active=='yes'}Active{else}NotActive{/if}</span>-->
+                    <!--<span class="label label-info"><strong>Type</strong>      {$collection.type}</span>-->
+                    <!--<span class="label label-info"><strong>{$collection.date_added|niceTime}</strong> </span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<hr>-->
+    <!--</div>-->
+<!--</div>-->
 {/if}
 
 {if $display_type == "view_collection"}
