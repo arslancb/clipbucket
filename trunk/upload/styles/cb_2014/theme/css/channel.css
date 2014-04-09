@@ -1250,10 +1250,10 @@ background-color: #f8f8f8;
     font-size: 10px;
     height: 18px;
     position: absolute;
-    right: 8px;
+    right: 5px;
     text-align: center;
     top: 5px;
-    width: 8%;
+    min-width: 8%;
 }
 .cbHomeVidDuration_slide{
     font-size: 7px;
@@ -1276,7 +1276,7 @@ background-color: #f8f8f8;
     top: 5px;
 }
 .cbHomeVidDuration_more{
-right: 15px;
+right: 10px;
 }
 h2.myHeading {
      border-bottom: 1px solid #DDDDDD;
@@ -1460,3 +1460,22 @@ ul#myTab_home li:first-child + li {
 .big_img img{
 height: 300px !important;
 }
+.thumbnail_new {
+
+    width: 260px;
+    height: 180px;
+    overflow: hidden; /* contain images within thumbnail boundaries */
+    border: 0; /* removes Bootstrap's default border */
+    box-shadow: 0 12px 12px -10px #c4c4c4;
+    -webkit-box-shadow: 0 17px 22px -20px #c4c4c4;
+    -moz-box-shadow: 0 12px 12px -10px #c4c4c4;
+}
+.thumbnails_new li{
+    float: left;
+     list-style: none;
+}
+.item{
+    width: 100%;
+}
+.thumbnail_new img { width:100%; height:auto; } /* to keep proportions */
+.thumbnails_new p { text-align: center; padding: 10px; } /* captions can be styled with an inline element */
