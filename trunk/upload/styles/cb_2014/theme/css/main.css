@@ -2708,9 +2708,6 @@ a:hover {
     padding-left: 280px;
 }
 
-.sidebarpadding {
-    padding-left: 0px;
-}
 
 .smallColor {
     color: #000000;
@@ -2734,6 +2731,21 @@ a:hover {
     color: dodgerblue;
 }
 
-.MarginRight {
-    margin-right: -220px;
+.CollectionName {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: cursive;
+    font-size: 13px;
+    padding-left: 8px;
+    opacity: 0.7;
+    position: absolute;
+    top: 129px;
+    left: 21px;
+    width: 264px;
+    height: 41px;
+    display: none;
+}
+
+.CollectionSidebar {
+    margin-left: -21px;
 }
