@@ -17,13 +17,14 @@
                     <!--</li>-->
                 <!--{/foreach}-->
             <!--</ul>-->
+        <div class="col-md-13 CollectionSidebar">
             {include file="$style_dir/blocks/category_list.html" type='collections'}
-
+            </div>
         <div class="col-md-9">
-            <div class="cb-box row">
+            <div class="row">
                 {assign var=sorting_links value=sorting_links()}
                 <h4 class="smaller lighter pull-left">Browsing All Collections: </h4>
-                <div class="photopadding col-md-6">
+                <div class="photopadding col-md-8">
                     <div class="btn-group">
                         {if $smarty.get.sorting}
                         {foreach from=$sorting_links item=name key=sort}
@@ -85,9 +86,11 @@
                             {/foreach}
                         </ul>
                     </div>
+                       <a class="btn btn-primary pull-right" style="margin-right: -107px" href="{$baseurl}/manage_collections.php?mode=add_new">{lang code='add_new_collection'}</a>
                 </div>
+                <br>
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <hr>
                     {section name=c_list loop=$collections}
                         {include file="$style_dir/blocks/collection.html" collection=$collections[c_list]}
@@ -95,9 +98,6 @@
                         {lang code='no_results_found'}
                     {/section}
                 </div>
-            <div class="col-md-2">
-                <img src="http://www.ryangiggs.cc/system/files/banner-160x600-pride-tee_0.jpg">
-            </div>
             </div>
             {include file="$style_dir/blocks/pagination.html"}
         </div>
