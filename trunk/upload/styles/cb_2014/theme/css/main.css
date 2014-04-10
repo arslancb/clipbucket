@@ -2714,7 +2714,7 @@ a:hover {
 }
 .smallColor1 {
     margin-top: -15px;
-    color: #a9a9a9;
+    color: #000000;
     font-family: cursive;
 }
 
@@ -2765,4 +2765,13 @@ a:hover {
     left: 92px;
     right: 0px;
     font-family: sans-serif;
+}
+
+.Pphotos {
+    margin: 2px;
+    height: 100px;
+    width:  100%;
+    border: solid   2px;
+    border-color: #e1e1e1;
+
 }
