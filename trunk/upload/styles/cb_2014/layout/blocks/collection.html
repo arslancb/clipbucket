@@ -3,7 +3,7 @@
 <div class="show-image">
     <div class="col-md-4 col-sm-4 col-xs-6" style="padding-right: 0px">
         <a href="{$cbphoto->photo_links($photo,'view_item')}" title="Tolpis barbata (mariluzpicado)">
-        <span class="CollectionName" id="collection" ><p class="CollectionP">{$collection.collection_name|truncate:20}</p> <br><p class="CollectionP1">{$collection.total_objects} {$collection.type}</p></span>
+        <span class="CollectionName" id="collection" ><p class="CollectionP">{$collection.collection_name|truncate:30}</p> <br><p class="CollectionP1">{$collection.total_objects} {$collection.type}</p></span>
             <img src="{$cbcollection->get_thumb($collection,'small',TRUE)}" class="loading"/>
         </a>
 
