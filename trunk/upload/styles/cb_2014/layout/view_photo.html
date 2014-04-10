@@ -162,7 +162,7 @@
                 </div>
             </div>
             <div class="col-md-4 cb-box" style="margin-left: 38px">
-                <h2 class="smallColor1"><b>{lang code='Most Popular'}</b></h2>
+                <h2 class="smallColor1">{lang code='Most Popular'}</h2>
 
                 {section name=p_list loop=$photos}
                 {include file="$style_dir/blocks/PopularPhotos.html" photo=$photos[p_list]}
@@ -172,7 +172,7 @@
             </div>
 
             <div class="col-md-4 cb-box" style="margin-left: 38px">
-                <h2 class="smallColor1"><b>{lang code='Top Collections'}</b></h2>
+                <h2 class="smallColor1">{lang code='Top Collections'}</h2>
                 {section name=c_list loop=$collections}
                 {include file="$style_dir/blocks/topCollection.html" collection=$collections[c_list]}
                 {sectionelse}
