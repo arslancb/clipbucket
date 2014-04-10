@@ -35,7 +35,6 @@
                         </div>
                         <div class="col-md-4">
                             <button class="btn btn-primary btn-sm btn-xs" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>
-                            <div class="action_box" id="video_detail_result_cont" style="display:none"></div>
                             {$photo.date_added|niceTime}
                         </div>
                     </div>
@@ -43,6 +42,7 @@
                     <b>{lang code='Since:'}</b> ({$user.doj|date_format})
                     <b>{lang code='Login:'}</b> ({$user.last_logged|nicetime})
                 </div>
+                <div class="action_box" id="video_detail_result_cont" style="display:none"></div>
                 {show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right">
                     <div class="pull-right">
