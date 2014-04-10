@@ -2749,3 +2749,20 @@ a:hover {
 .CollectionSidebar {
     margin-left: -21px;
 }
+
+.CollectionP {
+    position: absolute;
+    top: 50px;
+    left: 54px;
+    right: 0px;
+    font-family: sans-serif;
+    font-size: 20px;
+}
+
+.CollectionP1 {
+    position: absolute;
+    top: 76px;
+    left: 92px;
+    right: 0px;
+    font-family: sans-serif;
+}
