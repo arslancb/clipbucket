@@ -2,7 +2,7 @@
     <div class="cb-box marginBottom">
         <div class="row">
             <div class="col-md-10">
-                <h3 style="display: inline">{$c.collection_name|capitalize} </h3>
+                <h4 style="display: inline">{$c.collection_name|capitalize} </h4>
                 <div class="btn-group">
                     <a class="btn btn-primary btn-sm disabled" href="#">{lang code="by"|capitalize}</a>
                     <a class="btn btn-primary btn-sm" href="{$userquery->profile_link($c)}">{$c.username|capitalize}</a>
@@ -15,7 +15,7 @@
                     <a class="btn btn-primary btn-sm" href="{$miLink|sprintf:$c.collection_id:$c.type}">{lang code="manage_items"}</a>{/if}
                 </div>
                 <br>
-                <h3 style="display: inline">{$c.type|capitalize} ({$c.total_objects})</h3>
+                <h5 style="display: inline">{$c.type|capitalize} ({$c.total_objects})</h5>
             </div>
             <div class="col-md-2">
                 {lang code='collection' assign='object_type'}
