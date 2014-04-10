@@ -2711,11 +2711,14 @@ a:hover {
 
 .smallColor {
     color: #000000;
+    font-family: sans-serif;
+    font-size: 20px;
 }
 .smallColor1 {
-    margin-top: -15px;
     color: #000000;
-    font-family: cursive;
+    margin-top: -7px;
+    font-family: sans-serif;
+    font-size: 20px;
 }
 
 .ViewphotoPadding {
@@ -2768,7 +2771,7 @@ a:hover {
 }
 
 .Pphotos {
-    margin: 2px;
+    margin: 3px;
     height: 100px;
     width:  100%;
     border: solid   2px;
