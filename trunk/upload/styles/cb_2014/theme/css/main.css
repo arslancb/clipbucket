@@ -2809,3 +2809,18 @@ a:hover {
     width: 32px;
 }
 
+.UserPhotos {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: cursive;
+    font-size: 13px;
+    padding-left: 8px;
+    opacity: 0.8;
+    position: absolute;
+    top: 129px;
+    left: 21px;
+    width: 286px;
+    height: 41px;
+    display: none;
+}
+
