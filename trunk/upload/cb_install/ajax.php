@@ -269,7 +269,7 @@ include('clipbucket.php');
 					{
 						@$templine = preg_replace("/{tbl_prefix}/",TABLE_PREFIX,$templine);
 						$templine;
-						mysql_query($templine);
+						$db->execute($templine);//mysql_query($templine);
 						$templine = '';
 					}
 				}
