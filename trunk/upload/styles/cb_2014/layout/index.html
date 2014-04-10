@@ -50,53 +50,7 @@
 		</div>
         <!-- Editor Pick Videos Slider Container END //-->
 
-        <script type="text/javascript">
-            $(function() {
-            			
-                $('#slide').ulslide({
-                    width: 375,
-                    height: 90,
-					effect: {
-						type: 'carousel', // slide or fade
-                        axis: 'y',        // x, y
-						showCount: 4
-					},
-                    nextButton: '#slide_next',
-                    prevButton: '#slide_prev',
-                    duration: 800,
-                    /*autoslide: 2000,*/
-					easing: 'easeOutBounce'
-                });
-                $('#slide1').ulslide({
-                    width: 150,
-                    height: 80,
-					effect: {
-						type: 'carousel', // slide or fade
-                        axis: 'x',        // x, y
-						showCount: 5
-					},
-                    nextButton: '#slide_next1',
-                    prevButton: '#slide_prev1',
-                    duration: 800,
-                    autoslide: 2000
-					/*easing: 'easeOutBounce'*/
-                });
-                $('#slide3').ulslide({
-                    width: 150,
-                    height: 80,
-					effect: {
-						type: 'carousel', // slide or fade
-                        axis: 'x',        // x, y
-						showCount: 5
-					},
-                    nextButton: '#slide_next3',
-                    prevButton: '#slide_prev3',
-                    duration: 800,
-                    autoslide: 2000,
-					easing: 'easeOutBounce'
-                });
-            });
-        </script>
+        
 		</div>
         <!-- ******************************************* //-->
 		<!-- ************ EDITORS BLOCK END ************ //-->
@@ -209,10 +163,10 @@
         <div class="clearfix"></div>
 
 		<!-- ******************************************* //-->
-        <!-- *********** FIRST PHOTOS START ************ //-->
+        <!-- *********** PHOTOS START ************ //-->
         <!-- ******************************************* //-->
-        	<div class="row nopadding">
-        			<div class="col-md-12 nopadding ">
+    	<div class="row nopadding">
+			<div class="col-md-12 nopadding ">
         				<h2 class="myHeading theme_color">{lang code="Featured Photos"}</h2>
 						
         				<!-- *********** FIRST PHOTOS START ************ //-->
@@ -236,57 +190,37 @@
 				            {/foreach}
 							</div>
 						</div>
-			        <!-- *********** FIRST PHOTOS END ************ //-->
-			        <!-- *********** SECOND PHOTOS START ************ //-->
-    				<div class="col-md-12" style="display:block; height:320px; padding:5px;">
-        
-				        <div class="col-md-4 nopadding" style="display:block; height:80px;">
-						{foreach from=$result_photos2_08 item=result_photo2_08}
-							<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
-				        	<a href="{$cbphoto->photo_links($result_photo2_08,'view_item')}">
-				        	{get_photo details=$result_photo2_08 output='html' width="125" height="65" class='photoThumbBox moveL cb_img_thum'}
-				        	</a>
-				        {if $photos@iteration > 1}{break}{/if}
-				   	    </div>
-				        {/foreach}
-						</div>
-						
-						<div class="col-md-8 big_img" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
-						{foreach from=$result_photos2_01 item=result_photo2_01}
-				        	<a href="{$cbphoto->photo_links($result_photo2_01,'view_item')}">
-				        	{get_photo details=$result_photo2_01 output='html' width="545" height="300" size="l"  class="cb_img_thum"}
-				        	</a>
-				        {/foreach}
-				        </div>
+		        <!-- *********** FIRST PHOTOS END ************ //-->
+		        <!-- *********** SECOND PHOTOS START ************ //-->
+				<div class="col-md-12" style="display:block; height:320px; padding:5px;">
+
+			        <div class="col-md-4 nopadding" style="display:block; height:80px;">
+					{foreach from=$result_photos2_08 item=result_photo2_08}
+						<div class="col-md-6" style="display:block; height:80px; border:1px solid #CCC; padding:7px;">
+			        	<a href="{$cbphoto->photo_links($result_photo2_08,'view_item')}">
+			        	{get_photo details=$result_photo2_08 output='html' width="125" height="65" class='photoThumbBox moveL cb_img_thum'}
+			        	</a>
+			        {if $photos@iteration > 1}{break}{/if}
+			   	    </div>
+			        {/foreach}
 					</div>
-        <!-- *********** SECOND PHOTOS END ************ //-->
-        <!-- ******************************************* //-->
-			        <!-- ************* USER BLOCK START ************ //-->
-			        <!-- ******************************************* //-->
-    				</div>
 					
-						<!-- ******************************************* //-->
-				        <!-- ************* USER BLOCK END ************ //-->
-				        <!-- ******************************************* //-->
+					<div class="col-md-8 big_img" style="display:block; height:320px; border:1px solid #CCC; padding:10px;">
+					{foreach from=$result_photos2_01 item=result_photo2_01}
+			        	<a href="{$cbphoto->photo_links($result_photo2_01,'view_item')}">
+			        	{get_photo details=$result_photo2_01 output='html' width="545" height="300" size="l"  class="cb_img_thum"}
+			        	</a>
+			        {/foreach}
+			        </div>
+				</div>
+				<!-- *********** SECOND PHOTOS END ************ //-->
+			</div>			
 		</div>
-        
-		<!-- ******************************************* //-->
-        <!-- *********** FIRST PHOTOS END ************ //-->
+        <!-- ******************************************* //-->
+        <!-- *********** PHOTOS END ************ //-->
         <!-- ******************************************* //-->
 
-
-
-		<!-- ******************************************* //-->
-        <!-- *********** SECOND PHOTOS START ************ //-->
-        <!-- ******************************************* //-->
-       
 		</div>
-		<!-- ******************************************* //-->
-        <!-- *********** SECOND PHOTOS END ************ //-->
-        <!-- ******************************************* //-->
-
-
-
 		<!-- ******************************************* //-->
         <!-- ******** ADVERTISEMENT BLOCK START ******** //-->
         <!-- ******************************************* //-->
@@ -349,10 +283,6 @@
         <!-- ********** FACEBOOK BLOCK END *********** //-->
         <!-- ******************************************* //-->
 
-
-		<!-- ******************************************* //-->
-        <!-- ********** COMMENTS BLOCK START *********** //-->
-        <!-- ******************************************* //-->
 		<div class="col-md-4 comment_home" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px; margin-top:10px;">
 			<h2 class="myHeadingBLK" style="margin-top:0;">{lang code="Top Collections"}</h2>
 			{foreach from=$collections item=collection}
@@ -368,45 +298,56 @@
 				</div>
 			{/foreach}
 		</div>
-		<!--<div class="col-md-4 comment_home" style="background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px; margin-top:10px;">
-		<h2 class="myHeadingBLK" style="margin-top:0;">{lang code="Featured Users"}</h2>
-		
-        <div class="col-md-12 nopadding">
-
-			{foreach from=$result_comments item=comment}
-			<div class="itemdiv dialogdiv">
-    
-    <div class="user">
-                                    
-           {if ($comment.userid!=0)}
-			<img src="images/avatars/{$comment.userid}-small.jpg" width="35" height="35" class="img-rounded" />
-            {else}
-            <img src="images/avatars/no_avatar-small.png" width="35" height="35" class="img-rounded" />
-			{/if}
-        
-    </div>
-    <div class="body clearfix">
-        <div class="text min-height-35">{$comment.comment|truncate:150}</div>
-        <div class="time pull-left">
-            <span class="small"> Updated: {$comment.date_added|niceTime}</span>
-        </div>
-        <div class=" pull-right">
-        <span class="small red">{$result_comments[result_comments].total_comments|number_format}
-        	<span class="glyphicon glyphicon-comment"></span></span>
-        </div>
-    </div>
-</div>
-			
-			{/foreach}
-		</div>
-
-		</div>-->
-		<!-- ******************************************* //-->
-        <!-- *********** COMMENTS BLOCK END ************ //-->
-        <!-- ******************************************* //-->
 
 		</div>
 		</div>
 		{*include file="$style_dir/blocks/videos/video-home-sliders2.html" video_06_da=$video_06_da slider3='slider3'*}
 	</div>
 </div>
+<script type="text/javascript">
+            $(function() {
+            			
+                $('#slide').ulslide({
+                    width: 375,
+                    height: 90,
+					effect: {
+						type: 'carousel', // slide or fade
+                        axis: 'y',        // x, y
+						showCount: 4
+					},
+                    nextButton: '#slide_next',
+                    prevButton: '#slide_prev',
+                    duration: 800,
+                    /*autoslide: 2000,*/
+					easing: 'easeOutBounce'
+                });
+                $('#slide1').ulslide({
+                    width: 150,
+                    height: 80,
+					effect: {
+						type: 'carousel', // slide or fade
+                        axis: 'x',        // x, y
+						showCount: 5
+					},
+                    nextButton: '#slide_next1',
+                    prevButton: '#slide_prev1',
+                    duration: 800,
+                    autoslide: 2000
+					/*easing: 'easeOutBounce'*/
+                });
+                $('#slide3').ulslide({
+                    width: 150,
+                    height: 80,
+					effect: {
+						type: 'carousel', // slide or fade
+                        axis: 'x',        // x, y
+						showCount: 5
+					},
+                    nextButton: '#slide_next3',
+                    prevButton: '#slide_prev3',
+                    duration: 800,
+                    autoslide: 2000,
+					easing: 'easeOutBounce'
+                });
+            });
+        </script>
