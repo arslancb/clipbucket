@@ -2778,3 +2778,34 @@ a:hover {
     border-color: #e1e1e1;
 
 }
+
+.Ficon {
+    background-color: #3a589b;
+    color: #ffffff;
+    padding: 3px 7px;
+    font-size: 20px;
+    margin-right: 3px;
+    display: inline-block;
+    width: 32px;
+}
+.Gicon {
+    background-color: #d6492f;
+    color: #ffffff;
+    padding: 3px 7px;
+    font-size: 20px;
+    margin-right: 3px;
+    display: inline-block;
+    width: 32px;
+}
+
+
+.Ticon {
+    background-color: #598dca;
+    color: #ffffff;
+    padding: 3px 7px;
+    font-size: 20px;
+    margin-right: 3px;
+    display: inline-block;
+    width: 32px;
+}
+
