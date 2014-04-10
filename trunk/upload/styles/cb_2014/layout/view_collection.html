@@ -1,223 +1,130 @@
 <div class="container">
-    <div class="cb-box marginBottom">
-        {literal}
-            <script>
-                function become_contributor(cid,uid){
-                    
-                    $.post(page, 
-                    {   
-                        mode : 'become_contributor',
-                        cid : cid,
-                        uid : uid
-                    },
-                    function(data)
-                    {
-                        if(!data)
-                            alert("No data");
-                        else
-                        {
-
-                            if(data.msg)
-                            {
-                               
-                                $('#btn-become-contributor').hide();
-                                $('#btn-remove-contributor').show();
-                                
-                                 alert(data.msg);
-                    
-                            }
-                            if(data.err)
-                                alert(data.err);
-                        }
-                    },'json');
-                }
-                
-                
-                function remove_contributor(cid,uid){
-                    
-                    $.post(page, 
-                    {   
-                        mode : 'remove_contributor',
-                        cid : cid,
-                        uid : uid
-                    },
-                    function(data)
-                    {
-                        if(!data)
-                            alert("No data");
-                        else
-                        {
-
-                            if(data.msg)
-                            {
-                                
-                                
-                                $('#btn-become-contributor').show();
-                                $('#btn-remove-contributor').hide();
-                                
-                                alert(data.msg);
-                            }
-                            if(data.err)
-                                alert(data.err);
-                        }
-                    },'json');
-                }
-            </script>
-        {/literal}
-
-        <!-- Defining object type-->
-        {lang code='collection' assign='object_type'}
-
-        <div>
-            {uploadButton details=$c output='link' target="_blank" class='btn btn-primary btn-lg'}
-            <h2 class="video_title">{$c.collection_name} </h2>
+<div class="cb-box marginBottom">
+    <h2 class="video_title">{$c.collection_name} </h2>
+    <h3>{$c.type|capitalize} ({$c.total_objects})</h3>
+    <div class="row">
+        <div class="col-md-6">
             <div class="btn-group">
                 <a class="btn btn-primary btn-sm disabled" href="#">{lang code="by"|capitalize}</a>
                 <a class="btn btn-primary btn-sm" href="{$userquery->profile_link($c)}">{$c.username|capitalize}</a>
                 <a class="btn btn-primary btn-sm" href="{link name='user_videos'}{$c.username}">
                     {lang code="view"|capitalize} {$c.username|capitalize} {lang code="videos"|capitalize}
-                </a> 
+                </a>
                 {if $c.userid == $userquery->userid}
                 <a class="btn btn-primary btn-sm" href="{link name='edit_collection'}{$c.collection_id}">{lang code="edit_collection"}</a>
-                {link name='manage_items' assign='miLink'} 
+                {link name='manage_items' assign='miLink'}
                 <a class="btn btn-primary btn-sm" href="{$miLink|sprintf:$c.collection_id:$c.type}">{lang code="manage_items"}</a>{/if}
             </div>
-            <h3>{$c.type|capitalize} ({$c.total_objects})</h3>
+        </div>
+        <div class="col-md-6">
+            {lang code='collection' assign='object_type'}
+            {uploadButton details=$c output='link' target="_blank" class='btn btn-danger pull-right'}
+        </div>
+    </div>
+    <hr>
+<div class="row">
+    <div class="col-md-10">
+        {section name=list loop=$objects}
+        {include file="$style_dir/blocks/collection.html" object=$objects[list] display_type=view_collection type=$c.type}
+        {sectionelse}
+        <div align="center" style="font:bold 11px Tahoma;">{$c.collection_name} has 0 items.</div>
+        {/section}
+    </div>
+    <div class="col-md-2">
+        <img src="http://www.ryangiggs.cc/system/files/banner-160x600-pride-tee_0.jpg">
+    </div>
 
-            <div class="clearfix">
-                <div class="collectionTable">
-                    <div id="collectionItemsList" class="clearfix">
-                        {section name=list loop=$objects}
-                            {include file="$style_dir/blocks/collection.html" object=$objects[list] display_type=view_collection type=$c.type}
-                        {sectionelse}
-                            <div align="center" style="font:bold 11px Tahoma;">{$c.collection_name} has 0 items.</div>    
-                        {/section}   
-                    </div>
-                </div>
-            </div>
-            
+    <div class="col-md-8">
+        <br><br>
+        <div class="btn-group show photoStats">
+            <a href="javascript:void(0)" class="btn btn-primary" id="addToFav" onclick="slide_up_watch_video('#video_action_result_cont');add_to_fav('collection','{$c.collection_id}');">
+                <i class="glyphicon glyphicon-plus"></i>Add to
+            </a>
+            <a href="javascript:void(0)" class="btn btn-primary" id="embedCodes" onclick="slide_up_watch_video('#share_form');$('#share_form').slideToggle();">
+                <i class="glyphicon glyphicon-share"></i>Embed
+            </a>
+            <a href="javascript:void(0)" class="btn btn-primary" id="flagPhotoButton" onclick="$('#flag_item').toggle();">
+                <i class="glyphicon glyphicon-flag"></i>Report
+            </a>
+        </div>
+        <br><br>
+        <div class="video_action_result_boxes">
+            {*show_share_form id=$c.collection_id type=Collection*}
+            {show_flag_form id=$c.collection_id type=Collection}
+            <div class="action_box" style="display:none" id="video_action_result_cont"></div>
+        </div>
+    </div>
+
+</div>
+    <hr>
+       <div class="row">
+           <div class="col-md-3">{lang code="Uploaded:"}   {$c.date_added|niceTime}</div>
+           <div class="col-md-2">{lang code="Views:"}
+               {$c.views|number_format}</div>
+           </div>
+    <div class="row">
+           <div class="col-md-3">{lang code="Categories:"}
+               {$c.category|categories:collections}</div>
+           <div class="col-md-4"> {lang code="Tags:"}
+               {$c.collection_tags|tags:collections}</div>
+        <div class="col-md-5">
             <div id="NewPagination" class="moveR">
                 {include file="$style_dir/blocks/new_pagination.html"}
             </div>
-            
-           <!--{include file="$style_dir/blocks/pagination.html"}-->
-           <div class="row marginTop">
-               <div class="col-md-3">
-                    {if $c.userid != userid()}
-                    {if !$cbcollection->is_contributor($c.collection_id,userid())}
-                       <button class="btn btn-primary" id="btn-become-contributor" onclick="become_contributor('{$c.collection_id}','{$userquery->userid}');" type="button">Become Contributor</button> 
-                        <button class="btn btn-primary" style="display: none" id="btn-remove-contributor" onclick="remove_contributor('{$c.collection_id}','{$userquery->userid}');" type="button">Leave contribution</button>      
-                    {else}
-                        <button class="btn btn-primary" style="display: none" id="btn-become-contributor" onclick="become_contributor('{$c.collection_id}','{$userquery->userid}');" type="button">Become Contributor</button> 
-                        <button class="btn btn-primary"  id="btn-remove-contributor" onclick="remove_contributor('{$c.collection_id}','{$userquery->userid}');" type="button">Leave contribution</button> 
-                    {/if}
-                    {/if}
-                    <table class="table table-bordered table-striped" style="font-size:0.9em">
-                        <tr>
-                            <td>{lang code="date_added"}</td>
-                            <td>{$c.date_added|niceTime}</td>
-                        </tr>
-                        <tr>
-                            <td>{lang code="views"}</td>
-                            <td>{$c.views|number_format}</td>
-                        </tr>
-                        <tr>
-                            <td>{lang code="categories"}</td>
-                            <td>{$c.category|categories:collections}</td>
-                        </tr>
-                        <tr>
-                            <td>{lang code="tags"}</td>
-                            <td>{$c.collection_tags|tags:collections}</td>
-                        </tr>
-                    </table>
-                </div>
-                
-                <div class="col-md-9">
-                    <h3>{$c.collection_description|description}</h3>
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="btn-group show photoStats">
-                                <a href="javascript:void(0)" id="addToFav" onclick="slide_up_watch_video('#video_action_result_cont');add_to_fav('collection','{$c.collection_id}');">
-                                    <i class="glyphicon glyphicon-plus"></i>Add to
-                                </a>
-                                <a href="javascript:void(0)" id="embedCodes" onclick="slide_up_watch_video('#share_form');$('#share_form').slideToggle();">
-                                    <i class="glyphicon glyphicon-share"></i>Embed
-                                </a>
-                                <a href="javascript:void(0)" id="flagPhotoButton" onclick="$('#flag_item').toggle();">
-                                    <i class="glyphicon glyphicon-flag"></i>Report
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-4 ratingContainer clearfix" id="rating_container">
-                            {assign var=rating value=$cbcollection->collection_rating($c.collection_id,'collection')}
-                            {if $Cbucket->configs.collection_rating}
-                            {show_video_rating  rating=$c.rating ratings=$c.rated_by total='10' id=$c.collection_id type=collection}
-                        {/if}
-                        </div>
-                    </div>
-                    <div class="">
-                        
-                    </div>
-                    <div>{AD place=ad_728x90}</div>
-                    <div class="video_action_result_boxes">
-                        {*show_share_form id=$c.collection_id type=Collection*}
-                        {show_flag_form id=$c.collection_id type=Collection}
-                        <div class="action_box" style="display:none" id="video_action_result_cont"></div>
-                    </div>
-                </div>
-           </div>
-                
-               {if $myquery->is_commentable($c,'collection')}
-            <div class="">
-                <h2 class="commentHead">{lang code="comments"} ({$c.total_comments})</h2>
-            </div>  
-            <div class="">
-            
-                <div class="collectionComments">
-                    {if $myquery->is_commentable($c,'collection')}
-                        {include file="$style_dir/blocks/comments/add_comment.html" id=$c.collection_id type='cl'}
-                    {/if}
-                    <div align="center" style="margin:5px auto">{AD place=ad_300x250}</div>  
-                </div>  
-
-                <div class="userComments">
-                    <ul id="userCommentsList">
-                    </ul>
-                </div>
-                <script>
-                    $(document).ready(function(){
-                        function getAllComments(type,type_id,last_update,pageNum,total,object_type,admin){
-                            $('#userCommentsList').html("<div style='padding:5px 0px;'>"+loading+"</div>");
-                            $.ajax({
-                                type: 'POST',
-                                url: page,
-                                data:  {
-                                mode:'getComments',
-                                    page:pageNum,type:type,
-                                    type_id:type_id,
-                                    object_type : object_type,
-                                    last_update : last_update,
-                                    total_comments : total,
-                                    comments_voting : comments_voting,admin : admin
-                                },
-                                success: function(comments){
-                                    $("#userCommentsList").html(comments);
-                                },
-                                dataType: 'text'
-                            });
-                        }
-                        comments_voting = 'no';
-                        getAllComments('cl','{$c.collection_id}','{$c.last_commented}',1,'{$c.total_comments}','{$object_type}');
-
-                        
-                        });
-                </script>
-            </div>
-            {else}
-            <div align="center" class="moveL no_comments">
-                {lang code='comm_disabled_for_collection'}
-            </div>
-            {/if}
         </div>
-    </div>
+       </div>
 </div>
+
+<div class="col-md-12 cb-box" style="margin-top: 20px">
+    {if $myquery->is_commentable($c,'collection')}
+    <div class="">
+        <h2 class="commentHead">{lang code="comments"} ({$c.total_comments})</h2>
+    </div>
+        <div class="collectionComments">
+            {if $myquery->is_commentable($c,'collection')}
+            {include file="$style_dir/blocks/comments/add_comment.html" id=$c.collection_id type='cl'}
+            {/if}
+            <div align="center" style="margin:5px auto">{AD place=ad_300x250}</div>
+        </div>
+
+        <div class="userComments">
+            <ul id="userCommentsList">
+            </ul>
+        </div>
+        <script>
+            $(document).ready(function(){
+                function getAllComments(type,type_id,last_update,pageNum,total,object_type,admin){
+                    $('#userCommentsList').html("<div style='padding:5px 0px;'>"+loading+"</div>");
+                    $.ajax({
+                        type: 'POST',
+                        url: page,
+                        data:  {
+                            mode:'getComments',
+                            page:pageNum,type:type,
+                            type_id:type_id,
+                            object_type : object_type,
+                            last_update : last_update,
+                            total_comments : total,
+                            comments_voting : comments_voting,admin : admin
+                        },
+                        success: function(comments){
+                            $("#userCommentsList").html(comments);
+                        },
+                        dataType: 'text'
+                    });
+                }
+                comments_voting = 'no';
+                getAllComments('cl','{$c.collection_id}','{$c.last_commented}',1,'{$c.total_comments}','{$object_type}');
+
+
+            });
+        </script>
+    </div>
+    {else}
+    <div align="center" class="moveL no_comments">
+        {lang code='comm_disabled_for_collection'}
+    </div>
+    {/if}
+</div>
+
+
