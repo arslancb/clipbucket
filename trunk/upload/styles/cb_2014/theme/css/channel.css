@@ -1442,8 +1442,9 @@ ul#myTab_home{
   border-bottom: 0px solid #DDDDDD;
 }
 
-ul#myTab_home li.active a{
+ul#myTab_home li.active a,ul#myTab_home li a:hover{
     border-bottom: 5px solid #0099CC !important;
+    background-color: #ffffff;
 }
 ul#myTab_home li a{
     border: 0px !important;
