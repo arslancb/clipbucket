@@ -1,0 +1,65 @@
+{lang code='channel' assign='object_type'}
+{include file="$style_dir/global_header.html"}
+{include file="$style_dir/header.html"}
+<div class="container">
+    <div class="cb-box marginBottom">
+        <div class="row">
+            <div class="col-md-3">
+                {include file="$style_dir/blocks/view_channel/channel_left.html"}
+            </div>
+            <div class="col-md-9">
+                <h3>User Contacts </h3>
+                {if $mode == '' || $mode == 'contacts'}
+                {lang code='users_contacts' assign='users_contacts'}
+                <h2>{$users_contacts|sprintf:$u.username}</h2>
+                {if $friends}
+                {foreach from=$friends item=friend}
+                {if $u.userid!=$friend.userid}
+                {assign var=user_detail value=$userquery->get_user_details($friend.userid)}
+                {else}
+                {assign var=user_detail value=$userquery->get_user_details($friend.contact_userid)}
+                {/if}
+                {include file="$style_dir/blocks/user.html" user=$user_detail}
+                {/foreach}
+                {else}
+                <em>This user has no contacts</em>
+                {/if}
+                {else}
+                <h2>{$heading}</h2>
+                {if $userSubs}
+                {foreach from=$userSubs item=item}
+                {include file="$style_dir/blocks/user.html" user=$item}
+                {/foreach}
+                {/if}
+                {/if}
+                <div class="clearfix"></div>
+                <div class="col-md-4 pull-right">
+                    {include file="$style_dir/blocks/pagination.html"}
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            &copy; {$title} {$smarty.now|date_format:"%Y"}
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
