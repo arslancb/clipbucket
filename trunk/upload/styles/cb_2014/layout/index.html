@@ -124,7 +124,7 @@
 				</div>
 
 	            <div class="cbHomeVidDuration mouse_hover_on">
-	            {$video_01.duration}
+	            {$video_01.duration|date_format:$config.time}
 	            </div>
 	            <div class="cbHomeVidDuration_left mouse_hover_on">
 	            By: {$video_01.username}
@@ -142,7 +142,7 @@
 				</a>
 
 	            <div class="cbHomeVidDuration mouse_hover_on1">
-	            {$video_02.duration}
+	            {$video_02.duration|date_format:$config.time}
 	            </div>
                 
 				</div>
@@ -163,7 +163,7 @@
 				</a>
 
 	            <div class="cbHomeVidDuration cbHomeVidDuration_more mouse_hover_on">
-	            {$video_03.duration}
+	            {$video_03.duration|date_format:$config.time}
 	            </div>
                 
 				</div>

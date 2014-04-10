@@ -544,7 +544,10 @@ if(!@$in_bg_cron)
 	Assign('langf',getConstant('LANG'));
     Assign('lang_count',(isset($languages)) ? count($languages) : false);
 	
-
+//Configration of time formate
+    $config['date'] = '%I:%M %p';
+	$config['time'] = '%H:%M';
+	assign('config', $config);
 //Assign Player Div Id
 	Assign('player_div_id',$row['player_div_id']);
 
