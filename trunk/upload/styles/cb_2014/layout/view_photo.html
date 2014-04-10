@@ -19,9 +19,9 @@
                 <hr>
                 <div class="row">
                     <div class="col-md-2">
-                        <a class="pull-left" href="#">
-                            <img class="img-circle ImgColor" src="{$userquery->getUserThumb($user)}" width="142">
-                        </a>
+                        <div class="cb-item-thumb">
+                            <img src="{$userquery->getUserThumb($user)}" class="img-circle" />
+                        </div>
                     </div>
                     <div class="col-md-8">
                         <h2><small class="smallColor">{$photo.photo_title}</small></h2>
@@ -36,11 +36,26 @@
                         <div class="col-md-4">
                             <button class="btn btn-primary btn-sm btn-xs" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>
                             <div class="action_box" id="video_detail_result_cont" style="display:none"></div>
+                            {$photo.date_added|niceTime}
                         </div>
                     </div>
                 <div class="procolor fsize">
                     <b>{lang code='Since:'}</b> ({$user.doj|date_format})
                     <b>{lang code='Login:'}</b> ({$user.last_logged|nicetime})
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right">
+                    <div class="pull-right">
+                        <a class="cb-item-social-icon twitter" href="{$video.title|title} {videoLink($video)}http://twitter.com/home?status=%7Bvideo.title%7Ctitle%7D%20%7BvideoLink($video)%7D" target="_blank">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a class="cb-item-social-icon googlep" href="https://plus.google.com/share?url={urlencode(videolink($video))}" target="_blank">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a class="cb-item-social-icon facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+
+                    </div>
                 </div>
                     <br>
                 <!--<div class="col-md-4 cb-box">-->
