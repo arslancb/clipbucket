@@ -111,7 +111,9 @@
                         </ul>
                         <div class="tab-content">
                             <div id="pinfo" class="tab-pane active">
-                                <h2><small class="smallColor">{lang code='Category:'}({assign var=category value=$userquery->get_category($user.category)}</small></h2>
+                                <h2><small class="smallColor">{lang code='Category:'}({assign var=category value=$userquery->get_category($user.category)}
+                                    {$category.category_name})
+                                </small></h2>
                                 <h2><small class="smallColor">{lang code='Description:'}{$photo.photo_description}</small></h2>
                                 <h2><small class="smallColor">{lang code='Tags:'}{$photo.photo_tags|tags:photos}</small></h2>
                             <div class="row">
