@@ -1,6 +1,6 @@
 {$myAccountLinks = $userquery->my_account_links()}
 {$leftMenuLinks = array_slice($myAccountLinks, 6)}
-<div class="container marginBottom">
+<div class="container">
 	{include file="$style_dir/blocks/manage/account_menu.html"}
 	<div class="cb-box row">
         {assign var=sorting_links value=sorting_links()}
@@ -93,12 +93,13 @@
             {/section}
         </div>
         <div class="col-md-2 pull-right">
+            {*AD place='ad_160x600'*}
             <img src="http://www.ryangiggs.cc/system/files/banner-160x600-pride-tee_0.jpg">
         </div>
     </div>
     </div>
-    <div>
-        {include file="$style_dir/blocks/pagination.html"}
+    <div class="col-md-6">
+        {include file="$style_dir/blocks/new_pagination.html"}
     </div>
 
         <script>
