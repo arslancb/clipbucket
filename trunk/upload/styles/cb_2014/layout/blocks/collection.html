@@ -76,18 +76,27 @@
         {/if}
         
         {if $type == "photos"}
-        <div class="the_item col-md-2 col-lg-2 col-sm-4 col-xs-6">
-            <div class="onePhotoContainer">
-                <div class="onePhotoTitle">
-                    <a href="{$cbphoto->photo_links($object,'view_item')}">{$object.video_title|truncate:15}</a>
-                </div>
-
-                <a href="{$cbphoto->photo_links($object,'view_item')}">
-                    {get_photo details=$object size='t' output='html' alt=$object.photo_title}
+        <div class="show-image">
+            <div class="col-md-4 col-sm-4 col-xs-6" style="padding-right: 0px">
+                <span class="UserPhotos" id="collection" >{$object.photo_title|truncate:15}</span>
+                <a href="{$cbphoto->photo_links($photo,'view_item')}" title="Tolpis barbata (mariluzpicado)">
+                    {get_photo details=$object size='l' class='loading' output='html'}
                 </a>
-            </div>
 
+            </div>
         </div>
+        <!--<div class="the_item col-md-2 col-lg-2 col-sm-4 col-xs-6">-->
+            <!--<div class="onePhotoContainer">-->
+                <!--<div class="onePhotoTitle">-->
+                    <!--<a href="{$cbphoto->photo_links($object,'view_item')}">{$object.video_title|truncate:15}</a>-->
+                <!--</div>-->
+
+                <!--<a href="{$cbphoto->photo_links($object,'view_item')}">-->
+                    <!--{get_photo details=$object size='t' output='html' alt=$object.photo_title}-->
+                <!--</a>-->
+            <!--</div>-->
+
+        <!--</div>-->
         {/if}
     </div>  
 {/if}
