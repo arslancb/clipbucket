@@ -2,7 +2,7 @@
 {lang code='photo' assign='object_type'}
         <div class="row">
             {assign var=json value=$photo.photo_details|json_decode}
-            <div class="col-md-8 cb-box show-image nplinks" style="margin-left: -49px">
+            <div class="col-md-8 cb-box show-image nplinks" style="margin-left: -38px">
                 <a {if $nextLink} {assign var='nextItem' value=$nextLink} {else}  {assign var='nextItem' value=$preLink} {/if}
                 href="{$cbphoto->photo_links($nextItem.0,'view_item')}"
                 >{get_photo details=$photo size='l' class='photoimg' output='html'}</a>
@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div class="cb-item-thumb">
-                            <img src="{$userquery->getUserThumb($user)}" class="img-circle" />
+                            <img src="{$userquery->getUserThumb($user)}" class="img-circle" style="width: 90px; height: 90px" />
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -163,14 +163,12 @@
             </div>
             <div class="col-md-4 cb-box" style="margin-left: 38px">
                 <h2 class="smallColor1">{lang code='Most Popular'}</h2>
-
                 {section name=p_list loop=$photos}
                 {include file="$style_dir/blocks/PopularPhotos.html" photo=$photos[p_list]}
                 {sectionelse}
                 {lang code='no_results_found'}
                 {/section}
             </div>
-
             <div class="col-md-4 cb-box" style="margin-left: 38px">
                 <h2 class="smallColor1">{lang code='Top Collections'}</h2>
                 {section name=c_list loop=$collections}
