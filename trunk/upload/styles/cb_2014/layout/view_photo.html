@@ -43,15 +43,16 @@
                     <b>{lang code='Since:'}</b> ({$user.doj|date_format})
                     <b>{lang code='Login:'}</b> ({$user.last_logged|nicetime})
                 </div>
+                {show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right">
                     <div class="pull-right">
-                        <a class="cb-item-social-icon twitter" href="{$video.title|title} {videoLink($video)}http://twitter.com/home?status=%7Bvideo.title%7Ctitle%7D%20%7BvideoLink($video)%7D" target="_blank">
+                        <a class="Ticon twitter" href="{$video.title|title} {videoLink($video)}http://twitter.com/home?status=%7Bvideo.title%7Ctitle%7D%20%7BvideoLink($video)%7D" target="_blank">
                             <i class="fa fa-twitter"></i>
                         </a>
-                        <a class="cb-item-social-icon googlep" href="https://plus.google.com/share?url={urlencode(videolink($video))}" target="_blank">
+                        <a class="Gicon googlep" href="https://plus.google.com/share?url={urlencode(videolink($video))}" target="_blank">
                             <i class="fa fa-google-plus"></i>
                         </a>
-                        <a class="cb-item-social-icon facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank">
+                        <a class="Ficon facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank">
                             <i class="fa fa-facebook"></i>
                         </a>
 
@@ -107,7 +108,6 @@
                                     <h5 class="PhotoColor">Report</h5>
                                 </a>
                             </li>
-                            {show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}
                         </ul>
                         <div class="tab-content">
                             <div id="pinfo" class="tab-pane active">
