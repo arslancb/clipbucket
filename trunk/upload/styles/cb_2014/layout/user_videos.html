@@ -18,7 +18,7 @@
                 {assign var='channel_action_links' value=$userquery->get_channel_action_links($u)}
 
                 {foreach from=$channel_action_links item=link key=link_title}
-                <a class="btn btn-primary btn-sm" href="{$link.link}" {if $link.onclick}onClick="{$link.onclick}"{/if}>{$link_title}</a>
+                <a class="btn btn-primary btn-sm" href="edit_account.php?mode=block_users" {if $link.onclick}onClick="{$link.onclick}"{/if}>{$link_title}</a>
                 {/foreach}
             </div>
                 </span>
