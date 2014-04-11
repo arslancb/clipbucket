@@ -6,7 +6,7 @@
                <span style="margin-left: 9px">
             {assign var=category value=$userquery->get_category($u.category)}
             {$u.username|capitalize}</a> ({$category.category_name})
-            <div class="btn-group">
+            <div class="btn-group pull-right">
                 {if !$isSubscribed && $p.allow_subscription!='no'}
                 <button class="btn btn-primary btn-sm" onclick="subscriber('{$u.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>
                 {elseif $isSubscribed}
@@ -21,6 +21,7 @@
                 {/foreach}
             </div>
                 </span>
+        <br><br>
         <div class="action_box" id="video_detail_result_cont" style="display:none; margin-left: 25px"></div>
         <hr style="margin-bottom: 6px; margin-top: 8px">
         <div class="row">
