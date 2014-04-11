@@ -9,9 +9,7 @@
             {$u.username|capitalize}</a> ({$category.category_name})
             <div class="btn-group">
                 {if !$isSubscribed && $p.allow_subscription!='no'}
-                <a class="btn btn-primary btn-sm" href="javascript:void(0)"
-                   onClick="subscriber('{$u.userid}','subscribe_user','result_cont')">{lang code='subscribe'}</a>
-
+                <button class="btn btn-primary btn-sm" onclick="subscriber('{$u.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>
                 {elseif $isSubscribed}
                 <a class="btn btn-primary btn-sm" href="javascript:void(0)"
                    onClick="subscriber('{$u.userid}','unsubscribe_user','result_cont')">{lang code='unsubscribe'}</a>
@@ -24,6 +22,7 @@
                 {/foreach}
             </div>
                 </span>
+            <div class="action_box" id="video_detail_result_cont" style="display:none; margin-left: 25px"></div>
 
             <hr style="margin-bottom: 6px; margin-top: 8px">
          <div class="col-md-3">
