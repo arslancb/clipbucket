@@ -135,19 +135,25 @@ color: #575757;
 
 .cbCategoryItem ul{
   list-style: none;
-  padding-left: 10px;
+  padding-left: 0px;
 }
 .cbCategoryItem ul li{
-border-left: 5px solid #d5d5d5;
+border-left: 0px solid #d5d5d5;
 border-top: 1px solid #d5d5d5;
 border-bottom: none;
 border-right: none;
 }
 .cbCategoryItem ul li:hover{
-  border-left: 5px solid #428BCA;
+   background-color: #EEEEEE;
+    border-left: 0 solid #428BCA;
 }
+.cbCategoryItem ul li:hover a{
+  border-left: 0px solid #428BCA;
+}
+
 .cbCategoryItem ul li{
-  padding: 7px;
+  padding: 7px 7px 7px 30px;
+  font-size: 14px;
 }
 .nav > li > a:hover, .nav > li > a:focus
 .cbCategoryItem > ul > li > a:hover,.cbCategoryItem > ul > li > a:focus{
