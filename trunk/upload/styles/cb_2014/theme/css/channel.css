@@ -1106,23 +1106,23 @@ footer ul li a{
     z-index: 9;  
 }
 #slide_prev1{
-    background-color: rgba(0, 0, 0, 0.6);
+     background-color: rgba(0, 0, 0, 0.6);
+    color: #FFFFFF;
     font-size: 9px;
     left: 15px;
-    padding: 5px;
+    padding: 6px 8px;
     position: absolute;
-    top: 90px;
+    top: 87px;
     z-index: 9;
-    color: #FFFFFF;
 
 }
 #slide_prev3{
     background-color: rgba(0, 0, 0, 0.6);
     font-size: 9px;
     left: 15px;
-    padding: 5px;
+    padding:6px 8px;
     position: absolute;
-    top: 90px;
+    top: 87px;
     z-index: 9;
     color: #FFFFFF;
 
@@ -1131,20 +1131,20 @@ footer ul li a{
    background-color: rgba(0, 0, 0, 0.6);
     color: #FFFFFF;
     font-size: 9px;
-    padding: 5px;
+    padding: 6px 8px;
     position: absolute;
     right: 30px;
-    top: 90px;
+    top: 87px;
     z-index: 9;
 }
 #slide_next3{
    background-color: rgba(0, 0, 0, 0.6);
     color: #FFFFFF;
     font-size: 9px;
-    padding: 5px;
+    padding: 6px 8px;
     position: absolute;
     right: 30px;
-    top: 90px;
+    top: 87px;
     z-index: 9;
 }
 .cb_img_thum{
@@ -1452,11 +1452,12 @@ ul#myTab_home li.active a,ul#myTab_home li a:hover{
 ul#myTab_home li a{
     border: 0px !important;
     padding: 0px;
-    font-size: 20px;    
+    font-size: 20px;
+    color: #555555;    
 }
 ul#myTab_home li:first-child {
      padding-right: 20px;    
-    border-right: 1px solid #DDDDDD !important;
+    border-right: 1px solid #555555 !important;
 }
 ul#myTab_home li:first-child + li {
      padding-left: 20px;    
