@@ -107,17 +107,15 @@
 
 
                 <!-- Shown to Large displays only Start -->
+                {if userid()}
                     <div class="btn-group pull-right" style="margin-top: 17px; margin-right: 5px;">
-					<button class="btn btn-primary btn-sm visible-md visible-lg">Uploads</button>
-					<button class="btn btn-primary btn-sm dropdown-toggle visible-md visible-lg" data-toggle="dropdown">
-					<span class="caret"></span>
-					</button>
+					<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">Uploads <span class="caret"></span></button>
 					<ul class="dropdown-menu">
 						<li><a href="upload.php">Upload Video</a></li>
 						<li><a href="photo_upload.php">Upload Photo</a></li>
 					</ul>
 					</div>
-                
+                {/if}
                 
                 <!-- Ends -->
 
