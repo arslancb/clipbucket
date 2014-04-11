@@ -26,6 +26,33 @@
         </div>
 
 {/if}
+{if $block_type=='groups_show'}
+        <div class="row" id="user-{$user.userid}">
+
+            <div class="col-md-3 nopadding">
+                <a href="{$userquery->profile_link($user)}">
+                    <img src="{$userquery->getuserthumb($user)}" class="img-circle" width="100" height="100">
+                </a>
+            </div>
+            <div class="col-md-9">
+                <div class="pull-left">
+                    <h4><a class="show" href="{$userquery->profile_link($user)}">{$user.username}</a></h4>
+                    <ul class="list-unstyled">
+                        {if isSectionEnabled('videos')}
+                        <li class="label label-primary" style="display: inline">{$user.total_videos|number_format} {lang code="videos"}</li>
+                        {/if}
+                        {if isSectionEnabled('photos')}
+                        <li class="label label-info" style="display: inline">{$user.total_photos|number_format} {lang code="photos"}</li>
+                        {/if}
+                        <li class="label label-info" style="display: inline">{$user.profile_hits|number_format} {lang code="views"}</li>
+                        <li class="label label-danger" style="display: inline">{$user.subscribers|number_format} {lang code="subscribers"}</li>
+                        <!--<li>{lang code="last_active"} : {$user.last_active|nicetime}</li>-->
+                    </ul>
+                </div>
+  </div>
+        </div>
+
+{/if}
 
 {if $block_type =='small'}
 	<div class="col-md-2" id="user-{$user.userid}" align="center">

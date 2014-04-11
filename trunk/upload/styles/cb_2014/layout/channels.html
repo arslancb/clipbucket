@@ -87,7 +87,7 @@
 				</div>
 				{section name=u_list loop=$users}
 				<div class="col-md-5 marginBottom grid_view list_view channels-view">
-					{include file="$style_dir/blocks/user.html" user=$users[u_list]}
+					{include file="$style_dir/blocks/user.html" user=$users[u_list]  block_type="groups_show"}
 				</div>	
 				{sectionelse}
 					{lang code='no_results_found'}
