@@ -154,11 +154,15 @@ border-right: none;
   text-decoration: none;
   
 }
+.cbCategoryItem:hover span.CategoryToggler{
+  border-color: #444444 rgba(0, 0, 0, 0) -moz-use-text-color;
+}  
 .cbCategoryItem span.CategoryToggler {
- border-color: #000000 rgba(0, 0, 0, 0) -moz-use-text-color;
+    border-color: #AFAFAF rgba(0, 0, 0, 0) -moz-use-text-color;
     border-style: solid solid dotted;
-    border-width: 6px 5px 0;
-    color: #575757;
+    border-width: 9px 4px 0;
+    color: #D5D5D5;
+    cursor: zoom-in;
     display: inline-block;
     float: right;
     height: 0;
@@ -166,11 +170,10 @@ border-right: none;
     margin-top: 8px;
     position: inherit;
     right: 10px;
-    top: 10px;
+    top: 7px;
     vertical-align: middle;
     width: 0;
     z-index: 9;
-    cursor: zoom-in;
 }
 .padding-left-right-zero{
 padding-left: 0px;
