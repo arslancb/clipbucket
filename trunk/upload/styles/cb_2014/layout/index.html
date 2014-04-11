@@ -70,11 +70,11 @@
 		<div class="col-md-12">
 
 		<div class="col-md-8 nopadding padding-right-10">
-			<h2 class="myHeading">{lang code="Featured Videos"}</h2>
+			<h2 class="myHeading theme_color">{lang code="Featured Videos"}</h2>
 			<div class="col-md-12 nopadding">
 
 			<div class="col-md-12 text-center nopadding ">
-				<div class="col-md-8 text-center nopadding mouse_hover" style=" margin-bottom:10px;">
+				<div class="col-md-8 text-center nopadding mouse_hover" style="min-height: 300px;">
 				{foreach from=$videos_01 item=video_01}
 				<div class="col-md-12 text-center nopadding ">
 				<a href="{videoLink vdetails=$video_01}" title="{$video_01.title}">
@@ -93,8 +93,8 @@
 				{/foreach}
 				</div>
 
-				<div class="col-md-4 hidden-sm hidden-xs text-center nopadding-right" style="padding-left:8px;">
-				{foreach from=$videos_02 item=video_02}
+				<div class="col-md-4 hidden-sm hidden-xs text-center nopadding-right pull-right" style="padding-left:8px;">
+				{foreach from=$videos_03 item=video_02}
 				<div class="col-md-12 text-center nopadding mouse_hover1" style="min-height: 150px;" >
 				<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
 				<img class="cb_img_thum" src="{getThumb vdetails=$video_02}" width="240" height="133" {ANCHOR place="video_thumb" data=$video_03} />
@@ -109,16 +109,11 @@
 				
 				{/foreach}
 				</div>
-                
-            </div>
-		
-        		<div class="clearfix"></div>
-        
-        		<div class="col-md-12 text-center nopadding">
-				{foreach from=$videos_03 item=video_03}
-				<div class="col-md-4 hidden-sm hidden-xs text-center nopadding-left mouse_hover"  style="padding-right:5px;">
+				<div class="col-md-8 text-center nopadding">
+				{foreach from=$videos_02 item=video_03}
+				<div class="col-md-6 hidden-sm hidden-xs text-center nopadding-left mouse_hover"  style="">
 				<a href="{videoLink vdetails=$video_03}" title="{$video_02.title}">
-				<img src="{getThumb vdetails=$video_03}" width="244" height="120" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_03} />
+				<img src="{getThumb vdetails=$video_03}" width="240" height="133" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_03} />
 				<div class="cbHomeVidTitle cbHomeVidTitle_small mouse_hover_on">{$video_03.title|truncate:10}</div>
 				</a>
 
@@ -129,6 +124,12 @@
 				</div>
 				{/foreach}
 				</div>
+                
+            </div>
+		
+        		<div class="clearfix"></div>
+        
+        		
                 
 			</div>
 
