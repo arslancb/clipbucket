@@ -50,8 +50,8 @@
 	
 .user{
 	margin-top: -10px;
-	font-size: 14px;
-	font-family: Myriad Pro;
+	font-size: 11.5px;
+	font-family: Tahoma;
 }	
 
 
@@ -156,22 +156,30 @@
 .control div.btnFS{
 	background:url(skin/control.png) no-repeat -50px -2px;
 	float:right;
-	margin-right: 10px;
+	margin-right: 5px;
+	margin-top: 1px;
 }
 .control div.smallscr{
 	background:url(skin/control.png) no-repeat -50px -30px !important;
 	
 	float:right;
 	margin-right: 7px;
+	margin-top: 1px;
 }
 .control div.largescr{
 	background:url(skin/control.png) no-repeat -50px -30px !important;
+	margin-right: 0px;
 }
+
+/*
 .control div.logo{
-	background:url(skin/control.png) no-repeat -52px -57px;
+	background:url(http://clip-bucket.com/img/logo.png) no-repeat ;
 	float:right;
-	margin-right: 10px;
+	margin-right: -0.5px;
+	margin-top: 3.5px;
 }
+
+*/
 .control div.small{
 	background:url(skin/small.png) no-repeat -2px 3px;
 	float:right;
@@ -190,7 +198,7 @@
 .control div.hdon{
 	background:url(skin/hdon.png) no-repeat -5px -6px ;
 	float:right;
-	margin-right: 10px;
+	margin-right: 5px;
 	
 
 }
@@ -199,7 +207,7 @@
 .control div.hdoff{
 	background:url(skin/hdoff.png) no-repeat -5px -6px !important;
 	float: right;
-	margin-right: 10px;
+	margin-right: 5px;
 
 }
 
@@ -278,15 +286,7 @@ color: #fff;
 	line-height:12px;
 	position:relative;
 }
-/*
-.duration{
-	float:left;
-	width:5%;
-	margin-top:12px;
-	
-	font-size:11px;
-	position:absolute;
-}
+
 /* VOLUME BAR CSS */
 /* volume bar */
 .volume{

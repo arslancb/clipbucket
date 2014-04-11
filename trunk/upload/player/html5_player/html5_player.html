@@ -25,7 +25,7 @@
 
   <div class="videoContainer" id="cont">
   
-  <video id="myVideo" class="myVideo largevid"    preload="auto" poster="{$thumb}" >
+  <video id="myVideo" class="myVideo largevid"    preload="auto" poster="" >
 
     <source src="{$normal_vid_file}" type="video/mp4" />
     <source src="{$hq_vid_file}" type="video/mp4" data-quality="hd" />
@@ -62,7 +62,7 @@
    </video>
 
 
-  <div class="caption"><span class="title">{$title}</span></br><span class="user">Uploaded by {if !$username} annnnnn {else} {$username} {/if}  
+  <div class="caption"><span class="title">{$title}</span></br><span class="user">Uploaded By {if !$username} Anonymous {else} {$username} {/if}  
   </span></div>
 <div class="init"></div>
   
@@ -95,10 +95,10 @@
 
       <div class="smallscr largescr hbtn" title="Enlarge/Small Size"></div>
        
-         <div class="hdoff hdon hbtn" title="HD On/Off"></div>
+         <div id="hd" class="hdoff hdon hbtn" title="HD On/Off"></div>
       
+     
     
-      <a href="http://clip-bucket.com/" ><div class="logo hbtn" title="CB logo" > </div></a>
       
     
      
@@ -106,7 +106,6 @@
     
   </div>
 
-  <div class="loading"></div>
 </div>
 
  
