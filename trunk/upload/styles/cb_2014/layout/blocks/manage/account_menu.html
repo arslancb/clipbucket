@@ -8,10 +8,13 @@
                 <span class="icon-bar"></span>
             </button>
             <div class="userPicContainer">
-                <a class="navbar-brand {if userid()} nopadding {/if}"  style="{if userid()} padding-top: 7px ! important; {/if}" href="#">
-                    {if userid()}
-                    <img class="cb_img_thum" src="{$userquery->getUserThumb('','small',userid())}" style="width: 40px; height: 40px;"/>
-                    {/if}
+                {if userid()}
+                <!--<a class="navbar-brand {if userid()} nopadding {/if}"  style="{if userid()} padding-top: 7px ! important; {/if}" href="#">
+                    <img class="cb_img_thum" src="{$userquery->getUserThumb('','small',userid())}" style="width: 40px; height: 40px;"/>   
+                    My Account
+                </a>-->
+                {/if}
+                <a class="navbar-brand"  href="#">   
                     My Account
                 </a>
             </div>
