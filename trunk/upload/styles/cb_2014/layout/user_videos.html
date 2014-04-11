@@ -7,7 +7,7 @@
             <span style="margin-left: 24px">
             {assign var=category value=$userquery->get_category($u.category)}
             {$u.username|capitalize}</a> ({$category.category_name})
-            <div class="btn-group pull-right">
+            <div class="btn-group pull-right" style="margin-right: 10px">
                 {if !$isSubscribed && $p.allow_subscription!='no'}
                 <button class="btn btn-primary btn-sm" onclick="subscriber('{$u.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>
                 {elseif $isSubscribed}
