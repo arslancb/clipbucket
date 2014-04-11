@@ -53,7 +53,7 @@
 
 
                         <div class="form-group">
-                            <input type="text" class="form-control searchtextbar"  name="query" value="{'query'|get_form_val:true} Search here" id="query" />
+                            <input type="text" class="form-control searchtextbar"  name="query" value="{'query'|get_form_val:true}" id="query" />
                         </div>
                             <input type="submit" name="cbsearch" id="cbsearch" value="{lang code='search'}" class="btn btn-default" />
                     </form>
@@ -126,44 +126,7 @@
                 <!--</form>-->
             <!--</div>-->
             <!--</div>-->
-            <!--<div class=""  style="min-height:400px; overflow:visible; display:none" id="advance_search">-->
-                <!--{foreach from=$Cbucket->search_types item=search_type key=search_type_key}-->
 
-                <!--{if $search_type}-->
-
-                <!--{assign var='type' value=$cbsearch->init_search($search_type_key)}-->
-
-                <!--{if $type}-->
-                <!--{assign var='types' value=$type->search_type}-->
-
-                <!--{foreach from=$types key=stype item=search}-->
-                <!--<div id="{$stype}" class="search_type">-->
-                    <!--{lang code='search_for_s' assign='searchfor'}-->
-                    <!--<h2>{$searchfor|sprintf:$search.title}</h2>-->
-                    <!--<div class="row cb-box">-->
-                        <!--<h2><small>{lang code='Advanced Search'} &#8211;</small></h2>-->
-                        <!--<form name="search-form-{$search.title}" method="get" action="">-->
-                            <!--<input type="hidden" class="form-control" name="type" value="{$stype}" />-->
-                            <!--{foreach from=$search.fields item=field}-->
-                            <!--{$field.class='form-control'}-->
-                            <!--<div>-->
-                                <!--<label style="color: #808080">{$field.title}</label>-->
-                                <!--{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}-->
-                            <!--</div>-->
-                            <!--{/foreach}-->
-                            <!--<hr>-->
-                            <!--<label for="button"></label>-->
-                            <!--<input type="submit" name="cbsearch" id="cbsearch" value="Search" class="btn btn-primary" />-->
-                        <!--</form>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--{/foreach}-->
-                <!--{/if}-->
-                <!--{/if}-->
-                <!--{/foreach}-->
-            <!--</div>-->
-    <!--<br>-->
-            <!--<span class="btn btn-danger btn-xs" style="margin-bottom:10px"><a style="color: #ffffff" href="javascript:void(0)" onClick="showAdvanceSearch('simple_search','advance_search','more_button','more_button_up');">{lang code='more_options'}</a></span>-->
             <div>
                 <div style="height:10px"></div>
 
@@ -194,3 +157,45 @@
             });
 
         </script>
+
+
+
+
+<!--<div class="col-md-6 cb-box"  style="min-height:400px; overflow:visible; display:none" id="advance_search">-->
+<!--{foreach from=$Cbucket->search_types item=search_type key=search_type_key}-->
+
+<!--{if $search_type}-->
+
+<!--{assign var='type' value=$cbsearch->init_search($search_type_key)}-->
+
+<!--{if $type}-->
+<!--{assign var='types' value=$type->search_type}-->
+
+<!--{foreach from=$types key=stype item=search}-->
+<!--<div id="{$stype}" class="search_type">-->
+<!--{lang code='search_for_s' assign='searchfor'}-->
+<!--<h2>{$searchfor|sprintf:$search.title}</h2>-->
+<!--<div class="row cb-box">-->
+<!--<h2><small>{lang code='Advanced Search'} &#8211;</small></h2>-->
+<!--<form name="search-form-{$search.title}" method="get" action="">-->
+<!--<input type="hidden" class="form-control" name="type" value="{$stype}" />-->
+<!--{foreach from=$search.fields item=field}-->
+<!--{$field.class='form-control'}-->
+<!--<div>-->
+<!--<label style="color: #808080">{$field.title}</label>-->
+<!--{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}-->
+<!--</div>-->
+<!--{/foreach}-->
+<!--<hr>-->
+<!--<label for="button"></label>-->
+<!--<input type="submit" name="cbsearch" id="cbsearch" value="Search" class="btn btn-primary" />-->
+<!--</form>-->
+<!--</div>-->
+<!--</div>-->
+<!--{/foreach}-->
+<!--{/if}-->
+<!--{/if}-->
+<!--{/foreach}-->
+<!--</div>-->
+<!--<br>-->
+<!--<span class="btn btn-danger btn-xs" style="margin-bottom:10px"><a style="color: #ffffff" href="javascript:void(0)" onClick="showAdvanceSearch('simple_search','advance_search','more_button','more_button_up');">{lang code='more_options'}</a></span>-->
