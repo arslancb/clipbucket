@@ -94,8 +94,8 @@
 				</div>
 
 				<div class="col-md-4 hidden-sm hidden-xs text-center nopadding-right pull-right" style="padding-left:8px;">
-				{foreach from=$videos_03 item=video_02}
-				<div class="col-md-12 text-center nopadding mouse_hover1" style="min-height: 150px;" >
+				{foreach from=$videos_03 item=video_02 name=foo}
+				<div class="col-md-12 text-center nopadding mouse_hover1" style="{if not $smarty.foreach.foo.last} min-height: 150px; {/if} " >
 				<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
 				<img class="cb_img_thum" src="{getThumb vdetails=$video_02}" width="240" height="133" {ANCHOR place="video_thumb" data=$video_03} />
 				<div class="cbHomeVidTitle mouse_hover_on1" style="margin-bottom:8px;">{$video_02.title|truncate:10}</div>
