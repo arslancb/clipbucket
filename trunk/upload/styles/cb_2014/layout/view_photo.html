@@ -17,13 +17,13 @@
                    Next<i class="glyphicon glyphicon-chevron-right"> </i>
                 </a>
                 <hr>
-                <div class="row">
+                <div class="row final" style="margin-top: -16px">
                     <div class="col-md-2">
                         <div class="cb-item-thumb">
                             <img src="{$userquery->getUserThumb($user)}" class="img-circle" style="width: 90px; height: 90px; border-color: #0000ff" />
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8" style="margin-top: -25px">
                         <h2><small class="smallColor">{$photo.photo_title}</small></h2>
                     </div>
                 </div>
@@ -42,8 +42,9 @@
                     <b>{lang code='Since:'}</b> ({$user.doj|date_format})
                     <b>{lang code='Login:'}</b> ({$user.last_logged|nicetime})
                 </div>
-                <div class="action_box" id="video_detail_result_cont" style="display:none"></div>
-                {show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}
+
+                    <div class='PhotoRating' style="margin-bottom: -17px">
+                        {show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}</div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right">
                     <div class="pull-right">
                         <a class="Ticon twitter" href="http://twitter.com/home?status=%7Bvideo.title%7Ctitle%7D%20%7BvideoLink($video)%7D" target="_blank">
@@ -58,7 +59,9 @@
 
                     </div>
                 </div>
-                    <br>
+                <br>
+                <div class="action_box" id="video_detail_result_cont" style="display:none"></div>
+
                 <!--<div class="col-md-4 cb-box">-->
                     <!--<div class="media padding40">-->
 
@@ -111,12 +114,12 @@
                         </ul>
                         <div class="tab-content">
                             <div id="pinfo" class="tab-pane active">
-                                <h2><small class="smallColor">{lang code='Category:'}({assign var=category value=$userquery->get_category($user.category)}
+                                <h2 class="VphotoMargin"><small class="smallColor">{lang code='Category:'}({assign var=category value=$userquery->get_category($user.category)}
                                     {$category.category_name})
                                 </small></h2>
-                                <h2><small class="smallColor">{lang code='Description:'}{$photo.photo_description}</small></h2>
-                                <h2><small class="smallColor">{lang code='Tags:'}{$photo.photo_tags|tags:photos}</small></h2>
-                            <div class="row">
+                                <h2 class="VphotoMargin"><small class="smallColor">{lang code='Description:'}{$photo.photo_description}</small></h2>
+                                <h2 class="VphotoMargin"><small class="smallColor">{lang code='Tags:'}{$photo.photo_tags|tags:photos}</small></h2>
+                            <div class="row" style="margin-top: -20px">
                                 <div class="col-md-2">
                                     <h2><small class="smallColor">{lang code="views:"}{$photo.views|number_format}</small></h2>
 
@@ -163,24 +166,26 @@
 
                 </div>
             </div>
-            <div class="col-md-4 cb-box" style="margin-left: 38px">
+
+            <div class="cb-box col-md-4" style="margin-left: 38px; padding-left: 0px; padding-right: 0px">
                 <h2 class="smallColor1">{lang code='Most Popular'}</h2>
                 {section name=p_list loop=$photos}
                 {include file="$style_dir/blocks/PopularPhotos.html" photo=$photos[p_list]}
                 {sectionelse}
                 {lang code='no_results_found'}
                 {/section}
-            </div>
-            <div class="col-md-4 cb-box" style="margin-left: 38px">
+                    <div class="clearfix"></div>
+                <br>
                 <h2 class="smallColor1">{lang code='Top Collections'}</h2>
                 {section name=c_list loop=$collections}
                 {include file="$style_dir/blocks/topCollection.html" collection=$collections[c_list]}
                 {sectionelse}
                 {lang code='no_results_found'}
                 {/section}
+
+            <div class="pull-right" style="margin-right: 0px"><img src="{$theme}/assets/images/likebox.png">
             </div>
-            <div class="col-md-4 cb-box pull-right" style="margin-right: 0px"><img src="{$theme}/assets/images/likebox.png">
-            </div>
+
         </div>
 
 
@@ -204,3 +209,5 @@
 {section name=list loop=$uphotos}
 {include file="$style_dir/blocks/photo.html" display_type="related_photos" photo=$uphotos[list]}
 {/section}
+
+        </div>
