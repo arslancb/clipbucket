@@ -997,9 +997,10 @@ footer {
 .duration1 {
     font-size: 10px;
     position: absolute;
-    top: 4px;
-    left: 135px;
+    top: 1px;
+    left: 157px;
     right: 100px;
+    width: 10px;
 }
 
 .margin {
@@ -1028,6 +1029,7 @@ footer {
 }
 
 .color {
+    margin-left: 0px;
     background-color: #696969;
     color: #ffffff;
     opacity: 0.8;
