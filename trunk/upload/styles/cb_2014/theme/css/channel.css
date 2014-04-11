@@ -1287,6 +1287,9 @@ h2.myHeading {
     margin-top: 0;
     padding-bottom: 10px;
 }
+h2.myHeadingBLK a{
+color: #5A595A;
+}
 h2.myHeadingBLK {
     border-bottom: 1px solid #DDDDDD;
     color: #5A595A;
