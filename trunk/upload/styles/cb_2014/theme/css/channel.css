@@ -1110,7 +1110,7 @@ footer ul li a{
 #slide_prev1{
      background-color: rgba(0, 0, 0, 0.6);
     color: #FFFFFF;
-    font-size: 7px;
+    font-size: 8px;
     left: 13px;
     padding: 4px 6px;
     position: absolute;
@@ -1120,7 +1120,7 @@ footer ul li a{
 }
 #slide_prev3{
     background-color: rgba(0, 0, 0, 0.6);
-    font-size: 7px;
+    font-size: 8px;
     left: 13px;
     padding:4px 6px;
     position: absolute;
@@ -1132,7 +1132,7 @@ footer ul li a{
 #slide_next1{
    background-color: rgba(0, 0, 0, 0.6);
     color: #FFFFFF;
-    font-size: 7px;
+    font-size: 8px;
     padding: 4px 6px;
     position: absolute;
     right: 30px;
@@ -1142,7 +1142,7 @@ footer ul li a{
 #slide_next3{
    background-color: rgba(0, 0, 0, 0.6);
     color: #FFFFFF;
-    font-size: 7px;
+    font-size: 8px;
     padding: 4px 6px;
     position: absolute;
     right: 30px;
