@@ -135,6 +135,7 @@ color: #575757;
 
 .cbCategoryItem ul{
   list-style: none;
+  padding-left: 10px;
 }
 .cbCategoryItem ul li{
 border-left: 5px solid #d5d5d5;
