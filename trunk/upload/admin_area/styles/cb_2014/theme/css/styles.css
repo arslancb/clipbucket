@@ -197,7 +197,12 @@ form input#sticky_content {
 
 /* sticky note */
 
-ul#stickies li {
+.stickies {
+    width: 350px;
+}
+
+
+.stickies li {
 
     display: block;
     list-style: none;
@@ -223,7 +228,7 @@ ul#stickies li {
     overflow: hidden;
 }
 
-ul#stickies li span.sticky {
+.stickies li span.sticky {
     font-family: Verdana, Helvetica, sans-serif;
     font-size: 100%;
 }
@@ -231,7 +236,7 @@ ul#stickies li span.sticky {
 /*
  * rotation
  */
-ul#stickies li:nth-child(even) {
+.stickies li:nth-child(even) {
     -webkit-transform: rotate(2deg);
     -moz-transform: rotate(2deg);
     -o-transform: rotate(2deg);
@@ -239,7 +244,7 @@ ul#stickies li:nth-child(even) {
     transform: rotate(2deg);
 }
 
-ul#stickies li:nth-child(odd) {
+.stickies li:nth-child(odd) {
     -webkit-transform: rotate(-1deg);
     -moz-transform: rotate(-1deg);
     -o-transform: rotate(-1deg);
@@ -247,7 +252,7 @@ ul#stickies li:nth-child(odd) {
     transform: rotate(-1deg);
 }
 
-ul#stickies li:nth-child(3n) {
+.stickies li:nth-child(3n) {
     -webkit-transform: rotate(1deg);
     -moz-transform: rotate(1deg);
     -o-transform: rotate(1deg);
@@ -259,7 +264,8 @@ ul#stickies li:nth-child(3n) {
    Transform demo
    Uses the transition (defined above) to ease in.
 */
-ul#stickies li:hover {
+
+.stickies li:hover {
     -webkit-box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.4);
     -moz-box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.4);
     -o-box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.4);
@@ -277,4 +283,12 @@ ul#stickies li:hover {
 
 .videotable {
     padding-left: 20px;
+}
+
+.myVideo {
+    margin-left: 20px;
+}
+
+.ItemNotes{
+    color: #000000;
 }
