@@ -77,9 +77,12 @@ if($udetails)
     }
 
     $total_pages = count_pages($counter,VLISTPP);
-//Pagination
-    $pages->paginate($total_pages,$page);
-
+	//Pagination
+    //$pages->paginate($total_pages,$page);
+	$link==NULL;
+	$extra_params=NULL;
+	$tag='<li><a #params#>#page#</a><li>';
+	$pages->paginate($total_pages,$page,$link,$extra_params,$tag);
 
     //Getting Video List
     $result_array['limit'] = $get_limit;
