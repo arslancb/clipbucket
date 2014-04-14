@@ -175,7 +175,7 @@
                                                     <li><a role="menuitem" tabindex="-1" href="?ban={$u.userid}">Ban Member</a></li>
                                                     {/if}
                                                     <li><a role="menuitem" tabindex="-1" href="view_user.php?uid={$u.userid}">Edit</a></li>
-                                                    <li><a role="menuitem" tabindex="-1" href="?deleteuser={$u.userid}">Delete</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="members.php?deleteuser={$u.userid}">Delete</a></li>
                                                 </ul>
 
                                             </div>
@@ -293,41 +293,43 @@
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div id="fvideos" class="tab-pane active">
-                                {section name=list loop=$flagedVideos}
+                            <div id="fvideos" class="tab-pane active" style=" margin-top: -31px;">
+                                {section name=list loop=$flaggedVideos}
                                 <div class="row">
+                                    <br>
                                     <div class="col-md-3">
-                                        <img src="{getThumb vdetails=$flagedVideos[list]}" width="85" height="70" id="thumbs_{$flagedVideos[list].videoid}" title=""/>
+                                        <img src="{getThumb vdetails=$flaggedVideos[list]}" width="85" height="70" id="thumbs_{$flaggedVideos[list].videoid}" title=""/>
                                     </div>
                                     <div class="col-md-6">
-                                        {$flagedVideos[list].title|truncate:50}
+                                        {$flaggedVideos[list].title|truncate:50}
                                         </div>
                                     <div class="col-md-2">
-                                        <strong class="btn btn-primary btn-xs pull-right"> Flags:{$flagedVideos[list].total_flags}</strong>
+                                        <strong class="btn btn-primary btn-xs pull-right"> Flags:{$flaggedVideos[list].total_flags}</strong>
                                     </div>
                                  <div class="col-md-7">
-                                    <label class="label label-danger">Uploaded  {$flagedVideos[list].date_added|niceTime}</label>
-                                     <label class="label label-default"> {lang code='views'} : {$flagedVideos.views|number_format}</label>
+                                    <label class="label label-danger">Uploaded  {$flaggedVideos[list].date_added|niceTime}</label>
+                                     <label class="label label-default"> {lang code='views'} : {$flaggedVideos[list].views|number_format}</label>
 
                                      </div>
                                 </div>
                                 {/section}
                             </div>
-                            <div id="fphotos" class="tab-pane">
-                                {section name=list loop=$flagedPhotos}
+                            <div id="fphotos" class="tab-pane" style=" margin-top: -31px;">
+                                {section name=list loop=$flaggedPhotos}
+                                <br>
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <img src="{getThumb vdetails=$flagedPhotos[list]}" width="85" height="70" id="thumbs_{$flagedPhotos[list].photoid}" title=""/>
+                                        <img src="{get_photo details=$flaggedPhotos[list]}" width="85" height="70" id="thumbs_{$flaggedPhotos[list].photoid}" title=""/>
                                     </div>
                                     <div class="col-md-6">
-                                        {$flagedphotos[list].title|truncate:50}
+                                        {$flaggedPhotos[list].photo_title}
                                     </div>
                                     <div class="col-md-2">
-                                        <strong class="btn btn-primary btn-xs pull-right"> Flags:{$flagedPhotos[list].total_flags}</strong>
+                                        <strong class="btn btn-primary btn-xs pull-right"> Flags:{$flaggedPhotos[list].total_flags}</strong>
                                     </div>
                                     <div class="col-md-7">
-                                        <label class="label label-danger">Uploaded  {$flagedPhotos[list].date_added|niceTime}</label>
-                                        <label class="label label-default"> {lang code='views'} : {$flagedPhotos.views|number_format}</label>
+                                        <label class="label label-danger">Uploaded  {$flaggedPhotos[list].date_added|niceTime}</label>
+                                        <label class="label label-default"> {lang code='views'} : {$flaggedPhotos[list].views|number_format}</label>
 
                                     </div>
                                 </div>
@@ -335,10 +337,10 @@
                             </div>
 
                             <div id="fusers" class="tab-pane">
-                                {foreach from=$flagedUsers item=u}
+                                {foreach from=$flaggedUsers item=u}
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <a href="view_user.php?uid={$u.userid}"> <img src="{$userquery->getUserThumb($u,'small')}" class="img-thumbnail oneUserImage" />
+                                        <a href="view_user.php?uid={$u.userid}"> <img src="{$userquery->getUserThumb($u,'small')}" class="oneUserImage" width="85" />
                                             </a>
                                      </div>
                                     <div class="col-md-6">
