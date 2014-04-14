@@ -1452,10 +1452,11 @@ display: block;
 .collection_home .details{
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
     color: #FFFFFF;
+    left: 17px;
     padding-bottom: 11%;
-    padding-top: 11%;
+    padding-top: 10%;
     position: absolute;
-    width: 92%;
+    width: 91%;
 }
 .collection_home .details .collection_name{
 
