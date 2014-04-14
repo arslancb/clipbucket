@@ -22,21 +22,26 @@
 
 <div class=""  id="feed-{$feed.file}">
 	<div class="row">
-        <div class="col-md-14">
-            <div class="col-md-12 pull-left font">
+        <div class="col-md-12 row">
+            <div class="col-md-12 pull-left font nopadding">
+                <div class="col-md-2">
                 <a href="{$userquery->profile_link($feed.user)}" title="{$feed.user.username}">
-                    <img class="img-circle" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg">
+                    <img class="img-circle" src="{avatar details=$feed.user size='small'}">
                     <!--<img src="{avatar details=$feed.user size='small'}" alt="{$feed.user.username}" class="img-circle" />-->
                 </a>
+                </div>
+                <div class="col-md-10 nopadding">
                 {if !$feed.action_title}
                 <a href="{$userquery->profile_link($feed.user)}">{$feed.user.username}</a>
                 {else}
-                {$feed.action_title}
+                <small class="small">{$feed.action_title}</small>
                 {/if}
-                <br>
-                <span class="padding36 new1"><i class="glyphicon glyphicon-time"></i>  {$feed.datetime}</span>
-                <hr>
+                
+                <div class="col-md-11  nopadding"><span class="small"><i class="glyphicon glyphicon-time"></i>  {$feed.datetime}</span></div>
+                </div>
+                
             </div>
+            <hr>
             <!--<div class="feedTitle col-md-12 pull-right">-->
 
                 <!--<span id="feedload-{$feed.file}"></span>-->

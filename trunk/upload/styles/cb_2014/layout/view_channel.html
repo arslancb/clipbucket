@@ -91,8 +91,8 @@
               </div>
 
           <div class="col-md-5">
-              <h4><i class="icon-rss"></i>  Recent Activities</h4>
-              <hr class="hr">
+              <h2 class="myHeadingBLK"><i class="icon-rss"></i>  {lang code="Recent Activities"}</h2>
+              
                       <div id="content_1" class="content">
                       <div class="feeds1" id="selectedDiv">
                           <div id="userFeeds" >
@@ -114,9 +114,9 @@
 
               </h4>
               <br>
-              <h4><i class="glyphicon glyphicon-film"></i>  Popular Channels</h4>
+              <h2 class="myHeadingBLK">{lang code="Popular Channels"}</h2>
               <div id="popular" class="content1">
-              <hr class="hr">
+              
               {section name=u_list loop=$users}
               {include file="$style_dir/blocks/channels.html" user=$users[u_list]}
               {sectionelse}

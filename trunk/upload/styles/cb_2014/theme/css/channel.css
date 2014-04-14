@@ -1493,6 +1493,10 @@ height: 300px !important;
 .channels-view ul li{
     text-align: left;
 }
+.margin-top-bottom-10{
+     margin-bottom: 10px;
+    margin-top: 10px;
+}
 .channels-view .user_icon{
     position:absolute; top: 25%; right:5px;
 }

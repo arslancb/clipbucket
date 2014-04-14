@@ -3,31 +3,32 @@
 <div class="row" id="user-{$user.userid}">
     <div class="col-md-2">
         <a href="{$userquery->profile_link($user)}">
-            <img class="border" src="{$userquery->getUserThumb($user)}" width="60" height="60">
+            <img class="cb_img_thum" src="{$userquery->getUserThumb($user)}" width="60" height="60">
         </a>
         </div>
+    <div class="col-md-10">
     <div class="col-md-7 channels1">
-        <b>Most Popular {$user.username}</b>   <a href="{$userquery->profile_link($user)}">  </a>
+        <h4 class="nomargin">{lang code="Most Popular"} {$user.username}   <a href="{$userquery->profile_link($user)}">  </h4>
     </div>
 
     <div class="col-md-9 prof_title">
             <div class="row pchannels">
-                <div class="col-md-3 channels ">
+                <div class="col-md-6 small channels ">
                     {if isSectionEnabled('videos')}
                     {lang code="videos"}:  {$user.total_videos|number_format}
                     {/if}
                 </div>
-                <div class="col-md-6  channels">
+                <div class="col-md-6 small  channels">
                     {lang code="subscribers"}:  {$user.subscribers|number_format}
                 </div>
             </div>
         <button class="btn btn-primary btn-xs channels1">Subscribe</button>
     </div>
-
+    </div>
 </div>
 
 
-<hr>
+<hr class="margin-top-bottom-10">
 {/if}
 
 {if $block_type =='small'}
