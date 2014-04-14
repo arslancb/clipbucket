@@ -70,7 +70,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
+                            <button class="btn btn-default" type="button">{lang code="Go"}!</button>
                         </span>
                     </div>
 
@@ -87,10 +87,10 @@
                         <ul class="dropdown-menu">
                             <li><a href="myaccount.php">{lang code="my_account"}</a></li>
                             <li><a href="manage_videos.php">{lang code="Manage Videos"}</a></li>
-                            <li><a href="channels.php">View Channels</a></li>
-                            <li><a href="upload.php">Upload</a></li>
+                            <li><a href="channels.php">{lang code="View Channels"}</a></li>
+                            <li><a href="upload.php">{lang code="Upload"}</a></li>
                             <li class="divider"></li>
-                            <li><a href="logout.php">Logout</a></li>
+                            <li><a href="logout.php">{lang code="Logout"}</a></li>
                         </ul>
                     </li>
                     {else}
@@ -109,10 +109,10 @@
                 <!-- Shown to Large displays only Start -->
                 {if userid()}
                     <div class="btn-group pull-right" style="margin-top: 17px; margin-right: 5px;">
-					<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">Uploads <span class="caret"></span></button>
+					<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">{lang code="Uploads"}<span class="caret"></span></button>
 					<ul class="dropdown-menu">
-						<li><a href="upload.php">Upload Video</a></li>
-						<li><a href="photo_upload.php">Upload Photo</a></li>
+						<li><a href="upload.php">{lang code="Upload Video"}</a></li>
+						<li><a href="photo_upload.php">{lang code="Upload Photo"}</a></li>
 					</ul>
 					</div>
                 {/if}
