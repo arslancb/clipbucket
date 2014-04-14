@@ -89,6 +89,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
 color: #575757;
 
 }
+.nav > li.wv_heading > a:hover, .nav > li.wv_heading > a:focus .cbCategoryItem > ul > li.wv_heading > a:hover, .cbCategoryItem > ul > li.wv_heading > a:focus{
+    background-color: #444444;
+    color: #FFFFFF !important;
+}
 .navbar-stacked li{
   border-right: 1px solid #d5d5d5;
   border-bottom: 1px solid #d5d5d5;
