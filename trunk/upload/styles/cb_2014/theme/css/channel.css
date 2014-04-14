@@ -1292,6 +1292,9 @@ h2.myHeading {
 h2.myHeadingBLK a{
 color: #5A595A;
 }
+.margin-top-0{
+    margin-top: 0px;
+}
 h2.myHeadingBLK {
     border-bottom: 1px solid #DDDDDD;
     color: #5A595A;
@@ -1316,6 +1319,7 @@ h2.myHeadingBLK {
     padding-right: 10px !important;
 }
 .user-view-home{
+    font-size:12px; margin-top:3px;
    border-bottom: 1px solid #DDDDDD;
     padding-bottom: 15px !important;
     padding-top: 15px !important;
@@ -1347,6 +1351,9 @@ min-height: 35px;
 }
 #slide1 .col-md-12{
 margin-right: 10px;
+}
+.comment_home{
+    background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px; margin-top:10px;
 }
 .comment_home .body{
     background: #fff;
@@ -1464,8 +1471,20 @@ ul#myTab_home li:first-child {
 ul#myTab_home li:first-child + li {
      padding-left: 20px;    
 }
+.big_img{
+    display:block; height:320px; border:1px solid #CCC; padding:10px;
+}
 .big_img img{
 height: 300px !important;
+}
+.vidoe_home{
+    height:160px; padding:5px;
+}
+.side_user_home{
+    background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;
+}
+.side_user_home .user_icon{
+    position:absolute; top: 25%; right:5px;
 }
 .thumbnail_new {
 
