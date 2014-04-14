@@ -17,11 +17,11 @@
                     <!--</li>-->
                 <!--{/foreach}-->
             <!--</ul>-->
-        <div class="col-md-13 CollectionSidebar">
+        <div class="col-md-12 CollectionSidebar">
             {include file="$style_dir/blocks/category_list.html" type='collections'}
             </div>
         <div class="col-md-9">
-            <div class="row">
+          
                 {assign var=sorting_links value=sorting_links()}
                 <h4 class="smaller lighter pull-left">Browsing All Collections: </h4>
                 <div class="photopadding col-md-8">
@@ -98,9 +98,15 @@
                         {lang code='no_results_found'}
                     {/section}
                 </div>
+                <!--Pagination-->
+            <div class="clearfix"></div>
+            <div align="center">
+                {include file="$style_dir/blocks/pagination.html"}
+            </div> 
+            <!-- /Pagination-->
             </div>
-            {include file="$style_dir/blocks/pagination.html"}
-        </div>
+            {*include file="$style_dir/blocks/pagination.html"*}
+        
     </div>
         </div>
 </div>

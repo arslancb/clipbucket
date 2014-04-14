@@ -982,7 +982,7 @@ footer {
 
 
 
-.content{margin:0px; width:550px; height:391px; padding:0px; overflow:auto; background:#ffffff; -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px;}
+.content{margin:0px; height:391px; padding:0px; overflow:auto; background:#ffffff; -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px;}
 .content p:nth-child(even){color:#ffffff; font-family:Georgia,serif; font-size:17px; font-style:italic;}
 
 
@@ -1485,6 +1485,9 @@ height: 300px !important;
 }
 .side_user_home .user_icon{
     position:absolute; top: 25%; right:5px;
+}
+.view_chnl #cb_player #cont{
+   width: 100%; 
 }
 .thumbnail_new {
 

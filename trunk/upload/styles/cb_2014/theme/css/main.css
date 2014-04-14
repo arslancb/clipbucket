@@ -1945,7 +1945,7 @@ footer {
 }
 
 
-.content{margin:0px; width:550px; height:500px; padding:0px; overflow:auto; background:#ffffff; -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px;}
+.content{margin:0px; height:500px; padding:0px; overflow:auto; background:#ffffff; -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px;}
 .content p:nth-child(even){color:#ffffff; font-family:Georgia,serif; font-size:17px; font-style:italic;}
 
 
@@ -2740,17 +2740,17 @@ a:hover {
 
 .CollectionName {
     background-color: #000000;
-    color: #ffffff;
+    color: #FFFFFF;
+    display: none;
     font-family: cursive;
     font-size: 13px;
-    padding-left: 8px;
+    left: 19px;
     opacity: 0.7;
     position: absolute;
     top: 4px;
-    left: 20px;
-    width: 266px;
-    height: 166px;
-    display: none;
+    width: 93%;
+    padding-bottom: 22%;
+    padding-top: 21%;
 }
 
 .CollectionSidebar {
@@ -2758,19 +2758,13 @@ a:hover {
 }
 
 .CollectionP {
-    position: absolute;
-    top: 50px;
-    left: 54px;
-    right: 0px;
+    
     font-family: sans-serif;
     font-size: 20px;
 }
 
 .CollectionP1 {
-    position: absolute;
-    top: 76px;
-    left: 92px;
-    right: 0px;
+    
     font-family: sans-serif;
 }
 

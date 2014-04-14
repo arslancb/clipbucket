@@ -3,7 +3,9 @@
 <div class="show-image">
     <div class="col-md-4 col-sm-4 col-xs-6" style="padding-right: 0px">
         <a href="{$cbcollection->collection_links($collection,'view')}">
-        <span class="CollectionName" id="collection" ><p class="CollectionP"><b>{$collection.collection_name|truncate:30}</b></p> <br><p class="CollectionP1">{$collection.total_objects} {$collection.type}</p></span>
+        <span class="CollectionName" id="collection" >
+            <div align="center" class="CollectionP"><b>{$collection.collection_name|truncate:30}</b></div> <div align="center" class="CollectionP1">{$collection.total_objects} {$collection.type}</div>
+        </span>
             <img src="{$cbcollection->get_thumb($collection,'small',TRUE)}" class="loading"/>
        </a>
 
