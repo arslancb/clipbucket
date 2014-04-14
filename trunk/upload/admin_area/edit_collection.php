@@ -12,6 +12,17 @@ $userquery->admin_login_check();
 $userquery->login_check('video_moderation');
 $pages->page_redir();
 
+
+if(!defined('MAIN_PAGE')){
+    define('MAIN_PAGE', 'Collection');
+}
+if(!defined('SUB_PAGE')){
+    if($_GET['active'] == 'no')
+        define('SUB_PAGE', 'Edit Collection');
+    else
+        define('SUB_PAGE', 'Edit collection');
+}
+
 $id = mysql_clean($_GET['collection']);
 
 if(isset($_POST['update_collection']))
@@ -51,6 +62,17 @@ switch($c['type'])
 if(!empty($items))
 	assign('objects',$items);
 assign('data',$c);
+
+
+$get_limit = create_query_limit($page,5);
+$FlaggedPhotos = $cbvid->action->get_flagged_objects($get_limit);
+Assign('flaggedPhoto', $FlaggedPhotos);
+
+
+
+$comments = getComments($comment_cond);
+assign("comments",$comments);
+
 
 subtitle("Edit Collection");
 template_files('edit_collection.html');
