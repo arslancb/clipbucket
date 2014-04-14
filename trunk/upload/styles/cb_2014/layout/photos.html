@@ -73,8 +73,13 @@
                 <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">{lang code="Collections"}<span class="caret"></span></button>
                 
                 <ul class="dropdown-menu">
-                    <li><a href="collections.php">{lang code="View Collections"}</a></li>
-                    <li><a href="edit_photo.php">{lang code="Edit"}</a></li>
+                    {foreach from=$collections item=collection}
+                    <li><a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">{$collection.collection_name}</a></li>
+                    {foreachelse}
+                    <li><a href="#">{lang code="No Collection Found"}</a></li>
+                    {/foreach}
+                    <!--<li><a href="collections.php">{lang code="View Collections"}</a></li>
+                    <li><a href="edit_photo.php">{lang code="Edit"}</a></li>-->
                 </ul>
             </div>
         </div>
