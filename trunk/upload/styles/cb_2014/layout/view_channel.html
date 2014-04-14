@@ -10,14 +10,14 @@
     <div class="row cb-box">
     <div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) center #000000" >
       {if $user.userid == userid()}
-      <a href="#" class="btn btn-primary btn-sm  changeCover sr-only" id="changeCover">Update Cover</a>
+      <a href="#" class="btn btn-primary btn-sm  changeCover sr-only" id="changeCover">{lang code="Update Cover"}</a>
       {/if}
       <div class="row">
-          <div class="col-md-4 pull-right btn-group" style="padding-left: 40px">
-              <br>
-              <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-plus-sign white"></i>  Add as Friend</button>
-              <a href="private_message.php?mode=new_msg&to=admin" style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-envelope white"></i>  Send Message</a>
-              <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="icon-rss icon-spin white"></i>  Subscribe</button>
+          <div align="center" class="col-md-4 pull-right btn-group" style="padding-left: 40px; padding-top: 5px; margin-right: -27px;">
+              
+              <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-plus-sign white"></i>  {lang code="Add as Friend"}</button>
+              <a href="private_message.php?mode=new_msg&to=admin" style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-envelope white"></i>  {lang code="Send Message"}</a>
+              <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="icon-rss icon-spin white"></i>  {lang code="Subscribe"}</button>
           </div>
     </div>
 
@@ -31,7 +31,7 @@
         <div class="col-md-4 padding33">
             <h3 class="cname">{$user.username}</h3>
         </div>
-        <div class="col-md-4 pull-right padding34">
+        <div class="col-md-4 pull-right padding34" style="padding-top: 115px; margin-right: -30px;">
             {if $user.userid == userid()}
             <button class="btn btn-primary new1" style="background-color: #000000;color: white">
                 <span class="line-height-1 bigger-170 blue">{$user.total_videos}</span>
