@@ -11,7 +11,7 @@ function init(){
 
         var key = localStorage.key(i);
 
-        if (key.substring(0, 6) === 'sticky'){ //will explain this
+        if (key.substring(0, 6) === 'note'){ //will explain this
 
             var value = localStorage.getItem(key);
 
@@ -31,28 +31,28 @@ function init(){
 
 function addStickiesToPage(value){
 
-    var stickies = document.getElementById("stickies");
+    var stickies = document.getElementById("note-");
 
-    var sticky = document.createElement("li");
+    var note = document.createElement("li");
 
     var span = document.createElement("span");
 
-    span.setAttribute("class", "sticky");
+    span.setAttribute("class", "note");
 
     span.innerHTML = value;
 
-    sticky.appendChild(span);
+    note.appendChild(span);
 
-    stickies.appendChild(sticky);
+    stickies.appendChild(note);
 
 }
 
 
 function init(){
 
-    var button = document.getElementById("add_sticky");
+    var button = document.getElementById("add_note");
 
-    button.onclick = makeSticky; //we have to define this function
+    button.onclick = makenote; //we have to define this function
 
     //continue the init function here as shown above by adding
 
@@ -61,11 +61,11 @@ function init(){
 }
 
 
-function makeSticky(){
+function makenote(){
 
-    var value = document.getElementById("note").value;
+    var value = document.getElementById("personalnote").value;
 
-    var key = "sticky_" + localStorage.length;
+    var key = "note_" + localStorage.length;
 
     localStorage.setItem(key, value);
 
