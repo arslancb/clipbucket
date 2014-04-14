@@ -7,6 +7,7 @@
 body,html {background-color:#fff; margin:0px; padding:0px; font-family:Verdana; color:#333; font-size:11px;}
 
 /* CLEARS */
+/* CLEARS */
 .clearfix { }
 .clearfix:after{ content: "."; display:block; height:0; font-size:0; clear:both; visibility:hidden; }
 
@@ -364,3 +365,85 @@ li.myAdminList input[disabled=disabled].disabled { font:normal 11px Tahoma; padd
 .cb_row{margin:5px 0px; padding-left:5px}
 .font_12{font-size:12px}
 .font_ah{font-family:Arial, Helvetica, sans-serif}
+
+
+
+form input#note_content {
+    width: 350px;
+}
+
+/* sticky note */
+
+ul#stickies li {
+    display: block;
+    list-style: none;
+    z-index: 1;
+    float: left;
+    margin: 30px;
+    padding: 15px 15px 50px 15px;
+    width: 200px;
+    height: 200px;
+    border: 1px solid #bfbfbf;
+    background-color: LightGoldenRodYellow;  /* use #fafad2 if name doesn't work */
+    color: black;
+    text-decoration: none;
+    -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    -o-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;
+    overflow: hidden;
+}
+
+ul#stickies li span.sticky {
+    font-family: Verdana, Helvetica, sans-serif;
+    font-size: 200%;
+}
+
+/*
+ * rotation
+ */
+ul#stickies li:nth-child(even) {
+    -webkit-transform: rotate(2deg);
+    -moz-transform: rotate(2deg);
+    -o-transform: rotate(2deg);
+    -ms-transform: rotate(2deg);
+    transform: rotate(2deg);
+}
+
+ul#stickies li:nth-child(odd) {
+    -webkit-transform: rotate(-1deg);
+    -moz-transform: rotate(-1deg);
+    -o-transform: rotate(-1deg);
+    -ms-transform: rotate(-1deg);
+    transform: rotate(-1deg);
+}
+
+ul#stickies li:nth-child(3n) {
+    -webkit-transform: rotate(1deg);
+    -moz-transform: rotate(1deg);
+    -o-transform: rotate(1deg);
+    -ms-transform: rotate(1deg);
+    transform: rotate(1deg);
+}
+
+/*
+   Transform demo
+   Uses the transition (defined above) to ease in.
+*/
+ul#stickies li:hover {
+    -webkit-box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.4);
+    -o-box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.4);
+    -webkit-transform: rotate(0deg) scale(1.25);
+    -moz-transform: rotate(0deg) scale(1.25);
+    -o-transform: rotate(0deg) scale(1.25);
+    -ms-transform: rotate(0deg) scale(1.25);
+    transform: rotate(0deg) scale(1.25);
+    z-index: 10;
+}
+
