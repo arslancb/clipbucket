@@ -29,7 +29,6 @@
 {/if}
 {if $block_type=='groups_show'}
         <div class="row" id="user-{$user.userid}">
-
             <div class="col-md-3 nopadding">
                 <a href="{$userquery->profile_link($user)}">
                     <img src="{$userquery->getuserthumb($user)}" class="img-circle" width="100" height="100">
@@ -52,12 +51,11 @@
                 </div>
   </div>
   <div class="user_icon">
-                <a href="{$userquery->profile_link($result_users[result_users])}">
+                <a href="{$userquery->profile_link($user)}">
                 <img class="opacity_low" src="{$baseurl}/styles/cb_2014/images/user_next_icon.png" width="25" height="25" />
                 </a>
                 </div>
         </div>
-
 {/if}
 
 {if $block_type =='small'}
