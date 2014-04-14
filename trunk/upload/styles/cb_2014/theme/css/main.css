@@ -2625,7 +2625,7 @@ a:hover {
     padding-left: 30px;
     width: 100px;
     position: absolute;
-    top: 163px;
+    top: 25%;
     right: 0px;
     left: 663px;
 }
@@ -2633,7 +2633,7 @@ a:hover {
     padding-left: 4px;
     width: 100px;
     position: absolute;
-    top: 163px;
+    top: 25%;
     right: 0px;
     left:  15px;
 }

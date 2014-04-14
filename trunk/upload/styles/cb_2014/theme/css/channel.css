@@ -1440,14 +1440,14 @@ display: block;
     height: 125px;
 }
 .photo_view .collection_home .details{
- background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
+   background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
     color: #FFFFFF;
-    left: 16px;
-    padding-bottom: 10%;
-    padding-top: 11%;
+    left: 0;
+    padding-bottom: 11.2%;
+    padding-top: 10.6%;
     position: absolute;
-    top: 1px;
-    width: 91.5%;
+    top: 2px;
+    width: 99.5%;
 }
 .collection_home .details{
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
