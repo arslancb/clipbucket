@@ -1442,7 +1442,7 @@ display: block;
 .photo_view .collection_home .details{
    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
     color: #FFFFFF;
-    left: 0;
+    left: 1px;
     padding-bottom: 11.2%;
     padding-top: 10.6%;
     position: absolute;
