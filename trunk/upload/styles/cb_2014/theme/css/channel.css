@@ -1490,6 +1490,12 @@ height: 300px !important;
 .side_user_home .user_icon{
     position:absolute; top: 25%; right:5px;
 }
+.channels-view ul li{
+    text-align: left;
+}
+.channels-view .user_icon{
+    position:absolute; top: 25%; right:5px;
+}
 .view_chnl #cb_player #cont{
    width: 100%; 
 }
