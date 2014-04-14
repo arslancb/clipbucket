@@ -2,7 +2,7 @@
 {lang code='photo' assign='object_type'}
         <div class="row">
             {assign var=json value=$photo.photo_details|json_decode}
-            <div class="col-md-8 cb-box show-image nplinks" style="margin-left: -37px">
+            <div class="col-md-8 cb-box show-image nplinks" style="margin-left: -15px">
                 <a {if $nextLink} {assign var='nextItem' value=$nextLink} {else}  {assign var='nextItem' value=$preLink} {/if}
                 href="{$cbphoto->photo_links($nextItem.0,'view_item')}"
                 >{get_photo details=$photo size='l' class='photoimg' output='html'}</a>
@@ -148,7 +148,7 @@
 
                 </div>
             </div>
-            <div class="cb-box col-md-4" style="padding-left: 0px; padding-right: 0px; margin-left: 15px;">
+            <div class="cb-box col-md-4 pull-right" style="padding-left: 0px; padding-right: 0px;">
                 <h2 class="smallColor1">{lang code='Most Popular'}</h2>
                 {section name=p_list loop=$photos}
                 {include file="$style_dir/blocks/PopularPhotos.html" photo=$photos[p_list]}
