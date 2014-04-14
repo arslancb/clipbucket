@@ -70,21 +70,24 @@
                     {FlashPlayer vdetails=$firstVideo width='100%' height='355px'}
                 </div>
               <hr class="hr">
+              <div class="row">
               {foreach from=$videos item=video}
                   <div class="col-md-4">
                       <a href="{videoLink($video)}" title="{$video.title|title}">
                       <img src="{getThumb vdetails=$video}"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/></a>
-                      <p class="duration1"><b class="color">{if
-                          $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</b></p>
+                      <p class="cbHomeVidDuration duration_view">{if
+                          $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</p>
                       <h5><a href="{videoLink($video)}" title="{$video.title|title}"><b>{$video.title|truncate:22}</b></a></h5>
                       <small class="font1 new1"><b>{lang code='views'} :{$video.views}</b></small>
                       <small class="font2 new1"><b>{$video.date_added|niceTime}</b></small>
                       <hr>
                   </div>
                   {/foreach}
+
               <div class="col-md-4">
                   {include file="$style_dir/blocks/pagination.html"}
               </div>
+            </div>
               </div>
 
           <div class="col-md-5">

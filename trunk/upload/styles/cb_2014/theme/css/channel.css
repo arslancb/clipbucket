@@ -1257,6 +1257,10 @@ background-color: #f8f8f8;
     top: 4px;
     min-width: 8%;
 }
+.duration_view{
+  top: 0px;
+  right: 15px;  
+}
 .cbHomeVidDuration_slide{
     font-size: 7px;
     height: 18%;
