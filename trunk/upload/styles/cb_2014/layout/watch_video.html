@@ -24,12 +24,6 @@
                     <div class="cb-item-date">
                         {$video.date_added|niceTime}
                     </div>
-                    <div class="pull-right col-md-3">
-                    <div class="pull-right col-md-7"  style="border-bottom: 2px solid green;"> 
-                        <span class="small">
-                            {$vdo.views|number_format} {lang('views')}
-                        </span>
-                    </div>
                     {show_video_rating  rating=$vdo.rating ratings=$vdo.rated_by total='10' id=$vdo.videoid type=video file='blocks/common/rating.html'}
                 </div>
                 <div class="cb-item-desc-container">
@@ -126,7 +120,7 @@
     <!--Side bar-->        
         <div class="col-lg-4 col-md-4 visible-lg visible-md side-video">
             <div class="cb-box">
-                <h3>{lang code="Most Popular "}</h3>
+                <h3>{lang code="Most Popular"}</h3>
                 {foreach $videos as $video}
                  {include file="$style_dir/blocks/videos/video_popular.html"}
                 {/foreach}
