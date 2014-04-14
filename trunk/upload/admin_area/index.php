@@ -43,17 +43,17 @@ assign("comments",$comments);
 
 $get_limit = create_query_limit($page,5);
 $videos = $cbvid->action->get_flagged_objects($get_limit);
-Assign('flagedVideos', $videos);
+Assign('flaggedVideos', $videos);
 
 
 $get_limit = create_query_limit($page,5);
 $users = $userquery->action->get_flagged_objects($get_limit);
-Assign('flagedUsers', $users);
+Assign('flaggedUsers', $users);
 
 
 $get_limit = create_query_limit($page,5);
 $photos = $cbphoto->action->get_flagged_objects($get_limit);
-assign('flagedPhotos', $photos);
+assign('flaggedPhotos', $photos);
 
 $numbers = array(100,1000,15141,3421);
 function format_number($number) {
