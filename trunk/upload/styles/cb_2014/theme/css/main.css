@@ -2384,7 +2384,8 @@ a.captionOrange:hover{color: #eb5100; text-decoration: underline; background-col
 }
 
 .pagination {
-    padding-top: 50px;
+    padding-top: 0px;
+    margin-top: 0px;
 }
 
 
