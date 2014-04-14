@@ -32,7 +32,7 @@ Assign('users', $users);
 
 
 if(!$array['order'])
-    $result_array['order'] = " views DESC LIMIT 8 ";
+    $result_array['order'] = " last_viewed DESC LIMIT 8 ";
 $videos = get_videos($result_array);
 
 Assign('videos', $videos);
