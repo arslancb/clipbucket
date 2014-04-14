@@ -25,7 +25,7 @@
         <div class="col-md-14">
             <div class="col-md-12 pull-left font">
                 <a href="{$userquery->profile_link($feed.user)}" title="{$feed.user.username}">
-                    <img class="img-circle" src="http://lorempixel.com/output/people-q-c-40-40-7.jpg">
+                    <img class="img-circle" src="{avatar details=$feed.user size='small'}">
                     <!--<img src="{avatar details=$feed.user size='small'}" alt="{$feed.user.username}" class="img-circle" />-->
                 </a>
                 {if !$feed.action_title}
