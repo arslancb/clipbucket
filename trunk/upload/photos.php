@@ -60,6 +60,9 @@ Assign('photos', $photos);
 
 
 
+$collections = $cbcollection->get_collections($clist);
+
+Assign('collections', $collections);
 
 
 //Collecting Data for Pagination
