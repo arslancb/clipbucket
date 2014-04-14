@@ -4,7 +4,7 @@
     border-right: 1px solid #DDDDDD;
     margin-bottom: 10px;
     margin-top: -10px;
-    min-height: 122px;
+    min-height: 124px;
     padding-bottom: 10px;
     padding-top: 10px;  
 }
@@ -31,6 +31,7 @@ min-height: 25px;
 .groups-view:nth-of-type(odd)
 {
 border-right: none;
+padding-right: 0px;
 }
 .groups-view:nth-of-type(even)
 {
