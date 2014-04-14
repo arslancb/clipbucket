@@ -31,7 +31,7 @@
                 {if !$feed.action_title}
                 <a href="{$userquery->profile_link($feed.user)}">{$feed.user.username}</a>
                 {else}
-                {$feed.action_title}
+                <small class="small">{$feed.action_title}</small>
                 {/if}
                 <br>
                 <span class="padding36 new1"><i class="glyphicon glyphicon-time"></i>  {$feed.datetime}</span>
