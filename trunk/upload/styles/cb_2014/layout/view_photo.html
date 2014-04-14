@@ -144,29 +144,10 @@
 
                             </div>
                         </div>
-                    <div class="col-md-8 commentmargin">
-                        <hr>
-                        <h2>{lang code='comments'}</h2>
 
-                        <div id="comments"></div>
-                        <script>
-                            $(document).ready(function()
-                            {ldelim}
-                            comments_voting = 'no';
-                            getComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}')
-                            {rdelim}
-                            );
-                        </script>
-                        {if $myquery->is_commentable($photo,'p')}
-                        {include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
-                        {else}
-                        <div class="disable_msg" align="center">{lang code='Comments disabled for this photo'}</div>
-                        {/if}
-                    </div>
 
                 </div>
             </div>
-
             <div class="cb-box col-md-4" style="padding-left: 0px; padding-right: 0px; margin-left: 15px;">
                 <h2 class="smallColor1">{lang code='Most Popular'}</h2>
                 {section name=p_list loop=$photos}
@@ -187,6 +168,28 @@
             </div>
 
         </div>
+            <div class="col-md-8 cb-box row commentmargin" style="margin-left: -36px;">
+                     
+                        <h2>{lang code='comments'} ({$photo.total_comments})</h2>
+
+                        <div id="comments"></div>
+                        <div id="userCommentsList"></div>
+                        <script>
+                            $(document).ready(function()
+                            {ldelim}
+                            comments_voting = 'no';
+                            getComments('p','{$photo.photo_id}','{$photo.last_commented}',1,'{$photo.total_comments}','{$object_type}')
+                            {rdelim}
+                            );
+                        </script>
+                        {if $myquery->is_commentable($photo,'p')}
+                        {include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
+                        {else}
+                        <div class="disable_msg" align="center">{lang code='Comments disabled for this photo'}</div>
+                        {/if}
+                    </div>
+
+           
 
 
 
@@ -211,3 +214,4 @@
 {/section}
 
         </div>
+ <div style="height:20px"> </div>
