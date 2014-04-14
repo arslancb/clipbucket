@@ -463,11 +463,8 @@
                                 </form>
                                 {assign var=notes value=$myquery->get_notes()}
                                 {foreach from=$notes item=note}
-                                {if $notes.note==""}
-                                <p>Note Added Refresh</p>
-                                {/if}
                                 <ul class="stickies" id="note-{$the_note.note_id}" >
-                                    <li>
+                                    <li class="stickies">
                                     <img src="{$imageurl}/cross.png" class="delete_note btn btn-danger btn-xs" onclick="delete_note('{$note.note_id}');" />
                                     {$note.note|nl2br}
                                     </li>
