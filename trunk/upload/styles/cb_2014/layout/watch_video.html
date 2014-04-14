@@ -11,7 +11,7 @@
                     <div class="cb-item-thumb">
                         <img src="{$userquery->avatar($video)}" class="img-circle" />
                     </div>
-                    <div class="cb-item-title marginBottom">
+                    <div class="cb-item-title marginBottom"  style="overflow: hidden;">
                         {$video.title}
                     </div>
                     <div class="cb-item-user">
@@ -48,7 +48,7 @@
 
                             <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
 
-                                <div class="cb-item-description">
+                                <div class="cb-item-description overflow_hidden" >
                                     <p id="videoDescription">{description($video.description)}</p>
                                     <div class="mtm">
                                         <strong>{lang('Category')}</strong>
@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="mtm">
                                         <strong>{lang('Tags')}</strong>
-                                        <div>{$vdo.tags|tags:videos}</div>
+                                        <div class="overflow_hidden">{$vdo.tags|tags:videos}</div>
                                     </div>
 
                                     <div class="mtm">
