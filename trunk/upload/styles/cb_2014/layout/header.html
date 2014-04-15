@@ -108,13 +108,26 @@
 
                 <!-- Shown to Large displays only Start -->
                 {if userid()}
-                    <div class="btn-group pull-right" style="margin-top: 17px; margin-right: 5px;">
+                <div class="pull-right">
+                    <div class="btn-group">
+                      <button class="btn btn-primary" type="button">{lang code="Uploads"}</button>
+                      <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <ul role="menu" class="dropdown-menu">
+                       <li><a href="upload.php">{lang code="Upload Video"}</a></li>
+                        <li><a href="photo_upload.php">{lang code="Upload Photo"}</a></li>
+                      </ul>
+                    </div>
+                </div>
+                    <!--<div class="btn-group pull-right" style="margin-top: 17px; margin-right: 5px;">
 					<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">{lang code="Uploads"}<span class="caret"></span></button>
 					<ul class="dropdown-menu">
 						<li><a href="upload.php">{lang code="Upload Video"}</a></li>
 						<li><a href="photo_upload.php">{lang code="Upload Photo"}</a></li>
 					</ul>
-					</div>
+					</div>-->
                 {/if}
                 
                 <!-- Ends -->
