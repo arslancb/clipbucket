@@ -229,7 +229,7 @@
                 </span>
     <a href="?add_editor_pick={$data.videoid}">
             <span class="btn btn-app btn-sm btn-success no-hover">
-													<span class="line-height-1 bigger-170">Add</span>
+													<span class="line-height-1 bigger-190">Add</span>
 
 													<br>
 													<span class="line-height-1 smaller-90"> Editor Pick </span>
@@ -237,13 +237,13 @@
     </a>
             <span class="btn btn-app btn-sm btn-primary no-hover">
                 {section name=list loop=$flagedVideos}
-													<span class="line-height-1 bigger-170"> {$flagedVideos[list].total_flags} </span>
+													<span class="line-height-1 bigger-190"> {$flagedVideos[list].total_flags} </span>
                 {/section}
 													<br>
 													<span class="line-height-1 smaller-90"> Flagged </span>
 												</span>
 
-        {FlashPlayer vdetails = $data width='100%' class='flashplayer' autoplay='false'}
+    {FlashPlayer vdetails=$video width='100%' height='100%'}
 
     <div class="head">
         {foreach from=$video_fields item=field_group}
@@ -364,7 +364,7 @@
 
 </div>
 
-<div class="widget-box">
+<div class="widget-box" style="margin-top: 30px">
     <div class="widget-header header-color-blue2">
 
         <h5>{$data.title|truncate:80}- <b>Comments</b></h5>
