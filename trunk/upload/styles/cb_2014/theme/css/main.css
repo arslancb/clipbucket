@@ -2561,19 +2561,19 @@ a:hover {
 }
 
 .photoname {
-     background-color: #000000;
+    background-color: #000000;
     color: #FFFFFF;
     display: none;
     font-family: cursive;
     font-size: 15px;
     height: 41px;
-    left: 21px;
+    left: 19px;
     opacity: 0.8;
     padding-left: 8px;
     padding-top: 10px;
     position: absolute;
     top: 129px;
-    width: 285px;
+    width: 93.7%;
 }
 
 .like {
