@@ -150,9 +150,6 @@ switch($mode)
 		$Upload->add_conversion_queue($targetFileName);
 		$quick_conv = config('quick_conv');
 		$use_crons = config('use_crons');
-		var_dump($quick_conv);
-		echo "<br>";
-		var_dump($use_crons);
 		if($quick_conv=='yes' || $use_crons=='no')
 		{
 			//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
