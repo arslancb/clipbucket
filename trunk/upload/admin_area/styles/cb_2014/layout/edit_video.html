@@ -123,9 +123,10 @@
                     </li>
                 </ul>
                 {/foreach}
-            <div class="dropdown">
+            </div>
+            <div class="dropdown col-md-2 pull-right">
                 <a class="btn btn-primary btn-sm dropdown-toggle pull-right" style="margin-top: 10px" data-toggle="dropdown"  href="">Manage Thumbs  <i class="caret"></i></a>
-                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu" style="margin-top: 45px;">
+                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu">
                     {if $data.embeded !=yes}
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="upload_thumbs.php?video={$data.videoid}&gen_more=true">Regenerate</a>{/if}
                     </li>
@@ -133,7 +134,7 @@
                 </ul>
 
             </div>
-            </div>
+
 
             <div class="row">
                 <div class="col-md-6">
