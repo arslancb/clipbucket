@@ -6,19 +6,19 @@
     <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured" class="btn btn-primary btn-xs"/>
     <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-xs" onclick="return _cb.confirm_it('Are you sure you want to delete selected photos(s). This will permanently delete these photos from website.')"/>
   </div>
-<table class="table table-bordered table-striped">
-  <tr>
-    <td width="30" align="center" valign="middle" class="left_head">
-    <input type="checkbox" name="checkall" onclick="_cb.checkUncheckAll(this);"/></td>
-    <td width="75" align="center" valign="middle" class="head">Photo ID</td>
-    <td class="head">Details</td>
-    <td width="50" class="right_head">Options</td>
-  </tr>
+    <table class="table table-bordered table-striped manageUsersTable">
+        <tr>
+            <td>
+                <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
+            <td>PID</td>
+            <td>Photo Details</td>
+            <td>&nbsp;</td>
+        </tr>
 {if $photos}
 {section name=list loop=$photos}
 <tr>
 	<td class="moveL PhotoCheckBox">
-  	<div align="center">
+  	<div>
       <input name="check_photo[]" type="checkbox" id="check_photo" value="{$photos[list].photo_id}" />
     </div>
   </td>
