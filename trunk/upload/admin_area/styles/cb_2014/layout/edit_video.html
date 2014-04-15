@@ -313,14 +313,17 @@
         {/if}
         <div>
             {foreach from=$field_group.fields item=field}
+            {var_dump($field.title)}
             {if $field.title=='Video Category'}
             <div>
                 {$field.class='form-control'}
-                <label><strong>{$field.title|truncate:80}</strong></label><br>
+                <label ><strong>{$field.title|truncate:80}</strong></label><br>
                 {if $field.hint_1}
                 {$field.hint_1}
                 {/if}
                 <div class="tab-content scroll">
+                    <div class="VideoCategory" style="margin-top: -30px;">
+
                     {if $field.type=='radio'}
                     {$field.class='form-control'}
                     {$field.class='form-control'}
@@ -332,6 +335,7 @@
                     {if $field.hint_2}<br/>
                     {$field.hint_2}
                     {/if}
+                        </div>
                 </div>
             </div>
             {continue}
