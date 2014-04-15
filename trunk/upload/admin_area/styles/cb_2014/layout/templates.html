@@ -5,7 +5,7 @@
 
 <div class="selectedTemplate">
 
-    <div class="row well">
+    <div class="row">
         <div class="col-md-3">
             <img src="{$cbtpl->get_preview_thumb($curtpl.dir)}" class="img-thumbnail" >
         </div>
@@ -18,8 +18,6 @@
             <p>Version : {$curtpl.version}, Released on {$curtpl.released|date_format}</p>
             <p>Website : <a href="{$curtpl.website.link}">{$curtpl.website.title}</a></p>
         </div>
-    </div>
-</div>
 
 {* Listing All Avilable Templates *}    
 {assign var='templates' value=$cbtpl->get_templates()}
@@ -28,13 +26,14 @@
 	  
 
     <div class="availableTemplates">
-        <div class="row well">
+        <div class="well" style="width: 800px;">
+        <div class="row">
             {foreach from=$templates item=template}
             {if $selected != $template.dir}
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <img src="{$cbtpl->get_preview_thumb($curtpl.dir)}" class="img-thumbnail" >
             </div>
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <h2>{$template.name}</h2>
                 <em>
                     {$template.name} <br /><em>by <strong>{$template.author}</strong></em>
@@ -51,3 +50,5 @@
 {else}
 	<div align="center">No New Template Found</div>
 {/if}
+    </div>
+</div>
