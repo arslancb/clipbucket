@@ -631,17 +631,17 @@ function get_video_file($vdetails,$return_default=true,$with_path=true,$multi=fa
     #Now there is no function so lets continue as
     if(isset($vdetails['file_name']))
         $vid_files = glob(VIDEOS_DIR."/".$fileDirectory . $vdetails['file_name']."*");
-    if($hq){
-        var_dump(glob(VIDEOS_DIR."/".$fileDirectory . $vdetails['file_name']."*"));
-    }
+    // if($hq){
+    //     var_dump(glob(VIDEOS_DIR."/".$fileDirectory . $vdetails['file_name']."*"));
+    // }
 
     #replace Dir with URL
     if(is_array($vid_files))
         foreach($vid_files as $file)
         {
-            if($hq){
-                echo "filesize = " . filesize($file);   
-            }
+            // if($hq){
+            //     echo "filesize = " . filesize($file);   
+            // }
             if(filesize($file) < 100) continue;
             $files_part = explode('/',$file);
             $video_file = $files_part[count($files_part)-1];
