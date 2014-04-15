@@ -107,10 +107,11 @@
                     </td>
                 </tr>
             </table>
-            <div class="col-md-8">
+            <div class="row">
+            <div class="col-md-7">
                 {assign var=vidthumbs value=get_thumb($data,1,TRUE,FALSE,TRUE,FALSE)}
-                {foreach from=$vidthumbs item=vid_thumb}
                 <ul class="ace-thumbnails">
+                {foreach from=$vidthumbs item=vid_thumb}
                     <li style="display: inline">
                         <img src="{$vid_thumb}" width="100" height="100">
                         <div class="tools">
@@ -121,10 +122,10 @@
                             {/if}
                         </div>
                     </li>
-                </ul>
                 {/foreach}
+                </ul>
             </div>
-            <div class="dropdown col-md-2 pull-right">
+            <div class="dropdown col-md-4">
                 <a class="btn btn-primary btn-sm dropdown-toggle pull-right" style="margin-top: 10px" data-toggle="dropdown"  href="">Manage Thumbs  <i class="caret"></i></a>
                 <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu">
                     {if $data.embeded !=yes}
@@ -133,7 +134,7 @@
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="upload_thumbs.php?video={$data.videoid}">Manage</a></li>
                 </ul>
             </div>
-
+                </div>
             <div class="row">
                 <div class="col-md-6" style="margin-top: 30px">
                     <div class="table">
