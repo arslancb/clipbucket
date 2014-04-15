@@ -154,9 +154,11 @@ switch($mode)
 		{
 			//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
 			if (stristr(PHP_OS, 'WIN')) {
+				echo "win";
 				exec(php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName");
 			} else {
 				// for ubuntu
+				echo "ubuntu";
 				exec(php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName > /dev/null &");
 			}
 		}
