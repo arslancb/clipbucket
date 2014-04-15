@@ -2,8 +2,28 @@
     <div class="cb-box marginBottom">
         <div class="row">
             <div class="col-md-12">
-                <h4 style="display: inline">{$c.collection_name|capitalize} </h4>
-                <div class="btn-group pull-right">
+                <div class="col-md-4" style="margin-top: 6px;"><h3 style="display: inline">{$c.collection_name|capitalize}<small> {$c.type|capitalize} ({$c.total_objects})</smal> </h3></div>
+                <div class="col-md-6 pull-right">
+                 <div class="pull-right">
+                    <div class="btn-group">
+                      <button class="btn btn-primary" type="button">{lang code="Manage By"}</button>
+                      <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <ul role="menu" class="dropdown-menu">
+                       <li><a  href="#">{lang code="by"|capitalize}</a></li>
+                        <li><a  href="{$userquery->profile_link($c)}">{$c.username|capitalize}</a></li>
+                        <li><a href="{link name='user_videos'}{$c.username}">
+                        {lang code="view"|capitalize} {$c.username|capitalize} {lang code="videos"|capitalize}
+                        </a></li>
+                    {if $c.userid == $userquery->userid}
+                        <li><a  href="{link name='edit_collection'}{$c.collection_id}&type={$c.type}">{lang code="edit_collection"}</a></li>                    {link name='manage_items' assign='miLink'}
+                        <li><a href="{$miLink|sprintf:$c.collection_id:$c.type}">{lang code="manage_items"}</a></li>{/if}
+                      </ul>
+                    </div>
+                </div>
+                <!--<div class="btn-group pull-right">
                     <a class="btn btn-primary btn-sm disabled" href="#">{lang code="by"|capitalize}</a>
                     <a class="btn btn-primary btn-sm" href="{$userquery->profile_link($c)}">{$c.username|capitalize}</a>
                     <a class="btn btn-primary btn-sm" href="{link name='user_videos'}{$c.username}">
@@ -13,14 +33,14 @@
                     <a class="btn btn-primary btn-sm" href="{link name='edit_collection'}{$c.collection_id}&type={$c.type}">{lang code="edit_collection"}</a>
                     {link name='manage_items' assign='miLink'}
                     <a class="btn btn-primary btn-sm" href="{$miLink|sprintf:$c.collection_id:$c.type}">{lang code="manage_items"}</a>{/if}
-                </div>
-                <br>
-                <h5 style="display: inline">{$c.type|capitalize} ({$c.total_objects})</h5>
-            </div>
-            <div class="col-md-2 pull-right">
+                </div>-->
+                <div class="col-md-2 pull-right">
                 {lang code='collection' assign='object_type'}
                 {uploadButton details=$c output='link' target="_blank" class='btn btn-danger pull-right'}
             </div>
+                </div>
+            </div>
+            
         </div>
         <hr>
         <div class="row">
