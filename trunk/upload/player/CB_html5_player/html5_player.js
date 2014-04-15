@@ -55,7 +55,7 @@ $('#logo').css({
 			$('.caption').stop().animate({'top':-7}, 600);
 		}, function() {
 			if(!volumeDrag && !timeDrag){
-				$('.control').stop().animate({'bottom':-48}, 500);
+				$('.control').stop().animate({'bottom':-51}, 500);
 				$('.caption').stop().animate({'top':-200}, 500);
 			}
 		})
@@ -379,14 +379,16 @@ $(".videoContainer,#myVideo").height($(".videoContainer,#myVideo").height()-220)
 });
 $(".largescr").toggle(function(){
 $(".videoContainer,#myVideo").width($(".videoContainer,#myVideo").width()+390);
-$(".col-lg-8,.col-md-8").width($(".col-lg-8,.col-md-8").width()+390);
+$(".player").width($(".player").width()+390);
+//$('.side-video').css({'margin-top':+943});
 $('.cb-item-title-container').css({'margin-top':+250});
 $(this).toggleClass('smallscr');
 
 },function(){
 $(".videoContainer,#myVideo").width($(".videoContainer,#myVideo").width()-390);
-$(".col-lg-8,.col-md-8").width($(".col-lg-8,.col-md-8").width()-390);
+$(".player").width($(".player").width()-390);
 $('.cb-item-title-container').css({'margin-top':+22});
+//$('.side-video').css({'margin-top':0});
 $(this).toggleClass('smallscr');
 
 });

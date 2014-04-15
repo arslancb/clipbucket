@@ -2,7 +2,7 @@
 {$type='video'}
 <div class="container">
     <div class="row">
-        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 player">
             <div class="cb-box pad-bottom-sm">
                 <div id="cb_player" class="no-pad">
                     {FlashPlayer vdetails=$video width='100%' height='100%'}
@@ -100,8 +100,8 @@
                 <div class="clearfix"></div>
                 <div id="messageFav" class="alert alert-info marginTop" style="display:none"></div>
             </div>
-
-            <div class="cb-box pad-bottom">
+  
+     <!--       <div class="cb-box pad-bottom">
                 <div class="addComment clearfix">
                     <h3>{lang('Comments')} ({$vdo.comments_count})</h3>
                     {if $myquery->is_commentable($vdo,'v')}
@@ -114,11 +114,14 @@
                     <ul class="list-unstyled" id="userCommentsList">
                     </ul>
             </div>
-        </div>
+        </div>  -->  
         
     </div>
-    <!--Side bar-->        
-        <div class="col-lg-4 col-md-4 visible-lg visible-md side-video">
+    <!--Side bar-->     
+
+
+
+        <div class="col-lg-4 col-md-4 visible-lg visible-md side-video"  style="float:right;" >
             <div class="cb-box">
                 <h3>{lang code="Most Popular"}</h3>
                 {foreach $videos as $video}
@@ -127,6 +130,24 @@
             </div>
         </div>
         <!-- /Side bar-->
+
+<div style="float:left; width:751px; margin-left:15px;"> 
+    <div class="cb-box pad-bottom">
+                <div class="addComment clearfix">
+                    <h3>{lang('Comments')} ({$vdo.comments_count})</h3>
+                    {if $myquery->is_commentable($vdo,'v')}
+                        {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
+                    {else}
+                    <div class="alert alert-warning">{lang code='comm_disabled_for_vid'}</div>
+                    {/if}
+                </div>
+                <div class="userComments">
+                    <ul class="list-unstyled" id="userCommentsList">
+                    </ul>
+            </div>
+        </div></div>
+
+
 </div>
 <div style="height:20px"> </div>
 <script>
