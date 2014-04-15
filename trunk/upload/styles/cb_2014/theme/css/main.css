@@ -2565,7 +2565,7 @@ a:hover {
     color: #FFFFFF;
     display: none;
     font-family: cursive;
-    font-size: 15px;
+    font-size: 17px;
     height: 41px;
     left: 19px;
     opacity: 0.8;
@@ -2573,7 +2573,7 @@ a:hover {
     padding-top: 10px;
     position: absolute;
     top: 129px;
-    width: 93.7%;
+    width: 93.9%;
 }
 
 .like {
@@ -2811,17 +2811,18 @@ a:hover {
 
 .UserPhotos {
     background-color: #000000;
-    color: #ffffff;
+    color: #FFFFFF;
+    display: none;
     font-family: cursive;
-    font-size: 13px;
-    padding-left: 8px;
+    font-size: 17px;
+    height: 41px;
+    left: 18px;
     opacity: 0.8;
+    padding-left: 8px;
+    padding-top: 7px;
     position: absolute;
     top: 129px;
-    left: 21px;
-    width: 286px;
-    height: 41px;
-    display: none;
+    width: 94%;
 }
 
 .VphotoMargin {

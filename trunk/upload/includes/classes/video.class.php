@@ -619,6 +619,7 @@ class CBvideo extends CBCategory
 	 */
 	function get_videos($params)
 	{
+
 		global $db;
 		$limit = $params['limit'];
 		$order = $params['order'];
@@ -774,6 +775,7 @@ class CBvideo extends CBCategory
 		//FEATURED
 		if($params['featured'])
 		{
+			//exit($params['featured']);
 			if($cond!='')
 				$cond .= ' AND ';
 			$cond .= " ".("video.featured")." = '".$params['featured']."' ";

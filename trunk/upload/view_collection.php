@@ -33,7 +33,7 @@ if($cbcollection->is_viewable($c))
 		case "v":
 		{
 			$items = $cbvideo->collection->get_collection_items_with_details($c,$order,$get_limit);
-			//$count = $cbvideo->collection->get_collection_items_with_details($c,NULL,NULL,TRUE);
+			$count = $cbvideo->collection->get_collection_items_with_details($c,NULL,NULL,TRUE);
 		}
 		break;
 		
@@ -42,7 +42,7 @@ if($cbcollection->is_viewable($c))
 		case "p":
 		{
 			$items = $cbphoto->collection->get_collection_items_with_details($c,$order,$get_limit);
-			//$count = $cbphoto->collection->get_collection_items_with_details($c,NULL,NULL,TRUE);
+			$count = $cbphoto->collection->get_collection_items_with_details($c,NULL,NULL,TRUE);
 		}
 		break;
 	}
@@ -50,10 +50,13 @@ if($cbcollection->is_viewable($c))
 	// Calling nesscary function for view collection
 	call_view_collection_functions($cdetails[0]);
 	$total_pages = count_pages($count,COLLIP);
-	
 	//Pagination
-	$pages->paginate($total_pages,$page);
-	
+	//$pages->paginate($total_pages,$page);
+	$link==NULL;
+	$extra_params=NULL;
+	$tag='<li><a #params#>#page#</a><li>';
+	$pages->paginate($total_pages,$page,$link,$extra_params,$tag);
+
 	assign('objects',$items);	
 	assign("c",$cdetails);
 	assign("type",$type);
