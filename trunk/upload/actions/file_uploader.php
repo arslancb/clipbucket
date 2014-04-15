@@ -154,11 +154,11 @@ switch($mode)
 		{
 			//exec(php_path()." -q ".BASEDIR."/actions/video_convert.php &> /dev/null &");
 			if (stristr(PHP_OS, 'WIN')) {
-				echo php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName";
+				//echo php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName";
 				exec(php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName");
 			} else {
-				// for ubuntu
-				echo php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName > /dev/null &";
+				// for ubuntu or linux
+				//echo php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName > /dev/null &";
 				exec(php_path()." -q ".BASEDIR."/actions/video_convert_test.php $targetFileName > /dev/null &");
 			}
 		}
