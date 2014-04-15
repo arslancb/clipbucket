@@ -16,6 +16,7 @@
 	//Database Password
 	$DBPASS = '';
 	//Setting Table Prefix
+	
 	define('TABLE_PREFIX','cb_');
 
 
