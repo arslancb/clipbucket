@@ -108,7 +108,7 @@
                 </tr>
             </table>
             <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-9">
                 {assign var=vidthumbs value=get_thumb($data,1,TRUE,FALSE,TRUE,FALSE)}
                 <ul class="ace-thumbnails">
                 {foreach from=$vidthumbs item=vid_thumb}
@@ -125,7 +125,7 @@
                 {/foreach}
                 </ul>
             </div>
-            <div class="dropdown col-md-4">
+            <div class="dropdown col-md-3">
                 <a class="btn btn-primary btn-sm dropdown-toggle pull-right" style="margin-top: 10px" data-toggle="dropdown"  href="">Manage Thumbs  <i class="caret"></i></a>
                 <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu">
                     {if $data.embeded !=yes}
