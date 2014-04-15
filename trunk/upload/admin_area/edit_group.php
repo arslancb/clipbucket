@@ -3,12 +3,22 @@
  ****************************************************************
  | Copyright (c) 2007-2008 Clip-Bucket.com. All rights reserved.
  | @ Author 	: ArslanHassan									
- | @ Software 	: ClipBucket , © PHPBucket.com					
+ | @ Software 	: ClipBucket , ï¿½ PHPBucket.com					
  ****************************************************************
 */
 
 require_once '../includes/admin_config.php';
 $userquery->admin_login_check();
+
+
+
+if(!defined('MAIN_PAGE')){
+    define('MAIN_PAGE', 'Groups');
+}
+if(!defined('SUB_PAGE')){
+    define('SUB_PAGE', 'Edit Groups');
+}
+
 	
 	$gpid = mysql_clean($_GET['group_id']);
 	
