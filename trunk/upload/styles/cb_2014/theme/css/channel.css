@@ -1531,6 +1531,9 @@ height: 300px !important;
 .item{
    /* width: 100%;*/
 }
+.padding15{
+    padding: 15px !important;
+}
 #being_viewed #slide3, #recent_video #slide1{
 width: 740px !important;
 }

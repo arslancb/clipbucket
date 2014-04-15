@@ -6,7 +6,7 @@
     {$leftMenuLinks = array_slice($myAccountLinks, 7)}
     <div class="marginBottom">
         <div class="row">
-            {include file="$style_dir/blocks/manage/left_side_bar.html"}
+            {*include file="$style_dir/blocks/manage/left_side_bar.html"*}
             <!--<div class="leftSidebar col-md-3 cb-box">
                 <ul class="">
                     {foreach $leftMenuLinks as $key => $value}
@@ -22,8 +22,8 @@
                 </ul>
             </div>-->
 
-            <div class="col-md-9">
-                <div class="cb-box">
+            <div class="col-md-12">
+                <div class="cb-box padding15">
                     {*include file="$style_dir/blocks/manage/account_head.html" user=$user*}
                     <form action="" method="post" class="upload_form" name="form1" enctype="multipart/form-data">
                     {if $mode == "manage" || $mode == ""}
@@ -59,7 +59,10 @@
                     {/if}
 
                     {if $mode == "edit_collection"}
-                        <h2>{lang code='update_collection'}</h2>
+                        <div class="page-hidding" ><h3>{lang code='update_collection'}</h3>
+                                <div class="pull-right" style="margin-top: -43px;"><a class="btn btn-primary " href="{$baseurl}/view_collection.php?cid={$smarty.get.cid}&type={$smarty.get.type}">{lang code="Back to Collection"}</a></div>
+                        </div>
+
                         <input type="hidden" value="{$c.collection_id}" name="collection_id" id="collection_id"  />
                         <div class="upload_info">
                             <div class="account_form">
@@ -93,7 +96,9 @@
                     {/if}
 
                     {if $mode == "add_new"}
-                        <h2>{lang code='add_new_collection'}</h2>
+                        <div class="page-hidding"><h3>{lang code='add_new_collection'}</h3>
+                        <div class="pull-right" style="margin-top: -43px;"><a class="btn btn-primary " href="{$baseurl}/collections.php">{lang code="Back to Collections"}</a></div>
+                        </div>
                         <div class="upload_info">
                             <div class="account_form">
                                 {foreach from=$fields item=field}

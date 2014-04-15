@@ -10,7 +10,7 @@
                         {lang code="view"|capitalize} {$c.username|capitalize} {lang code="videos"|capitalize}
                     </a>
                     {if $c.userid == $userquery->userid}
-                    <a class="btn btn-primary btn-sm" href="{link name='edit_collection'}{$c.collection_id}">{lang code="edit_collection"}</a>
+                    <a class="btn btn-primary btn-sm" href="{link name='edit_collection'}{$c.collection_id}&type={$c.type}">{lang code="edit_collection"}</a>
                     {link name='manage_items' assign='miLink'}
                     <a class="btn btn-primary btn-sm" href="{$miLink|sprintf:$c.collection_id:$c.type}">{lang code="manage_items"}</a>{/if}
                 </div>
