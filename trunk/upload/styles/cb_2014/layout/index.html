@@ -71,6 +71,7 @@
 
 			<div class="col-md-8 nopadding padding-right-10">
 				<h2 class="myHeading theme_color">{lang code="Featured Videos"}</h2>
+				{if $videos_01}
 				<div class="col-md-12 nopadding">
 
 					<div class="col-md-12 text-center nopadding ">
@@ -129,7 +130,9 @@
 				
 	        		<div class="clearfix"></div>    
 				</div>
-
+				{else}
+				<div class="col-md-12 nopadding">No featured Video</div>
+				{/if}
 				<!-- ******************************************* //-->
 		        <!-- ************ LATEST VIDEOS END ************ //-->
 				<!-- ******************************************* //-->
