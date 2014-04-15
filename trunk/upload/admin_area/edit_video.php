@@ -97,6 +97,30 @@ function format_number($number) {
     }
 }
 
+
+
+$ep_videos = get_ep_videos();
+if(isset($_POST['update_order']))
+{
+    if(is_array($ep_videos))
+    {
+        foreach($ep_videos as $epvid)
+        {
+            $order = $_POST['ep_order_'.$epvid['pick_id']];
+            move_epick($epvid['videoid'],$order);
+        }
+    }
+    $ep_videos = get_ep_videos();
+
+}
+
+
+
+
+
+
+
+
 $get_limit = create_query_limit($page,5);
 $videos = $cbvid->action->get_flagged_objects($get_limit);
 Assign('flagedVideos', $videos);
