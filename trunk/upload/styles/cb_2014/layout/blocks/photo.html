@@ -2,7 +2,7 @@
 
 <div class="show-image">
     <div class="col-md-4 col-sm-4 col-xs-6" style="padding-right: 0px">
-        <span class="photoname" id="avatar1_file" >{$photo.photo_title|truncate:15}</span>
+        <span class="photoname" id="avatar1_file" style="height: 45px; overflow: hidden;" >{$photo.photo_title|truncate:30}</span>
         <a href="{$cbphoto->photo_links($photo,'view_item')}" title="Tolpis barbata (mariluzpicado)">
             {get_photo details=$photo size='l' class='loading' output='html'}
         </a>
