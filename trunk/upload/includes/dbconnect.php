@@ -12,7 +12,7 @@
 	//Database Name
 	$DBNAME = 'clipbucket2.7svn';
 	//Database Username
-	$DBUSER = 'clip_user';
+	$DBUSER = 'root';
 	//Database Password
 	$DBPASS = '';
 	//Setting Table Prefix
