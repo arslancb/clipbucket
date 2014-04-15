@@ -69,19 +69,23 @@
             </div>
         </div>
         <div class="col-md-3 photopaddin1 pull-right">
-            <div class="btn-group" style="margin-left:25px;">
-                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">{lang code="Collections"}<span class="caret"></span></button>
-                
-                <ul class="dropdown-menu">
-                    {foreach from=$collections item=collection}
+            <div class="pull-right" style="margin-right: 25px; margin-top: 4px;">
+                    <div class="btn-group">
+                      <button class="btn btn-primary" type="button">{lang code="Collections"}</button>
+                      <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <ul role="menu" class="dropdown-menu">
+                       {foreach from=$collections item=collection}
                     <li><a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">{$collection.collection_name}</a></li>
                     {foreachelse}
                     <li><a href="#">{lang code="No Collection Found"}</a></li>
                     {/foreach}
-                    <!--<li><a href="collections.php">{lang code="View Collections"}</a></li>
-                    <li><a href="edit_photo.php">{lang code="Edit"}</a></li>-->
-                </ul>
-            </div>
+                      </ul>
+                    </div>
+                </div>
+            
         </div>
         </div>
     <div class="cb-box row">
