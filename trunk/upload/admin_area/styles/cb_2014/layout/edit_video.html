@@ -201,18 +201,18 @@
 
 <div class="col-sm-6 col-md-6 col-lg-6 col x1-12">
     <span class="btn btn-app btn-sm btn-light no-hover">
-													<span class="line-height-1 bigger-170 blue">{$data.views|format_number}</span>
+													<span class="line-height-1 bigger-150 blue">{$data.views|format_number}</span>
 													<br>
 													<span class="line-height-1 smaller-90"> Views </span>
 												</span>
             <span class="btn btn-app btn-sm btn-yellow no-hover">
-													<span class="line-height-1 bigger-170"> {$data.comments_count} </span>
+													<span class="line-height-1 bigger-150"> {$data.comments_count} </span>
 
 													<br>
 													<span class="line-height-1 smaller-90"> Comments </span>
 												</span>
             <span class="btn btn-app btn-sm btn-pink no-hover">
-													<span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok bigger-170"></span>
+													<span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok bigger-150"></span>
                                                         {else}<span class="glyphicon glyphicon-remove">{/if}</span>
 													<br>
 													<span class="line-height-1 smaller-90"> Active</span>
@@ -220,7 +220,7 @@
                 </span>
             <span class="btn btn-app btn-sm btn-grey no-hover">
 
-													<span class="line-height-1"> {if $data.featured=='No'}<span class="glyphicon glyphicon-ok bigger-170"></span>
+													<span class="line-height-1"> {if $data.featured=='No'}<span class="glyphicon glyphicon-ok bigger-150"></span>
                                                         {else}<span class="glyphicon glyphicon-remove">{/if}</span>
 													<br>
 
@@ -229,7 +229,7 @@
                 </span>
     <a href="?add_editor_pick={$data.videoid}">
             <span class="btn btn-app btn-sm btn-success no-hover">
-													<span class="line-height-1 bigger-190">Add</span>
+													<span class="line-height-1 bigger-170">Add</span>
 
 													<br>
 													<span class="line-height-1 smaller-90"> Editor Pick </span>
@@ -237,7 +237,7 @@
     </a>
             <span class="btn btn-app btn-sm btn-primary no-hover">
                 {section name=list loop=$flagedVideos}
-													<span class="line-height-1 bigger-190"> {$flagedVideos[list].total_flags} </span>
+													<span class="line-height-1 bigger-170"> {$flagedVideos[list].total_flags} </span>
                 {/section}
 													<br>
 													<span class="line-height-1 smaller-90"> Flagged </span>
