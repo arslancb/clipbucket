@@ -32,11 +32,12 @@ function flashPlayer($param)
 
     assign('player_params',$param);
 
+
+
     if(count($Cbucket->actions_play_video)>0)
     {
         foreach($Cbucket->actions_play_video as $funcs )
         {
-
             if(function_exists($funcs))
             {
                 $func_data = $funcs($param);
