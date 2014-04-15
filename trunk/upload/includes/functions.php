@@ -2204,16 +2204,20 @@
 
 	function increment_views_new($id,$type=NULL)
 	{
+
 		global $db;
 		switch($type)
 		{
 			case 'v':
 			case 'video':
 			default:
-			{
+			{	
 				if(!isset($_COOKIE['video_'.$id])){
+					
 					$currentTime = time();
-					$db->update(tbl("video_views"),array("video_views","video_id", "last_updated"),array("|f|views+1",$currentTime)," videoid='$id' OR videokey='$id'");
+					//$db->update(tbl("video_views"),array("video_views","video_id", "last_updated"),array("|f|views+1",$currentTime)," videoid='$id' OR videokey='$id'");
+					$db->update(tbl("video"),array("views", "last_viewed"),array("|f|views+1",$currentTime)," videoid='$id' OR videokey='$id'");
+					//exit('check_1'.$type.'id_'.$id);
 					setcookie('video_'.$id,'watched',time()+3600);
 				}
 			}

@@ -919,7 +919,7 @@ function call_watch_video_function($vdo)
         }
     }
 
-    increment_views($vdo['videoid'],'video');
+    increment_views_new($vdo['videoid'],'video');
 
     if(userid())
         $userquery->increment_watched_vides(userid());
