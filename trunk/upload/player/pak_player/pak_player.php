@@ -67,7 +67,6 @@ if(!function_exists("pak_player"))
 			if($hd=='yes') $file = get_hq_video_file($vdetails); else $file = get_video_file($vdetails,true,true);
 			$hd_file = get_hq_video_file($vdetails);
 			
-			
 			if($ytcode)
 			{
 				assign('youtube',true);
