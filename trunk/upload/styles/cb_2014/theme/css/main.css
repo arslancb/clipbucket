@@ -2564,7 +2564,7 @@ a:hover {
     background-color: #000000;
     color: #FFFFFF;
     display: none;
-    font-family: cursive;
+    
     font-size: 17px;
     height: 41px;
     left: 19px;
@@ -2572,7 +2572,7 @@ a:hover {
     padding-left: 8px;
     padding-top: 10px;
     position: absolute;
-    top: 129px;
+    top: 125px;
     width: 93.9%;
 }
 
@@ -2744,7 +2744,7 @@ a:hover {
     background-color: #000000;
     color: #FFFFFF;
     display: none;
-    font-family: cursive;
+    
     font-size: 13px;
     left: 19px;
     opacity: 0.7;
@@ -2813,7 +2813,7 @@ a:hover {
     background-color: #000000;
     color: #FFFFFF;
     display: none;
-    font-family: cursive;
+    
     font-size: 17px;
     height: 41px;
     left: 18px;
