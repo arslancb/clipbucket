@@ -576,6 +576,7 @@ class CBPhotos
 
             $query .= $order;
             $query .= $limit;
+
             $result = select( $query );
 		}
 		
@@ -664,7 +665,8 @@ class CBPhotos
 					$cond .= " AND ";
 				$cond .= $p['extra_cond'];		
 			}
-			$result = $db->count(tbl("photos"),"photo_id",$cond);	
+
+			$result = $db->count(table("photos"),"photo_id",$cond);	
 		}
 
         #pr( $query, true );

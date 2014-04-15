@@ -68,12 +68,14 @@ Assign('collections', $collections);
 //Collecting Data for Pagination
 $ccount = $cond;
 $ccount['count_only'] = true;
-echo $total_rows = get_photos($ccount);
-exit;
+$total_rows = get_photos($ccount);
 $total_pages = count_pages($total_rows,MAINPLIST);
 
 //Pagination
-$pages->paginate($total_pages,$page);
+$link==NULL;
+$extra_params=NULL;
+$tag='<li><a #params#>#page#</a><li>';
+$pages->paginate($total_pages,$page,$link,$extra_params,$tag);
 
 subtitle(lang('photos'));
 //Displaying The Template
