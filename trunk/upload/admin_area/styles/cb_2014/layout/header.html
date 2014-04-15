@@ -94,16 +94,11 @@
 
 
                 <li class="blue">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <a href="{$baseurl}">
                         <i class="glyphicon glyphicon-home"></i>
                         <span class="badge badge-success"></span>
                     </a>
-                    <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-                        <li class="dropdown-header">
-                            <a href="{$baseurl}/admin_area">{$userquery->permission.user_level_name} Home</a>
-                            <a href="{$baseurl}">Website Home</a>
-                        </ul>
-                </li>
+
                 <li class="blue">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                         <img src="{$userquery->getUserThumb($u)}" class="img-circle" width="25" height="25"/>

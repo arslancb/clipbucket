@@ -3,7 +3,7 @@
 <form action="recreate_thumbs.php?mode={$mode}&amp;photo={$data.photo_id}" method="post" enctype="multipart/form-data">
 	<a href="edit_photo.php?photo={$p.photo_id}">&laquo; Back to Edit Details</a>
 <div style="height:5px;"></div>
- 
+
 <fieldset class="fieldset" style="padding:10px;">
         	<legend style="font:bold 11px Tahoma; text-transform:uppercase; background:#FFF; padding:0 20px;">Settings on which photos will be re-created</legend>
     <div class="row">
@@ -53,18 +53,18 @@
                 	<span class="AdminBoldText" style="color:#333;">Update settings if they are not according to your needs.</span>
                 </div>
             </li>
-        </fieldset> 
+        </fieldset>
         <div style="height:5px; clear:both;"></div>
-        <a href="recreate_thumbs.php?mode={$mode}&amp;photo={$p.photo_id}&amp;recreate=true" style="margin-bottom:5px;" class="myAdminButton moveR">Re-create Photo</a>  		
+        <a href="recreate_thumbs.php?mode={$mode}&amp;photo={$p.photo_id}&amp;recreate=true" style="margin-bottom:5px;" class="myAdminButton moveR">Re-create Photo</a>
     <fieldset class="fieldset" style="padding:8px;">
-    	{foreach from=$files item=file}       	
+    	{foreach from=$files item=file}
         	<div style="float:left; margin-right:15px;">
             <div style="font:bold 11px Tahoma;">
             	{assign var=size value=$cbphoto->get_image_type($file)}
             	Filename: {$p.filename}{if $size} - Size: {$size}{/if}
             </div>
             <div style="height:5px;"></div>
-            <img src="{$file}" style="max-width:300px;" />           
+            <img src="{$file}" style="max-width:300px;" />
             </div>
         {/foreach}
     </fieldset>
@@ -86,13 +86,13 @@
         <div class="col-md-4">
             <label for="thumb_size">Thumb size</label>
             <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_thumb_width}" class="disabled" />
-            <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_thumb_height}" class="disabled" />
+            <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_thumb_height}" class="disabled" style="margin-top: 10px" />
         </div>
 
         <div class="col-md-4">
             <label for="medium_size">Medium size</label>
             <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_med_width}" class="disabled" />
-            <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_med_height}" class="disabled" />
+            <input class="form-control" disabled="disabled" value="{$Cbucket->configs.photo_med_height}" class="disabled" style="margin-top: 10px" />
         </div>
             </div>
         <br>
@@ -103,7 +103,7 @@
         </div>
             <div class="col-md-4">
         <p>
-            Cropping 
+            Cropping
             {assign var=cropping value=$Cbucket->configs.photo_crop}
             {if $cropping == 1}
                 <strong class="label">Enabled</strong>
@@ -119,7 +119,7 @@
                 <div class="form-group">
                     <label for="placement">
                         <span class="AdminBoldText">Enabled</span> | <span class="AdminBoldText">Placement</span>
-                        <input class="form-control" disabled="disabled" value="{$Cbucket->configs.watermark_placement}" class="disabled" />  
+                        <input class="form-control" disabled="disabled" value="{$Cbucket->configs.watermark_placement}" class="disabled" />
                     </label>
                 </div>
             {else}
@@ -174,12 +174,12 @@
     {if $items}
     	{assign var=cid value=$items[0].collection_id}
     	{assign var=c_name value=$items[0].collection_id|get_collection_field}
-    	<span style="font:bold 14px Arial; text-transform:uppercase;">{$c_name}</span> 
+    	<span style="font:bold 14px Arial; text-transform:uppercase;">{$c_name}</span>
         <span style="font:bold 11px Tahoma;">
         - <a href="{$cbcollection->collection_links($items[0].collection_id,'vc')}">View Collection</a> -
         <a href="{$baseurl}/admin_area/edit_collection.php?collection={$cid}">Edit Collection</a> -
         <a href="{$baseurl}/admin_area/manage_items.php?collection={$cid}&amp;type={$items[0].collection_id|get_collection_field:type}">Manage Items</a>
-        </span> 
+        </span>
 
 <fieldset class="fieldset" style="padding:10px;">
         	<legend style="font:bold 11px Tahoma; text-transform:uppercase; background:#FFF; padding:0 20px;">Settings on which photos will be re-created</legend>
@@ -232,7 +232,7 @@
         </fieldset>
 		<form action="" method="post" name="collection_photos_recreate">
         <fieldset class="fieldset" style="padding:10px;">
-        	<legend style="font:bold 11px Tahoma; text-transform:uppercase; background:#FFF; padding:0 20px;">Photos</legend>           
+        	<legend style="font:bold 11px Tahoma; text-transform:uppercase; background:#FFF; padding:0 20px;">Photos</legend>
             <table border="0" cellspacing="0">
             {section name=list loop=$items}
             	<td style="display:inline-block; padding:5px;">
@@ -244,12 +244,12 @@
             {/section}
             </table>
         </fieldset>
-        <div class="AdminBoldText moveL" style="padding:10px 0 0;">Select photos you want to re-created | </div> 
+        <div class="AdminBoldText moveL" style="padding:10px 0 0;">Select photos you want to re-created | </div>
         <label for="id_selectALL" class="myAdminButton clearfix moveL" type="button" name="checkall" onclick="_cb.checkUncheckAll(this);" style="margin:5px 0 0 5px">Select All</label><input type="checkbox" id="id_selectALL" style="visibility:hidden;" name="checkall" onclick="_cb.checkUncheckAll(this);"/>
         <div style="margin-top:5px;" class="moveR"><input type="submit" name="recreating" value="Re-create Photos"  class="myAdminButton"/></div>
         </form>
-         
+
     {else}
-    	
+
     {/if}
 {/if}

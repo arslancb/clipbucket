@@ -56,18 +56,18 @@ switch($type)
 	{
 		$comment_cond['type'] = "v";
 		$comment_cond['type_id'] = "videoid";
-		$comment_cond['sectionTable'] = "video";	
+		$comment_cond['sectionTable'] = "video";
 	}
 	break;
-	
-	case "c":
+
+	case "u":
 	{
-		$comment_cond['type'] = "c";
+		$comment_cond['type'] = "u";
 		$comment_cond['type_id'] = "userid";
 		$comment_cond['sectionTable'] = "users";
 	}
 	break;
-	
+
 	case "t":
 	{
 		$comment_cond['type'] = "t";
@@ -75,7 +75,7 @@ switch($type)
 		$comment_cond['sectionTable'] = "group_topics";
 	}
 	break;
-	
+
 	case "cl":
 	{
 		$comment_cond['type'] = "cl";
@@ -83,7 +83,7 @@ switch($type)
 		$comment_cond['sectionTable'] = "collections";
 	}
 	break;
-	
+
 	case "p":
 	{
 		$comment_cond['type'] = "p";
@@ -91,6 +91,14 @@ switch($type)
 		$comment_cond['sectionTable'] = "photos";
 	}
 	break;
+
+    case "u":
+    {
+        $comment_cond['type'] = "u";
+        $comment_cond['type_id'] = "userid";
+        $comment_cond['sectionTable'] = "users";
+    }
+        break;
 }
 $comments = getComments($comment_cond);
 assign("comments",$comments);

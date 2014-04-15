@@ -7,7 +7,6 @@
     <td width="100">IP</td>
   </tr>
   {if $online_users}
-
   {foreach from=$online_users item=user}
   {$user.agent|get_browser_details:theBrowser}
     <tr>
@@ -15,8 +14,10 @@
         {if $user.username}
           <a href="view_user?uid={$user.userid}"><label class="label label-success">{$user.username}</label></a>
           <br>
-          <a href="view_user.php?uid={$u.userid}"> <img src="{$userquery->getUserThumb($user,'small')}" class="img-thumbnail oneUserImage" />
+          <a href="view_user.php?uid={$u.userid}">
+             <img src="{$userquery->getUserThumb($user,'small')}" class="img-thumbnail oneUserImage" />
           </a>
+
         {else}
         {$user.session_string}
         {/if}

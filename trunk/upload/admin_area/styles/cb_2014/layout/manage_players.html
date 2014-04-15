@@ -244,7 +244,7 @@
   {assign var="curplayer" value=$cbplayer->getPlayerDetails($player_file,$player_dir)}
 
 
-  <div class="row well">
+    <div class="row well" style="width: 800px;">
       <div class="col-md-3">
           <img src="{$cbplayer->get_preview_thumb($curplayer.folder)}" class="img-thumbnail" >
       </div>
@@ -272,7 +272,7 @@
     {if $player_file !=$player.file && $player_dir != $player.folder}
 
 
-    <div class="row well">
+      <div class="row well" style=" width: 800px;">
         <div class="col-md-3">
             <img src="{$cbplayer->get_preview_thumb($player.folder)}" class="img-thumbnail" >
         </div>

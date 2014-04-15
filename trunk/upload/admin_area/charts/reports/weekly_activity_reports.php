@@ -2,7 +2,7 @@
 
 error_reporting(E_ALL);
 //required_once '../../includes/admin_config.php';
-require_once('../../../includes/admin_config.php'); 
+require_once('../../../includes/admin_config.php');
 //include 'ofc-library/open-flash-chart.php';
 
 
@@ -25,12 +25,12 @@ for($i=0;$i<$days;$i++)
 	if($i<$days)
 	{
 		$date_pattern = date("Y-m-d",$last_week+($i*86400));
-		
+
 		//echo "date_added LIKE '%$date_pattern%'";
 		$data = $db->select(tbl("stats"),"*"," date_added LIKE '%$date_pattern%' ",1);
 		 $data = $data[0];
 if(!empty($data['video_stats'])){
-			//$data = array(array('1999',3.0),array('2000',3.9),array('2001',2.0),array('2002',1.2)); 
+			//$data = array(array('1999',3.0),array('2000',3.9),array('2001',2.0),array('2002',1.2));
     		//echo $data['video_stats'];
 /*	[{"label":"videos","data":{"uploads":"3","processing":"555555","active":"6","views":"1","comments":"10"}}];
 	[{"label":"Scores","data":[["1999",3],["2000",3.9],["2001",2],["2002",1.2]]}]*/
@@ -39,10 +39,10 @@ if(!empty($data['video_stats'])){
     		//echo json_encode(array($array));
 }
 		//echo $data['video_stats'].'spliter'.$data['user_stats'].'spliter'.$data['group_stats'];
-		
+
 		$datas[] = $data;
 	}
-	
+
 	$year[] = date("M d",$last_week+($i*86400));
 }
  //Videos
@@ -54,7 +54,7 @@ if(isset($_post['videos'])){
 $videos['uploads'] = $cbvid->get_videos(array("count_only"=>true,"date_span"=>"this_week"),TRUE);
 $videos['processing'] = $cbvid->get_videos(array("count_only"=>true,"status"=>"Processing","date_span"=>"this_week"),TRUE);
 $videos['active'] = $cbvid->get_videos(array("count_only"=>true,"active"=>"yes","date_span"=>"this_week"),TRUE);
-$V = array(array('uploads',$videos['uploads']),array('processing',$videos['processing']),array('active',$videos['active'])); 
+$V = array(array('uploads',$videos['uploads']),array('processing',$videos['processing']),array('active',$videos['active']));
 
 //Users
 $users['signups'] = $userquery->get_users(array("count_only"=>true,"date_span"=>"this_week"));
@@ -67,7 +67,7 @@ $user_views = $db->select(tbl("users"),"SUM(profile_hits) as total_views"," doj 
 $user_comments = $db->select(tbl("users"),"SUM(comments_count) as total_comments"," doj LIKE '%$date_pattern%'");
 //$users['comments'] = $user_comments[0]['total_comments'];
 
-$U = array(array('signups',$users['signups']),array('inactive',$users['inactive']),array('Active User',$users['active']),array('views User',$users['views']),array('comments User',$users['comments'])); 
+$U = array(array('signups',$users['signups']),array('inactive',$users['inactive']),array('Active User',$users['active']),array('views User',$users['views']),array('comments User',$users['comments']));
 
 //Groups
 $groups['created'] = $cbgroup->get_groups(array("count_only"=>true,"date_span"=>"this_week"));
@@ -84,7 +84,7 @@ $group_discussions = $db->select(tbl("group_topics"),"SUM(total_replies) as the_
 
 
 $G = array(array('created',$groups['created']),array('Active',$groups['active']),
-	array('total_topics',$groups['total_topics']),array('total_discussions',$groups['total_discussions'])); 
+	array('total_topics',$groups['total_topics']),array('total_discussions',$groups['total_discussions']));
 //Make arrays for json
 $array_video = array('label' => 'Videos','data'=>$V);
 
@@ -103,12 +103,12 @@ for($i=0;$i<$days;$i++)
 {
 	$day[$i]['video'] = json_decode($datas[$i]['video_stats']);
 	$day[$i]['users'] = json_decode($datas[$i]['user_stats']);
-	$day[$i]['groups'] = json_decode($datas[$i]['group_stats']);	
+	$day[$i]['groups'] = json_decode($datas[$i]['group_stats']);
 }
 
 $max = 1;
 for($i=0;$i<$days;$i++)
-{	
+{
 	if($i==$days)
 	{
 		$vid_uploads[] = $cbvid->get_videos(array("count_only"=>true,"date_span"=>"today"))+0;

@@ -1,7 +1,6 @@
 {assign var='signup_fields' value=$userquery->load_signup_fields($u)}
 {assign var='channel_profile_fields' value=$userquery->load_user_fields($p)}
 
-
 <div class="row">
 <div class="lead dropdown">Editing {$u.username}
 <a class="btn btn-primary btn-sm dropdown-toggle pull-right" data-toggle="dropdown" href="">Actions <i class="caret"></i></a>
@@ -84,18 +83,15 @@
                 <table class="table table-bordered">
                     <tr>
                         <td class="alert-info"><label class="alert-info">User Id</label></td>
-                        <td><input type="text" value="{$u.userid}" disabled="disabled" class="form-control">
-                            <input name="userid" type="hidden" id="userid" value="{$u.userid}" size="45" /></label></td>
+                        <td><input type="text" value="{$u.userid}" disabled="disabled" class="form-control"></label></td>
                     </tr>
                     <tr>
                         <td class="alert-info"><label class="alert-info">User Name</label></td>
-                        <td><input class="form-control" disabled="disabled" type="text" value="{$u.username}">
-                            <input name="username" type="hidden" id="username" value="{$u.username}" />
-                            <input name="admin_manager" type="hidden" value="yes" /></td>
+                        <td><input class="form-control" disabled="disabled" type="text" value="{$u.username}"></td>
                     </tr>
                     <tr>
                         <td class="alert-info"><label class="alert-info">Email</label></td>
-                        <td><input class="form-control" name="email" type="text" id="email" value="{$u.email}" /><input name="demail" type="hidden" id="demail" value="{$u.email}" /></td>
+                        <td><input class="form-control" name="email" type="text" id="email" value="{$u.email}" /></td>
                     </tr>
                     <tr>
                         <td class="alert-info"><label for="pass">Change password</label></td>
@@ -283,25 +279,20 @@
 													<span class="line-height-1 smaller-90"> Comments </span>
 												</span>
             <span class="btn btn-app btn-sm btn-pink no-hover">
-													<span class="line-height-1 bigger-170"> {if $u.usr_status=='Ok'}<span class="glyphicon glyphicon-ok"></span>
-                                                        {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+													<span class="line-height-1"> {if $u.usr_status=='Ok'}<span class="glyphicon glyphicon-ok bigger-170"></span>
+                                                        {else}<span class="glyphicon glyphicon-remove bigger-170">{/if}</span>
 													<br>
 													<span class="line-height-1 smaller-90"> Active </span>
 												</span>
                 </span>
-            <span class="btn btn-app btn-sm btn-grey no-hover">
-													<span class="line-height-1 bigger-170">{if $u.featured=='Yes'}<span class="glyphicon glyphicon-ok"></span>
-                                                        {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+            <span class="btn btn-app btn-sm btn-danger no-hover">
+													<span class="line-height-1">{if $u.ban_status=='yes'}
+                                                        <span class="glyphicon glyphicon-ok bigger-170"></span>
+                                                        {else}<span class="glyphicon glyphicon-remove bigger-170">{/if}</span>
 													<br>
-													<span class="line-height-1 smaller-90"> Featured </span>
+													<span class="line-height-1 smaller-90">Banned</span>
 												</span>
                 </span>
-            <span class="btn btn-app btn-sm btn-success no-hover">
-													<span class="line-height-1 bigger-170">  </span>
-
-													<br>
-													<span class="line-height-1 smaller-90"> Editor Pick </span>
-												</span>
             <span class="btn btn-app btn-sm btn-primary no-hover">
 
 													<span class="line-height-1 bigger-170"> {$u.total_flags} </span>

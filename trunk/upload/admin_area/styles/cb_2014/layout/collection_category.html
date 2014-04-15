@@ -33,8 +33,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-8" style="margin-top: 15px">
                 <textarea class="form-control" name="desc" id="desc" cols="33" rows="5">{'desc'|post_form_val}</textarea>
             </div>
         </div>
@@ -154,12 +153,6 @@
 No Category Has Been Created Yet
 {/if}
 
-
-<script>
-    $(document).ready(function() {
-        $('#desc').summernote();
-    });
-</script>
 
 <script>
     var button = document.getElementById('hideshow'); // Assumes element with id='button'

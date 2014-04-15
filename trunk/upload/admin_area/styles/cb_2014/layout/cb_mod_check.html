@@ -10,16 +10,18 @@ A brief test to check weather server modules exist or not and what are there ver
 
 <div class="well">
     {check_module_path path='ffmpeg' get_path='true' assign='ffmpeg_status'}
-    <img src="{$imageurl}/{if $ffmpeg_status.status=='ok'}tick.png{else}alert.png{/if}" 
+     {var_dump($ffmpeg_status)}
+    <img src="{$imageurl}/{if $ffmpeg_status.status=='ok'}tick.png{else}alert.png{/if}"
     />
     <h4>FFMPEG</h4>
     <div>
       FFmpeg is used to covert videos from different versions to FLV , MP4 and many other formats.
       <a href="http://clip-bucket.com/ffmpeg">Learn more</a>
     </div>
-      
+
     {if $ffmpeg_status.status=='ok'}
-  	Version <strong>{$ffmpeg_status.version}</strong> &#8226; 
+    {var_dump($ffmpeg)}
+  	Version <strong>{$ffmpeg_status.version}</strong> &#8226;
     Expected Path <strong>{get_binaries path=ffmpeg type=server}</strong>
     {else}
     <p class="alert alert-danger">ffmpeg is not found</p>
@@ -35,12 +37,12 @@ A brief test to check weather server modules exist or not and what are there ver
     <img src="{$imageurl}/{if $php_status.status=='ok'}tick.png{else}alert.png{/if}" />
     <h4>PHP CLI</h4>
     <div>
-      PHP CLI is used to peform video conversion in a background process. 
+      PHP CLI is used to peform video conversion in a background process.
       <a href="http://php.net/manual/en/features.commandline.php">Learn more</a>
     </div>
-    
+
     {if $php_status.status=='ok'}
-    Version <strong>{$php_status.version}</strong> &#8226; 
+    Version <strong>{$php_status.version}</strong> &#8226;
     Expected Path <strong>{get_binaries path=php type=server}</strong>
     {else}
     <p class="alert alert-danger">php is not found</p>
@@ -54,17 +56,17 @@ A brief test to check weather server modules exist or not and what are there ver
 
 
 <div class="well">
-  
+
     {check_module_path path='flvtool2' get_path='true' assign='flvtool2_status'}
     <img src="{$imageurl}/{if $flvtool2_status.status=='ok'}tick.png{else}alert.png{/if}" />
     <h4>FLVTool2</h4>
     <div>
-      FLVTool2 is a tool to repair FLV files to make them streamable 
+      FLVTool2 is a tool to repair FLV files to make them streamable
       <a href="http://docs.clip-bucket.com/clipbucket-docs/flvtool2">Learn more</a>
     </div>
-    
+
     {if $flvtool2_status.status=='ok'}
-    Version <strong>{$flvtool2_status.version}</strong> &#8226; 
+    Version <strong>{$flvtool2_status.version}</strong> &#8226;
     Expected Path <strong>{get_binaries path=flvtool2 type=server}</strong>
     {else}
     <p class="alert alert-danger">flvtool2 is not found</p>
@@ -78,19 +80,19 @@ A brief test to check weather server modules exist or not and what are there ver
 
 
 <div class="well">
-  
+
   {check_module_path path='mp4box' get_path='true' assign='mp4box_status'}
   <img src="{$imageurl}/{if $mp4box_status.status=='ok'}tick.png{else}alert.png{/if}" />
   <h4>MP4Box</h4>
   <div>
     MP4Box is a tool used to repair MP4 files to make them streamable
     <a href="http://docs.clip-bucket.com/clipbucket-docs/mp4box">Learn more</a>
-  </div>  
+  </div>
   {if $mp4box_status.status=='ok'}
-	Version 
+	Version
       {if $mp4box_status.version}
       	<strong>{$mp4box_status.version}</strong>
-      {/if} 
+      {/if}
       &#8226; Expected Path <strong>{get_binaries path=mp4box type=server}</strong>
   {else}
   	<p class="alert alert-danger">Mp4box is not found</p>

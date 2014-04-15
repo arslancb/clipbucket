@@ -27,6 +27,17 @@ if($_GET['kick'])
 	}
 }
 
+
+//Getting User List
+$result_array['limit'] = $get_limit;
+if(!$array['order'])
+    $result_array['order'] = " doj DESC ";
+
+$users = get_users($result_array);
+
+Assign('users', $users);
+
+
 $online_users = $userquery->get_online_users(false);
 assign('total',count($online_users));
 assign('online_users',$online_users);
@@ -34,6 +45,8 @@ assign('queryString',queryString(NULL,'kick'));
 subtitle("View online users");
 template_files('online_users.html');
 display_it();
+
+
 
 
 ?>

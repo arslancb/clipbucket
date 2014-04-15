@@ -66,7 +66,7 @@
                 </p>
             </label>
             <input class="form-control" maxlength="3" type="text" name="photo_thumb_width" title="Thumb Width" id="image_width" value="{$row.photo_thumb_width}" />
-            <input class="form-control" maxlength="3" title="Thumb Height" type="text" name="photo_thumb_height" id="image_height" value="{$row.photo_thumb_height}" readonly>    
+            <input class="form-control" maxlength="3" title="Thumb Height" type="text" name="photo_thumb_height" id="image_height" value="{$row.photo_thumb_height}" style="margin-top: 10px" readonly>
         </div>
         <div class="col-md-4">
             <label for="med_width">
@@ -78,7 +78,7 @@
                 </p>
             </label>
             <input class="form-control" maxlength="3" title="Medium Thumb Width" type="text" name="photo_med_width" id="med_width" value="{$row.photo_med_width}" />
-            <input class="form-control" maxlength="3" title="Medium Thumb Height" type="text" name="photo_med_height" id="med_height" value="{$row.photo_med_height}" readonly>
+            <input class="form-control" maxlength="3" title="Medium Thumb Height" type="text" name="photo_med_height" id="med_height" value="{$row.photo_med_height}" style="margin-top: 10px" readonly>
         </div>
         </div>
     <hr>
@@ -111,11 +111,23 @@
     <div class="row">
     <div class="watermarSettings">
         <div class="col-md-4">
-            <label for="watermark_photo" class="radio">
-                <input name="watermark_photo" id="watermark_photo" type="checkbox" value="1"{if $row.watermark_photo == '1'} checked{/if} >
+            <label class="pull-right inline" style="  margin-right: 238px;">
+                <input name="watermark_photo" id="watermark_photo" type="checkbox" value="1"{if $row.watermark_photo == '1'}checked="checked"{/if}  name="closed"  type="checkbox" class="ace ace-switch ace-switch-5 bootstrap-switch-on" >
                 Enable Watermark
+                <span class="lbl"></span>
             </label>
         </div>
+
+
+
+
+
+        <!--<div class="col-md-4">-->
+            <!--<label for="watermark_photo" class="radio">-->
+                <!--<input name="watermark_photo" id="watermark_photo" type="checkbox" value="1"{if $row.watermark_photo == '1'} checked{/if} >-->
+                <!--Enable Watermark-->
+            <!--</label>-->
+        <!--</div>-->
         <div class="col-md-4">
             <label for="watermark_maximum_width">Maximum Width of watermark<br><small>Recommended is 120</small></label>
             <input class="form-control" name="watermark_max_width" id="watermark_max_width" type="text" value="{$row.watermark_max_width}" >
