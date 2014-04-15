@@ -502,13 +502,14 @@ class ClipBucket
         global $cbpage;
         $this->head_menu[] = array('name' => lang("menu_home"), 'link' => BASEURL, "this" => "home", "section" => "home", "extra_attr" => "");
         $this->head_menu[] = array('name' => lang("videos"), 'link' => cblink(array('name' => 'videos')), "this" => "videos", "section" => "home");
+        $this->head_menu[] = array('name' => lang("photos"), 'link' => cblink(array('name' => 'photos')), "this" => "photos");
         $this->head_menu[] = array('name' => lang("menu_channels"), 'link' => cblink(array('name' => 'channels')), "this" => "channels", "section" => "channels");
-        $this->head_menu[] = array('name' => lang("groups"), 'link' => cblink(array('name' => 'groups')), "this" => "groups", "section" => "groups");
         $this->head_menu[] = array('name' => lang("Collections"), 'link' => cblink(array('name' => 'collections')), "this" => "collections", "section" => "collections");
+        $this->head_menu[] = array('name' => lang("groups"), 'link' => cblink(array('name' => 'groups')), "this" => "groups", "section" => "groups");
         if (!userid())
             $this->head_menu[] = array('name' => lang("signup"), 'link' => cblink(array('name' => 'signup')), "this" => "signup");
 
-        $this->head_menu[] = array('name' => lang("photos"), 'link' => cblink(array('name' => 'photos')), "this" => "photos");
+        
 
         /* Calling custom functions for headMenu. This can be used to add new tabs */
         //cb_call_functions('headMenu');
