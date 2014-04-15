@@ -204,42 +204,36 @@
 													<span class="line-height-1 smaller-90"> Flagged </span>
 												</span>
 
-            <div class="tabbable">
-                <ul class="nav nav-tabs" id="myTab">
-                    <li class="active">
-                        <a data-toggle="tab" href="#citems"> Manage Items</a>
-                    </li>
-                    <div class="tab-content">
-                        <div id="citems" class="tab-pane active">
-                            {if $objects}
-                            {section name=list loop=$objects}
-                            {if $data.type == 'photos'}
-                            {get_photo details=$objects[list] output='html' title=$photos[list].photo_title}
-                            {/if}
-                            {if $data.type == 'videos'}
-                            <img src="{get_thumb vdetails=$objects[list]}" width="120" height="70" />
-                            {/if}
-                            {/section}
-                            {assign var=rest value=$data.total_objects-4}
-                            <a style="display:block; font:bold 11px Tahoma; text-align:center; padding:4px; background:#fafafa;border:1px solid #aaa;" href="manage_items.php?collection={$data.collection_id}&amp;type={$data.type}">Manage Items{if $rest && $rest>0} - {$rest} more item{if $rest>1}s{/if}{/if}</a>
-                            {else}
-                            Collection has 0 items
-                            {/if}
+            <!--<div class="tabbable">-->
+                <!--<ul class="nav nav-tabs" id="myTab">-->
+                    <!--<li class="active">-->
+                        <!--<a data-toggle="tab" href="#citems"> Manage Items</a>-->
+                    <!--</li>-->
+                    <!--<div class="tab-content">-->
+                        <!--<div id="citems" class="tab-pane active">-->
+                            <!--{if $objects}-->
+                            <!--{section name=list loop=$objects}-->
+                            <!--{if $data.type == 'photos'}-->
+                            <!--{get_photo details=$objects[list] output='html' title=$photos[list].photo_title}-->
+                            <!--{/if}-->
+                            <!--{if $data.type == 'videos'}-->
+                            <!--<img src="{get_thumb vdetails=$objects[list]}" width="120" height="70" />-->
+                            <!--{/if}-->
+                            <!--{/section}-->
+                            <!--{assign var=rest value=$data.total_objects-4}-->
+                            <!--<a style="display:block; font:bold 11px Tahoma; text-align:center; padding:4px; background:#fafafa;border:1px solid #aaa;" href="manage_items.php?collection={$data.collection_id}&amp;type={$data.type}">Manage Items{if $rest && $rest>0} - {$rest} more item{if $rest>1}s{/if}{/if}</a>-->
+                            <!--{else}-->
+                            <!--Collection has 0 items-->
+                            <!--{/if}-->
 
-            </div>
-                        </div>
-                    </ul>
-                </div>
-
-
+            <!--</div>-->
+                        <!--</div>-->
+                    <!--</ul>-->
+                <!--</div>-->
 
 
 
-
-
-
-
-            <div class="tabbable">
+            <div class="tabbable" style="margin-top: 20px">
                 <ul class="nav nav-tabs" id="myTab3">
                     <li class="active">
                         <a data-toggle="tab" href="#fields">
@@ -249,6 +243,11 @@
                     <li>
                         <a data-toggle="tab" href="#clpreview">
                             Collection Preview
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#citems">
+                            Manage Items
                         </a>
                     </li>
                 </ul>
@@ -278,6 +277,23 @@
                     <input type="file" name="collection_thumb" id="collection_thumb" >
           </div>
           </div>
+                    <div id="citems" class="tab-pane">
+
+                        {if $objects}
+                        {section name=list loop=$objects}
+                        {if $data.type == 'photos'}
+                        {get_photo details=$objects[list] output='html' title=$photos[list].photo_title}
+                        {/if}
+                        {if $data.type == 'videos'}
+                        <img src="{get_thumb vdetails=$objects[list]}" width="120" height="70" />
+                        {/if}
+                        {/section}
+                        {assign var=rest value=$data.total_objects-4}
+                        <a style="display:block; font:bold 11px Tahoma; text-align:center; padding:4px; background:#fafafa;border:1px solid #aaa;" href="manage_items.php?collection={$data.collection_id}&amp;type={$data.type}">Manage Items{if $rest && $rest>0} - {$rest} more item{if $rest>1}s{/if}{/if}</a>
+                        {else}
+                        Collection has 0 items
+                        {/if}
+                    </div>
           </div>
             </div>
             </div>
