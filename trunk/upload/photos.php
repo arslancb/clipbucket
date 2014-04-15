@@ -68,7 +68,8 @@ Assign('collections', $collections);
 //Collecting Data for Pagination
 $ccount = $cond;
 $ccount['count_only'] = true;
-$total_rows = get_photos($ccount);
+echo $total_rows = get_photos($ccount);
+exit;
 $total_pages = count_pages($total_rows,MAINPLIST);
 
 //Pagination
