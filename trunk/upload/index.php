@@ -18,14 +18,17 @@ if(is_installed('editorspick'))
 	assign('editor_picks',get_ep_videos());
 }
 
-$result_array_01['order'] = " RAND() LIMIT 1";
+$result_array_01['featured']= "yes";
+$result_array_01['order'] = "  RAND() LIMIT 1";
 $videos_01 = get_videos($result_array_01);
 Assign('videos_01', $videos_01);
 
+$result_array_02['featured']= "yes";
 $result_array_02['order'] = " RAND() LIMIT 2";
 $videos_02 = get_videos($result_array_02);
 Assign('videos_02', $videos_02);
 
+$result_array_03['featured']= "yes";
 $result_array_03['order'] = " RAND() LIMIT 3";
 $videos_03 = get_videos($result_array_03);
 Assign('videos_03', $videos_03);
