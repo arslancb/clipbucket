@@ -107,7 +107,7 @@
                     </td>
                 </tr>
             </table>
-            <div class="col-md-8" style="">
+            <div class="col-md-8">
                 {assign var=vidthumbs value=get_thumb($data,1,TRUE,FALSE,TRUE,FALSE)}
                 {foreach from=$vidthumbs item=vid_thumb}
                 <ul class="ace-thumbnails">
@@ -136,22 +136,22 @@
             </div>
 
 
-            <!--<div class="row">-->
-                <!--<div class="col-md-6">-->
-                    <!--<div class="table">-->
-                        <!--<label class="status">Status</label>-->
-                        <!--<select class="form-control" name="status">-->
-                            <!--<option class="form-control" value="Successful" {if $data.status=='Successful'} selected {/if}>Successfull</option>-->
-                            <!--<option class="form-control" value="processing" {if $data.status=='Processing'} selected {/if}>Processing</option>-->
-                            <!--<option class="form-control" value="Failed"{if $data.status=='Failed'} selected {/if}>Failed</option>-->
-                        <!--</select>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="col-md-5">-->
-                    <!--<label for="duration">Duration:</label>-->
-                    <!--<input type="text" class="form-control" value="{$data.duration}    (Seconds) ">-->
-                <!--</div>-->
-            <!--</div>-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="table">
+                        <label class="status">Status</label>
+                        <select class="form-control" name="status">
+                            <option class="form-control" value="Successful" {if $data.status=='Successful'} selected {/if}>Successfull</option>
+                            <option class="form-control" value="processing" {if $data.status=='Processing'} selected {/if}>Processing</option>
+                            <option class="form-control" value="Failed"{if $data.status=='Failed'} selected {/if}>Failed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label for="duration">Duration:</label>
+                    <input type="text" class="form-control" value="{$data.duration}    (Seconds) ">
+                </div>
+            </div>
             <legend>Video Stats</legend>
             <div class="table-responsive">
                 <div class="row">
