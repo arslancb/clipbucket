@@ -108,8 +108,8 @@
                 </tr>
             </table>
             <div class="dropdown">
-                <a class="btn btn-primary btn-sm dropdown-toggle pull-right" data-toggle="dropdown" href="">Manage Thumbs  <i class="caret"></i></a>
-                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu">
+                <a class="btn btn-primary btn-sm dropdown-toggle pull-right" style="margin-top: 10px" data-toggle="dropdown"  href="">Manage Thumbs  <i class="caret"></i></a>
+                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu" style="margin-top: 45px;">
                     {if $data.embeded !=yes}
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="upload_thumbs.php?video={$data.videoid}&gen_more=true">Regenerate</a>{/if}
                     </li>
@@ -117,7 +117,7 @@
                 </ul>
 
             </div>
-            <div class="row table-bordered">
+            <div class="col-md-8">
             {assign var=vidthumbs value=get_thumb($data,1,TRUE,FALSE,TRUE,FALSE)}
             {foreach from=$vidthumbs item=vid_thumb}
             <ul class="ace-thumbnails">
@@ -134,6 +134,7 @@
             </ul>
             {/foreach}
                 </div>
+            <div class="clearfix"></div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="table">
@@ -212,7 +213,7 @@
 													<span class="line-height-1 smaller-90"> Comments </span>
 												</span>
             <span class="btn btn-app btn-sm btn-pink no-hover">
-													<span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok"></span>
+													<span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok bigger-170"></span>
                                                         {else}<span class="glyphicon glyphicon-remove">{/if}</span>
 													<br>
 													<span class="line-height-1 smaller-90"> Active</span>
@@ -220,7 +221,7 @@
                 </span>
             <span class="btn btn-app btn-sm btn-grey no-hover">
 
-													<span class="line-height-1"> {if $data.featured=='No'}<span class="glyphicon glyphicon-ok"></span>
+													<span class="line-height-1"> {if $data.featured=='No'}<span class="glyphicon glyphicon-ok bigger-170"></span>
                                                         {else}<span class="glyphicon glyphicon-remove">{/if}</span>
 													<br>
 
@@ -229,7 +230,7 @@
                 </span>
     <a href="?add_editor_pick={$data.videoid}">
             <span class="btn btn-app btn-sm btn-success no-hover">
-													<span class="line-height-1 bigger-140">Add</span>
+													<span class="line-height-1 bigger-170">Add</span>
 
 													<br>
 													<span class="line-height-1 smaller-90"> Editor Pick </span>
@@ -387,7 +388,7 @@
                 <div class="itemdiv dialogdiv">
                     {foreach from=$users item=u}
                     <div class="user">
-                        <img alt="Alexa's Avatar" src="{$userquery->getUserThumb($u,'small')}">
+                        <img alt="Avatar" src="{$userquery->getUserThumb($u,'small')}">
                     </div>
                     {/foreach}
                     <div class="body">
