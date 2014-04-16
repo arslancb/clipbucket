@@ -934,8 +934,35 @@ class myquery {
 		}
 		
 	}
-	
-	
+
+
+    /**
+     * Function used to insert todolist in data base for admin referance
+     */
+    function insert_todo($todo)
+    {
+        global $db;
+        $db->insert(tbl('admin_todo'),array('todo,date_added,userid'),array($todo,now(),userid()));
+    }
+    /**
+     *
+     * Function used to get todolist
+     */
+    function get_todos()
+    {
+        global $db;
+        return $db->select(tbl('admin_todo'),'*'," userid='".userid()."'",NULL," date_added DESC ");
+    }
+    /**
+     * Function usde to delete todo
+     */
+    function delete_todo($id)
+    {
+        global $db;
+        $db->delete(tbl("admin_todo"),array("todo_id"),array($id));
+    }
+
+    ///////////////////////////////////////////////////
 	/**
 	 * Function used to insert note in data base for admin referance
 	 */
@@ -945,6 +972,7 @@ class myquery {
 		$db->insert(tbl('admin_notes'),array('note,date_added,userid'),array($note,now(),userid()));
 	}
 	/**
+     *
 	 * Function used to get notes
 	 */
 	function get_notes()
