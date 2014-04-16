@@ -245,11 +245,7 @@
 													<span class="line-height-1 smaller-90"> Flagged </span>
 												</span>
 
-    <div col-md-6="" style="width:543px;height:300px;margin: 0px;">
-        {FlashPlayer vdetails =$data width='100%' height='100%' }
-        <div>
-        </div>
-    </div>
+   
 
 
     <div class="head">
@@ -375,3 +371,68 @@
 </form>
 {/if}
 
+<div class="widget-box" style="margin-top: 30px">
+    <div class="widget-header header-color-blue2">
+
+        <h5>{$data.title|truncate:80}- <b>Comments</b></h5>
+
+        <div class="widget-toolbar">
+            <a href="#" data-action="reload">
+                <i class="icon-refresh"></i>
+            </a>
+
+            <a href="#" data-action="collapse">
+                <i class="icon-chevron-up"></i>
+            </a>
+
+            <a href="#" data-action="close">
+                <i class="icon-remove"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+            <div class="slimScrollDiv">
+                {foreach from=$comments item=comment}
+                <div class="itemdiv dialogdiv">
+                    {foreach from=$users item=u}
+                    <div class="user">
+                        <img alt="Avatar" src="{$userquery->getUserThumb($u,'small')}">
+                    </div>
+                    {/foreach}
+                    <div class="body">
+                        <div class="time">
+                            <i class="icon-time"></i>
+                            <span class="green">{$comment.date_added|date_format}</span>
+                        </div>
+                        <div class="name">
+                            <a href="#">{$comment.anonym_name}</a>
+                        </div>
+                        <div class="text">{$comment.comment}</div>
+                        <div class="tools">
+                            <a href="#" class="btn btn-minier btn-info">
+                                <i class="icon-only icon-share-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {/foreach}
+            </div>
+        </div><!-- /widget-main -->
+    </div>
+
+
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function(){
+            $( "#datecreated" ).datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: false,
+                dateFormat:"yy-mm-dd"
+            });
+        });
+    </script>
+
+
+
+</div>
