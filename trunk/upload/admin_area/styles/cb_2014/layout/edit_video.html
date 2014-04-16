@@ -230,7 +230,7 @@
                 </span>
     <a href="?add_editor_pick={$data.videoid}">
             <span class="btn btn-app btn-sm btn-success no-hover">
-													<span class="line-height-1 bigger-170">Add</span>
+													<span class="line-height-1 bigger-170"><span class="glyphicon glyphicon-remove"></span></span>
 
 													<br>
 													<span class="line-height-1 smaller-90"> Editor Pick </span>
@@ -244,7 +244,11 @@
 													<span class="line-height-1 smaller-90"> Flagged </span>
 												</span>
 
-    {FlashPlayer vdetails=$video width='600px' height='300px'}
+    <div col-md-6="" style="width:543px;height:200px;margin: 0px;">
+        {FlashPlayer vdetails =$data width='100%' height='100%' }
+        <div>
+        </div>
+    </div>
 
 
     <div class="head">
@@ -433,6 +437,4 @@
 </div>
 </form>
 {/if}
-
-
 
