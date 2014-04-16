@@ -431,10 +431,17 @@
                     </div>
                     <div class="widget-body">
                         <div class="widget-main">
-                            <p class="xedit"><b>This is task 1 and some one has to do it</b></p>
-                            <p class="xedit"><b>This is task 2 and some one has to do it</b></p>
-                            <p class="xedit"><b>This is task 3 and some one has to do it</b></p>
-                            <p class="xedit"><b>This is task 4 and some one has to do it</b></p>
+                            <form method="post">
+                            <input type="text" id="todo" name="todo" class="todo">
+                                <input type="hidden" name="todoid" value="{$todo.todoid}" >
+                                <a class="btn btn-primary btn-xs saveTodo"   href="javascript:void(0)">Add A Note</a>
+                                </form>
+                            {assign var=todos value=$myquery->get_todos()}
+                            {foreach from=$todos item=todo}
+                                <p class="xedit" id="">
+                                    <input type="hidden" name="todoid" value="{$todo.todoid}" >
+                                    <b>{$todo.todo}</b></p>
+                            {/foreach}
                         </div>
                     </div>
                 </div>
@@ -831,6 +838,7 @@ $(function() {
             error: function() {
                 $("#videos_monthly_chart_id").html("error");
                 alert('error');
+                alert('error');
             },
             complete: function(){
                 $('#videos_monthly_chart_id .loading-image').hide();
@@ -924,3 +932,4 @@ $(function() {
 
 
 
+>
