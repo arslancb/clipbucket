@@ -11,6 +11,17 @@ $userquery->admin_login_check();
 $userquery->login_check('video_moderation');
 $pages->page_redir();
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+    define('MAIN_PAGE', 'Collections');
+}
+if(!defined('SUB_PAGE')){
+    if($_GET['search'] == 'yes' && $_GET['active'] == 'no')
+        define('SUB_PAGE', 'Manage Collection Items');
+    else
+        define('SUB_PAGE', 'Manage Collection Items');
+}
+
 $id = mysql_clean($_GET['collection']);
 $type = mysql_clean($_GET['type']);
 $data = $cbcollection->get_collection($id);
