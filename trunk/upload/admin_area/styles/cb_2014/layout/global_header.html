@@ -71,6 +71,9 @@
             mode: 'inline'
         });
     });
+
+
+
 </script>
 <script>
     $(document).ready(function(){
@@ -95,3 +98,19 @@
 
 
 
+<script>
+    $(function(){
+        $(".saveTodo").click(function(e){
+             var newVal = $(this).parent().parent().find("input[name='todo']").val();
+            console.log(newVal);
+             var ajaxCall = $.ajax({
+             url: "{$baseurl}" + "/admin_area/index.php",
+             type: "post",
+             data: {
+             val: newVal,
+             mode: "add_todo",
+             }
+             });
+        });
+    });
+</script
