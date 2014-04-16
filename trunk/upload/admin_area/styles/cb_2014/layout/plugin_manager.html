@@ -3,7 +3,7 @@
 {if $installed_plugin_list}
 
 <form name="installed_plugins" id="installed_plugins" method="post" action="plugin_manager.php">
-  <div class="btn-group">
+  <div class="btn-group" style="margin-bottom:  10px">
  		<input class="btn btn-primary btn-sm" type="submit" name="activate_selected" value="Activate" />
     <input class="btn btn-primary btn-sm" type="submit" name="deactivate_selected" value="Deactivate" />
     <input class="btn btn-primary btn-sm" type="submit" name="uninstall_selected" value="Uninstall" onclick="return _cb.confirm_it('Are you sure you want to uninstall selected plugin(s)')" id="uninstall_selected"/>
