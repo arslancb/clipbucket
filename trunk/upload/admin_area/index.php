@@ -30,6 +30,32 @@ $users = get_users($result_array);
 
 Assign('users', $users);
 
+//////////////////getting todolist/////////////
+
+$mode = $_POST['mode'];
+switch($mode)
+{
+    case 'add_todo':
+    {
+        $response = array();
+        $value = $_POST['val'];
+        $myquery->insert_todo($value);
+        $response['todo'] = nl2br($value);
+        $response['id'] = $db->insert_id();
+
+        echo json_encode($response);
+        die();
+    }
+        break;
+    case 'delete_todo':
+    {
+        $id = mysql_clean($_POST['id']);
+        $myquery->delete_todo($id);
+    }
+}
+///////////////////ends here/////////////
+
+
 
 ////////////////getting notes
 
@@ -38,12 +64,14 @@ switch($mode)
 {
     case 'add_note':
     {
+        $response = array();
         $value = $_POST['note'];
         $myquery->insert_note($value);
-        $array['note'] = nl2br($value);
-        $array['id'] = $db->insert_id();
+        $response['note'] = nl2br($value);
+        $response['id'] = $db->insert_id();
 
-        echo json_encode($array);
+        echo json_encode($response);
+        die();
     }
         break;
     case 'delete_note':
