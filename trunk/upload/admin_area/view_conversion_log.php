@@ -12,6 +12,18 @@ $userquery->admin_login_check();
 $userquery->login_check('video_moderation');
 $pages->page_redir();
 
+/* Assigning page and subpage */
+if(!defined('MAIN_PAGE')){
+    define('MAIN_PAGE', 'Video Conversion');
+}
+if(!defined('SUB_PAGE')){
+    if($_GET['active'] == 'no')
+        define('SUB_PAGE', 'Logs');
+    else
+        define('SUB_PAGE', 'Logs');
+}
+
+
 $file_name = mysql_clean($_GET['file_name']);
 $file_details = $myquery->file_details($file_name);
 // $file_details['file_name'] = getname($file_details['File']);
