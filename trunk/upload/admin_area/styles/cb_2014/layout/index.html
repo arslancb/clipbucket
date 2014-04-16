@@ -434,7 +434,7 @@
                             <form method="post">
                             <input type="text" id="todo" name="todo" class="todo">
                                 <input type="hidden" name="todoid" value="{$todo.todoid}" >
-                                <a class="btn btn-primary btn-xs saveTodo"   href="javascript:void(0)">Add A Note</a>
+                                <a class="btn btn-primary btn-xs saveTodo"   href="javascript:void(0)">Add</a>
                                 </form>
                             {assign var=todos value=$myquery->get_todos()}
                             {foreach from=$todos item=todo}
