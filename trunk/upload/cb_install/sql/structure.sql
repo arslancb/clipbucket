@@ -1164,4 +1164,15 @@ ALTER TABLE `{tbl_prefix}photos` ADD `photo_details` VARCHAR( 255 ) CHARACTER SE
 
 
 
+--
+-- Table structure for table `cb_admin_todo`
+--
+
+CREATE TABLE IF NOT EXISTS `{tbl_prefix}admin_todo` (
+  `todo_id` int(225) NOT NULL AUTO_INCREMENT,
+  `todo` text CHARACTER SET ucs2 NOT NULL,
+  `date_added` datetime NOT NULL,
+  `userid` int(225) NOT NULL,
+  PRIMARY KEY (`todo_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
