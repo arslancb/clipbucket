@@ -23,9 +23,11 @@ if(!defined('SUB_PAGE')){
 		define('SUB_PAGE', 'Videos Manager');
 }
 
+
+
 if(@$_GET['msg']){
-$msg[] = clean($_GET['msg']);
-}	
+	$msg[] = clean($_GET['msg']);
+}
 
 
 	$video = mysql_clean($_GET['video']);
@@ -42,14 +44,12 @@ $msg[] = clean($_GET['msg']);
 	}
 	
 	//Performing Video Acttions
-	if($_GET['mode']!='')
-	{
+	if($_GET['mode']!=''){
 		$cbvid->action($_GET['mode'],$video);
 	}
 	
 	//Check Video Exists or Not
 	if($myquery->VideoExists($video)){
-		
 		//Deleting Comment
 		$cid = mysql_clean($_GET['delete_comment']);
 		if(!empty($cid))
@@ -98,20 +98,20 @@ function format_number($number) {
 }
 
 
+if(function_exists("get_ep_videos")){
+	$ep_videos = get_ep_videos();
+	if(isset($_POST['update_order'])){
+	    if(is_array($ep_videos))
+	    {
+	        foreach($ep_videos as $epvid)
+	        {
+	            $order = $_POST['ep_order_'.$epvid['pick_id']];
+	            move_epick($epvid['videoid'],$order);
+	        }
+	    }
+	    $ep_videos = get_ep_videos();
 
-$ep_videos = get_ep_videos();
-if(isset($_POST['update_order']))
-{
-    if(is_array($ep_videos))
-    {
-        foreach($ep_videos as $epvid)
-        {
-            $order = $_POST['ep_order_'.$epvid['pick_id']];
-            move_epick($epvid['videoid'],$order);
-        }
-    }
-    $ep_videos = get_ep_videos();
-
+	}
 }
 
 
