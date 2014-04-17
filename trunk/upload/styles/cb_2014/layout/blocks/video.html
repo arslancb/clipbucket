@@ -30,9 +30,10 @@
     	<div align="center"><img src="{getThumb vdetails=$video}" alt="{$video.title}" width="110" height="64" /></div>
     </li> <!-- itemBox {$video.videokey} end -->
 {/if}
-<hr>
+
 <div class="col-md-3">
 {if $display_type=='add_type'}
+
     <a href="{videoLink($video)}" title="{$video.title|title}">
         <img src="{getThumb vdetails=$video}"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/></a>
     <p class="duration1"><b class="color">{if
@@ -44,10 +45,10 @@
             <input type="checkbox" class="form-control" name="check_video[]"  style="position:absolute; bottom:0px; left:0px" {if $check_this} checked="checked"{/if} value="{$video.videoid}" />
             {else}
     <div class="col-md-1">
-            <input type="checkbox" class="form-control" name="check_video_{$video.videoid}" id="check_video_{$video.videoid}" style="position:absolute; bottom:0px; left:135px; margin-left: 33px" {if $check_this} checked="checked"{/if} value="yes" />
+            <input type="checkbox" class="form-control" name="check_video_{$video.videoid}" id="check_video_{$video.videoid}" style="position:absolute; bottom:0px; left:135px; margin-left: 33px;width: 16px;" {if $check_this} checked="checked"{/if} value="yes" />
         </div>
         {/if}
-
+    <hr>
 </div>
 
 
