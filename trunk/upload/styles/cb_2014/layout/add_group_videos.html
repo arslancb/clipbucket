@@ -11,19 +11,19 @@
             <div class="col-md-7 nopadding ">
                 <div class="well well-sm margin-bottom-10"><a class="theme_color" href="#">{$group.group_name|htmlspecialchars_decode}</a></div>
                 <div class="btn-group">
-                    <a class="btn btn-primary" {if $mode == "" || $mode == "main"}class="btn btn-primary selected"{/if} href="{group_link details=$group}" onClick="groupsAjax(event,this);" id="gpViewInfo">
+                    <a class="btn btn-primary"  href="{group_link details=$group}">
                     {lang code="info"}
                     </a>
-                    <a class="btn btn-primary" {if $mode == "view_topics"}class="btn btn-primary selected"{/if} href="{group_link details=$group type=view_topics}" onClick="groupsAjax(event,this);" id="gpViewTopics">
+                    <a class="btn btn-primary"  href="{group_link details=$group type=view_topics}" >
                     {lang code="grp_topics_title"}
                     </a>
-                    <a class="btn btn-primary" {if $mode == "view_members"}class="btn btn-primary selected"{/if} href="{group_link details=$group type='view_members'}" id="gpAllMembers" onClick="groupsAjax(event,this);">
+                    <a class="btn btn-primary"  href="{group_link details=$group type='view_members'}" >
                     {lang code="members"}
                     </a>
-                    <a class="btn btn-primary" {if $mode == "view_videos"}class="btn btn-primary selected"{/if} href="{group_link details=$group type='view_videos'}" id="gpAllVideos" onClick="groupsAjax(event,this);">
+                    <a class="btn btn-primary"  href="{group_link details=$group type='view_videos'}" >
                     {lang code="videos"}
                     </a>
-                    <a class="btn btn-primary" {if $mode == "view_report_form"}class="btn btn-primary selected"{/if} href="{group_link details=$group}{if config('seo')=='yes'}?{else}&{/if}mode=view_report_form" onClick="groupsAjax(event,this);" id="gpAllReport">
+                    <a class="btn btn-primary"  href="{group_link details=$group}{if config('seo')=='yes'}?{else}&{/if}mode=view_report_form">
                     {lang code='report'}
                     </a>
                 </div>
