@@ -435,19 +435,17 @@
                             <input type="text" id="todo" name="todo" class="todo">
                                 <input type="hidden" name="todoid" value="{$todo.todoid}" >
                                 <a class="btn btn-primary btn-xs saveTodo"   href="javascript:void(0)">Add</a>
-                                </form>
                             {assign var=todos value=$myquery->get_todos()}
                             {foreach from=$todos item=todo}
                                 <p class="xedit" id="">
                                     <input type="hidden" name="todoid" value="{$todo.todoid}" >
                                     <b>{$todo.todo}</b></p>
                             {/foreach}
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-
-
             <div id="pnotes" class="tab-pane">
                 <div class="widget-box">
                     <div class="widget-header header-color-blue">
@@ -932,4 +930,3 @@ $(function() {
 
 
 
->
