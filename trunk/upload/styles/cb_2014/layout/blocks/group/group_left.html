@@ -1,8 +1,8 @@
 <div class="groupLeftSide">
 	<div class="groupThumb" align="center">
-    	<span class="groupThumbBG"><a href="{group_link details=$group}"><img class="cb_img_thum" src="{$cbgroup->get_group_thumb($group)}" border="0" /></a></span>
-    </div>
-    
+        <span class="groupThumbBG"><a href="{group_link details=$group}"><img src="{$cbgroup->get_group_thumb($group)}" border="0" /></a></span>
+        </div>
+
     {isGroupAdmin 
     	groupid = $group.group_id
         group = $group
