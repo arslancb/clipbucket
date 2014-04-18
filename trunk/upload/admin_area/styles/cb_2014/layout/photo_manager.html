@@ -93,13 +93,13 @@
       <div class="dropdown">
         <button class="btn btn-primary btn-xs dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Actions<i class="icon-angle-down icon-on-right"></i></button>
         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
-          <!--<li>-->
-            <!--{if $photos[list]['active'] == 'yes'}-->
-              <!--<a href="?deactivate={$photos[list].photo_id}">Deactivate</a>-->
-            <!--{else}-->
-              <!--<a href="?activate={$photos[list].photo_id}">Activate</a>-->
-            <!--{/if}-->
-          <!--</li>-->
+          <li>
+            {if $photos[list]['active'] == 'yes'}
+              <a href="?deactivate={$photos[list].photo_id}">Deactivate</a>
+            {else}
+              <a href="?activate={$photos[list].photo_id}">Activate</a>
+            {/if}
+          </li>
           <li>
             <a href="edit_photo.php?photo={$photos[list].photo_id}">Edit</a>
           </li>
