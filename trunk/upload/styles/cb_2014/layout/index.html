@@ -21,7 +21,7 @@
 		{if $editor_picks}
 		<div class="row">
 
-            <div class="col-md-8 nopadding-right" style="height: 350px;width: 780px;">
+		<div class="col-md-8 nopadding-right" style="height: 450px">
 			<!-- Editor Pick Video Main Container START //-->
 			<div id="ep_video_container">
 				{if is_installed('editorspick')}
@@ -37,7 +37,7 @@
 
 		<!-- Editor Pick Videos Slider Container START //-->
         <div class="col-md-4 hidden-sm hidden-xs nopadding-left">
-            <div id="slide" class="" style="list-style: none; position: relative; padding: 0px; overflow: hidden; width: 375px; height: 354px;margin-left: 6px;">
+        <div id="slide">
 				{section name=e_list loop=$editor_picks}
             	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
 				{/section}
