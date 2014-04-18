@@ -21,9 +21,9 @@
 		{if $editor_picks}
 		<div class="row">
 
-		<div class="col-md-8 nopadding-right" style="height: 450px">
+		<div class="col-md-8 nopadding-right">
 			<!-- Editor Pick Video Main Container START //-->
-			<div id="ep_video_container">
+			<div id="ep_video_container" style="height: 348px">
 				{if is_installed('editorspick')}
 				{section name=e_list loop=$editor_picks max=1}
 				{include file="$style_dir/blocks/editor_pick/video_block.html" video=$editor_picks[e_list]}
