@@ -36,10 +36,8 @@
                             {lang code='views'} : <strong>{$photos[list].views|number_format}</strong></span>
                         <div class="labels">
                             {if $photos[list].featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
-
-                            {if $photos[list].active=='yes'}<span class="label label-success">Active{else}{/if}</span>
-                                    <!--<span class="label {if $photos[list].active=='yes'}label-success{else}label-warning{/if}">-->
-                                        <!--{if $photos[list].active=='yes'}Active{else}InActive{/if} </span>-->
+                                    <span class="label {if $photos[list].active=='yes'}label-success{else}label-warning{/if}">
+                                        {if $photos[list].active=='yes'}Active{else}InActive{/if} </span>
                                     <span class="label label-info">
                                        Viewed {$photos[list].last_viewed|niceTime}</span>
                         </div>
@@ -95,13 +93,13 @@
       <div class="dropdown">
         <button class="btn btn-primary btn-xs dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Actions<i class="icon-angle-down icon-on-right"></i></button>
         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
-          <li>
-            {if $photos[list]['active'] == 'yes'}
-              <a href="?deactivate={$photos[list].photo_id}">Deactivate</a>
-            {else}
-              <a href="?activate={$photos[list].photo_id}">Activate</a>
-            {/if}
-          </li>
+          <!--<li>-->
+            <!--{if $photos[list]['active'] == 'yes'}-->
+              <!--<a href="?deactivate={$photos[list].photo_id}">Deactivate</a>-->
+            <!--{else}-->
+              <!--<a href="?activate={$photos[list].photo_id}">Activate</a>-->
+            <!--{/if}-->
+          <!--</li>-->
           <li>
             <a href="edit_photo.php?photo={$photos[list].photo_id}">Edit</a>
           </li>
