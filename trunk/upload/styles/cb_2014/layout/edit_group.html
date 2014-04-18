@@ -6,16 +6,11 @@
             {include file="$style_dir/blocks/manage/userMenuLeft.html"}
             </div>
         <div class="col-md-9">
-
             <!-- EDITING {$v.title} -->
             <h2>{lang code='grp_edit_grp_title'}</h2>
-
             {* Loading Form Fields *}
             {assign var='requiredFields' value=$cbgroup->load_required_fields($group,true)}
             {assign var='optionFields' value=$cbgroup->load_other_fields($group)}
-
-
-
             <div class="account_form" id="ajaxGroupResultContainer">
                 <form method="post" enctype="multipart/form-data" name="edit_video">
 
@@ -92,8 +87,8 @@
         <div class="clearfix"></div>
     </div>
         </div>
-        </div>
-    </div>
+
+
 
 
 
