@@ -1539,3 +1539,6 @@ width: 740px !important;
 }
 .thumbnail_new img { width:100%; height:auto; } /* to keep proportions */
 .thumbnails_new p { text-align: center; padding: 10px; } /* captions can be styled with an inline element */
+.banner{
+     border: 2px solid #DDDDDD;
+}
