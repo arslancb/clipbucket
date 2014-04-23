@@ -36,7 +36,7 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-3">
-                        <img src="{$userquery->getUserThumb($u)}" class="img-thumbnail oneUserImage"style="height: 40px; width: 40px;" />
+                        <img src="{$userquery->getUserThumb($u)}" class="img-thumbnail oneUserImage"style="height: 80px; width: 80px;" />
                     </div>
                     <div class="col-md-9">
                         <a href="{$userquery->profile_link($u)}" target="_blank" class="oneUserName">{$u.username} </a>
@@ -54,7 +54,7 @@
             </div>
     </td>
     <td>
-      <div id="usr_opt-{$u.userid}" class="dropdown">
+      <div id="usr_opt-{$u.userid}" class="dropdown pull-right">
       <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
         Actions<i class="icon-angle-down icon-on-right"></i>
       </button>
