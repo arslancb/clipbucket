@@ -3,12 +3,12 @@
 <div class="show-image">
     <div class="col-md-4 col-sm-4 col-xs-6" style="padding-right: 0px">
         <a href="{$cbcollection->collection_links($collection,'view')}">
-        <span class="CollectionName" id="collection" >
+        <span class="CollectionName" id="collection" style="display: none; height: 125px;">
             <div align="center" class="CollectionP"><b>{$collection.collection_name|truncate:30}</b></div> <div align="center" class="CollectionP1">{$collection.total_objects} {$collection.type} <br>
             {lang code="Views:"}      {$collection.views|number_format}
         </div>
         </span>
-            <img src="{$cbcollection->get_thumb($collection,'small',TRUE)}" class="loading"/>
+            <img src="http://dev.clipbucket/images/collection_thumbs/16-small.jpg" class="loading" style="height: 125px;">
        </a>
 
     </div>
