@@ -1,4 +1,4 @@
-<<<<<<< .mine
+
 /**
  * @author : Arslan Hassan (@arslancb), Fawaz Tahir (@fawazcb)
  * @ClipBucket : 2.7
@@ -1901,7 +1901,7 @@ footer {
     padding-left: 55px;
 }
 .padding35 {
-    padding-left: 27px;
+    padding-left: 45px;
 }
 
 .btng {
@@ -1952,7 +1952,7 @@ footer {
 
 .new1 {
     border: 0px;
-    color: #808080;
+    color: #000000;
 }
 
 .duration1 {
@@ -2744,7 +2744,6 @@ a:hover {
     background-color: #000000;
     color: #FFFFFF;
     display: none;
-    
     font-size: 13px;
     left: 19px;
     opacity: 0.7;
