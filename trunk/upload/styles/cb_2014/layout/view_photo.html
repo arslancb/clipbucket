@@ -1,5 +1,6 @@
 <!-- Defining object type-->
 {lang code='photo' assign='object_type'}
+
         <div class="row">
             {assign var=json value=$photo.photo_details|json_decode}
             <div class="col-md-8 cb-box show-image nplinks" style="margin-left: -15px">
@@ -20,7 +21,7 @@
                 <div class="row final" style="margin-top: -16px">
                     <div class="col-md-2">
                         <div class="cb-item-thumb">
-                            <img src="{$userquery->getUserThumb($user)}" class="img-circle" style="width: 90px; height: 90px; border-color: #0000ff" />
+                            <img src="{$userquery->getUserThumb($user)}" class="img-circle" style="border: solid; border-color: #3880FC; width: 90px; height: 90px"/>
                         </div>
                     </div>
                     <div class="col-md-8 overflow_hidden" style="margin-top: -25px">
@@ -35,46 +36,44 @@
                         </div>
                         <div class="col-md-4">
                             <button class="btn btn-primary btn-sm btn-xs" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>
-                            {$photo.date_added|niceTime}
+
+                        </div>
+                        <div class="pull-right col-md-3">
+                            <div class="pull-right col-md-8"  style="border-bottom: 2px solid green;"><span class="small">{$photo.views|number_format} {lang('views')}</span></div>
+                            <br/>
+                            <div class="cb-item-rating-new pull-right col-md-9 row">
+                                <span class="cb-rating-span pull-left cb-rating-up" {if !$disable} onclick="rate('{$photo.photo_id}','5','photo')"{/if} onMouseOver="rating_over('Like this photo','{$disable}')" onmouseout="rating_out('{$likes} Likes, {$dislikes} Dislikes','{$disable}')">
+                                <i class="glyphicon glyphicon-thumbs-up"></i>
+                                <span class="cb-rating-digit">{$likes|number_format}</span>
+                                </span>
+                                <span class="cb-rating-span pull-right cb-rating-down" {if !$disable} onclick="rate('{$photo.photo_id}','1','photo')"{/if} onMouseOver="rating_over('Dislike this photo','{$disable}')" onmouseout="rating_out('{$likes} Likes, {$dislikes} Dislikes','{$disable}')">
+                                <i class="glyphicon glyphicon-thumbs-down"></i>
+                                <span class="cb-rating-digit">{if $dislikes}-{/if}{$dislikes|number_format}</span>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                <div class="procolor fsize">
-                    <b>{lang code='Since:'}</b> ({$user.doj|date_format})
-                    <b>{lang code='Login:'}</b> ({$user.last_logged|nicetime})
-                </div>
+
 
                     <div class='PhotoRating' style="margin-bottom: -17px">
                         <div class="clearfix" id="rating_container">
-    <div class="pull-right col-md-3">
-    <div class="pull-right col-md-8"  style="border-bottom: 2px solid green;"><span class="small">{$photo.views|number_format} {lang('views')}</span></div>
-    <br/>
-    <div class="cb-item-rating-new pull-right col-md-9 row">
-        <span class="cb-rating-span pull-left cb-rating-up" {if !$disable} onclick="rate('{$photo.photo_id}','5','photo')"{/if} onMouseOver="rating_over('Like this photo','{$disable}')" onmouseout="rating_out('{$likes} Likes, {$dislikes} Dislikes','{$disable}')">
-            <i class="glyphicon glyphicon-thumbs-up"></i>
-            <span class="cb-rating-digit">{$likes|number_format}</span>
-        </span>
-        <span class="cb-rating-span pull-right cb-rating-down" {if !$disable} onclick="rate('{$photo.photo_id}','1','photo')"{/if} onMouseOver="rating_over('Dislike this photo','{$disable}')" onmouseout="rating_out('{$likes} Likes, {$dislikes} Dislikes','{$disable}')">
-            <i class="glyphicon glyphicon-thumbs-down"></i>
-            <span class="cb-rating-digit">{if $dislikes}-{/if}{$dislikes|number_format}</span>
-        </span>
-    </div>
-    </div>
+
 </div>
                         {*show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo*}</div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right">
-                    <div class="pull-right">
-                        <a class="Ticon twitter" href="http://twitter.com/home?status=%7Bvideo.title%7Ctitle%7D%20%7BvideoLink($video)%7D" target="_blank">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                        <a class="Gicon googlep" href="https://plus.google.com/share?url={urlencode(videolink($video))}" target="_blank">
-                            <i class="fa fa-google-plus"></i>
-                        </a>
-                        <a class="Ficon facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank">
-                            <i class="fa fa-facebook"></i>
-                        </a>
+                <!--<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right">-->
+                    <!--<div class="pull-right">-->
+                        <!--<a class="Ticon twitter" href="http://twitter.com/home?status=%7Bvideo.title%7Ctitle%7D%20%7BvideoLink($video)%7D" target="_blank">-->
+                            <!--<i class="fa fa-twitter"></i>-->
+                        <!--</a>-->
+                        <!--<a class="Gicon googlep" href="https://plus.google.com/share?url={urlencode(videolink($video))}" target="_blank">-->
+                            <!--<i class="fa fa-google-plus"></i>-->
+                        <!--</a>-->
+                        <!--<a class="Ficon facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank">-->
+                            <!--<i class="fa fa-facebook"></i>-->
+                        <!--</a>-->
 
-                    </div>
-                </div>
+                    <!--</div>-->
+                <!--</div>-->
                 <br>
                 <div class="action_box" id="video_detail_result_cont" style="display:none"></div>
 
@@ -123,7 +122,7 @@
                                 </a>
                             </li>
                             <li class="">
-                                <a data-toggle="tab" href="#preport">
+                                <a data-toggle="tab" href="#preport" href="javascript:void(0)" onclick="slide_up_watch_video('#flag_item');$('#flag_item').slideToggle();">
                                     <h5 class="PhotoColor">Report</h5>
                                 </a>
                             </li>
@@ -150,11 +149,17 @@
                                 {show_share_form id=$photo.photo_id type=Photo}
                             </div>
                             <div id="pcode" class="tab-pane">
+                                1
                                 {embedCodes assign='codes' type='all' with_url=TRUE details=$photo}
+                                {foreach from=$codes item=item}
+                                <div style="width:48%; display:inline-block; margin-top:5px;">
+                                    <label style="text-transform:uppercase; font:bold 11px Tahoma;" for="{$item.type}">{$item.name}</label>
+                                    <input style="padding:4px; font:normal 11px Tahoma; border:1px solid #ccc; width:95%" onFocus="this.select();" value="{$item.code}" id="{$item.type}" />
+                                </div>
+                                {/foreach}
                             </div>
                             <div id="preport" class="tab-pane">
                                     <br>
-                                <button class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="slide_up_watch_video('#flag_item');$('#flag_item').slideToggle();">{lang code='report_this'}</button>
                                     {show_flag_form id=$photo.photo_id type=Photo}
                             </div>
 
