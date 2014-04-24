@@ -72,12 +72,14 @@
               <hr class="hr">
               <div class="row">
               {foreach from=$videos item=video}
-                  <div class="col-md-4">
+                  <div class="col-md-3">
+
                       <a href="{videoLink($video)}" title="{$video.title|title}">
-                      <img src="{getThumb vdetails=$video}"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/></a>
+                          <img src="{getThumb vdetails=$video}"  width="203" height="115" id="thumbs_{$video.videoid}"  title="" style="display: inline"/></a>
                       <p class="cbHomeVidDuration duration_view">{if
                           $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</p>
-                      <h5><a href="{videoLink($video)}" title="{$video.title|title}"><b>{$video.title|truncate:22}</b></a></h5>
+                      <a href="{videoLink($video)}" title="{$video.title|title}"><h5><b>{$video.title|truncate:22}</b></h5></a>
+
                       <small class="font1 new1"><b>{lang code='views'} :{$video.views}</b></small>
                       <small class="font2 new1"><b>{$video.date_added|niceTime}</b></small>
                       <hr>
@@ -116,7 +118,6 @@
               <br>
               <h2 class="myHeadingBLK">{lang code="Popular Channels"}</h2>
               <div id="popular" class="content1">
-              
               {section name=u_list loop=$users}
               {include file="$style_dir/blocks/channels.html" user=$users[u_list]}
               {sectionelse}
