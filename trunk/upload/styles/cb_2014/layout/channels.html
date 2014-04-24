@@ -87,7 +87,7 @@
 				</div>
 				{section name=u_list loop=$users}
 				<div class="col-md-5 marginBottom grid_view list_view channels-view">
-					{include file="$style_dir/blocks/user.html" user=$users[u_list]  block_type="groups_show"}
+					{include file="$style_dir/blocks/channeluser.html" user=$users[u_list]  block_type="groups_show"}
 				</div>	
 				{sectionelse}
 					{lang code='no_results_found'}
@@ -97,7 +97,7 @@
                     {include file="$style_dir/blocks/pagination.html"}
             </div>
 	   </div>
-       <div class="col-md-2" style="75em; min-height: 100%;">
+        <div class="col-md-2" style="75em; min-height: 100%;padding-right: 3px;">
                 {*AD place='ad_160x600'*}
                 <a href="http://www.arvixe.com/clipbucket_hosting"><img class="banner pull-right" src="{$theme}/assets/images/arvixe-home.gif"></a>
         </div>
