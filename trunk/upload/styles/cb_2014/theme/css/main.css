@@ -2700,8 +2700,8 @@ a:hover {
 
 .loading {
     margin: 2px;
-    height: 170px;
-    width:  301px;
+    height: 120px;
+    width:  100%;
     border: solid   2px;
     border-color: #e1e1e1;
 
@@ -2752,7 +2752,7 @@ a:hover {
     width: 93%;
     padding-bottom: 22%;
     padding-top: 21%;
-    height:  165px;
+    height:  120px;
 }
 
 .CollectionSidebar {
@@ -2760,7 +2760,7 @@ a:hover {
 }
 
 .CollectionP {
-    
+    margin-top: -25px;
     font-family: sans-serif;
     font-size: 20px;
 }
