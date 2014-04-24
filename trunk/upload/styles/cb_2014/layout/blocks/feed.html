@@ -24,9 +24,11 @@
 
 <div class=""  id="feed-{$feed.file}">
     <div class="row">
+        <a href="{$userquery->profile_link($feed.user)}">
         <div class="col-md-3" style=" margin-right: 10px;">
-            <img class="img-circle" src="{avatar details=$feed.user size='small'}" height="50" width="50" style="border: solid; border-color: #D7DFEE;">
+              <img class="img-circle" src="{avatar details=$feed.user size='small'}" height="50" width="50" style="border: solid; border-color: #D7DFEE;">
         </div>
+        </a>
         <div class="col-md-9" style="margin-left: -65px;">
             {if !$feed.action_title}
             <a href="{$userquery->profile_link($feed.user)}">{$feed.user.username}</a>
