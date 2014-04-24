@@ -18,7 +18,7 @@
     color: #444;
 }
 .small{
-     color: #999999;
+     color: #000000;
 }
 .groups-view img {
     border: 2px solid #DDDDDD;
@@ -40,7 +40,7 @@ padding-left: 2px;
 .nomargin
 {
     margin: 0px !important;
-    color: #5a595a;
+    color: #000000;
 
 }
 .line-height-1{
