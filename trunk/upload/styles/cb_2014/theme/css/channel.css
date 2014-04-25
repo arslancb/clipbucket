@@ -1431,7 +1431,7 @@ opacity: 1;
 display: block;
 }
 .collection_home{
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 .collection_home img{
     height: 105px;
@@ -1447,6 +1447,7 @@ display: block;
     width: 99.5%;
     height: 97px;
 }
+
 .collection_home .details{
    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
     color: #FFFFFF;
