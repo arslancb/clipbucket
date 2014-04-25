@@ -263,8 +263,8 @@
             <div class="col-md-4 side_user_home" style="right: -9px;top: 3px;">
 			<h2 class="myHeadingBLK" >{lang code="Featured Users"}</h2>
 			{section name=result_users loop=$result_users}
-	        	
-			<div class="col-md-12 nopadding clearfix user-view-home">
+
+                <div class="col-md-12 nopadding clearfix user-view-home" style="height: 85px;">
 				<div class="col-md-3 nopadding">
 				<img src="{$userquery->getuserthumb($result_users[result_users],'small')}" width="65" height="65" class="img-circle" />
 				</div>
@@ -284,7 +284,7 @@
 				</div>
 				<div class="user_icon">
 				<a href="{$userquery->profile_link($result_users[result_users])}">
-				<img class="opacity_low" src="{$baseurl}/styles/cb_2014/images/user_next_icon.png" width="25" height="25" />
+				<img class="" src="{$baseurl}/styles/cb_2014/images/user_next_icon.png" width="25" height="25" />
 				</a>
 				</div>
 			</div>
