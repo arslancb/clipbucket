@@ -39,7 +39,7 @@
 
             <div class="col-md-6 nopadding-right" style="margin-left: -6px;">
 			<!-- Editor Pick Video Main Container START //-->
-			<div id="ep_video_container" style="height: 386px; width: 800px" >
+			<div id="ep_video_container" style="height: 386px; width: 700px" >
 				{if is_installed('editorspick')}
 				{section name=e_list loop=$editor_picks max=1}
 				{include file="$style_dir/blocks/editor_pick/video_block.html" video=$editor_picks[e_list]}
@@ -348,7 +348,7 @@
             $(function() {
             			
                 $('#slide').ulslide({
-                    width: 475,
+                    width: 450,
                     height: 90,
 					effect: {
 						type: 'carousel', // slide or fade
