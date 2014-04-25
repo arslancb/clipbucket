@@ -39,7 +39,7 @@
 
             <div class="col-md-6 nopadding-right" style="margin-left: -6px;">
 			<!-- Editor Pick Video Main Container START //-->
-			<div id="ep_video_container" style="height: 386px; width: 700px" >
+			<div id="ep_video_container" style="height: 386px; width: 800px" >
 				{if is_installed('editorspick')}
 				{section name=e_list loop=$editor_picks max=1}
 				{include file="$style_dir/blocks/editor_pick/video_block.html" video=$editor_picks[e_list]}
@@ -55,13 +55,13 @@
 
 		<!-- Editor Pick Videos Slider Container START //-->
         <div class="col-md-4 hidden-sm hidden-xs nopadding-left">
-            <div id="slide" class="" style="list-style: none; position: relative; padding: 0px; overflow: hidden; width: 375px; height: 354px; left: 192px;">
+            <div id="slide" class="" style="list-style: none; position: relative; padding: 0px; overflow: hidden; width: 375px; height: 354px; left: 130px;">
 				{section name=e_list loop=$editor_picks}
             	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
 				{/section}
         
         </div>
-            <div class="next_pre_hold" style="margin-top: 38px;left: 117px;width: 114%;">
+            <div class="next_pre_hold" style="margin-top: 38px;left: 127px;width: 117%;">
 		<a href="#" class="col-md-6 btn btn-primary" id="slide_prev">
 		<span class="glyphicon glyphicon-chevron-up"></span>
 		</a>
@@ -348,7 +348,7 @@
             $(function() {
             			
                 $('#slide').ulslide({
-                    width: 375,
+                    width: 475,
                     height: 90,
 					effect: {
 						type: 'carousel', // slide or fade
