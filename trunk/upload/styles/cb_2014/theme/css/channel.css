@@ -1397,12 +1397,12 @@ margin-right: 10px;
     /*-webkit-transition: opacity 1s ease-out;*/
     /*opacity: 0;  */
 /*}*/
-.mouse_hover1:hover  .mouse_hover_on1{
-    display: block;
-}
-.mouse_hover_on1{
-    display: none;
-}
+/*.mouse_hover1:hover  .mouse_hover_on1{*/
+    /*display: block;*/
+/*}*/
+/*.mouse_hover_on1{*/
+    /*display: none;*/
+/*}*/
 .opacity_low {
 opacity: 0.8;
 }
