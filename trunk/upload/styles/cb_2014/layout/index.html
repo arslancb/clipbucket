@@ -37,9 +37,9 @@
 		{if $editor_picks}
 		<div class="row">
 
-            <div class="col-md-6 nopadding-right" style="margin-left: -6px;">
+            <div class="col-md-8 nopadding-right" style="margin-left: -6px;">
 			<!-- Editor Pick Video Main Container START //-->
-			<div id="ep_video_container" style="height: 386px; width: 700px" >
+			<div id="ep_video_container" style="height: 386px; width: 800px" >
 				{if is_installed('editorspick')}
 				{section name=e_list loop=$editor_picks max=1}
 				{include file="$style_dir/blocks/editor_pick/video_block.html" video=$editor_picks[e_list]}
@@ -61,7 +61,7 @@
 				{/section}
         
         </div>
-            <div class="next_pre_hold" style="margin-top: 38px;left: 127px;width: 117%;">
+            <div class="next_pre_hold" style="margin-top: 38px;left: 31px;width: 91%;">
 		<a href="#" class="col-md-6 btn btn-primary" id="slide_prev">
 		<span class="glyphicon glyphicon-chevron-up"></span>
 		</a>
@@ -348,7 +348,7 @@
             $(function() {
             			
                 $('#slide').ulslide({
-                    width: 450,
+                    width: 250,
                     height: 90,
 					effect: {
 						type: 'carousel', // slide or fade
