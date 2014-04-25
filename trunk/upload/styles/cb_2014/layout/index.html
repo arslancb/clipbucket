@@ -29,9 +29,9 @@
 		{if $editor_picks}
 		<div class="row">
 
-		<div class="col-md-8 nopadding-right">
+		<div class="col-md-6 nopadding-right">
 			<!-- Editor Pick Video Main Container START //-->
-			<div id="ep_video_container" style="height: 386px; width: 745px" >
+			<div id="ep_video_container" style="height: 386px; width: 600px" >
 				{if is_installed('editorspick')}
 				{section name=e_list loop=$editor_picks max=1}
 				{include file="$style_dir/blocks/editor_pick/video_block.html" video=$editor_picks[e_list]}
@@ -47,13 +47,13 @@
 
 		<!-- Editor Pick Videos Slider Container START //-->
         <div class="col-md-4 hidden-sm hidden-xs nopadding-left">
-        <div id="slide">
+            <div id="slide" class="" style="list-style: none; position: relative; padding: 0px; overflow: hidden; width: 375px; height: 354px;left: 87px;">
 				{section name=e_list loop=$editor_picks}
             	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
 				{/section}
         
         </div>
-        <div class="next_pre_hold" style="margin-top: 38px">
+            <div class="next_pre_hold" style="margin-top: 38px;left: 89px;">
 		<a href="#" class="col-md-6 btn btn-primary" id="slide_prev">
 		<span class="glyphicon glyphicon-chevron-up"></span>
 		</a>
