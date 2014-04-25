@@ -7,7 +7,7 @@
     js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=120542078043680";
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-<div class="row cb-box marginBottom" style="width: 1000px;margin-left: 99px;">
+<div class="row cb-box marginBottom">
 <div class="alert alert-info">
     Global Announcement...
 </div>
@@ -15,6 +15,11 @@
         <!-- ******************************************* //-->
 		<!-- ******** GLOBAL ANNOUNCEMENT START ******** //-->
         <!-- ******************************************* //-->
+
+
+
+
+
         {if AD}
         <!--<div class="alert alert-info">
         	{AD place='ad_160x600'}
@@ -34,7 +39,7 @@
 
             <div class="col-md-6 nopadding-right" style="margin-left: -6px;">
 			<!-- Editor Pick Video Main Container START //-->
-			<div id="ep_video_container" style="height: 386px; width: 600px" >
+			<div id="ep_video_container" style="height: 386px; width: 700px" >
 				{if is_installed('editorspick')}
 				{section name=e_list loop=$editor_picks max=1}
 				{include file="$style_dir/blocks/editor_pick/video_block.html" video=$editor_picks[e_list]}
