@@ -941,11 +941,7 @@ footer {
 }
 
 
-.padding36 {
-    padding-left: 40px;
-    padding-top:  40px;
-    font-size: 12px;
-}
+
 
 .padding37 {
     padding-left: 140px;
@@ -1016,7 +1012,7 @@ footer {
     color: #000000;
 }
 .channels1 {
-    margin-left: -31px;
+    margin-left: -4px;
 }
 
 .hr { display: block; height: 1px;
@@ -1044,7 +1040,7 @@ footer {
 .pchannels {
     margin-right: -15px;
     margin-left: -15px;
-    margin-top: -2px;
+    margin-top: 3px;
 }
 /*View Channels*/
 .channels-view{
@@ -1437,7 +1433,7 @@ display: block;
     margin-bottom: 5px;
 }
 .collection_home img{
-    height: 125px;
+    height: 105px;
 }
 .photo_view .collection_home .details{
    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
@@ -1448,6 +1444,7 @@ display: block;
     position: absolute;
     top: 2px;
     width: 99.5%;
+    height: 97px;
 }
 .collection_home .details{
    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
@@ -1496,7 +1493,7 @@ height: 300px !important;
     height:160px; padding:5px;
 }
 .side_user_home{
-    background-color:#F2F2F2; padding-top:10px; padding-bottom:10px; margin-bottom:10px;
+    background-color:#F5F5F5; padding-top:10px; padding-bottom:10px; margin-bottom:10px;
 }
 .side_user_home .user_icon{
     position:absolute; top: 25%; right:5px;
