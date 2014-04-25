@@ -1533,7 +1533,7 @@ height: 300px !important;
     padding: 15px !important;
 }
 #being_viewed #slide3, #recent_video #slide1{
-width: 700px !important;
+width: 740px !important;
 }
 .thumbnail_new img { width:100%; height:auto; } /* to keep proportions */
 .thumbnails_new p { text-align: center; padding: 10px; } /* captions can be styled with an inline element */
