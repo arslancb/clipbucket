@@ -1297,6 +1297,7 @@ color: #5A595A;
 }
 h2.myHeadingBLK {
     border-bottom: 1px solid #DDDDDD;
+    font-family: fantasy;
     color: #5A595A;
     font-size: 20px;
     line-height: 30px;
