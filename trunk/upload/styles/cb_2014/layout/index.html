@@ -7,7 +7,7 @@
     js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=120542078043680";
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-	<div class="row cb-box marginBottom" style="width: 1100px">
+<div class="row cb-box marginBottom" style="width: 1000px;margin-left: 99px;">
 
         <!-- ******************************************* //-->
 		<!-- ******** GLOBAL ANNOUNCEMENT START ******** //-->
@@ -29,7 +29,7 @@
 		{if $editor_picks}
 		<div class="row">
 
-		<div class="col-md-6 nopadding-right">
+            <div class="col-md-6 nopadding-right" style="margin-left: -33px;">
 			<!-- Editor Pick Video Main Container START //-->
 			<div id="ep_video_container" style="height: 386px; width: 600px" >
 				{if is_installed('editorspick')}
@@ -47,13 +47,13 @@
 
 		<!-- Editor Pick Videos Slider Container START //-->
         <div class="col-md-4 hidden-sm hidden-xs nopadding-left">
-            <div id="slide" class="" style="list-style: none; position: relative; padding: 0px; overflow: hidden; width: 375px; height: 354px;left: 87px;">
+            <div id="slide" class="" style="list-style: none; position: relative; padding: 0px; overflow: hidden; width: 375px; height: 354px; left: 131px;">
 				{section name=e_list loop=$editor_picks}
             	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
 				{/section}
         
         </div>
-            <div class="next_pre_hold" style="margin-top: 38px;left: 89px;">
+            <div class="next_pre_hold" style="margin-top: 38px;left: 129px;">
 		<a href="#" class="col-md-6 btn btn-primary" id="slide_prev">
 		<span class="glyphicon glyphicon-chevron-up"></span>
 		</a>
