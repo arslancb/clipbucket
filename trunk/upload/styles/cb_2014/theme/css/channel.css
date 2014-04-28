@@ -1486,10 +1486,10 @@ ul#myTab_home li:first-child + li {
      padding-left: 20px;    
 }
 .big_img{
-    display:block; height:320px; border:1px solid #CCC; padding:10px;
+    display:block; height:265px; border:1px solid #CCC; padding:10px;
 }
 .big_img img{
-height: 300px !important;
+height: 244px !important;
 }
 .vidoe_home{
     height:135px; padding:5px;
