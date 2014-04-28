@@ -62,7 +62,7 @@ if($udetails)
 
 
 
-    //Collecting Data for Pagination
+    //Collecting Data for Pagination 1
     $vcount = $vid_cond;
     $counter = get_counter('video',$count_query);
     if(!$counter)
