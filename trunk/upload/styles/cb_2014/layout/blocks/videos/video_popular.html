@@ -3,16 +3,16 @@
         <div class="cb_item_container clearfix">
             <div class=" col-md-6 row">
                <a href="{videoLink($video)}" title="{$video.title|title}" >
-                    <img class="" src="{getThumb vdetails=$video}" border="1"  style="height: 75%;width: 75%;"/>
+                    <img class="" src="{getThumb vdetails=$video}" border="1"  style="height: 67px;width: 75%;"/>
                 </a>
             </div>
-            <div class="pull-right col-md-7 padding-top-5">
+            <div class="pull-right col-md-7 padding-top-5" style="position: absolute;right: 42px;">
                 <div class="item_text overflow_hidden"  style="height: 45px;">
-                    <a href="{videoLink($video)}">{$video.title|truncate:30}</a>
+                    <a href="{videoLink($video)}"><b>{$video.title|truncate:30}</b></a>
                 </div>
-                <div class="row small col-md-10 padding-top-5">
+                <div class="row small col-md-10 padding-top-5" style="margin-top: -8px;color: grey;">
                     <span class="pull-left"><small><span class="glyphicon glyphicon-eye-open"></span> {$video.views}</small></span>
-                    <span class="pull-right"><small><span class="glyphicon glyphicon-thumbs-up"></span> {$video.rating}</small></span>
+                    <span style="margin-left: 23px;"><small><span class="glyphicon glyphicon-thumbs-up"></span> {$video.rating}</small></span>
                 </div>
             </div>
         </div>
