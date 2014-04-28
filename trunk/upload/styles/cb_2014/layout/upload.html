@@ -60,6 +60,13 @@
     (function(window){
         $(document).ready(function(){
             var baseurl = '{$baseurl}';
+            if('{$uploaderDetails.uploadScriptPath}'!=''){
+            var uploadurl = '{$uploaderDetails.uploadScriptPath}';
+            }else{
+            var uploadurl = '{$baseurl}/actions/file_uploader.php';    
+            }
+            //alert(uploadurl);
+            
             var extensions = "{$extensions}";
             extensions = extensions.substring(0, extensions.length-1);
             /* files uploading */
@@ -72,7 +79,7 @@
                     dragdrop: true,
                     drop_element: "dragDrop",
                     runtimes : 'html5,flash,silverlight,html4',
-                    url : baseurl + "/actions/file_uploader.php",
+                    url : uploadurl,
                     file_data_name : "Filedata",
                     filters: {
                       mime_types : [
