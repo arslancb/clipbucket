@@ -3,9 +3,7 @@
         <div class="cb_item_container clearfix">
             <div class=" col-md-6 row">
                <a href="{videoLink($video)}" title="{$video.title|title}" >
-                    <span class="video_duration">{*$video.duration|date_format:$config.time*}{if
-                                $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</span>
-                    <img class="" src="{getThumb vdetails=$video}" border="1" height="100" width="100"/>
+                    <img class="" src="{getThumb vdetails=$video}" border="1" height="75%" width="75%"/>
                 </a>
             </div>
             <div class="pull-right col-md-7 padding-top-5" style="position: absolute;right: 42px;">
