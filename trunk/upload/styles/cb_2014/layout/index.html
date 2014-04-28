@@ -269,8 +269,7 @@
 	        <!-- ************* USER BLOCK START ************ //-->
 	        <!-- ******************************************* //-->
             <div class="col-md-4 side_user_home" style="right: -9px;top: -44px;margin-bottom: -28px;">
-			{lang code="Featured Users"}
-                <hr>
+			<h2 class="myHeadingBLK" >{lang code="Featured Users"}</h2>
 			{section name=result_users loop=$result_users}
 
                 <div class="col-md-12 nopadding clearfix user-view-home" style="height: 85px;">
@@ -323,8 +322,8 @@
 	        <!-- ******************************************* //-->
 
 			<div class="col-md-4 comment_home" >
-					{lang code="Top Collections"}
-                <hr>
+				<h2 class="myHeadingBLK margin-top-0">
+					<a href="{link name='collections'}">{lang code="Top Collections"}</a></h2>
 				{foreach from=$collections item=collection}
 					<div class="collection_home mouse_hover">
 
