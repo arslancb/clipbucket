@@ -9,7 +9,8 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 <div class="row cb-box marginBottom">
 <div class="alert alert-info">
-    Global Announcement...
+    Global Announcement... {ANCHOR place='global'}
+    {include file="$style_dir/message.html"}
 </div>
 
         <!-- ******************************************* //-->
@@ -39,7 +40,7 @@
 
             <div class="col-md-8 nopadding-right" style="margin-left: -6px;">
 			<!-- Editor Pick Video Main Container START //-->
-			<div id="ep_video_container" style="height: 386px; width: 800px" >
+			<div id="ep_video_container" style="height: 386px; width: 780px" >
 				{if is_installed('editorspick')}
 				{section name=e_list loop=$editor_picks max=1}
 				{include file="$style_dir/blocks/editor_pick/video_block.html" video=$editor_picks[e_list]}
@@ -200,20 +201,19 @@
 		        				<h2 class="myHeading theme_color">{lang code="Featured Photos"}</h2>
 								
 		        				<!-- *********** FIRST PHOTOS START ************ //-->
-								<div class="col-md-12 fill-background" style="display:block; height:320px; padding:5px;">
-									<div class="col-md-8 big_img">
+								<div class="col-md-12 fill-background" style="display:block; height:268px; padding:5px;">
+									<div class="col-md-7 big_img">
 									{foreach from=$result_photos1_01 item=result_photo1_01}
 						            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
 						            	{get_photo details=$result_photo1_01 output='html' width="545" height="300" size="l" class="cb_img_thum"}
 						            	</a>
 						            {/foreach}
 						            </div>
-						            
-						            <div class="col-md-4 nopadding" style="display:block; height:80px;">
-									{foreach from=$result_photos1_08 item=result_photo1_08}
-										<div class="col-md-6" style="border-right: 1px solid rgb(204, 204, 204); display: block; height: 80px; padding: 7px; border-top: 1px solid rgb(204, 204, 204);">
+						            <div class="col-md-5 nopadding" style="display:block; height:280px;">
+									{foreach from=$result_photos1_08 item=result_photo1_04}
+                                        <div class="col-md-6" style="display: block; height: 140px; padding: 7px; border-left: 1px solid rgb(204, 204, 204); border-bottom: 1px solid rgb(204, 204, 204);">
 						            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
-						            	{get_photo details=$result_photo1_08 output='html' width="125" height="65" class='photoThumbBox moveL cb_img_thum'}
+						            	{get_photo details=$result_photo1_04 output='html' class='MainImg'}
 						            	</a>
 						            {if $photos@iteration > 1}{break}{/if}
 						       	    </div>
@@ -224,18 +224,18 @@
 				        <!-- *********** SECOND PHOTOS START ************ //-->
 						<div class="col-md-12" style="display:block; height:320px; padding:5px;">
 
-					        <div class="col-md-4 nopadding" style="display:block; height:80px;">
+					        <div class="col-md-5 nopadding" style="display:block; height:80px;">
 							{foreach from=$result_photos2_08 item=result_photo2_08}
-								<div class="col-md-6" style="display: block; height: 80px; padding: 7px; border-left: 1px solid rgb(204, 204, 204); border-bottom: 1px solid rgb(204, 204, 204);">
+								<div class="col-md-6" style="display: block; height: 140px; padding: 7px; border-left: 1px solid rgb(204, 204, 204); border-bottom: 1px solid rgb(204, 204, 204);">
 					        	<a href="{$cbphoto->photo_links($result_photo2_08,'view_item')}">
-					        	{get_photo details=$result_photo2_08 output='html' width="125" height="65" class='photoThumbBox moveL cb_img_thum'}
+					        	{get_photo details=$result_photo2_08 output='html'  class='MainImg'}
 					        	</a>
 					        {if $photos@iteration > 1}{break}{/if}
 					   	    </div>
 					        {/foreach}
 							</div>
 							
-							<div class="col-md-8 big_img">
+							<div class="col-md-7 big_img">
 							{foreach from=$result_photos2_01 item=result_photo2_01}
 					        	<a href="{$cbphoto->photo_links($result_photo2_01,'view_item')}">
 					        	{get_photo details=$result_photo2_01 output='html' width="545" height="300" size="l"  class="cb_img_thum"}
@@ -269,7 +269,8 @@
 	        <!-- ************* USER BLOCK START ************ //-->
 	        <!-- ******************************************* //-->
             <div class="col-md-4 side_user_home" style="right: -9px;top: -44px;margin-bottom: -28px;">
-			<h2 class="myHeadingBLK" >{lang code="Featured Users"}</h2>
+			{lang code="Featured Users"}
+                <hr>
 			{section name=result_users loop=$result_users}
 
                 <div class="col-md-12 nopadding clearfix user-view-home" style="height: 85px;">
@@ -322,8 +323,8 @@
 	        <!-- ******************************************* //-->
 
 			<div class="col-md-4 comment_home" >
-				<h2 class="myHeadingBLK margin-top-0">
-					<a href="{link name='collections'}">{lang code="Top Collections"}</a></h2>
+					{lang code="Top Collections"}
+                <hr>
 				{foreach from=$collections item=collection}
 					<div class="collection_home mouse_hover">
 
