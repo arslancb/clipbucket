@@ -79,7 +79,7 @@ $result_photos1_01 = get_photos($result_array_photos1_01);
 Assign('result_photos1_01', $result_photos1_01);
 
 $result_array_photos1_08 = $array;
-$result_array_photos1_08['order'] = " photo_id DESC LIMIT 8";
+$result_array_photos1_08['order'] = " photo_id DESC LIMIT 4";
 $result_photos1_08 = get_photos($result_array_photos1_08);
 Assign('result_photos1_08', $result_photos1_08);
 
@@ -90,7 +90,7 @@ $result_photos2_01 = get_photos($result_array_photos2_01);
 Assign('result_photos2_01', $result_photos2_01);
 
 $result_array_photos2_08 = $array;
-$result_array_photos2_08['order'] = " photo_id ASC LIMIT 8";
+$result_array_photos2_08['order'] = " photo_id ASC LIMIT 4";
 $result_photos2_08 = get_photos($result_array_photos2_08);
 Assign('result_photos2_08', $result_photos2_08);
 
