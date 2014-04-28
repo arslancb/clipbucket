@@ -88,13 +88,13 @@
 
 
                   {include file="$style_dir/blocks/pagination.html"}
-            
+
             </div>
               </div>
 
           <div class="col-md-5">
-              <h2 class="myHeadingBLK"><i class="icon-rss"></i>  {lang code="Recent Activities"}</h2>
-              
+              <i class="icon-rss"></i>  {lang code="Recent Activities"}
+                    <hr>
                       <div id="content_1" class="content">
                       <div class="feeds1" id="selectedDiv">
                           <div id="userFeeds" >
@@ -116,7 +116,7 @@
 
               </h4>
               <br>
-              <h2 class="myHeadingBLK">{lang code="Popular Channels"}</h2>
+              {lang code="Popular Channels"}
               <div id="popular" class="content1">
               {section name=u_list loop=$users}
               {include file="$style_dir/blocks/channels.html" user=$users[u_list]}
