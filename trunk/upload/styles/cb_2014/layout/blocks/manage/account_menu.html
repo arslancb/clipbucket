@@ -1,5 +1,5 @@
 {$topMenuLinks = array_slice($myAccountLinks, 0, 6)}
-<!--<div class="userAccountMenu navbar navbar-default cb-box row">
+<div class="userAccountMenu navbar navbar-default cb-box row">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
@@ -9,14 +9,14 @@
             </button>
             <div class="userPicContainer">
                 {if userid()}
-                <!--<a class="navbar-brand {if userid()} nopadding {/if}"  style="{if userid()} padding-top: 7px ! important; {/if}" href="#">
-                    <img class="cb_img_thum" src="{$userquery->getUserThumb('','small',userid())}" style="width: 40px; height: 40px;"/>   
-                    My Account
-                </a>-->
-                <!--{/if}
-                <a class="navbar-brand"  href="#">   
+                <a class="navbar-brand {if userid()} nopadding {/if}"  style="{if userid()} padding-top: 7px ! important; {/if}" href="#">
+                    <img class="cb_img_thum" src="{$userquery->getUserThumb('','small',userid())}" style="width: 40px; height: 40px;"/>
                     My Account
                 </a>
+                {/if}
+                <!--<a class="navbar-brand"  href="#">   -->
+                    <!--My Account-->
+                <!--</a>-->
             </div>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -36,4 +36,4 @@
                 <a class="btn btn-info" href="{$userquery->profile_link($userquery->udetails)}">{lang code='com_my_channel'}</a>
             </div>
         </div>
-    </div>-->
+    </div>
