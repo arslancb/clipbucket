@@ -33,24 +33,38 @@ Assign('users', $users);
 //////////////////getting todolist/////////////
 
 $mode = $_POST['mode'];
+if(!isset($mode)) $mode = $_GET['mode'];
 switch($mode)
 {
     case 'add_todo':
     {
         $response = array();
         $value = $_POST['val'];
-        $myquery->insert_todo($value);
-        $response['todo'] = nl2br($value);
-        $response['id'] = $db->insert_id();
-
-        echo json_encode($response);
+        if(!empty($value)){
+            $myquery->insert_todo($value);
+            $response['todo'] = nl2br($value);
+            $response['id'] = $db->insert_id();
+            echo json_encode($response);
+        }
         die();
     }
-        break;
+    break;
+    case 'update_todo':
+    {
+        $id = $_POST["pk"];
+        $value = trim($_POST["value"]);
+        $myquery->update_todo($value, $id);
+        echo json_encode(array(
+            "msg" => "success",
+            ));
+        die();
+    }
+    break;
     case 'delete_todo':
     {
         $id = mysql_clean($_POST['id']);
         $myquery->delete_todo($id);
+        die();
     }
 }
 ///////////////////ends here/////////////
