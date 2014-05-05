@@ -401,7 +401,7 @@
         <ul class="nav nav-tabs" id="myTab">
             <li class="active">
                 <a data-toggle="tab" href="#todolist">
-                    <h5><i class="glyphicon glyphicon-list-alt"></i>   ToDo List</h5>
+                    <h5><i class="glyphicon glyphicon-list-alt"></i>ToDo List</h5>
                 </a>
             </li>
             <li class="">
@@ -431,17 +431,22 @@
                     </div>
                     <div class="widget-body">
                         <div class="widget-main">
-                            <form method="post">
-                            <input type="text" id="todo" name="todo" class="todo">
-                                <input type="hidden" name="todoid" value="{$todo.todoid}" >
-                                <a class="btn btn-primary btn-xs saveTodo"   href="javascript:void(0)">Add</a>
+                            <form class="form-inline">
+                                <div class="marginBottom">
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" id="todo" name="todo" class="todo">
+                                    </div>
+                                    <a class="btn btn-primary btn-sm saveTodo" href="javascript:void(0)">Add</a>
+                                </div>
+                            </form>
+                            
                             {assign var=todos value=$myquery->get_todos()}
                             {foreach from=$todos item=todo}
-                                <p class="xedit" id="">
-                                    <input type="hidden" name="todoid" value="{$todo.todoid}" >
-                                    <b>{$todo.todo}</b></p>
+                                <p class="xedit clearfix" id="todo-{$todo.todo_id}">
+                                    <input type="hidden" name="todoid" value="{$todo.todo_id}" >
+                                    <b>{$todo.todo}</b>
+                                </p>
                             {/foreach}
-                            </form>
                         </div>
                     </div>
                 </div>

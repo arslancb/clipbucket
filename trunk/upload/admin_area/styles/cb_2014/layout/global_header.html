@@ -68,7 +68,13 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('.xedit').editable({
-            mode: 'inline'
+            mode: 'inline',
+            url: "{$baseurl}/admin_area/index.php?mode=update_todo",
+            pk: function(){
+                var id = $(this).attr("id");
+                id = id.match(/([0-9]+)$/g);
+                return id.pop();
+            },
         });
     });
 
@@ -100,17 +106,61 @@
 
 <script>
     $(function(){
+
+
         $(".saveTodo").click(function(e){
+            var self = this;
              var newVal = $(this).parent().parent().find("input[name='todo']").val();
-            console.log(newVal);
-             var ajaxCall = $.ajax({
-             url: "{$baseurl}" + "/admin_area/index.php",
-             type: "post",
-             data: {
-             val: newVal,
-             mode: "add_todo",
+             if(newVal.length){
+                var ajaxCall = $.ajax({
+                    url: "{$baseurl}" + "/admin_area/index.php",
+                    type: "post",
+                    data: {
+                        val: newVal,
+                        mode: "add_todo",
+                    },
+                });
+                ajaxCall.success(function(data){
+                    data = $.parseJSON(data);
+                    var p = document.createElement("p");
+                    p.className = "xedit editable editable-click";
+                    var input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = "todoid";
+                    input.value = data.id;
+                    var b = document.createElement("b");
+                    b.innerHTML = data.todo;
+                    p.appendChild(input);
+                    p.appendChild(b);
+                    console.log(p);
+                    $(self).parents("form").after(p);
+                });
+             }else{
+                alert("Please enter a valid value");
              }
-             });
         });
+
+
+    $("#todolist").on("click", ".editable-clear-x", function(e){
+        e.preventDefault();
+            var self = this;
+            var id = $(this).parents(".editable-container").prev().attr("id");
+            id = id.match(/([0-9]+)$/g);
+            id = id.pop();
+            var ajaxCall = $.ajax({
+                url: "{$baseurl}" + "/admin_area/index.php",
+                type: "post",
+                data: {
+                    id: id,
+                    mode: "delete_todo",
+                },
+            });
+            ajaxCall.success(function(data){
+                $(self).parents("p").remove();
+                $(self).parents(".editable-container").remove();
+            });
+            e.stopPropagation();
+    });
+
     });
 </script>

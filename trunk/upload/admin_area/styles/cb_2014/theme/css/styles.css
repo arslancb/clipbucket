@@ -299,3 +299,51 @@ ul.mainTabs{
     margin-top: -30px;
     height: 56px;
 }
+
+/* 
+    Logo
+*/
+.logoContainer{
+    padding: 1px;
+}
+
+.logoContainer span{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.logoContainer small{
+    font-size: 0.7em;
+    position: relative;
+    top: -1px;
+}
+
+.navbar > .container .navbar-brand{
+    padding: 5px 5px 5px 5px;
+    margin-left: 0;
+}
+
+/* Todo List */
+
+#todolist .widget-body p.editable{
+    padding-bottom: 5px;
+    text-transform: capitalize;
+    padding-left: 5px;
+}
+
+/* utility classes */
+.marginBottomSmall{
+    margin-bottom: 5px;
+}
+
+.marginBottom{
+    margin-bottom: 10px;
+}
+
+.marginBottomLarge{
+    margin-bottom: 15px;
+}
+
+.alignRight{
+    text-align: right;
+}
