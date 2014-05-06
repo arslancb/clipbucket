@@ -14,16 +14,17 @@ if(!defined('SUB_PAGE')){
 /*
 delete comments
 */
-if($_POST['delete_selected']){
-
-	for($id=0;$id<=count($_POST['check_comments']);$id++)
-		$myquery->delete_comment($_POST['check_comments'][$id]);
+if(isset($_POST['delete_selected'])){
+	foreach ($_POST['check_comments'] as $key => $value) {
+		$myquery->delete_comment($value);
+	}
+	//for($id=0;$id<=count($_POST['check_comments']);$id++)
 }
 
 /*
 Make spam 
 */
-if($_POST['not_spam']){
+if(isset($_POST['not_spam'])){
 	
 	for($id=0;$id<=count($_POST['check_comments']);$id++)
 		$myquery->spam_comment($_POST['check_comments'][$id]);
@@ -31,7 +32,7 @@ if($_POST['not_spam']){
 /*
 Remove Make spam 
 */
-if($_POST['mark_spam']){
+if(isset($_POST['mark_spam'])){
 	
 	for($id=0;$id<=count($_POST['check_comments']);$id++)
 		$myquery->remove_spam($_POST['check_comments'][$id]);

@@ -15,7 +15,7 @@ $userquery->login_check('web_config_access');
 
 /* Assigning page and subpage */
 if(!defined('MAIN_PAGE')){
-    define('MAIN_PAGE', 'Stats And Configuration');
+    define('MAIN_PAGE', 'Stats And Configurations');
 }
 if(!defined('SUB_PAGE')){
     if($_GET['active'] == 'no')

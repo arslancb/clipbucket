@@ -92,6 +92,7 @@ switch($mode)
     {
         $id = mysql_clean($_POST['id']);
         $myquery->delete_note($id);
+        die();
     }
         break;
 
@@ -234,7 +235,7 @@ function format_number($number) {
 }
 
 
-
+subtitle(lang('video_manager'));
 template_files('index.html');
 display_it();
 ?>
