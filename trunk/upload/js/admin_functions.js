@@ -5,9 +5,8 @@ function ShowHint(text){
 }
 
 
-function add_note(noteId)
+function add_note(note)
 {
-	var note = $(noteId).val();
 	if(!note)
 		alert("Please enter something");
 	else
