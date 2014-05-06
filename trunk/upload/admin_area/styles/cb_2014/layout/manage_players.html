@@ -244,18 +244,22 @@
   {assign var="curplayer" value=$cbplayer->getPlayerDetails($player_file,$player_dir)}
 
 
-    <div class="row well" style="width: 800px;">
-      <div class="col-md-3">
-          <img src="{$cbplayer->get_preview_thumb($curplayer.folder)}" class="img-thumbnail" >
-      </div>
-      <div class="col-md-9">
-          <h2>{$curplayer.name}</h2>
-          <em>
-              <a href="{$curplayer.author_page}"><strong>{$curplayer.author}</strong></a>
-          </em>
-          <p>{$curplayer.description}</p>
-          <p>Version : {$curplayer.version}, Released on {$curplayer.released|date_format}</p>
-          <p>Website : <a href="{$curplayer.website}">{$curplayer.website}</a></p>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <div class="alignCenter well">
+              <img src="{$cbplayer->get_preview_thumb($curplayer.folder)}" class="img-thumbnail" >
+              <h3>{$curplayer.name}</h3>
+              <em>
+                  <a href="{$curplayer.author_page}"><strong>{$curplayer.author}</strong></a>
+              </em>
+              <p>{$curplayer.description}</p>
+              <p>Version : {$curplayer.version}, Released on {$curplayer.released|date_format}</p>
+              <p>Website : <a href="{$curplayer.website}">{$curplayer.website}</a></p>
+            </div>
+          </div>
+        </div>
       </div>
   </div>
 </div>
@@ -268,27 +272,32 @@
   {assign var='players' value=$cbplayer->get_players()}
 
   <div class="templates_container">
-    {foreach from=$players item=player}
-    {if $player_file !=$player.file && $player_dir != $player.folder}
+    
 
 
-      <div class="row well" style=" width: 800px;">
-        <div class="col-md-3">
-            <img src="{$cbplayer->get_preview_thumb($player.folder)}" class="img-thumbnail" >
+      <div class="row">
+      {foreach from=$players item=player}
+      {if $player_file !=$player.file && $player_dir != $player.folder}
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+              <div class="well alignCenter">
+                  <img src="{$cbplayer->get_preview_thumb($player.folder)}" class="img-thumbnail" >
+                  <h2>{$curplayer.name}</h2>
+                  <em>
+                      <a href="{$player.author_page}"><strong>{$player.author}</strong></a>
+                  </em>
+                  <p>{$player.description}</p>
+                  <p>Version : {$player.version}, Released on {$player.released|date_format}</p>
+                  <p>Website : <a href="{$player.website}">{$player.website}</a></p>
+                  <p><a href="manage_players.php?set=yes&folder={$player.folder}&file={$player.file}">Activate This Player</a></p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-9">
-            <h2>{$curplayer.name}</h2>
-            <em>
-                <a href="{$player.author_page}"><strong>{$player.author}</strong></a>
-            </em>
-            <p>{$player.description}</p>
-            <p>Version : {$player.version}, Released on {$player.released|date_format}</p>
-            <p>Website : <a href="{$player.website}">{$player.website}</a></p>
-            <p><a href="manage_players.php?set=yes&folder={$player.folder}&file={$player.file}">Activate This Player</a></p>
-        </div>
+      {/if}
+      {/foreach}
     </div>
-    {/if}
-    {/foreach}
   </div>
 </div>
   

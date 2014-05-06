@@ -678,40 +678,43 @@
     </div>
             </div>
     <div class="row">
-    <div class="col-md-6">
-      <label for="max_video_duration">Max upload durations</label>
-      <input class="form-control" name="max_video_duration" type="text" id="max_video_duration" value="{$row.max_video_duration}" size="15" maxlength="5" /> 
-      in minutes
+      <div class="col-md-4">
+        <label for="max_video_duration">Max upload durations</label>
+        <input class="form-control" name="max_video_duration" type="text" id="max_video_duration" value="{$row.max_video_duration}" size="15" maxlength="5" /> 
+        in minutes
+      </div>
+      
+      <div class="col-md-2 marginTopLarge">
+        <label class="checkbox">
+          <input name="keep_original" type="checkbox" id="keep_original" value="1" {if $row.keep_original} checked="checked"{/if} />Save original file
+        </label>
+      </div>
+
+
+      <div class="col-md-2 marginTopLarge">
+        <label class="checkbox">
+          <input name="hq_output" type="checkbox" id="hq_output" value="yes" {if $row.hq_output} checked="checked"{/if} />Mp4 HQ Output
+          <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" alt="info" border="0" class="tipsy_tip" title="if enabled, ClipBucket will generate Highh Quality mp4 video if possible" /></a>
+        </label>
+      </div>
+
+      <div class="col-md-2 marginTopLarge">
+        <label class="checkbox">
+          <input name="keep_mp4_as_is" type="checkbox" id="keep_mp4_as_is" value="yes" {if $row.keep_mp4_as_is} checked="checked"{/if} />Keep Mp4 As Is
+          <a href="javascript:void(0)" alt="info" target="_blank"><img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="if enabled, ClipBucket will keep mp4 vieo as is and will be playable as HQ video" /></a>
+        </label>
+      </div>
+
+      <div class="col-md-2 marginTopLarge">
+        <div class="form-group1">
+          <label class="checkbox">
+            <input name="activation" type="checkbox" id="activation" value="1" {if $row.activation==1} checked="checked"{/if} />
+            Activation required
+          </label>
         </div>
-        <div class="col-md-6">
-    <div class="form-group1">
-      <label class="checkbox">
-        <input name="keep_original" type="checkbox" id="keep_original" value="1" {if $row.keep_original} checked="checked"{/if} />Save original file
-      </label>
+      </div>
     </div>
-
-    <div class="form-group1">
-      <label class="checkbox">
-        <input name="hq_output" type="checkbox" id="hq_output" value="yes" {if $row.hq_output} checked="checked"{/if} />Mp4 HQ Output
-        <a href="javascript:void(0)" target="_blank"><img src="{$imageurl}/help.png" alt="info" border="0" class="tipsy_tip" title="if enabled, ClipBucket will generate Highh Quality mp4 video if possible" /></a>
-      </label>
-    </div>
-
-    <div class="form-group1">
-      <label class="checkbox">
-        <input name="keep_mp4_as_is" type="checkbox" id="keep_mp4_as_is" value="yes" {if $row.keep_mp4_as_is} checked="checked"{/if} />Keep Mp4 As Is
-        <a href="javascript:void(0)" alt="info" target="_blank"><img src="{$imageurl}/help.png" border="0" class="tipsy_tip" title="if enabled, ClipBucket will keep mp4 vieo as is and will be playable as HQ video" /></a>
-      </label>
-    </div>
-
-    <div class="form-group1">
-      <label class="checkbox">
-        <input name="activation" type="checkbox" id="activation" value="1" {if $row.activation==1} checked="checked"{/if} />
-        Activation required
-      </label>
-    </div>
-            </div>
-        </div>
+    
 
 <hr>
   <div class="tabbable">
@@ -898,21 +901,18 @@
       </div>
     </div>-->
     <h2>Main Settings</h2>
-    <div class="row">
-    <div class="col-md-6">
-      <label for="use_cached_pagin">Use cached pagination
-          <br>
-          <label class="pull-right inline" style="margin-right: 93px;">
-            <input value="yes"  name="use_cached_pagin" id="use_cached_pagin" {if $row.use_cached_pagin == 'yes'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
-            <span class="lbl"></span></label>
-        </label>
-    </div>
+    <div class="">
+      <div class="form-group">
+        <label for="use_cached_pagin">Use cached pagination</label>    
+        <input value="yes"  name="use_cached_pagin" id="use_cached_pagin" {if $row.use_cached_pagin == 'yes'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+        <span class="show lbl"></span>
+      </div>
 
-    <div class="col-md-6">
-      <label for="cached_pagin_time">Pagination caching time</label>
-      <input class="form-control" name="cached_pagin_time" type="text" id="cached_pagin_time" value="{$row.cached_pagin_time}" size="45" /> 
-      in minutes
-    </div>
+      <div class="">
+        <label for="cached_pagin_time">Pagination caching time</label>
+        <input class="form-control" name="cached_pagin_time" type="text" id="cached_pagin_time" value="{$row.cached_pagin_time}" size="45" /> 
+        in minutes
+      </div>
     </div>
 
 <hr>

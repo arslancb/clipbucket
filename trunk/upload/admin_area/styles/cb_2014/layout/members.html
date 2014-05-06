@@ -45,7 +45,12 @@
                             <span class="label {if $u.usr_status == Ok}label-success{else}label-warning{/if}"><span>{if $u.usr_status=='Ok'}Active
                                     {else}InActive{/if}</span></span>
                             <span class="label label-info"><span>{$u.level|get_user_level}</span></span>
-                            <span class="label"><span>Last Active</span>:<span>{$u.last_active}</span></span>
+                            <span class="label"><span>Active</span> : <span>{$u.last_active|nicetime}</span></span>
+                            {if $u.ban_status == "yes"}
+                                <span class="label label-danger"><span>Banned : {$u.ban_status}</span></span>
+                            {else}
+                                <span class="label label-info"><span>Banned : {$u.ban_status}</span></span>
+                            {/if}
                     </div>
                     </div>
                     </div>

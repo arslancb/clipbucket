@@ -4,7 +4,7 @@
   <div class="btn-group">
     <input type="submit" name="make_featured_selected" value="Make Featured" class="btn btn-primary btn-xs"/>
     <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured" class="btn btn-primary btn-xs"/>
-    <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-xs" onclick="return _cb.confirm_it('Are you sure you want to delete selected photos(s). This will permanently delete these photos from website.')"/>
+    <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-xs" onclick="return confirm_it('Are you sure you want to delete selected photos(s). This will permanently delete these photos from website.')"/>
   </div>
     <table class="table table-bordered table-striped manageUsersTable">
         <tr>
@@ -127,7 +127,7 @@
   <input type="submit" name="move_to_selected" value="Move To" class="btn btn-primary btn-xs"/>
   <input type="submit" name="make_featured_selected" value="Make Featured" class="btn btn-primary btn-xs"/>
   <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured" class="btn btn-primary btn-xs"/>
-  <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-xs" onclick="return _cb.confirm_it('Are you sure you want to delete selected photos(s)')"/>
+  <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-xs" onclick="return confirm_it('Are you sure you want to delete selected photos(s)')"/>
 </div>
 {else}
 	<div align="center"><strong><em>No Photo Found</em></strong></div>

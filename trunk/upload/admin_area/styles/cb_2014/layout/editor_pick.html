@@ -11,15 +11,6 @@
     </td>
     </tr>
 </table>
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td width="30" align="center" valign="middle" class="left_head">
-      <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
-    <td width="50" class="head">Order</td>
-    <td class="head">Details</td>
-    <td width="50" class="right_head">&nbsp;</td>
-  </tr>
-</table>
 
     <table class="table table-bordered table-striped manageUsersTable">
         <tr>
@@ -27,7 +18,7 @@
                 <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
             <td>VID</td>
             <td>Videos Details</td>
-            <td>&nbsp;</td>
+            <td style="width: 200px">&nbsp;</td>
         </tr>
         {if $videos}
         {foreach from=$videos item=video}
@@ -54,8 +45,8 @@
                                     {if $video.featured=='yes'}<span class="label label-primary">Featured{else}{/if}</span>
                                     <span class="label {if $video.active=='yes'}label-success{else}label-warning{/if}">
                                         {if $video.active=='yes'}Active{else}InActive{/if} </span>
-                                    <span class="label {if $video.status=='yes'}label-success{else}label-warning{/if}">
-                                        {if $video.status=='yes'}Successful{else}Processing{/if}</span>
+                                    <span class="label {if $video.status=='Successful'}label-success{else}label-warning{/if}">
+                                        {if $video.status=='Successful'}Successful{else}Processing{/if}</span>
                                     <span class="label label-info">
                                        Viewed {$video.last_viewed|niceTime}</span>
                                 </div>
@@ -73,7 +64,7 @@
                         Actions <i class="caret"></i></button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
                         <li><a role="menuitem" tabindex="-1"
-                               href="?remove={$video.videoid}">Remove Video</a></li>
+                               href="?remove={$video.videoid}">Remove From Editor's Pick</a></li>
 
                     </ul>
                 </div>

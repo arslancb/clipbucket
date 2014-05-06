@@ -344,6 +344,100 @@ ul.mainTabs{
     margin-bottom: 15px;
 }
 
+.marginTopSmall{
+    margin-top: 5px;
+}
+
+.marginTop{
+    margin-top: 10px;
+}
+
+.marginTopLarge{
+    margin-top: 15px;
+}
+
+.paddingTop{
+    padding-top: 10px;
+}
+
 .alignRight{
     text-align: right;
+}
+
+#todolist .widget-body{
+    overflow-y: scroll;
+    height: 200px;
+}
+
+
+.notesList{
+    margin-top: 5px;
+    list-style-type: none;
+    height: 200px;
+    overflow-y: scroll;
+    width: 105%;
+}
+
+.oneNote{
+    background-color: #F9ED75;
+    border-radius: 2px;
+    color: #666666;
+    font-size: 0.9em;
+    height: 50px;
+    padding: 2px 4px 2px 6px;
+}
+
+.oneNote .delete{
+    position: absolute;
+    top: 0px;
+    right: 2px;
+    padding: 2px 4px;
+    border-radius: 2px;
+    background-color: #111;
+    color: #eee;
+}
+
+#mvideos .widget-main{
+    height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.myTable td{
+    padding: 0;
+}
+
+
+.myTable .first{
+    
+    padding: 5px 5px 5px 5px;
+}
+
+.myTable .first label{
+    background-color: #EDF3F4;
+    display: block;
+    padding: 6px;
+    text-align: right;
+    color: #959AA0;
+
+}
+
+.myTable .last {
+
+}
+
+.myWell{
+    padding: 5px;
+    border: solid 1px #ccc;
+    margin-bottom: 5px;
+}
+
+.boxBordered{
+    border: solid 1px #ccc;
+    overflow-y: scroll;
+    height: 80px;
+    padding: 5px;
+}
+.alignCenter{
+    text-align: center;
 }

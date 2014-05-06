@@ -24,9 +24,9 @@
         <img class="tipsy_tip browser {$theBrowser.bname}" src="{$imageurl}/dot.gif" title="{$theBrowser.name} {$theBrowser.version} on {$theBrowser.platform}" />
       </td>
       <td>
-          <div class="dropdown">
-          <button id="hideshow" class="btn btn-primary btn-xs drop" value="See Details">See Details..</button>
-              </div>
+          <div class="dropdown marginBottom">
+            <button id="hideshow" class="btn btn-primary btn-xs drop" value="See Details">See Details..</button>
+          </div>
 
           <span class="" title="{$user.referer}">
               <b>Right Now</b>      <a href="{$user.current_page}">{$user.current_page|truncate:40:'..':false:true}</a>

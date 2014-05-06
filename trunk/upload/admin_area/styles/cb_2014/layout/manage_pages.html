@@ -31,24 +31,30 @@
 <form method="post">
 
     <legend>Add New Page</legend>
- <div class="form-group">
-    <label for="page_name">Page Name</label>
-      <input name="page_name" class="form-control" type="text" id="page_name" value="{$page.page_name}"></td>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="page_name">Page Name</label>
+          <input name="page_name" class="form-control" type="text" id="page_name" value="{$page.page_name}"></td>
+        </div>
       </div>
-
-      <div class="form-group">
-      <label for="page_title">Page Title</label>
-      <input type="text" class="form-control" name="page_title" id="page_title" value="{$page.page_title}" />
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="page_title">Page Title</label>
+          <input type="text" class="form-control" name="page_title" id="page_title" value="{$page.page_title}" />
+        </div>
       </div>
-      <div class="form-group">
+    </div>
+    <div class="form-group">
       <label for="page_content">Page Content</label>
-      <textarea name="page_content" id="page_content" cols="8" rows="8" class="form-control">{$page.page_content|form_val}</textarea><script type="text/javascript">
-      {literal}new nicEditor({fullPanel : true,maxHeight:350}).panelInstance('page_content');{/literal}
+      <textarea name="page_content" id="page_content" cols="8" rows="8" class="form-control">{$page.page_content|form_val}</textarea>
+      <script type="text/javascript">
+        {literal}new nicEditor({fullPanel : true,maxHeight:350}).panelInstance('page_content');{/literal}
       </script>
-      </div>
-      <div class="form-group">
-            <input type="submit" name="update_page" id="update_page" value="Update page" class="btn btn-primary"/>
-          </div>
+    </div>
+    <div class="form-group">
+      <input type="submit" name="update_page" id="update_page" value="Update page" class="btn btn-primary"/>
+    </div>
 </form>
 {/if}
 {if $mode=='manage'}
@@ -57,7 +63,7 @@
      	  <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="btn"/>
           <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="btn" />
           <input class="btn btn-primary btn-xs" type="submit" name="update_order" value="Update order" class="btn" />
-          <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="btn" onclick="return _cb.confirm_it('Are you sure you want to delete selected page(s)')"/>
+          <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="btn" onclick="return confirm_it('Are you sure you want to delete selected page(s)')"/>
     </div>
     <div class="form-group">
     <input type="button" value="Create New Page +" class="btn btn-primary btn-sm pull-right" onClick="window.location='?mode=new'"/>
@@ -65,7 +71,7 @@
 <table class="table table-bordered">
   <tr>
     <td width="30" align="center" valign="middle" class="left_head">
-    <input type="checkbox" name="checkall" onclick="_cb.checkUncheckAll(this);"/></td>
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
     <td width="50" class="head_sep_left">PID</td>
     <td width="50" class="head_sep_left">Order</td>
     <td class="head"><div class="head_sep_left" style="width:250px">Details</div></td>
@@ -145,7 +151,7 @@
      	<input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="btn"/>
       <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="btn" />
       <input class="btn btn-primary btn-xs" type="submit" name="update_order" value="Update order" class="btn" />
-      <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="btn" onclick="return _cb.confirm_it('Are you sure you want to delete selected page(s)')"/>
+      <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete"  class="btn" onclick="return confirm_it('Are you sure you want to delete selected page(s)')"/>
     </div>
 
 </form>

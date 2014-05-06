@@ -4,46 +4,61 @@
 <h2>Add Group</h2>
 <p class="alert alert-info">Required Member Details</p>
 <form name="upload_form" class="upload_form" method="post" action="">
-<div class="row">
-    {foreach from=$requiredFields item=field}
-    {$field.class = 'form-control'}
-    {if $field.title == 'Group name'}
-    <div class="col-md-4">
-        <label for="{$field.id}">{$field.title}</label>
-        {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</div>
-    {/if}
-    {$field.class = 'form-control'}
-    {if $field.title == 'Tags'}
-    <div class="col-md-4">
-        <label for="{$field.id}">{$field.title}</label>
-        {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</div>
-    {/if}
-    {$field.class = 'form-control'}
-    {if $field.title == 'Description'}
-    <div class="col-md-4">
-        <label for="{$field.id}">{$field.title}</label>
-        {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</div>
-    {/if}
-    {/foreach}
-    </div>
     <div class="row">
         {foreach from=$requiredFields item=field}
         {$field.class = 'form-control'}
-        {if $field.title == 'Choose a unique group name URL:'}
-    <div class="col-md-3">
-        <label for="{$field.id}">{$field.title}</label>
-        {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</div>
-    {/if}
-    {$field.class = 'form-control'}
-    {if $field.title == 'Group Category:'}
-    <div class="col-md-3">
-        <label for="{$field.id}">{$field.title}</label><br>
-        {$field.hint_1}
-        <div class="tab-content scroll">
-        {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</div>
-    {/if}
-    {/foreach}
-        </div>
+        {if $field.title == 'Group name'}
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="{$field.id}">{$field.title}</label>
+                {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</div>
+            </div>
+        {/if}
+        {$field.class = 'form-control'}
+        {if $field.title == 'Tags'}
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="{$field.id}">{$field.title}</label>
+            {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</div>
+            </div>
+        {/if}
+        
+        {$field.class = 'form-control'}
+                {if $field.title == 'Choose a unique group name URL:'}
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="{$field.id}">{$field.title}</label>
+                            {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
+                        </div>
+                    </div>
+                {/if}
+        {/foreach}
+    </div>
+    <div class="row">
+        {foreach from=$requiredFields item=field}
+            {$field.class = 'form-control'}
+            {if $field.title == 'Description'}
+            <div class="col-md-4">
+            <div class="form-group">
+                <label for="{$field.id}">{$field.title}</label>
+                {ANCHOR place=$field.anchor_before}{$formObj->createField($field)}</div>
+            </div>
+            {/if}
+            {$field.class = 'form-control'}
+            {if $field.title == 'Group Category:'}
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="{$field.id}">{$field.title}</label><br>
+                        <div class="boxBordered">
+                            {$field.label_class = "checkbox"}
+                            {$field.notShowSeprator = true}
+                            {$formObj->createField($field)}
+                        </div>
+                        <small>{$field.hint_1}</small>
+                    </div>
+            {/if}
+        {/foreach}
+    </div>
 </div>
 
                 <!-- MORE Fields -->

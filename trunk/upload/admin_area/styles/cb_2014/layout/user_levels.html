@@ -333,40 +333,44 @@
 <h3>{$types[t].user_permission_type_name}</h3>
 
     {assign var=perms value=$userquery->get_permissions($types[t].user_permission_type_id)}
-    <table class="table table-bordered table-striped">
+    <div class="row">
     {assign var = bgcolor value = ""}
     {foreach from=$perms item=perm}
         {if $perm.permission_id !=""}
-        <tr>
-          <td>
-            <strong>{$perm.permission_name}</strong><br />
-            <em>{$perm.permission_desc}</em>
-          </td>
-          <td>
-            <label class="radio">
-              <input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_id}_yes" />Yes
-            </label>
-            <label class="radio">
-              <input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_id}_no" />No
-            </label>
-          </td>
-        </tr>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 myWell">
+                    <div class="col-md-8 paddingTop">
+                    <strong>{$perm.permission_name}</strong><br />
+                    <small><em>{$perm.permission_desc}</em></small>
+                  </div>
+                  <div class="col-md-4">
+                        <label class="radio">
+                          <input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_id}_yes" />Yes
+                        </label>
+                        <label class="radio">
+                          <input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_id}_no" />No
+                        </label>
+                  </div>      
+                </div>
+            </div>
+        </div>
         {else}
-        <tr>
-          <td>
+        <div>
+          <div class="col-md-6">
             <em>No Permission Found</em>
-          </td>
-        </tr>
+          </div>
+        </div>
         {/if}
 
     {foreachelse}
-    <tr>
-      <td>
+    <div>
+      <div>
         <em>No Permission Found</em>
-      </td>
-    </tr>
+      </div>
+    </div>
     {/foreach}
-    </table>
+    </div>
 
 {/section}
 <input class="btn btn-primary btn-sm" type="submit" name="add_new_level" id="button" value="Add Level" />

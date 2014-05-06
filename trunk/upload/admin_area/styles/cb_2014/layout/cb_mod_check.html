@@ -9,8 +9,8 @@ A brief test to check weather server modules exist or not and what are there ver
 
 
 <div class="well">
-    {check_module_path path='ffmpeg' get_path='true' assign='ffmpeg_status'}
-     {var_dump($ffmpeg_status)}
+    {$ffmpeg_status = check_module_path_new('ffmpeg', true)}
+    {var_dump($ffmpeg_status)}
     <img src="{$imageurl}/{if $ffmpeg_status.status=='ok'}tick.png{else}alert.png{/if}"
     />
     <h4>FFMPEG</h4>
