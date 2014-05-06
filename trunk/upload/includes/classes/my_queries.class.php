@@ -143,7 +143,6 @@ class myquery {
 	{
 		global $db,$userquery,$LANG;
 		//first get comment details
-		
 		$cdetails = $this->get_comment($cid);	
 		$uid = user_id();
 		
@@ -157,7 +156,8 @@ class myquery {
 			{
 				foreach($replies as $reply)
 				{
-					$this->delete_comment($reply['comment_id'],$type,TRUE,$forceDelete);
+					//$this->delete_comment($reply['comment_id'],$type,TRUE,$forceDelete);
+					$db->Execute("DELETE FROM ".tbl("comments")." WHERE comment_id='{$reply['comment_id']}'");
 				}
 			}
 			$db->Execute("DELETE FROM ".tbl("comments")." WHERE comment_id='$cid'");
@@ -943,6 +943,11 @@ class myquery {
     {
         global $db;
         $db->insert(tbl('admin_todo'),array('todo,date_added,userid'),array($todo,now(),userid()));
+    }
+
+    function update_todo($todo, $todo_id){
+    	global $db;
+        $db->update(tbl('admin_todo'),array('todo'),array($todo), "todo_id = {$todo_id}");	
     }
     /**
      *

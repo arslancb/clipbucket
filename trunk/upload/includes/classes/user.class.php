@@ -3872,15 +3872,17 @@ class userquery extends CBCategory{
 			$cond .= " ".$params['cond']." ";
 		}
                 
+
+
                 
 		if(!$params['count_only'])
         {
 
             $fields = array(
                 'users' => get_user_fields(),
-                'profile' => array( 'rating', 'rated_by', 'voters', 'first_name', 'last_name' )
+                'profile' => array( 'rating', 'rated_by', 'voters', 'first_name', 'last_name' ),
             );
-
+            $fields['users'][] = 'last_active';
             $query = " SELECT ".tbl_fields( $fields )." FROM ".tbl( 'users'  )." AS users ";
             $query .= " LEFT JOIN ".table( 'user_profile', 'profile ' )." ON users.userid = profile.userid ";
 

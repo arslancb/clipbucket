@@ -406,10 +406,13 @@ class formObj
 	* @param label
 	*/
 	
+	function getCats($type){
+		return $catArray = getCategoryList(array("type" => $type));
+	}
+
 	function createDropDown($field,$multi=FALSE)
 	{
 		global $LANG;
-		
 		//First Checking if value is CATEGORY
 		if($field['value'][0]=='category')
 		{
@@ -418,6 +421,7 @@ class formObj
 			//Generate Category list
 			$type = $field['type'] ? $field['type'] : 'video';
 			$catArray = getCategoryList(array("type"=>$field['category_type']));
+
 			foreach ($catArray as $cat)
 			{
 				$field['value'][$cat['category_id']] = $cat['category_name'];
@@ -431,7 +435,6 @@ class formObj
 		
 		$ddFieldStart = '<select name="'.$field_name.'" id="'.$field['id'].'" class="'.$field['class'].'">';
 		$arrayName = $this->rmBrackets($field['name']);
-		
 		if(is_array($field['value']))
 		foreach($field['value'] as $key => $value)
 		{
