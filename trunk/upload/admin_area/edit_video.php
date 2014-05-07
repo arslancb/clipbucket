@@ -25,6 +25,7 @@ if(!defined('SUB_PAGE')){
 
 
 
+
 if(@$_GET['msg']){
 	$msg[] = clean($_GET['msg']);
 }

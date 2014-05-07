@@ -75,7 +75,7 @@ ul.mainTabs{
 }
 
 .manageUsersTable .dropdown{
-    text-align: center;
+    
     padding-right: 0;
 }
 
@@ -360,6 +360,18 @@ ul.mainTabs{
     padding-top: 10px;
 }
 
+.paddingLeftSmall{
+    padding-left: 5px;
+}
+
+.paddingLeftMedium{
+    padding-left: 10px;
+}
+
+.paddingLeftLarge{
+    padding-left: 15px;
+}
+
 .alignRight{
     text-align: right;
 }
@@ -409,16 +421,36 @@ ul.mainTabs{
 
 
 .myTable .first{
-    
-    padding: 5px 5px 5px 5px;
+    width: 30%;
+    padding: 0px;
+    margin-bottom: 2px;
+    border-bottom: solid 1px #fff;
+}
+
+.myTable .last{
+    padding: 0;
+}
+
+.myTable .last p{
+    margin-left: 10px;
+    border-bottom: dotted 1px #EDF3F4;
+    padding: 6px;
+    margin-bottom: 0;
+}
+
+.myTable .last span{
+    border-bottom: dashed 1px #ccc;
+    padding-left: 2px;
+    color: #703970;
 }
 
 .myTable .first label{
+    color: #576373;
     background-color: #EDF3F4;
     display: block;
     padding: 6px;
     text-align: right;
-    color: #959AA0;
+    
 
 }
 
@@ -440,4 +472,13 @@ ul.mainTabs{
 }
 .alignCenter{
     text-align: center;
+}
+
+.alignLeft{
+    text-align: left;
+}
+
+.heading{
+    border-bottom: solid 1px #eee;
+    margin-bottom: 10px;
 }

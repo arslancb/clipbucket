@@ -59,15 +59,15 @@
                 </div>
             </td>
             <td>
-                <div class="dropdown">
-                    <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle pull-left" data-toggle="dropdown">
-                        Actions <i class="caret"></i></button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
-                        <li><a role="menuitem" tabindex="-1"
-                               href="?remove={$video.videoid}">Remove From Editor's Pick</a></li>
-
+                <div class="dropdown alignLeft">
+                    <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle" id="dropdownMenu1">
+                        Actions <i class="caret"></i>
+                    </button>
+                    <ul role="menu" aria-labelledby="dropdownMenu1" class="dropdown-menu">
+                        <li><a class="" href="?remove={$video.videoid}" tabindex="-1" role="menuitem">Remove From Editor's Pick</a></li>
                     </ul>
                 </div>
+
             </td>
         </tr>
         {/foreach}

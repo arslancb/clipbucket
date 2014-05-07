@@ -78,19 +78,29 @@
 <span class="lead">Editing {$lang_details.language_name}</span>
 <div class="form-group">
     <form id="form1" name="form1" method="post" action="">
-
-        <div class="form-group">
-            <label for="">Language Name</label>
-            <input name="name" type="text" class="form-control" id="name" value="{$lang_details.language_name}" />
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">Language Name</label>
+                    <input name="name" type="text" class="form-control" id="name" value="{$lang_details.language_name}" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">Language Code</label>
+                    <input name="code" type="text" class="form-control" id="code" value="{$lang_details.language_code}" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">Language Regex</label>
+                    <input name="regex" type="text" class="form-control" id="regex" value="{$lang_details.language_regex}" />
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="">Language Code</label>
-            <input name="code" type="text" class="form-control" id="code" value="{$lang_details.language_code}" />
-        </div>
-        <div class="form-group">
-            <label for="">Language Regex</label>
-            <input name="regex" type="text" class="form-control" id="regex" value="{$lang_details.language_regex}" />
-        </div>
+                
+                
+                
         <input type="submit" name="update_language" class="btn btn-primary" value="Update"  id="update_language"/>
 </form>
 </div>
@@ -98,15 +108,23 @@
 <legend>Editing {$lang_details.language_name} Phrases</legend>
 <div class="form-group">
 <form id="form2" name="form1" method="get" action="?">
-    <div class="form-group">
-        <label for="">Phrase Code - Name</label>
-        <input name="varname" type="text" class="form-control" id="varname" value="{$smarty.get.varname|form_val}" />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="">Phrase Code - Name</label>
+                <input name="varname" type="text" class="form-control" id="varname" value="{$smarty.get.varname|form_val}" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="">Phrase Text</label>
+                <input name="text" class="form-control" type="text" id="text" value="{$smarty.get.text|form_val}" />
+            </div>
+        </div>
     </div>
+            
         
-    <div class="form-group">
-        <label for="">Phrase Text</label>
-        <input name="text" class="form-control" type="text" id="text" value="{$smarty.get.text|form_val}" />
-    </div>
+            
     <label>
     <input name="edit_language" type="hidden" value="{$smarty.get.edit_language}" />
       <input type="submit" name="search_phrase" class="btn btn-primary" value="Submit"   id="search_phrase"/>

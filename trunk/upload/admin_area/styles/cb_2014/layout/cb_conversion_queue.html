@@ -13,7 +13,7 @@
 <form name="video_manage" method="post">
 
 <div class="btn-group">
-    <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-xs" onclick="return _cb.confirm_it('Are your sure you want to remove these items')"/>
+    <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-xs" onclick="return confirm_it('Are your sure you want to remove these items')"/>
     <input name="processed" type="submit"class="btn btn-primary btn-xs" id="processed" value="Set as processed" />
     <input name="pending" type="submit"class="btn btn-primary btn-xs" id="pending" value="Set as pending" /></td>
 </div>
@@ -22,7 +22,7 @@
 <table class="table table-bordered table-striped">
   <tr>
     <td width="30" align="center" valign="middle" class="left_head">
-    <input type="checkbox" name="checkall" onclick="_cb.checkUncheckAll(this);"/></td>
+    <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
     <td width="50" class="head">ID</td>
     <td class="head">Details</td>
   </tr>

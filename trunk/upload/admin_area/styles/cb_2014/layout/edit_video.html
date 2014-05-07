@@ -3,9 +3,55 @@
 {if $data.title neq ""}
 <form action="" method="post" name="edit_video" id="edit_video">
 <div class="row">
-    <div class="col-md-6">
-        <div class="lead">Editing <b>{$data.title|truncate:80}</b>
+    <div class="heading clearfix">
+            <h2 class="pull-left paddingLeftLarge">Editing <small>&gt;&gt; {$data.title|truncate:80}</small></h2>
+            <div class="pull-right marginBottomLarge paddingBottomLarge">
+                <span class="btn btn-app btn-sm btn-light no-hover">
+                <span class="line-height-1 bigger-150 blue">{$data.views|format_number}</span>
+                <br>
+                <span class="line-height-1 smaller-90"> Views </span>
+                </span>
+                <span class="btn btn-app btn-sm btn-yellow no-hover">
+                <span class="line-height-1 bigger-150"> {$data.comments_count} </span>
+
+                <br>
+                <span class="line-height-1 smaller-90"> Comments </span>
+                </span>
+                <span class="btn btn-app btn-sm btn-pink no-hover">
+                <span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok bigger-150"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+                <span class="line-height-1 smaller-90"> Active</span>
+                </span>
+                </span>
+                <span class="btn btn-app btn-sm btn-grey no-hover">
+
+                <span class="line-height-1"> {if $data.featured=='No'}<span class="glyphicon glyphicon-ok bigger-150"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+
+                <span class="line-height-1 smaller-90">Featured</span>
+                </span>
+                </span>
+                <a href="?add_editor_pick={$data.videoid}">
+                <span class="btn btn-app btn-sm btn-success no-hover">
+                <span class="line-height-1 bigger-170"><span class="glyphicon glyphicon-remove"></span></span>
+
+                <br>
+                <span class="line-height-1 smaller-90"> Editor Pick </span>
+                </span>
+                </a>
+                <span class="btn btn-app btn-sm btn-primary no-hover">
+                {section name=list loop=$flagedVideos}
+
+                <span class="line-height-1 bigger-170"> {$flagedVideos[list].total_flags} </span>
+                {/section}
+                <br>
+                <span class="line-height-1 smaller-90"> Flagged </span>
+                </span>
             </div>
+        </div>
+    <div class="col-md-6">
         <div class="tabbable">
         <ul class="nav nav-tabs" id="myTab">
             <li class="active">
@@ -23,74 +69,102 @@
         </ul>
         <div class="tab-content">
             <div id="videodetail" class="tab-pane active">
-                <legend>Video Details</legend>
                 <div class="table table-responsive">
-                    <table class="table table-bordered">
+                    <table class="myTable" width="600">
                         <tr>
-                            <td class="alert-info"><label for="videoid">Video Id</label></td>
-                            <td><input class="form-control" disabled="disabled" name="videoid1" type="text" id="videoid"  value="{$data.videoid}" size="45"/></td>
+                            <td class="first"><label for="videoid">Video Id</label></td>
+                            <td class="last">
+                                <p><span>{$data.videoid}</span></p>
+                            </td>
                             <input class="form-control" name="videoid" type="hidden" id="videoid"  value="{$data.videoid}"/>
                         </tr>
                         <tr>
-                            <td class="alert-info"><label for="videokey">Video Key</label></td>
-                            <td><input class="form-control" disabled="disabled" name="videokey" type="text" id="videokey" value="{$data.videokey}" size="45"/></td>
+                            <td class="first"><label for="videokey">Video Key</label></td>
+                            <td class="last">
+                                <p><span>{$data.videokey}</span></p>
+                            </td>
                         </tr>
                         <tr>
-                            <td class="alert-info"><label for="filename">File Name</label></td>
-                            <td><input class="form-control" disabled="disabled" name="filename" type="text" id="filename" value="{$data.file_name}" size="45"/></td>
+                            <td class="first"><label for="filename">File Name</label></td>
+                            <td class="last">
+                                <p><span>{$data.file_name}</span></p>
+                            </td>
                         </tr>
                         <tr>
-                            <td class="alert-info"><label for="filename">Uploaded Date</label></td>
-                            <td><input class="form-control" disabled="disabled" name="date" type="text" id="date" value="{$data.datecreated|niceTime}" size="45"/></td>
+                            <td class="first"><label for="filename">Uploaded Date</label></td>
+                            <td class="last">
+                                <p><span>{$data.datecreated|nicetime}</span></p>
+                            </td>
                         </tr>
                         <tr>
-                            <td class="alert-info"><label for="filename">Duration</label></td>
-                            <td><input class="form-control" disabled="disabled" name="duration" type="text" id="duration" value="{$data.duration|number_format} (seconds)" size="45"/></td>
+                            <td class="first"><label for="filename">Duration</label></td>
+                            <td class="last">
+                            <p><span>{$data.duration|number_format} seconds</span></p>
+                            </td>
                         </tr>
                         <tr>
-                            <td class="alert-info"><label for="totalvideos">Total Video Files</label></td>
-                            <td><input type="text" value="{get_all_video_files vdetails=$data count_only=true}" class="form-control" disabled="disabled">
-                                <a href="view_conversion_log.php?file_name={$data.file_name}">
-                                    <label>View File Details and Conversion Log</label></a></td>
+                            <td class="first"><label for="totalvideos">Total Video Files</label></td>
+                            <td class="last">
+                                <p><span>{get_all_video_files vdetails=$data count_only=true}</span></p>
+                            </td>
                         </tr>
                         <tr>
-                            <td class="alert-info"><label>Total Thumbnails</label></td>
-                            <td> <input type="text" value="{get_thumb vdetails=$data count_only=true}" class="form-control" disabled="disabled"></td>
+                            <td class="first">
+                                <label for="">Conversion log</label>
+                            </td>
+                            <td class="last">
+                                <p><span><a href="view_conversion_log.php?file_name={$data.file_name}">Conversion log</a></span></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first"><label>Total Thumbnails</label></td>
+                            <td class="last">
+                                <p><span>{get_thumb vdetails=$data count_only=true}</span></p>
+                            </td>
                         </tr>
                     </table>
                 </div>
                 </div>
             <div id="uinformation1" class="tab-pane">
-                <legend>Uploader Information</legend>
-                <div class="form-group">
-                    <img src="{$userquery->getUserThumb($u)}" class="img-thumbnail oneUserImage" />
-                </div>
+                <img src="{$userquery->getUserThumb($u)}" class="img-thumbnail marginBottomLarge" />
                 <div class="table-responsive">
 
-                    <table class="table table-bordered">
+                    <table class="myTable" width="600">
                         <tr>
-                            <td class="alert-info"><label class="alert-info">User Id</label></td>
-                            <td><input type="text" value="{$data.userid}" disabled="disabled" class="form-control"></label></td>
+                            <td class="first"><label>User Id</label></td>
+                            <td class="last">
+                                <p><span>{$data.userid}</span></p>
+                            </td>
                         </tr>
                         <tr>
-                            <td class="alert-info"><label class="alert-info">User Name</label></td>
-                            <td><input class="form-control" disabled="disabled" type="text" value="{$data.userid|get_username}"></td>
+                            <td class="first"><label>User Name</label></td>
+                            <td class="last">
+                                <p><span>{$data.userid|get_username}</span></p>
+                            </td>
                         </tr>
                         <tr>
-                            <td class="alert-info"><label class="alert-info">DOB</label></td>
-                            <td><input class="form-control" disabled="disabled" type="text" value="{$data.dob}"></td>
+                            <td class="first"><label>DOB</label></td>
+                            <td class="last">
+                                <p><span>{$data.dob}</span></p>
+                            </td>
                         </tr>
                         <tr>
-                            <td class="alert-info"><label class="alert-info">Email</label></td>
-                            <td><input class="form-control" disabled="disabled" type="text" value="{$data.email}"></td>
+                            <td class="first"><label>Email</label></td>
+                            <td class="last">
+                            <p><span>{$data.email}</span></p>
+                            </td>
                         </tr>
                         <tr>
-                            <td class="alert-info"><label class="alert-info">Gender</label></td>
-                            <td><input class="form-control" disabled="disabled" type="text" value="{$data.sex}"></td>
+                            <td class="first"><label>Gender</label></td>
+                            <td class="last">
+                                <p><span>{$data.sex}</span></p>
+                            </td>
                         </tr>
                         <tr>
-                            <td class="alert-info"><label class="alert-info">Rating</label></td>
-                            <td><input class="form-control" disabled="disabled" type="text" value="{$data.rating}"></td>
+                            <td class="first"><label>Rating</label></td>
+                            <td class="last">
+                                <p><span>{$data.rating}</span></p>
+                            </td>
                         </tr>
                     </table>
 
@@ -201,49 +275,6 @@
 
 
 <div class="col-sm-6 col-md-6 col-lg-6 col x1-12">
-    <span class="btn btn-app btn-sm btn-light no-hover">
-													<span class="line-height-1 bigger-150 blue">{$data.views|format_number}</span>
-													<br>
-													<span class="line-height-1 smaller-90"> Views </span>
-												</span>
-            <span class="btn btn-app btn-sm btn-yellow no-hover">
-													<span class="line-height-1 bigger-150"> {$data.comments_count} </span>
-
-													<br>
-													<span class="line-height-1 smaller-90"> Comments </span>
-												</span>
-            <span class="btn btn-app btn-sm btn-pink no-hover">
-													<span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok bigger-150"></span>
-                                                        {else}<span class="glyphicon glyphicon-remove">{/if}</span>
-													<br>
-													<span class="line-height-1 smaller-90"> Active</span>
-												</span>
-                </span>
-            <span class="btn btn-app btn-sm btn-grey no-hover">
-
-													<span class="line-height-1"> {if $data.featured=='No'}<span class="glyphicon glyphicon-ok bigger-150"></span>
-                                                        {else}<span class="glyphicon glyphicon-remove">{/if}</span>
-													<br>
-
-													<span class="line-height-1 smaller-90">Featured</span>
-												</span>
-                </span>
-    <a href="?add_editor_pick={$data.videoid}">
-            <span class="btn btn-app btn-sm btn-success no-hover">
-													<span class="line-height-1 bigger-170"><span class="glyphicon glyphicon-remove"></span></span>
-
-													<br>
-													<span class="line-height-1 smaller-90"> Editor Pick </span>
-												</span>
-    </a>
-            <span class="btn btn-app btn-sm btn-primary no-hover">
-                {section name=list loop=$flagedVideos}
-
-													<span class="line-height-1 bigger-170"> {$flagedVideos[list].total_flags} </span>
-                {/section}
-													<br>
-													<span class="line-height-1 smaller-90"> Flagged </span>
-												</span>
 
 
     <div class="col-md-8"  style="width:608px;height:300px;margin: 0px;">
@@ -354,6 +385,7 @@
                 {$field.class='form-control'}
                 {else}
                 {$field.class='form-control'}
+                {$field.id='form-control'}
                 {/if}
                 {if $field.hint_1}
                 {$field.hint_1}<br/>

@@ -1,11 +1,10 @@
 <div class="advanceSearchButton clearfix">
-    <a href="#" class="btn btn-primary btn-sm pull-right" onclick="$('#searchdiv').toggle();return false;" style="margin-bottom: 0px;position: relative; top: 21px;z-index:10000">
+    <a href="#" class="btn btn-primary btn-sm pull-right" onclick="$('#searchdiv').toggle();return false;" style="margin-bottom: 0px;position: relative; top: 15px;z-index:10000">
         Advanced Search
         <i class="glyphicon glyphicon-chevron-down"></i>
     </a>
 </div>
 <div class="search_box well" id="searchdiv" {if $smarty.cookies.show_searchdiv_search!='show'} style="display:none"{/if}>
-
     <form id="video_search" name="video_search" method="get" action="video_manager.php" class="video_search">
         <div class="row">
             <div class="col-md-4">

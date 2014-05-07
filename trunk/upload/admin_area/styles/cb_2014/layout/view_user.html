@@ -2,7 +2,45 @@
 {assign var='channel_profile_fields' value=$userquery->load_user_fields($p)}
 
 <div class="row">
-<div class="lead dropdown">Editing {$u.username}
+<div class="lead dropdown">
+<div class="heading clearfix">
+    <h3 class="paddingLeftLarge pull-left">Editing <small>&gt;&gt; {$u.username}</small></h3>
+    <div class="pull-right marginBottomLarge">
+        <span class="btn btn-app btn-sm btn-light no-hover">
+            <span class="line-height-1 blue">{$u.num_visits}</span>
+            <br>
+            <span class="line-height-1 smaller-90"> Views </span>
+        </span>
+        <span class="btn btn-app btn-sm btn-yellow no-hover">
+            <span class="line-height-1"> {$u.total_comments} </span>
+
+            <br>
+            <span class="line-height-1 smaller-90"> Comments </span>
+        </span>
+        <span class="btn btn-app btn-sm btn-pink no-hover">
+            <span class="line-height-1"> {if $u.usr_status=='Ok'}<span class="glyphicon glyphicon-ok"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+                <span class="line-height-1 smaller-90"> Active </span>
+            </span>
+        </span>
+        <span class="btn btn-app btn-sm btn-danger no-hover">
+            <span class="line-height-1">{if $u.ban_status=='yes'}
+                <span class="glyphicon glyphicon-ok"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+                <span class="line-height-1 smaller-90">Banned</span>
+            </span>
+        </span>
+        <span class="btn btn-app btn-sm btn-primary no-hover">
+
+            <span class="line-height-1"> {$u.total_flags} </span>
+
+            <br>
+            <span class="line-height-1 smaller-90"> Flagged </span>
+        </span>
+    </div>
+</div>
 <a class="btn btn-primary btn-sm dropdown-toggle pull-right" data-toggle="dropdown" href="">Actions <i class="caret"></i></a>
 <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
     <li><a role="menuitem" tabindex="-1" href="{$userquery->profile_link($u)}">View {$u.username} channel</a></li>
@@ -35,11 +73,6 @@
             </a>
         </li>
         <li class="">
-            <a data-toggle="tab" href="#channelsetting">
-                Channel
-            </a>
-        </li>
-        <li class="">
             <a data-toggle="tab" href="#basicinfo">
 
                 Basic Info
@@ -53,7 +86,7 @@
         </li>
         <li class="">
             <a data-toggle="tab" href="#education">
-                Education, Hobbies
+                Education, Hobbies, etc
             </a>
         </li>
     </ul>
@@ -73,60 +106,64 @@
     </div>
     <div id="userinfo" class="tab-pane active">
         <div class="userInfoSettings">
-            <h3>User Info</h3>
             <div class="form-group">
                 <img src="{$userquery->getUserThumb($u,'small')}" class="btn btn-app btn-primary btn-xs" />
             </div>
             <div class="table-responsive">
-                <table class="myTable">
+                <table class="myTable" width="600px">
                     <tr>
                         <td class="first"><label class="">User Id</label></td>
-                        <td><input type="text" value="{$u.userid}" disabled="disabled" class="form-control"></label></td>
+                        <td class="last"><p><span>{$u.userid}</span></p></td>
                     </tr>
                     <tr>
                         <td class="first"><label class="">User Name</label></td>
-                        <td><input class="form-control" disabled="disabled" type="text" value="{$u.username}"></td>
+                        <td class="last"><p><span>{$u.username}</span></p></td>
                     </tr>
                     <tr>
                         <td class="first"><label class="">Email</label></td>
-                        <td><input class="form-control" name="email" type="text" id="email" value="{$u.email}" /></td>
+                        <td class="last"><p><span>{$u.email}</span></p></td>
                     </tr>
-                    <tr>
-                        <td class="first"><label for="pass">Change password</label></td>
-                        <td><input class="form-control" name="pass" type="text" id="pass" /></td>
-                    </tr>
-                    <tr>
-                        <td class="first"><label for="cpass">Confirm password</label></td>
-                        <td><input class="form-control" name="cpass" type="text" id="cpass" /></td>
-                    </tr>
+                    
                     <tr>
                         <td class="first"> <label for="laevel">User level</label></td>
-                        <td> <select class="form-control" name="level" id="level">
-                            {assign var=levels value=$userquery->get_levels()}
-                            {foreach from=$levels item=level}
-                            <option value="{$level.user_level_id}" {if $u.level==$level.user_level_id} selected="selected"{/if}>{$level.user_level_name}</option>
-                            {/foreach}
-                        </select></td>
+                        <td class="last">
+                            <p><span>{$u.level}</span></p>
+                            {*
+                            <select class="form-control" name="level" id="level">
+                                {assign var=levels value=$userquery->get_levels()}
+                                {foreach from=$levels item=level}
+                                <option value="{$level.user_level_id}" {if $u.level==$level.user_level_id} selected="selected"{/if}>{$level.user_level_name}</option>
+                                {/foreach}
+                            </select>
+                            *}
+                        </td>
                     </tr>
                     <tr>
                         <td class="first"><label for="country">Country</label></td>
-                        <td>
+                        <td class="last">
+                            <p><span>{$u.country}</span></p>
+                            {*
                             <select class="form-control" name="country" id="country">
                                 {assign var='countries' value=$Cbucket->get_countries(iso2)}
                                 {foreach from=$countries item=country key=code}
                                 <option value="{$code}" {if $u.country==$code} selected="selected"{/if}>{$country}</option>
                                 {/foreach}
-                            </select></td>
+                            </select>
+                            *}
+                        </td>
                     </tr>
                     <tr>
                         <td class="first"><label for="gender">Gender</label></td>
-                        <td>
+                        <td class="last">
+                            <p><span>{$u.sex}</span></p>
+                            {*
                             <select>
                                 <option name="sex" value="male" id="sex_0" {if $u.sex == male} checked="checked"{/if}>
                                 Male</option>
                                 <option name="sex" value="female" id="sex_1" {if $u.sex == female} checked="checked"{/if}>
                                 Female</option>
                             </select>
+                            *}
                         </td>
                     </tr>
                 </table>
@@ -148,7 +185,7 @@
 
         </div>
     </div>
-    <div id="channelsetting" class="tab-pane">
+    <div id="channelsetting" class="tab-pane sr-only">
         
             <h2>Channel Settings</h2>
             <table class="myTable table">
@@ -175,41 +212,49 @@
     </div>
     <div id="basicinfo" class="tab-pane">
         <div class="form-group">
-            <h2>Basic Info</h2>
-            {foreach from=$channel_profile_fields item=field_group}
-            {foreach from=$field_group.fields item=field}
-            {if $field_group.group_name=='Basic info'}
-            {$field.class='form-control'}
             <table class="myTable" width="600">
-                <tr>
-                    <td class="first" width="150">
-                        <label for="{$field.id}">{$field.title}</label></td>
-                    <td>
-                        {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-                        {$field.hint_2}
-                    </td>
-                </tr>
+                {foreach from=$channel_profile_fields item=field_group}
+                {foreach from=$field_group.fields item=field}
+                {if $field_group.group_name=='Basic info'}
+                {$field.class='form-control'}
+
+                
+                    <tr>
+                        <td class="first">
+                            <label for="{$field.id}">{$field.title}</label></td>
+                        <td class="last">
+                            {$val = $p[$field.db_field]}
+                            {if $val == ""}
+                            {$val = $u[$field.db_field]}
+                            {/if}
+                            <p><span>{$val}</span></p>
+                        </td>
+                    </tr>
+                
+                {/if}
+                {/foreach}
+                {/foreach}
             </table>
-            {/if}
-            {/foreach}
-            {/foreach}
         </div>
     </div>
     <div id="location" class="tab-pane">
+
         <div class="form-group">
-            <h2>Location</h2>
+
             {foreach from=$channel_profile_fields item=field_group}
             {foreach from=$field_group.fields item=field}
             {if $field_group.group_name=='Location'}
             {$field.class='form-control'}
-
             <table class="myTable" width="600">
                 <tr>
-                    <td class="first" width="150">
+                    <td class="first">
                         <label for="{$field.id}">{$field.title}</label></td>
-                    <td>
-                        {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-                        {$field.hint_2}
+                    <td class="last">
+                        {$val = $p[$field.db_field]}
+                        {if $val == ""}
+                        {$val = $u[$field.db_field]}
+                        {/if}
+                        <p><span>{$val}</span></p>
                     </td>
                 </tr>
             </table>
@@ -228,11 +273,14 @@
 
             <table class="myTable" width="600">
                 <tr>
-                    <td class="first" width="150">
+                    <td class="first">
                         <label for="{$field.id}">{$field.title}</label></td>
-                    <td>
-                        {$field.hint_1}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}
-
+                    <td class="last">
+                        {$val = $p[$field.db_field]}
+                        {if $val == ""}
+                        {$val = $u[$field.db_field]}
+                        {/if}
+                        <p><span>{$val}</span></p>
                     </td>
                 </tr>
             </table>
@@ -249,56 +297,11 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
    </div>
 
 
 <div class="col-sm-6 col-md-6 col-lg-6 col x1-12 pull-right">
-<span class="btn btn-app btn-sm btn-light no-hover">
-													<span class="line-height-1 bigger-170 blue">{$u.num_visits}</span>
-													<br>
-													<span class="line-height-1 smaller-90"> Views </span>
-												</span>
-            <span class="btn btn-app btn-sm btn-yellow no-hover">
-													<span class="line-height-1 bigger-170"> {$u.total_comments} </span>
 
-													<br>
-													<span class="line-height-1 smaller-90"> Comments </span>
-												</span>
-            <span class="btn btn-app btn-sm btn-pink no-hover">
-													<span class="line-height-1"> {if $u.usr_status=='Ok'}<span class="glyphicon glyphicon-ok bigger-170"></span>
-                                                        {else}<span class="glyphicon glyphicon-remove bigger-170">{/if}</span>
-													<br>
-													<span class="line-height-1 smaller-90"> Active </span>
-												</span>
-                </span>
-            <span class="btn btn-app btn-sm btn-danger no-hover">
-													<span class="line-height-1">{if $u.ban_status=='yes'}
-                                                        <span class="glyphicon glyphicon-ok bigger-170"></span>
-                                                        {else}<span class="glyphicon glyphicon-remove bigger-170">{/if}</span>
-													<br>
-													<span class="line-height-1 smaller-90">Banned</span>
-												</span>
-                </span>
-            <span class="btn btn-app btn-sm btn-primary no-hover">
-
-													<span class="line-height-1 bigger-170"> {$u.total_flags} </span>
-
-													<br>
-													<span class="line-height-1 smaller-90"> Flagged </span>
-												</span>
 
 <div class="actionsSettings">
     <div class="userActivity">
@@ -506,6 +509,15 @@
 </div>
 </div>
 </div>
+    <div class="form-group">
+        <label for="pass">Change password</label>
+        <input class="form-control" name="pass" type="text" id="pass" />
+    </div>
+    <div class="form-group">
+        <label for="cpass">Confirm password</label>
+        <input class="form-control" name="cpass" type="text" id="cpass" />
+    </div>
+
 </form>
 </div>
 

@@ -235,7 +235,7 @@ function format_number($number) {
 }
 
 
-subtitle(lang('video_manager'));
+//subtitle(lang('video_manager'));
 template_files('index.html');
 display_it();
 ?>

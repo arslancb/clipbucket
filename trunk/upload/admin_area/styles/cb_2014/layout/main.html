@@ -901,17 +901,20 @@
       </div>
     </div>-->
     <h2>Main Settings</h2>
-    <div class="">
-      <div class="form-group">
-        <label for="use_cached_pagin">Use cached pagination</label>    
-        <input value="yes"  name="use_cached_pagin" id="use_cached_pagin" {if $row.use_cached_pagin == 'yes'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
-        <span class="show lbl"></span>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="">
+          <label for="use_cached_pagin">Use cached pagination</label>    
+          <input value="yes"  name="use_cached_pagin" id="use_cached_pagin" {if $row.use_cached_pagin == 'yes'}checked="checked"{/if} type="checkbox" class="ace ace-switch ace-switch-5">
+          <span class="show lbl"></span>
+        </div>
       </div>
-
-      <div class="">
-        <label for="cached_pagin_time">Pagination caching time</label>
-        <input class="form-control" name="cached_pagin_time" type="text" id="cached_pagin_time" value="{$row.cached_pagin_time}" size="45" /> 
-        in minutes
+      <div class="col-md-3">
+        <div class="">
+          <label for="cached_pagin_time">Pagination caching time</label>
+          <input class="form-control" name="cached_pagin_time" type="text" id="cached_pagin_time" value="{$row.cached_pagin_time}" size="45" /> 
+          in minutes
+        </div>
       </div>
     </div>
 
