@@ -672,7 +672,7 @@ footer {
 }
 .cb-item-title-container .cb-item-title {
     padding-top: 8px;
-    font-size: 27px;
+    font-size: 22px;
     font-weight: bold;
     color: #3d3d3d;
 }
@@ -1307,8 +1307,8 @@ h2.myHeadingBLK {
 .next_pre_hold{
     height: 5px;
     position: absolute;
-    top: 320px;
-    width: 95.6%;
+    left: 28px; width: 89.1%;
+    top:397px;
 }
 .next_pre_hold .btn{
  box-shadow: 0 0px 0px rgba(0, 0, 0, 0) ;
@@ -1393,17 +1393,17 @@ margin-right: 10px;
     opacity: 1;
     display: block;
 }
-/*.mouse_hover_on{*/
-    /*display: none;*/
-    /*-webkit-transition: opacity 1s ease-out;*/
-    /*opacity: 0;*/
-/*}*/
+.mouse_hover_on{
+    display: none;
+    -webkit-transition: opacity 1s ease-out;
+    opacity: 0;
+}
 .mouse_hover1:hover  .mouse_hover_on1{
     display: block;
 }
-/*.mouse_hover_on1{*/
-    /*display: none;*/
-/*}*/
+.mouse_hover_on1{
+    display: none;
+}
 .opacity_low {
 opacity: 0.8;
 }
@@ -1440,22 +1440,23 @@ display: block;
    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
     color: #FFFFFF;
     left: 1px;
-    padding-bottom: 11.2%;
-    padding-top: 10.6%;
+    padding-bottom: 25px;
+    padding-top: 25px;
     position: absolute;
-    top: 2px;
+    top: -1px;
     width: 99.5%;
-    height: 97px;
+    height: 103px;
 }
 
 .collection_home .details{
    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
     color: #FFFFFF;
-    left: 17px;
-    padding-bottom: 8.2%;
-    padding-top: 10%;
+    left: 7px;
+    margin-top: 2px;
+    padding-bottom: 27px;
+    padding-top: 27px;
     position: absolute;
-    width: 91.4%;
+    width: 96.4%;
 }
 .collection_home .details .collection_name{
 
@@ -1495,6 +1496,7 @@ height: 244px !important;
     height:135px; padding:5px;
 }
 .side_user_home{
+    padding: 5px;
     background-color:#F8F8F8; padding-top:10px; padding-bottom:10px; margin-bottom:10px;
 }
 .side_user_home .user_icon{
@@ -1539,5 +1541,37 @@ width: 740px !important;
 .thumbnail_new img { width:100%; height:auto; } /* to keep proportions */
 .thumbnails_new p { text-align: center; padding: 10px; } /* captions can be styled with an inline element */
 .banner{
-     border: 2px solid #DDDDDD;
+     /*border: 2px solid #DDDDDD;*/
+}
+#slide{
+    left: 13px;
+}
+.margin-bottom-10{
+margin-bottom: 10px !important;
+}
+.home-side-heading{
+    border-bottom: 2px solid #d1d1d1;
+    margin-top: 5px;
+    padding-bottom: 5px;
+} 
+small{
+    color: #838282;
+}
+.photoThumbBox{
+    height: 118px;
+}
+.video_thumb img{
+
+}
+.paddingleft0{
+padding-left: 0px;
+}
+.paddingright0{
+padding-right: 0px;
+}
+.video-popular a{
+
+}
+.min-height-45{
+    min-height: 45px;
 }

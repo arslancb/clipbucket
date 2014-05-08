@@ -3,18 +3,18 @@
 
         <div class="row">
             {assign var=json value=$photo.photo_details|json_decode}
-            <div class="col-md-8 cb-box show-image nplinks" style="margin-left: -15px">
+            <div class="col-md-8 cb-box show-image nplinks mouse_hover" style="margin-left: -15px">
                 <a {if $nextLink} {assign var='nextItem' value=$nextLink} {else}  {assign var='nextItem' value=$preLink} {/if}
                 href="{$cbphoto->photo_links($nextItem.0,'view_item')}"
                 >{get_photo details=$photo size='l' class='photoimg' output='html'}</a>
                 {assign var=objctid value=$object.ci_id}
                 {assign var=collid value=$object.collection_id}
                 {assign var=preLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'prev')}
-                <a class="the-buttons btn btn-danger btn-lg btns1" id="button1" name="button1" href="{$cbphoto->photo_links($preLink.0,'view_item')}">
+                <a class="btn btn-danger btn-lg btns1 mouse_hover_on" href="{$cbphoto->photo_links($preLink.0,'view_item')}">
                  <i class="glyphicon glyphicon-chevron-left"></i>Previous
                 </a>
                 {assign var=nextLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'next')}
-                <a class="the-buttons btn btn-primary btn-lg btns" id="button2" name="button2" href="{$cbphoto->photo_links($nextLink.0,'view_item')}">
+                <a class="btn btn-primary btn-lg btns mouse_hover_on" href="{$cbphoto->photo_links($nextLink.0,'view_item')}">
                    Next<i class="glyphicon glyphicon-chevron-right"> </i>
                 </a>
                 <hr>
@@ -149,7 +149,7 @@
                                 {show_share_form id=$photo.photo_id type=Photo}
                             </div>
                             <div id="pcode" class="tab-pane">
-                                {embedCodes assign='codes' type='all' with_url=TRUE details=$photo}
+                                {$codes=$cbphoto->photo_embed_codes(['type'=>'all','with_url'=>true, 'details'=>$photo])}
                                 {foreach from=$codes item=item}
                                 <div style="width:48%; display:inline-block; margin-top:5px;">
                                     <label style="text-transform:uppercase; font:bold 11px Tahoma;" for="{$item.type}">{$item.name}</label>
@@ -169,7 +169,7 @@
                 </div>
             </div>
             <div class="cb-box col-md-4 pull-right" >
-                <a href="http://www.arvixe.com/clipbucket_hosting?utm_campaign=300x250_Demo&utm_medium=banner&utm_source=clipbucket.com"><img class="banner" src="{$theme}/assets/images/300x250.gif" style="margin-bottom: 10px; width: 100%;" >
+                <a href="http://www.arvixe.com/clipbucket_hosting?utm_campaign=300x250_Demo&utm_medium=banner&utm_source=clipbucket.com"><img class="banner" src="{$theme}/assets/images/add320x250.png" style="margin-bottom: 10px; width: 100%;" >
       </a>
                 <h3>{lang code='Most Popular'}</h3>
                 {section name=p_list loop=$photos}
@@ -207,29 +207,9 @@
                         {if $myquery->is_commentable($photo,'p')}
                         {include file="$style_dir/blocks/comments/add_comment.html" id=$photo.photo_id type=p}
                         {else}
-                        <div class="disable_msg" align="center">{lang code='Comments disabled for this photo'}</div>
+                        <div  class="alert alert-warning">{lang code='Comments disabled for this photo'}</div>
                         {/if}
                     </div>
-
-           
-
-
-
-<script>
-    jQuery(function() {                                              // <== Doc ready
-
-        jQuery(".the-buttons").hide();                  // Initially hide all buttons
-
-        jQuery('.show-image').hover(function() {
-            jQuery(this).find('#button1').fadeIn(1500);
-            jQuery(this).find('#button2').fadeIn(1500);
-        }, function() {
-            jQuery(this).find('#button1').fadeOut(1500);
-            jQuery(this).find('#button2').fadeOut(1500);
-        });
-    });
-</script>
-
 
 {section name=list loop=$uphotos}
 {include file="$style_dir/blocks/photo.html" display_type="related_photos" photo=$uphotos[list]}

@@ -9,7 +9,7 @@
         <!-- Listing Categories -->
         {include file="$style_dir/blocks/category_list.html" type='video'}
         <!-- Listing Categories End -->
-        <div class="col-md-9 clearfix">
+        <div class="col-md-9 clearfix paddingleft0">
             <!-- Page Heading -->
             <div class="page-hidding">
                 {assign var=sorting_links value=sorting_links()}
@@ -81,9 +81,9 @@
                 </div>
             </div>
             <!-- /Page Heading -->
-            <div class="row">
+            <div class="" style="margin-left: -15px;">
                 {foreach $videos as $video}
-                    <div class="col-md-4 marginBottom grid_view list_view">
+                    <div class="col-md-3 marginBottom grid_view list_view nopadding-right">
                         {include file="$style_dir/blocks/videos/video.html"}
                     </div>
                 {/foreach}

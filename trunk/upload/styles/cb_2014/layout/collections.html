@@ -18,7 +18,7 @@
                 <!--{/foreach}-->
             <!--</ul>-->
             {include file="$style_dir/blocks/category_list.html" type='collections'}
-        <div class="col-md-9">
+        <div class="col-md-9 nopadding">
           
                 {assign var=sorting_links value=sorting_links()}
                 <h4 class="smaller lighter pull-left">Browsing All Collections: </h4>
@@ -87,14 +87,18 @@
                        <a class="btn btn-primary pull-right" style="margin-right: -107px" href="{$baseurl}/manage_collections.php?mode=add_new">{lang code='add_new_collection'}</a>
                 </div>
                 <br>
-            <div class="row">
+                <hr>
                 <div class="col-md-12">
-                    <hr>
+                    
+                     <ul class="list-unstyled row collections">
                     {section name=c_list loop=$collections}
+                    
                         {include file="$style_dir/blocks/collection.html" collection=$collections[c_list]}
+
                     {sectionelse}
-                        {lang code='no_results_found'}
+                     {lang code='no_results_found'}
                     {/section}
+                    </ul>
                 </div>
                 <!--Pagination-->
             <div class="clearfix"></div>
@@ -102,7 +106,7 @@
                 {include file="$style_dir/blocks/pagination.html"}
             </div> 
             <!-- /Pagination-->
-            </div>
+         
             {*include file="$style_dir/blocks/pagination.html"*}
         
     </div>

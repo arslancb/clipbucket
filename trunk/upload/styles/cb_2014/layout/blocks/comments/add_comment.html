@@ -1,5 +1,6 @@
 {if $userquery->login_check('',true) || $Cbucket->configs.anonym_comments == 'yes'}
 <div class="">
+    <div id="comment-add-err"></div>
     <form class=""  id="comment_form" >
 
         <input type="hidden" name="reply_to" id="reply_to" value="0">
@@ -54,45 +55,59 @@
                 {lang code='Your comment'}
             </label>
             {/if}
-            <textarea name="comment" id="comment_text" class="form-control clearfix"></textarea>
+            <textarea name="comment" id="comment_text" class="form-control clearfix comment_text_new"></textarea>
         </div>
         <div class="form-group clearfix">
-            <button type="submit" class="hidden-xs hidden-sm  btn btn-primary pull-right" id="addCommentButton">{lang('Comment')}</button>
+            <button  data-loading-text="Loading..." type="button" class="hidden-xs hidden-sm  btn btn-primary pull-right" id="addCommentButton">{lang('Comment')}</button>
+
         </div>
 
+
         <script>
-            $(document).ready(function(){
-                var ajaxPage = baseurl+'/ajax.php';
-                $('#addCommentButton').on({
-                    click: function(e){
-                        e.preventDefault();
-                        var data = $(this).parents("form").serialize() + "&type={$type}&mode=add_comment";
+        var ajaxPage = baseurl+'/ajax.php';
+        $('#addCommentButton').on('click',function(e){
+                e.preventDefault();
+                var btn =$(this);
+btn.button('loading');
+
+
+                $('#comment-add-err').hide();
+               
+                var data = $(this).parents("form").serialize() + "&type={$type}&mode=add_comment";
+                $.ajax({
+                    url: ajaxPage,
+                    type: "post",
+                    data: data,
+                    dataType : 'json',
+                }).success(function(response){
+                    //var response = $.parseJSON(response);
+                    var cid = parseInt(response.cid);
+                    if(cid > 1){
                         $.ajax({
                             url: ajaxPage,
                             type: "post",
-                            data: data,
-                        }).success(function(response){
-                            var response = $.parseJSON(response);
-                            var cid = parseInt(response.cid);
-                            if(cid !== NaN && cid !== 0 & cid !== false){
-                                $.ajax({
-                                    url: ajaxPage,
-                                    type: "post",
-                                    data: {
-                                        mode: "get_comment",
-                                        cid: cid
-                                    },
-                                }).success(function(comment){
-                                    //console.log("comment is here");
-                                    comments = $("#userCommentsList").html();
-                                    console.log(comments);
-                                    $("#userCommentsList").html(comment + comments);
-                                });
-                            }
+                            data: {
+                                mode: "get_comment",
+                                cid: cid
+                            },
+                        }).success(function(comment){
+                            $("#comment_text").val('');
+                            //comments = $("#userCommentsList").html();
+                            $("#userCommentsList").prepend(comment);
                         });
-                        //add_comment_js('comment_form','{$type}');
+                    }else{
+                        if(response.msg){
+                         $('#comment-add-err').show().html(response.msg);   
+                        }
+                        else if(response.err)
+                        {
+                            $('#comment-add-err').show().html(response.err);
+                        }
                     }
+               
+                btn.button('reset');
                 });
+               
             });
         </script>
 
@@ -107,4 +122,3 @@
     {lang code='please_login_to_comment'}
 {/if}
 </div>
-

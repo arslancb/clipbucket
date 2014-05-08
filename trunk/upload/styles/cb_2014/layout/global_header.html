@@ -8,15 +8,14 @@
             {$cache_buster=$Cbucket->version}
         {/if}
 
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <script>
             var loading = '<i class="fa fa-spinner fa-spin"></i> {lang code="loading"}...';
             var baseurl = "{$baseurl}";
         </script>
-        <!-- Google CDN jQuery with fallback to local -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script>!window.jQuery && document.write(unescape('%3Cscript src="js/minified/jquery-1.9.1.min.js"%3E%3C/script%3E'))</script>
-        <!-- custom scrollbars plugin -->
+      
+          <!-- custom scrollbars plugin -->
         <script src="{$baseurl}/js/jquery.mCustomScrollbar.concat.min.js"></script>
         <script>
             (function($){
@@ -70,7 +69,7 @@
         {/if}
         <script type="text/javascript" src="{$theme}/js/functions.js"></script>
         <script type="text/javascript" src="{$theme}/js/admin_functions.js"></script>
-        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        
         <script src="{$theme}/js/bootstrap.min.js"></script>
         <script src="{$theme}/js/masonary.desandro.min.js"></script>
         <script src="{$baseurl}/js/clipbucket.js"></script>
@@ -81,9 +80,7 @@
 
 		<!-- Script For Home Page Videos Slider //-->
 		<script src="{$theme}/js/jssor.slider.min.js"></script>
-        <script src="{$theme}/js/jquery-1.9.1.min.js"></script>
 
-        <script src="{$theme}/js/uslider_js/jquery.js"></script>
         <script src="{$theme}/js/uslider_js/jquery.easing.js"></script>
         <script src="{$theme}/js/uslider_js/jquery.mousewheel.js"></script>
         <script src="{$theme}/js/uslider_js/jquery.ulslide.js?v=4"></script>
@@ -107,7 +104,9 @@
     //            less.watch({
     //            poll : 300
     //            });
-
+            $( 'ul#photos li:visible' ).each( function( i ){
+                $( this )[ (1&i) ? 'addClass' : 'removeClass' ]( 'photo-land-no' );
+            } )
             })
 
         </script>

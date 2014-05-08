@@ -1,13 +1,15 @@
 {if $display_type == ""}
 
-<div class="show-image">
-    <div class="col-md-4 col-sm-4 col-xs-6" style="padding-right: 0px">
-        <span class="photoname" id="avatar1_file" style="height: 45px; overflow: hidden;" >{$photo.photo_title|truncate:30}</span>
+<div class="show-image mouse_hover">
+    <div class="" style="padding-right: 0px;">
+        <!--<span class="photoname" id="avatar1_file" style="height: 45px; overflow: hidden;" >{$photo.photo_title|truncate:30}</span>-->
+        
         <a href="{$cbphoto->photo_links($photo,'view_item')}" title="Tolpis barbata (mariluzpicado)">
-            {get_photo details=$photo size='l' class='loading' output='html'}
+            {get_photo details=$photo size='l' class='photo-land' output='html'}
         </a>
 
     </div>
+    <span class="photoname mouse_hover_on" style="height: 30px; overflow: hidden;" >{$photo.photo_title|truncate:30}</span>
 </div>
             <!--<div class="col-md-8">-->
                 <!--<a class="fancybox" rel="gallery1" href="http://farm6.staticflickr.com/5471/9036958611_fa1bb7f827_b.jpg" title="Westfield Waterfalls - Middletown CT Lower (Graham_CS)">-->

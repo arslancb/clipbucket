@@ -1,18 +1,18 @@
 <div class="col-md-13 marginBottom grid_view list_view item_video_pop">
     <div class="item_video">
         <div class="cb_item_container clearfix">
-            <div class=" col-md-6 row">
+            <div class=" col-md-5 row">
                <a href="{videoLink($video)}" title="{$video.title|title}" >
-                    <img class="" src="{getThumb vdetails=$video}" border="1" height="75%" width="75%"/>
+                    <img class="" src="{getThumb vdetails=$video}" border="1" style="height:65px;"/>
                 </a>
             </div>
-            <div class="pull-right col-md-7 padding-top-5" style="position: absolute;right: 42px;">
+            <div class="pull-right col-md-8 paddingright0">
                 <div class="item_text overflow_hidden"  style="height: 45px;">
-                    <a href="{videoLink($video)}"><b style="font-size: 15px;">{$video.title|truncate:30}</b></a>
+                    <a href="{videoLink($video)}"><b style="font-size: 12px;">{$video.title|truncate:50}</b></a>
                 </div>
-                <div class="row small col-md-10 padding-top-5" style="margin-top: -8px;color: grey;">
+                <div class="row small col-md-8" style="color: grey;">
                     <span class="pull-left"><small><span class="glyphicon glyphicon-eye-open"></span> {$video.views}</small></span>
-                    <span style="margin-left: 23px;"><small><span class="glyphicon glyphicon-thumbs-up"></span> {$video.rating}</small></span>
+                    <span class="pull-right"><small><span class="glyphicon glyphicon-thumbs-up"></span> {$video.rating}</small></span>
                 </div>
             </div>
         </div>

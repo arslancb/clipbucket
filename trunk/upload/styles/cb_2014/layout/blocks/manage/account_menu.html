@@ -1,4 +1,5 @@
 {$topMenuLinks = array_slice($myAccountLinks, 0, 6)}
+ {if userid()}
 <div class="userAccountMenu navbar navbar-default cb-box row">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -37,3 +38,4 @@
             </div>
         </div>
     </div>
+{/if}

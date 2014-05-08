@@ -1,6 +1,6 @@
 {if $display_type == "" || $display_type == "normal"}
 
-<div class="show-image">
+<!--<div class="show-image">
     <div class="col-md-4 col-sm-4 col-xs-6" style="padding-right: 0px">
         <a href="{$cbcollection->collection_links($collection,'view')}">
         <span class="CollectionName" id="collection" style="display: none; height: 125px;">
@@ -12,9 +12,19 @@
        </a>
 
     </div>
-</div>
+</div>-->
+<li class="mouse_hover">
+    <div class="collection_home mouse_hover">
+        <img class="cb_img_thum" src="{$cbcollection->get_thumb($collection,'',TRUE)}"/>
+    </div>
+    <a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
+            <div class="details mouse_hover_on">
+                <div align="center" class="collection_name">{$collection.collection_name|truncate:30}</div>
+                <div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>
+            </div>
+        </a>
 
-
+</li>
 
 
 <!--<div class="col-md-4 comment_home">-->
@@ -79,7 +89,15 @@
         </div>
         {/if}
         {if $type == "photos"}
-        <div class="show-image">
+        <div class="show-image mouse_hover">
+            <div class="" style="padding-right: 0px;">
+                <a href="{$cbcollection->collection_links($collection,'view')}">
+                    {get_photo details=$object size='l' class='photo-land' output='html'}
+                </a>
+            </div>
+            <span class="photoname mouse_hover_on" style="height: 30px; overflow: hidden;" >{$object.photo_title|truncate:15}</span>
+        </div>
+        <!--<div class="show-image">
             <div class="col-md-4 col-sm-4 col-xs-6" style="padding-right: 0px">
                 <span class="UserPhotos" id="collection" >{$object.photo_title|truncate:15}</span>
                 <a href="{$cbphoto->photo_links($object,'view_item')}">
@@ -87,7 +105,8 @@
                 </a>
 
             </div>
-        </div>
+        </div>-->
+        
         <!--<div class="the_item col-md-2 col-lg-2 col-sm-4 col-xs-6">-->
             <!--<div class="onePhotoContainer">-->
                 <!--<div class="onePhotoTitle">-->

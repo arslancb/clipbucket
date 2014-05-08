@@ -5,7 +5,7 @@
 {assign var='comment_attr' value=''}
     {assign var='spam_attr' value='style="display:none"'}
 {/if}
-<!--<li>
+{* <li>
     <div class="row">
         <div class="col-md-11">
             <div class="row">
@@ -24,7 +24,9 @@
         </div>
     </div>
 
-</li>-->
+</li> *}
+
+{if $comment}
 <div class="itemdiv dialogdiv">
     {*$comment|print_r*}
     <div class="user">
@@ -50,6 +52,9 @@
         </div>
     </div>
 </div>
+{/if}
+
+
 {*
 
 <div id="comment_{$comment.comment_id}" class="cb-item-comment" {$comment_attr}>

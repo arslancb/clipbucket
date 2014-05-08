@@ -1969,8 +1969,8 @@ footer {
     margin-bottom: 10px;
 }
 .item_video img{
-    width: 75%;
-    border: 2px solid #ddd;
+    width: 100%;
+    border: 1px solid #ddd;
     padding: 0px;
 }
 .video_duration{
@@ -1980,8 +1980,8 @@ footer {
     font-size: 9px;
     padding: 1px 5px;
     position: absolute;
-    right: 17px;
-    top: 2px;
+    right: 4px;
+    top: 4px;
 }
 /* Page heading*/
 .page-hidding{
@@ -1996,7 +1996,6 @@ footer {
 }
 .page-hidding .btn-group{
     margin-left: 10px;
-    margin-right: 10px;
 }
 
 /*Sidebar of categories*/
@@ -2561,21 +2560,33 @@ a:hover {
 }
 
 .photoname {
-    background-color: #000000;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
     color: #FFFFFF;
     display: none;
-    
-    font-size: 17px;
+    font-size: 14px;
     height: 41px;
-    left: 19px;
+    left: 0;
     opacity: 0.8;
     padding-left: 8px;
-    padding-top: 10px;
-    position: absolute;
-    top: 125px;
-    width: 93.9%;
+    padding-top: 3px;
+    position: relative;
+    top: -30px;
+    width: 100%;
 }
-
+.photos img{
+    height: 150px;
+    width: 100%; 
+}
+ul#photos li{
+float: left;
+    margin-bottom: 15px;
+    margin-left: 15px;
+    width: 28%;
+     height: 150px;
+}
+ul#photos li.photo-land-no{
+width: 18.8%;
+}
 .like {
     padding-left: 156px;
 }
@@ -2833,4 +2844,51 @@ a:hover {
     width: 100%;
     border: solid 2px;
     border-color: #e1e1e1;
+}
+ul.collections{
+
+}
+ul.collections li{
+float: left;
+    margin-left: 5px;
+    width: 32.7%;
+    position: relative;
+}
+ul.collections li .collection_home img{
+height: 120px;
+}
+ul.collections li .collection_home{
+    margin-bottom: 15px;
+}
+ul.collections .details{
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
+    color: #FFFFFF;
+    left: 1px;
+    margin-top: 1px;
+    padding-bottom: 36px;
+    padding-top: 34px;
+    position: absolute;
+    top: 0;
+    width: 99.4%;
+}
+.collection_name{
+font-size: 20px;        
+}
+.collection_total{
+font-size: 14px;
+}
+.small{
+    color: #777777;
+}
+.pull-right{
+    float: right;
+}
+.error{
+     border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #F2DEDE;
+    border-color: #EBCCD1;
+    color: #A94442;
 }

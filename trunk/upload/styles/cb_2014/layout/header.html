@@ -85,18 +85,18 @@
                     <li class="dropdown myaccount-dd">
                         <span class="dropdown-toggle theme_color col-md-12" data-toggle="dropdown"> <img class="img-circle" src="{$userquery->getUserThumb('','small',userid())}" style="width: 40px; height: 40px;"/> {$userquery->username}<b class="caret"></b></span>
                         <ul class="dropdown-menu">
-                            <li><a href="{$base_url}/demo/myaccount.php?userid={userid}">{lang code="my_account"}</a></li>
-                            <li><a href="{$base_url}/demo/manage_videos.php">{lang code="Manage Videos"}</a></li>
-                            <li><a href="{$base_url}/demo/channels.php">{lang code="View Channels"}</a></li>
-                            <li><a href="{$base_url}/demo/upload.php">{lang code="Upload"}</a></li>
+                            <li><a href="{link name='my_account' }{userid}">{lang code="my_account"}</a></li>
+                            <li><a href="{link name='my_videos'}">{lang code="Manage Videos"}</a></li>
+                            <li><a href="{link name='channels'}">{lang code="View Channels"}</a></li>
+                            <li><a href="{link name='upload'}">{lang code="Upload"}</a></li>
                             <li class="divider"></li>
-                            <li><a href="{$base_url}/demo/logout.php">{lang code="Logout"}</a></li>
+                            <li><a href="{link name='logout'}">{lang code="Logout"}</a></li>
                         </ul>
                     </li>
                     {else}
                     <li>
                         <div>
-                            <a href="{link name="signup"}" class="btn btn-primary btn-success btn-sm">{lang code="Create Account"}</a>
+                            <a href="{link name='signup'}" class="btn btn-primary btn-success btn-sm">{lang code="Create Account"}</a>
                             <a href="#" data-toggle="modal" data-target="#login-modal" class="btn btn-primary btn-sm">{lang code="Login"}</a>
                         </div>
 
@@ -110,14 +110,14 @@
                 {if userid()}
                 <div class="pull-right">
                     <div class="btn-group">
-                      <button class="btn btn-primary" type="button">{lang code="Uploads"}</button>
+                      <button class="btn btn-primary" type="button"><a class="white" href="{link name='upload'}">{lang code="Uploads"}</a></button>
                       <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                       </button>
                       <ul role="menu" class="dropdown-menu">
-                       <li><a href="upload.php">{lang code="Upload Video"}</a></li>
-                        <li><a href="photo_upload.php">{lang code="Upload Photo"}</a></li>
+                       <li><a href="{link name='upload'}">{lang code="Upload Video"}</a></li>
+                        <li><a href="{link name='photo_upload'}">{lang code="Upload Photo"}</a></li>
                       </ul>
                     </div>
                 </div>

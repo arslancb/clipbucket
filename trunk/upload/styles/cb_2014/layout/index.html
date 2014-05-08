@@ -8,24 +8,14 @@
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 <div class="row cb-box marginBottom">
-<div class="alert alert-info">
-    Global Announcement...
-
-</div>
 
         <!-- ******************************************* //-->
 		<!-- ******** GLOBAL ANNOUNCEMENT START ******** //-->
         <!-- ******************************************* //-->
 
-
-
-
-
-        {if AD}
-        <!--<div class="alert alert-info">
-        	{AD place='ad_160x600'}
-    	</div>-->
-    	{/if}
+        <div class="alert alert-info margin-bottom-10 ad">
+        this is information for global.	{AD place=ad_728x90} 
+    	</div>
         <!-- ******************************************* //-->
 		<!-- ********* GLOBAL ANNOUNCEMENT END ********* //-->
         <!-- ******************************************* //-->
@@ -38,9 +28,9 @@
 		{if $editor_picks}
 		<div class="row">
 
-            <div class="col-md-8 nopadding-right" style="margin-left: -6px;">
+            <div class="col-md-8 nopadding-right">
 			<!-- Editor Pick Video Main Container START //-->
-			<div id="ep_video_container" style="height: 386px; width: 780px" >
+			<div id="ep_video_container">
 				{if is_installed('editorspick')}
 				{section name=e_list loop=$editor_picks max=1}
 				{include file="$style_dir/blocks/editor_pick/video_block.html" video=$editor_picks[e_list]}
@@ -55,14 +45,14 @@
         </div>
 
 		<!-- Editor Pick Videos Slider Container START //-->
-        <div class="col-md-4 hidden-sm hidden-xs nopadding-left">
-            <div id="slide" class="" style="list-style: none; position: relative; padding: 0px; overflow: hidden; width: 375px; height: 354px; left: 33px;">
+        <div class="col-md-4 ">
+            <div id="slide" class="" style="">
 				{section name=e_list loop=$editor_picks}
             	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
 				{/section}
         
         </div>
-            <div class="next_pre_hold" style="margin-top: 38px;left: 31px;width: 91%;">
+            <div class="next_pre_hold">
 		<a href="#" class="col-md-6 btn btn-primary" id="slide_prev">
 		<span class="glyphicon glyphicon-chevron-up"></span>
 		</a>
@@ -80,18 +70,20 @@
         <!-- ******************************************* //-->
 		<!-- ************ EDITORS BLOCK END ************ //-->
         <!-- ******************************************* //-->
-        <div class="clearfix"  style="height: 10px;"></div>
-        <div align="center" >  <a href="http://www.arvixe.com/clipbucket_hosting"><img class="banner" src="{$theme}/assets/images/arvixe-downloadpage-banner.gif" >
+        <div class="clearfix"></div>
+        <div align="center" class="margin-bottom-10">
+        	<a href="http://www.arvixe.com/clipbucket_hosting">
+        		<img class="banner" src="{$theme}/assets/images/ad-box-728x90.jpg" >
 			</a>
 		</div>
         <!-- ******************************************* //-->
 		<!-- *********** LATEST VIDEOS START *********** //-->
         <!-- ******************************************* //-->
-		<div class="row" style="margin-top: 48px">
+		<div class="row">
 		<div class="col-md-12">
 
 			<div class="col-md-8 nopadding padding-right-10">
-				<h2 class="myHeading theme_color" style="margin-top: -34px">{lang code="Featured Videos"}</h2>
+				<h2 class="myHeading theme_color">{lang code="Featured Videos"}</h2>
 				{if $videos_01}
 				<div class="col-md-12 nopadding">
 
@@ -189,7 +181,7 @@
 		        <!-- ******************************************* //-->
 
 		        <div class="clearfix"  style="height: 10px;"></div>
-        <div align="center" >  <a href="http://www.clip-bucket.com"><img class="banner" src="{$theme}/assets/images/468x60cb.jpg" >
+        <div align="center" >  <a href="http://www.clip-bucket.com"><img class="banner" src="{$theme}/assets/images/ad-box-468x60.jpg" >
 			</a>
 		</div>
 
@@ -201,19 +193,20 @@
 		        				<h2 class="myHeading theme_color">{lang code="Featured Photos"}</h2>
 								
 		        				<!-- *********** FIRST PHOTOS START ************ //-->
-								<div class="col-md-12 fill-background" style="display:block; height:268px; padding:5px;">
+								<div class="col-md-12 fill-background" style="display:block; height:265px; padding:5px;">
 									<div class="col-md-7 big_img">
 									{foreach from=$result_photos1_01 item=result_photo1_01}
 						            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
-						            	{get_photo details=$result_photo1_01 output='html' width="545" height="300" size="l" class="cb_img_thum"}
+						            	{get_photo details=$result_photo1_01 output='html' width="420" height="235" size="l" class="cb_img_thum"}
 						            	</a>
 						            {/foreach}
 						            </div>
-						            <div class="col-md-5 nopadding" style="display:block; height:280px;">
-									{foreach from=$result_photos1_08 item=result_photo1_04}
-                                        <div class="col-md-6" style="display: block; height: 132px; padding: 7px; border-left: 1px solid rgb(204, 204, 204); border-bottom: 1px solid rgb(204, 204, 204);border-top:  solid 1px;border-color: #e1e1e1;">
+						            
+						            <div class="col-md-5 nopadding" style="display:block; height:132px;">
+									{foreach from=$result_photos1_08 item=result_photo1_08}
+										<div class="col-md-6" style="border-right: 1px solid rgb(204, 204, 204); display: block; height: 133px; padding: 7px; border-top: 1px solid rgb(204, 204, 204);">
 						            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
-						            	{get_photo details=$result_photo1_04 output='html' class='MainImg'}
+						            	{get_photo details=$result_photo1_08 output='html' width="128" height="118" size="l" class='photoThumbBox moveL cb_img_thum'}
 						            	</a>
 						            {if $photos@iteration > 1}{break}{/if}
 						       	    </div>
@@ -222,13 +215,13 @@
 								</div>
 				        <!-- *********** FIRST PHOTOS END ************ //-->
 				        <!-- *********** SECOND PHOTOS START ************ //-->
-						<div class="col-md-12" style="display:block; height:320px; padding:5px;">
+						<div class="col-md-12" style="display:block; height:265px; padding:5px;">
 
-					        <div class="col-md-5 nopadding" style="display:block; height:80px;">
+					        <div class="col-md-5 nopadding" style="display:block; height:132px;">
 							{foreach from=$result_photos2_08 item=result_photo2_08}
-                                <div class="col-md-6" style="display: block; height: 132px; padding: 7px; border-left: 1px solid rgb(204, 204, 204); border-bottom: 1px solid rgb(204, 204, 204);border-top:  solid 1px;border-color: #e1e1e1;">
+								<div class="col-md-6" style="display: block; height: 132px; padding: 7px; border-left: 1px solid rgb(204, 204, 204); border-bottom: 1px solid rgb(204, 204, 204);">
 					        	<a href="{$cbphoto->photo_links($result_photo2_08,'view_item')}">
-					        	{get_photo details=$result_photo2_08 output='html'  class='MainImg'}
+					        	{get_photo details=$result_photo2_08 output='html' width="128" height="118" size="l" class='photoThumbBox moveL cb_img_thum'}
 					        	</a>
 					        {if $photos@iteration > 1}{break}{/if}
 					   	    </div>
@@ -238,7 +231,7 @@
 							<div class="col-md-7 big_img">
 							{foreach from=$result_photos2_01 item=result_photo2_01}
 					        	<a href="{$cbphoto->photo_links($result_photo2_01,'view_item')}">
-					        	{get_photo details=$result_photo2_01 output='html' width="545" height="300" size="l"  class="cb_img_thum"}
+					        	{get_photo details=$result_photo2_01 output='html' width="420" height="235" size="l"  class="cb_img_thum"}
 					        	</a>
 					        {/foreach}
 					        </div>
@@ -268,9 +261,9 @@
 			<!-- ******************************************* //-->
 	        <!-- ************* USER BLOCK START ************ //-->
 	        <!-- ******************************************* //-->
-            <div class="col-md-4 side_user_home" style="right: -9px;top: -44px;margin-bottom: -28px;">
-			{lang code="Featured Users"}
-                <hr>
+            <div class="col-md-4 side_user_home">
+			<h4 class="home-side-heading">{lang code="Featured Users"}</h4>
+               
 			{section name=result_users loop=$result_users}
 
                 <div class="col-md-12 nopadding clearfix user-view-home" style="height: 85px;">
@@ -282,12 +275,12 @@
 					<h4 class="nopadding "><a href="{$userquery->profile_link($result_users[result_users])}">{$result_users[result_users].username}</a></h4>
 				</div>
 				<div class=" nopadding col-md-6 min-height-20">
-					<div class="pull-left small">{$result_users[result_users].profile_hits|number_format} {lang code='views'}</div>
-					<div class="pull-right small">{$result_users[result_users].total_videos|number_format}{lang code='Videos'}</div>
+					<div class="pull-left small"><small>{$result_users[result_users].profile_hits|number_format} {lang code='views'}</small></div>
+					<div class="pull-right small"><small>{$result_users[result_users].total_videos|number_format} {lang code='Videos'}</small></div>
 				</div>
                     <br>
-                    <div class="row pull-left" style="width: 217px;margin-left: 0px;">
-                    <div class="progress">
+                    <div class="row pull-left" style="margin-left: 0px; width: 99%;">
+                    <div class="progres">
                         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
                             <span class="sr-only">40% Complete (success)</span>
                         </div>
@@ -322,9 +315,9 @@
 	        <!-- ********** FACEBOOK BLOCK END *********** //-->
 	        <!-- ******************************************* //-->
 
-			<div class="col-md-4 comment_home" >
-					{lang code="Top Collections"}
-                <hr>
+			<div class="col-md-4 comment_home side_user_home" >
+					<h4 class="home-side-heading">{lang code="Top Collections"}</h4>
+                
 				{foreach from=$collections item=collection}
 					<div class="collection_home mouse_hover">
 
@@ -350,11 +343,11 @@
             			
                 $('#slide').ulslide({
                     width: 350,
-                    height: 90,
+                    height: 88,
 					effect: {
 						type: 'carousel', // slide or fade
                         axis: 'y',        // x, y
-						showCount: 4
+						showCount: 5
 					},
                     nextButton: '#slide_next',
                     prevButton: '#slide_prev',

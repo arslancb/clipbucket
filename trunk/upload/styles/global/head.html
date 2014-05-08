@@ -2,18 +2,7 @@
 var baseurl = '{$baseurl}';
 var imageurl = '{$imageurl}';
 </script>
-<link rel="stylesheet" href="{$baseurl}/styles/global/jquery_ui.css" type="text/css" media="all" />
-{if $Cbucket->configs.use_google_api}
-<script type="text/javascript" src="https://www.google.com/jsapi?key=ABQIAAAAr5pj809LgbJgBTxDJGy0IxQH8siQo9V3STvJ8WIDHu37hIWsoxRX_d1ABxknSddUPvo4LFb7wq8gwA"></script>
 
-<script type="text/javascript">
- google.load("jquery", "1");
- google.load("jqueryui", "1");
-</script>
-{else}
-<script type="text/javascript" src="{$js}/jquery.migrate.js"></script>
-<script type="text/javascript" src="{$js}/ui/jquery-ui.js"></script>
-{/if} 
 <script type="text/javascript">
 var embedPlayerWidth = '{$Cbucket->configs.embed_player_width}';
 var embedPlayerHeight = '{$Cbucket->configs.embed_player_height}';
@@ -506,12 +495,12 @@ $(document).ready(function() {
 <script>
 $(function() {
 
-	$( ".date_field" ).datepicker({ 
+	/*$( ".date_field" ).datepicker({ 
 		dateFormat: 'yy-mm-dd',
 		changeMonth: true,
 		changeYear: true,
 		yearRange : "1901 : c"
-		});
+		});*/
 });
 
 </script>
