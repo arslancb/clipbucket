@@ -372,26 +372,31 @@ ul.mainTabs{
     padding-left: 15px;
 }
 
+.paddingRightSmall{
+    padding-right: 5px;
+}
+
+.paddingRightMedium{
+    padding-right: 10px;
+}
+
+.paddingRightLarge{
+    padding-right: 15px;
+}
+
+.widgetBox{
+    height: 200px;
+    overflow-y: scroll;
+}
+
 .alignRight{
     text-align: right;
 }
 
-#todolist .widget-body{
-    overflow-y: scroll;
-    height: 200px;
-}
 
-
-.notesList{
-    margin-top: 5px;
-    list-style-type: none;
-    height: 200px;
-    overflow-y: scroll;
-    width: 105%;
-}
 
 .oneNote{
-    background-color: #F9ED75;
+    background-color: #FBF4AC;
     border-radius: 2px;
     color: #666666;
     font-size: 0.9em;
@@ -401,13 +406,45 @@ ul.mainTabs{
 
 .oneNote .delete{
     position: absolute;
-    top: 0px;
-    right: 2px;
-    padding: 2px 4px;
+    top: 1px;
+    right: 15px;
+    padding: 0px 4px;
     border-radius: 2px;
-    background-color: #111;
+    background-color: #aaa;
     color: #eee;
 }
+
+.addTodoButton{
+    position: relative;
+    right: 20px;
+}
+
+
+.widgetBox{
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.alignLeft{
+    text-align: left;
+}
+
+.ralative{
+    position: relative;
+}
+
+.widgetBox ul{
+    list-style-type: none;
+}
+
+.oneTodo{
+    color: #666666;
+    font-size: 0.9em;
+    padding: 5px 4px 5px 6px;
+    border-bottom: dashed 1px #ccc;
+}
+
 
 #mvideos .widget-main{
     height: 300px;

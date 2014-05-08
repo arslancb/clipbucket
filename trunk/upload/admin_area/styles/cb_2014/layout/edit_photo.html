@@ -35,14 +35,12 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="userInformation">
-                    <h3>User Information</h3>
                     <div class="">
-                        <h4>UserId : <a href="view_user.php?uid={$data.userid}">{$data.userid|get_username}</a></h4>
+                        <h4>User : <a href="view_user.php?uid={$data.userid}">{$data.userid|get_username}</a></h4>
                     </div>
                 </div>
 
                 <div class="photoPreview">
-                    <h3>Photo Preview</h3>
                     {get_photo details=$data size='l' output='html' style='max-width:600px' class='img-thumbnail'}
 
                 </div>
@@ -179,15 +177,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6">
-                <input type="submit" class="btn btn-primary" value="Update Photo Details" name="update" style="margin-top: 10px">
-            </div>
-            <div class="col-md-6">
-    <div class="otherFields">
+                <div class="otherFields">
         <h3>Other fields</h3>
         <div class="tabbable">
             <ul class="nav nav-tabs" id="myTab">
@@ -236,6 +226,15 @@
                 </div>
                 </div>
     </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <input type="submit" class="btn btn-primary" value="Update Photo Details" name="update" style="margin-top: 10px">
+            </div>
+            <div class="col-md-6">
+    
 </div>
             </div>
 

@@ -416,74 +416,57 @@
         </ul>
         <div class="tab-content">
             <div id="todolist" class="tab-pane active">
-                <div class="widget-box">
-                    <div class="widget-header header-color-blue">
-                        <h5>ToDo List</h5>
-                        <div class="widget-toolbar">
-                            <a href="#" data-action="collapse">
-                                <i class="icon-chevron-down"></i>
-                            </a>
-                            <a href="#" data-action="close">
-                                <i class="icon-remove"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="widget-body">
-                        <div class="widget-main">
-                            <form class="form-inline">
-                                <div class="marginBottom">
-                                    <div class="form-group">
-                                        <input class="form-control" type="text" id="todo" name="todo" class="todo">
-                                    </div>
-                                    <a class="btn btn-primary btn-sm saveTodo" href="javascript:void(0)">Add</a>
+                <div class="widgetBox">
+                    <div class="addTodo paddingRightSmall paddingLeftLarge marginBottomLarge">
+                        <div class="row">
+                            <div class="from-group col-md-10">
+                                <input type="text" name="addTodo" class="form-control">
+                            </div>
+                            <div class="from-group col-md-2 relative">
+                                <div class="addTodoButton">
+                                    <button id="addTodo" class="btn btn-primary btn-sm">Add</button>
                                 </div>
-                            </form>
-                            
-                            {assign var=todos value=$myquery->get_todos()}
-                            {foreach from=$todos item=todo}
-                                <p class="xedit clearfix" id="todo-{$todo.todo_id}">
-                                    <input type="hidden" name="todoid" value="{$todo.todo_id}" >
-                                    <b>{$todo.todo}</b>
-                                </p>
-                            {/foreach}
+                            </div>
                         </div>
+                        
                     </div>
+                    {assign var=todos value=$myquery->get_todos()}
+                    <ul class="row todosList" id="note-{$the_note.note_id}" >
+                        {foreach from=$todos item=note}
+                            <li class="col-md-12">
+                                <div class="col-md-12">
+                                    <p class="oneTodo paddingLeftSmall col-md-10" id="{$note.todo_id}">
+                                        {$note.todo}
+                                    </p>
+                                    <a href="#" class="col-md-2 btn btn-danger btn-xs delete">Delete</a>
+                                </div>
+                            </li>
+                        {/foreach}
+                        </ul>
                 </div>
             </div>
             <div id="pnotes" class="tab-pane">
-                <div class="widget-box">
-                    <div class="widget-header header-color-blue">
-                        <h5>Personal Note</h5>
-                        <div class="widget-toolbar">
-                            <a href="#" data-action="collapse">
-                                <i class="icon-chevron-down"></i>
-                            </a>
-
-                            <a href="#" data-action="close">
-                                <i class="icon-remove"></i>
-                            </a>
-                        </div>
-                        <div class="widget-body">
-                            <div class="widget-main">
-                                <form method="post">
-                                    <textarea name="personal_note" id="personal_note"  style="width:90%; height:50px; margin:5px; border:1px solid #999"></textarea>
-                                    <a class="btn btn-primary btn-xs" id="add_new_note" href="#">Add A Note</a>
-                                </form>
-                                {assign var=notes value=$myquery->get_notes()}
-                                <ul class="notesList row" id="note-{$the_note.note_id}" >
-                                {foreach from=$notes item=note}
-                                    <li class="col-md-4">
-                                        <p class="oneNote" id="{$note.note_id}">
-                                            {$note.note}
-                                            <a href="#" class="delete">×</a>
-                                        </p>
-                                    </li>
-                                {/foreach}
-                                </ul>
+                    <div class="widgetBox">
+                        <div class="addNote form-group paddingRightSmall">
+                            <textarea class="form-control" name="ntoe" id="note"></textarea>
+                            <div class="alignRight marginTopSmall">
+                                <a href="#" id="add_new_note" class="btn btn-primary btn-xs">Add a note</a>
                             </div>
                         </div>
+                        {assign var=notes value=$myquery->get_notes()}
+                        <ul class="notesList row paddingRightSmall" id="note-{$the_note.note_id}" >
+                            {foreach from=$notes item=note}
+                                <li class="col-md-4">
+                                    <div class="">
+                                        <p class="oneNote" id="{$note.note_id}">
+                                        {$note.note}
+                                        <a href="#" class="delete">×</a>
+                                    </p>
+                                    </div>
+                                </li>
+                            {/foreach}
+                        </ul>
                     </div>
-                </div>
 
             </div>
             <div id="rcomments" class="tab-pane">
@@ -931,6 +914,7 @@ $(function() {
         });
     }
 
+    var page = '{$baseurl}/admin_area/index.php';
 
     $(".oneNote .delete").on({
         click: function(e){
@@ -944,14 +928,114 @@ $(function() {
     $("#add_new_note").on({
         click: function(e){
             e.preventDefault();
-            var note = $(this).prev().val();
-            add_note(note);
-            var li = document.createElement("li");
-            li.className = "col-md-4";
-            var p = "<p id='10000000' class='oneNote'>" + note + "<a href='#' class='delete'>x</a></p>";
-            li.innerHTML = p;
-            $(this).parents("form").next().append(li);
+            var self = this;
+            var note = $(this).parents(".widgetBox").find("textarea").val();
+            if(!note){
+                alert("Please enter something");
+            }
+            else{
+                $.post(page, {   
+                    mode : 'add_note',
+                    note : note,
+                },function(data) {
+                    console.log(data);
+                    var li = document.createElement("li");
+                    li.className = "col-md-4";
+                    var a = document.createElement("a");
+                    a.className = "delete";
+                    a.href = "#";
+                    a.innerHTML = "x";
+                    var p = document.createElement("p");
+                    p.id = data.id;
+                    p.innerHTML = note;
+                    p.className = "oneNote";
+                    $(p).append(a);
+                    $(li).append(p);
+                    $(a).on({
+                        click: function(e){
+                            e.preventDefault();
+                            var noteId = $(this).parent().attr("id");
+                            delete_note(noteId);
+                            $(this).parents("li").remove();
+                        }
+                    });
+                    $(self).parents(".widgetBox").find("ul").prepend(li);
+                },'json');
+            }
         }
+    });
+
+    $("#addTodo").on({
+        click: function(e){
+            e.preventDefault();
+            var self = this;
+            var newVal = $(this).parents(".addTodo").find("input").val();
+            if(newVal.length){
+            var ajaxCall = $.ajax({
+                url: page,
+                type: "post",
+                data: {
+                    val: newVal,
+                    mode: "add_todo",
+                },
+            });
+            ajaxCall.success(function(data){
+                data = $.parseJSON(data);
+                var li = document.createElement("li");
+                li.className = "col-md-12";
+                var p = document.createElement("p");
+                p.className = "oneTodo paddingLeftSmall col-md-10";
+                p.id = data.id;
+                p.innerHTML = data.todo;
+                var a = document.createElement("a");
+                a.href = "#";
+                a.className = "col-md-2 btn btn-danger btn-xs delete";
+                a.innerHTML = "Delete";
+                $(a).on("click", function(e){
+                    e.preventDefault();
+                    var self = this;
+                    var id = $(this).prev().attr("id");
+                    var ajaxCall = $.ajax({
+                        url: page,
+                        type: "post",
+                        data: {
+                            id: id,
+                            mode: "delete_todo",
+                        },
+                    });
+                    ajaxCall.success(function(data){
+                        $(self).parents("li").remove();
+                    });
+
+                });
+                var div = document.createElement("div");
+                div.className = "col-md-12";
+
+                $(li).append(div).find("div").append(p).append(a);
+                $(self).parents(".widgetBox").find("ul").prepend(li);
+            });
+            }else{
+            alert("Please enter a valid value");
+            }
+        }
+    });
+    
+    $("#todolist .delete").on("click", function(e){
+        e.preventDefault();
+        var self = this;
+        var id = $(this).prev().attr("id");
+        var ajaxCall = $.ajax({
+            url: page,
+            type: "post",
+            data: {
+                id: id,
+                mode: "delete_todo",
+            },
+        });
+        ajaxCall.success(function(data){
+            $(self).parents("li").remove();
+        });
+
     });
 
 

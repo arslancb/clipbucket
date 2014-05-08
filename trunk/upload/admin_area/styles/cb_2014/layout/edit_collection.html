@@ -1,24 +1,81 @@
 {assign var=requiredFields value=$cbcollection->load_required_fields($data)}
 {assign var=otherFields value=$cbcollection->load_other_fields($data)}
 
+<div class="heading clearfix marginBottomLarge">
+    <h2 class="pull-left">Editing <small>&gt;&gt; {$data.collection_name}</small></h2>
+    <div class="pull-right">
+        <span class="btn btn-app btn-sm btn-light no-hover">
+            <span class="line-height-1 bigger-170 blue">{$data.views|number_format}</span>
+            <br>
+            <span class="line-height-1 smaller-90"> Views </span>
+        </span>
+        <span class="btn btn-app btn-sm btn-yellow no-hover">
+            {$comments = $data.comments_count}
+            {if $comments > 0}
+                <span class="line-height-1 bigger-170"> {$data.comments_count} </span>
+            {else}
+                <span class="line-height-1 bigger-170">0</span>
+            {/if}
+            <br>
+            <span class="line-height-1 smaller-90"> Comments </span>
+        </span>
+        <span class="btn btn-app btn-sm btn-pink no-hover">
+            <span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+                <span class="line-height-1 smaller-90"> Active</span>
+            </span>
+        </span>
+        <span class="btn btn-app btn-sm btn-grey no-hover">
+
+            <span class="line-height-1"> {if $data.featured=='No'}<span class="glyphicon glyphicon-ok"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+
+                <span class="line-height-1 smaller-90">Featured</span>
+            </span>
+        </span>
+         
+             <span class="btn btn-app btn-sm btn-primary no-hover">
+            {if $FlaggedPhotos != NULL}
+                {$FlaggedPhotos[list].total_flags}
+                {section name=list loop=$FlaggedPhotos}
+                <span class="line-height-1 bigger-170">
+                    {$FlaggedPhotos[list].total_flags}
+                </span>
+                {/section}
+                <br>
+                <span class="line-height-1 smaller-90"> Flagged </span>
+                {else}
+                    <span class="line-height-1 bigger-170">
+                        0
+                    </span>
+                    <br>
+                    <span class="line-height-1 smaller-90"> Flagged </span>
+                {/if}
+            </span>
+    </div>
+</div>
+<div class="clearfix">
+    <div class="dropdown alignRight">
+        <a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" href="">Actions <i class="caret"></i></a>
+        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+            {if $data.active!='yes'}
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$data.collection_id}&amp;mode=ac">Activate</a></li>
+            {else}
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$data.collection_id}&amp;mode=dac">Deactivate</a></li>
+            {/if}
+            {if $data.featured!='yes'}
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$data.collection_id}&amp;mode=mcf">Make Featured</a></li>
+            {else}
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$data.collection_id}&amp;mode=mcuf">Make Unfeatured</a></li>
+            {/if}
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)" onClick="javascript:_cb.Confirm_Delete('collection_manager.php?delete_collection={$data.collection_id}')">Delete This Collection</a>
+        </ul>
+    </div>
+</div>
 <form action="" method="post" enctype="multipart/form-data" name="edit_collection" id="edit_collection">
     <div class="row">
-        <div class="lead dropdown">Editing {$data.collection_name}
-                <a class="btn btn-primary btn-sm dropdown-toggle pull-right" data-toggle="dropdown" href="">Actions <i class="caret"></i></a>
-                <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
-                    {if $data.active!='yes'}
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$data.collection_id}&amp;mode=ac">Activate</a></li>
-                    {else}
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$data.collection_id}&amp;mode=dac">Deactivate</a></li>
-                    {/if}
-                    {if $data.featured!='yes'}
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$data.collection_id}&amp;mode=mcf">Make Featured</a></li>
-                    {else}
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$data.collection_id}&amp;mode=mcuf">Make Unfeatured</a></li>
-                    {/if}
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)" onClick="javascript:_cb.Confirm_Delete('collection_manager.php?delete_collection={$data.collection_id}')">Delete This Collection</a>
-                </ul>
-    </div>
         <div class="col-sm-6 col-md-6 col-lg-6 col x1-12">
         <input class="form-control" name="admin" type="hidden" id="admin" value="true" />
         <input name="collection_id" type="hidden"  value="{$data.collection_id}" />
@@ -40,23 +97,17 @@
 
                 <div class="tab-content">
                     <div id="cldetails" class="tab-pane active">
-                        <div class="table-responsive">
-                            <legend>Collection Details</legend>
-                            <table class="table-bordered">
-                                <tr>
-                            <td class="alert-info ecollection"><label for="collecionID">Collection ID</label></td>
-                            <td class="ecollection1"><input disabled="disabled" class="form-control" name="collecionID" type="text" id="collecionID" value="{$data.collection_id}"  />
-                            </td>
-                                </tr>
-                                </table>
-                        </div>
-                        {foreach from=$requiredFields item=field}
-                        {$field.class='form-control'}
-                        {if $field.title=='Collection name'}
-                        <table>
+                        <table class="myTable">
                             <tr>
-                            <td class="alert-info ecollection">{$field.title}</td>
-                            <td class="ecollection1">{$formObj->createField($field)}</td>
+                                <td class="first"><label for="">Collection Id</label></td></td>
+                                <td class="last"><p><span>{$data.collection_id}</span></p></td>
+                            </tr>
+                        
+                        {foreach from=$requiredFields item=field}
+                        {if $field.title=='Collection name'}
+                            <tr>
+                                <td class="first"><label for="">{$field.title}</label></td>
+                                <td class="last"><p><span>{$data[$field.db_field]}</span></p></td>
                             </tr>
                             {/if}
                             {/foreach}
@@ -64,8 +115,8 @@
                             {if $field.title=='Collection description'}
                             {$field.class='form-control'}
                             <tr>
-                                <td class="alert-info ecollection">{$field.title}</td>
-                                <td class="ecollection1">{$formObj->createField($field)}</td>
+                                <td class="first"><label for="">{$field.title}</label></td>
+                                <td class="last"><p><span>{$data[$field.db_field]}</span></p></td>
                             </tr>
                             {/if}
                             {/foreach}
@@ -73,8 +124,8 @@
                             {if $field.title=='Collection tags'}
                             {$field.class='form-control'}
                             <tr>
-                                <td class="alert-info ecollection">{$field.title}</td>
-                                <td class="ecollection1">{$formObj->createField($field)}</td>
+                                <td class="first"><label for="">{$field.title}</label></td>
+                                <td class="last"><p><span>{$data[$field.db_field]}</span></p></td>
                             </tr>
                             {/if}
                             {/foreach}
@@ -82,55 +133,55 @@
                             {if $field.title=='Collection type'}
                             {$field.class='form-control'}
                             <tr>
-                                <td class="alert-info ecollection">{$field.title}</td>
-                                <td class="ecollection1">{$formObj->createField($field)}</td>
+                                <td class="first"><label for="">{$field.title}</label></td>
+                                <td class="last">
+                                    <p><span>{$data[$field.db_field]}</span></p>
+                                </td>
                             </tr>
                             {/if}
                             {/foreach}
-                            </table>
-                        <hr>
+                        </table>
                         {foreach from=$requiredFields item=field}
                         {if $field.title=='Collection category'}
 
-                        <label>{$field.title}</label>
+                        <!-- <label>{$field.title}</label>
                         <div class="tab-content scroll">
                             {$formObj->createField($field)}
-                        </div>
+                        </div> -->
                         {/if}
                         {/foreach}
 
                     </div>
                     <div id="uinformation" class="tab-pane">
-                        <legend>Uploader Information</legend>
                         <div class="form-group">
                             <img src="{$userquery->getUserThumb($u,'small')}" class="btn btn-app btn-primary btn-xs" />
                         </div>
                         <div class="table-responsive">
 
-                            <table class="table table-bordered">
+                            <table class="myTable" width="600px">
                                 <tr>
-                                    <td class="alert-info"><label class="alert-info">User Id</label></td>
-                                    <td><input type="text" value="{$data.userid}" disabled="disabled" class="form-control"></label></td>
+                                    <td class="first"><label>User Id</label></td>
+                                    <td class="last"><p><span>{$data.userid}</span></p></td>
                                 </tr>
                                 <tr>
-                                    <td class="alert-info"><label class="alert-info">User Name</label></td>
-                                    <td><input class="form-control" disabled="disabled" type="text" value="{$data.userid|get_username}"></td>
+                                    <td class="first"><label>User Name</label></td>
+                                    <td class="last"><p><span>{$data.userid|get_username}</span></p></td>
                                 </tr>
                                 <tr>
-                                    <td class="alert-info"><label class="alert-info">DOB</label></td>
-                                    <td><input class="form-control" disabled="disabled" type="text" value="{$data.dob}"></td>
+                                    <td class="first"><label>DOB</label></td>
+                                    <td class="last"><p><span>{$data.dob}</span></p></td>
                                 </tr>
                                 <tr>
-                                    <td class="alert-info"><label class="alert-info">Email</label></td>
-                                    <td><input class="form-control" disabled="disabled" type="text" value="{$data.email}"></td>
+                                    <td class="first"><label>Email</label></td>
+                                    <td class="last"><p><span>{$data.email}</span></p></td>
                                 </tr>
                                 <tr>
-                                    <td class="alert-info"><label class="alert-info">Gender</label></td>
-                                    <td><input class="form-control" disabled="disabled" type="text" value="{$data.sex}"></td>
+                                    <td class="first"><label>Gender</label></td>
+                                    <td class="last"><p><span>{$data.sex}</span></p></td>
                                 </tr>
                                 <tr>
-                                    <td class="alert-info"><label class="alert-info">Rating</label></td>
-                                    <td><input class="form-control" disabled="disabled" type="text" value="{$data.rating}"></td>
+                                    <td class="first"><label>Rating</label></td>
+                                    <td class="last"><p><span>{$data.rating}</span></p></td>
                                 </tr>
                             </table>
 
@@ -153,84 +204,6 @@
     </div>
             </div>
         <div class="col-sm-6 col-md-6 col-lg-6 col x1-12 pull-right">
-                <span class="btn btn-app btn-sm btn-light no-hover">
-													<span class="line-height-1 bigger-170 blue">{$data.views|number_format}</span>
-													<br>
-													<span class="line-height-1 smaller-90"> Views </span>
-												</span>
-             <span class="btn btn-app btn-sm btn-yellow no-hover">
-													<span class="line-height-1 bigger-170"> {$data.comments_count} </span>
-
-													<br>
-													<span class="line-height-1 smaller-90"> Comments </span>
-												</span>
-              <span class="btn btn-app btn-sm btn-pink no-hover">
-													<span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok"></span>
-                                                        {else}<span class="glyphicon glyphicon-remove">{/if}</span>
-													<br>
-													<span class="line-height-1 smaller-90"> Active</span>
-												</span>
-                </span>
-            <span class="btn btn-app btn-sm btn-grey no-hover">
-
-													<span class="line-height-1"> {if $data.featured=='No'}<span class="glyphicon glyphicon-ok"></span>
-                                                        {else}<span class="glyphicon glyphicon-remove">{/if}</span>
-													<br>
-
-													<span class="line-height-1 smaller-90">Featured</span>
-												</span>
-                </span>
-
-            <!--<span class="btn btn-app btn-sm btn-pink no-hover">-->
-													<!--<span class="line-height-1 bigger-170"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok"></span>-->
-                                                        <!--{else}<span class="glyphicon glyphicon-remove">{/if}</span>-->
-													<!--<br>-->
-													<!--<span class="line-height-1 smaller-90"> Active </span>-->
-												<!--</span>-->
-                <!--</span>-->
-            <!--<span class="btn btn-app btn-sm btn-grey no-hover">-->
-													<!--<span class="line-height-1 bigger-170">{if $data.featured=='yes'}<span class="glyphicon glyphicon-ok"></span>-->
-                                                        <!--{else}<span class="glyphicon glyphicon-remove">{/if}</span>-->
-													<!--<br>-->
-													<!--<span class="line-height-1 smaller-90"> Featured </span>-->
-												<!--</span>-->
-                <!--</span>-->
-
-            <span class="btn btn-app btn-sm btn-primary no-hover">
-                {section name=list loop=$FlaggedPhotos}
-													<span class="line-height-1 bigger-170"> {$FlaggedPhotos[list].total_flags} </span>
-                {/section}
-													<br>
-													<span class="line-height-1 smaller-90"> Flagged </span>
-												</span>
-
-            <!--<div class="tabbable">-->
-                <!--<ul class="nav nav-tabs" id="myTab">-->
-                    <!--<li class="active">-->
-                        <!--<a data-toggle="tab" href="#citems"> Manage Items</a>-->
-                    <!--</li>-->
-                    <!--<div class="tab-content">-->
-                        <!--<div id="citems" class="tab-pane active">-->
-                            <!--{if $objects}-->
-                            <!--{section name=list loop=$objects}-->
-                            <!--{if $data.type == 'photos'}-->
-                            <!--{get_photo details=$objects[list] output='html' title=$photos[list].photo_title}-->
-                            <!--{/if}-->
-                            <!--{if $data.type == 'videos'}-->
-                            <!--<img src="{get_thumb vdetails=$objects[list]}" width="120" height="70" />-->
-                            <!--{/if}-->
-                            <!--{/section}-->
-                            <!--{assign var=rest value=$data.total_objects-4}-->
-                            <!--<a style="display:block; font:bold 11px Tahoma; text-align:center; padding:4px; background:#fafafa;border:1px solid #aaa;" href="manage_items.php?collection={$data.collection_id}&amp;type={$data.type}">Manage Items{if $rest && $rest>0} - {$rest} more item{if $rest>1}s{/if}{/if}</a>-->
-                            <!--{else}-->
-                            <!--Collection has 0 items-->
-                            <!--{/if}-->
-
-            <!--</div>-->
-                        <!--</div>-->
-                    <!--</ul>-->
-                <!--</div>-->
-
 
 
             <div class="tabbable" style="margin-top: 20px">
