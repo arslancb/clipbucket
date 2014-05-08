@@ -1389,12 +1389,22 @@ class CBPhotos
 			$forms = $this->load_required_forms($array);
 			$oForms = $this->load_other_forms($array);
 			$FullForms = array_merge($forms,$oForms);
-	
+			if(!isset($array['allow_comments'])){
+			 $array['allow_comments'] = 'yes';
+			}
 			foreach($FullForms as $field)
 			{
+				
+				
 				$name = formObj::rmBrackets($field['name']);
-				$val = $_POST[$name];
-	
+				if($field['name']=='allow_comments'){
+					
+					if(!isset($array['allow_comments'])){
+						 $array['allow_comments'] = 'yes';
+					}	
+				}
+				$val = $array[$name];
+				
 				if($field['use_func_val'])
 					$val = $field['validate_function']($val);
 				
@@ -1428,7 +1438,7 @@ class CBPhotos
 			$query_field[] = "date_added";
 			$query_val[] = NOW();
 
-
+			#pr($query_val,true);
 
 			$query_field[] = "owner_ip";
 			$query_val[] = $_SERVER['REMOTE_ADDR'];
@@ -1454,6 +1464,7 @@ class CBPhotos
 				$query_field[] = "file_directory";
 				$query_val[] = $array['folder'];
 			}
+			
 			$insert_id = $db->insert(tbl($this->p_tbl),$query_field,$query_val);
 			$photo = $this->get_photo($insert_id);
 			$this->collection->add_collection_item($insert_id,$photo['collection_id']);
@@ -2568,6 +2579,8 @@ class CBPhotos
 	 */
 	function photo_embed_codes($newArr)
 	{
+		#pr($newArr,true);
+
 		if(empty($newArr['details']))
 		{
 			echo "<div class='error'>".e(lang("need_photo_details"))."</div>";
@@ -2595,7 +2608,7 @@ class CBPhotos
 					$codes[] = array("name"=>ucwords($type),"type"=>$type,"code"=>$this->generate_embed_codes($newArr));
 				}
 			}
-			
+			#pr($codes,true);
 			if($newArr['assign'])
 				assign(mysql_clean($newArr['assign']),$codes);
 			else
