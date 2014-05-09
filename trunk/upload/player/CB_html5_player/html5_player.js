@@ -2,54 +2,29 @@
 $(document).ready(function(){
 	//INITIALIZE
 	var video = $('#myVideo');
-	var container = $('.videoContainer');
-	var test = $(".videoContainer,.myVideo");
-	//remove default control when JS loaded
-/*
-$( ".btmControl" ).append( "<div id=logo>Hello</div>" );
-$("#logo").insertAfter("#hd");
-*/
+	var container = $('.cont');
+	var test = $(".cont,.myVideo");
 
 
-$('.btmControl').append('<div id="logo" class="logo hbtn" title="CB logo" > </div>');
-$('#logo').prop("href","http://clip-bucket.com/");
-$("#logo").insertAfter("#hd");
-$('#logo').css({
-	            'backgroundImage':'url(http://clip-bucket.com/img/logo.png)',
-				'float':'right',
-				'margin-right':'3px',
-				'margin-top':'3px',
-				
-				
-			});
-
-  $("#logo").click(function(event) {
-  window.location = 'http://clip-bucket.com/';
-          
-  });
-
-
-
-
-
-
-	video[0].removeAttribute("controls");
+	 video[0].removeAttribute("controls");
 	$('.control').show().css({'bottom':-60});
 	$('.caption').show().css({'top':-200});
 	$('.loading').fadeIn(500);
 	$('.caption').fadeIn(500);
  
+
+	
 	//before everything get started
 	    video.on('loadedmetadata', function() {
-		
 		//set video properties	
+		video.attr('poster', '');
 		$('.fcurrent').text(timeFormat(0));
 		$('.fduration').text(timeFormat(video[0].duration));
 		updateVolume(0, 0.7);
 		$('.buffer').hide();
 			
 		//bind video events
-		$('.videoContainer')
+		$('.cont')
 		.hover(function() {
 			$('.control').stop().animate({'bottom':0}, 100);
 			$('.caption').stop().animate({'top':-7}, 600);
@@ -113,7 +88,27 @@ $('#logo').css({
 			video[0].pause();
 		}
 	};
-	
+	 
+    $( "#replay_v" ).click(function() {
+        video[0].play();
+        $('#opacity').hide();
+		$('#related_1').hide();
+		$('.control').show();
+		$('.caption').show();
+		$('#web').show();
+
+     });
+   $( "#cancel_v" ).click(function() {
+        
+        $('#opacity').hide();
+		$('#related_1').hide();
+		$('.control').show();
+		$('.caption').show();
+		$('.init').show();
+        $('#web').show();
+     });
+
+
 	//speed text clicked
 	$('.btnx1').on('click', function() { fastfowrd(this, 1); });
 	$('.btnx3').on('click', function() { fastfowrd(this, 3); });
@@ -140,16 +135,36 @@ $(this).toggleClass('enterbtnFS');
               if($(this).hasClass("enterbtnFS")) 
                    {
                      container[0].webkitRequestFullScreen(); 
+
                      $('.caption').hide();
                  	 $(".largescr").hide();
-                   }   
+                 	
 
-                                     
-              else 
+                     $(".control").hover(
+                     function() {
+                     $('.control').stop().animate({'bottom':0}, 100);
+                     },
+                     function() {
+                     $('.control').stop().animate({'bottom':-40}, 1000);
+                     });
+                      
+                   
+                    
+                   }   
+                   else 
                    { 
                      document.webkitCancelFullScreen(); 
                      $('.caption').show();
-               	   	 $(".largescr").show();  
+               	   	 $(".largescr").show(); 
+               	   	 $('.cb-item-title-container').css({'margin-top':0}); 
+               	   	 //$('#related_1').css({'margin-left':'0.8%'});
+               	   	   $(".control").hover(
+                       function() {
+                       $(this).unbind('mouseenter').unbind('mouseleave');
+                       });
+
+
+
                    }  
                  
     }  
@@ -159,35 +174,43 @@ $(this).toggleClass('enterbtnFS');
                  	 container[0].mozRequestFullScreen();
                      $('.caption').hide();
                  	 $(".largescr").hide();
+                 	// $('#related_1').css({'margin-left':'20%'});
+                      $(".control").hover(
+                     function() {
+                     $('.control').stop().animate({'bottom':0}, 100);
+                     },
+                     function() {
+                     $('.control').stop().animate({'bottom':-40}, 1000);
+                     });
+
+
+
+
+
                   }
                else 
                   {  
                      document.mozCancelFullScreen();
                	     $('.caption').show();
                	   	 $(".largescr").show();
+               	   	 $('.cb-item-title-container').css({'margin-top':0});
+               	   	// $('#related_1').css({'margin-left':'0'});
+                       $(".control").hover(
+                       function() {
+                       $(this).unbind('mouseenter').unbind('mouseleave');
+                       });
+                    
                	  } 
     
     }
-
-    else { 
-           alert('Your browsers doesn\'t support fullscreen');
+             else { 
+                     alert('Your browsers doesn\'t support fullscreen');
     }
 });
 
 
 
-$(document).on('keydown',function(e)
-{ 
-    var key = e.charCode || e.keyCode;
-    if( key == 122 )
-        {   alert('test');
-        	e.preventDefault();
-        
-        }
-    else
-        {}
-});
-                    
+   
 
 
 
@@ -207,24 +230,8 @@ $(this).toggleClass('hdoff');
     
 });
 
-	/*
-	//
-	$('.hdon').click(function() {
-		$(this).toggleClass('hdoff');
-		
-		//if lightoff, create an overlay
-		if(!$(this).hasClass('hdoff')) {
-       
-			$(this).removeClass('normal');
-			
-		}
-		
-		else {
-
-			
-		}
-	});
-	*/
+	
+	
 	//sound button clicked
 	$('.sound').click(function() {
 		video[0].muted = !video[0].muted;
@@ -254,6 +261,11 @@ $(this).toggleClass('hdoff');
 	video.on('ended', function() {
 		$('.btnPlay').removeClass('paused');
 		video[0].pause();
+		$('#opacity').show();
+		$('#related_1').show();
+		$('.control').hide();
+		$('.caption').hide();
+		$('#web').hide();
 	});
 
 	//video seeking event
@@ -367,36 +379,41 @@ $(this).toggleClass('hdoff');
 	};
 
 
+//Large screen function
+$(".largescr").click(function() {
+	
+ $(this).toggleClass('smallscr');
 
 
-
-$(".largescr").toggle(function(){
-$(".videoContainer,#myVideo").height($(".videoContainer,#myVideo").height()+220);
-
-},function(){
-$(".videoContainer,#myVideo").height($(".videoContainer,#myVideo").height()-220);
-
-});
-$(".largescr").toggle(function(){
-$(".videoContainer,#myVideo").width($(".videoContainer,#myVideo").width()+390);
-$(".player").width($(".player").width()+390);
-//$('.side-video').css({'margin-top':+943});
-$('.cb-item-title-container').css({'margin-top':+250});
-$(this).toggleClass('smallscr');
-
-},function(){
-$(".videoContainer,#myVideo").width($(".videoContainer,#myVideo").width()-390);
-$(".player").width($(".player").width()-390);
-$('.cb-item-title-container').css({'margin-top':+22});
-//$('.side-video').css({'margin-top':0});
-$(this).toggleClass('smallscr');
-
+if(!$(this).hasClass('smallscr')) {
+			$(".cont").animate({height:'+=220px',width:'+=390px'},"fast");
+            $(".player").animate({width:'+=390px'},"fast");
+			$('.cb-item-title-container').css({'margin-top':+250});	
+			 //$('#related_1').css({'margin-left':'2.5%'});
+		}
+		
+		                     else{
+			$(".cont").animate({height:'-=220px',width:'-=390px'},"fast");
+		    $(".player").animate({width:'-=390px'},"fast");
+		    $('.cb-item-title-container').css({'margin-top':'0px'});
+			 //$('#related_1').css({'margin-left':'.8%'});
+		}
 });
 
 
 //Right click Menu 
 
-$('.videoContainer').bind("contextmenu", function (e) {
+
+//Right Click Menu
+
+$('#cont').append('<div id="rightcmenu"></div>');
+$('#rightcmenu').append('<span id="op">CB Html5 menu</span>');
+$('#rightcmenu').append('<ul id="ritems"></ul>');
+$('#ritems').append('<li id="copy"  class="rlist copy">Show Video link</li>');
+$('#ritems').append('<li class="rlist about">About</li>');
+$('#ritems').append('<li class="rlist clip">Powered by Clipbucket</li>');
+
+$('.cont').bind("contextmenu", function (e) {
     e.preventDefault();                 // To prevent the default context menu.
     $("#rightcmenu").css("left", e.pageX);   // For updating the menu position.
     $("#rightcmenu").css("top", e.pageY);    // 
@@ -407,41 +424,84 @@ $('.videoContainer').bind("contextmenu", function (e) {
 function startFocusOut() {
     $(document).on("click", function () {   
         $("#rightcmenu").hide(500);              // To hide the context menu
-        $('.videoContainer').off("click");           
+        $('.cont').off("click");           
     });
 }
 
-
-
 $(".clip").click(function(event) {
   window.location = 'http://clip-bucket.com/';
+ });
+
+
+$(".about").click(function(event) {
+  window.location = homepath;
           
 });
-/*
-$(".about").click(function(event) {
 
- window.location = '';
 
-});
-*/
 
 $('.copy').click(function() {
 alert(document.URL);
-
 });
 
 
 
 
+//Logo
+$('.btmControl').append('<div id="path" class="path hbtn"  > </div>');
+
+$('#path').prop("href","http://clip-bucket.com/");
+$("#path").insertAfter("#hd");
+$('#path').css({
+	            'backgroundImage': 'url(data:image/png;base64,' + webpath + ')',
+				'float':'right',
+				'margin-right':'3px',
+				'margin-top':'3px',
+				
+				
+			});
+
+  $("#path").click(function(event) {
+  window.location = 'http://clip-bucket.com/';
+          
+  });
 
 
-/*
-$('.btmControl').add('<div id="logo" class="logo hbtn" title="CB logo" >Insert Div Content</div>');  
 
-document.getElementById("logo").style.backgroundImage="url('http://clip-bucket.com/img/logo.png')";  
-document.getElementById("logo").style.cssFloat="right";
+//website logo
 
-*/
+$('.cont').append('<div><img id="web"  src=data:image/png;base64,'+ web +'> </div>');
+$('#web').css({
+	            'top' :  $top,
+	            'left' :  $left,
+	            'bottom' : $bottom,
+	            'right' :  $right  ,
+				'position': 'absolute',
+	            'width': '100px',
+	            'height': '30px',
+	           
+				
+				
+			});
+
+
+
+$('#name_v,#thumb_v').mouseover(function() {
+	$(this).css({'opacity':'1',
+'border': '0px solid #000',
+'box-shadow':'1px 0 5px #fff',
+'-moz-box-shadow':'1px 0 5px #fff',
+'-webkit-box-shadow':'1px 0 5px #fff',});
+});
+
+$('#name_v,#thumb_v').mouseout(function() {
+	$(this).css({'opacity':'.9',
+'border': '0px solid #000',
+'box-shadow':'0px 0 0px #fff',
+'-moz-box-shadow':'0px 0 0px #fff',
+'-webkit-box-shadow':'0px 0 0px #fff',});
+});
+
 
 
 //Time format converter - 00:00

@@ -2,7 +2,7 @@
 /*
 	Player Name: CB HTML5 Player 2.7
 	Description: New html5 ClipBucket Player with all required features
-	Author: Arslan Hassan
+	Author: Fahad Abbas
 	ClipBucket Version: 2.7
 	
 	
@@ -66,52 +66,81 @@ if(!function_exists('html5_player'))
 			}else{
 				$in['autoplay'] = false;
 			}
+		
+           // include('../../../../includes/config.inc.php');
+            //$related_videos = get_videos(array('title'=>$title,'tags'=>$tags,'exclude'=>$videoid,'show_related'=>'yes','limit'=>8,'order'=>'date_added DESC'));
+          
+            $v_cat = $vdo['category'];
+            if($v_cat[2] =='#') {
+            $video_cat = $v_cat[1];
+            }else{
+            $video_cat = $v_cat[1].$v_cat[2];}
+            $vid_cat = str_replace('%#%','',$video_cat);
+            assign('vid_cat',$vid_cat);
+            $vid_cond['order'] = " date_added DESC ";
+            $vlist = $vid_cond;
+            $vlist['limit'] = 4;
+            $videos = get_videos($vlist);
+            Assign('related', $videos);
+
+          
 			
+			$l_details = BASEURL.'/images/icons/country/hp.png';
+			$l_convert = base64_encode(file_get_contents($l_details));
+			assign('display',$l_convert);
 			
-			
-			$l_details = BASEURL.'/images/icons/country/hl.png';
-			$convert = base64_encode($l_details);
-			assign('display',$l_details);
-			
-			 
+
+			$ov_details = BASEURL.'/images/icons/country/ov.png';
+			$ov_convert = base64_encode(file_get_contents($ov_details));
+			assign('ov',$ov_convert);
+
+		   
 
 
+            assign('about',BASEURL);
             
-            $pageURL = 'http';
- if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
- $pageURL .= "://";
- if ($_SERVER["SERVER_PORT"] != "80") {
-  $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
- } else {
-  $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
- }
- assign('v_link',$pageURL);
-
-
-     
-
-/*
-            $test_1 = 'images/icons/country/hl.png';
-            $check_f = base64_encode($test_1);
-            assign('check',$test_1);
-            echo $test_1;
-
-*/          assign('about',BASEURL);
-            
+            $jquery = BASEDIR.'/js/jquery.js';
+            assign('jquery',$jquery);
 			
 			$v_details = extract($vdetails);
 		    $v_details;
             assign('v_details',$v_details);
-            $jquery = BASEDIR.'/js/jquery.js';
-            assign('jquery',$jquery);
 
-          
+          //  assign('logo_placement',html5_player_logo_position());
+			//assign('logo_margin',config('logo_padding'));
+
+            // logo placement
+            $pos = config('logo_placement');
+		    switch($pos)
+		    {
+			case "tl":
+			$position = array("top"=>'5px',"left"=>'5px',"bottom"=>'',"right"=>'');
+			break;
+			
+			case "tr":
+			$position = array("top"=>'5px',"left"=>'',"bottom"=>'',"right"=>'5px');
+			break;
+			
+			case "br":
+			$position = array("top"=>'',"left"=>'',"bottom"=>'5px',"right"=>'5px');
+			break;
+			
+			case "bl":
+			$position = array("top"=>'',"left"=>'5px',"bottom"=>'5px',"right"=>'');
+			break;
+		    }
+		
+		
+            assign('top',$position["top"]);
+            assign('left',$position["left"]);
+            assign('bottom',$position["bottom"]); 
+            assign('right',$position["right"]);  
+
             assign('username',$username);
             assign('title',$title);
             assign('thumb',$default_thumb);
 
 			assign('player_data',$in);
-			assign('player_logo',website_logo());
 			assign('normal_vid_file',$vid_file);
 			assign('hq_vid_file',$hd_file);			
 			assign('vdata',$vdetails);
@@ -119,42 +148,47 @@ if(!function_exists('html5_player'))
 
 			
 			Template(HTML5_PLAYER_DIR.'/html5_player.html',false);
+			Template(HTML5_PLAYER_DIR.'/html5_player_header.html',false);
 			
 			return true;
 		}
 	}
 
+
 /*
-
-
-	function html5player_embed_src($vdetails)
-	{	
-		$config  = urlencode(BASEURL."/player/".HTML5_PLAYER."/embed_player.php?vid="
-		.$vdetails['videoid']."&autoplay=".config('autoplay_embed'));
-		
-		$embed_src = BASEURL.'/player/'.HTML5_PLAYER.'/player.swf?config='.$config;
-
-		
-		if(function_exists('get_refer_url_from_embed_code'))
+function html5_player_logo_position($pos=false)
+	{
+		if(!$pos)
+			$pos = config('logo_placement');
+		switch($pos)
 		{
-			$ref_details = get_refer_url_from_embed_code(unhtmlentities(stripslashes($vdetails['embed_code'])));
-			$ytcode = $ref_details['ytcode'];
+			case "tl":
+			$position = array("top"=>'0',"left"=>'0',"bottom"=>'',"right"=>'');
+			break;
+			
+			case "tr":
+			$position = array("top"=>'0',"left"=>'',"bottom"=>'',"right"=>'0');
+			break;
+			
+			case "br":
+			$position = array("top"=>'',"left"=>'',"bottom"=>'0',"right"=>'0');
+			break;
+			
+			case "bl":
+			$position = array("top"=>'',"left"=>'0',"bottom"=>'0',"right"=>'');
+			break;
+			
 		}
 		
-		if(!$vdetails['embed_code']  || $vdetails['embed_code'] =='none'|| $ytcode)
-		{
-			$code = '<embed src="'.$embed_src.'" type="application/x-shockwave-flash"';
-			$code .= 'allowscriptaccess="always" allowfullscreen="true"  ';
-			$code .= 'width="'.config("embed_player_width").'" height="'.config("embed_player_height").'"></embed>';
-			return $code;
-		}else
-			return false;
+		return $position;
+
+
+		  
 	}
-	
-   
-*/
+ $position = array("top"=>'0',"left"=>'0',"bottom"=>'',"right"=>'');
+   echo $position["top"];   
 
-
+   */ 
      
 	register_actions_play_video('html5_player');
 

@@ -3,9 +3,10 @@
 <head>
 
 <link rel="stylesheet" href="{$html5_player_url}/style.css" />
-
 <script type="text/javascript" src="{$jquery}"></script>
 <script type="text/javascript" src="{$html5_player_url}/html5_player.js"></script>
+
+
 
 
 
@@ -22,37 +23,7 @@
 
 
 
-  <div class="videoContainer" id="cont">
-
-<span id="clipboard" style="display:none;">fahad</span>
-
-<div id='rightcmenu'> 
-<span id="op">CB html5 Player menu</span>                       
-    <div id='ritems'>                         
-      <div id="copy"  class="rlist copy">Show Video link</div>                      
-     <a href="{$about}"> <div class="rlist about">About</div></a>
-      <div class="rlist clip">Powered by Clipbucket</div>
-     
-    </div>
-  </div>
-
-
-
-
-{literal}
-<script>
-
-
-
-
-
-</script>
-{/literal}
-
-
-
-
-
+  <div class="cont fahad" id="cont" >
   
   <video id="myVideo" class="myVideo largevid"    preload="auto" poster="" >
 
@@ -65,7 +36,7 @@
     <source src="{$normal_vid_file}" type="video/ogg" />
     <source src="{$hq_vid_file}" type="video/ogg" data-quality="hd" />
 
-    
+  
 
      <!-- <source src="{$videowebm}" type="video/webm">
      <source src="{$videoogg}" type="video/ogg"> -->
@@ -91,10 +62,37 @@
    </video>
 
 
-  <div class="caption"><span class="title">{$title}</span></br><span class="user">Uploaded By {if !$username} Anonymous {else} {$username} {/if}  
+  <div class="caption"><span class="title">{$title|truncate:30}</span></br><span class="user">Uploaded By {if !$username} Anonymous {else} {$username} {/if}  
   </span></div>
-<div class="init"></div>
-  
+
+
+<div class="init"> </div>
+
+
+<div id="opacity">
+  <div id="cancel_v"></div>
+<div id="replay_v"></div>
+
+
+</div>
+  <div id="related_1" >
+
+     <h4 id="h_4">Most Popular</h4>
+              {foreach $related as $video}
+                        
+                        <a id="link_v" href="{videoLink($video)}" >
+                         
+                        <img id="thumb_v" src="{getThumb vdetails=$video}" border="1" height="100" width="160"/>
+                          <p id="name_v"> {$video.title|truncate:20}</p>
+                    </a>
+
+                {/foreach}
+                 
+                
+ </div>
+
+
+
   <div class="control">
 
    <div class="topControl">
@@ -126,17 +124,40 @@
        
          <div id="hd" class="hdoff hdon hbtn" title="HD On/Off"></div>
 
-        
       
-
     
-      
+    
     
      
     </div>
     
   </div>
+<div class="loading"> 
 
+
+      <div class="windows8" align="center">
+<div class="wBall" id="wBall_1">
+<div class="wInnerBall">
+</div>
+</div>
+<div class="wBall" id="wBall_2">
+<div class="wInnerBall">
+</div>
+</div>
+<div class="wBall" id="wBall_3">
+<div class="wInnerBall">
+</div>
+</div>
+<div class="wBall" id="wBall_4">
+<div class="wInnerBall">
+</div>
+</div>
+<div class="wBall" id="wBall_5">
+<div class="wInnerBall">
+</div>
+</div>
+</div> 
+</div>
  
 
 </div>
