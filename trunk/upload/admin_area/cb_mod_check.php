@@ -25,6 +25,9 @@ assign("ffmpegVersion", $ffmpegVersion);
 $phpVersion = check_php_cli("php");
 assign("phpVersion", $phpVersion);
 
+$MP4BoxVersion = check_mp4box("MP4Box");
+assign("MP4BoxVersion", $MP4BoxVersion);
+
 subtitle("ClipBucket Server Module Checker");
 template_files("cb_mod_check.html");
 display_it();

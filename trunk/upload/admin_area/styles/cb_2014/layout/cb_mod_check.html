@@ -45,7 +45,7 @@ A brief test to check weather server modules exist or not and what are there ver
     </div>
 
     {if $phpVersion}
-      Version <strong>{$php_status.version}</strong>
+      Version <strong>{$phpVersion}</strong>
     {else}
     <p class="alert alert-danger">php is not found</p>
   	  {if $php_status.error}
@@ -56,7 +56,7 @@ A brief test to check weather server modules exist or not and what are there ver
 </div>
 
 
-
+<!-- 
 <div class="well">
 
     {check_module_path path='flvtool2' get_path='true' assign='flvtool2_status'}
@@ -77,25 +77,25 @@ A brief test to check weather server modules exist or not and what are there ver
       {/if}
     {/if}
 
-</div>
-
+</div> -->
 
 
 <div class="well">
-
-  {check_module_path path='mp4box' get_path='true' assign='mp4box_status'}
-  <img src="{$imageurl}/{if $mp4box_status.status=='ok'}tick.png{else}alert.png{/if}" />
   <h4>MP4Box</h4>
+  {if $MP4BoxVersion}
+      <img src="{$imageurl}/tick.png"/>
+    {else}
+      <img src="{$imageurl}/alert.png"/>
+    {/if}
   <div>
     MP4Box is a tool used to repair MP4 files to make them streamable
     <a href="http://docs.clip-bucket.com/clipbucket-docs/mp4box">Learn more</a>
   </div>
-  {if $mp4box_status.status=='ok'}
+  {if $MP4BoxVersion}
 	Version
-      {if $mp4box_status.version}
-      	<strong>{$mp4box_status.version}</strong>
+      {if $MP4BoxVersion}
+      	<strong>{$MP4BoxVersion}</strong>
       {/if}
-      &#8226; Expected Path <strong>{get_binaries path=mp4box type=server}</strong>
   {else}
   	<p class="alert alert-danger">Mp4box is not found</p>
       {if $mp4box_status.error}
