@@ -277,13 +277,11 @@
 <div class="col-sm-6 col-md-6 col-lg-6 col x1-12">
 
 
-    <div class="col-md-8"  style="width:608px;height:300px;margin: 0px;">
-        {FlashPlayer vdetails =$data width='100%' height='100%' }
-        <div>
-        </div>
+    <div class="col-md-12"  style="">
+        {FlashPlayer vdetails=$data width='100%' height='100%' }
     </div>
 
-    <div class="head">
+    <div class="head col-md-12">
         {foreach from=$video_fields item=field_group}
         {if $field_group.group_name=='Sharing and privacy options'}
         <div class="tabbable">
