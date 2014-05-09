@@ -3553,37 +3553,60 @@
 	function check_module_path($params)
 	{
 		$rPath = $path = $params['path'];
-		
 		if($path['get_path'])
 			$path = get_binaries($path);
 		$array = array();
 		$result = shell_output($path." -version");
-			
-		if($result)
-		{
-			if(strstr($result,'error') || strstr(($result),'No such file or directory'))
-			{
+		if($result) {
+			if(strstr($result,'error') || strstr(($result),'No such file or directory')){
 				$error['error'] = $result;
-				
 				if($params['assign'])
 					assign($params['assign'],$error);
 				
 				return false;
 			}
 					
-			if($params['assign'])
-			{
+			if($params['assign']) {
 				$array['status'] = 'ok';
 				$array['version'] = parse_version($params['path'],$result);
-				
 				assign($params['assign'],$array);
-				
-			}else
-			{
+				return $array;
+			}else {
 				return $result;
 			}
-		}else
-		{
+		}else {
+			if($params['assign'])
+				assign($params['assign']['error'],"error");
+			else
+				return false;
+		}
+			
+	}
+
+	function check_module_path_new($path, $get_path)
+	{
+		$rPath = $path;
+		if($path['get_path'])
+			$path = get_binaries($path);
+		$array = array();
+		$result = shell_output($path." -version");
+		if($result) {
+			if(strstr($result,'error') || strstr(($result),'No such file or directory')){
+				$error['error'] = $result;
+				if($params['assign'])
+					assign($params['assign'],$error);
+				
+				return false;
+			}
+					
+			if($params['assign']) {
+				$array['status'] = 'ok';
+				$array['version'] = parse_version($params['path'],$result);
+				return $array;
+			}else {
+				return $result;
+			}
+		}else {
 			if($params['assign'])
 				assign($params['assign']['error'],"error");
 			else

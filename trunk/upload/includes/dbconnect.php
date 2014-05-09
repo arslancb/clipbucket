@@ -10,11 +10,11 @@
 	//Database Host
 	$DBHOST = 'localhost';
 	//Database Name
-	$DBNAME = 'clipbucket2.7svn';
+	$DBNAME = 'clipbucket';
 	//Database Username
 	$DBUSER = 'root';
 	//Database Password
-	$DBPASS = '';
+	$DBPASS = 'fine';
 	//Setting Table Prefix
 	
 	define('TABLE_PREFIX','cb_');
