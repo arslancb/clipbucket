@@ -38,17 +38,17 @@
                             <button class="btn btn-primary btn-sm btn-xs" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>
 
                         </div>
-                        <div class="pull-right col-md-3">
-                            <div class="pull-right col-md-8"  style="border-bottom: 2px solid green;"><span class="small">{$photo.views|number_format} {lang('views')}</span></div>
+                        <div class="pull-right col-md-3" id="rating_container">
+                            <div class="pull-right col-md-8"  style="border-bottom: 2px solid green; text-align: right;">{$photo.views|number_format} <span class="small">{lang('views')}</span></div>
                             <br/>
-                            <div class="cb-item-rating-new pull-right col-md-9 row">
-                                <span class="cb-rating-span pull-left cb-rating-up" {if !$disable} onclick="rate('{$photo.photo_id}','5','photo')"{/if} onMouseOver="rating_over('Like this photo','{$disable}')" onmouseout="rating_out('{$likes} Likes, {$dislikes} Dislikes','{$disable}')">
+                            <div class="cb-item-rating-new pull-right col-md-9 row paddingleft0">
+                                <span class="cb-rating-span pull-left cb-rating-up small" {if !$disable} onclick="rate('{$photo.photo_id}','5','photo')"{/if} onMouseOver="rating_over('Like this photo','{$disable}')" onmouseout="rating_out('{$likes} Likes, {$dislikes} Dislikes','{$disable}')">
                                 <i class="glyphicon glyphicon-thumbs-up"></i>
-                                <span class="cb-rating-digit">{$likes|number_format}</span>
+                                <span class="cb-rating-digit small">{$likes|number_format}</span>
                                 </span>
-                                <span class="cb-rating-span pull-right cb-rating-down" {if !$disable} onclick="rate('{$photo.photo_id}','1','photo')"{/if} onMouseOver="rating_over('Dislike this photo','{$disable}')" onmouseout="rating_out('{$likes} Likes, {$dislikes} Dislikes','{$disable}')">
+                                <span class="cb-rating-span pull-right cb-rating-down small" {if !$disable} onclick="rate('{$photo.photo_id}','1','photo')"{/if} onMouseOver="rating_over('Dislike this photo','{$disable}')" onmouseout="rating_out('{$likes} Likes, {$dislikes} Dislikes','{$disable}')">
                                 <i class="glyphicon glyphicon-thumbs-down"></i>
-                                <span class="cb-rating-digit">{if $dislikes}-{/if}{$dislikes|number_format}</span>
+                                <span class="cb-rating-digit small">{if $dislikes}-{/if}{$dislikes|number_format}</span>
                                 </span>
                             </div>
                         </div>
@@ -56,9 +56,7 @@
 
 
                     <div class='PhotoRating' style="margin-bottom: -17px">
-                        <div class="clearfix" id="rating_container">
-
-</div>
+                        
                         {*show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo*}</div>
                 <!--<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right">-->
                     <!--<div class="pull-right">-->

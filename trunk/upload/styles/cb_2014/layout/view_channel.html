@@ -72,7 +72,7 @@
               <hr class="hr">
               <div class="row">
               {foreach from=$videos item=video}
-                  <div class="col-md-3">
+                  <div class="col-md-4">
 
                       <a href="{videoLink($video)}" title="{$video.title|title}">
                           <img src="{getThumb vdetails=$video}"  width="203" height="115" id="thumbs_{$video.videoid}"  title="" style="display: inline"/></a>
@@ -80,21 +80,22 @@
                           $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</p>
                       <a href="{videoLink($video)}" title="{$video.title|title}"><h5><b>{$video.title|truncate:22}</b></h5></a>
 
-                      <small class="font1 new1"><b>{lang code='views'} :{$video.views}</b></small>
-                      <small class="font2 new1"><b>{$video.date_added|niceTime}</b></small>
-                      <hr>
+                     
+                      <span class="pull-left"><h5><small>{$video.views} views</small></h5></span>
+                      <span class="pull-right"><h5><small>{$video.date_added|niceTime}</small></h5></span>
                   </div>
                   {/foreach}
 
 
-                  {include file="$style_dir/blocks/pagination.html"}
+                  
 
             </div>
-              </div>
+            <div align="center">{include file="$style_dir/blocks/pagination.html"}</div>
+            </div>
 
           <div class="col-md-5">
-              <i class="icon-rss"></i>  {lang code="Recent Activities"}
-                    <hr>
+               <h5><small><i class="icon-rss"></i></small> <b> {lang code="Recent Activities"}</b></h5>
+                    <hr class="margin-top-bottom-5 hr-channal  margin-bottom-10"  style="margin-left: -2px; width: 98%;">
                       <div id="content_1" class="content">
                       <div class="feeds1" id="selectedDiv">
                           <div id="userFeeds" >
@@ -114,10 +115,8 @@
                       </div>
                         </div>
 
-              </h4>
-              <br>
-              {lang code="Popular Channels"}
-              <hr>
+              <h5><b>{lang code="Popular Channels"}</b></h5>
+              <hr class="margin-top-bottom-5 hr-channal margin-bottom-10">
               <div id="popular" class="content1">
               {section name=u_list loop=$users}
               {include file="$style_dir/blocks/channels.html" user=$users[u_list]}

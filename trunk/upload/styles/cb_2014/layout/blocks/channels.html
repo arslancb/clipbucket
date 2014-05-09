@@ -1,35 +1,33 @@
 
 {if $block_type == '' || $block_type=='normal'}
-<div class="row" id="user-{$user.userid}">
-    <div class="col-md-3">
+<div class="row  margin-bottom-10" id="user-{$user.userid}">
+    <div class="col-md-2 paddingright0">
         <a href="{$userquery->profile_link($user)}">
-            <img class="cb_img_thum" src="{$userquery->getUserThumb($user)}" style="border: solid 1px; border-color: #000000; width: 120px; height: 80px">
+            <img class="cb_img_thum" src="{$userquery->getUserThumb($user)}" style="border: 1px solid rgb(0, 0, 0); height: 60px; width: 60px;">
         </a>
         </div>
+     <div class="col-md-8  nopadding">   
+        <div class="col-md-7  nopadding">
+            <a href="{$userquery->profile_link($user)}">
+            <h5 class="nomargin"><b>{lang code="Most Popular"} {$user.username}     </b></h5></a>
+        </div>
 
-    <div class="col-md-7" style=" margin-left: -20px;">
-        <a href="{$userquery->profile_link($user)}">
-        <h4 class="nomargin">{lang code="Most Popular"} {$user.username}     </h4></a>
-    </div>
-
-    <div class="col-md-9 prof_title">
-        <div class="row" style="margin-left: -4px;margin-top: 10px;">
-                <div class="col-md-6 small channels ">
-                    {if isSectionEnabled('videos')}
-                    {lang code="videos"}:  {$user.total_videos|number_format}
-                    {/if}
+        <div class="col-md-9 prof_title  nopadding">
+            <div class="row" >
+                    <div class="col-md-5 small channels paddingright0">
+                        {if isSectionEnabled('videos')}
+                        {lang code="videos"}:  {$user.total_videos|number_format}
+                        {/if}
+                    </div>
+                <div class="col-md-6 small  channels paddingleft0" >
+                {lang code="subscribers"}:  {$user.subscribers|number_format}
+                    </div>
                 </div>
-            <div class="col-md-6 small  channels" style="margin-left: -107px;">
-            {lang code="subscribers"}:  {$user.subscribers|number_format}
-                </div>
-            </div>
-        <button class="btn btn-primary btn-xs" style="margin-left: -20px;margin-top: 10px;">Subscribe</button>
+            <button class="btn btn-primary btn-xs" ><a href="{link name='subscribe'}"> Subscribe</a></button>
+        </div>
+        </div>
     </div>
-    </div>
-
-
-
-<hr class="margin-top-bottom-10">
+<hr class="margin-top-bottom-5  margin-bottom-10">
 {/if}
 
 {if $block_type =='small'}

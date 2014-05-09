@@ -1006,7 +1006,6 @@ footer {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .channels {
-    margin-left: -31px;
     font-size: 12px;
     font-family:  "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #000000;
@@ -1439,13 +1438,12 @@ display: block;
 .photo_view .collection_home .details{
    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
     color: #FFFFFF;
-    left: 1px;
-    padding-bottom: 25px;
-    padding-top: 25px;
+    left: 303px;
+    padding-bottom: 2px;
+    padding-top: 1px;
     position: absolute;
-    top: -1px;
-    width: 99.5%;
-    height: 103px;
+    top: 84px;
+    width: 16.9%;
 }
 
 .collection_home .details{
@@ -1458,8 +1456,8 @@ display: block;
     position: absolute;
     width: 96.4%;
 }
-.collection_home .details .collection_name{
-
+.photo_view .collection_home .details .collection_total{
+    font-size: 9px;
 }
 .collection_home .details .collection_total{
     font-size: 13px;
@@ -1574,4 +1572,11 @@ padding-right: 0px;
 }
 .min-height-45{
     min-height: 45px;
+}
+.margin-top-bottom-5{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.hr-channal{
+    border: 1px solid #BBBBBB;
 }
