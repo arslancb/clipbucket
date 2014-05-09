@@ -3583,38 +3583,42 @@
 			
 	}
 
-	function check_module_path_new($path, $get_path)
-	{
-		$rPath = $path;
-		if($path['get_path'])
-			$path = get_binaries($path);
-		$array = array();
+	function check_ffmpeg($path)
+	{	
+		$path = get_binaries($path);
+		$matches = array();
 		$result = shell_output($path." -version");
 		if($result) {
-			if(strstr($result,'error') || strstr(($result),'No such file or directory')){
-				$error['error'] = $result;
-				if($params['assign'])
-					assign($params['assign'],$error);
-				
-				return false;
+			preg_match("/(?:ffmpeg\\s)(?:version\\s)?(\\d\\.\\d\\.(?:\\d|[\\w]+))/i", strtolower($result), $matches);
+			if(count($matches) > 0){
+				$version = array_pop($matches);
+				return $version;
 			}
-					
-			if($params['assign']) {
-				$array['status'] = 'ok';
-				$array['version'] = parse_version($params['path'],$result);
-				return $array;
-			}else {
-				return $result;
-			}
-		}else {
-			if($params['assign'])
-				assign($params['assign']['error'],"error");
-			else
-				return false;
+			return false;
+		}else{
+			return false;
 		}
 			
 	}
 	
+
+	function check_php_cli($path)
+	{	
+		$path = get_binaries($path);
+		$matches = array();
+		$result = shell_output($path." --version");
+		if($result) {
+			preg_match("/(?:php\\s)(?:version\\s)?(\\d\\.\\d\\.(?:\\d|[\\w]+))/i", strtolower($result), $matches);
+			if(count($matches) > 0){
+				$version = array_pop($matches);
+				return $version;
+			}
+			return false;
+		}else{
+			return false;
+		}
+			
+	}
 	
 	/**
 	 * Function used to parse version from info
@@ -3625,7 +3629,9 @@
 		{
 			case 'ffmpeg':
 			{
+
 				//Gett FFMPEG SVN version
+				dump($result);
 				preg_match("/svn-r([0-9]+)/i",strtolower($result),$matches);
 				//pr($matches);
 				if(is_numeric(floatval($matches[1])) && $matches[1]) {
