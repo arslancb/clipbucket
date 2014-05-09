@@ -3619,6 +3619,24 @@
 		}
 			
 	}
+
+	function check_mp4box($path)
+	{	
+		$path = get_binaries($path);
+		$matches = array();
+		$result = shell_output($path." -version");
+		if($result) {
+			preg_match("/(?:version\\s)(\\d\\.\\d\\.(?:\\d|[\\w]+))/i", strtolower($result), $matches);
+			if(count($matches) > 0){
+				$version = array_pop($matches);
+				return $version;
+			}
+			return false;
+		}else{
+			return false;
+		}
+			
+	}
 	
 	/**
 	 * Function used to parse version from info
