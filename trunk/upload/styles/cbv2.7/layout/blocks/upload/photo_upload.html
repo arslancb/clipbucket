@@ -1,0 +1,48 @@
+<div class="PhotoUploaderWrapper" style="margin-bottom: 10px">
+    <button class="btn big blue btn-block cbSubmitUpload" id="plupload-pickfiles">{lang code='browse_photos'}</button>
+</div>
+
+<div id="upload-form-container"></div>
+
+{assign var='reqFields'  value=$cbphoto->load_required_forms($photoArray)}
+{assign var='otherFields'  value=$cbphoto->load_other_forms($photoArray)}
+
+<div id="photo_upload_form" style="display: none">
+    <div class="photo_upload_container clearfix">
+        <div class="photo_upload_header clearfix">
+            <h3 class="photo-filename">Filename</h3> - <span class="photo-percentage">0%</span> - <span class="photo-speed">0 kb/s</span>
+            <div class="photo-progress-bar">
+                <div class="photo-progressed-bar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="photo-upload-info">
+            <form action="" onsubmit="return false;" method="post" name="photo-upload-form">
+                {foreach from=$reqFields item=item}
+                <div class="field clearfix">
+                    <div><label for="{$item.id}" class="label">{$item.title}</label></div>
+                    {$formObj->createField($item)}
+                    {if $item.hint_1}
+                    <div class="clear"></div>
+                    <span class="hint">{$item.hint_1}</span>
+                    {/if}
+                </div>
+                {/foreach}
+
+                {foreach from=$otherFields item=item}
+                <div class="field clearfix">
+                    <div><label for="{$item.id}" class="label">{$item.title}</label></div>
+                    {$formObj->createField($item)}
+                    {if $item.hint_1}
+                    <div class="clear"></div>
+                    <span class="hint">{$item.hint_1}</span>
+                    {/if}
+                </div>
+                {/foreach}
+
+                <button class="cbSubmitUpload btn blue purple-stripe pull-right margin-top-10 moveR photo-save" disabled="disabled">{lang code='Uploading'}</button>
+            </form>
+        </div>
+
+    </div>
+</div>

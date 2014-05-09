@@ -1,0 +1,73 @@
+{$myAccountLinks = $userquery->my_account_links()}
+<div class="container marginBottom">
+  {include file="$style_dir/blocks/manage/account_menu.html"}
+  <div class="account_box">
+    <div class="row cb-box">
+      <div class="col-md-3 leftSidebar">
+        {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+      </div>
+      <div class="col-md-9">
+
+          <div class="tabbable">
+              <ul class="nav nav-tabs" id="myTab">
+                  <li class="active">
+                      <a data-toggle="tab" href="#inbox">
+                          <h5>{lang code='Inbox'}</h5>
+                      </a>
+                  </li>
+                  <li class="">
+                      <a data-toggle="tab" href="#notifications">
+                          <h5>{lang code='Notifications'}</h5>
+                      </a>
+                  </li>
+                  <li class="">
+                      <a data-toggle="tab" href="#msend">
+                          <h5>{lang code='Sent'}</h5>
+                      </a>
+                  </li>
+                  <li class="">
+                      <a data-toggle="tab" href="#wmessage">
+                          <h5>{lang code='Write Message'}</h5>
+                      </a>
+                  </li>
+              </ul>
+              <div class="tab-content">
+                  <div id="inbox" class="tab-pane active">
+                      <h2>{lang code='private_messages'} &raquo; {lang code='inbox'}</h2>
+                      {include file="$style_dir/blocks/pm/messages.html" show_from='true'}
+                      </div>
+                  <div id="notifications" class="tab-pane">
+                      <h2>{lang code='private_messages'} &raquo; {lang code='notifications'}</h2>
+                      {include file="$style_dir/blocks/pm/messages.html" show_from='true'}
+                  </div>
+                  <div id="msend" class="tab-pane">
+                      <h2>{lang code='private_messages'} &raquo; {lang code='sent'}</h2>
+                      {include file="$style_dir/blocks/pm/messages.html" show_to='true'}
+                  </div>
+                  <div id="wmessage" class="tab-pane">
+                      <h2>{lang code='private_messages'} &raquo; {lang code='title_crt_new_msg'}</h2>
+                      {assign var='form_fields' value=$cbpm->load_compose_form()}
+                      <div class="account_form">
+                          <form id="pm_msg" name="pm_msg" method="post" action="">
+
+                              <h3>{lang code='new_private_msg'}</h3>
+                              {foreach from=$form_fields item=field}
+                              <div class="form-group">
+                                  <label for="{$field.id}">{$field.title}</label>
+                                  {$field.hint_1}
+                                  {$field.class='form-control'}
+                                  {$formObj->createField($field)}
+                                  {$field.hint_2}
+                              </div>
+                              {/foreach}
+                              <button name="send_message" id="send_message" value="submit" class="btn btn-primary">{lang code='com_send_message'}</button>
+                          </form>
+                      </div>
+                  </div>
+                  </div>
+              </div>
+
+      </div>
+    </div>
+  </div>
+</div>

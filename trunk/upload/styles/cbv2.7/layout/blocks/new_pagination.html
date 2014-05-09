@@ -1,0 +1,4 @@
+{if $page_no}{assign var=ajaxPage value=$page_no}{else}{assign var=ajaxPage value=2}{/if}
+<div class="NextPrevButtons clearfix text-right">
+    <button class="btn btn-primary" onClick="pagination(this,'{$cid}','{$type}','{$ajaxPage}');" type="button">Load More</button>
+</div>

@@ -1,0 +1,32 @@
+{if $object.photo_id}
+	<div class="video_title" style="font-size:14px; margin-bottom:5px;">{$object.photo_title}</div>
+	<div align="center">{get_photo details=$object output='html' size='l' width='370'}</div>
+    
+     <div style="margin:5px auto;" >
+    	
+        <div style="display:inline-block; float:left">{show_rating class='rating' rating=$object.rating ratings=$object.rated_by total='10'}</div>
+        <div style="display:inline-block; float:right" align="right"><strong>{lang code='views'} {$object.views|number_format}</strong></div>
+        <div class="clear"></div>
+		{$object.photo_description|description|truncate:200}<br />
+		<div class="watchMainWindow" align="center">
+        	<a href="{$cbphoto->photo_links($object,'view_photo')}">{lang code='watch_on_photo_page'}</a>
+        </div>
+    </div>
+{/if}
+
+
+{if $object.videoid}
+	<div class="video_title" style="font-size:14px; margin-bottom:5px;">{$object.title}</div>
+    {FlashPlayer vdetails=$object width='100%' height='280' autoplay=true}
+    <div style="width:100%" >
+    	
+        <div style="display:inline-block; float:left">{show_rating class='rating' rating=$object.rating ratings=$object.rated_by total='10'}</div>
+        <div style="display:inline-block; float:right" align="right"><strong>{lang code='views'} {$object.views|number_format}</strong></div>
+        <div class="clear"></div>
+		{$object.description|description|truncate:200}<br />
+		<div class="watchMainWindow" align="center">
+        	<a href="{videoLink vdetails=$object}">{lang code='watch_video_page'}</a>
+        </div>
+    </div>
+  
+{/if}

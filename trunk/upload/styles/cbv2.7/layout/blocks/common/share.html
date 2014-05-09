@@ -1,0 +1,116 @@
+<!-- Share This {$type} -->
+{$type=$params.type}
+<div id="share_form_div" class="action_box share_form clearfix">
+    {if $params.type=='v' || $params.type =='video' || $params.type =='Video'}
+    <div>
+
+
+
+        {if $Cbucket->configs.video_embed==1 && $vdo.allow_embedding=='yes'}
+
+        <div class="form-group">
+            <label for="embed_code">
+                {lang code='embed_code'}
+            </label>
+
+            <textarea name="embed_code" id="embed_code" onclick="this.select()"  class="form-control">{if $Cbucket->configs.embed_type=='iframe'}{$cbvid->embed_code($vdo,'iframe')|htmlspecialchars}{else}{$cbvid->embed_code($vdo,'embed_object')|htmlspecialchars}{/if}</textarea>
+
+            <input type="hidden" name="alternate_embed_code" id="alternate_embed_code" value="{if $Cbucket->configs.embed_type=='iframe'}{$cbvid->embed_code($vdo,'embed_object')|htmlspecialchars}{else}{$cbvid->embed_code($vdo,'iframe')|htmlspecialchars}{/if}" />
+        </div>
+
+        <div class="form-group">
+            <label>{lang('Player size')}</label>
+            <div></div>
+
+            <label class="radio-inline">
+                <input type="radio" name="player_size" value="default" id="player_size_0" checked="checked"
+                       onclick="{$updateEmbedCode}('{$Cbucket->configs.embed_player_width}'
+                    ,'{$Cbucket->configs.embed_player_height}',autoPlayEmbed)"/>
+                {lang('Default')} ({$Cbucket->configs.embed_player_width}x{$Cbucket->configs.embed_player_height})
+            </label>
+
+            <label class="radio-inline">
+                <input type="radio" name="player_size" value="small" id="player_size_1" onclick="{$updateEmbedCode}('440','272',autoPlayEmbed)" />
+                {lang('Small')} (440x272)
+            </label>
+
+            <label class="radio-inline">
+                <input type="radio" name="player_size" value="medium" id="player_size_2"  onclick="{$updateEmbedCode}('540','334',autoPlayEmbed)"/>
+                {lang('Medium')} (540x334)
+            </label>
+
+            <label class="radio-inline">
+                <input type="radio" name="player_size" value="large" id="player_size_3"  onclick="{$updateEmbedCode}('600','370',autoPlayEmbed)"/>
+                {lang('Large')} (600x370)
+            </label>
+
+
+        </div>
+
+        {if $pakplayer=='yes'}
+        <div>Autoplay video : <label><input type="radio" name="autoplay" value="yes" onclick="{$updateEmbedCode}(embedPlayerWidth,embedPlayerHeight,'yes')" {if $Cbucket->configs.autoplay_embed=='yes'} checked{/if} />Yes</label>
+            <label><input type="radio" name="autoplay" value="no"  onclick="{$updateEmbedCode}(embedPlayerWidth,embedPlayerHeight,'no')" {if $Cbucket->configs.autoplay_embed!='yes'} checked{/if}/>No</label></div>
+        {/if}
+
+        <div class="form-group">
+            <label>{lang('Embed type')}</label>
+            <div></div>
+            <label class="radio-inline">
+                <input type="radio" name="embed_type" value="iframe" onclick="switchEmbedCode('iframe')" {if $Cbucket->configs.embed_type=='iframe'} checked{/if} />Iframe
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="embed_type" value="iframe"  onclick="switchEmbedCode('embed_object')" {if $Cbucket->configs.embed_type=='embed_object'} checked{/if}/>Embed Object
+            </label>
+        </div>
+
+        {/if}
+
+
+
+    </div>
+
+    <div class="action_box_title"></div>
+    <div class="form-group">
+        <label for="link_video">{lang code='link_this_video'}</label>
+        <input type="text" name="link_video" id="link_video"  value="{videoLink vdetails=$vdo}"  onclick="this.select()"  class="form-control" />
+    </div>
+
+    <div class="action_box_title"></div>
+    {/if}
+
+
+    <div class="form_container">
+        <div id="share_form_results" class="form_result" style="display:none"></div>
+        <form id="cb_share_item" name="share_form" method="post" action="">
+            <div class="form-group">
+                <label for="ShareUsers">
+                    {sprintf(lang('share_this_type'),$type)}
+                </label>
+
+                <input name="users" type="text" class="form-control" id="ShareUsers" placeholder="{lang code='seperate_usernames_with_comma'}"/>
+            </div>
+            <div class="form-group">
+                <label for="message">{lang('Message')} <span class="example">{lang('optional')}</span></label>
+                <textarea name="message" id="message"  rows="5" class="form-control"></textarea>
+                <input name="objectid" id="objectid" type="hidden" value="{$params.id}" />
+                <div align="right" class="mtm">
+                    <input type="submit" name="send_content" value="Send" class="btn btn-primary" />
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+    {ANCHOR place="video_sharing_options" data=$vdo}
+</div>
+<!-- Share This {$type} -->
+
+<script>
+    $(document).ready(function(){
+        $('body').on('submit','#cb_share_item',function(e){
+            e.preventDefault();
+            _cb.submit_share_form('share_form','{$params.type}');return false;
+        })
+    })
+</script>

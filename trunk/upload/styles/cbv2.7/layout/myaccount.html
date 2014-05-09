@@ -1,0 +1,13 @@
+{$myAccountLinks = $userquery->my_account_links()}
+<div class="container marginBottom">
+    {include file="$style_dir/blocks/manage/account_menu.html"}
+    <div class="row cb-box">
+        <div class="leftSidebar col-md-3">
+            {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+        </div>
+        <div class="mainContent col-md-9">
+            {include file="$style_dir/blocks/manage/account_head.html" user=$user}
+        </div>
+    </div>
+</div>
+

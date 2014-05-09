@@ -1,0 +1,81 @@
+<div class="groupLeftSide">
+	<div class="groupThumb" align="center">
+        <span class="groupThumbBG"><a href="{group_link details=$group}"><img src="{$cbgroup->get_group_thumb($group)}" border="0" /></a></span>
+        </div>
+
+    {isGroupAdmin 
+    	groupid = $group.group_id
+        group = $group
+        user = $userquery->udetails
+        uid = $userquery->udetails.userid
+        checkowner = 'yes'
+        assign = isGroupAdmin}
+    
+    
+    {if $isGroupAdmin}
+    <div class="channelLegend">Admin Links</div>
+    <ul class="channel_action_links channelBox clearfix">
+            {if isSectionEnabled('videos')}
+           		{assign var=manage_videos_link value=$cbgroup->group_opt_link($group,'manage_videos')}
+            	{if $manage_videos_link}<li>{$manage_videos_link}</li>{/if}
+            {/if}
+            
+            {if isSectionEnabled('channels')}
+           		{assign var=manage_members_link value=$cbgroup->group_opt_link($group,'manage_members')}
+            	{if $manage_members_link}<li>{$manage_members_link}</li>{/if}
+            {/if}
+            
+            	{assign var=edit_group_link value=$cbgroup->group_opt_link($group,'edit_group')}
+            {if $edit_group_link}<li onClick="groupsAjax(event,this);">{$edit_group_link}</li>{/if}
+            
+           		{assign var=remove_group_link value=$cbgroup->group_opt_link($group,'remove_group')}
+            {if $remove_group_link}<li>{$remove_group_link}</li>{/if}    
+    </ul>
+    {/if}
+</div>
+<div class="well well-sm margin-top-25">
+<h5 class="nomargin">{lang code="Group Members"}</h5>
+    <div class="friendsBox clearfix marginBottom">
+        {assign var=users_items_group_page value=config(users_items_group_page)}
+        {assign var=members value=$cbgroup->get_members($group.group_id,"yes",$users_items_group_page)}
+        {if $members}
+            <div class="marginBottom">
+                {foreach from=$members item=member}
+                    {include file="$style_dir/blocks/user.html" user=$member block_type='friends'}
+                {/foreach}
+            </div>
+        {/if}
+    </div>
+</div>
+
+  <ul class="list-group">
+    <a href="#" class="list-group-item active">
+    {lang code="Options"}
+    </a>
+     {assign var=join_link value=$cbgroup->group_opt_link($group,'join'," class='' ")}
+        {if $join_link}
+            <li class="list-group-item">{$join_link}</li>
+        {/if}
+        
+        {assign var=invite_link value=$cbgroup->group_opt_link($group,'invite')}
+        {if $invite_link}
+            {* onClick="groupsAjax(event,this);" *}
+            <li class="list-group-item">{$invite_link}</li>
+        {/if}
+        
+        {assign var=leave_link value=$cbgroup->group_opt_link($group,'leave')}
+        {if $leave_link}
+            <li class="list-group-item">{$leave_link}</li>
+        {/if}
+        {if isSectionEnabled('videos')}
+            {assign var=add_videos_link value=$cbgroup->group_opt_link($group,'add_videos')}
+            {if $add_videos_link}
+               <li class="list-group-item">{$add_videos_link}</li>
+            {/if}
+        {/if}  
+ 
+</ul>
+
+
+
+

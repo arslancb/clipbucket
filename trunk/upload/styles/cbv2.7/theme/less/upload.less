@@ -1,0 +1,200 @@
+
+#allUploadForms{
+  padding: 0px 36px 20px;
+}
+
+
+.uploadVideos{
+  margin-bottom: 10px;
+}
+.fileUploaderForm{
+      padding: 20px 20px 0;
+  
+  .fileUploaderForm a{
+      margin-bottom: 10px;
+  }
+  .uploadedFilesList{
+      /*padding: 5px;*/
+      /*background-color: #eee;*/
+      margin-bottom: 0px;
+  }
+  .uploadedFilesList ul{
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border-top: none;
+      overflow: hidden;
+  }
+  .uploadedFilesList ul li{
+      background-color: #8DB9DD;
+      padding: 10px;
+      // border: solid 2px #fff;
+      // border-bottom: none;
+      font-size: 12px;
+      float: left;
+      // width: auto;
+      cursor: pointer;
+      margin-right: 3px;
+      margin-left: 1px;
+      text-align: center;
+      color: #eee;
+      border-radius: 5px 5px 0 0;
+  }
+
+  .uploadedFilesList ul li.selectedFile{
+        background-color: #0671C9;
+        color:  #fff;
+    }
+  #fileUploadProgress{
+      margin-bottom: 10px;
+  }
+  #fileUploadProgress progress{
+      width: 100%;
+  }
+  #updateVideoInfo{
+      margin: 15px 5px 5px;
+      text-transform: capitalize;
+      border: none;
+  }
+
+  #updateVideoInfo .requiredFields{
+    padding: 10px;
+  }
+}
+
+#mainUploadContainer div.selectedFileDiv{
+  display: block;
+}
+
+#mainUploadContainer .uploadFormContainer{
+  
+  padding: 20px 10px 10px;
+  border-top: solid 5px #0671C9;
+  margin-bottom: 10px;
+  display: none;
+
+  .uploadFormDiv{
+
+    label{
+      font-weight: normal;
+      font-size: 16px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+    .progress-container {
+      p {
+        margin: 0px;
+      }
+      .progress {
+        margin-bottom: 0px;
+      }
+    }
+
+    .video-info-container {
+      ul.nav-tabs {
+        li {
+          &.active {
+            a {
+              font-weight: bold;
+            background-color: #fafafa;
+            }
+          }
+        }
+      }
+      .tab-content {
+        padding: 0px;
+      }
+      .upload-area {
+        background-color: #fafafa;
+        min-height: 200px;
+        border-left: 1px solid #e9e9e9;
+        border-right: 1px solid #e9e9e9;
+        border-bottom: 1px solid #e9e9e9;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+      label {
+        &.light {
+          font-weight: normal;
+          font-size: 15px;
+          margin-top: 6px;
+        }
+      }
+      input, textarea {
+        background-color: #fafafa;
+        border-color: #e9e9e9;
+      }
+    }
+
+    .submit-container {
+      text-transform:uppercase;
+      margin-bottom: 25px;
+      .btn {
+        width: 100%;
+      }
+    }
+
+    .download-container {
+      .checkbox {
+        margin: 0px 25px;
+        span {
+          margin-right: 8%;
+        }
+      }
+    }
+
+    .sharing-contatiner {
+      .radio {
+        label {
+          font-size: 14px;
+        }
+      }
+      .form-group, .checkbox {
+        label {
+          &.light {
+            font-weight: normal;
+            font-size: 15px;
+          }
+        }
+      }
+    }
+
+    .terms-contatiner {
+      .checkbox {
+        label {
+          &.light {
+            font-weight: normal;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+
+  .uploadFormSidebarDiv{
+    label{
+      font-weight: normal;
+      font-size: 14px;
+    }
+    .sharingOptions{
+      padding: 5px;
+      border: none;
+    }
+
+    .sharingOptions .panel-content{
+      padding: 10px;
+    }
+  }
+}
+
+#uploadMessage{
+  position: fixed;
+  width: 50%;
+  margin-left: 25%;
+  text-align: center;
+  top: 30%;
+  z-index: 10000;
+  font-size: 1.5em;
+}

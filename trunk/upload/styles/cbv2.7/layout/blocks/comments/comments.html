@@ -1,0 +1,14 @@
+{if $comments}
+<div class="cb-item-comments-container">
+	<div id="latest_comment_container"></div>
+    {foreach from=$comments.comments item=comment}
+        {include file="$style_dir/blocks/comments/comment.html" comment=$comment type=$type parents=$comments.parents}
+    {/foreach}
+{else}
+	<div align="center" class="no_comments" id="no_comments">
+    	{lang code='no_comments' assign=no_comments} {$no_comments|sprintf:$object_type}
+    </div>
+</div>
+{/if}
+
+

@@ -1,0 +1,65 @@
+<div class="clearfix channelBox">
+
+	<div class="channelHeading" style="margin:0 0 5px 0;"><a href="{$userquery->profile_link($u)}">
+    {assign var=category value=$userquery->get_category($u.category)}
+    </a>
+    </div> {if $userquery->perm_check('admin_access')=='yes'}<div>{ANCHOR place=view_channel_admin_options data=$u}</div>{/if}<div class="viewChannelProfileThumb"><a href="{$userquery->profile_link($u)}">
+            <img class="media-object imgobject" src="{avatar details=$u}" width="142" alt="...">
+</a>
+    </div>
+</div>
+	{assign var=isSubscribed value=$userquery->is_subscribed($u.userid)}
+    <div style="height:10px"></div>
+
+
+{if $p.show_my_friends!='no'}
+<div class="clearfix channelBox">
+	<div class="channelHeading">{lang code="friends"} <small><a href="{link name='user_contacts'}{$u.username}">{lang code="view_all"}</a></small></div>
+    {assign var=userFriends value=$userquery->get_contacts($u.userid,'0','yes')}
+    {if $userFriends}
+    	{foreach from=$userFriends item=friend}
+        	{include file="$style_dir/blocks/user.html" user=$friend block_type="friends"}
+        {/foreach}     
+    {else}
+    	<em>User dont any friends yet.</em>
+    {/if}
+</div>
+{/if}
+
+{if isSectionEnabled('collections') && $p.show_my_collections!='no'}
+<div class="clearfix channelBox">
+	<div class="channelHeading">{lang code="Collections"}</div>
+    {assign var=climit value=config(collection_channel_page)}
+    {get_collections assign=userCollections user=$u.userid limit=10 order=" date_added DESC" limit=$climit}
+    {if $userCollections}
+    	{foreach from=$userCollections item=collection}
+        	{include file="$style_dir/blocks/collection.html" collection=$collection display_type="user_collections"}
+        {/foreach}
+        <div align="right" class="clearfix" style="clear:both;display:block;margin-top:2px;"><a href="{link name='user_collections'}{$u.username}">{lang code='more'}</a> | <a href="{link name='user_fav_collections'}{$u.username}">{lang code='Favorites'}</a></div>
+    {else}
+    	<em>{lang code='user_doesnt_any_collection'}</em>
+    {/if}
+</div>
+{/if}
+
+{if $p.show_my_subscriptions!='no'}
+<div class="clearfix channelBox">
+	<div class="channelHeading">{lang code='user_subscriptions' assign='users_videos'}{$users_videos|sprintf:$u.username}</div>
+    {assign var=users_items_subscriptions value=config(users_items_subscriptions)}
+    {assign var='usr_subs' value=$userquery->get_user_subscriptions($u.userid,$users_items_subscriptions)}
+    {if $usr_subs}
+    	{foreach from=$usr_subs item=sub}
+        	{include file="$style_dir/blocks/user.html" user=$sub block_type="friends"}   
+        {/foreach}
+    {else}
+    	<em>{lang code='user_no_subscriptions' assign='user_subs'}{$user_subs|sprintf:$u.username}</em>
+    {/if}
+</div>
+{/if}
+
+{if $userquery->userid!=$u.userid}
+<div class="clearfix channelBox">
+    <a class="btn btn-danger" href="javascript:void(0)" onClick="$('#flag_item').slideToggle()">{lang code='report_this_user'}</a>
+</div>
+{/if}
+{show_flag_form id=$u.userid type=User}
