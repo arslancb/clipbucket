@@ -14,13 +14,10 @@ $pages->page_redir();
 
 
 if(!defined('MAIN_PAGE')){
-    define('MAIN_PAGE', 'Collection');
+	define('MAIN_PAGE', 'Collections');
 }
 if(!defined('SUB_PAGE')){
-    if($_GET['active'] == 'no')
-        define('SUB_PAGE', 'Edit Collection');
-    else
-        define('SUB_PAGE', 'Edit collection');
+	define('SUB_PAGE', 'Manage Collections');
 }
 
 $id = mysql_clean($_GET['collection']);

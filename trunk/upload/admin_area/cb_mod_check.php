@@ -19,6 +19,12 @@ if(!defined('SUB_PAGE')){
 }
 
 
+$ffmpegVersion = check_ffmpeg("ffmpeg");
+assign("ffmpegVersion", $ffmpegVersion);
+
+$phpVersion = check_php_cli("php");
+assign("phpVersion", $phpVersion);
+
 subtitle("ClipBucket Server Module Checker");
 template_files("cb_mod_check.html");
 display_it();

@@ -14,6 +14,13 @@ $pages->page_redir();
 
 $mode = $_GET['mode'];
 
+if(!defined('MAIN_PAGE')){
+    define('MAIN_PAGE', 'Collections');
+}
+if(!defined('SUB_PAGE')){
+    define('SUB_PAGE', 'Flagged Collections');
+}
+
 //Delete Photo
 if(isset($_GET['delete_collect'])){
     $collect = mysql_clean($_GET['delete_collect']);

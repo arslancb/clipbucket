@@ -18,10 +18,7 @@ if(!defined('MAIN_PAGE')){
     define('MAIN_PAGE', 'Stats And Configurations');
 }
 if(!defined('SUB_PAGE')){
-    if($_GET['active'] == 'no')
-        define('SUB_PAGE', 'Stats');
-    else
-        define('SUB_PAGE', 'Reports');
+    define('SUB_PAGE', 'Reports &amp; Stats');    
 }
 
 

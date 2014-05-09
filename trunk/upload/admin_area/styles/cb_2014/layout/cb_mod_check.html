@@ -11,20 +11,19 @@ A brief test to check weather server modules exist or not and what are there ver
 
 
 <div class="well">
-    {$ffmpeg_status = check_module_path_new('ffmpeg', true)}
-    {var_dump($ffmpeg_status)}
-    <img src="{$imageurl}/{if $ffmpeg_status.status=='ok'}tick.png{else}alert.png{/if}"
-    />
-    <h4>FFMPEG</h4>
+  <h4>FFMPEG</h4>
+    {if $ffmpegVersion}
+      <img src="{$imageurl}/tick.png"/>
+    {else}
+      <img src="{$imageurl}/alert.png"/>
+    {/if}
     <div>
       FFmpeg is used to covert videos from different versions to FLV , MP4 and many other formats.
       <a href="http://clip-bucket.com/ffmpeg">Learn more</a>
     </div>
 
-    {if $ffmpeg_status.status=='ok'}
-    {var_dump($ffmpeg)}
-  	Version <strong>{$ffmpeg_status.version}</strong> &#8226;
-    Expected Path <strong>{get_binaries path=ffmpeg type=server}</strong>
+    {if $ffmpegVersion}
+      Version <strong>{$ffmpegVersion}</strong>
     {else}
     <p class="alert alert-danger">ffmpeg is not found</p>
       {if $ffmpeg_status.error}
@@ -33,19 +32,20 @@ A brief test to check weather server modules exist or not and what are there ver
     {/if}
 </div>
 
-
 <div class="well">
-    {check_module_path path='php' get_path='true' assign='php_status'}
-    <img src="{$imageurl}/{if $php_status.status=='ok'}tick.png{else}alert.png{/if}" />
     <h4>PHP CLI</h4>
+    {if $phpVersion}
+      <img src="{$imageurl}/tick.png"/>
+    {else}
+      <img src="{$imageurl}/alert.png"/>
+    {/if}
     <div>
       PHP CLI is used to peform video conversion in a background process.
       <a href="http://php.net/manual/en/features.commandline.php">Learn more</a>
     </div>
 
-    {if $php_status.status=='ok'}
-    Version <strong>{$php_status.version}</strong> &#8226;
-    Expected Path <strong>{get_binaries path=php type=server}</strong>
+    {if $phpVersion}
+      Version <strong>{$php_status.version}</strong>
     {else}
     <p class="alert alert-danger">php is not found</p>
   	  {if $php_status.error}
