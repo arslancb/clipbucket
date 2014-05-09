@@ -1,5 +1,7 @@
 {if $mode == 'single'}
-<h2>Re-create Photos</h2>
+<div class="heading">
+    <h2>Re-create Photos</h2>
+</div>
 <form action="recreate_thumbs.php?mode={$mode}&amp;photo={$data.photo_id}" method="post" enctype="multipart/form-data">
 	<a href="edit_photo.php?photo={$p.photo_id}">&laquo; Back to Edit Details</a>
 <div style="height:5px;"></div>
@@ -73,7 +75,9 @@
 {/if}
 
 {if $mode == 'mass' || $mode == ''}
-	<h2>Mass Re-creation of Photos</h2>
+    <div class="heading">
+        <h2>Mass Re-creation of Photos</h2>
+    </div>
     <h4>This will re-create all the photos uploaded on your website, according to the settings shown below</h4>
     <p class="alert alert-warning">Take caution while using Mass Recreation. Use MAX of 5 photos per GO.</p>
     <div class="recreationSettings">
@@ -170,7 +174,9 @@
 {/if}
 
 {if $mode == "collection"}
-	<h2>Recreate Photos</h2>
+    <div class="heading">
+        <h2>Recreate Photos</h2>
+    </div>
     {if $items}
     	{assign var=cid value=$items[0].collection_id}
     	{assign var=c_name value=$items[0].collection_id|get_collection_field}

@@ -1,5 +1,7 @@
 {if $edit_lang != 'yes'}
-<h2>Language Settings</h2>
+<div class="heading">
+    <h2>Language Settings</h2>
+</div>
 
 <form name="default_lang" method="post" action="?default">
     <table class="table table-bordered table-striped manageUsersTable">
@@ -19,8 +21,8 @@
             <td>{$language_list[l_list].language_id}</td>
             <td>{$language_list[l_list].language_name}({$language_list[l_list].language_code}){if $language_list[l_list].language_default=='yes'} <span style="color: #cccccc"> as <i>Default Language</i></span>{/if}</td>
             <td>
-                <div class="dropdown">
-                    <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle pull-right" data-toggle="dropdown">
+                <div class="dropdown clearfix alignRight">
+                    <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
                     Actions <i class="caret"></i></button>
                     <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" role="menu">
                         <li role="presentation"><a role="menuitem" tabindex="-1"
@@ -61,14 +63,19 @@
     </table>
 </form>
 
-<h2> Add New Language </h2>
+<div class="heading">
+    <h2> Add New Language </h2>
+</div>
 	<div class="form-group">
         <form action="?import" method="post" enctype="multipart/form-data" name="import_language" id="import_language">
-    	<legend>Upload file</legend>
+    	<h4>Upload file</h4>
         	<table>
+            <tr><td>
+                Browse ClipBucket Language File ( must be .xml format ) 
+              <input type="file" name="lang_file" id="lang_file" class="marginBottomLarge" />
+            </td></tr>
             <tr>
-              <td>Browse ClipBucket Language File ( must be .xml format ) 
-              <input type="file" name="lang_file" id="lang_file" class="form-control" />
+              <td>
               <input type="submit" name="add_language" id="add_language" value="Add Language" class="btn btn-primary" /></td>
             </tr>
             </table>

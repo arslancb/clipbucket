@@ -1,5 +1,7 @@
 {if $mode == '' || $mode == 'photo_settings'}
-<h2>Photo Settings</h2>
+<div class="heading">
+    <h2>Photo Settings</h2>
+</div>
 <form name="form1" method="post" id="photo_settings">
         <h3>Photo Resizing</h3>
     <div class="row">
@@ -106,7 +108,9 @@
 </form>
 {/if}
 {if $mode == 'watermark_settings'}
-<h2>Watermark Settings</h2>
+<div class="heading">
+    <h2>Watermark Settings</h2>
+</div>
 <form action="" method="post" enctype="multipart/form-data">
     <div class="row">
     <div class="watermarSettings">

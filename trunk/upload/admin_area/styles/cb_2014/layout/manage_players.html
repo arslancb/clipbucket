@@ -1,5 +1,7 @@
 {if $mode =='show_settings'}
-<h2>ClipBucket Website Player Settings</h2>
+<div class="heading">
+  <h2>ClipBucket Website Player Settings</h2>
+</div>
         <div class="row">
 <div class="col-md-4">
   <label for="pak_license">
@@ -235,8 +237,9 @@
 
 
 {else}
-
-<h2>Selected Player</h2>
+<div class="heading">
+  <h2>Selected Player</h2>
+</div>
 <div>
   {assign var="player_dir" value=$Cbucket->configs.player_dir}
   {assign var="player_file" value=$Cbucket->configs.player_file}
@@ -264,8 +267,9 @@
   </div>
 </div>
 
-
-<h2>Available Players</h2>
+<div class="heading">
+  <h2>Available Players</h2>
+</div>
 <div>
   {* Listing All Avilable Players *}
 

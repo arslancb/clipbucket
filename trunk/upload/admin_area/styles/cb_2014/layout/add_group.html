@@ -1,7 +1,9 @@
 {assign var='requiredFields' value=$cbgroup->load_required_fields()}
 {assign var='optionFields' value=$cbgroup->load_other_fields()}
 {assign var='customFields' value=$cbgroup->custom_group_fields}
-<h2>Add Group</h2>
+<div class="heading">
+    <h2>Add Group</h2>
+</div>
 <p class="alert alert-info">Required Member Details</p>
 <form name="upload_form" class="upload_form" method="post" action="">
     <div class="row">

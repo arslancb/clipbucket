@@ -1,5 +1,7 @@
 {if $mode == 'view'}
-<h2>Flagged Photos Manager</h2>
+<div class="heading">
+    <h2>Flagged Photos Manager</h2>
+</div>
 <form name="flagged_photo" method="post" id="flagged_photo">
     <div class="btn-group">
         <input type="submit" name="delete_selected" value="Delete Photos" class="btn btn-primary btn-xs" onclick="return _cb.confirm_it('Are you sure you want to delete these photo(s)')"/>

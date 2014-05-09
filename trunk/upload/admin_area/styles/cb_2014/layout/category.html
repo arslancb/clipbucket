@@ -1,11 +1,13 @@
-<div class="form-group">
-<h2>Video Categories
-    <div class="dropdown pull-right">
-        <button id="hideshow" class="btn btn-default pull-right dropdown-toggle" data-toggle="dropdown">
-            Add new Category <i class="caret"></i></button>
-        </div>
-</h2>
+<div class="heading paddingBottomSmall">
+    <div class="form-group">
+        <h2>Video Categories
+            <div class="dropdown pull-right">
+                <button id="hideshow" class="btn btn-default pull-right dropdown-toggle" data-toggle="dropdown">
+                    Add new Category <i class="caret"></i></button>
+                </div>
+        </h2>
     </div>
+</div>
 
 
 {if $edit_category != "show"}
@@ -99,9 +101,7 @@
     </div>
 
 
-<div style="margin:10px 0px 10px 0px">
-    <legend>Category List</legend>
-</div>
+<h4>Category List</h4>
 
 {if $total != 0}
 <form name="category" action="?update_order" method="post">

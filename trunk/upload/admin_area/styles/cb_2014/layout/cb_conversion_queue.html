@@ -1,4 +1,6 @@
-<h2>ClipBucket Queue Manager</h2> 
+<div class="heading">
+  <h2>ClipBucket Queue Manager</h2> 
+</div>
 {if conv_lock_exists()}
 <span class="btn btn-primary" onclick="window.location='?delete_lock=yes'">
     Delete Conversion Lock
@@ -12,7 +14,7 @@
 <!-- DIsplaying Videos -->
 <form name="video_manage" method="post">
 
-<div class="btn-group">
+<div class="btn-group marginBottomSmall">
     <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-xs" onclick="return confirm_it('Are your sure you want to remove these items')"/>
     <input name="processed" type="submit"class="btn btn-primary btn-xs" id="processed" value="Set as processed" />
     <input name="pending" type="submit"class="btn btn-primary btn-xs" id="pending" value="Set as pending" /></td>

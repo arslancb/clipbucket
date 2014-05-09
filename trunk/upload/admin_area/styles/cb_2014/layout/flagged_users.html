@@ -1,6 +1,8 @@
 
 {if $mode=='view'}
-<h2>Flagged Users Manager</h2>
+<div class="heading">
+    <h2>Flagged Users Manager</h2>
+</div>
 <!-- DIsplaying Videos -->
 <form name="flagged_video" method="post" id="flagged_video">
     <div class="btn-group">
@@ -106,8 +108,9 @@
 
 
 {if $mode=='view_flags'}
-      
-<h2 class="page_title">Viewing {$user.username} flags</h2>
+<div class="heading">
+    <h2>Viewing {$user.username} flags</h2>
+</div>
 <div class="dropdown pull-right">
     <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
         Actions <i class="caret"></i></button>

@@ -1,5 +1,7 @@
 {if $ad_data.ad_name !=''}
-<h2>Edit Advertisement</h2>
+<div class="heading">
+  <h2>Edit Advertisement</h2>
+</div>
 <p class="alert alert-info">all fields are required</p>
 <form id="form1" name="form1" method="post" action="">
   <input type="hidden" name="ad_id" value="{$ad_data.ad_id}" />
@@ -43,7 +45,9 @@
 
 {else}
 {if $edit_ad != "show"}
-<h2>Add Advertisement</h2>
+<div class="heading">
+  <h2>Add Advertisement</h2>
+</div>
 <form id="form1" name="form1" method="post" action="ads_manager.php">
     <p class="alert alert-info">all fields are required</p>
     <div class="row">
@@ -83,8 +87,9 @@
         </div>
 </form>
  {/if}
-
-<h2>Advertisement Manager</h2>
+<div class="heading">
+  <h2>Advertisement Manager</h2>
+</div>
 <table class="table table-bordered table-striped">
   <tr>
       <td>AID</td>

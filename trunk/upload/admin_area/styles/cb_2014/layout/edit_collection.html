@@ -1,7 +1,7 @@
 {assign var=requiredFields value=$cbcollection->load_required_fields($data)}
 {assign var=otherFields value=$cbcollection->load_other_fields($data)}
 
-<div class="heading clearfix marginBottomLarge">
+<div class="heading clearfix marginBottomLarge paddingBottomSmall">
     <h2 class="pull-left">Editing <small>&gt;&gt; {$data.collection_name}</small></h2>
     <div class="pull-right">
         <span class="btn btn-app btn-sm btn-light no-hover">
@@ -56,26 +56,8 @@
             </span>
     </div>
 </div>
-<div class="clearfix">
-    <div class="dropdown alignRight">
-        <a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" href="">Actions <i class="caret"></i></a>
-        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
-            {if $data.active!='yes'}
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$data.collection_id}&amp;mode=ac">Activate</a></li>
-            {else}
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$data.collection_id}&amp;mode=dac">Deactivate</a></li>
-            {/if}
-            {if $data.featured!='yes'}
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$data.collection_id}&amp;mode=mcf">Make Featured</a></li>
-            {else}
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$data.collection_id}&amp;mode=mcuf">Make Unfeatured</a></li>
-            {/if}
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)" onClick="javascript:_cb.Confirm_Delete('collection_manager.php?delete_collection={$data.collection_id}')">Delete This Collection</a>
-        </ul>
-    </div>
-</div>
 <form action="" method="post" enctype="multipart/form-data" name="edit_collection" id="edit_collection">
-    <div class="row">
+    <div class="row marginTopLarge">
         <div class="col-sm-6 col-md-6 col-lg-6 col x1-12">
         <input class="form-control" name="admin" type="hidden" id="admin" value="true" />
         <input name="collection_id" type="hidden"  value="{$data.collection_id}" />

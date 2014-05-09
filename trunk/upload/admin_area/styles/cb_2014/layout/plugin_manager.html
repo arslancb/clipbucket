@@ -1,5 +1,7 @@
-<h3>Plugin Manager</h3>
-<h2>Installed Plugins</h2>
+<div class="heading">
+  <h2>Plugin Manager</h2>
+</div>
+<h3>Installed Plugins</h3>
 {if $installed_plugin_list}
 
 <form name="installed_plugins" id="installed_plugins" method="post" action="plugin_manager.php">
@@ -86,7 +88,9 @@
 </div>
 {/if}
 {* Listing New Plugins *}
-<h2>Available Plugins </h2>
+<div class="heading">
+  <h2>Available Plugins </h2>
+</div>
 {if $new_plugin_list}
 <form name="available_plugins" id="available_plugins" action="plugin_manager.php" method="post">
   <table class="table table-bordered table-striped">

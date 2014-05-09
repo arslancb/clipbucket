@@ -41,25 +41,27 @@
         </span>
     </div>
 </div>
-<a class="btn btn-primary btn-sm dropdown-toggle pull-right" data-toggle="dropdown" href="">Actions <i class="caret"></i></a>
-<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
-    <li><a role="menuitem" tabindex="-1" href="{$userquery->profile_link($u)}">View {$u.username} channel</a></li>
-    <li><a role="menuitem" tabindex="-1" href="login_as_user.php?uid={$u.userid}">Login as user</a></li>
-    {if $u.usr_status=="Ok"}
-    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;deactivate=yes">Deactivate</a></li>
-    {else}
-    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;activate=yes">Activate</a></li>
-    {/if}
-    {if $u.ban_status=="yes"}
-    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;unban=yes">Unban</a></li>
-    {else}
-    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;ban=yes">Ban</a></li>
-    {/if}
-    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete=yes">Delete</a></li>
-    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_vids=yes">Delete Videos</a></li>
-    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_contacts=yes">Delete Contacts</a></li>
-    <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_pm=yes">Delete Private Messages</a></li>
-</ul>
+<div class="alignRight clearfix">
+    <a class="btn btn-primary btn-sm dropdown-toggle pull-right" data-toggle="dropdown" href="">Actions <i class="caret"></i></a>
+    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+        <li><a role="menuitem" tabindex="-1" href="{$userquery->profile_link($u)}">View {$u.username} channel</a></li>
+        <li><a role="menuitem" tabindex="-1" href="login_as_user.php?uid={$u.userid}">Login as user</a></li>
+        {if $u.usr_status=="Ok"}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;deactivate=yes">Deactivate</a></li>
+        {else}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;activate=yes">Activate</a></li>
+        {/if}
+        {if $u.ban_status=="yes"}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;unban=yes">Unban</a></li>
+        {else}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;ban=yes">Ban</a></li>
+        {/if}
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete=yes">Delete</a></li>
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_vids=yes">Delete Videos</a></li>
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_contacts=yes">Delete Contacts</a></li>
+        <li><a role="menuitem" tabindex="-1" href="?uid={$u.userid}&amp;delete_pm=yes">Delete Private Messages</a></li>
+    </ul>
+</div>
 </div>
 
 <form action="" method="post" enctype="multipart/form-data" name="form1" id="form1" class="cbform">
@@ -293,11 +295,19 @@
 
     </div>
 </div>
+</div>
+<div class="marginTopLarge">
+    <div class="form-group">
+        <label for="pass">Change password</label>
+        <input class="form-control" name="pass" type="text" id="pass" />
     </div>
+    <div class="form-group">
+        <label for="cpass">Confirm password</label>
+        <input class="form-control" name="cpass" type="text" id="cpass" />
+    </div>
+</div>
 
-
-
-   </div>
+</div>
 
 
 <div class="col-sm-6 col-md-6 col-lg-6 col x1-12 pull-right">
@@ -509,14 +519,6 @@
 </div>
 </div>
 </div>
-    <div class="form-group">
-        <label for="pass">Change password</label>
-        <input class="form-control" name="pass" type="text" id="pass" />
-    </div>
-    <div class="form-group">
-        <label for="cpass">Confirm password</label>
-        <input class="form-control" name="cpass" type="text" id="cpass" />
-    </div>
 
 </form>
 </div>

@@ -384,6 +384,10 @@ ul.mainTabs{
     padding-right: 15px;
 }
 
+.paddingBottomSmall{
+    padding-bottom: 5px;
+}
+
 .widgetBox{
     height: 200px;
     overflow-y: scroll;
