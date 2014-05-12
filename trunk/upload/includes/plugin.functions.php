@@ -522,4 +522,13 @@
 		}
 		return 'check_remote_url()';
 	}
+	if(!function_exists('plug_url')){
+		function plug_url($file,$dir,$admin_base=false)
+		{
+		    $url = 'plugin.php?folder='.$dir.'&file='.$file;
+		    if($admin_base)
+		        $url = ADMIN_BASEURL.'/'.$url;
+		    return $url;
+		}
+	}
 ?>

@@ -18,7 +18,7 @@ $cbLinks = array
 'login_success'	=>array('login_success.php','login_success.php'),
 'logout'		=>array('logout.php','logout.php'),
 'logout_success'=>array('logout_success.php','logout_success.php'),
-'my_account'	=>array('myaccount.php','my_account'),
+'my_account'	=>array('myaccount.php?user=','my_account'),
 'my_videos'		=>array('manage_videos.php','manage_videos.php'),
 'my_favorites'	=>array('manage_videos.php?mode=favorites','manage_videos.php?mode=favorites'),
 'my_playlists'	=>array('manage_playlists.php','manage_playlists.php'),
