@@ -374,7 +374,7 @@
 
 		};
 		this.youtube_upload = function(){
-
+			alert(download_page);
 			if(!this.youtube_check_url()){
 				alert(download_page);
 				return false;
