@@ -75,7 +75,7 @@ switch($mode)
 		// var_dump($videoFields[0]);
 		// echo "</pre>";
 		echo json_encode($videoFields);
-		//Template('blocks/upload/form.html');
+		Template('blocks/upload/form.html');
 	}
 	break;
 	
