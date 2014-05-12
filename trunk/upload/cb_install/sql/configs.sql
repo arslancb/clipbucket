@@ -15,7 +15,6 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (12, 'flvtool2path', '/usr/local/bin/flvtool2'),
 (13, 'mp4boxpath', '/usr/local/bin/MP4Box'),
 (14, 'vbrate', '300000'),
-(14, 'vbrate_hd', '500000'),
 (15, 'srate', '22050'),
 (16, 'r_height', ''),
 (17, 'r_width', ''),
@@ -222,6 +221,7 @@ INSERT INTO `{tbl_prefix}config` (`configid`, `name`, `value`) VALUES
 (221, 'collection_rating', '1'),
 (222, 'own_collection_rating', '1'),
 (223, 'own_video_rating', '1'),
+(224, 'vbrate_hd', '500000'),
 (NULL,'feedsSection','yes'),
 (NULL,'max_topic_length','1500'),
 (NULL,'max_topic_title','300');
