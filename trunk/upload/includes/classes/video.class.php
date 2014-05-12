@@ -58,7 +58,7 @@ class CBvideo extends CBCategory
 		$this->video_delete_functions[] = 'delete_video_from_collection';
 
         $basic_fields = array(
-            'videoid', 'videokey', 'userid', 'title', 'description', 'tags', 'category',
+            'videoid', 'videokey', 'userid', 'title','server_ip', 'description', 'tags', 'category','file_directory',
             'active', 'date_added', 'broadcast', 'rating', 'file_server_path', 'files_thumbs_path',
             'file_thumbs_count', 'duration', 'has_hq', 'has_mobile', 'views', 'file_name', 'rated_by',
             'default_thumb', 'comments_count', 'last_viewed', 'featured', 'featured_date', 'status'

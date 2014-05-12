@@ -161,7 +161,7 @@ class userquery extends CBCategory{
 		define('BACKGROUND_COLOR',config('background_color'));
 		
 		if(isSectionEnabled('channels'))
-		$Cbucket->search_types['users'] = "userquery";
+		$Cbucket->search_types['channels'] = "userquery";
 		
 	}
 	
