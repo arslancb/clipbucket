@@ -358,67 +358,104 @@
 				$("#prog_bar").css("width", progress+"%");
 			}
 		};
-
-		this.youtube_upload = function(){
+		this.youtube_check_url = function(){
 			var self = this;
-			$('#remoteUploadBttn').attr("disabled","disabled");
-			$('#ytUploadBttn').attr("disabled","disabled");
-
 			var file = $("#remote_file_url").val();
-			this.force_stop = false;		
-			if(!file || file=='undefined')
-			{
+			var $youtubeButton = $('#ytUploadBttn'); // youtube upload button
+			var $uploadButton = $('#remoteUploadBttn'); // upload button
+			var $cancelButton = $('#remoteUploadBttnStop'); // cancel upload button
+			this.force_stop = false;
+			if(file.match(/^e.g/) || typeof file === "undefined" || file.length === 0){
+				// given url is not valid
 				alert("Please enter file url");
-				$('#remoteUploadBttn').attr('disabled','');
-				$('#ytUploadBttn').attr("disabled",'');
 				return false;
 			}
-			var ajaxCall = $.ajax({
-				  url: self.download_page,
-				  type: "POST",
-				  data: ({file:file,file_name:file_name,"youtube":"yes"}),
-				  dataType : 'json',
-				  beforeSend : function()
+			return true;
+
+		};
+		this.youtube_upload = function(){
+
+			if(!this.youtube_check_url()){
+				alert(download_page);
+				return false;
+
+			}
+
+			$('#remoteUploadBttn').attr("disabled","disabled");
+		$('#ytUploadBttn').attr("disabled","disabled");
+
+		var file = $("#remote_file_url").val();
+		force_stop = false;		
+		if(!file || file=='undefined')
+		{
+			alert("Please enter file url");
+			$('#remoteUploadBttn').attr('disabled','');
+			$('#ytUploadBttn').attr("disabled",'');
+			return false;
+		}
+
+		var ajaxCall = $.ajax({
+			  url: download_page,
+			  type: "POST",
+			  data: ({file:file,file_name:file_name,"youtube":"yes"}),
+			  dataType : 'json',
+			  beforeSend : function()
+			  {
+				 $("#loading").html('<div style="float: left; display: inline-block;"><img src="'+imageurl+'/ajax-loader.gif"></div><div style="float: left; line-height: 16px; padding-left:5px">Uploading video from youtube, please wait...</div><div class="clear"></div>');
+			  },
+			  success: function(data)
+			  {
+				  
+				  if(data.error)
+				  {		  
+					force_stop = true;
+					$('#remoteUploadBttn').attr('disabled','');
+					$('#ytUploadBttn').attr("disabled","");
+					alert(data.error);
+				  }else if(data.vid)
 				  {
-					 $("#loading").html('<div style="float: left; display: inline-block;"><img src="'+this.imageurl+'/ajax-loader.gif"></div><div style="float: left; line-height: 16px; padding-left:5px">Uploading video from youtube, please wait...</div><div class="clear"></div>');
-				  },
-				  success: function(data)
-				  {
-					  
-					  if(data.error)
-					  {		  
-						this.force_stop = true;
-						$('#remoteUploadBttn').attr('disabled','');
-						$('#ytUploadBttn').attr("disabled","");
-						alert(data.error);
-					  }else if(data.vid)
+					  vid = data.vid;
+					  $('#remoteUploadBttn').attr("disabled","disabled").hide();
+					  $('#ytUploadBttn').attr("disabled","disabled").hide();
+						var uploadForm = $("#updateVideoInfoForm").clone();
+						var oneUploadForm = $(uploadForm).clone().get(0);
+                        var wrapperDiv = document.createElement("div");
+                        if(i == 0){
+                            wrapperDiv.className = "tab-pane active uploadFormContainer";
+                        }else{
+                            wrapperDiv.className = "tab-pane uploadFormContainer";
+                        }
+                        wrapperDiv.id = "tab"+i;
+                        oneUploadForm.className = "";
+                        $(oneUploadForm).find("input[name='title']").val(data.title);
+                        $(oneUploadForm).find("textarea#desc").val(data.desc);
+                        $(oneUploadForm).find("input[name='category[]']:first").attr('checked', 'checked');
+                        wrapperDiv.appendChild(oneUploadForm);
+                        $(wrapperDiv).appendTo('body');
+                        //uploadForms.push(wrapperDiv);  
+					  /*$.post(baseurl+'/actions/file_uploader.php',
+					  {"getForm":"get_form",
+					  "title":data.title,
+					  "desc":data.desc,
+					  "tags":data.tags,"objId":remoteObjID},
+					  function(data)
 					  {
-						  vid = data.vid;
-						  $('#remoteUploadBttn').attr("disabled","disabled").hide();
-						  $('#ytUploadBttn').attr("disabled","disabled").hide();
-						  $.post(this.baseurl+'/actions/file_uploader.php',
-						  {"getForm":"get_form",
-						  "title":data.title,
-						  "desc":data.desc,
-						  "tags":data.tags,"objId":this.remoteObjID},
-						  function(data)
-						  {
-								$('#remoteForm').append(data);
-								$('#cbSubmitUpload'+this.remoteObjID)
-								.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
-								.attr("disabled","")
-								.attr("value",lang.saveData)
-								.attr("onClick","doUpdateVideo('#uploadForm"+this.remoteObjID+"','"+this.remoteObjID+"')")
-								.after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
-								.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
-						
-						  },'text');
-						  
-					  }
-					  $("#loading").html('');
+							/*$('#remoteForm').append(data);
+							$('#cbSubmitUpload'+remoteObjID)
+							.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
+							.attr("disabled","")
+							.attr("value",lang.saveData)
+							.attr("onClick","doUpdateVideo('#uploadForm"+remoteObjID+"','"+remoteObjID+"')")
+							.after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
+							.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
+					
+					  },'text');*/
+					  
 				  }
-			   }
-			);
+				  $("#loading").html('');
+			  }
+		   }
+		);
 		};
 
 		this.status_update = function(){

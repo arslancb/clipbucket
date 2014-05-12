@@ -203,30 +203,14 @@ var loading = loading_img+" Loading...";
 					  vid = data.vid;
 					  $('#remoteUploadBttn').attr("disabled","disabled").hide();
 					  $('#ytUploadBttn').attr("disabled","disabled").hide();
-						var uploadForm = $("#updateVideoInfoForm").clone();
-						var oneUploadForm = $(uploadForm).clone().get(0);
-                        var wrapperDiv = document.createElement("div");
-                        if(i == 0){
-                            wrapperDiv.className = "tab-pane active uploadFormContainer";
-                        }else{
-                            wrapperDiv.className = "tab-pane uploadFormContainer";
-                        }
-                        wrapperDiv.id = "tab"+i;
-                        oneUploadForm.className = "";
-                        $(oneUploadForm).find("input[name='title']").val(data.title);
-                        $(oneUploadForm).find("textarea#desc").val(data.desc);
-                        $(oneUploadForm).find("input[name='category[]']:first").attr('checked', 'checked');
-                        wrapperDiv.appendChild(oneUploadForm);
-                        $(wrapperDiv).appendTo('body');
-                        //uploadForms.push(wrapperDiv);  
-					  /*$.post(baseurl+'/actions/file_uploader.php',
+					  $.post(baseurl+'/actions/file_uploader.php',
 					  {"getForm":"get_form",
 					  "title":data.title,
 					  "desc":data.desc,
 					  "tags":data.tags,"objId":remoteObjID},
 					  function(data)
 					  {
-							/*$('#remoteForm').append(data);
+							$('#remoteForm').append(data);
 							$('#cbSubmitUpload'+remoteObjID)
 							.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
 							.attr("disabled","")
@@ -235,7 +219,7 @@ var loading = loading_img+" Loading...";
 							.after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
 							.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
 					
-					  },'text');*/
+					  },'text');
 					  
 				  }
 				  $("#loading").html('');
