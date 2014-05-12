@@ -31,9 +31,10 @@
                 <li class="{if $smarty.get.type=='photos'} active {/if}"><a href="?type=photos">photos</a></li>
                 <li class="{if $smarty.get.type=='channels'} active {/if}"><a href="?type=channels">channels</a></li>
               </ul>
-              <form class="navbar-form navbar-left" role="search"  style="margin-top: 8px;">
+              <form class="navbar-form navbar-left" role="search"  style="margin-top: 8px;" action="http://dev.clipbucket-2.7.com/upload/search_result.php">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control" name="query" placeholder="{lang code='Search'}"/>
+                    <input type="hidden" name="type" value="{if !isset($smarty.get.type) || $smarty.get.type=='videos'}videos{else}{$smarty.get.type}{/if}" />
                     <span class="input-group-btn">
                         <input type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go!'}" class="btn btn-default" />
                     </span>
@@ -47,18 +48,18 @@
                 <h2>{$searchfor}</h2>
                 {*$display_template*}
                 <hr>
-                <div class="row col-md-12 paddingleft0 paddingright0 ">
+                <div class="row col-md-12 paddingright0 paddingleft0" style="width:102%">
                     {if $results}
 
                     {foreach item=result from=$results}
                     {assign var=$template_var value =$result}
                     {include file="$display_template"  }
                     {/foreach}
-                    {else}
-                    {lang code='no_results_found'}
                    
+                    {else}
+                    <div class="col-md-12">{lang code='no_results_found'}</div>
                     {/if}
-                </div>
+                </div> 
                 <div class="clearfix"></div>
             </div>
             <div class="col-md-2">
@@ -70,7 +71,7 @@
             <div style="height:10px"></div>
             <div class="clearfix"></div>
         </div>
-        {include file="$style_dir/blocks/pagination.html"}
+        <div align="center">{include file="$style_dir/blocks/pagination.html"}</div>
     </div>
 </div>
 

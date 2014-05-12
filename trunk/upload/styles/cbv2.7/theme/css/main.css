@@ -2909,3 +2909,20 @@ font-size: 14px;
     top: 83px;
     width: 87%;
 }
+ul.pagination span.selected{
+    background: none repeat scroll 0 0 #428BCA;
+    color: #FFFFFF;   
+}
+ul.pagination li.active a:hover{
+    cursor: pointer;
+    background-color: #EEEEEE;  
+    color: #000;
+}
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus
+{
+    background-color: #FFFFFF;
+    border-color: #DDDDDD;
+    color: #428BCA;
+    cursor: default;
+    z-index: 2;
+}
