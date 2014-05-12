@@ -31,9 +31,9 @@
                 <li class="{if $smarty.get.type=='photos'} active {/if}"><a href="?type=photos">photos</a></li>
                 <li class="{if $smarty.get.type=='channels'} active {/if}"><a href="?type=channels">channels</a></li>
               </ul>
-              <form class="navbar-form navbar-left" role="search"  style="margin-top: 8px;" action="http://dev.clipbucket-2.7.com/upload/search_result.php">
+              <form class="navbar-form navbar-left" role="search" action="{link name='search_result'}" name="search-form"  style="margin-top: 8px; width: 435px;" >
                 <div class="input-group">
-                    <input type="text" class="form-control" name="query" placeholder="{lang code='Search'}"/>
+                    <input type="text" class="form-control" name="query" placeholder="{if isset($smarty.get.query)}{$search_type_title}{else}{lang code='Search'}{/if}"/>
                     <input type="hidden" name="type" value="{if !isset($smarty.get.type) || $smarty.get.type=='videos'}videos{else}{$smarty.get.type}{/if}" />
                     <span class="input-group-btn">
                         <input type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go!'}" class="btn btn-default" />
@@ -44,10 +44,8 @@
           </div><!-- /.container-fluid -->
         </nav>
         <hr  style="margin-top: 10px; margin-bottom: 10px;">
-                <div class="heading">{$search_type_title}</div>
-                <h2>{$searchfor}</h2>
-                {*$display_template*}
-                <hr>
+                <!--<div class="heading">{$search_type_title}</div>
+                <hr>-->
                 <div class="row col-md-12 paddingright0 paddingleft0" style="width:102%">
                     {if $results}
 
