@@ -85,8 +85,8 @@ class Collections extends CBCategory
 											);
 		
 		// Adding Search Type
-		if(isSectionEnabled('collections'))
-		$Cbucket->search_types['collections'] = "cbcollection";
+		//if(isSectionEnabled('collections'))
+		//$Cbucket->search_types['collections'] = "cbcollection";
 		
 		// Adding Collection links in Admin Area
 		if($per['collection_moderation'] == "yes")

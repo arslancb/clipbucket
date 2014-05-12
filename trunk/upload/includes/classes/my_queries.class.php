@@ -1000,6 +1000,7 @@ class myquery {
 	 */
 	function is_commentable($obj,$type)
 	{
+		#pr($obj,true);
 		switch($type)
 		{
 			case "video":
