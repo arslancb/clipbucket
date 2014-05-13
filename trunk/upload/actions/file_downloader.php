@@ -15,7 +15,7 @@
 include("../includes/config.inc.php");
 include("../includes/classes/curl/class.curl.php");
 //error_reporting(E_ALL ^E_NOTICE);/**/
-
+ini_set('max_execution_time', 300);
 if(isset($_POST['check_url']))
 {
 	$url = $_POST['check_url'];
@@ -48,7 +48,6 @@ if(!isCurlInstalled())
 {
 	exit(json_encode(array("error"=>"Sorry, we do not support remote upload")));
 }
-
 
 //checking if user is logged in or not
 if(!userid())
@@ -126,7 +125,7 @@ if(isset($_POST['youtube']))
 	
 	if(error())
 	{
-		exit(json_encode(array('error'=>error('single'))));
+		//exit(json_encode(array('error'=>error('single'))));
 	}
 	
 	if(!function_exists('get_refer_url_from_embed_code'))
