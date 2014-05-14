@@ -15,7 +15,7 @@
 include("../includes/config.inc.php");
 include("../includes/classes/curl/class.curl.php");
 //error_reporting(E_ALL ^E_NOTICE);/**/
-ini_set('max_execution_time', 300);
+ini_set('max_execution_time', 3000);
 if(isset($_POST['check_url']))
 {
 	$url = $_POST['check_url'];
@@ -66,9 +66,14 @@ if(isset($_POST['youtube']))
 	{
 		exit(json_encode(array("error"=>"Invalid youtube url")));
 	}
-			
-	$content = xml2array('http://gdata.youtube.com/feeds/api/videos/'.$YouTubeId);
-	$content = $content['entry'];
+	
+	//for devolpment
+	//$content = json_decode('{"apiVersion":"2.1","data":{"id":"QfRAHfquzM0","uploaded":"2008-01-01T09:21:43.000Z","updated":"2014-04-18T22:16:28.000Z","uploader":"thegreatpakistani","category":"Education","title":"Pakistan National Anthem","description":"The Beautiful Pakistan National Anthem.","thumbnail":{"sqDefault":"http://i1.ytimg.com/vi/QfRAHfquzM0/default.jpg","hqDefault":"http://i1.ytimg.com/vi/QfRAHfquzM0/hqdefault.jpg"},"player":{"default":"http://www.youtube.com/watch?v=QfRAHfquzM0&feature=youtube_gdata_player","mobile":"http://m.youtube.com/details?v=QfRAHfquzM0"},"content":{"5":"http://www.youtube.com/v/QfRAHfquzM0?version=3&f=videos&app=youtube_gdata","1":"rtsp://r2---sn-5hn7su7z.c.youtube.com/CiILENy73wIaGQnNzK76HUD0QRMYDSANFEgGUgZ2aWRlb3MM/0/0/0/video.3gp","6":"rtsp://r2---sn-5hn7su7z.c.youtube.com/CiILENy73wIaGQnNzK76HUD0QRMYESARFEgGUgZ2aWRlb3MM/0/0/0/video.3gp"},"duration":71,"rating":4.2875,"likeCount":"789","ratingCount":960,"viewCount":503860,"favoriteCount":0,"commentCount":1146,"accessControl":{"comment":"allowed","commentVote":"allowed","videoRespond":"moderated","rate":"allowed","embed":"allowed","list":"allowed","autoPlay":"allowed","syndicate":"allowed"}}}'); 
+	$content = json_decode('http://gdata.youtube.com/feeds/api/videos/'.$YouTubeId.'?v=2&alt=jsonc');
+	
+	//$content = xml2array('http://gdata.youtube.com/feeds/api/videos/'.$YouTubeId);
+	$content = $content->data;
+	
 	/*	$match_arr = 
 	array
 	(
@@ -86,10 +91,10 @@ if(isset($_POST['youtube']))
 		$vid_array[$title] = $matches[1];
 	}*/
 	
-	$vid_array['title'] 		= $content['media:group']['media:title'];
-	$vid_array['description'] 	= $content['content'];
-	$vid_array['tags'] 			= $content['media:group']['media:keywords'];
-	$vid_array['duration'] 		= $content['media:group']['yt:duration_attr']['seconds'];
+	$vid_array['title'] 		= $content->title;
+	$vid_array['description'] 	= $content->description;
+	$vid_array['tags'] 			= $content->title;
+	$vid_array['duration'] 		= $content->duration;
 	
 	
 	
