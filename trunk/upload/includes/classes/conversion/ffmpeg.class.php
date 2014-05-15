@@ -33,7 +33,7 @@ class ffmpeg
 	var $configs = array();
 	var $gen_thumbs; //If set to TRUE , it will generate thumbnails also
 	var $remove_input = TRUE;
-	var $gen_big_thumb = FALSE;
+	var $gen_big_thumb = TRUE;
 	var $h264_single_pass = FALSE;
 	var $hq_output_file = '';
 	var $log_file = '';
