@@ -253,19 +253,8 @@
                 </div>
             </div>
             <div class="widget-body">
-                <div class="widget-main">
-                    <div class="alert alert-info">
-                        <p class="alert-info"><b>Words from ClipBucket!</b></p>
-                        <hr>
-                        <small><b>Head's Up its Clipbucket</b></small>
-                        <li>What lies head?</li>
-                        <p>
-                            * Easy ClipBucket integeration with other applications<br>
-                            * Make more secured, fast and optimized<br>
-                            * HTML5 ready with mobile support<br>
-                            * Full documentation of our source code
-                        </p>
-                    </div>
+                <div id="clipbucket_news" class="widget-main">
+                    
                 </div>
             </div>
         </div>
@@ -769,9 +758,9 @@
 </div>
  -->
 
-
+<!--
 <div class="well" style="margin-top: 14px">
-    <h3>Who We Are</h3>
+    <h3>WE ARE GOING TO SHOW THEM WHO WE ARE</h3>
     <p>ClipBucket is  developed by <strong><a href="http://arslanhassan.com">Arslan Hassan</a></strong> and <strong><a href="http://clip-bucket.com/fawaz-tahir">Fawaz Tahir</a></strong>, we started with a small website application with only functionality of serving videos to the community later on we decided to add every possible social networking feature to make social communities more interactive. We didn't have any milestones, no road map, no charts, no nothing. Only thing we had was a vision as of our captain <strong><a href="http://clip-bucket.com/jahanzeb-hassan">Jahanzeb Hassan</a></strong> and plenty of hard work. </p>
     <p>We also have two more members named <a href="http://clip-bucket.com/ruman-malik">Ruman Malik</a> and <a href="http://clip-bucket.com/zomail-tahir">Zomail Tahir</a> who manage sales and support department.</p>
     <p><strong>ClipBucket team gives special thanks to</strong><br />
@@ -785,10 +774,67 @@
     <p>We belong to <a href="http://clip-bucket.com/pakistan">Islamic Republic of Pakistan</a> :) you may have seen many negative news about Pakistan on television but there are still <a href="http://clip-bucket.com/pakistan#the_truth">some facts</a> you should know about. Its a great country for us and we will always love it.<br />
         <strong>Pakistan Zindabad </strong></p>
 </div>
+-->
+
+
+
+
+<div class="well" style="margin-top: 14px;background:;border:1px solid rgba(128, 213, 255, 1);" >
+    <h3>WHO WE ARE</h3>
+    <p style="text-align:left;"><strong><a href="http://clip-bucket.com/" target="self">ClipBucket</a></strong> would not been possible without its team hardwork and determination for the betterment of the products quality and its services. We are proud that over _____ users are using worlds most popular open source video,audio and photo sharing script named
+    <strong>ClipBucket</strong>. We are team who is  determined to deliver the best  features to the open source community.
+</p>
+
+
+    <p style="text-align:left;margin-top:20px; "><strong>Clipbucket</strong> was made in the year 2006 with the idea to bring a better platform for organizations and companies interested in launching their own video,audio or photo sharing website. In every version our mission and goal is to simplify the technology by adopting new technological methods and techniques to cut down several frontend and backend issues faced. The idea is to give the user a chance to explore more with the flexibility of our product.
+
+
+
+     We never compromise on our product interactivity. We always try to create a simple yet interactive and elegant design so that the user can have the best experience of the functions. With the improved social networking options like channels and groups. With ClipBucket’s unmatched quantifiability, users will stretch their applications from family videos to photo-albums. We started off as a paid product and later realized there is more power in going open-source and here we stand today <strong>#1</strong> video sharing and media management script in the industry.</p>
+
+ <h3>OUR TEAM</h3>
+
+ <p style="text-align:left;padding-bottom:20px;">However the team behind ClipBucket always kept their heads and nerves, though they faced many difficulties and problems in meeting the requirements. But team’s coordination and their creative techniques of solving issues and overcoming them with the best possible solution helped us in presenting  Pakistan on international platform in the field of technology by bringing “Clip Bucket” A complete open source multimedia management script.
+</p>
+
+
+
+
+<div class="fahad">
+<p>Founders <strong><a href="http://clip-bucket.com/jahanzeb-hassan" target="self">Jahanzeb Hassan</a></strong> and <strong><a href="http://arslanhassan.com" target="self">Arslan Hassan</a></strong></p>
+
+ <strong><a href="">Fawaz Tahir</a></strong> - Web Application Team Lead<br>
+ <strong><a href="">Ruman Malik</a></strong> - Project Manager<br>
+ <strong><a href="">Muneeb</a></strong> - Mobile Application Team Lead<br>
+ <strong><a href="">Zomail</a></strong> - Sales and Support<br>
+ <strong><a href="">Shahzaib</a></strong> - Network Engineer<br>
+ <strong><a href="">Zunair</a></strong> - SEO and Publishing Manager<br>
+<br>
+ <h5><strong>We are from Pakistan with high heads and soft hearts</strong></h5>
+
+<p style="padding-bottom:20px;">Pakistan is always been in the news for the bad reasons and has been criticized by the rest of the world,even then the people of Pakistan are patriotic and stand united for the goodwill of their country.no matter how worst the situation gets the youth is eager enough to bring out the best in all the fields like media,communication, IT and science. IT industry is fast growing with a large potential and is regarded as a successful sector even in country’s worst financial crisis. as the IT industry in Pakistan is growing like wise the demand for the softwares and programmes has taken up a rapid growth. ClipBucket is one of the fastest and the most used media sharing script with all the latest features and enhancements in the social media. We as Pakistani feel proud on creating this product which will lead our country to the highest levels in the international market.</p>
+
+
+
+
+
+
+
+</div>
+
+<p><button id="addTodo" class="btn btn-primary btn-sm clip_read clip_hide" style="float:right;margin-right:10px;margin-top:-30px;">Read More</button></p>
+
+</div>
+
 
 
 
 <style type="text/css">
+
+.fahad{
+
+   display: none; 
+}
     .flot_chart1{
         height: 200px;
         width: 400px;
@@ -802,9 +848,57 @@
 </style>
 
 
-<script type="text/javascript">
 
-    $(function() {
+
+
+
+<script type="text/javascript">
+$( document ).ready(function() {
+
+$(".clip_read").click(function() {
+
+$(this).toggleClass('clip_hide');
+
+
+if(!$(this).hasClass('clip_hide')) 
+       
+       {
+        $('.fahad').show();
+        $(".clip_read").text("Hide");
+       }
+    
+else
+       {
+        $('.fahad').hide();
+        $(".clip_read").text("Read More");
+       }
+ 
+});
+
+var baseurl="{$baseurl}";
+
+$.ajax({
+                   // url: baseurl+'/ajax.php',
+
+                   url:baseurl+'/ajax.php',
+                    type: "POST",
+                    dataType : 'text',
+                    data: { mode: "get_news"},
+                    success : function(news){ $('#clipbucket_news').html(news) },
+                    timeout : 5000,
+                    error  :  function(err) { $('#clipbucket_news').html(' <div align="center"><em><strong>Unable to fetch news</strong></em></div>')},
+
+
+                });
+
+
+});
+
+
+
+
+
+  $(function() {
 
 
         var options = {
@@ -837,6 +931,8 @@
 
         var ChartsWorker = function(options){
             this.options = options;
+
+       
 
 
             this.getUsersStatistics = function(callback){

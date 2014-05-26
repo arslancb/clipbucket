@@ -65,8 +65,9 @@
         Actions<i class="icon-angle-down icon-on-right"></i>
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
+         <li><a role="menuitem" tabindex="-1" href="view_user.php?uid={$u.userid}">Edit</a></li>
         <li><a role="menuitem" tabindex="-1" href="view_user.php?uid={$u.userid}">View</a></li>
-        <li><a role="menuitem" tabindex="-1" href="view_user.php?uid={$u.userid}">Edit</a></li>
+       
         {if $u.usr_status == Ok}
         <li><a role="menuitem" tabindex="-1" href="?deactivate={$u.userid}">Deactivate</a></li>
         {elseif $u.usr_status == ToActivate}

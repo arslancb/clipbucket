@@ -177,9 +177,9 @@ class CBvideo extends CBCategory
 	 */
 	function get_video( $vid, $file=false, $basic = false )
 	{
-		global $db;
+		global $db, $cb_columns;
 		
-		$userFields = get_user_fields();
+		$userFields = $cb_columns->object('users')->temp_change('featured','user_featured')->get_columns();
         $videoFields = array( 'video' => '*' );
 
         if ( $basic === true ) {
@@ -209,9 +209,10 @@ class CBvideo extends CBCategory
         if ( $data ) {
             return $data;
         }
+       
 
         $result = select( $query );
-
+ 
         if ( $result ) {
 
             $result = apply_filters( $result[ 0 ], 'get_video' );
@@ -620,7 +621,7 @@ class CBvideo extends CBCategory
 	function get_videos($params)
 	{
 
-		global $db;
+		global $db, $cb_columns;
 		$limit = $params['limit'];
 		$order = $params['order'];
 		
@@ -924,7 +925,7 @@ class CBvideo extends CBCategory
 
         $fields = array(
             'video' => get_video_fields(),
-            'users' => get_user_fields()
+            'users' => $cb_columns->object('users')->temp_change('featured','user_featured')->get_columns(),
         );
 
         $fields = tbl_fields( $fields );
@@ -1371,6 +1372,26 @@ class CBvideo extends CBCategory
 			}
 		}
 	}
+
+/**
+	 * This function are just for temporary purpose,, will be  changed later...
+	 */
+	function video_manager_link_new($link,$vid)
+	{
+		if(function_exists($link) && !is_array($link))
+		{
+			return $link($vid);
+		}else
+		{
+			if(!empty($link['title']) && !empty($link['link']))
+			{
+				return '<a href="'.$link['link'].'">'.$link['title'].'</a>';
+			}
+		}
+	}
+
+
+
 	
 	
 	

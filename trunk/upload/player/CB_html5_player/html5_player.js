@@ -317,6 +317,7 @@ $(this).toggleClass('hdoff');
 		if(percentage < 0) {
 			percentage = 0;
 		}
+		
 		$('.timeBar').css('width',percentage+'%');	
 		video[0].currentTime = maxduration * percentage / 100;
 	};
@@ -501,6 +502,10 @@ $('#name_v,#thumb_v').mouseout(function() {
 '-moz-box-shadow':'0px 0 0px #fff',
 '-webkit-box-shadow':'0px 0 0px #fff',});
 });
+
+
+
+
 
 
 

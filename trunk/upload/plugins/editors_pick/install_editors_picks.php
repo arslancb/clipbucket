@@ -17,7 +17,12 @@ function install_editors_pick()
 	);
 	
 	//inserting new announcment
-	$db->Execute("INSERT INTO  ".tbl('global_announcement')." (announcement) VALUES ('')");
+	//$db->Execute("INSERT INTO  ".tbl('global_announcement')." (announcement) VALUES ('')");
+
+
+
+	$db->Execute("ALTER TABLE ".tbl('video')." ADD `in_editor_pick` varchar(255) DEFAULT 'no' ");
+	
 }
 
 

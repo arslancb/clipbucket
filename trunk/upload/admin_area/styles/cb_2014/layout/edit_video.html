@@ -4,43 +4,71 @@
 <form action="" method="post" name="edit_video" id="edit_video">
 <div class="row">
     <div class="heading clearfix">
-            <h2 class="pull-left paddingLeftLarge">Editing <small>&gt;&gt; {$data.title|truncate:80}</small></h2>
+            <h2 class="pull-left paddingLeftLarge">Editing <small>&gt; {$data.title|truncate:80}</small></h2>
             <div class="pull-right marginBottomLarge paddingBottomLarge">
+
+               
                 <span class="btn btn-app btn-sm btn-light no-hover">
-                <span class="line-height-1 bigger-150 blue">{$data.views|format_number}</span>
+                <span class="line-height-1 smaller-90 blue">{$data.views|format_number}</span>
                 <br>
                 <span class="line-height-1 smaller-90"> Views </span>
                 </span>
                 <span class="btn btn-app btn-sm btn-yellow no-hover">
-                <span class="line-height-1 bigger-150"> {$data.comments_count} </span>
+                <span class="line-height-1 smaller-90"> {$data.comments_count} </span>
 
                 <br>
                 <span class="line-height-1 smaller-90"> Comments </span>
                 </span>
                 <span class="btn btn-app btn-sm btn-pink no-hover">
-                <span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok bigger-150"></span>
+                <span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok smaller-90"></span>
                 {else}<span class="glyphicon glyphicon-remove">{/if}</span>
                 <br>
                 <span class="line-height-1 smaller-90"> Active</span>
                 </span>
                 </span>
-                <span class="btn btn-app btn-sm btn-grey no-hover">
+          
 
-                <span class="line-height-1"> {if $data.featured=='No'}<span class="glyphicon glyphicon-ok bigger-150"></span>
+                <span class="btn btn-app btn-sm btn-grey no-hover">
+                <span class="line-height-1"> {if $data.featured=='yes'}<span class="glyphicon glyphicon-ok smaller-90"></span>
                 {else}<span class="glyphicon glyphicon-remove">{/if}</span>
                 <br>
-
                 <span class="line-height-1 smaller-90">Featured</span>
                 </span>
                 </span>
-                <a href="?add_editor_pick={$data.videoid}">
+                <!--
                 <span class="btn btn-app btn-sm btn-success no-hover">
-                <span class="line-height-1 bigger-170"><span class="glyphicon glyphicon-remove"></span></span>
-
+                <span class="line-height-1">
+                                        {foreach from=$cbvid->video_manager_links_neww item=links}
+                                        {$cbvid->video_manager_link_neww($links,$data)}
+                                        {/foreach}
                 <br>
-                <span class="line-height-1 smaller-90"> Editor Pick </span>
+                <span class="line-height-1 smaller-90">Editor Pick</span>
                 </span>
-                </a>
+                </span>
+            -->
+
+
+                 <span class="btn btn-app btn-sm btn-success no-hover">
+                <span class="line-height-1"> {if $data.in_editor_pick=='yes'}<span class="glyphicon glyphicon-ok smaller-90"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+                <span class="line-height-1 smaller-90">Editor Pick</span>
+                </span>
+                </span>
+
+
+                <span class="btn btn-app btn-sm btn-primary no-hover">
+                <span class="line-height-1"> {if $data.flagged=='yes'}<span class="glyphicon glyphicon-ok smaller-90"></span>
+                {else}<span class="glyphicon glyphicon-remove">{/if}</span>
+                <br>
+                <span class="line-height-1 smaller-90"> FLAGGED</span>
+                </span>
+                </span>
+
+
+
+
+<!--
                 <span class="btn btn-app btn-sm btn-primary no-hover">
                 {section name=list loop=$flagedVideos}
 
@@ -49,6 +77,11 @@
                 <br>
                 <span class="line-height-1 smaller-90"> Flagged </span>
                 </span>
+-->
+
+
+
+
             </div>
         </div>
     <div class="col-md-6">
@@ -277,8 +310,8 @@
 <div class="col-sm-6 col-md-6 col-lg-6 col x1-12">
 
 
-    <div class="col-md-12"  style="height:300px">
-        {FlashPlayer vdetails=$data width='100%' height='300px' }
+    <div class="col-md-12"  style="height:250px;margin-left:2.5px;" >
+        {FlashPlayer vdetails=$data width='100%' height='100%' }
     </div>
 
     <div class="head col-md-12">

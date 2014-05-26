@@ -22,8 +22,8 @@
   <tr>
     <td width="40" align="center" valign="middle" class="left_head">
     <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
-    <td width="50" class="head">CID</td>
-    <td class="head">Comment</td>
+    <td width="85" class="head"><strong>CID</strong></td>
+    <td class="head"><strong>Comment</strong></td>
   </tr>
 </table>
 
@@ -39,11 +39,11 @@
 {/if} 
  
 <tr>
-<td width="50"><input name="check_comments[]" type="checkbox" id="check_comments" value="{$comment.comment_id}" /></td>
-<td>{$comment.comment_id}</td>
+<td width="40"><input style="margin-left:5px;margin-top:10px;"name="check_comments[]" type="checkbox" id="check_comments" value="{$comment.comment_id}" /></td>
+<td >{$comment.comment_id}</td>
 <td onmouseover="$('#comm_opt-{$comment.comment_id}').show()" onmouseout="$('#comm_opt-{$comment.comment_id}').hide()" >
  {if $type == '' || $type == 'v'}
-    {if is_array($comment_owner)} <a href="{$userquery->profile_link($comment_owner)}"><strong>{$comment_owner.username}</strong></a> {else} <span id="{$comment.comment_id}" class="edit_comment"><strong>{$comment.comment}</strong></span>
+    {if is_array($comment_owner)} <a href="{$userquery->profile_link($comment_owner)}"><strong>{$comment_owner.username}</strong></a> {else} <span id="{$comment.comment_id}" class="edit_comment"><strong style="margin-left:-10px;">{$comment.comment}</strong></span>
     <div class="videoTitle row">
         <div class="col-md-10">
             <a href="view_user.php?uid={$video.userid}">{$comment_owner}</a>   {/if} commented on a video named  <a href="{videoLink vdetails=$comment}" title="{$comment.title}">{$comment.title|truncate:40}</a>

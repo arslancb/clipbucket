@@ -54,6 +54,7 @@ if(isset($_POST['update_order']))
 
 
 assign('videos',$ep_videos);
+
 assign('max',get_highest_sort_number());
 assign('min',get_lowest_sort_number());
 	

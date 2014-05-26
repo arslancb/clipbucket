@@ -45,6 +45,7 @@ if(!function_exists('editors_pick'))
 			{
 				$sort = get_highest_sort_number() + 1 ;
 				$db->insert(tbl("editors_picks"),array("videoid","sort","date_added"),array($vid,$sort,now()));
+				 $db->update(tbl("video"), array("in_editor_pick"), array("yes")," videoid = '".$vid."'");
 				e(lang("Video has been added to editor's pick"),"m");
 			}else{
 				e(lang("Video is already in editor's pick"),"e");
@@ -64,6 +65,7 @@ if(!function_exists('editors_pick'))
 		if(is_video_in_editors_pick($vid))
 		{
 			$db->delete(tbl('editors_picks'),array('videoid'),array($vid));
+			$db->update(tbl("video"), array("in_editor_pick"), array("no")," videoid = '".$vid."'");
 			e(lang("Video has been removed from editor's pick"),"m");
 		}
 	}
@@ -114,6 +116,7 @@ if(!function_exists('editors_pick'))
 			return '<li><a role="menuitem" tabindex="-1" href="'.queryString(NULL,
 			array('remove_editor_pick','add_editor_pick','mode')).'add_editor_pick='.$vid['videoid'].'">Add To Editor\'s Pick</a></li>';
 	}
+	
 	
 	
 	/**
@@ -216,8 +219,27 @@ if(!function_exists('editors_pick'))
 	}
 	
 	
+
+	//the following two written functions are for temporay purpose .. will be chaged later
+function admin_area_tab($vid)
+	{
+		if(is_video_in_editors_pick($vid['videoid']))
+			return '<span class="label label-success" >Added to editors pick</span>';
+		else
+			{}
+	}
+
+
+
+
+
+
+//Temporay purpose
+$cbvid->video_manager_links_new[] = 'admin_area_tab';
+
 //Adding Editor's Pick Link
 $cbvid->video_manager_links[] = 'video_manager_ep_link';
+
 //Calling Editor Picks Function
 $cbvid->video_manager_funcs[] = 'editors_pick';
 //ADding Admin Menu

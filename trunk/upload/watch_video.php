@@ -16,9 +16,9 @@ $pages->page_redir();
 //Getting Video Key
 $vkey = @$_GET['v'];
 $vkey = mysql_clean($vkey);
-
 $vdo = $cbvid->get_video($vkey);
 
+//pr($vdo,true);
 
 assign('vdo',$vdo);
 if(video_playable($vdo))
@@ -83,6 +83,8 @@ $vlist = $vid_cond;
 $vlist['limit'] = 15;
 $videos = get_videos($vlist);
 Assign('videos', $videos);
+      
+
 
 //Displaying The Template
 template_files('watch_video.html');

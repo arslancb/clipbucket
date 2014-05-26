@@ -1,7 +1,8 @@
 <div class="advanceSearchButton clearfix">
-    <a href="#" class="btn btn-primary btn-sm pull-right" onclick="$('#collectionsearchdiv').toggle();return false;" style="margin-bottom: 0px;position: relative; top: 15px;z-index:10000">
+    <a href="#" class="btn btn-primary btn-sm pull-right current after" onclick="$('#collectionsearchdiv').toggle();return false;" style="margin-bottom: 0px;position: relative; top: 15px;z-index:10000">
         Advanced Search
-        <i class="glyphicon glyphicon-chevron-down"></i>
+       <i class="glyphicon glyphicon-chevron-down down"></i>
+         <i class="glyphicon glyphicon-chevron-up up" style="display:none"></i>
     </a>
 </div>
 <div class="search_box well" id="collectionsearchdiv" {if $smarty.cookies.show_searchdiv_search!='show'} style="display:none"{/if}>
@@ -91,3 +92,28 @@
         </div>
 </form>
 </div>
+<script type="text/javascript">
+       
+
+        $(document).ready(function neww () {
+        $(".current").click(function() {
+        $(this).toggleClass('after');
+        if(!$(this).hasClass('after')) 
+           {
+      
+          $('.down').hide();
+          $('.up').show();
+           }
+    
+        else
+       {
+ 
+        $('.down').show();
+         $('.up').hide();
+       }
+ 
+});
+
+       })
+       
+</script >

@@ -62,6 +62,7 @@ if(@$_GET['msg']){
 		$data = get_video_details($video);
 		Assign('udata',$userquery->get_user_details($data['userid']));
 		Assign('data',$data);
+		 //pr($data,true);
 	}else{
 		$msg[] = lang('class_vdo_del_err');
 	}

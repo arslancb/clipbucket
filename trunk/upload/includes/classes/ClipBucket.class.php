@@ -238,7 +238,7 @@ class ClipBucket
                 'Add Member' => 'add_member.php',
                 'Manage categories' => 'user_category.php',
                 'User Levels' => 'user_levels.php',
-                'Search Members' => 'members.php?view=search',
+              //  'Search Members' => 'members.php?view=search',
                 'Inactive Only' => 'members.php?search=yes&status=ToActivate',
                 'Active Only' => 'members.php?search=yes&status=Ok',
                 'Reported Users' => 'flagged_users.php',
@@ -322,7 +322,7 @@ class ClipBucket
                 'Add Member' => 'add_member.php',
                 'Manage categories' => 'user_category.php',
                
-                'Search Members' => 'members.php?view=search',
+               // 'Search Members' => 'members.php?view=search',
                 'Inactive Only' => 'members.php?search=yes&status=ToActivate',
                 'Active Only' => 'members.php?search=yes&status=Ok',
                 'Reported Users' => 'flagged_users.php',

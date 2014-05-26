@@ -234,6 +234,7 @@ function format_number($number) {
     }
 }
 
+Assign(BASEURL,'baseurl');
 
 //subtitle(lang('video_manager'));
 template_files('index.html');

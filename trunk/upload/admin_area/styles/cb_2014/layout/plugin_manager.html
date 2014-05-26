@@ -44,7 +44,7 @@
             <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions <i class="caret"></i></button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
                 <li>
-                    {if $plug.plugin_active == 'Active'}
+                    {if $plug.plugin_active == 'yes'}
                     <a href="?deactivate={$plug.plugin_file}{if $plug.plugin_folder!=''}&f={$plug.plugin_folder}{/if}">Deactivate</a>
                     {else}
                     <a href="?activate={$plug.plugin_file}{if $plug.plugin_folder!=''}&f={$plug.plugin_folder}{/if}">Activate</a>

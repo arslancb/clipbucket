@@ -2,19 +2,19 @@
 {assign var=otherFields value=$cbcollection->load_other_fields($data)}
 
 <div class="heading clearfix marginBottomLarge paddingBottomSmall">
-    <h2 class="pull-left">Editing <small>&gt;&gt; {$data.collection_name}</small></h2>
+    <h2 class="pull-left">Editing <small>&gt; {$data.collection_name}</small></h2>
     <div class="pull-right">
         <span class="btn btn-app btn-sm btn-light no-hover">
-            <span class="line-height-1 bigger-170 blue">{$data.views|number_format}</span>
+            <span class="line-height-1 smaller-90 blue">{$data.views|number_format}</span>
             <br>
             <span class="line-height-1 smaller-90"> Views </span>
         </span>
         <span class="btn btn-app btn-sm btn-yellow no-hover">
             {$comments = $data.comments_count}
             {if $comments > 0}
-                <span class="line-height-1 bigger-170"> {$data.comments_count} </span>
+                <span class="line-height-1 smaller-90"> {$data.comments_count} </span>
             {else}
-                <span class="line-height-1 bigger-170">0</span>
+                <span class="line-height-1 smaller-90">0</span>
             {/if}
             <br>
             <span class="line-height-1 smaller-90"> Comments </span>
@@ -40,14 +40,14 @@
             {if $FlaggedPhotos != NULL}
                 {$FlaggedPhotos[list].total_flags}
                 {section name=list loop=$FlaggedPhotos}
-                <span class="line-height-1 bigger-170">
+                <span class="line-height-1 smaller-90">
                     {$FlaggedPhotos[list].total_flags}
                 </span>
                 {/section}
                 <br>
                 <span class="line-height-1 smaller-90"> Flagged </span>
                 {else}
-                    <span class="line-height-1 bigger-170">
+                    <span class="line-height-1 smaller-90">
                         0
                     </span>
                     <br>
@@ -78,15 +78,43 @@
                 </ul>
 
                 <div class="tab-content">
+
+
                     <div id="cldetails" class="tab-pane active">
+
+
+
+              <fieldset class="fieldset">
+   
+              <table class="myTable" width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="block">
+              <tr>
+              <td class="first"><label for="">Collection Id</label></td></td>
+              <td class="last"><p><span><input disabled="disabled" name="collecionID" type="text" id="collecionID" value="{$data.collection_id}" size="30" />
+              </span></p></td>
+              </tr>
+
+             
+              {foreach from=$requiredFields item=field}
+              <tr>
+              <td class="first"><label for="" style="width:160px;">{$field.title}</label></td>
+              <td class="last" ><p><span>{$formObj->createField($field)}</span></p></td>
+              </tr>
+              {/foreach}
+              </table>
+
+              </fieldset>
+
+
+<!--
                         <table class="myTable">
                             <tr>
                                 <td class="first"><label for="">Collection Id</label></td></td>
-                                <td class="last"><p><span>{$data.collection_id}</span></p></td>
+                            <td class="last"><p><span>{$data.collection_id}</span></p></td> 
+                              <td class="last"><p>bollywood</p></td>
                             </tr>
                         
-                        {foreach from=$requiredFields item=field}
-                        {if $field.title=='Collection name'}
+                              {foreach from=$requiredFields item=field}
+                              {if $field.title=='Collection name'}
                             <tr>
                                 <td class="first"><label for="">{$field.title}</label></td>
                                 <td class="last"><p><span>{$data[$field.db_field]}</span></p></td>
@@ -126,12 +154,12 @@
                         {foreach from=$requiredFields item=field}
                         {if $field.title=='Collection category'}
 
-                        <!-- <label>{$field.title}</label>
+                       label>{$field.title}</label>
                         <div class="tab-content scroll">
                             {$formObj->createField($field)}
-                        </div> -->
+                        </div> 
                         {/if}
-                        {/foreach}
+                        {/foreach}-->
 
                     </div>
                     <div id="uinformation" class="tab-pane">

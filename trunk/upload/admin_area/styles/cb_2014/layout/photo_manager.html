@@ -4,6 +4,12 @@
 </div>
 <form name="photo_manager" method="post">
   <div class="btn-group marginBottom">
+    <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate" class="button"/>
+        {if $smarty.get.active!='no'}
+        <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate"
+               class="button"/>
+        {/if}
+        <input type="submit" name="move_to_selected" value="Move To" class="btn btn-primary btn-xs"/>
     <input type="submit" name="make_featured_selected" value="Make Featured" class="btn btn-primary btn-xs"/>
     <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured" class="btn btn-primary btn-xs"/>
     <input type="submit" name="delete_selected" value="Delete" class="btn btn-primary btn-xs" onclick="return confirm_it('Are you sure you want to delete selected photos(s). This will permanently delete these photos from website.')"/>
@@ -95,6 +101,13 @@
       <div class="dropdown">
         <button class="btn btn-primary btn-xs dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Actions<i class="icon-angle-down icon-on-right"></i></button>
         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+
+           <li>
+            <a href="edit_photo.php?photo={$photos[list].photo_id}">Edit</a>
+          </li>
+          <li>
+            <a href="{$baseurl}/view_item.php?item={$photos[list].photo_key}&amp;type=photos&amp;collection={$photos[list].collection_id}" target="_blank">View</a>
+          </li>
           <li>
             {if $photos[list]['active'] == 'yes'}
               <a href="?deactivate={$photos[list].photo_id}">Deactivate</a>
@@ -102,12 +115,8 @@
               <a href="?activate={$photos[list].photo_id}">Activate</a>
             {/if}
           </li>
-          <li>
-            <a href="edit_photo.php?photo={$photos[list].photo_id}">Edit</a>
-          </li>
-          <li>
-            <a href="{$baseurl}/view_item.php?item={$photos[list].photo_key}&amp;type=photos&amp;collection={$photos[list].collection_id}" target="_blank">View</a>
-          </li>
+         
+          
           {if $photos[list].featured == 'yes'}
           <li>
             <a href="?make_unfeature={$photos[list].photo_id}">Make Unfeatured</a>
@@ -126,6 +135,11 @@
 {/section}
 </table>
 <div class="btn-group">
+  <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate" class="button"/>
+        {if $smarty.get.active!='no'}
+        <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate"
+               class="button"/>
+        {/if}
   <input type="submit" name="move_to_selected" value="Move To" class="btn btn-primary btn-xs"/>
   <input type="submit" name="make_featured_selected" value="Make Featured" class="btn btn-primary btn-xs"/>
   <input type="submit" name="make_unfeatured_selected" value="Make Unfeatured" class="btn btn-primary btn-xs"/>
