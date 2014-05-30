@@ -24,6 +24,7 @@ if(!defined('SUB_PAGE')){
 		define('SUB_PAGE', 'Videos Manager');
 }
 
+
 //Feature / UnFeature Video
 if(isset($_GET['make_feature'])){
 	$video = mysql_clean($_GET['make_feature']);
@@ -125,6 +126,11 @@ if(isset($_POST['delete_selected']))
 		 );		
 	}
 	
+	if(is_installed('cb_mass_embed'))
+	{
+		$array['mass_embed_status'] = 'approved';
+	}
+
 	$result_array = $array;
 	//Getting Video List
 	$result_array['limit'] = $get_limit;
@@ -133,6 +139,8 @@ if(isset($_POST['delete_selected']))
 	$videos = get_videos($result_array);
 	
 	Assign('videos', $videos);	
+
+
 
 	//Collecting Data for Pagination
 	$vcount = $array;
