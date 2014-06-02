@@ -177,7 +177,7 @@ class CBvideo extends CBCategory
 	 */
 	function get_video( $vid, $file=false, $basic = false )
 	{
-		global $db;
+		global $db, $cb_columns;
 		
 		$userFields = get_user_fields();
         $videoFields = array( 'video' => '*' );
@@ -620,7 +620,8 @@ class CBvideo extends CBCategory
 	function get_videos($params)
 	{
 
-		global $db;
+		global $db, $cb_columns;
+
 		$limit = $params['limit'];
 		$order = $params['order'];
 		
@@ -932,7 +933,8 @@ class CBvideo extends CBCategory
 
         $fields = array(
             'video' => get_video_fields(),
-            'users' => get_user_fields()
+           // 'users' => get_user_fields()
+               'users' =>  $cb_columns->object('users')->temp_change('featured','user_featured')->get_columns()
         );
 
         $fields = tbl_fields( $fields );
@@ -1380,6 +1382,23 @@ class CBvideo extends CBCategory
 		}
 	}
 	
+
+	/**
+	 * Function used to display video manger link temporay
+	 */
+	function video_manager_links_new($link,$vid)
+	{
+		if(function_exists($link) && !is_array($link))
+		{
+			return $link($vid);
+		}else
+		{
+			if(!empty($link['title']) && !empty($link['link']))
+			{
+				return '<a href="'.$link['link'].'">'.$link['title'].'</a>';
+			}
+		}
+	}
 	
 	
 	/**
@@ -1934,6 +1953,7 @@ class CBvideo extends CBCategory
                 fclose($fp);
 
 	}
+
 	
 	/**
 	 * Function used update comment
