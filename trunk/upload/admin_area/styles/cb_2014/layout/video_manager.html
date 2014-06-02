@@ -54,7 +54,7 @@
                                     <span class="label {if $video.status=='Successful'}label-success{else}label-warning{/if}">
                                         {$video.status} </span>
                                          <span class="label label-info">
-                                           {if $video.featured == 'yes'}Featured{else}Unfeatured{/if}</span>
+                                          {if $video.featured=='yes'}Featured{else}Unfeatured{/if}</span>
                                            
                                     <span class="label label-info">
                                        Viewed {$video.last_viewed|niceTime}</span>
@@ -62,7 +62,7 @@
 
                                 
 
-                                        {foreach from=$cbvid->video_manager_links_new item=links}
+                                       {foreach from=$cbvid->video_manager_link_new item=links}
                                         {$cbvid->video_manager_link_new($links,$video)}
                                         {/foreach}
                                        
@@ -107,7 +107,7 @@
                         <li class="divider"></li>
                         <li><a role="menuitem" tabindex="-1" href="?delete_video={$video.videoid}">Delete</a>
                         </li>
-                        {foreach from=$cbvid->video_manager_links item=links}
+                        {foreach from=$cbvid->video_manager_link item=links}
                         {$cbvid->video_manager_link($links,$video)}
                         {/foreach}
                     </ul>
