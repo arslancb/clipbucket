@@ -57,6 +57,7 @@ class userquery extends CBCategory{
 	function userquery()
 	{
         global $cb_columns;
+       
 		$this->cat_tbl = 'user_categories';
 
         $basic_fields = array(
