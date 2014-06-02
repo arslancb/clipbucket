@@ -364,6 +364,8 @@ class cb_columns {
      */
     function temp_change( $from, $to ) {
         return $this->setup_temp_actions( $from, 'change', $to );
+
     }
+    
 
 }
