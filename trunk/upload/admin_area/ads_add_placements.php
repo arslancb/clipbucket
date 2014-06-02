@@ -45,7 +45,7 @@ for($id=0;$id<=$total_placements;$id++)
 }
 				
 Assign('ads_placements',$ads_placements);
-	
+//pr($ads_placements,true);	
 	
 subtitle("Add Advertisment Placement");
 template_files('ads_add_placements.html');

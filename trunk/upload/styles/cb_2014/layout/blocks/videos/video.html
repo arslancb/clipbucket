@@ -21,7 +21,7 @@
         <a href="{videoLink($video)}" title="{$video.title|title}">
             <span class="video_duration">{if
                                 $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}{*$video.duration|date_format:$config.time*}</span>
-            <img class="" src="{getThumb vdetails=$video}" border="1" height="100" width="100"/>
+            <img class="" src="{getThumb vdetails=$video size='big'} " border="1" height="100" width="100"/>
         </a>
         </div>
         <div class="item_text"  style="height: 45px; overflow: hidden;">

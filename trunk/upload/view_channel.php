@@ -63,7 +63,7 @@ if($udetails)
     Assign('users', $users);
 
 
-
+/*
     //Collecting Data for Pagination
     $vcount = $vid_cond;
     $counter = get_counter('video',$count_query);
@@ -92,6 +92,48 @@ if($udetails)
     $videos = get_videos($result_array);
 
     Assign('videos', $videos);
+
+*/
+
+
+
+
+
+    //Getting Video List
+$page = mysql_clean($_GET['page']);
+$get_limit = create_query_limit($page,9);
+$vlist = $vid_cond;
+$count_query = $vid_cond;
+$vlist['limit'] = $get_limit;
+$vlist['user'] = $udetails["userid"];
+$videos = get_videos($vlist);
+Assign('videos', $videos);	
+
+
+//Collecting Data for Pagination
+$vcount = $vid_cond;
+$counter = get_counter('video',$count_query);
+if(!$counter)
+{
+	$vcount['count_only'] = true;
+	$total_rows  = get_videos($vcount);
+	$total_pages = count_pages($total_rows,VLISTPP);
+	$counter = $total_rows;
+	update_counter('video',$count_query,$counter);
+}
+
+$total_pages = count_pages($counter,VLISTPP);
+//Pagination
+$link==NULL;
+$extra_params=NULL;
+$tag='<li><a #params#>#page#</a><li>';
+$pages->paginate($total_pages,$page,$link,$extra_params,$tag);
+
+
+
+
+
+
 
     $firstVideo = isset($videos[0]) ? $videos[0] : false;
     $firstVideo = $cbvid->get_video($firstVideo['videoid']);

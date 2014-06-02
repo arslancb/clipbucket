@@ -94,8 +94,7 @@ if(!function_exists('html5_player'))
 			$ov_convert = base64_encode(file_get_contents($ov_details));
 			assign('ov',$ov_convert);
 
-		   
-
+		  
 
             assign('about',BASEURL);
             
@@ -106,8 +105,6 @@ if(!function_exists('html5_player'))
 		    $v_details;
             assign('v_details',$v_details);
 
-          //  assign('logo_placement',html5_player_logo_position());
-			//assign('logo_margin',config('logo_padding'));
 
             // logo placement
             $pos = config('logo_placement');
@@ -139,6 +136,8 @@ if(!function_exists('html5_player'))
             assign('username',$username);
             assign('title',$title);
             assign('thumb',$default_thumb);
+            assign('key',$videokey);
+            assign('has_hq',$has_hq);
 
 			assign('player_data',$in);
 			assign('normal_vid_file',$vid_file);

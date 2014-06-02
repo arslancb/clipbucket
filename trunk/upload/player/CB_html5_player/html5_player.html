@@ -22,10 +22,10 @@
 
 
 
-
+   
   <div class="cont fahad" id="cont" >
+ 
      {ANCHOR place='overlay_ads'}
-                   
 
   <video id="myVideo" class="myVideo largevid"    preload="auto" poster="" >
 
@@ -120,11 +120,11 @@
 
 
 
-      <div class="btnFS enterbtnFs hbtn" title="Switch to full screen"></div>
+      <div class="btnFS enterbtnFs hbtn" id="fs" title="Switch to full screen"></div>
 
-      <div class="smallscr largescr hbtn" title="Enlarge/Small Size"></div>
+      <!--<div class="smallscr largescr hbtn" title="Enlarge/Small Size"></div>-->
        
-         <div id="hd" class="hdoff hdon hbtn" title="HD On/Off"></div>
+    {if $has_hq=='no'}{else}     <div id="hd" class="hdoff hdon hbtn" title="HD On/Off"></div>{/if}
 
       
     

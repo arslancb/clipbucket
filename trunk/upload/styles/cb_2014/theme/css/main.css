@@ -2892,3 +2892,14 @@ font-size: 14px;
     border-color: #EBCCD1;
     color: #A94442;
 }
+
+.ad{
+    /*background: none repeat scroll 0 0 #F3F3F3;*/
+   /* border: 1px solid #CCCCCC;
+    font-size: 15px;
+    height: 100%;
+    margin: 0 auto 25px;*/
+    padding: 0;
+    text-align: center;
+    /*width: 100%;*/
+}

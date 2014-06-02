@@ -13,9 +13,11 @@
 		<!-- ******** GLOBAL ANNOUNCEMENT START ******** //-->
         <!-- ******************************************* //-->
 
-        <div class="alert alert-info margin-bottom-10 ad">
-        this is information for global.	{AD place=ad_728x90} 
-    	</div>
+        <div class="alert alert-info margin-bottom-10 ">
+  {ANCHOR place='global'} 
+    	</div> 
+    	  <div class="clearfix"></div>
+       
         <!-- ******************************************* //-->
 		<!-- ********* GLOBAL ANNOUNCEMENT END ********* //-->
         <!-- ******************************************* //-->
@@ -70,12 +72,16 @@
         <!-- ******************************************* //-->
 		<!-- ************ EDITORS BLOCK END ************ //-->
         <!-- ******************************************* //-->
-        <div class="clearfix"></div>
-        <div align="center" class="margin-bottom-10">
+       
+    
+         
+       <!-- <div align="center" class="margin-bottom-10">
         	<a href="http://www.arvixe.com/clipbucket_hosting">
         		<img class="banner" src="{$theme}/assets/images/ad-box-728x90.jpg" >
+
 			</a>
-		</div>
+		</div>-->
+		 <div class="ad">{AD place='ad_728x90'}</div>
         <!-- ******************************************* //-->
 		<!-- *********** LATEST VIDEOS START *********** //-->
         <!-- ******************************************* //-->
@@ -92,7 +98,7 @@
 						{foreach from=$videos_01 item=video_01}
 						<div class="col-md-12 text-center nopadding ">
 						<a href="{videoLink vdetails=$video_01}" title="{$video_01.title}">
-						<img class="cb_img_thum" src="{getThumb vdetails=$video_01}" width="500" height="285" border="0" {ANCHOR place="video_thumb" data=$video_01} />
+						<img class="cb_img_thum" src="{getThumb vdetails=$video_01 size='big'}" width="500" height="285" border="0" {ANCHOR place="video_thumb" data=$video_01} />
 						</a>
 						<div class="cbHomeVidTitle cbHomeVidTitle_Big mouse_hover_on">{$video_01.title|truncate:30}</div>
 						</div>
@@ -111,7 +117,7 @@
 						{foreach from=$videos_03 item=video_02 name=foo}
 						<div class="col-md-12 text-center nopadding mouse_hover1" style="{if not $smarty.foreach.foo.last} min-height: 150px; {/if} " >
 						<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
-						<img class="cb_img_thum" src="{getThumb vdetails=$video_02}" width="240" height="133" {ANCHOR place="video_thumb" data=$video_03} />
+						<img class="cb_img_thum" src="{getThumb vdetails=$video_02 }" width="240" height="133" {ANCHOR place="video_thumb" data=$video_03} />
 						<div class="cbHomeVidTitle mouse_hover_on1" style="margin-bottom:8px;">{$video_02.title|truncate:10}</div>
 						</a>
 
@@ -179,11 +185,11 @@
 				<!-- ******************************************* //-->
 		        <!-- *************** VIDEOS END ************** //-->
 		        <!-- ******************************************* //-->
-
-		        <div class="clearfix"  style="height: 10px;"></div>
+              <div class="ad">{AD place='ad_468x60'}</div>
+		      <!--  <div class="clearfix"  style="height: 10px;"></div>
         <div align="center" >  <a href="http://www.clip-bucket.com"><img class="banner" src="{$theme}/assets/images/ad-box-468x60.jpg" >
 			</a>
-		</div>
+		</div>-->
 
 				<!-- ******************************************* //-->
 		        <!-- *********** PHOTOS START ************ //-->
@@ -385,3 +391,17 @@
                 });
             });
         </script>
+
+<!--<style>
+
+.ad{
+    background: none repeat scroll 0 0 #F3F3F3;
+    border: 1px solid #CCCCCC;
+    font-size: 15px;
+    height: 90px;
+    margin: 0 auto 25px;
+    padding: 0;
+    text-align: center;
+    width: 728px;
+}
+</style>-->

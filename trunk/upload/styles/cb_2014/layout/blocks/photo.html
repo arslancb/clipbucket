@@ -9,7 +9,8 @@
         </a>
 
     </div>
-    <span class="photoname mouse_hover_on" style="height: 30px; overflow: hidden;" >{$photo.photo_title|truncate:30}</span>
+    <span class="photoname mouse_hover_on" style="height: 30px; overflow: hidden;" >{if $photo.photo_title=='no-tag'}no-title{else}
+        {$photo.photo_title|truncate:25}{/if}</span>
 </div>
             <!--<div class="col-md-8">-->
                 <!--<a class="fancybox" rel="gallery1" href="http://farm6.staticflickr.com/5471/9036958611_fa1bb7f827_b.jpg" title="Westfield Waterfalls - Middletown CT Lower (Graham_CS)">-->

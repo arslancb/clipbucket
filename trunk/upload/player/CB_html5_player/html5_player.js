@@ -380,6 +380,25 @@ $(this).toggleClass('hdoff');
 	};
 
 
+
+
+//getting large screen button onlu for watch video page 
+if (window.location == homepath+'/watch_video.php?v='+key)
+
+{
+
+$('.btmControl').append('<div class="smallscr largescr hbtn" id="largescr" title="Enlarge/Small Size"></div>');
+$('#largescr').insertAfter("#fs");
+
+}
+
+else
+{}
+
+
+
+
+
 //Large screen function
 $(".largescr").click(function() {
 	

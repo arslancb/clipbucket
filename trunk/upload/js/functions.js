@@ -1461,6 +1461,8 @@ function callURLParser()
 	}
 }
 
+
+var loading_new = "<img style='vertical-align:middle' src='"+imageurl+"/view_group.gif' height='22'>";
 function groupsAjax(event,selector,divSelector)
 {
 	event.preventDefault(); // prevent from redirecting to URL
@@ -1494,7 +1496,8 @@ function groupsAjax(event,selector,divSelector)
 			ParentTag.children().filter('.selected').removeClass('selected');
 			jqueryObj.addClass('selected');
 		}
-		jqueryObj.html(loading_img);
+		//jqueryObj.html(loading_img);
+		jqueryObj.html(loading_new);
 		$("#"+divSelector).load(ajaxPage+" #"+divSelector+"",function(response, status, xhr){
 				jqueryObj.html(PreserveHTML);
 				if(document.getElementById('flag_item'))
@@ -1503,7 +1506,7 @@ function groupsAjax(event,selector,divSelector)
 	}
 }
 
-
+//alert(imageurl);
 var ua = navigator.userAgent.toLowerCase();
 if (ua.indexOf(" chrome/") >= 0 || ua.indexOf(" firefox/") >= 0 || ua.indexOf(' gecko/') >= 0) {
 	var StringMaker = function () {

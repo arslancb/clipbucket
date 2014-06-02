@@ -2928,6 +2928,20 @@
 	}
 	
 	
+
+
+	function get_captcha_2014()
+	{
+		global $Cbucket;
+		if(count($Cbucket->captchas)>0)
+		{   
+
+
+			return $Cbucket->captchas[0];
+			
+		}else
+			return false;
+	}
 	/**
 	 * Function used to load captcha field
 	 */
@@ -2935,8 +2949,11 @@
 	{
 		global $Cbucket;
 		if(count($Cbucket->captchas)>0)
-		{
+		{   
+
+
 			return $Cbucket->captchas[0];
+			
 		}else
 			return false;
 	}
@@ -2969,7 +2986,6 @@
 			
 		}
 	}
-	
 	
 	/**
 	 * Function used to verify captcha
