@@ -1,0 +1,79 @@
+{if $pass_recover=='success'}
+
+
+{lang code='pass_changed_success'}
+
+{else}
+
+{if $mode=='' || $mode=='reset_pass' }  
+
+<div class="container" style="margin-left:380px;margin-top:5px; ">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="cb-box signup-box">
+                <h3>{lang code='user_forgot_message'}</h3>
+           
+           <div style="margin-bottom:10px; font-size:12px;margin-top:20px; text-align:center ">Please enter you username and verification code in the box, password reset instructions will be sent to your mail box.</div>
+
+<div  style="margin-top:10px;">
+
+   <form action="" method="post" name="Actvation Code" id="Actvation Code" class="cbform">
+      <label for="login_username_sp">{lang code="Username"}</label>
+         <input type="text" name="forgot_username" class="form-control" placeholder="User Name" required autofocus>
+              <label class="label">&nbsp;</label><br />
+
+        <input name="reset" type="submit" class="btn btn-success btn-block" id="reset" value="{lang code='user_reset'}"  />
+        
+   
+        </form>
+
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+{/if}
+
+
+
+
+
+
+{if $mode=='recover_username'}  
+
+
+<div class="container" style="margin-left:380px;margin-top:5px; ">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="cb-box signup-box">
+                <h3>{lang code='user_reocover_user'}</h3>
+           
+          
+
+<div  style="margin-top:25px;">
+
+      <form action="" method="post" name="Actvation Code" id="Actvation Code" class="cbform">
+         <label for="forgot_email" >{lang code='email'}</label>
+         <input type="text" name="forgot_email" id="forgot_email" class="form-control" placeholder="name@youremail.com" required autofocus>
+         <label class="label">&nbsp;</label><br />
+
+      <input name="recover_username" type="submit" class="btn btn-success btn-block" id="recover_username" value="{lang code='user_recover'}" />
+        
+   
+        </form>
+
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+{/if}
+
+
+{/if}
