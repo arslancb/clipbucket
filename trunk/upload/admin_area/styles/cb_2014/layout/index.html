@@ -236,8 +236,38 @@
                         {/if}
                     </div>
                 </div>
-            </div>
+           
+            <div class="widget-main">
+
+                                <hr>
+                                <table class="table table-stripped table-bordered">
+                                    <tr>
+                                        <td>
+                                            <div class="stats_subitem_d">Total Videos : <strong>{get_videos|number_format count_only=yes}</strong> </div>
+                                        </td>
+                                        <td>
+                                            <div class="stats_subitem_d">Total Groups : <strong>{get_groups count_only=yes}</strong> </div>
+                                        </td>
+                                        <td>
+                                            <div class="stats_subitem_d">Total Collection : <strong>{get_collections count_only=yes}</strong> </div>
+                                        </td>
+                                        <td>
+                                            <div class="stats_subitem_d">Total Users : <strong>{get_users count_only=yes}</strong> </div>
+                                        </td>
+                                        <td>
+                                            <div class="stats_subitem_d">Total Photos: <strong>{get_photos count_only=yes}</strong> </div>
+                                        </td>
+                                </table>
+
+                            </div>
+
+ </div>
         </div>
+
+
+    
+
+
     </div>
     <div class="col-md-6">
         <div class="widget-box">
@@ -492,7 +522,7 @@
                                 </table>
 
                             </div>
-                        </div>
+                       </div>
                     </div>
                 </div>
                 <div id="nusers" class="tab-pane">
