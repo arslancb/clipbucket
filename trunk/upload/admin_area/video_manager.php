@@ -139,7 +139,7 @@ if(isset($_POST['delete_selected']))
 	$videos = get_videos($result_array);
 	
 	Assign('videos', $videos);	
-
+//pr($videos,true);
 
 
 	//Collecting Data for Pagination
