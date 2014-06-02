@@ -234,11 +234,13 @@ function admin_area_tab($vid)
 
 
 
-//Temporay purpose
-$cbvid->video_manager_links_new[] = 'admin_area_tab';
+
 
 //Adding Editor's Pick Link
-$cbvid->video_manager_links[] = 'video_manager_ep_link';
+$cbvid->video_manager_link[] = 'video_manager_ep_link';
+
+//Temporay purpose
+$cbvid->video_manager_link_new[] = 'admin_area_tab';
 
 //Calling Editor Picks Function
 $cbvid->video_manager_funcs[] = 'editors_pick';
