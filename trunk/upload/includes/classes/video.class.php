@@ -1386,7 +1386,7 @@ class CBvideo extends CBCategory
 	/**
 	 * Function used to display video manger link temporay
 	 */
-	function video_manager_links_new($link,$vid)
+	function video_manager_link_new($link,$vid)
 	{
 		if(function_exists($link) && !is_array($link))
 		{
