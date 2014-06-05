@@ -157,7 +157,7 @@ $(this).toggleClass('enterbtnFS');
                      $('.caption').show();
                	   	 $(".largescr").show(); 
                	   	 $('.cb-item-title-container').css({'margin-top':0}); 
-               	   	 //$('#related_1').css({'margin-left':'0.8%'});
+               	   	
                	   	   $(".control").hover(
                        function() {
                        $(this).unbind('mouseenter').unbind('mouseleave');
@@ -174,7 +174,7 @@ $(this).toggleClass('enterbtnFS');
                  	 container[0].mozRequestFullScreen();
                      $('.caption').hide();
                  	 $(".largescr").hide();
-                 	// $('#related_1').css({'margin-left':'20%'});
+
                       $(".control").hover(
                      function() {
                      $('.control').stop().animate({'bottom':0}, 100);
@@ -194,7 +194,7 @@ $(this).toggleClass('enterbtnFS');
                	     $('.caption').show();
                	   	 $(".largescr").show();
                	   	 $('.cb-item-title-container').css({'margin-top':0});
-               	   	// $('#related_1').css({'margin-left':'0'});
+               	   
                        $(".control").hover(
                        function() {
                        $(this).unbind('mouseenter').unbind('mouseleave');
@@ -382,7 +382,7 @@ $(this).toggleClass('hdoff');
 
 
 
-//getting large screen button onlu for watch video page 
+//getting large screen button only for watch video page 
 if (window.location == homepath+'/watch_video.php?v='+key)
 
 {
@@ -409,14 +409,14 @@ if(!$(this).hasClass('smallscr')) {
 			$(".cont").animate({height:'+=220px',width:'+=390px'},"fast");
             $(".player").animate({width:'+=390px'},"fast");
 			$('.cb-item-title-container').css({'margin-top':+250});	
-			 //$('#related_1').css({'margin-left':'2.5%'});
+			 
 		}
 		
 		                     else{
 			$(".cont").animate({height:'-=220px',width:'-=390px'},"fast");
 		    $(".player").animate({width:'-=390px'},"fast");
 		    $('.cb-item-title-container').css({'margin-top':'0px'});
-			 //$('#related_1').css({'margin-left':'.8%'});
+			
 		}
 });
 
