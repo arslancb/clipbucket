@@ -1444,13 +1444,14 @@ if(!empty($mode))
 			foreach($news as $n)
 			{
 					echo '<div class="item news">';
-					echo '<div class="news_title">
-					<span class="title"><a href="'.$n['link'].'">'.$n['title'].'</a></span>
+					echo '<div class="news_title" style="margin-bottom:5px;">
+					<span class="title" style="font-weight:bold;"><a href="'.$n['link'].'">'.$n['title'].'</a></span>
 					<span class="date">'.date("m-d-Y",strtotime($n['pubDate'])).'</span></div>
 					<span class="clearfix"></span>';
-					echo '<div>';
+					echo '<div style="margin-bottom:5px;" >';
 					echo $n['description'];
 					echo '</div>';
+					echo '<div style="height: 1px; background-color: #C9C9C9; margin-top: 10px; margin-bottom: 10px;"></div>';
 					echo '</div>';
 			}
 			else
