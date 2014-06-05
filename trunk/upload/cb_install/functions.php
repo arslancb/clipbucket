@@ -21,7 +21,7 @@
 		return $license;
 	}
 	
-	
+	/*
 	function button($text,$params=NULL,$alt=false)
 	{
 		echo '<span class="bttnleft" '.$params.'>&nbsp;</span>';
@@ -31,7 +31,42 @@
 		else
 			echo '<span class="bttnrightalt" '.$params.'>&nbsp;</span>';
 	}
-	
+	*/
+
+
+	function button($text,$params=NULL,$alt=false)
+	{
+		echo '<span class="" '.$params.'>&nbsp;</span>';
+		
+	    echo '<span class="btn btn-primary" '.$params.'>'.$text.'</span>'; 
+		if(!$alt)
+			echo '<span class="" '.$params.'>&nbsp;</span>';
+		else
+			echo '<span class="" '.$params.'>&nbsp;</span>';
+	}
+
+	function button_green($text,$params=NULL,$alt=false)
+	{
+		echo '<span class="" '.$params.'>&nbsp;</span>';
+		
+	    echo '<span class="btn btn-success" '.$params.'>'.$text.'</span>'; 
+		if(!$alt)
+			echo '<span class="" '.$params.'>&nbsp;</span>';
+		else
+			echo '<span class="" '.$params.'>&nbsp;</span>';
+	}
+
+	function button_danger($text,$params=NULL,$alt=false)
+	{
+		echo '<span class="" '.$params.'>&nbsp;</span>';
+		
+	    echo '<span class="btn btn-danger" '.$params.'>'.$text.'</span>'; 
+		if(!$alt)
+			echo '<span class="" '.$params.'>&nbsp;</span>';
+		else
+			echo '<span class="" '.$params.'>&nbsp;</span>';
+	}
+/*
 	function msg_arr($arr)
 	{
 		if(@$arr['msg'])
@@ -39,6 +74,17 @@
 		else
 			return emsg($arr['err'],'alert');
 	}
+*/
+
+   function msg_arr($arr)
+	{
+		if(@$arr['msg'])
+			return emsg($arr['msg'],'ok');
+		else
+			return emsg($arr['err'],'alert_cross');
+	}
+
+	
 	
 	if(!function_exists('emsg'))
 	{
@@ -126,9 +172,9 @@
 				$version = @curl_version();
 
 				if(!$version)
-					$return['err'] = _("cURL library is not neabled");
+					$return['err'] = _("curl library is not neabled");
 				else
-					$return['msg'] = sprintf(_("cURL %s found"),$version['version']);
+					$return['msg'] = sprintf(_("curl %s found"),$version['version']);
 
 			}
 			break;
@@ -287,5 +333,24 @@
 		
 		return false;
 	}
+
+	function installer_path()
+  {
+    $pageURL = 'http';
+    if (@$_SERVER["HTTPS"] == "on") {
+    $pageURL .= "s";
+    }
+    $pageURL .= "://";
+    $pageURL .= $_SERVER['SERVER_NAME'];
+    $pageURL .= $_SERVER['REQUEST_URI'];
+    $query_string = $_SERVER['QUERY_STRING'];
+    if(!empty($query_string)){
+    $pageURL .= '?'.$query_string;
+    }
+    return $pageURL;
+  }
 		
+
+		
+
 ?>
