@@ -19,10 +19,10 @@
      <div class="top clearfix">
     <div class="top_tabs">
         <ul>
-            <li><a href="">V2.7 Overview </a><span>|</span></li>
-                <li><a href="">Forums </a><span>|</span></li>
-                <li><a href="">Feedback </a><span>|</span></li>
-            <li><a href="">Support </a></li>
+            <li><a href="http://clip-bucket.com/V2.7-beta-overview/">V2.7 Overview </a><span>|</span></li>
+                <li><a href="http://forums.clip-bucket.com/">Forums </a><span>|</span></li>
+                 <li><a href="http://clip-bucket.com/Bug_Reporter/">Bug Reporter </a><span>|</span></li>
+            <li><a href="http://clip-bucket.com/contact">Support </a></li>
         </ul>
     </div><!--top_tabs-->
    <p></p> <span id="logo"><span style="color:#09c">ClipBucket</span> Installer v<?=VERSION?>  Beta</span><p></p>
