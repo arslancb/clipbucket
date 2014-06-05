@@ -31,9 +31,9 @@ if(!function_exists('html5_player'))
 		$html5_player = true;
 		
 		$vdetails = $in['vdetails'];
-		$vid_file = get_video_file($vdetails,true,true);
-		//Checking for YT Referal
-
+		$video_file = get_video_file($vdetails,true,true);
+		$vid_file = get_normal_vid($vdetails,true,true);
+		
 		if(function_exists('get_refer_url_from_embed_code'))
 		{
 			$ref_details = get_refer_url_from_embed_code(unhtmlentities(stripslashes($vdetails['embed_code'])));
@@ -43,8 +43,8 @@ if(!function_exists('html5_player'))
 		if($vid_file || $ytcode)
 		{
 			$hd = $data['hq'];
-			
-			if($hd=='yes') $file = get_hq_video_file($vdetails); else $file = get_video_file($vdetails,true,true);
+		
+			if($hd=='yes') $file = get_hq_video_file($vdetails); else $file = get_normal_vid($vdetails,true,true);
 			$hd_file = get_hq_video_file($vdetails);
 			
 			
@@ -83,7 +83,7 @@ if(!function_exists('html5_player'))
             $videos = get_videos($vlist);
             Assign('related', $videos);
 
-          
+            
 			
 			$l_details = BASEURL.'/images/icons/country/hp.png';
 			$l_convert = base64_encode(file_get_contents($l_details));
@@ -94,7 +94,7 @@ if(!function_exists('html5_player'))
 			$ov_convert = base64_encode(file_get_contents($ov_details));
 			assign('ov',$ov_convert);
 
-		  
+		   
 
             assign('about',BASEURL);
             
@@ -127,6 +127,9 @@ if(!function_exists('html5_player'))
 			break;
 		    }
 		
+            //getting hq test for HD button
+            $hq_file = get_hq_vid($vdetails,true,true);
+            assign('testing',$hq_file);
 		
             assign('top',$position["top"]);
             assign('left',$position["left"]);
@@ -140,10 +143,21 @@ if(!function_exists('html5_player'))
             assign('has_hq',$has_hq);
 
 			assign('player_data',$in);
-			assign('normal_vid_file',$vid_file);
-			assign('hq_vid_file',$hd_file);			
-			assign('vdata',$vdetails);
+             
 
+             
+			if (!$vid_file){
+			assign('normal_vid_file',$video_file);
+            assign('hq_vid_file',$video_file);
+			
+		    }
+		    else{
+            assign('normal_vid_file',$vid_file.'-sd.mp4');
+			assign('hq_vid_file',$vid_file.'-hd.mp4');
+		    }
+			
+			assign('vdata',$vdetails);
+           
 
 			
 			Template(HTML5_PLAYER_DIR.'/html5_player.html',false);
@@ -154,40 +168,7 @@ if(!function_exists('html5_player'))
 	}
 
 
-/*
-function html5_player_logo_position($pos=false)
-	{
-		if(!$pos)
-			$pos = config('logo_placement');
-		switch($pos)
-		{
-			case "tl":
-			$position = array("top"=>'0',"left"=>'0',"bottom"=>'',"right"=>'');
-			break;
-			
-			case "tr":
-			$position = array("top"=>'0',"left"=>'',"bottom"=>'',"right"=>'0');
-			break;
-			
-			case "br":
-			$position = array("top"=>'',"left"=>'',"bottom"=>'0',"right"=>'0');
-			break;
-			
-			case "bl":
-			$position = array("top"=>'',"left"=>'0',"bottom"=>'0',"right"=>'');
-			break;
-			
-		}
-		
-		return $position;
 
-
-		  
-	}
- $position = array("top"=>'0',"left"=>'0',"bottom"=>'',"right"=>'');
-   echo $position["top"];   
-
-   */ 
      
 	register_actions_play_video('html5_player');
 

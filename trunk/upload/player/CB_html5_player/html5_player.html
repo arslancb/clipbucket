@@ -32,11 +32,11 @@
     <source src="{$normal_vid_file}" type="video/mp4" />
     <source src="{$hq_vid_file}" type="video/mp4" data-quality="hd" />
     
-    <source src="{$normal_vid_file}" type="video/webm" />
+      <!--<source src="{$normal_vid_file}" type="video/webm" />
     <source src="{$hq_vid_file}" type="video/webm" data-quality="hd" />
 
     <source src="{$normal_vid_file}" type="video/ogg" />
-    <source src="{$hq_vid_file}" type="video/ogg" data-quality="hd" />
+    <source src="{$hq_vid_file}" type="video/ogg" data-quality="hd" />-->
 
   
 
@@ -124,7 +124,7 @@
 
       <!--<div class="smallscr largescr hbtn" title="Enlarge/Small Size"></div>-->
        
-    {if $has_hq=='no'}{else}     <div id="hd" class="hdoff hdon hbtn" title="HD On/Off"></div>{/if}
+      {if $testing }<div id="hd" class="hdoff hdon hbtn" title="HD On/Off"></div>{else}{/if}
 
       
     
