@@ -78,11 +78,11 @@
                         </li>
 
                 <li class="blue">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <a data-toggle="dropdown" class="dropdown-toggle clickable" href="#">
                         <i class="glyphicon glyphicon-arrow-down"></i>
                         <span class="badge badge-important">Display Option</span>
                     </a>
-            <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+            <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close onclick">
                 <li class="dropdown-header">
                       <i class="icon-info-sign"></i>
                             <form id="display_opts" name="display_opts" method="post" action="">
@@ -148,6 +148,20 @@
 
 
 
+<script type="text/javascript">
+       
+
+        $(document).ready(function () {
+          $('.clickable').click(function() {
+          $('.onclick').show();
+        
+         });
+
+
+
+       })
+       
+</script >
 
 
 

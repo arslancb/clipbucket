@@ -5,7 +5,7 @@
 <div class="row">
     <div class="heading clearfix">
             <h2 class="pull-left paddingLeftLarge">Editing <small>&gt; {$data.title|truncate:80}</small></h2>
-            <div class="pull-right marginBottomLarge paddingBottomLarge">
+            <div class="pull-right marginBottomLarge paddingBottomLarge" style="margin-right:50px;">
 
                
                 <span class="btn btn-app btn-sm btn-light no-hover">
@@ -13,12 +13,12 @@
                 <br>
                 <span class="line-height-1 smaller-90"> Views </span>
                 </span>
-                <span class="btn btn-app btn-sm btn-yellow no-hover">
+               <!-- <span class="btn btn-app btn-sm btn-yellow no-hover">
                 <span class="line-height-1 smaller-90"> {$data.comments_count} </span>
 
                 <br>
                 <span class="line-height-1 smaller-90"> Comments </span>
-                </span>
+                </span>-->
                 <span class="btn btn-app btn-sm btn-pink no-hover">
                 <span class="line-height-1"> {if $data.active=='yes'}<span class="glyphicon glyphicon-ok smaller-90"></span>
                 {else}<span class="glyphicon glyphicon-remove">{/if}</span>
