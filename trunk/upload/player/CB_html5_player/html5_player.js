@@ -490,7 +490,7 @@ $('#path').css({
 
 //website logo
 
-$('.cont').append('<div><img id="web"  src=data:image/png;base64,'+ web +'> </div>');
+/*$('.cont').append('<div><img id="web"  src=data:image/png;base64,'+ web +'> </div>');
 $('#web').css({
 	            'top' :  $top,
 	            'left' :  $left,
@@ -504,7 +504,7 @@ $('#web').css({
 				
 			});
 
-
+*/
 
 $('#name_v,#thumb_v').mouseover(function() {
 	$(this).css({'opacity':'1',
