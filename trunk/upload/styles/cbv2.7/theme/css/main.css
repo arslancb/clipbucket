@@ -2892,37 +2892,14 @@ font-size: 14px;
     border-color: #EBCCD1;
     color: #A94442;
 }
-.simple_search .navbar-default{
-    border: 1px solid #EEEEEE;
-    border-radius: 5px;
-}
-.search-photos img{
-     height: 113px;
-    width: 100%;
-}
-.search-photos{
- margin-bottom: 10px;
-}
-.search-photos .photoname{
-    left: 15px;
-    position: absolute;
-    top: 83px;
-    width: 87%;
-}
-ul.pagination span.selected{
-    background: none repeat scroll 0 0 #428BCA;
-    color: #FFFFFF;   
-}
-ul.pagination li.active a:hover{
-    cursor: pointer;
-    background-color: #EEEEEE;  
-    color: #000;
-}
-.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus
-{
-    background-color: #FFFFFF;
-    border-color: #DDDDDD;
-    color: #428BCA;
-    cursor: default;
-    z-index: 2;
+
+.ad{
+    /*background: none repeat scroll 0 0 #F3F3F3;*/
+   /* border: 1px solid #CCCCCC;
+    font-size: 15px;
+    height: 100%;
+    margin: 0 auto 25px;*/
+    padding: 0;
+    text-align: center;
+    /*width: 100%;*/
 }
