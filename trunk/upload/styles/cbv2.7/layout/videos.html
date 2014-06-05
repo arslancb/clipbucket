@@ -39,12 +39,24 @@
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                         {/if}    
+
+<!--
                         <ul role="menu" class="dropdown-menu">
                             {foreach from=$sorting_links item=name key=sort}
-                        <li><a href="{link name=time sort=$sort type=videos}&sorting=dkfs" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
+                            <li><a href="{link name=time sort=$sort type=videos}&sorting=dkfs" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
+                            {/foreach}
+                        </ul>-->
+
+
+
+                        <ul role="menu" class="dropdown-menu">
+                            {foreach from=$sorting_links item=name key=sort}
+                       <li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=videos}">{$name}</a></li>
                             {/foreach}
                           </ul>
                     </div>
+
+                    
 
                     <!--Sorting By time-->
                     {assign var=time_links value=time_links()}
@@ -81,7 +93,7 @@
                 </div>
             </div>
             <!-- /Page Heading -->
-            <div class="clearfix" style="margin-left: -15px;">
+            <div class="" style="margin-left: -15px;">
                 
                 {foreach $videos as $video}
                     

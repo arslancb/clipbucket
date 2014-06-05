@@ -1,59 +1,30 @@
 
 {if $block_type == '' || $block_type=='normal'}
-<div class="col-md-4 marginBottom grid_view list_view channels-view" style="margin-right: 0px;">
-    <div class="" id="user-{$user.userid}">
-            <div class="col-md-3 nopadding">
+        <div class="row" id="user-{$user.userid}">
+            <hr>
+            <div class="col-md-2">
                 <a href="{$userquery->profile_link($user)}">
-                    <img src="{$userquery->getuserthumb($user)}" class="img-circle" width="77" height="77">
+                    <img src="{$userquery->getuserthumb($user)}" class="img-circle" width="100" height="100">
                 </a>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="pull-left">
                     <h4><a class="show" href="{$userquery->profile_link($user)}">{$user.username}</a></h4>
                     <ul class="list-unstyled">
                         {if isSectionEnabled('videos')}
-                        <li class="label " style="display: inline">{$user.total_videos|number_format} {lang code="videos"}</li>
+                        <li class="label label-primary" style="display: inline">{$user.total_videos|number_format} {lang code="videos"}</li>
                         {/if}
                         {if isSectionEnabled('photos')}
-                        <li class="label " style="display: inline">{$user.total_photos|number_format} {lang code="photos"}</li>
+                        <li class="label label-info" style="display: inline">{$user.total_photos|number_format} {lang code="photos"}</li>
                         {/if}
-                        <li class="label" style="display: inline">{$user.profile_hits|number_format} {lang code="views"}</li>
-                        <li class="label" style="display: inline">{$user.subscribers|number_format} {lang code="subscribers"}</li>
+                        <li class="label label-info" style="display: inline">{$user.profile_hits|number_format} {lang code="views"}</li>
+                        <li class="label label-danger" style="display: inline">{$user.subscribers|number_format} {lang code="subscribers"}</li>
                         <!--<li>{lang code="last_active"} : {$user.last_active|nicetime}</li>-->
                     </ul>
                 </div>
   </div>
-  <div class="user_icon">
-                <a href="{$userquery->profile_link($user)}">
-                <img class="opacity_low" src="{$baseurl}/styles/cb_2014/images/user_next_icon.png" width="25" height="25" />
-                </a>
-                </div>
-        </div>
-</div>
-<!--<div class="row " id="user-{$user.userid}">
-    <hr>
-    <div class="col-md-2">
-        <a href="{$userquery->profile_link($user)}">
-            <img src="{$userquery->getuserthumb($user)}" class="img-circle" width="100" height="100">
-        </a>
-    </div>
-    <div class="col-md-10">
-        <div class="pull-left">
-            <h4><a class="show" href="{$userquery->profile_link($user)}">{$user.username}</a></h4>
-            <ul class="list-unstyled">
-                {if isSectionEnabled('videos')}
-                <li class="label label-primary" style="display: inline">{$user.total_videos|number_format} {lang code="videos"}</li>
-                {/if}
-                {if isSectionEnabled('photos')}
-                <li class="label label-info" style="display: inline">{$user.total_photos|number_format} {lang code="photos"}</li>
-                {/if}
-                <li class="label label-info" style="display: inline">{$user.profile_hits|number_format} {lang code="views"}</li>
-                <li class="label label-danger" style="display: inline">{$user.subscribers|number_format} {lang code="subscribers"}</li>
-            </ul>
-        </div>
-    </div>
 
-</div>-->
+        </div>
 
 {/if}
 {if $block_type=='groups_show'}

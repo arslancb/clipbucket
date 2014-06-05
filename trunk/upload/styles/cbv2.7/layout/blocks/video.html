@@ -5,23 +5,15 @@
 {if $display_type =='normal' || $display_type==''}
 <!-- Video Box -->
 
-<div class="col-md-3 nopadding-right">
-    <div class="item_video">
-        <div class="cb_item_container clearfix">
-            <div class="cb_item_thumb video_thumb" >
-            <a href="{videoLink($video)}" title="{$video.title|title}">
-                <span class="video_duration">{if
-                                    $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}{*$video.duration|date_format:$config.time*}</span>
-                <img class="" src="{getThumb vdetails=$video}" border="1" height="100" width="100"/>
-            </a>
-            </div>
-            <div class="item_text"  style="height: 45px; overflow: hidden;">
-               <a href="{videoLink($video)}">{$video.description|truncate:30}</a>
-            </div>
-            <span class="pull-left"><h5><small>{$video.views} views</small></h5></span>
-            <span class="pull-right"><h5><small>{$video.date_added|niceTime}</small></h5></span>
-        </div>
-    </div>
+<div class="col-md-3">
+    <a href="{videoLink($video)}" title="{$video.title|title}">
+        <img src="{getThumb vdetails=$video size='big'}"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/></a>
+    <p class="duration1"><b class="color" style="position: absolute;right: 15px;margin-right: -39px;">{if
+        $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</b></p>
+    <h5><a href="{videoLink($video)}" title="{$video.title|title}"><b>{$video.title|truncate:16}</b></a></h5>
+    <small class="font1 new1"><b>{lang code='views'} :{$video.views}</b></small>
+    <small class="font2 new1"><b>{$video.date_added|niceTime}</b></small>
+    <hr>
 </div>
 
 
@@ -35,7 +27,7 @@
 
 {if $display_type == "channel_page"}
 	<li class="itemBox" onclick="loadObject(this,'videos','{$video.videoid}','viewingArea')">
-    	<div align="center"><img src="{getThumb vdetails=$video}" alt="{$video.title}" width="110" height="64" /></div>
+    	<div align="center"><img src="{getThumb vdetails=$video size='big'}" alt="{$video.title}" width="110" height="64" /></div>
     </li> <!-- itemBox {$video.videokey} end -->
 {/if}
 
@@ -43,7 +35,7 @@
 {if $display_type=='add_type'}
     <div class="col-md-3">
     <a href="{videoLink($video)}" title="{$video.title|title}">
-        <img src="{getThumb vdetails=$video}"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/></a>
+        <img src="{getThumb vdetails=$video size='big'}"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/></a>
     <p class="duration1" style="margin-left: 25px;"><b class="color" >
         {if $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</b></p>
     <h5><a href="{videoLink($video)}" title="{$video.title|title}"><b>{$video.title|truncate:22}</b></a></h5>

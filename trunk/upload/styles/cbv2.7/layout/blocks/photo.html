@@ -1,20 +1,4 @@
-{if $display_type ==""}
-<div class="col-md-3">
-    <div class="show-image mouse_hover search-photos">
-        <div class="" style="padding-right: 0px;">
-            <!--<span class="photoname" id="avatar1_file" style="height: 45px; overflow: hidden;" >{$photo.photo_title|truncate:30}</span>-->
-            
-            <a href="{$cbphoto->photo_links($photo,'view_item')}" title="Tolpis barbata (mariluzpicado)">
-                {get_photo details=$photo size='l' class='photo-land' output='html'}
-            </a>
-
-        </div>
-        <span class="photoname mouse_hover_on" style="height: 30px; overflow: hidden;" >{$photo.photo_title|truncate:30}</span>
-    </div>
-</div>
-{/if}
-
-{if $display_type == "all_photos"}
+{if $display_type == ""}
 
 <div class="show-image mouse_hover">
     <div class="" style="padding-right: 0px;">
@@ -25,8 +9,53 @@
         </a>
 
     </div>
-    <span class="photoname mouse_hover_on" style="height: 30px; overflow: hidden;" >{$photo.photo_title|truncate:30}</span>
+    <span class="photoname mouse_hover_on" style="height: 30px; overflow: hidden;" >{if $photo.photo_title=='no-tag'}no-title{else}
+        {$photo.photo_title|truncate:25}{/if}</span>
 </div>
+            <!--<div class="col-md-8">-->
+                <!--<a class="fancybox" rel="gallery1" href="http://farm6.staticflickr.com/5471/9036958611_fa1bb7f827_b.jpg" title="Westfield Waterfalls - Middletown CT Lower (Graham_CS)">-->
+                    <!--{get_photo details=$photo output='html'}-->
+                <!--</a>-->
+
+            <!--</div>-->
+
+
+
+
+
+<!--<div class="show-image col-md-4 col-sm-4 col-xs-6" style="padding: 0px">-->
+    <!--<div class="" id="">-->
+    <!--<span class="photoname col-md-4" id="avatar1_file" >{$photo.photo_title|truncate:15}</span>-->
+   <!--<a href="{$cbphoto->photo_links($photo,'view_item')}" >-->
+        <!--{get_photo details=$photo size='l' class='' output='html'}-->
+    <!--</a>-->
+        <!--</div>-->
+    <!--</div>-->
+
+
+<!--<a class="fancybox-button" rel="fancybox-button" href="http://farm4.staticflickr.com/3787/9028269192_9b4ddf345d_b.jpg" title="Tolpis barbata (mariluzpicado)">-->
+    <!--<img src="http://farm4.staticflickr.com/3787/9028269192_9b4ddf345d_m.jpg" alt="" />-->
+<!--</a>-->
+<!--<a class="fancybox-button" rel="fancybox-button" href="http://farm4.staticflickr.com/3745/8971419780_cb88b22947_b.jpg" title="(dSavin)">-->
+    <!--<img src="http://farm4.staticflickr.com/3745/8971419780_cb88b22947_m.jpg" alt="" />-->
+<!--</a>-->
+<!--<a class="fancybox-button" rel="fancybox-button" href="http://farm9.staticflickr.com/8522/8478415115_152c6f5e55_b.jpg" title="a ride in blue? (cembayir_photography)">-->
+    <!--<img src="http://farm9.staticflickr.com/8522/8478415115_152c6f5e55_m.jpg" alt="" />-->
+<!--</a>-->
+<!--<a class="fancybox-button" rel="fancybox-button" href="http://farm9.staticflickr.com/8366/8483546751_86494ae914_b.jpg" title="reedit... (h_di)">-->
+    <!--<img src="http://farm9.staticflickr.com/8366/8483546751_86494ae914_m.jpg" alt="" />-->
+<!--</a>-->
+
+
+
+            <!--<div class="row">-->
+                <!--<div class="col-md-2">-->
+                    <!--<h4><small> <i class="glyphicon glyphicon-thumbs-up lfont"><b>2</b></i></small></h4>-->
+                <!--</div>-->
+                <!--<div class="col-md-2 like">-->
+                    <!--<h4><small> <i class="glyphicon glyphicon-thumbs-down lfont"><b>4</b></i></small></h4>-->
+                <!--</div>-->
+                <!--</div>-->
 
 
 {/if}

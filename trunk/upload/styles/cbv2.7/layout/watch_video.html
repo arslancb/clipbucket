@@ -6,11 +6,20 @@
             <div class="cb-box pad-bottom-sm">
                 <div id="cb_player" class="no-pad">
                     {FlashPlayer vdetails=$video width='700' height='400'}
+              
+                    
+                 
                 </div>
-                <div class="cb-item-title-container">
-                    <div class="cb-item-thumb">
-                        <img height="65" width="65" src="{$userquery->avatar($video)}" class="img-circle" />
+  
+                  <div class="col-md-2" style="margin-left:-14px;margin-top:12px;">
+                     
+                    <img src="{$userquery->avatar($video)}" class="img-circle" style="border: solid; border-color: #3880FC; width: 90px; height: 90px"/>
+                      
                     </div>
+                <div class="cb-item-title-container">
+                   <!-- <div class="cb-item-thumb">
+                        <img height="65" width="65" src="{$userquery->avatar($video)}" class="img-circle" />
+                    </div>-->
                     <div class="cb-item-title marginBottom margin-bottom-10 "  style="overflow: hidden; padding-bottom: 10px;">
                         {$video.title}
                     </div>
@@ -72,14 +81,19 @@
                                     </a>
                                     <a class="cb-item-social-icon googlep" href="https://plus.google.com/share?url={urlencode(videolink($video))}" target="_blank">
                                         <i class="fa fa-google-plus"></i>
+
                                     </a>
                                     <a class="cb-item-social-icon facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank">
                                         <i class="fa fa-facebook"></i>
+                                          
                                     </a>
 
                                 </div>
-                            </div>
+
+                            </div>           
                         </div>
+
+                      
 
                         <div class="tab-pane" id="cb-item-share">
                             {show_share_form id=$vdo.videoid type=video}
@@ -121,7 +135,8 @@
 
         <div class="col-lg-4 col-md-4 visible-lg visible-md side-video"  style="float:right;" >
             <div class="cb-box">
-                <a href="http://www.arvixe.com/clipbucket_hosting?utm_campaign=300x250_Demo&utm_medium=banner&utm_source=clipbucket.com"><img class="banner" src="{$theme}/assets/images/add320x250.png" style="margin-bottom: 10px; width: 100%;" >
+                 <div class="ad">{AD place='ad_320x250'}</div>
+               <!-- <a href="http://www.arvixe.com/clipbucket_hosting?utm_campaign=300x250_Demo&utm_medium=banner&utm_source=clipbucket.com"><img class="banner" src="{$theme}/assets/images/add320x250.png" style="margin-bottom: 10px; width: 100%;" >-->
       </a>
                 <h3>{lang code="Most Popular"}</h3>
                 {foreach $videos as $video}
@@ -134,7 +149,7 @@
 <div style="float:left; width:751px; margin-left:15px;"> 
     <div class="cb-box pad-bottom">
                 <div class="addComment clearfix">
-                    <h3>{lang('Comments')} ({$vdo.comments_count})</h3>
+                    <h3>{lang('Comments')} <!--{$vdo.comments_count}--></h3>
                     {if $myquery->is_commentable($vdo,'v')}
                         {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
                     {else}

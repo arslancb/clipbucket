@@ -45,11 +45,21 @@
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         {/if}
+
+                        <!--
                         <ul role="menu" class="dropdown-menu">
                             {foreach from=$sorting_links item=name key=sort}
                             <li><a href="{link name=sort sort=$sort type=collections}" {if $smarty.get.time==$sort} class="selected"{/if}>{$name}</a></li>
                             {/foreach}
+                        </ul>-->
+
+                        <ul role="menu" class="dropdown-menu">
+                        {foreach from=$sorting_links item=name key=sort}
+                        <li {if $smarty.get.sort==$sort} class="selected"{/if}><a href="{link name=sort sort=$sort type=collections}" >{$name}</a></li>
+                        {/foreach}
                         </ul>
+
+
                     </div>
 
                     <!--Sorting By time-->
