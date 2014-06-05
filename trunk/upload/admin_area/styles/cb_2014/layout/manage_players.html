@@ -3,13 +3,13 @@
   <h2>ClipBucket Website Player Settings</h2>
 </div>
         <div class="row">
-<div class="col-md-4">
+<!--<div class="col-md-4">
   <label for="pak_license">
     Pakplayer license<br>
     <small>If you have pakplayer license, please enter it here</small>
   </label>
   <input class="form-control" type="text" name="pak_license" id="pak_license" value="{$row.pak_license}" />
-</div>
+</div>-->
 <div class="col-md-4">
   <label for="">
     Autoplay<br>
@@ -30,9 +30,16 @@
         <option class="form-control" name="use_playlist" id="use_playlist" {if $row.use_playlist=='no'} checked="checked"{/if}} >No</option>
     </select>
 </div>
+<div class="col-md-4">
+  <label for="embed_player_width">
+    Embed Player Width<br>
+    <small>Enter embedable player width in pixels</small>
+  </label>
+  <input class="form-control" name="embed_player_width" type="text" id="embed_player_width" value="{$row.embed_player_width}" />
+</div>
 </div>
         <div class="row">
-<div class="col-md-4">
+<!--<div class="col-md-4">
   <label for="logo_file">
     Logo File<br>
     <small>
@@ -40,6 +47,10 @@
     </small>
   </label>
   <input type="file" class="form-control" name="logo_file" id="logo_file" />
+</div>-->
+<div class="col-md-4">
+  <label for="buffer_time">Buffer time</label>
+  <input class="form-control" type="text" name="buffer_time" id="buffer_time" value="{$row.buffer_time}" />
 </div>
 <div class="col-md-4">
   <label for="logo_placement">
@@ -62,10 +73,7 @@
 </div>
         <br>
         <div class="row">
-<div class="col-md-4">
-  <label for="buffer_time">Buffer time</label>
-  <input class="form-control" type="text" name="buffer_time" id="buffer_time" value="{$row.buffer_time}" />
-</div>
+
 <div class="col-md-4">
   <label for="youtube_enabled">
     Play Youtube Video Inside Player<br>
@@ -76,13 +84,7 @@
         <option class="form-control" name="youtube_enabled" id="youtube_enabled" {if $row.youtube_enabled=='no'} checked="checked"{/if}>No</option>
     </select>
 </div>
-<div class="col-md-4">
-  <label for="embed_player_width">
-    Embed Player Width<br>
-    <small>Enter embedable player width in pixels</small>
-  </label>
-  <input class="form-control" name="embed_player_width" type="text" id="embed_player_width" value="{$row.embed_player_width}" />
-</div>
+
 </div>
         <div class="row">
 <div class="col-md-4">
@@ -114,7 +116,7 @@
 </div>
 </div>
         <div class="row">
-<div class="col-md-6">
+<!--<div class="col-md-6">
   <label for="pakplayer_contextmsg">
     Pakplayer Context Menu<br>
     <small>Write what you want to display when user right clicks on pakplayer (only if have pak player license)</small>
@@ -122,7 +124,7 @@
   <input class="form-control" type="text" name="pakplayer_contextmsg" id="pakplayer_contextmsg" value="{$row.pakplayer_contextmsg}" />
     <br>
     <input type="submit" class="btn btn-primary pull-left" value="Update" name="update" />
-</div>
+</div>-->
 
 
 
