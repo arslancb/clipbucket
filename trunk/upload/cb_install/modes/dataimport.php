@@ -1,4 +1,18 @@
-<h2>Creating Database Tables and Importing data</h2>
+</div>
+
+<div class="nav_des clearfix">
+    <div class="cb_container">
+    <h4 style="color:#fff">Creating Database Tables and Importing data</h4>
+    <p style="color:#fff; font-size:13px;"></p>
+
+
+
+</div><!--cb_container-->
+</div><!--nav_des-->
+<!--<div style="margin-left:52%;" class="db_png"></div>-->
+
+
+<div id="sub_container" class="br5px">
 
 
 <div id="resultsDiv" style="margin-top:20px">
