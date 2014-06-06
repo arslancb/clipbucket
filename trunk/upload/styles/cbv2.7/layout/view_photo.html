@@ -51,7 +51,7 @@
                         <button class="btn btn-primary btn-sm btn-xs" onclick="subscriber('{$user.userid}','subscribe_user','video_detail_result_cont')">{lang code='subscribe'}</button>
                     </a>
                   
-            <div class="clearfix" id="rating_container" style="margin-top: -30px;" >
+            <!--<div class="clearfix" id="rating_container" style="margin-top: -30px;" >
 
                     <div class="pull-right col-md-3" id="rating_container" style="width:200px;">
                             <div class="pull-right col-md-8"  style="border-bottom: 2px solid green;text-align: right;">{$photo.views|number_format} <span class="small" style="font-size:17px;">{lang('views')}</span></div>
@@ -67,8 +67,17 @@
                                 </span>
                             </div>
                         </div>
+                      </div>-->
+                      
+                           <!--likes and views-->
+                      <div class="pull-right col-md-8" style="width:200px;">
+                      <div class="pull-right col-md-8"  style="border-bottom: 2px solid green;text-align:right;width:107px;margin-top: -30px;">{$photo.views|number_format} 
+                      <span class="small" style="font-size:18px;">{lang('views')}</span></div>
+                      <div class="pull-right col-md-3" id="rating_container" style="width:200px; margin-right:-20px; ">
+                      {show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}
                       </div>
-            
+                      </div>
+
 
 
                 </div>
@@ -383,6 +392,9 @@
 
                     {literal}
                     <style>
+                    .clip_read:hover{
+                      cursor: pointer;
+                    }
                    .glyphicon-thumbs-down:hover{ 
                     color:#0088D6; 
                      }

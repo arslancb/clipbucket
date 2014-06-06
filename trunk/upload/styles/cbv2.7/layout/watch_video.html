@@ -31,8 +31,22 @@
                         {lang('Subscribe')}
                     </a>
                   
-                    {show_video_rating  rating=$vdo.rating ratings=$vdo.rated_by total='10' id=$vdo.videoid type=video file='blocks/common/rating.html'}
-                </div>
+                  
+
+                     <!--likes and views-->
+                       <div class="pull-right col-md-8" style="width:200px;">
+                       <div class="pull-right col-md-8"  style="border-bottom: 2px solid green;text-align:right;width:107px;margin-top: -30px;">
+                       {$vdo.views|number_format}
+                       <span class="small" style="font-size:18px;">{lang('views')}</span></div>
+                       <div class="pull-right col-md-3" id="rating_container" style="width:200px; margin-right:-20px; ">
+                       {show_video_rating  rating=$vdo.rating ratings=$vdo.rated_by total='10' id=$vdo.videoid type=video}
+                       </div>
+                       </div>
+
+                     </div>
+
+                
+
                 <div class="cb-item-desc-container">
 
                     <ul class="nav nav-tabs">
