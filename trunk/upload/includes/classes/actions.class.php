@@ -1171,6 +1171,40 @@ class cbactions
 
         return false;
 	}
+
+
+	/**
+     * Get playlist thumb
+     * 
+     * return a group of playlist thumbs
+     * 
+     * @param PID playlistid
+     * @return THUMBS Array 
+     */
+    function getPlaylistThumb($pid)
+    {
+        $pid = (int) $pid;
+        $array = array();
+
+        $items = $this->get_playlist_items($pid, NULL, 3);
+
+        global $cbvid, $cbaudio;
+        $array = array();
+
+        if ($items)
+            foreach ($items as $item)
+            {
+                $item['type'] == 'v';
+                $array[] = GetThumb($item['object_id']);
+            }
+        else
+            return array(TEMPLATEURL . '/images/playlist-default.png');
+
+        $array = array_unique($array);
+        rsort($array);
+
+        return $array;
+    }
 	
 	/**
 	 * Function used to get playlist items

@@ -8,8 +8,7 @@
 <link href='http://fonts.googleapis.com/css?family=Cabin:regular,bold' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 <script type="text/javascript" src="functions.js"></script>
-<link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet" type="text/css" />
-<link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
 <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 </head>
@@ -25,7 +24,7 @@
             <li><a href="http://clip-bucket.com/contact">Support </a></li>
         </ul>
     </div><!--top_tabs-->
-   <p></p> <span id="logo"><span style="color:#09c">ClipBucket</span> Installer v<?=VERSION?>  Beta</span><p></p>
+   <p></p> <span id="logo"><span style="color:#09c">ClipBucket</span> Installer v<?php echo VERSION?> <?php echo STATE ?></span><p></p>
 </div><!--top-->
 
 
