@@ -59,6 +59,13 @@
 <script type="text/javascript">
     (function(window){
         $(document).ready(function(){
+             setTimeout(function(){
+                      
+                        $(".embed_video").remove();
+                   
+                    }, 10000);
+
+
             var baseurl = '{$baseurl}';
             if('{$uploaderDetails.uploadScriptPath}'!=''){
             var uploadurl = '{$uploaderDetails.uploadScriptPath}';
