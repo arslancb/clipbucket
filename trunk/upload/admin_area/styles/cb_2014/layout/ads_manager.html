@@ -125,6 +125,7 @@
           </li>
           <li role="presentation">
             {if $ad.ad_status!=1}
+            {$ad.ad_status}
             <a role="menuitem" tabindex="-1" href="?activate={$ad.ad_id}">Activate</a>
             {else}
             <a role="menuitem" tabindex="-1" href="?deactivate={$ad.ad_id}">Deactivate</a>
