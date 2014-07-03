@@ -150,8 +150,8 @@
                         }
                         wrapperDiv.id = "tab"+i;
                         oneUploadForm.className = "";
-                        $(oneUploadForm).find("input[name='title']").val(files[i].name);
-                        $(oneUploadForm).find("textarea#desc").val(files[i].name);
+                        $(oneUploadForm).find("input[name='title']").val(files[i].name.slice(0, -4));
+                        $(oneUploadForm).find("textarea#desc").val(files[i].name.slice(0, -4));
                         $(oneUploadForm).find("input[name='category[]']:first").attr('checked', 'checked');
                         wrapperDiv.appendChild(oneUploadForm);   
                         uploadForms.push(wrapperDiv);
