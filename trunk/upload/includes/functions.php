@@ -2327,10 +2327,9 @@
 		$playlists = $cbvid->action->get_playlists();
 		assign('playlists',$playlists);
 
-        if(SMARTY_VERSION>2)
+      
             Template('blocks/common/playlist.html');
-        else
-            Template('blocks/playlist_form.html');
+       
 	}
 	
 	/**

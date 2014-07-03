@@ -563,7 +563,7 @@ class cbactions
 	 * Function used to create new playlist
 	 * @param ARRAY
 	 */
-	function create_playlist( $array = null )
+	/*function create_playlist( $array = null )
 	{
 		global $db;
 
@@ -575,7 +575,7 @@ class cbactions
 		if(!userid())
 			e(lang("please_login_create_playlist"));
 		/*elseif(empty($name))
-			e(lang("please_enter_playlist_name"));*/
+			e(lang("please_enter_playlist_name"));
 		elseif($this->playlist_exists($name,userid(),$this->type))
 			e(sprintf(lang("play_list_with_this_name_arlready_exists"),$name));
 		else
@@ -644,7 +644,45 @@ class cbactions
 			insert_log('add_playlist',$log_array);
 					
 			return $pid;
-			*/
+			
+		}
+		
+		return false;
+	}
+	*/
+
+
+
+	function create_playlist($params)
+	{
+		global $db;
+		$name = mysql_clean($params['name']);
+		if(!userid())
+			e(lang("please_login_create_playlist"));
+		elseif(empty($name))
+			e(lang("please_enter_playlist_name"));
+		elseif($this->playlist_exists($name,userid(),$this->type))
+			e(sprintf(lang("play_list_with_this_name_arlready_exists"),$name));
+		else
+		{
+			$db->insert(tbl($this->playlist_tbl),array("playlist_name","userid","date_added","playlist_type"),
+									  array($name,userid(),now(),$this->type));
+		
+			//return true;
+			$pid = $db->insert_id();
+			e(lang("new_playlist_created".$pid),"m");
+			//Logging Playlist			
+			/*$log_array = array
+			(
+			 'success'=>'yes',
+			 'details'=> "created playlist",
+			 'action_obj_id' => $pid,
+			);
+			
+			insert_log('add_playlist',$log_array);*/
+					
+			
+			return $pid;
 		}
 		
 		return false;
@@ -669,7 +707,7 @@ class cbactions
 	/**
 	 * Function used to get playlist
 	 */
-	function get_playlist( $id, $user = null )
+	/*function get_playlist( $id, $user = null )
 	{
 		global $db, $cb_columns;
 
@@ -742,10 +780,27 @@ class cbactions
 			return $result[0];
 		else
 			return false;
-        */
+        
 	}
 	
+	*/
+function get_playlist($id,$user=NULL)
+	{
+		global $db;
+		
+		$user_cond;
+		if($user)
+			$user_cond = " AND userid='$user'";
+			
+		$result = $db->select(tbl($this->playlist_tbl),"*"," playlist_id='$id' $user_cond");
+		if($db->num_rows>0)
+			return $result[0];
+		else
+			return false;
+	}
 	
+
+
 	/**
 	 * Function used to add new item in playlist
 	 */
@@ -753,8 +808,8 @@ class cbactions
 	{
 		global $db, $cb_columns;
 
-        $playlist = $this->get_playlist( $pid );
-
+        $playlist = $this->get_playlist($pid);
+        
 		if(!$this->exists($id))
 			e(sprintf(lang("obj_not_exists"),$this->name));
 		elseif( !$playlist )
@@ -793,7 +848,8 @@ class cbactions
 
                 $db->update( tbl( 'playlists' ), array_keys( $fields ), array_values( $fields ), " playlist_id = '".$pid."' " );
 
-                e( sprintf( lang( 'this_thing_added_playlist' ), $this->name ), "m" );
+                //e( sprintf( lang( 'this_thing_added_playlist' ), $this->name ), "m" );
+                e('<div class="alert alert-success">This video has been added to playlist</div>', "m" );
                 return $video;
             }
 
