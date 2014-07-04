@@ -26,6 +26,8 @@
 
 </li> *}
 
+
+
 {if $comment}
 <div class="itemdiv dialogdiv">
     {*$comment|print_r*}
@@ -33,7 +35,8 @@
         {$user_link='#'}
                     {if $comment.username}{$user_link=$userquery->profile_link($comment)}{/if}
         <a href="{$user_link}">
-            <img src="{$userquery->avatar($video)}" class="img-circle" />
+          
+            <img src="{$userquery->getuserthumb($comment)}" class="img-circle"  />
         </a>
     </div>
     <div class="body">
@@ -44,15 +47,35 @@
         <div class="name">
             <a class="commentorName" href="{$user_link}">{name($comment)}</a>
         </div>
-        <div class="text">{$comment.comment|comment}</div>
+        <div class="text">
+
+            {if $comment.parent_id}
+            {assign var=parentid value=$comment.parent_id}
+            {assign var=thisParent value=$parents.$parentid}
+            
+            {if $thisParent}
+            <div style="padding:3px; margin:5px; background-color:#E4E4E4">
+                
+                {if $thisParent.username}@{$thisParent.username} : 
+                {/if}{$thisParent.comment|comment}
+            </div>
+            {/if}
+        {/if}
+        
+        {$comment.comment|comment}
+
+    </div>
         <div class="tools blue">
-            <a class="btn btn-minier btn-info" href="#">
-                <i class="glyphicon glyphicon-share-alt"></i>
-            </a>
+            
+                <a href="javascript:void(0)" onclick="to_reply('{$comment.comment_id}')"><i class="glyphicon glyphicon-share-alt"></i></a> 
+             
+           
         </div>
     </div>
 </div>
 {/if}
+
+
 
 
 {*

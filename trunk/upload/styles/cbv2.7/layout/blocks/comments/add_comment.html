@@ -1,6 +1,9 @@
+
 {if $userquery->login_check('',true) || $Cbucket->configs.anonym_comments == 'yes'}
+   <div class="add_comment_box" id="add_comment"> </div>
 <div class="">
     <div id="comment-add-err"></div>
+  
     <form class=""  id="comment_form" >
 
         <input type="hidden" name="reply_to" id="reply_to" value="0">
@@ -54,8 +57,10 @@
             <label for="comment_text">
                 {lang code='Your comment'}
             </label>
-            {/if}
+            {/if}  
+         
             <textarea name="comment" id="comment_text" class="form-control clearfix comment_text_new"></textarea>
+           
         </div>
         <div class="form-group clearfix">
             <button  data-loading-text="Loading..." type="button" class="hidden-xs hidden-sm  btn btn-primary pull-right" id="addCommentButton">{lang('Comment')}</button>
@@ -115,6 +120,8 @@ btn.button('loading');
             <button type="submit" class="btn btn-primary" onclick="add_comment_js('comment_form','{$type}'){ANCHOR place='onClickAddComment'}">{lang('Comment')}</button>
         </div>
     </form>
+   
+
 
 <div id="add_comment_result" class="add_comment_result mtm mbm" style="display:none"></div>
 
