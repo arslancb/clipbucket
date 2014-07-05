@@ -5,6 +5,7 @@
 
 {lang code='channel' assign='object_type'}
 {*include file="$style_dir/blocks/view_channel/channel_global.html" *}
+ 
 <div id="container" class="container">
     {include file="$style_dir/blocks/manage/account_menu.html"}
     <div class="row cb-box">
@@ -17,7 +18,7 @@
               
               <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-plus-sign white"></i>  {lang code="Add as Friend"}</button>
               <a href="private_message.php?mode=new_msg&to=admin" style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-envelope white"></i>  {lang code="Send Message"}</a>
-              <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="icon-rss icon-spin white"></i>  {lang code="Subscribe"}</button>
+              <button style="display: inline; background-color: #000000" id="subscribe_channel"class="btn btn-primary btn-sm new1"><i class="icon-rss icon-spin white"></i>  {lang code="Subscribe"}</button>
           </div>
     </div>
 
@@ -67,7 +68,10 @@
         {/if}
         </div>
     </div>
+
+
         <div class="clearfix"></div>
+          <div id="messageFav" class="alert alert-info marginTop" style="display:none;"></div>
         <br><br>
       <div class="row">
           <div class="col-md-7 view_chnl">
@@ -96,6 +100,7 @@
             </div>
 
           <div class="col-md-5">
+
                <h5><small><i class="icon-rss"></i></small> <b> {lang code="Recent Activities"}</b></h5>
                     <hr class="margin-top-bottom-5 hr-channal  margin-bottom-10"  style="margin-left: -2px; width: 98%;">
                       <div id="content_1" class="content">
@@ -214,6 +219,21 @@
     })
   });
 })(window);
+
+$(document).ready(function (){
+           var id ='{$user.userid}';
+           $('#subscribe_channel').on({
+            click: function(e){
+                e.preventDefault();
+               _cb.subscribeToChannel(id,'subscribe_user','video_detail_result_cont');
+               
+             }
+           });
+            
+           });
+
+
+
 </script>
 
 

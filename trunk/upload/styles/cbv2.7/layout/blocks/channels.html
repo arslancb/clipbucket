@@ -1,7 +1,7 @@
 
 {if $block_type == '' || $block_type=='normal'}
 <div class="row  margin-bottom-10" id="user-{$user.userid}">
-    <div id="messageFav" class="alert alert-info marginTop" style="display:none;width:460px;margin-bottom:10px;margin-left:15px;height:90px;"></div>
+
     <div class="col-md-2 paddingright0">
         <a href="{$userquery->profile_link($user)}">
             <img class="cb_img_thum" src="{$userquery->getUserThumb($user)}" style="border: 1px solid rgb(0, 0, 0); height: 60px; width: 60px;">
@@ -26,7 +26,7 @@
                 {lang code="subscribers"}:  {$user.subscribers|number_format}
                     </div>
                 </div>
-                {$user.userid}
+              
            <a class="btn btn-primary btn-xs" id="subuser-{$user.userid}" >Subscribe</a>
          
 
