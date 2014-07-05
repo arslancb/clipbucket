@@ -1,18 +1,21 @@
 
 {if $block_type == '' || $block_type=='normal'}
 <div class="row  margin-bottom-10" id="user-{$user.userid}">
+    <div id="messageFav" class="alert alert-info marginTop" style="display:none;width:460px;margin-bottom:10px;margin-left:15px;height:90px;"></div>
     <div class="col-md-2 paddingright0">
         <a href="{$userquery->profile_link($user)}">
             <img class="cb_img_thum" src="{$userquery->getUserThumb($user)}" style="border: 1px solid rgb(0, 0, 0); height: 60px; width: 60px;">
         </a>
         </div>
      <div class="col-md-8  nopadding">   
+
         <div class="col-md-7  nopadding">
             <a href="{$userquery->profile_link($user)}">
             <h5 class="nomargin"><b>{$user.username}     </b></h5></a>
         </div>
 
         <div class="col-md-9 prof_title  nopadding">
+
             <div class="row" >
                     <div class="col-md-5 small channels paddingright0">
                         {if isSectionEnabled('videos')}
@@ -23,7 +26,11 @@
                 {lang code="subscribers"}:  {$user.subscribers|number_format}
                     </div>
                 </div>
-            <button class="btn btn-primary btn-xs" >Subscribe</button>
+                {$user.userid}
+           <a class="btn btn-primary btn-xs" id="subuser-{$user.userid}" >Subscribe</a>
+         
+
+          
         </div>
         </div>
     </div>
@@ -64,3 +71,19 @@
     <i class="topicStarterAvatarBG" style="background:url({avatar details=$user }) center no-repeat; width:56px; height:56px;"><a href="{$userquery->profile_link($user)}">{$user.username}</a></i>
 </div>
 {/if}
+
+
+ <script>
+           $(document).ready(function (){
+           var id = '{$user.userid}';
+           $('#subuser-' + id).on({
+            click: function(e){
+                e.preventDefault();
+               _cb.subscribeToChannel(id,'subscribe_user','video_detail_result_cont');
+                
+             }
+           });
+            
+           });
+
+           </script>
