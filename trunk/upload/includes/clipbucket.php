@@ -9,11 +9,11 @@
  * NOTE : EDITING THIS FILE MAY CASUE YOUR CLIPBUCKET UPDATER NOT TO WORK PROPERLY
  */
  
- define("ClipBucket","ClipBucket - Open Source Media Sharing Script by CLIPBUCKET TEAM");
+ define("ClipBucket","ClipBucket - Open Source Media Sharing Script by Arslan Hassan");
  define("VERSION","2.7");
- define("STATE","BETA");
- define("REV","1");
- define("RELEASED","6-6-2014");
- define("AUTHORS","CLIPBUCKET TEAM");
+ define("STATE","Beta");
+ define("REV","2454");
+ define("RELEASED","06-06-2014");
+ define("AUTHORS","ARSLAN HASSAN,FAWAZ TAHIR");
 
 ?>
