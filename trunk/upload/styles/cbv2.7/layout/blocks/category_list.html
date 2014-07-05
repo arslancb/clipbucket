@@ -23,7 +23,9 @@
       <li><a href="#">Cate4</a></li>
       <li><a href="#">cate5</a></li>
       <li><a href="#">cate6</a></li>-->
-      {cbCategories type=$type echo="TRUE" list_style="collapsed" output="a" with_all="TRUE"}
+      {cbCategories type=$type echo="TRUE" list_style="collapsed" output="list" with_all="TRUE"}
+
+
     </ul>
   </div>
 </div>
@@ -37,4 +39,35 @@
 
 	</div>
 </div>-->
+<script>
+$(document).ready(function (){
+$('.CategoryToggler').css({
+   'padding-left' : '1px',
+     'padding-right' : '1px',
+      // 'padding-bottom' : '10px',
+        // 'padding-top' : '10px',
+         'cursor' : 'pointer'
 
+
+});
+
+$('.CategoryToggler').addClass('CategoryToggler2');
+$('.CategoryToggler').on("click", function (){
+
+$(this).toggleClass('CategoryToggler2');
+if(!$(this).hasClass('CategoryToggler2')) {
+
+$('.sub_categories').slideDown();
+
+}
+else
+
+{
+
+  $('.sub_categories').slideUp();
+}
+
+});
+
+});
+</script>
