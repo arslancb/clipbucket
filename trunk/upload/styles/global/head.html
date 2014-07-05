@@ -15,7 +15,7 @@ function updateEmbed(width,height,autoplay)
 	$('#embed_code').val( $('#embed_code').val().replace(/width=\"([0-9]+)\"/g,'width="'+width+'"') );
 	$('#embed_code').val( $('#embed_code').val().replace(/height=\"([0-9]+)\"/g,'height="'+height+'"') );
 	$('#embed_code').val( $('#embed_code').val().replace(/width=([0-9]+)/g,'width='+width) );
-	$('#embed_code').val( $('#embed_code').val().replace(/height=([0-9]+)/g,'height='+height+'px') );
+	$('#embed_code').val( $('#embed_code').val().replace(/height=([0-9]+)/g,'height='+height+'') );
 }
 
 function switchEmbedCode(type)
