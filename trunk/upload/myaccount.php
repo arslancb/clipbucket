@@ -15,6 +15,23 @@ $userquery->logincheck();
 
 subtitle(lang("my_account"));
 assign('user',$userquery->get_user_details(userid()));
+global $db;
+$videos = $db->select(tbl('video'),'*',"userid='".userid()."'");
+assign('videos',$videos);
+
+$result_array['limit'] = $get_limit;
+$result_array['user'] = $udetails["userid"];
+$get_limit = create_query_limit($page,5);
+$videos = $cbvid->action->get_flagged_objects($get_limit);
+Assign('flagedVideos', $videos);
+
+$result_array['limit'] = $get_limit;
+$result_array['user'] = $udetails["userid"];
+$get_limit = create_query_limit($page,5);
+$photos = $cbphoto->action->get_flagged_objects($get_limit);
+assign('flagedPhotos', $photos);
+
+
 template_files('myaccount.html');
 display_it();
 
@@ -169,19 +186,9 @@ if($udetails)
     }
 }
 
+*/
 
-$result_array['limit'] = $get_limit;
-$result_array['user'] = $udetails["userid"];
-$get_limit = create_query_limit($page,5);
-$videos = $cbvid->action->get_flagged_objects($get_limit);
-Assign('flagedVideos', $videos);
-
-$result_array['limit'] = $get_limit;
-$result_array['user'] = $udetails["userid"];
-$get_limit = create_query_limit($page,5);
-$photos = $cbphoto->action->get_flagged_objects($get_limit);
-assign('flagedPhotos', $photos);
-
+/*
 
 subtitle(lang("my_account"));
 assign('user',$userquery->get_user_details(userid()));
