@@ -56,15 +56,16 @@
                             <input type="text" class="form-control searchtextbar"  name="query" value="{'query'|get_form_val:true}" id="query" />
                         </div>
                             <input type="submit" name="cbsearch" id="cbsearch" value="{lang code='search'}" class="btn btn-default" />
-                    </form>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown searchdrop">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Search Filters <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#"></a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                             
+                               <select id="SearchType" name="type" class=" form-control" style="width:200px; margin-left:20px;">
+ 
+                              {foreach from=$Cbucket->search_types item=t key=stypes}
+                              <option value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
+                              {/foreach}
+                              </select>
+
+                              </form>
+                    
                         </form>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->

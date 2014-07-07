@@ -67,17 +67,20 @@
 
 
                 <!-- Shown to small devices only Start-->
-                <form id="search" class="navbar-form navbar-search navbar-left" name="search" method="get" role="search" action="{$baseurl}/search_result.php">
+              <form id="search" class="navbar-form navbar-search navbar-left" name="search" method="get" role="search" action="{link name='search_result'}">
+
                     <div class="input-group">
-                        
-                        <input type="text" class="form-control" placeholder="Search">
+                         <input type="hidden" name="type" id="searchType" value="{$smarty.get.type}" />   
+                        <input  name="query" type="text" class="form-control" placeholder="Search" value="{'query'|get_form_val:true}">
+
                         <span class="input-group-btn">
-                            <input type="submit" class="btn btn-default" value="{lang code="Go"}!"> 
+                            <input name="submit" type="submit" class="btn btn-default" value="{lang code="Go"}!"> 
                         </span>
                     </div>
 
                 </form>
                 <!-- Ends -->
+
 
 
                 <!-- Shown to Large displays only Start -->
