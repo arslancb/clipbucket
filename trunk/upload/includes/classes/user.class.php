@@ -2744,14 +2744,14 @@ class userquery extends CBCategory{
 					list($width, $height, $type, $attr) = getimagesize($coverPhoto);
 					$width = (int) $width;
 					$height = (int) $height;
-					if(($width > 1100 && $width < 1200) && ($height > 200 && $height < 240)){
+					if(($width > 1) && ($height > 2)){
 						$files = glob(COVERS_DIR . "/{$name}/{$name}.*"); // get all file names
 						foreach($files as $file){ // iterate files
 						  if(is_file($file))
 						    unlink($file); // delete file
 						}
 						move_uploaded_file($coverPhoto, COVERS_DIR . "/{$name}/{$name}.{$ext}");
-						$this->resizeImage(COVERS_DIR . "/{$name}/{$name}.{$ext}", COVERS_DIR . "/{$name}/{$name}.{$ext}");
+						//$this->resizeImage(COVERS_DIR . "/{$name}/{$name}.{$ext}", COVERS_DIR . "/{$name}/{$name}.{$ext}");
 						return array(
 							"status" => true,
 							"msg" => "Succesfully Uploaded",

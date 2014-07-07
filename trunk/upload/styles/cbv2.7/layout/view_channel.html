@@ -7,9 +7,12 @@
 {*include file="$style_dir/blocks/view_channel/channel_global.html" *}
  
 <div id="container" class="container">
+
     {include file="$style_dir/blocks/manage/account_menu.html"}
     <div class="row cb-box">
-    <div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) center #000000" >
+       
+    <div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) center #000000 no-repeat;" >
+
       {if $user.userid == userid()}
       <a href="#" class="btn btn-primary btn-sm  changeCover sr-only" id="changeCover">{lang code="Update Cover"}</a>
       {/if}
@@ -72,6 +75,7 @@
 
         <div class="clearfix"></div>
           <div id="messageFav" class="alert alert-info marginTop" style="display:none;"></div>
+           
         <br><br>
       <div class="row">
           <div class="col-md-7 view_chnl">
@@ -145,6 +149,17 @@
 </style>
 
 <script>
+$('#changeCover').on("click", function(){
+
+$('#cover_info').show();
+
+});
+
+
+
+
+
+
 (function(window){
   $(document).ready(function(){
     var extensions = "{$extensions}";
@@ -178,9 +193,9 @@
       uploader.bind("FileUploaded", function(plupload, files, response){
         var response = $.parseJSON(response.response);
         if(response.status == true){
-          $("#coverConainer").css("background", "url(" + response.url + ") center #000000");
+          $("#coverConainer").css("background", "url(" + response.url + ") center #000000 no-repeat");
         }else{
-          $("#coverConainer").css("background", "url(" + response.url + ") center #000000");
+          $("#coverConainer").css("background", "url(" + response.url + ") center #000000 no-repeat");
           alert(response.msg);
         }
       });
