@@ -143,8 +143,10 @@ class cbactions
 					);
 					insert_log($this->name.'_favorite',$log_array);
 					
-					e(sprintf(lang('add_fav_message'),$this->name),'m');
+					//e(sprintf(lang('add_fav_message'),$this->name),'m');
+					 e('<div class="alert alert-success">This video has been added to your favorites</div>', "m" );
 				}else{
+					 
 					e(sprintf(lang('already_fav_message'),$this->name));
 				}
 			}else{

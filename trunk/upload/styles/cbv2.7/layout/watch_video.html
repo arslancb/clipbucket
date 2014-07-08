@@ -114,7 +114,16 @@
                         </div>
 
                         <div class="tab-pane" id="cb-item-addto">
+                             <div class="clearfix visible-xs-block" style="margin-bottom:25px;">
+                             <div id="video_action_result_cont" style="display:none;"></div>   
+                             <a  class="btn mtm btn-block btn-primary" href="javascript:void(0)" onclick="add_to_fav('video','{$vdo.videoid}');" style="color:white;">Add to My Favorites</a>
+                             </div>
+
+                           
+
+                            <div class="alert ">
                             {show_playlist_form id=$vdo.videoid type=video}
+                            </div>
                         </div>
 
                         <div class="tab-pane" id="cb-item-report">
