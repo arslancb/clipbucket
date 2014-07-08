@@ -104,7 +104,7 @@
                     Actions <i class="caret"></i></button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
                     <li><a role="menuitem" tabindex="-1"
-                           href="/edit_video.php?vid={$video.videoid}" class="">Edit</a></li>
+                           href="{$baseurl}/admin_area/edit_video.php?video={$video.videoid}" class="">Edit</a></li>
                     <li><a role="menuitem" tabindex="-1"
                            href="{$baseurl}/watch_video.php?v={$video.videokey}"target="_blank">Watch</a>
                         {if $video.featured == yes}
