@@ -18,7 +18,7 @@ function updateEmbed(width,height,autoplay)
 	$('#embed_code').val( $('#embed_code').val().replace(/height=([0-9]+)/g,'height='+height+'') );
 }
 
-function switchEmbedCode(type)
+/*function switchEmbedCode(type)
 {
 	if(embed_type==type)
 		return false;
@@ -31,6 +31,18 @@ function switchEmbedCode(type)
 		$('#embed_code').val(alt_embed);
 		
 	}
+}*/
+
+function switchEmbedCode(type)
+{
+	
+		embed_type = type;
+		
+		var alt_embed =$('#alternate_embed_code').val();
+		$('#alternate_embed_code').val($('#embed_code').val());
+		$('#embed_code').val(alt_embed);
+		
+	
 }
 
 {/literal}
