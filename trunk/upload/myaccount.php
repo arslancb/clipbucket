@@ -32,6 +32,13 @@ $photos = $cbphoto->action->get_flagged_objects($get_limit);
 assign('flagedPhotos', $photos);
 
 
+if(isset($_GET['delete_video']))
+{
+ $video = mysql_clean($_GET['delete_video']);
+ $cbvideo->delete_video($video);
+
+}
+
 template_files('myaccount.html');
 display_it();
 
