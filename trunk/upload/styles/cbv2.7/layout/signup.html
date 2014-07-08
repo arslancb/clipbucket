@@ -2,7 +2,16 @@
 {$cutom_fields=$userquery->custom_signup_fields}
 
 
-
+{if $mode == 'signup_success'}
+<div class="simple_container">
+        {if $udetails.usr_status !='Ok'}
+            {lang code='signup_success_usr_ok'}
+        {else}
+            {lang code='signup_success_usr_emailverify' assign='signupsuccessusremailverify'}
+            {link name='login' assign='login_link'}
+            {$signupsuccessusremailverify|sprintf:$login_link}
+{/if} </div>
+{else}    
 <div class="container">
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -132,7 +141,7 @@
         </div>
     </div>
 </div>
-
+{/if}
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 <script>
@@ -147,10 +156,9 @@
        
         });
 
-
-
-
-    });
+       $('.simple_container').addClass('alert-success alert');
+      
+     });
 
 
 
@@ -164,5 +172,7 @@
                     width: 140px;
                     vertical-align: center;
                     }
+
+                    
                     </style>
                     {/literal}
