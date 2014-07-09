@@ -111,6 +111,10 @@ if(isset($_POST['cmd'])){
 //echo getAd(array('place' => 'ad_468x60'), $this);
 
 
+// assigning website details
+$row = $myquery->Get_Website_Details();
+Assign('row',$row);
+
 //Displaying The Template
 template_files('index.html');
 display_it();
