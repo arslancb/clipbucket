@@ -2366,7 +2366,7 @@ class userquery extends CBCategory{
 			if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
 				$val = mysql_clean($val);
 			else
-				$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
+				$val = apply_func($field['clean_func'],sql_free(/*'|no_mc|'.*/$val));
 
 			
 			if(!empty($field['db_field']))
@@ -2399,7 +2399,7 @@ class userquery extends CBCategory{
 			if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
 				$val = mysql_clean($val);
 			else
-				$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
+				$val = apply_func($field['clean_func'],sql_free(/*'|no_mc|'.*/$val));
 			
 			if(!empty($field['db_field']))
 			$uquery_val[] = $val;
@@ -2610,7 +2610,7 @@ class userquery extends CBCategory{
 				if(!$field['clean_func'] || (!function_exists($field['clean_func']) && !is_array($field['clean_func'])))
 					$val = mysql_clean($val);
 				else
-					$val = apply_func($field['clean_func'],sql_free('|no_mc|'.$val));
+					$val = apply_func($field['clean_func'],sql_free(/*'|no_mc|'.*/$val));
 	
 				
 				if(!empty($field['db_field']))
