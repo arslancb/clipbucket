@@ -192,14 +192,28 @@
               <div class="avatar_bg">
 
                   <legend>{lang code='user_bg'}</legend>
-                  <div class="show-image">
+                 <!-- <div class="show-image">
                       {if $userquery->getUserBg($user)}
                       <img src="{$userquery->getUserBg($user)}" class="img-thumbnail"/>
                       <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn btn-danger position"  />
                       {else}
                       <em><strong>No Bg</strong></em>
                       {/if}
-                  </div>
+                  </div>-->
+
+                      <div class="show-image">
+                       {if $userquery->getUserBg($user)}
+                      <img src="{$userquery->getUserBg($user)}" class="img-thumbnail"/>
+                      <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn btn-danger position"  />
+                      {else}
+                      <em><strong>No Bg</strong></em>
+                       <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn btn-danger position"  />
+                       
+                      {/if}
+
+                      </div>
+
+                       <br><br> 
 
                   <h3>{lang code='or'}</h3>
                   <div class="form-group">
