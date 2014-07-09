@@ -18,9 +18,22 @@
       {/if}
       <div class="row">
           <div align="center" class="col-md-4 pull-right btn-group" style="padding-left: 40px; padding-top: 5px; margin-right: -27px;">
+
+
+  <a href="javascript:void(0)" style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1" 
+
+  onclick="add_friend('{$user.userid}','result_cont')">
+  
+              <i class="glyphicon glyphicon-plus-sign white"></i>   
+              {lang code="Add as Friend"}
+            </a>
+
+
               
-              <button style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-plus-sign white"></i>  {lang code="Add as Friend"}</button>
+
+
               <a href="private_message.php?mode=new_msg&to=admin" style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-envelope white"></i>  {lang code="Send Message"}</a>
+
               <button style="display: inline; background-color: #000000" id="subscribe_channel"class="btn btn-primary btn-sm new1"><i class="icon-rss icon-spin white"></i>  {lang code="Subscribe"}</button>
           </div>
     </div>
@@ -75,7 +88,7 @@
 
         <div class="clearfix"></div>
           <div id="messageFav" class="alert alert-info marginTop" style="display:none;"></div>
-           
+             <div id="result_cont" class="alert alert-info marginTop" style="display:none;"></div>
         <br><br>
       <div class="row">
           <div class="col-md-7 view_chnl">
