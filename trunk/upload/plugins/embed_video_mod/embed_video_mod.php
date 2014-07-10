@@ -297,6 +297,8 @@ if (!function_exists('validate_embed_code'))
                 $embed_code = unhtmlentities($embed_code);
                 $embed_code = preg_replace($preg_match, $preg_repalce, $embed_code);
 
+            /*
+
                 //Checking for REF CODE , if its youtube, add AUTOPLAY accordingly)
                 $ref = get_refer_url_from_embed_code($embed_code);
                 if (!empty($ref) && $ref['website'] == "youtube")
@@ -325,6 +327,7 @@ if (!function_exists('validate_embed_code'))
                     assign('ytcode', $ytCode);
                     return false;
                 }
+                */
 
                 $swfobj->EmbedCode($embed_code,$data['player_div']);
                 //return $embed_code;
