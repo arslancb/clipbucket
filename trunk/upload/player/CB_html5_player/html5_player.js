@@ -482,7 +482,7 @@ $('#path').css({
 			});
 
   $("#path").click(function(event) {
-  window.location = 'http://clip-bucket.com/';
+  window.open('http://clip-bucket.com/', '_blank');
           
   });
 
