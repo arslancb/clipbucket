@@ -1555,7 +1555,8 @@ class CBGroups extends CBCategory
 						 'db_field'=>'topic_title',
 						 'required'=>'yes',
 						 'min_length' => 1,
-						 'max_length'=>config('max_topic_title'),
+						// 'max_length'=>config('max_topic_title'),
+						  'max_length'=>200,
 						 
 						 ),
 		'topic_post'	=> array(	
@@ -1568,7 +1569,8 @@ class CBGroups extends CBCategory
 						 'db_field'=>'topic_post',
 						 'required'=>'yes',
 						 'min_length' => 4,
-						 'max_length'=>config('max_topic_length'),
+						 //'max_length'=>config('max_topic_length'),
+						 'max_length'=> 1500,
 						 'anchor_before' => 'before_topic_post_box',
 						 'anchor_after' => 'after_topic_post_box',
 						 )								 
