@@ -20,11 +20,13 @@
              </div>
         {assign var=useSubs value=config(use_subs)}
         {if $useSubs == 1}
-        <div class="col-md-4">
+    <div class="col-md-4">
             <label>Parent Category</label>
             {cbCategories output="dropdown" class="form-control" name="parent_cat" id="parent_cat" blank_option=TRUE echo=TRUE type="video"}
 
         </div>
+    {/if}   
+    <tr>
         <div class="col-md-4">
             <label>Make Default Category</label>
             <select class="form-control">
@@ -58,7 +60,7 @@
 
 
 
-{/if}
+
 <div id="content">
 {if $edit_category == "show"}
 <form action="" method="post" enctype="multipart/form-data" name="edit_category" id="Edit Category">
