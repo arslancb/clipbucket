@@ -29,7 +29,7 @@
 
 
 {if $comment}
-<div class="itemdiv dialogdiv">
+<div class="itemdiv dialogdiv" style="margin-bottom:20px;">
     {*$comment|print_r*}
     <div class="user">
         {$user_link='#'}
@@ -46,12 +46,12 @@
         </div>
         <div class="name">
             <a class="commentorName" href="{$user_link}">{name($comment)}</a>
-      
- <div class="text">
+        </div>
+        <div class="text" style="margin-bottom:5x;">
 
-            {if $reply}
-            <div style="padding:3px; margin:5px; background-color:#E4E4E4">
-                {$reply}
+             {if $reply}
+            <div style="padding:3px; margin:5px; background-color:#E2F2FF">
+            {$reply}
             </div>
             {/if}
 
@@ -62,27 +62,17 @@
             {assign var=thisParent value=$parents.$parentid}
             
             {if $thisParent}
-            <div style="padding:3px; margin:5px; background-color:#E4E4E4">
+            <div style="padding:3px; margin:5px; background-color:#E2F2FF">
                 
                 {if $thisParent.username}@{$thisParent.username} : 
                 {/if}{$thisParent.comment|comment}
             </div>
             {/if}
         {/if}
-            
-          
         
         {$comment.comment|comment}
 
     </div>
-
-
-
-
-
-
-
-
         <div class="tools blue">
             
                 <a href="javascript:void(0)" onclick="to_reply('{$comment.comment_id}')"><i class="glyphicon glyphicon-share-alt"></i></a> 
