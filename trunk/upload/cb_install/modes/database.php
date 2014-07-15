@@ -1,6 +1,7 @@
 
 
 </div>
+<div class="clearfix"></div>
 
 <div class="nav_des clearfix">
     <div class="cb_container">

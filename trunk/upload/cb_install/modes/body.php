@@ -18,10 +18,10 @@
      <div class="top clearfix">
     <div class="top_tabs">
         <ul>
-            <li><a href="http://clip-bucket.com/V2.7-beta-overview/">V2.7 Overview </a><span>|</span></li>
-                <li><a href="http://forums.clip-bucket.com/">Forums </a><span>|</span></li>
-                 <li><a href="http://clip-bucket.com/Bug_Reporter/">Bug Reporter </a><span>|</span></li>
-            <li><a href="http://clip-bucket.com/contact">Support </a></li>
+            <li><a href="http://clip-bucket.com/V2.7-beta-overview/"  target="blank">V2.7 Overview </a><span>|</span></li>
+                <li><a href="http://forums.clip-bucket.com/"  target="blank">Forums </a><span>|</span></li>
+                 <li><a href="http://clip-bucket.com/Bug_Reporter/"  target="blank">Bug Reporter </a><span>|</span></li>
+            <li><a href="http://clip-bucket.com/contact"  target="blank">Support </a></li>
         </ul>
     </div><!--top_tabs-->
    <p></p> <span id="logo"><span style="color:#09c">ClipBucket</span> Installer v<?php echo VERSION?> <?php echo STATE ?></span><p></p>
