@@ -665,8 +665,19 @@ if(!empty($mode))
 		{
 			$id = mysql_clean($_POST['cid']);
 			$new_com  = $myquery->get_comment($id);
+			
+			//getting parent id if it is a reply comment
+			extract($new_com);
+		    if ($parent_id)
+		    {
+			$reply  = $myquery->get_comment($parent_id);
+			extract($reply);
+			assign('reply',$comment);
+			}
+
 			assign('comment',$new_com);
 			Template('blocks/comments/comment.html');
+			
 		}
 		break;
 		

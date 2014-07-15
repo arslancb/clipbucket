@@ -46,8 +46,16 @@
         </div>
         <div class="name">
             <a class="commentorName" href="{$user_link}">{name($comment)}</a>
-        </div>
-        <div class="text">
+      
+ <div class="text">
+
+            {if $reply}
+            <div style="padding:3px; margin:5px; background-color:#E4E4E4">
+                {$reply}
+            </div>
+            {/if}
+
+
 
             {if $comment.parent_id}
             {assign var=parentid value=$comment.parent_id}
@@ -61,10 +69,20 @@
             </div>
             {/if}
         {/if}
+            
+          
         
         {$comment.comment|comment}
 
     </div>
+
+
+
+
+
+
+
+
         <div class="tools blue">
             
                 <a href="javascript:void(0)" onclick="to_reply('{$comment.comment_id}')"><i class="glyphicon glyphicon-share-alt"></i></a> 
