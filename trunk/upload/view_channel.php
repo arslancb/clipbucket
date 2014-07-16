@@ -59,8 +59,10 @@ if($udetails)
         $result_array['order'] = " profile_hits DESC limit 6 ";
 
     $users = get_users($result_array);
-
     Assign('users', $users);
+    global $db;
+    $results = $db->select(tbl('users'),'*');
+    Assign('user_s',$results);
 
 
 /*

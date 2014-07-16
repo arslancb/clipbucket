@@ -32,7 +32,7 @@
               
 
 
-              <a href="private_message.php?mode=new_msg&to=admin" style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-envelope white"></i>  {lang code="Send Message"}</a>
+              <a href="private_message.php?mode=new_msg&to={$user.username}" style="display: inline; background-color: #000000" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-envelope white"></i>  {lang code="Send Message"}</a>
 
               <button style="display: inline; background-color: #000000" id="subscribe_channel"class="btn btn-primary btn-sm new1"><i class="icon-rss icon-spin white"></i>  {lang code="Subscribe"}</button>
           </div>
@@ -139,11 +139,12 @@
                       </div>
                         </div>
 
+             
               <h5><b>{lang code="Popular Channels"}</b></h5>
               <hr class="margin-top-bottom-5 hr-channal margin-bottom-10">
               <div id="popular" class="content1">
-              {section name=u_list loop=$users}
-              {include file="$style_dir/blocks/channels.html" user=$users[u_list]}
+              {section name=u_list loop=$user_s}
+              {include file="$style_dir/blocks/channels.html" user=$user_s[u_list]}
               {sectionelse}
               {lang code='no_results_found'}
               {/section}
