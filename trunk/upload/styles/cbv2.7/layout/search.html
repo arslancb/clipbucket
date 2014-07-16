@@ -53,17 +53,19 @@
 
 
                         <div class="form-group">
-                            <input type="text" class="form-control searchtextbar"  name="query" value="{'query'|get_form_val:true}" id="query" />
-                        </div>
-                            <input type="submit" name="cbsearch" id="cbsearch" value="{lang code='search'}" class="btn btn-default" />
+                            <input type="text" class="form-control searchtextbar"  name="query" value="{'query'|get_form_val:true}" id="query" 
+                            style="width:450px;margin-left:30px;margin-top:10px;" />
+                        
+                            <input type="submit" name="cbsearch" id="cbsearch" value="{lang code='search'}" class="btn btn-default" 
+                            style="margin-top:10px;"/>
                              
-                               <select id="SearchType" name="type" class=" form-control" style="width:200px; margin-left:20px;">
+                              <!-- <select id="SearchType" name="type" class=" form-control" style="width:200px; margin-left:20px;">
  
                               {foreach from=$Cbucket->search_types item=t key=stypes}
                               <option value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
                               {/foreach}
-                              </select>
-
+                              </select>-->
+ </div>
                               </form>
                     
                         </form>
