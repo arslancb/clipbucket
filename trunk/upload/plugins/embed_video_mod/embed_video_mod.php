@@ -294,7 +294,7 @@ if (!function_exists('validate_embed_code'))
 
 
                 $iframe = str_replace('height=', 'height="350"', $iframe);
-                $iframe = str_replace('width=', 'width="750"', $iframe);
+                $iframe = str_replace('width=', 'width="749"', $iframe);
 
 
                 $embed_code = $iframe;
