@@ -271,9 +271,9 @@ if (!function_exists('validate_embed_code'))
 
 
                 $width_px_replace = $data['width'].'px';
-                $height_px_replace = $data['width'].'px';
+                $height_px_replace = $data['height'].'px';
                 $width_replace = $data['width'];
-                $height_replace = $data['width'];
+                $height_replace = $data['height'];
 
                 if(strstr($data['width'],'%'))
                     $width_px_replace = $data['width'];
@@ -289,13 +289,28 @@ if (!function_exists('validate_embed_code'))
                     'height='.$height_replace
                 );
 
+                if (THIS_PAGE == 'watch_video'){
+                $iframe = $vdetails['embed_code'];
 
 
+                $iframe = str_replace('height=', 'height="350"', $iframe);
+                $iframe = str_replace('width=', 'width="750"', $iframe);
 
 
-                $embed_code = str_replace($h_w_p, $h_w_r, $embed_code);
+                $embed_code = $iframe;
+
+                 }
+
+                else{
+
+                $embed_code = str_replace($h_w_p, $h_w_r, $embed_code);   
+                $embed_code = preg_replace($preg_match, $preg_repalce, $embed_code); 
+
+                }
+
+                
                 $embed_code = unhtmlentities($embed_code);
-                $embed_code = preg_replace($preg_match, $preg_repalce, $embed_code);
+                
 
             /*
 
