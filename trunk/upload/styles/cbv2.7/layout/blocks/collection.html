@@ -81,7 +81,7 @@
                     <a href="{$cbphoto->photo_links($object,'view_item')}">{$object.video_title|truncate:15}</a>
                 </div>
 
-                <a href="{$cbphoto->photo_links($object,'view_item')}">
+                  <a class="CollectThumb" href="{$cbphoto->photo_links($object,'view_item')}">
                     <img src="{getThumb vdetails=$object}" alt="{$object.title}" />
                 </a>
             </div>
@@ -91,7 +91,7 @@
         {if $type == "photos"}
         <div class="show-image mouse_hover">
             <div class="" style="padding-right: 0px;">
-                <a href="{$cbcollection->collection_links($collection,'view')}">
+                    <a class="CollectThumb" href="{$cbphoto->photo_links($object,'view_item')}">
                     {get_photo details=$object size='l' class='photo-land' output='html'}
                 </a>
             </div>
