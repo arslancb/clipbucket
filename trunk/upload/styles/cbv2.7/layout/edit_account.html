@@ -159,8 +159,8 @@
               <form method="post" enctype="multipart/form-data">
                   <legend>{lang code='user_user_avatar'}</legend>
                   <div class="show-image">
-                      <img src="{$userquery->getUserThumb($user)}" class="img-thumbnail" />
-                      <input type="file" name="avatar_file" id="avatar_file" class="the-buttons btn btn-danger pphotogposition"  />
+                    <img src="{$userquery->getUserThumb($user)}" class="img-thumbnail" />
+                    <input type="file" name="avatar_file" id="avatar_file" class="the-buttons btn btn-danger pphotogposition" />
                   </div>
                   <div class="form-group">
                       <label for="avatar_file">
@@ -482,7 +482,7 @@
 
 
 
-        <script>
+      <!--  <script>
             jQuery(function() {                                              // <== Doc ready
 
                 jQuery(".the-buttons").hide();                  // Initially hide all buttons
@@ -495,4 +495,4 @@
                     jQuery(this).find('#background_file').fadeOut(1500);// use .find() !
                 });
             });
-        </script>
+        </script>-->
