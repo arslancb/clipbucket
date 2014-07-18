@@ -140,9 +140,9 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="?category={$category[list].category_id}">Edit</a></li>
                 {if $category[list].isdefault!="yes"}
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:_cb.Confirm_Delete('?delete_category={$category[list].category_id}')">Delete</a>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_category={$category[list].category_id}">Delete</a>
                 </li>
-                    <li><a href="?make_default={$category[list].category_id}">Make Default</a></li>{/if}
+                    <li><a href="?make_default={$category[list].category_id}"></a></li>{/if}
                 </ul>
                 </div>
             </td>
