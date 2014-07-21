@@ -401,7 +401,7 @@ class FFMpeg{
 		return false;
 	}
 
-	private function generateThumbs($input_file,$duration,$dim='120x90',$num=3,$rand=NULL,$is_big=false){
+	private function generateThumbs($input_file,$duration,$dim='501x283',$num=3,$rand=NULL,$is_big=false){
 
 		$tmpDir = TEMP_DIR.'/'.getName($input_file);
 
