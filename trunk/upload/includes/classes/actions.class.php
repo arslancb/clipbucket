@@ -786,6 +786,11 @@ class cbactions
 	}
 	
 	*/
+
+
+	/**
+	 * Function used to get playlist
+	 */
 function get_playlist($id,$user=NULL)
 	{
 		global $db;
@@ -1124,6 +1129,8 @@ function get_playlist($id,$user=NULL)
 	/**
 	 * Function used to get playlists
 	 */
+
+	/*
 	function get_playlists( $params = array() )
 	{
         global $cb_columns;
@@ -1230,6 +1237,17 @@ function get_playlist($id,$user=NULL)
         return false;
 	}
 
+	*/
+     function get_playlists()
+	{
+		global $db;
+		$result = $db->select(tbl($this->playlist_tbl),"*"," playlist_type='".$this->type."' AND userid='".userid()."'");
+		
+		if($db->num_rows>0)
+			return $result;
+		else
+			return false;
+	}
 
 	/**
      * Get playlist thumb
