@@ -295,9 +295,8 @@ if (!function_exists('validate_embed_code'))
 
                 $iframe = str_replace('height=', 'height="350"', $iframe);
                 $iframe = str_replace('width=', 'width="749"', $iframe);
-
-
                 $embed_code = $iframe;
+            
 
                  }
 
@@ -307,8 +306,9 @@ if (!function_exists('validate_embed_code'))
                 $embed_code = preg_replace($preg_match, $preg_repalce, $embed_code); 
 
                 }
-
-                
+                 
+                $embed_code = str_replace('href=', 'style="display:none;"', $embed_code);
+                $embed_code = str_replace('by', '', $embed_code);
                 $embed_code = unhtmlentities($embed_code);
                 
 
