@@ -168,11 +168,11 @@
             </div>
         </div>
         <!-- /Side bar-->
-
-<div style="float:left; width:751px; margin-left:15px;"> 
+<div id="test1"></div>
+<div id="reply" style="float:left; width:751px; margin-left:15px;"> 
     <div class="cb-box pad-bottom">
-                <div class="addComment clearfix">
-                    <h3>{lang('Comments')} <!--{$vdo.comments_count}--></h3>
+                <div  class="addComment clearfix">
+                    <h3 >{lang('Comments')} <!--{$vdo.comments_count}--></h3>
                     {if $myquery->is_commentable($vdo,'v')}
                         {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
                     {else}

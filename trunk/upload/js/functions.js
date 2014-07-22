@@ -904,9 +904,16 @@ function hide_menu()
 	
 	
 function to_reply(cid)
-{
-	$("#reply_to").val(cid);
-	window.location = "#add_comment";
+{   
+$("#reply_to").val(cid);
+window.location = "#reply";
+$('#reply_to_img').fadeIn(1500);
+
+setTimeout(function(){
+     $('#reply_to_img').fadeOut(500);
+}, 7000);
+  
+
 }
 
 function spam_comment(cid,type,typeid)
