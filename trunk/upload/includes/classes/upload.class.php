@@ -249,21 +249,43 @@ class Upload{
 	 */
 	function get_available_file_num($file_name,$big=false)
 	{
+         // echo dir;
+		
 		//Starting from 1
 		$code = 1;
-		if($big)
+        if($big)
 			$big = "big-";
-		while(1)
-		{
-			$path = THUMBS_DIR.'/'.$file_name.'-'.$big.$code.'.';
-			if(!file_exists($path.'jpg') && !file_exists($path.'png') && !file_exists($path.'gif'))
-				break;
-			else
-				$code = $code + 1;
-		}
+
+       if(dir!=NULL)
+		    { 
+                 while(1)
+		        {
+		  
+                  $path = THUMBS_DIR.'/'.dir.'/'.$file_name.'-'.$big.$code.'.';
+			      if(!file_exists($path.'jpg') && !file_exists($path.'png') && !file_exists($path.'gif'))
+			          	break;
+			       else
+				  $code = $code + 1;
+				}
+		    }
+
+		    else{
+                 
+                 while(1)
+		        {
+		         $path = THUMBS_DIR.'/'.$file_name.'-'.$big.$code.'.';
+			     if(!file_exists($path.'jpg') && !file_exists($path.'png') && !file_exists($path.'gif'))
+			      	break;
+			       else
+				 $code = $code + 1;
 		
-		return $code;
+		         }
+	            }
+			
+			
+		    return $code;
 	}
+	
 	
 	
 	function upload_thumb($file_name,$file_array,$key=0,$files_dir=NULL)
@@ -272,7 +294,8 @@ class Upload{
 		global $imgObj,$LANG;
 		$file = $file_array;
 		if(!empty($file['name'][$key]))
-		{
+		{   
+			define('dir',$files_dir);
 			$file_num = $this->get_available_file_num($file_name);
 			$ext = getExt($file['name'][$key]);
 			if($imgObj->ValidateImage($file['tmp_name'][$key],$ext))
