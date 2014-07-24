@@ -296,6 +296,9 @@ class Upload{
 		if(!empty($file['name'][$key]))
 		{   
 			define('dir',$files_dir);
+			define('t_width','501');
+			define('t_height','283');
+
 			$file_num = $this->get_available_file_num($file_name);
 			$ext = getExt($file['name'][$key]);
 			if($imgObj->ValidateImage($file['tmp_name'][$key],$ext))
@@ -314,8 +317,8 @@ class Upload{
 				move_uploaded_file($file['tmp_name'][$key],$file_path);
 				
 				$imgObj->CreateThumb($file_path,$big_file_path,config('big_thumb_width'),$ext,config('big_thumb_height'),false);
-				$imgObj->CreateThumb($file_path,$file_path,THUMB_WIDTH,$ext,THUMB_HEIGHT,false);
-				e(lang('upload_vid_thumb_msg'),'m');
+				$imgObj->CreateThumb($file_path,$file_path,t_width,$ext,t_height,false);
+				e(lang('upload_vid_thumb_msg'.THUMB_WIDTH),'m');
 			}	
 		}
 	}
