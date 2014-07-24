@@ -117,7 +117,7 @@ if($myquery->VideoExists($video)){
 
 		}else
 		{
-			delete_video_thumb($_GET['delete']);
+		   delete_video_thumb($data['file_directory'],$_GET['delete']);
 		}
 	}
 	

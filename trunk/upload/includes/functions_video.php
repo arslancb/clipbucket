@@ -847,10 +847,16 @@ function get_thumb_num($name)
 /**
  * Function used to remove thumb
  */
-function delete_video_thumb($file)
+function delete_video_thumb($file_dir,$file)
 {
     global $LANG;
-    $path = THUMBS_DIR.'/'.$file;
+    if($file_dir!=NULL){
+    $path = THUMBS_DIR.'/'.$file_dir.'/'.$file;
+     }
+     else{
+       $path = THUMBS_DIR.'/'.$file; 
+     }
+    
     if(file_exists($path))
     {
         unlink($path);
