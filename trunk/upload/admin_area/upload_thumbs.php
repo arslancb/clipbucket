@@ -127,12 +127,26 @@ if($myquery->VideoExists($video)){
 		$num = config('num_thumbs');
 		$dim = config('thumb_width').'x'.config('thumb_height');
 		$big_dim = config('big_thumb_width').'x'.config('big_thumb_height');
-		require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
-		$ffmpeg = new ffmpeg($vid_file);
-		//Generating Thumbs
-		$ffmpeg->generate_thumbs($vid_file,$data['duration'],$dim,$num,true);
-		//Generating Big Thumb
-		$ffmpeg->generate_thumbs($vid_file,$data['duration'],$big_dim,$num,true,true);
+		
+		require_once(BASEDIR.'/includes/classes/sLog.php');
+		$log = new SLog();
+        $configs = array();
+
+        require_once(BASEDIR.'/ffmpeg.new.class.php');
+        $ffmpeg = new FFMpeg($configs, $log);
+        $ffmpeg->regenerateThumbs($vid_file,$data['file_directory'],$data['duration'],$dim,$num,$rand=NULL,$is_big=false,$data['file_name']);
+        e(lang('Video thumbs has been regenrated successfully'),'m');
+        
+		
+
+		/*
+		  require_once(BASEDIR.'/includes/classes/conversion/ffmpeg.class.php');
+	      $ffmpeg = new FFMpeg();
+		  //Generating Thumbs
+		  $ffmpeg->generate_Thumbs($vid_file,$data['duration'],$dim,$num,$rand=NULL,$is_big=false);
+          //Generating Big Thumb
+		  $ffmpeg->generate_thumbs($vid_file,$data['duration'],$big_dim,$num,true,true);
+	    */
 	}
 	
 	Assign('data',$data);

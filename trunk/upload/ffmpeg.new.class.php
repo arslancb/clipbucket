@@ -1,9 +1,18 @@
 <?php
 
+define("KEEP_MP4_AS_IS",config('keep_mp4_as_is'));
+define("MP4Box_BINARY",get_binaries('MP4Box'));
+define("FLVTool2_BINARY",get_binaries('flvtool2'));
+define('FFMPEG_BINARY', get_binaries('ffmpeg'));
+define('PROCESSESS_AT_ONCE',config('max_conversion'));
+define("thumbs_number",config('num_thumbs'));
+
+
 class FFMpeg{
 	private $command = "";
 	public $defaultOptions = array();
 	public $videoDetails = array();
+	public $num = thumbs_number;
 	private $options = array();
 	private $outputFile = false;
 	private $inputFile = false;
@@ -401,7 +410,7 @@ class FFMpeg{
 		return false;
 	}
 
-	private function generateThumbs($input_file,$duration,$dim='501x283',$num=3,$rand=NULL,$is_big=false){
+	private function generateThumbs($input_file,$duration,$dim='501x283',$num,$rand=NULL,$is_big=false){
 
 		$tmpDir = TEMP_DIR.'/'.getName($input_file);
 
@@ -470,6 +479,88 @@ class FFMpeg{
 		
 		rmdir($tmpDir);
 	}
+
+
+
+
+
+	/**
+	 * Function used to regenrate thumbs for a video
+	 * @param : 
+	 * @parma : 
+	 */
+
+public function regenerateThumbs($input_file,$test,$duration,$dim,$num,$rand=NULL,$is_big=false,$filename){
+
+		$tmpDir = TEMP_DIR.'/'.getName($input_file);
+		
+        $output_dir = THUMBS_DIR;
+		$dimension = '';
+
+		$big = "";
+		
+		if($is_big=='big')
+		{
+			$big = 'big-';
+		}
+		
+		if($num > 1 && $duration > 14)
+		{
+			$duration = $duration - 5;
+			$division = $duration / $num;
+			$count=1;
+			
+			
+			for($id=3;$id<=$duration;$id++)
+			{
+				$file_name = $filename."-{$big}{$count}.jpg";
+				$file_path = THUMBS_DIR.'/' . $test .'/'. $file_name;
+				
+				$id	= $id + $division - 1;
+                $time = $this->ChangeTime($id,1);
+				
+				
+                //e(lang($time),'m');
+
+				if($dim!='original')
+				{
+					$dimension = " -s $dim  ";
+					$mplayer_dim = "-vf scale=$width:$height";
+				}
+                
+				
+				
+				$command = $this->ffMpegPath." -i $input_file -an -ss $time -an -r 1 $dimension -y -f image2 -vframes 1 $file_path ";
+			
+				$output = $this->executeCommand($command);	
+					
+
+				//$this->logData($output);
+				//checking if file exists in temp dir
+				if(file_exists($tmpDir.'/00000001.jpg'))
+				{
+					rename($tmpDir.'/00000001.jpg',THUMBS_DIR.'/'.$file_name);
+				}
+				$count = $count+1;
+			}
+		}else
+
+		{
+
+			$time = $this->ChangeTime($duration,1);
+			$file_name = getName($input_file).".jpg";
+			$file_path = THUMBS_DIR.'/' . $test . "/" . $file_name;
+			$command = $this->ffMpegPath." -i $input_file -an -ss $time -an -r 1 $dimension -y -f image2 -vframes $num $file_path ";
+			$output = $this->executeCommand($command);
+			$output;
+			//e(lang($num),'m');
+			
+
+		}
+		
+		//rmdir($tmpDir);
+	}
+
 
 		/**
 	 * Function used to convert seconds into proper time format
