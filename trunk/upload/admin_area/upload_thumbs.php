@@ -30,7 +30,7 @@ if($myquery->VideoExists($video)){
 	
 	$data = get_video_details($video);
 	#pr($data,true);
-	$vid_file = VIDEOS_DIR.'/'.get_video_file($data,false,false);
+	$vid_file = VIDEOS_DIR.'/'.$data['file_directory'].'/'.get_video_file($data,false,false);
 	# Uploading Thumbs
 	if(isset($_POST['upload_thumbs'])){
 		
@@ -125,7 +125,7 @@ if($myquery->VideoExists($video)){
 	if(isset($_GET['gen_more']))
 	{
 		$num = config('num_thumbs');
-		$dim = config('thumb_width').'x'.config('thumb_height');
+		$dim = '503x283';
 		$big_dim = config('big_thumb_width').'x'.config('big_thumb_height');
 		
 		require_once(BASEDIR.'/includes/classes/sLog.php');
