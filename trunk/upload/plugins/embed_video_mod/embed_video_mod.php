@@ -283,8 +283,8 @@ if (!function_exists('validate_embed_code'))
 
                 $preg_repalce = array(
                     '',
-                    'width:'.$width_px_replace,
-                    'height:'.$height_px_replace,
+                   // 'width:'.$width_px_replace,
+                    //'height:'.$height_px_replace,
                     'width='.$width_replace,
                     'height='.$height_replace
                 );
@@ -302,8 +302,13 @@ if (!function_exists('validate_embed_code'))
 
                 else{
 
-                $embed_code = str_replace($h_w_p, $h_w_r, $embed_code);   
-                $embed_code = preg_replace($preg_match, $preg_repalce, $embed_code); 
+                /*$embed_code = str_replace($h_w_p, $h_w_r, $embed_code);   
+                $embed_code = preg_replace($preg_match, $preg_repalce, $embed_code); */
+                $iframe = $vdetails['embed_code'];
+                $iframe = str_replace('height=', 'height="'.$data['height'].'"', $iframe);
+                $iframe = str_replace('width=', 'width="'.$data['width'].'"', $iframe);
+                $embed_code = $iframe;
+            
 
                 }
                  
