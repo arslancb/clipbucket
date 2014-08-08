@@ -377,9 +377,9 @@
          return true;
       }
       else {
-		 if(!DEVELOPMENT_MODE)
+		/* if(!DEVELOPMENT_MODE)
          	return false;
-		 else
+		 else*/
 		 	return true;
       }   
    }
@@ -1147,7 +1147,7 @@
 	
 	function is_valid_syntax($code,$text)
 	{
-		if(DEVELOPMENT_MODE && DEV_INGNORE_SYNTAX)
+		if(DEV_INGNORE_SYNTAX)
 			return true;
 		return validate_field($code,$text);
 	}

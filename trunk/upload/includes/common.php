@@ -32,6 +32,9 @@ define("REMBER_DAYS",7);
 define("DEV_INGNORE_SYNTAX",TRUE);
 
 
+//Create an empty development.dev file in includes folder
+//To Activate Development mode
+
 if(file_exists(dirname(__FILE__).'/development.dev'))
 {
 	define("DEVELOPMENT_MODE",true);
