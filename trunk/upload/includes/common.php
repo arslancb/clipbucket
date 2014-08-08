@@ -22,14 +22,27 @@ ob_start();
 
 define('IN_CLIPBUCKET',true);
 
-define("DEV_INGNORE_SYNTAX",TRUE);
 
 //Setting Cookie Timeout
 define('COOKIE_TIMEOUT',86400*1); // 1
 define('GARBAGE_TIMEOUT',COOKIE_TIMEOUT);
 define("REMBER_DAYS",7);
 
-date_default_timezone_set("Asia/Karachi");
+
+define("DEV_INGNORE_SYNTAX",TRUE);
+
+
+if(file_exists(dirname(__FILE__).'/development.dev'))
+{
+	define("DEVELOPMENT_MODE",true);
+}else
+{
+	define("DEVELOPMENT_MODE",false);
+}
+
+//Timezone to be changed
+
+//date_default_timezone_set("Asia/Karachi");
 
 
 if(!@$in_bg_cron)
@@ -77,7 +90,10 @@ if(!@$in_bg_cron)
 	$row 		= $myquery->Get_Website_Details();
 	
 	
-	define('DEBUG_LEVEL', 0);
+	if(!DEVELOPMENT_MODE)
+		define('DEBUG_LEVEL', 0);
+	else
+		define('DEBUG_LEVEL',1);
 
 	switch(DEBUG_LEVEL)
 	{
