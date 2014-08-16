@@ -289,18 +289,7 @@ if (!function_exists('validate_embed_code'))
                     'height='.$height_replace
                 );
 
-                if (THIS_PAGE == 'watch_video'){
-                $iframe = $vdetails['embed_code'];
-
-
-                $iframe = str_replace('height=', 'height="350"', $iframe);
-                $iframe = str_replace('width=', 'width="749"', $iframe);
-                $embed_code = $iframe;
-            
-
-                 }
-
-                else{
+                
 
                 /*$embed_code = str_replace($h_w_p, $h_w_r, $embed_code);   
                 $embed_code = preg_replace($preg_match, $preg_repalce, $embed_code); */
@@ -310,7 +299,7 @@ if (!function_exists('validate_embed_code'))
                 $embed_code = $iframe;
             
 
-                }
+               
                  
                 $embed_code = str_replace('href=', 'style="display:none;"', $embed_code);
                 $embed_code = str_replace('by', '', $embed_code);
