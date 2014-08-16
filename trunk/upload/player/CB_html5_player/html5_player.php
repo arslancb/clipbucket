@@ -157,7 +157,8 @@ if(!function_exists('html5_player'))
 		    }
 			
 			assign('vdata',$vdetails);
-           
+            assign('height',$in['height']);
+            assign('width',$in['width']);
 
 			
 			Template(HTML5_PLAYER_DIR.'/html5_player.html',false);
