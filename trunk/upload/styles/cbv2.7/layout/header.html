@@ -90,6 +90,10 @@
                     <li class="dropdown myaccount-dd">
                         <span class="dropdown-toggle theme_color col-md-12" data-toggle="dropdown"> <img class="img-circle" src="{$userquery->getUserThumb('','small',userid())}" style="width: 40px; height: 40px;"/> {$userquery->username}<b class="caret"></b></span>
                         <ul class="dropdown-menu">
+
+                            {if has_access('admin_access')}
+                                <li><a href="{$admin_baseurl}">{lang code="Admin area"}</a></li>
+                            {/if}
                             <li><a href="{link name='my_account' }{userid}">{lang code="my_account"}</a></li>
                             <li><a href="{link name='my_videos'}">{lang code="Manage Videos"}</a></li>
                             <li><a href="{link name='channels'}">{lang code="View Channels"}</a></li>

@@ -36,7 +36,10 @@
                {lang code='upload_right_guide_photo'}
             </div>
             <div class="clearfix" id="uploaderContainer">
-              <h4>Select Collection</h4>
+            {if $c}
+              <h4>{$c.collection_name}</h4>
+            {else}
+              <h4 class="h4">Select Collection</h4>
               <div class="row">
                 <div id="SelectionDIV" class="col-md-9">
                    {if $collections}
@@ -63,6 +66,7 @@
                    </a>
                 </div> 
               </div>
+            {/if}
               <div class="row">
                 <div class="col-md-10 col-md-offset-1">
                   <div class="manageCollection">
@@ -83,9 +87,14 @@
                           </div>
                         {/if}
                         {/foreach}
-                        <div class="moveR">
+                        <div class="moveR" style="float:left; margin:0px 5px 0 5px";>
                           <button type="button" id="addNewCollection" class="btn btn-success">
                              Add Collection
+                          </button>
+                        </div>
+                        <div style="float:left; margin:0px 5px 0 5px;">
+                          <button type="button" id="cancelAddCollection" class="btn btn-success">
+                             Cancel
                           </button>
                         </div>
                       </form>
@@ -127,6 +136,10 @@
     {include file="$style_dir/blocks/upload/photo_form.html" }
   </div>
   </div>
+  <!-- Following hidden field is used to store Collection ID. -->
+  {if $c}
+    <input type="hidden" name="cid" id="cid" class="cid" value="{$c.collection_id}"/>
+  {/if}
 
   <script type="text/javascript">
    (function(window){
@@ -297,9 +310,9 @@
                         },
                         dataType: "JSON",
                    }).success(function(msg){
-                       //creating the hidden form fields
+                      //creating the hidden form fields
                       $(uploadForm).find("img").attr("src", msg.photoPreview);
-                      $(uploadForm).find(".submitPhoto").removeAttr("disabled");
+                      $(".submitPhoto").removeAttr("disabled");
                       
                       if(typeof files[(currentFileIndex - 1)] !== "undefined"){
                         files[(totalUploaded-1)]['photoThumb'] = msg.photoPreview;
@@ -317,24 +330,28 @@
                    to update the video information in the system
                    */
 
-
-
                    $(uploadForm).find(".submitPhoto").on({
                        click: function(e){
-                           e.preventDefault();
-                           var collectionId = $("#SelectionDIV select").val();
-                           var self = $(this).parents("form");
-                           var data = $(self).serialize();
-                           data += "&collection_id="+collectionId;
-                           data += "&server_url=undefined&folder=undefined&updatePhoto=yes";
-                           $.ajax({
-                               url : baseurl + "/actions/photo_uploader.php",
-                               type : "post",
-                               data : data
-                            }).success(function(msg){
-                              $("#uploadMessage").removeClass("hidden");
-                              $("#uploadMessage").html("Picture details are successfully updated").attr("class", "alert alert-success");
-                              setTimeout(function(){
+                          e.preventDefault();
+                          var cid = $('.cid').val();
+                          var collectionId = $("#SelectionDIV select").val();
+
+                          if(cid !== '')
+                            {
+                              collectionId = cid;
+                            }
+                          var self = $(this).parents("form");
+                          var data = $(self).serialize();
+                          data += "&collection_id="+collectionId;
+                          data += "&server_url=undefined&folder=undefined&updatePhoto=yes";
+                          $.ajax({
+                              url : baseurl + "/actions/photo_uploader.php",
+                              type : "post",
+                              data : data
+                           }).success(function(msg){
+                             $("#uploadMessage").removeClass("hidden");
+                             $("#uploadMessage").html("Picture details are successfully updated").attr("class", "alert alert-success");
+                            setTimeout(function(){
                                 $("#uploadMessage").addClass("hidden");
                               }, 5000);
                             }).fail(function(err){
@@ -404,7 +421,22 @@
                 $("#createNewCollection").on({
                   click: function(e){
                     e.preventDefault();
-                    $("#CollectionDIV").toggle("slow");
+                    $("#CollectionDIV").toggle("fast");
+                    $("#createNewCollection").hide();
+                    $(".h4").hide();
+                    $("#SelectionDIV").hide();
+                    $(".upload-area").hide();
+                  }
+                });
+
+                $("#cancelAddCollection").on({
+                  click: function(e){
+                    e.preventDefault();
+                    $("#CollectionDIV").hide();
+                    $("#createNewCollection").show();
+                    $(".h4").show();
+                    $("#SelectionDIV").show();
+                    $(".upload-area").show();
                   }
                 });
 
@@ -436,7 +468,7 @@
                     click: function(e){
                         e.preventDefault();
                         $("#uploaderContainer").removeClass("hidden");
-                        $("#uploadDataContainer").addClass("hidden");
+                        //$("#uploadDataContainer").addClass("hidden");
                         //$(this).addClass("hidden");
                     }
                 });
