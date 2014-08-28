@@ -33,9 +33,9 @@
 
   <div class="col-md-6">
       <label for="status">Status</label>
-      <select class="form-control">
-          <option class="form-control" name="status" value="1"  {if $ad_data.ad_status=='1'}checked="checked" {/if}>Active</option>
-          <option class="form-control" name="status" value="0"{if $ad_data.ad_status=='0'}checked="checked"{/if}>Inactive</option>
+      <select class="form-control" name="status">
+          <option class="form-control"  value="1"  {if $ad_data.ad_status=='1'}checked="checked" {/if}>Active</option>
+          <option class="form-control"  value="0"{if $ad_data.ad_status=='0'}checked="checked"{/if}>Inactive</option>
       </select>
   </div>
         <br><br><br><br>
