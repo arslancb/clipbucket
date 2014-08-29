@@ -201,7 +201,8 @@ class Clipbucket_db
             $val = ($vls[$i]);
             preg_match('/\|no_mc\|/',$val,$matches);
             //pr($matches);
-            if(getArrayValue($matches, 0)!='')
+            //if(getArrayValue($matches, 0)!='')
+            if($matches)  
                 $val = preg_replace('/\|no_mc\|/','',$val);
             else
                 $val = $this->clean_var($val);
@@ -307,7 +308,8 @@ class Clipbucket_db
 
             preg_match('/\|no_mc\|/',$value,$matches);
             //pr($matches);
-            if(getArrayValue($matches, 0)!='')
+            //if(getArrayValue($matches, 0)!='')
+            if($matches)   
                 $val = preg_replace('/\|no_mc\|/','',$value);
             else
                 $val = $this->clean_var($value);
