@@ -3391,7 +3391,7 @@ class userquery extends CBCategory{
 	             if(isset($the_array['hint_2']))
 	                 $the_array['hint_after'] = $the_array['hint_2'];
 
-	             $new_array[] = $the_array;
+	             $new_array[$id] = $the_array;
 
 	         }
 	         //die();
