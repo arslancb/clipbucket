@@ -2575,17 +2575,17 @@ a:hover {
 }
 .photos img{
     height: 150px;
-    width: 100%; 
+    #width: 100%; 
 }
 ul#photos li{
 float: left;
     margin-bottom: 15px;
     margin-left: 15px;
-    width: 28%;
+    #width: 28%;
      height: 150px;
 }
 ul#photos li.photo-land-no{
-width: 18.8%;
+#width: 18.8%;
 }
 .like {
     padding-left: 156px;
@@ -2637,7 +2637,7 @@ width: 18.8%;
     padding-left: 30px;
     width: 100px;
     position: absolute;
-    top: 25%;
+    top: 5%; #25%
     right: 0px;
     left: 663px;
 }
@@ -2645,7 +2645,7 @@ width: 18.8%;
     padding-left: 4px;
     width: 100px;
     position: absolute;
-    top: 25%;
+    top: 5%; #25%
     right: 0px;
     left:  15px;
 }

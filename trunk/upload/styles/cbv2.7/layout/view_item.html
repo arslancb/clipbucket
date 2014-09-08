@@ -15,21 +15,21 @@
 		       </div>
 		   </div> -->
 		   <div>
-				{if $type !='videos'}
+				<!--{if $type !='videos'}
 			
 				<div class="NextPrevButtons">
 					{assign var=objctid value=$object.ci_id}
 					{assign var=collid value=$object.collection_id}
-					 <!-- <li class="moveL">
+					  <li class="moveL">
 					 	{assign var=preLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'prev')}
 						<a href="{$cbphoto->photo_links($preLink.0,'view_item')}" >Previous</a>
 					</li> -->
 					<!-- <li class="moveR">
 						{assign var=nextLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'next')}
 						<a href="{$cbphoto->photo_links($nextLink.0,'view_item')}" >Next</a>
-					</li> -->
+					</li> 
 				</div>
-				{/if}
+				{/if}-->
 		   </div>
 			{if $type == 'photos'}
 			   {include file="$style_dir/view_photo.html" photo=$object user=$user}

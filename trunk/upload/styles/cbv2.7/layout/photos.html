@@ -97,7 +97,7 @@
 
                     <!--Sorting By View-->
                     <div class="btn-group">
-                        {if $smarty.get.sorting}   
+                        {if $smarty.get.sorting}
                         {foreach from=$sorting_links item=name key=sort}
                             {if $smarty.get.time==$sort && isset($smarty.get.time)} 
                             <button class="btn btn-default" type="button">

@@ -157,3 +157,11 @@
   .paddingTop{
     padding-top: 10px;
   }
+
+  .clr{
+    clear: both;
+  }
+  
+  .h_200{
+    height: 200px;
+  }

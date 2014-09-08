@@ -7,7 +7,7 @@
                 <div>
                 <a {if $nextLink} {assign var='nextItem' value=$nextLink} {else}  {assign var='nextItem' value=$preLink} {/if}
                 href="{$cbphoto->photo_links($nextItem.0,'view_item')}"
-                >{get_photo details=$photo size='l' class='img-responsive center-block' output='html'}</a>
+                >{get_photo details=$photo size='l' class='img-responsive center-block' output='html' height="100"}</a>
                 {assign var=objctid value=$object.ci_id}
                 {assign var=collid value=$object.collection_id}
                 {assign var=preLink value=$cbphoto->collection->get_next_prev_item($objctid,$collid,'prev')}

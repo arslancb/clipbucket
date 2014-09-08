@@ -91,9 +91,13 @@
                 </div>
             </div>
             <!-- /Page Heading-->
+                {if $groups}
 				{foreach $groups as $key => $group}
                 {include file="$style_dir/blocks/group/group.html"}
 				{/foreach}
+                {else}
+                <div class="col-md-12 nopadding">No Groups</div>
+                {/if}
             <!--Pagination-->
             <div class="clearfix"></div>
             <div align="center">

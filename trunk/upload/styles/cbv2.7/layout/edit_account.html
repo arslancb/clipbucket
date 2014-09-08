@@ -84,14 +84,20 @@
                               </label>
                           </div>
                           <div class="form-group">
-                              <label>{lang code='account_details'}</label>
+                              <label for="category">{lang code='account_details'}</label>
                               {ANCHOR place=$signup_fields.cat.anchor_before}
+                              {$signup_fields.cat.class='form-control'}
                               {$formObj->createField($signup_fields.cat)}
                               {ANCHOR place=$signup_fields.cat.anchor_after}
-                          </div>
+
+
+                                                  </div>
                           <div class="form-group">
                               <label for="dob">{lang code='user_date_of_birth'}</label>
-                              {ANCHOR place=$signup_fields.dob.anchor_before}{$formObj->createField($signup_fields.dob)}{ANCHOR place=$signup_fields.dob.anchor_after}
+                              {ANCHOR place=$signup_fields.dob.anchor_before}
+                              {$signup_fields.dob.class='form-control'}
+                              {$formObj->createField($signup_fields.dob)}
+                              {ANCHOR place=$signup_fields.dob.anchor_after}
                           </div>
                           {if $cust_signup_fields}
                           {foreach from=$cust_signup_fields item=field}
@@ -107,6 +113,12 @@
                           </div>
                           {/foreach}
                           {/if}
+
+                          <div class="form-group">
+                                  <button name="update_profile" id="button" value="submit" class="btn btn-primary">
+                                      {lang code='update'}
+                                  </button>
+                              </div>
                       </div>
                           </form>
                   </div>
@@ -160,13 +172,14 @@
                   <legend>{lang code='user_user_avatar'}</legend>
                   <div class="show-image">
                     <img src="{$userquery->getUserThumb($user)}" class="img-thumbnail" />
-                    <input type="file" name="avatar_file" id="avatar_file" class="the-buttons btn btn-danger pphotogposition" />
+                    
                   </div>
                   <div class="form-group">
                       <label for="avatar_file">
                           <h4>{lang code='user_user_avatar'}</h4>
                           {lang code='please_select_img_file'}
                       </label>
+                      <input type="file" name="avatar_file" id="avatar_file" class="the-buttons btn" />
                   </div>
                   <h3>{lang code='or'}</h3>
                   <div class="form-group">
@@ -204,16 +217,15 @@
                       <div class="show-image">
                        {if $userquery->getUserBg($user)}
                       <img src="{$userquery->getUserBg($user)}" class="img-thumbnail"/>
-                      <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn btn-danger position"  />
+                      <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn"  />
                       {else}
                       <em><strong>No Bg</strong></em>
-                       <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn btn-danger position"  />
-                       
+                       <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn"  />
                       {/if}
 
                       </div>
 
-                       <br><br> 
+                       <br> 
 
                   <h3>{lang code='or'}</h3>
                   <div class="form-group">

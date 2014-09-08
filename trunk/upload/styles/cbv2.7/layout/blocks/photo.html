@@ -5,7 +5,9 @@
         <!--<span class="photoname" id="avatar1_file" style="height: 45px; overflow: hidden;" >{$photo.photo_title|truncate:30}</span>-->
         
         <a href="{$cbphoto->photo_links($photo,'view_item')}" title="Tolpis barbata (mariluzpicado)">
-            {get_photo details=$photo size='l' class='photo-land' output='html'}
+            {*get_photo details=$photo size='l' class='photo-land' output='html'*}
+
+           <img alt="{$photo.photo_title}" title="{$photo.photo_title}" class="photo-land" id="photo_{$photo.photo_id}" src="{$baseurl}/styles/cbv2.7/timthumb.php?src={get_photo details=$photo size='o'}&h=150&w=150&zc=1">
         </a>
 
     </div>

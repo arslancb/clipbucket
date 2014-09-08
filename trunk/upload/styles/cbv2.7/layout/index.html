@@ -197,11 +197,12 @@
 		      
 		    	<div class="row nopadding">
 		    		
-		    		  {if $row.photosSection=='yes'}
+		    		  {if $row.photosSection=='yes' }
 		    		 
 					<div class="col-md-12 nopadding ">
 		        				<h2 class="myHeading theme_color">{lang code="Featured Photos"}</h2>
 								
+		        		{if $result_photos1_01}
 		        				<!-- *********** FIRST PHOTOS START ************ //-->
 								<div class="col-md-12 fill-background" style="display:block; height:265px; padding:5px;">
 									<div class="col-md-7 big_img">
@@ -224,6 +225,9 @@
 									</div>
 								</div>
 				        <!-- *********** FIRST PHOTOS END ************ //-->
+				     		{/if}
+
+				    {if $result_photos2_08} 		
 				        <!-- *********** SECOND PHOTOS START ************ //-->
 						<div class="col-md-12" style="display:block; height:265px; padding:5px;">
 
@@ -247,9 +251,12 @@
 					        </div>
 						</div>
 						<!-- *********** SECOND PHOTOS END ************ //-->
+						{/if}
 					</div>
-					{else}	
-					{/if}	
+				{else}
+				<div class="col-md-12 nopadding">No featured Photo</div>
+				{/if}
+			
 						
 				</div>
 
@@ -275,7 +282,8 @@
 			<!-- ******************************************* //-->
 	        <!-- ************* USER BLOCK START ************ //-->
 	        <!-- ******************************************* //-->
-            <div class="col-md-4 side_user_home">
+
+     <div class="col-md-4 side_user_home">
 			<h4 class="home-side-heading">{lang code="Featured Users"}</h4>
                
 			{section name=result_users loop=$result_users}
@@ -331,7 +339,7 @@
 
 			<div class="col-md-4 comment_home side_user_home" >
 					<h4 class="home-side-heading">{lang code="Top Collections"}</h4>
-                
+        {if $collections}        
 				{foreach from=$collections item=collection}
 					<div class="collection_home mouse_hover">
 
@@ -344,6 +352,9 @@
 					<img class="cb_img_thum" src="{$cbcollection->get_thumb($collection,'',TRUE)}"/>
 					</div>
 				{/foreach}
+				{else}
+				<div class="col-md-12 nopadding">No Collection</div>
+				{/if}
 			</div>
 
 		</div>
