@@ -457,6 +457,10 @@ body {
     display: inline-block;
     margin-top: 9px;
 }
+/**/
+/*.nopadding .fb-like-box.fb_iframe_widget .pas{ display: none !important;}*/
+
+/**/
 @media (min-width: 768px) {
     .navbar-container .main-nav {
         margin-left: 25px;
@@ -542,6 +546,12 @@ footer {
     -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     background: #fff;
+    height: auto !important;
+}
+footer:after{
+    display: block;
+    clear: both;
+    content: "";
 }
 /* Importing Components */
 .readmore-js-toggle {
@@ -992,7 +1002,7 @@ body {
     height: auto !important;
     height: 100%;
     /* Negative indent footer by it's height */
-    margin: 0 auto -60px;
+    margin: 0 auto 0 !important;
     position: relative;
 }
 #container:after {
@@ -2448,12 +2458,17 @@ a:hover {
 }
 
 .duration {
-    background: black;
+    background: #fff;
     font-size: 12px;
+    color: #000;
     position: absolute;
     top: 4px;
-    left: 97px;
+    left: auto !important;
+    right: 16px !important;
+    padding: 2px;
     right: 100px;
+    width: 40px;
+    text-align: center;
 }
 
 .maccountlabels {
