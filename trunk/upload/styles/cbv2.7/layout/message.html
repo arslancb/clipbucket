@@ -3,7 +3,7 @@
 {assign var=war value=$eh->warning_list}
 
 {if $err.0 neq '' || $err.1 != ''}
-<div class="alert alert-danger alert-dismissable">
+<div class="alert alert-danger alert-dismissable container">
     <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
     <ul  class="list-unstyled">
         {foreach from=$err item=show_msg}
@@ -15,7 +15,7 @@
 
 
 {if $msg.0 neq ''}
-<div class="alert alert-success alert-dismissable">
+<div class="alert alert-success alert-dismissable container">
     <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
     <ul class="list-unstyled">
         {foreach from=$msg item=show_msg}
@@ -27,7 +27,7 @@
 
 
 {if $war.0 neq ''}
-<div class="alert alert-warning alert-dismissable">
+<div class="alert alert-warning alert-dismissable container">
     <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
     <ul class="list-unstyled">
         <img src="{$imageurl}/messagebox_warning.png" style="float:left" />
