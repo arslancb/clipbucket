@@ -11,7 +11,9 @@ define("THIS_PAGE","edit_video");
 define("PARENT_PAGE",'videos');
 
 require 'includes/config.inc.php';
-$userquery->login_check('edit_video');
+$userquery->logincheck();
+$pages->page_redir();
+
 
 $udetails = $userquery->get_user_details(userid());
 assign('user',$udetails);
