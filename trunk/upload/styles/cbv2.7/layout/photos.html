@@ -172,7 +172,7 @@
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                       </button>
-                      <ul role="menu" class="dropdown-menu">
+                      <ul role="menu" class="dropdown-menu pull-right">
                        {foreach from=$collections item=collection}
                     <li><a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">{$collection.collection_name}</a></li>
                     {foreachelse}
