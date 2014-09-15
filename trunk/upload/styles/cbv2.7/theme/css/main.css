@@ -2458,9 +2458,9 @@ a:hover {
 }
 
 .duration {
-    background: #fff;
+    background: #000;
     font-size: 12px;
-    color: #000;
+    color: #fff;
     position: absolute;
     top: 4px;
     left: auto !important;
@@ -2918,3 +2918,7 @@ font-size: 14px;
     text-align: center;
     /*width: 100%;*/
 }
+
+
+/*fb*/
+.pas{ padding:12px;}
