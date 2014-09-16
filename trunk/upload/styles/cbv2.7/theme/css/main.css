@@ -462,6 +462,7 @@ body {
 
 /**/
 @media (min-width: 768px) {
+
     .navbar-container .main-nav {
         margin-left: 25px;
     }
@@ -2920,5 +2921,11 @@ font-size: 14px;
 }
 
 
-/*fb*/
-.pas{ padding:12px;}
+.footer_pad{ padding-bottom:15px;}
+.lang_wrapper { float:left;  margin-left: 13px; margin-top: -5px; }
+.lang_ul { top:auto; bottom: 100%; width: 125px; min-width: 125px !important; }
+.lang_ul li { float: none; }
+
+@media (max-width: 767px) {
+    footer .nav.pull-right { float:none !important; }
+}    
