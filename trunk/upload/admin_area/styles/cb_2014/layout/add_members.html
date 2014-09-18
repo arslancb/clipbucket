@@ -8,20 +8,22 @@
 <form action="" method="post">
     <div class="row">
 
+
     {$field.class = 'form-control'}
-        {$field = $required_fields[0]}
+        {$field = $required_fields.username}
         {$field.class = 'form-control'}
    <div class="col-md-4">
            <label for="{$field.id}">{$field.title}</label>
            {if $field.hint_1}{$field.hint_1}<br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}{if $field.hint_2}{$field.hint_2}{/if}
-       </div>
-       {$field = $required_fields[1]}
+   </div>
+
+       {$field = $required_fields.email}
        {$field.class = 'form-control'}
        <div class="col-md-4">
                <label for="{$field.id}">{$field.title}</label>
                {if $field.hint_1}{$field.hint_1}<br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}{if $field.hint_2}{$field.hint_2}{/if}
    </div>
-        {$field = $required_fields[6]}
+        {$field = $required_fields.dob}
         {$field.class = 'form-control'}
         {$field.id = 'datecreated'}
         <div class="col-md-4 ">
@@ -33,13 +35,13 @@
 </div>
 <br>
     <div class="row">
-    {$field = $required_fields[2]}
+    {$field = $required_fields.password}
     {$field.class = 'form-control'}
     <div class="col-md-4">
         <label for="{$field.id}">{$field.title}</label>
         {if $field.hint_1}{$field.hint_1}<br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}{if $field.hint_2}{$field.hint_2}{/if}
     </div>
-    {$field = $required_fields[7]}
+    {$field = $required_fields.cpassword}
     {$field.class = 'form-control'}
     <div class="col-md-4">
         <label for="{$field.id}">{$field.title}</label>
@@ -57,10 +59,10 @@
 <br>
 
     <div class="row">
-        {$field = $required_fields[3]}
+        {$field = $required_fields.gender}
         {$field.class = 'form-control'}
-        <div class="col-md-4">
-            <label for="{$field.id}">{$field.title}</label>
+           <div class="col-md-4">
+            <label for="{$field.id}">{$field.title}</label><br>
             {if $field.hint_1}{$field.hint_1}<br>{/if}{ANCHOR place=$field.anchor_before}{$formObj->createField($field)}{ANCHOR place=$field.anchor_after}{if $field.hint_2}{$field.hint_2}{/if}
         </div>
         <div class="col-md-4">
@@ -72,7 +74,7 @@
                 {/foreach}
             </select>
         </div>
-        {$field = $required_fields[5]}
+        {$field = $required_fields.country}
         {$field.class = 'form-control'}
         {$field.type = 'dropdown'}
         <div class="col-md-4">
@@ -82,7 +84,7 @@
     </div>
     <br>
     <div class="row">
-        {$field = $required_fields[4]}
+        {$field = $required_fields.cat}
         {$field.class = 'form-control'}
         <div class="col-md-4">
             <label for="{$field.id}">{$field.title}</label>
