@@ -2030,9 +2030,9 @@ footer {
     color: #444 !important;
     border-left-color: #fff;
 }
-.nav.navbar-stacked .cbCategoryItem.selected >a,
-.nav.navbar-stacked > li > a:focus,
-.nav.navbar-stacked > li > a:hover{
+.nav.navbar-stacked> li.selected >a,
+.nav.navbar-stacked> li > a:focus,
+.nav.navbar-stacked> li > a:hover{
 	border-left: 5px solid #428bca;
 	background: #fff;
 	color:#444;
