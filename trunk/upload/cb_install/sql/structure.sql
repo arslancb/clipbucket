@@ -1176,3 +1176,4 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}admin_todo` (
   PRIMARY KEY (`todo_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
+ALTER TABLE `{tbl_prefix}action_log` DROP `action_link`; 

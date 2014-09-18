@@ -53,3 +53,4 @@ ALTER TABLE `{tbl_prefix}users` CHANGE `voted` `voted` INT( 11 ) NOT NULL DEFAUL
 
 ALTER TABLE `{tbl_prefix}photos` ADD `photo_details` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
 
+ALTER TABLE `{tbl_prefix}action_log` DROP `action_link`; 
