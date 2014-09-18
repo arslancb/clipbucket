@@ -1477,6 +1477,24 @@ class CBvideo extends CBCategory
 		
 	}
 	
+	/** 
+	 * Calculate rating and likes
+	 *
+	 * @param Arrray $video
+	 * @return Array $rating
+	 */
+	function get_video_likes($video)
+	{
+		$ratings 	= $video['rated_by'];
+		$rating 	= $video['rating'];
+
+		$perc 		= $rating * 10;
+
+		$likes = round(($perc * $ratings / 100) );
+
+		return array('likes' => $likes, 'dislikes' => $ratings - $likes);
+
+	}
 	
 	/**
 	 * Function used to rate video
