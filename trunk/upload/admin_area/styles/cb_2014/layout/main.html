@@ -213,11 +213,13 @@
         </div>
         <div class="col-md-4">
           <label for="default_time_zone">Default time zone</label>
+
           <select class="form-control" name="default_time_zone" id="default_time_zone">
-          {*assign var='tzs' value=$func->get_time_zones()*}
-          {foreach from=$tzs item=name key=tz}
-            <option value="{$tz}" {if $row.default_time_zone==$tz} selected="selected"{/if}>{$name}</option>
-          {/foreach}
+            {$timezone_abbreviations = DateTimeZone::listAbbreviations()}
+           {foreach $timezone_abbreviations.est as $tz }
+ 						<option value="{$tz['timezone_id']}" {if $row.default_time_zone==$tz['timezone_id']} selected="selected"{/if}>(GMT {$tz['offset']/3600}) {$tz['timezone_id']}</option>
+  				 
+					{/foreach}
           </select>
         </div>
 
