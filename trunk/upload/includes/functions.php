@@ -4915,7 +4915,29 @@
             echo 'In file ';
             echo $e->getFile();
         }
+		/**
+		 * Returns This page name or boolean for the given string
+		 * @param STRING $name
+		 */
+		function this_page($name="")
+		{
+		    if(defined('THIS_PAGE'))
+		    {
+		        $page = THIS_PAGE;
+		        if($name)
+		        {
+		            if($page==$name)
+		                return true;
+		            else
+		                return false;
+		        }
 
+		        return $page;
+		    }
+
+		    return false;
+		}
+		
         include( 'functions_db.php' );
         include( 'functions_filter.php' );
         include( 'functions_player.php' );
