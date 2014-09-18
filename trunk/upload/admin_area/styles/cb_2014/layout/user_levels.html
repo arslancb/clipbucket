@@ -116,10 +116,16 @@
         <label class="radio">
             {assign var=perm_plugin_code value=$perm.plugin_code}
 
-            <input type="radio" name="plugin_perm[{$perm.plugin_code}]" value="yes" id="{$plugin_perms.plugin_code}_yes" {if $plugin_perms.$perm_plugin_code!='no'} checked="checked"{/if}/>
+            <!-- <input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_code}_yes" {if $plugin_perms.$perm_plugin_code!='no'} checked="checked"{/if}/>
             Yes</label>
         <label class="radio">
-            <input type="radio" name="plugin_perm[{$perm.plugin_code}]" value="no" id="{$plugin_perms.plugin_code}_no" {if $plugin_perms.$perm_plugin_code==no} checked="checked"{/if}/>
+            <input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_code}_no" {if $plugin_perms.$perm_plugin_code==no} checked="checked"{/if}/>
+            No</label> -->
+           
+            <input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_code}_yes" {if $level_perms[{$perm.permission_code}]!='no'} checked="checked"{/if}/>
+            Yes</label>
+        <label class="radio">
+            <input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_code}_no" {if $level_perms[{$perm.permission_code}]==no} checked="checked"{/if}/>
             No</label>
 
         {else}
