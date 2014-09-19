@@ -5,7 +5,6 @@
 {if $display_type =='normal' || $display_type==''}
 <!-- Video Box -->
 
-<div class="col-md-3">
     <a href="{videoLink($video)}" title="{$video.title|title}">
         <img src="{getThumb vdetails=$video size='big'}"  width="203" height="115" id="thumbs_{$video.videoid}"  title=""/></a>
     <p class="duration1"><b class="color" style="position: absolute;right: 15px;margin-right: -39px;">{if
@@ -14,7 +13,6 @@
     <small class="font1 new1"><b>{lang code='views'} :{$video.views}</b></small>
     <small class="font2 new1"><b>{$video.date_added|niceTime}</b></small>
     <hr>
-</div>
 
 
 

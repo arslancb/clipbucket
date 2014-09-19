@@ -96,8 +96,8 @@
             <div class="" style="margin-left: -15px;">
                {if $videos} 
                 {foreach $videos as $video}
-                    <div class="col-md-3 marginBottom grid_view list_view nopadding-right">
-                        {include file="$style_dir/blocks/videos/video.html"}
+                    <div class="col-md-3  col-sm-4  col-xs-6 marginBottom grid_view list_view nopadding-right">
+                        {include file="$style_dir/blocks/videos/video.html" display_type='normal'}
                     </div>
                 {/foreach}
                {else} 
