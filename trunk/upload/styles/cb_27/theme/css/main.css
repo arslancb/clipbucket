@@ -1969,7 +1969,8 @@ h2.myHeadingBLK {
 .next_pre_hold{
     height: 5px;
     position: absolute;
-    left: 28px; width: 89.1%;
+    left: 15px;
+    width: 89.1%;
     top:397px;
 }
 .next_pre_hold .btn{
@@ -2131,7 +2132,7 @@ ul#myTab_home{
 }
 
 ul#myTab_home li.active a,ul#myTab_home li a:hover{
-    border-bottom: 5px solid #0099CC !important;
+    border-bottom: 1px solid #0099CC !important;
     background-color: #ffffff;
 }
 ul#myTab_home li a{
@@ -2142,7 +2143,7 @@ ul#myTab_home li a{
 }
 ul#myTab_home li:first-child {
      padding-right: 20px;    
-    border-right: 1px solid #555555 !important;
+    /*border-right: 1px solid #555555 !important;*/
 }
 ul#myTab_home li:first-child + li {
      padding-left: 20px;    
