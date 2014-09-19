@@ -6,9 +6,9 @@
 <form name="flagged_video" method="post" id="flagged_video">
 
     <div class="btn-group">
-        <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="button"/>
+        <!-- <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="button"/>
         <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="button" />
-        <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete Videos"  class="button" onclick="return _cb.confirm_it('Are you sure you want to delete these videos')"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete Videos"  class="button" onclick="return _cb.confirm_it('Are you sure you want to delete these videos')"/> -->
 
         <input class="btn btn-primary btn-xs" type="submit" name="delete_flags" value="Delete Flags"  class="button" onclick="return _cb.confirm_it('Are you sure you want to delete flags of selected videos')"/>
     </div>
@@ -17,13 +17,13 @@
         <tr>
             <td>
                 <input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
-            <td>VID</td>
+            <td>CID</td>
             <td>Details</td>
             <td>&nbsp;</td>
         </tr>
         {assign var = bgcolor value = ""}
         {section name=list loop=$cl}
-        {var_dump($cl)}
+        {*var_dump($cl)*}
         <tr>
             <td>
                 <input name="check_collect[]" type="checkbox" id="check_collect" value="{$cl[list].collection_id}" /></td>
@@ -39,26 +39,26 @@
                                     <img src=" {$cbgroup->get_group_thumb($cl[list])}" width="130" height="80" id="thumbs_{$cl[list].collection_id}">
                                 </div>
                                 <div class="col-md-9 labels1">
-                                    <a href="edit_video.php?video={$videos[list].videoid}" target="_blank" >
-                                        {$videos[list].title|truncate:80}</a>-({if $videos[list].duration>1}{$videos[list].duration|SetTime}{else}00:00{/if})<br>
-                         <span class="labels1">{$videos[list].date_added|niceTime}
-                                {lang code='views'} : {$videos.views|number_format}</span>
+                                    <a href="edit_collection.php?collection={$cl[list].collection_id}" target="_blank" >
+                                        {$cl[list].collection_name|truncate:80}</a>{if $cl[list].date_added}-({$cl[list].date_added|niceTime}){/if}<br>
+                         <span class="labels1">Total Objects: {$cl[list].total_objects}</span>
                                     <div class="labels">
 
-                                        <span class="label {if $video.status == Ok}label-success{else}label-warning{/if}">
+                                       <!--  <span class="label {if $video.status == Ok}label-success{else}label-warning{/if}">
                                             {if $video.active=='yes'}Active{else}InActive{/if}</span>
 
                                         <span class="label {if $videos[list].active=='yes'}label-success{else}label-warning{/if}">{if $videos[list].active=='yes'}Active{else}InActive{/if}</span>
 
-                                        <span class="label {if $video_status == Ok}label-success{else}label-success{/if}">{$videos[list].status}</span>
-                                        <a href="?mode=view_flags&vid={$videos[list].videoid}"><span class="label label-info">Flags:{$videos[list].total_flags}</span></a>
+                                        <span class="label {if $video_status == Ok}label-success{else}label-success{/if}">{$videos[list].status}</span> 
+                                        <a href="?mode=view_flags&vid={$videos[list].videoid}"><span class="label label-info">Flags:{$videos[list].total_flags}</span></a>-->
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {assign var='uname' value=$userquery->get_user_field({$cl[list].userid}, 'username')}
                         <div class="col-md-2">
-                            Owner<a href="view_user.php?uid={$videos[list].userid}">  {$videos[list].username}</a>
+                         <a href="view_user.php?uid={$cl[list].userid}">  {$uname.username}</a>
                         </div>
                     </div>
                     </div>
@@ -67,20 +67,12 @@
                 <div id="vid_opt-{$videos[list].videoid}" class="dropdown">
                     <button id="dropdownMenu1" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">Actions <i class="caret"></i></button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" role="menu">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="view_video.php?video={$videos[list].videoid}">View</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_video.php?video={$videos[list].videoid}">Edit</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?mode=view_flags&vid={$videos[list].videoid}">View Flags</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_video={$videos[list].videoid}">Delete Video</a></li>
-                        {if $videos[list].active == yes}
-                        <li><a role="menuitem" tabindex="-1" href="?deactivate={$videos[list].videoid}">Deactivate</a>
-                        </li>
-                        {else}
-                        <li><a role="menuitem" tabindex="-1" href="?activate={$videos[list].videoid}">Activate</a>
-                        </li>
-                        {/if}
-                        <li class="divider"></li>
+                       <li role="presentation"><a role="menuitem" tabindex="-1" href="edit_collection.php?collection={$cl[list].collection_id}">Edit</a></li>
+                        <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="?mode=view_flags&vid={$videos[list].videoid}">View Flags</a></li>-->
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_collect={$cl[list].collection_id}">Delete Collection</a></li>
+                        <li class="divider"></li> 
 
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_flags={$videos[list].videoid}">Delete Flags</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?delete_flags={$cl[list].collection_id}">Delete Flags</a></li>
 
 
                 </div>
@@ -95,9 +87,10 @@
     </table>
 
     <div class="btn-group">
-        <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="button"/>
+        <!-- <input class="btn btn-primary btn-xs" type="submit" name="activate_selected" value="Activate"  class="button"/>
         <input class="btn btn-primary btn-xs" type="submit" name="deactivate_selected" value="Deactivate" class="button" />
-        <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete Videos"  class="button" onclick="return _cb.confirm_it('Are you sure you want to delete these videos')"/>
+        <input class="btn btn-primary btn-xs" type="submit" name="delete_selected" value="Delete Videos"  class="button" onclick="return _cb.confirm_it('Are you sure you want to delete these videos')"/> -->
+
         <input class="btn btn-primary btn-xs" type="submit" name="delete_flags" value="Delete Flags"  class="button" onclick="return _cb.confirm_it('Are you sure you want to delete flags of selected videos')"/>
     </div>
 
