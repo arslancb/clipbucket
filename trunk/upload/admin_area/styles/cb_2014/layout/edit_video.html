@@ -66,6 +66,27 @@
                 </span>
 
 
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Actions <span class="caret caret_margin"></span>
+                  </button>
+                <ul class="dropdown-menu" role="menu">
+                <li><a href="{videoLink vdetails=$data}">Watch this video</a></li>
+                {if $data.active!='yes'}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=activate">Activate</a></li>
+                {else}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=deactivate">Deactivate</a></li>
+                {/if}
+                {if $data.featured!='yes'}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=featured">Make Featured</a></li>
+                {else}
+                <li><a href="edit_video.php?video={$data.videoid}&amp;mode=unfeature">Make Unfeatured</a></li>
+                {/if}
+                <li><a href="javascript:void(0)" onClick="javascript:Confirm_Delete('video_manager.php?delete_video={$data.videoid}')">Delete This Video</a></li>
+                </ul>
+                </div>
+
+
 
 
 <!--
