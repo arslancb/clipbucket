@@ -1,6 +1,6 @@
 {$video=$vdo}
 {$type='video'}
-<div class="container">
+<div class="container no-padding">
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 player">
             <div class="cb-box pad-bottom-sm">
@@ -12,10 +12,12 @@
                 <div class="watch-vid-title mbl">
                     <h1>{$video.title}</h1> 
 
-                    
+                    <a id="subscribeUser" class="btn btn-xs btn-primary pull-right">
+                    {lang('Subscribe')}
+                    </a> 
                 </div>
                 <!-- watch-vid-title end -->
-
+                
                 <div class="vid-detail-sec">
                     <div class="watch-vid-thumb">    
                         <img src="{$userquery->avatar($video)}" class="img-circle"/>
@@ -24,9 +26,6 @@
                         <div class="watch-vid-user-name">
                             <a href="{$userquery->profile_link($video)}">{$video.username}</a>
                         </div>
-                        <a id="subscribeUser" class="btn btn-xs btn-primary">
-	                    {lang('Subscribe')}
-	                    </a> 
 
                            
                     </div>
@@ -42,11 +41,7 @@
                 </div>
                 <!-- vid-detail-sec end -->
 
-
-
-                
-
-                <div class="cb-item-desc-container">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left">
 
                     <ul class="nav nav-tabs">
                         <li class="active">
@@ -66,9 +61,7 @@
                     <div class="tab-content">
                         <div class="tab-pane active" id="cb-item-info">
 
-                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-
-                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 mtl no-padding">
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 mtl no-padding">
 
                                 <p id="videoDescription">{description($video.description)}</p>
                                 <div class="watch-vid-tag">
@@ -88,8 +81,7 @@
                                 </div> -->
 
                             </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mtl">
                                 <div class="pull-right">
                                     <a class="cb-item-social-icon twitter" href="https://twitter.com/share" target="_blank">
                                         <i class="fa fa-twitter"></i>
@@ -150,35 +142,18 @@
                     <ul class="list-unstyled" id="userCommentsList">
                     </ul>
             </div>
-        </div>  --> 
-        <div id="test1"></div>
-		<div id="reply"> 
-		    <div class="cb-box pad-bottom">
-		                <div  class="addComment clearfix">
-		                    <h3 >{lang('Comments')} <!--{$vdo.comments_count}--></h3>
-		                    {if $myquery->is_commentable($vdo,'v')}
-		                        {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
-		                    {else}
-		                    <div class="alert alert-warning">{lang code='comm_disabled_for_vid'}</div>
-		                    {/if}
-		                </div>
-		                <div class="userComments">
-		                    <ul class="list-unstyled" id="userCommentsList">
-		                    </ul>
-		            </div>
-		        </div>
-		</div> 
+        </div>  -->  
         
     </div>
-        
+    <!--Side bar-->     
 
 
-		<!--Side bar start--> 
+
         <div class="col-lg-4 col-md-4 visible-lg visible-md side-video"  style="float:right;" >
             <div class="cb-box">
                  <div class="ad">{AD place='ad_320x250'}</div>
-               <!-- <a href="http://www.arvixe.com/clipbucket_hosting?utm_campaign=300x250_Demo&utm_medium=banner&utm_source=clipbucket.com"><img class="banner" src="{$theme}/assets/images/add320x250.png" style="margin-bottom: 10px; width: 100%;" >
-      </a>-->
+               <!-- <a href="http://www.arvixe.com/clipbucket_hosting?utm_campaign=300x250_Demo&utm_medium=banner&utm_source=clipbucket.com"><img class="banner" src="{$theme}/assets/images/add320x250.png" style="margin-bottom: 10px; width: 100%;" >-->
+      </a>
                 <h3>{lang code="Most Popular"}</h3>
                 {foreach $videos as $video}
                  {include file="$style_dir/blocks/videos/video_popular.html"}
@@ -186,12 +161,25 @@
             </div>
         </div>
         <!-- /Side bar-->
+<div id="test1"></div>
+<div id="reply" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+    <div class="cb-box pad-bottom">
+                <div  class="addComment clearfix">
+                    <h3 >{lang('Comments')} <!--{$vdo.comments_count}--></h3>
+                    {if $myquery->is_commentable($vdo,'v')}
+                        {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
+                    {else}
+                    <div class="alert alert-warning">{lang code='comm_disabled_for_vid'}</div>
+                    {/if}
+                </div>
+                <div class="userComments">
+                    <ul class="list-unstyled" id="userCommentsList">
+                    </ul>
+            </div>
+        </div></div>
 
 
-
-	</div>
 </div>
-
 <div style="height:20px"> </div>
 <script>
     //var aspect_ratio = 1.77778

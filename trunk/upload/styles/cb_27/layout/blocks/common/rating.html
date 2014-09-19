@@ -3,13 +3,19 @@
 
 {if $vdo}
 <!--videos likes section-->
-<div id="" class="pull-right ">
-<div class="newRating clearfix" style="margin-bottom:2px;">
-<div {if !$disable} onclick="rate('{$id}','5','{$type}')"{/if}  class="newLike"> <i class="glyphicon glyphicon-thumbs-up big"></i></div>
-<div {if !$disable} onclick="rate('{$id}','1','{$type}')"{/if}  class="newDislike" style="margin-left:95px;margin-top:-27px;">
- <i class="glyphicon glyphicon-thumbs-down"></i></div>
-</div>
-<div id="rating_result_container" class="label label-primary" style="margin-top:8px;" align="center">{if $rating_msg}{$rating_msg}{else}{$likes} Likes, {$dislikes} Dislikes{/if}</div>
+<div>
+    <div class="newRating clearfix mbm">
+        <div {if !$disable} onclick="rate('{$id}','5','{$type}')"{/if}  class="newLike"> <i class="glyphicon glyphicon-thumbs-up big"></i>
+        </div>
+        <div {if !$disable} onclick="rate('{$id}','1','{$type}')"{/if}  class="newDislike">
+         <i class="glyphicon glyphicon-thumbs-down"></i></div>
+    </div>
+    <div  class="label label-primary">
+    {$likes} Likes, {$dislikes} Dislikes
+    </div>
+    <div id="rating_result_container" class="watch-vid-error">
+     {if $rating_msg}{$rating_msg}{/if}   
+    </div>
 </div>
 
 
@@ -18,12 +24,19 @@
 {else}
 <!--photos likes section-->
 <div id="" class="pull-right ">
-<div class="newRating clearfix" style="margin-bottom:2px;">
-<div {if !$disable} onclick="rate('{$id}','5','{$type}')"{/if}  class="newLike"> <i class="glyphicon glyphicon-thumbs-up big"></i></div>
-<div {if !$disable} onclick="rate('{$id}','1','{$type}')"{/if}  class="newDislike" style="margin-left:95px;margin-top:-27px;">
-<i class="glyphicon glyphicon-thumbs-down"></i></div>
-</div>
-<div id="rating_result_container" class="label label-primary" style="margin-top:8px;" align="center">{if $rating_msg}{$rating_msg}{else}{$likes} Likes, {$dislikes} Dislikes{/if}</div>
+    <div class="newRating clearfix mbm">
+        <div {if !$disable} onclick="rate('{$id}','5','{$type}')"{/if}  class="newLike"> <i class="glyphicon glyphicon-thumbs-up big"></i>
+        </div>
+        <div {if !$disable} onclick="rate('{$id}','1','{$type}')"{/if}  class="newDislike">
+        <i class="glyphicon glyphicon-thumbs-down"></i>
+        </div>
+    </div>
+    <div  class="label label-primary">
+    {$likes} Likes, {$dislikes} Dislikes
+    </div>
+    <div id="rating_result_container" class="watch-vid-error">
+     {if $rating_msg}{$rating_msg}{/if}   
+    </div>
 </div>
 
 {/if}

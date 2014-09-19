@@ -1,0 +1,107 @@
+/* usman css start */
+.vid-detail-sec{
+  width:100%;
+  float: left;
+  margin-bottom: 20px;
+}
+.watch-vid-title{
+  width:100%;
+  float: left;
+}
+.watch-vid-title h1{
+  width:77%;
+  font-size:18px; 
+  color:#000;
+  float: left;
+  margin:0px; 
+}
+.watch-vid-thumb{
+  float:left;
+  height: 90px;
+  width: 90px;
+  margin-right: 10px;
+}
+.watch-vid-user-sec{
+  float:left;
+  width:200px;
+}
+.watch-vid-user-name{
+  float: left;
+  font-size: 18px;
+  margin-top:18px;
+  text-align: left;
+  width: 99%;
+}
+.watch-vid-rating-sec{
+  float:right;
+  width:112px;
+}
+
+.watch-vid-rating-view{
+  border-bottom: 2px solid green;
+  text-align: center;
+  width:100%;
+}
+.watch-vid-thumbsupdown-sec{
+  width:100%;
+  margin-top:5px;
+  float: left;
+  position: relative;
+}
+.newLike{
+  float: left;
+  cursor: default;
+}
+.newDislike{
+    float: right;
+    cursor: default;
+}
+.watch-vid-error{
+   bottom: -15px;
+    position: absolute;
+    right: -1px;
+    width: 270px;
+}
+.watch-vid-tab-description{
+    width:98%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.watch-vid-tag{
+    width:100%;
+    float: left;
+    margin-top: 10px;
+}
+.watch-vid-catg{
+    width:100%;
+    float: left;
+    margin-top: 10px;
+}
+.full-width{
+  width: 100%;
+}
+
+
+@media (max-width: 479px) {
+.watch-vid-thumb{
+  float: none;
+  margin:0px auto; 
+  }
+.watch-vid-user-sec {
+    float: none;
+    margin: 0 auto;
+    text-align: center;
+    width: 200px;
+}
+.watch-vid-user-name {
+  margin-top: 10px;
+  text-align: center;
+}
+.watch-vid-rating-sec {
+    float: none;
+    margin: 20px auto 0;
+    width: 112px;
+}
+  }
+/* usman css end */
