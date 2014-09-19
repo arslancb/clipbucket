@@ -2,6 +2,8 @@
 <div class="heading">
   <h2>ClipBucket Website Player Settings</h2>
 </div>
+
+<form action="manage_players.php?mode=show_settings" method="post" enctype="multipart/form-data" name="player_settings">
         <div class="row">
 <!--<div class="col-md-4">
   <label for="pak_license">
@@ -15,9 +17,9 @@
     Autoplay<br>
     <small>if yes, all videos will be played automatically</small>
   </label>
-    <select class="form-control">
-        <option class="form-control" name="autoplay_video" id="autoplay_video_0" {if $row.autoplay_video=='yes'} checked="checked"{/if} >Yes</option>
-        <option class="form-control" name="autoplay_video" id="autoplay_video_1" {if $row.autoplay_video=='no'} checked="checked"{/if} >No</option>
+    <select class="form-control" name="autoplay_video" id="autoplay_video">
+        <option value="yes"  {if $row.autoplay_video=='yes'} selected="selected" {/if} >Yes</option>
+        <option value="no" {if $row.autoplay_video=='no'} selected="selected" {/if} >No</option>
     </select>
 </div>
 <div class="col-md-4">
@@ -25,9 +27,9 @@
     Use Playlist<br>
     <small>By turning this on, player will turn on playlists feature in player (if available)</small>
   </label>
-    <select class="form-control">
-        <option class="form-control" name="use_playlist" id="use_playlist" {if $row.use_playlist=='yes'} checked="checked"{/if} >Yes</option>
-        <option class="form-control" name="use_playlist" id="use_playlist" {if $row.use_playlist=='no'} checked="checked"{/if}} >No</option>
+    <select class="form-control" name="use_playlist" id="use_playlist">
+        <option value="yes"  {if $row.autoplay_video=='yes'} selected="selected" {/if} >Yes</option>
+        <option value="no"  {if $row.use_playlist=='no'} selected="selected" {/if}} >No</option>
     </select>
 </div>
 <div class="col-md-4">
@@ -79,9 +81,9 @@
     Play Youtube Video Inside Player<br>
     <small>this will let you play youtube videos in your player</small>
   </label>
-    <select class="form-control">
-        <option class="form-control" name="youtube_enabled" id="youtube_enabled" {if $row.youtube_enabled=='yes'} checked="checked"{/if}>Yes</option>
-        <option class="form-control" name="youtube_enabled" id="youtube_enabled" {if $row.youtube_enabled=='no'} checked="checked"{/if}>No</option>
+    <select class="form-control" name="youtube_enabled" id="youtube_enabled">
+        <option value="yes"  {if $row.youtube_enabled=='yes'} selected="selected" {/if}>Yes</option>
+        <option value="no"  {if $row.youtube_enabled=='no'} selected="selected" {/if}>No</option>
     </select>
 </div>
 
@@ -99,9 +101,9 @@
     Autoplay Embed<br>
     <small>Autoplay embeded video by default</small>
   </label>
-    <select class="form-control">
-        <option class="form-control" name="autoplay_embed" id="autoplay_embed0" {if $row.autoplay_embed=='yes'} checked="checked"{/if}>Yes</option>
-        <option class="form-control" name="autoplay_embed" id="autoplay_embed1" {if $row.autoplay_embed=='no'} checked="checked"{/if}>No</option>
+    <select class="form-control" name="autoplay_embed" id="autoplay_embed">
+        <option value="yes"  {if $row.autoplay_embed=='yes'} selected="selected" {/if}>Yes</option>
+        <option value="no" {if $row.autoplay_embed=='no'} selected="selected" {/if}>No</option>
     </select>
 </div>
 <div class="col-md-4">
@@ -109,12 +111,17 @@
     Use PseudoStreaming<br>
     <small>Let users to play video from anywhere, requires h264 streaming module from webserver</small>  
   </label>
-    <select class="form-control">
-        <option class="form-control" name="pseudostreaming" id="pseudostreaming_0"{if $row.pseudostreaming=='yes'} checked="checked"{/if}>Yes</option>
-        <option class="form-control" name="pseudostreaming" id="pseudostreaming_1" {if $row.pseudostreaming=='no'} checked="checked"{/if} >No</option>
+    <select class="form-control" name="pseudostreaming" id="pseudostreaming">
+        <option value="yes" {if $row.pseudostreaming=='yes'} selected="selected" {/if}>Yes</option>
+        <option value="no"  {if $row.pseudostreaming=='no'} selected="selected" {/if} >No</option>
     </select>
 </div>
 </div>
+<div class="button">
+<input type="submit" class="btn btn-primary" value="Update Player Settings"  name="update" id="update_player_settings">
+</div>
+</form>
+<br>
         <div class="row">
 <!--<div class="col-md-6">
   <label for="pakplayer_contextmsg">
