@@ -2776,10 +2776,14 @@ class userquery extends CBCategory{
 			$userId = userid();
 		}
 		$coverPath = COVERS_DIR . "/{$userId}";
-		$files = scandir($coverPath);
-		array_shift($files); array_shift($files);
-		$coverPhoto = array_shift($files);
-		return BASEURL . "/files/cover_photos/{$userId}/$coverPhoto";
+		
+		if (file_exists($coverPath)) 
+		{
+			$files = scandir($coverPath);
+			array_shift($files); array_shift($files);
+			$coverPhoto = array_shift($files);
+			return BASEURL . "/files/cover_photos/{$userId}/$coverPhoto";
+		}
 	}
 
 	public function getImageExt($imageName = false){
