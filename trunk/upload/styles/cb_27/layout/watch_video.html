@@ -65,12 +65,9 @@
 
                     <div class="tab-content">
                         <div class="tab-pane active" id="cb-item-info">
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-6 no-padding">
 
-                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-
-                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 mtl no-padding">
-
-                                <p id="videoDescription">{description($video.description)}</p>
+                            	<p id="videoDescription">{description($video.description)}</p>
                                 <div class="watch-vid-tag">
                                     <strong class="pull-left">{lang('Category:')}</strong>
                                     <div class="pull-left mls">{$vdo.category|categories:video}</div>
@@ -87,10 +84,9 @@
                                         <strong>{lang code='comments'}</strong> : {$vdo.comments_count|number_format}
                                 </div> -->
 
-                            </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                <div class="pull-right">
+                        	</div>
+
+                            <div class="watch-vid-social-sec">
                                     <a class="cb-item-social-icon twitter" href="https://twitter.com/share" target="_blank">
                                         <i class="fa fa-twitter"></i>
                                     </a>
@@ -102,8 +98,6 @@
                                         <i class="fa fa-facebook"></i>
                                           
                                     </a>
-
-                                </div>
 
                             </div>           
                         </div>

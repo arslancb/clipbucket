@@ -78,6 +78,11 @@
     float: left;
     margin-top: 10px;
 }
+.watch-vid-social-sec{
+    width:114px;
+    float: right;
+    margin-top: 18px;
+}
 .full-width{
   width: 100%;
 }
