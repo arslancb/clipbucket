@@ -1,0 +1,33 @@
+<!--<div class="item_video">
+    <div class="cb_item_container clearfix">
+        
+        <div class="cb_item_thumb video_thumb" >
+        <a href="{videoLink($video)}" title="{$video.title|title}">
+            <span class="video_duration">{if
+                                $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}{*$video.duration|date_format:$config.time*}</span>
+            <img class="" src="{getThumb vdetails=$video}" border="1" height="140" width="200"  style="width: 100%;"/>
+        </a>
+    </div>
+        <div class="item_text"  style="height: 45px; overflow: hidden;">
+           <a href="{videoLink($video)}"><b>{$video.title|truncate:30}</b></a>
+        </div>
+        <span class="pull-left" style="margin-top: -31px;"><h5><small>{$video.views} views</small></h5></span>
+        <span class="pull-right" style="margin-top: -31px;"><h5><small>{$video.date_added|niceTime}</small></h5></span>
+    </div>
+</div>-->
+<div class="item_video">
+    <div class="cb_item_container clearfix">
+        <div class="cb_item_thumb video_thumb" >
+        <a href="{videoLink($video)}" title="{$video.title|title}">
+            <span class="video_duration">{if
+                                $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}{*$video.duration|date_format:$config.time*}</span>
+            <img class="" src="{getThumb vdetails=$video} " border="1" height="100" width="100"/>
+        </a>
+        </div>
+        <div class="item_text"  style="height: 45px; overflow: hidden;">
+           <a href="{videoLink($video)}">{$video.title|truncate:30}</a>
+        </div>
+        <span class="pull-left"><h5><small>{$video.views} views</small></h5></span>
+        <span class="pull-right"><h5><small>{$video.date_added|niceTime}</small></h5></span>
+    </div>
+</div>

@@ -1,0 +1,477 @@
+/**
+ * @author : Arslan Hassan (@arslancb), Fawaz Tahir (@fawazcb)
+ * @ClipBucket : 2.7
+ * @Theme Name : ClipBucket 2013 Fall
+ */
+
+
+@background : #e8e8e8;
+@font-color : #000;
+@link-color : #09c;
+
+@font-family :  "Roboto", "Segoe UI", "Helvetica neue",Helvetica, sans-serif;
+@font-size : 14px;
+
+@container-width : 1170px;
+
+@box-border : 3px;
+@btn-border : 3px;
+
+@image-path : '../../images';
+
+@logo-path : '@{image-path}/logo.png';
+@logo-width:188px;
+@logo-height:36px;
+
+@border-color : #09c;
+
+@footer-height : 60px;
+
+
+body{
+  background-color: @background;
+  color : @font-color;
+  font-family: @font-family;
+  font-size:@font-size;
+  padding-top: 85px;
+}
+
+img {max-width:100%; }
+html,body{  height: 100%; }
+
+ul{
+  list-style: none;
+}
+
+.box{
+  border-bottom: solid 1px #ccc;
+  // border-left: solid 1px #ccc;
+  
+  padding: 15px 0;
+}
+
+.marginTop{
+  margin-top: 15px;
+}
+
+.paddingTop{
+  margin-top: 15px;
+}
+
+.marginBottom{
+  margin-bottom: 15px;
+}
+
+.marginLeft{
+  margin-left: 15px;
+}
+
+.videoThumbBox{
+  background-color : #ddd;
+  padding: 0px;
+  img{
+    width: 100%;
+  }
+}
+
+
+/* userComments */
+
+.userComments{
+  margin-top: 20px;
+}
+
+.userComments ul{
+  list-style: none;
+}
+
+.userComments ul li{
+  overflow: hidden;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: solid 1px #eee;
+}
+
+.userComments a img{
+  width: 70%;
+}
+
+.userComments .commentorName{
+  font-size: 1em;
+  color: #555;
+  font-weight: bold;
+}
+
+.userComments p{
+  color: #666;
+  font-size: 0.9em;
+}
+
+.manageCollection{
+  margin-bottom: 20px;
+}
+
+.overallProgressContainer{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  margin-bottom: 0px;
+  opacity: 0.9;
+  background-color: #fff;
+  z-index: 1000;
+}
+
+.btn-group{
+  margin-bottom: 10px;
+}
+
+.onePhoto{
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.onePhoto img{
+  width: 95%;
+}
+
+.onePhotoContainer{
+  background-color: #eee;
+  padding: 5px;
+  text-align: center;
+  height: 150px;
+  margin: 10px 0;
+  border: solid 1px #ccc;
+}
+
+.onePhotoContainer img{
+  height: 100px;
+  background-color: #fff;
+  padding: 2px;
+  border: solid 1px #ccc;
+}
+
+.onePhotoContainer .onePhotoTitle{
+  text-align: center;
+  width: 90%;
+  margin: 0 auto 5px;
+}
+.onePhotoContainer .onePhotoTitle a{
+  color: #444;
+  display: block;
+  font-size: 1.2em;
+}
+
+.onePhotoContainer .onePhotoTitle a:hover{
+  text-decoration: none;
+}
+
+.userInfoOnOnePhoto a{
+  display: block;
+}
+
+.userInfoOnOnePhoto img{
+  width: 70px;
+  margin-right: 5px;
+}
+
+.userInfoOnOnePhoto h4{
+  margin: 3px 0 0 0;
+}
+
+.userInfoOnOnePhoto i{
+  font-size: 0.9em;
+}
+
+.userInfoOnOnePhoto span{
+  display: block;
+}
+
+.userInfoOnOnePhoto span small{
+  display: block;
+  font-size: 0.8em;
+}
+
+/* Rating styling */
+.ratingContainer{
+  position: relative;
+}
+
+.cb-item-rating-new .cb-rating-span.cb-rating-up {
+    background-color: #50B21F;
+    border: 1px solid #50B21F;
+    margin-bottom: 1px;
+}
+
+.cb-item-rating-new .cb-rating-span.cb-rating-down {
+    background-clip: padding-box;
+    border-radius: 0 0 0 3px;
+}
+.cb-item-rating-new .cb-rating-span.cb-rating-down {
+    background-color: #D6492F;
+    border: 1px solid #D6492F;
+    color: #FFFFFF;
+}
+
+.cb-item-rating-new .cb-rating-span {
+    cursor: pointer;
+    display: block;
+    padding: 5px 15px;
+    position: relative;
+    // width: 110px;
+    font-size: 1.4em;
+    line-height: 40px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+.editControlsContainer{
+  // float: right;
+  // width: 90%;
+  clear: both;
+  margin-top: 10px;
+  display: block;
+}
+
+.editControlsContainer a{
+  padding: 5px 10px;
+  background-color: #ccc;
+  float: right;
+  font-size: 1.4em;
+  margin-left: 5px;
+  color: #666;
+}
+
+/* sharing buttons */
+.shareButtonConainer{
+  background-color: #ddd;
+  float: right;
+  border: solid 1px #aaa;
+  margin-bottom: 5px;
+}
+
+.shareButtonConainer span.shareButton{
+  font-size: 1.1em;
+  // background-color: #ddd;
+  background-color: transparent;
+  padding: 6px 10px 0 5px;
+  border: none;
+  color: #666;
+}
+
+.shareButtonConainer .shareButton{
+  background-color: #ccc;
+  margin: 0;
+  color: #D6492F;
+  font-size: 1.3em;
+  float: left;
+  padding: 5px 10px;
+  border-left: solid 1px #999;
+}
+
+/* Photo stats bar */
+
+.photoStats{
+  margin-top: 10px;
+  line-height: 45px;
+}
+
+.photoStats a{
+  background-color: #ddd;
+  padding: 5px 20px;
+  margin-right: 5%;
+  color: #777;
+  font-size: 1.3em;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+.photoStats a i{
+  margin-right: 8px;
+}
+
+.photoDescription{
+  margin-top: 15px;
+  font-size: 0.9em;
+  color: #666;
+  line-height: 22px;
+  letter-spacing: 1px;
+  padding-left: 5px;
+}
+
+.photoDescription a{
+  display: block;
+  color: #444;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+#container{
+  //width : @container-width;
+  min-height: 100%;
+  height: auto !important;
+  /*min-height: 100%;*/
+  /* Negative indent footer by it's height */
+  margin: 0 auto -@footer-height;
+  position: relative;
+}
+#container:after {
+  content: "";
+  display: block;
+}
+
+
+.item { width: 25%; background-color: #05e;}
+.item.w2 { width: 50%;  background-color: #05e;}
+
+
+.box-shadow (@x: 0; @y: 0; @blur: 1px; @color: #000) {
+  box-shadow: @arguments;
+  -moz-box-shadow: @arguments;
+  -webkit-box-shadow: @arguments;
+}
+
+
+
+.bold{font-weight: bold}
+
+
+.test_bg{
+  background-color: #aaa;
+
+  &.bg1{
+    background-color: #356635;
+  }
+}
+
+.no-padding{padding: 0px;}
+
+
+.absolute{position: absolute}
+.relative{position: relative}
+
+
+.userAccountMenu{
+  ul.navbar-nav{
+    padding: 18px;
+    >li{
+      >a{
+        padding: 5px;
+        color: #555;
+        margin-right: 20px;
+        font-size: 0.95em;
+      }
+    }
+  }
+}
+
+.userPicContainer{
+  a{
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 8px 40px 8px 8px;
+    img{
+      width: 50px;
+      margin-right: 10px;
+    }
+  }
+}
+
+/* sidebar styles */
+
+.leftSidebar{
+  border-right: solid 1px #eee;
+  a:hover{
+    text-decoration: none;
+  }
+  >ul{
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    width: 95%;
+    >li{
+      border: solid 1px #0789F4;
+      border-bottom: none;
+      margin-bottom: 10px;
+      >a{
+          padding: 4px;
+          background-color: #0671C9;
+          display: block;
+          color: #fff;
+          font-size: 1.2em;
+      }
+      >ul{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        >li{
+          >a{
+            font-size: 0.9em;
+            display: block;
+            padding: 5px;
+            border-bottom: solid 1px #0789F4;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* categories menu */
+
+.catigoriesList{
+  list-style: none;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.catigoriesList li{
+  margin: 5px 0 0 0;
+  padding: 0;
+  border: solid 1px #ccc;
+}
+.catigoriesList li a{
+  display: block;
+  background-color: #eee;
+  color: #444;
+  padding: 10px;
+}
+
+/* Mixin */
+.border-radius (@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+/* Implementation */
+.row #small-img li img{
+  .border-radius(10px);
+}
+
+@import 'essentials.less';
+
+@import 'elements.less';
+
+/* Importing Navigation CSS */
+@import 'nav.less';
+
+/* Importing Form CSS */
+@import 'form.less';
+
+/* Importing Footer */
+@import 'footer.less';
+
+/* Importing Components */
+@import 'objects.less';
+
+
+/* Importing video css */
+@import 'video.less';
+
+/* Importing upload css */
+@import 'upload.less';
+
+
+

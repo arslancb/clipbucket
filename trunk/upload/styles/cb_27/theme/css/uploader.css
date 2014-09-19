@@ -1,0 +1,167 @@
+.uploadFormContainer{
+      /*display: none;*/
+  }
+
+  .uploadFormDiv{
+      border: solid 1px #CBCFD2;
+      padding: 20px 10px 10px 10px;
+      position: relative;
+      bottom: 2px;
+      z-index: 1;
+      margin-bottom: 10px;
+  }
+
+  .uploadForm{
+
+  }
+
+  .uploadForm .uploaderContainer{
+    background-color: #F3F3F3;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+
+  .selectedFileDiv{
+      display: block;
+  }
+  
+  .uploadedFilesList ul{
+      overflow: hidden;
+  }
+
+  .uploadedFilesList li{
+  /*background-color: #CCCCCC;
+  font-size: 0.9em;
+  margin-right: 10px;
+  padding: 6px;*/
+  cursor: pointer;
+  display: block;
+  margin-right: 10px;
+  float: left;
+  width: auto;
+  margin-bottom: 5px;
+}
+
+.uploadedFilesList li.selectedFile{
+  /*background-color: #aaa;*/
+  background-color: #3276B1;
+}
+
+.allProgress{
+  padding-top: 22px;
+  margin-top: 10px;
+}
+
+.uploaderTabs{
+  background-color: #fff;
+  position: relative;
+  z-index: 100;
+  border-bottom: solid 1px #CBCFD2;
+}
+
+.uploaderTabs li{
+  margin: 0;
+}
+
+.uploaderTabs li a{
+  border-radius: 0;
+  margin: 0;
+  position: relative;
+}
+
+.uploaderTabs li.active a, .uploaderTabs li.active a:focus, .uploaderTabs li.active a:hover{
+  border-top: solid 2px #4E8EBE;
+  border-left: solid 1px #CBCFD2;
+  border-right: solid 1px #CBCFD2;
+  outline: none;
+  position: relative;
+  top: 1px;
+}
+
+.dragDropContainer{
+  width: 60%;
+  margin: 10px auto 10px;
+  background-color: #E0DEDF;
+  border: dashed 3px #C5C3C4;
+  padding: 30px;
+  text-align: center;
+  color: #555;
+  font-size: 1.2em;
+}
+
+.selectButtonContainer{
+  text-align: center;
+}
+
+.selectButtonContainer p{
+  margin-top: 5px;
+  font-size: 0.85em;
+  color: #666;
+}
+
+.selectFiles{
+  padding: 10px 80px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.allUploadForms{
+  margin-top: 10px;
+}
+
+.categoriesContainer{
+  overflow-y: scroll;
+  height: 300px;
+}
+
+.formSection{
+  margin-top: 20px;
+}
+
+.formSection h4{
+  background-color: #E8E8E8;
+  padding: 8px 12px;
+  font-size: 1em;
+  color: #666;
+  cursor: pointer;
+}
+
+.align-right{
+  text-align: right;
+}
+
+.uploadMoreVideos{
+  margin-bottom: 10px;
+}
+
+.remoteDownloadStatus{
+    padding: 10px;
+    border: solid 1px #ddd;
+    margin-bottom: 10px;
+  }
+  .remoteDownloadStatus > span{
+    display: block;
+    margin-top: 2px;
+  }
+
+  .marginTop{
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+
+  .photoFormContainer{
+    display: none;
+  }
+
+  .paddingTop{
+    padding-top: 10px;
+  }
+
+  .clr{
+    clear: both;
+  }
+  
+  .h_200{
+    height: 200px;
+  }
