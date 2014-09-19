@@ -44,3 +44,10 @@
 #ep_video_container{
 	background: #ccc;
 }
+.collection_home{
+	text-align: center;
+}
+.collection_home a{
+	display: inline-block;
+	vertical-align: top;
+}
