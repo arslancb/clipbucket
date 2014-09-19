@@ -209,13 +209,15 @@ add_js(array('jquery_plugs/compressed/jquery.jCarousel.js'=>'view_channel'));
 
 
 
-if($Cbucket->show_page)
-    Template('view_channel.html');
+if($Cbucket->show_page){
+    template_files('view_channel.html');
+    display_it();
+}
 else
 {
     $Cbucket->show_page = true;
     if($udetails)
-        template_files('blocks/view_channel/user_block.html');
+        template_files('view_channel.html');
     display_it();
 }
 ?>
