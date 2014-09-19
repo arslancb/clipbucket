@@ -45,19 +45,19 @@
                                 <a href="edit_video.php?video={$video.videoid}">
                                     {$video.title|truncate:80} </a>({if
                                 $video.duration>1}{$video.duration|SetTime}{else}00:00{/if})<br>
-                         <span class="labels1"> <strong>{$video.date_added|niceTime}</strong>
+                         <span class="labels1"> <strong>{$video.date_added|niceTime}</strong> | 
                             {lang code='views'} : <strong>{$video.views|number_format}</strong></span>
-                                <div class="labels">
+                                <div class="labels mtl">
                                    
-                                    <span class="label {if $video.active=='yes'}label-success{else}label-warning{/if}">
-                                        {if $video.active=='yes'}Active{else}InActive{/if} </span>
+                                    <span class="label {if $video.active=='yes'}label-success{else}label-danger{/if}">
+                                        {if $video.active=='yes'}Active{else}Inactive{/if} </span>
                                     <span class="label {if $video.status=='Successful'}label-success{else}label-warning{/if}">
                                         {$video.status} </span>
+                                        {if $video.featured=='yes'}
                                          <span class="label label-info">
-                                          {if $video.featured=='yes'}Featured{else}Unfeatured{/if}</span>
-                                           
-                                    <span class="label label-info">
-                                       Viewed {$video.last_viewed|niceTime}</span>
+                                          Featured</span>
+                                           {/if}
+                                    
                                       
 
                                 
@@ -84,10 +84,10 @@
                                                    href="edit_video.php?video={$video.videoid}" class="">Edit</a></li>
                         <li><a role="menuitem" tabindex="-1"
                             href="{$baseurl}/watch_video.php?v={$video.videokey}"target="_blank">Watch</a>
-                            {if $video.featured == yes}
                         </li>
-                        <li><a role="menuitem" tabindex="-1" href="javascript:_cb.Confirm_Delete('?delete_video={$video.videoid}')">Delete</a>
-                        </li>
+
+                        
+                        {if $video.featured == yes}
                         <li><a role="menuitem" tabindex="-1" href="?make_unfeature={$video.videoid}">Make Unfeatured</a></li>
                         {/if}
                         {if $video.featured == no}

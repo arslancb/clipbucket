@@ -40,7 +40,16 @@ switch($mode)
 		// inserting into video views as well
 		$query = "INSERT INTO " . tbl("video_views") . " (video_id, video_views, last_updated) VALUES({$vid}, 0, " . time() . ")";
 		$db->Execute($query);
-		echo $vid;
+		
+		if(error())
+		{
+			echo json_encode(array("error" => error("single")));
+		}else
+		{
+			echo json_encode(array("videoid" => $vid));
+		}
+
+		exit();
 	}
 	break;
 	

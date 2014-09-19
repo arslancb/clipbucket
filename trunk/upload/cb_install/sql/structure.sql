@@ -1177,3 +1177,4 @@ CREATE TABLE IF NOT EXISTS `{tbl_prefix}admin_todo` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 ALTER TABLE `{tbl_prefix}action_log` DROP `action_link`; 
+ALTER TABLE  `{tbl_prefix}video` ADD  `file_directory` VARCHAR( 10 ) NOT NULL AFTER  `file_server_path`

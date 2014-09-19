@@ -186,16 +186,25 @@ $(document).ready(function()
 				  dataType: "text",
 				  success: function(data)
 				  {
-					vid = data;
-					$("#uploadForm"+ID+" #title").after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
-					.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
-					$('#cbSubmitUpload'+ID)
-					.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
-					.removeAttr("disabled")
-					.attr("value",lang.saveData)
-					.attr("onClick","doUpdateVideo('#uploadForm"+ID+"','"+ID+"')");
-					
-					doUpdateVideo('#uploadForm'+ID,ID);
+
+				  	if(data.error)
+				  	{
+				  		show_error(data.error,ID,true);
+				  	}else
+				  	{
+
+
+						vid = data.videoid;
+						$("#uploadForm"+ID+" #title").after('<input type="hidden" name="videoid" value="'+vid+'" id="videoid" />')
+						.after('<input type="hidden" name="updateVideo" value="yes" id="updateVideo" />');
+						$('#cbSubmitUpload'+ID)
+						.before('<span id="updateVideoDataLoading" style="margin-right:5px"></span>')
+						.removeAttr("disabled")
+						.attr("value",lang.saveData)
+						.attr("onClick","doUpdateVideo('#uploadForm"+ID+"','"+ID+"')");
+						
+						doUpdateVideo('#uploadForm'+ID,ID);
+					}
 				  }
 				});
 		}else
