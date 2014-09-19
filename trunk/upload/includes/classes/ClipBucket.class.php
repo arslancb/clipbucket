@@ -27,7 +27,7 @@ class ClipBucket
     var $temp_exts = array(); //Temp extensions
     var $actions_play_video = array();
     var $template_files = array();
-    var $cur_template = 'cbv2new';
+    var $cur_template = 'cb_27';
     var $links = array();
     var $captchas = array();
     var $clipbucket_footer = array('cb_bottom');
@@ -439,7 +439,7 @@ class ClipBucket
         if (isset($_GET['set_the_template']) && $cbtpl->is_template($_GET['set_the_template']))
             $template = $_SESSION['the_template'] = $_GET['set_the_template'];
         if (!is_dir(STYLES_DIR . '/' . $template) || !$template)
-            $template = 'cbv2new';
+            $template = 'cb_27';
         if (!is_dir(STYLES_DIR . '/' . $template) || !$template)
         {
             $template = $cbtpl->get_any_template();
