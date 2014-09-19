@@ -395,9 +395,10 @@ class cbactions
 	{
 		global $db;
 		$type = $this->type;
-		$results = $db->select(tbl($this->flag_tbl.",".$this->type_tbl),"*,
+   
+    $results = $db->select(tbl($this->flag_tbl.",".$this->type_tbl),"*,
 							   count(*) AS total_flags",tbl($this->flag_tbl).".id = ".tbl($this->type_tbl).".".$this->type_id_field." 
-							   AND type='".$this->type."' GROUP BY ".tbl($this->flag_tbl).".id ,".tbl($this->flag_tbl).".type ",$limit);				   
+							   AND ".tbl($this->flag_tbl).".type='".$this->type."' GROUP BY ".tbl($this->flag_tbl).".id ,".tbl($this->flag_tbl).".type ",$limit);				   
 		if($db->num_rows>0)
 			return $results;
 		else
