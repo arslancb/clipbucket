@@ -38,9 +38,6 @@
 }
 .editorpick-holder .video_thumb{ border:none !important;}
 .next_pre_hold{ display: none;}
-#the_Video_Player{
-	width: 100% !important;
-}
 #ep_video_container{
 	background: #ccc;
 }
