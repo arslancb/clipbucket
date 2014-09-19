@@ -100,7 +100,7 @@
 	/**
 	 * Function used to turn tags into links
 	 */
-	function tags($input,$type,$sep=', ')
+	function tags($input,$type,$sep=', ',$class="")
 	{
 		//Exploding using comma
 		$tags = explode(',',$input);
@@ -110,7 +110,7 @@
 		foreach($tags as $tag)
 		{
 			$params = array('name'=>'tag','tag'=>trim($tag),'type'=>$type);
-			$new_tags .= '<a href="'.cblink($params).'">'.$tag.'</a>';
+			$new_tags .= '<a href="'.cblink($params).'" class="'.$class.'">'.$tag.'</a>';
 			if($count<$total)
 				$new_tags .= $sep;
 			$count++;

@@ -158,9 +158,9 @@ class userquery extends CBCategory{
 		define('AVATAR_SMALL_SIZE',40);
 		define('BG_SIZE',config('max_bg_width'));
 		define('BACKGROUND_URL',config('background_url'));
-		define("USE_GAVATAR",config('gravatars') ? config('gravatars') : false); //Use Gavatar
+		//define("USE_GAVATAR",config('gravatars') ? config('gravatars') : false); //Use Gavatar
 		define('BACKGROUND_COLOR',config('background_color'));
-		
+		define('USE_GAVATAR', false);
 		if(isSectionEnabled('channels'))
 		$Cbucket->search_types['channels'] = "userquery";
 		
