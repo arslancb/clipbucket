@@ -103,6 +103,8 @@ function video_playable($id)
  */
 
 function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_full_path=true,$return_big=true,$size=false){
+    
+    //echo $size;
     global $db,$Cbucket,$myquery;
     $num = $num ? $num : 'default';
     #checking what kind of input we have
@@ -116,7 +118,9 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
                 if($multi)
                     return $dthumb[0] = default_thumb();
                 return default_thumb();
-            }else{
+            }
+            else
+            {
                 if(!empty($vdetails['videoid']))
                     $vid = $vdetails['videoid'];
                 elseif(!empty($vdetails['vid']))
@@ -147,6 +151,7 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
     if(!empty($vid))
         $vdetails = get_video_details($vid);
 
+
     if(empty($vdetails['title']))
     {
         if($multi)
@@ -154,12 +159,10 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
         return default_thumb();
     }
 
-
-
+    
     #Checking if there is any custom function for
     if(count($Cbucket->custom_get_thumb_funcs) > 0)
     {
-
         foreach($Cbucket->custom_get_thumb_funcs as $funcs)
         {
 
@@ -169,7 +172,8 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
                 'multi' => $multi,
                 'count' => $count,
                 'return_full_path' => $return_full_path,
-                'return_big' => $return_big
+                'return_big' => $return_big,
+                'size' => $size
             );
             if(function_exists($funcs))
             {
@@ -199,6 +203,8 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
        $file_dir =  "/" . $thumbDir;
     }
     $vid_thumbs = glob(THUMBS_DIR."/" .$file_dir.$vdetails['file_name']."*");
+    
+   
     #replace Dir with URL
     if(is_array($vid_thumbs))
         foreach($vid_thumbs as $thumb)
@@ -255,6 +261,7 @@ function get_thumb($vdetails,$num='default',$multi=false,$count=false,$return_fu
     }
 
 }
+
 
 /**
  * Function used to check weaether given thumb is big or not
