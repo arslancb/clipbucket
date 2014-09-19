@@ -283,11 +283,12 @@
 			<!-- ******************************************* //-->
 	        <!-- ************* USER BLOCK START ************ //-->
 	        <!-- ******************************************* //-->
-
-     <div class="col-md-4 side_user_home">
+			{$feature_users=get_users(['featured'=>'yes','limit'=>5])}
+			{if $feature_users}
+     		<div class="col-md-4 side_user_home">
 			<h4 class="home-side-heading">{lang code="Featured Users"}</h4>
                
-			{section name=result_users loop=$result_users}
+			{section name=result_users loop=$feature_users}
 
                 <div class="col-md-12 nopadding clearfix user-view-home" style="height: 85px;">
 				<div class="col-md-3 nopadding">
@@ -323,6 +324,7 @@
 			</div>
 			{/section}
 			</div>
+			{/if}
 			<!-- ******************************************* //-->
 	        <!-- ************* USER BLOCK END ************ //-->
 	        <!-- ******************************************* //-->
