@@ -29,6 +29,7 @@ Assign('template_dir',TEMPLATEDIR);
 Assign('style_dir',LAYOUT);
 Assign('covers_dir', COVERS_DIR);
 
+assign('admin_baseurl',BASEURL.'/'.ADMINDIR);
 
 //Assigning JS Files
 Assign('jsArray',$Cbucket->JSArray);
