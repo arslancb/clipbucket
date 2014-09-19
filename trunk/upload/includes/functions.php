@@ -2728,6 +2728,7 @@
 	 */
 	function is_installed($plugin)
 	{
+
 		if(defined($plugin."_install"))
 			return true;
 		else
@@ -4937,7 +4938,29 @@
 
 		    return false;
 		}
-		
+		/**
+		 * Returns This page name or boolean for the given string
+		 * @param STRING $name
+		 */
+		function parent_page($name="")
+		{
+		    if(defined('PARENT_PAGE'))
+		    {
+		        $page = PARENT_PAGE;
+		        if($name)
+		        {
+		            if($page==$name)
+		                return true;
+		            else
+		                return false;
+		        }
+
+		        return $page;
+		    }
+
+		    return false;
+		}
+
         include( 'functions_db.php' );
         include( 'functions_filter.php' );
         include( 'functions_player.php' );
