@@ -13,12 +13,14 @@
             {FlashPlayer vdetails=$firstVideo width='100%' height='355'}
         </div>
         <hr class="hr">
+        {if $videos}
         <div class="row">
           {foreach from=$videos item=video}
               {include file="$style_dir/blocks/videos/video.html"  display_type='user_videos'}
           {/foreach}
         </div>
         <div align="center">{include file="$style_dir/blocks/pagination.html"}</div>
+        {/if}
       </div>
       <div class="col-md-4 col-sm-4  hidden-xs">
         {include file="$style_dir/blocks/view_channel/channel_right.html" }
