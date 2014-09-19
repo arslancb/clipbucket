@@ -47,8 +47,8 @@
         </div>
 
 		<!-- Editor Pick Videos Slider Container START //-->
-        <div class="col-md-4 ">
-            <div id="slide" class="" style="">
+        <div class="col-md-4 editorpick-holder pull-right">
+            <div id="slide" class="vscroll">
 				{section name=e_list loop=$editor_picks}
             	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
 				{/section}
@@ -94,7 +94,7 @@
 				<div class="col-md-12 nopadding">
 
 					<div class="col-md-12 text-center nopadding ">
-						<div class="col-md-8 text-center nopadding mouse_hover" style="min-height: 300px;">
+						<div class="col-md-8 text-center nopadding mouse_hover featured-imglg">
 						{foreach from=$videos_01 item=video_01}
 						<div class="col-md-12 text-center nopadding ">
 						<a href="{videoLink vdetails=$video_01}" title="{$video_01.title}">
@@ -113,12 +113,12 @@
 						{/foreach}
 						</div>
 
-						<div class="col-md-4 hidden-sm hidden-xs text-center nopadding-right pull-right" style="padding-left:8px;">
+						<div class="col-md-4 hidden-sm hidden-xs text-center nopadding-right pull-right tumb-sm">
 						{foreach from=$videos_03 item=video_02 name=foo}
 						<div class="col-md-12 text-center nopadding mouse_hover1" style="{if not $smarty.foreach.foo.last} min-height: 150px; {/if} " >
 						<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
 						<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='big' }" width="240" height="133" {ANCHOR place="video_thumb" data=$video_03} />
-						<div class="cbHomeVidTitle mouse_hover_on1" style="margin-bottom:8px;">{$video_02.title|truncate:10}</div>
+						<div class="cbHomeVidTitle mouse_hover_on1">{$video_02.title|truncate:10}</div>
 						</a>
 
 			            <div class="cbHomeVidDuration mouse_hover_on1">
@@ -131,9 +131,9 @@
 						</div>
 						<div class="col-md-8 text-center nopadding">
 						{foreach from=$videos_02 item=video_03}
-						<div class="col-md-6 hidden-sm hidden-xs text-center nopadding-left mouse_hover"  style="">
+						<div class="col-md-6 hidden-sm hidden-xs text-center nopadding-left mouse_hover">
 						<a href="{videoLink vdetails=$video_03}" title="{$video_02.title}">
-						<img src="{getThumb vdetails=$video_03 size='big'}" width="240" height="133" style="border:1px solid #CCC;" {ANCHOR place="video_thumb" data=$video_03} />
+						<img src="{getThumb vdetails=$video_03 size='big'}" width="240" height="133" {ANCHOR place="video_thumb" data=$video_03} />
 						<div class="cbHomeVidTitle cbHomeVidTitle_small mouse_hover_on">{$video_03.title|truncate:10}</div>
 						</a>
 
@@ -169,17 +169,17 @@
 					      <li class="active"><a data-toggle="tab" href="#recent_video">{lang code="Recent videos"}</a></li>
 					      <li class=""><a data-toggle="tab" href="#being_viewed">{lang code="Being viewed"}</a></li>
 					    </ul>
-					    <div class="tab-content" id="myTabContent">
-					      <div id="recent_video" class="tab-pane fade active in" style="padding-top: 25px;">
+					    <div class="tab-content recentcurrent-vdieos" id="myTabContent">
+					      <div id="recent_video" class="tab-pane fade active in">
 		        				{include file="$style_dir/blocks/videos/video-home-sliders.html" video_06_da=$videos_06_da slider='slider'}
 					      </div>
-					      <div id="being_viewed" class="tab-pane fade" style="padding-top: 25px;">
+					      <div id="being_viewed" class="tab-pane fade">
 					      	{include file="$style_dir/blocks/videos/video-home-sliders.html" video_06_da=$videos_06_da slider3='slider3'}
 		    				
 					      </div>
 					    </div>
 			  		</div>
-			  		<div style="height: 18px;" class="clearfix"></div>
+			  		<div class="clearfix clearfix-hight"></div>
 					</div>
 		        </div>
 				<!-- ******************************************* //-->
@@ -204,7 +204,7 @@
 								
 		        		{if $result_photos1_01}
 		        				<!-- *********** FIRST PHOTOS START ************ //-->
-								<div class="col-md-12 fill-background" style="display:block; height:265px; padding:5px;">
+								<div class="col-md-12 fill-background lg-img">
 									<div class="col-md-7 big_img">
 									{foreach from=$result_photos1_01 item=result_photo1_01}
 						            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
@@ -214,7 +214,7 @@
 						            {/foreach}
 						            </div>
 						            
-						            <div class="col-md-5 nopadding" style="display:block; height:132px;">
+						            <div class="col-md-5 nopadding sm-imgs">
 									{foreach from=$result_photos1_08 item=result_photo1_08}
 										<div class="col-md-6" style="border-right: 1px solid rgb(204, 204, 204); display: block; height: 133px; padding: 7px; border-top: 1px solid rgb(204, 204, 204);">
 						            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
@@ -317,7 +317,7 @@
 				</div>
 				<div class="user_icon">
 				<a href="{$userquery->profile_link($result_users[result_users])}">
-				<img class="" src="{$baseurl}/styles/cb_2014/images/user_next_icon.png" width="25" height="25" />
+				<img class="" src="{$imageurl}/user_next_icon.png" width="25" height="25" />
 				</a>
 				</div>
 			</div>
