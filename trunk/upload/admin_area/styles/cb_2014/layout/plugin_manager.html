@@ -34,9 +34,9 @@
           <div class="pluginStatus">
               {if $plug.plugin_active == 'yes'}
             <span class="label label-success">Active </span>
-                {elseif $plug.plugin_active != 'Active'}  <span class="label label-warning">NotActive {/if}</span>
-            <span class="label label-danger"><span>Author:</span><strong>{$plug.author}</strong></span>
-            <span class="label label-info"><span>Ver.</span><strong>{$plug.version}</strong></span>
+                {elseif $plug.plugin_active != 'Active'}  <span class="label label-danger">Inactive {/if}</span>
+            <span class="label label-info"><span>Author:</span><strong>{$plug.author}</strong></span>
+            <span class="label label-success"><span>Ver.</span><strong>{$plug.version}</strong></span>
           </div>
         </td>
         <td>
