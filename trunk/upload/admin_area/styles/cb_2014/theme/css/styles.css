@@ -523,3 +523,8 @@ ul.mainTabs{
     border-bottom: solid 1px #eee;
     margin-bottom: 10px;
 }
+
+#content{
+    background: #fff;
+}
+.caret_margin { margin-top:0px !important;}
