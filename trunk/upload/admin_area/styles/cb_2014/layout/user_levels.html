@@ -164,9 +164,10 @@
             <em>{$perm.permission_desc}</em>
         </td>
         <td>
+
             {assign var="perm_code" value=$perm.permission_code}
-            <label class="radio"><input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_id}_yes" />Yes</label>
-            <label class="radio"><input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_id}_no" />No</label>
+            <label class="radio"><input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_id}_yes" {if $level_perms[{$perm.permission_code}]==yes} checked="checked"{/if} />Yes</label>
+            <label class="radio"><input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_id}_no" {if $level_perms[{$perm.permission_code}]==no} checked="checked"{/if} />No</label>
         </td>
     </tr>
     {else}
@@ -206,8 +207,8 @@
         </td>
         <td>
             {assign var="perm_code" value=$perm.permission_code}
-            <label class="radio"><input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_id}_yes" />Yes</label>
-            <label class="radio"><input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_id}_no" />No</label>
+            <label class="radio"><input type="radio" name="{$perm.permission_code}" value="yes" id="{$perm.permission_id}_yes" {if $level_perms[{$perm.permission_code}]==yes} checked="checked"{/if}/>Yes</label>
+            <label class="radio"><input type="radio" name="{$perm.permission_code}" value="no" id="{$perm.permission_id}_no" {if $level_perms[{$perm.permission_code}]==no} checked="checked"{/if} />No</label>
         </td>
     </tr>
     {else}
