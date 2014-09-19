@@ -22,25 +22,24 @@
 
 
 
-<div class=""  id="feed-{$feed.file}">
-    <div class="row">
+<div class="feads clearfix"  id="feed-{$feed.file}">
+    <div class="col-md-3  col-sm-4  col-xs-4">
         <a href="{$userquery->profile_link($feed.user)}">
-        <div class="col-md-3" style=" margin-right: 10px;">
-              <img class="img-circle" src="{avatar details=$feed.user size='small'}" height="50" width="50" style="border: solid; border-color: #D7DFEE;">
-        </div>
+            <img class="img-circle" src="{avatar details=$feed.user}">
         </a>
-        <div class="col-md-9" style="margin-left: -65px;">
-            {if !$feed.action_title}
-            <a href="{$userquery->profile_link($feed.user)}">{$feed.user.username}</a>
-            {else}
-            <small class="small">{$feed.action_title}</small>
-            {/if}
-            <br>
-            <span class="padding36" style="margin-left: -40px;"><i class="glyphicon glyphicon-time"></i>  {$feed.datetime}</span>
-            <hr style="margin: 10px -69px 10px -64px;">
-        </div>
-
     </div>
+   
+    <div class="col-md-9  col-sm-8  col-xs-8 nopadding">
+        {if !$feed.action_title}
+        <a href="{$userquery->profile_link($feed.user)}">{$feed.user.username}</a>
+        {else}
+        <small class="small">{$feed.action_title}</small>
+        {/if}
+        <br>
+        <small><i class="glyphicon glyphicon-time"></i>  {$feed.datetime}</span></small>
+    </div>
+</div> 
+<hr class="clearfix">
 
     <!--<div class="row">-->
         <!--<div class="col-md-14">-->
@@ -108,5 +107,4 @@
     <!--</div>-->
         <!--</div>-->
     <!--</div>-->
-</div>
 

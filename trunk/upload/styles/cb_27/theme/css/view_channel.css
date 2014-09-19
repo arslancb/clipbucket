@@ -1,0 +1,28 @@
+.changeCover{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+#result_cont,#messageFav{
+	display: none;
+	position: fixed; top: 47px; width: 73%;
+	z-index: 11;
+}
+
+#cb_player{
+
+}
+.feads img{
+	border: solid; border-color: #D7DFEE;
+
+}
+.feeds1 hr{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.hr-channal {
+	margin-left: -2px; width: 98%;
+}
+.bottom-hieght{
+	height: 20px;
+}

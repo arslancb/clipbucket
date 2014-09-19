@@ -15,6 +15,7 @@
         <span class="pull-right" style="margin-top: -31px;"><h5><small>{$video.date_added|niceTime}</small></h5></span>
     </div>
 </div>-->
+{if $display_type=''}
 <div class="item_video">
     <div class="cb_item_container clearfix">
         <div class="cb_item_thumb video_thumb" >
@@ -31,3 +32,21 @@
         <span class="pull-right"><h5><small>{$video.date_added|niceTime}</small></h5></span>
     </div>
 </div>
+{/if}
+{if $display_type='user_videos'}
+<div class="col-md-3  col-sm-4  col-xs-6">
+    <a href="{videoLink($video)}" title="{$video.title|title}">
+        <img src="{getThumb vdetails=$video}" id="thumbs_{$video.videoid}"  title=""/>
+    </a>
+    <p class="cbHomeVidDuration duration_view">
+        {if $video.duration>1}
+            {$video.duration|SetTime}
+        {else}
+            00:00
+        {/if}
+    </p>
+    <a href="{videoLink($video)}" title="{$video.title|title}"><h5><b>{$video.title|truncate:33}</b></h5></a>                     
+    <span class="pull-left"><h5><small>{$video.views} views</small></h5></span>
+    <span class="pull-right"><h5><small>{$video.date_added|niceTime}</small></h5></span>
+</div>
+{/if}

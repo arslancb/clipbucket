@@ -7,9 +7,9 @@
         <!-- Listing Categories -->
         {include file="$style_dir/blocks/category_list.html" type='channels'}
         <!-- Listing Categories End -->
-        <div class="col-md-7 clearfix paddingright0">
+        <div class="col-md-7 col-sm-12  col-xs-12 clearfix paddingright0">
             <!-- Page Heading -->
-            <div class="page-hidding">
+            <div class="page-hidding hidden-xs ">
                 {assign var=sorting_links value=sorting_links()}
                 <h4 class="smaller lighter pull-left">Browsing All Categories: </h4>
                 <div class="pull-left">
@@ -86,7 +86,7 @@
                 </div>
             </div>
             <!-- /Page Heading-->
-            <div class="clearfix" style="margin-right: -100px;">
+            <div class="clearfix">
                 <div class="time_cont">
                     {assign var=time_links value=time_links()}
                     {foreach from=$time_links item=name key=sort name=times}
@@ -94,7 +94,7 @@
                     {/foreach}
                 </div>
                 {section name=u_list loop=$users}
-                <div class="col-md-5 marginBottom grid_view list_view channels-view">
+                <div class="col-md-5 col-sm-5  col-xs-5 marginBottom grid_view list_view channels-view">
                     {include file="$style_dir/blocks/user.html" user=$users[u_list]  block_type="groups_show"}
                 </div>
                 {sectionelse}
@@ -105,11 +105,10 @@
                 {include file="$style_dir/blocks/pagination.html"}
             </div>
         </div>
-        <div class="col-md-2  paddingright0">
+        <div class="col-md-2  paddingright0  hidden-sm hidden-xs visible-md visible-lg">
          
              <div class="ad">{AD place='ad_160x600'}</div>
            <!-- <a href="http://www.arvixe.com/clipbucket_hosting"><img class="banner pull-right" src="{$theme}/assets/images/ad-box-160x600.jpg"></a>-->
         </div>
     </div>
 </div>
-<div style="height:20px"> </div>

@@ -1,28 +1,28 @@
 
 {if $block_type == '' || $block_type=='normal'}
-<div class="row  margin-bottom-10" id="user-{$user.userid}">
+<div class="col-md-12  col-sm-12 clearfix nopadding col-xs-12" id="user-{$user.userid}">
 
-    <div class="col-md-2 paddingright0">
+    <div class="col-md-2 col-sm-3  nopadding">
         <a href="{$userquery->profile_link($user)}">
-            <img class="cb_img_thum" src="{$userquery->getUserThumb($user)}" style="border: 1px solid rgb(0, 0, 0); height: 60px; width: 60px;">
+            <img class="cb_img_thum" src="{$userquery->getUserThumb($user)}">
         </a>
-        </div>
-     <div class="col-md-8  nopadding">   
+    </div>
+    <div class="col-md-10 col-sm-9">   
 
-        <div class="col-md-7  nopadding">
+        <div class="col-md-7 col-sm-7  nopadding">
             <a href="{$userquery->profile_link($user)}">
             <h5 class="nomargin"><b>{$user.username}     </b></h5></a>
         </div>
 
-        <div class="col-md-9 prof_title  nopadding">
+        <div class="col-md-9 col-sm-9 prof_title  nopadding">
 
             <div class="row" >
-                    <div class="col-md-5 small channels paddingright0">
+                    <div class="col-md-5 col-sm-5 small channels paddingright0">
                         {if isSectionEnabled('videos')}
                         {lang code="videos"}:  {$user.total_videos|number_format}
                         {/if}
                     </div>
-                <div class="col-md-6 small  channels paddingleft0" >
+                <div class="col-md-6 col-sm-6 small  channels paddingleft0" >
                 {lang code="subscribers"}:  {$user.subscribers|number_format}
                     </div>
                 </div>
@@ -32,8 +32,8 @@
 
           
         </div>
-        </div>
     </div>
+</div>
 <hr class="margin-top-bottom-5  margin-bottom-10">
 {/if}
 
