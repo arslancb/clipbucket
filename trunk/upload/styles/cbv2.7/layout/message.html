@@ -4,7 +4,7 @@
 
 {if $err.0 neq '' || $err.1 != ''}
 <div class="alert alert-danger alert-dismissable container">
-    <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+    <button class="close" type="button" data-dismiss="alert" aria-hidden="true">x</button>
     <ul  class="list-unstyled">
         {foreach from=$err item=show_msg}
         <li> {$show_msg} </li>
@@ -16,7 +16,7 @@
 
 {if $msg.0 neq ''}
 <div class="alert alert-success alert-dismissable container">
-    <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+    <button class="close" type="button" data-dismiss="alert" aria-hidden="true">x</button>
     <ul class="list-unstyled">
         {foreach from=$msg item=show_msg}
         <li>{$show_msg}</li>
@@ -28,7 +28,7 @@
 
 {if $war.0 neq ''}
 <div class="alert alert-warning alert-dismissable container">
-    <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+    <button class="close" type="button" data-dismiss="alert" aria-hidden="true">x</button>
     <ul class="list-unstyled">
         <img src="{$imageurl}/messagebox_warning.png" style="float:left" />
         {foreach from=$war item=show_msg}
