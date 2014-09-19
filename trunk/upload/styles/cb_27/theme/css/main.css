@@ -1641,7 +1641,7 @@ font-size: 14px;
 
 
 
-.content{margin:0px; height:391px; padding:0px; overflow:auto; background:#ffffff; -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px;}
+.content{margin:0px; max-height:391px; padding:0px; overflow:auto; background:#ffffff; -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px;}
 .content p:nth-child(even){color:#ffffff; font-family:Georgia,serif; font-size:17px; font-style:italic;}
 
 
