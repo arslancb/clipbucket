@@ -1,0 +1,46 @@
+.featured-imglg{min-height: 300px;}
+.tumb-sm{padding-left:8px;}
+.cbHomeVidTitle{margin-bottom:8px;}
+.getThumb{border:1px solid #CCC;}
+.recentcurrent-vdieos .tab-pane{padding: 25px 0 0;}
+.clearfix-hight{ height: 18px;}
+.fill-background.lg-img{
+	display:block;
+	height:265px;
+	padding:5px;
+}
+.sm-imgs{
+	display:block;
+	height:132px;
+}
+.editorpick-holder{
+	padding: 0;
+}
+.editorpick-holder #slide{
+	/*list-style: none;
+	position: relative;
+	padding: 0;
+	overflow: hidden;*/
+	width: 100%;
+	/*height: 432px;*/
+	overflow-y:auto !important;
+	height: 250px !important;
+}
+.editorpick-holder .featured_vid_con{
+	/*position: absolute;
+	margin: 0px;*/
+	width: 100%;
+	/*overflow: hidden;
+	top: 0px;
+	left: 0px;
+	display: block;*/
+	border: none !important;
+}
+.editorpick-holder .video_thumb{ border:none !important;}
+.next_pre_hold{ display: none;}
+#the_Video_Player{
+	width: 100% !important;
+}
+#ep_video_container{
+	background: #ccc;
+}
