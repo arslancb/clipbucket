@@ -5,7 +5,7 @@
         <a href="{videoLink($video)}" title="{$video.title|title}">
             <span class="video_duration">{if
                                 $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}{*$video.duration|date_format:$config.time*}</span>
-            <img class="" src="{getThumb vdetails=$video} " border="1" height="100" width="100"/>
+            <img class="" src="{getThumb vdetails=$video  size='171x120'} " border="1" />
         </a>
         </div>
         <div class="item_text"  style="height: 45px; overflow: hidden;">
@@ -20,7 +20,7 @@
 {if $display_type=='user_videos'}
 <div class="col-md-3  col-sm-4  col-xs-6">
     <a href="{videoLink($video)}" title="{$video.title|title}">
-        <img src="{getThumb vdetails=$video}" id="thumbs_{$video.videoid}"  title=""/>
+        <img src="{getThumb vdetails=$video size='171x120'}" id="thumbs_{$video.videoid}"  title=""/>
     </a>
     <p class="cbHomeVidDuration duration_view">
         {if $video.duration>1}
