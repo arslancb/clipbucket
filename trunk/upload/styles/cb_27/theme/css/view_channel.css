@@ -39,4 +39,7 @@
 	background-color: #000000;color: white
 }
 
+.cover-user-name{
+	background-color:rgba(0,0,0,0.5); padding:2px 4px; border-radius:3px
+}
 

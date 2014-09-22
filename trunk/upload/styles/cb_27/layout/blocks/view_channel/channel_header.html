@@ -1,4 +1,4 @@
-<!-- <div id="messageFav" class="marginTop"></div>
+<div id="messageFav" class="marginTop"></div>
  <div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) center #000000 no-repeat;" >
    {if $user.userid == userid()}
    <a href="#" class="btn btn-primary btn-sm  changeCover sr-only" id="changeCover">{lang code="Update Cover"}</a>
@@ -17,6 +17,7 @@
    </div>
  
    <div class="row">
+
      <div class="col-md-2">
          <a class="navbar-brand" href="#">
              <img class="relative2 thumb-user" src="{$userquery->getUserThumb($user)}">
@@ -24,7 +25,7 @@
      </div>
  
      <div class="col-md-4 padding33">
-         <h3 class="cname">{$user.username}</h3>
+         <h3 class="cname"><span class="cover-user-name">{$user.username}</span></h3>
      </div>
      {if $user.userid == userid()}
      <div class="col-md-4 pull-right padding34 btn-bootums">
@@ -64,10 +65,9 @@
  </div>
  <div class="clearfix"></div>
  <div id="result_cont" class="marginTop"></div>
- <br><br> --> 
+ <br><br> 
 
-
-<div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) no-repeat scroll center center / 100% 100% #000000;" >
+<!-- <div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) no-repeat scroll center center / 100% 100% #000000;" >
       {if $user.userid == userid()}
       <a href="#" class="btn btn-primary btn-sm  changeCover sr-only" id="changeCover">{lang code="Update Cover"}</a>
       {/if}
@@ -127,9 +127,9 @@
         
   </div>
 
-  <div class="channel-user-cover-bottomcategs" style="width:100%;">
+  <div class="channel-user-cover-bottomcategs">
       <div class="" style="width:100%;">
-          <div align="" class="btn-group" style="width:100%;">
+          <div align="" class="btn-group full-width">
               
               <button style="" class="btn btn-primary btns-below-cover"><i class="glyphicon glyphicon-plus-sign white"> </i>{lang code="Add as Friend"}</button>
               <a href="private_message.php?mode=new_msg&to=admin" style="" class="btn btn-primary btns-below-cover"> <i class="glyphicon glyphicon-envelope white"></i>{lang code="Send Message"}</a>
@@ -160,4 +160,4 @@
         </span>
         {/if}
       </div>
-    </div>
+    </div> -->
