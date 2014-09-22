@@ -19,15 +19,25 @@ define("CB_SERVER_THUMB_DIR_NAME",basename(__DIR__));
 define("CB_SERVER_THUMB_URL",PLUG_URL.'/'.CB_SERVER_THUMB_DIR_NAME);
 define("CB_SERVER_THUMB_DIR",PLUG_DIR.'/'.CB_SERVER_THUMB_DIR_NAME);
 
-if(is_writable(CB_SERVER_THUMB_DIR.'/cache'))
-{
+$__resize_thumbs = true;
 
+if(!is_writable(CB_SERVER_THUMB_DIR.'/cache'))
+{
+    $__resize_thumbs  =false;
+
+    if(IS_BACKENED)
+    {
+        e("'cache' directory is not writeable for resizing thumbs","w");
+    }
 }
 
 if(!function_exists('server_thumb'))
 {
 	function server_thumb($vdetails, $array)
 	{
+        global $__resize_thumbs;
+
+        if(!$__resize_thumbs) return;
 	    
         $w=DEFAULT_WIDTH;
 		$h=DEFAULT_HEIGHT;
@@ -149,6 +159,10 @@ if(!function_exists('server_thumb'))
     {
         function get_server_img($params)
         {
+            global $__resize_thumbs;
+
+            if(!$__resize_thumbs) return;
+
             $w=DEFAULT_WIDTH;
             $h=DEFAULT_HEIGHT;
            
