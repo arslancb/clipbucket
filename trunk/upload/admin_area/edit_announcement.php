@@ -25,6 +25,14 @@ if(isset($_POST['update']))
 	$msg = e("Announcement has been updated",'m');
 }
 
+global $db;
+$ann_array = $db->_select('SELECT * FROM '.tbl("global_announcement"));
+
+if(is_array($ann_array))
+assign('an', $ann_array[0]['announcement']);
+else
+assign('an', '');
+
 subtitle("Annoucment Manager");
 template_files('edit_announcemnent.html');
 display_it();
