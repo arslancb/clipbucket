@@ -1,73 +1,73 @@
-<div id="messageFav" class="marginTop"></div>
-<div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) center #000000 no-repeat;" >
-  {if $user.userid == userid()}
-  <a href="#" class="btn btn-primary btn-sm  changeCover sr-only" id="changeCover">{lang code="Update Cover"}</a>
-  {/if}
-  <div class="row">
-    <div align="center" class="col-md-4 pull-right btn-group right-top-btns">
-      <a href="javascript:void(0)"  class="btn btn-primary btn-sm new1" 
-          onclick="add_friend('{$user.userid}','result_cont')">
-          <i class="glyphicon glyphicon-plus-sign white"></i>   
-          {lang code="Add as Friend"}
-      </a>
-        <a href="private_message.php?mode=new_msg&to={$user.username}" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-envelope white"></i>  {lang code="Send Message"}</a>
+<!-- <div id="messageFav" class="marginTop"></div>
+ <div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) center #000000 no-repeat;" >
+   {if $user.userid == userid()}
+   <a href="#" class="btn btn-primary btn-sm  changeCover sr-only" id="changeCover">{lang code="Update Cover"}</a>
+   {/if}
+   <div class="row">
+     <div align="center" class="col-md-4 pull-right btn-group right-top-btns">
+       <a href="javascript:void(0)"  class="btn btn-primary btn-sm new1" 
+           onclick="add_friend('{$user.userid}','result_cont')">
+           <i class="glyphicon glyphicon-plus-sign white"></i>   
+           {lang code="Add as Friend"}
+       </a>
+         <a href="private_message.php?mode=new_msg&to={$user.username}" class="btn btn-primary btn-sm new1"><i class="glyphicon glyphicon-envelope white"></i>  {lang code="Send Message"}</a>
+ 
+         <button id="subscribe_channel"class="btn btn-primary btn-sm new1"><i class="icon-rss icon-spin white"></i>  {lang code="Subscribe"}</button>
+     </div>
+   </div>
+ 
+   <div class="row">
+     <div class="col-md-2">
+         <a class="navbar-brand" href="#">
+             <img class="relative2 thumb-user" src="{$userquery->getUserThumb($user)}">
+         </a>
+     </div>
+ 
+     <div class="col-md-4 padding33">
+         <h3 class="cname">{$user.username}</h3>
+     </div>
+     {if $user.userid == userid()}
+     <div class="col-md-4 pull-right padding34 btn-bootums">
+         <button class="btn btn-primary new1" >
+             <span class="line-height-1 bigger-170 blue">{$user.total_videos}</span>
+             <br>
+             <span class="line-height-1 smaller-90 new1"> Videos </span>
+         </button>
+         <span class="btn btn-primary new1" >
+             <span class="line-height-1 bigger-170 blue">{$user.total_photos}</span>
+             <br>
+             <span class="line-height-1 smaller-90 new1"> Photos </span>
+         </span>
+         <span class="btn btn-primary new1" >
+             <span class="line-height-1 bigger-170 blue">{$user.profile_hits}</span>
+             <br>
+             <span class="line-height-1 smaller-90 new1"> Views </span>
+         </span>
+         <span class="btn btn-primary new1" >
+             <span class="line-height-1 bigger-170 blue">{$user.subscribers}</span>
+             <br>
+             <span class="line-height-1 smaller-90 new1"> Contacts </span>
+         </span>
+     </div>
+     {/if}
+   </div>
+   <div class="btn-group col-md-6 channel">
+     <h6 class="padding35"><b><span id="likes">{$user["likes"]}</span> people like this channel out of <span id="totalVotes">{$user["voted"]}</span></b></h6>
+       {if !$userquery->login_check('',true)}
+         <button id="login-like" class="btn btn-primary btn-sm"  href="#" data-toggle="modal" data-target="#login-modal"><i class="glyphicon glyphicon-thumbs-up"></i>  <b>Login to like</b>
+         </button>
+     {else}
+       <button class="btn btn-danger btn-sm" id="channelVoteDown" ><i class="glyphicon glyphicon-thumbs-down"></i><b>  No</b></button>
+       <button id="channelVoteUp" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-thumbs-up"></i>  <b>Do you like this channel ?</b></button>
+     {/if}
+   </div>
+ </div>
+ <div class="clearfix"></div>
+ <div id="result_cont" class="marginTop"></div>
+ <br><br> --> 
 
-        <button id="subscribe_channel"class="btn btn-primary btn-sm new1"><i class="icon-rss icon-spin white"></i>  {lang code="Subscribe"}</button>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="col-md-2">
-        <a class="navbar-brand" href="#">
-            <img class="relative2 thumb-user" src="{$userquery->getUserThumb($user)}">
-        </a>
-    </div>
-
-    <div class="col-md-4 padding33">
-        <h3 class="cname">{$user.username}</h3>
-    </div>
-    {if $user.userid == userid()}
-    <div class="col-md-4 pull-right padding34 btn-bootums">
-        <button class="btn btn-primary new1" >
-            <span class="line-height-1 bigger-170 blue">{$user.total_videos}</span>
-            <br>
-            <span class="line-height-1 smaller-90 new1"> Videos </span>
-        </button>
-        <span class="btn btn-primary new1" >
-            <span class="line-height-1 bigger-170 blue">{$user.total_photos}</span>
-            <br>
-            <span class="line-height-1 smaller-90 new1"> Photos </span>
-        </span>
-        <span class="btn btn-primary new1" >
-            <span class="line-height-1 bigger-170 blue">{$user.profile_hits}</span>
-            <br>
-            <span class="line-height-1 smaller-90 new1"> Views </span>
-        </span>
-        <span class="btn btn-primary new1" >
-            <span class="line-height-1 bigger-170 blue">{$user.subscribers}</span>
-            <br>
-            <span class="line-height-1 smaller-90 new1"> Contacts </span>
-        </span>
-    </div>
-    {/if}
-  </div>
-  <div class="btn-group col-md-6 channel">
-    <h6 class="padding35"><b><span id="likes">{$user["likes"]}</span> people like this channel out of <span id="totalVotes">{$user["voted"]}</span></b></h6>
-      {if !$userquery->login_check('',true)}
-        <button id="login-like" class="btn btn-primary btn-sm"  href="#" data-toggle="modal" data-target="#login-modal"><i class="glyphicon glyphicon-thumbs-up"></i>  <b>Login to like</b>
-        </button>
-    {else}
-      <button class="btn btn-danger btn-sm" id="channelVoteDown" ><i class="glyphicon glyphicon-thumbs-down"></i><b>  No</b></button>
-      <button id="channelVoteUp" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-thumbs-up"></i>  <b>Do you like this channel ?</b></button>
-    {/if}
-  </div>
-</div>
-<div class="clearfix"></div>
-<div id="result_cont" class="marginTop"></div>
-<br><br> 
-
-
-<!-- <div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) no-repeat scroll center center / 100% 100% #000000;" >
+<div class="relative1" id="coverConainer" style="background: url({$coverPhoto}) no-repeat scroll center center / 100% 100% #000000;" >
       {if $user.userid == userid()}
       <a href="#" class="btn btn-primary btn-sm  changeCover sr-only" id="changeCover">{lang code="Update Cover"}</a>
       {/if}
@@ -123,7 +123,11 @@
         {/if}
       </div>
 
-    <div class="channel-user-cover-bottomcategs" style="width:100%;">
+    
+        
+  </div>
+
+  <div class="channel-user-cover-bottomcategs" style="width:100%;">
       <div class="" style="width:100%;">
           <div align="" class="btn-group" style="width:100%;">
               
@@ -157,5 +161,3 @@
         {/if}
       </div>
     </div>
-        
-  </div> -->

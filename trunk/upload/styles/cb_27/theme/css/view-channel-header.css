@@ -14,4 +14,11 @@
 .btns-below-cover i{ margin-right:4px;}
 .btns-below-cover2{ width:23.9% !important; float: left;}
 .btns-below-cover3{ width:26% !important; float: left;}
+
+
+@media (min-width: 768px) and (max-width:3000px) {
+.channel-user-cover-bottomcategs{ 
+    display: block;
+}
+}
 /*chanel end */

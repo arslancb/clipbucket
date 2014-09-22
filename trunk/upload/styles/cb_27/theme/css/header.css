@@ -71,17 +71,7 @@
 }
 
 
-/* default standard classes to be added in main.css start */
-.no-margin{ 
-  margin:0px; 
-}
-.cursor-pointer{
-  cursor: pointer;
-}
-.no-border{
-  border: none;
-}
-/* default standard classes to be added in main.css end */
+
 
 @media (min-width: 768px) and (max-width:4000px) {
 .navig-resp-bg, .search-resp-bg{

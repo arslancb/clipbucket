@@ -2538,3 +2538,18 @@ padding-right: 0px;
     border-radius: 36px;
     margin: 1px 0;
 }
+
+/* default standard classes start usman */
+.full-width{ 
+    width: 100%;
+}
+.no-margin{ 
+  margin:0px; 
+}
+.cursor-pointer{
+  cursor: pointer;
+}
+.no-border{
+  border: none;
+}
+/* default standard classes end usman */

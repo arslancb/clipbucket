@@ -38,10 +38,5 @@
 .btn-bootums button,.btn-bootums button:hover,.btn-bootums .btn-primary {
 	background-color: #000000;color: white
 }
-#channelVoteDown{
-	width: 50px;
-}
-#channelVoteUp,#login-like{
-	width: 218px;
-}
+
 
