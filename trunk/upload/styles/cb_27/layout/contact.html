@@ -1,36 +1,42 @@
 <div id="container">
 	<div class="container marginBottom">
 		<div class="cb-box clearfix row">
-			<div style="margin:auto; width:98%"><h2>{lang code="contact_us"}</h2>
+		<div class="well well-sm">
+		<h2>{lang code="contact_us"}</h2>
 
 			<p>{lang code="contact_us_msg"}</p>
-			<form id="form1" name="form1" method="post" action="" class="contact_form">
-			  <label for="name">{lang code="name"}</label>
-			  <input type="text" name="name" id="name" />
-			  <div style="height:10px;"></div>
-			  <label for="email">{lang code="email"|capitalize}</label>
-			  <input type="text" name="email" id="email" />
-			  <div style="height:10px;"></div>
-			  <label for="reason">{lang code="pelase_enter_reason"}</label>
-			  <input type="text" name="reason" id="reason" />
-			  <div style="height:10px;"></div>
-			  <label for="message">{lang code="message"}</label>
-			  <textarea name="message" id="message" cols="45" rows="5"></textarea>
-			  <div style="height:10px;"></div>
-			  
-			{assign var=captcha value=get_captcha()}
-			{if $captcha} 
-			    {if $captcha.show_field}
-			        <label for="verification_code">Verification Code</label>
-			            {load_captcha captcha=$captcha load=field field_params = ' id="verification_code" '}
-			    {/if}
-			   <div align="right" style="width:480px">&nbsp;{load_captcha captcha=$captcha load=function}</div>
-			{/if}
-
-			 <div align="right" style="width:480px; padding-top:10px"> <input type="submit" name="contact" id="button" value="Contact Us" class="cb_button" /> </div>           
-			</form>
-			<p>&nbsp;</p>
-			</div>
+               <form id="form1" name="form1" method="post" action="" class="contact_form">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="name">{lang code="name"}</label>
+                            <input type="text" required="required" placeholder="Enter name" id="name" name="name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">{lang code="email"|capitalize}</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span>
+                                </span>
+                                <input type="email" required="required" placeholder="Enter email" id="email" name="email" class="form-control"></div>
+                        </div>
+                        <div class="form-group">
+                             <label for="reason">{lang code="pelase_enter_reason"}</label>
+			  				  <input type="text" required="required" placeholder="Enter name" id="reason" name="reason" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                           <label for="message">{lang code="message"}</label>
+                            <textarea placeholder="Message" required="required" cols="25" rows="9" class="form-control" id="message" name="message"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <button id="btnContactUs" class="btn btn-primary pull-right" type="submit">Send Message</button>   
+                    </div>
+                </div>
+                </form>
+            </div>
+					
 		</div>
 	</div>
 </div>			
