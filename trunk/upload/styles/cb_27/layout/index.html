@@ -37,8 +37,8 @@
         </div>
 
 		<!-- Editor Pick Videos Slider Container START //-->
-        <div class="col-md-4 editorpick-holder pull-right">
-            <div id="slide" class="vscroll">
+        <div class="col-md-4 editorpick-holder pull-right custom-elements">
+            <div id="slide" class="scrollable-area">
 				{section name=e_list loop=$editor_picks}
             	{include file="$style_dir/blocks/editor_pick/index_featured_video.html" video=$editor_picks[e_list]}
 				{/section}
@@ -99,7 +99,7 @@
 			            {$video_01.duration|date_format:$config.time}
 			            </div>
 			            <div class="cbHomeVidDuration_left mouse_hover_on">
-			            By: {$video_01.username}
+			            	{$video_01.username}
 			            </div>
 
 						
@@ -154,11 +154,11 @@
 
 				
 		        <div class="row nopadding">
-		        	<h3>{lang('Recent videos')}</h3>
+		        	<h3 class="myHeading theme_color">{lang('Recent videos')}</h3>
 		        	{$videos=get_videos(["order" =>"date_added DESC", "limit" =>12])}
 
 		        	{foreach $videos as $video}
-		        		<div class="col-md-3  col-sm-4  col-xs-6 marginBottom grid_view list_view nopadding-right">
+		        		<div class="col-md-3  col-sm-4  col-xs-6 marginBottom grid_view recent-col list_view nopadding-right">
 						{include file="$style_dir/blocks/video.html"}
 						</div>
 		        	{/foreach}
@@ -273,8 +273,8 @@
 					<h4 class="nopadding "><a href="{$userquery->profile_link($result_users[result_users])}">{$result_users[result_users].username}</a></h4>
 				</div>
 				<div class=" nopadding col-md-6 min-height-20">
-					<div class="pull-left small"><small>{$result_users[result_users].profile_hits|number_format} {lang code='views'}</small></div>
-					<div class="pull-right small"><small>{$result_users[result_users].total_videos|number_format} {lang code='Videos'}</small></div>
+					<div class="pull-left small"><span>{$result_users[result_users].profile_hits|number_format} {lang code='views'}</span></div>
+					<div class="pull-right small"><span>{$result_users[result_users].total_videos|number_format} {lang code='Videos'}</span></div>
 				</div>
                     <br>
                     <div class="row pull-left" style="margin-left: 0px; width: 99%;">
@@ -303,38 +303,28 @@
 	        <!-- ************* USER BLOCK END ************ //-->
 	        <!-- ******************************************* //-->
 
-
-			<!-- ******************************************* //-->
-	        <!-- ********** FACEBOOK BLOCK START *********** //-->
-	        <!-- ******************************************* //-->
-			<div class="col-md-4 nopadding" >
-                 <div class="fb-like-box" data-href="https://www.facebook.com/ClipBucket" data-width="390" data-colorscheme="dark" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false" data-css="http://dev.cbnew/styles/cbv2.7/theme/css/main.css?cache="></div>
-
-               <!-- <iframe style="height: 250px; width: 390px;" src="http://www.facebook.com/plugins/like_box.php?app_id=120542078043680&channel=http%3A%2F%2Fstatic.ak.facebook.com%2Fconnect%2Fxd_arbiter%2FZEbdHPQfV3x.js%3Fversion%3D41%23cb%3Df24a645ace6ddec%26domain%3Ddev.cbnew%26origin%3Dhttp%253A%252F%252Fdev.cbnew%252Ff29fda61c97ae42%26relation%3Dparent.parent&color_scheme=dark&header=true&href=https%3A%2F%2Fwww.facebook.com%2FClipBucket&locale=en_US&sdk=joey&show_border=true&show_faces=true&stream=false&width=390&amp;css=http://dev.cbnew/styles/cbv2.7/theme/css/main.css"></iframe> -->
-     </div>
-			<!-- ******************************************* //-->
-	        <!-- ********** FACEBOOK BLOCK END *********** //-->
-	        <!-- ******************************************* //-->
-
 			<div class="col-md-4 comment_home side_user_home" >
-					<h4 class="home-side-heading">{lang code="Top Collections"}</h4>
-        {if $collections}        
-				{foreach from=$collections item=collection}
-					<div class="collection_home mouse_hover">
+				<h4 class="home-side-heading">{lang code="Top Collections"}</h4>
+	        	{if $collections}        
+					{foreach from=$collections item=collection}
+						<div class="collection_home mouse_hover">
 
-						<a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
-						<div class="details mouse_hover_on">
-							<div align="center" class="collection_name">{$collection.collection_name}</div>
-							<div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>
+							<a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
+							<div class="details mouse_hover_on">
+								<div align="center" class="collection_name">{$collection.collection_name}</div>
+								<div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>
+							</div>
+							</a>
+						<img class="cb_img_thum" src="{$cbcollection->get_thumb($collection,'',TRUE)}"/>
 						</div>
-						</a>
-					<img class="cb_img_thum" src="{$cbcollection->get_thumb($collection,'',TRUE)}"/>
-					</div>
-				{/foreach}
-				{else}
-				<div class="col-md-12 nopadding">No Collection</div>
-				{/if}
-			</div>
+					{/foreach}
+					{else}
+					<div class="col-md-12 nopadding">No Collection</div>
+					{/if}
+				</div>
+
+	     </div>
+		
 
 		</div>
 		</div>

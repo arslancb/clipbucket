@@ -336,10 +336,17 @@ class pages{
 			$pagination_smart = '';
 			for($i=1;$i<=$total_pages;$i++)
 			{
+				if($i==1)
+				{
+					$pagination_smart .="<li>";
+				}
 				if($i == $selected)
-					$pagination_smart .= ' <span class ="selected">'.$i.'</span> ';
+					$pagination_smart .= '<span class ="selected">'.$i.'</span>';
 				else
 					$pagination_smart .=$this->create_link($i,$link,$extra_params,$tag);
+
+				if($i==1)
+					$pagination_smart .="</li>";
 			}
 			
 			//Previous Page
