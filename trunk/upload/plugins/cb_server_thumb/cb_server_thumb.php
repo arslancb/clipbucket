@@ -17,13 +17,28 @@ define("DEFAULT_HEIGHT",120);
 
 define("CB_SERVER_THUMB_DIR_NAME",basename(__DIR__));
 define("CB_SERVER_THUMB_URL",PLUG_URL.'/'.CB_SERVER_THUMB_DIR_NAME);
+define("CB_SERVER_THUMB_DIR",PLUG_DIR.'/'.CB_SERVER_THUMB_DIR_NAME);
+
+if(is_writable(CB_SERVER_THUMB_DIR.'/cache'))
+{
+
+}
 
 if(!function_exists('server_thumb'))
 {
 	function server_thumb($vdetails, $array)
 	{
-	    $w=DEFAULT_WIDTH;
+	    
+        $w=DEFAULT_WIDTH;
 		$h=DEFAULT_HEIGHT;
+
+        list($width,$height) = explode('x',$array['size']);
+        if(isset($width) && is_numeric($width) && isset($height) && is_numeric($height) )
+        {
+            $w = $width;
+            $h = $height;   
+        }
+
 		if( $array['num']=='big' || $array['size']=='big' )
         {
           $w = 320;
