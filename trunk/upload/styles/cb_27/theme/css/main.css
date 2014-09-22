@@ -457,8 +457,9 @@ a:focus{outline: none !important;}
     height: 40px;
     text-indent: -500000px;
     display: inline-block;
-    margin-top: 9px;
+    margin:14px 0 0 20px;
 }
+.navbar-right{ margin: 0 10px 0 0;}
 /**/
 /*.nopadding .fb-like-box.fb_iframe_widget .pas{ display: none !important;}*/
 

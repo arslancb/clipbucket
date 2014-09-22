@@ -62,7 +62,7 @@
 
 .upload-dropdown-btn-d{
   position: absolute;
-  top:6px;
+  top:0;
   right: 140px;
 }
 .upload-btn-pad{ padding:3px 5px !important; }
