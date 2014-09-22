@@ -74,7 +74,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
 .cb_img_thum{
     border: 1px solid #DDDDDD;
     padding: 0;
-    max-width: 100%;
+    width: 100%;
 }
 .margin-top-25{
     margin-top: 25px !important;
