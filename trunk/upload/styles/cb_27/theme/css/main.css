@@ -2169,7 +2169,7 @@ height: 244px !important;
 }
 .side_user_home{
     padding: 5px;
-     padding-top:10px; padding-bottom:10px; margin-bottom:10px;
+    padding-top:5px; padding-bottom:10px; margin-bottom:10px;
 }
 .side_user_home .user_icon{
     position:absolute; top: 25%; right:5px;
@@ -2218,6 +2218,7 @@ width: 740px !important;
 #slide{
     /*left: 13px;*/
     left: 0;
+    margin: 10px 0 0;
     padding: 0 5px 0 0 !important;
 }
 .margin-bottom-10{
@@ -2225,7 +2226,7 @@ margin-bottom: 10px !important;
 }
 .home-side-heading{
     border-bottom: 1px solid #d1d1d1;
-    margin-top: 5px;
+    margin-top: 0;
     font-weight: bold;
     padding-bottom: 5px;
 } 

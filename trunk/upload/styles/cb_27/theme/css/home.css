@@ -24,7 +24,7 @@
 	width: 100%;
 	/*height: 432px;*/
 	overflow-y:auto !important;
-	height: 250px !important;
+	height: 400px !important;
 }
 .editorpick-holder .featured_vid_con{
 	/*position: absolute;
@@ -135,4 +135,7 @@
 }
 .grid_view.recent-col h5 a:hover{
 	color: #000;
+}
+#ep_video_container{
+	margin: 15px 0 0;
 }
