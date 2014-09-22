@@ -110,7 +110,7 @@
 							{if $video_02@iteration >1 && $video_02@iteration < 4}
 							<div class="col-md-12 text-center nopadding mouse_hover1" style="{if not $smarty.foreach.foo.last} min-height: 150px; {/if} " >
 							<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
-							<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='big' }" width="240" height="133" {ANCHOR place="video_thumb" data=$video_03} />
+							<img class="cb_img_thum" src="{getThumb vdetails=$video_02 size='big' }" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
 							<div class="cbHomeVidTitle mouse_hover_on1">{$video_02.title|truncate:10}</div>
 							</a>
 
@@ -127,13 +127,13 @@
 						{foreach $featured_videos as $video_02}
 						{if $video_02@iteration >3}
 						<div class="col-md-6 hidden-sm hidden-xs text-center nopadding-left mouse_hover">
-						<a href="{videoLink vdetails=$video_03}" title="{$video_02.title}">
-						<img src="{getThumb vdetails=$video_03 size='big'}" width="240" height="133" {ANCHOR place="video_thumb" data=$video_03} />
-						<div class="cbHomeVidTitle cbHomeVidTitle_small mouse_hover_on">{$video_03.title|truncate:10}</div>
+						<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
+						<img src="{getThumb vdetails=$video_02 size='big'}" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
+						<div class="cbHomeVidTitle cbHomeVidTitle_small mouse_hover_on">{$video_02.title|truncate:10}</div>
 						</a>
 
 			            <div class="cbHomeVidDuration cbHomeVidDuration_more mouse_hover_on">
-			            {$video_03.duration|date_format:$config.time}
+			            {$video_02.duration|date_format:$config.time}
 			            </div>
 		                
 						</div>
