@@ -11,13 +11,20 @@ Website: http://clip-bucket.com/
 Plugin Type: global
 */
 
+define("DEFAULT_WIDTH",200);
+define("DEFAULT_HEIGHT",120);
+
+
+define("CB_SERVER_THUMB_DIR_NAME",basename(__DIR__));
+define("CB_SERVER_THUMB_URL",PLUGIN_URL.'/'.CB_SERVER_THUMB_DIR_NAME);
+
 if(!function_exists('server_thumb'))
 {
 	function server_thumb($vdetails, $array)
 	{
 		
-        $w=100;
-		$h=100;
+        $w=DEFAULT_WIDTH;
+		$h=DEFAULT_HEIGHT;
 		if( $array['num']=='big' || $array['size']=='big' )
     {
       $w = 320;
@@ -37,7 +44,7 @@ if(!function_exists('server_thumb'))
     $tim_postfix = '&type=photos&h='.$h.'&w='.$w.'&zc=1';
    
 		global $baseurl;
-		$timthumb_path = $baseurl.'/plugins/cb_server_thumb/timthumb.php?src=';
+		$timthumb_path = CB_SERVER_THUMB_URL.'/timthumb.php?src=';
 
 		#get all possible thumbs of video
     $thumbDir = (isset($vdetails['file_directory']) && $vdetails['file_directory']) ? $vdetails['file_directory'] : "";
