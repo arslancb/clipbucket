@@ -43,7 +43,7 @@
   right:1%;
 }
 
-
+.left-margin-xero{ margin-left: 0px !important;}
 
 .mrxll{ margin-right: 50px;}
 
@@ -70,7 +70,7 @@
   max-height: 100%;
 }
 
-
+.pad-left-xero{padding-left: 0px!important;}
 
 
 @media (min-width: 768px) and (max-width:4000px) {
@@ -92,6 +92,6 @@
 .upload-dropdown-btn-d{
   position: absolute;
   top:1px;
-  right:73px;
+  right:88px;
 }
 }

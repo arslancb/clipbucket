@@ -1,3 +1,7 @@
+#coverConainer{
+	max-height: 200px;
+	margin-bottom: 40px;
+}
 .changeCover{
     position: absolute;
     top: 10px;
@@ -41,5 +45,18 @@
 
 .cover-user-name{
 	background-color:rgba(0,0,0,0.5); padding:2px 4px; border-radius:3px
+}
+
+
+
+@media (min-width: 768px) and (max-width:1200px) {
+	.right-top-btns {
+    margin-right:0px;
+    padding-left:0px;
+    padding-top: 5px;
+}
+.btn-bootums {
+    margin-right:0px;
+}
 }
 
