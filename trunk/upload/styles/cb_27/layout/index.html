@@ -124,10 +124,10 @@
 
 						{/foreach}
 						</div>
-						<div class="col-md-8 text-center nopadding">
+						<div class="col-lg-12 col-md-8 text-center nopadding">
 						{foreach $featured_videos as $video_02}
 						{if $video_02@iteration >3}
-						<div class="col-md-6 hidden-sm hidden-xs text-center nopadding-left mouse_hover">
+						<div class="col-lg-4 col-md-6 hidden-sm hidden-xs featured-video text-center nopadding-right mouse_hover {if $video_02@iteration==4}nopadding{/if}">
 						<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
 						<img src="{getThumb vdetails=$video_02 size='big'}" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
 						<div class="cbHomeVidTitle cbHomeVidTitle_small mouse_hover_on">{$video_02.title|truncate:10}</div>
@@ -320,7 +320,7 @@
 
 								<img
 
-								style="background-image:url('{$cbcollection->get_thumb($collection,'',TRUE)}') center"
+								style="background:url('{$cbcollection->get_thumb($collection,'',TRUE)}')"
 								 class="cb_img_thum" src="{$imageurl}/dot.gif"/>
 							</a>
 							
