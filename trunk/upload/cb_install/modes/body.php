@@ -33,15 +33,15 @@
   <div class="cb_container">
     <div class="cb_navbar">
         <ul class="headstatus" >
-           <li <?=selected('agreement')?>>Agreement<span></span></li>
-            <li <?=selected('precheck')?>>Pre Check<span></span></li>
-            <li <?=selected('permission')?>>Permissions<span></span></li>
-            <li <?=selected('database')?>>Database<span></span></li>
-            <li <?=selected('dataimport')?>>Data import<span></span></li>
-            <li <?=selected('adminsettings')?>>Admin Settings<span></span></li>
-            <li <?=selected('sitesettings')?>>Site Settings<span></span></li>
-            <li <?=selected('register')?>>Register<span></span></li>
-            <li <?=selected('finish')?>>Finish<span></span></li>
+           <li <?php echo selected('agreement'); ?>>Agreement<span></span></li>
+            <li <?php echo selected('precheck'); ?>>Pre Check<span></span></li>
+            <li <?php echo selected('permission'); ?>>Permissions<span></span></li>
+            <li <?php echo selected('database'); ?>>Database<span></span></li>
+            <li <?php echo selected('dataimport'); ?>>Data import<span></span></li>
+            <li <?php echo selected('adminsettings'); ?>>Admin Settings<span></span></li>
+            <li <?php echo selected('sitesettings'); ?>>Site Settings<span></span></li>
+            <li <?php echo selected('register'); ?>>Register<span></span></li>
+            <li <?php echo selected('finish'); ?>>Finish<span></span></li>
         </ul>
     </div><!--top_tabs-->
 </div><!--cb_container-->
@@ -53,10 +53,10 @@
   <div class="cb_container">
     <div class="cb_navbar">
         <ul class="headstatus" >
-           <li  <?=selected('upgrade')?>>Upgrade</li>
-            <li  <?=selected('permission')?>>permission<span></span></li>
-            <li  <?=selected('dataimport')?>>dataimport<span></span></li>
-            <li  <?=selected('finish_upgrade')?>>finish_upgrade<span></span></li>
+           <li  <?php echo selected('upgrade'); ?>>Upgrade</li>
+            <li  <?php echo selected('permission'); ?>>permission<span></span></li>
+            <li  <?php echo selected('dataimport'); ?>>dataimport<span></span></li>
+            <li  <?php echo selected('finish_upgrade'); ?>>finish_upgrade<span></span></li>
           
         </ul>
     </div><!--top_tabs-->

@@ -31,7 +31,7 @@ here you can set basic configuration of your website, you can change them later 
 <p>-->
 <div id="sub_container" class="br5px">
 
- <div class="db_image"><img src=<?installer_path()?>"images/site_setting.png" style="margin-top: 28px;margin-left: 545px;"  width="280" height="280"/></div>
+ <div class="db_image"><img src="<?php echo installer_path(); ?>images/site_setting.png" style="margin-top: 28px;margin-left: 545px;"  width="280" height="280"/></div>
 <div class="site_fields"  style="margin-top:-290px;">
 <form name="installation" method="post" id="installation">
     

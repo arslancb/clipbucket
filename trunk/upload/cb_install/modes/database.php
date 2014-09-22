@@ -18,7 +18,7 @@
 <div id="sub_container" class="br5px">
 
 <div class="errorDiv br5px" id="dbresult" style="display:none"></div>
-<div class="db_image"><img src=<?installer_path()?>"images/db_img.png" style="margin-top: 28px;margin-left: 485px;"  width="392" height="392"/></div>
+<div class="db_image"><img src="<?php echo installer_path(); ?>images/db_img.png" style="margin-top: 28px;margin-left: 485px;"  width="392" height="392"/></div>
 
 <div  class="db_fields" style="margin-top:-430px;">
     <form name="installation" method="post" id="installation">
@@ -63,7 +63,7 @@ change this.</p>
     <input type="hidden" name="mode" value="dataimport" />
     
     </form>
-<div style="padding:10px 0px" align="left"><?=button('Check Connection',' onclick="dbconnect()" ');?> <span id="loading"></span></div>
+<div style="padding:10px 0px" align="left"><?php echo button('Check Connection',' onclick="dbconnect()" ');?> <span id="loading"></span></div>
 
 
 </div>

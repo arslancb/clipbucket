@@ -57,7 +57,7 @@ $php_ver = check_module('php');
 </div><!--nav_des-->
 
   <div class="cb_container">
-   <a href="http://www.arvixe.com/clipbucket_hosting?utm_campaign=Installer&utm_medium=banner&utm_source=clipbucket.com" target="blank"> <img src=<?installer_path()?>"images/Arvixe-Banner.png" style="margin-top: 18px;margin-left: 135px;"  /></a>
+   <a href="http://www.arvixe.com/clipbucket_hosting?utm_campaign=Installer&utm_medium=banner&utm_source=clipbucket.com" target="blank"> <img src="<?php echo installer_path(); ?>images/Arvixe-Banner.png" style="margin-top: 18px;margin-left: 135px;"  /></a>
     </div>
 
 <?   ?>
@@ -95,7 +95,7 @@ $php_ver = check_module('php');
 
 <form name="installation" method="post" id="installation">
     <input type="hidden" name="mode" value="permission" />
-    <div style="padding:10px 0px" align="right"><?=button('Continue To Next Step',' onclick="$(\'#installation\').submit()" ');?></div>
+    <div style="padding:10px 0px" align="right"><?php echo button('Continue To Next Step',' onclick="$(\'#installation\').submit()" '); ?></div>
 </form>
 
 

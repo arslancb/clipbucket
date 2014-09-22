@@ -57,7 +57,7 @@ echo '<br><span class="glyphicon glyphicon-ok"  style="color:#fff"></span><span 
 </div><!--nav_des-->
 <div id="sub_container" class="br5px">
 
-    <div class="db_image"><img src=<?installer_path()?>"images/user_thumb.png" style="margin-top: 38px;margin-left: 495px;"  width="250" height="280"/></div>
+    <div class="db_image"><img src="<?php echo installer_path(); ?>images/user_thumb.png" style="margin-top: 38px;margin-left: 495px;"  width="250" height="280"/></div>
 <form name="installation" method="post" id="installation">
     
     <div class="field" style="margin-top:-310px;">
@@ -85,6 +85,6 @@ echo '<br><span class="glyphicon glyphicon-ok"  style="color:#fff"></span><span 
     
     <input type="hidden" name="mode" value="sitesettings" /><br>
      
-   <?=button('Save and Continue',' onclick="$(\'#installation\').submit()" ');?>
+   <?php echo button('Save and Continue',' onclick="$(\'#installation\').submit()" ');?>
 </form>
 </p>
