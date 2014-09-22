@@ -313,12 +313,17 @@
 						<div class="collection_home mouse_hover">
 
 							<a href="{$baseurl}/view_collection.php?cid={$collection.collection_id}&type={$collection.type}" title="{$collection.collection_name}">
-							<div class="details mouse_hover_on">
-								<div align="center" class="collection_name">{$collection.collection_name}</div>
-								<div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>
-							</div>
+								<div class="details mouse_hover_on">
+									<div align="center" class="collection_name">{$collection.collection_name}</div>
+									<div align="center" class="collection_total">{$collection.total_objects} {$collection.type}</div>
+								</div>
+
+								<img
+
+								style="background-image:url('{$cbcollection->get_thumb($collection,'',TRUE)}') center"
+								 class="cb_img_thum" src="{$imageurl}/dot.gif"/>
 							</a>
-						<img class="cb_img_thum" src="{$cbcollection->get_thumb($collection,'',TRUE)}"/>
+							
 						</div>
 					{/foreach}
 				{else}
