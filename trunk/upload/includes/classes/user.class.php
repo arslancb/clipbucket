@@ -1582,7 +1582,7 @@ class userquery extends CBCategory{
 				//echo $gravatar->toHTML();
 			}
 		}
-		
+
 		$ext = GetExt($thumb_file);
 		$file = getName($thumb_file);
 		
@@ -1597,8 +1597,33 @@ class userquery extends CBCategory{
 		if($just_file)
 			return $file.'.'.$ext;
 		
+		if($size){
+
+			$thumb = USER_THUMBS_URL.'/'.$file.'.'.$ext;
+			return $this->resizer($size,$thumb);
+			
+		}
 		return $thumb;
 	}
+
+	/**
+	 * Function used to resize image of avatar using timthumb
+	 */
+	function resizer($size,$src)
+	{
+		if($size)
+		$size =	explode('x', $size);
+
+		$w=$size[0];
+		$h=$size[1];
+		
+		if(!$w) $w=120;
+	
+		if(!$h) $h=90;		
+
+		return	BASEURL."/includes/classes/timthumb/timthumb.php?src=$src&w=$w&h=$h";
+	}
+
 	function avatar($udetails,$size='',$uid=NULL)
 	{
 		return $this->getUserThumb($udetails,$size,$uid);
