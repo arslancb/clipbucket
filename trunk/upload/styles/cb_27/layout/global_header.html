@@ -57,6 +57,8 @@
         <link rel="stylesheet" href="{$theme}/css/main.css?cache={$cache_buster}" />
         <link rel="stylesheet" href="{$theme}/css/channel.css?cache={$cache_buster}" />
         <link rel="stylesheet" href="{$theme}/css/groups.css?cache={$cache_buster}" />
+        <link rel="stylesheet" href="{$theme}/css/header.css?cache={$cache_buster}">
+
         
         {*/if*}
         <link href="{$theme}/css/jquery.mCustomScrollbar.css" rel="stylesheet" />
@@ -65,6 +67,12 @@
         {if this_page('watch_video')}
         <link rel="stylesheet" href="{$theme}/css/watch-video.css">
     	{/if}
+
+    	{if this_page('view_channel')}
+        <link rel="stylesheet" href="{$theme}/css/view-channel-header.css">
+    	{/if}
+
+
     	
         {if this_page('upload')}
         <link rel="stylesheet" href="{$theme}/css/uploader.css">

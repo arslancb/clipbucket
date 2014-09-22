@@ -1,190 +1,239 @@
 
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="navbar-container clearfix">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#khulja-sim-sim">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-
-                <button type="button" class="navbar-toggle nav-toggle" data-toggle="collapse" data-target="#navbar-search-collapse">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-
-                <a class="navbar-brand cb-logo" href="{$baseurl}">{$website_title}</a>
-            </div>
-
-                {$head_menu=cb_menu()}
-
-                <div class="navbar-collapse navbar-sm-search collapse" id="navbar-search-collapse">
-                    <!--<form class="" role="search" action="{$baseurl}">-->
-                    <form class="navbar-form navbar-left searchform" role="search">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search">
-                            <span class="input-group-btn">
-                                <input type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go!'}" class="btn btn-default" />
-                            </span>
-                        </div>
-                    </form>
-                </div>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="navbar-container clearfix">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle navig-resp-bg" data-toggle="collapse" data-target="#khulja-sim-sim">
+                <!--<span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span> -->
+            </button>
 
 
-                <ul class="nav navbar-nav main-nav navbar-collapse collapse" id="khulja-sim-sim">
+            <button type="button" class="navbar-toggle nav-toggle search-resp-bg" data-toggle="collapse" data-target="#navbar-search-collapse">
+               <!--  <span class="glyphicon glyphicon-search"></span> -->
+            </button>
 
+            <a class="navbar-brand cb-logo" href="{$baseurl}">{$website_title}</a>
+        </div>
 
-                    {foreach $head_menu as $menu}
-                        {if $menu@iteration < 5}
-                            <li {if $menu.active}class="active"{/if}><a href="{$menu.link}">{$menu.name}</a></li>
-                        {/if}
-                    {/foreach}
+        {$head_menu=cb_menu()}
 
-
-                    <!-- Shown to small devices only Start  @todo : Add condition for logged in user -->
-
-                    <li class="navbar-sm-login-links"><a href="#" data-toggle="modal" data-target="#login-modal">{lang code='login'}</a></li>
-                    <li class="navbar-sm-login-links"><a href="{link name="signup"}">{lang code='Create new account'}</a></li>
-                    <!-- Ends -->
-
-                    {if count($head_menu)>4}
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-
-                            {foreach $head_menu as $menu}
-                            {if $menu@iteration > 4}
-                                <li {if $menu.active}class="active"{/if}><a href="{$menu.link}">{$menu.name}</a></li>
+        <div class="navbar-collapse navbar-sm-search collapse" id="navbar-search-collapse">
+            <!--<form class="" role="search" action="{$baseurl}">-->
+            <form class="navbar-form navbar-left no-border" role="search">
+                <div class="input-group cbsearchtype">
+                    <input type="text" class="form-control" name="query" value="{'query'|get_form_val:true}" id="query">
+                    <div class="input-group-btn">
+                        <input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default" />
+                        <input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{else}videos{/if}" id="type">
+                        <button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle search-drop-btn" type="button">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            {$counter = 1}
+                            {foreach from=$Cbucket->search_types item=t key=stypes}
+                            {if $counter == 3}
+                            <li value="{$stypes}" {if $smarty.get.type==$stypes || $smarty.get.type==''}  class="active"  {/if}>
+                                <a  href="#">{$stypes}</a>
+                            </li>
+                            {else}
+                            <li value="{$stypes}" {if $smarty.get.type==$stypes}  class="active" {/if}>
+                                <a  href="#">{$stypes}</a>
+                            </li>
                             {/if}
+                            {$counter = $counter + 1}
                             {/foreach}
                         </ul>
-                    </li>
-                    {/if}
-                </ul>
-
-
-                <!-- Shown to small devices only Start-->
-              <form id="search" class="navbar-form navbar-search navbar-left" name="search" method="get" role="search" action="{link name='search_result'}">
-
-                    <div class="input-group">
-                         <input type="hidden" name="type" id="searchType" value="{$smarty.get.type}" />   
-                        <input  name="query" type="text" class="form-control" placeholder="Search" value="{'query'|get_form_val:true}">
-
-                        <span class="input-group-btn">
-                            <input name="submit" type="submit" class="btn btn-default" value="{lang code="Go"}!"> 
-                        </span>
+                    </div>
+            
                     </div>
 
-                </form>
-                <!-- Ends -->
+            </form>
+        </div>
 
 
+        <ul class="nav navbar-nav main-nav navbar-collapse collapse manual-height" id="khulja-sim-sim">
+            {foreach $head_menu as $menu}
+                {if $menu@iteration < 5}
+                    <li {if $menu.active}class="active"{/if}><a href="{$menu.link}">{$menu.name}</a></li>
+                {/if}
+            {/foreach}
 
-                <!-- Shown to Large displays only Start -->
-                <ul class="nav navbar-nav navbar-right nav-login-btns">
-
-                    {if userid()}
-                    <li class="dropdown myaccount-dd">
-                        <span class="dropdown-toggle theme_color col-md-12" data-toggle="dropdown"> <img class="img-circle" src="{$userquery->getUserThumb('','small',userid())}" style="width: 40px; height: 40px;"/> {$userquery->username}<b class="caret"></b></span>
-                        <ul class="dropdown-menu">
-
-                            {if has_access('admin_access')}
-                                <li><a href="{$admin_baseurl}">{lang code="Admin area"}</a></li>
-                            {/if}
-                            <li><a href="{link name='my_account' }{userid}">{lang code="my_account"}</a></li>
-                            <li><a href="{link name='my_videos'}">{lang code="Manage Videos"}</a></li>
-                            <li><a href="{link name='channels'}">{lang code="View Channels"}</a></li>
-                            <li><a href="{link name='upload'}">{lang code="Upload"}</a></li>
-                            <li class="divider"></li>
-                            <li><a href="{link name='logout'}">{lang code="Logout"}</a></li>
-                        </ul>
-                    </li>
-                    {else}
-                    <li>
-                        <div>
-                            <a href="{link name='signup'}" class="btn btn-primary btn-success btn-sm">{lang code="Create Account"}</a>
-                            <a href="#" data-toggle="modal" data-target="#login-modal" class="btn btn-primary btn-sm">{lang code="Login"}</a>
-                        </div>
-
-                    </li>
-                    {/if}
+            {if userid()}
+            <li class="dropdown hidden-lg hidden-md hidden-sm ">
+                <a href="{link name='upload'}" class="dropdown-toggle" data-toggle="dropdown">{lang code="Uploads"} <b class="caret"></b></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="{link name='upload'}">{lang code="Upload Video"}</a></li>
+                    <li><a href="{link name='photo_upload'}">{lang code="Upload Photo"}</a></li>
                 </ul>
-                <!-- Ends -->
+            </li>
+            <li class="navbar-sm-login-links"><a href="{link name='logout'}">{lang code='logout'}</a></li>
+            {else}
+            
+            <!-- Shown to small devices only Start  @todo : Add condition for logged in user -->
+
+            <li class="navbar-sm-login-links"><a href="#" data-toggle="modal" data-target="#login-modal">{lang code='login'}</a></li>
+            <li class="navbar-sm-login-links"><a href="{link name="signup"}">{lang code='Create new account'}</a></li>
+            <!-- Ends -->
+            {/if}
+            {if count($head_menu)>4}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+
+                    {foreach $head_menu as $menu}
+                    {if $menu@iteration > 4}
+                        <li {if $menu.active}class="active"{/if}><a href="{$menu.link}">{$menu.name}</a></li>
+                    {/if}
+                    {/foreach}
+                </ul>
+            </li>
+            {/if}
+        </ul>
 
 
-                <!-- Shown to Large displays only Start -->
-                {if userid()}
-                <div class="pull-right">
-                    <div class="btn-group">
-                      <button class="btn btn-primary" type="button"><a class="white" href="{link name='upload'}">{lang code="Uploads"}</a></button>
-                      <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+        <!-- Shown to small devices only Start-->
+        <form id="search" class="navbar-form navbar-search navbar-left" name="search" method="get" role="search" action="{link name='search_result'}">
+
+            <div class="input-group cbsearchtype">
+                <input type="text" class="form-control" name="query" value="{'query'|get_form_val:true}" id="query">
+                <div class="input-group-btn">
+                    <input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default" />
+                    <input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{else}videos{/if}" id="type">
+                    <button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle search-drop-btn" type="button">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
-                      </button>
-                      <ul role="menu" class="dropdown-menu">
-                       <li><a href="{link name='upload'}">{lang code="Upload Video"}</a></li>
-                        <li><a href="{link name='photo_upload'}">{lang code="Upload Photo"}</a></li>
-                      </ul>
-                    </div>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        {$counter = 1}
+                        {foreach from=$Cbucket->search_types item=t key=stypes}
+                        {if $counter == 3}
+                        <li value="{$stypes}" {if $smarty.get.type==$stypes || $smarty.get.type==''}  class="active"  {/if}>
+                            <a  href="#">{$stypes}</a>
+                        </li>
+                        {else}
+                        <li value="{$stypes}" {if $smarty.get.type==$stypes}  class="active" {/if}>
+                            <a  href="#">{$stypes}</a>
+                        </li>
+                        {/if}
+                        {$counter = $counter + 1}
+                        {/foreach}
+                    </ul>
                 </div>
-                    <!--<div class="btn-group pull-right" style="margin-top: 17px; margin-right: 5px;">
-					<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">{lang code="Uploads"}<span class="caret"></span></button>
-					<ul class="dropdown-menu">
-						<li><a href="upload.php">{lang code="Upload Video"}</a></li>
-						<li><a href="photo_upload.php">{lang code="Upload Photo"}</a></li>
-					</ul>
-					</div>-->
-                {/if}
-                
-                <!-- Ends -->
-
-
-                <!-- SHown to middle size displays only  @todo : Add condition for logged in user -->
-                <ul class="nav navbar-nav navbar-right nav-login-dd">
-                    <li></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
-                        <div class="dropdown-menu container">
-                            <form>
-                                <input class="form-control" placeholder="Search your stuff up!"/>
-                            </form>
-                        </div>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i></a>
-                        <div class="dropdown-menu">
-                            <form name="login-form" role="form" action="{link name='signup'}" method="post">
-                                <div class="form-group">
-                                    <label for="login_username">{lang code="Username"}</label>
-                                    <input type="email" class="form-control" id="login_username" placeholder="Enter username">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="login_password">{lang code="Password"}</label>
-                                    <input type="email" class="form-control" id="login_password" placeholder="Enter password">
-                                </div>
-
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox"> {lang code="Remeber me"}
-                                    </label>
-                                </div>
-
-                                <button class="btn btn-primary btn-sm btn-block">{lang code="Login"}</button>
-                                <a href="{link name='signup'}" class="btn btn-primary btn-sm btn-block">{lang code="Create new accoutn"}</a>
-                            </form>
-                        </div>
-                    </li>
-                </ul>
+    
             </div>
 
-            <!-- Ends -->
+        </form>
+        <!-- Ends -->
 
 
-    </nav>
+
+        <!-- Shown to Large displays only Start -->
+        <ul class="nav navbar-nav navbar-right nav-login-btns">
+
+            {if userid()}
+            <li class="dropdown myaccount-dd">
+                <span class="dropdown-toggle theme_color col-md-12" data-toggle="dropdown"> <img class="img-circle" src="{$userquery->getUserThumb('','small',userid())}" style="width: 40px; height: 40px;"/> {$userquery->username}<b class="caret"></b></span>
+                <ul class="dropdown-menu">
+
+                    {if has_access('admin_access')}
+                        <li><a href="{$admin_baseurl}">{lang code="Admin area"}</a></li>
+                    {/if}
+                    <li><a href="{link name='my_account' }{userid}">{lang code="my_account"}</a></li>
+                    <li><a href="{link name='my_videos'}">{lang code="Manage Videos"}</a></li>
+                    <li><a href="{link name='channels'}">{lang code="View Channels"}</a></li>
+<!--                         <li><a href="{link name='upload'}">{lang code="Upload"}</a></li> -->
+
+                    <li class="divider"></li>
+                    <li><a href="{link name='logout'}">{lang code="Logout"}</a></li>
+                </ul>
+            </li>
+            {else}
+            <li>
+                <div>
+                    <a href="{link name='signup'}" class="btn btn-primary btn-success btn-sm">{lang code="Create Account"}</a>
+                    <a href="#" data-toggle="modal" data-target="#login-modal" class="btn btn-primary btn-sm">{lang code="Login"}</a>
+                </div>
+
+            </li>
+            {/if}
+        </ul>
+        <!-- Ends -->
+
+        <!-- Shown to Large displays only Start -->
+        {if userid()}
+        <div class="upload-dropdown-btn-d hidden-xs ">
+            <div class="btn-group">
+                <button title="Upload" class="btn btn-primary" type="button">
+                    <a class="upload-vid-photo-icon" href="{link name='upload'}">Upload</a>
+                </button>
+              <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul role="menu" class="dropdown-menu upload-dropdown">
+               <li><a href="{link name='upload'}">{lang code="Upload Video"}</a></li>
+                <li><a href="{link name='photo_upload'}">{lang code="Upload Photo"}</a></li>
+              </ul>
+            </div>
+        </div>
+        {/if}
+        
+        <!-- Ends -->
+
+
+        <!-- SHown to middle size displays only  @todo : Add condition for logged in user -->
+        <ul class="nav navbar-nav navbar-right nav-login-dd">
+            <li class="search-form pull-left mrxll" onclick="$('.form-small').show()" ><i class="glyphicon glyphicon-search cursor-pointer"></i></li>
+            <div class="form-small" style="display:none">                    
+                <form action="{link name='search_result'}" role="search" method="get" name="search_small" id="search_small">
+                    <div class="input-group fix-md-searchinput cbsearchtype">
+                        <input type="text" class="form-control" name="query" value="{'query'|get_form_val:true}" id="query">
+                        <div class="input-group-btn">
+                            <input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default" />
+                            <input type="hidden" name="type" class="type" value="{if isset($smarty.get.type)}{$smarty.get.type}{else}videos{/if}" id="type">
+                            <button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle search-drop-btn" type="button">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul role="menu" class="dropdown-menu">
+                                {$counter = 1}
+                                {foreach from=$Cbucket->search_types item=t key=stypes}
+                                {if $counter == 3}
+                                <li value="{$stypes}" {if $smarty.get.type==$stypes || $smarty.get.type==''}  class="active"  {/if}>
+                                    <a  href="#">{$stypes}</a>
+                                </li>
+                                {else}
+                                <li value="{$stypes}" {if $smarty.get.type==$stypes}  class="active" {/if}>
+                                    <a  href="#">{$stypes}</a>
+                                </li>
+                                {/if}
+                                {$counter = $counter + 1}
+                                {/foreach}
+                            </ul>
+                        </div>
+            
+                    </div>
+
+
+                </form>
+            </div>
+            {if !userid()}
+            <li class="fix-md-user-icon"><a class="" data-target="#login-modal" data-toggle="modal" href="#"><i class="glyphicon glyphicon-user"></i></a></li>
+            {else}
+            <li  class="fix-md-user-icon"><a class="no-padding" href="{link name='logout'}" title="{lang('logout')}"><i class="glyphicon glyphicon-user"></i></a></li>
+            {/if}
+            
+
+
+
+        </ul>
+    </div>
+        <!-- Ends -->
+</nav>
 
 <script>
     $('.nav-login-dd li .dropdown-menu').click(function(e){
@@ -230,3 +279,29 @@
         </form>
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<script>
+            $(document).ready(function(){
+                $(".cbsearchtype a").on({
+                    click: function(e){
+                    e.preventDefault();
+                    var prent_li = $(this).parents();
+                    $('.type').val($(this).html());
+                    $('.cbsearchtype li').removeClass('active');
+                    prent_li.addClass('active');
+                    /*var searchtype = $("#SearchType").val();
+                    var buttonText = $(this).text().toLowerCase();
+                    if($("#SearchType option[value='"+ buttonText +"']").length > 0){
+                        $("#SearchType option:selected").removeAttr("selected");
+                        $("#SearchType option[value='"+ buttonText +"']").attr("selected" , "selected");
+                        $(this).parents("ul").find(".active").removeClass("active");
+                        $(this).parent().addClass("active");
+
+                    }*/
+                }
+                });
+                
+
+            });
+
+        </script>

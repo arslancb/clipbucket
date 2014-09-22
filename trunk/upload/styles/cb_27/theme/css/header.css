@@ -1,0 +1,107 @@
+.navig-resp-bg, .search-resp-bg{ 
+    background: url('../../images/u-sprite.png') no-repeat;
+}
+.navig-resp-bg, .search-resp-bg{
+    width: 42px;
+    height: 33px;
+    display: block;
+}
+.navig-resp-bg{
+  float: right; 
+  background-position: 0px 0px; border: none;
+}
+
+.search-resp-bg{
+    background-position: 0px -33px;
+    position: absolute;
+    top: 0px;
+    right:70px;
+    z-index: 2;
+    width: 42px;
+    height: 33px;
+    border: none;
+}
+.navig-resp-bg:hover{ 
+    background-position:-43px 0px;
+}
+.search-resp-bg:hover{
+    background-position: -43px -33px;
+}
+
+.input-group-btn > .search-drop-btn{
+  margin-left: -4px !important;
+}
+
+.fix-md-searchinput{
+  position: absolute;
+  top:48px;
+  right:0%;
+}
+.fix-md-user-icon{
+  position: absolute !important;
+  top:0px;
+  right:1%;
+}
+
+
+
+.mrxll{ margin-right: 35px;}
+
+
+
+.upload-vid-photo-icon {
+    background-image: url("../../images/h-upload-icon.png");
+    background-repeat: no-repeat;
+    color: #fff;
+    padding: 6px 0px 6px 30px;
+}
+.upload-dropdown{
+  min-width:140px;
+  left: -70px;
+}
+
+.upload-dropdown-btn-d{
+  position: absolute;
+  top:6px;
+  right: 140px;
+}
+.upload-btn-pad{ padding:3px 5px !important; }
+.navbar-collapse.manual-height{
+  max-height: 100%;
+}
+
+
+/* default standard classes to be added in main.css start */
+.no-margin{ 
+  margin:0px; 
+}
+.cursor-pointer{
+  cursor: pointer;
+}
+.no-border{
+  border: none;
+}
+/* default standard classes to be added in main.css end */
+
+@media (min-width: 768px) and (max-width:4000px) {
+.navig-resp-bg, .search-resp-bg{
+    display:none;
+}
+}
+
+@media (min-width: 768px) and (max-width:900px) {
+.upload-vid-photo-icon {
+    background-image: url("../../images/h-upload-icon.png");
+    background-repeat: no-repeat;
+    background-size: 16px auto;
+    color: #fff;
+    display: block;
+    padding: 0 0 0 17px;
+    text-indent: -99999px;
+}
+.upload-dropdown-btn-d{
+  position: absolute;
+  top:6px;
+  right:79px;
+}
+}
