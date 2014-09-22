@@ -44,11 +44,16 @@
 
 .collection_home{
 	text-align: center;
+	overflow: hidden;
 }
 .collection_home a{
-	display: inline-block;
-	vertical-align: top;
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 100%;
 }
+
+.collection_home .cb_img_thum{ background-size:100% auto !important}
 /* custome elements style */
 /* hide original element */
 .jcf-hidden {
@@ -142,3 +147,4 @@
 #ep_video_container{
 	margin: 15px 0 0;
 }
+.nopadding.featured-video{ margin: 0 0 20px !important;}
