@@ -16,6 +16,9 @@
 .editorpick-holder{
 	padding: 0;
 }
+.custom-elements{
+	padding: 15px 0 0;
+}
 .editorpick-holder #slide{
 	/*list-style: none;
 	position: relative;
