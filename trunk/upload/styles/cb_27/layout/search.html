@@ -1,7 +1,5 @@
 {$myAccountLinks = $userquery->my_account_links()}
-<div id="container" class="container">
-    {include file="$style_dir/blocks/manage/account_menu.html"}
-    </div>
+
 
 <div class="container marginBottom">
     <div id="simple_search" class="cb-box marginBottom">
@@ -73,7 +71,7 @@
             </div><!-- /.container-fluid -->
         </nav>
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8">
                 <div class="heading">{$search_type_title}</div>
                 <hr>
                 {if $results}
@@ -86,7 +84,7 @@
                 {/if}
                 <div class="clearfix"></div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 pull-right">
                 <img src="http://www.ryangiggs.cc/system/files/banner-160x600-pride-tee_0.jpg" class="pull-right">
             </div>
         </div>
