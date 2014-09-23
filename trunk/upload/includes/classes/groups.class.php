@@ -12,7 +12,7 @@ class CBGroups extends CBCategory
 	var $gp_thumb_height = '140';
 	var $gp_small_thumb_width = '60';
 	var $gp_small_thumb_height = '60';
-	var $gp_tbl = '';
+	var $gp_tbl = 'groups';
 	var $custom_group_fields = array();
 	var $actions = '';
 	var $group_manager_funcs = array();
