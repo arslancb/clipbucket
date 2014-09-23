@@ -34,7 +34,7 @@
 }
 .watch-vid-rating-sec{
   float:right;
-  width:112px;
+  width:98px;
 }
 
 .watch-vid-rating-view{
@@ -59,7 +59,7 @@
 .watch-vid-error{
    bottom: -15px;
     position: absolute;
-    right: -1px;
+    right: -31px;
     width: 270px;
 }
 .watch-vid-tab-description{
@@ -78,8 +78,10 @@
     float: left;
     margin-top: 10px;
 }
+.watch-vid-tag strong, .watch-vid-catg strong{ font-size: 16px;}
+.watch-vid-tag h1, .watch-vid-catg h2{font-size: 16px; margin:0px 0px 0px 2px; }
 .watch-vid-social-sec{
-    width:114px;
+    width:116px;
     float: right;
     margin-top: 18px;
 }

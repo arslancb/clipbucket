@@ -1290,21 +1290,16 @@ ul#photos li.photo-land-no{
     width: 780px;
 }
 
-.btns {
-    padding-left: 30px;
-    width: 100px;
+.view-photo-nxt {
     position: absolute;
-    top: 5%; #25%
-    right: 0px;
-    left: 663px;
+    top: 25%;
+    right: -10px;
 }
-.btns1 {
-    padding-left: 4px;
-    width: 100px;
+.view-photo-pre {
+
     position: absolute;
-    top: 5%; #25%
-    right: 0px;
-    left:  15px;
+    top:25%;
+    left:-10px;
 }
 
 .fsize {

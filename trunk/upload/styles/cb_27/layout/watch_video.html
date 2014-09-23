@@ -11,8 +11,6 @@
 
                 <div class="watch-vid-title mbl">
                     <h1>{$video.title}</h1> 
-
-                    
                 </div>
                 <!-- watch-vid-title end -->
 
@@ -26,9 +24,7 @@
                         </div>
                         <a id="subscribeUser" class="btn btn-xs btn-primary">
 	                    {lang('Subscribe')}
-	                    </a> 
-
-                           
+	                    </a>   
                     </div>
                     <div class="watch-vid-rating-sec">
                         <div class="watch-vid-rating-view">
@@ -41,10 +37,6 @@
                     </div>         
                 </div>
                 <!-- vid-detail-sec end -->
-
-
-
-                
 
                 <div class="cb-item-desc-container">
 
@@ -70,11 +62,11 @@
                             	<p id="videoDescription">{description($video.description)}</p>
                                 <div class="watch-vid-tag">
                                     <strong class="pull-left">{lang('Category:')}</strong>
-                                    <div class="pull-left mls">{$vdo.category|categories:video}</div>
+                                    <h1 class="pull-left mls">{$vdo.category|categories:video}</h1>
                                 </div>
                                 <div class="watch-vid-catg">
                                     <strong class="pull-left">{lang('Tags:')}</strong>
-                                    <div class="pull-left mls">{$vdo.tags|tags:videos}</div>
+                                    <h2 class="pull-left mls">{$vdo.tags|tags:videos}</h2>
                                 </div>
 
                                 <!-- view sec hide on told arslan bhai -->
@@ -87,34 +79,29 @@
                         	</div>
 
                             <div class="watch-vid-social-sec">
-                                    <a class="cb-item-social-icon twitter" href="https://twitter.com/share" target="_blank">
-                                        <i class="fa fa-twitter"></i>
-                                    </a>
-                                    <a class="cb-item-social-icon googlep" href="https://plus.google.com/share?url={urlencode(videolink($video))}" target="_blank">
-                                        <i class="fa fa-google-plus"></i>
+                                <a class="cb-item-social-icon twitter" href="https://twitter.com/share" target="_blank">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                                <a class="cb-item-social-icon googlep" href="https://plus.google.com/share?url={urlencode(videolink($video))}" target="_blank">
+                                    <i class="fa fa-google-plus"></i>
 
-                                    </a>
-                                    <a class="cb-item-social-icon facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank">
-                                        <i class="fa fa-facebook"></i>
-                                          
-                                    </a>
-
+                                </a>
+                                <a class="cb-item-social-icon facebook" href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]={videoLink($video)|urlencode}&p[images][0]={get_thumb vdetails=$video}&p[title]={$video.title|title|urlencode}&p[summary]={$video.description|description|urlencode}" target="_blank">
+                                    <i class="fa fa-facebook"></i>
+                                      
+                                </a>
                             </div>           
                         </div>
-
-                      
 
                         <div class="tab-pane" id="cb-item-share">
                             {show_share_form id=$vdo.videoid type=video}
                         </div>
 
                         <div class="tab-pane" id="cb-item-addto">
-                             <div class="clearfix visible-xs-block" style="margin-bottom:25px;">
-                             <div id="video_action_result_cont" style="display:none;"></div>   
-                             <a  class="btn mtm btn-block btn-primary" href="javascript:void(0)" onclick="add_to_fav('video','{$vdo.videoid}');" style="color:white;">Add to My Favorites</a>
-                             </div>
-
-                           
+                            <div class="clearfix visible-xs-block" style="margin-bottom:25px;">
+                                <div id="video_action_result_cont" style="display:none;"></div>   
+                                <a  class="btn mtm btn-block btn-primary" href="javascript:void(0)" onclick="add_to_fav('video','{$vdo.videoid}');" style="color:white;">Add to My Favorites</a>
+                            </div>
 
                             <div class="alert ">
                             {show_playlist_form id=$vdo.videoid type=video}
@@ -131,44 +118,28 @@
                 <div id="messageFav" class="alert alert-info marginTop" style="display:none"></div>
             </div>
   
-     <!--       <div class="cb-box pad-bottom">
-                <div class="addComment clearfix">
-                    <h3>{lang('Comments')} ({$vdo.comments_count})</h3>
-                    {if $myquery->is_commentable($vdo,'v')}
-                        {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
-                    {else}
-                    <div class="alert alert-warning">{lang code='comm_disabled_for_vid'}</div>
-                    {/if}
-                </div>
-                <div class="userComments">
-                    <ul class="list-unstyled" id="userCommentsList">
-                    </ul>
-            </div>
-        </div>  --> 
-        <div id="test1"></div>
-		<div id="reply"> 
-		    <div class="cb-box pad-bottom">
-		                <div  class="addComment clearfix">
-		                    <h3 >{lang('Comments')} <!--{$vdo.comments_count}--></h3>
-		                    {if $myquery->is_commentable($vdo,'v')}
-		                        {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
-		                    {else}
-		                    <div class="alert alert-warning">{lang code='comm_disabled_for_vid'}</div>
-		                    {/if}
-		                </div>
-		                <div class="userComments">
-		                    <ul class="list-unstyled" id="userCommentsList">
-		                    </ul>
-		            </div>
-		        </div>
-		</div> 
-        
-    </div>
+            <div id="test1"></div>
+    		<div id="reply"> 
+    		    <div class="cb-box pad-bottom">
+                    <div  class="addComment clearfix">
+                        <h3 >{lang('Comments')} <!--{$vdo.comments_count}--></h3>
+                        {if $myquery->is_commentable($vdo,'v')}
+                            {include file="$style_dir/blocks/comments/add_comment.html" id=$vdo.videoid type=v}
+                        {else}
+                        <div class="alert alert-warning">{lang code='comm_disabled_for_vid'}</div>
+                        {/if}
+                    </div>
+                    <div class="userComments">
+                        <ul class="list-unstyled" id="userCommentsList"></ul>
+    	            </div>
+    		    </div>
+    		</div> 
+        </div>
         
 
 
 		<!--Side bar start--> 
-        <div class="col-lg-4 col-md-4 visible-lg visible-md side-video"  style="float:right;" >
+        <div class="col-lg-4 col-md-4 visible-lg visible-md side-video pull-right">
             <div class="cb-box">
                  <div class="ad">{AD place='ad_320x250'}</div>
                <!-- <a href="http://www.arvixe.com/clipbucket_hosting?utm_campaign=300x250_Demo&utm_medium=banner&utm_source=clipbucket.com"><img class="banner" src="{$theme}/assets/images/add320x250.png" style="margin-bottom: 10px; width: 100%;" >
