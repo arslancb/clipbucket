@@ -1,8 +1,9 @@
-{$topMenuLinks = array_slice($myAccountLinks, 0, 6)}
-
+{*$topMenuLinks = array_slice($myAccountLinks, 0, 6)*}
+{$topMenuLinks = $myAccountLinks}
 <div class="col-md-3 column margintop20">
     <ul class="nav nav-pills nav-stacked">
         {foreach $topMenuLinks as $key => $value}
+        {if $key!='Contacts'}
         <tr>
         <td>
         <li class="active"><a href="#">{$key}</a></li>
@@ -14,6 +15,7 @@
         {foreach $value as $subKey => $subValue}
         <li class="leftmenu"><a  href="{$subValue}">{$subKey}</a></li>
             {/foreach}
+        {/if}    
         {/foreach}
     </ul>
 </div>

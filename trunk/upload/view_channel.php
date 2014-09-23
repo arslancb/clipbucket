@@ -203,12 +203,6 @@ $pages->paginate($total_pages,$page,$link,$extra_params,$tag);
 }
 add_js(array('jquery_plugs/compressed/jquery.jCarousel.js'=>'view_channel'));
 
-
-
-
-
-
-
 if($Cbucket->show_page){
     template_files('view_channel.html');
     display_it();

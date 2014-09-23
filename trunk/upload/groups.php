@@ -54,6 +54,7 @@ $glist = $g_cond;
 
 $glist['limit'] = $get_limit;
 $groups = $cbgroup->get_groups($glist);
+
 Assign('groups', $groups);	
 
 //Collecting Data for Pagination

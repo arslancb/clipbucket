@@ -21,6 +21,8 @@ define("PARENT_PAGE","upload");
 require 'includes/config.inc.php';
 
 //var_dump($_POST);die();
+//$userquery->logincheck();
+
 $pages->page_redir();
 subtitle('upload');
 
@@ -30,8 +32,11 @@ if(userid())
 else
 	$verify_logged_user = false;
 
+//dump(has_access('allow_video_upload',false,$verify_logged_user));
+
 if(has_access('allow_video_upload',false,$verify_logged_user))
 {
+	
 	$file_name = time().RandomString(5);
 	assign('file_name',$file_name);
 			

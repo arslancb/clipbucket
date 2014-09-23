@@ -366,15 +366,16 @@ class userquery extends CBCategory{
 	{
 		global $LANG,$Cbucket,$sess;
 		
-		
 		if($verify_logged_user)
 		{
 			//First check weather userid is here or not
 			if(!userid())
 			{
+				
 				if(!$check_only)
 					e(lang('you_not_logged_in'));
 				return false;
+
 			}
 			elseif(!$this->session_auth(userid()))
 			{
@@ -405,6 +406,7 @@ class userquery extends CBCategory{
 		{	
 			//$access_details = $this->get_user_level(userid());
 			$access_details = $this->permission;
+
 			if(is_numeric($access))
 			{
 				if($access_details['level_id'] == $access)
@@ -1923,6 +1925,8 @@ class userquery extends CBCategory{
 		
 		//First Checking Level
 		$level = $this->get_level_details($id);
+		
+
 		if($level)
 		{
 			foreach($this->get_access_type_list() as $access => $name)
@@ -1930,6 +1934,8 @@ class userquery extends CBCategory{
 				$fields_array[] = $access;
 				$value_array[] = $array[$access];
 			}
+
+
 			
 			//Checking level Name
 			if(!empty($array['level_name']))
@@ -1939,11 +1945,13 @@ class userquery extends CBCategory{
 				$db->update(tbl("user_levels"),array("user_level_name"),array($level_name)," user_level_id = '$id'");
 			}
 			
+
 			if(isset($_POST['plugin_perm']))
 			{
 				$fields_array[] = 'plugins_perms';
 				$value_array[] = '|no_mc|'.json_encode($_POST['plugin_perm']);
 			}
+			
 			
 			//Updating Permissions
 			$db->update(tbl("user_levels_permissions"),$fields_array,$value_array," user_level_id = '$id'");
@@ -3385,13 +3393,14 @@ class userquery extends CBCategory{
 							 'title' => lang('user_date_of_birth'),
 							 'type' => 'textfield',
 							 'name' => 'dob',
+							 'readonly' => 'true',
 							 'id' => 'dob',
 							 'anchor_after' => 'date_picker',
 							 'value'=> $dob,
-	                                                  'validate_function' => 'verify_age',
+	                         'validate_function' => 'verify_age',
 							 'db_field'=>'dob',
 							 'required'=>'yes',
-	                                                 'invalid_err'=>lang('You must be atleast '.config('min_age_reg').' to register'),
+	                         'invalid_err'=>lang('You must be atleast '.config('min_age_reg').' to register'),
 							 ),
 							 						 					 
 			  'cat'		=> array('title'=> lang('Category'),

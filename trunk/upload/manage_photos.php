@@ -71,6 +71,7 @@ switch($mode)
 			$photo_arr['title'] = mysql_clean(get('query'));
 			$photo_arr['tags']	= mysql_clean(get('query'));
 		}
+	
 		$photos = get_photos($photo_arr);
 		assign('photos',$photos);
 		

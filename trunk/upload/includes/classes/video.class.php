@@ -942,8 +942,6 @@ class CBvideo extends CBCategory
 		if(!$params['count_only'] &&  !$params['show_related'])
 		{
 
-
-
             $query = "SELECT $fields FROM ".cb_sql_table( 'video' );
             $query .= " LEFT JOIN ".cb_sql_table( 'users' )." ON video.userid = users.userid";
 

@@ -153,7 +153,6 @@ function get_photo_default_thumb( $size = null, $output = null ) {
 
 function get_image_file( $params ) {
 
-
     global $cbphoto, $Cbucket;
     //var_dump($params);
     $details = $params[ 'details' ];
@@ -196,8 +195,6 @@ function get_image_file( $params ) {
             }
         }
     }
-
-
 
     $path = PHOTOS_DIR;
     $directory = get_photo_date_folder( $photo );

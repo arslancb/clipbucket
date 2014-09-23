@@ -313,7 +313,7 @@ class Upload{
 				$file_path = THUMBS_DIR.'/'.$file_name.'-'.$file_num.'.'.$ext;
 				$big_file_path = THUMBS_DIR.'/'.$file_name.'-big-'.$file_num.'.'.$ext;
 				}
-
+			
 				move_uploaded_file($file['tmp_name'][$key],$file_path);
 				
 				$imgObj->CreateThumb($file_path,$big_file_path,config('big_thumb_width'),$ext,config('big_thumb_height'),false);

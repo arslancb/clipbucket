@@ -153,8 +153,9 @@ switch($mode)
 			exit(0);
 		}
 		
-			
+		
 		move_uploaded_file($tempFile,$targetFile);
+
 		
 		$Upload->add_conversion_queue($targetFileName);
 		$quick_conv = config('quick_conv');

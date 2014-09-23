@@ -38,7 +38,7 @@ if(isset($_POST['delete_selected']))
     e("Selected collections have been deleted","m");
 }
 
-if(isset($_REQUEST['delete_flags']))
+if(isset($_GET['delete_flags']))
 {
     $collect = mysql_clean($_GET['delete_flags']);
     $cbcollection->action->delete_flags($collect);
@@ -64,6 +64,7 @@ switch($mode)
         $page = mysql_clean($_GET['page']);
         $get_limit = create_query_limit($page,5);
         $collects = $cbcollection->action->get_flagged_objects($get_limit);
+        
         assign('cl', $collects);
 
         //Collecting Data for Pagination

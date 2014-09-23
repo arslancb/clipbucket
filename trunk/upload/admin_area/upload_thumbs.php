@@ -33,8 +33,10 @@ if($myquery->VideoExists($video)){
 	$vid_file = VIDEOS_DIR.'/'.$data['file_directory'].'/'.get_video_file($data,false,false);
 	# Uploading Thumbs
 	if(isset($_POST['upload_thumbs'])){
-		
+	
 		if($data['files_thumbs_path']!=''){
+
+				
 
 				$files_thumbs_path= $data['files_thumbs_path'];
 				$serverApi = str_replace('/files/thumbs', '', $files_thumbs_path);

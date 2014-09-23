@@ -168,7 +168,7 @@ if(!@$in_bg_cron)
 
 
 
-         //Setting Time Zone date_default_timezone_set
+    //Setting Time Zone date_default_timezone_set
     require_once('classes/search.class.php');
 
 	
@@ -196,7 +196,7 @@ if(!@$in_bg_cron)
 	require_once('classes/photos.class.php');
 	require_once('classes/menuhandler.class.php');
 	require_once('classes/cbfeeds.class.php');
-    require_once('classes/resizer.class.php');
+   	require_once('classes/resizer.class.php');
 
 	//Adding Gravatar
 	require_once('classes/gravatar.class.php');
@@ -564,7 +564,7 @@ if(!@$in_bg_cron)
     Assign('lang_count',(isset($languages)) ? count($languages) : false);
 	
 //Configration of time formate
-    $config['date'] = '%I:%M %p';
+  $config['date'] = '%I:%M %p';
 	$config['time'] = '%H:%M';
 	assign('config', $config);
 //Assign Player Div Id
@@ -589,7 +589,8 @@ $Smarty->assign_by_ref('cbgroup', $cbgroup);
 $Smarty->assign_by_ref('db', $db);
 $Smarty->assign_by_ref('adsObj', $adsObj);
 $Smarty->assign_by_ref('formObj', $formObj);
-$Smarty->assign_by_ref('Cbucket', $Cbucket);$Smarty->assign_by_ref('ClipBucket', $Cbucket);
+$Smarty->assign_by_ref('Cbucket', $Cbucket);
+$Smarty->assign_by_ref('ClipBucket', $Cbucket);
 $Smarty->assign_by_ref('eh', $eh);
 $Smarty->assign_by_ref('lang_obj', $lang_obj);
 $Smarty->assign_by_ref('cbvid', $cbvid);

@@ -262,6 +262,7 @@ function cb_select( $query ) {
  * @return mixed
  */
 function select( $query ) {
+    
     return cb_select( $query );
 }
 

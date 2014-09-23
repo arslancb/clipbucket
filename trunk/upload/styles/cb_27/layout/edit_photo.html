@@ -1,11 +1,12 @@
-<div class="container">
+{$myAccountLinks = $userquery->my_account_links()}
+<div class="container marginBottom">
 	{include file="$style_dir/blocks/manage/account_menu.html"}
-    <div class="row">
+    <div class="row cb-box">
         <div class="col-md-3 leftSidebar">
             {include file="$style_dir/blocks/manage/userMenuLeft.html"}
         </div>
         <div class="col-md-9">
-            <div class="cb-box marginBottom">
+            <div class="marginBottom">
                 {*include file="$style_dir/blocks/manage/account_head.html" user=$user*}    
                 <h2>Edit Photo</h2>
                 <div>

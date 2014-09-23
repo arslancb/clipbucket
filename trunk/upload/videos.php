@@ -86,6 +86,7 @@ $vlist = $vid_cond;
 $count_query = $vid_cond;
 $vlist['limit'] = $get_limit;
 $videos = get_videos($vlist);
+
 Assign('videos', $videos);	
 
 

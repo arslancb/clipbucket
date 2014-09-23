@@ -59,13 +59,16 @@ class ResizeImage
 	
 	function ValidateImage($file,$ext=NULL){
 	$array = getimagesize($file);	
-	if($ext == 'jpg' || $ext == 'JPG' ||$ext == 'JPEG' || $ext == 'gif' || $ext == 'GIF' || $ext == 'PNG' || $ext == 'png'){
+	if($ext == 'jpg' || $ext == 'JPG' ||$ext == 'JPEG' || $ext == 'gif' || $ext == 'GIF' || $ext == 'PNG' || $ext == 'png')
+	{
 		if(empty($array[0]) || empty($array[1])){
 		$validate = false;
 		}else{
 		$validate = true;
 		}
-		}else{
+	}
+	else
+	{
 		$validate = false;
 		}
 	return $validate;

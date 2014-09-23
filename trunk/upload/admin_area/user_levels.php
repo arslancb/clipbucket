@@ -64,7 +64,8 @@ switch($mode)
 		
 		//GettinG Level Permission
 		$level_perms = $userquery->get_level_permissions($lid);
-		
+		//pr($level_perms, true);
+
 		$plugin_perms = $level_perms['plugins_perms'];
 		$plugin_perms = json_decode($plugin_perms,true);
 		
@@ -87,6 +88,11 @@ switch($mode)
 		Assign('view','add');
 	}
 }
+
+//$lev = $userquery->get_level_types();
+
+//$per = $userquery->get_permissions(2);
+//pr($per, true);
 
 subtitle("User levels");
 template_files('user_levels.html');
