@@ -188,10 +188,10 @@
         <!-- SHown to middle size displays only  @todo : Add condition for logged in user -->
         <ul class="nav navbar-nav navbar-right nav-login-dd">
 
-        <li class="search-form pull-left mrxll" onclick="$('.form-small').show()" ><i class="glyphicon glyphicon-search cursor-pointer"></i></li>
-            <div class="form-small" style="display:none">                    
+        <li class="search-form show-small-form pull-left mrxll" ><i class="glyphicon glyphicon-search cursor-pointer"></i></li>
+            <div class="form-small full-width">                    
                 <form action="{link name='search_result'}" role="search" method="get" name="search_small" id="search_small">
-                    <div class="input-group fix-md-searchinput cbsearchtype">
+                    <div class="input-group cbsearchtype">
                         <input type="text" class="form-control" name="query" value="{'query'|get_form_val:true}" id="query">
                         <div class="input-group-btn">
                             <input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default" />
@@ -302,6 +302,11 @@
                     }*/
                 }
                 });
+                
+                $('.show-small-form').click(function() {
+                    $('.form-small').toggleClass('show');   
+                });
+                
                 
 
             });

@@ -32,11 +32,11 @@
   margin-left: -4px !important;
 }
 
-.fix-md-searchinput{
+/* .fix-md-searchinput{
   position: absolute;
-  top:48px;
   right:0%;
-}
+  transition: opacity 0.15s linear 0s;
+} */
 .fix-md-user-icon{
   position: absolute !important;
   top:0px;
@@ -46,7 +46,22 @@
 .left-margin-xero{ margin-left: 0px !important;}
 
 .mrxll{ margin-right: 50px;}
+.form-small{
+  position: absolute;
+  right:0%;
+  top: -50px;
+  -webkit-transition:top 1s ease-in-out;
+  -moz-transition:top 1s ease-in-out;
+  -o-transition: top 1s ease-in-out;
+  transition:top 1s ease-in-out;
+  z-index: -1;
+  opacity: 0;
+}
+.form-small.show{
+  top: 48px;
+  opacity: 1;
 
+}
 
 
 .upload-vid-photo-icon {

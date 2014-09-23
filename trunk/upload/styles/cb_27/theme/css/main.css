@@ -523,6 +523,7 @@ a:focus{outline: none !important;}
     background: #fff;
 
 }
+.navbar-container{ background-color: #fff;}
 .navbar-default .navbar-nav > li > a {
     color: #0099cc;
     outline: none;
