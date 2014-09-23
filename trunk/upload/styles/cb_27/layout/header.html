@@ -187,7 +187,8 @@
 
         <!-- SHown to middle size displays only  @todo : Add condition for logged in user -->
         <ul class="nav navbar-nav navbar-right nav-login-dd">
-            <li class="search-form pull-left mrxll" onclick="$('.form-small').show()" ><i class="glyphicon glyphicon-search cursor-pointer"></i></li>
+
+        <li class="search-form pull-left mrxll" onclick="$('.form-small').show()" ><i class="glyphicon glyphicon-search cursor-pointer"></i></li>
             <div class="form-small" style="display:none">                    
                 <form action="{link name='search_result'}" role="search" method="get" name="search_small" id="search_small">
                     <div class="input-group fix-md-searchinput cbsearchtype">
@@ -217,8 +218,8 @@
                         </div>
             
                     </div>
-
-
+            
+            
                 </form>
             </div>
             {if !userid()}
@@ -272,6 +273,7 @@
 
             </div>
             <div class="modal-footer">
+                <a href="{link name='signup'}" class="btn btn-primary btn-success btn-sm pull-left">{lang code="Create Account"}</a>
                 <button type="button" class="btn btn-default" data-dismiss="modal">{lang code="Cancel"}</button>
                 <input type="submit" class="btn btn-primary" value="{lang code='Login'}" name="login">
             </div>
