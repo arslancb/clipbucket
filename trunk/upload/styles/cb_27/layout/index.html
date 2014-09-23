@@ -83,7 +83,7 @@
 				<h2 class="myHeading theme_color">{lang code="Featured Videos"}</h2>
 				{$featured_videos=get_videos(['featured' => 'yes','limit'=>6])}
 				{if $featured_videos}
-				<div class="col-md-12 nopadding">
+				<div class="col-md-12 featured-videos nopadding">
 
 					<div class="col-md-12 text-center nopadding ">
 						<div class="col-md-8 text-center nopadding mouse_hover featured-imglg">
@@ -127,7 +127,7 @@
 						<div class="col-lg-12 col-md-8 text-center nopadding">
 						{foreach $featured_videos as $video_02}
 						{if $video_02@iteration >3}
-						<div class="col-lg-4 col-md-6 hidden-sm hidden-xs featured-video text-center nopadding-right mouse_hover {if $video_02@iteration==4}nopadding{/if}">
+						<div class="col-lg-4 col-md-6 hidden-sm hidden-xs text-center nopadding-right mouse_hover {if $video_02@iteration==4}nopadding{/if}">
 						<a href="{videoLink vdetails=$video_02}" title="{$video_02.title}">
 						<img src="{getThumb vdetails=$video_02 size='big'}" width="240" height="133" {ANCHOR place="video_thumb" data=$video_02} />
 						<div class="cbHomeVidTitle cbHomeVidTitle_small mouse_hover_on">{$video_02.title|truncate:10}</div>
