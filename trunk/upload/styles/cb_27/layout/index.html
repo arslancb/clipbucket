@@ -172,12 +172,12 @@
 		    		
 		    		  {if $row.photosSection=='yes' }
 		    		 
-					<div class="col-md-12 nopadding ">
+					<div class="col-md-12 clearfix nopadding ">
 		        				<h2 class="myHeading theme_color">{lang code="Featured Photos"}</h2>
 						{$result_photos1_01 = get_photos(['order'=>' RAND() LIMIT 1 '])}		
 		        		{if $result_photos1_01}
 		        				<!-- *********** FIRST PHOTOS START ************ //-->
-								<div class="col-md-12 fill-background lg-img">
+								<div class="col-md-12 fill-background clearfix lg-img">
 									<div class="col-md-7 big_img">
 									{foreach from=$result_photos1_01 item=result_photo1_01}
 						            	<a href="{$cbphoto->photo_links($result_photo1_01,'view_item')}">
@@ -189,7 +189,7 @@
 						            {$result_photos1_08 = get_photos(['order'=>'  photo_id DESC LIMIT 4 '])}
 						            <div class="col-md-5 nopadding sm-imgs">
 									{foreach from=$result_photos1_08 item=result_photo1_08}
-										<div class="col-md-6" style="border-right: 1px solid rgb(204, 204, 204); display: block; height: 133px; padding: 7px; border-top: 1px solid rgb(204, 204, 204);">
+										<div class="col-md-6 col-sm-6" >
 						            	<a href="{$cbphoto->photo_links($result_photo1_08,'view_item')}">
 						            	{get_photo details=$result_photo1_08 output='html' width="128" height="118" size="l" class='photoThumbBox moveL cb_img_thum'}
 						            	</a>
@@ -205,11 +205,10 @@
 				    
 				    {if $result_photos2_08} 		
 				        <!-- *********** SECOND PHOTOS START ************ //-->
-						<div class="col-md-12" style="display:block; height:265px; padding:5px;">
-							
-					        <div class="col-md-5 nopadding" style="display:block; height:132px;">
+						<div class="col-md-12 fill-background clearfix lg-img">
+					        <div class="col-md-5 nopadding sm-imgs clearfix left-aligned">
 							{foreach from=$result_photos2_08 item=result_photo2_08}
-								<div class="col-md-6" style="display: block; height: 132px; padding: 7px; border-left: 1px solid rgb(204, 204, 204); border-bottom: 1px solid rgb(204, 204, 204);">
+								<div class="col-md-6 col-sm-6">
 					        	<a href="{$cbphoto->photo_links($result_photo2_08,'view_item')}">
 					        	{get_photo details=$result_photo2_08 output='html' width="128" height="118" size="l" class='photoThumbBox moveL cb_img_thum'}
 					        	</a>
