@@ -26,8 +26,9 @@
 <hr>
           <!-- Getting List of Playlist -->
           <form class="marginTop" name="manage_playlists" method="post">
-
-            <input type="submit" class="btn btn-danger" value="{lang code='delete_selected'}" name="delete_playlists"/>
+            <div>
+            <input type="submit" class="btn btn-primary btn-sm" value="{lang code='delete_selected'}" name="delete_playlists"/>
+            </div><br>
             <div class="account_table">
               <table class="table table-bordered table-striped marginTop">
                 <tr>
@@ -60,7 +61,7 @@
         {/if}
 
         {if $mode =='edit_playlist'}
-          <h2>{lang code='edit_playlist'}</h2>
+          <h2>{lang code='manage_playlists'}</h2>
           <div class="account_form">
             <form method="post" name="edit_profile">
               
@@ -76,7 +77,8 @@
                   </div>
                 {/foreach}
               {/foreach}
-              <button name="edit_playlist" id="button1" value="submit" class="btn btn-primary">{lang code='edit_playlist'}</button>
+              <div>
+              <button name="edit_playlist" id="button1" value="submit" class="btn btn-primary">{lang code='edit_playlist'}</button></div><br>
             </form>
           </div>
 

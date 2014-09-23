@@ -1,37 +1,23 @@
-
 {$myAccountLinks = $userquery->my_account_links()}
 {$leftMenuLinks = array_slice($myAccountLinks, 7)}
-<div class="container">
+<div class="container marginBottom">
     {include file="$style_dir/blocks/manage/account_menu.html"}
-    {$leftMenuLinks = array_slice($myAccountLinks, 7)}
     <div class="marginBottom">
-        <div class="row">
-            {*include file="$style_dir/blocks/manage/left_side_bar.html"*}
-            <!--<div class="leftSidebar col-md-3 cb-box">
-                <ul class="">
-                    {foreach $leftMenuLinks as $key => $value}
-                        <li class="">
-                            <a href="#" class="" data-toggle="dropdown">{$key}</a>
-                            <ul class="">
-                                {foreach $value as $subKey => $subValue}
-                                    <li><a href="{$subValue}">{$subKey}</a></li>
-                                {/foreach}
-                            </ul>
-                        </li>
-                    {/foreach}
-                </ul>
-            </div>-->
-
-            <div class="col-md-12">
-                <div class="cb-box padding15">
-                    {*include file="$style_dir/blocks/manage/account_head.html" user=$user*}
+        <div class="row cb-box">
+          <div class="leftSidebar col-md-3">
+            {include file="$style_dir/blocks/manage/userMenuLeft.html"}
+        </div>
+            <div class="mainContent col-md-9">
+               
+                   
                     <form action="" method="post" class="upload_form" name="form1" enctype="multipart/form-data">
                     {if $mode == "manage" || $mode == ""}
                         <h2>{lang code='manage_collections'}</h2>
-                        <div style="">
+                        <div>
                             <img src="{$imageurl}/dot.gif" class="arrow_pointing" />
-                            <input type="submit" name="delete_selected" id="delete_selected" value="{lang code='delete'}" class="btn btn-danger" />
+                            <input type="submit" name="delete_selected" id="delete_selected" value="{lang code='delete'}" class="btn btn-primary btn-sm" />
                         </div>
+                        <br>
                         <div class="marginTop">
                             <table class="table table-bordered table-striped">
                                 <tr>
@@ -55,7 +41,8 @@
                             </table>
                         </div>
 
-                        {include file="$style_dir/blocks/manage/user_account_pagination.html"}
+                        {*include file="$style_dir/blocks/manage/user_account_pagination.html"*}
+                        {include file="$style_dir/blocks/pagination.html"} 
                     {/if}
 
                     {if $mode == "edit_collection"}
@@ -159,8 +146,9 @@
                         <h2>{lang code="manage_favorite_collections"}</h2>
                         <div>
                             <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-right:10px;" />
-                            <input type="submit" name="remove_selected_favs" id="remove_selected_favs" value="{lang code='remove'}" class="btn btn-danger" />
+                            <input type="submit" name="remove_selected_favs" id="remove_selected_favs" value="{lang code='remove'}" class="btn btn-primary btn-sm" />
                         </div>
+                        <br>
                         <div class="marginTop">
                             <table class="table table-bordered table-striped">
                                 <tr>
@@ -181,10 +169,11 @@
                             </table>
                         </div>
                         
-                        {include file="$style_dir/blocks/manage/user_account_pagination.html"}        
+                        {*include file="$style_dir/blocks/manage/user_account_pagination.html"*}
+                        {include file="$style_dir/blocks/pagination.html"}        
                     {/if}
                     </form>
-                </div>
+               
             </div>
     </div>  
     </div>
