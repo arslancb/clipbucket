@@ -111,26 +111,7 @@ class FFMpeg{
 	}
 
 	private function convertToLowResolutionVideo($videoDetails = false){
-		if($videoDetails){
-			$this->log->writeLine("Generating low resolution video", "Starting");
-			$this->sdFile = "{$this->outputFile}-sd.{$this->options['format']}";
-			$fullCommand = $this->ffMpegPath . " -i {$this->inputFile}" . $this->generateCommand($videoDetails, false) . " {$this->sdFile}";
 
-			$this->log->writeLine("command", $fullCommand);
-
-			$conversionOutput = $this->executeCommand($fullCommand);
-			$this->log->writeLine("ffmpeg output", $conversionOutput);
-			
-			$this->log->writeLine("MP4Box Conversion for SD", "Starting");
-			$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->outputFile}-sd.{$this->options['format']}";
-			$this->log->writeLine("command", $fullCommand);
-			$output = $this->executeCommand($fullCommand);
-			$this->log->writeLine("output", $output);
-			
-		}
-	}
-
-	private function convertToHightResolutionVideo($videoDetails = false){
 		if($videoDetails && ((int)$videoDetails['video_height'] >= "720")){
 			$this->log->writeLine("Generating high resolution video", "Starting");
 			$this->hdFile = "{$this->outputFile}-hd.{$this->options['format']}";
@@ -139,11 +120,35 @@ class FFMpeg{
 			$conversionOutput = $this->executeCommand($fullCommand);
 			$this->log->writeLine("ffmpeg output", $conversionOutput);
 			$this->log->writeLine("MP4Box Conversion for HD", "Starting");
-			$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->outputFile}-hd.{$this->options['format']}";
+			$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->hdFile}  -tmp /";
 			$this->log->writeLine("command", $fullCommand);
 			$output = $this->executeCommand($fullCommand);
 			$this->log->writeLine("output", $output);
 		}
+		else
+		{
+
+			$this->log->writeLine("Generating low resolution video", "Starting");
+			$this->sdFile = "{$this->outputFile}-sd.{$this->options['format']}";
+			$fullCommand = $this->ffMpegPath . " -i {$this->inputFile}" . $this->generateCommand($videoDetails, false) . " {$this->sdFile}";
+			sleep(15);
+
+			$this->log->writeLine("command", $fullCommand);
+
+			$conversionOutput = $this->executeCommand($fullCommand);
+			$this->log->writeLine("ffmpeg output", $conversionOutput);
+			
+			$this->log->writeLine("MP4Box Conversion for SD", "Starting");
+			$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->sdFile}  -tmp /";
+			$this->log->writeLine("command", $fullCommand);
+			$output = $this->executeCommand($fullCommand);
+			$this->log->writeLine("output", $output);
+			
+		}
+	}
+
+	private function convertToHightResolutionVideo($videoDetails = false){
+		
 		return false;
 	}
 
@@ -175,6 +180,12 @@ class FFMpeg{
 
 	private function generateCommand($videoDetails = false, $isHd = false){
 		if($videoDetails){
+			$result = shell_output("ffmpeg -version");
+			preg_match("/(?:ffmpeg\\s)(?:version\\s)?(\\d\\.\\d\\.(?:\\d|[\\w]+))/i", strtolower($result), $matches);
+			if(count($matches) > 0)
+				{
+					$version = array_pop($matches);
+				}
 			$commandSwitches = "";
 			$videoRatio = substr($videoDetails['video_wh_ratio'], 0, 3);
 			/*
@@ -188,7 +199,7 @@ class FFMpeg{
 			}else{
 				$ratio = $this->resolution4_3;
 			}
-			$commandSwitches .= " -aspect {$aspectRatio}";
+			$commandSwitches .= "";
 
 			if(isset($this->options['video_codec'])){
 				$commandSwitches .= " -vcodec " .$this->options['video_codec'];
@@ -201,18 +212,36 @@ class FFMpeg{
 			/*
 				Setting Size Of output video
 			*/
-			if($isHd){
-				$defaultVideoHeight = $this->options['high_res'];
-				$size = "{$ratio[$defaultVideoHeight][0]}x{$ratio[$defaultVideoHeight][1]}";
-				$vpre = "hq";
-			}else{
-				$defaultVideoHeight = $this->options['normal_res'];
-				$size = "{$ratio[$defaultVideoHeight][0]}x{$ratio[$defaultVideoHeight][1]}";
-				$vpre = "normal";
+			if ($version == "0.9")
+			{
+				if($isHd){
+					$defaultVideoHeight = $this->options['high_res'];
+					$size = "{$ratio[$defaultVideoHeight][0]}x{$ratio[$defaultVideoHeight][1]}";
+					$vpre = "hq";
+				}else{
+					$defaultVideoHeight = $this->options['normal_res'];
+					$size = "{$ratio[$defaultVideoHeight][0]}x{$ratio[$defaultVideoHeight][1]}";
+					$vpre = "normal";
+				}
 			}
-
-			$commandSwitches .= " -s {$size} -vpre {$vpre}";
-			
+			else
+				if($isHd){
+					$defaultVideoHeight = $this->options['high_res'];
+					$size = "{$ratio[$defaultVideoHeight][0]}x{$ratio[$defaultVideoHeight][1]}";
+					$vpre = "veryslow";
+				}else{
+					$defaultVideoHeight = $this->options['normal_res'];
+					$size = "{$ratio[$defaultVideoHeight][0]}x{$ratio[$defaultVideoHeight][1]}";
+					$vpre = "medium";
+				}
+				if ($version == "0.9")
+				{
+					$commandSwitches .= " -s {$size} -vpre {$vpre}";
+				}
+				else
+				{
+					$commandSwitches .= " -s {$size} -preset {$vpre}";
+				}
 			/*$videoHeight = $videoDetails['video_height'];
 			if(array_key_exists($videoHeight, $ratio)){
 				//logData($ratio[$videoHeight]);
@@ -300,7 +329,21 @@ class FFMpeg{
 				$ffmpegOutput = $this->executeCommand( $this->ffMpegPath . " -i {$videoPath} -acodec copy -vcodec copy -y -f null /dev/null 2>&1" );
 				$info = $this->parseVideoInfo($ffmpegOutput);
 				$info['size'] = (integer)$stats['size'];
-				return $info;
+				$info['bitrate'] = (integer)$stats['bitrate'];
+				$info['format']			= (integer)$stats['format'];
+				$info['duration']		= (integer)$stats['duration'];
+				$info['video_width']	= (integer)$stats['video_width'];
+				$info['video_height']	= (integer)$stats['video_height'];
+				$info['video_wh_ratio']	= (integer)$stats['video_wh_ratio'];
+				$info['video_codec']	= (integer)$stats['video_codec'];
+				$info['video_rate']		= (integer)$stats['video_rate'];
+				$info['video_bitrate']	= (integer)$stats['video_bitrate'];
+				$info['video_color']	= (integer)$stats['video_color'];
+				$info['audio_codec']	= (integer)$stats['audio_codec'];
+				$info['audio_bitrate']	= (integer)$stats['audio_bitrate'];
+				$info['audio_rate']		= (integer)$stats['audio_rate'];
+				$info['audio_channels']	= (integer)$stats['audio_channels'];
+					return $info;
 			}
 		}
 		return false;
