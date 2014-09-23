@@ -65,6 +65,10 @@ if(isset($_POST['block_users']))
 }
 
 $mode = $_GET['mode'];
+
+
+assign('mode',$mode);
+
 switch($mode)
 {
 	case 'account':
@@ -142,8 +146,6 @@ $user_profile = array_merge($udetails,$profile);
 //pr($Cbucket->header_files);
 assign('user',$udetails);
 assign('p',$user_profile);
-
-
 subtitle(lang("user_manage_my_account"));
 template_files('edit_account.html');
 display_it();
