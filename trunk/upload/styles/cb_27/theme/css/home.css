@@ -1,17 +1,26 @@
+.nopadding-right.featured-video,
+.nopadding.featured-video{
+	margin: 0 0 17px !important;
+}
+.featured-video a{
+	display: block;
+	height: 100%;
+	position: relative;
+}
 .featured-imglg{min-height: 300px;}
-.tumb-sm{padding-left:8px;}
+.tumb-sm{padding-left:15px;}
 .cbHomeVidTitle{margin-bottom:8px;}
 .getThumb{border:1px solid #CCC;}
 .recentcurrent-vdieos .tab-pane{padding: 25px 0 0;}
 .clearfix-hight{ height: 18px;}
 .fill-background.lg-img{
 	display:block;
-	height:265px;
+	/*height:265px;*/
 	padding:5px;
 }
 .sm-imgs{
 	display:block;
-	height:132px;
+	/*height:132px;*/
 }
 .editorpick-holder{
 	padding: 0;
@@ -56,6 +65,14 @@
 .collection_home .details{
 	width: 100% !important;
 	left: 0 !important;
+}
+.grid_view.recent-col .cb_img_thum,
+.featured-videos .cb_img_thum{
+	border: none !important;
+}
+.user-view-home{
+	font-size:12px;
+	margin-top:3px;
 }
 /* custome elements style */
 /* hide original element */
@@ -150,4 +167,21 @@
 #ep_video_container{
 	margin: 15px 0 0;
 }
-.nopadding.featured-videos{ margin: 0 0 20px !important;}
+.nopadding.featured-videos{ margin: 0 0 10px !important;}
+.featured_video_details{ width: 100% !important;}
+@media only screen and (max-width: 991px) {
+	.padding-right-10.featuredvideos-wrapper{
+		padding: 0 !important;
+		overflow: hidden;
+	}
+	.nopadding-right.featured-video,
+	.nopadding.featured-video{ padding: 0 !important;}
+	.custom-elements {
+		padding: 15px 15px 0 !important;
+	}
+	.scrollable-area-wrapper {
+		position: relative;
+		overflow: hidden;
+		width: 100% !important;
+	}
+}
