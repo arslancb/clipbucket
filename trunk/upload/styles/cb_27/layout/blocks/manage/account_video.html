@@ -12,9 +12,11 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-3">
+                        <a href="edit_video.php?video={$video.videoid}">
                         <img src="{getThumb vdetails=$video}" width="130" height="80" id="thumbs_{$video.videoid}" class="vthumb" title=""/>
-                        <p class="duration">({if
-                            $video.duration>1}{$video.duration|SetTime}{else}00:00{/if})</p>
+                        <span class="duration">({if
+                            $video.duration>1}{$video.duration|SetTime}{else}00:00{/if})</span>
+                        </a>    
                     </div>
                     <div class="col-md-9">
                         <a href="edit_video.php?video={$video.videoid}">
