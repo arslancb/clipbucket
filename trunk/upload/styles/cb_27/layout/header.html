@@ -98,7 +98,7 @@
         <!-- Shown to small devices only Start-->
         <form id="search" class="navbar-form navbar-search navbar-left" name="search" method="get" role="search" action="{link name='search_result'}">
 
-            <div class="input-group cbsearchtype">
+            <div class="input-group mtxs cbsearchtype">
                 <input type="text" class="form-control" name="query" value="{'query'|get_form_val:true}" id="query">
                 <div class="input-group-btn">
                     <input tabindex="-1" type="submit" name="cbsearch" id="cbsearch" value="{lang code='Go'}" class="btn btn-default" />
@@ -145,15 +145,13 @@
                     <li><a href="{link name='my_account' }{userid}">{lang code="my_account"}</a></li>
                     <li><a href="{link name='my_videos'}">{lang code="Manage Videos"}</a></li>
                     <li><a href="{link name='channels'}">{lang code="View Channels"}</a></li>
-<!--                         <li><a href="{link name='upload'}">{lang code="Upload"}</a></li> -->
-
                     <li class="divider"></li>
                     <li><a href="{link name='logout'}">{lang code="Logout"}</a></li>
                 </ul>
             </li>
             {else}
             <li>
-                <div>
+                <div class="mrl">
                     <a href="{link name='signup'}" class="btn btn-primary btn-success btn-sm">{lang code="Create Account"}</a>
                     <a href="#" data-toggle="modal" data-target="#login-modal" class="btn btn-primary btn-sm">{lang code="Login"}</a>
                 </div>
@@ -222,10 +220,28 @@
             
                 </form>
             </div>
-            {if !userid()}
-            <li class="fix-md-user-icon"><a class="" data-target="#login-modal" data-toggle="modal" href="#"><i class="glyphicon glyphicon-user"></i></a></li>
+            {if userid()}
+            <li class="dropdown myaccount-dd">
+                <span class="dropdown-toggle theme_color col-md-12" data-toggle="dropdown"><img class="img-circle" src="{$userquery->getUserThumb('','small',userid())}" style="width: 40px; height: 40px;"/><b class="caret"></b></span>
+                <ul class="dropdown-menu">
+
+                    {if has_access('admin_access')}
+                        <li><a href="{$admin_baseurl}">{lang code="Admin area"}</a></li>
+                    {/if}
+                    <li><a href="{link name='my_account' }{userid}">{lang code="my_account"}</a></li>
+                    <li><a href="{link name='my_videos'}">{lang code="Manage Videos"}</a></li>
+                    <li><a href="{link name='channels'}">{lang code="View Channels"}</a></li>
+                    <li class="divider"></li>
+                    <li><a href="{link name='logout'}">{lang code="Logout"}</a></li>
+                </ul>
+            </li>
             {else}
-            <li  class="fix-md-user-icon"><a class="no-padding" href="{link name='logout'}" title="{lang('logout')}"><i class="glyphicon glyphicon-user"></i></a></li>
+            <li>
+                <div class="">
+                    <a href="#" data-toggle="modal" data-target="#login-modal" class="btn btn-primary btn-sm">{lang code="Login"}</a>
+                </div>
+
+            </li>
             {/if}
             
 

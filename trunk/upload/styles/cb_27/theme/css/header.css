@@ -45,7 +45,7 @@
 
 .left-margin-xero{ margin-left: 0px !important;}
 
-.mrxll{ margin-right: 50px;}
+.mrxll{ margin-right: 5px;}
 .form-small{
   position: absolute;
   right:0%;
@@ -78,7 +78,7 @@
 .upload-dropdown-btn-d{
   position: absolute;
   top:0;
-  right: 140px;
+  right: 114px;
 }
 .upload-btn-pad{ padding:3px 5px !important; }
 .navbar-collapse.manual-height{
@@ -93,10 +93,6 @@
     display:none;
 }
 }
-@media (min-width: 768px) and (max-width:980px) {
-}
-}
-
 @media (min-width: 768px) and (max-width:900px) {
 .upload-vid-photo-icon {
     background-image: url("../../images/h-upload-icon.png");
@@ -110,6 +106,12 @@
 .upload-dropdown-btn-d{
   position: absolute;
   top:1px;
-  right:88px;
+  right:108px;
+}
+.mrxll{ margin-right:0px;}
+}
+@media (min-width: 768px) and (max-width:786px) {
+.navbar-nav > li > a{ 
+    padding:15px 10px; 
 }
 }
