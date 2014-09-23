@@ -38,7 +38,7 @@
                 <div class="watch-vid-rating-sec">
                     <div class="watch-vid-rating-view">
                         {$vdo.views|number_format}
-                        <span class="small" style="font-size:18px;">{lang('views')}</span>
+                        <span class="small font18">{lang('views')}</span>
                     </div>
                     <div class="watch-vid-thumbsupdown-sec" id="rating_container">
                         {show_video_rating  rating=$photo.rating ratings=$photo.rated_by total='10' id=$photo.photo_id type=photo}
@@ -50,11 +50,11 @@
             
 
             <div class='PhotoRating'>
-                <div class="action_box alert alert-info" id="video_detail_result_cont" style="display:none"></div>
+                <div class="action_box alert alert-info hidden-lg hidden-md hidden-sm hidden-xs" id="video_detail_result_cont"></div>
 
                 <div class="row fonts">
                     <div class="cb-item-desc-container">
-                        <ul class="nav nav-tabs" style="font-size:14px;">
+                        <ul class="nav nav-tabs font14">
                             <li class="active">
                                 <a href="#pinfo" data-toggle="tab">{lang('Info')}</a>
                             </li>
@@ -120,9 +120,9 @@
                             <div id="pcode" class="tab-pane">
                                 {$codes=$cbphoto->photo_embed_codes(['type'=>'all','with_url'=>true, 'details'=>$photo])}
                                 {foreach from=$codes item=item}
-                                <div style="width:48%; display:inline-block; margin-top:5px;">
-                                    <label style="text-transform:uppercase; font:bold 11px Tahoma;" for="{$item.type}">{$item.name}</label>
-                                    <input style="padding:4px; font:normal 11px Tahoma; border:1px solid #ccc; width:95%" onFocus="this.select();" value="{$item.code}" id="{$item.type}" />
+                                <div class="photo-share-tab">
+                                    <label for="{$item.type}">{$item.name}</label>
+                                    <input onFocus="this.select();" value="{$item.code}" id="{$item.type}" />
                                 </div>
                                 {/foreach}
                             </div>

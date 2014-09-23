@@ -1301,7 +1301,13 @@ ul#photos li.photo-land-no{
     top:25%;
     left:-10px;
 }
-
+.font14{
+    font-size: 14px;
+}
+.font18{
+    font-size: 18px;
+}
+.no-display{ display: none;}
 .fsize {
    font-size:  10px;
     padding-left: 131px;

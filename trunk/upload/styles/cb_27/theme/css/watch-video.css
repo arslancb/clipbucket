@@ -89,6 +89,24 @@
   width: 100%;
 }
 
+.photo-share-tab{
+  width:48%; 
+  display:inline-block; 
+  margin-top:5px;
+  }
+.photo-share-tab label{
+  text-transform:uppercase; 
+  font:bold 11px Tahoma;
+  }
+
+.photo-share-tab input{
+  padding:4px; 
+  font:normal 11px Tahoma; 
+  border:1px solid #ccc; 
+  width:95%;
+  }
+
+
 @media (max-width: 479px) {
 .watch-vid-thumb{
   float: none;
