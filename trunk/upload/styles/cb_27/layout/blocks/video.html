@@ -6,7 +6,7 @@
 <!-- Video Box -->
 
     <a class="thumb-holder" href="{videoLink($video)}" title="{$video.title|title}">
-        <img src="{getThumb vdetails=$video size='160X120'}"  id="thumbs_{$video.videoid}"  title=""/>
+        <img class="cb_img_thum" src="{getThumb vdetails=$video size='160X120'}"  id="thumbs_{$video.videoid}"  title=""/>
         <!-- style="position: absolute;right: 15px;margin-right: -39px;" -->
         <span class="duration1">{if
         $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}</span>
