@@ -187,21 +187,21 @@
             
       
             <!-- /Page Heading -->
-        <div class="col-md-10 photos nopadding">
+        <div class="col-md-12 photos nopadding">
 
             {$counter=0}
-        <ul class="list-unstyled row" id="photos"> <!-- remove photos id to remove photo land styling -->
+        <ul class="list-unstyled row" id="photos"> <!-- remove photos id to remove photo land styling --></ul>
             {section name=p_list loop=$photos}
             
             {$photos[p_list].counter=$counter}
-            <li class="">
+            <div class="">
             {include file="$style_dir/blocks/photo.html" photo=$photos[p_list]}
-            </li>
+            </div>
             {$counter=$counter+1}
             {sectionelse}
             <div class="col-md-10 ">{lang code='no_results_found'}</div>
             {/section}
-        </ul>
+        
             <!--Pagination-->
              
             <!-- /Pagination-->

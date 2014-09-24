@@ -1221,7 +1221,8 @@ a:hover {
 }
 .searchresult-photo{
     position: relative;
-    display: table-cell;
+    display: block;
+    width: 100%;
 }
 .searchresult-photo img{
     width: 100%;
