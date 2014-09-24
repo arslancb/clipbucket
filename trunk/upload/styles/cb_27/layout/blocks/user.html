@@ -1,10 +1,10 @@
 
 {if $block_type == '' || $block_type=='normal'}
-        <div class="row" id="user-{$user.userid}">
+        <div class="" id="user-{$user.userid}">
             <hr>
-            <div class="col-md-2">
+            <div class="cb-user-thumb pull-left">
                 <a href="{$userquery->profile_link($user)}">
-                    <img src="{$userquery->getuserthumb($user)}" class="img-circle" width="100" height="100">
+                    <img src="{$userquery->getuserthumb($user)}" class="img-circle full-width">
                 </a>
             </div>
             <div class="col-md-10">
@@ -29,9 +29,9 @@
 {/if}
 {if $block_type=='groups_show'}
 <div class="row" id="user-{$user.userid}">
-    <div class="col-md-3 col-sm-3  col-xs-4 nopadding">
+    <div class="cb-user-thumb pull-left">
         <a href="{$userquery->profile_link($user)}">
-            <img src="{$userquery->getuserthumb($user)}" class="img-circle" width="77" height="77">
+            <img src="{$userquery->getuserthumb($user)}" class="img-circle img-circle full-width">
         </a>
     </div>
     <div class="col-md-9 col-sm-9  col-xs-8">

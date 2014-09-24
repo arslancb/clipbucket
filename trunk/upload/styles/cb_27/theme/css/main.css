@@ -1572,7 +1572,10 @@ font-size: 14px;
     /*width: 100%;*/
 }
 
-
+.cb-user-thumb{
+    width:60px;
+    height:60px
+}
 .footer_pad{ padding-bottom:15px;}
 .lang_wrapper { float:left;  margin-left: 13px; margin-top: -5px; }
 .lang_ul { top:auto; bottom: 100%; width: 125px; min-width: 125px !important; }
