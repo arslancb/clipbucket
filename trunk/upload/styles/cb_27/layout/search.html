@@ -3,9 +3,9 @@
 
 <div class="container marginBottom">
     <div id="simple_search" class="cb-box marginBottom">
-        <nav class="navbar navbar-default" role="navigation">
+        <!-- <nav class="navbar navbar-default" role="navigation">
             <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
+                Brand and toggle get grouped for better mobile display
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                         <span class="sr-only">Toggle navigation</span>
@@ -15,11 +15,11 @@
                     </button>
                     <a style="margin-top: 12px" class="navbar-brand" href="#"><h2><small>Search Results</small></h2></a>
                 </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
+        
+                Collect the nav links, forms, and other content for toggling
                 <div class="collapse navbar-collapse searchpage" id="bs-example-navbar-collapse-1">
                     <form class="navbar-form navbar-left searchform" role="search">
-
+        
                         <form name="search-form" method="get" action="">
                     <ul class="nav navbar-nav searchnav" id="cbsearchtype">
                         {$counter = 1}
@@ -35,21 +35,21 @@
                             {/if}
                             {$counter = $counter + 1}
                         {/foreach}
-
-                       <!---->
-                       <!---->
-                        <!--{foreach from=$Cbucket->search_types item=t key=stypes}-->
-                        <!--<li class=""  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} ><a href="#">{$stypes}</a></li>-->
-                        <!--{/foreach}-->
-
+        
+                       
+                       
+                        {foreach from=$Cbucket->search_types item=t key=stypes}
+                        <li class=""  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if} ><a href="#">{$stypes}</a></li>
+                        {/foreach}
+        
                         <select id="SearchType" name="type" class="form-control searchselect sr-only">
                             {foreach from=$Cbucket->search_types item=t key=stypes}
                             <option  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
                             {/foreach}
                         </select>
                     </ul>
-
-
+        
+        
                         <div class="form-group">
                             <input type="text" class="form-control searchtextbar"  name="query" value="{'query'|get_form_val:true}" id="query" 
                             style="width:450px;margin-left:30px;margin-top:10px;" />
@@ -57,23 +57,24 @@
                             <input type="submit" name="cbsearch" id="cbsearch" value="{lang code='search'}" class="btn btn-default" 
                             style="margin-top:10px;"/>
                              
-                              <!-- <select id="SearchType" name="type" class=" form-control" style="width:200px; margin-left:20px;">
- 
+                              <select id="SearchType" name="type" class=" form-control" style="width:200px; margin-left:20px;">
+         
                               {foreach from=$Cbucket->search_types item=t key=stypes}
                               <option value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
                               {/foreach}
-                              </select>-->
- </div>
+                              </select>
+         </div>
                               </form>
                     
                         </form>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
-        </nav>
+                </div>/.navbar-collapse
+            </div>/.container-fluid
+        </nav> -->
         <div class="row">
             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8">
                 <div class="heading">{$search_type_title}</div>
                 <hr>
+                {$display_template}
                 {if $results}
                 {foreach item=result from=$results}
                 {assign var=$template_var value =$result}

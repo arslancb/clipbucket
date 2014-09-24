@@ -4,7 +4,8 @@
         <div class="cb_item_thumb video_thumb" >
         <a href="{videoLink($video)}" title="{$video.title|title}">
             <span class="video_duration">{if
-                                $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}{*$video.duration|date_format:$config.time*}</span>
+            $video.duration>1}{$video.duration|SetTime}{else}00:00{/if}{*$video.duration|date_format:$config.time*}
+            </span>
             <img class="" src="{getThumb vdetails=$video  size='171x120'} " border="1" />
         </a>
         </div>
