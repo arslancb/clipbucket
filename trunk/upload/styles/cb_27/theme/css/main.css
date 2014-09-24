@@ -50,7 +50,7 @@ a:focus{outline: none !important;}
     background-color: #356635;
 }
 .no-padding {
-    padding: 0px;
+    padding: 0px !important;
 }
 .absolute {
     position: absolute;
@@ -1043,7 +1043,7 @@ a.captionOrange:hover{color: #eb5100; text-decoration: underline; background-col
 
 .nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
     padding-left: 8px;
-    width: 300px;
+    width:100%;
     color: #fff;
     background-color: #428bca;
 }
@@ -1074,11 +1074,11 @@ a:hover {
 
 
 .nav-stacked>li+li {
-    width: 300px;
+    width:100%;
     margin-top: 0px;
     margin-left: 0;
     border-bottom:1px solid #dadada;
-    border-left:0px solid #dadada;
+    border-left:1px solid #dadada;
     border-right:1px solid #dadada;
 }
 
