@@ -190,11 +190,11 @@
         <div class="col-md-10 photos nopadding">
 
             {$counter=0}
-        <ul class="list-unstyled row" id="photos">
+        <ul class="list-unstyled row" id="photos"> <!-- remove photos id to remove photo land styling -->
             {section name=p_list loop=$photos}
             
             {$photos[p_list].counter=$counter}
-            <li>
+            <li class="">
             {include file="$style_dir/blocks/photo.html" photo=$photos[p_list]}
             </li>
             {$counter=$counter+1}
