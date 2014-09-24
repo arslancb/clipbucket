@@ -22,7 +22,12 @@ if(isset($_POST['experiment']))
 {
 	$mode = $_POST['mode'];
 	$victim = $_POST['victim'];
-	
+	$height = $_POST['height'];
+	$width = $_POST['width'];
+	$v_bitrate = $_POST['vbr'];
+	$a_bitrate = $_POST['abr'];
+	$preset = $_POST['preset'];
+
 	switch($mode)
 	{
 		default:
@@ -54,49 +59,75 @@ if(isset($_POST['experiment']))
 			
 			//now get ffmpeg details
 			$ffmpegDetails = shell_output($Cbucket->configs['ffmpegpath']." -version ");
-			
-			if(!$ffmpegDetails)
+			if(preg_match("/ffmpeg/i", $ffmpegDetails))
+			{
+				//$msg[] = "<br>".nl2br($ffmpegDetails);
+				$msg[] = "<div class=\"expOK\">FFMPEG Exists</div>";
+
+				
+			}
+			else
 			{
 				$err[] = '<br>How can human work without brain? same situation is with video conversion, no ffmpeg, no conversion.';
 				$err[] = "<div class=\"expErr\">FFMPEG does not exist</div>";
 				theEnd();
-			}else{
 				
-				$msg[] = "<br>".nl2br($ffmpegDetails);
-				$msg[] = "<div class=\"expOK\">FFMPEG Exists</div>";
-			}
-			
-			$flvtool2Details = shell_output($Cbucket->configs['flvtool2path']." -version ");
-			
-			if(!$flvtool2Details)
-			{
-				$err[] = '<br>Ah, no flvtool2 :O, its like a "Salt" for video files..food without salt is tasteless, 
-				so video is streamless without flvtool2';
-				$err[] = "<div class=\"expErr\">flvtool2 does not exist</div>";
-				theEnd();
-			}else{
-				
-				$msg[] = "<br>".nl2br($flvtool2Details);
-				$msg[] = "<div class=\"expOK\">Flvtool2 Exists</div>";
 			}
 			
 			$victimFile = $testVidsDir.'/'.$victim;
 			//getting video details..
 			$ffmpegObj = new ffmpeg($victimFile);
 			$vidDetails = $ffmpegObj->get_file_info();
-			if(!$vidDetails)
+			if($vidDetails)
+			{
+				//echo "here";
+				$t=time();
+				if ($preset == "" || $height == "" || $width == "" || $v_bitrate == "" || $a_bitrate == "")
+				{
+					$preset = 'medium';
+					$height = '640';
+					$width = '1280';
+					$v_bitrate = '720k';
+					$a_bitrate = '96k';
+				}
+				$msg[] = "<br>".nl2br($preset);
+				$msg[] = "<br>".nl2br($height);
+				$msg[] = "<br>".nl2br($width);
+				$msg[] = "<br>".nl2br($v_bitrate);
+				$msg[] = "<br>".nl2br($a_bitrate);
+				$msg[] = "<br>".nl2br(shell_output($Cbucket->configs['ffmpegpath'].' -i '.$victimFile." -vcodec libx264 -acodec libfaac -s ".$width."x".$height." -preset ".$preset." -f mp4 -b:v ".$v_bitrate." -b:a ".$a_bitrate." -r 25 -ar 22050 ".TEMP_DIR."/".$t."121.mp4"));
+				$msg[] = "<div class=\"expOK\">Video file is convertable..</div>";
+				
+			}
+			elseif (!$vidDetails) 
+			{
+				//echo "here";
+				$t=time();
+				if ($preset == "" || $height == "" || $width == "" || $v_bitrate == "" || $a_bitrate == "")
+				{
+					$preset = 'medium';
+					$height = '640';
+					$width = '1280';
+					$v_bitrate = '720k';
+					$a_bitrate = '96k';
+				}
+				$msg[] = "<br>".nl2br($preset);
+				$msg[] = "<br>".nl2br($height);
+				$msg[] = "<br>".nl2br($width);
+				$msg[] = "<br>".nl2br($v_bitrate);
+				$msg[] = "<br>".nl2br($a_bitrate);
+				$msg[] = "<br>".nl2br(shell_output($Cbucket->configs['ffmpegpath'].' -i '.$victimFile." -vcodec libx264 -acodec libfaac -s ".$width."x".$height." -preset ".$preset." -f mp4 -b:v ".$v_bitrate." -b:a ".$a_bitrate." -r 25 -ar 22050 ".TEMP_DIR."/".$t."121.mp4"));
+				$msg[] = "<div class=\"expOK\">Video file is convertable..</div>";
+			}
+			else
 			{
 				
-				$err[] = "<br>".nl2br(shell_output($Cbucket->configs['ffmpegpath'].' -i '.$victimFile));
+				$err[] = "<br>".nl2br(shell_output($Cbucket->configs['ffmpegpath'].' -i '.$victimFile.'  211.mp4'));
 				if(!file_exists($victimFile) && $victim)
 				$err[] = "<div class=\"expErr\">File does not exist</div>";
 				else
 				$err[] = "<div class=\"expErr\">What the...post the above ffmpeg log and let scientist do their job</div>";
 				theEnd();
-			}else
-			{
-				$msg[] = "<br>".nl2br(shell_output($Cbucket->configs['ffmpegpath'].' -i '.$victimFile));
-				$msg[] = "<div class=\"expOK\">Video file is convertable..</div>";
 			}
 			
 			
