@@ -3598,24 +3598,51 @@
 		}
 			
 	}
-
 	function check_ffmpeg($path)
 	{	
 		$path = get_binaries($path);
 		$matches = array();
 		$result = shell_output($path." -version");
+		//echo $result;
 		if($result) {
-			preg_match("/(?:ffmpeg\\s)(?:version\\s)?(\\d\\.\\d\\.(?:\\d|[\\w]+))/i", strtolower($result), $matches);
-			if(count($matches) > 0){
-				$version = array_pop($matches);
+			if (preg_match("/git/i", $result))
+			{
+				preg_match('@^(?:ffmpeg version)?([^C]+)@i',$result, $matches);
+				$host = $matches[1];
+
+				// get last two segments of host name
+				preg_match('/[^.]+\.[^.]+$/', $host, $matches);
+				//echo "{$matches[0]}\n";
+				$version = "{$matches[0]}";
 				return $version;
 			}
+			elseif (preg_match("/ffmpeg version/i", $result))
+			{
+				preg_match('@^(?:ffmpeg version)?([^,]+)@i',$result, $matches);
+				$host = $matches[1];
+
+				// get last two segments of host name
+				preg_match('/[^.]+\.[^.]+$/', $host, $matches);
+				//echo "{$matches[0]}\n";
+				$version = "{$matches[0]}";
+				return $version;
+			}
+			else
+				preg_match("/(?:ffmpeg\\s)(?:version\\s)?(\\d\\.\\d\\.(?:\\d|[\\w]+))/i", strtolower($result), $matches);
+				if(count($matches) > 0)
+				{
+					$version = array_pop($matches);
+					return $version;
+				}
 			return false;
-		}else{
+		}
+		else
+		{
 			return false;
 		}
 			
 	}
+	
 	
 
 	function check_php_cli($path)
