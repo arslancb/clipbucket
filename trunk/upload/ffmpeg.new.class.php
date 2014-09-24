@@ -1,7 +1,7 @@
 <?php
 define('FFMPEG_BINARY', get_binaries('ffmpeg'));
 define("thumbs_number",config('num_thumbs'));
-
+$size12 = "0";
 class FFMpeg{
 	private $command = "";
 	public $defaultOptions = array();
@@ -77,6 +77,8 @@ class FFMpeg{
 				$this->setOptions($options);
 			}
 			$this->inputFile = $inputFile;
+       		//$myfile = fopen("testfile.txt", "w")
+       		//fwrite($myfile, $inputFile);
 			$this->log->writeLine("input file", $inputFile);
 			$this->outputFile = $this->videosDirPath . '/'. $this->options['outputPath'] . '/' . $this->getInputFileName($inputFile);
 			$this->log->writeLine("outputFile", $this->outputFile);
@@ -84,6 +86,7 @@ class FFMpeg{
 			$this->videoDetails = $videoDetails;
 			$this->log->writeLine("videoDetails", $videoDetails);
 
+			$this->output->videoDetails = $videoDetails;
 
 			//$this->log->writeLine("Thumbs Generation", "Starting");
 			try{
@@ -111,40 +114,73 @@ class FFMpeg{
 	}
 
 	private function convertToLowResolutionVideo($videoDetails = false){
-
-		if($videoDetails && ((int)$videoDetails['video_height'] >= "720")){
-			$this->log->writeLine("Generating high resolution video", "Starting");
-			$this->hdFile = "{$this->outputFile}-hd.{$this->options['format']}";
-			$fullCommand = $this->ffMpegPath . " -i {$this->inputFile}" . $this->generateCommand($videoDetails, true) . " {$this->hdFile}";
-			$this->log->writeLine("Command", $fullCommand);
-			$conversionOutput = $this->executeCommand($fullCommand);
-			$this->log->writeLine("ffmpeg output", $conversionOutput);
-			$this->log->writeLine("MP4Box Conversion for HD", "Starting");
-			$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->hdFile}  -tmp /";
-			$this->log->writeLine("command", $fullCommand);
-			$output = $this->executeCommand($fullCommand);
-			$this->log->writeLine("output", $output);
-		}
-		else
+		
+		if($videoDetails)
 		{
+			$this->hdFile = "{$this->outputFile}-hd.{$this->options['format']}";
+			$out= shell_exec("ffmpeg -i {$this->inputFile} -acodec copy -vcodec copy -y -f null /dev/null 2>&1");
+			$len = strlen($out);
+			$findme = 'Video';
+			$findme1 = 'fps';
+			$pos = strpos($out, $findme);
+			$pos = $pos + 48;
+			$pos1 = strpos($out, $findme1);
+			$bw = $len - ($pos1 - 5);
+			$rest = substr($out, $pos, -$bw);
+			$rest = ','.$rest;
+			$dura = explode(',',$rest);
+			$dura[1] = $dura[1].'x';
+			$dura = explode('x',$dura[1]);
+			if($dura[1] >= "720")
+			{
+				$this->log->writeLine("Generating low resolution video", "Starting");
+				$this->sdFile = "{$this->outputFile}-sd.{$this->options['format']}";
+				$fullCommand = $this->ffMpegPath . " -i {$this->inputFile}" . $this->generateCommand($videoDetails, false) . " {$this->sdFile}";
 
-			$this->log->writeLine("Generating low resolution video", "Starting");
-			$this->sdFile = "{$this->outputFile}-sd.{$this->options['format']}";
-			$fullCommand = $this->ffMpegPath . " -i {$this->inputFile}" . $this->generateCommand($videoDetails, false) . " {$this->sdFile}";
-			sleep(15);
+				$this->log->writeLine("command", $fullCommand);
 
-			$this->log->writeLine("command", $fullCommand);
+				$conversionOutput = $this->executeCommand($fullCommand);
+				$this->log->writeLine("ffmpeg output", $conversionOutput);
+				
+				$this->log->writeLine("MP4Box Conversion for SD", "Starting");
+				$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->sdFile}  -tmp /";
+				$this->log->writeLine("command", $fullCommand);
+				$output = $this->executeCommand($fullCommand);
 
-			$conversionOutput = $this->executeCommand($fullCommand);
-			$this->log->writeLine("ffmpeg output", $conversionOutput);
-			
-			$this->log->writeLine("MP4Box Conversion for SD", "Starting");
-			$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->sdFile}  -tmp /";
-			$this->log->writeLine("command", $fullCommand);
-			$output = $this->executeCommand($fullCommand);
-			$this->log->writeLine("output", $output);
-			
+				$this->log->writeLine("output", $output);
+				$this->log->writeLine("Generating high resolution video", "Starting");
+				$this->hdFile = "{$this->outputFile}-hd.{$this->options['format']}";
+				$fullCommand = $this->ffMpegPath . " -i {$this->inputFile}" . $this->generateCommand($videoDetails, true) . " {$this->hdFile}";
+				$this->log->writeLine("Command", $fullCommand);
+				$conversionOutput = $this->executeCommand($fullCommand);
+				$this->log->writeLine("ffmpeg output", $conversionOutput);
+				$this->log->writeLine("MP4Box Conversion for HD", "Starting");
+				$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->hdFile}  -tmp /";
+				$this->log->writeLine("command", $fullCommand);
+				$output = $this->executeCommand($fullCommand);
+				$this->log->writeLine("output", $output);
+			}
+			else
+			{
+
+				$this->log->writeLine("Generating low resolution video", "Starting");
+				$this->sdFile = "{$this->outputFile}-sd.{$this->options['format']}";
+				$fullCommand = $this->ffMpegPath . " -i {$this->inputFile}" . $this->generateCommand($videoDetails, false) . " {$this->sdFile}";
+
+				$this->log->writeLine("command", $fullCommand);
+
+				$conversionOutput = $this->executeCommand($fullCommand);
+				$this->log->writeLine("ffmpeg output", $conversionOutput);
+				
+				$this->log->writeLine("MP4Box Conversion for SD", "Starting");
+				$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->sdFile}  -tmp /";
+				$this->log->writeLine("command", $fullCommand);
+				$output = $this->executeCommand($fullCommand);
+				$this->log->writeLine("output", $output);
+				
+			}
 		}
+		
 	}
 
 	private function convertToHightResolutionVideo($videoDetails = false){
@@ -228,7 +264,7 @@ class FFMpeg{
 				if($isHd){
 					$defaultVideoHeight = $this->options['high_res'];
 					$size = "{$ratio[$defaultVideoHeight][0]}x{$ratio[$defaultVideoHeight][1]}";
-					$vpre = "veryslow";
+					$vpre = "slow";
 				}else{
 					$defaultVideoHeight = $this->options['normal_res'];
 					$size = "{$ratio[$defaultVideoHeight][0]}x{$ratio[$defaultVideoHeight][1]}";
@@ -329,20 +365,7 @@ class FFMpeg{
 				$ffmpegOutput = $this->executeCommand( $this->ffMpegPath . " -i {$videoPath} -acodec copy -vcodec copy -y -f null /dev/null 2>&1" );
 				$info = $this->parseVideoInfo($ffmpegOutput);
 				$info['size'] = (integer)$stats['size'];
-				$info['bitrate'] = (integer)$stats['bitrate'];
-				$info['format']			= (integer)$stats['format'];
-				$info['duration']		= (integer)$stats['duration'];
-				$info['video_width']	= (integer)$stats['video_width'];
-				$info['video_height']	= (integer)$stats['video_height'];
-				$info['video_wh_ratio']	= (integer)$stats['video_wh_ratio'];
-				$info['video_codec']	= (integer)$stats['video_codec'];
-				$info['video_rate']		= (integer)$stats['video_rate'];
-				$info['video_bitrate']	= (integer)$stats['video_bitrate'];
-				$info['video_color']	= (integer)$stats['video_color'];
-				$info['audio_codec']	= (integer)$stats['audio_codec'];
-				$info['audio_bitrate']	= (integer)$stats['audio_bitrate'];
-				$info['audio_rate']		= (integer)$stats['audio_rate'];
-				$info['audio_channels']	= (integer)$stats['audio_channels'];
+				$size12 = $info;
 					return $info;
 			}
 		}
@@ -374,12 +397,21 @@ class FFMpeg{
 		}
 
 		
-		if(!$duration)
-		{
+		
 			$duration = $this->pregMatch( 'Duration: ([0-9.:]+),', $output );
 			$duration    = $duration[1];
 			
-			$duration = explode(':',$duration);
+			$len = strlen($output);
+			$findme = 'Duration';
+			$findme1 = 'start';
+			$pos = strpos($output, $findme);
+			$pos = $pos + 10;
+			$pos1 = strpos($output, $findme1);
+			$bw = $len - ($pos1 - 5);
+			$rest = substr($output, $pos, -$bw);
+
+
+			$duration = explode(':',$rest);
 			//Convert Duration to seconds
 			$hours = $duration[0];
 			$minutes = $duration[1];
@@ -389,7 +421,7 @@ class FFMpeg{
 			$minutes = $minutes * 60;
 			
 			$duration = $hours+$minutes+$seconds;
-		}
+		
 
 		$info['duration'] = $duration;
 		if($duration)
@@ -634,14 +666,15 @@ public function regenerateThumbs($input_file,$test,$duration,$dim,$num,$rand=NUL
 	}
 
 	public function isConversionSuccessful(){
-		if($this->sdFile){
-			if($this->hdFile){
-				return (file_exists($this->sdFile) && (filesize($this->sdFile)  > 0)) && (file_exists($this->hdFile) && (filesize($this->hdFile)  > 0));
-			}else{
-				return (file_exists($this->sdFile) && (filesize($this->sdFile)  > 0));
-			}
+		$str = "/".date("Y")."/".date("m")."/".date("d")."/";
+		$orig_file1 = BASEDIR.'/files/videos'.$str.$tmp_file.'-sd.'.$ext;
+		if ($size12 = "0") {
+			
+			return true;
+			
 		}
-		return false;
+		else
+			return false;
 	}
 
 }
