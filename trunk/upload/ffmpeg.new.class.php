@@ -104,8 +104,7 @@ class FFMpeg{
 			/*
 				High Resoution Coversion Starts here
 			*/
-			$this->log->newSection("High Resolution Conversion");
-			$this->convertToHightResolutionVideo($videoDetails);
+			
 			$this->log->writeLine("videoDetails", $videoDetails);
 
 		}else{
@@ -133,6 +132,7 @@ class FFMpeg{
 			$dura = explode('x',$dura[1]);
 			if($dura[1] >= "720")
 			{
+				
 				$this->log->writeLine("Generating low resolution video", "Starting");
 				$this->sdFile = "{$this->outputFile}-sd.{$this->options['format']}";
 				$fullCommand = $this->ffMpegPath . " -i {$this->inputFile}" . $this->generateCommand($videoDetails, false) . " {$this->sdFile}";
@@ -146,8 +146,9 @@ class FFMpeg{
 				$fullCommand = $this->mp4BoxPath . " -inter 0.5 {$this->sdFile}  -tmp /";
 				$this->log->writeLine("command", $fullCommand);
 				$output = $this->executeCommand($fullCommand);
-
 				$this->log->writeLine("output", $output);
+
+				$this->log->newSection("High Resolution Conversion");
 				$this->log->writeLine("Generating high resolution video", "Starting");
 				$this->hdFile = "{$this->outputFile}-hd.{$this->options['format']}";
 				$fullCommand = $this->ffMpegPath . " -i {$this->inputFile}" . $this->generateCommand($videoDetails, true) . " {$this->hdFile}";
