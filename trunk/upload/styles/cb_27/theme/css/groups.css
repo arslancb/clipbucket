@@ -226,6 +226,6 @@ overflow: hidden;
 
 @media (min-width: 319px) and (max-width: 980px) {
   .groups-view {
-    min-height: 180px;
+    min-height: 160px;
 }
 }
