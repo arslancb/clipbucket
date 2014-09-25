@@ -2,7 +2,7 @@
 .groups-view {
     border-bottom: 1px solid #DDDDDD;
     border-right: 1px solid #DDDDDD;
-    min-height: 140px;
+    min-height: 123px;
     padding-bottom: 10px;
 }
 .groups-view ul li{
@@ -224,7 +224,7 @@ overflow: hidden;
 .dropdown-submenu:hover>a:after{border-left-color:#ffffff;}
 .dropdown-submenu.pull-left{float:none;}.dropdown-submenu.pull-left>.dropdown-menu{left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}
 
-@media (min-width: 319px) and (max-width: 980px) {
+@media (max-width: 981px) {
   .groups-view {
     min-height: 160px;
 }

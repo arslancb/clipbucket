@@ -9,6 +9,7 @@
 .navig-resp-bg{
   float: right; 
   background-position: 0px 0px; border: none;
+  margin-right: 10px;
 }
 
 .search-resp-bg{
