@@ -157,7 +157,7 @@
 		        	{$videos=get_videos(["order" =>"date_added DESC", "limit" =>12])}
 
 		        	{foreach $videos as $video}
-		        		<div class="col-md-3  col-sm-4  col-xs-6 marginBottom grid_view recent-col list_view nopadding-right">
+		        		<div class="marginBottom grid_view recent-col list_view nopadding-right">
 						{include file="$style_dir/blocks/video.html"}
 						</div>
 		        	{/foreach}
