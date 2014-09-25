@@ -117,7 +117,8 @@ if($orig_file1)
 	}
 	else
 	{
-		$log->writeLine("Conversion Result", $status);
+		$status = "Failure";
+		$log->writeLine("Conversion Result", "Failure");
 	}
 }
 // update the video details in the database as successful conversion or not and video duration
