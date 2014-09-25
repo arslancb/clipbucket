@@ -108,7 +108,7 @@ if($orig_file1)
 	$minutes = $minutes * 60;
 				
 	$duration = $hours+$minutes+$seconds;
-	$duration =  (int) $ffmpeg->videoDetails['duration'];
+	//$duration =  (int) $ffmpeg->videoDetails['duration'];
 	if($duration > 0)
 	{
 
