@@ -33,6 +33,30 @@ switch($mode)
 			$gid = $_GET['gid_delete'];
 			$cbgroup->delete_group($gid);
 		}
+
+		if($_GET['feature'])
+		{
+			$gid = $_GET['feature'];
+			$cbgroup->grp_actions('feature', $gid);
+		}
+
+		if($_GET['unfeature'])
+		{
+			$gid = $_GET['unfeature'];
+			$cbgroup->grp_actions('unfeature', $gid);
+		}
+
+		if($_GET['activate'])
+		{
+			$gid = $_GET['activate'];
+			$cbgroup->grp_actions('activate', $gid);
+		}
+
+		if($_GET['deactivate'])
+		{
+			$gid = $_GET['deactivate'];
+			$cbgroup->grp_actions('deactivate', $gid);
+		}
 		
 		assign('mode','manage');
 		$usr_groups = $cbgroup->get_groups(array('user'=>userid()));

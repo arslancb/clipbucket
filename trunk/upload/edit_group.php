@@ -16,9 +16,10 @@ $udetails = $userquery->get_user_details(userid());
 assign('user',$udetails);
 assign('p',$userquery->get_user_profile($udetails['userid']));
 
-$gid = mysql_clean($_GET['gid']);
+$gid = mysql_clean($_GET['group_id']);
 //get group details
 $gdetails = $cbgroup->get_group_details($gid);
+
 
 $gArray = 
 		array
