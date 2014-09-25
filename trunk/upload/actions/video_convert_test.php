@@ -85,7 +85,7 @@ $str = "/".date("Y")."/".date("m")."/".date("d")."/";
 $orig_file1 = BASEDIR.'/files/videos'.$str.$tmp_file.'-sd.'.$ext;
 
 if($orig_file1)
-{/*
+{
 	$out = shell_exec("ffmpeg -i ".$orig_file1." -acodec copy -vcodec copy -y -f null /dev/null 2>&1");
 	sleep(1);
 	
@@ -108,8 +108,6 @@ if($orig_file1)
 	$minutes = $minutes * 60;
 				
 	$duration = $hours+$minutes+$seconds;
-	$status = "Failure";
-	*/
 	$duration =  (int) $ffmpeg->videoDetails['duration'];
 	if($duration > 0)
 	{
