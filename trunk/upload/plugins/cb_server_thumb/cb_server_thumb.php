@@ -204,6 +204,13 @@ if(!function_exists('server_thumb'))
 
             $size = ( !in_array( $size, $default ) or !$size ) ? 't' : $size;
 
+            list($width,$height) = explode('x',$array['size']);
+            if(isset($width) && is_numeric($width) && isset($height) && is_numeric($height) )
+            {
+                $w = $width;
+                $h = $height;   
+            }
+
             if( $size=='l')
             {
               $w = 320;
