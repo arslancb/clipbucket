@@ -204,13 +204,6 @@ if(!function_exists('server_thumb'))
 
             $size = ( !in_array( $size, $default ) or !$size ) ? 't' : $size;
 
-            list($width,$height) = explode('x',$array['size']);
-            if(isset($width) && is_numeric($width) && isset($height) && is_numeric($height) )
-            {
-                $w = $width;
-                $h = $height;   
-            }
-
             if( $size=='l')
             {
               $w = 320;
@@ -225,6 +218,13 @@ if(!function_exists('server_thumb'))
             {
               $w = 120;
               $h = 60;  
+            }
+
+            list($width,$height) = explode('x',$array['size']);
+            if(isset($width) && is_numeric($width) && isset($height) && is_numeric($height) )
+            {
+                $w = $width;
+                $h = $height;   
             }
 
             $tim_postfix = '&type=photos&h='.$h.'&w='.$w.'&zc=1';
