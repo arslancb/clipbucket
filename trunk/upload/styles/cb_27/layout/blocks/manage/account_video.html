@@ -133,7 +133,7 @@
 <td valign="middle">
   <div>
     <a href="{videoLink vdetails=$video}">
-      <img class="img-thumbnail" src="{getThumb vdetails=$video}" />
+      <img  src="{getThumb vdetails=$video}" width="130" height="80" id="thumbs_{$video.videoid}" class="vthumb" />
       <p class="marginTop">{$video.title|truncate:100}</p>
     </a>
   </div>

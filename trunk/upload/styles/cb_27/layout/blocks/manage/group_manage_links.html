@@ -1,5 +1,8 @@
-<div class="grp_manage_links">
-  <ul>
+<div class="btn-group pull-right">
+ <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Actions <span class="caret caret_margin"></span>
+                  </button>
+  <ul class="dropdown-menu pull-right" role="menu">
     <li><a href="{$baseurl}/edit_group.php?gid={$group.group_id}">{lang code='grp_edit_grp_title'}</a></li>
     <li><a href="{group_link details=$group}">{lang code='view_group'}</a></li>
     <li><a href="{$baseurl}/manage_groups.php?mode=manage_members&gid={$group.group_id}">
@@ -14,3 +17,4 @@
   </ul>
   <div class="clearfix"></div>
 </div>
+<div class="clearfix"></div>
