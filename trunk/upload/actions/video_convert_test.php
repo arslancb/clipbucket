@@ -21,7 +21,7 @@ $dosleep = (isset($argv[2])) ? $argv[2] : '';
 //$fileName = "/home/sajjad/Desktop/abc.mp4";
 $log->newSection("Starting Conversion Log");
 $log->writeLine("File to be converted", $fileName, false);
-
+$status = "Successful";
 /*
 	Getting the videos which are currently in our queue
 	waiting for conversion
@@ -83,13 +83,12 @@ unlink($orig_file);
 }
 $str = "/".date("Y")."/".date("m")."/".date("d")."/";
 $orig_file1 = BASEDIR.'/files/videos'.$str.$tmp_file.'-sd.'.$ext;
-$orig_file2 = BASEDIR.'/files/videos'.$str.$tmp_file.'-hd.'.$ext;
-$status = "Successful";
-if($orig_file1)
-{
-	/*$out = shell_exec("ffmpeg -i ".$orig_file1." -acodec copy -vcodec copy -y -f null /dev/null 2>&1");
-	sleep(1);
 
+if($orig_file1)
+{/*
+	$out = shell_exec("ffmpeg -i ".$orig_file1." -acodec copy -vcodec copy -y -f null /dev/null 2>&1");
+	sleep(1);
+	
 	$log->writeLog();
 	$len = strlen($out);
 	$findme = 'Duration';
@@ -109,11 +108,9 @@ if($orig_file1)
 	$minutes = $minutes * 60;
 				
 	$duration = $hours+$minutes+$seconds;
-	$status = "Failure";*/
-
+	$status = "Failure";
+	*/
 	$duration =  (int) $ffmpeg->videoDetails['duration'];
-
-
 	if($duration > 0)
 	{
 
@@ -125,46 +122,5 @@ if($orig_file1)
 		$log->writeLine("Conversion Result", "Failure");
 	}
 }
-else
-{
-	/*$out = shell_exec("ffmpeg -i ".$orig_file2." -acodec copy -vcodec copy -y -f null /dev/null 2>&1");
-	sleep(1);
-
-	$log->writeLog();
-	$len = strlen($out);
-	$findme = 'Duration';
-	$findme1 = 'start';
-	$pos = strpos($out, $findme);
-	$pos = $pos + 10;
-	$pos1 = strpos($out, $findme1);
-	$bw = $len - ($pos1 - 5);
-	$rest = substr($out, $pos, -$bw);
-	$duration = explode(':',$rest);
-
-	//Convert Duration to seconds
-	$hours = $duration[0];
-	$minutes = $duration[1];
-	$seconds = $duration[2];
-		
-	$hours = $hours * 60 * 60;
-	$minutes = $minutes * 60;
-				
-	$duration = $hours+$minutes+$seconds;
-	$status = "Successful";*/
-
-	$duration = (int) $ffmpeg->videoDetails['duration'];
-	
-	if( $duration > 0 )
-	{
-
-		$status = "Successful";
-		$log->writeLine("Conversion Result", "Successful");
-	}
-	else
-	{
-		$log->writeLine("Conversion Result", "Successful");
-	}
-}
-
 // update the video details in the database as successful conversion or not and video duration
 $db->update(tbl('video'), array("duration", "status"), array($duration, $status), " file_name = '{$outputFileName}'");
