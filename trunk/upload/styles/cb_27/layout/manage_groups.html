@@ -30,9 +30,11 @@
                 {/if}
 
                 {sectionelse}
+
                 <div align="center" style="padding:5px"><strong><em>{lang code='you_dont_hv_any_grp'}</em></strong></div>
                 {/section}
                 {include file="$style_dir/blocks/pagination.html"}
+
 
             {/if}
                     </table>
@@ -64,9 +66,7 @@
                         </table>
             </form>
             {/if}
-        </div>
-        </div>
-    </div>
+        
 
 
 
@@ -76,7 +76,7 @@
 
 
 
-<div>
+
 
 <div class="account_box">
 
@@ -109,12 +109,12 @@
 
     <div style="float:left; width:300px">
         <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" />
-        <input type="submit" name="activate_pending" id="activate_pending" value="{lang code='approve'}" class="small_button" />
-        <input type="submit" name="delete_members" id="delete_members" value="{lang code='delete'}" class="small_button" />
+        <input type="submit" name="activate_pending" id="activate_pending" value="{lang code='approve'}" class="btn btn-primary" />
+        <input type="submit" name="delete_members" id="delete_members" value="{lang code='delete'}" class="btn btn-primary" />
     </div>
     <div class="clearfix" style="margin-bottom:10px"></div>
 
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="manage_contacts_tbl_head">
+    <table class="table table-bordered table-striped">
         <tr>
             <td width="15"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
             <td width="50">&nbsp;</td>
@@ -123,10 +123,11 @@
             <td width="100">&nbsp;</td>
             <td width="50">&nbsp;</td>
         </tr>
-    </table>
+   
     {section name=pmems loop=$grp_pend_mems}
     {include file="$style_dir/blocks/manage/account_user.html" user=$grp_pend_mems[pmems] status='pending'}
-    {/section}
+    {/section} 
+    </table>
 </form>
 {/if}
 <!-- Ending listing pending members -->
@@ -135,15 +136,15 @@
 <!-- Listing ALl Active Members -->
 {if $gp_mems}
 <form name="pending_members" id="pending_members" action="" method="post">
-    <h2>{lang code='active_mems'} ({$gp_mems|@count})</h2>
+    <h3>{lang code='active_mems'} ({$gp_mems|@count})</h3>
     <div style="float:left; width:300px">
         <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" />
-        <input type="submit" name="disapprove_members" id="disapprove_members" value="{lang code='disapprove'}" class="small_button" />
-        <input type="submit" name="delete_members" id="delete_members" value="{lang code='delete'}" class="small_button" />
+        <input type="submit" name="disapprove_members" id="disapprove_members" value="{lang code='disapprove'}" class="btn btn-primary" />
+        <input type="submit" name="delete_members" id="delete_members" value="{lang code='delete'}" class="btn btn-primary" />
     </div>
     <div class="clearfix" style="margin-bottom:10px"></div>
 
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="manage_contacts_tbl_head">
+    <table class="table table-bordered table-striped">
         <tr>
             <td width="15"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/></td>
             <td width="50">&nbsp;</td>
@@ -152,7 +153,7 @@
             <td width="100">&nbsp;</td>
             <td width="50">&nbsp;</td>
         </tr>
-    </table>
+   
     {section name=amems loop=$gp_mems}
     {assign var=makeAdmin value='no'}
     {assign var=removeAdmin value='no'}
@@ -167,6 +168,7 @@
 
     {include file="$style_dir/blocks/manage/account_user.html" user=$gp_mems[amems] status='active'}
     {/section}
+     </table>
 </form>
 {/if}
 <!-- Ending Listing all active members -->
@@ -188,16 +190,16 @@
 
 {if $grp_pend_videos}
 <form name="pending_members" id="pending_members" action="" method="post">
-    <h2>{lang code='pending_vids'} ({$grp_pend_videos|@count})</h2>
+    <h3>{lang code='pending_vids'} ({$grp_pend_videos|@count})</h3>
     <div style="float:left; width:300px">
         <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" />
-        <input type="submit" name="activate_videos" id="activate_videos" value="{lang code='approve'}" class="small_button" />
-        <input type="submit" name="delete_videos" id="delete_videos" value="{lang code='delete'}" class="small_button" />
+        <input type="submit" name="activate_videos" id="activate_videos" value="{lang code='approve'}" class="btn btn-primary" />
+        <input type="submit" name="delete_videos" id="delete_videos" value="{lang code='delete'}" class="btn btn-primary" />
     </div>
     <div class="clearfix" style="margin-bottom:10px"></div>
     <div class="account_table">
 
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <table class="table table-bordered table-striped">
             <tr>
                 <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
                 </td>
@@ -206,9 +208,7 @@
                 <td width="100">{lang code='views'}</td>
                 <td width="100">{lang code='comments'}</td>
             </tr>
-        </table>
-
-    </div>
+      
     {assign var='bg' value='fff'}
     {if $grp_pend_videos}
     {section name=plist loop=$grp_pend_videos}
@@ -221,8 +221,15 @@
 
     {/section}
     {else}
+    <tr>
+    <td colspan="5">
     <div align="center" style="padding:5px"><strong><em>{lang code='no_pending_vids'}</em></strong></div>
+    </td>
+    </tr>
     {/if}
+    </table>
+
+    </div>  
 </form>
 {/if}
 <!-- Ending listing pending videos -->
@@ -230,16 +237,16 @@
 <!-- Listing ALl Active Members -->
 {if $grp_vids}
 <form name="pending_members" id="pending_members" action="" method="post">
-    <h2>{lang code='active_videos'} ({$grp_vids|@count})</h2>
+    <h3>{lang code='active_videos'} ({$grp_vids|@count})</h3>
     <div style="float:left; width:300px">
         <img src="{$imageurl}/dot.gif" class="arrow_pointing" style="margin-left:20px; margin-right:10px;" />
-        <input type="submit" name="disapprove_videos" id="disapprove_videos" value="{lang code='disapprove'}" class="small_button" />
-        <input type="submit" name="delete_videos" id="delete_videos" value="{lang code='delete'}" class="small_button" />
+        <input type="submit" name="disapprove_videos" id="disapprove_videos" value="{lang code='disapprove'}" class="btn btn-primary" />
+        <input type="submit" name="delete_videos" id="delete_videos" value="{lang code='delete'}" class="btn btn-primary" />
     </div>
     <div class="clearfix" style="margin-bottom:10px"></div>
     <div class="account_table">
 
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <table class="table table-bordered table-striped">
             <tr>
                 <td width="25"><input type="checkbox" name="checkall" onclick="checkUncheckAll(this);"/>
                 </td>
@@ -248,9 +255,7 @@
                 <td width="100">{lang code='views'}</td>
                 <td width="100">{lang code='comments'}</td>
             </tr>
-        </table>
-
-    </div>
+       
     {assign var='bg' value='fff'}
     {if $grp_vids}
     {section name=plist loop=$grp_vids}
@@ -263,8 +268,16 @@
 
     {/section}
     {else}
+    <tr>
+    <td colspan="5">
     <div align="center" style="padding:5px"><strong><em>{lang code='no_active_videos'}</em></strong></div>
+    </td>
+    </tr>
     {/if}
+
+     </table>
+
+    </div>
 </form>
 {/if}
 <!-- Ending Listing all active members -->
@@ -275,6 +288,7 @@
 </div>
 
 
-
-
 </div>
+        </div>
+    </div>
+
