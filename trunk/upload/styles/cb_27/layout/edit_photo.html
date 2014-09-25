@@ -16,8 +16,8 @@
                 {assign var='requiredFields' value=$cbphoto->load_required_forms($p)}
                 {assign var='optionFields' value=$cbphoto->load_other_forms($p)}
                 <div class="account_form">
-                <form name="edit_photo" id="edit_photo" method="post">
-                    <input type="hidden" value="{$p.photo_id}" id="photo_id" name="photo_id" />
+                    <form name="edit_photo" id="edit_photo" method="post">
+                        <input type="hidden" value="{$p.photo_id}" id="photo_id" name="photo_id" />
                         <div class="row marginTop">
                             <div class="col-md-6">
                                 {foreach from=$requiredFields item=field}
@@ -54,7 +54,7 @@
                                 {lang code='Update Photo'}
                             </button>
                         </div>
-                </form>            
+                    </form>            
                 </div>
             </div>  
         </div>

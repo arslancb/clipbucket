@@ -1,6 +1,4 @@
 {$myAccountLinks = $userquery->my_account_links()}
-
-
 <div class="container marginBottom">
     <div id="simple_search" class="cb-box marginBottom">
         <!-- <nav class="navbar navbar-default" role="navigation">
@@ -63,7 +61,7 @@
                               <option value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
                               {/foreach}
                               </select>
-         </div>
+                        </div>
                               </form>
                     
                         </form>
@@ -89,75 +87,57 @@
             </div>
         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!--<div class="row">-->
-            <!--<form name="search-form" method="get" action="">-->
-            <!--<div class="col-md-6">-->
-                <!--<h2><small>{$title} &#8250; {lang code='search'} &#8211;</small></h2>-->
-                <!--<input type="text" class="form-control" name="query" value="{'query'|get_form_val:true}" id="query" />-->
-                <!--<hr>-->
-            <!--</div>-->
-            <!--<div class="col-md-6">-->
-                <!--<h2><small>{lang code='Type'} &#8211;</small></h2>-->
-                <!--<select id="SearchType" name="type" class="form-control">-->
-                    <!--{foreach from=$Cbucket->search_types item=t key=stypes}-->
-                    <!--<option  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>-->
-                    <!--{/foreach}-->
-                <!--</select>-->
-                <!--<hr>-->
-                <!--<input type="submit" name="cbsearch" id="cbsearch" value="{lang code='search'}" class="btn btn-primary" />-->
-            <!--</div>-->
-                <!--</form>-->
-            <!--</div>-->
-            <!--</div>-->
-
-            <div>
-                <div style="height:10px"></div>
-
-                <div class="clearfix"></div>
+        <!-- <div class="row">
+            <form name="search-form" method="get" action="">
+            <div class="col-md-6">
+                <h2><small>{$title} &#8250; {lang code='search'} &#8211;</small></h2>
+                <input type="text" class="form-control" name="query" value="{'query'|get_form_val:true}" id="query" />
+                <hr>
             </div>
-            {include file="$style_dir/blocks/pagination.html"}
+            <div class="col-md-6">
+                <h2><small>{lang code='Type'} &#8211;</small></h2>
+                <select id="SearchType" name="type" class="form-control">
+                    {foreach from=$Cbucket->search_types item=t key=stypes}
+                    <option  value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
+                    {/foreach}
+                </select>
+                <hr>
+                <input type="submit" name="cbsearch" id="cbsearch" value="{lang code='search'}" class="btn btn-primary" />
+            </div>
+                </form>
+            </div>
+        </div> -->
+
+        <div>
+            <div style="height:10px"></div>
+
+            <div class="clearfix"></div>
         </div>
+        {include file="$style_dir/blocks/pagination.html"}
+    </div>
 
 </div>
 
-        <script>
-            $(document).ready(function(){
-                $("#cbsearchtype a").on({
-                    click: function(e){
-                    e.preventDefault();
-                    var searchtype = $("#SearchType").val();
-                    var buttonText = $(this).text().toLowerCase();
-                    if($("#SearchType option[value='"+ buttonText +"']").length > 0){
-                        $("#SearchType option:selected").removeAttr("selected");
-                        $("#SearchType option[value='"+ buttonText +"']").attr("selected" , "selected");
-                        $(this).parents("ul").find(".active").removeClass("active");
-                        $(this).parent().addClass("active");
+<script>
+    $(document).ready(function(){
+        $("#cbsearchtype a").on({
+            click: function(e){
+            e.preventDefault();
+            var searchtype = $("#SearchType").val();
+            var buttonText = $(this).text().toLowerCase();
+            if($("#SearchType option[value='"+ buttonText +"']").length > 0){
+                $("#SearchType option:selected").removeAttr("selected");
+                $("#SearchType option[value='"+ buttonText +"']").attr("selected" , "selected");
+                $(this).parents("ul").find(".active").removeClass("active");
+                $(this).parent().addClass("active");
 
-                    }
-                }
-                });
+            }
+        }
+        });
 
-            });
+    });
 
-        </script>
+</script>
 
 
 

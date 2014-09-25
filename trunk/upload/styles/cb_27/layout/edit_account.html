@@ -153,137 +153,137 @@
         {include file="$style_dir/blocks/manage/userMenuLeft.html"}
       </div>
       <div class="col-md-9">
-      <div class="tabbable">
-      <ul class="nav nav-tabs" id="myTab1">
-          <li class="active">
-              <a data-toggle="tab" href="#uavatar">
-                  <h5>{lang code='User Avatar'}</h5>
-              </a>
-          </li>
-          <li class="">
-              <a data-toggle="tab" href="#cbackground">
-                  <h5>{lang code='Channel Background'}</h5>
-              </a>
-          </li>
-      </ul>
-      <div class="tab-content">
-          <div id="uavatar" class="tab-pane active">
-              <form method="post" enctype="multipart/form-data">
-                  <legend>{lang code='user_user_avatar'}</legend>
-                  <div class="show-image">
-                    <img src="{$userquery->getUserThumb($user)}" class="img-thumbnail" />
-                    
-                  </div>
-                  <div class="form-group">
-                      <label for="avatar_file">
-                          <h4>{lang code='user_user_avatar'}</h4>
-                          {lang code='please_select_img_file'}
-                      </label>
-                      <input type="file" name="avatar_file" id="avatar_file" class="the-buttons btn" />
-                  </div>
-                  <h3>{lang code='or'}</h3>
-                  <div class="form-group">
-                      <label for="avatar_url">{lang code='pelase_enter_image_url'}</label>
-                      <input class="form-control" name="avatar_url" type="text" id="avatar_url" value="{$user.avatar_url}" />
-                  </div>
-                  <div class="form-group">
-                      <label class="radio">
-                          <input name="delete_avatar" type="checkbox" id="delete_avatar" value="yes" />
-                          {lang code='delete_this_img'} - (if user has uploaded profile pic)
-                      </label>
-                      <input type="hidden" name="avatar_file_name" value="{$user.avatar}" />
-                  </div>
-                  <div class="form-group">
-                      <button name="update_avatar_bg" id="button1" value="submit" class="btn btn-primary">
-                          {lang code='update'}
-                      </button>
-                  </div>
+        <div class="tabbable">
+          <ul class="nav nav-tabs" id="myTab1">
+              <li class="active">
+                  <a data-toggle="tab" href="#uavatar">
+                      <h5>{lang code='User Avatar'}</h5>
+                  </a>
+              </li>
+              <li class="">
+                  <a data-toggle="tab" href="#cbackground">
+                      <h5>{lang code='Channel Background'}</h5>
+                  </a>
+              </li>
+          </ul>
+          <div class="tab-content">
+            <div id="uavatar" class="tab-pane active">
+                <form method="post" enctype="multipart/form-data">
+                    <legend>{lang code='user_user_avatar'}</legend>
+                    <div class="show-image">
+                      <img src="{$userquery->getUserThumb($user)}" class="img-thumbnail" />
+                      
+                    </div>
+                    <div class="form-group">
+                        <label for="avatar_file">
+                            <h4>{lang code='user_user_avatar'}</h4>
+                            {lang code='please_select_img_file'}
+                        </label>
+                        <input type="file" name="avatar_file" id="avatar_file" class="the-buttons btn" />
+                    </div>
+                    <h3>{lang code='or'}</h3>
+                    <div class="form-group">
+                        <label for="avatar_url">{lang code='pelase_enter_image_url'}</label>
+                        <input class="form-control" name="avatar_url" type="text" id="avatar_url" value="{$user.avatar_url}" />
+                    </div>
+                    <div class="form-group">
+                        <label class="radio">
+                            <input name="delete_avatar" type="checkbox" id="delete_avatar" value="yes" />
+                            {lang code='delete_this_img'} - (if user has uploaded profile pic)
+                        </label>
+                        <input type="hidden" name="avatar_file_name" value="{$user.avatar}" />
+                    </div>
+                    <div class="form-group">
+                        <button name="update_avatar_bg" id="button1" value="submit" class="btn btn-primary">
+                            {lang code='update'}
+                        </button>
+                    </div>
                   </form>
               </div>
-          <div id="cbackground" class="tab-pane">
-              <form method="post" enctype="multipart/form-data">
-              <div class="avatar_bg">
+              <div id="cbackground" class="tab-pane">
+                  <form method="post" enctype="multipart/form-data">
+                  <div class="avatar_bg">
 
-                  <legend>{lang code='user_bg'}</legend>
-                 <!-- <div class="show-image">
-                      {if $userquery->getUserBg($user)}
-                      <img src="{$userquery->getUserBg($user)}" class="img-thumbnail"/>
-                      <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn btn-danger position"  />
-                      {else}
-                      <em><strong>No Bg</strong></em>
-                      {/if}
-                  </div>-->
+                    <legend>{lang code='user_bg'}</legend>
+                     <!-- <div class="show-image">
+                          {if $userquery->getUserBg($user)}
+                          <img src="{$userquery->getUserBg($user)}" class="img-thumbnail"/>
+                          <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn btn-danger position"  />
+                          {else}
+                          <em><strong>No Bg</strong></em>
+                          {/if}
+                      </div>-->
 
-                      <div class="show-image">
-                       {if $userquery->getUserBg($user)}
-                      <img src="{$userquery->getUserBg($user)}" class="img-thumbnail"/>
-                      <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn"  />
-                      {else}
-                      <em><strong>No Bg</strong></em>
-                       <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn"  />
-                      {/if}
+                    <div class="show-image">
+                     {if $userquery->getUserBg($user)}
+                    <img src="{$userquery->getUserBg($user)}" class="img-thumbnail"/>
+                    <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn"  />
+                    {else}
+                    <em><strong>No Bg</strong></em>
+                     <input type="file" name="background_file" id="background_file" value="Change Cover" class="the-buttons btn"  />
+                    {/if}
 
-                      </div>
+                    </div>
 
-                       <br> 
+                    <br> 
 
-                  <h3>{lang code='or'}</h3>
-                  <div class="form-group">
-                      <label for="background_url">{lang code='pelase_enter_image_url'}</label>
-                      <input class="form-control" name="background_url" type="text" id="background_url" value="{$user.background_url}" />
+                    <h3>{lang code='or'}</h3>
+                    <div class="form-group">
+                          <label for="background_url">{lang code='pelase_enter_image_url'}</label>
+                          <input class="form-control" name="background_url" type="text" id="background_url" value="{$user.background_url}" />
+                    </div>
+                    <h3>{lang code='or'}</h3>
+                    <div class="form-group">
+                        <label for="background_color">{lang code='please_enter_bg_color'}</label>
+                        <input class="form-control" name="background_color" type="text" id="background_color" value="{$user.background_color}" />
+                        <input type="hidden" name="bg_file_name" value="{$user.background}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="background_repeat">{lang code='bg_repeat_type'}</label>
+                        <select class="form-control" name="background_repeat" id="background_repeat" >
+                            <option value="repeat" {if $user.background_repeat=='repeat'} selected="selected"{/if}>
+                            repeat
+                            </option>
+                            <option value="repeat-x" {if $user.background_repeat=='repeat-x'} selected="selected"{/if}>
+                            repeat-x
+                            </option>
+                            <option value="repeat-y" {if $user.background_repeat=='repeat-y'} selected="selected"{/if}>
+                            repeat-y
+                            </option>
+                            <option value="no-repeat" {if $user.background_repeat=='no-repeat'} selected="selected"{/if}>
+                            no-repeat
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="background_attachement" class="checkbox">
+                            <input type="checkbox" {if $user.background_attachement=='yes'} checked="checked"{/if} value="yes" name="background_attachement" id="background_attachement" />
+                            {lang code='fix_bg'}
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        {if $userquery->getUserBg($user)}
+                        <label for="delete_bg" class="checkbox">
+                            <input name="delete_bg" type="checkbox" id="delete_bg" value="yes" />
+                            {lang code='delete_this_img'}
+                        </label>
+                        {/if}
+                    </div>
+                    <div class="form-group">
+                        <button name="update_avatar_bg" id="button2" value="submit" class="btn btn-primary">
+                            {lang code='update'}
+                        </button>
+                    </div>
                   </div>
-                  <h3>{lang code='or'}</h3>
-                  <div class="form-group">
-                      <label for="background_color">{lang code='please_enter_bg_color'}</label>
-                      <input class="form-control" name="background_color" type="text" id="background_color" value="{$user.background_color}" />
-                      <input type="hidden" name="bg_file_name" value="{$user.background}" />
-                  </div>
-                  <div class="form-group">
-                      <label for="background_repeat">{lang code='bg_repeat_type'}</label>
-                      <select class="form-control" name="background_repeat" id="background_repeat" >
-                          <option value="repeat" {if $user.background_repeat=='repeat'} selected="selected"{/if}>
-                          repeat
-                          </option>
-                          <option value="repeat-x" {if $user.background_repeat=='repeat-x'} selected="selected"{/if}>
-                          repeat-x
-                          </option>
-                          <option value="repeat-y" {if $user.background_repeat=='repeat-y'} selected="selected"{/if}>
-                          repeat-y
-                          </option>
-                          <option value="no-repeat" {if $user.background_repeat=='no-repeat'} selected="selected"{/if}>
-                          no-repeat
-                          </option>
-                      </select>
-                  </div>
-                  <div class="form-group">
-                      <label for="background_attachement" class="checkbox">
-                          <input type="checkbox" {if $user.background_attachement=='yes'} checked="checked"{/if} value="yes" name="background_attachement" id="background_attachement" />
-                          {lang code='fix_bg'}
-                      </label>
-                  </div>
-                  <div class="form-group">
-                      {if $userquery->getUserBg($user)}
-                      <label for="delete_bg" class="checkbox">
-                          <input name="delete_bg" type="checkbox" id="delete_bg" value="yes" />
-                          {lang code='delete_this_img'}
-                      </label>
-                      {/if}
-                  </div>
-                  <div class="form-group">
-                      <button name="update_avatar_bg" id="button2" value="submit" class="btn btn-primary">
-                          {lang code='update'}
-                      </button>
-                  </div>
-                  </div>
-                  </form>
+                </form>
 
               </div>
-          </div>
-          </div>
-          </div>
+            </div>
+        </div>
       </div>
- {elseif $mode != 'profile_settings'}
-  <div class="cb-box row">
+    </div>
+    {elseif $mode != 'profile_settings'}
+    <div class="cb-box row">
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 hidden-xs">
           {include file="$style_dir/blocks/manage/userMenuLeft.html"}
       </div>

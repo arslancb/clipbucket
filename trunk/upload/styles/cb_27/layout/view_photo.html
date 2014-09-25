@@ -1,11 +1,9 @@
 <!-- Defining object type-->
 {lang code='photo' assign='object_type'}
-
 <div class="row">
     {assign var=json value=$photo.photo_details|json_decode}
     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mouse_hover">
-        <div class="cb-box pad-bottom-sm">
-            
+        <div class="cb-box pad-bottom-sm">  
             <div class="relative">
                 <a {if $nextLink} {assign var='nextItem' value=$nextLink} {else}  {assign var='nextItem' value=$preLink} {/if}
                 href="{$cbphoto->photo_links($nextItem.0,'view_item')}">{get_photo details=$photo size='l' class='img-responsive center-block' output='html' height="100"}</a>
@@ -174,9 +172,9 @@
 
     </div>
 
-        {section name=list loop=$uphotos}
-        {include file="$style_dir/blocks/photo.html" display_type="related_photos" photo=$uphotos[list]}
-        {/section}
+    {section name=list loop=$uphotos}
+    {include file="$style_dir/blocks/photo.html" display_type="related_photos" photo=$uphotos[list]}
+    {/section}
 
     
 </div>

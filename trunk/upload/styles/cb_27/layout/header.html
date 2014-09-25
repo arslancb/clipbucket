@@ -57,9 +57,9 @@
 
         <ul class="nav navbar-nav main-nav navbar-collapse collapse manual-height left-margin-xero pad-left-xero" id="khulja-sim-sim">
             {foreach $head_menu as $menu}
-                {if $menu@iteration < 5}
-                    <li {if $menu.active}class="active"{/if}><a href="{$menu.link}">{$menu.name}</a></li>
-                {/if}
+            {if $menu@iteration < 5}
+            <li {if $menu.active}class="active"{/if}><a href="{$menu.link}">{$menu.name}</a></li>
+            {/if}
             {/foreach}
 
             {if userid()}
@@ -140,7 +140,7 @@
                 <ul class="dropdown-menu">
 
                     {if has_access('admin_access')}
-                        <li><a href="{$admin_baseurl}">{lang code="Admin area"}</a></li>
+                    <li><a href="{$admin_baseurl}">{lang code="Admin area"}</a></li>
                     {/if}
                     <li><a href="{link name='my_account' }{userid}">{lang code="my_account"}</a></li>
                     <li><a href="{link name='my_videos'}">{lang code="Manage Videos"}</a></li>
@@ -168,13 +168,13 @@
                 <button title="Upload" class="btn btn-primary" type="button">
                     <a class="upload-vid-photo-icon" href="{link name='upload'}">Upload</a>
                 </button>
-              <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
-              </button>
-              <ul role="menu" class="dropdown-menu upload-dropdown">
-               <li><a href="{link name='upload'}">{lang code="Upload Video"}</a></li>
-                <li><a href="{link name='photo_upload'}">{lang code="Upload Photo"}</a></li>
+                </button>
+                <ul role="menu" class="dropdown-menu upload-dropdown">
+                    <li><a href="{link name='upload'}">{lang code="Upload Video"}</a></li>
+                    <li><a href="{link name='photo_upload'}">{lang code="Upload Photo"}</a></li>
               </ul>
             </div>
         </div>
@@ -186,7 +186,7 @@
         <!-- SHown to middle size displays only  @todo : Add condition for logged in user -->
         <ul class="nav navbar-nav navbar-right nav-login-dd">
 
-        <li class="search-form show-small-form pull-left mrxll" ><i class="glyphicon glyphicon-search cursor-pointer"></i></li>
+            <li class="search-form show-small-form pull-left mrxll" ><i class="glyphicon glyphicon-search cursor-pointer"></i></li>
             <div class="form-small full-width">                    
                 <form action="{link name='search_result'}" role="search" method="get" name="search_small" id="search_small">
                     <div class="input-group cbsearchtype">
@@ -263,68 +263,68 @@
 <div class="modal fade" id="login-modal" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <form name="login-form" role="form" action="{link name='signup'}" method="post">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{lang code="Login"}</h4>
-            </div>
-            <div class="modal-body">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{lang code="Login"}</h4>
+                </div>
+                <div class="modal-body">
 
-                    <div class="form-group">
-                        <label for="login_username">{lang code="Username"}</label>
-                        <input type="text" class="form-control" id="login_username"  name="username"  placeholder="Enter username">
-                    </div>
+                        <div class="form-group">
+                            <label for="login_username">{lang code="Username"}</label>
+                            <input type="text" class="form-control" id="login_username"  name="username"  placeholder="Enter username">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="login_password">{lang code="Password"}</label>
-                        <input type="password" class="form-control" id="login_password" name="password" placeholder="Enter password">
-                    </div>
+                        <div class="form-group">
+                            <label for="login_password">{lang code="Password"}</label>
+                            <input type="password" class="form-control" id="login_password" name="password" placeholder="Enter password">
+                        </div>
 
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox"> {lang code="Remember me"}
-                        </label>
-                    </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"> {lang code="Remember me"}
+                            </label>
+                        </div>
 
 
-            </div>
-            <div class="modal-footer">
-                <a href="{link name='signup'}" class="btn btn-primary btn-success btn-sm pull-left">{lang code="Create Account"}</a>
-                <button type="button" class="btn btn-default" data-dismiss="modal">{lang code="Cancel"}</button>
-                <input type="submit" class="btn btn-primary" value="{lang code='Login'}" name="login">
-            </div>
-        </div><!-- /.modal-content -->
+                </div>
+                <div class="modal-footer">
+                    <a href="{link name='signup'}" class="btn btn-primary btn-success btn-sm pull-left">{lang code="Create Account"}</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{lang code="Cancel"}</button>
+                    <input type="submit" class="btn btn-primary" value="{lang code='Login'}" name="login">
+                </div>
+            </div><!-- /.modal-content -->
         </form>
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 <script>
-            $(document).ready(function(){
-                $(".cbsearchtype a").on({
-                    click: function(e){
-                    e.preventDefault();
-                    var prent_li = $(this).parents();
-                    $('.type').val($(this).html());
-                    $('.cbsearchtype li').removeClass('active');
-                    prent_li.addClass('active');
-                    /*var searchtype = $("#SearchType").val();
-                    var buttonText = $(this).text().toLowerCase();
-                    if($("#SearchType option[value='"+ buttonText +"']").length > 0){
-                        $("#SearchType option:selected").removeAttr("selected");
-                        $("#SearchType option[value='"+ buttonText +"']").attr("selected" , "selected");
-                        $(this).parents("ul").find(".active").removeClass("active");
-                        $(this).parent().addClass("active");
+    $(document).ready(function(){
+        $(".cbsearchtype a").on({
+            click: function(e){
+            e.preventDefault();
+            var prent_li = $(this).parents();
+            $('.type').val($(this).html());
+            $('.cbsearchtype li').removeClass('active');
+            prent_li.addClass('active');
+            /*var searchtype = $("#SearchType").val();
+            var buttonText = $(this).text().toLowerCase();
+            if($("#SearchType option[value='"+ buttonText +"']").length > 0){
+                $("#SearchType option:selected").removeAttr("selected");
+                $("#SearchType option[value='"+ buttonText +"']").attr("selected" , "selected");
+                $(this).parents("ul").find(".active").removeClass("active");
+                $(this).parent().addClass("active");
 
-                    }*/
-                }
-                });
-                
-                $('.show-small-form').click(function() {
-                    $('.form-small').toggleClass('show');   
-                });
-                
-                
+            }*/
+        }
+        });
+        
+        $('.show-small-form').click(function() {
+            $('.form-small').toggleClass('show');   
+        });
+        
+        
 
-            });
+    });
 
-        </script>
+</script>
